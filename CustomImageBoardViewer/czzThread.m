@@ -49,20 +49,19 @@
             self.ID = [child.value integerValue];
         }
         if ([child.name isEqualToString:@"UID"]){
-            self.UID = child.value;
+            self.UID = [self parseHTMLAttributes:child.value].string;
         }
         if ([child.name isEqualToString:@"Name"]){
-            self.name = child.value;
+            self.name = [self parseHTMLAttributes:child.value].string;
         }
         if ([child.name isEqualToString:@"Email"]){
-            self.email = child.value;
+            self.email = [self parseHTMLAttributes:child.value].string;
         }
         if ([child.name isEqualToString:@"Title"]){
-            self.title = child.value;
+            self.title = [self parseHTMLAttributes:child.value].string;
         }
         if ([child.name isEqualToString:@"Content"]){
-            NSString *stringToParse = child.value;
-            self.content = [self parseHTMLAttributes:stringToParse];
+            self.content = [self parseHTMLAttributes:child.value];
         }
         if ([child.name isEqualToString:@"ImageSrc"]){
             self.imgScr = child.value;
@@ -77,9 +76,10 @@
             self.sage = [child.value boolValue];
         }
         if ([child.name isEqualToString:@"PostDateTime"]){
+            NSString *timestamp = [child.value stringByDeletingPathExtension];
             NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
-            [formatter setDateFormat:@"yyyy'-'MM'-'dd'T'hh':'mm':'ss'.'fff"];
-            NSDate *date = [formatter dateFromString:child.value];
+            [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+            NSDate *date = [formatter dateFromString:timestamp];
 
             self.postDateTime = date;
         }
@@ -87,6 +87,8 @@
 }
 
 -(NSAttributedString*)parseHTMLAttributes:(NSString*)stringToParse{
+    if (!stringToParse)
+        return nil;
     stringToParse = [stringToParse gtm_stringByUnescapingFromHTML];
     //get rip of <br/> tag
     stringToParse = [stringToParse stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n"];
@@ -96,6 +98,8 @@
 }
 
 -(NSAttributedString*)removeFontTags:(NSString*)str{
+    if (!str)
+        return nil;
     //UIColor *quoteColor = [UIColor colorWithRed:(120.0/255.0) green:(153.0/255.0) blue:(34.0/255.0) alpha:1.0];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:str];
     if (str) {

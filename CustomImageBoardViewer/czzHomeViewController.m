@@ -47,6 +47,7 @@
     self.viewDeckController.leftSize = self.view.frame.size.width/4;
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
     self.viewDeckController.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
+    self.viewDeckController.panningMode = IIViewDeckNoPanning;
     threads = [NSMutableArray new];
     //register a notification observer
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -115,7 +116,7 @@
         posterLabel.text = [NSString stringWithFormat:@"ID:%@", thread.UID];
         [responseLabel setText:[NSString stringWithFormat:@"回应:%ld", (long)thread.responseCount]];
         NSDateFormatter *dateFormatter = [NSDateFormatter new];
-        [dateFormatter setDateFormat:@"MM-dd, hh:mm"];
+        [dateFormatter setDateFormat:@"时间:MM-dd, hh:mm"];
         dateLabel.text = [dateFormatter stringFromDate:thread.postDateTime];
         if (thread.imgScr.length == 0)
             [imgLabel setHidden:YES];
@@ -159,7 +160,7 @@
     @catch (NSException *exception) {
     }
     if (thread){
-        CGFloat preferHeight = [thread.content.string sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(self.view.frame.size.width, MAXFLOAT) lineBreakMode:NSLineBreakByCharWrapping].height + 20;
+        CGFloat preferHeight = [thread.content.string sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(self.view.frame.size.width - 40, MAXFLOAT) lineBreakMode:NSLineBreakByCharWrapping].height + 25;
         
         return MAX(tableView.rowHeight, preferHeight);
     }
@@ -169,6 +170,8 @@
 
 //create a new NSURL outta targetURLString, and reload the content threadTableView
 -(void)refreshThread:(id)sender{
+    [threads removeAllObjects];
+    [threadTableView reloadData];
     //reset to default page number
     pageNumber = 1;
     //stop any possible previous downloader

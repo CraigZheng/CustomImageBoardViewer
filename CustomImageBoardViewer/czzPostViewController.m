@@ -73,7 +73,7 @@
     //&parentID parameter
     NSData *parentID = [[NSString stringWithFormat:@"&parentID=%ld", (long)thread.ID] dataUsingEncoding:NSUTF8StringEncoding];
     //&thread paramter
-    NSData *content = [[NSString stringWithFormat:@"&content=%@", postTextView.text] dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *content = [[[NSString stringWithFormat:@"&content=%@", postTextView.text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] dataUsingEncoding:NSUTF8StringEncoding];
     //compress into 1 data object
     NSMutableData *requestBody = [NSMutableData new];
     [requestBody appendData:parentID];
