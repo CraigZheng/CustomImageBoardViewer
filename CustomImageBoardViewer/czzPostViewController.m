@@ -92,6 +92,10 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
     receivedResponse = [NSMutableData new];
+    NSDictionary *dict = [(NSHTTPURLResponse*)response allHeaderFields];
+    for (NSString *header in dict) {
+        NSLog(@"%@:%@", header, [dict objectForKey:header]);
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{

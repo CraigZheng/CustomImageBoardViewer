@@ -22,7 +22,8 @@
     self = [super init];
     if (self){
         targetURL = url;
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:targetURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20];
+        [request setHTTPShouldHandleCookies:YES];
         [request setHTTPMethod:@"GET"];
         [request setValue:@"application/xml" forHTTPHeaderField:@"Accept"];
         urlConn = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:now];
@@ -47,6 +48,11 @@
 #pragma NSURLConnectionDelegate
 -(void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse *)response{
     self.receivedXMLData = [NSMutableData new];
+
+    NSDictionary *dict = [(NSHTTPURLResponse*)response allHeaderFields];
+    for (NSString *header in dict) {
+        NSLog(@"%@:%@", header, [dict objectForKey:header]);
+    }
 }
 
 -(void)connection:(NSURLConnection*)connection didReceiveData:(NSData *)data{
@@ -63,5 +69,6 @@
     if ([self.delegate respondsToSelector:@selector(downloadOf:successed:result:)]){
         [self.delegate downloadOf:connection.currentRequest.URL successed:YES result:self.receivedXMLData];
     }
+
 }
 @end
