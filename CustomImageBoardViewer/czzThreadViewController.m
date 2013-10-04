@@ -150,7 +150,7 @@
         
     }
     if (thread){
-        CGFloat preferHeight = [thread.content.string sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(self.view.frame.size.width + 20, MAXFLOAT) lineBreakMode:NSLineBreakByCharWrapping].height + 20;
+        CGFloat preferHeight = [thread.content.string sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(self.view.frame.size.width - 40, MAXFLOAT) lineBreakMode:NSLineBreakByCharWrapping].height + 25;
 
         return MAX(tableView.rowHeight, preferHeight);
     }
