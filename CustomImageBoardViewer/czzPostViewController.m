@@ -147,4 +147,18 @@
     
     [UIView commitAnimations];
 }
+
+#pragma Orientation change event
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+    //set the height of the bar based on device
+    //yeah, hard coded, but who cares
+    CGRect frame = postNaviBar.frame;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone && UIInterfaceOrientationIsPortrait(self.interfaceOrientation)){
+        frame.size.height = 32;
+    } else {
+        frame.size.height = 44;
+    }
+    [postNaviBar setFrame:frame];
+    
+}
 @end
