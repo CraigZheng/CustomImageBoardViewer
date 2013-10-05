@@ -39,7 +39,6 @@
 -(void)sendPost{
     if (myPost.isReady && urlRequest){
         [requestBody appendData:myPost.requestBody];
-        NSLog(@"%@", [[NSString alloc] initWithData:requestBody encoding:NSUTF8StringEncoding]);
         [urlRequest setHTTPBody:requestBody];
         urlConn = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self startImmediately:YES];
     } else {

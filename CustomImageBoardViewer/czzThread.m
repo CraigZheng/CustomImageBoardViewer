@@ -89,10 +89,13 @@
 -(NSAttributedString*)parseHTMLAttributes:(NSString*)stringToParse{
     if (!stringToParse)
         return nil;
+    //get rip of HTML tags
     stringToParse = [stringToParse gtm_stringByUnescapingFromHTML];
     //get rip of <br/> tag
     stringToParse = [stringToParse stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n"];
-    
+    stringToParse = [stringToParse stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    //another pass with lower level carbon API
+    //stringToParse = (NSString*)CFBridgingRelease(CFURLCreateStringByReplacingPercentEscapes(NULL, (CFStringRef)stringToParse, CFSTR("")));
     //find my replyTo list
     return [[NSAttributedString alloc] initWithAttributedString:[self removeFontTags:stringToParse]];
 }

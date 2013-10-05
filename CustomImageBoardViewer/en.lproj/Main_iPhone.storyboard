@@ -311,7 +311,13 @@
                             <outlet property="delegate" destination="V51-tA-4h3" id="RY2-7L-eSK"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="帖子" id="yCr-4j-rzT"/>
+                    <navigationItem key="navigationItem" title="帖子" id="yCr-4j-rzT">
+                        <barButtonItem key="rightBarButtonItem" title="更多" id="hwQ-2o-Css">
+                            <connections>
+                                <action selector="moreAction:" destination="V51-tA-4h3" id="TCQ-Lb-gU3"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="threadTableView" destination="Vkv-Iq-cwp" id="bYG-YY-Oqo"/>
                     </connections>

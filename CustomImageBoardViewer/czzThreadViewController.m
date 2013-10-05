@@ -22,6 +22,7 @@
 @property NSIndexPath *selectedIndex;
 @property czzRightSideViewController *threadMenuViewController;
 @property NSInteger pageNumber;
+@property UIViewController *leftSideViewController;
 @end
 
 @implementation czzThreadViewController
@@ -35,6 +36,7 @@
 @synthesize threadMenuViewController;
 @synthesize parentThread;
 @synthesize pageNumber;
+@synthesize leftSideViewController;
 
 - (void)viewDidLoad
 {
@@ -49,16 +51,25 @@
     [refreCon addTarget:self action:@selector(refreshThread:) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreCon;
     //configure the right view as menu
-    UINavigationController *rightController = [self.storyboard instantiateViewControllerWithIdentifier:@"bottom_view_controller"]; //[[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"bottom_view_controller"];
-    threadMenuViewController = [rightController.viewControllers objectAtIndex:0];
+    UINavigationController *rightController = [self.storyboard instantiateViewControllerWithIdentifier:@"bottom_view_controller"];    threadMenuViewController = [rightController.viewControllers objectAtIndex:0];
     threadMenuViewController.parentThread = parentThread;
+    threadMenuViewController.selectedThread = parentThread;
     self.viewDeckController.rightController = rightController;
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
     [self refreshThread:self];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    //save the current left side view into leftSideViewController object, and set the leftViewController to nil in self.viewDeckController, this is to disable to left view controller to in this view, user won't be able to swipe to reveal the left view controller
+    leftSideViewController = self.viewDeckController.leftController;
+    self.viewDeckController.leftController = nil;
+}
+
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    //reassign the leftSideViewController back to leftController of the view deck controller
+    self.viewDeckController.leftController = leftSideViewController;
     [self.refreshControl endRefreshing];
     [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] hideToastActivity];
 }
@@ -245,4 +256,7 @@
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
 }
 
+- (IBAction)moreAction:(id)sender {
+    [self.viewDeckController toggleRightViewAnimated:YES];
+}
 @end

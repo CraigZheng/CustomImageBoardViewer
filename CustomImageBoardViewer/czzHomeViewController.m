@@ -47,7 +47,7 @@
     self.viewDeckController.leftSize = self.view.frame.size.width/4;
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
     self.viewDeckController.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
-    self.viewDeckController.panningMode = IIViewDeckNoPanning;
+    //self.viewDeckController.panningMode = IIViewDeckNoPanning;
     threads = [NSMutableArray new];
     //register a notification observer
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -62,6 +62,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    self.viewDeckController.rightController = nil;
 }
 
 - (IBAction)sideButtonAction:(id)sender {
