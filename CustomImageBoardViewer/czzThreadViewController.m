@@ -150,8 +150,17 @@
         
     }
     if (thread){
-        CGFloat preferHeight = [thread.content.string sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(self.view.frame.size.width - 40, MAXFLOAT) lineBreakMode:NSLineBreakByCharWrapping].height + 25;
-
+        CGFloat sizeToSubtract = 40; //this is the size of left hand side margin and right hand side margin
+        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+            sizeToSubtract = 60;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            
+            if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
+                sizeToSubtract *= (768.0 / 320.0);//the difference between the widths of phone and pad
+            else
+                sizeToSubtract *= (1024.0 / 480.0);//the difference between the widths of phone and pad
+        }
+        CGFloat preferHeight = [thread.content.string sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(self.view.frame.size.width - sizeToSubtract, MAXFLOAT) lineBreakMode:NSLineBreakByCharWrapping].height + 25;
         return MAX(tableView.rowHeight, preferHeight);
     }
     return tableView.rowHeight;

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface czzReply : NSObject
+@interface czzPost : NSObject
 @property NSString *name;
 @property NSString *email;
 @property NSString *title;
@@ -16,5 +16,5 @@
 @property NSData *imgData;
 
 -(BOOL)isReady;
--(NSData*)requestData;
+-(NSData*)requestBody;
 @end
