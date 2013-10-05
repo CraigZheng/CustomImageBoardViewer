@@ -71,8 +71,9 @@
 - (IBAction)newPostAction:(id)sender {
     if (self.forumName.length > 0){
         czzNewPostViewController *newPostViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"new_post_view_controller"];
+        newPostViewController.delegate = self;
         [newPostViewController setForumName:forumName];
-        [self presentViewController:newPostViewController animated:YES completion:nil];
+        [self.navigationController presentViewController:newPostViewController animated:YES completion:nil];
     } else {
         [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"未选定一个版块" duration:3.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
     }
@@ -160,8 +161,13 @@
     @catch (NSException *exception) {
     }
     if (thread){
-        CGFloat preferHeight = [thread.content.string sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(self.view.frame.size.width - 40, MAXFLOAT) lineBreakMode:NSLineBreakByCharWrapping].height + 25;
-        
+        //The cell that going to contain the text
+        UITableViewCell *cell = [self.threadTableView dequeueReusableCellWithIdentifier:@"thread_cell_identifier"];
+        UILabel *contentLabel = (UILabel*)[cell viewWithTag:1];
+        //CGFloat preferHeight = [thread.content.string sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(self.view.frame.size.width - 40, MAXFLOAT) lineBreakMode:NSLineBreakByCharWrapping].height + 25;
+        NSLog(@"contentLabel size = %@", [NSValue valueWithCGSize:contentLabel.frame.size]);
+
+        CGFloat preferHeight = [thread.content.string sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(contentLabel.frame.size.width, MAXFLOAT) lineBreakMode:NSLineBreakByCharWrapping].height + 25;
         return MAX(tableView.rowHeight, preferHeight);
     }
     return tableView.rowHeight;

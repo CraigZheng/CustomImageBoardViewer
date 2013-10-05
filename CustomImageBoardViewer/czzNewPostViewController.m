@@ -117,4 +117,7 @@
     }
 }
 
+#pragma Orientation change
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+}
 @end

@@ -14,7 +14,7 @@
 @property (strong, nonatomic) IBOutlet UIToolbar *postToolbar;
 @property (strong, nonatomic) IBOutlet UINavigationBar *postNaviBar;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *postButton;
-
+@property UIViewController *delegate;
 - (IBAction)postAction:(id)sender;
 - (IBAction)cancelAction:(id)sender;
 - (IBAction)clearAction:(id)sender;

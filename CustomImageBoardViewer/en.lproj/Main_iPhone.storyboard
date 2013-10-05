@@ -333,7 +333,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CXL-r2-bTx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-286" y="-270"/>
+            <point key="canvasLocation" x="-692" y="-270"/>
         </scene>
         <!--Czz Forums View Controller - 讨论版-->
         <scene sceneID="E7j-Et-chj">
@@ -398,7 +398,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="67i-OB-p0a" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="171" y="-270"/>
+            <point key="canvasLocation" x="-286" y="-270"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="D6U-ZS-glQ">
@@ -524,7 +524,7 @@
             </objects>
             <point key="canvasLocation" x="595" y="1063"/>
         </scene>
-        <!--Czz New Post View Controller-->
+        <!--Czz New Post View Controller - 新帖-->
         <scene sceneID="XVJ-0n-tR8">
             <objects>
                 <viewController storyboardIdentifier="new_post_view_controller" id="J6Q-bT-kkR" customClass="czzNewPostViewController" sceneMemberID="viewController">
@@ -533,7 +533,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="jTL-T1-u1p">
-                                <rect key="frame" x="0.0" y="44" width="320" height="460"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -559,14 +559,14 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <navigationBar contentMode="scaleToFill" id="29N-DU-2Pw">
+                            <navigationBar contentMode="scaleToFill" id="xDc-EP-lEL">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
-                                    <navigationItem title="新帖" id="JkU-Lo-INx">
-                                        <barButtonItem key="leftBarButtonItem" title="取消" id="9UC-dP-12T">
+                                    <navigationItem title="Title" id="aO6-ZO-GTW">
+                                        <barButtonItem key="leftBarButtonItem" title="取消" id="ish-9J-DXa">
                                             <connections>
-                                                <action selector="cancelAction:" destination="J6Q-bT-kkR" id="RJk-AP-hMN"/>
+                                                <action selector="cancelAction:" destination="J6Q-bT-kkR" id="vpx-4s-GIW"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -575,16 +575,19 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" title="新帖" id="cLG-T3-ziO">
+                        <barButtonItem key="leftBarButtonItem" title="取消" id="N0l-wq-Wce"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="postButton" destination="Tpw-kC-6sf" id="MEE-sg-365"/>
-                        <outlet property="postNaviBar" destination="29N-DU-2Pw" id="39A-4A-2aT"/>
+                        <outlet property="postNaviBar" destination="xDc-EP-lEL" id="P71-yd-kVp"/>
                         <outlet property="postTextView" destination="jTL-T1-u1p" id="hiW-Bs-A8Z"/>
                         <outlet property="postToolbar" destination="ih9-ai-3gX" id="ZDa-ow-yt2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sUd-3H-rum" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="595" y="-270"/>
+            <point key="canvasLocation" x="171" y="-270"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
