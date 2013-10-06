@@ -6,11 +6,11 @@
 //  Copyright (c) 2013 Craig. All rights reserved.
 //
 
-#import "czzReply.h"
+#import "czzPost.h"
 
-@implementation czzReply
+@implementation czzPost
 @synthesize name, email,title, content, imgData;
--(NSData *)requestData{
+-(NSData *)requestBody{
     @try {
         if ([self isReady]) {
             NSMutableData *requestData = [NSMutableData new];

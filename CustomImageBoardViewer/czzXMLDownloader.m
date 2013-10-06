@@ -51,7 +51,7 @@
 
     NSDictionary *dict = [(NSHTTPURLResponse*)response allHeaderFields];
     for (NSString *header in dict) {
-        NSLog(@"%@:%@", header, [dict objectForKey:header]);
+        //NSLog(@"%@:%@", header, [dict objectForKey:header]);
     }
 }
 

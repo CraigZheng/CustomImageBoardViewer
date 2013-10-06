@@ -81,7 +81,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Content" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ciS-Uc-0XD">
                                             <rect key="frame" x="20" y="8" width="280" height="35"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -197,7 +197,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Content" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7t2-QI-1j9">
                                             <rect key="frame" x="20" y="8" width="280" height="35"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -311,7 +311,13 @@
                             <outlet property="delegate" destination="V51-tA-4h3" id="RY2-7L-eSK"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="帖子" id="yCr-4j-rzT"/>
+                    <navigationItem key="navigationItem" title="帖子" id="yCr-4j-rzT">
+                        <barButtonItem key="rightBarButtonItem" title="更多" id="hwQ-2o-Css">
+                            <connections>
+                                <action selector="moreAction:" destination="V51-tA-4h3" id="TCQ-Lb-gU3"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="threadTableView" destination="Vkv-Iq-cwp" id="bYG-YY-Oqo"/>
                     </connections>
@@ -333,7 +339,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CXL-r2-bTx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-286" y="-270"/>
+            <point key="canvasLocation" x="-692" y="-270"/>
         </scene>
         <!--Czz Forums View Controller - 讨论版-->
         <scene sceneID="E7j-Et-chj">
@@ -398,7 +404,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="67i-OB-p0a" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="171" y="-270"/>
+            <point key="canvasLocation" x="-286" y="-270"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="D6U-ZS-glQ">
@@ -524,7 +530,7 @@
             </objects>
             <point key="canvasLocation" x="595" y="1063"/>
         </scene>
-        <!--Czz New Post View Controller-->
+        <!--Czz New Post View Controller - 新帖-->
         <scene sceneID="XVJ-0n-tR8">
             <objects>
                 <viewController storyboardIdentifier="new_post_view_controller" id="J6Q-bT-kkR" customClass="czzNewPostViewController" sceneMemberID="viewController">
@@ -559,14 +565,14 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <navigationBar contentMode="scaleToFill" id="29N-DU-2Pw">
+                            <navigationBar contentMode="scaleToFill" id="xDc-EP-lEL">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
-                                    <navigationItem title="新帖" id="JkU-Lo-INx">
-                                        <barButtonItem key="leftBarButtonItem" title="取消" id="9UC-dP-12T">
+                                    <navigationItem title="新帖" id="aO6-ZO-GTW">
+                                        <barButtonItem key="leftBarButtonItem" title="取消" id="ish-9J-DXa">
                                             <connections>
-                                                <action selector="cancelAction:" destination="J6Q-bT-kkR" id="RJk-AP-hMN"/>
+                                                <action selector="cancelAction:" destination="J6Q-bT-kkR" id="vpx-4s-GIW"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -575,16 +581,19 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" title="新帖" id="cLG-T3-ziO">
+                        <barButtonItem key="leftBarButtonItem" title="取消" id="N0l-wq-Wce"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="postButton" destination="Tpw-kC-6sf" id="MEE-sg-365"/>
-                        <outlet property="postNaviBar" destination="29N-DU-2Pw" id="39A-4A-2aT"/>
+                        <outlet property="postNaviBar" destination="xDc-EP-lEL" id="P71-yd-kVp"/>
                         <outlet property="postTextView" destination="jTL-T1-u1p" id="hiW-Bs-A8Z"/>
                         <outlet property="postToolbar" destination="ih9-ai-3gX" id="ZDa-ow-yt2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sUd-3H-rum" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="595" y="-270"/>
+            <point key="canvasLocation" x="171" y="-270"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

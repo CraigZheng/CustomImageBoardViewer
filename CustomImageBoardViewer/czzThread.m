@@ -89,10 +89,12 @@
 -(NSAttributedString*)parseHTMLAttributes:(NSString*)stringToParse{
     if (!stringToParse)
         return nil;
+    //get rip of HTML tags
     stringToParse = [stringToParse gtm_stringByUnescapingFromHTML];
     //get rip of <br/> tag
     stringToParse = [stringToParse stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n"];
-    
+    //manually pick up some quotes that can not be spotted by machine
+    stringToParse = [stringToParse stringByReplacingOccurrencesOfString:@"&#180;" withString:@"´"];
     //find my replyTo list
     return [[NSAttributedString alloc] initWithAttributedString:[self removeFontTags:stringToParse]];
 }

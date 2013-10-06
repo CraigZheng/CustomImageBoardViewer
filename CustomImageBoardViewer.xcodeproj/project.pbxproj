@@ -12,7 +12,7 @@
 		440B2FC717F7DB7800544926 /* czzForumsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 440B2FC617F7DB7800544926 /* czzForumsViewController.m */; };
 		440B2FC917F7F42600544926 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 440B2FC817F7F42600544926 /* MobileCoreServices.framework */; };
 		440B2FCC17F8057500544926 /* czzPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 440B2FCB17F8057500544926 /* czzPostViewController.m */; };
-		440B2FD017F8191700544926 /* czzReply.m in Sources */ = {isa = PBXBuildFile; fileRef = 440B2FCF17F8191700544926 /* czzReply.m */; };
+		440B2FD017F8191700544926 /* czzPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 440B2FCF17F8191700544926 /* czzPost.m */; };
 		440B2FF717F94E8900544926 /* 7-960.png in Resources */ = {isa = PBXBuildFile; fileRef = 440B2FF217F94E8900544926 /* 7-960.png */; };
 		440B2FF817F94E8900544926 /* 7-1136.png in Resources */ = {isa = PBXBuildFile; fileRef = 440B2FF317F94E8900544926 /* 7-1136.png */; };
 		440B2FFB17F9526B00544926 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 440B2FF917F9526B00544926 /* Default.png */; };
@@ -57,6 +57,11 @@
 		441E5E4E17F4A9C500289DBD /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5E4D17F4A9C500289DBD /* CoreText.framework */; };
 		441E5E5017F4AEA700289DBD /* warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 441E5E4F17F4AEA700289DBD /* warning.png */; };
 		441E5E5417F52DEF00289DBD /* czzThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E5E5317F52DEF00289DBD /* czzThreadViewController.m */; };
+		44FC4345180067CF0028D7C9 /* czzPostSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 44FC4344180067CF0028D7C9 /* czzPostSender.m */; };
+		44FC435018008E660028D7C9 /* TDDatePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44FC434918008E660028D7C9 /* TDDatePickerController.m */; };
+		44FC435118008E660028D7C9 /* TDDatePickerController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44FC434A18008E660028D7C9 /* TDDatePickerController.xib */; };
+		44FC435218008E660028D7C9 /* TDSemiModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44FC434D18008E660028D7C9 /* TDSemiModalViewController.m */; };
+		44FC435318008E660028D7C9 /* UIViewController+TDSemiModalExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 44FC434F18008E660028D7C9 /* UIViewController+TDSemiModalExtension.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,8 +85,8 @@
 		440B2FC817F7F42600544926 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		440B2FCA17F8057500544926 /* czzPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzPostViewController.h; sourceTree = "<group>"; };
 		440B2FCB17F8057500544926 /* czzPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzPostViewController.m; sourceTree = "<group>"; };
-		440B2FCE17F8191700544926 /* czzReply.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzReply.h; sourceTree = "<group>"; };
-		440B2FCF17F8191700544926 /* czzReply.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzReply.m; sourceTree = "<group>"; };
+		440B2FCE17F8191700544926 /* czzPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzPost.h; sourceTree = "<group>"; };
+		440B2FCF17F8191700544926 /* czzPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzPost.m; sourceTree = "<group>"; };
 		440B2FF217F94E8900544926 /* 7-960.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "7-960.png"; sourceTree = "<group>"; };
 		440B2FF317F94E8900544926 /* 7-1136.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "7-1136.png"; sourceTree = "<group>"; };
 		440B2FF917F9526B00544926 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
@@ -142,6 +147,16 @@
 		441E5E4F17F4AEA700289DBD /* warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warning.png; sourceTree = "<group>"; };
 		441E5E5217F52DEF00289DBD /* czzThreadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewController.h; sourceTree = "<group>"; };
 		441E5E5317F52DEF00289DBD /* czzThreadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewController.m; sourceTree = "<group>"; };
+		44FC4343180067CF0028D7C9 /* czzPostSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzPostSender.h; sourceTree = "<group>"; };
+		44FC4344180067CF0028D7C9 /* czzPostSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzPostSender.m; sourceTree = "<group>"; };
+		44FC434818008E660028D7C9 /* TDDatePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDDatePickerController.h; sourceTree = "<group>"; };
+		44FC434918008E660028D7C9 /* TDDatePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDDatePickerController.m; sourceTree = "<group>"; };
+		44FC434A18008E660028D7C9 /* TDDatePickerController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TDDatePickerController.xib; sourceTree = "<group>"; };
+		44FC434B18008E660028D7C9 /* TDSemiModal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDSemiModal.h; sourceTree = "<group>"; };
+		44FC434C18008E660028D7C9 /* TDSemiModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDSemiModalViewController.h; sourceTree = "<group>"; };
+		44FC434D18008E660028D7C9 /* TDSemiModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDSemiModalViewController.m; sourceTree = "<group>"; };
+		44FC434E18008E660028D7C9 /* UIViewController+TDSemiModalExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TDSemiModalExtension.h"; sourceTree = "<group>"; };
+		44FC434F18008E660028D7C9 /* UIViewController+TDSemiModalExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TDSemiModalExtension.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,18 +209,17 @@
 			children = (
 				440B2FCA17F8057500544926 /* czzPostViewController.h */,
 				440B2FCB17F8057500544926 /* czzPostViewController.m */,
-				440B2FD117F81A9200544926 /* czzReply */,
 			);
 			name = czzPostViewController;
 			sourceTree = "<group>";
 		};
-		440B2FD117F81A9200544926 /* czzReply */ = {
+		440B2FD117F81A9200544926 /* czzPost */ = {
 			isa = PBXGroup;
 			children = (
-				440B2FCE17F8191700544926 /* czzReply.h */,
-				440B2FCF17F8191700544926 /* czzReply.m */,
+				440B2FCE17F8191700544926 /* czzPost.h */,
+				440B2FCF17F8191700544926 /* czzPost.m */,
 			);
-			name = czzReply;
+			name = czzPost;
 			sourceTree = "<group>";
 		};
 		440B2FD817F94C5000544926 /* Launch images */ = {
@@ -296,6 +310,7 @@
 				441E5D2D17F490E100289DBD /* czzThread */,
 				441E5D2517F4798300289DBD /* czzForumGroup */,
 				441E5D1C17F46E7F00289DBD /* SMXMLDocument */,
+				44FC434718008E660028D7C9 /* TDSemiModal */,
 				441E5D2617F48B3D00289DBD /* Toast */,
 				440B2F6217F5F97200544926 /* GTMNSString */,
 				441E5D0F17F4699900289DBD /* IIViewDeck */,
@@ -417,6 +432,7 @@
 			children = (
 				441E5D2A17F48F8C00289DBD /* czzThread.h */,
 				441E5D2B17F48F8C00289DBD /* czzThread.m */,
+				44FC4346180067D80028D7C9 /* czzPostSender */,
 			);
 			name = czzThread;
 			sourceTree = "<group>";
@@ -438,6 +454,32 @@
 				440B2FBE17F7C5E700544926 /* czzThreadMenuViewController */,
 			);
 			name = czzThreadViewController;
+			sourceTree = "<group>";
+		};
+		44FC4346180067D80028D7C9 /* czzPostSender */ = {
+			isa = PBXGroup;
+			children = (
+				440B2FD117F81A9200544926 /* czzPost */,
+				44FC4343180067CF0028D7C9 /* czzPostSender.h */,
+				44FC4344180067CF0028D7C9 /* czzPostSender.m */,
+			);
+			name = czzPostSender;
+			sourceTree = "<group>";
+		};
+		44FC434718008E660028D7C9 /* TDSemiModal */ = {
+			isa = PBXGroup;
+			children = (
+				44FC434818008E660028D7C9 /* TDDatePickerController.h */,
+				44FC434918008E660028D7C9 /* TDDatePickerController.m */,
+				44FC434A18008E660028D7C9 /* TDDatePickerController.xib */,
+				44FC434B18008E660028D7C9 /* TDSemiModal.h */,
+				44FC434C18008E660028D7C9 /* TDSemiModalViewController.h */,
+				44FC434D18008E660028D7C9 /* TDSemiModalViewController.m */,
+				44FC434E18008E660028D7C9 /* UIViewController+TDSemiModalExtension.h */,
+				44FC434F18008E660028D7C9 /* UIViewController+TDSemiModalExtension.m */,
+			);
+			name = TDSemiModal;
+			path = Source;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -524,6 +566,7 @@
 				440B301517F95ECD00544926 /* 57.png in Resources */,
 				440B2FF717F94E8900544926 /* 7-960.png in Resources */,
 				440B301E17F9660200544926 /* Default-568h@2x.png in Resources */,
+				44FC435118008E660028D7C9 /* TDDatePickerController.xib in Resources */,
 				441E5CE217F4691300289DBD /* Main_iPhone.storyboard in Resources */,
 				440B301817F95ECD00544926 /* 114.png in Resources */,
 				441E5CD917F4691300289DBD /* InfoPlist.strings in Resources */,
@@ -556,6 +599,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				44FC435218008E660028D7C9 /* TDSemiModalViewController.m in Sources */,
+				44FC435318008E660028D7C9 /* UIViewController+TDSemiModalExtension.m in Sources */,
 				441E5D2917F48B3D00289DBD /* Toast+UIView.m in Sources */,
 				441E5D0C17F4699400289DBD /* IISideController.m in Sources */,
 				441E5CDF17F4691300289DBD /* czzAppDelegate.m in Sources */,
@@ -570,10 +615,12 @@
 				441E5D1217F46A0900289DBD /* czzEntryPointViewController.m in Sources */,
 				441E5D2017F46FB600289DBD /* czzXMLDownloader.m in Sources */,
 				440B2F6117F5EED800544926 /* GTMNSString+HTML.m in Sources */,
-				440B2FD017F8191700544926 /* czzReply.m in Sources */,
+				440B2FD017F8191700544926 /* czzPost.m in Sources */,
 				441E5CDB17F4691300289DBD /* main.m in Sources */,
+				44FC4345180067CF0028D7C9 /* czzPostSender.m in Sources */,
 				441E5D0E17F4699400289DBD /* IIWrapController.m in Sources */,
 				440B2FBD17F7C5DC00544926 /* czzRightSideViewController.m in Sources */,
+				44FC435018008E660028D7C9 /* TDDatePickerController.m in Sources */,
 				440B302217F969BF00544926 /* czzNewPostViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

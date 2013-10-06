@@ -47,7 +47,7 @@
     self.viewDeckController.leftSize = self.view.frame.size.width/4;
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
     self.viewDeckController.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
-    self.viewDeckController.panningMode = IIViewDeckNoPanning;
+    //self.viewDeckController.panningMode = IIViewDeckNoPanning;
     threads = [NSMutableArray new];
     //register a notification observer
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -62,6 +62,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    self.viewDeckController.rightController = nil;
 }
 
 - (IBAction)sideButtonAction:(id)sender {
@@ -71,8 +72,9 @@
 - (IBAction)newPostAction:(id)sender {
     if (self.forumName.length > 0){
         czzNewPostViewController *newPostViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"new_post_view_controller"];
+        newPostViewController.delegate = self;
         [newPostViewController setForumName:forumName];
-        [self presentViewController:newPostViewController animated:YES completion:nil];
+        [self.navigationController presentViewController:newPostViewController animated:YES completion:nil];
     } else {
         [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"未选定一个版块" duration:3.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
     }
@@ -160,8 +162,17 @@
     @catch (NSException *exception) {
     }
     if (thread){
-        CGFloat preferHeight = [thread.content.string sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(self.view.frame.size.width - 40, MAXFLOAT) lineBreakMode:NSLineBreakByCharWrapping].height + 25;
-        
+        CGFloat sizeToSubtract = 40; //this is the size of left hand side margin and right hand side margin
+        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+            sizeToSubtract = 60;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+
+            if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
+                sizeToSubtract *= (768.0 / 320.0);//the difference between the widths of phone and pad
+            else
+                sizeToSubtract *= (1024.0 / 480.0);//the difference between the widths of phone and pad
+        }
+        CGFloat preferHeight = [thread.content.string sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(self.view.frame.size.width - sizeToSubtract, MAXFLOAT) lineBreakMode:NSLineBreakByCharWrapping].height + 25;
         return MAX(tableView.rowHeight, preferHeight);
     }
     return tableView.rowHeight;
