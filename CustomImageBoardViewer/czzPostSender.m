@@ -54,7 +54,7 @@
     //inform the delegate
     if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
     {
-        [self.delegate statusReceived:NO message:[NSString stringWithFormat:@"无法发帖, 错误:\n%@", error.domain]];
+        [self.delegate statusReceived:NO message:[NSString stringWithFormat:@"无法发帖, 错误:网络错误"]];
     }
 }
 
@@ -86,6 +86,14 @@
             }
             if ([child.name isEqualToString:@"message"]){
                 message = child.value;
+            }
+            if ([child.name isEqualToString:@"access_token"]){
+                //if current access_token is nil, or the responding access_token does not match my current access token, save the responding access_token to a file for later use
+                if (!myPost.access_token || ![myPost.access_token isEqualToString:child.value])
+                {
+                    myPost.access_token = child.value;
+                    [myPost saveAccessToken];
+                }
             }
         }
         //inform the delegate

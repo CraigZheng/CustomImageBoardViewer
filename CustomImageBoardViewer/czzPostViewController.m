@@ -12,9 +12,8 @@
 #import "SMXMLDocument.h"
 #import "czzPostSender.h"
 
-@interface czzPostViewController () <NSURLConnectionDelegate, czzPostSenderDelegate>
+@interface czzPostViewController () <czzPostSenderDelegate>
 @property NSString *targetURLString;
-@property NSURLConnection *urlConn;
 @property NSMutableData *receivedResponse;
 @property czzPostSender *postSender;
 @end
@@ -26,7 +25,6 @@
 @synthesize replyTo;
 @synthesize postNaviBar;
 @synthesize targetURLString;
-@synthesize urlConn;
 @synthesize postButton;
 @synthesize receivedResponse;
 @synthesize postSender;

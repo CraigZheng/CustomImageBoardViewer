@@ -13,8 +13,10 @@
 @property NSString *email;
 @property NSString *title;
 @property NSString *content;
-@property NSData *imgData;
+@property NSString *access_token;
 
+@property NSData *imgData;
 -(BOOL)isReady;
 -(NSData*)requestBody;
+-(void)saveAccessToken;
 @end
