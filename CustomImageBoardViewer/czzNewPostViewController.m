@@ -51,7 +51,6 @@
                                                object:nil];
 }
 
-
 - (IBAction)postAction:(id)sender {
     //construc a url request with given content
     postSender.content = postTextView.text;

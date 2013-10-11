@@ -115,7 +115,7 @@
         idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)thread.ID];
         posterLabel.text = [NSString stringWithFormat:@"ID:%@", thread.UID];
         NSDateFormatter *dateFormatter = [NSDateFormatter new];
-        [dateFormatter setDateFormat:@"MM-dd, hh:mm"];
+        [dateFormatter setDateFormat:@"时间:MM-dd, HH:mm"];
         dateLabel.text = [dateFormatter stringFromDate:thread.postDateTime];
         if (thread.imgScr.length == 0)
             [imgLabel setHidden:YES];
