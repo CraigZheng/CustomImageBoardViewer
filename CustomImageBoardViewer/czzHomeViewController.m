@@ -13,6 +13,7 @@
 #import "czzThread.h"
 #import "czzThreadViewController.h"
 #import "czzNewPostViewController.h"
+#import "czzBlacklist.h"
 
 @interface czzHomeViewController ()<czzXMLDownloaderDelegate>
 @property czzXMLDownloader *xmlDownloader;
@@ -218,8 +219,9 @@
             if ([child.name isEqualToString:@"model"]){
                 //create a thread outta this xml data
                 czzThread *thread = [[czzThread alloc] initWithSMXMLElement:child];
-                if (thread.ID != 0)
+                if (thread.ID != 0) {
                     [newThreads addObject:thread];
+                }
             }
         }
         //increase the page number if returned data is enough to fill a page of 20 threads

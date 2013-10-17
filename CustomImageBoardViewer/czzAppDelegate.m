@@ -7,6 +7,11 @@
 //
 
 #import "czzAppDelegate.h"
+#import "czzBlacklistDownloader.h"
+#import "czzBlacklist.h"
+@interface czzAppDelegate()<czzBlacklistDownloaderDelegate>
+
+@end
 
 @implementation czzAppDelegate
 
@@ -37,11 +42,22 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    czzBlacklistDownloader *blacklistDownloader = [czzBlacklistDownloader new];
+    blacklistDownloader.delegate = self;
+    [blacklistDownloader downloadBlacklist];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+#pragma czzBlacklistDownloader delegate
+-(void)downloadSuccess:(BOOL)success result:(NSArray *)blacklistEntities{
+    if (success){
+        [[czzBlacklist sharedInstance] setBlacklistEntities:blacklistEntities];
+    } else {
+    }
 }
 
 @end

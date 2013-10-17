@@ -11,6 +11,7 @@
 #import "Toast+UIView.h"
 #import "SMXMLDocument.h"
 #import "czzPostSender.h"
+#import "czzBlacklistSender.h"
 
 @interface czzNewPostViewController ()<czzXMLDownloaderDelegate, czzPostSenderDelegate>
 @property NSString *targetURLString;
@@ -32,7 +33,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     postTextView.inputAccessoryView = postToolbar;
-    self.postNaviBar.topItem.title = [NSString stringWithFormat:@"新帖:%@", forumName];
+    self.postNaviBar.topItem.title = [NSString stringWithFormat:@"%@:%@",self.postNaviBar.topItem.title , forumName];
     //URLs
     targetURLString = @"http://h.acfun.tv/api/thread/post_root";
     //make a new czzPostSender object, and assign the appropriate target URL and delegate
@@ -58,6 +59,15 @@
     [postTextView resignFirstResponder];
     [postButton setEnabled:NO];
     [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"正在发送..."];
+    //if blacklist entity is not nil, then also send a copy to my server
+    if (self.blacklistEntity){
+        if ([self.blacklistEntity isReady]){
+            self.blacklistEntity.reason = postTextView.text;
+            czzBlacklistSender *blacklistSender = [czzBlacklistSender new];
+            blacklistSender.blacklistEntity = self.blacklistEntity;
+            [blacklistSender sendBlacklistUpdate];
+        }
+    }
 }
 
 - (IBAction)cancelAction:(id)sender {
