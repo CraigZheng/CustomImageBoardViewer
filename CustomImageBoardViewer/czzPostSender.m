@@ -84,9 +84,6 @@
             if ([child.name isEqualToString:@"success"]){
                 success = [child.value boolValue];
             }
-            if ([child.name isEqualToString:@"message"]){
-                message = child.value;
-            }
             if ([child.name isEqualToString:@"access_token"]){
                 //if current access_token is nil, or the responding access_token does not match my current access token, save the responding access_token to a file for later use
                 if (!myPost.access_token || ![myPost.access_token isEqualToString:child.value])
@@ -94,6 +91,9 @@
                     myPost.access_token = child.value;
                     [myPost saveAccessToken];
                 }
+            }
+            if ([child.name isEqualToString:@"msg"]){
+                message = child.value;
             }
         }
         //inform the delegate

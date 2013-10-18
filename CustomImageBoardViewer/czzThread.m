@@ -9,6 +9,8 @@
 #import "czzThread.h"
 #import "SMXMLDocument.h"
 #import "GTMNSString+HTML.h"
+#import "czzBlacklist.h"
+#import "czzBlacklistEntity.h"
 
 @implementation czzThread
 
@@ -82,6 +84,15 @@
             NSDate *date = [formatter dateFromString:timestamp];
 
             self.postDateTime = date;
+        }
+        
+        //consor contents
+        for (czzBlacklistEntity *blacklistEntity in [[czzBlacklist sharedInstance] blacklistEntities]) {
+            if (blacklistEntity.threadID == self.ID){
+                self.content = [[NSAttributedString alloc] initWithString:@" ** 用户举报的不健康的内容 ** "];
+                self.imgScr = nil;
+                break;
+            }
         }
     }
 }

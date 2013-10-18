@@ -37,7 +37,9 @@
     failedToConnect = NO;
     if (xmlDownloader)
         [xmlDownloader stop];
-    xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:@"http://h.acfun.tv/api/Forums"] delegate:self startNow:YES];
+    //NSString *forumString = @"http://h.acfun.tv/api/Forums";
+    NSString *forumString = @"http://civ.my-realm.com/forums.xml";
+    xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:forumString] delegate:self startNow:YES];
     [self.view makeToastActivity];
 }
 

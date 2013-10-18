@@ -40,6 +40,10 @@
 		441E5E4E17F4A9C500289DBD /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5E4D17F4A9C500289DBD /* CoreText.framework */; };
 		441E5E5017F4AEA700289DBD /* warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 441E5E4F17F4AEA700289DBD /* warning.png */; };
 		441E5E5417F52DEF00289DBD /* czzThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E5E5317F52DEF00289DBD /* czzThreadViewController.m */; };
+		4448C2A3180FF50F00D2CD76 /* czzBlacklistEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2A2180FF50F00D2CD76 /* czzBlacklistEntity.m */; };
+		4448C2A7180FF55A00D2CD76 /* czzBlacklistDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2A6180FF55A00D2CD76 /* czzBlacklistDownloader.m */; };
+		4448C2AA180FF6C600D2CD76 /* czzBlacklistSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2A9180FF6C600D2CD76 /* czzBlacklistSender.m */; };
+		4448C2AD18100C6B00D2CD76 /* czzBlacklist.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2AC18100C6B00D2CD76 /* czzBlacklist.m */; };
 		44F8DE5A1803900100B6D3B0 /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 44F8DE4C1803900100B6D3B0 /* Icon-40.png */; };
 		44F8DE5B1803900100B6D3B0 /* Icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44F8DE4D1803900100B6D3B0 /* Icon-40@2x.png */; };
 		44F8DE5C1803900100B6D3B0 /* Icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = 44F8DE4E1803900100B6D3B0 /* Icon-60.png */; };
@@ -132,6 +136,14 @@
 		441E5E4F17F4AEA700289DBD /* warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warning.png; sourceTree = "<group>"; };
 		441E5E5217F52DEF00289DBD /* czzThreadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewController.h; sourceTree = "<group>"; };
 		441E5E5317F52DEF00289DBD /* czzThreadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewController.m; sourceTree = "<group>"; };
+		4448C2A1180FF50F00D2CD76 /* czzBlacklistEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzBlacklistEntity.h; sourceTree = "<group>"; };
+		4448C2A2180FF50F00D2CD76 /* czzBlacklistEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzBlacklistEntity.m; sourceTree = "<group>"; };
+		4448C2A5180FF55A00D2CD76 /* czzBlacklistDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzBlacklistDownloader.h; sourceTree = "<group>"; };
+		4448C2A6180FF55A00D2CD76 /* czzBlacklistDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzBlacklistDownloader.m; sourceTree = "<group>"; };
+		4448C2A8180FF6C600D2CD76 /* czzBlacklistSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzBlacklistSender.h; sourceTree = "<group>"; };
+		4448C2A9180FF6C600D2CD76 /* czzBlacklistSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzBlacklistSender.m; sourceTree = "<group>"; };
+		4448C2AB18100C6B00D2CD76 /* czzBlacklist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzBlacklist.h; sourceTree = "<group>"; };
+		4448C2AC18100C6B00D2CD76 /* czzBlacklist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzBlacklist.m; sourceTree = "<group>"; };
 		44F8DE4C1803900100B6D3B0 /* Icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40.png"; sourceTree = "<group>"; };
 		44F8DE4D1803900100B6D3B0 /* Icon-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40@2x.png"; sourceTree = "<group>"; };
 		44F8DE4E1803900100B6D3B0 /* Icon-60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60.png"; sourceTree = "<group>"; };
@@ -312,7 +324,6 @@
 				441E5D1817F46B5100289DBD /* czzHomeViewController */,
 				441E5D1717F46B3200289DBD /* czzForumsViewController */,
 				441E5D1317F46A0E00289DBD /* czzEntryPointViewController */,
-				441E5D2117F46FBC00289DBD /* czzXMLDownloader */,
 				441E5D2D17F490E100289DBD /* czzThread */,
 				441E5D2517F4798300289DBD /* czzForumGroup */,
 				441E5D1C17F46E7F00289DBD /* SMXMLDocument */,
@@ -436,9 +447,11 @@
 		441E5D2D17F490E100289DBD /* czzThread */ = {
 			isa = PBXGroup;
 			children = (
+				441E5D2117F46FBC00289DBD /* czzXMLDownloader */,
 				441E5D2A17F48F8C00289DBD /* czzThread.h */,
 				441E5D2B17F48F8C00289DBD /* czzThread.m */,
 				44FC4346180067D80028D7C9 /* czzPostSender */,
+				4448C2A4180FF51D00D2CD76 /* czzBlacklist */,
 			);
 			name = czzThread;
 			sourceTree = "<group>";
@@ -460,6 +473,21 @@
 				440B2FBE17F7C5E700544926 /* czzThreadMenuViewController */,
 			);
 			name = czzThreadViewController;
+			sourceTree = "<group>";
+		};
+		4448C2A4180FF51D00D2CD76 /* czzBlacklist */ = {
+			isa = PBXGroup;
+			children = (
+				4448C2A1180FF50F00D2CD76 /* czzBlacklistEntity.h */,
+				4448C2A2180FF50F00D2CD76 /* czzBlacklistEntity.m */,
+				4448C2A5180FF55A00D2CD76 /* czzBlacklistDownloader.h */,
+				4448C2A6180FF55A00D2CD76 /* czzBlacklistDownloader.m */,
+				4448C2A8180FF6C600D2CD76 /* czzBlacklistSender.h */,
+				4448C2A9180FF6C600D2CD76 /* czzBlacklistSender.m */,
+				4448C2AB18100C6B00D2CD76 /* czzBlacklist.h */,
+				4448C2AC18100C6B00D2CD76 /* czzBlacklist.m */,
+			);
+			name = czzBlacklist;
 			sourceTree = "<group>";
 		};
 		44FC4346180067D80028D7C9 /* czzPostSender */ = {
@@ -607,6 +635,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4448C2AA180FF6C600D2CD76 /* czzBlacklistSender.m in Sources */,
 				44FC435218008E660028D7C9 /* TDSemiModalViewController.m in Sources */,
 				44FC435318008E660028D7C9 /* UIViewController+TDSemiModalExtension.m in Sources */,
 				441E5D2917F48B3D00289DBD /* Toast+UIView.m in Sources */,
@@ -616,9 +645,12 @@
 				441E5D2417F4797F00289DBD /* czzForumGroup.m in Sources */,
 				441E5D0D17F4699400289DBD /* IIViewDeckController.m in Sources */,
 				440B2FC717F7DB7800544926 /* czzForumsViewController.m in Sources */,
+				4448C2A7180FF55A00D2CD76 /* czzBlacklistDownloader.m in Sources */,
 				440B2FCC17F8057500544926 /* czzPostViewController.m in Sources */,
 				441E5E5417F52DEF00289DBD /* czzThreadViewController.m in Sources */,
 				441E5CE817F4691300289DBD /* czzHomeViewController.m in Sources */,
+				4448C2A3180FF50F00D2CD76 /* czzBlacklistEntity.m in Sources */,
+				4448C2AD18100C6B00D2CD76 /* czzBlacklist.m in Sources */,
 				441E5D1B17F46E7900289DBD /* SMXMLDocument.m in Sources */,
 				441E5D1217F46A0900289DBD /* czzEntryPointViewController.m in Sources */,
 				441E5D2017F46FB600289DBD /* czzXMLDownloader.m in Sources */,
@@ -763,6 +795,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Prefix.pch";
 				INFOPLIST_FILE = "CustomImageBoardViewer/CustomImageBoardViewer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -778,6 +811,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Prefix.pch";
 				INFOPLIST_FILE = "CustomImageBoardViewer/CustomImageBoardViewer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
