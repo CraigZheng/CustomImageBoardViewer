@@ -88,7 +88,10 @@
                         }
                         if ([threadChild.name isEqualToString:@"Harmful"]){
                             blacklistEntity.harmful = [threadChild.value boolValue];
-                        }                        
+                        }
+                        if ([threadChild.name isEqualToString:@"Block"]){
+                            blacklistEntity.block = [threadChild.value boolValue];
+                        }
                     }
                     if (blacklistEntity.threadID > 0)
                         [blacklistEntities addObject:blacklistEntity];

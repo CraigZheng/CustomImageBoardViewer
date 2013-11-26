@@ -16,6 +16,7 @@
 @property BOOL content;
 @property BOOL image;
 @property BOOL harmful;
+@property BOOL block;
 
 -(BOOL)isReady;
 -(NSData*)requestBody;

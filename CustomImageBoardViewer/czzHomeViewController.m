@@ -15,6 +15,8 @@
 #import "czzNewPostViewController.h"
 #import "czzBlacklist.h"
 
+#define WARNINGHEADER @"**** 其他用户举报了这个帖子 ****"
+
 @interface czzHomeViewController ()<czzXMLDownloaderDelegate>
 @property czzXMLDownloader *xmlDownloader;
 @property NSMutableArray *threads;
@@ -114,7 +116,17 @@
         UILabel *lockLabel = (UILabel*)[cell viewWithTag:8];
         
         czzThread *thread = [threads objectAtIndex:indexPath.row];
-        [contentLabel setAttributedText:thread.content];
+        //if harmful flag of this thread object is set, inform user that this thread might be harmful
+        //also hides the preview
+        if (thread.harmful)
+        {
+            NSDictionary *warningStringAttributes = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObject:[UIColor redColor]] forKeys:[NSArray arrayWithObject:NSForegroundColorAttributeName]];
+            NSAttributedString *warningAttString = [[NSAttributedString alloc] initWithString:WARNINGHEADER attributes:warningStringAttributes];
+            [contentLabel setAttributedText:warningAttString];
+        } else {
+           //not harmful
+            [contentLabel setAttributedText:thread.content];
+        }
         idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)thread.ID];
         posterLabel.text = [NSString stringWithFormat:@"ID:%@", thread.UID];
         [responseLabel setText:[NSString stringWithFormat:@"回应:%ld", (long)thread.responseCount]];
@@ -158,7 +170,6 @@
     czzThread *thread;
     @try {
         thread = [threads objectAtIndex:indexPath.row];
-
     }
     @catch (NSException *exception) {
     }
@@ -174,8 +185,13 @@
                 sizeToSubtract *= (1024.0 / 480.0);//the difference between the widths of phone and pad
         }
         CGFloat preferHeight = [thread.content.string sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(self.view.frame.size.width - sizeToSubtract, MAXFLOAT) lineBreakMode:NSLineBreakByCharWrapping].height + 25;
+        //the height for harmful thread - only minimum height is requried
+        if (thread.harmful){
+            return tableView.rowHeight;
+        }
         return MAX(tableView.rowHeight, preferHeight);
     }
+
     return tableView.rowHeight;
 
 }

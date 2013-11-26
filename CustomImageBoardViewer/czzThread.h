@@ -25,6 +25,11 @@
 @property NSDate *postDateTime;
 @property NSDate *updateDateTime;
 @property NSMutableArray *replyToList;
+#pragma CONTENT CENSORING PROPERTIES
+@property BOOL harmful;
+@property BOOL blockContent;
+@property BOOL blockImage;
+@property BOOL blockAll;
 
 -(id)initWithSMXMLElement:(SMXMLElement*)data;
 

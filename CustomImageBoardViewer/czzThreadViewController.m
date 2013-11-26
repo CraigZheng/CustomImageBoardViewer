@@ -13,6 +13,8 @@
 #import "SMXMLDocument.h"
 #import "czzRightSideViewController.h"
 
+#define WARNINGHEADER @"**** 其他用户举报了这个帖子 ****\n\n"
+
 @interface czzThreadViewController ()<czzXMLDownloaderDelegate>
 @property NSString *baseURLString;
 @property NSString *targetURLString;
@@ -111,7 +113,17 @@
         UILabel *lockLabel = (UILabel*)[cell viewWithTag:8];
         
         czzThread *thread = [threads objectAtIndex:indexPath.row];
-        [contentLabel setAttributedText:thread.content];
+        //if harmful flag is set, display warning header of harmful thread
+        NSMutableAttributedString *contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:thread.content];
+        if (thread.harmful){
+            NSDictionary *warningStringAttributes = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObject:[UIColor redColor]] forKeys:[NSArray arrayWithObject:NSForegroundColorAttributeName]];
+            NSAttributedString *warningAttString = [[NSAttributedString alloc] initWithString:WARNINGHEADER attributes:warningStringAttributes];
+            //add the warning header to the front of content attributed string
+            contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:warningAttString];
+            [contentAttrString insertAttributedString:thread.content atIndex:warningAttString.length];
+        }
+        //[contentLabel setAttributedText:thread.content];
+        [contentLabel setAttributedText:contentAttrString];
         idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)thread.ID];
         posterLabel.text = [NSString stringWithFormat:@"ID:%@", thread.UID];
         NSDateFormatter *dateFormatter = [NSDateFormatter new];
@@ -172,6 +184,12 @@
                 sizeToSubtract *= (1024.0 / 480.0);//the difference between the widths of phone and pad
         }
         CGFloat preferHeight = [thread.content.string sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(self.view.frame.size.width - sizeToSubtract, MAXFLOAT) lineBreakMode:NSLineBreakByCharWrapping].height + 25;
+        //add the extra height for the harmful header
+        if (thread.harmful){
+            CGFloat extraHeaderHeight = [WARNINGHEADER sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(self.view.frame.size.width - sizeToSubtract, MAXFLOAT) lineBreakMode:NSLineBreakByCharWrapping].height;
+            preferHeight += extraHeaderHeight;
+            
+        }
         return MAX(tableView.rowHeight, preferHeight);
     }
     return tableView.rowHeight;

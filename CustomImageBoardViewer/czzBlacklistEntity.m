@@ -32,6 +32,10 @@
             NSData *contentData = [[NSString stringWithFormat:@"&content=%d", 1] dataUsingEncoding:NSUTF8StringEncoding];
             [body appendData:contentData];
         }
+        if (self.block){
+            NSData *blockData = [[NSString stringWithFormat:@"&block=%d", 1] dataUsingEncoding:NSUTF8StringEncoding];
+            [body appendData:blockData];
+        }
         if (self.image){
             NSData *imageData = [[NSString stringWithFormat:@"&image=%d", 1] dataUsingEncoding:NSUTF8StringEncoding];
             [body appendData:imageData];

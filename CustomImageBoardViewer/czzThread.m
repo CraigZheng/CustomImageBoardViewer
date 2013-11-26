@@ -85,14 +85,21 @@
 
             self.postDateTime = date;
         }
-        
-        //consor contents
-        for (czzBlacklistEntity *blacklistEntity in [[czzBlacklist sharedInstance] blacklistEntities]) {
-            if (blacklistEntity.threadID == self.ID){
-                self.content = [[NSAttributedString alloc] initWithString:@" ** 用户举报的不健康的内容 ** "];
-                self.imgScr = nil;
-                break;
-            }
+    }
+    //consor contents
+    //TODO: recreate this part so the censor is more vivid.
+    for (czzBlacklistEntity *blacklistEntity in [[czzBlacklist sharedInstance] blacklistEntities]) {
+        if (blacklistEntity.threadID == self.ID){
+            /*
+             self.content = [[NSAttributedString alloc] initWithString:@" ** 用户举报的不健康的内容 ** "];
+             self.imgScr = nil;
+             */
+            //assign the blacklist value to this thread
+            self.harmful = blacklistEntity.harmful;
+            self.blockContent = blacklistEntity.content;
+            self.blockImage = blacklistEntity.image;
+            self.blockAll = blacklistEntity.block;
+            break;
         }
     }
 }
