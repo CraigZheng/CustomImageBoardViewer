@@ -87,7 +87,7 @@
         }
     }
     //consor contents
-    //TODO: recreate this part so the censor is more vivid.
+    //TODO: redo this part so the censor is more vivid.
     for (czzBlacklistEntity *blacklistEntity in [[czzBlacklist sharedInstance] blacklistEntities]) {
         if (blacklistEntity.threadID == self.ID){
             /*
@@ -120,18 +120,31 @@
 -(NSAttributedString*)removeFontTags:(NSString*)str{
     if (!str)
         return nil;
-    //UIColor *quoteColor = [UIColor colorWithRed:(120.0/255.0) green:(153.0/255.0) blue:(34.0/255.0) alpha:1.0];
+    UIColor *quoteColor = [UIColor colorWithRed:(120.0/255.0) green:(153.0/255.0) blue:(34.0/255.0) alpha:1.0];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:str];
     if (str) {
         NSRange frontTagBegin = [str rangeOfString:@"<font"];
         //while there are still <font> tags
         while (frontTagBegin.location != NSNotFound) {
             NSRange frontTagEnd = [str rangeOfString:@">" options:NSCaseInsensitiveSearch range:NSMakeRange(frontTagBegin.location, str.length - frontTagBegin.location)];
+            //remove the front tag
             str = [str stringByReplacingCharactersInRange:NSMakeRange(frontTagBegin.location, (frontTagEnd.location - frontTagBegin.location + 1)) withString:@""];
+            //get the position of </font> tag
+            NSRange rearTagBegin = [str rangeOfString:@"</font>" options:NSCaseInsensitiveSearch];
             //remove the </font> tag
             str = [str stringByReplacingOccurrencesOfString:@"</font>" withString:@""];
             
+            //TODO: find the appropriate length of quoted text
+            //create an attributd string object, then add the quote colour to range: from 0 to the beginning of </font> tag
+            //attributedString = [[NSMutableAttributedString alloc] initWithString:str attributes:[NSDictionary dictionaryWithObject:quoteColor forKey:NSForegroundColorAttributeName]];
             attributedString = [[NSMutableAttributedString alloc] initWithString:str];
+            @try {
+                [attributedString addAttribute:NSForegroundColorAttributeName value:quoteColor range:NSMakeRange(0, rearTagBegin.location)];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"%@", exception);
+            }
+            
             frontTagBegin = [str rangeOfString:@"<font"];
 
         }

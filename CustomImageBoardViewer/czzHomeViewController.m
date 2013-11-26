@@ -15,7 +15,7 @@
 #import "czzNewPostViewController.h"
 #import "czzBlacklist.h"
 
-#define WARNINGHEADER @"**** 其他用户举报了这个帖子 ****"
+#define WARNINGHEADER @"**** 用户举报的不健康的内容 ****"
 
 @interface czzHomeViewController ()<czzXMLDownloaderDelegate>
 @property czzXMLDownloader *xmlDownloader;

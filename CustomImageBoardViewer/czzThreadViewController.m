@@ -13,7 +13,7 @@
 #import "SMXMLDocument.h"
 #import "czzRightSideViewController.h"
 
-#define WARNINGHEADER @"**** 其他用户举报了这个帖子 ****\n\n"
+#define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
 
 @interface czzThreadViewController ()<czzXMLDownloaderDelegate>
 @property NSString *baseURLString;
