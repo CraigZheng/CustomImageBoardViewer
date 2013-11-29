@@ -176,6 +176,7 @@
     }
     //for compatible reason, set the font size, otherwise it will be displayed improperly in ios6
     [renderedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(0, renderedStr.length)];
+    
     return renderedStr;
 }
 

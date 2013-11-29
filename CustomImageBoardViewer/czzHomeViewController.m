@@ -133,6 +133,7 @@
            //not harmful
             [contentLabel setAttributedText:thread.content];
         }
+        [contentLabel setLineBreakMode:NSLineBreakByCharWrapping];
         idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)thread.ID];
         posterLabel.text = [NSString stringWithFormat:@"ID:%@", thread.UID];
         [responseLabel setText:[NSString stringWithFormat:@"回应:%ld", (long)thread.responseCount]];

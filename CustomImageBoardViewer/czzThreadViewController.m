@@ -129,6 +129,7 @@
             [contentAttrString insertAttributedString:thread.content atIndex:warningAttString.length];
         }
         [contentLabel setAttributedText:contentAttrString];
+        [contentLabel setLineBreakMode:NSLineBreakByCharWrapping];
         idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)thread.ID];
         //set the color to avoid compatible issues in iOS6
         NSMutableAttributedString *uidAttrString = [[NSMutableAttributedString alloc] initWithString:@"UID:" attributes:[NSDictionary dictionaryWithObject:[UIColor colorWithRed:153.0f/255.0f green:102.0f/255.0f blue:51.0f/255.0f alpha:1.0f] forKey:NSForegroundColorAttributeName]];
