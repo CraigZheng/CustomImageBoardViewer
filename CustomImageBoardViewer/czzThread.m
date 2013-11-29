@@ -51,7 +51,17 @@
             self.ID = [child.value integerValue];
         }
         if ([child.name isEqualToString:@"UID"]){
-            self.UID = [self parseHTMLAttributes:child.value].string;
+            NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithAttributedString:[self parseHTMLAttributes:child.value]];
+            //manually set colour to avoid compatible issues in iOS 6
+            [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:153.0f/255.0f green:102.0f/255.0f blue:51.0f/255.0f alpha:1.0f] range:NSMakeRange(0, attrString.length)];
+            //if the given string contains keyword "color", then render it red to indicate its important
+            if ([child.value.lowercaseString rangeOfString:@"color"].location != NSNotFound) {
+                [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, attrString.length)];
+            }
+            //manually set the font size to avoid compatible issues in ios 6
+            [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(0, attrString.length)];
+
+            self.UID = attrString;
         }
         if ([child.name isEqualToString:@"Name"]){
             self.name = [self parseHTMLAttributes:child.value].string;
@@ -97,8 +107,17 @@
             //assign the blacklist value to this thread
             self.harmful = blacklistEntity.harmful;
             self.blockContent = blacklistEntity.content;
+            if (self.blockContent)
+                self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
             self.blockImage = blacklistEntity.image;
+            if (self.blockImage)
+                self.imgScr = nil;
             self.blockAll = blacklistEntity.block;
+            if (self.blockAll)
+            {
+                self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
+                self.imgScr = nil;
+            }
             break;
         }
     }
@@ -112,45 +131,52 @@
     //get rip of <br/> tag
     stringToParse = [stringToParse stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n"];
     //manually pick up some quotes that can not be spotted by machine
-    stringToParse = [stringToParse stringByReplacingOccurrencesOfString:@"&#180;" withString:@"´"];
-    //find my replyTo list
-    return [[NSAttributedString alloc] initWithAttributedString:[self removeFontTags:stringToParse]];
+    stringToParse = [stringToParse stringByReplacingOccurrencesOfString:@"&#180" withString:@"´"];
+    //return [[NSAttributedString alloc] initWithAttributedString:[self removeFontTags:stringToParse]];
+    return [self removeFontTags:stringToParse];
 }
 
 -(NSAttributedString*)removeFontTags:(NSString*)str{
     if (!str)
         return nil;
-    UIColor *quoteColor = [UIColor colorWithRed:(120.0/255.0) green:(153.0/255.0) blue:(34.0/255.0) alpha:1.0];
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:str];
-    if (str) {
-        NSRange frontTagBegin = [str rangeOfString:@"<font"];
-        //while there are still <font> tags
-        while (frontTagBegin.location != NSNotFound) {
-            NSRange frontTagEnd = [str rangeOfString:@">" options:NSCaseInsensitiveSearch range:NSMakeRange(frontTagBegin.location, str.length - frontTagBegin.location)];
-            //remove the front tag
-            str = [str stringByReplacingCharactersInRange:NSMakeRange(frontTagBegin.location, (frontTagEnd.location - frontTagBegin.location + 1)) withString:@""];
-            //get the position of </font> tag
-            NSRange rearTagBegin = [str rangeOfString:@"</font>" options:NSCaseInsensitiveSearch];
-            //remove the </font> tag
-            str = [str stringByReplacingOccurrencesOfString:@"</font>" withString:@""];
-            
-            //TODO: find the appropriate length of quoted text
-            //create an attributd string object, then add the quote colour to range: from 0 to the beginning of </font> tag
-            //attributedString = [[NSMutableAttributedString alloc] initWithString:str attributes:[NSDictionary dictionaryWithObject:quoteColor forKey:NSForegroundColorAttributeName]];
-            attributedString = [[NSMutableAttributedString alloc] initWithString:str];
-            @try {
-                [attributedString addAttribute:NSForegroundColorAttributeName value:quoteColor range:NSMakeRange(0, rearTagBegin.location)];
-            }
-            @catch (NSException *exception) {
-                NSLog(@"%@", exception);
-            }
-            
-            frontTagBegin = [str rangeOfString:@"<font"];
-
-        }
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] init];
+    NSArray *stringComponents = [str componentsSeparatedByString:@"</font>"];
+    for (NSString *component in stringComponents) {
+        [attributedString appendAttributedString:[self renderFontTags:component]];
     }
-    
     return attributedString;
+}
+
+/*this function would have 2 routes:
+ 1: with tags, get rip of <font></font> tag, and render everything in between green
+ 2: without tags, return as it is
+*/
+-(NSAttributedString*)renderFontTags:(NSString*)str{
+    if (!str) {
+        return nil;
+    }
+    UIColor *quoteColor = [UIColor colorWithRed:(120.0/255.0) green:(153.0/255.0) blue:(34.0/255.0) alpha:1.0];
+    NSRange frontTagBegin = [str rangeOfString:@"<font"];
+    NSMutableAttributedString *renderedStr;
+    if (frontTagBegin.location != NSNotFound) {
+        //convert the hex to ui colour first
+        NSRange hexRange = [str rangeOfString:@"#"];
+        if (hexRange.location != NSNotFound){
+            NSString *hexString = [str substringWithRange:NSMakeRange(hexRange.location, 7)];
+            quoteColor = [self colorForHex:hexString];
+        }
+        NSRange frontTagEnd = [str rangeOfString:@">" options:NSCaseInsensitiveSearch range:NSMakeRange(frontTagBegin.location, str.length - frontTagBegin.location)];
+        //remove the front tag
+        str = [str stringByReplacingCharactersInRange:NSMakeRange(frontTagBegin.location, (frontTagEnd.location - frontTagBegin.location + 1)) withString:@""];
+        renderedStr = [[NSMutableAttributedString alloc] initWithString:str];
+        [renderedStr addAttribute:NSForegroundColorAttributeName value:quoteColor range:NSMakeRange(frontTagBegin.location, str.length - frontTagBegin.location)];
+    }
+    if (renderedStr == nil) {
+        renderedStr = [[NSMutableAttributedString alloc] initWithString:str];
+    }
+    //for compatible reason, set the font size, otherwise it will be displayed improperly in ios6
+    [renderedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(0, renderedStr.length)];
+    return renderedStr;
 }
 
 #pragma isEqual and Hash function, for this class to be used within a NSSet
@@ -161,6 +187,51 @@
         }
     }
     return NO;
+}
+
+#pragma hex to UIColor, copied from internet
+- (UIColor *) colorForHex:(NSString *)hexColor {
+	hexColor = [[hexColor stringByTrimmingCharactersInSet:
+				 [NSCharacterSet whitespaceAndNewlineCharacterSet]
+                 ] uppercaseString];
+    
+    // String should be 6 or 7 characters if it includes '#'
+    if ([hexColor length] < 6)
+		return [UIColor blackColor];
+    
+    // strip # if it appears
+    if ([hexColor hasPrefix:@"#"])
+		hexColor = [hexColor substringFromIndex:1];
+    
+    // if the value isn't 6 characters at this point return
+    // the color black
+    if ([hexColor length] != 6)
+		return [UIColor blackColor];
+    
+    // Separate into r, g, b substrings
+    NSRange range;
+    range.location = 0;
+    range.length = 2;
+    
+    NSString *rString = [hexColor substringWithRange:range];
+    
+    range.location = 2;
+    NSString *gString = [hexColor substringWithRange:range];
+    
+    range.location = 4;
+    NSString *bString = [hexColor substringWithRange:range];
+    
+    // Scan values
+    unsigned int r, g, b;
+    [[NSScanner scannerWithString:rString] scanHexInt:&r];
+    [[NSScanner scannerWithString:gString] scanHexInt:&g];
+    [[NSScanner scannerWithString:bString] scanHexInt:&b];
+    
+    return [UIColor colorWithRed:((float) r / 255.0f)
+                           green:((float) g / 255.0f)
+                            blue:((float) b / 255.0f)
+                           alpha:1.0f];
+    
 }
 -(NSUInteger)hash{
     return self.UID.hash * self.ID * self.content.string.hash;

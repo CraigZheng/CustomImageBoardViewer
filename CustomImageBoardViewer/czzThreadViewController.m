@@ -23,6 +23,7 @@
 @property czzXMLDownloader *xmlDownloader;
 @property NSIndexPath *selectedIndex;
 @property czzRightSideViewController *threadMenuViewController;
+@property UIViewController *topViewController;
 @property NSInteger pageNumber;
 @property UIViewController *leftSideViewController;
 @end
@@ -39,6 +40,7 @@
 @synthesize parentThread;
 @synthesize pageNumber;
 @synthesize leftSideViewController;
+@synthesize topViewController;
 
 - (void)viewDidLoad
 {
@@ -53,7 +55,7 @@
     [refreCon addTarget:self action:@selector(refreshThread:) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreCon;
     //configure the right view as menu
-    UINavigationController *rightController = [self.storyboard instantiateViewControllerWithIdentifier:@"bottom_view_controller"];    threadMenuViewController = [rightController.viewControllers objectAtIndex:0];
+    UINavigationController *rightController = [self.storyboard instantiateViewControllerWithIdentifier:@"right_menu_view_controller"];    threadMenuViewController = [rightController.viewControllers objectAtIndex:0];
     threadMenuViewController.parentThread = parentThread;
     threadMenuViewController.selectedThread = parentThread;
     self.viewDeckController.rightController = rightController;
@@ -64,7 +66,10 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     //save the current left side view into leftSideViewController object, and set the leftViewController to nil in self.viewDeckController, this is to disable to left view controller to in this view, user won't be able to swipe to reveal the left view controller
+    //same to top controller
     leftSideViewController = self.viewDeckController.leftController;
+    topViewController = self.viewDeckController.topController;
+    self.viewDeckController.topController = nil;
     self.viewDeckController.leftController = nil;
 }
 
@@ -72,6 +77,7 @@
     [super viewWillDisappear:animated];
     //reassign the leftSideViewController back to leftController of the view deck controller
     self.viewDeckController.leftController = leftSideViewController;
+    self.viewDeckController.topController = topViewController;
     [self.refreshControl endRefreshing];
     [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] hideToastActivity];
 }
@@ -122,10 +128,14 @@
             contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:warningAttString];
             [contentAttrString insertAttributedString:thread.content atIndex:warningAttString.length];
         }
-        //[contentLabel setAttributedText:thread.content];
         [contentLabel setAttributedText:contentAttrString];
         idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)thread.ID];
-        posterLabel.text = [NSString stringWithFormat:@"ID:%@", thread.UID];
+        //set the color to avoid compatible issues in iOS6
+        NSMutableAttributedString *uidAttrString = [[NSMutableAttributedString alloc] initWithString:@"UID:" attributes:[NSDictionary dictionaryWithObject:[UIColor colorWithRed:153.0f/255.0f green:102.0f/255.0f blue:51.0f/255.0f alpha:1.0f] forKey:NSForegroundColorAttributeName]];
+        [uidAttrString appendAttributedString:thread.UID];
+        //manually set the font size to avoid compatible issues in IOS6
+        [uidAttrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(0, uidAttrString.length)];
+        posterLabel.attributedText = uidAttrString;
         NSDateFormatter *dateFormatter = [NSDateFormatter new];
         [dateFormatter setDateFormat:@"时间:MM-dd, HH:mm"];
         dateLabel.text = [dateFormatter stringFromDate:thread.postDateTime];

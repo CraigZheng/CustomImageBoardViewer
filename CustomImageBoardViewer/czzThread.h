@@ -13,7 +13,7 @@
 @interface czzThread : NSObject
 @property NSInteger responseCount;
 @property NSInteger ID;
-@property NSString *UID;
+@property NSAttributedString *UID;
 @property NSString *name;
 @property NSString *email;
 @property NSString *title;

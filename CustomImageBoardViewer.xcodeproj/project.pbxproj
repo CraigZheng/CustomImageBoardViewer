@@ -68,6 +68,7 @@
 		44FC435118008E660028D7C9 /* TDDatePickerController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44FC434A18008E660028D7C9 /* TDDatePickerController.xib */; };
 		44FC435218008E660028D7C9 /* TDSemiModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44FC434D18008E660028D7C9 /* TDSemiModalViewController.m */; };
 		44FC435318008E660028D7C9 /* UIViewController+TDSemiModalExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 44FC434F18008E660028D7C9 /* UIViewController+TDSemiModalExtension.m */; };
+		5A0A6BD61848691C0094D7FB /* czzMoreInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0A6BD51848691C0094D7FB /* czzMoreInfoViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -173,6 +174,8 @@
 		44FC434D18008E660028D7C9 /* TDSemiModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDSemiModalViewController.m; sourceTree = "<group>"; };
 		44FC434E18008E660028D7C9 /* UIViewController+TDSemiModalExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TDSemiModalExtension.h"; sourceTree = "<group>"; };
 		44FC434F18008E660028D7C9 /* UIViewController+TDSemiModalExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TDSemiModalExtension.m"; sourceTree = "<group>"; };
+		5A0A6BD41848691C0094D7FB /* czzMoreInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzMoreInfoViewController.h; sourceTree = "<group>"; };
+		5A0A6BD51848691C0094D7FB /* czzMoreInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzMoreInfoViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -320,6 +323,7 @@
 				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
 				440B300D17F95EC200544926 /* App icon */,
 				440B2FD817F94C5000544926 /* Launch images */,
+				5A0A6BD7184869200094D7FB /* czzMoreInfoViewController */,
 				441E5E5517F52DF300289DBD /* czzThreadViewController */,
 				441E5D1817F46B5100289DBD /* czzHomeViewController */,
 				441E5D1717F46B3200289DBD /* czzForumsViewController */,
@@ -516,6 +520,15 @@
 			path = Source;
 			sourceTree = "<group>";
 		};
+		5A0A6BD7184869200094D7FB /* czzMoreInfoViewController */ = {
+			isa = PBXGroup;
+			children = (
+				5A0A6BD41848691C0094D7FB /* czzMoreInfoViewController.h */,
+				5A0A6BD51848691C0094D7FB /* czzMoreInfoViewController.m */,
+			);
+			name = czzMoreInfoViewController;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -653,6 +666,7 @@
 				441E5E5417F52DEF00289DBD /* czzThreadViewController.m in Sources */,
 				441E5CE817F4691300289DBD /* czzHomeViewController.m in Sources */,
 				4448C2A3180FF50F00D2CD76 /* czzBlacklistEntity.m in Sources */,
+				5A0A6BD61848691C0094D7FB /* czzMoreInfoViewController.m in Sources */,
 				4448C2AD18100C6B00D2CD76 /* czzBlacklist.m in Sources */,
 				441E5D1B17F46E7900289DBD /* SMXMLDocument.m in Sources */,
 				441E5D1217F46A0900289DBD /* czzEntryPointViewController.m in Sources */,
@@ -794,8 +808,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Haozheng Zheng (4A2A95RH7T)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Haozheng Zheng (4A2A95RH7T)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Haozheng Zheng (9EBE9MWW9X)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Haozheng Zheng (9EBE9MWW9X)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Prefix.pch";
 				INFOPLIST_FILE = "CustomImageBoardViewer/CustomImageBoardViewer-Info.plist";
@@ -812,8 +826,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Haozheng Zheng (4A2A95RH7T)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Haozheng Zheng (4A2A95RH7T)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Haozheng Zheng (9EBE9MWW9X)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Haozheng Zheng (9EBE9MWW9X)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Prefix.pch";
 				INFOPLIST_FILE = "CustomImageBoardViewer/CustomImageBoardViewer-Info.plist";

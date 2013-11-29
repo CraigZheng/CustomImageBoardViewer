@@ -44,6 +44,8 @@
     czzForumsViewController *sideViewController = [storyboard instantiateViewControllerWithIdentifier:@"left_side_view_controller"];
     
     self = [super initWithCenterViewController:centreViewController leftViewController:sideViewController];
+    self.topController = [storyboard instantiateViewControllerWithIdentifier:@"more_info_view_controller"];
+
     return self;
 }
 @end

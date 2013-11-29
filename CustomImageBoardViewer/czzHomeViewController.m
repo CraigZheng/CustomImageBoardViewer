@@ -14,6 +14,7 @@
 #import "czzThreadViewController.h"
 #import "czzNewPostViewController.h"
 #import "czzBlacklist.h"
+#import "czzMoreInfoViewController.h"
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****"
 
@@ -49,8 +50,9 @@
     //configure the view deck controller with half size and tap to close mode
     self.viewDeckController.leftSize = self.view.frame.size.width/4;
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
+    //self.viewDeckController.topSize = self.view.frame.size.height/5;
     self.viewDeckController.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
-    //self.viewDeckController.panningMode = IIViewDeckNoPanning;
+    
     threads = [NSMutableArray new];
     //register a notification observer
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -66,6 +68,10 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.viewDeckController.rightController = nil;
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
 }
 
 - (IBAction)sideButtonAction:(id)sender {
@@ -268,6 +274,11 @@
         targetURLString = [baseURLString stringByAppendingString:[self.forumName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         [self refreshThread:self];
     }
+    //load more info into the top view controller by setting the forumName property for viewDeckController.topController
+    UINavigationController *topNavigationController = (UINavigationController*)self.viewDeckController.topController;
+    czzMoreInfoViewController *moreInfoViewController = (czzMoreInfoViewController*)topNavigationController.topViewController;
+    [moreInfoViewController setForumName:forumname];
+    //make busy
     [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToastActivity];
 }
 
@@ -278,7 +289,6 @@
         @try {
             czzThread *selectedThread = [threads objectAtIndex:selectedIndex.row];
             [incomingViewcontroller setParentThread:selectedThread];
-
         }
         @catch (NSException *exception) {
             
@@ -286,7 +296,7 @@
     }
 }
 
-#pragma sort array
+#pragma sort array - sort the threads so they arrange with ID
 -(NSArray*)sortTheGivenArray:(NSArray*)array{
     NSArray *sortedArray = [array sortedArrayUsingComparator:^NSComparisonResult(id a, id b){
         czzThread *first = (czzThread*)a;
