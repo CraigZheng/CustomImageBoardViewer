@@ -25,6 +25,7 @@
 @property czzRightSideViewController *threadMenuViewController;
 @property UIViewController *topViewController;
 @property NSInteger pageNumber;
+@property NSMutableDictionary *downloadedImages;
 @property UIViewController *leftSideViewController;
 @end
 
@@ -41,12 +42,14 @@
 @synthesize pageNumber;
 @synthesize leftSideViewController;
 @synthesize topViewController;
+@synthesize downloadedImages;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     baseURLString = [NSString stringWithFormat:@"http://h.acfun.tv/api/thread/sub?parentId=%ld", (long)self.parentThread.ID];
     pageNumber = 1;
+    downloadedImages = [NSMutableDictionary new];
     originalThreadData = [NSMutableSet new];
     [originalThreadData addObject:parentThread];
     threads = [NSMutableArray new];
@@ -54,6 +57,8 @@
     UIRefreshControl *refreCon = [[UIRefreshControl alloc] init];
     [refreCon addTarget:self action:@selector(refreshThread:) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreCon;
+    //register for nsnotification centre for image downloaded notification
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ThumbnailDownloaded" object:nil];
     //configure the right view as menu
     UINavigationController *rightController = [self.storyboard instantiateViewControllerWithIdentifier:@"right_menu_view_controller"];    threadMenuViewController = [rightController.viewControllers objectAtIndex:0];
     threadMenuViewController.parentThread = parentThread;
@@ -95,6 +100,8 @@
 #pragma UITableView delegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    NSString *CellIdentifier = @"thread_cell_identifier";
     if (indexPath.row == threads.count){
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
         if (xmlDownloader) {
@@ -106,7 +113,11 @@
         }
         return cell;
     }
-    static NSString *CellIdentifier = @"thread_cell_identifier";
+    czzThread *thread = [threads objectAtIndex:indexPath.row];
+    //if image is present
+    if (thread.thImgSrc.length != 0){
+        CellIdentifier = @"image_thread_cell_identifier";
+    }
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     // Configure the cell...
     if (cell){
@@ -117,8 +128,21 @@
         UILabel *imgLabel = (UILabel*)[cell viewWithTag:6];
         UILabel *sageLabel = (UILabel*)[cell viewWithTag:7];
         UILabel *lockLabel = (UILabel*)[cell viewWithTag:8];
-        
-        czzThread *thread = [threads objectAtIndex:indexPath.row];
+        UIImageView *previewImageView = (UIImageView*)[cell viewWithTag:9];
+        previewImageView.hidden = YES;
+        if (thread.thImgSrc != 0){
+            previewImageView.hidden = NO;
+            [previewImageView setImage:[UIImage imageNamed:@"Icon.png"]];
+            NSString* basePath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            basePath = [basePath stringByAppendingPathComponent:@"Thumbnails"];
+            NSString *filePath = [basePath stringByAppendingPathComponent:[thread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
+            UIImage *previewImage =[UIImage imageWithContentsOfFile:filePath];
+            if (previewImage){
+                [previewImageView setImage:previewImage];
+            } else if ([downloadedImages objectForKey:thread.thImgSrc]){
+                [previewImageView setImage:[UIImage imageWithContentsOfFile:[downloadedImages objectForKey:thread.thImgSrc]]];
+            }
+        }
         //if harmful flag is set, display warning header of harmful thread
         NSMutableAttributedString *contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:thread.content];
         if (thread.harmful){
@@ -138,7 +162,7 @@
         [uidAttrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(0, uidAttrString.length)];
         posterLabel.attributedText = uidAttrString;
         NSDateFormatter *dateFormatter = [NSDateFormatter new];
-        [dateFormatter setDateFormat:@"时间:MM-dd, HH:mm"];
+        [dateFormatter setDateFormat:@"时间:yyyy MM-dd, HH:mm"];
         dateLabel.text = [dateFormatter stringFromDate:thread.postDateTime];
         if (thread.imgScr.length == 0)
             [imgLabel setHidden:YES];
@@ -201,6 +225,10 @@
             preferHeight += extraHeaderHeight;
             
         }
+        //height for preview image
+        if (thread.thImgSrc.length != 0) {
+            preferHeight += 60;
+        }
         return MAX(tableView.rowHeight, preferHeight);
     }
     return tableView.rowHeight;
@@ -236,15 +264,9 @@
         NSError *error;
         SMXMLDocument *xmlDoc = [[SMXMLDocument alloc] initWithData:xmlData error:&error];
         if (error){
-            NSLog(@"%@", error);
-            return;
-        }
+            [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"服务器回传的资料有误，请重试" duration:3.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
+            NSLog(@"%@", error);        }
         for (SMXMLElement *child in xmlDoc.root.children) {
-            if ([child.name isEqualToString:@"status"]){
-                NSInteger status = [child.value integerValue];
-                if (status != 200)
-                    return;
-            }
             if ([child.name isEqualToString:@"model"]){
                 //create a thread outta this xml data
                 czzThread *thread = [[czzThread alloc] initWithSMXMLElement:child];
@@ -271,6 +293,29 @@
     xmlDownloader = nil;
 }
 
+#pragma notification handler - image downloader
+-(void)imageDownloaded:(NSNotification*)notification{
+    //TODO: refresh the appropriate UITableViewCell
+    NSString *imgURL = [notification.userInfo objectForKey:@"imageURLString"];
+    if (imgURL){
+        @try {
+            if ([notification.userInfo objectForKey:@"FilePath"])
+                //store the given file save path
+                [downloadedImages setObject:[notification.userInfo objectForKey:@"FilePath"] forKey:imgURL];
+            for (NSIndexPath *displayedIndexPath in [threadTableView indexPathsForVisibleRows]) {
+                czzThread *displayedThread = [threads objectAtIndex:displayedIndexPath.row];
+                if ([displayedThread.thImgSrc isEqualToString:imgURL]){
+                    [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:displayedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    break;
+                }
+            }
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception);
+        }
+    }
+}
+
 #pragma sort array
 -(NSArray*)sortTheGivenArray:(NSArray*)array{
     NSArray *sortedArray = [array sortedArrayUsingComparator:^NSComparisonResult(id a, id b){
@@ -279,10 +324,6 @@
         return first.ID > second.ID;
     }];
     return sortedArray;
-}
-
-#pragma Orientation change
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
 }
 
 - (IBAction)moreAction:(id)sender {

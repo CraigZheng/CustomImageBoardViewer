@@ -9,6 +9,8 @@
 #import "czzAppDelegate.h"
 #import "czzBlacklistDownloader.h"
 #import "czzBlacklist.h"
+#import "Toast+UIView.h"
+
 @interface czzAppDelegate()<czzBlacklistDownloaderDelegate>
 
 @end
@@ -45,6 +47,16 @@
     czzBlacklistDownloader *blacklistDownloader = [czzBlacklistDownloader new];
     blacklistDownloader.delegate = self;
     [blacklistDownloader downloadBlacklist];
+    //check the library directory and image folders
+    NSString* thumbnailFolder = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *imgFolder = [thumbnailFolder stringByAppendingPathComponent:@"Images"];
+    thumbnailFolder = [thumbnailFolder stringByAppendingPathComponent:@"Thumbnails"];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:thumbnailFolder]){
+        [[NSFileManager defaultManager] createDirectoryAtPath:thumbnailFolder withIntermediateDirectories:NO attributes:nil error:nil];
+    }
+    if (![[NSFileManager defaultManager] fileExistsAtPath:imgFolder]){
+        [[NSFileManager defaultManager] createDirectoryAtPath:imgFolder withIntermediateDirectories:NO attributes:nil error:nil];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -60,4 +72,13 @@
     }
 }
 
+
+#pragma mark access to app delegate etc.
++ (czzAppDelegate*) sharedAppDelegate{
+    return (czzAppDelegate*)[[UIApplication sharedApplication] delegate];
+}
+
+-(void)showToast:(NSString *)string{
+    [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:string];
+}
 @end

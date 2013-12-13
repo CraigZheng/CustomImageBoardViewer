@@ -11,6 +11,7 @@
 #import "GTMNSString+HTML.h"
 #import "czzBlacklist.h"
 #import "czzBlacklistEntity.h"
+#import "czzImageCentre.h"
 
 @implementation czzThread
 
@@ -42,7 +43,6 @@
  <UpdateDateTime>2013-09-26T23:42:11.103121</UpdateDateTime>
  */
 -(void)acceptXMLElement:(SMXMLElement*)xmlElement{
-
     for (SMXMLElement *child in xmlElement.children) {
         if ([child.name isEqualToString:@"ResponseCount"]){
             self.responseCount = [child.value integerValue];
@@ -97,7 +97,6 @@
         }
     }
     //consor contents
-    //TODO: redo this part so the censor is more vivid.
     for (czzBlacklistEntity *blacklistEntity in [[czzBlacklist sharedInstance] blacklistEntities]) {
         if (blacklistEntity.threadID == self.ID){
             /*
@@ -121,6 +120,11 @@
             break;
         }
     }
+    
+    if (self.thImgSrc.length != 0){
+        [[czzImageCentre sharedInstance] downloadThumbnailWithURL:self.thImgSrc];
+    }
+    
 }
 
 -(NSAttributedString*)parseHTMLAttributes:(NSString*)stringToParse{
@@ -132,7 +136,7 @@
     stringToParse = [stringToParse stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n"];
     //manually pick up some quotes that can not be spotted by machine
     stringToParse = [stringToParse stringByReplacingOccurrencesOfString:@"&#180" withString:@"´"];
-    //return [[NSAttributedString alloc] initWithAttributedString:[self removeFontTags:stringToParse]];
+    
     return [self removeFontTags:stringToParse];
 }
 

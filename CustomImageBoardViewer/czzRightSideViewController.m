@@ -12,13 +12,16 @@
 #import "czzNewPostViewController.h"
 #import "Toast+UIView.h"
 #import "czzBlacklistEntity.h"
+#import "czzImageCentre.h"
 
-@interface czzRightSideViewController ()<UITableViewDataSource, UITableViewDelegate>
+@interface czzRightSideViewController ()<UITableViewDataSource, UITableViewDelegate, UIDocumentInteractionControllerDelegate, NSURLConnectionDelegate>
 @property NSMutableArray *replyCommand;
 @property NSMutableArray *shareCommand;
 @property NSMutableArray *reportCommand;
 @property NSMutableArray *allCommand;
 @property NSMutableArray *threadDepandentCommand;
+@property UIDocumentInteractionController *documentInteractionController;
+@property NSURLConnection *urlCon;
 @end
 
 @implementation czzRightSideViewController
@@ -30,11 +33,14 @@
 @synthesize parentThread;
 @synthesize commandTableView;
 @synthesize threadDepandentCommand;
+@synthesize documentInteractionController;
+@synthesize urlCon;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ImageDownloaded" object:nil];
     replyCommand = [NSMutableArray arrayWithObjects:@"回复主串", @"回复选定的帖子", nil];
     shareCommand = [NSMutableArray arrayWithObjects:@"复制内容", @"复制选定帖子的ID", nil];
     reportCommand = [NSMutableArray arrayWithObjects:@"举报", nil];
@@ -53,6 +59,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSArray* command = [allCommand objectAtIndex:section];
+
     return command.count;
 }
 
@@ -85,10 +92,12 @@
     } else if ([command isEqualToString:@"复制选定帖子的ID"]){
         [[UIPasteboard generalPasteboard] setString:[NSString stringWithFormat:@"%ld", (long)selectedThread.ID]];
         [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"ID已复制"];
-    } else if ([command isEqualToString:@"打开图片链接"]){
-        NSString *imgURLString = [NSString stringWithFormat:@"http://h.acfun.tv%@", [selectedThread.imgScr stringByReplacingOccurrencesOfString:@"~" withString:@""]];
+    } else if ([command hasPrefix:@"打开图片链接"]){
+        [self downloadImage:selectedThread.imgScr];
+        /*
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:imgURLString]];
         [self.viewDeckController toggleRightViewAnimated:YES];
+         */
         /*
         [[UIPasteboard generalPasteboard] setString:imgURLString];
         [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"图片链接已复制"];
@@ -97,7 +106,7 @@
         czzPostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
         [postViewController setThread:parentThread];
         [self presentViewController:postViewController animated:YES completion:^{
-            [self.viewDeckController toggleRightViewAnimated:YES];
+            [self.viewDeckController toggleRightViewAnimated:NO];
         }];
     } else if ([command isEqualToString:@"回复选定的帖子"]){
         czzPostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
@@ -134,6 +143,48 @@
             [threadDepandentCommand addObject:@"打开图片链接"];
         }
         [commandTableView reloadData];
+    }
+}
+
+#pragma UIDocumentInteractionController delegate
+-(UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller{
+    return self;
+}
+
+#pragma Download the given image and write to file with NSURLConnection
+-(void)downloadImage:(NSString*)imgURLString{
+    for (NSString *file in [[czzImageCentre sharedInstance] currentLocalImages]) {
+        if ([file.lastPathComponent.lowercaseString isEqualToString:imgURLString.lastPathComponent.lowercaseString])
+        {
+            [self showDocumentController:file];
+            return;
+        }
+    }
+    [[czzImageCentre sharedInstance] downloadImageWithURL:imgURLString];
+    [self.view makeToast:@"正在下载图片"];
+}
+
+#pragma notification handler
+-(void)imageDownloaded:(NSNotification*)notification{
+    NSString *filePath = [notification.userInfo objectForKey:@"FilePath"];
+    //if I am still visible, I will present this image in a document interaction controller
+    if (self.isViewLoaded && self.view.window)
+    {
+        [self showDocumentController:filePath];
+    } else {
+        //or else I should tell others that the download is completed
+        NSLog(@"download of img completed");
+    }
+}
+
+//show documentcontroller
+-(void)showDocumentController:(NSString*)path{
+    if (path){
+        if (self.isViewLoaded && self.view.window) {
+            documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:path]];
+            documentInteractionController.delegate = self;
+            [documentInteractionController presentPreviewAnimated:YES];
+        }
     }
 }
 @end
