@@ -65,12 +65,21 @@
             if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldDownloadThumbnail"])
                 shouldLoadImages = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldDownloadThumbnail"];
             [commandSwitch setOn:shouldLoadImages];
-        } else if (indexPath.row == 1){
+        }
+        /*else if (indexPath.row == 1){
             //自动加载
             BOOL shouldAutoLoadMore = NO;
             if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldAutoLoadMore"])
                 shouldAutoLoadMore = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldAutoLoadMore"];
             [commandSwitch setOn:shouldAutoLoadMore];
+        } 
+         */else if (indexPath.row == 1){
+            //auto open
+            BOOL shouldAutoOpen = YES;
+            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldAutoOpenImage"])
+                shouldAutoOpen = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldAutoOpenImage"];
+            [commandSwitch setOn:shouldAutoOpen];
+
         }
     } else if (indexPath.section == 1){
         UILabel *commandLabel = (UILabel*)[cell viewWithTag:5];
@@ -100,7 +109,8 @@
 //pragma prepareCommands for the menu
 -(void)prepareCommands{
     [switchCommands addObject:@"显示图片"];
-    [switchCommands addObject:@"下拉自动加载帖子"];
+    //[switchCommands addObject:@"下拉自动加载帖子"];
+    [switchCommands addObject:@"图片下载完毕自动打开"];
     [regularCommands addObject:@"图片缓存"];
     [regularCommands addObject:@"清空图片缓存"];
     [regularCommands addObject:@"清除ID信息"];
@@ -146,9 +156,16 @@
             [[NSUserDefaults standardUserDefaults] setBool:switchControl.on forKey:@"shouldDownloadThumbnail"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             [[czzAppDelegate sharedAppDelegate] showToast:@"刷新后生效"];
-        } else if (switchedIndexPath.row == 1){
+        }
+        /*else if (switchedIndexPath.row == 1){
             //自动加载帖子
             [[NSUserDefaults standardUserDefaults] setBool:switchControl.on forKey:@"shouldAutoLoadMore"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        } 
+         */
+        else if (switchedIndexPath.row == 1){
+            //自动打开图片
+            [[NSUserDefaults standardUserDefaults] setBool:switchControl.on forKey:@"shouldAutoOpenImage"];
             [[NSUserDefaults standardUserDefaults] synchronize];
         }
     }

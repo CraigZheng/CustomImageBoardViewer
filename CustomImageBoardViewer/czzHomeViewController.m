@@ -15,6 +15,7 @@
 #import "czzNewPostViewController.h"
 #import "czzBlacklist.h"
 #import "czzMoreInfoViewController.h"
+#import "czzImageDownloader.h"
 #import "czzImageCentre.h"
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****"
@@ -29,6 +30,7 @@
 @property NSIndexPath *selectedIndex;
 @property NSString *forumName;
 @property NSMutableDictionary *downloadedImages;
+@property BOOL shouldStopAutoLoading;
 @end
 
 @implementation czzHomeViewController
@@ -42,6 +44,7 @@
 @synthesize pageNumber;
 @synthesize forumName;
 @synthesize downloadedImages;
+@synthesize shouldStopAutoLoading;
 
 - (void)viewDidLoad
 {
@@ -69,7 +72,8 @@
     self.refreshControl = refreCon;
     //register for nsnotification centre for image downloaded notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ThumbnailDownloaded" object:nil];
-    //settings flag for should or should not show images
+    //settings flag for should or should not auto load more threads
+    shouldStopAutoLoading = NO;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -122,9 +126,6 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == threads.count){
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
-        //auto load more threads if the user default is set
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldAutoLoadMore"])
-            [self loadMoreThread:pageNumber];
         if (xmlDownloader) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"loading_cell_identifier"];
             UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
@@ -327,15 +328,15 @@
 
 #pragma image downloader
 -(void)imageDownloaded:(NSNotification*)notification{
-    NSString *imgURL = [notification.userInfo objectForKey:@"imageURLString"];
-    if (imgURL){
+    czzImageDownloader *imgDownloader = [notification.userInfo objectForKey:@"ImageDownloader"];
+    if (imgDownloader){
         @try {
             if ([notification.userInfo objectForKey:@"FilePath"])
                 //store the given file save path
-                [downloadedImages setObject:[notification.userInfo objectForKey:@"FilePath"] forKey:imgURL];
+                [downloadedImages setObject:[notification.userInfo objectForKey:@"FilePath"] forKey:imgDownloader.imageURLString];
             for (NSIndexPath *displayedIndexPath in [threadTableView indexPathsForVisibleRows]) {
                 czzThread *displayedThread = [threads objectAtIndex:displayedIndexPath.row];
-                if ([displayedThread.thImgSrc isEqualToString:imgURL]){
+                if ([displayedThread.thImgSrc isEqualToString:imgDownloader.imageURLString]){
                     [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:displayedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
                     break;
                 }

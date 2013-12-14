@@ -68,6 +68,7 @@
     self.refreshControl = refreCon;
     //register for nsnotification centre for image downloaded notification and download progress update notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ThumbnailDownloaded" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ImageDownloaded" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaderUpdated:) name:@"ImageDownloaderProgressUpdated" object:nil];
     //configure the right view as menu
     UINavigationController *rightController = [self.storyboard instantiateViewControllerWithIdentifier:@"right_menu_view_controller"];    threadMenuViewController = [rightController.viewControllers objectAtIndex:0];
@@ -114,9 +115,6 @@
     NSString *CellIdentifier = @"thread_cell_identifier";
     if (indexPath.row == threads.count){
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
-        //auto load more threads if the user default is set
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldAutoLoadMore"])
-            [self loadMoreThread:pageNumber];
         if (xmlDownloader) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"loading_cell_identifier"];
             UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
@@ -280,7 +278,8 @@
         SMXMLDocument *xmlDoc = [[SMXMLDocument alloc] initWithData:xmlData error:&error];
         if (error){
             [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"服务器回传的资料有误，请重试" duration:3.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
-            NSLog(@"%@", error);        }
+            NSLog(@"%@", error);
+        }
         for (SMXMLElement *child in xmlDoc.root.children) {
             if ([child.name isEqualToString:@"model"]){
                 //create a thread outta this xml data
@@ -310,15 +309,15 @@
 
 #pragma notification handler - image downloader
 -(void)imageDownloaded:(NSNotification*)notification{
-    NSString *imgURL = [notification.userInfo objectForKey:@"imageURLString"];
-    if (imgURL){
+    czzImageDownloader *imgDownloader = [notification.userInfo objectForKey:@"ImageDownloader"];
+    if (imgDownloader && imgDownloader.isThumbnail){
         @try {
             if ([notification.userInfo objectForKey:@"FilePath"])
                 //store the given file save path
-                [downloadedImages setObject:[notification.userInfo objectForKey:@"FilePath"] forKey:imgURL];
+                [downloadedImages setObject:[notification.userInfo objectForKey:@"FilePath"] forKey:imgDownloader.imageURLString];
             for (NSIndexPath *displayedIndexPath in [threadTableView indexPathsForVisibleRows]) {
                 czzThread *displayedThread = [threads objectAtIndex:displayedIndexPath.row];
-                if ([displayedThread.thImgSrc isEqualToString:imgURL]){
+                if ([displayedThread.thImgSrc isEqualToString:imgDownloader.imageURLString]){
                     [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:displayedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
                     break;
                 }
@@ -327,6 +326,13 @@
         @catch (NSException *exception) {
             NSLog(@"%@", exception);
         }
+    }
+    if (imgDownloader && !imgDownloader.isThumbnail){
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldAutoOpenImage"]) {
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldAutoOpenImage"])
+                [self showDocumentController:[notification.userInfo objectForKey:@"FilePath"]];
+        } else
+            [self showDocumentController:[notification.userInfo objectForKey:@"FilePath"]];
     }
 }
 
@@ -412,7 +418,15 @@
             documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:path]];
             documentInteractionController.delegate = self;
             [documentInteractionController presentPreviewAnimated:YES];
-            
+            /*
+            BOOL shouldAutoOpenImage = YES;
+            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldAutoOpenImage"]){
+                shouldAutoOpenImage = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldAutoOpenImage"];
+            }
+            if (shouldAutoOpenImage) {
+                [documentInteractionController presentPreviewAnimated:YES];
+            }
+             */
         }
     }
 }

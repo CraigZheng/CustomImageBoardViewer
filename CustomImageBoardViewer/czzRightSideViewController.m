@@ -15,13 +15,12 @@
 #import "czzImageCentre.h"
 #import "czzAppDelegate.h"
 
-@interface czzRightSideViewController ()<UITableViewDataSource, UITableViewDelegate, UIDocumentInteractionControllerDelegate, NSURLConnectionDelegate>
+@interface czzRightSideViewController ()<UITableViewDataSource, UITableViewDelegate, NSURLConnectionDelegate>
 @property NSMutableArray *replyCommand;
 @property NSMutableArray *shareCommand;
 @property NSMutableArray *reportCommand;
 @property NSMutableArray *allCommand;
 @property NSMutableArray *threadDepandentCommand;
-@property UIDocumentInteractionController *documentInteractionController;
 @property NSURLConnection *urlCon;
 @end
 
@@ -34,14 +33,12 @@
 @synthesize parentThread;
 @synthesize commandTableView;
 @synthesize threadDepandentCommand;
-@synthesize documentInteractionController;
 @synthesize urlCon;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ImageDownloaded" object:nil];
     replyCommand = [NSMutableArray arrayWithObjects:@"回复主串", @"回复选定的帖子", nil];
     shareCommand = [NSMutableArray arrayWithObjects:@"复制内容", @"复制选定帖子的ID", nil];
     reportCommand = [NSMutableArray arrayWithObjects:@"举报", nil];
@@ -152,41 +149,5 @@
     return self;
 }
 
-#pragma Download the given image and write to file with NSURLConnection
--(void)downloadImage:(NSString*)imgURLString{
-    for (NSString *file in [[czzImageCentre sharedInstance] currentLocalImages]) {
-        if ([file.lastPathComponent.lowercaseString isEqualToString:imgURLString.lastPathComponent.lowercaseString])
-        {
-            [self showDocumentController:file];
-            return;
-        }
-    }
-    [[czzImageCentre sharedInstance] downloadImageWithURL:imgURLString];
-    [[czzAppDelegate sharedAppDelegate] showToast:@"正在下载图片"];
-    [self.viewDeckController toggleRightViewAnimated:YES];
-}
 
-#pragma notification handler
--(void)imageDownloaded:(NSNotification*)notification{
-    NSString *filePath = [notification.userInfo objectForKey:@"FilePath"];
-    //if I am still visible, I will present this image in a document interaction controller
-    if (self.isViewLoaded && self.view.window)
-    {
-        [self showDocumentController:filePath];
-    } else {
-        //or else I should tell others that the download is completed
-        NSLog(@"download of img completed");
-    }
-}
-
-//show documentcontroller
--(void)showDocumentController:(NSString*)path{
-    if (path){
-        if (self.isViewLoaded && self.view.window) {
-            documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:path]];
-            documentInteractionController.delegate = self;
-            [documentInteractionController presentPreviewAnimated:YES];
-        }
-    }
-}
 @end

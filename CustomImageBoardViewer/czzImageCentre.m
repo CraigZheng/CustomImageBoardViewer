@@ -163,7 +163,7 @@
 -(void)downloadFinished:(czzImageDownloader *)imgDownloader success:(BOOL)success isThumbnail:(BOOL)isThumbnail saveTo:(NSString *)path{
     //post a notification to inform other view controllers that a download is finished
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                     imgDownloader.imageURLString, @"imageURLString",
+                                     imgDownloader, @"ImageDownloader",
                                      path, @"FilePath", nil];
     if (success){
         //inform receiver that download is successed
@@ -172,7 +172,6 @@
             [currentLocalThumbnails addObject:path];
         else {
             [currentLocalImages addObject:path];
-            
             [[czzAppDelegate sharedAppDelegate] showToast:@"图片下载好了"];
         }
     } else {
