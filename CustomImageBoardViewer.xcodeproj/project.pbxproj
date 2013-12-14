@@ -342,8 +342,6 @@
 				441E5CDD17F4691300289DBD /* czzAppDelegate.h */,
 				441E5CDE17F4691300289DBD /* czzAppDelegate.m */,
 				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
-				44C89ADD185C14BA00E65B73 /* DACircularProgress */,
-				44B96E34185B8B9300D664A4 /* czzImageManagerViewCon */,
 				442CD0E4185160200021AD37 /* czzImageDownloader */,
 				440B300D17F95EC200544926 /* App icon */,
 				440B2FD817F94C5000544926 /* Launch images */,
@@ -358,6 +356,7 @@
 				44FC434718008E660028D7C9 /* TDSemiModal */,
 				441E5D2617F48B3D00289DBD /* Toast */,
 				440B2F6217F5F97200544926 /* GTMNSString */,
+				44C89ADD185C14BA00E65B73 /* DACircularProgress */,
 				441E5D0F17F4699900289DBD /* IIViewDeck */,
 				441E5CE917F4691300289DBD /* Images.xcassets */,
 				441E5E5117F4AEAB00289DBD /* Icons */,
@@ -586,6 +585,7 @@
 		5A0A6BD7184869200094D7FB /* czzMoreInfoViewController */ = {
 			isa = PBXGroup;
 			children = (
+				44B96E34185B8B9300D664A4 /* czzImageManagerViewCon */,
 				44B96E38185B97C700D664A4 /* czzSettingsViewController */,
 				5A0A6BD41848691C0094D7FB /* czzMoreInfoViewController.h */,
 				5A0A6BD51848691C0094D7FB /* czzMoreInfoViewController.m */,

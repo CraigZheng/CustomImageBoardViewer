@@ -146,7 +146,7 @@
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="han-DE-eot">
                                             <rect key="frame" x="103" y="1" width="114" height="12"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                             <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -400,10 +400,17 @@
                                             <color key="textColor" red="1" green="0.57347453749999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" tag="9" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon.png" id="O9F-NO-BxI">
+                                        <imageView tag="9" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon.png" id="O9F-NO-BxI">
                                             <rect key="frame" x="20" y="39" width="80" height="60"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <connections>
+                                                <outletCollection property="gestureRecognizers" destination="Nf5-SF-dWe" appends="YES" id="xW0-4i-NP8"/>
+                                            </connections>
                                         </imageView>
+                                        <view hidden="YES" userInteractionEnabled="NO" alpha="0.69999999999999996" tag="10" contentMode="scaleAspectFit" id="dJ2-bl-s4Q" customClass="DACircularProgressView">
+                                            <rect key="frame" x="32" y="44" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                        </view>
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -484,6 +491,11 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vJQ-WR-yrA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="Nf5-SF-dWe">
+                    <connections>
+                        <action selector="userTapInImage:" destination="V51-tA-4h3" id="G5X-vZ-aor"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="595" y="393"/>
         </scene>
@@ -921,13 +933,12 @@
                             <segments>
                                 <segment title="全部"/>
                                 <segment title="大图"/>
-                                <segment title="缩略图"/>
+                                <segment title="缩图"/>
                             </segments>
                             <connections>
                                 <action selector="gallarySegmentControlAction:" destination="UtT-rg-rkQ" eventType="valueChanged" id="XDj-VF-kDW"/>
                             </connections>
                         </segmentedControl>
-                        <barButtonItem key="rightBarButtonItem" title="更多" id="Rvw-ye-6QH"/>
                     </navigationItem>
                     <connections>
                         <outlet property="gallarySegmentControl" destination="9Xs-Ij-wec" id="HY0-nv-w2n"/>

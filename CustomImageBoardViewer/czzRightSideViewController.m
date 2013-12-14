@@ -93,16 +93,16 @@
     } else if ([command isEqualToString:@"复制选定帖子的ID"]){
         [[UIPasteboard generalPasteboard] setString:[NSString stringWithFormat:@"%ld", (long)selectedThread.ID]];
         [[czzAppDelegate sharedAppDelegate] showToast:@"ID已复制"];
-    } else if ([command hasPrefix:@"打开图片链接"]){
-        [self downloadImage:selectedThread.imgScr];
+    } else if ([command hasPrefix:@"复制图片链接"]){
+        //[self downloadImage:selectedThread.imgScr];
         /*
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:imgURLString]];
         [self.viewDeckController toggleRightViewAnimated:YES];
          */
-        /*
-        [[UIPasteboard generalPasteboard] setString:imgURLString];
+        NSString *urlString = [@"http://h.acfun.tv" stringByAppendingPathComponent:[self.selectedThread.imgScr stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
+        [[UIPasteboard generalPasteboard] setString:urlString];
         [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"图片链接已复制"];
-         */
+        
     } else if ([command isEqualToString:@"回复主串"]){
         czzPostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
         [postViewController setThread:parentThread];
@@ -141,7 +141,7 @@
         if (selectedThread.imgScr.length != 0)
         {
             //provide an option to allow users to copy the link address of image URL
-            [threadDepandentCommand addObject:@"打开图片链接"];
+            [threadDepandentCommand addObject:@"复制图片链接"];
         }
         [commandTableView reloadData];
     }
@@ -163,6 +163,7 @@
     }
     [[czzImageCentre sharedInstance] downloadImageWithURL:imgURLString];
     [[czzAppDelegate sharedAppDelegate] showToast:@"正在下载图片"];
+    [self.viewDeckController toggleRightViewAnimated:YES];
 }
 
 #pragma notification handler

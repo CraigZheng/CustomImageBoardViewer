@@ -69,11 +69,18 @@
     self.refreshControl = refreCon;
     //register for nsnotification centre for image downloaded notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ThumbnailDownloaded" object:nil];
+    //settings flag for should or should not show images
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     self.viewDeckController.rightController = nil;
+    //if this app is run for the first time, show a brief tutorial
+     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"firstTimeRunning"]) {
+         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"firstTimeRunning"];
+         [[NSUserDefaults standardUserDefaults] synchronize];
+         [self showTutorial];
+     }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -95,6 +102,14 @@
     }
 }
 
+-(void)showTutorial{
+    [self.viewDeckController toggleTopViewAnimated:YES completion:^(IIViewDeckController *controller, BOOL b){
+        [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"拉下导航栏以查看更多选项"
+                                                                                duration:3.0
+                                                                                position:@"center"
+                                                                                   title:@"新功能"];
+    }];
+}
 
 #pragma UITableView datasource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -107,6 +122,9 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == threads.count){
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
+        //auto load more threads if the user default is set
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldAutoLoadMore"])
+            [self loadMoreThread:pageNumber];
         if (xmlDownloader) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"loading_cell_identifier"];
             UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
@@ -114,9 +132,10 @@
         }
         return cell;
     }
+
     NSString *cell_identifier = @"thread_cell_identifier";
     czzThread *thread = [threads objectAtIndex:indexPath.row];
-    //if image is present
+    //if image is present and settins is set to allow images to show
     if (thread.thImgSrc.length != 0){
         cell_identifier = @"image_thread_cell_identifier";
     }

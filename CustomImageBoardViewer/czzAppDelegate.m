@@ -57,6 +57,7 @@
     if (![[NSFileManager defaultManager] fileExistsAtPath:imgFolder]){
         [[NSFileManager defaultManager] createDirectoryAtPath:imgFolder withIntermediateDirectories:NO attributes:nil error:nil];
     }
+
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -81,4 +82,5 @@
 -(void)showToast:(NSString *)string{
     [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:string];
 }
+
 @end

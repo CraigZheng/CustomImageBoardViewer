@@ -18,5 +18,7 @@
 -(void)scanCurrentLocalImages;
 -(void)downloadThumbnailWithURL:(NSString*)imgURL;
 -(void)downloadImageWithURL:(NSString*)imgURL;
+-(Boolean)containsImageDownloaderWithURL:(NSString*)imgURL;
+-(void)stopAndRemoveImageDownloaderWithURL:(NSString*)imgURL;
 + (id)sharedInstance;
 @end

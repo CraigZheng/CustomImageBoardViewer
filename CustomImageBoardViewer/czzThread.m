@@ -122,7 +122,17 @@
     }
     
     if (self.thImgSrc.length != 0){
-        [[czzImageCentre sharedInstance] downloadThumbnailWithURL:self.thImgSrc];
+        //if is set to show image is presented
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldDownloadThumbnail"]){
+            //if its set to YES
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldDownloadThumbnail"]){
+                [[czzImageCentre sharedInstance] downloadThumbnailWithURL:self.thImgSrc];
+            } else {
+                self.thImgSrc = nil;
+            }
+        } else {
+            [[czzImageCentre sharedInstance] downloadThumbnailWithURL:self.thImgSrc];
+        }
     }
     
 }

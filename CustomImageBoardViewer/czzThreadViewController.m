@@ -11,12 +11,15 @@
 #import "czzThread.h"
 #import "Toast+UIView.h"
 #import "SMXMLDocument.h"
+#import "czzImageCentre.h"
+#import "czzImageDownloader.h"
+#import "czzAppDelegate.h"
 #import "czzRightSideViewController.h"
 #import "DACircularProgressView.h"
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
 
-@interface czzThreadViewController ()<czzXMLDownloaderDelegate>
+@interface czzThreadViewController ()<czzXMLDownloaderDelegate, UIDocumentInteractionControllerDelegate>
 @property NSString *baseURLString;
 @property NSString *targetURLString;
 @property NSMutableSet *originalThreadData;
@@ -28,6 +31,8 @@
 @property NSInteger pageNumber;
 @property NSMutableDictionary *downloadedImages;
 @property UIViewController *leftSideViewController;
+@property NSMutableSet *currentImageDownloaders;
+@property UIDocumentInteractionController *documentInteractionController;
 @end
 
 @implementation czzThreadViewController
@@ -44,6 +49,8 @@
 @synthesize leftSideViewController;
 @synthesize topViewController;
 @synthesize downloadedImages;
+@synthesize currentImageDownloaders;
+@synthesize documentInteractionController;
 
 - (void)viewDidLoad
 {
@@ -54,12 +61,14 @@
     originalThreadData = [NSMutableSet new];
     [originalThreadData addObject:parentThread];
     threads = [NSMutableArray new];
+    currentImageDownloaders = [[czzImageCentre sharedInstance] currentImageDownloaders];
     //add the UIRefreshControl to uitableview
     UIRefreshControl *refreCon = [[UIRefreshControl alloc] init];
     [refreCon addTarget:self action:@selector(refreshThread:) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreCon;
-    //register for nsnotification centre for image downloaded notification
+    //register for nsnotification centre for image downloaded notification and download progress update notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ThumbnailDownloaded" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaderUpdated:) name:@"ImageDownloaderProgressUpdated" object:nil];
     //configure the right view as menu
     UINavigationController *rightController = [self.storyboard instantiateViewControllerWithIdentifier:@"right_menu_view_controller"];    threadMenuViewController = [rightController.viewControllers objectAtIndex:0];
     threadMenuViewController.parentThread = parentThread;
@@ -105,6 +114,9 @@
     NSString *CellIdentifier = @"thread_cell_identifier";
     if (indexPath.row == threads.count){
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
+        //auto load more threads if the user default is set
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldAutoLoadMore"])
+            [self loadMoreThread:pageNumber];
         if (xmlDownloader) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"loading_cell_identifier"];
             UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
@@ -131,6 +143,8 @@
         UILabel *lockLabel = (UILabel*)[cell viewWithTag:8];
         UIImageView *previewImageView = (UIImageView*)[cell viewWithTag:9];
         previewImageView.hidden = YES;
+        DACircularProgressView *circularProgressView = (DACircularProgressView*)[cell viewWithTag:10];
+        circularProgressView.hidden = YES;
         if (thread.thImgSrc != 0){
             previewImageView.hidden = NO;
             [previewImageView setImage:[UIImage imageNamed:@"Icon.png"]];
@@ -143,12 +157,6 @@
             } else if ([downloadedImages objectForKey:thread.thImgSrc]){
                 [previewImageView setImage:[UIImage imageWithContentsOfFile:[downloadedImages objectForKey:thread.thImgSrc]]];
             }
-            DACircularProgressView *circularProgressView = [[DACircularProgressView alloc] initWithFrame:CGRectMake(0, 0, previewImageView.frame.size.width, previewImageView.frame.size.height)];
-            circularProgressView.roundedCorners = NO;
-            circularProgressView.trackTintColor = [UIColor lightGrayColor];
-            circularProgressView.alpha = 0.7;
-            [circularProgressView setProgress:0.5];
-            [previewImageView addSubview:circularProgressView];
         }
         //if harmful flag is set, display warning header of harmful thread
         NSMutableAttributedString *contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:thread.content];
@@ -302,7 +310,6 @@
 
 #pragma notification handler - image downloader
 -(void)imageDownloaded:(NSNotification*)notification{
-    //TODO: refresh the appropriate UITableViewCell
     NSString *imgURL = [notification.userInfo objectForKey:@"imageURLString"];
     if (imgURL){
         @try {
@@ -323,6 +330,35 @@
     }
 }
 
+#pragma notification handler - image downloading progress update
+-(void)imageDownloaderUpdated:(NSNotification*)notification{
+    czzImageDownloader *imgDownloader = [notification.userInfo objectForKey:@"ImageDownloader"];
+    if (imgDownloader){
+        NSInteger updateIndex = -1;
+        for (czzThread *thread in threads) {
+            if ([thread.imgScr isEqualToString:imgDownloader.imageURLString]){
+                updateIndex = [threads indexOfObject:thread];
+                break;
+            }
+        }
+        if (updateIndex > -1){
+            UITableViewCell *cellToUpdate = [threadTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:updateIndex inSection:0]];
+            DACircularProgressView *circularProgressView = (DACircularProgressView*)[cellToUpdate viewWithTag:10];
+            circularProgressView.trackTintColor = [UIColor lightGrayColor];
+            if (circularProgressView){
+                if (imgDownloader.progress < 1)
+                {
+                    circularProgressView.hidden = NO;
+                    circularProgressView.progress = imgDownloader.progress;
+                } else {
+                    circularProgressView.hidden = YES;
+                }
+                [circularProgressView setNeedsDisplay];
+            }
+        }
+    }
+}
+
 #pragma sort array
 -(NSArray*)sortTheGivenArray:(NSArray*)array{
     NSArray *sortedArray = [array sortedArrayUsingComparator:^NSComparisonResult(id a, id b){
@@ -335,5 +371,49 @@
 
 - (IBAction)moreAction:(id)sender {
     [self.viewDeckController toggleRightViewAnimated:YES];
+}
+
+#pragma UITapGestureRecognizer method
+//when user tapped in the ui image view, start/stop the download or show the downloaded image
+- (IBAction)userTapInImage:(id)sender {
+    UITapGestureRecognizer *tapGestureRecognizer = (UITapGestureRecognizer*)sender;
+    CGPoint tapLocation = [tapGestureRecognizer locationInView:self.tableView];
+    NSIndexPath *tapIndexPath = [self.tableView indexPathForRowAtPoint:tapLocation];
+    czzThread *tappedThread = [threads objectAtIndex:tapIndexPath.row];
+    for (NSString *file in [[czzImageCentre sharedInstance] currentLocalImages]) {
+        if ([file.lastPathComponent.lowercaseString isEqualToString:tappedThread.imgScr.lastPathComponent.lowercaseString])
+        {
+            [self showDocumentController:file];
+            return;
+        }
+    }
+    //Start or stop the image downloader
+    if ([[czzImageCentre sharedInstance] containsImageDownloaderWithURL:tappedThread.imgScr]){
+        [[czzImageCentre sharedInstance] stopAndRemoveImageDownloaderWithURL:tappedThread.imgScr];
+        [[czzAppDelegate sharedAppDelegate] showToast:@"图片下载被终止了"];
+    } else {
+        [[czzImageCentre sharedInstance] downloadImageWithURL:tappedThread.imgScr];
+        [[czzAppDelegate sharedAppDelegate] showToast:@"正在下载图片"];
+    }
+}
+
+#pragma UIDocumentInteractionController delegate
+-(UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller{
+    return self;
+}
+
+//show documentcontroller
+-(void)showDocumentController:(NSString*)path{
+    if (path){
+        if (self.isViewLoaded && self.view.window) {
+            if (documentInteractionController) {
+                [documentInteractionController dismissPreviewAnimated:YES];
+            }
+            documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:path]];
+            documentInteractionController.delegate = self;
+            [documentInteractionController presentPreviewAnimated:YES];
+            
+        }
+    }
 }
 @end

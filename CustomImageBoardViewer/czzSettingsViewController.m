@@ -58,6 +58,20 @@
         UISwitch *commandSwitch = (UISwitch*)[cell viewWithTag:4];
         [commandLabel setText:[switchCommands objectAtIndex:indexPath.row]];
         [commandSwitch addTarget:self action:@selector(switchDidChanged:) forControlEvents:UIControlEventValueChanged];
+        //set value for switch
+        if (indexPath.row == 0){
+            //显示图片
+            BOOL shouldLoadImages = YES;
+            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldDownloadThumbnail"])
+                shouldLoadImages = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldDownloadThumbnail"];
+            [commandSwitch setOn:shouldLoadImages];
+        } else if (indexPath.row == 1){
+            //自动加载
+            BOOL shouldAutoLoadMore = NO;
+            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldAutoLoadMore"])
+                shouldAutoLoadMore = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldAutoLoadMore"];
+            [commandSwitch setOn:shouldAutoLoadMore];
+        }
     } else if (indexPath.section == 1){
         UILabel *commandLabel = (UILabel*)[cell viewWithTag:5];
         [commandLabel setText:[regularCommands objectAtIndex:indexPath.row]];
@@ -66,7 +80,6 @@
 }
 
 #pragma UITableViewDelegate
-//TODO: touch the command
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 1){
         if (indexPath.row == 0){
@@ -86,7 +99,7 @@
 
 //pragma prepareCommands for the menu
 -(void)prepareCommands{
-    [switchCommands addObject:@"下载图片"];
+    [switchCommands addObject:@"显示图片"];
     [switchCommands addObject:@"下拉自动加载帖子"];
     [regularCommands addObject:@"图片缓存"];
     [regularCommands addObject:@"清空图片缓存"];
@@ -121,11 +134,23 @@
 
 #pragma UISwitch control handler
 -(void)switchDidChanged:(id)sender{
+    UISwitch *switchControl = (UISwitch*)sender;
     UIView* v = sender;
     while (![v isKindOfClass:[UITableViewCell class]])
         v = v.superview;
     UITableViewCell *parentCell = (UITableViewCell*)v;
-    NSIndexPath *selectedIndexPath = [settingsTableView indexPathForCell:parentCell];
-    NSLog(@"select %@.%d", selectedIndexPath, selectedIndexPath.row);
+    NSIndexPath *switchedIndexPath = [settingsTableView indexPathForCell:parentCell];
+    if (switchedIndexPath.section == 0){
+        if (switchedIndexPath.row == 0){
+            //下载图片
+            [[NSUserDefaults standardUserDefaults] setBool:switchControl.on forKey:@"shouldDownloadThumbnail"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            [[czzAppDelegate sharedAppDelegate] showToast:@"刷新后生效"];
+        } else if (switchedIndexPath.row == 1){
+            //自动加载帖子
+            [[NSUserDefaults standardUserDefaults] setBool:switchControl.on forKey:@"shouldAutoLoadMore"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+    }
 }
 @end

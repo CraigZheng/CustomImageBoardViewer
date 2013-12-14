@@ -102,12 +102,7 @@
     //3. check current image downloaders for image downloader with same target url
     //if image downloader with save target url is present, stop that one and add the new downloader in, and start the new one
     if ([currentImageDownloaders containsObject:imgDown]){
-        NSPredicate *sameTargetURL = [NSPredicate predicateWithFormat:@"targetURLString == %@", imgDown.targetURLString];
-        NSSet *downloadersWithSameTargetURL = [currentImageDownloaders filteredSetUsingPredicate:sameTargetURL];
-        for (czzImageDownloader *downloader in downloadersWithSameTargetURL) {
-            [downloader stop];
-            [currentImageDownloaders removeObject:downloader];
-        }
+        [self stopAndRemoveImageDownloaderWithURL:imgURL];
     }
     [imgDown start];
     [currentImageDownloaders addObject:imgDown];
@@ -128,6 +123,33 @@
     //3. check current image downloaders for image downloader with same target url
     //if image downloader with save target url is present, stop that one and add the new downloader in, and start the new one
     if ([currentImageDownloaders containsObject:imgDown]){
+        [self stopAndRemoveImageDownloaderWithURL:imgURL];
+    }
+    [imgDown start];
+    [currentImageDownloaders addObject:imgDown];
+}
+
+//Check if given image URL is currently being downloaded
+-(Boolean)containsImageDownloaderWithURL:(NSString *)imgURL{
+    //construct an img downloader with given URL
+    czzImageDownloader *imgDown = [[czzImageDownloader alloc] init];
+    imgDown.delegate = self;
+    imgDown.imageURLString = imgURL;
+    //if image downloader with save target url is present, return YES
+    if ([currentImageDownloaders containsObject:imgDown]){
+        return YES;
+    }
+    return NO;
+}
+
+//stop and remove the image downloader with given URL
+-(void)stopAndRemoveImageDownloaderWithURL:(NSString *)imgURL{
+    //construct an img downloader with given URL
+    czzImageDownloader *imgDown = [[czzImageDownloader alloc] init];
+    imgDown.delegate = self;
+    imgDown.imageURLString = imgURL;
+    //if image downloader with save target url is present, return YES
+    if ([currentImageDownloaders containsObject:imgDown]){
         NSPredicate *sameTargetURL = [NSPredicate predicateWithFormat:@"targetURLString == %@", imgDown.targetURLString];
         NSSet *downloadersWithSameTargetURL = [currentImageDownloaders filteredSetUsingPredicate:sameTargetURL];
         for (czzImageDownloader *downloader in downloadersWithSameTargetURL) {
@@ -135,19 +157,13 @@
             [currentImageDownloaders removeObject:downloader];
         }
     }
-    [imgDown start];
-    [currentImageDownloaders addObject:imgDown];
-    NSLog(@"");
 }
 
 #pragma czzImageDownloader delegate
--(void)downloadFinished:(NSString *)target success:(BOOL)success isThumbnail:(BOOL)isThumbnail saveTo:(NSString *)path{
-    //stop and delete the image downloader
-    NSPredicate *sameImgURL = [NSPredicate predicateWithFormat:@"imageURLString == %@", target];
-    NSSet *downloaderWithSameImageURLString = [currentImageDownloaders filteredSetUsingPredicate:sameImgURL];
+-(void)downloadFinished:(czzImageDownloader *)imgDownloader success:(BOOL)success isThumbnail:(BOOL)isThumbnail saveTo:(NSString *)path{
     //post a notification to inform other view controllers that a download is finished
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                     target, @"imageURLString",
+                                     imgDownloader.imageURLString, @"imageURLString",
                                      path, @"FilePath", nil];
     if (success){
         //inform receiver that download is successed
@@ -169,13 +185,23 @@
     else
         [[NSNotificationCenter defaultCenter]
              postNotificationName:@"ImageDownloaded" object:Nil userInfo:userInfo];
-    for (czzImageDownloader *downloader in downloaderWithSameImageURLString) {
-        [downloader stop];
-        [currentImageDownloaders removeObject:downloader];
+    //delete the image downloader
+    NSPredicate *sameImgURL = [NSPredicate predicateWithFormat:@"imageURLString == %@", imgDownloader.imageURLString];
+    NSSet *downloaderWithSameImageURLString = [currentImageDownloaders filteredSetUsingPredicate:sameImgURL];
+    for (czzImageDownloader *imgDown in downloaderWithSameImageURLString) {
+        [imgDown stop];
+        [currentImageDownloaders removeObject:imgDown];
     }
 }
 
--(void)downloadProgressUpdated:(czzImageDownloader *)imgDownloader expectedLength:(NSUInteger)total downloadedLength:(NSUInteger)downloaded{
-    
+
+-(void)downloaderProgressUpdated:(czzImageDownloader *)imgDownloader expectedLength:(NSUInteger)total downloadedLength:(NSUInteger)downloaded{
+    //inform full size image download update
+    if (!imgDownloader.isThumbnail){
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:@"ImageDownloaderProgressUpdated"
+         object:Nil
+         userInfo:[NSDictionary dictionaryWithObject:imgDownloader forKey:@"ImageDownloader"]];
+    }
 }
 @end

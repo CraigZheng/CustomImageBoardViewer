@@ -13,10 +13,10 @@
  delegate that notify a download has been finished - or failed
  */
 @protocol czzImageDownloaderDelegate <NSObject>
--(void)downloadFinished:(NSString*)imgURLString success:(BOOL)success isThumbnail:(BOOL)thumbnail saveTo:(NSString*)path;
+-(void)downloadFinished:(czzImageDownloader*)imgDownloader success:(BOOL)success isThumbnail:(BOOL)thumbnail saveTo:(NSString*)path;
 @optional
 -(void)downloadStarted:(czzImageDownloader*)imgDownloader;
--(void)downloadProgressUpdated:(czzImageDownloader*)imgDownloader expectedLength:(NSUInteger)total downloadedLength:(NSUInteger)downloaded;
+-(void)downloaderProgressUpdated:(czzImageDownloader*)imgDownloader expectedLength:(NSUInteger)total downloadedLength:(NSUInteger)downloaded;
 @end
 
 @interface czzImageDownloader : NSObject
@@ -28,4 +28,5 @@
 -(id)init;
 -(void)start;
 -(void)stop;
+-(double)progress;
 @end

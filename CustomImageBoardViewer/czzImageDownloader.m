@@ -62,7 +62,7 @@
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     //notify delegate that the download is failed
     if (delegate && [delegate respondsToSelector:@selector(downloadFinished:success:isThumbnail:saveTo:)]){
-        [delegate downloadFinished:imageURLString success:NO isThumbnail:isThumbnail saveTo:Nil];
+        [delegate downloadFinished:self success:NO isThumbnail:isThumbnail saveTo:Nil];
     }
 }
 
@@ -81,8 +81,8 @@
     [receivedData appendData:data];
     downloadedSize = receivedData.length;
     //inform delegate that a part of download is finished
-    if ([delegate respondsToSelector:@selector(downloadProgressUpdated:expectedLength:downloadedLength:)]){
-        [delegate downloadProgressUpdated:self expectedLength:(NSUInteger)fileSize downloadedLength:downloadedSize];
+    if ([delegate respondsToSelector:@selector(downloaderProgressUpdated:expectedLength:downloadedLength:)]){
+        [delegate downloaderProgressUpdated:self expectedLength:(NSUInteger)fileSize downloadedLength:downloadedSize];
     }
 }
 
@@ -101,20 +101,29 @@
     if (delegate && [delegate respondsToSelector:@selector(downloadFinished:success:isThumbnail:saveTo:)]){
         if (error){
             NSLog(@"%@", error);
-            [delegate downloadFinished:imageURLString success:NO isThumbnail:isThumbnail saveTo:filePath];
+            [delegate downloadFinished:self success:NO isThumbnail:isThumbnail saveTo:filePath];
         } else {
-            [delegate downloadFinished:imageURLString success:YES isThumbnail:isThumbnail saveTo:filePath];
+            [delegate downloadFinished:self success:YES isThumbnail:isThumbnail saveTo:filePath];
         }
     }
+}
+
+//current downloading progress
+-(double)progress{
+    double pro = (double)downloadedSize / (double)fileSize;
+    return pro;
 }
 
 //determine if 2 downloaders are equal by compare the target URL
 -(BOOL)isEqual:(id)object{
     if ([object isKindOfClass:[czzImageDownloader class]]) {
         czzImageDownloader *incomingDownloader = (czzImageDownloader*)object;
-        return [incomingDownloader.targetURLString isEqualToString:self.targetURLString];
+        return [incomingDownloader.imageURLString isEqualToString:self.imageURLString];
     }
     return NO;
 }
 
+-(NSUInteger)hash{
+    return imageURLString.hash;
+}
 @end

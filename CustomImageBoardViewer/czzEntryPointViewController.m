@@ -9,6 +9,8 @@
 #import "czzEntryPointViewController.h"
 #import "czzForumsViewController.h"
 #import "czzHomeViewController.h"
+#import "czzAppDelegate.h"
+#import "Toast+UIView.h"
 
 @interface czzEntryPointViewController ()
 
@@ -31,6 +33,10 @@
 	// Do any additional setup after loading the view.
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+}
+
 -(id)initWithCoder:(NSCoder *)aDecoder{
     UIStoryboard *storyboard;
     /*
@@ -48,4 +54,6 @@
 
     return self;
 }
+
+
 @end
