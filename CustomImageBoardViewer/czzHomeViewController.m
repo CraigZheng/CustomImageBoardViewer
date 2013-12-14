@@ -299,7 +299,8 @@
     }
     //load more info into the top view controller by setting the forumName property for viewDeckController.topController
     UINavigationController *topNavigationController = (UINavigationController*)self.viewDeckController.topController;
-    czzMoreInfoViewController *moreInfoViewController = (czzMoreInfoViewController*)topNavigationController.topViewController;
+    //the root view of top view controller should be the czzMoreInforViewController
+    czzMoreInfoViewController *moreInfoViewController = (czzMoreInfoViewController*)topNavigationController.viewControllers[0];
     [moreInfoViewController setForumName:forumname];
     //make busy
     [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToastActivity];

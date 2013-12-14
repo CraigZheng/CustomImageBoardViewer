@@ -12,6 +12,7 @@
 #import "Toast+UIView.h"
 #import "SMXMLDocument.h"
 #import "czzRightSideViewController.h"
+#import "DACircularProgressView.h"
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
 
@@ -142,6 +143,12 @@
             } else if ([downloadedImages objectForKey:thread.thImgSrc]){
                 [previewImageView setImage:[UIImage imageWithContentsOfFile:[downloadedImages objectForKey:thread.thImgSrc]]];
             }
+            DACircularProgressView *circularProgressView = [[DACircularProgressView alloc] initWithFrame:CGRectMake(0, 0, previewImageView.frame.size.width, previewImageView.frame.size.height)];
+            circularProgressView.roundedCorners = NO;
+            circularProgressView.trackTintColor = [UIColor lightGrayColor];
+            circularProgressView.alpha = 0.7;
+            [circularProgressView setProgress:0.5];
+            [previewImageView addSubview:circularProgressView];
         }
         //if harmful flag is set, display warning header of harmful thread
         NSMutableAttributedString *contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:thread.content];

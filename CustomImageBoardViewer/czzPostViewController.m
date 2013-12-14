@@ -11,6 +11,7 @@
 #import "Toast+UIView.h"
 #import "SMXMLDocument.h"
 #import "czzPostSender.h"
+#import "czzAppDelegate.h"
 
 @interface czzPostViewController () <czzPostSenderDelegate>
 @property NSString *targetURLString;
@@ -81,7 +82,7 @@
     if (status) {
         [self dismissViewControllerAnimated:YES completion:^{
             //dismiss this view controller and upon its dismiss, notify user that the message is posted
-            [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"帖子已发"];
+            [[czzAppDelegate sharedAppDelegate] showToast:@"帖子已发"];
         }];
     } else {
         [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:message duration:3.0 position:@"top" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];

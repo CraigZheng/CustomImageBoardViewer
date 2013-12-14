@@ -37,8 +37,7 @@
 }
 - (id)init {
     if (self = [super init]) {
-        currentLocalImages = [NSMutableSet new];
-        currentLocalThumbnails = [NSMutableSet new];
+        [self scanCurrentLocalImages];
         currentImageDownloaders = [NSMutableSet new];
     }
     return self;
@@ -47,7 +46,7 @@
 /*
  scan the library for downloaded images
  */
--(void)scanCurrentLocalThumbnails{
+-(void)scanCurrentLocalImages{
     NSString* libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *thumbnailFolder = [libraryPath stringByAppendingPathComponent:@"Thumbnails"];
     NSString *imageFolder = [libraryPath stringByAppendingPathComponent:@"Images"];
@@ -55,16 +54,16 @@
     //files in thumbnail folder
     NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:thumbnailFolder error:Nil];
     for (NSString *entity in files) {
-        NSString *file = [libraryPath stringByAppendingPathComponent:entity];
+        NSString *file = [thumbnailFolder stringByAppendingPathComponent:entity];
         if ([file.pathExtension.lowercaseString isEqualToString:@"jpg"] ||
             [file.pathExtension.lowercaseString isEqualToString:@"jpeg"] ||
             [file.pathExtension.lowercaseString isEqualToString:@"png"] ||
             [file.pathExtension.lowercaseString isEqualToString:@"gif"])
         {
-            UIImage *previewImage = [UIImage imageWithContentsOfFile:file];
-            //if the given file can be construct as an image, add the path to current local images set
-            if (previewImage)
-               [tempImgs addObject:file];
+             UIImage *previewImage = [UIImage imageWithContentsOfFile:file];
+             //if the given file can be construct as an image, add the path to current local images set
+             if (previewImage)
+             [tempImgs addObject:file];
         }
     }
     //Images folder
@@ -72,7 +71,7 @@
     tempImgs = [NSMutableSet new];
     files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:imageFolder error:Nil];
     for (NSString *entity in files) {
-        NSString *file = [libraryPath stringByAppendingPathComponent:entity];
+        NSString *file = [imageFolder stringByAppendingPathComponent:entity];
         if ([file.pathExtension.lowercaseString isEqualToString:@"jpg"] ||
             [file.pathExtension.lowercaseString isEqualToString:@"jpeg"] ||
             [file.pathExtension.lowercaseString isEqualToString:@"png"] ||
@@ -103,7 +102,7 @@
     //3. check current image downloaders for image downloader with same target url
     //if image downloader with save target url is present, stop that one and add the new downloader in, and start the new one
     if ([currentImageDownloaders containsObject:imgDown]){
-        NSPredicate *sameTargetURL = [NSPredicate predicateWithFormat:@"imageURLString == %@", imgDown.imageURLString];
+        NSPredicate *sameTargetURL = [NSPredicate predicateWithFormat:@"targetURLString == %@", imgDown.targetURLString];
         NSSet *downloadersWithSameTargetURL = [currentImageDownloaders filteredSetUsingPredicate:sameTargetURL];
         for (czzImageDownloader *downloader in downloadersWithSameTargetURL) {
             [downloader stop];
@@ -129,7 +128,7 @@
     //3. check current image downloaders for image downloader with same target url
     //if image downloader with save target url is present, stop that one and add the new downloader in, and start the new one
     if ([currentImageDownloaders containsObject:imgDown]){
-        NSPredicate *sameTargetURL = [NSPredicate predicateWithFormat:@"imageURLString == %@", imgDown.imageURLString];
+        NSPredicate *sameTargetURL = [NSPredicate predicateWithFormat:@"targetURLString == %@", imgDown.targetURLString];
         NSSet *downloadersWithSameTargetURL = [currentImageDownloaders filteredSetUsingPredicate:sameTargetURL];
         for (czzImageDownloader *downloader in downloadersWithSameTargetURL) {
             [downloader stop];
@@ -138,6 +137,7 @@
     }
     [imgDown start];
     [currentImageDownloaders addObject:imgDown];
+    NSLog(@"");
 }
 
 #pragma czzImageDownloader delegate
@@ -173,5 +173,9 @@
         [downloader stop];
         [currentImageDownloaders removeObject:downloader];
     }
+}
+
+-(void)downloadProgressUpdated:(czzImageDownloader *)imgDownloader expectedLength:(NSUInteger)total downloadedLength:(NSUInteger)downloaded{
+    
 }
 @end

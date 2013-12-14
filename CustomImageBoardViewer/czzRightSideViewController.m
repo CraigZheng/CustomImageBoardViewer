@@ -13,6 +13,7 @@
 #import "Toast+UIView.h"
 #import "czzBlacklistEntity.h"
 #import "czzImageCentre.h"
+#import "czzAppDelegate.h"
 
 @interface czzRightSideViewController ()<UITableViewDataSource, UITableViewDelegate, UIDocumentInteractionControllerDelegate, NSURLConnectionDelegate>
 @property NSMutableArray *replyCommand;
@@ -88,10 +89,10 @@
     NSString *command = [commandArray objectAtIndex:indexPath.row];
     if ([command isEqualToString:@"复制内容"]){
         [[UIPasteboard generalPasteboard] setString:selectedThread.content.string];
-        [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"内容已复制"];
+        [[czzAppDelegate sharedAppDelegate] showToast:@"内容已复制"];
     } else if ([command isEqualToString:@"复制选定帖子的ID"]){
         [[UIPasteboard generalPasteboard] setString:[NSString stringWithFormat:@"%ld", (long)selectedThread.ID]];
-        [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"ID已复制"];
+        [[czzAppDelegate sharedAppDelegate] showToast:@"ID已复制"];
     } else if ([command hasPrefix:@"打开图片链接"]){
         [self downloadImage:selectedThread.imgScr];
         /*
@@ -161,7 +162,7 @@
         }
     }
     [[czzImageCentre sharedInstance] downloadImageWithURL:imgURLString];
-    [self.view makeToast:@"正在下载图片"];
+    [[czzAppDelegate sharedAppDelegate] showToast:@"正在下载图片"];
 }
 
 #pragma notification handler

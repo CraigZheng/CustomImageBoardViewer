@@ -11,10 +11,11 @@
 
 @interface czzImageDownloader()<NSURLConnectionDelegate>
 @property NSURLConnection *urlConn;
-@property NSString *targetURLString;
 @property NSMutableData *receivedData;
 @property NSString *baseURLString;
 @property NSString *fileName;
+@property long long fileSize;
+@property NSUInteger downloadedSize;
 @end
 
 @implementation czzImageDownloader
@@ -26,6 +27,8 @@
 @synthesize fileName;
 @synthesize delegate;
 @synthesize isThumbnail;
+@synthesize fileSize;
+@synthesize downloadedSize;
 
 -(id)init{
     self = [super init];
@@ -41,7 +44,6 @@
     if (urlConn){
         [urlConn cancel];
     }
-    targetURLString = [baseURLString stringByAppendingPathComponent:[imageURLString stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:targetURLString]];
     urlConn = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self startImmediately:YES];
 }
@@ -51,6 +53,11 @@
         [urlConn cancel];
 }
 
+#pragma setter for imgURLString
+-(void)setImageURLString:(NSString *)urlstring{
+    imageURLString = urlstring;
+    targetURLString = [baseURLString stringByAppendingPathComponent:[imageURLString stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
+}
 #pragma NSURLConnection delegate
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     //notify delegate that the download is failed
@@ -62,14 +69,21 @@
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
     receivedData = [NSMutableData new];
     fileName = response.suggestedFilename;
+    fileSize = [response expectedContentLength];
+    downloadedSize = 0;
     //notify delegate that download is started
     if (delegate && [delegate respondsToSelector:@selector(downloadStarted:)]){
-        [delegate downloadStarted:imageURLString];
+        [delegate downloadStarted:self];
     }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
     [receivedData appendData:data];
+    downloadedSize = receivedData.length;
+    //inform delegate that a part of download is finished
+    if ([delegate respondsToSelector:@selector(downloadProgressUpdated:expectedLength:downloadedLength:)]){
+        [delegate downloadProgressUpdated:self expectedLength:(NSUInteger)fileSize downloadedLength:downloadedSize];
+    }
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection{
@@ -102,4 +116,5 @@
     }
     return NO;
 }
+
 @end

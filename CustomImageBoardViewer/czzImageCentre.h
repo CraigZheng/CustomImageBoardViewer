@@ -15,6 +15,7 @@
 @property NSMutableSet *currentImageDownloaders;
 @property NSMutableSet *currentLocalImages;
 @property NSMutableSet *currentLocalThumbnails;
+-(void)scanCurrentLocalImages;
 -(void)downloadThumbnailWithURL:(NSString*)imgURL;
 -(void)downloadImageWithURL:(NSString*)imgURL;
 + (id)sharedInstance;
