@@ -10,6 +10,7 @@
 
 @implementation czzPost
 @synthesize name, email,title, content, imgData, access_token;
+@synthesize parentID, forumName;
 
 //during the initialisation, init the access token with data from the last time
 -(id)init{
@@ -22,38 +23,98 @@
     return self;
 }
 
--(NSData *)requestBody{
+-(NSMutableData *)makeRequestBody{
     @try {
         if ([self isReady]) {
+            /*
+            NSString *boundary = @"-0-x-K-h-T-m-L-b-O-u-N-d-A-r-Y-";
+            NSString *kNewLine = @"\r\n";
+            NSMutableData *body = [NSMutableData new];
+            */
+            NSMutableDictionary *params = [NSMutableDictionary new];
+            
             NSMutableData *requestData = [NSMutableData new];
             //init the access_token from file
-
+            if (forumName && forumName.length > 0){
+                [params setObject:forumName forKey:@"forumName"];
+            }
+            if (parentID > 0){
+                [params setObject:[NSString stringWithFormat:@"%d", parentID] forKey:@"parentID"];
+                
+                NSString *parentIDPara = [NSString stringWithFormat:@"&parentID=%ld", (long)parentID];
+                [requestData appendData:[parentIDPara dataUsingEncoding:NSUTF8StringEncoding]];
+            }
             if (access_token){
+                [params setObject:access_token forKey:@"access_token"];
+                
+                
                 NSData *access_token_data = [[NSString stringWithFormat:@"&access_token=%@", access_token] dataUsingEncoding:NSUTF8StringEncoding];
                 [requestData appendData:access_token_data];
+                
             }
-            if (name){
+            if (name && name.length > 0){
+                [params setObject:name forKey:@"name"];
+
+                
                 NSData *nameData = [[NSString stringWithFormat:@"&name=%@", name] dataUsingEncoding:NSUTF8StringEncoding];
                 [requestData appendData:nameData];
+                
             }
-            if (email){
+            if (email && email.length > 0){
+                [params setObject:email forKey:@"email"];
+
+                
                 NSData *emailData = [[NSString stringWithFormat:@"&email=%@", email]
                                      dataUsingEncoding:NSUTF8StringEncoding];
                 [requestData appendData:emailData];
+                
             }
-            if (title){
+            if (title && title.length > 0){
+                [params setObject:title forKey:@"title"];
+
+                
                 NSData *titleData = [[NSString stringWithFormat:@"&title=%@", title]
                                      dataUsingEncoding:NSUTF8StringEncoding];
                 [requestData appendData:titleData];
+                 
             }
-            if (content){
+            if (content && content.length > 0){
+                [params setObject:content forKey:@"content"];
+
+                
                 NSData *contentData = [[NSString stringWithFormat:@"&content=%@", content] dataUsingEncoding:NSUTF8StringEncoding];
                 [requestData appendData:contentData];
+                 //[body appendData:contentData];
             }
+            
+            /*
+            for (NSString *key in params.allKeys) {
+                NSData *value = [[NSString stringWithFormat:@"%@", params[key]] dataUsingEncoding:NSUTF8StringEncoding];
+                
+                [body appendData:[[NSString stringWithFormat:@"--%@%@", boundary, kNewLine] dataUsingEncoding:NSUTF8StringEncoding]];
+                [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"", key] dataUsingEncoding:NSUTF8StringEncoding]];
+                // For simple data types, such as text or numbers, there's no need to set the content type
+                [body appendData:[[NSString stringWithFormat:@"%@%@", kNewLine, kNewLine] dataUsingEncoding:NSUTF8StringEncoding]];
+                [body appendData:value];
+                [body appendData:[kNewLine dataUsingEncoding:NSUTF8StringEncoding]];
+            }
+             */
+        
             if (imgData){
-                //TODO: ready the image data in reqeust
+                /*
+                NSString* str = [self stringWithContentsOfBinaryData:imgData];
+                [requestData appendData:[[NSString stringWithFormat:@"&file=%@", str] dataUsingEncoding:NSUTF8StringEncoding]];
+                 */
+                /*
+                [body appendData:[[NSString stringWithFormat:@"--%@%@", boundary, kNewLine] dataUsingEncoding:NSUTF8StringEncoding]];
+                [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"image.jpg\"%@", kNewLine] dataUsingEncoding:NSUTF8StringEncoding]];
+                [body appendData:[[NSString stringWithFormat:@"Content-Type: image/png"] dataUsingEncoding:NSUTF8StringEncoding]];
+                [body appendData:[[NSString stringWithFormat:@"%@%@", kNewLine, kNewLine] dataUsingEncoding:NSUTF8StringEncoding]];
+                [body appendData:imgData];
+                [body appendData:[kNewLine dataUsingEncoding:NSUTF8StringEncoding]];
+                 */
             }
-
+            //return body;
             return requestData;
         }
     }
@@ -75,5 +136,17 @@
         [[NSUserDefaults standardUserDefaults] setObject:access_token forKey:@"access_token"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
+}
+
+-(NSString*)stringWithContentsOfBinaryData:(NSData*) data{
+    NSUInteger capacity = [data length] * 2;
+    NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:capacity];
+    const unsigned char *dataBuffer = [data bytes];
+    NSInteger i;
+    for (i=0; i<[data length]; ++i) {
+        [stringBuffer appendFormat:@"%02X", (NSUInteger)dataBuffer[i]];
+    }
+    
+    return stringBuffer;
 }
 @end

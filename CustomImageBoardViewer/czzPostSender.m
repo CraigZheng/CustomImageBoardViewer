@@ -26,7 +26,6 @@
 @synthesize targetURL, forumName, parentID;
 @synthesize urlRequest, requestBody;
 @synthesize receivedResponse;
-
 -(id)init{
     self = [super init];
     if (self){
@@ -38,8 +37,9 @@
 
 -(void)sendPost{
     if (myPost.isReady && urlRequest){
-        [requestBody appendData:myPost.requestBody];
+        [requestBody appendData:myPost.makeRequestBody];
         [urlRequest setHTTPBody:requestBody];
+        NSLog(@"%@", [[NSString alloc] initWithData:urlRequest.HTTPBody encoding:NSUTF8StringEncoding] );
         urlConn = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self startImmediately:YES];
     } else {
         if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
@@ -102,6 +102,7 @@
             [self.delegate statusReceived:success message:message];
         }
     }
+    NSLog(@"%@", [[NSString alloc] initWithData:xmlData encoding:NSUTF8StringEncoding]);
 }
 
 #pragma Setters, also sets the urlRequest and the first parameter(either parentID or forumName)
@@ -110,21 +111,24 @@
     urlRequest = [self createMutableURLRequestWithURL:targetURL];
 }
 
+#pragma Setters, while setting the members of this class, also set the member of myPost object
+
 -(void)setForumName:(NSString *)f{
     forumName = f;
+    myPost.forumName = [self encodeNSString:forumName];
     //add the forumName parameter to the request
-    NSString *forumNamePara = [NSString stringWithFormat:@"&forumName=%@", self.forumName];
-    [requestBody appendData:[forumNamePara dataUsingEncoding:NSUTF8StringEncoding]];
+    //NSString *forumNamePara = [NSString stringWithFormat:@"&forumName=%@", self.forumName];
+    //[requestBody appendData:[forumNamePara dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
 -(void)setParentID:(NSInteger)p{
     parentID = p;
+    myPost.parentID = parentID;
     //parentID parameter goes into request body
-    NSString *parentIDPara = [NSString stringWithFormat:@"&parentID=%ld", (long)parentID];
-    [requestBody appendData:[parentIDPara dataUsingEncoding:NSUTF8StringEncoding]];
+    //NSString *parentIDPara = [NSString stringWithFormat:@"&parentID=%ld", (long)parentID];
+    //[requestBody appendData:[parentIDPara dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
-#pragma Setters, while setting the members of this class, also set the member of myPost object
 -(void)setName:(NSString *)n{
     name = n;
     myPost.name = [self encodeNSString:name];
@@ -153,8 +157,18 @@
 -(NSMutableURLRequest*)createMutableURLRequestWithURL:(NSURL*)url{
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20];
     [request setHTTPMethod:@"POST"];
+    /*
+    if (YES) {
+     
+        NSString *boundary = @"-0-x-K-h-T-m-L-b-O-u-N-d-A-r-Y-";
+        NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary];
+        //NSString *contentType = [NSString stringWithFormat:@"application/x-www-form-urlencoded; boundary=%@",boundary];
+        [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
+    }
+     */
     //specify xml as return format
     [request setValue:@"application/xml" forHTTPHeaderField:@"Accept"];
+    
     return request;
 }
 

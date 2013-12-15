@@ -19,5 +19,6 @@
 
 - (IBAction)postAction:(id)sender;
 - (IBAction)cancelAction:(id)sender;
+- (IBAction)pickImageAction:(id)sender;
 - (IBAction)clearAction:(id)sender;
 @end

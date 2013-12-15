@@ -326,10 +326,11 @@
     [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToastActivity];
 }
 
-#pragma image downloader
+#pragma notification handler - image downloaded
 -(void)imageDownloaded:(NSNotification*)notification{
     czzImageDownloader *imgDownloader = [notification.userInfo objectForKey:@"ImageDownloader"];
-    if (imgDownloader){
+    BOOL success = [[notification.userInfo objectForKey:@"Success"] boolValue];
+    if (imgDownloader && success){
         @try {
             if ([notification.userInfo objectForKey:@"FilePath"])
                 //store the given file save path

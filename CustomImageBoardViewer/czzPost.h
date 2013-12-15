@@ -14,9 +14,11 @@
 @property NSString *title;
 @property NSString *content;
 @property NSString *access_token;
+@property NSInteger parentID;
+@property NSString *forumName;
 
 @property NSData *imgData;
 -(BOOL)isReady;
--(NSData*)requestBody;
+-(NSMutableData*)makeRequestBody;
 -(void)saveAccessToken;
 @end

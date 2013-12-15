@@ -13,7 +13,7 @@
 #import "czzPostSender.h"
 #import "czzAppDelegate.h"
 
-@interface czzPostViewController () <czzPostSenderDelegate>
+@interface czzPostViewController () <czzPostSenderDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property NSString *targetURLString;
 @property NSMutableData *receivedResponse;
 @property czzPostSender *postSender;
@@ -71,10 +71,30 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (IBAction)pickImageAction:(id)sender {
+    UIImagePickerController *mediaUI = [[UIImagePickerController alloc] init];
+    mediaUI.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    mediaUI.allowsEditing = NO;
+    mediaUI.delegate = self;
+    [self presentViewController:mediaUI animated:YES completion:nil];
+}
+
 //delete everything from the text view
 - (IBAction)clearAction:(id)sender {
     postTextView.text = @"";
     [postTextView resignFirstResponder];
+}
+
+#pragma UIImagePickerController delegate
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+    UIImage *pickedImage = [info valueForKey:UIImagePickerControllerOriginalImage];
+    [postSender setImgData:UIImageJPEGRepresentation(pickedImage, 1.0)];
+    [self.view makeToast:@"图片已选" duration:2.0 position:@"center" image:pickedImage];
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma czzPostSender delegate
@@ -86,7 +106,6 @@
         }];
     } else {
         [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:message duration:3.0 position:@"top" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
-
     }
     [postButton setEnabled:YES];
 }

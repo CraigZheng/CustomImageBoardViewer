@@ -310,6 +310,10 @@
 #pragma notification handler - image downloader
 -(void)imageDownloaded:(NSNotification*)notification{
     czzImageDownloader *imgDownloader = [notification.userInfo objectForKey:@"ImageDownloader"];
+    BOOL success = [[notification.userInfo objectForKey:@"Success"] boolValue];
+    if (!success){
+        return;
+    }
     if (imgDownloader && imgDownloader.isThumbnail){
         @try {
             if ([notification.userInfo objectForKey:@"FilePath"])
