@@ -36,6 +36,7 @@
 }
 
 -(void)sendPost{
+    urlRequest = [self createMutableURLRequestWithURL:targetURL];
     if (myPost.isReady && urlRequest){
         [requestBody appendData:myPost.makeRequestBody];
         [urlRequest setHTTPBody:requestBody];
@@ -46,6 +47,7 @@
         {
             [self.delegate statusReceived:NO message:@"请检查帖子内容"];
         }
+        
     }
 }
 
@@ -55,6 +57,7 @@
     if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
     {
         [self.delegate statusReceived:NO message:[NSString stringWithFormat:@"无法发帖, 错误:网络错误"]];
+        NSLog(@"%@", error);
     }
 }
 
@@ -108,7 +111,6 @@
 #pragma Setters, also sets the urlRequest and the first parameter(either parentID or forumName)
 -(void)setTargetURL:(NSURL *)t{
     targetURL = t;
-    urlRequest = [self createMutableURLRequestWithURL:targetURL];
 }
 
 #pragma Setters, while setting the members of this class, also set the member of myPost object
@@ -157,15 +159,13 @@
 -(NSMutableURLRequest*)createMutableURLRequestWithURL:(NSURL*)url{
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20];
     [request setHTTPMethod:@"POST"];
-    /*
-    if (YES) {
-     
+    if (imgData) {
+        [request setTimeoutInterval:120];
         NSString *boundary = @"-0-x-K-h-T-m-L-b-O-u-N-d-A-r-Y-";
         NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary];
         //NSString *contentType = [NSString stringWithFormat:@"application/x-www-form-urlencoded; boundary=%@",boundary];
         [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
     }
-     */
     //specify xml as return format
     [request setValue:@"application/xml" forHTTPHeaderField:@"Accept"];
     
@@ -173,6 +173,9 @@
 }
 
 -(NSString*)encodeNSString:(NSString*)unencodedString{
+    //do nothing
+    return unencodedString;
+    /*
     NSString * encodedString = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
                                                                                    NULL,
                                                                                    (CFStringRef)unencodedString,
@@ -180,5 +183,6 @@
                                                                                    (CFStringRef)@"!*'();:@&=+$,/?%#[]",
                                                                                    kCFStringEncodingUTF8 ));
     return encodedString;
+     */
 }
 @end

@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "IIViewDeckController.h"
+#import "GADBannerView.h"
 
 @interface czzMoreInfoViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIWebView *headerTextWebView;
 @property (nonatomic) NSString *forumName;
+@property GADBannerView *bannerView_;
+
 - (IBAction)sendEmailAction:(id)sender;
 - (IBAction)homePageAction:(id)sender;
 @end

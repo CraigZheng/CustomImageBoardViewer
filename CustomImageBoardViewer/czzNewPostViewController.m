@@ -13,7 +13,7 @@
 #import "czzPostSender.h"
 #import "czzBlacklistSender.h"
 
-@interface czzNewPostViewController ()<czzXMLDownloaderDelegate, czzPostSenderDelegate>
+@interface czzNewPostViewController ()<czzXMLDownloaderDelegate, czzPostSenderDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property NSString *targetURLString;
 @property NSURLConnection *urlConn;
 @property NSMutableData *receivedResponse;
@@ -34,13 +34,13 @@
 	// Do any additional setup after loading the view.
     postTextView.inputAccessoryView = postToolbar;
     self.postNaviBar.topItem.title = [NSString stringWithFormat:@"%@:%@",self.postNaviBar.topItem.title , forumName];
-    //URLs
-    targetURLString = @"http://h.acfun.tv/api/thread/post_root";
     //make a new czzPostSender object, and assign the appropriate target URL and delegate
     postSender = [czzPostSender new];
     postSender.targetURL = [NSURL URLWithString:targetURLString];
     postSender.forumName = forumName;
     postSender.delegate = self;
+    //URLs
+    targetURLString = @"http://h.acfun.tv/api/thread/post_root";
     // observe keyboard hide and show notifications to resize the text view appropriately
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
@@ -50,6 +50,12 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+
+
 }
 
 - (IBAction)postAction:(id)sender {
@@ -80,6 +86,27 @@
     [postTextView resignFirstResponder];
 }
 
+- (IBAction)pickImageAction:(id)sender {
+    UIImagePickerController *mediaUI = [[UIImagePickerController alloc] init];
+    mediaUI.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    mediaUI.allowsEditing = NO;
+    mediaUI.delegate = self;
+    [self presentViewController:mediaUI animated:YES completion:nil];
+
+}
+
+#pragma UIImagePickerController delegate
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+    UIImage *pickedImage = [info valueForKey:UIImagePickerControllerOriginalImage];
+    [postSender setImgData:UIImageJPEGRepresentation(pickedImage, 1.0)];
+    [self.view makeToast:@"图片已选" duration:2.0 position:@"center" image:pickedImage];
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma czzPostSender delegate
 -(void)statusReceived:(BOOL)status message:(NSString *)message{
     if (status) {
@@ -91,6 +118,10 @@
         [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:message duration:3.0 position:@"top" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
         
     }
+    [self performSelectorInBackground:@selector(enablePostButton) withObject:Nil];
+}
+
+-(void)enablePostButton{
     [postButton setEnabled:YES];
 }
 

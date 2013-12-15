@@ -708,6 +708,11 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Rs9-6M-KP3"/>
+                                    <barButtonItem title="图片" id="7YM-Pu-EdH">
+                                        <connections>
+                                            <action selector="pickImageAction:" destination="4co-Qn-de7" id="9w5-cg-HK9"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem title="发表" id="whq-Xc-OmJ">
                                         <connections>
                                             <action selector="postAction:" destination="4co-Qn-de7" id="KhC-AN-GSy"/>
@@ -983,6 +988,11 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="GwM-q5-wOs"/>
+                                    <barButtonItem title="图片" id="2OC-sa-qCD">
+                                        <connections>
+                                            <action selector="pickImageAction:" destination="J6Q-bT-kkR" id="X7M-DR-1ES"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem title="发表" id="Tpw-kC-6sf">
                                         <connections>
                                             <action selector="postAction:" destination="J6Q-bT-kkR" id="b40-MO-YXh"/>

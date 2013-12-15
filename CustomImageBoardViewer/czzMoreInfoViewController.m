@@ -21,12 +21,26 @@
 @synthesize xmlDownloader;
 @synthesize baseURL;
 @synthesize forumName;
+@synthesize bannerView_;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     baseURL = @"http://h.acfun.tv/api/forum/get?forumName=";
+    //admob module
+    bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+    bannerView_.adUnitID = @"a151ef285f8e0dd";
+    bannerView_.rootViewController = self;
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    //position of the ad
+    [bannerView_ setFrame:CGRectMake(0, self.view.bounds.size.height, bannerView_.bounds.size.width,
+                                     bannerView_.bounds.size.height)];
+    [bannerView_ loadRequest:[GADRequest request]];
+    [self.view addSubview:bannerView_];
 }
 
 /*upon setting the forum name, this view controller should download relevent info from the server, 

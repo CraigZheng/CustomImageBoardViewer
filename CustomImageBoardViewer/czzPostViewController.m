@@ -59,6 +59,11 @@
                                                object:nil];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+
+}
+
 - (IBAction)postAction:(id)sender {
     postSender.content = postTextView.text;
     [postSender sendPost];
@@ -107,6 +112,10 @@
     } else {
         [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:message duration:3.0 position:@"top" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
     }
+    [self performSelectorInBackground:@selector(enablePostButton) withObject:Nil];
+}
+
+-(void)enablePostButton{
     [postButton setEnabled:YES];
 }
 

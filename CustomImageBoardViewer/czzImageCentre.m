@@ -177,7 +177,7 @@
     } else {
         //inform receiver that download is failed
         [userInfo setObject:[NSNumber numberWithBool:NO] forKey:@"Success"];
-        [[czzAppDelegate sharedAppDelegate] showToast:@"图片下载失败：请检查网络和储存"];
+        [[czzAppDelegate sharedAppDelegate] showToast:@"图片下载失败：请检查网络和储存空间"];
     }
     if (isThumbnail)
         [[NSNotificationCenter defaultCenter]
