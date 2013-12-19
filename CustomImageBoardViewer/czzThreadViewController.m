@@ -85,7 +85,7 @@
     //same to top controller
     leftSideViewController = self.viewDeckController.leftController;
     topViewController = self.viewDeckController.topController;
-    self.viewDeckController.topController = nil;
+    //self.viewDeckController.topController = nil;
     self.viewDeckController.leftController = nil;
 }
 
@@ -93,7 +93,7 @@
     [super viewWillDisappear:animated];
     //reassign the leftSideViewController back to leftController of the view deck controller
     self.viewDeckController.leftController = leftSideViewController;
-    self.viewDeckController.topController = topViewController;
+    //self.viewDeckController.topController = topViewController;
     [self.refreshControl endRefreshing];
     [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] hideToastActivity];
 }

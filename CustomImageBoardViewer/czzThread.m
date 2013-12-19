@@ -109,13 +109,16 @@
             if (self.blockContent)
                 self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
             self.blockImage = blacklistEntity.image;
-            if (self.blockImage)
+            if (self.blockImage){
                 self.imgScr = nil;
+                self.thImgSrc = nil;
+            }
             self.blockAll = blacklistEntity.block;
             if (self.blockAll)
             {
                 self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
                 self.imgScr = nil;
+                self.thImgSrc = nil;
             }
             break;
         }
