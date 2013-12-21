@@ -46,6 +46,7 @@
 		4448C2A7180FF55A00D2CD76 /* czzBlacklistDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2A6180FF55A00D2CD76 /* czzBlacklistDownloader.m */; };
 		4448C2AA180FF6C600D2CD76 /* czzBlacklistSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2A9180FF6C600D2CD76 /* czzBlacklistSender.m */; };
 		4448C2AD18100C6B00D2CD76 /* czzBlacklist.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2AC18100C6B00D2CD76 /* czzBlacklist.m */; };
+		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
 		44B86453185D807800C29B92 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B86451185D807800C29B92 /* libGoogleAdMobAds.a */; };
 		44B86454185D807800C29B92 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 44B86452185D807800C29B92 /* README.txt */; };
 		44B86457185D80A300C29B92 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B86456185D80A300C29B92 /* AdSupport.framework */; };
@@ -164,6 +165,8 @@
 		4448C2A9180FF6C600D2CD76 /* czzBlacklistSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzBlacklistSender.m; sourceTree = "<group>"; };
 		4448C2AB18100C6B00D2CD76 /* czzBlacklist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzBlacklist.h; sourceTree = "<group>"; };
 		4448C2AC18100C6B00D2CD76 /* czzBlacklist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzBlacklist.m; sourceTree = "<group>"; };
+		4462EF2318659BC200E6BE78 /* czzFavouriteManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFavouriteManagerViewController.h; sourceTree = "<group>"; };
+		4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFavouriteManagerViewController.m; sourceTree = "<group>"; };
 		44B86448185D807800C29B92 /* GADAdMobExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdMobExtras.h; sourceTree = "<group>"; };
 		44B86449185D807800C29B92 /* GADAdNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdNetworkExtras.h; sourceTree = "<group>"; };
 		44B8644A185D807800C29B92 /* GADAdSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdSize.h; sourceTree = "<group>"; };
@@ -377,7 +380,6 @@
 		441E5CD417F4691300289DBD /* CustomImageBoardViewer */ = {
 			isa = PBXGroup;
 			children = (
-				44B86455185D807F00C29B92 /* AdMod components */,
 				441E5CDD17F4691300289DBD /* czzAppDelegate.h */,
 				441E5CDE17F4691300289DBD /* czzAppDelegate.m */,
 				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
@@ -397,6 +399,7 @@
 				440B2F6217F5F97200544926 /* GTMNSString */,
 				44C89ADD185C14BA00E65B73 /* DACircularProgress */,
 				441E5D0F17F4699900289DBD /* IIViewDeck */,
+				44B86455185D807F00C29B92 /* AdMod components */,
 				441E5CE917F4691300289DBD /* Images.xcassets */,
 				441E5E5117F4AEAB00289DBD /* Icons */,
 				441E5CD517F4691300289DBD /* Supporting Files */,
@@ -568,6 +571,15 @@
 			name = czzBlacklist;
 			sourceTree = "<group>";
 		};
+		4462EF2218659B8600E6BE78 /* czzFavouriteManagerVIewController */ = {
+			isa = PBXGroup;
+			children = (
+				4462EF2318659BC200E6BE78 /* czzFavouriteManagerViewController.h */,
+				4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */,
+			);
+			name = czzFavouriteManagerVIewController;
+			sourceTree = "<group>";
+		};
 		44B86455185D807F00C29B92 /* AdMod components */ = {
 			isa = PBXGroup;
 			children = (
@@ -646,6 +658,7 @@
 				44B96E38185B97C700D664A4 /* czzSettingsViewController */,
 				5A0A6BD41848691C0094D7FB /* czzMoreInfoViewController.h */,
 				5A0A6BD51848691C0094D7FB /* czzMoreInfoViewController.m */,
+				4462EF2218659B8600E6BE78 /* czzFavouriteManagerVIewController */,
 			);
 			name = czzMoreInfoViewController;
 			sourceTree = "<group>";
@@ -776,6 +789,7 @@
 			files = (
 				4448C2AA180FF6C600D2CD76 /* czzBlacklistSender.m in Sources */,
 				44FC435218008E660028D7C9 /* TDSemiModalViewController.m in Sources */,
+				4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */,
 				44FC435318008E660028D7C9 /* UIViewController+TDSemiModalExtension.m in Sources */,
 				441E5D2917F48B3D00289DBD /* Toast+UIView.m in Sources */,
 				441E5D0C17F4699400289DBD /* IISideController.m in Sources */,

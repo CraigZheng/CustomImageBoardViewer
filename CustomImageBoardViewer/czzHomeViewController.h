@@ -10,9 +10,10 @@
 #import "IIViewDeckController.h"
 #import "czzForumsViewController.h"
 
+@class czzThread;
 @interface czzHomeViewController : UITableViewController
 @property (strong, nonatomic) IBOutlet UITableView *threadTableView;
+
 - (IBAction)sideButtonAction:(id)sender;
 - (IBAction)newPostAction:(id)sender;
-
 @end

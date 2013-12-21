@@ -18,7 +18,7 @@
 @property NSString *email;
 @property NSString *title;
 @property NSAttributedString *content;
-@property NSString *imgScr;
+@property NSString *imgSrc;
 @property NSString *thImgSrc;
 @property BOOL lock;
 @property BOOL sage;

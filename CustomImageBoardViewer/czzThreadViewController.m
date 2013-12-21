@@ -27,10 +27,9 @@
 @property czzXMLDownloader *xmlDownloader;
 @property NSIndexPath *selectedIndex;
 @property czzRightSideViewController *threadMenuViewController;
-@property UIViewController *topViewController;
+@property UIViewController *leftController;
 @property NSInteger pageNumber;
 @property NSMutableDictionary *downloadedImages;
-@property UIViewController *leftSideViewController;
 @property NSMutableSet *currentImageDownloaders;
 @property UIDocumentInteractionController *documentInteractionController;
 @end
@@ -44,10 +43,9 @@
 @synthesize threadTableView;
 @synthesize selectedIndex;
 @synthesize threadMenuViewController;
+@synthesize leftController;
 @synthesize parentThread;
 @synthesize pageNumber;
-@synthesize leftSideViewController;
-@synthesize topViewController;
 @synthesize downloadedImages;
 @synthesize currentImageDownloaders;
 @synthesize documentInteractionController;
@@ -70,30 +68,26 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ThumbnailDownloaded" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ImageDownloaded" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaderUpdated:) name:@"ImageDownloaderProgressUpdated" object:nil];
-    //configure the right view as menu
-    UINavigationController *rightController = [self.storyboard instantiateViewControllerWithIdentifier:@"right_menu_view_controller"];    threadMenuViewController = [rightController.viewControllers objectAtIndex:0];
-    threadMenuViewController.parentThread = parentThread;
-    threadMenuViewController.selectedThread = parentThread;
-    self.viewDeckController.rightController = rightController;
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
     [self refreshThread:self];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    //configure the right view as menu
+    UINavigationController *rightController = [self.storyboard instantiateViewControllerWithIdentifier:@"right_menu_view_controller"];    threadMenuViewController = [rightController.viewControllers objectAtIndex:0];
+    threadMenuViewController.parentThread = parentThread;
+    threadMenuViewController.selectedThread = parentThread;
+    self.viewDeckController.rightController = rightController;
+
     //save the current left side view into leftSideViewController object, and set the leftViewController to nil in self.viewDeckController, this is to disable to left view controller to in this view, user won't be able to swipe to reveal the left view controller
-    //same to top controller
-    leftSideViewController = self.viewDeckController.leftController;
-    topViewController = self.viewDeckController.topController;
-    //self.viewDeckController.topController = nil;
+    leftController = self.viewDeckController.leftController;
     self.viewDeckController.leftController = nil;
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    //reassign the leftSideViewController back to leftController of the view deck controller
-    self.viewDeckController.leftController = leftSideViewController;
-    //self.viewDeckController.topController = topViewController;
+    self.viewDeckController.leftController = leftController;
     [self.refreshControl endRefreshing];
     [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] hideToastActivity];
 }
@@ -177,7 +171,7 @@
         NSDateFormatter *dateFormatter = [NSDateFormatter new];
         [dateFormatter setDateFormat:@"时间:yyyy MM-dd, HH:mm"];
         dateLabel.text = [dateFormatter stringFromDate:thread.postDateTime];
-        if (thread.imgScr.length == 0)
+        if (thread.imgSrc.length == 0)
             [imgLabel setHidden:YES];
         else
             [imgLabel setHidden:NO];
@@ -346,7 +340,7 @@
     if (imgDownloader){
         NSInteger updateIndex = -1;
         for (czzThread *thread in threads) {
-            if ([thread.imgScr isEqualToString:imgDownloader.imageURLString]){
+            if ([thread.imgSrc isEqualToString:imgDownloader.imageURLString]){
                 updateIndex = [threads indexOfObject:thread];
                 break;
             }
@@ -391,18 +385,18 @@
     NSIndexPath *tapIndexPath = [self.tableView indexPathForRowAtPoint:tapLocation];
     czzThread *tappedThread = [threads objectAtIndex:tapIndexPath.row];
     for (NSString *file in [[czzImageCentre sharedInstance] currentLocalImages]) {
-        if ([file.lastPathComponent.lowercaseString isEqualToString:tappedThread.imgScr.lastPathComponent.lowercaseString])
+        if ([file.lastPathComponent.lowercaseString isEqualToString:tappedThread.imgSrc.lastPathComponent.lowercaseString])
         {
             [self showDocumentController:file];
             return;
         }
     }
     //Start or stop the image downloader
-    if ([[czzImageCentre sharedInstance] containsImageDownloaderWithURL:tappedThread.imgScr]){
-        [[czzImageCentre sharedInstance] stopAndRemoveImageDownloaderWithURL:tappedThread.imgScr];
+    if ([[czzImageCentre sharedInstance] containsImageDownloaderWithURL:tappedThread.imgSrc]){
+        [[czzImageCentre sharedInstance] stopAndRemoveImageDownloaderWithURL:tappedThread.imgSrc];
         [[czzAppDelegate sharedAppDelegate] showToast:@"图片下载被终止了"];
     } else {
-        [[czzImageCentre sharedInstance] downloadImageWithURL:tappedThread.imgScr];
+        [[czzImageCentre sharedInstance] downloadImageWithURL:tappedThread.imgSrc];
         [[czzAppDelegate sharedAppDelegate] showToast:@"正在下载图片"];
     }
 }

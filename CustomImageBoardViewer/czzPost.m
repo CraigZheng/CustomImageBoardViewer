@@ -28,7 +28,7 @@
         if ([self isReady]) {
             
             NSString *boundary = @"-0-x-K-h-T-m-L-b-O-u-N-d-A-r-Y-";
-            NSString *kNewLine = @"\r\n";
+            //NSString *kNewLine = @"\r\n";
             NSMutableData *body = [NSMutableData new];
             
             NSMutableDictionary *params = [NSMutableDictionary new];

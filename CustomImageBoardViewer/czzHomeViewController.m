@@ -30,7 +30,6 @@
 @property NSIndexPath *selectedIndex;
 @property NSString *forumName;
 @property NSMutableDictionary *downloadedImages;
-@property BOOL shouldStopAutoLoading;
 @end
 
 @implementation czzHomeViewController
@@ -44,7 +43,6 @@
 @synthesize pageNumber;
 @synthesize forumName;
 @synthesize downloadedImages;
-@synthesize shouldStopAutoLoading;
 
 - (void)viewDidLoad
 {
@@ -66,29 +64,36 @@
                                              selector:@selector(forumPicked:)
                                                  name:@"ForumNamePicked"
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(favouriteThreadPicked:)
+                                                 name:@"FavouriteThreadPicked"
+                                               object:nil];
     //register a refresh control
     UIRefreshControl* refreCon = [[UIRefreshControl alloc] init];
     [refreCon addTarget:self action:@selector(refreshThread:) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreCon;
     //register for nsnotification centre for image downloaded notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ThumbnailDownloaded" object:nil];
-    //settings flag for should or should not auto load more threads
-    shouldStopAutoLoading = NO;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    self.viewDeckController.rightController = nil;
     //if this app is run for the first time, show a brief tutorial
      if (![[NSUserDefaults standardUserDefaults] objectForKey:@"firstTimeRunning"]) {
          [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"firstTimeRunning"];
          [[NSUserDefaults standardUserDefaults] synchronize];
          [self showTutorial];
      }
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.viewDeckController.rightController = nil;
 }
 
 - (IBAction)sideButtonAction:(id)sender {
@@ -182,7 +187,7 @@
         NSDateFormatter *dateFormatter = [NSDateFormatter new];
         [dateFormatter setDateFormat:@"时间:MM-dd, HH:mm"];
         dateLabel.text = [dateFormatter stringFromDate:thread.postDateTime];
-        if (thread.imgScr.length == 0)
+        if (thread.imgSrc.length == 0)
             [imgLabel setHidden:YES];
         else
             [imgLabel setHidden:NO];
@@ -194,7 +199,7 @@
             [lockLabel setHidden:NO];
         else
             [lockLabel setHidden:YES];
-        if (thread.imgScr.length == 0)
+        if (thread.imgSrc.length == 0)
             [imgLabel setHidden:YES];
         else
             [imgLabel setHidden:NO];
@@ -346,6 +351,17 @@
         @catch (NSException *exception) {
             NSLog(@"%@", exception);
         }
+    }
+}
+
+#pragma notification handler - favourite thread selected
+-(void)favouriteThreadPicked:(NSNotification*)notification{
+    NSDictionary *userInfo = notification.userInfo;
+    if ([userInfo objectForKey:@"PickedThread"]){
+        czzThreadViewController *threadViewCon = [self.storyboard instantiateViewControllerWithIdentifier:@"czz_thread_view_controller"];
+        [threadViewCon setParentThread:[userInfo objectForKey:@"PickedThread"]];
+        //[self.navigationController popToRootViewControllerAnimated:NO];
+        [self.navigationController pushViewController:threadViewCon animated:YES];
     }
 }
 

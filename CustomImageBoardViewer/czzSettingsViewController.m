@@ -91,17 +91,21 @@
 #pragma UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 1){
-        if (indexPath.row == 0){
+        NSString *command = [regularCommands objectAtIndex:indexPath.row];
+        if ([command isEqualToString:@"图片缓存"]){
             //图片缓存
             [self performSegueWithIdentifier:@"go_image_manager_view_controller_segue" sender:self];
-        } else if (indexPath.row == 1){
-            //清除图片缓存
+        } else if ([command isEqualToString:@"清空图片缓存"]){
+            //清空图片缓存
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"清空图片缓存" message:@"确定要清空图片缓存？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
             [alertView show];
-        } else if (indexPath.row == 2){
+        } else if ([command isEqualToString:@"清除ID信息"]){
             //清除ID信息
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"清除ID信息" message:@"确定要清除所有ID信息？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
             [alertView show];
+        } else if ([command isEqualToString:@"收藏"]){
+            //收藏
+            [self performSegueWithIdentifier:@"go_favourite_manager_view_controller_segue" sender:self];
         }
     }
 }
@@ -112,6 +116,7 @@
     //[switchCommands addObject:@"下拉自动加载帖子"];
     [switchCommands addObject:@"图片下载完毕自动打开"];
     [regularCommands addObject:@"图片缓存"];
+    [regularCommands addObject:@"收藏"];
     [regularCommands addObject:@"清空图片缓存"];
     [regularCommands addObject:@"清除ID信息"];
 }

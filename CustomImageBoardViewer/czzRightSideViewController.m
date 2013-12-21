@@ -22,6 +22,7 @@
 @property NSMutableArray *allCommand;
 @property NSMutableArray *threadDepandentCommand;
 @property NSURLConnection *urlCon;
+@property NSMutableSet *favouriteThreads;
 @end
 
 @implementation czzRightSideViewController
@@ -34,12 +35,13 @@
 @synthesize commandTableView;
 @synthesize threadDepandentCommand;
 @synthesize urlCon;
+@synthesize favouriteThreads;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    replyCommand = [NSMutableArray arrayWithObjects:@"回复主串", @"回复选定的帖子", nil];
+    replyCommand = [NSMutableArray arrayWithObjects:@"回复主串", @"回复选定的帖子", @"加入收藏", nil];
     shareCommand = [NSMutableArray arrayWithObjects:@"复制内容", @"复制选定帖子的ID", nil];
     reportCommand = [NSMutableArray arrayWithObjects:@"举报", nil];
     threadDepandentCommand = [NSMutableArray new];
@@ -48,6 +50,18 @@
     [allCommand addObject:shareCommand];
     [allCommand addObject:threadDepandentCommand];
     [allCommand addObject:reportCommand];
+    //favourite threads
+    NSString* libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    favouriteThreads = [NSKeyedUnarchiver unarchiveObjectWithFile:[libraryPath stringByAppendingPathComponent:@"favourites.dat"]];
+    if (!favouriteThreads){
+        favouriteThreads = [NSMutableSet new];
+    }
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    NSString* libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    [NSKeyedArchiver archiveRootObject:favouriteThreads toFile:[libraryPath stringByAppendingPathComponent:@"favourites.dat"]];
 }
 
 #pragma UITableView datasource
@@ -91,12 +105,7 @@
         [[UIPasteboard generalPasteboard] setString:[NSString stringWithFormat:@"%ld", (long)selectedThread.ID]];
         [[czzAppDelegate sharedAppDelegate] showToast:@"ID已复制"];
     } else if ([command hasPrefix:@"复制图片链接"]){
-        //[self downloadImage:selectedThread.imgScr];
-        /*
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:imgURLString]];
-        [self.viewDeckController toggleRightViewAnimated:YES];
-         */
-        NSString *urlString = [@"http://h.acfun.tv" stringByAppendingPathComponent:[self.selectedThread.imgScr stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
+        NSString *urlString = [@"http://h.acfun.tv" stringByAppendingPathComponent:[self.selectedThread.imgSrc stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
         [[UIPasteboard generalPasteboard] setString:urlString];
         [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"图片链接已复制"];
         
@@ -127,6 +136,9 @@
             blacklistEntity.threadID = selectedThread.ID;
             newPostViewController.blacklistEntity = blacklistEntity;
         }];
+    } else if ([command isEqualToString:@"加入收藏"]){
+        [favouriteThreads addObject:self.parentThread];
+        [[czzAppDelegate sharedAppDelegate] showToast:@"已加入收藏"];
     }
 }
 
@@ -135,7 +147,7 @@
     [threadDepandentCommand removeAllObjects];
     if (self.selectedThread){
         self.title = [NSString stringWithFormat:@"NO:%ld", (long)self.selectedThread.ID];
-        if (selectedThread.imgScr.length != 0)
+        if (selectedThread.imgSrc.length != 0)
         {
             //provide an option to allow users to copy the link address of image URL
             [threadDepandentCommand addObject:@"复制图片链接"];
