@@ -47,9 +47,8 @@
      */
     storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:Nil];
     czzHomeViewController *centreViewController = [storyboard instantiateViewControllerWithIdentifier:@"home_view_controller"];
-    czzForumsViewController *sideViewController = [storyboard instantiateViewControllerWithIdentifier:@"left_side_view_controller"];
     
-    self = [super initWithCenterViewController:centreViewController leftViewController:sideViewController];
+    self = [super initWithCenterViewController:centreViewController leftViewController:nil];
     self.topController = [storyboard instantiateViewControllerWithIdentifier:@"more_info_view_controller"];
 
     return self;

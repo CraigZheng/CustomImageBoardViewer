@@ -105,7 +105,6 @@
             [self.delegate statusReceived:success message:message];
         }
     }
-    NSLog(@"%@", [[NSString alloc] initWithData:xmlData encoding:NSUTF8StringEncoding]);
 }
 
 #pragma Setters, also sets the urlRequest and the first parameter(either parentID or forumName)

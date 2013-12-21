@@ -207,6 +207,12 @@
     return NO;
 }
 
+//the hash for a thread is its UID and its ID and its content
+-(NSUInteger)hash{
+    return self.UID.hash * self.ID * self.content.string.hash;
+}
+
+
 #pragma hex to UIColor, copied from internet
 - (UIColor *) colorForHex:(NSString *)hexColor {
 	hexColor = [[hexColor stringByTrimmingCharactersInSet:
@@ -250,11 +256,6 @@
                             blue:((float) b / 255.0f)
                            alpha:1.0f];
     
-}
-
-//the hash for a thread is its UID and its ID and its content
--(NSUInteger)hash{
-    return self.UID.hash * self.ID * self.content.string.hash;
 }
 
 #pragma encoding and decoding functions

@@ -164,4 +164,14 @@
 - (IBAction)editAction:(id)sender {
     [self.tableView setEditing:!self.tableView.editing animated:YES];
 }
+
+#pragma sort array - sort the threads so they arrange with ID
+-(NSArray*)sortTheGivenArray:(NSArray*)array{
+    NSArray *sortedArray = [array sortedArrayUsingComparator:^NSComparisonResult(id a, id b){
+        czzThread *first = (czzThread*)a;
+        czzThread *second = (czzThread*)b;
+        return first.ID > second.ID;
+    }];
+    return sortedArray;
+}
 @end

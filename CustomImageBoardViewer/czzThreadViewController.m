@@ -27,7 +27,6 @@
 @property czzXMLDownloader *xmlDownloader;
 @property NSIndexPath *selectedIndex;
 @property czzRightSideViewController *threadMenuViewController;
-@property UIViewController *leftController;
 @property NSInteger pageNumber;
 @property NSMutableDictionary *downloadedImages;
 @property NSMutableSet *currentImageDownloaders;
@@ -43,7 +42,6 @@
 @synthesize threadTableView;
 @synthesize selectedIndex;
 @synthesize threadMenuViewController;
-@synthesize leftController;
 @synthesize parentThread;
 @synthesize pageNumber;
 @synthesize downloadedImages;
@@ -72,22 +70,19 @@
     [self refreshThread:self];
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     //configure the right view as menu
     UINavigationController *rightController = [self.storyboard instantiateViewControllerWithIdentifier:@"right_menu_view_controller"];    threadMenuViewController = [rightController.viewControllers objectAtIndex:0];
     threadMenuViewController.parentThread = parentThread;
     threadMenuViewController.selectedThread = parentThread;
     self.viewDeckController.rightController = rightController;
-
-    //save the current left side view into leftSideViewController object, and set the leftViewController to nil in self.viewDeckController, this is to disable to left view controller to in this view, user won't be able to swipe to reveal the left view controller
-    leftController = self.viewDeckController.leftController;
+    //disable left controller
     self.viewDeckController.leftController = nil;
 }
 
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    self.viewDeckController.leftController = leftController;
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
     [self.refreshControl endRefreshing];
     [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] hideToastActivity];
 }

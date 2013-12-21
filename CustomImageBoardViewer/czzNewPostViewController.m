@@ -34,13 +34,13 @@
 	// Do any additional setup after loading the view.
     postTextView.inputAccessoryView = postToolbar;
     self.postNaviBar.topItem.title = [NSString stringWithFormat:@"%@:%@",self.postNaviBar.topItem.title , forumName];
+    //URLs
+    targetURLString = @"http://h.acfun.tv/api/thread/post_root";
     //make a new czzPostSender object, and assign the appropriate target URL and delegate
     postSender = [czzPostSender new];
     postSender.targetURL = [NSURL URLWithString:targetURLString];
     postSender.forumName = forumName;
     postSender.delegate = self;
-    //URLs
-    targetURLString = @"http://h.acfun.tv/api/thread/post_root";
     // observe keyboard hide and show notifications to resize the text view appropriately
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)

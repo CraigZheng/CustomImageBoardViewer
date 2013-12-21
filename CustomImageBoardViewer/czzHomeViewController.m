@@ -86,7 +86,8 @@
          [[NSUserDefaults standardUserDefaults] synchronize];
          [self showTutorial];
      }
-
+    czzForumsViewController *sideViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"left_side_view_controller"];
+    self.viewDeckController.leftController = sideViewController;
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
