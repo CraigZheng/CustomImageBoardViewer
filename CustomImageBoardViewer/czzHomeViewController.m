@@ -28,6 +28,7 @@
 @property NSString *targetURLString;
 @property NSInteger pageNumber;
 @property NSIndexPath *selectedIndex;
+@property czzThread *selectedThread;
 @property NSString *forumName;
 @property NSMutableDictionary *downloadedImages;
 @end
@@ -40,6 +41,7 @@
 @synthesize baseURLString;
 @synthesize targetURLString;
 @synthesize selectedIndex;
+@synthesize selectedThread;
 @synthesize pageNumber;
 @synthesize forumName;
 @synthesize downloadedImages;
@@ -210,6 +212,12 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     selectedIndex = indexPath;
+    @try {
+        selectedThread = [threads objectAtIndex:selectedIndex.row];
+    }
+    @catch (NSException *exception) {
+        
+    }
     if (selectedIndex.row < threads.count)
         [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
     else {
@@ -358,10 +366,13 @@
 -(void)favouriteThreadPicked:(NSNotification*)notification{
     NSDictionary *userInfo = notification.userInfo;
     if ([userInfo objectForKey:@"PickedThread"]){
+        selectedThread = [userInfo objectForKey:@"PickedThread"];
+        [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
+        /*
         czzThreadViewController *threadViewCon = [self.storyboard instantiateViewControllerWithIdentifier:@"czz_thread_view_controller"];
         [threadViewCon setParentThread:[userInfo objectForKey:@"PickedThread"]];
         //[self.navigationController popToRootViewControllerAnimated:NO];
-        [self.navigationController pushViewController:threadViewCon animated:YES];
+        [self.navigationController pushViewController:threadViewCon animated:YES];*/
     }
 }
 
@@ -369,13 +380,7 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([[segue identifier] isEqualToString:@"go_thread_view_segue"]){
         czzThreadViewController *incomingViewcontroller = [segue destinationViewController];
-        @try {
-            czzThread *selectedThread = [threads objectAtIndex:selectedIndex.row];
-            [incomingViewcontroller setParentThread:selectedThread];
-        }
-        @catch (NSException *exception) {
-            
-        }
+        [incomingViewcontroller setParentThread:selectedThread];
     }
 }
 
