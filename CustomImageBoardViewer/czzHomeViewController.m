@@ -31,6 +31,7 @@
 @property czzThread *selectedThread;
 @property NSString *forumName;
 @property NSMutableDictionary *downloadedImages;
+@property UIViewController *leftController;
 @end
 
 @implementation czzHomeViewController
@@ -45,6 +46,7 @@
 @synthesize pageNumber;
 @synthesize forumName;
 @synthesize downloadedImages;
+@synthesize leftController;
 
 - (void)viewDidLoad
 {
@@ -57,9 +59,8 @@
     //configure the view deck controller with half size and tap to close mode
     self.viewDeckController.leftSize = self.view.frame.size.width/4;
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
-    //self.viewDeckController.topSize = self.view.frame.size.height/5;
     self.viewDeckController.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
-    
+    leftController = [self.storyboard instantiateViewControllerWithIdentifier:@"left_side_view_controller"];
     threads = [NSMutableArray new];
     //register a notification observer
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -86,8 +87,7 @@
          [[NSUserDefaults standardUserDefaults] synchronize];
          [self showTutorial];
      }
-    czzForumsViewController *sideViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"left_side_view_controller"];
-    self.viewDeckController.leftController = sideViewController;
+    self.viewDeckController.leftController = leftController;
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
