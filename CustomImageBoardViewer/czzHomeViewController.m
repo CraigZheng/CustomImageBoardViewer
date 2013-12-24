@@ -20,7 +20,7 @@
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****"
 
-@interface czzHomeViewController ()<czzXMLDownloaderDelegate>
+@interface czzHomeViewController ()<czzXMLDownloaderDelegate, UIDocumentInteractionControllerDelegate>
 @property czzXMLDownloader *xmlDownloader;
 @property NSMutableArray *threads;
 @property NSInteger currentPage;
@@ -32,6 +32,7 @@
 @property NSString *forumName;
 @property NSMutableDictionary *downloadedImages;
 @property UIViewController *leftController;
+@property UIDocumentInteractionController *documentInteractionController;
 @end
 
 @implementation czzHomeViewController
@@ -47,6 +48,7 @@
 @synthesize forumName;
 @synthesize downloadedImages;
 @synthesize leftController;
+@synthesize documentInteractionController;
 
 - (void)viewDidLoad
 {
@@ -71,12 +73,18 @@
                                              selector:@selector(favouriteThreadPicked:)
                                                  name:@"FavouriteThreadPicked"
                                                object:nil];
+    //register for nsnotification centre for image downloaded notification
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(imageDownloaded:)
+                                                 name:@"ThumbnailDownloaded"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(imageDownloaded:)
+                                                 name:@"ImageDownloaded" object:nil];
     //register a refresh control
     UIRefreshControl* refreCon = [[UIRefreshControl alloc] init];
     [refreCon addTarget:self action:@selector(refreshThread:) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreCon;
-    //register for nsnotification centre for image downloaded notification
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ThumbnailDownloaded" object:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -344,7 +352,10 @@
 -(void)imageDownloaded:(NSNotification*)notification{
     czzImageDownloader *imgDownloader = [notification.userInfo objectForKey:@"ImageDownloader"];
     BOOL success = [[notification.userInfo objectForKey:@"Success"] boolValue];
-    if (imgDownloader && success){
+    if (!success){
+        return;
+    }
+    if (imgDownloader && imgDownloader.isThumbnail){
         @try {
             if ([notification.userInfo objectForKey:@"FilePath"])
                 //store the given file save path
@@ -361,6 +372,13 @@
             NSLog(@"%@", exception);
         }
     }
+    if (imgDownloader && !imgDownloader.isThumbnail){
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldAutoOpenImage"]) {
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldAutoOpenImage"])
+                [self showDocumentController:[notification.userInfo objectForKey:@"FilePath"]];
+        } else
+            [self showDocumentController:[notification.userInfo objectForKey:@"FilePath"]];
+    }
 }
 
 #pragma notification handler - favourite thread selected
@@ -374,6 +392,26 @@
         [threadViewCon setParentThread:[userInfo objectForKey:@"PickedThread"]];
         //[self.navigationController popToRootViewControllerAnimated:NO];
         [self.navigationController pushViewController:threadViewCon animated:YES];*/
+    }
+}
+
+#pragma mark UIDocumentInteractionController delegate
+-(UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller{
+    return self;
+}
+
+//show documentcontroller
+-(void)showDocumentController:(NSString*)path{
+    if (path){
+        if (self.isViewLoaded && self.view.window) {
+            if (documentInteractionController) {
+                [documentInteractionController dismissPreviewAnimated:YES];
+            }
+            documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:path]];
+            documentInteractionController.delegate = self;
+            [documentInteractionController presentPreviewAnimated:YES];
+
+        }
     }
 }
 

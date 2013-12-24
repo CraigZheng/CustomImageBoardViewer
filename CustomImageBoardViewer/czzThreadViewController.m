@@ -16,6 +16,7 @@
 #import "czzAppDelegate.h"
 #import "czzRightSideViewController.h"
 #import "DACircularProgressView.h"
+#import "czzThreadCacheManager.h"
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
 
@@ -67,11 +68,20 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ImageDownloaded" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaderUpdated:) name:@"ImageDownloaderProgressUpdated" object:nil];
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
-    [self refreshThread:self];
+
+    //try to retrive cached thread from storage
+    NSMutableSet *cachedThreads = [[czzThreadCacheManager sharedInstance] readThreads:parentThread];
+    if (cachedThreads){
+        originalThreadData = cachedThreads;
+    }
+    [self loadMoreThread:pageNumber];
+    [self convertThreadSetToThreadArray];
+    //end to retriving cached thread from storage
+
 }
 
--(void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     //configure the right view as menu
     UINavigationController *rightController = [self.storyboard instantiateViewControllerWithIdentifier:@"right_menu_view_controller"];    threadMenuViewController = [rightController.viewControllers objectAtIndex:0];
     threadMenuViewController.parentThread = parentThread;
@@ -81,8 +91,15 @@
     self.viewDeckController.leftController = nil;
 }
 
--(void)viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    //stop any downloading xml
+    if (xmlDownloader){
+        [xmlDownloader stop];
+        xmlDownloader = nil;
+    }
+    //save threads to storage
+    [[czzThreadCacheManager sharedInstance] saveThreads:[self sortTheGivenArray:originalThreadData.allObjects]];
     [self.refreshControl endRefreshing];
     [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] hideToastActivity];
 }
@@ -97,7 +114,7 @@
     return threads.count;
 }
 
-#pragma UITableView delegate
+#pragma mark UITableView delegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -237,12 +254,10 @@
 }
 
 -(void)refreshThread:(id)sender{
-    [threads removeAllObjects];
+    [originalThreadData removeAllObjects];
+    [originalThreadData addObject:parentThread];
     //reset to default page number
     pageNumber = 1;
-    //the first thread in the list
-    [threads addObject:parentThread];
-
     [threadTableView reloadData];
     //stop any possible previous downloader
     if (xmlDownloader)
@@ -259,7 +274,7 @@
     xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
 }
 
-#pragma czzXMLDownloaderDelegate
+#pragma mark czzXMLDownloaderDelegate
 -(void)downloadOf:(NSURL *)xmlURL successed:(BOOL)successed result:(NSData *)xmlData{
     NSMutableArray *newThreas = [NSMutableArray new];
     if (successed){
@@ -277,26 +292,32 @@
                     [newThreas addObject:thread];
             }
         }
-        //if the returned xmlData contains enough threads to fill 1 page, move to next page
-        if (newThreas.count >= 20)
-            pageNumber ++;
     } else {
         [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"无法下载帖子列表，请重试" duration:3.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
     }
     [originalThreadData addObjectsFromArray:newThreas];
-    //sort the array
-    NSArray *sortedArray = [self sortTheGivenArray:[originalThreadData allObjects]];
-    [threads removeAllObjects];
-    [threads addObjectsFromArray:sortedArray];
-    [threadTableView reloadData];
     [self.refreshControl endRefreshing];
     [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] hideToastActivity];
     //clear out the xml downloader
     [xmlDownloader stop];
     xmlDownloader = nil;
+    //convert data in set to data in array
+    [self convertThreadSetToThreadArray];
 }
 
-#pragma notification handler - image downloader
+//this function would convert the original threads in set to nsarray, which is more suitable to be displayed in a uitableview
+-(void)convertThreadSetToThreadArray{
+    //sort the array
+    NSArray *sortedArray = [self sortTheGivenArray:[originalThreadData allObjects]];
+    [threads removeAllObjects];
+    [threads addObjectsFromArray:sortedArray];
+    [threadTableView reloadData];
+    if (threads.count > 0){
+        pageNumber = (NSInteger)(threads.count / 20) + 1;
+    }
+}
+
+#pragma mark notification handler - image downloader
 -(void)imageDownloaded:(NSNotification*)notification{
     czzImageDownloader *imgDownloader = [notification.userInfo objectForKey:@"ImageDownloader"];
     BOOL success = [[notification.userInfo objectForKey:@"Success"] boolValue];
@@ -329,7 +350,7 @@
     }
 }
 
-#pragma notification handler - image downloading progress update
+#pragma mark notification handler - image downloading progress update
 -(void)imageDownloaderUpdated:(NSNotification*)notification{
     czzImageDownloader *imgDownloader = [notification.userInfo objectForKey:@"ImageDownloader"];
     if (imgDownloader){
@@ -358,7 +379,7 @@
     }
 }
 
-#pragma sort array
+#pragma mark sort array
 -(NSArray*)sortTheGivenArray:(NSArray*)array{
     NSArray *sortedArray = [array sortedArrayUsingComparator:^NSComparisonResult(id a, id b){
         czzThread *first = (czzThread*)a;
@@ -372,7 +393,7 @@
     [self.viewDeckController toggleRightViewAnimated:YES];
 }
 
-#pragma UITapGestureRecognizer method
+#pragma mark UITapGestureRecognizer method
 //when user tapped in the ui image view, start/stop the download or show the downloaded image
 - (IBAction)userTapInImage:(id)sender {
     UITapGestureRecognizer *tapGestureRecognizer = (UITapGestureRecognizer*)sender;
@@ -396,7 +417,7 @@
     }
 }
 
-#pragma UIDocumentInteractionController delegate
+#pragma mark UIDocumentInteractionController delegate
 -(UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller{
     return self;
 }

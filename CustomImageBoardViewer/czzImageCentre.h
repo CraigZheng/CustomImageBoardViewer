@@ -14,11 +14,15 @@
 @interface czzImageCentre : NSObject
 @property NSMutableSet *currentImageDownloaders;
 @property NSMutableSet *currentLocalImages;
-@property NSMutableSet *currentLocalThumbnails;
+@property NSMutableSet *currentLocalThumbnails;+
+
+(id)sharedInstance;
+
 -(void)scanCurrentLocalImages;
 -(void)downloadThumbnailWithURL:(NSString*)imgURL;
 -(void)downloadImageWithURL:(NSString*)imgURL;
 -(Boolean)containsImageDownloaderWithURL:(NSString*)imgURL;
 -(void)stopAndRemoveImageDownloaderWithURL:(NSString*)imgURL;
-+ (id)sharedInstance;
+-(void)removeAllImages;
+-(NSString*)totalSize;
 @end

@@ -12,12 +12,16 @@
 
 
 @interface czzImageCentre()<czzImageDownloaderDelegate>
+@property NSString *thumbnailFolder;
+@property NSString *imageFolder;
 @end
 
 @implementation czzImageCentre
 @synthesize currentImageDownloaders;
 @synthesize currentLocalThumbnails;
 @synthesize currentLocalImages;
+@synthesize thumbnailFolder;
+@synthesize imageFolder;
 
 + (id)sharedInstance
 {
@@ -39,6 +43,9 @@
     if (self = [super init]) {
         [self scanCurrentLocalImages];
         currentImageDownloaders = [NSMutableSet new];
+        NSString* libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        thumbnailFolder = [libraryPath stringByAppendingPathComponent:@"Thumbnails"];
+        imageFolder = [libraryPath stringByAppendingPathComponent:@"Images"];
     }
     return self;
 }
@@ -47,9 +54,7 @@
  scan the library for downloaded images
  */
 -(void)scanCurrentLocalImages{
-    NSString* libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *thumbnailFolder = [libraryPath stringByAppendingPathComponent:@"Thumbnails"];
-    NSString *imageFolder = [libraryPath stringByAppendingPathComponent:@"Images"];
+
     NSMutableSet *tempImgs = [NSMutableSet new];
     //files in thumbnail folder
     NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:thumbnailFolder error:Nil];
@@ -159,7 +164,7 @@
     }
 }
 
-#pragma czzImageDownloader delegate
+#pragma mark czzImageDownloader delegate
 -(void)downloadFinished:(czzImageDownloader *)imgDownloader success:(BOOL)success isThumbnail:(BOOL)isThumbnail saveTo:(NSString *)path{
     //post a notification to inform other view controllers that a download is finished
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -203,5 +208,41 @@
          object:Nil
          userInfo:[NSDictionary dictionaryWithObject:imgDownloader forKey:@"ImageDownloader"]];
     }
+}
+
+-(void)removeAllImages{
+    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:thumbnailFolder error:nil];
+    //delete every files inside thumbnail folder and image folder
+    for (NSString *file in files) {
+        [[NSFileManager defaultManager] removeItemAtPath:[thumbnailFolder stringByAppendingPathComponent:file] error:nil];
+    }
+    files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:imageFolder error:nil];
+    for (NSString *file in files) {
+        [[NSFileManager defaultManager] removeItemAtPath:[imageFolder stringByAppendingPathComponent:file] error:nil];
+    }
+    //reload the image centre singleton
+    [self scanCurrentLocalImages];
+}
+
+-(NSString *)totalSize{
+    return [self sizeOfFolder:imageFolder];
+}
+
+-(NSString *)sizeOfFolder:(NSString *)folderPath
+{
+    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:folderPath error:nil];
+    NSEnumerator *contentsEnumurator = [contents objectEnumerator];
+    
+    NSString *file;
+    unsigned long long int folderSize = 0;
+    
+    while (file = [contentsEnumurator nextObject]) {
+        NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[folderPath stringByAppendingPathComponent:file] error:nil];
+        folderSize += [[fileAttributes objectForKey:NSFileSize] intValue];
+    }
+    
+    //This line will give you formatted size from bytes ....
+    NSString *folderSizeStr = [NSByteCountFormatter stringFromByteCount:folderSize countStyle:NSByteCountFormatterCountStyleFile];
+    return folderSizeStr;
 }
 @end

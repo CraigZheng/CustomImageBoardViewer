@@ -60,6 +60,7 @@
 		44B96E3E185B9C3200D664A4 /* vertical separator.png in Resources */ = {isa = PBXBuildFile; fileRef = 44B96E3D185B9C3200D664A4 /* vertical separator.png */; };
 		44C89ADC185C145C00E65B73 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44C89ADB185C145C00E65B73 /* QuartzCore.framework */; };
 		44C89AE0185C14BA00E65B73 /* DACircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C89ADF185C14BA00E65B73 /* DACircularProgressView.m */; };
+		44CD43FF1869CB3E00C7D063 /* czzThreadCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CD43FE1869CB3E00C7D063 /* czzThreadCacheManager.m */; };
 		44F8DE5A1803900100B6D3B0 /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 44F8DE4C1803900100B6D3B0 /* Icon-40.png */; };
 		44F8DE5B1803900100B6D3B0 /* Icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44F8DE4D1803900100B6D3B0 /* Icon-40@2x.png */; };
 		44F8DE5C1803900100B6D3B0 /* Icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = 44F8DE4E1803900100B6D3B0 /* Icon-60.png */; };
@@ -192,6 +193,8 @@
 		44C89ADB185C145C00E65B73 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		44C89ADE185C14BA00E65B73 /* DACircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACircularProgressView.h; sourceTree = "<group>"; };
 		44C89ADF185C14BA00E65B73 /* DACircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACircularProgressView.m; sourceTree = "<group>"; };
+		44CD43FD1869CB3E00C7D063 /* czzThreadCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadCacheManager.h; sourceTree = "<group>"; };
+		44CD43FE1869CB3E00C7D063 /* czzThreadCacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadCacheManager.m; sourceTree = "<group>"; };
 		44F8DE4C1803900100B6D3B0 /* Icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40.png"; sourceTree = "<group>"; };
 		44F8DE4D1803900100B6D3B0 /* Icon-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40@2x.png"; sourceTree = "<group>"; };
 		44F8DE4E1803900100B6D3B0 /* Icon-60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60.png"; sourceTree = "<group>"; };
@@ -521,6 +524,7 @@
 				441E5D2B17F48F8C00289DBD /* czzThread.m */,
 				44FC4346180067D80028D7C9 /* czzPostSender */,
 				4448C2A4180FF51D00D2CD76 /* czzBlacklist */,
+				44CD44001869CB6900C7D063 /* czzThreadCacheManager */,
 			);
 			name = czzThread;
 			sourceTree = "<group>";
@@ -623,6 +627,15 @@
 				44C89ADF185C14BA00E65B73 /* DACircularProgressView.m */,
 			);
 			path = DACircularProgress;
+			sourceTree = "<group>";
+		};
+		44CD44001869CB6900C7D063 /* czzThreadCacheManager */ = {
+			isa = PBXGroup;
+			children = (
+				44CD43FD1869CB3E00C7D063 /* czzThreadCacheManager.h */,
+				44CD43FE1869CB3E00C7D063 /* czzThreadCacheManager.m */,
+			);
+			name = czzThreadCacheManager;
 			sourceTree = "<group>";
 		};
 		44FC4346180067D80028D7C9 /* czzPostSender */ = {
@@ -816,6 +829,7 @@
 				441E5CDB17F4691300289DBD /* main.m in Sources */,
 				44FC4345180067CF0028D7C9 /* czzPostSender.m in Sources */,
 				441E5D0E17F4699400289DBD /* IIWrapController.m in Sources */,
+				44CD43FF1869CB3E00C7D063 /* czzThreadCacheManager.m in Sources */,
 				44C89AE0185C14BA00E65B73 /* DACircularProgressView.m in Sources */,
 				440B2FBD17F7C5DC00544926 /* czzRightSideViewController.m in Sources */,
 				44B96E37185B97C400D664A4 /* czzSettingsViewController.m in Sources */,

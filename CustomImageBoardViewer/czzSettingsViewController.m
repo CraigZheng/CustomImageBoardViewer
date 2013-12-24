@@ -10,8 +10,9 @@
 #import "Toast+UIView.h"
 #import "czzImageCentre.h"
 #import "czzAppDelegate.h"
+#import "czzThreadCacheManager.h"
 
-@interface czzSettingsViewController ()<UIAlertViewDelegate>
+@interface czzSettingsViewController ()<UIAlertViewDelegate, UIActionSheetDelegate>
 @property NSMutableArray *commands;
 @property NSMutableArray *regularCommands;
 @property NSMutableArray *switchCommands;
@@ -31,7 +32,7 @@
     [self prepareCommands];
 }
 
-#pragma UITableViewDataSource
+#pragma mark UITableViewDataSource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0)
         return switchCommands.count;
@@ -80,7 +81,13 @@
                 shouldAutoOpen = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldAutoOpenImage"];
             [commandSwitch setOn:shouldAutoOpen];
 
-        }
+         } else if (indexPath.row == 2){
+             //开启帖子缓存
+             BOOL shouldCache = YES;
+             if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldCache"])
+                 shouldCache = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldCache"];
+             [commandSwitch setOn:shouldCache];
+         }
     } else if (indexPath.section == 1){
         UILabel *commandLabel = (UILabel*)[cell viewWithTag:5];
         [commandLabel setText:[regularCommands objectAtIndex:indexPath.row]];
@@ -88,17 +95,13 @@
     return cell;
 }
 
-#pragma UITableViewDelegate
+#pragma mark UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 1){
         NSString *command = [regularCommands objectAtIndex:indexPath.row];
         if ([command isEqualToString:@"图片缓存"]){
             //图片缓存
             [self performSegueWithIdentifier:@"go_image_manager_view_controller_segue" sender:self];
-        } else if ([command isEqualToString:@"清空图片缓存"]){
-            //清空图片缓存
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"清空图片缓存" message:@"确定要清空图片缓存？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
-            [alertView show];
         } else if ([command isEqualToString:@"清除ID信息"]){
             //清除ID信息
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"清除ID信息" message:@"确定要清除所有ID信息？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
@@ -106,6 +109,13 @@
         } else if ([command isEqualToString:@"收藏"]){
             //收藏
             [self performSegueWithIdentifier:@"go_favourite_manager_view_controller_segue" sender:self];
+        } else if ([command isEqualToString:@"清空缓存"]){
+            //清空缓存
+            //select what to remove
+            NSString *removeAllImgs = [NSString stringWithFormat:@"清空图片缓存: %@", [[czzImageCentre sharedInstance] totalSize]];
+            NSString *removeAllThreadCache = [NSString stringWithFormat:@"清空帖子缓存: %@", [[czzThreadCacheManager sharedInstance] totalSize]];
+            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"清空缓存" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:removeAllImgs, removeAllThreadCache, nil];
+            [actionSheet showInView:self.view];
         }
     }
 }
@@ -115,39 +125,42 @@
     [switchCommands addObject:@"显示图片"];
     //[switchCommands addObject:@"下拉自动加载帖子"];
     [switchCommands addObject:@"图片下载完毕自动打开"];
+    [switchCommands addObject:@"开启帖子缓存"];
     [regularCommands addObject:@"图片缓存"];
     [regularCommands addObject:@"收藏"];
-    [regularCommands addObject:@"清空图片缓存"];
+    [regularCommands addObject:@"清空缓存"];
     [regularCommands addObject:@"清除ID信息"];
 }
 
-#pragma UIAlertView delegate
+#pragma mark UIAlertView delegate
 -(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    if ([alertView.title isEqualToString:@"清除ID信息"] && buttonIndex != [alertView cancelButtonIndex]){
+    if (buttonIndex == alertView.cancelButtonIndex){
+        return;
+    }
+    if ([alertView.title isEqualToString:@"清除ID信息"]){
         //remove the keyed object in user defaults
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"access_token"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         [[czzAppDelegate sharedAppDelegate] showToast:@"ID信息已清除"];
-    } else if ([alertView.title isEqualToString:@"清空图片缓存"] && buttonIndex != [alertView cancelButtonIndex]){
-        NSString* libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSString *thumbnailFolder = [libraryPath stringByAppendingPathComponent:@"Thumbnails"];
-        NSString *imageFolder = [libraryPath stringByAppendingPathComponent:@"Images"];
-        NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:thumbnailFolder error:nil];
-        //delete every files inside thumbnail folder and image folder
-        for (NSString *file in files) {
-            [[NSFileManager defaultManager] removeItemAtPath:[thumbnailFolder stringByAppendingPathComponent:file] error:nil];
-        }
-        files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:imageFolder error:nil];
-        for (NSString *file in files) {
-            [[NSFileManager defaultManager] removeItemAtPath:[imageFolder stringByAppendingPathComponent:file] error:nil];
-        }
-        //reload the image centre singleton
-        [[czzImageCentre sharedInstance] scanCurrentLocalImages];
-        [[czzAppDelegate sharedAppDelegate] showToast:@"图片缓存已清空"];
     }
 }
 
-#pragma UISwitch control handler
+#pragma mark - UIActionSheet delegate
+-(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == actionSheet.cancelButtonIndex){
+        return;
+    }
+    NSString *title = [actionSheet buttonTitleAtIndex:buttonIndex];
+    if ([title hasPrefix:@"清空图片缓存"]){
+        [[czzImageCentre sharedInstance] removeAllImages];
+        [[czzAppDelegate sharedAppDelegate] showToast:@"图片缓存已清空"];
+    } else if ([title hasPrefix:@"清空帖子缓存"]){
+        [[czzThreadCacheManager sharedInstance] removeAllThreadCache];
+        [[czzAppDelegate sharedAppDelegate] showToast:@"帖子缓存已清空"];
+    }
+}
+
+#pragma mark UISwitch control handler
 -(void)switchDidChanged:(id)sender{
     UISwitch *switchControl = (UISwitch*)sender;
     UIView* v = sender;
@@ -171,6 +184,10 @@
         else if (switchedIndexPath.row == 1){
             //自动打开图片
             [[NSUserDefaults standardUserDefaults] setBool:switchControl.on forKey:@"shouldAutoOpenImage"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        } else if (switchedIndexPath.row == 2){
+            //开启帖子缓存
+            [[NSUserDefaults standardUserDefaults] setBool:switchControl.on forKey:@"shouldCache"];
             [[NSUserDefaults standardUserDefaults] synchronize];
         }
     }
