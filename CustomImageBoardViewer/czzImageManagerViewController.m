@@ -39,8 +39,8 @@
 -(void)reloadImageFileFromImageCentre{
     Images = [NSMutableArray new];
     if (imageCategory == ALL_IMAGE){
-        [Images addObjectsFromArray:[[[czzImageCentre sharedInstance] currentLocalImages] allObjects]];
         [Images addObjectsFromArray:[[[czzImageCentre sharedInstance] currentLocalThumbnails] allObjects]];
+        [Images addObjectsFromArray:[[[czzImageCentre sharedInstance] currentLocalImages] allObjects]];
     } else if (imageCategory == FULL_SIZE_IMAGE) {
         [Images addObjectsFromArray:[[[czzImageCentre sharedInstance] currentLocalImages] allObjects]];
     } else if (imageCategory == THUMBNAIL){
