@@ -93,13 +93,40 @@
 #pragma UIImagePickerController delegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     UIImage *pickedImage = [info valueForKey:UIImagePickerControllerOriginalImage];
-    [postSender setImgData:UIImageJPEGRepresentation(pickedImage, 1.0)];
-    [self.view makeToast:@"图片已选" duration:2.0 position:@"center" image:pickedImage];
+    //resize the image if the picked image is too big
+    if (pickedImage.size.width > 1280){
+        NSInteger newWidth = 1280;
+        NSInteger newHeight = (newWidth / pickedImage.size.width) * pickedImage.size.height;
+        pickedImage = [self resizeImage:pickedImage width:newWidth height:newHeight];
+        [self.view makeToast:@"由于图片尺寸太大，已进行压缩" duration:2.0 position:@"center" title:@"图片已选" image:pickedImage];
+    } else {
+        [self.view makeToast:@"图片已选" duration:2.0 position:@"center" image:pickedImage];
+    }
+
+    [postSender setImgData:UIImageJPEGRepresentation(pickedImage, 0.8)];
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
     [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - resize UIImage
+//copied stright from the almighty internet
+-(UIImage *)resizeImage:(UIImage *)image width:(CGFloat)resizedWidth height:(CGFloat)resizedHeight
+{
+    CGImageRef imageRef = [image CGImage];
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef bitmap = CGBitmapContextCreate(NULL, resizedWidth, resizedHeight, 8, 4 * resizedWidth, colorSpace, (CGBitmapInfo)kCGImageAlphaPremultipliedFirst);
+    CGContextDrawImage(bitmap, CGRectMake(0, 0, resizedWidth, resizedHeight), imageRef);
+    CGImageRef ref = CGBitmapContextCreateImage(bitmap);
+    UIImage *result = [UIImage imageWithCGImage:ref];
+    
+    CGContextRelease(bitmap);
+    CGImageRelease(ref);
+    
+    return result;
 }
 
 #pragma czzPostSender delegate

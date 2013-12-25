@@ -40,7 +40,6 @@
     if (myPost.isReady && urlRequest){
         [requestBody appendData:myPost.makeRequestBody];
         [urlRequest setHTTPBody:requestBody];
-        NSLog(@"%@", [[NSString alloc] initWithData:urlRequest.HTTPBody encoding:NSUTF8StringEncoding] );
         urlConn = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self startImmediately:YES];
     } else {
         if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
