@@ -88,11 +88,12 @@
             }
             if ([child.name isEqualToString:@"access_token"]){
                 //if current access_token is nil, or the responding access_token does not match my current access token, save the responding access_token to a file for later use
-                if (!myPost.access_token || ![myPost.access_token isEqualToString:child.value])
-                {
-                    myPost.access_token = child.value;
-                    [myPost saveAccessToken];
+                NSString *oldToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"access_token"];
+                if (!oldToken || ![oldToken isEqualToString:child.value]){
+                    [[NSUserDefaults standardUserDefaults] setObject:child.value forKey:@"access_token"];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
                 }
+
             }
             if ([child.name isEqualToString:@"msg"]){
                 message = child.value;
