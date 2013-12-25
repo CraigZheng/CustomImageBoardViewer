@@ -26,6 +26,7 @@
         [request setHTTPShouldHandleCookies:YES];
         [request setHTTPMethod:@"GET"];
         [request setValue:@"application/xml" forHTTPHeaderField:@"Accept"];
+
         urlConn = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:now];
         self.delegate = delegate;
     }

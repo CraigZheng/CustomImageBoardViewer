@@ -24,5 +24,8 @@
 -(Boolean)containsImageDownloaderWithURL:(NSString*)imgURL;
 -(void)stopAndRemoveImageDownloaderWithURL:(NSString*)imgURL;
 -(void)removeAllImages;
--(NSString*)totalSize;
+-(void)removeFullSizeImages;
+-(void)removeThumbnails;
+-(NSString*)totalSizeForFullSizeImages;
+-(NSString*)totalSizeForThumbnails;
 @end

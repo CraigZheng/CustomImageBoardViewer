@@ -210,22 +210,35 @@
     }
 }
 
--(void)removeAllImages{
+#pragma mark - remove images
+-(void)removeFullSizeImages{
+    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:imageFolder error:nil];
+    for (NSString *file in files) {
+        [[NSFileManager defaultManager] removeItemAtPath:[imageFolder stringByAppendingPathComponent:file] error:nil];
+    }
+    [self scanCurrentLocalImages];
+}
+
+-(void)removeThumbnails{
     NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:thumbnailFolder error:nil];
     //delete every files inside thumbnail folder and image folder
     for (NSString *file in files) {
         [[NSFileManager defaultManager] removeItemAtPath:[thumbnailFolder stringByAppendingPathComponent:file] error:nil];
     }
-    files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:imageFolder error:nil];
-    for (NSString *file in files) {
-        [[NSFileManager defaultManager] removeItemAtPath:[imageFolder stringByAppendingPathComponent:file] error:nil];
-    }
-    //reload the image centre singleton
     [self scanCurrentLocalImages];
 }
 
--(NSString *)totalSize{
+-(void)removeAllImages{
+    [self removeThumbnails];
+    [self removeFullSizeImages];
+}
+
+-(NSString *)totalSizeForFullSizeImages{
     return [self sizeOfFolder:imageFolder];
+}
+
+-(NSString *)totalSizeForThumbnails{
+    return [self sizeOfFolder:thumbnailFolder];
 }
 
 -(NSString *)sizeOfFolder:(NSString *)folderPath

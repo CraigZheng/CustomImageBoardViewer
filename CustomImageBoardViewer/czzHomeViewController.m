@@ -310,6 +310,15 @@
                     [newThreads addObject:thread];
                 }
             }
+            if ([child.name isEqualToString:@"access_token"]){
+                //if current access_token is nil, or the responding access_token does not match my current access token, save the responding access_token to a file for later use
+                NSString *oldToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"access_token"];
+                if (!oldToken || ![oldToken isEqualToString:child.value]){
+                    [[NSUserDefaults standardUserDefaults] setObject:child.value forKey:@"access_token"];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                }
+            }
+
         }
         //increase the page number if returned data is enough to fill a page of 20 threads
         if (newThreads.count >= 20)
@@ -337,6 +346,12 @@
         self.forumName = forumname;
         //set the targetURLString with the given forum name
         targetURLString = [baseURLString stringByAppendingString:[self.forumName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        //access token for the server
+        NSString *oldToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"access_token"];
+        if (oldToken){
+            targetURLString = [targetURLString stringByAppendingFormat:@"&access_token=%@", oldToken];
+        }
+
         [self refreshThread:self];
     }
     //load more info into the top view controller by setting the forumName property for viewDeckController.topController
@@ -387,11 +402,6 @@
     if ([userInfo objectForKey:@"PickedThread"]){
         selectedThread = [userInfo objectForKey:@"PickedThread"];
         [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
-        /*
-        czzThreadViewController *threadViewCon = [self.storyboard instantiateViewControllerWithIdentifier:@"czz_thread_view_controller"];
-        [threadViewCon setParentThread:[userInfo objectForKey:@"PickedThread"]];
-        //[self.navigationController popToRootViewControllerAnimated:NO];
-        [self.navigationController pushViewController:threadViewCon animated:YES];*/
     }
 }
 

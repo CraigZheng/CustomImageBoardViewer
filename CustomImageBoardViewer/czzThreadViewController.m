@@ -259,11 +259,14 @@
     //reset to default page number
     pageNumber = 1;
     [threadTableView reloadData];
+    [self loadMoreThread:pageNumber];
+    /*
     //stop any possible previous downloader
     if (xmlDownloader)
         [xmlDownloader stop];
     targetURLString = [baseURLString stringByAppendingString:[NSString stringWithFormat:@"&pn=1&count=20&since_id=%ld", (long)parentThread.ID]];
     xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLString] delegate:self startNow:YES];
+     */
 }
 
 -(void)loadMoreThread:(NSInteger)pn{
@@ -271,6 +274,12 @@
         [xmlDownloader stop];
     NSString *targetURLStringWithPN = [baseURLString stringByAppendingString:
                                        [NSString stringWithFormat:@"&pn=%ld&count=20&since_id=%ld", (long)pn, (long)parentThread.ID]];
+    //access token for the server
+    NSString *oldToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"access_token"];
+    if (oldToken){
+        targetURLStringWithPN = [targetURLStringWithPN stringByAppendingFormat:@"&access_token=%@", oldToken];
+    }
+
     xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
 }
 
@@ -290,6 +299,14 @@
                 czzThread *thread = [[czzThread alloc] initWithSMXMLElement:child];
                 if (thread.ID != 0)
                     [newThreas addObject:thread];
+            }
+            if ([child.name isEqualToString:@"access_token"]){
+                //if current access_token is nil, or the responding access_token does not match my current access token, save the responding access_token to a file for later use
+                NSString *oldToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"access_token"];
+                if (!oldToken || ![oldToken isEqualToString:child.value]){
+                    [[NSUserDefaults standardUserDefaults] setObject:child.value forKey:@"access_token"];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                }
             }
         }
     } else {
