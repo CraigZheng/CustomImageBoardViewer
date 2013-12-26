@@ -118,7 +118,7 @@
         [newPostViewController setForumName:forumName];
         [self.navigationController presentViewController:newPostViewController animated:YES completion:nil];
     } else {
-        [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"未选定一个版块" duration:3.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
+        [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"未选定一个版块" duration:2.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
     }
 }
 
@@ -276,6 +276,7 @@
 /*
  this function would be called everytime user dragged the uitableview to the bottom
  */
+/*
 - (void)scrollViewDidScroll:(UIScrollView *)aScrollView {
     CGPoint offset = aScrollView.contentOffset;
     CGRect bounds = aScrollView.bounds;
@@ -290,6 +291,8 @@
         [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
 }
+ */
+
 
 //create a new NSURL outta targetURLString, and reload the content threadTableView
 -(void)refreshThread:(id)sender{
@@ -320,7 +323,7 @@
         NSError *error;
         SMXMLDocument *xmlDoc = [[SMXMLDocument alloc] initWithData:xmlData error:&error];
         if (error){
-            [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"服务器回传的资料有误，请重试" duration:3.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
+            [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"服务器回传的资料有误，请重试" duration:2.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
             NSLog(@"%@", error);
         }
         for (SMXMLElement *child in xmlDoc.root.children) {
@@ -345,7 +348,7 @@
         if (newThreads.count >= 20)
             pageNumber += 1;
     } else {
-        [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"无法下载帖子列表，请重试" duration:3.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
+        [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"无法下载帖子列表，请重试" duration:2.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
 
     }
     //process the returned data and pass into the array

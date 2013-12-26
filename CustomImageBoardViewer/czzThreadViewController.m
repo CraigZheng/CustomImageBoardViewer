@@ -285,21 +285,37 @@
 /*
  this function would be called everytime user dragged the uitableview to the bottom
  */
+/*
 - (void)scrollViewDidScroll:(UIScrollView *)aScrollView {
-    CGPoint offset = aScrollView.contentOffset;
-    CGRect bounds = aScrollView.bounds;
-    CGSize size = aScrollView.contentSize;
-    UIEdgeInsets inset = aScrollView.contentInset;
-    float y = offset.y + bounds.size.height - inset.bottom;
-    float h = size.height;
-    
-    float reload_distance = threadTableView.rowHeight;
-    if(y > h + reload_distance && !xmlDownloader) {
-        [self performSelector:@selector(loadMoreThread:) withObject:nil];
-        [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    NSArray *visibleRows = [self.tableView visibleCells];
+    UITableViewCell *lastVisibleCell = [visibleRows lastObject];
+    NSIndexPath *path = [self.tableView indexPathForCell:lastVisibleCell];
+    if(path.row == threads.count)
+    {
+        CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
+        if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.contentSize.height && !xmlDownloader){
+            [self performSelector:@selector(loadMoreThread:) withObject:nil];
+            [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
     }
 }
-
+ */
+/*
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)aScrollView
+{
+    NSArray *visibleRows = [self.tableView visibleCells];
+    UITableViewCell *lastVisibleCell = [visibleRows lastObject];
+    NSIndexPath *path = [self.tableView indexPathForCell:lastVisibleCell];
+    if(path.row == threads.count)
+    {
+        CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
+        if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !xmlDownloader){
+            [self performSelector:@selector(loadMoreThread:) withObject:nil];
+            [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
+    }
+}
+*/
 
 #pragma mark czzXMLDownloaderDelegate
 -(void)downloadOf:(NSURL *)xmlURL successed:(BOOL)successed result:(NSData *)xmlData{
@@ -308,7 +324,7 @@
         NSError *error;
         SMXMLDocument *xmlDoc = [[SMXMLDocument alloc] initWithData:xmlData error:&error];
         if (error){
-            [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"服务器回传的资料有误，请重试" duration:3.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
+            [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"服务器回传的资料有误，请重试" duration:2.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
             NSLog(@"%@", error);
         }
         for (SMXMLElement *child in xmlDoc.root.children) {
@@ -328,7 +344,7 @@
             }
         }
     } else {
-        [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"无法下载帖子列表，请重试" duration:3.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
+        [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"无法下载帖子列表，请重试" duration:2.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
     }
     [originalThreadData addObjectsFromArray:newThreas];
     [self.refreshControl endRefreshing];

@@ -142,7 +142,7 @@
             [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"帖子已发"];
         }];
     } else {
-        [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:message duration:3.0 position:@"top" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
+        [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:message duration:2.0 position:@"top" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
         
     }
     [self performSelectorInBackground:@selector(enablePostButton) withObject:Nil];
