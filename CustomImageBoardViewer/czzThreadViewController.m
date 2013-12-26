@@ -73,6 +73,9 @@
     NSMutableSet *cachedThreads = [[czzThreadCacheManager sharedInstance] readThreads:parentThread];
     if (cachedThreads){
         originalThreadData = cachedThreads;
+        //refresh the parent thread
+        [originalThreadData removeObject:parentThread];
+        [originalThreadData addObject:parentThread];
     }
     [self loadMoreThread:pageNumber];
     [self convertThreadSetToThreadArray];

@@ -78,9 +78,9 @@
                                              selector:@selector(imageDownloaded:)
                                                  name:@"ThumbnailDownloaded"
                                                object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(imageDownloaded:)
-                                                 name:@"ImageDownloaded" object:nil];
+    //[[NSNotificationCenter defaultCenter] addObserver:self
+    //                                         selector:@selector(imageDownloaded:)
+    //                                             name:@"ImageDownloaded" object:nil];
     //register a refresh control
     UIRefreshControl* refreCon = [[UIRefreshControl alloc] init];
     [refreCon addTarget:self action:@selector(refreshThread:) forControlEvents:UIControlEventValueChanged];
