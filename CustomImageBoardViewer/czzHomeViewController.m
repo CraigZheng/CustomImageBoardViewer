@@ -292,7 +292,20 @@
     }
 }
  */
-
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)aScrollView
+{
+    NSArray *visibleRows = [self.tableView visibleCells];
+    UITableViewCell *lastVisibleCell = [visibleRows lastObject];
+    NSIndexPath *path = [self.tableView indexPathForCell:lastVisibleCell];
+    if(path.row == threads.count && threads.count > 0)
+    {
+        CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
+        if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !xmlDownloader){
+            [self performSelector:@selector(loadMoreThread:) withObject:nil];
+            [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
+    }
+}
 
 //create a new NSURL outta targetURLString, and reload the content threadTableView
 -(void)refreshThread:(id)sender{

@@ -283,7 +283,7 @@
 
 #pragma mark - UIScrollVIew delegate
 /*
- this function would be called everytime user dragged the uitableview to the bottom
+ this function would be called everytime user dragged the uitableview to the bottom, call load more threads function here
  */
 /*
 - (void)scrollViewDidScroll:(UIScrollView *)aScrollView {
@@ -300,13 +300,13 @@
     }
 }
  */
-/*
+
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)aScrollView
 {
     NSArray *visibleRows = [self.tableView visibleCells];
     UITableViewCell *lastVisibleCell = [visibleRows lastObject];
     NSIndexPath *path = [self.tableView indexPathForCell:lastVisibleCell];
-    if(path.row == threads.count)
+    if(path.row == threads.count && threads.count > 0)
     {
         CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
         if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !xmlDownloader){
@@ -315,7 +315,7 @@
         }
     }
 }
-*/
+
 
 #pragma mark czzXMLDownloaderDelegate
 -(void)downloadOf:(NSURL *)xmlURL successed:(BOOL)successed result:(NSData *)xmlData{
