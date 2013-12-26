@@ -7,8 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "czzBlacklistEntity.h"
 
 @interface czzBlacklist : NSObject
-@property NSArray *blacklistEntities;
+@property NSSet *blacklistEntities;
 + (id)sharedInstance;
+-(czzBlacklistEntity*)blacklistEntityForThreadID:(NSInteger)threadID;
 @end

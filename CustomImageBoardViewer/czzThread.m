@@ -97,12 +97,33 @@
         }
     }
     //consor contents
+    czzBlacklistEntity *blacklistEntity = [[czzBlacklist sharedInstance] blacklistEntityForThreadID:self.ID];
+    if (blacklistEntity){
+        //assign the blacklist value to this thread
+        self.harmful = blacklistEntity.harmful;
+        self.blockContent = blacklistEntity.content;
+        if (self.blockContent)
+            self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
+        self.blockImage = blacklistEntity.image;
+        if (self.blockImage){
+            self.imgSrc = nil;
+            self.thImgSrc = nil;
+        }
+        self.blockAll = blacklistEntity.block;
+        if (self.blockAll)
+        {
+            self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
+            self.imgSrc = nil;
+            self.thImgSrc = nil;
+        }
+    }
+    /*
     for (czzBlacklistEntity *blacklistEntity in [[czzBlacklist sharedInstance] blacklistEntities]) {
         if (blacklistEntity.threadID == self.ID){
-            /*
-             self.content = [[NSAttributedString alloc] initWithString:@" ** 用户举报的不健康的内容 ** "];
-             self.imgScr = nil;
-             */
+            
+             //self.content = [[NSAttributedString alloc] initWithString:@" ** 用户举报的不健康的内容 ** "];
+             //self.imgScr = nil;
+            
             //assign the blacklist value to this thread
             self.harmful = blacklistEntity.harmful;
             self.blockContent = blacklistEntity.content;
@@ -123,6 +144,7 @@
             break;
         }
     }
+     */
     
     if (self.thImgSrc.length != 0){
         //if is set to show image is presented
@@ -137,7 +159,6 @@
             [[czzImageCentre sharedInstance] downloadThumbnailWithURL:self.thImgSrc];
         }
     }
-    
 }
 
 -(NSAttributedString*)parseHTMLAttributes:(NSString*)stringToParse{
@@ -197,7 +218,7 @@
     return renderedStr;
 }
 
-#pragma isEqual and Hash function, for this class to be used within a NSSet
+#pragma mark - isEqual and Hash function, for this class to be used within a NSSet
 -(BOOL)isEqual:(id)object{
     if ([object isKindOfClass:self.class]) {
         if ([object hash] == self.hash){
@@ -207,13 +228,13 @@
     return NO;
 }
 
-//the hash for a thread is its UID and its ID and its content
+//the hash for a thread is its UID and its ID and its post date time
 -(NSUInteger)hash{
-    return self.UID.hash * self.ID * self.content.string.hash;
+    return self.UID.hash * self.ID * self.postDateTime.hash;
 }
 
 
-#pragma hex to UIColor, copied from internet
+#pragma mark - hex to UIColor, copied from internet
 - (UIColor *) colorForHex:(NSString *)hexColor {
 	hexColor = [[hexColor stringByTrimmingCharactersInSet:
 				 [NSCharacterSet whitespaceAndNewlineCharacterSet]
@@ -258,7 +279,7 @@
     
 }
 
-#pragma encoding and decoding functions
+#pragma mark - encoding and decoding functions
 -(void)encodeWithCoder:(NSCoder*)encoder{
     [encoder encodeInteger:self.responseCount forKey:@"responseCount"];
     [encoder encodeInteger:self.ID forKey:@"ID"];
@@ -301,6 +322,56 @@
         self.blockContent = [decoder decodeBoolForKey:@"blockContent"];
         self.blockImage = [decoder decodeBoolForKey:@"blockImage"];
         self.blockAll = [decoder decodeBoolForKey:@"blockAll"];
+        //blacklist info might be updated when this thread is not in the memory
+        //consor contents
+        czzBlacklistEntity *blacklistEntity = [[czzBlacklist sharedInstance] blacklistEntityForThreadID:self.ID];
+        if (blacklistEntity){
+            //assign the blacklist value to this thread
+            self.harmful = blacklistEntity.harmful;
+            self.blockContent = blacklistEntity.content;
+            if (self.blockContent)
+                self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
+            self.blockImage = blacklistEntity.image;
+            if (self.blockImage){
+                self.imgSrc = nil;
+                self.thImgSrc = nil;
+            }
+            self.blockAll = blacklistEntity.block;
+            if (self.blockAll)
+            {
+                self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
+                self.imgSrc = nil;
+                self.thImgSrc = nil;
+            }
+        }
+        /*
+        for (czzBlacklistEntity *blacklistEntity in [[czzBlacklist sharedInstance] blacklistEntities]) {
+            if (blacklistEntity.threadID == self.ID){
+         
+                 //self.content = [[NSAttributedString alloc] initWithString:@" ** 用户举报的不健康的内容 ** "];
+                 //self.imgScr = nil;
+         
+                //assign the blacklist value to this thread
+                self.harmful = blacklistEntity.harmful;
+                self.blockContent = blacklistEntity.content;
+                if (self.blockContent)
+                    self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
+                self.blockImage = blacklistEntity.image;
+                if (self.blockImage){
+                    self.imgSrc = nil;
+                    self.thImgSrc = nil;
+                }
+                self.blockAll = blacklistEntity.block;
+                if (self.blockAll)
+                {
+                    self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
+                    self.imgSrc = nil;
+                    self.thImgSrc = nil;
+                }
+                break;
+            }
+        }
+        */
     }
     return self;
 }

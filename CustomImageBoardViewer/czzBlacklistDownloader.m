@@ -56,7 +56,7 @@
 -(void)response:(NSData*)xmlData{
     SMXMLDocument *xmlDoc = [[SMXMLDocument alloc]initWithData:xmlData error:nil];
     if (xmlDoc){
-        NSMutableArray *blacklistEntities = [NSMutableArray new];
+        NSMutableSet *blacklistEntities = [NSMutableSet new];
         BOOL success = NO;
         for (SMXMLElement *child in xmlDoc.root.children){
             if ([child.name isEqualToString:@"Success"]){

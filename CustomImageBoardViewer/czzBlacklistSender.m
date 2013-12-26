@@ -85,7 +85,7 @@
 }
 
 #pragma czzBlacklistDownloader delegate
--(void)downloadSuccess:(BOOL)success result:(NSArray *)blacklistEntities{
+-(void)downloadSuccess:(BOOL)success result:(NSSet *)blacklistEntities{
     if (success){
         [[czzBlacklist sharedInstance] setBlacklistEntities:blacklistEntities];
     }

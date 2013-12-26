@@ -9,7 +9,7 @@
 #import "czzBlacklist.h"
 
 @implementation czzBlacklist
-
+@synthesize blacklistEntities;
 + (id)sharedInstance
 {
     // structure used to test whether the block has completed or not
@@ -27,5 +27,17 @@
     return _sharedObject;
 }
 
+-(czzBlacklistEntity *)blacklistEntityForThreadID:(NSInteger)threadID{
+    @try {
+        NSPredicate *threadIDPredicate = [NSPredicate predicateWithFormat:@"threadID == %d", threadID];
+        NSSet *set = [blacklistEntities filteredSetUsingPredicate:threadIDPredicate];
+        return set.anyObject;
+        //return [blacklistEntities filteredSetUsingPredicate:threadIDPredicate].anyObject;
 
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@", exception);
+    }
+    return nil;
+}
 @end

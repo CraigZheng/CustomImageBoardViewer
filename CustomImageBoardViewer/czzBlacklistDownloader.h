@@ -10,7 +10,7 @@
 
 @protocol czzBlacklistDownloaderDelegate <NSObject>
 @optional
--(void)downloadSuccess:(BOOL)success result:(NSArray*)blacklistEntities;
+-(void)downloadSuccess:(BOOL)success result:(NSSet*)blacklistEntities;
 @end
 
 @interface czzBlacklistDownloader : NSObject

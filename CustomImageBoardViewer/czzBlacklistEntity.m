@@ -45,4 +45,15 @@
     }
     return  nil;
 }
+
+#pragma mark - hash and isEqual, two entities with same threadID is consider equal
+-(NSUInteger)hash{
+    return self.threadID;
+}
+
+-(BOOL)isEqual:(id)object{
+    if (((czzBlacklistEntity*)object).threadID == self.threadID)
+        return YES;
+    return NO;
+}
 @end
