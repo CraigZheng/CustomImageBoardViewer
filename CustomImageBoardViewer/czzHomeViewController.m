@@ -272,6 +272,25 @@
     return tableView.rowHeight;
 }
 
+#pragma mark - UIScrollVIew delegate
+/*
+ this function would be called everytime user dragged the uitableview to the bottom
+ */
+- (void)scrollViewDidScroll:(UIScrollView *)aScrollView {
+    CGPoint offset = aScrollView.contentOffset;
+    CGRect bounds = aScrollView.bounds;
+    CGSize size = aScrollView.contentSize;
+    UIEdgeInsets inset = aScrollView.contentInset;
+    float y = offset.y + bounds.size.height - inset.bottom;
+    float h = size.height;
+    
+    float reload_distance = threadTableView.rowHeight;
+    if(y > h + reload_distance && !xmlDownloader && threads.count > 0) {
+        [self performSelector:@selector(loadMoreThread:) withObject:nil];
+        [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
+
 //create a new NSURL outta targetURLString, and reload the content threadTableView
 -(void)refreshThread:(id)sender{
     [threads removeAllObjects];
@@ -285,6 +304,8 @@
 }
 
 -(void)loadMoreThread:(NSInteger)pn{
+    if (!pn)
+        pn = pageNumber;
     if (xmlDownloader)
         [xmlDownloader stop];
     NSString *targetURLStringWithPN = [targetURLString stringByAppendingString:

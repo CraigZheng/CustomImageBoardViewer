@@ -263,16 +263,11 @@
     pageNumber = 1;
     [threadTableView reloadData];
     [self loadMoreThread:pageNumber];
-    /*
-    //stop any possible previous downloader
-    if (xmlDownloader)
-        [xmlDownloader stop];
-    targetURLString = [baseURLString stringByAppendingString:[NSString stringWithFormat:@"&pn=1&count=20&since_id=%ld", (long)parentThread.ID]];
-    xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLString] delegate:self startNow:YES];
-     */
 }
 
 -(void)loadMoreThread:(NSInteger)pn{
+    if (!pn)
+        pn = pageNumber;
     if (xmlDownloader)
         [xmlDownloader stop];
     NSString *targetURLStringWithPN = [baseURLString stringByAppendingString:
@@ -285,6 +280,26 @@
 
     xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
 }
+
+#pragma mark - UIScrollVIew delegate
+/*
+ this function would be called everytime user dragged the uitableview to the bottom
+ */
+- (void)scrollViewDidScroll:(UIScrollView *)aScrollView {
+    CGPoint offset = aScrollView.contentOffset;
+    CGRect bounds = aScrollView.bounds;
+    CGSize size = aScrollView.contentSize;
+    UIEdgeInsets inset = aScrollView.contentInset;
+    float y = offset.y + bounds.size.height - inset.bottom;
+    float h = size.height;
+    
+    float reload_distance = threadTableView.rowHeight;
+    if(y > h + reload_distance && !xmlDownloader) {
+        [self performSelector:@selector(loadMoreThread:) withObject:nil];
+        [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
+
 
 #pragma mark czzXMLDownloaderDelegate
 -(void)downloadOf:(NSURL *)xmlURL successed:(BOOL)successed result:(NSData *)xmlData{
