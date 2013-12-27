@@ -213,7 +213,8 @@
             NSString *newString = [[renderedStr.string componentsSeparatedByCharactersInSet:
                                     [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
                                    componentsJoinedByString:@""];
-            [self.replyToList addObject:[NSNumber numberWithInteger:[newString integerValue]]];
+            if ([newString integerValue] != 0)
+                [self.replyToList addObject:[NSNumber numberWithInteger:[newString integerValue]]];
         }
     }
     if (renderedStr == nil) {
@@ -301,7 +302,7 @@
     [encoder encodeBool:self.sage forKey:@"sage"];
     [encoder encodeObject:self.postDateTime forKey:@"postDateTime"];
     [encoder encodeObject:self.updateDateTime forKey:@"updateDateTime"];
-    //TODO: what to do with the replyToList array?
+    [encoder encodeObject:self.replyToList forKey:@"replyToList"];
     [encoder encodeBool:self.harmful forKey:@"harmful"];
     [encoder encodeBool:self.blockContent forKey:@"blockContent"];
     [encoder encodeBool:self.blockImage forKey:@"blockImage"];
@@ -324,7 +325,7 @@
         self.sage = [decoder decodeBoolForKey:@"sage"];
         self.postDateTime = [decoder decodeObjectForKey:@"postDateTime"];
         self.updateDateTime = [decoder decodeObjectForKey:@"updateDateTime"];
-        //TODO: replyToList
+        self.replyToList = [decoder decodeObjectForKey:@"replyToList"];
         self.harmful = [decoder decodeBoolForKey:@"harmful"];
         self.blockContent = [decoder decodeBoolForKey:@"blockContent"];
         self.blockImage = [decoder decodeBoolForKey:@"blockImage"];

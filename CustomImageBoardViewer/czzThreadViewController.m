@@ -20,6 +20,7 @@
 #import "TTTAttributedLabel.h"
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
+#define OVERLAY_VIEW 122
 
 @interface czzThreadViewController ()<czzXMLDownloaderDelegate, UIDocumentInteractionControllerDelegate, TTTAttributedLabelDelegate>
 @property NSString *baseURLString;
@@ -33,6 +34,7 @@
 @property NSMutableDictionary *downloadedImages;
 @property NSMutableSet *currentImageDownloaders;
 @property UIDocumentInteractionController *documentInteractionController;
+@property CGPoint threadsTableViewContentOffSet; //record the content offset of the threads tableview
 @end
 
 @implementation czzThreadViewController
@@ -49,6 +51,7 @@
 @synthesize downloadedImages;
 @synthesize currentImageDownloaders;
 @synthesize documentInteractionController;
+@synthesize threadsTableViewContentOffSet;
 
 - (void)viewDidLoad
 {
@@ -186,7 +189,7 @@
         for (NSNumber *replyTo in thread.replyToList) {
             NSInteger rep = [replyTo integerValue];
             NSRange range = [contentLabel.text rangeOfString:[NSString stringWithFormat:@"%ld", (long)rep]];
-            [contentLabel addLinkToURL:[NSURL URLWithString:@"http://www.google.com"] withRange:range];
+            [contentLabel addLinkToURL:[NSURL URLWithString:[NSString stringWithFormat:@"GOTO://%ld", (long)rep]] withRange:range];
         }
         idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)thread.ID];
         //set the color to avoid compatible issues in iOS6
@@ -442,7 +445,7 @@
     }
 }
 
-#pragma mark sort array
+#pragma mark sort array based on thread ID
 -(NSArray*)sortTheGivenArray:(NSArray*)array{
     NSArray *sortedArray = [array sortedArrayUsingComparator:^NSComparisonResult(id a, id b){
         czzThread *first = (czzThread*)a;
@@ -482,10 +485,56 @@
 
 #pragma mark - TTTAttributedLabel delegate
 -(void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url{
-    if ([[url scheme] hasPrefix:@"action"]){
+    if ([[url scheme] isEqualToString:@"GOTO"]){
+        NSInteger gotoThreadID = [[url host] integerValue];
+        for (czzThread *thread in threads) {
+            if (thread.ID == gotoThreadID){
+                //record the current content offset
+                threadsTableViewContentOffSet = threadTableView.contentOffset;
+                //scroll to the tapped cell
+                [threadTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[threads indexOfObject:thread] inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:NO];
+                //retrive the tapped tableview cell from the tableview
+                UITableViewCell *selectedCell = [threadTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[threads indexOfObject:thread] inSection:0]];
+                selectedCell = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:selectedCell]];
+                [self highlightTableViewCell:selectedCell];
+                return;
+            }
+        }
+        [self.view makeToast:[NSString stringWithFormat:@"找不到帖子ID: %d, 可能不在本帖内", gotoThreadID]];
     } else {
         [[UIApplication sharedApplication] openURL:url];
     }
+}
+
+#pragma mark - high
+-(void)highlightTableViewCell:(UITableViewCell*)tableviewcell{
+    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.threadTableView.contentSize.height)];
+    containerView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.9f];
+    containerView.userInteractionEnabled = YES;
+    containerView.tag = OVERLAY_VIEW;
+    UIView *newView = [[UIView alloc] initWithFrame:tableviewcell.frame];
+    newView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9f];
+    [containerView addSubview:tableviewcell];
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnFloatingView: )];
+    //fade in effect
+    containerView.alpha = 0.0f;
+    [self.view addSubview:containerView];
+    [UIView animateWithDuration:0.2
+                     animations:^{containerView.alpha = 1.0f;}
+                     completion:^(BOOL finished){[containerView addGestureRecognizer:tapRecognizer];}];
+    
+}
+
+-(void)tapOnFloatingView:(UIGestureRecognizer*)gestureRecognizer{
+    UIView *containerView = [[[czzAppDelegate sharedAppDelegate] window] viewWithTag:OVERLAY_VIEW];
+    [UIView animateWithDuration:0.2 animations:^{
+        containerView.alpha = 0.0f;
+    } completion:^(BOOL finished){
+        [containerView removeFromSuperview];
+        //scroll back to the original position
+    }];
+    [threadTableView setContentOffset:threadsTableViewContentOffSet animated:YES];
+
 }
 
 #pragma mark UIDocumentInteractionController delegate
@@ -514,5 +563,13 @@
              */
         }
     }
+}
+
+#pragma mark - rotation change
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+    UIView *containerView = [[[czzAppDelegate sharedAppDelegate] window] viewWithTag:OVERLAY_VIEW];
+    //if the container view is not nil
+    if (containerView)
+        [self performSelector:@selector(tapOnFloatingView:) withObject:nil];
 }
 @end
