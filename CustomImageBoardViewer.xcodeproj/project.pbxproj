@@ -42,6 +42,7 @@
 		441E5E5417F52DEF00289DBD /* czzThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E5E5317F52DEF00289DBD /* czzThreadViewController.m */; };
 		442CD0E31851601A0021AD37 /* czzImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 442CD0E21851601A0021AD37 /* czzImageDownloader.m */; };
 		442CD0E718517BED0021AD37 /* czzImageCentre.m in Sources */ = {isa = PBXBuildFile; fileRef = 442CD0E618517BED0021AD37 /* czzImageCentre.m */; };
+		44412973186D39BA00075AA2 /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 44412972186D39BA00075AA2 /* TTTAttributedLabel.m */; };
 		4448C2A3180FF50F00D2CD76 /* czzBlacklistEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2A2180FF50F00D2CD76 /* czzBlacklistEntity.m */; };
 		4448C2A7180FF55A00D2CD76 /* czzBlacklistDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2A6180FF55A00D2CD76 /* czzBlacklistDownloader.m */; };
 		4448C2AA180FF6C600D2CD76 /* czzBlacklistSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2A9180FF6C600D2CD76 /* czzBlacklistSender.m */; };
@@ -158,6 +159,8 @@
 		442CD0E21851601A0021AD37 /* czzImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzImageDownloader.m; sourceTree = "<group>"; };
 		442CD0E518517BED0021AD37 /* czzImageCentre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzImageCentre.h; sourceTree = "<group>"; };
 		442CD0E618517BED0021AD37 /* czzImageCentre.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzImageCentre.m; sourceTree = "<group>"; };
+		44412971186D39BA00075AA2 /* TTTAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTTAttributedLabel.h; sourceTree = "<group>"; };
+		44412972186D39BA00075AA2 /* TTTAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTTAttributedLabel.m; sourceTree = "<group>"; };
 		4448C2A1180FF50F00D2CD76 /* czzBlacklistEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzBlacklistEntity.h; sourceTree = "<group>"; };
 		4448C2A2180FF50F00D2CD76 /* czzBlacklistEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzBlacklistEntity.m; sourceTree = "<group>"; };
 		4448C2A5180FF55A00D2CD76 /* czzBlacklistDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzBlacklistDownloader.h; sourceTree = "<group>"; };
@@ -395,6 +398,7 @@
 				441E5D1317F46A0E00289DBD /* czzEntryPointViewController */,
 				441E5D2D17F490E100289DBD /* czzThread */,
 				442CD0E4185160200021AD37 /* czzImageDownloader */,
+				44412970186D39BA00075AA2 /* TTTAttributedLabel */,
 				441E5D2517F4798300289DBD /* czzForumGroup */,
 				441E5D1C17F46E7F00289DBD /* SMXMLDocument */,
 				44FC434718008E660028D7C9 /* TDSemiModal */,
@@ -558,6 +562,15 @@
 				442CD0E618517BED0021AD37 /* czzImageCentre.m */,
 			);
 			name = czzImageDownloader;
+			sourceTree = "<group>";
+		};
+		44412970186D39BA00075AA2 /* TTTAttributedLabel */ = {
+			isa = PBXGroup;
+			children = (
+				44412971186D39BA00075AA2 /* TTTAttributedLabel.h */,
+				44412972186D39BA00075AA2 /* TTTAttributedLabel.m */,
+			);
+			path = TTTAttributedLabel;
 			sourceTree = "<group>";
 		};
 		4448C2A4180FF51D00D2CD76 /* czzBlacklist */ = {
@@ -835,6 +848,7 @@
 				44B96E37185B97C400D664A4 /* czzSettingsViewController.m in Sources */,
 				44FC435018008E660028D7C9 /* TDDatePickerController.m in Sources */,
 				440B302217F969BF00544926 /* czzNewPostViewController.m in Sources */,
+				44412973186D39BA00075AA2 /* TTTAttributedLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

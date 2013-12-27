@@ -17,10 +17,11 @@
 #import "czzRightSideViewController.h"
 #import "DACircularProgressView.h"
 #import "czzThreadCacheManager.h"
+#import "TTTAttributedLabel.h"
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
 
-@interface czzThreadViewController ()<czzXMLDownloaderDelegate, UIDocumentInteractionControllerDelegate>
+@interface czzThreadViewController ()<czzXMLDownloaderDelegate, UIDocumentInteractionControllerDelegate, TTTAttributedLabelDelegate>
 @property NSString *baseURLString;
 @property NSString *targetURLString;
 @property NSMutableSet *originalThreadData;
@@ -141,7 +142,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     // Configure the cell...
     if (cell){
-        UILabel *contentLabel = (UILabel*)[cell viewWithTag:1];
+        TTTAttributedLabel *contentLabel = (TTTAttributedLabel*)[cell viewWithTag:1];
         UILabel *idLabel = (UILabel*)[cell viewWithTag:2];
         UILabel *posterLabel = (UILabel*)[cell viewWithTag:3];
         UILabel *dateLabel = (UILabel*)[cell viewWithTag:5];
@@ -174,8 +175,19 @@
             contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:warningAttString];
             [contentAttrString insertAttributedString:thread.content atIndex:warningAttString.length];
         }
-        [contentLabel setAttributedText:contentAttrString];
-        [contentLabel setLineBreakMode:NSLineBreakByCharWrapping];
+        //content label
+        contentLabel.delegate = self;
+        [contentLabel setText:contentAttrString.string afterInheritingLabelAttributesAndConfiguringWithBlock:^NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
+            mutableAttributedString = contentAttrString;
+            return mutableAttributedString;
+        }];
+        [contentLabel setDataDetectorTypes:NSTextCheckingTypeLink];
+        //CLICKABLE CONTENT
+        for (NSNumber *replyTo in thread.replyToList) {
+            NSInteger rep = [replyTo integerValue];
+            NSRange range = [contentLabel.text rangeOfString:[NSString stringWithFormat:@"%ld", (long)rep]];
+            [contentLabel addLinkToURL:[NSURL URLWithString:@"http://www.google.com"] withRange:range];
+        }
         idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)thread.ID];
         //set the color to avoid compatible issues in iOS6
         NSMutableAttributedString *uidAttrString = [[NSMutableAttributedString alloc] initWithString:@"UID:" attributes:[NSDictionary dictionaryWithObject:[UIColor colorWithRed:153.0f/255.0f green:102.0f/255.0f blue:51.0f/255.0f alpha:1.0f] forKey:NSForegroundColorAttributeName]];
@@ -465,6 +477,14 @@
     } else {
         [[czzImageCentre sharedInstance] downloadImageWithURL:tappedThread.imgSrc];
         [[czzAppDelegate sharedAppDelegate] showToast:@"正在下载图片"];
+    }
+}
+
+#pragma mark - TTTAttributedLabel delegate
+-(void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url{
+    if ([[url scheme] hasPrefix:@"action"]){
+    } else {
+        [[UIApplication sharedApplication] openURL:url];
     }
 }
 

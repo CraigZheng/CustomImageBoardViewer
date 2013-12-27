@@ -38,7 +38,7 @@
 #pragma NSURLConnection delegate
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
     receivedResponse = [NSMutableData new];
-    NSDictionary *dict = [(NSHTTPURLResponse*)response allHeaderFields];
+    //NSDictionary *dict = [(NSHTTPURLResponse*)response allHeaderFields];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{

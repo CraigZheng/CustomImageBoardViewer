@@ -208,6 +208,13 @@
         str = [str stringByReplacingCharactersInRange:NSMakeRange(frontTagBegin.location, (frontTagEnd.location - frontTagBegin.location + 1)) withString:@""];
         renderedStr = [[NSMutableAttributedString alloc] initWithString:str];
         [renderedStr addAttribute:NSForegroundColorAttributeName value:quoteColor range:NSMakeRange(frontTagBegin.location, str.length - frontTagBegin.location)];
+        //CLICKABLE CONTENT
+        if ([renderedStr.string hasPrefix:@">>"]){
+            NSString *newString = [[renderedStr.string componentsSeparatedByCharactersInSet:
+                                    [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
+                                   componentsJoinedByString:@""];
+            [self.replyToList addObject:[NSNumber numberWithInteger:[newString integerValue]]];
+        }
     }
     if (renderedStr == nil) {
         renderedStr = [[NSMutableAttributedString alloc] initWithString:str];

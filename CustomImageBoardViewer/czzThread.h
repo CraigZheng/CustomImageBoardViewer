@@ -24,13 +24,13 @@
 @property BOOL sage;
 @property NSDate *postDateTime;
 @property NSDate *updateDateTime;
-@property NSMutableArray *replyToList;
-#pragma CONTENT CENSORING PROPERTIES
+#pragma mark - CONTENT CENSORING PROPERTIES
 @property BOOL harmful;
 @property BOOL blockContent;
 @property BOOL blockImage;
 @property BOOL blockAll;
-
+#pragma mark - CLICKABLE CONTENT
+@property NSMutableArray *replyToList;
 -(id)initWithSMXMLElement:(SMXMLElement*)data;
 
 -(BOOL)isEqual:(id)object;
