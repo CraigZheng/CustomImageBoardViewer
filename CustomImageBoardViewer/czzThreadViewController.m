@@ -506,10 +506,12 @@
     }
 }
 
-#pragma mark - high
+#pragma mark - high light
 -(void)highlightTableViewCell:(UITableViewCell*)tableviewcell{
     UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.threadTableView.contentSize.height)];
-    containerView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.9f];
+    //disable the scrolling view
+    self.threadTableView.scrollEnabled = NO;
+    containerView.backgroundColor = [[UIColor darkGrayColor] colorWithAlphaComponent:0.7f];
     containerView.userInteractionEnabled = YES;
     containerView.tag = OVERLAY_VIEW;
     UIView *newView = [[UIView alloc] initWithFrame:tableviewcell.frame];
@@ -534,7 +536,7 @@
         //scroll back to the original position
     }];
     [threadTableView setContentOffset:threadsTableViewContentOffSet animated:YES];
-
+    self.threadTableView.scrollEnabled = YES;
 }
 
 #pragma mark UIDocumentInteractionController delegate
