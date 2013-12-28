@@ -247,8 +247,8 @@
     }
     if (thread){
         CGFloat sizeToSubtract = 40; //this is the size of left hand side margin and right hand side margin
-        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
-            sizeToSubtract = 60;
+        //if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+            //sizeToSubtract = 45;
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             
             if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))

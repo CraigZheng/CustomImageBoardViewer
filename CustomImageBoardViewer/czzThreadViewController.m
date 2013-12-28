@@ -174,12 +174,22 @@
         if (thread.harmful){
             NSDictionary *warningStringAttributes = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObject:[UIColor redColor]] forKeys:[NSArray arrayWithObject:NSForegroundColorAttributeName]];
             NSAttributedString *warningAttString = [[NSAttributedString alloc] initWithString:WARNINGHEADER attributes:warningStringAttributes];
+            
             //add the warning header to the front of content attributed string
             contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:warningAttString];
             [contentAttrString insertAttributedString:thread.content atIndex:warningAttString.length];
         }
         //content label
         contentLabel.delegate = self;
+        NSMutableParagraphStyle *paraStyle = [NSMutableParagraphStyle new];
+        //line spacing for iOS 6 devices for compatibility
+        if ([[[UIDevice currentDevice] systemVersion] doubleValue] < 7.0){
+            paraStyle.lineSpacing = 3.0f;
+        } else {
+            paraStyle.lineSpacing = 2.0f;
+        }
+        [contentAttrString addAttribute:NSParagraphStyleAttributeName value:paraStyle range:NSMakeRange(0, contentAttrString.length)];
+
         [contentLabel setText:contentAttrString.string afterInheritingLabelAttributesAndConfiguringWithBlock:^NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
             mutableAttributedString = contentAttrString;
             return mutableAttributedString;
@@ -246,8 +256,8 @@
     }
     if (thread){
         CGFloat sizeToSubtract = 40; //this is the size of left hand side margin and right hand side margin
-        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
-            sizeToSubtract = 60;
+        //if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+            //sizeToSubtract = 45;
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             
             if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
