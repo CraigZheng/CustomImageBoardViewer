@@ -199,7 +199,13 @@
         for (NSNumber *replyTo in thread.replyToList) {
             NSInteger rep = [replyTo integerValue];
             NSRange range = [contentLabel.text rangeOfString:[NSString stringWithFormat:@"%ld", (long)rep]];
-            [contentLabel addLinkToURL:[NSURL URLWithString:[NSString stringWithFormat:@"GOTO://%ld", (long)rep]] withRange:range];
+            @try {
+                [contentLabel addLinkToURL:[NSURL URLWithString:[NSString stringWithFormat:@"GOTO://%ld", (long)rep]] withRange:range];
+
+            }
+            @catch (NSException *exception) {
+                NSLog(@"%@", exception);
+            }
         }
         idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)thread.ID];
         //set the color to avoid compatible issues in iOS6
@@ -256,8 +262,8 @@
     }
     if (thread){
         CGFloat sizeToSubtract = 40; //this is the size of left hand side margin and right hand side margin
-        //if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
-            //sizeToSubtract = 45;
+        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+            sizeToSubtract = 45;
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             
             if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))

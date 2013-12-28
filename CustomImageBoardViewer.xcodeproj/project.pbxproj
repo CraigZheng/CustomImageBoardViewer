@@ -54,7 +54,6 @@
 		44B86459185D80E300C29B92 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B86458185D80E200C29B92 /* AudioToolbox.framework */; };
 		44B8645B185D80ED00C29B92 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B8645A185D80ED00C29B92 /* AVFoundation.framework */; };
 		44B8645D185D80F500C29B92 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B8645C185D80F500C29B92 /* MessageUI.framework */; };
-		44B8645F185D80FD00C29B92 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B8645E185D80FD00C29B92 /* StoreKit.framework */; };
 		44B86461185D810500C29B92 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B86460185D810500C29B92 /* SystemConfiguration.framework */; };
 		44B96E33185B8B8100D664A4 /* czzImageManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B96E32185B8B8100D664A4 /* czzImageManagerViewController.m */; };
 		44B96E37185B97C400D664A4 /* czzSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B96E36185B97C400D664A4 /* czzSettingsViewController.m */; };
@@ -186,7 +185,6 @@
 		44B86458185D80E200C29B92 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		44B8645A185D80ED00C29B92 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		44B8645C185D80F500C29B92 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		44B8645E185D80FD00C29B92 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		44B86460185D810500C29B92 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		44B96E31185B8B8100D664A4 /* czzImageManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzImageManagerViewController.h; sourceTree = "<group>"; };
 		44B96E32185B8B8100D664A4 /* czzImageManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzImageManagerViewController.m; sourceTree = "<group>"; };
@@ -237,7 +235,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				44B86461185D810500C29B92 /* SystemConfiguration.framework in Frameworks */,
-				44B8645F185D80FD00C29B92 /* StoreKit.framework in Frameworks */,
 				44B8645D185D80F500C29B92 /* MessageUI.framework in Frameworks */,
 				44B8645B185D80ED00C29B92 /* AVFoundation.framework in Frameworks */,
 				44B86459185D80E300C29B92 /* AudioToolbox.framework in Frameworks */,
@@ -367,7 +364,6 @@
 			isa = PBXGroup;
 			children = (
 				44B86460185D810500C29B92 /* SystemConfiguration.framework */,
-				44B8645E185D80FD00C29B92 /* StoreKit.framework */,
 				44B8645C185D80F500C29B92 /* MessageUI.framework */,
 				44B8645A185D80ED00C29B92 /* AVFoundation.framework */,
 				44B86458185D80E200C29B92 /* AudioToolbox.framework */,
@@ -739,6 +735,11 @@
 				TargetAttributes = {
 					441E5CCA17F4691300289DBD = {
 						DevelopmentTeam = 9EBE9MWW9X;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+						};
 					};
 					441E5CEE17F4691300289DBD = {
 						TestTargetID = 441E5CCA17F4691300289DBD;
@@ -977,9 +978,9 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-3";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Haozheng Zheng (9EBE9MWW9X)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Haozheng Zheng (9EBE9MWW9X)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Prefix.pch";
 				INFOPLIST_FILE = "CustomImageBoardViewer/CustomImageBoardViewer-Info.plist";
@@ -1000,9 +1001,9 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-3";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Haozheng Zheng (9EBE9MWW9X)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Haozheng Zheng (9EBE9MWW9X)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Prefix.pch";
 				INFOPLIST_FILE = "CustomImageBoardViewer/CustomImageBoardViewer-Info.plist";
