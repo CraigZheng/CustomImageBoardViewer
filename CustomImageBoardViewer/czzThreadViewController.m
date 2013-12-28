@@ -181,15 +181,18 @@
         }
         //content label
         contentLabel.delegate = self;
+        contentLabel.lineBreakMode = NSLineBreakByCharWrapping;
         NSMutableParagraphStyle *paraStyle = [NSMutableParagraphStyle new];
         //line spacing for iOS 6 devices for compatibility
         if ([[[UIDevice currentDevice] systemVersion] doubleValue] < 7.0){
-            paraStyle.lineSpacing = 3.0f;
+            if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+                paraStyle.lineSpacing = 2.0f;
+            else
+                paraStyle.lineSpacing = 3.0f;
         } else {
             paraStyle.lineSpacing = 2.0f;
         }
         [contentAttrString addAttribute:NSParagraphStyleAttributeName value:paraStyle range:NSMakeRange(0, contentAttrString.length)];
-
         [contentLabel setText:contentAttrString.string afterInheritingLabelAttributesAndConfiguringWithBlock:^NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
             mutableAttributedString = contentAttrString;
             return mutableAttributedString;
