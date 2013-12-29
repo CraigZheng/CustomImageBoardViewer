@@ -162,7 +162,7 @@
     if (thread.thImgSrc.length != 0){
         cell_identifier = @"image_thread_cell_identifier";
     }
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier];
     if (cell){
         UILabel *contentLabel = (UILabel*)[cell viewWithTag:1];
         UILabel *idLabel = (UILabel*)[cell viewWithTag:2];
