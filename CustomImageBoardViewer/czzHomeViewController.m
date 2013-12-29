@@ -97,8 +97,6 @@
          [self showTutorial];
      }
     self.viewDeckController.leftController = leftController;
-    if (threads.count > 0)
-        [threadTableView reloadData];
 
 }
 
@@ -490,7 +488,6 @@
 
 #pragma mark - rotation
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-    [threadTableView reloadData];
 }
 
 @end

@@ -33,7 +33,6 @@
     if (!threads){
         threads = [NSMutableSet new];
     }
-    [self.tableView reloadData];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -177,7 +176,5 @@
 
 #pragma mark - rotation
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-    if (threads.count > 0)
-        [self.tableView reloadData];
 }
 @end

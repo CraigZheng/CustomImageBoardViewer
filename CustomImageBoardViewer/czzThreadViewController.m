@@ -611,6 +611,5 @@
 }
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-    [threadTableView reloadData];
 }
 @end
