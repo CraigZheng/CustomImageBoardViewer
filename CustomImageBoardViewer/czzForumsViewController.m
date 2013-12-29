@@ -43,6 +43,13 @@
     [self.view makeToastActivity];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]){
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+}
+
 #pragma UITableView datasouce
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     if (failedToConnect)

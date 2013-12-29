@@ -17,6 +17,7 @@
 #import "czzMoreInfoViewController.h"
 #import "czzImageDownloader.h"
 #import "czzImageCentre.h"
+#import "czzAppDelegate.h"
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****"
 
@@ -96,10 +97,15 @@
          [self showTutorial];
      }
     self.viewDeckController.leftController = leftController;
+    if (threads.count > 0)
+        [threadTableView reloadData];
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -181,6 +187,8 @@
             }
         }
 
+        //content label
+        contentLabel.preferredMaxLayoutWidth = contentLabel.bounds.size.width;
         //if harmful flag of this thread object is set, inform user that this thread might be harmful
         //also hides the preview
         if (thread.harmful)
@@ -192,7 +200,7 @@
            //not harmful
             [contentLabel setAttributedText:thread.content];
         }
-        [contentLabel setLineBreakMode:NSLineBreakByCharWrapping];
+
         idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)thread.ID];
         [responseLabel setText:[NSString stringWithFormat:@"回应:%ld", (long)thread.responseCount]];
         NSDateFormatter *dateFormatter = [NSDateFormatter new];
@@ -265,7 +273,7 @@
         }
         //height for preview image
         if (thread.thImgSrc.length != 0) {
-            preferHeight += 60;
+            preferHeight += 80;
         }
         return MAX(tableView.rowHeight, preferHeight);
     }
@@ -368,7 +376,7 @@
     [threads addObjectsFromArray:newThreads];
     [threadTableView reloadData];
     [self.refreshControl endRefreshing];
-    [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] hideToastActivity];
+    [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
     //clear out the xmlDownloader
     [xmlDownloader stop];
     xmlDownloader = nil;
@@ -397,7 +405,7 @@
     czzMoreInfoViewController *moreInfoViewController = (czzMoreInfoViewController*)topNavigationController.viewControllers[0];
     [moreInfoViewController setForumName:forumname];
     //make busy
-    [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToastActivity];
+    [[[czzAppDelegate sharedAppDelegate] window] makeToastActivity];
 }
 
 #pragma notification handler - image downloaded
@@ -478,6 +486,11 @@
         return first.ID > second.ID;
     }];
     return sortedArray;
+}
+
+#pragma mark - rotation
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    [threadTableView reloadData];
 }
 
 @end

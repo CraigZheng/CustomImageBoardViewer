@@ -40,6 +40,7 @@
 		441E5E4E17F4A9C500289DBD /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5E4D17F4A9C500289DBD /* CoreText.framework */; };
 		441E5E5017F4AEA700289DBD /* warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 441E5E4F17F4AEA700289DBD /* warning.png */; };
 		441E5E5417F52DEF00289DBD /* czzThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E5E5317F52DEF00289DBD /* czzThreadViewController.m */; };
+		441EC336186EF58A00AF64BE /* czzRotatingTextInputToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 441EC335186EF58A00AF64BE /* czzRotatingTextInputToolbar.m */; };
 		442CD0E31851601A0021AD37 /* czzImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 442CD0E21851601A0021AD37 /* czzImageDownloader.m */; };
 		442CD0E718517BED0021AD37 /* czzImageCentre.m in Sources */ = {isa = PBXBuildFile; fileRef = 442CD0E618517BED0021AD37 /* czzImageCentre.m */; };
 		44412973186D39BA00075AA2 /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 44412972186D39BA00075AA2 /* TTTAttributedLabel.m */; };
@@ -155,6 +156,8 @@
 		441E5E4F17F4AEA700289DBD /* warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warning.png; sourceTree = "<group>"; };
 		441E5E5217F52DEF00289DBD /* czzThreadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewController.h; sourceTree = "<group>"; };
 		441E5E5317F52DEF00289DBD /* czzThreadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewController.m; sourceTree = "<group>"; };
+		441EC334186EF58A00AF64BE /* czzRotatingTextInputToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzRotatingTextInputToolbar.h; sourceTree = "<group>"; };
+		441EC335186EF58A00AF64BE /* czzRotatingTextInputToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzRotatingTextInputToolbar.m; sourceTree = "<group>"; };
 		442CD0E11851601A0021AD37 /* czzImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzImageDownloader.h; sourceTree = "<group>"; };
 		442CD0E21851601A0021AD37 /* czzImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzImageDownloader.m; sourceTree = "<group>"; };
 		442CD0E518517BED0021AD37 /* czzImageCentre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzImageCentre.h; sourceTree = "<group>"; };
@@ -340,6 +343,8 @@
 			children = (
 				440B302017F969BF00544926 /* czzNewPostViewController.h */,
 				440B302117F969BF00544926 /* czzNewPostViewController.m */,
+				441EC334186EF58A00AF64BE /* czzRotatingTextInputToolbar.h */,
+				441EC335186EF58A00AF64BE /* czzRotatingTextInputToolbar.m */,
 			);
 			name = czzNewPostViewController;
 			sourceTree = "<group>";
@@ -825,6 +830,7 @@
 				441E5D2917F48B3D00289DBD /* Toast+UIView.m in Sources */,
 				441E5D0C17F4699400289DBD /* IISideController.m in Sources */,
 				441E5CDF17F4691300289DBD /* czzAppDelegate.m in Sources */,
+				441EC336186EF58A00AF64BE /* czzRotatingTextInputToolbar.m in Sources */,
 				441E5D2C17F48F8C00289DBD /* czzThread.m in Sources */,
 				441E5D2417F4797F00289DBD /* czzForumGroup.m in Sources */,
 				44B96E33185B8B8100D664A4 /* czzImageManagerViewController.m in Sources */,

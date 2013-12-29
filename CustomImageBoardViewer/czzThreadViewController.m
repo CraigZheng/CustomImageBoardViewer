@@ -98,6 +98,12 @@
     self.viewDeckController.leftController = nil;
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if (threads.count > 0)
+        [threadTableView reloadData];
+}
+
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     //stop any downloading xml
@@ -181,9 +187,11 @@
         }
         //content label
         contentLabel.delegate = self;
-        contentLabel.lineBreakMode = NSLineBreakByCharWrapping;
+        contentLabel.preferredMaxLayoutWidth = contentLabel.bounds.size.width;
         NSMutableParagraphStyle *paraStyle = [NSMutableParagraphStyle new];
         //line spacing for iOS 6 devices for compatibility
+        paraStyle.lineSpacing = 1.0f;
+        /*
         if ([[[UIDevice currentDevice] systemVersion] doubleValue] < 7.0){
             if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
                 paraStyle.lineSpacing = 2.0f;
@@ -192,11 +200,18 @@
         } else {
             paraStyle.lineSpacing = 2.0f;
         }
+         */
         [contentAttrString addAttribute:NSParagraphStyleAttributeName value:paraStyle range:NSMakeRange(0, contentAttrString.length)];
-        [contentLabel setText:contentAttrString.string afterInheritingLabelAttributesAndConfiguringWithBlock:^NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
-            mutableAttributedString = contentAttrString;
-            return mutableAttributedString;
-        }];
+        
+        @try {
+            [contentLabel setText:contentAttrString.string afterInheritingLabelAttributesAndConfiguringWithBlock:^NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
+                mutableAttributedString = contentAttrString;
+                return mutableAttributedString;
+            }];
+        }
+        @catch (NSException *exception) {
+            [contentLabel setText:contentAttrString.string];
+        }
         [contentLabel setDataDetectorTypes:NSTextCheckingTypeLink];
         //CLICKABLE CONTENT
         for (NSNumber *replyTo in thread.replyToList) {
@@ -265,8 +280,8 @@
     }
     if (thread){
         CGFloat sizeToSubtract = 40; //this is the size of left hand side margin and right hand side margin
-        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
-            sizeToSubtract = 45;
+        //if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+            //sizeToSubtract = 45;
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             
             if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
@@ -283,7 +298,7 @@
         }
         //height for preview image
         if (thread.thImgSrc.length != 0) {
-            preferHeight += 60;
+            preferHeight += 80;
         }
         return MAX(tableView.rowHeight, preferHeight);
     }
@@ -481,6 +496,7 @@
 #pragma mark UITapGestureRecognizer method
 //when user tapped in the ui image view, start/stop the download or show the downloaded image
 - (IBAction)userTapInImage:(id)sender {
+    NSLog(@"tap");
     UITapGestureRecognizer *tapGestureRecognizer = (UITapGestureRecognizer*)sender;
     CGPoint tapLocation = [tapGestureRecognizer locationInView:self.tableView];
     NSIndexPath *tapIndexPath = [self.tableView indexPathForRowAtPoint:tapLocation];
@@ -592,5 +608,9 @@
     //if the container view is not nil
     if (containerView)
         [self performSelector:@selector(tapOnFloatingView:) withObject:nil];
+}
+
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    [threadTableView reloadData];
 }
 @end

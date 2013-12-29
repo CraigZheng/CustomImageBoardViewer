@@ -154,7 +154,7 @@
         
         //height for preview image
         if (thread.thImgSrc.length != 0) {
-            preferHeight += 60;
+            preferHeight += 80;
         }
         return MAX(tableView.rowHeight, preferHeight);
     }
@@ -173,5 +173,11 @@
         return first.ID > second.ID;
     }];
     return sortedArray;
+}
+
+#pragma mark - rotation
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    if (threads.count > 0)
+        [self.tableView reloadData];
 }
 @end

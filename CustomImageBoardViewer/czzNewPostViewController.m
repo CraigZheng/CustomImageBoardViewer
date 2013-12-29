@@ -13,7 +13,7 @@
 #import "czzPostSender.h"
 #import "czzBlacklistSender.h"
 
-@interface czzNewPostViewController ()<czzXMLDownloaderDelegate, czzPostSenderDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface czzNewPostViewController ()<czzXMLDownloaderDelegate, czzPostSenderDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextViewDelegate>
 @property NSString *targetURLString;
 @property NSURLConnection *urlConn;
 @property NSMutableData *receivedResponse;
@@ -32,7 +32,6 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    postTextView.inputAccessoryView = postToolbar;
     self.postNaviBar.topItem.title = [NSString stringWithFormat:@"%@:%@",self.postNaviBar.topItem.title , forumName];
     //URLs
     targetURLString = @"http://h.acfun.tv/api/thread/post_root";
@@ -54,8 +53,6 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-
-
 }
 
 - (IBAction)postAction:(id)sender {
@@ -93,6 +90,12 @@
     mediaUI.delegate = self;
     [self presentViewController:mediaUI animated:YES completion:nil];
 
+}
+
+#pragma mark - uitextview delegate
+-(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
+    textView.inputAccessoryView = postToolbar;
+    return YES;
 }
 
 #pragma mark UIImagePickerController delegate
@@ -154,6 +157,7 @@
 
 #pragma mark Keyboard actions
 -(void)keyboardWillShow:(NSNotification*)notification{
+
     /*
      Reduce the size of the text view so that it's not obscured by the keyboard.
      Animate the resize so that it's in sync with the appearance of the keyboard.
@@ -185,7 +189,7 @@
     [UIView setAnimationDuration:animationDuration];
     
     postTextView.frame = newTextViewFrame;
-    
+
     [UIView commitAnimations];
 }
 
@@ -221,4 +225,5 @@
     [postNaviBar setFrame:frame];
     
 }
+
 @end

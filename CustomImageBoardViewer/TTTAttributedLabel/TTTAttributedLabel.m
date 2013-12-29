@@ -769,17 +769,22 @@ static inline NSAttributedString * NSAttributedStringBySettingColorFromContext(N
     self.activeLink = nil;
 
     self.links = [NSArray array];
-    if (self.attributedText && self.dataDetectorTypes) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSArray *results = [self.dataDetector matchesInString:[text string] options:0 range:NSMakeRange(0, [text length])];
-            if ([results count] > 0) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if ([[self.attributedText string] isEqualToString:[text string]]) {
-                        [self addLinksWithTextCheckingResults:results attributes:self.linkAttributes];
-                    }
-                });
-            }
-        });
+    @try {
+        if (self.attributedText && self.dataDetectorTypes) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                NSArray *results = [self.dataDetector matchesInString:[text string] options:0 range:NSMakeRange(0, [text length])];
+                if ([results count] > 0) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if ([[self.attributedText string] isEqualToString:[text string]]) {
+                            [self addLinksWithTextCheckingResults:results attributes:self.linkAttributes];
+                        }
+                    });
+                }
+            });
+        }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@", exception);
     }
         
     [super setText:[self.attributedText string]];

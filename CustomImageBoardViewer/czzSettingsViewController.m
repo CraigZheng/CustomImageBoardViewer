@@ -30,6 +30,7 @@
     regularCommands = [NSMutableArray new];
     switchCommands = [NSMutableArray new];
     [self prepareCommands];
+    self.settingsTableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
 }
 
 #pragma mark UITableViewDataSource
