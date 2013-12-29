@@ -176,11 +176,11 @@
                                                 <constraint firstAttribute="height" constant="80" id="jCU-JZ-aXZ"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" misplaced="YES" usesAttributedText="YES" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="DAz-Za-KcT">
-                                            <rect key="frame" x="20" y="18" width="280" height="17"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" usesAttributedText="YES" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="DAz-Za-KcT">
+                                            <rect key="frame" x="20" y="18" width="280" height="27"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="500" constant="27" id="6u9-1O-CbW"/>
+                                                <constraint firstAttribute="height" priority="500" constant="27" id="6u9-1O-CbW"/>
                                             </constraints>
                                             <attributedString key="attributedText">
                                                 <fragment content="Content">
