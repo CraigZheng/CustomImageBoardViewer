@@ -52,13 +52,12 @@
         }
         if ([child.name isEqualToString:@"UID"]){
             NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithAttributedString:[self parseHTMLAttributes:child.value]];
-            //manually set colour to avoid compatible issues in iOS 6
+            //manually set colour
             [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:153.0f/255.0f green:102.0f/255.0f blue:51.0f/255.0f alpha:1.0f] range:NSMakeRange(0, attrString.length)];
             //if the given string contains keyword "color", then render it red to indicate its important
             if ([child.value.lowercaseString rangeOfString:@"color"].location != NSNotFound) {
                 [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, attrString.length)];
             }
-            //manually set the font size to avoid compatible issues in ios 6
             [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(0, attrString.length)];
 
             self.UID = attrString;
@@ -220,9 +219,12 @@
     if (renderedStr == nil) {
         renderedStr = [[NSMutableAttributedString alloc] initWithString:str];
     }
-    //for compatible reason, set the font size, otherwise it will be displayed improperly in ios6
-    [renderedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(0, renderedStr.length)];
+    //set the font size and shits
+    [renderedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(0, renderedStr.length)];
+    NSMutableParagraphStyle *paraStyle = [NSMutableParagraphStyle new];
+    paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
     
+    [renderedStr addAttribute:NSParagraphStyleAttributeName value:paraStyle range:NSMakeRange(0, renderedStr.length)];
     return renderedStr;
 }
 

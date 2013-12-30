@@ -18,6 +18,7 @@
 #import "czzImageDownloader.h"
 #import "czzImageCentre.h"
 #import "czzAppDelegate.h"
+#import <CoreText/CoreText.h>
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****"
 
@@ -162,11 +163,10 @@
     }
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier];
     if (cell){
-        UILabel *contentLabel = (UILabel*)[cell viewWithTag:1];
+        UITextView *contentLabel = (UITextView*)[cell viewWithTag:1];
         UILabel *idLabel = (UILabel*)[cell viewWithTag:2];
         UILabel *responseLabel = (UILabel*)[cell viewWithTag:4];
         UILabel *dateLabel = (UILabel*)[cell viewWithTag:5];
-        UILabel *imgLabel = (UILabel*)[cell viewWithTag:6];
         UILabel *sageLabel = (UILabel*)[cell viewWithTag:7];
         UILabel *lockLabel = (UILabel*)[cell viewWithTag:8];
         UIImageView *previewImageView = (UIImageView*)[cell viewWithTag:9];
@@ -186,7 +186,6 @@
         }
 
         //content label
-        contentLabel.preferredMaxLayoutWidth = contentLabel.bounds.size.width;
         //if harmful flag of this thread object is set, inform user that this thread might be harmful
         //also hides the preview
         if (thread.harmful)
@@ -204,10 +203,6 @@
         NSDateFormatter *dateFormatter = [NSDateFormatter new];
         [dateFormatter setDateFormat:@"时间:MM-dd, HH:mm"];
         dateLabel.text = [dateFormatter stringFromDate:thread.postDateTime];
-        if (thread.imgSrc.length == 0)
-            [imgLabel setHidden:YES];
-        else
-            [imgLabel setHidden:NO];
         if (thread.sage)
             [sageLabel setHidden:NO];
         else
@@ -216,10 +211,6 @@
             [lockLabel setHidden:NO];
         else
             [lockLabel setHidden:YES];
-        if (thread.imgSrc.length == 0)
-            [imgLabel setHidden:YES];
-        else
-            [imgLabel setHidden:NO];
         
     }
     return cell;
@@ -242,8 +233,10 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
     if (indexPath.row >= threads.count)
         return tableView.rowHeight;
+    
     czzThread *thread;
     @try {
         thread = [threads objectAtIndex:indexPath.row];
@@ -252,30 +245,24 @@
         
     }
     if (thread){
-        CGFloat sizeToSubtract = 40; //this is the size of left hand side margin and right hand side margin
-        //if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
-            //sizeToSubtract = 45;
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            
-            if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
-                sizeToSubtract *= (768.0 / 320.0);//the difference between the widths of phone and pad
-            else
-                sizeToSubtract *= (1024.0 / 480.0);//the difference between the widths of phone and pad
-        }
-        CGFloat preferHeight = [thread.content.string sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(self.view.frame.size.width - sizeToSubtract, MAXFLOAT) lineBreakMode:NSLineBreakByCharWrapping].height + 25;
-        //add the extra height for the harmful header
-        if (thread.harmful){
-            CGFloat extraHeaderHeight = [WARNINGHEADER sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(self.view.frame.size.width - sizeToSubtract, MAXFLOAT) lineBreakMode:NSLineBreakByCharWrapping].height;
-            preferHeight += extraHeaderHeight;
-            
-        }
+        CGFloat preferHeight = 0;
+        UITextView *newHiddenTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
+        newHiddenTextView.hidden = YES;
+        [self.view addSubview:newHiddenTextView];
+        newHiddenTextView.attributedText = thread.content;
+        preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(newHiddenTextView.frame.size.width, MAXFLOAT)].height + 10;
+        NSLog(@"size of hidden text view: %@", [NSValue valueWithCGSize:newHiddenTextView.frame.size]);
+        NSLog(@"size of content: %@", [NSValue valueWithCGSize:newHiddenTextView.contentSize]);
+        [newHiddenTextView removeFromSuperview];
         //height for preview image
         if (thread.thImgSrc.length != 0) {
-            preferHeight += 80;
+            preferHeight += 82;
+
         }
         return MAX(tableView.rowHeight, preferHeight);
     }
     return tableView.rowHeight;
+    
 }
 
 #pragma mark - UIScrollVIew delegate
