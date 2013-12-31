@@ -209,11 +209,14 @@
         [renderedStr addAttribute:NSForegroundColorAttributeName value:quoteColor range:NSMakeRange(frontTagBegin.location, str.length - frontTagBegin.location)];
         //CLICKABLE CONTENT
         if ([renderedStr.string hasPrefix:@">>"]){
+            
             NSString *newString = [[renderedStr.string componentsSeparatedByCharactersInSet:
                                     [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
                                    componentsJoinedByString:@""];
             if ([newString integerValue] != 0)
                 [self.replyToList addObject:[NSNumber numberWithInteger:[newString integerValue]]];
+            
+            //[self.replyToList addObject:renderedStr.string];
         }
     }
     if (renderedStr == nil) {

@@ -17,12 +17,12 @@
 #import "czzRightSideViewController.h"
 #import "DACircularProgressView.h"
 #import "czzThreadCacheManager.h"
-#import "TTTAttributedLabel.h"
+#import "czzMenuEnabledTableViewCell.h"
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
 #define OVERLAY_VIEW 122
 
-@interface czzThreadViewController ()<czzXMLDownloaderDelegate, UIDocumentInteractionControllerDelegate, TTTAttributedLabelDelegate>
+@interface czzThreadViewController ()<czzXMLDownloaderDelegate, UIDocumentInteractionControllerDelegate>
 @property NSString *baseURLString;
 @property NSString *targetURLString;
 @property NSMutableSet *originalThreadData;
@@ -84,7 +84,12 @@
     [self loadMoreThread:pageNumber];
     [self convertThreadSetToThreadArray];
     //end to retriving cached thread from storage
-
+    
+    //set up custom edit menu
+    UIMenuItem *replyMenuItem = [[UIMenuItem alloc] initWithTitle:@"回复" action:@selector(menuActionReply:)];
+    UIMenuItem *copyMenuItem = [[UIMenuItem alloc] initWithTitle:@"复制" action:@selector(menuActionCopy:)];
+    [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem]];
+    [[UIMenuController sharedMenuController] update];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -148,10 +153,12 @@
     if (thread.thImgSrc.length != 0){
         CellIdentifier = @"image_thread_cell_identifier";
     }
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     // Configure the cell...
     if (cell){
-        TTTAttributedLabel *contentLabel = (TTTAttributedLabel*)[cell viewWithTag:1];
+        cell.myThread = thread;
+        
+        UITextView *contentTextView = (UITextView*)[cell viewWithTag:1];
         UILabel *idLabel = (UILabel*)[cell viewWithTag:2];
         UILabel *posterLabel = (UILabel*)[cell viewWithTag:3];
         UILabel *dateLabel = (UILabel*)[cell viewWithTag:5];
@@ -185,46 +192,23 @@
             contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:warningAttString];
             [contentAttrString insertAttributedString:thread.content atIndex:warningAttString.length];
         }
-        //content label
-        contentLabel.delegate = self;
-        contentLabel.preferredMaxLayoutWidth = contentLabel.bounds.size.width;
-        NSMutableParagraphStyle *paraStyle = [NSMutableParagraphStyle new];
-        //line spacing for iOS 6 devices for compatibility
-        paraStyle.lineSpacing = 1.0f;
-        /*
-        if ([[[UIDevice currentDevice] systemVersion] doubleValue] < 7.0){
-            if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
-                paraStyle.lineSpacing = 2.0f;
-            else
-                paraStyle.lineSpacing = 3.0f;
-        } else {
-            paraStyle.lineSpacing = 2.0f;
-        }
-         */
-        [contentAttrString addAttribute:NSParagraphStyleAttributeName value:paraStyle range:NSMakeRange(0, contentAttrString.length)];
+        //content textview
+        contentTextView.attributedText = contentAttrString;
         
-        @try {
-            [contentLabel setText:contentAttrString.string afterInheritingLabelAttributesAndConfiguringWithBlock:^NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
-                mutableAttributedString = contentAttrString;
-                return mutableAttributedString;
-            }];
-        }
-        @catch (NSException *exception) {
-            [contentLabel setText:contentAttrString.string];
-        }
-        [contentLabel setDataDetectorTypes:NSTextCheckingTypeLink];
-        //CLICKABLE CONTENT
+        //clickable contents
         for (NSNumber *replyTo in thread.replyToList) {
             NSInteger rep = [replyTo integerValue];
-            NSRange range = [contentLabel.text rangeOfString:[NSString stringWithFormat:@"%ld", (long)rep]];
-            @try {
-                [contentLabel addLinkToURL:[NSURL URLWithString:[NSString stringWithFormat:@"GOTO://%ld", (long)rep]] withRange:range];
+            NSRange range = [contentAttrString.string rangeOfString:[NSString stringWithFormat:@"%ld", (long)rep]];
+            if (range.location != NSNotFound){
+                CGRect result = [self frameOfTextRange:range inTextView:contentTextView];
+                NSLog(@"%@", [NSValue valueWithCGRect:result]);
+                UIView *view1 = [[UIView alloc] initWithFrame:result];
+                view1.backgroundColor = [UIColor colorWithRed:0.2f green:0.5f blue:0.2f alpha:0.4f];
+                [contentTextView addSubview:view1];
+            }
 
-            }
-            @catch (NSException *exception) {
-                NSLog(@"%@", exception);
-            }
         }
+        
         idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)thread.ID];
         //set the color to avoid compatible issues in iOS6
         NSMutableAttributedString *uidAttrString = [[NSMutableAttributedString alloc] initWithString:@"UID:" attributes:[NSDictionary dictionaryWithObject:[UIColor colorWithRed:153.0f/255.0f green:102.0f/255.0f blue:51.0f/255.0f alpha:1.0f] forKey:NSForegroundColorAttributeName]];
@@ -254,13 +238,23 @@
     return cell;
 }
 
+- (CGRect)frameOfTextRange:(NSRange)range inTextView:(UITextView *)textView {
+    if ([UIDevice currentDevice].systemVersion.doubleValue >= 7.0)
+        textView.selectable = YES;
+    textView.selectedRange = range;
+    UITextRange *textRange = [textView selectedTextRange];
+    CGRect rect = [textView firstRectForRange:textRange];
+    if ([UIDevice currentDevice].systemVersion.doubleValue >= 7.0)
+        textView.selectable = NO;
+    return rect;
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     selectedIndex = indexPath;
     if (selectedIndex.row < threads.count){
         czzThread *selectedThread = [threads objectAtIndex:indexPath.row];
         if (selectedThread){
             [threadMenuViewController setSelectedThread:selectedThread];
-            [self.viewDeckController toggleRightViewAnimated:YES];
         }
     } else {
         [self loadMoreThread:pageNumber];
@@ -268,9 +262,28 @@
     }
 }
 
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
+
+}
+
+-(BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row < threads.count)
+        return YES;
+    return NO;
+}
+
+-(BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender{
+    return (action == @selector(copy:));
+}
+
+-(void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender{
+    
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row >= threads.count)
         return tableView.rowHeight;
+
     czzThread *thread;
     @try {
         thread = [threads objectAtIndex:indexPath.row];
@@ -279,31 +292,21 @@
         
     }
     if (thread){
-        CGFloat sizeToSubtract = 40; //this is the size of left hand side margin and right hand side margin
-        //if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
-            //sizeToSubtract = 45;
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            
-            if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
-                sizeToSubtract *= (768.0 / 320.0);//the difference between the widths of phone and pad
-            else
-                sizeToSubtract *= (1024.0 / 480.0);//the difference between the widths of phone and pad
-        }
-        CGFloat preferHeight = [thread.content.string sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(self.view.frame.size.width - sizeToSubtract, MAXFLOAT) lineBreakMode:NSLineBreakByCharWrapping].height + 25;
-        //add the extra height for the harmful header
-        if (thread.harmful){
-            CGFloat extraHeaderHeight = [WARNINGHEADER sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(self.view.frame.size.width - sizeToSubtract, MAXFLOAT) lineBreakMode:NSLineBreakByCharWrapping].height;
-            preferHeight += extraHeaderHeight;
-            
-        }
+        CGFloat preferHeight = 0;
+        UITextView *newHiddenTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
+        newHiddenTextView.hidden = YES;
+        [self.view addSubview:newHiddenTextView];
+        newHiddenTextView.attributedText = thread.content;
+        preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(newHiddenTextView.frame.size.width, MAXFLOAT)].height + 20;
+        [newHiddenTextView removeFromSuperview];
         //height for preview image
         if (thread.thImgSrc.length != 0) {
-            preferHeight += 80;
+            preferHeight += 82;
+            
         }
         return MAX(tableView.rowHeight, preferHeight);
     }
-    return tableView.rowHeight;
-}
+    return tableView.rowHeight;}
 
 -(void)refreshThread:(id)sender{
     [originalThreadData removeAllObjects];
@@ -331,24 +334,6 @@
 }
 
 #pragma mark - UIScrollVIew delegate
-/*
- this function would be called everytime user dragged the uitableview to the bottom, call load more threads function here
- */
-/*
-- (void)scrollViewDidScroll:(UIScrollView *)aScrollView {
-    NSArray *visibleRows = [self.tableView visibleCells];
-    UITableViewCell *lastVisibleCell = [visibleRows lastObject];
-    NSIndexPath *path = [self.tableView indexPathForCell:lastVisibleCell];
-    if(path.row == threads.count)
-    {
-        CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
-        if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.contentSize.height && !xmlDownloader){
-            [self performSelector:@selector(loadMoreThread:) withObject:nil];
-            [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-        }
-    }
-}
- */
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)aScrollView
 {
@@ -517,7 +502,17 @@
         [[czzAppDelegate sharedAppDelegate] showToast:@"正在下载图片"];
     }
 }
+//when user tapped in a uitextview, pass the touch event to uitableview
+- (IBAction)userTapInTextView:(id)sender {
+    NSLog(@"user tapped in textView");
+    UITapGestureRecognizer *tapGestureRecognizer = (UITapGestureRecognizer*)sender;
+    CGPoint tapLocation = [tapGestureRecognizer locationInView:self.tableView];
+    NSIndexPath *tapIndexPath = [self.tableView indexPathForRowAtPoint:tapLocation];
+    [threadTableView selectRowAtIndexPath:tapIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    [[UIMenuController sharedMenuController] setMenuVisible:YES animated:YES];
 
+}
+/*
 #pragma mark - TTTAttributedLabel delegate
 -(void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url{
     if ([[url scheme] isEqualToString:@"GOTO"]){
@@ -540,7 +535,7 @@
         [[UIApplication sharedApplication] openURL:url];
     }
 }
-
+*/
 #pragma mark - high light
 -(void)highlightTableViewCell:(UITableViewCell*)tableviewcell{
     UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.threadTableView.contentSize.height)];
@@ -589,15 +584,7 @@
             documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:path]];
             documentInteractionController.delegate = self;
             [documentInteractionController presentPreviewAnimated:YES];
-            /*
-            BOOL shouldAutoOpenImage = YES;
-            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldAutoOpenImage"]){
-                shouldAutoOpenImage = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldAutoOpenImage"];
-            }
-            if (shouldAutoOpenImage) {
-                [documentInteractionController presentPreviewAnimated:YES];
-            }
-             */
+
         }
     }
 }
@@ -610,6 +597,5 @@
         [self performSelector:@selector(tapOnFloatingView:) withObject:nil];
 }
 
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-}
+
 @end

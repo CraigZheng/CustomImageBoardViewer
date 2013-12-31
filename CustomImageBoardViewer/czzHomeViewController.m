@@ -163,7 +163,7 @@
     }
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier];
     if (cell){
-        UITextView *contentLabel = (UITextView*)[cell viewWithTag:1];
+        UITextView *contentTextView = (UITextView*)[cell viewWithTag:1];
         UILabel *idLabel = (UILabel*)[cell viewWithTag:2];
         UILabel *responseLabel = (UILabel*)[cell viewWithTag:4];
         UILabel *dateLabel = (UILabel*)[cell viewWithTag:5];
@@ -185,17 +185,17 @@
             }
         }
 
-        //content label
+        //content text view
         //if harmful flag of this thread object is set, inform user that this thread might be harmful
         //also hides the preview
         if (thread.harmful)
         {
-            NSDictionary *warningStringAttributes = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObject:[UIColor redColor]] forKeys:[NSArray arrayWithObject:NSForegroundColorAttributeName]];
+            NSDictionary *warningStringAttributes = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObject:[UIColor lightGrayColor]] forKeys:[NSArray arrayWithObject:NSForegroundColorAttributeName]];
             NSAttributedString *warningAttString = [[NSAttributedString alloc] initWithString:WARNINGHEADER attributes:warningStringAttributes];
-            [contentLabel setAttributedText:warningAttString];
+            [contentTextView setAttributedText:warningAttString];
         } else {
            //not harmful
-            [contentLabel setAttributedText:thread.content];
+            [contentTextView setAttributedText:thread.content];
         }
 
         idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)thread.ID];
@@ -250,9 +250,7 @@
         newHiddenTextView.hidden = YES;
         [self.view addSubview:newHiddenTextView];
         newHiddenTextView.attributedText = thread.content;
-        preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(newHiddenTextView.frame.size.width, MAXFLOAT)].height + 10;
-        NSLog(@"size of hidden text view: %@", [NSValue valueWithCGSize:newHiddenTextView.frame.size]);
-        NSLog(@"size of content: %@", [NSValue valueWithCGSize:newHiddenTextView.contentSize]);
+        preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(newHiddenTextView.frame.size.width, MAXFLOAT)].height + 20;
         [newHiddenTextView removeFromSuperview];
         //height for preview image
         if (thread.thImgSrc.length != 0) {
@@ -266,25 +264,6 @@
 }
 
 #pragma mark - UIScrollVIew delegate
-/*
- this function would be called everytime user dragged the uitableview to the bottom
- */
-/*
-- (void)scrollViewDidScroll:(UIScrollView *)aScrollView {
-    CGPoint offset = aScrollView.contentOffset;
-    CGRect bounds = aScrollView.bounds;
-    CGSize size = aScrollView.contentSize;
-    UIEdgeInsets inset = aScrollView.contentInset;
-    float y = offset.y + bounds.size.height - inset.bottom;
-    float h = size.height;
-    
-    float reload_distance = threadTableView.rowHeight;
-    if(y > h + reload_distance && !xmlDownloader && threads.count > 0) {
-        [self performSelector:@selector(loadMoreThread:) withObject:nil];
-        [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-    }
-}
- */
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)aScrollView
 {
     NSArray *visibleRows = [self.tableView visibleCells];

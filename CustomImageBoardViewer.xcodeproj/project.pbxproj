@@ -50,6 +50,8 @@
 		4448C2AA180FF6C600D2CD76 /* czzBlacklistSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2A9180FF6C600D2CD76 /* czzBlacklistSender.m */; };
 		4448C2AD18100C6B00D2CD76 /* czzBlacklist.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2AC18100C6B00D2CD76 /* czzBlacklist.m */; };
 		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
+		44AE2AFA187254E4002CB021 /* czzMenuEnabledTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AE2AF9187254E4002CB021 /* czzMenuEnabledTableViewCell.m */; };
+		44AE2AFE18725EC4002CB021 /* czzNoSelectionTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AE2AFD18725EC4002CB021 /* czzNoSelectionTextView.m */; };
 		44B86453185D807800C29B92 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B86451185D807800C29B92 /* libGoogleAdMobAds.a */; };
 		44B86454185D807800C29B92 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 44B86452185D807800C29B92 /* README.txt */; };
 		44B86457185D80A300C29B92 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B86456185D80A300C29B92 /* AdSupport.framework */; };
@@ -175,6 +177,10 @@
 		4448C2AC18100C6B00D2CD76 /* czzBlacklist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzBlacklist.m; sourceTree = "<group>"; };
 		4462EF2318659BC200E6BE78 /* czzFavouriteManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFavouriteManagerViewController.h; sourceTree = "<group>"; };
 		4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFavouriteManagerViewController.m; sourceTree = "<group>"; };
+		44AE2AF8187254E4002CB021 /* czzMenuEnabledTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzMenuEnabledTableViewCell.h; sourceTree = "<group>"; };
+		44AE2AF9187254E4002CB021 /* czzMenuEnabledTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzMenuEnabledTableViewCell.m; sourceTree = "<group>"; };
+		44AE2AFC18725EC4002CB021 /* czzNoSelectionTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzNoSelectionTextView.h; sourceTree = "<group>"; };
+		44AE2AFD18725EC4002CB021 /* czzNoSelectionTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzNoSelectionTextView.m; sourceTree = "<group>"; };
 		44B86448185D807800C29B92 /* GADAdMobExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdMobExtras.h; sourceTree = "<group>"; };
 		44B86449185D807800C29B92 /* GADAdNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdNetworkExtras.h; sourceTree = "<group>"; };
 		44B8644A185D807800C29B92 /* GADAdSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdSize.h; sourceTree = "<group>"; };
@@ -554,6 +560,9 @@
 				441E5E5317F52DEF00289DBD /* czzThreadViewController.m */,
 				440B2FCD17F8057C00544926 /* czzPostViewController */,
 				440B2FBE17F7C5E700544926 /* czzThreadMenuViewController */,
+				44AE2AFB1872569C002CB021 /* czzMenuEnabledTableViewCell */,
+				44AE2AFC18725EC4002CB021 /* czzNoSelectionTextView.h */,
+				44AE2AFD18725EC4002CB021 /* czzNoSelectionTextView.m */,
 			);
 			name = czzThreadViewController;
 			sourceTree = "<group>";
@@ -600,6 +609,15 @@
 				4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */,
 			);
 			name = czzFavouriteManagerVIewController;
+			sourceTree = "<group>";
+		};
+		44AE2AFB1872569C002CB021 /* czzMenuEnabledTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				44AE2AF8187254E4002CB021 /* czzMenuEnabledTableViewCell.h */,
+				44AE2AF9187254E4002CB021 /* czzMenuEnabledTableViewCell.m */,
+			);
+			name = czzMenuEnabledTableViewCell;
 			sourceTree = "<group>";
 		};
 		44B86455185D807F00C29B92 /* AdMod components */ = {
@@ -837,6 +855,8 @@
 				441E5D0D17F4699400289DBD /* IIViewDeckController.m in Sources */,
 				440B2FC717F7DB7800544926 /* czzForumsViewController.m in Sources */,
 				442CD0E718517BED0021AD37 /* czzImageCentre.m in Sources */,
+				44AE2AFE18725EC4002CB021 /* czzNoSelectionTextView.m in Sources */,
+				44AE2AFA187254E4002CB021 /* czzMenuEnabledTableViewCell.m in Sources */,
 				4448C2A7180FF55A00D2CD76 /* czzBlacklistDownloader.m in Sources */,
 				442CD0E31851601A0021AD37 /* czzImageDownloader.m in Sources */,
 				440B2FCC17F8057500544926 /* czzPostViewController.m in Sources */,

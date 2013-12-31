@@ -12,6 +12,7 @@
 #import "SMXMLDocument.h"
 #import "czzPostSender.h"
 #import "czzAppDelegate.h"
+#import "czzMenuEnabledTableViewCell.h"
 
 @interface czzPostViewController () <czzPostSenderDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property NSString *targetURLString;
@@ -34,7 +35,6 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    postTextView.inputAccessoryView = postToolbar;
     self.postNaviBar.topItem.title = [NSString stringWithFormat:@"回复"];
     //URLs
     targetURLString = @"http://h.acfun.tv/api/thread/post_sub";
@@ -61,7 +61,20 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-
+    
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
+    toolbar.barStyle = UIBarStyleBlack;
+    
+    //assign an input accessory view to it
+    UIBarButtonItem *clearButton = [[UIBarButtonItem alloc] initWithTitle:@"清除" style:UIBarButtonItemStylePlain target:self action:@selector(clearAction:)];
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem *pickImgButton = [[UIBarButtonItem alloc] initWithTitle:@"图片" style:UIBarButtonItemStylePlain target:self action:@selector(pickImageAction:)];
+    UIBarButtonItem *postBarButton = [[UIBarButtonItem alloc] initWithTitle:@"发表" style:UIBarButtonItemStylePlain target:self action:@selector(postAction:)];
+    
+    NSArray *buttons = [NSArray arrayWithObjects:clearButton, flexibleSpace, pickImgButton, postBarButton, nil];
+    toolbar.items = buttons;
+    
+    postTextView.inputAccessoryView = toolbar;
 }
 
 - (IBAction)postAction:(id)sender {

@@ -41,8 +41,10 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    //replyCommand = [NSMutableArray arrayWithObjects:@"回复主串", @"回复选定的帖子", @"加入收藏", nil];
     replyCommand = [NSMutableArray arrayWithObjects:@"回复主串", @"回复选定的帖子", @"加入收藏", nil];
-    shareCommand = [NSMutableArray arrayWithObjects:@"复制内容", @"复制选定帖子的ID", nil];
+    //shareCommand = [NSMutableArray arrayWithObjects:@"复制内容", @"复制选定帖子的ID", nil];
+    shareCommand = [NSMutableArray arrayWithObjects:@"复制帖子地址", nil];
     reportCommand = [NSMutableArray arrayWithObjects:@"举报", nil];
     threadDepandentCommand = [NSMutableArray new];
     allCommand = [NSMutableArray new];
@@ -56,6 +58,10 @@
     if (!favouriteThreads){
         favouriteThreads = [NSMutableSet new];
     }
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(replyToThread:)
+                                                 name:@"ReplyAction"
+                                               object:nil];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -139,6 +145,10 @@
     } else if ([command isEqualToString:@"加入收藏"]){
         [favouriteThreads addObject:self.parentThread];
         [[czzAppDelegate sharedAppDelegate] showToast:@"已加入收藏"];
+    } else if ([command isEqualToString:@"复制帖子地址"]){
+        NSString *address = [NSString stringWithFormat:@"http://h.acfun.tv/t/%ld", (long)self.parentThread.ID];
+        [[UIPasteboard generalPasteboard] setString:address];
+        [[czzAppDelegate sharedAppDelegate] showToast:@"帖子地址已复制"];
     }
 }
 
@@ -161,5 +171,16 @@
     return self;
 }
 
-
+#pragma mark - notification handler
+//reply to thread notification received
+-(void)replyToThread:(NSNotification*)notification{
+    NSDictionary *userInfo = notification.userInfo;
+    czzThread *replyToThread = [userInfo objectForKey:@"ReplyToThread"];
+    if (replyToThread){
+        czzPostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
+        [postViewController setThread:parentThread];
+        [postViewController setReplyTo:replyToThread];
+        [self presentViewController:postViewController animated:YES completion:nil];
+    }
+}
 @end

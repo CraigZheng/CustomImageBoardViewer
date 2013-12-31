@@ -13,7 +13,7 @@
 #import "czzPostSender.h"
 #import "czzBlacklistSender.h"
 
-@interface czzNewPostViewController ()<czzXMLDownloaderDelegate, czzPostSenderDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextViewDelegate>
+@interface czzNewPostViewController ()<czzXMLDownloaderDelegate, czzPostSenderDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property NSString *targetURLString;
 @property NSURLConnection *urlConn;
 @property NSMutableData *receivedResponse;
@@ -53,6 +53,20 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
+    toolbar.barStyle = UIBarStyleBlack;
+
+    //assign an input accessory view to it
+    UIBarButtonItem *clearButton = [[UIBarButtonItem alloc] initWithTitle:@"清除" style:UIBarButtonItemStylePlain target:self action:@selector(clearAction:)];
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem *pickImgButton = [[UIBarButtonItem alloc] initWithTitle:@"图片" style:UIBarButtonItemStylePlain target:self action:@selector(pickImageAction:)];
+    UIBarButtonItem *postBarButton = [[UIBarButtonItem alloc] initWithTitle:@"发表" style:UIBarButtonItemStylePlain target:self action:@selector(postAction:)];
+    
+    NSArray *buttons = [NSArray arrayWithObjects:clearButton, flexibleSpace, pickImgButton, postBarButton, nil];
+    toolbar.items = buttons;
+    
+    postTextView.inputAccessoryView = toolbar;
 }
 
 - (IBAction)postAction:(id)sender {
@@ -92,11 +106,6 @@
 
 }
 
-#pragma mark - uitextview delegate
--(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
-    textView.inputAccessoryView = postToolbar;
-    return YES;
-}
 
 #pragma mark UIImagePickerController delegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
