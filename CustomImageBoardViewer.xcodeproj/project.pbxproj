@@ -52,6 +52,7 @@
 		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
 		44AE2AFA187254E4002CB021 /* czzMenuEnabledTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AE2AF9187254E4002CB021 /* czzMenuEnabledTableViewCell.m */; };
 		44AE2AFE18725EC4002CB021 /* czzNoSelectionTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AE2AFD18725EC4002CB021 /* czzNoSelectionTextView.m */; };
+		44AE2B011872924C002CB021 /* PartialTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AE2B001872924C002CB021 /* PartialTransparentView.m */; };
 		44B86453185D807800C29B92 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B86451185D807800C29B92 /* libGoogleAdMobAds.a */; };
 		44B86454185D807800C29B92 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 44B86452185D807800C29B92 /* README.txt */; };
 		44B86457185D80A300C29B92 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B86456185D80A300C29B92 /* AdSupport.framework */; };
@@ -181,6 +182,8 @@
 		44AE2AF9187254E4002CB021 /* czzMenuEnabledTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzMenuEnabledTableViewCell.m; sourceTree = "<group>"; };
 		44AE2AFC18725EC4002CB021 /* czzNoSelectionTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzNoSelectionTextView.h; sourceTree = "<group>"; };
 		44AE2AFD18725EC4002CB021 /* czzNoSelectionTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzNoSelectionTextView.m; sourceTree = "<group>"; };
+		44AE2AFF1872924C002CB021 /* PartialTransparentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PartialTransparentView.h; sourceTree = "<group>"; };
+		44AE2B001872924C002CB021 /* PartialTransparentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PartialTransparentView.m; sourceTree = "<group>"; };
 		44B86448185D807800C29B92 /* GADAdMobExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdMobExtras.h; sourceTree = "<group>"; };
 		44B86449185D807800C29B92 /* GADAdNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdNetworkExtras.h; sourceTree = "<group>"; };
 		44B8644A185D807800C29B92 /* GADAdSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdSize.h; sourceTree = "<group>"; };
@@ -563,6 +566,8 @@
 				44AE2AFB1872569C002CB021 /* czzMenuEnabledTableViewCell */,
 				44AE2AFC18725EC4002CB021 /* czzNoSelectionTextView.h */,
 				44AE2AFD18725EC4002CB021 /* czzNoSelectionTextView.m */,
+				44AE2AFF1872924C002CB021 /* PartialTransparentView.h */,
+				44AE2B001872924C002CB021 /* PartialTransparentView.m */,
 			);
 			name = czzThreadViewController;
 			sourceTree = "<group>";
@@ -870,6 +875,7 @@
 				441E5D2017F46FB600289DBD /* czzXMLDownloader.m in Sources */,
 				440B2F6117F5EED800544926 /* GTMNSString+HTML.m in Sources */,
 				440B2FD017F8191700544926 /* czzPost.m in Sources */,
+				44AE2B011872924C002CB021 /* PartialTransparentView.m in Sources */,
 				441E5CDB17F4691300289DBD /* main.m in Sources */,
 				44FC4345180067CF0028D7C9 /* czzPostSender.m in Sources */,
 				441E5D0E17F4699400289DBD /* IIWrapController.m in Sources */,

@@ -18,6 +18,7 @@
 #import "DACircularProgressView.h"
 #import "czzThreadCacheManager.h"
 #import "czzMenuEnabledTableViewCell.h"
+#import "PartialTransparentView.h"
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
 #define OVERLAY_VIEW 122
@@ -153,7 +154,7 @@
     if (thread.thImgSrc.length != 0){
         CellIdentifier = @"image_thread_cell_identifier";
     }
-    czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     // Configure the cell...
     if (cell){
         cell.myThread = thread;
@@ -194,20 +195,7 @@
         }
         //content textview
         contentTextView.attributedText = contentAttrString;
-        
-        //clickable contents
-        for (NSNumber *replyTo in thread.replyToList) {
-            NSInteger rep = [replyTo integerValue];
-            NSRange range = [contentAttrString.string rangeOfString:[NSString stringWithFormat:@"%ld", (long)rep]];
-            if (range.location != NSNotFound){
-                CGRect result = [self frameOfTextRange:range inTextView:contentTextView];
-                NSLog(@"%@", [NSValue valueWithCGRect:result]);
-                UIView *view1 = [[UIView alloc] initWithFrame:result];
-                view1.backgroundColor = [UIColor colorWithRed:0.2f green:0.5f blue:0.2f alpha:0.4f];
-                [contentTextView addSubview:view1];
-            }
 
-        }
         
         idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)thread.ID];
         //set the color to avoid compatible issues in iOS6
@@ -234,6 +222,31 @@
         //set the title of this thread
         if (indexPath.row == 0)
             self.title = thread.title;
+        
+        //clickable contents
+        UIButton *previousButton = (UIButton*)[cell viewWithTag:20];
+        if (previousButton){
+            [previousButton removeFromSuperview];
+        }
+        for (NSNumber *replyTo in [thread replyToList]) {
+            NSInteger rep = [replyTo integerValue];
+            if (rep > 0) {
+                NSRange range = [contentAttrString.string rangeOfString:[NSString stringWithFormat:@"%d", rep]];
+                if (range.location != NSNotFound){
+                    CGRect result = [self frameOfTextRange:range inTextView:contentTextView];
+                    NSLog(@"%@", [NSValue valueWithCGRect:result]);
+
+                    if (result.size.width > 0 && result.size.height > 0){
+                        UIButton *tapToGoButton = [[UIButton alloc] initWithFrame:result];
+                        tapToGoButton.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.1f];
+                        tapToGoButton.tag = 20;
+                        [tapToGoButton addTarget:self action:@selector(userTapInQuotedText:) forControlEvents:UIControlEventTouchUpInside];
+                        [contentTextView addSubview:tapToGoButton];
+                    }
+                }
+            }
+            
+        }
     }
     return cell;
 }
@@ -505,12 +518,39 @@
 //when user tapped in a uitextview, pass the touch event to uitableview
 - (IBAction)userTapInTextView:(id)sender {
     NSLog(@"user tapped in textView");
+    /*
     UITapGestureRecognizer *tapGestureRecognizer = (UITapGestureRecognizer*)sender;
     CGPoint tapLocation = [tapGestureRecognizer locationInView:self.tableView];
     NSIndexPath *tapIndexPath = [self.tableView indexPathForRowAtPoint:tapLocation];
-    [threadTableView selectRowAtIndexPath:tapIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-    [[UIMenuController sharedMenuController] setMenuVisible:YES animated:YES];
+     */
+}
 
+-(void)userTapInQuotedText:(id)sender{
+    NSLog(@"user tapped in button");
+    UIView* v = sender;
+    while (![v isKindOfClass:[UITableViewCell class]])
+        v = v.superview;
+    UITableViewCell *parentCell = (UITableViewCell*)v;
+    
+    NSIndexPath *tappedIndexPath = [threadTableView indexPathForCell:parentCell];
+    if (tappedIndexPath){
+        czzThread *tappedThread = [threads objectAtIndex:tappedIndexPath.row];
+        for (czzThread *thread in threads) {
+            if (thread.ID == [[tappedThread.replyToList firstObject] integerValue]){
+                //record the current content offset
+                threadsTableViewContentOffSet = threadTableView.contentOffset;
+                //scroll to the tapped cell
+                [threadTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[threads indexOfObject:thread] inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:NO];
+                //retrive the tapped tableview cell from the tableview
+                UITableViewCell *selectedCell = [threadTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[threads indexOfObject:thread] inSection:0]];
+                UITableViewCell *cellCopy = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:selectedCell]];
+                [self highlightTableViewCell:cellCopy];
+                return;
+            }
+        }
+        [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"找不到帖子ID: %d, 可能不在本帖内", [[tappedThread.replyToList firstObject] integerValue]]];
+
+    }
 }
 /*
 #pragma mark - TTTAttributedLabel delegate
@@ -538,15 +578,13 @@
 */
 #pragma mark - high light
 -(void)highlightTableViewCell:(UITableViewCell*)tableviewcell{
-    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.threadTableView.contentSize.height)];
     //disable the scrolling view
     self.threadTableView.scrollEnabled = NO;
-    containerView.backgroundColor = [[UIColor darkGrayColor] colorWithAlphaComponent:0.7f];
+    PartialTransparentView *containerView = [[PartialTransparentView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.threadTableView.contentSize.height) backgroundColor:[[UIColor darkGrayColor] colorWithAlphaComponent:0.7f] andTransparentRects:[NSArray arrayWithObject:[NSValue valueWithCGRect:tableviewcell.frame]]];
+    
     containerView.userInteractionEnabled = YES;
     containerView.tag = OVERLAY_VIEW;
-    UIView *newView = [[UIView alloc] initWithFrame:tableviewcell.frame];
-    newView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9f];
-    [containerView addSubview:tableviewcell];
+    
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnFloatingView: )];
     //fade in effect
     containerView.alpha = 0.0f;
