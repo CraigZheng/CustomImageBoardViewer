@@ -90,6 +90,9 @@
     [super viewDidAppear:animated];
     //if this app is run for the first time, show a brief tutorial
      if (![[NSUserDefaults standardUserDefaults] objectForKey:@"firstTimeRunning"]) {
+         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"firstTimeRunning"];
+         [[NSUserDefaults standardUserDefaults] synchronize];
+
          [self showTutorial];
      }
     self.viewDeckController.leftController = leftController;

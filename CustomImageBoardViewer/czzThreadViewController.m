@@ -231,7 +231,7 @@
         NSInteger rep = [thread.replyToList.firstObject integerValue];
         if (rep > 0 && contentTextView) {
             NSString *quotedNumberText = [NSString stringWithFormat:@"%d", rep];
-            NSLog(@"%@", contentTextView.attributedText.string);
+
             NSRange range = [contentTextView.attributedText.string rangeOfString:quotedNumberText];
             if (range.location != NSNotFound){
                 CGRect result = [self frameOfTextRange:range inTextView:contentTextView];
@@ -493,7 +493,6 @@
 #pragma mark UITapGestureRecognizer method
 //when user tapped in the ui image view, start/stop the download or show the downloaded image
 - (IBAction)userTapInImage:(id)sender {
-    NSLog(@"tap");
     UITapGestureRecognizer *tapGestureRecognizer = (UITapGestureRecognizer*)sender;
     CGPoint tapLocation = [tapGestureRecognizer locationInView:self.tableView];
     NSIndexPath *tapIndexPath = [self.tableView indexPathForRowAtPoint:tapLocation];
@@ -516,7 +515,6 @@
 }
 //when user tapped in a uitextview, pass the touch event to uitableview
 - (IBAction)userTapInTextView:(id)sender {
-    NSLog(@"user tapped in textView");
     /*
     UITapGestureRecognizer *tapGestureRecognizer = (UITapGestureRecognizer*)sender;
     CGPoint tapLocation = [tapGestureRecognizer locationInView:self.tableView];
@@ -525,7 +523,6 @@
 }
 
 -(void)userTapInQuotedText:(id)sender{
-    NSLog(@"user tapped in button");
     UIView* v = sender;
     while (![v isKindOfClass:[UITableViewCell class]])
         v = v.superview;
