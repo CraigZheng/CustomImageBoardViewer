@@ -30,6 +30,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.collectionView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
     //show all images
     imageCategory = ALL_IMAGE;
     [self reloadImageFileFromImageCentre];

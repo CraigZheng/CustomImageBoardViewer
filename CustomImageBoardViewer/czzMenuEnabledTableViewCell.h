@@ -8,12 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "czzThread.h"
+#import "czzThreadViewController.h"
 
 /*
  sub class uitableview cell to enable custom menu action
  */
 
 @interface czzMenuEnabledTableViewCell : UITableViewCell
-
-@property czzThread *myThread;
+@property NSMutableArray *links;
+@property (nonatomic) czzThread *myThread;
 @end

@@ -24,6 +24,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -57,7 +58,7 @@
     }
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
     if (cell){
-        UILabel *contentLabel = (UILabel*)[cell viewWithTag:1];
+        UITextView *contentTextView = (UITextView*)[cell viewWithTag:1];
         UILabel *idLabel = (UILabel*)[cell viewWithTag:2];
         UILabel *responseLabel = (UILabel*)[cell viewWithTag:4];
         UILabel *dateLabel = (UILabel*)[cell viewWithTag:5];
@@ -77,8 +78,8 @@
                 [previewImageView setImage:previewImage];
             }
         }
-        [contentLabel setAttributedText:thread.content];
-        [contentLabel setLineBreakMode:NSLineBreakByCharWrapping];
+        [contentTextView setAttributedText:thread.content];
+
         idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)thread.ID];
         [responseLabel setText:[NSString stringWithFormat:@"回应:%ld", (long)thread.responseCount]];
         NSDateFormatter *dateFormatter = [NSDateFormatter new];
@@ -129,8 +130,10 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
     if (indexPath.row >= threads.count)
         return tableView.rowHeight;
+    
     czzThread *thread;
     @try {
         thread = [threads.allObjects objectAtIndex:indexPath.row];
@@ -139,21 +142,17 @@
         
     }
     if (thread){
-        CGFloat sizeToSubtract = 40; //this is the size of left hand side margin and right hand side margin
-        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
-            sizeToSubtract = 60;
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            
-            if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
-                sizeToSubtract *= (768.0 / 320.0);//the difference between the widths of phone and pad
-            else
-                sizeToSubtract *= (1024.0 / 480.0);//the difference between the widths of phone and pad
-        }
-        CGFloat preferHeight = [thread.content.string sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(self.view.frame.size.width - sizeToSubtract, MAXFLOAT) lineBreakMode:NSLineBreakByCharWrapping].height + 25;
-        
+        CGFloat preferHeight = 0;
+        UITextView *newHiddenTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
+        newHiddenTextView.hidden = YES;
+        [self.view addSubview:newHiddenTextView];
+        newHiddenTextView.attributedText = thread.content;
+        preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(newHiddenTextView.frame.size.width, MAXFLOAT)].height + 20;
+        [newHiddenTextView removeFromSuperview];
         //height for preview image
         if (thread.thImgSrc.length != 0) {
-            preferHeight += 80;
+            preferHeight += 82;
+            
         }
         return MAX(tableView.rowHeight, preferHeight);
     }

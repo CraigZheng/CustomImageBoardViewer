@@ -89,7 +89,8 @@
     //set up custom edit menu
     UIMenuItem *replyMenuItem = [[UIMenuItem alloc] initWithTitle:@"回复" action:@selector(menuActionReply:)];
     UIMenuItem *copyMenuItem = [[UIMenuItem alloc] initWithTitle:@"复制" action:@selector(menuActionCopy:)];
-    [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem]];
+    UIMenuItem *openMenuItem = [[UIMenuItem alloc] initWithTitle:@"打开链接" action:@selector(menuActionOpen:)];
+    [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, openMenuItem]];
     [[UIMenuController sharedMenuController] update];
 }
 
@@ -108,6 +109,11 @@
     [super viewDidAppear:animated];
     if (threads.count > 0)
         [threadTableView reloadData];
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"FirstTimeViewingThread"]){
+        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"长按帖子以回复" duration:2.0 position:@"center" title:@"请注意"];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"FirstTimeViewingThread"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -158,12 +164,17 @@
     // Configure the cell...
     if (cell){
         cell.myThread = thread;
+
+        //set the title of this thread
+        if (indexPath.row == 0)
+            self.title = thread.title;
+
+        //construct UI elements
         
         UITextView *contentTextView = (UITextView*)[cell viewWithTag:1];
         UILabel *idLabel = (UILabel*)[cell viewWithTag:2];
         UILabel *posterLabel = (UILabel*)[cell viewWithTag:3];
         UILabel *dateLabel = (UILabel*)[cell viewWithTag:5];
-        UILabel *imgLabel = (UILabel*)[cell viewWithTag:6];
         UILabel *sageLabel = (UILabel*)[cell viewWithTag:7];
         UILabel *lockLabel = (UILabel*)[cell viewWithTag:8];
         UIImageView *previewImageView = (UIImageView*)[cell viewWithTag:9];
@@ -177,16 +188,16 @@
             basePath = [basePath stringByAppendingPathComponent:@"Thumbnails"];
             NSString *filePath = [basePath stringByAppendingPathComponent:[thread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
             UIImage *previewImage =[UIImage imageWithContentsOfFile:filePath];
-            if (previewImage){
+            if (previewImage && previewImage.size.width > 0 && previewImage.size.height > 0){
                 [previewImageView setImage:previewImage];
             } else if ([downloadedImages objectForKey:thread.thImgSrc]){
-                [previewImageView setImage:[UIImage imageWithContentsOfFile:[downloadedImages objectForKey:thread.thImgSrc]]];
+              [previewImageView setImage:[UIImage imageWithContentsOfFile:[downloadedImages objectForKey:thread.thImgSrc]]];
             }
         }
         //if harmful flag is set, display warning header of harmful thread
         NSMutableAttributedString *contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:thread.content];
         if (thread.harmful){
-            NSDictionary *warningStringAttributes = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObject:[UIColor redColor]] forKeys:[NSArray arrayWithObject:NSForegroundColorAttributeName]];
+            NSDictionary *warningStringAttributes = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObject:[UIColor lightGrayColor]] forKeys:[NSArray arrayWithObject:NSForegroundColorAttributeName]];
             NSAttributedString *warningAttString = [[NSAttributedString alloc] initWithString:WARNINGHEADER attributes:warningStringAttributes];
             
             //add the warning header to the front of content attributed string
@@ -195,10 +206,9 @@
         }
         //content textview
         contentTextView.attributedText = contentAttrString;
-
         
         idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)thread.ID];
-        //set the color to avoid compatible issues in iOS6
+        //set the color
         NSMutableAttributedString *uidAttrString = [[NSMutableAttributedString alloc] initWithString:@"UID:" attributes:[NSDictionary dictionaryWithObject:[UIColor colorWithRed:153.0f/255.0f green:102.0f/255.0f blue:51.0f/255.0f alpha:1.0f] forKey:NSForegroundColorAttributeName]];
         [uidAttrString appendAttributedString:thread.UID];
         //manually set the font size to avoid compatible issues in IOS6
@@ -207,10 +217,6 @@
         NSDateFormatter *dateFormatter = [NSDateFormatter new];
         [dateFormatter setDateFormat:@"时间:yyyy MM-dd, HH:mm"];
         dateLabel.text = [dateFormatter stringFromDate:thread.postDateTime];
-        if (thread.imgSrc.length == 0)
-            [imgLabel setHidden:YES];
-        else
-            [imgLabel setHidden:NO];
         if (thread.sage)
             [sageLabel setHidden:NO];
         else
@@ -219,46 +225,39 @@
             [lockLabel setHidden:NO];
         else
             [lockLabel setHidden:YES];
-        //set the title of this thread
-        if (indexPath.row == 0)
-            self.title = thread.title;
         
-        //clickable contents
-        UIButton *previousButton = (UIButton*)[cell viewWithTag:20];
-        if (previousButton){
-            [previousButton removeFromSuperview];
-        }
-        for (NSNumber *replyTo in [thread replyToList]) {
-            NSInteger rep = [replyTo integerValue];
-            if (rep > 0) {
-                NSRange range = [contentAttrString.string rangeOfString:[NSString stringWithFormat:@"%d", rep]];
-                if (range.location != NSNotFound){
-                    CGRect result = [self frameOfTextRange:range inTextView:contentTextView];
-                    NSLog(@"%@", [NSValue valueWithCGRect:result]);
-
-                    if (result.size.width > 0 && result.size.height > 0){
-                        UIButton *tapToGoButton = [[UIButton alloc] initWithFrame:result];
-                        tapToGoButton.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.1f];
-                        tapToGoButton.tag = 20;
-                        [tapToGoButton addTarget:self action:@selector(userTapInQuotedText:) forControlEvents:UIControlEventTouchUpInside];
-                        [contentTextView addSubview:tapToGoButton];
-                    }
+        //clickable content
+        
+        NSInteger rep = [thread.replyToList.firstObject integerValue];
+        if (rep > 0 && contentTextView) {
+            NSString *quotedNumberText = [NSString stringWithFormat:@"%d", rep];
+            NSLog(@"%@", contentTextView.attributedText.string);
+            NSRange range = [contentTextView.attributedText.string rangeOfString:quotedNumberText];
+            if (range.location != NSNotFound){
+                CGRect result = [self frameOfTextRange:range inTextView:contentTextView];
+                
+                if (result.size.width > 0 && result.size.height > 0){
+                    UIButton *viewToAdd = [[UIButton alloc] initWithFrame:CGRectMake(result.origin.x, result.origin.y + contentTextView.frame.origin.y, result.size.width, result.size.height)];
+                    viewToAdd.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.1f];
+                    viewToAdd.tag = 99;
+                    [viewToAdd addTarget:self action:@selector(userTapInQuotedText:) forControlEvents:UIControlEventTouchUpInside];
+                    
+                    [cell.contentView addSubview:viewToAdd];
+                    
                 }
+                
             }
-            
         }
     }
     return cell;
 }
 
 - (CGRect)frameOfTextRange:(NSRange)range inTextView:(UITextView *)textView {
-    if ([UIDevice currentDevice].systemVersion.doubleValue >= 7.0)
-        textView.selectable = YES;
-    textView.selectedRange = range;
-    UITextRange *textRange = [textView selectedTextRange];
+    UITextPosition *beginning = textView.beginningOfDocument;
+    UITextPosition *start = [textView positionFromPosition:beginning offset:range.location];
+    UITextPosition *end = [textView positionFromPosition:start offset:range.length];
+    UITextRange *textRange = [textView textRangeFromPosition:start toPosition:end];
     CGRect rect = [textView firstRectForRange:textRange];
-    if ([UIDevice currentDevice].systemVersion.doubleValue >= 7.0)
-        textView.selectable = NO;
     return rect;
 }
 

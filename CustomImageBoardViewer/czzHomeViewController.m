@@ -80,9 +80,6 @@
                                              selector:@selector(imageDownloaded:)
                                                  name:@"ThumbnailDownloaded"
                                                object:nil];
-    //[[NSNotificationCenter defaultCenter] addObserver:self
-    //                                         selector:@selector(imageDownloaded:)
-    //                                             name:@"ImageDownloaded" object:nil];
     //register a refresh control
     UIRefreshControl* refreCon = [[UIRefreshControl alloc] init];
     [refreCon addTarget:self action:@selector(refreshThread:) forControlEvents:UIControlEventValueChanged];
@@ -93,11 +90,11 @@
     [super viewDidAppear:animated];
     //if this app is run for the first time, show a brief tutorial
      if (![[NSUserDefaults standardUserDefaults] objectForKey:@"firstTimeRunning"]) {
-         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"firstTimeRunning"];
-         [[NSUserDefaults standardUserDefaults] synchronize];
          [self showTutorial];
      }
     self.viewDeckController.leftController = leftController;
+    //download a message from the server
+    czzXMLDownloader *msgDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:@"http://civ.my-realm.com/message.xml"] delegate:self startNow:YES];
 
 }
 
@@ -178,7 +175,7 @@
             basePath = [basePath stringByAppendingPathComponent:@"Thumbnails"];
             NSString *filePath = [basePath stringByAppendingPathComponent:[thread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
             UIImage *previewImage =[UIImage imageWithContentsOfFile:filePath];
-            if (previewImage){
+            if (previewImage && previewImage.size.width > 0 && previewImage.size.height > 0){
                 [previewImageView setImage:previewImage];
             } else if ([downloadedImages objectForKey:thread.thImgSrc]){
                 [previewImageView setImage:[UIImage imageWithContentsOfFile:[downloadedImages objectForKey:thread.thImgSrc]]];
@@ -327,7 +324,31 @@
                     [[NSUserDefaults standardUserDefaults] synchronize];
                 }
             }
+            //my message
+            if ([child.name isEqualToString:@"privateMessage"]){
+                NSString *title;
+                NSString *message;
+                NSInteger howLong = 2.0;
+                BOOL shouldAlwaysDisplay = NO;
+                for (SMXMLElement *childNode in child.children){
+                    if ([childNode.name isEqualToString:@"title"]){
+                        title = childNode.value;
+                    }
+                    if ([childNode.name isEqualToString:@"message"]){
+                        message = childNode.value;
+                    }
+                    if ([childNode.name isEqualToString:@"howLong"]){
+                        if ([childNode.value integerValue] > 0)
+                            howLong = [childNode.value integerValue];
+                    }
+                    if ([childNode.name isEqualToString:@"shouldAlwaysDisplay"]){
+                        shouldAlwaysDisplay = [childNode.value boolValue];
+                    }
+                }
+                if (![[NSUserDefaults standardUserDefaults] objectForKey:@"firstTimeRunning"] || shouldAlwaysDisplay)
+                    [[[czzAppDelegate sharedAppDelegate] window] makeToast:message duration:howLong position:@"center" title:title];
 
+            }
         }
         //increase the page number if returned data is enough to fill a page of 20 threads
         if (newThreads.count >= 20)

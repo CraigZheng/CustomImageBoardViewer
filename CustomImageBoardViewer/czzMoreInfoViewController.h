@@ -15,6 +15,5 @@
 @property (nonatomic) NSString *forumName;
 @property GADBannerView *bannerView_;
 
-- (IBAction)sendEmailAction:(id)sender;
 - (IBAction)homePageAction:(id)sender;
 @end

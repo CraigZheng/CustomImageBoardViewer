@@ -9,34 +9,30 @@
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzPostViewController.h"
 #import "czzAppDelegate.h"
+#import "DACircularProgressView.h"
+
+@interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate>
+@end
 
 @implementation czzMenuEnabledTableViewCell
-
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        // Initialization code
-
-
-    }
-    return self;
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
+@synthesize links;
 
 -(BOOL)canPerformAction:(SEL)action withSender:(id)sender{
+    if (action == @selector(menuActionOpen:) && links.count > 0)
+        return YES;
     return (action == @selector(menuActionReply:) ||
             action == @selector(menuActionCopy:));
 }
 
 -(BOOL)canBecomeFirstResponder{
     return YES;
+}
+
+-(void)prepareForReuse{
+    UIView *viewToRemove = [self viewWithTag:99];
+    if (viewToRemove){
+        [viewToRemove removeFromSuperview];
+    }
 }
 
 #pragma mark - custom menu action
@@ -49,5 +45,55 @@
     NSLog(@"reply: %@", sender);
     NSDictionary *userInfo = [NSDictionary dictionaryWithObject:self.myThread forKey:@"ReplyToThread"];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ReplyAction" object:Nil userInfo:userInfo];
+}
+
+-(void)menuActionOpen:(id)sender{
+    
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle: @"打开链接"
+                                                       delegate: self
+                                              cancelButtonTitle: nil
+                                         destructiveButtonTitle: nil
+                                              otherButtonTitles: nil];
+    for (NSString *link in links) {
+        [actionSheet addButtonWithTitle:link];
+    }
+    [actionSheet addButtonWithTitle:@"取消"];
+    actionSheet.cancelButtonIndex = links.count;
+    
+    [actionSheet showInView:self.superview];
+}
+
+#pragma mark - setter
+-(void)setMyThread:(czzThread *)myThread{
+    _myThread = myThread;
+    NSDataDetector *linkDetector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
+    links = [NSMutableArray new];
+    NSArray *matches = [linkDetector matchesInString:myThread.content.string
+                                         options:0
+                                           range:NSMakeRange(0, [myThread.content.string length])];
+    for (NSTextCheckingResult *match in matches) {
+        if ([match resultType] == NSTextCheckingTypeLink) {
+            NSURL *url = [match URL];
+            [links addObject:url.absoluteString];
+        }
+    }
+    
+}
+
+- (CGRect)frameOfTextRange:(NSRange)range inTextView:(UITextView *)textView {
+    UITextPosition *beginning = textView.beginningOfDocument;
+    UITextPosition *start = [textView positionFromPosition:beginning offset:range.location];
+    UITextPosition *end = [textView positionFromPosition:start offset:range.length];
+    UITextRange *textRange = [textView textRangeFromPosition:start toPosition:end];
+    CGRect rect = [textView firstRectForRange:textRange];
+    return rect;
+}
+
+#pragma - mark UIActionSheet delegate
+//Open the link associated with the button
+-(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
+    NSURL *link = [NSURL URLWithString:buttonTitle];
+    [[UIApplication sharedApplication] openURL:link];
 }
 @end

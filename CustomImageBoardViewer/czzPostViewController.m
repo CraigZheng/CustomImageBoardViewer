@@ -111,9 +111,9 @@
         NSInteger newWidth = 1280;
         NSInteger newHeight = (newWidth / pickedImage.size.width) * pickedImage.size.height;
         pickedImage = [self resizeImage:pickedImage width:newWidth height:newHeight];
-        [self.view makeToast:@"由于图片尺寸太大，已进行压缩" duration:2.0 position:@"center" title:@"图片已选" image:pickedImage];
+        [self.view makeToast:@"由于图片尺寸太大，已进行压缩" duration:2.0 position:@"top" title:@"图片已选" image:pickedImage];
     } else {
-        [self.view makeToast:@"图片已选" duration:2.0 position:@"center" image:pickedImage];
+        [self.view makeToast:@"图片已选" duration:2.0 position:@"top" image:pickedImage];
     }
 
     [postSender setImgData:UIImageJPEGRepresentation(pickedImage, 0.8)];

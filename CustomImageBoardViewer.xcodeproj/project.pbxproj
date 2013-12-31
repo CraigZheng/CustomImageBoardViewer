@@ -564,10 +564,8 @@
 				440B2FCD17F8057C00544926 /* czzPostViewController */,
 				440B2FBE17F7C5E700544926 /* czzThreadMenuViewController */,
 				44AE2AFB1872569C002CB021 /* czzMenuEnabledTableViewCell */,
-				44AE2AFC18725EC4002CB021 /* czzNoSelectionTextView.h */,
-				44AE2AFD18725EC4002CB021 /* czzNoSelectionTextView.m */,
-				44AE2AFF1872924C002CB021 /* PartialTransparentView.h */,
-				44AE2B001872924C002CB021 /* PartialTransparentView.m */,
+				44AE2B021872B413002CB021 /* czzNoSelectionTextView */,
+				44AE2B031872B41D002CB021 /* PartialTransparentView */,
 			);
 			name = czzThreadViewController;
 			sourceTree = "<group>";
@@ -623,6 +621,24 @@
 				44AE2AF9187254E4002CB021 /* czzMenuEnabledTableViewCell.m */,
 			);
 			name = czzMenuEnabledTableViewCell;
+			sourceTree = "<group>";
+		};
+		44AE2B021872B413002CB021 /* czzNoSelectionTextView */ = {
+			isa = PBXGroup;
+			children = (
+				44AE2AFC18725EC4002CB021 /* czzNoSelectionTextView.h */,
+				44AE2AFD18725EC4002CB021 /* czzNoSelectionTextView.m */,
+			);
+			name = czzNoSelectionTextView;
+			sourceTree = "<group>";
+		};
+		44AE2B031872B41D002CB021 /* PartialTransparentView */ = {
+			isa = PBXGroup;
+			children = (
+				44AE2AFF1872924C002CB021 /* PartialTransparentView.h */,
+				44AE2B001872924C002CB021 /* PartialTransparentView.m */,
+			);
+			name = PartialTransparentView;
 			sourceTree = "<group>";
 		};
 		44B86455185D807F00C29B92 /* AdMod components */ = {

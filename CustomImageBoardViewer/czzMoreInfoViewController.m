@@ -9,9 +9,10 @@
 #import "czzMoreInfoViewController.h"
 #import "czzXMLDownloader.h"
 #import "SMXMLDocument.h"
-#import <MessageUI/MFMailComposeViewController.h>
+#import "czzAppDelegate.h"
+#import "Toast+UIView.h"
 
-@interface czzMoreInfoViewController ()<czzXMLDownloaderDelegate, UIWebViewDelegate, MFMailComposeViewControllerDelegate>
+@interface czzMoreInfoViewController ()<czzXMLDownloaderDelegate, UIWebViewDelegate>
 @property czzXMLDownloader *xmlDownloader;
 @property NSString *baseURL;
 @end
@@ -88,6 +89,8 @@
                     }
                 }
             }
+            
+
         }
         //inject the time span
         headerText = [headerText stringByReplacingOccurrencesOfString:@"@Time" withString:[NSString stringWithFormat:@"%d", sendTime]];
@@ -95,6 +98,7 @@
             [headerTextWebView stopLoading];
         }
         [headerTextWebView loadHTMLString:headerText baseURL:Nil];
+
     }
 }
 
@@ -108,29 +112,10 @@
     return YES;
 }
 
-//send an email to me
-- (IBAction)sendEmailAction:(id)sender {
-    if ([MFMailComposeViewController canSendMail]) {
-        MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
-        controller.mailComposeDelegate = self;
-        [controller setToRecipients:[NSArray arrayWithObject:@"craignineten@gmail.com"]];
-        [controller setSubject:@"A岛客户端无图版意见反馈"];
-        [controller setMessageBody:@"" isHTML:NO];
-        if (controller) [self presentViewController:controller animated:YES completion:nil];
-        [self.viewDeckController toggleTopViewAnimated:YES];
-    } else {
-        [[[UIAlertView alloc] initWithTitle:@"ERROR" message:@"EMAIL NOT READY" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
-    }
-}
-
 - (IBAction)homePageAction:(id)sender {
     NSString *homePageURL = @"http://www.acfun.tv/u/712573.aspx";
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:homePageURL]];
 
 }
 
-#pragma MFMailComposeViewController delegate
--(void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
 @end
