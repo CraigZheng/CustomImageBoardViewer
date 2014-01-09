@@ -34,6 +34,7 @@
     if (!threads){
         threads = [NSMutableSet new];
     }
+    threads = [NSMutableSet setWithArray:[self sortTheGivenArray:threads.allObjects]];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
