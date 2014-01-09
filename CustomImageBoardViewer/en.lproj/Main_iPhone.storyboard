@@ -824,34 +824,12 @@
                                 <rect key="frame" x="0.0" y="44" width="320" height="460"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <connections>
                                     <outlet property="delegate" destination="4co-Qn-de7" id="i8x-XW-rxS"/>
                                 </connections>
                             </textView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="iOG-bt-9kL" customClass="czzRotatingTextInputToolbar">
-                                <rect key="frame" x="0.0" y="504" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <items>
-                                    <barButtonItem title="清除" id="gSL-dq-ZFV">
-                                        <connections>
-                                            <action selector="clearAction:" destination="4co-Qn-de7" id="nMp-Fq-O6X"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Rs9-6M-KP3"/>
-                                    <barButtonItem title="图片" id="7YM-Pu-EdH">
-                                        <connections>
-                                            <action selector="pickImageAction:" destination="4co-Qn-de7" id="9w5-cg-HK9"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem title="发表" id="whq-Xc-OmJ">
-                                        <connections>
-                                            <action selector="postAction:" destination="4co-Qn-de7" id="KhC-AN-GSy"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ixg-tf-Y8O">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -878,10 +856,8 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="postButton" destination="whq-Xc-OmJ" id="1hr-be-Bz2"/>
                         <outlet property="postNaviBar" destination="ixg-tf-Y8O" id="HVM-HD-M9U"/>
                         <outlet property="postTextView" destination="Tgk-NW-5N7" id="Ra4-3I-PNT"/>
-                        <outlet property="postToolbar" destination="iOG-bt-9kL" id="tHb-74-E7Y"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nki-d0-FSQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1156,34 +1132,12 @@
                                 <rect key="frame" x="0.0" y="44" width="320" height="460"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <connections>
                                     <outlet property="delegate" destination="J6Q-bT-kkR" id="ZrK-ON-Ccy"/>
                                 </connections>
                             </textView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="ih9-ai-3gX" customClass="czzRotatingTextInputToolbar">
-                                <rect key="frame" x="0.0" y="504" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <items>
-                                    <barButtonItem title="清除" id="Ebh-7T-4hm">
-                                        <connections>
-                                            <action selector="clearAction:" destination="J6Q-bT-kkR" id="Ygk-jf-ovx"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="GwM-q5-wOs"/>
-                                    <barButtonItem title="图片" id="2OC-sa-qCD">
-                                        <connections>
-                                            <action selector="pickImageAction:" destination="J6Q-bT-kkR" id="X7M-DR-1ES"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem title="发表" id="Tpw-kC-6sf">
-                                        <connections>
-                                            <action selector="postAction:" destination="J6Q-bT-kkR" id="b40-MO-YXh"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xDc-EP-lEL">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -1213,10 +1167,8 @@
                         <barButtonItem key="leftBarButtonItem" title="取消" id="N0l-wq-Wce"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="postButton" destination="Tpw-kC-6sf" id="MEE-sg-365"/>
                         <outlet property="postNaviBar" destination="xDc-EP-lEL" id="P71-yd-kVp"/>
                         <outlet property="postTextView" destination="jTL-T1-u1p" id="hiW-Bs-A8Z"/>
-                        <outlet property="postToolbar" destination="ih9-ai-3gX" id="ZDa-ow-yt2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sUd-3H-rum" userLabel="First Responder" sceneMemberID="firstResponder"/>

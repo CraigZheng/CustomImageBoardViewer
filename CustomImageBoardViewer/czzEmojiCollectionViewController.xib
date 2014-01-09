@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="czzEmojiCollectionViewController">
+            <connections>
+                <outlet property="emojiCollectionView" destination="IPK-Cd-BLT" id="feR-10-ccJ"/>
+                <outlet property="view" destination="1" id="3"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="1">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QxE-YN-6nl">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="vJP-wC-sy2"/>
+                    </constraints>
+                    <items>
+                        <barButtonItem title="取消" id="OqI-AN-UiG">
+                            <connections>
+                                <action selector="cancelAction:" destination="-1" id="lEr-tT-vRE"/>
+                            </connections>
+                        </barButtonItem>
+                    </items>
+                </toolbar>
+                <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="IPK-Cd-BLT">
+                    <rect key="frame" x="0.0" y="44" width="320" height="524"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="2" minimumInteritemSpacing="0.0" id="R8O-tA-Wru">
+                        <size key="itemSize" width="106" height="50"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                    <cells/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="gQ9-sn-9xa"/>
+                        <outlet property="delegate" destination="-1" id="HbP-Q5-nPB"/>
+                    </connections>
+                </collectionView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="QxE-YN-6nl" firstAttribute="top" secondItem="1" secondAttribute="top" id="4zM-8q-0M9"/>
+                <constraint firstAttribute="trailing" secondItem="IPK-Cd-BLT" secondAttribute="trailing" id="FTe-St-pBx"/>
+                <constraint firstAttribute="bottom" secondItem="IPK-Cd-BLT" secondAttribute="bottom" id="M0E-Ed-Sqr"/>
+                <constraint firstAttribute="trailing" secondItem="QxE-YN-6nl" secondAttribute="trailing" id="MBH-UY-ecA"/>
+                <constraint firstItem="IPK-Cd-BLT" firstAttribute="top" secondItem="1" secondAttribute="top" constant="44" id="Rau-5E-Vbx"/>
+                <constraint firstItem="IPK-Cd-BLT" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="SSx-oI-Zws"/>
+                <constraint firstItem="QxE-YN-6nl" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="cNI-Vq-crI"/>
+            </constraints>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+        </view>
+    </objects>
+</document>

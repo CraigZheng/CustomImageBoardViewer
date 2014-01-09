@@ -13,8 +13,10 @@
 #import "czzPostSender.h"
 #import "czzAppDelegate.h"
 #import "czzMenuEnabledTableViewCell.h"
+#import "UIViewController+KNSemiModal.h"
+#import "czzEmojiCollectionViewController.h"
 
-@interface czzPostViewController () <czzPostSenderDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface czzPostViewController () <czzPostSenderDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
 @property NSString *targetURLString;
 @property NSMutableData *receivedResponse;
 @property czzPostSender *postSender;
@@ -41,7 +43,7 @@
     //content: reply to
     if (replyTo){
         self.postNaviBar.topItem.title = [NSString stringWithFormat:@"回复:%ld", (long)replyTo.ID];
-        postTextView.text = [NSString stringWithFormat:@">>%ld\n\n", (long)replyTo.ID];
+        postTextView.text = [NSString stringWithFormat:@">>No.%ld\n\n", (long)replyTo.ID];
     }
     //make a new czzPostSender object, and assign the appropriate target URL and delegate
     postSender = [czzPostSender new];
@@ -66,12 +68,13 @@
     toolbar.barStyle = UIBarStyleBlack;
     
     //assign an input accessory view to it
-    UIBarButtonItem *clearButton = [[UIBarButtonItem alloc] initWithTitle:@"清除" style:UIBarButtonItemStylePlain target:self action:@selector(clearAction:)];
+    UIBarButtonItem *clearButton = [[UIBarButtonItem alloc] initWithTitle:@"清除" style:UIBarButtonItemStyleBordered target:self action:@selector(clearAction:)];
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *pickImgButton = [[UIBarButtonItem alloc] initWithTitle:@"图片" style:UIBarButtonItemStylePlain target:self action:@selector(pickImageAction:)];
-    UIBarButtonItem *postBarButton = [[UIBarButtonItem alloc] initWithTitle:@"发表" style:UIBarButtonItemStylePlain target:self action:@selector(postAction:)];
+    UIBarButtonItem *pickEmojiButton = [[UIBarButtonItem alloc] initWithTitle:@"颜文字" style:UIBarButtonItemStyleBordered target:self action:@selector(pickEmojiAction:)];
+    UIBarButtonItem *pickImgButton = [[UIBarButtonItem alloc] initWithTitle:@"图片" style:UIBarButtonItemStyleBordered target:self action:@selector(pickImageAction:)];
+    UIBarButtonItem *postBarButton = [[UIBarButtonItem alloc] initWithTitle:@"发表" style:UIBarButtonItemStyleBordered target:self action:@selector(postAction:)];
     
-    NSArray *buttons = [NSArray arrayWithObjects:clearButton, flexibleSpace, pickImgButton, postBarButton, nil];
+    NSArray *buttons = [NSArray arrayWithObjects:clearButton, flexibleSpace, pickEmojiButton, pickImgButton, postBarButton, nil];
     toolbar.items = buttons;
     
     postTextView.inputAccessoryView = toolbar;
@@ -97,10 +100,20 @@
     [self presentViewController:mediaUI animated:YES completion:nil];
 }
 
+-(void)pickEmojiAction:(id)sender{
+    [postTextView resignFirstResponder];
+    czzEmojiCollectionViewController *emojiViewController = [[czzEmojiCollectionViewController alloc] initWithNibName:@"czzEmojiCollectionViewController" bundle:[NSBundle mainBundle]];
+    emojiViewController.delegate = self;
+    [self presentSemiViewController:emojiViewController withOptions:@{
+                                                                      KNSemiModalOptionKeys.pushParentBack    : @(NO),
+                                                                      KNSemiModalOptionKeys.animationDuration : @(0.3),
+                                                                      KNSemiModalOptionKeys.shadowOpacity     : @(0.0),
+                                                                      }];
+}
+
 //delete everything from the text view
 - (IBAction)clearAction:(id)sender {
     postTextView.text = @"";
-    [postTextView resignFirstResponder];
 }
 
 #pragma UIImagePickerController delegate
@@ -111,9 +124,9 @@
         NSInteger newWidth = 1280;
         NSInteger newHeight = (newWidth / pickedImage.size.width) * pickedImage.size.height;
         pickedImage = [self resizeImage:pickedImage width:newWidth height:newHeight];
-        [self.view makeToast:@"由于图片尺寸太大，已进行压缩" duration:2.0 position:@"top" title:@"图片已选" image:pickedImage];
+        [self.view makeToast:@"由于图片尺寸太大，已进行压缩" duration:1.5 position:@"top" title:@"图片已选" image:pickedImage];
     } else {
-        [self.view makeToast:@"图片已选" duration:2.0 position:@"top" image:pickedImage];
+        [self.view makeToast:@"图片已选" duration:1.5 position:@"top" image:pickedImage];
     }
 
     [postSender setImgData:UIImageJPEGRepresentation(pickedImage, 0.8)];
@@ -150,7 +163,7 @@
             [[czzAppDelegate sharedAppDelegate] showToast:@"帖子已发"];
         }];
     } else {
-        [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:message duration:2.0 position:@"top" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
+        [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:message duration:1.5 position:@"top" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
     }
     [self performSelectorInBackground:@selector(enablePostButton) withObject:Nil];
 }
@@ -227,5 +240,15 @@
     }
     [postNaviBar setFrame:frame];
     
+}
+
+#pragma mark - czzEmojiCollectionViewController delegate
+-(void)emojiSelected:(NSString *)emoji{
+    UIPasteboard* generalPasteboard = [UIPasteboard generalPasteboard];
+	NSArray* items = [generalPasteboard.items copy];
+	generalPasteboard.string = emoji;
+    [postTextView paste: self];
+    generalPasteboard.items = items;
+    [self dismissSemiModalView];
 }
 @end

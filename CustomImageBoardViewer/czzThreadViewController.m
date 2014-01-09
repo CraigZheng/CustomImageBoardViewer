@@ -123,10 +123,11 @@
         [xmlDownloader stop];
         xmlDownloader = nil;
     }
-    //save threads to storage
-    [[czzThreadCacheManager sharedInstance] saveThreads:[self sortTheGivenArray:originalThreadData.allObjects]];
     [self.refreshControl endRefreshing];
     [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] hideToastActivity];
+
+    //save threads to storage
+    [[czzThreadCacheManager sharedInstance] saveThreads:[self sortTheGivenArray:originalThreadData.allObjects]];
 }
 
 #pragma mark - Table view data source
@@ -381,9 +382,9 @@
                     [newThreas addObject:thread];
             }
             if ([child.name isEqualToString:@"access_token"]){
-                //if current access_token is nil, or the responding access_token does not match my current access token, save the responding access_token to a file for later use
+                //if current access_token is nil
                 NSString *oldToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"access_token"];
-                if (!oldToken || ![oldToken isEqualToString:child.value]){
+                if (!oldToken){
                     [[NSUserDefaults standardUserDefaults] setObject:child.value forKey:@"access_token"];
                     [[NSUserDefaults standardUserDefaults] synchronize];
                 }

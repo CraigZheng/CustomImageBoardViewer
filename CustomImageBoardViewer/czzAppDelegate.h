@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "IIViewDeckController.h"
 
+//the host will be changed very soon
+//#define myhost @"http://civ.atwebpages.com/"
+#define myhost @"http://civ.my-realm.com/"
+
 @interface czzAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

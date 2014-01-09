@@ -10,6 +10,7 @@
 #import "czzXMLDownloader.h"
 #import "SMXMLDocument.h"
 #import "czzBlacklist.h"
+#import "czzAppDelegate.h"
 #import "czzBlacklistDownloader.h"
 
 @interface czzBlacklistSender()<NSURLConnectionDelegate, czzBlacklistDownloaderDelegate>
@@ -26,7 +27,8 @@
 -(id)init{
     self = [super init];
     if (self){
-        targetURLString = @"http://civ.my-realm.com/php/update_blacklist.php";
+        //targetURLString = @"http://civ.my-realm.com/php/update_blacklist.php";
+        targetURLString = [myhost stringByAppendingPathComponent:@"php/update_blacklist.php"];
     }
     return  self;
 }

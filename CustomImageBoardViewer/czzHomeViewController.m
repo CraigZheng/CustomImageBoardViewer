@@ -84,6 +84,10 @@
     UIRefreshControl* refreCon = [[UIRefreshControl alloc] init];
     [refreCon addTarget:self action:@selector(refreshThread:) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreCon;
+    
+    //download a message from the server
+    czzXMLDownloader *msgDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:[myhost stringByAppendingPathComponent:@"message.xml"]] delegate:self startNow:YES];
+
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -96,8 +100,6 @@
          [self showTutorial];
      }
     self.viewDeckController.leftController = leftController;
-    //download a message from the server
-    czzXMLDownloader *msgDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:@"http://civ.my-realm.com/message.xml"] delegate:self startNow:YES];
 
 }
 
@@ -123,7 +125,7 @@
         [newPostViewController setForumName:forumName];
         [self.navigationController presentViewController:newPostViewController animated:YES completion:nil];
     } else {
-        [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"未选定一个版块" duration:2.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
+        [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"未选定一个版块" duration:1.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
     }
 }
 
@@ -308,7 +310,7 @@
         NSError *error;
         SMXMLDocument *xmlDoc = [[SMXMLDocument alloc] initWithData:xmlData error:&error];
         if (error){
-            [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"服务器回传的资料有误，请重试" duration:2.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
+            [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"服务器回传的资料有误，请重试" duration:1.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
             NSLog(@"%@", error);
         }
         for (SMXMLElement *child in xmlDoc.root.children) {
@@ -320,9 +322,9 @@
                 }
             }
             if ([child.name isEqualToString:@"access_token"]){
-                //if current access_token is nil, or the responding access_token does not match my current access token, save the responding access_token to a file for later use
+                //if current access_token is nil
                 NSString *oldToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"access_token"];
-                if (!oldToken || ![oldToken isEqualToString:child.value]){
+                if (!oldToken){
                     [[NSUserDefaults standardUserDefaults] setObject:child.value forKey:@"access_token"];
                     [[NSUserDefaults standardUserDefaults] synchronize];
                 }
@@ -331,7 +333,7 @@
             if ([child.name isEqualToString:@"privateMessage"]){
                 NSString *title;
                 NSString *message;
-                NSInteger howLong = 2.0;
+                NSInteger howLong = 1.5;
                 BOOL shouldAlwaysDisplay = NO;
                 for (SMXMLElement *childNode in child.children){
                     if ([childNode.name isEqualToString:@"title"]){
@@ -357,7 +359,7 @@
         if (newThreads.count >= 20)
             pageNumber += 1;
     } else {
-        [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"无法下载帖子列表，请重试" duration:2.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
+        [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"无法下载帖子列表，请重试" duration:1.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
 
     }
     //process the returned data and pass into the array

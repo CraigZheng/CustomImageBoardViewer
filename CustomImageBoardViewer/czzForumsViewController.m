@@ -12,6 +12,7 @@
 #import "czzForumGroup.h"
 #import "SMXMLDocument.h"
 #import "Toast+UIView.h"
+#import "czzAppDelegate.h"
 
 @interface czzForumsViewController () <czzXMLDownloaderDelegate>
 @property czzXMLDownloader *xmlDownloader;
@@ -37,8 +38,8 @@
     failedToConnect = NO;
     if (xmlDownloader)
         [xmlDownloader stop];
-    //NSString *forumString = @"http://h.acfun.tv/api/Forums";
-    NSString *forumString = @"http://civ.my-realm.com/forums.xml";
+    //NSString *forumString = @"http://civ.my-realm.com/forums.xml";
+    NSString *forumString = [myhost stringByAppendingPathComponent:@"forums.xml"];
     xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:forumString] delegate:self startNow:YES];
     [self.view makeToastActivity];
 }
@@ -122,7 +123,7 @@
             if ([child.name isEqualToString:@"status"]){
                 NSInteger status = [child.value integerValue];
                 if (status != 200){
-                    [self.view makeToast:@"网络错误：无法接上服务器" duration:2.0 position:@"bottom" image:[UIImage imageNamed:@"warning"]];
+                    [self.view makeToast:@"网络错误：无法接上服务器" duration:1.5 position:@"bottom" image:[UIImage imageNamed:@"warning"]];
                     break;
                 }
             }

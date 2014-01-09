@@ -221,9 +221,16 @@
     }
     if (renderedStr == nil) {
         renderedStr = [[NSMutableAttributedString alloc] initWithString:str];
+        [renderedStr addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(0, renderedStr.length)];
     }
     //set the font size and shits
-    [renderedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(0, renderedStr.length)];
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+    {
+        /* Device is iPad */
+        [renderedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:20] range:NSMakeRange(0, renderedStr.length)];
+    } else {
+        [renderedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(0, renderedStr.length)];
+    }
     NSMutableParagraphStyle *paraStyle = [NSMutableParagraphStyle new];
     paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
     
