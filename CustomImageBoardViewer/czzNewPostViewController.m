@@ -60,13 +60,13 @@
     toolbar.barStyle = UIBarStyleBlack;
 
     //assign an input accessory view to it
-    UIBarButtonItem *clearButton = [[UIBarButtonItem alloc] initWithTitle:@"清除" style:UIBarButtonItemStyleBordered target:self action:@selector(clearAction:)];
+    //UIBarButtonItem *clearButton = [[UIBarButtonItem alloc] initWithTitle:@"清除" style:UIBarButtonItemStyleBordered target:self action:@selector(clearAction:)];
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     UIBarButtonItem *pickEmojiButton = [[UIBarButtonItem alloc] initWithTitle:@"颜文字" style:UIBarButtonItemStyleBordered target:self action:@selector(pickEmojiAction:)];
     UIBarButtonItem *pickImgButton = [[UIBarButtonItem alloc] initWithTitle:@"图片" style:UIBarButtonItemStyleBordered target:self action:@selector(pickImageAction:)];
-    UIBarButtonItem *postBarButton = [[UIBarButtonItem alloc] initWithTitle:@"发表" style:UIBarButtonItemStyleBordered target:self action:@selector(postAction:)];
+    postButton = [[UIBarButtonItem alloc] initWithTitle:@"发表" style:UIBarButtonItemStyleBordered target:self action:@selector(postAction:)];
     
-    NSArray *buttons = [NSArray arrayWithObjects:clearButton, flexibleSpace, pickEmojiButton, pickImgButton, postBarButton, nil];
+    NSArray *buttons = [NSArray arrayWithObjects:pickEmojiButton, flexibleSpace, pickImgButton, postButton, nil];
     toolbar.items = buttons;
     
     postTextView.inputAccessoryView = toolbar;
@@ -97,6 +97,7 @@
 //delete everything from the text view
 - (IBAction)clearAction:(id)sender {
     postTextView.text = @"";
+    postSender.imgData = nil;
 }
 
 - (IBAction)pickImageAction:(id)sender {
@@ -133,11 +134,15 @@
     }
 
     [postSender setImgData:UIImageJPEGRepresentation(pickedImage, 0.8)];
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    [picker dismissViewControllerAnimated:YES completion:^{
+        [postTextView becomeFirstResponder];
+    }];
 }
 
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    [picker dismissViewControllerAnimated:YES completion:^{
+        [postTextView becomeFirstResponder];
+    }];
 }
 
 #pragma mark - resize UIImage
@@ -254,7 +259,9 @@
 	generalPasteboard.string = emoji;
     [postTextView paste: self];
     generalPasteboard.items = items;
-    [self dismissSemiModalView];
+    [self dismissSemiModalViewWithCompletion:^{
+        [postTextView becomeFirstResponder];
+    }];
 }
 
 @end

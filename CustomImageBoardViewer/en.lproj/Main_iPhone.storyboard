@@ -840,6 +840,11 @@
                                                 <action selector="cancelAction:" destination="4co-Qn-de7" id="3dM-8O-1tZ"/>
                                             </connections>
                                         </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="清除" id="0Vs-4v-0SZ">
+                                            <connections>
+                                                <action selector="clearAction:" destination="4co-Qn-de7" id="ttz-fB-13d"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -1146,6 +1151,11 @@
                                         <barButtonItem key="leftBarButtonItem" title="取消" id="ish-9J-DXa">
                                             <connections>
                                                 <action selector="cancelAction:" destination="J6Q-bT-kkR" id="vpx-4s-GIW"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="清除" id="Nnn-xY-3eE">
+                                            <connections>
+                                                <action selector="clearAction:" destination="J6Q-bT-kkR" id="CIQ-Ud-PpX"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
