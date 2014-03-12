@@ -75,7 +75,7 @@
             //if title has more than 10 chinese words, it will be too long to fit in the title bar
             //there fore we put it at the beginning of the content
             if (self.title.length > 10)
-                self.content = [self parseHTMLAttributes:[NSString stringWithFormat:@"%@\n\n%@", self.title, child.value]];
+                self.content = [self parseHTMLAttributes:[NSString stringWithFormat:@" - %@ - \n\n%@", self.title, child.value]];
             else
                 self.content = [self parseHTMLAttributes:child.value];
         }

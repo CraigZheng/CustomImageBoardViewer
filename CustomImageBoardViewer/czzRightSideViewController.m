@@ -41,7 +41,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     //replyCommand = [NSMutableArray arrayWithObjects:@"回复主串", @"回复选定的帖子", @"加入收藏", nil];
-    replyCommand = [NSMutableArray arrayWithObjects:@"回复主串", @"回复选定的帖子", @"加入收藏", nil];
+    replyCommand = [NSMutableArray arrayWithObjects:@"回复主串", @"回复选定的帖子", @"加入收藏", @"跳页", nil];
     //shareCommand = [NSMutableArray arrayWithObjects:@"复制内容", @"复制选定帖子的ID", nil];
     shareCommand = [NSMutableArray arrayWithObjects:@"复制帖子地址", nil];
     reportCommand = [NSMutableArray arrayWithObjects:@"举报", nil];
@@ -150,6 +150,11 @@
         NSString *address = [NSString stringWithFormat:@"http://h.acfun.tv/t/%ld", (long)self.parentThread.ID];
         [[UIPasteboard generalPasteboard] setString:address];
         [[czzAppDelegate sharedAppDelegate] showToast:@"帖子地址已复制"];
+    } else if ([command isEqualToString:@"跳页"]) {
+        [self.viewDeckController toggleRightViewAnimated:YES completion:
+         ^(IIViewDeckController *controller, BOOL success){
+             [[NSNotificationCenter defaultCenter] postNotificationName:@"JumpToPageCommand" object:nil userInfo:nil];
+        }];
     }
 }
 

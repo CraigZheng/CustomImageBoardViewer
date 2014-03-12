@@ -24,7 +24,7 @@
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
 #define OVERLAY_VIEW 122
 
-@interface czzThreadViewController ()<czzXMLDownloaderDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate>
+@interface czzThreadViewController ()<czzXMLDownloaderDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate>
 @property NSString *baseURLString;
 @property NSString *targetURLString;
 @property NSMutableSet *originalThreadData;
@@ -37,6 +37,7 @@
 @property NSMutableSet *currentImageDownloaders;
 @property UIDocumentInteractionController *documentInteractionController;
 @property CGPoint threadsTableViewContentOffSet; //record the content offset of the threads tableview
+
 @end
 
 @implementation czzThreadViewController
@@ -67,12 +68,14 @@
     currentImageDownloaders = [[czzImageCentre sharedInstance] currentImageDownloaders];
     //add the UIRefreshControl to uitableview
     UIRefreshControl *refreCon = [[UIRefreshControl alloc] init];
-    [refreCon addTarget:self action:@selector(refreshThread:) forControlEvents:UIControlEventValueChanged];
+    [refreCon addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreCon;
     //register for nsnotification centre for image downloaded notification and download progress update notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ThumbnailDownloaded" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ImageDownloaded" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaderUpdated:) name:@"ImageDownloaderProgressUpdated" object:nil];
+    //Jump to command observer
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(PromptForJumpToPage) name:@"JumpToPageCommand" object:nil];
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
     self.navigationController.delegate = self;
     //try to retrive cached thread from storage
@@ -323,13 +326,47 @@
     }
     return tableView.rowHeight;}
 
+-(void)dragOnRefreshControlAction:(id)sender{
+    [self refreshThread:self];
+}
+
+#pragma mark - jump to and download controls
+-(void)PromptForJumpToPage{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"跳页: ？/%d", ((parentThread.responseCount + 1) / 20)] message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alertView show];
+}
+
+#pragma mark - UIAlertViewDelegate
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
+    if ([buttonTitle isEqualToString:@"确定"]){
+        NSInteger newPageNumber = [[[alertView textFieldAtIndex:0] text] integerValue];
+        if (newPageNumber > 0){
+            self.pageNumber = newPageNumber;
+            //clear threads and ready to accept new threads
+            [originalThreadData removeAllObjects];
+            [self.threads removeAllObjects];
+            [self.threadTableView reloadData];
+            [self.refreshControl beginRefreshing];
+            [self loadMoreThread:self.pageNumber];
+            [[[czzAppDelegate sharedAppDelegate] window] makeToast:[NSString stringWithFormat:@"跳到第 %d 页...", self.pageNumber]];
+        } else {
+            [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"页码无效..."];
+        }
+    }
+}
+
 -(void)refreshThread:(id)sender{
     [originalThreadData removeAllObjects];
     [originalThreadData addObject:parentThread];
+    [threadTableView reloadData];
     //reset to default page number
     pageNumber = 1;
-    [threadTableView reloadData];
-    [self loadMoreThread:pageNumber];
+    //stop any possible previous downloader
+    if (xmlDownloader)
+        [xmlDownloader stop];
+    xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLString] delegate:self startNow:YES];
 }
 
 -(void)loadMoreThread:(NSInteger)pn{
@@ -368,7 +405,7 @@
 
 #pragma mark czzXMLDownloaderDelegate
 -(void)downloadOf:(NSURL *)xmlURL successed:(BOOL)successed result:(NSData *)xmlData{
-    NSMutableArray *newThreas = [NSMutableArray new];
+    NSMutableArray *newThreads = [NSMutableArray new];
     if (successed){
         NSError *error;
         SMXMLDocument *xmlDoc = [[SMXMLDocument alloc] initWithData:xmlData error:&error];
@@ -381,7 +418,7 @@
                 //create a thread outta this xml data
                 czzThread *thread = [[czzThread alloc] initWithSMXMLElement:child];
                 if (thread.ID != 0)
-                    [newThreas addObject:thread];
+                    [newThreads addObject:thread];
             }
             if ([child.name isEqualToString:@"access_token"]){
                 //if current access_token is nil
@@ -392,10 +429,13 @@
                 }
             }
         }
+        //increase the page number if returned data is enough to fill a page of 20 threads
+        if (newThreads.count >= 20)
+            pageNumber += 1;
     } else {
         [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"无法下载帖子列表，请重试" duration:2.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
     }
-    [originalThreadData addObjectsFromArray:newThreas];
+    [originalThreadData addObjectsFromArray:newThreads];
     [self.refreshControl endRefreshing];
     //clear out the xml downloader
     [xmlDownloader stop];
@@ -411,9 +451,6 @@
     [threads removeAllObjects];
     [threads addObjectsFromArray:sortedArray];
     [threadTableView reloadData];
-    if (threads.count > 0){
-        pageNumber = (NSInteger)(threads.count / 20) + 1;
-    }
 }
 
 #pragma mark notification handler - image downloader
