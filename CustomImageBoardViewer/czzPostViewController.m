@@ -149,8 +149,11 @@
 
 //delete everything from the text view
 - (IBAction)clearAction:(id)sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"清空内容和图片？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"清空" otherButtonTitles: nil];
-    [actionSheet showInView:self.view];
+    if (postTextView.text.length > 0)
+    {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"清空内容和图片？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"清空" otherButtonTitles: nil];
+        [actionSheet showInView:self.view];
+    }
 }
 
 #pragma mark - UIActionSheetDelegate

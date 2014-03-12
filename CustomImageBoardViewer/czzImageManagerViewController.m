@@ -38,7 +38,7 @@
     if ([[czzImageCentre sharedInstance] ready])
         [self reloadImageFileFromImageCentre];
     else
-        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"图片还在载入中，请稍等再重试..."];
+        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"图片还在载入中，请稍后重试..."];
 }
 
 #pragma Load data from image centre
