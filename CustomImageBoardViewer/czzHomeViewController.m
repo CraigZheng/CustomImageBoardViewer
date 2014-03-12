@@ -12,7 +12,7 @@
 #import "Toast/Toast+UIView.h"
 #import "czzThread.h"
 #import "czzThreadViewController.h"
-#import "czzNewPostViewController.h"
+#import "czzPostViewController.h"
 #import "czzBlacklist.h"
 #import "czzMoreInfoViewController.h"
 #import "czzImageDownloader.h"
@@ -22,7 +22,7 @@
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****"
 
-@interface czzHomeViewController ()<czzXMLDownloaderDelegate, UIDocumentInteractionControllerDelegate>
+@interface czzHomeViewController ()<czzXMLDownloaderDelegate, UIDocumentInteractionControllerDelegate, UIActionSheetDelegate>
 @property czzXMLDownloader *xmlDownloader;
 @property NSMutableArray *threads;
 @property NSInteger currentPage;
@@ -100,7 +100,9 @@
          [self showTutorial];
      }
     self.viewDeckController.leftController = leftController;
-
+    //if a forum has not been selected and is not the first time running
+    if (!self.forumName && [[NSUserDefaults standardUserDefaults] objectForKey:@"firstTimeRunning"])
+        [self.viewDeckController toggleLeftViewAnimated:YES];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -118,11 +120,29 @@
     [self.viewDeckController toggleLeftViewAnimated:YES];
 }
 
-- (IBAction)newPostAction:(id)sender {
+- (IBAction)moreAction:(id)sender {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"更多功能" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"发表新帖", @"设置...", nil];
+    [actionSheet showInView:self.view];
+}
+
+#pragma mark - UIActionSheetDelegate
+-(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
+    if ([buttonTitle isEqualToString:@"发表新帖"])
+        [self newPost];
+    else if ([buttonTitle isEqualToString:@"更多信息"])
+        [self openSettingsPanel];
+}
+
+-(void)openSettingsPanel{
+    [self.viewDeckController toggleTopViewAnimated:YES];
+}
+
+-(void)newPost{
     if (self.forumName.length > 0){
-        czzNewPostViewController *newPostViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"new_post_view_controller"];
-        newPostViewController.delegate = self;
+        czzPostViewController *newPostViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
         [newPostViewController setForumName:forumName];
+        newPostViewController.postMode = NEW_POST;
         [self.navigationController presentViewController:newPostViewController animated:YES completion:nil];
     } else {
         [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"未选定一个版块" duration:1.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
@@ -478,8 +498,5 @@
     return sortedArray;
 }
 
-#pragma mark - rotation
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-}
 
 @end

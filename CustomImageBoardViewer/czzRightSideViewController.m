@@ -9,7 +9,6 @@
 #import "czzRightSideViewController.h"
 #import "czzThreadViewController.h"
 #import "czzPostViewController.h"
-#import "czzNewPostViewController.h"
 #import "Toast+UIView.h"
 #import "czzBlacklistEntity.h"
 #import "czzImageCentre.h"
@@ -118,6 +117,7 @@
     } else if ([command isEqualToString:@"回复主串"]){
         czzPostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
         [postViewController setThread:parentThread];
+        postViewController.postMode = REPLY_POST;
         [self presentViewController:postViewController animated:YES completion:^{
             [self.viewDeckController toggleRightViewAnimated:NO];
         }];
@@ -125,13 +125,14 @@
         czzPostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
         [postViewController setThread:parentThread];
         [postViewController setReplyTo:selectedThread];
+        postViewController.postMode = REPLY_POST;
         [self presentViewController:postViewController animated:YES completion:^{
             [self.viewDeckController toggleRightViewAnimated:NO];
         }];
     } else if ([command isEqualToString:@"举报"]){
-        czzNewPostViewController *newPostViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"new_post_view_controller"];
+        czzPostViewController *newPostViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
         [newPostViewController setForumName:@"值班室"];
-                newPostViewController.delegate = self;
+        newPostViewController.postMode = REPORT_POST;
         [self presentViewController:newPostViewController animated:YES completion:^{
             [self.viewDeckController toggleRightViewAnimated:YES];
             NSString *reportString = [NSString stringWithFormat:@"http://h.acfun.tv/t/%ld?r=%ld\n理由:", (long)parentThread.ID, (long)selectedThread.ID];
@@ -180,6 +181,7 @@
         czzPostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
         [postViewController setThread:parentThread];
         [postViewController setReplyTo:replyToThread];
+        postViewController.postMode = REPLY_POST;
         [self presentViewController:postViewController animated:YES completion:nil];
     }
 }

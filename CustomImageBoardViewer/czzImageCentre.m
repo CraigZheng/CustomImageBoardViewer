@@ -41,11 +41,13 @@
 }
 - (id)init {
     if (self = [super init]) {
-        [self scanCurrentLocalImages];
         currentImageDownloaders = [NSMutableSet new];
         NSString* libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         thumbnailFolder = [libraryPath stringByAppendingPathComponent:@"Thumbnails"];
         imageFolder = [libraryPath stringByAppendingPathComponent:@"Images"];
+        currentLocalImages = [NSMutableSet new];
+        [self performSelectorInBackground:@selector(scanCurrentLocalImages) withObject:nil];
+        //[self scanCurrentLocalImages];
     }
     return self;
 }
@@ -89,6 +91,7 @@
         }
     }
     currentLocalImages = tempImgs;
+    self.ready = YES;
 }
 
 -(void)downloadThumbnailWithURL:(NSString *)imgURL{

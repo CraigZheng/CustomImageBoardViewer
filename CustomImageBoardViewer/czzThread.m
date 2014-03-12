@@ -72,7 +72,12 @@
             self.title = [self parseHTMLAttributes:child.value].string;
         }
         if ([child.name isEqualToString:@"Content"]){
-            self.content = [self parseHTMLAttributes:child.value];
+            //if title has more than 10 chinese words, it will be too long to fit in the title bar
+            //there fore we put it at the beginning of the content
+            if (self.title.length > 10)
+                self.content = [self parseHTMLAttributes:[NSString stringWithFormat:@"%@\n\n%@", self.title, child.value]];
+            else
+                self.content = [self parseHTMLAttributes:child.value];
         }
         if ([child.name isEqualToString:@"ImageSrc"]){
             self.imgSrc = child.value;
@@ -116,34 +121,6 @@
             self.thImgSrc = nil;
         }
     }
-    /*
-    for (czzBlacklistEntity *blacklistEntity in [[czzBlacklist sharedInstance] blacklistEntities]) {
-        if (blacklistEntity.threadID == self.ID){
-            
-             //self.content = [[NSAttributedString alloc] initWithString:@" ** 用户举报的不健康的内容 ** "];
-             //self.imgScr = nil;
-            
-            //assign the blacklist value to this thread
-            self.harmful = blacklistEntity.harmful;
-            self.blockContent = blacklistEntity.content;
-            if (self.blockContent)
-                self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
-            self.blockImage = blacklistEntity.image;
-            if (self.blockImage){
-                self.imgSrc = nil;
-                self.thImgSrc = nil;
-            }
-            self.blockAll = blacklistEntity.block;
-            if (self.blockAll)
-            {
-                self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
-                self.imgSrc = nil;
-                self.thImgSrc = nil;
-            }
-            break;
-        }
-    }
-     */
     
     if (self.thImgSrc.length != 0){
         //if is set to show image is presented

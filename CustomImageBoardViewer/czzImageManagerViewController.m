@@ -8,6 +8,8 @@
 
 #import "czzImageManagerViewController.h"
 #import "czzImageCentre.h"
+#import "czzAppDelegate.h"
+#import "Toast+UIView.h"
 
 #define ALL_IMAGE 0
 #define FULL_SIZE_IMAGE 1
@@ -33,7 +35,10 @@
     self.collectionView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
     //show all images
     imageCategory = ALL_IMAGE;
-    [self reloadImageFileFromImageCentre];
+    if ([[czzImageCentre sharedInstance] ready])
+        [self reloadImageFileFromImageCentre];
+    else
+        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"图片还在载入中，请稍等再重试..."];
 }
 
 #pragma Load data from image centre

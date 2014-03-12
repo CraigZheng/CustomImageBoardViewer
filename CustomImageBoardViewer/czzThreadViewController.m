@@ -17,13 +17,14 @@
 #import "czzRightSideViewController.h"
 #import "DACircularProgressView.h"
 #import "czzThreadCacheManager.h"
+#import "czzHomeViewController.h"
 #import "czzMenuEnabledTableViewCell.h"
 #import "PartialTransparentView.h"
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
 #define OVERLAY_VIEW 122
 
-@interface czzThreadViewController ()<czzXMLDownloaderDelegate, UIDocumentInteractionControllerDelegate>
+@interface czzThreadViewController ()<czzXMLDownloaderDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate>
 @property NSString *baseURLString;
 @property NSString *targetURLString;
 @property NSMutableSet *originalThreadData;
@@ -73,7 +74,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ImageDownloaded" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaderUpdated:) name:@"ImageDownloaderProgressUpdated" object:nil];
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
-
+    self.navigationController.delegate = self;
     //try to retrive cached thread from storage
     NSMutableSet *cachedThreads = [[czzThreadCacheManager sharedInstance] readThreads:parentThread];
     if (cachedThreads){
@@ -107,8 +108,6 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    if (threads.count > 0)
-        [threadTableView reloadData];
     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"FirstTimeViewingThread"]){
         [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"长按帖子以回复" duration:2.0 position:@"center" title:@"请注意"];
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"FirstTimeViewingThread"];
@@ -116,18 +115,21 @@
     }
 }
 
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    //stop any downloading xml
-    if (xmlDownloader){
-        [xmlDownloader stop];
-        xmlDownloader = nil;
+#pragma mark - UINavigationController
+-(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
+    //if this view controller is about to be poped from view stack, stop any downloading and save threads to storage
+    if ([viewController isKindOfClass:[czzHomeViewController class]]){
+        //stop any downloading xml
+        if (xmlDownloader){
+            [xmlDownloader stop];
+            xmlDownloader = nil;
+        }
+        [self.refreshControl endRefreshing];
+        
+        //save threads to storage
+        [[czzThreadCacheManager sharedInstance] saveThreads:[self sortTheGivenArray:originalThreadData.allObjects]];
+        self.navigationController.delegate = nil;
     }
-    [self.refreshControl endRefreshing];
-    [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] hideToastActivity];
-
-    //save threads to storage
-    [[czzThreadCacheManager sharedInstance] saveThreads:[self sortTheGivenArray:originalThreadData.allObjects]];
 }
 
 #pragma mark - Table view data source
@@ -395,7 +397,6 @@
     }
     [originalThreadData addObjectsFromArray:newThreas];
     [self.refreshControl endRefreshing];
-    [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] hideToastActivity];
     //clear out the xml downloader
     [xmlDownloader stop];
     xmlDownloader = nil;
