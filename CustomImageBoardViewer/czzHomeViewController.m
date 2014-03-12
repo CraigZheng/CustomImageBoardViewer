@@ -131,7 +131,7 @@
     NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
     if ([buttonTitle isEqualToString:@"发表新帖"])
         [self newPost];
-    else if ([buttonTitle isEqualToString:@"更多信息"])
+    else if ([buttonTitle isEqualToString:@"设置..."])
         [self openSettingsPanel];
     else if ([buttonTitle isEqualToString:@"跳页"])
     {
@@ -488,6 +488,7 @@
     NSDictionary *userInfo = notification.userInfo;
     if ([userInfo objectForKey:@"PickedThread"]){
         selectedThread = [userInfo objectForKey:@"PickedThread"];
+        [self.navigationController popToRootViewControllerAnimated:NO];
         [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
     }
 }

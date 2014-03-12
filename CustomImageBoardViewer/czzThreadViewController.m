@@ -70,12 +70,6 @@
     UIRefreshControl *refreCon = [[UIRefreshControl alloc] init];
     [refreCon addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreCon;
-    //register for nsnotification centre for image downloaded notification and download progress update notification
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ThumbnailDownloaded" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ImageDownloaded" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaderUpdated:) name:@"ImageDownloaderProgressUpdated" object:nil];
-    //Jump to command observer
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(PromptForJumpToPage) name:@"JumpToPageCommand" object:nil];
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
     self.navigationController.delegate = self;
     //try to retrive cached thread from storage
@@ -107,6 +101,17 @@
     self.viewDeckController.rightController = rightController;
     //disable left controller
     self.viewDeckController.leftController = nil;
+    //register for nsnotification centre for image downloaded notification and download progress update notification
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ThumbnailDownloaded" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ImageDownloaded" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaderUpdated:) name:@"ImageDownloaderProgressUpdated" object:nil];
+    //Jump to command observer
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(PromptForJumpToPage) name:@"JumpToPageCommand" object:nil];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -127,7 +132,6 @@
             [xmlDownloader stop];
             xmlDownloader = nil;
         }
-        [self.refreshControl endRefreshing];
         
         //save threads to storage
         [[czzThreadCacheManager sharedInstance] saveThreads:[self sortTheGivenArray:originalThreadData.allObjects]];
