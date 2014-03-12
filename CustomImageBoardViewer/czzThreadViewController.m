@@ -332,7 +332,7 @@
 
 #pragma mark - jump to and download controls
 -(void)PromptForJumpToPage{
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"跳页: ？/%d", ((parentThread.responseCount + 1) / 20)] message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"跳页: ?/%d", ((parentThread.responseCount + 1) / 20 + 1)] message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alertView show];
 }
@@ -358,15 +358,13 @@
 }
 
 -(void)refreshThread:(id)sender{
+    [self.threads removeAllObjects];
     [originalThreadData removeAllObjects];
     [originalThreadData addObject:parentThread];
     [threadTableView reloadData];
     //reset to default page number
     pageNumber = 1;
-    //stop any possible previous downloader
-    if (xmlDownloader)
-        [xmlDownloader stop];
-    xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLString] delegate:self startNow:YES];
+    [self loadMoreThread:pageNumber];
 }
 
 -(void)loadMoreThread:(NSInteger)pn{
