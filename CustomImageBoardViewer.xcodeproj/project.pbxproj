@@ -779,7 +779,6 @@
 				ORGANIZATIONNAME = Craig;
 				TargetAttributes = {
 					441E5CCA17F4691300289DBD = {
-						DevelopmentTeam = 9EBE9MWW9X;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 0;
