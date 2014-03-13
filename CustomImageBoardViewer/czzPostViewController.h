@@ -8,12 +8,22 @@
 
 #import <UIKit/UIKit.h>
 #import "czzThread.h"
+#import "czzBlacklistEntity.h"
 
+//post mode
+#define NEW_POST 1
+#define REPLY_POST 2
+#define REPORT_POST 3
+
+#define REPLY_POST_URL @"http://h.acfun.tv/api/thread/post_sub"
+#define NEW_POST_URL @"http://h.acfun.tv/api/thread/post_root"
 @interface czzPostViewController : UIViewController <UITextViewDelegate>
 @property czzThread *thread;
 @property czzThread *replyTo;
+@property (nonatomic) NSInteger postMode;
+@property (nonatomic) czzBlacklistEntity *blacklistEntity;
+@property NSString *forumName;
 @property (strong, nonatomic) IBOutlet UITextView *postTextView;
-@property (strong, nonatomic) IBOutlet UIToolbar *postToolbar;
 @property (strong, nonatomic) IBOutlet UINavigationBar *postNaviBar;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *postButton;
 

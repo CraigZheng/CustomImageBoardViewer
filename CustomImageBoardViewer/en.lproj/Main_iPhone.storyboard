@@ -277,9 +277,9 @@
                                 <action selector="sideButtonAction:" destination="P9r-Cg-Rjf" id="Jfe-Qk-Wim"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="发帖" id="DTL-UH-abb">
+                        <barButtonItem key="rightBarButtonItem" title="更多" id="DTL-UH-abb">
                             <connections>
-                                <action selector="newPostAction:" destination="P9r-Cg-Rjf" id="jxf-C7-MT7"/>
+                                <action selector="moreAction:" destination="P9r-Cg-Rjf" id="Fev-R7-tsK"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

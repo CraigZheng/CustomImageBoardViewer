@@ -9,7 +9,6 @@
 #import "czzRightSideViewController.h"
 #import "czzThreadViewController.h"
 #import "czzPostViewController.h"
-#import "czzNewPostViewController.h"
 #import "Toast+UIView.h"
 #import "czzBlacklistEntity.h"
 #import "czzImageCentre.h"
@@ -42,7 +41,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     //replyCommand = [NSMutableArray arrayWithObjects:@"回复主串", @"回复选定的帖子", @"加入收藏", nil];
-    replyCommand = [NSMutableArray arrayWithObjects:@"回复主串", @"回复选定的帖子", @"加入收藏", nil];
+    replyCommand = [NSMutableArray arrayWithObjects:@"回复主串", @"回复选定的帖子", @"加入收藏", @"跳页", nil];
     //shareCommand = [NSMutableArray arrayWithObjects:@"复制内容", @"复制选定帖子的ID", nil];
     shareCommand = [NSMutableArray arrayWithObjects:@"复制帖子地址", nil];
     reportCommand = [NSMutableArray arrayWithObjects:@"举报", nil];
@@ -118,6 +117,7 @@
     } else if ([command isEqualToString:@"回复主串"]){
         czzPostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
         [postViewController setThread:parentThread];
+        postViewController.postMode = REPLY_POST;
         [self presentViewController:postViewController animated:YES completion:^{
             [self.viewDeckController toggleRightViewAnimated:NO];
         }];
@@ -125,13 +125,14 @@
         czzPostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
         [postViewController setThread:parentThread];
         [postViewController setReplyTo:selectedThread];
+        postViewController.postMode = REPLY_POST;
         [self presentViewController:postViewController animated:YES completion:^{
             [self.viewDeckController toggleRightViewAnimated:NO];
         }];
     } else if ([command isEqualToString:@"举报"]){
-        czzNewPostViewController *newPostViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"new_post_view_controller"];
+        czzPostViewController *newPostViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
         [newPostViewController setForumName:@"值班室"];
-                newPostViewController.delegate = self;
+        newPostViewController.postMode = REPORT_POST;
         [self presentViewController:newPostViewController animated:YES completion:^{
             [self.viewDeckController toggleRightViewAnimated:YES];
             NSString *reportString = [NSString stringWithFormat:@"http://h.acfun.tv/t/%ld?r=%ld\n理由:", (long)parentThread.ID, (long)selectedThread.ID];
@@ -149,6 +150,11 @@
         NSString *address = [NSString stringWithFormat:@"http://h.acfun.tv/t/%ld", (long)self.parentThread.ID];
         [[UIPasteboard generalPasteboard] setString:address];
         [[czzAppDelegate sharedAppDelegate] showToast:@"帖子地址已复制"];
+    } else if ([command isEqualToString:@"跳页"]) {
+        [self.viewDeckController toggleRightViewAnimated:YES completion:
+         ^(IIViewDeckController *controller, BOOL success){
+             [[NSNotificationCenter defaultCenter] postNotificationName:@"JumpToPageCommand" object:nil userInfo:nil];
+        }];
     }
 }
 
@@ -180,6 +186,7 @@
         czzPostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
         [postViewController setThread:parentThread];
         [postViewController setReplyTo:replyToThread];
+        postViewController.postMode = REPLY_POST;
         [self presentViewController:postViewController animated:YES completion:nil];
     }
 }

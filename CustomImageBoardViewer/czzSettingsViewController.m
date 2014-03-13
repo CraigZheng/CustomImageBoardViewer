@@ -113,10 +113,12 @@
         } else if ([command isEqualToString:@"清空缓存"]){
             //清空缓存
             //select what to remove
+            /*
             NSString *removeFullSizeImgs = [NSString stringWithFormat:@"大图缓存: %@", [[czzImageCentre sharedInstance] totalSizeForFullSizeImages]];
             NSString *removeThumbnailImgs = [NSString stringWithFormat:@"缩略图缓存: %@", [[czzImageCentre sharedInstance] totalSizeForThumbnails]];
             NSString *removeAllThreadCache = [NSString stringWithFormat:@"帖子缓存: %@", [[czzThreadCacheManager sharedInstance] totalSize]];
-            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"清空缓存" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:removeFullSizeImgs, removeThumbnailImgs, removeAllThreadCache, nil];
+             */
+            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"清空缓存" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"图片缓存", @"帖子缓存", nil];
             [actionSheet showInView:self.view];
         }
     }
@@ -153,12 +155,9 @@
         return;
     }
     NSString *title = [actionSheet buttonTitleAtIndex:buttonIndex];
-    if ([title hasPrefix:@"大图缓存"]){
+    if ([title hasPrefix:@"图片缓存"]){
         [[czzImageCentre sharedInstance] removeFullSizeImages];
-        [[czzAppDelegate sharedAppDelegate] showToast:@"大图缓存已清空"];
-    } else if ([title hasPrefix:@"缩略图缓存"]){
-        [[czzImageCentre sharedInstance] removeThumbnails];
-        [[czzAppDelegate sharedAppDelegate] showToast:@"缩略图缓存已清空"];
+        [[czzAppDelegate sharedAppDelegate] showToast:@"图片缓存已清空"];
     }
     else if ([title hasPrefix:@"帖子缓存"]){
         [[czzThreadCacheManager sharedInstance] removeAllThreadCache];

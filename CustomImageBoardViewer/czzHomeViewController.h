@@ -15,5 +15,5 @@
 @property (strong, nonatomic) IBOutlet UITableView *threadTableView;
 
 - (IBAction)sideButtonAction:(id)sender;
-- (IBAction)newPostAction:(id)sender;
+- (IBAction)moreAction:(id)sender;
 @end

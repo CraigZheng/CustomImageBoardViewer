@@ -12,11 +12,12 @@
 #import "SMXMLDocument.h"
 #import "czzPostSender.h"
 #import "czzAppDelegate.h"
+#import "czzBlacklistSender.h"
 #import "czzMenuEnabledTableViewCell.h"
 #import "UIViewController+KNSemiModal.h"
 #import "czzEmojiCollectionViewController.h"
 
-@interface czzPostViewController () <czzPostSenderDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
+@interface czzPostViewController () <czzPostSenderDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
 @property NSString *targetURLString;
 @property NSMutableData *receivedResponse;
 @property czzPostSender *postSender;
@@ -24,32 +25,23 @@
 
 @implementation czzPostViewController
 @synthesize postTextView;
-@synthesize postToolbar;
 @synthesize thread;
 @synthesize replyTo;
 @synthesize postNaviBar;
 @synthesize targetURLString;
 @synthesize postButton;
 @synthesize receivedResponse;
+@synthesize blacklistEntity;
 @synthesize postSender;
+@synthesize postMode;
+@synthesize forumName;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    self.postNaviBar.topItem.title = [NSString stringWithFormat:@"回复"];
-    //URLs
-    targetURLString = @"http://h.acfun.tv/api/thread/post_sub";
-    //content: reply to
-    if (replyTo){
-        self.postNaviBar.topItem.title = [NSString stringWithFormat:@"回复:%ld", (long)replyTo.ID];
-        postTextView.text = [NSString stringWithFormat:@">>No.%ld\n\n", (long)replyTo.ID];
-    }
-    //make a new czzPostSender object, and assign the appropriate target URL and delegate
     postSender = [czzPostSender new];
-    postSender.targetURL = [NSURL URLWithString:targetURLString];
-    postSender.parentID = thread.ID;
-    postSender.delegate = self;
+
     // observe keyboard hide and show notifications to resize the text view appropriately
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
@@ -68,24 +60,68 @@
     toolbar.barStyle = UIBarStyleBlack;
     
     //assign an input accessory view to it
-    //UIBarButtonItem *clearButton = [[UIBarButtonItem alloc] initWithTitle:@"清除" style:UIBarButtonItemStyleBordered target:self action:@selector(clearAction:)];
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     UIBarButtonItem *pickEmojiButton = [[UIBarButtonItem alloc] initWithTitle:@"颜文字" style:UIBarButtonItemStyleBordered target:self action:@selector(pickEmojiAction:)];
     UIBarButtonItem *pickImgButton = [[UIBarButtonItem alloc] initWithTitle:@"图片" style:UIBarButtonItemStyleBordered target:self action:@selector(pickImageAction:)];
     postButton = [[UIBarButtonItem alloc] initWithTitle:@"发表" style:UIBarButtonItemStyleBordered target:self action:@selector(postAction:)];
-    
-    NSArray *buttons = [NSArray arrayWithObjects:pickEmojiButton, flexibleSpace, pickImgButton, postButton, nil];
+    NSArray *buttons = [NSArray arrayWithObjects: flexibleSpace, pickEmojiButton, pickImgButton, postButton, nil];
     toolbar.items = buttons;
-    
     postTextView.inputAccessoryView = toolbar;
+    
+    //construct the title, content and targetURLString based on selected post mode
+    NSString *title = @"回复";
+    NSString *content = @"";
+    targetURLString = REPLY_POST_URL;
+    switch (postMode) {
+        case NEW_POST:
+            title = @"新帖";
+            targetURLString = NEW_POST_URL;
+            postSender.forumName = forumName;
+            break;
+        case REPLY_POST:
+            if (self.replyTo)
+            {
+                title = [NSString stringWithFormat:@"回复:%ld", (long)replyTo.ID];
+                content = [NSString stringWithFormat:@">>No.%ld\n\n", (long)replyTo.ID];
+            }
+            targetURLString = REPLY_POST_URL;
+            break;
+        case REPORT_POST:
+            title = @"举报";
+            targetURLString = NEW_POST_URL;
+            postSender.forumName = forumName;
+            break;
+    }
+    self.postNaviBar.topItem.title = title;
+    postTextView.text = content;
+
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    //Register focus on text view
+    [self.postTextView becomeFirstResponder];
 }
 
 - (IBAction)postAction:(id)sender {
+    //assign the appropriate target URL and delegate to the postSender
+    postSender.targetURL = [NSURL URLWithString:targetURLString];
+    postSender.parentID = thread.ID;
+    postSender.delegate = self;
     postSender.content = postTextView.text;
     [postSender sendPost];
     [postTextView resignFirstResponder];
     [postButton setEnabled:NO];
     [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"正在发送..."];
+    //if blacklist entity is not nil, then also send a copy to my server
+    if (self.blacklistEntity){
+        if ([self.blacklistEntity isReady]){
+            self.blacklistEntity.reason = postTextView.text;
+            czzBlacklistSender *blacklistSender = [czzBlacklistSender new];
+            blacklistSender.blacklistEntity = self.blacklistEntity;
+            [blacklistSender sendBlacklistUpdate];
+        }
+    }
 }
 
 - (IBAction)cancelAction:(id)sender {
@@ -113,8 +149,23 @@
 
 //delete everything from the text view
 - (IBAction)clearAction:(id)sender {
+    if (postTextView.text.length > 0)
+    {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"清空内容和图片？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"清空" otherButtonTitles: nil];
+        [actionSheet showInView:self.view];
+    }
+}
+
+#pragma mark - UIActionSheetDelegate
+-(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == actionSheet.destructiveButtonIndex)
+        [self resetContent];
+}
+
+-(void)resetContent{
     postTextView.text = @"";
     postSender.imgData = nil;
+    [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"内容和图片已清空"];
 }
 
 #pragma UIImagePickerController delegate
@@ -125,9 +176,9 @@
         NSInteger newWidth = 1280;
         NSInteger newHeight = (newWidth / pickedImage.size.width) * pickedImage.size.height;
         pickedImage = [self resizeImage:pickedImage width:newWidth height:newHeight];
-        [self.view makeToast:@"由于图片尺寸太大，已进行压缩" duration:1.5 position:@"top" title:@"图片已选" image:pickedImage];
+        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"由于图片尺寸太大，已进行压缩" duration:1.5 position:@"top" title:@"图片已选" image:pickedImage];
     } else {
-        [self.view makeToast:@"图片已选" duration:1.5 position:@"top" image:pickedImage];
+        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"图片已选" duration:1.5 position:@"top" image:pickedImage];
     }
 
     [postSender setImgData:UIImageJPEGRepresentation(pickedImage, 0.8)];
@@ -258,4 +309,5 @@
         [postTextView becomeFirstResponder];
     }];
 }
+
 @end
