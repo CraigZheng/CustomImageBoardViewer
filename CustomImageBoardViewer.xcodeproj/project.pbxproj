@@ -779,6 +779,7 @@
 				ORGANIZATIONNAME = Craig;
 				TargetAttributes = {
 					441E5CCA17F4691300289DBD = {
+						DevelopmentTeam = 9EBE9MWW9X;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 0;
@@ -1042,7 +1043,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "66F43541-CAA3-4444-80E3-8B4912CB4E01";
+				PROVISIONING_PROFILE = "9FE6A18A-57C0-451F-A5DB-ACBA884117B0";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1066,7 +1067,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "66F43541-CAA3-4444-80E3-8B4912CB4E01";
+				PROVISIONING_PROFILE = "9FE6A18A-57C0-451F-A5DB-ACBA884117B0";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
