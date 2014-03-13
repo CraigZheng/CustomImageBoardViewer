@@ -780,6 +780,9 @@
 				TargetAttributes = {
 					441E5CCA17F4691300289DBD = {
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
 							com.apple.InAppPurchase = {
 								enabled = 0;
 							};
