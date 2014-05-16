@@ -519,11 +519,15 @@
 
 #pragma mark sort array based on thread ID
 -(NSArray*)sortTheGivenArray:(NSArray*)array{
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"ID" ascending:YES];
+    NSArray *sortedArray = [array sortedArrayUsingDescriptors:@[sortDescriptor]];
+    /*
     NSArray *sortedArray = [array sortedArrayUsingComparator:^NSComparisonResult(id a, id b){
         czzThread *first = (czzThread*)a;
         czzThread *second = (czzThread*)b;
         return first.ID > second.ID;
     }];
+     */
     return sortedArray;
 }
 
