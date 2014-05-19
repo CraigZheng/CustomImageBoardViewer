@@ -24,6 +24,7 @@
 @property NSString *targetURLString;
 @property id<czzImageDownloaderDelegate> delegate;
 @property BOOL isThumbnail;
+@property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskID;
 
 -(id)init;
 -(void)start;

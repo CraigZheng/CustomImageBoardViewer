@@ -29,6 +29,7 @@
 @synthesize isThumbnail;
 @synthesize fileSize;
 @synthesize downloadedSize;
+@synthesize backgroundTaskID;
 
 -(id)init{
     self = [super init];
@@ -64,6 +65,7 @@
     if (delegate && [delegate respondsToSelector:@selector(downloadFinished:success:isThumbnail:saveTo:)]){
         [delegate downloadFinished:self success:NO isThumbnail:isThumbnail saveTo:Nil];
     }
+    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskID];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
@@ -75,6 +77,10 @@
     if (delegate && [delegate respondsToSelector:@selector(downloadStarted:)]){
         [delegate downloadStarted:self];
     }
+    self.backgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        // Cancel the connection
+        [connection cancel];
+    }];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
@@ -106,6 +112,8 @@
             [delegate downloadFinished:self success:YES isThumbnail:isThumbnail saveTo:filePath];
         }
     }
+    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskID];
+
 }
 
 //current downloading progress

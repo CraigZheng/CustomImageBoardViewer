@@ -93,14 +93,12 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
-  
+    //Register focus on text view
+    [self.postTextView becomeFirstResponder];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    //Register focus on text view
-    [self.postTextView becomeFirstResponder];
 }
 
 - (IBAction)postAction:(id)sender {

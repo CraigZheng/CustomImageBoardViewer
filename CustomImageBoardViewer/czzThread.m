@@ -127,13 +127,16 @@
         if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldDownloadThumbnail"]){
             //if its set to YES
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldDownloadThumbnail"]){
-                [[czzImageCentre sharedInstance] downloadThumbnailWithURL:self.thImgSrc];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[czzImageCentre sharedInstance] downloadThumbnailWithURL:self.thImgSrc];
+                });
             } else {
                 self.thImgSrc = nil;
             }
         } else {
-            [[czzImageCentre sharedInstance] downloadThumbnailWithURL:self.thImgSrc];
-        }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[czzImageCentre sharedInstance] downloadThumbnailWithURL:self.thImgSrc];
+            });        }
     }
 }
 
@@ -185,7 +188,7 @@
         renderedStr = [[NSMutableAttributedString alloc] initWithString:str];
         [renderedStr addAttribute:NSForegroundColorAttributeName value:quoteColor range:NSMakeRange(frontTagBegin.location, str.length - frontTagBegin.location)];
         //CLICKABLE CONTENT
-        if ([renderedStr.string hasPrefix:@">>"]){
+        if ([renderedStr.string rangeOfString:@">>"].location != NSNotFound){
             
             NSString *newString = [[renderedStr.string componentsSeparatedByCharactersInSet:
                                     [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]

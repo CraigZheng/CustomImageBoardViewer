@@ -134,6 +134,7 @@
     [regularCommands addObject:@"清空缓存"];
     [regularCommands addObject:@"收藏"];
     [regularCommands addObject:@"清除ID信息"];
+    [regularCommands addObject:[NSString stringWithFormat:@"版本号: %@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
 }
 
 #pragma mark UIAlertView delegate
@@ -157,6 +158,7 @@
     NSString *title = [actionSheet buttonTitleAtIndex:buttonIndex];
     if ([title hasPrefix:@"图片缓存"]){
         [[czzImageCentre sharedInstance] removeFullSizeImages];
+        [[czzImageCentre sharedInstance] removeThumbnails];
         [[czzAppDelegate sharedAppDelegate] showToast:@"图片缓存已清空"];
     }
     else if ([title hasPrefix:@"帖子缓存"]){
