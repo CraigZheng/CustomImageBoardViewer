@@ -8,6 +8,7 @@
 
 #import "czzHomeViewController.h"
 #import "czzXMLDownloader.h"
+#import "czzXMLProcessor.h"
 #import "SMXMLDocument.h"
 #import "Toast/Toast+UIView.h"
 #import "czzThread.h"
@@ -22,7 +23,7 @@
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****"
 
-@interface czzHomeViewController ()<czzXMLDownloaderDelegate, UIDocumentInteractionControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
+@interface czzHomeViewController ()<czzXMLDownloaderDelegate, czzXMLProcessorDelegate, UIDocumentInteractionControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 @property czzXMLDownloader *xmlDownloader;
 @property NSMutableArray *threads;
 @property NSInteger currentPage;
@@ -93,6 +94,7 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    /*
     //if this app is run for the first time, show a brief tutorial
      if (![[NSUserDefaults standardUserDefaults] objectForKey:@"firstTimeRunning"]) {
          [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"firstTimeRunning"];
@@ -100,6 +102,7 @@
 
          [self showTutorial];
      }
+     */
     self.viewDeckController.leftController = leftController;
     //if a forum has not been selected and is not the first time running
     if (!self.forumName && [[NSUserDefaults standardUserDefaults] objectForKey:@"firstTimeRunning"])
@@ -122,7 +125,7 @@
 }
 
 - (IBAction)moreAction:(id)sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"更多功能" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"发表新帖", @"跳页", @"设置...", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"更多功能" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"发表新帖", @"跳页", @"设置", nil];
     [actionSheet showInView:self.view];
 }
 
@@ -131,7 +134,7 @@
     NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
     if ([buttonTitle isEqualToString:@"发表新帖"])
         [self newPost];
-    else if ([buttonTitle isEqualToString:@"设置..."])
+    else if ([buttonTitle isEqualToString:@"设置"])
         [self openSettingsPanel];
     else if ([buttonTitle isEqualToString:@"跳页"])
     {
@@ -154,7 +157,7 @@
             [self.threadTableView reloadData];
             [self.refreshControl beginRefreshing];
             [self loadMoreThread:self.pageNumber];
-            [[[czzAppDelegate sharedAppDelegate] window] makeToast:[NSString stringWithFormat:@"跳到第 %d 页...", self.pageNumber]];
+            [[[czzAppDelegate sharedAppDelegate] window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)self.pageNumber]];
         } else {
             [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"页码无效..."];
         }
@@ -357,71 +360,50 @@
 
 #pragma czzXMLDownloader - thread xml data received
 -(void)downloadOf:(NSURL *)xmlURL successed:(BOOL)successed result:(NSData *)xmlData{
-    NSMutableArray *newThreads = [NSMutableArray new];
-    if (successed){
-        NSError *error;
-        SMXMLDocument *xmlDoc = [[SMXMLDocument alloc] initWithData:xmlData error:&error];
-        if (error){
-            [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"服务器回传的资料有误，请重试" duration:1.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
-            NSLog(@"%@", error);
-        }
-        for (SMXMLElement *child in xmlDoc.root.children) {
-            if ([child.name isEqualToString:@"model"]){
-                //create a thread outta this xml data
-                czzThread *thread = [[czzThread alloc] initWithSMXMLElement:child];
-                if (thread.ID != 0) {
-                    [newThreads addObject:thread];
-                }
-            }
-            if ([child.name isEqualToString:@"access_token"]){
-                //if current access_token is nil
-                NSString *oldToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"access_token"];
-                if (!oldToken){
-                    [[NSUserDefaults standardUserDefaults] setObject:child.value forKey:@"access_token"];
-                    [[NSUserDefaults standardUserDefaults] synchronize];
-                }
-            }
-            //my message
-            if ([child.name isEqualToString:@"privateMessage"]){
-                NSString *title;
-                NSString *message;
-                NSInteger howLong = 1.5;
-                BOOL shouldAlwaysDisplay = NO;
-                for (SMXMLElement *childNode in child.children){
-                    if ([childNode.name isEqualToString:@"title"]){
-                        title = childNode.value;
-                    }
-                    if ([childNode.name isEqualToString:@"message"]){
-                        message = childNode.value;
-                    }
-                    if ([childNode.name isEqualToString:@"howLong"]){
-                        if ([childNode.value integerValue] > 0)
-                            howLong = [childNode.value integerValue];
-                    }
-                    if ([childNode.name isEqualToString:@"shouldAlwaysDisplay"]){
-                        shouldAlwaysDisplay = [childNode.value boolValue];
-                    }
-                }
-                if (![[NSUserDefaults standardUserDefaults] objectForKey:@"firstTimeRunning"] || shouldAlwaysDisplay)
-                    [[[czzAppDelegate sharedAppDelegate] window] makeToast:message duration:howLong position:@"center" title:title];
-
-            }
-        }
-        //increase the page number if returned data is enough to fill a page of 20 threads
-        if (newThreads.count >= 20)
-            pageNumber += 1;
-    } else {
-        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"无法下载帖子列表，请重试" duration:1.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
-
-    }
-    //process the returned data and pass into the array
-    [threads addObjectsFromArray:newThreads];
-    [threadTableView reloadData];
-    [self.refreshControl endRefreshing];
-    [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
-    //clear out the xmlDownloader
     [xmlDownloader stop];
     xmlDownloader = nil;
+    if (successed){
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            czzXMLProcessor *xmlProcessor = [czzXMLProcessor new];
+            xmlProcessor.delegate = self;
+            [xmlProcessor processThreadListFromData:xmlData];
+        });
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"无法下载资料，请检查网络" duration:1.2 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
+            [self.refreshControl endRefreshing];
+            [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
+            [threadTableView reloadData];
+        });
+    }
+}
+
+#pragma mark - czzXMLProcessorDelegate
+-(void)threadListProcessed:(NSArray *)newThreads :(BOOL)success{
+    if (success){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //process the returned data and pass into the array
+            [threads addObjectsFromArray:newThreads];
+            //increase the page number if returned data is enough to fill a page of 20 threads
+            if (newThreads.count >= 20)
+                pageNumber += 1;
+        });
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"无法下载资料，请检查网络" duration:1.2 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
+        });
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.refreshControl endRefreshing];
+        [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
+        [threadTableView reloadData];
+    });
+}
+
+-(void)messageProcessed:(NSString *)title :(NSString *)message :(NSInteger)howLong{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[[czzAppDelegate sharedAppDelegate] window] makeToast:message duration:howLong position:@"center" title:title];
+    });
 }
 
 #pragma Notification handler - forumPicked

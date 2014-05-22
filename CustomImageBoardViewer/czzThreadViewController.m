@@ -8,6 +8,7 @@
 
 #import "czzThreadViewController.h"
 #import "czzXMLDownloader.h"
+#import "czzXMLProcessor.h"
 #import "czzThread.h"
 #import "Toast+UIView.h"
 #import "SMXMLDocument.h"
@@ -19,12 +20,13 @@
 #import "czzThreadCacheManager.h"
 #import "czzHomeViewController.h"
 #import "czzMenuEnabledTableViewCell.h"
+#import "czzThreadRefButton.h"
 #import "PartialTransparentView.h"
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
 #define OVERLAY_VIEW 122
 
-@interface czzThreadViewController ()<czzXMLDownloaderDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate>
+@interface czzThreadViewController ()<czzXMLDownloaderDelegate, czzXMLProcessorDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate>
 @property NSString *baseURLString;
 @property NSString *targetURLString;
 @property NSMutableSet *originalThreadData;
@@ -37,6 +39,7 @@
 @property NSMutableSet *currentImageDownloaders;
 @property UIDocumentInteractionController *documentInteractionController;
 @property CGPoint threadsTableViewContentOffSet; //record the content offset of the threads tableview
+@property UITapGestureRecognizer *tapOnImageGestureRecogniser;
 
 @end
 
@@ -54,6 +57,7 @@
 @synthesize downloadedImages;
 @synthesize currentImageDownloaders;
 @synthesize documentInteractionController;
+@synthesize tapOnImageGestureRecogniser;
 @synthesize threadsTableViewContentOffSet;
 
 - (void)viewDidLoad
@@ -83,6 +87,8 @@
     [self loadMoreThread:pageNumber];
     [self convertThreadSetToThreadArray];
     //end to retriving cached thread from storage
+    //Initialise the tap gesture recogniser, it is to be used on the Image Views in the cell
+    tapOnImageGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTapInImage:)];
     
     //set up custom edit menu
     UIMenuItem *replyMenuItem = [[UIMenuItem alloc] initWithTitle:@"回复" action:@selector(menuActionReply:)];
@@ -203,6 +209,8 @@
             } else if ([downloadedImages objectForKey:thread.thImgSrc]){
               [previewImageView setImage:[UIImage imageWithContentsOfFile:[downloadedImages objectForKey:thread.thImgSrc]]];
             }
+            //assign a gesture recogniser to it
+            [previewImageView setGestureRecognizers:@[tapOnImageGestureRecogniser]];
         }
         //if harmful flag is set, display warning header of harmful thread
         NSMutableAttributedString *contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:thread.content];
@@ -237,25 +245,27 @@
             [lockLabel setHidden:YES];
         
         //clickable content
-        
-        NSInteger rep = [thread.replyToList.firstObject integerValue];
-        if (rep > 0 && contentTextView) {
-            NSString *quotedNumberText = [NSString stringWithFormat:@"%d", rep];
-
-            NSRange range = [contentTextView.attributedText.string rangeOfString:quotedNumberText];
-            if (range.location != NSNotFound){
-                CGRect result = [self frameOfTextRange:range inTextView:contentTextView];
-                
-                if (result.size.width > 0 && result.size.height > 0){
-                    UIButton *viewToAdd = [[UIButton alloc] initWithFrame:CGRectMake(result.origin.x, result.origin.y + contentTextView.frame.origin.y, result.size.width, result.size.height)];
-                    viewToAdd.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.1f];
-                    viewToAdd.tag = 99;
-                    [viewToAdd addTarget:self action:@selector(userTapInQuotedText:) forControlEvents:UIControlEventTouchUpInside];
+        UIView *oldButton;
+        while ((oldButton = [cell viewWithTag:999999]) != nil) {
+            [oldButton removeFromSuperview];
+        }
+        for (NSString *refString in thread.replyToList) {
+            NSInteger rep = refString.integerValue;
+            if (rep > 0 && contentTextView) {
+                NSString *quotedNumberText = [NSString stringWithFormat:@"%d", rep];
+                NSRange range = [contentTextView.attributedText.string rangeOfString:quotedNumberText];
+                if (range.location != NSNotFound){
+                    CGRect result = [self frameOfTextRange:range inTextView:contentTextView];
                     
-                    [cell.contentView addSubview:viewToAdd];
-                    
+                    if (result.size.width > 0 && result.size.height > 0){
+                        czzThreadRefButton *threadRefButton = [[czzThreadRefButton alloc] initWithFrame:CGRectMake(result.origin.x, result.origin.y + contentTextView.frame.origin.y, result.size.width, result.size.height)];
+                        threadRefButton.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.1f];
+                        threadRefButton.tag = 999999;
+                        [threadRefButton addTarget:self action:@selector(userTapInQuotedText:) forControlEvents:UIControlEventTouchUpInside];
+                        threadRefButton.threadRefNumber = rep;
+                        [cell.contentView addSubview:threadRefButton];
+                    }
                 }
-                
             }
         }
     }
@@ -407,43 +417,46 @@
 
 #pragma mark czzXMLDownloaderDelegate
 -(void)downloadOf:(NSURL *)xmlURL successed:(BOOL)successed result:(NSData *)xmlData{
-    NSMutableArray *newThreads = [NSMutableArray new];
-    if (successed){
-        NSError *error;
-        SMXMLDocument *xmlDoc = [[SMXMLDocument alloc] initWithData:xmlData error:&error];
-        if (error){
-            [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"服务器回传的资料有误，请重试" duration:2.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
-            NSLog(@"%@", error);
-        }
-        for (SMXMLElement *child in xmlDoc.root.children) {
-            if ([child.name isEqualToString:@"model"]){
-                //create a thread outta this xml data
-                czzThread *thread = [[czzThread alloc] initWithSMXMLElement:child];
-                if (thread.ID != 0)
-                    [newThreads addObject:thread];
-            }
-            if ([child.name isEqualToString:@"access_token"]){
-                //if current access_token is nil
-                NSString *oldToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"access_token"];
-                if (!oldToken){
-                    [[NSUserDefaults standardUserDefaults] setObject:child.value forKey:@"access_token"];
-                    [[NSUserDefaults standardUserDefaults] synchronize];
-                }
-            }
-        }
-        //increase the page number if returned data is enough to fill a page of 20 threads
-        if (newThreads.count >= 20)
-            pageNumber += 1;
-    } else {
-        [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"无法下载帖子列表，请重试" duration:2.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
-    }
-    [originalThreadData addObjectsFromArray:newThreads];
-    [self.refreshControl endRefreshing];
-    //clear out the xml downloader
     [xmlDownloader stop];
     xmlDownloader = nil;
-    //convert data in set to data in array
-    [self convertThreadSetToThreadArray];
+    if (successed) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            czzXMLProcessor *xmlProcessor = [czzXMLProcessor new];
+            xmlProcessor.delegate = self;
+            [xmlProcessor processSubThreadFromData:xmlData];
+        });
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"无法下载资料，请检查网络" duration:1.2 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
+            [self.refreshControl endRefreshing];
+            [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
+            [threadTableView reloadData];
+        });
+    }
+}
+
+-(void)subThreadProcessed:(NSArray *)newThread :(BOOL)success{
+    if (success){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [originalThreadData addObjectsFromArray:newThread];
+            [self.refreshControl endRefreshing];
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+
+            //increase page number if enough to fill a page of 20 threads
+            if (newThread.count >= 20)
+                pageNumber++;
+            //convert data in set to data in array
+            [self convertThreadSetToThreadArray];
+        });
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"无法下载资料，请检查网络" duration:1.2 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
+        });
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.refreshControl endRefreshing];
+        [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
+    });
 }
 
 //this function would convert the original threads in set to nsarray, which is more suitable to be displayed in a uitableview
@@ -558,16 +571,27 @@
         [[czzAppDelegate sharedAppDelegate] showToast:@"正在下载图片"];
     }
 }
-//when user tapped in a uitextview, pass the touch event to uitableview
-- (IBAction)userTapInTextView:(id)sender {
-    /*
-    UITapGestureRecognizer *tapGestureRecognizer = (UITapGestureRecognizer*)sender;
-    CGPoint tapLocation = [tapGestureRecognizer locationInView:self.tableView];
-    NSIndexPath *tapIndexPath = [self.tableView indexPathForRowAtPoint:tapLocation];
-     */
-}
+
 
 -(void)userTapInQuotedText:(id)sender{
+    czzThreadRefButton *refButton = (czzThreadRefButton*)sender;
+    NSInteger refNumber = refButton.threadRefNumber;
+    for (czzThread *thread in threads) {
+        if (thread.ID == refNumber){
+            //record the current content offset
+            threadsTableViewContentOffSet = threadTableView.contentOffset;
+            //scroll to the tapped cell
+            [threadTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[threads indexOfObject:thread] inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:NO];
+            //retrive the tapped tableview cell from the tableview
+            UITableViewCell *selectedCell = [threadTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[threads indexOfObject:thread] inSection:0]];
+            UITableViewCell *cellCopy = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:selectedCell]];
+            [self highlightTableViewCell:cellCopy];
+            return;
+        }
+    }
+    [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"找不到帖子ID: %d, 可能不在本帖内", refNumber]];
+
+    /*
     UIView* v = sender;
     while (![v isKindOfClass:[UITableViewCell class]])
         v = v.superview;
@@ -576,23 +600,11 @@
     NSIndexPath *tappedIndexPath = [threadTableView indexPathForCell:parentCell];
     if (tappedIndexPath){
         czzThread *tappedThread = [threads objectAtIndex:tappedIndexPath.row];
-        for (czzThread *thread in threads) {
-            if (thread.ID == [[tappedThread.replyToList firstObject] integerValue]){
-                //record the current content offset
-                threadsTableViewContentOffSet = threadTableView.contentOffset;
-                //scroll to the tapped cell
-                [threadTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[threads indexOfObject:thread] inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:NO];
-                //retrive the tapped tableview cell from the tableview
-                UITableViewCell *selectedCell = [threadTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[threads indexOfObject:thread] inSection:0]];
-                UITableViewCell *cellCopy = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:selectedCell]];
-                [self highlightTableViewCell:cellCopy];
-                return;
-            }
-        }
-        [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"找不到帖子ID: %d, 可能不在本帖内", [[tappedThread.replyToList firstObject] integerValue]]];
 
     }
+     */
 }
+
 /*
 #pragma mark - TTTAttributedLabel delegate
 -(void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url{

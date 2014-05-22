@@ -16,6 +16,7 @@
 @interface czzXMLDownloader : NSObject<NSURLConnectionDelegate>
 @property (nonatomic) NSURL *targetURL;
 @property id<czzXMLDownloaderDelegate>  delegate;
+@property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskID;
 
 -(id)initWithTargetURL:(NSURL*)url delegate:(id<czzXMLDownloaderDelegate>)delegate startNow:(BOOL)now;
 -(void)start;

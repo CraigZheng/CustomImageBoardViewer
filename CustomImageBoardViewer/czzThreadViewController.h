@@ -14,7 +14,5 @@
 @property (nonatomic) czzThread *parentThread;
 @property (strong, nonatomic) IBOutlet UITableView *threadTableView;
 - (IBAction)moreAction:(id)sender;
-- (IBAction)userTapInImage:(id)sender;
-- (IBAction)userTapInTextView:(id)sender;
 
 @end

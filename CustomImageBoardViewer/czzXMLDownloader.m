@@ -17,6 +17,7 @@
 @synthesize urlConn;
 @synthesize targetURL;
 @synthesize receivedXMLData;
+@synthesize backgroundTaskID;
 
 -(id)initWithTargetURL:(NSURL *)url delegate:(id<czzXMLDownloaderDelegate>)delegate startNow:(BOOL)now{
     self = [super init];
@@ -50,10 +51,9 @@
 -(void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse *)response{
     self.receivedXMLData = [NSMutableData new];
 
-    NSDictionary *dict = [(NSHTTPURLResponse*)response allHeaderFields];
-    for (NSString *header in dict) {
-        //NSLog(@"%@:%@", header, [dict objectForKey:header]);
-    }
+    self.backgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        [connection cancel];
+    }];
 }
 
 -(void)connection:(NSURLConnection*)connection didReceiveData:(NSData *)data{
@@ -64,12 +64,14 @@
     if ([self.delegate respondsToSelector:@selector(downloadOf:successed:result:)]){
         [self.delegate downloadOf:connection.currentRequest.URL successed:NO result:nil];
     }
+    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskID];
 }
 
 -(void)connectionDidFinishLoading:(NSURLConnection*)connection{
     if ([self.delegate respondsToSelector:@selector(downloadOf:successed:result:)]){
         [self.delegate downloadOf:connection.currentRequest.URL successed:YES result:self.receivedXMLData];
     }
+    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskID];
 
 }
 @end
