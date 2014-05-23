@@ -32,7 +32,7 @@
                     [newThreads addObject:thread];
                 }
             }
-            if ([child.name isEqualToString:@"access_token"]){
+            else if ([child.name isEqualToString:@"access_token"]){
                 //if current access_token is nil
                 NSString *oldToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"access_token"];
                 if (!oldToken){
@@ -41,7 +41,7 @@
                 }
             }
             //my message
-            if ([child.name isEqualToString:@"privateMessage"]){
+            else if ([child.name isEqualToString:@"privateMessage"]){
                 NSString *title;
                 NSString *message;
                 NSInteger howLong = 1.5;
@@ -98,7 +98,7 @@
             if (thread.ID != 0)
                 [newThreads addObject:thread];
         }
-        if ([child.name isEqualToString:@"access_token"]){
+        else if ([child.name isEqualToString:@"access_token"]){
             //if current access_token is nil
             NSString *oldToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"access_token"];
             if (!oldToken){

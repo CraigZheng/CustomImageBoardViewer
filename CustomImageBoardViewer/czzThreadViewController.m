@@ -440,13 +440,15 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [originalThreadData addObjectsFromArray:newThread];
             [self.refreshControl endRefreshing];
-            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
 
             //increase page number if enough to fill a page of 20 threads
             if (newThread.count >= 20)
                 pageNumber++;
             //convert data in set to data in array
             [self convertThreadSetToThreadArray];
+            if (threads.count > 0)
+                [threadTableView reloadData];
+            
         });
     } else {
         dispatch_async(dispatch_get_main_queue(), ^{

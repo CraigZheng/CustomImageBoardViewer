@@ -170,10 +170,16 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     UIImage *pickedImage = [info valueForKey:UIImagePickerControllerOriginalImage];
     //resize the image if the picked image is too big
-    if (pickedImage.size.width > 1280){
-        NSInteger newWidth = 1280;
-        NSInteger newHeight = (newWidth / pickedImage.size.width) * pickedImage.size.height;
-        pickedImage = [self resizeImage:pickedImage width:newWidth height:newHeight];
+    if (pickedImage.size.width * pickedImage.size.height > 1280 * 720){
+//        NSInteger newWidth = 1280;
+//        NSInteger newHeight = 720;
+//
+//        CGFloat factor = newHeight / pickedImage.size.height;
+//        newWidth = pickedImage.size.width * factor;
+//        newHeight = pickedImage.size.height * factor;
+//        pickedImage = [self resizeImage:pickedImage width:newWidth height:newHeight];
+        NSInteger newWidth = 720;
+        pickedImage = [self imageWithImage:pickedImage scaledToWidth:newWidth];
         [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"由于图片尺寸太大，已进行压缩" duration:1.5 position:@"top" title:@"图片已选" image:pickedImage];
     } else {
         [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"图片已选" duration:1.5 position:@"top" image:pickedImage];
@@ -207,6 +213,21 @@
     CGImageRelease(ref);
     
     return result;
+}
+
+-(UIImage*)imageWithImage: (UIImage*) sourceImage scaledToWidth: (float) i_width
+{
+    float oldWidth = sourceImage.size.width;
+    float scaleFactor = i_width / oldWidth;
+    
+    float newHeight = sourceImage.size.height * scaleFactor;
+    float newWidth = oldWidth * scaleFactor;
+    
+    UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+    [sourceImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
 }
 
 #pragma czzPostSender delegate

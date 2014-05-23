@@ -47,10 +47,10 @@
         if ([child.name isEqualToString:@"ResponseCount"]){
             self.responseCount = [child.value integerValue];
         }
-        if ([child.name isEqualToString:@"ID"]){
+        else if ([child.name isEqualToString:@"ID"]){
             self.ID = [child.value integerValue];
         }
-        if ([child.name isEqualToString:@"UID"]){
+        else if ([child.name isEqualToString:@"UID"]){
             NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithAttributedString:[self parseHTMLAttributes:child.value]];
             //manually set colour
             [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:153.0f/255.0f green:102.0f/255.0f blue:51.0f/255.0f alpha:1.0f] range:NSMakeRange(0, attrString.length)];
@@ -62,16 +62,16 @@
 
             self.UID = attrString;
         }
-        if ([child.name isEqualToString:@"Name"]){
+        else if ([child.name isEqualToString:@"Name"]){
             self.name = [self parseHTMLAttributes:child.value].string;
         }
-        if ([child.name isEqualToString:@"Email"]){
+        else if ([child.name isEqualToString:@"Email"]){
             self.email = [self parseHTMLAttributes:child.value].string;
         }
-        if ([child.name isEqualToString:@"Title"]){
+        else if ([child.name isEqualToString:@"Title"]){
             self.title = [self parseHTMLAttributes:child.value].string;
         }
-        if ([child.name isEqualToString:@"Content"]){
+        else if ([child.name isEqualToString:@"Content"]){
             //if title has more than 10 chinese words, it will be too long to fit in the title bar
             //there fore we put it at the beginning of the content
             if (self.title.length > 10)
@@ -79,19 +79,19 @@
             else
                 self.content = [self parseHTMLAttributes:child.value];
         }
-        if ([child.name isEqualToString:@"ImageSrc"]){
+        else if ([child.name isEqualToString:@"ImageSrc"]){
             self.imgSrc = child.value;
         }
-        if ([child.name isEqualToString:@"ThImageSrc"]){
+        else if ([child.name isEqualToString:@"ThImageSrc"]){
             self.thImgSrc = child.value;
         }
-        if ([child.name isEqualToString:@"Lock"]){
+        else if ([child.name isEqualToString:@"Lock"]){
             self.lock = [child.value boolValue];
         }
-        if ([child.name isEqualToString:@"Sage"]){
+        else if ([child.name isEqualToString:@"Sage"]){
             self.sage = [child.value boolValue];
         }
-        if ([child.name isEqualToString:@"PostDateTime"]){
+        else if ([child.name isEqualToString:@"PostDateTime"]){
             NSString *timestamp = [child.value stringByDeletingPathExtension];
             NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
             [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
