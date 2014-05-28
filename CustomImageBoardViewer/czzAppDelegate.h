@@ -10,12 +10,14 @@
 #import "IIViewDeckController.h"
 
 //the host will be changed very soon
-//#define myhost @"http://civ.atwebpages.com/"
-#define myhost @"http://civ.my-realm.com/"
+#define my_main_host @"http://civ.atwebpages.com/"
+#define my_backup_host @"http://civ.my-realm.com/"
 
 @interface czzAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property BOOL shouldUseBackupServer;
+@property (nonatomic) NSString *myhost;
 
 -(void)showToast:(NSString*)string;
 + (czzAppDelegate*) sharedAppDelegate;

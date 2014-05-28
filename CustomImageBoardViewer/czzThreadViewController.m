@@ -40,7 +40,7 @@
 @property UIDocumentInteractionController *documentInteractionController;
 @property CGPoint threadsTableViewContentOffSet; //record the content offset of the threads tableview
 @property UITapGestureRecognizer *tapOnImageGestureRecogniser;
-
+@property BOOL shouldHighlight;
 @end
 
 @implementation czzThreadViewController
@@ -59,10 +59,16 @@
 @synthesize documentInteractionController;
 @synthesize tapOnImageGestureRecogniser;
 @synthesize threadsTableViewContentOffSet;
+@synthesize shouldHighlight;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    // high light op
+    shouldHighlight = YES;
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldHighlight"])
+        shouldHighlight = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldHighlight"];
+
     baseURLString = [NSString stringWithFormat:@"http://h.acfun.tv/api/thread/sub?parentId=%ld", (long)self.parentThread.ID];
     pageNumber = 1;
     downloadedImages = [NSMutableDictionary new];
@@ -274,8 +280,8 @@
         }
         
         //highlight original poster
-        if ([thread.UID.string isEqualToString:parentThread.UID.string]) {
-            cell.contentView.backgroundColor = [UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:204.0f/255.0f alpha:1.0];
+        if (shouldHighlight && [thread.UID.string isEqualToString:parentThread.UID.string]) {
+            cell.contentView.backgroundColor = [UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:230.0f/255.0f alpha:1.0];
         } else {
             cell.contentView.backgroundColor = [UIColor whiteColor];
         }

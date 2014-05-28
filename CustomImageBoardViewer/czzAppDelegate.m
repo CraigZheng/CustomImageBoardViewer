@@ -11,15 +11,18 @@
 #import "czzBlacklist.h"
 #import "Toast+UIView.h"
 
-@interface czzAppDelegate()<czzBlacklistDownloaderDelegate>
+@interface czzAppDelegate()<czzBlacklistDownloaderDelegate, NSURLConnectionDataDelegate>
 
 @end
 
 @implementation czzAppDelegate
+@synthesize shouldUseBackupServer;
+@synthesize myhost;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    myhost = my_main_host;
     return YES;
 }
 							
@@ -57,11 +60,36 @@
         [[NSFileManager defaultManager] createDirectoryAtPath:imgFolder withIntermediateDirectories:NO attributes:nil error:nil];
     }
 
+    //check if the server is running and has required files
+    NSURLConnection *urlConn = [[NSURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[myhost stringByAppendingPathComponent:@"forums.xml"]] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10] delegate:self startImmediately:YES];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+-(NSString *)myhost {
+    if (shouldUseBackupServer)
+    {
+        return my_backup_host;
+    } else {
+        return my_main_host;
+    }
+}
+
+#pragma mark - NSURLConnectionDelegate
+-(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    shouldUseBackupServer = YES;
+}
+
+-(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    if ([((NSHTTPURLResponse *)response) statusCode] == 404) {
+        shouldUseBackupServer = YES;
+    } else {
+        shouldUseBackupServer = NO;
+    }
+    [connection cancel];
 }
 
 #pragma mark czzBlacklistDownloader delegate

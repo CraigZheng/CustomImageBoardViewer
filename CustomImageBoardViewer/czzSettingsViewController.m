@@ -58,10 +58,12 @@
         cell = [tableView dequeueReusableCellWithIdentifier:@"switch_cell_identifier"];
         UILabel *commandLabel = (UILabel*)[cell viewWithTag:3];
         UISwitch *commandSwitch = (UISwitch*)[cell viewWithTag:4];
-        [commandLabel setText:[switchCommands objectAtIndex:indexPath.row]];
+        NSString *command = [switchCommands objectAtIndex:indexPath.row];
+//        [commandLabel setText:[switchCommands objectAtIndex:indexPath.row]];
+        commandLabel.text = command;
         [commandSwitch addTarget:self action:@selector(switchDidChanged:) forControlEvents:UIControlEventValueChanged];
         //set value for switch
-        if (indexPath.row == 0){
+        if ([command isEqualToString:@"显示图片"]){
             //显示图片
             BOOL shouldLoadImages = YES;
             if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldDownloadThumbnail"])
@@ -75,19 +77,24 @@
                 shouldAutoLoadMore = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldAutoLoadMore"];
             [commandSwitch setOn:shouldAutoLoadMore];
         } 
-         */else if (indexPath.row == 1){
+         */else if ([command isEqualToString:@"图片下载完毕自动打开"]){
             //auto open
             BOOL shouldAutoOpen = YES;
             if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldAutoOpenImage"])
                 shouldAutoOpen = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldAutoOpenImage"];
             [commandSwitch setOn:shouldAutoOpen];
 
-         } else if (indexPath.row == 2){
+         } else if ([command isEqualToString:@"开启帖子缓存"]){
              //开启帖子缓存
              BOOL shouldCache = YES;
              if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldCache"])
                  shouldCache = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldCache"];
              [commandSwitch setOn:shouldCache];
+         } else if ([command isEqualToString:@"高亮楼主/PO主"]) {
+             BOOL shouldHighlight = YES;
+             if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldHighlight"])
+                 shouldHighlight = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldHighlight"];
+             [commandSwitch setOn:shouldHighlight];
          }
     } else if (indexPath.section == 1){
         UILabel *commandLabel = (UILabel*)[cell viewWithTag:5];
@@ -127,6 +134,7 @@
 //pragma prepareCommands for the menu
 -(void)prepareCommands{
     [switchCommands addObject:@"显示图片"];
+    [switchCommands addObject:@"高亮楼主/PO主"];
     //[switchCommands addObject:@"下拉自动加载帖子"];
     [switchCommands addObject:@"图片下载完毕自动打开"];
     [switchCommands addObject:@"开启帖子缓存"];
@@ -176,7 +184,8 @@
     UITableViewCell *parentCell = (UITableViewCell*)v;
     NSIndexPath *switchedIndexPath = [settingsTableView indexPathForCell:parentCell];
     if (switchedIndexPath.section == 0){
-        if (switchedIndexPath.row == 0){
+        NSString *command = [switchCommands objectAtIndex:switchedIndexPath.row];
+        if ([command isEqualToString:@"显示图片"]){
             //下载图片
             [[NSUserDefaults standardUserDefaults] setBool:switchControl.on forKey:@"shouldDownloadThumbnail"];
             [[NSUserDefaults standardUserDefaults] synchronize];
@@ -188,13 +197,16 @@
             [[NSUserDefaults standardUserDefaults] synchronize];
         } 
          */
-        else if (switchedIndexPath.row == 1){
+        else if ([command isEqualToString:@"图片下载完毕自动打开"]){
             //自动打开图片
             [[NSUserDefaults standardUserDefaults] setBool:switchControl.on forKey:@"shouldAutoOpenImage"];
             [[NSUserDefaults standardUserDefaults] synchronize];
-        } else if (switchedIndexPath.row == 2){
+        } else if ([command isEqualToString:@"开启帖子缓存"]){
             //开启帖子缓存
             [[NSUserDefaults standardUserDefaults] setBool:switchControl.on forKey:@"shouldCache"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        } else if ([command isEqualToString:@"高亮楼主/PO主"]) {
+            [[NSUserDefaults standardUserDefaults] setBool:switchControl.on forKey:@"shouldHighlight"];
             [[NSUserDefaults standardUserDefaults] synchronize];
         }
     }

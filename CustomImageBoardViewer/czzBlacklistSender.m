@@ -28,7 +28,7 @@
     self = [super init];
     if (self){
         //targetURLString = @"http://civ.my-realm.com/php/update_blacklist.php";
-        targetURLString = [myhost stringByAppendingPathComponent:@"php/update_blacklist.php"];
+        targetURLString = [[czzAppDelegate sharedAppDelegate].myhost stringByAppendingPathComponent:@"php/update_blacklist.php"];
     }
     return  self;
 }

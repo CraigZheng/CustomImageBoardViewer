@@ -13,6 +13,7 @@
 		440B2FC917F7F42600544926 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 440B2FC817F7F42600544926 /* MobileCoreServices.framework */; };
 		440B2FCC17F8057500544926 /* czzPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 440B2FCB17F8057500544926 /* czzPostViewController.m */; };
 		440B2FD017F8191700544926 /* czzPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 440B2FCF17F8191700544926 /* czzPost.m */; };
+		4412FA151935865800681438 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 4412FA141935865800681438 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		441E5CCF17F4691300289DBD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5CCE17F4691300289DBD /* Foundation.framework */; };
 		441E5CD117F4691300289DBD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5CD017F4691300289DBD /* CoreGraphics.framework */; };
 		441E5CD317F4691300289DBD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5CD217F4691300289DBD /* UIKit.framework */; };
@@ -119,6 +120,8 @@
 		440B2FCB17F8057500544926 /* czzPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzPostViewController.m; sourceTree = "<group>"; };
 		440B2FCE17F8191700544926 /* czzPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzPost.h; sourceTree = "<group>"; };
 		440B2FCF17F8191700544926 /* czzPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzPost.m; sourceTree = "<group>"; };
+		4412FA131935865800681438 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		4412FA141935865800681438 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		441E5CCB17F4691300289DBD /* CustomImageBoardViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomImageBoardViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		441E5CCE17F4691300289DBD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		441E5CD017F4691300289DBD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -350,6 +353,15 @@
 			name = "App icon";
 			sourceTree = "<group>";
 		};
+		4412FA161935865C00681438 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				4412FA131935865800681438 /* Reachability.h */,
+				4412FA141935865800681438 /* Reachability.m */,
+			);
+			name = Reachability;
+			sourceTree = "<group>";
+		};
 		441E5CC217F4691300289DBD = {
 			isa = PBXGroup;
 			children = (
@@ -413,6 +425,7 @@
 				441E5D0F17F4699900289DBD /* IIViewDeck */,
 				44B86455185D807F00C29B92 /* AdMod components */,
 				44C34544187E59AC00FDE45D /* KNSemiModal */,
+				4412FA161935865C00681438 /* Reachability */,
 				441E5CE917F4691300289DBD /* Images.xcassets */,
 				441E5E5117F4AEAB00289DBD /* Icons */,
 				441E5CD517F4691300289DBD /* Supporting Files */,
@@ -877,6 +890,7 @@
 				44C34550187E616500FDE45D /* czzEmojiCollectionViewController.m in Sources */,
 				440B2FC717F7DB7800544926 /* czzForumsViewController.m in Sources */,
 				442CD0E718517BED0021AD37 /* czzImageCentre.m in Sources */,
+				4412FA151935865800681438 /* Reachability.m in Sources */,
 				44AE2AFE18725EC4002CB021 /* czzNoSelectionTextView.m in Sources */,
 				44AE2AFA187254E4002CB021 /* czzMenuEnabledTableViewCell.m in Sources */,
 				5A1593F218E7BE61001A774B /* czzXMLProcessor.m in Sources */,

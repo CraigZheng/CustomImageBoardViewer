@@ -39,7 +39,7 @@
     if (xmlDownloader)
         [xmlDownloader stop];
     //NSString *forumString = @"http://civ.my-realm.com/forums.xml";
-    NSString *forumString = [myhost stringByAppendingPathComponent:@"forums.xml"];
+    NSString *forumString = [[czzAppDelegate sharedAppDelegate].myhost stringByAppendingPathComponent:@"forums.xml"];
     xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:forumString] delegate:self startNow:YES];
     [self.view makeToastActivity];
 }

@@ -88,7 +88,7 @@
     self.refreshControl = refreCon;
     
     //download a message from the server
-    czzXMLDownloader *msgDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:[myhost stringByAppendingPathComponent:@"message.xml"]] delegate:self startNow:YES];
+    czzXMLDownloader *msgDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:[[czzAppDelegate sharedAppDelegate].myhost stringByAppendingPathComponent:@"message.xml"]] delegate:self startNow:YES];
 
 }
 
