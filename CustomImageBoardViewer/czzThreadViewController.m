@@ -173,12 +173,15 @@
     
     NSString *CellIdentifier = @"thread_cell_identifier";
     if (indexPath.row == threads.count){
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
+        UITableViewCell *cell;// = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
         if (xmlDownloader) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"loading_cell_identifier"];
             UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
             [activityIndicator startAnimating];
-        } else if (pageNumber >= ((parentThread.responseCount + 1) / 20 + 1)){
+        } else if (parentThread.responseCount > 20 && ((pageNumber - 1) * 20 + threads.count % 20 - 1) < parentThread.responseCount){
+
+            cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
+        } else {
             cell = [tableView dequeueReusableCellWithIdentifier:@"no_more_cell_identifier"];
         }
         return cell;
@@ -429,7 +432,7 @@
     {
         CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
         if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !xmlDownloader){
-            if (pageNumber < ((parentThread.responseCount + 1) / 20 + 1)) {
+            if (((pageNumber - 1) * 20 + threads.count % 20 - 1) < parentThread.responseCount) {
                 [self performSelector:@selector(loadMoreThread:) withObject:nil];
                 [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
             }
