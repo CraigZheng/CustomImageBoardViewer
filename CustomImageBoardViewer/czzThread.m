@@ -12,6 +12,7 @@
 #import "czzBlacklist.h"
 #import "czzBlacklistEntity.h"
 #import "czzImageCentre.h"
+#import "NSString+HTML.h"
 
 @implementation czzThread
 
@@ -72,6 +73,8 @@
             self.title = [self parseHTMLAttributes:child.value].string;
         }
         else if ([child.name isEqualToString:@"Content"]){
+#warning testing new features
+            [self prepareHTMLForFragments:[NSString stringWithString:child.value]];
             //if title has more than 10 chinese words, it will be too long to fit in the title bar
             //there fore we put it at the beginning of the content
             if (self.title.length > 10)
@@ -163,6 +166,42 @@
     }
     return attributedString;
 }
+
+-(NSArray*)prepareHTMLForFragments:(NSString*)htmlString{
+    htmlString = [htmlString stringByDecodingHTMLEntities];
+    htmlString = [htmlString stringByReplacingOccurrencesOfString:@"&#180" withString:@"´"];
+    htmlString = [htmlString stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n"];
+    NSAttributedString *attributedHtmlString = [[NSAttributedString alloc] initWithString:htmlString];
+    NSRange r;
+    //remove everything between < and >
+    NSMutableArray *fragments = [NSMutableArray new];
+    UIColor *fontColor = [UIColor blackColor];
+    BOOL shouldRenderNextString = NO; //if a <font> tag is spotted, render next string to another color, then set this back to NO
+    while ((r = [htmlString rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound) {
+        @autoreleasepool {
+            NSRange endTagRange;
+            NSString *tagString = [htmlString substringWithRange:r];
+            if ([tagString rangeOfString:@"<font"].location != NSNotFound && (endTagRange = [htmlString rangeOfString:@"</[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound) {
+                NSRange textRange = NSMakeRange(r.location + r.length, endTagRange.location - r.length);
+                NSString *textWithTag = [htmlString substringWithRange:textRange];
+                NSAttributedString *renderedString = [[NSAttributedString alloc] initWithString:textWithTag attributes:@{NSForegroundColorAttributeName: [UIColor greenColor]}];
+                NSLog(@"%@", renderedString);
+            }
+            htmlString = [htmlString stringByReplacingCharactersInRange:r withString:@""];
+        }
+    }
+    NSString *processedString = htmlString = [[htmlString stringByDecodingHTMLEntities] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if (processedString.length > 0){
+        [fragments addObject:processedString];
+    }
+    NSMutableString *combinedString = [NSMutableString new];
+    for (NSString *string in fragments) {
+        [combinedString appendString:string];
+    }
+    NSLog(@"%@", combinedString);
+    return fragments;
+}
+
 
 /*this function would have 2 routes:
  1: with tags, get rip of <font></font> tag, and render everything in between green
