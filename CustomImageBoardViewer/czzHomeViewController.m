@@ -229,11 +229,11 @@
             NSString* basePath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
             basePath = [basePath stringByAppendingPathComponent:@"Thumbnails"];
             NSString *filePath = [basePath stringByAppendingPathComponent:[thread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
-            UIImage *previewImage =[UIImage imageWithContentsOfFile:filePath];
+            UIImage *previewImage =[[UIImage alloc] initWithContentsOfFile:filePath];
             if (previewImage && previewImage.size.width > 0 && previewImage.size.height > 0){
                 [previewImageView setImage:previewImage];
             } else if ([downloadedImages objectForKey:thread.thImgSrc]){
-                [previewImageView setImage:[UIImage imageWithContentsOfFile:[downloadedImages objectForKey:thread.thImgSrc]]];
+                [previewImageView setImage:[[UIImage alloc] initWithContentsOfFile:[downloadedImages objectForKey:thread.thImgSrc]]];
             }
         }
 
