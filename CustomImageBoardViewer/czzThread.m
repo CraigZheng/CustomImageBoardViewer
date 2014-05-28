@@ -185,6 +185,20 @@
             NSRange textRange = NSMakeRange(r.location + r.length, endTagRange.location - r.length);
             NSString *textWithTag = [attributedHtmlString.string substringWithRange:textRange];
             [pendingTextToRender addObject:textWithTag];
+            if ([fontColor isEqual:[UIColor blackColor]]) {
+                fontColor = [self colorForHex:[tagString substringWithRange:NSMakeRange([tagString rangeOfString:@"#"].location, 7)]];
+            }
+            //CLICKABLE CONTENT
+            if ([textWithTag rangeOfString:@">>"].location != NSNotFound){
+                NSString *newString = [[textWithTag componentsSeparatedByCharactersInSet:
+                                        [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
+                                       componentsJoinedByString:@""];
+                if ([newString integerValue] != 0)
+                    [self.replyToList addObject:[NSNumber numberWithInteger:[newString integerValue]]];
+                
+                //[self.replyToList addObject:renderedStr.string];
+            }
+
             //                NSAttributedString *renderedString = [[NSAttributedString alloc] initWithString:textWithTag attributes:@{NSForegroundColorAttributeName: [UIColor greenColor]}];
         }
         [attributedHtmlString deleteCharactersInRange:r];
