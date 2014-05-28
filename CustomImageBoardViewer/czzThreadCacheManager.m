@@ -74,7 +74,7 @@
     return NO;
 }
 
--(NSMutableSet*)readThreads:(czzThread*)parentThread{
+-(NSArray*)readThreads:(czzThread*)parentThread{
     //user defaults settings
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldCache"] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"shouldCache"]) {
         return nil;
@@ -82,9 +82,10 @@
     @try {
         NSString *fileName = [NSString stringWithFormat:@"%ld.thd", (long)parentThread.ID];
         if ([existingFiles containsObject:fileName]){
-            return [NSMutableSet setWithArray:
-                    [NSKeyedUnarchiver unarchiveObjectWithFile:[cachePath stringByAppendingPathComponent:fileName]]];
-
+//            return [NSMutableSet setWithArray:
+//                    [NSKeyedUnarchiver unarchiveObjectWithFile:[cachePath stringByAppendingPathComponent:fileName]]];
+            return [NSKeyedUnarchiver unarchiveObjectWithFile:[cachePath stringByAppendingPathComponent:fileName]];
+//
         }
     }
     @catch (NSException *exception) {

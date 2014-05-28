@@ -13,7 +13,7 @@
 + (id)sharedInstance;
 
 -(BOOL)saveThreads:(NSArray*)threads;
--(NSMutableSet*)readThreads:(czzThread*)parentThread;
+-(NSArray*)readThreads:(czzThread*)parentThread;
 -(void)removeThreadCache:(czzThread*)thread;
 -(void)removeAllThreadCache;
 -(NSString*)totalSize;

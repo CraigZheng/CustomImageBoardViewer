@@ -29,7 +29,7 @@
 @interface czzThreadViewController ()<czzXMLDownloaderDelegate, czzXMLProcessorDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate>
 @property NSString *baseURLString;
 @property NSString *targetURLString;
-@property NSMutableSet *originalThreadData;
+//@property NSMutableSet *originalThreadData;
 @property NSMutableArray *threads;
 @property czzXMLDownloader *xmlDownloader;
 @property NSIndexPath *selectedIndex;
@@ -46,7 +46,7 @@
 @implementation czzThreadViewController
 @synthesize baseURLString;
 @synthesize targetURLString;
-@synthesize originalThreadData;
+//@synthesize originalThreadData;
 @synthesize threads;
 @synthesize xmlDownloader;
 @synthesize threadTableView;
@@ -66,8 +66,8 @@
     baseURLString = [NSString stringWithFormat:@"http://h.acfun.tv/api/thread/sub?parentId=%ld", (long)self.parentThread.ID];
     pageNumber = 1;
     downloadedImages = [NSMutableDictionary new];
-    originalThreadData = [NSMutableSet new];
-    [originalThreadData addObject:parentThread];
+//    originalThreadData = [NSMutableSet new];
+//    [originalThreadData addObject:parentThread];
     threads = [NSMutableArray new];
     currentImageDownloaders = [[czzImageCentre sharedInstance] currentImageDownloaders];
     //add the UIRefreshControl to uitableview
@@ -77,15 +77,18 @@
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
     self.navigationController.delegate = self;
     //try to retrive cached thread from storage
-    NSMutableSet *cachedThreads = [[czzThreadCacheManager sharedInstance] readThreads:parentThread];
+    NSArray *cachedThreads = [[czzThreadCacheManager sharedInstance] readThreads:parentThread];
     if (cachedThreads){
-        originalThreadData = cachedThreads;
+//        originalThreadData = cachedThreads;
         //refresh the parent thread
-        [originalThreadData removeObject:parentThread];
-        [originalThreadData addObject:parentThread];
+//        [originalThreadData removeObject:parentThread];
+//        [originalThreadData addObject:parentThread];
+        [threads addObjectsFromArray:cachedThreads];
+    } else {
+        [threads addObject:parentThread];
+        [self loadMoreThread:pageNumber];
     }
-    [self loadMoreThread:pageNumber];
-    [self convertThreadSetToThreadArray];
+//    [self convertThreadSetToThreadArray];
     //end to retriving cached thread from storage
     //Initialise the tap gesture recogniser, it is to be used on the Image Views in the cell
     tapOnImageGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTapInImage:)];
@@ -140,7 +143,8 @@
         }
         
         //save threads to storage
-        [[czzThreadCacheManager sharedInstance] saveThreads:[self sortTheGivenArray:originalThreadData.allObjects]];
+//        [[czzThreadCacheManager sharedInstance] saveThreads:[self sortTheGivenArray:originalThreadData.allObjects]];
+        [[czzThreadCacheManager sharedInstance] saveThreads:threads];
         self.navigationController.delegate = nil;
     }
 }
@@ -268,6 +272,13 @@
                 }
             }
         }
+        
+        //highlight original poster
+        if ([thread.UID.string isEqualToString:parentThread.UID.string]) {
+            cell.contentView.backgroundColor = [UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:204.0f/255.0f alpha:1.0];
+        } else {
+            cell.contentView.backgroundColor = [UIColor whiteColor];
+        }
     }
     return cell;
 }
@@ -359,8 +370,9 @@
         if (newPageNumber > 0){
             self.pageNumber = newPageNumber;
             //clear threads and ready to accept new threads
-            [originalThreadData removeAllObjects];
+//            [originalThreadData removeAllObjects];
             [self.threads removeAllObjects];
+            [self.threads addObject:parentThread];
             [self.threadTableView reloadData];
             [self.refreshControl beginRefreshing];
             [self loadMoreThread:self.pageNumber];
@@ -373,8 +385,9 @@
 
 -(void)refreshThread:(id)sender{
     [self.threads removeAllObjects];
-    [originalThreadData removeAllObjects];
-    [originalThreadData addObject:parentThread];
+    [self.threads addObject:parentThread];
+//    [originalThreadData removeAllObjects];
+//    [originalThreadData addObject:parentThread];
     [threadTableView reloadData];
     //reset to default page number
     pageNumber = 1;
@@ -408,8 +421,10 @@
     {
         CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
         if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !xmlDownloader){
-            [self performSelector:@selector(loadMoreThread:) withObject:nil];
-            [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+            if (parentThread.responseCount > threads.count - 1) {
+                [self performSelector:@selector(loadMoreThread:) withObject:nil];
+                [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
         }
     }
 }
@@ -438,14 +453,34 @@
 -(void)subThreadProcessed:(NSArray *)newThread :(BOOL)success{
     if (success){
         dispatch_async(dispatch_get_main_queue(), ^{
-            [originalThreadData addObjectsFromArray:newThread];
+//            [originalThreadData addObjectsFromArray:newThread];
+            if (threads.count > 1) {
+                NSInteger lastChunkIndex = threads.count - 20;
+                if (lastChunkIndex < 1)
+                    lastChunkIndex = 1;
+                NSInteger lastChunkLength = threads.count - lastChunkIndex;
+                NSRange lastChunkRange = NSMakeRange(lastChunkIndex, lastChunkLength);
+                NSArray *lastChunkOfThread = [threads subarrayWithRange:lastChunkRange];
+                NSMutableSet *oldThreadSet = [NSMutableSet setWithArray:lastChunkOfThread];
+                [oldThreadSet addObjectsFromArray:newThread];
+                [threads removeObjectsInRange:lastChunkRange];
+                [threads addObjectsFromArray:[self sortTheGivenArray:oldThreadSet.allObjects]];
+            } else {
+                [threads addObjectsFromArray:[self sortTheGivenArray:newThread]];
+            }
+            
+            
+
             [self.refreshControl endRefreshing];
 
+            [threadTableView reloadData];
+            
             //increase page number if enough to fill a page of 20 threads
-            if (newThread.count >= 20)
-                pageNumber++;
+            if (newThread.count >= 20) {
+                pageNumber ++;
+            }
             //convert data in set to data in array
-            [self convertThreadSetToThreadArray];
+//            [self convertThreadSetToThreadArray];
             if (threads.count > 0)
                 [threadTableView reloadData];
             
@@ -464,10 +499,10 @@
 //this function would convert the original threads in set to nsarray, which is more suitable to be displayed in a uitableview
 -(void)convertThreadSetToThreadArray{
     //sort the array
-    NSArray *sortedArray = [self sortTheGivenArray:[originalThreadData allObjects]];
-    [threads removeAllObjects];
-    [threads addObjectsFromArray:sortedArray];
-    [threadTableView reloadData];
+//    NSArray *sortedArray = [self sortTheGivenArray:[originalThreadData allObjects]];
+//    [threads removeAllObjects];
+//    [threads addObjectsFromArray:sortedArray];
+//    [threadTableView reloadData];
 }
 
 #pragma mark notification handler - image downloader
