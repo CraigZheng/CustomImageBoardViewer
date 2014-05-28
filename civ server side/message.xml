@@ -1,0 +1,8 @@
+﻿<result><success>true</success><status>200</status>
+<privateMessage>
+	<title>我的话	</title>
+	
+	<message>测试版1.2.3.8</message>
+	<howLong>10</howLong>
+	<shouldAlwaysDisplay>false</shouldAlwaysDisplay>
+</privateMessage></result>
