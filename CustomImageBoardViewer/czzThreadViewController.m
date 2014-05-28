@@ -97,6 +97,7 @@
     }
     if (threads.count <= 1)
         [self loadMoreThread:pageNumber];
+    pageNumber = threads.count / 20 + 1;
 
 //    [self convertThreadSetToThreadArray];
     //end to retriving cached thread from storage
