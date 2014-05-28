@@ -181,10 +181,13 @@
     while ((r = [attributedHtmlString.string rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound) {
         NSRange endTagRange;
         NSString *tagString = [attributedHtmlString.string substringWithRange:r];
-        if ([tagString rangeOfString:@"<font"].location != NSNotFound && (endTagRange = [attributedHtmlString.string rangeOfString:@"</[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound) {
-            NSRange textRange = NSMakeRange(r.location + r.length, endTagRange.location - r.length);
+        if ([tagString rangeOfString:@"<font"].location != NSNotFound && (endTagRange = [attributedHtmlString.string rangeOfString:@"<+/[^>]+>" options:NSRegularExpressionSearch range:NSMakeRange(r.location + r.length, attributedHtmlString.length - r.length - r.location)]).location != NSNotFound) {
+//            NSRange textRange = NSMakeRange(r.location + r.length, endTagRange.location - r.length);
+            NSRange textRange = NSMakeRange(r.location + r.length, endTagRange.location - r.location - r.length);
             NSString *textWithTag = [attributedHtmlString.string substringWithRange:textRange];
-            [pendingTextToRender addObject:textWithTag];
+            if (textWithTag.length > 0) {
+                [pendingTextToRender addObject:textWithTag];
+            }
             if ([fontColor isEqual:[UIColor blackColor]]) {
                 fontColor = [self colorForHex:[tagString substringWithRange:NSMakeRange([tagString rangeOfString:@"#"].location, 7)]];
             }
