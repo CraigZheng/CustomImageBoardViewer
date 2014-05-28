@@ -178,7 +178,7 @@
             cell = [tableView dequeueReusableCellWithIdentifier:@"loading_cell_identifier"];
             UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
             [activityIndicator startAnimating];
-        } else if (indexPath.row >= parentThread.responseCount + 1){
+        } else if (pageNumber >= ((parentThread.responseCount + 1) / 20 + 1)){
             cell = [tableView dequeueReusableCellWithIdentifier:@"no_more_cell_identifier"];
         }
         return cell;
@@ -429,7 +429,7 @@
     {
         CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
         if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !xmlDownloader){
-            if (parentThread.responseCount > threads.count - 1) {
+            if (pageNumber < ((parentThread.responseCount + 1) / 20 + 1)) {
                 [self performSelector:@selector(loadMoreThread:) withObject:nil];
                 [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
             }
@@ -460,27 +460,26 @@
 
 -(void)subThreadProcessed:(NSArray *)newThread :(BOOL)success{
     if (success){
+        if (threads.count > 1) {
+            NSInteger lastChunkIndex = threads.count - 20;
+            if (lastChunkIndex < 1)
+                lastChunkIndex = 1;
+            NSInteger lastChunkLength = threads.count - lastChunkIndex;
+            NSRange lastChunkRange = NSMakeRange(lastChunkIndex, lastChunkLength);
+            NSArray *lastChunkOfThread = [threads subarrayWithRange:lastChunkRange];
+            NSMutableSet *oldThreadSet = [NSMutableSet setWithArray:lastChunkOfThread];
+            [oldThreadSet addObjectsFromArray:newThread];
+            [threads removeObjectsInRange:lastChunkRange];
+            [threads addObjectsFromArray:[self sortTheGivenArray:oldThreadSet.allObjects]];
+        } else {
+            [threads addObjectsFromArray:[self sortTheGivenArray:newThread]];
+        }
+        //increase page number if enough to fill a page of 20 threads
+        if (newThread.count >= 20) {
+            pageNumber ++;
+        }
         dispatch_async(dispatch_get_main_queue(), ^{
 //            [originalThreadData addObjectsFromArray:newThread];
-            if (threads.count > 1) {
-                NSInteger lastChunkIndex = threads.count - 20;
-                if (lastChunkIndex < 1)
-                    lastChunkIndex = 1;
-                NSInteger lastChunkLength = threads.count - lastChunkIndex;
-                NSRange lastChunkRange = NSMakeRange(lastChunkIndex, lastChunkLength);
-                NSArray *lastChunkOfThread = [threads subarrayWithRange:lastChunkRange];
-                NSMutableSet *oldThreadSet = [NSMutableSet setWithArray:lastChunkOfThread];
-                [oldThreadSet addObjectsFromArray:newThread];
-                [threads removeObjectsInRange:lastChunkRange];
-                [threads addObjectsFromArray:[self sortTheGivenArray:oldThreadSet.allObjects]];
-            } else {
-                [threads addObjectsFromArray:[self sortTheGivenArray:newThread]];
-            }
-            
-            //increase page number if enough to fill a page of 20 threads
-            if (newThread.count >= 20) {
-                pageNumber ++;
-            }
             //convert data in set to data in array
 //            [self convertThreadSetToThreadArray];
             if (threads.count > 0)
@@ -493,6 +492,7 @@
         });
     }
     dispatch_async(dispatch_get_main_queue(), ^{
+        [self.refreshControl endRefreshing];
         [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
     });
 }
