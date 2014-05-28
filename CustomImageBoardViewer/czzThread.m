@@ -74,13 +74,14 @@
         }
         else if ([child.name isEqualToString:@"Content"]){
 #warning testing new features
-            [self prepareHTMLForFragments:[NSString stringWithString:child.value]];
+            self.content = [self prepareHTMLForFragments:[NSString stringWithString:child.value]];
             //if title has more than 10 chinese words, it will be too long to fit in the title bar
             //there fore we put it at the beginning of the content
-            if (self.title.length > 10)
-                self.content = [self parseHTMLAttributes:[NSString stringWithFormat:@" - %@ - \n\n%@", self.title, child.value]];
-            else
-                self.content = [self parseHTMLAttributes:child.value];
+//            if (self.title.length > 10)
+//                self.content = [self parseHTMLAttributes:[NSString stringWithFormat:@" - %@ - \n\n%@", self.title, child.value]];
+//            else
+//                self.content = [self parseHTMLAttributes:child.value];
+
         }
         else if ([child.name isEqualToString:@"ImageSrc"]){
             self.imgSrc = child.value;
@@ -167,39 +168,46 @@
     return attributedString;
 }
 
--(NSArray*)prepareHTMLForFragments:(NSString*)htmlString{
+-(NSAttributedString*)prepareHTMLForFragments:(NSString*)htmlString{
     htmlString = [htmlString stringByDecodingHTMLEntities];
     htmlString = [htmlString stringByReplacingOccurrencesOfString:@"&#180" withString:@"´"];
     htmlString = [htmlString stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n"];
-    NSAttributedString *attributedHtmlString = [[NSAttributedString alloc] initWithString:htmlString];
+    NSMutableAttributedString *attributedHtmlString = [[NSMutableAttributedString alloc] initWithString:htmlString];
     NSRange r;
     //remove everything between < and >
     NSMutableArray *fragments = [NSMutableArray new];
+    NSMutableArray *pendingTextToRender = [NSMutableArray new];
     UIColor *fontColor = [UIColor blackColor];
-    BOOL shouldRenderNextString = NO; //if a <font> tag is spotted, render next string to another color, then set this back to NO
-    while ((r = [htmlString rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound) {
-        @autoreleasepool {
-            NSRange endTagRange;
-            NSString *tagString = [htmlString substringWithRange:r];
-            if ([tagString rangeOfString:@"<font"].location != NSNotFound && (endTagRange = [htmlString rangeOfString:@"</[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound) {
-                NSRange textRange = NSMakeRange(r.location + r.length, endTagRange.location - r.length);
-                NSString *textWithTag = [htmlString substringWithRange:textRange];
-                NSAttributedString *renderedString = [[NSAttributedString alloc] initWithString:textWithTag attributes:@{NSForegroundColorAttributeName: [UIColor greenColor]}];
-                NSLog(@"%@", renderedString);
-            }
-            htmlString = [htmlString stringByReplacingCharactersInRange:r withString:@""];
+    while ((r = [attributedHtmlString.string rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound) {
+        NSRange endTagRange;
+        NSString *tagString = [attributedHtmlString.string substringWithRange:r];
+        if ([tagString rangeOfString:@"<font"].location != NSNotFound && (endTagRange = [attributedHtmlString.string rangeOfString:@"</[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound) {
+            NSRange textRange = NSMakeRange(r.location + r.length, endTagRange.location - r.length);
+            NSString *textWithTag = [attributedHtmlString.string substringWithRange:textRange];
+            [pendingTextToRender addObject:textWithTag];
+            //                NSAttributedString *renderedString = [[NSAttributedString alloc] initWithString:textWithTag attributes:@{NSForegroundColorAttributeName: [UIColor greenColor]}];
         }
+        [attributedHtmlString deleteCharactersInRange:r];
+        //            attributedHtmlString = [attributedHtmlString stringByReplacingCharactersInRange:r withString:@""];
+
     }
-    NSString *processedString = htmlString = [[htmlString stringByDecodingHTMLEntities] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    if (processedString.length > 0){
-        [fragments addObject:processedString];
+    for (NSString *pendingText in pendingTextToRender) {
+        NSRange textRange = [attributedHtmlString.string rangeOfString:pendingText];
+        [attributedHtmlString setAttributes:@{NSForegroundColorAttributeName: fontColor} range:textRange];
     }
-    NSMutableString *combinedString = [NSMutableString new];
-    for (NSString *string in fragments) {
-        [combinedString appendString:string];
+    //set the font size and shits
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+    {
+        /* Device is iPad */
+        [attributedHtmlString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:18] range:NSMakeRange(0, attributedHtmlString.length)];
+    } else {
+        [attributedHtmlString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(0, attributedHtmlString.length)];
     }
-    NSLog(@"%@", combinedString);
-    return fragments;
+
+//    NSLog(@"%@", attributedHtmlString);
+    [fragments addObject:attributedHtmlString];
+//    return fragments;
+    return attributedHtmlString;
 }
 
 
