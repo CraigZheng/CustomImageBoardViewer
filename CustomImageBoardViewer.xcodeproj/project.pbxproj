@@ -96,6 +96,7 @@
 		5A1593EC18E71E93001A774B /* czzThreadRefButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1593EB18E71E93001A774B /* czzThreadRefButton.m */; };
 		5A1593F218E7BE61001A774B /* czzXMLProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1593F118E7BE61001A774B /* czzXMLProcessor.m */; };
 		5A2B2D8D1936172C00BA2870 /* czzFeedback.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2B2D8C1936172C00BA2870 /* czzFeedback.m */; };
+		5A2B2D941936264A00BA2870 /* czzFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2B2D931936264A00BA2870 /* czzFeedbackViewController.m */; };
 		5A3897C91935EC4D00D20DA1 /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3897C71935EC4D00D20DA1 /* NSString+HTML.m */; };
 /* End PBXBuildFile section */
 
@@ -251,6 +252,8 @@
 		5A1593F118E7BE61001A774B /* czzXMLProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzXMLProcessor.m; sourceTree = "<group>"; };
 		5A2B2D8B1936172C00BA2870 /* czzFeedback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFeedback.h; sourceTree = "<group>"; };
 		5A2B2D8C1936172C00BA2870 /* czzFeedback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFeedback.m; sourceTree = "<group>"; };
+		5A2B2D921936264A00BA2870 /* czzFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFeedbackViewController.h; sourceTree = "<group>"; };
+		5A2B2D931936264A00BA2870 /* czzFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFeedbackViewController.m; sourceTree = "<group>"; };
 		5A3897C41935EC4D00D20DA1 /* GTMNSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTMNSString+HTML.h"; sourceTree = "<group>"; };
 		5A3897C51935EC4D00D20DA1 /* GTMNSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTMNSString+HTML.m"; sourceTree = "<group>"; };
 		5A3897C61935EC4D00D20DA1 /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
@@ -415,6 +418,7 @@
 				441E5CDD17F4691300289DBD /* czzAppDelegate.h */,
 				441E5CDE17F4691300289DBD /* czzAppDelegate.m */,
 				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
+				5A2B2D8E1936179500BA2870 /* czzFeedback */,
 				44C3454A187E5A8300FDE45D /* czzEmoji */,
 				440B300D17F95EC200544926 /* App icon */,
 				440B2FD817F94C5000544926 /* Launch images */,
@@ -424,7 +428,6 @@
 				441E5D1717F46B3200289DBD /* czzForumsViewController */,
 				441E5D1317F46A0E00289DBD /* czzEntryPointViewController */,
 				441E5D2D17F490E100289DBD /* czzThread */,
-				5A2B2D8E1936179500BA2870 /* czzFeedback */,
 				442CD0E4185160200021AD37 /* czzImageDownloader */,
 				441E5D2517F4798300289DBD /* czzForumGroup */,
 				441E5D1C17F46E7F00289DBD /* SMXMLDocument */,
@@ -755,6 +758,8 @@
 			children = (
 				5A2B2D8B1936172C00BA2870 /* czzFeedback.h */,
 				5A2B2D8C1936172C00BA2870 /* czzFeedback.m */,
+				5A2B2D921936264A00BA2870 /* czzFeedbackViewController.h */,
+				5A2B2D931936264A00BA2870 /* czzFeedbackViewController.m */,
 			);
 			name = czzFeedback;
 			sourceTree = "<group>";
@@ -929,6 +934,7 @@
 				440B2FCC17F8057500544926 /* czzPostViewController.m in Sources */,
 				441E5E5417F52DEF00289DBD /* czzThreadViewController.m in Sources */,
 				441E5CE817F4691300289DBD /* czzHomeViewController.m in Sources */,
+				5A2B2D941936264A00BA2870 /* czzFeedbackViewController.m in Sources */,
 				4448C2A3180FF50F00D2CD76 /* czzBlacklistEntity.m in Sources */,
 				5A0A6BD61848691C0094D7FB /* czzMoreInfoViewController.m in Sources */,
 				4448C2AD18100C6B00D2CD76 /* czzBlacklist.m in Sources */,

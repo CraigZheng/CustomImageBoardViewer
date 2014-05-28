@@ -27,7 +27,7 @@ typedef NSUInteger emotions;
 @property NSString *title;
 @property (nonatomic) NSDate *time;
 @property NSString *name;
-@property NSString *content;
+@property NSString *content; //required
 @property NSString *emotion;
 
 -(BOOL)sendFeedback;

@@ -73,7 +73,6 @@
             self.title = [self parseHTMLAttributes:child.value].string;
         }
         else if ([child.name isEqualToString:@"Content"]){
-#warning testing new features
             self.content = [self prepareHTMLForFragments:[NSString stringWithString:child.value]];
             //if title has more than 10 chinese words, it will be too long to fit in the title bar
             //there fore we put it at the beginning of the content

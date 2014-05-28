@@ -20,6 +20,10 @@
 
 
 -(BOOL)sendFeedback{
+    if (content.length <= 0) {
+        NSLog(@"need content");
+        return NO;
+    }
     NSString *targetHost = feedback_host;
     NSDateFormatter *simpleDateFormatter = [NSDateFormatter new];
     [simpleDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
