@@ -514,8 +514,10 @@
 //            [originalThreadData addObjectsFromArray:newThread];
             //convert data in set to data in array
 //            [self convertThreadSetToThreadArray];
-            if (threads.count > 0)
+            if (newThread.count > 0)
+            {
                 [threadTableView reloadData];
+            }
             
         });
     } else {
