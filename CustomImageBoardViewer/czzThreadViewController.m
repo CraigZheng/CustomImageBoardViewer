@@ -92,8 +92,10 @@
         [threads addObjectsFromArray:cachedThreads];
     } else {
         [threads addObject:parentThread];
-        [self loadMoreThread:pageNumber];
     }
+    if (threads.count <= 1)
+        [self loadMoreThread:pageNumber];
+
 //    [self convertThreadSetToThreadArray];
     //end to retriving cached thread from storage
     //Initialise the tap gesture recogniser, it is to be used on the Image Views in the cell
@@ -475,12 +477,6 @@
                 [threads addObjectsFromArray:[self sortTheGivenArray:newThread]];
             }
             
-            
-
-            [self.refreshControl endRefreshing];
-
-            [threadTableView reloadData];
-            
             //increase page number if enough to fill a page of 20 threads
             if (newThread.count >= 20) {
                 pageNumber ++;
@@ -497,7 +493,6 @@
         });
     }
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.refreshControl endRefreshing];
         [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
     });
 }
