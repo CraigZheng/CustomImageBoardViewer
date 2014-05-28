@@ -21,7 +21,8 @@
     if (action == @selector(menuActionOpen:) && links.count > 0)
         return YES;
     return (action == @selector(menuActionReply:) ||
-            action == @selector(menuActionCopy:));
+            action == @selector(menuActionCopy:)
+            || action == @selector(menuActionHighlight:));
 }
 
 -(BOOL)canBecomeFirstResponder{
@@ -61,6 +62,11 @@
     actionSheet.cancelButtonIndex = links.count;
     
     [actionSheet showInView:self.superview];
+}
+
+-(void)menuActionHighlight:(id)sender {
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:self.myThread forKey:@"HighlightThread"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"HighlightAction" object:Nil userInfo:userInfo];
 }
 
 #pragma mark - setter

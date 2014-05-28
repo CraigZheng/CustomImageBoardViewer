@@ -40,6 +40,7 @@
 @property UIDocumentInteractionController *documentInteractionController;
 @property CGPoint threadsTableViewContentOffSet; //record the content offset of the threads tableview
 @property UITapGestureRecognizer *tapOnImageGestureRecogniser;
+@property czzThread *shouldHighlightSelectedThread;
 @property BOOL shouldHighlight;
 @end
 
@@ -60,6 +61,7 @@
 @synthesize tapOnImageGestureRecogniser;
 @synthesize threadsTableViewContentOffSet;
 @synthesize shouldHighlight;
+@synthesize shouldHighlightSelectedThread;
 
 - (void)viewDidLoad
 {
@@ -105,7 +107,8 @@
     UIMenuItem *replyMenuItem = [[UIMenuItem alloc] initWithTitle:@"回复" action:@selector(menuActionReply:)];
     UIMenuItem *copyMenuItem = [[UIMenuItem alloc] initWithTitle:@"复制" action:@selector(menuActionCopy:)];
     UIMenuItem *openMenuItem = [[UIMenuItem alloc] initWithTitle:@"打开链接" action:@selector(menuActionOpen:)];
-    [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, openMenuItem]];
+    UIMenuItem *highlightMenuItem = [[UIMenuItem alloc] initWithTitle:@"高亮" action:@selector(menuActionHighlight:)];
+    [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, highlightMenuItem, openMenuItem]];
     [[UIMenuController sharedMenuController] update];
 }
 
@@ -124,6 +127,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaderUpdated:) name:@"ImageDownloaderProgressUpdated" object:nil];
     //Jump to command observer
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(PromptForJumpToPage) name:@"JumpToPageCommand" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(HighlightThreadSelected:) name:@"HighlightAction" object:nil];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -212,7 +216,7 @@
         previewImageView.hidden = YES;
         DACircularProgressView *circularProgressView = (DACircularProgressView*)[cell viewWithTag:10];
         circularProgressView.hidden = YES;
-        if (thread.thImgSrc != 0){
+        if (thread.thImgSrc.length != 0){
             previewImageView.hidden = NO;
             [previewImageView setImage:[UIImage imageNamed:@"Icon.png"]];
             NSString* basePath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -287,9 +291,11 @@
         //highlight original poster
         if (shouldHighlight && [thread.UID.string isEqualToString:parentThread.UID.string]) {
             cell.contentView.backgroundColor = [UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:230.0f/255.0f alpha:1.0];
-        } else {
-            cell.contentView.backgroundColor = [UIColor whiteColor];
+        } else if (shouldHighlightSelectedThread && [thread.UID.string isEqualToString:shouldHighlightSelectedThread.UID.string]) {
+            cell.contentView.backgroundColor = [UIColor colorWithRed:222.0f/255.0f green:222.0f/255.0f blue:255.0f/255.0f alpha:1.0];
         }
+        else
+            cell.contentView.backgroundColor = [UIColor clearColor];
     }
     return cell;
 }
@@ -371,6 +377,29 @@
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"跳页: %d/%d", pageNumber, ((parentThread.responseCount + 1) / 20 + 1)] message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alertView show];
+}
+
+#pragma mark - highlight thread selected 
+-(void)HighlightThreadSelected:(NSNotification*)notification {
+    czzThread *selectedThread = [notification.userInfo objectForKey:@"HighlightThread"];
+    if (selectedThread) {
+        if ([shouldHighlightSelectedThread isEqual:selectedThread]) {
+            shouldHighlightSelectedThread = nil;
+        }
+        else
+            shouldHighlightSelectedThread = selectedThread;
+        [threadTableView reloadData];
+//        for (NSIndexPath *displayedIndexPath in [threadTableView indexPathsForVisibleRows]) {
+//            if (displayedIndexPath.row >= threads.count)
+//                break;
+//            czzThread *displayedThread = [threads objectAtIndex:displayedIndexPath.row];
+//            if ([displayedThread isEqual:shouldHighlightSelectedThread]){
+//                [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:displayedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+//                break;
+//            }
+//        }
+
+    }
 }
 
 #pragma mark - UIAlertViewDelegate
@@ -522,6 +551,8 @@
                 //store the given file save path
                 [downloadedImages setObject:[notification.userInfo objectForKey:@"FilePath"] forKey:imgDownloader.imageURLString];
             for (NSIndexPath *displayedIndexPath in [threadTableView indexPathsForVisibleRows]) {
+                if (displayedIndexPath.row >= threads.count)
+                    break;
                 czzThread *displayedThread = [threads objectAtIndex:displayedIndexPath.row];
                 if ([displayedThread.thImgSrc isEqualToString:imgDownloader.imageURLString]){
                     [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:displayedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
