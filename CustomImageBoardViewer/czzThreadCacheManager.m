@@ -94,9 +94,49 @@
     return nil;
 }
 
+-(BOOL)saveHeights:(NSArray*)heights ForThread:(czzThread *)parentThread {
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldCache"] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"shouldCache"]) {
+        return NO;
+    }
+    @try {
+        NSString *fileName = [NSString stringWithFormat:@"%ld.hgt", (long)parentThread.ID];
+        [NSKeyedArchiver archiveRootObject:heights toFile:[cachePath stringByAppendingPathComponent:fileName]];
+        [existingFiles addObject:fileName];
+        return YES;
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@", exception);
+    }
+    [[czzAppDelegate sharedAppDelegate] showToast:@"无法写入缓存：请检查剩余空间"];
+    return NO;
+}
+
+-(NSArray *)readHeightsForThread:(czzThread *)parentThread {
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldCache"] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"shouldCache"]) {
+        return nil;
+    }
+    @try {
+        NSString *fileName = [NSString stringWithFormat:@"%ld.hgt", (long)parentThread.ID];
+        if ([existingFiles containsObject:fileName]){
+            //            return [NSMutableSet setWithArray:
+            //                    [NSKeyedUnarchiver unarchiveObjectWithFile:[cachePath stringByAppendingPathComponent:fileName]]];
+            return [NSKeyedUnarchiver unarchiveObjectWithFile:[cachePath stringByAppendingPathComponent:fileName]];
+            //
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+    return nil;
+}
+
 -(void)removeThreadCache:(czzThread *)thread{
     NSString *fileName = [NSString stringWithFormat:@"%ld.thd", (long)thread.ID];
+    NSString *heightFile = [NSString stringWithFormat:@"%ld.hgt", (long)thread.ID];
     [[NSFileManager defaultManager] removeItemAtPath:[cachePath stringByAppendingPathComponent:fileName] error:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:[cachePath stringByAppendingPathComponent:heightFile] error:nil];
+
+    
     [self reloadCacheFiles];
 }
 

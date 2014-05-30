@@ -14,6 +14,8 @@
 
 -(BOOL)saveThreads:(NSArray*)threads;
 -(NSArray*)readThreads:(czzThread*)parentThread;
+-(BOOL)saveHeights:(NSArray*)heights ForThread:(czzThread*)parentThread;
+-(NSArray*)readHeightsForThread:(czzThread*)parentThread;
 -(void)removeThreadCache:(czzThread*)thread;
 -(void)removeAllThreadCache;
 -(NSString*)totalSize;

@@ -12,6 +12,7 @@
 #import "czzBlacklist.h"
 #import "czzBlacklistEntity.h"
 #import "czzImageCentre.h"
+#import "NSString+HTML.h"
 
 @implementation czzThread
 
@@ -72,12 +73,14 @@
             self.title = [self parseHTMLAttributes:child.value].string;
         }
         else if ([child.name isEqualToString:@"Content"]){
+            self.content = [self prepareHTMLForFragments:[NSString stringWithString:child.value]];
             //if title has more than 10 chinese words, it will be too long to fit in the title bar
             //there fore we put it at the beginning of the content
-            if (self.title.length > 10)
-                self.content = [self parseHTMLAttributes:[NSString stringWithFormat:@" - %@ - \n\n%@", self.title, child.value]];
-            else
-                self.content = [self parseHTMLAttributes:child.value];
+//            if (self.title.length > 10)
+//                self.content = [self parseHTMLAttributes:[NSString stringWithFormat:@" - %@ - \n\n%@", self.title, child.value]];
+//            else
+//                self.content = [self parseHTMLAttributes:child.value];
+
         }
         else if ([child.name isEqualToString:@"ImageSrc"]){
             self.imgSrc = child.value;
@@ -163,6 +166,66 @@
     }
     return attributedString;
 }
+
+-(NSAttributedString*)prepareHTMLForFragments:(NSString*)htmlString{
+    htmlString = [htmlString stringByDecodingHTMLEntities];
+    htmlString = [htmlString stringByReplacingOccurrencesOfString:@"&#180" withString:@"´"];
+    htmlString = [htmlString stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n"];
+    NSMutableAttributedString *attributedHtmlString = [[NSMutableAttributedString alloc] initWithString:htmlString];
+    NSRange r;
+    //remove everything between < and >
+    NSMutableArray *fragments = [NSMutableArray new];
+    NSMutableArray *pendingTextToRender = [NSMutableArray new];
+    UIColor *fontColor = [UIColor blackColor];
+    while ((r = [attributedHtmlString.string rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound) {
+        NSRange endTagRange;
+        NSString *tagString = [attributedHtmlString.string substringWithRange:r];
+        if ([tagString rangeOfString:@"<font"].location != NSNotFound && (endTagRange = [attributedHtmlString.string rangeOfString:@"<+/[^>]+>" options:NSRegularExpressionSearch range:NSMakeRange(r.location + r.length, attributedHtmlString.length - r.length - r.location)]).location != NSNotFound) {
+//            NSRange textRange = NSMakeRange(r.location + r.length, endTagRange.location - r.length);
+            NSRange textRange = NSMakeRange(r.location + r.length, endTagRange.location - r.location - r.length);
+            NSString *textWithTag = [attributedHtmlString.string substringWithRange:textRange];
+            if (textWithTag.length > 0) {
+                [pendingTextToRender addObject:textWithTag];
+            }
+            if ([fontColor isEqual:[UIColor blackColor]]) {
+                fontColor = [self colorForHex:[tagString substringWithRange:NSMakeRange([tagString rangeOfString:@"#"].location, 7)]];
+            }
+            //CLICKABLE CONTENT
+            if ([textWithTag rangeOfString:@">>"].location != NSNotFound){
+                NSString *newString = [[textWithTag componentsSeparatedByCharactersInSet:
+                                        [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
+                                       componentsJoinedByString:@""];
+                if ([newString integerValue] != 0)
+                    [self.replyToList addObject:[NSNumber numberWithInteger:[newString integerValue]]];
+                
+                //[self.replyToList addObject:renderedStr.string];
+            }
+
+            //                NSAttributedString *renderedString = [[NSAttributedString alloc] initWithString:textWithTag attributes:@{NSForegroundColorAttributeName: [UIColor greenColor]}];
+        }
+        [attributedHtmlString deleteCharactersInRange:r];
+        //            attributedHtmlString = [attributedHtmlString stringByReplacingCharactersInRange:r withString:@""];
+
+    }
+    for (NSString *pendingText in pendingTextToRender) {
+        NSRange textRange = [attributedHtmlString.string rangeOfString:pendingText];
+        [attributedHtmlString setAttributes:@{NSForegroundColorAttributeName: fontColor} range:textRange];
+    }
+    //set the font size and shits
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+    {
+        /* Device is iPad */
+        [attributedHtmlString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:18] range:NSMakeRange(0, attributedHtmlString.length)];
+    } else {
+        [attributedHtmlString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(0, attributedHtmlString.length)];
+    }
+
+//    NSLog(@"%@", attributedHtmlString);
+    [fragments addObject:attributedHtmlString];
+//    return fragments;
+    return attributedHtmlString;
+}
+
 
 /*this function would have 2 routes:
  1: with tags, get rip of <font></font> tag, and render everything in between green

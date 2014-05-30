@@ -90,16 +90,17 @@
     //try to retrive cached thread from storage
     NSArray *cachedThreads = [[czzThreadCacheManager sharedInstance] readThreads:parentThread];
     if (cachedThreads){
-//        originalThreadData = cachedThreads;
-        //refresh the parent thread
-//        [originalThreadData removeObject:parentThread];
-//        [originalThreadData addObject:parentThread];
         [threads addObjectsFromArray:cachedThreads];
     } else {
         [threads addObject:parentThread];
     }
+    NSArray *cachedHeights = [[czzThreadCacheManager sharedInstance] readHeightsForThread:parentThread];
+    if (cachedHeights) {
+        [heightsForRows addObjectsFromArray:cachedHeights];
+    }
     if (threads.count <= 1)
         [self loadMoreThread:pageNumber];
+    pageNumber = threads.count / 20 + 1;
 
 //    [self convertThreadSetToThreadArray];
     //end to retriving cached thread from storage
@@ -160,6 +161,7 @@
         //save threads to storage
 //        [[czzThreadCacheManager sharedInstance] saveThreads:[self sortTheGivenArray:originalThreadData.allObjects]];
         [[czzThreadCacheManager sharedInstance] saveThreads:threads];
+        [[czzThreadCacheManager sharedInstance] saveHeights:heightsForRows ForThread:parentThread];
         self.navigationController.delegate = nil;
     }
 }
@@ -224,11 +226,11 @@
             NSString* basePath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
             basePath = [basePath stringByAppendingPathComponent:@"Thumbnails"];
             NSString *filePath = [basePath stringByAppendingPathComponent:[thread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
-            UIImage *previewImage =[UIImage imageWithContentsOfFile:filePath];
-            if (previewImage && previewImage.size.width > 0 && previewImage.size.height > 0){
+            UIImage *previewImage =[[UIImage alloc] initWithContentsOfFile:filePath];
+            if (previewImage){
                 [previewImageView setImage:previewImage];
             } else if ([downloadedImages objectForKey:thread.thImgSrc]){
-              [previewImageView setImage:[UIImage imageWithContentsOfFile:[downloadedImages objectForKey:thread.thImgSrc]]];
+              [previewImageView setImage:[[UIImage alloc] initWithContentsOfFile:[downloadedImages objectForKey:thread.thImgSrc]]];
             }
             //assign a gesture recogniser to it
             [previewImageView setGestureRecognizers:@[tapOnImageGestureRecogniser]];
@@ -528,11 +530,7 @@
             pageNumber ++;
         }
         dispatch_async(dispatch_get_main_queue(), ^{
-//            [originalThreadData addObjectsFromArray:newThread];
-            //convert data in set to data in array
-//            [self convertThreadSetToThreadArray];
-            if (threads.count > 0)
-                [threadTableView reloadData];
+            [threadTableView reloadData];
         });
     } else {
         dispatch_async(dispatch_get_main_queue(), ^{

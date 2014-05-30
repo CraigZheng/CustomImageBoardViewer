@@ -68,27 +68,27 @@
                         if ([threadChild.name isEqualToString:@"ID"]){
                             blacklistEntity.ID = [threadChild.value integerValue];
                         }
-                        if ([threadChild.name isEqualToString:@"ThreadID"]){
+                        else if ([threadChild.name isEqualToString:@"ThreadID"]){
                             blacklistEntity.threadID = [threadChild.value integerValue];
                         }
-                        if ([threadChild.name isEqualToString:@"Date"]){
+                        else if ([threadChild.name isEqualToString:@"Date"]){
                             NSDateFormatter *dateFormatter = [NSDateFormatter new];
                             [dateFormatter setDateFormat:@"Y-m-d H:i:s"];
                             blacklistEntity.date = [dateFormatter dateFromString:threadChild.value];
                         }
-                        if ([threadChild.name isEqualToString:@"Reason"]){
+                        else if ([threadChild.name isEqualToString:@"Reason"]){
                             blacklistEntity.reason = threadChild.value;
                         }
-                        if ([threadChild.name isEqualToString:@"Content"]){
+                        else if ([threadChild.name isEqualToString:@"Content"]){
                             blacklistEntity.content = [threadChild.value boolValue];
                         }
-                        if ([threadChild.name isEqualToString:@"Image"]){
+                        else if ([threadChild.name isEqualToString:@"Image"]){
                             blacklistEntity.image = [threadChild.value boolValue];
                         }
-                        if ([threadChild.name isEqualToString:@"Harmful"]){
+                        else if ([threadChild.name isEqualToString:@"Harmful"]){
                             blacklistEntity.harmful = [threadChild.value boolValue];
                         }
-                        if ([threadChild.name isEqualToString:@"Block"]){
+                        else if ([threadChild.name isEqualToString:@"Block"]){
                             blacklistEntity.block = [threadChild.value boolValue];
                         }
                     }

@@ -134,9 +134,9 @@
 //pragma prepareCommands for the menu
 -(void)prepareCommands{
     [switchCommands addObject:@"显示图片"];
+    [switchCommands addObject:@"图片下载完毕自动打开"];
     [switchCommands addObject:@"高亮楼主/PO主"];
     //[switchCommands addObject:@"下拉自动加载帖子"];
-    [switchCommands addObject:@"图片下载完毕自动打开"];
     [switchCommands addObject:@"开启帖子缓存"];
     [regularCommands addObject:@"图片缓存"];
     [regularCommands addObject:@"清空缓存"];

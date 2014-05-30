@@ -95,6 +95,9 @@
 		5A0A6BD61848691C0094D7FB /* czzMoreInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0A6BD51848691C0094D7FB /* czzMoreInfoViewController.m */; };
 		5A1593EC18E71E93001A774B /* czzThreadRefButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1593EB18E71E93001A774B /* czzThreadRefButton.m */; };
 		5A1593F218E7BE61001A774B /* czzXMLProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1593F118E7BE61001A774B /* czzXMLProcessor.m */; };
+		5A2B2D8D1936172C00BA2870 /* czzFeedback.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2B2D8C1936172C00BA2870 /* czzFeedback.m */; };
+		5A2B2D941936264A00BA2870 /* czzFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2B2D931936264A00BA2870 /* czzFeedbackViewController.m */; };
+		5A3897C91935EC4D00D20DA1 /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3897C71935EC4D00D20DA1 /* NSString+HTML.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -247,6 +250,14 @@
 		5A1593EB18E71E93001A774B /* czzThreadRefButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadRefButton.m; sourceTree = "<group>"; };
 		5A1593F018E7BE61001A774B /* czzXMLProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzXMLProcessor.h; sourceTree = "<group>"; };
 		5A1593F118E7BE61001A774B /* czzXMLProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzXMLProcessor.m; sourceTree = "<group>"; };
+		5A2B2D8B1936172C00BA2870 /* czzFeedback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFeedback.h; sourceTree = "<group>"; };
+		5A2B2D8C1936172C00BA2870 /* czzFeedback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFeedback.m; sourceTree = "<group>"; };
+		5A2B2D921936264A00BA2870 /* czzFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFeedbackViewController.h; sourceTree = "<group>"; };
+		5A2B2D931936264A00BA2870 /* czzFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFeedbackViewController.m; sourceTree = "<group>"; };
+		5A3897C41935EC4D00D20DA1 /* GTMNSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTMNSString+HTML.h"; sourceTree = "<group>"; };
+		5A3897C51935EC4D00D20DA1 /* GTMNSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTMNSString+HTML.m"; sourceTree = "<group>"; };
+		5A3897C61935EC4D00D20DA1 /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
+		5A3897C71935EC4D00D20DA1 /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTML.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -407,6 +418,7 @@
 				441E5CDD17F4691300289DBD /* czzAppDelegate.h */,
 				441E5CDE17F4691300289DBD /* czzAppDelegate.m */,
 				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
+				5A2B2D8E1936179500BA2870 /* czzFeedback */,
 				44C3454A187E5A8300FDE45D /* czzEmoji */,
 				440B300D17F95EC200544926 /* App icon */,
 				440B2FD817F94C5000544926 /* Launch images */,
@@ -426,6 +438,7 @@
 				44B86455185D807F00C29B92 /* AdMod components */,
 				44C34544187E59AC00FDE45D /* KNSemiModal */,
 				4412FA161935865C00681438 /* Reachability */,
+				5A3897CA1935EC5A00D20DA1 /* NSString+HTML */,
 				441E5CE917F4691300289DBD /* Images.xcassets */,
 				441E5E5117F4AEAB00289DBD /* Icons */,
 				441E5CD517F4691300289DBD /* Supporting Files */,
@@ -740,6 +753,28 @@
 			name = czzMoreInfoViewController;
 			sourceTree = "<group>";
 		};
+		5A2B2D8E1936179500BA2870 /* czzFeedback */ = {
+			isa = PBXGroup;
+			children = (
+				5A2B2D8B1936172C00BA2870 /* czzFeedback.h */,
+				5A2B2D8C1936172C00BA2870 /* czzFeedback.m */,
+				5A2B2D921936264A00BA2870 /* czzFeedbackViewController.h */,
+				5A2B2D931936264A00BA2870 /* czzFeedbackViewController.m */,
+			);
+			name = czzFeedback;
+			sourceTree = "<group>";
+		};
+		5A3897CA1935EC5A00D20DA1 /* NSString+HTML */ = {
+			isa = PBXGroup;
+			children = (
+				5A3897C41935EC4D00D20DA1 /* GTMNSString+HTML.h */,
+				5A3897C51935EC4D00D20DA1 /* GTMNSString+HTML.m */,
+				5A3897C61935EC4D00D20DA1 /* NSString+HTML.h */,
+				5A3897C71935EC4D00D20DA1 /* NSString+HTML.m */,
+			);
+			name = "NSString+HTML";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -899,12 +934,14 @@
 				440B2FCC17F8057500544926 /* czzPostViewController.m in Sources */,
 				441E5E5417F52DEF00289DBD /* czzThreadViewController.m in Sources */,
 				441E5CE817F4691300289DBD /* czzHomeViewController.m in Sources */,
+				5A2B2D941936264A00BA2870 /* czzFeedbackViewController.m in Sources */,
 				4448C2A3180FF50F00D2CD76 /* czzBlacklistEntity.m in Sources */,
 				5A0A6BD61848691C0094D7FB /* czzMoreInfoViewController.m in Sources */,
 				4448C2AD18100C6B00D2CD76 /* czzBlacklist.m in Sources */,
 				441E5D1B17F46E7900289DBD /* SMXMLDocument.m in Sources */,
 				441E5D1217F46A0900289DBD /* czzEntryPointViewController.m in Sources */,
 				441E5D2017F46FB600289DBD /* czzXMLDownloader.m in Sources */,
+				5A3897C91935EC4D00D20DA1 /* NSString+HTML.m in Sources */,
 				440B2F6117F5EED800544926 /* GTMNSString+HTML.m in Sources */,
 				440B2FD017F8191700544926 /* czzPost.m in Sources */,
 				44AE2B011872924C002CB021 /* PartialTransparentView.m in Sources */,
@@ -914,6 +951,7 @@
 				44CD43FF1869CB3E00C7D063 /* czzThreadCacheManager.m in Sources */,
 				44C89AE0185C14BA00E65B73 /* DACircularProgressView.m in Sources */,
 				440B2FBD17F7C5DC00544926 /* czzRightSideViewController.m in Sources */,
+				5A2B2D8D1936172C00BA2870 /* czzFeedback.m in Sources */,
 				44B96E37185B97C400D664A4 /* czzSettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
