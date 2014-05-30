@@ -22,6 +22,7 @@
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzThreadRefButton.h"
 #import "PartialTransparentView.h"
+#import "czzOnScreenCommandViewController.h"
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
 #define OVERLAY_VIEW 122
@@ -43,6 +44,7 @@
 @property czzThread *shouldHighlightSelectedThread;
 @property BOOL shouldHighlight;
 @property NSMutableArray *heightsForRows;
+@property czzOnScreenCommandViewController *onScreenCommand;
 @end
 
 @implementation czzThreadViewController
@@ -64,6 +66,7 @@
 @synthesize shouldHighlight;
 @synthesize shouldHighlightSelectedThread;
 @synthesize heightsForRows;
+@synthesize onScreenCommand;
 
 - (void)viewDidLoad
 {
@@ -101,9 +104,7 @@
     if (threads.count <= 1)
         [self loadMoreThread:pageNumber];
     pageNumber = threads.count / 20 + 1;
-
-//    [self convertThreadSetToThreadArray];
-    //end to retriving cached thread from storage
+    //end of retriving cached thread from storage
     //Initialise the tap gesture recogniser, it is to be used on the Image Views in the cell
     tapOnImageGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTapInImage:)];
     
@@ -111,9 +112,17 @@
     UIMenuItem *replyMenuItem = [[UIMenuItem alloc] initWithTitle:@"回复" action:@selector(menuActionReply:)];
     UIMenuItem *copyMenuItem = [[UIMenuItem alloc] initWithTitle:@"复制" action:@selector(menuActionCopy:)];
     UIMenuItem *openMenuItem = [[UIMenuItem alloc] initWithTitle:@"打开链接" action:@selector(menuActionOpen:)];
-    UIMenuItem *highlightMenuItem = [[UIMenuItem alloc] initWithTitle:@"高亮" action:@selector(menuActionHighlight:)];
+    UIMenuItem *highlightMenuItem = [[UIMenuItem alloc] initWithTitle:@"高亮此人" action:@selector(menuActionHighlight:)];
     [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, highlightMenuItem, openMenuItem]];
     [[UIMenuController sharedMenuController] update];
+    //on screen commands
+    onScreenCommand = [[czzOnScreenCommandViewController alloc] initWithNibName:@"czzOnScreenCommandViewController" bundle:[NSBundle mainBundle]];
+    CGRect tableViewFrame = self.view.frame;
+    CGRect commandViewFrame = onScreenCommand.view.frame;
+    NSInteger padding = commandViewFrame.size.width / 2;
+    onScreenCommand.view.frame = CGRectMake(tableViewFrame.size.width - commandViewFrame.size.width - padding, tableViewFrame.size.height - commandViewFrame.size.height - padding, commandViewFrame.size.width, commandViewFrame.size.height);
+    onScreenCommand.threadViewController = self;
+    [[czzAppDelegate sharedAppDelegate].window addSubview:onScreenCommand.view];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -132,11 +141,15 @@
     //Jump to command observer
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(PromptForJumpToPage) name:@"JumpToPageCommand" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(HighlightThreadSelected:) name:@"HighlightAction" object:nil];
+    //show on screen command
+    onScreenCommand.view.hidden = NO;
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    //hide on screen command
+    onScreenCommand.view.hidden = YES;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -391,7 +404,16 @@
     [alertView show];
 }
 
-#pragma mark - highlight thread selected 
+#pragma mark - scrollToTop and scrollToBottom 
+-(void)scrollTableViewToTop {
+    [threadTableView setContentOffset:CGPointMake(0.0f, -threadTableView.contentInset.top) animated:YES];
+}
+
+-(void)scrollTableViewToBottom {
+    [threadTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:threads.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+}
+
+#pragma mark - highlight thread selected
 -(void)HighlightThreadSelected:(NSNotification*)notification {
     czzThread *selectedThread = [notification.userInfo objectForKey:@"HighlightThread"];
     if (selectedThread) {

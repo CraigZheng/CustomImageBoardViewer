@@ -15,4 +15,6 @@
 @property (strong, nonatomic) IBOutlet UITableView *threadTableView;
 - (IBAction)moreAction:(id)sender;
 
+-(void)scrollTableViewToTop;
+-(void)scrollTableViewToBottom;
 @end

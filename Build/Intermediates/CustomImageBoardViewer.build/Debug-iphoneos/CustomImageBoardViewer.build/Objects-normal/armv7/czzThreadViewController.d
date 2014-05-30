@@ -17,4 +17,5 @@ dependencies: \
   /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/czzForumsViewController.h \
   /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/czzMenuEnabledTableViewCell.h \
   /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/czzThreadRefButton.h \
-  /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/PartialTransparentView.h
+  /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/PartialTransparentView.h \
+  /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/czzOnScreenCommandViewController.h

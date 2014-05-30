@@ -166,12 +166,17 @@
 
 #pragma sort array - sort the threads so they arrange with ID
 -(NSArray*)sortTheGivenArray:(NSArray*)array{
-    NSArray *sortedArray = [array sortedArrayUsingComparator:^NSComparisonResult(id a, id b){
-        czzThread *first = (czzThread*)a;
-        czzThread *second = (czzThread*)b;
-        return first.ID > second.ID;
-    }];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"ID" ascending:NO];
+    NSArray *sortedArray = [array sortedArrayUsingDescriptors:@[sortDescriptor]];
+    /*
+     NSArray *sortedArray = [array sortedArrayUsingComparator:^NSComparisonResult(id a, id b){
+     czzThread *first = (czzThread*)a;
+     czzThread *second = (czzThread*)b;
+     return first.ID > second.ID;
+     }];
+     */
     return sortedArray;
+
 }
 
 #pragma mark - rotation
