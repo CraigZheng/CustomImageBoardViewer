@@ -36,6 +36,7 @@
 @property NSMutableDictionary *downloadedImages;
 @property UIViewController *leftController;
 @property UIDocumentInteractionController *documentInteractionController;
+@property NSMutableArray *heightsForRows;
 @end
 
 @implementation czzHomeViewController
@@ -51,6 +52,7 @@
 @synthesize forumName;
 @synthesize downloadedImages;
 @synthesize leftController;
+@synthesize heightsForRows;
 @synthesize documentInteractionController;
 
 - (void)viewDidLoad
@@ -61,6 +63,7 @@
     baseURLString = @"http://h.acfun.tv/api/thread/root?forumName=";
     pageNumber = 1; //default page number
     downloadedImages = [NSMutableDictionary new];
+    heightsForRows = [NSMutableArray new];
     //configure the view deck controller with half size and tap to close mode
     self.viewDeckController.leftSize = self.view.frame.size.width/4;
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
@@ -155,6 +158,7 @@
             //clear threads and ready to accept new threads
             [self.threads removeAllObjects];
             [self.threadTableView reloadData];
+            [heightsForRows removeAllObjects];
             [self.refreshControl beginRefreshing];
             [self loadMoreThread:self.pageNumber];
             [[[czzAppDelegate sharedAppDelegate] window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)self.pageNumber]];
@@ -271,6 +275,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     selectedIndex = indexPath;
     @try {
+        
         selectedThread = [threads objectAtIndex:selectedIndex.row];
     }
     @catch (NSException *exception) {
@@ -296,22 +301,28 @@
     @catch (NSException *exception) {
         
     }
+    
+    CGFloat preferHeight = tableView.rowHeight;
     if (thread){
-        CGFloat preferHeight = 0;
-        UITextView *newHiddenTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
-        newHiddenTextView.hidden = YES;
-        [self.view addSubview:newHiddenTextView];
-        newHiddenTextView.attributedText = thread.content;
-        preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(newHiddenTextView.frame.size.width, MAXFLOAT)].height + 20;
-        [newHiddenTextView removeFromSuperview];
-        //height for preview image
-        if (thread.thImgSrc.length != 0) {
-            preferHeight += 82;
-
+        //retrive previously saved height
+        if (indexPath.row < heightsForRows.count) {
+            preferHeight = [[heightsForRows objectAtIndex:indexPath.row] floatValue];
+        } else {
+            UITextView *newHiddenTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
+            newHiddenTextView.hidden = YES;
+            [self.view addSubview:newHiddenTextView];
+            newHiddenTextView.attributedText = thread.content;
+            preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(newHiddenTextView.frame.size.width, MAXFLOAT)].height + 20;
+            [newHiddenTextView removeFromSuperview];
+            //height for preview image
+            if (thread.thImgSrc.length != 0) {
+                preferHeight += 82;
+            }
+            preferHeight = MAX(tableView.rowHeight, preferHeight);
+            [heightsForRows addObject:[NSNumber numberWithFloat:preferHeight]];
         }
-        return MAX(tableView.rowHeight, preferHeight);
     }
-    return tableView.rowHeight;
+    return preferHeight;
     
 }
 
@@ -339,6 +350,7 @@
 //create a new NSURL outta targetURLString, and reload the content threadTableView
 -(void)refreshThread:(id)sender{
     [threads removeAllObjects];
+    [heightsForRows removeAllObjects];
     [threadTableView reloadData];
     //reset to default page number
     pageNumber = 1;
@@ -444,7 +456,10 @@
             if ([notification.userInfo objectForKey:@"FilePath"])
                 //store the given file save path
                 [downloadedImages setObject:[notification.userInfo objectForKey:@"FilePath"] forKey:imgDownloader.imageURLString];
+
             for (NSIndexPath *displayedIndexPath in [threadTableView indexPathsForVisibleRows]) {
+                if (displayedIndexPath.row > threads.count)
+                    break;
                 czzThread *displayedThread = [threads objectAtIndex:displayedIndexPath.row];
                 if ([displayedThread.thImgSrc isEqualToString:imgDownloader.imageURLString]){
                     [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:displayedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];

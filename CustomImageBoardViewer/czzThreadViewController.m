@@ -42,6 +42,7 @@
 @property UITapGestureRecognizer *tapOnImageGestureRecogniser;
 @property czzThread *shouldHighlightSelectedThread;
 @property BOOL shouldHighlight;
+@property NSMutableArray *heightsForRows;
 @end
 
 @implementation czzThreadViewController
@@ -62,6 +63,7 @@
 @synthesize threadsTableViewContentOffSet;
 @synthesize shouldHighlight;
 @synthesize shouldHighlightSelectedThread;
+@synthesize heightsForRows;
 
 - (void)viewDidLoad
 {
@@ -77,6 +79,7 @@
 //    originalThreadData = [NSMutableSet new];
 //    [originalThreadData addObject:parentThread];
     threads = [NSMutableArray new];
+    heightsForRows = [NSMutableArray new];
     currentImageDownloaders = [[czzImageCentre sharedInstance] currentImageDownloaders];
     //add the UIRefreshControl to uitableview
     UIRefreshControl *refreCon = [[UIRefreshControl alloc] init];
@@ -174,7 +177,6 @@
 #pragma mark UITableView delegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     NSString *CellIdentifier = @"thread_cell_identifier";
     if (indexPath.row == threads.count){
         UITableViewCell *cell;// = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
@@ -341,6 +343,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+
     if (indexPath.row >= threads.count)
         return tableView.rowHeight;
 
@@ -351,22 +354,29 @@
     @catch (NSException *exception) {
         
     }
+    
+    CGFloat preferHeight = tableView.rowHeight;
     if (thread){
-        CGFloat preferHeight = 0;
-        UITextView *newHiddenTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
-        newHiddenTextView.hidden = YES;
-        [self.view addSubview:newHiddenTextView];
-        newHiddenTextView.attributedText = thread.content;
-        preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(newHiddenTextView.frame.size.width, MAXFLOAT)].height + 20;
-        [newHiddenTextView removeFromSuperview];
-        //height for preview image
-        if (thread.thImgSrc.length != 0) {
-            preferHeight += 82;
-            
+        //retrive previously saved height
+        if (indexPath.row < heightsForRows.count) {
+            preferHeight = [[heightsForRows objectAtIndex:indexPath.row] floatValue];
+        } else {
+            UITextView *newHiddenTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
+            newHiddenTextView.hidden = YES;
+            [self.view addSubview:newHiddenTextView];
+            newHiddenTextView.attributedText = thread.content;
+            preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(newHiddenTextView.frame.size.width, MAXFLOAT)].height + 20;
+            [newHiddenTextView removeFromSuperview];
+            //height for preview image
+            if (thread.thImgSrc.length != 0) {
+                preferHeight += 82;
+            }
+            preferHeight = MAX(tableView.rowHeight, preferHeight);
+            [heightsForRows addObject:[NSNumber numberWithFloat:preferHeight]];
         }
-        return MAX(tableView.rowHeight, preferHeight);
     }
-    return tableView.rowHeight;}
+    return preferHeight;
+}
 
 -(void)dragOnRefreshControlAction:(id)sender{
     [self refreshThread:self];
@@ -388,7 +398,9 @@
         }
         else
             shouldHighlightSelectedThread = selectedThread;
+        NSDate *startTime = [NSDate new];
         [threadTableView reloadData];
+        NSLog(@"time to reload :%dms", (NSInteger)([[NSDate new] timeIntervalSinceDate:startTime] * 1000));
 //        for (NSIndexPath *displayedIndexPath in [threadTableView indexPathsForVisibleRows]) {
 //            if (displayedIndexPath.row >= threads.count)
 //                break;
@@ -413,6 +425,7 @@
 //            [originalThreadData removeAllObjects];
             [self.threads removeAllObjects];
             [self.threads addObject:parentThread];
+            [heightsForRows removeAllObjects];
             [self.threadTableView reloadData];
             [self.refreshControl beginRefreshing];
             [self loadMoreThread:self.pageNumber];
@@ -426,6 +439,7 @@
 -(void)refreshThread:(id)sender{
     [self.threads removeAllObjects];
     [self.threads addObject:parentThread];
+    [heightsForRows removeAllObjects];
 //    [originalThreadData removeAllObjects];
 //    [originalThreadData addObject:parentThread];
     [threadTableView reloadData];
@@ -492,6 +506,8 @@
 
 -(void)subThreadProcessed:(NSArray *)newThread :(BOOL)success{
     if (success){
+        NSArray *processedNewThread;
+        //the newly downloaded thread might contain duplicate threads, therefore must compare the last chunk of current threads with the new threads, to remove any duplication
         if (threads.count > 1) {
             NSInteger lastChunkIndex = threads.count - 20;
             if (lastChunkIndex < 1)
@@ -502,12 +518,13 @@
             NSMutableSet *oldThreadSet = [NSMutableSet setWithArray:lastChunkOfThread];
             [oldThreadSet addObjectsFromArray:newThread];
             [threads removeObjectsInRange:lastChunkRange];
-            [threads addObjectsFromArray:[self sortTheGivenArray:oldThreadSet.allObjects]];
+            processedNewThread = [self sortTheGivenArray:oldThreadSet.allObjects];
         } else {
-            [threads addObjectsFromArray:[self sortTheGivenArray:newThread]];
+            processedNewThread = [self sortTheGivenArray:newThread];
         }
+        [threads addObjectsFromArray:processedNewThread];
         //increase page number if enough to fill a page of 20 threads
-        if (newThread.count >= 20) {
+        if (processedNewThread.count >= 20) {
             pageNumber ++;
         }
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -516,7 +533,6 @@
 //            [self convertThreadSetToThreadArray];
             if (threads.count > 0)
                 [threadTableView reloadData];
-            
         });
     } else {
         dispatch_async(dispatch_get_main_queue(), ^{
