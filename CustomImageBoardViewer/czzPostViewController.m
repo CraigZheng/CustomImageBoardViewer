@@ -16,6 +16,7 @@
 #import "czzMenuEnabledTableViewCell.h"
 #import "UIViewController+KNSemiModal.h"
 #import "czzEmojiCollectionViewController.h"
+#import "ValueFormatter.h"
 
 @interface czzPostViewController () <czzPostSenderDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
 @property NSString *targetURLString;
@@ -169,23 +170,18 @@
 #pragma UIImagePickerController delegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     UIImage *pickedImage = [info valueForKey:UIImagePickerControllerOriginalImage];
+    NSData *imageData = UIImageJPEGRepresentation(pickedImage, 0.85);
+    NSString *titleWithSize = [ValueFormatter convertByte:imageData.length];
     //resize the image if the picked image is too big
     if (pickedImage.size.width * pickedImage.size.height > 1280 * 720){
-//        NSInteger newWidth = 1280;
-//        NSInteger newHeight = 720;
-//
-//        CGFloat factor = newHeight / pickedImage.size.height;
-//        newWidth = pickedImage.size.width * factor;
-//        newHeight = pickedImage.size.height * factor;
-//        pickedImage = [self resizeImage:pickedImage width:newWidth height:newHeight];
         NSInteger newWidth = 720;
         pickedImage = [self imageWithImage:pickedImage scaledToWidth:newWidth];
-        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"由于图片尺寸太大，已进行压缩" duration:1.5 position:@"top" title:@"图片已选" image:pickedImage];
+        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"由于图片尺寸太大，已进行压缩" duration:1.5 position:@"top" title:titleWithSize image:pickedImage];
     } else {
-        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"图片已选" duration:1.5 position:@"top" image:pickedImage];
+        [[[czzAppDelegate sharedAppDelegate] window] makeToast:titleWithSize duration:1.5 position:@"top" image:pickedImage];
     }
 
-    [postSender setImgData:UIImageJPEGRepresentation(pickedImage, 0.8)];
+    [postSender setImgData:imageData];
     [picker dismissViewControllerAnimated:YES completion:^{
         [postTextView becomeFirstResponder];
     }];

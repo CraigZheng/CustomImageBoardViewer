@@ -45,6 +45,7 @@
 @property BOOL shouldHighlight;
 @property NSMutableArray *heightsForRows;
 @property czzOnScreenCommandViewController *onScreenCommand;
+@property CGPoint restoreFromBackgroundOffSet;
 @end
 
 @implementation czzThreadViewController
@@ -67,6 +68,7 @@
 @synthesize shouldHighlightSelectedThread;
 @synthesize heightsForRows;
 @synthesize onScreenCommand;
+@synthesize restoreFromBackgroundOffSet;
 
 - (void)viewDidLoad
 {
@@ -115,7 +117,6 @@
     UIMenuItem *highlightMenuItem = [[UIMenuItem alloc] initWithTitle:@"高亮此人" action:@selector(menuActionHighlight:)];
     [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, highlightMenuItem, openMenuItem]];
     [[UIMenuController sharedMenuController] update];
-    //on screen commands
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -144,6 +145,11 @@
     NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
     [userDef setObject:[NSNumber numberWithBool:YES] forKey:@"ThreadViewControllerActive"];
     [userDef synchronize];
+    //scroll to restore from background content off set
+    if (!CGPointEqualToPoint(CGPointZero, restoreFromBackgroundOffSet)) {
+        threadTableView.contentOffset = restoreFromBackgroundOffSet;
+        restoreFromBackgroundOffSet = CGPointZero;
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -164,6 +170,24 @@
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"FirstTimeViewingThread"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
+}
+#pragma mark - enter/exiting background
+-(void)prepareToEnterBackground {
+    if (threads.count > 1)
+        [self saveThreadsToCache];
+    NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
+    [userDef setObject:[NSNumber numberWithFloat:threadTableView.contentOffset.y] forKey:@"ThreadViewContentOffSetY"];
+    [userDef synchronize];
+}
+
+-(void)restoreFromBackground {
+    NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
+    if ([userDef objectForKey:@"ThreadViewContentOffSetY"]) {
+        CGFloat offSetY = [[userDef objectForKey:@"ThreadViewContentOffSetY"] floatValue];
+        restoreFromBackgroundOffSet = CGPointMake(0, offSetY);
+    }
+    [userDef removeObjectForKey:@"ThreadViewContentOffSetY"];
+    [userDef synchronize];
 }
 
 #pragma mark - UINavigationController

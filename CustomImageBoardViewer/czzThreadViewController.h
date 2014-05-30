@@ -18,4 +18,7 @@
 -(void)saveThreadsToCache;
 -(void)scrollTableViewToTop;
 -(void)scrollTableViewToBottom;
+
+-(void)prepareToEnterBackground;
+-(void)restoreFromBackground;
 @end

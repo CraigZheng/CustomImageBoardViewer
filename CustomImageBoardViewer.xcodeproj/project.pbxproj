@@ -105,6 +105,7 @@
 		5A88B83C1938A8FD00071343 /* right.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A88B8381938A8FD00071343 /* right.png */; };
 		5A88B83D1938A8FD00071343 /* up.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A88B8391938A8FD00071343 /* up.png */; };
 		5A88B8401938AFDB00071343 /* czzNotificationCentreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A88B83F1938AFDB00071343 /* czzNotificationCentreTableViewController.m */; };
+		5ADCA46A1938F67F002BA60B /* ValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCA4691938F67F002BA60B /* ValueFormatter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -274,6 +275,8 @@
 		5A88B8391938A8FD00071343 /* up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = up.png; sourceTree = "<group>"; };
 		5A88B83E1938AFDB00071343 /* czzNotificationCentreTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzNotificationCentreTableViewController.h; sourceTree = "<group>"; };
 		5A88B83F1938AFDB00071343 /* czzNotificationCentreTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzNotificationCentreTableViewController.m; sourceTree = "<group>"; };
+		5ADCA4681938F67F002BA60B /* ValueFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueFormatter.h; sourceTree = "<group>"; };
+		5ADCA4691938F67F002BA60B /* ValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueFormatter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -332,6 +335,8 @@
 		440B2FCD17F8057C00544926 /* czzPostViewController */ = {
 			isa = PBXGroup;
 			children = (
+				5ADCA4681938F67F002BA60B /* ValueFormatter.h */,
+				5ADCA4691938F67F002BA60B /* ValueFormatter.m */,
 				440B2FCA17F8057500544926 /* czzPostViewController.h */,
 				440B2FCB17F8057500544926 /* czzPostViewController.m */,
 			);
@@ -1001,6 +1006,7 @@
 				440B2FBD17F7C5DC00544926 /* czzRightSideViewController.m in Sources */,
 				5A2B2D8D1936172C00BA2870 /* czzFeedback.m in Sources */,
 				44B96E37185B97C400D664A4 /* czzSettingsViewController.m in Sources */,
+				5ADCA46A1938F67F002BA60B /* ValueFormatter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

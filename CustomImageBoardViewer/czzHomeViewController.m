@@ -33,6 +33,7 @@
 @property NSInteger pageNumber;
 @property NSIndexPath *selectedIndex;
 @property czzThread *selectedThread;
+@property czzThreadViewController *threadViewController;
 @property NSMutableDictionary *downloadedImages;
 @property UIViewController *leftController;
 @property UIDocumentInteractionController *documentInteractionController;
@@ -56,6 +57,7 @@
 @synthesize heightsForRows;
 @synthesize onScreenCommand;
 @synthesize documentInteractionController;
+@synthesize threadViewController;
 
 - (void)viewDidLoad
 {
@@ -203,6 +205,11 @@
         [userDef setObject:forumName forKey:@"forumName"];
     
     [userDef synchronize];
+    //also notify the opened threadview controller
+    if (threadViewController) {
+        [threadViewController prepareToEnterBackground];
+    }
+
 }
 
 -(void)restoreFromBackground {
@@ -220,7 +227,11 @@
                 selectedThread = cachedSelectedThread;
                 //open selected thread
                 if ([[userDef objectForKey:@"ThreadViewControllerActive"] boolValue]) {
-                    [self openSelectedThread];
+                    //push the threadview controller without animation
+                    threadViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"czz_thread_view_controller"];
+                    threadViewController.parentThread = selectedThread;
+                    [self.navigationController pushViewController:threadViewController animated:NO];
+                    [threadViewController restoreFromBackground];
                 }
             }
         }
@@ -598,8 +609,8 @@
 #pragma Prepare for segue, here we associate an ID for the incoming thread view
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([[segue identifier] isEqualToString:@"go_thread_view_segue"]){
-        czzThreadViewController *incomingViewcontroller = [segue destinationViewController];
-        [incomingViewcontroller setParentThread:selectedThread];
+        threadViewController = [segue destinationViewController];
+        [threadViewController setParentThread:selectedThread];
     }
 }
 
