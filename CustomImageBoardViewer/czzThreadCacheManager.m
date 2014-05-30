@@ -175,9 +175,8 @@
 
 #pragma mark - Read threads
 -(NSArray*)readThreadsFromFileName:(NSString*)name {
-    NSString *fileName = [cachePath stringByAppendingPathComponent:name];
     if ([existingFiles containsObject:name]){
-        NSArray *array = [NSKeyedUnarchiver unarchiveObjectWithFile:[cachePath stringByAppendingPathComponent:fileName]];
+        NSArray *array = [NSKeyedUnarchiver unarchiveObjectWithFile:[cachePath stringByAppendingPathComponent:name]];
         return array;
         //
     }

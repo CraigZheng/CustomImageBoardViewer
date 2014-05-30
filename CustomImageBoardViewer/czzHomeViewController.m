@@ -206,7 +206,6 @@
 }
 
 -(void)restoreFromBackground {
-    NSLog(@"TODO: restore threads from cache for home view controller ");
     //if threads count is 0, means this app has just been launched
     NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
     if (threads.count == 0) {
@@ -214,19 +213,20 @@
         czzThread *cachedSelectedThread = [[czzThreadCacheManager sharedInstance] readSelectedThreadForHome];
         if (cachedThreads.count > 0) {
             [threads addObjectsFromArray:cachedThreads];
+            threadTableView.contentOffset = [[czzThreadCacheManager sharedInstance] readContentOffSetForHome];
+            [threadTableView reloadData];
+
             if (cachedSelectedThread) {
                 selectedThread = cachedSelectedThread;
-                threadTableView.contentOffset = [[czzThreadCacheManager sharedInstance] readContentOffSetForHome];
-                [threadTableView reloadData];
                 //open selected thread
                 if ([[userDef objectForKey:@"ThreadViewControllerActive"] boolValue]) {
                     [self openSelectedThread];
                 }
             }
         }
-        if ([userDef objectForKey:@"forumName"]) {
-            forumName = [userDef objectForKey:@"forumName"];
-        }
+    }
+    if ([userDef objectForKey:@"forumName"]) {
+        self.forumName = [userDef objectForKey:@"forumName"];
     }
     //delete everything upon restoring is finished
     [userDef removeObjectForKey:@"forumName"];
@@ -497,30 +497,30 @@
     NSDictionary *userInfo = notification.userInfo;
     NSString *forumname = [userInfo objectForKey:@"ForumName"];
     if (forumname){
-        self.title = forumname;
         self.forumName = forumname;
-        //set the targetURLString with the given forum name
-        targetURLString = [baseURLString stringByAppendingString:[self.forumName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-        //access token for the server
-        NSString *oldToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"access_token"];
-        if (oldToken){
-            targetURLString = [targetURLString stringByAppendingFormat:@"&access_token=%@", oldToken];
-        }
-
         [self refreshThread:self];
+        //make busy
+        [[[czzAppDelegate sharedAppDelegate] window] makeToastActivity];
+
     }
 }
 
--(void)setForumName:(NSString *)name {
+-(void)setForumName:(NSString *)name{
     forumName = name;
+    self.title = forumName;
+    //set the targetURLString with the given forum name
+    targetURLString = [baseURLString stringByAppendingString:[self.forumName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    //access token for the server
+    NSString *oldToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"access_token"];
+    if (oldToken){
+        targetURLString = [targetURLString stringByAppendingFormat:@"&access_token=%@", oldToken];
+    }
+    
     //load more info into the top view controller by setting the forumName property for viewDeckController.topController
     UINavigationController *topNavigationController = (UINavigationController*)self.viewDeckController.topController;
     //the root view of top view controller should be the czzMoreInforViewController
     czzMoreInfoViewController *moreInfoViewController = (czzMoreInfoViewController*)topNavigationController.viewControllers[0];
     [moreInfoViewController setForumName:name];
-    //make busy
-    [[[czzAppDelegate sharedAppDelegate] window] makeToastActivity];
-
 }
 
 #pragma notification handler - image downloaded
