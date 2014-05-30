@@ -137,13 +137,8 @@
     //show on screen command
     if (!onScreenCommand) {
         onScreenCommand = [[czzOnScreenCommandViewController alloc] initWithNibName:@"czzOnScreenCommandViewController" bundle:[NSBundle mainBundle]];
-        CGRect tableViewFrame = self.view.frame;
-        CGRect commandViewFrame = onScreenCommand.view.frame;
-        NSInteger padding = commandViewFrame.size.width / 2;
-        onScreenCommand.view.frame = CGRectMake(tableViewFrame.size.width - commandViewFrame.size.width - padding, (tableViewFrame.size.height - commandViewFrame.size.height) / 2, commandViewFrame.size.width, commandViewFrame.size.height);
-        onScreenCommand.threadViewController = self;
-        [[czzAppDelegate sharedAppDelegate].window addSubview:onScreenCommand.view];
-        onScreenCommand.view.hidden = YES;
+        onScreenCommand.tableviewController = self;
+        [onScreenCommand hide];
     }
 }
 
@@ -417,7 +412,8 @@
 
 -(void)scrollTableViewToBottom {
     @try {
-        [threadTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:threads.count inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        if (threads.count > 1)
+            [threadTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:threads.count inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
     }
     @catch (NSException *exception) {
         
@@ -501,7 +497,7 @@
 
 #pragma mark - UIScrollVIew delegate
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    if (onScreenCommand) {
+    if (onScreenCommand && threads.count > 1) {
         [onScreenCommand show];
     }
 }

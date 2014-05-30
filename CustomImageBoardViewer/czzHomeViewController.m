@@ -19,6 +19,7 @@
 #import "czzImageDownloader.h"
 #import "czzImageCentre.h"
 #import "czzAppDelegate.h"
+#import "czzOnScreenCommandViewController.h"
 #import <CoreText/CoreText.h>
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****"
@@ -37,6 +38,7 @@
 @property UIViewController *leftController;
 @property UIDocumentInteractionController *documentInteractionController;
 @property NSMutableArray *heightsForRows;
+@property czzOnScreenCommandViewController *onScreenCommand;
 @end
 
 @implementation czzHomeViewController
@@ -53,6 +55,7 @@
 @synthesize downloadedImages;
 @synthesize leftController;
 @synthesize heightsForRows;
+@synthesize onScreenCommand;
 @synthesize documentInteractionController;
 
 - (void)viewDidLoad
@@ -92,7 +95,10 @@
     
     //download a message from the server
     czzXMLDownloader *msgDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:[[czzAppDelegate sharedAppDelegate].myhost stringByAppendingPathComponent:@"message.xml"]] delegate:self startNow:YES];
-
+    //onscreen command
+    onScreenCommand = [[czzOnScreenCommandViewController alloc] initWithNibName:@"czzOnScreenCommandViewController" bundle:[NSBundle mainBundle]];
+    onScreenCommand.tableviewController = self;
+    [onScreenCommand hide];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -115,7 +121,7 @@
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
-
+    [onScreenCommand hide];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -165,6 +171,21 @@
         } else {
             [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"页码无效..."];
         }
+    }
+}
+
+#pragma mark - scrollToTop and scrollToBottom
+-(void)scrollTableViewToTop {
+    [threadTableView setContentOffset:CGPointMake(0.0f, -threadTableView.contentInset.top) animated:YES];
+}
+
+-(void)scrollTableViewToBottom {
+    @try {
+        if (threads.count > 1)
+            [threadTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:threads.count inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    }
+    @catch (NSException *exception) {
+        
     }
 }
 
@@ -275,8 +296,8 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     selectedIndex = indexPath;
     @try {
-        
-        selectedThread = [threads objectAtIndex:selectedIndex.row];
+        if (indexPath.row < threads.count)
+            selectedThread = [threads objectAtIndex:selectedIndex.row];
     }
     @catch (NSException *exception) {
         
@@ -327,6 +348,12 @@
 }
 
 #pragma mark - UIScrollVIew delegate
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    if (onScreenCommand && threads.count > 1) {
+        [onScreenCommand show];
+    }
+}
+
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)aScrollView
 {
     NSArray *visibleRows = [self.tableView visibleCells];
@@ -458,7 +485,7 @@
                 [downloadedImages setObject:[notification.userInfo objectForKey:@"FilePath"] forKey:imgDownloader.imageURLString];
 
             for (NSIndexPath *displayedIndexPath in [threadTableView indexPathsForVisibleRows]) {
-                if (displayedIndexPath.row > threads.count)
+                if (displayedIndexPath.row >= threads.count)
                     break;
                 czzThread *displayedThread = [threads objectAtIndex:displayedIndexPath.row];
                 if ([displayedThread.thImgSrc isEqualToString:imgDownloader.imageURLString]){

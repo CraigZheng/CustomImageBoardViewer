@@ -7,16 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "czzThreadViewController.h"
-
 
 @interface czzOnScreenCommandViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UIView *backgroundView;
 
 @property (strong, nonatomic) IBOutlet UIButton *bottomButton;
 @property (strong, nonatomic) IBOutlet UIButton *upperButton;
+@property CGSize size;
 @property NSTimeInterval timeoutInterval;
-@property czzThreadViewController *threadViewController;
+@property (nonatomic) UITableViewController *tableviewController;
 - (IBAction)upButtonAction:(id)sender;
 - (IBAction)bottomButtonAction:(id)sender;
 

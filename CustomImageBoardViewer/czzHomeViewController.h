@@ -16,4 +16,8 @@
 
 - (IBAction)sideButtonAction:(id)sender;
 - (IBAction)moreAction:(id)sender;
+
+-(void)scrollTableViewToTop;
+-(void)scrollTableViewToBottom;
+
 @end
