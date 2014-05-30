@@ -10,9 +10,20 @@
 
 @class czzThread;
 @interface czzThreadCacheManager : NSObject
+@property NSString *cachePath;
+
 + (id)sharedInstance;
 
--(BOOL)saveThreads:(NSArray*)threads;
+-(BOOL)saveContentOffSetForHome:(CGPoint)contentOffSet;
+-(CGPoint)readContentOffSetForHome;
+-(void)removeContentOffSetForHome;
+-(BOOL)saveSelectedThreadForHome:(czzThread*)selectedThread;
+-(czzThread*)readSelectedThreadForHome;
+-(void)removeSelectedThreadForHome;
+-(BOOL)saveThreadsForHome:(NSArray*)threads;
+-(NSArray*)readThreadsForHome;
+-(void)removeThreadsForHome;
+-(BOOL)saveThreads:(NSArray*)threads forThread:(czzThread*)parentThread;
 -(NSArray*)readThreads:(czzThread*)parentThread;
 -(BOOL)saveHeights:(NSArray*)heights ForThread:(czzThread*)parentThread;
 -(NSArray*)readHeightsForThread:(czzThread*)parentThread;

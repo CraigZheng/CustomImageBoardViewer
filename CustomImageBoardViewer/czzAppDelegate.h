@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "IIViewDeckController.h"
+#import "czzHomeViewController.h"
 
 //the host will be changed very soon
 #define my_main_host @"http://civ.atwebpages.com/"
@@ -18,6 +19,7 @@
 @property (strong, nonatomic) UIWindow *window;
 @property BOOL shouldUseBackupServer;
 @property (nonatomic) NSString *myhost;
+@property czzHomeViewController *homeViewController; //this is pretty much the root of the whole app.
 
 -(void)showToast:(NSString*)string;
 + (czzAppDelegate*) sharedAppDelegate;

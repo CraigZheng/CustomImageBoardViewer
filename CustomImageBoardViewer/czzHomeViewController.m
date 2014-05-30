@@ -13,6 +13,7 @@
 #import "Toast/Toast+UIView.h"
 #import "czzThread.h"
 #import "czzThreadViewController.h"
+#import "czzThreadCacheManager.h"
 #import "czzPostViewController.h"
 #import "czzBlacklist.h"
 #import "czzMoreInfoViewController.h"
@@ -26,14 +27,12 @@
 
 @interface czzHomeViewController ()<czzXMLDownloaderDelegate, czzXMLProcessorDelegate, UIDocumentInteractionControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 @property czzXMLDownloader *xmlDownloader;
-@property NSMutableArray *threads;
 @property NSInteger currentPage;
 @property NSString *baseURLString;
 @property NSString *targetURLString;
 @property NSInteger pageNumber;
 @property NSIndexPath *selectedIndex;
 @property czzThread *selectedThread;
-@property NSString *forumName;
 @property NSMutableDictionary *downloadedImages;
 @property UIViewController *leftController;
 @property UIDocumentInteractionController *documentInteractionController;
@@ -62,6 +61,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    [czzAppDelegate sharedAppDelegate].homeViewController = self; //retain a reference to app delegate, so when entering background, the delegate can inform this controller for further actions
     //the target URL string
     baseURLString = @"http://h.acfun.tv/api/thread/root?forumName=";
     pageNumber = 1; //default page number
@@ -189,6 +189,53 @@
     }
 }
 
+#pragma mark - save threads/restore threads, to be used after the app entered or returned from the background
+-(void)prepareToEnterBackground {
+    if (threads.count > 0) {
+        [[czzThreadCacheManager sharedInstance] saveThreadsForHome:threads];
+        [[czzThreadCacheManager sharedInstance] saveContentOffSetForHome:threadTableView.contentOffset];
+    }
+    if (selectedThread) {
+        [[czzThreadCacheManager sharedInstance] saveSelectedThreadForHome:selectedThread];
+    }
+    NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
+    if (forumName)
+        [userDef setObject:forumName forKey:@"forumName"];
+    
+    [userDef synchronize];
+}
+
+-(void)restoreFromBackground {
+    NSLog(@"TODO: restore threads from cache for home view controller ");
+    //if threads count is 0, means this app has just been launched
+    NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
+    if (threads.count == 0) {
+        NSArray* cachedThreads = [[czzThreadCacheManager sharedInstance] readThreadsForHome];
+        czzThread *cachedSelectedThread = [[czzThreadCacheManager sharedInstance] readSelectedThreadForHome];
+        if (cachedThreads.count > 0) {
+            [threads addObjectsFromArray:cachedThreads];
+            if (cachedSelectedThread) {
+                selectedThread = cachedSelectedThread;
+                threadTableView.contentOffset = [[czzThreadCacheManager sharedInstance] readContentOffSetForHome];
+                [threadTableView reloadData];
+                //open selected thread
+                if ([[userDef objectForKey:@"ThreadViewControllerActive"] boolValue]) {
+                    [self openSelectedThread];
+                }
+            }
+        }
+        if ([userDef objectForKey:@"forumName"]) {
+            forumName = [userDef objectForKey:@"forumName"];
+        }
+    }
+    //delete everything upon restoring is finished
+    [userDef removeObjectForKey:@"forumName"];
+    [userDef synchronize];
+    [[czzThreadCacheManager sharedInstance] removeContentOffSetForHome];
+    [[czzThreadCacheManager sharedInstance] removeThreadsForHome];
+    [[czzThreadCacheManager sharedInstance] removeSelectedThreadForHome];
+}
+
 -(void)openSettingsPanel{
     [self.viewDeckController toggleTopViewAnimated:YES];
 }
@@ -213,14 +260,14 @@
     }];
 }
 
-#pragma UITableView datasource
+#pragma mark - UITableView datasource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (threads.count > 0)
         return threads.count + 1;
     return threads.count;
 }
 
-#pragma UITableView delegate
+#pragma mark - UITableView delegate
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == threads.count){
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
@@ -462,13 +509,18 @@
 
         [self refreshThread:self];
     }
+}
+
+-(void)setForumName:(NSString *)name {
+    forumName = name;
     //load more info into the top view controller by setting the forumName property for viewDeckController.topController
     UINavigationController *topNavigationController = (UINavigationController*)self.viewDeckController.topController;
     //the root view of top view controller should be the czzMoreInforViewController
     czzMoreInfoViewController *moreInfoViewController = (czzMoreInfoViewController*)topNavigationController.viewControllers[0];
-    [moreInfoViewController setForumName:forumname];
+    [moreInfoViewController setForumName:name];
     //make busy
     [[[czzAppDelegate sharedAppDelegate] window] makeToastActivity];
+
 }
 
 #pragma notification handler - image downloaded
@@ -512,6 +564,12 @@
     NSDictionary *userInfo = notification.userInfo;
     if ([userInfo objectForKey:@"PickedThread"]){
         selectedThread = [userInfo objectForKey:@"PickedThread"];
+        [self openSelectedThread];
+    }
+}
+
+-(void)openSelectedThread {
+    if (selectedThread) {
         [self.navigationController popToRootViewControllerAnimated:NO];
         [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
     }

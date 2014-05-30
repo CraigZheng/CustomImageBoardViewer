@@ -104,6 +104,7 @@
 		5A88B83B1938A8FD00071343 /* left.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A88B8371938A8FD00071343 /* left.png */; };
 		5A88B83C1938A8FD00071343 /* right.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A88B8381938A8FD00071343 /* right.png */; };
 		5A88B83D1938A8FD00071343 /* up.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A88B8391938A8FD00071343 /* up.png */; };
+		5A88B8401938AFDB00071343 /* czzNotificationCentreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A88B83F1938AFDB00071343 /* czzNotificationCentreTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -271,6 +272,8 @@
 		5A88B8371938A8FD00071343 /* left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left.png; sourceTree = "<group>"; };
 		5A88B8381938A8FD00071343 /* right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = right.png; sourceTree = "<group>"; };
 		5A88B8391938A8FD00071343 /* up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = up.png; sourceTree = "<group>"; };
+		5A88B83E1938AFDB00071343 /* czzNotificationCentreTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzNotificationCentreTableViewController.h; sourceTree = "<group>"; };
+		5A88B83F1938AFDB00071343 /* czzNotificationCentreTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzNotificationCentreTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -431,6 +434,7 @@
 				441E5CDD17F4691300289DBD /* czzAppDelegate.h */,
 				441E5CDE17F4691300289DBD /* czzAppDelegate.m */,
 				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
+				5A88B8411938AFE000071343 /* czzNotificationCentre */,
 				44BE2E3C1938400A00601943 /* czzOnScreenCommand */,
 				5A2B2D8E1936179500BA2870 /* czzFeedback */,
 				44C3454A187E5A8300FDE45D /* czzEmoji */,
@@ -803,6 +807,15 @@
 			name = "NSString+HTML";
 			sourceTree = "<group>";
 		};
+		5A88B8411938AFE000071343 /* czzNotificationCentre */ = {
+			isa = PBXGroup;
+			children = (
+				5A88B83E1938AFDB00071343 /* czzNotificationCentreTableViewController.h */,
+				5A88B83F1938AFDB00071343 /* czzNotificationCentreTableViewController.m */,
+			);
+			name = czzNotificationCentre;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -983,6 +996,7 @@
 				44FC4345180067CF0028D7C9 /* czzPostSender.m in Sources */,
 				441E5D0E17F4699400289DBD /* IIWrapController.m in Sources */,
 				44CD43FF1869CB3E00C7D063 /* czzThreadCacheManager.m in Sources */,
+				5A88B8401938AFDB00071343 /* czzNotificationCentreTableViewController.m in Sources */,
 				44C89AE0185C14BA00E65B73 /* DACircularProgressView.m in Sources */,
 				440B2FBD17F7C5DC00544926 /* czzRightSideViewController.m in Sources */,
 				5A2B2D8D1936172C00BA2870 /* czzFeedback.m in Sources */,

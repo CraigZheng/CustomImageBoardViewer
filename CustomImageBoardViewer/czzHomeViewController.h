@@ -13,10 +13,14 @@
 @class czzThread;
 @interface czzHomeViewController : UITableViewController
 @property (strong, nonatomic) IBOutlet UITableView *threadTableView;
+@property (nonatomic) NSString *forumName;
+@property NSMutableArray *threads;
 
 - (IBAction)sideButtonAction:(id)sender;
 - (IBAction)moreAction:(id)sender;
 
+-(void)prepareToEnterBackground; //entering background, save forumName, threads, selected threads, content offset(position in tableview), should open thread view controller with selected thread
+-(void)restoreFromBackground; //restore the above settings if threads are empty
 -(void)scrollTableViewToTop;
 -(void)scrollTableViewToBottom;
 

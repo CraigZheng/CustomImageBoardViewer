@@ -140,6 +140,10 @@
         onScreenCommand.tableviewController = self;
         [onScreenCommand hide];
     }
+    //indicate thread view controller is currently active
+    NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
+    [userDef setObject:[NSNumber numberWithBool:YES] forKey:@"ThreadViewControllerActive"];
+    [userDef synchronize];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -171,13 +175,18 @@
             [xmlDownloader stop];
             xmlDownloader = nil;
         }
-        
-        //save threads to storage
-//        [[czzThreadCacheManager sharedInstance] saveThreads:[self sortTheGivenArray:originalThreadData.allObjects]];
-        [[czzThreadCacheManager sharedInstance] saveThreads:threads];
-        [[czzThreadCacheManager sharedInstance] saveHeights:heightsForRows ForThread:parentThread];
+        NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
+        [userDef setObject:[NSNumber numberWithBool:NO] forKey:@"ThreadViewControllerActive"];
+        [userDef synchronize];
+        [self saveThreadsToCache];
         self.navigationController.delegate = nil;
     }
+}
+
+-(void)saveThreadsToCache {
+    //save threads to storage
+    [[czzThreadCacheManager sharedInstance] saveThreads:threads forThread:parentThread];
+    [[czzThreadCacheManager sharedInstance] saveHeights:heightsForRows ForThread:parentThread];
 }
 
 #pragma mark - Table view data source

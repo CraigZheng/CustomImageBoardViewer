@@ -18,6 +18,7 @@
 @implementation czzAppDelegate
 @synthesize shouldUseBackupServer;
 @synthesize myhost;
+@synthesize homeViewController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -36,7 +37,9 @@
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    
+    if (homeViewController && homeViewController.threads.count > 0) {
+        [homeViewController prepareToEnterBackground];
+    }
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -63,6 +66,10 @@
 
     //check if the server is running and has required files
     NSURLConnection *urlConn = [[NSURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[myhost stringByAppendingPathComponent:@"forums.xml"]] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10] delegate:self startImmediately:YES];
+    //restore homeview controller
+    if (homeViewController) {
+        [homeViewController restoreFromBackground];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
