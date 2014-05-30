@@ -116,13 +116,6 @@
     [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, highlightMenuItem, openMenuItem]];
     [[UIMenuController sharedMenuController] update];
     //on screen commands
-    onScreenCommand = [[czzOnScreenCommandViewController alloc] initWithNibName:@"czzOnScreenCommandViewController" bundle:[NSBundle mainBundle]];
-    CGRect tableViewFrame = self.view.frame;
-    CGRect commandViewFrame = onScreenCommand.view.frame;
-    NSInteger padding = commandViewFrame.size.width / 2;
-    onScreenCommand.view.frame = CGRectMake(tableViewFrame.size.width - commandViewFrame.size.width - padding, tableViewFrame.size.height - commandViewFrame.size.height - padding, commandViewFrame.size.width, commandViewFrame.size.height);
-    onScreenCommand.threadViewController = self;
-    [[czzAppDelegate sharedAppDelegate].window addSubview:onScreenCommand.view];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -142,14 +135,27 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(PromptForJumpToPage) name:@"JumpToPageCommand" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(HighlightThreadSelected:) name:@"HighlightAction" object:nil];
     //show on screen command
-    onScreenCommand.view.hidden = NO;
+    if (!onScreenCommand) {
+        onScreenCommand = [[czzOnScreenCommandViewController alloc] initWithNibName:@"czzOnScreenCommandViewController" bundle:[NSBundle mainBundle]];
+        CGRect tableViewFrame = self.view.frame;
+        CGRect commandViewFrame = onScreenCommand.view.frame;
+        NSInteger padding = commandViewFrame.size.width / 2;
+        onScreenCommand.view.frame = CGRectMake(tableViewFrame.size.width - commandViewFrame.size.width - padding, (tableViewFrame.size.height - commandViewFrame.size.height) / 2, commandViewFrame.size.width, commandViewFrame.size.height);
+        onScreenCommand.threadViewController = self;
+        [[czzAppDelegate sharedAppDelegate].window addSubview:onScreenCommand.view];
+        onScreenCommand.view.hidden = YES;
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     //hide on screen command
-    onScreenCommand.view.hidden = YES;
+    if (onScreenCommand) {
+        [onScreenCommand hide];
+        [onScreenCommand removeFromParentViewController];
+
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -410,7 +416,12 @@
 }
 
 -(void)scrollTableViewToBottom {
-    [threadTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:threads.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    @try {
+        [threadTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:threads.count inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    }
+    @catch (NSException *exception) {
+        
+    }
 }
 
 #pragma mark - highlight thread selected
@@ -489,6 +500,11 @@
 }
 
 #pragma mark - UIScrollVIew delegate
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    if (onScreenCommand) {
+        [onScreenCommand show];
+    }
+}
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)aScrollView
 {

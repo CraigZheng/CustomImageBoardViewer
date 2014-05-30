@@ -9,7 +9,7 @@
 #import "czzOnScreenCommandViewController.h"
 
 @interface czzOnScreenCommandViewController ()
-
+@property NSTimer *timeoutTimer;
 @end
 
 @implementation czzOnScreenCommandViewController
@@ -17,35 +17,56 @@
 @synthesize bottomButton;
 @synthesize backgroundView;
 @synthesize threadViewController;
+@synthesize timeoutInterval;
+@synthesize timeoutTimer;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
-    backgroundView.layer.masksToBounds = NO;
-    backgroundView.layer.cornerRadius = 5;
-    backgroundView.layer.shadowOffset = CGSizeMake(1, 1);
-    backgroundView.layer.shadowRadius = 5;
-    backgroundView.layer.shadowOpacity = 0.5;
-    backgroundView.layer.shadowColor = [UIColor darkGrayColor].CGColor;
-
+    timeoutInterval = 2.0;
+//    [self giveViewRoundCornersAndShadow:backgroundView.layer];
+    [self giveViewRoundCornersAndShadow:upperButton.layer];
+    [self giveViewRoundCornersAndShadow:bottomButton.layer];
 }
 
+-(void)giveViewRoundCornersAndShadow:(CALayer*) layer{
+    layer.masksToBounds = NO;
+    layer.cornerRadius = 5;
+    layer.shadowOffset = CGSizeMake(1, 1);
+    layer.shadowRadius = 2;
+    layer.shadowOpacity = 0.5;
+    layer.shadowColor = [UIColor darkGrayColor].CGColor;
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (IBAction)upButtonAction:(id)sender {
     if (threadViewController)
         [threadViewController scrollTableViewToTop];
+    [self updateTimer];
+
 }
 
 - (IBAction)bottomButtonAction:(id)sender {
     if (threadViewController)
         [threadViewController scrollTableViewToBottom];
+    [self updateTimer];
+}
+
+-(void)show
+{
+    self.view.hidden = NO;
+    [self updateTimer];
+}
+
+-(void)hide{
+    self.view.hidden = YES;
+}
+
+-(void)updateTimer {
+    if (timeoutTimer.isValid) {
+        [timeoutTimer invalidate];
+    }
+    timeoutTimer = [NSTimer scheduledTimerWithTimeInterval:timeoutInterval target:self selector:@selector(hide) userInfo:nil repeats:NO];
 }
 @end

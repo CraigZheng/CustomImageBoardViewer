@@ -15,7 +15,11 @@
 
 @property (strong, nonatomic) IBOutlet UIButton *bottomButton;
 @property (strong, nonatomic) IBOutlet UIButton *upperButton;
+@property NSTimeInterval timeoutInterval;
 @property czzThreadViewController *threadViewController;
 - (IBAction)upButtonAction:(id)sender;
 - (IBAction)bottomButtonAction:(id)sender;
+
+-(void)show;
+-(void)hide;
 @end
