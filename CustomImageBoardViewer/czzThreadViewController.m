@@ -153,8 +153,8 @@
     //hide on screen command
     if (onScreenCommand) {
         [onScreenCommand hide];
-        [onScreenCommand removeFromParentViewController];
-
+        [onScreenCommand.view removeFromSuperview];
+        onScreenCommand = nil;
     }
 }
 
