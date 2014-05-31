@@ -18,7 +18,8 @@
 @property czzXMLDownloader *xmlDownloader;
 @property NSMutableArray *forumGroups;
 @property BOOL failedToConnect;
-@property NSTimer *updateAdTimer;
+@property NSDate *lastAdUpdateTime;
+@property NSTimeInterval adUpdateInterval;
 @end
 
 @implementation czzForumsViewController
@@ -27,7 +28,8 @@
 @synthesize forumGroups;
 @synthesize failedToConnect;
 @synthesize bannerView_;
-@synthesize updateAdTimer;
+@synthesize lastAdUpdateTime;
+@synthesize adUpdateInterval;
 
 - (void)viewDidLoad
 {
@@ -38,7 +40,7 @@
     bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
     bannerView_.adUnitID = @"a151ef285f8e0dd";
     bannerView_.rootViewController = self;
-    updateAdTimer = [NSTimer scheduledTimerWithTimeInterval:5 * 60 target:self selector:@selector(refreshAd) userInfo:nil repeats:YES];
+    adUpdateInterval = 5 * 60;
 }
 
 -(void)refreshForums{
@@ -52,7 +54,10 @@
 }
 
 -(void)refreshAd {
-    [bannerView_ loadRequest:[GADRequest request]];
+    if (!lastAdUpdateTime || [[NSDate new] timeIntervalSinceDate:lastAdUpdateTime] > adUpdateInterval) {
+        [bannerView_ loadRequest:[GADRequest request]];
+        lastAdUpdateTime = [NSDate new];
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -60,7 +65,7 @@
     if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]){
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-
+    [self refreshAd];
 }
 
 #pragma UITableView datasouce

@@ -97,6 +97,9 @@
 		5A0A6BD61848691C0094D7FB /* czzMoreInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0A6BD51848691C0094D7FB /* czzMoreInfoViewController.m */; };
 		5A1593EC18E71E93001A774B /* czzThreadRefButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1593EB18E71E93001A774B /* czzThreadRefButton.m */; };
 		5A1593F218E7BE61001A774B /* czzXMLProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1593F118E7BE61001A774B /* czzXMLProcessor.m */; };
+		5A26E77919398D7F00B709C9 /* czzNotificationBannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A26E77719398D7F00B709C9 /* czzNotificationBannerViewController.m */; };
+		5A26E77A19398D7F00B709C9 /* czzNotificationBannerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A26E77819398D7F00B709C9 /* czzNotificationBannerViewController.xib */; };
+		5A26E77C19398F2900B709C9 /* black_cross.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A26E77B19398F2900B709C9 /* black_cross.png */; };
 		5A2B2D8D1936172C00BA2870 /* czzFeedback.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2B2D8C1936172C00BA2870 /* czzFeedback.m */; };
 		5A2B2D941936264A00BA2870 /* czzFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2B2D931936264A00BA2870 /* czzFeedbackViewController.m */; };
 		5A3897C91935EC4D00D20DA1 /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3897C71935EC4D00D20DA1 /* NSString+HTML.m */; };
@@ -261,6 +264,10 @@
 		5A1593EB18E71E93001A774B /* czzThreadRefButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadRefButton.m; sourceTree = "<group>"; };
 		5A1593F018E7BE61001A774B /* czzXMLProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzXMLProcessor.h; sourceTree = "<group>"; };
 		5A1593F118E7BE61001A774B /* czzXMLProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzXMLProcessor.m; sourceTree = "<group>"; };
+		5A26E77619398D7F00B709C9 /* czzNotificationBannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzNotificationBannerViewController.h; sourceTree = "<group>"; };
+		5A26E77719398D7F00B709C9 /* czzNotificationBannerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzNotificationBannerViewController.m; sourceTree = "<group>"; };
+		5A26E77819398D7F00B709C9 /* czzNotificationBannerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzNotificationBannerViewController.xib; sourceTree = "<group>"; };
+		5A26E77B19398F2900B709C9 /* black_cross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = black_cross.png; sourceTree = "<group>"; };
 		5A2B2D8B1936172C00BA2870 /* czzFeedback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFeedback.h; sourceTree = "<group>"; };
 		5A2B2D8C1936172C00BA2870 /* czzFeedback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFeedback.m; sourceTree = "<group>"; };
 		5A2B2D921936264A00BA2870 /* czzFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFeedbackViewController.h; sourceTree = "<group>"; };
@@ -594,6 +601,7 @@
 		441E5E5117F4AEAB00289DBD /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				5A26E77B19398F2900B709C9 /* black_cross.png */,
 				5A88B8361938A8FD00071343 /* down.png */,
 				5A88B8371938A8FD00071343 /* left.png */,
 				5A88B8381938A8FD00071343 /* right.png */,
@@ -817,6 +825,9 @@
 			children = (
 				5A88B83E1938AFDB00071343 /* czzNotificationCentreTableViewController.h */,
 				5A88B83F1938AFDB00071343 /* czzNotificationCentreTableViewController.m */,
+				5A26E77619398D7F00B709C9 /* czzNotificationBannerViewController.h */,
+				5A26E77719398D7F00B709C9 /* czzNotificationBannerViewController.m */,
+				5A26E77819398D7F00B709C9 /* czzNotificationBannerViewController.xib */,
 			);
 			name = czzNotificationCentre;
 			sourceTree = "<group>";
@@ -919,6 +930,7 @@
 				441E5E5017F4AEA700289DBD /* warning.png in Resources */,
 				44F8DE621803900100B6D3B0 /* Icon-Small-50.png in Resources */,
 				44C34557187E6CF000FDE45D /* sougo_emoji_UTF16.txt in Resources */,
+				5A26E77A19398D7F00B709C9 /* czzNotificationBannerViewController.xib in Resources */,
 				44F8DE5E1803900100B6D3B0 /* Icon-72.png in Resources */,
 				44F8DE651803900100B6D3B0 /* Icon-Small@2x.png in Resources */,
 				44C3454C187E5C6100FDE45D /* czzEmojiCollectionViewCell.xib in Resources */,
@@ -928,6 +940,7 @@
 				44F8DE711803928A00B6D3B0 /* Default.png in Resources */,
 				44F8DE6F1803928A00B6D3B0 /* 35ios7.png in Resources */,
 				44F8DE5C1803900100B6D3B0 /* Icon-60.png in Resources */,
+				5A26E77C19398F2900B709C9 /* black_cross.png in Resources */,
 				44F8DE5A1803900100B6D3B0 /* Icon-40.png in Resources */,
 				5A88B83C1938A8FD00071343 /* right.png in Resources */,
 				44F8DE601803900100B6D3B0 /* Icon-76.png in Resources */,
@@ -995,6 +1008,7 @@
 				441E5D2017F46FB600289DBD /* czzXMLDownloader.m in Sources */,
 				5A3897C91935EC4D00D20DA1 /* NSString+HTML.m in Sources */,
 				440B2F6117F5EED800544926 /* GTMNSString+HTML.m in Sources */,
+				5A26E77919398D7F00B709C9 /* czzNotificationBannerViewController.m in Sources */,
 				440B2FD017F8191700544926 /* czzPost.m in Sources */,
 				44AE2B011872924C002CB021 /* PartialTransparentView.m in Sources */,
 				441E5CDB17F4691300289DBD /* main.m in Sources */,
