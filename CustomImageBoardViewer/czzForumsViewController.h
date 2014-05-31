@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "IIViewDeckController.h"
+#import "GADBannerView.h"
 
 @interface czzForumsViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UITableView *forumsTableView;
+@property GADBannerView *bannerView_;
 
 @end

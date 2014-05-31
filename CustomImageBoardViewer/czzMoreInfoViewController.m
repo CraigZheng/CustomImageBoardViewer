@@ -38,7 +38,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     //position of the ad
-    [bannerView_ setFrame:CGRectMake(0, self.view.bounds.size.height, bannerView_.bounds.size.width,
+    [bannerView_ setFrame:CGRectMake(0, self.view.bounds.size.height - bannerView_.bounds.size.height, bannerView_.bounds.size.width,
                                      bannerView_.bounds.size.height)];
     [bannerView_ loadRequest:[GADRequest request]];
     [self.view addSubview:bannerView_];

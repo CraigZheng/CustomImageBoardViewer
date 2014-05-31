@@ -45,14 +45,15 @@
 }
 
 +(NSString *)convertByte:(NSUInteger)bytes{
-    NSString *suffix = @"KB";
-    if (bytes > 1024) {
+    NSString *suffix = @"Bytes";
+    CGFloat fileSize = bytes;
+    if (bytes > 1024 * 1024) {
         suffix = @"MB";
-        bytes /= 1024;
-    } else if (bytes > 1024 * 1024) {
-        suffix = @"GB";
-        bytes /= 1024 * 1024;
+        fileSize /= 1024 * 1024;
+    } else if (bytes > 1024) {
+        suffix = @"KB";
+        fileSize /= 1024;
     }
-    return [NSString stringWithFormat:@"%u %@", bytes, suffix];
+    return [NSString stringWithFormat:@"%.1f %@", fileSize, suffix];
 }
 @end

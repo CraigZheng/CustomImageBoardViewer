@@ -14,7 +14,7 @@
 #import "Toast+UIView.h"
 #import "czzAppDelegate.h"
 
-@interface czzForumsViewController () <czzXMLDownloaderDelegate>
+@interface czzForumsViewController () <czzXMLDownloaderDelegate, UITableViewDataSource, UITableViewDelegate>
 @property czzXMLDownloader *xmlDownloader;
 @property NSMutableArray *forumGroups;
 @property BOOL failedToConnect;
@@ -25,6 +25,7 @@
 @synthesize forumsTableView;
 @synthesize forumGroups;
 @synthesize failedToConnect;
+@synthesize bannerView_;
 
 - (void)viewDidLoad
 {
@@ -32,6 +33,9 @@
 	// Do any additional setup after loading the view.
     forumGroups = [NSMutableArray new];
     [self refreshForums];
+    bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+    bannerView_.adUnitID = @"a151ef285f8e0dd";
+    bannerView_.rootViewController = self;
 }
 
 -(void)refreshForums{
@@ -49,6 +53,7 @@
     if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]){
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
+
 }
 
 #pragma UITableView datasouce
@@ -62,6 +67,10 @@
     if (failedToConnect)
         return 1;
     czzForumGroup *forumGroup = [forumGroups objectAtIndex:section];
+    if (section == forumGroups.count - 1)
+    {
+        return forumGroup.forumNames.count + 1;
+    }
     return forumGroup.forumNames.count;
 }
 
@@ -83,9 +92,21 @@
     czzForumGroup *forumGroup = [forumGroups objectAtIndex:indexPath.section];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier];
     if (cell){
-        UILabel *titleLabel = (UILabel*)[cell viewWithTag:1];
-        [titleLabel setText:[forumGroup.forumNames objectAtIndex:indexPath.row]];
+        if (indexPath.row < forumGroup.forumNames.count) {
+            UILabel *titleLabel = (UILabel*)[cell viewWithTag:1];
+            [titleLabel setText:[forumGroup.forumNames objectAtIndex:indexPath.row]];
+        } else {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"ad_cell_identifier" forIndexPath:indexPath];
+            //position of the ad
+            if (!bannerView_.superview) {
+                [bannerView_ setFrame:CGRectMake(0, 0, bannerView_.bounds.size.width,
+                                                 bannerView_.bounds.size.height)];
+                [bannerView_ loadRequest:[GADRequest request]];
+            }
+            [cell.contentView addSubview:bannerView_];
+        }
     }
+    
     return cell;
 }
 
@@ -104,6 +125,14 @@
     [userInfo setObject:forumName forKey:@"ForumName"];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ForumNamePicked" object:self userInfo:userInfo];
     
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    //ad cell
+    if (indexPath.section == forumGroups.count - 1 && indexPath.row == [forumGroups.lastObject forumNames].count) {
+        return bannerView_.bounds.size.height;
+    }
+    return tableView.rowHeight;
 }
 
 #pragma czzXMLDownloaderDelegate
