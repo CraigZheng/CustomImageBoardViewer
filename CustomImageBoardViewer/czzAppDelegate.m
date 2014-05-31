@@ -10,15 +10,17 @@
 #import "czzBlacklistDownloader.h"
 #import "czzBlacklist.h"
 #import "Toast+UIView.h"
+#import "SMXMLDocument.h"
 
 @interface czzAppDelegate()<czzBlacklistDownloaderDelegate, NSURLConnectionDataDelegate>
-
+@property NSString *thirdHost;
 @end
 
 @implementation czzAppDelegate
 @synthesize shouldUseBackupServer;
 @synthesize myhost;
 @synthesize homeViewController;
+@synthesize thirdHost;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -70,6 +72,24 @@
     if (homeViewController) {
         [homeViewController restoreFromBackground];
     }
+    //check for any another possible host
+    [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://civ.my-realm.com/myhost.xml"]] queue:[NSOperationQueue new] completionHandler:^(NSURLResponse* response, NSData *data, NSError *error){
+
+        SMXMLDocument *xmlDocument = [SMXMLDocument documentWithData:data error:&error];
+        if (error || [(NSHTTPURLResponse*)response statusCode] != 200) {
+            NSLog(@"error");
+            return;
+        }
+        SMXMLElement *child = xmlDocument.root;
+        NSLog(@"%@: %@", child.name, child.value);
+        
+        if ([child.name isEqualToString:@"myhost"]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                thirdHost = child.value;
+            });
+        }
+
+    }];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -78,6 +98,8 @@
 }
 
 -(NSString *)myhost {
+    if (thirdHost)
+        return thirdHost;
     if (shouldUseBackupServer)
     {
         return my_backup_host;

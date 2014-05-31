@@ -121,6 +121,11 @@
     UIMenuItem *highlightMenuItem = [[UIMenuItem alloc] initWithTitle:@"高亮此人" action:@selector(menuActionHighlight:)];
     [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, highlightMenuItem, openMenuItem]];
     [[UIMenuController sharedMenuController] update];
+    //show on screen command
+    onScreenCommand = [[czzOnScreenCommandViewController alloc] initWithNibName:@"czzOnScreenCommandViewController" bundle:[NSBundle mainBundle]];
+    onScreenCommand.tableviewController = self;
+    [onScreenCommand hide];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -139,12 +144,7 @@
     //Jump to command observer
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(PromptForJumpToPage) name:@"JumpToPageCommand" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(HighlightThreadSelected:) name:@"HighlightAction" object:nil];
-    //show on screen command
-    if (!onScreenCommand) {
-        onScreenCommand = [[czzOnScreenCommandViewController alloc] initWithNibName:@"czzOnScreenCommandViewController" bundle:[NSBundle mainBundle]];
-        onScreenCommand.tableviewController = self;
-        [onScreenCommand hide];
-    }
+
     //indicate thread view controller is currently active
     NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
     [userDef setObject:[NSNumber numberWithBool:YES] forKey:@"ThreadViewControllerActive"];
@@ -160,11 +160,7 @@
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     //hide on screen command
-    if (onScreenCommand) {
-        [onScreenCommand hide];
-        [onScreenCommand.view removeFromSuperview];
-        onScreenCommand = nil;
-    }
+    [onScreenCommand hide];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
