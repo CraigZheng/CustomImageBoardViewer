@@ -60,7 +60,7 @@
 #pragma mark - HomeViewController
 -(BOOL)saveContentOffSetForHome:(CGPoint)contentOffSet {
     @try {
-        return [NSKeyedArchiver archiveRootObject:[NSValue valueWithCGPoint:contentOffSet] toFile:[cachePath stringByAppendingPathComponent:@"ContentOffSet"]];
+        return [NSKeyedArchiver archiveRootObject:[NSValue valueWithCGPoint:contentOffSet] toFile:[cachePath stringByAppendingPathComponent:@"ContentOffSet.cgp"]];
     }
     @catch (NSException *exception) {
         
@@ -69,7 +69,7 @@
 }
 
 -(CGPoint)readContentOffSetForHome {
-    NSValue *contentOffSet = [NSKeyedUnarchiver unarchiveObjectWithFile:[cachePath stringByAppendingPathComponent:@"ContentOffSet"]];
+    NSValue *contentOffSet = [NSKeyedUnarchiver unarchiveObjectWithFile:[cachePath stringByAppendingPathComponent:@"ContentOffSet.cgp"]];
     [self removeContentOffSetForHome];
     if (!contentOffSet)
         return CGPointZero;
@@ -77,7 +77,7 @@
 }
 
 -(void)removeContentOffSetForHome {
-    [[NSFileManager defaultManager] removeItemAtPath:[cachePath stringByAppendingPathComponent:@"ContentOffSet"] error:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:[cachePath stringByAppendingPathComponent:@"ContentOffSet.cgp"] error:nil];
 }
 
 -(BOOL)saveSelectedThreadForHome:(czzThread *)selectedThread {

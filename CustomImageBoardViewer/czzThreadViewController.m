@@ -105,7 +105,7 @@
     NSDictionary *cachedHeights = [[czzThreadCacheManager sharedInstance] readHeightsForThread:parentThread];
     if (cachedHeights) {
         [heightsForRows addObjectsFromArray:[cachedHeights objectForKey:@"VerticalHeights"]];
-        [heightsForRows addObjectsFromArray:[cachedHeights objectForKey:@"HorizontalHeights"]];
+        [heightsForRowsForHorizontal addObjectsFromArray:[cachedHeights objectForKey:@"HorizontalHeights"]];
     }
     if (threads.count <= 1)
         [self loadMoreThread:pageNumber];
