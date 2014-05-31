@@ -27,7 +27,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    timeoutInterval = 2.0;
+    timeoutInterval = 2.5;
     size = CGSizeMake(60, 120);
 //    [self giveViewRoundCornersAndShadow:backgroundView.layer];
     [self giveViewRoundCornersAndShadow:upperButton.layer];
@@ -100,8 +100,8 @@
     CGFloat width = windowBounds.size.width;
     CGFloat height = windowBounds.size.height;
     CGFloat padding = size.width / 4;
-    myFrame.origin.x = width - size.width -  padding;
-    myFrame.origin.y = height - size.height - padding * 2;
+    myFrame.origin.x = (width - size.width -  padding) / 2;
+    myFrame.origin.y = height - size.height - padding * 3;
     myFrame.size.width = size.width;
     myFrame.size.height = size.height;
     self.view.frame = myFrame;
@@ -113,8 +113,8 @@
     CGFloat width = windowBounds.size.height;
     CGFloat height = windowBounds.size.width;
     CGFloat padding = size.width / 4;
-    myFrame.origin.x = width - size.width - padding;
-    myFrame.origin.y = height - size.height - padding * 2;
+    myFrame.origin.x = width - size.width - padding * 2;
+    myFrame.origin.y = height - size.height - padding * 3;
     myFrame.size.width = size.width;
     myFrame.size.height = size.height;
     self.view.frame = myFrame;
