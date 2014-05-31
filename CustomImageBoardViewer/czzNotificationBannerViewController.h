@@ -7,12 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "czzNotification.h"
 
 @interface czzNotificationBannerViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIButton *dismissButton;
 @property (weak, nonatomic) IBOutlet UIImageView *statusIcon;
 @property (weak, nonatomic) IBOutlet UILabel *headerLabel;
-
+@property CGFloat constantHeight;
+@property UIView *parentView;
+@property czzNotification *currentNotification;
+@property NSMutableArray *notifications;
+@property (nonatomic) BOOL needsToBePresented;
 
 - (IBAction)dismissAction:(id)sender;
 - (IBAction)tapOnViewAction:(id)sender;

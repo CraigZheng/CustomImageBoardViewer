@@ -21,6 +21,7 @@
 #import "czzImageCentre.h"
 #import "czzAppDelegate.h"
 #import "czzOnScreenCommandViewController.h"
+#import "czzNotificationBannerViewController.h"
 #import <CoreText/CoreText.h>
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****"
@@ -39,7 +40,8 @@
 @property UIDocumentInteractionController *documentInteractionController;
 @property NSMutableArray *heightsForRows;
 @property NSMutableArray *heightsForRowsForHorizontalMode;
-@property czzOnScreenCommandViewController *onScreenCommand;
+@property czzOnScreenCommandViewController *onScreenCommandViewController;
+@property czzNotificationBannerViewController *notificationBannerViewController;
 @end
 
 @implementation czzHomeViewController
@@ -57,9 +59,10 @@
 @synthesize leftController;
 @synthesize heightsForRows;
 @synthesize heightsForRowsForHorizontalMode;
-@synthesize onScreenCommand;
+@synthesize onScreenCommandViewController;
 @synthesize documentInteractionController;
 @synthesize threadViewController;
+@synthesize notificationBannerViewController;
 
 - (void)viewDidLoad
 {
@@ -98,12 +101,20 @@
     [refreCon addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreCon;
     
-    //download a message from the server
-    czzXMLDownloader *msgDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:[[czzAppDelegate sharedAppDelegate].myhost stringByAppendingPathComponent:@"message.xml"]] delegate:self startNow:YES];
     //onscreen command
-    onScreenCommand = [[czzOnScreenCommandViewController alloc] initWithNibName:@"czzOnScreenCommandViewController" bundle:[NSBundle mainBundle]];
-    onScreenCommand.tableviewController = self;
-    [onScreenCommand hide];
+    onScreenCommandViewController = [[czzOnScreenCommandViewController alloc] initWithNibName:@"czzOnScreenCommandViewController" bundle:[NSBundle mainBundle]];
+    onScreenCommandViewController.tableviewController = self;
+    [onScreenCommandViewController hide];
+    //notification banner view
+    notificationBannerViewController = [[czzNotificationBannerViewController alloc] initWithNibName:@"czzNotificationBannerViewController" bundle:[NSBundle mainBundle]];
+    notificationBannerViewController.view.frame = CGRectMake(0, self.view.frame.size.height - self.navigationController.navigationBar.frame.size.height, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+    notificationBannerViewController.view.hidden = YES;
+    @try {
+        notificationBannerViewController.parentView = [[czzAppDelegate sharedAppDelegate].window.subviews objectAtIndex:0];
+//        [[[czzAppDelegate sharedAppDelegate].window.subviews objectAtIndex:0] addSubview:notificationBannerViewController.view];
+    }
+    @catch (NSException *exception) {
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -121,12 +132,13 @@
     //if a forum has not been selected and is not the first time running
     if (!self.forumName || [[NSUserDefaults standardUserDefaults] objectForKey:@"firstTimeRunning"])
         [self.viewDeckController toggleLeftViewAnimated:YES];
+    [self showNotificationBanner];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
-    [onScreenCommand hide];
+    [self hideNotificationBanner];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -251,6 +263,16 @@
     [[czzThreadCacheManager sharedInstance] removeSelectedThreadForHome];
 }
 
+#pragma mark - notification, views and download
+-(void)showNotificationBanner {
+    [notificationBannerViewController setNeedsToBePresented:YES];
+}
+
+-(void)hideNotificationBanner {
+    [notificationBannerViewController setNeedsToBePresented:NO];
+}
+
+#pragma mark - more action and commands
 -(void)openSettingsPanel{
     [self.viewDeckController toggleTopViewAnimated:YES];
 }
@@ -417,8 +439,8 @@
 
 #pragma mark - UIScrollVIew delegate
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    if (onScreenCommand && threads.count > 1) {
-        [onScreenCommand show];
+    if (onScreenCommandViewController && threads.count > 1) {
+        [onScreenCommandViewController show];
     }
 }
 
@@ -505,6 +527,7 @@
         [self.refreshControl endRefreshing];
         [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
         [threadTableView reloadData];
+
     });
 }
 
@@ -640,5 +663,12 @@
 
 }
 
+#pragma mark - rotation events
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [notificationBannerViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+}
 
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    [notificationBannerViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+}
 @end

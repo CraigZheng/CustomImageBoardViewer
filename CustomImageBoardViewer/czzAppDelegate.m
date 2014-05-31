@@ -140,4 +140,28 @@
     [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:string];
 }
 
+#pragma mark - show and hide uitoolbar
+-(void)doSingleViewHideAnimation:(UIView*)incomingView :(NSString*)animType :(CGFloat)duration
+{
+    CATransition *animation = [CATransition animation];
+    [animation setType:kCATransitionPush];
+    [animation setSubtype:animType];
+    
+    [animation setDuration:duration];
+    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    [[incomingView layer] addAnimation:animation forKey:kCATransition];
+    incomingView.hidden = YES;
+}
+
+-(void)doSingleViewShowAnimation:(UIView*)incomingView :(NSString*)animType :(CGFloat)duration
+{
+    CATransition *animation = [CATransition animation];
+    [animation setType:kCATransitionPush];
+    [animation setSubtype:animType];
+    
+    [animation setDuration:duration];
+    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    [[incomingView layer] addAnimation:animation forKey:kCATransition];
+    incomingView.hidden = NO;
+}
 @end

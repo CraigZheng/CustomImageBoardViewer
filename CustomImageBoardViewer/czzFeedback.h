@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Craig. All rights reserved.
 //
 
+#warning feedback server not ready
 #define feedback_host @"http://civ.atwebpages.com/php/feedback.php"
 
 #import <Foundation/Foundation.h>
@@ -17,7 +18,7 @@ enum {
     angry = 3,
     other = 4
 };
-typedef NSUInteger emotions;
+typedef NSUInteger EMOTIONS;
 
 @interface czzFeedback : NSObject
 
@@ -28,7 +29,7 @@ typedef NSUInteger emotions;
 @property (nonatomic) NSDate *time;
 @property NSString *name;
 @property NSString *content; //required
-@property NSString *emotion;
+@property EMOTIONS *emotion;
 
 -(BOOL)sendFeedback;
 @end
