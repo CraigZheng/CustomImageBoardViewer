@@ -7,6 +7,7 @@
 //
 
 #import "czzNotification.h"
+#import "SMXMLDocument.h"
 
 @interface czzNotification()<NSCoding>
 @end
@@ -29,9 +30,22 @@
 -(id)initWithXMLData:(NSData *)xmlData {
     self = [super init];
     if (self) {
-#warning finish the xml data parsing
+        [self assignPropertyWithXMLData:xmlData];
     }
     return self;
+}
+
+#pragma mark - assign properties with xml data
+-(void)assignPropertyWithXMLData:(NSData*)xmlData {
+    NSError *error;
+    SMXMLDocument *xmlDocument = [SMXMLDocument documentWithData:xmlData error:&error];
+    if (error) {
+        NSLog(@"error: %@", error);
+        return;
+    }
+    for (SMXMLElement *child in xmlDocument.root.children) {
+        NSLog(@"%@, %@", child.name, child.value);
+    }
 }
 
 #pragma mark - encoding/decoding

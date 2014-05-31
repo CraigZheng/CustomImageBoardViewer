@@ -77,7 +77,7 @@
 
         SMXMLDocument *xmlDocument = [SMXMLDocument documentWithData:data error:&error];
         if (error || [(NSHTTPURLResponse*)response statusCode] != 200) {
-            NSLog(@"error");
+//            NSLog(@"error: %@ ",error);
             return;
         }
         SMXMLElement *child = xmlDocument.root;
