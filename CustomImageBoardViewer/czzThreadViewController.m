@@ -44,6 +44,7 @@
 @property czzThread *shouldHighlightSelectedThread;
 @property BOOL shouldHighlight;
 @property NSMutableArray *heightsForRows;
+@property NSMutableArray *heightsForRowsForHorizontal;
 @property czzOnScreenCommandViewController *onScreenCommand;
 @property CGPoint restoreFromBackgroundOffSet;
 @end
@@ -67,6 +68,7 @@
 @synthesize shouldHighlight;
 @synthesize shouldHighlightSelectedThread;
 @synthesize heightsForRows;
+@synthesize heightsForRowsForHorizontal;
 @synthesize onScreenCommand;
 @synthesize restoreFromBackgroundOffSet;
 
@@ -85,6 +87,7 @@
 //    [originalThreadData addObject:parentThread];
     threads = [NSMutableArray new];
     heightsForRows = [NSMutableArray new];
+    heightsForRowsForHorizontal = [NSMutableArray new];
     currentImageDownloaders = [[czzImageCentre sharedInstance] currentImageDownloaders];
     //add the UIRefreshControl to uitableview
     UIRefreshControl *refreCon = [[UIRefreshControl alloc] init];
@@ -99,9 +102,10 @@
     } else {
         [threads addObject:parentThread];
     }
-    NSArray *cachedHeights = [[czzThreadCacheManager sharedInstance] readHeightsForThread:parentThread];
+    NSDictionary *cachedHeights = [[czzThreadCacheManager sharedInstance] readHeightsForThread:parentThread];
     if (cachedHeights) {
-        [heightsForRows addObjectsFromArray:cachedHeights];
+        [heightsForRows addObjectsFromArray:[cachedHeights objectForKey:@"VerticalHeights"]];
+        [heightsForRows addObjectsFromArray:[cachedHeights objectForKey:@"HorizontalHeights"]];
     }
     if (threads.count <= 1)
         [self loadMoreThread:pageNumber];
@@ -210,7 +214,7 @@
 -(void)saveThreadsToCache {
     //save threads to storage
     [[czzThreadCacheManager sharedInstance] saveThreads:threads forThread:parentThread];
-    [[czzThreadCacheManager sharedInstance] saveHeights:heightsForRows ForThread:parentThread];
+    [[czzThreadCacheManager sharedInstance] saveVerticalHeights:heightsForRows andHorizontalHeighs:heightsForRowsForHorizontal ForThread:parentThread];
 }
 
 #pragma mark - Table view data source
@@ -403,12 +407,18 @@
     @catch (NSException *exception) {
         
     }
+    NSMutableArray *heightArrays;
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        heightArrays = heightsForRowsForHorizontal;
+    } else {
+        heightArrays = heightsForRows;
+    }
     
     CGFloat preferHeight = tableView.rowHeight;
     if (thread){
         //retrive previously saved height
-        if (indexPath.row < heightsForRows.count) {
-            preferHeight = [[heightsForRows objectAtIndex:indexPath.row] floatValue];
+        if (indexPath.row < heightArrays.count) {
+            preferHeight = [[heightArrays objectAtIndex:indexPath.row] floatValue];
         } else {
             UITextView *newHiddenTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
             newHiddenTextView.hidden = YES;
@@ -421,7 +431,7 @@
                 preferHeight += 82;
             }
             preferHeight = MAX(tableView.rowHeight, preferHeight);
-            [heightsForRows addObject:[NSNumber numberWithFloat:preferHeight]];
+            [heightArrays addObject:[NSNumber numberWithFloat:preferHeight]];
         }
     }
     return preferHeight;
@@ -490,6 +500,7 @@
             [self.threads removeAllObjects];
             [self.threads addObject:parentThread];
             [heightsForRows removeAllObjects];
+            [heightsForRowsForHorizontal removeAllObjects];
             [self.threadTableView reloadData];
             [self.refreshControl beginRefreshing];
             [self loadMoreThread:self.pageNumber];
@@ -504,6 +515,7 @@
     [self.threads removeAllObjects];
     [self.threads addObject:parentThread];
     [heightsForRows removeAllObjects];
+    [heightsForRowsForHorizontal removeAllObjects];
 //    [originalThreadData removeAllObjects];
 //    [originalThreadData addObject:parentThread];
     [threadTableView reloadData];

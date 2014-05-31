@@ -38,6 +38,7 @@
 @property UIViewController *leftController;
 @property UIDocumentInteractionController *documentInteractionController;
 @property NSMutableArray *heightsForRows;
+@property NSMutableArray *heightsForRowsForHorizontalMode;
 @property czzOnScreenCommandViewController *onScreenCommand;
 @end
 
@@ -55,6 +56,7 @@
 @synthesize downloadedImages;
 @synthesize leftController;
 @synthesize heightsForRows;
+@synthesize heightsForRowsForHorizontalMode;
 @synthesize onScreenCommand;
 @synthesize documentInteractionController;
 @synthesize threadViewController;
@@ -69,6 +71,7 @@
     pageNumber = 1; //default page number
     downloadedImages = [NSMutableDictionary new];
     heightsForRows = [NSMutableArray new];
+    heightsForRowsForHorizontalMode = [NSMutableArray new];
     //configure the view deck controller with half size and tap to close mode
     self.viewDeckController.leftSize = self.view.frame.size.width/4;
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
@@ -167,6 +170,7 @@
             [self.threads removeAllObjects];
             [self.threadTableView reloadData];
             [heightsForRows removeAllObjects];
+            [heightsForRowsForHorizontalMode removeAllObjects];
             [self.refreshControl beginRefreshing];
             [self loadMoreThread:self.pageNumber];
             [[[czzAppDelegate sharedAppDelegate] window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)self.pageNumber]];
@@ -381,11 +385,17 @@
         
     }
     
+    NSMutableArray* heightsArray;
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        heightsArray = heightsForRowsForHorizontalMode;
+    } else {
+        heightsArray = heightsForRows;
+    }
     CGFloat preferHeight = tableView.rowHeight;
     if (thread){
         //retrive previously saved height
-        if (indexPath.row < heightsForRows.count) {
-            preferHeight = [[heightsForRows objectAtIndex:indexPath.row] floatValue];
+        if (indexPath.row < heightsArray.count) {
+            preferHeight = [[heightsArray objectAtIndex:indexPath.row] floatValue];
         } else {
             UITextView *newHiddenTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
             newHiddenTextView.hidden = YES;
@@ -398,7 +408,7 @@
                 preferHeight += 82;
             }
             preferHeight = MAX(tableView.rowHeight, preferHeight);
-            [heightsForRows addObject:[NSNumber numberWithFloat:preferHeight]];
+            [heightsArray addObject:[NSNumber numberWithFloat:preferHeight]];
         }
     }
     return preferHeight;
@@ -436,6 +446,7 @@
 -(void)refreshThread:(id)sender{
     [threads removeAllObjects];
     [heightsForRows removeAllObjects];
+    [heightsForRowsForHorizontalMode removeAllObjects];
     [threadTableView reloadData];
     //reset to default page number
     pageNumber = 1;

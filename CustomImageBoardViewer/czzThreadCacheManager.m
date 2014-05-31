@@ -136,14 +136,17 @@
 }
 
 #pragma mark - heights
--(BOOL)saveHeights:(NSArray*)heights ForThread:(czzThread *)parentThread {
+-(BOOL)saveVerticalHeights:(NSArray *)vHeighs andHorizontalHeighs:(NSArray *)hHeights ForThread:(czzThread *)parentThread {
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldCache"] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"shouldCache"]) {
         return NO;
     }
     @try {
-        NSString *fileName = [NSString stringWithFormat:@"%ld.hgt", (long)parentThread.ID];
-        [NSKeyedArchiver archiveRootObject:heights toFile:[cachePath stringByAppendingPathComponent:fileName]];
-        [existingFiles addObject:fileName];
+        NSString *vFile = [NSString stringWithFormat:@"%ld.vht", (long)parentThread.ID];
+        NSString *hFile = [NSString stringWithFormat:@"%ld.hht", (long)parentThread.ID];
+        [NSKeyedArchiver archiveRootObject:vHeighs toFile:[cachePath stringByAppendingPathComponent:vFile]];
+        [NSKeyedArchiver archiveRootObject:hHeights toFile:[cachePath stringByAppendingPathComponent:hFile]];
+        [existingFiles addObject:vFile];
+        [existingFiles addObject:hFile];
         return YES;
     }
     @catch (NSException *exception) {
@@ -151,19 +154,27 @@
     }
     [[czzAppDelegate sharedAppDelegate] showToast:@"无法写入缓存：请检查剩余空间"];
     return NO;
+
 }
 
--(NSArray *)readHeightsForThread:(czzThread *)parentThread {
+-(NSDictionary *)readHeightsForThread:(czzThread *)parentThread {
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldCache"] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"shouldCache"]) {
         return nil;
     }
     @try {
-        NSString *fileName = [NSString stringWithFormat:@"%ld.hgt", (long)parentThread.ID];
-        if ([existingFiles containsObject:fileName]){
-            //            return [NSMutableSet setWithArray:
-            //                    [NSKeyedUnarchiver unarchiveObjectWithFile:[cachePath stringByAppendingPathComponent:fileName]]];
-            return [NSKeyedUnarchiver unarchiveObjectWithFile:[cachePath stringByAppendingPathComponent:fileName]];
-            //
+        NSString *vFile = [NSString stringWithFormat:@"%ld.vht", (long)parentThread.ID];
+        NSString *hFile = [NSString stringWithFormat:@"%ld.hht", (long)parentThread.ID];
+        if ([existingFiles containsObject:vFile] || [existingFiles containsObject:hFile]){
+            NSArray *vHeights = [NSKeyedUnarchiver unarchiveObjectWithFile:[cachePath stringByAppendingPathComponent:vFile]];
+            NSArray *hHeights = [NSKeyedUnarchiver unarchiveObjectWithFile:[cachePath stringByAppendingPathComponent:hFile]];
+            NSMutableDictionary *heights = [NSMutableDictionary new];
+            if (vHeights) {
+                [heights setObject:vHeights forKey:@"VerticalHeights"];
+            }
+            if (hHeights) {
+                [heights setObject:hHeights forKey:@"HorizontalHeights"];
+            }
+            return heights;
         }
     }
     @catch (NSException *exception) {
