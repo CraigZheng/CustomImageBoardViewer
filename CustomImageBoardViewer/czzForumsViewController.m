@@ -18,6 +18,7 @@
 @property czzXMLDownloader *xmlDownloader;
 @property NSMutableArray *forumGroups;
 @property BOOL failedToConnect;
+@property NSTimer *updateAdTimer;
 @end
 
 @implementation czzForumsViewController
@@ -26,6 +27,7 @@
 @synthesize forumGroups;
 @synthesize failedToConnect;
 @synthesize bannerView_;
+@synthesize updateAdTimer;
 
 - (void)viewDidLoad
 {
@@ -36,6 +38,7 @@
     bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
     bannerView_.adUnitID = @"a151ef285f8e0dd";
     bannerView_.rootViewController = self;
+    updateAdTimer = [NSTimer scheduledTimerWithTimeInterval:5 * 60 target:self selector:@selector(refreshAd) userInfo:nil repeats:YES];
 }
 
 -(void)refreshForums{
@@ -46,6 +49,10 @@
     NSString *forumString = [[czzAppDelegate sharedAppDelegate].myhost stringByAppendingPathComponent:@"forums.xml"];
     xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:forumString] delegate:self startNow:YES];
     [self.view makeToastActivity];
+}
+
+-(void)refreshAd {
+    [bannerView_ loadRequest:[GADRequest request]];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -101,7 +108,7 @@
             if (!bannerView_.superview) {
                 [bannerView_ setFrame:CGRectMake(0, 0, bannerView_.bounds.size.width,
                                                  bannerView_.bounds.size.height)];
-                [bannerView_ loadRequest:[GADRequest request]];
+                [self refreshAd];
             }
             [cell.contentView addSubview:bannerView_];
         }
