@@ -70,7 +70,7 @@
     NSMutableArray *notifications = [NSMutableArray new];
     NSError *error;
     SMXMLDocument *xmlDoc = [SMXMLDocument documentWithData:receivedData error:&error];
-    NSLog(@"downloaded notification php content: %@", [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding]);
+//    NSLog(@"downloaded notification php content: %@", [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding]);
     for (SMXMLElement *element in xmlDoc.root.children) {
         if ([element.name isEqualToString:@"message"]) {
             czzNotification *notification = [[czzNotification alloc] initWithXMLElement:element];

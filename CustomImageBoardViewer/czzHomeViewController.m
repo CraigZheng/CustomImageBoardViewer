@@ -42,6 +42,7 @@
 @property NSMutableArray *heightsForRowsForHorizontalMode;
 @property czzOnScreenCommandViewController *onScreenCommandViewController;
 @property czzNotificationBannerViewController *notificationBannerViewController;
+@property BOOL shouldDisplayQuickScrollCommand;
 @end
 
 @implementation czzHomeViewController
@@ -63,6 +64,7 @@
 @synthesize documentInteractionController;
 @synthesize threadViewController;
 @synthesize notificationBannerViewController;
+@synthesize shouldDisplayQuickScrollCommand;
 
 - (void)viewDidLoad
 {
@@ -133,6 +135,8 @@
     if (!self.forumName || [[NSUserDefaults standardUserDefaults] objectForKey:@"firstTimeRunning"])
         [self.viewDeckController toggleLeftViewAnimated:YES];
     [self showNotificationBanner];
+    shouldDisplayQuickScrollCommand = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldShowOnScreenCommand"];
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -439,7 +443,7 @@
 
 #pragma mark - UIScrollVIew delegate
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    if (onScreenCommandViewController && threads.count > 1) {
+    if (onScreenCommandViewController && threads.count > 1 && shouldDisplayQuickScrollCommand) {
         [onScreenCommandViewController show];
     }
 }

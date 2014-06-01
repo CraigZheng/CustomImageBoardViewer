@@ -47,6 +47,7 @@
 @property NSMutableArray *heightsForRowsForHorizontal;
 @property czzOnScreenCommandViewController *onScreenCommand;
 @property CGPoint restoreFromBackgroundOffSet;
+@property BOOL shouldDisplayQuickScrollCommand;
 @end
 
 @implementation czzThreadViewController
@@ -71,6 +72,7 @@
 @synthesize heightsForRowsForHorizontal;
 @synthesize onScreenCommand;
 @synthesize restoreFromBackgroundOffSet;
+@synthesize shouldDisplayQuickScrollCommand;
 
 - (void)viewDidLoad
 {
@@ -170,6 +172,7 @@
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"FirstTimeViewingThread"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
+    shouldDisplayQuickScrollCommand = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldShowOnScreenCommand"];
 }
 #pragma mark - enter/exiting background
 -(void)prepareToEnterBackground {
@@ -538,7 +541,7 @@
 
 #pragma mark - UIScrollVIew delegate
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    if (onScreenCommand && threads.count > 1) {
+    if (onScreenCommand && threads.count > 1 && shouldDisplayQuickScrollCommand) {
         [onScreenCommand show];
     }
 }

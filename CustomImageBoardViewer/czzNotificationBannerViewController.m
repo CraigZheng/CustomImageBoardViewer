@@ -27,8 +27,6 @@
 @synthesize updateInterval;
 @synthesize updateTextTimer;
 
-int counter = 0;
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -39,18 +37,38 @@ int counter = 0;
     constantHeight = 44; //the height for this view, should not be changed at all time
     [self updateFrameForVertical];
     updateInterval = 5;
-    updateTextTimer = [NSTimer scheduledTimerWithTimeInterval:updateInterval target:self selector:@selector(updateTextTesting) userInfo:nil repeats:YES];
+    updateTextTimer = [NSTimer scheduledTimerWithTimeInterval:updateInterval target:self selector:@selector(updateText) userInfo:nil repeats:YES];
     //download fresh notifications
     czzNotificationDownloader *notificationDownloader = [czzNotificationDownloader new];
     notificationDownloader.delegate = self;
     [notificationDownloader downloadNotificationWithVendorID:[czzAppDelegate sharedAppDelegate].vendorID];
 }
 
--(void)updateTextTesting {
-    [[czzAppDelegate sharedAppDelegate] doSingleViewHideAnimation:headerLabel :kCATransitionFade :0.4];
-    headerLabel.text = [NSString stringWithFormat:@"update text counter %d", counter];
-    counter ++;
-    [[czzAppDelegate sharedAppDelegate] doSingleViewShowAnimation:headerLabel :kCATransitionFade :0.4];
+-(void)updateText {
+    if (notifications.count > 0) {
+        if (currentNotification)
+            [notifications addObject:currentNotification];
+        currentNotification = notifications.firstObject;
+        [notifications removeObjectAtIndex:0];
+    } else {
+        return;
+    }
+    [self updateViewsWithCurrentNotification];
+}
+
+-(void)updateViewsWithCurrentNotification {
+    if (currentNotification) {
+        statusIcon.hidden = YES;
+        if (currentNotification.priority > 1) {
+            [[czzAppDelegate sharedAppDelegate] doSingleViewShowAnimation:statusIcon :kCATransitionFade :0.4];
+        } else {
+            statusIcon.hidden = YES;
+        }
+
+        [[czzAppDelegate sharedAppDelegate] doSingleViewHideAnimation:headerLabel :kCATransitionFade :0.4];
+        headerLabel.text = currentNotification.title;
+        [[czzAppDelegate sharedAppDelegate] doSingleViewShowAnimation:headerLabel :kCATransitionFade :0.4];
+    }
 }
 
 -(void)setNeedsToBePresented:(BOOL)need {
@@ -126,7 +144,8 @@ int counter = 0;
 -(void)notificationDownloaded:(NSArray *)downloadedNotifications {
     if (downloadedNotifications.count > 0) {
         [notifications removeAllObjects];
-        [notifications addObject:downloadedNotifications];
+        [notifications addObjectsFromArray:downloadedNotifications];
+        //TODO: might need to sort the array in the future
     } else {
         NSLog(@"downloaded notification empty!");
     }

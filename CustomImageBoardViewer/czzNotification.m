@@ -42,7 +42,7 @@
 -(void)assignPropertyWithXMLData:(SMXMLElement*)xmlElement {
     
     for (SMXMLElement *child in xmlElement.children) {
-        NSLog(@"%@, %@", child.name, child.value);
+//        NSLog(@"%@, %@", child.name, child.value);
         if ([child.name isEqualToString:@"sender"]) {
             self.sender = child.value;
         } else if ([child.name isEqualToString:@"topic"]){
@@ -125,5 +125,21 @@
         self.read = [decoder decodeBoolForKey:@"read"];
     }
     return self;
+}
+
+
+#pragma mark - hash and equal
+-(NSUInteger)hash {
+    return title.hash + notificationID.hash + date.hash;
+}
+
+-(BOOL)isEqual:(id)object {
+    if ([object isKindOfClass:[self class]]) {
+        czzNotification *incomingNotification = (czzNotification*)object;
+        if ([incomingNotification.title isEqualToString:title] && [incomingNotification.notificationID isEqualToString:notificationID]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 @end

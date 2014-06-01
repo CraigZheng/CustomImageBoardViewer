@@ -20,6 +20,7 @@
 @property BOOL failedToConnect;
 @property NSDate *lastAdUpdateTime;
 @property NSTimeInterval adUpdateInterval;
+@property UIView *coverView;
 @end
 
 @implementation czzForumsViewController
@@ -30,6 +31,7 @@
 @synthesize bannerView_;
 @synthesize lastAdUpdateTime;
 @synthesize adUpdateInterval;
+@synthesize coverView;
 
 - (void)viewDidLoad
 {
@@ -109,13 +111,27 @@
             [titleLabel setText:[forumGroup.forumNames objectAtIndex:indexPath.row]];
         } else {
             cell = [tableView dequeueReusableCellWithIdentifier:@"ad_cell_identifier" forIndexPath:indexPath];
+
             //position of the ad
             if (!bannerView_.superview) {
                 [bannerView_ setFrame:CGRectMake(0, 0, bannerView_.bounds.size.width,
                                                  bannerView_.bounds.size.height)];
                 [self refreshAd];
             }
+            //the cover view
+            if (coverView.superview) {
+                [coverView removeFromSuperview];
+            }
+            coverView = [[UIView alloc] initWithFrame:bannerView_.frame];
+            coverView.backgroundColor = [UIColor whiteColor];
+            UILabel *tapMeLabel = [[UILabel alloc] initWithFrame:coverView.frame];
+            tapMeLabel.text = @"点我，我是广告";
+            tapMeLabel.textAlignment = NSTextAlignmentCenter;
+            tapMeLabel.userInteractionEnabled = NO;
+            [coverView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissCoverView)]];
+            [coverView addSubview:tapMeLabel];
             [cell.contentView addSubview:bannerView_];
+            [cell.contentView addSubview:coverView];
         }
     }
     
@@ -130,6 +146,8 @@
     if (forumGroups.count == 0)
         return;
     czzForumGroup *forumGroup = [forumGroups objectAtIndex:indexPath.section];
+    if (indexPath.row >= forumGroup.forumNames.count)
+        return;
     NSString *forumName = [forumGroup.forumNames objectAtIndex:indexPath.row];
     [self.viewDeckController toggleLeftViewAnimated:YES];
     //POST a local notification to inform other view controllers that a new forum is picked
@@ -178,6 +196,13 @@
     if (forumGroups.count <= 0)
         failedToConnect = YES;
     [forumsTableView reloadData];
+}
+
+#pragma mark - dismiss cover view
+-(void)dismissCoverView {
+    if (coverView && coverView.superview) {
+        [coverView removeFromSuperview];
+    }
 }
 
 #pragma XML parser
