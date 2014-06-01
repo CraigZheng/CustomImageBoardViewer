@@ -70,6 +70,12 @@
                 shouldLoadImages = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldDownloadThumbnail"];
             [commandSwitch setOn:shouldLoadImages];
         }
+        else if ([command isEqualToString:@"显示快速滑动按钮"]) {
+            BOOL sbouldShowOnScreenCommand = YES;
+            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldShowOnScreenCommand"])
+                sbouldShowOnScreenCommand = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldShowOnScreenCommand"];
+            [commandSwitch setOn:sbouldShowOnScreenCommand];
+        }
         /*else if (indexPath.row == 1){
             //自动加载
             BOOL shouldAutoLoadMore = NO;
@@ -131,9 +137,10 @@
     }
 }
 
-//pragma prepareCommands for the menu
+#pragma mark - prepareCommands for the menu
 -(void)prepareCommands{
     [switchCommands addObject:@"显示图片"];
+    [switchCommands addObject:@"显示快速滑动按钮"];
     [switchCommands addObject:@"图片下载完毕自动打开"];
     [switchCommands addObject:@"高亮楼主/PO主"];
     //[switchCommands addObject:@"下拉自动加载帖子"];
@@ -207,6 +214,9 @@
             [[NSUserDefaults standardUserDefaults] synchronize];
         } else if ([command isEqualToString:@"高亮楼主/PO主"]) {
             [[NSUserDefaults standardUserDefaults] setBool:switchControl.on forKey:@"shouldHighlight"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        } else if ([command isEqualToString:@"显示快速滑动按钮"]) {
+            [[NSUserDefaults standardUserDefaults] setBool:switchControl.on forKey:@"shouldShowOnScreenCommand"];
             [[NSUserDefaults standardUserDefaults] synchronize];
         }
     }

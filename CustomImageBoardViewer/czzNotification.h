@@ -10,9 +10,9 @@
 #import "SMXMLDocument.h"
 
 enum {
-    happy = 0,
-    very_happy = 1,
-    sad = 2,
+    sad = 0,
+    happy = 1,
+    very_happy = 2,
     angry = 3,
     other = 4
 };
@@ -30,9 +30,9 @@ typedef NSUInteger PRIORITY;
 @interface czzNotification : NSObject
 @property NSString *sender;
 @property NSString *topic;
-@property NSString *title;
+@property NSString *title;//required
 @property NSString *description;
-@property NSString *content; //required
+@property NSString *content;
 @property NSDate *date; //date format: yyyy-MMM-dd hh:mm:ss
 @property EMOTIONS emotion;
 @property NSString *thImgSrc;
@@ -41,6 +41,7 @@ typedef NSUInteger PRIORITY;
 @property PRIORITY priority;
 @property NSString *notificationID; //required
 @property NSString *replyToID;
+@property BOOL read;
 
 -(id)initWithXMLElement:(SMXMLElement*)xmlElement;
 @end

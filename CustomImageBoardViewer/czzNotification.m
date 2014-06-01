@@ -25,12 +25,13 @@
 @synthesize priority;
 @synthesize notificationID;
 @synthesize replyToID;
+@synthesize read;
 
 -(id)initWithXMLElement:(SMXMLElement *)xmlElement {
     self = [super init];
     if (self) {
         [self assignPropertyWithXMLData:xmlElement];
-        if (!self.notificationID || !self.content) {
+        if (!self.notificationID || !self.title) {
             return nil;
         }
     }
@@ -102,6 +103,7 @@
     [coder encodeInteger:priority forKey:@"priority"];
     [coder encodeObject:notificationID forKey:@"notificationID"];
     [coder encodeObject:replyToID forKey:@"replyToID"];
+    [coder encodeBool:read forKey:@"read"];
 }
 
 -(id)initWithCoder:(NSCoder *)decoder {
@@ -120,6 +122,7 @@
         self.priority = [decoder decodeIntegerForKey:@"priority"];
         self.notificationID = [decoder decodeObjectForKey:@"notificationID"];
         self.replyToID = [decoder decodeObjectForKey:@"replyToID"];
+        self.read = [decoder decodeBoolForKey:@"read"];
     }
     return self;
 }

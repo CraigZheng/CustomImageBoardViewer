@@ -27,7 +27,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    timeoutInterval = 2.5;
+    timeoutInterval = 2.0;
     size = CGSizeMake(60, 120);
 //    [self giveViewRoundCornersAndShadow:backgroundView.layer];
     [self giveViewRoundCornersAndShadow:upperButton.layer];
