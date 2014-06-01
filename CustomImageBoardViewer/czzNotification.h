@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "SMXMLDocument.h"
 
 enum {
     happy = 0,
@@ -32,15 +32,15 @@ typedef NSUInteger PRIORITY;
 @property NSString *topic;
 @property NSString *title;
 @property NSString *description;
-@property NSString *content;
+@property NSString *content; //required
 @property NSDate *date; //date format: yyyy-MMM-dd hh:mm:ss
 @property EMOTIONS emotion;
 @property NSString *thImgSrc;
 @property NSString *imgSrc;
 @property NSString *link;
 @property PRIORITY priority;
-@property NSString *notificationID;
-@property NSString *replayToID;
+@property NSString *notificationID; //required
+@property NSString *replyToID;
 
--(id)initWithXMLData:(NSData*)xmlData;
+-(id)initWithXMLElement:(SMXMLElement*)xmlElement;
 @end

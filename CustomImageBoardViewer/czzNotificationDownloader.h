@@ -8,7 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol czzNotificationDownloaderDelegate <NSObject>
+-(void)notificationDownloaded:(NSArray*)notifications;
+
+@end
+
 @interface czzNotificationDownloader : NSObject
+@property NSString *notificationFile;
+@property NSURLConnection *urlConn;
+@property id<czzNotificationDownloaderDelegate> delegate;
 
 -(void)downloadNotificationWithVendorID:(NSString*)vendorID;
 @end

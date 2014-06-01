@@ -20,6 +20,7 @@
 @property BOOL shouldUseBackupServer;
 @property (nonatomic) NSString *myhost;
 @property czzHomeViewController *homeViewController; //this is pretty much the root of the whole app.
+@property (nonatomic) NSString *vendorID;
 
 -(void)showToast:(NSString*)string;
 + (czzAppDelegate*) sharedAppDelegate;

@@ -7,7 +7,6 @@
 //
 
 #import "czzNotification.h"
-#import "SMXMLDocument.h"
 
 @interface czzNotification()<NSCoding>
 @end
@@ -25,27 +24,66 @@
 @synthesize link;
 @synthesize priority;
 @synthesize notificationID;
-@synthesize replayToID;
+@synthesize replyToID;
 
--(id)initWithXMLData:(NSData *)xmlData {
+-(id)initWithXMLElement:(SMXMLElement *)xmlElement {
     self = [super init];
     if (self) {
-        [self assignPropertyWithXMLData:xmlData];
+        [self assignPropertyWithXMLData:xmlElement];
+        if (!self.notificationID || !self.content) {
+            return nil;
+        }
     }
     return self;
 }
 
 #pragma mark - assign properties with xml data
--(void)assignPropertyWithXMLData:(NSData*)xmlData {
-    NSError *error;
-    SMXMLDocument *xmlDocument = [SMXMLDocument documentWithData:xmlData error:&error];
-    if (error) {
-        NSLog(@"error: %@", error);
-        return;
-    }
-    for (SMXMLElement *child in xmlDocument.root.children) {
+-(void)assignPropertyWithXMLData:(SMXMLElement*)xmlElement {
+    
+    for (SMXMLElement *child in xmlElement.children) {
         NSLog(@"%@, %@", child.name, child.value);
+        if ([child.name isEqualToString:@"sender"]) {
+            self.sender = child.value;
+        } else if ([child.name isEqualToString:@"topic"]){
+            self.topic = child.value;
+        }else if ([child.name isEqualToString:@"title"]){
+            self.title = child.value;
+        }
+        else if ([child.name isEqualToString:@"description"]){
+            self.description = child.value;
+        }
+        else if ([child.name isEqualToString:@"content"]){
+            self.content = child.value;
+        }
+        else if ([child.name isEqualToString:@"date"]){
+            NSDateFormatter *dateFormatter = [NSDateFormatter new];
+            dateFormatter.dateFormat = @"yyyy-MMM-dd hh:mm:ss";
+            self.date = [dateFormatter dateFromString:child.value];
+            
+        }
+        else if ([child.name isEqualToString:@"emotion"]){
+            self.emotion = [child.value integerValue];
+        }
+        else if ([child.name isEqualToString:@"thImgSrc"]){
+            self.thImgSrc = child.value;
+        }
+        else if ([child.name isEqualToString:@"imgSrc"]){
+            self.imgSrc = child.value;
+        }
+        else if ([child.name isEqualToString:@"link"]){
+            self.link = child.value;
+        }
+        else if ([child.name isEqualToString:@"priority"]){
+            self.priority = [child.value integerValue];
+        }
+        else if ([child.name isEqualToString:@"notificationID"]){
+            self.notificationID = child.value;
+        }
+        else if ([child.name isEqualToString:@"replyToID"]){
+            self.replyToID = child.value;
+        }
     }
+    
 }
 
 #pragma mark - encoding/decoding
@@ -63,25 +101,25 @@
     [coder encodeObject:link forKey:@"link"];
     [coder encodeInteger:priority forKey:@"priority"];
     [coder encodeObject:notificationID forKey:@"notificationID"];
-    [coder encodeObject:replayToID forKey:@"replayToID"];
+    [coder encodeObject:replyToID forKey:@"replyToID"];
 }
 
 -(id)initWithCoder:(NSCoder *)decoder {
     self = [super init];
     if (self) {
-        [decoder decodeObjectForKey:@"sender"];
-        [decoder decodeObjectForKey:@"topic"];
-        [decoder decodeObjectForKey:@"title"];
-        [decoder decodeObjectForKey:@"description"];
-        [decoder decodeObjectForKey:@"content"];
-        [decoder decodeObjectForKey:@"date"];
-        [decoder decodeIntegerForKey:@"emotion"];
-        [decoder decodeObjectForKey:@"thImgSrc"];
-        [decoder decodeObjectForKey:@"imgSrc"];
-        [decoder decodeObjectForKey:@"link"];
-        [decoder decodeIntegerForKey:@"priority"];
-        [decoder decodeObjectForKey:@"notificationID"];
-        [decoder decodeObjectForKey:@"replyToID"];
+        self.sender = [decoder decodeObjectForKey:@"sender"];
+        self.topic = [decoder decodeObjectForKey:@"topic"];
+        self.title = [decoder decodeObjectForKey:@"title"];
+        self.description = [decoder decodeObjectForKey:@"description"];
+        self.content = [decoder decodeObjectForKey:@"content"];
+        self.date = [decoder decodeObjectForKey:@"date"];
+        self.emotion = [decoder decodeIntegerForKey:@"emotion"];
+        self.thImgSrc = [decoder decodeObjectForKey:@"thImgSrc"];
+        self.imgSrc = [decoder decodeObjectForKey:@"imgSrc"];
+        self.link = [decoder decodeObjectForKey:@"link"];
+        self.priority = [decoder decodeIntegerForKey:@"priority"];
+        self.notificationID = [decoder decodeObjectForKey:@"notificationID"];
+        self.replyToID = [decoder decodeObjectForKey:@"replyToID"];
     }
     return self;
 }

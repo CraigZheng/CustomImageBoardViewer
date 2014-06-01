@@ -67,7 +67,8 @@
     }
 
     //check if the server is running and has required files
-    NSURLConnection *urlConn = [[NSURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[myhost stringByAppendingPathComponent:@"forums.xml"]] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10] delegate:self startImmediately:YES];
+    NSURLConnection *urlConn = [[NSURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[myhost stringByAppendingPathComponent:@"forums.xml"]] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10] delegate:self startImmediately:NO];
+    [urlConn start];
     //restore homeview controller
     if (homeViewController) {
         [homeViewController restoreFromBackground];
@@ -106,6 +107,10 @@
     } else {
         return my_main_host;
     }
+}
+
+-(NSString *)vendorID {
+    return [UIDevice currentDevice].identifierForVendor.UUIDString;
 }
 
 #pragma mark - NSURLConnectionDelegate

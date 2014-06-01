@@ -7,10 +7,10 @@
 //
 
 #import "czzFeedback.h"
+#import "czzAppDelegate.h"
 
 @implementation czzFeedback
 @synthesize access_token;
-@synthesize vendorID;
 @synthesize topic;
 @synthesize title;
 @synthesize time;
@@ -27,8 +27,8 @@
     NSString *targetHost = feedback_host;
     NSDateFormatter *simpleDateFormatter = [NSDateFormatter new];
     [simpleDateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
-    targetHost = [targetHost stringByAppendingFormat:@"?access_token=%@&vendorID=%@&topic=%@&title=%@&time=%@&name=%@&content=%@&emotion=%@",
-                  access_token, vendorID, topic, title, time, name, content, emotion];
+    targetHost = [targetHost stringByAppendingFormat:@"?access_token=%@&vendorID=%@&topic=%@&title=%@&time=%@&name=%@&content=%@&emotion=%ld",
+                  access_token, [czzAppDelegate sharedAppDelegate].vendorID, topic, title, time, name, content, (long)emotion];
     NSError *error;
     [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:targetHost]] returningResponse:nil error:&error];
     if (error) {
@@ -36,10 +36,6 @@
         return NO;
     }
     return YES;
-}
-
--(NSString *)vendorID {
-    return [UIDevice currentDevice].identifierForVendor.UUIDString;
 }
 
 -(NSDate *)time {

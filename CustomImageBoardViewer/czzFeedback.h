@@ -23,7 +23,6 @@ typedef NSUInteger EMOTIONS;
 @interface czzFeedback : NSObject
 
 @property (nonatomic) NSString *access_token;
-@property (nonatomic) NSString *vendorID;
 @property NSString *topic;
 @property NSString *title;
 @property (nonatomic) NSDate *time;
