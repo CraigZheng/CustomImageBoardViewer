@@ -8,13 +8,16 @@
 
 #import <XCTest/XCTest.h>
 #import "czzNotification.h"
+#import "czzNotificationDownloader.h"
 #import "SMXMLDocument.h"
+#import "czzAppDelegate.h"
 
-@interface CustomImageBoardViewerTests : XCTestCase
-
+@interface CustomImageBoardViewerTests : XCTestCase<czzNotificationDownloaderDelegate>
+@property BOOL done;
 @end
 
 @implementation CustomImageBoardViewerTests
+@synthesize done;
 
 - (void)setUp
 {
@@ -44,8 +47,35 @@
     }
     
     XCTAssertNotNil(notification, @"notification not inited");
-    XCTAssertNotEqual(notification.sender, [czzNotification new].sender, @"content equal!");
+    XCTAssertNotEqual(notification.sender, [czzNotification new].sender, @"sender has not set!");
     
 }
 
+- (void)testNotificationDownloader {
+    done = NO;
+    czzNotificationDownloader *downloader = [czzNotificationDownloader new];
+    downloader.delegate = self;
+    [downloader downloadNotificationWithVendorID:[czzAppDelegate sharedAppDelegate].vendorID];
+    
+    XCTAssertTrue([self waitForCompletion:5.0], @"Timeout");
+
+}
+
+#pragma mark - czzNotificationDownloaderDelegate 
+-(void)notificationDownloaded:(NSArray *)notifications {
+    done = YES;
+    XCTAssertTrue(notifications.count <= 0, @"downloaded notification list empty!");
+}
+
+- (BOOL)waitForCompletion:(NSTimeInterval)timeoutSecs {
+    NSDate *timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeoutSecs];
+    
+    do {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:timeoutDate];
+        if([timeoutDate timeIntervalSinceNow] < 0.0)
+            break;
+    } while (!done);
+    
+    return done;
+}
 @end

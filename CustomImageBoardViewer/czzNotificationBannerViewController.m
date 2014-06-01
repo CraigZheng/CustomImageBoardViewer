@@ -8,8 +8,9 @@
 
 #import "czzNotificationBannerViewController.h"
 #import "czzAppDelegate.h"
+#import "czzNotificationDownloader.h"
 
-@interface czzNotificationBannerViewController ()
+@interface czzNotificationBannerViewController ()<czzNotificationDownloaderDelegate>
 @property NSTimer *updateTextTimer;
 @property NSTimeInterval updateInterval;
 @end
@@ -39,6 +40,10 @@ int counter = 0;
     [self updateFrameForVertical];
     updateInterval = 5;
     updateTextTimer = [NSTimer scheduledTimerWithTimeInterval:updateInterval target:self selector:@selector(updateTextTesting) userInfo:nil repeats:YES];
+    //download fresh notifications
+    czzNotificationDownloader *notificationDownloader = [czzNotificationDownloader new];
+    notificationDownloader.delegate = self;
+    [notificationDownloader downloadNotificationWithVendorID:[czzAppDelegate sharedAppDelegate].vendorID];
 }
 
 -(void)updateTextTesting {
@@ -114,6 +119,16 @@ int counter = 0;
     }
     if (needsToBePresented) {
         [[czzAppDelegate sharedAppDelegate] doSingleViewShowAnimation:self.view :kCATransitionFromTop :0.2];
+    }
+}
+
+#pragma mark - czzNotificationDownloaderDelegate
+-(void)notificationDownloaded:(NSArray *)downloadedNotifications {
+    if (downloadedNotifications.count > 0) {
+        [notifications removeAllObjects];
+        [notifications addObject:downloadedNotifications];
+    } else {
+        NSLog(@"downloaded notification empty!");
     }
 }
 @end

@@ -31,18 +31,28 @@
 }
 
 -(void)downloadNotificationWithVendorID:(NSString *)vendorID {
-    NSString *targetURLString = [[czzAppDelegate sharedAppDelegate].myhost stringByAppendingPathComponent:notificationFile];
-    
+    //make a post request to the server with vendorID
+    NSString *targetURLString = [[czzAppDelegate sharedAppDelegate].myhost stringByAppendingPathComponent:@"php"];
+    targetURLString = [targetURLString stringByAppendingPathComponent:notificationFile];
+#warning DEBUG notifications.php
+#if DEBUG
+    targetURLString = @"http://civ.atwebpages.com/php/notifications.php";
+#endif
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:targetURLString]];
+    [request setHTTPMethod:@"POST"];
     
-    NSString *requestBody = [NSString stringWithFormat:@"&vendorID=%@", [czzAppDelegate sharedAppDelegate].vendorID];
-    [request setHTTPBody:[requestBody dataUsingEncoding:NSUTF8StringEncoding]];
+    NSMutableData *requestData = [NSMutableData new];
+    [requestData appendData:[[NSString stringWithFormat:@"&vendorID=%@", [czzAppDelegate sharedAppDelegate].vendorID] dataUsingEncoding:NSUTF8StringEncoding]];
+    [request setValue:[NSString stringWithFormat:@"%d", requestData.length] forHTTPHeaderField:@"Content-length"];
+    [request setHTTPBody:requestData];
     
     urlConn = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
+    
 }
 
 #pragma mark - NSURLConnectionDataDelegate
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
+    NSLog(@"error %@", error);
     if (delegate) {
         [delegate notificationDownloaded:nil];
     }
@@ -60,6 +70,7 @@
     NSMutableArray *notifications = [NSMutableArray new];
     NSError *error;
     SMXMLDocument *xmlDoc = [SMXMLDocument documentWithData:receivedData error:&error];
+    NSLog(@"downloaded notification php content: %@", [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding]);
     for (SMXMLElement *element in xmlDoc.root.children) {
         if ([element.name isEqualToString:@"message"]) {
             czzNotification *notification = [[czzNotification alloc] initWithXMLElement:element];
