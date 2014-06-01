@@ -344,12 +344,12 @@
         
         //highlight original poster
         if (shouldHighlight && [thread.UID.string isEqualToString:parentThread.UID.string]) {
-            cell.contentView.backgroundColor = [UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:230.0f/255.0f alpha:1.0];
+            posterLabel.backgroundColor = [UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:200.0f/255.0f alpha:1.0];
         } else if (shouldHighlightSelectedThread && [thread.UID.string isEqualToString:shouldHighlightSelectedThread.UID.string]) {
             cell.contentView.backgroundColor = [UIColor colorWithRed:222.0f/255.0f green:222.0f/255.0f blue:255.0f/255.0f alpha:1.0];
         }
         else
-            cell.contentView.backgroundColor = [UIColor clearColor];
+            posterLabel.backgroundColor = [UIColor clearColor];
     }
     return cell;
 }

@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "czzNotification.h"
+#import "czzAppDelegate.h"
 
 @interface czzNotificationCentreTableViewController : UITableViewController
-
+@property czzNotification *currentNotification;
+@property NSMutableArray *notifications;
 @end
