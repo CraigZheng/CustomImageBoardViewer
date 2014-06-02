@@ -33,16 +33,29 @@
     return notifications.count;
 }
 
-/*
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"notification_cell_identifier" forIndexPath:indexPath];
     
     // Configure the cell...
-    
+    czzNotification *notification = [notifications objectAtIndex:indexPath.row];
+    if (cell) {
+        UILabel *titleLabel = (UILabel*)[cell viewWithTag:1];
+        UILabel *descriptionLabel = (UILabel*)[cell viewWithTag:2];
+        UIImageView *thImgView = (UIImageView*)[cell viewWithTag:3];
+        titleLabel.text = notification.title;
+        descriptionLabel.text = notification.description;
+        if (notification.thImgSrc.length > 0) {
+            thImgView.hidden = NO;
+            thImgView.image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:notification.thImgSrc]]];
+        } else {
+            thImgView.hidden = YES;
+        }
+    }
     return cell;
 }
-*/
+
 
 /*
 // Override to support conditional editing of the table view.
