@@ -11,6 +11,7 @@
  */
 #import <UIKit/UIKit.h>
 #import "czzNotification.h"
+#import "czzHomeViewController.h"
 
 @interface czzNotificationBannerViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIButton *dismissButton;
@@ -18,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *headerLabel;
 @property CGFloat constantHeight;
 @property UIView *parentView;
+@property czzHomeViewController *homeViewController;//to provide access to navigation controller and story board
 @property czzNotification *currentNotification;
 @property NSMutableOrderedSet *notifications;
 @property (nonatomic) BOOL needsToBePresented;

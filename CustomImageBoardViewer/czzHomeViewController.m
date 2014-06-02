@@ -111,6 +111,7 @@
     notificationBannerViewController = [[czzNotificationBannerViewController alloc] initWithNibName:@"czzNotificationBannerViewController" bundle:[NSBundle mainBundle]];
     notificationBannerViewController.view.frame = CGRectMake(0, self.view.frame.size.height - self.navigationController.navigationBar.frame.size.height, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height);
     notificationBannerViewController.view.hidden = YES;
+    notificationBannerViewController.homeViewController = self;
     @try {
         notificationBannerViewController.parentView = [[czzAppDelegate sharedAppDelegate].window.subviews objectAtIndex:0];
 //        [[[czzAppDelegate sharedAppDelegate].window.subviews objectAtIndex:0] addSubview:notificationBannerViewController.view];
@@ -191,6 +192,15 @@
         } else {
             [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"页码无效..."];
         }
+    }
+}
+
+#pragma mark - push view controller
+-(void)pushViewController:(UIViewController *)viewController :(BOOL)animated {
+    if (viewController) {
+        [self.viewDeckController closeLeftViewAnimated:NO];
+        [self.navigationController popToRootViewControllerAnimated:NO];
+        [self.navigationController pushViewController:viewController animated:animated];
     }
 }
 

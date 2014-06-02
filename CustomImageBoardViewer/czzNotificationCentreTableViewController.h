@@ -12,5 +12,5 @@
 
 @interface czzNotificationCentreTableViewController : UITableViewController
 @property czzNotification *currentNotification;
-@property NSMutableArray *notifications;
+@property NSMutableOrderedSet *notifications;
 @end

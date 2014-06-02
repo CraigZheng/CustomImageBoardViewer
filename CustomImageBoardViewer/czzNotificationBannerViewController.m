@@ -40,6 +40,7 @@
 @synthesize cachePath;
 @synthesize currentNotificationIndex;
 @synthesize notificationManager;
+@synthesize homeViewController;
 
 - (void)viewDidLoad
 {
@@ -60,9 +61,6 @@
     [self downloadNotification];
     //call every 2 minute, determine if should check for last update time and call for download
     NSTimeInterval notificationDownloaderCheckInterval = 2 * 60;
-#if DEBUG
-    notificationDownloaderCheckInterval = 0;
-#endif
     downloadNotificationTimer = [NSTimer scheduledTimerWithTimeInterval:notificationDownloaderCheckInterval target:self selector:@selector(downloadNotification) userInfo:nil repeats:YES];
 }
 
@@ -78,6 +76,10 @@
 -(void)downloadNotification {
     //download fresh notifications
     lastUpdateTime = [[NSUserDefaults standardUserDefaults] objectForKey:@"LastNotificationUpdateTime"];
+    
+#if DEBUG
+    lastUpdateTime = nil;
+#endif
     if (!lastUpdateTime || [[NSDate new] timeIntervalSinceDate:lastUpdateTime] > notificationDownloadInterval) {
         notificationDownloader = [czzNotificationDownloader new];
         notificationDownloader.delegate = self;
@@ -153,8 +155,12 @@
 
 - (IBAction)tapOnViewAction:(id)sender {
     NSLog(@"tap on view");
-    czzNotificationCentreTableViewController *notificationCentreViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"notification_centre_view_controller"];
-    [self.navigationController pushViewController:notificationCentreViewController animated:YES];
+    if (homeViewController) {
+        czzNotificationCentreTableViewController *notificationCentreViewController = [homeViewController.storyboard instantiateViewControllerWithIdentifier:@"notification_centre_view_controller"];
+        notificationCentreViewController.currentNotification = currentNotification;
+        notificationCentreViewController.notifications = notifications;
+        [homeViewController pushViewController:notificationCentreViewController :YES];
+    }
 }
 
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
