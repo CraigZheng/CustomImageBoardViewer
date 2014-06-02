@@ -48,6 +48,7 @@
 @property czzOnScreenCommandViewController *onScreenCommand;
 @property CGPoint restoreFromBackgroundOffSet;
 @property BOOL shouldDisplayQuickScrollCommand;
+@property NSString *thumbnailFolder;
 @end
 
 @implementation czzThreadViewController
@@ -73,10 +74,15 @@
 @synthesize onScreenCommand;
 @synthesize restoreFromBackgroundOffSet;
 @synthesize shouldDisplayQuickScrollCommand;
+@synthesize thumbnailFolder;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //thumbnail folder
+    thumbnailFolder = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    thumbnailFolder = [thumbnailFolder stringByAppendingPathComponent:@"Thumbnails"];
+
     // high light op
     shouldHighlight = YES;
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldHighlight"])
@@ -127,7 +133,12 @@
     onScreenCommand = [[czzOnScreenCommandViewController alloc] initWithNibName:@"czzOnScreenCommandViewController" bundle:[NSBundle mainBundle]];
     onScreenCommand.tableviewController = self;
     [onScreenCommand hide];
-
+    
+    shouldDisplayQuickScrollCommand = YES;
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldShowOnScreenCommand"]) {
+        shouldDisplayQuickScrollCommand = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldShowOnScreenCommand"];
+        
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -172,7 +183,6 @@
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"FirstTimeViewingThread"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
-    shouldDisplayQuickScrollCommand = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldShowOnScreenCommand"];
 }
 #pragma mark - enter/exiting background
 -(void)prepareToEnterBackground {
@@ -273,9 +283,7 @@
         if (thread.thImgSrc.length != 0){
             previewImageView.hidden = NO;
             [previewImageView setImage:[UIImage imageNamed:@"Icon.png"]];
-            NSString* basePath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-            basePath = [basePath stringByAppendingPathComponent:@"Thumbnails"];
-            NSString *filePath = [basePath stringByAppendingPathComponent:[thread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
+            NSString *filePath = [thumbnailFolder stringByAppendingPathComponent:[thread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
             UIImage *previewImage =[[UIImage alloc] initWithContentsOfFile:filePath];
             if (previewImage){
                 [previewImageView setImage:previewImage];

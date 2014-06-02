@@ -32,7 +32,7 @@
 }
 
 -(void)downloadBlacklist{
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:targetURLString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:targetURLString] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:20];
     urlConn = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
 }
 

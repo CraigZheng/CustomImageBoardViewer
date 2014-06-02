@@ -160,6 +160,7 @@
         notificationCentreViewController.currentNotification = currentNotification;
         notificationCentreViewController.notifications = notifications;
         [homeViewController pushViewController:notificationCentreViewController :YES];
+        [self setNeedsToBePresented:NO];
     }
 }
 

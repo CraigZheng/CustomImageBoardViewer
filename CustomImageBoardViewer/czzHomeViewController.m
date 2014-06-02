@@ -43,6 +43,7 @@
 @property czzOnScreenCommandViewController *onScreenCommandViewController;
 @property czzNotificationBannerViewController *notificationBannerViewController;
 @property BOOL shouldDisplayQuickScrollCommand;
+@property NSString *thumbnailFolder;
 @end
 
 @implementation czzHomeViewController
@@ -65,6 +66,7 @@
 @synthesize threadViewController;
 @synthesize notificationBannerViewController;
 @synthesize shouldDisplayQuickScrollCommand;
+@synthesize thumbnailFolder;
 
 - (void)viewDidLoad
 {
@@ -77,6 +79,10 @@
     downloadedImages = [NSMutableDictionary new];
     heightsForRows = [NSMutableArray new];
     heightsForRowsForHorizontalMode = [NSMutableArray new];
+    //thumbnail folder
+    thumbnailFolder = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    thumbnailFolder = [thumbnailFolder stringByAppendingPathComponent:@"Thumbnails"];
+
     //configure the view deck controller with half size and tap to close mode
     self.viewDeckController.leftSize = self.view.frame.size.width/4;
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
@@ -135,7 +141,9 @@
     //if a forum has not been selected and is not the first time running
     if (!self.forumName || [[NSUserDefaults standardUserDefaults] objectForKey:@"firstTimeRunning"])
         [self.viewDeckController toggleLeftViewAnimated:YES];
-    shouldDisplayQuickScrollCommand = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldShowOnScreenCommand"];
+    shouldDisplayQuickScrollCommand = YES;
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldShowOnScreenCommand"])
+        shouldDisplayQuickScrollCommand = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldShowOnScreenCommand"];
 
 }
 
@@ -338,9 +346,7 @@
         if (thread.thImgSrc != 0){
             previewImageView.hidden = NO;
             [previewImageView setImage:[UIImage imageNamed:@"Icon.png"]];
-            NSString* basePath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-            basePath = [basePath stringByAppendingPathComponent:@"Thumbnails"];
-            NSString *filePath = [basePath stringByAppendingPathComponent:[thread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
+            NSString *filePath = [thumbnailFolder stringByAppendingPathComponent:[thread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
             UIImage *previewImage =[[UIImage alloc] initWithContentsOfFile:filePath];
             if (previewImage && previewImage.size.width > 0 && previewImage.size.height > 0){
                 [previewImageView setImage:previewImage];
