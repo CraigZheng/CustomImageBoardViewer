@@ -134,7 +134,6 @@
     //if a forum has not been selected and is not the first time running
     if (!self.forumName || [[NSUserDefaults standardUserDefaults] objectForKey:@"firstTimeRunning"])
         [self.viewDeckController toggleLeftViewAnimated:YES];
-    [self showNotificationBanner];
     shouldDisplayQuickScrollCommand = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldShowOnScreenCommand"];
 
 }
@@ -142,7 +141,6 @@
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
-    [self hideNotificationBanner];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -265,15 +263,6 @@
     [[czzThreadCacheManager sharedInstance] removeContentOffSetForHome];
     [[czzThreadCacheManager sharedInstance] removeThreadsForHome];
     [[czzThreadCacheManager sharedInstance] removeSelectedThreadForHome];
-}
-
-#pragma mark - notification, views and download
--(void)showNotificationBanner {
-    [notificationBannerViewController setNeedsToBePresented:YES];
-}
-
--(void)hideNotificationBanner {
-    [notificationBannerViewController setNeedsToBePresented:NO];
 }
 
 #pragma mark - more action and commands

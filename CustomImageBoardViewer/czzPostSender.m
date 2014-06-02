@@ -82,11 +82,12 @@
     if (xmlDoc){
         BOOL success = NO;
         NSString *message = @"";
+        NSLog(@"%@", [[NSString alloc] initWithData:xmlData encoding:NSUTF8StringEncoding]);
         for (SMXMLElement *child in xmlDoc.root.children){
             if ([child.name isEqualToString:@"success"]){
                 success = [child.value boolValue];
             }
-            if ([child.name isEqualToString:@"access_token"]){
+            else if ([child.name isEqualToString:@"access_token"]){
                 //if current access_token is nil, or the responding access_token does not match my current access token, save the responding access_token to a file for later use
                 NSString *oldToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"access_token"];
                 if (!oldToken || ![oldToken isEqualToString:child.value]){
@@ -95,8 +96,17 @@
                 }
 
             }
-            if ([child.name isEqualToString:@"msg"]){
+            else if ([child.name isEqualToString:@"msg"]){
                 message = child.value;
+            }
+            if ([child.name isEqualToString:@"model"]) {
+                for (SMXMLElement *grandChild in child.children) {
+                    if ([grandChild.name isEqualToString:@"UID"]) {
+                        NSLog(@"UID: %@", grandChild.value);
+                        [[NSUserDefaults standardUserDefaults] setObject:grandChild.value forKey:@"UID"];
+                        [[NSUserDefaults standardUserDefaults] synchronize];
+                    }
+                }
             }
         }
         //inform the delegate

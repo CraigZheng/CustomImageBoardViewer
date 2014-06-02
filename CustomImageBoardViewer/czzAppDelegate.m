@@ -56,16 +56,19 @@
     blacklistDownloader.delegate = self;
     [blacklistDownloader downloadBlacklist];
     //check the library directory and image folders
-    NSString* thumbnailFolder = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *imgFolder = [thumbnailFolder stringByAppendingPathComponent:@"Images"];
-    thumbnailFolder = [thumbnailFolder stringByAppendingPathComponent:@"Thumbnails"];
+    NSString* libraryFolder = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *imgFolder = [libraryFolder stringByAppendingPathComponent:@"Images"];
+    NSString *thumbnailFolder = [libraryFolder stringByAppendingPathComponent:@"Thumbnails"];
+    NSString *notificationCacheFolder = [libraryFolder stringByAppendingPathComponent:@"NotificationCache"];
     if (![[NSFileManager defaultManager] fileExistsAtPath:thumbnailFolder]){
         [[NSFileManager defaultManager] createDirectoryAtPath:thumbnailFolder withIntermediateDirectories:NO attributes:nil error:nil];
     }
     if (![[NSFileManager defaultManager] fileExistsAtPath:imgFolder]){
         [[NSFileManager defaultManager] createDirectoryAtPath:imgFolder withIntermediateDirectories:NO attributes:nil error:nil];
     }
-
+    if (![[NSFileManager defaultManager] fileExistsAtPath:notificationCacheFolder]){
+        [[NSFileManager defaultManager] createDirectoryAtPath:notificationCacheFolder withIntermediateDirectories:NO attributes:nil error:nil];
+    }
     //check if the server is running and has required files
     NSURLConnection *urlConn = [[NSURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[myhost stringByAppendingPathComponent:@"forums.xml"]] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10] delegate:self startImmediately:NO];
     [urlConn start];

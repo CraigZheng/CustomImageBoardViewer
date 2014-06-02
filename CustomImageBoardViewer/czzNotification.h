@@ -41,7 +41,10 @@ typedef NSUInteger PRIORITY;
 @property PRIORITY priority;
 @property NSString *notificationID; //required
 @property NSString *replyToID;
-@property BOOL read;
-
+@property NSInteger shouldDisplayXTimes; //default is 1;
+//local fields
+@property BOOL hasDisplayed;
+@property NSInteger timeBeenDisplayed;
+@property BOOL hasOpened;
 -(id)initWithXMLElement:(SMXMLElement*)xmlElement;
 @end

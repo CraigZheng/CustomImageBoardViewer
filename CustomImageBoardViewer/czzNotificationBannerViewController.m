@@ -9,10 +9,17 @@
 #import "czzNotificationBannerViewController.h"
 #import "czzAppDelegate.h"
 #import "czzNotificationDownloader.h"
+#import "czzNotificationManager.h"
+#import "czzNotificationCentreTableViewController.h"
 
 @interface czzNotificationBannerViewController ()<czzNotificationDownloaderDelegate>
 @property NSTimer *updateTextTimer;
-@property NSTimeInterval updateInterval;
+@property czzNotificationDownloader *notificationDownloader;
+@property NSDate *lastUpdateTime;
+@property NSTimer *downloadNotificationTimer;
+@property NSInteger currentNotificationIndex;
+@property czzNotificationManager *notificationManager;
+@property (nonatomic) NSString *cachePath;
 @end
 
 @implementation czzNotificationBannerViewController
@@ -24,40 +31,86 @@
 @synthesize needsToBePresented;
 @synthesize currentNotification;
 @synthesize notifications;
-@synthesize updateInterval;
+@synthesize notificationDownloadInterval;
 @synthesize updateTextTimer;
+@synthesize notificationDownloader;
+@synthesize lastUpdateTime;
+@synthesize textUpdateInterval;
+@synthesize downloadNotificationTimer;
+@synthesize cachePath;
+@synthesize currentNotificationIndex;
+@synthesize notificationManager;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    notifications = [NSMutableArray new];
+    notificationDownloadInterval = 30 * 60;//every half hour
+    notifications = [NSMutableOrderedSet new];
+    notificationManager = [czzNotificationManager new];
     self.view.layer.shadowOffset = CGSizeMake(4, 4);
+    currentNotificationIndex = 0;
     self.view.layer.shadowRadius = 2;
     constantHeight = 44; //the height for this view, should not be changed at all time
     [self updateFrameForVertical];
-    updateInterval = 5;
-    updateTextTimer = [NSTimer scheduledTimerWithTimeInterval:updateInterval target:self selector:@selector(updateText) userInfo:nil repeats:YES];
-    //download fresh notifications
-    czzNotificationDownloader *notificationDownloader = [czzNotificationDownloader new];
-    notificationDownloader.delegate = self;
-    [notificationDownloader downloadNotificationWithVendorID:[czzAppDelegate sharedAppDelegate].vendorID];
+    textUpdateInterval = 5;
+    updateTextTimer = [NSTimer scheduledTimerWithTimeInterval:textUpdateInterval target:self selector:@selector(updateText) userInfo:nil repeats:YES];
+    [self checkCachedNotifications];
+    //check notification download for the first time
+    [self downloadNotification];
+    //call every 2 minute, determine if should check for last update time and call for download
+    NSTimeInterval notificationDownloaderCheckInterval = 2 * 60;
+#if DEBUG
+    notificationDownloaderCheckInterval = 0;
+#endif
+    downloadNotificationTimer = [NSTimer scheduledTimerWithTimeInterval:notificationDownloaderCheckInterval target:self selector:@selector(downloadNotification) userInfo:nil repeats:YES];
 }
 
+#pragma mark - restore cached notification
+-(void)checkCachedNotifications {
+    NSMutableOrderedSet *cachedSet = [notificationManager checkCachedNotifications];
+    if (cachedSet) {
+        [notifications addObjectsFromArray:cachedSet.array];
+    }
+}
+
+#pragma mark - download new notifications from server if criteria met
+-(void)downloadNotification {
+    //download fresh notifications
+    lastUpdateTime = [[NSUserDefaults standardUserDefaults] objectForKey:@"LastNotificationUpdateTime"];
+    if (!lastUpdateTime || [[NSDate new] timeIntervalSinceDate:lastUpdateTime] > notificationDownloadInterval) {
+        notificationDownloader = [czzNotificationDownloader new];
+        notificationDownloader.delegate = self;
+        [notificationDownloader downloadNotificationWithVendorID:[czzAppDelegate sharedAppDelegate].vendorID];
+        lastUpdateTime = [NSDate new];
+        [[NSUserDefaults standardUserDefaults] setObject:lastUpdateTime forKey:@"LastNotificationUpdateTime"];
+    }
+
+}
+
+#pragma mark - timer selectors
+//call every 5 seconds, perfect place to call download methods as well
 -(void)updateText {
     if (notifications.count > 0) {
-        if (currentNotification)
-            [notifications addObject:currentNotification];
-        currentNotification = notifications.firstObject;
-        [notifications removeObjectAtIndex:0];
+        currentNotification = [notifications objectAtIndex:currentNotificationIndex];
+        currentNotificationIndex ++;
+        //if exceed the range of this array, move back to the first object
+        if (currentNotificationIndex >= notifications.count) {
+            currentNotificationIndex = 0;
+        }
+        [self updateViewsWithCurrentNotification];
     } else {
-        return;
+        self.needsToBePresented = NO;
     }
-    [self updateViewsWithCurrentNotification];
+
 }
 
 -(void)updateViewsWithCurrentNotification {
-    if (currentNotification) {
+    if (currentNotification && currentNotification.timeBeenDisplayed < currentNotification.shouldDisplayXTimes) {
+        //current notification has been displayed
+        currentNotification.hasDisplayed = YES;
+        currentNotification.timeBeenDisplayed += 1;
+
         statusIcon.hidden = YES;
         if (currentNotification.priority > 1) {
             [[czzAppDelegate sharedAppDelegate] doSingleViewShowAnimation:statusIcon :kCATransitionFade :0.4];
@@ -74,6 +127,7 @@
 -(void)setNeedsToBePresented:(BOOL)need {
     needsToBePresented = need;
     if (needsToBePresented) {
+        [self updateText];
         [self show];
     } else {
         [self hide];
@@ -81,9 +135,12 @@
 }
 
 -(void)show {
-    if (parentView && !self.view.superview)
+    //check for all notifications that haven't exceed its own shouldDisplayXTimes property
+    if (parentView && !self.view.superview) {
         [parentView addSubview:self.view];
+    }
     [[czzAppDelegate sharedAppDelegate] doSingleViewShowAnimation:self.view :kCATransitionFromTop :0.2];
+
 }
 
 -(void)hide {
@@ -91,11 +148,13 @@
 }
 
 - (IBAction)dismissAction:(id)sender {
-    [self hide];
+    self.needsToBePresented = NO;
 }
 
 - (IBAction)tapOnViewAction:(id)sender {
     NSLog(@"tap on view");
+    czzNotificationCentreTableViewController *notificationCentreViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"notification_centre_view_controller"];
+    [self.navigationController pushViewController:notificationCentreViewController animated:YES];
 }
 
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
@@ -142,12 +201,25 @@
 
 #pragma mark - czzNotificationDownloaderDelegate
 -(void)notificationDownloaded:(NSArray *)downloadedNotifications {
+#if DEBUG
+    [notifications removeAllObjects];
+    [notificationManager removeNotifications];
+#endif
+    NSInteger originalCount = notifications.count;
     if (downloadedNotifications.count > 0) {
-        [notifications removeAllObjects];
         [notifications addObjectsFromArray:downloadedNotifications];
-        //TODO: might need to sort the array in the future
+        //if one or more new notifications are downloaded
+        if (notifications.count > originalCount) {
+            self.needsToBePresented = YES;
+        }
     } else {
         NSLog(@"downloaded notification empty!");
     }
+    [self saveNotifications];
+}
+
+-(void)saveNotifications {
+    if (notifications.count > 0)
+        [notificationManager saveNotifications:notifications];
 }
 @end

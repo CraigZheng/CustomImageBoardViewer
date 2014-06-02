@@ -101,6 +101,7 @@
 		5A26E77A19398D7F00B709C9 /* czzNotificationBannerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A26E77819398D7F00B709C9 /* czzNotificationBannerViewController.xib */; };
 		5A26E77C19398F2900B709C9 /* black_cross.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A26E77B19398F2900B709C9 /* black_cross.png */; };
 		5A26E77F1939AA6300B709C9 /* czzNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A26E77E1939AA6300B709C9 /* czzNotification.m */; };
+		5A27E140193CA11300D0094F /* czzNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A27E13F193CA11300D0094F /* czzNotificationManager.m */; };
 		5A2B2D8D1936172C00BA2870 /* czzFeedback.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2B2D8C1936172C00BA2870 /* czzFeedback.m */; };
 		5A2B2D941936264A00BA2870 /* czzFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2B2D931936264A00BA2870 /* czzFeedbackViewController.m */; };
 		5A3897C91935EC4D00D20DA1 /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3897C71935EC4D00D20DA1 /* NSString+HTML.m */; };
@@ -272,6 +273,8 @@
 		5A26E77B19398F2900B709C9 /* black_cross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = black_cross.png; sourceTree = "<group>"; };
 		5A26E77D1939AA6300B709C9 /* czzNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzNotification.h; sourceTree = "<group>"; };
 		5A26E77E1939AA6300B709C9 /* czzNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzNotification.m; sourceTree = "<group>"; };
+		5A27E13E193CA11300D0094F /* czzNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzNotificationManager.h; sourceTree = "<group>"; };
+		5A27E13F193CA11300D0094F /* czzNotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzNotificationManager.m; sourceTree = "<group>"; };
 		5A2B2D8B1936172C00BA2870 /* czzFeedback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFeedback.h; sourceTree = "<group>"; };
 		5A2B2D8C1936172C00BA2870 /* czzFeedback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFeedback.m; sourceTree = "<group>"; };
 		5A2B2D921936264A00BA2870 /* czzFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFeedbackViewController.h; sourceTree = "<group>"; };
@@ -836,6 +839,8 @@
 				5A26E77819398D7F00B709C9 /* czzNotificationBannerViewController.xib */,
 				5A6266A8193A17FF00AD949F /* czzNotificationDownloader.h */,
 				5A6266A9193A17FF00AD949F /* czzNotificationDownloader.m */,
+				5A27E13E193CA11300D0094F /* czzNotificationManager.h */,
+				5A27E13F193CA11300D0094F /* czzNotificationManager.m */,
 				5A26E77D1939AA6300B709C9 /* czzNotification.h */,
 				5A26E77E1939AA6300B709C9 /* czzNotification.m */,
 			);
@@ -1004,6 +1009,7 @@
 				44AE2AFE18725EC4002CB021 /* czzNoSelectionTextView.m in Sources */,
 				44AE2AFA187254E4002CB021 /* czzMenuEnabledTableViewCell.m in Sources */,
 				5A1593F218E7BE61001A774B /* czzXMLProcessor.m in Sources */,
+				5A27E140193CA11300D0094F /* czzNotificationManager.m in Sources */,
 				5A6266AA193A17FF00AD949F /* czzNotificationDownloader.m in Sources */,
 				44C34543187E59A500FDE45D /* UIViewController+KNSemiModal.m in Sources */,
 				4448C2A7180FF55A00D2CD76 /* czzBlacklistDownloader.m in Sources */,

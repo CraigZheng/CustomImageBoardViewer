@@ -6,6 +6,9 @@
 //  Copyright (c) 2014 Craig. All rights reserved.
 //
 
+/*
+ this class also works as the manager of notifications
+ */
 #import <UIKit/UIKit.h>
 #import "czzNotification.h"
 
@@ -16,8 +19,10 @@
 @property CGFloat constantHeight;
 @property UIView *parentView;
 @property czzNotification *currentNotification;
-@property NSMutableArray *notifications;
+@property NSMutableOrderedSet *notifications;
 @property (nonatomic) BOOL needsToBePresented;
+@property NSTimeInterval notificationDownloadInterval;
+@property NSTimeInterval textUpdateInterval;
 
 - (IBAction)dismissAction:(id)sender;
 - (IBAction)tapOnViewAction:(id)sender;

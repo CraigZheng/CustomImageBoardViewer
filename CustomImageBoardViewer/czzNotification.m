@@ -25,11 +25,15 @@
 @synthesize priority;
 @synthesize notificationID;
 @synthesize replyToID;
-@synthesize read;
+@synthesize hasDisplayed;
+@synthesize hasOpened;
+@synthesize timeBeenDisplayed;
+@synthesize shouldDisplayXTimes;
 
 -(id)initWithXMLElement:(SMXMLElement *)xmlElement {
     self = [super init];
     if (self) {
+        shouldDisplayXTimes = 1;
         [self assignPropertyWithXMLData:xmlElement];
         if (!self.notificationID || !self.title) {
             return nil;
@@ -82,6 +86,8 @@
         }
         else if ([child.name isEqualToString:@"replyToID"]){
             self.replyToID = child.value;
+        } else if ([child.name isEqualToString:@"shouldDisplayXTimes"]) {
+            self.shouldDisplayXTimes = [child.value integerValue];
         }
     }
     
@@ -103,7 +109,10 @@
     [coder encodeInteger:priority forKey:@"priority"];
     [coder encodeObject:notificationID forKey:@"notificationID"];
     [coder encodeObject:replyToID forKey:@"replyToID"];
-    [coder encodeBool:read forKey:@"read"];
+    [coder encodeBool:hasDisplayed forKey:@"hasDisplayed"];
+    [coder encodeInteger:timeBeenDisplayed forKey:@"timeBeenDisplayed"];
+    [coder encodeBool:hasOpened forKey:@"hasOpened"];
+    [coder encodeInteger:shouldDisplayXTimes forKey:@"shouldDisplayXTimes"];
 }
 
 -(id)initWithCoder:(NSCoder *)decoder {
@@ -122,7 +131,8 @@
         self.priority = [decoder decodeIntegerForKey:@"priority"];
         self.notificationID = [decoder decodeObjectForKey:@"notificationID"];
         self.replyToID = [decoder decodeObjectForKey:@"replyToID"];
-        self.read = [decoder decodeBoolForKey:@"read"];
+        self.hasDisplayed = [decoder decodeBoolForKey:@"hasDisplayed"];
+        self.shouldDisplayXTimes = [decoder decodeIntegerForKey:@"shouldDisplayXTimes"];
     }
     return self;
 }
