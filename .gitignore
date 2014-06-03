@@ -1,2 +1,10 @@
 
 CustomImageBoardViewer.xcodeproj/project.xcworkspace/xcuserdata/craig.xcuserdatad/UserInterfaceState.xcuserstate
+
+*.o
+
+*.d
+
+*.o
+
+*.dia
