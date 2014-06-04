@@ -270,6 +270,7 @@
                     [threadViewController restoreFromBackground];
                 }
             }
+            pageNumber = threads.count / 20 + 1;
         }
     }
     if ([userDef objectForKey:@"forumName"]) {
