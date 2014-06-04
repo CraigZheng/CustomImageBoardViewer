@@ -1,6 +1,8 @@
 dependencies: \
   /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/czzFeedback.m \
   /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/czzFeedback.h \
+  /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/czzNotification.h \
+  /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/SMXMLDocument.h \
   /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/czzAppDelegate.h \
   /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/IIViewDeckController.h \
   /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/czzHomeViewController.h \

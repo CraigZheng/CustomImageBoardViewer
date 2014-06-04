@@ -11,6 +11,7 @@
 #import "czzNotificationDownloader.h"
 #import "SMXMLDocument.h"
 #import "czzAppDelegate.h"
+#import "czzFeedback.h"
 
 @interface CustomImageBoardViewerTests : XCTestCase<czzNotificationDownloaderDelegate>
 @property BOOL done;
@@ -29,6 +30,17 @@
 {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
+}
+
+- (void)testFeedback {
+    czzFeedback *feedback = [czzFeedback new];
+    czzNotification *notification = [czzNotification new];
+    notification.notificationID = @"IOS TEST notification ID";
+    feedback.name = @"IOS TEST";
+    feedback.title = @"IOS TEST";
+    feedback.content = @"IOS TEST";
+    XCTAssertTrue(    [feedback sendFeedback:notification], @"failed to send feedback!");
+    
 }
 
 - (void)testNotification

@@ -6,29 +6,20 @@
 //  Copyright (c) 2014 Craig. All rights reserved.
 //
 
-#warning feedback server not ready
-#define feedback_host @"http://civ.atwebpages.com/php/feedback.php"
+#define feedback_host @"php/feedback.php?"
 
 #import <Foundation/Foundation.h>
-
-enum {
-    happy = 0,
-    very_happy = 1,
-    sad = 2,
-    angry = 3,
-    other = 4
-};
-typedef NSUInteger EMOTIONS;
+#import "czzNotification.h"
 
 @interface czzFeedback : NSObject
 
 @property (nonatomic) NSString *access_token;
 @property NSString *topic;
 @property NSString *title;
-@property (nonatomic) NSDate *time;
+@property (nonatomic) NSString *time;
 @property NSString *name;
 @property NSString *content; //required
-@property EMOTIONS *emotion;
+@property EMOTIONS emotion;
 
--(BOOL)sendFeedback;
+-(BOOL)sendFeedback:(czzNotification*)notification;
 @end
