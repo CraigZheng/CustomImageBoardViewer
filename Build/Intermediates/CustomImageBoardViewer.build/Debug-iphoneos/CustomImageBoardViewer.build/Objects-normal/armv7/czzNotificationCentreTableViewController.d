@@ -14,4 +14,5 @@ dependencies: \
   /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/GADRequestError.h \
   /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/czzNotificationManager.h \
   /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/czzImageCentre.h \
-  /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/czzImageDownloader.h
+  /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/czzImageDownloader.h \
+  /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/DACircularProgress/DACircularProgressView.h

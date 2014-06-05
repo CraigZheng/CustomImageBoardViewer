@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "czzFeedback.h"
 
+
 @interface czzFeedbackViewController : UIViewController
 @property czzFeedback *myFeedback;
+@property czzNotification *myNotification;
 @end

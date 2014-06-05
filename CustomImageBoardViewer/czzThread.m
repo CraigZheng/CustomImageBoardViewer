@@ -131,15 +131,16 @@
             //if its set to YES
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldDownloadThumbnail"]){
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [[czzImageCentre sharedInstance] downloadThumbnailWithURL:self.thImgSrc];
+                    [[czzImageCentre sharedInstance] downloadThumbnailWithURL:self.thImgSrc isCompletedURL:NO];
                 });
             } else {
                 self.thImgSrc = nil;
             }
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [[czzImageCentre sharedInstance] downloadThumbnailWithURL:self.thImgSrc];
-            });        }
+                [[czzImageCentre sharedInstance] downloadThumbnailWithURL:self.thImgSrc isCompletedURL:NO];
+            });
+        }
     }
 }
 

@@ -11,6 +11,7 @@
 #import "czzImageCentre.h"
 #import "czzAppDelegate.h"
 #import "czzThreadCacheManager.h"
+#import "czzHomeViewController.h"
 
 @interface czzSettingsViewController ()<UIAlertViewDelegate, UIActionSheetDelegate>
 @property NSMutableArray *commands;
@@ -123,7 +124,14 @@
         } else if ([command isEqualToString:@"收藏"]){
             //收藏
             [self performSegueWithIdentifier:@"go_favourite_manager_view_controller_segue" sender:self];
-        } else if ([command isEqualToString:@"清空缓存"]){
+        }
+        else if ([command isEqualToString:@"通知中心"]) {
+            if ([czzAppDelegate sharedAppDelegate].homeViewController) {
+                UIViewController *notificationCentreViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"notification_centre_view_controller"];
+                [[czzAppDelegate sharedAppDelegate].homeViewController pushViewController:notificationCentreViewController :YES];
+            }
+        }
+        else if ([command isEqualToString:@"清空缓存"]){
             //清空缓存
             //select what to remove
             /*
@@ -146,6 +154,7 @@
     //[switchCommands addObject:@"下拉自动加载帖子"];
     [switchCommands addObject:@"开启帖子缓存"];
     [regularCommands addObject:@"图片缓存"];
+    [regularCommands addObject:@"通知中心"];
     [regularCommands addObject:@"清空缓存"];
     [regularCommands addObject:@"收藏"];
     [regularCommands addObject:@"清除ID信息"];

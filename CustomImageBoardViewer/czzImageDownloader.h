@@ -25,7 +25,7 @@
 @property id<czzImageDownloaderDelegate> delegate;
 @property BOOL isThumbnail;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskID;
-
+@property BOOL shouldAddHost;
 -(id)init;
 -(void)start;
 -(void)stop;

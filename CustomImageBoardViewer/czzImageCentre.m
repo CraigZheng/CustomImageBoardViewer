@@ -94,7 +94,7 @@
     self.ready = YES;
 }
 
--(void)downloadThumbnailWithURL:(NSString *)imgURL{
+-(void)downloadThumbnailWithURL:(NSString *)imgURL isCompletedURL:(BOOL)completeURL{
     //1. check local library for same image
     for (NSString *file in currentLocalThumbnails) {
         //if there's already an image file with the same name, then there is no need to redownload it
@@ -104,6 +104,7 @@
     
     //2. constrct an image downloader with the provided url
     czzImageDownloader *imgDown = [[czzImageDownloader alloc] init];
+    imgDown.shouldAddHost = !completeURL;
     imgDown.delegate = self;
     imgDown.isThumbnail = YES;
     imgDown.imageURLString = imgURL;
@@ -116,7 +117,7 @@
     [currentImageDownloaders addObject:imgDown];
 }
 
--(void)downloadImageWithURL:(NSString*)imgURL{
+-(void)downloadImageWithURL:(NSString*)imgURL isCompletedURL:(BOOL)completeURL{
     //1. check local library for same image
     for (NSString *file in currentLocalImages) {
         //if there's already an image file with the same name, then there is no need to redownload it
@@ -126,6 +127,7 @@
     
     //2. constrct an image downloader with the provided url
     czzImageDownloader *imgDown = [[czzImageDownloader alloc] init];
+    imgDown.shouldAddHost = !completeURL;
     imgDown.delegate = self;
     imgDown.imageURLString = imgURL;
     //3. check current image downloaders for image downloader with same target url

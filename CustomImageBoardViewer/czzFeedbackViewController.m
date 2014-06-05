@@ -14,12 +14,13 @@
 
 @implementation czzFeedbackViewController
 @synthesize myFeedback;
-
+@synthesize myNotification;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = myNotification.title;
 }
 
 @end

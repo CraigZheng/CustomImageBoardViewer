@@ -30,11 +30,13 @@
 @synthesize fileSize;
 @synthesize downloadedSize;
 @synthesize backgroundTaskID;
+@synthesize shouldAddHost;
 
 -(id)init{
     self = [super init];
     if (self){
         baseURLString = @"http://h.acfun.tv";
+        shouldAddHost = YES;
     }
     return self;
 }
@@ -57,7 +59,10 @@
 #pragma setter for imgURLString
 -(void)setImageURLString:(NSString *)urlstring{
     imageURLString = urlstring;
-    targetURLString = [baseURLString stringByAppendingPathComponent:[imageURLString stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
+    if (shouldAddHost)
+        targetURLString = [baseURLString stringByAppendingPathComponent:[imageURLString stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
+    else
+        targetURLString = imageURLString;
 }
 #pragma NSURLConnection delegate
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{

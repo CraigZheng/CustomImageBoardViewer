@@ -34,10 +34,6 @@
     //make a post request to the server with vendorID
     NSString *targetURLString = [[czzAppDelegate sharedAppDelegate].myhost stringByAppendingPathComponent:@"php"];
     targetURLString = [targetURLString stringByAppendingPathComponent:notificationFile];
-#warning DEBUG notifications.php
-#if DEBUG
-    targetURLString = @"http://civ.atwebpages.com/php/notifications.php";
-#endif
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:targetURLString]];
     [request setHTTPMethod:@"POST"];
     

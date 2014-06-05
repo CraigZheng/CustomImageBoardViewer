@@ -10,5 +10,4 @@
 
 @interface czzSettingsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *settingsTableView;
-
 @end

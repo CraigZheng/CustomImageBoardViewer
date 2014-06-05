@@ -10,11 +10,14 @@
 #import "czzNotificationManager.h"
 #import "czzImageCentre.h"
 #import "czzImageDownloader.h"
+#import "czzFeedbackViewController.h"
+#import "DACircularProgress/DACircularProgressView.h"
 
-@interface czzNotificationCentreTableViewController ()
+@interface czzNotificationCentreTableViewController ()<UIDocumentInteractionControllerDelegate>
 @property czzNotificationManager *notificationManager;
 @property czzImageCentre *imageCentre;
-@property NSString *thumbnailFolder;
+@property NSString *imageFolder;
+@property UIDocumentInteractionController *documentInteractionController;
 @end
 
 @implementation czzNotificationCentreTableViewController
@@ -22,13 +25,14 @@
 @synthesize currentNotification;
 @synthesize notificationManager;
 @synthesize imageCentre;
-@synthesize thumbnailFolder;
+@synthesize imageFolder;
+@synthesize documentInteractionController;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    thumbnailFolder = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    thumbnailFolder = [thumbnailFolder stringByAppendingPathComponent:@"Thumbnails"];
+    imageFolder = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    imageFolder = [imageFolder stringByAppendingPathComponent:@"Thumbnails"];
 
     notificationManager = [czzNotificationManager new];
     imageCentre = [czzImageCentre sharedInstance];
@@ -39,15 +43,28 @@
             [notifications addObjectsFromArray:cachedSet.array];
         }
     }
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:YES];
+    [notifications sortedArrayUsingDescriptors:@[sortDescriptor]];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     for (czzNotification *notification in notifications) {
-        [imageCentre downloadThumbnailWithURL:notification.thImgSrc];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[czzImageCentre sharedInstance] downloadThumbnailWithURL:notification.thImgSrc isCompletedURL:YES];
+        });
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(thumbnailDownloaded:) name:@"ThumbnailDownloaded" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaderUpdated:) name:@"ImageDownloaderProgressUpdated" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ImageDownloaded" object:nil];
+
 }
+
+-(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - Table view data source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -64,12 +81,14 @@
     czzNotification *notification = [notifications objectAtIndex:indexPath.row];
     if (cell) {
         UILabel *titleLabel = (UILabel*)[cell viewWithTag:1];
-        UILabel *descriptionLabel = (UILabel*)[cell viewWithTag:2];
+        UITextView *descriptionTextView = (UITextView*)[cell viewWithTag:2];
         UIImageView *thImgView = (UIImageView*)[cell viewWithTag:3];
+        DACircularProgressView *circularProgressView = (DACircularProgressView*)[cell viewWithTag:4];
+        circularProgressView.hidden = YES;
         titleLabel.text = notification.title;
-        descriptionLabel.text = notification.description;
+        descriptionTextView.text = notification.content;
         if (notification.thImgSrc.length > 0) {
-            NSString *filePath = [thumbnailFolder stringByAppendingPathComponent:[notification.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
+            NSString *filePath = [imageFolder stringByAppendingPathComponent:[notification.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
             UIImage *previewImage = [[UIImage alloc] initWithContentsOfFile:filePath];
             if (previewImage) {
                 thImgView.hidden = NO;
@@ -77,11 +96,87 @@
             } else {
                 thImgView.hidden = YES;
             }
+            //tap on image, download it
+            for (UIGestureRecognizer *recognizer in self.view.gestureRecognizers) {
+                [self.view removeGestureRecognizer:recognizer];
+            }
+            UITapGestureRecognizer* tapOnImageGestureRecognizer  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTapInImage:)];
+
+            [thImgView addGestureRecognizer:tapOnImageGestureRecognizer];
+
         } else {
             thImgView.hidden = YES;
         }
     }
     return cell;
+}
+
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row < notifications.count)
+    {
+        czzNotification *notification = [notifications objectAtIndex:indexPath.row];
+        CGFloat preferHeight = 0;
+        
+        UITextView *newHiddenTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
+        newHiddenTextView.hidden = YES;
+        [self.view addSubview:newHiddenTextView];
+        newHiddenTextView.text = notification.content;
+        preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(newHiddenTextView.frame.size.width, MAXFLOAT)].height;
+        [newHiddenTextView removeFromSuperview];
+
+        preferHeight += 40;
+        return MAX(preferHeight, tableView.rowHeight);
+    }
+    return tableView.rowHeight;
+}
+
+#pragma mark - UITableViewControllerDelegate
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row < notifications.count) {
+        czzNotification *selectedNotification = [notifications objectAtIndex:indexPath.row];
+        czzFeedbackViewController *feedbackViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"feedback_view_controller"];
+        feedbackViewController.myNotification = selectedNotification;
+        [self.navigationController pushViewController:feedbackViewController animated:YES];
+    }
+}
+
+#pragma mark - download tapped images
+- (IBAction)userTapInImage:(id)sender {
+    UITapGestureRecognizer *tapGestureRecognizer = (UITapGestureRecognizer*)sender;
+    CGPoint tapLocation = [tapGestureRecognizer locationInView:self.tableView];
+    NSIndexPath *tapIndexPath = [self.tableView indexPathForRowAtPoint:tapLocation];
+    czzNotification *tappedNotification = [notifications objectAtIndex:tapIndexPath.row];
+    for (NSString *file in [[czzImageCentre sharedInstance] currentLocalImages]) {
+        if ([file.lastPathComponent.lowercaseString isEqualToString:tappedNotification.imgSrc.lastPathComponent.lowercaseString])
+        {
+            [self showDocumentController:file];
+            return;
+        }
+    }
+    [[czzImageCentre sharedInstance] downloadImageWithURL:tappedNotification.imgSrc isCompletedURL:YES];
+    [[czzAppDelegate sharedAppDelegate] showToast:@"正在下载图片"];
+}
+
+//show documentcontroller
+-(void)showDocumentController:(NSString*)path{
+    if (path){
+        if (self.isViewLoaded && self.view.window) {
+            if (documentInteractionController) {
+                [documentInteractionController dismissPreviewAnimated:YES];
+            }
+            documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:path]];
+            documentInteractionController.delegate = self;
+            [documentInteractionController presentPreviewAnimated:YES];
+            
+        }
+    }
+}
+
+#pragma mark UIDocumentInteractionController delegate
+-(UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller{
+    return self;
 }
 
 
@@ -95,4 +190,39 @@
     [self.tableView reloadData];
 }
 
+#pragma mark notification handler - image downloading progress update
+-(void)imageDownloaderUpdated:(NSNotification*)notification{
+    czzImageDownloader *imgDownloader = [notification.userInfo objectForKey:@"ImageDownloader"];
+    if (imgDownloader){
+        NSInteger updateIndex = -1;
+        for (czzNotification *myNotification in notifications) {
+            if ([myNotification.imgSrc isEqualToString:imgDownloader.targetURLString]){
+                updateIndex = [notifications indexOfObject:myNotification];
+                break;
+            }
+        }
+        if (updateIndex > -1){
+            UITableViewCell *cellToUpdate = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:updateIndex inSection:0]];
+            DACircularProgressView *circularProgressView = (DACircularProgressView*)[cellToUpdate viewWithTag:4];
+            circularProgressView.progressTintColor = [UIColor whiteColor];
+            circularProgressView.trackTintColor = [UIColor grayColor];
+            circularProgressView.thicknessRatio = 0.1;
+            if (circularProgressView){
+                if (imgDownloader.progress < 1)
+                {
+                    circularProgressView.hidden = NO;
+                    circularProgressView.progress = imgDownloader.progress;
+                } else {
+                    circularProgressView.hidden = YES;
+                }
+                [circularProgressView setNeedsDisplay];
+            }
+        }
+    }
+}
+
+-(void)imageDownloaded:(NSNotification*)notification {
+    [self showDocumentController:[notification.userInfo objectForKey:@"FilePath"]];
+
+}
 @end

@@ -46,7 +46,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    notificationDownloadInterval = 30 * 60;//every half hour
+    notificationDownloadInterval = 60 * 60;//every 1 hour
     notifications = [NSMutableOrderedSet new];
     notificationManager = [czzNotificationManager new];
     self.view.layer.shadowOffset = CGSizeMake(4, 4);

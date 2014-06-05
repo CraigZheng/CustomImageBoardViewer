@@ -207,6 +207,9 @@
 -(void)pushViewController:(UIViewController *)viewController :(BOOL)animated {
     if (viewController) {
         [self.viewDeckController closeLeftViewAnimated:NO];
+        [self.viewDeckController closeTopViewAnimated:NO];
+        [self.viewDeckController closeRightViewAnimated:NO];
+        [self.viewDeckController closeBottomViewAnimated:NO];
         [self.navigationController popToRootViewControllerAnimated:NO];
         [self.navigationController pushViewController:viewController animated:animated];
     }

@@ -20,7 +20,8 @@
 @property BOOL failedToConnect;
 @property NSDate *lastAdUpdateTime;
 @property NSTimeInterval adUpdateInterval;
-@property UIView *coverView;
+@property UIView *adCoverView;
+@property BOOL shouldHideCoverView;
 @end
 
 @implementation czzForumsViewController
@@ -31,7 +32,8 @@
 @synthesize bannerView_;
 @synthesize lastAdUpdateTime;
 @synthesize adUpdateInterval;
-@synthesize coverView;
+@synthesize adCoverView;
+@synthesize shouldHideCoverView;
 
 - (void)viewDidLoad
 {
@@ -118,20 +120,23 @@
                                                  bannerView_.bounds.size.height)];
                 [self refreshAd];
             }
-            //the cover view
-            if (coverView.superview) {
-                [coverView removeFromSuperview];
+            if (!shouldHideCoverView) {
+                //the cover view
+                if (adCoverView.superview) {
+                    [adCoverView removeFromSuperview];
+                }
+                adCoverView = [[UIView alloc] initWithFrame:bannerView_.frame];
+                adCoverView.backgroundColor = [UIColor whiteColor];
+                UILabel *tapMeLabel = [[UILabel alloc] initWithFrame:adCoverView.frame];
+                tapMeLabel.text = @"点我，我是广告";
+                tapMeLabel.textAlignment = NSTextAlignmentCenter;
+                tapMeLabel.userInteractionEnabled = NO;
+                [adCoverView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissCoverView)]];
+                [adCoverView addSubview:tapMeLabel];
+                [cell.contentView addSubview:bannerView_];
+                [cell.contentView addSubview:adCoverView];
+
             }
-            coverView = [[UIView alloc] initWithFrame:bannerView_.frame];
-            coverView.backgroundColor = [UIColor whiteColor];
-            UILabel *tapMeLabel = [[UILabel alloc] initWithFrame:coverView.frame];
-            tapMeLabel.text = @"点我，我是广告";
-            tapMeLabel.textAlignment = NSTextAlignmentCenter;
-            tapMeLabel.userInteractionEnabled = NO;
-            [coverView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissCoverView)]];
-            [coverView addSubview:tapMeLabel];
-            [cell.contentView addSubview:bannerView_];
-            [cell.contentView addSubview:coverView];
         }
     }
     
@@ -200,9 +205,10 @@
 
 #pragma mark - dismiss cover view
 -(void)dismissCoverView {
-    if (coverView && coverView.superview) {
-        [coverView removeFromSuperview];
+    if (adCoverView && adCoverView.superview) {
+        [adCoverView removeFromSuperview];
     }
+    shouldHideCoverView = YES;
 }
 
 #pragma XML parser
