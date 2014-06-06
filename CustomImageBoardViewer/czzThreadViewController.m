@@ -354,11 +354,15 @@
         //highlight original poster
         if (shouldHighlight && [thread.UID.string isEqualToString:parentThread.UID.string]) {
             posterLabel.backgroundColor = [UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:200.0f/255.0f alpha:1.0];
+            cell.contentView.backgroundColor = [UIColor clearColor];
         } else if (shouldHighlightSelectedThread && [thread.UID.string isEqualToString:shouldHighlightSelectedThread.UID.string]) {
+            posterLabel.backgroundColor = [UIColor clearColor];
             cell.contentView.backgroundColor = [UIColor colorWithRed:222.0f/255.0f green:222.0f/255.0f blue:255.0f/255.0f alpha:1.0];
         }
-        else
+        else {
             posterLabel.backgroundColor = [UIColor clearColor];
+            cell.contentView.backgroundColor = [UIColor clearColor];
+        }
     }
     return cell;
 }
