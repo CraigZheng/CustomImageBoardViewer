@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "czzFeedback.h"
+#import "IIViewDeckController.h"
 
 
 @interface czzFeedbackViewController : UIViewController
 @property czzFeedback *myFeedback;
 @property czzNotification *myNotification;
+@property (strong, nonatomic) IBOutlet UITextView *contentTextView;
 @end

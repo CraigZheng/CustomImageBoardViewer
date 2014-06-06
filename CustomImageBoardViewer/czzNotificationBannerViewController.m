@@ -77,9 +77,9 @@
     //download fresh notifications
     lastUpdateTime = [[NSUserDefaults standardUserDefaults] objectForKey:@"LastNotificationUpdateTime"];
     
-#if DEBUG
-    lastUpdateTime = nil;
-#endif
+//#if DEBUG
+//    lastUpdateTime = nil;
+//#endif
     if (!lastUpdateTime || [[NSDate new] timeIntervalSinceDate:lastUpdateTime] > notificationDownloadInterval) {
         notificationDownloader = [czzNotificationDownloader new];
         notificationDownloader.delegate = self;
@@ -208,10 +208,10 @@
 
 #pragma mark - czzNotificationDownloaderDelegate
 -(void)notificationDownloaded:(NSArray *)downloadedNotifications {
-#if DEBUG
-    [notifications removeAllObjects];
-    [notificationManager removeNotifications];
-#endif
+//#if DEBUG
+//    [notifications removeAllObjects];
+//    [notificationManager removeNotifications];
+//#endif
     NSInteger originalCount = notifications.count;
     if (downloadedNotifications.count > 0) {
         [notifications addObjectsFromArray:downloadedNotifications];

@@ -21,12 +21,12 @@
 -(id)init {
     self = [super init];
     if (self) {
-        access_token = @"";
-        topic = @"";
-        title = @"";
-        time = @"";
-        name = @"";
-        content = @"";
+        access_token = @"null";
+        topic = @"null";
+        title = @"null";
+        time = @"null";
+        name = @"null";
+        content = @"null";
         emotion = happy;
     }
     return self;
@@ -38,10 +38,10 @@
         return NO;
     }
     NSString *targetHost = [[czzAppDelegate sharedAppDelegate].myhost stringByAppendingPathComponent:feedback_host];
-    targetHost = [targetHost stringByAppendingFormat:@"access_token=%@&vendorID=%@&topic=%@&title=%@&time=%@&name=%@&content=%@&emotion=%ld",
-                  self.access_token, [czzAppDelegate sharedAppDelegate].vendorID, topic, title, self.time, name, content, (long)emotion];
+    targetHost = [targetHost stringByAppendingFormat:@"access_token=%@&vendorID=%@&time=%@&name=%@&content=%@&emotion=%ld",
+                  self.access_token, [czzAppDelegate sharedAppDelegate].vendorID, self.time, name, content, (long)emotion];
     if (notification) {
-        targetHost = [targetHost stringByAppendingFormat:@"&notificationID=%@", notification.notificationID];
+        targetHost = [targetHost stringByAppendingFormat:@"&notificationID=%@&title=%@&topic=%@", notification.notificationID, notification.title, notification.topic];
     }
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]) {
         targetHost = [targetHost stringByAppendingFormat:@"&UID=%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]];

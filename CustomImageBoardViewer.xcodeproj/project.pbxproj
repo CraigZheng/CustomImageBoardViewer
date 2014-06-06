@@ -14,6 +14,12 @@
 		440B2FCC17F8057500544926 /* czzPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 440B2FCB17F8057500544926 /* czzPostViewController.m */; };
 		440B2FD017F8191700544926 /* czzPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 440B2FCF17F8191700544926 /* czzPost.m */; };
 		4412FA151935865800681438 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 4412FA141935865800681438 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		4416B71919413D7100B69C5B /* emotion_sad_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4416B71719413D7100B69C5B /* emotion_sad_icon.png */; };
+		4416B71A19413D7100B69C5B /* emotion_smile_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4416B71819413D7100B69C5B /* emotion_smile_icon.png */; };
+		4416B71D19413D9300B69C5B /* czzEmotionPickerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4416B71C19413D9300B69C5B /* czzEmotionPickerTableViewController.m */; };
+		4416B72519413EAF00B69C5B /* FPPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4416B72019413EAF00B69C5B /* FPPopoverController.m */; };
+		4416B72619413EAF00B69C5B /* FPPopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4416B72219413EAF00B69C5B /* FPPopoverView.m */; };
+		4416B72719413EAF00B69C5B /* FPTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4416B72419413EAF00B69C5B /* FPTouchView.m */; };
 		441E5CCF17F4691300289DBD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5CCE17F4691300289DBD /* Foundation.framework */; };
 		441E5CD117F4691300289DBD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5CD017F4691300289DBD /* CoreGraphics.framework */; };
 		441E5CD317F4691300289DBD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5CD217F4691300289DBD /* UIKit.framework */; };
@@ -139,6 +145,17 @@
 		440B2FCF17F8191700544926 /* czzPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzPost.m; sourceTree = "<group>"; };
 		4412FA131935865800681438 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		4412FA141935865800681438 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		4416B71719413D7100B69C5B /* emotion_sad_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = emotion_sad_icon.png; sourceTree = "<group>"; };
+		4416B71819413D7100B69C5B /* emotion_smile_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = emotion_smile_icon.png; sourceTree = "<group>"; };
+		4416B71B19413D9300B69C5B /* czzEmotionPickerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzEmotionPickerTableViewController.h; sourceTree = "<group>"; };
+		4416B71C19413D9300B69C5B /* czzEmotionPickerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzEmotionPickerTableViewController.m; sourceTree = "<group>"; };
+		4416B71E19413EAF00B69C5B /* ARCMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARCMacros.h; sourceTree = "<group>"; };
+		4416B71F19413EAF00B69C5B /* FPPopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FPPopoverController.h; sourceTree = "<group>"; };
+		4416B72019413EAF00B69C5B /* FPPopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPPopoverController.m; sourceTree = "<group>"; };
+		4416B72119413EAF00B69C5B /* FPPopoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FPPopoverView.h; sourceTree = "<group>"; };
+		4416B72219413EAF00B69C5B /* FPPopoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPPopoverView.m; sourceTree = "<group>"; };
+		4416B72319413EAF00B69C5B /* FPTouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FPTouchView.h; sourceTree = "<group>"; };
+		4416B72419413EAF00B69C5B /* FPTouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPTouchView.m; sourceTree = "<group>"; };
 		441E5CCB17F4691300289DBD /* CustomImageBoardViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomImageBoardViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		441E5CCE17F4691300289DBD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		441E5CD017F4691300289DBD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -410,6 +427,20 @@
 			name = Reachability;
 			sourceTree = "<group>";
 		};
+		4416B72819413EB600B69C5B /* FPPopover */ = {
+			isa = PBXGroup;
+			children = (
+				4416B71E19413EAF00B69C5B /* ARCMacros.h */,
+				4416B71F19413EAF00B69C5B /* FPPopoverController.h */,
+				4416B72019413EAF00B69C5B /* FPPopoverController.m */,
+				4416B72119413EAF00B69C5B /* FPPopoverView.h */,
+				4416B72219413EAF00B69C5B /* FPPopoverView.m */,
+				4416B72319413EAF00B69C5B /* FPTouchView.h */,
+				4416B72419413EAF00B69C5B /* FPTouchView.m */,
+			);
+			name = FPPopover;
+			sourceTree = "<group>";
+		};
 		441E5CC217F4691300289DBD = {
 			isa = PBXGroup;
 			children = (
@@ -610,6 +641,8 @@
 		441E5E5117F4AEAB00289DBD /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				4416B71719413D7100B69C5B /* emotion_sad_icon.png */,
+				4416B71819413D7100B69C5B /* emotion_smile_icon.png */,
 				5A26E77B19398F2900B709C9 /* black_cross.png */,
 				5A88B8361938A8FD00071343 /* down.png */,
 				5A88B8371938A8FD00071343 /* left.png */,
@@ -810,10 +843,13 @@
 		5A2B2D8E1936179500BA2870 /* czzFeedback */ = {
 			isa = PBXGroup;
 			children = (
+				4416B72819413EB600B69C5B /* FPPopover */,
 				5A2B2D8B1936172C00BA2870 /* czzFeedback.h */,
 				5A2B2D8C1936172C00BA2870 /* czzFeedback.m */,
 				5A2B2D921936264A00BA2870 /* czzFeedbackViewController.h */,
 				5A2B2D931936264A00BA2870 /* czzFeedbackViewController.m */,
+				4416B71B19413D9300B69C5B /* czzEmotionPickerTableViewController.h */,
+				4416B71C19413D9300B69C5B /* czzEmotionPickerTableViewController.m */,
 			);
 			name = czzFeedback;
 			sourceTree = "<group>";
@@ -942,6 +978,7 @@
 				44F8DE701803928A00B6D3B0 /* Default~iphone.png in Resources */,
 				5A88B83D1938A8FD00071343 /* up.png in Resources */,
 				5A88B83A1938A8FD00071343 /* down.png in Resources */,
+				4416B71919413D7100B69C5B /* emotion_sad_icon.png in Resources */,
 				441E5E5017F4AEA700289DBD /* warning.png in Resources */,
 				44F8DE621803900100B6D3B0 /* Icon-Small-50.png in Resources */,
 				44C34557187E6CF000FDE45D /* sougo_emoji_UTF16.txt in Resources */,
@@ -970,6 +1007,7 @@
 				44C34551187E616500FDE45D /* czzEmojiCollectionViewController.xib in Resources */,
 				44F8DE671803900100B6D3B0 /* Icon@2x.png in Resources */,
 				44F8DE631803900100B6D3B0 /* Icon-Small-50@2x.png in Resources */,
+				4416B71A19413D7100B69C5B /* emotion_smile_icon.png in Resources */,
 				441E5CD917F4691300289DBD /* InfoPlist.strings in Resources */,
 				44F8DE5F1803900100B6D3B0 /* Icon-72@2x.png in Resources */,
 			);
@@ -996,6 +1034,7 @@
 				441E5D0C17F4699400289DBD /* IISideController.m in Sources */,
 				441E5CDF17F4691300289DBD /* czzAppDelegate.m in Sources */,
 				441E5D2C17F48F8C00289DBD /* czzThread.m in Sources */,
+				4416B72619413EAF00B69C5B /* FPPopoverView.m in Sources */,
 				441E5D2417F4797F00289DBD /* czzForumGroup.m in Sources */,
 				44B96E33185B8B8100D664A4 /* czzImageManagerViewController.m in Sources */,
 				441E5D0D17F4699400289DBD /* IIViewDeckController.m in Sources */,
@@ -1035,8 +1074,11 @@
 				44CD43FF1869CB3E00C7D063 /* czzThreadCacheManager.m in Sources */,
 				5A88B8401938AFDB00071343 /* czzNotificationCentreTableViewController.m in Sources */,
 				44C89AE0185C14BA00E65B73 /* DACircularProgressView.m in Sources */,
+				4416B71D19413D9300B69C5B /* czzEmotionPickerTableViewController.m in Sources */,
+				4416B72719413EAF00B69C5B /* FPTouchView.m in Sources */,
 				440B2FBD17F7C5DC00544926 /* czzRightSideViewController.m in Sources */,
 				5A2B2D8D1936172C00BA2870 /* czzFeedback.m in Sources */,
+				4416B72519413EAF00B69C5B /* FPPopoverController.m in Sources */,
 				44B96E37185B97C400D664A4 /* czzSettingsViewController.m in Sources */,
 				5ADCA46A1938F67F002BA60B /* ValueFormatter.m in Sources */,
 			);
@@ -1188,8 +1230,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-3";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Haozheng Zheng (9EBE9MWW9X)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Haozheng Zheng (9EBE9MWW9X)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Prefix.pch";
 				INFOPLIST_FILE = "CustomImageBoardViewer/CustomImageBoardViewer-Info.plist";

@@ -5,4 +5,5 @@ dependencies: \
   /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/GTMNSString+HTML.h \
   /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/czzBlacklist.h \
   /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/czzBlacklistEntity.h \
-  /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/czzImageCentre.h
+  /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/czzImageCentre.h \
+  /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/NSString+HTML.h

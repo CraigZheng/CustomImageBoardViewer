@@ -34,6 +34,8 @@
     self = [super init];
     if (self) {
         shouldDisplayXTimes = 1;
+        self.title = @"null";
+        self.topic = @"null";
         [self assignPropertyWithXMLData:xmlElement];
         if (!self.notificationID || !self.title) {
             return nil;

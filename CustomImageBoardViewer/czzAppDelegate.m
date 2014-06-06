@@ -102,9 +102,9 @@
 }
 
 -(NSString *)myhost {
-#if DEBUG
-    myhost = my_main_host;
-#endif
+//#if DEBUG
+//    myhost = my_main_host;
+//#endif
     if (thirdHost)
         return thirdHost;
     if (shouldUseBackupServer)
