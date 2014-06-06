@@ -142,7 +142,7 @@
     if (!self.forumName || [[NSUserDefaults standardUserDefaults] objectForKey:@"firstTimeRunning"])
         [self.viewDeckController toggleLeftViewAnimated:YES];
     shouldDisplayQuickScrollCommand = YES;
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldShowOnScreenCommand"])
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldShowOnScreenCommand"])
         shouldDisplayQuickScrollCommand = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldShowOnScreenCommand"];
 
 }
