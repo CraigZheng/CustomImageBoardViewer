@@ -854,11 +854,11 @@ t1401851866
 s94572
 
 N/Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app
-t1402018402
+t1402018403
 s2074
 
 N/Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app.dSYM
-t1402018396
+t1402018402
 s102
 
 N/Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app/35ios7.png
@@ -870,8 +870,8 @@ t1401851869
 s15042
 
 N/Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app/CustomImageBoardViewer
-t1402018402
-s2026852
+t1402018403
+s2047328
 
 N/Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app/Default-568h@2x.png
 t1401851869
@@ -1973,16 +1973,17 @@ r0
 
 CCheck dependencies
 r0
-lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection18"Check dependencies18"Check dependenciesd8ef29df5141b941^d7bf73df5141b941^---0#1#1#--18"Check dependencies36"B3B19C25-FF2D-4D34-AA8E-A51C7C142107-
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection18"Check dependencies18"Check dependencies8271c4516c41b941^8f1835526c41b941^---0#1#1#--18"Check dependencies36"EB3194AB-3620-44DE-A630-B4FCE8F3CD49-
 
 CCodeSign /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app
-s423711202.681357
-e423711203.062589
+s423717970.997003
+e423717971.897791
 r1
 xCodeSign
 x/Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app
-lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection65"CodeSign Build/Products/Debug-iphoneos/CustomImageBoardViewer.app65"CodeSign Build/Products/Debug-iphoneos/CustomImageBoardViewer.app7f83aee25141b941^231619e35141b941^---0#0#1#-19%DVTDocumentLocation2@110"file:///Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app/0000000000000000^1145"CodeSign Build/Products/Debug-iphoneos/CustomImageBoardViewer.app    cd /Users/craig/Developer/CustomImageBoardViewer    export CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/codesign_allocate    export PATH="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    Using code signing identity "iPhone Developer: Haozheng Zheng (4A2A95RH7T)" and provisioning profile "iOS Team Provisioning Profile: com.craig.acfunbrowser" (24CE5990-2E2B-4F07-B896-443898C3D2E2)    /usr/bin/codesign --force --sign 251498FA8FDA4168FF3957333BFFDA0712FFCC86 --resource-rules=/Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app/ResourceRules.plist --entitlements /Users/craig/Developer/CustomImageBoardViewer/Build/Intermediates/CustomImageBoardViewer.build/Debug-iphoneos/CustomImageBoardViewer.build/CustomImageBoardViewer.xcent /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app36"D5371883-167C-450B-B282-189103198B87-
-bC45E3955-7A65-4B0C-A8E3-F9CCAF7178AD
+o/Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app: replacing existing signature
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection65"CodeSign Build/Products/Debug-iphoneos/CustomImageBoardViewer.app65"CodeSign Build/Products/Debug-iphoneos/CustomImageBoardViewer.appdb52ff526c41b941^39d6e5536c41b941^-133"/Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app: replacing existing signature-0#0#1#-19%DVTDocumentLocation2@110"file:///Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app/0000000000000000^1145"CodeSign Build/Products/Debug-iphoneos/CustomImageBoardViewer.app    cd /Users/craig/Developer/CustomImageBoardViewer    export CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/codesign_allocate    export PATH="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    Using code signing identity "iPhone Developer: Haozheng Zheng (4A2A95RH7T)" and provisioning profile "iOS Team Provisioning Profile: com.craig.acfunbrowser" (24CE5990-2E2B-4F07-B896-443898C3D2E2)    /usr/bin/codesign --force --sign 251498FA8FDA4168FF3957333BFFDA0712FFCC86 --resource-rules=/Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app/ResourceRules.plist --entitlements /Users/craig/Developer/CustomImageBoardViewer/Build/Intermediates/CustomImageBoardViewer.build/Debug-iphoneos/CustomImageBoardViewer.build/CustomImageBoardViewer.xcent /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app36"D43BC59E-FB7A-4341-AA9C-2A39292EF599-
+b93D694A2-2F9A-4EE8-81C5-A1CE6A7D4C2C
 
 CCompileAssetCatalog /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/Images.xcassets
 s423544670.328563
@@ -5050,14 +5051,14 @@ CCreateUniversalBinary /Users/craig/Developer/CustomImageBoardViewer/Build/Produ
 r0
 
 CGenerateDSYMFile /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app.dSYM /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app/CustomImageBoardViewer
-s423711202.248489
-e423711202.679202
+s423717970.321463
+e423717970.994484
 r1
 xGenerateDSYMFile
 x/Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app.dSYM
 x/Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app/CustomImageBoardViewer
-lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection116"Generate /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app.dSYM158"GenerateDSYMFile Build/Products/Debug-iphoneos/CustomImageBoardViewer.app.dSYM Build/Products/Debug-iphoneos/CustomImageBoardViewer.app/CustomImageBoardViewer8baa3fe25141b941^c1e1ade25141b941^---0#0#1#-19%DVTDocumentLocation2@115"file:///Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app.dSYM/0000000000000000^737"GenerateDSYMFile Build/Products/Debug-iphoneos/CustomImageBoardViewer.app.dSYM Build/Products/Debug-iphoneos/CustomImageBoardViewer.app/CustomImageBoardViewer    cd /Users/craig/Developer/CustomImageBoardViewer    export PATH="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/dsymutil /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app/CustomImageBoardViewer -o /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app.dSYM36"461A2FE6-9511-4F2D-8280-B0F220A3F918-
-bC45E3955-7A65-4B0C-A8E3-F9CCAF7178AD
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection116"Generate /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app.dSYM158"GenerateDSYMFile Build/Products/Debug-iphoneos/CustomImageBoardViewer.app.dSYM Build/Products/Debug-iphoneos/CustomImageBoardViewer.app/CustomImageBoardViewere65852526c41b941^3997fe526c41b941^---0#0#1#-19%DVTDocumentLocation2@115"file:///Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app.dSYM/0000000000000000^737"GenerateDSYMFile Build/Products/Debug-iphoneos/CustomImageBoardViewer.app.dSYM Build/Products/Debug-iphoneos/CustomImageBoardViewer.app/CustomImageBoardViewer    cd /Users/craig/Developer/CustomImageBoardViewer    export PATH="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/dsymutil /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app/CustomImageBoardViewer -o /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app.dSYM36"D1F7D444-37BF-47EC-B48D-CC9E73F2FEA9-
+b93D694A2-2F9A-4EE8-81C5-A1CE6A7D4C2C
 
 CLd /Users/craig/Developer/CustomImageBoardViewer/Build/Intermediates/CustomImageBoardViewer.build/Debug-iphoneos/CustomImageBoardViewer.build/Objects-normal/arm64/CustomImageBoardViewer normal arm64
 r0
