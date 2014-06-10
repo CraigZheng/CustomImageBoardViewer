@@ -138,7 +138,9 @@
         czzNotification *selectedNotification = [notifications objectAtIndex:indexPath.row];
         czzFeedbackViewController *feedbackViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"feedback_view_controller"];
         feedbackViewController.myNotification = selectedNotification;
-        [self.navigationController pushViewController:feedbackViewController animated:YES];
+//        [self.navigationController pushViewController:feedbackViewController animated:YES];
+        [[czzAppDelegate sharedAppDelegate].homeViewController pushViewController:feedbackViewController :YES];
+
     }
 }
 

@@ -129,12 +129,14 @@
             if ([czzAppDelegate sharedAppDelegate].homeViewController) {
                 UIViewController *feedbackViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"feedback_view_controller"];
                 [[czzAppDelegate sharedAppDelegate].homeViewController pushViewController:feedbackViewController :YES];
+//                [self.navigationController pushViewController:feedbackViewController animated:YES];
             }
         }
         else if ([command isEqualToString:@"通知中心"]) {
             if ([czzAppDelegate sharedAppDelegate].homeViewController) {
                 UIViewController *notificationCentreViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"notification_centre_view_controller"];
-                [[czzAppDelegate sharedAppDelegate].homeViewController pushViewController:notificationCentreViewController :YES];
+//                [[czzAppDelegate sharedAppDelegate].homeViewController pushViewController:notificationCentreViewController :YES];
+                [self.navigationController pushViewController:notificationCentreViewController animated:YES];
             }
         }
         else if ([command isEqualToString:@"清空缓存"]){
