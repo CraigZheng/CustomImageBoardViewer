@@ -32,6 +32,8 @@
 //    [self giveViewRoundCornersAndShadow:backgroundView.layer];
     [self giveViewRoundCornersAndShadow:upperButton.layer];
     [self giveViewRoundCornersAndShadow:bottomButton.layer];
+    upperButton.layer.backgroundColor = [UIColor clearColor].CGColor;
+    bottomButton.layer.backgroundColor = [UIColor clearColor].CGColor;
     parentView = [[[czzAppDelegate sharedAppDelegate].window subviews] objectAtIndex:0];
 //    parentView = [czzAppDelegate sharedAppDelegate].window;
 //    [self updateFrame];
