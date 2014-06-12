@@ -134,7 +134,7 @@
     [onScreenCommand hide];
     
     shouldDisplayQuickScrollCommand = YES;
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldShowOnScreenCommand"]) {
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldShowOnScreenCommand"]) {
         shouldDisplayQuickScrollCommand = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldShowOnScreenCommand"];
         
     }

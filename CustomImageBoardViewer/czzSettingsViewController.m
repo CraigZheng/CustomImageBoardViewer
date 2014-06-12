@@ -237,6 +237,7 @@
         } else if ([command isEqualToString:@"显示快速滑动按钮"]) {
             [[NSUserDefaults standardUserDefaults] setBool:switchControl.on forKey:@"shouldShowOnScreenCommand"];
             [[NSUserDefaults standardUserDefaults] synchronize];
+            [[czzAppDelegate sharedAppDelegate] showToast:@"重启后生效"];
         }
     }
 }
