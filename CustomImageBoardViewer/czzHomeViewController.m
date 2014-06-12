@@ -139,7 +139,7 @@
      */
     self.viewDeckController.leftController = leftController;
     //if a forum has not been selected and is not the first time running
-    if (!self.forumName || [[NSUserDefaults standardUserDefaults] objectForKey:@"firstTimeRunning"])
+    if (!self.forumName/* || [[NSUserDefaults standardUserDefaults] objectForKey:@"firstTimeRunning"]*/)
         [self.viewDeckController toggleLeftViewAnimated:YES];
     shouldDisplayQuickScrollCommand = YES;
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldShowOnScreenCommand"])
