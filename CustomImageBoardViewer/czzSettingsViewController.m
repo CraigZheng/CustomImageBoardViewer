@@ -133,13 +133,13 @@
             }
         }
         else if ([command isEqualToString:@"通知中心"]) {
-            [self performSegueWithIdentifier:@"go_notification_centre_view_controller_segue" sender:self];
+//            [self performSegueWithIdentifier:@"go_notification_centre_view_controller_segue" sender:self];
 
-//            if ([czzAppDelegate sharedAppDelegate].homeViewController) {
-//                UIViewController *notificationCentreViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"notification_centre_view_controller"];
-//                [[czzAppDelegate sharedAppDelegate].homeViewController pushViewController:notificationCentreViewController :YES];
+            if ([czzAppDelegate sharedAppDelegate].homeViewController) {
+                UIViewController *notificationCentreViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"notification_centre_view_controller"];
+                [[czzAppDelegate sharedAppDelegate].homeViewController pushViewController:notificationCentreViewController :YES];
 //                [self.navigationController pushViewController:notificationCentreViewController animated:YES];
-//            }
+            }
         }
         else if ([command isEqualToString:@"清空缓存"]){
             //清空缓存

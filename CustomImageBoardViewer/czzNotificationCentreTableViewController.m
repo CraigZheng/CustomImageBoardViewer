@@ -43,13 +43,6 @@
             [notifications addObjectsFromArray:cachedSet.array];
         }
     }
-    for (int i = 0; i < 10; i++) {
-        czzNotification *newNotification = [[czzNotification alloc] init];
-        newNotification.content = @"[[czzNotification alloc] init][[czzNotification alloc] init][[czzNotification alloc] init][[czzNotification alloc] init]\nhttp://www.google.com\n[[czzNotification alloc] init][[czzNotification alloc] init][[czzNotification alloc] init][[czzNotification alloc] init][[czzNotification alloc] init][[czzNotification alloc] init]";
-        newNotification.date = [NSDate new];
-        newNotification.title = @"[[czzNotification alloc] init][[czzNotification alloc] init][[czzNotification alloc] init]";
-        [notifications addObject:newNotification];
-    }
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:YES];
     [notifications sortedArrayUsingDescriptors:@[sortDescriptor]];
 }
