@@ -115,8 +115,9 @@
         [heightsForRows addObjectsFromArray:[cachedHeights objectForKey:@"VerticalHeights"]];
         [heightsForRowsForHorizontal addObjectsFromArray:[cachedHeights objectForKey:@"HorizontalHeights"]];
     }
-    [self loadMoreThread:pageNumber];
     pageNumber = (threads.count - 1)/ 20 + 1;
+    [self loadMoreThread:pageNumber];
+
     //end of retriving cached thread from storage
     //Initialise the tap gesture recogniser, it is to be used on the Image Views in the cell
     tapOnImageGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTapInImage:)];

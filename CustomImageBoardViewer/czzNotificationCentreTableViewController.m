@@ -43,6 +43,13 @@
             [notifications addObjectsFromArray:cachedSet.array];
         }
     }
+    for (int i = 0; i < 10; i++) {
+        czzNotification *newNotification = [[czzNotification alloc] init];
+        newNotification.content = @"[[czzNotification alloc] init][[czzNotification alloc] init][[czzNotification alloc] init][[czzNotification alloc] init]\nhttp://www.google.com\n[[czzNotification alloc] init][[czzNotification alloc] init][[czzNotification alloc] init][[czzNotification alloc] init][[czzNotification alloc] init][[czzNotification alloc] init]";
+        newNotification.date = [NSDate new];
+        newNotification.title = @"[[czzNotification alloc] init][[czzNotification alloc] init][[czzNotification alloc] init]";
+        [notifications addObject:newNotification];
+    }
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:YES];
     [notifications sortedArrayUsingDescriptors:@[sortDescriptor]];
 }
@@ -57,7 +64,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(thumbnailDownloaded:) name:@"ThumbnailDownloaded" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaderUpdated:) name:@"ImageDownloaderProgressUpdated" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ImageDownloaded" object:nil];
-
+    NSLog(@"tableview content size %@", [NSValue valueWithCGSize:self.tableView.contentSize]);
+    NSLog(@"tableview bound size %@", [NSValue valueWithCGSize:self.tableView.bounds.size]);
+    [self.view bringSubviewToFront:self.tableView];
 }
 
 -(void)viewDidDisappear:(BOOL)animated {
