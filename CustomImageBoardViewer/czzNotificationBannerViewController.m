@@ -77,9 +77,9 @@
     //download fresh notifications
     lastUpdateTime = [[NSUserDefaults standardUserDefaults] objectForKey:@"LastNotificationUpdateTime"];
     
-#if DEBUG
-    lastUpdateTime = nil;
-#endif
+//#if DEBUG
+//    lastUpdateTime = nil;
+//#endif
     if (!lastUpdateTime || [[NSDate new] timeIntervalSinceDate:lastUpdateTime] > notificationDownloadInterval) {
         notificationDownloader = [czzNotificationDownloader new];
         notificationDownloader.delegate = self;
