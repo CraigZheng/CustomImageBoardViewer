@@ -64,7 +64,7 @@
         }
         else if ([child.name isEqualToString:@"date"]){
             NSDateFormatter *dateFormatter = [NSDateFormatter new];
-            dateFormatter.dateFormat = @"yyyy-MMM-dd hh:mm:ss";
+            dateFormatter.dateFormat = @"yyyy-MM-dd hh:mm:ss";
             self.date = [dateFormatter dateFromString:child.value];
             
         }

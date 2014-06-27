@@ -12,6 +12,8 @@
 #import "Toast+UIView.h"
 #import "SMXMLDocument.h"
 
+#import <BugSense-iOS/BugSenseController.h>
+
 @interface czzAppDelegate()<czzBlacklistDownloaderDelegate, NSURLConnectionDataDelegate>
 @property NSString *thirdHost;
 @end
@@ -25,6 +27,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    [BugSenseController sharedControllerWithBugSenseAPIKey:@"cd668a8e"];
     myhost = my_main_host;
     return YES;
 }

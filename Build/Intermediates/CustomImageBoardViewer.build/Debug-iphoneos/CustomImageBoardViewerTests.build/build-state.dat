@@ -269,20 +269,20 @@ t1401854529
 s88688
 
 N/Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app/CustomImageBoardViewer
-c00000000538EA25D00000000001E08A0
-t1401856605
-s1968288
+c0000000053ACEBBA000000000024FC30
+t1403841466
+s2423856
 
 N/Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest
-t1401856605
+t1403841467
 s170
 
 N/Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest.dSYM
-t1401856467
+t1401856605
 s102
 
 N/Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest/CustomImageBoardViewerTests
-t1401856605
+t1403841467
 s22140
 
 N/Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest/Info.plist
@@ -386,7 +386,7 @@ r0
 
 CCheck dependencies
 r0
-lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection18"Check dependencies18"Check dependencies1f0f35ddd93eb941^630b39ddd93eb941^---0#1#1#--18"Check dependencies36"A6025F16-B629-4D6E-A170-D7F09DF271A9-
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection18"Check dependencies18"Check dependencies718ef23a235db941^e927003b235db941^---0#1#1#--18"Check dependencies36"B4A07F43-45A0-4F21-A37C-9B2EAFA6D022-
 
 CCompileC Build/Intermediates/CustomImageBoardViewer.build/Debug-iphoneos/CustomImageBoardViewerTests.build/Objects-normal/armv7/CustomImageBoardViewerTests.o /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewerTests/CustomImageBoardViewerTests.m normal armv7 objective-c com.apple.compilers.llvm.clang.1_0.compiler
 s423549405.209303
@@ -427,18 +427,18 @@ lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection59"Copy Cu
 b31856637-B50F-4B29-8554-97BD134E28E1
 
 CGenerateDSYMFile /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest.dSYM /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest/CustomImageBoardViewerTests
-s423549405.315288
-e423549405.325699
+s425534267.077133
+e425534267.109995
 r1
 xGenerateDSYMFile
 x/Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest.dSYM
 x/Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest/CustomImageBoardViewerTests
-lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection124"Generate /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest.dSYM179"GenerateDSYMFile Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest.dSYM Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest/CustomImageBoardViewerTests15c450ddd93eb941^206253ddd93eb941^---0#0#1#-19%DVTDocumentLocation2@123"file:///Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest.dSYM/0000000000000000^779"GenerateDSYMFile Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest.dSYM Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest/CustomImageBoardViewerTests    cd /Users/craig/Developer/CustomImageBoardViewer    export PATH="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/dsymutil /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest/CustomImageBoardViewerTests -o /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest.dSYM36"4CDDE9FE-2D94-4CA5-851F-561B801B7905-
-bDAC51864-CDC5-4486-B8CC-D186AFC479B6
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection124"Generate /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest.dSYM179"GenerateDSYMFile Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest.dSYM Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest/CustomImageBoardViewerTests7dcc133b235db941^022a1c3b235db941^---0#0#1#-19%DVTDocumentLocation2@123"file:///Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest.dSYM/0000000000000000^779"GenerateDSYMFile Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest.dSYM Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest/CustomImageBoardViewerTests    cd /Users/craig/Developer/CustomImageBoardViewer    export PATH="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/dsymutil /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest/CustomImageBoardViewerTests -o /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest.dSYM36"234AC3AF-27E2-47C9-8778-FFBEAF3E6BCD-
+b01035EA2-E0B4-463D-AA9E-2B21ADF5F9B5
 
 CLd /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest/CustomImageBoardViewerTests normal armv7
-s423549405.286217
-e423549405.314455
+s425534267.013074
+e425534267.076395
 r1
 xLd
 x/Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest/CustomImageBoardViewerTests
@@ -462,6 +462,7 @@ d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Develope
 d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/OpenGLES.framework/OpenGLES
 d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/QuartzCore.framework/QuartzCore
 d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/CoreText.framework/CoreText
+d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/PrivateFrameworks/UIFoundation.framework/UIFoundation
 d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/usr/lib/system/libcache.dylib
 d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/usr/lib/system/libcommonCrypto.dylib
 d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/usr/lib/system/libcompiler_rt.dylib
@@ -490,9 +491,8 @@ d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Develope
 d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/usr/lib/system/libsystem_stats.dylib
 d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/usr/lib/system/libunwind.dylib
 d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/usr/lib/system/libxpc.dylib
-d/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/PrivateFrameworks/UIFoundation.framework/UIFoundation
-lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection143"Link /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest/CustomImageBoardViewerTests108"Ld Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest/CustomImageBoardViewerTests normal armv7d65549ddd93eb941^848050ddd93eb941^---0#0#1#--1866"Ld Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest/CustomImageBoardViewerTests normal armv7    cd /Users/craig/Developer/CustomImageBoardViewer    export IPHONEOS_DEPLOYMENT_TARGET=6.0    export PATH="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -arch armv7 -bundle -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk -L/Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos -F/Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos -F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/Developer/Library/Frameworks -F/Applications/Xcode.app/Contents/Developer/Library/Frameworks -filelist /Users/craig/Developer/CustomImageBoardViewer/Build/Intermediates/CustomImageBoardViewer.build/Debug-iphoneos/CustomImageBoardViewerTests.build/Objects-normal/armv7/CustomImageBoardViewerTests.LinkFileList -dead_strip -bundle_loader /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app/CustomImageBoardViewer -framework XCTest -fobjc-arc -fobjc-link-runtime -miphoneos-version-min=6.0 -framework XCTest -framework UIKit -framework Foundation -Xlinker -dependency_info -Xlinker /Users/craig/Developer/CustomImageBoardViewer/Build/Intermediates/CustomImageBoardViewer.build/Debug-iphoneos/CustomImageBoardViewerTests.build/Objects-normal/armv7/CustomImageBoardViewerTests_dependency_info.dat -o /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest/CustomImageBoardViewerTests36"4ECE8CAF-582D-459B-B80C-9CEC19FE9E7C-
-bDAC51864-CDC5-4486-B8CC-D186AFC479B6
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection143"Link /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest/CustomImageBoardViewerTests108"Ld Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest/CustomImageBoardViewerTests normal armv7d66e033b235db941^7a8f133b235db941^---0#0#1#--1866"Ld Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest/CustomImageBoardViewerTests normal armv7    cd /Users/craig/Developer/CustomImageBoardViewer    export IPHONEOS_DEPLOYMENT_TARGET=6.0    export PATH="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -arch armv7 -bundle -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk -L/Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos -F/Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos -F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/Developer/Library/Frameworks -F/Applications/Xcode.app/Contents/Developer/Library/Frameworks -filelist /Users/craig/Developer/CustomImageBoardViewer/Build/Intermediates/CustomImageBoardViewer.build/Debug-iphoneos/CustomImageBoardViewerTests.build/Objects-normal/armv7/CustomImageBoardViewerTests.LinkFileList -dead_strip -bundle_loader /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewer.app/CustomImageBoardViewer -framework XCTest -fobjc-arc -fobjc-link-runtime -miphoneos-version-min=6.0 -framework XCTest -framework UIKit -framework Foundation -Xlinker -dependency_info -Xlinker /Users/craig/Developer/CustomImageBoardViewer/Build/Intermediates/CustomImageBoardViewer.build/Debug-iphoneos/CustomImageBoardViewerTests.build/Objects-normal/armv7/CustomImageBoardViewerTests_dependency_info.dat -o /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest/CustomImageBoardViewerTests36"0BD29F59-8FC2-4089-9531-B31445D5FDC8-
+b01035EA2-E0B4-463D-AA9E-2B21ADF5F9B5
 
 CProcessInfoPlistFile /Users/craig/Developer/CustomImageBoardViewer/Build/Products/Debug-iphoneos/CustomImageBoardViewerTests.xctest/Info.plist /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewerTests/CustomImageBoardViewerTests-Info.plist
 s423547328.166883

@@ -77,9 +77,9 @@
     //download fresh notifications
     lastUpdateTime = [[NSUserDefaults standardUserDefaults] objectForKey:@"LastNotificationUpdateTime"];
     
-//#if DEBUG
-//    lastUpdateTime = nil;
-//#endif
+#if DEBUG
+    lastUpdateTime = nil;
+#endif
     if (!lastUpdateTime || [[NSDate new] timeIntervalSinceDate:lastUpdateTime] > notificationDownloadInterval) {
         notificationDownloader = [czzNotificationDownloader new];
         notificationDownloader.delegate = self;
@@ -151,6 +151,13 @@
 
 - (IBAction)dismissAction:(id)sender {
     self.needsToBePresented = NO;
+    for (czzNotification *noti in notifications) {
+        noti.timeBeenDisplayed += 1;
+    }
+    if (currentNotification) {
+        currentNotification.timeBeenDisplayed = NSIntegerMax;
+    }
+    [self saveNotifications];
 }
 
 - (IBAction)tapOnViewAction:(id)sender {
@@ -208,16 +215,22 @@
 
 #pragma mark - czzNotificationDownloaderDelegate
 -(void)notificationDownloaded:(NSArray *)downloadedNotifications {
-//#if DEBUG
-//    [notifications removeAllObjects];
-//    [notificationManager removeNotifications];
-//#endif
+#if DEBUG
+    [notifications removeAllObjects];
+    [notificationManager removeNotifications];
+#endif
     NSInteger originalCount = notifications.count;
     if (downloadedNotifications.count > 0) {
         [notifications addObjectsFromArray:downloadedNotifications];
         //if one or more new notifications are downloaded
         if (notifications.count > originalCount) {
             self.needsToBePresented = YES;
+            NSArray *sortedArray = [notifications.array sortedArrayUsingComparator: ^(czzNotification* a, czzNotification* b) {
+                NSDate *d1 = a.date;
+                NSDate *d2 = b.date;
+                return [d2 compare: d1];
+            }];
+            notifications = [NSMutableOrderedSet orderedSetWithArray:sortedArray];
         }
     } else {
         NSLog(@"downloaded notification empty!");
@@ -226,7 +239,14 @@
 }
 
 -(void)saveNotifications {
-    if (notifications.count > 0)
+    if (notifications.count > 0) {
+        NSArray *sortedArray = [notifications.array sortedArrayUsingComparator: ^(czzNotification* a, czzNotification* b) {
+            NSDate *d1 = a.date;
+            NSDate *d2 = b.date;
+            return [d2 compare: d1];
+        }];
+        notifications = [NSMutableOrderedSet orderedSetWithArray:sortedArray];
         [notificationManager saveNotifications:notifications];
+    }
 }
 @end

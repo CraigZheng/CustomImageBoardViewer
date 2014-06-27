@@ -13,4 +13,5 @@ dependencies: \
   /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/czzBlacklist.h \
   /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/czzBlacklistEntity.h \
   /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/Toast/Toast+UIView.h \
-  /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/SMXMLDocument.h
+  /Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/SMXMLDocument.h \
+  /Users/craig/Developer/Libraries/BugSense\ 3.6\ 2/BugSense-iOS.framework/Headers/BugSenseController.h

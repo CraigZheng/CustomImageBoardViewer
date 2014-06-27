@@ -66,8 +66,11 @@
 }
 
 -(NSString *)access_token {
+#if DEBUG
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"access_token"])
         return [[NSUserDefaults standardUserDefaults] stringForKey:@"access_token"];
     return @"null";
+#endif
+    return @"-";
 }
 @end

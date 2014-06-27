@@ -83,7 +83,7 @@
     if (failedToConnect)
         return 1;
     czzForumGroup *forumGroup = [forumGroups objectAtIndex:section];
-    if (section == forumGroups.count - 1)
+    if (section == 0)
     {
         return forumGroup.forumNames.count + 1;
     }
@@ -164,7 +164,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     //ad cell
-    if (indexPath.section == forumGroups.count - 1 && indexPath.row == [forumGroups.lastObject forumNames].count) {
+    if (indexPath.section == 0 && indexPath.row == [forumGroups.lastObject forumNames].count) {
         return bannerView_.bounds.size.height;
     }
     return tableView.rowHeight;

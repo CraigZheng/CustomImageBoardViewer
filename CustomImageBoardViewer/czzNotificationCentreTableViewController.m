@@ -43,8 +43,12 @@
             [notifications addObjectsFromArray:cachedSet.array];
         }
     }
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:YES];
-    [notifications sortedArrayUsingDescriptors:@[sortDescriptor]];
+    NSArray *sortedArray = [notifications.array sortedArrayUsingComparator: ^(czzNotification* a, czzNotification* b) {
+        NSDate *d1 = a.date;
+        NSDate *d2 = b.date;
+        return [d2 compare: d1];
+    }];
+    notifications = [NSMutableOrderedSet orderedSetWithArray:sortedArray];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -77,18 +81,19 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"notification_cell_identifier" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"notification_text_cell_identifier" forIndexPath:indexPath];
     
     // Configure the cell...
     czzNotification *notification = [notifications objectAtIndex:indexPath.row];
     if (cell) {
         UILabel *titleLabel = (UILabel*)[cell viewWithTag:1];
         UITextView *descriptionTextView = (UITextView*)[cell viewWithTag:2];
-        UIImageView *thImgView = (UIImageView*)[cell viewWithTag:3];
-        DACircularProgressView *circularProgressView = (DACircularProgressView*)[cell viewWithTag:4];
-        circularProgressView.hidden = YES;
+//        UIImageView *thImgView = (UIImageView*)[cell viewWithTag:3];
+//        DACircularProgressView *circularProgressView = (DACircularProgressView*)[cell viewWithTag:4];
+//        circularProgressView.hidden = YES;
         titleLabel.text = notification.title;
         descriptionTextView.text = notification.content;
+        /*
         if (notification.thImgSrc.length > 0) {
             NSString *filePath = [imageFolder stringByAppendingPathComponent:[notification.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
             UIImage *previewImage = [[UIImage alloc] initWithContentsOfFile:filePath];
@@ -109,6 +114,7 @@
         } else {
             thImgView.hidden = YES;
         }
+         */
     }
     return cell;
 }
@@ -124,11 +130,15 @@
         UITextView *newHiddenTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
         newHiddenTextView.hidden = YES;
         [self.view addSubview:newHiddenTextView];
+        newHiddenTextView.font = [UIFont systemFontOfSize:16];
         newHiddenTextView.text = notification.content;
         preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(newHiddenTextView.frame.size.width, MAXFLOAT)].height;
         [newHiddenTextView removeFromSuperview];
 
-        preferHeight += 40;
+        preferHeight += 20;
+//        if (notification.thImgSrc.length > 0) {
+//            preferHeight += 80;
+//        }
         return MAX(preferHeight, tableView.rowHeight);
     }
     return tableView.rowHeight;

@@ -73,13 +73,13 @@
             self.title = [self parseHTMLAttributes:child.value].string;
         }
         else if ([child.name isEqualToString:@"Content"]){
-            self.content = [self prepareHTMLForFragments:[NSString stringWithString:child.value]];
+//            self.content = [self prepareHTMLForFragments:[NSString stringWithString:child.value]];
             //if title has more than 10 chinese words, it will be too long to fit in the title bar
-            //there fore we put it at the beginning of the content
-//            if (self.title.length > 10)
-//                self.content = [self parseHTMLAttributes:[NSString stringWithFormat:@" - %@ - \n\n%@", self.title, child.value]];
-//            else
-//                self.content = [self parseHTMLAttributes:child.value];
+            //therefore we put it at the beginning of the content
+            if (self.title.length > 10)
+                self.content = [self prepareHTMLForFragments:[NSString stringWithFormat:@" < %@ > \n\n%@", self.title, child.value]];
+            else
+                self.content = [self prepareHTMLForFragments:[NSString stringWithString:child.value]];
 
         }
         else if ([child.name isEqualToString:@"ImageSrc"]){
