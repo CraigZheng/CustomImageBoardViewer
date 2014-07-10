@@ -25,7 +25,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "188"
             endingLineNumber = "188"
-            landmarkName = "-prepareHTMLForFragments:"
+            landmarkName = "-renderHTMLToAttributedString:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -176,11 +176,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomImageBoardViewer/czzHTMLToThreadParser.m"
-            timestampString = "426697712.732617"
+            timestampString = "426699454.986231"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
             landmarkName = "-scanHTML:"
             landmarkType = "5">
          </BreakpointContent>

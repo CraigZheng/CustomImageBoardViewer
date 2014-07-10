@@ -32,6 +32,7 @@
 #pragma mark - CLICKABLE CONTENT
 @property NSMutableArray *replyToList;
 -(id)initWithSMXMLElement:(SMXMLElement*)data;
+-(NSAttributedString*)renderHTMLToAttributedString:(NSString*)htmlString;
 
 -(BOOL)isEqual:(id)object;
 -(NSUInteger)hash;

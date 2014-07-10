@@ -77,9 +77,9 @@
             //if title has more than 10 chinese words, it will be too long to fit in the title bar
             //therefore we put it at the beginning of the content
             if (self.title.length > 10)
-                self.content = [self prepareHTMLForFragments:[NSString stringWithFormat:@" * %@ * \n\n%@", self.title, child.value]];
+                self.content = [self renderHTMLToAttributedString:[NSString stringWithFormat:@" * %@ * \n\n%@", self.title, child.value]];
             else
-                self.content = [self prepareHTMLForFragments:[NSString stringWithString:child.value]];
+                self.content = [self renderHTMLToAttributedString:[NSString stringWithString:child.value]];
 
         }
         else if ([child.name isEqualToString:@"ImageSrc"]){
@@ -168,7 +168,7 @@
     return attributedString;
 }
 
--(NSAttributedString*)prepareHTMLForFragments:(NSString*)htmlString{
+-(NSAttributedString*)renderHTMLToAttributedString:(NSString*)htmlString{
     htmlString = [htmlString stringByDecodingHTMLEntities];
     htmlString = [htmlString stringByReplacingOccurrencesOfString:@"&#180" withString:@"´"];
     htmlString = [htmlString stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n"];
