@@ -12,6 +12,8 @@
 #import "Toast+UIView.h"
 #import "SMXMLDocument.h"
 
+#import "czzHTMLToThreadParser.h"
+
 #import <BugSense-iOS/BugSenseController.h>
 
 @interface czzAppDelegate()<czzBlacklistDownloaderDelegate, NSURLConnectionDataDelegate>
@@ -29,6 +31,9 @@
     // Override point for customization after application launch.
     [BugSenseController sharedControllerWithBugSenseAPIKey:@"cd668a8e"];
     myhost = my_main_host;
+    
+    //DEBUGGING HTML PARSER
+    czzHTMLToThreadParser *parser = [[czzHTMLToThreadParser alloc] init];
     return YES;
 }
 							
