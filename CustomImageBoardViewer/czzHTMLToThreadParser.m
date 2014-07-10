@@ -51,15 +51,22 @@
                 }
             }
             //ID
-            if ([tagString rangeOfString:@"<class=\"r\""].location != NSNotFound && (endTagRange = [htmlString rangeOfString:@"<+/[^>]+>" options:NSRegularExpressionSearch range:NSMakeRange(r.location + r.length, htmlString.length - r.length - r.location)]).location != NSNotFound) {
+            if ([tagString rangeOfString:@"rel="].location != NSNotFound && (endTagRange = [htmlString rangeOfString:@"<+/[^>]+>" options:NSRegularExpressionSearch range:NSMakeRange(r.location + r.length, htmlString.length - r.length - r.location)]).location != NSNotFound) {
                 NSRange textRange = NSMakeRange(r.location + r.length, endTagRange.location - r.location - r.length);
                 NSString *textWithinTags = [htmlString substringWithRange:textRange];
                 textWithinTags = [self removeHTMLTags:textWithinTags];
                 NSLog(@"ID text: %@", textWithinTags);
                 NSInteger myId;
-                NSScanner *scanner = [NSScanner scannerWithString:textWithinTags];
-                if ([scanner scanInteger: &myId])
+                NSRange noRange;
+                if ((noRange = [textWithinTags rangeOfString:@"No."]).location != NSNotFound) {
+                    NSString *noString = [htmlString substringWithRange:NSMakeRange(noRange.location + noRange.length, 10)];
+                    NSInteger myId = noString.integerValue;
                     newThread.ID = myId;
+                    htmlString = [htmlString stringByReplacingCharactersInRange:NSMakeRange(noRange.location + noRange.length, 10) withString:@""];
+                }
+//                NSScanner *scanner = [NSScanner scannerWithString:textWithinTags];
+//                if ([scanner scanInteger: &myId])
+//                    newThread.ID = myId;
                 
             }
             //TODO; UID and time
