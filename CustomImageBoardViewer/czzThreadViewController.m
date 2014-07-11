@@ -748,7 +748,11 @@
         [[czzImageCentre sharedInstance] stopAndRemoveImageDownloaderWithURL:tappedThread.imgSrc];
         [[czzAppDelegate sharedAppDelegate] showToast:@"图片下载被终止了"];
     } else {
-        [[czzImageCentre sharedInstance] downloadImageWithURL:tappedThread.imgSrc isCompletedURL:NO];
+        BOOL completedURL = NO;
+        if ([[[NSURL URLWithString:tappedThread.imgSrc] scheme] isEqualToString:@"http"]) {
+            completedURL = YES;
+        }
+        [[czzImageCentre sharedInstance] downloadImageWithURL:tappedThread.imgSrc isCompletedURL:completedURL];
         [[czzAppDelegate sharedAppDelegate] showToast:@"正在下载图片"];
     }
 }
