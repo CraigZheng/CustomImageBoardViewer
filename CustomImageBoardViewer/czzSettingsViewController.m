@@ -165,7 +165,7 @@
     [switchCommands addObject:@"开启帖子缓存"];
     [regularCommands addObject:@"图片缓存"];
     [regularCommands addObject:@"清空缓存"];
-    [regularCommands addObject:@"收藏"];
+//    [regularCommands addObject:@"收藏"];
     [regularCommands addObject:@"清除ID信息"];
     [regularCommands addObject:@"通知中心"];
     [regularCommands addObject:@"意见反馈"];

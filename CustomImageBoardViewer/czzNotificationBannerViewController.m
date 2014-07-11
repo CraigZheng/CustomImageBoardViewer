@@ -152,7 +152,7 @@
 - (IBAction)dismissAction:(id)sender {
     self.needsToBePresented = NO;
     for (czzNotification *noti in notifications) {
-        noti.timeBeenDisplayed += 1;
+        noti.timeBeenDisplayed += 3;
     }
     if (currentNotification) {
         currentNotification.timeBeenDisplayed = NSIntegerMax;

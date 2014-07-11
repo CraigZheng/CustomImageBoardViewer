@@ -23,6 +23,7 @@
 #import "czzThreadRefButton.h"
 #import "PartialTransparentView.h"
 #import "czzOnScreenCommandViewController.h"
+#import "czzSearchViewController.h"
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
 #define OVERLAY_VIEW 122
@@ -49,6 +50,7 @@
 @property CGPoint restoreFromBackgroundOffSet;
 @property BOOL shouldDisplayQuickScrollCommand;
 @property NSString *thumbnailFolder;
+@property NSString *keywordToSearch;
 @end
 
 @implementation czzThreadViewController
@@ -75,6 +77,7 @@
 @synthesize restoreFromBackgroundOffSet;
 @synthesize shouldDisplayQuickScrollCommand;
 @synthesize thumbnailFolder;
+@synthesize keywordToSearch;
 
 - (void)viewDidLoad
 {
@@ -126,8 +129,9 @@
     UIMenuItem *replyMenuItem = [[UIMenuItem alloc] initWithTitle:@"回复" action:@selector(menuActionReply:)];
     UIMenuItem *copyMenuItem = [[UIMenuItem alloc] initWithTitle:@"复制" action:@selector(menuActionCopy:)];
     UIMenuItem *openMenuItem = [[UIMenuItem alloc] initWithTitle:@"打开链接" action:@selector(menuActionOpen:)];
-    UIMenuItem *highlightMenuItem = [[UIMenuItem alloc] initWithTitle:@"高亮此人" action:@selector(menuActionHighlight:)];
-    [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, highlightMenuItem, openMenuItem]];
+    UIMenuItem *highlightMenuItem = [[UIMenuItem alloc] initWithTitle:@"高亮他" action:@selector(menuActionHighlight:)];
+    UIMenuItem *searchMenuItem = [[UIMenuItem alloc] initWithTitle:@"搜索他" action:@selector(menuActionSearch:)];
+    [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, highlightMenuItem, searchMenuItem, openMenuItem]];
     [[UIMenuController sharedMenuController] update];
     //show on screen command
     onScreenCommand = [[czzOnScreenCommandViewController alloc] initWithNibName:@"czzOnScreenCommandViewController" bundle:[NSBundle mainBundle]];
@@ -157,6 +161,7 @@
     //Jump to command observer
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(PromptForJumpToPage) name:@"JumpToPageCommand" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(HighlightThreadSelected:) name:@"HighlightAction" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SearchUser:) name:@"SearchAction" object:nil];
 
     //indicate thread view controller is currently active
     NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
@@ -484,19 +489,16 @@
         }
         else
             shouldHighlightSelectedThread = selectedThread;
-        NSDate *startTime = [NSDate new];
         [threadTableView reloadData];
-        NSLog(@"time to reload :%dms", (NSInteger)([[NSDate new] timeIntervalSinceDate:startTime] * 1000));
-//        for (NSIndexPath *displayedIndexPath in [threadTableView indexPathsForVisibleRows]) {
-//            if (displayedIndexPath.row >= threads.count)
-//                break;
-//            czzThread *displayedThread = [threads objectAtIndex:displayedIndexPath.row];
-//            if ([displayedThread isEqual:shouldHighlightSelectedThread]){
-//                [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:displayedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-//                break;
-//            }
-//        }
+    }
+}
 
+#pragma mark - search this particula user 
+-(void)SearchUser:(NSNotification*)notification {
+    czzThread *selectedThread = [notification.userInfo objectForKey:@"SearchUser"];
+    if (selectedThread) {
+        keywordToSearch = selectedThread.UID.string;
+        [self performSegueWithIdentifier:@"go_search_view_segue" sender:self];
     }
 }
 
@@ -769,45 +771,8 @@
         }
     }
     [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"找不到帖子ID: %d, 可能不在本帖内", refNumber]];
-
-    /*
-    UIView* v = sender;
-    while (![v isKindOfClass:[UITableViewCell class]])
-        v = v.superview;
-    UITableViewCell *parentCell = (UITableViewCell*)v;
-    
-    NSIndexPath *tappedIndexPath = [threadTableView indexPathForCell:parentCell];
-    if (tappedIndexPath){
-        czzThread *tappedThread = [threads objectAtIndex:tappedIndexPath.row];
-
-    }
-     */
 }
 
-/*
-#pragma mark - TTTAttributedLabel delegate
--(void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url{
-    if ([[url scheme] isEqualToString:@"GOTO"]){
-        NSInteger gotoThreadID = [[url host] integerValue];
-        for (czzThread *thread in threads) {
-            if (thread.ID == gotoThreadID){
-                //record the current content offset
-                threadsTableViewContentOffSet = threadTableView.contentOffset;
-                //scroll to the tapped cell
-                [threadTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[threads indexOfObject:thread] inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:NO];
-                //retrive the tapped tableview cell from the tableview
-                UITableViewCell *selectedCell = [threadTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[threads indexOfObject:thread] inSection:0]];
-                selectedCell = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:selectedCell]];
-                [self highlightTableViewCell:selectedCell];
-                return;
-            }
-        }
-        [self.view makeToast:[NSString stringWithFormat:@"找不到帖子ID: %d, 可能不在本帖内", gotoThreadID]];
-    } else {
-        [[UIApplication sharedApplication] openURL:url];
-    }
-}
-*/
 #pragma mark - high light
 -(void)highlightTableViewCell:(UITableViewCell*)tableviewcell{
     //disable the scrolling view
@@ -856,6 +821,15 @@
             [documentInteractionController presentPreviewAnimated:YES];
 
         }
+    }
+}
+
+#pragma mark - prepare for segue
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"go_search_view_segue"]) {
+        czzSearchViewController *searchViewController = (czzSearchViewController*)segue.destinationViewController;
+        if (keywordToSearch.length > 0)
+            searchViewController.predefinedSearchKeyword = keywordToSearch;
     }
 }
 

@@ -162,7 +162,7 @@
 }
 
 - (IBAction)moreAction:(id)sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"更多功能" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"发表新帖", @"跳页", @"搜索", @"设置", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"更多功能" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"发表新帖", @"跳页", @"搜索", @"收藏", @"设置", nil];
     [actionSheet showInView:self.view];
 }
 
@@ -181,6 +181,8 @@
         [alertView show];
     } else if ([buttonTitle isEqualToString:@"搜索"]) {
         [self performSegueWithIdentifier:@"go_search_view_segue" sender:self];
+    } else if ([buttonTitle isEqualToString:@"收藏"]) {
+        [self performSegueWithIdentifier:@"go_favourite_manager_view_controller_segue" sender:self];
     }
 }
 

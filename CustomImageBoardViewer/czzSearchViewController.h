@@ -10,6 +10,8 @@
 
 @interface czzSearchViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIWebView *searchWebView;
-
+@property (weak, nonatomic) IBOutlet UISegmentedControl *searchEngineSegmentedControl;
+@property NSString *predefinedSearchKeyword;
 - (IBAction)againAction:(id)sender;
+- (IBAction)segmentControlChanged:(id)sender;
 @end

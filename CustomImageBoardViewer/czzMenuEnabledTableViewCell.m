@@ -22,7 +22,8 @@
         return YES;
     return (action == @selector(menuActionReply:) ||
             action == @selector(menuActionCopy:)
-            || action == @selector(menuActionHighlight:));
+            || action == @selector(menuActionHighlight:)
+            || action == @selector(menuActionSearch:));
 }
 
 -(BOOL)canBecomeFirstResponder{
@@ -67,6 +68,11 @@
 -(void)menuActionHighlight:(id)sender {
     NSDictionary *userInfo = [NSDictionary dictionaryWithObject:self.myThread forKey:@"HighlightThread"];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"HighlightAction" object:Nil userInfo:userInfo];
+}
+
+-(void)menuActionSearch:(id) sender {
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:self.myThread forKey:@"SearchUser"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"SearchAction" object:Nil userInfo:userInfo];
 }
 
 #pragma mark - setter

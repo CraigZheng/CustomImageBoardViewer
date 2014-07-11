@@ -6,8 +6,10 @@
 //  Copyright (c) 2014 Craig. All rights reserved.
 //
 #define KEYWORD @"KEYWORD"
-#define GOOGLE_SEARCH_COMMAND @"http://www.google.com/custom?q=site%3Ah.acfun.tv+KEYWORD"
+#define GOOGLE_SEARCH_COMMAND @"https://www.google.com.au/#q=site:h.acfun.tv+KEYWORD"
 #define BING_SEARCH_COMMAND @"http://m.bing.com/search?q=site%3Ah.acfun.tv+KEYWORD&btsrc=internal"
+
+#define USER_SELECTED_SEARCH_ENGINE @"DEFAULT_SEARCH_ENGINE"
 
 #import "czzSearchViewController.h"
 #import "czzThread.h"
@@ -27,20 +29,38 @@
 @synthesize searchInputAlertView;
 @synthesize searchCommand;
 @synthesize searchWebView;
+@synthesize predefinedSearchKeyword;
+@synthesize searchEngineSegmentedControl;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     searchCommand = BING_SEARCH_COMMAND;
+    //restore selected search engine
+    NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
+    if ([userDef objectForKey:USER_SELECTED_SEARCH_ENGINE]){
+        searchCommand = [userDef stringForKey:USER_SELECTED_SEARCH_ENGINE];
+        if ([searchCommand isEqualToString:BING_SEARCH_COMMAND]) {
+            searchEngineSegmentedControl.selectedSegmentIndex = 0;
+        } else {
+            searchEngineSegmentedControl.selectedSegmentIndex = 1;
+        }
+    }
+    
     searchInputAlertView = [[UIAlertView alloc] initWithTitle:@"关键词" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     searchInputAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     [searchWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://m.bing.com"]]];
+    if (predefinedSearchKeyword) {
+        predefinedSearchKeyword = [predefinedSearchKeyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        [[searchInputAlertView textFieldAtIndex:0] setText:predefinedSearchKeyword];
+    }
+    [searchInputAlertView show];
+
 }
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [searchInputAlertView show];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -53,7 +73,7 @@
     //search
     if ([alertView.title isEqualToString:@"关键词"]) {
         if (buttonIndex != alertView.cancelButtonIndex) {
-            NSURLRequest *request = [self makeRequestWithKeyword:[[alertView textFieldAtIndex:0] text]];
+            NSURLRequest *request = [self makeRequestWithKeyword:[[[alertView textFieldAtIndex:0] text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
             if (!request) {
                 [[czzAppDelegate sharedAppDelegate].window makeToast:@"无效的搜索"];
             } else
@@ -80,7 +100,10 @@
     }
 }
 
--(void)convertURLToThread:(NSURL*)url {
+-(void)openURLAndConvertToczzThreadFormat:(NSURL*)url {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[czzAppDelegate sharedAppDelegate].window makeToastActivity];
+    });
     if ([url.absoluteString rangeOfString:@"?ph"].location != NSNotFound) {
         NSString *urlString = url.absoluteString;
         urlString = [urlString substringToIndex:[urlString rangeOfString:@"?ph"].location];
@@ -91,21 +114,30 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSData *htmlData = [NSData dataWithContentsOfURL:url];
         if (htmlData) {
-            NSString *htmlString = [[NSString alloc] initWithData:htmlData encoding:NSUTF8StringEncoding];
             @try {
+                NSString *htmlString = [[NSString alloc] initWithData:htmlData encoding:NSUTF8StringEncoding];
                 czzHTMLToThreadParser *htmlParser = [czzHTMLToThreadParser new];
                 [htmlParser parse:htmlString];
                 NSArray *threads = htmlParser.parsedThreads;
-                if (threads.count > 0) {
-                    selectedParentThread = [threads firstObject];
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (threads.count > 0) {
+                        selectedParentThread = [threads firstObject];
                         [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
-                    });
-                }
+                    } else {
+                        [[czzAppDelegate sharedAppDelegate].window makeToast:@"无法打开这个链接" duration:2.0 position:@"centre" image:[UIImage imageNamed:@"warning.png"]];
+                    }
+                });
+
             }
             @catch (NSException *exception) {
                 NSLog(@"%@", exception);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[czzAppDelegate sharedAppDelegate].window makeToast:@"无法打开这个链接" duration:2.0 position:@"centre" image:[UIImage imageNamed:@"warning.png"]];
+                });
             }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[czzAppDelegate sharedAppDelegate].window hideToastActivity];
+            });
         }
     });
 
@@ -117,15 +149,23 @@
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    NSLog(@"clicked URL: %@", request.URL.absoluteString);
-    if (navigationType == UIWebViewNavigationTypeLinkClicked && [request.URL.absoluteString rangeOfString:@"h.acfun.tv"].location == NSNotFound) {
-        [[czzAppDelegate sharedAppDelegate].window makeToast:@"这个App只支持AC匿名版的链接" duration:2.0 position:@"center" image:[UIImage imageNamed:@"warning.png"]];
-        return NO;
-    } else {
-        //load the given url and parse it
-        [self convertURLToThread:request.URL];
-        return NO;
+    NSLog(@"should navigate to URL: %@", request.URL.absoluteString);
+    //user tapped on link
+    if (navigationType == UIWebViewNavigationTypeLinkClicked) {
+        if ([request.URL.absoluteString rangeOfString:@"h.acfun.tv"].location == NSNotFound) {
+            [[czzAppDelegate sharedAppDelegate].window makeToast:@"这个App只支持AC匿名版的链接" duration:2.0 position:@"center" image:[UIImage imageNamed:@"warning.png"]];
+            return NO;
+        } else {
+            if ([request.URL.host rangeOfString:@"acfun"].location != NSNotFound) {
+                [self openURLAndConvertToczzThreadFormat:request.URL];
+                return NO;
+            }
+        }
+        return YES;
     }
+//    } else if (navigationType == UIWebViewNavigationTypeOther && [request.URL.absoluteString rangeOfString:@"h.acfun.tv"].location != NSNotFound){
+//        //load the given url and parse it
+//    }
     return YES;
 }
 
@@ -141,5 +181,18 @@
     if (!searchInputAlertView.isVisible) {
         [searchInputAlertView show];
     }
+}
+
+- (IBAction)segmentControlChanged:(id)sender {
+    UISegmentedControl *segmentedControl = (UISegmentedControl*)sender;
+    if (segmentedControl.selectedSegmentIndex == 0) {
+        searchCommand = BING_SEARCH_COMMAND;
+    } else
+    {
+        searchCommand = GOOGLE_SEARCH_COMMAND;
+    }
+    NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
+    [userDef setObject:searchCommand forKey:USER_SELECTED_SEARCH_ENGINE];
+    [userDef synchronize];
 }
 @end
