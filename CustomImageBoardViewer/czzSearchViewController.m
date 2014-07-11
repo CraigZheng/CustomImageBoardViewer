@@ -122,7 +122,11 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (threads.count > 0) {
                         selectedParentThread = [threads firstObject];
-                        [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
+                        if (self.isViewLoaded && self.view.window) {
+                            // viewController is visible
+                            [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
+
+                        }
                     } else {
                         [[czzAppDelegate sharedAppDelegate].window makeToast:@"无法打开这个链接" duration:2.0 position:@"centre" image:[UIImage imageNamed:@"warning.png"]];
                     }
