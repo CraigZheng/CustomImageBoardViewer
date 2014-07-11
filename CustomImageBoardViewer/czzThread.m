@@ -408,35 +408,12 @@
                 self.thImgSrc = nil;
             }
         }
-        /*
-        for (czzBlacklistEntity *blacklistEntity in [[czzBlacklist sharedInstance] blacklistEntities]) {
-            if (blacklistEntity.threadID == self.ID){
-         
-                 //self.content = [[NSAttributedString alloc] initWithString:@" ** 用户举报的不健康的内容 ** "];
-                 //self.imgScr = nil;
-         
-                //assign the blacklist value to this thread
-                self.harmful = blacklistEntity.harmful;
-                self.blockContent = blacklistEntity.content;
-                if (self.blockContent)
-                    self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
-                self.blockImage = blacklistEntity.image;
-                if (self.blockImage){
-                    self.imgSrc = nil;
-                    self.thImgSrc = nil;
-                }
-                self.blockAll = blacklistEntity.block;
-                if (self.blockAll)
-                {
-                    self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
-                    self.imgSrc = nil;
-                    self.thImgSrc = nil;
-                }
-                break;
-            }
-        }
-        */
+        
     }
     return self;
+}
+
+-(NSString *)description {
+    return [NSString stringWithFormat:@"%ld - %@ - %@ - %@", self.ID, self.UID.string, self.content.string, self.imgSrc];
 }
 @end

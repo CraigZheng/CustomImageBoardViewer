@@ -122,6 +122,7 @@
 		5A88B8401938AFDB00071343 /* czzNotificationCentreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A88B83F1938AFDB00071343 /* czzNotificationCentreTableViewController.m */; };
 		5ADCA46A1938F67F002BA60B /* ValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCA4691938F67F002BA60B /* ValueFormatter.m */; };
 		5AF85E62196EDC110031D0CB /* czzHTMLToThreadParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF85E61196EDC110031D0CB /* czzHTMLToThreadParser.m */; };
+		5AF85E65196FE9180031D0CB /* czzHTMLParserTestTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF85E64196FE9180031D0CB /* czzHTMLParserTestTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -319,6 +320,8 @@
 		5ADCA4691938F67F002BA60B /* ValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueFormatter.m; sourceTree = "<group>"; };
 		5AF85E60196EDC110031D0CB /* czzHTMLToThreadParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzHTMLToThreadParser.h; sourceTree = "<group>"; };
 		5AF85E61196EDC110031D0CB /* czzHTMLToThreadParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzHTMLToThreadParser.m; sourceTree = "<group>"; };
+		5AF85E63196FE9180031D0CB /* czzHTMLParserTestTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzHTMLParserTestTableViewController.h; sourceTree = "<group>"; };
+		5AF85E64196FE9180031D0CB /* czzHTMLParserTestTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzHTMLParserTestTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -500,6 +503,8 @@
 				441E5CDD17F4691300289DBD /* czzAppDelegate.h */,
 				441E5CDE17F4691300289DBD /* czzAppDelegate.m */,
 				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
+				5AF85E63196FE9180031D0CB /* czzHTMLParserTestTableViewController.h */,
+				5AF85E64196FE9180031D0CB /* czzHTMLParserTestTableViewController.m */,
 				5A88B8411938AFE000071343 /* czzNotificationCentre */,
 				44BE2E3C1938400A00601943 /* czzOnScreenCommand */,
 				5A2B2D8E1936179500BA2870 /* czzFeedback */,
@@ -1061,6 +1066,7 @@
 				440B2FC717F7DB7800544926 /* czzForumsViewController.m in Sources */,
 				442CD0E718517BED0021AD37 /* czzImageCentre.m in Sources */,
 				44BE2E3A19383FEF00601943 /* czzOnScreenCommandViewController.m in Sources */,
+				5AF85E65196FE9180031D0CB /* czzHTMLParserTestTableViewController.m in Sources */,
 				4412FA151935865800681438 /* Reachability.m in Sources */,
 				5A26E77F1939AA6300B709C9 /* czzNotification.m in Sources */,
 				44AE2AFE18725EC4002CB021 /* czzNoSelectionTextView.m in Sources */,

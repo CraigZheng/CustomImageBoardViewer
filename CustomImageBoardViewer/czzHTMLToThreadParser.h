@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface czzHTMLToThreadParser : NSObject
-
+@property NSArray *parsedThreads;
 @end
