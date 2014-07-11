@@ -123,6 +123,7 @@
 		5ADCA46A1938F67F002BA60B /* ValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCA4691938F67F002BA60B /* ValueFormatter.m */; };
 		5AF85E62196EDC110031D0CB /* czzHTMLToThreadParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF85E61196EDC110031D0CB /* czzHTMLToThreadParser.m */; };
 		5AF85E65196FE9180031D0CB /* czzHTMLParserTestTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF85E64196FE9180031D0CB /* czzHTMLParserTestTableViewController.m */; };
+		5AF85E681970025A0031D0CB /* czzSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF85E671970025A0031D0CB /* czzSearchViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -322,6 +323,8 @@
 		5AF85E61196EDC110031D0CB /* czzHTMLToThreadParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzHTMLToThreadParser.m; sourceTree = "<group>"; };
 		5AF85E63196FE9180031D0CB /* czzHTMLParserTestTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzHTMLParserTestTableViewController.h; sourceTree = "<group>"; };
 		5AF85E64196FE9180031D0CB /* czzHTMLParserTestTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzHTMLParserTestTableViewController.m; sourceTree = "<group>"; };
+		5AF85E661970025A0031D0CB /* czzSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzSearchViewController.h; sourceTree = "<group>"; };
+		5AF85E671970025A0031D0CB /* czzSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzSearchViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -505,6 +508,7 @@
 				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
 				5AF85E63196FE9180031D0CB /* czzHTMLParserTestTableViewController.h */,
 				5AF85E64196FE9180031D0CB /* czzHTMLParserTestTableViewController.m */,
+				5AF85E691970025F0031D0CB /* czzSearchViewController */,
 				5A88B8411938AFE000071343 /* czzNotificationCentre */,
 				44BE2E3C1938400A00601943 /* czzOnScreenCommand */,
 				5A2B2D8E1936179500BA2870 /* czzFeedback */,
@@ -904,6 +908,15 @@
 			name = czzNotificationCentre;
 			sourceTree = "<group>";
 		};
+		5AF85E691970025F0031D0CB /* czzSearchViewController */ = {
+			isa = PBXGroup;
+			children = (
+				5AF85E661970025A0031D0CB /* czzSearchViewController.h */,
+				5AF85E671970025A0031D0CB /* czzSearchViewController.m */,
+			);
+			name = czzSearchViewController;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1075,6 +1088,7 @@
 				5A27E140193CA11300D0094F /* czzNotificationManager.m in Sources */,
 				5A6266AA193A17FF00AD949F /* czzNotificationDownloader.m in Sources */,
 				44C34543187E59A500FDE45D /* UIViewController+KNSemiModal.m in Sources */,
+				5AF85E681970025A0031D0CB /* czzSearchViewController.m in Sources */,
 				4448C2A7180FF55A00D2CD76 /* czzBlacklistDownloader.m in Sources */,
 				442CD0E31851601A0021AD37 /* czzImageDownloader.m in Sources */,
 				440B2FCC17F8057500544926 /* czzPostViewController.m in Sources */,

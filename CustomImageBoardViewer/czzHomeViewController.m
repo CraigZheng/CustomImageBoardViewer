@@ -95,8 +95,8 @@
                                                  name:@"ForumNamePicked"
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(favouriteThreadPicked:)
-                                                 name:@"FavouriteThreadPicked"
+                                             selector:@selector(openPickedThread:)
+                                                 name:@"ShouldOpenThreadInThreadViewController"
                                                object:nil];
     //register for nsnotification centre for image downloaded notification
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -162,7 +162,7 @@
 }
 
 - (IBAction)moreAction:(id)sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"更多功能" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"发表新帖", @"跳页", @"设置", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"更多功能" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"发表新帖", @"跳页", @"搜索", @"设置", nil];
     [actionSheet showInView:self.view];
 }
 
@@ -179,6 +179,8 @@
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"跳页" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
         [alertView show];
+    } else if ([buttonTitle isEqualToString:@"搜索"]) {
+        [self performSegueWithIdentifier:@"go_search_view_segue" sender:self];
     }
 }
 
@@ -618,7 +620,7 @@
 }
 
 #pragma notification handler - favourite thread selected
--(void)favouriteThreadPicked:(NSNotification*)notification{
+-(void)openPickedThread:(NSNotification*)notification{
     NSDictionary *userInfo = notification.userInfo;
     if ([userInfo objectForKey:@"PickedThread"]){
         selectedThread = [userInfo objectForKey:@"PickedThread"];

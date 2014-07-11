@@ -19,16 +19,8 @@
 @synthesize htmlContent;
 @synthesize parsedThreads;
 
--(id)init {
-    self = [super init];
-    if (self) {
-        [self parse];
-    }
-    return self;
-}
-
--(void)parse {
-    htmlContent = [[NSString alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:DEBUG_URL]] encoding:NSUTF8StringEncoding];
+-(void)parse:(NSString*)htmlString {
+    htmlContent = htmlString;
     [self scanHTML:htmlContent];
 }
 

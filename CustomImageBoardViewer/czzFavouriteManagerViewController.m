@@ -113,7 +113,7 @@
         czzThread *selectedThread = [threads.allObjects objectAtIndex:selectedIndex.row];
         NSDictionary *userInfo = [NSDictionary dictionaryWithObject:selectedThread forKey:@"PickedThread"];
         [self.viewDeckController toggleTopViewAnimated:YES completion:^(IIViewDeckController *controller, BOOL success){
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"FavouriteThreadPicked" object:self userInfo:userInfo];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ShouldOpenThreadInThreadViewController" object:self userInfo:userInfo];
         }];
     }
 }

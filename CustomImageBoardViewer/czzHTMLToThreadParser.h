@@ -10,4 +10,6 @@
 
 @interface czzHTMLToThreadParser : NSObject
 @property NSArray *parsedThreads;
+
+-(void)parse:(NSString*)htmlString;
 @end
