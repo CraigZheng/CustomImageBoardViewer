@@ -21,7 +21,9 @@
 
 -(void)parse:(NSString*)htmlString {
     htmlContent = htmlString;
+    NSDate *startTime = [NSDate new];
     [self scanHTML:htmlContent];
+    NSLog(@"took %f second to render", [[NSDate new] timeIntervalSinceDate:startTime]);
 }
 
 -(void)scanHTML:(NSString*)htmlString {
