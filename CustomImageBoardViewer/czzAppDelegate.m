@@ -28,6 +28,7 @@
 {
     // Override point for customization after application launch.
     [BugSenseController sharedControllerWithBugSenseAPIKey:@"cd668a8e"];
+    [BugSenseController setUserIdentifier:[UIDevice currentDevice].identifierForVendor.UUIDString];
     myhost = my_main_host;
     
     return YES;
