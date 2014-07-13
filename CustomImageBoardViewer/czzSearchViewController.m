@@ -8,6 +8,7 @@
 #define KEYWORD @"KEYWORD"
 #define GOOGLE_SEARCH_COMMAND @"https://www.google.com.au/#q=site:h.acfun.tv+KEYWORD"
 #define BING_SEARCH_COMMAND @"http://m.bing.com/search?q=site%3Ah.acfun.tv+KEYWORD&btsrc=internal"
+#define AC_SEARCH_COMMAND @"http://h.acfun.tv/thread/search?key=KEYWORD"
 
 #define USER_SELECTED_SEARCH_ENGINE @"DEFAULT_SEARCH_ENGINE"
 
@@ -43,8 +44,10 @@
         searchCommand = [userDef stringForKey:USER_SELECTED_SEARCH_ENGINE];
         if ([searchCommand isEqualToString:BING_SEARCH_COMMAND]) {
             searchEngineSegmentedControl.selectedSegmentIndex = 0;
-        } else {
+        } else if ([searchCommand isEqualToString:GOOGLE_SEARCH_COMMAND]) {
             searchEngineSegmentedControl.selectedSegmentIndex = 1;
+        } else {
+            searchEngineSegmentedControl.selectedSegmentIndex = 2;
         }
     }
     
@@ -76,8 +79,12 @@
             NSURLRequest *request = [self makeRequestWithKeyword:[[[alertView textFieldAtIndex:0] text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
             if (!request) {
                 [[czzAppDelegate sharedAppDelegate].window makeToast:@"无效的搜索"];
-            } else
-                [searchWebView loadRequest:request];
+            } else {
+                if ([searchCommand isEqualToString:AC_SEARCH_COMMAND]) {
+                    [self openURLAndConvertToczzThreadFormat:request.URL];
+                } else
+                    [searchWebView loadRequest:request];
+            }
         }
     }
 }
@@ -191,9 +198,12 @@
     UISegmentedControl *segmentedControl = (UISegmentedControl*)sender;
     if (segmentedControl.selectedSegmentIndex == 0) {
         searchCommand = BING_SEARCH_COMMAND;
-    } else
+    } else if (segmentedControl.selectedSegmentIndex == 1)
     {
         searchCommand = GOOGLE_SEARCH_COMMAND;
+    }
+    else if (segmentedControl.selectedSegmentIndex ==2) {
+        searchCommand = AC_SEARCH_COMMAND;
     }
     NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
     [userDef setObject:searchCommand forKey:USER_SELECTED_SEARCH_ENGINE];
