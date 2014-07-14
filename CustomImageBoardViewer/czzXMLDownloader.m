@@ -23,7 +23,7 @@
     self = [super init];
     if (self){
         targetURL = url;
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:targetURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:targetURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:20];
         [request setHTTPShouldHandleCookies:YES];
         [request setHTTPMethod:@"GET"];
         [request setValue:@"application/xml" forHTTPHeaderField:@"Accept"];

@@ -10,6 +10,7 @@
 
 
 @interface czzFavouriteManagerViewController : UITableViewController
+@property NSMutableArray *threads;
+@property NSString *title;
 - (IBAction)editAction:(id)sender;
-
 @end

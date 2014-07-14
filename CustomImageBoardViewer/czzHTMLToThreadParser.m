@@ -10,6 +10,7 @@
 
 #import "czzHTMLToThreadParser.h"
 #import "czzThread.h"
+#import "NSString+HTML.h"
 
 @interface czzHTMLToThreadParser ()
 @property NSString *htmlContent;
@@ -101,7 +102,8 @@
                 while ([textWithinTags rangeOfString:@"  "].location != NSNotFound) {
                     textWithinTags = [textWithinTags stringByReplacingOccurrencesOfString:@"  " withString:@" "];
                 }
-                textWithinTags = [self removeHTMLTags:textWithinTags];
+                textWithinTags = [textWithinTags stringByRemovingNewLinesAndWhitespace];
+//                textWithinTags = [self removeHTMLTags:textWithinTags];
                 newThread.content = [[czzThread new] renderHTMLToAttributedString:textWithinTags];
             }
             //this thread is ready, initiate next iteration

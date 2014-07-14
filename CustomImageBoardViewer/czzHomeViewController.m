@@ -128,15 +128,6 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    /*
-    //if this app is run for the first time, show a brief tutorial
-     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"firstTimeRunning"]) {
-         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"firstTimeRunning"];
-         [[NSUserDefaults standardUserDefaults] synchronize];
-
-         [self showTutorial];
-     }
-     */
     self.viewDeckController.leftController = leftController;
     //if a forum has not been selected and is not the first time running
     if (!self.forumName/* || [[NSUserDefaults standardUserDefaults] objectForKey:@"firstTimeRunning"]*/)

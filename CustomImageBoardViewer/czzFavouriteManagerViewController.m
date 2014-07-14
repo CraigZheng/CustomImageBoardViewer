@@ -13,13 +13,17 @@
 #import "czzHomeViewController.h"
 
 @interface czzFavouriteManagerViewController ()
-@property NSMutableSet *threads;
 @property NSIndexPath *selectedIndex;
+@property NSMutableSet *internalThreads;
+@property czzThread *selectedThread;
 @end
 
 @implementation czzFavouriteManagerViewController
-@synthesize threads;
+@synthesize internalThreads;
 @synthesize selectedIndex;
+@synthesize threads;
+@synthesize title;
+@synthesize selectedThread;
 
 - (void)viewDidLoad
 {
@@ -29,18 +33,24 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    NSString* libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    threads = [NSKeyedUnarchiver unarchiveObjectWithFile:[libraryPath stringByAppendingPathComponent:@"favourites.dat"]];
-    if (!threads){
-        threads = [NSMutableSet new];
+    if (!threads) {
+        NSString* libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        internalThreads = [NSKeyedUnarchiver unarchiveObjectWithFile:[libraryPath stringByAppendingPathComponent:@"favourites.dat"]];
+        if (!internalThreads){
+            internalThreads = [NSMutableSet new];
+        }
+        threads = [NSMutableArray arrayWithArray:[self sortTheGivenArray:internalThreads.allObjects]];
     }
-    threads = [NSMutableSet setWithArray:[self sortTheGivenArray:threads.allObjects]];
+    if (title) {
+        self.title = title;
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     NSString* libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    [NSKeyedArchiver archiveRootObject:threads toFile:[libraryPath stringByAppendingPathComponent:@"favourites.dat"]];
+    internalThreads = [NSMutableSet setWithArray:threads];
+    [NSKeyedArchiver archiveRootObject:internalThreads toFile:[libraryPath stringByAppendingPathComponent:@"favourites.dat"]];
 }
 
 #pragma UITableView datasource
@@ -52,7 +62,8 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     NSString *cell_identifier = @"thread_cell_identifier";
-    czzThread *thread = [threads.allObjects objectAtIndex:indexPath.row];
+//    czzThread *thread = [internalThreads.allObjects objectAtIndex:indexPath.row];
+    czzThread *thread = [threads objectAtIndex:indexPath.row];
     //if image is present and settins is set to allow images to show
     if (thread.thImgSrc.length != 0){
         cell_identifier = @"image_thread_cell_identifier";
@@ -110,19 +121,16 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     selectedIndex = indexPath;
     if (selectedIndex.row < threads.count){
-        czzThread *selectedThread = [threads.allObjects objectAtIndex:selectedIndex.row];
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:selectedThread forKey:@"PickedThread"];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"ShouldOpenThreadInThreadViewController" object:self userInfo:userInfo];
-
-        //        [self.viewDeckController toggleTopViewAnimated:YES completion:^(IIViewDeckController *controller, BOOL success){
-//            [[NSNotificationCenter defaultCenter] postNotificationName:@"FavouriteThreadPicked" object:self userInfo:userInfo];
-//        }];
+        selectedThread = [threads objectAtIndex:selectedIndex.row];
+//        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:selectedThread forKey:@"PickedThread"];
+//        [[NSNotificationCenter defaultCenter] postNotificationName:@"ShouldOpenThreadInThreadViewController" object:self userInfo:userInfo];
+        [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
     }
 }
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     if (editingStyle == UITableViewCellEditingStyleDelete){
-        czzThread* threadToDelete = [threads.allObjects objectAtIndex:indexPath.row];
+        czzThread* threadToDelete = [threads objectAtIndex:indexPath.row];
         [threads removeObject:threadToDelete];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
@@ -139,7 +147,7 @@
     
     czzThread *thread;
     @try {
-        thread = [threads.allObjects objectAtIndex:indexPath.row];
+        thread = [threads objectAtIndex:indexPath.row];
     }
     @catch (NSException *exception) {
         
@@ -178,7 +186,14 @@
      }];
      */
     return sortedArray;
+}
 
+#pragma prepare for segue
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"go_thread_view_segue"]) {
+        czzThreadViewController *threadViewController = (czzThreadViewController*)segue.destinationViewController;
+        threadViewController.parentThread = selectedThread;
+    }
 }
 
 #pragma mark - rotation

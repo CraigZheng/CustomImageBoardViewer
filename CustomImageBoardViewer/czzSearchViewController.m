@@ -17,11 +17,14 @@
 #import "czzHTMLToThreadParser.h"
 #import "czzThreadViewController.h"
 #import "czzAppDelegate.h"
+#import "czzFavouriteManagerViewController.h"
 #import "Toast+UIView.h"
 
 @interface czzSearchViewController ()<UIAlertViewDelegate, UIWebViewDelegate>
 @property czzThread *selectedParentThread;
+@property NSArray *searchResult;
 @property UIAlertView *searchInputAlertView;
+@property NSString *searchKeyword;
 @property NSString *searchCommand;
 @end
 
@@ -32,6 +35,8 @@
 @synthesize searchWebView;
 @synthesize predefinedSearchKeyword;
 @synthesize searchEngineSegmentedControl;
+@synthesize searchResult;
+@synthesize searchKeyword;
 
 - (void)viewDidLoad
 {
@@ -76,9 +81,10 @@
     //search
     if ([alertView.title isEqualToString:@"关键词"]) {
         if (buttonIndex != alertView.cancelButtonIndex) {
-            NSURLRequest *request = [self makeRequestWithKeyword:[[[alertView textFieldAtIndex:0] text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+            searchKeyword = [[[alertView textFieldAtIndex:0] text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            NSURLRequest *request = [self makeRequestWithKeyword:searchKeyword];
             if (!request) {
-                [[czzAppDelegate sharedAppDelegate].window makeToast:@"无效的搜索"];
+                [[czzAppDelegate sharedAppDelegate].window makeToast:@"无效的关键词"];
             } else {
                 if ([searchCommand isEqualToString:AC_SEARCH_COMMAND]) {
                     [self openURLAndConvertToczzThreadFormat:request.URL];
@@ -104,6 +110,10 @@
     if ([segue.identifier isEqualToString:@"go_thread_view_segue"]) {
         czzThreadViewController *threadViewController = (czzThreadViewController*)segue.destinationViewController;
         threadViewController.parentThread = selectedParentThread;
+    } else if ([segue.identifier isEqualToString:@"go_favourite_view_segue"]) {
+        czzFavouriteManagerViewController *favouriteViewManager = (czzFavouriteManagerViewController*)segue.destinationViewController;
+        favouriteViewManager.title = [NSString stringWithFormat:@"搜索：%@", searchKeyword];
+        favouriteViewManager.threads = [NSMutableArray arrayWithArray:searchResult];
     }
 }
 
@@ -129,13 +139,17 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (threads.count > 0) {
                         selectedParentThread = [threads firstObject];
+                        searchResult = threads;
+                        // if viewController is visible
                         if (self.isViewLoaded && self.view.window) {
-                            // viewController is visible
-                            [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
+                            if ([searchCommand isEqualToString:AC_SEARCH_COMMAND]) {
+                                [self performSegueWithIdentifier:@"go_favourite_view_segue" sender:self];
+                            } else
+                                [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
 
                         }
                     } else {
-                        [[czzAppDelegate sharedAppDelegate].window makeToast:@"无法打开这个链接" duration:2.0 position:@"centre" image:[UIImage imageNamed:@"warning.png"]];
+                        [[czzAppDelegate sharedAppDelegate].window makeToast:@"搜索没有结果" duration:2.0 position:@"bottom" image:[UIImage imageNamed:@"warning.png"]];
                     }
                 });
 
@@ -143,7 +157,7 @@
             @catch (NSException *exception) {
                 NSLog(@"%@", exception);
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [[czzAppDelegate sharedAppDelegate].window makeToast:@"无法打开这个链接" duration:2.0 position:@"centre" image:[UIImage imageNamed:@"warning.png"]];
+                    [[czzAppDelegate sharedAppDelegate].window makeToast:@"无法打开这个链接" duration:2.0 position:@"bottom" image:[UIImage imageNamed:@"warning.png"]];
                 });
             }
             dispatch_async(dispatch_get_main_queue(), ^{
