@@ -10,6 +10,7 @@
 #import "czzHTMLToThreadParser.h"
 #import "czzThread.h"
 #import "czzThreadViewController.h"
+#import "NSString+HTML.h"
 
 @interface czzHTMLParserTestTableViewController ()
 @property NSArray *threads;
@@ -35,6 +36,19 @@
     // self.clearsSelectionOnViewWillAppear = NO;
     //DEBUGGING HTML PARSER
     czzHTMLToThreadParser *parser = [[czzHTMLToThreadParser alloc] init];
+    NSString *httpAddress = @"http://h.acfun.tv/漫画";
+    NSURL *httpURL = [[NSURL alloc] initWithString:[httpAddress stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSData *htmlData = [NSData dataWithContentsOfURL:httpURL];
+    NSString *htmlString = [[NSString alloc] initWithData:htmlData encoding:NSUTF8StringEncoding];
+    [parser parse:htmlString];
+    
+    
+    NSMutableArray *tempArray = [NSMutableArray new];
+    for (czzThread *thread in parser.parsedThreads) {
+        if (thread.isParent)
+            [tempArray addObject:thread];
+    }
+//    threads = tempArray;
     threads = parser.parsedThreads;
 }
 

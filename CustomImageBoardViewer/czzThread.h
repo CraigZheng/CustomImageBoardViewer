@@ -24,6 +24,7 @@
 @property BOOL sage;
 @property NSDate *postDateTime;
 @property NSDate *updateDateTime;
+@property BOOL isParent;
 #pragma mark - CONTENT CENSORING PROPERTIES
 @property BOOL harmful;
 @property BOOL blockContent;

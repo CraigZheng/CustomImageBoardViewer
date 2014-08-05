@@ -377,6 +377,7 @@
     [encoder encodeBool:self.sage forKey:@"sage"];
     [encoder encodeObject:self.postDateTime forKey:@"postDateTime"];
     [encoder encodeObject:self.updateDateTime forKey:@"updateDateTime"];
+    [encoder encodeBool:self.isParent forKey:@"isParent"];
     [encoder encodeObject:self.replyToList forKey:@"replyToList"];
     [encoder encodeBool:self.harmful forKey:@"harmful"];
     [encoder encodeBool:self.blockContent forKey:@"blockContent"];
@@ -400,6 +401,7 @@
         self.sage = [decoder decodeBoolForKey:@"sage"];
         self.postDateTime = [decoder decodeObjectForKey:@"postDateTime"];
         self.updateDateTime = [decoder decodeObjectForKey:@"updateDateTime"];
+        self.isParent = [decoder decodeBoolForKey:@"isParent"];
         self.replyToList = [decoder decodeObjectForKey:@"replyToList"];
         self.harmful = [decoder decodeBoolForKey:@"harmful"];
         self.blockContent = [decoder decodeBoolForKey:@"blockContent"];
