@@ -215,7 +215,7 @@
 
 #pragma mark - czzNotificationDownloaderDelegate
 -(void)notificationDownloaded:(NSArray *)downloadedNotifications {
-#if DEBUG
+#ifdef DEBUG
     [notifications removeAllObjects];
     [notificationManager removeNotifications];
 #endif
