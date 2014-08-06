@@ -149,7 +149,7 @@
 
                         }
                     } else {
-                        [[czzAppDelegate sharedAppDelegate].window makeToast:@"搜索没有结果" duration:2.0 position:@"bottom" image:[UIImage imageNamed:@"warning.png"]];
+                        [[czzAppDelegate sharedAppDelegate].window makeToast:@"无法打开这个链接" duration:2.0 position:@"bottom" image:[UIImage imageNamed:@"warning.png"]];
                     }
                 });
 
@@ -161,6 +161,11 @@
                 });
             }
             dispatch_async(dispatch_get_main_queue(), ^{
+                [[czzAppDelegate sharedAppDelegate].window hideToastActivity];
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[czzAppDelegate sharedAppDelegate].window makeToast:@"无法找到有效资料" duration:2.0 position:@"bottom" image:[UIImage imageNamed:@"warning.png"]];
                 [[czzAppDelegate sharedAppDelegate].window hideToastActivity];
             });
         }
@@ -182,7 +187,8 @@
             return NO;
         } else {
             if ([request.URL.host rangeOfString:@"acfun"].location != NSNotFound) {
-                [self openURLAndConvertToczzThreadFormat:request.URL];
+                NSString *acURL = [[request.URL.absoluteString componentsSeparatedByString:@"?"].firstObject stringByReplacingOccurrencesOfString:@"m/" withString:@""]; //only the first few components are useful, the host and the thread id
+                [self openURLAndConvertToczzThreadFormat:[NSURL URLWithString:acURL]];
                 return NO;
             }
         }

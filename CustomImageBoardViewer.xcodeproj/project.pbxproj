@@ -74,6 +74,7 @@
 		4448C2AD18100C6B00D2CD76 /* czzBlacklist.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2AC18100C6B00D2CD76 /* czzBlacklist.m */; };
 		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
 		447FD254195D1AF1003E30C2 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 447FD253195D1AF1003E30C2 /* libz.dylib */; };
+		4498B689199248ED0014F73F /* czzJSONProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498B688199248ED0014F73F /* czzJSONProcessor.m */; };
 		44AE2AFA187254E4002CB021 /* czzMenuEnabledTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AE2AF9187254E4002CB021 /* czzMenuEnabledTableViewCell.m */; };
 		44AE2AFE18725EC4002CB021 /* czzNoSelectionTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AE2AFD18725EC4002CB021 /* czzNoSelectionTextView.m */; };
 		44AE2B011872924C002CB021 /* PartialTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AE2B001872924C002CB021 /* PartialTransparentView.m */; };
@@ -278,6 +279,8 @@
 		4462EF2318659BC200E6BE78 /* czzFavouriteManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFavouriteManagerViewController.h; sourceTree = "<group>"; };
 		4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFavouriteManagerViewController.m; sourceTree = "<group>"; };
 		447FD253195D1AF1003E30C2 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		4498B687199248ED0014F73F /* czzJSONProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzJSONProcessor.h; sourceTree = "<group>"; };
+		4498B688199248ED0014F73F /* czzJSONProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzJSONProcessor.m; sourceTree = "<group>"; };
 		44AE2AF8187254E4002CB021 /* czzMenuEnabledTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzMenuEnabledTableViewCell.h; sourceTree = "<group>"; };
 		44AE2AF9187254E4002CB021 /* czzMenuEnabledTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzMenuEnabledTableViewCell.m; sourceTree = "<group>"; };
 		44AE2AFC18725EC4002CB021 /* czzNoSelectionTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzNoSelectionTextView.h; sourceTree = "<group>"; };
@@ -714,6 +717,7 @@
 				441E5D2B17F48F8C00289DBD /* czzThread.m */,
 				5AF85E60196EDC110031D0CB /* czzHTMLToThreadParser.h */,
 				5AF85E61196EDC110031D0CB /* czzHTMLToThreadParser.m */,
+				4498B68A199249180014F73F /* czzJSONProcessor */,
 				44FC4346180067D80028D7C9 /* czzPostSender */,
 				4448C2A4180FF51D00D2CD76 /* czzBlacklist */,
 				44CD44001869CB6900C7D063 /* czzThreadCacheManager */,
@@ -841,6 +845,15 @@
 				4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */,
 			);
 			name = czzFavouriteManagerVIewController;
+			sourceTree = "<group>";
+		};
+		4498B68A199249180014F73F /* czzJSONProcessor */ = {
+			isa = PBXGroup;
+			children = (
+				4498B687199248ED0014F73F /* czzJSONProcessor.h */,
+				4498B688199248ED0014F73F /* czzJSONProcessor.m */,
+			);
+			name = czzJSONProcessor;
 			sourceTree = "<group>";
 		};
 		44AE2AFB1872569C002CB021 /* czzMenuEnabledTableViewCell */ = {
@@ -1251,6 +1264,7 @@
 				443B54EA1990BD3300BAB282 /* NSString+OGString.m in Sources */,
 				4416B72519413EAF00B69C5B /* FPPopoverController.m in Sources */,
 				44B96E37185B97C400D664A4 /* czzSettingsViewController.m in Sources */,
+				4498B689199248ED0014F73F /* czzJSONProcessor.m in Sources */,
 				443B54E21990BD3300BAB282 /* string_buffer.c in Sources */,
 				443B54E11990BD3300BAB282 /* parser.c in Sources */,
 				5ADCA46A1938F67F002BA60B /* ValueFormatter.m in Sources */,

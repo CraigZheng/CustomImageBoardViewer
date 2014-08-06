@@ -8,7 +8,8 @@
 
 #import "czzThreadViewController.h"
 #import "czzXMLDownloader.h"
-#import "czzXMLProcessor.h"
+//#import "czzXMLProcessor.h"
+#import "czzJSONProcessor.h"
 #import "czzThread.h"
 #import "Toast+UIView.h"
 #import "SMXMLDocument.h"
@@ -28,7 +29,7 @@
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
 #define OVERLAY_VIEW 122
 
-@interface czzThreadViewController ()<czzXMLDownloaderDelegate, czzXMLProcessorDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate>
+@interface czzThreadViewController ()<czzXMLDownloaderDelegate, /*czzXMLProcessorDelegate,*/ czzJSONProcessorDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate>
 @property NSString *baseURLString;
 @property NSString *targetURLString;
 //@property NSMutableSet *originalThreadData;
@@ -91,7 +92,9 @@
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldHighlight"])
         shouldHighlight = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldHighlight"];
 
-    baseURLString = [NSString stringWithFormat:@"http://h.acfun.tv/api/thread/sub?parentId=%ld", (long)self.parentThread.ID];
+//    baseURLString = [NSString stringWithFormat:@"http://h.acfun.tv/api/thread/sub?parentId=%ld", (long)self.parentThread.ID];
+    //TODO: new URL has been added to the server, need a way to allow remote modification
+    baseURLString = [NSString stringWithFormat:@"http://h.acfun.tv/api/t/%ld", (long)self.parentThread.ID];
     pageNumber = 1;
     downloadedImages = [NSMutableDictionary new];
 //    originalThreadData = [NSMutableSet new];
@@ -543,8 +546,11 @@
         pn = pageNumber;
     if (xmlDownloader)
         [xmlDownloader stop];
+//    NSString *targetURLStringWithPN = [baseURLString stringByAppendingString:
+//                                       [NSString stringWithFormat:@"&pn=%ld&count=20&since_id=%ld", (long)pn, (long)parentThread.ID]];
     NSString *targetURLStringWithPN = [baseURLString stringByAppendingString:
-                                       [NSString stringWithFormat:@"&pn=%ld&count=20&since_id=%ld", (long)pn, (long)parentThread.ID]];
+                                       [NSString stringWithFormat:@"?page=%ld", (long)pn]];
+
     //access token for the server
     NSString *oldToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"access_token"];
     if (oldToken){
@@ -585,9 +591,12 @@
     xmlDownloader = nil;
     if (successed) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            czzXMLProcessor *xmlProcessor = [czzXMLProcessor new];
-            xmlProcessor.delegate = self;
-            [xmlProcessor processSubThreadFromData:xmlData];
+            czzJSONProcessor *jsonProcessor = [czzJSONProcessor new];
+            jsonProcessor.delegate = self;
+            [jsonProcessor processSubThreadFromData:xmlData];
+//            czzXMLProcessor *xmlProcessor = [czzXMLProcessor new];
+//            xmlProcessor.delegate = self;
+//            [xmlProcessor processSubThreadFromData:xmlData];
         });
     } else {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -661,7 +670,7 @@
                 if (displayedIndexPath.row >= threads.count)
                     break;
                 czzThread *displayedThread = [threads objectAtIndex:displayedIndexPath.row];
-                if ([displayedThread.thImgSrc isEqualToString:imgDownloader.imageURLString]){
+                if ([displayedThread.thImgSrc.lastPathComponent isEqualToString:imgDownloader.imageURLString.lastPathComponent]){
                     [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:displayedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
                     break;
                 }
@@ -749,6 +758,8 @@
         [[czzAppDelegate sharedAppDelegate] showToast:@"图片下载被终止了"];
     } else {
         BOOL completedURL = NO;
+        //TODO: new server has a hardcoded URL, fix it later and allow the host to be modified remotely
+        tappedThread.imgSrc = [@"http://static.acfun.mm111.net/h" stringByAppendingString:tappedThread.imgSrc];
         if ([[[NSURL URLWithString:tappedThread.imgSrc] scheme] isEqualToString:@"http"]) {
             completedURL = YES;
         }

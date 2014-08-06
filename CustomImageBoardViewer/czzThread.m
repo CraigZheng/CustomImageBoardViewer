@@ -26,6 +26,47 @@
     return self;
 }
 
+-(id)initWithJSONDictionary:(NSDictionary *)data {
+    self = [super init];
+    if (self) {
+        //TODO: parse json data
+        self.ID = [[data objectForKey:@"id"] integerValue];
+        self.postDateTime = [NSDate dateWithTimeIntervalSince1970:[[data objectForKey:@"createdAt"] doubleValue] / 1000.0];
+        self.updateDateTime = [NSDate dateWithTimeIntervalSince1970:[[data objectForKey:@"updatedAt"] doubleValue] / 1000.0];
+        //UID might have different colour, but I am setting any colour other than default to red at the moment
+        NSString *uidString = [data objectForKey:@"uid"];
+        NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithAttributedString:[self parseHTMLAttributes:uidString]];
+        //manually set colour
+        [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:153.0f/255.0f green:102.0f/255.0f blue:51.0f/255.0f alpha:1.0f] range:NSMakeRange(0, attrString.length)];
+        //if the given string contains keyword "color", then render it red to indicate its important
+        if ([uidString.lowercaseString rangeOfString:@"color"].location != NSNotFound) {
+            [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, attrString.length)];
+        }
+        [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(0, attrString.length)];
+        self.UID = attrString;
+        
+        self.name = [data objectForKey:@"name"];
+        self.email = [data objectForKey:@"email"];
+        self.title = [data objectForKey:@"title"];
+        //content
+        if (self.title.length > 10)
+            self.content = [self renderHTMLToAttributedString:[NSString stringWithFormat:@" * %@ * \n\n%@", self.title, [data objectForKey:@"content"]]];
+        else
+            self.content = [self renderHTMLToAttributedString:[NSString stringWithString:[data objectForKey:@"content"]]];
+        
+        self.imgSrc = [data objectForKey:@"image"];
+        self.thImgSrc = [data objectForKey:@"thumb"];
+        self.lock = [[data objectForKey:@"lock"] boolValue];
+        self.sage = [[data objectForKey:@"sage"] boolValue];
+        self.responseCount = [[data objectForKey:@"replyCount"] integerValue];
+        
+        [self checkBlacklist];
+        [self checkImageURLs];
+
+    }
+    return self;
+}
+
 //the incoming xml data should be in this format:
 /*
  <model>
@@ -103,6 +144,12 @@
             self.postDateTime = date;
         }
     }
+    
+    [self checkBlacklist];
+    [self checkImageURLs];
+}
+
+-(void)checkBlacklist {
     //consor contents
     czzBlacklistEntity *blacklistEntity = [[czzBlacklist sharedInstance] blacklistEntityForThreadID:self.ID];
     if (blacklistEntity){
@@ -124,21 +171,25 @@
             self.thImgSrc = nil;
         }
     }
-    
+
+}
+
+-(void)checkImageURLs {
     if (self.thImgSrc.length != 0){
+        NSString *targetImgURL = [@"http://static.acfun.mm111.net/h" stringByAppendingPathComponent:self.thImgSrc];
         //if is set to show image is presented
         if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldDownloadThumbnail"]){
             //if its set to YES
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldDownloadThumbnail"]){
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [[czzImageCentre sharedInstance] downloadThumbnailWithURL:self.thImgSrc isCompletedURL:NO];
+                    [[czzImageCentre sharedInstance] downloadThumbnailWithURL:targetImgURL isCompletedURL:YES];
                 });
             } else {
                 self.thImgSrc = nil;
             }
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [[czzImageCentre sharedInstance] downloadThumbnailWithURL:self.thImgSrc isCompletedURL:NO];
+                [[czzImageCentre sharedInstance] downloadThumbnailWithURL:targetImgURL isCompletedURL:YES];
             });
         }
     }
@@ -435,6 +486,6 @@
 }
 
 -(NSString *)description {
-    return [NSString stringWithFormat:@"%ld - %@ - %@ - %@", self.ID, self.UID.string, self.content.string, self.imgSrc];
+    return [NSString stringWithFormat:@"ID:%ld - UID:%@ - content:%@ - img:%@", self.ID, self.UID.string, self.content.string, self.imgSrc];
 }
 @end

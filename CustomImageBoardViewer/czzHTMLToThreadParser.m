@@ -22,12 +22,12 @@
 @synthesize parsedThreads;
 
 -(void)parse:(NSString*)htmlString {
-    OGNode *node = [ObjectiveGumbo parseDocumentWithString:htmlString];
-    NSArray *classArray = [node elementsWithClass:@""];
-    NSArray *idArray = [node elementsWithID:@""];
-    NSArray *tagArray = [node elementsWithTag:GUMBO_TAG_DIV];
-    if (YES)
-        return;
+//    OGNode *node = [ObjectiveGumbo parseDocumentWithString:htmlString];
+//    NSArray *classArray = [node elementsWithClass:@""];
+//    NSArray *idArray = [node elementsWithID:@""];
+//    NSArray *tagArray = [node elementsWithTag:GUMBO_TAG_DIV];
+//    if (YES)
+//        return;
     htmlContent = htmlString;
     NSDate *startTime = [NSDate new];
     [self scanHTML:htmlContent];
@@ -56,7 +56,7 @@
                 }
             }
             //ID
-            if ([tagString rangeOfString:@"rel="].location != NSNotFound && (endTagRange = [htmlString rangeOfString:@"<+/[^>]+>" options:NSRegularExpressionSearch range:NSMakeRange(r.location + r.length, htmlString.length - r.length - r.location)]).location != NSNotFound) {
+            if ([tagString rangeOfString:@"class=\"r\""].location != NSNotFound && (endTagRange = [htmlString rangeOfString:@"<+/[^>]+>" options:NSRegularExpressionSearch range:NSMakeRange(r.location + r.length, htmlString.length - r.length - r.location)]).location != NSNotFound) {
                 NSRange textRange = NSMakeRange(r.location + r.length, endTagRange.location - r.location - r.length);
                 NSString *textWithinTags = [htmlString substringWithRange:textRange];
                 textWithinTags = [self removeHTMLTags:textWithinTags];

@@ -9,6 +9,7 @@
 #import "czzHomeViewController.h"
 #import "czzXMLDownloader.h"
 #import "czzXMLProcessor.h"
+#import "czzJSONProcessor.h"
 #import "SMXMLDocument.h"
 #import "Toast/Toast+UIView.h"
 #import "czzThread.h"
@@ -26,7 +27,7 @@
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****"
 
-@interface czzHomeViewController ()<czzXMLDownloaderDelegate, czzXMLProcessorDelegate, UIDocumentInteractionControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
+@interface czzHomeViewController ()<czzXMLDownloaderDelegate, /*czzXMLProcessorDelegate,*/ czzJSONProcessorDelegate, UIDocumentInteractionControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 @property czzXMLDownloader *xmlDownloader;
 @property NSInteger currentPage;
 @property NSString *baseURLString;
@@ -74,7 +75,8 @@
 	// Do any additional setup after loading the view, typically from a nib.
     [czzAppDelegate sharedAppDelegate].homeViewController = self; //retain a reference to app delegate, so when entering background, the delegate can inform this controller for further actions
     //the target URL string
-    baseURLString = @"http://h.acfun.tv/api/thread/root?forumName=";
+//    baseURLString = @"http://h.acfun.tv/api/thread/root?forumName=";
+    baseURLString = @"http://h.acfun.tv/api/"; //TODO: provide a way to change this URL from the server side
     pageNumber = 1; //default page number
     downloadedImages = [NSMutableDictionary new];
     heightsForRows = [NSMutableArray new];
@@ -268,7 +270,9 @@
                     [threadViewController restoreFromBackground];
                 }
             }
-            pageNumber = threads.count / 20 + 1;
+//            pageNumber = threads.count / 20 + 1;
+            pageNumber = threads.count / 10 + 1; //TODO: number of thread per page has been changed to 10
+
         }
     }
     if ([userDef objectForKey:@"forumName"]) {
@@ -480,10 +484,7 @@
     [threadTableView reloadData];
     //reset to default page number
     pageNumber = 1;
-    //stop any possible previous downloader
-    if (xmlDownloader)
-        [xmlDownloader stop];
-    xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLString] delegate:self startNow:YES];
+    [self loadMoreThread:pageNumber];
 }
 
 -(void)loadMoreThread:(NSInteger)pn{
@@ -491,8 +492,9 @@
         pn = pageNumber;
     if (xmlDownloader)
         [xmlDownloader stop];
-    NSString *targetURLStringWithPN = [targetURLString stringByAppendingString:
-                                       [NSString stringWithFormat:@"&pn=%ld", (long)pn]];
+//    NSString *targetURLStringWithPN = [targetURLString stringByAppendingString:
+//                                       [NSString stringWithFormat:@"&pn=%ld", (long)pn]];
+    NSString *targetURLStringWithPN = [targetURLString stringByAppendingString:[NSString stringWithFormat:@"?page=%ld", (long)pn]];
     xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
 }
 
@@ -502,9 +504,13 @@
     xmlDownloader = nil;
     if (successed){
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            czzXMLProcessor *xmlProcessor = [czzXMLProcessor new];
-            xmlProcessor.delegate = self;
-            [xmlProcessor processThreadListFromData:xmlData];
+            //TODO: provide a way to switch from xml and json format
+            czzJSONProcessor *jsonProcessor = [czzJSONProcessor new];
+            jsonProcessor.delegate = self;
+            [jsonProcessor processThreadListFromData:xmlData];
+//            czzXMLProcessor *xmlProcessor = [czzXMLProcessor new];
+//            xmlProcessor.delegate = self;
+//            [xmlProcessor processThreadListFromData:xmlData];
         });
     } else {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -523,7 +529,8 @@
             //process the returned data and pass into the array
             [threads addObjectsFromArray:newThreads];
             //increase the page number if returned data is enough to fill a page of 20 threads
-            if (newThreads.count >= 20)
+//            if (newThreads.count >= 20)
+            if (newThreads.count >= 10)
                 pageNumber += 1;
         });
     } else {
@@ -593,7 +600,7 @@
                 if (displayedIndexPath.row >= threads.count)
                     break;
                 czzThread *displayedThread = [threads objectAtIndex:displayedIndexPath.row];
-                if ([displayedThread.thImgSrc isEqualToString:imgDownloader.imageURLString]){
+                if ([displayedThread.thImgSrc.lastPathComponent isEqualToString:imgDownloader.imageURLString.lastPathComponent]){
                     [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:displayedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
                     break;
                 }
