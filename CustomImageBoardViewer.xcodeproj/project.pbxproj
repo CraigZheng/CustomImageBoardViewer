@@ -145,7 +145,6 @@
 		5A88B8401938AFDB00071343 /* czzNotificationCentreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A88B83F1938AFDB00071343 /* czzNotificationCentreTableViewController.m */; };
 		5ADCA46A1938F67F002BA60B /* ValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCA4691938F67F002BA60B /* ValueFormatter.m */; };
 		5AF85E62196EDC110031D0CB /* czzHTMLToThreadParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF85E61196EDC110031D0CB /* czzHTMLToThreadParser.m */; };
-		5AF85E65196FE9180031D0CB /* czzHTMLParserTestTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF85E64196FE9180031D0CB /* czzHTMLParserTestTableViewController.m */; };
 		5AF85E681970025A0031D0CB /* czzSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF85E671970025A0031D0CB /* czzSearchViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -391,8 +390,6 @@
 		5ADCA4691938F67F002BA60B /* ValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueFormatter.m; sourceTree = "<group>"; };
 		5AF85E60196EDC110031D0CB /* czzHTMLToThreadParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzHTMLToThreadParser.h; sourceTree = "<group>"; };
 		5AF85E61196EDC110031D0CB /* czzHTMLToThreadParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzHTMLToThreadParser.m; sourceTree = "<group>"; };
-		5AF85E63196FE9180031D0CB /* czzHTMLParserTestTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzHTMLParserTestTableViewController.h; sourceTree = "<group>"; };
-		5AF85E64196FE9180031D0CB /* czzHTMLParserTestTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzHTMLParserTestTableViewController.m; sourceTree = "<group>"; };
 		5AF85E661970025A0031D0CB /* czzSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzSearchViewController.h; sourceTree = "<group>"; };
 		5AF85E671970025A0031D0CB /* czzSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzSearchViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -576,8 +573,6 @@
 				441E5CDD17F4691300289DBD /* czzAppDelegate.h */,
 				441E5CDE17F4691300289DBD /* czzAppDelegate.m */,
 				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
-				5AF85E63196FE9180031D0CB /* czzHTMLParserTestTableViewController.h */,
-				5AF85E64196FE9180031D0CB /* czzHTMLParserTestTableViewController.m */,
 				4498B68E1993A6740014F73F /* PropertyUtil */,
 				443B54F619933F4C00BAB282 /* czzSettingsCentre */,
 				5AF85E691970025F0031D0CB /* czzSearchViewController */,
@@ -1241,7 +1236,6 @@
 				440B2FC717F7DB7800544926 /* czzForumsViewController.m in Sources */,
 				442CD0E718517BED0021AD37 /* czzImageCentre.m in Sources */,
 				44BE2E3A19383FEF00601943 /* czzOnScreenCommandViewController.m in Sources */,
-				5AF85E65196FE9180031D0CB /* czzHTMLParserTestTableViewController.m in Sources */,
 				443B54E81990BD3300BAB282 /* vector.c in Sources */,
 				4412FA151935865800681438 /* Reachability.m in Sources */,
 				5A26E77F1939AA6300B709C9 /* czzNotification.m in Sources */,

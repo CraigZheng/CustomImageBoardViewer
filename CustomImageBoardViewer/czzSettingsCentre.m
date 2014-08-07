@@ -58,6 +58,14 @@
     refreshSettingsTimer = [NSTimer scheduledTimerWithTimeInterval:configuration_refresh_interval target:self selector:@selector(downloadSettings) userInfo:nil repeats:YES];
 }
 
+-(void)saveSettings {
+    
+}
+
+- (void)restoreSettings {
+    
+}
+
 -(void)downloadSettings {
     NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     NSString *configurationURL = [NSString stringWithFormat:@"http://civ.atwebpages.com/php/remote_configuration.php?version=%@", versionString];

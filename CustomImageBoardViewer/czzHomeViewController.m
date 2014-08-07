@@ -23,6 +23,7 @@
 #import "czzAppDelegate.h"
 #import "czzOnScreenCommandViewController.h"
 #import "czzNotificationBannerViewController.h"
+#import "czzSettingsCentre.h"
 #import <CoreText/CoreText.h>
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****"
@@ -45,6 +46,7 @@
 @property czzNotificationBannerViewController *notificationBannerViewController;
 @property BOOL shouldDisplayQuickScrollCommand;
 @property NSString *thumbnailFolder;
+@property czzSettingsCentre *settingsCentre;
 @end
 
 @implementation czzHomeViewController
@@ -68,6 +70,7 @@
 @synthesize notificationBannerViewController;
 @synthesize shouldDisplayQuickScrollCommand;
 @synthesize thumbnailFolder;
+@synthesize settingsCentre;
 
 - (void)viewDidLoad
 {
@@ -84,6 +87,8 @@
     //thumbnail folder
     thumbnailFolder = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     thumbnailFolder = [thumbnailFolder stringByAppendingPathComponent:@"Thumbnails"];
+    
+    settingsCentre = [czzSettingsCentre sharedInstance];
 
     //configure the view deck controller with half size and tap to close mode
     self.viewDeckController.leftSize = self.view.frame.size.width/4;

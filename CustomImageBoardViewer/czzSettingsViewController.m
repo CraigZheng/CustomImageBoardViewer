@@ -12,21 +12,25 @@
 #import "czzAppDelegate.h"
 #import "czzThreadCacheManager.h"
 #import "czzHomeViewController.h"
+#import "czzSettingsCentre.h"
 
 @interface czzSettingsViewController ()<UIAlertViewDelegate, UIActionSheetDelegate>
 @property NSMutableArray *commands;
 @property NSMutableArray *regularCommands;
 @property NSMutableArray *switchCommands;
+@property czzSettingsCentre *settingsCentre;
 @end
 
 @implementation czzSettingsViewController
 @synthesize settingsTableView;
 @synthesize commands, regularCommands, switchCommands;
+@synthesize settingsCentre;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    settingsCentre = [czzSettingsCentre sharedInstance];
     commands = [NSMutableArray new];
     regularCommands = [NSMutableArray new];
     switchCommands = [NSMutableArray new];
@@ -66,15 +70,17 @@
         //set value for switch
         if ([command isEqualToString:@"显示图片"]){
             //显示图片
-            BOOL shouldLoadImages = YES;
-            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldDownloadThumbnail"])
-                shouldLoadImages = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldDownloadThumbnail"];
+//            BOOL shouldLoadImages = YES;
+//            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldDownloadThumbnail"])
+//                shouldLoadImages = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldDownloadThumbnail"];
+            BOOL shouldLoadImages = settingsCentre.userDefShouldDisplayThumbnail;
             [commandSwitch setOn:shouldLoadImages];
         }
         else if ([command isEqualToString:@"显示快速滑动按钮"]) {
-            BOOL sbouldShowOnScreenCommand = YES;
-            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldShowOnScreenCommand"])
-                sbouldShowOnScreenCommand = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldShowOnScreenCommand"];
+//            BOOL sbouldShowOnScreenCommand = YES;
+//            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldShowOnScreenCommand"])
+//                sbouldShowOnScreenCommand = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldShowOnScreenCommand"];
+            BOOL sbouldShowOnScreenCommand = settingsCentre.userDefShouldShowOnScreenCommand;
             [commandSwitch setOn:sbouldShowOnScreenCommand];
         }
         /*else if (indexPath.row == 1){
@@ -86,21 +92,24 @@
         } 
          */else if ([command isEqualToString:@"图片下载完毕自动打开"]){
             //auto open
-            BOOL shouldAutoOpen = YES;
-            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldAutoOpenImage"])
-                shouldAutoOpen = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldAutoOpenImage"];
+//            BOOL shouldAutoOpen = YES;
+//            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldAutoOpenImage"])
+//                shouldAutoOpen = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldAutoOpenImage"];
+             BOOL shouldAutoOpen = settingsCentre.userDefShouldAutoOpenImage;
             [commandSwitch setOn:shouldAutoOpen];
 
          } else if ([command isEqualToString:@"开启帖子缓存"]){
              //开启帖子缓存
-             BOOL shouldCache = YES;
-             if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldCache"])
-                 shouldCache = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldCache"];
+//             BOOL shouldCache = YES;
+//             if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldCache"])
+//                 shouldCache = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldCache"];
+             BOOL shouldCache = settingsCentre.userDefShouldCacheData;
              [commandSwitch setOn:shouldCache];
          } else if ([command isEqualToString:@"高亮楼主/PO主"]) {
-             BOOL shouldHighlight = YES;
-             if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldHighlight"])
-                 shouldHighlight = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldHighlight"];
+//             BOOL shouldHighlight = YES;
+//             if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldHighlight"])
+//                 shouldHighlight = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldHighlight"];
+             BOOL shouldHighlight = settingsCentre.userDefShouldHightlightPO;
              [commandSwitch setOn:shouldHighlight];
          }
     } else if (indexPath.section == 1){
@@ -142,13 +151,6 @@
             }
         }
         else if ([command isEqualToString:@"清空缓存"]){
-            //清空缓存
-            //select what to remove
-            /*
-            NSString *removeFullSizeImgs = [NSString stringWithFormat:@"大图缓存: %@", [[czzImageCentre sharedInstance] totalSizeForFullSizeImages]];
-            NSString *removeThumbnailImgs = [NSString stringWithFormat:@"缩略图缓存: %@", [[czzImageCentre sharedInstance] totalSizeForThumbnails]];
-            NSString *removeAllThreadCache = [NSString stringWithFormat:@"帖子缓存: %@", [[czzThreadCacheManager sharedInstance] totalSize]];
-             */
             UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"清空缓存" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"图片缓存", @"帖子缓存", nil];
             [actionSheet showInView:self.view];
         }
@@ -215,30 +217,29 @@
         NSString *command = [switchCommands objectAtIndex:switchedIndexPath.row];
         if ([command isEqualToString:@"显示图片"]){
             //下载图片
-            [[NSUserDefaults standardUserDefaults] setBool:switchControl.on forKey:@"shouldDownloadThumbnail"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
+//            [[NSUserDefaults standardUserDefaults] setBool:switchControl.on forKey:@"shouldDownloadThumbnail"];
+//            [[NSUserDefaults standardUserDefaults] synchronize];
+            settingsCentre.userDefShouldDisplayThumbnail = switchControl.on;
             [[czzAppDelegate sharedAppDelegate] showToast:@"刷新后生效"];
         }
-        /*else if (switchedIndexPath.row == 1){
-            //自动加载帖子
-            [[NSUserDefaults standardUserDefaults] setBool:switchControl.on forKey:@"shouldAutoLoadMore"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-        } 
-         */
         else if ([command isEqualToString:@"图片下载完毕自动打开"]){
             //自动打开图片
-            [[NSUserDefaults standardUserDefaults] setBool:switchControl.on forKey:@"shouldAutoOpenImage"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
+//            [[NSUserDefaults standardUserDefaults] setBool:switchControl.on forKey:@"shouldAutoOpenImage"];
+//            [[NSUserDefaults standardUserDefaults] synchronize];
+            settingsCentre.userDefShouldAutoOpenImage = switchControl.on;
         } else if ([command isEqualToString:@"开启帖子缓存"]){
             //开启帖子缓存
-            [[NSUserDefaults standardUserDefaults] setBool:switchControl.on forKey:@"shouldCache"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
+//            [[NSUserDefaults standardUserDefaults] setBool:switchControl.on forKey:@"shouldCache"];
+//            [[NSUserDefaults standardUserDefaults] synchronize];
+            settingsCentre.userDefShouldCacheData = switchControl.on;
         } else if ([command isEqualToString:@"高亮楼主/PO主"]) {
-            [[NSUserDefaults standardUserDefaults] setBool:switchControl.on forKey:@"shouldHighlight"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
+//            [[NSUserDefaults standardUserDefaults] setBool:switchControl.on forKey:@"shouldHighlight"];
+//            [[NSUserDefaults standardUserDefaults] synchronize];
+            settingsCentre.userDefShouldHightlightPO = switchControl.on;
         } else if ([command isEqualToString:@"显示快速滑动按钮"]) {
-            [[NSUserDefaults standardUserDefaults] setBool:switchControl.on forKey:@"shouldShowOnScreenCommand"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
+//            [[NSUserDefaults standardUserDefaults] setBool:switchControl.on forKey:@"shouldShowOnScreenCommand"];
+//            [[NSUserDefaults standardUserDefaults] synchronize];
+            settingsCentre.userDefShouldShowOnScreenCommand = switchControl.on;
             [[czzAppDelegate sharedAppDelegate] showToast:@"重启后生效"];
         }
     }

@@ -12,6 +12,7 @@
 
 @interface czzSettingsCentre : NSObject
 
+//Remote configurations
 @property BOOL shouldUseRemoteConfiguration;
 @property BOOL shouldEnableBlacklistFiltering;
 @property BOOL shouldDisplayImage;
@@ -29,7 +30,16 @@
 @property NSString *thread_content_host;
 @property NSString *image_host;
 @property NSString *message;
+//User settings
+@property BOOL userDefShouldDisplayThumbnail;
+@property BOOL userDefShouldShowOnScreenCommand;
+@property BOOL userDefShouldAutoOpenImage;
+@property BOOL userDefShouldCacheData;
+@property BOOL userDefShouldHightlightPO;
+
 
 + (id)sharedInstance;
 -(void)downloadSettings;
+-(void)saveSettings;
+-(void)restoreSettings;
 @end
