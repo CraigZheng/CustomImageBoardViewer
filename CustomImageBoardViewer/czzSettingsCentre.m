@@ -69,7 +69,12 @@
 }
 
 -(void)parseJSONData:(NSData*)jsonData {
-    NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
+    NSError *error;
+    NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+    if (error) {
+        NSLog(@"%@", error);
+        return;
+    }
     shouldUseRemoteConfiguration = [[jsonObject objectForKey:@"shouldUseRemoteConfiguration"] boolValue];
     shouldEnableBlacklistFiltering = [[jsonObject objectForKey:@"shouldEnableBlacklistFiltering"] boolValue];
     shouldDisplayImage = [[jsonObject objectForKey:@"shouldDisplayImage"] boolValue];
