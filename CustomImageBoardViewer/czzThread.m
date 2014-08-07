@@ -29,7 +29,6 @@
 -(id)initWithJSONDictionary:(NSDictionary *)data {
     self = [super init];
     if (self) {
-        //TODO: parse json data
         self.ID = [[data objectForKey:@"id"] integerValue];
         self.postDateTime = [NSDate dateWithTimeIntervalSince1970:[[data objectForKey:@"createdAt"] doubleValue] / 1000.0];
         self.updateDateTime = [NSDate dateWithTimeIntervalSince1970:[[data objectForKey:@"updatedAt"] doubleValue] / 1000.0];

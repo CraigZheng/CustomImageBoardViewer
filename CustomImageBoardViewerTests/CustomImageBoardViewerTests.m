@@ -12,6 +12,7 @@
 #import "SMXMLDocument.h"
 #import "czzAppDelegate.h"
 #import "czzFeedback.h"
+#import "czzSettingsCentre.h"
 
 @interface CustomImageBoardViewerTests : XCTestCase<czzNotificationDownloaderDelegate>
 @property BOOL done;
@@ -30,6 +31,15 @@
 {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
+}
+
+-(void)testSettingsCentre {
+    czzSettingsCentre *settingsCentre = [czzSettingsCentre sharedInstance];
+    XCTAssertEqual(3600, settingsCentre.configuration_refresh_interval, "configuration not equal to 3600!");
+    [settingsCentre downloadSettings];
+    [self waitForCompletion:5];
+    XCTAssertEqual(3600, settingsCentre.configuration_refresh_interval, "configuration not equal to 3600 after download!");
+
 }
 
 - (void)testFeedback {
