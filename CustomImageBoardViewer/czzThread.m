@@ -16,18 +16,25 @@
 
 @implementation czzThread
 
--(id)initWithSMXMLElement:(SMXMLElement *)xmlElement{
+-(id)init {
     self = [super init];
+    if (self) {
+        self.replyToList = [NSMutableArray new];
+    }
+    return self;
+}
+
+-(id)initWithSMXMLElement:(SMXMLElement *)xmlElement{
+    self = [self init];
     if (self){
         //parse the incoming xml data
-        self.replyToList = [NSMutableArray new];
         [self acceptXMLElement:xmlElement];
     }
     return self;
 }
 
 -(id)initWithJSONDictionary:(NSDictionary *)data {
-    self = [super init];
+    self = [self init];
     if (self) {
         self.ID = [[data objectForKey:@"id"] integerValue];
         self.postDateTime = [NSDate dateWithTimeIntervalSince1970:[[data objectForKey:@"createdAt"] doubleValue] / 1000.0];
@@ -259,15 +266,10 @@
                                        componentsJoinedByString:@""];
                 if ([newString integerValue] != 0)
                     [self.replyToList addObject:[NSNumber numberWithInteger:[newString integerValue]]];
-                
-                //[self.replyToList addObject:renderedStr.string];
             }
 
-            //                NSAttributedString *renderedString = [[NSAttributedString alloc] initWithString:textWithTag attributes:@{NSForegroundColorAttributeName: [UIColor greenColor]}];
         }
         [attributedHtmlString deleteCharactersInRange:r];
-        //            attributedHtmlString = [attributedHtmlString stringByReplacingCharactersInRange:r withString:@""];
-
     }
     for (NSString *pendingText in pendingTextToRender) {
         NSRange textRange = [attributedHtmlString.string rangeOfString:pendingText];

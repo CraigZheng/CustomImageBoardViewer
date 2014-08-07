@@ -59,7 +59,9 @@
 }
 
 -(void)downloadSettings {
-    [NSURLConnection sendAsynchronousRequest: [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://civ.atwebpages.com/remote_configuration.json"]]
+    NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    NSString *configurationURL = [NSString stringWithFormat:@"http://civ.atwebpages.com/php/remote_configuration.php?version=%@", versionString];
+    [NSURLConnection sendAsynchronousRequest: [NSURLRequest requestWithURL:[NSURL URLWithString:configurationURL]]
                                        queue:[NSOperationQueue new]
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                                dispatch_async(dispatch_get_main_queue(), ^{

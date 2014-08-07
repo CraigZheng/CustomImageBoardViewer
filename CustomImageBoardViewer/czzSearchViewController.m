@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Craig. All rights reserved.
 //
 #define KEYWORD @"KEYWORD"
-#define GOOGLE_SEARCH_COMMAND @"https://www.google.com.au/#q=site:h.acfun.tv+KEYWORD"
+#define GOOGLE_SEARCH_COMMAND @"https://www.google.com.au/#q=site:h.acfun.tv+KEYWORD&sort=date:D:S:d1"
 #define BING_SEARCH_COMMAND @"http://m.bing.com/search?q=site%3Ah.acfun.tv+KEYWORD&btsrc=internal"
 #define AC_SEARCH_COMMAND @"http://h.acfun.tv/thread/search?key=KEYWORD"
 
