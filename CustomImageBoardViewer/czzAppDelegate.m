@@ -11,11 +11,13 @@
 #import "czzBlacklist.h"
 #import "Toast+UIView.h"
 #import "SMXMLDocument.h"
+#import "czzSettingsCentre.h"
 
 #import <BugSense-iOS/BugSenseController.h>
 
 @interface czzAppDelegate()<czzBlacklistDownloaderDelegate, NSURLConnectionDataDelegate>
 @property NSString *thirdHost;
+@property czzSettingsCentre *settingsCentre;
 @end
 
 @implementation czzAppDelegate
@@ -23,6 +25,7 @@
 @synthesize myhost;
 @synthesize homeViewController;
 @synthesize thirdHost;
+@synthesize settingsCentre;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -30,7 +33,8 @@
     [BugSenseController sharedControllerWithBugSenseAPIKey:@"cd668a8e"];
     [BugSenseController setUserIdentifier:[UIDevice currentDevice].identifierForVendor.UUIDString];
     myhost = my_main_host;
-    
+    settingsCentre = [czzSettingsCentre sharedInstance];
+    [settingsCentre downloadSettings];
     return YES;
 }
 							

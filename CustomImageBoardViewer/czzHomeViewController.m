@@ -47,6 +47,7 @@
 @property BOOL shouldDisplayQuickScrollCommand;
 @property NSString *thumbnailFolder;
 @property czzSettingsCentre *settingsCentre;
+@property BOOL shouldHideImageForThisForum;
 @end
 
 @implementation czzHomeViewController
@@ -71,6 +72,7 @@
 @synthesize shouldDisplayQuickScrollCommand;
 @synthesize thumbnailFolder;
 @synthesize settingsCentre;
+@synthesize shouldHideImageForThisForum;
 
 - (void)viewDidLoad
 {
@@ -139,10 +141,7 @@
     //if a forum has not been selected and is not the first time running
     if (!self.forumName/* || [[NSUserDefaults standardUserDefaults] objectForKey:@"firstTimeRunning"]*/)
         [self.viewDeckController toggleLeftViewAnimated:YES];
-    shouldDisplayQuickScrollCommand = YES;
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldShowOnScreenCommand"])
-        shouldDisplayQuickScrollCommand = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldShowOnScreenCommand"];
-
+    shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -276,8 +275,7 @@
                 }
             }
 //            pageNumber = threads.count / 20 + 1;
-            pageNumber = threads.count / 10 + 1; //TODO: number of thread per page has been changed to 10
-
+            pageNumber = threads.count / settingsCentre.threads_per_page + 1;
         }
     }
     if ([userDef objectForKey:@"forumName"]) {
@@ -531,10 +529,15 @@
 -(void)threadListProcessed:(NSArray *)newThreads :(BOOL)success{
     if (success){
         dispatch_async(dispatch_get_main_queue(), ^{
+            if (shouldHideImageForThisForum)
+            {
+                for (czzThread *thread in newThreads) {
+                    thread.thImgSrc = nil;
+                }
+            }
             //process the returned data and pass into the array
             [threads addObjectsFromArray:newThreads];
-            //increase the page number if returned data is enough to fill a page of 20 threads
-//            if (newThreads.count >= 20)
+            //increase the page number if returned data is enough to fill a page
             if (newThreads.count >= 10)
                 pageNumber += 1;
         });
@@ -563,16 +566,23 @@
     NSString *forumname = [userInfo objectForKey:@"ForumName"];
     if (forumname){
         self.forumName = forumname;
-        [self refreshThread:self];
         //make busy
         [[[czzAppDelegate sharedAppDelegate] window] makeToastActivity];
-
+        [self refreshThread:self];
     }
 }
 
 -(void)setForumName:(NSString *)name{
     forumName = name;
     self.title = forumName;
+    //disallow image downloading if specified by remote settings
+    shouldHideImageForThisForum = false;
+    for (NSString *specifiedForum in settingsCentre.shouldHideImageInForums) {
+        if ([specifiedForum isEqualToString:name]) {
+            shouldHideImageForThisForum = true;
+            break;
+        }
+    }
     //set the targetURLString with the given forum name
     targetURLString = [baseURLString stringByAppendingString:[self.forumName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     //access token for the server
@@ -616,9 +626,8 @@
         }
     }
     if (imgDownloader && !imgDownloader.isThumbnail){
-        if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldAutoOpenImage"]) {
-            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldAutoOpenImage"])
-                [self showDocumentController:[notification.userInfo objectForKey:@"FilePath"]];
+        if (settingsCentre.userDefShouldAutoOpenImage) {//[[NSUserDefaults standardUserDefaults] objectForKey:@"shouldAutoOpenImage"]) {
+            [self showDocumentController:[notification.userInfo objectForKey:@"FilePath"]];
         } else
             [self showDocumentController:[notification.userInfo objectForKey:@"FilePath"]];
     }
@@ -664,6 +673,7 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([[segue identifier] isEqualToString:@"go_thread_view_segue"]){
         threadViewController = [segue destinationViewController];
+        threadViewController.shouldHideImageForThisForum = shouldHideImageForThisForum;
         [threadViewController setParentThread:selectedThread];
     }
 }

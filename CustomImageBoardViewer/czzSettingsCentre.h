@@ -18,6 +18,7 @@
 @property BOOL shouldDisplayImage;
 @property BOOL shouldDisplayThumbnail;
 @property BOOL shouldDisplayContent;
+@property NSArray *shouldHideImageInForums;
 @property NSTimeInterval configuration_refresh_interval;
 @property NSTimeInterval blacklist_refresh_interval;
 @property NSTimeInterval forum_list_refresh_interval;
@@ -29,6 +30,7 @@
 @property NSString *thread_list_host;
 @property NSString *thread_content_host;
 @property NSString *image_host;
+@property NSString *thumbnail_host;
 @property NSString *message;
 //User settings
 @property BOOL userDefShouldDisplayThumbnail;

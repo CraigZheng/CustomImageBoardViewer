@@ -18,7 +18,6 @@
 @synthesize delegate;
 
 -(void)processThreadListFromData:(NSData *)jsonData {
-    NSDate *startDate = [NSDate new];
     processedThreads = [NSMutableArray new];
     NSError *error;
     NSDictionary *parsedObjects = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
@@ -32,14 +31,12 @@
         czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
         [processedThreads addObject:newThread];
     }
-    NSLog(@"Process time: %fms", [[NSDate new] timeIntervalSinceDate:startDate]);
     if (delegate)
         [delegate threadListProcessed:processedThreads :YES];
 
 }
 
 -(void)processSubThreadFromData:(NSData *)jsonData {
-    NSDate *startDate = [NSDate new];
     processedThreads = [NSMutableArray new];
     NSError *error;
     NSDictionary *parsedObjects = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
@@ -54,7 +51,6 @@
         [processedThreads addObject:newThread];
         NSLog(@"%@", newThread.description);
     }
-    NSLog(@"Process time: %fms", [[NSDate new] timeIntervalSinceDate:startDate]);
     if (delegate)
         [delegate subThreadProcessed:processedThreads :YES];
 

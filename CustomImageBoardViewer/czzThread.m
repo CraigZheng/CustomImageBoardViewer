@@ -13,12 +13,19 @@
 #import "czzBlacklistEntity.h"
 #import "czzImageCentre.h"
 #import "NSString+HTML.h"
+#import "czzSettingsCentre.h"
+
+@interface czzThread()
+@property czzSettingsCentre *settingsCentre;
+@end
 
 @implementation czzThread
+@synthesize settingsCentre;
 
 -(id)init {
     self = [super init];
     if (self) {
+        settingsCentre = [czzSettingsCentre sharedInstance];
         self.replyToList = [NSMutableArray new];
     }
     return self;
@@ -153,9 +160,12 @@
     
     [self checkBlacklist];
     [self checkImageURLs];
+    [self checkRemoteConfiguration];
 }
 
 -(void)checkBlacklist {
+    if (!settingsCentre.shouldEnableBlacklistFiltering)
+        return;
     //consor contents
     czzBlacklistEntity *blacklistEntity = [[czzBlacklist sharedInstance] blacklistEntityForThreadID:self.ID];
     if (blacklistEntity){
@@ -182,22 +192,28 @@
 
 -(void)checkImageURLs {
     if (self.thImgSrc.length != 0){
-        NSString *targetImgURL = [@"http://static.acfun.mm111.net/h" stringByAppendingPathComponent:self.thImgSrc];
-        //if is set to show image is presented
-        if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldDownloadThumbnail"]){
-            //if its set to YES
-            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldDownloadThumbnail"]){
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [[czzImageCentre sharedInstance] downloadThumbnailWithURL:targetImgURL isCompletedURL:YES];
-                });
-            } else {
-                self.thImgSrc = nil;
-            }
-        } else {
+        NSString *targetImgURL = [settingsCentre.thumbnail_host stringByAppendingPathComponent:self.thImgSrc];
+        //if is set to show image
+        if (settingsCentre.userDefShouldDisplayThumbnail || !settingsCentre.shouldDisplayThumbnail){
             dispatch_async(dispatch_get_main_queue(), ^{
                 [[czzImageCentre sharedInstance] downloadThumbnailWithURL:targetImgURL isCompletedURL:YES];
             });
+        } else {
+            self.thImgSrc = nil;
         }
+
+    }
+}
+
+-(void)checkRemoteConfiguration {
+    if (!settingsCentre.shouldDisplayThumbnail) {
+        self.thImgSrc = nil;
+    }
+    if (!settingsCentre.shouldDisplayImage) {
+        self.imgSrc = nil;
+    }
+    if (!settingsCentre.shouldDisplayContent) {
+        self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
     }
 }
 

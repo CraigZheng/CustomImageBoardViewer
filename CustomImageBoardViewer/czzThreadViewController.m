@@ -25,6 +25,7 @@
 #import "PartialTransparentView.h"
 #import "czzOnScreenCommandViewController.h"
 #import "czzSearchViewController.h"
+#import "czzSettingsCentre.h"
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
 #define OVERLAY_VIEW 122
@@ -32,7 +33,6 @@
 @interface czzThreadViewController ()<czzXMLDownloaderDelegate, /*czzXMLProcessorDelegate,*/ czzJSONProcessorDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate>
 @property NSString *baseURLString;
 @property NSString *targetURLString;
-//@property NSMutableSet *originalThreadData;
 @property NSMutableArray *threads;
 @property czzXMLDownloader *xmlDownloader;
 @property NSIndexPath *selectedIndex;
@@ -52,6 +52,7 @@
 @property BOOL shouldDisplayQuickScrollCommand;
 @property NSString *thumbnailFolder;
 @property NSString *keywordToSearch;
+@property czzSettingsCentre *settingsCentre;
 @end
 
 @implementation czzThreadViewController
@@ -79,6 +80,8 @@
 @synthesize shouldDisplayQuickScrollCommand;
 @synthesize thumbnailFolder;
 @synthesize keywordToSearch;
+@synthesize settingsCentre;
+@synthesize shouldHideImageForThisForum;
 
 - (void)viewDidLoad
 {
@@ -86,19 +89,12 @@
     //thumbnail folder
     thumbnailFolder = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     thumbnailFolder = [thumbnailFolder stringByAppendingPathComponent:@"Thumbnails"];
-
-    // high light op
-    shouldHighlight = YES;
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldHighlight"])
-        shouldHighlight = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldHighlight"];
-
-//    baseURLString = [NSString stringWithFormat:@"http://h.acfun.tv/api/thread/sub?parentId=%ld", (long)self.parentThread.ID];
-    //TODO: new URL has been added to the server, need a way to allow remote modification
-    baseURLString = [NSString stringWithFormat:@"http://h.acfun.tv/api/t/%ld", (long)self.parentThread.ID];
+    //settings
+    settingsCentre = [czzSettingsCentre sharedInstance];
+    shouldHighlight = settingsCentre.userDefShouldHightlightPO;
+    baseURLString = [settingsCentre.thread_content_host stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld", (long)self.parentThread.ID]];
     pageNumber = 1;
     downloadedImages = [NSMutableDictionary new];
-//    originalThreadData = [NSMutableSet new];
-//    [originalThreadData addObject:parentThread];
     threads = [NSMutableArray new];
     heightsForRows = [NSMutableArray new];
     heightsForRowsForHorizontal = [NSMutableArray new];
@@ -140,12 +136,7 @@
     onScreenCommand = [[czzOnScreenCommandViewController alloc] initWithNibName:@"czzOnScreenCommandViewController" bundle:[NSBundle mainBundle]];
     onScreenCommand.tableviewController = self;
     [onScreenCommand hide];
-    
-    shouldDisplayQuickScrollCommand = YES;
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldShowOnScreenCommand"]) {
-        shouldDisplayQuickScrollCommand = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldShowOnScreenCommand"];
-        
-    }
+    shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -626,6 +617,11 @@
         } else {
             processedNewThread = [self sortTheGivenArray:newThread];
         }
+        if (shouldHideImageForThisForum) {
+            for (czzThread *thread in processedNewThread) {
+                thread.thImgSrc = nil;
+            }
+        }
         [threads addObjectsFromArray:processedNewThread];
         //increase page number if enough to fill a page of 20 threads
         if (processedNewThread.count >= 20) {
@@ -681,10 +677,7 @@
         }
     }
     if (imgDownloader && !imgDownloader.isThumbnail){
-        if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldAutoOpenImage"]) {
-            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldAutoOpenImage"])
-                [self showDocumentController:[notification.userInfo objectForKey:@"FilePath"]];
-        } else
+        if (settingsCentre.userDefShouldAutoOpenImage) 
             [self showDocumentController:[notification.userInfo objectForKey:@"FilePath"]];
     }
 }

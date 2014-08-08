@@ -13,6 +13,8 @@
 @interface czzThreadViewController : UITableViewController
 @property (nonatomic) czzThread *parentThread;
 @property (strong, nonatomic) IBOutlet UITableView *threadTableView;
+@property BOOL shouldHideImageForThisForum;
+
 - (IBAction)moreAction:(id)sender;
 
 -(void)saveThreadsToCache;

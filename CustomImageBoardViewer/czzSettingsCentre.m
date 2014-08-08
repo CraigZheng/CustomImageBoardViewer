@@ -14,10 +14,10 @@
 
 @implementation czzSettingsCentre
 @synthesize refreshSettingsTimer;
-@synthesize shouldDisplayContent, shouldDisplayImage, shouldDisplayThumbnail, shouldEnableBlacklistFiltering, shouldUseRemoteConfiguration;
+@synthesize shouldDisplayContent, shouldDisplayImage, shouldDisplayThumbnail, shouldEnableBlacklistFiltering, shouldUseRemoteConfiguration, shouldHideImageInForums;
 @synthesize configuration_refresh_interval, blacklist_refresh_interval, forum_list_refresh_interval, notification_refresh_interval;
 @synthesize thread_content_host, threads_per_page, thread_format, thread_list_host;
-@synthesize message, image_host, ac_host, forum_list_url;
+@synthesize message, image_host, ac_host, forum_list_url, thumbnail_host;
 
 + (id)sharedInstance
 {
@@ -74,6 +74,7 @@
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                                dispatch_async(dispatch_get_main_queue(), ^{
                                    [self parseJSONData:data];
+                                   NSLog(@"settings updated from remote server");
                                });
                            }];
 }
@@ -90,6 +91,7 @@
     shouldDisplayImage = [[jsonObject objectForKey:@"shouldDisplayImage"] boolValue];
     shouldDisplayThumbnail = [[jsonObject objectForKey:@"shouldDisplayThumbnail"] boolValue];
     shouldDisplayContent = [[jsonObject objectForKey:@"shouldDisplayContent"] boolValue];
+    shouldHideImageInForums = [jsonObject objectForKey:@"shouldHideImageInForms"];
     configuration_refresh_interval = [[jsonObject objectForKey:@"configuration_refresh_interval"] floatValue];
     blacklist_refresh_interval = [[jsonObject objectForKey:@"blacklist_refresh_interval"] floatValue];
     forum_list_refresh_interval = [[jsonObject objectForKey:@"forum_list_refresh_interval"] floatValue];
@@ -101,6 +103,7 @@
     thread_list_host = [jsonObject objectForKey:@"thread_list_host"];
     thread_content_host = [jsonObject objectForKey:@"thread_content_host"];
     image_host = [jsonObject objectForKey:@"image_host"];
+    thumbnail_host = [jsonObject objectForKey:@"thumbnail_host"];
     message = [jsonObject objectForKey:@"message"];
 
 }

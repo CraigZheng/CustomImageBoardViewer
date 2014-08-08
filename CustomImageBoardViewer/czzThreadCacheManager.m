@@ -9,19 +9,23 @@
 #import "czzThreadCacheManager.h"
 #import "czzThread.h"
 #import "czzAppDelegate.h"
+#import "czzSettingsCentre.h"
 
 @interface czzThreadCacheManager()
 @property NSMutableSet *existingFiles;
+@property czzSettingsCentre *settingsCentre;
 @end
 
 @implementation czzThreadCacheManager
 @synthesize cachePath;
 @synthesize existingFiles;
+@synthesize settingsCentre;
 
 -(id)init{
     self = [super init];
     
     if (self){
+        settingsCentre = [czzSettingsCentre sharedInstance];
         NSString* libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         cachePath = [libraryPath stringByAppendingPathComponent:@"ThreadCache"];
         //if the thread cache in library directory does not exist, create it during the installation
@@ -115,7 +119,8 @@
 
 #pragma mark - ThreadViewController
 -(BOOL)saveThreads:(NSArray *)threads forThread:(czzThread *)parentThread{
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldCache"] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"shouldCache"]) {
+    //if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldCache"] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"shouldCache"]) {
+    if (!settingsCentre.userDefShouldCacheData) {
         return NO;
     }
     return [self saveThreads:threads WithName:[NSString stringWithFormat:@"%ld.thd", (long)parentThread.ID]];
@@ -123,7 +128,8 @@
 
 -(NSArray*)readThreads:(czzThread*)parentThread{
     //user defaults settings
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldCache"] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"shouldCache"]) {
+    //if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldCache"] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"shouldCache"]) {
+    if (!settingsCentre.userDefShouldCacheData) {
         return nil;
     }
     @try {
@@ -137,7 +143,8 @@
 
 #pragma mark - heights
 -(BOOL)saveVerticalHeights:(NSArray *)vHeighs andHorizontalHeighs:(NSArray *)hHeights ForThread:(czzThread *)parentThread {
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldCache"] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"shouldCache"]) {
+    //if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldCache"] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"shouldCache"]) {
+    if (!settingsCentre.userDefShouldCacheData) {
         return NO;
     }
     @try {
@@ -158,7 +165,8 @@
 }
 
 -(NSDictionary *)readHeightsForThread:(czzThread *)parentThread {
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldCache"] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"shouldCache"]) {
+    //if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldCache"] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"shouldCache"]) {
+    if (!settingsCentre.userDefShouldCacheData) {
         return nil;
     }
     @try {
