@@ -35,7 +35,7 @@
     baseURL = @"http://h.acfun.tv/api/forum/get?forumName=";
     //admob module
     bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
-    bannerView_.adUnitID = @"a151ef285f8e0dd";
+    bannerView_.adUnitID = @"a152ad4b0262649";
     bannerView_.rootViewController = self;
 }
 
