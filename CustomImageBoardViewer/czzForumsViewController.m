@@ -13,6 +13,7 @@
 #import "SMXMLDocument.h"
 #import "Toast+UIView.h"
 #import "czzAppDelegate.h"
+#import "czzSettingsCentre.h"
 
 @interface czzForumsViewController () <czzXMLDownloaderDelegate, UITableViewDataSource, UITableViewDelegate>
 @property czzXMLDownloader *xmlDownloader;
@@ -22,6 +23,7 @@
 @property NSTimeInterval adUpdateInterval;
 @property UIView *adCoverView;
 @property BOOL shouldHideCoverView;
+@property czzSettingsCentre *settingsCentre;
 @end
 
 @implementation czzForumsViewController
@@ -34,11 +36,13 @@
 @synthesize adUpdateInterval;
 @synthesize adCoverView;
 @synthesize shouldHideCoverView;
+@synthesize settingsCentre;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    settingsCentre = [czzSettingsCentre sharedInstance];
     forumGroups = [NSMutableArray new];
     [self refreshForums];
     bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
@@ -51,8 +55,7 @@
     failedToConnect = NO;
     if (xmlDownloader)
         [xmlDownloader stop];
-    //NSString *forumString = @"http://civ.my-realm.com/forums.xml";
-    NSString *forumString = [[czzAppDelegate sharedAppDelegate].myhost stringByAppendingPathComponent:[NSString stringWithFormat:@"forums%@.xml", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
+    NSString *forumString = [settingsCentre.forum_list_url stringByAppendingString:[NSString stringWithFormat:@"?version=%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
     xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:forumString] delegate:self startNow:YES];
     [self.view makeToastActivity];
 }
@@ -179,7 +182,7 @@
         SMXMLDocument *xmlDoc = [[SMXMLDocument alloc] initWithData:xmlData error:&error];
         if (error){
             NSLog(@"%@", error);
-            return;
+            [self.view makeToast:@"数据错误：服务器可能在维护中！" duration:1.5 position:@"bottom" image:[UIImage imageNamed:@"warning"]];
         }
         NSArray *children = [xmlDoc.root children];
         for (SMXMLElement *child in children){
