@@ -537,15 +537,13 @@
         pn = pageNumber;
     if (xmlDownloader)
         [xmlDownloader stop];
-//    NSString *targetURLStringWithPN = [baseURLString stringByAppendingString:
-//                                       [NSString stringWithFormat:@"&pn=%ld&count=20&since_id=%ld", (long)pn, (long)parentThread.ID]];
     NSString *targetURLStringWithPN = [baseURLString stringByAppendingString:
                                        [NSString stringWithFormat:@"?page=%ld", (long)pn]];
 
     //access token for the server
     NSString *oldToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"access_token"];
     if (oldToken){
-        targetURLStringWithPN = [targetURLStringWithPN stringByAppendingFormat:@"&access_token=%@", oldToken];
+//        targetURLStringWithPN = [targetURLStringWithPN stringByAppendingFormat:@"&access_token=%@", oldToken];
     }
 
     xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];

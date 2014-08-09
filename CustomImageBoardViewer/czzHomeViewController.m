@@ -588,7 +588,7 @@
     //access token for the server
     NSString *oldToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"access_token"];
     if (oldToken){
-        targetURLString = [targetURLString stringByAppendingFormat:@"&access_token=%@", oldToken];
+//        targetURLString = [targetURLString stringByAppendingFormat:@"&access_token=%@", oldToken];
     }
     
     //load more info into the top view controller by setting the forumName property for viewDeckController.topController

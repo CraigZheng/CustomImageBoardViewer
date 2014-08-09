@@ -16,7 +16,7 @@
 @synthesize refreshSettingsTimer;
 @synthesize shouldDisplayContent, shouldDisplayImage, shouldDisplayThumbnail, shouldEnableBlacklistFiltering, shouldUseRemoteConfiguration, shouldHideImageInForums;
 @synthesize configuration_refresh_interval, blacklist_refresh_interval, forum_list_refresh_interval, notification_refresh_interval;
-@synthesize thread_content_host, threads_per_page, thread_format, thread_list_host;
+@synthesize a_isle_host, thread_content_host, threads_per_page, thread_format, thread_list_host;
 @synthesize message, image_host, ac_host, forum_list_url, thumbnail_host;
 
 + (id)sharedInstance
@@ -100,6 +100,7 @@
     thread_format = [jsonObject objectForKey:@"thread_format"];
     forum_list_url = [jsonObject objectForKey:@"forum_list_url"];
     ac_host = [jsonObject objectForKey:@"ac_host"];
+    a_isle_host = [jsonObject objectForKey:@"a_isle_host"];
     thread_list_host = [jsonObject objectForKey:@"thread_list_host"];
     thread_content_host = [jsonObject objectForKey:@"thread_content_host"];
     image_host = [jsonObject objectForKey:@"image_host"];

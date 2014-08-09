@@ -10,11 +10,13 @@
 #import "czzXMLDownloader.h"
 #import "SMXMLDocument.h"
 #import "czzAppDelegate.h"
+#import "czzSettingsCentre.h"
 #import "Toast+UIView.h"
 
 @interface czzMoreInfoViewController ()<czzXMLDownloaderDelegate, UIWebViewDelegate>
 @property czzXMLDownloader *xmlDownloader;
 @property NSString *baseURL;
+@property czzSettingsCentre *settingsCentre;
 @end
 
 @implementation czzMoreInfoViewController
@@ -22,12 +24,14 @@
 @synthesize xmlDownloader;
 @synthesize baseURL;
 @synthesize forumName;
+@synthesize settingsCentre;
 @synthesize bannerView_;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    settingsCentre = [czzSettingsCentre sharedInstance];
     baseURL = @"http://h.acfun.tv/api/forum/get?forumName=";
     //admob module
     bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
@@ -113,7 +117,7 @@
 }
 
 - (IBAction)homePageAction:(id)sender {
-    NSString *homePageURL = @"http://www.acfun.tv/u/712573.aspx";
+    NSString *homePageURL = [settingsCentre.ac_host stringByAppendingPathComponent:@"u/712573.aspx"];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:homePageURL]];
 
 }

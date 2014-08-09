@@ -122,8 +122,6 @@
     selectedIndex = indexPath;
     if (selectedIndex.row < threads.count){
         selectedThread = [threads objectAtIndex:selectedIndex.row];
-//        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:selectedThread forKey:@"PickedThread"];
-//        [[NSNotificationCenter defaultCenter] postNotificationName:@"ShouldOpenThreadInThreadViewController" object:self userInfo:userInfo];
         [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
     }
 }

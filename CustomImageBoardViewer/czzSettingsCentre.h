@@ -27,6 +27,7 @@
 @property NSString *thread_format;
 @property NSString *forum_list_url;
 @property NSString *ac_host;
+@property NSString *a_isle_host;
 @property NSString *thread_list_host;
 @property NSString *thread_content_host;
 @property NSString *image_host;

@@ -68,7 +68,6 @@
 		443B54EF1990BD3300BAB282 /* OGText.m in Sources */ = {isa = PBXBuildFile; fileRef = 443B54DB1990BD3300BAB282 /* OGText.m */; };
 		443B54F01990BD3300BAB282 /* OGUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 443B54DD1990BD3300BAB282 /* OGUtility.m */; };
 		443B54F319933C1F00BAB282 /* czzSettingsCentre.m in Sources */ = {isa = PBXBuildFile; fileRef = 443B54F219933C1F00BAB282 /* czzSettingsCentre.m */; };
-		443B54F519933F4700BAB282 /* default_configuration.json in Resources */ = {isa = PBXBuildFile; fileRef = 443B54F419933F4700BAB282 /* default_configuration.json */; };
 		44412975186E9B1000075AA2 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44412974186E9B1000075AA2 /* StoreKit.framework */; };
 		4448C2A3180FF50F00D2CD76 /* czzBlacklistEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2A2180FF50F00D2CD76 /* czzBlacklistEntity.m */; };
 		4448C2A7180FF55A00D2CD76 /* czzBlacklistDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2A6180FF55A00D2CD76 /* czzBlacklistDownloader.m */; };
@@ -135,6 +134,7 @@
 		5A2B2D8D1936172C00BA2870 /* czzFeedback.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2B2D8C1936172C00BA2870 /* czzFeedback.m */; };
 		5A2B2D941936264A00BA2870 /* czzFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2B2D931936264A00BA2870 /* czzFeedbackViewController.m */; };
 		5A3897C91935EC4D00D20DA1 /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3897C71935EC4D00D20DA1 /* NSString+HTML.m */; };
+		5A5407F619961F87005FA214 /* default_configuration.json in Resources */ = {isa = PBXBuildFile; fileRef = 5A5407F519961F87005FA214 /* default_configuration.json */; };
 		5A6266AA193A17FF00AD949F /* czzNotificationDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6266A9193A17FF00AD949F /* czzNotificationDownloader.m */; };
 		5A637438195D8AB0004AF1FC /* BugSense-iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A637436195D8AB0004AF1FC /* BugSense-iOS.framework */; };
 		5A637439195D8AB0004AF1FC /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5A637437195D8AB0004AF1FC /* LICENSE */; };
@@ -271,7 +271,6 @@
 		443B54DD1990BD3300BAB282 /* OGUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OGUtility.m; sourceTree = "<group>"; };
 		443B54F119933C1F00BAB282 /* czzSettingsCentre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzSettingsCentre.h; sourceTree = "<group>"; };
 		443B54F219933C1F00BAB282 /* czzSettingsCentre.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzSettingsCentre.m; sourceTree = "<group>"; };
-		443B54F419933F4700BAB282 /* default_configuration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = default_configuration.json; sourceTree = "<group>"; };
 		44412974186E9B1000075AA2 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		4448C2A1180FF50F00D2CD76 /* czzBlacklistEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzBlacklistEntity.h; sourceTree = "<group>"; };
 		4448C2A2180FF50F00D2CD76 /* czzBlacklistEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzBlacklistEntity.m; sourceTree = "<group>"; };
@@ -376,6 +375,7 @@
 		5A3897C51935EC4D00D20DA1 /* GTMNSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTMNSString+HTML.m"; sourceTree = "<group>"; };
 		5A3897C61935EC4D00D20DA1 /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
 		5A3897C71935EC4D00D20DA1 /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTML.m"; sourceTree = "<group>"; };
+		5A5407F519961F87005FA214 /* default_configuration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = default_configuration.json; sourceTree = "<group>"; };
 		5A6266A8193A17FF00AD949F /* czzNotificationDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzNotificationDownloader.h; sourceTree = "<group>"; };
 		5A6266A9193A17FF00AD949F /* czzNotificationDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzNotificationDownloader.m; sourceTree = "<group>"; };
 		5A637436195D8AB0004AF1FC /* BugSense-iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "BugSense-iOS.framework"; sourceTree = "<group>"; };
@@ -831,7 +831,7 @@
 		443B54F619933F4C00BAB282 /* czzSettingsCentre */ = {
 			isa = PBXGroup;
 			children = (
-				443B54F419933F4700BAB282 /* default_configuration.json */,
+				5A5407F519961F87005FA214 /* default_configuration.json */,
 				443B54F119933C1F00BAB282 /* czzSettingsCentre.h */,
 				443B54F219933C1F00BAB282 /* czzSettingsCentre.m */,
 			);
@@ -1166,7 +1166,7 @@
 				5A88B83D1938A8FD00071343 /* up.png in Resources */,
 				5A88B83A1938A8FD00071343 /* down.png in Resources */,
 				4416B71919413D7100B69C5B /* emotion_sad_icon.png in Resources */,
-				443B54F519933F4700BAB282 /* default_configuration.json in Resources */,
+				5A5407F619961F87005FA214 /* default_configuration.json in Resources */,
 				441E5E5017F4AEA700289DBD /* warning.png in Resources */,
 				44F8DE621803900100B6D3B0 /* Icon-Small-50.png in Resources */,
 				44C34557187E6CF000FDE45D /* sougo_emoji_UTF16.txt in Resources */,

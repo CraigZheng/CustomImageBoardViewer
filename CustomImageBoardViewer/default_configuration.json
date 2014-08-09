@@ -5,6 +5,11 @@
   "shouldDisplayImage": true,
   "shouldDisplayThumbnail": true,
   "shouldDisplayContent": true,
+  "shouldHideImageInForms":  [
+    "COSPLAY",
+    "询问2",
+    "动画"
+  ],
   "configuration_refresh_interval": 3600,
   "blacklist_refresh_interval": 3600,
   "forum_list_refresh_interval": 3600,
@@ -12,7 +17,8 @@
   "threads_per_page": 10,
   "thread_format": "json",
   "forum_list_url": "http://civ.atwebpages.com/forums.xml",
-  "ac_host": "http://h.acfun.tv/api/",
+  "ac_host": "http://www.acfun.tv/",
+  "a_isle_host": "http://h.acfun.tv/",
   "thread_list_host": "http://h.acfun.tv/api/",
   "thread_content_host": "http://h.acfun.tv/api/t/",
   "thumbnail_host": "http://static.acfun.mm111.net/h/",
