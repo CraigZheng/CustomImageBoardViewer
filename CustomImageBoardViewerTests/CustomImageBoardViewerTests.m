@@ -13,6 +13,7 @@
 #import "czzAppDelegate.h"
 #import "czzFeedback.h"
 #import "czzSettingsCentre.h"
+#import "PropertyUtil.h"
 
 @interface CustomImageBoardViewerTests : XCTestCase<czzNotificationDownloaderDelegate>
 @property BOOL done;
@@ -36,10 +37,27 @@
 -(void)testSettingsCentre {
     czzSettingsCentre *settingsCentre = [czzSettingsCentre sharedInstance];
     XCTAssertEqual(3600, settingsCentre.configuration_refresh_interval, "configuration not equal to 3600!");
-    [settingsCentre downloadSettings];
-    [self waitForCompletion:5];
-    XCTAssertEqual(3600, settingsCentre.configuration_refresh_interval, "configuration not equal to 3600 after download!");
-
+//    [settingsCentre downloadSettings];
+//    [self waitForCompletion:5];
+    settingsCentre.shouldHideImageInForums = @[@"1", @"2", @"3", @"4"];
+    settingsCentre.shouldDisplayContent = !settingsCentre.shouldDisplayContent;
+    settingsCentre.ac_host = @"test_ac_host";
+    settingsCentre.userDefShouldAutoOpenImage = !settingsCentre.userDefShouldAutoOpenImage;
+    settingsCentre.userDefShouldHighlightPO = !settingsCentre.userDefShouldHighlightPO;
+    settingsCentre.userDefShouldCacheData = !settingsCentre.userDefShouldCacheData;
+    settingsCentre.userDefShouldDisplayThumbnail = !settingsCentre.userDefShouldDisplayThumbnail;
+    settingsCentre.thread_content_host = @"test_thread_content_host";
+    XCTAssert([settingsCentre saveSettings], @"failed to save settings!");
+    //restore from storage
+    czzSettingsCentre *newSettings = [czzSettingsCentre new];
+    XCTAssert([newSettings restoreSettings], @"failed to restore settings!");
+    //test every property
+    NSArray *properties = [PropertyUtil classPropsFor:settingsCentre.class].allKeys;
+    for (NSString *property in properties) {
+        NSObject *obj1 = [settingsCentre valueForKey:property];
+        NSObject *obj2 = [newSettings valueForKey:property];
+        XCTAssertEqualObjects(obj1, obj2, @"%@ not equal!", property);
+    }
 }
 
 - (void)testFeedback {
@@ -68,7 +86,7 @@
         }
     }
     
-    XCTAssertNotNil(notification, @"notification not inited");
+    XCTAssertNotNil(notification, @"notification not initialised");
     XCTAssertNotEqual(notification.sender, [czzNotification new].sender, @"sender has not set!");
     
 }
@@ -86,7 +104,7 @@
 #pragma mark - czzNotificationDownloaderDelegate 
 -(void)notificationDownloaded:(NSArray *)notifications {
     done = YES;
-    XCTAssertTrue(notifications.count <= 0, @"downloaded notification list empty!");
+    XCTAssertTrue(notifications.count > 0, @"downloaded notification list empty!");
 }
 
 - (BOOL)waitForCompletion:(NSTimeInterval)timeoutSecs {

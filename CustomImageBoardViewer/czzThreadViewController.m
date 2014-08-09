@@ -91,7 +91,7 @@
     thumbnailFolder = [thumbnailFolder stringByAppendingPathComponent:@"Thumbnails"];
     //settings
     settingsCentre = [czzSettingsCentre sharedInstance];
-    shouldHighlight = settingsCentre.userDefShouldHightlightPO;
+    shouldHighlight = settingsCentre.userDefShouldHighlightPO;
     baseURLString = [settingsCentre.thread_content_host stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld", (long)self.parentThread.ID]];
     pageNumber = 1;
     downloadedImages = [NSMutableDictionary new];

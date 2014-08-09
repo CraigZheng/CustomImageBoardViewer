@@ -38,11 +38,11 @@
 @property BOOL userDefShouldShowOnScreenCommand;
 @property BOOL userDefShouldAutoOpenImage;
 @property BOOL userDefShouldCacheData;
-@property BOOL userDefShouldHightlightPO;
+@property BOOL userDefShouldHighlightPO;
 
 
 + (id)sharedInstance;
 -(void)downloadSettings;
--(void)saveSettings;
--(void)restoreSettings;
+-(BOOL)saveSettings;
+-(BOOL)restoreSettings;
 @end

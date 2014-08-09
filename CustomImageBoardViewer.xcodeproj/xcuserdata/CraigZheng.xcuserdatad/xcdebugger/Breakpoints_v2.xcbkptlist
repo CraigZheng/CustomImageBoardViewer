@@ -68,12 +68,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomImageBoardViewerTests/CustomImageBoardViewerTests.m"
-            timestampString = "423309078.770457"
+            timestampString = "429281970.11504"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
-            landmarkName = "-testNotificationDownloader"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
+            landmarkName = "-testNotification"
             landmarkType = "5">
             <Locations>
                <Location
@@ -133,8 +133,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "82"
             endingLineNumber = "82"
-            landmarkName = "-connectionDidFinishLoading:"
-            landmarkType = "5">
+            landmarkName = "@implementation czzNotificationDownloader"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -144,7 +144,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomImageBoardViewer/czzAppDelegate.m"
-            timestampString = "426783022.965062"
+            timestampString = "429282141.984184"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "72"
