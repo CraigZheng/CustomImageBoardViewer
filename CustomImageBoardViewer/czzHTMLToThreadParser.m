@@ -22,12 +22,6 @@
 @synthesize parsedThreads;
 
 -(void)parse:(NSString*)htmlString {
-//    OGNode *node = [ObjectiveGumbo parseDocumentWithString:htmlString];
-//    NSArray *classArray = [node elementsWithClass:@""];
-//    NSArray *idArray = [node elementsWithID:@""];
-//    NSArray *tagArray = [node elementsWithTag:GUMBO_TAG_DIV];
-//    if (YES)
-//        return;
     htmlContent = htmlString;
     NSDate *startTime = [NSDate new];
     [self scanHTML:htmlContent];
