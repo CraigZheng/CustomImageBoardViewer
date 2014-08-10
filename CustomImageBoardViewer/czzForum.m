@@ -24,7 +24,6 @@
                 self.updatedAt = [NSDate dateWithTimeIntervalSince1970:[[jsonDict objectForKey:@"updatedAt"] doubleValue]];
             }
             @catch (NSException *exception) {
-                NSLog(@"%@", exception);
             }
         }
     }

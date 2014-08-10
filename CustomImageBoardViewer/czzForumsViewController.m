@@ -50,7 +50,7 @@
     bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
     bannerView_.adUnitID = @"a151ef285f8e0dd";
     bannerView_.rootViewController = self;
-    adUpdateInterval = 5 * 60;
+    adUpdateInterval = 10 * 60;
 }
 
 -(void)refreshForums{
