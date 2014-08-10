@@ -16,6 +16,7 @@
 @property (nonatomic) NSURL *targetURL;
 @property id<czzPostSenderDelegate> delegate;
 @property (nonatomic) NSString *forumName;
+@property (nonatomic) NSString *forumID;
 @property (nonatomic) NSInteger parentID;
 //for czzPost object
 @property (nonatomic) NSString *name;

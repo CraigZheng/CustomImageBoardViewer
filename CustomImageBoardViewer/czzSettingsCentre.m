@@ -44,8 +44,13 @@
 -(id)init {
     self = [super init];
     if (self) {
-
         //default settings
+        userDefShouldAutoOpenImage = YES;
+        userDefShouldDisplayThumbnail = YES;
+        userDefShouldCacheData = YES;
+        userDefShouldHighlightPO = YES;
+        userDefShouldShowOnScreenCommand = YES;
+        
         NSString *filePath = [[NSBundle mainBundle] pathForResource:@"default_configuration" ofType:@"json"];
         NSData *JSONData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
         [self parseJSONData:JSONData];

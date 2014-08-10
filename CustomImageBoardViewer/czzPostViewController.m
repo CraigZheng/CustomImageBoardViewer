@@ -17,6 +17,8 @@
 #import "UIViewController+KNSemiModal.h"
 #import "czzEmojiCollectionViewController.h"
 #import "ValueFormatter.h"
+#import "czzForumsViewController.h"
+#import "NSString+HTML.h"
 
 @interface czzPostViewController () <czzPostSenderDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
 @property NSString *targetURLString;
@@ -36,6 +38,7 @@
 @synthesize postSender;
 @synthesize postMode;
 @synthesize forumName;
+@synthesize forum;
 
 - (void)viewDidLoad
 {
@@ -58,10 +61,13 @@
     NSString *title = @"回复";
     NSString *content = @"";
     targetURLString = REPLY_POST_URL;
+    NSString *forumID = [self getForumIDFromForumName:forumName];
+    postSender.forumID = forumID;
+
     switch (postMode) {
         case NEW_POST:
             title = @"新帖";
-            targetURLString = NEW_POST_URL;
+            targetURLString = [NEW_POST_URL stringByReplacingOccurrencesOfString:FORUM_NAME withString:forumName];
             postSender.forumName = forumName;
             break;
         case REPLY_POST:
@@ -70,7 +76,7 @@
                 title = [NSString stringWithFormat:@"回复:%ld", (long)replyTo.ID];
                 content = [NSString stringWithFormat:@">>No.%ld\n\n", (long)replyTo.ID];
             }
-            targetURLString = REPLY_POST_URL;
+            targetURLString = [REPLY_POST_URL stringByReplacingOccurrencesOfString:PARENT_ID withString:[NSString stringWithFormat:@"%ld", (long)thread.ID]];
             break;
         case REPORT_POST:
             title = @"举报";
@@ -92,6 +98,15 @@
                                                object:nil];
 }
 
+-(NSString*)getForumIDFromForumName:(NSString*)fName {
+    for (czzForum *tempForum in [czzAppDelegate sharedAppDelegate].forums) {
+        if ([tempForum.name isEqualToString:fName]) {
+            return [NSString stringWithFormat:@"%ld", (long)tempForum.forumID];
+        }
+    }
+    return @"0";
+}
+
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     //Register focus on text view
@@ -104,7 +119,8 @@
 
 - (IBAction)postAction:(id)sender {
     //assign the appropriate target URL and delegate to the postSender
-    postSender.targetURL = [NSURL URLWithString:targetURLString];
+    NSURL *targetURL = [NSURL URLWithString:[targetURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    postSender.targetURL = targetURL;
     postSender.parentID = thread.ID;
     postSender.delegate = self;
     postSender.content = postTextView.text;
@@ -173,8 +189,8 @@
     NSData *imageData = UIImageJPEGRepresentation(pickedImage, 0.85);
     NSString *titleWithSize = [ValueFormatter convertByte:imageData.length];
     //resize the image if the picked image is too big
-    if (pickedImage.size.width * pickedImage.size.height > 1280 * 720){
-        NSInteger newWidth = 720;
+    if (pickedImage.size.width * pickedImage.size.height > 1600 * 900){
+        NSInteger newWidth = 900;
         pickedImage = [self imageWithImage:pickedImage scaledToWidth:newWidth];
         [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"由于图片尺寸太大，已进行压缩" duration:1.5 position:@"top" title:titleWithSize image:pickedImage];
     } else {

@@ -46,6 +46,8 @@
 		441E5E4E17F4A9C500289DBD /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5E4D17F4A9C500289DBD /* CoreText.framework */; };
 		441E5E5017F4AEA700289DBD /* warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 441E5E4F17F4AEA700289DBD /* warning.png */; };
 		441E5E5417F52DEF00289DBD /* czzThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E5E5317F52DEF00289DBD /* czzThreadViewController.m */; };
+		4425A286199700F000671B88 /* test_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 4425A285199700F000671B88 /* test_image.png */; };
+		4425A2891997109600671B88 /* czzForum.m in Sources */ = {isa = PBXBuildFile; fileRef = 4425A2881997109600671B88 /* czzForum.m */; };
 		442CD0E31851601A0021AD37 /* czzImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 442CD0E21851601A0021AD37 /* czzImageDownloader.m */; };
 		442CD0E718517BED0021AD37 /* czzImageCentre.m in Sources */ = {isa = PBXBuildFile; fileRef = 442CD0E618517BED0021AD37 /* czzImageCentre.m */; };
 		443B54DE1990BD3300BAB282 /* attribute.c in Sources */ = {isa = PBXBuildFile; fileRef = 443B54B61990BD3300BAB282 /* attribute.c */; };
@@ -225,6 +227,9 @@
 		441E5E4F17F4AEA700289DBD /* warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warning.png; sourceTree = "<group>"; };
 		441E5E5217F52DEF00289DBD /* czzThreadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewController.h; sourceTree = "<group>"; };
 		441E5E5317F52DEF00289DBD /* czzThreadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewController.m; sourceTree = "<group>"; };
+		4425A285199700F000671B88 /* test_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_image.png; sourceTree = "<group>"; };
+		4425A2871997109600671B88 /* czzForum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzForum.h; sourceTree = "<group>"; };
+		4425A2881997109600671B88 /* czzForum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzForum.m; sourceTree = "<group>"; };
 		442CD0E11851601A0021AD37 /* czzImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzImageDownloader.h; sourceTree = "<group>"; };
 		442CD0E21851601A0021AD37 /* czzImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzImageDownloader.m; sourceTree = "<group>"; };
 		442CD0E518517BED0021AD37 /* czzImageCentre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzImageCentre.h; sourceTree = "<group>"; };
@@ -456,6 +461,7 @@
 				5ADCA4691938F67F002BA60B /* ValueFormatter.m */,
 				440B2FCA17F8057500544926 /* czzPostViewController.h */,
 				440B2FCB17F8057500544926 /* czzPostViewController.m */,
+				44FC4346180067D80028D7C9 /* czzPostSender */,
 			);
 			name = czzPostViewController;
 			sourceTree = "<group>";
@@ -587,7 +593,6 @@
 				441E5D1317F46A0E00289DBD /* czzEntryPointViewController */,
 				441E5D2D17F490E100289DBD /* czzThread */,
 				442CD0E4185160200021AD37 /* czzImageDownloader */,
-				441E5D2517F4798300289DBD /* czzForumGroup */,
 				4498B68E1993A6740014F73F /* PropertyUtil */,
 				441E5D1C17F46E7F00289DBD /* SMXMLDocument */,
 				441E5D2617F48B3D00289DBD /* Toast */,
@@ -620,6 +625,7 @@
 		441E5CF617F4691300289DBD /* CustomImageBoardViewerTests */ = {
 			isa = PBXGroup;
 			children = (
+				4425A285199700F000671B88 /* test_image.png */,
 				441E5CFC17F4691300289DBD /* CustomImageBoardViewerTests.m */,
 				441E5CF717F4691300289DBD /* Supporting Files */,
 			);
@@ -660,8 +666,11 @@
 		441E5D1717F46B3200289DBD /* czzForumsViewController */ = {
 			isa = PBXGroup;
 			children = (
+				441E5D2517F4798300289DBD /* czzForumGroup */,
 				440B2FC517F7DB7800544926 /* czzForumsViewController.h */,
 				440B2FC617F7DB7800544926 /* czzForumsViewController.m */,
+				4425A2871997109600671B88 /* czzForum.h */,
+				4425A2881997109600671B88 /* czzForum.m */,
 			);
 			name = czzForumsViewController;
 			sourceTree = "<group>";
@@ -722,7 +731,6 @@
 				5AF85E60196EDC110031D0CB /* czzHTMLToThreadParser.h */,
 				5AF85E61196EDC110031D0CB /* czzHTMLToThreadParser.m */,
 				4498B68A199249180014F73F /* czzJSONProcessor */,
-				44FC4346180067D80028D7C9 /* czzPostSender */,
 				4448C2A4180FF51D00D2CD76 /* czzBlacklist */,
 				44CD44001869CB6900C7D063 /* czzThreadCacheManager */,
 				5A1593EA18E71E93001A774B /* czzThreadRefButton.h */,
@@ -1208,6 +1216,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				441E5CFB17F4691300289DBD /* InfoPlist.strings in Resources */,
+				4425A286199700F000671B88 /* test_image.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1247,6 +1256,7 @@
 				5A6266AA193A17FF00AD949F /* czzNotificationDownloader.m in Sources */,
 				443B54DE1990BD3300BAB282 /* attribute.c in Sources */,
 				44C34543187E59A500FDE45D /* UIViewController+KNSemiModal.m in Sources */,
+				4425A2891997109600671B88 /* czzForum.m in Sources */,
 				5AF85E681970025A0031D0CB /* czzSearchViewController.m in Sources */,
 				443B54E01990BD3300BAB282 /* error.c in Sources */,
 				4448C2A7180FF55A00D2CD76 /* czzBlacklistDownloader.m in Sources */,

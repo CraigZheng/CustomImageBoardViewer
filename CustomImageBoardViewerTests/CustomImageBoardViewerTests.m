@@ -13,9 +13,12 @@
 #import "czzAppDelegate.h"
 #import "czzFeedback.h"
 #import "czzSettingsCentre.h"
+#import "czzPost.h"
+#import "czzPostSender.h"
 #import "PropertyUtil.h"
 
-@interface CustomImageBoardViewerTests : XCTestCase<czzNotificationDownloaderDelegate>
+
+@interface CustomImageBoardViewerTests : XCTestCase<czzNotificationDownloaderDelegate, czzPostSenderDelegate>
 @property BOOL done;
 @end
 
@@ -88,7 +91,6 @@
     
     XCTAssertNotNil(notification, @"notification not initialised");
     XCTAssertNotEqual(notification.sender, [czzNotification new].sender, @"sender has not set!");
-    
 }
 
 - (void)testNotificationDownloader {
@@ -101,10 +103,67 @@
 
 }
 
+-(void)testPostSenderReply {
+    czzPostSender *postSender = [czzPostSender new];
+    postSender.delegate = self;
+    postSender.targetURL = [NSURL URLWithString:@"http://h.acfun.tv/api/t/4010298/create"];
+    //content - random bullshit
+    NSDateFormatter *dateFormatter = [NSDateFormatter new];
+    [dateFormatter setDateFormat:@"Y-m-d hh-MM-ss"];
+    postSender.content = [NSString stringWithFormat:@"TEST - BY IOS AT %@", [dateFormatter stringFromDate:[NSDate new]]];
+    NSString *longText = [self generateRandomTextWithLength:1024];
+    postSender.content = [postSender.content stringByAppendingString:longText];
+    //end content
+    postSender.email = @"sage";
+    postSender.name = @"渣渣";
+    postSender.title = @"渣渣";
+    [postSender sendPost];
+    XCTAssertTrue([self waitForCompletion:5.0], @"Timeout");
+}
+
+-(void)testPostSenderWithImage {
+    czzPostSender *postSender = [czzPostSender new];
+    postSender.delegate = self;
+    postSender.targetURL = [NSURL URLWithString:@"http://h.acfun.tv/api/t/4010298/create"];
+    //content - random bullshit
+    NSDateFormatter *dateFormatter = [NSDateFormatter new];
+    [dateFormatter setDateFormat:@"Y-m-d hh-MM-ss"];
+    postSender.content = [NSString stringWithFormat:@"TEST WITH IMAGE - BY IOS AT %@", [dateFormatter stringFromDate:[NSDate new]]];
+    //end content
+    postSender.email = @"sage";
+    postSender.name = @"渣渣";
+    postSender.title = @"渣渣";
+    //image
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *resource = [bundle pathForResource:@"test_image" ofType:@"png"];
+    UIImage *img = [UIImage imageWithContentsOfFile:resource];
+    postSender.imgData = UIImageJPEGRepresentation(img, 0.85);
+    //end image
+    [postSender sendPost];
+    XCTAssertTrue([self waitForCompletion:20.0], @"Timeout");
+}
+
+-(NSString*)generateRandomTextWithLength:(NSInteger)length {
+    NSString *candidates = @"abcdefghijklmnoprrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    NSMutableString *string = [NSMutableString new];
+    for (NSInteger i = 0; i < length; i++) {
+        NSInteger index = arc4random() % candidates.length;
+        [string appendString:[candidates substringWithRange:NSMakeRange(index, 1)]];
+    }
+    return string;
+}
+
 #pragma mark - czzNotificationDownloaderDelegate 
 -(void)notificationDownloaded:(NSArray *)notifications {
     done = YES;
     XCTAssertTrue(notifications.count > 0, @"downloaded notification list empty!");
+}
+
+#pragma mark - czzPostSenderDelegate
+-(void)statusReceived:(BOOL)status message:(NSString *)message {
+    NSLog(@"message: %@", message);
+    XCTAssertTrue(status, @"status not YES");
+    done = YES;
 }
 
 - (BOOL)waitForCompletion:(NSTimeInterval)timeoutSecs {

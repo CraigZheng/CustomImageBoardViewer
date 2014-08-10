@@ -14,6 +14,7 @@
 #import "Toast+UIView.h"
 #import "czzAppDelegate.h"
 #import "czzSettingsCentre.h"
+#import "czzForum.h"
 
 @interface czzForumsViewController () <czzXMLDownloaderDelegate, UITableViewDataSource, UITableViewDelegate>
 @property czzXMLDownloader *xmlDownloader;
@@ -37,6 +38,7 @@
 @synthesize adCoverView;
 @synthesize shouldHideCoverView;
 @synthesize settingsCentre;
+@synthesize forums;
 
 - (void)viewDidLoad
 {
@@ -58,12 +60,31 @@
     NSString *forumString = [settingsCentre.forum_list_url stringByAppendingString:[NSString stringWithFormat:@"?version=%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
     xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:forumString] delegate:self startNow:YES];
     [self.view makeToastActivity];
+    
+    //added after the old server is down, this is necessary for the new a isle server
+    NSURL *forumURL = [NSURL URLWithString:@"http://h.acfun.tv/api/homepage"];
+    [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:forumURL] queue:[NSOperationQueue new] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        NSError *error;
+        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+        if (!error) {
+            NSArray *rawJsonData = [jsonDict valueForKey:@"forum"];
+            NSMutableArray *newForums = [NSMutableArray new];
+            for (NSDictionary *rawJson in rawJsonData) {
+                czzForum *newForum = [[czzForum alloc] initWithJSONDictionary:rawJson];
+                [newForums addObject:newForum];
+            }
+            if (newForums.count > 0) {
+                [czzAppDelegate sharedAppDelegate].forums = newForums;
+            }
+        }
+    }];
 }
 
 -(void)refreshAd {
     if (!lastAdUpdateTime || [[NSDate new] timeIntervalSinceDate:lastAdUpdateTime] > adUpdateInterval) {
         [bannerView_ loadRequest:[GADRequest request]];
         lastAdUpdateTime = [NSDate new];
+        [self refreshForums];//might be a good idea to update the forums as well
     }
 }
 

@@ -16,6 +16,7 @@
 @property NSString *access_token;
 @property NSInteger parentID;
 @property NSString *forumName;
+@property NSString *forumID;
 
 @property NSData *imgData;
 -(BOOL)isReady;

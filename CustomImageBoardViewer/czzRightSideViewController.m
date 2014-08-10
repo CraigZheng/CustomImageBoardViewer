@@ -13,6 +13,7 @@
 #import "czzBlacklistEntity.h"
 #import "czzImageCentre.h"
 #import "czzAppDelegate.h"
+#import "czzSettingsCentre.h"
 
 
 @interface czzRightSideViewController ()<UITableViewDataSource, UITableViewDelegate, NSURLConnectionDelegate>
@@ -23,6 +24,7 @@
 @property NSMutableArray *threadDepandentCommand;
 @property NSURLConnection *urlCon;
 @property NSMutableSet *favouriteThreads;
+@property czzSettingsCentre *settingsCentre;
 @end
 
 @implementation czzRightSideViewController
@@ -36,6 +38,7 @@
 @synthesize threadDepandentCommand;
 @synthesize urlCon;
 @synthesize favouriteThreads;
+@synthesize settingsCentre;
 
 - (void)viewDidLoad
 {
@@ -52,6 +55,8 @@
     [allCommand addObject:shareCommand];
     [allCommand addObject:threadDepandentCommand];
     [allCommand addObject:reportCommand];
+    //settings centre
+    settingsCentre = [czzSettingsCentre sharedInstance];
     //favourite threads
     NSString* libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     favouriteThreads = [NSKeyedUnarchiver unarchiveObjectWithFile:[libraryPath stringByAppendingPathComponent:@"favourites.dat"]];
@@ -111,7 +116,8 @@
         [[UIPasteboard generalPasteboard] setString:[NSString stringWithFormat:@"%ld", (long)selectedThread.ID]];
         [[czzAppDelegate sharedAppDelegate] showToast:@"ID已复制"];
     } else if ([command hasPrefix:@"复制图片链接"]){
-        NSString *urlString = [@"http://h.acfun.tv" stringByAppendingPathComponent:[self.selectedThread.imgSrc stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
+//        NSString *urlString = [settingsCentre.image_host stringByAppendingPathComponent:[self.selectedThread.imgSrc stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
+        NSString *urlString = self.selectedThread.imgSrc;
         [[UIPasteboard generalPasteboard] setString:urlString];
         [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"图片链接已复制"];
         
