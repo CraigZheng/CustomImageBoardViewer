@@ -42,7 +42,7 @@
                 [requestData appendData:forumData];
             }
             if (forumID && forumID.length > 0) {
-                [params setObject:forumID forKey:@"forumID"];
+                [params setObject:forumID forKey:@"forum"];
                 
                 NSData *forumIDData = [[NSString stringWithFormat:@"&forum=%@", forumID] dataUsingEncoding:NSUTF8StringEncoding];
                 [requestData appendData:forumIDData];

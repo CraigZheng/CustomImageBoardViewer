@@ -49,7 +49,6 @@
     for (NSDictionary *rawThreadData in parsedThreadData) {
         czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
         [processedThreads addObject:newThread];
-        NSLog(@"%@", newThread.description);
     }
     if (delegate)
         [delegate subThreadProcessed:processedThreads :YES];

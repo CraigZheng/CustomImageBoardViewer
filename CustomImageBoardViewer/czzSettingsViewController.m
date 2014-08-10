@@ -162,12 +162,9 @@
     [switchCommands addObject:@"显示图片"];
     [switchCommands addObject:@"显示快速滑动按钮"];
     [switchCommands addObject:@"图片下载完毕自动打开"];
-//    [switchCommands addObject:@"高亮楼主/PO主"];
-    //[switchCommands addObject:@"下拉自动加载帖子"];
     [switchCommands addObject:@"开启帖子缓存"];
     [regularCommands addObject:@"图片缓存"];
     [regularCommands addObject:@"清空缓存"];
-//    [regularCommands addObject:@"收藏"];
     [regularCommands addObject:@"清除ID信息"];
     [regularCommands addObject:@"通知中心"];
     [regularCommands addObject:@"意见反馈"];
@@ -181,10 +178,15 @@
         return;
     }
     if ([alertView.title isEqualToString:@"清除ID信息"]){
-        //remove the keyed object in user defaults
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"access_token"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:settingsCentre.a_isle_host]];
+        for (NSHTTPCookie *cookie in cookies) {
+            [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+        }
         [[czzAppDelegate sharedAppDelegate] showToast:@"ID信息已清除"];
+        //remove the keyed object in user defaults
+//        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"access_token"];
+//        [[NSUserDefaults standardUserDefaults] synchronize];
+//        [[czzAppDelegate sharedAppDelegate] showToast:@"ID信息已清除"];
     }
 }
 

@@ -11,6 +11,7 @@
 #import "czzBlacklist.h"
 #import "Toast+UIView.h"
 #import "SMXMLDocument.h"
+#import "czzForum.h"
 #import "czzSettingsCentre.h"
 
 #import <BugSense-iOS/BugSenseController.h>
@@ -155,5 +156,15 @@
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
     [[incomingView layer] addAnimation:animation forKey:kCATransition];
     incomingView.hidden = NO;
+}
+
+#pragma mark - forumName
+-(NSString *)getForumIDFromForumName:(NSString *)fName {
+    for (czzForum *forum in self.forums) {
+        if ([forum.name isEqualToString:fName]) {
+            return [NSString stringWithFormat:@"%ld", (long)forum.forumID];
+        }
+    }
+    return @"0";
 }
 @end

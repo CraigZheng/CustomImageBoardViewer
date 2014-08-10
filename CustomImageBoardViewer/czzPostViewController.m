@@ -61,7 +61,7 @@
     NSString *title = @"回复";
     NSString *content = @"";
     targetURLString = REPLY_POST_URL;
-    NSString *forumID = [self getForumIDFromForumName:forumName];
+    NSString *forumID = [[czzAppDelegate sharedAppDelegate] getForumIDFromForumName:forumName];
     postSender.forumID = forumID;
 
     switch (postMode) {
@@ -96,15 +96,6 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
-}
-
--(NSString*)getForumIDFromForumName:(NSString*)fName {
-    for (czzForum *tempForum in [czzAppDelegate sharedAppDelegate].forums) {
-        if ([tempForum.name isEqualToString:fName]) {
-            return [NSString stringWithFormat:@"%ld", (long)tempForum.forumID];
-        }
-    }
-    return @"0";
 }
 
 -(void)viewWillAppear:(BOOL)animated{
