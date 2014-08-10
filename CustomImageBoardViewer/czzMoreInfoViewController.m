@@ -52,13 +52,22 @@
 -(void)setForumName:(NSString *)forumname{
     forumName = forumname;
     self.title = [NSString stringWithFormat:@"介绍：%@",forumname];
-    for (czzForum *forum in [czzAppDelegate sharedAppDelegate].forums) {
-        if ([forum.name isEqualToString:forumName]) {
-            if (forum.header.length > 0) {
-                
+    @try {
+        for (czzForum *forum in [czzAppDelegate sharedAppDelegate].forums) {
+            if ([forum.name isEqualToString:forumName]) {
+                if (forum.header.length > 0) {
+                    NSString *headerText = [forum.header stringByReplacingOccurrencesOfString:@"@Time" withString:[NSString stringWithFormat:@"%d", forum.cooldown]];
+                    if (headerTextWebView.loading){
+                        [headerTextWebView stopLoading];
+                    }
+                    [headerTextWebView loadHTMLString:headerText baseURL:Nil];
+                }
+                break;
             }
-            break;
         }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@", exception);
     }
 }
 
