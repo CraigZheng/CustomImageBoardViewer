@@ -75,7 +75,7 @@
         
         [self checkBlacklist];
         [self checkImageURLs];
-
+        [self checkRemoteConfiguration];
     }
     return self;
 }
