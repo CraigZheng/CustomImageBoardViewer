@@ -48,7 +48,8 @@
     forumGroups = [NSMutableArray new];
     [self refreshForums];
     bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
-    bannerView_.adUnitID = @"a151ef285f8e0dd";
+//    bannerView_.adUnitID = @"a151ef285f8e0dd";
+    bannerView_.adUnitID = @"ca-app-pub-2081665256237089/4247713655";
     bannerView_.rootViewController = self;
     adUpdateInterval = 10 * 60;
     //load default forumID json file to avoid crash caused by bad network connection
