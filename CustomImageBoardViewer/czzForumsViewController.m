@@ -51,6 +51,12 @@
     bannerView_.adUnitID = @"a151ef285f8e0dd";
     bannerView_.rootViewController = self;
     adUpdateInterval = 10 * 60;
+    //load default forumID json file to avoid crash caused by bad network connection
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"default_forumID" ofType:@"json"];
+    NSData *JSONData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
+    NSArray *defaultForums = [self parseJsonForForum:JSONData];
+    if (defaultForums.count > 0)
+        [czzAppDelegate sharedAppDelegate].forums = defaultForums;
 }
 
 -(void)refreshForums{
@@ -64,20 +70,29 @@
     //added after the old server is down, this is necessary for the new a isle server
     NSURL *forumURL = [NSURL URLWithString:@"http://h.acfun.tv/api/homepage"];
     [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:forumURL] queue:[NSOperationQueue new] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        NSError *error;
-        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-        if (!error) {
-            NSArray *rawJsonData = [jsonDict valueForKey:@"forum"];
-            NSMutableArray *newForums = [NSMutableArray new];
-            for (NSDictionary *rawJson in rawJsonData) {
-                czzForum *newForum = [[czzForum alloc] initWithJSONDictionary:rawJson];
-                [newForums addObject:newForum];
-            }
-            if (newForums.count > 0) {
-                [czzAppDelegate sharedAppDelegate].forums = newForums;
-            }
+        if (!connectionError) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSArray *newForums = [self parseJsonForForum:data];
+                if (newForums.count > 0)
+                    [czzAppDelegate sharedAppDelegate].forums = newForums;
+            });
         }
     }];
+}
+
+-(NSArray*)parseJsonForForum:(NSData*)jsonData {
+    NSError* error;
+    NSMutableArray *newForums = [NSMutableArray new];
+
+    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+    if (!error) {
+        NSArray *rawForumData = [jsonDict valueForKey:@"forum"];
+        for (NSDictionary* rawForum in rawForumData) {
+            czzForum *newForum = [[czzForum alloc] initWithJSONDictionary:rawForum];
+            [newForums addObject:newForum];
+        }
+    }
+    return newForums;
 }
 
 -(void)refreshAd {

@@ -145,6 +145,7 @@
 		5A88B83C1938A8FD00071343 /* right.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A88B8381938A8FD00071343 /* right.png */; };
 		5A88B83D1938A8FD00071343 /* up.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A88B8391938A8FD00071343 /* up.png */; };
 		5A88B8401938AFDB00071343 /* czzNotificationCentreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A88B83F1938AFDB00071343 /* czzNotificationCentreTableViewController.m */; };
+		5AA5B6B519A95E7D00DCC3DA /* default_forumID.json in Resources */ = {isa = PBXBuildFile; fileRef = 5AA5B6B419A95E7D00DCC3DA /* default_forumID.json */; };
 		5ADCA46A1938F67F002BA60B /* ValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCA4691938F67F002BA60B /* ValueFormatter.m */; };
 		5AF85E62196EDC110031D0CB /* czzHTMLToThreadParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF85E61196EDC110031D0CB /* czzHTMLToThreadParser.m */; };
 		5AF85E681970025A0031D0CB /* czzSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF85E671970025A0031D0CB /* czzSearchViewController.m */; };
@@ -391,6 +392,7 @@
 		5A88B8391938A8FD00071343 /* up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = up.png; sourceTree = "<group>"; };
 		5A88B83E1938AFDB00071343 /* czzNotificationCentreTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzNotificationCentreTableViewController.h; sourceTree = "<group>"; };
 		5A88B83F1938AFDB00071343 /* czzNotificationCentreTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzNotificationCentreTableViewController.m; sourceTree = "<group>"; };
+		5AA5B6B419A95E7D00DCC3DA /* default_forumID.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = default_forumID.json; sourceTree = "<group>"; };
 		5ADCA4681938F67F002BA60B /* ValueFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueFormatter.h; sourceTree = "<group>"; };
 		5ADCA4691938F67F002BA60B /* ValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueFormatter.m; sourceTree = "<group>"; };
 		5AF85E60196EDC110031D0CB /* czzHTMLToThreadParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzHTMLToThreadParser.h; sourceTree = "<group>"; };
@@ -669,6 +671,7 @@
 				441E5D2517F4798300289DBD /* czzForumGroup */,
 				440B2FC517F7DB7800544926 /* czzForumsViewController.h */,
 				440B2FC617F7DB7800544926 /* czzForumsViewController.m */,
+				5AA5B6B419A95E7D00DCC3DA /* default_forumID.json */,
 				4425A2871997109600671B88 /* czzForum.h */,
 				4425A2881997109600671B88 /* czzForum.m */,
 			);
@@ -1167,6 +1170,7 @@
 			files = (
 				5A88B83B1938A8FD00071343 /* left.png in Resources */,
 				44F8DE6D1803928A00B6D3B0 /* 40ios7.png in Resources */,
+				5AA5B6B519A95E7D00DCC3DA /* default_forumID.json in Resources */,
 				44F8DE661803900100B6D3B0 /* Icon.png in Resources */,
 				44B96E3E185B9C3200D664A4 /* vertical separator.png in Resources */,
 				44F8DE641803900100B6D3B0 /* Icon-Small.png in Resources */,
@@ -1450,7 +1454,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "24CE5990-2E2B-4F07-B896-443898C3D2E2";
+				PROVISIONING_PROFILE = "CD3DFB8D-A58B-4FDA-80BB-FD7F20E5D6AA";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1460,8 +1464,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-3";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Haozheng Zheng (4A2A95RH7T)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Haozheng Zheng (4A2A95RH7T)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/craig/Developer/Libraries/BugSense,
@@ -1480,7 +1484,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "24CE5990-2E2B-4F07-B896-443898C3D2E2";
+				PROVISIONING_PROFILE = "CD3DFB8D-A58B-4FDA-80BB-FD7F20E5D6AA";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
