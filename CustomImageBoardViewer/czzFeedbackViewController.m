@@ -122,10 +122,11 @@
     
     //assign an input accessory view to it
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *pickEmojiButton = [[UIBarButtonItem alloc] initWithTitle:@"+1" style:UIBarButtonItemStyleBordered target:self action:@selector(plusAction:)];
-    UIBarButtonItem *pickImgButton = [[UIBarButtonItem alloc] initWithTitle:@"-1" style:UIBarButtonItemStyleBordered target:self action:@selector(minusAction:)];
+//    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    UIBarButtonItem *plusEmotionButton = [[UIBarButtonItem alloc] initWithTitle:@"+1" style:UIBarButtonItemStyleBordered target:self action:@selector(plusAction:)];
+    UIBarButtonItem *minusEmotionButton = [[UIBarButtonItem alloc] initWithTitle:@"-1" style:UIBarButtonItemStyleBordered target:self action:@selector(minusAction:)];
     UIBarButtonItem *postButton = [[UIBarButtonItem alloc] initWithTitle:@"发表" style:UIBarButtonItemStyleBordered target:self action:@selector(sendAction:)];
-    NSArray *buttons = [NSArray arrayWithObjects: pickEmojiButton, pickImgButton, flexibleSpace, postButton, nil];
+    NSArray *buttons = [NSArray arrayWithObjects: plusEmotionButton, minusEmotionButton, flexibleSpace, postButton, nil];
     toolbar.items = buttons;
     return toolbar;
 }
@@ -136,7 +137,7 @@
 }
 
 - (IBAction)minusAction:(id)sender {
-    myNotification.emotion = sad;
+    myFeedback.emotion = sad;
     [self.view makeToast:nil duration:1.5 position:@"top" image:[UIImage imageNamed:@"emotion_sad_icon.png"]];
 
 }

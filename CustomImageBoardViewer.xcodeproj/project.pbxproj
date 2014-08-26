@@ -587,7 +587,7 @@
 				5AF85E691970025F0031D0CB /* czzSearchViewController */,
 				5A88B8411938AFE000071343 /* czzNotificationCentre */,
 				44BE2E3C1938400A00601943 /* czzOnScreenCommand */,
-				5A2B2D8E1936179500BA2870 /* czzFeedback */,
+				5A2B2D8E1936179500BA2870 /* czzFeedbackController */,
 				44C3454A187E5A8300FDE45D /* czzEmoji */,
 				440B300D17F95EC200544926 /* App icon */,
 				440B2FD817F94C5000544926 /* Launch images */,
@@ -1013,7 +1013,7 @@
 			name = czzMoreInfoViewController;
 			sourceTree = "<group>";
 		};
-		5A2B2D8E1936179500BA2870 /* czzFeedback */ = {
+		5A2B2D8E1936179500BA2870 /* czzFeedbackController */ = {
 			isa = PBXGroup;
 			children = (
 				4416B72819413EB600B69C5B /* FPPopover */,
@@ -1024,7 +1024,7 @@
 				4416B71B19413D9300B69C5B /* czzEmotionPickerTableViewController.h */,
 				4416B71C19413D9300B69C5B /* czzEmotionPickerTableViewController.m */,
 			);
-			name = czzFeedback;
+			name = czzFeedbackController;
 			sourceTree = "<group>";
 		};
 		5A3897CA1935EC5A00D20DA1 /* NSString+HTML */ = {
