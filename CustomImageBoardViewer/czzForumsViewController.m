@@ -73,9 +73,11 @@
     [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:forumURL] queue:[NSOperationQueue new] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         if (!connectionError) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                NSArray *newForums = [self parseJsonForForum:data];
-                if (newForums.count > 0)
-                    [czzAppDelegate sharedAppDelegate].forums = newForums;
+                if (data) {
+                    NSArray *newForums = [self parseJsonForForum:data];
+                    if (newForums.count > 0)
+                        [czzAppDelegate sharedAppDelegate].forums = newForums;
+                }
             });
         }
     }];
@@ -85,7 +87,12 @@
     NSError* error;
     NSMutableArray *newForums = [NSMutableArray new];
 
-    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+    NSDictionary *jsonDict;
+    if (jsonData)
+        jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+    else {
+        error = [NSError errorWithDomain:@"Empty Data" code:999 userInfo:nil];
+    }
     if (!error) {
         NSArray *rawForumData = [jsonDict valueForKey:@"forum"];
         for (NSDictionary* rawForum in rawForumData) {

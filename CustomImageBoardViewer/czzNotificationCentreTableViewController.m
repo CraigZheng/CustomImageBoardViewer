@@ -43,12 +43,22 @@
             [notifications addObjectsFromArray:cachedSet.array];
         }
     }
-    NSArray *sortedArray = [notifications.array sortedArrayUsingComparator: ^(czzNotification* a, czzNotification* b) {
-        NSDate *d1 = a.date;
-        NSDate *d2 = b.date;
-        return [d2 compare: d1];
-    }];
-    notifications = [NSMutableOrderedSet orderedSetWithArray:sortedArray];
+    @try {
+        NSArray *sortedArray = [notifications.array sortedArrayUsingComparator: ^(id a, id b) {
+            NSInteger id1 = [(czzNotification*)a notificationID].integerValue;
+            NSInteger id2 = [(czzNotification*)b notificationID].integerValue;
+            if (id2 > id1)
+                return (NSComparisonResult)NSOrderedDescending;
+            else if (id2 < id1)
+                return (NSComparisonResult)NSOrderedAscending;
+            else
+                return (NSComparisonResult)NSOrderedSame;
+        }];
+        notifications = [NSMutableOrderedSet orderedSetWithArray:sortedArray];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@", exception);
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -88,33 +98,8 @@
     if (cell) {
         UILabel *titleLabel = (UILabel*)[cell viewWithTag:1];
         UITextView *descriptionTextView = (UITextView*)[cell viewWithTag:2];
-//        UIImageView *thImgView = (UIImageView*)[cell viewWithTag:3];
-//        DACircularProgressView *circularProgressView = (DACircularProgressView*)[cell viewWithTag:4];
-//        circularProgressView.hidden = YES;
         titleLabel.text = notification.title;
         descriptionTextView.text = notification.content;
-        /*
-        if (notification.thImgSrc.length > 0) {
-            NSString *filePath = [imageFolder stringByAppendingPathComponent:[notification.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
-            UIImage *previewImage = [[UIImage alloc] initWithContentsOfFile:filePath];
-            if (previewImage) {
-                thImgView.hidden = NO;
-                thImgView.image = previewImage;
-            } else {
-                thImgView.hidden = YES;
-            }
-            //tap on image, download it
-            for (UIGestureRecognizer *recognizer in self.view.gestureRecognizers) {
-                [self.view removeGestureRecognizer:recognizer];
-            }
-            UITapGestureRecognizer* tapOnImageGestureRecognizer  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTapInImage:)];
-
-            [thImgView addGestureRecognizer:tapOnImageGestureRecognizer];
-
-        } else {
-            thImgView.hidden = YES;
-        }
-         */
     }
     return cell;
 }

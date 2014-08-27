@@ -91,13 +91,18 @@
 //call every 5 seconds, perfect place to call download methods as well
 -(void)updateText {
     if (notifications.count > 0) {
-        currentNotification = [notifications objectAtIndex:currentNotificationIndex];
-        currentNotificationIndex ++;
-        //if exceed the range of this array, move back to the first object
-        if (currentNotificationIndex >= notifications.count) {
-            currentNotificationIndex = 0;
+        @try {
+            currentNotification = [notifications objectAtIndex:currentNotificationIndex];
+            currentNotificationIndex ++;
+            //if exceed the range of this array, move back to the first object
+            if (currentNotificationIndex >= notifications.count) {
+                currentNotificationIndex = 0;
+            }
+            [self updateViewsWithCurrentNotification];
         }
-        [self updateViewsWithCurrentNotification];
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception);
+        }
     } else {
         self.needsToBePresented = NO;
     }
@@ -222,12 +227,22 @@
         //if one or more new notifications are downloaded
         if (notifications.count > originalCount) {
             self.needsToBePresented = YES;
-            NSArray *sortedArray = [notifications.array sortedArrayUsingComparator: ^(czzNotification* a, czzNotification* b) {
-                NSDate *d1 = a.date;
-                NSDate *d2 = b.date;
-                return [d2 compare: d1];
-            }];
-            notifications = [NSMutableOrderedSet orderedSetWithArray:sortedArray];
+            @try {
+                NSArray *sortedArray = [notifications.array sortedArrayUsingComparator: ^(id a, id b) {
+                    NSInteger id1 = [(czzNotification*)a notificationID].integerValue;
+                    NSInteger id2 = [(czzNotification*)b notificationID].integerValue;
+                    if (id2 > id1)
+                        return (NSComparisonResult)NSOrderedDescending;
+                    else if (id2 < id1)
+                        return (NSComparisonResult)NSOrderedAscending;
+                    else
+                        return (NSComparisonResult)NSOrderedSame;
+                }];
+                notifications = [NSMutableOrderedSet orderedSetWithArray:sortedArray];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"%@", exception);
+            }
         }
     } else {
         NSLog(@"downloaded notification empty!");
@@ -237,12 +252,22 @@
 
 -(void)saveNotifications {
     if (notifications.count > 0) {
-        NSArray *sortedArray = [notifications.array sortedArrayUsingComparator: ^(czzNotification* a, czzNotification* b) {
-            NSDate *d1 = a.date;
-            NSDate *d2 = b.date;
-            return [d2 compare: d1];
-        }];
-        notifications = [NSMutableOrderedSet orderedSetWithArray:sortedArray];
+        @try {
+            NSArray *sortedArray = [notifications.array sortedArrayUsingComparator: ^(id a, id b) {
+                NSInteger id1 = [(czzNotification*)a notificationID].integerValue;
+                NSInteger id2 = [(czzNotification*)b notificationID].integerValue;
+                if (id2 > id1)
+                    return (NSComparisonResult)NSOrderedDescending;
+                else if (id2 < id1)
+                    return (NSComparisonResult)NSOrderedAscending;
+                else
+                    return (NSComparisonResult)NSOrderedSame;
+            }];
+            notifications = [NSMutableOrderedSet orderedSetWithArray:sortedArray];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception);
+        }
         [notificationManager saveNotifications:notifications];
     }
 }

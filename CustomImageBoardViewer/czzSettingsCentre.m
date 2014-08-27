@@ -116,10 +116,12 @@
                                        queue:[NSOperationQueue new]
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                                dispatch_async(dispatch_get_main_queue(), ^{
-                                   [self parseJSONData:data];
-                                   NSLog(@"settings updated from remote server");
-                                   if (message.length > 0) {
-                                       [[czzAppDelegate sharedAppDelegate] showToast:message];
+                                   if (data) {
+                                       [self parseJSONData:data];
+                                       NSLog(@"settings updated from remote server");
+                                       if (message.length > 0) {
+                                           [[czzAppDelegate sharedAppDelegate] showToast:message];
+                                       }
                                    }
                                });
                            }];
