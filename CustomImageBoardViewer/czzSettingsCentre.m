@@ -158,7 +158,7 @@
 }
 
 -(NSString *)settingsFile {
-    NSString* libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString* libraryPath = [czzAppDelegate libraryFolder];
     return [libraryPath stringByAppendingPathComponent:@"Settings.dat"];
 }
 

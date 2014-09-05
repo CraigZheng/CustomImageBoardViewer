@@ -31,7 +31,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    imageFolder = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    imageFolder = [czzAppDelegate libraryFolder];
     imageFolder = [imageFolder stringByAppendingPathComponent:@"Thumbnails"];
 
     notificationManager = [czzNotificationManager new];

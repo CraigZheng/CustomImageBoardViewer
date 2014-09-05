@@ -7,7 +7,7 @@
 //
 
 #import "czzImageDownloader.h"
-
+#import "czzAppDelegate.h"
 
 @interface czzImageDownloader()<NSURLConnectionDelegate>
 @property NSURLConnection *urlConn;
@@ -99,7 +99,7 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection{
     //save to library directory
-    NSString* basePath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString* basePath = [czzAppDelegate libraryFolder];
     //save to thumbnail folder or fullsize folder
     if (isThumbnail)
         basePath = [basePath stringByAppendingPathComponent:@"Thumbnails"];

@@ -64,7 +64,7 @@
     blacklistDownloader.delegate = self;
     [blacklistDownloader downloadBlacklist];
     //check the library directory and image folders
-    NSString* libraryFolder = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString* libraryFolder = [czzAppDelegate libraryFolder];
     NSString *imgFolder = [libraryFolder stringByAppendingPathComponent:@"Images"];
     NSString *thumbnailFolder = [libraryFolder stringByAppendingPathComponent:@"Thumbnails"];
     NSString *notificationCacheFolder = [libraryFolder stringByAppendingPathComponent:@"NotificationCache"];
@@ -77,6 +77,10 @@
     if (![[NSFileManager defaultManager] fileExistsAtPath:notificationCacheFolder]){
         [[NSFileManager defaultManager] createDirectoryAtPath:notificationCacheFolder withIntermediateDirectories:NO attributes:nil error:nil];
     }
+    //exclude my folders from being backed up to iCloud
+    [self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:imgFolder]];
+    [self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:thumbnailFolder]];
+    [self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:notificationCacheFolder]];
     //restore homeview controller
     if (homeViewController) {
         [homeViewController restoreFromBackground];
@@ -96,6 +100,29 @@
         return my_main_host;
     }
 }
+
+- (BOOL)addSkipBackupAttributeToItemAtURL:(NSURL *)URL
+{
+    
+    assert([[NSFileManager defaultManager] fileExistsAtPath: [URL path]]);
+    NSError *error = nil;
+
+    id flag = nil;
+    [URL getResourceValue: &flag
+                   forKey: NSURLIsExcludedFromBackupKey error: &error];
+    NSLog (@"NSURLIsExcludedFromBackupKey flag value is %@", flag);
+    if (flag > 0)
+        return YES;
+
+    BOOL success = [URL setResourceValue:[NSNumber numberWithBool: YES]
+                                  forKey: NSURLIsExcludedFromBackupKey error: &error];
+    if(!success){
+        NSLog(@"Error excluding %@ from backup %@", [URL lastPathComponent], error);
+    }
+    
+    return success;
+}
+
 
 -(NSString *)vendorID {
     return [UIDevice currentDevice].identifierForVendor.UUIDString;
@@ -127,6 +154,11 @@
 #pragma mark access to app delegate etc.
 + (czzAppDelegate*) sharedAppDelegate{
     return (czzAppDelegate*)[[UIApplication sharedApplication] delegate];
+}
+
+#pragma mark - library folder
++(NSString *)libraryFolder {
+    return [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 }
 
 -(void)showToast:(NSString *)string{

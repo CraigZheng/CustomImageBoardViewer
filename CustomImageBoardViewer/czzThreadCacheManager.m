@@ -26,7 +26,7 @@
     
     if (self){
         settingsCentre = [czzSettingsCentre sharedInstance];
-        NSString* libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString* libraryPath = [czzAppDelegate libraryFolder];
         cachePath = [libraryPath stringByAppendingPathComponent:@"ThreadCache"];
         //if the thread cache in library directory does not exist, create it during the installation
         if (![[NSFileManager defaultManager] fileExistsAtPath:cachePath]){
