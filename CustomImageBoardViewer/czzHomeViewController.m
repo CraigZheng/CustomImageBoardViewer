@@ -87,7 +87,7 @@
     heightsForRows = [NSMutableArray new];
     heightsForRowsForHorizontalMode = [NSMutableArray new];
     //thumbnail folder
-    thumbnailFolder = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    thumbnailFolder = [czzAppDelegate libraryFolder];
     thumbnailFolder = [thumbnailFolder stringByAppendingPathComponent:@"Thumbnails"];
     
     settingsCentre = [czzSettingsCentre sharedInstance];

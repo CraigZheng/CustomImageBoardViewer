@@ -503,6 +503,6 @@
 }
 
 -(NSString *)description {
-    return [NSString stringWithFormat:@"ID:%ld - UID:%@ - content:%@ - img:%@", self.ID, self.UID.string, self.content.string, self.imgSrc];
+    return [NSString stringWithFormat:@"ID:%ld - UID:%@ - content:%@ - img:%@", (long) self.ID, self.UID.string, self.content.string, self.imgSrc];
 }
 @end

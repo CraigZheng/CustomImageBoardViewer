@@ -7,6 +7,7 @@
 //
 
 #import "czzNotificationManager.h"
+#import "czzAppDelegate.h"
 
 @implementation czzNotificationManager
 
@@ -23,7 +24,7 @@
 }
 
 -(NSString *)cachePath {
-    NSString* libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString* libraryPath = [czzAppDelegate libraryFolder];
     NSString *cachePath = [libraryPath stringByAppendingPathComponent:@"NotificationCache"];
     return cachePath;
 }

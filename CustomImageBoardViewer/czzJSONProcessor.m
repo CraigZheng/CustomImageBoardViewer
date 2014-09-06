@@ -20,7 +20,11 @@
 -(void)processThreadListFromData:(NSData *)jsonData {
     processedThreads = [NSMutableArray new];
     NSError *error;
-    NSDictionary *parsedObjects = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+    NSDictionary *parsedObjects;
+    if (jsonData)
+        parsedObjects = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+    else
+        error = [NSError errorWithDomain:@"Empty Data!" code:999 userInfo:nil];
     if (error) {
         NSLog(@"%@", error);
         if (delegate)
@@ -39,7 +43,11 @@
 -(void)processSubThreadFromData:(NSData *)jsonData {
     processedThreads = [NSMutableArray new];
     NSError *error;
-    NSDictionary *parsedObjects = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+    NSDictionary *parsedObjects;
+    if (jsonData)
+        parsedObjects = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+    else
+        error = [NSError errorWithDomain:@"Empty Data!" code:999 userInfo:nil];
     if (error) {
         NSLog(@"%@", error);
         if (delegate)

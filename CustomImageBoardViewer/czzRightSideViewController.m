@@ -58,7 +58,7 @@
     //settings centre
     settingsCentre = [czzSettingsCentre sharedInstance];
     //favourite threads
-    NSString* libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString* libraryPath = [czzAppDelegate libraryFolder];
     favouriteThreads = [NSKeyedUnarchiver unarchiveObjectWithFile:[libraryPath stringByAppendingPathComponent:@"favourites.dat"]];
     if (!favouriteThreads){
         favouriteThreads = [NSMutableSet new];
@@ -71,7 +71,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    NSString* libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString* libraryPath = [czzAppDelegate libraryFolder];
     [NSKeyedArchiver archiveRootObject:favouriteThreads toFile:[libraryPath stringByAppendingPathComponent:@"favourites.dat"]];
 }
 

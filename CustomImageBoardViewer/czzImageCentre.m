@@ -42,7 +42,7 @@
 - (id)init {
     if (self = [super init]) {
         currentImageDownloaders = [NSMutableSet new];
-        NSString* libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString* libraryPath = [czzAppDelegate libraryFolder];
         thumbnailFolder = [libraryPath stringByAppendingPathComponent:@"Thumbnails"];
         imageFolder = [libraryPath stringByAppendingPathComponent:@"Images"];
         currentLocalImages = [NSMutableSet new];

@@ -73,10 +73,14 @@
     [self response:receivedResponse];
 }
 
-#pragma Decode the self.response xml data
--(void)response:(NSData*)xmlData{
+#pragma mark - Decode the self.response xml data - at Aug 2014, they've changed to return value to json format
+-(void)response:(NSData*)jsonData{
     NSError *error;
-    NSDictionary *jsonResponse = [NSJSONSerialization JSONObjectWithData:xmlData options:NSJSONReadingMutableContainers error:&error];
+    NSDictionary *jsonResponse;
+    if (jsonData)
+        jsonResponse = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+    else
+        error = [NSError errorWithDomain:@"Empty data!" code:9999 userInfo:nil];
     if (error) {
         if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
         {
@@ -89,52 +93,14 @@
         NSString *errorMessage = [jsonResponse valueForKey:@"error"];
         [self.delegate statusReceived:success message:errorMessage];
     }
-    
-//    SMXMLDocument *xmlDoc = [[SMXMLDocument alloc]initWithData:xmlData error:nil];
-//    if (xmlDoc){
-//        BOOL success = NO;
-//        NSString *message = @"";
-//        NSLog(@"%@", [[NSString alloc] initWithData:xmlData encoding:NSUTF8StringEncoding]);
-//        for (SMXMLElement *child in xmlDoc.root.children){
-//            if ([child.name isEqualToString:@"success"]){
-//                success = [child.value boolValue];
-//            }
-//            else if ([child.name isEqualToString:@"access_token"]){
-//                //if current access_token is nil, or the responding access_token does not match my current access token, save the responding access_token to a file for later use
-//                NSString *oldToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"access_token"];
-//                if (!oldToken || ![oldToken isEqualToString:child.value]){
-//                    [[NSUserDefaults standardUserDefaults] setObject:child.value forKey:@"access_token"];
-//                    [[NSUserDefaults standardUserDefaults] synchronize];
-//                }
-//
-//            }
-//            else if ([child.name isEqualToString:@"msg"]){
-//                message = child.value;
-//            }
-//            if ([child.name isEqualToString:@"model"]) {
-//                for (SMXMLElement *grandChild in child.children) {
-//                    if ([grandChild.name isEqualToString:@"UID"]) {
-//                        NSLog(@"UID: %@", grandChild.value);
-//                        [[NSUserDefaults standardUserDefaults] setObject:grandChild.value forKey:@"UID"];
-//                        [[NSUserDefaults standardUserDefaults] synchronize];
-//                    }
-//                }
-//            }
-//        }
-//        //inform the delegate
-//        if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
-//        {
-//            [self.delegate statusReceived:success message:message];
-//        }
-//    }
 }
 
-#pragma Setters, also sets the urlRequest and the first parameter(either parentID or forumName)
+#pragma mark - Setters, also sets the urlRequest and the first parameter(either parentID or forumName)
 -(void)setTargetURL:(NSURL *)t{
     targetURL = t;
 }
 
-#pragma Setters, while setting the members of this class, also set the member of myPost object
+#pragma mark - Setters, while setting the members of this class, also set the member of myPost object
 
 -(void)setForumName:(NSString *)f{
     forumName = f;

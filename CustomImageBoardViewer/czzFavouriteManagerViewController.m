@@ -34,7 +34,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     if (!threads) {
-        NSString* libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString* libraryPath = [czzAppDelegate libraryFolder];
         internalThreads = [NSKeyedUnarchiver unarchiveObjectWithFile:[libraryPath stringByAppendingPathComponent:@"favourites.dat"]];
         if (!internalThreads){
             internalThreads = [NSMutableSet new];
@@ -48,7 +48,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    NSString* libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString* libraryPath = [czzAppDelegate libraryFolder];
     internalThreads = [NSMutableSet setWithArray:threads];
     [NSKeyedArchiver archiveRootObject:internalThreads toFile:[libraryPath stringByAppendingPathComponent:@"favourites.dat"]];
 }
@@ -82,7 +82,7 @@
         if (thread.thImgSrc != 0){
             previewImageView.hidden = NO;
             [previewImageView setImage:[UIImage imageNamed:@"Icon.png"]];
-            NSString* basePath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            NSString* basePath = [czzAppDelegate libraryFolder];
             basePath = [basePath stringByAppendingPathComponent:@"Thumbnails"];
             NSString *filePath = [basePath stringByAppendingPathComponent:[thread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
             UIImage *previewImage =[UIImage imageWithContentsOfFile:filePath];

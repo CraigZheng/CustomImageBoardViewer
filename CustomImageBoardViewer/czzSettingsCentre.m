@@ -116,10 +116,12 @@
                                        queue:[NSOperationQueue new]
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                                dispatch_async(dispatch_get_main_queue(), ^{
-                                   [self parseJSONData:data];
-                                   NSLog(@"settings updated from remote server");
-                                   if (message.length > 0) {
-                                       [[czzAppDelegate sharedAppDelegate] showToast:message];
+                                   if (data) {
+                                       [self parseJSONData:data];
+                                       NSLog(@"settings updated from remote server");
+                                       if (message.length > 0) {
+                                           [[czzAppDelegate sharedAppDelegate] showToast:message];
+                                       }
                                    }
                                });
                            }];
@@ -156,7 +158,7 @@
 }
 
 -(NSString *)settingsFile {
-    NSString* libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString* libraryPath = [czzAppDelegate libraryFolder];
     return [libraryPath stringByAppendingPathComponent:@"Settings.dat"];
 }
 
