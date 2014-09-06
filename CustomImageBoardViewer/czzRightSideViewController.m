@@ -69,6 +69,11 @@
                                                object:nil];
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.commandTableView reloadData];
+}
+
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     NSString* libraryPath = [czzAppDelegate libraryFolder];
@@ -102,7 +107,9 @@
         }
         UILabel *commandLabel = (UILabel*)[cell viewWithTag:1];
         [commandLabel setText:command];
+        commandLabel.textColor = settingsCentre.contentTextColour;
     }
+    cell.backgroundColor = settingsCentre.viewBackgroundColour;
     return cell;
 }
 

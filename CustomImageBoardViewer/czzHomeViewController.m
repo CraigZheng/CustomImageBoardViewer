@@ -152,6 +152,8 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.viewDeckController.rightController = nil;
+    self.view.backgroundColor = [settingsCentre viewBackgroundColour];
+    [self.tableView reloadData];
 }
 
 - (IBAction)sideButtonAction:(id)sender {
@@ -330,6 +332,8 @@
             UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
             [activityIndicator startAnimating];
         }
+        //background colour
+        cell.backgroundColor = [UIColor clearColor];
         return cell;
     }
 
@@ -360,7 +364,10 @@
                 [previewImageView setImage:[[UIImage alloc] initWithContentsOfFile:[downloadedImages objectForKey:thread.thImgSrc]]];
             }
         }
-
+        
+        //background colour
+        cell.backgroundColor = [UIColor clearColor];
+        
         //content text view
         //if harmful flag of this thread object is set, inform user that this thread might be harmful
         //also hides the preview
@@ -371,9 +378,12 @@
             [contentTextView setAttributedText:warningAttString];
         } else {
            //not harmful
-            [contentTextView setAttributedText:thread.content];
+            [contentTextView setAttributedText: thread.content];
         }
-
+        //colour and font attributes
+        contentTextView.font = [settingsCentre contentFont];
+        contentTextView.textColor = [settingsCentre contentTextColour];
+        
         idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)thread.ID];
         [responseLabel setText:[NSString stringWithFormat:@"回应:%ld", (long)thread.responseCount]];
         NSDateFormatter *dateFormatter = [NSDateFormatter new];
@@ -438,6 +448,7 @@
             newHiddenTextView.hidden = YES;
             [self.view addSubview:newHiddenTextView];
             newHiddenTextView.attributedText = thread.content;
+            newHiddenTextView.font = [settingsCentre contentFont];
             preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(newHiddenTextView.frame.size.width, MAXFLOAT)].height + 20;
             [newHiddenTextView removeFromSuperview];
             //height for preview image

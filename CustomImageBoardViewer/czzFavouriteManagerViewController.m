@@ -11,11 +11,13 @@
 #import "czzAppDelegate.h"
 #import "czzThreadViewController.h"
 #import "czzHomeViewController.h"
+#import "czzSettingsCentre.h"
 
 @interface czzFavouriteManagerViewController ()
 @property NSIndexPath *selectedIndex;
 @property NSMutableSet *internalThreads;
 @property czzThread *selectedThread;
+@property czzSettingsCentre *settingsCentre;
 @end
 
 @implementation czzFavouriteManagerViewController
@@ -24,11 +26,13 @@
 @synthesize threads;
 @synthesize title;
 @synthesize selectedThread;
+@synthesize settingsCentre;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
+    settingsCentre = [czzSettingsCentre sharedInstance];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -44,6 +48,8 @@
     if (title) {
         self.title = title;
     }
+    self.view.backgroundColor = settingsCentre.viewBackgroundColour;
+    [self.tableView reloadData];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -91,7 +97,9 @@
             }
         }
         [contentTextView setAttributedText:thread.content];
-
+        contentTextView.font = settingsCentre.contentFont;
+        contentTextView.textColor = settingsCentre.contentTextColour;
+        
         idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)thread.ID];
         [responseLabel setText:[NSString stringWithFormat:@"回应:%ld", (long)thread.responseCount]];
         NSDateFormatter *dateFormatter = [NSDateFormatter new];
@@ -115,6 +123,7 @@
             [imgLabel setHidden:NO];
         
     }
+    cell.backgroundColor = [UIColor clearColor];
     return cell;
 }
 

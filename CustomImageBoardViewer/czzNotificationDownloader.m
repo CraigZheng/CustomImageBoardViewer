@@ -39,7 +39,7 @@
     
     NSMutableData *requestData = [NSMutableData new];
     [requestData appendData:[[NSString stringWithFormat:@"&vendorID=%@", [czzAppDelegate sharedAppDelegate].vendorID] dataUsingEncoding:NSUTF8StringEncoding]];
-    [request setValue:[NSString stringWithFormat:@"%d", requestData.length] forHTTPHeaderField:@"Content-length"];
+    [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)requestData.length] forHTTPHeaderField:@"Content-length"];
     [request setHTTPBody:requestData];
     
     urlConn = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];

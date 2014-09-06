@@ -38,6 +38,11 @@
     self.settingsTableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.view.backgroundColor = settingsCentre.viewBackgroundColour;
+}
+
 #pragma mark UITableViewDataSource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0)
@@ -63,59 +68,40 @@
         cell = [tableView dequeueReusableCellWithIdentifier:@"switch_cell_identifier"];
         UILabel *commandLabel = (UILabel*)[cell viewWithTag:3];
         UISwitch *commandSwitch = (UISwitch*)[cell viewWithTag:4];
+        commandLabel.textColor = settingsCentre.contentTextColour;
         NSString *command = [switchCommands objectAtIndex:indexPath.row];
-//        [commandLabel setText:[switchCommands objectAtIndex:indexPath.row]];
         commandLabel.text = command;
+
         [commandSwitch addTarget:self action:@selector(switchDidChanged:) forControlEvents:UIControlEventValueChanged];
         //set value for switch
         if ([command isEqualToString:@"显示图片"]){
-            //显示图片
-//            BOOL shouldLoadImages = YES;
-//            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldDownloadThumbnail"])
-//                shouldLoadImages = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldDownloadThumbnail"];
             BOOL shouldLoadImages = settingsCentre.userDefShouldDisplayThumbnail;
             [commandSwitch setOn:shouldLoadImages];
         }
         else if ([command isEqualToString:@"显示快速滑动按钮"]) {
-//            BOOL sbouldShowOnScreenCommand = YES;
-//            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldShowOnScreenCommand"])
-//                sbouldShowOnScreenCommand = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldShowOnScreenCommand"];
             BOOL sbouldShowOnScreenCommand = settingsCentre.userDefShouldShowOnScreenCommand;
             [commandSwitch setOn:sbouldShowOnScreenCommand];
         }
-        /*else if (indexPath.row == 1){
-            //自动加载
-            BOOL shouldAutoLoadMore = NO;
-            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldAutoLoadMore"])
-                shouldAutoLoadMore = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldAutoLoadMore"];
-            [commandSwitch setOn:shouldAutoLoadMore];
-        } 
-         */else if ([command isEqualToString:@"图片下载完毕自动打开"]){
-            //auto open
-//            BOOL shouldAutoOpen = YES;
-//            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldAutoOpenImage"])
-//                shouldAutoOpen = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldAutoOpenImage"];
+        else if ([command isEqualToString:@"图片下载完毕自动打开"]){
              BOOL shouldAutoOpen = settingsCentre.userDefShouldAutoOpenImage;
             [commandSwitch setOn:shouldAutoOpen];
 
          } else if ([command isEqualToString:@"开启帖子缓存"]){
-             //开启帖子缓存
-//             BOOL shouldCache = YES;
-//             if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldCache"])
-//                 shouldCache = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldCache"];
              BOOL shouldCache = settingsCentre.userDefShouldCacheData;
              [commandSwitch setOn:shouldCache];
          } else if ([command isEqualToString:@"高亮楼主/PO主"]) {
-//             BOOL shouldHighlight = YES;
-//             if ([[NSUserDefaults standardUserDefaults] objectForKey:@"shouldHighlight"])
-//                 shouldHighlight = [[NSUserDefaults standardUserDefaults] boolForKey:@"shouldHighlight"];
              BOOL shouldHighlight = settingsCentre.userDefShouldHighlightPO;
              [commandSwitch setOn:shouldHighlight];
+         } else if ([command isEqualToString:@"夜间模式"]) {
+             [commandSwitch setOn:settingsCentre.nightyMode];
          }
     } else if (indexPath.section == 1){
         UILabel *commandLabel = (UILabel*)[cell viewWithTag:5];
+        commandLabel.textColor = settingsCentre.contentTextColour;
         [commandLabel setText:[regularCommands objectAtIndex:indexPath.row]];
     }
+    //cell background colour
+    cell.contentView.backgroundColor = settingsCentre.viewBackgroundColour;
     return cell;
 }
 
@@ -147,7 +133,6 @@
             if ([czzAppDelegate sharedAppDelegate].homeViewController) {
                 UIViewController *notificationCentreViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"notification_centre_view_controller"];
                 [[czzAppDelegate sharedAppDelegate].homeViewController pushViewController:notificationCentreViewController :YES];
-//                [self.navigationController pushViewController:notificationCentreViewController animated:YES];
             }
         }
         else if ([command isEqualToString:@"清空缓存"]){
@@ -161,6 +146,7 @@
 -(void)prepareCommands{
     [switchCommands addObject:@"显示图片"];
     [switchCommands addObject:@"显示快速滑动按钮"];
+    [switchCommands addObject:@"夜间模式"];
     [switchCommands addObject:@"图片下载完毕自动打开"];
     [switchCommands addObject:@"开启帖子缓存"];
     [regularCommands addObject:@"图片缓存"];
@@ -183,10 +169,6 @@
             [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
         }
         [[czzAppDelegate sharedAppDelegate] showToast:@"ID信息已清除"];
-        //remove the keyed object in user defaults
-//        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"access_token"];
-//        [[NSUserDefaults standardUserDefaults] synchronize];
-//        [[czzAppDelegate sharedAppDelegate] showToast:@"ID信息已清除"];
     }
 }
 
@@ -233,6 +215,10 @@
         } else if ([command isEqualToString:@"显示快速滑动按钮"]) {
             settingsCentre.userDefShouldShowOnScreenCommand = switchControl.on;
             [[czzAppDelegate sharedAppDelegate] showToast:@"重启后生效"];
+        } else if ([command isEqualToString:@"夜间模式"]) {
+            settingsCentre.nightyMode = !settingsCentre.nightyMode;
+            [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"夜间模式：%@，刷新后生效", settingsCentre.nightyMode ? @"On" : @"Off"]];
+            [self.settingsTableView reloadData];
         }
         [settingsCentre saveSettings];
     }

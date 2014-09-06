@@ -19,11 +19,13 @@
 #import "ValueFormatter.h"
 #import "czzForumsViewController.h"
 #import "NSString+HTML.h"
+#import "czzSettingsCentre.h"
 
 @interface czzPostViewController () <czzPostSenderDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
 @property NSString *targetURLString;
 @property NSMutableData *receivedResponse;
 @property czzPostSender *postSender;
+@property czzSettingsCentre *settingsCentre;
 @end
 
 @implementation czzPostViewController
@@ -39,12 +41,14 @@
 @synthesize postMode;
 @synthesize forumName;
 @synthesize forum;
+@synthesize settingsCentre;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     postSender = [czzPostSender new];
+    settingsCentre = [czzSettingsCentre sharedInstance];
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
     toolbar.barStyle = UIBarStyleBlack;
     
@@ -56,6 +60,9 @@
     NSArray *buttons = [NSArray arrayWithObjects: flexibleSpace, pickEmojiButton, pickImgButton, postButton, nil];
     toolbar.items = buttons;
     postTextView.inputAccessoryView = toolbar;
+    // colour
+    postTextView.backgroundColor = settingsCentre.viewBackgroundColour;
+    postTextView.textColor = settingsCentre.contentTextColour;
     
     //construct the title, content and targetURLString based on selected post mode
     NSString *title = @"回复";

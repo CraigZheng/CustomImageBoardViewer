@@ -60,6 +60,17 @@
         [czzAppDelegate sharedAppDelegate].forums = defaultForums;
 }
 
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]){
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+
+    [self.forumsTableView reloadData];
+    [self refreshAd];
+}
+
 -(void)refreshForums{
     failedToConnect = NO;
     if (xmlDownloader)
@@ -111,14 +122,6 @@
     }
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]){
-        self.automaticallyAdjustsScrollViewInsets = NO;
-    }
-    [self refreshAd];
-}
-
 #pragma UITableView datasouce
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     if (failedToConnect)
@@ -150,17 +153,18 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *cell_identifier = @"forum_cell_identifier";
     if (failedToConnect){
-        return [tableView dequeueReusableCellWithIdentifier:@"no_service_cell_identifier"];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"no_service_cell_identifier"];
+        return cell;
     }
     czzForumGroup *forumGroup = [forumGroups objectAtIndex:indexPath.section];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier];
     if (cell){
         if (indexPath.row < forumGroup.forumNames.count) {
             UILabel *titleLabel = (UILabel*)[cell viewWithTag:1];
+            titleLabel.textColor = settingsCentre.contentTextColour;
             [titleLabel setText:[forumGroup.forumNames objectAtIndex:indexPath.row]];
         } else {
             cell = [tableView dequeueReusableCellWithIdentifier:@"ad_cell_identifier" forIndexPath:indexPath];
-
             //position of the ad
             if (!bannerView_.superview) {
                 [bannerView_ setFrame:CGRectMake(0, 0, bannerView_.bounds.size.width,
@@ -182,11 +186,11 @@
                 [adCoverView addSubview:tapMeLabel];
                 [cell.contentView addSubview:bannerView_];
                 [cell.contentView addSubview:adCoverView];
-
             }
         }
     }
-    
+    //background colour - nighty mode enable
+    cell.backgroundColor = settingsCentre.viewBackgroundColour;
     return cell;
 }
 

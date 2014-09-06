@@ -192,8 +192,8 @@
         NSRange textRange = [attributedHtmlString.string rangeOfString:pendingText];
         [attributedHtmlString setAttributes:@{NSForegroundColorAttributeName: fontColor} range:textRange];
     }
-//    NSLog(@"%@", attributedHtmlString);
     [fragments addObject:attributedHtmlString];
+    NSLog(@"%@", attributedHtmlString);
 //    return fragments;
     return attributedHtmlString;
 }

@@ -46,4 +46,8 @@
 -(void)downloadSettings;
 -(BOOL)saveSettings;
 -(BOOL)restoreSettings;
+
+-(UIFont*)contentFont;
+-(UIColor*)contentTextColour;
+-(UIColor*)viewBackgroundColour;
 @end

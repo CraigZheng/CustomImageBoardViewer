@@ -10,6 +10,7 @@
 #import "PropertyUtil.h"
 #import <objc/runtime.h>
 #import "czzAppDelegate.h"
+#import <UIKit/UIKit.h>
 
 @interface czzSettingsCentre () <NSCoding>
 @property NSTimer *refreshSettingsTimer;
@@ -24,6 +25,7 @@
 @synthesize a_isle_host, thread_content_host, threads_per_page, thread_format, thread_list_host;
 @synthesize message, image_host, ac_host, forum_list_url, thumbnail_host;
 @synthesize userDefShouldAutoOpenImage, userDefShouldCacheData, userDefShouldDisplayThumbnail, userDefShouldHighlightPO, userDefShouldShowOnScreenCommand;
+@synthesize nightyMode;
 
 + (id)sharedInstance
 {
@@ -51,6 +53,7 @@
         userDefShouldCacheData = YES;
         userDefShouldHighlightPO = YES;
         userDefShouldShowOnScreenCommand = YES;
+        nightyMode = NO;
         
         NSString *filePath = [[NSBundle mainBundle] pathForResource:@"default_configuration" ofType:@"json"];
         NSData *JSONData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
@@ -188,6 +191,7 @@
     [aCoder encodeBool:userDefShouldAutoOpenImage forKey:@"userDefShouldAutoOpenImage"];
     [aCoder encodeBool:userDefShouldCacheData forKey:@"userDefShouldCacheData"];
     [aCoder encodeBool:userDefShouldHighlightPO forKey:@"userDefShouldHighlightPO"];
+    [aCoder encodeBool:nightyMode forKey:@"nightyMode"];
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder {
@@ -218,7 +222,29 @@
         self.userDefShouldAutoOpenImage = [aDecoder decodeBoolForKey:@"userDefShouldAutoOpenImage"];
         self.userDefShouldCacheData = [aDecoder decodeBoolForKey:@"userDefShouldCacheData"];
         self.userDefShouldHighlightPO = [aDecoder decodeBoolForKey:@"userDefShouldHighlightPO"];
+        self.nightyMode = [aDecoder decodeBoolForKey:@"nightyMode"];
     }
     return self;
+}
+
+-(UIFont *)contentFont {
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+    {
+        /* Device is iPad */
+        return [UIFont systemFontOfSize:18];
+    }
+    return [UIFont systemFontOfSize:16];
+}
+
+-(UIColor *)contentTextColour {
+    if (self.nightyMode)
+        return [UIColor colorWithRed:252/255.0f green:160/255.0f blue:30/255.0f alpha:1.0f];
+    return [UIColor blackColor];
+}
+
+-(UIColor *)viewBackgroundColour {
+    if (self.nightyMode)
+        return [UIColor darkGrayColor];
+    return [UIColor whiteColor];
 }
 @end

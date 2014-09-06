@@ -44,6 +44,7 @@
                                      bannerView_.bounds.size.height)];
     [bannerView_ loadRequest:[GADRequest request]];
     [self.view addSubview:bannerView_];
+    self.view.backgroundColor = settingsCentre.viewBackgroundColour;
 }
 
 /*upon setting the forum name, this view controller should download relevent info from the server, 

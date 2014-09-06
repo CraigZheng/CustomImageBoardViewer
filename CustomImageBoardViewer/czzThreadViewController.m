@@ -166,6 +166,9 @@
         threadTableView.contentOffset = restoreFromBackgroundOffSet;
         restoreFromBackgroundOffSet = CGPointZero;
     }
+    //background colour
+    self.view.backgroundColor = settingsCentre.viewBackgroundColour;
+    [self.tableView reloadData];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -252,6 +255,7 @@
         } else {
             cell = [tableView dequeueReusableCellWithIdentifier:@"no_more_cell_identifier"];
         }
+        cell.backgroundColor = [UIColor clearColor];
         return cell;
     }
     czzThread *thread = [threads objectAtIndex:indexPath.row];
@@ -305,6 +309,8 @@
         }
         //content textview
         contentTextView.attributedText = contentAttrString;
+        contentTextView.font = settingsCentre.contentFont;
+        contentTextView.textColor = settingsCentre.contentTextColour;
         
         idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)thread.ID];
         //set the color
@@ -361,6 +367,7 @@
             cell.contentView.backgroundColor = [UIColor clearColor];
         }
     }
+    cell.backgroundColor = [UIColor clearColor];
     return cell;
 }
 
@@ -433,6 +440,7 @@
             newHiddenTextView.hidden = YES;
             [self.view addSubview:newHiddenTextView];
             newHiddenTextView.attributedText = thread.content;
+            newHiddenTextView.font = settingsCentre.contentFont;
             preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(newHiddenTextView.frame.size.width, MAXFLOAT)].height + 20;
             [newHiddenTextView removeFromSuperview];
             //height for preview image
@@ -452,7 +460,7 @@
 
 #pragma mark - jump to and download controls
 -(void)PromptForJumpToPage{
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"跳页: %d/%d", pageNumber, ((parentThread.responseCount + 1) / 20 + 1)] message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"跳页: %ld/%ld", (long) pageNumber, (long) ((parentThread.responseCount + 1) / 20 + 1)] message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alertView show];
 }
@@ -510,7 +518,7 @@
             [self.threadTableView reloadData];
             [self.refreshControl beginRefreshing];
             [self loadMoreThread:self.pageNumber];
-            [[[czzAppDelegate sharedAppDelegate] window] makeToast:[NSString stringWithFormat:@"跳到第 %d 页...", self.pageNumber]];
+            [[[czzAppDelegate sharedAppDelegate] window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) self.pageNumber]];
         } else {
             [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"页码无效..."];
         }
