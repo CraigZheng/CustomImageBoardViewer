@@ -378,7 +378,7 @@
         }
         //colour and font attributes
         contentTextView.font = settingsCentre.contentFont;
-        contentTextView.textColor = settingsCentre.contentTextColour;
+
         if ([UIDevice currentDevice].systemVersion.floatValue < 7.0) {
             NSMutableAttributedString *tempAttributedString = [[NSMutableAttributedString alloc] initWithAttributedString:contentTextView.attributedText];
             [tempAttributedString addAttribute:NSFontAttributeName value:settingsCentre.contentFont range:NSMakeRange(0, tempAttributedString.length)];

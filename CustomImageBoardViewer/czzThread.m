@@ -39,7 +39,7 @@
         self.updateDateTime = [NSDate dateWithTimeIntervalSince1970:[[data objectForKey:@"updatedAt"] doubleValue] / 1000.0];
         //UID might have different colour, but I am setting any colour other than default to red at the moment
         NSString *uidString = [data objectForKey:@"uid"];
-        NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithAttributedString:[self renderHTMLToAttributedString:uidString]];
+        NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[self renderHTMLToAttributedString:uidString].string];
         //if the given string contains keyword "color", then render it red to indicate its important
         if ([uidString.lowercaseString rangeOfString:@"color"].location != NSNotFound) {
             [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, attrString.length)];
@@ -188,6 +188,8 @@
         }
         [attributedHtmlString deleteCharactersInRange:r];
     }
+    //colour - adjust to nighty mode
+    [attributedHtmlString setAttributes:@{NSForegroundColorAttributeName: settingsCentre.contentTextColour} range:NSMakeRange(0, attributedHtmlString.length)];
     for (NSString *pendingText in pendingTextToRender) {
         NSRange textRange = [attributedHtmlString.string rangeOfString:pendingText];
         [attributedHtmlString setAttributes:@{NSForegroundColorAttributeName: fontColor} range:textRange];

@@ -98,7 +98,6 @@
         }
         [contentTextView setAttributedText:thread.content];
         contentTextView.font = settingsCentre.contentFont;
-        contentTextView.textColor = settingsCentre.contentTextColour;
         
         idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)thread.ID];
         [responseLabel setText:[NSString stringWithFormat:@"回应:%ld", (long)thread.responseCount]];
