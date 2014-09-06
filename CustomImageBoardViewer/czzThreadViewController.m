@@ -43,7 +43,6 @@
 @property UIDocumentInteractionController *documentInteractionController;
 @property CGPoint threadsTableViewContentOffSet; //record the content offset of the threads tableview
 @property UITapGestureRecognizer *tapOnImageGestureRecogniser;
-@property czzThread *shouldHighlightSelectedThread;
 @property BOOL shouldHighlight;
 @property NSMutableArray *heightsForRows;
 @property NSMutableArray *heightsForRowsForHorizontal;
@@ -72,7 +71,7 @@
 @synthesize tapOnImageGestureRecogniser;
 @synthesize threadsTableViewContentOffSet;
 @synthesize shouldHighlight;
-@synthesize shouldHighlightSelectedThread;
+@synthesize shouldHighlightSelectedUser;
 @synthesize heightsForRows;
 @synthesize heightsForRowsForHorizontal;
 @synthesize onScreenCommand;
@@ -363,7 +362,7 @@
         if (shouldHighlight && [thread.UID.string isEqualToString:parentThread.UID.string]) {
             posterLabel.backgroundColor = [UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:200.0f/255.0f alpha:1.0];
             cell.contentView.backgroundColor = [UIColor clearColor];
-        } else if (shouldHighlightSelectedThread && [thread.UID.string isEqualToString:shouldHighlightSelectedThread.UID.string]) {
+        } else if (shouldHighlightSelectedUser && [thread.UID.string isEqualToString:shouldHighlightSelectedUser]) {
             posterLabel.backgroundColor = [UIColor clearColor];
             cell.contentView.backgroundColor = [UIColor colorWithRed:222.0f/255.0f green:222.0f/255.0f blue:255.0f/255.0f alpha:1.0];
         }
@@ -489,11 +488,11 @@
 -(void)HighlightThreadSelected:(NSNotification*)notification {
     czzThread *selectedThread = [notification.userInfo objectForKey:@"HighlightThread"];
     if (selectedThread) {
-        if ([shouldHighlightSelectedThread isEqual:selectedThread]) {
-            shouldHighlightSelectedThread = nil;
+        if ([shouldHighlightSelectedUser isEqual:selectedThread.UID.string]) {
+            shouldHighlightSelectedUser = nil;
         }
         else
-            shouldHighlightSelectedThread = selectedThread;
+            shouldHighlightSelectedUser = selectedThread.UID.string;
         [threadTableView reloadData];
     }
 }

@@ -14,6 +14,7 @@
 @property (nonatomic) czzThread *parentThread;
 @property (strong, nonatomic) IBOutlet UITableView *threadTableView;
 @property BOOL shouldHideImageForThisForum;
+@property NSString *shouldHighlightSelectedUser;
 
 - (IBAction)moreAction:(id)sender;
 

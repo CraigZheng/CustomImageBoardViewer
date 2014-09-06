@@ -110,6 +110,7 @@
     if ([segue.identifier isEqualToString:@"go_thread_view_segue"]) {
         czzThreadViewController *threadViewController = (czzThreadViewController*)segue.destinationViewController;
         threadViewController.parentThread = selectedParentThread;
+        threadViewController.shouldHighlightSelectedUser = searchKeyword;
     } else if ([segue.identifier isEqualToString:@"go_favourite_view_segue"]) {
         czzFavouriteManagerViewController *favouriteViewManager = (czzFavouriteManagerViewController*)segue.destinationViewController;
         favouriteViewManager.title = [NSString stringWithFormat:@"搜索：%@", searchKeyword];

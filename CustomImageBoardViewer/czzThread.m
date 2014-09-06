@@ -193,7 +193,6 @@
         [attributedHtmlString setAttributes:@{NSForegroundColorAttributeName: fontColor} range:textRange];
     }
     [fragments addObject:attributedHtmlString];
-    NSLog(@"%@", attributedHtmlString);
 //    return fragments;
     return attributedHtmlString;
 }
