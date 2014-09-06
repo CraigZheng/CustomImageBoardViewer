@@ -48,7 +48,7 @@
         self.updateDateTime = [NSDate dateWithTimeIntervalSince1970:[[data objectForKey:@"updatedAt"] doubleValue] / 1000.0];
         //UID might have different colour, but I am setting any colour other than default to red at the moment
         NSString *uidString = [data objectForKey:@"uid"];
-        NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithAttributedString:[self parseHTMLAttributes:uidString]];
+        NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithAttributedString:[self renderHTMLToAttributedString:uidString]];
         //manually set colour
         [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:153.0f/255.0f green:102.0f/255.0f blue:51.0f/255.0f alpha:1.0f] range:NSMakeRange(0, attrString.length)];
         //if the given string contains keyword "color", then render it red to indicate its important
@@ -106,7 +106,7 @@
             self.ID = [child.value integerValue];
         }
         else if ([child.name isEqualToString:@"UID"]){
-            NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithAttributedString:[self parseHTMLAttributes:child.value]];
+            NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithAttributedString:[self renderHTMLToAttributedString:child.value]];
             //manually set colour
             [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:153.0f/255.0f green:102.0f/255.0f blue:51.0f/255.0f alpha:1.0f] range:NSMakeRange(0, attrString.length)];
             //if the given string contains keyword "color", then render it red to indicate its important
@@ -118,13 +118,13 @@
             self.UID = attrString;
         }
         else if ([child.name isEqualToString:@"Name"]){
-            self.name = [self parseHTMLAttributes:child.value].string;
+            self.name = [self renderHTMLToAttributedString:child.value].string;
         }
         else if ([child.name isEqualToString:@"Email"]){
-            self.email = [self parseHTMLAttributes:child.value].string;
+            self.email = [self renderHTMLToAttributedString:child.value].string;
         }
         else if ([child.name isEqualToString:@"Title"]){
-            self.title = [self parseHTMLAttributes:child.value].string;
+            self.title = [self renderHTMLToAttributedString:child.value].string;
         }
         else if ([child.name isEqualToString:@"Content"]){
 //            self.content = [self prepareHTMLForFragments:[NSString stringWithString:child.value]];
@@ -217,30 +217,6 @@
     }
 }
 
--(NSAttributedString*)parseHTMLAttributes:(NSString*)stringToParse{
-    if (!stringToParse)
-        return nil;
-    //get rip of HTML tags
-    stringToParse = [stringToParse gtm_stringByUnescapingFromHTML];
-    //get rip of <br/> tag
-    stringToParse = [stringToParse stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n"];
-    //manually pick up some quotes that can not be spotted by machine
-    stringToParse = [stringToParse stringByReplacingOccurrencesOfString:@"&#180" withString:@"´"];
-    
-    return [self removeFontTags:stringToParse];
-}
-
--(NSAttributedString*)removeFontTags:(NSString*)str{
-    if (!str)
-        return nil;
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] init];
-    NSArray *stringComponents = [str componentsSeparatedByString:@"</font>"];
-    for (NSString *component in stringComponents) {
-        [attributedString appendAttributedString:[self renderFontTags:component]];
-    }
-    return attributedString;
-}
-
 -(NSAttributedString*)renderHTMLToAttributedString:(NSString*)htmlString{
     htmlString = [htmlString stringByDecodingHTMLEntities];
     htmlString = [htmlString stringByReplacingOccurrencesOfString:@"&#180" withString:@"´"];
@@ -306,60 +282,6 @@
     return attributedHtmlString;
 }
 
-
-/*this function would have 2 routes:
- 1: with tags, get rip of <font></font> tag, and render everything in between green
- 2: without tags, return as it is
-*/
--(NSAttributedString*)renderFontTags:(NSString*)str{
-    if (!str) {
-        return nil;
-    }
-    UIColor *quoteColor = [UIColor colorWithRed:(120.0/255.0) green:(153.0/255.0) blue:(34.0/255.0) alpha:1.0];
-    NSRange frontTagBegin = [str rangeOfString:@"<font"];
-    NSMutableAttributedString *renderedStr;
-    if (frontTagBegin.location != NSNotFound) {
-        //convert the hex to ui colour first
-        NSRange hexRange = [str rangeOfString:@"#"];
-        if (hexRange.location != NSNotFound){
-            NSString *hexString = [str substringWithRange:NSMakeRange(hexRange.location, 7)];
-            quoteColor = [self colorForHex:hexString];
-        }
-        NSRange frontTagEnd = [str rangeOfString:@">" options:NSCaseInsensitiveSearch range:NSMakeRange(frontTagBegin.location, str.length - frontTagBegin.location)];
-        //remove the front tag
-        str = [str stringByReplacingCharactersInRange:NSMakeRange(frontTagBegin.location, (frontTagEnd.location - frontTagBegin.location + 1)) withString:@""];
-        renderedStr = [[NSMutableAttributedString alloc] initWithString:str];
-        [renderedStr addAttribute:NSForegroundColorAttributeName value:quoteColor range:NSMakeRange(frontTagBegin.location, str.length - frontTagBegin.location)];
-        //CLICKABLE CONTENT
-        if ([renderedStr.string rangeOfString:@">>"].location != NSNotFound){
-            
-            NSString *newString = [[renderedStr.string componentsSeparatedByCharactersInSet:
-                                    [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
-                                   componentsJoinedByString:@""];
-            if ([newString integerValue] != 0)
-                [self.replyToList addObject:[NSNumber numberWithInteger:[newString integerValue]]];
-            
-            //[self.replyToList addObject:renderedStr.string];
-        }
-    }
-    if (renderedStr == nil) {
-        renderedStr = [[NSMutableAttributedString alloc] initWithString:str];
-        [renderedStr addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(0, renderedStr.length)];
-    }
-    //set the font size and shits
-    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
-    {
-        /* Device is iPad */
-        [renderedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:18] range:NSMakeRange(0, renderedStr.length)];
-    } else {
-        [renderedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(0, renderedStr.length)];
-    }
-    NSMutableParagraphStyle *paraStyle = [NSMutableParagraphStyle new];
-    paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
-    
-    [renderedStr addAttribute:NSParagraphStyleAttributeName value:paraStyle range:NSMakeRange(0, renderedStr.length)];
-    return renderedStr;
-}
 
 #pragma mark - isEqual and Hash function, for this class to be used within a NSSet
 -(BOOL)isEqual:(id)object{
