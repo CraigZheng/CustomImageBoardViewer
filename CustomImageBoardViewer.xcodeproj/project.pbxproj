@@ -125,7 +125,6 @@
 		44FC4345180067CF0028D7C9 /* czzPostSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 44FC4344180067CF0028D7C9 /* czzPostSender.m */; };
 		5A0A6BD61848691C0094D7FB /* czzMoreInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0A6BD51848691C0094D7FB /* czzMoreInfoViewController.m */; };
 		5A1593EC18E71E93001A774B /* czzThreadRefButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1593EB18E71E93001A774B /* czzThreadRefButton.m */; };
-		5A1593F218E7BE61001A774B /* czzXMLProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1593F118E7BE61001A774B /* czzXMLProcessor.m */; };
 		5A26E77919398D7F00B709C9 /* czzNotificationBannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A26E77719398D7F00B709C9 /* czzNotificationBannerViewController.m */; };
 		5A26E77A19398D7F00B709C9 /* czzNotificationBannerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A26E77819398D7F00B709C9 /* czzNotificationBannerViewController.xib */; };
 		5A26E77C19398F2900B709C9 /* black_cross.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A26E77B19398F2900B709C9 /* black_cross.png */; };
@@ -1261,7 +1260,6 @@
 				44AE2AFE18725EC4002CB021 /* czzNoSelectionTextView.m in Sources */,
 				443B54EB1990BD3300BAB282 /* ObjectiveGumbo.m in Sources */,
 				44AE2AFA187254E4002CB021 /* czzMenuEnabledTableViewCell.m in Sources */,
-				5A1593F218E7BE61001A774B /* czzXMLProcessor.m in Sources */,
 				5A27E140193CA11300D0094F /* czzNotificationManager.m in Sources */,
 				5A6266AA193A17FF00AD949F /* czzNotificationDownloader.m in Sources */,
 				443B54DE1990BD3300BAB282 /* attribute.c in Sources */,

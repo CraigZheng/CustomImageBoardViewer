@@ -310,8 +310,6 @@
         //set the color
         NSMutableAttributedString *uidAttrString = [[NSMutableAttributedString alloc] initWithString:@"UID:" attributes:[NSDictionary dictionaryWithObject:[UIColor colorWithRed:153.0f/255.0f green:102.0f/255.0f blue:51.0f/255.0f alpha:1.0f] forKey:NSForegroundColorAttributeName]];
         [uidAttrString appendAttributedString:thread.UID];
-        //manually set the font size to avoid compatible issues in IOS6
-        [uidAttrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(0, uidAttrString.length)];
         posterLabel.attributedText = uidAttrString;
         NSDateFormatter *dateFormatter = [NSDateFormatter new];
         [dateFormatter setDateFormat:@"时间:yyyy MM-dd, HH:mm"];
@@ -333,7 +331,7 @@
         for (NSString *refString in thread.replyToList) {
             NSInteger rep = refString.integerValue;
             if (rep > 0 && contentTextView) {
-                NSString *quotedNumberText = [NSString stringWithFormat:@"%d", rep];
+                NSString *quotedNumberText = [NSString stringWithFormat:@"%ld", (long)rep];
                 NSRange range = [contentTextView.attributedText.string rangeOfString:quotedNumberText];
                 if (range.location != NSNotFound){
                     CGRect result = [self frameOfTextRange:range inTextView:contentTextView];

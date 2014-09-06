@@ -32,7 +32,6 @@
 @property BOOL blockAll;
 #pragma mark - CLICKABLE CONTENT
 @property NSMutableArray *replyToList;
--(id)initWithSMXMLElement:(SMXMLElement*)data;
 -(id)initWithJSONDictionary:(NSDictionary*)data;
 -(NSAttributedString*)renderHTMLToAttributedString:(NSString*)htmlString;
 

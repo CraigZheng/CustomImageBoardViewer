@@ -56,7 +56,7 @@
         for (czzForum *forum in [czzAppDelegate sharedAppDelegate].forums) {
             if ([forum.name isEqualToString:forumName]) {
                 if (forum.header.length > 0) {
-                    NSString *headerText = [forum.header stringByReplacingOccurrencesOfString:@"@Time" withString:[NSString stringWithFormat:@"%d", forum.cooldown]];
+                    NSString *headerText = [forum.header stringByReplacingOccurrencesOfString:@"@Time" withString:[NSString stringWithFormat:@"%ld", (long)forum.cooldown]];
                     if (headerTextWebView.loading){
                         [headerTextWebView stopLoading];
                     }

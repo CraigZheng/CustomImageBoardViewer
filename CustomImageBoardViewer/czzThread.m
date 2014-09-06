@@ -31,15 +31,6 @@
     return self;
 }
 
--(id)initWithSMXMLElement:(SMXMLElement *)xmlElement{
-    self = [self init];
-    if (self){
-        //parse the incoming xml data
-        [self acceptXMLElement:xmlElement];
-    }
-    return self;
-}
-
 -(id)initWithJSONDictionary:(NSDictionary *)data {
     self = [self init];
     if (self) {
@@ -49,13 +40,10 @@
         //UID might have different colour, but I am setting any colour other than default to red at the moment
         NSString *uidString = [data objectForKey:@"uid"];
         NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithAttributedString:[self renderHTMLToAttributedString:uidString]];
-        //manually set colour
-        [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:153.0f/255.0f green:102.0f/255.0f blue:51.0f/255.0f alpha:1.0f] range:NSMakeRange(0, attrString.length)];
         //if the given string contains keyword "color", then render it red to indicate its important
         if ([uidString.lowercaseString rangeOfString:@"color"].location != NSNotFound) {
             [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, attrString.length)];
         }
-        [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(0, attrString.length)];
         self.UID = attrString;
         
         self.name = [data objectForKey:@"name"];
@@ -97,71 +85,6 @@
  <PostDateTime>2013-09-26T23:23:04.58</PostDateTime>
  <UpdateDateTime>2013-09-26T23:42:11.103121</UpdateDateTime>
  */
--(void)acceptXMLElement:(SMXMLElement*)xmlElement{
-    for (SMXMLElement *child in xmlElement.children) {
-        if ([child.name isEqualToString:@"ResponseCount"]){
-            self.responseCount = [child.value integerValue];
-        }
-        else if ([child.name isEqualToString:@"ID"]){
-            self.ID = [child.value integerValue];
-        }
-        else if ([child.name isEqualToString:@"UID"]){
-            NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithAttributedString:[self renderHTMLToAttributedString:child.value]];
-            //manually set colour
-            [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:153.0f/255.0f green:102.0f/255.0f blue:51.0f/255.0f alpha:1.0f] range:NSMakeRange(0, attrString.length)];
-            //if the given string contains keyword "color", then render it red to indicate its important
-            if ([child.value.lowercaseString rangeOfString:@"color"].location != NSNotFound) {
-                [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, attrString.length)];
-            }
-            [attrString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(0, attrString.length)];
-
-            self.UID = attrString;
-        }
-        else if ([child.name isEqualToString:@"Name"]){
-            self.name = [self renderHTMLToAttributedString:child.value].string;
-        }
-        else if ([child.name isEqualToString:@"Email"]){
-            self.email = [self renderHTMLToAttributedString:child.value].string;
-        }
-        else if ([child.name isEqualToString:@"Title"]){
-            self.title = [self renderHTMLToAttributedString:child.value].string;
-        }
-        else if ([child.name isEqualToString:@"Content"]){
-//            self.content = [self prepareHTMLForFragments:[NSString stringWithString:child.value]];
-            //if title has more than 10 chinese words, it will be too long to fit in the title bar
-            //therefore we put it at the beginning of the content
-            if (self.title.length > 10)
-                self.content = [self renderHTMLToAttributedString:[NSString stringWithFormat:@" * %@ * \n\n%@", self.title, child.value]];
-            else
-                self.content = [self renderHTMLToAttributedString:[NSString stringWithString:child.value]];
-
-        }
-        else if ([child.name isEqualToString:@"ImageSrc"]){
-            self.imgSrc = child.value;
-        }
-        else if ([child.name isEqualToString:@"ThImageSrc"]){
-            self.thImgSrc = child.value;
-        }
-        else if ([child.name isEqualToString:@"Lock"]){
-            self.lock = [child.value boolValue];
-        }
-        else if ([child.name isEqualToString:@"Sage"]){
-            self.sage = [child.value boolValue];
-        }
-        else if ([child.name isEqualToString:@"PostDateTime"]){
-            NSString *timestamp = [child.value stringByDeletingPathExtension];
-            NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
-            [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
-            NSDate *date = [formatter dateFromString:timestamp];
-
-            self.postDateTime = date;
-        }
-    }
-    
-    [self checkBlacklist];
-    [self checkImageURLs];
-    [self checkRemoteConfiguration];
-}
 
 -(void)checkBlacklist {
     if (!settingsCentre.shouldEnableBlacklistFiltering)
@@ -221,6 +144,8 @@
     htmlString = [htmlString stringByDecodingHTMLEntities];
     htmlString = [htmlString stringByReplacingOccurrencesOfString:@"&#180" withString:@"´"];
     htmlString = [htmlString stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n"];
+    htmlString = [htmlString stringByReplacingOccurrencesOfString:@"<br>" withString:@"\n"];
+
     NSMutableAttributedString *attributedHtmlString = [[NSMutableAttributedString alloc] initWithString:htmlString];
     NSRange r;
     //remove everything between < and >
@@ -267,15 +192,6 @@
         NSRange textRange = [attributedHtmlString.string rangeOfString:pendingText];
         [attributedHtmlString setAttributes:@{NSForegroundColorAttributeName: fontColor} range:textRange];
     }
-    //set the font size and shits
-    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
-    {
-        /* Device is iPad */
-        [attributedHtmlString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:18] range:NSMakeRange(0, attributedHtmlString.length)];
-    } else {
-        [attributedHtmlString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(0, attributedHtmlString.length)];
-    }
-
 //    NSLog(@"%@", attributedHtmlString);
     [fragments addObject:attributedHtmlString];
 //    return fragments;
