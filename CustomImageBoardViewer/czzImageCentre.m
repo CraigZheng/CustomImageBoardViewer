@@ -160,8 +160,11 @@
     imgDown.imageURLString = imgURL;
     //if image downloader with save target url is present, return YES
     if ([currentImageDownloaders containsObject:imgDown]){
-        NSPredicate *sameTargetURL = [NSPredicate predicateWithFormat:@"targetURLString == %@", imgDown.targetURLString];
-        NSSet *downloadersWithSameTargetURL = [currentImageDownloaders filteredSetUsingPredicate:sameTargetURL];
+        NSMutableSet *downloadersWithSameTargetURL = [NSMutableSet new];
+        for (czzImageDownloader *downloader in currentImageDownloaders) {
+            if ([downloader.imageURLString isEqualToString:imgDown.imageURLString])
+                [downloadersWithSameTargetURL addObject:downloader];
+        }
         for (czzImageDownloader *downloader in downloadersWithSameTargetURL) {
             [downloader stop];
             [currentImageDownloaders removeObject:downloader];

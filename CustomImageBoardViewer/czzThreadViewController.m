@@ -311,10 +311,15 @@
         contentTextView.attributedText = contentAttrString;
         contentTextView.font = settingsCentre.contentFont;
         contentTextView.textColor = settingsCentre.contentTextColour;
+        if ([UIDevice currentDevice].systemVersion.floatValue < 7.0) {
+            NSMutableAttributedString *tempAttributedString = [[NSMutableAttributedString alloc] initWithAttributedString:contentTextView.attributedText];
+            [tempAttributedString addAttribute:NSFontAttributeName value:settingsCentre.contentFont range:NSMakeRange(0, tempAttributedString.length)];
+            contentTextView.attributedText = tempAttributedString;
+        }
         
         idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)thread.ID];
         //set the color
-        NSMutableAttributedString *uidAttrString = [[NSMutableAttributedString alloc] initWithString:@"UID:" attributes:[NSDictionary dictionaryWithObject:[UIColor colorWithRed:153.0f/255.0f green:102.0f/255.0f blue:51.0f/255.0f alpha:1.0f] forKey:NSForegroundColorAttributeName]];
+        NSMutableAttributedString *uidAttrString = [[NSMutableAttributedString alloc] initWithString:@"UID:"];
         [uidAttrString appendAttributedString:thread.UID];
         posterLabel.attributedText = uidAttrString;
         NSDateFormatter *dateFormatter = [NSDateFormatter new];

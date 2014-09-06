@@ -364,10 +364,6 @@
                 [previewImageView setImage:[[UIImage alloc] initWithContentsOfFile:[downloadedImages objectForKey:thread.thImgSrc]]];
             }
         }
-        
-        //background colour
-        cell.backgroundColor = [UIColor clearColor];
-        
         //content text view
         //if harmful flag of this thread object is set, inform user that this thread might be harmful
         //also hides the preview
@@ -381,8 +377,13 @@
             [contentTextView setAttributedText: thread.content];
         }
         //colour and font attributes
-        contentTextView.font = [settingsCentre contentFont];
-        contentTextView.textColor = [settingsCentre contentTextColour];
+        contentTextView.font = settingsCentre.contentFont;
+        contentTextView.textColor = settingsCentre.contentTextColour;
+        if ([UIDevice currentDevice].systemVersion.floatValue < 7.0) {
+            NSMutableAttributedString *tempAttributedString = [[NSMutableAttributedString alloc] initWithAttributedString:contentTextView.attributedText];
+            [tempAttributedString addAttribute:NSFontAttributeName value:settingsCentre.contentFont range:NSMakeRange(0, tempAttributedString.length)];
+            contentTextView.attributedText = tempAttributedString;
+        }
         
         idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)thread.ID];
         [responseLabel setText:[NSString stringWithFormat:@"回应:%ld", (long)thread.responseCount]];
@@ -399,6 +400,8 @@
             [lockLabel setHidden:YES];
         
     }
+    //background colour
+    cell.backgroundColor = [UIColor clearColor];
     return cell;
 }
 
