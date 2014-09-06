@@ -39,6 +39,7 @@
 @property BOOL userDefShouldAutoOpenImage;
 @property BOOL userDefShouldCacheData;
 @property BOOL userDefShouldHighlightPO;
+@property BOOL nightyMode;
 
 
 + (id)sharedInstance;

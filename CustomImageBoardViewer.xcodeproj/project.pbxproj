@@ -726,11 +726,11 @@
 			isa = PBXGroup;
 			children = (
 				441E5D2117F46FBC00289DBD /* czzXMLDownloader */,
+				4498B68A199249180014F73F /* czzJSONProcessor */,
 				441E5D2A17F48F8C00289DBD /* czzThread.h */,
 				441E5D2B17F48F8C00289DBD /* czzThread.m */,
 				5AF85E60196EDC110031D0CB /* czzHTMLToThreadParser.h */,
 				5AF85E61196EDC110031D0CB /* czzHTMLToThreadParser.m */,
-				4498B68A199249180014F73F /* czzJSONProcessor */,
 				4448C2A4180FF51D00D2CD76 /* czzBlacklist */,
 				44CD44001869CB6900C7D063 /* czzThreadCacheManager */,
 				5A1593EA18E71E93001A774B /* czzThreadRefButton.h */,
