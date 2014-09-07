@@ -54,23 +54,29 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NO" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I0P-bI-nAy">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="NO" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I0P-bI-nAy">
                                             <rect key="frame" x="3" y="1" width="16" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" red="1" green="0.63375720101946476" blue="0.27949856023793218" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="1" height="1"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qJq-bg-7Mp">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qJq-bg-7Mp">
                                             <rect key="frame" x="82" y="1" width="22" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" red="1" green="0.63375720101946476" blue="0.27949856023793218" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="1" height="1"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="回应" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Paf-nc-Mzr">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="回应" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Paf-nc-Mzr">
                                             <rect key="frame" x="190" y="1" width="20" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" red="1" green="0.63375720101946476" blue="0.27949856023793218" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="1" height="1"/>
                                         </label>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" text="Content" translatesAutoresizingMaskIntoConstraints="NO" id="Fpf-Jz-3Gp">
                                             <rect key="frame" x="0.0" y="13" width="320" height="28"/>
@@ -122,23 +128,29 @@
                                                 <constraint firstAttribute="height" constant="80" id="jCU-JZ-aXZ"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NO" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ppb-sg-OE1">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="NO" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ppb-sg-OE1">
                                             <rect key="frame" x="3" y="1" width="16" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" red="1" green="0.63375720099999999" blue="0.27949856020000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="1" height="1"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qin-ZF-A67">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qin-ZF-A67">
                                             <rect key="frame" x="82" y="1" width="22" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" red="1" green="0.63375720099999999" blue="0.27949856020000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="1" height="1"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="回应" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bSv-SP-fGg">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="回应" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bSv-SP-fGg">
                                             <rect key="frame" x="190" y="1" width="20" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" red="1" green="0.63375720099999999" blue="0.27949856020000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="1" height="1"/>
                                         </label>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" text="Content" translatesAutoresizingMaskIntoConstraints="NO" id="KwQ-7p-9Bc">
                                             <rect key="frame" x="0.0" y="13" width="320" height="25"/>
@@ -277,23 +289,29 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NO" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Goj-Mv-Mkf">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="NO" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Goj-Mv-Mkf">
                                             <rect key="frame" x="3" y="1" width="16" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" red="1" green="0.63375720099999999" blue="0.27949856020000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="1" height="1"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BWb-VA-9kg">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="UID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BWb-VA-9kg">
                                             <rect key="frame" x="82" y="1" width="18" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" red="1" green="0.63375720099999999" blue="0.27949856020000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="1" height="1"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m2h-H6-ImY">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m2h-H6-ImY">
                                             <rect key="frame" x="175" y="1" width="22" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" red="1" green="0.63375720099999999" blue="0.27949856020000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="1" height="1"/>
                                         </label>
                                         <textView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Content" translatesAutoresizingMaskIntoConstraints="NO" id="jx6-Jd-89D" customClass="czzNoSelectionTextView">
                                             <rect key="frame" x="0.0" y="13" width="320" height="28"/>
@@ -346,23 +364,29 @@
                                                 <constraint firstAttribute="width" constant="80" id="i9M-sE-Egq"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NO" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bMx-7T-XVS">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="NO" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bMx-7T-XVS">
                                             <rect key="frame" x="3" y="1" width="16" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" red="1" green="0.63375720099999999" blue="0.27949856020000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="1" height="1"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VEL-Oh-Kdr">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="UID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VEL-Oh-Kdr">
                                             <rect key="frame" x="82" y="1" width="18" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" red="1" green="0.63375720099999999" blue="0.27949856020000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="1" height="1"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kgW-sD-Rbu">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kgW-sD-Rbu">
                                             <rect key="frame" x="175" y="1" width="22" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" red="1" green="0.63375720099999999" blue="0.27949856020000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="1" height="1"/>
                                         </label>
                                         <textView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Content" translatesAutoresizingMaskIntoConstraints="NO" id="Y3J-gr-GTn" customClass="czzNoSelectionTextView">
                                             <rect key="frame" x="0.0" y="13" width="320" height="25"/>
@@ -1439,23 +1463,29 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NO" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="psD-s0-VYG">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="NO" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="psD-s0-VYG">
                                             <rect key="frame" x="3" y="1" width="16" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" red="1" green="0.63375720099999999" blue="0.27949856020000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="1" height="1"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NIl-aS-sg4">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NIl-aS-sg4">
                                             <rect key="frame" x="82" y="1" width="22" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" red="1" green="0.63375720099999999" blue="0.27949856020000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="1" height="1"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="回应" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gVc-zf-N66">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="回应" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gVc-zf-N66">
                                             <rect key="frame" x="190" y="1" width="20" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" red="1" green="0.63375720099999999" blue="0.27949856020000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="1" height="1"/>
                                         </label>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jsF-wX-5Bz">
                                             <rect key="frame" x="0.0" y="13" width="320" height="28"/>
@@ -1515,23 +1545,29 @@
                                                 <constraint firstAttribute="width" constant="80" id="UYg-Nf-q8a"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NO" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="68b-dA-15p">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="NO" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="68b-dA-15p">
                                             <rect key="frame" x="3" y="1" width="16" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" red="1" green="0.63375720099999999" blue="0.27949856020000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="1" height="1"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TFY-uq-HT1">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TFY-uq-HT1">
                                             <rect key="frame" x="82" y="1" width="22" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" red="1" green="0.63375720099999999" blue="0.27949856020000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="1" height="1"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="回应" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="muJ-c4-ddo">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="回应" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="muJ-c4-ddo">
                                             <rect key="frame" x="190" y="1" width="20" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" red="1" green="0.63375720099999999" blue="0.27949856020000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="1" height="1"/>
                                         </label>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Orn-EY-B3m">
                                             <rect key="frame" x="0.0" y="13" width="320" height="25"/>
@@ -1666,8 +1702,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="RXG-dJ-a7y"/>
         <segue reference="IFX-nh-720"/>
         <segue reference="HE7-Rt-Ewc"/>
-        <segue reference="RXG-dJ-a7y"/>
     </inferredMetricsTieBreakers>
 </document>
