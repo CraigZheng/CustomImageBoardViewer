@@ -114,7 +114,7 @@
 
 -(void)downloadSettings {
     NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-    NSString *configurationURL = [NSString stringWithFormat:@"http://civ.atwebpages.com/php/remote_configuration.php?version=%@", versionString];
+    NSString *configurationURL = [NSString stringWithFormat:@"%@?version=%@", CONFIGURATION_URL, versionString];
     [NSURLConnection sendAsynchronousRequest: [NSURLRequest requestWithURL:[NSURL URLWithString:configurationURL]]
                                        queue:[NSOperationQueue new]
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
