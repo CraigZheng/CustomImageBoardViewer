@@ -111,8 +111,6 @@
     [URL getResourceValue: &flag
                    forKey: NSURLIsExcludedFromBackupKey error: &error];
     NSLog (@"NSURLIsExcludedFromBackupKey flag value is %@", flag);
-    if (flag > 0)
-        return YES;
 
     BOOL success = [URL setResourceValue:[NSNumber numberWithBool: YES]
                                   forKey: NSURLIsExcludedFromBackupKey error: &error];
