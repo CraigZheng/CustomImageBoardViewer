@@ -142,7 +142,6 @@
 		44C3455C187E774300FDE45D /* acfun_emoji_UTF8.txt in Resources */ = {isa = PBXBuildFile; fileRef = 44C3455A187E774300FDE45D /* acfun_emoji_UTF8.txt */; };
 		44C3455D187E774300FDE45D /* acfun_emoji_UTF16.txt in Resources */ = {isa = PBXBuildFile; fileRef = 44C3455B187E774300FDE45D /* acfun_emoji_UTF16.txt */; };
 		44C89ADC185C145C00E65B73 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44C89ADB185C145C00E65B73 /* QuartzCore.framework */; };
-		44C89AE0185C14BA00E65B73 /* DACircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C89ADF185C14BA00E65B73 /* DACircularProgressView.m */; };
 		44CD43FF1869CB3E00C7D063 /* czzThreadCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CD43FE1869CB3E00C7D063 /* czzThreadCacheManager.m */; };
 		44F8DE5A1803900100B6D3B0 /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 44F8DE4C1803900100B6D3B0 /* Icon-40.png */; };
 		44F8DE5B1803900100B6D3B0 /* Icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44F8DE4D1803900100B6D3B0 /* Icon-40@2x.png */; };
@@ -452,8 +451,6 @@
 		44C3455A187E774300FDE45D /* acfun_emoji_UTF8.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acfun_emoji_UTF8.txt; sourceTree = "<group>"; };
 		44C3455B187E774300FDE45D /* acfun_emoji_UTF16.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acfun_emoji_UTF16.txt; sourceTree = "<group>"; };
 		44C89ADB185C145C00E65B73 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		44C89ADE185C14BA00E65B73 /* DACircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACircularProgressView.h; sourceTree = "<group>"; };
-		44C89ADF185C14BA00E65B73 /* DACircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACircularProgressView.m; sourceTree = "<group>"; };
 		44CD43FD1869CB3E00C7D063 /* czzThreadCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadCacheManager.h; sourceTree = "<group>"; };
 		44CD43FE1869CB3E00C7D063 /* czzThreadCacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadCacheManager.m; sourceTree = "<group>"; };
 		44F8DE4C1803900100B6D3B0 /* Icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40.png"; sourceTree = "<group>"; };
@@ -731,7 +728,6 @@
 				441E5D1C17F46E7F00289DBD /* SMXMLDocument */,
 				441E5D2617F48B3D00289DBD /* Toast */,
 				440B2F6217F5F97200544926 /* GTMNSString */,
-				44C89ADD185C14BA00E65B73 /* DACircularProgress */,
 				443B54B41990BD3300BAB282 /* ObjectiveGumbo */,
 				441E5D0F17F4699900289DBD /* IIViewDeck */,
 				5AA5B6C419A963FA00DCC3DA /* GoogldAdmob */,
@@ -1255,15 +1251,6 @@
 			name = czzEmoji;
 			sourceTree = "<group>";
 		};
-		44C89ADD185C14BA00E65B73 /* DACircularProgress */ = {
-			isa = PBXGroup;
-			children = (
-				44C89ADE185C14BA00E65B73 /* DACircularProgressView.h */,
-				44C89ADF185C14BA00E65B73 /* DACircularProgressView.m */,
-			);
-			path = DACircularProgress;
-			sourceTree = "<group>";
-		};
 		44CD44001869CB6900C7D063 /* czzThreadCacheManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -1609,7 +1596,6 @@
 				44CD43FF1869CB3E00C7D063 /* czzThreadCacheManager.m in Sources */,
 				5A88B8401938AFDB00071343 /* czzNotificationCentreTableViewController.m in Sources */,
 				442A8FAC19DB7DF200A3516E /* PSTCollectionView.m in Sources */,
-				44C89AE0185C14BA00E65B73 /* DACircularProgressView.m in Sources */,
 				443B54F319933C1F00BAB282 /* czzSettingsCentre.m in Sources */,
 				442A8FB319DB7DF200A3516E /* PSTCollectionViewUpdateItem.m in Sources */,
 				4416B71D19413D9300B69C5B /* czzEmotionPickerTableViewController.m in Sources */,

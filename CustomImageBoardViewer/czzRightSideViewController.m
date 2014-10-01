@@ -113,6 +113,11 @@
     return cell;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 44;
+}
+
+#pragma mark - UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSArray *commandArray = [allCommand objectAtIndex:indexPath.section];
     NSString *command = [commandArray objectAtIndex:indexPath.row];

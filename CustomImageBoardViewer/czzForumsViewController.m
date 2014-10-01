@@ -218,7 +218,7 @@
     if (indexPath.section == 0 && indexPath.row == [forumGroups.lastObject forumNames].count) {
         return bannerView_.bounds.size.height;
     }
-    return tableView.rowHeight;
+    return 44;
 }
 
 #pragma czzXMLDownloaderDelegate

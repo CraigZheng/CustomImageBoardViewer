@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
         <!--Czz Entry Point View Controller-->
@@ -38,7 +37,7 @@
             </objects>
             <point key="canvasLocation" x="-286" y="393"/>
         </scene>
-        <!--Czz Home View Controller - A岛-->
+        <!--A岛-->
         <scene sceneID="iem-SF-e0V">
             <objects>
                 <tableViewController id="P9r-Cg-Rjf" customClass="czzHomeViewController" sceneMemberID="viewController">
@@ -273,7 +272,7 @@
             </objects>
             <point key="canvasLocation" x="171" y="393"/>
         </scene>
-        <!--Czz Thread View Controller - 帖子-->
+        <!--帖子-->
         <scene sceneID="m5D-qF-NwA">
             <objects>
                 <tableViewController storyboardIdentifier="czz_thread_view_controller" id="V51-tA-4h3" customClass="czzThreadViewController" sceneMemberID="viewController">
@@ -548,7 +547,7 @@
             </objects>
             <point key="canvasLocation" x="-708" y="-1211"/>
         </scene>
-        <!--Czz Forums View Controller - 讨论版-->
+        <!--讨论版-->
         <scene sceneID="E7j-Et-chj">
             <objects>
                 <viewController id="hin-eg-joT" customClass="czzForumsViewController" sceneMemberID="viewController">
@@ -572,7 +571,7 @@
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Forum" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="261" translatesAutoresizingMaskIntoConstraints="NO" id="3xi-TT-e8h">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Forum" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="261" translatesAutoresizingMaskIntoConstraints="NO" id="3xi-TT-e8h">
                                                     <rect key="frame" x="20" y="0.0" width="261" height="43"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -594,7 +593,7 @@
                                             <rect key="frame" x="10" y="0.0" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="无法接上服务器，点击以刷新" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KFz-Ys-fJA">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="无法接上服务器，点击以刷新" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KFz-Ys-fJA">
                                                     <rect key="frame" x="20" y="11" width="260" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="1" green="0.57347453749999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -718,7 +717,7 @@
             </objects>
             <point key="canvasLocation" x="171" y="-1211"/>
         </scene>
-        <!--Czz Notification Centre Table View Controller - 通知中心-->
+        <!--通知中心-->
         <scene sceneID="pb0-01-9oa">
             <objects>
                 <tableViewController storyboardIdentifier="notification_centre_view_controller" title="通知中心" id="Wkk-ij-bOv" customClass="czzNotificationCentreTableViewController" sceneMemberID="viewController">
@@ -853,7 +852,7 @@
             </objects>
             <point key="canvasLocation" x="1216" y="-550"/>
         </scene>
-        <!--Czz Feedback View Controller - Feedback-->
+        <!--Feedback-->
         <scene sceneID="K9s-yj-H6O">
             <objects>
                 <viewController storyboardIdentifier="feedback_view_controller" title="Feedback" id="R4f-e0-Eng" customClass="czzFeedbackViewController" sceneMemberID="viewController">
@@ -938,7 +937,7 @@
             </objects>
             <point key="canvasLocation" x="-286" y="1063"/>
         </scene>
-        <!--Czz Right Side View Controller - 菜单-->
+        <!--菜单-->
         <scene sceneID="had-HO-Jis">
             <objects>
                 <viewController id="JHP-D0-diB" customClass="czzRightSideViewController" sceneMemberID="viewController">
@@ -961,7 +960,7 @@
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Command" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ekR-rp-caj">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Command" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ekR-rp-caj">
                                                     <rect key="frame" x="19" y="0.0" width="261" height="43"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="highlightedColor"/>
@@ -982,7 +981,7 @@
                                             <rect key="frame" x="10" y="0.0" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Command" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="42R-jP-WP6">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Command" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="42R-jP-WP6">
                                                     <rect key="frame" x="19" y="0.0" width="261" height="43"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -1035,7 +1034,7 @@
             </objects>
             <point key="canvasLocation" x="171" y="1063"/>
         </scene>
-        <!--Czz Search View Controller - 搜索-->
+        <!--搜索-->
         <scene sceneID="GOM-9C-eeI">
             <objects>
                 <viewController id="4fE-Ef-JB7" customClass="czzSearchViewController" sceneMemberID="viewController">
@@ -1179,7 +1178,7 @@
             </objects>
             <point key="canvasLocation" x="-708" y="-550"/>
         </scene>
-        <!--Czz More Info View Controller - 更多信息-->
+        <!--更多信息-->
         <scene sceneID="FQw-Yq-6Lf">
             <objects>
                 <viewController id="pea-yg-qeq" customClass="czzMoreInfoViewController" sceneMemberID="viewController">
@@ -1235,7 +1234,7 @@
             </objects>
             <point key="canvasLocation" x="-286" y="-550"/>
         </scene>
-        <!--Czz Settings View Controller - 设置-->
+        <!--设置-->
         <scene sceneID="YYB-gk-lYf">
             <objects>
                 <viewController id="ZwV-Y2-MIL" customClass="czzSettingsViewController" sceneMemberID="viewController">
@@ -1258,12 +1257,12 @@
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Setting" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Vz-rW-fKi">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Setting" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Vz-rW-fKi">
                                                     <rect key="frame" x="20" y="0.0" width="175" height="43"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <switch opaque="NO" tag="4" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PI1-YJ-ICj">
+                                                <switch opaque="NO" tag="4" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PI1-YJ-ICj">
                                                     <rect key="frame" x="203" y="8" width="79" height="27"/>
                                                 </switch>
                                             </subviews>
@@ -1285,7 +1284,7 @@
                                             <rect key="frame" x="10" y="0.0" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Setting" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="epV-dt-aH3">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Setting" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="epV-dt-aH3">
                                                     <rect key="frame" x="20" y="0.0" width="260" height="43"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="highlightedColor"/>
@@ -1385,7 +1384,7 @@
             </objects>
             <point key="canvasLocation" x="760" y="-1263"/>
         </scene>
-        <!--Czz New Post View Controller - 新帖-->
+        <!--新帖-->
         <scene sceneID="XVJ-0n-tR8">
             <objects>
                 <viewController storyboardIdentifier="new_post_view_controller" id="J6Q-bT-kkR" customClass="czzNewPostViewController" sceneMemberID="viewController">
@@ -1447,7 +1446,7 @@
             </objects>
             <point key="canvasLocation" x="171" y="1813"/>
         </scene>
-        <!--Czz Favourite Manager View Controller - 收藏-->
+        <!--收藏-->
         <scene sceneID="G2X-MF-sFX">
             <objects>
                 <tableViewController id="aOD-Hr-NEd" customClass="czzFavouriteManagerViewController" sceneMemberID="viewController">
@@ -1702,8 +1701,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="RXG-dJ-a7y"/>
+        <segue reference="90f-dH-dau"/>
         <segue reference="IFX-nh-720"/>
-        <segue reference="HE7-Rt-Ewc"/>
+        <segue reference="RXG-dJ-a7y"/>
     </inferredMetricsTieBreakers>
 </document>

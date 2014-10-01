@@ -26,11 +26,13 @@
 #import "czzOnScreenCommandViewController.h"
 #import "czzSearchViewController.h"
 #import "czzSettingsCentre.h"
+#import "MWPhoto.h"
+#import "MWPhotoBrowser.h"
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
 #define OVERLAY_VIEW 122
 
-@interface czzThreadViewController ()<czzXMLDownloaderDelegate, /*czzXMLProcessorDelegate,*/ czzJSONProcessorDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate>
+@interface czzThreadViewController ()<czzXMLDownloaderDelegate, /*czzXMLProcessorDelegate,*/ czzJSONProcessorDelegate, MWPhotoBrowserDelegate, UINavigationControllerDelegate, UIAlertViewDelegate>
 @property NSString *baseURLString;
 @property NSString *targetURLString;
 @property NSMutableArray *threads;
@@ -52,6 +54,10 @@
 @property NSString *thumbnailFolder;
 @property NSString *keywordToSearch;
 @property czzSettingsCentre *settingsCentre;
+@property MWPhotoBrowser *photoBrowser;
+@property NSMutableArray *photoBrowserDataSource;
+@property UIViewController *rightViewController;
+@property UIViewController *topViewController;
 @end
 
 @implementation czzThreadViewController
@@ -81,6 +87,10 @@
 @synthesize keywordToSearch;
 @synthesize settingsCentre;
 @synthesize shouldHideImageForThisForum;
+@synthesize photoBrowser;
+@synthesize photoBrowserDataSource;
+@synthesize rightViewController;
+@synthesize topViewController;
 
 - (void)viewDidLoad
 {
@@ -686,7 +696,7 @@
     }
     if (imgDownloader && !imgDownloader.isThumbnail){
         if (settingsCentre.userDefShouldAutoOpenImage) 
-            [self showDocumentController:[notification.userInfo objectForKey:@"FilePath"]];
+            [self openImageWithPath:[notification.userInfo objectForKey:@"FilePath"]];
     }
 }
 
@@ -749,7 +759,7 @@
     for (NSString *file in [[czzImageCentre sharedInstance] currentLocalImages]) {
         if ([file.lastPathComponent.lowercaseString isEqualToString:tappedThread.imgSrc.lastPathComponent.lowercaseString])
         {
-            [self showDocumentController:file];
+            [self openImageWithPath:file];
             return;
         }
     }
@@ -826,18 +836,55 @@
 }
 
 //show documentcontroller
--(void)showDocumentController:(NSString*)path{
+-(void)openImageWithPath:(NSString*)path{
     if (path){
         if (self.isViewLoaded && self.view.window) {
-            if (documentInteractionController) {
-                [documentInteractionController dismissPreviewAnimated:YES];
-            }
-            documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:path]];
-            documentInteractionController.delegate = self;
-            [documentInteractionController presentPreviewAnimated:YES];
-
+//            if (documentInteractionController) {
+//                [documentInteractionController dismissPreviewAnimated:YES];
+//            }
+//            documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:path]];
+//            documentInteractionController.delegate = self;
+//            [documentInteractionController presentPreviewAnimated:YES];
+            //MWPhotoBrowser
+            [self prepareMWPhotoBrowser];
+            [photoBrowserDataSource addObject:path];
+            [self.navigationController pushViewController:photoBrowser animated:YES];
         }
     }
+}
+
+#pragma mark - MWPhotoBrowserDelegate
+-(id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    @try {
+        MWPhoto *photo= [MWPhoto photoWithURL:[NSURL fileURLWithPath:[photoBrowserDataSource objectAtIndex:index]]];
+        return photo;
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@", exception);
+    }
+    return nil;
+}
+
+-(NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    return photoBrowserDataSource.count;
+}
+
+-(void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser {
+    NSLog(@"");
+}
+
+-(void)prepareMWPhotoBrowser {
+    photoBrowser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+    //    browser.displayActionButton = NO; // Show action button to allow sharing, copying, etc (defaults to YES)
+    photoBrowser.displayNavArrows = YES; // Whether to display left and right nav arrows on toolbar (defaults to NO)
+    photoBrowser.displaySelectionButtons = NO; // Whether selection buttons are shown on each image (defaults to NO)
+    photoBrowser.zoomPhotosToFill = YES; // Images that almost fill the screen will be initially zoomed to fill (defaults to YES)
+    photoBrowser.alwaysShowControls = NO; // Allows to control whether the bars and controls are always visible or whether they fade away to show the photo full (defaults to NO)
+    photoBrowser.enableGrid = NO; // Whether to allow the viewing of all the photo thumbnails on a grid (defaults to YES)
+    photoBrowser.startOnGrid = NO; // Whether to start on the grid of thumbnails instead of the first photo (defaults to NO)
+    photoBrowser.delayToHideElements = 2.0;
+    photoBrowser.displayActionButton = YES;
+    photoBrowserDataSource = [NSMutableArray new];
 }
 
 #pragma mark - prepare for segue

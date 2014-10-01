@@ -46,8 +46,11 @@
         thumbnailFolder = [libraryPath stringByAppendingPathComponent:@"Thumbnails"];
         imageFolder = [libraryPath stringByAppendingPathComponent:@"Images"];
         currentLocalImages = [NSMutableSet new];
-        [self performSelectorInBackground:@selector(scanCurrentLocalImages) withObject:nil];
+//        [self performSelectorInBackground:@selector(scanCurrentLocalImages) withObject:nil];
         //[self scanCurrentLocalImages];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            [self scanCurrentLocalImages];
+        });
     }
     return self;
 }

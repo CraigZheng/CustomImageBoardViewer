@@ -11,7 +11,7 @@
 #import "czzImageCentre.h"
 #import "czzImageDownloader.h"
 #import "czzFeedbackViewController.h"
-#import "DACircularProgress/DACircularProgressView.h"
+#import "DACircularProgressView.h"
 
 @interface czzNotificationCentreTableViewController ()<UIDocumentInteractionControllerDelegate>
 @property czzNotificationManager *notificationManager;
