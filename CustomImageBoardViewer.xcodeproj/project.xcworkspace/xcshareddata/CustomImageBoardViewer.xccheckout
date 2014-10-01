@@ -22,7 +22,7 @@
 		<key>32815DC622DED770ACB938B9C2A33ADE7A3CB589</key>
 		<string>../..</string>
 		<key>B471BED9AD1BCDB1D65AE8593D137A88BB290F20</key>
-		<string>../../CustomImageBoardViewer/Objective-C-HMTL-Parser/</string>
+		<string>../../CustomImageBoardViewer/Objective-C-HMTL-Parser</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/CraigZheng/CustomImageBoardViewer.git</string>

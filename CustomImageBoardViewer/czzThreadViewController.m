@@ -32,7 +32,7 @@
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
 #define OVERLAY_VIEW 122
 
-@interface czzThreadViewController ()<czzXMLDownloaderDelegate, /*czzXMLProcessorDelegate,*/ czzJSONProcessorDelegate, MWPhotoBrowserDelegate, UINavigationControllerDelegate, UIAlertViewDelegate>
+@interface czzThreadViewController ()<czzXMLDownloaderDelegate, /*czzXMLProcessorDelegate,*/ czzJSONProcessorDelegate, MWPhotoBrowserDelegate, UINavigationControllerDelegate, UIAlertViewDelegate, UIDocumentInteractionControllerDelegate>
 @property NSString *baseURLString;
 @property NSString *targetURLString;
 @property NSMutableArray *threads;
@@ -796,7 +796,7 @@
             return;
         }
     }
-    [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"找不到帖子ID: %d, 可能不在本帖内", refNumber]];
+    [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"找不到帖子ID: %ld, 可能不在本帖内", (long) refNumber]];
 }
 
 #pragma mark - high light
@@ -839,6 +839,7 @@
 -(void)openImageWithPath:(NSString*)path{
     if (path){
         if (self.isViewLoaded && self.view.window) {
+            //UIDocumentInteractionController
 //            if (documentInteractionController) {
 //                [documentInteractionController dismissPreviewAnimated:YES];
 //            }
@@ -863,6 +864,12 @@
         NSLog(@"%@", exception);
     }
     return nil;
+}
+
+-(void)photoBrowser:(MWPhotoBrowser *)photoBrowser actionButtonPressedForPhotoAtIndex:(NSUInteger)index {
+    NSURL *fileURL = [NSURL fileURLWithPath:[photoBrowserDataSource objectAtIndex:index]];
+    documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:fileURL];
+    [documentInteractionController presentOptionsMenuFromRect:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) inView:self.view animated:YES];
 }
 
 -(NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
