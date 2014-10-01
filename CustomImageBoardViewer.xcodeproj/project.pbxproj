@@ -122,6 +122,7 @@
 		4448C2AA180FF6C600D2CD76 /* czzBlacklistSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2A9180FF6C600D2CD76 /* czzBlacklistSender.m */; };
 		4448C2AD18100C6B00D2CD76 /* czzBlacklist.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2AC18100C6B00D2CD76 /* czzBlacklist.m */; };
 		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
+		446CC58219DC2BDE009BF24E /* czzHTMLParserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 446CC58119DC2BDE009BF24E /* czzHTMLParserViewController.m */; };
 		447FD254195D1AF1003E30C2 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 447FD253195D1AF1003E30C2 /* libz.dylib */; };
 		4498B689199248ED0014F73F /* czzJSONProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498B688199248ED0014F73F /* czzJSONProcessor.m */; };
 		4498B68D1993A6190014F73F /* PropertyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498B68C1993A6190014F73F /* PropertyUtil.m */; };
@@ -438,6 +439,8 @@
 		4448C2AC18100C6B00D2CD76 /* czzBlacklist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzBlacklist.m; sourceTree = "<group>"; };
 		4462EF2318659BC200E6BE78 /* czzFavouriteManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFavouriteManagerViewController.h; sourceTree = "<group>"; };
 		4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFavouriteManagerViewController.m; sourceTree = "<group>"; };
+		446CC58019DC2BDE009BF24E /* czzHTMLParserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzHTMLParserViewController.h; sourceTree = "<group>"; };
+		446CC58119DC2BDE009BF24E /* czzHTMLParserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzHTMLParserViewController.m; sourceTree = "<group>"; };
 		447FD253195D1AF1003E30C2 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		4498B687199248ED0014F73F /* czzJSONProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzJSONProcessor.h; sourceTree = "<group>"; };
 		4498B688199248ED0014F73F /* czzJSONProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzJSONProcessor.m; sourceTree = "<group>"; };
@@ -720,6 +723,7 @@
 				441E5CDD17F4691300289DBD /* czzAppDelegate.h */,
 				441E5CDE17F4691300289DBD /* czzAppDelegate.m */,
 				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
+				446CC58319DC3827009BF24E /* czzHTMLParserView */,
 				5AF85E691970025F0031D0CB /* czzSearchViewController */,
 				5A88B8411938AFE000071343 /* czzNotificationCentre */,
 				44BE2E3C1938400A00601943 /* czzOnScreenCommand */,
@@ -872,8 +876,6 @@
 				4498B68A199249180014F73F /* czzJSONProcessor */,
 				441E5D2A17F48F8C00289DBD /* czzThread.h */,
 				441E5D2B17F48F8C00289DBD /* czzThread.m */,
-				5AF85E60196EDC110031D0CB /* czzHTMLToThreadParser.h */,
-				5AF85E61196EDC110031D0CB /* czzHTMLToThreadParser.m */,
 				4448C2A4180FF51D00D2CD76 /* czzBlacklist */,
 				44CD44001869CB6900C7D063 /* czzThreadCacheManager */,
 				5A1593EA18E71E93001A774B /* czzThreadRefButton.h */,
@@ -1173,6 +1175,17 @@
 				4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */,
 			);
 			name = czzFavouriteManagerVIewController;
+			sourceTree = "<group>";
+		};
+		446CC58319DC3827009BF24E /* czzHTMLParserView */ = {
+			isa = PBXGroup;
+			children = (
+				5AF85E60196EDC110031D0CB /* czzHTMLToThreadParser.h */,
+				5AF85E61196EDC110031D0CB /* czzHTMLToThreadParser.m */,
+				446CC58019DC2BDE009BF24E /* czzHTMLParserViewController.h */,
+				446CC58119DC2BDE009BF24E /* czzHTMLParserViewController.m */,
+			);
+			name = czzHTMLParserView;
 			sourceTree = "<group>";
 		};
 		4498B68A199249180014F73F /* czzJSONProcessor */ = {
@@ -1547,6 +1560,7 @@
 				44B96E33185B8B8100D664A4 /* czzImageManagerViewController.m in Sources */,
 				442A8FA619DB7DF200A3516E /* MWTapDetectingView.m in Sources */,
 				441E5D0D17F4699400289DBD /* IIViewDeckController.m in Sources */,
+				446CC58219DC2BDE009BF24E /* czzHTMLParserViewController.m in Sources */,
 				5A1593EC18E71E93001A774B /* czzThreadRefButton.m in Sources */,
 				443B54E31990BD3300BAB282 /* string_piece.c in Sources */,
 				44C34550187E616500FDE45D /* czzEmojiCollectionViewController.m in Sources */,

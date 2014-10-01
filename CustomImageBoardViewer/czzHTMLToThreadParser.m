@@ -14,12 +14,12 @@
 #import "ObjectiveGumbo.h"
 
 @interface czzHTMLToThreadParser ()
-@property NSString *htmlContent;
 @end
 
 @implementation czzHTMLToThreadParser
 @synthesize htmlContent;
 @synthesize parsedThreads;
+@synthesize delegate;
 
 -(void)parse:(NSString*)htmlString {
     htmlContent = htmlString;
@@ -29,10 +29,12 @@
 }
 
 -(void)scanHTML:(NSString*)htmlString {
+    
     NSRange r;
     czzThread *newThread = [czzThread new];
     NSMutableArray *threads = [NSMutableArray new];
     NSMutableArray *uidArray = [NSMutableArray new];
+    NSDate *lastUpdateTime = [NSDate new];
     while ((r = [htmlString rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound) {
         @try {
             NSRange endTagRange;
@@ -115,6 +117,15 @@
             }
             htmlString = [htmlString stringByReplacingCharactersInRange:r withString:@""];
             
+            //inform delegate
+            if (delegate) {
+                if ([[NSDate new] timeIntervalSinceDate:lastUpdateTime] > 1.5) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [delegate updated:self currentContent:htmlString];
+                    });
+                    lastUpdateTime = [NSDate new];
+                }
+            }
         }
         @catch (NSException *exception) {
             NSLog(@"%@", exception);

@@ -19,6 +19,7 @@
 #import "czzAppDelegate.h"
 #import "czzFavouriteManagerViewController.h"
 #import "Toast+UIView.h"
+#import "czzHTMLParserViewController.h"
 
 @interface czzSearchViewController ()<UIAlertViewDelegate, UIWebViewDelegate>
 @property czzThread *selectedParentThread;
@@ -26,6 +27,7 @@
 @property UIAlertView *searchInputAlertView;
 @property NSString *searchKeyword;
 @property NSString *searchCommand;
+@property NSURL *targetURL;
 @end
 
 @implementation czzSearchViewController
@@ -37,6 +39,7 @@
 @synthesize searchEngineSegmentedControl;
 @synthesize searchResult;
 @synthesize searchKeyword;
+@synthesize targetURL;
 
 - (void)viewDidLoad
 {
@@ -107,6 +110,15 @@
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    if ([segue.identifier isEqualToString:@"go_html_parser_view_controller"]) {
+        czzHTMLParserViewController *parserViewController = (czzHTMLParserViewController *)segue.destinationViewController;
+        if ([parserViewController isKindOfClass:[czzHTMLParserViewController class]]) {
+            parserViewController.targetURL = targetURL;
+            parserViewController.highlightKeyword = searchKeyword;
+        }
+    }
+    //should not be in use anymore
+    /*
     if ([segue.identifier isEqualToString:@"go_thread_view_segue"]) {
         czzThreadViewController *threadViewController = (czzThreadViewController*)segue.destinationViewController;
         threadViewController.parentThread = selectedParentThread;
@@ -116,6 +128,7 @@
         favouriteViewManager.title = [NSString stringWithFormat:@"搜索：%@", searchKeyword];
         favouriteViewManager.threads = [NSMutableArray arrayWithArray:searchResult];
     }
+     */
 }
 
 -(void)openURLAndConvertToczzThreadFormat:(NSURL*)url {
@@ -189,7 +202,9 @@
         } else {
             if ([request.URL.host rangeOfString:@"acfun"].location != NSNotFound) {
                 NSString *acURL = [[request.URL.absoluteString componentsSeparatedByString:@"?"].firstObject stringByReplacingOccurrencesOfString:@"m/" withString:@""]; //only the first few components are useful, the host and the thread id
-                [self openURLAndConvertToczzThreadFormat:[NSURL URLWithString:acURL]];
+                targetURL = [NSURL URLWithString:acURL];
+                [self performSegueWithIdentifier:@"go_html_parser_view_controller" sender:self];
+//                [self openURLAndConvertToczzThreadFormat:[NSURL URLWithString:acURL]];
                 return NO;
             }
         }

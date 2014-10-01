@@ -10,6 +10,7 @@
 #import "czzPostViewController.h"
 #import "czzAppDelegate.h"
 #import "DACircularProgressView.h"
+#import "czzSettingsCentre.h"
 
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate>
 @end

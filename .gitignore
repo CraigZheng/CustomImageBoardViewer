@@ -16,3 +16,5 @@ Build/Products/Debug-iphoneos/CustomImageBoardViewer.app/en.lproj/Main_iPhone.st
 Build/Products/Debug-iphoneos/CustomImageBoardViewer.app/en.lproj/Main_iPhone.storyboardc/P9r-Cg-Rjf-view-GOK-fb-xVX.nib/objects.nib
 
 *.nib
+
+CustomImageBoardViewer/Objective-C-HMTL-Parser/
