@@ -12,6 +12,8 @@
 	<dict>
 		<key>32815DC622DED770ACB938B9C2A33ADE7A3CB589</key>
 		<string>https://github.com/CraigZheng/CustomImageBoardViewer.git</string>
+		<key>B471BED9AD1BCDB1D65AE8593D137A88BB290F20</key>
+		<string>https://github.com/zootreeves/Objective-C-HMTL-Parser.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>CustomImageBoardViewer.xcodeproj/project.xcworkspace</string>
@@ -19,6 +21,8 @@
 	<dict>
 		<key>32815DC622DED770ACB938B9C2A33ADE7A3CB589</key>
 		<string>../..</string>
+		<key>B471BED9AD1BCDB1D65AE8593D137A88BB290F20</key>
+		<string>../../CustomImageBoardViewer/Objective-C-HMTL-Parser/</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/CraigZheng/CustomImageBoardViewer.git</string>
@@ -35,6 +39,14 @@
 			<string>32815DC622DED770ACB938B9C2A33ADE7A3CB589</string>
 			<key>IDESourceControlWCCName</key>
 			<string>CustomImageBoardViewer</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>B471BED9AD1BCDB1D65AE8593D137A88BB290F20</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Objective-C-HMTL-Parser</string>
 		</dict>
 	</array>
 </dict>

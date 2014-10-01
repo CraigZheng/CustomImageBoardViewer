@@ -91,6 +91,9 @@
 		442A8FFD19DB7F5400A3516E /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A8FEC19DB7F5400A3516E /* UIView+WebCacheOperation.m */; };
 		442A900C19DB90E000A3516E /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 442A8FFE19DB90E000A3516E /* README.txt */; };
 		442A900D19DB90E000A3516E /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 442A900B19DB90E000A3516E /* libGoogleAdMobAds.a */; };
+		442A901819DB9BAF00A3516E /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 442A901719DB9BAF00A3516E /* libxml2.dylib */; };
+		442A901D19DB9C3C00A3516E /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A901A19DB9C3C00A3516E /* HTMLNode.m */; };
+		442A901E19DB9C3C00A3516E /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A901C19DB9C3C00A3516E /* HTMLParser.m */; };
 		442CD0E31851601A0021AD37 /* czzImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 442CD0E21851601A0021AD37 /* czzImageDownloader.m */; };
 		442CD0E718517BED0021AD37 /* czzImageCentre.m in Sources */ = {isa = PBXBuildFile; fileRef = 442CD0E618517BED0021AD37 /* czzImageCentre.m */; };
 		443B54DE1990BD3300BAB282 /* attribute.c in Sources */ = {isa = PBXBuildFile; fileRef = 443B54B61990BD3300BAB282 /* attribute.c */; };
@@ -373,6 +376,11 @@
 		442A900919DB90E000A3516E /* GADRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequest.h; sourceTree = "<group>"; };
 		442A900A19DB90E000A3516E /* GADRequestError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequestError.h; sourceTree = "<group>"; };
 		442A900B19DB90E000A3516E /* libGoogleAdMobAds.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAdMobAds.a; sourceTree = "<group>"; };
+		442A901719DB9BAF00A3516E /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		442A901919DB9C3C00A3516E /* HTMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HTMLNode.h; path = ../HTMLNode.h; sourceTree = "<group>"; };
+		442A901A19DB9C3C00A3516E /* HTMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HTMLNode.m; path = ../HTMLNode.m; sourceTree = "<group>"; };
+		442A901B19DB9C3C00A3516E /* HTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HTMLParser.h; path = ../HTMLParser.h; sourceTree = "<group>"; };
+		442A901C19DB9C3C00A3516E /* HTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HTMLParser.m; path = ../HTMLParser.m; sourceTree = "<group>"; };
 		442CD0E11851601A0021AD37 /* czzImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzImageDownloader.h; sourceTree = "<group>"; };
 		442CD0E21851601A0021AD37 /* czzImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzImageDownloader.m; sourceTree = "<group>"; };
 		442CD0E518517BED0021AD37 /* czzImageCentre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzImageCentre.h; sourceTree = "<group>"; };
@@ -535,6 +543,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				442A901819DB9BAF00A3516E /* libxml2.dylib in Frameworks */,
 				447FD254195D1AF1003E30C2 /* libz.dylib in Frameworks */,
 				44412975186E9B1000075AA2 /* StoreKit.framework in Frameworks */,
 				44B86461185D810500C29B92 /* SystemConfiguration.framework in Frameworks */,
@@ -684,6 +693,7 @@
 		441E5CCD17F4691300289DBD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				442A901719DB9BAF00A3516E /* libxml2.dylib */,
 				5A637436195D8AB0004AF1FC /* BugSense-iOS.framework */,
 				5A637437195D8AB0004AF1FC /* LICENSE */,
 				447FD253195D1AF1003E30C2 /* libz.dylib */,
@@ -735,6 +745,7 @@
 				4412FA161935865C00681438 /* Reachability */,
 				442A8FC919DB7E0000A3516E /* MWPhotoBrowser */,
 				5A3897CA1935EC5A00D20DA1 /* NSString+HTML */,
+				442A900E19DB9BA600A3516E /* Objective-C-HMTL-Parser */,
 				441E5CE917F4691300289DBD /* Images.xcassets */,
 				441E5E5117F4AEAB00289DBD /* Icons */,
 				441E5CD517F4691300289DBD /* Supporting Files */,
@@ -1051,6 +1062,17 @@
 				442A8F5819DB7DF200A3516E /* Libraries */,
 			);
 			name = MWPhotoBrowser;
+			sourceTree = "<group>";
+		};
+		442A900E19DB9BA600A3516E /* Objective-C-HMTL-Parser */ = {
+			isa = PBXGroup;
+			children = (
+				442A901919DB9C3C00A3516E /* HTMLNode.h */,
+				442A901A19DB9C3C00A3516E /* HTMLNode.m */,
+				442A901B19DB9C3C00A3516E /* HTMLParser.h */,
+				442A901C19DB9C3C00A3516E /* HTMLParser.m */,
+			);
+			path = "Objective-C-HMTL-Parser";
 			sourceTree = "<group>";
 		};
 		442CD0E4185160200021AD37 /* czzImageDownloader */ = {
@@ -1507,6 +1529,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				442A901D19DB9C3C00A3516E /* HTMLNode.m in Sources */,
 				442A8FB719DB7DF200A3516E /* PSTGridLayoutSection.m in Sources */,
 				443B54E61990BD3300BAB282 /* utf8.c in Sources */,
 				4448C2AA180FF6C600D2CD76 /* czzBlacklistSender.m in Sources */,
@@ -1573,6 +1596,7 @@
 				441E5D1217F46A0900289DBD /* czzEntryPointViewController.m in Sources */,
 				442A8FA419DB7DF200A3516E /* MWPhotoBrowser.m in Sources */,
 				441E5D2017F46FB600289DBD /* czzXMLDownloader.m in Sources */,
+				442A901E19DB9C3C00A3516E /* HTMLParser.m in Sources */,
 				443B54E71990BD3300BAB282 /* util.c in Sources */,
 				5A3897C91935EC4D00D20DA1 /* NSString+HTML.m in Sources */,
 				442A8FAF19DB7DF200A3516E /* PSTCollectionViewData.m in Sources */,
@@ -1703,6 +1727,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Applications/Xcode\\ 2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
+					/usr/include/libxml2,
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1736,6 +1765,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Applications/Xcode\\ 2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
+					/usr/include/libxml2,
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
