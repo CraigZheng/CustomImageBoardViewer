@@ -40,6 +40,11 @@
     }
 }
 
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [[czzAppDelegate sharedAppDelegate].window hideToastActivity];
+}
+
 -(void)openURLAndConvertToczzThreadFormat:(NSURL*)url {
     dispatch_async(dispatch_get_main_queue(), ^{
         contentTextView.text = @"";
