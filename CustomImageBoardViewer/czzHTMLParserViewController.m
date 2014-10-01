@@ -116,7 +116,8 @@
 -(void)updated:(czzHTMLToThreadParser*)parser currentContent:(NSString *)html{
     dispatch_async(dispatch_get_main_queue(), ^{
         contentTextView.text = html;
-        self.title = [NSString stringWithFormat:@"HTML解析器:%d", (int)((parser.htmlContent.length - html.length) / (parser.htmlContent.length))];
+        int percent = (int)(((parser.htmlContent.length - html.length) / (float)(parser.htmlContent.length)) * 100.0);
+        self.title = [NSString stringWithFormat:@"HTML解析器: %d%%", percent];
     });
 }
 @end
