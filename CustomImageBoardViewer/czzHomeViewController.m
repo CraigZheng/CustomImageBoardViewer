@@ -48,6 +48,7 @@
 @property NSString *thumbnailFolder;
 @property czzSettingsCentre *settingsCentre;
 @property BOOL shouldHideImageForThisForum;
+@property czzImageCentre *imageCentre;
 @end
 
 @implementation czzHomeViewController
@@ -73,11 +74,13 @@
 @synthesize thumbnailFolder;
 @synthesize settingsCentre;
 @synthesize shouldHideImageForThisForum;
+@synthesize imageCentre;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    imageCentre = [czzImageCentre sharedInstance]; //cause image centre to load itself
     [czzAppDelegate sharedAppDelegate].homeViewController = self; //retain a reference to app delegate, so when entering background, the delegate can inform this controller for further actions
     //the target URL string
 //    baseURLString = @"http://h.acfun.tv/api/thread/root?forumName=";

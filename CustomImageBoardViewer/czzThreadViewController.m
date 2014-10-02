@@ -58,6 +58,7 @@
 @property NSMutableArray *photoBrowserDataSource;
 @property UIViewController *rightViewController;
 @property UIViewController *topViewController;
+@property BOOL readyToPushViewController;
 @end
 
 @implementation czzThreadViewController
@@ -91,6 +92,7 @@
 @synthesize photoBrowserDataSource;
 @synthesize rightViewController;
 @synthesize topViewController;
+@synthesize readyToPushViewController;
 
 - (void)viewDidLoad
 {
@@ -185,15 +187,14 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     //hide on screen command
     [onScreenCommand hide];
+    //no longer ready for more push animation
+    readyToPushViewController = NO;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"FirstTimeViewingThread"]){
-        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"长按帖子以回复" duration:2.0 position:@"center" title:@"请注意"];
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"FirstTimeViewingThread"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
+    //ready for push animation
+    readyToPushViewController = YES;
 }
 #pragma mark - enter/exiting background
 -(void)prepareToEnterBackground {
@@ -838,7 +839,7 @@
 //show documentcontroller
 -(void)openImageWithPath:(NSString*)path{
     if (path){
-        if (self.isViewLoaded && self.view.window) {
+        if (readyToPushViewController) {
             //UIDocumentInteractionController
 //            if (documentInteractionController) {
 //                [documentInteractionController dismissPreviewAnimated:YES];

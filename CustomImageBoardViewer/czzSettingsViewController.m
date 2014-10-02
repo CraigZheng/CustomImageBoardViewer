@@ -94,6 +94,8 @@
              [commandSwitch setOn:shouldHighlight];
          } else if ([command isEqualToString:@"夜间模式"]) {
              [commandSwitch setOn:settingsCentre.nightyMode];
+         } else if ([command isEqualToString:@"每月自动清理缓存"]) {
+             [commandSwitch setOn:settingsCentre.autoCleanImageCache];
          }
     } else if (indexPath.section == 1){
         UILabel *commandLabel = (UILabel*)[cell viewWithTag:5];
@@ -153,6 +155,7 @@
     [switchCommands addObject:@"夜间模式"];
     [switchCommands addObject:@"图片下载完毕自动打开"];
     [switchCommands addObject:@"开启帖子缓存"];
+    [switchCommands addObject:@"每月自动清理缓存"];
     [regularCommands addObject:@"图片缓存"];
     [regularCommands addObject:@"清空缓存"];
     [regularCommands addObject:@"清除ID信息"];
@@ -223,6 +226,9 @@
             settingsCentre.nightyMode = !settingsCentre.nightyMode;
             [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"夜间模式：%@，刷新后生效", settingsCentre.nightyMode ? @"On" : @"Off"]];
             [self.settingsTableView reloadData];
+        } else if ([command isEqualToString:@"每月自动清理缓存"]) {
+            settingsCentre.autoCleanImageCache = !settingsCentre.autoCleanImageCache;
+            [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"每月自动清理缓存： %@", settingsCentre.autoCleanImageCache ? @"On" : @"Off"]];
         }
         [settingsCentre saveSettings];
     }

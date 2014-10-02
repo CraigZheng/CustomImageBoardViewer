@@ -9,12 +9,14 @@
 #import "czzImageCentre.h"
 #import "czzImageDownloader.h"
 #import "czzAppDelegate.h"
+#import "czzSettingsCentre.h"
 
 #include <sys/stat.h>
 
 @interface czzImageCentre()<czzImageDownloaderDelegate>
 @property NSString *thumbnailFolder;
 @property NSString *imageFolder;
+@property czzSettingsCentre *settingsCentre;
 @end
 
 @implementation czzImageCentre
@@ -25,6 +27,7 @@
 @synthesize imageFolder;
 @synthesize localImagesArray;
 @synthesize localThumbnailsArray;
+@synthesize settingsCentre;
 
 + (id)sharedInstance
 {
@@ -49,8 +52,7 @@
         thumbnailFolder = [libraryPath stringByAppendingPathComponent:@"Thumbnails"];
         imageFolder = [libraryPath stringByAppendingPathComponent:@"Images"];
         currentLocalImages = [NSMutableSet new];
-//        [self performSelectorInBackground:@selector(scanCurrentLocalImages) withObject:nil];
-        //[self scanCurrentLocalImages];
+        settingsCentre = [czzSettingsCentre sharedInstance];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
             [self scanCurrentLocalImages];
         });
@@ -72,10 +74,11 @@
             [file.pathExtension.lowercaseString isEqualToString:@"png"] ||
             [file.pathExtension.lowercaseString isEqualToString:@"gif"])
         {
-             UIImage *previewImage = [UIImage imageWithContentsOfFile:file];
-             //if the given file can be construct as an image, add the path to current local images set
-             if (previewImage)
-             [tempImgs addObject:file];
+            if (settingsCentre.autoCleanImageCache) {
+                if (![self isFileOlderThan30Days:file])
+                    [tempImgs addObject:file];
+            } else
+                [tempImgs addObject:file];
         }
     }
     //Images folder
@@ -89,7 +92,11 @@
             [file.pathExtension.lowercaseString isEqualToString:@"png"] ||
             [file.pathExtension.lowercaseString isEqualToString:@"gif"])
         {
-            [tempImgs addObject:file];
+            if (settingsCentre.autoCleanImageCache) {
+                if (![self isFileOlderThan30Days:file])
+                    [tempImgs addObject:file];
+            } else
+                [tempImgs addObject:file];
         }
     }
     currentLocalImages = tempImgs;
@@ -97,6 +104,23 @@
     localImagesArray = [NSMutableArray arrayWithArray:[self sortArrayOfFileWithModificationDate: [currentLocalImages allObjects]]];
     localThumbnailsArray = [NSMutableArray arrayWithArray:[self sortArrayOfFileWithModificationDate:[currentLocalThumbnails allObjects]]];
     self.ready = YES;
+}
+
+-(BOOL)isFileOlderThan30Days:(NSString*)filePath {
+    NSDate *today = [NSDate new];
+    @try {
+        NSDate *fileModifiedDate = [czzImageCentre getModificationDateForFileAtPath:filePath];
+        //if older than 30 days
+        if ([today timeIntervalSinceDate:fileModifiedDate] > 2592000) {
+            //delete this file and return YES
+            [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+            return YES;
+        }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@", exception);
+    }
+    return NO;
 }
 
 -(NSArray*)sortArrayOfFileWithModificationDate:(NSArray*)array {

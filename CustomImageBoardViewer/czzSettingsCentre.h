@@ -40,7 +40,7 @@
 @property BOOL userDefShouldCacheData;
 @property BOOL userDefShouldHighlightPO;
 @property BOOL nightyMode;
-
+@property BOOL autoCleanImageCache;
 
 + (id)sharedInstance;
 -(void)downloadSettings;
