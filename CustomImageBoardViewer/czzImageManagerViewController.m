@@ -13,6 +13,7 @@
 #import "MWPhoto.h"
 #import "MWPhotoBrowser.h"
 
+
 #define ALL_IMAGE 0
 #define FULL_SIZE_IMAGE 1
 #define THUMBNAIL 2
@@ -50,15 +51,16 @@
 -(void)reloadImageFileFromImageCentre{
     Images = [NSMutableArray new];
     if (imageCategory == ALL_IMAGE){
-        [Images addObjectsFromArray:[[[czzImageCentre sharedInstance] currentLocalThumbnails] allObjects]];
-        [Images addObjectsFromArray:[[[czzImageCentre sharedInstance] currentLocalImages] allObjects]];
+        [Images addObjectsFromArray:[[czzImageCentre sharedInstance] localThumbnailsArray]];
+        [Images addObjectsFromArray:[[czzImageCentre sharedInstance] localImagesArray]];
     } else if (imageCategory == FULL_SIZE_IMAGE) {
-        [Images addObjectsFromArray:[[[czzImageCentre sharedInstance] currentLocalImages] allObjects]];
+        [Images addObjectsFromArray:[[czzImageCentre sharedInstance] localImagesArray]];
     } else if (imageCategory == THUMBNAIL){
-        [Images addObjectsFromArray:[[[czzImageCentre sharedInstance] currentLocalThumbnails] allObjects]];
+        [Images addObjectsFromArray:[[czzImageCentre sharedInstance] localThumbnailsArray]];
     }
     [self.collectionView reloadData];
 }
+
 
 #pragma UICollectionViewDataSource
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{

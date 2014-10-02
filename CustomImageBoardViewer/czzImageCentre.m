@@ -10,6 +10,7 @@
 #import "czzImageDownloader.h"
 #import "czzAppDelegate.h"
 
+#include <sys/stat.h>
 
 @interface czzImageCentre()<czzImageDownloaderDelegate>
 @property NSString *thumbnailFolder;
@@ -22,6 +23,8 @@
 @synthesize currentLocalImages;
 @synthesize thumbnailFolder;
 @synthesize imageFolder;
+@synthesize localImagesArray;
+@synthesize localThumbnailsArray;
 
 + (id)sharedInstance
 {
@@ -59,7 +62,6 @@
  scan the library for downloaded images
  */
 -(void)scanCurrentLocalImages{
-
     NSMutableSet *tempImgs = [NSMutableSet new];
     //files in thumbnail folder
     NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:thumbnailFolder error:Nil];
@@ -87,14 +89,28 @@
             [file.pathExtension.lowercaseString isEqualToString:@"png"] ||
             [file.pathExtension.lowercaseString isEqualToString:@"gif"])
         {
-            UIImage *previewImage = [UIImage imageWithContentsOfFile:file];
-            //if the given file can be construct as an image, add the path to current local images set
-            if (previewImage)
-                [tempImgs addObject:file];
+            [tempImgs addObject:file];
         }
     }
     currentLocalImages = tempImgs;
+    //sort these arrays and store them into separated arrays
+    localImagesArray = [NSMutableArray arrayWithArray:[self sortArrayOfFileWithModificationDate: [currentLocalImages allObjects]]];
+    localThumbnailsArray = [NSMutableArray arrayWithArray:[self sortArrayOfFileWithModificationDate:[currentLocalThumbnails allObjects]]];
     self.ready = YES;
+}
+
+-(NSArray*)sortArrayOfFileWithModificationDate:(NSArray*)array {
+    return [array sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        @try {
+            NSDate *date1 = [czzImageCentre getModificationDateForFileAtPath:obj1];
+            NSDate *date2 = [czzImageCentre getModificationDateForFileAtPath:obj2];
+            return [date2 compare:date1];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception);
+        }
+        return NSOrderedSame;
+    }];
 }
 
 -(void)downloadThumbnailWithURL:(NSString *)imgURL isCompletedURL:(BOOL)completeURL{
@@ -184,10 +200,13 @@
     if (success){
         //inform receiver that download is successed
         [userInfo setObject:[NSNumber numberWithBool:YES] forKey:@"Success"];
-        if (isThumbnail)
+        if (isThumbnail) {
             [currentLocalThumbnails addObject:path];
+            [localThumbnailsArray insertObject:path atIndex:0];
+        }
         else {
             [currentLocalImages addObject:path];
+            [localImagesArray insertObject:path atIndex:0];
             [[czzAppDelegate sharedAppDelegate] showToast:@"图片下载好了"];
         }
     } else {
@@ -269,4 +288,28 @@
     NSString *folderSizeStr = [NSByteCountFormatter stringFromByteCount:folderSize countStyle:NSByteCountFormatterCountStyleFile];
     return folderSizeStr;
 }
+
+//this should speed up the process - copied from http://stackoverflow.com/questions/1523793/get-directory-contents-in-date-modified-order
++ (NSDate*) getModificationDateForFileAtPath:(NSString*)path {
+    struct tm* date; // create a time structure
+    struct stat attrib; // create a file attribute structure
+    
+    stat([path UTF8String], &attrib);   // get the attributes of afile.txt
+    
+    date = gmtime(&(attrib.st_mtime));  // Get the last modified time and put it into the time structure
+    
+    NSDateComponents *comps = [[NSDateComponents alloc] init];
+    [comps setSecond:   date->tm_sec];
+    [comps setMinute:   date->tm_min];
+    [comps setHour:     date->tm_hour];
+    [comps setDay:      date->tm_mday];
+    [comps setMonth:    date->tm_mon + 1];
+    [comps setYear:     date->tm_year + 1900];
+    
+    NSCalendar *cal = [NSCalendar currentCalendar];
+    NSDate *modificationDate = [[cal dateFromComponents:comps] dateByAddingTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT]];
+    
+    return modificationDate;
+}
+
 @end

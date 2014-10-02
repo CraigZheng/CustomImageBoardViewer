@@ -114,6 +114,9 @@
 
 -(void)downloadSettings {
     NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+#ifdef DEBUG
+    versionString = @"DEBUG";
+#endif
     NSString *configurationURL = [NSString stringWithFormat:@"%@?version=%@", CONFIGURATION_URL, versionString];
     [NSURLConnection sendAsynchronousRequest: [NSURLRequest requestWithURL:[NSURL URLWithString:configurationURL]]
                                        queue:[NSOperationQueue new]
