@@ -36,99 +36,101 @@
     NSMutableArray *uidArray = [NSMutableArray new];
     NSDate *lastUpdateTime = [NSDate new];
     while ((r = [htmlString rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound) {
-        @try {
-            NSRange endTagRange;
-            NSString *tagString = [htmlString substringWithRange:r];
-            //title and author
-            if ([tagString rangeOfString:@"<font"].location != NSNotFound && (endTagRange = [htmlString rangeOfString:@"<+/[^>]+>" options:NSRegularExpressionSearch range:NSMakeRange(r.location + r.length, htmlString.length - r.length - r.location)]).location != NSNotFound) {
-                NSRange textRange = NSMakeRange(r.location + r.length, endTagRange.location - r.location - r.length);
-                NSString *textWithinTags = [htmlString substringWithRange:textRange];
-                textWithinTags = [self removeHTMLTags:textWithinTags];
-                if ([tagString rangeOfString:@"cc1105"].location != NSNotFound) {
-                    newThread.title = textWithinTags;
+        @autoreleasepool {
+            @try {
+                NSRange endTagRange;
+                NSString *tagString = [htmlString substringWithRange:r];
+                //title and author
+                if ([tagString rangeOfString:@"<font"].location != NSNotFound && (endTagRange = [htmlString rangeOfString:@"<+/[^>]+>" options:NSRegularExpressionSearch range:NSMakeRange(r.location + r.length, htmlString.length - r.length - r.location)]).location != NSNotFound) {
+                    NSRange textRange = NSMakeRange(r.location + r.length, endTagRange.location - r.location - r.length);
+                    NSString *textWithinTags = [htmlString substringWithRange:textRange];
+                    textWithinTags = [self removeHTMLTags:textWithinTags];
+                    if ([tagString rangeOfString:@"cc1105"].location != NSNotFound) {
+                        newThread.title = textWithinTags;
+                    }
+                    else if ([tagString rangeOfString:@"117743"].location != NSNotFound) {
+                        newThread.name = textWithinTags;
+                    }
                 }
-                else if ([tagString rangeOfString:@"117743"].location != NSNotFound) {
-                    newThread.name = textWithinTags;
-                }
-            }
-            //ID
-            if ([tagString rangeOfString:@"class=\"r\""].location != NSNotFound && (endTagRange = [htmlString rangeOfString:@"<+/[^>]+>" options:NSRegularExpressionSearch range:NSMakeRange(r.location + r.length, htmlString.length - r.length - r.location)]).location != NSNotFound) {
-                NSRange textRange = NSMakeRange(r.location + r.length, endTagRange.location - r.location - r.length);
-                NSString *textWithinTags = [htmlString substringWithRange:textRange];
-                textWithinTags = [self removeHTMLTags:textWithinTags];
-                NSRange noRange;
-                if ((noRange = [textWithinTags rangeOfString:@"No."]).location != NSNotFound) {
-                    NSString *idString = [[textWithinTags componentsSeparatedByCharactersInSet:
-                                            [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
-                                           componentsJoinedByString:@""];
-                    newThread.ID = idString.integerValue;
+                //ID
+                if ([tagString rangeOfString:@"class=\"r\""].location != NSNotFound && (endTagRange = [htmlString rangeOfString:@"<+/[^>]+>" options:NSRegularExpressionSearch range:NSMakeRange(r.location + r.length, htmlString.length - r.length - r.location)]).location != NSNotFound) {
+                    NSRange textRange = NSMakeRange(r.location + r.length, endTagRange.location - r.location - r.length);
+                    NSString *textWithinTags = [htmlString substringWithRange:textRange];
+                    textWithinTags = [self removeHTMLTags:textWithinTags];
+                    NSRange noRange;
+                    if ((noRange = [textWithinTags rangeOfString:@"No."]).location != NSNotFound) {
+                        NSString *idString = [[textWithinTags componentsSeparatedByCharactersInSet:
+                                               [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
+                                              componentsJoinedByString:@""];
+                        newThread.ID = idString.integerValue;
+                        
+                        htmlString = [htmlString stringByReplacingCharactersInRange:NSMakeRange(noRange.location + noRange.length, 10) withString:@""];
+                    }
                     
-                    htmlString = [htmlString stringByReplacingCharactersInRange:NSMakeRange(noRange.location + noRange.length, 10) withString:@""];
                 }
-                
-            }
-            //UID, these are plain text, have no tags
-            //TODO: time
-            NSRange idRange;
-            if ((idRange = [htmlString rangeOfString:@"ID:"]).location != NSNotFound) {
-                NSString *uidString = [htmlString substringWithRange:NSMakeRange(idRange.location + idRange.length, 8)];
-                [uidArray addObject:[[czzThread new] renderHTMLToAttributedString:uidString]];
-                htmlString = [htmlString stringByReplacingCharactersInRange:idRange withString:@""];
-            }
-            //         2014/7/10 13:26:52 ID:GcrJTfS7 [
-            //the images
-            if ([tagString rangeOfString:@"<a href"].location != NSNotFound && (endTagRange = [htmlString rangeOfString:@"<+/[^>]+>" options:NSRegularExpressionSearch range:NSMakeRange(r.location + r.length, htmlString.length - r.length - r.location)]).location != NSNotFound && [tagString rangeOfString:@"title" options:NSCaseInsensitiveSearch].location != NSNotFound) {
-                NSRange textRange = NSMakeRange(r.location + r.length, endTagRange.location - r.location - r.length);
-                NSString *textWithinTags = [htmlString substringWithRange:textRange];
-                if ([textWithinTags rangeOfString:@"<img"].location != NSNotFound) {
-                    NSDataDetector *linkDetector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
-                    NSArray *matches = [linkDetector matchesInString:tagString
-                                                             options:0
-                                                               range:NSMakeRange(0, tagString.length)];
-                    if (matches.count > 0){
-                        for (NSTextCheckingResult *match in matches) {
-                            if ([match resultType] == NSTextCheckingTypeLink) {
-                                NSURL *url = [match URL];
-                                newThread.imgSrc = url.absoluteString;
-                                newThread.thImgSrc = url.absoluteString;
+                //UID, these are plain text, have no tags
+                //TODO: time
+                NSRange idRange;
+                if ((idRange = [htmlString rangeOfString:@"ID:"]).location != NSNotFound) {
+                    NSString *uidString = [htmlString substringWithRange:NSMakeRange(idRange.location + idRange.length, 8)];
+                    [uidArray addObject:[[czzThread new] renderHTMLToAttributedString:uidString]];
+                    htmlString = [htmlString stringByReplacingCharactersInRange:idRange withString:@""];
+                }
+                //         2014/7/10 13:26:52 ID:GcrJTfS7 [
+                //the images
+                if ([tagString rangeOfString:@"<a href"].location != NSNotFound && (endTagRange = [htmlString rangeOfString:@"<+/[^>]+>" options:NSRegularExpressionSearch range:NSMakeRange(r.location + r.length, htmlString.length - r.length - r.location)]).location != NSNotFound && [tagString rangeOfString:@"title" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+                    NSRange textRange = NSMakeRange(r.location + r.length, endTagRange.location - r.location - r.length);
+                    NSString *textWithinTags = [htmlString substringWithRange:textRange];
+                    if ([textWithinTags rangeOfString:@"<img"].location != NSNotFound) {
+                        NSDataDetector *linkDetector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
+                        NSArray *matches = [linkDetector matchesInString:tagString
+                                                                 options:0
+                                                                   range:NSMakeRange(0, tagString.length)];
+                        if (matches.count > 0){
+                            for (NSTextCheckingResult *match in matches) {
+                                if ([match resultType] == NSTextCheckingTypeLink) {
+                                    NSURL *url = [match URL];
+                                    newThread.imgSrc = url.absoluteString;
+                                    newThread.thImgSrc = url.absoluteString;
+                                }
                             }
                         }
+                        
                     }
-
+                }
+                //content
+                if ([tagString rangeOfString:@"<blockquote"].location != NSNotFound && (endTagRange = [htmlString rangeOfString:@"<+/+b+[^>]+>" options:NSRegularExpressionSearch range:NSMakeRange(r.location + r.length, htmlString.length - r.length - r.location)]).location != NSNotFound) {
+                    NSRange textRange = NSMakeRange(r.location + r.length, endTagRange.location - r.location - r.length);
+                    NSString *textWithinTags = [htmlString substringWithRange:textRange];
+                    //remove duplicate white space
+                    while ([textWithinTags rangeOfString:@"  "].location != NSNotFound) {
+                        textWithinTags = [textWithinTags stringByReplacingOccurrencesOfString:@"  " withString:@" "];
+                    }
+                    textWithinTags = [textWithinTags stringByRemovingNewLinesAndWhitespace];
+                    //                textWithinTags = [self removeHTMLTags:textWithinTags];
+                    newThread.content = [[czzThread new] renderHTMLToAttributedString:textWithinTags];
+                }
+                //this thread is ready, initiate next iteration
+                if (newThread.content != nil) {
+                    //            break;
+                    [threads addObject:newThread];
+                    newThread = [czzThread new];
+                }
+                htmlString = [htmlString stringByReplacingCharactersInRange:r withString:@""];
+                
+                //inform delegate
+                if (delegate) {
+                    if ([[NSDate new] timeIntervalSinceDate:lastUpdateTime] > 1.5) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [delegate updated:self currentContent:htmlString];
+                        });
+                        lastUpdateTime = [NSDate new];
+                    }
                 }
             }
-            //content
-            if ([tagString rangeOfString:@"<blockquote"].location != NSNotFound && (endTagRange = [htmlString rangeOfString:@"<+/+b+[^>]+>" options:NSRegularExpressionSearch range:NSMakeRange(r.location + r.length, htmlString.length - r.length - r.location)]).location != NSNotFound) {
-                NSRange textRange = NSMakeRange(r.location + r.length, endTagRange.location - r.location - r.length);
-                NSString *textWithinTags = [htmlString substringWithRange:textRange];
-                //remove duplicate white space
-                while ([textWithinTags rangeOfString:@"  "].location != NSNotFound) {
-                    textWithinTags = [textWithinTags stringByReplacingOccurrencesOfString:@"  " withString:@" "];
-                }
-                textWithinTags = [textWithinTags stringByRemovingNewLinesAndWhitespace];
-//                textWithinTags = [self removeHTMLTags:textWithinTags];
-                newThread.content = [[czzThread new] renderHTMLToAttributedString:textWithinTags];
+            @catch (NSException *exception) {
+                NSLog(@"%@", exception);
             }
-            //this thread is ready, initiate next iteration
-            if (newThread.content != nil) {
-                //            break;
-                [threads addObject:newThread];
-                newThread = [czzThread new];
-            }
-            htmlString = [htmlString stringByReplacingCharactersInRange:r withString:@""];
-            
-            //inform delegate
-            if (delegate) {
-                if ([[NSDate new] timeIntervalSinceDate:lastUpdateTime] > 1.5) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [delegate updated:self currentContent:htmlString];
-                    });
-                    lastUpdateTime = [NSDate new];
-                }
-            }
-        }
-        @catch (NSException *exception) {
-            NSLog(@"%@", exception);
         }
     }
     //assign UID
