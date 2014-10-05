@@ -10,6 +10,7 @@
 #import "czzThread.h"
 #import "czzAppDelegate.h"
 #import "czzSettingsCentre.h"
+#import "czzImageCentre.h"
 
 @interface czzThreadCacheManager()
 @property NSMutableSet *existingFiles;
@@ -241,9 +242,37 @@
 }
 
 -(void)reloadCacheFiles{
-    existingFiles = [NSMutableSet setWithArray:[[NSFileManager defaultManager] contentsOfDirectoryAtPath:cachePath error:nil]];
-
+    NSArray *allCacheFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:cachePath error:nil];
+    NSMutableArray *files = [NSMutableArray new];
+    for (NSString *f in allCacheFiles) {
+        NSString *filePath = [cachePath stringByAppendingPathComponent:f];
+        if ([[czzSettingsCentre sharedInstance] autoCleanImageCache]) {
+            if (![self isFileOlderThan30Days:filePath])
+                [files addObject:f];
+        } else
+            [files addObject:f];
+    }
+    existingFiles = [NSMutableSet setWithArray:files];
+    
 }
+
+-(BOOL)isFileOlderThan30Days:(NSString*)filePath {
+    NSDate *today = [NSDate new];
+    @try {
+        NSDate *fileModifiedDate = [czzImageCentre getModificationDateForFileAtPath:filePath];
+        //if older than 30 days
+        if ([today timeIntervalSinceDate:fileModifiedDate] > 2592000) {
+            //delete this file and return YES
+            [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+            return YES;
+        }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@", exception);
+    }
+    return NO;
+}
+
 
 -(NSString *)totalSize{
     return [self sizeOfFolder:cachePath];

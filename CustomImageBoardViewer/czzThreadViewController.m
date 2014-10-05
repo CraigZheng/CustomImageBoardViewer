@@ -179,7 +179,7 @@
     }
     //background colour
     self.view.backgroundColor = settingsCentre.viewBackgroundColour;
-    [self.tableView reloadData];
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
