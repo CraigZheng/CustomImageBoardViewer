@@ -774,12 +774,16 @@
     if ([[czzImageCentre sharedInstance] containsImageDownloaderWithURL:tappedThread.imgSrc]){
         [[czzImageCentre sharedInstance] stopAndRemoveImageDownloaderWithURL:tappedThread.imgSrc];
         [[czzAppDelegate sharedAppDelegate] showToast:@"图片下载被终止了"];
+        NSLog(@"stop: %@", tappedThread.imgSrc);
     } else {
         BOOL completedURL = NO;
-        tappedThread.imgSrc = [[[czzSettingsCentre sharedInstance] image_host] stringByAppendingPathComponent:tappedThread.imgSrc];
         if ([[[NSURL URLWithString:tappedThread.imgSrc] scheme] isEqualToString:@"http"]) {
             completedURL = YES;
+        } else {
+            tappedThread.imgSrc = [[[czzSettingsCentre sharedInstance] image_host] stringByAppendingPathComponent:tappedThread.imgSrc];
+            completedURL = YES;
         }
+        NSLog(@"start : %@", tappedThread.imgSrc);
         [[czzImageCentre sharedInstance] downloadImageWithURL:tappedThread.imgSrc isCompletedURL:completedURL];
         [[czzAppDelegate sharedAppDelegate] showToast:@"正在下载图片"];
     }
