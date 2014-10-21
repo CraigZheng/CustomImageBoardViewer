@@ -722,7 +722,7 @@
             UITableViewCell *cellToUpdate = [threadTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:updateIndex inSection:0]];
             DACircularProgressView *circularProgressView = (DACircularProgressView*)[cellToUpdate viewWithTag:10];
             circularProgressView.progressTintColor = [UIColor whiteColor];
-            circularProgressView.trackTintColor = [UIColor grayColor];
+            circularProgressView.trackTintColor = [UIColor colorWithRed:0. green:0. blue:0. alpha:0.5];
             circularProgressView.thicknessRatio = 0.1;
             if (circularProgressView){
                 if (imgDownloader.progress < 1)
