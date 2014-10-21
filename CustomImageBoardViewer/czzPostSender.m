@@ -11,7 +11,7 @@
 #import "SMXMLDocument.h"
 #import "Toast+UIView.h"
 
-@interface czzPostSender() <NSURLConnectionDelegate>
+@interface czzPostSender() <NSURLConnectionDataDelegate>
 @property czzPost *myPost;
 @property NSURLConnection *urlConn;
 @property NSMutableURLRequest *urlRequest;
@@ -73,8 +73,15 @@
     [self response:receivedResponse];
 }
 
+-(void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(postSenderProgressUpdated:)]) {
+        [self.delegate postSenderProgressUpdated:(CGFloat)totalBytesWritten / (CGFloat)totalBytesExpectedToWrite];
+    }
+}
+
 #pragma mark - Decode the self.response xml data - at Aug 2014, they've changed to return value to json format
 -(void)response:(NSData*)jsonData{
+    NSLog(@"%@", [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]);
     NSError *error;
     NSDictionary *jsonResponse;
     if (jsonData)
@@ -90,7 +97,7 @@
     if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
     {
         BOOL success = [[jsonResponse valueForKey:@"success"] boolValue];
-        NSString *errorMessage = [jsonResponse valueForKey:@"error"];
+        NSString *errorMessage = [jsonResponse valueForKey:@"msg"];
         [self.delegate statusReceived:success message:errorMessage];
     }
 }

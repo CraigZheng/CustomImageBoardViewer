@@ -55,6 +55,7 @@
 @property NSString *keywordToSearch;
 @property czzSettingsCentre *settingsCentre;
 @property MWPhotoBrowser *photoBrowser;
+@property UINavigationController *photoBrowserNavigationController;
 @property NSMutableArray *photoBrowserDataSource;
 @property UIViewController *rightViewController;
 @property UIViewController *topViewController;
@@ -89,6 +90,7 @@
 @synthesize settingsCentre;
 @synthesize shouldHideImageForThisForum;
 @synthesize photoBrowser;
+@synthesize photoBrowserNavigationController;
 @synthesize photoBrowserDataSource;
 @synthesize rightViewController;
 @synthesize topViewController;
@@ -595,7 +597,7 @@
 }
 
 
-#pragma mark czzXMLDownloaderDelegate
+#pragma mark czzXMLDownloader delegate
 -(void)downloadOf:(NSURL *)xmlURL successed:(BOOL)successed result:(NSData *)xmlData{
     [xmlDownloader stop];
     xmlDownloader = nil;
@@ -618,7 +620,8 @@
     }
 }
 
--(void)subThreadProcessed:(NSArray *)newThread :(BOOL)success{
+#pragma mark - czzJSONProcessorDelegate
+-(void)subThreadProcessedForThread:(czzThread *)pThread :(NSArray *)newThread :(BOOL)success{
     if (success){
         NSArray *processedNewThread;
         //the newly downloaded thread might contain duplicate threads, therefore must compare the last chunk of current threads with the new threads, to remove any duplication
@@ -642,6 +645,9 @@
             }
         }
         [threads addObjectsFromArray:processedNewThread];
+        //swap the first object(the parent thread)
+        parentThread = pThread;
+        [threads replaceObjectAtIndex:0 withObject:parentThread];
         //increase page number if enough to fill a page of 20 threads
         if (processedNewThread.count >= 20) {
             pageNumber ++;
@@ -770,8 +776,7 @@
         [[czzAppDelegate sharedAppDelegate] showToast:@"图片下载被终止了"];
     } else {
         BOOL completedURL = NO;
-        //TODO: new server has a hardcoded URL, fix it later and allow the host to be modified remotely
-        tappedThread.imgSrc = [@"http://static.acfun.mm111.net/h" stringByAppendingString:tappedThread.imgSrc];
+        tappedThread.imgSrc = [[[czzSettingsCentre sharedInstance] image_host] stringByAppendingPathComponent:tappedThread.imgSrc];
         if ([[[NSURL URLWithString:tappedThread.imgSrc] scheme] isEqualToString:@"http"]) {
             completedURL = YES;
         }
@@ -840,13 +845,6 @@
 -(void)openImageWithPath:(NSString*)path{
     if (path){
         if (readyToPushViewController) {
-            //UIDocumentInteractionController
-//            if (documentInteractionController) {
-//                [documentInteractionController dismissPreviewAnimated:YES];
-//            }
-//            documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:path]];
-//            documentInteractionController.delegate = self;
-//            [documentInteractionController presentPreviewAnimated:YES];
             //MWPhotoBrowser
             [self prepareMWPhotoBrowser];
             [photoBrowserDataSource addObject:path];
@@ -855,10 +853,10 @@
                 [self.navigationController pushViewController:photoBrowser animated:YES];
             } else {
                 //pre ios 7 device, present photo browser modally
-                UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
-                nc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+                photoBrowserNavigationController = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
+                photoBrowserNavigationController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
                 
-                [self presentViewController:nc animated:YES completion:^{
+                [self presentViewController:photoBrowserNavigationController animated:YES completion:^{
                 }];
             }
         }
@@ -880,7 +878,11 @@
 -(void)photoBrowser:(MWPhotoBrowser *)photoBrowser actionButtonPressedForPhotoAtIndex:(NSUInteger)index {
     NSURL *fileURL = [NSURL fileURLWithPath:[photoBrowserDataSource objectAtIndex:index]];
     documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:fileURL];
-    [documentInteractionController presentOptionsMenuFromRect:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) inView:self.view animated:YES];
+    UIView *viewToShowDocumentInteractionController = self.view;
+    if ([UIDevice currentDevice].systemVersion.floatValue < 7.0 && photoBrowserNavigationController != nil) {
+        viewToShowDocumentInteractionController = photoBrowserNavigationController.view;
+    }
+    [documentInteractionController presentOptionsMenuFromRect:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) inView:viewToShowDocumentInteractionController animated:YES];
 }
 
 -(void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser {

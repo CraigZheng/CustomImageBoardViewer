@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+
+@class czzThread;
 @protocol czzJSONProcessorDelegate
 @optional
 -(void)threadListProcessed:(NSArray*)newThread :(BOOL)success;
--(void)subThreadProcessed:(NSArray*)newThread :(BOOL) success;
+-(void)subThreadProcessedForThread:(czzThread*)parentThread :(NSArray*)newThread :(BOOL) success;
 @end
 
 @interface czzJSONProcessor : NSObject

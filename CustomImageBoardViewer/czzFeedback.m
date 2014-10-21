@@ -27,7 +27,7 @@
         time = @"null";
         name = @"null";
         content = @"null";
-        emotion = happy;
+        emotion = neutral;
     }
     return self;
 }

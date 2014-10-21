@@ -13,11 +13,12 @@
 #import "czzFeedbackViewController.h"
 #import "DACircularProgressView.h"
 
-@interface czzNotificationCentreTableViewController ()<UIDocumentInteractionControllerDelegate>
+@interface czzNotificationCentreTableViewController ()<UIDocumentInteractionControllerDelegate, UIActionSheetDelegate>
 @property czzNotificationManager *notificationManager;
 @property czzImageCentre *imageCentre;
 @property NSString *imageFolder;
 @property UIDocumentInteractionController *documentInteractionController;
+@property UIActionSheet *openLinkActionSheet;
 @end
 
 @implementation czzNotificationCentreTableViewController
@@ -27,6 +28,7 @@
 @synthesize imageCentre;
 @synthesize imageFolder;
 @synthesize documentInteractionController;
+@synthesize openLinkActionSheet;
 
 - (void)viewDidLoad
 {
@@ -132,13 +134,35 @@
 #pragma mark - UITableViewControllerDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row < notifications.count) {
-        czzNotification *selectedNotification = [notifications objectAtIndex:indexPath.row];
-        czzFeedbackViewController *feedbackViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"feedback_view_controller"];
-        feedbackViewController.myNotification = selectedNotification;
-//        [self.navigationController pushViewController:feedbackViewController animated:YES];
-        [[czzAppDelegate sharedAppDelegate].homeViewController pushViewController:feedbackViewController :YES];
-        
+        currentNotification = [notifications objectAtIndex:indexPath.row];
+        if (currentNotification.link.length > 0)
+        {
+            openLinkActionSheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"链接：%@", currentNotification.link] delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"打开链接", @"反馈", nil];
+            [openLinkActionSheet showInView:self.view];
+        } else {
+            [self presentFeedbackViewControllerWithNotification:currentNotification];
+        }
     }
+}
+
+#pragma mark - UIActionSheetDelegate
+-(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"打开链接"]) {
+        NSURL *link = [NSURL URLWithString:currentNotification.link];
+        if ([[UIApplication sharedApplication] canOpenURL:link])
+            [[UIApplication sharedApplication] openURL:link];
+        else
+            [self.view makeToast:@"无法打开链接……" duration:2.0 position:@"bottom"];
+    } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"反馈"]) {
+        [self presentFeedbackViewControllerWithNotification:currentNotification];
+    }
+}
+
+-(void)presentFeedbackViewControllerWithNotification:(czzNotification*)notification {
+    czzFeedbackViewController *feedbackViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"feedback_view_controller"];
+    feedbackViewController.myNotification = notification;
+    //        [self.navigationController pushViewController:feedbackViewController animated:YES];
+    [[czzAppDelegate sharedAppDelegate].homeViewController pushViewController:feedbackViewController :YES];
 }
 
 #pragma mark - download tapped images

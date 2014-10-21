@@ -249,12 +249,17 @@
         }];
     } else {
         [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:message duration:1.5 position:@"top" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
+        self.postNaviBar.topItem.title = message.length > 0 ? message : @"出错，没有更多信息";
     }
     [self performSelectorInBackground:@selector(enablePostButton) withObject:Nil];
 }
 
 -(void)enablePostButton{
     [postButton setEnabled:YES];
+}
+
+-(void)postSenderProgressUpdated:(CGFloat)percent {
+    self.postNaviBar.topItem.title = [NSString stringWithFormat:@"发送中 - %d%%", (int)(percent * 100)];
 }
 
 #pragma Keyboard actions

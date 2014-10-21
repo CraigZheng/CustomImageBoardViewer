@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "czzNotification.h"
 #import "czzAppDelegate.h"
+#import "Toast+UIView.h"
 
 @interface czzNotificationCentreTableViewController : UITableViewController
 @property czzNotification *currentNotification;

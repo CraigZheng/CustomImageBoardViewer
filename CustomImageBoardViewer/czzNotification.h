@@ -10,7 +10,8 @@
 #import "SMXMLDocument.h"
 
 enum {
-    sad = 0,
+    sad = -1,
+    neutral = 0,
     happy = 1,
     very_happy = 2,
     angry = 3,

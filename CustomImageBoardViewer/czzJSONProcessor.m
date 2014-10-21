@@ -51,15 +51,17 @@
     if (error) {
         NSLog(@"%@", error);
         if (delegate)
-            [delegate subThreadProcessed:nil :NO];
+            [delegate subThreadProcessedForThread:nil :nil :NO];
     }
+    czzThread *parentThread = [[czzThread alloc] initWithJSONDictionary:[parsedObjects objectForKey:@"threads"]];
     NSArray* parsedThreadData = [parsedObjects objectForKey:@"replys"];
     for (NSDictionary *rawThreadData in parsedThreadData) {
         czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
         [processedThreads addObject:newThread];
     }
+    
     if (delegate)
-        [delegate subThreadProcessed:processedThreads :YES];
+        [delegate subThreadProcessedForThread:parentThread :processedThreads :YES];
 
 }
 

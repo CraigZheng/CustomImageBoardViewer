@@ -10,6 +10,7 @@
 
 @protocol czzPostSenderDelegate <NSObject>
 @optional
+-(void)postSenderProgressUpdated:(CGFloat)percent;
 -(void)statusReceived:(BOOL)status message:(NSString*)message;
 @end
 @interface czzPostSender : NSObject
