@@ -87,8 +87,9 @@
             break;
         case REPORT_POST:
             title = @"举报";
-            targetURLString = NEW_POST_URL;
-            postSender.forumName = forumName;
+            postSender.forumName = @"值班室";
+            targetURLString = [NEW_POST_URL stringByReplacingOccurrencesOfString:FORUM_NAME withString:postSender.forumName];
+            postSender.forumID = [[czzAppDelegate sharedAppDelegate] getForumIDFromForumName:postSender.forumName];
             break;
     }
     self.postNaviBar.topItem.title = title;
