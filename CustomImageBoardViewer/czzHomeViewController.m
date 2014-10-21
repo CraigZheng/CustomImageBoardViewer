@@ -139,8 +139,8 @@
     [super viewDidAppear:animated];
     self.viewDeckController.leftController = leftController;
     //if a forum has not been selected and is not the first time running
-    if (!self.forumName/* || [[NSUserDefaults standardUserDefaults] objectForKey:@"firstTimeRunning"]*/)
-        [self.viewDeckController toggleLeftViewAnimated:YES];
+//    if (!self.forumName/* || [[NSUserDefaults standardUserDefaults] objectForKey:@"firstTimeRunning"]*/)
+//        [self.viewDeckController toggleLeftViewAnimated:YES];
     shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
 }
 
@@ -305,15 +305,6 @@
     } else {
         [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"未选定一个版块" duration:1.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
     }
-}
-
--(void)showTutorial{
-    [self.viewDeckController toggleTopViewAnimated:YES completion:^(IIViewDeckController *controller, BOOL b){
-        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"拉下导航栏以查看更多选项"
-                                                                                duration:3.0
-                                                                                position:@"center"
-                                                                                   title:@"新功能"];
-    }];
 }
 
 #pragma mark - UITableView datasource
