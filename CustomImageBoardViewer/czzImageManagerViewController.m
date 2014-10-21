@@ -92,7 +92,17 @@
     [self prepareMWPhotoBrowser];
     photoBrowserDataSource = [NSMutableArray arrayWithArray:Images];
     [photoBrowser setCurrentPhotoIndex:indexPath.row];
-    [self.navigationController pushViewController:photoBrowser animated:YES];
+    //post ios 7 device, push into navigation controller
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0) {
+        [self.navigationController pushViewController:photoBrowser animated:YES];
+    } else {
+        //pre ios 7 device, present photo browser modally
+        UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
+        nc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        
+        [self presentViewController:nc animated:YES completion:^{
+        }];
+    }
 }
 
 #pragma UIDocumentInteractionController delegate
@@ -131,15 +141,15 @@
 
 -(void)prepareMWPhotoBrowser {
     photoBrowser = [[MWPhotoBrowser alloc] initWithDelegate:self];
-    photoBrowser.displayActionButton = YES;
-    photoBrowser.displayNavArrows = NO; // Whether to display left and right nav arrows on toolbar (defaults to NO)
-    photoBrowser.displaySelectionButtons = YES; // Whether selection buttons are shown on each image (defaults to NO)
+    //    browser.displayActionButton = NO; // Show action button to allow sharing, copying, etc (defaults to YES)
+    photoBrowser.displayNavArrows = YES; // Whether to display left and right nav arrows on toolbar (defaults to NO)
+    photoBrowser.displaySelectionButtons = NO; // Whether selection buttons are shown on each image (defaults to NO)
     photoBrowser.zoomPhotosToFill = YES; // Images that almost fill the screen will be initially zoomed to fill (defaults to YES)
     photoBrowser.alwaysShowControls = NO; // Allows to control whether the bars and controls are always visible or whether they fade away to show the photo full (defaults to NO)
-    photoBrowser.enableGrid = YES; // Whether to allow the viewing of all the photo thumbnails on a grid (defaults to YES)
+    photoBrowser.enableGrid = NO; // Whether to allow the viewing of all the photo thumbnails on a grid (defaults to YES)
     photoBrowser.startOnGrid = NO; // Whether to start on the grid of thumbnails instead of the first photo (defaults to NO)
-    photoBrowser.delayToHideElements = 2.0;
-
+    photoBrowser.delayToHideElements = 4.0;
+    photoBrowser.displayActionButton = YES;
     photoBrowserDataSource = [NSMutableArray new];
 }
 

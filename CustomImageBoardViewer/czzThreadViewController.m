@@ -850,7 +850,17 @@
             //MWPhotoBrowser
             [self prepareMWPhotoBrowser];
             [photoBrowserDataSource addObject:path];
-            [self.navigationController pushViewController:photoBrowser animated:YES];
+            //post ios 7 device, push into navigation controller
+            if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0) {
+                [self.navigationController pushViewController:photoBrowser animated:YES];
+            } else {
+                //pre ios 7 device, present photo browser modally
+                UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
+                nc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+                
+                [self presentViewController:nc animated:YES completion:^{
+                }];
+            }
         }
     }
 }
@@ -873,12 +883,12 @@
     [documentInteractionController presentOptionsMenuFromRect:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) inView:self.view animated:YES];
 }
 
--(NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
-    return photoBrowserDataSource.count;
+-(void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
--(void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser {
-    NSLog(@"");
+-(NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    return photoBrowserDataSource.count;
 }
 
 -(void)prepareMWPhotoBrowser {
@@ -887,10 +897,10 @@
     photoBrowser.displayNavArrows = YES; // Whether to display left and right nav arrows on toolbar (defaults to NO)
     photoBrowser.displaySelectionButtons = NO; // Whether selection buttons are shown on each image (defaults to NO)
     photoBrowser.zoomPhotosToFill = YES; // Images that almost fill the screen will be initially zoomed to fill (defaults to YES)
-    photoBrowser.alwaysShowControls = YES; // Allows to control whether the bars and controls are always visible or whether they fade away to show the photo full (defaults to NO)
+    photoBrowser.alwaysShowControls = NO; // Allows to control whether the bars and controls are always visible or whether they fade away to show the photo full (defaults to NO)
     photoBrowser.enableGrid = NO; // Whether to allow the viewing of all the photo thumbnails on a grid (defaults to YES)
     photoBrowser.startOnGrid = NO; // Whether to start on the grid of thumbnails instead of the first photo (defaults to NO)
-//    photoBrowser.delayToHideElements = 2.0;
+    photoBrowser.delayToHideElements = 4.0;
     photoBrowser.displayActionButton = YES;
     photoBrowserDataSource = [NSMutableArray new];
 }
