@@ -15,9 +15,12 @@
 @property NSMutableSet *currentImageDownloaders;
 @property NSMutableSet *currentLocalImages;
 @property NSMutableSet *currentLocalThumbnails;
+@property NSMutableArray *localImagesArray;
+@property NSMutableArray *localThumbnailsArray;
 @property Boolean ready;
 
 +(id)sharedInstance;
++ (NSDate*) getModificationDateForFileAtPath:(NSString*)path;
 
 -(void)scanCurrentLocalImages;
 -(void)downloadThumbnailWithURL:(NSString*)imgURL isCompletedURL:(BOOL)completeURL;

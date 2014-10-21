@@ -26,6 +26,7 @@
 @synthesize message, image_host, ac_host, forum_list_url, thumbnail_host;
 @synthesize userDefShouldAutoOpenImage, userDefShouldCacheData, userDefShouldDisplayThumbnail, userDefShouldHighlightPO, userDefShouldShowOnScreenCommand;
 @synthesize nightyMode;
+@synthesize autoCleanImageCache;
 
 + (id)sharedInstance
 {
@@ -54,6 +55,7 @@
         userDefShouldHighlightPO = YES;
         userDefShouldShowOnScreenCommand = YES;
         nightyMode = NO;
+        autoCleanImageCache = NO;
         
         NSString *filePath = [[NSBundle mainBundle] pathForResource:@"default_configuration" ofType:@"json"];
         NSData *JSONData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
@@ -114,6 +116,9 @@
 
 -(void)downloadSettings {
     NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+#ifdef DEBUG
+    versionString = @"DEBUG";
+#endif
     NSString *configurationURL = [NSString stringWithFormat:@"%@?version=%@", CONFIGURATION_URL, versionString];
     [NSURLConnection sendAsynchronousRequest: [NSURLRequest requestWithURL:[NSURL URLWithString:configurationURL]]
                                        queue:[NSOperationQueue new]
@@ -192,6 +197,7 @@
     [aCoder encodeBool:userDefShouldCacheData forKey:@"userDefShouldCacheData"];
     [aCoder encodeBool:userDefShouldHighlightPO forKey:@"userDefShouldHighlightPO"];
     [aCoder encodeBool:nightyMode forKey:@"nightyMode"];
+    [aCoder encodeBool:autoCleanImageCache forKey:@"autoCleanImageCache"];
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder {
@@ -223,6 +229,7 @@
         self.userDefShouldCacheData = [aDecoder decodeBoolForKey:@"userDefShouldCacheData"];
         self.userDefShouldHighlightPO = [aDecoder decodeBoolForKey:@"userDefShouldHighlightPO"];
         self.nightyMode = [aDecoder decodeBoolForKey:@"nightyMode"];
+        self.autoCleanImageCache = [aDecoder decodeBoolForKey:@"autoCleanImageCache"];
     }
     return self;
 }

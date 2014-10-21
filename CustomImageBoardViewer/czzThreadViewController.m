@@ -58,6 +58,7 @@
 @property NSMutableArray *photoBrowserDataSource;
 @property UIViewController *rightViewController;
 @property UIViewController *topViewController;
+@property BOOL readyToPushViewController;
 @end
 
 @implementation czzThreadViewController
@@ -91,6 +92,7 @@
 @synthesize photoBrowserDataSource;
 @synthesize rightViewController;
 @synthesize topViewController;
+@synthesize readyToPushViewController;
 
 - (void)viewDidLoad
 {
@@ -177,7 +179,7 @@
     }
     //background colour
     self.view.backgroundColor = settingsCentre.viewBackgroundColour;
-    [self.tableView reloadData];
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -185,15 +187,14 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     //hide on screen command
     [onScreenCommand hide];
+    //no longer ready for more push animation
+    readyToPushViewController = NO;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"FirstTimeViewingThread"]){
-        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"长按帖子以回复" duration:2.0 position:@"center" title:@"请注意"];
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"FirstTimeViewingThread"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
+    //ready for push animation
+    readyToPushViewController = YES;
 }
 #pragma mark - enter/exiting background
 -(void)prepareToEnterBackground {
@@ -838,7 +839,7 @@
 //show documentcontroller
 -(void)openImageWithPath:(NSString*)path{
     if (path){
-        if (self.isViewLoaded && self.view.window) {
+        if (readyToPushViewController) {
             //UIDocumentInteractionController
 //            if (documentInteractionController) {
 //                [documentInteractionController dismissPreviewAnimated:YES];
@@ -886,10 +887,10 @@
     photoBrowser.displayNavArrows = YES; // Whether to display left and right nav arrows on toolbar (defaults to NO)
     photoBrowser.displaySelectionButtons = NO; // Whether selection buttons are shown on each image (defaults to NO)
     photoBrowser.zoomPhotosToFill = YES; // Images that almost fill the screen will be initially zoomed to fill (defaults to YES)
-    photoBrowser.alwaysShowControls = NO; // Allows to control whether the bars and controls are always visible or whether they fade away to show the photo full (defaults to NO)
+    photoBrowser.alwaysShowControls = YES; // Allows to control whether the bars and controls are always visible or whether they fade away to show the photo full (defaults to NO)
     photoBrowser.enableGrid = NO; // Whether to allow the viewing of all the photo thumbnails on a grid (defaults to YES)
     photoBrowser.startOnGrid = NO; // Whether to start on the grid of thumbnails instead of the first photo (defaults to NO)
-    photoBrowser.delayToHideElements = 2.0;
+//    photoBrowser.delayToHideElements = 2.0;
     photoBrowser.displayActionButton = YES;
     photoBrowserDataSource = [NSMutableArray new];
 }
