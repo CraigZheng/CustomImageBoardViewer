@@ -141,10 +141,25 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     self.viewDeckController.leftController = leftController;
-    //if a forum has not been selected and is not the first time running
-//    if (!self.forumName/* || [[NSUserDefaults standardUserDefaults] objectForKey:@"firstTimeRunning"]*/)
-//        [self.viewDeckController toggleLeftViewAnimated:YES];
     shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        if (self.forumName.length <= 0) {
+            if ([czzAppDelegate sharedAppDelegate].forums.count > 0)
+            {
+                [[czzAppDelegate sharedAppDelegate].window makeToast:@"用户没有选择板块，随机选择……"];
+                @try {
+                    int randomIndex = rand() % [czzAppDelegate sharedAppDelegate].forums.count;
+                    [self setForumName:[[[czzAppDelegate sharedAppDelegate].forums objectAtIndex:randomIndex] name]];
+                    [self refreshThread:self];
+                    [[[czzAppDelegate sharedAppDelegate] window] makeToastActivity];
+                }
+                @catch (NSException *exception) {
+                    
+                }
+            }
+        }
+    });
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -249,11 +264,11 @@
     if (forumName)
         [userDef setObject:forumName forKey:@"forumName"];
     
-    [userDef synchronize];
     //also notify the opened threadview controller
     if (threadViewController) {
         [threadViewController prepareToEnterBackground];
     }
+    [userDef synchronize];
 
 }
 
@@ -457,7 +472,6 @@
         }
     }
     return preferHeight;
-    
 }
 
 #pragma mark - UIScrollVIew delegate
@@ -690,13 +704,7 @@
 -(NSArray*)sortTheGivenArray:(NSArray*)array{
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"ID" ascending:YES];
     NSArray *sortedArray = [array sortedArrayUsingDescriptors:@[sortDescriptor]];
-    /*
-     NSArray *sortedArray = [array sortedArrayUsingComparator:^NSComparisonResult(id a, id b){
-     czzThread *first = (czzThread*)a;
-     czzThread *second = (czzThread*)b;
-     return first.ID > second.ID;
-     }];
-     */
+
     return sortedArray;
 
 }
@@ -708,5 +716,13 @@
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [notificationBannerViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    @try {
+        NSInteger numberOfVisibleRows = [threadTableView indexPathsForVisibleRows].count / 2;
+        NSIndexPath *currentMiddleIndexPath = [[threadTableView indexPathsForVisibleRows] objectAtIndex:numberOfVisibleRows];
+        [threadTableView reloadData];
+        [threadTableView scrollToRowAtIndexPath:currentMiddleIndexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
+    }
+    @catch (NSException *exception) {
+    }
 }
 @end

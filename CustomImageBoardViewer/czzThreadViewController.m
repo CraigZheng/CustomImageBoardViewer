@@ -928,5 +928,14 @@
         [self performSelector:@selector(tapOnFloatingView:) withObject:nil];
 }
 
-
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    @try {
+        NSInteger numberOfVisibleRows = [threadTableView indexPathsForVisibleRows].count / 2;
+        NSIndexPath *currentMiddleIndexPath = [[threadTableView indexPathsForVisibleRows] objectAtIndex:numberOfVisibleRows];
+        [threadTableView reloadData];
+        [threadTableView scrollToRowAtIndexPath:currentMiddleIndexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
+    }
+    @catch (NSException *exception) {
+    }
+}
 @end

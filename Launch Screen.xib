@@ -21,14 +21,16 @@
                         <constraint firstAttribute="height" constant="44" id="TWD-3s-Frq"/>
                     </constraints>
                     <items>
-                        <navigationItem title="NOW LOADING" id="Zjm-Ot-16s"/>
+                        <navigationItem id="Zjm-Ot-16s"/>
                     </items>
                 </navigationBar>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="cY0-DW-irl" secondAttribute="trailing" id="2Bc-5W-LnX"/>
-                <constraint firstItem="cY0-DW-irl" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="APD-GN-iUe"/>
+                <constraint firstItem="cY0-DW-irl" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="APD-GN-iUe">
+                    <variation key="heightClass=compact" constant="0.0"/>
+                </constraint>
                 <constraint firstItem="cY0-DW-irl" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="AYO-1V-mA6"/>
                 <constraint firstAttribute="bottom" secondItem="vWn-YE-Nbc" secondAttribute="bottom" id="Y0o-Ei-TZg"/>
                 <constraint firstItem="vWn-YE-Nbc" firstAttribute="top" secondItem="cY0-DW-irl" secondAttribute="bottom" id="d42-Bx-8gb"/>

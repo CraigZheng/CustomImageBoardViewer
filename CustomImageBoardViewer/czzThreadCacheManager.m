@@ -242,26 +242,29 @@
 }
 
 -(void)reloadCacheFiles{
+    NSDate *start = [NSDate new];
     NSArray *allCacheFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:cachePath error:nil];
     NSMutableArray *files = [NSMutableArray new];
-    for (NSString *f in allCacheFiles) {
-        NSString *filePath = [cachePath stringByAppendingPathComponent:f];
-        if ([[czzSettingsCentre sharedInstance] autoCleanImageCache]) {
-            if (![self isFileOlderThan30Days:filePath])
+    if ([[czzSettingsCentre sharedInstance] autoCleanImageCache]) {
+        for (NSString *f in allCacheFiles) {
+            NSString *filePath = [cachePath stringByAppendingPathComponent:f];
+            if (![self isFileOlderThan10Days:filePath])
                 [files addObject:f];
-        } else
-            [files addObject:f];
+        }
+    } else {
+        [files addObjectsFromArray:allCacheFiles];
     }
+
     existingFiles = [NSMutableSet setWithArray:files];
-    
+    NSLog(@"loading cache files took %.1f seconds", [[NSDate new] timeIntervalSinceDate:start]);
 }
 
--(BOOL)isFileOlderThan30Days:(NSString*)filePath {
+-(BOOL)isFileOlderThan10Days:(NSString*)filePath {
     NSDate *today = [NSDate new];
     @try {
         NSDate *fileModifiedDate = [czzImageCentre getModificationDateForFileAtPath:filePath];
         //if older than 30 days
-        if ([today timeIntervalSinceDate:fileModifiedDate] > 2592000) {
+        if ([today timeIntervalSinceDate:fileModifiedDate] > 864000) {
             //delete this file and return YES
             [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
             return YES;
