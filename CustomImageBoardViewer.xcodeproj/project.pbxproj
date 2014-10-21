@@ -124,6 +124,7 @@
 		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
 		446CC58219DC2BDE009BF24E /* czzHTMLParserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 446CC58119DC2BDE009BF24E /* czzHTMLParserViewController.m */; };
 		447FD254195D1AF1003E30C2 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 447FD253195D1AF1003E30C2 /* libz.dylib */; };
+		4485F4FC19F5FF38007A73CC /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 4485F4FB19F5FF38007A73CC /* NSString+HTML.m */; };
 		4498B689199248ED0014F73F /* czzJSONProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498B688199248ED0014F73F /* czzJSONProcessor.m */; };
 		4498B68D1993A6190014F73F /* PropertyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498B68C1993A6190014F73F /* PropertyUtil.m */; };
 		44AE2AFA187254E4002CB021 /* czzMenuEnabledTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AE2AF9187254E4002CB021 /* czzMenuEnabledTableViewCell.m */; };
@@ -178,7 +179,6 @@
 		5A27E140193CA11300D0094F /* czzNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A27E13F193CA11300D0094F /* czzNotificationManager.m */; };
 		5A2B2D8D1936172C00BA2870 /* czzFeedback.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2B2D8C1936172C00BA2870 /* czzFeedback.m */; };
 		5A2B2D941936264A00BA2870 /* czzFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2B2D931936264A00BA2870 /* czzFeedbackViewController.m */; };
-		5A3897C91935EC4D00D20DA1 /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3897C71935EC4D00D20DA1 /* NSString+HTML.m */; };
 		5A5407F619961F87005FA214 /* default_configuration.json in Resources */ = {isa = PBXBuildFile; fileRef = 5A5407F519961F87005FA214 /* default_configuration.json */; };
 		5A6266AA193A17FF00AD949F /* czzNotificationDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6266A9193A17FF00AD949F /* czzNotificationDownloader.m */; };
 		5A637438195D8AB0004AF1FC /* BugSense-iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A637436195D8AB0004AF1FC /* BugSense-iOS.framework */; };
@@ -442,6 +442,8 @@
 		446CC58019DC2BDE009BF24E /* czzHTMLParserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzHTMLParserViewController.h; sourceTree = "<group>"; };
 		446CC58119DC2BDE009BF24E /* czzHTMLParserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzHTMLParserViewController.m; sourceTree = "<group>"; };
 		447FD253195D1AF1003E30C2 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		4485F4FA19F5FF38007A73CC /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
+		4485F4FB19F5FF38007A73CC /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTML.m"; sourceTree = "<group>"; };
 		4498B687199248ED0014F73F /* czzJSONProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzJSONProcessor.h; sourceTree = "<group>"; };
 		4498B688199248ED0014F73F /* czzJSONProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzJSONProcessor.m; sourceTree = "<group>"; };
 		4498B68B1993A6190014F73F /* PropertyUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PropertyUtil.h; path = ../PropertyUtil.h; sourceTree = "<group>"; };
@@ -519,8 +521,6 @@
 		5A2B2D931936264A00BA2870 /* czzFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFeedbackViewController.m; sourceTree = "<group>"; };
 		5A3897C41935EC4D00D20DA1 /* GTMNSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTMNSString+HTML.h"; sourceTree = "<group>"; };
 		5A3897C51935EC4D00D20DA1 /* GTMNSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTMNSString+HTML.m"; sourceTree = "<group>"; };
-		5A3897C61935EC4D00D20DA1 /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
-		5A3897C71935EC4D00D20DA1 /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTML.m"; sourceTree = "<group>"; };
 		5A5407F519961F87005FA214 /* default_configuration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = default_configuration.json; sourceTree = "<group>"; };
 		5A6266A8193A17FF00AD949F /* czzNotificationDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzNotificationDownloader.h; sourceTree = "<group>"; };
 		5A6266A9193A17FF00AD949F /* czzNotificationDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzNotificationDownloader.m; sourceTree = "<group>"; };
@@ -1334,10 +1334,10 @@
 		5A3897CA1935EC5A00D20DA1 /* NSString+HTML */ = {
 			isa = PBXGroup;
 			children = (
+				4485F4FA19F5FF38007A73CC /* NSString+HTML.h */,
+				4485F4FB19F5FF38007A73CC /* NSString+HTML.m */,
 				5A3897C41935EC4D00D20DA1 /* GTMNSString+HTML.h */,
 				5A3897C51935EC4D00D20DA1 /* GTMNSString+HTML.m */,
-				5A3897C61935EC4D00D20DA1 /* NSString+HTML.h */,
-				5A3897C71935EC4D00D20DA1 /* NSString+HTML.m */,
 			);
 			name = "NSString+HTML";
 			sourceTree = "<group>";
@@ -1550,6 +1550,7 @@
 				442A8FF819DB7F5400A3516E /* UIImage+GIF.m in Sources */,
 				441E5D2917F48B3D00289DBD /* Toast+UIView.m in Sources */,
 				441E5D0C17F4699400289DBD /* IISideController.m in Sources */,
+				4485F4FC19F5FF38007A73CC /* NSString+HTML.m in Sources */,
 				441E5CDF17F4691300289DBD /* czzAppDelegate.m in Sources */,
 				441E5D2C17F48F8C00289DBD /* czzThread.m in Sources */,
 				443B54EE1990BD3300BAB282 /* OGNode.m in Sources */,
@@ -1612,7 +1613,6 @@
 				441E5D2017F46FB600289DBD /* czzXMLDownloader.m in Sources */,
 				442A901E19DB9C3C00A3516E /* HTMLParser.m in Sources */,
 				443B54E71990BD3300BAB282 /* util.c in Sources */,
-				5A3897C91935EC4D00D20DA1 /* NSString+HTML.m in Sources */,
 				442A8FAF19DB7DF200A3516E /* PSTCollectionViewData.m in Sources */,
 				442A8FB519DB7DF200A3516E /* PSTGridLayoutItem.m in Sources */,
 				442A8FF319DB7F5400A3516E /* SDWebImageDownloader.m in Sources */,

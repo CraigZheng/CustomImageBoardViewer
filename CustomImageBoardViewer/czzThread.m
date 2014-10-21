@@ -141,15 +141,15 @@
 }
 
 -(NSAttributedString*)renderHTMLToAttributedString:(NSString*)htmlString{
-    htmlString = [htmlString stringByDecodingHTMLEntities];
+    htmlString = [htmlString gtm_stringByUnescapingFromHTML];
     htmlString = [htmlString stringByReplacingOccurrencesOfString:@"&#180" withString:@"´"];
+    htmlString = [htmlString stringByReplacingOccurrencesOfString:@"&nbsp;ﾟ" withString:@"　ﾟ"];
     htmlString = [htmlString stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n"];
     htmlString = [htmlString stringByReplacingOccurrencesOfString:@"<br>" withString:@"\n"];
 
     NSMutableAttributedString *attributedHtmlString = [[NSMutableAttributedString alloc] initWithString:htmlString];
     NSRange r;
     //remove everything between < and >
-    NSMutableArray *fragments = [NSMutableArray new];
     NSMutableArray *pendingTextToRender = [NSMutableArray new];
     UIColor *fontColor = [UIColor blackColor];
     while ((r = [attributedHtmlString.string rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound) {
@@ -188,13 +188,13 @@
         }
         [attributedHtmlString deleteCharactersInRange:r];
     }
+    
     //colour - adjust to nighty mode
     [attributedHtmlString setAttributes:@{NSForegroundColorAttributeName: settingsCentre.contentTextColour} range:NSMakeRange(0, attributedHtmlString.length)];
     for (NSString *pendingText in pendingTextToRender) {
         NSRange textRange = [attributedHtmlString.string rangeOfString:pendingText];
         [attributedHtmlString setAttributes:@{NSForegroundColorAttributeName: fontColor} range:textRange];
     }
-    [fragments addObject:attributedHtmlString];
 //    return fragments;
     return attributedHtmlString;
 }
