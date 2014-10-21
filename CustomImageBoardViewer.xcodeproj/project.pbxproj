@@ -121,6 +121,7 @@
 		4448C2A7180FF55A00D2CD76 /* czzBlacklistDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2A6180FF55A00D2CD76 /* czzBlacklistDownloader.m */; };
 		4448C2AA180FF6C600D2CD76 /* czzBlacklistSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2A9180FF6C600D2CD76 /* czzBlacklistSender.m */; };
 		4448C2AD18100C6B00D2CD76 /* czzBlacklist.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2AC18100C6B00D2CD76 /* czzBlacklist.m */; };
+		4453C07719F634B700A8250F /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4453C07619F634B700A8250F /* Launch Screen.xib */; };
 		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
 		446CC58219DC2BDE009BF24E /* czzHTMLParserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 446CC58119DC2BDE009BF24E /* czzHTMLParserViewController.m */; };
 		447FD254195D1AF1003E30C2 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 447FD253195D1AF1003E30C2 /* libz.dylib */; };
@@ -437,6 +438,7 @@
 		4448C2A9180FF6C600D2CD76 /* czzBlacklistSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzBlacklistSender.m; sourceTree = "<group>"; };
 		4448C2AB18100C6B00D2CD76 /* czzBlacklist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzBlacklist.h; sourceTree = "<group>"; };
 		4448C2AC18100C6B00D2CD76 /* czzBlacklist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzBlacklist.m; sourceTree = "<group>"; };
+		4453C07619F634B700A8250F /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Launch Screen.xib"; path = "../Launch Screen.xib"; sourceTree = "<group>"; };
 		4462EF2318659BC200E6BE78 /* czzFavouriteManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFavouriteManagerViewController.h; sourceTree = "<group>"; };
 		4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFavouriteManagerViewController.m; sourceTree = "<group>"; };
 		446CC58019DC2BDE009BF24E /* czzHTMLParserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzHTMLParserViewController.h; sourceTree = "<group>"; };
@@ -722,6 +724,7 @@
 			children = (
 				441E5CDD17F4691300289DBD /* czzAppDelegate.h */,
 				441E5CDE17F4691300289DBD /* czzAppDelegate.m */,
+				4453C07619F634B700A8250F /* Launch Screen.xib */,
 				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
 				446CC58319DC3827009BF24E /* czzHTMLParserView */,
 				5AF85E691970025F0031D0CB /* czzSearchViewController */,
@@ -1491,6 +1494,7 @@
 				5A5407F619961F87005FA214 /* default_configuration.json in Resources */,
 				441E5E5017F4AEA700289DBD /* warning.png in Resources */,
 				44F8DE621803900100B6D3B0 /* Icon-Small-50.png in Resources */,
+				4453C07719F634B700A8250F /* Launch Screen.xib in Resources */,
 				44C34557187E6CF000FDE45D /* sougo_emoji_UTF16.txt in Resources */,
 				5A26E77A19398D7F00B709C9 /* czzNotificationBannerViewController.xib in Resources */,
 				44F8DE5E1803900100B6D3B0 /* Icon-72.png in Resources */,
