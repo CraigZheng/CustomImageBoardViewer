@@ -360,6 +360,7 @@
         UILabel *dateLabel = (UILabel*)[cell viewWithTag:5];
         UILabel *sageLabel = (UILabel*)[cell viewWithTag:7];
         UILabel *lockLabel = (UILabel*)[cell viewWithTag:8];
+        UILabel *uidLabel = (UILabel*) [cell viewWithTag:10];
         UIImageView *previewImageView = (UIImageView*)[cell viewWithTag:9];
         previewImageView.hidden = YES;
         if (thread.thImgSrc != 0){
@@ -399,6 +400,9 @@
         NSDateFormatter *dateFormatter = [NSDateFormatter new];
         [dateFormatter setDateFormat:@"时间:MM-dd, HH:mm"];
         dateLabel.text = [dateFormatter stringFromDate:thread.postDateTime];
+        NSMutableAttributedString *uidAttrString = [[NSMutableAttributedString alloc] initWithString:@"UID:"];
+        [uidAttrString appendAttributedString:thread.UID];
+        uidLabel.attributedText = uidAttrString;
         if (thread.sage)
             [sageLabel setHidden:NO];
         else
