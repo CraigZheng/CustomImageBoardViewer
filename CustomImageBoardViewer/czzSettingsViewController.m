@@ -14,7 +14,7 @@
 #import "czzHomeViewController.h"
 #import "czzSettingsCentre.h"
 
-#import "DartCrowdSourcingLib/DartCrowdSourcingConstants.h"
+#import "DartCrowdSourcingLib/DartCrowdSourcingLib.h"
 
 @interface czzSettingsViewController ()<UIAlertViewDelegate, UIActionSheetDelegate>
 @property NSMutableArray *commands;
@@ -235,7 +235,11 @@
             settingsCentre.autoCleanImageCache = !settingsCentre.autoCleanImageCache;
             [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"每月自动清理缓存： %@", settingsCentre.autoCleanImageCache ? @"On" : @"Off"]];
         } else if ([command isEqualToString:@"Monitor Network Performance"]) {
-            [DartCrowdSourcingConstants setEnabled:![DartCrowdSourcingConstants isEnabled]];
+            if (switchControl.on)
+                [DartCrowdSourcingLib enableCollection];
+            else
+                [DartCrowdSourcingLib disableCollection];
+            [self.settingsTableView reloadData];
         }
         [settingsCentre saveSettings];
     }

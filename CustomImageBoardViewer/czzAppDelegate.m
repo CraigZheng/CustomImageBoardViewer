@@ -102,7 +102,9 @@
 
 #pragma mark - background fetch
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    
+    //dart intergration
+    [DartCrowdSourcingLib performBackgroundLoggingWithCompletionHandler:nil andResult:UIBackgroundFetchResultNoData];
+    completionHandler(UIBackgroundFetchResultNoData);
 }
 
 -(NSString *)myhost {
