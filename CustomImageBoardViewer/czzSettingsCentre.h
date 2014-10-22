@@ -41,6 +41,8 @@
 @property BOOL userDefShouldHighlightPO;
 @property BOOL nightyMode;
 @property BOOL autoCleanImageCache;
+//Debug settings
+@property BOOL shouldAllowDart;
 
 + (id)sharedInstance;
 -(void)downloadSettings;

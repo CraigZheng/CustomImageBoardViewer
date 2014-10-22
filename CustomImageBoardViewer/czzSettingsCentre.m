@@ -27,6 +27,7 @@
 @synthesize userDefShouldAutoOpenImage, userDefShouldCacheData, userDefShouldDisplayThumbnail, userDefShouldHighlightPO, userDefShouldShowOnScreenCommand;
 @synthesize nightyMode;
 @synthesize autoCleanImageCache;
+@synthesize shouldAllowDart;
 
 + (id)sharedInstance
 {
@@ -55,7 +56,10 @@
         userDefShouldHighlightPO = YES;
         userDefShouldShowOnScreenCommand = YES;
         nightyMode = NO;
-        autoCleanImageCache = NO;
+        autoCleanImageCache = YES;
+        
+        //Dart settings
+        shouldAllowDart = NO;
         
         NSString *filePath = [[NSBundle mainBundle] pathForResource:@"default_configuration" ofType:@"json"];
         NSData *JSONData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
@@ -126,6 +130,7 @@
                                dispatch_async(dispatch_get_main_queue(), ^{
                                    if (data) {
                                        [self parseJSONData:data];
+                                       [self saveSettings]; //save settings from remote
                                        NSLog(@"settings updated from remote server");
                                        if (message.length > 0) {
                                            [[czzAppDelegate sharedAppDelegate] showToast:message];
@@ -163,6 +168,11 @@
     image_host = [jsonObject objectForKey:@"image_host"];
     thumbnail_host = [jsonObject objectForKey:@"thumbnail_host"];
     message = [jsonObject objectForKey:@"message"];
+    
+    //dart integration
+    shouldAllowDart = [[jsonObject objectForKey:@"shouldAllowDart"] boolValue];
+    
+    
 }
 
 -(NSString *)settingsFile {
@@ -198,6 +208,7 @@
     [aCoder encodeBool:userDefShouldHighlightPO forKey:@"userDefShouldHighlightPO"];
     [aCoder encodeBool:nightyMode forKey:@"nightyMode"];
     [aCoder encodeBool:autoCleanImageCache forKey:@"autoCleanImageCache"];
+    [aCoder encodeBool:shouldAllowDart forKey:@"shouldAllowDart"];
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder {
@@ -230,6 +241,7 @@
         self.userDefShouldHighlightPO = [aDecoder decodeBoolForKey:@"userDefShouldHighlightPO"];
         self.nightyMode = [aDecoder decodeBoolForKey:@"nightyMode"];
         self.autoCleanImageCache = [aDecoder decodeBoolForKey:@"autoCleanImageCache"];
+        self.shouldAllowDart = [aDecoder decodeBoolForKey:@"shouldAllowDart"];
     }
     return self;
 }

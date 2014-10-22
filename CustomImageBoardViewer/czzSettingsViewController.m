@@ -98,7 +98,7 @@
              [commandSwitch setOn:settingsCentre.nightyMode];
          } else if ([command isEqualToString:@"每月自动清理缓存"]) {
              [commandSwitch setOn:settingsCentre.autoCleanImageCache];
-         } else if ([command isEqualToString:@"Monitor Network Performance"]) {
+         } else if ([command isEqualToString:@"Monitor Performance"]) {
              [commandSwitch setOn:[DartCrowdSourcingConstants isEnabled]];
          }
     } else if (indexPath.section == 1){
@@ -160,7 +160,8 @@
     [switchCommands addObject:@"图片下载完毕自动打开"];
     [switchCommands addObject:@"开启帖子缓存"];
     [switchCommands addObject:@"每月自动清理缓存"];
-    [switchCommands addObject:@"Monitor Network Performance"];
+    if (settingsCentre.shouldAllowDart)
+        [switchCommands addObject:@"Monitor Performance"];
     [regularCommands addObject:@"图片缓存"];
     [regularCommands addObject:@"清空缓存"];
     [regularCommands addObject:@"清除ID信息"];
@@ -234,7 +235,7 @@
         } else if ([command isEqualToString:@"每月自动清理缓存"]) {
             settingsCentre.autoCleanImageCache = !settingsCentre.autoCleanImageCache;
             [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"每月自动清理缓存： %@", settingsCentre.autoCleanImageCache ? @"On" : @"Off"]];
-        } else if ([command isEqualToString:@"Monitor Network Performance"]) {
+        } else if ([command isEqualToString:@"Monitor Performance"]) {
             if (switchControl.on)
                 [DartCrowdSourcingLib enableCollection];
             else

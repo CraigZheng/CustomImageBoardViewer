@@ -2,8 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Provide Us Your Location To Help Us Keep Track Of The App&apos;s Performance</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Provide Us Your Location To Help Us Keep Track Of The App&apos;s Performance</string>
 	<key>CFBundleDisplayName</key>
 	<string>AC匿名版</string>
 	<key>CFBundleExecutable</key>
@@ -25,7 +29,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.5</string>
+	<string>1.5.2</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIBackgroundModes</key>

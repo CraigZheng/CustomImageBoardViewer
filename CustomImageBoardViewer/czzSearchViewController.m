@@ -132,6 +132,10 @@
                         });
                     }
                 }];
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[czzAppDelegate sharedAppDelegate].window makeToast:@"无法打开，请重试"];
+                });
             }
         } else {
             NSLog(@"%@", connectionError);
