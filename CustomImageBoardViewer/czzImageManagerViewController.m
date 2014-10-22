@@ -93,6 +93,13 @@
     return cell;
 }
 
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    //hardcoded values, not good, but will do for now
+    if ([UIDevice currentDevice].systemVersion.floatValue < 8.0)
+        return CGSizeMake(105, 105);
+    return CGSizeMake(80, 80);
+}
+
 #pragma UICollectionViewDelegate
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
 //    NSString *imgFile = [Images objectAtIndex:indexPath.row];
@@ -114,6 +121,8 @@
         }];
     }
 }
+
+
 
 #pragma UIDocumentInteractionController delegate
 -(UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller{

@@ -203,6 +203,27 @@
 			remoteGlobalIDString = 441E5CCA17F4691300289DBD;
 			remoteInfo = CustomImageBoardViewer;
 		};
+		4453C07E19F7203D00A8250F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4453C07819F7203D00A8250F /* DartCrowdSourcingLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 44783809194A80F70067C454;
+			remoteInfo = DartCrowdSourcingLib;
+		};
+		4453C08019F7203D00A8250F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4453C07819F7203D00A8250F /* DartCrowdSourcingLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 44783819194A80F70067C454;
+			remoteInfo = DartCrowdSourcingLibTests;
+		};
+		4453C08219F7203D00A8250F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4453C07819F7203D00A8250F /* DartCrowdSourcingLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 44F9349E19EB7FFB007DBB8C;
+			remoteInfo = DartCrowdSourcingFramework;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -439,6 +460,7 @@
 		4448C2AB18100C6B00D2CD76 /* czzBlacklist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzBlacklist.h; sourceTree = "<group>"; };
 		4448C2AC18100C6B00D2CD76 /* czzBlacklist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzBlacklist.m; sourceTree = "<group>"; };
 		4453C07619F634B700A8250F /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Launch Screen.xib"; path = "../Launch Screen.xib"; sourceTree = "<group>"; };
+		4453C07819F7203D00A8250F /* DartCrowdSourcingLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DartCrowdSourcingLib.xcodeproj; path = ../dart/Clients/iOS/prototypes/DartCrowdSourcingLib/DartCrowdSourcingLib.xcodeproj; sourceTree = "<group>"; };
 		4462EF2318659BC200E6BE78 /* czzFavouriteManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFavouriteManagerViewController.h; sourceTree = "<group>"; };
 		4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFavouriteManagerViewController.m; sourceTree = "<group>"; };
 		446CC58019DC2BDE009BF24E /* czzHTMLParserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzHTMLParserViewController.h; sourceTree = "<group>"; };
@@ -679,6 +701,7 @@
 		441E5CC217F4691300289DBD = {
 			isa = PBXGroup;
 			children = (
+				4453C07819F7203D00A8250F /* DartCrowdSourcingLib.xcodeproj */,
 				441E5CD417F4691300289DBD /* CustomImageBoardViewer */,
 				441E5CF617F4691300289DBD /* CustomImageBoardViewerTests */,
 				441E5CCD17F4691300289DBD /* Frameworks */,
@@ -1171,6 +1194,16 @@
 			name = czzBlacklist;
 			sourceTree = "<group>";
 		};
+		4453C07919F7203D00A8250F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4453C07F19F7203D00A8250F /* libDartCrowdSourcingLib.a */,
+				4453C08119F7203D00A8250F /* DartCrowdSourcingLibTests.xctest */,
+				4453C08319F7203D00A8250F /* DartCrowdSourcingFramework.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		4462EF2218659B8600E6BE78 /* czzFavouriteManagerVIewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1468,6 +1501,12 @@
 			mainGroup = 441E5CC217F4691300289DBD;
 			productRefGroup = 441E5CCC17F4691300289DBD /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 4453C07919F7203D00A8250F /* Products */;
+					ProjectRef = 4453C07819F7203D00A8250F /* DartCrowdSourcingLib.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				441E5CCA17F4691300289DBD /* CustomImageBoardViewer */,
@@ -1475,6 +1514,30 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		4453C07F19F7203D00A8250F /* libDartCrowdSourcingLib.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libDartCrowdSourcingLib.a;
+			remoteRef = 4453C07E19F7203D00A8250F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4453C08119F7203D00A8250F /* DartCrowdSourcingLibTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = DartCrowdSourcingLibTests.xctest;
+			remoteRef = 4453C08019F7203D00A8250F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4453C08319F7203D00A8250F /* DartCrowdSourcingFramework.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = DartCrowdSourcingFramework.framework;
+			remoteRef = 4453C08219F7203D00A8250F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		441E5CC917F4691300289DBD /* Resources */ = {
@@ -1823,7 +1886,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "5648bc0e-1361-4858-a24c-96fc37d779b5";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1854,7 +1917,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "5648bc0e-1361-4858-a24c-96fc37d779b5";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
