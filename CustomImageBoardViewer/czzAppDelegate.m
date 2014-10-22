@@ -16,6 +16,9 @@
 
 #import <BugSense-iOS/BugSenseController.h>
 
+//Dart integration
+#import "DartCrowdSourcingLib/DartCrowdSourcingLib.h"
+
 @interface czzAppDelegate()<czzBlacklistDownloaderDelegate, NSURLConnectionDataDelegate>
 @property czzSettingsCentre *settingsCentre;
 @end
@@ -34,6 +37,11 @@
     myhost = my_main_host;
     settingsCentre = [czzSettingsCentre sharedInstance];
     [settingsCentre downloadSettings];
+    
+    //Dart integration
+    [DartCrowdSourcingConstants setEnableGPS:NO];
+    [DartCrowdSourcingConstants setEnableBackgroundGPS:NO];
+    [DartCrowdSourcingLib initWithApiKey:@"CustomImageBoardViewer" version:@"0.1" homeMccMnc:@"50502" testerID:@"CustomImageBoardViewer@optus.com" uploadURL:nil];
     return YES;
 }
 							
@@ -90,6 +98,11 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+#pragma mark - background fetch
+-(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    
 }
 
 -(NSString *)myhost {
@@ -197,4 +210,5 @@
     }
     return @"0";
 }
+
 @end

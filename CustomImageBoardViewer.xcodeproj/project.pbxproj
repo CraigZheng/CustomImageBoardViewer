@@ -122,6 +122,7 @@
 		4448C2AA180FF6C600D2CD76 /* czzBlacklistSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2A9180FF6C600D2CD76 /* czzBlacklistSender.m */; };
 		4448C2AD18100C6B00D2CD76 /* czzBlacklist.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2AC18100C6B00D2CD76 /* czzBlacklist.m */; };
 		4453C07719F634B700A8250F /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4453C07619F634B700A8250F /* Launch Screen.xib */; };
+		4453C08A19F7322E00A8250F /* libDartCrowdSourcingLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4453C07F19F7203D00A8250F /* libDartCrowdSourcingLib.a */; };
 		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
 		446CC58219DC2BDE009BF24E /* czzHTMLParserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 446CC58119DC2BDE009BF24E /* czzHTMLParserViewController.m */; };
 		447FD254195D1AF1003E30C2 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 447FD253195D1AF1003E30C2 /* libz.dylib */; };
@@ -570,6 +571,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4453C08A19F7322E00A8250F /* libDartCrowdSourcingLib.a in Frameworks */,
 				442A901819DB9BAF00A3516E /* libxml2.dylib in Frameworks */,
 				447FD254195D1AF1003E30C2 /* libz.dylib in Frameworks */,
 				44412975186E9B1000075AA2 /* StoreKit.framework in Frameworks */,
@@ -1478,7 +1480,7 @@
 						DevelopmentTeam = 9EBE9MWW9X;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.InAppPurchase = {
 								enabled = 0;
@@ -1818,6 +1820,7 @@
 				PROVISIONING_PROFILE = "CACAA48D-CFFE-4D12-8734-141C2EE1A8CA";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../dart/Clients/iOS/prototypes/DartCrowdSourcingLib";
 			};
 			name = Debug;
 		};
@@ -1856,6 +1859,7 @@
 				PROVISIONING_PROFILE = "CACAA48D-CFFE-4D12-8734-141C2EE1A8CA";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../dart/Clients/iOS/prototypes/DartCrowdSourcingLib";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
