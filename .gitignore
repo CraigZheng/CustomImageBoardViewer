@@ -18,3 +18,9 @@ Build/Products/Debug-iphoneos/CustomImageBoardViewer.app/en.lproj/Main_iPhone.st
 *.nib
 
 CustomImageBoardViewer/Objective-C-HMTL-Parser/
+
+*.hmap
+
+DerivedData/Build/Intermediates/CustomImageBoardViewer.build/Debug-iphonesimulator/CustomImageBoardViewer.build/dgph
+
+*.pcm
