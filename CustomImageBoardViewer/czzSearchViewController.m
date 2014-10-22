@@ -59,7 +59,7 @@
         }
     }
     
-    searchInputAlertView = [[UIAlertView alloc] initWithTitle:@"关键词" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    searchInputAlertView = [[UIAlertView alloc] initWithTitle:@"关键词或号码" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     searchInputAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     [searchWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://m.bing.com"]]];
     if (predefinedSearchKeyword) {
@@ -82,20 +82,64 @@
 #pragma mark - UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     //search
-    if ([alertView.title isEqualToString:@"关键词"]) {
+    if (alertView == searchInputAlertView) {
         if (buttonIndex != alertView.cancelButtonIndex) {
             searchKeyword = [[[alertView textFieldAtIndex:0] text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-            NSURLRequest *request = [self makeRequestWithKeyword:searchKeyword];
-            if (!request) {
-                [[czzAppDelegate sharedAppDelegate].window makeToast:@"无效的关键词"];
+            if (searchKeyword.integerValue > 0) {
+                [[czzAppDelegate sharedAppDelegate].window makeToast:@"请稍等..."];
+                [self downloadAndPrepareThreadWithID:searchKeyword.integerValue];
+                
             } else {
-                if ([searchCommand isEqualToString:AC_SEARCH_COMMAND]) {
-                    [self openURLAndConvertToczzThreadFormat:request.URL];
-                } else
-                    [searchWebView loadRequest:request];
+                NSURLRequest *request = [self makeRequestWithKeyword:searchKeyword];
+                if (!request) {
+                    [[czzAppDelegate sharedAppDelegate].window makeToast:@"无效的关键词"];
+                } else {
+                    if ([searchCommand isEqualToString:AC_SEARCH_COMMAND]) {
+                        [self openURLAndConvertToczzThreadFormat:request.URL];
+                    } else
+                        [searchWebView loadRequest:request];
+                }
             }
         }
     }
+}
+
+-(void)downloadAndPrepareThreadWithID:(NSInteger)threadID {
+    NSLog(@"threadID entered: %ld", (long)threadID);
+    NSString *target = [NSString stringWithFormat:@"http://h.acfun.tv/t/%ld.json", (long)threadID];
+    [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:target]]  queue:[NSOperationQueue new] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        if (!connectionError) {
+            NSDictionary *rawJson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            NSInteger parentThreadID = [[[rawJson objectForKey:@"threads"] objectForKey:@"parent"] integerValue];
+            if (parentThreadID > 0) {
+                NSString *parentThreadTarget = [NSString stringWithFormat:@"http://h.acfun.tv/t/%ld.json", (long)parentThreadID];
+                [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:parentThreadTarget]] queue:[NSOperationQueue new] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                    if (!connectionError) {
+                        NSDictionary *parentJson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+                        
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            selectedParentThread = [[czzThread alloc] initWithJSONDictionary:[parentJson objectForKey:@"threads"]];
+                            if (selectedParentThread)
+                                [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
+                            else {
+                                [[czzAppDelegate sharedAppDelegate].window makeToast:@"无法打开，请重试"];
+                            }
+                        });
+                    } else {
+                        NSLog(@"%@", connectionError);
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [[czzAppDelegate sharedAppDelegate].window makeToast:@"无法打开，请重试"];
+                        });
+                    }
+                }];
+            }
+        } else {
+            NSLog(@"%@", connectionError);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[czzAppDelegate sharedAppDelegate].window makeToast:@"无法打开，请重试"];
+            });
+        }
+    }];
 }
 
 -(NSURLRequest*)makeRequestWithKeyword:(NSString*)keyword {
@@ -116,19 +160,10 @@
             parserViewController.targetURL = targetURL;
             parserViewController.highlightKeyword = searchKeyword;
         }
-    }
-    //should not be in use anymore
-    /*
-    if ([segue.identifier isEqualToString:@"go_thread_view_segue"]) {
-        czzThreadViewController *threadViewController = (czzThreadViewController*)segue.destinationViewController;
+    } else if ([segue.identifier isEqualToString:@"go_thread_view_segue"]) {
+        czzThreadViewController *threadViewController = (czzThreadViewController*) segue.destinationViewController;
         threadViewController.parentThread = selectedParentThread;
-        threadViewController.shouldHighlightSelectedUser = searchKeyword;
-    } else if ([segue.identifier isEqualToString:@"go_favourite_view_segue"]) {
-        czzFavouriteManagerViewController *favouriteViewManager = (czzFavouriteManagerViewController*)segue.destinationViewController;
-        favouriteViewManager.title = [NSString stringWithFormat:@"搜索：%@", searchKeyword];
-        favouriteViewManager.threads = [NSMutableArray arrayWithArray:searchResult];
     }
-     */
 }
 
 -(void)openURLAndConvertToczzThreadFormat:(NSURL*)url {

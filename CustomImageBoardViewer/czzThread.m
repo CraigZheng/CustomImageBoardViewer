@@ -34,36 +34,42 @@
 -(id)initWithJSONDictionary:(NSDictionary *)data {
     self = [self init];
     if (self) {
-        self.ID = [[data objectForKey:@"id"] integerValue];
-        self.postDateTime = [NSDate dateWithTimeIntervalSince1970:[[data objectForKey:@"createdAt"] doubleValue] / 1000.0];
-        self.updateDateTime = [NSDate dateWithTimeIntervalSince1970:[[data objectForKey:@"updatedAt"] doubleValue] / 1000.0];
-        //UID might have different colour, but I am setting any colour other than default to red at the moment
-        NSString *uidString = [data objectForKey:@"uid"];
-        NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[self renderHTMLToAttributedString:uidString].string];
-        //if the given string contains keyword "color", then render it red to indicate its important
-        if ([uidString.lowercaseString rangeOfString:@"color"].location != NSNotFound) {
-            [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, attrString.length)];
+        @try {
+            self.ID = [[data objectForKey:@"id"] integerValue];
+            self.postDateTime = [NSDate dateWithTimeIntervalSince1970:[[data objectForKey:@"createdAt"] doubleValue] / 1000.0];
+            self.updateDateTime = [NSDate dateWithTimeIntervalSince1970:[[data objectForKey:@"updatedAt"] doubleValue] / 1000.0];
+            //UID might have different colour, but I am setting any colour other than default to red at the moment
+            NSString *uidString = [data objectForKey:@"uid"];
+            NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[self renderHTMLToAttributedString:uidString].string];
+            //if the given string contains keyword "color", then render it red to indicate its important
+            if ([uidString.lowercaseString rangeOfString:@"color"].location != NSNotFound) {
+                [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, attrString.length)];
+            }
+            self.UID = attrString;
+            
+            self.name = [data objectForKey:@"name"];
+            self.email = [data objectForKey:@"email"];
+            self.title = [data objectForKey:@"title"];
+            //content
+            if (self.title.length > 10)
+                self.content = [self renderHTMLToAttributedString:[NSString stringWithFormat:@" * %@ * \n\n%@", self.title, [data objectForKey:@"content"]]];
+            else
+                self.content = [self renderHTMLToAttributedString:[NSString stringWithString:[data objectForKey:@"content"]]];
+            
+            self.imgSrc = [data objectForKey:@"image"];
+            self.thImgSrc = [data objectForKey:@"thumb"];
+            self.lock = [[data objectForKey:@"lock"] boolValue];
+            self.sage = [[data objectForKey:@"sage"] boolValue];
+            self.responseCount = [[data objectForKey:@"replyCount"] integerValue];
+            
+            [self checkBlacklist];
+            [self checkImageURLs];
+            [self checkRemoteConfiguration];
+
         }
-        self.UID = attrString;
-        
-        self.name = [data objectForKey:@"name"];
-        self.email = [data objectForKey:@"email"];
-        self.title = [data objectForKey:@"title"];
-        //content
-        if (self.title.length > 10)
-            self.content = [self renderHTMLToAttributedString:[NSString stringWithFormat:@" * %@ * \n\n%@", self.title, [data objectForKey:@"content"]]];
-        else
-            self.content = [self renderHTMLToAttributedString:[NSString stringWithString:[data objectForKey:@"content"]]];
-        
-        self.imgSrc = [data objectForKey:@"image"];
-        self.thImgSrc = [data objectForKey:@"thumb"];
-        self.lock = [[data objectForKey:@"lock"] boolValue];
-        self.sage = [[data objectForKey:@"sage"] boolValue];
-        self.responseCount = [[data objectForKey:@"replyCount"] integerValue];
-        
-        [self checkBlacklist];
-        [self checkImageURLs];
-        [self checkRemoteConfiguration];
+        @catch (NSException *exception) {
+            return nil;
+        }
     }
     return self;
 }

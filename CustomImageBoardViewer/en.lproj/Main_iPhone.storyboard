@@ -1712,8 +1712,8 @@
         <image name="emotion_smile_icon.png" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="lqb-0z-bqj"/>
         <segue reference="iJS-rj-Zmj"/>
-        <segue reference="xL9-ie-FoR"/>
         <segue reference="HE7-Rt-Ewc"/>
     </inferredMetricsTieBreakers>
 </document>
