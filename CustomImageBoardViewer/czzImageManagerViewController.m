@@ -84,12 +84,18 @@
     return cell;
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    //hardcoded values, not good, but will do for now
-    if ([UIDevice currentDevice].systemVersion.floatValue < 8.0)
-        return CGSizeMake(105, 105);
-    return CGSizeMake(80, 80);
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat quaterWidth = [UIScreen mainScreen].bounds.size.width / 4;
+    return CGSizeMake(quaterWidth, quaterWidth);
 }
+//
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+//    //hardcoded values, not good, but will do for now
+//    if ([UIDevice currentDevice].systemVersion.floatValue < 8.0)
+//        return CGSizeMake(105, 105);
+//    return CGSizeMake(80, 80);
+//}
 
 #pragma UICollectionViewDelegate
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
