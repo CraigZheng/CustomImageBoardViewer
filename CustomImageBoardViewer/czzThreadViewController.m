@@ -646,7 +646,8 @@
         }
         [threads addObjectsFromArray:processedNewThread];
         //swap the first object(the parent thread)
-        parentThread = pThread;
+        if (pThread)
+            parentThread = pThread;
         [threads replaceObjectAtIndex:0 withObject:parentThread];
         //increase page number if enough to fill a page of 20 threads
         if (processedNewThread.count >= 20) {
@@ -749,7 +750,7 @@
         return first.ID > second.ID;
     }];
      */
-    return sortedArray;
+    return sortedArray ? sortedArray : [NSArray new];
 }
 
 - (IBAction)moreAction:(id)sender {

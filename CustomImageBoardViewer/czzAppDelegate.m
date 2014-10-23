@@ -42,7 +42,7 @@
     if (settingsCentre.shouldAllowDart) {
         [DartCrowdSourcingConstants setEnableGPS:NO];
         [DartCrowdSourcingConstants setEnableBackgroundGPS:NO];
-        [DartCrowdSourcingLib initWithApiKey:@"CustomImageBoardViewer" version:@"0.1" homeMccMnc:@"50502" uploadURL:nil];
+        [DartCrowdSourcingLib initWithApiKey:@"CustomImageBoardViewer" version:@"0.5" homeMccMnc:@"50502" testerID:@"CustomImageBoardViewer" uploadURL:nil];
     } else {
         [DartCrowdSourcingLib disableCollection];
     }
