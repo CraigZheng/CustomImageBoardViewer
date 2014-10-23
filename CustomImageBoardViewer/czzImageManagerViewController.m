@@ -41,6 +41,11 @@
     self.collectionView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
 //    //show all images
     imageCategory = ALL_IMAGE;
+    if ([[czzImageCentre sharedInstance] ready])
+        [self reloadImageFileFromImageCentre];
+    else
+        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"图片还在载入中，请稍后重试..."];
+
 }
 
 #pragma Load data from image centre
@@ -54,20 +59,6 @@
     } else if (imageCategory == THUMBNAIL){
         [Images addObjectsFromArray:[[czzImageCentre sharedInstance] localThumbnailsArray]];
     }
-    [self.collectionView reloadData];
-}
-
--(void)viewWillAppear:(BOOL)animated {
-    if ([[czzImageCentre sharedInstance] ready])
-        [self reloadImageFileFromImageCentre];
-    else
-        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"图片还在载入中，请稍后重试..."];
-}
-
--(void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    //freeup some memeory
-    [Images removeAllObjects];
     [self.collectionView reloadData];
 }
 
