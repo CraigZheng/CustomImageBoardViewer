@@ -3,12 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>application-identifier</key>
-	<string>9EBE9MWW9X.com.craig.acfunbrowser</string>
+	<string>7A5XEHKD3N.com.craig.acfunbrowser</string>
+	<key>com.apple.developer.default-data-protection</key>
+	<string>NSFileProtectionComplete</string>
 	<key>get-task-allow</key>
-	<false/>
+	<true/>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>9EBE9MWW9X.com.craig.acfunbrowser</string>
+		<string>7A5XEHKD3N.com.craig.acfunbrowser</string>
 	</array>
 </dict>
 </plist>
