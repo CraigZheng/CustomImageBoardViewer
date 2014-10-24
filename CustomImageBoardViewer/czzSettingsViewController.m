@@ -119,8 +119,8 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 1){
         NSString *command = [regularCommands objectAtIndex:indexPath.row];
-        if ([command isEqualToString:@"图片缓存"]){
-            //图片缓存
+        if ([command isEqualToString:@"图片管理器"]){
+            //图片管理器
             [self performSegueWithIdentifier:@"go_image_manager_view_controller_segue" sender:self];
         } else if ([command isEqualToString:@"清除ID信息"]){
             //清除ID信息
@@ -146,7 +146,7 @@
             }
         }
         else if ([command isEqualToString:@"清空缓存"]){
-            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"清空缓存" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"图片缓存", @"帖子缓存", nil];
+            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"清空缓存" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"图片管理器", @"帖子缓存", nil];
             [actionSheet showInView:self.view];
         }
     }
@@ -162,7 +162,7 @@
     [switchCommands addObject:@"每月自动清理缓存"];
     if (settingsCentre.shouldAllowDart)
         [switchCommands addObject:@"Monitor Performance"];
-    [regularCommands addObject:@"图片缓存"];
+    [regularCommands addObject:@"图片管理器"];
     [regularCommands addObject:@"清空缓存"];
     [regularCommands addObject:@"清除ID信息"];
     [regularCommands addObject:@"通知中心"];
@@ -191,10 +191,10 @@
         return;
     }
     NSString *title = [actionSheet buttonTitleAtIndex:buttonIndex];
-    if ([title hasPrefix:@"图片缓存"]){
+    if ([title hasPrefix:@"图片管理器"]){
         [[czzImageCentre sharedInstance] removeFullSizeImages];
         [[czzImageCentre sharedInstance] removeThumbnails];
-        [[czzAppDelegate sharedAppDelegate] showToast:@"图片缓存已清空"];
+        [[czzAppDelegate sharedAppDelegate] showToast:@"图片管理器已清空"];
     }
     else if ([title hasPrefix:@"帖子缓存"]){
         [[czzThreadCacheManager sharedInstance] removeAllThreadCache];
