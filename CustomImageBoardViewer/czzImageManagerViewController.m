@@ -24,6 +24,7 @@
 @property UIDocumentInteractionController *documentInteractionController;
 @property MWPhotoBrowser *photoBrowser;
 @property NSMutableArray *photoBrowserDataSource;
+@property UINavigationController *photoBrowserNavigationController;
 @end
 
 @implementation czzImageManagerViewController
@@ -33,6 +34,7 @@
 @synthesize documentInteractionController;
 @synthesize photoBrowser;
 @synthesize photoBrowserDataSource;
+@synthesize photoBrowserNavigationController;
 
 - (void)viewDidLoad
 {
@@ -87,36 +89,20 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CGFloat quaterWidth = [UIScreen mainScreen].bounds.size.width / 4;
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+        quaterWidth = [UIScreen mainScreen].bounds.size.width / 6;
     return CGSizeMake(quaterWidth, quaterWidth);
 }
-//
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-//    //hardcoded values, not good, but will do for now
-//    if ([UIDevice currentDevice].systemVersion.floatValue < 8.0)
-//        return CGSizeMake(105, 105);
-//    return CGSizeMake(80, 80);
-//}
 
 #pragma UICollectionViewDelegate
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-//    NSString *imgFile = [Images objectAtIndex:indexPath.row];
-//    documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:imgFile]];
-//    documentInteractionController.delegate = self;
-//    [documentInteractionController presentPreviewAnimated:YES];
     [self prepareMWPhotoBrowser];
     photoBrowserDataSource = [NSMutableArray arrayWithArray:Images];
     [photoBrowser setCurrentPhotoIndex:indexPath.row];
-    //post ios 7 device, push into navigation controller
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0) {
-        [self.navigationController pushViewController:photoBrowser animated:YES];
-    } else {
-        //pre ios 7 device, present photo browser modally
-        UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
-        nc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-        
-        [self presentViewController:nc animated:YES completion:^{
-        }];
-    }
+    photoBrowserNavigationController = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
+    photoBrowserNavigationController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentViewController:photoBrowserNavigationController animated:YES completion:^{
+    }];
 }
 
 
@@ -148,7 +134,8 @@
 -(void)photoBrowser:(MWPhotoBrowser *)photoBrowser actionButtonPressedForPhotoAtIndex:(NSUInteger)index {
     NSURL *fileURL = [NSURL fileURLWithPath:[photoBrowserDataSource objectAtIndex:index]];
     documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:fileURL];
-    [documentInteractionController presentOptionsMenuFromRect:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) inView:self.view animated:YES];
+    if (photoBrowserNavigationController)
+        [documentInteractionController presentOptionsMenuFromRect:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) inView:self.view animated:YES];
 }
 
 -(NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {

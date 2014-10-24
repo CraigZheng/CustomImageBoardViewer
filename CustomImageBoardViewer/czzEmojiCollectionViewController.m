@@ -23,7 +23,7 @@
         if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)){
             self.view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height / 1.5);
         } else {
-            self.view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width / 1.5);
+            self.view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width / 2.0);
         }
         //self.emojiCollectionView.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + 44, self.view.frame.size.width, self.view.frame.size.height - 44);
     }
@@ -52,6 +52,12 @@
         emojiLabel.text = emoji;
     }
     return cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat quarterWidth = MIN(self.view.frame.size.width / 4, 105);
+    return CGSizeMake(quarterWidth, 50);
 }
 
 #pragma mark - UICollectionView delegate
