@@ -88,9 +88,9 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat quaterWidth = [UIScreen mainScreen].bounds.size.width / 4;
+    CGFloat quaterWidth = self.view.frame.size.width / 4;
     if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
-        quaterWidth = [UIScreen mainScreen].bounds.size.width / 6;
+        quaterWidth = self.view.frame.size.width / 6;
     return CGSizeMake(quaterWidth, quaterWidth);
 }
 
