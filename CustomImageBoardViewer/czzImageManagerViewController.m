@@ -135,7 +135,7 @@
     NSURL *fileURL = [NSURL fileURLWithPath:[photoBrowserDataSource objectAtIndex:index]];
     documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:fileURL];
     if (photoBrowserNavigationController)
-        [documentInteractionController presentOptionsMenuFromRect:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) inView:self.view animated:YES];
+        [documentInteractionController presentOptionsMenuFromRect:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) inView:photoBrowserNavigationController.view animated:YES];
 }
 
 -(NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
