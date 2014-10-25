@@ -11,12 +11,15 @@
 #import "czzXMLDownloader.h"
 #import "czzJSONProcessor.h"
 #import "czzThreadCacheManager.h"
+#import "czzSettingsCentre.h"
+#import "czzAppDelegate.h"
+#import "Toast+UIView.h"
 
 @interface czzThreadViewUtil : NSObject
 
 @property czzThread *parentThread;
 @property NSMutableArray *subThreads;
-@property NSInteger *currentPageNumber;
+@property NSInteger currentPageNumber;
 @property NSMutableArray *heightsForRows;
 @property NSMutableArray *heightsForRowsForHorizontal;
 @property CGPoint restoreFromBackgroundContentOffset;
