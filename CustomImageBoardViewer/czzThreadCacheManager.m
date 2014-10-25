@@ -37,6 +37,7 @@
                 NSLog(@"error creating thread cache: %@", error);
             }
         }
+        
         //read the existing cached thread files
         [self reloadCacheFiles];
     }
@@ -256,7 +257,6 @@
     }
 
     existingFiles = [NSMutableSet setWithArray:files];
-    NSLog(@"loading cache files took %.1f seconds", [[NSDate new] timeIntervalSinceDate:start]);
 }
 
 -(BOOL)isFileOlderThan10Days:(NSString*)filePath {

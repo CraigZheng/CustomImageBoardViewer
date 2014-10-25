@@ -852,7 +852,11 @@
         if (readyToPushViewController) {
             //MWPhotoBrowser
             [self prepareMWPhotoBrowser];
-            [photoBrowserDataSource addObject:path];
+            if (!photoBrowserDataSource)
+                photoBrowserDataSource = [NSMutableArray new];
+            if (![photoBrowserDataSource containsObject:path])
+                [photoBrowserDataSource addObject:path];
+            [photoBrowser setCurrentPhotoIndex: [photoBrowserDataSource indexOfObject:path]];
             //post ios 7 device, push into navigation controller
             if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0) {
                 [self.navigationController pushViewController:photoBrowser animated:YES];
@@ -909,7 +913,6 @@
     photoBrowser.startOnGrid = NO; // Whether to start on the grid of thumbnails instead of the first photo (defaults to NO)
     photoBrowser.delayToHideElements = 4.0;
     photoBrowser.displayActionButton = YES;
-    photoBrowserDataSource = [NSMutableArray new];
 }
 
 #pragma mark - prepare for segue
