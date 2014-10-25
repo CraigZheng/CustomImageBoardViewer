@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 Craig. All rights reserved.
 //
 
+#define THREAD_CACHE_ARCHIVE @"cacheArchive.arc"
+
 #import "czzThreadCacheManager.h"
 #import "czzThread.h"
 #import "czzAppDelegate.h"
@@ -37,12 +39,38 @@
                 NSLog(@"error creating thread cache: %@", error);
             }
         }
+        [self restoreCaches];
+        if (existingFiles.count <= 0)
+            [self reloadCacheFiles];
         
-        //read the existing cached thread files
-        [self reloadCacheFiles];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(saveThreadCaches) name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
     
     return self;
+}
+
+-(void)saveThreadCaches {
+    if (existingFiles.count > 0) {
+        [NSKeyedArchiver archiveRootObject:existingFiles toFile:[cachePath stringByAppendingPathComponent:THREAD_CACHE_ARCHIVE]];
+        NSLog(@"thread caches archived to: %@", [cachePath stringByAppendingPathComponent:THREAD_CACHE_ARCHIVE]);
+    }
+}
+
+-(void)restoreCaches {
+    NSDate *startDate = [NSDate new];
+    //read the existing cached thread files
+    @try {
+        existingFiles = [NSMutableSet new];
+        NSSet *tempSet = [NSKeyedUnarchiver unarchiveObjectWithFile:[cachePath stringByAppendingPathComponent:THREAD_CACHE_ARCHIVE]];
+        if (tempSet.count > 0) {
+            [existingFiles addObjectsFromArray:tempSet.allObjects];
+            NSLog(@"archived thread cache restored");
+        }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@", exception);
+    }
+    NSLog(@"restoring cache took: %.1f seconds", [[NSDate new] timeIntervalSinceDate:startDate]);
 }
 
 + (id)sharedInstance
@@ -243,7 +271,6 @@
 }
 
 -(void)reloadCacheFiles{
-    NSDate *start = [NSDate new];
     NSArray *allCacheFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:cachePath error:nil];
     NSMutableArray *files = [NSMutableArray new];
     if ([[czzSettingsCentre sharedInstance] autoCleanImageCache]) {
