@@ -9,12 +9,37 @@
 #import <UIKit/UIKit.h>
 #import "czzThread.h"
 #import "czzThreadViewController.h"
+#import "DACircularProgressView.h"
 
 /*
  sub class uitableview cell to enable custom menu action
  */
 
 @interface czzMenuEnabledTableViewCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *idLabel;
+@property (weak, nonatomic) IBOutlet UILabel *posterLabel;
+@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
+@property (weak, nonatomic) IBOutlet UILabel *sageLabel;
+@property (weak, nonatomic) IBOutlet UILabel *lockLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *previewImageView;
+@property (weak, nonatomic) IBOutlet UITextView *contentTextView;
+@property (weak, nonatomic) IBOutlet UILabel *responseLabel;
+@property (weak, nonatomic) IBOutlet DACircularProgressView *circularProgressView;
+@property NSString *shouldHighlightSelectedUser;
+
+@property NSDictionary *downloadedImages;
 @property NSMutableArray *links;
+@property czzThread *parentThread;
 @property (nonatomic) czzThread *myThread;
 @end
+
+
+/*
+ UITextView *contentTextView = (UITextView*)[cell viewWithTag:1];
+ UILabel *idLabel = (UILabel*)[cell viewWithTag:2];
+ UILabel *posterLabel = (UILabel*)[cell viewWithTag:3];
+ UILabel *dateLabel = (UILabel*)[cell viewWithTag:5];
+ UILabel *sageLabel = (UILabel*)[cell viewWithTag:7];
+ UILabel *lockLabel = (UILabel*)[cell viewWithTag:8];
+
+*/
