@@ -165,6 +165,21 @@
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
+    //change background colour for night mode
+    if (settingsCentre.nightyMode)
+    {
+        if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0) {
+            self.navigationController.navigationBar.barTintColor = [UIColor darkGrayColor];
+        } else {
+            self.navigationController.navigationBar.tintColor = [UIColor darkGrayColor];
+        }
+    } else {
+        if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0) {
+            self.navigationController.navigationBar.barTintColor = nil;
+        } else {
+            self.navigationController.navigationBar.tintColor = nil;
+        }
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated{
