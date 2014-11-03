@@ -51,6 +51,7 @@
         thumbnailFolder = [thumbnailFolder stringByAppendingPathComponent:@"Thumbnails"];
         settingsCentre = [czzSettingsCentre sharedInstance];
         shouldHighlight = settingsCentre.userDefShouldHighlightPO;
+        tapOnImageGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTapInImageView:)];
     }
     return self;
 }
@@ -225,7 +226,7 @@
     }
     
     //highlight original poster
-    if (shouldHighlight && [myThread.UID.string isEqualToString:parentThread.UID.string]) {
+    if (shouldHighlight && parentThread && [myThread.UID.string isEqualToString:parentThread.UID.string]) {
         posterLabel.backgroundColor = [UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:200.0f/255.0f alpha:1.0];
         self.contentView.backgroundColor = [UIColor clearColor];
     } else if (shouldHighlightSelectedUser && [myThread.UID.string isEqualToString:shouldHighlightSelectedUser]) {
@@ -248,6 +249,10 @@
 
 #pragma mark - user actions
 -(void)userTapInQuotedText:(czzThreadRefButton*)sender {
-    
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+}
+
+-(void)userTapInImageView:(id)sender {
+    NSLog(@"%@", NSStringFromSelector(_cmd));
 }
 @end
