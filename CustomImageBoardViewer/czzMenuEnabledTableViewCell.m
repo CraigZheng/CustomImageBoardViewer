@@ -213,7 +213,7 @@
         [lockLabel setHidden:NO];
     else
         [lockLabel setHidden:YES];
-    if (myThread.responseCount != 0)
+    if (parentThread && myThread && [myThread.UID.string isEqualToString:parentThread.UID.string])
     {
         responseLabel.text = [NSString stringWithFormat:@"回应:%ld", (long)myThread.responseCount];
     } else {

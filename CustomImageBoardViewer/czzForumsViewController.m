@@ -75,7 +75,12 @@
     failedToConnect = NO;
     if (xmlDownloader)
         [xmlDownloader stop];
-    NSString *forumString = [settingsCentre.forum_list_url stringByAppendingString:[NSString stringWithFormat:@"?version=%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
+    NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+#ifdef DEBUG
+    versionString = @"DEBUG";
+#endif
+    NSString *forumString = [settingsCentre.forum_list_url stringByAppendingString:[NSString stringWithFormat:@"?version=%@", versionString]];
+
     xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:forumString] delegate:self startNow:YES];
     [self.view makeToastActivity];
     
