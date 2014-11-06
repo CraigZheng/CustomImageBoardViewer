@@ -720,16 +720,12 @@
                 [photoBrowserDataSource addObject:path];
             [photoBrowser setCurrentPhotoIndex: [photoBrowserDataSource indexOfObject:path]];
             //post ios 7 device, push into navigation controller
-            if ([UIDevice currentDevice].systemVersion.floatValue >= 7.0) {
-                [self.navigationController pushViewController:photoBrowser animated:YES];
-            } else {
-                //pre ios 7 device, present photo browser modally
-                photoBrowserNavigationController = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
-                photoBrowserNavigationController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-                
-                [self presentViewController:photoBrowserNavigationController animated:YES completion:^{
-                }];
-            }
+            photoBrowserNavigationController = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
+            photoBrowserNavigationController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+            
+            [self presentViewController:photoBrowserNavigationController animated:YES completion:^{
+            }];
+
         }
     }
 }
