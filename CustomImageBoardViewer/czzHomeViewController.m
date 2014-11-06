@@ -371,8 +371,6 @@
         cell.parentThread = thread;
         cell.myThread = thread;
     }
-    //background colour
-    cell.backgroundColor = [UIColor clearColor];
     return cell;
 }
 

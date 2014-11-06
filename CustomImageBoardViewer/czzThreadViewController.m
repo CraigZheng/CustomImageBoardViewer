@@ -32,7 +32,7 @@
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
 #define OVERLAY_VIEW 122
 
-@interface czzThreadViewController ()<czzXMLDownloaderDelegate, /*czzXMLProcessorDelegate,*/ czzJSONProcessorDelegate, MWPhotoBrowserDelegate, UINavigationControllerDelegate, UIAlertViewDelegate, UIDocumentInteractionControllerDelegate>
+@interface czzThreadViewController ()<czzXMLDownloaderDelegate, /*czzXMLProcessorDelegate,*/ czzJSONProcessorDelegate, MWPhotoBrowserDelegate, UINavigationControllerDelegate, UIAlertViewDelegate, UIDocumentInteractionControllerDelegate, czzMenuEnabledTableViewCellProtocol>
 @property NSString *baseURLString;
 @property NSString *targetURLString;
 @property NSMutableArray *threads;
@@ -44,7 +44,6 @@
 @property NSMutableSet *currentImageDownloaders;
 @property UIDocumentInteractionController *documentInteractionController;
 @property CGPoint threadsTableViewContentOffSet; //record the content offset of the threads tableview
-@property UITapGestureRecognizer *tapOnImageGestureRecogniser;
 @property BOOL shouldHighlight;
 @property NSMutableArray *heightsForRows;
 @property NSMutableArray *heightsForRowsForHorizontal;
@@ -76,7 +75,6 @@
 @synthesize downloadedImages;
 @synthesize currentImageDownloaders;
 @synthesize documentInteractionController;
-@synthesize tapOnImageGestureRecogniser;
 @synthesize threadsTableViewContentOffSet;
 @synthesize shouldHighlight;
 @synthesize shouldHighlightSelectedUser;
@@ -134,8 +132,10 @@
     [self loadMoreThread:pageNumber];
 
     //end of retriving cached thread from storage
-    //Initialise the tap gesture recogniser, it is to be used on the Image Views in the cell
-    tapOnImageGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTapInImage:)];
+    
+    //register xib
+    [self.threadTableView registerNib:[UINib nibWithNibName:@"czzThreadViewTableViewCell" bundle:nil] forCellReuseIdentifier:@"thread_cell_identifier"];
+    self.title = parentThread.title;
     
     //set up custom edit menu
     UIMenuItem *replyMenuItem = [[UIMenuItem alloc] initWithTitle:@"回复" action:@selector(menuActionReply:)];
@@ -271,118 +271,13 @@
         return cell;
     }
     czzThread *thread = [threads objectAtIndex:indexPath.row];
-    //if image is present
-    if (thread.thImgSrc.length != 0){
-        CellIdentifier = @"image_thread_cell_identifier";
-    }
+
     czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     // Configure the cell...
     if (cell){
+        cell.delegate = self;
+        cell.parentThread = parentThread;
         cell.myThread = thread;
-
-        //set the title of this thread
-        if (indexPath.row == 0)
-            self.title = thread.title;
-
-        //construct UI elements
-        
-        UITextView *contentTextView = (UITextView*)[cell viewWithTag:1];
-        UILabel *idLabel = (UILabel*)[cell viewWithTag:2];
-        UILabel *posterLabel = (UILabel*)[cell viewWithTag:3];
-        UILabel *dateLabel = (UILabel*)[cell viewWithTag:5];
-        UILabel *sageLabel = (UILabel*)[cell viewWithTag:7];
-        UILabel *lockLabel = (UILabel*)[cell viewWithTag:8];
-        UIImageView *previewImageView = (UIImageView*)[cell viewWithTag:9];
-        previewImageView.hidden = YES;
-        DACircularProgressView *circularProgressView = (DACircularProgressView*)[cell viewWithTag:10];
-        circularProgressView.hidden = YES;
-        if (thread.thImgSrc.length != 0){
-            previewImageView.hidden = NO;
-            [previewImageView setImage:[UIImage imageNamed:@"Icon.png"]];
-            NSString *filePath = [thumbnailFolder stringByAppendingPathComponent:[thread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
-            UIImage *previewImage =[[UIImage alloc] initWithContentsOfFile:filePath];
-            if (previewImage){
-                [previewImageView setImage:previewImage];
-            } else if ([downloadedImages objectForKey:thread.thImgSrc]){
-              [previewImageView setImage:[[UIImage alloc] initWithContentsOfFile:[downloadedImages objectForKey:thread.thImgSrc]]];
-            }
-            //assign a gesture recogniser to it
-            [previewImageView setGestureRecognizers:@[tapOnImageGestureRecogniser]];
-        }
-        //if harmful flag is set, display warning header of harmful thread
-        NSMutableAttributedString *contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:thread.content];
-        if (thread.harmful){
-            NSDictionary *warningStringAttributes = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObject:[UIColor lightGrayColor]] forKeys:[NSArray arrayWithObject:NSForegroundColorAttributeName]];
-            NSAttributedString *warningAttString = [[NSAttributedString alloc] initWithString:WARNINGHEADER attributes:warningStringAttributes];
-            
-            //add the warning header to the front of content attributed string
-            contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:warningAttString];
-            [contentAttrString insertAttributedString:thread.content atIndex:warningAttString.length];
-        }
-        //content textview
-        contentTextView.attributedText = contentAttrString;
-        contentTextView.font = settingsCentre.contentFont;
-
-        if ([UIDevice currentDevice].systemVersion.floatValue < 7.0) {
-            NSMutableAttributedString *tempAttributedString = [[NSMutableAttributedString alloc] initWithAttributedString:contentTextView.attributedText];
-            [tempAttributedString addAttribute:NSFontAttributeName value:settingsCentre.contentFont range:NSMakeRange(0, tempAttributedString.length)];
-            contentTextView.attributedText = tempAttributedString;
-        }
-        
-        idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)thread.ID];
-        //set the color
-        NSMutableAttributedString *uidAttrString = [[NSMutableAttributedString alloc] initWithString:@"UID:"];
-        [uidAttrString appendAttributedString:thread.UID];
-        posterLabel.attributedText = uidAttrString;
-        NSDateFormatter *dateFormatter = [NSDateFormatter new];
-        [dateFormatter setDateFormat:@"时间:yyyy MM-dd, HH:mm"];
-        dateLabel.text = [dateFormatter stringFromDate:thread.postDateTime];
-        if (thread.sage)
-            [sageLabel setHidden:NO];
-        else
-            [sageLabel setHidden:YES];
-        if (thread.lock)
-            [lockLabel setHidden:NO];
-        else
-            [lockLabel setHidden:YES];
-        
-        //clickable content
-        UIView *oldButton;
-        while ((oldButton = [cell viewWithTag:999999]) != nil) {
-            [oldButton removeFromSuperview];
-        }
-        for (NSString *refString in thread.replyToList) {
-            NSInteger rep = refString.integerValue;
-            if (rep > 0 && contentTextView) {
-                NSString *quotedNumberText = [NSString stringWithFormat:@"%ld", (long)rep];
-                NSRange range = [contentTextView.attributedText.string rangeOfString:quotedNumberText];
-                if (range.location != NSNotFound){
-                    CGRect result = [self frameOfTextRange:range inTextView:contentTextView];
-                    
-                    if (result.size.width > 0 && result.size.height > 0){
-                        czzThreadRefButton *threadRefButton = [[czzThreadRefButton alloc] initWithFrame:CGRectMake(result.origin.x, result.origin.y + contentTextView.frame.origin.y, result.size.width, result.size.height)];
-                        threadRefButton.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.1f];
-                        threadRefButton.tag = 999999;
-                        [threadRefButton addTarget:self action:@selector(userTapInQuotedText:) forControlEvents:UIControlEventTouchUpInside];
-                        threadRefButton.threadRefNumber = rep;
-                        [cell.contentView addSubview:threadRefButton];
-                    }
-                }
-            }
-        }
-        
-        //highlight original poster
-        if (shouldHighlight && [thread.UID.string isEqualToString:parentThread.UID.string]) {
-            posterLabel.backgroundColor = [UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:200.0f/255.0f alpha:1.0];
-            cell.contentView.backgroundColor = [UIColor clearColor];
-        } else if (shouldHighlightSelectedUser && [thread.UID.string isEqualToString:shouldHighlightSelectedUser]) {
-            posterLabel.backgroundColor = [UIColor clearColor];
-            cell.contentView.backgroundColor = [UIColor colorWithRed:222.0f/255.0f green:222.0f/255.0f blue:255.0f/255.0f alpha:1.0];
-        }
-        else {
-            posterLabel.backgroundColor = [UIColor clearColor];
-            cell.contentView.backgroundColor = [UIColor clearColor];
-        }
     }
     cell.backgroundColor = [UIColor clearColor];
     return cell;
@@ -743,13 +638,6 @@
 -(NSArray*)sortTheGivenArray:(NSArray*)array{
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"ID" ascending:YES];
     NSArray *sortedArray = [array sortedArrayUsingDescriptors:@[sortDescriptor]];
-    /*
-    NSArray *sortedArray = [array sortedArrayUsingComparator:^NSComparisonResult(id a, id b){
-        czzThread *first = (czzThread*)a;
-        czzThread *second = (czzThread*)b;
-        return first.ID > second.ID;
-    }];
-     */
     return sortedArray ? sortedArray : [NSArray new];
 }
 
@@ -757,43 +645,19 @@
     [self.viewDeckController toggleRightViewAnimated:YES];
 }
 
-#pragma mark UITapGestureRecognizer method
-//when user tapped in the ui image view, start/stop the download or show the downloaded image
-- (IBAction)userTapInImage:(id)sender {
-    UITapGestureRecognizer *tapGestureRecognizer = (UITapGestureRecognizer*)sender;
-    CGPoint tapLocation = [tapGestureRecognizer locationInView:self.tableView];
-    NSIndexPath *tapIndexPath = [self.tableView indexPathForRowAtPoint:tapLocation];
-    czzThread *tappedThread = [threads objectAtIndex:tapIndexPath.row];
+#pragma mark - TableViewCellDelegate
+-(void)userTapInImageView:(NSString *)imgURL {
     for (NSString *file in [[czzImageCentre sharedInstance] currentLocalImages]) {
-        if ([file.lastPathComponent.lowercaseString isEqualToString:tappedThread.imgSrc.lastPathComponent.lowercaseString])
+        if ([file.lastPathComponent.lowercaseString isEqualToString:imgURL.lastPathComponent.lowercaseString])
         {
             [self openImageWithPath:file];
             return;
         }
     }
-    //Start or stop the image downloader
-    if ([[czzImageCentre sharedInstance] containsImageDownloaderWithURL:tappedThread.imgSrc]){
-        [[czzImageCentre sharedInstance] stopAndRemoveImageDownloaderWithURL:tappedThread.imgSrc];
-        [[czzAppDelegate sharedAppDelegate] showToast:@"图片下载被终止了"];
-        NSLog(@"stop: %@", tappedThread.imgSrc);
-    } else {
-        BOOL completedURL = NO;
-        if ([[[NSURL URLWithString:tappedThread.imgSrc] scheme] isEqualToString:@"http"]) {
-            completedURL = YES;
-        } else {
-            tappedThread.imgSrc = [[[czzSettingsCentre sharedInstance] image_host] stringByAppendingPathComponent:tappedThread.imgSrc];
-            completedURL = YES;
-        }
-        NSLog(@"start : %@", tappedThread.imgSrc);
-        [[czzImageCentre sharedInstance] downloadImageWithURL:tappedThread.imgSrc isCompletedURL:completedURL];
-        [[czzAppDelegate sharedAppDelegate] showToast:@"正在下载图片"];
-    }
 }
 
-
--(void)userTapInQuotedText:(id)sender{
-    czzThreadRefButton *refButton = (czzThreadRefButton*)sender;
-    NSInteger refNumber = refButton.threadRefNumber;
+-(void)userTapInQuotedText:(NSString *)text {
+    NSInteger refNumber = text.integerValue;
     for (czzThread *thread in threads) {
         if (thread.ID == refNumber){
             //record the current content offset

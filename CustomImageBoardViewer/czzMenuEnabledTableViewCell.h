@@ -6,14 +6,20 @@
 //  Copyright (c) 2013 Craig. All rights reserved.
 //
 
+/*
+ sub class uitableview cell to enable custom menu action
+ */
+
 #import <UIKit/UIKit.h>
 #import "czzThread.h"
 #import "czzThreadViewController.h"
 #import "DACircularProgressView.h"
 
-/*
- sub class uitableview cell to enable custom menu action
- */
+
+@protocol czzMenuEnabledTableViewCellProtocol <NSObject>
+-(void)userTapInQuotedText:(NSString*)text;
+-(void)userTapInImageView:(NSString*)imgURL;
+@end
 
 @interface czzMenuEnabledTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *idLabel;
@@ -26,11 +32,13 @@
 @property (weak, nonatomic) IBOutlet UILabel *responseLabel;
 @property (weak, nonatomic) IBOutlet DACircularProgressView *circularProgressView;
 @property NSString *shouldHighlightSelectedUser;
+@property id<czzMenuEnabledTableViewCellProtocol> delegate;
 
 @property NSDictionary *downloadedImages;
 @property NSMutableArray *links;
 @property czzThread *parentThread;
 @property (nonatomic) czzThread *myThread;
+@property (weak, nonatomic) IBOutlet UITapGestureRecognizer *tapOnImageAction;
 @end
 
 

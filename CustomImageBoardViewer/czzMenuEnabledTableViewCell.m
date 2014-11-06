@@ -12,6 +12,7 @@
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzPostViewController.h"
 #import "czzAppDelegate.h"
+#import "czzImageCentre.h"
 #import "DACircularProgressView.h"
 #import "czzSettingsCentre.h"
 #import "czzThreadRefButton.h"
@@ -43,6 +44,7 @@
 @synthesize thumbnailFolder;
 @synthesize downloadedImages;
 @synthesize tapOnImageGestureRecogniser;
+@synthesize delegate;
 
 -(instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -270,9 +272,39 @@
 #pragma mark - user actions
 -(void)userTapInQuotedText:(czzThreadRefButton*)sender {
     NSLog(@"%@", NSStringFromSelector(_cmd));
+    if (delegate && [delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
+        [delegate userTapInQuotedText:[NSString stringWithFormat:@"%ld", (long)sender.threadRefNumber]];
+    }
 }
 
 -(void)userTapInImageView:(id)sender {
     NSLog(@"%@", NSStringFromSelector(_cmd));
+    if (delegate && [delegate respondsToSelector:@selector(userTapInImageView:)]) {
+        for (NSString *file in [[czzImageCentre sharedInstance] currentLocalImages]) {
+            if ([file.lastPathComponent.lowercaseString isEqualToString:myThread.imgSrc.lastPathComponent.lowercaseString])
+            {
+                [delegate userTapInImageView:file];
+                return;
+            }
+        }
+        //Start or stop the image downloader
+        if ([[czzImageCentre sharedInstance] containsImageDownloaderWithURL:myThread.imgSrc]){
+            [[czzImageCentre sharedInstance] stopAndRemoveImageDownloaderWithURL:myThread.imgSrc];
+            [[czzAppDelegate sharedAppDelegate] showToast:@"图片下载被终止了"];
+            NSLog(@"stop: %@", myThread.imgSrc);
+        } else {
+            BOOL completedURL = NO;
+            if ([[[NSURL URLWithString:myThread.imgSrc] scheme] isEqualToString:@"http"]) {
+                completedURL = YES;
+            } else {
+                myThread.imgSrc = [[[czzSettingsCentre sharedInstance] image_host] stringByAppendingPathComponent:myThread.imgSrc];
+                completedURL = YES;
+            }
+            NSLog(@"start : %@", myThread.imgSrc);
+            [[czzImageCentre sharedInstance] downloadImageWithURL:myThread.imgSrc isCompletedURL:completedURL];
+            [[czzAppDelegate sharedAppDelegate] showToast:@"正在下载图片"];
+        }
+
+    }
 }
 @end
