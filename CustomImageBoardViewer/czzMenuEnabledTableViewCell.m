@@ -216,9 +216,9 @@
         [sageLabel setHidden:NO];
     if (myThread.lock)
         [lockLabel setHidden:NO];
-    if (parentThread && myThread && [myThread.UID.string isEqualToString:parentThread.UID.string])
-    {
+    if (myThread.responseCount > 0) {
         responseLabel.text = [NSString stringWithFormat:@"回应:%ld", (long)myThread.responseCount];
+        responseLabel.hidden = NO;
     }
     
     //clickable content

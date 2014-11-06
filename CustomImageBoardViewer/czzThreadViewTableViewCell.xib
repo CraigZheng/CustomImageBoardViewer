@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="119"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView tag="9" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="3HO-Hu-PUf">
+                    <imageView tag="9" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="3HO-Hu-PUf">
                         <rect key="frame" x="20" y="40" width="80" height="80"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="80" id="hAG-eB-ZRf"/>
@@ -22,7 +22,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NO" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zcJ-Iq-ivZ">
-                        <rect key="frame" x="3" y="1" width="16.5" height="13"/>
+                        <rect key="frame" x="3" y="1" width="17" height="13"/>
                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                         <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -46,7 +46,7 @@
                         <size key="shadowOffset" width="1" height="1"/>
                     </label>
                     <textView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Content" translatesAutoresizingMaskIntoConstraints="NO" id="oML-xg-Zfq" customClass="czzNoSelectionTextView">
-                        <rect key="frame" x="0.0" y="13" width="320" height="35.5"/>
+                        <rect key="frame" x="0.0" y="13" width="320" height="36"/>
                         <constraints>
                             <constraint firstAttribute="height" priority="250" constant="26" id="6Qy-Et-6aq"/>
                         </constraints>
@@ -66,7 +66,7 @@
                         <color key="textColor" red="0.80000000000000004" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view hidden="YES" userInteractionEnabled="NO" alpha="0.89999997615814209" tag="10" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4QC-Ri-dMe" customClass="DACircularProgressView">
+                    <view hidden="YES" userInteractionEnabled="NO" alpha="0.89999997615814209" tag="10" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4QC-Ri-dMe" customClass="DACircularProgressView">
                         <rect key="frame" x="35" y="55" width="50" height="50"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -75,7 +75,7 @@
                         </constraints>
                     </view>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="回应:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="po6-xX-Zcg">
-                        <rect key="frame" x="241" y="106" width="79" height="13"/>
+                        <rect key="frame" x="241" y="105" width="79" height="13"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="79" id="IFY-yM-JZ8"/>
                             <constraint firstAttribute="height" constant="13" id="xm3-WI-Q6c"/>
