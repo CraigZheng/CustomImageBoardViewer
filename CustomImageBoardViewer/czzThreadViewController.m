@@ -181,7 +181,6 @@
         restoreFromBackgroundOffSet = CGPointZero;
     }
     //background colour
-    self.view.backgroundColor = settingsCentre.viewBackgroundColour;
 
 }
 
@@ -268,7 +267,6 @@
         } else {
             cell = [tableView dequeueReusableCellWithIdentifier:@"no_more_cell_identifier"];
         }
-        cell.backgroundColor = [UIColor clearColor];
         return cell;
     }
     czzThread *thread = [threads objectAtIndex:indexPath.row];
@@ -281,7 +279,6 @@
         cell.parentThread = parentThread;
         cell.myThread = thread;
     }
-    cell.backgroundColor = [UIColor clearColor];
     return cell;
 }
 

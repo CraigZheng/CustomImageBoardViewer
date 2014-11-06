@@ -169,6 +169,13 @@
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.viewDeckController.rightController = nil;
+    [self.tableView reloadData];
+    
     //change background colour for night mode
     if (settingsCentre.nightyMode)
     {
@@ -184,13 +191,6 @@
             self.navigationController.navigationBar.tintColor = nil;
         }
     }
-}
-
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    self.viewDeckController.rightController = nil;
-    self.view.backgroundColor = [settingsCentre viewBackgroundColour];
-    [self.tableView reloadData];
 }
 
 - (IBAction)sideButtonAction:(id)sender {
@@ -360,8 +360,6 @@
             UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
             [activityIndicator startAnimating];
         }
-        //background colour
-        cell.backgroundColor = [UIColor clearColor];
         return cell;
     }
 

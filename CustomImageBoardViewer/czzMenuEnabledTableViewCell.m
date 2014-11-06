@@ -45,14 +45,6 @@
 @synthesize tapOnImageGestureRecogniser;
 @synthesize delegate;
 
--(instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        
-    }
-    return self;
-}
-
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -72,7 +64,6 @@
         thumbnailFolder = [thumbnailFolder stringByAppendingPathComponent:@"Thumbnails"];
         settingsCentre = [czzSettingsCentre sharedInstance];
         shouldHighlight = settingsCentre.userDefShouldHighlightPO;
-
         tapOnImageGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTapInImageView:)];
     }
     return self;
@@ -91,11 +82,24 @@
     return YES;
 }
 
--(void)prepareForReuse{
-    UIView *viewToRemove = [self viewWithTag:99];
-    if (viewToRemove){
-        [viewToRemove removeFromSuperview];
+-(void)resetViews {
+    UIView *oldButton;
+    while ((oldButton = [self viewWithTag:999999]) != nil) {
+        [oldButton removeFromSuperview];
     }
+    previewImageView.hidden = YES;
+    circularProgressView.hidden = YES;
+    
+    sageLabel.hidden = YES;
+    lockLabel.hidden = YES;
+    responseLabel.hidden = YES;
+    
+    self.contentView.backgroundColor = [UIColor clearColor];
+    posterLabel.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = [UIColor clearColor];
+    if (settingsCentre.nightyMode)
+        self.backgroundColor = [settingsCentre viewBackgroundColour];
+
 }
 
 #pragma mark - custom menu action
@@ -164,9 +168,8 @@
 
 #pragma mark - consturct UI elements
 -(void)prepareUIWithMyThread {
-    previewImageView.hidden = YES;
-    circularProgressView.hidden = YES;
-    if (myThread.thImgSrc.length != 0){
+    [self resetViews];
+    if (myThread.thImgSrc.length > 0){
         previewImageView.hidden = NO;
         [previewImageView setImage:[UIImage imageNamed:@"Icon.png"]];
         NSString *filePath = [thumbnailFolder stringByAppendingPathComponent:[myThread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
@@ -190,6 +193,8 @@
         [contentAttrString insertAttributedString:myThread.content atIndex:warningAttString.length];
     }
     //content textview
+    if (settingsCentre.nightyMode)
+        [contentAttrString addAttribute:NSForegroundColorAttributeName value:settingsCentre.contentTextColour range:NSMakeRange(0, contentAttrString.length)];
     contentTextView.attributedText = contentAttrString;
     contentTextView.font = settingsCentre.contentFont;
     
@@ -209,27 +214,17 @@
     dateLabel.text = [dateFormatter stringFromDate:myThread.postDateTime];
     if (myThread.sage)
         [sageLabel setHidden:NO];
-    else
-        [sageLabel setHidden:YES];
     if (myThread.lock)
         [lockLabel setHidden:NO];
-    else
-        [lockLabel setHidden:YES];
     if (parentThread && myThread && [myThread.UID.string isEqualToString:parentThread.UID.string])
     {
         responseLabel.text = [NSString stringWithFormat:@"回应:%ld", (long)myThread.responseCount];
-    } else {
-        responseLabel.hidden = YES;
     }
     
     //clickable content
-    UIView *oldButton;
-    while ((oldButton = [self viewWithTag:999999]) != nil) {
-        [oldButton removeFromSuperview];
-    }
     for (NSNumber *refNumber in myThread.replyToList) {
         NSInteger rep = refNumber.integerValue;
-        if (rep > 0 && contentTextView) {
+        if (rep > 0) {
             NSString *quotedNumberText = [NSString stringWithFormat:@"%ld", (long)rep];
             NSRange range = [contentTextView.attributedText.string rangeOfString:quotedNumberText];
             if (range.location != NSNotFound){
@@ -248,8 +243,6 @@
     }
     
     //highlight original poster
-    posterLabel.backgroundColor = [UIColor clearColor];
-    self.contentView.backgroundColor = [UIColor clearColor];
     if (shouldHighlight && parentThread && [myThread.UID.string isEqualToString:parentThread.UID.string]) {
         posterLabel.backgroundColor = [UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:200.0f/255.0f alpha:1.0];
         self.contentView.backgroundColor = [UIColor clearColor];
@@ -305,4 +298,6 @@
 
     }
 }
+
+
 @end
