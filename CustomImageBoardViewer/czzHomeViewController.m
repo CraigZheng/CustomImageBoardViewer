@@ -25,6 +25,7 @@
 #import "czzNotificationBannerViewController.h"
 #import "czzSettingsCentre.h"
 #import "czzMenuEnabledTableViewCell.h"
+#import "czzTextViewHeightCalculator.h"
 #import <CoreText/CoreText.h>
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****"
@@ -425,13 +426,8 @@
         if (indexPath.row < heightsArray.count) {
             preferHeight = [[heightsArray objectAtIndex:indexPath.row] floatValue];
         } else {
-            UITextView *newHiddenTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
-            newHiddenTextView.hidden = YES;
-            [self.view addSubview:newHiddenTextView];
-            newHiddenTextView.attributedText = thread.content;
-            newHiddenTextView.font = [settingsCentre contentFont];
-            preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(newHiddenTextView.frame.size.width, MAXFLOAT)].height + 20;
-            [newHiddenTextView removeFromSuperview];
+            preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForContent:thread.content inView:self.view];
+            
             //height for preview image
             if (thread.thImgSrc.length != 0) {
                 preferHeight += 82;

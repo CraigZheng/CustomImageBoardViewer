@@ -26,6 +26,7 @@
 #import "czzOnScreenCommandViewController.h"
 #import "czzSearchViewController.h"
 #import "czzSettingsCentre.h"
+#import "czzTextViewHeightCalculator.h"
 #import "MWPhoto.h"
 #import "MWPhotoBrowser.h"
 
@@ -349,13 +350,7 @@
         if (indexPath.row < heightArrays.count) {
             preferHeight = [[heightArrays objectAtIndex:indexPath.row] floatValue];
         } else {
-            UITextView *newHiddenTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
-            newHiddenTextView.hidden = YES;
-            [self.view addSubview:newHiddenTextView];
-            newHiddenTextView.attributedText = thread.content;
-            newHiddenTextView.font = settingsCentre.contentFont;
-            preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(newHiddenTextView.frame.size.width, MAXFLOAT)].height + 20;
-            [newHiddenTextView removeFromSuperview];
+            preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForContent:thread.content inView:self.view];
             //height for preview image
             if (thread.thImgSrc.length != 0) {
                 preferHeight += 82;

@@ -11,6 +11,7 @@
 #import "czzAppDelegate.h"
 #import "czzThreadViewController.h"
 #import "czzHomeViewController.h"
+#import "czzTextViewHeightCalculator.h"
 #import "czzSettingsCentre.h"
 
 @interface czzFavouriteManagerViewController ()
@@ -114,22 +115,19 @@
     @catch (NSException *exception) {
         
     }
+    
+    CGFloat preferHeight = tableView.rowHeight;
     if (thread){
-        CGFloat preferHeight = 0;
-        UITextView *newHiddenTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
-        newHiddenTextView.hidden = YES;
-        [self.view addSubview:newHiddenTextView];
-        newHiddenTextView.attributedText = thread.content;
-        preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(newHiddenTextView.frame.size.width, MAXFLOAT)].height + 20;
-        [newHiddenTextView removeFromSuperview];
+        preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForContent:thread.content inView:self.view];
+        
         //height for preview image
         if (thread.thImgSrc.length != 0) {
             preferHeight += 82;
-            
         }
-        return MAX(tableView.rowHeight, preferHeight);
+        preferHeight = MAX(tableView.rowHeight, preferHeight);
+
     }
-    return tableView.rowHeight;
+    return preferHeight;
 }
 
 - (IBAction)editAction:(id)sender {
@@ -140,13 +138,7 @@
 -(NSArray*)sortTheGivenArray:(NSArray*)array{
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"ID" ascending:NO];
     NSArray *sortedArray = [array sortedArrayUsingDescriptors:@[sortDescriptor]];
-    /*
-     NSArray *sortedArray = [array sortedArrayUsingComparator:^NSComparisonResult(id a, id b){
-     czzThread *first = (czzThread*)a;
-     czzThread *second = (czzThread*)b;
-     return first.ID > second.ID;
-     }];
-     */
+
     return sortedArray;
 }
 
