@@ -28,6 +28,7 @@
 @synthesize nightyMode;
 @synthesize autoCleanImageCache;
 @synthesize shouldAllowDart;
+@synthesize shouldAllowOpenBlockedThread;
 
 + (id)sharedInstance
 {
@@ -56,7 +57,8 @@
         userDefShouldHighlightPO = YES;
         userDefShouldShowOnScreenCommand = YES;
         nightyMode = NO;
-        autoCleanImageCache = YES;
+        autoCleanImageCache = NO;
+        shouldAllowOpenBlockedThread = YES;
         
         //Dart settings
         shouldAllowDart = NO;
@@ -154,6 +156,7 @@
     shouldDisplayThumbnail = [[jsonObject objectForKey:@"shouldDisplayThumbnail"] boolValue];
     shouldDisplayContent = [[jsonObject objectForKey:@"shouldDisplayContent"] boolValue];
     shouldHideImageInForums = [jsonObject objectForKey:@"shouldHideImageInForms"];
+    shouldAllowOpenBlockedThread = [jsonObject objectForKey:@"shouldAllowOpenBlockedThread"];
     configuration_refresh_interval = [[jsonObject objectForKey:@"configuration_refresh_interval"] floatValue];
     blacklist_refresh_interval = [[jsonObject objectForKey:@"blacklist_refresh_interval"] floatValue];
     forum_list_refresh_interval = [[jsonObject objectForKey:@"forum_list_refresh_interval"] floatValue];

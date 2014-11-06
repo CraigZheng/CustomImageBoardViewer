@@ -18,6 +18,7 @@
 @property BOOL shouldDisplayImage;
 @property BOOL shouldDisplayThumbnail;
 @property BOOL shouldDisplayContent;
+@property BOOL shouldAllowOpenBlockedThread;
 @property NSArray *shouldHideImageInForums;
 @property NSTimeInterval configuration_refresh_interval;
 @property NSTimeInterval blacklist_refresh_interval;

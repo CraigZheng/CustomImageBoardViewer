@@ -24,8 +24,6 @@
 #import "czzOnScreenCommandViewController.h"
 #import "czzNotificationBannerViewController.h"
 #import "czzSettingsCentre.h"
-#import "czzMenuEnabledTableViewCell.h"
-
 #import <CoreText/CoreText.h>
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****"
@@ -97,8 +95,6 @@
     thumbnailFolder = [thumbnailFolder stringByAppendingPathComponent:@"Thumbnails"];
     
 
-    [self.threadTableView registerNib:[UINib nibWithNibName:@"czzThreadViewTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"thread_cell_identifier"];
-    
     //configure the view deck controller with half size and tap to close mode
     self.viewDeckController.leftSize = self.view.frame.size.width/4;
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
@@ -367,12 +363,72 @@
 
     NSString *cell_identifier = @"thread_cell_identifier";
     czzThread *thread = [threads objectAtIndex:indexPath.row];
-    czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
-    if (!cell) {
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"czzThreadViewTableViewCell" owner:self options:nil] firstObject];
+    //if image is present and settins is set to allow images to show
+    if (thread.thImgSrc.length != 0){
+        cell_identifier = @"image_thread_cell_identifier";
+    }
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier];
+    if (cell){
+        UITextView *contentTextView = (UITextView*)[cell viewWithTag:1];
+        UILabel *idLabel = (UILabel*)[cell viewWithTag:2];
+        UILabel *responseLabel = (UILabel*)[cell viewWithTag:4];
+        UILabel *dateLabel = (UILabel*)[cell viewWithTag:5];
+        UILabel *sageLabel = (UILabel*)[cell viewWithTag:7];
+        UILabel *lockLabel = (UILabel*)[cell viewWithTag:8];
+        UILabel *uidLabel = (UILabel*) [cell viewWithTag:10];
+        UIImageView *previewImageView = (UIImageView*)[cell viewWithTag:9];
+        previewImageView.hidden = YES;
+        if (thread.thImgSrc != 0){
+            previewImageView.hidden = NO;
+            [previewImageView setImage:[UIImage imageNamed:@"Icon.png"]];
+            NSString *filePath = [thumbnailFolder stringByAppendingPathComponent:[thread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
+            UIImage *previewImage =[[UIImage alloc] initWithContentsOfFile:filePath];
+            if (previewImage && previewImage.size.width > 0 && previewImage.size.height > 0){
+                [previewImageView setImage:previewImage];
+            } else if ([downloadedImages objectForKey:thread.thImgSrc]){
+                [previewImageView setImage:[[UIImage alloc] initWithContentsOfFile:[downloadedImages objectForKey:thread.thImgSrc]]];
+            }
+        }
+        //content text view
+        //if harmful flag of this thread object is set, inform user that this thread might be harmful
+        //also hides the preview
+        if (thread.harmful)
+        {
+            NSDictionary *warningStringAttributes = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObject:[UIColor lightGrayColor]] forKeys:[NSArray arrayWithObject:NSForegroundColorAttributeName]];
+            NSAttributedString *warningAttString = [[NSAttributedString alloc] initWithString:WARNINGHEADER attributes:warningStringAttributes];
+            [contentTextView setAttributedText:warningAttString];
+        } else {
+           //not harmful
+            [contentTextView setAttributedText: thread.content];
+        }
+        //colour and font attributes
+        contentTextView.font = settingsCentre.contentFont;
+
+        if ([UIDevice currentDevice].systemVersion.floatValue < 7.0) {
+            NSMutableAttributedString *tempAttributedString = [[NSMutableAttributedString alloc] initWithAttributedString:contentTextView.attributedText];
+            [tempAttributedString addAttribute:NSFontAttributeName value:settingsCentre.contentFont range:NSMakeRange(0, tempAttributedString.length)];
+            contentTextView.attributedText = tempAttributedString;
+        }
+        
+        idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)thread.ID];
+        [responseLabel setText:[NSString stringWithFormat:@"回应:%ld", (long)thread.responseCount]];
+        NSDateFormatter *dateFormatter = [NSDateFormatter new];
+        [dateFormatter setDateFormat:@"时间:MM-dd, HH:mm"];
+        dateLabel.text = [dateFormatter stringFromDate:thread.postDateTime];
+        NSMutableAttributedString *uidAttrString = [[NSMutableAttributedString alloc] initWithString:@"UID:"];
+        [uidAttrString appendAttributedString:thread.UID];
+        uidLabel.attributedText = uidAttrString;
+        if (thread.sage)
+            [sageLabel setHidden:NO];
+        else
+            [sageLabel setHidden:YES];
+        if (thread.lock)
+            [lockLabel setHidden:NO];
+        else
+            [lockLabel setHidden:YES];
         
     }
-    cell.myThread = thread;
+    //background colour
     cell.backgroundColor = [UIColor clearColor];
     return cell;
 }
@@ -380,8 +436,16 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     selectedIndex = indexPath;
     @try {
-        if (indexPath.row < threads.count)
+        if (indexPath.row < threads.count) {
             selectedThread = [threads objectAtIndex:selectedIndex.row];
+            if (!settingsCentre.shouldAllowOpenBlockedThread) {
+                czzBlacklistEntity *blacklistEntity = [[czzBlacklist sharedInstance] blacklistEntityForThreadID:selectedThread.ID];
+                if (blacklistEntity){
+                    NSLog(@"blacklisted thread");
+                    return;
+                }
+            }
+        }
     }
     @catch (NSException *exception) {
         
