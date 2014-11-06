@@ -36,6 +36,7 @@
 @property id<czzMenuEnabledTableViewCellProtocol> delegate;
 
 @property NSDictionary *downloadedImages;
+@property BOOL shouldHighlight;
 @property NSMutableArray *links;
 @property czzThread *parentThread;
 @property (nonatomic) czzThread *myThread;

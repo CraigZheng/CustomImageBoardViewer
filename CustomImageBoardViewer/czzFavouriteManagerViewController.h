@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "czzMenuEnabledTableViewCell.h"
 
 
 @interface czzFavouriteManagerViewController : UITableViewController

@@ -159,8 +159,8 @@
     NSArray *segments = [renderedString.string componentsSeparatedByString:@">>"];
     if (segments.count > 1) {
         for (NSString* segment in segments) {
-            NSString *seg = [segment stringByReplacingOccurrencesOfString:@"No." withString:@""];
-            NSInteger refNumber = seg.integerValue;
+            NSString *processedSeg = [segment stringByReplacingOccurrencesOfString:@"No." withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, segment.length)];
+            NSInteger refNumber = processedSeg.integerValue;
             if (refNumber != 0)
                 [self.replyToList addObject:[NSNumber numberWithInteger:refNumber]];
         }

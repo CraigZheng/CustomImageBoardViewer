@@ -368,6 +368,7 @@
     czzThread *thread = [threads objectAtIndex:indexPath.row];
     czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier];
     if (cell){
+        cell.shouldHighlight = NO;
         cell.parentThread = thread;
         cell.myThread = thread;
     }

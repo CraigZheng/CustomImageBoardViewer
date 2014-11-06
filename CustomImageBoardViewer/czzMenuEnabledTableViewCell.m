@@ -20,7 +20,6 @@
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate>
 @property NSString *thumbnailFolder;
 @property czzSettingsCentre *settingsCentre;
-@property BOOL shouldHighlight;
 @property UITapGestureRecognizer *tapOnImageGestureRecogniser;
 @end
 

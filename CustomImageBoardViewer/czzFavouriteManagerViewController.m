@@ -31,6 +31,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.tableView registerNib:[UINib nibWithNibName:@"czzThreadViewTableViewCell" bundle:nil] forCellReuseIdentifier:@"thread_cell_identifier"];
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
     settingsCentre = [czzSettingsCentre sharedInstance];
 }
@@ -70,57 +71,12 @@
     NSString *cell_identifier = @"thread_cell_identifier";
 //    czzThread *thread = [internalThreads.allObjects objectAtIndex:indexPath.row];
     czzThread *thread = [threads objectAtIndex:indexPath.row];
-    //if image is present and settins is set to allow images to show
-    if (thread.thImgSrc.length != 0){
-        cell_identifier = @"image_thread_cell_identifier";
-    }
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
+
+    czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
     if (cell){
-        UITextView *contentTextView = (UITextView*)[cell viewWithTag:1];
-        UILabel *idLabel = (UILabel*)[cell viewWithTag:2];
-        UILabel *responseLabel = (UILabel*)[cell viewWithTag:4];
-        UILabel *dateLabel = (UILabel*)[cell viewWithTag:5];
-        UILabel *imgLabel = (UILabel*)[cell viewWithTag:6];
-        UILabel *sageLabel = (UILabel*)[cell viewWithTag:7];
-        UILabel *lockLabel = (UILabel*)[cell viewWithTag:8];
-        UIImageView *previewImageView = (UIImageView*)[cell viewWithTag:9];
-        previewImageView.hidden = YES;
-        if (thread.thImgSrc != 0){
-            previewImageView.hidden = NO;
-            [previewImageView setImage:[UIImage imageNamed:@"Icon.png"]];
-            NSString* basePath = [czzAppDelegate libraryFolder];
-            basePath = [basePath stringByAppendingPathComponent:@"Thumbnails"];
-            NSString *filePath = [basePath stringByAppendingPathComponent:[thread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
-            UIImage *previewImage =[UIImage imageWithContentsOfFile:filePath];
-            if (previewImage){
-                [previewImageView setImage:previewImage];
-            }
-        }
-        [contentTextView setAttributedText:thread.content];
-        contentTextView.font = settingsCentre.contentFont;
-        
-        idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)thread.ID];
-        [responseLabel setText:[NSString stringWithFormat:@"回应:%ld", (long)thread.responseCount]];
-        NSDateFormatter *dateFormatter = [NSDateFormatter new];
-        [dateFormatter setDateFormat:@"时间:MM-dd, HH:mm"];
-        dateLabel.text = [dateFormatter stringFromDate:thread.postDateTime];
-        if (thread.imgSrc.length == 0)
-            [imgLabel setHidden:YES];
-        else
-            [imgLabel setHidden:NO];
-        if (thread.sage)
-            [sageLabel setHidden:NO];
-        else
-            [sageLabel setHidden:YES];
-        if (thread.lock)
-            [lockLabel setHidden:NO];
-        else
-            [lockLabel setHidden:YES];
-        if (thread.imgSrc.length == 0)
-            [imgLabel setHidden:YES];
-        else
-            [imgLabel setHidden:NO];
-        
+        cell.shouldHighlight = NO;
+        cell.parentThread = thread;
+        cell.myThread = thread;
     }
     cell.backgroundColor = [UIColor clearColor];
     return cell;
