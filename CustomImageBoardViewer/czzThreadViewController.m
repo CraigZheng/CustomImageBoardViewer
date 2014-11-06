@@ -267,6 +267,7 @@
         } else {
             cell = [tableView dequeueReusableCellWithIdentifier:@"no_more_cell_identifier"];
         }
+        cell.backgroundColor = [settingsCentre viewBackgroundColour];
         return cell;
     }
     czzThread *thread = [threads objectAtIndex:indexPath.row];
@@ -659,8 +660,9 @@
             [threadTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[threads indexOfObject:thread] inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:NO];
             //retrive the tapped tableview cell from the tableview
             UITableViewCell *selectedCell = [threadTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[threads indexOfObject:thread] inSection:0]];
-            UITableViewCell *cellCopy = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:selectedCell]];
-            [self highlightTableViewCell:cellCopy];
+            [self highlightTableViewCell:selectedCell];
+//            UITableViewCell *cellCopy = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:selectedCell]];
+//            [self highlightTableViewCell:cellCopy];
             return;
         }
     }

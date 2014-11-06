@@ -361,6 +361,7 @@
             UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
             [activityIndicator startAnimating];
         }
+        cell.backgroundColor = [settingsCentre viewBackgroundColour];
         return cell;
     }
 
