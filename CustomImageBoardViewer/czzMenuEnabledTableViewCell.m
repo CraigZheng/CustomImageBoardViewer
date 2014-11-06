@@ -45,28 +45,12 @@
 @synthesize tapOnImageGestureRecogniser;
 @synthesize delegate;
 
--(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        thumbnailFolder = [czzAppDelegate libraryFolder];
-        thumbnailFolder = [thumbnailFolder stringByAppendingPathComponent:@"Thumbnails"];
-        settingsCentre = [czzSettingsCentre sharedInstance];
-        shouldHighlight = settingsCentre.userDefShouldHighlightPO;
-        tapOnImageGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTapInImageView:)];
-    }
-    return self;
-}
-
--(id)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        thumbnailFolder = [czzAppDelegate libraryFolder];
-        thumbnailFolder = [thumbnailFolder stringByAppendingPathComponent:@"Thumbnails"];
-        settingsCentre = [czzSettingsCentre sharedInstance];
-        shouldHighlight = settingsCentre.userDefShouldHighlightPO;
-        tapOnImageGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTapInImageView:)];
-    }
-    return self;
+-(void)awakeFromNib {
+    thumbnailFolder = [czzAppDelegate libraryFolder];
+    thumbnailFolder = [thumbnailFolder stringByAppendingPathComponent:@"Thumbnails"];
+    settingsCentre = [czzSettingsCentre sharedInstance];
+    shouldHighlight = settingsCentre.userDefShouldHighlightPO;
+    tapOnImageGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTapInImageView:)];
 }
 
 -(BOOL)canPerformAction:(SEL)action withSender:(id)sender{
