@@ -168,7 +168,9 @@
 
 #pragma mark - consturct UI elements
 -(void)prepareUIWithMyThread {
+//    NSDate *startDate = [NSDate new];
     [self resetViews];
+    //NSLog(@"time consuming step 1: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
     if (myThread.thImgSrc.length > 0){
         previewImageView.hidden = NO;
         [previewImageView setImage:[UIImage imageNamed:@"Icon.png"]];
@@ -182,6 +184,7 @@
         //assign a gesture recogniser to it
         [previewImageView setGestureRecognizers:@[tapOnImageGestureRecogniser]];
     }
+    //NSLog(@"time consuming step 2: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
     //if harmful flag is set, display warning header of harmful thread
     NSMutableAttributedString *contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:myThread.content];
     if (myThread.harmful){
@@ -198,6 +201,7 @@
     contentTextView.attributedText = contentAttrString;
     contentTextView.font = settingsCentre.contentFont;
     
+    //NSLog(@"time consuming step 3: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
     if ([UIDevice currentDevice].systemVersion.floatValue < 7.0) {
         NSMutableAttributedString *tempAttributedString = [[NSMutableAttributedString alloc] initWithAttributedString:contentTextView.attributedText];
         [tempAttributedString addAttribute:NSFontAttributeName value:settingsCentre.contentFont range:NSMakeRange(0, tempAttributedString.length)];
@@ -241,6 +245,7 @@
             }
         }
     }
+    //NSLog(@"time consuming step 4: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
     
     //highlight original poster
     if (shouldHighlight && parentThread && [myThread.UID.string isEqualToString:parentThread.UID.string]) {
@@ -250,6 +255,7 @@
         posterLabel.backgroundColor = [UIColor clearColor];
         self.contentView.backgroundColor = [UIColor colorWithRed:222.0f/255.0f green:222.0f/255.0f blue:255.0f/255.0f alpha:1.0];
     }
+    //NSLog(@"time consuming step 5: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
 }
 
 #pragma - mark UIActionSheet delegate
