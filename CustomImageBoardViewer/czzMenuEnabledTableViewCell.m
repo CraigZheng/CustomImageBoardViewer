@@ -228,8 +228,8 @@
     while ((oldButton = [self viewWithTag:999999]) != nil) {
         [oldButton removeFromSuperview];
     }
-    for (NSString *refString in myThread.replyToList) {
-        NSInteger rep = refString.integerValue;
+    for (NSNumber *refNumber in myThread.replyToList) {
+        NSInteger rep = refNumber.integerValue;
         if (rep > 0 && contentTextView) {
             NSString *quotedNumberText = [NSString stringWithFormat:@"%ld", (long)rep];
             NSRange range = [contentTextView.attributedText.string rangeOfString:quotedNumberText];

@@ -50,6 +50,7 @@
             self.name = [data objectForKey:@"name"];
             self.email = [data objectForKey:@"email"];
             self.title = [data objectForKey:@"title"];
+
             //content
             if (self.title.length > 10)
                 self.content = [self renderHTMLToAttributedString:[NSString stringWithFormat:@" * %@ * \n\n%@", self.title, [data objectForKey:@"content"]]];
@@ -147,6 +148,27 @@
 }
 
 -(NSAttributedString*)renderHTMLToAttributedString:(NSString*)htmlString{
+    htmlString = [htmlString stringByReplacingOccurrencesOfString:@"&nbsp;ﾟ" withString:@"　ﾟ"];
+
+    NSAttributedString *renderedString = [[NSAttributedString alloc] initWithData:[htmlString dataUsingEncoding:NSUTF8StringEncoding]
+                                            options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+                                                      NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
+                                 documentAttributes:nil error:nil];
+    
+    //fine all >> quoted text
+    NSArray *segments = [renderedString.string componentsSeparatedByString:@">>"];
+    if (segments.count > 1) {
+        for (NSString* segment in segments) {
+            NSString *seg = [segment stringByReplacingOccurrencesOfString:@"No." withString:@""];
+            NSInteger refNumber = seg.integerValue;
+            if (refNumber != 0)
+                [self.replyToList addObject:[NSNumber numberWithInteger:refNumber]];
+        }
+    }
+
+    return renderedString;
+
+    //old methods
     htmlString = [htmlString gtm_stringByUnescapingFromHTML];
     htmlString = [htmlString stringByReplacingOccurrencesOfString:@"&#180" withString:@"´"];
     htmlString = [htmlString stringByReplacingOccurrencesOfString:@"&nbsp;ﾟ" withString:@"　ﾟ"];
