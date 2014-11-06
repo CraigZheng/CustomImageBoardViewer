@@ -17,6 +17,7 @@
 
 
 @protocol czzMenuEnabledTableViewCellProtocol <NSObject>
+@optional
 -(void)userTapInQuotedText:(NSString*)text;
 -(void)userTapInImageView:(NSString*)imgURL;
 @end

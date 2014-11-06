@@ -276,6 +276,7 @@
     // Configure the cell...
     if (cell){
         cell.delegate = self;
+        cell.shouldHighlightSelectedUser = shouldHighlightSelectedUser;
         cell.parentThread = parentThread;
         cell.myThread = thread;
     }
@@ -671,7 +672,9 @@
             return;
         }
     }
-    [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"找不到帖子ID: %ld, 可能不在本帖内", (long) refNumber]];
+    keywordToSearch = [NSString stringWithFormat:@"%ld", (long)refNumber];
+    [self performSegueWithIdentifier:@"go_search_view_segue" sender:self];
+//    [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"找不到帖子ID: %ld, 可能不在本帖内", (long) refNumber]];
 }
 
 #pragma mark - high light

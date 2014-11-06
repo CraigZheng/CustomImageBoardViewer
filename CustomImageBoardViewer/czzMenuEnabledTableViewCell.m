@@ -73,6 +73,7 @@
         thumbnailFolder = [thumbnailFolder stringByAppendingPathComponent:@"Thumbnails"];
         settingsCentre = [czzSettingsCentre sharedInstance];
         shouldHighlight = settingsCentre.userDefShouldHighlightPO;
+
         tapOnImageGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTapInImageView:)];
     }
     return self;
@@ -235,7 +236,7 @@
             if (range.location != NSNotFound){
                 CGRect result = [self frameOfTextRange:range inTextView:contentTextView];
                 
-                if (result.size.width > 0 && result.size.height > 0){
+                if (!CGSizeEqualToSize(CGSizeZero, result.size)){
                     czzThreadRefButton *threadRefButton = [[czzThreadRefButton alloc] initWithFrame:CGRectMake(result.origin.x, result.origin.y + contentTextView.frame.origin.y, result.size.width, result.size.height)];
                     threadRefButton.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.1f];
                     threadRefButton.tag = 999999;
@@ -248,16 +249,14 @@
     }
     
     //highlight original poster
+    posterLabel.backgroundColor = [UIColor clearColor];
+    self.contentView.backgroundColor = [UIColor clearColor];
     if (shouldHighlight && parentThread && [myThread.UID.string isEqualToString:parentThread.UID.string]) {
         posterLabel.backgroundColor = [UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:200.0f/255.0f alpha:1.0];
         self.contentView.backgroundColor = [UIColor clearColor];
     } else if (shouldHighlightSelectedUser && [myThread.UID.string isEqualToString:shouldHighlightSelectedUser]) {
         posterLabel.backgroundColor = [UIColor clearColor];
         self.contentView.backgroundColor = [UIColor colorWithRed:222.0f/255.0f green:222.0f/255.0f blue:255.0f/255.0f alpha:1.0];
-    }
-    else {
-        posterLabel.backgroundColor = [UIColor clearColor];
-        self.contentView.backgroundColor = [UIColor clearColor];
     }
 }
 
