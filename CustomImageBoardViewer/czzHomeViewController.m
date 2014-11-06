@@ -191,6 +191,7 @@
             self.navigationController.navigationBar.tintColor = nil;
         }
     }
+    self.view.backgroundColor = settingsCentre.viewBackgroundColour;
 }
 
 - (IBAction)sideButtonAction:(id)sender {

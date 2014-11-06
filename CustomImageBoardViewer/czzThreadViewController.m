@@ -181,7 +181,7 @@
         restoreFromBackgroundOffSet = CGPointZero;
     }
     //background colour
-
+    self.view.backgroundColor = settingsCentre.viewBackgroundColour;
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

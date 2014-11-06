@@ -267,6 +267,6 @@
 -(UIColor *)viewBackgroundColour {
     if (self.nightyMode)
         return [UIColor colorWithRed:20/255.0f green:20/255.0f blue:20/255.0f alpha:1.0f];
-    return [UIColor whiteColor];
+    return [UIColor clearColor];
 }
 @end
