@@ -57,10 +57,8 @@
 
 -(void)show {
     photoBrowserNavigationController = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
-    photoBrowserNavigationController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    
-    [viewControllerToShow presentViewController:photoBrowserNavigationController animated:YES completion:^{
-    }];
+    photoBrowserNavigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [viewControllerToShow presentViewController:photoBrowserNavigationController animated:YES completion:nil];
 }
 
 -(void)prepareMWPhotoBrowser {
