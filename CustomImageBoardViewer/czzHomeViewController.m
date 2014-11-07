@@ -31,7 +31,7 @@
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****"
 
-@interface czzHomeViewController ()<czzXMLDownloaderDelegate, /*czzXMLProcessorDelegate,*/ czzJSONProcessorDelegate, UIDocumentInteractionControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol>
+@interface czzHomeViewController ()<czzXMLDownloaderDelegate, /*czzXMLProcessorDelegate,*/ czzJSONProcessorDelegate, UIActionSheetDelegate, UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol>
 @property czzXMLDownloader *xmlDownloader;
 @property NSInteger currentPage;
 @property NSString *baseURLString;
@@ -42,7 +42,6 @@
 @property czzThreadViewController *threadViewController;
 @property NSMutableDictionary *downloadedImages;
 @property UIViewController *leftController;
-@property UIDocumentInteractionController *documentInteractionController;
 @property NSMutableArray *heightsForRows;
 @property NSMutableArray *heightsForRowsForHorizontalMode;
 @property czzOnScreenCommandViewController *onScreenCommandViewController;
@@ -52,6 +51,7 @@
 @property czzSettingsCentre *settingsCentre;
 @property BOOL shouldHideImageForThisForum;
 @property czzImageCentre *imageCentre;
+@property czzImageViewerUtil *imageViewerUtil;
 @end
 
 @implementation czzHomeViewController
@@ -70,7 +70,6 @@
 @synthesize heightsForRows;
 @synthesize heightsForRowsForHorizontalMode;
 @synthesize onScreenCommandViewController;
-@synthesize documentInteractionController;
 @synthesize threadViewController;
 @synthesize notificationBannerViewController;
 @synthesize shouldDisplayQuickScrollCommand;
@@ -78,12 +77,14 @@
 @synthesize settingsCentre;
 @synthesize shouldHideImageForThisForum;
 @synthesize imageCentre;
+@synthesize imageViewerUtil;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     imageCentre = [czzImageCentre sharedInstance]; //cause image centre to load itself
+    imageViewerUtil = [czzImageViewerUtil new];
     [czzAppDelegate sharedAppDelegate].homeViewController = self; //retain a reference to app delegate, so when entering background, the delegate can inform this controller for further actions
     settingsCentre = [czzSettingsCentre sharedInstance];
 
@@ -606,6 +607,7 @@
 #pragma mark - open images
 -(void)openImageWithPath:(NSString*)path{
     NSLog(@"%@", NSStringFromSelector(_cmd));
+    [imageViewerUtil showPhoto:path inViewController:self];
 }
 
 #pragma mark - notification handler - image downloaded
@@ -685,26 +687,6 @@
     if (selectedThread) {
         [self.navigationController popToRootViewControllerAnimated:NO];
         [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
-    }
-}
-
-#pragma mark UIDocumentInteractionController delegate
--(UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller{
-    return self;
-}
-
-//show documentcontroller
--(void)showDocumentController:(NSString*)path{
-    if (path){
-        if (self.isViewLoaded && self.view.window) {
-            if (documentInteractionController) {
-                [documentInteractionController dismissPreviewAnimated:YES];
-            }
-            documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:path]];
-            documentInteractionController.delegate = self;
-            [documentInteractionController presentPreviewAnimated:YES];
-
-        }
     }
 }
 

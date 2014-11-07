@@ -16,4 +16,5 @@
 @property UINavigationController *photoBrowserNavigationController;
 
 -(void)showPhoto:(NSString*)photoPath inViewController:(UIViewController*)viewCon;
+-(void)showPhotos:(NSArray*)photos inViewController:(UIViewController*)viewCon withIndex:(NSInteger)index;
 @end

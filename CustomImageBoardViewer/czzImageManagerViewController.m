@@ -10,37 +10,30 @@
 #import "czzImageCentre.h"
 #import "czzAppDelegate.h"
 #import "Toast+UIView.h"
-#import "MWPhoto.h"
-#import "MWPhotoBrowser.h"
-
+#import "czzImageViewerUtil.h"
 
 #define ALL_IMAGE 0
 #define FULL_SIZE_IMAGE 1
 #define THUMBNAIL 2
 
-@interface czzImageManagerViewController ()<MWPhotoBrowserDelegate>
+@interface czzImageManagerViewController ()
 @property NSMutableArray *Images;
 @property NSInteger imageCategory;
-@property UIDocumentInteractionController *documentInteractionController;
-@property MWPhotoBrowser *photoBrowser;
-@property NSMutableArray *photoBrowserDataSource;
-@property UINavigationController *photoBrowserNavigationController;
+@property czzImageViewerUtil *imageViewerUtil;
 @end
 
 @implementation czzImageManagerViewController
 @synthesize Images;
 @synthesize gallarySegmentControl;
 @synthesize imageCategory;
-@synthesize documentInteractionController;
-@synthesize photoBrowser;
-@synthesize photoBrowserDataSource;
-@synthesize photoBrowserNavigationController;
+@synthesize imageViewerUtil;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.collectionView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
+    imageViewerUtil = [czzImageViewerUtil new];
 //    //show all images
     imageCategory = ALL_IMAGE;
     if ([[czzImageCentre sharedInstance] ready])
@@ -96,20 +89,7 @@
 
 #pragma UICollectionViewDelegate
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    [self prepareMWPhotoBrowser];
-    photoBrowserDataSource = [NSMutableArray arrayWithArray:Images];
-    [photoBrowser setCurrentPhotoIndex:indexPath.row];
-    photoBrowserNavigationController = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
-    photoBrowserNavigationController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [self presentViewController:photoBrowserNavigationController animated:YES completion:^{
-    }];
-}
-
-
-
-#pragma UIDocumentInteractionController delegate
--(UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller{
-    return self;
+    [imageViewerUtil showPhotos:Images inViewController:self withIndex:indexPath.row];
 }
 
 //show different categories of images
@@ -117,43 +97,6 @@
     UISegmentedControl *control = (UISegmentedControl*)sender;
     imageCategory = control.selectedSegmentIndex;
     [self reloadImageFileFromImageCentre];
-}
-
-#pragma mark - MWPhotoBrowserDelegate
--(id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
-    @try {
-        MWPhoto *photo= [MWPhoto photoWithURL:[NSURL fileURLWithPath:[photoBrowserDataSource objectAtIndex:index]]];
-        return photo;
-    }
-    @catch (NSException *exception) {
-        NSLog(@"%@", exception);
-    }
-    return nil;
-}
-
--(void)photoBrowser:(MWPhotoBrowser *)photoBrowser actionButtonPressedForPhotoAtIndex:(NSUInteger)index {
-    NSURL *fileURL = [NSURL fileURLWithPath:[photoBrowserDataSource objectAtIndex:index]];
-    documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:fileURL];
-    if (photoBrowserNavigationController)
-        [documentInteractionController presentOptionsMenuFromRect:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) inView:photoBrowserNavigationController.view animated:YES];
-}
-
--(NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
-    return photoBrowserDataSource.count;
-}
-
--(void)prepareMWPhotoBrowser {
-    photoBrowser = [[MWPhotoBrowser alloc] initWithDelegate:self];
-    //    browser.displayActionButton = NO; // Show action button to allow sharing, copying, etc (defaults to YES)
-    photoBrowser.displayNavArrows = YES; // Whether to display left and right nav arrows on toolbar (defaults to NO)
-    photoBrowser.displaySelectionButtons = NO; // Whether selection buttons are shown on each image (defaults to NO)
-    photoBrowser.zoomPhotosToFill = NO; // Images that almost fill the screen will be initially zoomed to fill (defaults to YES)
-    photoBrowser.alwaysShowControls = NO; // Allows to control whether the bars and controls are always visible or whether they fade away to show the photo full (defaults to NO)
-    photoBrowser.enableGrid = NO; // Whether to allow the viewing of all the photo thumbnails on a grid (defaults to YES)
-    photoBrowser.startOnGrid = NO; // Whether to start on the grid of thumbnails instead of the first photo (defaults to NO)
-    photoBrowser.delayToHideElements = 4.0;
-    photoBrowser.displayActionButton = YES;
-    photoBrowserDataSource = [NSMutableArray new];
 }
 
 #pragma mark memory pressure

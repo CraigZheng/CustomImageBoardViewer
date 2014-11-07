@@ -29,23 +29,38 @@
 
 -(void)showPhoto:(NSString *)photoPath inViewController:(UIViewController *)viewCon {
     if (photoPath.length > 0 && viewCon) {
-        [photoBrowserDataSource addObject:photoPath];
+        [self prepareMWPhotoBrowser];
         viewControllerToShow = viewCon;
         if (!photoBrowserDataSource)
             photoBrowserDataSource = [NSMutableArray new];
         if (![photoBrowserDataSource containsObject:photoPath])
             [photoBrowserDataSource addObject:photoPath];
         [photoBrowser setCurrentPhotoIndex: [photoBrowserDataSource indexOfObject:photoPath]];
-        //post ios 7 device, push into navigation controller
-        photoBrowserNavigationController = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
-        photoBrowserNavigationController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-        
-        [viewControllerToShow presentViewController:photoBrowserNavigationController animated:YES completion:^{
-        }];
-
+        [self show];
     } else {
         NSLog(@"Either photo path or view controller is nil");
     }
+}
+
+-(void)showPhotos:(NSArray *)photos inViewController:(UIViewController *)viewCon withIndex:(NSInteger)index {
+    if (photos.count > 0 && viewCon) {
+        [self prepareMWPhotoBrowser];
+        viewControllerToShow = viewCon;
+        photoBrowserDataSource = [NSMutableArray arrayWithArray:photos];
+        [photoBrowser setCurrentPhotoIndex:index];
+        [self show];
+    }
+    else {
+        NSLog(@"Either photos or view controller is nil");
+    }
+}
+
+-(void)show {
+    photoBrowserNavigationController = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
+    photoBrowserNavigationController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    
+    [viewControllerToShow presentViewController:photoBrowserNavigationController animated:YES completion:^{
+    }];
 }
 
 -(void)prepareMWPhotoBrowser {
@@ -76,15 +91,12 @@
 -(void)photoBrowser:(MWPhotoBrowser *)photoBrowser actionButtonPressedForPhotoAtIndex:(NSUInteger)index {
     NSURL *fileURL = [NSURL fileURLWithPath:[photoBrowserDataSource objectAtIndex:index]];
     documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:fileURL];
-    UIView *viewToShowDocumentInteractionController = viewControllerToShow.view;
-    if ([UIDevice currentDevice].systemVersion.floatValue < 7.0 && photoBrowserNavigationController != nil) {
-        viewToShowDocumentInteractionController = photoBrowserNavigationController.view;
-    }
+    UIView *viewToShowDocumentInteractionController = photoBrowserNavigationController.view;
     [documentInteractionController presentOptionsMenuFromRect:CGRectMake(0, 0, viewControllerToShow.view.frame.size.width, viewControllerToShow.view.frame.size.height) inView:viewToShowDocumentInteractionController animated:YES];
 }
 
 -(void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser {
-    [viewControllerToShow dismissViewControllerAnimated:YES completion:nil];
+    [photoBrowserNavigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {

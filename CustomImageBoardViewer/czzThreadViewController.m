@@ -15,6 +15,7 @@
 #import "SMXMLDocument.h"
 #import "czzImageCentre.h"
 #import "czzImageDownloader.h"
+#import "czzImageViewerUtil.h"
 #import "czzAppDelegate.h"
 #import "czzRightSideViewController.h"
 #import "DACircularProgressView.h"
@@ -27,13 +28,11 @@
 #import "czzSearchViewController.h"
 #import "czzSettingsCentre.h"
 #import "czzTextViewHeightCalculator.h"
-#import "MWPhoto.h"
-#import "MWPhotoBrowser.h"
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
 #define OVERLAY_VIEW 122
 
-@interface czzThreadViewController ()<czzXMLDownloaderDelegate, /*czzXMLProcessorDelegate,*/ czzJSONProcessorDelegate, MWPhotoBrowserDelegate, UINavigationControllerDelegate, UIAlertViewDelegate, UIDocumentInteractionControllerDelegate, czzMenuEnabledTableViewCellProtocol>
+@interface czzThreadViewController ()<czzXMLDownloaderDelegate, /*czzXMLProcessorDelegate,*/ czzJSONProcessorDelegate, UINavigationControllerDelegate, UIAlertViewDelegate, UIDocumentInteractionControllerDelegate, czzMenuEnabledTableViewCellProtocol>
 @property NSString *baseURLString;
 @property NSString *targetURLString;
 @property NSMutableArray *threads;
@@ -43,6 +42,7 @@
 @property NSInteger pageNumber;
 @property NSMutableDictionary *downloadedImages;
 @property NSMutableSet *currentImageDownloaders;
+@property czzImageViewerUtil *imageViewerUtil;
 @property UIDocumentInteractionController *documentInteractionController;
 @property CGPoint threadsTableViewContentOffSet; //record the content offset of the threads tableview
 @property BOOL shouldHighlight;
@@ -54,9 +54,6 @@
 @property NSString *thumbnailFolder;
 @property NSString *keywordToSearch;
 @property czzSettingsCentre *settingsCentre;
-@property MWPhotoBrowser *photoBrowser;
-@property UINavigationController *photoBrowserNavigationController;
-@property NSMutableArray *photoBrowserDataSource;
 @property UIViewController *rightViewController;
 @property UIViewController *topViewController;
 @property BOOL readyToPushViewController;
@@ -88,12 +85,11 @@
 @synthesize keywordToSearch;
 @synthesize settingsCentre;
 @synthesize shouldHideImageForThisForum;
-@synthesize photoBrowser;
-@synthesize photoBrowserNavigationController;
-@synthesize photoBrowserDataSource;
 @synthesize rightViewController;
 @synthesize topViewController;
 @synthesize readyToPushViewController;
+@synthesize imageViewerUtil;
+
 
 - (void)viewDidLoad
 {
@@ -101,6 +97,7 @@
     //thumbnail folder
     thumbnailFolder = [czzAppDelegate libraryFolder];
     thumbnailFolder = [thumbnailFolder stringByAppendingPathComponent:@"Thumbnails"];
+    imageViewerUtil = [czzImageViewerUtil new];
     //settings
     settingsCentre = [czzSettingsCentre sharedInstance];
     shouldHighlight = settingsCentre.userDefShouldHighlightPO;
@@ -709,67 +706,7 @@
 
 //show documentcontroller
 -(void)openImageWithPath:(NSString*)path{
-    if (path){
-        if (readyToPushViewController) {
-            //MWPhotoBrowser
-            [self prepareMWPhotoBrowser];
-            if (!photoBrowserDataSource)
-                photoBrowserDataSource = [NSMutableArray new];
-            if (![photoBrowserDataSource containsObject:path])
-                [photoBrowserDataSource addObject:path];
-            [photoBrowser setCurrentPhotoIndex: [photoBrowserDataSource indexOfObject:path]];
-            //post ios 7 device, push into navigation controller
-            photoBrowserNavigationController = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
-            photoBrowserNavigationController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-            
-            [self presentViewController:photoBrowserNavigationController animated:YES completion:^{
-            }];
-
-        }
-    }
-}
-
-#pragma mark - MWPhotoBrowserDelegate
--(id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
-    @try {
-        MWPhoto *photo= [MWPhoto photoWithURL:[NSURL fileURLWithPath:[photoBrowserDataSource objectAtIndex:index]]];
-        return photo;
-    }
-    @catch (NSException *exception) {
-        NSLog(@"%@", exception);
-    }
-    return nil;
-}
-
--(void)photoBrowser:(MWPhotoBrowser *)photoBrowser actionButtonPressedForPhotoAtIndex:(NSUInteger)index {
-    NSURL *fileURL = [NSURL fileURLWithPath:[photoBrowserDataSource objectAtIndex:index]];
-    documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:fileURL];
-    UIView *viewToShowDocumentInteractionController = self.view;
-    if ([UIDevice currentDevice].systemVersion.floatValue < 7.0 && photoBrowserNavigationController != nil) {
-        viewToShowDocumentInteractionController = photoBrowserNavigationController.view;
-    }
-    [documentInteractionController presentOptionsMenuFromRect:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) inView:viewToShowDocumentInteractionController animated:YES];
-}
-
--(void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
--(NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
-    return photoBrowserDataSource.count;
-}
-
--(void)prepareMWPhotoBrowser {
-    photoBrowser = [[MWPhotoBrowser alloc] initWithDelegate:self];
-    //    browser.displayActionButton = NO; // Show action button to allow sharing, copying, etc (defaults to YES)
-    photoBrowser.displayNavArrows = YES; // Whether to display left and right nav arrows on toolbar (defaults to NO)
-    photoBrowser.displaySelectionButtons = NO; // Whether selection buttons are shown on each image (defaults to NO)
-    photoBrowser.zoomPhotosToFill = NO; // Images that almost fill the screen will be initially zoomed to fill (defaults to YES)
-    photoBrowser.alwaysShowControls = NO; // Allows to control whether the bars and controls are always visible or whether they fade away to show the photo full (defaults to NO)
-    photoBrowser.enableGrid = NO; // Whether to allow the viewing of all the photo thumbnails on a grid (defaults to YES)
-    photoBrowser.startOnGrid = NO; // Whether to start on the grid of thumbnails instead of the first photo (defaults to NO)
-    photoBrowser.delayToHideElements = 4.0;
-    photoBrowser.displayActionButton = YES;
+    [imageViewerUtil showPhoto:path inViewController:self];
 }
 
 #pragma mark - prepare for segue
