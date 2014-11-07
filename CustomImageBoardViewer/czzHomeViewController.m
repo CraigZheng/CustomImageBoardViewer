@@ -26,11 +26,12 @@
 #import "czzSettingsCentre.h"
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzTextViewHeightCalculator.h"
+#import "czzImageViewerUtil.h"
 #import <CoreText/CoreText.h>
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****"
 
-@interface czzHomeViewController ()<czzXMLDownloaderDelegate, /*czzXMLProcessorDelegate,*/ czzJSONProcessorDelegate, UIDocumentInteractionControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
+@interface czzHomeViewController ()<czzXMLDownloaderDelegate, /*czzXMLProcessorDelegate,*/ czzJSONProcessorDelegate, UIDocumentInteractionControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol>
 @property czzXMLDownloader *xmlDownloader;
 @property NSInteger currentPage;
 @property NSString *baseURLString;
@@ -119,7 +120,7 @@
                                              selector:@selector(imageDownloaded:)
                                                  name:@"ThumbnailDownloaded"
                                                object:nil];
-
+    
     //register a refresh control
     UIRefreshControl* refreCon = [[UIRefreshControl alloc] init];
     [refreCon addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
@@ -168,11 +169,16 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ImageDownloaded" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ImageDownloaderProgressUpdated" object:nil];
     [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ImageDownloaded" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaderUpdated:) name:@"ImageDownloaderProgressUpdated" object:nil];
+
     self.viewDeckController.rightController = nil;
     [self.tableView reloadData];
     
@@ -369,6 +375,7 @@
     czzThread *thread = [threads objectAtIndex:indexPath.row];
     czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier];
     if (cell){
+        cell.delegate = self;
         cell.shouldHighlight = NO;
         cell.parentThread = thread;
         cell.myThread = thread;
@@ -585,7 +592,23 @@
     [moreInfoViewController setForumName:name];
 }
 
-#pragma notification handler - image downloaded
+#pragma mark - czzMenuEnableTableViewCellDelegate
+-(void)userTapInImageView:(NSString *)imgURL {
+    for (NSString *file in [[czzImageCentre sharedInstance] currentLocalImages]) {
+        if ([file.lastPathComponent.lowercaseString isEqualToString:imgURL.lastPathComponent.lowercaseString])
+        {
+            [self openImageWithPath:file];
+            return;
+        }
+    }
+}
+
+#pragma mark - open images
+-(void)openImageWithPath:(NSString*)path{
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+}
+
+#pragma mark - notification handler - image downloaded
 -(void)imageDownloaded:(NSNotification*)notification{
     czzImageDownloader *imgDownloader = [notification.userInfo objectForKey:@"ImageDownloader"];
     BOOL success = [[notification.userInfo objectForKey:@"Success"] boolValue];
@@ -613,10 +636,39 @@
         }
     }
     if (imgDownloader && !imgDownloader.isThumbnail){
-        if (settingsCentre.userDefShouldAutoOpenImage) {//[[NSUserDefaults standardUserDefaults] objectForKey:@"shouldAutoOpenImage"]) {
-            [self showDocumentController:[notification.userInfo objectForKey:@"FilePath"]];
-        } else
-            [self showDocumentController:[notification.userInfo objectForKey:@"FilePath"]];
+        if (settingsCentre.userDefShouldAutoOpenImage)
+            [self openImageWithPath:[notification.userInfo objectForKey:@"FilePath"]];
+    }
+}
+
+#pragma mark - image downloading progress update
+-(void)imageDownloaderUpdated:(NSNotification*)notification{
+    czzImageDownloader *imgDownloader = [notification.userInfo objectForKey:@"ImageDownloader"];
+    if (imgDownloader){
+        NSInteger updateIndex = -1;
+        for (czzThread *thread in threads) {
+            if ([thread.imgSrc isEqualToString:imgDownloader.imageURLString]){
+                updateIndex = [threads indexOfObject:thread];
+                break;
+            }
+        }
+        if (updateIndex > -1){
+            UITableViewCell *cellToUpdate = [threadTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:updateIndex inSection:0]];
+            DACircularProgressView *circularProgressView = (DACircularProgressView*)[cellToUpdate viewWithTag:10];
+            circularProgressView.progressTintColor = [UIColor whiteColor];
+            circularProgressView.trackTintColor = [UIColor colorWithRed:0. green:0. blue:0. alpha:0.5];
+            circularProgressView.thicknessRatio = 0.1;
+            if (circularProgressView){
+                if (imgDownloader.progress < 1)
+                {
+                    circularProgressView.hidden = NO;
+                    circularProgressView.progress = imgDownloader.progress;
+                } else {
+                    circularProgressView.hidden = YES;
+                }
+                [circularProgressView setNeedsDisplay];
+            }
+        }
     }
 }
 
