@@ -52,8 +52,12 @@
             self.title = [data objectForKey:@"title"];
 
             //content
-            if (self.title.length > 10)
-                self.content = [self renderHTMLToAttributedString:[NSString stringWithFormat:@" * %@ * \n\n%@", self.title, [data objectForKey:@"content"]]];
+            if (self.title.length > 10) {
+                NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" * %@ * \n\n", self.title] attributes:nil];
+                [content appendAttributedString:[self renderHTMLToAttributedString:[data objectForKey:@"content"]]];
+                self.content = content;
+//                self.content = [self renderHTMLToAttributedString:[NSString stringWithFormat:@" * %@ * \n\n%@", self.title, [data objectForKey:@"content"]]];
+            }
             else
                 self.content = [self renderHTMLToAttributedString:[NSString stringWithString:[data objectForKey:@"content"]]];
             
@@ -160,7 +164,7 @@
     if (segments.count > 1) {
         for (NSString* segment in segments) {
             NSString *processedSeg = [segment stringByReplacingOccurrencesOfString:@"No." withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, segment.length)];
-            NSInteger refNumber = processedSeg.integerValue;
+            NSInteger refNumber  = processedSeg.integerValue;
             if (refNumber != 0)
                 [self.replyToList addObject:[NSNumber numberWithInteger:refNumber]];
         }
