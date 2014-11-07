@@ -46,6 +46,9 @@
     } else {
         [DartCrowdSourcingLib disableCollection];
     }
+#ifdef DEBUG
+    [DartCrowdSourcingLib enableCollection]; //enable collection for debug build only
+#endif
     
 //    [DartCrowdSourcingLib initWithApiKey:@"CustomImageBoardViewer" version:@"0.1" homeMccMnc:@"50502" testerID:@"CustomImageBoardViewer@optus.com" uploadURL:nil];
     return YES;
