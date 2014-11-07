@@ -20,6 +20,7 @@
 #import "czzFavouriteManagerViewController.h"
 #import "Toast+UIView.h"
 #import "czzHTMLParserViewController.h"
+#import "czzMiniThreadViewController.h"
 
 @interface czzSearchViewController ()<UIAlertViewDelegate, UIWebViewDelegate>
 @property czzThread *selectedParentThread;
@@ -106,44 +107,9 @@
 
 -(void)downloadAndPrepareThreadWithID:(NSInteger)threadID {
     NSLog(@"threadID entered: %ld", (long)threadID);
-    NSString *target = [NSString stringWithFormat:@"http://h.acfun.tv/t/%ld.json", (long)threadID];
-    [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:target]]  queue:[NSOperationQueue new] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        if (!connectionError) {
-            NSDictionary *rawJson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            NSInteger parentThreadID = [[[rawJson objectForKey:@"threads"] objectForKey:@"parent"] integerValue];
-            if (parentThreadID > 0) {
-                NSString *parentThreadTarget = [NSString stringWithFormat:@"http://h.acfun.tv/t/%ld.json", (long)parentThreadID];
-                [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:parentThreadTarget]] queue:[NSOperationQueue new] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                    if (!connectionError) {
-                        NSDictionary *parentJson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-                        
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            selectedParentThread = [[czzThread alloc] initWithJSONDictionary:[parentJson objectForKey:@"threads"]];
-                            if (selectedParentThread)
-                                [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
-                            else {
-                                [[czzAppDelegate sharedAppDelegate].window makeToast:@"无法打开，请重试"];
-                            }
-                        });
-                    } else {
-                        NSLog(@"%@", connectionError);
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [[czzAppDelegate sharedAppDelegate].window makeToast:@"无法打开，请重试"];
-                        });
-                    }
-                }];
-            } else {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [[czzAppDelegate sharedAppDelegate].window makeToast:@"无法打开，请重试"];
-                });
-            }
-        } else {
-            NSLog(@"%@", connectionError);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[czzAppDelegate sharedAppDelegate].window makeToast:@"无法打开，请重试"];
-            });
-        }
-    }];
+    czzMiniThreadViewController *miniThreadView = [[UIStoryboard storyboardWithName:@"MiniThreadView" bundle:nil] instantiateInitialViewController];
+    miniThreadView.threadID = threadID;
+    [self.navigationController pushViewController:miniThreadView animated:YES];
 }
 
 -(NSURLRequest*)makeRequestWithKeyword:(NSString*)keyword {
