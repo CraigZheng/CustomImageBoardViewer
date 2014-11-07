@@ -696,8 +696,10 @@
     NSArray *rectArray = containerView.rectsArray;
     BOOL userTouchInView = NO;
     for (NSValue *rect in rectArray) {
-        if (CGRectContainsPoint([rect CGRectValue], touchPoint))
+        if (CGRectContainsPoint([rect CGRectValue], touchPoint)) {
             userTouchInView = YES;
+            break;
+        }
     }
     
     if (!userTouchInView)

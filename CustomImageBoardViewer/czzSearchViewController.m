@@ -243,15 +243,11 @@
                 NSString *acURL = [[request.URL.absoluteString componentsSeparatedByString:@"?"].firstObject stringByReplacingOccurrencesOfString:@"m/" withString:@""]; //only the first few components are useful, the host and the thread id
                 targetURL = [NSURL URLWithString:acURL];
                 [self performSegueWithIdentifier:@"go_html_parser_view_controller" sender:self];
-//                [self openURLAndConvertToczzThreadFormat:[NSURL URLWithString:acURL]];
                 return NO;
             }
         }
         return YES;
     }
-//    } else if (navigationType == UIWebViewNavigationTypeOther && [request.URL.absoluteString rangeOfString:@"h.acfun.tv"].location != NSNotFound){
-//        //load the given url and parse it
-//    }
     return YES;
 }
 
