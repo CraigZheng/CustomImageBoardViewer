@@ -71,6 +71,7 @@
     photoBrowser.enableGrid = NO; // Whether to allow the viewing of all the photo thumbnails on a grid (defaults to YES)
     photoBrowser.startOnGrid = NO; // Whether to start on the grid of thumbnails instead of the first photo (defaults to NO)
     photoBrowser.delayToHideElements = 4.0;
+    photoBrowser.enableSwipeToDismiss = NO; // dont dismiss
     photoBrowser.displayActionButton = YES;
 }
 
