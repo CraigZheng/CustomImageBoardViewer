@@ -43,6 +43,12 @@
         if (existingFiles.count <= 0)
             [self reloadCacheFiles];
         
+        if ([[czzSettingsCentre sharedInstance] autoCleanImageCache]) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                [self clearOldFile];
+            });
+        }
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(saveThreadCaches) name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
     
@@ -273,17 +279,25 @@
 -(void)reloadCacheFiles{
     NSArray *allCacheFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:cachePath error:nil];
     NSMutableArray *files = [NSMutableArray new];
-    if ([[czzSettingsCentre sharedInstance] autoCleanImageCache]) {
-        for (NSString *f in allCacheFiles) {
-            NSString *filePath = [cachePath stringByAppendingPathComponent:f];
-            if (![self isFileOlderThan10Days:filePath])
-                [files addObject:f];
-        }
-    } else {
-        [files addObjectsFromArray:allCacheFiles];
-    }
-
+    [files addObjectsFromArray:allCacheFiles];
     existingFiles = [NSMutableSet setWithArray:files];
+    
+
+}
+
+-(void)clearOldFile {
+    if (existingFiles.count <= 0)
+        return;
+    NSMutableArray *newArray = [NSMutableArray new];
+    NSMutableArray *existingArray = [NSMutableArray arrayWithArray:existingFiles.allObjects];
+    for (NSString *f in existingArray) {
+        NSString *filePath = [cachePath stringByAppendingPathComponent:f];
+        if (![self isFileOlderThan10Days:filePath])
+            [newArray addObject:f];
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        existingFiles = [NSMutableSet setWithArray:newArray];
+    });
 }
 
 -(BOOL)isFileOlderThan10Days:(NSString*)filePath {
