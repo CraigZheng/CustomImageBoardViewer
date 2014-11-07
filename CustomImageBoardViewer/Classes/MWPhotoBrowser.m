@@ -188,6 +188,7 @@
         _actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(actionButtonPressed:)];
     }
     
+
     // Update
     [self reloadData];
     
@@ -253,6 +254,11 @@
     NSMutableArray *items = [[NSMutableArray alloc] init];
 
     // Left button - Grid
+    /////////////////////////////
+    //add quit button
+    [items addObject:[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStylePlain target:self action:@selector(doneButtonPressed:)]];
+    /////////////////////////////
+
     if (_enableGrid) {
         hasItems = YES;
         NSString *buttonName = @"UIBarButtonItemGrid";
@@ -283,6 +289,10 @@
             self.navigationItem.rightBarButtonItem = _actionButton;
         [items addObject:fixedSpace];
     }
+    
+    /////////////////////////////
+    //add quit button
+    /////////////////////////////
 
     // Toolbar visibility
     [_toolbar setItems:items];

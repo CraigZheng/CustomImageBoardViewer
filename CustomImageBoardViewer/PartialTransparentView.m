@@ -2,6 +2,8 @@
 #import <QuartzCore/QuartzCore.h>
 
 @implementation PartialTransparentView
+@synthesize rectsArray;
+@synthesize backgroundColor;
 
 - (id)initWithFrame:(CGRect)frame backgroundColor:(UIColor*)color andTransparentRects:(NSArray*)rects
 {

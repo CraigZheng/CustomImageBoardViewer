@@ -658,14 +658,11 @@
             //retrive the tapped tableview cell from the tableview
             UITableViewCell *selectedCell = [threadTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[threads indexOfObject:thread] inSection:0]];
             [self highlightTableViewCell:selectedCell];
-//            UITableViewCell *cellCopy = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:selectedCell]];
-//            [self highlightTableViewCell:cellCopy];
             return;
         }
     }
     keywordToSearch = [NSString stringWithFormat:@"%ld", (long)refNumber];
     [self performSegueWithIdentifier:@"go_search_view_segue" sender:self];
-//    [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"找不到帖子ID: %ld, 可能不在本帖内", (long) refNumber]];
 }
 
 #pragma mark - high light
@@ -688,14 +685,23 @@
 }
 
 -(void)tapOnFloatingView:(UIGestureRecognizer*)gestureRecognizer{
-    UIView *containerView = [[[czzAppDelegate sharedAppDelegate] window] viewWithTag:OVERLAY_VIEW];
+    PartialTransparentView *containerView = (PartialTransparentView*)[self.view viewWithTag:OVERLAY_VIEW];
     [UIView animateWithDuration:0.2 animations:^{
         containerView.alpha = 0.0f;
     } completion:^(BOOL finished){
         [containerView removeFromSuperview];
         //scroll back to the original position
     }];
-    [threadTableView setContentOffset:threadsTableViewContentOffSet animated:YES];
+    CGPoint touchPoint = [gestureRecognizer locationInView:self.view];
+    NSArray *rectArray = containerView.rectsArray;
+    BOOL userTouchInView = NO;
+    for (NSValue *rect in rectArray) {
+        if (CGRectContainsPoint([rect CGRectValue], touchPoint))
+            userTouchInView = YES;
+    }
+    
+    if (!userTouchInView)
+        [threadTableView setContentOffset:threadsTableViewContentOffSet animated:YES];
     self.threadTableView.scrollEnabled = YES;
 }
 
@@ -721,7 +727,7 @@
 #pragma mark - rotation change
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
     UIView *containerView = [[[czzAppDelegate sharedAppDelegate] window] viewWithTag:OVERLAY_VIEW];
-    //if the container view is not nil
+    //if the container view is not nil, deselect it
     if (containerView)
         [self performSelector:@selector(tapOnFloatingView:) withObject:nil];
 }
