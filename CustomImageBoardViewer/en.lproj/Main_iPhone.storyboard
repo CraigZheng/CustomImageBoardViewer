@@ -1541,8 +1541,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="HE7-Rt-Ewc"/>
         <segue reference="iJS-rj-Zmj"/>
+        <segue reference="90f-dH-dau"/>
         <segue reference="IFX-nh-720"/>
     </inferredMetricsTieBreakers>
 </document>

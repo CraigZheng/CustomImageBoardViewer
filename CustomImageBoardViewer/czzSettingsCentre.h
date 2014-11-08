@@ -40,6 +40,7 @@
 @property BOOL userDefShouldAutoOpenImage;
 @property BOOL userDefShouldCacheData;
 @property BOOL userDefShouldHighlightPO;
+@property BOOL userDefShouldUseBigImage;
 @property BOOL nightyMode;
 @property BOOL autoCleanImageCache;
 //Debug settings

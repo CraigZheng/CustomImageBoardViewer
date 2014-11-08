@@ -96,7 +96,11 @@
              [commandSwitch setOn:shouldHighlight];
          } else if ([command isEqualToString:@"夜间模式"]) {
              [commandSwitch setOn:settingsCentre.nightyMode];
-         } else if ([command isEqualToString:@"每月自动清理缓存"]) {
+         }
+         else if ([command isEqualToString:@"大图模式"]) {
+             [commandSwitch setOn:settingsCentre.userDefShouldUseBigImage];
+         }
+         else if ([command isEqualToString:@"每月自动清理缓存"]) {
              [commandSwitch setOn:settingsCentre.autoCleanImageCache];
          } else if ([command isEqualToString:@"Monitor Performance"]) {
              [commandSwitch setOn:[DartCrowdSourcingConstants isEnabled]];
@@ -157,6 +161,7 @@
     [switchCommands addObject:@"显示图片"];
     [switchCommands addObject:@"显示快速滑动按钮"];
     [switchCommands addObject:@"夜间模式"];
+    [switchCommands addObject:@"大图模式"];
     [switchCommands addObject:@"图片下载完毕自动打开"];
     [switchCommands addObject:@"开启帖子缓存"];
     [switchCommands addObject:@"每月自动清理缓存"];
@@ -232,7 +237,13 @@
             settingsCentre.nightyMode = !settingsCentre.nightyMode;
             [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"夜间模式：%@，刷新后生效", settingsCentre.nightyMode ? @"On" : @"Off"]];
             [self.settingsTableView reloadData];
-        } else if ([command isEqualToString:@"每月自动清理缓存"]) {
+        }
+        else if ([command isEqualToString:@"大图模式"]) {
+            settingsCentre.userDefShouldUseBigImage = !settingsCentre.userDefShouldUseBigImage;
+            [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"大图模式：%@，刷新后生效", settingsCentre.nightyMode ? @"On" : @"Off"]];
+            [self.settingsTableView reloadData];
+        }
+        else if ([command isEqualToString:@"每月自动清理缓存"]) {
             settingsCentre.autoCleanImageCache = !settingsCentre.autoCleanImageCache;
             [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"每月自动清理缓存： %@", settingsCentre.autoCleanImageCache ? @"On" : @"Off"]];
         } else if ([command isEqualToString:@"Monitor Performance"]) {

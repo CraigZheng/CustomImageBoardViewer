@@ -24,7 +24,10 @@
     }
     
     if (has) {
-        preferHeight += IMAGE_HEIGHT;
+        if ([[czzSettingsCentre sharedInstance] userDefShouldUseBigImage])
+            preferHeight += view.frame.size.width / 3;
+        else
+            preferHeight += IMAGE_HEIGHT;
     }
     
     return preferHeight;

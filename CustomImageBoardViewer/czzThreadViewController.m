@@ -90,6 +90,8 @@
 @synthesize readyToPushViewController;
 @synthesize imageViewerUtil;
 
+static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
+static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 - (void)viewDidLoad
 {
@@ -132,7 +134,8 @@
     //end of retriving cached thread from storage
     
     //register xib
-    [self.threadTableView registerNib:[UINib nibWithNibName:@"czzThreadViewTableViewCell" bundle:nil] forCellReuseIdentifier:@"thread_cell_identifier"];
+    [self.threadTableView registerNib:[UINib nibWithNibName:@"czzThreadViewTableViewCell" bundle:nil] forCellReuseIdentifier:threadViewCellIdentifier];
+    [self.threadTableView registerNib:[UINib nibWithNibName:@"czzThreadViewBigImageTableViewCell" bundle:nil] forCellReuseIdentifier:threadViewBigImageCellIdentifier];
     self.title = parentThread.title;
     
     //set up custom edit menu
@@ -251,7 +254,7 @@
 #pragma mark UITableView delegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *CellIdentifier = @"thread_cell_identifier";
+    NSString *cell_identifier = [[czzSettingsCentre sharedInstance] userDefShouldUseBigImage] ? threadViewBigImageCellIdentifier : threadViewCellIdentifier;
     if (indexPath.row == threads.count){
         UITableViewCell *cell;// = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
         if (xmlDownloader) {
@@ -269,7 +272,7 @@
     }
     czzThread *thread = [threads objectAtIndex:indexPath.row];
 
-    czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
     // Configure the cell...
     if (cell){
         cell.delegate = self;

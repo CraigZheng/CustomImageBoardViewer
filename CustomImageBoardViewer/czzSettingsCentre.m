@@ -24,7 +24,7 @@
 @synthesize configuration_refresh_interval, blacklist_refresh_interval, forum_list_refresh_interval, notification_refresh_interval;
 @synthesize a_isle_host, thread_content_host, threads_per_page, thread_format, thread_list_host;
 @synthesize message, image_host, ac_host, forum_list_url, thumbnail_host;
-@synthesize userDefShouldAutoOpenImage, userDefShouldCacheData, userDefShouldDisplayThumbnail, userDefShouldHighlightPO, userDefShouldShowOnScreenCommand;
+@synthesize userDefShouldAutoOpenImage, userDefShouldCacheData, userDefShouldDisplayThumbnail, userDefShouldHighlightPO, userDefShouldShowOnScreenCommand ,userDefShouldUseBigImage;
 @synthesize nightyMode;
 @synthesize autoCleanImageCache;
 @synthesize shouldAllowDart;
@@ -56,6 +56,7 @@
         userDefShouldCacheData = YES;
         userDefShouldHighlightPO = YES;
         userDefShouldShowOnScreenCommand = YES;
+        userDefShouldUseBigImage = YES;
         nightyMode = NO;
         autoCleanImageCache = NO;
         shouldAllowOpenBlockedThread = YES;
@@ -156,7 +157,7 @@
     shouldDisplayThumbnail = [[jsonObject objectForKey:@"shouldDisplayThumbnail"] boolValue];
     shouldDisplayContent = [[jsonObject objectForKey:@"shouldDisplayContent"] boolValue];
     shouldHideImageInForums = [jsonObject objectForKey:@"shouldHideImageInForms"];
-    shouldAllowOpenBlockedThread = [jsonObject objectForKey:@"shouldAllowOpenBlockedThread"];
+    shouldAllowOpenBlockedThread = [[jsonObject objectForKey:@"shouldAllowOpenBlockedThread"] boolValue];
     configuration_refresh_interval = [[jsonObject objectForKey:@"configuration_refresh_interval"] floatValue];
     blacklist_refresh_interval = [[jsonObject objectForKey:@"blacklist_refresh_interval"] floatValue];
     forum_list_refresh_interval = [[jsonObject objectForKey:@"forum_list_refresh_interval"] floatValue];
@@ -209,6 +210,7 @@
     [aCoder encodeBool:userDefShouldAutoOpenImage forKey:@"userDefShouldAutoOpenImage"];
     [aCoder encodeBool:userDefShouldCacheData forKey:@"userDefShouldCacheData"];
     [aCoder encodeBool:userDefShouldHighlightPO forKey:@"userDefShouldHighlightPO"];
+    [aCoder encodeBool:userDefShouldUseBigImage forKey:@"userDefShouldUseBigImage"];
     [aCoder encodeBool:nightyMode forKey:@"nightyMode"];
     [aCoder encodeBool:autoCleanImageCache forKey:@"autoCleanImageCache"];
     [aCoder encodeBool:shouldAllowDart forKey:@"shouldAllowDart"];
@@ -242,6 +244,8 @@
         self.userDefShouldAutoOpenImage = [aDecoder decodeBoolForKey:@"userDefShouldAutoOpenImage"];
         self.userDefShouldCacheData = [aDecoder decodeBoolForKey:@"userDefShouldCacheData"];
         self.userDefShouldHighlightPO = [aDecoder decodeBoolForKey:@"userDefShouldHighlightPO"];
+        self.userDefShouldUseBigImage = [aDecoder decodeBoolForKey:@"userDefShouldUseBigImage"];
+        
         self.nightyMode = [aDecoder decodeBoolForKey:@"nightyMode"];
         self.autoCleanImageCache = [aDecoder decodeBoolForKey:@"autoCleanImageCache"];
         self.shouldAllowDart = [aDecoder decodeBoolForKey:@"shouldAllowDart"];

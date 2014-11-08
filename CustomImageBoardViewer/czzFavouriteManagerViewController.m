@@ -29,6 +29,9 @@
 @synthesize selectedThread;
 @synthesize settingsCentre;
 
+static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
+static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -69,8 +72,7 @@
 #pragma UITableView delegate
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    NSString *cell_identifier = @"thread_cell_identifier";
-//    czzThread *thread = [internalThreads.allObjects objectAtIndex:indexPath.row];
+    NSString *cell_identifier = [[czzSettingsCentre sharedInstance] userDefShouldUseBigImage] ? threadViewBigImageCellIdentifier : threadViewCellIdentifier;
     czzThread *thread = [threads objectAtIndex:indexPath.row];
 
     czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];

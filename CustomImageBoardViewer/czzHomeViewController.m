@@ -79,6 +79,8 @@
 @synthesize imageCentre;
 @synthesize imageViewerUtil;
 
+static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
+static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -100,7 +102,8 @@
     
 
     //register xib
-    [self.threadTableView registerNib:[UINib nibWithNibName:@"czzThreadViewTableViewCell" bundle:nil] forCellReuseIdentifier:@"thread_cell_identifier"];
+    [self.threadTableView registerNib:[UINib nibWithNibName:@"czzThreadViewTableViewCell" bundle:nil] forCellReuseIdentifier:threadViewCellIdentifier];
+    [self.threadTableView registerNib:[UINib nibWithNibName:@"czzThreadViewBigImageTableViewCell" bundle:nil] forCellReuseIdentifier:threadViewBigImageCellIdentifier];
     //configure the view deck controller with half size and tap to close mode
     self.viewDeckController.leftSize = self.view.frame.size.width/4;
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
@@ -372,7 +375,7 @@
         return cell;
     }
 
-    NSString *cell_identifier = @"thread_cell_identifier";
+    NSString *cell_identifier = [[czzSettingsCentre sharedInstance] userDefShouldUseBigImage] ? threadViewBigImageCellIdentifier : threadViewCellIdentifier;
     czzThread *thread = [threads objectAtIndex:indexPath.row];
     czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier];
     if (cell){
