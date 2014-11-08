@@ -345,11 +345,7 @@
         if (indexPath.row < heightArrays.count) {
             preferHeight = [[heightArrays objectAtIndex:indexPath.row] floatValue];
         } else {
-            preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForContent:thread.content inView:self.view];
-            //height for preview image
-            if (thread.thImgSrc.length != 0) {
-                preferHeight += 82;
-            }
+            preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForContent:thread.content inView:self.view hasImage:thread.thImgSrc.length > 0];
             preferHeight = MAX(tableView.rowHeight, preferHeight);
             [heightArrays addObject:[NSNumber numberWithFloat:preferHeight]];
         }

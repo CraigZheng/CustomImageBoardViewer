@@ -6,10 +6,12 @@
 //  Copyright (c) 2014 Craig. All rights reserved.
 //
 
+#define IMAGE_HEIGHT 100
+
 #import <Foundation/Foundation.h>
 
 @interface czzTextViewHeightCalculator : NSObject
 
-+(CGFloat)calculatePerfectHeightForContent:(NSAttributedString*)content inView:(UIView*)view;
++(CGFloat)calculatePerfectHeightForContent:(NSAttributedString*)content inView:(UIView*)view hasImage:(BOOL)has;
 
 @end

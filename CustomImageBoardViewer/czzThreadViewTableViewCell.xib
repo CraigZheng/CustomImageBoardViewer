@@ -3,26 +3,33 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="thread_cell_identifier" rowHeight="120" id="LrR-hX-6Zz" customClass="czzMenuEnabledTableViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="thread_cell_identifier" rowHeight="320" id="LrR-hX-6Zz" customClass="czzMenuEnabledTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="300"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" tableViewCell="LrR-hX-6Zz" id="mQi-J3-PXM">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="119"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView tag="9" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="3HO-Hu-PUf">
-                        <rect key="frame" x="20" y="40" width="80" height="80"/>
+                        <rect key="frame" x="20" y="199.5" width="100" height="100"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="80" id="hAG-eB-ZRf"/>
+                            <constraint firstAttribute="width" secondItem="3HO-Hu-PUf" secondAttribute="height" multiplier="1:1" id="UZt-BR-d0x"/>
+                            <constraint firstAttribute="height" constant="100" id="hAG-eB-ZRf"/>
                             <constraint firstAttribute="width" constant="80" id="iSY-L8-usO"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="iSY-L8-usO"/>
+                            </mask>
+                        </variation>
                     </imageView>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NO" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zcJ-Iq-ivZ">
-                        <rect key="frame" x="3" y="1" width="17" height="13"/>
+                        <rect key="frame" x="3" y="1" width="16.5" height="13"/>
                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                         <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -46,7 +53,7 @@
                         <size key="shadowOffset" width="1" height="1"/>
                     </label>
                     <textView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Content" translatesAutoresizingMaskIntoConstraints="NO" id="oML-xg-Zfq" customClass="czzNoSelectionTextView">
-                        <rect key="frame" x="0.0" y="13" width="320" height="36"/>
+                        <rect key="frame" x="0.0" y="13" width="320" height="35.5"/>
                         <constraints>
                             <constraint firstAttribute="height" priority="250" constant="26" id="6Qy-Et-6aq"/>
                         </constraints>
@@ -67,7 +74,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view hidden="YES" userInteractionEnabled="NO" alpha="0.89999997615814209" tag="10" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4QC-Ri-dMe" customClass="DACircularProgressView">
-                        <rect key="frame" x="35" y="55" width="50" height="50"/>
+                        <rect key="frame" x="45" y="224.5" width="50" height="50"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="50" id="xgL-eb-Ha9"/>
@@ -75,7 +82,7 @@
                         </constraints>
                     </view>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="回应:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="po6-xX-Zcg">
-                        <rect key="frame" x="241" y="106" width="79" height="13"/>
+                        <rect key="frame" x="241" y="285.5" width="79" height="13"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="79" id="IFY-yM-JZ8"/>
                             <constraint firstAttribute="height" constant="13" id="xm3-WI-Q6c"/>
@@ -131,7 +138,7 @@
                 <outlet property="responseLabel" destination="po6-xX-Zcg" id="cf6-5D-kvH"/>
                 <outlet property="sageLabel" destination="ehx-9x-Ubu" id="KPL-PP-zr6"/>
             </connections>
-            <point key="canvasLocation" x="41" y="387"/>
+            <point key="canvasLocation" x="41" y="477"/>
         </tableViewCell>
     </objects>
     <resources>
