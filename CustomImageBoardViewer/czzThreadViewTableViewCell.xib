@@ -54,6 +54,7 @@
                     </label>
                     <textView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Content" translatesAutoresizingMaskIntoConstraints="NO" id="oML-xg-Zfq" customClass="czzNoSelectionTextView">
                         <rect key="frame" x="0.0" y="13" width="320" height="35.5"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" priority="250" constant="26" id="6Qy-Et-6aq"/>
                         </constraints>

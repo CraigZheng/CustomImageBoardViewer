@@ -56,7 +56,7 @@
 @property czzSettingsCentre *settingsCentre;
 @property UIViewController *rightViewController;
 @property UIViewController *topViewController;
-@property BOOL readyToPushViewController;
+@property BOOL viewControllerNotInTransition;
 @end
 
 @implementation czzThreadViewController
@@ -87,7 +87,7 @@
 @synthesize shouldHideImageForThisForum;
 @synthesize rightViewController;
 @synthesize topViewController;
-@synthesize readyToPushViewController;
+@synthesize viewControllerNotInTransition;
 @synthesize imageViewerUtil;
 
 static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
@@ -190,13 +190,13 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     //hide on screen command
     [onScreenCommand hide];
     //no longer ready for more push animation
-    readyToPushViewController = NO;
+    viewControllerNotInTransition = NO;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     //ready for push animation
-    readyToPushViewController = YES;
+    viewControllerNotInTransition = YES;
 }
 #pragma mark - enter/exiting background
 -(void)prepareToEnterBackground {
@@ -713,7 +713,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 //show documentcontroller
 -(void)openImageWithPath:(NSString*)path{
-    [imageViewerUtil showPhoto:path inViewController:self];
+    if (viewControllerNotInTransition)
+        [imageViewerUtil showPhoto:path inViewController:self];
 }
 
 #pragma mark - prepare for segue

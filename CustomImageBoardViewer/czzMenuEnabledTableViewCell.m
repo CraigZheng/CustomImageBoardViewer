@@ -16,11 +16,14 @@
 #import "DACircularProgressView.h"
 #import "czzSettingsCentre.h"
 #import "czzThreadRefButton.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate>
 @property NSString *thumbnailFolder;
+@property NSString *imageFolder;
 @property czzSettingsCentre *settingsCentre;
 @property UITapGestureRecognizer *tapOnImageGestureRecogniser;
+
 @end
 
 @implementation czzMenuEnabledTableViewCell
@@ -37,19 +40,22 @@
 @synthesize settingsCentre;
 @synthesize shouldHighlight;
 @synthesize shouldHighlightSelectedUser;
+@synthesize shouldAllowClickOnImage;
 @synthesize links;
 @synthesize parentThread;
 @synthesize myThread;
+@synthesize imageFolder;
 @synthesize thumbnailFolder;
-@synthesize downloadedImages;
 @synthesize tapOnImageGestureRecogniser;
 @synthesize delegate;
 
 -(void)awakeFromNib {
     thumbnailFolder = [czzAppDelegate libraryFolder];
     thumbnailFolder = [thumbnailFolder stringByAppendingPathComponent:@"Thumbnails"];
+    imageFolder = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:@"Images"];
     settingsCentre = [czzSettingsCentre sharedInstance];
     shouldHighlight = settingsCentre.userDefShouldHighlightPO;
+    shouldAllowClickOnImage = YES;
     tapOnImageGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTapInImageView:)];
 }
 
@@ -160,13 +166,21 @@
         [previewImageView setImage:[UIImage imageNamed:@"Icon.png"]];
         NSString *filePath = [thumbnailFolder stringByAppendingPathComponent:[myThread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
         UIImage *previewImage =[[UIImage alloc] initWithContentsOfFile:filePath];
+
+        if (settingsCentre.userDefShouldUseBigImage)
+        {
+            NSString *fullImagePath = [imageFolder stringByAppendingPathComponent:[myThread.imgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
+            if ([[NSFileManager defaultManager] fileExistsAtPath:fullImagePath]) {
+                previewImage = [[UIImage alloc] initWithContentsOfFile:fullImagePath];
+            }
+        }
         if (previewImage){
             [previewImageView setImage:previewImage];
-        } else if ([downloadedImages objectForKey:myThread.thImgSrc]){
-            [previewImageView setImage:[[UIImage alloc] initWithContentsOfFile:[downloadedImages objectForKey:myThread.thImgSrc]]];
-        }
+        } 
+        
         //assign a gesture recogniser to it
-        [previewImageView setGestureRecognizers:@[tapOnImageGestureRecogniser]];
+        if (shouldAllowClickOnImage)
+            [previewImageView setGestureRecognizers:@[tapOnImageGestureRecogniser]];
     }
     //NSLog(@"time consuming step 2: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
     //if harmful flag is set, display warning header of harmful thread
@@ -182,9 +196,13 @@
     //content textview
     if (settingsCentre.nightyMode)
         [contentAttrString addAttribute:NSForegroundColorAttributeName value:settingsCentre.contentTextColour range:NSMakeRange(0, contentAttrString.length)];
+    //shadow for big image mode
+    if ([settingsCentre userDefShouldUseBigImage]) {
+        contentTextView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.85];
+    }
     contentTextView.attributedText = contentAttrString;
     contentTextView.font = settingsCentre.contentFont;
-    
+
     //NSLog(@"time consuming step 3: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
     if ([UIDevice currentDevice].systemVersion.floatValue < 7.0) {
         NSMutableAttributedString *tempAttributedString = [[NSMutableAttributedString alloc] initWithAttributedString:contentTextView.attributedText];

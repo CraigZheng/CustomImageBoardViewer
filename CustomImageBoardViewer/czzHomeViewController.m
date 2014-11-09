@@ -51,6 +51,7 @@
 @property czzSettingsCentre *settingsCentre;
 @property BOOL shouldHideImageForThisForum;
 @property czzImageCentre *imageCentre;
+@property BOOL viewControllerNotInTransition;
 @property czzImageViewerUtil *imageViewerUtil;
 @end
 
@@ -76,6 +77,7 @@
 @synthesize thumbnailFolder;
 @synthesize settingsCentre;
 @synthesize shouldHideImageForThisForum;
+@synthesize viewControllerNotInTransition;
 @synthesize imageCentre;
 @synthesize imageViewerUtil;
 
@@ -149,6 +151,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    viewControllerNotInTransition = YES;
     self.viewDeckController.leftController = leftController;
     shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
     
@@ -173,6 +176,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    viewControllerNotInTransition = NO;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ImageDownloaded" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ImageDownloaderProgressUpdated" object:nil];
     [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
@@ -381,6 +385,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     if (cell){
         cell.delegate = self;
         cell.shouldHighlight = NO;
+        cell.shouldAllowClickOnImage = !settingsCentre.userDefShouldUseBigImage;
         cell.parentThread = thread;
         cell.myThread = thread;
     }
@@ -596,7 +601,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     for (NSString *file in [[czzImageCentre sharedInstance] currentLocalImages]) {
         if ([file.lastPathComponent.lowercaseString isEqualToString:imgURL.lastPathComponent.lowercaseString])
         {
-            [self openImageWithPath:file];
             return;
         }
     }
@@ -605,7 +609,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 #pragma mark - open images
 -(void)openImageWithPath:(NSString*)path{
     NSLog(@"%@", NSStringFromSelector(_cmd));
-    [imageViewerUtil showPhoto:path inViewController:self];
+    if (viewControllerNotInTransition)
+        [imageViewerUtil showPhoto:path inViewController:self];
 }
 
 #pragma mark - notification handler - image downloaded

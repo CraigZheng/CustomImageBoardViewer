@@ -17,13 +17,14 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView clipsSubviews="YES" tag="9" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="3HO-Hu-PUf">
-                        <rect key="frame" x="0.0" y="63.5" width="312" height="104"/>
+                        <rect key="frame" x="0.0" y="0.0" width="312" height="167.5"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="3HO-Hu-PUf" secondAttribute="height" multiplier="3:1" priority="750" id="8uF-8Z-1cN"/>
                             <constraint firstAttribute="width" constant="80" id="iSY-L8-usO"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="8uF-8Z-1cN"/>
                                 <exclude reference="iSY-L8-usO"/>
                             </mask>
                         </variation>
@@ -62,19 +63,23 @@
                         <dataDetectorType key="dataDetectorTypes" link="YES"/>
                     </textView>
                     <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="7" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SAGE" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ehx-9x-Ubu">
-                        <rect key="frame" x="292" y="1" width="28" height="12"/>
+                        <rect key="frame" x="291" y="1" width="29" height="13"/>
                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                         <color key="textColor" red="0.80000000000000004" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
+                        <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <size key="shadowOffset" width="1" height="1"/>
                     </label>
                     <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="8" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已锁" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RUs-rl-nii">
-                        <rect key="frame" x="264" y="1" width="20" height="12"/>
+                        <rect key="frame" x="263" y="1" width="21" height="13"/>
                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                         <color key="textColor" red="0.80000000000000004" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
+                        <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <size key="shadowOffset" width="1" height="1"/>
                     </label>
                     <view hidden="YES" userInteractionEnabled="NO" alpha="0.89999997615814209" tag="10" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4QC-Ri-dMe" customClass="DACircularProgressView">
-                        <rect key="frame" x="45" y="92.5" width="50" height="50"/>
+                        <rect key="frame" x="45" y="92" width="50" height="50"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="50" id="xgL-eb-Ha9"/>
@@ -82,7 +87,7 @@
                         </constraints>
                     </view>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="回应:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="po6-xX-Zcg">
-                        <rect key="frame" x="241" y="153.5" width="79" height="13"/>
+                        <rect key="frame" x="241" y="153" width="79" height="13"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="79" id="IFY-yM-JZ8"/>
                             <constraint firstAttribute="height" constant="13" id="xm3-WI-Q6c"/>
@@ -103,8 +108,10 @@
                     <constraint firstItem="3HO-Hu-PUf" firstAttribute="top" secondItem="oML-xg-Zfq" secondAttribute="bottom" priority="250" constant="5" id="4BX-QO-yoK"/>
                     <constraint firstItem="zcJ-Iq-ivZ" firstAttribute="top" secondItem="mQi-J3-PXM" secondAttribute="top" constant="1" id="8jI-21-LNR"/>
                     <constraint firstAttribute="bottom" secondItem="4QC-Ri-dMe" secondAttribute="bottom" constant="25" id="9mN-LU-8yn"/>
+                    <constraint firstItem="3HO-Hu-PUf" firstAttribute="top" secondItem="mQi-J3-PXM" secondAttribute="top" id="CV7-l9-wds"/>
                     <constraint firstItem="VaN-la-OxF" firstAttribute="top" secondItem="mQi-J3-PXM" secondAttribute="top" constant="1" id="FaK-Zk-I1a"/>
                     <constraint firstItem="3HO-Hu-PUf" firstAttribute="top" secondItem="mQi-J3-PXM" secondAttribute="top" constant="5" id="IXV-BA-Q00"/>
+                    <constraint firstItem="3HO-Hu-PUf" firstAttribute="top" secondItem="oML-xg-Zfq" secondAttribute="bottom" id="K53-bx-Wsm"/>
                     <constraint firstItem="zcJ-Iq-ivZ" firstAttribute="leading" secondItem="mQi-J3-PXM" secondAttribute="leading" constant="3" id="Lz1-3R-6sx"/>
                     <constraint firstAttribute="trailing" secondItem="RUs-rl-nii" secondAttribute="trailing" constant="36" id="Qn9-KO-5Si"/>
                     <constraint firstItem="RUs-rl-nii" firstAttribute="top" secondItem="mQi-J3-PXM" secondAttribute="top" constant="1" id="RHY-Re-moW"/>
@@ -125,8 +132,10 @@
                 </constraints>
                 <variation key="default">
                     <mask key="constraints">
-                        <exclude reference="VBK-JV-zak"/>
+                        <exclude reference="4BX-QO-yoK"/>
                         <exclude reference="IXV-BA-Q00"/>
+                        <exclude reference="K53-bx-Wsm"/>
+                        <exclude reference="VBK-JV-zak"/>
                         <exclude reference="14Y-Ux-xdr"/>
                         <exclude reference="eSC-Ls-2cs"/>
                         <exclude reference="1T2-us-Db7"/>

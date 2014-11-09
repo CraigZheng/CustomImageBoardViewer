@@ -77,6 +77,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
     czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
     if (cell){
+        cell.shouldAllowClickOnImage= NO;
         cell.shouldHighlight = NO;
         cell.parentThread = thread;
         cell.myThread = thread;

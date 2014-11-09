@@ -37,6 +37,7 @@
 
 @property NSDictionary *downloadedImages;
 @property BOOL shouldHighlight;
+@property BOOL shouldAllowClickOnImage;
 @property NSMutableArray *links;
 @property czzThread *parentThread;
 @property (nonatomic) czzThread *myThread;

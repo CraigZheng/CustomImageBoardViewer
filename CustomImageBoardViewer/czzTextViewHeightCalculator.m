@@ -25,7 +25,10 @@
     
     if (has) {
         if ([[czzSettingsCentre sharedInstance] userDefShouldUseBigImage])
-            preferHeight += view.frame.size.width / 3;
+        {
+            CGFloat shortEdge = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+            preferHeight = MAX(shortEdge / 2, preferHeight);
+        }
         else
             preferHeight += IMAGE_HEIGHT;
     }
