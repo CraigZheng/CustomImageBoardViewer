@@ -235,12 +235,12 @@
             [[czzAppDelegate sharedAppDelegate] showToast:@"重启后生效"];
         } else if ([command isEqualToString:@"夜间模式"]) {
             settingsCentre.nightyMode = !settingsCentre.nightyMode;
-            [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"夜间模式：%@，刷新后生效", settingsCentre.nightyMode ? @"On" : @"Off"]];
+            [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"夜间模式：%@", settingsCentre.nightyMode ? @"On" : @"Off"]];
             [self.settingsTableView reloadData];
         }
         else if ([command isEqualToString:@"大图模式"]) {
             settingsCentre.userDefShouldUseBigImage = !settingsCentre.userDefShouldUseBigImage;
-            [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"大图模式：%@，刷新后生效", settingsCentre.nightyMode ? @"On" : @"Off"]];
+            [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"大图模式：%@", settingsCentre.nightyMode ? @"On" : @"Off"]];
             [self.settingsTableView reloadData];
         }
         else if ([command isEqualToString:@"每月自动清理缓存"]) {

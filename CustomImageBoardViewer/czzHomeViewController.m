@@ -345,7 +345,9 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 #pragma mark - more action and commands
 -(void)openSettingsPanel{
-    [self.viewDeckController toggleTopViewAnimated:YES];
+    UIViewController *settingsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"settings_view_controller"];
+    [self.navigationController pushViewController:settingsViewController animated:YES];
+    //[self.viewDeckController toggleTopViewAnimated:YES];
 }
 
 -(void)newPost{
@@ -677,7 +679,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     }
 }
 
-#pragma notification handler - favourite thread selected
+#pragma mark - notification handler - favourite thread selected
 -(void)openPickedThread:(NSNotification*)notification{
     NSDictionary *userInfo = notification.userInfo;
     if ([userInfo objectForKey:@"PickedThread"]){

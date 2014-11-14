@@ -49,7 +49,7 @@
     czzHomeViewController *centreViewController = [storyboard instantiateViewControllerWithIdentifier:@"home_view_controller"];
     
     self = [super initWithCenterViewController:centreViewController leftViewController:nil];
-    self.topController = [storyboard instantiateViewControllerWithIdentifier:@"more_info_view_controller"];
+//    self.topController = [storyboard instantiateViewControllerWithIdentifier:@"more_info_view_controller"];
 
     return self;
 }
