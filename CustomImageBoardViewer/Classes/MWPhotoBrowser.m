@@ -255,8 +255,8 @@
 
     // Left button - Grid
     /////////////////////////////
-    //add quit button
-    [items addObject:[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStylePlain target:self action:@selector(doneButtonPressed:)]];
+//    //add quit button
+//    [items addObject:[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStylePlain target:self action:@selector(doneButtonPressed:)]];
     /////////////////////////////
 
     if (_enableGrid) {

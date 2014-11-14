@@ -56,9 +56,14 @@
 }
 
 -(void)show {
-    photoBrowserNavigationController = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
-    photoBrowserNavigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    [viewControllerToShow presentViewController:photoBrowserNavigationController animated:YES completion:nil];
+    if (viewControllerToShow.navigationController)
+    {
+        [viewControllerToShow.navigationController pushViewController:photoBrowser animated:YES];
+    } else {
+        photoBrowserNavigationController = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
+        photoBrowserNavigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        [viewControllerToShow presentViewController:photoBrowserNavigationController animated:YES completion:nil];
+    }
 }
 
 -(void)prepareMWPhotoBrowser {

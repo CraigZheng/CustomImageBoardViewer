@@ -158,9 +158,9 @@
                     <connections>
                         <outlet property="menuBarButton" destination="aco-AK-pj3" id="4VD-5g-Kjg"/>
                         <outlet property="threadTableView" destination="GOK-fb-xVX" id="rYH-eM-dfs"/>
-                        <segue destination="V51-tA-4h3" kind="show" identifier="go_thread_view_segue" id="xL9-ie-FoR"/>
-                        <segue destination="4fE-Ef-JB7" kind="show" identifier="go_search_view_segue" id="iJS-rj-Zmj"/>
-                        <segue destination="aOD-Hr-NEd" kind="show" identifier="go_favourite_manager_view_controller_segue" id="HE7-Rt-Ewc"/>
+                        <segue destination="V51-tA-4h3" kind="push" identifier="go_thread_view_segue" id="xL9-ie-FoR"/>
+                        <segue destination="4fE-Ef-JB7" kind="push" identifier="go_search_view_segue" id="iJS-rj-Zmj"/>
+                        <segue destination="aOD-Hr-NEd" kind="push" identifier="go_favourite_manager_view_controller_segue" id="HE7-Rt-Ewc"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bkJ-oc-uS4" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -293,7 +293,7 @@
                     <connections>
                         <outlet property="starButton" destination="M89-C2-pn8" id="qef-Bd-RKz"/>
                         <outlet property="threadTableView" destination="Vkv-Iq-cwp" id="bYG-YY-Oqo"/>
-                        <segue destination="4fE-Ef-JB7" kind="show" identifier="go_search_view_segue" id="RXG-dJ-a7y"/>
+                        <segue destination="4fE-Ef-JB7" kind="push" identifier="go_search_view_segue" id="RXG-dJ-a7y"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vJQ-WR-yrA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -864,8 +864,8 @@
                     <connections>
                         <outlet property="searchEngineSegmentedControl" destination="XSV-OW-DVO" id="VDh-Xk-WgL"/>
                         <outlet property="searchWebView" destination="Epk-0O-hhD" id="opO-RH-UDv"/>
-                        <segue destination="V51-tA-4h3" kind="show" identifier="go_thread_view_segue" id="lqb-0z-bqj"/>
-                        <segue destination="aOD-Hr-NEd" kind="show" identifier="go_favourite_view_segue" id="A7J-kM-xfA"/>
+                        <segue destination="V51-tA-4h3" kind="push" identifier="go_thread_view_segue" id="lqb-0z-bqj"/>
+                        <segue destination="aOD-Hr-NEd" kind="push" identifier="go_favourite_view_segue" id="A7J-kM-xfA"/>
                         <segue destination="tKd-jP-nKQ" kind="show" identifier="go_html_parser_view_controller" id="cde-HH-jwo"/>
                     </connections>
                 </viewController>
@@ -903,7 +903,7 @@
                     <navigationItem key="navigationItem" id="DUu-bn-15A"/>
                     <connections>
                         <outlet property="contentTextView" destination="VKw-kS-if5" id="yy1-5v-OCl"/>
-                        <segue destination="V51-tA-4h3" kind="show" identifier="go_thread_view_segue" id="fbB-ZG-qDW"/>
+                        <segue destination="V51-tA-4h3" kind="push" identifier="go_thread_view_segue" id="fbB-ZG-qDW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ItM-gg-vOd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1144,9 +1144,9 @@
                     <navigationItem key="navigationItem" title="设置" id="JWX-v1-yiZ"/>
                     <connections>
                         <outlet property="settingsTableView" destination="4iw-Az-V4Y" id="rJt-Ut-zFe"/>
-                        <segue destination="UtT-rg-rkQ" kind="show" identifier="go_image_manager_view_controller_segue" id="SQI-CG-pkS"/>
-                        <segue destination="aOD-Hr-NEd" kind="show" identifier="go_favourite_manager_view_controller_segue" id="90f-dH-dau"/>
-                        <segue destination="Wkk-ij-bOv" kind="show" identifier="go_notification_centre_view_controller_segue" id="Bn6-ly-68B"/>
+                        <segue destination="UtT-rg-rkQ" kind="push" identifier="go_image_manager_view_controller_segue" id="SQI-CG-pkS"/>
+                        <segue destination="aOD-Hr-NEd" kind="push" identifier="go_favourite_manager_view_controller_segue" id="90f-dH-dau"/>
+                        <segue destination="Wkk-ij-bOv" kind="push" identifier="go_notification_centre_view_controller_segue" id="Bn6-ly-68B"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SyL-jc-F1x" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1293,7 +1293,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="V51-tA-4h3" kind="show" identifier="go_thread_view_segue" id="IFX-nh-720"/>
+                        <segue destination="V51-tA-4h3" kind="push" identifier="go_thread_view_segue" id="IFX-nh-720"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T25-Ph-svD" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1317,8 +1317,8 @@
         <image name="upload.png" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="lqb-0z-bqj"/>
-        <segue reference="RXG-dJ-a7y"/>
-        <segue reference="A7J-kM-xfA"/>
+        <segue reference="xL9-ie-FoR"/>
+        <segue reference="iJS-rj-Zmj"/>
+        <segue reference="90f-dH-dau"/>
     </inferredMetricsTieBreakers>
 </document>
