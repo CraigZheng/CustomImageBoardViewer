@@ -186,6 +186,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    //disable right view controller
+    self.viewDeckController.rightController = nil;
     //hide on screen command
     [onScreenCommand hide];
     //no longer ready for more push animation
@@ -551,15 +553,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     });
 }
 
-//this function would convert the original threads in set to nsarray, which is more suitable to be displayed in a uitableview
--(void)convertThreadSetToThreadArray{
-    //sort the array
-//    NSArray *sortedArray = [self sortTheGivenArray:[originalThreadData allObjects]];
-//    [threads removeAllObjects];
-//    [threads addObjectsFromArray:sortedArray];
-//    [threadTableView reloadData];
-}
-
 #pragma mark notification handler - image downloader
 -(void)imageDownloaded:(NSNotification*)notification{
     czzImageDownloader *imgDownloader = [notification.userInfo objectForKey:@"ImageDownloader"];
@@ -630,8 +623,25 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     return sortedArray ? sortedArray : [NSArray new];
 }
 
+#pragma mark - UI button actions
 - (IBAction)moreAction:(id)sender {
-    [self.viewDeckController toggleRightViewAnimated:YES];
+    [self.navigationController setToolbarHidden:!self.navigationController.toolbarHidden animated:YES];
+}
+
+- (IBAction)replyAction:(id)sender {
+    [threadMenuViewController replyMainAction];
+}
+
+- (IBAction)starAction:(id)sender {
+    [threadMenuViewController favouriteAction];
+}
+
+- (IBAction)jumpAction:(id)sender {
+    [self PromptForJumpToPage];
+}
+
+- (IBAction)reportAction:(id)sender {
+    [threadMenuViewController reportAction];
 }
 
 #pragma mark - TableViewCellDelegate
@@ -705,12 +715,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     self.threadTableView.scrollEnabled = YES;
 }
 
-#pragma mark UIDocumentInteractionController delegate
--(UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller{
-    return self;
-}
-
-//show documentcontroller
+//show image
 -(void)openImageWithPath:(NSString*)path{
     if (viewControllerNotInTransition)
         [imageViewerUtil showPhoto:path inViewController:self];

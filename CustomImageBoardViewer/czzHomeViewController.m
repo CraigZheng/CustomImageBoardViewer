@@ -101,7 +101,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     heightsForRowsForHorizontalMode = [NSMutableArray new];
     //thumbnail folder
     thumbnailFolder = [czzAppDelegate thumbnailFolder];
-
+    
     //register xib
     [self.threadTableView registerNib:[UINib nibWithNibName:@"czzThreadViewTableViewCell" bundle:nil] forCellReuseIdentifier:threadViewCellIdentifier];
     [self.threadTableView registerNib:[UINib nibWithNibName:@"czzThreadViewBigImageTableViewCell" bundle:nil] forCellReuseIdentifier:threadViewBigImageCellIdentifier];
@@ -140,6 +140,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     notificationBannerViewController.view.frame = CGRectMake(0, self.view.frame.size.height - self.navigationController.navigationBar.frame.size.height, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height);
     notificationBannerViewController.view.hidden = YES;
     notificationBannerViewController.homeViewController = self;
+    //hide toolbar initially
+    self.navigationController.toolbarHidden = YES;
     @try {
         notificationBannerViewController.parentView = [[czzAppDelegate sharedAppDelegate].window.subviews objectAtIndex:0];
 //        [[[czzAppDelegate sharedAppDelegate].window.subviews objectAtIndex:0] addSubview:notificationBannerViewController.view];
@@ -176,7 +178,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     viewControllerNotInTransition = NO;
-    self.navigationController.toolbarHidden = YES;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ImageDownloaded" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ImageDownloaderProgressUpdated" object:nil];
     [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
@@ -184,7 +185,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.navigationController.toolbarHidden = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ImageDownloaded" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaderUpdated:) name:@"ImageDownloaderProgressUpdated" object:nil];
 
@@ -597,12 +597,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 #pragma mark - czzMenuEnableTableViewCellDelegate
 -(void)userTapInImageView:(NSString *)imgURL {
-    for (NSString *file in [[czzImageCentre sharedInstance] currentLocalImages]) {
-        if ([file.lastPathComponent.lowercaseString isEqualToString:imgURL.lastPathComponent.lowercaseString])
-        {
-            return;
-        }
-    }
+    [self openImageWithPath:imgURL];
 }
 
 #pragma mark - open images

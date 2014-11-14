@@ -76,8 +76,6 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    NSString* libraryPath = [czzAppDelegate libraryFolder];
-    [NSKeyedArchiver archiveRootObject:favouriteThreads toFile:[libraryPath stringByAppendingPathComponent:@"favourites.dat"]];
 }
 
 #pragma UITableView datasource
@@ -134,37 +132,13 @@
         [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"图片链接已复制"];
         
     } else if ([command isEqualToString:@"回复主串"]){
-        czzPostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
-        [postViewController setThread:parentThread];
-        postViewController.postMode = REPLY_POST;
-        [self presentViewController:postViewController animated:YES completion:^{
-            [self.viewDeckController toggleRightViewAnimated:NO];
-        }];
+        [self replyMainAction];
     } else if ([command isEqualToString:@"回复选定的帖子"]){
-        czzPostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
-        [postViewController setThread:parentThread];
-        [postViewController setReplyTo:selectedThread];
-        postViewController.postMode = REPLY_POST;
-        [self presentViewController:postViewController animated:YES completion:^{
-            [self.viewDeckController toggleRightViewAnimated:NO];
-        }];
+        [self replySelectedAction];
     } else if ([command isEqualToString:@"举报"]){
-        czzPostViewController *newPostViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
-        [newPostViewController setForumName:@"值班室"];
-        newPostViewController.postMode = REPORT_POST;
-        [self presentViewController:newPostViewController animated:YES completion:^{
-            [self.viewDeckController toggleRightViewAnimated:YES];
-            NSString *reportString = [NSString stringWithFormat:@"http://h.acfun.tv/t/%ld?r=%ld\n理由:", (long)parentThread.ID, (long)selectedThread.ID];
-            newPostViewController.postTextView.text = reportString;
-            newPostViewController.postNaviBar.topItem.title = [NSString stringWithFormat:@"举报:%ld", (long)selectedThread.ID];
-            //construct a blacklist that to be submitted to my server and pass it to new post view controller
-            czzBlacklistEntity *blacklistEntity = [czzBlacklistEntity new];
-            blacklistEntity.threadID = selectedThread.ID;
-            newPostViewController.blacklistEntity = blacklistEntity;
-        }];
+        [self reportAction];
     } else if ([command isEqualToString:@"加入收藏"]){
-        [favouriteThreads addObject:self.parentThread];
-        [[czzAppDelegate sharedAppDelegate] showToast:@"已加入收藏"];
+        [self favouriteAction];
     } else if ([command isEqualToString:@"复制帖子地址"]){
         NSString *address = [NSString stringWithFormat:@"http://h.acfun.tv/t/%ld", (long)self.parentThread.ID];
         [[UIPasteboard generalPasteboard] setString:address];
@@ -189,6 +163,52 @@
         }
         [commandTableView reloadData];
     }
+}
+
+#pragma mark - favirouteAction
+-(void)favouriteAction {
+    [favouriteThreads addObject:parentThread];
+    NSString* libraryPath = [czzAppDelegate libraryFolder];
+    [NSKeyedArchiver archiveRootObject:favouriteThreads toFile:[libraryPath stringByAppendingPathComponent:@"favourites.dat"]];
+    [[czzAppDelegate sharedAppDelegate].window makeToast:@"已加入收藏"];
+}
+
+#pragma mark - reply actions
+-(void)replyMainAction {
+    czzPostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
+    [postViewController setThread:parentThread];
+    postViewController.postMode = REPLY_POST;
+    [self presentViewController:postViewController animated:YES completion:^{
+        [self.viewDeckController toggleRightViewAnimated:NO];
+    }];
+
+}
+
+-(void)replySelectedAction {
+    czzPostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
+    [postViewController setThread:parentThread];
+    [postViewController setReplyTo:selectedThread];
+    postViewController.postMode = REPLY_POST;
+    [self presentViewController:postViewController animated:YES completion:^{
+        [self.viewDeckController toggleRightViewAnimated:NO];
+    }];
+}
+
+
+-(void)reportAction {
+    czzPostViewController *newPostViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
+    [newPostViewController setForumName:@"值班室"];
+    newPostViewController.postMode = REPORT_POST;
+    [self presentViewController:newPostViewController animated:YES completion:^{
+        [self.viewDeckController toggleRightViewAnimated:YES];
+        NSString *reportString = [NSString stringWithFormat:@"http://h.acfun.tv/t/%ld?r=%ld\n理由:", (long)parentThread.ID, (long)selectedThread.ID];
+        newPostViewController.postTextView.text = reportString;
+        newPostViewController.postNaviBar.topItem.title = [NSString stringWithFormat:@"举报:%ld", (long)selectedThread.ID];
+        //construct a blacklist that to be submitted to my server and pass it to new post view controller
+        czzBlacklistEntity *blacklistEntity = [czzBlacklistEntity new];
+        blacklistEntity.threadID = selectedThread.ID;
+        newPostViewController.blacklistEntity = blacklistEntity;
+    }];
 }
 
 #pragma UIDocumentInteractionController delegate

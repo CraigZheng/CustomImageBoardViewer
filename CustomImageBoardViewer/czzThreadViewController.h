@@ -15,8 +15,13 @@
 @property (strong, nonatomic) IBOutlet UITableView *threadTableView;
 @property BOOL shouldHideImageForThisForum;
 @property NSString *shouldHighlightSelectedUser;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *starButton;
 
 - (IBAction)moreAction:(id)sender;
+- (IBAction)replyAction:(id)sender;
+- (IBAction)starAction:(id)sender;
+- (IBAction)jumpAction:(id)sender;
+- (IBAction)reportAction:(id)sender;
 
 -(void)saveThreadsToCache;
 -(void)scrollTableViewToTop;

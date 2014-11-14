@@ -14,4 +14,9 @@
 @property (strong, nonatomic) IBOutlet UITableView *commandTableView;
 @property (nonatomic) czzThread *parentThread;
 @property (nonatomic) czzThread *selectedThread;
+
+-(void)reportAction;
+-(void)replyMainAction;
+-(void)replySelectedAction;
+-(void)favouriteAction;
 @end
