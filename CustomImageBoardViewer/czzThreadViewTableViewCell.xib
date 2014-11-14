@@ -40,7 +40,7 @@
                         <size key="shadowOffset" width="1" height="1"/>
                     </label>
                     <textView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" verticalHuggingPriority="100" scrollEnabled="NO" editable="NO" text="Content" translatesAutoresizingMaskIntoConstraints="NO" id="oML-xg-Zfq" customClass="czzNoSelectionTextView">
-                        <rect key="frame" x="0.0" y="14" width="320" height="277.5"/>
+                        <rect key="frame" x="0.0" y="14" width="320" height="281.5"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" priority="250" constant="26" id="6Qy-Et-6aq"/>
@@ -102,7 +102,7 @@
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="ehx-9x-Ubu" secondAttribute="trailing" id="02y-Ah-Gm8"/>
-                    <constraint firstAttribute="bottom" secondItem="oML-xg-Zfq" secondAttribute="bottom" priority="750" constant="8" id="0B0-yx-orj"/>
+                    <constraint firstAttribute="bottom" secondItem="oML-xg-Zfq" secondAttribute="bottom" priority="750" constant="4" id="0B0-yx-orj"/>
                     <constraint firstItem="4QC-Ri-dMe" firstAttribute="leading" secondItem="mQi-J3-PXM" secondAttribute="leading" constant="35" id="14Y-Ux-xdr"/>
                     <constraint firstItem="po6-xX-Zcg" firstAttribute="top" secondItem="oML-xg-Zfq" secondAttribute="bottom" priority="250" constant="4" id="7TQ-HM-VtJ"/>
                     <constraint firstItem="zcJ-Iq-ivZ" firstAttribute="top" secondItem="mQi-J3-PXM" secondAttribute="top" constant="1" id="8jI-21-LNR"/>

@@ -19,7 +19,7 @@
         [view addSubview:newHiddenTextView];
         newHiddenTextView.attributedText = content;
         newHiddenTextView.font = [[czzSettingsCentre sharedInstance] contentFont];
-        preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(newHiddenTextView.frame.size.width, MAXFLOAT)].height + 25;
+        preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(newHiddenTextView.frame.size.width, MAXFLOAT)].height + 20;
         [newHiddenTextView removeFromSuperview];
     }
     
