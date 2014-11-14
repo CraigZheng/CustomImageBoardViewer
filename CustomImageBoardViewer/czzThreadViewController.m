@@ -97,8 +97,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 {
     [super viewDidLoad];
     //thumbnail folder
-    thumbnailFolder = [czzAppDelegate libraryFolder];
-    thumbnailFolder = [thumbnailFolder stringByAppendingPathComponent:@"Thumbnails"];
+    thumbnailFolder = [czzAppDelegate thumbnailFolder];
     imageViewerUtil = [czzImageViewerUtil new];
     //settings
     settingsCentre = [czzSettingsCentre sharedInstance];

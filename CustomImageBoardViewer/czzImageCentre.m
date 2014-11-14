@@ -48,9 +48,8 @@
 - (id)init {
     if (self = [super init]) {
         currentImageDownloaders = [NSMutableSet new];
-        NSString* libraryPath = [czzAppDelegate libraryFolder];
-        thumbnailFolder = [libraryPath stringByAppendingPathComponent:@"Thumbnails"];
-        imageFolder = [libraryPath stringByAppendingPathComponent:@"Images"];
+        thumbnailFolder = [czzAppDelegate thumbnailFolder];
+        imageFolder = [czzAppDelegate imageFolder];
         currentLocalImages = [NSMutableSet new];
         settingsCentre = [czzSettingsCentre sharedInstance];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{

@@ -26,6 +26,8 @@
 -(void)showToast:(NSString*)string;
 + (czzAppDelegate*) sharedAppDelegate;
 +(NSString*)libraryFolder;
++(NSString*)thumbnailFolder;
++(NSString*)imageFolder;
 
 -(void)doSingleViewHideAnimation:(UIView*)incomingView :(NSString*)animType :(CGFloat)duration;
 -(void)doSingleViewShowAnimation:(UIView*)incomingView :(NSString*)animType :(CGFloat)duration;

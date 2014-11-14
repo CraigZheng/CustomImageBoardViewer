@@ -82,8 +82,8 @@
     [blacklistDownloader downloadBlacklist];
     //check the library directory and image folders
     NSString* libraryFolder = [czzAppDelegate libraryFolder];
-    NSString *imgFolder = [libraryFolder stringByAppendingPathComponent:@"Images"];
-    NSString *thumbnailFolder = [libraryFolder stringByAppendingPathComponent:@"Thumbnails"];
+    NSString *imgFolder = [czzAppDelegate imageFolder];
+    NSString *thumbnailFolder = [czzAppDelegate thumbnailFolder];
     NSString *notificationCacheFolder = [libraryFolder stringByAppendingPathComponent:@"NotificationCache"];
     if (![[NSFileManager defaultManager] fileExistsAtPath:thumbnailFolder]){
         [[NSFileManager defaultManager] createDirectoryAtPath:thumbnailFolder withIntermediateDirectories:NO attributes:nil error:nil];
@@ -181,6 +181,14 @@
 #pragma mark - library folder
 +(NSString *)libraryFolder {
     return [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+}
+
++(NSString *)thumbnailFolder {
+    return [[self libraryFolder] stringByAppendingPathComponent:@"Thumbnails"];
+}
+
++(NSString *)imageFolder {
+    return [[self libraryFolder] stringByAppendingPathComponent:@"Images"];
 }
 
 -(void)showToast:(NSString *)string{

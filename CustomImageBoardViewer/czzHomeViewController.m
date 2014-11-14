@@ -31,7 +31,7 @@
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****"
 
-@interface czzHomeViewController ()<czzXMLDownloaderDelegate, /*czzXMLProcessorDelegate,*/ czzJSONProcessorDelegate, UIActionSheetDelegate, UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol>
+@interface czzHomeViewController ()<czzXMLDownloaderDelegate, /*czzXMLProcessorDelegate,*/ czzJSONProcessorDelegate, UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol>
 @property czzXMLDownloader *xmlDownloader;
 @property NSInteger currentPage;
 @property NSString *baseURLString;
@@ -80,6 +80,7 @@
 @synthesize viewControllerNotInTransition;
 @synthesize imageCentre;
 @synthesize imageViewerUtil;
+@synthesize menuBarButton;
 
 static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
 static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
@@ -99,9 +100,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     heightsForRows = [NSMutableArray new];
     heightsForRowsForHorizontalMode = [NSMutableArray new];
     //thumbnail folder
-    thumbnailFolder = [czzAppDelegate libraryFolder];
-    thumbnailFolder = [thumbnailFolder stringByAppendingPathComponent:@"Thumbnails"];
-    
+    thumbnailFolder = [czzAppDelegate thumbnailFolder];
 
     //register xib
     [self.threadTableView registerNib:[UINib nibWithNibName:@"czzThreadViewTableViewCell" bundle:nil] forCellReuseIdentifier:threadViewCellIdentifier];
@@ -177,6 +176,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     viewControllerNotInTransition = NO;
+    self.navigationController.toolbarHidden = YES;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ImageDownloaded" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ImageDownloaderProgressUpdated" object:nil];
     [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
@@ -184,6 +184,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    self.navigationController.toolbarHidden = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ImageDownloaded" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaderUpdated:) name:@"ImageDownloaderProgressUpdated" object:nil];
 
@@ -213,28 +214,30 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 }
 
 - (IBAction)moreAction:(id)sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"更多功能" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"发表新帖", @"跳页", @"搜索", @"收藏", @"设置", nil];
-    [actionSheet showInView:self.view];
+    [self.navigationController setToolbarHidden:!self.navigationController.toolbarHidden animated:YES];
+    return;
 }
 
-#pragma mark - UIActionSheetDelegate
--(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
-    if ([buttonTitle isEqualToString:@"发表新帖"])
-        [self newPost];
-    else if ([buttonTitle isEqualToString:@"设置"])
-        [self openSettingsPanel];
-    else if ([buttonTitle isEqualToString:@"跳页"])
-    {
-        //allows user to jump to a specified page number
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"跳页" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-        alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-        [alertView show];
-    } else if ([buttonTitle isEqualToString:@"搜索"]) {
-        [self performSegueWithIdentifier:@"go_search_view_segue" sender:self];
-    } else if ([buttonTitle isEqualToString:@"收藏"]) {
-        [self performSegueWithIdentifier:@"go_favourite_manager_view_controller_segue" sender:self];
-    }
+- (IBAction)postAction:(id)sender {
+    [self newPost];
+}
+
+- (IBAction)jumpAction:(id)sender {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"跳页" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alertView show];
+}
+
+- (IBAction)searchAction:(id)sender {
+    [self performSegueWithIdentifier:@"go_search_view_segue" sender:self];
+}
+
+- (IBAction)bookmarkAction:(id)sender {
+    [self performSegueWithIdentifier:@"go_favourite_manager_view_controller_segue" sender:self];
+}
+
+- (IBAction)settingsAction:(id)sender {
+    [self openSettingsPanel];
 }
 
 #pragma mark - UIAlertViewDelegate
@@ -590,12 +593,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     if (oldToken){
 //        targetURLString = [targetURLString stringByAppendingFormat:@"&access_token=%@", oldToken];
     }
-    
-    //load more info into the top view controller by setting the forumName property for viewDeckController.topController
-    UINavigationController *topNavigationController = (UINavigationController*)self.viewDeckController.topController;
-    //the root view of top view controller should be the czzMoreInforViewController
-    czzMoreInfoViewController *moreInfoViewController = (czzMoreInfoViewController*)topNavigationController.viewControllers[0];
-    [moreInfoViewController setForumName:name];
 }
 
 #pragma mark - czzMenuEnableTableViewCellDelegate

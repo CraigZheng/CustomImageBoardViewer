@@ -50,9 +50,8 @@
 @synthesize delegate;
 
 -(void)awakeFromNib {
-    thumbnailFolder = [czzAppDelegate libraryFolder];
-    thumbnailFolder = [thumbnailFolder stringByAppendingPathComponent:@"Thumbnails"];
-    imageFolder = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:@"Images"];
+    thumbnailFolder = [czzAppDelegate thumbnailFolder];
+    imageFolder = [czzAppDelegate imageFolder];
     settingsCentre = [czzSettingsCentre sharedInstance];
     shouldHighlight = settingsCentre.userDefShouldHighlightPO;
     shouldAllowClickOnImage = YES;

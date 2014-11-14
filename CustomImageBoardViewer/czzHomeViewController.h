@@ -15,9 +15,17 @@
 @property (strong, nonatomic) IBOutlet UITableView *threadTableView;
 @property (nonatomic) NSString *forumName;
 @property NSMutableArray *threads;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *menuBarButton;
 
 - (IBAction)sideButtonAction:(id)sender;
 - (IBAction)moreAction:(id)sender;
+
+- (IBAction)postAction:(id)sender;
+- (IBAction)jumpAction:(id)sender;
+- (IBAction)searchAction:(id)sender;
+- (IBAction)bookmarkAction:(id)sender;
+- (IBAction)settingsAction:(id)sender;
+
 
 -(void)prepareToEnterBackground; //entering background, save forumName, threads, selected threads, content offset(position in tableview), should open thread view controller with selected thread
 -(void)restoreFromBackground; //restore the above settings if threads are empty

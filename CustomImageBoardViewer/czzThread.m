@@ -154,8 +154,6 @@
 -(NSAttributedString*)renderHTMLToAttributedString:(NSString*)htmlString{
     htmlString = [htmlString stringByReplacingOccurrencesOfString:@"&nbsp;ﾟ" withString:@"　ﾟ"];
     htmlString = [htmlString stringByReplacingOccurrencesOfString:@"&#180" withString:@"´"];
-    htmlString = [htmlString stringByReplacingOccurrencesOfString:@"&nbsp;ﾟ" withString:@"　ﾟ"];
-    htmlString = [htmlString stringByReplacingOccurrencesOfString:@"<br>" withString:@"\n"];
 
     NSAttributedString *renderedString = [[NSAttributedString alloc] initWithData:[htmlString dataUsingEncoding:NSUTF8StringEncoding]
                                             options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
