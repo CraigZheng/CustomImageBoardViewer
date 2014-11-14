@@ -923,7 +923,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tgk-NW-5N7">
-                                <rect key="frame" x="0.0" y="44" width="600" height="512"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="492"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -932,7 +932,7 @@
                                 </connections>
                             </textView>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ixg-tf-Y8O">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="guA-9Q-oNR"/>
                                 </constraints>
@@ -950,21 +950,43 @@
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="guA-9Q-oNR"/>
+                                    </mask>
+                                </variation>
                             </navigationBar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DMY-KU-ltO">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="tmB-h8-T5g"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="DMY-KU-ltO" secondAttribute="trailing" id="6mZ-7I-ODz"/>
+                            <constraint firstItem="DMY-KU-ltO" firstAttribute="top" secondItem="hg6-I0-Rfv" secondAttribute="top" id="Aif-XI-mlj"/>
                             <constraint firstAttribute="trailing" secondItem="ixg-tf-Y8O" secondAttribute="trailing" id="D0m-gz-wsh"/>
                             <constraint firstAttribute="trailing" secondItem="Tgk-NW-5N7" secondAttribute="trailing" id="Fl7-d2-73l"/>
-                            <constraint firstItem="ixg-tf-Y8O" firstAttribute="top" secondItem="hg6-I0-Rfv" secondAttribute="top" id="ONr-b2-Eli"/>
+                            <constraint firstItem="ixg-tf-Y8O" firstAttribute="top" secondItem="hg6-I0-Rfv" secondAttribute="top" constant="20" id="ONr-b2-Eli"/>
                             <constraint firstItem="ixg-tf-Y8O" firstAttribute="leading" secondItem="hg6-I0-Rfv" secondAttribute="leading" id="SqY-WL-wo0"/>
                             <constraint firstItem="Tgk-NW-5N7" firstAttribute="top" secondItem="ixg-tf-Y8O" secondAttribute="bottom" id="VRM-iD-DyP"/>
                             <constraint firstItem="ixg-tf-Y8O" firstAttribute="leading" secondItem="hg6-I0-Rfv" secondAttribute="leading" id="Wz6-kg-MFd"/>
                             <constraint firstAttribute="bottom" secondItem="Tgk-NW-5N7" secondAttribute="bottom" constant="44" id="atW-Au-F8K"/>
                             <constraint firstAttribute="trailing" secondItem="ixg-tf-Y8O" secondAttribute="trailing" id="fnc-oz-7Vv"/>
                             <constraint firstItem="Tgk-NW-5N7" firstAttribute="leading" secondItem="hg6-I0-Rfv" secondAttribute="leading" id="jpN-cs-Ve8"/>
+                            <constraint firstItem="DMY-KU-ltO" firstAttribute="leading" secondItem="hg6-I0-Rfv" secondAttribute="leading" id="nmt-h1-rwP"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="D0m-gz-wsh"/>
+                                <exclude reference="Wz6-kg-MFd"/>
+                            </mask>
+                        </variation>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
                         <outlet property="postNaviBar" destination="ixg-tf-Y8O" id="HVM-HD-M9U"/>
                         <outlet property="postTextView" destination="Tgk-NW-5N7" id="Ra4-3I-PNT"/>
@@ -1297,6 +1319,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="lqb-0z-bqj"/>
         <segue reference="RXG-dJ-a7y"/>
-        <segue reference="90f-dH-dau"/>
+        <segue reference="A7J-kM-xfA"/>
     </inferredMetricsTieBreakers>
 </document>
