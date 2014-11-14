@@ -19,7 +19,7 @@
         [view addSubview:newHiddenTextView];
         newHiddenTextView.attributedText = content;
         newHiddenTextView.font = [[czzSettingsCentre sharedInstance] contentFont];
-        preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(newHiddenTextView.frame.size.width, MAXFLOAT)].height + 20;
+        preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(newHiddenTextView.frame.size.width, MAXFLOAT)].height + 25;
         [newHiddenTextView removeFromSuperview];
     }
     
@@ -27,7 +27,7 @@
         if ([[czzSettingsCentre sharedInstance] userDefShouldUseBigImage])
         {
             CGFloat shortEdge = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
-            preferHeight = MAX(shortEdge / 2, preferHeight);
+            preferHeight = MAX(shortEdge / 1.3, preferHeight);
         }
         else
             preferHeight += IMAGE_HEIGHT;

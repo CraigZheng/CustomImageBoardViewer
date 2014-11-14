@@ -193,7 +193,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaderUpdated:) name:@"ImageDownloaderProgressUpdated" object:nil];
 
     self.viewDeckController.rightController = nil;
-    [self.tableView reloadData];
     
     //change background colour for night mode
     if (settingsCentre.nightyMode)

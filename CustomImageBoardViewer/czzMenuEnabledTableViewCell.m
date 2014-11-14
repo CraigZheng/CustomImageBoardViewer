@@ -196,17 +196,14 @@
         [contentAttrString addAttribute:NSForegroundColorAttributeName value:settingsCentre.contentTextColour range:NSMakeRange(0, contentAttrString.length)];
     //shadow for big image mode
     if ([settingsCentre userDefShouldUseBigImage]) {
-        contentTextView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.85];
+        contentTextView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.75];
+    } else {
+        contentTextView.backgroundColor = [UIColor clearColor];
     }
     contentTextView.attributedText = contentAttrString;
     contentTextView.font = settingsCentre.contentFont;
 
     //NSLog(@"time consuming step 3: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
-    if ([UIDevice currentDevice].systemVersion.floatValue < 7.0) {
-        NSMutableAttributedString *tempAttributedString = [[NSMutableAttributedString alloc] initWithAttributedString:contentTextView.attributedText];
-        [tempAttributedString addAttribute:NSFontAttributeName value:settingsCentre.contentFont range:NSMakeRange(0, tempAttributedString.length)];
-        contentTextView.attributedText = tempAttributedString;
-    }
     
     idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)myThread.ID];
     //set the color

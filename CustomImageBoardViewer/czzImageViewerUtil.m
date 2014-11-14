@@ -92,11 +92,16 @@
     return nil;
 }
 
--(void)photoBrowser:(MWPhotoBrowser *)photoBrowser actionButtonPressedForPhotoAtIndex:(NSUInteger)index {
+-(void)photoBrowser:(MWPhotoBrowser *)browser actionButtonPressedForPhotoAtIndex:(NSUInteger)index {
     NSURL *fileURL = [NSURL fileURLWithPath:[photoBrowserDataSource objectAtIndex:index]];
     documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:fileURL];
-    UIView *viewToShowDocumentInteractionController = photoBrowserNavigationController.view;
-    [documentInteractionController presentOptionsMenuFromRect:CGRectMake(0, 0, viewControllerToShow.view.frame.size.width, viewControllerToShow.view.frame.size.height) inView:viewToShowDocumentInteractionController animated:YES];
+    UIView *viewToShowDocumentInteractionController;
+    if (photoBrowserNavigationController)
+        viewToShowDocumentInteractionController = photoBrowserNavigationController.view;
+    else
+        viewToShowDocumentInteractionController = photoBrowser.view;
+    [documentInteractionController presentOpenInMenuFromRect:CGRectMake(0, 0, viewControllerToShow.view.frame.size.width, viewControllerToShow.view.frame.size.height) inView:viewToShowDocumentInteractionController animated:YES];
+//    [documentInteractionController presentOptionsMenuFromRect:CGRectMake(0, 0, viewControllerToShow.view.frame.size.width, viewControllerToShow.view.frame.size.height) inView:viewToShowDocumentInteractionController animated:YES];
 }
 
 -(void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser {
