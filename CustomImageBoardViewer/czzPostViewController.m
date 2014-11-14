@@ -50,8 +50,7 @@
     postSender = [czzPostSender new];
     settingsCentre = [czzSettingsCentre sharedInstance];
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
-    toolbar.barStyle = UIBarStyleBlack;
-    
+    toolbar.barStyle = UIBarStyleDefault;
     //assign an input accessory view to it
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     UIBarButtonItem *pickEmojiButton = [[UIBarButtonItem alloc] initWithTitle:@"颜文字" style:UIBarButtonItemStyleBordered target:self action:@selector(pickEmojiAction:)];
@@ -269,7 +268,7 @@
      Reduce the size of the text view so that it's not obscured by the keyboard.
      Animate the resize so that it's in sync with the appearance of the keyboard.
      */
-    
+
     NSDictionary *userInfo = [notification userInfo];
     
     // Get the origin of the keyboard when it's displayed.
@@ -317,20 +316,6 @@
     postTextView.frame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y + postNaviBar.frame.size.height, self.view.bounds.size.width, self.view.bounds.size.height);
     
     [UIView commitAnimations];
-}
-
-#pragma Orientation change event
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
-    //set the height of the bar based on device
-    //yeah, hard coded, but who cares
-    CGRect frame = postNaviBar.frame;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone && UIInterfaceOrientationIsPortrait(self.interfaceOrientation)){
-        frame.size.height = 32;
-    } else {
-        frame.size.height = 44;
-    }
-    [postNaviBar setFrame:frame];
-    
 }
 
 #pragma mark - czzEmojiCollectionViewController delegate

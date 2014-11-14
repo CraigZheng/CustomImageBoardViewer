@@ -84,9 +84,14 @@
 
 static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
 static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //if the app is launched in background, none of these is necessary - for now
+    if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
+        return;
+    }
 	// Do any additional setup after loading the view, typically from a nib.
     imageCentre = [czzImageCentre sharedInstance]; //cause image centre to load itself
     imageViewerUtil = [czzImageViewerUtil new];
@@ -144,7 +149,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     self.navigationController.toolbarHidden = YES;
     @try {
         notificationBannerViewController.parentView = [[czzAppDelegate sharedAppDelegate].window.subviews objectAtIndex:0];
-//        [[[czzAppDelegate sharedAppDelegate].window.subviews objectAtIndex:0] addSubview:notificationBannerViewController.view];
     }
     @catch (NSException *exception) {
     }
