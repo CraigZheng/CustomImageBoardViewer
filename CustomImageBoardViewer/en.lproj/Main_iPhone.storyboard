@@ -1117,8 +1117,8 @@
         <image name="upload.png" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="iJS-rj-Zmj"/>
         <segue reference="xL9-ie-FoR"/>
+        <segue reference="RXG-dJ-a7y"/>
         <segue reference="90f-dH-dau"/>
     </inferredMetricsTieBreakers>
 </document>

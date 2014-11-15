@@ -10,6 +10,9 @@
 
 #import "czzMiniThreadViewController.h"
 #import "czzThread.h"
+#import "Toast+UIView.h"
+#import "czzAppDelegate.h"
+#import "czzImageViewerUtil.h"
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzTextViewHeightCalculator.h"
 
@@ -24,6 +27,8 @@
 @synthesize threadTableView;
 @synthesize delegate;
 @synthesize rowSize;
+@synthesize miniThreadNaBarItem;
+@synthesize miniThreadNavBar;
 
 static NSString *cellIdentifier = @"thread_cell_identifier";
 static NSString *emptyCellIdenfiier = @"empty_cell_identifier";
@@ -35,9 +40,15 @@ static NSString *emptyCellIdenfiier = @"empty_cell_identifier";
     [threadTableView registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
 }
 
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [[czzAppDelegate sharedAppDelegate].window hideToastActivity];
+}
+
 -(void)setThreadID:(NSInteger)tID {
     threadID = tID;
     //start downloading content for thread id
+    [[czzAppDelegate sharedAppDelegate].window makeToastActivity];
     NSString *target = [NSString stringWithFormat:@"http://h.acfun.tv/t/%ld.json", (long)threadID];
     [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:target]]  queue:[NSOperationQueue new] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         if (!connectionError) {
@@ -45,6 +56,7 @@ static NSString *emptyCellIdenfiier = @"empty_cell_identifier";
             czzThread *resultThread = [[czzThread alloc] initWithJSONDictionary:[rawJson objectForKey:@"threads"]];
             dispatch_async(dispatch_get_main_queue(), ^{
                 BOOL successful = NO;
+                [[czzAppDelegate sharedAppDelegate].window hideToastActivity];
                 if (resultThread) {
                     [self setMyThread:resultThread];
                     successful = YES;
@@ -52,6 +64,9 @@ static NSString *emptyCellIdenfiier = @"empty_cell_identifier";
                 }
                 if (delegate && [delegate respondsToSelector:@selector(miniThreadViewFinishedLoading:)])
                     [delegate miniThreadViewFinishedLoading:successful];
+                miniThreadNaBarItem.title = myThread.title;
+                miniThreadNaBarItem.backBarButtonItem.title = self.title;
+
             });
         }
     }];
@@ -86,12 +101,17 @@ static NSString *emptyCellIdenfiier = @"empty_cell_identifier";
     preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForContent:myThread.content inView:self.view hasImage:myThread.thImgSrc.length > 0];
     preferHeight = MAX(tableView.rowHeight, preferHeight);
     rowSize = CGSizeMake(self.view.frame.size.width, preferHeight);
-    //reset my frame to contain the one and only frame
-    CGRect frame = CGRectMake(0, 0, rowSize.width, rowSize.height);
-    self.view.frame = frame;
 
     return preferHeight;
 }
 
 #pragma mark - uitableview delegate
+- (IBAction)cancelButtonAction:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - rotation event
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    [threadTableView reloadData];
+}
 @end

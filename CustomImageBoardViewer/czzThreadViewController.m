@@ -203,15 +203,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     //ready for push animation
     viewControllerNotInTransition = YES;
     
-    miniThreadView = [[UIStoryboard storyboardWithName:@"MiniThreadView" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
-    miniThreadView.delegate = self;
-    [self addChildViewController:miniThreadView];
-    [miniThreadView setThreadID:4997515];
-}
-
--(void)miniThreadViewFinishedLoading:(BOOL)successful {
-    [self.view showToast:miniThreadView.view duration:5.0 position:@"center"];
-    NSLog(@"%@", NSStringFromSelector(_cmd));
 }
 
 #pragma mark - enter/exiting background
@@ -473,6 +464,16 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
 }
 
+
+#pragma mark - czzMiniThreadViewProtocol
+-(void)miniThreadViewFinishedLoading:(BOOL)successful {
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    if (!successful)
+        [[czzAppDelegate sharedAppDelegate].window makeToast:[NSString stringWithFormat:@"无法下载:%ld", (long)miniThreadView.threadID]];
+    if (viewControllerNotInTransition)
+        [self presentViewController:miniThreadView animated:YES completion:nil];
+}
+
 #pragma mark - UIScrollVIew delegate
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     if (onScreenCommand && threads.count > 1 && shouldDisplayQuickScrollCommand) {
@@ -681,6 +682,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 -(void)userTapInQuotedText:(NSString *)text {
     NSInteger refNumber = text.integerValue;
+    
     for (czzThread *thread in threads) {
         if (thread.ID == refNumber){
             //record the current content offset
@@ -693,8 +695,12 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
             return;
         }
     }
-    keywordToSearch = [NSString stringWithFormat:@"%ld", (long)refNumber];
-    [self performSegueWithIdentifier:@"go_search_view_segue" sender:self];
+     
+    //not in this thread
+    [[czzAppDelegate sharedAppDelegate].window makeToast:[NSString stringWithFormat:@"需要下载: %@", text]];
+    miniThreadView = [[UIStoryboard storyboardWithName:@"MiniThreadView" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
+    miniThreadView.delegate = self;
+    [miniThreadView setThreadID:refNumber];
 }
 
 #pragma mark - high light
