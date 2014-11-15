@@ -35,7 +35,9 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.tableView registerNib:[UINib nibWithNibName:@"czzThreadViewTableViewCell" bundle:nil] forCellReuseIdentifier:threadViewCellIdentifier];
+    [self.tableView registerNib:[UINib nibWithNibName:@"czzThreadViewTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:threadViewCellIdentifier];
+    [self.tableView registerNib:[UINib nibWithNibName:@"czzThreadViewBigImageTableViewCell" bundle:nil] forCellReuseIdentifier:threadViewBigImageCellIdentifier];
+
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
     settingsCentre = [czzSettingsCentre sharedInstance];
 }
