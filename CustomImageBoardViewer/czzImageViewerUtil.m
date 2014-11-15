@@ -101,8 +101,9 @@
         viewToShowDocumentInteractionController = photoBrowserNavigationController.view;
     else
         viewToShowDocumentInteractionController = photoBrowser.view;
-    [documentInteractionController presentOpenInMenuFromRect:CGRectMake(0, 0, viewControllerToShow.view.frame.size.width, viewControllerToShow.view.frame.size.height) inView:viewToShowDocumentInteractionController animated:YES];
-//    [documentInteractionController presentOptionsMenuFromRect:CGRectMake(0, 0, viewControllerToShow.view.frame.size.width, viewControllerToShow.view.frame.size.height) inView:viewToShowDocumentInteractionController animated:YES];
+    [documentInteractionController presentOpenInMenuFromRect:viewControllerToShow.view.frame inView:viewToShowDocumentInteractionController animated:YES];
+//    [documentInteractionController presentOptionsMenuFromRect:viewControllerToShow.view.frame inView:viewToShowDocumentInteractionController animated:YES];
+
 }
 
 -(void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser {
