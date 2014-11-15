@@ -454,13 +454,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         [xmlDownloader stop];
     NSString *targetURLStringWithPN = [baseURLString stringByAppendingString:
                                        [NSString stringWithFormat:@"?page=%ld", (long)pn]];
-
-    //access token for the server
-    NSString *oldToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"access_token"];
-    if (oldToken){
-//        targetURLStringWithPN = [targetURLStringWithPN stringByAppendingFormat:@"&access_token=%@", oldToken];
-    }
-
     xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
 }
 
@@ -689,7 +682,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 -(void)userTapInQuotedText:(NSString *)text {
     NSInteger refNumber = text.integerValue;
-    /*
+    
     for (czzThread *thread in threads) {
         if (thread.ID == refNumber){
             //record the current content offset
@@ -702,7 +695,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
             return;
         }
     }
-    */
+    
     //not in this thread
     [[czzAppDelegate sharedAppDelegate].window makeToast:[NSString stringWithFormat:@"需要下载: %@", text]];
     miniThreadView = [[UIStoryboard storyboardWithName:@"MiniThreadView" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
@@ -773,6 +766,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     {
         dispatch_async(dispatch_get_main_queue(), ^{
             self.parentThread = newParentThread;
+            baseURLString = [[baseURLString stringByDeletingLastPathComponent] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld", (long) self.parentThread.ID]];
             [self refreshThread:nil];
         });
     }

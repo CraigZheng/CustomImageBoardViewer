@@ -53,6 +53,9 @@
     if (self) {
         @try {
             self.ID = [[data objectForKey:@"id"] integerValue];
+            
+            self.parentID = [[data objectForKey:@"parent"] integerValue] != 0 ? [[data objectForKey:@"parent"] integerValue] : self.ID;
+
             self.postDateTime = [NSDate dateWithTimeIntervalSince1970:[[data objectForKey:@"createdAt"] doubleValue] / 1000.0];
             self.updateDateTime = [NSDate dateWithTimeIntervalSince1970:[[data objectForKey:@"updatedAt"] doubleValue] / 1000.0];
             //UID might have different colour, but I am setting any colour other than default to red at the moment
@@ -83,7 +86,6 @@
             self.lock = [[data objectForKey:@"lock"] boolValue];
             self.sage = [[data objectForKey:@"sage"] boolValue];
             self.responseCount = [[data objectForKey:@"replyCount"] integerValue];
-            self.parentID = [[data objectForKey:@"parent"] integerValue];
             [self checkBlacklist];
             [self checkImageURLs];
             [self checkRemoteConfiguration];
