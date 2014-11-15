@@ -32,7 +32,7 @@
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
 #define OVERLAY_VIEW 122
 
-@interface czzThreadViewController ()<czzXMLDownloaderDelegate, /*czzXMLProcessorDelegate,*/ czzJSONProcessorDelegate, UINavigationControllerDelegate, UIAlertViewDelegate, UIDocumentInteractionControllerDelegate, czzMenuEnabledTableViewCellProtocol>
+@interface czzThreadViewController ()<czzXMLDownloaderDelegate, /*czzXMLProcessorDelegate,*/ czzJSONProcessorDelegate, UINavigationControllerDelegate, UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol>
 @property NSString *baseURLString;
 @property NSString *targetURLString;
 @property NSMutableArray *threads;
@@ -43,7 +43,6 @@
 @property NSMutableDictionary *downloadedImages;
 @property NSMutableSet *currentImageDownloaders;
 @property czzImageViewerUtil *imageViewerUtil;
-@property UIDocumentInteractionController *documentInteractionController;
 @property CGPoint threadsTableViewContentOffSet; //record the content offset of the threads tableview
 @property BOOL shouldHighlight;
 @property NSMutableArray *heightsForRows;
@@ -72,7 +71,6 @@
 @synthesize pageNumber;
 @synthesize downloadedImages;
 @synthesize currentImageDownloaders;
-@synthesize documentInteractionController;
 @synthesize threadsTableViewContentOffSet;
 @synthesize shouldHighlight;
 @synthesize shouldHighlightSelectedUser;
@@ -128,8 +126,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         [heightsForRowsForHorizontal addObjectsFromArray:[cachedHeights objectForKey:@"HorizontalHeights"]];
     }
     pageNumber = (threads.count - 1)/ 20 + 1;
-    [self loadMoreThread:pageNumber];
-
     //end of retriving cached thread from storage
     
     //register xib
@@ -150,6 +146,10 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     onScreenCommand.tableviewController = self;
     [onScreenCommand hide];
     shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
+    
+    //if in foreground, load more threads
+    if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground)
+        [self loadMoreThread:pageNumber];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -642,6 +642,15 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 - (IBAction)reportAction:(id)sender {
     [threadMenuViewController reportAction];
+}
+
+- (IBAction)shareAction:(id)sender {
+    //create the thread link - hardcode it
+    NSString *threadLink = [NSString stringWithFormat:@"http://h.acfun.tv/t/%ld", (long) parentThread.ID];
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[[NSURL URLWithString:threadLink]] applicationActivities:nil];
+    if ([activityViewController respondsToSelector:@selector(popoverPresentationController)])
+        activityViewController.popoverPresentationController.sourceView = self.view;
+    [self presentViewController:activityViewController animated:YES completion:nil];
 }
 
 #pragma mark - TableViewCellDelegate

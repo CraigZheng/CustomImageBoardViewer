@@ -119,12 +119,6 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="6a6-yG-ZnO"/>
-                        <barButtonItem image="advance.png" id="Jnb-ZE-HqK">
-                            <connections>
-                                <action selector="jumpAction:" destination="P9r-Cg-Rjf" id="xEx-gP-PDg"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="mcy-cH-6zD"/>
                         <barButtonItem image="search.png" id="f6V-9f-mhw">
                             <connections>
                                 <action selector="searchAction:" destination="P9r-Cg-Rjf" id="GEd-ny-m2s"/>
@@ -134,6 +128,12 @@
                         <barButtonItem image="bookmark.png" id="rTc-zd-hHh">
                             <connections>
                                 <action selector="bookmarkAction:" destination="P9r-Cg-Rjf" id="xVT-va-FkP"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="mcy-cH-6zD"/>
+                        <barButtonItem image="advance.png" id="Jnb-ZE-HqK">
+                            <connections>
+                                <action selector="jumpAction:" destination="P9r-Cg-Rjf" id="xEx-gP-PDg"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="1gT-bf-7wf"/>
@@ -149,7 +149,7 @@
                                 <action selector="sideButtonAction:" destination="P9r-Cg-Rjf" id="Jfe-Qk-Wim"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="upload.png" id="aco-AK-pj3">
+                        <barButtonItem key="rightBarButtonItem" image="settings_wrench.png" id="aco-AK-pj3">
                             <connections>
                                 <action selector="moreAction:" destination="P9r-Cg-Rjf" id="BEr-TM-FBJ"/>
                             </connections>
@@ -264,19 +264,25 @@
                                 <action selector="replyAction:" destination="V51-tA-4h3" id="Pw6-4k-Qc9"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="3Rx-d3-G6J"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Nhg-N5-caz"/>
                         <barButtonItem image="star.png" id="M89-C2-pn8">
                             <connections>
                                 <action selector="starAction:" destination="V51-tA-4h3" id="Yoj-fB-xOm"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="bhn-rm-GJz"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="39d-um-O5I"/>
+                        <barButtonItem image="upload.png" id="6I3-sR-680">
+                            <connections>
+                                <action selector="shareAction:" destination="V51-tA-4h3" id="4bY-oL-2UA"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="qXU-5Z-eaD"/>
                         <barButtonItem image="advance.png" id="5gm-DU-oFD">
                             <connections>
                                 <action selector="jumpAction:" destination="V51-tA-4h3" id="LFw-3n-8eo"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="mSb-lG-twN"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="QOF-Et-CXR"/>
                         <barButtonItem image="error.png" id="ZgZ-hL-V86">
                             <connections>
                                 <action selector="reportAction:" destination="V51-tA-4h3" id="I9r-4s-RcW"/>
@@ -284,7 +290,7 @@
                         </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="帖子" id="yCr-4j-rzT">
-                        <barButtonItem key="rightBarButtonItem" image="upload.png" id="hwQ-2o-Css">
+                        <barButtonItem key="rightBarButtonItem" image="settings_wrench.png" id="hwQ-2o-Css">
                             <connections>
                                 <action selector="moreAction:" destination="V51-tA-4h3" id="TCQ-Lb-gU3"/>
                             </connections>
@@ -821,7 +827,7 @@
                                     <outlet property="delegate" destination="4fE-Ef-JB7" id="yBY-be-CC5"/>
                                 </connections>
                             </webView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YfX-wW-cvp">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YfX-wW-cvp">
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="8uj-zG-q9h"/>
@@ -1286,7 +1292,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="收藏" id="cWn-mB-N6O">
-                        <barButtonItem key="rightBarButtonItem" title="修改" id="3Kd-Br-cM7">
+                        <barButtonItem key="rightBarButtonItem" image="settings_wrench.png" id="3Kd-Br-cM7">
                             <connections>
                                 <action selector="editAction:" destination="aOD-Hr-NEd" id="KLG-Dy-EFa"/>
                             </connections>
@@ -1313,12 +1319,13 @@
         <image name="reply.png" width="20" height="20"/>
         <image name="search.png" width="20" height="20"/>
         <image name="settings.png" width="20" height="20"/>
+        <image name="settings_wrench.png" width="20" height="20"/>
         <image name="star.png" width="20" height="20"/>
         <image name="upload.png" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="xL9-ie-FoR"/>
         <segue reference="iJS-rj-Zmj"/>
-        <segue reference="90f-dH-dau"/>
+        <segue reference="HE7-Rt-Ewc"/>
     </inferredMetricsTieBreakers>
 </document>

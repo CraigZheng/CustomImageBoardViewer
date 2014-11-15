@@ -44,9 +44,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    //replyCommand = [NSMutableArray arrayWithObjects:@"回复主串", @"回复选定的帖子", @"加入收藏", nil];
     replyCommand = [NSMutableArray arrayWithObjects:@"回复主串", @"回复选定的帖子", @"加入收藏", @"跳页", nil];
-    //shareCommand = [NSMutableArray arrayWithObjects:@"复制内容", @"复制选定帖子的ID", nil];
     shareCommand = [NSMutableArray arrayWithObjects:@"复制帖子地址", nil];
     reportCommand = [NSMutableArray arrayWithObjects:@"举报", nil];
     threadDepandentCommand = [NSMutableArray new];

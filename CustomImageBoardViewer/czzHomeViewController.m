@@ -88,11 +88,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //if the app is launched in background, none of these is necessary - for now
-    if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
-        return;
-    }
-	// Do any additional setup after loading the view, typically from a nib.
+
+    // Do any additional setup after loading the view, typically from a nib.
     imageCentre = [czzImageCentre sharedInstance]; //cause image centre to load itself
     imageViewerUtil = [czzImageViewerUtil new];
     [czzAppDelegate sharedAppDelegate].homeViewController = self; //retain a reference to app delegate, so when entering background, the delegate can inform this controller for further actions
