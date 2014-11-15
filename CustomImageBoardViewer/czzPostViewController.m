@@ -282,7 +282,7 @@
     keyboardRect = [self.view convertRect:keyboardRect fromView:nil];
     
     CGFloat keyboardTop = keyboardRect.origin.y;
-    CGRect newTextViewFrame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y + postNaviBar.frame.size.height, self.view.bounds.size.width, self.view.bounds.size.height);
+    CGRect newTextViewFrame = CGRectMake(self.view.bounds.origin.x, postTextView.frame.origin.y, self.view.bounds.size.width, self.view.bounds.size.height);
     newTextViewFrame.size.height = keyboardTop - 44 - self.view.bounds.origin.y;
     
     // Get the duration of the animation.
@@ -313,7 +313,7 @@
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:animationDuration];
     
-    postTextView.frame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y + postNaviBar.frame.size.height, self.view.bounds.size.width, self.view.bounds.size.height);
+    postTextView.frame = CGRectMake(self.view.bounds.origin.x, postTextView.frame.origin.y, self.view.bounds.size.width, self.view.bounds.size.height);
     
     [UIView commitAnimations];
 }
