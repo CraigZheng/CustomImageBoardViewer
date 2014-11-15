@@ -157,7 +157,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     self.viewDeckController.leftController = leftController;
     shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 4.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         if (self.forumName.length <= 0) {
             if ([czzAppDelegate sharedAppDelegate].forums.count > 0)
             {

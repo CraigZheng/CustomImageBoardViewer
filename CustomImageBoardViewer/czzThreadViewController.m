@@ -474,6 +474,14 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         [self presentViewController:miniThreadView animated:YES completion:nil];
 }
 
+-(void)miniThreadWantsToOpenThread:(czzThread*)thread {
+    [self dismissViewControllerAnimated:YES completion:^{
+        self.parentThread = thread;
+        [self refreshThread:nil];
+
+    }];
+}
+
 #pragma mark - UIScrollVIew delegate
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     if (onScreenCommand && threads.count > 1 && shouldDisplayQuickScrollCommand) {
@@ -682,7 +690,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 -(void)userTapInQuotedText:(NSString *)text {
     NSInteger refNumber = text.integerValue;
-    
+    /*
     for (czzThread *thread in threads) {
         if (thread.ID == refNumber){
             //record the current content offset
@@ -695,7 +703,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
             return;
         }
     }
-    
+    */
     //not in this thread
     [[czzAppDelegate sharedAppDelegate].window makeToast:[NSString stringWithFormat:@"需要下载: %@", text]];
     miniThreadView = [[UIStoryboard storyboardWithName:@"MiniThreadView" bundle:[NSBundle mainBundle]] instantiateInitialViewController];

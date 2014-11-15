@@ -25,6 +25,7 @@
 @property NSDate *postDateTime;
 @property NSDate *updateDateTime;
 @property BOOL isParent;
+@property NSInteger parentID;
 #pragma mark - CONTENT CENSORING PROPERTIES
 @property BOOL harmful;
 @property BOOL blockContent;

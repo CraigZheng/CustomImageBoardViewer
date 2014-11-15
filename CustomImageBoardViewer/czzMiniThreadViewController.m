@@ -18,6 +18,7 @@
 
 @interface czzMiniThreadViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic) czzThread *myThread;
+@property NSInteger parentID;
 @property CGSize rowSize;
 @end
 
@@ -27,6 +28,7 @@
 @synthesize threadTableView;
 @synthesize delegate;
 @synthesize rowSize;
+@synthesize parentID;
 @synthesize miniThreadNaBarItem;
 @synthesize miniThreadNavBar;
 
@@ -104,6 +106,22 @@ static NSString *emptyCellIdenfiier = @"empty_cell_identifier";
 #pragma mark - uitableview delegate
 - (IBAction)cancelButtonAction:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)openThreadAction:(id)sender {
+    [[czzAppDelegate sharedAppDelegate].window makeToastActivity];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        czzThread *parentThread = [[czzThread alloc] initWithThreadID:myThread.parentID];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (parentThread) {
+                if (delegate && [delegate respondsToSelector:@selector(miniThreadWantsToOpenThread:)])
+                    [delegate miniThreadWantsToOpenThread:parentThread];
+            } else {
+                [[czzAppDelegate sharedAppDelegate].window makeToast:@"无法打开！"];
+            }
+            [[czzAppDelegate sharedAppDelegate].window hideToastActivity];
+        });
+    });
 }
 
 #pragma mark - rotation event

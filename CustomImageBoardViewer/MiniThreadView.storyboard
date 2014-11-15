@@ -42,6 +42,11 @@
                                                 <action selector="cancelButtonAction:" destination="hhF-PX-LQi" id="cDG-bD-6bZ"/>
                                             </connections>
                                         </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" image="view.png" id="5CF-6e-g9P">
+                                            <connections>
+                                                <action selector="openThreadAction:" destination="hhF-PX-LQi" id="qOn-G2-24N"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -94,5 +99,6 @@
     </scenes>
     <resources>
         <image name="delete.png" width="100" height="100"/>
+        <image name="view.png" width="20" height="20"/>
     </resources>
 </document>

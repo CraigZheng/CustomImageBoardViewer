@@ -83,7 +83,7 @@
             self.lock = [[data objectForKey:@"lock"] boolValue];
             self.sage = [[data objectForKey:@"sage"] boolValue];
             self.responseCount = [[data objectForKey:@"replyCount"] integerValue];
-            
+            self.parentID = [[data objectForKey:@"parent"] integerValue];
             [self checkBlacklist];
             [self checkImageURLs];
             [self checkRemoteConfiguration];
