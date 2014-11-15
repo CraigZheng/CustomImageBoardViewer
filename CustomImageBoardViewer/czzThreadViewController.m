@@ -476,11 +476,10 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 -(void)miniThreadWantsToOpenThread:(czzThread*)thread {
     [self dismissViewControllerAnimated:YES completion:^{
-        self.parentThread = thread;
-        [self refreshThread:nil];
-
+        [self switchToParentThread:thread];
     }];
 }
+
 
 #pragma mark - UIScrollVIew delegate
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
@@ -765,6 +764,17 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         czzSearchViewController *searchViewController = (czzSearchViewController*)segue.destinationViewController;
         if (keywordToSearch.length > 0)
             searchViewController.predefinedSearchKeyword = keywordToSearch;
+    }
+}
+
+#pragma mark - switch parent thread
+-(void)switchToParentThread:(czzThread*)newParentThread {
+    if (newParentThread)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.parentThread = newParentThread;
+            [self refreshThread:nil];
+        });
     }
 }
 

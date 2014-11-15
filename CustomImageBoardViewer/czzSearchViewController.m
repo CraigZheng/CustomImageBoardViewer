@@ -22,13 +22,14 @@
 #import "czzHTMLParserViewController.h"
 #import "czzMiniThreadViewController.h"
 
-@interface czzSearchViewController ()<UIAlertViewDelegate, UIWebViewDelegate>
+@interface czzSearchViewController ()<UIAlertViewDelegate, UIWebViewDelegate, czzMiniThreadViewControllerProtocol>
 @property czzThread *selectedParentThread;
 @property NSArray *searchResult;
 @property UIAlertView *searchInputAlertView;
 @property NSString *searchKeyword;
 @property NSString *searchCommand;
 @property NSURL *targetURL;
+@property czzMiniThreadViewController *miniThreadView;
 @end
 
 @implementation czzSearchViewController
@@ -41,6 +42,7 @@
 @synthesize searchResult;
 @synthesize searchKeyword;
 @synthesize targetURL;
+@synthesize miniThreadView;
 
 - (void)viewDidLoad
 {
@@ -106,10 +108,9 @@
 }
 
 -(void)downloadAndPrepareThreadWithID:(NSInteger)threadID {
-    NSLog(@"threadID entered: %ld", (long)threadID);
-    czzMiniThreadViewController *miniThreadView = [[UIStoryboard storyboardWithName:@"MiniThreadView" bundle:nil] instantiateInitialViewController];
+    miniThreadView = [[UIStoryboard storyboardWithName:@"MiniThreadView" bundle:nil] instantiateInitialViewController];
+    miniThreadView.delegate = self;
     miniThreadView.threadID = threadID;
-    [self.navigationController pushViewController:miniThreadView animated:YES];
 }
 
 -(NSURLRequest*)makeRequestWithKeyword:(NSString*)keyword {
@@ -245,5 +246,25 @@
     NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
     [userDef setObject:searchCommand forKey:USER_SELECTED_SEARCH_ENGINE];
     [userDef synchronize];
+}
+
+#pragma mark - czzMiniThreadViewControllerProtocol
+-(void)miniThreadViewFinishedLoading:(BOOL)successful {
+    if (!successful) {
+        [[czzAppDelegate sharedAppDelegate].window makeToast:[NSString stringWithFormat:@"无法下载:%ld", (long)miniThreadView.threadID]];
+        return;
+    }
+    if (self.isViewLoaded && self.view.window)
+        [self presentViewController:miniThreadView animated:YES completion:nil];
+
+}
+
+-(void)miniThreadWantsToOpenThread:(czzThread *)thread {
+    if (!thread)
+        return;
+    [self dismissViewControllerAnimated:YES completion:^{
+        selectedParentThread = thread;
+        [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
+    }];
 }
 @end

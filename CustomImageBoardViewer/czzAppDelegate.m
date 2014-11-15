@@ -109,6 +109,14 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+-(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    NSLog(@"%@", url.absoluteString);
+    if ([url.host isEqualToString:@"acfun"]) {
+        return YES;
+    }
+    return NO;
+}
+
 #pragma mark - background fetch
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     //dart intergration
