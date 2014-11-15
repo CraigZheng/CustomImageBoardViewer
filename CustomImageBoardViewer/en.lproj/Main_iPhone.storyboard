@@ -677,7 +677,7 @@
         <!--HTML解析器-->
         <scene sceneID="Jnj-ci-rUz">
             <objects>
-                <viewController title="HTML解析器" id="tKd-jP-nKQ" customClass="czzHTMLParserViewController" sceneMemberID="viewController">
+                <viewController title="HTML解析器" hidesBottomBarWhenPushed="YES" id="tKd-jP-nKQ" customClass="czzHTMLParserViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xWK-pc-41Z"/>
                         <viewControllerLayoutGuide type="bottom" id="gO4-bM-oDo"/>
@@ -1117,8 +1117,8 @@
         <image name="upload.png" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="xL9-ie-FoR"/>
         <segue reference="RXG-dJ-a7y"/>
-        <segue reference="90f-dH-dau"/>
+        <segue reference="fbB-ZG-qDW"/>
+        <segue reference="A7J-kM-xfA"/>
     </inferredMetricsTieBreakers>
 </document>

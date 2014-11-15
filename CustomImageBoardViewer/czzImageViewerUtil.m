@@ -78,7 +78,8 @@
     photoBrowser.delayToHideElements = 4.0;
     photoBrowser.enableSwipeToDismiss = NO; // dont dismiss
     photoBrowser.displayActionButton = YES;
-    
+    photoBrowser.hidesBottomBarWhenPushed = YES;
+
 }
 
 #pragma mark - MWPhotoBrowserDelegate
