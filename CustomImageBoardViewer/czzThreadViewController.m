@@ -28,11 +28,12 @@
 #import "czzSearchViewController.h"
 #import "czzSettingsCentre.h"
 #import "czzTextViewHeightCalculator.h"
+#import "czzMiniThreadViewController.h"
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
 #define OVERLAY_VIEW 122
 
-@interface czzThreadViewController ()<czzXMLDownloaderDelegate, /*czzXMLProcessorDelegate,*/ czzJSONProcessorDelegate, UINavigationControllerDelegate, UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol>
+@interface czzThreadViewController ()<czzXMLDownloaderDelegate, czzJSONProcessorDelegate, UINavigationControllerDelegate, UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzMiniThreadViewControllerProtocol>
 @property NSString *baseURLString;
 @property NSString *targetURLString;
 @property NSMutableArray *threads;
@@ -55,6 +56,7 @@
 @property czzSettingsCentre *settingsCentre;
 @property UIViewController *rightViewController;
 @property UIViewController *topViewController;
+@property czzMiniThreadViewController *miniThreadView;
 @property BOOL viewControllerNotInTransition;
 @end
 
@@ -86,6 +88,7 @@
 @synthesize rightViewController;
 @synthesize topViewController;
 @synthesize viewControllerNotInTransition;
+@synthesize miniThreadView;
 @synthesize imageViewerUtil;
 
 static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
@@ -199,7 +202,18 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [super viewDidAppear:animated];
     //ready for push animation
     viewControllerNotInTransition = YES;
+    
+    miniThreadView = [[UIStoryboard storyboardWithName:@"MiniThreadView" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
+    miniThreadView.delegate = self;
+    [self addChildViewController:miniThreadView];
+    [miniThreadView setThreadID:4997515];
 }
+
+-(void)miniThreadViewFinishedLoading:(BOOL)successful {
+    [self.view showToast:miniThreadView.view duration:5.0 position:@"center"];
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+}
+
 #pragma mark - enter/exiting background
 -(void)prepareToEnterBackground {
     if (threads.count > 1)

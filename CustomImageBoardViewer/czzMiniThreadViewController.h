@@ -8,7 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol czzMiniThreadViewControllerProtocol <NSObject>
+@optional
+-(void)miniThreadViewFinishedLoading:(BOOL)successful;
+@end
+
 @interface czzMiniThreadViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UITableView *threadTableView;
-@property NSInteger threadID;
+@property (nonatomic) NSInteger threadID;
+@property id<czzMiniThreadViewControllerProtocol> delegate;
 @end
