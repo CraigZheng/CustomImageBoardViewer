@@ -695,7 +695,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
             return;
         }
     }
-     
+    
     //not in this thread
     [[czzAppDelegate sharedAppDelegate].window makeToast:[NSString stringWithFormat:@"需要下载: %@", text]];
     miniThreadView = [[UIStoryboard storyboardWithName:@"MiniThreadView" bundle:[NSBundle mainBundle]] instantiateInitialViewController];

@@ -37,4 +37,5 @@
 
 -(BOOL)isEqual:(id)object;
 -(NSUInteger)hash;
+-(instancetype)initWithThreadID:(NSInteger)threadID;
 @end

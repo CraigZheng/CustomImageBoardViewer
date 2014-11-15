@@ -49,27 +49,23 @@ static NSString *emptyCellIdenfiier = @"empty_cell_identifier";
     threadID = tID;
     //start downloading content for thread id
     [[czzAppDelegate sharedAppDelegate].window makeToastActivity];
-    NSString *target = [NSString stringWithFormat:@"http://h.acfun.tv/t/%ld.json", (long)threadID];
-    [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:target]]  queue:[NSOperationQueue new] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        if (!connectionError) {
-            NSDictionary *rawJson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            czzThread *resultThread = [[czzThread alloc] initWithJSONDictionary:[rawJson objectForKey:@"threads"]];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                BOOL successful = NO;
-                [[czzAppDelegate sharedAppDelegate].window hideToastActivity];
-                if (resultThread) {
-                    [self setMyThread:resultThread];
-                    successful = YES;
-                    //reset my frame to show the only table view row
-                }
-                if (delegate && [delegate respondsToSelector:@selector(miniThreadViewFinishedLoading:)])
-                    [delegate miniThreadViewFinishedLoading:successful];
-                miniThreadNaBarItem.title = myThread.title;
-                miniThreadNaBarItem.backBarButtonItem.title = self.title;
-
-            });
-        }
-    }];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        czzThread *resultThread = [[czzThread alloc] initWithThreadID:threadID];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            BOOL successful = NO;
+            [[czzAppDelegate sharedAppDelegate].window hideToastActivity];
+            if (resultThread) {
+                [self setMyThread:resultThread];
+                successful = YES;
+                //reset my frame to show the only table view row
+            }
+            if (delegate && [delegate respondsToSelector:@selector(miniThreadViewFinishedLoading:)])
+                [delegate miniThreadViewFinishedLoading:successful];
+            miniThreadNaBarItem.title = myThread.title;
+            miniThreadNaBarItem.backBarButtonItem.title = self.title;
+            
+        });
+    });
 }
 
 -(void)viewDidAppear:(BOOL)animated {

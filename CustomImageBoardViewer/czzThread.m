@@ -31,6 +31,23 @@
     return self;
 }
 
+-(instancetype)initWithThreadID:(NSInteger)threadID {
+    NSString *target = [NSString stringWithFormat:@"http://h.acfun.tv/t/%ld.json", (long)threadID];
+    NSURLResponse *response;
+    NSData *data = [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:target]] returningResponse:&response error:nil];
+    if (data)
+    {
+        NSError *error;
+        NSDictionary *rawJson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+        if (!error) {
+            czzThread *resultThread = [[czzThread alloc] initWithJSONDictionary:[rawJson objectForKey:@"threads"]];
+            return resultThread;
+        }
+    }
+    
+    return nil;
+}
+
 -(id)initWithJSONDictionary:(NSDictionary *)data {
     self = [self init];
     if (self) {
