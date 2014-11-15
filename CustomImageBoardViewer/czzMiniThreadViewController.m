@@ -21,7 +21,7 @@
 @synthesize myThread;
 @synthesize threadTableView;
 
-static NSString *cellIdentifier = @"thread_view_cell";
+static NSString *cellIdentifier = @"thread_cell_identifier";
 static NSString *emptyCellIdenfiier = @"empty_cell_identifier";
 
 - (void)viewDidLoad {

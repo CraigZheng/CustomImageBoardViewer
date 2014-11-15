@@ -118,27 +118,35 @@
 
 -(UIToolbar*)makeToolBar {
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
-    toolbar.barStyle = UIBarStyleBlack;
+    toolbar.barStyle = UIBarStyleDefault;
     
     //assign an input accessory view to it
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-//    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     UIBarButtonItem *plusEmotionButton = [[UIBarButtonItem alloc] initWithTitle:@"+1" style:UIBarButtonItemStyleBordered target:self action:@selector(plusAction:)];
     UIBarButtonItem *minusEmotionButton = [[UIBarButtonItem alloc] initWithTitle:@"-1" style:UIBarButtonItemStyleBordered target:self action:@selector(minusAction:)];
     UIBarButtonItem *postButton = [[UIBarButtonItem alloc] initWithTitle:@"发表" style:UIBarButtonItemStyleBordered target:self action:@selector(sendAction:)];
-    NSArray *buttons = [NSArray arrayWithObjects: plusEmotionButton, minusEmotionButton, flexibleSpace, postButton, nil];
+    NSArray *buttons = [NSArray arrayWithObjects: plusEmotionButton, fixedSpace, minusEmotionButton, flexibleSpace, postButton, nil];
     toolbar.items = buttons;
     return toolbar;
 }
 
 - (IBAction)plusAction:(id)sender {
     myFeedback.emotion = happy;
-    [self.view makeToast:nil duration:1.5 position:@"top" image:[UIImage imageNamed:@"emotion_smile_icon.png"]];
+    UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"happy.png"]];
+    imgView.frame = CGRectMake(0, 0, 60, 60);
+    imgView.backgroundColor = [UIColor whiteColor];
+    
+    [self.view showToast:imgView duration:1.5 position:@"top"];
 }
 
 - (IBAction)minusAction:(id)sender {
     myFeedback.emotion = sad;
-    [self.view makeToast:nil duration:1.5 position:@"top" image:[UIImage imageNamed:@"emotion_sad_icon.png"]];
+    UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"sad.png"]];
+    imgView.frame = CGRectMake(0, 0, 60, 60);
+    imgView.backgroundColor = [UIColor whiteColor];
+    
+    [self.view showToast:imgView duration:1.5 position:@"top"];
 
 }
 

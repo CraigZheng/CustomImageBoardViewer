@@ -578,6 +578,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 -(void)setForumName:(NSString *)name{
     forumName = name;
     self.title = forumName;
+    self.navigationItem.backBarButtonItem.title = self.title;
     //disallow image downloading if specified by remote settings
     shouldHideImageForThisForum = false;
     for (NSString *specifiedForum in settingsCentre.shouldHideImageInForums) {

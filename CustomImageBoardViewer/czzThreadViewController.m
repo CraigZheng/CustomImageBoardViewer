@@ -132,6 +132,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [self.threadTableView registerNib:[UINib nibWithNibName:@"czzThreadViewTableViewCell" bundle:nil] forCellReuseIdentifier:threadViewCellIdentifier];
     [self.threadTableView registerNib:[UINib nibWithNibName:@"czzThreadViewBigImageTableViewCell" bundle:nil] forCellReuseIdentifier:threadViewBigImageCellIdentifier];
     self.title = parentThread.title;
+    self.navigationItem.backBarButtonItem.title = self.title;
     
     //set up custom edit menu
     UIMenuItem *replyMenuItem = [[UIMenuItem alloc] initWithTitle:@"回复" action:@selector(menuActionReply:)];

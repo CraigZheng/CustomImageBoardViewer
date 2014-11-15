@@ -13,6 +13,7 @@
 #import "czzThreadCacheManager.h"
 #import "czzHomeViewController.h"
 #import "czzSettingsCentre.h"
+#import "czzNotificationCentreTableViewController.h"
 
 #import "DartCrowdSourcingLib/DartCrowdSourcingLib.h"
 
@@ -136,16 +137,15 @@
         }
         else if ([command isEqualToString:@"意见反馈"]) {
             if ([czzAppDelegate sharedAppDelegate].homeViewController) {
-                UIViewController *feedbackViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"feedback_view_controller"];
+                UIViewController *feedbackViewController = [[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"feedback_view_controller"];
                 [[czzAppDelegate sharedAppDelegate].homeViewController pushViewController:feedbackViewController :YES];
 //                [self.navigationController pushViewController:feedbackViewController animated:YES];
             }
         }
         else if ([command isEqualToString:@"通知中心"]) {
-//            [self performSegueWithIdentifier:@"go_notification_centre_view_controller_segue" sender:self];
 
             if ([czzAppDelegate sharedAppDelegate].homeViewController) {
-                UIViewController *notificationCentreViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"notification_centre_view_controller"];
+                czzNotificationCentreTableViewController *notificationCentreViewController = [[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
                 [[czzAppDelegate sharedAppDelegate].homeViewController pushViewController:notificationCentreViewController :YES];
             }
         }

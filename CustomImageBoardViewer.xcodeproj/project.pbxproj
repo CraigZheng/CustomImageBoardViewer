@@ -194,6 +194,8 @@
 		44CD43FF1869CB3E00C7D063 /* czzThreadCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CD43FE1869CB3E00C7D063 /* czzThreadCacheManager.m */; };
 		44E791781A174BEE00A63C04 /* settings_wrench@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E791761A174BEE00A63C04 /* settings_wrench@2x.png */; };
 		44E791791A174BEE00A63C04 /* settings_wrench@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E791771A174BEE00A63C04 /* settings_wrench@3x.png */; };
+		44E791811A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */; };
+		44E791831A175C1500A63C04 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E791821A175C1500A63C04 /* delete.png */; };
 		44F8DE5A1803900100B6D3B0 /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 44F8DE4C1803900100B6D3B0 /* Icon-40.png */; };
 		44F8DE5B1803900100B6D3B0 /* Icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44F8DE4D1803900100B6D3B0 /* Icon-40@2x.png */; };
 		44F8DE5C1803900100B6D3B0 /* Icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = 44F8DE4E1803900100B6D3B0 /* Icon-60.png */; };
@@ -587,6 +589,8 @@
 		44CD43FE1869CB3E00C7D063 /* czzThreadCacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadCacheManager.m; sourceTree = "<group>"; };
 		44E791761A174BEE00A63C04 /* settings_wrench@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_wrench@2x.png"; sourceTree = "<group>"; };
 		44E791771A174BEE00A63C04 /* settings_wrench@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_wrench@3x.png"; sourceTree = "<group>"; };
+		44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NotificationCentreStoryBoard.storyboard; sourceTree = "<group>"; };
+		44E791821A175C1500A63C04 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
 		44F8DE4C1803900100B6D3B0 /* Icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40.png"; sourceTree = "<group>"; };
 		44F8DE4D1803900100B6D3B0 /* Icon-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40@2x.png"; sourceTree = "<group>"; };
 		44F8DE4E1803900100B6D3B0 /* Icon-60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60.png"; sourceTree = "<group>"; };
@@ -1391,6 +1395,7 @@
 		44BEB4A21A164B1D00ADF1CF /* icons */ = {
 			isa = PBXGroup;
 			children = (
+				44E791821A175C1500A63C04 /* delete.png */,
 				44E791761A174BEE00A63C04 /* settings_wrench@2x.png */,
 				44E791771A174BEE00A63C04 /* settings_wrench@3x.png */,
 				44BEB4A31A164B1D00ADF1CF /* advance@2x.png */,
@@ -1518,6 +1523,7 @@
 			children = (
 				5A88B83E1938AFDB00071343 /* czzNotificationCentreTableViewController.h */,
 				5A88B83F1938AFDB00071343 /* czzNotificationCentreTableViewController.m */,
+				44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */,
 				5A26E77619398D7F00B709C9 /* czzNotificationBannerViewController.h */,
 				5A26E77719398D7F00B709C9 /* czzNotificationBannerViewController.m */,
 				5A26E77819398D7F00B709C9 /* czzNotificationBannerViewController.xib */,
@@ -1709,6 +1715,7 @@
 				44BEB4CC1A164B1D00ADF1CF /* collapse_arrow@3x.png in Resources */,
 				44BEB4D01A164B1D00ADF1CF /* expand_arrow@3x.png in Resources */,
 				44BEB4E81A164B1D00ADF1CF /* star@3x.png in Resources */,
+				44E791811A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard in Resources */,
 				44C3454C187E5C6100FDE45D /* czzEmojiCollectionViewCell.xib in Resources */,
 				441E5CEA17F4691300289DBD /* Images.xcassets in Resources */,
 				44B54E6A1A0EE1B80004C5B4 /* czzThreadViewTableViewCell.xib in Resources */,
@@ -1726,6 +1733,7 @@
 				44F8DE6F1803928A00B6D3B0 /* 35ios7.png in Resources */,
 				442A8FB819DB7DF200A3516E /* LICENSE in Resources */,
 				44BEB4CA1A164B1D00ADF1CF /* bookmark@3x.png in Resources */,
+				44E791831A175C1500A63C04 /* delete.png in Resources */,
 				44BEB4D81A164B1D00ADF1CF /* message@3x.png in Resources */,
 				44F8DE5C1803900100B6D3B0 /* Icon-60.png in Resources */,
 				44BEB4EA1A164B1D00ADF1CF /* upload@3x.png in Resources */,
