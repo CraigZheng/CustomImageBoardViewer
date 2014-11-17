@@ -143,12 +143,12 @@
     if (parentView && !self.view.superview) {
         [parentView addSubview:self.view];
     }
-    [[czzAppDelegate sharedAppDelegate] doSingleViewShowAnimation:self.view :kCATransitionFromTop :0.2];
+    [[czzAppDelegate sharedAppDelegate] doSingleViewShowAnimation:self.view :kCATransitionFade :0.2];
 
 }
 
 -(void)hide {
-    [[czzAppDelegate sharedAppDelegate] doSingleViewHideAnimation:self.view :kCATransitionFromBottom :0.2];
+    [[czzAppDelegate sharedAppDelegate] doSingleViewHideAnimation:self.view :kCATransitionFade :0.2];
 }
 
 - (IBAction)dismissAction:(id)sender {
@@ -165,7 +165,7 @@
 - (IBAction)tapOnViewAction:(id)sender {
     NSLog(@"tap on view");
     if (homeViewController) {
-        czzNotificationCentreTableViewController *notificationCentreViewController = [homeViewController.storyboard instantiateViewControllerWithIdentifier:@"notification_centre_view_controller"];
+        czzNotificationCentreTableViewController *notificationCentreViewController = [[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"notification_centre_view_controller"];
         notificationCentreViewController.currentNotification = currentNotification;
         notificationCentreViewController.notifications = notifications;
         [homeViewController pushViewController:notificationCentreViewController :YES];
@@ -173,18 +173,18 @@
     }
 }
 
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    //theres an ugly transtition, therefore need to hide it before showing it again
-    self.view.hidden = YES;
-}
-
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-        [self updateFrameForHorizontal];
-    } else {
-        [self updateFrameForVertical];
-    }
-}
+//-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+//    //theres an ugly transtition, therefore need to hide it before showing it again
+//    self.view.hidden = YES;
+//}
+//
+//-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+//    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+//        [self updateFrameForHorizontal];
+//    } else {
+//        [self updateFrameForVertical];
+//    }
+//}
 
 -(void)updateFrameForVertical {
     if (parentView) {

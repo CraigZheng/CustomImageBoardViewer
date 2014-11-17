@@ -81,6 +81,7 @@
 @synthesize imageCentre;
 @synthesize imageViewerUtil;
 @synthesize menuBarButton;
+@synthesize bannerViewContainer;
 
 static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
 static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
@@ -139,16 +140,15 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [onScreenCommandViewController hide];
     //notification banner view
     notificationBannerViewController = [[czzNotificationBannerViewController alloc] initWithNibName:@"czzNotificationBannerViewController" bundle:[NSBundle mainBundle]];
-    notificationBannerViewController.view.frame = CGRectMake(0, self.view.frame.size.height - self.navigationController.navigationBar.frame.size.height, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height);
-    notificationBannerViewController.view.hidden = YES;
+    [self addChildViewController:notificationBannerViewController];
+    CGRect frame = notificationBannerViewController.view.frame;
+    frame.size = bannerViewContainer.frame.size;
+    notificationBannerViewController.view.frame = frame;
+    [bannerViewContainer addSubview:notificationBannerViewController.view];
+    notificationBannerViewController.view.hidden = NO;
     notificationBannerViewController.homeViewController = self;
     //hide toolbar initially
     self.navigationController.toolbarHidden = YES;
-    @try {
-        notificationBannerViewController.parentView = [[czzAppDelegate sharedAppDelegate].window.subviews objectAtIndex:0];
-    }
-    @catch (NSException *exception) {
-    }
 }
 
 -(void)viewDidAppear:(BOOL)animated{
