@@ -24,6 +24,7 @@
 @synthesize forumName;
 @synthesize settingsCentre;
 @synthesize bannerView_;
+@synthesize moreInfoNavItem;
 
 - (void)viewDidLoad
 {
@@ -44,15 +45,9 @@
                                      bannerView_.bounds.size.height)];
     [bannerView_ loadRequest:[GADRequest request]];
     [self.view addSubview:bannerView_];
-    self.view.backgroundColor = settingsCentre.viewBackgroundColour;
-}
-
-/*upon setting the forum name, this view controller should download relevent info from the server, 
- then put it in a web view
- */
--(void)setForumName:(NSString *)forumname{
-    forumName = forumname;
-    self.title = [NSString stringWithFormat:@"介绍：%@",forumname];
+    //load forum info
+    self.title = [NSString stringWithFormat:@"介绍：%@", forumName];
+    moreInfoNavItem.title = self.title;
     @try {
         for (czzForum *forum in [czzAppDelegate sharedAppDelegate].forums) {
             if ([forum.name isEqualToString:forumName]) {
@@ -70,6 +65,15 @@
     @catch (NSException *exception) {
         NSLog(@"%@", exception);
     }
+
+    self.view.backgroundColor = settingsCentre.viewBackgroundColour;
+}
+
+/*upon setting the forum name, this view controller should download relevent info from the server, 
+ then put it in a web view
+ */
+-(void)setForumName:(NSString *)forumname{
+    forumName = forumname;
 }
 
 #pragma UIWebView delegate, open links in safari
@@ -80,6 +84,10 @@
     }
     
     return YES;
+}
+
+- (IBAction)dismissAction:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)homePageAction:(id)sender {

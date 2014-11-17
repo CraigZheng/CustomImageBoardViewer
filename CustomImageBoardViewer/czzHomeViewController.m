@@ -78,6 +78,7 @@
 @synthesize imageCentre;
 @synthesize imageViewerUtil;
 @synthesize menuBarButton;
+@synthesize infoBarButton;
 
 static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
 static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
@@ -85,8 +86,10 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //right bar button items
+    infoBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"info.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(moreInfoAction)];
+    self.navigationItem.rightBarButtonItems = @[menuBarButton, infoBarButton];
 
-    // Do any additional setup after loading the view, typically from a nib.
     imageCentre = [czzImageCentre sharedInstance]; //cause image centre to load itself
     imageViewerUtil = [czzImageViewerUtil new];
     [czzAppDelegate sharedAppDelegate].homeViewController = self; //retain a reference to app delegate, so when entering background, the delegate can inform this controller for further actions
@@ -134,8 +137,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     onScreenCommandViewController = [[czzOnScreenCommandViewController alloc] initWithNibName:@"czzOnScreenCommandViewController" bundle:[NSBundle mainBundle]];
     onScreenCommandViewController.tableviewController = self;
     [onScreenCommandViewController hide];
-    //hide toolbar initially
-    self.navigationController.toolbarHidden = YES;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -351,6 +352,12 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     } else {
         [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"未选定一个版块" duration:1.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
     }
+}
+
+-(void)moreInfoAction {
+    czzMoreInfoViewController *moreInfoViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"more_info_view_controller"];
+    moreInfoViewController.forumName = self.forumName;
+    [self presentViewController:moreInfoViewController animated:YES completion:nil];
 }
 
 #pragma mark - UITableView datasource

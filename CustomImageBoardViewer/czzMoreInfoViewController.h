@@ -14,6 +14,8 @@
 @property (weak, nonatomic) IBOutlet UIWebView *headerTextWebView;
 @property (nonatomic) NSString *forumName;
 @property GADBannerView *bannerView_;
+@property (weak, nonatomic) IBOutlet UINavigationItem *moreInfoNavItem;
+- (IBAction)dismissAction:(id)sender;
 
 - (IBAction)homePageAction:(id)sender;
 @end

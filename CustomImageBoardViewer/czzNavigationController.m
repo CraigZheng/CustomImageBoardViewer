@@ -31,6 +31,7 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    [self.navigationBar bringSubviewToFront:notificationBannerViewController.view];
 }
 
 @end

@@ -797,21 +797,6 @@
             </objects>
             <point key="canvasLocation" x="1141.875" y="1914.0845070422533"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="ut5-Kc-Df9">
-            <objects>
-                <navigationController definesPresentationContext="YES" id="VwO-sR-gde" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="32s-Qh-OXp">
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="pea-yg-qeq" kind="relationship" relationship="rootViewController" id="p2V-NO-TUC"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8W7-25-jH3" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1327.5" y="-580.9859154929577"/>
-        </scene>
         <!--更多信息-->
         <scene sceneID="FQw-Yq-6Lf">
             <objects>
@@ -825,7 +810,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tPW-SV-WlO">
-                                <rect key="frame" x="30" y="84" width="540" height="392"/>
+                                <rect key="frame" x="0.0" y="84" width="600" height="392"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="delegate" destination="pea-yg-qeq" id="kmL-jL-kq4"/>
@@ -840,23 +825,45 @@
                                     <action selector="homePageAction:" destination="pea-yg-qeq" eventType="touchUpInside" id="KsP-zB-kOI"/>
                                 </connections>
                             </button>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o7F-ut-Dea">
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <items>
+                                    <navigationItem title="更多信息" id="Nzv-Uz-NLI">
+                                        <barButtonItem key="leftBarButtonItem" image="delete.png" id="nFR-Qf-TRq">
+                                            <connections>
+                                                <action selector="dismissAction:" destination="pea-yg-qeq" id="JIp-BQ-DgW"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="tPW-SV-WlO" firstAttribute="top" secondItem="rSl-MR-iaT" secondAttribute="bottom" constant="20" id="MnR-F1-s8P"/>
                             <constraint firstItem="Nol-um-XSe" firstAttribute="top" secondItem="tPW-SV-WlO" secondAttribute="bottom" priority="531" constant="124" id="OYa-EW-cnt"/>
-                            <constraint firstItem="tPW-SV-WlO" firstAttribute="leading" secondItem="XmS-Dx-lHg" secondAttribute="leading" constant="30" id="Pqm-7d-ShY"/>
+                            <constraint firstItem="tPW-SV-WlO" firstAttribute="leading" secondItem="XmS-Dx-lHg" secondAttribute="leading" id="Pqm-7d-ShY"/>
+                            <constraint firstItem="o7F-ut-Dea" firstAttribute="leading" secondItem="XmS-Dx-lHg" secondAttribute="leading" id="XAQ-53-9BA"/>
                             <constraint firstAttribute="trailing" secondItem="LD6-O6-D2Z" secondAttribute="trailing" constant="118" id="XLj-hC-3Wu"/>
-                            <constraint firstAttribute="trailing" secondItem="tPW-SV-WlO" secondAttribute="trailing" constant="30" id="elh-SV-Tdr"/>
+                            <constraint firstItem="tPW-SV-WlO" firstAttribute="top" secondItem="o7F-ut-Dea" secondAttribute="bottom" constant="20" id="btN-rI-RJR"/>
+                            <constraint firstAttribute="trailing" secondItem="tPW-SV-WlO" secondAttribute="trailing" id="elh-SV-Tdr"/>
                             <constraint firstItem="LD6-O6-D2Z" firstAttribute="top" secondItem="tPW-SV-WlO" secondAttribute="bottom" constant="8" id="jcb-9g-wcN"/>
+                            <constraint firstAttribute="trailing" secondItem="o7F-ut-Dea" secondAttribute="trailing" id="pUA-Os-6YS"/>
+                            <constraint firstItem="o7F-ut-Dea" firstAttribute="top" secondItem="rSl-MR-iaT" secondAttribute="bottom" id="qFL-j9-kp1"/>
                             <constraint firstItem="LD6-O6-D2Z" firstAttribute="leading" secondItem="XmS-Dx-lHg" secondAttribute="leading" constant="118" id="sE0-tt-KNS"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="MnR-F1-s8P"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="更多信息" id="UAh-2K-57w">
                         <barButtonItem key="backBarButtonItem" title="信息" id="8AH-rX-zQf"/>
                     </navigationItem>
                     <connections>
                         <outlet property="headerTextWebView" destination="tPW-SV-WlO" id="nwu-gv-TDr"/>
+                        <outlet property="moreInfoNavItem" destination="Nzv-Uz-NLI" id="g88-QE-Wpf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E7l-oo-bxG" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1106,6 +1113,7 @@
         <image name="Icon.png" width="57" height="57"/>
         <image name="advance.png" width="20" height="20"/>
         <image name="bookmark.png" width="20" height="20"/>
+        <image name="delete.png" width="20" height="20"/>
         <image name="error.png" width="20" height="20"/>
         <image name="menu.png" width="20" height="20"/>
         <image name="message.png" width="20" height="20"/>
