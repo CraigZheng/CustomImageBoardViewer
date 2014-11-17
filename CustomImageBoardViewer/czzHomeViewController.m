@@ -22,7 +22,6 @@
 #import "czzImageCentre.h"
 #import "czzAppDelegate.h"
 #import "czzOnScreenCommandViewController.h"
-#import "czzNotificationBannerViewController.h"
 #import "czzSettingsCentre.h"
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzTextViewHeightCalculator.h"
@@ -45,7 +44,6 @@
 @property NSMutableArray *heightsForRows;
 @property NSMutableArray *heightsForRowsForHorizontalMode;
 @property czzOnScreenCommandViewController *onScreenCommandViewController;
-@property czzNotificationBannerViewController *notificationBannerViewController;
 @property BOOL shouldDisplayQuickScrollCommand;
 @property NSString *thumbnailFolder;
 @property czzSettingsCentre *settingsCentre;
@@ -72,7 +70,6 @@
 @synthesize heightsForRowsForHorizontalMode;
 @synthesize onScreenCommandViewController;
 @synthesize threadViewController;
-@synthesize notificationBannerViewController;
 @synthesize shouldDisplayQuickScrollCommand;
 @synthesize thumbnailFolder;
 @synthesize settingsCentre;
@@ -81,7 +78,6 @@
 @synthesize imageCentre;
 @synthesize imageViewerUtil;
 @synthesize menuBarButton;
-@synthesize bannerViewContainer;
 
 static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
 static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
@@ -138,21 +134,13 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     onScreenCommandViewController = [[czzOnScreenCommandViewController alloc] initWithNibName:@"czzOnScreenCommandViewController" bundle:[NSBundle mainBundle]];
     onScreenCommandViewController.tableviewController = self;
     [onScreenCommandViewController hide];
-    //notification banner view
-    notificationBannerViewController = [[czzNotificationBannerViewController alloc] initWithNibName:@"czzNotificationBannerViewController" bundle:[NSBundle mainBundle]];
-    [self addChildViewController:notificationBannerViewController];
-    CGRect frame = notificationBannerViewController.view.frame;
-    frame.size = bannerViewContainer.frame.size;
-    notificationBannerViewController.view.frame = frame;
-    [bannerViewContainer addSubview:notificationBannerViewController.view];
-    notificationBannerViewController.view.hidden = NO;
-    notificationBannerViewController.homeViewController = self;
     //hide toolbar initially
     self.navigationController.toolbarHidden = YES;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    
     viewControllerNotInTransition = YES;
     self.viewDeckController.leftController = leftController;
     shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
@@ -261,17 +249,17 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     }
 }
 
-#pragma mark - push view controller
--(void)pushViewController:(UIViewController *)viewController :(BOOL)animated {
-    if (viewController) {
-        [self.viewDeckController closeLeftViewAnimated:NO];
-        [self.viewDeckController closeTopViewAnimated:NO];
-        [self.viewDeckController closeRightViewAnimated:NO];
-        [self.viewDeckController closeBottomViewAnimated:NO];
-        [self.navigationController popToRootViewControllerAnimated:NO];
-        [self.navigationController pushViewController:viewController animated:animated];
-    }
-}
+//#pragma mark - push view controller
+//-(void)pushViewController:(UIViewController *)viewController :(BOOL)animated {
+//    if (viewController) {
+//        [self.viewDeckController closeLeftViewAnimated:NO];
+//        [self.viewDeckController closeTopViewAnimated:NO];
+//        [self.viewDeckController closeRightViewAnimated:NO];
+//        [self.viewDeckController closeBottomViewAnimated:NO];
+//        [self.navigationController popToRootViewControllerAnimated:NO];
+//        [self.navigationController pushViewController:viewController animated:animated];
+//    }
+//}
 
 #pragma mark - scrollToTop and scrollToBottom
 -(void)scrollTableViewToTop {
@@ -707,17 +695,14 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 }
 
 #pragma mark - rotation events
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    [notificationBannerViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-}
-
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    [notificationBannerViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     @try {
         NSInteger numberOfVisibleRows = [threadTableView indexPathsForVisibleRows].count / 2;
-        NSIndexPath *currentMiddleIndexPath = [[threadTableView indexPathsForVisibleRows] objectAtIndex:numberOfVisibleRows];
-        [threadTableView reloadData];
-        [threadTableView scrollToRowAtIndexPath:currentMiddleIndexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
+        if (numberOfVisibleRows > 0) {
+            NSIndexPath *currentMiddleIndexPath = [[threadTableView indexPathsForVisibleRows] objectAtIndex:numberOfVisibleRows];
+            [threadTableView reloadData];
+            [threadTableView scrollToRowAtIndexPath:currentMiddleIndexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
+        }
     }
     @catch (NSException *exception) {
     }

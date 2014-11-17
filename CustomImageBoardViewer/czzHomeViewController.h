@@ -16,7 +16,6 @@
 @property (nonatomic) NSString *forumName;
 @property NSMutableArray *threads;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *menuBarButton;
-@property (weak, nonatomic) IBOutlet UIView *bannerViewContainer;
 
 - (IBAction)sideButtonAction:(id)sender;
 - (IBAction)moreAction:(id)sender;

@@ -40,12 +40,14 @@
 @synthesize cachePath;
 @synthesize currentNotificationIndex;
 @synthesize notificationManager;
+@synthesize numberButton;
 @synthesize homeViewController;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+
     notificationDownloadInterval = 60 * 60;//every 1 hour
     notifications = [NSMutableOrderedSet new];
     notificationManager = [czzNotificationManager new];
@@ -53,12 +55,14 @@
     currentNotificationIndex = 0;
     self.view.layer.shadowRadius = 2;
     constantHeight = 44; //the height for this view, should not be changed at all time
-    [self updateFrameForVertical];
     textUpdateInterval = 5;
     updateTextTimer = [NSTimer scheduledTimerWithTimeInterval:textUpdateInterval target:self selector:@selector(updateText) userInfo:nil repeats:YES];
     [self checkCachedNotifications];
     //check notification download for the first time
     [self downloadNotification];
+    //update the number button on the left
+    [self updateNumberButton];
+
     //call every 2 minute, determine if should check for last update time and call for download
     NSTimeInterval notificationDownloaderCheckInterval = 2 * 60;
     downloadNotificationTimer = [NSTimer scheduledTimerWithTimeInterval:notificationDownloaderCheckInterval target:self selector:@selector(downloadNotification) userInfo:nil repeats:YES];
@@ -168,51 +172,19 @@
         czzNotificationCentreTableViewController *notificationCentreViewController = [[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"notification_centre_view_controller"];
         notificationCentreViewController.currentNotification = currentNotification;
         notificationCentreViewController.notifications = notifications;
-        [homeViewController pushViewController:notificationCentreViewController :YES];
-        [self setNeedsToBePresented:NO];
+        
+        [homeViewController pushViewController:notificationCentreViewController animated:YES];
+        [self dismissAction:nil];
     }
 }
 
-//-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-//    //theres an ugly transtition, therefore need to hide it before showing it again
-//    self.view.hidden = YES;
-//}
-//
-//-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-//    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-//        [self updateFrameForHorizontal];
-//    } else {
-//        [self updateFrameForVertical];
-//    }
-//}
-
--(void)updateFrameForVertical {
-    if (parentView) {
-        CGRect parentFrame = parentView.bounds;
-        CGRect myFrame = self.view.frame;
-        myFrame.size.width = parentFrame.size.width;
-        myFrame.size.height = constantHeight;
-        myFrame.origin.y = parentFrame.size.height - myFrame.size.height;
-        self.view.frame = myFrame;
-    }
-    if (needsToBePresented) {
-        [[czzAppDelegate sharedAppDelegate] doSingleViewShowAnimation:self.view :kCATransitionFromTop :0.2];
-    }
-}
-
--(void)updateFrameForHorizontal {
-    self.view.hidden = YES;
-    if (parentView) {
-        CGRect parentFrame = parentView.bounds;
-        CGRect myFrame = self.view.frame;
-        myFrame.size.width = parentFrame.size.width;
-        myFrame.size.height = constantHeight;
-        myFrame.origin.y = parentFrame.size.height - myFrame.size.height;
-        self.view.frame = myFrame;
-    }
-    if (needsToBePresented) {
-        [[czzAppDelegate sharedAppDelegate] doSingleViewShowAnimation:self.view :kCATransitionFromTop :0.2];
-    }
+-(void)updateNumberButton {
+    numberButton.layer.cornerRadius = numberButton.frame.size.width / 2;
+    if (notifications.count > 1) {
+        [numberButton setTitle:[NSString stringWithFormat:@"%ld", (long) notifications.count] forState:UIControlStateNormal];
+        numberButton.hidden = NO;
+    } else
+        numberButton.hidden = YES;
 }
 
 #pragma mark - czzNotificationDownloaderDelegate

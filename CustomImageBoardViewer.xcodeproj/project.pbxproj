@@ -93,6 +93,10 @@
 		442A901E19DB9C3C00A3516E /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A901C19DB9C3C00A3516E /* HTMLParser.m */; };
 		442CD0E31851601A0021AD37 /* czzImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 442CD0E21851601A0021AD37 /* czzImageDownloader.m */; };
 		442CD0E718517BED0021AD37 /* czzImageCentre.m in Sources */ = {isa = PBXBuildFile; fileRef = 442CD0E618517BED0021AD37 /* czzImageCentre.m */; };
+		442EC8631A1A130A005650E4 /* czzNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 442EC8621A1A130A005650E4 /* czzNavigationController.m */; };
+		442EC86C1A1A1C8D005650E4 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 442EC8691A1A1C8D005650E4 /* info.png */; };
+		442EC86D1A1A1C8D005650E4 /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 442EC86A1A1A1C8D005650E4 /* info@2x.png */; };
+		442EC86E1A1A1C8D005650E4 /* info@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 442EC86B1A1A1C8D005650E4 /* info@3x.png */; };
 		443B54DE1990BD3300BAB282 /* attribute.c in Sources */ = {isa = PBXBuildFile; fileRef = 443B54B61990BD3300BAB282 /* attribute.c */; };
 		443B54DF1990BD3300BAB282 /* char_ref.c in Sources */ = {isa = PBXBuildFile; fileRef = 443B54B81990BD3300BAB282 /* char_ref.c */; };
 		443B54E01990BD3300BAB282 /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 443B54BA1990BD3300BAB282 /* error.c */; };
@@ -470,6 +474,11 @@
 		442CD0E21851601A0021AD37 /* czzImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzImageDownloader.m; sourceTree = "<group>"; };
 		442CD0E518517BED0021AD37 /* czzImageCentre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzImageCentre.h; sourceTree = "<group>"; };
 		442CD0E618517BED0021AD37 /* czzImageCentre.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzImageCentre.m; sourceTree = "<group>"; };
+		442EC8611A1A130A005650E4 /* czzNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzNavigationController.h; sourceTree = "<group>"; };
+		442EC8621A1A130A005650E4 /* czzNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzNavigationController.m; sourceTree = "<group>"; };
+		442EC8691A1A1C8D005650E4 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
+		442EC86A1A1A1C8D005650E4 /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info@2x.png"; sourceTree = "<group>"; };
+		442EC86B1A1A1C8D005650E4 /* info@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info@3x.png"; sourceTree = "<group>"; };
 		443B54B61990BD3300BAB282 /* attribute.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = attribute.c; sourceTree = "<group>"; };
 		443B54B71990BD3300BAB282 /* attribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = attribute.h; sourceTree = "<group>"; };
 		443B54B81990BD3300BAB282 /* char_ref.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = char_ref.c; sourceTree = "<group>"; };
@@ -883,6 +892,7 @@
 				441E5CDE17F4691300289DBD /* czzAppDelegate.m */,
 				4453C07619F634B700A8250F /* Launch Screen.xib */,
 				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
+				442EC8681A1A1320005650E4 /* czzNavigationController */,
 				446CC58319DC3827009BF24E /* czzHTMLParserView */,
 				5AF85E691970025F0031D0CB /* czzSearchViewController */,
 				5A88B8411938AFE000071343 /* czzNotificationCentre */,
@@ -1232,6 +1242,15 @@
 			name = czzImageDownloader;
 			sourceTree = "<group>";
 		};
+		442EC8681A1A1320005650E4 /* czzNavigationController */ = {
+			isa = PBXGroup;
+			children = (
+				442EC8611A1A130A005650E4 /* czzNavigationController.h */,
+				442EC8621A1A130A005650E4 /* czzNavigationController.m */,
+			);
+			name = czzNavigationController;
+			sourceTree = "<group>";
+		};
 		443B54B41990BD3300BAB282 /* ObjectiveGumbo */ = {
 			isa = PBXGroup;
 			children = (
@@ -1478,6 +1497,9 @@
 		44E7918C1A17856500A63C04 /* icons */ = {
 			isa = PBXGroup;
 			children = (
+				442EC8691A1A1C8D005650E4 /* info.png */,
+				442EC86A1A1A1C8D005650E4 /* info@2x.png */,
+				442EC86B1A1A1C8D005650E4 /* info@3x.png */,
 				44E7918D1A17856500A63C04 /* advance.png */,
 				44E7918E1A17856500A63C04 /* advance@2x.png */,
 				44E7918F1A17856500A63C04 /* advance@3x.png */,
@@ -1788,6 +1810,7 @@
 				44E791EA1A17856500A63C04 /* message@2x.png in Resources */,
 				44F8DE5E1803900100B6D3B0 /* Icon-72.png in Resources */,
 				44E792021A17856500A63C04 /* solid_star@2x.png in Resources */,
+				442EC86D1A1A1C8D005650E4 /* info@2x.png in Resources */,
 				44E791EE1A17856500A63C04 /* previous@3x.png in Resources */,
 				44E791F41A17856500A63C04 /* sad@3x.png in Resources */,
 				44E791D01A17856500A63C04 /* bookmark.png in Resources */,
@@ -1804,6 +1827,7 @@
 				44E791D31A17856500A63C04 /* collapse_arrow.png in Resources */,
 				44E791DD1A17856500A63C04 /* expand_arrow.png in Resources */,
 				44E792041A17856500A63C04 /* star.png in Resources */,
+				442EC86E1A1A1C8D005650E4 /* info@3x.png in Resources */,
 				441E5CEA17F4691300289DBD /* Images.xcassets in Resources */,
 				44E791F51A17856500A63C04 /* search.png in Resources */,
 				44E7920A1A17856500A63C04 /* view.png in Resources */,
@@ -1825,6 +1849,7 @@
 				44E792071A17856500A63C04 /* upload.png in Resources */,
 				44E791E21A17856500A63C04 /* happy@3x.png in Resources */,
 				44E791EC1A17856500A63C04 /* previous.png in Resources */,
+				442EC86C1A1A1C8D005650E4 /* info.png in Resources */,
 				44F8DE6F1803928A00B6D3B0 /* 35ios7.png in Resources */,
 				442A8FB819DB7DF200A3516E /* LICENSE in Resources */,
 				44E791DE1A17856500A63C04 /* expand_arrow@2x.png in Resources */,
@@ -1897,6 +1922,7 @@
 				441E5CDF17F4691300289DBD /* czzAppDelegate.m in Sources */,
 				441E5D2C17F48F8C00289DBD /* czzThread.m in Sources */,
 				443B54EE1990BD3300BAB282 /* OGNode.m in Sources */,
+				442EC8631A1A130A005650E4 /* czzNavigationController.m in Sources */,
 				4416B72619413EAF00B69C5B /* FPPopoverView.m in Sources */,
 				442A8FA119DB7DF200A3516E /* MWGridCell.m in Sources */,
 				441E5D2417F4797F00289DBD /* czzForumGroup.m in Sources */,

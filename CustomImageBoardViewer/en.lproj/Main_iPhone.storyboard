@@ -24,10 +24,10 @@
             </objects>
             <point key="canvasLocation" x="-1327.5" y="415.14084507042253"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Czz Navigation Controller-->
         <scene sceneID="4qm-ux-hll">
             <objects>
-                <navigationController storyboardIdentifier="home_view_controller" definesPresentationContext="YES" toolbarHidden="NO" id="RdH-Rq-QxN" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="home_view_controller" definesPresentationContext="YES" toolbarHidden="NO" id="RdH-Rq-QxN" customClass="czzNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Bh6-TG-z4L">
                         <autoresizingMask key="autoresizingMask"/>
@@ -51,13 +51,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <containerView key="tableHeaderView" opaque="NO" contentMode="scaleToFill" id="iwZ-ZI-4za">
-                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                            <connections>
-                                <segue destination="B9g-PK-e6u" kind="embed" id="Ike-7y-K1e"/>
-                            </connections>
-                        </containerView>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="load_more_cell_identifier" id="56H-Du-gh6">
                                 <rect key="frame" x="0.0" y="186" width="320" height="44"/>
@@ -163,7 +156,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="bannerViewContainer" destination="iwZ-ZI-4za" id="uSq-fG-e7k"/>
                         <outlet property="menuBarButton" destination="aco-AK-pj3" id="4VD-5g-Kjg"/>
                         <outlet property="threadTableView" destination="GOK-fb-xVX" id="rYH-eM-dfs"/>
                         <segue destination="V51-tA-4h3" kind="push" identifier="go_thread_view_segue" id="xL9-ie-FoR"/>
@@ -1117,7 +1109,7 @@
                         <viewControllerLayoutGuide type="bottom" id="SiZ-ob-svD"/>
                     </layoutGuides>
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="bYb-a3-cZX">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
