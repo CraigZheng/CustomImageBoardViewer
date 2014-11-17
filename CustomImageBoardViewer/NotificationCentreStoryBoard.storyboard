@@ -61,7 +61,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="notification_cell_identifier" rowHeight="120" id="yTZ-IU-lds">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="notification_text_image_identifier" rowHeight="120" id="yTZ-IU-lds">
                                 <rect key="frame" x="0.0" y="66" width="320" height="120"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" tableViewCell="yTZ-IU-lds" id="uVk-KY-arh">
