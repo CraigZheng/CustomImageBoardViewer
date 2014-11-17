@@ -24,7 +24,7 @@
         <!--Czz Mini Thread View Controller-->
         <scene sceneID="Wp3-SF-ZkP">
             <objects>
-                <viewController id="hhF-PX-LQi" customClass="czzMiniThreadViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="mini_thread_view_controller" id="hhF-PX-LQi" customClass="czzMiniThreadViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Mcz-3s-JhL"/>
                         <viewControllerLayoutGuide type="bottom" id="6Ax-86-Aa9"/>
@@ -98,7 +98,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="delete.png" width="100" height="100"/>
+        <image name="delete.png" width="20" height="20"/>
         <image name="view.png" width="20" height="20"/>
     </resources>
 </document>

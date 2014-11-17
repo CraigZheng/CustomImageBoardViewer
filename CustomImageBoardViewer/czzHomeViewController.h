@@ -32,5 +32,4 @@
 -(void)scrollTableViewToTop;
 -(void)scrollTableViewToBottom;
 
--(void)pushViewController:(UIViewController*)viewController :(BOOL)animated; //allow other view controllers to gain access to this controller's navigation controller
 @end

@@ -163,6 +163,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     threadMenuViewController.parentThread = parentThread;
     threadMenuViewController.selectedThread = parentThread;
     self.viewDeckController.rightController = rightController;
+    //do not allow panning
+    self.viewDeckController.panningMode = IIViewDeckNoPanning;
     //disable left controller
     self.viewDeckController.leftController = nil;
     //register for nsnotification centre for image downloaded notification and download progress update notification

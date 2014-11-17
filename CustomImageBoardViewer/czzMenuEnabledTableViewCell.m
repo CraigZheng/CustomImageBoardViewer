@@ -15,6 +15,7 @@
 #import "DACircularProgressView.h"
 #import "czzSettingsCentre.h"
 #import "czzThreadRefButton.h"
+#import "czzInAppBrowserViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate>
@@ -266,7 +267,10 @@
         }
         return;
     }
+    
     NSURL *link = [NSURL URLWithString:buttonTitle];
+//    czzInAppBrowserViewController *inAppBrowser = [[UIStoryboard storyboardWithName:@"InAppBrowserStoryboard" bundle:nil] instantiateInitialViewController];
+//    inAppBrowser.targetURL = link;
     [[UIApplication sharedApplication] openURL:link];
 }
 

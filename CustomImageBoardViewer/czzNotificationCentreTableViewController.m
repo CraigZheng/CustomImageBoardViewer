@@ -161,8 +161,8 @@
 -(void)presentFeedbackViewControllerWithNotification:(czzNotification*)notification {
     czzFeedbackViewController *feedbackViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"feedback_view_controller"];
     feedbackViewController.myNotification = notification;
-    //        [self.navigationController pushViewController:feedbackViewController animated:YES];
-    [[czzAppDelegate sharedAppDelegate].homeViewController pushViewController:feedbackViewController :YES];
+    [self.navigationController pushViewController:feedbackViewController animated:YES];
+
 }
 
 #pragma mark - download tapped images

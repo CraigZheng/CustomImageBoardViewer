@@ -1100,24 +1100,6 @@
             </objects>
             <point key="canvasLocation" x="1346.25" y="-242.95774647887319"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="zzb-kc-Crw">
-            <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="B9g-PK-e6u" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="oXW-j0-byj"/>
-                        <viewControllerLayoutGuide type="bottom" id="SiZ-ob-svD"/>
-                    </layoutGuides>
-                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="bYb-a3-cZX">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <toolbarItems/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hyH-vF-GNO" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-        </scene>
     </scenes>
     <resources>
         <image name="Icon-40.png" width="40" height="40"/>
