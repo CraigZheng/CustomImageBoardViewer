@@ -82,6 +82,7 @@
 @synthesize imageViewerUtil;
 @synthesize menuBarButton;
 @synthesize infoBarButton;
+@synthesize onScreenImageManagerViewContainer;
 @synthesize refreshControl;
 
 static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
@@ -141,6 +142,14 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 //    onScreenCommandViewController = [[czzOnScreenCommandViewController alloc] initWithNibName:@"czzOnScreenCommandViewController" bundle:[NSBundle mainBundle]];
 //    onScreenCommandViewController.parentViewController = self;
 //    [onScreenCommandViewController hide];
+    
+    //on screen image manager view
+    czzOnScreenImageManagerViewController *onScreenImgMrg = [(czzNavigationController*)self.navigationController onScreenImageManagerView];
+    CGRect frame = onScreenImgMrg.view.frame;
+    frame.size = onScreenImageManagerViewContainer.frame.size;
+    onScreenImgMrg.view.frame = frame;
+    [self addChildViewController:onScreenImgMrg];
+    [onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
 }
 
 -(void)viewDidAppear:(BOOL)animated{

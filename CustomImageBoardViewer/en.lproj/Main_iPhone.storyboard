@@ -849,7 +849,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="l2k-8P-m8U">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="436"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="loading_cell_identifier" id="Vz9-XB-LHe">
@@ -912,14 +912,34 @@
                                     <outlet property="delegate" destination="JnF-wS-C9I" id="hzE-XE-dx9"/>
                                 </connections>
                             </tableView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Js0-yW-ln4">
+                                <rect key="frame" x="240" y="84" width="60" height="332"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="HQl-Ao-M9i"/>
+                                </constraints>
+                                <connections>
+                                    <segue destination="Z8H-ME-EmH" kind="embed" id="iOj-FA-KSV"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Js0-yW-ln4" firstAttribute="top" secondItem="6rZ-Nk-kbk" secondAttribute="bottom" constant="20" id="1yc-rd-wrz"/>
                             <constraint firstItem="l2k-8P-m8U" firstAttribute="top" secondItem="O4m-yZ-FbH" secondAttribute="top" id="NnL-sj-HPC"/>
                             <constraint firstItem="VdM-sp-3WW" firstAttribute="top" secondItem="l2k-8P-m8U" secondAttribute="bottom" id="PbO-TU-hVp"/>
+                            <constraint firstAttribute="trailing" secondItem="Js0-yW-ln4" secondAttribute="trailing" constant="20" id="X4O-Jt-Itw"/>
+                            <constraint firstAttribute="bottom" secondItem="l2k-8P-m8U" secondAttribute="bottom" id="YXK-14-4Wy"/>
                             <constraint firstItem="l2k-8P-m8U" firstAttribute="leading" secondItem="O4m-yZ-FbH" secondAttribute="leading" id="cXp-xu-a2Y"/>
+                            <constraint firstItem="VdM-sp-3WW" firstAttribute="top" secondItem="Js0-yW-ln4" secondAttribute="bottom" constant="20" id="dQq-1Y-Crv"/>
                             <constraint firstAttribute="trailing" secondItem="l2k-8P-m8U" secondAttribute="trailing" id="er3-s2-NLS"/>
+                            <constraint firstAttribute="bottom" secondItem="Js0-yW-ln4" secondAttribute="bottom" constant="80" id="ta3-fO-gp3"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="ta3-fO-gp3"/>
+                                <exclude reference="PbO-TU-hVp"/>
+                            </mask>
+                        </variation>
                     </view>
                     <toolbarItems>
                         <barButtonItem image="message.png" id="0ju-jx-1BZ">
@@ -967,6 +987,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="menuBarButton" destination="DSK-Nh-2gx" id="QeK-nC-MEP"/>
+                        <outlet property="onScreenImageManagerViewContainer" destination="Js0-yW-ln4" id="RGH-rd-G71"/>
                         <outlet property="threadTableView" destination="l2k-8P-m8U" id="5yI-la-cPn"/>
                         <segue destination="aOD-Hr-NEd" kind="push" identifier="go_favourite_manager_view_controller_segue" id="DWL-6t-CEf"/>
                         <segue destination="V51-tA-4h3" kind="push" identifier="go_thread_view_segue" id="RVS-ay-V1L"/>
@@ -1123,6 +1144,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T25-Ph-svD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1346.25" y="-242.95774647887319"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="sZ5-1x-e3m">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="Z8H-ME-EmH" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gAf-PH-7AV"/>
+                        <viewControllerLayoutGuide type="bottom" id="68h-wj-rWq"/>
+                    </layoutGuides>
+                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="yNe-0J-W28">
+                        <rect key="frame" x="0.0" y="0.0" width="60" height="332"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4Z9-vc-L8F" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
     <resources>

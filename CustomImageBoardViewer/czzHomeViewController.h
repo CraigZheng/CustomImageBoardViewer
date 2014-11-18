@@ -17,6 +17,7 @@
 @property NSMutableArray *threads;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *menuBarButton;
 @property UIBarButtonItem *infoBarButton;
+@property (weak, nonatomic) IBOutlet UIView *onScreenImageManagerViewContainer;
 
 - (IBAction)sideButtonAction:(id)sender;
 - (IBAction)moreAction:(id)sender;
