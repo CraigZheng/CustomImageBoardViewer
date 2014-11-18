@@ -18,7 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor colorWithHue:243/255. saturation:243/255. brightness:80/255. alpha:0.5];
+    self.view.backgroundColor = [UIColor colorWithWhite:1. alpha:0.1];
     CAShapeLayer *circle = [CAShapeLayer layer];
     // Make a circular shape
     UIBezierPath *circularPath=[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, mainIcon.frame.size.width, mainIcon.frame.size.height) cornerRadius:MAX(mainIcon.frame.size.width, mainIcon.frame.size.height)];
