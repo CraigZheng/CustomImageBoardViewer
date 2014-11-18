@@ -14,7 +14,8 @@
 #import "czzForum.h"
 #import "czzSettingsCentre.h"
 
-#import <BugSense-iOS/BugSenseController.h>
+//#import <BugSense-iOS/BugSenseController.h>
+#import <SplunkMint-iOS/SplunkMint-iOS.h>
 
 //Dart integration
 #import "DartCrowdSourcingLib/DartCrowdSourcingLib.h"
@@ -32,8 +33,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    [BugSenseController sharedControllerWithBugSenseAPIKey:@"cd668a8e"];
-    [BugSenseController setUserIdentifier:[UIDevice currentDevice].identifierForVendor.UUIDString];
+//    [BugSenseController sharedControllerWithBugSenseAPIKey:@"cd668a8e"];
+//    [BugSenseController setUserIdentifier:[UIDevice currentDevice].identifierForVendor.UUIDString];
+    [[Mint sharedInstance] initAndStartSession:@"cd668a8e"];
+    [[Mint sharedInstance] setUserIdentifier:[UIDevice currentDevice].identifierForVendor.UUIDString];
+    
     myhost = my_main_host;
     settingsCentre = [czzSettingsCentre sharedInstance];
     [settingsCentre downloadSettings];

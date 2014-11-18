@@ -152,6 +152,7 @@
 		44B86461185D810500C29B92 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B86460185D810500C29B92 /* SystemConfiguration.framework */; };
 		44B96E33185B8B8100D664A4 /* czzImageManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B96E32185B8B8100D664A4 /* czzImageManagerViewController.m */; };
 		44B96E37185B97C400D664A4 /* czzSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B96E36185B97C400D664A4 /* czzSettingsViewController.m */; };
+		44BB0BC31A1AE700006C50F5 /* SplunkMint-iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44BB0BC21A1AE700006C50F5 /* SplunkMint-iOS.framework */; };
 		44BE2E3A19383FEF00601943 /* czzOnScreenCommandViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BE2E3819383FEF00601943 /* czzOnScreenCommandViewController.m */; };
 		44BE2E3B19383FEF00601943 /* czzOnScreenCommandViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44BE2E3919383FEF00601943 /* czzOnScreenCommandViewController.xib */; };
 		44C34543187E59A500FDE45D /* UIViewController+KNSemiModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C34542187E59A500FDE45D /* UIViewController+KNSemiModal.m */; };
@@ -258,7 +259,6 @@
 		5A2B2D941936264A00BA2870 /* czzFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2B2D931936264A00BA2870 /* czzFeedbackViewController.m */; };
 		5A5407F619961F87005FA214 /* default_configuration.json in Resources */ = {isa = PBXBuildFile; fileRef = 5A5407F519961F87005FA214 /* default_configuration.json */; };
 		5A6266AA193A17FF00AD949F /* czzNotificationDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6266A9193A17FF00AD949F /* czzNotificationDownloader.m */; };
-		5A637438195D8AB0004AF1FC /* BugSense-iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A637436195D8AB0004AF1FC /* BugSense-iOS.framework */; };
 		5A637439195D8AB0004AF1FC /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5A637437195D8AB0004AF1FC /* LICENSE */; };
 		5A88B8401938AFDB00071343 /* czzNotificationCentreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A88B83F1938AFDB00071343 /* czzNotificationCentreTableViewController.m */; };
 		5AA5B6B519A95E7D00DCC3DA /* default_forumID.json in Resources */ = {isa = PBXBuildFile; fileRef = 5AA5B6B419A95E7D00DCC3DA /* default_forumID.json */; };
@@ -578,6 +578,7 @@
 		44B96E32185B8B8100D664A4 /* czzImageManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzImageManagerViewController.m; sourceTree = "<group>"; };
 		44B96E35185B97C400D664A4 /* czzSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzSettingsViewController.h; sourceTree = "<group>"; };
 		44B96E36185B97C400D664A4 /* czzSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzSettingsViewController.m; sourceTree = "<group>"; };
+		44BB0BC21A1AE700006C50F5 /* SplunkMint-iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "SplunkMint-iOS.framework"; sourceTree = "<group>"; };
 		44BE2E3719383FEF00601943 /* czzOnScreenCommandViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzOnScreenCommandViewController.h; sourceTree = "<group>"; };
 		44BE2E3819383FEF00601943 /* czzOnScreenCommandViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzOnScreenCommandViewController.m; sourceTree = "<group>"; };
 		44BE2E3919383FEF00601943 /* czzOnScreenCommandViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzOnScreenCommandViewController.xib; sourceTree = "<group>"; };
@@ -701,7 +702,6 @@
 		5A5407F519961F87005FA214 /* default_configuration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = default_configuration.json; sourceTree = "<group>"; };
 		5A6266A8193A17FF00AD949F /* czzNotificationDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzNotificationDownloader.h; sourceTree = "<group>"; };
 		5A6266A9193A17FF00AD949F /* czzNotificationDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzNotificationDownloader.m; sourceTree = "<group>"; };
-		5A637436195D8AB0004AF1FC /* BugSense-iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "BugSense-iOS.framework"; sourceTree = "<group>"; };
 		5A637437195D8AB0004AF1FC /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		5A88B83E1938AFDB00071343 /* czzNotificationCentreTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzNotificationCentreTableViewController.h; sourceTree = "<group>"; };
 		5A88B83F1938AFDB00071343 /* czzNotificationCentreTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzNotificationCentreTableViewController.m; sourceTree = "<group>"; };
@@ -721,13 +721,13 @@
 			files = (
 				4453C08A19F7322E00A8250F /* libDartCrowdSourcingLib.a in Frameworks */,
 				442A901819DB9BAF00A3516E /* libxml2.dylib in Frameworks */,
+				44BB0BC31A1AE700006C50F5 /* SplunkMint-iOS.framework in Frameworks */,
 				447FD254195D1AF1003E30C2 /* libz.dylib in Frameworks */,
 				44412975186E9B1000075AA2 /* StoreKit.framework in Frameworks */,
 				44B86461185D810500C29B92 /* SystemConfiguration.framework in Frameworks */,
 				44B8645D185D80F500C29B92 /* MessageUI.framework in Frameworks */,
 				44B8645B185D80ED00C29B92 /* AVFoundation.framework in Frameworks */,
 				44B86459185D80E300C29B92 /* AudioToolbox.framework in Frameworks */,
-				5A637438195D8AB0004AF1FC /* BugSense-iOS.framework in Frameworks */,
 				44B86457185D80A300C29B92 /* AdSupport.framework in Frameworks */,
 				44C89ADC185C145C00E65B73 /* QuartzCore.framework in Frameworks */,
 				440B2FC917F7F42600544926 /* MobileCoreServices.framework in Frameworks */,
@@ -872,9 +872,9 @@
 			isa = PBXGroup;
 			children = (
 				442A901719DB9BAF00A3516E /* libxml2.dylib */,
-				5A637436195D8AB0004AF1FC /* BugSense-iOS.framework */,
 				5A637437195D8AB0004AF1FC /* LICENSE */,
 				447FD253195D1AF1003E30C2 /* libz.dylib */,
+				44BB0BC21A1AE700006C50F5 /* SplunkMint-iOS.framework */,
 				44412974186E9B1000075AA2 /* StoreKit.framework */,
 				44B86460185D810500C29B92 /* SystemConfiguration.framework */,
 				44B8645C185D80F500C29B92 /* MessageUI.framework */,
@@ -2225,7 +2225,10 @@
 					/Users/CraigZheng/Developer/CustomImageBoardViewer/CustomImageBoardViewer,
 					"$(PROJECT_DIR)/CustomImageBoardViewer/GoogldAdmob",
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -2256,7 +2259,10 @@
 					/Users/CraigZheng/Developer/CustomImageBoardViewer/CustomImageBoardViewer,
 					"$(PROJECT_DIR)/CustomImageBoardViewer/GoogldAdmob",
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "CD3DFB8D-A58B-4FDA-80BB-FD7F20E5D6AA";
 				WRAPPER_EXTENSION = app;
