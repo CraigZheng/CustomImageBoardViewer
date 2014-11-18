@@ -26,6 +26,8 @@
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzTextViewHeightCalculator.h"
 #import "czzImageViewerUtil.h"
+#import "czzNavigationController.h"
+#import "czzOnScreenImageManagerViewController.h"
 #import <CoreText/CoreText.h>
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****"
@@ -51,6 +53,7 @@
 @property czzImageCentre *imageCentre;
 @property BOOL viewControllerNotInTransition;
 @property czzImageViewerUtil *imageViewerUtil;
+@property UIRefreshControl* refreshControl;
 @end
 
 @implementation czzHomeViewController
@@ -79,6 +82,7 @@
 @synthesize imageViewerUtil;
 @synthesize menuBarButton;
 @synthesize infoBarButton;
+@synthesize refreshControl;
 
 static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
 static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
@@ -105,8 +109,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     thumbnailFolder = [czzAppDelegate thumbnailFolder];
     
     //register xib
-    [self.threadTableView registerNib:[UINib nibWithNibName:@"czzThreadViewTableViewCell" bundle:nil] forCellReuseIdentifier:threadViewCellIdentifier];
-    [self.threadTableView registerNib:[UINib nibWithNibName:@"czzThreadViewBigImageTableViewCell" bundle:nil] forCellReuseIdentifier:threadViewBigImageCellIdentifier];
+    [threadTableView registerNib:[UINib nibWithNibName:@"czzThreadViewTableViewCell" bundle:nil] forCellReuseIdentifier:threadViewCellIdentifier];
+    [threadTableView registerNib:[UINib nibWithNibName:@"czzThreadViewBigImageTableViewCell" bundle:nil] forCellReuseIdentifier:threadViewBigImageCellIdentifier];
     //configure the view deck controller with half size and tap to close mode
     self.viewDeckController.leftSize = self.view.frame.size.width/4;
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
@@ -129,19 +133,19 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
                                                object:nil];
     
     //register a refresh control
-    UIRefreshControl* refreCon = [[UIRefreshControl alloc] init];
-    [refreCon addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
-    self.refreshControl = refreCon;
+    refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
+    [threadTableView addSubview: refreshControl];
     
     //onscreen command
-    onScreenCommandViewController = [[czzOnScreenCommandViewController alloc] initWithNibName:@"czzOnScreenCommandViewController" bundle:[NSBundle mainBundle]];
-    onScreenCommandViewController.tableviewController = self;
-    [onScreenCommandViewController hide];
+//    onScreenCommandViewController = [[czzOnScreenCommandViewController alloc] initWithNibName:@"czzOnScreenCommandViewController" bundle:[NSBundle mainBundle]];
+//    onScreenCommandViewController.parentViewController = self;
+//    [onScreenCommandViewController hide];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    
+        
     viewControllerNotInTransition = YES;
     self.viewDeckController.leftController = leftController;
     shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
@@ -236,13 +240,13 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     if ([buttonTitle isEqualToString:@"确定"]){
         NSInteger newPageNumber = [[[alertView textFieldAtIndex:0] text] integerValue];
         if (newPageNumber > 0){
-            self.pageNumber = newPageNumber;
+            pageNumber = newPageNumber;
             //clear threads and ready to accept new threads
-            [self.threads removeAllObjects];
-            [self.threadTableView reloadData];
+            [threads removeAllObjects];
+            [threadTableView reloadData];
             [heightsForRows removeAllObjects];
             [heightsForRowsForHorizontalMode removeAllObjects];
-            [self.refreshControl beginRefreshing];
+            [refreshControl beginRefreshing];
             [self loadMoreThread:self.pageNumber];
             [[[czzAppDelegate sharedAppDelegate] window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)self.pageNumber]];
         } else {
@@ -250,18 +254,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         }
     }
 }
-
-//#pragma mark - push view controller
-//-(void)pushViewController:(UIViewController *)viewController :(BOOL)animated {
-//    if (viewController) {
-//        [self.viewDeckController closeLeftViewAnimated:NO];
-//        [self.viewDeckController closeTopViewAnimated:NO];
-//        [self.viewDeckController closeRightViewAnimated:NO];
-//        [self.viewDeckController closeBottomViewAnimated:NO];
-//        [self.navigationController popToRootViewControllerAnimated:NO];
-//        [self.navigationController pushViewController:viewController animated:animated];
-//    }
-//}
 
 #pragma mark - scrollToTop and scrollToBottom
 -(void)scrollTableViewToTop {
@@ -460,9 +452,9 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)aScrollView
 {
-    NSArray *visibleRows = [self.tableView visibleCells];
+    NSArray *visibleRows = [threadTableView visibleCells];
     UITableViewCell *lastVisibleCell = [visibleRows lastObject];
-    NSIndexPath *path = [self.tableView indexPathForCell:lastVisibleCell];
+    NSIndexPath *path = [threadTableView indexPathForCell:lastVisibleCell];
     if(path.row == threads.count && threads.count > 0)
     {
         CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
@@ -510,14 +502,11 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
             czzJSONProcessor *jsonProcessor = [czzJSONProcessor new];
             jsonProcessor.delegate = self;
             [jsonProcessor processThreadListFromData:xmlData];
-//            czzXMLProcessor *xmlProcessor = [czzXMLProcessor new];
-//            xmlProcessor.delegate = self;
-//            [xmlProcessor processThreadListFromData:xmlData];
         });
     } else {
         dispatch_async(dispatch_get_main_queue(), ^{
             [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"无法下载资料，请检查网络" duration:1.2 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
-            [self.refreshControl endRefreshing];
+            [refreshControl endRefreshing];
             [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
             [threadTableView reloadData];
         });
@@ -546,7 +535,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         });
     }
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.refreshControl endRefreshing];
+        [refreshControl endRefreshing];
         [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
         [threadTableView reloadData];
 

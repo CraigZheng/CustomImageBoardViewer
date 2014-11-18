@@ -14,6 +14,7 @@
 
 @implementation czzNavigationController
 @synthesize notificationBannerViewController;
+@synthesize onScreenImageManagerView;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -25,6 +26,13 @@
     notificationBannerViewController.view.frame = frame;
     notificationBannerViewController.homeViewController = self;
     [self.navigationBar addSubview:notificationBannerViewController.view];
+    
+    
+    //create on screen command if nil
+    if (!onScreenImageManagerView)
+    {
+        onScreenImageManagerView = [[UIStoryboard storyboardWithName:@"ImageManagerStoryboard" bundle:nil] instantiateInitialViewController];
+    }
     
 }
 

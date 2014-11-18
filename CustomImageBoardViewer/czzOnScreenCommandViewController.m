@@ -18,7 +18,7 @@
 @synthesize upperButton;
 @synthesize bottomButton;
 @synthesize backgroundView;
-@synthesize tableviewController;
+@synthesize parentViewController;
 @synthesize timeoutInterval;
 @synthesize timeoutTimer;
 @synthesize parentView;
@@ -52,8 +52,8 @@
 
 - (IBAction)upButtonAction:(id)sender {
     SEL scrollToTopSelector = NSSelectorFromString(@"scrollTableViewToTop");
-    if (tableviewController && [tableviewController respondsToSelector:scrollToTopSelector]) {
-        [tableviewController performSelector:scrollToTopSelector];
+    if (parentViewController && [parentViewController respondsToSelector:scrollToTopSelector]) {
+        [parentViewController performSelector:scrollToTopSelector];
     }
     [self updateTimer];
 
@@ -61,17 +61,18 @@
 
 - (IBAction)bottomButtonAction:(id)sender {
     SEL scrollToBottomSelector = NSSelectorFromString(@"scrollTableViewToBottom");
-    if (tableviewController && [tableviewController respondsToSelector:scrollToBottomSelector])
-        [tableviewController performSelector:scrollToBottomSelector];
+    if (parentViewController && [parentViewController respondsToSelector:scrollToBottomSelector])
+        [parentViewController performSelector:scrollToBottomSelector];
     [self updateTimer];
 }
 
 -(void)show
 {
     self.view.hidden = NO;
-    if (parentView) {
+    if (parentViewController) {
+//    if (parentView) {
         [self updateFrame];
-        [parentView addSubview:self.view];
+        [parentViewController.view addSubview:self.view];
     }
     [self updateTimer];
 }
@@ -89,7 +90,7 @@
 }
 
 -(void)updateFrame {
-    if (UIInterfaceOrientationIsPortrait(tableviewController.interfaceOrientation)) {
+    if (UIInterfaceOrientationIsPortrait(parentViewController.interfaceOrientation)) {
         [self updateVerticalFrame];
     } else {
         [self updateHorizontalFrame];

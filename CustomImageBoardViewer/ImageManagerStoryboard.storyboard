@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="SSq-yE-7jJ">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Czz On Screen Image Manager View Controller-->
@@ -16,13 +17,47 @@
                     <view key="view" contentMode="scaleToFill" id="8XP-Rf-aQq">
                         <rect key="frame" x="0.0" y="0.0" width="80" height="200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="2Sd-nf-FFF">
+                                <rect key="frame" x="20" y="152" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Npw-9Z-O4q"/>
+                                    <constraint firstAttribute="width" secondItem="2Sd-nf-FFF" secondAttribute="height" multiplier="1:1" id="OAg-ME-ubo"/>
+                                    <constraint firstAttribute="width" constant="60" id="ZGK-7t-Bup"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="ZGK-7t-Bup"/>
+                                    </mask>
+                                </variation>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0023360207669999998" green="0.85030995239999996" blue="0.02111430269" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="bwG-Dx-z8m" firstAttribute="top" secondItem="2Sd-nf-FFF" secondAttribute="bottom" constant="8" id="6vJ-oH-MzA"/>
+                            <constraint firstItem="2Sd-nf-FFF" firstAttribute="leading" secondItem="8XP-Rf-aQq" secondAttribute="leading" constant="10" id="OhT-pS-yEy"/>
+                            <constraint firstAttribute="centerX" secondItem="2Sd-nf-FFF" secondAttribute="centerX" id="Szv-Er-hv3"/>
+                            <constraint firstAttribute="trailing" secondItem="2Sd-nf-FFF" secondAttribute="trailing" constant="10" id="dkr-vZ-hOt"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="OhT-pS-yEy"/>
+                                <exclude reference="dkr-vZ-hOt"/>
+                            </mask>
+                        </variation>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="80" height="200"/>
+                    <connections>
+                        <outlet property="mainIcon" destination="2Sd-nf-FFF" id="T3Z-yg-6ZA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="coN-ef-nk3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="584" y="299"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Icon.png" width="57" height="57"/>
+    </resources>
 </document>

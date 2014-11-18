@@ -11,7 +11,7 @@
 #import "czzForumsViewController.h"
 
 @class czzThread;
-@interface czzHomeViewController : UITableViewController
+@interface czzHomeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *threadTableView;
 @property (nonatomic) NSString *forumName;
 @property NSMutableArray *threads;

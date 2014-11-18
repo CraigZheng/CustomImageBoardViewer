@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
 @interface czzOnScreenImageManagerViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIImageView *mainIcon;
 @end

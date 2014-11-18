@@ -146,9 +146,9 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, highlightMenuItem, searchMenuItem, openMenuItem]];
     [[UIMenuController sharedMenuController] update];
     //show on screen command
-    onScreenCommand = [[czzOnScreenCommandViewController alloc] initWithNibName:@"czzOnScreenCommandViewController" bundle:[NSBundle mainBundle]];
-    onScreenCommand.tableviewController = self;
-    [onScreenCommand hide];
+//    onScreenCommand = [[czzOnScreenCommandViewController alloc] initWithNibName:@"czzOnScreenCommandViewController" bundle:[NSBundle mainBundle]];
+//    onScreenCommand.parentViewController = self;
+//    [onScreenCommand hide];
     shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
     
     //if in foreground, load more threads

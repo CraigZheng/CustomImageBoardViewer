@@ -15,7 +15,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *upperButton;
 @property CGSize size;
 @property NSTimeInterval timeoutInterval;
-@property (nonatomic) UITableViewController *tableviewController;
+@property (nonatomic) UIViewController *parentViewController;
 - (IBAction)upButtonAction:(id)sender;
 - (IBAction)bottomButtonAction:(id)sender;
 

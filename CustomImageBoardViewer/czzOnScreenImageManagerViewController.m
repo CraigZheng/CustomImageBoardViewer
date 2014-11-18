@@ -13,15 +13,28 @@
 @end
 
 @implementation czzOnScreenImageManagerViewController
+@synthesize mainIcon;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
+    CAShapeLayer *circle = [CAShapeLayer layer];
+    // Make a circular shape
+    UIBezierPath *circularPath=[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, mainIcon.frame.size.width, mainIcon.frame.size.height) cornerRadius:MAX(mainIcon.frame.size.width, mainIcon.frame.size.height)];
+    
+    circle.path = circularPath.CGPath;
+    
+    // Configure the apperence of the circle
+    circle.fillColor = [UIColor blackColor].CGColor;
+    circle.strokeColor = [UIColor blackColor].CGColor;
+    circle.lineWidth = 0;
+    
+    mainIcon.layer.mask=circle;
+    
+    mainIcon.layer.shadowRadius = 5.0;
+    mainIcon.layer.shadowColor = [UIColor darkGrayColor].CGColor;
+    mainIcon.layer.shadowOpacity = 0.8;
 }
 
 /*

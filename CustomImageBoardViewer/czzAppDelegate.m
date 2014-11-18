@@ -33,8 +33,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-//    [BugSenseController sharedControllerWithBugSenseAPIKey:@"cd668a8e"];
-//    [BugSenseController setUserIdentifier:[UIDevice currentDevice].identifierForVendor.UUIDString];
     [[Mint sharedInstance] initAndStartSession:@"cd668a8e"];
     [[Mint sharedInstance] setUserIdentifier:[UIDevice currentDevice].identifierForVendor.UUIDString];
     
@@ -51,8 +49,6 @@
         [DartCrowdSourcingLib disableCollection];
     }
 
-    
-//    [DartCrowdSourcingLib initWithApiKey:@"CustomImageBoardViewer" version:@"0.1" homeMccMnc:@"50502" testerID:@"CustomImageBoardViewer@optus.com" uploadURL:nil];
     return YES;
 }
 							

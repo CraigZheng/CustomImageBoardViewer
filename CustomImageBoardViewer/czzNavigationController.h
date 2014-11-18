@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "czzNotificationBannerViewController.h"
+#import "czzOnScreenImageManagerViewController.h"
 
 @interface czzNavigationController : UINavigationController
 @property czzNotificationBannerViewController *notificationBannerViewController;
-
+@property czzOnScreenImageManagerViewController *onScreenImageManagerView;
 @end
