@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Kd0-1v-TbS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Kd0-1v-TbS">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--通知中心-->
@@ -22,7 +23,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NO" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZXJ-x8-b4X">
-                                            <rect key="frame" x="3" y="1" width="15.5" height="12"/>
+                                            <rect key="frame" x="3" y="1" width="16" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                             <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -76,7 +77,7 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NO" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rf9-pi-0H6">
-                                            <rect key="frame" x="3" y="1" width="15.5" height="12"/>
+                                            <rect key="frame" x="3" y="1" width="16" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                             <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -138,7 +139,80 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3l7-VN-n5M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2280" y="-580.9859154929577"/>
+            <point key="canvasLocation" x="2200" y="-657"/>
+        </scene>
+        <!--Czz Notification Banner View Controller-->
+        <scene sceneID="Eex-fF-zj6">
+            <objects>
+                <viewController storyboardIdentifier="notification_banner_view_controller" id="Jg5-wk-qSa" customClass="czzNotificationBannerViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="qxG-7x-guY"/>
+                        <viewControllerLayoutGuide type="bottom" id="e3I-ms-R4O"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="bYK-DG-Cpp">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qyB-JP-ZQW">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleAspectFit" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5P3-HQ-su4">
+                                        <rect key="frame" x="276" y="0.0" width="44" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="5P3-HQ-su4" secondAttribute="height" multiplier="1:1" id="jsY-I2-NNV"/>
+                                        </constraints>
+                                        <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                                        <state key="normal" image="delete.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="error" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4f4-h8-bQ9">
+                                        <rect key="frame" x="33" y="0.0" width="243" height="44"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fcw-m3-MIO">
+                                        <rect key="frame" x="5" y="8" width="28" height="28"/>
+                                        <color key="backgroundColor" red="1" green="0.67954375359999997" blue="0.069473601879999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="fcw-m3-MIO" secondAttribute="height" multiplier="1:1" id="Z1Z-H6-6lh"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <state key="normal" title="99">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="5P3-HQ-su4" firstAttribute="leading" secondItem="4f4-h8-bQ9" secondAttribute="trailing" id="KTg-dd-XVH"/>
+                                    <constraint firstAttribute="bottom" secondItem="4f4-h8-bQ9" secondAttribute="bottom" id="Mei-Xr-TzK"/>
+                                    <constraint firstItem="4f4-h8-bQ9" firstAttribute="leading" secondItem="fcw-m3-MIO" secondAttribute="trailing" id="bxJ-w1-gjo"/>
+                                    <constraint firstAttribute="bottom" secondItem="fcw-m3-MIO" secondAttribute="bottom" constant="8" id="cVS-G9-9y6"/>
+                                    <constraint firstItem="fcw-m3-MIO" firstAttribute="leading" secondItem="qyB-JP-ZQW" secondAttribute="leading" constant="5" id="d09-zA-Uqy"/>
+                                    <constraint firstItem="fcw-m3-MIO" firstAttribute="top" secondItem="qyB-JP-ZQW" secondAttribute="top" constant="8" id="eFE-dY-Q3h"/>
+                                    <constraint firstAttribute="bottom" secondItem="5P3-HQ-su4" secondAttribute="bottom" id="mhK-TW-52q"/>
+                                    <constraint firstItem="5P3-HQ-su4" firstAttribute="top" secondItem="qyB-JP-ZQW" secondAttribute="top" id="ok5-sR-qpS"/>
+                                    <constraint firstAttribute="trailing" secondItem="5P3-HQ-su4" secondAttribute="trailing" id="u8B-0Q-ek5"/>
+                                    <constraint firstItem="4f4-h8-bQ9" firstAttribute="top" secondItem="qyB-JP-ZQW" secondAttribute="top" id="xOm-qo-a1p"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="qyB-JP-ZQW" secondAttribute="trailing" id="8iP-TA-SQg"/>
+                            <constraint firstAttribute="bottom" secondItem="qyB-JP-ZQW" secondAttribute="bottom" id="SkL-kM-2ZN"/>
+                            <constraint firstItem="qyB-JP-ZQW" firstAttribute="leading" secondItem="bYK-DG-Cpp" secondAttribute="leading" id="d2G-wG-uyc"/>
+                            <constraint firstItem="qyB-JP-ZQW" firstAttribute="top" secondItem="bYK-DG-Cpp" secondAttribute="top" id="qeE-sA-95q"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="60"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WzM-zU-V0I" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2248" y="63"/>
         </scene>
         <!--Feedback-->
         <scene sceneID="1iV-g7-cZm">
@@ -213,6 +287,7 @@
     </scenes>
     <resources>
         <image name="Icon.png" width="57" height="57"/>
+        <image name="delete.png" width="20" height="20"/>
         <image name="emotion_smile_icon.png" width="512" height="512"/>
     </resources>
 </document>
