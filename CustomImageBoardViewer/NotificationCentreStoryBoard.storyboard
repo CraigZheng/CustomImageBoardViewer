@@ -170,7 +170,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="error" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4f4-h8-bQ9">
-                                        <rect key="frame" x="49" y="0.0" width="211" height="44"/>
+                                        <rect key="frame" x="49" y="0.0" width="211" height="60"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -190,7 +190,7 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="5P3-HQ-su4" firstAttribute="leading" secondItem="4f4-h8-bQ9" secondAttribute="trailing" id="KTg-dd-XVH"/>
-                                    <constraint firstAttribute="bottom" secondItem="4f4-h8-bQ9" secondAttribute="bottom" constant="16" id="Mei-Xr-TzK"/>
+                                    <constraint firstAttribute="bottom" secondItem="4f4-h8-bQ9" secondAttribute="bottom" id="Mei-Xr-TzK"/>
                                     <constraint firstItem="4f4-h8-bQ9" firstAttribute="leading" secondItem="fcw-m3-MIO" secondAttribute="trailing" id="bxJ-w1-gjo"/>
                                     <constraint firstAttribute="bottom" secondItem="fcw-m3-MIO" secondAttribute="bottom" constant="8" id="cVS-G9-9y6"/>
                                     <constraint firstItem="fcw-m3-MIO" firstAttribute="leading" secondItem="qyB-JP-ZQW" secondAttribute="leading" constant="5" id="d09-zA-Uqy"/>
