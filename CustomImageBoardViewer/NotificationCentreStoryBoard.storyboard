@@ -156,8 +156,8 @@
                             <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qyB-JP-ZQW">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleAspectFit" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5P3-HQ-su4">
-                                        <rect key="frame" x="276" y="0.0" width="44" height="44"/>
+                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5P3-HQ-su4">
+                                        <rect key="frame" x="260" y="0.0" width="60" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="5P3-HQ-su4" secondAttribute="height" multiplier="1:1" id="jsY-I2-NNV"/>
                                         </constraints>
@@ -165,14 +165,17 @@
                                         <state key="normal" image="delete.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="dismissAction:" destination="Jg5-wk-qSa" eventType="touchUpInside" id="Ofe-VC-6gb"/>
+                                        </connections>
                                     </button>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="error" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4f4-h8-bQ9">
-                                        <rect key="frame" x="33" y="0.0" width="243" height="44"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="error" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4f4-h8-bQ9">
+                                        <rect key="frame" x="49" y="0.0" width="211" height="44"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fcw-m3-MIO">
-                                        <rect key="frame" x="5" y="8" width="28" height="28"/>
+                                    <button hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fcw-m3-MIO">
+                                        <rect key="frame" x="5" y="8" width="44" height="44"/>
                                         <color key="backgroundColor" red="1" green="0.67954375359999997" blue="0.069473601879999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="fcw-m3-MIO" secondAttribute="height" multiplier="1:1" id="Z1Z-H6-6lh"/>
@@ -187,7 +190,7 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="5P3-HQ-su4" firstAttribute="leading" secondItem="4f4-h8-bQ9" secondAttribute="trailing" id="KTg-dd-XVH"/>
-                                    <constraint firstAttribute="bottom" secondItem="4f4-h8-bQ9" secondAttribute="bottom" id="Mei-Xr-TzK"/>
+                                    <constraint firstAttribute="bottom" secondItem="4f4-h8-bQ9" secondAttribute="bottom" constant="16" id="Mei-Xr-TzK"/>
                                     <constraint firstItem="4f4-h8-bQ9" firstAttribute="leading" secondItem="fcw-m3-MIO" secondAttribute="trailing" id="bxJ-w1-gjo"/>
                                     <constraint firstAttribute="bottom" secondItem="fcw-m3-MIO" secondAttribute="bottom" constant="8" id="cVS-G9-9y6"/>
                                     <constraint firstItem="fcw-m3-MIO" firstAttribute="leading" secondItem="qyB-JP-ZQW" secondAttribute="leading" constant="5" id="d09-zA-Uqy"/>
@@ -206,11 +209,24 @@
                             <constraint firstItem="qyB-JP-ZQW" firstAttribute="leading" secondItem="bYK-DG-Cpp" secondAttribute="leading" id="d2G-wG-uyc"/>
                             <constraint firstItem="qyB-JP-ZQW" firstAttribute="top" secondItem="bYK-DG-Cpp" secondAttribute="top" id="qeE-sA-95q"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="hAF-Bx-LNX" appends="YES" id="ME0-0F-HKa"/>
+                        </connections>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="60"/>
+                    <connections>
+                        <outlet property="dismissButton" destination="5P3-HQ-su4" id="7jl-Fa-LAb"/>
+                        <outlet property="headerLabel" destination="4f4-h8-bQ9" id="waf-rf-nIY"/>
+                        <outlet property="numberButton" destination="fcw-m3-MIO" id="7Ke-TF-P63"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WzM-zU-V0I" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="hAF-Bx-LNX">
+                    <connections>
+                        <action selector="tapOnViewAction:" destination="Jg5-wk-qSa" id="m5J-eQ-nIc"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2248" y="63"/>
         </scene>
