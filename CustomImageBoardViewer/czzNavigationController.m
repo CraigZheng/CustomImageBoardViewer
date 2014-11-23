@@ -36,10 +36,15 @@
     
 }
 
-
--(void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [self.navigationBar bringSubviewToFront:notificationBannerViewController.view];
+-(void)showNotificationBanner {
+    if ([notificationBannerViewController shouldShow]) {
+        [notificationBannerViewController show];
+        [self.view bringSubviewToFront:notificationBannerViewController.view];
+    }
 }
 
+-(void)hideNotificationBanner {
+    [notificationBannerViewController hide];
+//    notificationBannerViewController.view.hidden = YES;
+}
 @end

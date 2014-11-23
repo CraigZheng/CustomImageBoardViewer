@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Czz Entry Point View Controller-->
@@ -913,18 +914,16 @@
                                 </connections>
                             </tableView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Js0-yW-ln4">
-                                <rect key="frame" x="240" y="84" width="60" height="332"/>
+                                <rect key="frame" x="240" y="356" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="HQl-Ao-M9i"/>
+                                    <constraint firstAttribute="width" secondItem="Js0-yW-ln4" secondAttribute="height" id="veY-cY-Nbi"/>
                                 </constraints>
-                                <connections>
-                                    <segue destination="Z8H-ME-EmH" kind="embed" id="iOj-FA-KSV"/>
-                                </connections>
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Js0-yW-ln4" firstAttribute="top" secondItem="6rZ-Nk-kbk" secondAttribute="bottom" constant="20" id="1yc-rd-wrz"/>
+                            <constraint firstItem="Js0-yW-ln4" firstAttribute="top" relation="greaterThanOrEqual" secondItem="6rZ-Nk-kbk" secondAttribute="bottom" constant="20" id="1yc-rd-wrz"/>
                             <constraint firstItem="l2k-8P-m8U" firstAttribute="top" secondItem="O4m-yZ-FbH" secondAttribute="top" id="NnL-sj-HPC"/>
                             <constraint firstItem="VdM-sp-3WW" firstAttribute="top" secondItem="l2k-8P-m8U" secondAttribute="bottom" id="PbO-TU-hVp"/>
                             <constraint firstAttribute="trailing" secondItem="Js0-yW-ln4" secondAttribute="trailing" constant="20" id="X4O-Jt-Itw"/>
@@ -1016,7 +1015,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="104" height="104"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="103.5" height="103.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="tM4-2y-3Sd">
@@ -1144,24 +1143,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T25-Ph-svD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1346.25" y="-242.95774647887319"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="sZ5-1x-e3m">
-            <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="Z8H-ME-EmH" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="gAf-PH-7AV"/>
-                        <viewControllerLayoutGuide type="bottom" id="68h-wj-rWq"/>
-                    </layoutGuides>
-                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="yNe-0J-W28">
-                        <rect key="frame" x="0.0" y="0.0" width="60" height="332"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <toolbarItems/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4Z9-vc-L8F" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
         </scene>
     </scenes>
     <resources>

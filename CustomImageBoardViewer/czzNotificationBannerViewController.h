@@ -29,6 +29,7 @@
 - (IBAction)dismissAction:(id)sender;
 - (IBAction)tapOnViewAction:(id)sender;
 
+-(BOOL)shouldShow; //should show notification if a new notification is available
 -(void)show;
 -(void)hide;
 @end

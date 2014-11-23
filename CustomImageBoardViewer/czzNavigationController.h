@@ -13,4 +13,7 @@
 @interface czzNavigationController : UINavigationController
 @property czzNotificationBannerViewController *notificationBannerViewController;
 @property czzOnScreenImageManagerViewController *onScreenImageManagerView;
+
+-(void)showNotificationBanner;
+-(void)hideNotificationBanner;
 @end

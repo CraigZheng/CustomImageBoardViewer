@@ -18,7 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor colorWithWhite:1. alpha:0.];
+
     CAShapeLayer *circle = [CAShapeLayer layer];
     // Make a circular shape
     UIBezierPath *circularPath=[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, mainIcon.frame.size.width, mainIcon.frame.size.height) cornerRadius:MAX(mainIcon.frame.size.width, mainIcon.frame.size.height)];
@@ -47,4 +47,7 @@
 }
 */
 
+- (IBAction)tapOnImageManagerIconAction:(id)sender {
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+}
 @end

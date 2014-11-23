@@ -154,9 +154,10 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-        
+    //show banner
+    [(czzNavigationController*) self.navigationController showNotificationBanner];
+    
     viewControllerNotInTransition = YES;
-    self.viewDeckController.leftController = leftController;
     shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 4.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
@@ -181,6 +182,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     viewControllerNotInTransition = NO;
+    [(czzNavigationController*) self.navigationController hideNotificationBanner];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ImageDownloaded" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ImageDownloaderProgressUpdated" object:nil];
     [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
@@ -192,8 +194,9 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaderUpdated:) name:@"ImageDownloaderProgressUpdated" object:nil];
 
     self.viewDeckController.rightController = nil;
-    self.viewDeckController.panningMode = IIViewDeckPanningViewPanning;
-    
+    self.viewDeckController.leftController = leftController;
+    self.viewDeckController.panningMode = IIViewDeckFullViewPanning;
+
     //change background colour for night mode
     if (settingsCentre.nightyMode)
     {

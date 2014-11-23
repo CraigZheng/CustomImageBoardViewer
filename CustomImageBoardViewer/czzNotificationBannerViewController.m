@@ -47,7 +47,6 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-
     notificationDownloadInterval = 60 * 60;//every 1 hour
     notifications = [NSMutableOrderedSet new];
     notificationManager = [czzNotificationManager new];
@@ -176,6 +175,10 @@
         [homeViewController pushViewController:notificationCentreViewController animated:YES];
         [self dismissAction:nil];
     }
+}
+
+-(BOOL)shouldShow {
+    return needsToBePresented;
 }
 
 -(void)updateNumberButton {
