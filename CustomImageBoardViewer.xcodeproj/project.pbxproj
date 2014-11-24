@@ -139,9 +139,6 @@
 		44858EAC1A0C5B0A00DD822B /* czzImageViewerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44858EAB1A0C5B0A00DD822B /* czzImageViewerUtil.m */; };
 		4485F4FC19F5FF38007A73CC /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 4485F4FB19F5FF38007A73CC /* NSString+HTML.m */; };
 		448C85E41A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 448C85E31A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib */; };
-		449611D01A21D19700B87658 /* FPPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 449611CB1A21D19700B87658 /* FPPopoverController.m */; };
-		449611D11A21D19700B87658 /* FPPopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 449611CD1A21D19700B87658 /* FPPopoverView.m */; };
-		449611D21A21D19700B87658 /* FPTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 449611CF1A21D19700B87658 /* FPTouchView.m */; };
 		4498B689199248ED0014F73F /* czzJSONProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498B688199248ED0014F73F /* czzJSONProcessor.m */; };
 		4498B68D1993A6190014F73F /* PropertyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498B68C1993A6190014F73F /* PropertyUtil.m */; };
 		44AE2AFA187254E4002CB021 /* czzMenuEnabledTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AE2AF9187254E4002CB021 /* czzMenuEnabledTableViewCell.m */; };
@@ -560,13 +557,6 @@
 		4485F4FA19F5FF38007A73CC /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
 		4485F4FB19F5FF38007A73CC /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTML.m"; sourceTree = "<group>"; };
 		448C85E31A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzThreadViewBigImageTableViewCell.xib; sourceTree = "<group>"; };
-		449611C91A21D19700B87658 /* ARCMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARCMacros.h; sourceTree = "<group>"; };
-		449611CA1A21D19700B87658 /* FPPopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FPPopoverController.h; sourceTree = "<group>"; };
-		449611CB1A21D19700B87658 /* FPPopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPPopoverController.m; sourceTree = "<group>"; };
-		449611CC1A21D19700B87658 /* FPPopoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FPPopoverView.h; sourceTree = "<group>"; };
-		449611CD1A21D19700B87658 /* FPPopoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPPopoverView.m; sourceTree = "<group>"; };
-		449611CE1A21D19700B87658 /* FPTouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FPTouchView.h; sourceTree = "<group>"; };
-		449611CF1A21D19700B87658 /* FPTouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPTouchView.m; sourceTree = "<group>"; };
 		4498B687199248ED0014F73F /* czzJSONProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzJSONProcessor.h; sourceTree = "<group>"; };
 		4498B688199248ED0014F73F /* czzJSONProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzJSONProcessor.m; sourceTree = "<group>"; };
 		4498B68B1993A6190014F73F /* PropertyUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PropertyUtil.h; path = ../PropertyUtil.h; sourceTree = "<group>"; };
@@ -933,7 +923,6 @@
 				441E5D0F17F4699900289DBD /* IIViewDeck */,
 				5AA5B6C419A963FA00DCC3DA /* GoogldAdmob */,
 				44C34544187E59AC00FDE45D /* KNSemiModal */,
-				449611C81A21D19700B87658 /* FPPopover */,
 				4412FA161935865C00681438 /* Reachability */,
 				442A8FC919DB7E0000A3516E /* MWPhotoBrowser */,
 				5A3897CA1935EC5A00D20DA1 /* NSString+HTML */,
@@ -1422,20 +1411,6 @@
 				44858EAB1A0C5B0A00DD822B /* czzImageViewerUtil.m */,
 			);
 			name = ThreadView;
-			sourceTree = "<group>";
-		};
-		449611C81A21D19700B87658 /* FPPopover */ = {
-			isa = PBXGroup;
-			children = (
-				449611C91A21D19700B87658 /* ARCMacros.h */,
-				449611CA1A21D19700B87658 /* FPPopoverController.h */,
-				449611CB1A21D19700B87658 /* FPPopoverController.m */,
-				449611CC1A21D19700B87658 /* FPPopoverView.h */,
-				449611CD1A21D19700B87658 /* FPPopoverView.m */,
-				449611CE1A21D19700B87658 /* FPTouchView.h */,
-				449611CF1A21D19700B87658 /* FPTouchView.m */,
-			);
-			path = FPPopover;
 			sourceTree = "<group>";
 		};
 		4498B68A199249180014F73F /* czzJSONProcessor */ = {
@@ -1969,7 +1944,6 @@
 				442A8FF819DB7F5400A3516E /* UIImage+GIF.m in Sources */,
 				441E5D2917F48B3D00289DBD /* Toast+UIView.m in Sources */,
 				442EC8741A1A1DDE005650E4 /* czzInAppBrowserViewController.m in Sources */,
-				449611D01A21D19700B87658 /* FPPopoverController.m in Sources */,
 				441E5D0C17F4699400289DBD /* IISideController.m in Sources */,
 				4485F4FC19F5FF38007A73CC /* NSString+HTML.m in Sources */,
 				441E5CDF17F4691300289DBD /* czzAppDelegate.m in Sources */,
@@ -2003,7 +1977,6 @@
 				442A8FAE19DB7DF200A3516E /* PSTCollectionViewController.m in Sources */,
 				44AE2AFA187254E4002CB021 /* czzMenuEnabledTableViewCell.m in Sources */,
 				5A27E140193CA11300D0094F /* czzNotificationManager.m in Sources */,
-				449611D11A21D19700B87658 /* FPPopoverView.m in Sources */,
 				5A6266AA193A17FF00AD949F /* czzNotificationDownloader.m in Sources */,
 				443B54DE1990BD3300BAB282 /* attribute.c in Sources */,
 				442A8FF019DB7F5400A3516E /* SDImageCache.m in Sources */,
@@ -2052,7 +2025,6 @@
 				44AE2B011872924C002CB021 /* PartialTransparentView.m in Sources */,
 				5AF85E62196EDC110031D0CB /* czzHTMLToThreadParser.m in Sources */,
 				442A8FA719DB7DF200A3516E /* MWZoomingScrollView.m in Sources */,
-				449611D21A21D19700B87658 /* FPTouchView.m in Sources */,
 				441E5CDB17F4691300289DBD /* main.m in Sources */,
 				44FC4345180067CF0028D7C9 /* czzPostSender.m in Sources */,
 				443B54EF1990BD3300BAB282 /* OGText.m in Sources */,

@@ -33,7 +33,7 @@
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
 #define OVERLAY_VIEW 122
 
-@interface czzThreadViewController ()<czzXMLDownloaderDelegate, czzJSONProcessorDelegate, UINavigationControllerDelegate, UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzMiniThreadViewControllerProtocol>
+@interface czzThreadViewController ()<czzXMLDownloaderDelegate, czzJSONProcessorDelegate, UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzMiniThreadViewControllerProtocol>
 @property NSString *baseURLString;
 @property NSString *targetURLString;
 @property NSMutableArray *threads;
@@ -115,7 +115,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [refreCon addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreCon;
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
-    self.navigationController.delegate = self;
+
     //try to retrive cached thread from storage
     NSArray *cachedThreads = [[czzThreadCacheManager sharedInstance] readThreads:parentThread];
     if (cachedThreads){
@@ -198,6 +198,16 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [onScreenCommand hide];
     //no longer ready for more push animation
     viewControllerNotInTransition = NO;
+    
+    //stop any downloading xml
+    if (xmlDownloader){
+        [xmlDownloader stop];
+        xmlDownloader = nil;
+    }
+    NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
+    [userDef setObject:[NSNumber numberWithBool:NO] forKey:@"ThreadViewControllerActive"];
+    [userDef synchronize];
+    [self saveThreadsToCache];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -225,23 +235,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
     [userDef removeObjectForKey:@"ThreadViewContentOffSetY"];
     [userDef synchronize];
-}
-
-#pragma mark - UINavigationController
--(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
-    //if this view controller is about to be poped from view stack, stop any downloading and save threads to storage
-    if ([viewController isKindOfClass:[czzHomeViewController class]]){
-        //stop any downloading xml
-        if (xmlDownloader){
-            [xmlDownloader stop];
-            xmlDownloader = nil;
-        }
-        NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
-        [userDef setObject:[NSNumber numberWithBool:NO] forKey:@"ThreadViewControllerActive"];
-        [userDef synchronize];
-        [self saveThreadsToCache];
-        self.navigationController.delegate = nil;
-    }
 }
 
 -(void)saveThreadsToCache {

@@ -38,7 +38,10 @@
     [request setHTTPMethod:@"POST"];
     
     NSMutableData *requestData = [NSMutableData new];
-    [requestData appendData:[[NSString stringWithFormat:@"&vendorID=%@", [czzAppDelegate sharedAppDelegate].vendorID] dataUsingEncoding:NSUTF8StringEncoding]];
+#ifdef DEBUG
+    vendorID = @"DEBUG";
+#endif
+    [requestData appendData:[[NSString stringWithFormat:@"&vendorID=%@", vendorID] dataUsingEncoding:NSUTF8StringEncoding]];
     [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)requestData.length] forHTTPHeaderField:@"Content-length"];
     [request setHTTPBody:requestData];
     
