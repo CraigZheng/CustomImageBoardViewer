@@ -42,11 +42,13 @@
 @synthesize forumName;
 @synthesize forum;
 @synthesize settingsCentre;
+@synthesize sendingProgressVIew;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     postSender = [czzPostSender new];
     settingsCentre = [czzSettingsCentre sharedInstance];
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
@@ -259,6 +261,7 @@
 }
 
 -(void)postSenderProgressUpdated:(CGFloat)percent {
+    sendingProgressVIew.progress = percent;
     self.postNaviBar.topItem.title = [NSString stringWithFormat:@"发送中 - %d%%", (int)(percent * 100)];
 }
 
