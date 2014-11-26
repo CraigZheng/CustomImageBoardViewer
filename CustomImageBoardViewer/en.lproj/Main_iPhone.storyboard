@@ -609,6 +609,23 @@
                                     <outlet property="delegate" destination="4co-Qn-de7" id="i8x-XW-rxS"/>
                                 </connections>
                             </textView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DMY-KU-ltO">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="30"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zJ8-wV-K6W">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="30"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="zJ8-wV-K6W" firstAttribute="top" secondItem="DMY-KU-ltO" secondAttribute="top" id="0ky-e2-hWI"/>
+                                    <constraint firstItem="zJ8-wV-K6W" firstAttribute="leading" secondItem="DMY-KU-ltO" secondAttribute="leading" id="SBb-ew-jPy"/>
+                                    <constraint firstAttribute="trailing" secondItem="zJ8-wV-K6W" secondAttribute="trailing" id="f4R-tA-fug"/>
+                                    <constraint firstAttribute="bottom" secondItem="zJ8-wV-K6W" secondAttribute="bottom" id="j2h-WD-Lav"/>
+                                    <constraint firstAttribute="height" constant="30" id="tmB-h8-T5g"/>
+                                </constraints>
+                            </view>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ixg-tf-Y8O">
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <constraints>
@@ -621,7 +638,7 @@
                                                 <action selector="cancelAction:" destination="4co-Qn-de7" id="3dM-8O-1tZ"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="清除" id="0Vs-4v-0SZ">
+                                        <barButtonItem key="rightBarButtonItem" image="delete_file.png" id="0Vs-4v-0SZ">
                                             <connections>
                                                 <action selector="clearAction:" destination="4co-Qn-de7" id="ttz-fB-13d"/>
                                             </connections>
@@ -634,13 +651,6 @@
                                     </mask>
                                 </variation>
                             </navigationBar>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DMY-KU-ltO">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="30"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="tmB-h8-T5g"/>
-                                </constraints>
-                            </view>
                             <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.10000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="s73-0d-VF1">
                                 <rect key="frame" x="0.0" y="64" width="600" height="2"/>
                             </progressView>
@@ -1160,6 +1170,7 @@
         <image name="advance.png" width="20" height="20"/>
         <image name="bookmark.png" width="20" height="20"/>
         <image name="delete.png" width="20" height="20"/>
+        <image name="delete_file.png" width="20" height="20"/>
         <image name="error.png" width="20" height="20"/>
         <image name="menu.png" width="20" height="20"/>
         <image name="message.png" width="20" height="20"/>

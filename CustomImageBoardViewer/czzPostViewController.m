@@ -55,9 +55,9 @@
     toolbar.barStyle = UIBarStyleDefault;
     //assign an input accessory view to it
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *pickEmojiButton = [[UIBarButtonItem alloc] initWithTitle:@"颜文字" style:UIBarButtonItemStyleBordered target:self action:@selector(pickEmojiAction:)];
-    UIBarButtonItem *pickImgButton = [[UIBarButtonItem alloc] initWithTitle:@"图片" style:UIBarButtonItemStyleBordered target:self action:@selector(pickImageAction:)];
-    postButton = [[UIBarButtonItem alloc] initWithTitle:@"发表" style:UIBarButtonItemStyleBordered target:self action:@selector(postAction:)];
+    UIBarButtonItem *pickEmojiButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lol.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(pickEmojiAction:)];
+    UIBarButtonItem *pickImgButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"picture.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(pickImageAction:)];
+    postButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sent.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(postAction:)];
     NSArray *buttons = [NSArray arrayWithObjects: flexibleSpace, pickEmojiButton, pickImgButton, postButton, nil];
     toolbar.items = buttons;
     postTextView.inputAccessoryView = toolbar;

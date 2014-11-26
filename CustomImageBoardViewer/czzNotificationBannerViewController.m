@@ -192,10 +192,10 @@
 
 #pragma mark - czzNotificationDownloaderDelegate
 -(void)notificationDownloaded:(NSArray *)downloadedNotifications {
-#ifdef DEBUG
-    [notifications removeAllObjects];
-    [notificationManager removeNotifications];
-#endif
+//#ifdef DEBUG
+//    [notifications removeAllObjects];
+//    [notificationManager removeNotifications];
+//#endif
     NSInteger originalCount = notifications.count;
     if (downloadedNotifications.count > 0) {
         [notifications addObjectsFromArray:downloadedNotifications];
