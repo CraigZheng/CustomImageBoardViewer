@@ -70,9 +70,11 @@
 {
     self.view.hidden = NO;
     if (parentViewController) {
-//    if (parentView) {
-        [self updateFrame];
-        [parentViewController.view addSubview:self.view];
+        if (parentView) {
+            [self updateFrame];
+            [parentViewController.view addSubview:self.view];
+//            [parentView addSubview:self.view];
+        }
     }
     [self updateTimer];
 }
