@@ -58,6 +58,7 @@
 @property UIViewController *topViewController;
 @property czzMiniThreadViewController *miniThreadView;
 @property BOOL viewControllerNotInTransition;
+@property UIRefreshControl *refreshControl;
 @end
 
 @implementation czzThreadViewController
@@ -90,6 +91,7 @@
 @synthesize viewControllerNotInTransition;
 @synthesize miniThreadView;
 @synthesize imageViewerUtil;
+@synthesize refreshControl;
 
 static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
 static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
@@ -111,9 +113,9 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     heightsForRowsForHorizontal = [NSMutableArray new];
     currentImageDownloaders = [[czzImageCentre sharedInstance] currentImageDownloaders];
     //add the UIRefreshControl to uitableview
-    UIRefreshControl *refreCon = [[UIRefreshControl alloc] init];
-    [refreCon addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
-    self.refreshControl = refreCon;
+    refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
+    [threadTableView addSubview: refreshControl];
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
 
     //try to retrive cached thread from storage
@@ -146,10 +148,10 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, highlightMenuItem, searchMenuItem, openMenuItem]];
     [[UIMenuController sharedMenuController] update];
     //show on screen command
-    onScreenCommand = [[czzOnScreenCommandViewController alloc] initWithNibName:@"czzOnScreenCommandViewController" bundle:[NSBundle mainBundle]];
-    onScreenCommand.parentViewController = self;
-    [onScreenCommand hide];
-    shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
+//    onScreenCommand = [[czzOnScreenCommandViewController alloc] initWithNibName:@"czzOnScreenCommandViewController" bundle:[NSBundle mainBundle]];
+//    onScreenCommand.parentViewController = self;
+//    [onScreenCommand hide];
+//    shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
     
     //if in foreground, load more threads
     if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground)
@@ -478,9 +480,9 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)aScrollView
 {
-    NSArray *visibleRows = [self.tableView visibleCells];
+    NSArray *visibleRows = [threadTableView visibleCells];
     UITableViewCell *lastVisibleCell = [visibleRows lastObject];
-    NSIndexPath *path = [self.tableView indexPathForCell:lastVisibleCell];
+    NSIndexPath *path = [threadTableView indexPathForCell:lastVisibleCell];
     if(path.row == threads.count && threads.count > 0)
     {
         CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];

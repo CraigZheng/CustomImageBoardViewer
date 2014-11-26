@@ -10,7 +10,7 @@
 #import "czzThread.h"
 #import "IIViewDeckController.h"
 
-@interface czzThreadViewController : UITableViewController
+@interface czzThreadViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic) czzThread *parentThread;
 @property (strong, nonatomic) IBOutlet UITableView *threadTableView;
 @property BOOL shouldHideImageForThisForum;
