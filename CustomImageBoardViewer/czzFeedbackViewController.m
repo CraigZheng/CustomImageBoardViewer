@@ -122,11 +122,17 @@
     
     //assign an input accessory view to it
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    UIBarButtonItem *plusEmotionButton = [[UIBarButtonItem alloc] initWithTitle:@"+1" style:UIBarButtonItemStyleBordered target:self action:@selector(plusAction:)];
-    UIBarButtonItem *minusEmotionButton = [[UIBarButtonItem alloc] initWithTitle:@"-1" style:UIBarButtonItemStyleBordered target:self action:@selector(minusAction:)];
-    UIBarButtonItem *postButton = [[UIBarButtonItem alloc] initWithTitle:@"发表" style:UIBarButtonItemStyleBordered target:self action:@selector(sendAction:)];
-    NSArray *buttons = [NSArray arrayWithObjects: plusEmotionButton, fixedSpace, minusEmotionButton, flexibleSpace, postButton, nil];
+//    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    UIBarButtonItem *plusEmotionButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"happy.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(plusAction:)];
+    UIBarButtonItem *minusEmotionButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sad.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(minusAction:)];
+    UIBarButtonItem *postButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sent.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(sendAction:)];
+    NSArray *buttons = [NSArray arrayWithObjects: flexibleSpace,
+                        plusEmotionButton,
+                        flexibleSpace,
+                        minusEmotionButton,
+                        flexibleSpace,
+                        postButton,
+                        nil];
     toolbar.items = buttons;
     return toolbar;
 }

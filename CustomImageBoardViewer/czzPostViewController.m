@@ -43,22 +43,30 @@
 @synthesize forum;
 @synthesize settingsCentre;
 @synthesize sendingProgressVIew;
+@synthesize fillerBannerView;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.edgesForExtendedLayout = UIRectEdgeNone;
+    fillerBannerView.backgroundColor = postNaviBar.backgroundColor;
     postSender = [czzPostSender new];
     settingsCentre = [czzSettingsCentre sharedInstance];
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
     toolbar.barStyle = UIBarStyleDefault;
     //assign an input accessory view to it
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+//    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     UIBarButtonItem *pickEmojiButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lol.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(pickEmojiAction:)];
     UIBarButtonItem *pickImgButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"picture.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(pickImageAction:)];
     postButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sent.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(postAction:)];
-    NSArray *buttons = [NSArray arrayWithObjects: flexibleSpace, pickEmojiButton, pickImgButton, postButton, nil];
+    NSArray *buttons = [NSArray arrayWithObjects: flexibleSpace,
+                        pickEmojiButton,
+                        flexibleSpace,
+                        pickImgButton,
+                        flexibleSpace,
+                        postButton, nil];
     toolbar.items = buttons;
     postTextView.inputAccessoryView = toolbar;
     // colour

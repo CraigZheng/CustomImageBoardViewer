@@ -33,6 +33,7 @@
 @property (strong, nonatomic) IBOutlet UINavigationBar *postNaviBar;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *postButton;
 @property (weak, nonatomic) IBOutlet UIProgressView *sendingProgressVIew;
+@property (weak, nonatomic) IBOutlet UIView *fillerBannerView;
 
 - (IBAction)postAction:(id)sender;
 - (IBAction)cancelAction:(id)sender;
