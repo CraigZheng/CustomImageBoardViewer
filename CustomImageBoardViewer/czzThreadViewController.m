@@ -712,7 +712,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnFloatingView: )];
     //fade in effect
     containerView.alpha = 0.0f;
-    [self.view addSubview:containerView];
+    [threadTableView addSubview:containerView];
     [UIView animateWithDuration:0.2
                      animations:^{containerView.alpha = 1.0f;}
                      completion:^(BOOL finished){[containerView addGestureRecognizer:tapRecognizer];}];
@@ -720,14 +720,14 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 }
 
 -(void)tapOnFloatingView:(UIGestureRecognizer*)gestureRecognizer{
-    PartialTransparentView *containerView = (PartialTransparentView*)[self.view viewWithTag:OVERLAY_VIEW];
+    PartialTransparentView *containerView = (PartialTransparentView*)[threadTableView viewWithTag:OVERLAY_VIEW];
     [UIView animateWithDuration:0.2 animations:^{
         containerView.alpha = 0.0f;
     } completion:^(BOOL finished){
         [containerView removeFromSuperview];
         //scroll back to the original position
     }];
-    CGPoint touchPoint = [gestureRecognizer locationInView:self.view];
+    CGPoint touchPoint = [gestureRecognizer locationInView:threadTableView];
     NSArray *rectArray = containerView.rectsArray;
     BOOL userTouchInView = NO;
     for (NSValue *rect in rectArray) {
@@ -739,7 +739,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     
     if (!userTouchInView)
         [threadTableView setContentOffset:threadsTableViewContentOffSet animated:YES];
-    self.threadTableView.scrollEnabled = YES;
+    threadTableView.scrollEnabled = YES;
 }
 
 //show image
