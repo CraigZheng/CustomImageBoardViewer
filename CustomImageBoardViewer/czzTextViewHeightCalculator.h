@@ -9,9 +9,11 @@
 #define IMAGE_HEIGHT 100
 
 #import <Foundation/Foundation.h>
+#import "czzThread.h"
+
 
 @interface czzTextViewHeightCalculator : NSObject
 
-+(CGFloat)calculatePerfectHeightForContent:(NSAttributedString*)content inView:(UIView*)view hasImage:(BOOL)has;
++(CGFloat)calculatePerfectHeightForThreadContent:(czzThread*)thread inView:(UIView*)view hasImage:(BOOL)has;
 
 @end

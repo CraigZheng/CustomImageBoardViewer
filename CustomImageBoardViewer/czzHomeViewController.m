@@ -449,7 +449,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         if (indexPath.row < heightsArray.count) {
             preferHeight = [[heightsArray objectAtIndex:indexPath.row] floatValue];
         } else {
-            preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForContent:thread.content inView:self.view hasImage:thread.thImgSrc.length > 0];
+            preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:self.view hasImage:thread.thImgSrc.length > 0];
             preferHeight = MAX(tableView.rowHeight, preferHeight);
             [heightsArray addObject:[NSNumber numberWithFloat:preferHeight]];
         }

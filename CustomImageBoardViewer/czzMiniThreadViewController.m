@@ -96,7 +96,7 @@ static NSString *emptyCellIdenfiier = @"empty_cell_identifier";
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat preferHeight = tableView.rowHeight;
-    preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForContent:myThread.content inView:self.view hasImage:myThread.thImgSrc.length > 0];
+    preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:myThread.content inView:self.view hasImage:myThread.thImgSrc.length > 0];
     preferHeight = MAX(tableView.rowHeight, preferHeight);
     rowSize = CGSizeMake(self.view.frame.size.width, preferHeight);
 

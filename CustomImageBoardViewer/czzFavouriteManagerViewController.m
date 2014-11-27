@@ -123,7 +123,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     
     CGFloat preferHeight = tableView.rowHeight;
     if (thread){
-        preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForContent:thread.content inView:self.view hasImage:thread.thImgSrc.length > 0];
+        preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread.content inView:self.view hasImage:thread.thImgSrc.length > 0];
         preferHeight = MAX(tableView.rowHeight, preferHeight);
 
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
@@ -16,8 +16,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="119"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" tag="9" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="3HO-Hu-PUf">
-                        <rect key="frame" x="0.0" y="0.0" width="312" height="167.5"/>
+                    <imageView clipsSubviews="YES" tag="9" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="3HO-Hu-PUf">
+                        <rect key="frame" x="0.0" y="0.0" width="312" height="168"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="3HO-Hu-PUf" secondAttribute="height" multiplier="3:1" priority="750" id="8uF-8Z-1cN"/>
                             <constraint firstAttribute="width" constant="80" id="iSY-L8-usO"/>
@@ -30,7 +30,7 @@
                         </variation>
                     </imageView>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NO" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zcJ-Iq-ivZ">
-                        <rect key="frame" x="3" y="1" width="16.5" height="13"/>
+                        <rect key="frame" x="3" y="1" width="17" height="13"/>
                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                         <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -54,7 +54,7 @@
                         <size key="shadowOffset" width="1" height="1"/>
                     </label>
                     <textView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Content" translatesAutoresizingMaskIntoConstraints="NO" id="oML-xg-Zfq" customClass="czzNoSelectionTextView">
-                        <rect key="frame" x="0.0" y="13" width="320" height="35.5"/>
+                        <rect key="frame" x="0.0" y="13" width="320" height="36"/>
                         <constraints>
                             <constraint firstAttribute="height" priority="250" constant="26" id="6Qy-Et-6aq"/>
                         </constraints>

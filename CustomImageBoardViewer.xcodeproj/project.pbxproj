@@ -177,6 +177,11 @@
 		44CF25531A25A2A500BD8228 /* sent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25471A25A2A500BD8228 /* sent@2x.png */; };
 		44CF25541A25A2A500BD8228 /* sent@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25481A25A2A500BD8228 /* sent@3x.png */; };
 		44CF255F1A2699D000BD8228 /* OnScreenCommand.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44CF255E1A2699D000BD8228 /* OnScreenCommand.storyboard */; };
+		44CF25671A26B4D000BD8228 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25611A26B4D000BD8228 /* .gitignore */; };
+		44CF25681A26B4D000BD8228 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25621A26B4D000BD8228 /* LICENSE */; };
+		44CF25691A26B4D000BD8228 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 44CF25631A26B4D000BD8228 /* README.md */; };
+		44CF256A1A26B4D000BD8228 /* UIView+MGBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CF25651A26B4D000BD8228 /* UIView+MGBadgeView.m */; };
+		44CF256B1A26B4D000BD8228 /* UIView+MGBadgeView.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25661A26B4D000BD8228 /* UIView+MGBadgeView.podspec */; };
 		44E791811A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */; };
 		44E791CD1A17856500A63C04 /* advance.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918D1A17856500A63C04 /* advance.png */; };
 		44E791CE1A17856500A63C04 /* advance@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918E1A17856500A63C04 /* advance@2x.png */; };
@@ -611,6 +616,12 @@
 		44CF25471A25A2A500BD8228 /* sent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sent@2x.png"; sourceTree = "<group>"; };
 		44CF25481A25A2A500BD8228 /* sent@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sent@3x.png"; sourceTree = "<group>"; };
 		44CF255E1A2699D000BD8228 /* OnScreenCommand.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OnScreenCommand.storyboard; sourceTree = "<group>"; };
+		44CF25611A26B4D000BD8228 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		44CF25621A26B4D000BD8228 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		44CF25631A26B4D000BD8228 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		44CF25641A26B4D000BD8228 /* UIView+MGBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MGBadgeView.h"; sourceTree = "<group>"; };
+		44CF25651A26B4D000BD8228 /* UIView+MGBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MGBadgeView.m"; sourceTree = "<group>"; };
+		44CF25661A26B4D000BD8228 /* UIView+MGBadgeView.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "UIView+MGBadgeView.podspec"; sourceTree = "<group>"; };
 		44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NotificationCentreStoryBoard.storyboard; sourceTree = "<group>"; };
 		44E7918D1A17856500A63C04 /* advance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = advance.png; sourceTree = "<group>"; };
 		44E7918E1A17856500A63C04 /* advance@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "advance@2x.png"; sourceTree = "<group>"; };
@@ -941,6 +952,7 @@
 				5AA5B6C419A963FA00DCC3DA /* GoogldAdmob */,
 				44C34544187E59AC00FDE45D /* KNSemiModal */,
 				4412FA161935865C00681438 /* Reachability */,
+				44CF25601A26B4D000BD8228 /* UIView-MGBadgeView-master */,
 				442A8FC919DB7E0000A3516E /* MWPhotoBrowser */,
 				5A3897CA1935EC5A00D20DA1 /* NSString+HTML */,
 				442A900E19DB9BA600A3516E /* Objective-C-HMTL-Parser */,
@@ -1538,6 +1550,19 @@
 			name = czzThreadCacheManager;
 			sourceTree = "<group>";
 		};
+		44CF25601A26B4D000BD8228 /* UIView-MGBadgeView-master */ = {
+			isa = PBXGroup;
+			children = (
+				44CF25611A26B4D000BD8228 /* .gitignore */,
+				44CF25621A26B4D000BD8228 /* LICENSE */,
+				44CF25631A26B4D000BD8228 /* README.md */,
+				44CF25641A26B4D000BD8228 /* UIView+MGBadgeView.h */,
+				44CF25651A26B4D000BD8228 /* UIView+MGBadgeView.m */,
+				44CF25661A26B4D000BD8228 /* UIView+MGBadgeView.podspec */,
+			);
+			path = "UIView-MGBadgeView-master";
+			sourceTree = "<group>";
+		};
 		44E7918C1A17856500A63C04 /* icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -1853,8 +1878,10 @@
 				44C34557187E6CF000FDE45D /* sougo_emoji_UTF16.txt in Resources */,
 				44E792081A17856500A63C04 /* upload@2x.png in Resources */,
 				44CF254F1A25A2A500BD8228 /* lol@2x.png in Resources */,
+				44CF25681A26B4D000BD8228 /* LICENSE in Resources */,
 				44E791D91A17856500A63C04 /* delete@3x.png in Resources */,
 				44E791F31A17856500A63C04 /* sad@2x.png in Resources */,
+				44CF25671A26B4D000BD8228 /* .gitignore in Resources */,
 				44E791FE1A17856500A63C04 /* sleeping.png in Resources */,
 				44E791EA1A17856500A63C04 /* message@2x.png in Resources */,
 				44F8DE5E1803900100B6D3B0 /* Icon-72.png in Resources */,
@@ -1873,6 +1900,7 @@
 				44E791CD1A17856500A63C04 /* advance.png in Resources */,
 				44E791CE1A17856500A63C04 /* advance@2x.png in Resources */,
 				44CF254B1A25A2A500BD8228 /* lol.png in Resources */,
+				44CF256B1A26B4D000BD8228 /* UIView+MGBadgeView.podspec in Resources */,
 				44E792061A17856500A63C04 /* star@3x.png in Resources */,
 				44CF25521A25A2A500BD8228 /* picture@3x.png in Resources */,
 				44CF25501A25A2A500BD8228 /* lol@3x.png in Resources */,
@@ -1992,6 +2020,7 @@
 				442A8FA619DB7DF200A3516E /* MWTapDetectingView.m in Sources */,
 				441E5D0D17F4699400289DBD /* IIViewDeckController.m in Sources */,
 				446CC58219DC2BDE009BF24E /* czzHTMLParserViewController.m in Sources */,
+				44CF25691A26B4D000BD8228 /* README.md in Sources */,
 				5A1593EC18E71E93001A774B /* czzThreadRefButton.m in Sources */,
 				443B54E31990BD3300BAB282 /* string_piece.c in Sources */,
 				44C34550187E616500FDE45D /* czzEmojiCollectionViewController.m in Sources */,
@@ -2031,6 +2060,7 @@
 				441E5E5417F52DEF00289DBD /* czzThreadViewController.m in Sources */,
 				441E5CE817F4691300289DBD /* czzHomeViewController.m in Sources */,
 				5A2B2D941936264A00BA2870 /* czzFeedbackViewController.m in Sources */,
+				44CF256A1A26B4D000BD8228 /* UIView+MGBadgeView.m in Sources */,
 				4448C2A3180FF50F00D2CD76 /* czzBlacklistEntity.m in Sources */,
 				442A8FF419DB7F5400A3516E /* SDWebImageDownloaderOperation.m in Sources */,
 				442A8FFA19DB7F5400A3516E /* UIImage+WebP.m in Sources */,
