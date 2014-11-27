@@ -865,7 +865,6 @@
                     <navigationItem key="navigationItem" title="设置" id="JWX-v1-yiZ"/>
                     <connections>
                         <outlet property="settingsTableView" destination="4iw-Az-V4Y" id="rJt-Ut-zFe"/>
-                        <segue destination="UtT-rg-rkQ" kind="push" identifier="go_image_manager_view_controller_segue" id="SQI-CG-pkS"/>
                         <segue destination="aOD-Hr-NEd" kind="push" identifier="go_favourite_manager_view_controller_segue" id="90f-dH-dau"/>
                     </connections>
                 </viewController>
@@ -1035,69 +1034,6 @@
             </objects>
             <point key="canvasLocation" x="320" y="394"/>
         </scene>
-        <!--Czz Image Manager View Controller-->
-        <scene sceneID="S9t-EU-S0P">
-            <objects>
-                <collectionViewController autoresizesArchivedViewToFullSize="NO" id="UtT-rg-rkQ" customClass="czzImageManagerViewController" sceneMemberID="viewController">
-                    <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="3Pd-Re-4tC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="AcE-4X-P4B">
-                            <size key="itemSize" width="103.5" height="103.5"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        </collectionViewFlowLayout>
-                        <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="preview_image_cell_identifier" id="l8N-KP-1LJ">
-                                <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="104" height="104"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="tM4-2y-3Sd">
-                                            <rect key="frame" x="0.0" y="0.0" width="104" height="104"/>
-                                        </imageView>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="tM4-2y-3Sd" secondAttribute="trailing" id="8hs-JT-oq4"/>
-                                    <constraint firstItem="tM4-2y-3Sd" firstAttribute="leading" secondItem="l8N-KP-1LJ" secondAttribute="leading" id="Mjl-F3-dJ0"/>
-                                    <constraint firstAttribute="bottom" secondItem="tM4-2y-3Sd" secondAttribute="bottom" id="PgB-Dj-cyF"/>
-                                    <constraint firstItem="tM4-2y-3Sd" firstAttribute="top" secondItem="l8N-KP-1LJ" secondAttribute="top" id="Sy9-fI-HcK"/>
-                                </constraints>
-                            </collectionViewCell>
-                        </cells>
-                        <connections>
-                            <outlet property="dataSource" destination="UtT-rg-rkQ" id="Zpj-TJ-yYR"/>
-                            <outlet property="delegate" destination="UtT-rg-rkQ" id="WPy-Jc-bNE"/>
-                        </connections>
-                    </collectionView>
-                    <navigationItem key="navigationItem" id="Piv-Oe-J9a">
-                        <nil key="title"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="9Xs-Ij-wec">
-                            <rect key="frame" x="70" y="7" width="180" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <segments>
-                                <segment title="全部"/>
-                                <segment title="大图"/>
-                                <segment title="缩图"/>
-                            </segments>
-                            <connections>
-                                <action selector="gallarySegmentControlAction:" destination="UtT-rg-rkQ" eventType="valueChanged" id="XDj-VF-kDW"/>
-                            </connections>
-                        </segmentedControl>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="gallarySegmentControl" destination="9Xs-Ij-wec" id="HY0-nv-w2n"/>
-                    </connections>
-                </collectionViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kmA-Kv-ukL" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1425" y="-1334.1549295774644"/>
-        </scene>
         <!--收藏-->
         <scene sceneID="G2X-MF-sFX">
             <objects>
@@ -1185,7 +1121,6 @@
     </scenes>
     <resources>
         <image name="Icon-40.png" width="40" height="40"/>
-        <image name="Icon.png" width="57" height="57"/>
         <image name="advance.png" width="20" height="20"/>
         <image name="bookmark.png" width="20" height="20"/>
         <image name="delete.png" width="20" height="20"/>

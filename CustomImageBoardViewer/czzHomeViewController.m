@@ -185,6 +185,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     //check if should show a badget on settings button
     if (!settingsBarButton.customView) {
         UIButton *customImageButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+        [customImageButton addTarget:self action:@selector(openSettingsPanel) forControlEvents:UIControlEventTouchUpInside];
         [customImageButton setImage:[[UIImage imageNamed:@"settings.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         settingsBarButton.customView = customImageButton;
     }

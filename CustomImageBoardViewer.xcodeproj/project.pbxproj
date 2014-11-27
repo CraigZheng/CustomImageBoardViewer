@@ -1373,6 +1373,8 @@
 		444146DF1A1ACA9700B27D69 /* ImageManager */ = {
 			isa = PBXGroup;
 			children = (
+				44B96E31185B8B8100D664A4 /* czzImageManagerViewController.h */,
+				44B96E32185B8B8100D664A4 /* czzImageManagerViewController.m */,
 				444146D91A1ACA8700B27D69 /* ImageManagerStoryboard.storyboard */,
 				444146E01A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.h */,
 				444146E11A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.m */,
@@ -1498,8 +1500,6 @@
 		44B96E34185B8B9300D664A4 /* czzImageManagerViewCon */ = {
 			isa = PBXGroup;
 			children = (
-				44B96E31185B8B8100D664A4 /* czzImageManagerViewController.h */,
-				44B96E32185B8B8100D664A4 /* czzImageManagerViewController.m */,
 			);
 			name = czzImageManagerViewCon;
 			sourceTree = "<group>";

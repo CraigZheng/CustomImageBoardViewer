@@ -126,7 +126,9 @@
         NSString *command = [regularCommands objectAtIndex:indexPath.row];
         if ([command isEqualToString:@"图片管理器"]){
             //图片管理器
-            [self performSegueWithIdentifier:@"go_image_manager_view_controller_segue" sender:self];
+            UIViewController *viewController = [[UIStoryboard storyboardWithName:@"ImageManagerStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:@"image_manager_view_controller"];
+            [self.navigationController pushViewController:viewController animated:YES];
+//            [self performSegueWithIdentifier:@"go_image_manager_view_controller_segue" sender:self];
         } else if ([command isEqualToString:@"清除ID信息"]){
             //清除ID信息
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"清除ID信息" message:@"确定要清除所有ID信息？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];

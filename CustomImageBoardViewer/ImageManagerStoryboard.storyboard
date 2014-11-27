@@ -65,8 +65,106 @@
             </objects>
             <point key="canvasLocation" x="584" y="299"/>
         </scene>
+        <!--Collection View Controller-->
+        <scene sceneID="Xdi-TE-DrG">
+            <objects>
+                <collectionViewController id="A65-Te-ZXR" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="cdn-yQ-ZB2">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="6xQ-OH-dq0">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="MLB-z7-1Fc">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="A65-Te-ZXR" id="0LQ-OS-sE7"/>
+                            <outlet property="delegate" destination="A65-Te-ZXR" id="vJ1-GF-SlQ"/>
+                        </connections>
+                    </collectionView>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Oox-E2-shA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="982" y="380"/>
+        </scene>
+        <!--Czz Image Manager View Controller-->
+        <scene sceneID="voG-ze-gpR">
+            <objects>
+                <collectionViewController storyboardIdentifier="image_manager_view_controller" autoresizesArchivedViewToFullSize="NO" id="d0D-be-S8i" customClass="czzImageManagerViewController" sceneMemberID="viewController">
+                    <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="o2N-tm-AAs">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="mDB-NB-XSP">
+                            <size key="itemSize" width="103.5" height="103.5"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="preview_image_cell_identifier" id="prs-wx-5QU">
+                                <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="103.5" height="103.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="qbE-Zj-WoM">
+                                            <rect key="frame" x="0.0" y="0.0" width="104" height="104"/>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <constraints>
+                                    <constraint firstItem="qbE-Zj-WoM" firstAttribute="top" secondItem="prs-wx-5QU" secondAttribute="top" id="5Pb-SA-R7C"/>
+                                    <constraint firstAttribute="trailing" secondItem="qbE-Zj-WoM" secondAttribute="trailing" id="feh-8a-WWp"/>
+                                    <constraint firstAttribute="bottom" secondItem="qbE-Zj-WoM" secondAttribute="bottom" id="oaX-l7-Jxd"/>
+                                    <constraint firstItem="qbE-Zj-WoM" firstAttribute="leading" secondItem="prs-wx-5QU" secondAttribute="leading" id="wmL-Jm-jcD"/>
+                                </constraints>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="d0D-be-S8i" id="Yfh-xf-V6K"/>
+                            <outlet property="delegate" destination="d0D-be-S8i" id="g7j-eI-Lsu"/>
+                        </connections>
+                    </collectionView>
+                    <navigationItem key="navigationItem" id="E1F-vR-9b9">
+                        <nil key="title"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="73D-MH-GBf">
+                            <rect key="frame" x="70" y="7" width="180" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="全部"/>
+                                <segment title="大图"/>
+                                <segment title="缩图"/>
+                            </segments>
+                            <connections>
+                                <action selector="gallarySegmentControlAction:" destination="d0D-be-S8i" eventType="valueChanged" id="MvU-Ds-1lS"/>
+                            </connections>
+                        </segmentedControl>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="gallarySegmentControl" destination="73D-MH-GBf" id="Axx-ON-IH2"/>
+                    </connections>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="10j-lv-6c8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="877" y="-641"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Icon-40.png" width="40" height="40"/>
+        <image name="Icon.png" width="57" height="57"/>
     </resources>
 </document>
