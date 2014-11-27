@@ -54,6 +54,7 @@
 @property BOOL viewControllerNotInTransition;
 @property czzImageViewerUtil *imageViewerUtil;
 @property UIRefreshControl* refreshControl;
+@property UIBarButtonItem *numberBarButton;
 @end
 
 @implementation czzHomeViewController
@@ -83,6 +84,8 @@
 @synthesize menuBarButton;
 @synthesize infoBarButton;
 @synthesize onScreenImageManagerViewContainer;
+@synthesize numberBarButton;
+@synthesize forumListButton;
 @synthesize refreshControl;
 
 static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
@@ -552,14 +555,28 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         [refreshControl endRefreshing];
         [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
         [threadTableView reloadData];
-
+        [self updateNumberButton];
     });
 }
 
--(void)messageProcessed:(NSString *)title :(NSString *)message :(NSInteger)howLong{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[[czzAppDelegate sharedAppDelegate] window] makeToast:message duration:howLong position:@"center" title:title];
-    });
+-(void)updateNumberButton {
+    UIButton *numberButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    numberButton.frame = CGRectMake(numberButton.frame.origin.x, numberButton.frame.origin.y, 20, 20);
+    numberButton.layer.cornerRadius = 10;
+    numberButton.titleLabel.font = [UIFont boldSystemFontOfSize:12];
+    numberButton.backgroundColor = [UIColor orangeColor];
+
+    if (!numberBarButton) {
+        numberBarButton = [[UIBarButtonItem alloc] initWithCustomView:numberButton];
+    } else
+        numberBarButton.customView = numberButton;
+
+    [numberButton setTitle:[NSString stringWithFormat:@"%ld", (long) threads.count] forState:UIControlStateNormal];
+    if (threads.count <= 0)
+        numberButton.hidden = YES;
+    else
+        numberButton.hidden = NO;
+    self.navigationItem.leftBarButtonItems = @[forumListButton, numberBarButton];
 }
 
 #pragma Notification handler - forumPicked

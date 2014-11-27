@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *menuBarButton;
 @property UIBarButtonItem *infoBarButton;
 @property (weak, nonatomic) IBOutlet UIView *onScreenImageManagerViewContainer;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *forumListButton;
 
 - (IBAction)sideButtonAction:(id)sender;
 - (IBAction)moreAction:(id)sender;

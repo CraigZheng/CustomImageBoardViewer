@@ -1021,6 +1021,7 @@
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
+                        <outlet property="forumListButton" destination="8WD-yv-VRu" id="4fY-cT-lxa"/>
                         <outlet property="menuBarButton" destination="DSK-Nh-2gx" id="QeK-nC-MEP"/>
                         <outlet property="onScreenImageManagerViewContainer" destination="Js0-yW-ln4" id="RGH-rd-G71"/>
                         <outlet property="threadTableView" destination="l2k-8P-m8U" id="5yI-la-cPn"/>
@@ -1051,7 +1052,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="103.5" height="103.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="104" height="104"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="tM4-2y-3Sd">
@@ -1199,8 +1200,8 @@
         <image name="upload.png" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="vK6-NU-jzp"/>
-        <segue reference="vj6-ho-19y"/>
+        <segue reference="Uep-8w-iun"/>
         <segue reference="DWL-6t-CEf"/>
+        <segue reference="5Fw-Ve-fjP"/>
     </inferredMetricsTieBreakers>
 </document>
