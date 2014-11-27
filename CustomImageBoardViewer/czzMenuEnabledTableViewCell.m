@@ -61,11 +61,13 @@
     //apply shadow and radius to background view
     threadContentView.layer.masksToBounds = NO;
     threadContentView.layer.cornerRadius = 5;
-    threadContentView.layer.shadowOffset = CGSizeMake(1, 1);
-    threadContentView.layer.shadowRadius = 5;
-    threadContentView.layer.shadowOpacity = 0.3;
-    threadContentView.layer.shadowColor = [UIColor darkGrayColor].CGColor;
-
+//    threadContentView.layer.shadowOffset = CGSizeMake(1, 1);
+//    threadContentView.layer.shadowRadius = 5;
+//    threadContentView.layer.shadowOpacity = 0.3;
+//    threadContentView.layer.shadowColor = [UIColor darkGrayColor].CGColor;
+//    
+//    UIBezierPath *path = [UIBezierPath bezierPathWithRect:threadContentView.bounds];
+//    threadContentView.layer.shadowPath = path.CGPath;
 }
 
 -(BOOL)canPerformAction:(SEL)action withSender:(id)sender{
@@ -93,7 +95,7 @@
     lockLabel.hidden = YES;
     responseLabel.hidden = YES;
     
-//    self.contentView.backgroundColor = [UIColor clearColor];
+//    self.contentView.backgroundColor = [UIColor whiteColor];
     posterLabel.backgroundColor = [UIColor whiteColor];
     self.backgroundColor = [UIColor whiteColor];
     if (settingsCentre.nightyMode)
