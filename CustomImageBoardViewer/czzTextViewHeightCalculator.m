@@ -9,6 +9,7 @@
 #import "czzTextViewHeightCalculator.h"
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzSettingsCentre.h"
+#import "czzAppDelegate.h"
 
 @implementation czzTextViewHeightCalculator
 
@@ -29,13 +30,17 @@
         if ([[czzSettingsCentre sharedInstance] userDefShouldUseBigImage])
         {
             CGFloat shortEdge = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
-            /*
-             NSString *filePath = [thumbnailFolder stringByAppendingPathComponent:[myThread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
-             UIImage *previewImage =[[UIImage alloc] initWithContentsOfFile:filePath];
-             */
             
+            NSString *filePath = [[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:[thread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
+            UIImage *previewImage =[[UIImage alloc] initWithContentsOfFile:filePath];
+             
+            if (previewImage) {
+                CGFloat imgShortEdge = MIN(previewImage.size.height, previewImage.size.width);
+                CGFloat imgLongEdge = MAX(previewImage.size.height, previewImage.size.width);
+//                preferHeight = MAX(shortEdge / 1.3, preferHeight);
+                preferHeight += shortEdge * (imgShortEdge / imgLongEdge);
+            }
             
-            preferHeight = MAX(shortEdge / 1.3, preferHeight);
         }
         else
             preferHeight += IMAGE_HEIGHT;
