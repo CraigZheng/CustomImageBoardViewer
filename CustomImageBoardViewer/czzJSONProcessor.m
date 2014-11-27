@@ -33,7 +33,8 @@
     NSArray* parsedThreadData = [[parsedObjects objectForKey:@"data"] objectForKey:@"threads"];
     for (NSDictionary *rawThreadData in parsedThreadData) {
         czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
-        [processedThreads addObject:newThread];
+        if (newThread)
+            [processedThreads addObject:newThread];
     }
     if (delegate)
         [delegate threadListProcessed:processedThreads :YES];
