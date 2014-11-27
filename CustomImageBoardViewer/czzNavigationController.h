@@ -14,6 +14,4 @@
 @property czzNotificationBannerViewController *notificationBannerViewController;
 @property czzOnScreenImageManagerViewController *onScreenImageManagerView;
 
--(void)showNotificationBanner;
--(void)hideNotificationBanner;
 @end

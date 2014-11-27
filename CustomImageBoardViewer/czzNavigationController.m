@@ -27,8 +27,8 @@
     frame = CGRectMake(0, 0, self.navigationBar.frame.size.width, self.navigationBar.frame.size.height);
     notificationBannerViewController.view.frame = frame;
     notificationBannerViewController.homeViewController = self;
-    [self.navigationBar addSubview:notificationBannerViewController.view];
-    [self showNotificationBanner];
+//    [notificationBannerViewController hide];
+//    [self.navigationBar addSubview:notificationBannerViewController.view];
     
     
     //create on screen command if nil
@@ -39,25 +39,5 @@
     
 }
 
--(void)showNotificationBanner {
-    if ([notificationBannerViewController shouldShow]) {
-        [notificationBannerViewController show];
-        [self.view bringSubviewToFront:notificationBannerViewController.view];
-    } else {
-        [self hideNotificationBanner];
-    }
-}
 
--(void)hideNotificationBanner {
-    [notificationBannerViewController hide];
-//    notificationBannerViewController.view.hidden = YES;
-}
-
--(void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
-    if ([viewController isKindOfClass:[czzHomeViewController class]]) {
-        [self showNotificationBanner];
-    } else {
-        [self hideNotificationBanner];
-    }
-}
 @end

@@ -28,11 +28,13 @@
 #import "czzImageViewerUtil.h"
 #import "czzNavigationController.h"
 #import "czzOnScreenImageManagerViewController.h"
+#import "UIBarButtonItem+Badge.h"
+
 #import <CoreText/CoreText.h>
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****"
 
-@interface czzHomeViewController ()<czzXMLDownloaderDelegate, /*czzXMLProcessorDelegate,*/ czzJSONProcessorDelegate, UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol>
+@interface czzHomeViewController() <czzXMLDownloaderDelegate, /*czzXMLProcessorDelegate,*/ czzJSONProcessorDelegate, UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol>
 @property czzXMLDownloader *xmlDownloader;
 @property NSInteger currentPage;
 @property NSString *baseURLString;
@@ -87,6 +89,7 @@
 @synthesize numberBarButton;
 @synthesize forumListButton;
 @synthesize refreshControl;
+@synthesize settingsBarButton;
 
 static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
 static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
@@ -158,9 +161,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [onScreenCommandViewController show];
-
-    //show banner
-    [(czzNavigationController*) self.navigationController showNotificationBanner];
     
     viewControllerNotInTransition = YES;
     shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
@@ -182,12 +182,23 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
             }
         }
     });
+    //check if should show a badget on settings button
+    if (!settingsBarButton.customView) {
+        UIButton *customImageButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+        [customImageButton setImage:[[UIImage imageNamed:@"settings.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        settingsBarButton.customView = customImageButton;
+    }
+    if ([(czzNavigationController*)self.navigationController notificationBannerViewController].needsToBePresented) {
+        settingsBarButton.badgeValue = @"1";
+    } else {
+        settingsBarButton.badgeValue = nil;
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     viewControllerNotInTransition = NO;
-    [(czzNavigationController*) self.navigationController hideNotificationBanner];
+
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ImageDownloaded" object:nil];
 //    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ImageDownloaderProgressUpdated" object:nil];
     [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
@@ -561,9 +572,9 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 -(void)updateNumberButton {
     UIButton *numberButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    numberButton.frame = CGRectMake(numberButton.frame.origin.x, numberButton.frame.origin.y, 20, 20);
-    numberButton.layer.cornerRadius = 10;
-    numberButton.titleLabel.font = [UIFont boldSystemFontOfSize:12];
+    numberButton.frame = CGRectMake(numberButton.frame.origin.x, numberButton.frame.origin.y, 24, 24);
+    numberButton.layer.cornerRadius = 12;
+    numberButton.titleLabel.font = [UIFont systemFontOfSize:11];
     numberButton.backgroundColor = [UIColor orangeColor];
 
     if (!numberBarButton) {

@@ -1024,6 +1024,7 @@
                         <outlet property="forumListButton" destination="8WD-yv-VRu" id="4fY-cT-lxa"/>
                         <outlet property="menuBarButton" destination="DSK-Nh-2gx" id="QeK-nC-MEP"/>
                         <outlet property="onScreenImageManagerViewContainer" destination="Js0-yW-ln4" id="RGH-rd-G71"/>
+                        <outlet property="settingsBarButton" destination="T1x-La-d5b" id="pgG-ZV-6rj"/>
                         <outlet property="threadTableView" destination="l2k-8P-m8U" id="5yI-la-cPn"/>
                         <segue destination="aOD-Hr-NEd" kind="push" identifier="go_favourite_manager_view_controller_segue" id="DWL-6t-CEf"/>
                         <segue destination="4fE-Ef-JB7" kind="push" identifier="go_search_view_segue" id="Uep-8w-iun"/>

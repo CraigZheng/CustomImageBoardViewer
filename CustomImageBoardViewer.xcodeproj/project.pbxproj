@@ -182,6 +182,8 @@
 		44CF25691A26B4D000BD8228 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 44CF25631A26B4D000BD8228 /* README.md */; };
 		44CF256A1A26B4D000BD8228 /* UIView+MGBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CF25651A26B4D000BD8228 /* UIView+MGBadgeView.m */; };
 		44CF256B1A26B4D000BD8228 /* UIView+MGBadgeView.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25661A26B4D000BD8228 /* UIView+MGBadgeView.podspec */; };
+		44CF25711A26F2E700BD8228 /* UIBarButtonItem+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CF256E1A26F2E700BD8228 /* UIBarButtonItem+Badge.m */; };
+		44CF25721A26F2E700BD8228 /* UIButton+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CF25701A26F2E700BD8228 /* UIButton+Badge.m */; };
 		44E791811A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */; };
 		44E791CD1A17856500A63C04 /* advance.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918D1A17856500A63C04 /* advance.png */; };
 		44E791CE1A17856500A63C04 /* advance@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918E1A17856500A63C04 /* advance@2x.png */; };
@@ -622,6 +624,10 @@
 		44CF25641A26B4D000BD8228 /* UIView+MGBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MGBadgeView.h"; sourceTree = "<group>"; };
 		44CF25651A26B4D000BD8228 /* UIView+MGBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MGBadgeView.m"; sourceTree = "<group>"; };
 		44CF25661A26B4D000BD8228 /* UIView+MGBadgeView.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "UIView+MGBadgeView.podspec"; sourceTree = "<group>"; };
+		44CF256D1A26F2E700BD8228 /* UIBarButtonItem+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Badge.h"; sourceTree = "<group>"; };
+		44CF256E1A26F2E700BD8228 /* UIBarButtonItem+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Badge.m"; sourceTree = "<group>"; };
+		44CF256F1A26F2E700BD8228 /* UIButton+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Badge.h"; sourceTree = "<group>"; };
+		44CF25701A26F2E700BD8228 /* UIButton+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Badge.m"; sourceTree = "<group>"; };
 		44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NotificationCentreStoryBoard.storyboard; sourceTree = "<group>"; };
 		44E7918D1A17856500A63C04 /* advance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = advance.png; sourceTree = "<group>"; };
 		44E7918E1A17856500A63C04 /* advance@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "advance@2x.png"; sourceTree = "<group>"; };
@@ -952,6 +958,7 @@
 				5AA5B6C419A963FA00DCC3DA /* GoogldAdmob */,
 				44C34544187E59AC00FDE45D /* KNSemiModal */,
 				4412FA161935865C00681438 /* Reachability */,
+				44CF256C1A26F2E700BD8228 /* UIBarButton-Badge */,
 				44CF25601A26B4D000BD8228 /* UIView-MGBadgeView-master */,
 				442A8FC919DB7E0000A3516E /* MWPhotoBrowser */,
 				5A3897CA1935EC5A00D20DA1 /* NSString+HTML */,
@@ -1563,6 +1570,17 @@
 			path = "UIView-MGBadgeView-master";
 			sourceTree = "<group>";
 		};
+		44CF256C1A26F2E700BD8228 /* UIBarButton-Badge */ = {
+			isa = PBXGroup;
+			children = (
+				44CF256D1A26F2E700BD8228 /* UIBarButtonItem+Badge.h */,
+				44CF256E1A26F2E700BD8228 /* UIBarButtonItem+Badge.m */,
+				44CF256F1A26F2E700BD8228 /* UIButton+Badge.h */,
+				44CF25701A26F2E700BD8228 /* UIButton+Badge.m */,
+			);
+			path = "UIBarButton-Badge";
+			sourceTree = "<group>";
+		};
 		44E7918C1A17856500A63C04 /* icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -2105,7 +2123,9 @@
 				443B54E51990BD3300BAB282 /* tokenizer.c in Sources */,
 				442A8FA319DB7DF200A3516E /* MWPhoto.m in Sources */,
 				440B2FBD17F7C5DC00544926 /* czzRightSideViewController.m in Sources */,
+				44CF25721A26F2E700BD8228 /* UIButton+Badge.m in Sources */,
 				442A8FA919DB7DF200A3516E /* MBProgressHUD.m in Sources */,
+				44CF25711A26F2E700BD8228 /* UIBarButtonItem+Badge.m in Sources */,
 				443B54ED1990BD3300BAB282 /* OGElement.m in Sources */,
 				443B54DF1990BD3300BAB282 /* char_ref.c in Sources */,
 				443B54EC1990BD3300BAB282 /* OGDocument.m in Sources */,
