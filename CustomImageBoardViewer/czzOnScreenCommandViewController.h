@@ -9,13 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface czzOnScreenCommandViewController : UIViewController
-@property (strong, nonatomic) IBOutlet UIView *backgroundView;
+@property (weak, nonatomic) IBOutlet UIButton *upperButton;
 
-@property (strong, nonatomic) IBOutlet UIButton *bottomButton;
-@property (strong, nonatomic) IBOutlet UIButton *upperButton;
+@property (weak, nonatomic) IBOutlet UIButton *bottomButton;
 @property CGSize size;
 @property NSTimeInterval timeoutInterval;
-@property (nonatomic) UIViewController *parentViewController;
 - (IBAction)upButtonAction:(id)sender;
 - (IBAction)bottomButtonAction:(id)sender;
 

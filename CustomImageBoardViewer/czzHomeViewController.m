@@ -139,9 +139,9 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [threadTableView addSubview: refreshControl];
     
     //onscreen command
-//    onScreenCommandViewController = [[czzOnScreenCommandViewController alloc] initWithNibName:@"czzOnScreenCommandViewController" bundle:[NSBundle mainBundle]];
+    onScreenCommandViewController = [[UIStoryboard storyboardWithName:@"OnScreenCommand" bundle:nil] instantiateInitialViewController];
 //    onScreenCommandViewController.parentViewController = self;
-//    [onScreenCommandViewController hide];
+    [self addChildViewController:onScreenCommandViewController];
     
     //on screen image manager view
     czzOnScreenImageManagerViewController *onScreenImgMrg = [(czzNavigationController*)self.navigationController onScreenImageManagerView];
@@ -154,6 +154,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    [onScreenCommandViewController show];
+
     //show banner
     [(czzNavigationController*) self.navigationController showNotificationBanner];
     

@@ -11,33 +11,27 @@
 
 @interface czzOnScreenCommandViewController ()
 @property NSTimer *timeoutTimer;
-@property UIView* parentView;
 @end
 
 @implementation czzOnScreenCommandViewController
 @synthesize upperButton;
 @synthesize bottomButton;
-@synthesize backgroundView;
-@synthesize parentViewController;
 @synthesize timeoutInterval;
 @synthesize timeoutTimer;
-@synthesize parentView;
 @synthesize size;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     timeoutInterval = 2.0;
-    size = CGSizeMake(60, 120);
-//    [self giveViewRoundCornersAndShadow:backgroundView.layer];
+    [self giveViewRoundCornersAndShadow:self.view.layer];
     [self giveViewRoundCornersAndShadow:upperButton.layer];
     [self giveViewRoundCornersAndShadow:bottomButton.layer];
     upperButton.layer.backgroundColor = [UIColor clearColor].CGColor;
     bottomButton.layer.backgroundColor = [UIColor clearColor].CGColor;
-    parentView = [[[czzAppDelegate sharedAppDelegate].window subviews] objectAtIndex:0];
-//    parentView = [czzAppDelegate sharedAppDelegate].window;
-//    [self updateFrame];
-
+    self.view.frame = CGRectMake(0, 0, 60, 120);
+    self.view.backgroundColor = [UIColor clearColor];
 }
 
 -(void)giveViewRoundCornersAndShadow:(CALayer*) layer{
@@ -52,8 +46,8 @@
 
 - (IBAction)upButtonAction:(id)sender {
     SEL scrollToTopSelector = NSSelectorFromString(@"scrollTableViewToTop");
-    if (parentViewController && [parentViewController respondsToSelector:scrollToTopSelector]) {
-        [parentViewController performSelector:scrollToTopSelector];
+    if (self.parentViewController && [self.parentViewController respondsToSelector:scrollToTopSelector]) {
+        [self.parentViewController performSelector:scrollToTopSelector];
     }
     [self updateTimer];
 
@@ -61,27 +55,30 @@
 
 - (IBAction)bottomButtonAction:(id)sender {
     SEL scrollToBottomSelector = NSSelectorFromString(@"scrollTableViewToBottom");
-    if (parentViewController && [parentViewController respondsToSelector:scrollToBottomSelector])
-        [parentViewController performSelector:scrollToBottomSelector];
+    if (self.parentViewController && [self.parentViewController respondsToSelector:scrollToBottomSelector])
+        [self.parentViewController performSelector:scrollToBottomSelector];
     [self updateTimer];
 }
 
 -(void)show
 {
-    self.view.hidden = NO;
-    if (parentViewController) {
-        if (parentView) {
+    if (self.view.hidden) {
+        size = CGSizeMake(60, 120);
+        if (self.parentViewController) {
+            if (!self.view.superview)
+                [self.parentViewController.view addSubview:self.view];
+            
             [self updateFrame];
-            [parentViewController.view addSubview:self.view];
-//            [parentView addSubview:self.view];
+            //            [parentView addSubview:self.view];
         }
+        self.view.hidden = NO;
     }
     [self updateTimer];
 }
 
 -(void)hide{
     self.view.hidden = YES;
-    [self.view removeFromSuperview];
+//    [self.view removeFromSuperview];
 }
 
 -(void)updateTimer {
@@ -92,7 +89,7 @@
 }
 
 -(void)updateFrame {
-    if (UIInterfaceOrientationIsPortrait(parentViewController.interfaceOrientation)) {
+    if (UIInterfaceOrientationIsPortrait(self.parentViewController.interfaceOrientation)) {
         [self updateVerticalFrame];
     } else {
         [self updateHorizontalFrame];
@@ -101,12 +98,15 @@
 
 -(void)updateVerticalFrame {
     CGRect windowBounds = [czzAppDelegate sharedAppDelegate].window.bounds;
+    if (self.parentViewController) {
+        windowBounds = self.parentViewController.view.frame;
+    }
     CGRect myFrame = self.view.frame;
     CGFloat width = windowBounds.size.width;
     CGFloat height = windowBounds.size.height;
-    CGFloat padding = size.width / 4;
-    myFrame.origin.x = (width - size.width -  padding) / 2;
-    myFrame.origin.y = height - size.height - padding * 3;
+    CGFloat padding = size.width / 2;
+    myFrame.origin.x = (width - size.width) / 2;
+    myFrame.origin.y = height - size.height - padding * 2;
     myFrame.size.width = size.width;
     myFrame.size.height = size.height;
     self.view.frame = myFrame;
@@ -114,11 +114,14 @@
 
 -(void)updateHorizontalFrame {
     CGRect windowBounds = [czzAppDelegate sharedAppDelegate].window.bounds;
+    if (self.parentViewController) {
+        windowBounds = self.parentViewController.view.frame;
+    }
     CGRect myFrame = self.view.frame;
-    CGFloat width = windowBounds.size.height;
-    CGFloat height = windowBounds.size.width;
-    CGFloat padding = size.width / 4;
-    myFrame.origin.x = width - size.width - padding * 2;
+    CGFloat width = windowBounds.size.width;
+    CGFloat height = windowBounds.size.height;
+    CGFloat padding = size.width / 2;
+    myFrame.origin.x = width - size.width - padding * 3;
     myFrame.origin.y = height - size.height - padding * 3;
     myFrame.size.width = size.width;
     myFrame.size.height = size.height;

@@ -48,7 +48,7 @@
 @property BOOL shouldHighlight;
 @property NSMutableArray *heightsForRows;
 @property NSMutableArray *heightsForRowsForHorizontal;
-@property czzOnScreenCommandViewController *onScreenCommand;
+@property czzOnScreenCommandViewController *onScreenCommandViewController;
 @property CGPoint restoreFromBackgroundOffSet;
 @property BOOL shouldDisplayQuickScrollCommand;
 @property NSString *thumbnailFolder;
@@ -79,7 +79,7 @@
 @synthesize shouldHighlightSelectedUser;
 @synthesize heightsForRows;
 @synthesize heightsForRowsForHorizontal;
-@synthesize onScreenCommand;
+@synthesize onScreenCommandViewController;
 @synthesize restoreFromBackgroundOffSet;
 @synthesize shouldDisplayQuickScrollCommand;
 @synthesize thumbnailFolder;
@@ -148,10 +148,10 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, highlightMenuItem, searchMenuItem, openMenuItem]];
     [[UIMenuController sharedMenuController] update];
     //show on screen command
-//    onScreenCommand = [[czzOnScreenCommandViewController alloc] initWithNibName:@"czzOnScreenCommandViewController" bundle:[NSBundle mainBundle]];
-//    onScreenCommand.parentViewController = self;
-//    [onScreenCommand hide];
-//    shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
+    onScreenCommandViewController = [[UIStoryboard storyboardWithName:@"OnScreenCommand" bundle:nil] instantiateInitialViewController];
+    [self addChildViewController:onScreenCommandViewController];
+    [onScreenCommandViewController hide];
+    shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
     
     //if in foreground, load more threads
     if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground)
@@ -197,7 +197,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     //disable right view controller
     self.viewDeckController.rightController = nil;
     //hide on screen command
-    [onScreenCommand hide];
+    [onScreenCommandViewController hide];
     //no longer ready for more push animation
     viewControllerNotInTransition = NO;
     
@@ -473,8 +473,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 #pragma mark - UIScrollVIew delegate
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    if (onScreenCommand && threads.count > 1 && shouldDisplayQuickScrollCommand) {
-        [onScreenCommand show];
+    if (onScreenCommandViewController && threads.count > 1 && shouldDisplayQuickScrollCommand) {
+        [onScreenCommandViewController show];
     }
 }
 
