@@ -21,6 +21,7 @@
 #import "Toast+UIView.h"
 #import "czzHTMLParserViewController.h"
 #import "czzMiniThreadViewController.h"
+#import "czzSettingsCentre.h"
 
 @interface czzSearchViewController ()<UIAlertViewDelegate, UIWebViewDelegate, czzMiniThreadViewControllerProtocol>
 @property czzThread *selectedParentThread;
@@ -207,8 +208,26 @@
             return NO;
         } else {
             if ([request.URL.host rangeOfString:@"acfun"].location != NSNotFound) {
+                
+                //get final URL
                 NSString *acURL = [[request.URL.absoluteString componentsSeparatedByString:@"?"].firstObject stringByReplacingOccurrencesOfString:@"m/" withString:@""]; //only the first few components are useful, the host and the thread id
                 targetURL = [NSURL URLWithString:acURL];
+                NSData *data=nil;
+                
+                NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:targetURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10];
+                NSURLResponse *response;
+                NSError *error;
+                data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+                NSURL *LastURL=[response URL];
+                
+                //from final URL get thread ID
+                NSString *threadID = [LastURL.absoluteString stringByReplacingOccurrencesOfString:@"http://h.acfun.tv/t/" withString:@""];
+                [[czzAppDelegate sharedAppDelegate].window makeToast:@"请稍等..."];
+                [self downloadAndPrepareThreadWithID:threadID.integerValue];
+
+                return NO;
+                
+                //old ways
                 [self performSegueWithIdentifier:@"go_html_parser_view_controller" sender:self];
                 return NO;
             }
