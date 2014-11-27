@@ -16,7 +16,7 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CR7-Ht-nIE">
-                        <rect key="frame" x="0.0" y="3" width="320" height="293"/>
+                        <rect key="frame" x="0.0" y="4" width="320" height="291"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NO" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zcJ-Iq-ivZ">
                                 <rect key="frame" x="6" y="1" width="80" height="13"/>
@@ -55,7 +55,7 @@
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
                             <textView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" verticalHuggingPriority="100" scrollEnabled="NO" editable="NO" text="Content" translatesAutoresizingMaskIntoConstraints="NO" id="oML-xg-Zfq" customClass="czzNoSelectionTextView">
-                                <rect key="frame" x="0.0" y="18" width="320" height="275"/>
+                                <rect key="frame" x="0.0" y="18" width="320" height="273"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="250" constant="26" id="6Qy-Et-6aq"/>
                                 </constraints>
@@ -79,7 +79,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view hidden="YES" userInteractionEnabled="NO" alpha="0.89999997615814209" tag="10" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4QC-Ri-dMe" customClass="DACircularProgressView">
-                                <rect key="frame" x="45" y="210" width="50" height="50"/>
+                                <rect key="frame" x="45" y="208" width="50" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="xgL-eb-Ha9"/>
@@ -87,7 +87,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="回应:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="po6-xX-Zcg">
-                                <rect key="frame" x="240" y="279" width="79" height="13"/>
+                                <rect key="frame" x="240" y="277" width="79" height="13"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="79" id="IFY-yM-JZ8"/>
                                     <constraint firstAttribute="height" constant="13" id="xm3-WI-Q6c"/>
@@ -109,7 +109,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView tag="9" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="3HO-Hu-PUf">
-                                <rect key="frame" x="20" y="185" width="100" height="100"/>
+                                <rect key="frame" x="20" y="183" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="3HO-Hu-PUf" secondAttribute="height" multiplier="1:1" id="UZt-BR-d0x"/>
                                     <constraint firstAttribute="height" constant="100" id="hAG-eB-ZRf"/>
@@ -155,10 +155,10 @@
                 </subviews>
                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="CR7-Ht-nIE" secondAttribute="bottom" constant="3" id="B6F-Si-qHE"/>
+                    <constraint firstAttribute="bottom" secondItem="CR7-Ht-nIE" secondAttribute="bottom" constant="4" id="B6F-Si-qHE"/>
                     <constraint firstAttribute="trailing" secondItem="CR7-Ht-nIE" secondAttribute="trailing" id="KRb-gQ-ZYP"/>
                     <constraint firstItem="CR7-Ht-nIE" firstAttribute="leading" secondItem="mQi-J3-PXM" secondAttribute="leading" id="QVn-Mm-mmk"/>
-                    <constraint firstItem="CR7-Ht-nIE" firstAttribute="top" secondItem="mQi-J3-PXM" secondAttribute="top" constant="3" id="aqN-b1-rk2"/>
+                    <constraint firstItem="CR7-Ht-nIE" firstAttribute="top" secondItem="mQi-J3-PXM" secondAttribute="top" constant="4" id="aqN-b1-rk2"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

@@ -60,11 +60,11 @@
     
     //apply shadow and radius to background view
     threadContentView.layer.masksToBounds = NO;
-    threadContentView.layer.cornerRadius = 5;
+    threadContentView.layer.cornerRadius = 3;
     threadContentView.layer.shadowOffset = CGSizeMake(1, 1);
-    threadContentView.layer.shadowRadius = 2;
+    threadContentView.layer.shadowRadius = 3;
     threadContentView.layer.shadowOpacity = 0.5;
-    threadContentView.layer.shadowColor = [UIColor darkGrayColor].CGColor;
+    threadContentView.layer.shadowColor = [UIColor blackColor].CGColor;
 
 }
 
@@ -93,7 +93,7 @@
     lockLabel.hidden = YES;
     responseLabel.hidden = YES;
     
-    self.contentView.backgroundColor = [UIColor clearColor];
+//    self.contentView.backgroundColor = [UIColor clearColor];
     posterLabel.backgroundColor = [UIColor clearColor];
     self.backgroundColor = [UIColor clearColor];
     if (settingsCentre.nightyMode)
@@ -222,7 +222,7 @@
     [uidAttrString appendAttributedString:myThread.UID];
     posterLabel.attributedText = uidAttrString;
     NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    [dateFormatter setDateFormat:@"时间:yyyy MM-dd, HH:mm"];
+    [dateFormatter setDateFormat:@"yyyy MM-dd, HH:mm"];
     dateLabel.text = [dateFormatter stringFromDate:myThread.postDateTime];
     if (myThread.sage)
         [sageLabel setHidden:NO];
@@ -258,7 +258,7 @@
     //highlight original poster
     if (shouldHighlight && parentThread && [myThread.UID.string isEqualToString:parentThread.UID.string]) {
         posterLabel.backgroundColor = [UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:200.0f/255.0f alpha:1.0];
-        self.contentView.backgroundColor = [UIColor clearColor];
+//        self.contentView.backgroundColor = [UIColor clearColor];
     } else if (shouldHighlightSelectedUser && [myThread.UID.string isEqualToString:shouldHighlightSelectedUser]) {
         posterLabel.backgroundColor = [UIColor clearColor];
         self.contentView.backgroundColor = [UIColor colorWithRed:222.0f/255.0f green:222.0f/255.0f blue:255.0f/255.0f alpha:1.0];

@@ -10,7 +10,7 @@
  sub class uitableview cell to enable custom menu action
  */
 
-#define THREAD_VIEW_CELL_MARGIN 3 * 2
+#define THREAD_VIEW_CELL_MARGIN 4 * 2
 
 #import <UIKit/UIKit.h>
 #import "czzThread.h"
