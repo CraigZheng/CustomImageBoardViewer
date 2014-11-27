@@ -186,14 +186,14 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     viewControllerNotInTransition = NO;
     [(czzNavigationController*) self.navigationController hideNotificationBanner];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ImageDownloaded" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ImageDownloaderProgressUpdated" object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ImageDownloaderProgressUpdated" object:nil];
     [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ImageDownloaded" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaderUpdated:) name:@"ImageDownloaderProgressUpdated" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaderUpdated:) name:@"ImageDownloaderProgressUpdated" object:nil];
 
     self.viewDeckController.rightController = nil;
     self.viewDeckController.leftController = leftController;
@@ -640,36 +640,36 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     }
 }
 
-#pragma mark - image downloading progress update
--(void)imageDownloaderUpdated:(NSNotification*)notification{
-    czzImageDownloader *imgDownloader = [notification.userInfo objectForKey:@"ImageDownloader"];
-    if (imgDownloader){
-        NSInteger updateIndex = -1;
-        for (czzThread *thread in threads) {
-            if ([thread.imgSrc isEqualToString:imgDownloader.imageURLString]){
-                updateIndex = [threads indexOfObject:thread];
-                break;
-            }
-        }
-        if (updateIndex > -1){
-            UITableViewCell *cellToUpdate = [threadTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:updateIndex inSection:0]];
-            DACircularProgressView *circularProgressView = (DACircularProgressView*)[cellToUpdate viewWithTag:10];
-            circularProgressView.progressTintColor = [UIColor whiteColor];
-            circularProgressView.trackTintColor = [UIColor colorWithRed:0. green:0. blue:0. alpha:0.5];
-            circularProgressView.thicknessRatio = 0.1;
-            if (circularProgressView){
-                if (imgDownloader.progress < 1)
-                {
-                    circularProgressView.hidden = NO;
-                    circularProgressView.progress = imgDownloader.progress;
-                } else {
-                    circularProgressView.hidden = YES;
-                }
-                [circularProgressView setNeedsDisplay];
-            }
-        }
-    }
-}
+//#pragma mark - image downloading progress update
+//-(void)imageDownloaderUpdated:(NSNotification*)notification{
+//    czzImageDownloader *imgDownloader = [notification.userInfo objectForKey:@"ImageDownloader"];
+//    if (imgDownloader){
+//        NSInteger updateIndex = -1;
+//        for (czzThread *thread in threads) {
+//            if ([thread.imgSrc isEqualToString:imgDownloader.imageURLString]){
+//                updateIndex = [threads indexOfObject:thread];
+//                break;
+//            }
+//        }
+//        if (updateIndex > -1){
+//            UITableViewCell *cellToUpdate = [threadTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:updateIndex inSection:0]];
+//            DACircularProgressView *circularProgressView = (DACircularProgressView*)[cellToUpdate viewWithTag:10];
+//            circularProgressView.progressTintColor = [UIColor whiteColor];
+//            circularProgressView.trackTintColor = [UIColor colorWithRed:0. green:0. blue:0. alpha:0.5];
+//            circularProgressView.thicknessRatio = 0.1;
+//            if (circularProgressView){
+//                if (imgDownloader.progress < 1)
+//                {
+//                    circularProgressView.hidden = NO;
+//                    circularProgressView.progress = imgDownloader.progress;
+//                } else {
+//                    circularProgressView.hidden = YES;
+//                }
+//                [circularProgressView setNeedsDisplay];
+//            }
+//        }
+//    }
+//}
 
 #pragma mark - notification handler - favourite thread selected
 -(void)openPickedThread:(NSNotification*)notification{

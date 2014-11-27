@@ -7,6 +7,7 @@
 //
 
 #import "czzTextViewHeightCalculator.h"
+#import "czzMenuEnabledTableViewCell.h"
 #import "czzSettingsCentre.h"
 
 @implementation czzTextViewHeightCalculator
@@ -32,7 +33,7 @@
         else
             preferHeight += IMAGE_HEIGHT;
     }
-    
+    preferHeight += THREAD_VIEW_CELL_MARGIN;
     return preferHeight;
 }
 

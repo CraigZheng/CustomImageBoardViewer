@@ -36,6 +36,7 @@
 @synthesize contentTextView;
 @synthesize responseLabel;
 @synthesize circularProgressView;
+@synthesize threadContentView;
 
 @synthesize settingsCentre;
 @synthesize shouldHighlight;
@@ -56,6 +57,15 @@
     shouldHighlight = settingsCentre.userDefShouldHighlightPO;
     shouldAllowClickOnImage = YES;
     tapOnImageGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTapInImageView:)];
+    
+    //apply shadow and radius to background view
+    threadContentView.layer.masksToBounds = NO;
+    threadContentView.layer.cornerRadius = 5;
+    threadContentView.layer.shadowOffset = CGSizeMake(1, 1);
+    threadContentView.layer.shadowRadius = 2;
+    threadContentView.layer.shadowOpacity = 0.5;
+    threadContentView.layer.shadowColor = [UIColor darkGrayColor].CGColor;
+
 }
 
 -(BOOL)canPerformAction:(SEL)action withSender:(id)sender{

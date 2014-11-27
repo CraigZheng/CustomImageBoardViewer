@@ -10,6 +10,8 @@
  sub class uitableview cell to enable custom menu action
  */
 
+#define THREAD_VIEW_CELL_MARGIN 3 * 2
+
 #import <UIKit/UIKit.h>
 #import "czzThread.h"
 #import "czzThreadViewController.h"
@@ -32,6 +34,8 @@
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;
 @property (weak, nonatomic) IBOutlet UILabel *responseLabel;
 @property (weak, nonatomic) IBOutlet DACircularProgressView *circularProgressView;
+@property (weak, nonatomic) IBOutlet UIView *threadContentView;
+
 @property NSString *shouldHighlightSelectedUser;
 @property id<czzMenuEnabledTableViewCellProtocol> delegate;
 
