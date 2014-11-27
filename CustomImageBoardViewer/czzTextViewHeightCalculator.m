@@ -14,6 +14,7 @@
 
 +(CGFloat)calculatePerfectHeightForThreadContent:(czzThread *)thread inView:(UIView *)view hasImage:(BOOL)has{
     CGFloat preferHeight = 44;
+    
     @autoreleasepool {
         UITextView *newHiddenTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, view.frame.size.width, 1)];
         newHiddenTextView.hidden = YES;

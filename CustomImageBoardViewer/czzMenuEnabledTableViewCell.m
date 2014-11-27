@@ -60,11 +60,11 @@
     
     //apply shadow and radius to background view
     threadContentView.layer.masksToBounds = NO;
-    threadContentView.layer.cornerRadius = 3;
+    threadContentView.layer.cornerRadius = 5;
     threadContentView.layer.shadowOffset = CGSizeMake(1, 1);
-    threadContentView.layer.shadowRadius = 3;
-    threadContentView.layer.shadowOpacity = 0.5;
-    threadContentView.layer.shadowColor = [UIColor blackColor].CGColor;
+    threadContentView.layer.shadowRadius = 5;
+    threadContentView.layer.shadowOpacity = 0.3;
+    threadContentView.layer.shadowColor = [UIColor darkGrayColor].CGColor;
 
 }
 
@@ -94,8 +94,8 @@
     responseLabel.hidden = YES;
     
 //    self.contentView.backgroundColor = [UIColor clearColor];
-    posterLabel.backgroundColor = [UIColor clearColor];
-    self.backgroundColor = [UIColor clearColor];
+    posterLabel.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = [UIColor whiteColor];
     if (settingsCentre.nightyMode)
         self.backgroundColor = [settingsCentre viewBackgroundColour];
 
@@ -209,7 +209,7 @@
     if ([settingsCentre userDefShouldUseBigImage]) {
         contentTextView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.75];
     } else {
-        contentTextView.backgroundColor = [UIColor clearColor];
+        contentTextView.backgroundColor = [UIColor whiteColor];
     }
     contentTextView.attributedText = contentAttrString;
     contentTextView.font = settingsCentre.contentFont;
@@ -260,7 +260,7 @@
         posterLabel.backgroundColor = [UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:200.0f/255.0f alpha:1.0];
 //        self.contentView.backgroundColor = [UIColor clearColor];
     } else if (shouldHighlightSelectedUser && [myThread.UID.string isEqualToString:shouldHighlightSelectedUser]) {
-        posterLabel.backgroundColor = [UIColor clearColor];
+        posterLabel.backgroundColor = [UIColor whiteColor];
         self.contentView.backgroundColor = [UIColor colorWithRed:222.0f/255.0f green:222.0f/255.0f blue:255.0f/255.0f alpha:1.0];
     }
     //NSLog(@"time consuming step 5: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
