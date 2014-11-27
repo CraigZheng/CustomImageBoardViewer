@@ -256,6 +256,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 }
 
 #pragma mark UITableView delegate
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *cell_identifier = [[czzSettingsCentre sharedInstance] userDefShouldUseBigImage] ? threadViewBigImageCellIdentifier : threadViewCellIdentifier;

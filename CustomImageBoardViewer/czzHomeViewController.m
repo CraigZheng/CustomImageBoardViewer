@@ -388,6 +388,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 }
 
 #pragma mark - UITableView delegate
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == threads.count){
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
