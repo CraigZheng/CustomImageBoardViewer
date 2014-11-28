@@ -149,13 +149,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 //    onScreenCommandViewController.parentViewController = self;
     [self addChildViewController:onScreenCommandViewController];
     
-    //on screen image manager view
-    czzOnScreenImageManagerViewController *onScreenImgMrg = [(czzNavigationController*)self.navigationController onScreenImageManagerView];
-    CGRect frame = onScreenImgMrg.view.frame;
-    frame.size = onScreenImageManagerViewContainer.frame.size;
-    onScreenImgMrg.view.frame = frame;
-    [self addChildViewController:onScreenImgMrg];
-    [onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -213,6 +206,14 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     self.viewDeckController.rightController = nil;
     self.viewDeckController.leftController = leftController;
     self.viewDeckController.panningMode = IIViewDeckFullViewPanning;
+
+    //on screen image manager view
+    czzOnScreenImageManagerViewController *onScreenImgMrg = [(czzNavigationController*)self.navigationController onScreenImageManagerView];
+    CGRect frame = onScreenImgMrg.view.frame;
+    frame.size = onScreenImageManagerViewContainer.frame.size;
+    onScreenImgMrg.view.frame = frame;
+    [self addChildViewController:onScreenImgMrg];
+    [onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
 
     //change background colour for night mode
     if (settingsCentre.nightyMode)

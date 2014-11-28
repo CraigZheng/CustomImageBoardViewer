@@ -29,6 +29,8 @@
 #import "czzSettingsCentre.h"
 #import "czzTextViewHeightCalculator.h"
 #import "czzMiniThreadViewController.h"
+#import "czzNavigationController.h"
+#import "czzOnScreenImageManagerViewController.h"
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
 #define OVERLAY_VIEW 122
@@ -92,6 +94,7 @@
 @synthesize miniThreadView;
 @synthesize imageViewerUtil;
 @synthesize refreshControl;
+@synthesize onScreenImageManagerViewContainer;
 
 static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
 static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
@@ -189,6 +192,15 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     }
     //background colour
     self.view.backgroundColor = settingsCentre.viewBackgroundColour;
+    
+    //on screen image manager view
+    czzOnScreenImageManagerViewController *onScreenImgMrg = [(czzNavigationController*)self.navigationController onScreenImageManagerView];
+    CGRect frame = onScreenImgMrg.view.frame;
+    frame.size = onScreenImageManagerViewContainer.frame.size;
+    onScreenImgMrg.view.frame = frame;
+    [self addChildViewController:onScreenImgMrg];
+    [onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

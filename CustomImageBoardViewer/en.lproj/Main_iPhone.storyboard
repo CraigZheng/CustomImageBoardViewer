@@ -142,12 +142,30 @@
                                     <outlet property="delegate" destination="CES-L8-oRQ" id="iMR-sZ-Lmz"/>
                                 </connections>
                             </tableView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7vQ-Rb-bPA">
+                                <rect key="frame" x="240" y="356" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="P2C-qt-tg3"/>
+                                    <constraint firstAttribute="width" secondItem="7vQ-Rb-bPA" secondAttribute="height" multiplier="1:1" id="Rdf-Wd-IHD"/>
+                                    <constraint firstAttribute="width" secondItem="7vQ-Rb-bPA" secondAttribute="height" id="XCX-Nf-6U6"/>
+                                    <constraint firstAttribute="width" constant="60" id="ZtE-AA-AIt"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="XCX-Nf-6U6"/>
+                                        <exclude reference="ZtE-AA-AIt"/>
+                                    </mask>
+                                </variation>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="sn1-5a-vXO" firstAttribute="top" secondItem="7vQ-Rb-bPA" secondAttribute="bottom" constant="20" id="Cua-hZ-W4P"/>
+                            <constraint firstItem="7vQ-Rb-bPA" firstAttribute="top" relation="greaterThanOrEqual" secondItem="JNf-Ax-8EN" secondAttribute="bottom" constant="20" id="Uf0-Td-TqX"/>
                             <constraint firstAttribute="bottom" secondItem="kEK-ic-Yzh" secondAttribute="bottom" id="fM4-op-JIX"/>
                             <constraint firstItem="kEK-ic-Yzh" firstAttribute="top" secondItem="JCg-5L-Quq" secondAttribute="top" id="oQc-or-hyu"/>
                             <constraint firstAttribute="trailing" secondItem="kEK-ic-Yzh" secondAttribute="trailing" id="sz7-GS-gEf"/>
+                            <constraint firstAttribute="trailing" secondItem="7vQ-Rb-bPA" secondAttribute="trailing" constant="20" id="vU0-Cp-nhr"/>
                             <constraint firstItem="kEK-ic-Yzh" firstAttribute="leading" secondItem="JCg-5L-Quq" secondAttribute="leading" id="wT5-EE-ajt"/>
                         </constraints>
                     </view>
@@ -190,6 +208,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="onScreenImageManagerViewContainer" destination="7vQ-Rb-bPA" id="uZj-Br-hDd"/>
                         <outlet property="starButton" destination="eAd-IU-rZD" id="AWa-Az-nEv"/>
                         <outlet property="threadTableView" destination="kEK-ic-Yzh" id="7gl-zA-agX"/>
                         <segue destination="4fE-Ef-JB7" kind="push" identifier="go_search_view_segue" id="vK6-NU-jzp"/>
@@ -1136,8 +1155,8 @@
         <image name="upload.png" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Uep-8w-iun"/>
-        <segue reference="DWL-6t-CEf"/>
+        <segue reference="vK6-NU-jzp"/>
         <segue reference="5Fw-Ve-fjP"/>
+        <segue reference="DWL-6t-CEf"/>
     </inferredMetricsTieBreakers>
 </document>

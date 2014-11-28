@@ -8,6 +8,7 @@
 
 #import "czzImageDownloader.h"
 #import "czzAppDelegate.h"
+#import "czzSettingsCentre.h"
 
 @interface czzImageDownloader()<NSURLConnectionDelegate>
 @property NSURLConnection *urlConn;
@@ -32,10 +33,11 @@
 @synthesize backgroundTaskID;
 @synthesize shouldAddHost;
 
+
 -(id)init{
     self = [super init];
     if (self){
-        baseURLString = @"http://h.acfun.tv";
+        baseURLString = [[czzSettingsCentre sharedInstance] image_host];
         shouldAddHost = YES;
     }
     return self;
