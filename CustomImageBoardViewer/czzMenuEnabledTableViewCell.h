@@ -19,6 +19,7 @@
 
 
 @protocol czzMenuEnabledTableViewCellProtocol <NSObject>
+-(void)imageDownloadedForIndexPath:(NSIndexPath*)index filePath:(NSString*)path isThumbnail:(BOOL)isThumbnail;
 @optional
 -(void)userTapInQuotedText:(NSString*)text;
 -(void)userTapInImageView:(NSString*)imgURL;
@@ -35,6 +36,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *responseLabel;
 @property (weak, nonatomic) IBOutlet DACircularProgressView *circularProgressView;
 @property (weak, nonatomic) IBOutlet UIView *threadContentView;
+@property NSIndexPath *myIndexPath;
 
 @property NSString *shouldHighlightSelectedUser;
 @property id<czzMenuEnabledTableViewCellProtocol> delegate;

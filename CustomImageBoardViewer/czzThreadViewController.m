@@ -172,10 +172,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     self.viewDeckController.panningMode = IIViewDeckNoPanning;
     //disable left controller
     self.viewDeckController.leftController = nil;
-    //register for nsnotification centre for image downloaded notification and download progress update notification
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ThumbnailDownloaded" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ImageDownloaded" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaderUpdated:) name:@"ImageDownloaderProgressUpdated" object:nil];
     //Jump to command observer
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(PromptForJumpToPage) name:@"JumpToPageCommand" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(HighlightThreadSelected:) name:@"HighlightAction" object:nil];
@@ -579,69 +575,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     });
 }
 
-#pragma mark notification handler - image downloader
--(void)imageDownloaded:(NSNotification*)notification{
-    czzImageDownloader *imgDownloader = [notification.userInfo objectForKey:@"ImageDownloader"];
-    BOOL success = [[notification.userInfo objectForKey:@"Success"] boolValue];
-    if (!success){
-        return;
-    }
-    if (imgDownloader && imgDownloader.isThumbnail){
-        @try {
-            if ([notification.userInfo objectForKey:@"FilePath"])
-                //store the given file save path
-                [downloadedImages setObject:[notification.userInfo objectForKey:@"FilePath"] forKey:imgDownloader.imageURLString];
-            for (NSIndexPath *displayedIndexPath in [threadTableView indexPathsForVisibleRows]) {
-                if (displayedIndexPath.row >= threads.count)
-                    break;
-                czzThread *displayedThread = [threads objectAtIndex:displayedIndexPath.row];
-                if ([displayedThread.thImgSrc.lastPathComponent isEqualToString:imgDownloader.imageURLString.lastPathComponent]){
-                    [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:displayedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-                    break;
-                }
-            }
-        }
-        @catch (NSException *exception) {
-            NSLog(@"%@", exception);
-        }
-    }
-    if (imgDownloader && !imgDownloader.isThumbnail){
-        if (settingsCentre.userDefShouldAutoOpenImage) 
-            [self openImageWithPath:[notification.userInfo objectForKey:@"FilePath"]];
-    }
-}
-
-#pragma mark notification handler - image downloading progress update
--(void)imageDownloaderUpdated:(NSNotification*)notification{
-    czzImageDownloader *imgDownloader = [notification.userInfo objectForKey:@"ImageDownloader"];
-    if (imgDownloader){
-        NSInteger updateIndex = -1;
-        for (czzThread *thread in threads) {
-            if ([thread.imgSrc isEqualToString:imgDownloader.imageURLString]){
-                updateIndex = [threads indexOfObject:thread];
-                break;
-            }
-        }
-        if (updateIndex > -1){
-            UITableViewCell *cellToUpdate = [threadTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:updateIndex inSection:0]];
-            DACircularProgressView *circularProgressView = (DACircularProgressView*)[cellToUpdate viewWithTag:10];
-            circularProgressView.progressTintColor = [UIColor whiteColor];
-            circularProgressView.trackTintColor = [UIColor colorWithRed:0. green:0. blue:0. alpha:0.5];
-            circularProgressView.thicknessRatio = 0.1;
-            if (circularProgressView){
-                if (imgDownloader.progress < 1)
-                {
-                    circularProgressView.hidden = NO;
-                    circularProgressView.progress = imgDownloader.progress;
-                } else {
-                    circularProgressView.hidden = YES;
-                }
-                [circularProgressView setNeedsDisplay];
-            }
-        }
-    }
-}
-
 #pragma mark sort array based on thread ID
 -(NSArray*)sortTheGivenArray:(NSArray*)array{
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"ID" ascending:YES];
@@ -711,6 +644,16 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     miniThreadView = [[UIStoryboard storyboardWithName:@"MiniThreadView" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
     miniThreadView.delegate = self;
     [miniThreadView setThreadID:refNumber];
+}
+
+-(void)imageDownloadedForIndexPath:(NSIndexPath *)index filePath:(NSString *)path isThumbnail:(BOOL)isThumbnail {
+    if (isThumbnail)
+    {
+        if (index.row < threads.count)
+            [threadTableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationAutomatic];
+    } else {
+        [self openImageWithPath:path];
+    }
 }
 
 #pragma mark - high light

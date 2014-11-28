@@ -91,11 +91,14 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
+    NSUInteger originalSize = receivedData.length;
     [receivedData appendData:data];
     downloadedSize = receivedData.length;
     //inform delegate that a part of download is finished
     if ([delegate respondsToSelector:@selector(downloaderProgressUpdated:expectedLength:downloadedLength:)]){
-        [delegate downloaderProgressUpdated:self expectedLength:(NSUInteger)fileSize downloadedLength:downloadedSize];
+        //should only send notification every 1/10 of the total size
+        if ((downloadedSize - originalSize) > fileSize / 10)
+            [delegate downloaderProgressUpdated:self expectedLength:(NSUInteger)fileSize downloadedLength:downloadedSize];
     }
 }
 

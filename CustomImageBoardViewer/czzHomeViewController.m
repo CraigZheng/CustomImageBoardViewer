@@ -133,11 +133,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
                                              selector:@selector(openPickedThread:)
                                                  name:@"ShouldOpenThreadInThreadViewController"
                                                object:nil];
-    //register for nsnotification centre for image downloaded notification
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(imageDownloaded:)
-                                                 name:@"ThumbnailDownloaded"
-                                               object:nil];
     
     //register a refresh control
     refreshControl = [[UIRefreshControl alloc] init];
@@ -193,14 +188,14 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [super viewWillDisappear:animated];
     viewControllerNotInTransition = NO;
 
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ImageDownloaded" object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ImageDownloaded" object:nil];
 //    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ImageDownloaderProgressUpdated" object:nil];
     [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ImageDownloaded" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ImageDownloaded" object:nil];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaderUpdated:) name:@"ImageDownloaderProgressUpdated" object:nil];
 
     self.viewDeckController.rightController = nil;
@@ -405,12 +400,13 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
     NSString *cell_identifier = [[czzSettingsCentre sharedInstance] userDefShouldUseBigImage] ? threadViewBigImageCellIdentifier : threadViewCellIdentifier;
     czzThread *thread = [threads objectAtIndex:indexPath.row];
-    czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier];
+    czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
     if (cell){
         cell.delegate = self;
         cell.shouldHighlight = NO;
         cell.shouldAllowClickOnImage = !settingsCentre.userDefShouldUseBigImage;
         cell.parentThread = thread;
+        cell.myIndexPath = indexPath;
         cell.myThread = thread;
     }
     return cell;
@@ -631,76 +627,19 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [self openImageWithPath:imgURL];
 }
 
+-(void)imageDownloadedForIndexPath:(NSIndexPath *)index filePath:(NSString *)path isThumbnail:(BOOL)isThumbnail {
+    if (isThumbnail)
+        [threadTableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationAutomatic];
+    else
+        [self openImageWithPath:path];
+}
+
 #pragma mark - open images
 -(void)openImageWithPath:(NSString*)path{
     NSLog(@"%@", NSStringFromSelector(_cmd));
     if (viewControllerNotInTransition)
         [imageViewerUtil showPhoto:path inViewController:self];
 }
-
-#pragma mark - notification handler - image downloaded
--(void)imageDownloaded:(NSNotification*)notification{
-    czzImageDownloader *imgDownloader = [notification.userInfo objectForKey:@"ImageDownloader"];
-    BOOL success = [[notification.userInfo objectForKey:@"Success"] boolValue];
-    if (!success){
-        return;
-    }
-    if (imgDownloader && imgDownloader.isThumbnail){
-        @try {
-            if ([notification.userInfo objectForKey:@"FilePath"])
-                //store the given file save path
-                [downloadedImages setObject:[notification.userInfo objectForKey:@"FilePath"] forKey:imgDownloader.imageURLString];
-
-            for (NSIndexPath *displayedIndexPath in [threadTableView indexPathsForVisibleRows]) {
-                if (displayedIndexPath.row >= threads.count)
-                    break;
-                czzThread *displayedThread = [threads objectAtIndex:displayedIndexPath.row];
-                if ([displayedThread.thImgSrc.lastPathComponent isEqualToString:imgDownloader.imageURLString.lastPathComponent]){
-                    [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:displayedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-                    break;
-                }
-            }
-        }
-        @catch (NSException *exception) {
-            NSLog(@"%@", exception);
-        }
-    }
-    if (imgDownloader && !imgDownloader.isThumbnail){
-        if (settingsCentre.userDefShouldAutoOpenImage)
-            [self openImageWithPath:[notification.userInfo objectForKey:@"FilePath"]];
-    }
-}
-
-//#pragma mark - image downloading progress update
-//-(void)imageDownloaderUpdated:(NSNotification*)notification{
-//    czzImageDownloader *imgDownloader = [notification.userInfo objectForKey:@"ImageDownloader"];
-//    if (imgDownloader){
-//        NSInteger updateIndex = -1;
-//        for (czzThread *thread in threads) {
-//            if ([thread.imgSrc isEqualToString:imgDownloader.imageURLString]){
-//                updateIndex = [threads indexOfObject:thread];
-//                break;
-//            }
-//        }
-//        if (updateIndex > -1){
-//            UITableViewCell *cellToUpdate = [threadTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:updateIndex inSection:0]];
-//            DACircularProgressView *circularProgressView = (DACircularProgressView*)[cellToUpdate viewWithTag:10];
-//            circularProgressView.progressTintColor = [UIColor whiteColor];
-//            circularProgressView.trackTintColor = [UIColor colorWithRed:0. green:0. blue:0. alpha:0.5];
-//            circularProgressView.thicknessRatio = 0.1;
-//            if (circularProgressView){
-//                if (imgDownloader.progress < 1)
-//                {
-//                    circularProgressView.hidden = NO;
-//                    circularProgressView.progress = imgDownloader.progress;
-//                } else {
-//                    circularProgressView.hidden = YES;
-//                }
-//                [circularProgressView setNeedsDisplay];
-//            }
-//        }
-//    }
-//}
 
 #pragma mark - notification handler - favourite thread selected
 -(void)openPickedThread:(NSNotification*)notification{

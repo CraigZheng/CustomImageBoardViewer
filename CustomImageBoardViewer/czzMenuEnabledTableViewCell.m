@@ -16,6 +16,8 @@
 #import "czzSettingsCentre.h"
 #import "czzThreadRefButton.h"
 #import "czzInAppBrowserViewController.h"
+#import "czzImageDownloader.h"
+
 #import <QuartzCore/QuartzCore.h>
 
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate>
@@ -39,6 +41,7 @@
 @synthesize threadContentView;
 
 @synthesize settingsCentre;
+@synthesize myIndexPath;
 @synthesize shouldHighlight;
 @synthesize shouldHighlightSelectedUser;
 @synthesize shouldAllowClickOnImage;
@@ -61,13 +64,11 @@
     //apply shadow and radius to background view
     threadContentView.layer.masksToBounds = NO;
     threadContentView.layer.cornerRadius = 5;
-//    threadContentView.layer.shadowOffset = CGSizeMake(1, 1);
-//    threadContentView.layer.shadowRadius = 5;
-//    threadContentView.layer.shadowOpacity = 0.3;
-//    threadContentView.layer.shadowColor = [UIColor darkGrayColor].CGColor;
-//    
-//    UIBezierPath *path = [UIBezierPath bezierPathWithRect:threadContentView.bounds];
-//    threadContentView.layer.shadowPath = path.CGPath;
+    //register for nsnotification centre for image downloaded notification
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(imageDownloaded:)
+                                                 name:@"ThumbnailDownloaded"
+                                               object:nil];
 }
 
 -(BOOL)canPerformAction:(SEL)action withSender:(id)sender{
@@ -325,5 +326,19 @@
     }
 }
 
+#pragma mark - notification handler - image downloaded
+-(void)imageDownloaded:(NSNotification*)notification{
+    czzImageDownloader *imgDownloader = [notification.userInfo objectForKey:@"ImageDownloader"];
+    BOOL success = [[notification.userInfo objectForKey:@"Success"] boolValue];
+    if (!success){
+        return;
+    }
+    if (imgDownloader){
+        if (delegate)
+        {
+            [delegate imageDownloadedForIndexPath:myIndexPath filePath:[notification.userInfo objectForKey:@"FilePath"] isThumbnail:imgDownloader.isThumbnail];
+        }
+    }
+}
 
 @end
