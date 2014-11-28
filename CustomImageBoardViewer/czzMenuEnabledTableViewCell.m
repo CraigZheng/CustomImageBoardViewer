@@ -25,7 +25,7 @@
 @property NSString *imageFolder;
 @property czzSettingsCentre *settingsCentre;
 @property UITapGestureRecognizer *tapOnImageGestureRecogniser;
-
+@property NSMutableSet *requestedImageURL;
 @end
 
 @implementation czzMenuEnabledTableViewCell
@@ -52,6 +52,7 @@
 @synthesize thumbnailFolder;
 @synthesize tapOnImageGestureRecogniser;
 @synthesize delegate;
+@synthesize requestedImageURL;
 
 -(void)awakeFromNib {
     thumbnailFolder = [czzAppDelegate thumbnailFolder];
@@ -59,6 +60,7 @@
     settingsCentre = [czzSettingsCentre sharedInstance];
     shouldHighlight = settingsCentre.userDefShouldHighlightPO;
     shouldAllowClickOnImage = YES;
+    requestedImageURL = [NSMutableSet new];
     tapOnImageGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTapInImageView:)];
     
     //apply shadow and radius to background view
@@ -68,6 +70,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(imageDownloaded:)
                                                  name:@"ThumbnailDownloaded"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(imageDownloaded:)
+                                                 name:@"ImageDownloaded"
                                                object:nil];
 }
 
@@ -320,6 +326,7 @@
             }
             NSLog(@"start : %@", myThread.imgSrc);
             [[czzImageCentre sharedInstance] downloadImageWithURL:myThread.imgSrc isCompletedURL:completedURL];
+            [requestedImageURL addObject:myThread.imgSrc];
             [[czzAppDelegate sharedAppDelegate] showToast:@"正在下载图片"];
         }
 
@@ -333,9 +340,14 @@
     if (!success){
         return;
     }
-    if (imgDownloader){
-        if (delegate)
-        {
+    if (imgDownloader && delegate)
+    {
+        if (imgDownloader.isThumbnail) {
+            if ([imgDownloader.targetURLString.lastPathComponent isEqualToString:myThread.thImgSrc.lastPathComponent]) {
+                [delegate imageDownloadedForIndexPath:myIndexPath filePath:[notification.userInfo objectForKey:@"FilePath"] isThumbnail:imgDownloader.isThumbnail];
+            }
+        }
+        else if ([requestedImageURL containsObject:imgDownloader.targetURLString]) {
             [delegate imageDownloadedForIndexPath:myIndexPath filePath:[notification.userInfo objectForKey:@"FilePath"] isThumbnail:imgDownloader.isThumbnail];
         }
     }
