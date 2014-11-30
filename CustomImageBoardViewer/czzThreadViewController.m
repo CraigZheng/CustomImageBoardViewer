@@ -7,9 +7,6 @@
 //
 
 #import "czzThreadViewController.h"
-#import "czzXMLDownloader.h"
-//#import "czzXMLProcessor.h"
-#import "czzJSONProcessor.h"
 #import "czzThread.h"
 #import "Toast+UIView.h"
 #import "SMXMLDocument.h"
@@ -31,15 +28,16 @@
 #import "czzMiniThreadViewController.h"
 #import "czzNavigationController.h"
 #import "czzOnScreenImageManagerViewController.h"
+#import "czzThreadList.h"
+#import "GSIndeterminateProgressView.h"
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
 #define OVERLAY_VIEW 122
 
-@interface czzThreadViewController ()<czzXMLDownloaderDelegate, czzJSONProcessorDelegate, UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzMiniThreadViewControllerProtocol>
+@interface czzThreadViewController ()<czzThreadListProtocol, UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzMiniThreadViewControllerProtocol>
 @property NSString *baseURLString;
 @property NSString *targetURLString;
 @property NSMutableArray *threads;
-@property czzXMLDownloader *xmlDownloader;
 @property NSIndexPath *selectedIndex;
 @property czzRightSideViewController *threadMenuViewController;
 @property NSInteger pageNumber;
@@ -48,8 +46,8 @@
 @property czzImageViewerUtil *imageViewerUtil;
 @property CGPoint threadsTableViewContentOffSet; //record the content offset of the threads tableview
 @property BOOL shouldHighlight;
-@property NSMutableArray *heightsForRows;
-@property NSMutableArray *heightsForRowsForHorizontal;
+@property NSMutableArray *verticalHeights;
+@property NSMutableArray *horizontalHeights;
 @property czzOnScreenCommandViewController *onScreenCommandViewController;
 @property CGPoint restoreFromBackgroundOffSet;
 @property BOOL shouldDisplayQuickScrollCommand;
@@ -61,14 +59,13 @@
 @property czzMiniThreadViewController *miniThreadView;
 @property BOOL viewControllerNotInTransition;
 @property UIRefreshControl *refreshControl;
+@property czzThreadList *threadList;
 @end
 
 @implementation czzThreadViewController
 @synthesize baseURLString;
 @synthesize targetURLString;
-//@synthesize originalThreadData;
 @synthesize threads;
-@synthesize xmlDownloader;
 @synthesize threadTableView;
 @synthesize selectedIndex;
 @synthesize threadMenuViewController;
@@ -79,8 +76,8 @@
 @synthesize threadsTableViewContentOffSet;
 @synthesize shouldHighlight;
 @synthesize shouldHighlightSelectedUser;
-@synthesize heightsForRows;
-@synthesize heightsForRowsForHorizontal;
+@synthesize verticalHeights;
+@synthesize horizontalHeights;
 @synthesize onScreenCommandViewController;
 @synthesize restoreFromBackgroundOffSet;
 @synthesize shouldDisplayQuickScrollCommand;
@@ -95,6 +92,7 @@
 @synthesize imageViewerUtil;
 @synthesize refreshControl;
 @synthesize onScreenImageManagerViewContainer;
+@synthesize threadList;
 
 static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
 static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
@@ -102,18 +100,22 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //thread list, source of all data
+    threadList = [czzThreadList new];
+    threadList.delegate = self;
+    threadList.parentViewController = self;
+    
     //thumbnail folder
     thumbnailFolder = [czzAppDelegate thumbnailFolder];
     imageViewerUtil = [czzImageViewerUtil new];
     //settings
     settingsCentre = [czzSettingsCentre sharedInstance];
     shouldHighlight = settingsCentre.userDefShouldHighlightPO;
-    baseURLString = [settingsCentre.thread_content_host stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld", (long)self.parentThread.ID]];
     pageNumber = 1;
     downloadedImages = [NSMutableDictionary new];
     threads = [NSMutableArray new];
-    heightsForRows = [NSMutableArray new];
-    heightsForRowsForHorizontal = [NSMutableArray new];
+    verticalHeights = [NSMutableArray new];
+    horizontalHeights = [NSMutableArray new];
     currentImageDownloaders = [[czzImageCentre sharedInstance] currentImageDownloaders];
     //add the UIRefreshControl to uitableview
     refreshControl = [[UIRefreshControl alloc] init];
@@ -121,21 +123,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [threadTableView addSubview: refreshControl];
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
 
-    //try to retrive cached thread from storage
-    NSArray *cachedThreads = [[czzThreadCacheManager sharedInstance] readThreads:parentThread];
-    if (cachedThreads){
-        [threads addObjectsFromArray:cachedThreads];
-    } else {
-        [threads addObject:parentThread];
-    }
-    NSDictionary *cachedHeights = [[czzThreadCacheManager sharedInstance] readHeightsForThread:parentThread];
-    if (cachedHeights) {
-        [heightsForRows addObjectsFromArray:[cachedHeights objectForKey:@"VerticalHeights"]];
-        [heightsForRowsForHorizontal addObjectsFromArray:[cachedHeights objectForKey:@"HorizontalHeights"]];
-    }
-    pageNumber = (threads.count - 1)/ 20 + 1;
-    //end of retriving cached thread from storage
-    
     //register xib
     [self.threadTableView registerNib:[UINib nibWithNibName:@"czzThreadViewTableViewCell" bundle:nil] forCellReuseIdentifier:threadViewCellIdentifier];
     [self.threadTableView registerNib:[UINib nibWithNibName:@"czzThreadViewBigImageTableViewCell" bundle:nil] forCellReuseIdentifier:threadViewBigImageCellIdentifier];
@@ -209,15 +196,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     //no longer ready for more push animation
     viewControllerNotInTransition = NO;
     
-    //stop any downloading xml
-    if (xmlDownloader){
-        [xmlDownloader stop];
-        xmlDownloader = nil;
-    }
-    NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
-    [userDef setObject:[NSNumber numberWithBool:NO] forKey:@"ThreadViewControllerActive"];
-    [userDef synchronize];
-    [self saveThreadsToCache];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -250,7 +228,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 -(void)saveThreadsToCache {
     //save threads to storage
     [[czzThreadCacheManager sharedInstance] saveThreads:threads forThread:parentThread];
-    [[czzThreadCacheManager sharedInstance] saveVerticalHeights:heightsForRows andHorizontalHeighs:heightsForRowsForHorizontal ForThread:parentThread];
+    [[czzThreadCacheManager sharedInstance] saveVerticalHeights:verticalHeights andHorizontalHeighs:horizontalHeights ForThread:parentThread];
 }
 
 #pragma mark - Table view data source
@@ -270,7 +248,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     NSString *cell_identifier = [[czzSettingsCentre sharedInstance] userDefShouldUseBigImage] ? threadViewBigImageCellIdentifier : threadViewCellIdentifier;
     if (indexPath.row == threads.count){
         UITableViewCell *cell;// = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
-        if (xmlDownloader) {
+        if (threadList.isDownloading || threadList.isProcessing) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"loading_cell_identifier"];
             UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
             [activityIndicator startAnimating];
@@ -350,9 +328,9 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     }
     NSMutableArray *heightArrays;
     if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-        heightArrays = heightsForRowsForHorizontal;
+        heightArrays = horizontalHeights;
     } else {
-        heightArrays = heightsForRows;
+        heightArrays = verticalHeights;
     }
     
     CGFloat preferHeight = tableView.rowHeight;
@@ -428,8 +406,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 //            [originalThreadData removeAllObjects];
             [self.threads removeAllObjects];
             [self.threads addObject:parentThread];
-            [heightsForRows removeAllObjects];
-            [heightsForRowsForHorizontal removeAllObjects];
+            [verticalHeights removeAllObjects];
+            [horizontalHeights removeAllObjects];
             [self.threadTableView reloadData];
             [self.refreshControl beginRefreshing];
             [self loadMoreThread:self.pageNumber];
@@ -443,8 +421,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 -(void)refreshThread:(id)sender{
     [self.threads removeAllObjects];
     [self.threads addObject:parentThread];
-    [heightsForRows removeAllObjects];
-    [heightsForRowsForHorizontal removeAllObjects];
+    [verticalHeights removeAllObjects];
+    [horizontalHeights removeAllObjects];
 //    [originalThreadData removeAllObjects];
 //    [originalThreadData addObject:parentThread];
     [threadTableView reloadData];
@@ -456,11 +434,9 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 -(void)loadMoreThread:(NSInteger)pn{
     if (!pn)
         pn = pageNumber;
-    if (xmlDownloader)
-        [xmlDownloader stop];
     NSString *targetURLStringWithPN = [baseURLString stringByAppendingString:
                                        [NSString stringWithFormat:@"?page=%ld", (long)pn]];
-    xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
+    [threadList loadMoreThreads];
 }
 
 
@@ -495,36 +471,12 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     if(path.row == threads.count && threads.count > 0)
     {
         CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
-        if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !xmlDownloader){
+        if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !(threadList.isDownloading || threadList.isProcessing)){
             if (((pageNumber - 1) * 20 + threads.count % 20 - 1) < parentThread.responseCount) {
                 [self performSelector:@selector(loadMoreThread:) withObject:nil];
                 [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
             }
         }
-    }
-}
-
-
-#pragma mark czzXMLDownloader delegate
--(void)downloadOf:(NSURL *)xmlURL successed:(BOOL)successed result:(NSData *)xmlData{
-    [xmlDownloader stop];
-    xmlDownloader = nil;
-    if (successed) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            czzJSONProcessor *jsonProcessor = [czzJSONProcessor new];
-            jsonProcessor.delegate = self;
-            [jsonProcessor processSubThreadFromData:xmlData];
-//            czzXMLProcessor *xmlProcessor = [czzXMLProcessor new];
-//            xmlProcessor.delegate = self;
-//            [xmlProcessor processSubThreadFromData:xmlData];
-        });
-    } else {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"无法下载资料，请检查网络" duration:1.2 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
-            [self.refreshControl endRefreshing];
-            [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
-            [threadTableView reloadData];
-        });
     }
 }
 

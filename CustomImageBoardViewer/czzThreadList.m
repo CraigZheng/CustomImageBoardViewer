@@ -5,20 +5,11 @@
 //  Created by Craig Zheng on 30/11/2014.
 //  Copyright (c) 2014 Craig. All rights reserved.
 //
-
 #define settingCentre [czzSettingsCentre sharedInstance]
 
 #import "czzThreadList.h"
-#import "czzJSONProcessor.h"
-#import "czzXMLDownloader.h"
-#import "czzSettingsCentre.h"
-#import "czzTextViewHeightCalculator.h"
 
-@interface czzThreadList () <czzXMLDownloaderDelegate, czzJSONProcessorDelegate>
-@property czzXMLDownloader *xmlDownloader;
-@property czzJSONProcessor *threadListProcessor;
-@property czzJSONProcessor *subThreadProcessor;
-@property NSString *baseURLString;
+@interface czzThreadList ()
 @end
 
 @implementation czzThreadList

@@ -93,6 +93,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     threadList = [czzThreadList new];
     threadList.delegate = self;
     threadList.parentViewController = self;
+    [self copyDataFromThreadList]; //grab any possible data
     
     //progress bar
     progressView = [(czzNavigationController*) self.navigationController progressView];
@@ -216,6 +217,12 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         }
     }
     self.view.backgroundColor = settingsCentre.viewBackgroundColour;
+}
+
+-(void)copyDataFromThreadList {
+    threads = [NSArray arrayWithArray:threadList.threads];
+    horizontalHeights = [NSArray arrayWithArray:threadList.horizontalHeights];
+    verticalHeights = [NSArray arrayWithArray:threadList.verticalHeights];
 }
 
 - (IBAction)sideButtonAction:(id)sender {
@@ -410,6 +417,10 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 #pragma mark - czzThreadListProtocol
 -(void)threadListDownloaded:(czzThreadList *)threadList wasSuccessful:(BOOL)wasSuccessful {
     NSLog(@"%@", NSStringFromSelector(_cmd));
+    if (!wasSuccessful) {
+        [refreshControl endRefreshing];
+        [progressView stopAnimating];
+    }
 }
 
 -(void)threadListBeginDownloading:(czzThreadList *)threadList {
@@ -419,9 +430,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 -(void)threadListProcessed:(czzThreadList *)list wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     NSLog(@"%@", NSStringFromSelector(_cmd));
-    threads = [NSArray arrayWithArray:allThreads];
-    horizontalHeights = [NSArray arrayWithArray:threadList.horizontalHeights];
-    verticalHeights = [NSArray arrayWithArray:threadList.verticalHeights];
+    [self copyDataFromThreadList];
     [threadTableView reloadData];
     if (list.pageNumber <= 1 && allThreads.count > 1) //just refreshed
     {

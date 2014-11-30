@@ -9,5 +9,8 @@
 #import "czzThreadList.h"
 
 @interface czzSubThreadList : czzThreadList
+@property NSString* parentID;
+@property czzThread *parentThread;
 
+-(instancetype)initWithParentThread:(czzThread*)thread;
 @end

@@ -8,6 +8,10 @@
 
 #import "czzThread.h"
 
+#import "czzJSONProcessor.h"
+#import "czzXMLDownloader.h"
+#import "czzSettingsCentre.h"
+#import "czzTextViewHeightCalculator.h"
 #import <Foundation/Foundation.h>
 
 @class czzThreadList;
@@ -23,7 +27,7 @@
 
 @end
 
-@interface czzThreadList : NSObject
+@interface czzThreadList : NSObject <czzXMLDownloaderDelegate, czzJSONProcessorDelegate>
 @property BOOL shouldHideImageForThisForum;
 @property NSString *forumName;
 @property NSInteger pageNumber;
@@ -35,6 +39,11 @@
 @property BOOL isProcessing;
 @property NSMutableArray *horizontalHeights;
 @property NSMutableArray *verticalHeights;
+@property NSString *baseURLString;
+
+@property czzXMLDownloader *xmlDownloader;
+@property czzJSONProcessor *threadListProcessor;
+@property czzJSONProcessor *subThreadProcessor;
 
 -(void)refresh;
 -(void)loadMoreThreads;
