@@ -148,7 +148,11 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     viewControllerNotInTransition = YES;
     shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 4.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    NSTimeInterval delayTime = 4.0;
+#ifdef DEBUG
+    delayTime = 9999;
+#endif
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         if (self.forumName.length <= 0) {
             if ([czzAppDelegate sharedAppDelegate].forums.count > 0)
             {
@@ -503,8 +507,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         pn = pageNumber;
     if (xmlDownloader)
         [xmlDownloader stop];
-//    NSString *targetURLStringWithPN = [targetURLString stringByAppendingString:
-//                                       [NSString stringWithFormat:@"&pn=%ld", (long)pn]];
     NSString *targetURLStringWithPN = [targetURLString stringByAppendingString:[NSString stringWithFormat:@"?page=%ld", (long)pn]];
     xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
 }

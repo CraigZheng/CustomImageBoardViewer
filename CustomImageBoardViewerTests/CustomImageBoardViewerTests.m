@@ -15,15 +15,19 @@
 #import "czzSettingsCentre.h"
 #import "czzPost.h"
 #import "czzPostSender.h"
+#import "czzThreadList.h"
 #import "PropertyUtil.h"
 
 
-@interface CustomImageBoardViewerTests : XCTestCase<czzNotificationDownloaderDelegate, czzPostSenderDelegate>
+@interface CustomImageBoardViewerTests : XCTestCase<czzNotificationDownloaderDelegate, czzPostSenderDelegate, czzThreadListProtocol>
 @property BOOL done;
+@property czzThreadList *threadList;
 @end
 
 @implementation CustomImageBoardViewerTests
 @synthesize done;
+@synthesize threadList;
+
 
 - (void)setUp
 {
@@ -35,6 +39,23 @@
 {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
+}
+
+-(void)testThreadListDownloadAndLoadMore {
+    threadList = [czzThreadList new];
+    threadList.delegate = self;
+    threadList.forumName = @"日记";
+    
+    [threadList refresh];
+    [self waitForCompletion:20];
+    
+    XCTAssertTrue(threadList.threads.count > 0);
+
+    [threadList loadMoreThreads:++threadList.pageNumber];
+    [self waitForCompletion:30];
+
+    XCTAssertTrue(threadList.lastBatchOfThreads.count > 0);
+    XCTAssertTrue(threadList.threads.count > threadList.lastBatchOfThreads.count);
 }
 
 -(void)testSettingsCentre {
@@ -104,6 +125,8 @@
 }
 
 -(void)testPostSenderReply {
+    return;
+    
     czzPostSender *postSender = [czzPostSender new];
     postSender.delegate = self;
     postSender.targetURL = [NSURL URLWithString:@"http://h.acfun.tv/api/t/4010298/create"];
@@ -122,6 +145,8 @@
 }
 
 -(void)testPostSenderWithImage {
+    return;
+    
     czzPostSender *postSender = [czzPostSender new];
     postSender.delegate = self;
     postSender.targetURL = [NSURL URLWithString:@"http://h.acfun.tv/api/t/4010298/create"];
@@ -163,6 +188,17 @@
 -(void)statusReceived:(BOOL)status message:(NSString *)message {
     NSLog(@"message: %@", message);
     XCTAssertTrue(status, @"status not YES");
+    done = YES;
+}
+
+#pragma mark - czzThreadListProtocol 
+-(void)threadListDownloaded:(czzThreadList *)threadList wasSuccessful:(BOOL)wasSuccessful {
+    NSLog(@"thread list downloaded: %@", wasSuccessful ? @"successed" : @"failed");
+    XCTAssertTrue(wasSuccessful);
+}
+
+-(void)threadListProcessed:(czzThreadList *)threadList wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
+    NSLog(@"thread list processed");
     done = YES;
 }
 
