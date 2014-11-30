@@ -7,9 +7,6 @@
 //
 
 #import "czzHomeViewController.h"
-#import "czzXMLDownloader.h"
-#import "czzXMLProcessor.h"
-#import "czzJSONProcessor.h"
 #import "SMXMLDocument.h"
 #import "Toast/Toast+UIView.h"
 #import "czzThread.h"
@@ -27,17 +24,16 @@
 #import "czzNavigationController.h"
 #import "czzOnScreenImageManagerViewController.h"
 #import "UIBarButtonItem+Badge.h"
+#import "czzThreadList.h"
 
 #import <CoreText/CoreText.h>
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****"
 
-@interface czzHomeViewController() <czzXMLDownloaderDelegate, /*czzXMLProcessorDelegate,*/ czzJSONProcessorDelegate, UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol>
-@property czzXMLDownloader *xmlDownloader;
+@interface czzHomeViewController() <UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzThreadListProtocol>
+@property czzThreadList* threadList;
+@property NSArray *threads;
 @property NSInteger currentPage;
-@property NSString *baseURLString;
-@property NSString *targetURLString;
-@property NSInteger pageNumber;
 @property NSIndexPath *selectedIndex;
 @property czzThread *selectedThread;
 @property czzThreadViewController *threadViewController;
@@ -57,16 +53,11 @@
 @end
 
 @implementation czzHomeViewController
-@synthesize xmlDownloader;
-@synthesize threads;
 @synthesize currentPage;
+@synthesize threads;
 @synthesize threadTableView;
-@synthesize baseURLString;
-@synthesize targetURLString;
 @synthesize selectedIndex;
 @synthesize selectedThread;
-@synthesize pageNumber;
-@synthesize forumName;
 @synthesize downloadedImages;
 @synthesize leftController;
 @synthesize heightsForRows;
@@ -85,6 +76,7 @@
 @synthesize numberBarButton;
 @synthesize forumListButton;
 @synthesize refreshControl;
+@synthesize threadList;
 @synthesize settingsBarButton;
 
 static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
@@ -93,6 +85,10 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //thread list, source of all data
+    threadList = [czzThreadList new];
+    threadList.delegate = self;
+    
     //right bar button items
     infoBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"info.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(moreInfoAction)];
     self.navigationItem.rightBarButtonItems = @[menuBarButton, infoBarButton];
@@ -101,9 +97,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [czzAppDelegate sharedAppDelegate].homeViewController = self; //retain a reference to app delegate, so when entering background, the delegate can inform this controller for further actions
     settingsCentre = [czzSettingsCentre sharedInstance];
 
-    //the target URL string
-    baseURLString = settingsCentre.thread_list_host;
-    pageNumber = 1; //default page number
     downloadedImages = [NSMutableDictionary new];
     heightsForRows = [NSMutableArray new];
     heightsForRowsForHorizontalMode = [NSMutableArray new];
@@ -118,7 +111,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
     self.viewDeckController.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
     leftController = [self.storyboard instantiateViewControllerWithIdentifier:@"left_side_view_controller"];
-    threads = [NSMutableArray new];
+
     //register a notification observer
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(forumPicked:)
@@ -136,7 +129,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     
     //onscreen command
     onScreenCommandViewController = [[UIStoryboard storyboardWithName:@"OnScreenCommand" bundle:nil] instantiateInitialViewController];
-//    onScreenCommandViewController.parentViewController = self;
     [self addChildViewController:onScreenCommandViewController];
     
 }
@@ -153,15 +145,14 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     delayTime = 9999;
 #endif
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        if (self.forumName.length <= 0) {
+        if (threadList.forumName.length <= 0) {
             if ([czzAppDelegate sharedAppDelegate].forums.count > 0)
             {
                 [[czzAppDelegate sharedAppDelegate].window makeToast:@"用户没有选择板块，随机选择……"];
                 @try {
                     int randomIndex = rand() % [czzAppDelegate sharedAppDelegate].forums.count;
-                    [self setForumName:[[[czzAppDelegate sharedAppDelegate].forums objectAtIndex:randomIndex] name]];
+                    [threadList setForumName:[[[czzAppDelegate sharedAppDelegate].forums objectAtIndex:randomIndex] name]];
                     [self refreshThread:self];
-                    [[[czzAppDelegate sharedAppDelegate] window] makeToastActivity];
                 }
                 @catch (NSException *exception) {
                     
@@ -186,8 +177,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     viewControllerNotInTransition = NO;
-
-    [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
+    [refreshControl endRefreshing];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -259,15 +249,16 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     if ([buttonTitle isEqualToString:@"确定"]){
         NSInteger newPageNumber = [[[alertView textFieldAtIndex:0] text] integerValue];
         if (newPageNumber > 0){
-            pageNumber = newPageNumber;
+
             //clear threads and ready to accept new threads
-            [threads removeAllObjects];
+            [threadList.threads removeAllObjects];
             [threadTableView reloadData];
             [heightsForRows removeAllObjects];
             [heightsForRowsForHorizontalMode removeAllObjects];
             [refreshControl beginRefreshing];
-            [self loadMoreThread:self.pageNumber];
-            [[[czzAppDelegate sharedAppDelegate] window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)self.pageNumber]];
+            [threadList loadMoreThreads:newPageNumber];
+
+            [[[czzAppDelegate sharedAppDelegate] window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)threadList.pageNumber]];
         } else {
             [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"页码无效..."];
         }
@@ -289,64 +280,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     }
 }
 
-#pragma mark - save threads/restore threads, to be used after the app entered or returned from the background
--(void)prepareToEnterBackground {
-    if (threads.count > 0) {
-        [[czzThreadCacheManager sharedInstance] saveThreadsForHome:threads];
-        [[czzThreadCacheManager sharedInstance] saveContentOffSetForHome:threadTableView.contentOffset];
-    }
-    if (selectedThread) {
-        [[czzThreadCacheManager sharedInstance] saveSelectedThreadForHome:selectedThread];
-    }
-    NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
-    if (forumName)
-        [userDef setObject:forumName forKey:@"forumName"];
-    
-    //also notify the opened threadview controller
-    if (threadViewController) {
-        [threadViewController prepareToEnterBackground];
-    }
-    [userDef synchronize];
-
-}
-
--(void)restoreFromBackground {
-    //if threads count is 0, means this app has just been launched
-    NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
-    if (threads.count == 0) {
-        NSArray* cachedThreads = [[czzThreadCacheManager sharedInstance] readThreadsForHome];
-        czzThread *cachedSelectedThread = [[czzThreadCacheManager sharedInstance] readSelectedThreadForHome];
-        if (cachedThreads.count > 0) {
-            [threads addObjectsFromArray:cachedThreads];
-            threadTableView.contentOffset = [[czzThreadCacheManager sharedInstance] readContentOffSetForHome];
-            [threadTableView reloadData];
-
-            if (cachedSelectedThread) {
-                selectedThread = cachedSelectedThread;
-                //open selected thread
-                if ([[userDef objectForKey:@"ThreadViewControllerActive"] boolValue]) {
-                    //push the threadview controller without animation
-                    threadViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"czz_thread_view_controller"];
-                    threadViewController.parentThread = selectedThread;
-                    [self.navigationController pushViewController:threadViewController animated:NO];
-                    [threadViewController restoreFromBackground];
-                }
-            }
-//            pageNumber = threads.count / 20 + 1;
-            pageNumber = threads.count / settingsCentre.threads_per_page + 1;
-        }
-    }
-    if ([userDef objectForKey:@"forumName"]) {
-        self.forumName = [userDef objectForKey:@"forumName"];
-    }
-    //delete everything upon restoring is finished
-    [userDef removeObjectForKey:@"forumName"];
-    [userDef synchronize];
-    [[czzThreadCacheManager sharedInstance] removeContentOffSetForHome];
-    [[czzThreadCacheManager sharedInstance] removeThreadsForHome];
-    [[czzThreadCacheManager sharedInstance] removeSelectedThreadForHome];
-}
-
 #pragma mark - more action and commands
 -(void)openSettingsPanel{
     UIViewController *settingsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"settings_view_controller"];
@@ -355,9 +288,9 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 }
 
 -(void)newPost{
-    if (self.forumName.length > 0){
+    if (threadList.forumName.length > 0){
         czzPostViewController *newPostViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
-        [newPostViewController setForumName:forumName];
+        [newPostViewController setForumName:threadList.forumName];
         newPostViewController.postMode = NEW_POST;
         [self.navigationController presentViewController:newPostViewController animated:YES completion:nil];
     } else {
@@ -367,7 +300,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 -(void)moreInfoAction {
     czzMoreInfoViewController *moreInfoViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"more_info_view_controller"];
-    moreInfoViewController.forumName = self.forumName;
+    moreInfoViewController.forumName = threadList.forumName;
     [self presentViewController:moreInfoViewController animated:YES completion:nil];
 }
 
@@ -383,7 +316,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == threads.count){
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
-        if (xmlDownloader) {
+        if (threadList.isDownloading || threadList.isProcessing) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"loading_cell_identifier"];
             UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
             [activityIndicator startAnimating];
@@ -426,7 +359,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     if (selectedIndex.row < threads.count)
         [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
     else {
-        [self loadMoreThread:pageNumber];
+        [threadList loadMoreThreads:++threadList.pageNumber];
         [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
 }
@@ -479,11 +412,23 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     if(path.row == threads.count && threads.count > 0)
     {
         CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
-        if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !xmlDownloader){
-            [self performSelector:@selector(loadMoreThread:) withObject:nil];
+        if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !(threadList.isDownloading || threadList.isProcessing)){
+            [threadList loadMoreThreads:++threadList.pageNumber];
             [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
     }
+}
+
+#pragma mark - czzThreadListProtocol
+-(void)threadListDownloaded:(czzThreadList *)threadList wasSuccessful:(BOOL)wasSuccessful {
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+}
+
+-(void)threadListProcessed:(czzThreadList *)threadList wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    threads = [NSArray arrayWithArray:allThreads];
+    [threadTableView reloadData];
+    [refreshControl endRefreshing];
 }
 
 #pragma mark - self.refreshControl and download controls
@@ -493,72 +438,11 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 //create a new NSURL outta targetURLString, and reload the content threadTableView
 -(void)refreshThread:(id)sender{
-    [threads removeAllObjects];
     [heightsForRows removeAllObjects];
     [heightsForRowsForHorizontalMode removeAllObjects];
     [threadTableView reloadData];
     //reset to default page number
-    pageNumber = 1;
-    [self loadMoreThread:pageNumber];
-}
-
--(void)loadMoreThread:(NSInteger)pn{
-    if (!pn)
-        pn = pageNumber;
-    if (xmlDownloader)
-        [xmlDownloader stop];
-    NSString *targetURLStringWithPN = [targetURLString stringByAppendingString:[NSString stringWithFormat:@"?page=%ld", (long)pn]];
-    xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
-}
-
-#pragma czzXMLDownloader - thread xml data received
--(void)downloadOf:(NSURL *)xmlURL successed:(BOOL)successed result:(NSData *)xmlData{
-    [xmlDownloader stop];
-    xmlDownloader = nil;
-    if (successed){
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            //TODO: provide a way to switch from xml and json format
-            czzJSONProcessor *jsonProcessor = [czzJSONProcessor new];
-            jsonProcessor.delegate = self;
-            [jsonProcessor processThreadListFromData:xmlData];
-        });
-    } else {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"无法下载资料，请检查网络" duration:1.2 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
-            [refreshControl endRefreshing];
-            [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
-            [threadTableView reloadData];
-        });
-    }
-}
-
-#pragma mark - czzXMLProcessorDelegate
--(void)threadListProcessed:(NSArray *)newThreads :(BOOL)success{
-    if (success){
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (shouldHideImageForThisForum)
-            {
-                for (czzThread *thread in newThreads) {
-                    thread.thImgSrc = nil;
-                }
-            }
-            //process the returned data and pass into the array
-            [threads addObjectsFromArray:newThreads];
-            //increase the page number if returned data is enough to fill a page
-            if (newThreads.count >= 10)
-                pageNumber += 1;
-        });
-    } else {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"无法下载资料，请检查网络" duration:1.2 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
-        });
-    }
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [refreshControl endRefreshing];
-        [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
-        [threadTableView reloadData];
-        [self updateNumberButton];
-    });
+    [threadList refresh];
 }
 
 -(void)updateNumberButton {
@@ -586,16 +470,14 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     NSDictionary *userInfo = notification.userInfo;
     NSString *forumname = [userInfo objectForKey:@"ForumName"];
     if (forumname){
-        self.forumName = forumname;
-        //make busy
-        [[[czzAppDelegate sharedAppDelegate] window] makeToastActivity];
+        [self setForumName:forumname];
         [self refreshThread:self];
     }
 }
 
 -(void)setForumName:(NSString *)name{
-    forumName = name;
-    self.title = forumName;
+    threadList.forumName = name;
+    self.title = threadList.forumName;
     self.navigationItem.backBarButtonItem.title = self.title;
     //disallow image downloading if specified by remote settings
     shouldHideImageForThisForum = false;
@@ -604,13 +486,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
             shouldHideImageForThisForum = true;
             break;
         }
-    }
-    //set the targetURLString with the given forum name
-    targetURLString = [baseURLString stringByAppendingString:[self.forumName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    //access token for the server
-    NSString *oldToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"access_token"];
-    if (oldToken){
-//        targetURLString = [targetURLString stringByAppendingFormat:@"&access_token=%@", oldToken];
     }
 }
 
@@ -656,15 +531,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         threadViewController.shouldHideImageForThisForum = shouldHideImageForThisForum;
         [threadViewController setParentThread:selectedThread];
     }
-}
-
-#pragma sort array - sort the threads so they arrange with ID
--(NSArray*)sortTheGivenArray:(NSArray*)array{
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"ID" ascending:YES];
-    NSArray *sortedArray = [array sortedArrayUsingDescriptors:@[sortDescriptor]];
-
-    return sortedArray;
-
 }
 
 #pragma mark - rotation events

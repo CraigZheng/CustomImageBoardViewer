@@ -15,9 +15,12 @@
 
 @class czzThreadList;
 @protocol czzThreadListProtocol <NSObject>
+@optional
+-(void)threadListBeginDownloading:(czzThreadList*)threadList;
 -(void)threadListProcessed:(czzThreadList*)threadList wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray*)newThreads allThreads:(NSArray*)allThreads;
 -(void)subThreadProcessed:(czzThreadList*)threadList wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray*)newThreads allThreads:(NSArray*)allThreads;
-@optional
+
+//updates
 -(void)threadListUpdated:(czzThreadList*)threadList progress:(CGFloat)progress;
 -(void)threadListDownloaded:(czzThreadList*)threadList wasSuccessful:(BOOL)wasSuccessful;
 
@@ -30,7 +33,10 @@
 @property NSMutableArray *threads;
 @property NSArray *lastBatchOfThreads;
 @property id<czzThreadListProtocol> delegate;
+@property BOOL isDownloading;
+@property BOOL isProcessing;
 
 -(void)refresh;
+-(void)loadMoreThreads;
 -(void)loadMoreThreads:(NSInteger)pageNumber;
 @end

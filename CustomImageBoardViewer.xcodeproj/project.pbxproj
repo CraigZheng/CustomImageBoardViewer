@@ -130,8 +130,6 @@
 		4453C08A19F7322E00A8250F /* libDartCrowdSourcingLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4453C07F19F7203D00A8250F /* libDartCrowdSourcingLib.a */; };
 		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
 		446CC58219DC2BDE009BF24E /* czzHTMLParserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 446CC58119DC2BDE009BF24E /* czzHTMLParserViewController.m */; };
-		4479B06B19FBE0E50074D484 /* czzThreadViewUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 4479B06A19FBE0E50074D484 /* czzThreadViewUtil.m */; };
-		4479B06C19FBE0E50074D484 /* czzThreadViewUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 4479B06A19FBE0E50074D484 /* czzThreadViewUtil.m */; };
 		4479B07D1A0BB8E70074D484 /* czzTextViewHeightCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4479B07C1A0BB8E70074D484 /* czzTextViewHeightCalculator.m */; };
 		4479B08A1A0CCB270074D484 /* MiniThreadView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4479B0891A0CCB270074D484 /* MiniThreadView.storyboard */; };
 		4479B0901A0CCB6D0074D484 /* czzMiniThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4479B08F1A0CCB6D0074D484 /* czzMiniThreadViewController.m */; };
@@ -568,8 +566,6 @@
 		4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFavouriteManagerViewController.m; sourceTree = "<group>"; };
 		446CC58019DC2BDE009BF24E /* czzHTMLParserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzHTMLParserViewController.h; sourceTree = "<group>"; };
 		446CC58119DC2BDE009BF24E /* czzHTMLParserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzHTMLParserViewController.m; sourceTree = "<group>"; };
-		4479B06919FBE0E50074D484 /* czzThreadViewUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewUtil.h; sourceTree = "<group>"; };
-		4479B06A19FBE0E50074D484 /* czzThreadViewUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewUtil.m; sourceTree = "<group>"; };
 		4479B07B1A0BB8E70074D484 /* czzTextViewHeightCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzTextViewHeightCalculator.h; sourceTree = "<group>"; };
 		4479B07C1A0BB8E70074D484 /* czzTextViewHeightCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzTextViewHeightCalculator.m; sourceTree = "<group>"; };
 		4479B0891A0CCB270074D484 /* MiniThreadView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MiniThreadView.storyboard; sourceTree = "<group>"; };
@@ -1117,8 +1113,6 @@
 		441E5E5517F52DF300289DBD /* czzThreadViewController */ = {
 			isa = PBXGroup;
 			children = (
-				4479B06919FBE0E50074D484 /* czzThreadViewUtil.h */,
-				4479B06A19FBE0E50074D484 /* czzThreadViewUtil.m */,
 				441E5E5217F52DEF00289DBD /* czzThreadViewController.h */,
 				441E5E5317F52DEF00289DBD /* czzThreadViewController.m */,
 				440B2FCD17F8057C00544926 /* czzPostViewController */,
@@ -2232,7 +2226,6 @@
 				5ADCA46A1938F67F002BA60B /* ValueFormatter.m in Sources */,
 				442A8FB119DB7DF200A3516E /* PSTCollectionViewItemKey.m in Sources */,
 				442A8FF119DB7F5400A3516E /* SDWebImageCompat.m in Sources */,
-				4479B06B19FBE0E50074D484 /* czzThreadViewUtil.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2240,7 +2233,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4479B06C19FBE0E50074D484 /* czzThreadViewUtil.m in Sources */,
 				441E5CFD17F4691300289DBD /* CustomImageBoardViewerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

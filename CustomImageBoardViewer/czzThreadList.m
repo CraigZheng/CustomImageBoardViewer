@@ -28,6 +28,7 @@
 @synthesize pageNumber;
 @synthesize delegate;
 @synthesize lastBatchOfThreads;
+@synthesize isDownloading, isProcessing;
 
 -(instancetype)init {
     self = [super init];
@@ -37,7 +38,8 @@
         threadListProcessor.delegate = self;
         subThreadProcessor = [czzJSONProcessor new];
         subThreadProcessor.delegate = self;
-        
+        isDownloading = NO;
+        isProcessing = NO;
         threads = [NSMutableArray new];
     }
     return self;
@@ -47,6 +49,11 @@
     threads = [NSMutableArray new];
     lastBatchOfThreads = nil;
     pageNumber = 1;
+    [self loadMoreThreads:pageNumber];
+}
+
+-(void)loadMoreThreads {
+    [self loadMoreThreads:++pageNumber];
 }
 
 -(void)loadMoreThreads:(NSInteger)pn {
@@ -55,14 +62,20 @@
     pageNumber = pn;
     NSString *targetURLStringWithPN = [[baseURLString stringByAppendingString:[forumName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]] stringByAppendingString:[NSString stringWithFormat:@"?page=%ld", (long)pageNumber]];
     xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
+    isDownloading = YES;
+    if (delegate && [delegate respondsToSelector:@selector(threadListBeginDownloading:)]) {
+        [delegate threadListBeginDownloading:self];
+    }
 }
 
 #pragma czzXMLDownloader - thread xml data received
 -(void)downloadOf:(NSURL *)targetURL successed:(BOOL)successed result:(NSData *)xmlData{
     [xmlDownloader stop];
     xmlDownloader = nil;
+    isDownloading = NO;
     if (successed){
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            isProcessing = YES;
             [threadListProcessor processThreadListFromData:xmlData];
         });
     }
@@ -76,6 +89,7 @@
 
 #pragma mark - czzJSONProcesserProtocol
 -(void)threadListProcessed:(czzJSONProcessor *)processor :(NSArray *)newThreads :(BOOL)success {
+    isProcessing = NO;
     dispatch_async(dispatch_get_main_queue(), ^{
         if (success){
             if (shouldHideImageForThisForum)

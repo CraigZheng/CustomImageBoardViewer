@@ -63,9 +63,7 @@
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    if (homeViewController && homeViewController.threads.count > 0) {
-        [homeViewController prepareToEnterBackground];
-    }
+
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -97,10 +95,7 @@
     [self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:imgFolder]];
     [self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:thumbnailFolder]];
     [self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:notificationCacheFolder]];
-    //restore homeview controller
-    if (homeViewController) {
-        [homeViewController restoreFromBackground];
-    }
+
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
