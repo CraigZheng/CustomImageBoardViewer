@@ -99,6 +99,7 @@
 		442EC86E1A1A1C8D005650E4 /* info@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 442EC86B1A1A1C8D005650E4 /* info@3x.png */; };
 		442EC8701A1A1D5D005650E4 /* InAppBrowserStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 442EC86F1A1A1D5D005650E4 /* InAppBrowserStoryboard.storyboard */; };
 		442EC8741A1A1DDE005650E4 /* czzInAppBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 442EC8731A1A1DDE005650E4 /* czzInAppBrowserViewController.m */; };
+		443141971A2B38D6007D65B3 /* czzSubThreadList.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141961A2B38D6007D65B3 /* czzSubThreadList.m */; };
 		443B54DE1990BD3300BAB282 /* attribute.c in Sources */ = {isa = PBXBuildFile; fileRef = 443B54B61990BD3300BAB282 /* attribute.c */; };
 		443B54DF1990BD3300BAB282 /* char_ref.c in Sources */ = {isa = PBXBuildFile; fileRef = 443B54B81990BD3300BAB282 /* char_ref.c */; };
 		443B54E01990BD3300BAB282 /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 443B54BA1990BD3300BAB282 /* error.c */; };
@@ -506,6 +507,8 @@
 		442EC86F1A1A1D5D005650E4 /* InAppBrowserStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = InAppBrowserStoryboard.storyboard; path = ../InAppBrowserStoryboard.storyboard; sourceTree = "<group>"; };
 		442EC8721A1A1DDE005650E4 /* czzInAppBrowserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzInAppBrowserViewController.h; sourceTree = "<group>"; };
 		442EC8731A1A1DDE005650E4 /* czzInAppBrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzInAppBrowserViewController.m; sourceTree = "<group>"; };
+		443141951A2B38D6007D65B3 /* czzSubThreadList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzSubThreadList.h; sourceTree = "<group>"; };
+		443141961A2B38D6007D65B3 /* czzSubThreadList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzSubThreadList.m; sourceTree = "<group>"; };
 		443B54B61990BD3300BAB282 /* attribute.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = attribute.c; sourceTree = "<group>"; };
 		443B54B71990BD3300BAB282 /* attribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = attribute.h; sourceTree = "<group>"; };
 		443B54B81990BD3300BAB282 /* char_ref.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = char_ref.c; sourceTree = "<group>"; };
@@ -1098,6 +1101,8 @@
 			children = (
 				44B89E851A2AFC6B0085F766 /* czzThreadList.h */,
 				44B89E861A2AFC6B0085F766 /* czzThreadList.m */,
+				443141951A2B38D6007D65B3 /* czzSubThreadList.h */,
+				443141961A2B38D6007D65B3 /* czzSubThreadList.m */,
 				441E5D2117F46FBC00289DBD /* czzXMLDownloader */,
 				4498B68A199249180014F73F /* czzJSONProcessor */,
 				441E5D2A17F48F8C00289DBD /* czzThread.h */,
@@ -2187,6 +2192,7 @@
 				442A8FED19DB7F5400A3516E /* MKAnnotationView+WebCache.m in Sources */,
 				442A8FFB19DB7F5400A3516E /* UIImageView+HighlightedWebCache.m in Sources */,
 				44AE2B011872924C002CB021 /* PartialTransparentView.m in Sources */,
+				443141971A2B38D6007D65B3 /* czzSubThreadList.m in Sources */,
 				5AF85E62196EDC110031D0CB /* czzHTMLToThreadParser.m in Sources */,
 				442A8FA719DB7DF200A3516E /* MWZoomingScrollView.m in Sources */,
 				441E5CDB17F4691300289DBD /* main.m in Sources */,
