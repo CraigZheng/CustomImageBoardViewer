@@ -16,6 +16,7 @@
 @property BOOL shouldHideImageForThisForum;
 @property NSString *shouldHighlightSelectedUser;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *starButton;
+@property (weak, nonatomic) IBOutlet UIView *onScreenImageManagerViewContainer;
 
 - (IBAction)moreAction:(id)sender;
 - (IBAction)replyAction:(id)sender;

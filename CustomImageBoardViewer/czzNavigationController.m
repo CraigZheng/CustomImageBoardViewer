@@ -9,6 +9,7 @@
 #import "czzNavigationController.h"
 #import "czzHomeViewController.h"
 
+
 @interface czzNavigationController () <UINavigationControllerDelegate>
 
 @end
@@ -16,6 +17,8 @@
 @implementation czzNavigationController
 @synthesize notificationBannerViewController;
 @synthesize onScreenImageManagerView;
+@synthesize shortImageMangerController;
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -36,7 +39,9 @@
     {
         onScreenImageManagerView = [[UIStoryboard storyboardWithName:@"ImageManagerStoryboard" bundle:nil] instantiateInitialViewController];
     }
-    
+    if (!shortImageMangerController) {
+        shortImageMangerController = [[UIStoryboard storyboardWithName:@"ImageManagerStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:@"short_image_manager_view_controller"];
+    }
 }
 
 -(void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {

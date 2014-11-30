@@ -16,6 +16,8 @@
 #import "czzSettingsCentre.h"
 #import "czzThreadRefButton.h"
 #import "czzInAppBrowserViewController.h"
+#import "czzImageDownloader.h"
+
 #import <QuartzCore/QuartzCore.h>
 
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate>
@@ -23,7 +25,7 @@
 @property NSString *imageFolder;
 @property czzSettingsCentre *settingsCentre;
 @property UITapGestureRecognizer *tapOnImageGestureRecogniser;
-
+@property NSMutableSet *requestedImageURL;
 @end
 
 @implementation czzMenuEnabledTableViewCell
@@ -39,6 +41,7 @@
 @synthesize threadContentView;
 
 @synthesize settingsCentre;
+@synthesize myIndexPath;
 @synthesize shouldHighlight;
 @synthesize shouldHighlightSelectedUser;
 @synthesize shouldAllowClickOnImage;
@@ -49,6 +52,7 @@
 @synthesize thumbnailFolder;
 @synthesize tapOnImageGestureRecogniser;
 @synthesize delegate;
+@synthesize requestedImageURL;
 
 -(void)awakeFromNib {
     thumbnailFolder = [czzAppDelegate thumbnailFolder];
@@ -56,18 +60,21 @@
     settingsCentre = [czzSettingsCentre sharedInstance];
     shouldHighlight = settingsCentre.userDefShouldHighlightPO;
     shouldAllowClickOnImage = YES;
+    requestedImageURL = [NSMutableSet new];
     tapOnImageGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTapInImageView:)];
     
     //apply shadow and radius to background view
     threadContentView.layer.masksToBounds = NO;
     threadContentView.layer.cornerRadius = 5;
-//    threadContentView.layer.shadowOffset = CGSizeMake(1, 1);
-//    threadContentView.layer.shadowRadius = 5;
-//    threadContentView.layer.shadowOpacity = 0.3;
-//    threadContentView.layer.shadowColor = [UIColor darkGrayColor].CGColor;
-//    
-//    UIBezierPath *path = [UIBezierPath bezierPathWithRect:threadContentView.bounds];
-//    threadContentView.layer.shadowPath = path.CGPath;
+    //register for nsnotification centre for image downloaded notification
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(imageDownloaded:)
+                                                 name:@"ThumbnailDownloaded"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(imageDownloaded:)
+                                                 name:@"ImageDownloaded"
+                                               object:nil];
 }
 
 -(BOOL)canPerformAction:(SEL)action withSender:(id)sender{
@@ -319,11 +326,31 @@
             }
             NSLog(@"start : %@", myThread.imgSrc);
             [[czzImageCentre sharedInstance] downloadImageWithURL:myThread.imgSrc isCompletedURL:completedURL];
+            [requestedImageURL addObject:myThread.imgSrc];
             [[czzAppDelegate sharedAppDelegate] showToast:@"正在下载图片"];
         }
 
     }
 }
 
+#pragma mark - notification handler - image downloaded
+-(void)imageDownloaded:(NSNotification*)notification{
+    czzImageDownloader *imgDownloader = [notification.userInfo objectForKey:@"ImageDownloader"];
+    BOOL success = [[notification.userInfo objectForKey:@"Success"] boolValue];
+    if (!success){
+        return;
+    }
+    if (imgDownloader && delegate)
+    {
+        if (imgDownloader.isThumbnail) {
+            if ([imgDownloader.targetURLString.lastPathComponent isEqualToString:myThread.thImgSrc.lastPathComponent]) {
+                [delegate imageDownloadedForIndexPath:myIndexPath filePath:[notification.userInfo objectForKey:@"FilePath"] isThumbnail:imgDownloader.isThumbnail];
+            }
+        }
+        else if ([requestedImageURL containsObject:imgDownloader.targetURLString]) {
+            [delegate imageDownloadedForIndexPath:myIndexPath filePath:[notification.userInfo objectForKey:@"FilePath"] isThumbnail:imgDownloader.isThumbnail];
+        }
+    }
+}
 
 @end

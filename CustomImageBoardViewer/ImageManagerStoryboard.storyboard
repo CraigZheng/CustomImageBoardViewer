@@ -65,28 +65,52 @@
             </objects>
             <point key="canvasLocation" x="584" y="299"/>
         </scene>
-        <!--Collection View Controller-->
+        <!--Czz Short Image Manager Collection View Controller-->
         <scene sceneID="Xdi-TE-DrG">
             <objects>
-                <collectionViewController id="A65-Te-ZXR" sceneMemberID="viewController">
+                <collectionViewController storyboardIdentifier="short_image_manager_view_controller" id="A65-Te-ZXR" customClass="czzShortImageManagerCollectionViewController" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="cdn-yQ-ZB2">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="6xQ-OH-dq0">
-                            <size key="itemSize" width="50" height="50"/>
+                            <size key="itemSize" width="120" height="120"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="MLB-z7-1Fc">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="MLB-z7-1Fc" customClass="image_cell_identifier">
                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon-76.png" translatesAutoresizingMaskIntoConstraints="NO" id="itp-sl-vbz">
+                                            <rect key="frame" x="0.0" y="0.0" width="120" height="100"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="INFO LABEL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" translatesAutoresizingMaskIntoConstraints="NO" id="Lu9-Pu-9gy">
+                                            <rect key="frame" x="0.0" y="99" width="120" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="tyf-Hn-jCY"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="itp-sl-vbz" firstAttribute="leading" secondItem="MLB-z7-1Fc" secondAttribute="leading" id="1Ja-c0-ZCo"/>
+                                    <constraint firstItem="Lu9-Pu-9gy" firstAttribute="leading" secondItem="MLB-z7-1Fc" secondAttribute="leading" id="cpM-0w-k0D"/>
+                                    <constraint firstItem="itp-sl-vbz" firstAttribute="top" secondItem="MLB-z7-1Fc" secondAttribute="top" id="hmA-1x-feq"/>
+                                    <constraint firstAttribute="trailing" secondItem="itp-sl-vbz" secondAttribute="trailing" id="iNf-64-84J"/>
+                                    <constraint firstAttribute="bottom" secondItem="itp-sl-vbz" secondAttribute="bottom" constant="20" id="ii4-lY-3ih"/>
+                                    <constraint firstAttribute="trailing" secondItem="Lu9-Pu-9gy" secondAttribute="trailing" id="uVf-op-8dn"/>
+                                    <constraint firstAttribute="bottom" secondItem="Lu9-Pu-9gy" secondAttribute="bottom" id="xPe-gv-om9"/>
+                                </constraints>
                             </collectionViewCell>
                         </cells>
                         <connections>
@@ -117,7 +141,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="103.5" height="103.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="104" height="104"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="qbE-Zj-WoM">
@@ -165,6 +189,7 @@
     </scenes>
     <resources>
         <image name="Icon-40.png" width="40" height="40"/>
+        <image name="Icon-76.png" width="76" height="76"/>
         <image name="Icon.png" width="57" height="57"/>
     </resources>
 </document>

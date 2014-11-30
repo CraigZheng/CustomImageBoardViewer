@@ -195,6 +195,7 @@
 		44CF256B1A26B4D000BD8228 /* UIView+MGBadgeView.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25661A26B4D000BD8228 /* UIView+MGBadgeView.podspec */; };
 		44CF25711A26F2E700BD8228 /* UIBarButtonItem+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CF256E1A26F2E700BD8228 /* UIBarButtonItem+Badge.m */; };
 		44CF25721A26F2E700BD8228 /* UIButton+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CF25701A26F2E700BD8228 /* UIButton+Badge.m */; };
+		44CF25751A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CF25741A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.m */; };
 		44E791811A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */; };
 		44E791CD1A17856500A63C04 /* advance.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918D1A17856500A63C04 /* advance.png */; };
 		44E791CE1A17856500A63C04 /* advance@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918E1A17856500A63C04 /* advance@2x.png */; };
@@ -654,6 +655,8 @@
 		44CF256E1A26F2E700BD8228 /* UIBarButtonItem+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Badge.m"; sourceTree = "<group>"; };
 		44CF256F1A26F2E700BD8228 /* UIButton+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Badge.h"; sourceTree = "<group>"; };
 		44CF25701A26F2E700BD8228 /* UIButton+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Badge.m"; sourceTree = "<group>"; };
+		44CF25731A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzShortImageManagerCollectionViewController.h; sourceTree = "<group>"; };
+		44CF25741A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzShortImageManagerCollectionViewController.m; sourceTree = "<group>"; };
 		44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NotificationCentreStoryBoard.storyboard; sourceTree = "<group>"; };
 		44E7918D1A17856500A63C04 /* advance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = advance.png; sourceTree = "<group>"; };
 		44E7918E1A17856500A63C04 /* advance@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "advance@2x.png"; sourceTree = "<group>"; };
@@ -1393,6 +1396,8 @@
 				444146D91A1ACA8700B27D69 /* ImageManagerStoryboard.storyboard */,
 				444146E01A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.h */,
 				444146E11A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.m */,
+				44CF25731A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.h */,
+				44CF25741A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.m */,
 			);
 			name = ImageManager;
 			sourceTree = "<group>";
@@ -2203,6 +2208,7 @@
 				443B54F01990BD3300BAB282 /* OGUtility.m in Sources */,
 				4416B72719413EAF00B69C5B /* FPTouchView.m in Sources */,
 				442A8FB019DB7DF200A3516E /* PSTCollectionViewFlowLayout.m in Sources */,
+				44CF25751A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.m in Sources */,
 				442A8FAD19DB7DF200A3516E /* PSTCollectionViewCell.m in Sources */,
 				443B54E51990BD3300BAB282 /* tokenizer.c in Sources */,
 				442A8FA319DB7DF200A3516E /* MWPhoto.m in Sources */,

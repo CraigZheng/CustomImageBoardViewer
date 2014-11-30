@@ -8,6 +8,7 @@
 
 #import "czzImageDownloader.h"
 #import "czzAppDelegate.h"
+#import "czzSettingsCentre.h"
 
 @interface czzImageDownloader()<NSURLConnectionDelegate>
 @property NSURLConnection *urlConn;
@@ -32,10 +33,11 @@
 @synthesize backgroundTaskID;
 @synthesize shouldAddHost;
 
+
 -(id)init{
     self = [super init];
     if (self){
-        baseURLString = @"http://h.acfun.tv";
+        baseURLString = [[czzSettingsCentre sharedInstance] image_host];
         shouldAddHost = YES;
     }
     return self;
@@ -89,11 +91,14 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
+    NSUInteger originalSize = receivedData.length;
     [receivedData appendData:data];
     downloadedSize = receivedData.length;
     //inform delegate that a part of download is finished
     if ([delegate respondsToSelector:@selector(downloaderProgressUpdated:expectedLength:downloadedLength:)]){
-        [delegate downloaderProgressUpdated:self expectedLength:(NSUInteger)fileSize downloadedLength:downloadedSize];
+        //should only send notification every 1/10 of the total size
+        if ((downloadedSize - originalSize) > fileSize / 10)
+            [delegate downloaderProgressUpdated:self expectedLength:(NSUInteger)fileSize downloadedLength:downloadedSize];
     }
 }
 
