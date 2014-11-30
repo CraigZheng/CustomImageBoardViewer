@@ -28,9 +28,6 @@
 - (IBAction)bookmarkAction:(id)sender;
 - (IBAction)settingsAction:(id)sender;
 
-
--(void)prepareToEnterBackground; //entering background, save forumName, threads, selected threads, content offset(position in tableview), should open thread view controller with selected thread
--(void)restoreFromBackground; //restore the above settings if threads are empty
 -(void)scrollTableViewToTop;
 -(void)scrollTableViewToBottom;
 

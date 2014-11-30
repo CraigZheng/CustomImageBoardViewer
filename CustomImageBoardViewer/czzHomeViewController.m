@@ -21,10 +21,12 @@
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzTextViewHeightCalculator.h"
 #import "czzImageViewerUtil.h"
+#import "czzThreadList.h"
 #import "czzNavigationController.h"
 #import "czzOnScreenImageManagerViewController.h"
 #import "UIBarButtonItem+Badge.h"
-#import "czzThreadList.h"
+//#import "UINavigationController+SGProgress.h"
+#import "GSIndeterminateProgressView.h"
 
 #import <CoreText/CoreText.h>
 
@@ -33,14 +35,14 @@
 @interface czzHomeViewController() <UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzThreadListProtocol>
 @property czzThreadList* threadList;
 @property NSArray *threads;
+@property NSArray *verticalHeights;
+@property NSArray *horizontalHeights;
 @property NSInteger currentPage;
 @property NSIndexPath *selectedIndex;
 @property czzThread *selectedThread;
 @property czzThreadViewController *threadViewController;
 @property NSMutableDictionary *downloadedImages;
 @property UIViewController *leftController;
-@property NSMutableArray *heightsForRows;
-@property NSMutableArray *heightsForRowsForHorizontalMode;
 @property czzOnScreenCommandViewController *onScreenCommandViewController;
 @property BOOL shouldDisplayQuickScrollCommand;
 @property NSString *thumbnailFolder;
@@ -50,18 +52,19 @@
 @property czzImageViewerUtil *imageViewerUtil;
 @property UIRefreshControl* refreshControl;
 @property UIBarButtonItem *numberBarButton;
+@property GSIndeterminateProgressView *progressView;
 @end
 
 @implementation czzHomeViewController
 @synthesize currentPage;
 @synthesize threads;
+@synthesize verticalHeights;
+@synthesize horizontalHeights;
 @synthesize threadTableView;
 @synthesize selectedIndex;
 @synthesize selectedThread;
 @synthesize downloadedImages;
 @synthesize leftController;
-@synthesize heightsForRows;
-@synthesize heightsForRowsForHorizontalMode;
 @synthesize onScreenCommandViewController;
 @synthesize threadViewController;
 @synthesize shouldDisplayQuickScrollCommand;
@@ -78,6 +81,7 @@
 @synthesize refreshControl;
 @synthesize threadList;
 @synthesize settingsBarButton;
+@synthesize progressView;
 
 static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
 static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
@@ -88,6 +92,10 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     //thread list, source of all data
     threadList = [czzThreadList new];
     threadList.delegate = self;
+    threadList.parentViewController = self;
+    
+    //progress bar
+    progressView = [(czzNavigationController*) self.navigationController progressView];
     
     //right bar button items
     infoBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"info.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(moreInfoAction)];
@@ -98,8 +106,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     settingsCentre = [czzSettingsCentre sharedInstance];
 
     downloadedImages = [NSMutableDictionary new];
-    heightsForRows = [NSMutableArray new];
-    heightsForRowsForHorizontalMode = [NSMutableArray new];
     //thumbnail folder
     thumbnailFolder = [czzAppDelegate thumbnailFolder];
     
@@ -136,6 +142,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [onScreenCommandViewController show];
+    
+    progressView.progressTintColor = [self.navigationController.navigationBar barTintColor];
     
     viewControllerNotInTransition = YES;
     shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
@@ -251,10 +259,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         if (newPageNumber > 0){
 
             //clear threads and ready to accept new threads
-            [threadList.threads removeAllObjects];
+            [threadList removeAll];
             [threadTableView reloadData];
-            [heightsForRows removeAllObjects];
-            [heightsForRowsForHorizontalMode removeAllObjects];
             [refreshControl beginRefreshing];
             [threadList loadMoreThreads:newPageNumber];
 
@@ -369,31 +375,15 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     if (indexPath.row >= threads.count)
         return tableView.rowHeight;
     
-    czzThread *thread;
+    NSArray *heightArray = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? threadList.verticalHeights : threadList.horizontalHeights;
+    CGFloat preferHeight = tableView.rowHeight;
     @try {
-        thread = [threads objectAtIndex:indexPath.row];
+        preferHeight = [[heightArray objectAtIndex:indexPath.row] floatValue];
     }
     @catch (NSException *exception) {
-        
+        NSLog(@"%@", exception);
     }
     
-    NSMutableArray* heightsArray;
-    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-        heightsArray = heightsForRowsForHorizontalMode;
-    } else {
-        heightsArray = heightsForRows;
-    }
-    CGFloat preferHeight = tableView.rowHeight;
-    if (thread){
-        //retrive previously saved height
-        if (indexPath.row < heightsArray.count) {
-            preferHeight = [[heightsArray objectAtIndex:indexPath.row] floatValue];
-        } else {
-            preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:self.view hasImage:thread.thImgSrc.length > 0];
-            preferHeight = MAX(tableView.rowHeight, preferHeight);
-            [heightsArray addObject:[NSNumber numberWithFloat:preferHeight]];
-        }
-    }
     return preferHeight;
 }
 
@@ -424,11 +414,25 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     NSLog(@"%@", NSStringFromSelector(_cmd));
 }
 
--(void)threadListProcessed:(czzThreadList *)threadList wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
+-(void)threadListBeginDownloading:(czzThreadList *)threadList {
+    if (!progressView.isAnimating)
+        [progressView startAnimating];
+}
+
+-(void)threadListProcessed:(czzThreadList *)list wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     NSLog(@"%@", NSStringFromSelector(_cmd));
     threads = [NSArray arrayWithArray:allThreads];
+    horizontalHeights = [NSArray arrayWithArray:threadList.horizontalHeights];
+    verticalHeights = [NSArray arrayWithArray:threadList.verticalHeights];
     [threadTableView reloadData];
+    if (list.pageNumber <= 1 && allThreads.count > 1) //just refreshed
+    {
+        [self scrollTableViewToTop];
+    }
+    
     [refreshControl endRefreshing];
+//    [self.navigationController finishSGProgress];
+    [progressView stopAnimating];
 }
 
 #pragma mark - self.refreshControl and download controls
@@ -438,9 +442,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 //create a new NSURL outta targetURLString, and reload the content threadTableView
 -(void)refreshThread:(id)sender{
-    [heightsForRows removeAllObjects];
-    [heightsForRowsForHorizontalMode removeAllObjects];
-    [threadTableView reloadData];
+//    [threadTableView reloadData];
     //reset to default page number
     [threadList refresh];
 }

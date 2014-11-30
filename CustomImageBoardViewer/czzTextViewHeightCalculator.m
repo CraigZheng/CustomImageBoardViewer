@@ -13,7 +13,7 @@
 
 @implementation czzTextViewHeightCalculator
 
-+(CGFloat)calculatePerfectHeightForThreadContent:(czzThread *)thread inView:(UIView *)view hasImage:(BOOL)has{
++(CGFloat)calculatePerfectHeightForThreadContent:(czzThread *)thread inView:(UIView *)view forWidth:(CGFloat)width hasImage:(BOOL)has {
     CGFloat preferHeight = 44;
     
     @autoreleasepool {
@@ -22,7 +22,7 @@
         [view addSubview:newHiddenTextView];
         newHiddenTextView.attributedText = thread.content;
         newHiddenTextView.font = [[czzSettingsCentre sharedInstance] contentFont];
-        preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(newHiddenTextView.frame.size.width, MAXFLOAT)].height + 22;
+        preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(width, MAXFLOAT)].height + 22;
         [newHiddenTextView removeFromSuperview];
     }
     
@@ -33,11 +33,11 @@
             
             NSString *filePath = [[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:[thread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
             UIImage *previewImage =[[UIImage alloc] initWithContentsOfFile:filePath];
-             
+            
             if (previewImage) {
                 CGFloat imgShortEdge = MIN(previewImage.size.height, previewImage.size.width);
                 CGFloat imgLongEdge = MAX(previewImage.size.height, previewImage.size.width);
-//                preferHeight = MAX(shortEdge / 1.3, preferHeight);
+                //                preferHeight = MAX(shortEdge / 1.3, preferHeight);
                 preferHeight += shortEdge * (imgShortEdge / imgLongEdge);
             }
             
@@ -47,6 +47,10 @@
     }
     preferHeight += THREAD_VIEW_CELL_MARGIN;
     return preferHeight;
+}
+
++(CGFloat)calculatePerfectHeightForThreadContent:(czzThread *)thread inView:(UIView *)view hasImage:(BOOL)has{
+    return [self calculatePerfectHeightForThreadContent:thread inView:view forWidth:view.frame.size.width hasImage:has];
 }
 
 @end

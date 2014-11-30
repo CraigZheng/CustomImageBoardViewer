@@ -7,9 +7,6 @@
 //
 
 #import "czzThread.h"
-#import "czzJSONProcessor.h"
-#import "czzXMLDownloader.h"
-#import "czzSettingsCentre.h"
 
 #import <Foundation/Foundation.h>
 
@@ -32,11 +29,15 @@
 @property NSInteger pageNumber;
 @property NSMutableArray *threads;
 @property NSArray *lastBatchOfThreads;
+@property UIViewController *parentViewController;
 @property id<czzThreadListProtocol> delegate;
 @property BOOL isDownloading;
 @property BOOL isProcessing;
+@property NSMutableArray *horizontalHeights;
+@property NSMutableArray *verticalHeights;
 
 -(void)refresh;
 -(void)loadMoreThreads;
 -(void)loadMoreThreads:(NSInteger)pageNumber;
+-(void)removeAll;
 @end

@@ -10,9 +10,11 @@
 #import "czzNotificationBannerViewController.h"
 #import "czzOnScreenImageManagerViewController.h"
 #import "czzShortImageManagerCollectionViewController.h"
+#import "GSIndeterminateProgressView.h"
 
 @interface czzNavigationController : UINavigationController
 @property czzNotificationBannerViewController *notificationBannerViewController;
 @property czzOnScreenImageManagerViewController *onScreenImageManagerView;
 @property czzShortImageManagerCollectionViewController *shortImageMangerController;
+@property GSIndeterminateProgressView *progressView;
 @end

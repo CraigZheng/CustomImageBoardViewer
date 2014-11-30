@@ -11,12 +11,14 @@
 @interface czzXMLDownloader()
 @property NSURLConnection *urlConn;
 @property NSMutableData *receivedXMLData;
+@property NSUInteger expectedLength;
 @end
 
 @implementation czzXMLDownloader
 @synthesize urlConn;
 @synthesize targetURL;
 @synthesize receivedXMLData;
+@synthesize expectedLength;
 @synthesize backgroundTaskID;
 
 -(id)initWithTargetURL:(NSURL *)url delegate:(id<czzXMLDownloaderDelegate>)delegate startNow:(BOOL)now{
@@ -50,7 +52,7 @@
 #pragma NSURLConnectionDelegate
 -(void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse *)response{
     self.receivedXMLData = [NSMutableData new];
-
+    expectedLength = response.expectedContentLength;
     self.backgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         [connection cancel];
     }];
@@ -58,6 +60,10 @@
 
 -(void)connection:(NSURLConnection*)connection didReceiveData:(NSData *)data{
     [self.receivedXMLData appendData:data];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(downloadUpdated:progress:)]) {
+        CGFloat progress = (CGFloat)self.receivedXMLData.length / (CGFloat)expectedLength;
+        [self.delegate downloadUpdated:self progress:progress];
+    }
 }
 
 -(void)connection:(NSURLConnection*)connection didFailWithError:(NSError *)error{

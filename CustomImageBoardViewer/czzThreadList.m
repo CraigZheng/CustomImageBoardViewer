@@ -9,6 +9,10 @@
 #define settingCentre [czzSettingsCentre sharedInstance]
 
 #import "czzThreadList.h"
+#import "czzJSONProcessor.h"
+#import "czzXMLDownloader.h"
+#import "czzSettingsCentre.h"
+#import "czzTextViewHeightCalculator.h"
 
 @interface czzThreadList () <czzXMLDownloaderDelegate, czzJSONProcessorDelegate>
 @property czzXMLDownloader *xmlDownloader;
@@ -29,6 +33,8 @@
 @synthesize delegate;
 @synthesize lastBatchOfThreads;
 @synthesize isDownloading, isProcessing;
+@synthesize horizontalHeights, verticalHeights;
+@synthesize parentViewController;
 
 -(instancetype)init {
     self = [super init];
@@ -41,12 +47,16 @@
         isDownloading = NO;
         isProcessing = NO;
         threads = [NSMutableArray new];
+        horizontalHeights = [NSMutableArray new];
+        verticalHeights = [NSMutableArray new];
     }
     return self;
 }
 
 -(void)refresh {
     threads = [NSMutableArray new];
+    horizontalHeights = [NSMutableArray new];
+    verticalHeights = [NSMutableArray new];
     lastBatchOfThreads = nil;
     pageNumber = 1;
     [self loadMoreThreads:pageNumber];
@@ -68,6 +78,14 @@
     }
 }
 
+-(void)removeAll {
+    pageNumber = 1;
+    [threads removeAllObjects];
+    lastBatchOfThreads = nil;
+    [horizontalHeights removeAllObjects];
+    [verticalHeights removeAllObjects];
+}
+
 #pragma czzXMLDownloader - thread xml data received
 -(void)downloadOf:(NSURL *)targetURL successed:(BOOL)successed result:(NSData *)xmlData{
     [xmlDownloader stop];
@@ -87,26 +105,52 @@
     });
 }
 
+-(void)downloadUpdated:(czzXMLDownloader *)downloader progress:(CGFloat)progress {
+    if (delegate && [delegate respondsToSelector:@selector(threadListUpdated:progress:)]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [delegate threadListUpdated:self progress:progress];
+        });
+    }
+}
+
 #pragma mark - czzJSONProcesserProtocol
 -(void)threadListProcessed:(czzJSONProcessor *)processor :(NSArray *)newThreads :(BOOL)success {
     isProcessing = NO;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (success){
-            if (shouldHideImageForThisForum)
-            {
-                for (czzThread *thread in newThreads) {
-                    thread.thImgSrc = nil;
-                }
+    if (success){
+        if (shouldHideImageForThisForum)
+        {
+            for (czzThread *thread in newThreads) {
+                thread.thImgSrc = nil;
             }
-            //process the returned data and pass into the array
-            lastBatchOfThreads = newThreads;
-            [threads addObjectsFromArray:newThreads];
         }
-        
+        //process the returned data and pass into the array
+        lastBatchOfThreads = newThreads;
+        [threads addObjectsFromArray:newThreads];
+        //calculate heights for both vertical and horizontal
+        [self calculateHeightsForThreads:lastBatchOfThreads];
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
         if (delegate && [delegate respondsToSelector:@selector(threadListProcessed:wasSuccessful:newThreads:allThreads:)]) {
             [delegate threadListProcessed:self wasSuccessful:success newThreads:lastBatchOfThreads allThreads:threads];
         }
         NSLog(@"%@", NSStringFromSelector(_cmd));
+    });
+}
+
+/*
+ calculate heights for both horizontal and vertical of the parent view controller
+ */
+-(void)calculateHeightsForThreads:(NSArray*)newThreads {
+    CGFloat shortWidth, longWidth;
+    shortWidth = MIN([UIScreen mainScreen].applicationFrame.size.height, [UIScreen mainScreen].applicationFrame.size.width);
+    longWidth = MAX([UIScreen mainScreen].applicationFrame.size.width, [UIScreen mainScreen].applicationFrame.size.height);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        for (czzThread *thread in newThreads) {
+            CGFloat shortHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:parentViewController.view forWidth:shortWidth hasImage:thread.imgSrc.length > 0];
+            CGFloat longHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:parentViewController.view forWidth:longWidth hasImage:thread.imgSrc.length > 0];
+            [verticalHeights addObject:[NSNumber numberWithFloat:shortHeight]];
+            [horizontalHeights addObject:[NSNumber numberWithFloat:longHeight]];
+        }
     });
 }
 @end

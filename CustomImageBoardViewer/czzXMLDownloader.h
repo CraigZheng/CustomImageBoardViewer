@@ -8,9 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+@class czzXMLDownloader;
+
 @protocol czzXMLDownloaderDelegate <NSObject>
 @optional
 -(void)downloadOf:(NSURL*)xmlURL successed:(BOOL)successed result:(NSData*)xmlData;
+-(void)downloadUpdated:(czzXMLDownloader*)downloader progress:(CGFloat)progress;
 @end
 
 @interface czzXMLDownloader : NSObject<NSURLConnectionDelegate>

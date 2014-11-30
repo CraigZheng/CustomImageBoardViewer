@@ -18,20 +18,25 @@
 @synthesize notificationBannerViewController;
 @synthesize onScreenImageManagerView;
 @synthesize shortImageMangerController;
+@synthesize progressView;
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.delegate = self;
+
     //notification banner view
     notificationBannerViewController = (czzNotificationBannerViewController*) ([[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:nil] instantiateViewControllerWithIdentifier:@"notification_banner_view_controller"]);
     CGRect frame;
     frame = CGRectMake(0, 0, self.navigationBar.frame.size.width, self.navigationBar.frame.size.height);
     notificationBannerViewController.view.frame = frame;
     notificationBannerViewController.homeViewController = self;
-//    [notificationBannerViewController hide];
-//    [self.navigationBar addSubview:notificationBannerViewController.view];
+    //progressview
+    progressView = [[GSIndeterminateProgressView alloc] initWithFrame:CGRectMake(0, self.navigationBar.frame.size.height - 2, self.navigationBar.frame.size.width, 2)];
+    progressView.progressTintColor = [UIColor lightGrayColor];
+    progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+    [self.navigationBar addSubview:progressView];
     
     
     //create on screen command if nil

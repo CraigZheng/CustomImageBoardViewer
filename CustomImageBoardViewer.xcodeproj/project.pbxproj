@@ -100,6 +100,7 @@
 		442EC8701A1A1D5D005650E4 /* InAppBrowserStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 442EC86F1A1A1D5D005650E4 /* InAppBrowserStoryboard.storyboard */; };
 		442EC8741A1A1DDE005650E4 /* czzInAppBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 442EC8731A1A1DDE005650E4 /* czzInAppBrowserViewController.m */; };
 		443141971A2B38D6007D65B3 /* czzSubThreadList.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141961A2B38D6007D65B3 /* czzSubThreadList.m */; };
+		4431419A1A2B5198007D65B3 /* GSIndeterminateProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141991A2B5198007D65B3 /* GSIndeterminateProgressView.m */; };
 		443B54DE1990BD3300BAB282 /* attribute.c in Sources */ = {isa = PBXBuildFile; fileRef = 443B54B61990BD3300BAB282 /* attribute.c */; };
 		443B54DF1990BD3300BAB282 /* char_ref.c in Sources */ = {isa = PBXBuildFile; fileRef = 443B54B81990BD3300BAB282 /* char_ref.c */; };
 		443B54E01990BD3300BAB282 /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 443B54BA1990BD3300BAB282 /* error.c */; };
@@ -509,6 +510,8 @@
 		442EC8731A1A1DDE005650E4 /* czzInAppBrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzInAppBrowserViewController.m; sourceTree = "<group>"; };
 		443141951A2B38D6007D65B3 /* czzSubThreadList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzSubThreadList.h; sourceTree = "<group>"; };
 		443141961A2B38D6007D65B3 /* czzSubThreadList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzSubThreadList.m; sourceTree = "<group>"; };
+		443141981A2B5198007D65B3 /* GSIndeterminateProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSIndeterminateProgressView.h; sourceTree = "<group>"; };
+		443141991A2B5198007D65B3 /* GSIndeterminateProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSIndeterminateProgressView.m; sourceTree = "<group>"; };
 		443B54B61990BD3300BAB282 /* attribute.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = attribute.c; sourceTree = "<group>"; };
 		443B54B71990BD3300BAB282 /* attribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = attribute.h; sourceTree = "<group>"; };
 		443B54B81990BD3300BAB282 /* char_ref.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = char_ref.c; sourceTree = "<group>"; };
@@ -1322,6 +1325,15 @@
 			name = InAppBrowser;
 			sourceTree = "<group>";
 		};
+		4431419B1A2B519D007D65B3 /* GSIndetermineProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				443141981A2B5198007D65B3 /* GSIndeterminateProgressView.h */,
+				443141991A2B5198007D65B3 /* GSIndeterminateProgressView.m */,
+			);
+			name = GSIndetermineProgressView;
+			sourceTree = "<group>";
+		};
 		443B54B41990BD3300BAB282 /* ObjectiveGumbo */ = {
 			isa = PBXGroup;
 			children = (
@@ -1542,6 +1554,7 @@
 		44B89E771A2AF3CE0085F766 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				4431419B1A2B519D007D65B3 /* GSIndetermineProgressView */,
 				44B89E7E1A2AFBE30085F766 /* UINavigationController+SGProgress */,
 				4498B68E1993A6740014F73F /* PropertyUtil */,
 				441E5D1C17F46E7F00289DBD /* SMXMLDocument */,
@@ -2214,6 +2227,7 @@
 				442A8FA319DB7DF200A3516E /* MWPhoto.m in Sources */,
 				440B2FBD17F7C5DC00544926 /* czzRightSideViewController.m in Sources */,
 				44CF25721A26F2E700BD8228 /* UIButton+Badge.m in Sources */,
+				4431419A1A2B5198007D65B3 /* GSIndeterminateProgressView.m in Sources */,
 				442A8FA919DB7DF200A3516E /* MBProgressHUD.m in Sources */,
 				44CF25711A26F2E700BD8228 /* UIBarButtonItem+Badge.m in Sources */,
 				443B54ED1990BD3300BAB282 /* OGElement.m in Sources */,
