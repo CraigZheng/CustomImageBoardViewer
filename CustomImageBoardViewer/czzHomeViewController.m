@@ -18,8 +18,6 @@
 #import "czzPostViewController.h"
 #import "czzBlacklist.h"
 #import "czzMoreInfoViewController.h"
-#import "czzImageDownloader.h"
-#import "czzImageCentre.h"
 #import "czzAppDelegate.h"
 #import "czzOnScreenCommandViewController.h"
 #import "czzSettingsCentre.h"
@@ -52,7 +50,6 @@
 @property NSString *thumbnailFolder;
 @property czzSettingsCentre *settingsCentre;
 @property BOOL shouldHideImageForThisForum;
-@property czzImageCentre *imageCentre;
 @property BOOL viewControllerNotInTransition;
 @property czzImageViewerUtil *imageViewerUtil;
 @property UIRefreshControl* refreshControl;
@@ -81,7 +78,6 @@
 @synthesize settingsCentre;
 @synthesize shouldHideImageForThisForum;
 @synthesize viewControllerNotInTransition;
-@synthesize imageCentre;
 @synthesize imageViewerUtil;
 @synthesize menuBarButton;
 @synthesize infoBarButton;
@@ -101,7 +97,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     infoBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"info.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(moreInfoAction)];
     self.navigationItem.rightBarButtonItems = @[menuBarButton, infoBarButton];
 
-    imageCentre = [czzImageCentre sharedInstance]; //cause image centre to load itself
     imageViewerUtil = [czzImageViewerUtil new];
     [czzAppDelegate sharedAppDelegate].homeViewController = self; //retain a reference to app delegate, so when entering background, the delegate can inform this controller for further actions
     settingsCentre = [czzSettingsCentre sharedInstance];
@@ -188,16 +183,11 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [super viewWillDisappear:animated];
     viewControllerNotInTransition = NO;
 
-//    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ImageDownloaded" object:nil];
-//    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ImageDownloaderProgressUpdated" object:nil];
     [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ImageDownloaded" object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaderUpdated:) name:@"ImageDownloaderProgressUpdated" object:nil];
-
     self.viewDeckController.rightController = nil;
     self.viewDeckController.leftController = leftController;
     self.viewDeckController.panningMode = IIViewDeckFullViewPanning;
