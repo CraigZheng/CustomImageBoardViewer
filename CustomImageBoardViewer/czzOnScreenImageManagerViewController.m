@@ -7,13 +7,15 @@
 //
 
 #import "czzOnScreenImageManagerViewController.h"
+#import "UIImage+animatedGIF.h"
 
 @interface czzOnScreenImageManagerViewController ()
-
+@property BOOL iconAnimating;
 @end
 
 @implementation czzOnScreenImageManagerViewController
 @synthesize mainIcon;
+@synthesize iconAnimating;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -32,22 +34,22 @@
     
     mainIcon.layer.mask=circle;
     
-    mainIcon.layer.shadowRadius = 5.0;
-    mainIcon.layer.shadowColor = [UIColor darkGrayColor].CGColor;
-    mainIcon.layer.shadowOpacity = 0.8;
+    iconAnimating = NO;
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 - (IBAction)tapOnImageManagerIconAction:(id)sender {
     NSLog(@"%@", NSStringFromSelector(_cmd));
+    [self startAnimating];
+}
+
+-(void)startAnimating {
+    iconAnimating = YES;
+    NSURL *acURL = [[NSBundle mainBundle] URLForResource:@"running_ac" withExtension:@"gif"];
+    mainIcon.image = [UIImage animatedImageWithAnimatedGIFURL:acURL];
+}
+
+-(void)stopAnimating {
+    iconAnimating = NO;
+    mainIcon.image = [UIImage imageNamed:@"Icon.png"];
 }
 @end

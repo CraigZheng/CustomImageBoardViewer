@@ -13,4 +13,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *mainIcon;
 - (IBAction)tapOnImageManagerIconAction:(id)sender;
+
+-(void)startAnimating;
+-(void)stopAnimating;
 @end
