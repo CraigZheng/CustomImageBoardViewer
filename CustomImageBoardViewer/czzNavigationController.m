@@ -34,7 +34,6 @@
     notificationBannerViewController.homeViewController = self;
     //progressview
     progressView = [[GSIndeterminateProgressView alloc] initWithFrame:CGRectMake(0, self.navigationBar.frame.size.height - 2, self.navigationBar.frame.size.width, 2)];
-    progressView.progressTintColor = [UIColor lightGrayColor];
     progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     [self.navigationBar addSubview:progressView];
     
@@ -47,6 +46,12 @@
     if (!shortImageMangerController) {
         shortImageMangerController = [[UIStoryboard storyboardWithName:@"ImageManagerStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:@"short_image_manager_view_controller"];
     }
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    progressView.progressTintColor = [UIColor colorWithRed:69/255. green:98/255. blue:157/255. alpha:1.0];
+    //69	98	157 facebook blue
 }
 
 -(void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {

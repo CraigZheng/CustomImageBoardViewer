@@ -143,8 +143,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [super viewDidAppear:animated];
     [onScreenCommandViewController show];
     
-    progressView.progressTintColor = [self.navigationController.navigationBar barTintColor];
-    
     viewControllerNotInTransition = YES;
     shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
     
