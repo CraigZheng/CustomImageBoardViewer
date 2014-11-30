@@ -28,7 +28,7 @@
 #import "czzMiniThreadViewController.h"
 #import "czzNavigationController.h"
 #import "czzOnScreenImageManagerViewController.h"
-#import "czzThreadList.h"
+#import "czzSubThreadList.h"
 #import "GSIndeterminateProgressView.h"
 
 #define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
@@ -59,7 +59,7 @@
 @property czzMiniThreadViewController *miniThreadView;
 @property BOOL viewControllerNotInTransition;
 @property UIRefreshControl *refreshControl;
-@property czzThreadList *threadList;
+@property czzSubThreadList *threadList;
 @end
 
 @implementation czzThreadViewController
@@ -101,7 +101,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 {
     [super viewDidLoad];
     //thread list, source of all data
-    threadList = [czzThreadList new];
+    threadList = [[czzSubThreadList alloc] initWithParentThread:parentThread];
     threadList.delegate = self;
     threadList.parentViewController = self;
     
@@ -164,15 +164,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(HighlightThreadSelected:) name:@"HighlightAction" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SearchUser:) name:@"SearchAction" object:nil];
 
-    //indicate thread view controller is currently active
-    NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
-    [userDef setObject:[NSNumber numberWithBool:YES] forKey:@"ThreadViewControllerActive"];
-    [userDef synchronize];
-    //scroll to restore from background content off set
-    if (!CGPointEqualToPoint(CGPointZero, restoreFromBackgroundOffSet)) {
-        threadTableView.contentOffset = restoreFromBackgroundOffSet;
-        restoreFromBackgroundOffSet = CGPointZero;
-    }
     //background colour
     self.view.backgroundColor = settingsCentre.viewBackgroundColour;
     
@@ -203,32 +194,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     //ready for push animation
     viewControllerNotInTransition = YES;
     
-}
-
-#pragma mark - enter/exiting background
--(void)prepareToEnterBackground {
-    if (threads.count > 1)
-        [self saveThreadsToCache];
-    NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
-    [userDef setObject:[NSNumber numberWithFloat:threadTableView.contentOffset.y] forKey:@"ThreadViewContentOffSetY"];
-    [userDef synchronize];
-}
-
--(void)restoreFromBackground {
-    NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
-    if ([userDef objectForKey:@"ThreadViewContentOffSetY"]) {
-        CGFloat offSetY = [[userDef objectForKey:@"ThreadViewContentOffSetY"] floatValue];
-        restoreFromBackgroundOffSet = CGPointMake(0, offSetY);
-    }
-
-    [userDef removeObjectForKey:@"ThreadViewContentOffSetY"];
-    [userDef synchronize];
-}
-
--(void)saveThreadsToCache {
-    //save threads to storage
-    [[czzThreadCacheManager sharedInstance] saveThreads:threads forThread:parentThread];
-    [[czzThreadCacheManager sharedInstance] saveVerticalHeights:verticalHeights andHorizontalHeighs:horizontalHeights ForThread:parentThread];
 }
 
 #pragma mark - Table view data source
@@ -291,7 +256,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
             [threadMenuViewController setSelectedThread:selectedThread];
         }
     } else {
-        [self loadMoreThread:pageNumber];
+        [threadList loadMoreThreads];
         [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
 }
@@ -326,23 +291,12 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     @catch (NSException *exception) {
         
     }
-    NSMutableArray *heightArrays;
-    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-        heightArrays = horizontalHeights;
-    } else {
-        heightArrays = verticalHeights;
-    }
     
     CGFloat preferHeight = tableView.rowHeight;
     if (thread){
-        //retrive previously saved height
-        if (indexPath.row < heightArrays.count) {
-            preferHeight = [[heightArrays objectAtIndex:indexPath.row] floatValue];
-        } else {
-            preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:self.view hasImage:thread.thImgSrc.length > 0];
-            preferHeight = MAX(tableView.rowHeight, preferHeight);
-            [heightArrays addObject:[NSNumber numberWithFloat:preferHeight]];
-        }
+        preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:self.view hasImage:thread.thImgSrc.length > 0];
+        preferHeight = MAX(tableView.rowHeight, preferHeight);
+
     }
     return preferHeight;
 }
@@ -419,24 +373,11 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 }
 
 -(void)refreshThread:(id)sender{
-    [self.threads removeAllObjects];
-    [self.threads addObject:parentThread];
-    [verticalHeights removeAllObjects];
-    [horizontalHeights removeAllObjects];
-//    [originalThreadData removeAllObjects];
-//    [originalThreadData addObject:parentThread];
-    [threadTableView reloadData];
-    //reset to default page number
-    pageNumber = 1;
-    [self loadMoreThread:pageNumber];
+    [self loadMoreThread:1];
 }
 
 -(void)loadMoreThread:(NSInteger)pn{
-    if (!pn)
-        pn = pageNumber;
-    NSString *targetURLStringWithPN = [baseURLString stringByAppendingString:
-                                       [NSString stringWithFormat:@"?page=%ld", (long)pn]];
-    [threadList loadMoreThreads];
+    [threadList loadMoreThreads:pn];
 }
 
 
@@ -671,7 +612,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     {
         dispatch_async(dispatch_get_main_queue(), ^{
             self.parentThread = newParentThread;
-            baseURLString = [[baseURLString stringByDeletingLastPathComponent] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld", (long) self.parentThread.ID]];
+            [threadList setParentThread:self.parentThread];
             [self refreshThread:nil];
         });
     }

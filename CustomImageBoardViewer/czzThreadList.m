@@ -33,8 +33,6 @@
         baseURLString = [settingCentre thread_list_host];
         threadListProcessor = [czzJSONProcessor new];
         threadListProcessor.delegate = self;
-        subThreadProcessor = [czzJSONProcessor new];
-        subThreadProcessor.delegate = self;
         isDownloading = NO;
         isProcessing = NO;
         threads = [NSMutableArray new];
@@ -42,6 +40,11 @@
         verticalHeights = [NSMutableArray new];
     }
     return self;
+}
+
+-(void)setForumName:(NSString *)name {
+    forumName = name;
+    baseURLString = [baseURLString stringByAppendingString:[forumName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 }
 
 -(void)refresh {
@@ -61,7 +64,7 @@
     if (xmlDownloader)
         [xmlDownloader stop];
     pageNumber = pn;
-    NSString *targetURLStringWithPN = [[baseURLString stringByAppendingString:[forumName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]] stringByAppendingString:[NSString stringWithFormat:@"?page=%ld", (long)pageNumber]];
+    NSString *targetURLStringWithPN = [baseURLString stringByAppendingString:[NSString stringWithFormat:@"?page=%ld", (long)pageNumber]];
     xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
     isDownloading = YES;
     if (delegate && [delegate respondsToSelector:@selector(threadListBeginDownloading:)]) {

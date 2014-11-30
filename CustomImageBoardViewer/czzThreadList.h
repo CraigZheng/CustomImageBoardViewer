@@ -29,7 +29,7 @@
 
 @interface czzThreadList : NSObject <czzXMLDownloaderDelegate, czzJSONProcessorDelegate>
 @property BOOL shouldHideImageForThisForum;
-@property NSString *forumName;
+@property (nonatomic) NSString *forumName;
 @property NSInteger pageNumber;
 @property NSMutableArray *threads;
 @property NSArray *lastBatchOfThreads;

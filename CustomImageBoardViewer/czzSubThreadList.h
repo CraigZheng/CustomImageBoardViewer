@@ -10,7 +10,7 @@
 
 @interface czzSubThreadList : czzThreadList
 @property NSString* parentID;
-@property czzThread *parentThread;
+@property (nonatomic) czzThread *parentThread;
 
 -(instancetype)initWithParentThread:(czzThread*)thread;
 @end
