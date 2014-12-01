@@ -466,7 +466,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         numberButton.hidden = YES;
     else
         numberButton.hidden = NO;
-    self.navigationItem.rightBarButtonItems = @[moreButton, numberBarButton];
+    self.navigationItem.rightBarButtonItems = @[moreButton, [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil], numberBarButton];
 }
 
 #pragma mark - UI button actions
