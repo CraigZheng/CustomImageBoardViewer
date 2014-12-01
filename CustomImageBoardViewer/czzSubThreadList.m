@@ -29,18 +29,27 @@
 -(instancetype)initWithParentThread:(czzThread *)thread {
     self = [super init];
     if (self) {
-        threads = [NSMutableArray new];
-        verticalHeights = [NSMutableArray new];
-        horizontalHeights = [NSMutableArray new];
-        
         parentThread = thread;
         parentID = [NSString stringWithFormat:@"%ld", (long) parentThread.ID];
         subThreadProcessor = [czzJSONProcessor new];
         subThreadProcessor.delegate = self;
         baseURLString = [[settingCentre thread_content_host] stringByAppendingPathComponent:parentID];
+        
+        threads = [NSMutableArray new];
+        [threads addObject:parentThread];
+        verticalHeights = [NSMutableArray new];
+        horizontalHeights = [NSMutableArray new];
+        
+
     }
     
     return self;
+}
+
+-(void)refresh {
+    [super refresh];
+    threads = [NSMutableArray new];
+    [threads addObject:parentThread];
 }
 
 -(void)setParentThread:(czzThread *)thread {
@@ -56,7 +65,7 @@
     NSString *targetURLStringWithPN = [baseURLString stringByAppendingString:[NSString stringWithFormat:@"?page=%ld", (long)pageNumber]];
     xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
     isDownloading = YES;
-    NSLog(@"%@", baseURLString);
+    NSLog(@"%@", targetURLStringWithPN);
     if (delegate && [delegate respondsToSelector:@selector(threadListBeginDownloading:)]) {
         [delegate threadListBeginDownloading:self];
     }
@@ -74,18 +83,20 @@
     NSLog(@"%@", NSStringFromSelector(_cmd));
     isProcessing = NO;
     if (success) {
-        if (threads.count <= newThread.count) {
-            lastBatchOfThreads = newThread;
-            [threads addObject:parentThread];
-            [threads addObjectsFromArray:lastBatchOfThreads];
+        lastBatchOfThreads = newThread;
+        
+        if (threads.count <= lastBatchOfThreads.count) {
+            NSMutableSet *originalDataSet = [NSMutableSet setWithArray:threads];
+            [originalDataSet addObjectsFromArray:lastBatchOfThreads];
+            threads = [NSMutableArray arrayWithArray:[self sortTheGivenArray:originalDataSet.allObjects]];
+        } else {
+            NSMutableOrderedSet *lastChunkOfThreads = [NSMutableOrderedSet orderedSetWithArray:[threads subarrayWithRange:NSMakeRange(threads.count - lastBatchOfThreads.count, lastBatchOfThreads.count)]];
+            [threads removeObjectsInRange:NSMakeRange(threads.count - lastChunkOfThreads.count, lastChunkOfThreads.count)];
+            [lastChunkOfThreads addObjectsFromArray:lastBatchOfThreads];
+            [threads addObjectsFromArray:lastChunkOfThreads.array];
         }
-        else {
-            NSMutableSet *lastChunkOfThreads = [NSMutableSet setWithArray:[threads subarrayWithRange:NSMakeRange(threads.count - newThread.count, newThread.count)]];
-            [lastChunkOfThreads addObjectsFromArray:newThread];
-            lastBatchOfThreads = [self sortTheGivenArray:lastChunkOfThreads.allObjects];
-            [threads addObject:lastBatchOfThreads];
-        }
-        [self calculateHeightsForThreads:lastBatchOfThreads];
+        
+//        [self calculateHeightsForThreads:lastBatchOfThreads];
     }
     dispatch_async(dispatch_get_main_queue(), ^{
         if (delegate && [delegate respondsToSelector:@selector(subThreadProcessed:wasSuccessful:newThreads:allThreads:)]) {

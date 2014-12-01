@@ -100,7 +100,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     
     //right bar button items
     infoBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"info.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(moreInfoAction)];
-    self.navigationItem.rightBarButtonItems = @[menuBarButton, infoBarButton];
+    self.navigationItem.leftBarButtonItems = @[forumListButton, infoBarButton];
 
     imageViewerUtil = [czzImageViewerUtil new];
     [czzAppDelegate sharedAppDelegate].homeViewController = self; //retain a reference to app delegate, so when entering background, the delegate can inform this controller for further actions
@@ -223,6 +223,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     threads = [NSArray arrayWithArray:threadList.threads];
     horizontalHeights = [NSArray arrayWithArray:threadList.horizontalHeights];
     verticalHeights = [NSArray arrayWithArray:threadList.verticalHeights];
+    [self updateNumberButton];
 }
 
 - (IBAction)sideButtonAction:(id)sender {
@@ -476,7 +477,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         numberButton.hidden = YES;
     else
         numberButton.hidden = NO;
-    self.navigationItem.leftBarButtonItems = @[forumListButton, numberBarButton];
+    self.navigationItem.rightBarButtonItems = @[settingsBarButton, numberBarButton];
 }
 
 #pragma Notification handler - forumPicked

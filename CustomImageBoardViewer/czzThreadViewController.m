@@ -64,6 +64,7 @@
 
 @implementation czzThreadViewController
 @synthesize baseURLString;
+@synthesize numberBarButton;
 @synthesize targetURLString;
 @synthesize threads;
 @synthesize threadTableView;
@@ -94,6 +95,7 @@
 @synthesize onScreenImageManagerViewContainer;
 @synthesize threadList;
 @synthesize progressView;
+@synthesize moreButton;
 
 static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
 static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
@@ -205,6 +207,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     threads = [NSArray arrayWithArray:threadList.threads];
     horizontalHeights = [NSArray arrayWithArray:threadList.horizontalHeights];
     verticalHeights = [NSArray arrayWithArray:threadList.verticalHeights];
+    [self updateNumberButton];
 }
 
 #pragma mark - Table view data source
@@ -294,7 +297,9 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     
     if (indexPath.row >= threads.count)
         return tableView.rowHeight;
-    
+#warning TEMPORARILY SOLUTION ONLY, NEED BETTER HEIGHT ARRAYS LATER
+    return [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:[threads objectAtIndex:indexPath.row] inView:self.view forWidth:self.view.frame.size.width hasImage:[[threads objectAtIndex:indexPath.row] imgSrc].length > 0];
+
     NSArray *heightArray = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? verticalHeights : horizontalHeights;
     CGFloat preferHeight = tableView.rowHeight;
     @try {
@@ -442,6 +447,22 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         [refreshControl endRefreshing];
         [progressView stopAnimating];
     }
+}
+
+-(void)updateNumberButton {
+    UIButton *numberButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    numberButton.frame = CGRectMake(numberButton.frame.origin.x, numberButton.frame.origin.y, 24, 24);
+    numberButton.layer.cornerRadius = 12;
+    numberButton.titleLabel.font = [UIFont systemFontOfSize:11];
+    numberButton.backgroundColor = [UIColor orangeColor];
+    
+    numberBarButton.customView = numberButton;
+    [numberButton setTitle:[NSString stringWithFormat:@"%ld", (long) threads.count] forState:UIControlStateNormal];
+    if (threads.count <= 0)
+        numberButton.hidden = YES;
+    else
+        numberButton.hidden = NO;
+    self.navigationItem.rightBarButtonItems = @[moreButton, numberBarButton];
 }
 
 #pragma mark - UI button actions

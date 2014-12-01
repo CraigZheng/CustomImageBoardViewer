@@ -201,6 +201,7 @@
                         </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="帖子" id="BD0-Cp-BxW">
+                        <barButtonItem key="leftBarButtonItem" enabled="NO" title="99" id="CAv-b5-ujO"/>
                         <barButtonItem key="rightBarButtonItem" image="settings_wrench.png" id="YCE-84-cqh">
                             <connections>
                                 <action selector="moreAction:" destination="CES-L8-oRQ" id="wuQ-Qk-NfU"/>
@@ -208,6 +209,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="moreButton" destination="YCE-84-cqh" id="Irg-zp-7RR"/>
+                        <outlet property="numberBarButton" destination="CAv-b5-ujO" id="5PU-dU-C3a"/>
                         <outlet property="onScreenImageManagerViewContainer" destination="7vQ-Rb-bPA" id="uZj-Br-hDd"/>
                         <outlet property="starButton" destination="eAd-IU-rZD" id="AWa-Az-nEv"/>
                         <outlet property="threadTableView" destination="kEK-ic-Yzh" id="7gl-zA-agX"/>
@@ -1039,7 +1042,7 @@
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
-                        <outlet property="forumListButton" destination="8WD-yv-VRu" id="4fY-cT-lxa"/>
+                        <outlet property="forumListButton" destination="8WD-yv-VRu" id="DLY-p4-ThH"/>
                         <outlet property="menuBarButton" destination="DSK-Nh-2gx" id="QeK-nC-MEP"/>
                         <outlet property="onScreenImageManagerViewContainer" destination="Js0-yW-ln4" id="RGH-rd-G71"/>
                         <outlet property="settingsBarButton" destination="T1x-La-d5b" id="pgG-ZV-6rj"/>
@@ -1155,7 +1158,7 @@
         <image name="upload.png" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="vK6-NU-jzp"/>
+        <segue reference="Uep-8w-iun"/>
         <segue reference="5Fw-Ve-fjP"/>
         <segue reference="DWL-6t-CEf"/>
     </inferredMetricsTieBreakers>
