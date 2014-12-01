@@ -84,17 +84,34 @@
     isProcessing = NO;
     if (success) {
         lastBatchOfThreads = newThread;
-        
-        if (threads.count <= lastBatchOfThreads.count) {
-            NSMutableSet *originalDataSet = [NSMutableSet setWithArray:threads];
-            [originalDataSet addObjectsFromArray:lastBatchOfThreads];
-            threads = [NSMutableArray arrayWithArray:[self sortTheGivenArray:originalDataSet.allObjects]];
+        NSArray *processedNewThread;
+        if (threads.count > 1) {
+            NSInteger lastChunkIndex = threads.count - 20;
+            if (lastChunkIndex < 1)
+                lastChunkIndex = 1;
+            NSInteger lastChunkLength = threads.count - lastChunkIndex;
+            NSRange lastChunkRange = NSMakeRange(lastChunkIndex, lastChunkLength);
+            NSArray *lastChunkOfThread = [threads subarrayWithRange:lastChunkRange];
+            NSMutableSet *oldThreadSet = [NSMutableSet setWithArray:lastChunkOfThread];
+            [oldThreadSet addObjectsFromArray:newThread];
+            [threads removeObjectsInRange:lastChunkRange];
+            processedNewThread = [self sortTheGivenArray:oldThreadSet.allObjects];
         } else {
-            NSMutableOrderedSet *lastChunkOfThreads = [NSMutableOrderedSet orderedSetWithArray:[threads subarrayWithRange:NSMakeRange(threads.count - lastBatchOfThreads.count, lastBatchOfThreads.count)]];
-            [threads removeObjectsInRange:NSMakeRange(threads.count - lastChunkOfThreads.count, lastChunkOfThreads.count)];
-            [lastChunkOfThreads addObjectsFromArray:lastBatchOfThreads];
-            [threads addObjectsFromArray:lastChunkOfThreads.array];
+            processedNewThread = [self sortTheGivenArray:newThread];
         }
+        
+        [threads addObjectsFromArray:processedNewThread];
+        
+//        if (threads.count <= lastBatchOfThreads.count) {
+//            NSMutableSet *originalDataSet = [NSMutableSet setWithArray:threads];
+//            [originalDataSet addObjectsFromArray:lastBatchOfThreads];
+//            threads = [NSMutableArray arrayWithArray:[self sortTheGivenArray:originalDataSet.allObjects]];
+//        } else {
+//            NSMutableOrderedSet *lastChunkOfThreads = [NSMutableOrderedSet orderedSetWithArray:[threads subarrayWithRange:NSMakeRange(threads.count - lastBatchOfThreads.count, lastBatchOfThreads.count)]];
+//            [threads removeObjectsInRange:NSMakeRange(threads.count - lastChunkOfThreads.count, lastChunkOfThreads.count)];
+//            [lastChunkOfThreads addObjectsFromArray:lastBatchOfThreads];
+//            [threads addObjectsFromArray:lastChunkOfThreads.array];
+//        }
         
 //        [self calculateHeightsForThreads:lastBatchOfThreads];
     }

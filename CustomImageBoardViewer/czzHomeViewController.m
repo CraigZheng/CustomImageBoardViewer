@@ -473,11 +473,14 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         numberBarButton.customView = numberButton;
 
     [numberButton setTitle:[NSString stringWithFormat:@"%ld", (long) threads.count] forState:UIControlStateNormal];
-    if (threads.count <= 0)
+    if (threads.count <= 0) {
         numberButton.hidden = YES;
-    else
+        self.navigationItem.rightBarButtonItems = @[settingsBarButton, numberBarButton];
+    }
+    else {
         numberButton.hidden = NO;
-    self.navigationItem.rightBarButtonItems = @[settingsBarButton, numberBarButton];
+        self.navigationItem.rightBarButtonItems = @[settingsBarButton];
+    }
 }
 
 #pragma Notification handler - forumPicked

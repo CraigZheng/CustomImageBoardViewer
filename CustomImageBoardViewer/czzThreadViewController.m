@@ -41,7 +41,6 @@
 @property NSArray *horizontalHeights;
 @property NSIndexPath *selectedIndex;
 @property czzRightSideViewController *threadMenuViewController;
-@property NSInteger pageNumber;
 @property NSMutableDictionary *downloadedImages;
 @property NSMutableSet *currentImageDownloaders;
 @property czzImageViewerUtil *imageViewerUtil;
@@ -71,7 +70,6 @@
 @synthesize selectedIndex;
 @synthesize threadMenuViewController;
 @synthesize parentThread;
-@synthesize pageNumber;
 @synthesize downloadedImages;
 @synthesize currentImageDownloaders;
 @synthesize threadsTableViewContentOffSet;
@@ -118,7 +116,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     //settings
     settingsCentre = [czzSettingsCentre sharedInstance];
     shouldHighlight = settingsCentre.userDefShouldHighlightPO;
-    pageNumber = 1;
     downloadedImages = [NSMutableDictionary new];
     threads = [NSMutableArray new];
     verticalHeights = [NSMutableArray new];
@@ -152,7 +149,9 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     
     //if in foreground, load more threads
     if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground)
-        [self loadMoreThread:pageNumber];
+    {
+        [threadList loadMoreThreads];
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -231,7 +230,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
             cell = [tableView dequeueReusableCellWithIdentifier:@"loading_cell_identifier"];
             UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
             [activityIndicator startAnimating];
-        } else if (parentThread.responseCount > 20 && ((pageNumber - 1) * 20 + threads.count % 20 - 1) < parentThread.responseCount){
+        } else if (parentThread.responseCount > 20 && ((threadList.pageNumber - 1) * 20 + threads.count % 20 - 1) < parentThread.responseCount){
 
             cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
         } else {
@@ -318,7 +317,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 #pragma mark - jump to and download controls
 -(void)PromptForJumpToPage{
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"跳页: %ld/%ld", (long) pageNumber, (long) ((parentThread.responseCount + 1) / 20 + 1)] message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"跳页: %ld/%ld", (long) threadList.pageNumber, (long) ((parentThread.responseCount + 1) / 20 + 1)] message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alertView show];
 }
@@ -366,17 +365,13 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     if ([buttonTitle isEqualToString:@"确定"]){
         NSInteger newPageNumber = [[[alertView textFieldAtIndex:0] text] integerValue];
         if (newPageNumber > 0){
-            self.pageNumber = newPageNumber;
             //clear threads and ready to accept new threads
-//            [originalThreadData removeAllObjects];
-//            [self.threads removeAllObjects];
-//            [self.threads addObject:parentThread];
-//            [verticalHeights removeAllObjects];
-//            [horizontalHeights removeAllObjects];
+            [threadList removeAll];
+            [threadList loadMoreThreads:newPageNumber];
             [self.threadTableView reloadData];
             [self.refreshControl beginRefreshing];
-            [self loadMoreThread:self.pageNumber];
-            [[[czzAppDelegate sharedAppDelegate] window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) self.pageNumber]];
+
+            [[[czzAppDelegate sharedAppDelegate] window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) threadList.pageNumber]];
         } else {
             [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"页码无效..."];
         }
@@ -424,8 +419,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     {
         CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
         if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !(threadList.isDownloading || threadList.isProcessing)){
-            if (((pageNumber - 1) * 20 + threads.count % 20 - 1) < parentThread.responseCount) {
-                [self performSelector:@selector(loadMoreThread:) withObject:nil];
+            if (((threadList.pageNumber - 1) * 20 + threads.count % 20 - 1) < parentThread.responseCount) {
+                [threadList loadMoreThreads];
                 [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
             }
         }
