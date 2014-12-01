@@ -456,7 +456,11 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     numberButton.titleLabel.font = [UIFont systemFontOfSize:11];
     numberButton.backgroundColor = [UIColor orangeColor];
     
-    numberBarButton.customView = numberButton;
+    if (!numberBarButton) {
+        numberBarButton = [[UIBarButtonItem alloc] initWithCustomView:numberButton];
+    } else
+        numberBarButton.customView = numberButton;
+
     [numberButton setTitle:[NSString stringWithFormat:@"%ld", (long) threads.count] forState:UIControlStateNormal];
     if (threads.count <= 0)
         numberButton.hidden = YES;

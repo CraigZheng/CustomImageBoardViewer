@@ -17,9 +17,9 @@
 @property NSString *shouldHighlightSelectedUser;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *starButton;
 @property (weak, nonatomic) IBOutlet UIView *onScreenImageManagerViewContainer;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *numberBarButton;
+//@property (weak, nonatomic) IBOutlet UIBarButtonItem *numberBarButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *moreButton;
-
+@property UIBarButtonItem *numberBarButton;
 
 - (IBAction)moreAction:(id)sender;
 - (IBAction)replyAction:(id)sender;
