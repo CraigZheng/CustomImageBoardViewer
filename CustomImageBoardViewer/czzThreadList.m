@@ -44,7 +44,7 @@
 
 -(void)setForumName:(NSString *)name {
     forumName = name;
-    baseURLString = [baseURLString stringByAppendingString:[forumName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    baseURLString = [[settingCentre thread_list_host] stringByAppendingString:[forumName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 }
 
 -(void)refresh {

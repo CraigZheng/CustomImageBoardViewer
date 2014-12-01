@@ -278,8 +278,13 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 #pragma mark - scrollToTop and scrollToBottom
 -(void)scrollTableViewToTop {
-    [threadTableView setContentOffset:CGPointMake(0.0f, -threadTableView.contentInset.top) animated:YES];
+    [self scrollTableViewToTop:YES];
 }
+
+-(void)scrollTableViewToTop:(BOOL)animated {
+    [threadTableView setContentOffset:CGPointMake(0.0f, -threadTableView.contentInset.top) animated:animated];
+}
+
 
 -(void)scrollTableViewToBottom {
     @try {
@@ -380,7 +385,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     if (indexPath.row >= threads.count)
         return tableView.rowHeight;
     
-    NSArray *heightArray = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? threadList.verticalHeights : threadList.horizontalHeights;
+    NSArray *heightArray = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? verticalHeights : horizontalHeights;
     CGFloat preferHeight = tableView.rowHeight;
     @try {
         preferHeight = [[heightArray objectAtIndex:indexPath.row] floatValue];
@@ -432,9 +437,9 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     NSLog(@"%@", NSStringFromSelector(_cmd));
     [self copyDataFromThreadList];
     [threadTableView reloadData];
-    if (list.pageNumber <= 1 && allThreads.count > 1) //just refreshed
+    if (list.pageNumber <= 2 && allThreads.count > 1) //just refreshed
     {
-        [self scrollTableViewToTop];
+        [self scrollTableViewToTop:NO];
     }
     
     [refreshControl endRefreshing];
