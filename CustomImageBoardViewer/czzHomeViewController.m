@@ -437,7 +437,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     NSLog(@"%@", NSStringFromSelector(_cmd));
     [self copyDataFromThreadList];
     [threadTableView reloadData];
-    if (list.pageNumber <= 2 && allThreads.count > 1) //just refreshed
+    if (list.pageNumber == 1 && allThreads.count > 1) //just refreshed
     {
         [self scrollTableViewToTop:NO];
     }

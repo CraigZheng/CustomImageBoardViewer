@@ -25,7 +25,6 @@
 - (IBAction)reportAction:(id)sender;
 - (IBAction)shareAction:(id)sender;
 
--(void)saveThreadsToCache;
 -(void)scrollTableViewToTop;
 -(void)scrollTableViewToBottom;
 

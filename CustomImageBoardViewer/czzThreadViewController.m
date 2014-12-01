@@ -11,7 +11,6 @@
 #import "Toast+UIView.h"
 #import "SMXMLDocument.h"
 #import "czzImageCentre.h"
-#import "czzImageDownloader.h"
 #import "czzImageViewerUtil.h"
 #import "czzAppDelegate.h"
 #import "czzRightSideViewController.h"
@@ -37,7 +36,9 @@
 @interface czzThreadViewController ()<czzThreadListProtocol, UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzMiniThreadViewControllerProtocol>
 @property NSString *baseURLString;
 @property NSString *targetURLString;
-@property NSMutableArray *threads;
+@property NSArray *threads;
+@property NSArray *verticalHeights;
+@property NSArray *horizontalHeights;
 @property NSIndexPath *selectedIndex;
 @property czzRightSideViewController *threadMenuViewController;
 @property NSInteger pageNumber;
@@ -46,8 +47,6 @@
 @property czzImageViewerUtil *imageViewerUtil;
 @property CGPoint threadsTableViewContentOffSet; //record the content offset of the threads tableview
 @property BOOL shouldHighlight;
-@property NSMutableArray *verticalHeights;
-@property NSMutableArray *horizontalHeights;
 @property czzOnScreenCommandViewController *onScreenCommandViewController;
 @property CGPoint restoreFromBackgroundOffSet;
 @property BOOL shouldDisplayQuickScrollCommand;
@@ -104,6 +103,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     threadList = [[czzSubThreadList alloc] initWithParentThread:parentThread];
     threadList.delegate = self;
     threadList.parentViewController = self;
+    [self copyDataFromThreadList];
     
     //thumbnail folder
     thumbnailFolder = [czzAppDelegate thumbnailFolder];
@@ -194,6 +194,12 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     //ready for push animation
     viewControllerNotInTransition = YES;
     
+}
+
+-(void)copyDataFromThreadList {
+    threads = [NSArray arrayWithArray:threadList.threads];
+    horizontalHeights = [NSArray arrayWithArray:threadList.horizontalHeights];
+    verticalHeights = [NSArray arrayWithArray:threadList.verticalHeights];
 }
 
 #pragma mark - Table view data source
@@ -358,10 +364,10 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
             self.pageNumber = newPageNumber;
             //clear threads and ready to accept new threads
 //            [originalThreadData removeAllObjects];
-            [self.threads removeAllObjects];
-            [self.threads addObject:parentThread];
-            [verticalHeights removeAllObjects];
-            [horizontalHeights removeAllObjects];
+//            [self.threads removeAllObjects];
+//            [self.threads addObject:parentThread];
+//            [verticalHeights removeAllObjects];
+//            [horizontalHeights removeAllObjects];
             [self.threadTableView reloadData];
             [self.refreshControl beginRefreshing];
             [self loadMoreThread:self.pageNumber];
@@ -424,42 +430,42 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 #pragma mark - czzJSONProcessorDelegate
 -(void)subThreadProcessedForThread:(czzThread *)pThread :(NSArray *)newThread :(BOOL)success{
     if (success){
-        NSArray *processedNewThread;
-        //the newly downloaded thread might contain duplicate threads, therefore must compare the last chunk of current threads with the new threads, to remove any duplication
-        if (threads.count > 1) {
-            NSInteger lastChunkIndex = threads.count - 20;
-            if (lastChunkIndex < 1)
-                lastChunkIndex = 1;
-            NSInteger lastChunkLength = threads.count - lastChunkIndex;
-            NSRange lastChunkRange = NSMakeRange(lastChunkIndex, lastChunkLength);
-            NSArray *lastChunkOfThread = [threads subarrayWithRange:lastChunkRange];
-            NSMutableSet *oldThreadSet = [NSMutableSet setWithArray:lastChunkOfThread];
-            [oldThreadSet addObjectsFromArray:newThread];
-            [threads removeObjectsInRange:lastChunkRange];
-            processedNewThread = [self sortTheGivenArray:oldThreadSet.allObjects];
-        } else {
-            processedNewThread = [self sortTheGivenArray:newThread];
-        }
-        if (shouldHideImageForThisForum) {
-            for (czzThread *thread in processedNewThread) {
-                thread.thImgSrc = nil;
-            }
-        }
-        [threads addObjectsFromArray:processedNewThread];
-        //swap the first object(the parent thread)
-        if (pThread)
-            parentThread = pThread;
-        [threads replaceObjectAtIndex:0 withObject:parentThread];
-        //increase page number if enough to fill a page of 20 threads
-        if (processedNewThread.count >= 20) {
-            pageNumber ++;
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [threadTableView reloadData];
-        });
+//        NSArray *processedNewThread;
+//        //the newly downloaded thread might contain duplicate threads, therefore must compare the last chunk of current threads with the new threads, to remove any duplication
+//        if (threads.count > 1) {
+//            NSInteger lastChunkIndex = threads.count - 20;
+//            if (lastChunkIndex < 1)
+//                lastChunkIndex = 1;
+//            NSInteger lastChunkLength = threads.count - lastChunkIndex;
+//            NSRange lastChunkRange = NSMakeRange(lastChunkIndex, lastChunkLength);
+//            NSArray *lastChunkOfThread = [threads subarrayWithRange:lastChunkRange];
+//            NSMutableSet *oldThreadSet = [NSMutableSet setWithArray:lastChunkOfThread];
+//            [oldThreadSet addObjectsFromArray:newThread];
+//            [threads removeObjectsInRange:lastChunkRange];
+//            processedNewThread = [self sortTheGivenArray:oldThreadSet.allObjects];
+//        } else {
+//            processedNewThread = [self sortTheGivenArray:newThread];
+//        }
+//        if (shouldHideImageForThisForum) {
+//            for (czzThread *thread in processedNewThread) {
+//                thread.thImgSrc = nil;
+//            }
+//        }
+//        [threads addObjectsFromArray:processedNewThread];
+//        //swap the first object(the parent thread)
+//        if (pThread)
+//            parentThread = pThread;
+//        [threads replaceObjectAtIndex:0 withObject:parentThread];
+//        //increase page number if enough to fill a page of 20 threads
+//        if (processedNewThread.count >= 20) {
+//            pageNumber ++;
+//        }
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [threadTableView reloadData];
+//        });
     } else {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"无法下载资料，请检查网络" duration:1.2 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
+//            [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"无法下载资料，请检查网络" duration:1.2 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
         });
     }
     dispatch_async(dispatch_get_main_queue(), ^{
