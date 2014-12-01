@@ -59,6 +59,7 @@
 @property BOOL viewControllerNotInTransition;
 @property UIRefreshControl *refreshControl;
 @property czzSubThreadList *threadList;
+@property GSIndeterminateProgressView *progressView;
 @end
 
 @implementation czzThreadViewController
@@ -92,6 +93,7 @@
 @synthesize refreshControl;
 @synthesize onScreenImageManagerViewContainer;
 @synthesize threadList;
+@synthesize progressView;
 
 static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
 static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
@@ -104,6 +106,9 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     threadList.delegate = self;
     threadList.parentViewController = self;
     [self copyDataFromThreadList];
+    
+    //progress view
+    progressView = [(czzNavigationController*)self.navigationController progressView];
     
     //thumbnail folder
     thumbnailFolder = [czzAppDelegate thumbnailFolder];
@@ -286,24 +291,19 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-
+    
     if (indexPath.row >= threads.count)
         return tableView.rowHeight;
-
-    czzThread *thread;
+    
+    NSArray *heightArray = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? verticalHeights : horizontalHeights;
+    CGFloat preferHeight = tableView.rowHeight;
     @try {
-        thread = [threads objectAtIndex:indexPath.row];
+        preferHeight = [[heightArray objectAtIndex:indexPath.row] floatValue];
     }
     @catch (NSException *exception) {
-        
+        NSLog(@"%@", exception);
     }
     
-    CGFloat preferHeight = tableView.rowHeight;
-    if (thread){
-        preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:self.view hasImage:thread.thImgSrc.length > 0];
-        preferHeight = MAX(tableView.rowHeight, preferHeight);
-
-    }
     return preferHeight;
 }
 
@@ -379,7 +379,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 }
 
 -(void)refreshThread:(id)sender{
-    [self loadMoreThread:1];
+    [threadList refresh];
 }
 
 -(void)loadMoreThread:(NSInteger)pn{
@@ -427,58 +427,21 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     }
 }
 
-#pragma mark - czzJSONProcessorDelegate
--(void)subThreadProcessedForThread:(czzThread *)pThread :(NSArray *)newThread :(BOOL)success{
-    if (success){
-//        NSArray *processedNewThread;
-//        //the newly downloaded thread might contain duplicate threads, therefore must compare the last chunk of current threads with the new threads, to remove any duplication
-//        if (threads.count > 1) {
-//            NSInteger lastChunkIndex = threads.count - 20;
-//            if (lastChunkIndex < 1)
-//                lastChunkIndex = 1;
-//            NSInteger lastChunkLength = threads.count - lastChunkIndex;
-//            NSRange lastChunkRange = NSMakeRange(lastChunkIndex, lastChunkLength);
-//            NSArray *lastChunkOfThread = [threads subarrayWithRange:lastChunkRange];
-//            NSMutableSet *oldThreadSet = [NSMutableSet setWithArray:lastChunkOfThread];
-//            [oldThreadSet addObjectsFromArray:newThread];
-//            [threads removeObjectsInRange:lastChunkRange];
-//            processedNewThread = [self sortTheGivenArray:oldThreadSet.allObjects];
-//        } else {
-//            processedNewThread = [self sortTheGivenArray:newThread];
-//        }
-//        if (shouldHideImageForThisForum) {
-//            for (czzThread *thread in processedNewThread) {
-//                thread.thImgSrc = nil;
-//            }
-//        }
-//        [threads addObjectsFromArray:processedNewThread];
-//        //swap the first object(the parent thread)
-//        if (pThread)
-//            parentThread = pThread;
-//        [threads replaceObjectAtIndex:0 withObject:parentThread];
-//        //increase page number if enough to fill a page of 20 threads
-//        if (processedNewThread.count >= 20) {
-//            pageNumber ++;
-//        }
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [threadTableView reloadData];
-//        });
-    } else {
-        dispatch_async(dispatch_get_main_queue(), ^{
-//            [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"无法下载资料，请检查网络" duration:1.2 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
-        });
+#pragma mark - czzSubThreadListProtocol
+-(void)threadListBeginDownloading:(czzThreadList *)threadList {
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    if (!progressView.isAnimating) {
+        [progressView startAnimating];
     }
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.refreshControl endRefreshing];
-        [[[czzAppDelegate sharedAppDelegate] window] hideToastActivity];
-    });
 }
 
-#pragma mark sort array based on thread ID
--(NSArray*)sortTheGivenArray:(NSArray*)array{
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"ID" ascending:YES];
-    NSArray *sortedArray = [array sortedArrayUsingDescriptors:@[sortDescriptor]];
-    return sortedArray ? sortedArray : [NSArray new];
+-(void)subThreadProcessed:(czzThreadList *)threadList wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
+    if (wasSuccessul) {
+        [self copyDataFromThreadList];
+        [threadTableView reloadData];
+        [refreshControl endRefreshing];
+        [progressView stopAnimating];
+    }
 }
 
 #pragma mark - UI button actions
@@ -548,7 +511,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 -(void)imageDownloadedForIndexPath:(NSIndexPath *)index filePath:(NSString *)path isThumbnail:(BOOL)isThumbnail {
     if (isThumbnail)
     {
-        if (index.row < threads.count)
+        if (index && index.row < threads.count)
             [threadTableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationAutomatic];
     } else {
         [self openImageWithPath:path];

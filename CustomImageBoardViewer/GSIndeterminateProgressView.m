@@ -89,7 +89,7 @@ const CGFloat CHUNK_WIDTH = 90.0;
         chuckFrame.origin.x = -CHUNK_WIDTH;
         chunk.frame = chuckFrame;
         if (finished)
-            [self animateProgressChunk:chunk delay:0.4];
+            [self animateProgressChunk:chunk delay:0.7];
     }];
 }
 
