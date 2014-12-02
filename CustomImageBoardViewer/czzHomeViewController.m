@@ -475,11 +475,11 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [numberButton setTitle:[NSString stringWithFormat:@"%ld", (long) threads.count] forState:UIControlStateNormal];
     if (threads.count <= 0) {
         numberButton.hidden = YES;
-        self.navigationItem.rightBarButtonItems = @[settingsBarButton, numberBarButton];
+        self.navigationItem.rightBarButtonItems = @[menuBarButton];
     }
     else {
         numberButton.hidden = NO;
-        self.navigationItem.rightBarButtonItems = @[settingsBarButton];
+        self.navigationItem.rightBarButtonItems = @[menuBarButton, numberBarButton];
     }
 }
 
