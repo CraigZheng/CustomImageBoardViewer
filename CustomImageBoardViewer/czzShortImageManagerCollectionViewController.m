@@ -66,4 +66,8 @@ static NSString *imageCellIdentifier = @"image_cell_identifier";
     return cell;
 }
 
+
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    DLog(@"adgs");
+}
 @end

@@ -74,13 +74,16 @@
                         <viewControllerLayoutGuide type="bottom" id="OCf-Vc-9uO"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="vdA-xk-e2R">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="DPg-B7-9so">
-                                <rect key="frame" x="0.0" y="200" width="600" height="200"/>
+                                <rect key="frame" x="0.0" y="80" width="320" height="320"/>
                                 <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="0TR-hR-M30"/>
+                                    <constraint firstAttribute="height" constant="320" id="7oE-tV-4V1"/>
                                     <constraint firstAttribute="height" constant="200" id="VWi-fW-bgX"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="320" id="afu-Qs-rxb"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Cy8-tl-JiG">
                                     <size key="itemSize" width="100" height="100"/>
@@ -132,6 +135,12 @@
                                         </variation>
                                     </collectionViewCell>
                                 </cells>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="VWi-fW-bgX"/>
+                                        <exclude reference="afu-Qs-rxb"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <outlet property="dataSource" destination="8B6-JU-J4d" id="F50-Mg-eqk"/>
                                     <outlet property="delegate" destination="8B6-JU-J4d" id="eiy-Xn-2Mq"/>
@@ -149,7 +158,9 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="H3c-cP-VkB"/>
                                 <exclude reference="IvD-z9-OUP"/>
+                                <exclude reference="hlQ-si-VRu"/>
                                 <exclude reference="TX8-zl-iRW"/>
                             </mask>
                         </variation>
@@ -157,6 +168,7 @@
                             <outletCollection property="gestureRecognizers" destination="PKG-T4-KHR" appends="YES" id="oa6-4a-k3C"/>
                         </connections>
                     </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="77w-dF-ORj" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="PKG-T4-KHR">
