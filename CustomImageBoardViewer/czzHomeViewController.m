@@ -519,7 +519,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
             [threadTableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
         @catch (NSException *exception) {
-            NSLog(@"%@", exception)
+            NSLog(@"%@", exception);
         }
     }
     else if (settingsCentre.userDefShouldAutoOpenImage)
