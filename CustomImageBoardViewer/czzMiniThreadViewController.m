@@ -13,6 +13,7 @@
 #import "Toast+UIView.h"
 #import "czzAppDelegate.h"
 #import "czzImageViewerUtil.h"
+#import "czzSettingsCentre.h"
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzTextViewHeightCalculator.h"
 
@@ -31,6 +32,7 @@
 @synthesize parentID;
 @synthesize miniThreadNaBarItem;
 @synthesize miniThreadNavBar;
+@synthesize barBackgroundView;
 
 static NSString *cellIdentifier = @"thread_cell_identifier";
 static NSString *emptyCellIdenfiier = @"empty_cell_identifier";
@@ -40,6 +42,13 @@ static NSString *emptyCellIdenfiier = @"empty_cell_identifier";
     // Do any additional setup after loading the view.
     UINib *cellNib = [UINib nibWithNibName:@"czzThreadViewTableViewCell" bundle:nil];
     [threadTableView registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
+    
+    //colours
+    miniThreadNavBar.barTintColor = [settingCentre barTintColour];
+    miniThreadNavBar.tintColor = [settingCentre tintColour];
+    [miniThreadNavBar
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : miniThreadNavBar.tintColor}];
+    barBackgroundView.backgroundColor = [settingCentre barTintColour];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {

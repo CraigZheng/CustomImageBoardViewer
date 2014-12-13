@@ -24,7 +24,6 @@
 @property NSTimeInterval adUpdateInterval;
 @property UIView *adCoverView;
 @property BOOL shouldHideCoverView;
-@property czzSettingsCentre *settingsCentre;
 @end
 
 @implementation czzForumsViewController
@@ -37,14 +36,12 @@
 @synthesize adUpdateInterval;
 @synthesize adCoverView;
 @synthesize shouldHideCoverView;
-@synthesize settingsCentre;
 @synthesize forums;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    settingsCentre = [czzSettingsCentre sharedInstance];
     forumGroups = [NSMutableArray new];
     [self refreshForums];
     bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
@@ -58,6 +55,11 @@
     NSArray *defaultForums = [self parseJsonForForum:JSONData];
     if (defaultForums.count > 0)
         [czzAppDelegate sharedAppDelegate].forums = defaultForums;
+    
+    self.navigationController.navigationBar.barTintColor = [settingCentre barTintColour];
+    self.navigationController.navigationBar.tintColor = [settingCentre tintColour];
+    [self.navigationController.navigationBar
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : self.navigationController.navigationBar.tintColor}];
 }
 
 
@@ -79,7 +81,7 @@
 #ifdef DEBUG
     versionString = @"DEBUG";
 #endif
-    NSString *forumString = [settingsCentre.forum_list_url stringByAppendingString:[NSString stringWithFormat:@"?version=%@", versionString]];
+    NSString *forumString = [[settingCentre forum_list_url] stringByAppendingString:[NSString stringWithFormat:@"?version=%@", versionString]];
 
     xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:forumString] delegate:self startNow:YES];
     [self.view makeToastActivity];
@@ -166,7 +168,7 @@
     if (cell){
         if (indexPath.row < forumGroup.forumNames.count) {
             UILabel *titleLabel = (UILabel*)[cell viewWithTag:1];
-            titleLabel.textColor = settingsCentre.contentTextColour;
+            titleLabel.textColor = [settingCentre contentTextColour];
             [titleLabel setText:[forumGroup.forumNames objectAtIndex:indexPath.row]];
         } else {
             cell = [tableView dequeueReusableCellWithIdentifier:@"ad_cell_identifier" forIndexPath:indexPath];
@@ -195,7 +197,7 @@
         }
     }
     //background colour - nighty mode enable
-    cell.backgroundColor = settingsCentre.viewBackgroundColour;
+    cell.backgroundColor = [settingCentre viewBackgroundColour];
     return cell;
 }
 

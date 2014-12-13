@@ -448,7 +448,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     numberButton.frame = CGRectMake(numberButton.frame.origin.x, numberButton.frame.origin.y, 24, 24);
     numberButton.layer.cornerRadius = 12;
     numberButton.titleLabel.font = [UIFont systemFontOfSize:11];
-    numberButton.backgroundColor = [UIColor orangeColor];
+    [numberButton setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+    numberButton.backgroundColor = [UIColor whiteColor];
     
     if (!numberBarButton) {
         numberBarButton = [[UIBarButtonItem alloc] initWithCustomView:numberButton];

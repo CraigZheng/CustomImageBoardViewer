@@ -9,6 +9,7 @@
 #import "czzFeedbackViewController.h"
 #import "FPPopoverController.h"
 #import "czzAppDelegate.h"
+#import "czzSettingsCentre.h"
 #import "Toast+UIView.h"
 
 @interface czzFeedbackViewController ()
@@ -119,7 +120,8 @@
 -(UIToolbar*)makeToolBar {
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
     toolbar.barStyle = UIBarStyleDefault;
-    
+    toolbar.barTintColor = [settingCentre barTintColour];
+    toolbar.tintColor = [settingCentre tintColour];
     //assign an input accessory view to it
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
 //    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];

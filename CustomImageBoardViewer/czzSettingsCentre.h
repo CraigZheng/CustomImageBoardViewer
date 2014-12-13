@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Craig. All rights reserved.
 //
 
+#define settingCentre [czzSettingsCentre sharedInstance]
+
 #import <Foundation/Foundation.h>
 
 #define CONFIGURATION_URL @"http://civ.atwebpages.com/php/remote_configuration.php"
@@ -54,4 +56,8 @@
 -(UIFont*)contentFont;
 -(UIColor*)contentTextColour;
 -(UIColor*)viewBackgroundColour;
+
+//UI constants
+-(UIColor*)barTintColour;
+-(UIColor*)tintColour;
 @end

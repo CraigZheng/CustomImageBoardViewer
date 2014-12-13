@@ -15,27 +15,34 @@
 
 @interface czzMoreInfoViewController ()<UIWebViewDelegate>
 @property NSString *baseURL;
-@property czzSettingsCentre *settingsCentre;
 @end
 
 @implementation czzMoreInfoViewController
 @synthesize headerTextWebView;
 @synthesize baseURL;
 @synthesize forumName;
-@synthesize settingsCentre;
 @synthesize bannerView_;
 @synthesize moreInfoNavItem;
+@synthesize moreInfoNaviBar;
+@synthesize barBackgroundView;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    settingsCentre = [czzSettingsCentre sharedInstance];
     baseURL = @"http://h.acfun.tv/api/forum/get?forumName=";
     //admob module
     bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
     bannerView_.adUnitID = @"a152ad4b0262649";
     bannerView_.rootViewController = self;
+    
+    //colours
+    moreInfoNaviBar.barTintColor = [settingCentre barTintColour];
+    moreInfoNaviBar.tintColor = [settingCentre tintColour];
+    [moreInfoNaviBar
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : moreInfoNaviBar.tintColor}];
+
+    barBackgroundView.backgroundColor = [settingCentre barTintColour];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -66,7 +73,7 @@
         DLog(@"%@", exception);
     }
 
-    self.view.backgroundColor = settingsCentre.viewBackgroundColour;
+    self.view.backgroundColor = [settingCentre viewBackgroundColour];
 }
 
 /*upon setting the forum name, this view controller should download relevent info from the server, 
@@ -91,7 +98,7 @@
 }
 
 - (IBAction)homePageAction:(id)sender {
-    NSString *homePageURL = [settingsCentre.ac_host stringByAppendingPathComponent:@"u/712573.aspx"];
+    NSString *homePageURL = [[settingCentre ac_host] stringByAppendingPathComponent:@"u/712573.aspx"];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:homePageURL]];
 
 }

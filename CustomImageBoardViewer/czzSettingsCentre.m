@@ -273,4 +273,14 @@
         return [UIColor colorWithRed:20/255.0f green:20/255.0f blue:20/255.0f alpha:1.0f];
     return [UIColor whiteColor];
 }
+
+-(UIColor *)barTintColour {
+    return [UIColor colorWithRed:252/255. green:103/255. blue:61/255. alpha:1.0];
+}
+
+-(UIColor *)tintColour {
+    if (self.nightyMode)
+        return [UIColor lightTextColor];
+    return [UIColor whiteColor];
+}
 @end

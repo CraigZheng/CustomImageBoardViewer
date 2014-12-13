@@ -33,6 +33,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jk1-hK-cgT">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="7dr-Of-vNv"/>
+                                </constraints>
+                            </view>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sne-xD-zRK">
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <items>
@@ -72,10 +79,13 @@
                         <constraints>
                             <constraint firstItem="Sne-xD-zRK" firstAttribute="top" secondItem="OhQ-9z-HaB" secondAttribute="top" constant="20" id="2yY-oj-W2e"/>
                             <constraint firstItem="Qv5-y2-dIS" firstAttribute="top" secondItem="Mcz-3s-JhL" secondAttribute="bottom" id="3Em-rk-EGi"/>
+                            <constraint firstAttribute="trailing" secondItem="Jk1-hK-cgT" secondAttribute="trailing" id="AvH-ej-p6H"/>
+                            <constraint firstItem="Jk1-hK-cgT" firstAttribute="top" secondItem="OhQ-9z-HaB" secondAttribute="top" id="C50-PI-K39"/>
                             <constraint firstItem="Qv5-y2-dIS" firstAttribute="top" secondItem="Sne-xD-zRK" secondAttribute="bottom" id="Sjl-ke-qdi"/>
                             <constraint firstAttribute="trailing" secondItem="Qv5-y2-dIS" secondAttribute="trailing" id="XsB-pL-bh7"/>
                             <constraint firstItem="Qv5-y2-dIS" firstAttribute="leading" secondItem="OhQ-9z-HaB" secondAttribute="leading" id="dVC-6i-mqO"/>
                             <constraint firstAttribute="trailing" secondItem="Sne-xD-zRK" secondAttribute="trailing" id="haJ-R1-jzt"/>
+                            <constraint firstItem="Jk1-hK-cgT" firstAttribute="leading" secondItem="OhQ-9z-HaB" secondAttribute="leading" id="kK1-3G-kop"/>
                             <constraint firstItem="Sne-xD-zRK" firstAttribute="leading" secondItem="OhQ-9z-HaB" secondAttribute="leading" id="lbx-vy-VgM"/>
                             <constraint firstAttribute="bottom" secondItem="Qv5-y2-dIS" secondAttribute="bottom" id="wpK-Rh-7eK"/>
                         </constraints>
@@ -87,6 +97,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Wfg-Q3-ed9"/>
                     <connections>
+                        <outlet property="barBackgroundView" destination="Jk1-hK-cgT" id="ebV-O8-PmI"/>
                         <outlet property="miniThreadNaBarItem" destination="uWE-2r-5B8" id="Bbc-NY-7nM"/>
                         <outlet property="miniThreadNavBar" destination="Sne-xD-zRK" id="jRg-v2-IaE"/>
                         <outlet property="threadTableView" destination="Qv5-y2-dIS" id="BJz-9b-D7s"/>

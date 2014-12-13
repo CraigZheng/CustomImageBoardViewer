@@ -25,7 +25,6 @@
 @property NSString *targetURLString;
 @property NSMutableData *receivedResponse;
 @property czzPostSender *postSender;
-@property czzSettingsCentre *settingsCentre;
 @end
 
 @implementation czzPostViewController
@@ -41,9 +40,9 @@
 @synthesize postMode;
 @synthesize forumName;
 @synthesize forum;
-@synthesize settingsCentre;
 @synthesize sendingProgressVIew;
 @synthesize fillerBannerView;
+@synthesize postBackgroundView;
 
 - (void)viewDidLoad
 {
@@ -52,10 +51,11 @@
     self.edgesForExtendedLayout = UIRectEdgeNone;
     fillerBannerView.backgroundColor = postNaviBar.backgroundColor;
     postSender = [czzPostSender new];
-    settingsCentre = [czzSettingsCentre sharedInstance];
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
     toolbar.autoresizingMask = toolbar.autoresizingMask | UIViewAutoresizingFlexibleHeight;
     toolbar.barStyle = UIBarStyleDefault;
+    toolbar.barTintColor = [settingCentre barTintColour];
+    toolbar.tintColor = [settingCentre tintColour];
     //assign an input accessory view to it
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
 //    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
@@ -71,8 +71,14 @@
     toolbar.items = buttons;
     postTextView.inputAccessoryView = toolbar;
     // colour
-    postTextView.backgroundColor = settingsCentre.viewBackgroundColour;
-    postTextView.textColor = settingsCentre.contentTextColour;
+    postTextView.backgroundColor = [settingCentre viewBackgroundColour];
+    postTextView.textColor = [settingCentre contentTextColour];
+    postNaviBar.barTintColor = [settingCentre barTintColour];
+    postNaviBar.tintColor = [settingCentre tintColour];
+    [postNaviBar
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : postNaviBar.tintColor}];
+
+    postBackgroundView.backgroundColor = [settingCentre barTintColour];
     
     //construct the title, content and targetURLString based on selected post mode
     NSString *title = @"回复";

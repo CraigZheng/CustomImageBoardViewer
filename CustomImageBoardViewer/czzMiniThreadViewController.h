@@ -20,6 +20,7 @@
 @property (nonatomic) NSInteger threadID;
 @property (weak, nonatomic) IBOutlet UINavigationItem *miniThreadNaBarItem;
 @property (weak, nonatomic) IBOutlet UINavigationBar *miniThreadNavBar;
+@property (weak, nonatomic) IBOutlet UIView *barBackgroundView;
 @property id<czzMiniThreadViewControllerProtocol> delegate;
 - (IBAction)cancelButtonAction:(id)sender;
 - (IBAction)openThreadAction:(id)sender;

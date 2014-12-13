@@ -8,7 +8,7 @@
 
 #import "czzNavigationController.h"
 #import "czzHomeViewController.h"
-
+#import "czzSettingsCentre.h"
 
 @interface czzNavigationController () <UINavigationControllerDelegate>
 
@@ -46,12 +46,29 @@
     if (!shortImageMangerController) {
         shortImageMangerController = [[UIStoryboard storyboardWithName:@"ImageManagerStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:@"short_image_manager_view_controller"];
     }
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    progressView.progressTintColor = [UIColor colorWithRed:69/255. green:98/255. blue:157/255. alpha:1.0];
-    //69	98	157 facebook blue
+    
+    self.navigationBar.barTintColor = [settingCentre barTintColour];
+    //252	103	61
+    self.navigationBar.tintColor = [settingCentre tintColour];
+    
+    //consistent look for tool bar and label
+    [self.navigationBar
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : self.navigationBar.tintColor}];
+    self.toolbar.barTintColor = self.navigationBar.barTintColor;
+    self.toolbar.tintColor = self.navigationBar.tintColor;
+//    if ([settingCentre nightyMode]) {
+//        self.navigationBar.barTintColor = [settingCentre ]
+//    }
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
 }
 
 -(void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
