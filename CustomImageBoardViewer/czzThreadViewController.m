@@ -30,7 +30,6 @@
 #import "czzSubThreadList.h"
 #import "GSIndeterminateProgressView.h"
 
-#define WARNINGHEADER @"**** 用户举报的不健康的内容 ****\n\n"
 #define OVERLAY_VIEW 122
 
 @interface czzThreadViewController ()<czzThreadListProtocol, UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzMiniThreadViewControllerProtocol>
