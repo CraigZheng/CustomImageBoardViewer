@@ -9,6 +9,9 @@
 
 #import "czzSubThreadList.h"
 
+@interface czzSubThreadList()
+@property NSUInteger cutOffIndex;
+@end
 
 @implementation czzSubThreadList
 @synthesize parentID;
@@ -24,6 +27,7 @@
 @synthesize threads;
 @synthesize verticalHeights, horizontalHeights;
 @synthesize lastBatchOfThreads;
+@synthesize cutOffIndex;
 
 
 -(instancetype)initWithParentThread:(czzThread *)thread {
@@ -36,7 +40,6 @@
         baseURLString = [[settingCentre thread_content_host] stringByAppendingPathComponent:parentID];
         
         threads = [NSMutableArray new];
-        [threads addObject:parentThread];
         verticalHeights = [NSMutableArray new];
         horizontalHeights = [NSMutableArray new];
         
@@ -85,10 +88,11 @@
     if (success) {
         lastBatchOfThreads = newThread;
         NSArray *processedNewThread;
-        if (threads.count > 1) {
-            NSInteger lastChunkIndex = threads.count - 20;
+        if (threads.count > 0) {
+            NSInteger lastChunkIndex = threads.count - [settingCentre threads_per_page];
             if (lastChunkIndex < 1)
                 lastChunkIndex = 1;
+            cutOffIndex = lastChunkIndex;
             NSInteger lastChunkLength = threads.count - lastChunkIndex;
             NSRange lastChunkRange = NSMakeRange(lastChunkIndex, lastChunkLength);
             NSArray *lastChunkOfThread = [threads subarrayWithRange:lastChunkRange];
@@ -97,23 +101,16 @@
             [threads removeObjectsInRange:lastChunkRange];
             processedNewThread = [self sortTheGivenArray:oldThreadSet.allObjects];
         } else {
-            processedNewThread = [self sortTheGivenArray:newThread];
+            cutOffIndex = 0;
+            NSMutableArray *threadsWithParent = [NSMutableArray new];
+            [threadsWithParent addObject:parentThread];
+            [threadsWithParent addObjectsFromArray:newThread];
+            processedNewThread = [self sortTheGivenArray:threadsWithParent];
         }
+        lastBatchOfThreads = processedNewThread;
+        [threads addObjectsFromArray:lastBatchOfThreads];
         
-        [threads addObjectsFromArray:processedNewThread];
-        
-//        if (threads.count <= lastBatchOfThreads.count) {
-//            NSMutableSet *originalDataSet = [NSMutableSet setWithArray:threads];
-//            [originalDataSet addObjectsFromArray:lastBatchOfThreads];
-//            threads = [NSMutableArray arrayWithArray:[self sortTheGivenArray:originalDataSet.allObjects]];
-//        } else {
-//            NSMutableOrderedSet *lastChunkOfThreads = [NSMutableOrderedSet orderedSetWithArray:[threads subarrayWithRange:NSMakeRange(threads.count - lastBatchOfThreads.count, lastBatchOfThreads.count)]];
-//            [threads removeObjectsInRange:NSMakeRange(threads.count - lastChunkOfThreads.count, lastChunkOfThreads.count)];
-//            [lastChunkOfThreads addObjectsFromArray:lastBatchOfThreads];
-//            [threads addObjectsFromArray:lastChunkOfThreads.array];
-//        }
-        
-//        [self calculateHeightsForThreads:lastBatchOfThreads];
+        [self calculateHeightsForThreads:lastBatchOfThreads];
     }
     dispatch_async(dispatch_get_main_queue(), ^{
         if (delegate && [delegate respondsToSelector:@selector(subThreadProcessed:wasSuccessful:newThreads:allThreads:)]) {
@@ -137,12 +134,17 @@
     shortWidth = MIN([UIScreen mainScreen].applicationFrame.size.height, [UIScreen mainScreen].applicationFrame.size.width);
     longWidth = MAX([UIScreen mainScreen].applicationFrame.size.width, [UIScreen mainScreen].applicationFrame.size.height);
     dispatch_async(dispatch_get_main_queue(), ^{
+        NSDate *date = [NSDate new];
+        [verticalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, verticalHeights.count - cutOffIndex)];
+        [horizontalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, verticalHeights.count - cutOffIndex)];
         for (czzThread *thread in newThreads) {
             CGFloat shortHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:parentViewController.view forWidth:shortWidth hasImage:thread.imgSrc.length > 0];
             CGFloat longHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:parentViewController.view forWidth:longWidth hasImage:thread.imgSrc.length > 0];
             [verticalHeights addObject:[NSNumber numberWithFloat:shortHeight]];
             [horizontalHeights addObject:[NSNumber numberWithFloat:longHeight]];
         }
+        NSLog(@"processing time: %.2f", [[NSDate new] timeIntervalSinceDate:date]);
+        NSLog(@"size of heights array: %lu", verticalHeights.count);
     });
 }
 @end

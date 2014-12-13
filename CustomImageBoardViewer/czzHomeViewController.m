@@ -268,6 +268,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
             [threadList removeAll];
             [threadTableView reloadData];
             [refreshControl beginRefreshing];
+            [threadList removeAll];
             [threadList loadMoreThreads:newPageNumber];
 
             [[[czzAppDelegate sharedAppDelegate] window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)threadList.pageNumber]];

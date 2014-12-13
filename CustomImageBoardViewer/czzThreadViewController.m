@@ -296,9 +296,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     
     if (indexPath.row >= threads.count)
         return tableView.rowHeight;
-#warning TEMPORARILY SOLUTION ONLY, NEED BETTER HEIGHT ARRAYS LATER
-    return [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:[threads objectAtIndex:indexPath.row] inView:self.view forWidth:self.view.frame.size.width hasImage:[[threads objectAtIndex:indexPath.row] imgSrc].length > 0];
-
+    
     NSArray *heightArray = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? verticalHeights : horizontalHeights;
     CGFloat preferHeight = tableView.rowHeight;
     @try {
