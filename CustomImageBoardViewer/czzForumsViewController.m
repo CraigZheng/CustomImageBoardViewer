@@ -234,7 +234,7 @@
         NSError *error;
         SMXMLDocument *xmlDoc = [[SMXMLDocument alloc] initWithData:xmlData error:&error];
         if (error){
-            NSLog(@"%@", error);
+            DLog(@"%@", error);
             [self.view makeToast:@"数据错误：服务器可能在维护中！" duration:1.5 position:@"bottom" image:[UIImage imageNamed:@"warning"]];
         }
         NSArray *children = [xmlDoc.root children];

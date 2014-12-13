@@ -104,7 +104,7 @@
 }
 
 -(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    NSLog(@"%@", url.absoluteString);
+    DLog(@"%@", url.absoluteString);
     if ([url.host isEqualToString:@"acfun"]) {
         return YES;
     }
@@ -146,12 +146,12 @@
     id flag = nil;
     [URL getResourceValue: &flag
                    forKey: NSURLIsExcludedFromBackupKey error: &error];
-    NSLog (@"NSURLIsExcludedFromBackupKey flag value is %@", flag);
+    DLog (@"NSURLIsExcludedFromBackupKey flag value is %@", flag);
 
     BOOL success = [URL setResourceValue:[NSNumber numberWithBool: YES]
                                   forKey: NSURLIsExcludedFromBackupKey error: &error];
     if(!success){
-        NSLog(@"Error excluding %@ from backup %@", [URL lastPathComponent], error);
+        DLog(@"Error excluding %@ from backup %@", [URL lastPathComponent], error);
     }
     
     return success;

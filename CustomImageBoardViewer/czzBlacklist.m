@@ -36,7 +36,7 @@
 
     }
     @catch (NSException *exception) {
-        NSLog(@"%@", exception);
+        DLog(@"%@", exception);
     }
     return nil;
 }

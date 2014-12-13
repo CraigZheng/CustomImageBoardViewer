@@ -365,7 +365,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
             if (!settingsCentre.shouldAllowOpenBlockedThread) {
                 czzBlacklistEntity *blacklistEntity = [[czzBlacklist sharedInstance] blacklistEntityForThreadID:selectedThread.ID];
                 if (blacklistEntity){
-                    NSLog(@"blacklisted thread");
+                    DLog(@"blacklisted thread");
                     return;
                 }
             }
@@ -393,7 +393,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         preferHeight = [[heightArray objectAtIndex:indexPath.row] floatValue];
     }
     @catch (NSException *exception) {
-        NSLog(@"%@", exception);
+        DLog(@"%@", exception);
     }
     
     return preferHeight;
@@ -423,7 +423,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 #pragma mark - czzThreadListProtocol
 -(void)threadListDownloaded:(czzThreadList *)threadList wasSuccessful:(BOOL)wasSuccessful {
-    NSLog(@"%@", NSStringFromSelector(_cmd));
+    DLog(@"%@", NSStringFromSelector(_cmd));
     if (!wasSuccessful) {
         [refreshControl endRefreshing];
         [progressView stopAnimating];
@@ -436,7 +436,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 }
 
 -(void)threadListProcessed:(czzThreadList *)list wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
-    NSLog(@"%@", NSStringFromSelector(_cmd));
+    DLog(@"%@", NSStringFromSelector(_cmd));
     [self copyDataFromThreadList];
     [threadTableView reloadData];
     if (list.pageNumber == 1 && allThreads.count > 1) //just refreshed
@@ -519,7 +519,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
             [threadTableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
         @catch (NSException *exception) {
-            NSLog(@"%@", exception);
+            DLog(@"%@", exception);
         }
     }
     else if (settingsCentre.userDefShouldAutoOpenImage)
@@ -528,7 +528,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 #pragma mark - open images
 -(void)openImageWithPath:(NSString*)path{
-    NSLog(@"%@", NSStringFromSelector(_cmd));
+    DLog(@"%@", NSStringFromSelector(_cmd));
     if (viewControllerNotInTransition)
         [imageViewerUtil showPhoto:path inViewController:self];
 }

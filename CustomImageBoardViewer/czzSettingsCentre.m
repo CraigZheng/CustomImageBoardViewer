@@ -85,10 +85,10 @@
 
 -(BOOL)saveSettings {
     if ([NSKeyedArchiver archiveRootObject:self toFile:self.settingsFile]) {
-        NSLog(@"Settings saved to file: %@", self.settingsFile);
+        DLog(@"Settings saved to file: %@", self.settingsFile);
         return YES;
     } else {
-        NSLog(@"Settings can not be saved! Settings file: %@", self.settingsFile);
+        DLog(@"Settings can not be saved! Settings file: %@", self.settingsFile);
         return NO;
     }
 }
@@ -96,7 +96,7 @@
 -(void)getPropertyTypeWithName:(NSString*)propertyName {
     NSString *classString = NSStringFromClass([[self valueForKey:propertyName] class]);
 
-    NSLog(@"class: %@", classString);
+    DLog(@"class: %@", classString);
 }
 
 - (BOOL)restoreSettings {
@@ -112,11 +112,11 @@
             }
             return YES;
         } else {
-            NSLog(@"failed to restore files");
+            DLog(@"failed to restore files");
         }
     }
     @catch (NSException *exception) {
-        NSLog(@"%@", exception);
+        DLog(@"%@", exception);
     }
     return NO;
 }
@@ -134,7 +134,7 @@
                                    if (data) {
                                        [self parseJSONData:data];
                                        [self saveSettings]; //save settings from remote
-                                       NSLog(@"settings updated from remote server");
+                                       DLog(@"settings updated from remote server");
                                        if (message.length > 0) {
                                            [[czzAppDelegate sharedAppDelegate] showToast:message];
                                        }
@@ -148,7 +148,7 @@
     NSError *error;
     NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
     if (error) {
-        NSLog(@"%@", error);
+        DLog(@"%@", error);
         return;
     }
     shouldUseRemoteConfiguration = [[jsonObject objectForKey:@"shouldUseRemoteConfiguration"] boolValue];

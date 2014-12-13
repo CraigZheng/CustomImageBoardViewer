@@ -117,7 +117,7 @@
 }
 
 -(void)menuActionReply:(id)sender{
-    NSLog(@"reply: %@", sender);
+    DLog(@"reply: %@", sender);
     NSDictionary *userInfo = [NSDictionary dictionaryWithObject:self.myThread forKey:@"ReplyToThread"];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ReplyAction" object:Nil userInfo:userInfo];
 }
@@ -178,7 +178,7 @@
 -(void)prepareUIWithMyThread {
 //    NSDate *startDate = [NSDate new];
     [self resetViews];
-    //NSLog(@"time consuming step 1: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
+    //DLog(@"time consuming step 1: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
     if (myThread.thImgSrc.length > 0){
         previewImageView.hidden = NO;
         [previewImageView setImage:[UIImage imageNamed:@"Icon.png"]];
@@ -200,7 +200,7 @@
         if (shouldAllowClickOnImage)
             [previewImageView setGestureRecognizers:@[tapOnImageGestureRecogniser]];
     }
-    //NSLog(@"time consuming step 2: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
+    //DLog(@"time consuming step 2: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
     //if harmful flag is set, display warning header of harmful thread
     NSMutableAttributedString *contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:myThread.content];
     if (myThread.harmful){
@@ -223,7 +223,7 @@
     contentTextView.attributedText = contentAttrString;
     contentTextView.font = settingsCentre.contentFont;
 
-    //NSLog(@"time consuming step 3: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
+    //DLog(@"time consuming step 3: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
     
     idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)myThread.ID];
     //set the color
@@ -262,7 +262,7 @@
             }
         }
     }
-    //NSLog(@"time consuming step 4: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
+    //DLog(@"time consuming step 4: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
     
     //highlight original poster
     if (shouldHighlight && parentThread && [myThread.UID.string isEqualToString:parentThread.UID.string]) {
@@ -272,7 +272,7 @@
         posterLabel.backgroundColor = [UIColor whiteColor];
         self.contentView.backgroundColor = [UIColor colorWithRed:222.0f/255.0f green:222.0f/255.0f blue:255.0f/255.0f alpha:1.0];
     }
-    //NSLog(@"time consuming step 5: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
+    //DLog(@"time consuming step 5: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
 }
 
 #pragma - mark UIActionSheet delegate
@@ -295,14 +295,14 @@
 
 #pragma mark - user actions
 -(void)userTapInQuotedText:(czzThreadRefButton*)sender {
-    NSLog(@"%@", NSStringFromSelector(_cmd));
+    DLog(@"%@", NSStringFromSelector(_cmd));
     if (delegate && [delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
         [delegate userTapInQuotedText:[NSString stringWithFormat:@"%ld", (long)sender.threadRefNumber]];
     }
 }
 
 -(void)userTapInImageView:(id)sender {
-    NSLog(@"%@", NSStringFromSelector(_cmd));
+    DLog(@"%@", NSStringFromSelector(_cmd));
     if (delegate && [delegate respondsToSelector:@selector(userTapInImageView:)]) {
         for (NSString *file in [[czzImageCentre sharedInstance] currentLocalImages]) {
             if ([file.lastPathComponent.lowercaseString isEqualToString:myThread.imgSrc.lastPathComponent.lowercaseString])
@@ -315,7 +315,7 @@
         if ([[czzImageCentre sharedInstance] containsImageDownloaderWithURL:myThread.imgSrc]){
             [[czzImageCentre sharedInstance] stopAndRemoveImageDownloaderWithURL:myThread.imgSrc];
             [[czzAppDelegate sharedAppDelegate] showToast:@"图片下载被终止了"];
-            NSLog(@"stop: %@", myThread.imgSrc);
+            DLog(@"stop: %@", myThread.imgSrc);
         } else {
             BOOL completedURL = NO;
             if ([[[NSURL URLWithString:myThread.imgSrc] scheme] isEqualToString:@"http"]) {
@@ -324,7 +324,7 @@
                 myThread.imgSrc = [[[czzSettingsCentre sharedInstance] image_host] stringByAppendingPathComponent:myThread.imgSrc];
                 completedURL = YES;
             }
-            NSLog(@"start : %@", myThread.imgSrc);
+            DLog(@"start : %@", myThread.imgSrc);
             [[czzImageCentre sharedInstance] downloadImageWithURL:myThread.imgSrc isCompletedURL:completedURL];
             [requestedImageURL addObject:myThread.imgSrc];
             [[czzAppDelegate sharedAppDelegate] showToast:@"正在下载图片"];

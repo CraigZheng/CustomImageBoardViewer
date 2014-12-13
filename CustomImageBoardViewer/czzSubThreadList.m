@@ -83,7 +83,7 @@
 }
 
 -(void)subThreadProcessedForThread:(czzJSONProcessor *)processor :(czzThread *)forThread :(NSArray *)newThread :(BOOL)success {
-    NSLog(@"%@", NSStringFromSelector(_cmd));
+//    NSLog(@"%@", NSStringFromSelector(_cmd));
     isProcessing = NO;
     if (success) {
         lastBatchOfThreads = newThread;
@@ -96,16 +96,18 @@
             NSInteger lastChunkLength = threads.count - lastChunkIndex;
             NSRange lastChunkRange = NSMakeRange(lastChunkIndex, lastChunkLength);
             NSArray *lastChunkOfThread = [threads subarrayWithRange:lastChunkRange];
-            NSMutableSet *oldThreadSet = [NSMutableSet setWithArray:lastChunkOfThread];
+            NSMutableOrderedSet *oldThreadSet = [NSMutableOrderedSet orderedSetWithArray:lastChunkOfThread];
             [oldThreadSet addObjectsFromArray:newThread];
             [threads removeObjectsInRange:lastChunkRange];
-            processedNewThread = [self sortTheGivenArray:oldThreadSet.allObjects];
+            processedNewThread = oldThreadSet.array;
+//            processedNewThread = [self sortTheGivenArray:oldThreadSet.allObjects];
         } else {
             cutOffIndex = 0;
             NSMutableArray *threadsWithParent = [NSMutableArray new];
             [threadsWithParent addObject:parentThread];
             [threadsWithParent addObjectsFromArray:newThread];
-            processedNewThread = [self sortTheGivenArray:threadsWithParent];
+            processedNewThread = threadsWithParent;
+//            processedNewThread = [self sortTheGivenArray:threadsWithParent];
         }
         lastBatchOfThreads = processedNewThread;
         [threads addObjectsFromArray:lastBatchOfThreads];
@@ -119,12 +121,12 @@
     });
 }
 
-#pragma mark sort array based on thread ID
--(NSArray*)sortTheGivenArray:(NSArray*)array{
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"ID" ascending:YES];
-    NSArray *sortedArray = [array sortedArrayUsingDescriptors:@[sortDescriptor]];
-    return sortedArray ? sortedArray : [NSArray new];
-}
+//#pragma mark sort array based on thread ID
+//-(NSArray*)sortTheGivenArray:(NSArray*)array{
+//    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"ID" ascending:YES];
+//    NSArray *sortedArray = [array sortedArrayUsingDescriptors:@[sortDescriptor]];
+//    return sortedArray ? sortedArray : [NSArray new];
+//}
 
 /*
  calculate heights for both horizontal and vertical of the parent view controller

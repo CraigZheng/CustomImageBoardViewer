@@ -6,6 +6,28 @@
 
 #import <Availability.h>
 
+// DLog is almost a drop-in replacement for NSLog
+// DLog();
+// DLog(@"here");
+// DLog(@"value: %d", x);
+// Unfortunately this doesn't work DLog(aStringVariable); you have to do this instead DLog(@"%@", aStringVariable);
+
+#ifdef DEBUG
+#    define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#    define DLogObj(obj) NSLog(@"%s [Line %d] %@", __PRETTY_FUNCTION__, __LINE__, obj);
+#    define DLogInt(val) NSLog(@"%s [Line %d] %d", __PRETTY_FUNCTION__, __LINE__, val);
+#    define DLogBool(key, val) DLog(@"%@:%@",key, val ? @"yes" : @"no");
+#    define DLogFrame(fr) NSLog(@"%s [Line %d] %f,%f, %f,%f", __PRETTY_FUNCTION__, __LINE__, fr.origin.x, fr.origin.y, fr.size.width,fr.size.height);
+#    define DLogSize(size) NSLog(@"%s [Line %d] %f,%f", __PRETTY_FUNCTION__, __LINE__, size.width, size.height);
+#else
+#    define DLog(...) {}
+#    define DLogObj(obj) {}
+#    define DLogInt(obj) {}
+#    define DLogBool(key, val) {}
+#    define DLogFrame(...) {}
+#    define DLogSize(size) {}
+#endif
+
 #ifndef __IPHONE_5_0
 #warning "This project uses features only available in iOS SDK 5.0 and later."
 #endif
