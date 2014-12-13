@@ -68,7 +68,7 @@
     NSString *targetURLStringWithPN = [baseURLString stringByAppendingString:[NSString stringWithFormat:@"?page=%ld", (long)pageNumber]];
     xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
     isDownloading = YES;
-    NSLog(@"%@", targetURLStringWithPN);
+    DLog(@"%@", targetURLStringWithPN);
     if (delegate && [delegate respondsToSelector:@selector(threadListBeginDownloading:)]) {
         [delegate threadListBeginDownloading:self];
     }
@@ -83,7 +83,7 @@
 }
 
 -(void)subThreadProcessedForThread:(czzJSONProcessor *)processor :(czzThread *)forThread :(NSArray *)newThread :(BOOL)success {
-//    NSLog(@"%@", NSStringFromSelector(_cmd));
+//    DLog(@"%@", NSStringFromSelector(_cmd));
     isProcessing = NO;
     if (success) {
         lastBatchOfThreads = newThread;
@@ -145,8 +145,8 @@
             [verticalHeights addObject:[NSNumber numberWithFloat:shortHeight]];
             [horizontalHeights addObject:[NSNumber numberWithFloat:longHeight]];
         }
-//        NSLog(@"processing time: %.2f", [[NSDate new] timeIntervalSinceDate:date]);
-//        NSLog(@"size of heights array: %lu", verticalHeights.count);
+//        DLog(@"processing time: %.2f", [[NSDate new] timeIntervalSinceDate:date]);
+//        DLog(@"size of heights array: %lu", verticalHeights.count);
     });
 }
 @end

@@ -76,7 +76,7 @@
     NSError *error;
     NSString *emojiFileContent = [NSString stringWithContentsOfFile:emojiFile encoding:NSUTF8StringEncoding error:&error];
     if (error){
-        NSLog(@"%@", error);
+        DLog(@"%@", error);
     }
     NSArray *lines;
     lines = [emojiFileContent componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];

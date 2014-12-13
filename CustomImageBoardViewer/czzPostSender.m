@@ -57,7 +57,7 @@
     if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
     {
         [self.delegate statusReceived:NO message:[NSString stringWithFormat:@"网络错误"]];
-        NSLog(@"%@", error);
+        DLog(@"%@", error);
     }
 }
 
@@ -81,7 +81,7 @@
 
 #pragma mark - Decode the self.response xml data - at Aug 2014, they've changed to return value to json format
 -(void)response:(NSData*)jsonData{
-    NSLog(@"%@", [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]);
+    DLog(@"%@", [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]);
     NSError *error;
     NSDictionary *jsonResponse;
     if (jsonData)

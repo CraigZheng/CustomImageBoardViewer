@@ -63,7 +63,7 @@
         }
     }
     @catch (NSException *exception) {
-        NSLog(@"%@", exception);
+        DLog(@"%@", exception);
     }
 
     self.view.backgroundColor = settingsCentre.viewBackgroundColour;

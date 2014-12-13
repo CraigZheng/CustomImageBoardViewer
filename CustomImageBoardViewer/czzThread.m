@@ -224,7 +224,7 @@
                         colorString = @"";
                 }
                 @catch (NSException *exception) {
-                    NSLog(@"%@", exception);
+                    DLog(@"%@", exception);
                     colorString = @"";
                 }
                 fontColor = [self colorForHex:colorString];
@@ -314,7 +314,7 @@
                                alpha:1.0f];
     }
     @catch (NSException *exception) {
-        NSLog(@"exception");
+        DLog(@"exception");
     }
     @finally {
         

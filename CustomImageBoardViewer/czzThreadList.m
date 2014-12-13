@@ -127,7 +127,7 @@
         if (delegate && [delegate respondsToSelector:@selector(threadListProcessed:wasSuccessful:newThreads:allThreads:)]) {
             [delegate threadListProcessed:self wasSuccessful:success newThreads:lastBatchOfThreads allThreads:threads];
         }
-        NSLog(@"%@", NSStringFromSelector(_cmd));
+        DLog(@"%@", NSStringFromSelector(_cmd));
     });
 }
 

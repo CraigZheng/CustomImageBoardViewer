@@ -14,7 +14,7 @@
 -(void)dealloc
 {
 #ifdef FP_DEBUG
-    NSLog(@"FPTouchView dealloc");
+    DLog(@"FPTouchView dealloc");
 #endif
     
     SAFE_ARC_RELEASE(_insideBlock);

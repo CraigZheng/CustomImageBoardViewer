@@ -40,7 +40,7 @@
 -(void)dealloc
 {
 #ifdef FP_DEBUG
-    NSLog(@"FPPopoverView dealloc");
+    DLog(@"FPPopoverView dealloc");
 #endif
 
     SAFE_ARC_RELEASE(_titleLabel);

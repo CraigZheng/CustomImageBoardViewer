@@ -119,7 +119,7 @@
         }
     }
     @catch (NSException *exception) {
-        NSLog(@"%@", exception);
+        DLog(@"%@", exception);
     }
     return NO;
 }
@@ -132,7 +132,7 @@
             return [date2 compare:date1];
         }
         @catch (NSException *exception) {
-            NSLog(@"%@", exception);
+            DLog(@"%@", exception);
         }
         return NSOrderedSame;
     }];

@@ -116,7 +116,7 @@
     [receivedData writeToFile:filePath options:NSDataWritingAtomic error:&error];
     if (delegate && [delegate respondsToSelector:@selector(downloadFinished:success:isThumbnail:saveTo:)]){
         if (error){
-            NSLog(@"%@", error);
+            DLog(@"%@", error);
             [delegate downloadFinished:self success:NO isThumbnail:isThumbnail saveTo:filePath];
         } else {
             [delegate downloadFinished:self success:YES isThumbnail:isThumbnail saveTo:filePath];

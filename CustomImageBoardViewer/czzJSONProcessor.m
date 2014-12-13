@@ -26,7 +26,7 @@
     else
         error = [NSError errorWithDomain:@"Empty Data!" code:999 userInfo:nil];
     if (error) {
-        NSLog(@"%@", error);
+        DLog(@"%@", error);
         if (delegate) {
             if ([delegate respondsToSelector:@selector(threadListProcessed:::)]) {
                 [delegate threadListProcessed:self :nil :NO];
@@ -48,7 +48,7 @@
             [delegate threadListProcessed:processedThreads :YES];
         }
     }
-    NSLog(@"");
+    DLog(@"");
 }
 
 -(void)processSubThreadFromData:(NSData *)jsonData {
@@ -60,7 +60,7 @@
     else
         error = [NSError errorWithDomain:@"Empty Data!" code:999 userInfo:nil];
     if (error) {
-        NSLog(@"%@", error);
+        DLog(@"%@", error);
         if ([delegate respondsToSelector:@selector(subThreadProcessedForThread:::)]) {
             [delegate subThreadProcessedForThread:nil :nil :NO];
         }

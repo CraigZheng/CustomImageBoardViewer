@@ -104,7 +104,7 @@
             [self updateViewsWithCurrentNotification];
         }
         @catch (NSException *exception) {
-            NSLog(@"%@", exception);
+            DLog(@"%@", exception);
         }
     } else {
         self.needsToBePresented = NO;
@@ -166,7 +166,7 @@
 }
 
 - (IBAction)tapOnViewAction:(id)sender {
-    NSLog(@"tap on view");
+    DLog(@"tap on view");
     if (homeViewController) {
         czzNotificationCentreTableViewController *notificationCentreViewController = [[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"notification_centre_view_controller"];
         notificationCentreViewController.currentNotification = currentNotification;
@@ -216,11 +216,11 @@
                 notifications = [NSMutableOrderedSet orderedSetWithArray:sortedArray];
             }
             @catch (NSException *exception) {
-                NSLog(@"%@", exception);
+                DLog(@"%@", exception);
             }
         }
     } else {
-        NSLog(@"downloaded notification empty!");
+        DLog(@"downloaded notification empty!");
     }
     [self saveNotifications];
 }
@@ -241,7 +241,7 @@
             notifications = [NSMutableOrderedSet orderedSetWithArray:sortedArray];
         }
         @catch (NSException *exception) {
-            NSLog(@"%@", exception);
+            DLog(@"%@", exception);
         }
         [notificationManager saveNotifications:notifications];
     }

@@ -303,7 +303,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         preferHeight = [[heightArray objectAtIndex:indexPath.row] floatValue];
     }
     @catch (NSException *exception) {
-        NSLog(@"%@", exception);
+        DLog(@"%@", exception);
     }
     
     return preferHeight;
@@ -387,7 +387,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 #pragma mark - czzMiniThreadViewProtocol
 -(void)miniThreadViewFinishedLoading:(BOOL)successful {
-    NSLog(@"%@", NSStringFromSelector(_cmd));
+    DLog(@"%@", NSStringFromSelector(_cmd));
     if (!successful) {
         [[czzAppDelegate sharedAppDelegate].window makeToast:[NSString stringWithFormat:@"无法下载:%ld", (long)miniThreadView.threadID]];
         
@@ -428,7 +428,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 #pragma mark - czzSubThreadListProtocol
 -(void)threadListBeginDownloading:(czzThreadList *)threadList {
-//    NSLog(@"%@", NSStringFromSelector(_cmd));
+//    DLog(@"%@", NSStringFromSelector(_cmd));
     if (!progressView.isAnimating) {
         [progressView startAnimating];
     }
@@ -535,7 +535,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
                 [threadTableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationAutomatic];
             }
             @catch (NSException *exception) {
-                NSLog(@"%@", exception);
+                DLog(@"%@", exception);
             }
         }
     } else if (settingsCentre.userDefShouldAutoOpenImage) {

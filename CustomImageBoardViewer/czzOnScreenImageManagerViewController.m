@@ -38,7 +38,7 @@
 }
 
 - (IBAction)tapOnImageManagerIconAction:(id)sender {
-    NSLog(@"%@", NSStringFromSelector(_cmd));
+    DLog(@"%@", NSStringFromSelector(_cmd));
     [self startAnimating];
 }
 

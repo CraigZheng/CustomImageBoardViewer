@@ -176,7 +176,7 @@
 
             }
             @catch (NSException *exception) {
-                NSLog(@"%@", exception);
+                DLog(@"%@", exception);
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[czzAppDelegate sharedAppDelegate].window makeToast:@"无法打开这个链接" duration:2.0 position:@"bottom" image:[UIImage imageNamed:@"warning.png"]];
                 });
@@ -200,7 +200,7 @@
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    NSLog(@"should navigate to URL: %@", request.URL.absoluteString);
+    DLog(@"should navigate to URL: %@", request.URL.absoluteString);
     //user tapped on link
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
         if ([request.URL.absoluteString rangeOfString:@"h.acfun.tv"].location == NSNotFound) {
