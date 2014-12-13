@@ -34,7 +34,7 @@
         
         CHUNK_WIDTH = MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
         colourIndex = 0;
-        colours = @[[UIColor cyanColor], [UIColor magentaColor], [UIColor yellowColor], [UIColor blackColor]];
+        colours = @[[UIColor cyanColor], [UIColor magentaColor], [UIColor yellowColor]];//, [UIColor blackColor]];
     }
     return self;
 }
