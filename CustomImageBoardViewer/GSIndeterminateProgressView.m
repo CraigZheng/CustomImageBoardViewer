@@ -7,10 +7,16 @@
 //
 
 #import "GSIndeterminateProgressView.h"
-
-const CGFloat CHUNK_WIDTH = 90.0;
+@interface GSIndeterminateProgressView()
+@property CGFloat CHUNK_WIDTH;
+@property NSArray *colours;
+@property NSUInteger colourIndex;
+@end
 
 @implementation GSIndeterminateProgressView
+@synthesize CHUNK_WIDTH;
+@synthesize colourIndex;
+@synthesize colours;
 
 @synthesize isAnimating = _isAnimating;
 
@@ -20,11 +26,15 @@ const CGFloat CHUNK_WIDTH = 90.0;
     if (self) {
         self.clipsToBounds = YES;
 
-        self.trackTintColor = [UIColor whiteColor];
+        self.trackTintColor = [UIColor clearColor];
         self.progressTintColor = [UIColor blueColor];
 
         self.hidesWhenStopped = YES;
         self.hidden = YES;
+        
+        CHUNK_WIDTH = MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+        colourIndex = 0;
+        colours = @[[UIColor cyanColor], [UIColor magentaColor], [UIColor yellowColor], [UIColor blackColor]];
     }
     return self;
 }
@@ -37,10 +47,10 @@ const CGFloat CHUNK_WIDTH = 90.0;
 
 - (void)setProgressTintColor:(UIColor *)progressTintColor
 {
-    _progressTintColor = progressTintColor;
-    for (UIView *v in self.progressChunks) {
-        v.backgroundColor = progressTintColor;
-    }
+//    _progressTintColor = progressTintColor;
+//    for (UIView *v in self.progressChunks) {
+//        v.backgroundColor = progressTintColor;
+//    }
 }
 
 - (void)startAnimating
@@ -56,8 +66,6 @@ const CGFloat CHUNK_WIDTH = 90.0;
 
     NSTimeInterval delay = 0;
     for (UIView *v in self.progressChunks) {
-        v.backgroundColor = self.progressTintColor;
-
         [self addSubview:v];
 
         [self animateProgressChunk:v delay:(delay += 0.25)];
@@ -78,9 +86,17 @@ const CGFloat CHUNK_WIDTH = 90.0;
     self.progressChunks = nil;
 }
 
+-(UIColor*)progressTintColor {
+    UIColor *tintColour = [colours objectAtIndex:colourIndex++];
+    if (colourIndex >= colours.count)
+        colourIndex = 0;
+    return tintColour;
+}
+
 - (void)animateProgressChunk:(UIView *)chunk delay:(NSTimeInterval)delay
 {
-    [UIView animateWithDuration:0.75 delay:delay options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:1.0 delay:delay options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        chunk.backgroundColor = self.progressTintColor;
         CGRect chuckFrame = chunk.frame;
         chuckFrame.origin.x = self.frame.size.width;
         chunk.frame = chuckFrame;
@@ -89,7 +105,7 @@ const CGFloat CHUNK_WIDTH = 90.0;
         chuckFrame.origin.x = -CHUNK_WIDTH;
         chunk.frame = chuckFrame;
         if (finished)
-            [self animateProgressChunk:chunk delay:0.7];
+            [self animateProgressChunk:chunk delay:0.75];
     }];
 }
 
