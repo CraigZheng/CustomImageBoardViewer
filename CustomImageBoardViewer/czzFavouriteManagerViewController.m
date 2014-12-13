@@ -57,6 +57,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     }
     self.view.backgroundColor = settingsCentre.viewBackgroundColour;
     [self.tableView reloadData];
+    [self.navigationController.toolbar setHidden:YES];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

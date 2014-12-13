@@ -302,9 +302,11 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 }
 
 -(void)moreInfoAction {
-    czzMoreInfoViewController *moreInfoViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"more_info_view_controller"];
-    moreInfoViewController.forumName = threadList.forumName;
-    [self presentViewController:moreInfoViewController animated:YES completion:nil];
+    if (threadList.forumName.length) {
+        czzMoreInfoViewController *moreInfoViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"more_info_view_controller"];
+        moreInfoViewController.forumName = threadList.forumName;
+        [self presentViewController:moreInfoViewController animated:YES completion:nil];
+    }
 }
 
 #pragma mark - UITableView datasource

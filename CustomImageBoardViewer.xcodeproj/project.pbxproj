@@ -86,8 +86,6 @@
 		442A8FFB19DB7F5400A3516E /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A8FE819DB7F5400A3516E /* UIImageView+HighlightedWebCache.m */; };
 		442A8FFC19DB7F5400A3516E /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A8FEA19DB7F5400A3516E /* UIImageView+WebCache.m */; };
 		442A8FFD19DB7F5400A3516E /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A8FEC19DB7F5400A3516E /* UIView+WebCacheOperation.m */; };
-		442A900C19DB90E000A3516E /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 442A8FFE19DB90E000A3516E /* README.txt */; };
-		442A900D19DB90E000A3516E /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 442A900B19DB90E000A3516E /* libGoogleAdMobAds.a */; };
 		442A901819DB9BAF00A3516E /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 442A901719DB9BAF00A3516E /* libxml2.dylib */; };
 		442A901D19DB9C3C00A3516E /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A901A19DB9C3C00A3516E /* HTMLNode.m */; };
 		442A901E19DB9C3C00A3516E /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A901C19DB9C3C00A3516E /* HTMLParser.m */; };
@@ -102,6 +100,8 @@
 		443141971A2B38D6007D65B3 /* czzSubThreadList.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141961A2B38D6007D65B3 /* czzSubThreadList.m */; };
 		4431419A1A2B5198007D65B3 /* GSIndeterminateProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141991A2B5198007D65B3 /* GSIndeterminateProgressView.m */; };
 		443141A21A3BFB5B007D65B3 /* KLCPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141A11A3BFB5B007D65B3 /* KLCPopup.m */; };
+		443141B31A3C1C77007D65B3 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 443141B11A3C1C77007D65B3 /* libGoogleAdMobAds.a */; };
+		443141B41A3C1C77007D65B3 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 443141B21A3C1C77007D65B3 /* README.txt */; };
 		443B54DE1990BD3300BAB282 /* attribute.c in Sources */ = {isa = PBXBuildFile; fileRef = 443B54B61990BD3300BAB282 /* attribute.c */; };
 		443B54DF1990BD3300BAB282 /* char_ref.c in Sources */ = {isa = PBXBuildFile; fileRef = 443B54B81990BD3300BAB282 /* char_ref.c */; };
 		443B54E01990BD3300BAB282 /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 443B54BA1990BD3300BAB282 /* error.c */; };
@@ -478,20 +478,6 @@
 		442A8FEA19DB7F5400A3516E /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
 		442A8FEB19DB7F5400A3516E /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
 		442A8FEC19DB7F5400A3516E /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
-		442A8FFE19DB90E000A3516E /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
-		442A8FFF19DB90E000A3516E /* GADAdMobExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdMobExtras.h; sourceTree = "<group>"; };
-		442A900019DB90E000A3516E /* GADAdNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdNetworkExtras.h; sourceTree = "<group>"; };
-		442A900119DB90E000A3516E /* GADAdSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdSize.h; sourceTree = "<group>"; };
-		442A900219DB90E000A3516E /* GADBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerView.h; sourceTree = "<group>"; };
-		442A900319DB90E000A3516E /* GADBannerViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerViewDelegate.h; sourceTree = "<group>"; };
-		442A900419DB90E000A3516E /* GADInAppPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInAppPurchase.h; sourceTree = "<group>"; };
-		442A900519DB90E000A3516E /* GADInAppPurchaseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInAppPurchaseDelegate.h; sourceTree = "<group>"; };
-		442A900619DB90E000A3516E /* GADInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitial.h; sourceTree = "<group>"; };
-		442A900719DB90E000A3516E /* GADInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitialDelegate.h; sourceTree = "<group>"; };
-		442A900819DB90E000A3516E /* GADModules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADModules.h; sourceTree = "<group>"; };
-		442A900919DB90E000A3516E /* GADRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequest.h; sourceTree = "<group>"; };
-		442A900A19DB90E000A3516E /* GADRequestError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequestError.h; sourceTree = "<group>"; };
-		442A900B19DB90E000A3516E /* libGoogleAdMobAds.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAdMobAds.a; sourceTree = "<group>"; };
 		442A901719DB9BAF00A3516E /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		442A901919DB9C3C00A3516E /* HTMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HTMLNode.h; path = ../HTMLNode.h; sourceTree = "<group>"; };
 		442A901A19DB9C3C00A3516E /* HTMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HTMLNode.m; path = ../HTMLNode.m; sourceTree = "<group>"; };
@@ -515,6 +501,20 @@
 		443141991A2B5198007D65B3 /* GSIndeterminateProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSIndeterminateProgressView.m; sourceTree = "<group>"; };
 		443141A01A3BFB5B007D65B3 /* KLCPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLCPopup.h; sourceTree = "<group>"; };
 		443141A11A3BFB5B007D65B3 /* KLCPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLCPopup.m; sourceTree = "<group>"; };
+		443141A51A3C1C77007D65B3 /* GADAdMobExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdMobExtras.h; sourceTree = "<group>"; };
+		443141A61A3C1C77007D65B3 /* GADAdNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdNetworkExtras.h; sourceTree = "<group>"; };
+		443141A71A3C1C77007D65B3 /* GADAdSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdSize.h; sourceTree = "<group>"; };
+		443141A81A3C1C77007D65B3 /* GADBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerView.h; sourceTree = "<group>"; };
+		443141A91A3C1C77007D65B3 /* GADBannerViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerViewDelegate.h; sourceTree = "<group>"; };
+		443141AA1A3C1C77007D65B3 /* GADInAppPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInAppPurchase.h; sourceTree = "<group>"; };
+		443141AB1A3C1C77007D65B3 /* GADInAppPurchaseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInAppPurchaseDelegate.h; sourceTree = "<group>"; };
+		443141AC1A3C1C77007D65B3 /* GADInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitial.h; sourceTree = "<group>"; };
+		443141AD1A3C1C77007D65B3 /* GADInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitialDelegate.h; sourceTree = "<group>"; };
+		443141AE1A3C1C77007D65B3 /* GADModules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADModules.h; sourceTree = "<group>"; };
+		443141AF1A3C1C77007D65B3 /* GADRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequest.h; sourceTree = "<group>"; };
+		443141B01A3C1C77007D65B3 /* GADRequestError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequestError.h; sourceTree = "<group>"; };
+		443141B11A3C1C77007D65B3 /* libGoogleAdMobAds.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAdMobAds.a; sourceTree = "<group>"; };
+		443141B21A3C1C77007D65B3 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		443B54B61990BD3300BAB282 /* attribute.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = attribute.c; sourceTree = "<group>"; };
 		443B54B71990BD3300BAB282 /* attribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = attribute.h; sourceTree = "<group>"; };
 		443B54B81990BD3300BAB282 /* char_ref.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = char_ref.c; sourceTree = "<group>"; };
@@ -794,6 +794,7 @@
 				44B8645D185D80F500C29B92 /* MessageUI.framework in Frameworks */,
 				44B8645B185D80ED00C29B92 /* AVFoundation.framework in Frameworks */,
 				44B86459185D80E300C29B92 /* AudioToolbox.framework in Frameworks */,
+				443141B31A3C1C77007D65B3 /* libGoogleAdMobAds.a in Frameworks */,
 				44B86457185D80A300C29B92 /* AdSupport.framework in Frameworks */,
 				44C89ADC185C145C00E65B73 /* QuartzCore.framework in Frameworks */,
 				440B2FC917F7F42600544926 /* MobileCoreServices.framework in Frameworks */,
@@ -801,7 +802,6 @@
 				441E5CD117F4691300289DBD /* CoreGraphics.framework in Frameworks */,
 				441E5CD317F4691300289DBD /* UIKit.framework in Frameworks */,
 				441E5CCF17F4691300289DBD /* Foundation.framework in Frameworks */,
-				442A900D19DB90E000A3516E /* libGoogleAdMobAds.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1346,6 +1346,27 @@
 			path = KLCPopup;
 			sourceTree = "<group>";
 		};
+		443141A41A3C1C77007D65B3 /* GoogldAdmob */ = {
+			isa = PBXGroup;
+			children = (
+				443141A51A3C1C77007D65B3 /* GADAdMobExtras.h */,
+				443141A61A3C1C77007D65B3 /* GADAdNetworkExtras.h */,
+				443141A71A3C1C77007D65B3 /* GADAdSize.h */,
+				443141A81A3C1C77007D65B3 /* GADBannerView.h */,
+				443141A91A3C1C77007D65B3 /* GADBannerViewDelegate.h */,
+				443141AA1A3C1C77007D65B3 /* GADInAppPurchase.h */,
+				443141AB1A3C1C77007D65B3 /* GADInAppPurchaseDelegate.h */,
+				443141AC1A3C1C77007D65B3 /* GADInterstitial.h */,
+				443141AD1A3C1C77007D65B3 /* GADInterstitialDelegate.h */,
+				443141AE1A3C1C77007D65B3 /* GADModules.h */,
+				443141AF1A3C1C77007D65B3 /* GADRequest.h */,
+				443141B01A3C1C77007D65B3 /* GADRequestError.h */,
+				443141B11A3C1C77007D65B3 /* libGoogleAdMobAds.a */,
+				443141B21A3C1C77007D65B3 /* README.txt */,
+			);
+			path = GoogldAdmob;
+			sourceTree = "<group>";
+		};
 		443B54B41990BD3300BAB282 /* ObjectiveGumbo */ = {
 			isa = PBXGroup;
 			children = (
@@ -1566,6 +1587,7 @@
 		44B89E771A2AF3CE0085F766 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				443141A41A3C1C77007D65B3 /* GoogldAdmob */,
 				4431419F1A3BFB5B007D65B3 /* KLCPopup */,
 				4431419B1A2B519D007D65B3 /* GSIndetermineProgressView */,
 				44B89E7E1A2AFBE30085F766 /* UINavigationController+SGProgress */,
@@ -1575,7 +1597,6 @@
 				440B2F6217F5F97200544926 /* GTMNSString */,
 				443B54B41990BD3300BAB282 /* ObjectiveGumbo */,
 				441E5D0F17F4699900289DBD /* IIViewDeck */,
-				5AA5B6C419A963FA00DCC3DA /* GoogldAdmob */,
 				44C34544187E59AC00FDE45D /* KNSemiModal */,
 				4412FA161935865C00681438 /* Reachability */,
 				44B89E761A2AF3A90085F766 /* UIImage+animatedGIF */,
@@ -1834,27 +1855,6 @@
 			name = czzNotificationCentre;
 			sourceTree = "<group>";
 		};
-		5AA5B6C419A963FA00DCC3DA /* GoogldAdmob */ = {
-			isa = PBXGroup;
-			children = (
-				442A8FFE19DB90E000A3516E /* README.txt */,
-				442A8FFF19DB90E000A3516E /* GADAdMobExtras.h */,
-				442A900019DB90E000A3516E /* GADAdNetworkExtras.h */,
-				442A900119DB90E000A3516E /* GADAdSize.h */,
-				442A900219DB90E000A3516E /* GADBannerView.h */,
-				442A900319DB90E000A3516E /* GADBannerViewDelegate.h */,
-				442A900419DB90E000A3516E /* GADInAppPurchase.h */,
-				442A900519DB90E000A3516E /* GADInAppPurchaseDelegate.h */,
-				442A900619DB90E000A3516E /* GADInterstitial.h */,
-				442A900719DB90E000A3516E /* GADInterstitialDelegate.h */,
-				442A900819DB90E000A3516E /* GADModules.h */,
-				442A900919DB90E000A3516E /* GADRequest.h */,
-				442A900A19DB90E000A3516E /* GADRequestError.h */,
-				442A900B19DB90E000A3516E /* libGoogleAdMobAds.a */,
-			);
-			path = GoogldAdmob;
-			sourceTree = "<group>";
-		};
 		5AF85E691970025F0031D0CB /* czzSearchViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -2040,7 +2040,6 @@
 				44E791D51A17856500A63C04 /* collapse_arrow@3x.png in Resources */,
 				44B54E6A1A0EE1B80004C5B4 /* czzThreadViewTableViewCell.xib in Resources */,
 				44E791E91A17856500A63C04 /* message.png in Resources */,
-				442A900C19DB90E000A3516E /* README.txt in Resources */,
 				44F8DE611803900100B6D3B0 /* Icon-76@2x.png in Resources */,
 				44E791E41A17856500A63C04 /* link@2x.png in Resources */,
 				44E791FD1A17856500A63C04 /* settings_wrench@3x.png in Resources */,
@@ -2070,6 +2069,7 @@
 				44F8DE601803900100B6D3B0 /* Icon-76.png in Resources */,
 				44E791ED1A17856500A63C04 /* previous@2x.png in Resources */,
 				44CF254D1A25A2A500BD8228 /* delete_file@2x.png in Resources */,
+				443141B41A3C1C77007D65B3 /* README.txt in Resources */,
 				44F8DE6E1803928A00B6D3B0 /* Default-568h@2x.png in Resources */,
 				44F8DE5D1803900100B6D3B0 /* Icon-60@2x.png in Resources */,
 				44E792001A17856500A63C04 /* sleeping@3x.png in Resources */,
