@@ -134,7 +134,7 @@
     shortWidth = MIN([UIScreen mainScreen].applicationFrame.size.height, [UIScreen mainScreen].applicationFrame.size.width);
     longWidth = MAX([UIScreen mainScreen].applicationFrame.size.width, [UIScreen mainScreen].applicationFrame.size.height);
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSDate *date = [NSDate new];
+//        NSDate *date = [NSDate new];
         [verticalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, verticalHeights.count - cutOffIndex)];
         [horizontalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, verticalHeights.count - cutOffIndex)];
         for (czzThread *thread in newThreads) {
@@ -143,8 +143,8 @@
             [verticalHeights addObject:[NSNumber numberWithFloat:shortHeight]];
             [horizontalHeights addObject:[NSNumber numberWithFloat:longHeight]];
         }
-        NSLog(@"processing time: %.2f", [[NSDate new] timeIntervalSinceDate:date]);
-        NSLog(@"size of heights array: %lu", verticalHeights.count);
+//        NSLog(@"processing time: %.2f", [[NSDate new] timeIntervalSinceDate:date]);
+//        NSLog(@"size of heights array: %lu", verticalHeights.count);
     });
 }
 @end

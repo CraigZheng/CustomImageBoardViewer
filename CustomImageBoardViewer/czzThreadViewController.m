@@ -427,7 +427,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 #pragma mark - czzSubThreadListProtocol
 -(void)threadListBeginDownloading:(czzThreadList *)threadList {
-    NSLog(@"%@", NSStringFromSelector(_cmd));
+//    NSLog(@"%@", NSStringFromSelector(_cmd));
     if (!progressView.isAnimating) {
         [progressView startAnimating];
     }

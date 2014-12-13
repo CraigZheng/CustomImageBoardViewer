@@ -8,7 +8,7 @@
 
 #import "czzEntryPointViewController.h"
 #import "czzForumsViewController.h"
-#import "czzHomeViewController.h"
+#import "czzNavigationController.h"
 #import "czzAppDelegate.h"
 #import "Toast+UIView.h"
 
@@ -46,7 +46,7 @@
     }
      */
     storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:Nil];
-    czzHomeViewController *centreViewController = [storyboard instantiateViewControllerWithIdentifier:@"home_view_controller"];
+    czzNavigationController *centreViewController = [storyboard instantiateViewControllerWithIdentifier:@"home_navigation_controller"];
     
     self = [super initWithCenterViewController:centreViewController leftViewController:nil];
 //    self.topController = [storyboard instantiateViewControllerWithIdentifier:@"more_info_view_controller"];

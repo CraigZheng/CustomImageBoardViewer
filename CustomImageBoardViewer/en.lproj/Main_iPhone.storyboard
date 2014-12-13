@@ -28,7 +28,7 @@
         <!--Czz Navigation Controller-->
         <scene sceneID="4qm-ux-hll">
             <objects>
-                <navigationController storyboardIdentifier="home_view_controller" definesPresentationContext="YES" toolbarHidden="NO" id="RdH-Rq-QxN" customClass="czzNavigationController" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="home_navigation_controller" definesPresentationContext="YES" toolbarHidden="NO" id="RdH-Rq-QxN" customClass="czzNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Bh6-TG-z4L">
                         <autoresizingMask key="autoresizingMask"/>
@@ -47,7 +47,7 @@
         <!--帖子-->
         <scene sceneID="1dv-1T-wAU">
             <objects>
-                <viewController id="CES-L8-oRQ" customClass="czzThreadViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="thread_view_controller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="CES-L8-oRQ" customClass="czzThreadViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="JNf-Ax-8EN"/>
                         <viewControllerLayoutGuide type="bottom" id="sn1-5a-vXO"/>
@@ -895,7 +895,7 @@
         <!--A岛-->
         <scene sceneID="sr6-Ve-Y3r">
             <objects>
-                <viewController id="JnF-wS-C9I" customClass="czzHomeViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="home_view_controller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="JnF-wS-C9I" customClass="czzHomeViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="6rZ-Nk-kbk"/>
                         <viewControllerLayoutGuide type="bottom" id="VdM-sp-3WW"/>
@@ -1157,7 +1157,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="5Fw-Ve-fjP"/>
-        <segue reference="Uep-8w-iun"/>
         <segue reference="DWL-6t-CEf"/>
+        <segue reference="vK6-NU-jzp"/>
     </inferredMetricsTieBreakers>
 </document>
