@@ -432,7 +432,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     }
     
     [refreshControl endRefreshing];
-//    [self.navigationController finishSGProgress];
     [progressView stopAnimating];
 }
 

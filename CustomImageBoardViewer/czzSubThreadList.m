@@ -80,7 +80,11 @@
     if (successed) {
         [subThreadProcessor processSubThreadFromData:xmlData];
     }
-}
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (delegate && [delegate respondsToSelector:@selector(threadListDownloaded:wasSuccessful:)]) {
+            [delegate threadListDownloaded:self wasSuccessful:successed];
+        }
+    });}
 
 -(void)subThreadProcessedForThread:(czzJSONProcessor *)processor :(czzThread *)forThread :(NSArray *)newThread :(BOOL)success {
 //    DLog(@"%@", NSStringFromSelector(_cmd));

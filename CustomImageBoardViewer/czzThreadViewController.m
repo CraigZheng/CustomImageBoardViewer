@@ -434,6 +434,14 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     }
 }
 
+-(void)threadListDownloaded:(czzThreadList *)threadList wasSuccessful:(BOOL)wasSuccessful {
+    if (!wasSuccessful)
+    {
+        if (progressView.isAnimating)
+            [progressView stopAnimating];
+    }
+}
+
 -(void)subThreadProcessed:(czzThreadList *)threadList wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     if (wasSuccessul) {
         [self copyDataFromThreadList];
