@@ -175,9 +175,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     
     //on screen image manager view
     czzOnScreenImageManagerViewController *onScreenImgMrg = [(czzNavigationController*)self.navigationController onScreenImageManagerView];
-    CGRect frame = onScreenImgMrg.view.frame;
-    frame.size = onScreenImageManagerViewContainer.frame.size;
-    onScreenImgMrg.view.frame = frame;
+    onScreenImgMrg.view.frame = onScreenImageManagerViewContainer.bounds;
     [self addChildViewController:onScreenImgMrg];
     [onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
 
