@@ -101,6 +101,7 @@
 		442EC8741A1A1DDE005650E4 /* czzInAppBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 442EC8731A1A1DDE005650E4 /* czzInAppBrowserViewController.m */; };
 		443141971A2B38D6007D65B3 /* czzSubThreadList.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141961A2B38D6007D65B3 /* czzSubThreadList.m */; };
 		4431419A1A2B5198007D65B3 /* GSIndeterminateProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141991A2B5198007D65B3 /* GSIndeterminateProgressView.m */; };
+		443141A21A3BFB5B007D65B3 /* KLCPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141A11A3BFB5B007D65B3 /* KLCPopup.m */; };
 		443B54DE1990BD3300BAB282 /* attribute.c in Sources */ = {isa = PBXBuildFile; fileRef = 443B54B61990BD3300BAB282 /* attribute.c */; };
 		443B54DF1990BD3300BAB282 /* char_ref.c in Sources */ = {isa = PBXBuildFile; fileRef = 443B54B81990BD3300BAB282 /* char_ref.c */; };
 		443B54E01990BD3300BAB282 /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 443B54BA1990BD3300BAB282 /* error.c */; };
@@ -512,6 +513,8 @@
 		443141961A2B38D6007D65B3 /* czzSubThreadList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzSubThreadList.m; sourceTree = "<group>"; };
 		443141981A2B5198007D65B3 /* GSIndeterminateProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSIndeterminateProgressView.h; sourceTree = "<group>"; };
 		443141991A2B5198007D65B3 /* GSIndeterminateProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSIndeterminateProgressView.m; sourceTree = "<group>"; };
+		443141A01A3BFB5B007D65B3 /* KLCPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLCPopup.h; sourceTree = "<group>"; };
+		443141A11A3BFB5B007D65B3 /* KLCPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLCPopup.m; sourceTree = "<group>"; };
 		443B54B61990BD3300BAB282 /* attribute.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = attribute.c; sourceTree = "<group>"; };
 		443B54B71990BD3300BAB282 /* attribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = attribute.h; sourceTree = "<group>"; };
 		443B54B81990BD3300BAB282 /* char_ref.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = char_ref.c; sourceTree = "<group>"; };
@@ -1334,6 +1337,15 @@
 			name = GSIndetermineProgressView;
 			sourceTree = "<group>";
 		};
+		4431419F1A3BFB5B007D65B3 /* KLCPopup */ = {
+			isa = PBXGroup;
+			children = (
+				443141A01A3BFB5B007D65B3 /* KLCPopup.h */,
+				443141A11A3BFB5B007D65B3 /* KLCPopup.m */,
+			);
+			path = KLCPopup;
+			sourceTree = "<group>";
+		};
 		443B54B41990BD3300BAB282 /* ObjectiveGumbo */ = {
 			isa = PBXGroup;
 			children = (
@@ -1554,6 +1566,7 @@
 		44B89E771A2AF3CE0085F766 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				4431419F1A3BFB5B007D65B3 /* KLCPopup */,
 				4431419B1A2B519D007D65B3 /* GSIndetermineProgressView */,
 				44B89E7E1A2AFBE30085F766 /* UINavigationController+SGProgress */,
 				4498B68E1993A6740014F73F /* PropertyUtil */,
@@ -2234,6 +2247,7 @@
 				443B54DF1990BD3300BAB282 /* char_ref.c in Sources */,
 				443B54EC1990BD3300BAB282 /* OGDocument.m in Sources */,
 				5A2B2D8D1936172C00BA2870 /* czzFeedback.m in Sources */,
+				443141A21A3BFB5B007D65B3 /* KLCPopup.m in Sources */,
 				443B54EA1990BD3300BAB282 /* NSString+OGString.m in Sources */,
 				4416B72519413EAF00B69C5B /* FPPopoverController.m in Sources */,
 				442A8FAB19DB7DF200A3516E /* NSIndexPath+PSTCollectionViewAdditions.m in Sources */,

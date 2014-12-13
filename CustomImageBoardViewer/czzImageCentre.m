@@ -255,15 +255,15 @@
 }
 
 
--(void)downloaderProgressUpdated:(czzImageDownloader *)imgDownloader expectedLength:(NSUInteger)total downloadedLength:(NSUInteger)downloaded{
-    //inform full size image download update
-    if (!imgDownloader.isThumbnail){
-        [[NSNotificationCenter defaultCenter]
-         postNotificationName:@"ImageDownloaderProgressUpdated"
-         object:Nil
-         userInfo:[NSDictionary dictionaryWithObject:imgDownloader forKey:@"ImageDownloader"]];
-    }
-}
+//-(void)downloaderProgressUpdated:(czzImageDownloader *)imgDownloader expectedLength:(NSUInteger)total downloadedLength:(NSUInteger)downloaded{
+//    //inform full size image download update
+//    if (!imgDownloader.isThumbnail){
+//        [[NSNotificationCenter defaultCenter]
+//         postNotificationName:@"ImageDownloaderProgressUpdated"
+//         object:Nil
+//         userInfo:[NSDictionary dictionaryWithObject:imgDownloader forKey:@"ImageDownloader"]];
+//    }
+//}
 
 #pragma mark - remove images
 -(void)removeFullSizeImages{

@@ -514,9 +514,15 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 }
 
 -(void)imageDownloadedForIndexPath:(NSIndexPath *)index filePath:(NSString *)path isThumbnail:(BOOL)isThumbnail {
-    if (isThumbnail)
-        [threadTableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationAutomatic];
-    else
+    if (isThumbnail) {
+        @try {
+            [threadTableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception)
+        }
+    }
+    else if (settingsCentre.userDefShouldAutoOpenImage)
         [self openImageWithPath:path];
 }
 

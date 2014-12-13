@@ -388,9 +388,10 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 #pragma mark - czzMiniThreadViewProtocol
 -(void)miniThreadViewFinishedLoading:(BOOL)successful {
     NSLog(@"%@", NSStringFromSelector(_cmd));
-    if (!successful)
+    if (!successful) {
         [[czzAppDelegate sharedAppDelegate].window makeToast:[NSString stringWithFormat:@"无法下载:%ld", (long)miniThreadView.threadID]];
-    if (viewControllerNotInTransition)
+        
+    } else if (viewControllerNotInTransition)
         [self presentViewController:miniThreadView animated:YES completion:nil];
 }
 
@@ -529,9 +530,15 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 -(void)imageDownloadedForIndexPath:(NSIndexPath *)index filePath:(NSString *)path isThumbnail:(BOOL)isThumbnail {
     if (isThumbnail)
     {
-        if (index && index.row < threads.count)
-            [threadTableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationAutomatic];
-    } else {
+        if (index && index.row < threads.count) {
+            @try {
+                [threadTableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"%@", exception);
+            }
+        }
+    } else if (settingsCentre.userDefShouldAutoOpenImage) {
         [self openImageWithPath:path];
     }
 }
