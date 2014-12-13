@@ -36,7 +36,7 @@
             NSError *error;
             [[NSFileManager defaultManager] createDirectoryAtPath:cachePath withIntermediateDirectories:NO attributes:nil error:&error];
             if (error){
-                NSLog(@"error creating thread cache: %@", error);
+                DLog(@"error creating thread cache: %@", error);
             }
         }
         [self restoreCaches];
@@ -58,7 +58,7 @@
 -(void)saveThreadCaches {
     if (existingFiles.count > 0) {
         [NSKeyedArchiver archiveRootObject:existingFiles toFile:[cachePath stringByAppendingPathComponent:THREAD_CACHE_ARCHIVE]];
-        NSLog(@"thread caches archived to: %@", [cachePath stringByAppendingPathComponent:THREAD_CACHE_ARCHIVE]);
+        DLog(@"thread caches archived to: %@", [cachePath stringByAppendingPathComponent:THREAD_CACHE_ARCHIVE]);
     }
 }
 
@@ -70,13 +70,13 @@
         NSSet *tempSet = [NSKeyedUnarchiver unarchiveObjectWithFile:[cachePath stringByAppendingPathComponent:THREAD_CACHE_ARCHIVE]];
         if (tempSet.count > 0) {
             [existingFiles addObjectsFromArray:tempSet.allObjects];
-            NSLog(@"archived thread cache restored");
+            DLog(@"archived thread cache restored");
         }
     }
     @catch (NSException *exception) {
-        NSLog(@"%@", exception);
+        DLog(@"%@", exception);
     }
-    NSLog(@"restoring cache took: %.1f seconds", [[NSDate new] timeIntervalSinceDate:startDate]);
+    DLog(@"restoring cache took: %.1f seconds", [[NSDate new] timeIntervalSinceDate:startDate]);
 }
 
 + (id)sharedInstance
@@ -193,7 +193,7 @@
         return YES;
     }
     @catch (NSException *exception) {
-        NSLog(@"%@", exception);
+        DLog(@"%@", exception);
     }
     [[czzAppDelegate sharedAppDelegate] showToast:@"无法写入缓存：请检查剩余空间"];
     return NO;
@@ -247,7 +247,7 @@
         return YES;
     }
     @catch (NSException *exception) {
-        NSLog(@"%@", exception);
+        DLog(@"%@", exception);
     }
     [[czzAppDelegate sharedAppDelegate] showToast:@"无法写入缓存：请检查剩余空间"];
     return NO;
@@ -312,7 +312,7 @@
         }
     }
     @catch (NSException *exception) {
-        NSLog(@"%@", exception);
+        DLog(@"%@", exception);
     }
     return NO;
 }

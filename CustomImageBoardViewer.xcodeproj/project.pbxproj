@@ -353,7 +353,7 @@
 		441E5CD617F4691300289DBD /* CustomImageBoardViewer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CustomImageBoardViewer-Info.plist"; sourceTree = "<group>"; };
 		441E5CD817F4691300289DBD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		441E5CDA17F4691300289DBD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		441E5CDC17F4691300289DBD /* CustomImageBoardViewer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CustomImageBoardViewer-Prefix.pch"; sourceTree = "<group>"; };
+		441E5CDC17F4691300289DBD /* CustomImageBoardViewer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "CustomImageBoardViewer-Prefix.pch"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		441E5CDD17F4691300289DBD /* czzAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = czzAppDelegate.h; sourceTree = "<group>"; };
 		441E5CDE17F4691300289DBD /* czzAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = czzAppDelegate.m; sourceTree = "<group>"; };
 		441E5CE617F4691300289DBD /* czzHomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = czzHomeViewController.h; sourceTree = "<group>"; };
@@ -566,7 +566,7 @@
 		4448C2A5180FF55A00D2CD76 /* czzBlacklistDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzBlacklistDownloader.h; sourceTree = "<group>"; };
 		4448C2A6180FF55A00D2CD76 /* czzBlacklistDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzBlacklistDownloader.m; sourceTree = "<group>"; };
 		4448C2A8180FF6C600D2CD76 /* czzBlacklistSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzBlacklistSender.h; sourceTree = "<group>"; };
-		4448C2A9180FF6C600D2CD76 /* czzBlacklistSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzBlacklistSender.m; sourceTree = "<group>"; };
+		4448C2A9180FF6C600D2CD76 /* czzBlacklistSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = czzBlacklistSender.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		4448C2AB18100C6B00D2CD76 /* czzBlacklist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzBlacklist.h; sourceTree = "<group>"; };
 		4448C2AC18100C6B00D2CD76 /* czzBlacklist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzBlacklist.m; sourceTree = "<group>"; };
 		4453C07619F634B700A8250F /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Launch Screen.xib"; path = "../Launch Screen.xib"; sourceTree = "<group>"; };
@@ -574,7 +574,7 @@
 		4462EF2318659BC200E6BE78 /* czzFavouriteManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFavouriteManagerViewController.h; sourceTree = "<group>"; };
 		4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFavouriteManagerViewController.m; sourceTree = "<group>"; };
 		446CC58019DC2BDE009BF24E /* czzHTMLParserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzHTMLParserViewController.h; sourceTree = "<group>"; };
-		446CC58119DC2BDE009BF24E /* czzHTMLParserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzHTMLParserViewController.m; sourceTree = "<group>"; };
+		446CC58119DC2BDE009BF24E /* czzHTMLParserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = czzHTMLParserViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		4479B07B1A0BB8E70074D484 /* czzTextViewHeightCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzTextViewHeightCalculator.h; sourceTree = "<group>"; };
 		4479B07C1A0BB8E70074D484 /* czzTextViewHeightCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzTextViewHeightCalculator.m; sourceTree = "<group>"; };
 		4479B0891A0CCB270074D484 /* MiniThreadView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MiniThreadView.storyboard; sourceTree = "<group>"; };
@@ -628,7 +628,7 @@
 		44C34542187E59A500FDE45D /* UIViewController+KNSemiModal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+KNSemiModal.m"; sourceTree = "<group>"; };
 		44C3454B187E5C6100FDE45D /* czzEmojiCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzEmojiCollectionViewCell.xib; sourceTree = "<group>"; };
 		44C3454D187E616500FDE45D /* czzEmojiCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzEmojiCollectionViewController.h; sourceTree = "<group>"; };
-		44C3454E187E616500FDE45D /* czzEmojiCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzEmojiCollectionViewController.m; sourceTree = "<group>"; };
+		44C3454E187E616500FDE45D /* czzEmojiCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = czzEmojiCollectionViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		44C3454F187E616500FDE45D /* czzEmojiCollectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzEmojiCollectionViewController.xib; sourceTree = "<group>"; };
 		44C34554187E6C6200FDE45D /* sogou_emoji.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sogou_emoji.txt; sourceTree = "<group>"; };
 		44C34556187E6CF000FDE45D /* sougo_emoji_UTF16.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sougo_emoji_UTF16.txt; sourceTree = "<group>"; };
