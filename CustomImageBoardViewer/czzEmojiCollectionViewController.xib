@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="czzEmojiCollectionViewController">
             <connections>
                 <outlet property="emojiCollectionView" destination="IPK-Cd-BLT" id="feR-10-ccJ"/>
+                <outlet property="emojiPickerToolbar" destination="QxE-YN-6nl" id="vOS-ON-sVn"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -22,7 +23,7 @@
                         <constraint firstAttribute="height" constant="44" id="vJP-wC-sy2"/>
                     </constraints>
                     <items>
-                        <barButtonItem title="取消" id="OqI-AN-UiG">
+                        <barButtonItem image="delete.png" id="OqI-AN-UiG">
                             <connections>
                                 <action selector="cancelAction:" destination="-1" id="lEr-tT-vRE"/>
                             </connections>
@@ -58,6 +59,9 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
     </objects>
+    <resources>
+        <image name="delete.png" width="20" height="20"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

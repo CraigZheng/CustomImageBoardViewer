@@ -28,6 +28,7 @@
 @synthesize localImagesArray;
 @synthesize localThumbnailsArray;
 @synthesize settingsCentre;
+@synthesize delegate;
 
 + (id)sharedInstance
 {
@@ -218,6 +219,9 @@
 
 #pragma mark czzImageDownloader delegate
 -(void)downloadFinished:(czzImageDownloader *)imgDownloader success:(BOOL)success isThumbnail:(BOOL)isThumbnail saveTo:(NSString *)path{
+    if (delegate && [delegate respondsToSelector:@selector(imageCentreDownloadFinished:downloader:wasSuccessful:)]) {
+        [delegate imageCentreDownloadFinished:self downloader:imgDownloader wasSuccessful:success];
+    }
     //post a notification to inform other view controllers that a download is finished
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      imgDownloader, @"ImageDownloader",
@@ -255,15 +259,18 @@
 }
 
 
-//-(void)downloaderProgressUpdated:(czzImageDownloader *)imgDownloader expectedLength:(NSUInteger)total downloadedLength:(NSUInteger)downloaded{
-//    //inform full size image download update
-//    if (!imgDownloader.isThumbnail){
+-(void)downloaderProgressUpdated:(czzImageDownloader *)imgDownloader expectedLength:(NSUInteger)total downloadedLength:(NSUInteger)downloadedLength{
+    //inform full size image download update
+    if (!imgDownloader.isThumbnail){
 //        [[NSNotificationCenter defaultCenter]
 //         postNotificationName:@"ImageDownloaderProgressUpdated"
 //         object:Nil
 //         userInfo:[NSDictionary dictionaryWithObject:imgDownloader forKey:@"ImageDownloader"]];
-//    }
-//}
+        if (delegate && [delegate respondsToSelector:@selector(imageCentreDownloadUpdated:downloader:progress:)]) {
+            [delegate imageCentreDownloadUpdated:self downloader:imgDownloader progress:(CGFloat)downloadedLength / (CGFloat)total];
+        }
+    }
+}
 
 #pragma mark - remove images
 -(void)removeFullSizeImages{

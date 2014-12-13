@@ -8,25 +8,27 @@
 
 #import "czzShortImageManagerCollectionViewController.h"
 #import "UIView+MGBadgeView.h"
+#import "KLCPopup.h"
 
-@interface czzShortImageManagerCollectionViewController ()
+@interface czzShortImageManagerCollectionViewController ()<czzImageCentreProtocol>
 @property czzImageCentre *imageCentre;
 @property NSArray *downloaders;
+@property KLCPopup *popup;
 @end
 
 @implementation czzShortImageManagerCollectionViewController
 @synthesize delegate;
 @synthesize imageCentre;
 @synthesize downloaders;
+@synthesize popup;
 
 static NSString * const reuseIdentifier = @"Cell";
 static NSString *imageCellIdentifier = @"image_cell_identifier";
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     imageCentre = [czzImageCentre sharedInstance];
-    
+    imageCentre.delegate = self;
     
 }
 
@@ -35,9 +37,24 @@ static NSString *imageCellIdentifier = @"image_cell_identifier";
     downloaders = imageCentre.currentImageDownloaders.allObjects;
 }
 
+- (IBAction)tapOnViewAction:(id)sender {
+    [popup dismiss:YES];
+}
+
+-(void)show {
+    popup = [KLCPopup popupWithContentView:self.view showType:KLCPopupShowTypeBounceIn dismissType:KLCPopupDismissTypeBounceOut maskType:KLCPopupMaskTypeDimmed dismissOnBackgroundTouch:YES dismissOnContentTouch:NO];
+    
+    [popup showWithLayout:KLCPopupLayoutCenter];
+}
+
+#pragma mark - czzImageDownloaderProtocol
+-(void)imageCentreDownloadUpdated:(czzImageCentre *)imgCentre downloader:(czzImageDownloader *)downloader progress:(CGFloat)progress {
+}
+
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return 10;
     return downloaders.count;
 }
 
@@ -48,36 +65,5 @@ static NSString *imageCellIdentifier = @"image_cell_identifier";
     
     return cell;
 }
-
-#pragma mark <UICollectionViewDelegate>
-
-/*
-// Uncomment this method to specify if the specified item should be highlighted during tracking
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
-}
-*/
-
-/*
-// Uncomment this method to specify if the specified item should be selected
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-*/
-
-/*
-// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return NO;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	return NO;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	
-}
-*/
 
 @end

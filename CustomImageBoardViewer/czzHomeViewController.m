@@ -30,7 +30,6 @@
 
 #import <CoreText/CoreText.h>
 
-#define WARNINGHEADER @"**** 用户举报的不健康的内容 ****"
 
 @interface czzHomeViewController() <UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzThreadListProtocol>
 @property czzThreadList* threadList;

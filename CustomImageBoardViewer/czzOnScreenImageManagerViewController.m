@@ -7,6 +7,7 @@
 //
 
 #import "czzOnScreenImageManagerViewController.h"
+#import "czzNavigationController.h"
 #import "UIImage+animatedGIF.h"
 
 @interface czzOnScreenImageManagerViewController ()
@@ -39,6 +40,8 @@
 
 - (IBAction)tapOnImageManagerIconAction:(id)sender {
     DLog(@"%@", NSStringFromSelector(_cmd));
+    
+    [[(czzNavigationController*)self.parentViewController.navigationController shortImageMangerController] show];
     [self startAnimating];
 }
 

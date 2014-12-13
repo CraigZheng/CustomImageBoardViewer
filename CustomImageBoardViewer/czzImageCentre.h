@@ -11,6 +11,14 @@
  */
 #import <Foundation/Foundation.h>
 
+@class czzImageCentre;
+@class czzImageDownloader;
+@protocol czzImageCentreProtocol <NSObject>
+@optional
+-(void)imageCentreDownloadUpdated:(czzImageCentre*)imgCentre downloader:(czzImageDownloader*)downloader progress:(CGFloat)progress;
+-(void)imageCentreDownloadFinished:(czzImageCentre*)imgCentre downloader:(czzImageDownloader*)downloader wasSuccessful:(BOOL)success;
+@end
+
 @interface czzImageCentre : NSObject
 @property NSMutableSet *currentImageDownloaders;
 @property NSMutableSet *currentLocalImages;
@@ -18,6 +26,7 @@
 @property NSMutableArray *localImagesArray;
 @property NSMutableArray *localThumbnailsArray;
 @property Boolean ready;
+@property id<czzImageCentreProtocol> delegate;
 
 +(id)sharedInstance;
 + (NSDate*) getModificationDateForFileAtPath:(NSString*)path;

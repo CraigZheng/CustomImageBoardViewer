@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Craig. All rights reserved.
 //
 
+#define SHORT_IMAGE_MANAGER_VIEW_CONTROLLER @"short_image_manager_view_controller"
+
 #import <UIKit/UIKit.h>
 
 #import "czzImageCentre.h"
@@ -16,7 +18,9 @@
 
 @end
 
-@interface czzShortImageManagerCollectionViewController : UICollectionViewController
+@interface czzShortImageManagerCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 @property id<czzShortImageManagerCollectionViewControllerProtocol> delegate;
+- (IBAction)tapOnViewAction:(id)sender;
 
+-(void)show;
 @end
