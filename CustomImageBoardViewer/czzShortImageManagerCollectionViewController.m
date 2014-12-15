@@ -32,8 +32,6 @@ static NSString *imageCellIdentifier = @"image_cell_identifier";
 - (void)viewDidLoad {
     [super viewDidLoad];
     imageCentre = [czzImageCentre sharedInstance];
-    imageCentre.delegate = self;
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -56,9 +54,6 @@ static NSString *imageCellIdentifier = @"image_cell_identifier";
     [popup showWithLayout:KLCPopupLayoutCenter];
 }
 
-#pragma mark - czzImageDownloaderProtocol
--(void)imageCentreDownloadUpdated:(czzImageCentre *)imgCentre downloader:(czzImageDownloader *)downloader progress:(CGFloat)progress {
-}
 
 #pragma mark <UICollectionViewDataSource>
 

@@ -22,6 +22,7 @@
 @interface czzImageDownloader : NSObject
 @property (nonatomic) NSString *imageURLString;
 @property NSString *targetURLString;
+@property NSString *savePath;
 
 @property id<czzImageDownloaderDelegate> delegate;
 @property BOOL isThumbnail;

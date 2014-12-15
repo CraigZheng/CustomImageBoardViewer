@@ -9,14 +9,19 @@
 #import "czzOnScreenImageManagerViewController.h"
 #import "czzNavigationController.h"
 #import "UIImage+animatedGIF.h"
+#import "czzImageDownloader.h"
+#import "czzImageCentre.h"
 
-@interface czzOnScreenImageManagerViewController ()
+@interface czzOnScreenImageManagerViewController () <czzImageCentreProtocol>
 @property BOOL iconAnimating;
+@property czzImageCentre *imageCentre;
 @end
 
 @implementation czzOnScreenImageManagerViewController
 @synthesize mainIcon;
 @synthesize iconAnimating;
+@synthesize imageCentre;
+@synthesize delegate;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -36,6 +41,11 @@
     mainIcon.layer.mask=circle;
     
     iconAnimating = NO;
+    
+    //image centre
+    imageCentre = [czzImageCentre sharedInstance];
+    imageCentre.delegate = self;
+
 }
 
 - (IBAction)tapOnImageManagerIconAction:(id)sender {
@@ -54,5 +64,16 @@
 -(void)stopAnimating {
     iconAnimating = NO;
     mainIcon.image = [UIImage imageNamed:@"Icon.png"];
+}
+
+#pragma mark - czzImageCentreDelegate
+-(void)imageCentreDownloadFinished:(czzImageCentre *)imgCentre downloader:(czzImageDownloader *)downloader wasSuccessful:(BOOL)success {
+    if (!downloader.isThumbnail && delegate && [delegate respondsToSelector:@selector(onScreenImageManagerDownloadFinished:imagePath:wasSuccessful:)]) {
+        [delegate onScreenImageManagerDownloadFinished:self imagePath:downloader.savePath wasSuccessful:success];
+    }
+}
+
+-(void)imageCentreDownloadUpdated:(czzImageCentre *)imgCentre downloader:(czzImageDownloader *)downloader progress:(CGFloat)progress {
+    DLog(@"image downloader updated, progress: %.1f", progress);
 }
 @end

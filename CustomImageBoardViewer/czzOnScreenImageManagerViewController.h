@@ -9,9 +9,18 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 
+@class czzOnScreenImageManagerViewController;
+@protocol czzOnScreenImageManagerViewControllerDelegate <NSObject>
+@optional
+-(void)onScreenImageManagerDownloadFinished:(czzOnScreenImageManagerViewController*)controller imagePath:(NSString*)path wasSuccessful:(BOOL)success;
+
+@end
+
 @interface czzOnScreenImageManagerViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIImageView *mainIcon;
+@property id<czzOnScreenImageManagerViewControllerDelegate> delegate;
+
 - (IBAction)tapOnImageManagerIconAction:(id)sender;
 
 -(void)startAnimating;

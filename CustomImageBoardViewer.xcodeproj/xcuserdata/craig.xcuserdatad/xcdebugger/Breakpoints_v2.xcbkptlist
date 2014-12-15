@@ -84,11 +84,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomImageBoardViewer/czzHomeViewController.m"
-            timestampString = "440153386.544366"
+            timestampString = "440348517.879669"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "199"
-            endingLineNumber = "199"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
             landmarkName = "-viewWillAppear:"
             landmarkType = "5">
          </BreakpointContent>
@@ -100,11 +100,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomImageBoardViewer/czzShortImageManagerCollectionViewController.m"
-            timestampString = "440346748.022962"
+            timestampString = "440348215.594441"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
             landmarkName = "-didRotateFromInterfaceOrientation:"
             landmarkType = "5">
          </BreakpointContent>
@@ -112,15 +112,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomImageBoardViewer/czzMenuEnabledTableViewCell.m"
-            timestampString = "440346968.443043"
+            timestampString = "440347466.32892"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "347"
-            endingLineNumber = "347"
+            startingLineNumber = "343"
+            endingLineNumber = "343"
             landmarkName = "-imageDownloaded:"
             landmarkType = "5">
          </BreakpointContent>

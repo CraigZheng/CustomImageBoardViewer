@@ -71,10 +71,6 @@
                                              selector:@selector(imageDownloaded:)
                                                  name:@"ThumbnailDownloaded"
                                                object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(imageDownloaded:)
-                                                 name:@"ImageDownloaded"
-                                               object:nil];
 }
 
 -(BOOL)canPerformAction:(SEL)action withSender:(id)sender{

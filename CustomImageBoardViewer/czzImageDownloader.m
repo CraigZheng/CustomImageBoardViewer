@@ -32,6 +32,7 @@
 @synthesize downloadedSize;
 @synthesize backgroundTaskID;
 @synthesize shouldAddHost;
+@synthesize savePath;
 
 
 -(id)init{
@@ -114,6 +115,7 @@
     NSString *filePath = [basePath stringByAppendingPathComponent:fileName];
     NSError *error;
     [receivedData writeToFile:filePath options:NSDataWritingAtomic error:&error];
+    savePath = filePath;
     if (delegate && [delegate respondsToSelector:@selector(downloadFinished:success:isThumbnail:saveTo:)]){
         if (error){
             DLog(@"%@", error);

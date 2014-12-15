@@ -32,7 +32,7 @@
 
 #define OVERLAY_VIEW 122
 
-@interface czzThreadViewController ()<czzThreadListProtocol, UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzMiniThreadViewControllerProtocol>
+@interface czzThreadViewController ()<czzThreadListProtocol, UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzMiniThreadViewControllerProtocol, czzOnScreenImageManagerViewControllerDelegate>
 @property NSString *baseURLString;
 @property NSString *targetURLString;
 @property NSArray *threads;
@@ -41,7 +41,6 @@
 @property NSIndexPath *selectedIndex;
 @property czzRightSideViewController *threadMenuViewController;
 @property NSMutableDictionary *downloadedImages;
-@property NSMutableSet *currentImageDownloaders;
 @property czzImageViewerUtil *imageViewerUtil;
 @property CGPoint threadsTableViewContentOffSet; //record the content offset of the threads tableview
 @property BOOL shouldHighlight;
@@ -70,7 +69,6 @@
 @synthesize threadMenuViewController;
 @synthesize parentThread;
 @synthesize downloadedImages;
-@synthesize currentImageDownloaders;
 @synthesize threadsTableViewContentOffSet;
 @synthesize shouldHighlight;
 @synthesize shouldHighlightSelectedUser;
@@ -119,7 +117,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     threads = [NSMutableArray new];
     verticalHeights = [NSMutableArray new];
     horizontalHeights = [NSMutableArray new];
-    currentImageDownloaders = [[czzImageCentre sharedInstance] currentImageDownloaders];
     //add the UIRefreshControl to uitableview
     refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
@@ -175,6 +172,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     //on screen image manager view
     czzOnScreenImageManagerViewController *onScreenImgMrg = [(czzNavigationController*)self.navigationController onScreenImageManagerView];
     onScreenImgMrg.view.frame = onScreenImageManagerViewContainer.bounds;
+    onScreenImgMrg.delegate = self;
     [self addChildViewController:onScreenImgMrg];
     [onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
 
@@ -599,6 +597,15 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 -(void)openImageWithPath:(NSString*)path{
     if (viewControllerNotInTransition)
         [imageViewerUtil showPhoto:path inViewController:self];
+}
+
+#pragma mark - czzOnScreenImageManagerViewControllerDelegate
+-(void)onScreenImageManagerDownloadFinished:(czzOnScreenImageManagerViewController *)controller imagePath:(NSString *)path wasSuccessful:(BOOL)success {
+    if (success) {
+        if ([settingCentre userDefShouldAutoOpenImage])
+            [self openImageWithPath:path];
+    } else
+        DLog(@"img download failed");
 }
 
 #pragma mark - prepare for segue

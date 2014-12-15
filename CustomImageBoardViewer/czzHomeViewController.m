@@ -31,7 +31,7 @@
 #import <CoreText/CoreText.h>
 
 
-@interface czzHomeViewController() <UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzThreadListProtocol>
+@interface czzHomeViewController() <UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzThreadListProtocol, czzOnScreenImageManagerViewControllerDelegate>
 @property czzThreadList* threadList;
 @property NSArray *threads;
 @property NSArray *verticalHeights;
@@ -195,6 +195,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     //on screen image manager view
     czzOnScreenImageManagerViewController *onScreenImgMrg = [(czzNavigationController*)self.navigationController onScreenImageManagerView];
     onScreenImgMrg.view.frame = onScreenImageManagerViewContainer.bounds;
+    onScreenImgMrg.delegate = self;
     [self addChildViewController:onScreenImgMrg];
     [onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
 
@@ -507,8 +508,15 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
             DLog(@"%@", exception);
         }
     }
-    else if (settingsCentre.userDefShouldAutoOpenImage)
-        [self openImageWithPath:path];
+}
+
+#pragma mark - czzOnScreenImageManagerViewControllerDelegate
+-(void)onScreenImageManagerDownloadFinished:(czzOnScreenImageManagerViewController *)controller imagePath:(NSString *)path wasSuccessful:(BOOL)success {
+    if (success) {
+        if ([settingCentre userDefShouldAutoOpenImage])
+            [self openImageWithPath:path];
+    } else
+        DLog(@"img download failed");
 }
 
 #pragma mark - open images

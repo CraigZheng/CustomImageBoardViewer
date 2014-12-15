@@ -243,12 +243,13 @@
         [userInfo setObject:[NSNumber numberWithBool:NO] forKey:@"Success"];
         [[czzAppDelegate sharedAppDelegate] showToast:@"图片下载失败：请检查网络和储存空间"];
     }
+
     if (isThumbnail)
         [[NSNotificationCenter defaultCenter]
          postNotificationName:@"ThumbnailDownloaded" object:Nil userInfo:userInfo];
-    else
-        [[NSNotificationCenter defaultCenter]
-             postNotificationName:@"ImageDownloaded" object:Nil userInfo:userInfo];
+//    else
+//        [[NSNotificationCenter defaultCenter]
+//             postNotificationName:@"ImageDownloaded" object:Nil userInfo:userInfo];
     //delete the image downloader
     NSPredicate *sameImgURL = [NSPredicate predicateWithFormat:@"imageURLString == %@", imgDownloader.imageURLString];
     NSSet *downloaderWithSameImageURLString = [currentImageDownloaders.set filteredSetUsingPredicate:sameImgURL];
