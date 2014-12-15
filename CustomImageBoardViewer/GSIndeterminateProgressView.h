@@ -21,6 +21,7 @@
 
 - (void)startAnimating;
 - (void)stopAnimating;
+-(void)showWarning;
 
 - (BOOL)isAnimating;
 

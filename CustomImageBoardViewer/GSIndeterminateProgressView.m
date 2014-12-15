@@ -11,12 +11,14 @@
 @property CGFloat CHUNK_WIDTH;
 @property NSArray *colours;
 @property NSUInteger colourIndex;
+@property NSMutableArray *stripViews;
 @end
 
 @implementation GSIndeterminateProgressView
 @synthesize CHUNK_WIDTH;
 @synthesize colourIndex;
 @synthesize colours;
+@synthesize stripViews;
 
 @synthesize isAnimating = _isAnimating;
 
@@ -35,6 +37,8 @@
         CHUNK_WIDTH = MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
         colourIndex = 0;
         colours = @[[UIColor cyanColor], [UIColor magentaColor], [UIColor yellowColor]];//, [UIColor blackColor]];
+        
+        stripViews = [NSMutableArray new];
     }
     return self;
 }
@@ -42,7 +46,6 @@
 - (void)setTrackTintColor:(UIColor *)trackTintColor
 {
     _trackTintColor = trackTintColor;
-    self.backgroundColor = trackTintColor;
 }
 
 - (void)setProgressTintColor:(UIColor *)progressTintColor
@@ -59,7 +62,8 @@
     _isAnimating = YES;
 
     self.hidden = NO;
-    
+    self.backgroundColor = self.trackTintColor;
+
     self.progressChunks = @[[[UIView alloc] initWithFrame:CGRectMake(-CHUNK_WIDTH, 0, CHUNK_WIDTH, self.frame.size.height)],
                             [[UIView alloc] initWithFrame:CGRectMake(-CHUNK_WIDTH, 0, CHUNK_WIDTH, self.frame.size.height)],
                             [[UIView alloc] initWithFrame:CGRectMake(-CHUNK_WIDTH, 0, CHUNK_WIDTH, self.frame.size.height)]];
@@ -71,6 +75,11 @@
 
         [self animateProgressChunk:v delay:(delay += 0.25)];
     }
+    
+    for (UIView *stripView in stripViews) {
+        [stripView removeFromSuperview];
+    }
+    [stripViews removeAllObjects];
 }
 
 - (void)stopAnimating
@@ -83,8 +92,28 @@
     for (UIView *v in self.progressChunks) {
         [v removeFromSuperview];
     }
+    
+    for (UIView *stripView in stripViews) {
+        [stripView removeFromSuperview];
+    }
+    [stripViews removeAllObjects];
 
     self.progressChunks = nil;
+}
+
+-(void)showWarning {
+    _isAnimating = NO;
+    self.hidden = NO;
+    
+    static CGFloat warningChunkWidth = 20.;
+    NSInteger count = CHUNK_WIDTH / warningChunkWidth;
+    for (NSInteger i = 0; i <= count; i++) {
+        UIView *stripView = [[UIView alloc] initWithFrame:CGRectMake(i * 2 * warningChunkWidth, 0, warningChunkWidth, self.frame.size.height)];
+        stripView.backgroundColor = [UIColor colorWithRed:220/255. green:20/255. blue:60/255. alpha:1.0]; //220	20	60
+        [stripViews addObject:stripView];
+        [self addSubview:stripView];
+    }
+    self.backgroundColor = [UIColor whiteColor];
 }
 
 -(UIColor*)progressTintColor {

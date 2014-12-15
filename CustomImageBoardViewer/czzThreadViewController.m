@@ -434,8 +434,10 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 -(void)threadListDownloaded:(czzThreadList *)threadList wasSuccessful:(BOOL)wasSuccessful {
     if (!wasSuccessful)
     {
-        if (progressView.isAnimating)
+        if (progressView.isAnimating) {
             [progressView stopAnimating];
+            [progressView showWarning];
+        }
     }
 }
 
