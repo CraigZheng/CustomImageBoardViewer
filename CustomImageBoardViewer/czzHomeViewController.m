@@ -429,7 +429,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     }
     
     [refreshControl endRefreshing];
-    [progressView stopAnimating];
+//    [progressView stopAnimating];
 }
 
 #pragma mark - self.refreshControl and download controls
