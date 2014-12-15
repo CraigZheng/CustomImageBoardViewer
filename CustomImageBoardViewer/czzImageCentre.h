@@ -20,7 +20,7 @@
 @end
 
 @interface czzImageCentre : NSObject
-@property NSMutableSet *currentImageDownloaders;
+@property NSMutableOrderedSet *currentImageDownloaders;
 @property NSMutableSet *currentLocalImages;
 @property NSMutableSet *currentLocalThumbnails;
 @property NSMutableArray *localImagesArray;

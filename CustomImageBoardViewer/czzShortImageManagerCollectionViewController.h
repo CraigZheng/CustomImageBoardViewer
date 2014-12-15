@@ -20,6 +20,7 @@
 
 @interface czzShortImageManagerCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 @property id<czzShortImageManagerCollectionViewControllerProtocol> delegate;
+@property (weak, nonatomic) IBOutlet UICollectionView *managerCollectionView;
 - (IBAction)tapOnViewAction:(id)sender;
 
 -(void)show;

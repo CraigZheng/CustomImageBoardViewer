@@ -8,6 +8,9 @@
 
 #import "czzShortImageManagerCollectionViewController.h"
 #import "UIView+MGBadgeView.h"
+#import "czzAppDelegate.h"
+#import "czzImageCentre.h"
+#import "czzImageDownloader.h"
 #import "KLCPopup.h"
 
 @interface czzShortImageManagerCollectionViewController ()<czzImageCentreProtocol>
@@ -21,6 +24,7 @@
 @synthesize imageCentre;
 @synthesize downloaders;
 @synthesize popup;
+@synthesize managerCollectionView;
 
 static NSString * const reuseIdentifier = @"Cell";
 static NSString *imageCellIdentifier = @"image_cell_identifier";
@@ -34,7 +38,8 @@ static NSString *imageCellIdentifier = @"image_cell_identifier";
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    downloaders = imageCentre.currentImageDownloaders.allObjects;
+    downloaders = imageCentre.currentImageDownloaders.array;
+    [managerCollectionView reloadData];
 }
 
 - (IBAction)tapOnViewAction:(id)sender {
@@ -42,6 +47,10 @@ static NSString *imageCellIdentifier = @"image_cell_identifier";
 }
 
 -(void)show {
+//    if (imageCentre.currentImageDownloaders.count <= 0) {
+//        DLog(@"Nothing to show for on screen image manager");
+//        return;
+//    }
     popup = [KLCPopup popupWithContentView:self.view showType:KLCPopupShowTypeBounceIn dismissType:KLCPopupDismissTypeBounceOut maskType:KLCPopupMaskTypeDimmed dismissOnBackgroundTouch:YES dismissOnContentTouch:NO];
     
     [popup showWithLayout:KLCPopupLayoutCenter];
@@ -54,14 +63,22 @@ static NSString *imageCellIdentifier = @"image_cell_identifier";
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 10;
+//    return 10;
     return downloaders.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:imageCellIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell
+
+    UIImageView *downloaderThumbnailImageView = (UIImageView*) [cell viewWithTag:1];
+    UILabel *downloaderLabel = (UILabel*) [cell viewWithTag:2];
+    DLog(@"thumbnail path: %@", [[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:[[[downloaders objectAtIndex:indexPath.row] targetURLString] lastPathComponent]]);
+    UIImage *thumbnailImage = [UIImage imageWithContentsOfFile:[[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:[[[downloaders objectAtIndex:indexPath.row] targetURLString] lastPathComponent]]];
+    if (thumbnailImage) {
+        downloaderThumbnailImageView.image = thumbnailImage;
+    } else {
+        downloaderThumbnailImageView.image = [UIImage imageNamed:@"icon.png"];
+    }
     
     return cell;
 }

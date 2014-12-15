@@ -48,7 +48,7 @@
 }
 - (id)init {
     if (self = [super init]) {
-        currentImageDownloaders = [NSMutableSet new];
+        currentImageDownloaders = [NSMutableOrderedSet new];
         thumbnailFolder = [czzAppDelegate thumbnailFolder];
         imageFolder = [czzAppDelegate imageFolder];
         currentLocalImages = [NSMutableSet new];
@@ -251,7 +251,7 @@
              postNotificationName:@"ImageDownloaded" object:Nil userInfo:userInfo];
     //delete the image downloader
     NSPredicate *sameImgURL = [NSPredicate predicateWithFormat:@"imageURLString == %@", imgDownloader.imageURLString];
-    NSSet *downloaderWithSameImageURLString = [currentImageDownloaders filteredSetUsingPredicate:sameImgURL];
+    NSSet *downloaderWithSameImageURLString = [currentImageDownloaders.set filteredSetUsingPredicate:sameImgURL];
     for (czzImageDownloader *imgDown in downloaderWithSameImageURLString) {
         [imgDown stop];
         [currentImageDownloaders removeObject:imgDown];

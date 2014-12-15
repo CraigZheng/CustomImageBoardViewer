@@ -245,6 +245,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         cell.shouldHighlightSelectedUser = shouldHighlightSelectedUser;
         cell.parentThread = parentThread;
         cell.myThread = thread;
+        cell.myIndexPath = indexPath;
     }
     return cell;
 }
