@@ -60,33 +60,13 @@
 
     self.hidden = NO;
     
-
-    //ultimate view
-    UIView *ultimateView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CHUNK_WIDTH * 2, self.frame.size.height)];
-    //one ultimate view for all
-    UIView *first = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CHUNK_WIDTH, self.frame.size.height)];
-    first.backgroundColor = [colours objectAtIndex:0];
-    UIView *second = [[UIView alloc] initWithFrame:CGRectMake(CHUNK_WIDTH / 2, 0, CHUNK_WIDTH, self.frame.size.height)];
-    second.backgroundColor = [colours objectAtIndex:1];
-    UIView *third = [[UIView alloc] initWithFrame:CGRectMake(CHUNK_WIDTH, 0, CHUNK_WIDTH, self.frame.size.height)];
-    third.backgroundColor = [colours objectAtIndex:2];
-
-    [ultimateView addSubview:third];
-    [ultimateView addSubview:second];
-    [ultimateView addSubview:first];
-    
-    CGRect frame = ultimateView.frame;
-    frame.origin.x = - (CHUNK_WIDTH * 2);
-    ultimateView.frame = frame;
-    
-    self.progressChunks = @[ultimateView];
-    
-//    self.progressChunks = @[[[UIView alloc] initWithFrame:CGRectMake(-CHUNK_WIDTH, 0, CHUNK_WIDTH, self.frame.size.height)],
-//                            [[UIView alloc] initWithFrame:CGRectMake(-CHUNK_WIDTH, 0, CHUNK_WIDTH, self.frame.size.height)],
-//                            [[UIView alloc] initWithFrame:CGRectMake(-CHUNK_WIDTH, 0, CHUNK_WIDTH, self.frame.size.height)]];
+    self.progressChunks = @[[[UIView alloc] initWithFrame:CGRectMake(-CHUNK_WIDTH, 0, CHUNK_WIDTH, self.frame.size.height)],
+                            [[UIView alloc] initWithFrame:CGRectMake(-CHUNK_WIDTH, 0, CHUNK_WIDTH, self.frame.size.height)],
+                            [[UIView alloc] initWithFrame:CGRectMake(-CHUNK_WIDTH, 0, CHUNK_WIDTH, self.frame.size.height)]];
 
     NSTimeInterval delay = 0;
     for (UIView *v in self.progressChunks) {
+        v.backgroundColor = self.progressTintColor;
         [self addSubview:v];
 
         [self animateProgressChunk:v delay:(delay += 0.25)];
