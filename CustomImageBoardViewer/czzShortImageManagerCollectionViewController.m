@@ -31,12 +31,10 @@ static NSString *imageCellIdentifier = @"image_cell_identifier";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    imageCentre = [czzImageCentre sharedInstance];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    downloaders = imageCentre.currentImageDownloaders.array;
     [managerCollectionView reloadData];
 }
 
@@ -45,10 +43,13 @@ static NSString *imageCellIdentifier = @"image_cell_identifier";
 }
 
 -(void)show {
-//    if (imageCentre.currentImageDownloaders.count <= 0) {
-//        DLog(@"Nothing to show for on screen image manager");
-//        return;
-//    }
+    imageCentre = [czzImageCentre sharedInstance];
+    downloaders = imageCentre.currentImageDownloaders.array;
+    if (downloaders.count <= 0)
+    {
+        DLog(@"No currently downloading image, return...");
+        return;
+    }
     popup = [KLCPopup popupWithContentView:self.view showType:KLCPopupShowTypeBounceIn dismissType:KLCPopupDismissTypeBounceOut maskType:KLCPopupMaskTypeDimmed dismissOnBackgroundTouch:YES dismissOnContentTouch:NO];
     
     [popup showWithLayout:KLCPopupLayoutCenter];

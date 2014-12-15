@@ -15,6 +15,7 @@
 @interface czzOnScreenImageManagerViewController () <czzImageCentreProtocol>
 @property BOOL iconAnimating;
 @property czzImageCentre *imageCentre;
+@property czzShortImageManagerCollectionViewController *shortImageManagerCollectionViewController;
 @end
 
 @implementation czzOnScreenImageManagerViewController
@@ -22,6 +23,7 @@
 @synthesize iconAnimating;
 @synthesize imageCentre;
 @synthesize delegate;
+@synthesize shortImageManagerCollectionViewController;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -45,13 +47,14 @@
     //image centre
     imageCentre = [czzImageCentre sharedInstance];
     imageCentre.delegate = self;
+    
+    //shortImageManagerCollectionViewController
+    shortImageManagerCollectionViewController = [(czzNavigationController*)self.parentViewController.navigationController shortImageMangerController];
 
 }
 
 - (IBAction)tapOnImageManagerIconAction:(id)sender {
-    DLog(@"%@", NSStringFromSelector(_cmd));
-    
-    [[(czzNavigationController*)self.parentViewController.navigationController shortImageMangerController] show];
+    [shortImageManagerCollectionViewController show];
     [self startAnimating];
 }
 
@@ -74,6 +77,8 @@
 }
 
 -(void)imageCentreDownloadUpdated:(czzImageCentre *)imgCentre downloader:(czzImageDownloader *)downloader progress:(CGFloat)progress {
-    DLog(@"image downloader updated, progress: %.1f", progress);
+    if (shortImageManagerCollectionViewController) {
+        
+    }
 }
 @end
