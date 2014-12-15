@@ -435,6 +435,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     if (!wasSuccessful)
     {
         if (progressView.isAnimating) {
+            [refreshControl endRefreshing];
             [progressView stopAnimating];
             [progressView showWarning];
         }
