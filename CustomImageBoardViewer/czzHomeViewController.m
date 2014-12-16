@@ -40,7 +40,6 @@
 @property NSIndexPath *selectedIndex;
 @property czzThread *selectedThread;
 @property czzThreadViewController *threadViewController;
-@property NSMutableDictionary *downloadedImages;
 @property UIViewController *leftController;
 @property czzOnScreenCommandViewController *onScreenCommandViewController;
 @property BOOL shouldDisplayQuickScrollCommand;
@@ -62,7 +61,6 @@
 @synthesize threadTableView;
 @synthesize selectedIndex;
 @synthesize selectedThread;
-@synthesize downloadedImages;
 @synthesize leftController;
 @synthesize onScreenCommandViewController;
 @synthesize threadViewController;
@@ -105,7 +103,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [czzAppDelegate sharedAppDelegate].homeViewController = self; //retain a reference to app delegate, so when entering background, the delegate can inform this controller for further actions
     settingsCentre = [czzSettingsCentre sharedInstance];
 
-    downloadedImages = [NSMutableDictionary new];
     //thumbnail folder
     thumbnailFolder = [czzAppDelegate thumbnailFolder];
     

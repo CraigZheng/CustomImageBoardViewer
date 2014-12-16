@@ -40,7 +40,6 @@
 @property NSArray *horizontalHeights;
 @property NSIndexPath *selectedIndex;
 @property czzRightSideViewController *threadMenuViewController;
-@property NSMutableDictionary *downloadedImages;
 @property czzImageViewerUtil *imageViewerUtil;
 @property CGPoint threadsTableViewContentOffSet; //record the content offset of the threads tableview
 @property BOOL shouldHighlight;
@@ -68,7 +67,6 @@
 @synthesize selectedIndex;
 @synthesize threadMenuViewController;
 @synthesize parentThread;
-@synthesize downloadedImages;
 @synthesize threadsTableViewContentOffSet;
 @synthesize shouldHighlight;
 @synthesize shouldHighlightSelectedUser;
@@ -113,7 +111,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     //settings
     settingsCentre = [czzSettingsCentre sharedInstance];
     shouldHighlight = settingsCentre.userDefShouldHighlightPO;
-    downloadedImages = [NSMutableDictionary new];
     threads = [NSMutableArray new];
     verticalHeights = [NSMutableArray new];
     horizontalHeights = [NSMutableArray new];

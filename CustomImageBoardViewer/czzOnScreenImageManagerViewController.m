@@ -27,6 +27,7 @@
 @synthesize delegate;
 @synthesize isShowingShortImageManagerController;
 @synthesize shortImageManagerCollectionViewController;
+@synthesize downloadedImages;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -75,6 +76,10 @@
     iconAnimating = NO;
     mainIcon.image = [UIImage imageNamed:@"Icon.png"];
 //    self.view.hidden = YES;
+}
+
+-(NSArray *)downloadedImages {
+    return self.shortImageManagerCollectionViewController.downloadedImages;
 }
 
 #pragma mark - czzImageCentreDelegate
