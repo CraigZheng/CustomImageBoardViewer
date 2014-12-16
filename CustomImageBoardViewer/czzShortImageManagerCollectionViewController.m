@@ -26,9 +26,11 @@
 @synthesize popup;
 @synthesize managerCollectionView;
 @synthesize isShowing;
+@synthesize downloadedImages;
 
 static NSString * const reuseIdentifier = @"Cell";
 static NSString *imageCellIdentifier = @"image_cell_identifier";
+static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -47,9 +49,10 @@ static NSString *imageCellIdentifier = @"image_cell_identifier";
 -(void)show {
     imageCentre = [czzImageCentre sharedInstance];
     downloaders = imageCentre.currentImageDownloaders.array;
-    if (downloaders.count <= 0)
+
+    if (downloaders.count <= 0 && downloadedImages.count <= 0)
     {
-        DLog(@"No currently downloading image, return...");
+        DLog(@"No image in progress, return...");
         return;
     }
     popup = [KLCPopup popupWithContentView:self.view showType:KLCPopupShowTypeBounceIn dismissType:KLCPopupDismissTypeBounceOut maskType:KLCPopupMaskTypeDimmed dismissOnBackgroundTouch:YES dismissOnContentTouch:NO];
@@ -63,32 +66,69 @@ static NSString *imageCellIdentifier = @"image_cell_identifier";
     [managerCollectionView reloadData];
 }
 
+-(void)imageDownloaded:(NSString *)imgPath {
+    if (!downloadedImages)
+        downloadedImages = [NSMutableArray new];
+    [downloadedImages addObject:imgPath];
+    [managerCollectionView reloadData];
+}
 
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-//    return 10;
-    return downloaders.count;
+    if (section == 0)
+        return downloaders.count;
+    return downloadedImages.count;
+}
+
+-(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return 2;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:imageCellIdentifier forIndexPath:indexPath];
-
-    UIImageView *downloaderThumbnailImageView = (UIImageView*) [cell viewWithTag:1];
-    UILabel *downloaderLabel = (UILabel*) [cell viewWithTag:2];
-    czzImageDownloader *currentDownloader = [downloaders objectAtIndex:indexPath.row];
-    //thumbnail
-    UIImage *thumbnailImage = [UIImage imageWithContentsOfFile:[[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:[[currentDownloader targetURLString] lastPathComponent]]];
-    if (thumbnailImage) {
-        downloaderThumbnailImageView.image = thumbnailImage;
+    if (indexPath.section == 0) {
+        UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:imageCellIdentifier forIndexPath:indexPath];
+        
+        UIImageView *downloaderThumbnailImageView = (UIImageView*) [cell viewWithTag:1];
+        UILabel *downloaderLabel = (UILabel*) [cell viewWithTag:2];
+        czzImageDownloader *currentDownloader = [downloaders objectAtIndex:indexPath.row];
+        //thumbnail
+        UIImage *thumbnailImage = [UIImage imageWithContentsOfFile:[[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:[[currentDownloader targetURLString] lastPathComponent]]];
+        if (thumbnailImage) {
+            downloaderThumbnailImageView.image = thumbnailImage;
+        } else {
+            downloaderThumbnailImageView.image = [UIImage imageNamed:@"icon.png"];
+        }
+        //progress label
+        NSString *progressText = [NSString stringWithFormat:@"%.1f%%", [currentDownloader progress] * 100];
+        downloaderLabel.text = progressText;
+        return cell;
     } else {
-        downloaderThumbnailImageView.image = [UIImage imageNamed:@"icon.png"];
+        UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:downloadedImageCellIdentifier forIndexPath:indexPath];
+        
+        UIImageView *thumbnailImageView = (UIImageView*) [cell viewWithTag:1];
+        NSString *imgPath = [downloadedImages objectAtIndex:indexPath.row];
+        UIImage *fullImg = [UIImage imageWithContentsOfFile:imgPath];
+        UIImage *thumbnailImg = [UIImage imageWithContentsOfFile:[[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:imgPath.lastPathComponent]];
+        
+        thumbnailImageView.image = thumbnailImg ? thumbnailImg : fullImg;
+        
+        return cell;
     }
-    //progress label
-    downloaderLabel.text = [NSString stringWithFormat:@"%.1f%%", [currentDownloader progress] * 100];
-    
-    return cell;
 }
 
-
+#pragma mark - UICollectionView delegate
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        czzImageDownloader *imgDownloader = [downloaders objectAtIndex:indexPath.row];
+        [imageCentre stopAndRemoveImageDownloaderWithURL:imgDownloader.imageURLString];
+        DLog(@"stop downloading: %@", imgDownloader.imageURLString);
+    }
+    else {
+        NSString *imgPath = [downloadedImages objectAtIndex:indexPath.row];
+        if (delegate && [delegate respondsToSelector:@selector(userTappedOnImageWithPath:)]) {
+            [delegate userTappedOnImageWithPath:imgPath];
+        }
+    }
+}
 @end

@@ -11,6 +11,7 @@
 #import "UIImage+animatedGIF.h"
 #import "czzImageDownloader.h"
 #import "czzImageCentre.h"
+#import "KLCPopup.h"
 
 @interface czzOnScreenImageManagerViewController () <czzImageCentreProtocol, czzShortImageManagerCollectionViewControllerProtocol>
 @property BOOL iconAnimating;
@@ -73,18 +74,19 @@
 -(void)stopAnimating {
     iconAnimating = NO;
     mainIcon.image = [UIImage imageNamed:@"Icon.png"];
-    self.view.hidden = YES;
+//    self.view.hidden = YES;
 }
 
 #pragma mark - czzImageCentreDelegate
 -(void)imageCentreDownloadFinished:(czzImageCentre *)imgCentre downloader:(czzImageDownloader *)downloader wasSuccessful:(BOOL)success {
-    if (!downloader.isThumbnail
-        &&
-        delegate
-        && [delegate respondsToSelector:@selector(onScreenImageManagerDownloadFinished:imagePath:wasSuccessful:)]
-        && !self.shortImageManagerCollectionViewController.isShowing
-        ) {
-        [delegate onScreenImageManagerDownloadFinished:self imagePath:downloader.savePath wasSuccessful:success];
+    if (success && !downloader.isThumbnail) {
+        if (delegate
+            && [delegate respondsToSelector:@selector(onScreenImageManagerDownloadFinished:imagePath:wasSuccessful:)]
+            && !self.shortImageManagerCollectionViewController.isShowing
+            ) {
+            [delegate onScreenImageManagerDownloadFinished:self imagePath:downloader.savePath wasSuccessful:success];
+        }
+        [self.shortImageManagerCollectionViewController imageDownloaded:downloader.savePath];
     }
     if (imageCentre.currentImageDownloaders.count <= 0)
     {
@@ -93,7 +95,7 @@
 }
 
 -(void)imageCentreDownloadUpdated:(czzImageCentre *)imgCentre downloader:(czzImageDownloader *)downloader progress:(CGFloat)progress {
-    if (self.shortImageManagerCollectionViewController && self.shortImageManagerCollectionViewController.isShowing) {
+    if (self.shortImageManagerCollectionViewController.isShowing) {
         [self.shortImageManagerCollectionViewController updateProgressForDownloader:downloader];
     }
 }
@@ -105,7 +107,11 @@
 
 #pragma mark - czzShortImageManagerCollectionViewControllerDelegate
 -(void)userTappedOnImageWithPath:(NSString *)imagePath {
-    DLog(@"%@", NSStringFromSelector(_cmd));
+    [KLCPopup dismissAllPopups];
+    if (delegate && [delegate respondsToSelector:@selector(onScreenImageManagerSelectedImage:)])
+    {
+        [delegate onScreenImageManagerSelectedImage:imagePath];
+    }
 }
 
 @end

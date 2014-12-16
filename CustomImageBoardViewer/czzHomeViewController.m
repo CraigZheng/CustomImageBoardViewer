@@ -519,6 +519,10 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         DLog(@"img download failed");
 }
 
+-(void)onScreenImageManagerSelectedImage:(NSString *)path {
+    [self openImageWithPath:path];
+}
+
 #pragma mark - open images
 -(void)openImageWithPath:(NSString*)path{
     DLog(@"%@", NSStringFromSelector(_cmd));

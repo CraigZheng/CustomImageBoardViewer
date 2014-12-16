@@ -134,6 +134,26 @@
                                             </mask>
                                         </variation>
                                     </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="downloaded_image_view_cell" id="sSU-Ic-lSK">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="i9g-SM-sFb">
+                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="i9g-SM-sFb" firstAttribute="leading" secondItem="sSU-Ic-lSK" secondAttribute="leading" id="JG9-ls-AQf"/>
+                                            <constraint firstItem="i9g-SM-sFb" firstAttribute="top" secondItem="sSU-Ic-lSK" secondAttribute="top" id="LCc-tO-eTZ"/>
+                                            <constraint firstAttribute="trailing" secondItem="i9g-SM-sFb" secondAttribute="trailing" id="sbX-of-xfD"/>
+                                            <constraint firstAttribute="bottom" secondItem="i9g-SM-sFb" secondAttribute="bottom" id="vkG-QF-hqA"/>
+                                        </constraints>
+                                    </collectionViewCell>
                                 </cells>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -173,7 +193,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="77w-dF-ORj" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="PKG-T4-KHR">
+                <tapGestureRecognizer cancelsTouchesInView="NO" id="PKG-T4-KHR">
                     <connections>
                         <action selector="tapOnViewAction:" destination="8B6-JU-J4d" id="IZH-N2-S3y"/>
                     </connections>

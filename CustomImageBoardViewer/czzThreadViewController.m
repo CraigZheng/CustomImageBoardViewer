@@ -608,6 +608,10 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         DLog(@"img download failed");
 }
 
+-(void)onScreenImageManagerSelectedImage:(NSString *)path {
+    [self openImageWithPath:path];
+}
+
 #pragma mark - prepare for segue
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"go_search_view_segue"]) {

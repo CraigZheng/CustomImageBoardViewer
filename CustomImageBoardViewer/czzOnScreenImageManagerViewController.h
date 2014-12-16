@@ -13,7 +13,7 @@
 @protocol czzOnScreenImageManagerViewControllerDelegate <NSObject>
 @optional
 -(void)onScreenImageManagerDownloadFinished:(czzOnScreenImageManagerViewController*)controller imagePath:(NSString*)path wasSuccessful:(BOOL)success;
-
+-(void)onScreenImageManagerSelectedImage:(NSString*)path;
 @end
 
 @interface czzOnScreenImageManagerViewController : UIViewController
