@@ -14,13 +14,18 @@
 #import "czzAppDelegate.h"
 
 @protocol czzShortImageManagerCollectionViewControllerProtocol <NSObject>
--(void)shouldOpenImagePath:(NSString*)imagePath;
+@optional
+-(void)userTappedOnImageWithPath:(NSString*)imagePath;
 
 @end
 
 @interface czzShortImageManagerCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 @property id<czzShortImageManagerCollectionViewControllerProtocol> delegate;
 @property (weak, nonatomic) IBOutlet UICollectionView *managerCollectionView;
+@property BOOL isShowing;
+
+-(void)updateProgressForDownloader:(czzImageDownloader*)downloader;
+
 - (IBAction)tapOnViewAction:(id)sender;
 
 -(void)show;

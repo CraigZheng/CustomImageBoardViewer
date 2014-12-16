@@ -102,7 +102,7 @@
         viewToShowDocumentInteractionController = photoBrowserNavigationController.view;
     else
         viewToShowDocumentInteractionController = photoBrowser.view;
-    if ([UIDevice currentDevice].systemVersion.integerValue > 8.0) {
+    if ([UIDevice currentDevice].systemVersion.integerValue < 8.0) {
         [documentInteractionController presentOpenInMenuFromRect:viewControllerToShow.view.frame inView:viewToShowDocumentInteractionController animated:YES];
     } else {
         [documentInteractionController presentOptionsMenuFromRect:viewControllerToShow.view.frame inView:viewToShowDocumentInteractionController animated:YES];

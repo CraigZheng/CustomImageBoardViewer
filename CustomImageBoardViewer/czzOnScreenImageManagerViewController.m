@@ -12,10 +12,11 @@
 #import "czzImageDownloader.h"
 #import "czzImageCentre.h"
 
-@interface czzOnScreenImageManagerViewController () <czzImageCentreProtocol>
+@interface czzOnScreenImageManagerViewController () <czzImageCentreProtocol, czzShortImageManagerCollectionViewControllerProtocol>
 @property BOOL iconAnimating;
+@property BOOL isShowingShortImageManagerController;
 @property czzImageCentre *imageCentre;
-@property czzShortImageManagerCollectionViewController *shortImageManagerCollectionViewController;
+@property (nonatomic) czzShortImageManagerCollectionViewController *shortImageManagerCollectionViewController;
 @end
 
 @implementation czzOnScreenImageManagerViewController
@@ -23,6 +24,7 @@
 @synthesize iconAnimating;
 @synthesize imageCentre;
 @synthesize delegate;
+@synthesize isShowingShortImageManagerController;
 @synthesize shortImageManagerCollectionViewController;
 
 - (void)viewDidLoad {
@@ -47,38 +49,63 @@
     //image centre
     imageCentre = [czzImageCentre sharedInstance];
     imageCentre.delegate = self;
-    
-    //shortImageManagerCollectionViewController
-    shortImageManagerCollectionViewController = [(czzNavigationController*)self.parentViewController.navigationController shortImageMangerController];
+}
 
+-(czzShortImageManagerCollectionViewController *)shortImageManagerCollectionViewController {
+    //grab and return the short image manager from my own navigation controller
+    shortImageManagerCollectionViewController = [(czzNavigationController*)self.parentViewController.navigationController shortImageMangerController];
+    if (!shortImageManagerCollectionViewController.delegate)
+        shortImageManagerCollectionViewController.delegate = self;
+    return shortImageManagerCollectionViewController;
 }
 
 - (IBAction)tapOnImageManagerIconAction:(id)sender {
-    [shortImageManagerCollectionViewController show];
-    [self startAnimating];
+    [self.shortImageManagerCollectionViewController show];
 }
 
 -(void)startAnimating {
     iconAnimating = YES;
     NSURL *acURL = [[NSBundle mainBundle] URLForResource:@"running_ac" withExtension:@"gif"];
     mainIcon.image = [UIImage animatedImageWithAnimatedGIFURL:acURL];
+    self.view.hidden = NO;
 }
 
 -(void)stopAnimating {
     iconAnimating = NO;
     mainIcon.image = [UIImage imageNamed:@"Icon.png"];
+    self.view.hidden = YES;
 }
 
 #pragma mark - czzImageCentreDelegate
 -(void)imageCentreDownloadFinished:(czzImageCentre *)imgCentre downloader:(czzImageDownloader *)downloader wasSuccessful:(BOOL)success {
-    if (!downloader.isThumbnail && delegate && [delegate respondsToSelector:@selector(onScreenImageManagerDownloadFinished:imagePath:wasSuccessful:)]) {
+    if (!downloader.isThumbnail
+        &&
+        delegate
+        && [delegate respondsToSelector:@selector(onScreenImageManagerDownloadFinished:imagePath:wasSuccessful:)]
+        && !self.shortImageManagerCollectionViewController.isShowing
+        ) {
         [delegate onScreenImageManagerDownloadFinished:self imagePath:downloader.savePath wasSuccessful:success];
+    }
+    if (imageCentre.currentImageDownloaders.count <= 0)
+    {
+        [self stopAnimating];
     }
 }
 
 -(void)imageCentreDownloadUpdated:(czzImageCentre *)imgCentre downloader:(czzImageDownloader *)downloader progress:(CGFloat)progress {
-    if (shortImageManagerCollectionViewController) {
-        
+    if (self.shortImageManagerCollectionViewController && self.shortImageManagerCollectionViewController.isShowing) {
+        [self.shortImageManagerCollectionViewController updateProgressForDownloader:downloader];
     }
 }
+
+-(void)imageCentreDownloadStarted:(czzImageCentre *)imgCentre downloader:(czzImageDownloader *)downloader {
+    if (!downloader.isThumbnail && !iconAnimating)
+        [self startAnimating];
+}
+
+#pragma mark - czzShortImageManagerCollectionViewControllerDelegate
+-(void)userTappedOnImageWithPath:(NSString *)imagePath {
+    DLog(@"%@", NSStringFromSelector(_cmd));
+}
+
 @end

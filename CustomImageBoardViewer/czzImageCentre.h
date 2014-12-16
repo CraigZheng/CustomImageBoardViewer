@@ -17,10 +17,12 @@
 @optional
 -(void)imageCentreDownloadUpdated:(czzImageCentre*)imgCentre downloader:(czzImageDownloader*)downloader progress:(CGFloat)progress;
 -(void)imageCentreDownloadFinished:(czzImageCentre*)imgCentre downloader:(czzImageDownloader*)downloader wasSuccessful:(BOOL)success;
+-(void)imageCentreDownloadStarted:(czzImageCentre*)imgCentre downloader:(czzImageDownloader*)downloader;
 @end
 
 @interface czzImageCentre : NSObject
 @property NSMutableOrderedSet *currentImageDownloaders;
+@property NSMutableOrderedSet *currentThumbnailDownloaders;
 @property NSMutableSet *currentLocalImages;
 @property NSMutableSet *currentLocalThumbnails;
 @property NSMutableArray *localImagesArray;

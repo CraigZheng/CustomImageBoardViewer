@@ -21,6 +21,7 @@
 
 @implementation czzImageCentre
 @synthesize currentImageDownloaders;
+@synthesize currentThumbnailDownloaders;
 @synthesize currentLocalThumbnails;
 @synthesize currentLocalImages;
 @synthesize thumbnailFolder;
@@ -49,6 +50,7 @@
 - (id)init {
     if (self = [super init]) {
         currentImageDownloaders = [NSMutableOrderedSet new];
+        currentThumbnailDownloaders = [NSMutableOrderedSet new];
         thumbnailFolder = [czzAppDelegate thumbnailFolder];
         imageFolder = [czzAppDelegate imageFolder];
         currentLocalImages = [NSMutableSet new];
@@ -155,11 +157,16 @@
     imgDown.imageURLString = imgURL;
     //3. check current image downloaders for image downloader with same target url
     //if image downloader with save target url is present, stop that one and add the new downloader in, and start the new one
-    if ([currentImageDownloaders containsObject:imgDown]){
+    if ([currentThumbnailDownloaders containsObject:imgDown]){
         [self stopAndRemoveImageDownloaderWithURL:imgURL];
     }
     [imgDown start];
-    [currentImageDownloaders addObject:imgDown];
+    [currentThumbnailDownloaders addObject:imgDown];
+    //inform delegate
+    if (delegate && [delegate respondsToSelector:@selector(imageCentreDownloadStarted:downloader:)])
+    {
+        [delegate imageCentreDownloadStarted:self downloader:imgDown];
+    }
 }
 
 -(void)downloadImageWithURL:(NSString*)imgURL isCompletedURL:(BOOL)completeURL{
@@ -182,6 +189,11 @@
     }
     [imgDown start];
     [currentImageDownloaders addObject:imgDown];
+    //inform delegate
+    if (delegate && [delegate respondsToSelector:@selector(imageCentreDownloadStarted:downloader:)])
+    {
+        [delegate imageCentreDownloadStarted:self downloader:imgDown];
+    }
 }
 
 //Check if given image URL is currently being downloaded
@@ -213,15 +225,16 @@
         for (czzImageDownloader *downloader in downloadersWithSameTargetURL) {
             [downloader stop];
             [currentImageDownloaders removeObject:downloader];
+            //inform delegate
+            if (delegate && [delegate respondsToSelector:@selector(imageCentreDownloadFinished:downloader:wasSuccessful:)]) {
+                [delegate imageCentreDownloadFinished:self downloader:downloader wasSuccessful:NO];
+            }
         }
     }
 }
 
 #pragma mark czzImageDownloader delegate
 -(void)downloadFinished:(czzImageDownloader *)imgDownloader success:(BOOL)success isThumbnail:(BOOL)isThumbnail saveTo:(NSString *)path{
-    if (delegate && [delegate respondsToSelector:@selector(imageCentreDownloadFinished:downloader:wasSuccessful:)]) {
-        [delegate imageCentreDownloadFinished:self downloader:imgDownloader wasSuccessful:success];
-    }
     //post a notification to inform other view controllers that a download is finished
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      imgDownloader, @"ImageDownloader",
@@ -236,7 +249,6 @@
         else {
             [currentLocalImages addObject:path];
             [localImagesArray insertObject:path atIndex:0];
-            [[czzAppDelegate sharedAppDelegate] showToast:@"图片下载好了"];
         }
     } else {
         //inform receiver that download is failed
@@ -247,15 +259,17 @@
     if (isThumbnail)
         [[NSNotificationCenter defaultCenter]
          postNotificationName:@"ThumbnailDownloaded" object:Nil userInfo:userInfo];
-//    else
-//        [[NSNotificationCenter defaultCenter]
-//             postNotificationName:@"ImageDownloaded" object:Nil userInfo:userInfo];
-    //delete the image downloader
+
+    NSMutableOrderedSet *setWithThisDownloader = imgDownloader.isThumbnail ? currentThumbnailDownloaders : currentImageDownloaders;
     NSPredicate *sameImgURL = [NSPredicate predicateWithFormat:@"imageURLString == %@", imgDownloader.imageURLString];
-    NSSet *downloaderWithSameImageURLString = [currentImageDownloaders.set filteredSetUsingPredicate:sameImgURL];
+    NSSet *downloaderWithSameImageURLString = [setWithThisDownloader.set filteredSetUsingPredicate:sameImgURL];
     for (czzImageDownloader *imgDown in downloaderWithSameImageURLString) {
         [imgDown stop];
-        [currentImageDownloaders removeObject:imgDown];
+        [setWithThisDownloader removeObject:imgDown];
+    }
+    
+    if (delegate && [delegate respondsToSelector:@selector(imageCentreDownloadFinished:downloader:wasSuccessful:)]) {
+        [delegate imageCentreDownloadFinished:self downloader:imgDownloader wasSuccessful:success];
     }
 }
 
@@ -263,10 +277,6 @@
 -(void)downloaderProgressUpdated:(czzImageDownloader *)imgDownloader expectedLength:(NSUInteger)total downloadedLength:(NSUInteger)downloadedLength{
     //inform full size image download update
     if (!imgDownloader.isThumbnail){
-//        [[NSNotificationCenter defaultCenter]
-//         postNotificationName:@"ImageDownloaderProgressUpdated"
-//         object:Nil
-//         userInfo:[NSDictionary dictionaryWithObject:imgDownloader forKey:@"ImageDownloader"]];
         if (delegate && [delegate respondsToSelector:@selector(imageCentreDownloadUpdated:downloader:progress:)]) {
             [delegate imageCentreDownloadUpdated:self downloader:imgDownloader progress:(CGFloat)downloadedLength / (CGFloat)total];
         }

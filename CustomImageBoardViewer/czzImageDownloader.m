@@ -129,7 +129,7 @@
 }
 
 //current downloading progress
--(double)progress{
+-(CGFloat)progress{
     double pro = (double)downloadedSize / (double)fileSize;
     return pro;
 }

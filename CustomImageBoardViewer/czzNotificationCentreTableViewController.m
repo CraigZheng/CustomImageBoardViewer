@@ -165,23 +165,6 @@
 
 }
 
-#pragma mark - download tapped images
-- (IBAction)userTapInImage:(id)sender {
-    UITapGestureRecognizer *tapGestureRecognizer = (UITapGestureRecognizer*)sender;
-    CGPoint tapLocation = [tapGestureRecognizer locationInView:self.tableView];
-    NSIndexPath *tapIndexPath = [self.tableView indexPathForRowAtPoint:tapLocation];
-    czzNotification *tappedNotification = [notifications objectAtIndex:tapIndexPath.row];
-    for (NSString *file in [[czzImageCentre sharedInstance] currentLocalImages]) {
-        if ([file.lastPathComponent.lowercaseString isEqualToString:tappedNotification.imgSrc.lastPathComponent.lowercaseString])
-        {
-            [self showDocumentController:file];
-            return;
-        }
-    }
-    [[czzImageCentre sharedInstance] downloadImageWithURL:tappedNotification.imgSrc isCompletedURL:YES];
-    [[czzAppDelegate sharedAppDelegate] showToast:@"正在下载图片"];
-}
-
 //show documentcontroller
 -(void)showDocumentController:(NSString*)path{
     if (path){

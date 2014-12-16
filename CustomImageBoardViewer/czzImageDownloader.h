@@ -31,5 +31,5 @@
 -(id)init;
 -(void)start;
 -(void)stop;
--(double)progress;
+-(CGFloat)progress;
 @end

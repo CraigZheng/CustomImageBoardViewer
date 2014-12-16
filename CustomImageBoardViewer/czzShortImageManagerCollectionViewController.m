@@ -25,6 +25,7 @@
 @synthesize downloaders;
 @synthesize popup;
 @synthesize managerCollectionView;
+@synthesize isShowing;
 
 static NSString * const reuseIdentifier = @"Cell";
 static NSString *imageCellIdentifier = @"image_cell_identifier";
@@ -39,6 +40,7 @@ static NSString *imageCellIdentifier = @"image_cell_identifier";
 }
 
 - (IBAction)tapOnViewAction:(id)sender {
+    isShowing = NO;
     [popup dismiss:YES];
 }
 
@@ -53,6 +55,12 @@ static NSString *imageCellIdentifier = @"image_cell_identifier";
     popup = [KLCPopup popupWithContentView:self.view showType:KLCPopupShowTypeBounceIn dismissType:KLCPopupDismissTypeBounceOut maskType:KLCPopupMaskTypeDimmed dismissOnBackgroundTouch:YES dismissOnContentTouch:NO];
     
     [popup showWithLayout:KLCPopupLayoutCenter];
+    
+    isShowing = YES;
+}
+
+-(void)updateProgressForDownloader:(czzImageDownloader *)downloader {
+    [managerCollectionView reloadData];
 }
 
 
@@ -68,19 +76,19 @@ static NSString *imageCellIdentifier = @"image_cell_identifier";
 
     UIImageView *downloaderThumbnailImageView = (UIImageView*) [cell viewWithTag:1];
     UILabel *downloaderLabel = (UILabel*) [cell viewWithTag:2];
-    DLog(@"thumbnail path: %@", [[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:[[[downloaders objectAtIndex:indexPath.row] targetURLString] lastPathComponent]]);
-    UIImage *thumbnailImage = [UIImage imageWithContentsOfFile:[[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:[[[downloaders objectAtIndex:indexPath.row] targetURLString] lastPathComponent]]];
+    czzImageDownloader *currentDownloader = [downloaders objectAtIndex:indexPath.row];
+    //thumbnail
+    UIImage *thumbnailImage = [UIImage imageWithContentsOfFile:[[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:[[currentDownloader targetURLString] lastPathComponent]]];
     if (thumbnailImage) {
         downloaderThumbnailImageView.image = thumbnailImage;
     } else {
         downloaderThumbnailImageView.image = [UIImage imageNamed:@"icon.png"];
     }
+    //progress label
+    downloaderLabel.text = [NSString stringWithFormat:@"%.1f%%", [currentDownloader progress] * 100];
     
     return cell;
 }
 
 
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    DLog(@"adgs");
-}
 @end

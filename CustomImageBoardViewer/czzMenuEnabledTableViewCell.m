@@ -323,7 +323,6 @@
             DLog(@"start : %@", myThread.imgSrc);
             [[czzImageCentre sharedInstance] downloadImageWithURL:myThread.imgSrc isCompletedURL:completedURL];
             [requestedImageURL addObject:myThread.imgSrc];
-            [[czzAppDelegate sharedAppDelegate] showToast:@"正在下载图片"];
         }
 
     }
