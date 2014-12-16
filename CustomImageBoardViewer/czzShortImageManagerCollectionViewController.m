@@ -69,7 +69,10 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
 -(void)imageDownloaded:(NSString *)imgPath {
     if (!downloadedImages)
         downloadedImages = [NSMutableArray new];
-    [downloadedImages addObject:imgPath];
+    if (downloadedImages.count)
+        [downloadedImages insertObject:imgPath atIndex:0];
+    else
+        [downloadedImages addObject:imgPath];
     [managerCollectionView reloadData];
 }
 
