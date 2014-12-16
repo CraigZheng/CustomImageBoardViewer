@@ -23,6 +23,7 @@
 @property id<czzShortImageManagerCollectionViewControllerProtocol> delegate;
 @property (weak, nonatomic) IBOutlet UICollectionView *managerCollectionView;
 @property NSMutableArray *downloadedImages;
+@property (weak, nonatomic) IBOutlet UIView *placeholderView;
 
 @property BOOL isShowing;
 

@@ -27,6 +27,7 @@
 @synthesize managerCollectionView;
 @synthesize isShowing;
 @synthesize downloadedImages;
+@synthesize placeholderView;
 
 static NSString * const reuseIdentifier = @"Cell";
 static NSString *imageCellIdentifier = @"image_cell_identifier";
@@ -39,6 +40,12 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [managerCollectionView reloadData];
+    if (downloadedImages.count == 0 && downloaders.count == 0)
+    {
+        placeholderView.hidden = NO;
+    } else {
+        placeholderView.hidden = YES;
+    }
 }
 
 - (IBAction)tapOnViewAction:(id)sender {
@@ -50,11 +57,6 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
     imageCentre = [czzImageCentre sharedInstance];
     downloaders = imageCentre.currentImageDownloaders.array;
 
-    if (downloaders.count <= 0 && downloadedImages.count <= 0)
-    {
-        DLog(@"No image in progress, return...");
-        return;
-    }
     popup = [KLCPopup popupWithContentView:self.view showType:KLCPopupShowTypeBounceIn dismissType:KLCPopupDismissTypeBounceOut maskType:KLCPopupMaskTypeDimmed dismissOnBackgroundTouch:YES dismissOnContentTouch:NO];
     
     [popup showWithLayout:KLCPopupLayoutCenter];

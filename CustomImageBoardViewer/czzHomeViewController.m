@@ -146,7 +146,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     viewControllerNotInTransition = YES;
     shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
     
-    NSTimeInterval delayTime = 4.0;
+    NSTimeInterval delayTime = 5.0;
 #ifdef DEBUG
     delayTime = 9999;
 #endif

@@ -166,13 +166,43 @@
                                     <outlet property="delegate" destination="8B6-JU-J4d" id="eiy-Xn-2Mq"/>
                                 </connections>
                             </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ow5-My-3da">
+                                <rect key="frame" x="80" y="174" width="160" height="132"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="51.png" translatesAutoresizingMaskIntoConstraints="NO" id="smm-cg-Ly3">
+                                        <rect key="frame" x="40" y="26" width="80" height="80"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="80" id="N2X-6C-5jc"/>
+                                            <constraint firstAttribute="height" constant="80" id="iLg-hX-oUW"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="没有下载中的图片" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U1f-HR-tGw">
+                                        <rect key="frame" x="8" y="115" width="144" height="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="160" id="0hc-GL-mxf"/>
+                                    <constraint firstAttribute="centerX" secondItem="smm-cg-Ly3" secondAttribute="centerX" id="8SG-ZD-nYa"/>
+                                    <constraint firstAttribute="bottom" secondItem="U1f-HR-tGw" secondAttribute="bottom" id="Dz0-1G-Gxd"/>
+                                    <constraint firstAttribute="trailing" secondItem="U1f-HR-tGw" secondAttribute="trailing" constant="8" id="LCb-zQ-veW"/>
+                                    <constraint firstItem="U1f-HR-tGw" firstAttribute="leading" secondItem="ow5-My-3da" secondAttribute="leading" constant="8" id="Ve5-ta-IgS"/>
+                                    <constraint firstAttribute="height" constant="132" id="lLq-hh-dLO"/>
+                                    <constraint firstAttribute="centerY" secondItem="smm-cg-Ly3" secondAttribute="centerY" id="xyI-4v-8EM"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="DPg-B7-9so" secondAttribute="centerX" id="4cA-4W-IiJ"/>
+                            <constraint firstAttribute="centerX" secondItem="ow5-My-3da" secondAttribute="centerX" id="CKb-5t-Kmz"/>
                             <constraint firstAttribute="trailing" secondItem="DPg-B7-9so" secondAttribute="trailing" id="H3c-cP-VkB"/>
                             <constraint firstItem="DPg-B7-9so" firstAttribute="top" secondItem="vdA-xk-e2R" secondAttribute="top" constant="80" id="IvD-z9-OUP"/>
                             <constraint firstAttribute="centerY" secondItem="DPg-B7-9so" secondAttribute="centerY" id="PHl-WR-JJk"/>
                             <constraint firstItem="OCf-Vc-9uO" firstAttribute="top" secondItem="DPg-B7-9so" secondAttribute="bottom" constant="80" id="TX8-zl-iRW"/>
+                            <constraint firstAttribute="centerY" secondItem="ow5-My-3da" secondAttribute="centerY" id="VX8-GT-4JJ"/>
                             <constraint firstItem="DPg-B7-9so" firstAttribute="leading" secondItem="vdA-xk-e2R" secondAttribute="leading" id="hlQ-si-VRu"/>
                         </constraints>
                         <variation key="default">
@@ -190,6 +220,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="managerCollectionView" destination="DPg-B7-9so" id="KND-pv-zij"/>
+                        <outlet property="placeholderView" destination="ow5-My-3da" id="z0J-cV-Hb4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="77w-dF-ORj" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -266,6 +297,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="51.png" width="150" height="130"/>
         <image name="Icon-40.png" width="40" height="40"/>
         <image name="Icon-76.png" width="76" height="76"/>
         <image name="Icon.png" width="57" height="57"/>
