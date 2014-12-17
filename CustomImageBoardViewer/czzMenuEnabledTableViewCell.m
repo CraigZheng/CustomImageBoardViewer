@@ -98,11 +98,23 @@
     lockLabel.hidden = YES;
     responseLabel.hidden = YES;
     
-//    self.contentView.backgroundColor = [UIColor whiteColor];
-    posterLabel.backgroundColor = [UIColor whiteColor];
-    self.backgroundColor = [UIColor whiteColor];
-    if (settingsCentre.nightyMode)
-        self.backgroundColor = [settingsCentre viewBackgroundColour];
+    //colours
+    if (settingsCentre.nightyMode) {
+        UIColor *viewBackgroundColour = [settingsCentre viewBackgroundColour];
+        self.backgroundColor = viewBackgroundColour;
+        self.contentView.backgroundColor = viewBackgroundColour;
+        contentTextView.backgroundColor = viewBackgroundColour;
+        idLabel.backgroundColor = viewBackgroundColour;
+        posterLabel.backgroundColor = viewBackgroundColour;
+        dateLabel.backgroundColor = viewBackgroundColour;
+    } else {
+        self.contentTextView.backgroundColor = [UIColor whiteColor];
+        idLabel.backgroundColor = [UIColor whiteColor];
+        dateLabel.backgroundColor = [UIColor whiteColor];
+        posterLabel.backgroundColor = [UIColor whiteColor];
+        self.contentView.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor whiteColor];
+    }
 
 }
 
@@ -210,12 +222,7 @@
     //content textview
     if (settingsCentre.nightyMode)
         [contentAttrString addAttribute:NSForegroundColorAttributeName value:settingsCentre.contentTextColour range:NSMakeRange(0, contentAttrString.length)];
-    //shadow for big image mode
-    if ([settingsCentre userDefShouldUseBigImage]) {
-        contentTextView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.75];
-    } else {
-        contentTextView.backgroundColor = [UIColor whiteColor];
-    }
+
     contentTextView.attributedText = contentAttrString;
     contentTextView.font = settingsCentre.contentFont;
 
@@ -263,10 +270,10 @@
     //highlight original poster
     if (shouldHighlight && parentThread && [myThread.UID.string isEqualToString:parentThread.UID.string]) {
         posterLabel.backgroundColor = [UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:200.0f/255.0f alpha:1.0];
-//        self.contentView.backgroundColor = [UIColor clearColor];
     } else if (shouldHighlightSelectedUser && [myThread.UID.string isEqualToString:shouldHighlightSelectedUser]) {
         posterLabel.backgroundColor = [UIColor whiteColor];
         self.contentView.backgroundColor = [UIColor colorWithRed:222.0f/255.0f green:222.0f/255.0f blue:255.0f/255.0f alpha:1.0];
+        contentTextView.backgroundColor = self.contentView.backgroundColor;
     }
     //DLog(@"time consuming step 5: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
 }

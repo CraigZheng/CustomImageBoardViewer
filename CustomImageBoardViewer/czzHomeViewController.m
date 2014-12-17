@@ -196,7 +196,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [self addChildViewController:onScreenImgMrg];
     [onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
 
-    self.view.backgroundColor = settingsCentre.viewBackgroundColour;
+    self.threadTableView.backgroundColor = settingsCentre.viewBackgroundColour;
 }
 
 -(void)copyDataFromThreadList {

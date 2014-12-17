@@ -164,7 +164,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SearchUser:) name:@"SearchAction" object:nil];
 
     //background colour
-    self.view.backgroundColor = settingsCentre.viewBackgroundColour;
+    self.threadTableView.backgroundColor = settingsCentre.viewBackgroundColour;
     
     //on screen image manager view
     czzOnScreenImageManagerViewController *onScreenImgMrg = [(czzNavigationController*)self.navigationController onScreenImageManagerView];
