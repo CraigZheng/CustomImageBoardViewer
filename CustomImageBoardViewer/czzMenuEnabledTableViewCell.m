@@ -101,19 +101,19 @@
     //colours
     if (settingsCentre.nightyMode) {
         UIColor *viewBackgroundColour = [settingsCentre viewBackgroundColour];
-        self.backgroundColor = viewBackgroundColour;
-        self.contentView.backgroundColor = viewBackgroundColour;
         contentTextView.backgroundColor = viewBackgroundColour;
         idLabel.backgroundColor = viewBackgroundColour;
         posterLabel.backgroundColor = viewBackgroundColour;
         dateLabel.backgroundColor = viewBackgroundColour;
+        threadContentView.backgroundColor = viewBackgroundColour;
+        self.contentView.backgroundColor = viewBackgroundColour;
     } else {
-        self.contentTextView.backgroundColor = [UIColor whiteColor];
+        contentTextView.backgroundColor = [UIColor whiteColor];
         idLabel.backgroundColor = [UIColor whiteColor];
         dateLabel.backgroundColor = [UIColor whiteColor];
         posterLabel.backgroundColor = [UIColor whiteColor];
-        self.contentView.backgroundColor = [UIColor whiteColor];
-        self.backgroundColor = [UIColor whiteColor];
+        threadContentView.backgroundColor = [UIColor whiteColor];
+        self.contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     }
 
 }
