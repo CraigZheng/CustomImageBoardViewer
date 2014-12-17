@@ -11,6 +11,7 @@
 #import "UIImage+animatedGIF.h"
 #import "czzImageDownloader.h"
 #import "czzImageCentre.h"
+#import "UIView+MGBadgeView.h"
 #import "KLCPopup.h"
 
 @interface czzOnScreenImageManagerViewController () <czzImageCentreProtocol, czzShortImageManagerCollectionViewControllerProtocol>
@@ -63,19 +64,19 @@
 
 - (IBAction)tapOnImageManagerIconAction:(id)sender {
     [self.shortImageManagerCollectionViewController show];
+    //reset badge value
+    self.view.badgeView.badgeValue = 0;
 }
 
 -(void)startAnimating {
     iconAnimating = YES;
     NSURL *acURL = [[NSBundle mainBundle] URLForResource:@"running_ac" withExtension:@"gif"];
     mainIcon.image = [UIImage animatedImageWithAnimatedGIFURL:acURL];
-    self.view.hidden = NO;
 }
 
 -(void)stopAnimating {
     iconAnimating = NO;
     mainIcon.image = [UIImage imageNamed:@"Icon.png"];
-//    self.view.hidden = YES;
 }
 
 -(NSArray *)downloadedImages {
@@ -90,6 +91,10 @@
             && !self.shortImageManagerCollectionViewController.isShowing
             ) {
             [delegate onScreenImageManagerDownloadFinished:self imagePath:downloader.savePath wasSuccessful:success];
+            //add a badge view on this view
+            [self.view.badgeView setBadgeValue:mainIcon.badgeView.badgeValue + 1];
+            [self.view.badgeView setPosition:MGBadgePositionTopRight];
+            [self.view.badgeView setBadgeColor:[UIColor redColor]];
         }
         [self.shortImageManagerCollectionViewController imageDownloaded:downloader.savePath];
     }

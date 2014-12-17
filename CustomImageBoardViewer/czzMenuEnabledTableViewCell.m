@@ -342,9 +342,6 @@
                 [delegate imageDownloadedForIndexPath:myIndexPath filePath:[notification.userInfo objectForKey:@"FilePath"] isThumbnail:imgDownloader.isThumbnail];
             }
         }
-//        else if ([requestedImageURL containsObject:imgDownloader.targetURLString]) {
-//            [delegate imageDownloadedForIndexPath:myIndexPath filePath:[notification.userInfo objectForKey:@"FilePath"] isThumbnail:imgDownloader.isThumbnail];
-//        }
     }
 }
 

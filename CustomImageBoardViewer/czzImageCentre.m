@@ -9,6 +9,7 @@
 #import "czzImageCentre.h"
 #import "czzImageDownloader.h"
 #import "czzAppDelegate.h"
+#import "Toast+UIView.h"
 #import "czzSettingsCentre.h"
 
 #include <sys/stat.h>
@@ -194,6 +195,8 @@
     {
         [delegate imageCentreDownloadStarted:self downloader:imgDown];
     }
+    
+    [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"开始下载图片"];
 }
 
 //Check if given image URL is currently being downloaded
@@ -231,6 +234,8 @@
             }
         }
     }
+    
+    [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"终止图片的下载"];
 }
 
 #pragma mark czzImageDownloader delegate

@@ -204,8 +204,8 @@
     NSData *imageData = UIImageJPEGRepresentation(pickedImage, 0.85);
     NSString *titleWithSize = [ValueFormatter convertByte:imageData.length];
     //resize the image if the picked image is too big
-    if (pickedImage.size.width * pickedImage.size.height > 1600 * 900){
-        NSInteger newWidth = 900;
+    if (pickedImage.size.width * pickedImage.size.height > 1920 * 1080){
+        NSInteger newWidth = 1080;
         pickedImage = [self imageWithImage:pickedImage scaledToWidth:newWidth];
         [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"由于图片尺寸太大，已进行压缩" duration:1.5 position:@"top" title:titleWithSize image:pickedImage];
     } else {
