@@ -106,7 +106,7 @@
         posterLabel.backgroundColor = viewBackgroundColour;
         dateLabel.backgroundColor = viewBackgroundColour;
         threadContentView.backgroundColor = viewBackgroundColour;
-        self.contentView.backgroundColor = viewBackgroundColour;
+        self.contentView.backgroundColor = [UIColor darkGrayColor];
     } else {
         contentTextView.backgroundColor = [UIColor whiteColor];
         idLabel.backgroundColor = [UIColor whiteColor];
