@@ -31,7 +31,7 @@
 #import <CoreText/CoreText.h>
 
 
-@interface czzHomeViewController() <UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzThreadListProtocol, czzOnScreenImageManagerViewControllerDelegate>
+@interface czzHomeViewController() <UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzThreadListProtocol, czzOnScreenImageManagerViewControllerDelegate, UIStateRestoring>
 @property czzThreadList* threadList;
 @property NSArray *threads;
 @property NSArray *verticalHeights;
@@ -564,5 +564,11 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     }
     @catch (NSException *exception) {
     }
+}
+
+#pragma mark - pause / restoration
+-(void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    DLog(@"%@", NSStringFromSelector(_cmd));
 }
 @end
