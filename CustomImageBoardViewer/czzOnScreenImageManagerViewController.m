@@ -11,6 +11,8 @@
 #import "UIImage+animatedGIF.h"
 #import "czzImageDownloader.h"
 #import "czzImageCentre.h"
+#import "czzSettingsCentre.h"
+
 #import "UIView+MGBadgeView.h"
 #import "KLCPopup.h"
 
@@ -91,10 +93,12 @@
             && !self.shortImageManagerCollectionViewController.isShowing
             ) {
             [delegate onScreenImageManagerDownloadFinished:self imagePath:downloader.savePath wasSuccessful:success];
-            //add a badge view on this view
-            [self.view.badgeView setBadgeValue:mainIcon.badgeView.badgeValue + 1];
-            [self.view.badgeView setPosition:MGBadgePositionTopRight];
-            [self.view.badgeView setBadgeColor:[UIColor redColor]];
+            if (![settingCentre userDefShouldAutoOpenImage]) {
+                //add a badge view on this view if not automatically opening
+                [self.view.badgeView setBadgeValue:mainIcon.badgeView.badgeValue + 1];
+                [self.view.badgeView setPosition:MGBadgePositionTopRight];
+                [self.view.badgeView setBadgeColor:[UIColor redColor]];
+            }
         }
         [self.shortImageManagerCollectionViewController imageDownloaded:downloader.savePath];
     }
