@@ -72,9 +72,15 @@
     NSString *imgFile = [Images objectAtIndex:indexPath.row];
     if (cell && imgFile){
         UIImageView *previewImageView = (UIImageView*)[cell viewWithTag:1];
-        UIImage *previewImage = [UIImage imageWithContentsOfFile:imgFile];
-        if (previewImage)
-            [previewImageView setImage:previewImage];
+        UIImage *previewImage;// = [UIImage imageWithContentsOfFile:imgFile];
+        UIImage *thumbnailImage = [UIImage imageWithContentsOfFile:[[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:imgFile.lastPathComponent]];
+        
+        previewImage = thumbnailImage ? thumbnailImage : [UIImage imageWithContentsOfFile:imgFile];
+        if (previewImage) {
+            previewImageView.image = previewImage;
+        } else {
+            previewImageView.image = [UIImage imageNamed:@"icon.png"];
+        }
     }
     return cell;
 }
