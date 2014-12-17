@@ -141,8 +141,10 @@
     longWidth = MAX([UIScreen mainScreen].applicationFrame.size.width, [UIScreen mainScreen].applicationFrame.size.height);
     dispatch_async(dispatch_get_main_queue(), ^{
 //        NSDate *date = [NSDate new];
-        [verticalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, verticalHeights.count - cutOffIndex)];
-        [horizontalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, verticalHeights.count - cutOffIndex)];
+        if (verticalHeights.count > 0 && horizontalHeights.count > 0) {
+            [verticalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, verticalHeights.count - cutOffIndex)];
+            [horizontalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, verticalHeights.count - cutOffIndex)];
+        }
         for (czzThread *thread in newThreads) {
             CGFloat shortHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:parentViewController.view forWidth:shortWidth hasImage:thread.imgSrc.length > 0];
             CGFloat longHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:parentViewController.view forWidth:longWidth hasImage:thread.imgSrc.length > 0];

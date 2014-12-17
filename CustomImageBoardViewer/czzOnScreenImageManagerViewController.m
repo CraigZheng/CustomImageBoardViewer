@@ -79,7 +79,7 @@
     mainIcon.image = [UIImage imageNamed:@"Icon.png"];
 }
 
--(NSArray *)downloadedImages {
+-(NSMutableArray *)downloadedImages {
     return self.shortImageManagerCollectionViewController.downloadedImages;
 }
 

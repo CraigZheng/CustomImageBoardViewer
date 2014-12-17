@@ -20,7 +20,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *mainIcon;
 @property id<czzOnScreenImageManagerViewControllerDelegate> delegate;
-@property (nonatomic) NSArray *downloadedImages;
+@property (nonatomic) NSMutableArray *downloadedImages;
 
 - (IBAction)tapOnImageManagerIconAction:(id)sender;
 
