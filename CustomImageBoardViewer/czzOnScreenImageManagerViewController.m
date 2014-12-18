@@ -54,6 +54,11 @@
     //image centre
     imageCentre = [czzImageCentre sharedInstance];
     imageCentre.delegate = self;
+    
+    //badge view
+    [self.view.badgeView setPosition:MGBadgePositionTopRight];
+    [self.view.badgeView setBadgeColor:[UIColor redColor]];
+
 }
 
 -(czzShortImageManagerCollectionViewController *)shortImageManagerCollectionViewController {
@@ -95,10 +100,7 @@
             ) {
             [delegate onScreenImageManagerDownloadFinished:self imagePath:downloader.savePath wasSuccessful:success];
             if (![settingCentre userDefShouldAutoOpenImage]) {
-                //add a badge view on this view if not automatically opening
-                [self.view.badgeView setBadgeValue:mainIcon.badgeView.badgeValue + 1];
-                [self.view.badgeView setPosition:MGBadgePositionTopRight];
-                [self.view.badgeView setBadgeColor:[UIColor redColor]];
+                [self.view.badgeView setBadgeValue:self.view.badgeView.badgeValue + 1];
             }
         }
         [self.shortImageManagerCollectionViewController imageDownloaded:downloader.savePath];
