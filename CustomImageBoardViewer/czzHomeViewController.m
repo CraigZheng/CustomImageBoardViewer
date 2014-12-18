@@ -23,6 +23,7 @@
 #import "czzImageViewerUtil.h"
 #import "czzThreadList.h"
 #import "czzNavigationController.h"
+#import "czzNotificationCentreTableViewController.h"
 #import "czzOnScreenImageManagerViewController.h"
 #import "UIBarButtonItem+Badge.h"
 //#import "UINavigationController+SGProgress.h"
@@ -164,16 +165,22 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         }
     });
     //check if should show a badget on settings button
+    UIButton *settingsGearImageButton;
     if (!settingsBarButton.customView) {
-        UIButton *customImageButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-        [customImageButton addTarget:self action:@selector(openSettingsPanel) forControlEvents:UIControlEventTouchUpInside];
-        [customImageButton setImage:[[UIImage imageNamed:@"settings.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-        settingsBarButton.customView = customImageButton;
+        settingsGearImageButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+        [settingsGearImageButton setImage:[[UIImage imageNamed:@"settings.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        settingsBarButton.customView = settingsGearImageButton;
+    } else {
+        settingsGearImageButton = (UIButton*) settingsBarButton.customView;
     }
-    if ([(czzNavigationController*)self.navigationController notificationBannerViewController].needsToBePresented) {
+    if ([[(czzNavigationController*)self.navigationController notificationBannerViewController] shouldShow]) {
         settingsBarButton.badgeValue = @"1";
+        [settingsGearImageButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
+        [settingsGearImageButton addTarget:self action:@selector(openNotificationCentre) forControlEvents:UIControlEventTouchUpInside];
     } else {
         settingsBarButton.badgeValue = nil;
+        [settingsGearImageButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
+        [settingsGearImageButton addTarget:self action:@selector(openSettingsPanel) forControlEvents:UIControlEventTouchUpInside];
     }
 }
 
@@ -283,6 +290,11 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     UIViewController *settingsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"settings_view_controller"];
     [self.navigationController pushViewController:settingsViewController animated:YES];
     //[self.viewDeckController toggleTopViewAnimated:YES];
+}
+
+-(void)openNotificationCentre {
+    czzNotificationCentreTableViewController *notificationCentreViewController = [[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
+    [self.navigationController pushViewController:notificationCentreViewController animated:YES];
 }
 
 -(void)newPost{

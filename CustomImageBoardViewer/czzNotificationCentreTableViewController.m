@@ -8,6 +8,8 @@
 
 #import "czzNotificationCentreTableViewController.h"
 #import "czzNotificationManager.h"
+#import "czzNavigationController.h"
+#import "czzNotificationBannerViewController.h"
 #import "czzImageCentre.h"
 #import "czzImageDownloader.h"
 #import "czzFeedbackViewController.h"
@@ -76,6 +78,12 @@
     DLog(@"tableview content size %@", [NSValue valueWithCGSize:self.tableView.contentSize]);
     DLog(@"tableview bound size %@", [NSValue valueWithCGSize:self.tableView.bounds.size]);
     [self.view bringSubviewToFront:self.tableView];
+    
+    //dismiss banner view - if any
+    czzNotificationBannerViewController *bannerViewController = [(czzNavigationController*)self.navigationController notificationBannerViewController];
+    if (bannerViewController) {
+        [bannerViewController dismissAction:nil];
+    }
 }
 
 -(void)viewDidDisappear:(BOOL)animated {

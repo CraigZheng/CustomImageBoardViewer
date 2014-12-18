@@ -8,6 +8,8 @@
 
 /*
  this class also works as the manager of notifications
+ 
+ 19-dec-2014: this class is no longer a banner and is no longer visible to users, should refactor it to remove load on UI processes
  */
 #import <UIKit/UIKit.h>
 #import "czzNotification.h"
