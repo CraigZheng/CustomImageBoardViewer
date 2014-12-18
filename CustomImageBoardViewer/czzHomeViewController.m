@@ -523,8 +523,10 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 #pragma mark - open images
 -(void)openImageWithPath:(NSString*)path{
     DLog(@"%@", NSStringFromSelector(_cmd));
-    if (viewControllerNotInTransition)
+    if (viewControllerNotInTransition) {
         [imageViewerUtil showPhoto:path inViewController:self];
+    }
+
 }
 
 #pragma mark - notification handler - favourite thread selected

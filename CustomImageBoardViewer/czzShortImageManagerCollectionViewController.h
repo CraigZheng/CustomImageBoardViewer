@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *managerCollectionView;
 @property NSMutableArray *downloadedImages;
 @property (weak, nonatomic) IBOutlet UIView *placeholderView;
+@property UIViewController *hostViewController;
 
 @property BOOL isShowing;
 

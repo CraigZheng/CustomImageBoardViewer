@@ -11,12 +11,14 @@
 #import "czzAppDelegate.h"
 #import "czzImageCentre.h"
 #import "czzImageDownloader.h"
+#import "czzImageViewerUtil.h"
 #import "KLCPopup.h"
 
 @interface czzShortImageManagerCollectionViewController ()<czzImageCentreProtocol>
 @property czzImageCentre *imageCentre;
 @property NSArray *downloaders;
 @property KLCPopup *popup;
+@property czzImageViewerUtil *imageViewerUtil;
 @end
 
 @implementation czzShortImageManagerCollectionViewController
@@ -28,6 +30,8 @@
 @synthesize isShowing;
 @synthesize downloadedImages;
 @synthesize placeholderView;
+@synthesize imageViewerUtil;
+@synthesize hostViewController;
 
 static NSString * const reuseIdentifier = @"Cell";
 static NSString *imageCellIdentifier = @"image_cell_identifier";
@@ -129,10 +133,17 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
         [imageCentre stopAndRemoveImageDownloaderWithURL:imgDownloader.imageURLString];
         DLog(@"stop downloading: %@", imgDownloader.imageURLString);
     }
-    else {
-        NSString *imgPath = [downloadedImages objectAtIndex:indexPath.row];
-        if (delegate && [delegate respondsToSelector:@selector(userTappedOnImageWithPath:)]) {
-            [delegate userTappedOnImageWithPath:imgPath];
+    //downloaded image section
+    else if (indexPath.section == 1) {
+        //if parent view controller is not nil, show in parent view
+        if (hostViewController) {
+            imageViewerUtil = [czzImageViewerUtil new];
+            [imageViewerUtil showPhotos:downloadedImages inViewController:hostViewController withIndex:indexPath.row];
+        } else {
+            NSString *imgPath = [downloadedImages objectAtIndex:indexPath.row];
+            if (delegate && [delegate respondsToSelector:@selector(userTappedOnImageWithPath:)]) {
+                [delegate userTappedOnImageWithPath:imgPath];
+            }
         }
     }
 }
