@@ -90,6 +90,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     threadList = [czzThreadList new];
     threadList.delegate = self;
     threadList.parentViewController = self;
+    [threadList restorePreviousState];
     [self copyDataFromThreadList]; //grab any possible data
     
     //progress bar

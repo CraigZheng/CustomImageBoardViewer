@@ -6,12 +6,16 @@
 //  Copyright (c) 2014 Craig. All rights reserved.
 //
 
+#define DEFAULT_THREAD_LIST_CACHE_FILE @"DEFAULT_THREAD_LIST_CACHE_FILE.dat"
+
 #import "czzThread.h"
 
 #import "czzJSONProcessor.h"
 #import "czzXMLDownloader.h"
 #import "czzSettingsCentre.h"
 #import "czzTextViewHeightCalculator.h"
+#import "czzAppDelegate.h"
+
 #import "NSObjectUtil.h"
 #import <Foundation/Foundation.h>
 
@@ -52,4 +56,7 @@
 -(void)loadMoreThreads:(NSInteger)pageNumber;
 -(void)removeAll;
 -(void)calculateHeightsForThreads:(NSArray*)newThreads;
+//save and restore
+-(void)saveCurrentState;
+-(void)restorePreviousState;
 @end

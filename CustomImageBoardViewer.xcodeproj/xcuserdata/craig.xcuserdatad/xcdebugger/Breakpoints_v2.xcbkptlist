@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomImageBoardViewer/czzThreadList.m"
-            timestampString = "440860000.663966"
+            timestampString = "440870969.286924"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "152"
-            endingLineNumber = "152"
+            startingLineNumber = "193"
+            endingLineNumber = "193"
             landmarkName = "-calculateHeightsForThreads:"
             landmarkType = "5">
          </BreakpointContent>
@@ -36,11 +36,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomImageBoardViewer/czzSubThreadList.m"
-            timestampString = "440863711.981708"
+            timestampString = "440868993.561418"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
             landmarkName = "-subThreadProcessedForThread::::"
             landmarkType = "5">
          </BreakpointContent>
@@ -67,29 +67,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CustomImageBoardViewerTests/CustomImageBoardViewerTests.m"
-            timestampString = "440866601.469695"
+            filePath = "CustomImageBoardViewer/czzThreadList.m"
+            timestampString = "440871081.303867"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
-            landmarkName = "-testThreadListDownloadAndLoadMore"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CustomImageBoardViewerTests/CustomImageBoardViewerTests.m"
-            timestampString = "440866689.597736"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
-            landmarkName = "-testThreadListDownloadAndLoadMore"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "-restorePreviousState"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

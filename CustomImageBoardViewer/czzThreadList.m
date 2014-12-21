@@ -31,16 +31,52 @@
     self = [super init];
     if (self) {
         baseURLString = [settingCentre thread_list_host];
-        threadListProcessor = [czzJSONProcessor new];
-        threadListProcessor.delegate = self;
         isDownloading = NO;
         isProcessing = NO;
         pageNumber = totalPages = 1;
         threads = [NSMutableArray new];
         horizontalHeights = [NSMutableArray new];
         verticalHeights = [NSMutableArray new];
+
+        threadListProcessor = [czzJSONProcessor new];
+        threadListProcessor.delegate = self;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(entersBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
     return self;
+}
+
+-(void)entersBackground {
+    DLog(@"%@", NSStringFromSelector(_cmd));
+    [self saveCurrentState];
+}
+
+-(void)saveCurrentState {
+    if ([NSKeyedArchiver archiveRootObject:self toFile:[[czzAppDelegate libraryFolder] stringByAppendingPathComponent:DEFAULT_THREAD_LIST_CACHE_FILE]]) {
+        DLog(@"save state successed");
+    } else {
+        DLog(@"save state failed");
+    }
+}
+
+-(void)restorePreviousState {
+    @try {
+        NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:DEFAULT_THREAD_LIST_CACHE_FILE];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
+            czzThreadList *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithFile:cacheFile];
+            if ([tempThreadList isKindOfClass:[czzThreadList class]])
+            {
+                forumName = tempThreadList.forumName;
+                self.pageNumber = tempThreadList.pageNumber;
+                self.totalPages = tempThreadList.totalPages;
+                self.threads = tempThreadList.threads;
+                self.verticalHeights = tempThreadList.verticalHeights;
+                self.horizontalHeights = tempThreadList.horizontalHeights;
+            }
+        }
+    }
+    @catch (NSException *exception) {
+        DLog(@"%@", exception);
+    }
 }
 
 -(void)setForumName:(NSString *)name {
@@ -62,6 +98,11 @@
 }
 
 -(void)loadMoreThreads:(NSInteger)pn {
+#ifdef UNITTEST
+    NSData *mockData = [[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"threadList" ofType:@"json"]]];
+    [self downloadOf:nil successed:YES result:mockData];
+    return;
+#endif
     if (xmlDownloader)
         [xmlDownloader stop];
     pageNumber = pn;
@@ -169,7 +210,7 @@
 }
 
 -(void)encodeValue:(id)value forKey:(NSString*)key withEncoder:(NSCoder*)coder {
-    if ([value isKindOfClass:[NSObject class]])
+    if ([value isKindOfClass:[NSObject class]] && [value respondsToSelector:@selector(encodeWithCoder:)])
     {
         [coder encodeObject:value forKey:key];
     } else if ([value isKindOfClass:[NSNumber class]]) {
@@ -179,12 +220,13 @@
 
 -(id)initWithCoder:(NSCoder *)aDecoder {
     czzThreadList *newThreadList = [czzThreadList new];
+    [[NSNotificationCenter defaultCenter] removeObserver:newThreadList];
     for (NSString *key in [[NSObjectUtil classPropsFor:newThreadList.class] allKeys]) {
         if (![aDecoder containsValueForKey:key])
             continue;
         id value = [self decodeValueForKey:key withDecoder:aDecoder];
         @try {
-            if (value)
+            if (value && [newThreadList respondsToSelector:@selector(key)])
                 [newThreadList setValue:value forKey:key];
         }
         @catch (NSException *exception) {

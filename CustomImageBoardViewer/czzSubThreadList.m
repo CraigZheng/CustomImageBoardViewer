@@ -76,6 +76,11 @@
 }
 
 -(void)loadMoreThreads:(NSInteger)pn {
+#ifdef UNITTEST
+    NSData *mockData = [[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"subThreadList" ofType:@"json"]]];
+    [self downloadOf:nil successed:YES result:mockData];
+    return;
+#endif
     if (xmlDownloader)
         [xmlDownloader stop];
     pageNumber = pn;

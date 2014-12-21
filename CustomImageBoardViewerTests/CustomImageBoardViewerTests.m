@@ -16,23 +16,37 @@
 #import "czzPost.h"
 #import "czzPostSender.h"
 #import "czzThreadList.h"
+#import "czzSubThreadList.h"
 #import "PropertyUtil.h"
 
 
 @interface CustomImageBoardViewerTests : XCTestCase<czzNotificationDownloaderDelegate, czzPostSenderDelegate, czzThreadListProtocol>
 @property BOOL done;
 @property czzThreadList *threadList;
+@property czzSubThreadList *subThreadList;
 @end
 
 @implementation CustomImageBoardViewerTests
 @synthesize done;
 @synthesize threadList;
+@synthesize subThreadList;
 
 
 - (void)setUp
 {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
+    threadList = [czzThreadList new];
+    threadList.delegate = self;
+    threadList.forumName = @"日记";
+    
+    czzThread *parentThread = [czzThread new];
+    parentThread.ID = 5361014;
+    parentThread.content = [[NSAttributedString alloc] initWithString:NSStringFromSelector(_cmd) attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12]}];
+    
+    subThreadList = [[czzSubThreadList alloc] initWithParentThread:parentThread];
+    subThreadList.delegate = self;
+
 }
 
 - (void)tearDown
@@ -41,20 +55,34 @@
     [super tearDown];
 }
 
--(void)testThreadListDownloadAndLoadMore {
-    threadList = [czzThreadList new];
-    threadList.delegate = self;
-    threadList.forumName = @"日记";
+-(void)testSubThreadListDownload {
+    [subThreadList refresh];
+    [self waitForCompletion:10];
     
+    NSInteger refreshThreadCount = subThreadList.threads.count;
+    XCTAssertTrue(refreshThreadCount > 10);
+}
+
+-(void)testSubThreadListLoadMore {
+    [subThreadList loadMoreThreads:3];
+    [self waitForCompletion:30];
+    XCTAssertTrue(subThreadList.threads.count > subThreadList.lastBatchOfThreads.count, @"thread list count: %d, refresh thread count: %d", subThreadList.threads.count, subThreadList.lastBatchOfThreads.count);
+}
+
+-(void)testThreadListDownload {
     [threadList refresh];
     [self waitForCompletion:20];
     
-    XCTAssertTrue(threadList.threads.count > 0);
+    NSInteger refreshThreadCount = threadList.threads.count;
+    XCTAssertTrue(refreshThreadCount > 0);
 
+}
+
+-(void)testThreadListLoadMore {
     [threadList loadMoreThreads];
     [self waitForCompletion:30];
-
-    XCTAssertTrue(threadList.lastBatchOfThreads.count > 0);
+    
+    XCTAssertTrue(threadList.threads.count > 0);
     XCTAssertTrue(threadList.threads.count > threadList.lastBatchOfThreads.count);
 }
 
@@ -199,6 +227,12 @@
 
 -(void)threadListProcessed:(czzThreadList *)threadList wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     NSLog(@"thread list processed");
+    done = YES;
+}
+
+-(void)subThreadProcessed:(czzThreadList *)threadList wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
+    DLog(@"%@", NSStringFromSelector(_cmd));
+    XCTAssertTrue(wasSuccessul);
     done = YES;
 }
 

@@ -233,6 +233,10 @@
 		44C73B761A4708BA0051D4C2 /* thumb_down@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C73B731A4708BA0051D4C2 /* thumb_down@3x.png */; };
 		44C73B7D1A47153B0051D4C2 /* NSObjectUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C73B7C1A47153B0051D4C2 /* NSObjectUtil.m */; };
 		44C73B7E1A47153B0051D4C2 /* NSObjectUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C73B7C1A47153B0051D4C2 /* NSObjectUtil.m */; };
+		44C73B821A471F060051D4C2 /* subThreadList.json in Resources */ = {isa = PBXBuildFile; fileRef = 44C73B801A471F060051D4C2 /* subThreadList.json */; };
+		44C73B831A471F060051D4C2 /* subThreadList.json in Resources */ = {isa = PBXBuildFile; fileRef = 44C73B801A471F060051D4C2 /* subThreadList.json */; };
+		44C73B841A471F060051D4C2 /* threadList.json in Resources */ = {isa = PBXBuildFile; fileRef = 44C73B811A471F060051D4C2 /* threadList.json */; };
+		44C73B851A471F060051D4C2 /* threadList.json in Resources */ = {isa = PBXBuildFile; fileRef = 44C73B811A471F060051D4C2 /* threadList.json */; };
 		44C89ADC185C145C00E65B73 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44C89ADB185C145C00E65B73 /* QuartzCore.framework */; };
 		44CD43FF1869CB3E00C7D063 /* czzThreadCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CD43FE1869CB3E00C7D063 /* czzThreadCacheManager.m */; };
 		44CF25491A25A2A500BD8228 /* sent.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF253D1A25A2A500BD8228 /* sent.png */; };
@@ -752,6 +756,8 @@
 		44C73B731A4708BA0051D4C2 /* thumb_down@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thumb_down@3x.png"; sourceTree = "<group>"; };
 		44C73B7B1A47153B0051D4C2 /* NSObjectUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSObjectUtil.h; sourceTree = "<group>"; };
 		44C73B7C1A47153B0051D4C2 /* NSObjectUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSObjectUtil.m; sourceTree = "<group>"; };
+		44C73B801A471F060051D4C2 /* subThreadList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = subThreadList.json; sourceTree = "<group>"; };
+		44C73B811A471F060051D4C2 /* threadList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = threadList.json; sourceTree = "<group>"; };
 		44C89ADB185C145C00E65B73 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		44CD43FD1869CB3E00C7D063 /* czzThreadCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadCacheManager.h; sourceTree = "<group>"; };
 		44CD43FE1869CB3E00C7D063 /* czzThreadCacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadCacheManager.m; sourceTree = "<group>"; };
@@ -1103,6 +1109,7 @@
 				441E5D2D17F490E100289DBD /* czzThread */,
 				442CD0E4185160200021AD37 /* czzImageDownloader */,
 				44B89E771A2AF3CE0085F766 /* 3rd Party */,
+				44C73B861A471F0A0051D4C2 /* Mock */,
 				441E5CE917F4691300289DBD /* Images.xcassets */,
 				441E5CD517F4691300289DBD /* Supporting Files */,
 			);
@@ -1860,6 +1867,15 @@
 			name = NSObjectUtil;
 			sourceTree = "<group>";
 		};
+		44C73B861A471F0A0051D4C2 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				44C73B801A471F060051D4C2 /* subThreadList.json */,
+				44C73B811A471F060051D4C2 /* threadList.json */,
+			);
+			name = Mock;
+			sourceTree = "<group>";
+		};
 		44CD44001869CB6900C7D063 /* czzThreadCacheManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -2209,6 +2225,7 @@
 				44B89E6C1A2AF2200085F766 /* running_ac-1.gif in Resources */,
 				44E792081A17856500A63C04 /* upload@2x.png in Resources */,
 				44B89E791A2AF4340085F766 /* running_ac.gif in Resources */,
+				44C73B841A471F060051D4C2 /* threadList.json in Resources */,
 				44CF254F1A25A2A500BD8228 /* lol@2x.png in Resources */,
 				44CF25681A26B4D000BD8228 /* LICENSE in Resources */,
 				44C73B761A4708BA0051D4C2 /* thumb_down@3x.png in Resources */,
@@ -2256,6 +2273,7 @@
 				44E792041A17856500A63C04 /* star.png in Resources */,
 				444F5B2F1A40EA3500EB391F /* 28.png in Resources */,
 				44CF25491A25A2A500BD8228 /* sent.png in Resources */,
+				44C73B821A471F060051D4C2 /* subThreadList.json in Resources */,
 				444F5B321A40EA3500EB391F /* 31.png in Resources */,
 				442EC86E1A1A1C8D005650E4 /* info@3x.png in Resources */,
 				441E5CEA17F4691300289DBD /* Images.xcassets in Resources */,
@@ -2364,6 +2382,8 @@
 			files = (
 				441E5CFB17F4691300289DBD /* InfoPlist.strings in Resources */,
 				4425A286199700F000671B88 /* test_image.png in Resources */,
+				44C73B831A471F060051D4C2 /* subThreadList.json in Resources */,
+				44C73B851A471F060051D4C2 /* threadList.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2728,8 +2748,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
+					"$(inherit)",
+					"UNITTEST=1",
 				);
 				INFOPLIST_FILE = "CustomImageBoardViewerTests/CustomImageBoardViewerTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2749,6 +2769,10 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"UNITTEST=1",
+					"$(inherit)",
+				);
 				INFOPLIST_FILE = "CustomImageBoardViewerTests/CustomImageBoardViewerTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
