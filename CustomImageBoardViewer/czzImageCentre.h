@@ -9,6 +9,10 @@
  czzImageDownloadCentre singleton, allows multiple image downloaders to run simoutaneously, and notify appropriate observer that images have been downloaded.
  it also serves as the service centre of local images, feeding images to appropriate view controllers, and preventing same image being downloaded twice.
  */
+
+#define kLastCleanDate @"kLastCleanDate"
+#define kCleanInterval 2592000
+
 #import <Foundation/Foundation.h>
 
 @class czzImageCentre;

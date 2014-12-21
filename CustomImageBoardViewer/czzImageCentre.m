@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 Craig. All rights reserved.
 //
 
+
+
 #import "czzImageCentre.h"
 #import "czzImageDownloader.h"
 #import "czzAppDelegate.h"
@@ -18,6 +20,7 @@
 @property NSString *thumbnailFolder;
 @property NSString *imageFolder;
 @property czzSettingsCentre *settingsCentre;
+@property NSDate *lastCleanDate;
 @end
 
 @implementation czzImageCentre
@@ -31,6 +34,7 @@
 @synthesize localThumbnailsArray;
 @synthesize settingsCentre;
 @synthesize delegate;
+@synthesize lastCleanDate;
 
 + (id)sharedInstance
 {
@@ -56,7 +60,18 @@
         imageFolder = [czzAppDelegate imageFolder];
         currentLocalImages = [NSMutableSet new];
         settingsCentre = [czzSettingsCentre sharedInstance];
+        //last clean date, or set to today if not found
+        NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
+        if ([userDef objectForKey:kLastCleanDate])
+        {
+            lastCleanDate = [userDef objectForKey:kLastCleanDate];
+        } else {
+            lastCleanDate = [NSDate new];
+            [self recordLastCleanDate:lastCleanDate];
+        }
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            if (settingsCentre.autoCleanImageCache && [[NSDate new] timeIntervalSinceDate:lastCleanDate] > kCleanInterval)
+                [self cleanOldFiles];
             [self scanCurrentLocalImages];
         });
         
@@ -64,6 +79,29 @@
     }
     return self;
 }
+
+-(void)recordLastCleanDate:(NSDate*)date {
+    [[NSUserDefaults standardUserDefaults] setObject:date forKey:kLastCleanDate];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+/*
+ delete all the files that are older than a predefined age
+ */
+-(void)cleanOldFiles {
+    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:thumbnailFolder error:nil];
+    for (NSString *entity in files) {
+        NSString *file = [thumbnailFolder stringByAppendingPathComponent:entity];
+        [self isFileOlderThan30Days:file];
+    }
+    files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:imageFolder error:nil];
+    for (NSString *entity in files) {
+        NSString *file = [imageFolder stringByAppendingPathComponent:entity];
+        [self isFileOlderThan30Days:file];
+    }
+    [self recordLastCleanDate:[NSDate new]];
+}
+
 
 /*
  scan the library for downloaded images
@@ -79,11 +117,7 @@
             [file.pathExtension.lowercaseString isEqualToString:@"png"] ||
             [file.pathExtension.lowercaseString isEqualToString:@"gif"])
         {
-            if (settingsCentre.autoCleanImageCache) {
-                if (![self isFileOlderThan30Days:file])
-                    [tempImgs addObject:file];
-            } else
-                [tempImgs addObject:file];
+            [tempImgs addObject:file];
         }
     }
     //Images folder
@@ -97,11 +131,7 @@
             [file.pathExtension.lowercaseString isEqualToString:@"png"] ||
             [file.pathExtension.lowercaseString isEqualToString:@"gif"])
         {
-            if (settingsCentre.autoCleanImageCache) {
-                if (![self isFileOlderThan30Days:file])
-                    [tempImgs addObject:file];
-            } else
-                [tempImgs addObject:file];
+            [tempImgs addObject:file];
         }
     }
     currentLocalImages = tempImgs;
@@ -115,8 +145,8 @@
     NSDate *today = [NSDate new];
     @try {
         NSDate *fileModifiedDate = [czzImageCentre getModificationDateForFileAtPath:filePath];
-        //if older than 30 days
-        if ([today timeIntervalSinceDate:fileModifiedDate] > 2592000) {
+        //if older than a predefined days - 30 days
+        if ([today timeIntervalSinceDate:fileModifiedDate] > kCleanInterval) {
             //delete this file and return YES
             [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
             return YES;
