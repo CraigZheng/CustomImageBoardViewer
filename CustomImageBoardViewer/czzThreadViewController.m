@@ -371,10 +371,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [threadList refresh];
 }
 
--(void)loadMoreThread:(NSInteger)pn{
-    [threadList loadMoreThreads:pn];
-}
-
 
 #pragma mark - czzMiniThreadViewProtocol
 -(void)miniThreadViewFinishedLoading:(BOOL)successful {

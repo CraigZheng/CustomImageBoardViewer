@@ -39,7 +39,7 @@
         subThreadProcessor = [czzJSONProcessor new];
         subThreadProcessor.delegate = self;
         baseURLString = [[settingCentre thread_content_host] stringByAppendingPathComponent:parentID];
-        pageNumber = 1;
+        pageNumber = 0;
         totalPages = parentThread.responseCount / 20;
         
         threads = [NSMutableArray new];
@@ -61,6 +61,10 @@
     parentThread = thread;
     parentID = [NSString stringWithFormat:@"%ld", (long)parentThread.ID];
     baseURLString = [[settingCentre thread_content_host] stringByAppendingPathComponent:parentID];
+}
+
+-(void)loadMoreThreads {
+    [self loadMoreThreads:pageNumber + 1];
 }
 
 -(void)loadMoreThreads:(NSInteger)pn {

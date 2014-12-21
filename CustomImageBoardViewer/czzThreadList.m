@@ -58,7 +58,7 @@
 }
 
 -(void)loadMoreThreads {
-    [self loadMoreThreads:++pageNumber];
+    [self loadMoreThreads:pageNumber + 1];
 }
 
 -(void)loadMoreThreads:(NSInteger)pn {
