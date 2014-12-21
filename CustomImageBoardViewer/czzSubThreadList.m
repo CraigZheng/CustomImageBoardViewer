@@ -101,6 +101,7 @@
     isProcessing = NO;
     if (success && newThread.count > 0) {
         lastBatchOfThreads = newThread;
+        parentThread = forThread ? forThread : parentThread;
         NSArray *processedNewThread;
         if (threads.count > 0) {
             NSInteger lastChunkIndex = threads.count - lastBatchOfThreads.count;
@@ -123,7 +124,11 @@
         }
         lastBatchOfThreads = processedNewThread;
         [threads addObjectsFromArray:lastBatchOfThreads];
-        
+        //replace parent thread
+        if (threads.count >= 1)
+        {
+            [threads replaceObjectAtIndex:0 withObject:parentThread];
+        }
         [self calculateHeightsForThreads:lastBatchOfThreads];
     }
     dispatch_async(dispatch_get_main_queue(), ^{

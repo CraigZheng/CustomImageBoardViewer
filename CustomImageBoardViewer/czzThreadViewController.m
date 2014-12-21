@@ -220,7 +220,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
             cell = [tableView dequeueReusableCellWithIdentifier:@"loading_cell_identifier"];
             UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
             [activityIndicator startAnimating];
-        } else if (parentThread.responseCount > 20 && ((threadList.pageNumber - 1) * 20 + threads.count % 20 - 1) < parentThread.responseCount){
+        } else if (parentThread.responseCount > 20 && (threadList.pageNumber * 20 + threads.count % 20 - 1) < parentThread.responseCount){
 
             cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
         } else {

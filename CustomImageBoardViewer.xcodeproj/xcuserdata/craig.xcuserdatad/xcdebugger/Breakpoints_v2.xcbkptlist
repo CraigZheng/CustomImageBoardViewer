@@ -52,11 +52,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomImageBoardViewer/czzSubThreadList.m"
-            timestampString = "440861408.598346"
+            timestampString = "440862228.752829"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
+            startingLineNumber = "132"
+            endingLineNumber = "132"
             landmarkName = "-subThreadProcessedForThread::::"
             landmarkType = "5">
          </BreakpointContent>
