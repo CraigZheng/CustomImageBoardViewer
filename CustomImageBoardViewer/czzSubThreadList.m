@@ -14,6 +14,7 @@
 @end
 
 @implementation czzSubThreadList
+@synthesize totalPages;
 @synthesize parentID;
 @synthesize parentThread;
 @synthesize baseURLString;
@@ -38,12 +39,13 @@
         subThreadProcessor = [czzJSONProcessor new];
         subThreadProcessor.delegate = self;
         baseURLString = [[settingCentre thread_content_host] stringByAppendingPathComponent:parentID];
+        pageNumber = 1;
+        totalPages = parentThread.responseCount / 20;
         
         threads = [NSMutableArray new];
         verticalHeights = [NSMutableArray new];
         horizontalHeights = [NSMutableArray new];
         
-
     }
     
     return self;
@@ -65,6 +67,8 @@
     if (xmlDownloader)
         [xmlDownloader stop];
     pageNumber = pn;
+    if (pageNumber >= totalPages)
+        pageNumber = totalPages;
     NSString *targetURLStringWithPN = [baseURLString stringByAppendingString:[NSString stringWithFormat:@"?page=%ld", (long)pageNumber]];
     xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
     isDownloading = YES;
@@ -84,16 +88,18 @@
         if (delegate && [delegate respondsToSelector:@selector(threadListDownloaded:wasSuccessful:)]) {
             [delegate threadListDownloaded:self wasSuccessful:successed];
         }
-    });}
+    });
+}
 
+#pragma mark - czzJsonProcesserDelegate
 -(void)subThreadProcessedForThread:(czzJSONProcessor *)processor :(czzThread *)forThread :(NSArray *)newThread :(BOOL)success {
 //    DLog(@"%@", NSStringFromSelector(_cmd));
     isProcessing = NO;
-    if (success) {
+    if (success && newThread.count > 0) {
         lastBatchOfThreads = newThread;
         NSArray *processedNewThread;
         if (threads.count > 0) {
-            NSInteger lastChunkIndex = threads.count - [settingCentre threads_per_page];
+            NSInteger lastChunkIndex = threads.count - lastBatchOfThreads.count;
             if (lastChunkIndex < 1)
                 lastChunkIndex = 1;
             cutOffIndex = lastChunkIndex;
@@ -104,14 +110,12 @@
             [oldThreadSet addObjectsFromArray:newThread];
             [threads removeObjectsInRange:lastChunkRange];
             processedNewThread = oldThreadSet.array;
-//            processedNewThread = [self sortTheGivenArray:oldThreadSet.allObjects];
         } else {
             cutOffIndex = 0;
             NSMutableArray *threadsWithParent = [NSMutableArray new];
             [threadsWithParent addObject:parentThread];
             [threadsWithParent addObjectsFromArray:newThread];
             processedNewThread = threadsWithParent;
-//            processedNewThread = [self sortTheGivenArray:threadsWithParent];
         }
         lastBatchOfThreads = processedNewThread;
         [threads addObjectsFromArray:lastBatchOfThreads];
@@ -125,12 +129,11 @@
     });
 }
 
-//#pragma mark sort array based on thread ID
-//-(NSArray*)sortTheGivenArray:(NSArray*)array{
-//    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"ID" ascending:YES];
-//    NSArray *sortedArray = [array sortedArrayUsingDescriptors:@[sortDescriptor]];
-//    return sortedArray ? sortedArray : [NSArray new];
-//}
+-(void)pageNumberUpdated:(NSInteger)currentPage inAllPage:(NSInteger)allPage {
+    pageNumber = currentPage;
+    totalPages = allPage;
+    DLog(@"current page: %ld, total pages:%ld", pageNumber, totalPages);
+}
 
 /*
  calculate heights for both horizontal and vertical of the parent view controller

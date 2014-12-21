@@ -17,6 +17,7 @@
 
 -(void)threadListProcessed:(NSArray*)newThread :(BOOL)success;
 -(void)subThreadProcessedForThread:(czzThread*)parentThread :(NSArray*)newThread :(BOOL) success;
+-(void)pageNumberUpdated:(NSInteger)currentPage inAllPage:(NSInteger)allPage;
 @end
 
 @interface czzJSONProcessor : NSObject

@@ -35,6 +35,9 @@
             }
         }
     }
+    //page number data
+    [self updatePageNumberWithJsonDict:[parsedObjects objectForKey:@"page"]];
+    //thread list data
     NSArray* parsedThreadData = [[parsedObjects objectForKey:@"data"] objectForKey:@"threads"];
     for (NSDictionary *rawThreadData in parsedThreadData) {
         czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
@@ -65,6 +68,9 @@
             [delegate subThreadProcessedForThread:nil :nil :NO];
         }
     }
+    //page number data
+    [self updatePageNumberWithJsonDict:[parsedObjects objectForKey:@"page"]];
+    //thread and sub thread data
     czzThread *parentThread = [[czzThread alloc] initWithJSONDictionary:[parsedObjects objectForKey:@"threads"]];
     NSArray* parsedThreadData = [parsedObjects objectForKey:@"replys"];
     for (NSDictionary *rawThreadData in parsedThreadData) {
@@ -79,7 +85,29 @@
             [delegate subThreadProcessedForThread:parentThread :processedThreads :YES];
         }
     }
-
 }
+
+-(void)updatePageNumberWithJsonDict:(NSDictionary*)jsonDict {
+    //if jsonDict or delegate is empty
+    if (!jsonDict || !delegate)
+        return;
+    //check if dictionary has the following 2 keys
+    if ([jsonDict valueForKey:@"page"] && [jsonDict valueForKey:@"size"])
+    {
+        NSInteger pageNumber = [[jsonDict objectForKey:@"page"] integerValue];
+        NSInteger totalPages = [[jsonDict objectForKey:@"size"] integerValue];
+        if ([delegate respondsToSelector:@selector(pageNumberUpdated:inAllPage:)])
+            [delegate pageNumberUpdated:pageNumber inAllPage:totalPages];
+    }
+}
+     
+/*
+ page =     {
+ page = 1;
+ size = 5;
+ title = "No.5366351";
+ };
+
+ */
 
 @end

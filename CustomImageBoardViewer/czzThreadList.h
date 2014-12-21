@@ -31,6 +31,7 @@
 @property BOOL shouldHideImageForThisForum;
 @property (nonatomic) NSString *forumName;
 @property NSInteger pageNumber;
+@property NSInteger totalPages;
 @property NSMutableArray *threads;
 @property NSArray *lastBatchOfThreads;
 @property UIViewController *parentViewController;

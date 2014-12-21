@@ -11,7 +11,6 @@
 #import "Toast/Toast+UIView.h"
 #import "czzThread.h"
 #import "czzThreadViewController.h"
-#import "czzThreadCacheManager.h"
 #import "czzPostViewController.h"
 #import "czzBlacklist.h"
 #import "czzMoreInfoViewController.h"

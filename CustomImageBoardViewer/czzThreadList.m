@@ -20,6 +20,7 @@
 @synthesize subThreadProcessor;
 @synthesize forumName;
 @synthesize pageNumber;
+@synthesize totalPages;
 @synthesize delegate;
 @synthesize lastBatchOfThreads;
 @synthesize isDownloading, isProcessing;
@@ -34,6 +35,7 @@
         threadListProcessor.delegate = self;
         isDownloading = NO;
         isProcessing = NO;
+        pageNumber = totalPages = 1;
         threads = [NSMutableArray new];
         horizontalHeights = [NSMutableArray new];
         verticalHeights = [NSMutableArray new];
@@ -130,6 +132,11 @@
     });
 }
 
+-(void)pageNumberUpdated:(NSInteger)currentPage inAllPage:(NSInteger)allPage {
+    pageNumber = currentPage;
+    totalPages = allPage;
+}
+
 /*
  calculate heights for both horizontal and vertical of the parent view controller
  */
@@ -146,4 +153,6 @@
         }
     });
 }
+
+
 @end
