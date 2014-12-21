@@ -63,6 +63,14 @@
     baseURLString = [[settingCentre thread_content_host] stringByAppendingPathComponent:parentID];
 }
 
+-(void)removeAll {
+    pageNumber = 1;
+    [threads removeAllObjects];
+    lastBatchOfThreads = nil;
+    [horizontalHeights removeAllObjects];
+    [verticalHeights removeAllObjects];
+}
+
 -(void)loadMoreThreads {
     [self loadMoreThreads:pageNumber + 1];
 }

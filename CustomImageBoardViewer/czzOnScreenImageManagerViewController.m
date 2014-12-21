@@ -13,6 +13,8 @@
 #import "czzImageCentre.h"
 #import "czzSettingsCentre.h"
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "UIView+MGBadgeView.h"
 #import "KLCPopup.h"
 
@@ -43,11 +45,17 @@
     circle.path = circularPath.CGPath;
     
     // Configure the apperence of the circle
+    //round image
     circle.fillColor = [UIColor blackColor].CGColor;
     circle.strokeColor = [UIColor blackColor].CGColor;
     circle.lineWidth = 0;
-    
     mainIcon.layer.mask=circle;
+    //shadow
+//    mainIcon.layer.shadowColor = [UIColor blackColor].CGColor;
+//    mainIcon.layer.shadowRadius = 10.f;
+//    mainIcon.layer.shadowOffset = CGSizeMake(0.f, 5.f);
+//    mainIcon.layer.shadowOpacity = 1.f;
+//    mainIcon.clipsToBounds = NO;
     
     iconAnimating = NO;
     
