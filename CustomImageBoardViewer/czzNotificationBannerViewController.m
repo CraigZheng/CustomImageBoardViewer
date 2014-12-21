@@ -66,9 +66,9 @@
     NSTimeInterval notificationDownloaderCheckInterval = 2 * 60;
     downloadNotificationTimer = [NSTimer scheduledTimerWithTimeInterval:notificationDownloaderCheckInterval target:self selector:@selector(downloadNotification) userInfo:nil repeats:YES];
     
-#ifdef DEBUG
-    needsToBePresented = YES;
-#endif
+//#ifdef DEBUG
+//    needsToBePresented = YES;
+//#endif
 }
 
 #pragma mark - restore cached notification

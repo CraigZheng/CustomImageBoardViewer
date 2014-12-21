@@ -15,6 +15,7 @@
 #import "czzAppDelegate.h"
 #import "czzSettingsCentre.h"
 #import "czzForum.h"
+#import "GSIndeterminateProgressView.h"
 
 @interface czzForumsViewController () <czzXMLDownloaderDelegate, UITableViewDataSource, UITableViewDelegate>
 @property czzXMLDownloader *xmlDownloader;
@@ -24,6 +25,7 @@
 @property NSTimeInterval adUpdateInterval;
 @property UIView *adCoverView;
 @property BOOL shouldHideCoverView;
+@property GSIndeterminateProgressView *progressView;
 @end
 
 @implementation czzForumsViewController
@@ -37,6 +39,7 @@
 @synthesize adCoverView;
 @synthesize shouldHideCoverView;
 @synthesize forums;
+@synthesize progressView;
 
 - (void)viewDidLoad
 {
@@ -60,6 +63,11 @@
     self.navigationController.navigationBar.tintColor = [settingCentre tintColour];
     [self.navigationController.navigationBar
      setTitleTextAttributes:@{NSForegroundColorAttributeName : self.navigationController.navigationBar.tintColor}];
+    
+    progressView = [[GSIndeterminateProgressView alloc] initWithFrame:CGRectMake(0, self.navigationController.navigationBar.frame.size.height - 2, self.navigationController.navigationBar.frame.size.width, 2)];
+    progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+    [self.navigationController.navigationBar addSubview:progressView];
+
 }
 
 
@@ -84,7 +92,7 @@
     NSString *forumString = [[settingCentre forum_list_url] stringByAppendingString:[NSString stringWithFormat:@"?version=%@", versionString]];
 
     xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:forumString] delegate:self startNow:YES];
-    [self.view makeToastActivity];
+    [progressView startAnimating];
     
     //added after the old server is down, this is necessary for the new a isle server
     NSURL *forumURL = [NSURL URLWithString:@"http://h.acfun.tv/api/homepage"];
@@ -255,7 +263,7 @@
             }
         }
     }
-    [self.view hideToastActivity];
+    [progressView stopAnimating];
     if (forumGroups.count <= 0)
         failedToConnect = YES;
     [forumsTableView reloadData];
