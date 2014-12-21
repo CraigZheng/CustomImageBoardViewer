@@ -51,7 +51,7 @@
     
     XCTAssertTrue(threadList.threads.count > 0);
 
-    [threadList loadMoreThreads:++threadList.pageNumber];
+    [threadList loadMoreThreads];
     [self waitForCompletion:30];
 
     XCTAssertTrue(threadList.lastBatchOfThreads.count > 0);

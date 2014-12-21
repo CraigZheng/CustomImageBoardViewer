@@ -154,5 +154,47 @@
     });
 }
 
+#pragma mark - NSCoding
+-(void)encodeWithCoder:(NSCoder *)aCoder {
+    NSDictionary *allPropertie = [NSObjectUtil classPropsFor:self.class];
+    for (NSString *key in allPropertie.allKeys) {
+        id value = [self valueForKey:key];
+        @try {
+            if (value)
+                [self encodeValue:[self valueForKey:key] forKey:key withEncoder:aCoder];
+        }
+        @catch (NSException *exception) {
+        }
+    }
+}
 
+-(void)encodeValue:(id)value forKey:(NSString*)key withEncoder:(NSCoder*)coder {
+    if ([value isKindOfClass:[NSObject class]])
+    {
+        [coder encodeObject:value forKey:key];
+    } else if ([value isKindOfClass:[NSNumber class]]) {
+        [coder encodeObject:value forKey:key];
+    }
+}
+
+-(id)initWithCoder:(NSCoder *)aDecoder {
+    czzThreadList *newThreadList = [czzThreadList new];
+    for (NSString *key in [[NSObjectUtil classPropsFor:newThreadList.class] allKeys]) {
+        if (![aDecoder containsValueForKey:key])
+            continue;
+        id value = [self decodeValueForKey:key withDecoder:aDecoder];
+        @try {
+            if (value)
+                [newThreadList setValue:value forKey:key];
+        }
+        @catch (NSException *exception) {
+        }
+    }
+    return newThreadList;
+}
+
+-(id)decodeValueForKey:(NSString*)key withDecoder:(NSCoder*)coder {
+    NSObject *object = [coder decodeObjectForKey:key];
+    return object;
+}
 @end

@@ -12,6 +12,7 @@
 #import "czzXMLDownloader.h"
 #import "czzSettingsCentre.h"
 #import "czzTextViewHeightCalculator.h"
+#import "NSObjectUtil.h"
 #import <Foundation/Foundation.h>
 
 @class czzThreadList;
@@ -27,7 +28,7 @@
 
 @end
 
-@interface czzThreadList : NSObject <czzXMLDownloaderDelegate, czzJSONProcessorDelegate>
+@interface czzThreadList : NSObject <czzXMLDownloaderDelegate, czzJSONProcessorDelegate, NSCoding>
 @property BOOL shouldHideImageForThisForum;
 @property (nonatomic) NSString *forumName;
 @property NSInteger pageNumber;
