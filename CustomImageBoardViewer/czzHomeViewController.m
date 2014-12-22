@@ -255,6 +255,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     UITextField *textInputField = [alertView textFieldAtIndex:0];
     if (textInputField)
     {
+        textInputField.keyboardType = UIKeyboardTypeNumberPad;
         textInputField.keyboardAppearance = UIKeyboardAppearanceDark;
     }
     [alertView show];

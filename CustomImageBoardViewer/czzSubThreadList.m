@@ -117,7 +117,7 @@
 }
 
 -(void)removeAll {
-    totalPages = pageNumber = 1;
+    pageNumber = 1;
     [threads removeAllObjects];
     lastBatchOfThreads = nil;
     [horizontalHeights removeAllObjects];
