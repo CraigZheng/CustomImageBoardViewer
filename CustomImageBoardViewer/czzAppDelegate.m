@@ -41,6 +41,17 @@
     settingsCentre = [czzSettingsCentre sharedInstance];
     [settingsCentre downloadSettings];
     
+    //check the library directory and image folders
+    NSArray *resourceFolders = @[[czzAppDelegate libraryFolder], [czzAppDelegate imageFolder], [czzAppDelegate thumbnailFolder], [czzAppDelegate threadCacheFolder], [czzAppDelegate notificationCacheFolder]];
+    
+    for (NSString *folderPath in resourceFolders) {
+        if (![[NSFileManager defaultManager] fileExistsAtPath:folderPath]){
+            [[NSFileManager defaultManager] createDirectoryAtPath:folderPath withIntermediateDirectories:NO attributes:nil error:nil];
+        }
+        //exclude my folders from being backed up to iCloud
+        [self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:folderPath]];
+    }
+
     //Dart integration
     if (settingsCentre.shouldAllowDart) {
         [DartCrowdSourcingLib setEnableGPS:NO];
@@ -77,25 +88,6 @@
     czzBlacklistDownloader *blacklistDownloader = [czzBlacklistDownloader new];
     blacklistDownloader.delegate = self;
     [blacklistDownloader downloadBlacklist];
-    //check the library directory and image folders
-    NSString* libraryFolder = [czzAppDelegate libraryFolder];
-    NSString *imgFolder = [czzAppDelegate imageFolder];
-    NSString *thumbnailFolder = [czzAppDelegate thumbnailFolder];
-    NSString *notificationCacheFolder = [libraryFolder stringByAppendingPathComponent:@"NotificationCache"];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:thumbnailFolder]){
-        [[NSFileManager defaultManager] createDirectoryAtPath:thumbnailFolder withIntermediateDirectories:NO attributes:nil error:nil];
-    }
-    if (![[NSFileManager defaultManager] fileExistsAtPath:imgFolder]){
-        [[NSFileManager defaultManager] createDirectoryAtPath:imgFolder withIntermediateDirectories:NO attributes:nil error:nil];
-    }
-    if (![[NSFileManager defaultManager] fileExistsAtPath:notificationCacheFolder]){
-        [[NSFileManager defaultManager] createDirectoryAtPath:notificationCacheFolder withIntermediateDirectories:NO attributes:nil error:nil];
-    }
-    //exclude my folders from being backed up to iCloud
-    [self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:imgFolder]];
-    [self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:thumbnailFolder]];
-    [self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:notificationCacheFolder]];
-
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -190,7 +182,7 @@
     return (czzAppDelegate*)[[UIApplication sharedApplication] delegate];
 }
 
-#pragma mark - library folder
+#pragma mark - folders
 +(NSString *)libraryFolder {
     return [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 }
@@ -201,6 +193,14 @@
 
 +(NSString *)imageFolder {
     return [[self libraryFolder] stringByAppendingPathComponent:@"Images"];
+}
+
++(NSString *)threadCacheFolder {
+    return [[self libraryFolder] stringByAppendingPathComponent:@"ThreadCache"];
+}
+
++(NSString *)notificationCacheFolder {
+    return [[self libraryFolder] stringByAppendingPathComponent:@"NotificationCache"];
 }
 
 -(void)showToast:(NSString *)string{

@@ -6,13 +6,14 @@
 //  Copyright (c) 2014 Craig. All rights reserved.
 //
 
-#define DEFAULT_SUB_THREAD_LIST_CACHE_FILE @"DEFAULT_SUB_THREAD_LIST_CACHE_FILE.dat"
+#define SUB_THREAD_LIST_CACHE_FILE @"_cache.dat"
 
 #import "czzThreadList.h"
 
 @interface czzSubThreadList : czzThreadList
 @property NSString* parentID;
 @property (nonatomic) czzThread *parentThread;
+@property BOOL restoredFromCache;
 
 -(instancetype)initWithParentThread:(czzThread*)thread;
 @end

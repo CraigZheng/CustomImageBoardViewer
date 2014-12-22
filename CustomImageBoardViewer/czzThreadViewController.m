@@ -42,7 +42,6 @@
 @property CGPoint threadsTableViewContentOffSet; //record the content offset of the threads tableview
 @property BOOL shouldHighlight;
 @property czzOnScreenCommandViewController *onScreenCommandViewController;
-@property CGPoint restoreFromBackgroundOffSet;
 @property BOOL shouldDisplayQuickScrollCommand;
 @property NSString *thumbnailFolder;
 @property NSString *keywordToSearch;
@@ -71,7 +70,6 @@
 @synthesize verticalHeights;
 @synthesize horizontalHeights;
 @synthesize onScreenCommandViewController;
-@synthesize restoreFromBackgroundOffSet;
 @synthesize shouldDisplayQuickScrollCommand;
 @synthesize thumbnailFolder;
 @synthesize keywordToSearch;
@@ -93,13 +91,19 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    //init arrays
+    threads = [NSMutableArray new];
+    verticalHeights = [NSMutableArray new];
+    horizontalHeights = [NSMutableArray new];
+
     //thread list, source of all data
-    if (!threadList)
-        threadList = [[czzSubThreadList alloc] initWithParentThread:parentThread];
+    threadList = [[czzSubThreadList alloc] initWithParentThread:parentThread];
+    [threadList restorePreviousState];
     threadList.delegate = self;
     threadList.parentViewController = self;
     [self copyDataFromThreadList];
-    
+
     //progress view
     progressView = [(czzNavigationController*)self.navigationController progressView];
     
@@ -109,9 +113,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     //settings
     settingsCentre = [czzSettingsCentre sharedInstance];
     shouldHighlight = settingsCentre.userDefShouldHighlightPO;
-    threads = [NSMutableArray new];
-    verticalHeights = [NSMutableArray new];
-    horizontalHeights = [NSMutableArray new];
     //add the UIRefreshControl to uitableview
     refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
@@ -143,6 +144,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     {
         [threadList loadMoreThreads];
     }
+//    [threadTableView reloadData];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -182,7 +184,11 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [onScreenCommandViewController hide];
     //no longer ready for more push animation
     viewControllerNotInTransition = NO;
-    
+}
+
+-(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [threadList saveCurrentState];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -193,9 +199,15 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 }
 
 -(void)copyDataFromThreadList {
-    threads = [NSArray arrayWithArray:threadList.threads];
-    horizontalHeights = [NSArray arrayWithArray:threadList.horizontalHeights];
-    verticalHeights = [NSArray arrayWithArray:threadList.verticalHeights];
+    if (CGPointEqualToPoint(threadTableView.contentOffset, CGPointZero)) {
+        [threadTableView setContentOffset:threadList.currentOffSet animated:NO];
+    }
+    if (threadList.threads.count > 0)
+        threads = [NSArray arrayWithArray:threadList.threads];
+    if (threadList.horizontalHeights.count > 0)
+        horizontalHeights = [NSArray arrayWithArray:threadList.horizontalHeights];
+    if (threadList.verticalHeights.count > 0)
+        verticalHeights = [NSArray arrayWithArray:threadList.verticalHeights];
     [self updateNumberButton];
 }
 
@@ -357,8 +369,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
             //clear threads and ready to accept new threads
             [threadList removeAll];
             [threadList loadMoreThreads:newPageNumber];
-            [self.threadTableView reloadData];
-            [self.refreshControl beginRefreshing];
+            [threadTableView reloadData];
+            [refreshControl beginRefreshing];
 
             [[[czzAppDelegate sharedAppDelegate] window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) threadList.pageNumber]];
         } else {
@@ -394,6 +406,10 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     if (onScreenCommandViewController && threads.count > 1 && shouldDisplayQuickScrollCommand) {
         [onScreenCommandViewController show];
     }
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    threadList.currentOffSet = scrollView.contentOffset;
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)aScrollView

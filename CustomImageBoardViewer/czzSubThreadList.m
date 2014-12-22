@@ -30,6 +30,7 @@
 @synthesize lastBatchOfThreads;
 @synthesize cutOffIndex;
 @synthesize currentOffSet;
+@synthesize restoredFromCache;
 
 -(instancetype)initWithParentThread:(czzThread *)thread {
     self = [super init];
@@ -52,8 +53,9 @@
 
 -(void)restorePreviousState {
     @try {
-        NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:DEFAULT_SUB_THREAD_LIST_CACHE_FILE];
+        NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
         if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
+            DLog(@"sub thread cache file: %@", cacheFile);
             czzSubThreadList *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithFile:cacheFile];
             //always delete the cache file after reading it to ensure safety
             [[NSFileManager defaultManager] removeItemAtPath:cacheFile error:nil];
@@ -70,8 +72,11 @@
                 self.currentOffSet = tempThreadList.currentOffSet;
                 self.lastBatchOfThreads = tempThreadList.lastBatchOfThreads;
                 self.shouldHideImageForThisForum = tempThreadList.shouldHideImageForThisForum;
+                restoredFromCache = YES;
+                return;
             }
         }
+        restoredFromCache = NO;
     }
     @catch (NSException *exception) {
         DLog(@"%@", exception);
@@ -84,9 +89,9 @@
 }
 
 -(void)saveCurrentState {
-    NSString *cachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:DEFAULT_SUB_THREAD_LIST_CACHE_FILE];
+    NSString *cachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
     if ([NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
-        DLog(@"save state successed");
+        DLog(@"save state successed to file - %@", cachePath);
     } else {
         DLog(@"save state failed");
         [[NSFileManager defaultManager] removeItemAtPath:cachePath error:nil];
@@ -94,9 +99,8 @@
 }
 
 -(void)refresh {
-    [super refresh];
-    threads = [NSMutableArray new];
-    [threads addObject:parentThread];
+    [self removeAll];
+    [self loadMoreThreads];
 }
 
 -(void)setParentViewController:(UIViewController *)viewCon {
@@ -112,7 +116,7 @@
 }
 
 -(void)removeAll {
-    pageNumber = 1;
+    totalPages = pageNumber = 1;
     [threads removeAllObjects];
     lastBatchOfThreads = nil;
     [horizontalHeights removeAllObjects];
@@ -202,7 +206,7 @@
 -(void)pageNumberUpdated:(NSInteger)currentPage inAllPage:(NSInteger)allPage {
     pageNumber = currentPage;
     totalPages = allPage;
-    DLog(@"current page: %ld, total pages:%ld", pageNumber, totalPages);
+    DLog(@"current page: %ld, total pages:%ld",(long)pageNumber, (long)totalPages);
 }
 
 /*
@@ -236,9 +240,6 @@
     [aCoder encodeInteger:totalPages forKey:@"totalPages"];
     [aCoder encodeObject:threads forKey:@"threads"];
     [aCoder encodeObject:lastBatchOfThreads forKey:@"lastBatchOfThreads"];
-    //parent view controller can not be encoded
-    //delegate can not be encoded
-    //isDownloading and isProcessing should not be encoded
     [aCoder encodeObject:horizontalHeights forKey:@"horizontalHeights"];
     [aCoder encodeObject:verticalHeights forKey:@"verticalHeights"];
     [aCoder encodeObject:baseURLString forKey:@"baseURLString"];
@@ -251,7 +252,6 @@
     @try {
         //create a temporary threadlist object
         newThreadList.parentThread = [aDecoder decodeObjectForKey:@"parentThread"];
-        newThreadList.forumName = [aDecoder decodeObjectForKey:@"forumName"];
         newThreadList.pageNumber = [aDecoder decodeIntegerForKey:@"pageNumber"];
         newThreadList.totalPages = [aDecoder decodeIntegerForKey:@"totalPages"];
         newThreadList.threads = [aDecoder decodeObjectForKey:@"threads"];
@@ -268,4 +268,5 @@
     }
     return nil;
 }
+
 @end

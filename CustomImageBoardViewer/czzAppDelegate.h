@@ -28,6 +28,8 @@
 +(NSString*)libraryFolder;
 +(NSString*)thumbnailFolder;
 +(NSString*)imageFolder;
++(NSString*)threadCacheFolder;
++(NSString*)notificationCacheFolder;
 
 -(void)doSingleViewHideAnimation:(UIView*)incomingView :(NSString*)animType :(CGFloat)duration;
 -(void)doSingleViewShowAnimation:(UIView*)incomingView :(NSString*)animType :(CGFloat)duration;
