@@ -207,13 +207,18 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
     
     self.threadTableView.backgroundColor = settingsCentre.viewBackgroundColour;
-    threadList.displayedSubThreadList = nil;
+    threadList.displayedThread = nil;
 }
 
 -(void)restorePreviousSession {
-    if (threadList.displayedSubThreadList)
+    if (threadList.displayedThread)
     {
         DLog(@"%@", NSStringFromSelector(_cmd));
+        threadViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"thread_view_controller"];
+        threadViewController.parentThread = threadList.displayedThread;
+        NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+        [viewControllers addObject:threadViewController];
+        [self.navigationController setViewControllers:viewControllers animated:NO];
     }
 }
 
@@ -584,6 +589,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     if ([[segue identifier] isEqualToString:@"go_thread_view_segue"]){
         threadViewController = [segue destinationViewController];
         [threadViewController setParentThread:selectedThread];
+        threadList.displayedThread = selectedThread;
     }
 }
 

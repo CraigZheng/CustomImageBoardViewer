@@ -27,7 +27,7 @@
 @synthesize horizontalHeights, verticalHeights;
 @synthesize parentViewController;
 @synthesize currentOffSet;
-@synthesize displayedSubThreadList;
+@synthesize displayedThread;
 
 -(instancetype)init {
     self = [super init];
@@ -81,7 +81,7 @@
                 self.currentOffSet = tempThreadList.currentOffSet;
                 self.lastBatchOfThreads = tempThreadList.lastBatchOfThreads;
                 self.shouldHideImageForThisForum = tempThreadList.shouldHideImageForThisForum;
-                self.displayedSubThreadList = tempThreadList.displayedSubThreadList;
+                self.displayedThread = tempThreadList.displayedThread;
             }
         }
     }
@@ -97,8 +97,8 @@
 }
 
 -(void)setForumName:(NSString *)name {
-    forumName = name ? name : @"";
-    baseURLString = [[settingCentre thread_list_host] stringByAppendingString:[forumName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    forumName = name;
+    baseURLString = [[settingCentre thread_list_host] stringByAppendingString:forumName ? [forumName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] : @""];
 }
 
 -(void)refresh {
@@ -227,7 +227,7 @@
     [aCoder encodeObject:verticalHeights forKey:@"verticalHeights"];
     [aCoder encodeObject:baseURLString forKey:@"baseURLString"];
     [aCoder encodeObject:[NSValue valueWithCGPoint:currentOffSet] forKey:@"currentOffSet"];
-    [aCoder encodeObject:displayedSubThreadList forKey:@"displayedSubThreadList"];
+    [aCoder encodeObject:displayedThread forKey:@"displayedThread"];
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder {
@@ -245,7 +245,7 @@
         newThreadList.verticalHeights = [aDecoder decodeObjectForKey:@"verticalHeights"];
         newThreadList.baseURLString = [aDecoder decodeObjectForKey:@"baseURLString"];
         newThreadList.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
-        newThreadList.displayedSubThreadList = [aDecoder decodeObjectForKey:@"displayedSubThreadList"];
+        newThreadList.displayedThread = [aDecoder decodeObjectForKey:@"displayedThread"];
         return newThreadList;
 
     }

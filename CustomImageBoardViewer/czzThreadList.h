@@ -33,7 +33,6 @@
 
 @end
 
-@class czzSubThreadList;
 @interface czzThreadList : NSObject <czzXMLDownloaderDelegate, czzJSONProcessorDelegate, NSCoding>
 @property BOOL shouldHideImageForThisForum;
 @property (nonatomic) NSString *forumName;
@@ -49,7 +48,7 @@
 @property NSMutableArray *verticalHeights;
 @property NSString *baseURLString;
 @property CGPoint currentOffSet;
-@property czzSubThreadList *displayedSubThreadList;
+@property czzThread *displayedThread;
 
 @property czzXMLDownloader *xmlDownloader;
 @property czzJSONProcessor *threadListProcessor;
