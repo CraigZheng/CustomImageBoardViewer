@@ -9,6 +9,7 @@
 #import "czzRightSideViewController.h"
 #import "czzThreadViewController.h"
 #import "czzPostViewController.h"
+#import "czzFavouriteManager.h"
 #import "Toast+UIView.h"
 #import "czzBlacklistEntity.h"
 #import "czzImageCentre.h"
@@ -78,7 +79,8 @@
 
 #pragma UITableView datasource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return allCommand.count;
+    return 0; //this view controller is no longer visible to users
+//    return allCommand.count;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

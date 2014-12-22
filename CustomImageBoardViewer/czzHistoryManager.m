@@ -35,6 +35,16 @@
     if (browserHistory.count > 99) {
         [browserHistory removeObject:browserHistory.firstObject]; //remove oldest object
     }
+    [self saveCurrentState];
+}
+
+-(BOOL)removeThread:(czzThread *)thread {
+    if ([browserHistory containsObject:thread]) {
+        [browserHistory removeObject:thread];
+        [self saveCurrentState];
+        return YES;
+    }
+    return NO;
 }
 
 -(void)clearRecord {

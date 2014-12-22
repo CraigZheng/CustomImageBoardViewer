@@ -18,7 +18,9 @@
 @property NSMutableOrderedSet *browserHistory;
 
 -(void)recordThread:(czzThread*)thread;
+-(BOOL)removeThread:(czzThread*)thread;
 -(void)clearRecord;
+-(void)saveCurrentState;
 
 +(id)sharedInstance;
 @end

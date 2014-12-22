@@ -13,13 +13,13 @@
 #import "czzHomeViewController.h"
 #import "czzTextViewHeightCalculator.h"
 #import "czzSettingsCentre.h"
+#import "czzFavouriteManager.h"
 #import "czzHistoryManager.h"
 
 @interface czzFavouriteManagerViewController ()
 @property NSIndexPath *selectedIndex;
 @property NSMutableSet *internalThreads;
 @property czzThread *selectedThread;
-@property czzSettingsCentre *settingsCentre;
 @end
 
 @implementation czzFavouriteManagerViewController
@@ -27,8 +27,8 @@
 @synthesize selectedIndex;
 @synthesize threads;
 @synthesize title;
+@synthesize titleSegmentedControl;
 @synthesize selectedThread;
-@synthesize settingsCentre;
 
 static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
 static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
@@ -39,33 +39,26 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [self.tableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:[NSBundle mainBundle]] forCellReuseIdentifier:threadViewCellIdentifier];
     [self.tableView registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:threadViewBigImageCellIdentifier];
 
+    threads = [favouriteManager favouriteThreads];
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
-    settingsCentre = [czzSettingsCentre sharedInstance];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    if (!threads) {
-        NSString* libraryPath = [czzAppDelegate libraryFolder];
-        internalThreads = [NSKeyedUnarchiver unarchiveObjectWithFile:[libraryPath stringByAppendingPathComponent:@"favourites.dat"]];
-        if (!internalThreads){
-            internalThreads = [NSMutableSet new];
-        }
-        threads = [NSMutableArray arrayWithArray:[self sortTheGivenArray:internalThreads.allObjects]];
-    }
     if (title) {
         self.title = title;
     }
-    self.view.backgroundColor = settingsCentre.viewBackgroundColour;
+    self.view.backgroundColor = [settingCentre viewBackgroundColour];
     [self.tableView reloadData];
     [self.navigationController.toolbar setHidden:YES];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    NSString* libraryPath = [czzAppDelegate libraryFolder];
-    internalThreads = [NSMutableSet setWithArray:threads];
-    [NSKeyedArchiver archiveRootObject:internalThreads toFile:[libraryPath stringByAppendingPathComponent:@"favourites.dat"]];
+    return;
+    //not ready
+    [historyManager saveCurrentState];
+    [favouriteManager saveCurrentState];
 }
 
 #pragma UITableView datasource
@@ -101,7 +94,11 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     if (editingStyle == UITableViewCellEditingStyleDelete){
         czzThread* threadToDelete = [threads objectAtIndex:indexPath.row];
-        [threads removeObject:threadToDelete];
+        if (titleSegmentedControl.selectedSegmentIndex == 0) {
+            [favouriteManager removeFavourite:threadToDelete];
+        } else if (titleSegmentedControl.selectedSegmentIndex == 1) {
+            [historyManager removeThread:threadToDelete];
+        }
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
 }
@@ -142,14 +139,14 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 }
 
 - (IBAction)titleSegmentedControlAction:(id)sender {
-}
-
-#pragma sort array - sort the threads so they arrange with ID
--(NSArray*)sortTheGivenArray:(NSArray*)array{
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"ID" ascending:NO];
-    NSArray *sortedArray = [array sortedArrayUsingDescriptors:@[sortDescriptor]];
-
-    return sortedArray;
+    UISegmentedControl *segmentControl = (UISegmentedControl*)sender;
+    if (segmentControl.selectedSegmentIndex == 0) {
+        threads = [favouriteManager favouriteThreads];
+    } else if (segmentControl.selectedSegmentIndex == 1) {
+        threads = [historyManager browserHistory];
+        threads = [NSMutableOrderedSet orderedSetWithArray:[[threads reverseObjectEnumerator] allObjects]];
+    }
+    [self.tableView reloadData];
 }
 
 #pragma prepare for segue

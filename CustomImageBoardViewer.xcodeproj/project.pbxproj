@@ -239,6 +239,8 @@
 		44C73B851A471F060051D4C2 /* threadList.json in Resources */ = {isa = PBXBuildFile; fileRef = 44C73B811A471F060051D4C2 /* threadList.json */; };
 		44C73B891A4840100051D4C2 /* czzHistoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C73B881A4840100051D4C2 /* czzHistoryManager.m */; };
 		44C73B8A1A4840100051D4C2 /* czzHistoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C73B881A4840100051D4C2 /* czzHistoryManager.m */; };
+		44C73B8E1A484F280051D4C2 /* czzFavouriteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C73B8D1A484F280051D4C2 /* czzFavouriteManager.m */; };
+		44C73B8F1A484F280051D4C2 /* czzFavouriteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C73B8D1A484F280051D4C2 /* czzFavouriteManager.m */; };
 		44C89ADC185C145C00E65B73 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44C89ADB185C145C00E65B73 /* QuartzCore.framework */; };
 		44CF25491A25A2A500BD8228 /* sent.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF253D1A25A2A500BD8228 /* sent.png */; };
 		44CF254A1A25A2A500BD8228 /* delete_file.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF253E1A25A2A500BD8228 /* delete_file.png */; };
@@ -761,6 +763,8 @@
 		44C73B811A471F060051D4C2 /* threadList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = threadList.json; sourceTree = "<group>"; };
 		44C73B871A4840100051D4C2 /* czzHistoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzHistoryManager.h; sourceTree = "<group>"; };
 		44C73B881A4840100051D4C2 /* czzHistoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzHistoryManager.m; sourceTree = "<group>"; };
+		44C73B8C1A484F280051D4C2 /* czzFavouriteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFavouriteManager.h; sourceTree = "<group>"; };
+		44C73B8D1A484F280051D4C2 /* czzFavouriteManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFavouriteManager.m; sourceTree = "<group>"; };
 		44C89ADB185C145C00E65B73 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		44CF253D1A25A2A500BD8228 /* sent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sent.png; sourceTree = "<group>"; };
 		44CF253E1A25A2A500BD8228 /* delete_file.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_file.png; sourceTree = "<group>"; };
@@ -1090,6 +1094,7 @@
 				441E5CDD17F4691300289DBD /* czzAppDelegate.h */,
 				441E5CDE17F4691300289DBD /* czzAppDelegate.m */,
 				4453C07619F634B700A8250F /* Launch Screen.xib */,
+				44C73B901A484F2C0051D4C2 /* FavouriteManager */,
 				44C73B8B1A4840170051D4C2 /* HistoryManager */,
 				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
 				444146DF1A1ACA9700B27D69 /* ImageManager */,
@@ -1886,6 +1891,15 @@
 			name = HistoryManager;
 			sourceTree = "<group>";
 		};
+		44C73B901A484F2C0051D4C2 /* FavouriteManager */ = {
+			isa = PBXGroup;
+			children = (
+				44C73B8C1A484F280051D4C2 /* czzFavouriteManager.h */,
+				44C73B8D1A484F280051D4C2 /* czzFavouriteManager.m */,
+			);
+			name = FavouriteManager;
+			sourceTree = "<group>";
+		};
 		44CF25601A26B4D000BD8228 /* UIView-MGBadgeView-master */ = {
 			isa = PBXGroup;
 			children = (
@@ -2398,6 +2412,7 @@
 				442A901D19DB9C3C00A3516E /* HTMLNode.m in Sources */,
 				442A8FB719DB7DF200A3516E /* PSTGridLayoutSection.m in Sources */,
 				443B54E61990BD3300BAB282 /* utf8.c in Sources */,
+				44C73B8E1A484F280051D4C2 /* czzFavouriteManager.m in Sources */,
 				4448C2AA180FF6C600D2CD76 /* czzBlacklistSender.m in Sources */,
 				44858EAC1A0C5B0A00DD822B /* czzImageViewerUtil.m in Sources */,
 				4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */,
@@ -2542,6 +2557,7 @@
 				44C73B8A1A4840100051D4C2 /* czzHistoryManager.m in Sources */,
 				441E5CFD17F4691300289DBD /* CustomImageBoardViewerTests.m in Sources */,
 				44C73B7E1A47153B0051D4C2 /* NSObjectUtil.m in Sources */,
+				44C73B8F1A484F280051D4C2 /* czzFavouriteManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
