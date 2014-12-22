@@ -85,7 +85,7 @@ static const NSString * CSToastActivityViewKey  = @"CSToastActivityViewKey";
 }
 
 - (void)showToast:(UIView *)toast {
-    [self showToast:toast duration:CSToastDefaultDuration position:CSToastDefaultPosition];
+    [self.window showToast:toast duration:CSToastDefaultDuration position:CSToastDefaultPosition];
 }
 
 - (void)showToast:(UIView *)toast duration:(CGFloat)interval position:(id)point {

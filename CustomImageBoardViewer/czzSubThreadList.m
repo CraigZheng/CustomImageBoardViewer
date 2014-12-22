@@ -53,9 +53,8 @@
 
 -(void)restorePreviousState {
     @try {
-        NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
+        NSString *cacheFile = [[czzAppDelegate threadCacheFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
         if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
-            DLog(@"sub thread cache file: %@", cacheFile);
             czzSubThreadList *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithFile:cacheFile];
             //always delete the cache file after reading it to ensure safety
             [[NSFileManager defaultManager] removeItemAtPath:cacheFile error:nil];
@@ -89,9 +88,8 @@
 }
 
 -(void)saveCurrentState {
-    NSString *cachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
+    NSString *cachePath = [[czzAppDelegate threadCacheFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
     if ([NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
-        DLog(@"save state successed to file - %@", cachePath);
     } else {
         DLog(@"save state failed");
         [[NSFileManager defaultManager] removeItemAtPath:cachePath error:nil];
