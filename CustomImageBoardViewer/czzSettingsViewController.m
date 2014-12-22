@@ -154,6 +154,9 @@
         else if ([command isEqualToString:@"清空缓存"]){
             UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"清空缓存" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"图片管理器", @"帖子缓存", nil];
             [actionSheet showInView:self.view];
+        } else if ([command isEqualToString:@"强制退出"]) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"强制退出" message:@"立刻退出软件，下次启动时将会重新开始，而不会回复到自动保存的状态" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            [alertView show];
         }
     }
 }
@@ -174,7 +177,7 @@
     [regularCommands addObject:@"清除ID信息"];
     [regularCommands addObject:@"通知中心"];
     [regularCommands addObject:@"意见反馈"];
-
+    [regularCommands addObject:@"强制退出"];
     [regularCommands addObject:[NSString stringWithFormat:@"版本号: %@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
 }
 
@@ -189,6 +192,9 @@
             [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
         }
         [[czzAppDelegate sharedAppDelegate] showToast:@"ID信息已清除"];
+    } else if ([alertView.title isEqualToString:@"强制退出"])
+    {
+        exit(0);
     }
 }
 
