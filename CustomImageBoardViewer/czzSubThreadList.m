@@ -39,9 +39,8 @@
         subThreadProcessor = [czzJSONProcessor new];
         subThreadProcessor.delegate = self;
         baseURLString = [[settingCentre thread_content_host] stringByAppendingPathComponent:parentID];
-        pageNumber = 0;
-        totalPages = parentThread.responseCount / 20;
-        
+        totalPages = pageNumber = 1;
+
         threads = [NSMutableArray new];
         verticalHeights = [NSMutableArray new];
         horizontalHeights = [NSMutableArray new];
@@ -112,7 +111,7 @@
 -(void)subThreadProcessedForThread:(czzJSONProcessor *)processor :(czzThread *)forThread :(NSArray *)newThread :(BOOL)success {
 //    DLog(@"%@", NSStringFromSelector(_cmd));
     isProcessing = NO;
-    if (success && newThread.count > 0) {
+    if (success) {
         lastBatchOfThreads = newThread;
         parentThread = forThread ? forThread : parentThread;
         NSArray *processedNewThread;

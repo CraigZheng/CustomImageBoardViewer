@@ -418,7 +418,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 #pragma mark - czzThreadListProtocol
 -(void)threadListDownloaded:(czzThreadList *)threadList wasSuccessful:(BOOL)wasSuccessful {
     DLog(@"%@", NSStringFromSelector(_cmd));
-    if (!wasSuccessful) {
+    if (!wasSuccessful && viewControllerNotInTransition) {
         [refreshControl endRefreshing];
         [progressView stopAnimating];
         [progressView showWarning];
@@ -440,7 +440,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     }
     
     [refreshControl endRefreshing];
-    [progressView stopAnimating];
+    if (viewControllerNotInTransition)
+        [progressView stopAnimating];
 }
 
 #pragma mark - self.refreshControl and download controls
