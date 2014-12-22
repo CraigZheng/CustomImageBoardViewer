@@ -25,7 +25,7 @@
         preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(width, MAXFLOAT)].height + 25;
         if (extra)
         {
-            preferHeight += 10;
+            preferHeight += 20;
         }
         [newHiddenTextView removeFromSuperview];
     }

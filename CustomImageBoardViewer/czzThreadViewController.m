@@ -321,6 +321,11 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 -(void)PromptForJumpToPage{
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"跳页: %ld/%ld", (long) threadList.pageNumber, (long) ((parentThread.responseCount + 1) / 20 + 1)] message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    UITextField *textInputField = [alertView textFieldAtIndex:0];
+    if (textInputField)
+    {
+        textInputField.keyboardAppearance = UIKeyboardAppearanceDark;
+    }
     [alertView show];
 }
 

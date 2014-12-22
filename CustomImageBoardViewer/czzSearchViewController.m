@@ -65,6 +65,11 @@
     
     searchInputAlertView = [[UIAlertView alloc] initWithTitle:@"关键词或号码" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     searchInputAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    UITextField *textInputField = [searchInputAlertView textFieldAtIndex:0];
+    if (textInputField)
+    {
+        textInputField.keyboardAppearance = UIKeyboardAppearanceDark;
+    }
     [searchWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://m.bing.com"]]];
     if (predefinedSearchKeyword) {
         predefinedSearchKeyword = [predefinedSearchKeyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];

@@ -252,6 +252,11 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 - (IBAction)jumpAction:(id)sender {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"跳页" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    UITextField *textInputField = [alertView textFieldAtIndex:0];
+    if (textInputField)
+    {
+        textInputField.keyboardAppearance = UIKeyboardAppearanceDark;
+    }
     [alertView show];
 }
 
