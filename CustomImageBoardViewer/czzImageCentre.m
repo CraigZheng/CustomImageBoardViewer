@@ -320,19 +320,14 @@
 
 #pragma mark - remove images
 -(void)removeFullSizeImages{
-    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:imageFolder error:nil];
-    for (NSString *file in files) {
-        [[NSFileManager defaultManager] removeItemAtPath:[imageFolder stringByAppendingPathComponent:file] error:nil];
-    }
+    [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate imageFolder] error:nil];
+    [[czzAppDelegate sharedAppDelegate] checkFolders];
     [self scanCurrentLocalImages];
 }
 
 -(void)removeThumbnails{
-    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:thumbnailFolder error:nil];
-    //delete every files inside thumbnail folder and image folder
-    for (NSString *file in files) {
-        [[NSFileManager defaultManager] removeItemAtPath:[thumbnailFolder stringByAppendingPathComponent:file] error:nil];
-    }
+    [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate thumbnailFolder] error:nil];
+    [[czzAppDelegate sharedAppDelegate] checkFolders];
     [self scanCurrentLocalImages];
 }
 
