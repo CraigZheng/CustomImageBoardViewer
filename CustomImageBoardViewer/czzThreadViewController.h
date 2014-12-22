@@ -21,6 +21,7 @@
 //@property (weak, nonatomic) IBOutlet UIBarButtonItem *numberBarButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *moreButton;
 @property UIBarButtonItem *numberBarButton;
+@property BOOL shouldRestoreContentOffset;
 
 - (IBAction)moreAction:(id)sender;
 - (IBAction)replyAction:(id)sender;

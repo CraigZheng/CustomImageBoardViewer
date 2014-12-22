@@ -84,6 +84,7 @@
 @synthesize threadList;
 @synthesize progressView;
 @synthesize moreButton;
+@synthesize shouldRestoreContentOffset;
 
 static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
 static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
@@ -199,7 +200,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 }
 
 -(void)copyDataFromThreadList {
-    if (CGPointEqualToPoint(threadTableView.contentOffset, CGPointZero)) {
+    if (shouldRestoreContentOffset && CGPointEqualToPoint(threadTableView.contentOffset, CGPointZero)) {
         [threadTableView setContentOffset:threadList.currentOffSet animated:NO];
     }
     if (threadList.threads.count > 0)

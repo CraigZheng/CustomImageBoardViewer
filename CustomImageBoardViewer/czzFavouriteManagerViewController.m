@@ -38,8 +38,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [super viewDidLoad];
     [self.tableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:[NSBundle mainBundle]] forCellReuseIdentifier:threadViewCellIdentifier];
     [self.tableView registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:threadViewBigImageCellIdentifier];
-
-    threads = [favouriteManager favouriteThreads];
+    [self copyDataFromManager];
+    
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
 }
 
@@ -99,7 +99,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         } else if (titleSegmentedControl.selectedSegmentIndex == 1) {
             [historyManager removeThread:threadToDelete];
         }
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self copyDataFromManager];
+        [tableView reloadData];
     }
 }
 
@@ -139,14 +140,17 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 }
 
 - (IBAction)titleSegmentedControlAction:(id)sender {
-    UISegmentedControl *segmentControl = (UISegmentedControl*)sender;
-    if (segmentControl.selectedSegmentIndex == 0) {
-        threads = [favouriteManager favouriteThreads];
-    } else if (segmentControl.selectedSegmentIndex == 1) {
-        threads = [historyManager browserHistory];
-        threads = [NSMutableOrderedSet orderedSetWithArray:[[threads reverseObjectEnumerator] allObjects]];
-    }
+    [self copyDataFromManager];
     [self.tableView reloadData];
+}
+
+-(void)copyDataFromManager {
+    if (titleSegmentedControl.selectedSegmentIndex == 0) {
+        threads = [favouriteManager favouriteThreads];
+    } else if (titleSegmentedControl.selectedSegmentIndex == 1) {
+        threads = [historyManager browserHistory];
+    }
+    threads = [NSMutableOrderedSet orderedSetWithArray:[[threads reverseObjectEnumerator] allObjects]];
 }
 
 #pragma prepare for segue

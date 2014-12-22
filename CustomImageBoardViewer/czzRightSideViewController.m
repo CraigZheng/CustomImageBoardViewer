@@ -24,7 +24,6 @@
 @property NSMutableArray *allCommand;
 @property NSMutableArray *threadDepandentCommand;
 @property NSURLConnection *urlCon;
-@property NSMutableSet *favouriteThreads;
 @property czzSettingsCentre *settingsCentre;
 @end
 
@@ -38,7 +37,6 @@
 @synthesize commandTableView;
 @synthesize threadDepandentCommand;
 @synthesize urlCon;
-@synthesize favouriteThreads;
 @synthesize settingsCentre;
 
 - (void)viewDidLoad
@@ -58,10 +56,6 @@
     settingsCentre = [czzSettingsCentre sharedInstance];
     //favourite threads
     NSString* libraryPath = [czzAppDelegate libraryFolder];
-    favouriteThreads = [NSKeyedUnarchiver unarchiveObjectWithFile:[libraryPath stringByAppendingPathComponent:@"favourites.dat"]];
-    if (!favouriteThreads){
-        favouriteThreads = [NSMutableSet new];
-    }
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(replyToThread:)
                                                  name:@"ReplyAction"
@@ -167,10 +161,9 @@
 
 #pragma mark - favirouteAction
 -(void)favouriteAction {
-    [favouriteThreads addObject:parentThread];
-    NSString* libraryPath = [czzAppDelegate libraryFolder];
-    [NSKeyedArchiver archiveRootObject:favouriteThreads toFile:[libraryPath stringByAppendingPathComponent:@"favourites.dat"]];
-    [[czzAppDelegate sharedAppDelegate].window makeToast:@"已加入收藏"];
+    if (parentThread)
+        [favouriteManager addFavourite:parentThread];
+    [[czzAppDelegate sharedAppDelegate] showToast:@"已加入收藏"];
 }
 
 #pragma mark - reply actions

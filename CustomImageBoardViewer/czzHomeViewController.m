@@ -215,6 +215,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     {
         DLog(@"%@", NSStringFromSelector(_cmd));
         threadViewController = [self.storyboard instantiateViewControllerWithIdentifier:THREAD_VIEW_CONTROLLER];
+        threadViewController.shouldRestoreContentOffset = YES;
         threadViewController.parentThread = threadList.displayedThread;
         NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
         [viewControllers addObject:threadViewController];
