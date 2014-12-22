@@ -238,7 +238,6 @@
 		44C73B841A471F060051D4C2 /* threadList.json in Resources */ = {isa = PBXBuildFile; fileRef = 44C73B811A471F060051D4C2 /* threadList.json */; };
 		44C73B851A471F060051D4C2 /* threadList.json in Resources */ = {isa = PBXBuildFile; fileRef = 44C73B811A471F060051D4C2 /* threadList.json */; };
 		44C89ADC185C145C00E65B73 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44C89ADB185C145C00E65B73 /* QuartzCore.framework */; };
-		44CD43FF1869CB3E00C7D063 /* czzThreadCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CD43FE1869CB3E00C7D063 /* czzThreadCacheManager.m */; };
 		44CF25491A25A2A500BD8228 /* sent.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF253D1A25A2A500BD8228 /* sent.png */; };
 		44CF254A1A25A2A500BD8228 /* delete_file.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF253E1A25A2A500BD8228 /* delete_file.png */; };
 		44CF254B1A25A2A500BD8228 /* lol.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF253F1A25A2A500BD8228 /* lol.png */; };
@@ -759,8 +758,6 @@
 		44C73B801A471F060051D4C2 /* subThreadList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = subThreadList.json; sourceTree = "<group>"; };
 		44C73B811A471F060051D4C2 /* threadList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = threadList.json; sourceTree = "<group>"; };
 		44C89ADB185C145C00E65B73 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		44CD43FD1869CB3E00C7D063 /* czzThreadCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadCacheManager.h; sourceTree = "<group>"; };
-		44CD43FE1869CB3E00C7D063 /* czzThreadCacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadCacheManager.m; sourceTree = "<group>"; };
 		44CF253D1A25A2A500BD8228 /* sent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sent.png; sourceTree = "<group>"; };
 		44CF253E1A25A2A500BD8228 /* delete_file.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_file.png; sourceTree = "<group>"; };
 		44CF253F1A25A2A500BD8228 /* lol.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lol.png; sourceTree = "<group>"; };
@@ -1240,7 +1237,6 @@
 				441E5D2A17F48F8C00289DBD /* czzThread.h */,
 				441E5D2B17F48F8C00289DBD /* czzThread.m */,
 				4448C2A4180FF51D00D2CD76 /* czzBlacklist */,
-				44CD44001869CB6900C7D063 /* czzThreadCacheManager */,
 				5A1593EA18E71E93001A774B /* czzThreadRefButton.h */,
 				5A1593EB18E71E93001A774B /* czzThreadRefButton.m */,
 			);
@@ -1876,15 +1872,6 @@
 			name = Mock;
 			sourceTree = "<group>";
 		};
-		44CD44001869CB6900C7D063 /* czzThreadCacheManager */ = {
-			isa = PBXGroup;
-			children = (
-				44CD43FD1869CB3E00C7D063 /* czzThreadCacheManager.h */,
-				44CD43FE1869CB3E00C7D063 /* czzThreadCacheManager.m */,
-			);
-			name = czzThreadCacheManager;
-			sourceTree = "<group>";
-		};
 		44CF25601A26B4D000BD8228 /* UIView-MGBadgeView-master */ = {
 			isa = PBXGroup;
 			children = (
@@ -2496,7 +2483,6 @@
 				44FC4345180067CF0028D7C9 /* czzPostSender.m in Sources */,
 				443B54EF1990BD3300BAB282 /* OGText.m in Sources */,
 				441E5D0E17F4699400289DBD /* IIWrapController.m in Sources */,
-				44CD43FF1869CB3E00C7D063 /* czzThreadCacheManager.m in Sources */,
 				5A88B8401938AFDB00071343 /* czzNotificationCentreTableViewController.m in Sources */,
 				442A8FAC19DB7DF200A3516E /* PSTCollectionView.m in Sources */,
 				443B54F319933C1F00BAB282 /* czzSettingsCentre.m in Sources */,

@@ -10,7 +10,6 @@
 #import "Toast+UIView.h"
 #import "czzImageCentre.h"
 #import "czzAppDelegate.h"
-#import "czzThreadCacheManager.h"
 #import "czzHomeViewController.h"
 #import "czzSettingsCentre.h"
 #import "czzNotificationCentreTableViewController.h"
@@ -205,7 +204,8 @@
         [[czzAppDelegate sharedAppDelegate] showToast:@"图片管理器已清空"];
     }
     else if ([title hasPrefix:@"帖子缓存"]){
-        [[czzThreadCacheManager sharedInstance] removeAllThreadCache];
+        [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate threadCacheFolder] error:nil];
+        [[czzAppDelegate sharedAppDelegate] checkFolders];
         [[czzAppDelegate sharedAppDelegate] showToast:@"帖子缓存已清空"];
     }
 }

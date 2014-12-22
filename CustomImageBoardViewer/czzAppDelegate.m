@@ -41,16 +41,7 @@
     settingsCentre = [czzSettingsCentre sharedInstance];
     [settingsCentre downloadSettings];
     
-    //check the library directory and image folders
-    NSArray *resourceFolders = @[[czzAppDelegate libraryFolder], [czzAppDelegate imageFolder], [czzAppDelegate thumbnailFolder], [czzAppDelegate threadCacheFolder], [czzAppDelegate notificationCacheFolder]];
-    
-    for (NSString *folderPath in resourceFolders) {
-        if (![[NSFileManager defaultManager] fileExistsAtPath:folderPath]){
-            [[NSFileManager defaultManager] createDirectoryAtPath:folderPath withIntermediateDirectories:NO attributes:nil error:nil];
-        }
-        //exclude my folders from being backed up to iCloud
-        [self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:folderPath]];
-    }
+    [self checkFolders];
 
     //Dart integration
     if (settingsCentre.shouldAllowDart) {
@@ -104,14 +95,14 @@
 }
 
 
--(BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder
-{
-    return YES;
-}
-
--(BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder {
-    return YES;
-}
+//-(BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder
+//{
+//    return YES;
+//}
+//
+//-(BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder {
+//    return YES;
+//}
 
 #pragma mark - background fetch
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
@@ -242,4 +233,18 @@
     return @"0";
 }
 
+/*
+ check the library directory and image folders
+*/
+-(void)checkFolders {
+    NSArray *resourceFolders = @[[czzAppDelegate libraryFolder], [czzAppDelegate imageFolder], [czzAppDelegate thumbnailFolder], [czzAppDelegate threadCacheFolder], [czzAppDelegate notificationCacheFolder]];
+    for (NSString *folderPath in resourceFolders) {
+        if (![[NSFileManager defaultManager] fileExistsAtPath:folderPath]){
+            [[NSFileManager defaultManager] createDirectoryAtPath:folderPath withIntermediateDirectories:NO attributes:nil error:nil];
+        }
+        //exclude my folders from being backed up to iCloud
+        [self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:folderPath]];
+    }
+
+}
 @end
