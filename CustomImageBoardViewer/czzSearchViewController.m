@@ -22,6 +22,7 @@
 #import "czzHTMLParserViewController.h"
 #import "czzMiniThreadViewController.h"
 #import "czzSettingsCentre.h"
+#import "czzNavigationController.h"
 
 @interface czzSearchViewController ()<UIAlertViewDelegate, UIWebViewDelegate, czzMiniThreadViewControllerProtocol>
 @property czzThread *selectedParentThread;
@@ -31,6 +32,7 @@
 @property NSString *searchCommand;
 @property NSURL *targetURL;
 @property czzMiniThreadViewController *miniThreadView;
+@property GSIndeterminateProgressView *progressView;
 @end
 
 @implementation czzSearchViewController
@@ -43,6 +45,7 @@
 @synthesize searchResult;
 @synthesize searchKeyword;
 @synthesize targetURL;
+@synthesize progressView;
 @synthesize miniThreadView;
 
 - (void)viewDidLoad
@@ -62,6 +65,9 @@
             searchEngineSegmentedControl.selectedSegmentIndex = 2;
         }
     }
+    
+    //progress view
+    progressView = [(czzNavigationController*)self.navigationController progressView];
     
     searchInputAlertView = [[UIAlertView alloc] initWithTitle:@"关键词或号码" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     searchInputAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
@@ -243,11 +249,11 @@
 }
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView {
-    [[czzAppDelegate sharedAppDelegate].window hideToastActivity];
+    [progressView stopAnimating];
 }
 
 -(void)webViewDidStartLoad:(UIWebView *)webView {
-    [[czzAppDelegate sharedAppDelegate].window makeToastActivity];
+    [progressView startAnimating];
 }
 
 - (IBAction)againAction:(id)sender {
