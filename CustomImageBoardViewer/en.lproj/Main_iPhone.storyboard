@@ -9,7 +9,7 @@
         <!--Czz Entry Point View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="czzEntryPointViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="entry_point_view_controller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vXZ-lx-hvc" customClass="czzEntryPointViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="OfE-Ed-Lcv"/>
                         <viewControllerLayoutGuide type="bottom" id="rU9-wj-I2o"/>
@@ -28,7 +28,7 @@
         <!--Czz Navigation Controller-->
         <scene sceneID="4qm-ux-hll">
             <objects>
-                <navigationController storyboardIdentifier="home_navigation_controller" definesPresentationContext="YES" toolbarHidden="NO" id="RdH-Rq-QxN" customClass="czzNavigationController" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="home_navigation_controller" definesPresentationContext="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" toolbarHidden="NO" id="RdH-Rq-QxN" customClass="czzNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Bh6-TG-z4L">
                         <autoresizingMask key="autoresizingMask"/>
@@ -222,7 +222,7 @@
         <!--Navigation Controller-->
         <scene sceneID="GKc-UN-PdR">
             <objects>
-                <navigationController storyboardIdentifier="left_side_view_controller" definesPresentationContext="YES" id="sVl-73-U9I" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="left_side_view_controller" definesPresentationContext="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="sVl-73-U9I" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="WcV-AR-W9J">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -407,7 +407,7 @@
         <!--Navigation Controller-->
         <scene sceneID="D6U-ZS-glQ">
             <objects>
-                <navigationController storyboardIdentifier="right_menu_view_controller" definesPresentationContext="YES" id="WMA-TX-nbY" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="right_menu_view_controller" definesPresentationContext="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="WMA-TX-nbY" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="oai-S5-adF">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1067,7 +1067,7 @@
             </objects>
             <point key="canvasLocation" x="320" y="394"/>
         </scene>
-        <!--收藏-->
+        <!--Czz Favourite Manager View Controller-->
         <scene sceneID="G2X-MF-sFX">
             <objects>
                 <tableViewController hidesBottomBarWhenPushed="YES" id="aOD-Hr-NEd" customClass="czzFavouriteManagerViewController" sceneMemberID="viewController">
@@ -1136,7 +1136,19 @@
                             <outlet property="delegate" destination="aOD-Hr-NEd" id="Wko-Fx-leS"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="收藏" id="cWn-mB-N6O">
+                    <navigationItem key="navigationItem" id="cWn-mB-N6O">
+                        <nil key="title"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="SL4-5w-f3w">
+                            <rect key="frame" x="96" y="7" width="128" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="收藏"/>
+                                <segment title="历史"/>
+                            </segments>
+                            <connections>
+                                <action selector="titleSegmentedControlAction:" destination="aOD-Hr-NEd" eventType="valueChanged" id="fiO-Nh-3Ta"/>
+                            </connections>
+                        </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" image="settings_wrench.png" id="3Kd-Br-cM7">
                             <connections>
                                 <action selector="editAction:" destination="aOD-Hr-NEd" id="KLG-Dy-EFa"/>
@@ -1144,6 +1156,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="titleSegmentedControl" destination="SL4-5w-f3w" id="uRL-6I-CAE"/>
                         <segue destination="CES-L8-oRQ" kind="push" identifier="go_thread_view_segue" id="vj6-ho-19y"/>
                     </connections>
                 </tableViewController>

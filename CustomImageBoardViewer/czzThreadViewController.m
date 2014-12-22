@@ -120,8 +120,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
 
     //register xib
-    [self.threadTableView registerNib:[UINib nibWithNibName:@"czzThreadViewTableViewCell" bundle:nil] forCellReuseIdentifier:threadViewCellIdentifier];
-    [self.threadTableView registerNib:[UINib nibWithNibName:@"czzThreadViewBigImageTableViewCell" bundle:nil] forCellReuseIdentifier:threadViewBigImageCellIdentifier];
+    [self.threadTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:threadViewCellIdentifier];
+    [self.threadTableView registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:threadViewBigImageCellIdentifier];
     self.title = parentThread.title;
     self.navigationItem.backBarButtonItem.title = self.title;
     

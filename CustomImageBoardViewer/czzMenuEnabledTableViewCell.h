@@ -12,6 +12,9 @@
 
 #define THREAD_VIEW_CELL_MARGIN 4 * 2
 
+#define THREAD_TABLE_VLEW_CELL_NIB_NAME @"czzThreadViewTableViewCell"
+#define BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME @"czzThreadViewBigImageTableViewCell"
+
 #import <UIKit/UIKit.h>
 #import "czzThread.h"
 #import "czzThreadViewController.h"

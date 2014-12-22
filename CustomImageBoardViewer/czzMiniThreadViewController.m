@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 Craig. All rights reserved.
 //
 
-#define THREAD_VIEW_CELL_NIB @"czzThreadViewTableViewCell"
-
 #import "czzMiniThreadViewController.h"
 #import "czzThread.h"
 #import "Toast+UIView.h"
@@ -40,7 +38,7 @@ static NSString *emptyCellIdenfiier = @"empty_cell_identifier";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    UINib *cellNib = [UINib nibWithNibName:@"czzThreadViewTableViewCell" bundle:nil];
+    UINib *cellNib = [UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil];
     [threadTableView registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
     
     //colours

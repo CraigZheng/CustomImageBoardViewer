@@ -13,6 +13,7 @@
 #import "czzHomeViewController.h"
 #import "czzTextViewHeightCalculator.h"
 #import "czzSettingsCentre.h"
+#import "czzHistoryManager.h"
 
 @interface czzFavouriteManagerViewController ()
 @property NSIndexPath *selectedIndex;
@@ -35,8 +36,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.tableView registerNib:[UINib nibWithNibName:@"czzThreadViewTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:threadViewCellIdentifier];
-    [self.tableView registerNib:[UINib nibWithNibName:@"czzThreadViewBigImageTableViewCell" bundle:nil] forCellReuseIdentifier:threadViewBigImageCellIdentifier];
+    [self.tableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:[NSBundle mainBundle]] forCellReuseIdentifier:threadViewCellIdentifier];
+    [self.tableView registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:threadViewBigImageCellIdentifier];
 
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
     settingsCentre = [czzSettingsCentre sharedInstance];
@@ -138,6 +139,9 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 - (IBAction)editAction:(id)sender {
     [self.tableView setEditing:!self.tableView.editing animated:YES];
+}
+
+- (IBAction)titleSegmentedControlAction:(id)sender {
 }
 
 #pragma sort array - sort the threads so they arrange with ID

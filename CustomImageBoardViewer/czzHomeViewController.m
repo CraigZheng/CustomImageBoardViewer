@@ -109,8 +109,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     thumbnailFolder = [czzAppDelegate thumbnailFolder];
     
     //register xib
-    [threadTableView registerNib:[UINib nibWithNibName:@"czzThreadViewTableViewCell" bundle:nil] forCellReuseIdentifier:threadViewCellIdentifier];
-    [threadTableView registerNib:[UINib nibWithNibName:@"czzThreadViewBigImageTableViewCell" bundle:nil] forCellReuseIdentifier:threadViewBigImageCellIdentifier];
+    [threadTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:threadViewCellIdentifier];
+    [threadTableView registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:threadViewBigImageCellIdentifier];
     //configure the view deck controller with half size and tap to close mode
     self.viewDeckController.leftSize = self.view.frame.size.width/4;
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
@@ -214,7 +214,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     if (threadList.displayedThread)
     {
         DLog(@"%@", NSStringFromSelector(_cmd));
-        threadViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"thread_view_controller"];
+        threadViewController = [self.storyboard instantiateViewControllerWithIdentifier:THREAD_VIEW_CONTROLLER];
         threadViewController.parentThread = threadList.displayedThread;
         NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
         [viewControllers addObject:threadViewController];

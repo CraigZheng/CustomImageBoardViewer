@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 Craig. All rights reserved.
 //
 
+#define THREAD_VIEW_CONTROLLER @"thread_view_controller"
+
 #import <UIKit/UIKit.h>
 #import "czzThread.h"
 #import "IIViewDeckController.h"
