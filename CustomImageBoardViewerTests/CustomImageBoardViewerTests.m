@@ -17,6 +17,7 @@
 #import "czzPostSender.h"
 #import "czzThreadList.h"
 #import "czzSubThreadList.h"
+#import "czzHistoryManager.h"
 #import "PropertyUtil.h"
 
 
@@ -53,6 +54,42 @@
 {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
+}
+
+-(void)testHistoryManager {
+    czzThread *thread = [czzThread new];
+    thread.ID = 5361014;
+    thread.content = [[NSAttributedString alloc] initWithString:NSStringFromSelector(_cmd) attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12]}];
+    [historyManager clearRecord];
+    [historyManager recordThread:thread];
+    XCTAssert([historyManager browserHistory].count > 0);
+    
+    //adding same thread
+    czzThread *thread2 = [czzThread new];
+    thread2.ID = 5361014;
+    thread2.content = [[NSAttributedString alloc] initWithString:NSStringFromSelector(_cmd) attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12]}];
+    [historyManager recordThread:thread2];
+
+    XCTAssert([historyManager browserHistory].count == 1);
+
+    //adding different thread
+    czzThread* thread3 = [czzThread new];
+    thread3.ID = 239857019;
+    thread3.content = [[NSAttributedString alloc] initWithString:@"dfgajnlgakml" attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12]}];
+
+    [historyManager recordThread:thread3];
+    XCTAssert([historyManager browserHistory].count == 2);
+    
+    //test saving and restoring sate
+    [historyManager saveCurrentState];
+    NSMutableOrderedSet *set = [[czzHistoryManager new] browserHistory];
+    XCTAssert(set.count != 0);
+    
+    //test clearing state
+    [historyManager clearRecord];
+    set = [[czzHistoryManager new] browserHistory];
+    XCTAssert(set.count == 0);
+
 }
 
 -(void)testSubThreadListDownload {

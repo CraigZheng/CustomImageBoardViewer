@@ -237,6 +237,8 @@
 		44C73B831A471F060051D4C2 /* subThreadList.json in Resources */ = {isa = PBXBuildFile; fileRef = 44C73B801A471F060051D4C2 /* subThreadList.json */; };
 		44C73B841A471F060051D4C2 /* threadList.json in Resources */ = {isa = PBXBuildFile; fileRef = 44C73B811A471F060051D4C2 /* threadList.json */; };
 		44C73B851A471F060051D4C2 /* threadList.json in Resources */ = {isa = PBXBuildFile; fileRef = 44C73B811A471F060051D4C2 /* threadList.json */; };
+		44C73B891A4840100051D4C2 /* czzHistoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C73B881A4840100051D4C2 /* czzHistoryManager.m */; };
+		44C73B8A1A4840100051D4C2 /* czzHistoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C73B881A4840100051D4C2 /* czzHistoryManager.m */; };
 		44C89ADC185C145C00E65B73 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44C89ADB185C145C00E65B73 /* QuartzCore.framework */; };
 		44CF25491A25A2A500BD8228 /* sent.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF253D1A25A2A500BD8228 /* sent.png */; };
 		44CF254A1A25A2A500BD8228 /* delete_file.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF253E1A25A2A500BD8228 /* delete_file.png */; };
@@ -757,6 +759,8 @@
 		44C73B7C1A47153B0051D4C2 /* NSObjectUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSObjectUtil.m; sourceTree = "<group>"; };
 		44C73B801A471F060051D4C2 /* subThreadList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = subThreadList.json; sourceTree = "<group>"; };
 		44C73B811A471F060051D4C2 /* threadList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = threadList.json; sourceTree = "<group>"; };
+		44C73B871A4840100051D4C2 /* czzHistoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzHistoryManager.h; sourceTree = "<group>"; };
+		44C73B881A4840100051D4C2 /* czzHistoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzHistoryManager.m; sourceTree = "<group>"; };
 		44C89ADB185C145C00E65B73 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		44CF253D1A25A2A500BD8228 /* sent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sent.png; sourceTree = "<group>"; };
 		44CF253E1A25A2A500BD8228 /* delete_file.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_file.png; sourceTree = "<group>"; };
@@ -1086,8 +1090,8 @@
 				441E5CDD17F4691300289DBD /* czzAppDelegate.h */,
 				441E5CDE17F4691300289DBD /* czzAppDelegate.m */,
 				4453C07619F634B700A8250F /* Launch Screen.xib */,
+				44C73B8B1A4840170051D4C2 /* HistoryManager */,
 				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
-				44C73B7F1A4715400051D4C2 /* NSObjectUtil */,
 				444146DF1A1ACA9700B27D69 /* ImageManager */,
 				442EC8711A1A1D6C005650E4 /* InAppBrowser */,
 				442EC8681A1A1320005650E4 /* czzNavigationController */,
@@ -1106,6 +1110,7 @@
 				441E5D2D17F490E100289DBD /* czzThread */,
 				442CD0E4185160200021AD37 /* czzImageDownloader */,
 				44B89E771A2AF3CE0085F766 /* 3rd Party */,
+				44C73B7F1A4715400051D4C2 /* NSObjectUtil */,
 				44C73B861A471F0A0051D4C2 /* Mock */,
 				441E5CE917F4691300289DBD /* Images.xcassets */,
 				441E5CD517F4691300289DBD /* Supporting Files */,
@@ -1872,6 +1877,15 @@
 			name = Mock;
 			sourceTree = "<group>";
 		};
+		44C73B8B1A4840170051D4C2 /* HistoryManager */ = {
+			isa = PBXGroup;
+			children = (
+				44C73B871A4840100051D4C2 /* czzHistoryManager.h */,
+				44C73B881A4840100051D4C2 /* czzHistoryManager.m */,
+			);
+			name = HistoryManager;
+			sourceTree = "<group>";
+		};
 		44CF25601A26B4D000BD8228 /* UIView-MGBadgeView-master */ = {
 			isa = PBXGroup;
 			children = (
@@ -2402,6 +2416,7 @@
 				442A8FA119DB7DF200A3516E /* MWGridCell.m in Sources */,
 				441E5D2417F4797F00289DBD /* czzForumGroup.m in Sources */,
 				442A8FFC19DB7F5400A3516E /* UIImageView+WebCache.m in Sources */,
+				44C73B891A4840100051D4C2 /* czzHistoryManager.m in Sources */,
 				44B96E33185B8B8100D664A4 /* czzImageManagerViewController.m in Sources */,
 				44B89E841A2AFBE30085F766 /* UINavigationController+SGProgress.m in Sources */,
 				442A8FA619DB7DF200A3516E /* MWTapDetectingView.m in Sources */,
@@ -2524,6 +2539,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				44C73B8A1A4840100051D4C2 /* czzHistoryManager.m in Sources */,
 				441E5CFD17F4691300289DBD /* CustomImageBoardViewerTests.m in Sources */,
 				44C73B7E1A47153B0051D4C2 /* NSObjectUtil.m in Sources */,
 			);

@@ -8,6 +8,7 @@
 #define settingCentre [czzSettingsCentre sharedInstance]
 
 #import "czzSubThreadList.h"
+#import "czzHistoryManager.h"
 
 @interface czzSubThreadList()
 @property NSUInteger cutOffIndex;
@@ -36,6 +37,8 @@
     self = [super init];
     if (self) {
         parentThread = thread;
+        //record history
+        [historyManager recordThread:parentThread];
         parentID = [NSString stringWithFormat:@"%ld", (long) parentThread.ID];
         subThreadProcessor = [czzJSONProcessor new];
         subThreadProcessor.delegate = self;
