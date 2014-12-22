@@ -13,7 +13,7 @@
 
 @implementation czzTextViewHeightCalculator
 
-+(CGFloat)calculatePerfectHeightForThreadContent:(czzThread *)thread inView:(UIView *)view forWidth:(CGFloat)width hasImage:(BOOL)has {
++(CGFloat)calculatePerfectHeightForThreadContent:(czzThread *)thread inView:(UIView *)view forWidth:(CGFloat)width hasImage:(BOOL)has withExtra:(BOOL)extra{
     CGFloat preferHeight = 44;
     
     @autoreleasepool {
@@ -23,6 +23,10 @@
         newHiddenTextView.attributedText = thread.content;
         newHiddenTextView.font = [[czzSettingsCentre sharedInstance] contentFont];
         preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(width, MAXFLOAT)].height + 25;
+        if (extra)
+        {
+            preferHeight += 10;
+        }
         [newHiddenTextView removeFromSuperview];
     }
     
@@ -50,7 +54,7 @@
 }
 
 +(CGFloat)calculatePerfectHeightForThreadContent:(czzThread *)thread inView:(UIView *)view hasImage:(BOOL)has{
-    return [self calculatePerfectHeightForThreadContent:thread inView:view forWidth:view.frame.size.width hasImage:has];
+    return [self calculatePerfectHeightForThreadContent:thread inView:view forWidth:view.frame.size.width hasImage:has withExtra:NO];
 }
 
 @end

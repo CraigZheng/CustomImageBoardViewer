@@ -15,6 +15,6 @@
 @interface czzTextViewHeightCalculator : NSObject
 
 +(CGFloat)calculatePerfectHeightForThreadContent:(czzThread*)thread inView:(UIView*)view hasImage:(BOOL)has;
-+(CGFloat)calculatePerfectHeightForThreadContent:(czzThread*)thread inView:(UIView*)view forWidth:(CGFloat)width hasImage:(BOOL)has;
++(CGFloat)calculatePerfectHeightForThreadContent:(czzThread*)thread inView:(UIView*)view forWidth:(CGFloat)width hasImage:(BOOL)has withExtra:(BOOL)extra;
 
 @end
