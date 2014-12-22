@@ -101,6 +101,7 @@
 
 -(void)refresh {
     [self removeAll];
+    totalPages = 1;
     [self loadMoreThreads];
 }
 
