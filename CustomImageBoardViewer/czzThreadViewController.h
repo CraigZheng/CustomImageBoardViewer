@@ -13,7 +13,6 @@
 @interface czzThreadViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic) czzThread *parentThread;
 @property (strong, nonatomic) IBOutlet UITableView *threadTableView;
-@property BOOL shouldHideImageForThisForum;
 @property NSString *shouldHighlightSelectedUser;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *starButton;
 @property (weak, nonatomic) IBOutlet UIView *onScreenImageManagerViewContainer;

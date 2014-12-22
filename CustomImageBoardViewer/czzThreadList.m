@@ -26,6 +26,8 @@
 @synthesize isDownloading, isProcessing;
 @synthesize horizontalHeights, verticalHeights;
 @synthesize parentViewController;
+@synthesize currentOffSet;
+@synthesize displayedSubThreadList;
 
 -(instancetype)init {
     self = [super init];
@@ -40,7 +42,6 @@
 
         threadListProcessor = [czzJSONProcessor new];
         threadListProcessor.delegate = self;
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(entersBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
     return self;
 }
@@ -51,10 +52,12 @@
 }
 
 -(void)saveCurrentState {
-    if ([NSKeyedArchiver archiveRootObject:self toFile:[[czzAppDelegate libraryFolder] stringByAppendingPathComponent:DEFAULT_THREAD_LIST_CACHE_FILE]]) {
+    NSString *cachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:DEFAULT_THREAD_LIST_CACHE_FILE];
+    if ([NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
         DLog(@"save state successed");
     } else {
         DLog(@"save state failed");
+        [[NSFileManager defaultManager] removeItemAtPath:cachePath error:nil];
     }
 }
 
@@ -63,7 +66,10 @@
         NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:DEFAULT_THREAD_LIST_CACHE_FILE];
         if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
             czzThreadList *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithFile:cacheFile];
-            if ([tempThreadList isKindOfClass:[czzThreadList class]])
+            //always delete the cache file after reading it to ensure safety
+            [[NSFileManager defaultManager] removeItemAtPath:cacheFile error:nil];
+            //copy data
+            if (tempThreadList && [tempThreadList isKindOfClass:[czzThreadList class]])
             {
                 forumName = tempThreadList.forumName;
                 self.pageNumber = tempThreadList.pageNumber;
@@ -71,6 +77,11 @@
                 self.threads = tempThreadList.threads;
                 self.verticalHeights = tempThreadList.verticalHeights;
                 self.horizontalHeights = tempThreadList.horizontalHeights;
+                self.baseURLString = tempThreadList.baseURLString;
+                self.currentOffSet = tempThreadList.currentOffSet;
+                self.lastBatchOfThreads = tempThreadList.lastBatchOfThreads;
+                self.shouldHideImageForThisForum = tempThreadList.shouldHideImageForThisForum;
+                self.displayedSubThreadList = tempThreadList.displayedSubThreadList;
             }
         }
     }
@@ -79,8 +90,14 @@
     }
 }
 
+-(void)setParentViewController:(UIViewController *)viewCon {
+    parentViewController = viewCon;
+    //register an obverser while adding a parent view controller
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(entersBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
+}
+
 -(void)setForumName:(NSString *)name {
-    forumName = name;
+    forumName = name ? name : @"";
     baseURLString = [[settingCentre thread_list_host] stringByAppendingString:[forumName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 }
 
@@ -197,46 +214,45 @@
 
 #pragma mark - NSCoding
 -(void)encodeWithCoder:(NSCoder *)aCoder {
-    NSDictionary *allPropertie = [NSObjectUtil classPropsFor:self.class];
-    for (NSString *key in allPropertie.allKeys) {
-        id value = [self valueForKey:key];
-        @try {
-            if (value)
-                [self encodeValue:[self valueForKey:key] forKey:key withEncoder:aCoder];
-        }
-        @catch (NSException *exception) {
-        }
-    }
-}
-
--(void)encodeValue:(id)value forKey:(NSString*)key withEncoder:(NSCoder*)coder {
-    if ([value isKindOfClass:[NSObject class]] && [value respondsToSelector:@selector(encodeWithCoder:)])
-    {
-        [coder encodeObject:value forKey:key];
-    } else if ([value isKindOfClass:[NSNumber class]]) {
-        [coder encodeObject:value forKey:key];
-    }
+    [aCoder encodeBool:shouldHideImageForThisForum forKey:@"shouldHideImageForThisForum"];
+    [aCoder encodeObject:forumName forKey:@"forumName"];
+    [aCoder encodeInteger:pageNumber forKey:@"pageNumber"];
+    [aCoder encodeInteger:totalPages forKey:@"totalPages"];
+    [aCoder encodeObject:threads forKey:@"threads"];
+    [aCoder encodeObject:lastBatchOfThreads forKey:@"lastBatchOfThreads"];
+    //parent view controller can not be encoded
+    //delegate can not be encoded
+    //isDownloading and isProcessing should not be encoded
+    [aCoder encodeObject:horizontalHeights forKey:@"horizontalHeights"];
+    [aCoder encodeObject:verticalHeights forKey:@"verticalHeights"];
+    [aCoder encodeObject:baseURLString forKey:@"baseURLString"];
+    [aCoder encodeObject:[NSValue valueWithCGPoint:currentOffSet] forKey:@"currentOffSet"];
+    [aCoder encodeObject:displayedSubThreadList forKey:@"displayedSubThreadList"];
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder {
     czzThreadList *newThreadList = [czzThreadList new];
     [[NSNotificationCenter defaultCenter] removeObserver:newThreadList];
-    for (NSString *key in [[NSObjectUtil classPropsFor:newThreadList.class] allKeys]) {
-        if (![aDecoder containsValueForKey:key])
-            continue;
-        id value = [self decodeValueForKey:key withDecoder:aDecoder];
-        @try {
-            if (value && [newThreadList respondsToSelector:@selector(key)])
-                [newThreadList setValue:value forKey:key];
-        }
-        @catch (NSException *exception) {
-        }
+    @try {
+        //create a temporary threadlist object
+        newThreadList.shouldHideImageForThisForum = [aDecoder decodeBoolForKey:@"shouldHideImageForThisForum"];
+        newThreadList.forumName = [aDecoder decodeObjectForKey:@"forumName"];
+        newThreadList.pageNumber = [aDecoder decodeIntegerForKey:@"pageNumber"];
+        newThreadList.totalPages = [aDecoder decodeIntegerForKey:@"totalPages"];
+        newThreadList.threads = [aDecoder decodeObjectForKey:@"threads"];
+        newThreadList.lastBatchOfThreads = [aDecoder decodeObjectForKey:@"lastBatchOfThreads"];
+        newThreadList.horizontalHeights = [aDecoder decodeObjectForKey:@"horizontalHeights"];
+        newThreadList.verticalHeights = [aDecoder decodeObjectForKey:@"verticalHeights"];
+        newThreadList.baseURLString = [aDecoder decodeObjectForKey:@"baseURLString"];
+        newThreadList.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
+        newThreadList.displayedSubThreadList = [aDecoder decodeObjectForKey:@"displayedSubThreadList"];
+        return newThreadList;
+
     }
-    return newThreadList;
+    @catch (NSException *exception) {
+        DLog(@"%@", exception);
+    }
+    return nil;
 }
 
--(id)decodeValueForKey:(NSString*)key withDecoder:(NSCoder*)coder {
-    NSObject *object = [coder decodeObjectForKey:key];
-    return object;
-}
 @end

@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Craig. All rights reserved.
 //
 
+#define DEFAULT_SUB_THREAD_LIST_CACHE_FILE @"DEFAULT_SUB_THREAD_LIST_CACHE_FILE.dat"
+
 #import "czzThreadList.h"
 
 @interface czzSubThreadList : czzThreadList

@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomImageBoardViewer/czzThreadList.m"
-            timestampString = "440870969.286924"
+            timestampString = "440915696.463733"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "193"
-            endingLineNumber = "193"
+            startingLineNumber = "209"
+            endingLineNumber = "209"
             landmarkName = "-calculateHeightsForThreads:"
             landmarkType = "5">
          </BreakpointContent>
@@ -36,11 +36,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomImageBoardViewer/czzSubThreadList.m"
-            timestampString = "440907541.828147"
+            timestampString = "440915696.463733"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
+            startingLineNumber = "193"
+            endingLineNumber = "193"
             landmarkName = "-subThreadProcessedForThread::::"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,22 +58,6 @@
             startingLineNumber = "349"
             endingLineNumber = "349"
             landmarkName = "-imageDownloaded:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CustomImageBoardViewer/czzThreadList.m"
-            timestampString = "440871081.303867"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
-            landmarkName = "-restorePreviousState"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

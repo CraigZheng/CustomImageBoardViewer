@@ -20,19 +20,17 @@
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzTextViewHeightCalculator.h"
 #import "czzImageViewerUtil.h"
-#import "czzThreadList.h"
 #import "czzNavigationController.h"
 #import "czzNotificationCentreTableViewController.h"
 #import "czzOnScreenImageManagerViewController.h"
 #import "UIBarButtonItem+Badge.h"
-//#import "UINavigationController+SGProgress.h"
 #import "GSIndeterminateProgressView.h"
+#import "czzThreadList.h"
 
 #import <CoreText/CoreText.h>
 
 
 @interface czzHomeViewController() <UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzThreadListProtocol, czzOnScreenImageManagerViewControllerDelegate, UIStateRestoring>
-@property czzThreadList* threadList;
 @property NSArray *threads;
 @property NSArray *verticalHeights;
 @property NSArray *horizontalHeights;
@@ -51,6 +49,7 @@
 @property UIRefreshControl* refreshControl;
 @property UIBarButtonItem *numberBarButton;
 @property GSIndeterminateProgressView *progressView;
+@property czzThreadList* threadList;
 @end
 
 @implementation czzHomeViewController
@@ -88,9 +87,11 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [super viewDidLoad];
     //thread list, source of all data
     threadList = [czzThreadList new];
+    [threadList restorePreviousState];
+    //assign delegate and parentViewController
     threadList.delegate = self;
     threadList.parentViewController = self;
-    [threadList restorePreviousState];
+
     [self copyDataFromThreadList]; //grab any possible data
     
     //progress bar
@@ -135,6 +136,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     onScreenCommandViewController = [[UIStoryboard storyboardWithName:@"OnScreenCommand" bundle:nil] instantiateInitialViewController];
     [self addChildViewController:onScreenCommandViewController];
     
+    //restore previous session
+    [self restorePreviousSession];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -204,9 +207,23 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     [onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
     
     self.threadTableView.backgroundColor = settingsCentre.viewBackgroundColour;
+    threadList.displayedSubThreadList = nil;
+}
+
+-(void)restorePreviousSession {
+    if (threadList.displayedSubThreadList)
+    {
+        DLog(@"%@", NSStringFromSelector(_cmd));
+    }
 }
 
 -(void)copyDataFromThreadList {
+    //scroll to previous content offset if current off set is empty
+    if (CGPointEqualToPoint(threadTableView.contentOffset, CGPointZero))
+    {
+        [threadTableView setContentOffset:threadList.currentOffSet animated:NO];
+    }
+    [self setForumName:threadList.forumName];
     threads = [NSArray arrayWithArray:threadList.threads];
     horizontalHeights = [NSArray arrayWithArray:threadList.horizontalHeights];
     verticalHeights = [NSArray arrayWithArray:threadList.verticalHeights];
@@ -371,7 +388,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     if (selectedIndex.row < threads.count)
         [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
     else {
-        [threadList loadMoreThreads:++threadList.pageNumber];
+        [threadList loadMoreThreads];
         [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
 }
@@ -394,6 +411,10 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 }
 
 #pragma mark - UIScrollVIew delegate
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    threadList.currentOffSet = scrollView.contentOffset;
+}
+
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     if (onScreenCommandViewController && threads.count > 1 && shouldDisplayQuickScrollCommand) {
         [onScreenCommandViewController show];
@@ -409,7 +430,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     {
         CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
         if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !(threadList.isDownloading || threadList.isProcessing)){
-            [threadList loadMoreThreads:++threadList.pageNumber];
+            [threadList loadMoreThreads];
             [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
     }
@@ -487,6 +508,14 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     if (forumname){
         [self setForumName:forumname];
         [self refreshThread:self];
+        //disallow image downloading if specified by remote settings
+        shouldHideImageForThisForum = false;
+        for (NSString *specifiedForum in settingsCentre.shouldHideImageInForums) {
+            if ([specifiedForum isEqualToString:forumname]) {
+                shouldHideImageForThisForum = true;
+                break;
+            }
+        }
     }
 }
 
@@ -494,14 +523,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     threadList.forumName = name;
     self.title = threadList.forumName;
     self.navigationItem.backBarButtonItem.title = self.title;
-    //disallow image downloading if specified by remote settings
-    shouldHideImageForThisForum = false;
-    for (NSString *specifiedForum in settingsCentre.shouldHideImageInForums) {
-        if ([specifiedForum isEqualToString:name]) {
-            shouldHideImageForThisForum = true;
-            break;
-        }
-    }
 }
 
 #pragma mark - czzMenuEnableTableViewCellDelegate
@@ -562,7 +583,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([[segue identifier] isEqualToString:@"go_thread_view_segue"]){
         threadViewController = [segue destinationViewController];
-        threadViewController.shouldHideImageForThisForum = shouldHideImageForThisForum;
         [threadViewController setParentThread:selectedThread];
     }
 }

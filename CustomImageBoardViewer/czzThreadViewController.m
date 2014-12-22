@@ -76,7 +76,6 @@
 @synthesize thumbnailFolder;
 @synthesize keywordToSearch;
 @synthesize settingsCentre;
-@synthesize shouldHideImageForThisForum;
 @synthesize rightViewController;
 @synthesize topViewController;
 @synthesize viewControllerNotInTransition;
@@ -95,7 +94,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 {
     [super viewDidLoad];
     //thread list, source of all data
-    threadList = [[czzSubThreadList alloc] initWithParentThread:parentThread];
+    if (!threadList)
+        threadList = [[czzSubThreadList alloc] initWithParentThread:parentThread];
     threadList.delegate = self;
     threadList.parentViewController = self;
     [self copyDataFromThreadList];

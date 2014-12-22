@@ -9,6 +9,7 @@
 #define DEFAULT_THREAD_LIST_CACHE_FILE @"DEFAULT_THREAD_LIST_CACHE_FILE.dat"
 
 #import "czzThread.h"
+//#import "czzSubThreadList.h"
 
 #import "czzJSONProcessor.h"
 #import "czzXMLDownloader.h"
@@ -32,6 +33,7 @@
 
 @end
 
+@class czzSubThreadList;
 @interface czzThreadList : NSObject <czzXMLDownloaderDelegate, czzJSONProcessorDelegate, NSCoding>
 @property BOOL shouldHideImageForThisForum;
 @property (nonatomic) NSString *forumName;
@@ -39,13 +41,15 @@
 @property NSInteger totalPages;
 @property NSMutableArray *threads;
 @property NSArray *lastBatchOfThreads;
-@property UIViewController *parentViewController;
+@property (nonatomic) UIViewController *parentViewController;
 @property id<czzThreadListProtocol> delegate;
 @property BOOL isDownloading;
 @property BOOL isProcessing;
 @property NSMutableArray *horizontalHeights;
 @property NSMutableArray *verticalHeights;
 @property NSString *baseURLString;
+@property CGPoint currentOffSet;
+@property czzSubThreadList *displayedSubThreadList;
 
 @property czzXMLDownloader *xmlDownloader;
 @property czzJSONProcessor *threadListProcessor;
