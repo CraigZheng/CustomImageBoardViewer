@@ -32,14 +32,13 @@
 @synthesize miniThreadNavBar;
 @synthesize barBackgroundView;
 
-static NSString *cellIdentifier = @"thread_cell_identifier";
-static NSString *emptyCellIdenfiier = @"empty_cell_identifier";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    UINib *cellNib = [UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil];
-    [threadTableView registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
+    //register NIB
+    [threadTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
+    [threadTableView registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER];
     
     //colours
     miniThreadNavBar.barTintColor = [settingCentre barTintColour];
@@ -92,6 +91,8 @@ static NSString *emptyCellIdenfiier = @"empty_cell_identifier";
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *cellIdentifier = [settingCentre userDefShouldUseBigImage] ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
+    
     czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell) {
         cell.shouldHighlight = NO;

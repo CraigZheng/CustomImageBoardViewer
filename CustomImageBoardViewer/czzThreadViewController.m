@@ -86,9 +86,6 @@
 @synthesize moreButton;
 @synthesize shouldRestoreContentOffset;
 
-static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
-static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -121,8 +118,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
 
     //register xib
-    [self.threadTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:threadViewCellIdentifier];
-    [self.threadTableView registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:threadViewBigImageCellIdentifier];
+    [self.threadTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
+    [self.threadTableView registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER];
     self.title = parentThread.title;
     self.navigationItem.backBarButtonItem.title = self.title;
     
@@ -232,7 +229,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *cell_identifier = [[czzSettingsCentre sharedInstance] userDefShouldUseBigImage] ? threadViewBigImageCellIdentifier : threadViewCellIdentifier;
+    NSString *cell_identifier = [[czzSettingsCentre sharedInstance] userDefShouldUseBigImage] ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
     if (indexPath.row == threads.count){
         UITableViewCell *cell;// = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
         if (threadList.isDownloading || threadList.isProcessing) {

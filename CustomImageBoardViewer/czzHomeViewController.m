@@ -79,9 +79,6 @@
 @synthesize settingsBarButton;
 @synthesize progressView;
 
-static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
-static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -109,8 +106,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     thumbnailFolder = [czzAppDelegate thumbnailFolder];
     
     //register xib
-    [threadTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:threadViewCellIdentifier];
-    [threadTableView registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:threadViewBigImageCellIdentifier];
+    [threadTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
+    [threadTableView registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER];
     //configure the view deck controller with half size and tap to close mode
     self.viewDeckController.leftSize = self.view.frame.size.width/4;
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
@@ -372,7 +369,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         return cell;
     }
 
-    NSString *cell_identifier = [settingsCentre userDefShouldUseBigImage] ? threadViewBigImageCellIdentifier : threadViewCellIdentifier;
+    NSString *cell_identifier = [settingsCentre userDefShouldUseBigImage] ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
     czzThread *thread = [threads objectAtIndex:indexPath.row];
     czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
     if (cell){
