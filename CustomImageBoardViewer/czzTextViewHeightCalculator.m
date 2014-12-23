@@ -25,7 +25,7 @@
         preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(width, MAXFLOAT)].height + 25;
         if (extra)
         {
-            preferHeight += 20;
+            preferHeight += 15;
         }
         [newHiddenTextView removeFromSuperview];
     }
@@ -34,7 +34,6 @@
         if ([[czzSettingsCentre sharedInstance] userDefShouldUseBigImage])
         {
 //            preferHeight += 200;
-            CGFloat shortEdge = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
             return preferHeight += 280;
 //
 //            NSString *filePath = [[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:[thread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];

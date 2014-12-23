@@ -58,7 +58,7 @@
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
                             <textView opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" verticalHuggingPriority="100" scrollEnabled="NO" editable="NO" text="Content" translatesAutoresizingMaskIntoConstraints="NO" id="oML-xg-Zfq" customClass="czzNoSelectionTextView">
-                                <rect key="frame" x="0.0" y="20" width="320" height="271"/>
+                                <rect key="frame" x="0.0" y="16" width="320" height="275"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="250" constant="26" id="6Qy-Et-6aq"/>
                                 </constraints>
@@ -129,7 +129,7 @@
                             <constraint firstItem="RUs-rl-nii" firstAttribute="top" secondItem="CR7-Ht-nIE" secondAttribute="top" constant="21" id="Ddc-oQ-tac"/>
                             <constraint firstItem="VaN-la-OxF" firstAttribute="top" secondItem="CR7-Ht-nIE" secondAttribute="top" constant="1" id="GRB-sC-XY0"/>
                             <constraint firstAttribute="bottom" secondItem="po6-xX-Zcg" secondAttribute="bottom" constant="1" id="WkJ-Cj-Ziz"/>
-                            <constraint firstItem="oML-xg-Zfq" firstAttribute="top" secondItem="zcJ-Iq-ivZ" secondAttribute="bottom" constant="4" id="ZZN-Ok-nGT"/>
+                            <constraint firstItem="oML-xg-Zfq" firstAttribute="top" secondItem="zcJ-Iq-ivZ" secondAttribute="bottom" id="ZZN-Ok-nGT"/>
                             <constraint firstItem="zcJ-Iq-ivZ" firstAttribute="top" secondItem="CR7-Ht-nIE" secondAttribute="top" constant="3" id="ZbO-11-gtm"/>
                             <constraint firstAttribute="bottom" secondItem="3HO-Hu-PUf" secondAttribute="bottom" constant="8" id="ZsW-wF-7uC"/>
                             <constraint firstItem="3HO-Hu-PUf" firstAttribute="leading" secondItem="CR7-Ht-nIE" secondAttribute="leading" constant="20" symbolic="YES" id="b2V-dj-osS"/>
