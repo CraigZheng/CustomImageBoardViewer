@@ -173,6 +173,12 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     onScreenImgMrg.delegate = self;
     [self addChildViewController:onScreenImgMrg];
     [onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
+    
+    //if big image mode, perform a reload
+    if ([settingCentre userDefShouldUseBigImage])
+    {
+        [threadTableView reloadData];
+    }
 
 }
 

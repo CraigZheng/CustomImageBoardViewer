@@ -208,6 +208,12 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     
     self.threadTableView.backgroundColor = settingsCentre.viewBackgroundColour;
     threadList.displayedThread = nil;
+    
+    //if big image mode, perform a reload
+    if ([settingCentre userDefShouldUseBigImage])
+    {
+        [threadTableView reloadData];
+    }
 }
 
 -(void)restorePreviousSession {
@@ -366,7 +372,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         return cell;
     }
 
-    NSString *cell_identifier = [[czzSettingsCentre sharedInstance] userDefShouldUseBigImage] ? threadViewBigImageCellIdentifier : threadViewCellIdentifier;
+    NSString *cell_identifier = [settingsCentre userDefShouldUseBigImage] ? threadViewBigImageCellIdentifier : threadViewCellIdentifier;
     czzThread *thread = [threads objectAtIndex:indexPath.row];
     czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
     if (cell){
