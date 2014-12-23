@@ -149,8 +149,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         threads = [favouriteManager favouriteThreads];
     } else if (titleSegmentedControl.selectedSegmentIndex == 1) {
         threads = [historyManager browserHistory];
+        threads = [NSMutableOrderedSet orderedSetWithArray:[[threads reverseObjectEnumerator] allObjects]]; //hisotry are recorded backward
     }
-    threads = [NSMutableOrderedSet orderedSetWithArray:[[threads reverseObjectEnumerator] allObjects]];
 }
 
 #pragma prepare for segue
