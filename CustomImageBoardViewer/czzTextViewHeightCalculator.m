@@ -33,18 +33,20 @@
     if (has) {
         if ([[czzSettingsCentre sharedInstance] userDefShouldUseBigImage])
         {
-            CGFloat shortEdge = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
-            
-            NSString *filePath = [[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:[thread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
-            UIImage *previewImage =[[UIImage alloc] initWithContentsOfFile:filePath];
-            
-            if (previewImage) {
-                CGFloat imgShortEdge = MIN(previewImage.size.height, previewImage.size.width);
-                CGFloat imgLongEdge = MAX(previewImage.size.height, previewImage.size.width);
-                //                preferHeight = MAX(shortEdge / 1.3, preferHeight);
-                preferHeight += shortEdge * (imgShortEdge / imgLongEdge);
-            }
-            
+            preferHeight += 200;
+//            CGFloat shortEdge = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+//            
+//            NSString *filePath = [[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:[thread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
+//            UIImage *previewImage =[[UIImage alloc] initWithContentsOfFile:filePath];
+//            
+//            if (previewImage) {
+//                CGFloat imgShortEdge = MIN(previewImage.size.height, previewImage.size.width);
+//                CGFloat imgLongEdge = MAX(previewImage.size.height, previewImage.size.width);
+//                preferHeight = MAX(shortEdge / 1.3, preferHeight);
+//                preferHeight += shortEdge * (imgShortEdge / imgLongEdge);
+//                preferHeight += 200;
+//            }
+//            
         }
         else
             preferHeight += IMAGE_HEIGHT;

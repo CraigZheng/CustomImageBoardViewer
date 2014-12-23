@@ -56,7 +56,7 @@
         userDefShouldCacheData = YES;
         userDefShouldHighlightPO = YES;
         userDefShouldShowOnScreenCommand = YES;
-        userDefShouldUseBigImage = YES;
+        userDefShouldUseBigImage = NO;
         nightyMode = NO;
         autoCleanImageCache = NO;
         shouldAllowOpenBlockedThread = YES;
