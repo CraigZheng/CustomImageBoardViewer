@@ -55,7 +55,7 @@
                                 <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
-                            <textView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Content" translatesAutoresizingMaskIntoConstraints="NO" id="oML-xg-Zfq" customClass="czzNoSelectionTextView">
+                            <textView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Content" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="oML-xg-Zfq" customClass="czzNoSelectionTextView">
                                 <rect key="frame" x="0.0" y="16" width="337" height="369.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="250" constant="26" id="6Qy-Et-6aq"/>
