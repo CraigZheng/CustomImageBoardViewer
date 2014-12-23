@@ -12,7 +12,6 @@
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzAppDelegate.h"
 #import "czzImageCentre.h"
-#import "DACircularProgressView.h"
 #import "czzSettingsCentre.h"
 #import "czzThreadRefButton.h"
 #import "czzInAppBrowserViewController.h"
@@ -37,7 +36,6 @@
 @synthesize previewImageView;
 @synthesize contentTextView;
 @synthesize responseLabel;
-@synthesize circularProgressView;
 @synthesize threadContentView;
 
 @synthesize settingsCentre;
@@ -92,7 +90,6 @@
         [oldButton removeFromSuperview];
     }
     previewImageView.hidden = YES;
-    circularProgressView.hidden = YES;
     
     sageLabel.hidden = YES;
     lockLabel.hidden = YES;

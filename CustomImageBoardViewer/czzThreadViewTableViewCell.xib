@@ -81,14 +81,6 @@
                                 <color key="textColor" red="0.80000000000000004" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view hidden="YES" userInteractionEnabled="NO" alpha="0.89999997615814209" tag="10" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4QC-Ri-dMe" customClass="DACircularProgressView">
-                                <rect key="frame" x="45" y="208" width="50" height="50"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="xgL-eb-Ha9"/>
-                                    <constraint firstAttribute="width" constant="50" id="ybb-bE-bCC"/>
-                                </constraints>
-                            </view>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="回应:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="po6-xX-Zcg">
                                 <rect key="frame" x="240" y="277" width="79" height="13"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -132,7 +124,6 @@
                             <constraint firstItem="Mgk-nw-G4S" firstAttribute="leading" secondItem="VaN-la-OxF" secondAttribute="trailing" constant="8" id="3qI-EK-6YF"/>
                             <constraint firstItem="ehx-9x-Ubu" firstAttribute="leading" secondItem="Mgk-nw-G4S" secondAttribute="trailing" constant="9" id="4BV-V0-nz7"/>
                             <constraint firstAttribute="trailing" secondItem="oML-xg-Zfq" secondAttribute="trailing" id="8ME-tn-8IB"/>
-                            <constraint firstItem="4QC-Ri-dMe" firstAttribute="centerX" secondItem="3HO-Hu-PUf" secondAttribute="centerX" id="97k-aX-sUq"/>
                             <constraint firstAttribute="trailing" secondItem="ehx-9x-Ubu" secondAttribute="trailing" constant="1" id="Ch9-Q0-N5z"/>
                             <constraint firstAttribute="bottom" secondItem="oML-xg-Zfq" secondAttribute="bottom" id="ClT-yL-DhZ"/>
                             <constraint firstItem="RUs-rl-nii" firstAttribute="top" secondItem="CR7-Ht-nIE" secondAttribute="top" constant="21" id="Ddc-oQ-tac"/>
@@ -151,7 +142,6 @@
                             <constraint firstAttribute="trailing" secondItem="RUs-rl-nii" secondAttribute="trailing" constant="1" id="oaV-xs-m4R"/>
                             <constraint firstAttribute="trailing" secondItem="po6-xX-Zcg" secondAttribute="trailing" constant="1" id="tev-XO-sDk"/>
                             <constraint firstItem="po6-xX-Zcg" firstAttribute="top" secondItem="oML-xg-Zfq" secondAttribute="bottom" constant="2" id="wZ1-pK-KOk"/>
-                            <constraint firstItem="4QC-Ri-dMe" firstAttribute="centerY" secondItem="3HO-Hu-PUf" secondAttribute="centerY" id="xJb-zN-l8U"/>
                             <constraint firstItem="zcJ-Iq-ivZ" firstAttribute="leading" secondItem="CR7-Ht-nIE" secondAttribute="leading" constant="6" id="yAI-38-15r"/>
                         </constraints>
                         <variation key="default">
@@ -173,7 +163,6 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="circularProgressView" destination="4QC-Ri-dMe" id="HCq-El-UOj"/>
                 <outlet property="contentTextView" destination="oML-xg-Zfq" id="CVo-Z2-qN7"/>
                 <outlet property="dateLabel" destination="Mgk-nw-G4S" id="yp5-VG-EMw"/>
                 <outlet property="idLabel" destination="zcJ-Iq-ivZ" id="nVe-bU-Rse"/>
