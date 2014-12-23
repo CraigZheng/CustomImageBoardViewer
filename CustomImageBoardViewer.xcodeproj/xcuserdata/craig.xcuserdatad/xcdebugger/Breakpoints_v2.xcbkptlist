@@ -52,11 +52,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomImageBoardViewer/czzMenuEnabledTableViewCell.m"
-            timestampString = "440512944.13055"
+            timestampString = "440987954.495413"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "349"
-            endingLineNumber = "349"
+            startingLineNumber = "346"
+            endingLineNumber = "346"
             landmarkName = "-imageDownloaded:"
             landmarkType = "5">
          </BreakpointContent>
@@ -74,6 +74,22 @@
             startingLineNumber = "43"
             endingLineNumber = "43"
             landmarkName = "-viewDidLoad"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CustomImageBoardViewer/czzMenuEnabledTableViewCell.m"
+            timestampString = "440987954.495413"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
+            landmarkName = "-resetViews"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

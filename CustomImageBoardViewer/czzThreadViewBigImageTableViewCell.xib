@@ -161,6 +161,7 @@
                 <outlet property="previewImageView" destination="3HO-Hu-PUf" id="FXB-hN-4aJ"/>
                 <outlet property="responseLabel" destination="po6-xX-Zcg" id="cf6-5D-kvH"/>
                 <outlet property="sageLabel" destination="ehx-9x-Ubu" id="KPL-PP-zr6"/>
+                <outlet property="threadContentView" destination="glN-TF-xhj" id="Db0-Jp-1rU"/>
             </connections>
             <point key="canvasLocation" x="49.5" y="460.5"/>
         </tableViewCell>

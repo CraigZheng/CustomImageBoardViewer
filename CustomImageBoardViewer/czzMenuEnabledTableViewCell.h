@@ -37,7 +37,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *previewImageView;
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;
 @property (weak, nonatomic) IBOutlet UILabel *responseLabel;
-@property (weak, nonatomic) IBOutlet DACircularProgressView *circularProgressView;
 @property (weak, nonatomic) IBOutlet UIView *threadContentView;
 @property NSIndexPath *myIndexPath;
 
