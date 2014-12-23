@@ -33,9 +33,10 @@
     if (has) {
         if ([[czzSettingsCentre sharedInstance] userDefShouldUseBigImage])
         {
-            preferHeight += 200;
-//            CGFloat shortEdge = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
-//            
+//            preferHeight += 200;
+            CGFloat shortEdge = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+            return preferHeight += 280;
+//
 //            NSString *filePath = [[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:[thread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
 //            UIImage *previewImage =[[UIImage alloc] initWithContentsOfFile:filePath];
 //            
