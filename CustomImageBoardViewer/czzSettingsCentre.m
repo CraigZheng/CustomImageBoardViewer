@@ -61,6 +61,7 @@
         nightyMode = NO;
         autoCleanImageCache = NO;
         shouldAllowOpenBlockedThread = YES;
+        
         donationLink = @"";
         threads_per_page = 10;
         response_per_page = 20;

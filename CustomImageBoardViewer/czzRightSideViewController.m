@@ -43,8 +43,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    replyCommand = [NSMutableArray arrayWithObjects:@"回复主串", @"回复选定的帖子", @"加入收藏", @"跳页", nil];
-    shareCommand = [NSMutableArray arrayWithObjects:@"复制帖子地址", nil];
+    replyCommand = [NSMutableArray arrayWithObjects:@"回复主串", @"回复选定的串", @"加入收藏", @"跳页", nil];
+    shareCommand = [NSMutableArray arrayWithObjects:@"复制串的地址", nil];
     reportCommand = [NSMutableArray arrayWithObjects:@"举报", nil];
     threadDepandentCommand = [NSMutableArray new];
     allCommand = [NSMutableArray new];
@@ -116,7 +116,7 @@
     if ([command isEqualToString:@"复制内容"]){
         [[UIPasteboard generalPasteboard] setString:selectedThread.content.string];
         [[czzAppDelegate sharedAppDelegate] showToast:@"内容已复制"];
-    } else if ([command isEqualToString:@"复制选定帖子的ID"]){
+    } else if ([command isEqualToString:@"复制选定串的ID"]){
         [[UIPasteboard generalPasteboard] setString:[NSString stringWithFormat:@"%ld", (long)selectedThread.ID]];
         [[czzAppDelegate sharedAppDelegate] showToast:@"ID已复制"];
     } else if ([command hasPrefix:@"复制图片链接"]){
@@ -127,16 +127,16 @@
         
     } else if ([command isEqualToString:@"回复主串"]){
         [self replyMainAction];
-    } else if ([command isEqualToString:@"回复选定的帖子"]){
+    } else if ([command isEqualToString:@"回复选定的串"]){
         [self replySelectedAction];
     } else if ([command isEqualToString:@"举报"]){
         [self reportAction];
     } else if ([command isEqualToString:@"加入收藏"]){
         [self favouriteAction];
-    } else if ([command isEqualToString:@"复制帖子地址"]){
+    } else if ([command isEqualToString:@"复制串的地址"]){
         NSString *address = [NSString stringWithFormat:@"http://h.acfun.tv/t/%ld", (long)self.parentThread.ID];
         [[UIPasteboard generalPasteboard] setString:address];
-        [[czzAppDelegate sharedAppDelegate] showToast:@"帖子地址已复制"];
+        [[czzAppDelegate sharedAppDelegate] showToast:@"地址已复制"];
     } else if ([command isEqualToString:@"跳页"]) {
         [self.viewDeckController toggleRightViewAnimated:YES completion:
          ^(IIViewDeckController *controller, BOOL success){
