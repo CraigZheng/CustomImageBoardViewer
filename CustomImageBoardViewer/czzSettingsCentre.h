@@ -27,6 +27,7 @@
 @property NSTimeInterval forum_list_refresh_interval;
 @property NSTimeInterval notification_refresh_interval;
 @property NSInteger threads_per_page;
+@property NSInteger response_per_page;
 @property NSString *thread_format;
 @property NSString *forum_list_url;
 @property NSString *ac_host;

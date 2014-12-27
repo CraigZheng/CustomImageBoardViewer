@@ -236,7 +236,7 @@
             cell = [tableView dequeueReusableCellWithIdentifier:@"loading_cell_identifier"];
             UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
             [activityIndicator startAnimating];
-        } else if (parentThread.responseCount > 20 && (threadList.pageNumber * 20 + threads.count % 20 - 1) < parentThread.responseCount){
+        } else if (parentThread.responseCount > settingsCentre.response_per_page && (threadList.pageNumber * settingsCentre.response_per_page + threads.count % settingsCentre.response_per_page - 1) < parentThread.responseCount){
 
             cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
         } else {
@@ -322,7 +322,7 @@
 
 #pragma mark - jump to and download controls
 -(void)PromptForJumpToPage{
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"跳页: %ld/%ld", (long) threadList.pageNumber, (long) ((parentThread.responseCount + 1) / 20 + 1)] message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"跳页: %ld/%ld", (long) threadList.pageNumber, (long) threadList.totalPages] message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     UITextField *textInputField = [alertView textFieldAtIndex:0];
     if (textInputField)
@@ -431,7 +431,7 @@
     {
         CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
         if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !(threadList.isDownloading || threadList.isProcessing)){
-            if (((threadList.pageNumber - 1) * 20 + threads.count % 20 - 1) < parentThread.responseCount) {
+            if (((threadList.pageNumber - 1) * settingsCentre.response_per_page + threads.count % settingsCentre.response_per_page - 1) < parentThread.responseCount) {
                 [threadList loadMoreThreads];
                 [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
             }
