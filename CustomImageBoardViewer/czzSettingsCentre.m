@@ -28,6 +28,7 @@
 @synthesize nightyMode;
 @synthesize autoCleanImageCache;
 @synthesize shouldAllowDart;
+@synthesize donationLink;
 @synthesize shouldAllowOpenBlockedThread;
 
 + (id)sharedInstance
@@ -60,6 +61,7 @@
         nightyMode = NO;
         autoCleanImageCache = NO;
         shouldAllowOpenBlockedThread = YES;
+        donationLink = @"";
         
         //Dart settings
         shouldAllowDart = NO;
@@ -171,6 +173,7 @@
     thread_content_host = [jsonObject objectForKey:@"thread_content_host"];
     image_host = [jsonObject objectForKey:@"image_host"];
     thumbnail_host = [jsonObject objectForKey:@"thumbnail_host"];
+    donationLink = [jsonObject objectForKey:@"donation_link"];
     message = [jsonObject objectForKey:@"message"];
     
     //dart integration
@@ -205,6 +208,7 @@
     [aCoder encodeObject:image_host forKey:@"image_host"];
     [aCoder encodeObject:thumbnail_host forKey:@"thumbnail_host"];
     [aCoder encodeObject:message forKey:@"message"];
+    [aCoder encodeObject:donationLink forKey:@"donationLink"];
     [aCoder encodeBool:userDefShouldDisplayThumbnail forKey:@"userDefShouldDisplayThumbnail"];
     [aCoder encodeBool:userDefShouldShowOnScreenCommand forKey:@"userDefShouldShowOnScreenCommand"];
     [aCoder encodeBool:userDefShouldAutoOpenImage forKey:@"userDefShouldAutoOpenImage"];
@@ -213,6 +217,7 @@
     [aCoder encodeBool:userDefShouldUseBigImage forKey:@"userDefShouldUseBigImage"];
     [aCoder encodeBool:nightyMode forKey:@"nightyMode"];
     [aCoder encodeBool:autoCleanImageCache forKey:@"autoCleanImageCache"];
+
     [aCoder encodeBool:shouldAllowDart forKey:@"shouldAllowDart"];
 }
 
@@ -238,6 +243,7 @@
         self.thread_content_host = [aDecoder decodeObjectForKey:@"thread_content_host"];
         self.image_host = [aDecoder decodeObjectForKey:@"image_host"];
         self.thumbnail_host = [aDecoder decodeObjectForKey:@"thumbnail_host"];
+        self.donationLink = [aDecoder decodeObjectForKey:@"donationLink"];
         self.message = [aDecoder decodeObjectForKey:@"message"];
         self.userDefShouldDisplayThumbnail = [aDecoder decodeBoolForKey:@"userDefShouldDisplayThumbnail"];
         self.userDefShouldShowOnScreenCommand = [aDecoder decodeBoolForKey:@"userDefShouldShowOnScreenCommand"];

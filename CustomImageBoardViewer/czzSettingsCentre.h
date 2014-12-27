@@ -36,6 +36,7 @@
 @property NSString *image_host;
 @property NSString *thumbnail_host;
 @property NSString *message;
+@property NSString *donationLink;
 //User settings
 @property BOOL userDefShouldDisplayThumbnail;
 @property BOOL userDefShouldShowOnScreenCommand;
