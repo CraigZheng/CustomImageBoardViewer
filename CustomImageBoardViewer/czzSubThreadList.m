@@ -222,7 +222,7 @@
 //        NSDate *date = [NSDate new];
         if (verticalHeights.count > 0 && horizontalHeights.count > 0) {
             [verticalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, verticalHeights.count - cutOffIndex)];
-            [horizontalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, verticalHeights.count - cutOffIndex)];
+            [horizontalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, horizontalHeights.count - cutOffIndex)];
         }
         for (czzThread *thread in newThreads) {
             CGFloat shortHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:parentViewController.view forWidth:shortWidth hasImage:thread.imgSrc.length > 0 withExtra:NO];
