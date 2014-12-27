@@ -217,7 +217,7 @@
     [aCoder encodeBool:userDefShouldDisplayThumbnail forKey:@"userDefShouldDisplayThumbnail"];
     [aCoder encodeBool:userDefShouldShowOnScreenCommand forKey:@"userDefShouldShowOnScreenCommand"];
     [aCoder encodeBool:userDefShouldAutoOpenImage forKey:@"userDefShouldAutoOpenImage"];
-    [aCoder encodeBool:userDefShouldCacheData forKey:@"userDefShouldCacheData"];
+//    [aCoder encodeBool:userDefShouldCacheData forKey:@"userDefShouldCacheData"];
     [aCoder encodeBool:userDefShouldHighlightPO forKey:@"userDefShouldHighlightPO"];
     [aCoder encodeBool:userDefShouldUseBigImage forKey:@"userDefShouldUseBigImage"];
     [aCoder encodeBool:nightyMode forKey:@"nightyMode"];
@@ -254,7 +254,7 @@
         self.userDefShouldDisplayThumbnail = [aDecoder decodeBoolForKey:@"userDefShouldDisplayThumbnail"];
         self.userDefShouldShowOnScreenCommand = [aDecoder decodeBoolForKey:@"userDefShouldShowOnScreenCommand"];
         self.userDefShouldAutoOpenImage = [aDecoder decodeBoolForKey:@"userDefShouldAutoOpenImage"];
-        self.userDefShouldCacheData = [aDecoder decodeBoolForKey:@"userDefShouldCacheData"];
+//        self.userDefShouldCacheData = [aDecoder decodeBoolForKey:@"userDefShouldCacheData"];
         self.userDefShouldHighlightPO = [aDecoder decodeBoolForKey:@"userDefShouldHighlightPO"];
         self.userDefShouldUseBigImage = [aDecoder decodeBoolForKey:@"userDefShouldUseBigImage"];
         
