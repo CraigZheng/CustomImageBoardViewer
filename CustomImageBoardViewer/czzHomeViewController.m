@@ -167,11 +167,17 @@
     //check if should show a badget on settings button
     UIButton *settingsGearImageButton;
     if (!settingsBarButton.customView) {
-        settingsGearImageButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+        //create a container view that has an image button as its sub view
+        UIView *buttonContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+        settingsGearImageButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 20, 20)];
         [settingsGearImageButton setImage:[[UIImage imageNamed:@"settings.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-        settingsBarButton.customView = settingsGearImageButton;
+        settingsGearImageButton.tag = 999;
+        [buttonContainerView addSubview:settingsGearImageButton];
+        //add the container view
+        settingsBarButton.customView = buttonContainerView;
     } else {
-        settingsGearImageButton = (UIButton*) settingsBarButton.customView;
+        //retrive the gear image button
+        settingsGearImageButton = (UIButton*) [settingsBarButton.customView viewWithTag:999];
     }
     if ([[(czzNavigationController*)self.navigationController notificationBannerViewController] shouldShow]) {
         settingsBarButton.badgeValue = @"1";
@@ -182,6 +188,7 @@
         [settingsGearImageButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
         [settingsGearImageButton addTarget:self action:@selector(openSettingsPanel) forControlEvents:UIControlEventTouchUpInside];
     }
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
