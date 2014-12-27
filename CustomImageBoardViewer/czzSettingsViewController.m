@@ -157,7 +157,7 @@
         } else if ([command isEqualToString:@"强制退出"]) {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"强制退出" message:@"立刻退出软件，下次启动时将会重新开始，而不会回复到自动保存的状态" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             [alertView show];
-        } else if ([command isEqualToString:@"捐款"]) {
+        } else if ([command isEqualToString:@"捐款给App的作者"]) {
             [self openDonationLink];
         }
     }
@@ -178,10 +178,10 @@
     [regularCommands addObject:@"清空缓存"];
     [regularCommands addObject:@"清除ID信息"];
     [regularCommands addObject:@"通知中心"];
-    [regularCommands addObject:@"意见反馈"];
     NSURL *donationLinkURL = [NSURL URLWithString:settingsCentre.donationLink];
     if (donationLinkURL && settingsCentre.donationLink.length > 0)
-        [regularCommands addObject:@"捐款"];
+        [regularCommands addObject:@"捐款给App的作者"];
+    [regularCommands addObject:@"意见反馈"];
     [regularCommands addObject:@"强制退出"];
     [regularCommands addObject:[NSString stringWithFormat:@"版本号: %@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
 }
