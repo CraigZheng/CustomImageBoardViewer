@@ -14,6 +14,8 @@
 
 @interface czzFavouriteManager : NSObject
 @property NSMutableOrderedSet *favouriteThreads;
+@property NSMutableArray *verticalHeights;
+@property NSMutableArray *horizontalHeights;
 
 -(void)addFavourite:(czzThread*)thread;
 -(BOOL)removeFavourite:(czzThread*)thread;

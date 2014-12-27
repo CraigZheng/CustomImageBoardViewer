@@ -41,7 +41,6 @@
 @synthesize forumName;
 @synthesize forum;
 @synthesize sendingProgressVIew;
-@synthesize fillerBannerView;
 @synthesize postBackgroundView;
 
 - (void)viewDidLoad
@@ -49,7 +48,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    fillerBannerView.backgroundColor = postNaviBar.backgroundColor;
+
     postSender = [czzPostSender new];
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
     toolbar.autoresizingMask = toolbar.autoresizingMask | UIViewAutoresizingFlexibleHeight;

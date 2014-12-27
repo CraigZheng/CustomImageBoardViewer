@@ -11,6 +11,7 @@
 
 @implementation czzFavouriteManager
 @synthesize favouriteThreads;
+@synthesize verticalHeights, horizontalHeights;
 
 -(instancetype)init {
     self = [super init];
@@ -26,6 +27,10 @@
 
 -(void)addFavourite:(czzThread *)thread {
     [favouriteThreads addObject:thread];
+    //sort after modification
+    NSArray *sortedArray = [self sortTheGivenArray:[favouriteThreads array]];
+    favouriteThreads = [[NSMutableOrderedSet alloc] initWithArray:sortedArray];
+
     [self saveCurrentState];
 }
 
@@ -33,6 +38,10 @@
     if ([favouriteThreads containsObject:thread])
     {
         [favouriteThreads removeObject:thread];
+        //sort after modification
+        NSArray *sortedArray = [self sortTheGivenArray:[favouriteThreads array]];
+        favouriteThreads = [[NSMutableOrderedSet alloc] initWithArray:sortedArray];
+
         [self saveCurrentState];
         return YES;
     }

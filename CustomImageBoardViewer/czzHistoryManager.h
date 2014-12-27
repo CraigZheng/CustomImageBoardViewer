@@ -16,6 +16,8 @@
 
 @interface czzHistoryManager : NSObject 
 @property NSMutableOrderedSet *browserHistory;
+@property NSMutableArray *verticalHeights;
+@property NSMutableArray *horizontalHeights;
 
 -(void)recordThread:(czzThread*)thread;
 -(BOOL)removeThread:(czzThread*)thread;

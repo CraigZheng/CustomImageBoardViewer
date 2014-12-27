@@ -20,6 +20,7 @@
 @property NSIndexPath *selectedIndex;
 @property NSMutableSet *internalThreads;
 @property czzThread *selectedThread;
+@property id selectedManager;
 @end
 
 @implementation czzFavouriteManagerViewController
@@ -29,6 +30,7 @@
 @synthesize title;
 @synthesize titleSegmentedControl;
 @synthesize selectedThread;
+@synthesize selectedManager;
 
 static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
 static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
@@ -50,7 +52,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     }
     self.view.backgroundColor = [settingCentre viewBackgroundColour];
     [self.tableView reloadData];
-    [self.navigationController.toolbar setHidden:YES];
+    [self.navigationController setToolbarHidden:YES animated:YES];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -99,6 +101,9 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         } else if (titleSegmentedControl.selectedSegmentIndex == 1) {
             [historyManager removeThread:threadToDelete];
         }
+        [selectedManager setHorizontalHeights:nil];
+        [selectedManager setVerticalHeights:nil];
+        
         [self copyDataFromManager];
         [tableView reloadData];
     }
@@ -108,29 +113,39 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     return YES;
 }
 
--(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return UITableViewAutomaticDimension;
-}
+//-(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return UITableViewAutomaticDimension;
+//}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (indexPath.row >= threads.count)
         return tableView.rowHeight;
     
-    czzThread *thread;
-    @try {
-        thread = [threads objectAtIndex:indexPath.row];
+    czzThread *thread = [threads objectAtIndex:indexPath.row];
+    NSMutableArray *heightsArray;
+    
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        if (![selectedManager horizontalHeights])
+            [selectedManager setHorizontalHeights:[NSMutableArray new]];
+        heightsArray = [selectedManager horizontalHeights];
+    } else
+    {
+        if (![selectedManager verticalHeights])
+            [selectedManager setVerticalHeights:[NSMutableArray new]];
+        heightsArray = [selectedManager verticalHeights];
     }
-    @catch (NSException *exception) {
-        
-    }
+    if (!heightsArray)
+        heightsArray = [NSMutableArray new];
     
     CGFloat preferHeight = tableView.rowHeight;
-    if (thread){
+    if (heightsArray.count > indexPath.row + 1){
+        preferHeight = [[heightsArray objectAtIndex:indexPath.row] doubleValue];
+    } else {
         preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:self.view hasImage:thread.thImgSrc.length > 0];
         preferHeight = MAX(tableView.rowHeight, preferHeight);
-
+        [heightsArray addObject:[NSNumber numberWithDouble:preferHeight]];
     }
     return preferHeight;
 }
@@ -147,8 +162,13 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 -(void)copyDataFromManager {
     if (titleSegmentedControl.selectedSegmentIndex == 0) {
         threads = [favouriteManager favouriteThreads];
+        selectedManager = favouriteManager;
     } else if (titleSegmentedControl.selectedSegmentIndex == 1) {
         threads = [historyManager browserHistory];
+        //clear cached heights, since history manager would change frequently
+        [historyManager setHorizontalHeights:nil];
+        [historyManager setVerticalHeights:nil];
+        selectedManager = historyManager;
         threads = [NSMutableOrderedSet orderedSetWithArray:[[threads reverseObjectEnumerator] allObjects]]; //hisotry are recorded backward
     }
 }
@@ -163,5 +183,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 
 #pragma mark - rotation
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    [self.tableView reloadData];
 }
 @end
