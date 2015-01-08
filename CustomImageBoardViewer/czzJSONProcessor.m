@@ -94,13 +94,20 @@
     //check if dictionary has the following 2 keys
     if ([jsonDict valueForKey:@"page"] && [jsonDict valueForKey:@"size"])
     {
-        NSInteger pageNumber = [[jsonDict objectForKey:@"page"] integerValue];
-        NSInteger totalPages = [[jsonDict objectForKey:@"size"] integerValue];
+        NSInteger pageNumber = [[self readFromJsonDictionary:jsonDict withName:@"page"] integerValue];
+        NSInteger totalPages = [[self readFromJsonDictionary:jsonDict withName:@"size"] integerValue];
         if ([delegate respondsToSelector:@selector(pageNumberUpdated:inAllPage:)])
             [delegate pageNumberUpdated:pageNumber inAllPage:totalPages];
     }
 }
-     
+
+-(id)readFromJsonDictionary:(NSDictionary*)dict withName:(NSString*)name {
+    if ([[dict valueForKey:name] isEqual:[NSNull null]]) {
+        return nil;
+    }
+    id value = [dict valueForKey:name];
+    return value;
+}
 /*
  page =     {
  page = 1;
