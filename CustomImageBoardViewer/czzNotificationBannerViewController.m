@@ -48,6 +48,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     notificationDownloadInterval = 60 * 60;//every 1 hour
+#ifdef DEBUG
+    notificationDownloadInterval = 5 * 60;//every 5 minutes for debug
+#endif
     notifications = [NSMutableOrderedSet new];
     notificationManager = [czzNotificationManager new];
     self.view.layer.shadowOffset = CGSizeMake(4, 4);
@@ -203,9 +206,10 @@
 //#endif
     NSInteger originalCount = notifications.count;
     if (downloadedNotifications.count > 0) {
+        [notifications removeAllObjects]; //remove all and accept whats been downloaded
         [notifications addObjectsFromArray:downloadedNotifications];
         //if one or more new notifications are downloaded
-        if (notifications.count > originalCount) {
+        if (notifications.count != originalCount) {
             self.needsToBePresented = YES;
             @try {
                 NSArray *sortedArray = [notifications.array sortedArrayUsingComparator: ^(id a, id b) {
