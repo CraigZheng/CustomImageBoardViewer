@@ -287,6 +287,7 @@
      */
     UIAlertView *bigImageAlertView = [[UIAlertView alloc] initWithTitle:@"切换模式" message:@"切换大图模式将会清空串缓存，请确认！" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
     [bigImageAlertView show];
+    [settingsCentre saveSettings];
 }
 
 -(void)openDonationLink {
