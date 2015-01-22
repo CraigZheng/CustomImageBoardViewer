@@ -207,6 +207,7 @@
         [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate threadCacheFolder] error:nil];
         [[czzAppDelegate sharedAppDelegate] checkFolders];
         [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"大图模式：%@，刷新后生效", settingsCentre.userDefShouldUseBigImage ? @"On" : @"Off"]];
+        [settingsCentre saveSettings];
         [self.settingsTableView reloadData];
     }
 
