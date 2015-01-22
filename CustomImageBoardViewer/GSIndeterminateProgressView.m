@@ -12,6 +12,7 @@
 @property NSArray *colours;
 @property NSUInteger colourIndex;
 @property NSMutableArray *stripViews;
+@property UIView *combinedProgressView;
 @end
 
 @implementation GSIndeterminateProgressView
@@ -19,7 +20,7 @@
 @synthesize colourIndex;
 @synthesize colours;
 @synthesize stripViews;
-
+@synthesize combinedProgressView;
 @synthesize isAnimating = _isAnimating;
 
 - (id)initWithFrame:(CGRect)frame
@@ -39,6 +40,25 @@
         colours = @[[UIColor cyanColor], [UIColor magentaColor], [UIColor yellowColor]];//, [UIColor blackColor]];
         
         stripViews = [NSMutableArray new];
+        
+        if (!combinedProgressView)
+            combinedProgressView = [UIView new];
+        combinedProgressView.frame = CGRectMake(0, 0, CHUNK_WIDTH, self.frame.size.height);
+        UIView *strip = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CHUNK_WIDTH / 3, self.frame.size.height)];
+        strip.autoresizesSubviews = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        strip.backgroundColor = self.progressTintColor;
+        [combinedProgressView addSubview:strip];
+        strip = [[UIView alloc] initWithFrame:CGRectMake(1 * (CHUNK_WIDTH / 3), 0, CHUNK_WIDTH / 3, self.frame.size.height)];
+        strip.autoresizesSubviews = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        strip.backgroundColor = self.progressTintColor;
+        [combinedProgressView addSubview:strip];
+        strip = [[UIView alloc] initWithFrame:CGRectMake(2 * (CHUNK_WIDTH / 3), 0, CHUNK_WIDTH / 3, self.frame.size.height)];
+        strip.autoresizesSubviews = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        strip.backgroundColor = self.progressTintColor;
+        
+        combinedProgressView.frame = CGRectMake(-CHUNK_WIDTH, 0, CHUNK_WIDTH, self.frame.size.height);
+        [combinedProgressView addSubview:strip];
+
     }
     return self;
 }
@@ -63,17 +83,12 @@
 
     self.hidden = NO;
     self.backgroundColor = self.trackTintColor;
+    
+    self.progressChunks = @[combinedProgressView];
 
-    self.progressChunks = @[[[UIView alloc] initWithFrame:CGRectMake(-CHUNK_WIDTH, 0, CHUNK_WIDTH, self.frame.size.height)],
-                            [[UIView alloc] initWithFrame:CGRectMake(-CHUNK_WIDTH, 0, CHUNK_WIDTH, self.frame.size.height)],
-                            [[UIView alloc] initWithFrame:CGRectMake(-CHUNK_WIDTH, 0, CHUNK_WIDTH, self.frame.size.height)]];
-
-    NSTimeInterval delay = 0;
     for (UIView *v in self.progressChunks) {
-        v.backgroundColor = self.progressTintColor;
         [self addSubview:v];
-
-        [self animateProgressChunk:v delay:(delay += 0.25)];
+        [self animateProgressChunk:v delay:0];
     }
     
     for (UIView *stripView in stripViews) {
@@ -125,8 +140,8 @@
 
 - (void)animateProgressChunk:(UIView *)chunk delay:(NSTimeInterval)delay
 {
-    [UIView animateWithDuration:1.0 delay:delay options:UIViewAnimationOptionCurveEaseInOut animations:^{
-//        chunk.backgroundColor = self.progressTintColor;
+    [UIView animateWithDuration:1.6 delay:delay options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        chunk.hidden = NO;
         CGRect chuckFrame = chunk.frame;
         chuckFrame.origin.x = self.frame.size.width;
         chunk.frame = chuckFrame;
@@ -134,8 +149,10 @@
         CGRect chuckFrame = chunk.frame;
         chuckFrame.origin.x = -CHUNK_WIDTH;
         chunk.frame = chuckFrame;
-        if (finished)
-            [self animateProgressChunk:chunk delay:0.75];
+        if (finished) {
+            chunk.hidden = YES;
+            [self animateProgressChunk:chunk delay:0.2];
+        }
     }];
 }
 
