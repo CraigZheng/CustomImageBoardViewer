@@ -167,41 +167,47 @@
         DLog(@"%@", error);
         return;
     }
-    shouldUseRemoteConfiguration = [[jsonObject objectForKey:@"shouldUseRemoteConfiguration"] boolValue];
-    shouldEnableBlacklistFiltering = [[jsonObject objectForKey:@"shouldEnableBlacklistFiltering"] boolValue];
-    shouldDisplayImage = [[jsonObject objectForKey:@"shouldDisplayImage"] boolValue];
-    shouldDisplayThumbnail = [[jsonObject objectForKey:@"shouldDisplayThumbnail"] boolValue];
-    shouldDisplayContent = [[jsonObject objectForKey:@"shouldDisplayContent"] boolValue];
-    shouldHideImageInForums = [jsonObject objectForKey:@"shouldHideImageInForms"];
-    shouldAllowOpenBlockedThread = [[jsonObject objectForKey:@"shouldAllowOpenBlockedThread"] boolValue];
-    configuration_refresh_interval = [[jsonObject objectForKey:@"configuration_refresh_interval"] floatValue];
-    blacklist_refresh_interval = [[jsonObject objectForKey:@"blacklist_refresh_interval"] floatValue];
-    forum_list_refresh_interval = [[jsonObject objectForKey:@"forum_list_refresh_interval"] floatValue];
-    notification_refresh_interval = [[jsonObject objectForKey:@"notification_refresh_interval"] floatValue];
-    threads_per_page = [[jsonObject objectForKey:@"threads_per_page"] integerValue];
-    response_per_page = [[jsonObject objectForKey:@"response_per_page"] integerValue];
-    thread_format = [jsonObject objectForKey:@"thread_format"];
-    forum_list_url = [jsonObject objectForKey:@"forum_list_url"];
-    ac_host = [jsonObject objectForKey:@"ac_host"];
-    a_isle_host = [jsonObject objectForKey:@"a_isle_host"];
-    thread_list_host = [jsonObject objectForKey:@"thread_list_host"];
-    thread_content_host = [jsonObject objectForKey:@"thread_content_host"];
-    image_host = [jsonObject objectForKey:@"image_host"];
-    thumbnail_host = [jsonObject objectForKey:@"thumbnail_host"];
-    donationLink = [jsonObject objectForKey:@"donation_link"];
-    message = [jsonObject objectForKey:@"message"];
-    
-    //dart integration
-    should_allow_dart = [[jsonObject objectForKey:@"shouldAllowDart"] boolValue];
-    
-    //new settings at short version 2.0.1
-    forum_list_detail_url = [jsonObject objectForKey:@"forum_list_detail_url"];
-    reply_post_url = [jsonObject objectForKey:@"reply_post_url"];
-    create_new_post_url = [jsonObject objectForKey:@"create_new_post_url"];
-    report_post_placeholder = [jsonObject objectForKey:@"report_post_placeholder"];
-    share_post_url = [jsonObject objectForKey:@"share_post_url"];
-    thread_url = [jsonObject objectForKey:@"thread_url"];
-    get_forum_info_url = [jsonObject objectForKey:@"get_forum_info_url"];
+    @try {
+        
+        shouldUseRemoteConfiguration = [[jsonObject objectForKey:@"shouldUseRemoteConfiguration"] boolValue];
+        shouldEnableBlacklistFiltering = [[jsonObject objectForKey:@"shouldEnableBlacklistFiltering"] boolValue];
+        shouldDisplayImage = [[jsonObject objectForKey:@"shouldDisplayImage"] boolValue];
+        shouldDisplayThumbnail = [[jsonObject objectForKey:@"shouldDisplayThumbnail"] boolValue];
+        shouldDisplayContent = [[jsonObject objectForKey:@"shouldDisplayContent"] boolValue];
+        shouldHideImageInForums = [jsonObject objectForKey:@"shouldHideImageInForms"];
+        shouldAllowOpenBlockedThread = [[jsonObject objectForKey:@"shouldAllowOpenBlockedThread"] boolValue];
+        configuration_refresh_interval = [[jsonObject objectForKey:@"configuration_refresh_interval"] floatValue];
+        blacklist_refresh_interval = [[jsonObject objectForKey:@"blacklist_refresh_interval"] floatValue];
+        forum_list_refresh_interval = [[jsonObject objectForKey:@"forum_list_refresh_interval"] floatValue];
+        notification_refresh_interval = [[jsonObject objectForKey:@"notification_refresh_interval"] floatValue];
+        threads_per_page = [[jsonObject objectForKey:@"threads_per_page"] integerValue];
+        response_per_page = [[jsonObject objectForKey:@"response_per_page"] integerValue];
+        thread_format = [jsonObject objectForKey:@"thread_format"];
+        forum_list_url = [jsonObject objectForKey:@"forum_list_url"];
+        ac_host = [jsonObject objectForKey:@"ac_host"];
+        a_isle_host = [jsonObject objectForKey:@"a_isle_host"];
+        thread_list_host = [jsonObject objectForKey:@"thread_list_host"];
+        thread_content_host = [jsonObject objectForKey:@"thread_content_host"];
+        image_host = [jsonObject objectForKey:@"image_host"];
+        thumbnail_host = [jsonObject objectForKey:@"thumbnail_host"];
+        donationLink = [jsonObject objectForKey:@"donation_link"];
+        message = [jsonObject objectForKey:@"message"];
+        
+        //dart integration
+        should_allow_dart = [[jsonObject objectForKey:@"shouldAllowDart"] boolValue];
+        
+        //new settings at short version 2.0.1
+        forum_list_detail_url = [jsonObject objectForKey:@"forum_list_detail_url"];
+        reply_post_url = [jsonObject objectForKey:@"reply_post_url"];
+        create_new_post_url = [jsonObject objectForKey:@"create_new_post_url"];
+        report_post_placeholder = [jsonObject objectForKey:@"report_post_placeholder"];
+        share_post_url = [jsonObject objectForKey:@"share_post_url"];
+        thread_url = [jsonObject objectForKey:@"thread_url"];
+        get_forum_info_url = [jsonObject objectForKey:@"get_forum_info_url"];
+    }
+    @catch (NSException *exception) {
+        DLog(@"%@", exception);
+    }
 }
 
 -(NSString *)settingsFile {
