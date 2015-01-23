@@ -102,8 +102,15 @@
         viewToShowDocumentInteractionController = photoBrowserNavigationController.view;
     else
         viewToShowDocumentInteractionController = photoBrowser.view;
-    [documentInteractionController presentOptionsMenuFromRect:viewControllerToShow.view.frame inView:viewToShowDocumentInteractionController animated:YES];
-
+    //ipad
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+    {
+        [documentInteractionController presentOptionsMenuFromBarButtonItem:browser.actionButton animated:YES];
+    }
+    //iphone
+    else {
+        [documentInteractionController presentOptionsMenuFromRect:viewControllerToShow.view.frame inView:viewToShowDocumentInteractionController animated:YES];
+    }
 }
 
 -(void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser {
