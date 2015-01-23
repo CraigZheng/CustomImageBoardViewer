@@ -82,14 +82,14 @@
     //construct the title, content and targetURLString based on selected post mode
     NSString *title = @"回复";
     NSString *content = @"";
-    targetURLString = REPLY_POST_URL;
+    targetURLString = [settingCentre reply_post_url];
     NSString *forumID = [[czzAppDelegate sharedAppDelegate] getForumIDFromForumName:forumName];
     postSender.forumID = forumID;
 
     switch (postMode) {
         case NEW_POST:
             title = @"新帖";
-            targetURLString = [NEW_POST_URL stringByReplacingOccurrencesOfString:FORUM_NAME withString:forumName];
+            targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:forumName];
             postSender.forumName = forumName;
             break;
         case REPLY_POST:
@@ -98,12 +98,12 @@
                 title = [NSString stringWithFormat:@"回复:%ld", (long)replyTo.ID];
                 content = [NSString stringWithFormat:@">>No.%ld\n\n", (long)replyTo.ID];
             }
-            targetURLString = [REPLY_POST_URL stringByReplacingOccurrencesOfString:PARENT_ID withString:[NSString stringWithFormat:@"%ld", (long)thread.ID]];
+            targetURLString = [[settingCentre reply_post_url] stringByReplacingOccurrencesOfString:PARENT_ID withString:[NSString stringWithFormat:@"%ld", (long)thread.ID]];
             break;
         case REPORT_POST:
             title = @"举报";
             postSender.forumName = @"值班室";
-            targetURLString = [NEW_POST_URL stringByReplacingOccurrencesOfString:FORUM_NAME withString:postSender.forumName];
+            targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:postSender.forumName];
             postSender.forumID = [[czzAppDelegate sharedAppDelegate] getForumIDFromForumName:postSender.forumName];
             break;
     }

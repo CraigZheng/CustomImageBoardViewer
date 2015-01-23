@@ -274,7 +274,7 @@
 //Open the link associated with the button
 -(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
-    NSString *hostPrefix = @"http://h.acfun.tv/t/";
+    NSString *hostPrefix = [settingCentre share_post_url];
     if ([buttonTitle rangeOfString:hostPrefix options:NSCaseInsensitiveSearch].location != NSNotFound) {
         if (delegate && [delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
             [delegate userTapInQuotedText:[buttonTitle stringByReplacingOccurrencesOfString:hostPrefix withString:@""]];

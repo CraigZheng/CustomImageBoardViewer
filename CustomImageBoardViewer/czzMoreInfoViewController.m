@@ -30,7 +30,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    baseURL = @"http://h.acfun.tv/api/forum/get?forumName=";
+    baseURL = [settingCentre get_forum_info_url];
     //admob module
     bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
     bannerView_.adUnitID = @"a152ad4b0262649";

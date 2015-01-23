@@ -134,7 +134,7 @@
     } else if ([command isEqualToString:@"加入收藏"]){
         [self favouriteAction];
     } else if ([command isEqualToString:@"复制串的地址"]){
-        NSString *address = [NSString stringWithFormat:@"http://h.acfun.tv/t/%ld", (long)self.parentThread.ID];
+        NSString *address = [[settingCentre share_post_url] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld", (long)self.parentThread.ID]];
         [[UIPasteboard generalPasteboard] setString:address];
         [[czzAppDelegate sharedAppDelegate] showToast:@"地址已复制"];
     } else if ([command isEqualToString:@"跳页"]) {
@@ -194,7 +194,8 @@
     newPostViewController.postMode = REPORT_POST;
     [self presentViewController:newPostViewController animated:YES completion:^{
         [self.viewDeckController toggleRightViewAnimated:YES];
-        NSString *reportString = [NSString stringWithFormat:@"http://h.acfun.tv/t/%ld?r=%ld\n理由:", (long)parentThread.ID, (long)selectedThread.ID];
+        NSString *reportString = [[settingCentre report_post_placeholder] stringByReplacingOccurrencesOfString:PARENT_ID withString:[NSString stringWithFormat:@"%ld", (long)parentThread.ID]];
+        reportString = [reportString stringByReplacingOccurrencesOfString:THREAD_ID withString:[NSString stringWithFormat:@"%ld", (long)selectedThread.ID]];
         newPostViewController.postTextView.text = reportString;
         newPostViewController.postNaviBar.topItem.title = [NSString stringWithFormat:@"举报:%ld", (long)selectedThread.ID];
         //construct a blacklist that to be submitted to my server and pass it to new post view controller

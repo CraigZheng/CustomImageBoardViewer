@@ -35,23 +35,34 @@
             }
         }
     }
-    //page number data
-    [self updatePageNumberWithJsonDict:[parsedObjects objectForKey:@"page"]];
-    //thread list data
-    NSArray* parsedThreadData = [[parsedObjects objectForKey:@"data"] objectForKey:@"threads"];
-    for (NSDictionary *rawThreadData in parsedThreadData) {
-        czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
-        if (newThread)
-            [processedThreads addObject:newThread];
-    }
-    if (delegate) {
-        if ([delegate respondsToSelector:@selector(threadListProcessed:::)]) {
-            [delegate threadListProcessed:self :processedThreads :YES];
-        } else if ([delegate respondsToSelector:@selector(threadListProcessed::)]) {
-            [delegate threadListProcessed:processedThreads :YES];
+    @try {
+        //page number data
+        [self updatePageNumberWithJsonDict:[parsedObjects objectForKey:@"page"]];
+        //thread list data
+        NSArray* parsedThreadData = [[parsedObjects objectForKey:@"data"] objectForKey:@"threads"];
+        for (NSDictionary *rawThreadData in parsedThreadData) {
+            czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
+            if (newThread)
+                [processedThreads addObject:newThread];
+        }
+        if (delegate) {
+            if ([delegate respondsToSelector:@selector(threadListProcessed:::)]) {
+                [delegate threadListProcessed:self :processedThreads :YES];
+            } else if ([delegate respondsToSelector:@selector(threadListProcessed::)]) {
+                [delegate threadListProcessed:processedThreads :YES];
+            }
         }
     }
-    DLog(@"");
+    @catch (NSException *exception) {
+        DLog(@"%@", exception);
+        if (delegate) {
+            if ([delegate respondsToSelector:@selector(threadListProcessed:::)]) {
+                [delegate threadListProcessed:self :nil :NO];
+            } else if ([delegate respondsToSelector:@selector(threadListProcessed::)]) {
+                [delegate threadListProcessed:nil :NO];
+            }
+        }
+    }
 }
 
 -(void)processSubThreadFromData:(NSData *)jsonData {
@@ -68,21 +79,33 @@
             [delegate subThreadProcessedForThread:nil :nil :NO];
         }
     }
-    //page number data
-    [self updatePageNumberWithJsonDict:[parsedObjects objectForKey:@"page"]];
-    //thread and sub thread data
-    czzThread *parentThread = [[czzThread alloc] initWithJSONDictionary:[parsedObjects objectForKey:@"threads"]];
-    NSArray* parsedThreadData = [parsedObjects objectForKey:@"replys"];
-    for (NSDictionary *rawThreadData in parsedThreadData) {
-        czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
-        [processedThreads addObject:newThread];
+    @try {
+        //page number data
+        [self updatePageNumberWithJsonDict:[parsedObjects objectForKey:@"page"]];
+        //thread and sub thread data
+        czzThread *parentThread = [[czzThread alloc] initWithJSONDictionary:[parsedObjects objectForKey:@"threads"]];
+        NSArray* parsedThreadData = [parsedObjects objectForKey:@"replys"];
+        for (NSDictionary *rawThreadData in parsedThreadData) {
+            czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
+            [processedThreads addObject:newThread];
+        }
+        
+        if (delegate) {
+            if ([delegate respondsToSelector:@selector(subThreadProcessedForThread::::)]) {
+                [delegate subThreadProcessedForThread:self :parentThread :processedThreads :YES];
+            } else if ([delegate respondsToSelector:@selector(subThreadProcessedForThread:::)]) {
+                [delegate subThreadProcessedForThread:parentThread :processedThreads :YES];
+            }
+        }
     }
-    
-    if (delegate) {
-        if ([delegate respondsToSelector:@selector(subThreadProcessedForThread::::)]) {
-            [delegate subThreadProcessedForThread:self :parentThread :processedThreads :YES];
-        } else if ([delegate respondsToSelector:@selector(subThreadProcessedForThread:::)]) {
-            [delegate subThreadProcessedForThread:parentThread :processedThreads :YES];
+    @catch (NSException *exception) {
+        DLog(@"%@", exception);
+        if (delegate) {
+            if ([delegate respondsToSelector:@selector(subThreadProcessedForThread::::)]) {
+                [delegate subThreadProcessedForThread:self :nil :nil :NO];
+            } else if ([delegate respondsToSelector:@selector(subThreadProcessedForThread:::)]) {
+                [delegate subThreadProcessedForThread:nil :nil :NO];
+            }
         }
     }
 }

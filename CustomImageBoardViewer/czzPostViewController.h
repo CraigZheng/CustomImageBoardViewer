@@ -19,8 +19,8 @@
 #define PARENT_ID @"PARENT_ID"
 #define FORUM_NAME @"FORUM_NAME"
 
-#define REPLY_POST_URL @"http://h.acfun.tv/api/t/PARENT_ID/create"
-#define NEW_POST_URL @"http://h.acfun.tv/api/FORUM_NAME/create"
+//#define REPLY_POST_URL @"http://h.acfun.tv/api/t/PARENT_ID/create"
+//#define NEW_POST_URL @"http://h.acfun.tv/api/FORUM_NAME/create"
 
 @interface czzPostViewController : UIViewController <UITextViewDelegate>
 @property czzThread *thread;

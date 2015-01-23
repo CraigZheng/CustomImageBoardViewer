@@ -19,7 +19,7 @@
 	"forum_list_detail_url": "http://h.nimingban.com/api/homepage",
 	"reply_post_url": "http://h.nimingban.com/api/t/PARENT_ID/create",
 	"create_new_post_url": "http://h.nimingban.com/api/FORUM_NAME/create",
-	"report_post_placeholder": "http://h.nimingban.com/t/THREAD_ID?r=THREAD_ID\n理由:",
+	"report_post_placeholder": "http://h.nimingban.com/t/PARENT_ID?r=THREAD_ID\n理由:",
 	"share_post_url": "http://h.nimingban.com/t/",
 	"thread_url": "http://h.nimingban.com/t/THREAD_ID.json",
 	"get_forum_info_url": "http://h.nimingban.com/api/forum/get?forumName=",

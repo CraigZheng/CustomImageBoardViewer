@@ -32,7 +32,7 @@
 }
 
 -(instancetype)initWithThreadID:(NSInteger)threadID {
-    NSString *target = [NSString stringWithFormat:@"http://h.acfun.tv/t/%ld.json", (long)threadID];
+    NSString *target = [[settingCentre thread_url] stringByReplacingOccurrencesOfString:THREAD_ID withString:[NSString stringWithFormat:@"%ld", (long)threadID]];
     NSURLResponse *response;
     NSData *data = [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:target]] returningResponse:&response error:nil];
     if (data)

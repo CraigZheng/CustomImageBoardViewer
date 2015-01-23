@@ -6,6 +6,11 @@
 //  Copyright (c) 2014 Craig. All rights reserved.
 //
 
+#define PARENT_ID @"PARENT_ID"
+#define FORUM_NAME @"FORUM_NAME"
+#define THREAD_ID @"THREAD_ID"
+
+
 #define settingCentre [czzSettingsCentre sharedInstance]
 
 #import <Foundation/Foundation.h>

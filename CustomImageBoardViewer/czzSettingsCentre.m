@@ -92,8 +92,8 @@
         [refreshSettingsTimer invalidate];
     }
 #ifdef DEBUG
-    //in debug build, refresh the settings every 30 seconds
-    configuration_refresh_interval = 30;
+    //in debug build, refresh the settings every 60 seconds
+    configuration_refresh_interval = 60;
 #endif
     refreshSettingsTimer = [NSTimer scheduledTimerWithTimeInterval:configuration_refresh_interval target:self selector:@selector(downloadSettings) userInfo:nil repeats:YES];
 }
@@ -194,7 +194,14 @@
     //dart integration
     should_allow_dart = [[jsonObject objectForKey:@"shouldAllowDart"] boolValue];
     
-    
+    //new settings at short version 2.0.1
+    forum_list_detail_url = [jsonObject objectForKey:@"forum_list_detail_url"];
+    reply_post_url = [jsonObject objectForKey:@"reply_post_url"];
+    create_new_post_url = [jsonObject objectForKey:@"create_new_post_url"];
+    report_post_placeholder = [jsonObject objectForKey:@"report_post_placeholder"];
+    share_post_url = [jsonObject objectForKey:@"share_post_url"];
+    thread_url = [jsonObject objectForKey:@"thread_url"];
+    get_forum_info_url = [jsonObject objectForKey:@"get_forum_info_url"];
 }
 
 -(NSString *)settingsFile {
@@ -233,7 +240,17 @@
     [aCoder encodeBool:userDefShouldUseBigImage forKey:@"userDefShouldUseBigImage"];
     [aCoder encodeBool:nightyMode forKey:@"nightyMode"];
     [aCoder encodeBool:autoCleanImageCache forKey:@"autoCleanImageCache"];
-
+    
+    //new settings at short version 2.0.1
+    [aCoder encodeObject:forum_list_detail_url forKey:@"forum_list_detail_url"];
+    [aCoder encodeObject:reply_post_url forKey:@"reply_post_url"];
+    [aCoder encodeObject:create_new_post_url forKey:@"create_new_post_url"];
+    [aCoder encodeObject:report_post_placeholder forKey:@"report_post_placeholder"];
+    [aCoder encodeObject:share_post_url forKey:@"share_post_url"];
+    [aCoder encodeObject:thread_url forKey:@"thread_url"];
+    [aCoder encodeObject:get_forum_info_url forKey:@"get_forum_info_url"];
+    
+    //dart settings
     [aCoder encodeBool:should_allow_dart forKey:@"shouldAllowDart"];
 }
 
@@ -272,6 +289,15 @@
         self.nightyMode = [aDecoder decodeBoolForKey:@"nightyMode"];
         self.autoCleanImageCache = [aDecoder decodeBoolForKey:@"autoCleanImageCache"];
         self.should_allow_dart = [aDecoder decodeBoolForKey:@"shouldAllowDart"];
+        //new settings at short version 2.0.1
+        self.forum_list_detail_url = [aDecoder decodeObjectForKey:@"forum_list_detail_url"];
+        self.reply_post_url = [aDecoder decodeObjectForKey:@"reply_post_url"];
+        self.create_new_post_url = [aDecoder decodeObjectForKey:@"create_new_post_url"];
+        self.report_post_placeholder = [aDecoder decodeObjectForKey:@"report_post_placeholder"];
+        self.share_post_url = [aDecoder decodeObjectForKey:@"share_post_url"];
+        self.thread_url = [aDecoder decodeObjectForKey:@"thread_url"];
+        self.get_forum_info_url = [aDecoder decodeObjectForKey:@"get_forum_info_url"];
+
     }
     return self;
 }

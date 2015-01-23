@@ -95,7 +95,7 @@
     [progressView startAnimating];
     
     //added after the old server is down, this is necessary for the new a isle server
-    NSURL *forumURL = [NSURL URLWithString:@"http://h.acfun.tv/api/homepage"];
+    NSURL *forumURL = [NSURL URLWithString:[settingCentre forum_list_detail_url]];
     [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:forumURL] queue:[NSOperationQueue new] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         if (!connectionError) {
             dispatch_async(dispatch_get_main_queue(), ^{
