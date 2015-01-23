@@ -8,7 +8,7 @@
 
 		$sql = "SELECT * 
 				FROM  `notification` 
-				LIMIT 0 , 1";
+				LIMIT 0 , 30";
 		$entities = mysqli_query($mysqli, $sql);
 		$xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><result></result>');
 		if (mysqli_num_rows($entities) > 0){

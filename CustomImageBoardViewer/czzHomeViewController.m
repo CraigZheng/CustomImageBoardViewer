@@ -129,20 +129,22 @@
     [refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
     [threadTableView addSubview: refreshControl];
     
-    //onscreen command
-    onScreenCommandViewController = [[UIStoryboard storyboardWithName:@"OnScreenCommand" bundle:nil] instantiateInitialViewController];
-    [self addChildViewController:onScreenCommandViewController];
-    
     //restore previous session
     [self restorePreviousSession];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    [onScreenCommandViewController show];
+    if (!onScreenCommandViewController) {
+        //onscreen command
+        onScreenCommandViewController = [[UIStoryboard storyboardWithName:@"OnScreenCommand" bundle:nil] instantiateInitialViewController];
+        [self addChildViewController:onScreenCommandViewController];
+    }
     
     viewControllerNotInTransition = YES;
     shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
+    if (shouldDisplayQuickScrollCommand)
+        [onScreenCommandViewController show];
     
     NSTimeInterval delayTime = 8.0;
 #ifdef DEBUG

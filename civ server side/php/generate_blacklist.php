@@ -33,7 +33,7 @@
 		$sql = "SELECT * 
 			FROM  `blacklist` 
 			ORDER BY  `blacklist`.`ID` DESC 
-			LIMIT 0 , 100";
+			LIMIT 0 , 1";
 		$entities = mysqli_query($mysqli, $sql);
 		//construct an xml file to containt the info
 		$xml = new SimpleXMLElement("<Response></Response>");
