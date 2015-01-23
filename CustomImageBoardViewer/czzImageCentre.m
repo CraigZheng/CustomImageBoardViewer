@@ -265,7 +265,7 @@
         }
     }
     
-    [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"终止图片的下载"];
+    [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"下载终止"];
 }
 
 #pragma mark czzImageDownloader delegate
