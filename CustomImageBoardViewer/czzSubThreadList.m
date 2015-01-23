@@ -107,8 +107,6 @@
 
 -(void)setParentViewController:(UIViewController *)viewCon {
     parentViewController = viewCon;
-    //register an obverser while adding a parent view controller
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(entersBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
 
 -(void)setParentThread:(czzThread *)thread {

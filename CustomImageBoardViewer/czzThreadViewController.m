@@ -142,7 +142,9 @@
     {
         [threadList loadMoreThreads];
     }
-//    [threadTableView reloadData];
+
+    //register an obverser while adding a parent view controller
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(entersBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -199,7 +201,11 @@
     [super viewDidAppear:animated];
     //ready for push animation
     viewControllerNotInTransition = YES;
-    
+}
+
+-(void)entersBackground {
+    if (threadList)
+        [threadList saveCurrentState];
 }
 
 -(void)copyDataFromThreadList {
