@@ -30,6 +30,15 @@
 @property NSInteger response_per_page;
 @property NSString *thread_format;
 @property NSString *forum_list_url;
+//these are the new settings at version 2.0.1(short version)
+@property NSString *forum_list_detail_url;
+@property NSString *reply_post_url;
+@property NSString *create_new_post_url;
+@property NSString *report_post_placeholder;
+@property NSString *share_post_url;
+@property NSString *thread_url;
+@property NSString *get_forum_info_url;
+//new settins end here
 @property NSString *ac_host;
 @property NSString *a_isle_host;
 @property NSString *thread_list_host;
@@ -48,7 +57,7 @@
 @property BOOL nightyMode;
 @property BOOL autoCleanImageCache;
 //Debug settings
-@property BOOL shouldAllowDart;
+@property BOOL should_allow_dart;
 
 + (id)sharedInstance;
 -(void)downloadSettings;

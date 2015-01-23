@@ -44,7 +44,7 @@
     [self checkFolders];
 
     //Dart integration
-    if (settingsCentre.shouldAllowDart) {
+    if (settingsCentre.should_allow_dart) {
         [DartCrowdSourcingLib setEnableGPS:NO];
         [DartCrowdSourcingLib setEnableBackgroundGPS:NO];
         [DartCrowdSourcingLib initWithApiKey:@"CustomImageBoardViewer" version:nil homeMccMnc:@"50502" testerID:@"CustomImageBoardViewer" uploadURL:nil];

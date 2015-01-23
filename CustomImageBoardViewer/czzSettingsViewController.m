@@ -172,7 +172,7 @@
     [switchCommands addObject:@"图片下载完毕自动打开"];
 //    [switchCommands addObject:@"开启串缓存"];
     [switchCommands addObject:@"每月自动清理缓存"];
-    if (settingsCentre.shouldAllowDart)
+    if (settingsCentre.should_allow_dart)
         [switchCommands addObject:@"Monitor Performance"];
     [regularCommands addObject:@"图片管理器"];
     [regularCommands addObject:@"清空缓存"];

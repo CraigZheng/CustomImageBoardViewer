@@ -181,9 +181,7 @@
 
 #pragma mark - consturct UI elements
 -(void)prepareUIWithMyThread {
-//    NSDate *startDate = [NSDate new];
     [self resetViews];
-    //DLog(@"time consuming step 1: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
     if (myThread.thImgSrc.length > 0){
         previewImageView.hidden = NO;
         [previewImageView setImage:[UIImage imageNamed:@"Icon.png"]];
@@ -205,7 +203,6 @@
         if (shouldAllowClickOnImage)
             [previewImageView setGestureRecognizers:@[tapOnImageGestureRecogniser]];
     }
-    //DLog(@"time consuming step 2: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
     //if harmful flag is set, display warning header of harmful thread
     NSMutableAttributedString *contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:myThread.content];
     if (myThread.harmful){
@@ -223,7 +220,6 @@
     contentTextView.attributedText = contentAttrString;
     contentTextView.font = settingsCentre.contentFont;
 
-    //DLog(@"time consuming step 3: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
     
     idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)myThread.ID];
     //set the color

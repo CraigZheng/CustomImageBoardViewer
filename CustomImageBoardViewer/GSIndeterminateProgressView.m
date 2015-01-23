@@ -132,7 +132,8 @@
 }
 
 -(UIColor*)progressTintColor {
-    UIColor *tintColour = [colours objectAtIndex:colourIndex++];
+    UIColor *tintColour = [colours objectAtIndex:colourIndex];
+    colourIndex++;
     if (colourIndex >= colours.count)
         colourIndex = 0;
     return tintColour;

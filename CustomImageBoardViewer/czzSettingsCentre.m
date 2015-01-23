@@ -27,9 +27,11 @@
 @synthesize userDefShouldAutoOpenImage, userDefShouldCacheData, userDefShouldDisplayThumbnail, userDefShouldHighlightPO, userDefShouldShowOnScreenCommand ,userDefShouldUseBigImage;
 @synthesize nightyMode;
 @synthesize autoCleanImageCache;
-@synthesize shouldAllowDart;
+@synthesize should_allow_dart;
 @synthesize donationLink;
 @synthesize shouldAllowOpenBlockedThread;
+//settings added at short version 2.0.1
+@synthesize forum_list_detail_url, reply_post_url, create_new_post_url, report_post_placeholder, share_post_url, thread_url, get_forum_info_url;
 
 + (id)sharedInstance
 {
@@ -67,9 +69,13 @@
         response_per_page = 20;
         
         //Dart settings
-        shouldAllowDart = NO;
+        should_allow_dart = NO;
         
         NSString *filePath = [[NSBundle mainBundle] pathForResource:@"default_configuration" ofType:@"json"];
+        
+#ifdef DEBUG
+        filePath = [[NSBundle mainBundle] pathForResource:@"remote_configuration-debug" ofType:@"json"];
+#endif
         NSData *JSONData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
         [self parseJSONData:JSONData];
         [self scheduleRefreshSettings];
@@ -85,6 +91,10 @@
     if (refreshSettingsTimer.isValid) {
         [refreshSettingsTimer invalidate];
     }
+#ifdef DEBUG
+    //in debug build, refresh the settings every 30 seconds
+    configuration_refresh_interval = 30;
+#endif
     refreshSettingsTimer = [NSTimer scheduledTimerWithTimeInterval:configuration_refresh_interval target:self selector:@selector(downloadSettings) userInfo:nil repeats:YES];
 }
 
@@ -152,6 +162,7 @@
 -(void)parseJSONData:(NSData*)jsonData {
     NSError *error;
     NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+
     if (error) {
         DLog(@"%@", error);
         return;
@@ -181,7 +192,7 @@
     message = [jsonObject objectForKey:@"message"];
     
     //dart integration
-    shouldAllowDart = [[jsonObject objectForKey:@"shouldAllowDart"] boolValue];
+    should_allow_dart = [[jsonObject objectForKey:@"shouldAllowDart"] boolValue];
     
     
 }
@@ -223,7 +234,7 @@
     [aCoder encodeBool:nightyMode forKey:@"nightyMode"];
     [aCoder encodeBool:autoCleanImageCache forKey:@"autoCleanImageCache"];
 
-    [aCoder encodeBool:shouldAllowDart forKey:@"shouldAllowDart"];
+    [aCoder encodeBool:should_allow_dart forKey:@"shouldAllowDart"];
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder {
@@ -260,7 +271,7 @@
         
         self.nightyMode = [aDecoder decodeBoolForKey:@"nightyMode"];
         self.autoCleanImageCache = [aDecoder decodeBoolForKey:@"autoCleanImageCache"];
-        self.shouldAllowDart = [aDecoder decodeBoolForKey:@"shouldAllowDart"];
+        self.should_allow_dart = [aDecoder decodeBoolForKey:@"shouldAllowDart"];
     }
     return self;
 }

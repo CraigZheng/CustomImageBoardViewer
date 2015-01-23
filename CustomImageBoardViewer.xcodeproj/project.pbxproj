@@ -196,6 +196,7 @@
 		448C85E41A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 448C85E31A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib */; };
 		4498B689199248ED0014F73F /* czzJSONProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498B688199248ED0014F73F /* czzJSONProcessor.m */; };
 		4498B68D1993A6190014F73F /* PropertyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498B68C1993A6190014F73F /* PropertyUtil.m */; };
+		449C9E271A71DB5C00D49B7F /* remote_configuration-debug.json in Resources */ = {isa = PBXBuildFile; fileRef = 449C9E261A71DB5C00D49B7F /* remote_configuration-debug.json */; };
 		44AE2AFA187254E4002CB021 /* czzMenuEnabledTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AE2AF9187254E4002CB021 /* czzMenuEnabledTableViewCell.m */; };
 		44AE2AFE18725EC4002CB021 /* czzNoSelectionTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AE2AFD18725EC4002CB021 /* czzNoSelectionTextView.m */; };
 		44AE2B011872924C002CB021 /* PartialTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AE2B001872924C002CB021 /* PartialTransparentView.m */; };
@@ -743,6 +744,7 @@
 		4498B688199248ED0014F73F /* czzJSONProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzJSONProcessor.m; sourceTree = "<group>"; };
 		4498B68B1993A6190014F73F /* PropertyUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PropertyUtil.h; path = ../PropertyUtil.h; sourceTree = "<group>"; };
 		4498B68C1993A6190014F73F /* PropertyUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PropertyUtil.m; path = ../PropertyUtil.m; sourceTree = "<group>"; };
+		449C9E261A71DB5C00D49B7F /* remote_configuration-debug.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "remote_configuration-debug.json"; sourceTree = "<group>"; };
 		44AE2AF8187254E4002CB021 /* czzMenuEnabledTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzMenuEnabledTableViewCell.h; sourceTree = "<group>"; };
 		44AE2AF9187254E4002CB021 /* czzMenuEnabledTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzMenuEnabledTableViewCell.m; sourceTree = "<group>"; };
 		44AE2AFC18725EC4002CB021 /* czzNoSelectionTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzNoSelectionTextView.h; sourceTree = "<group>"; };
@@ -1571,6 +1573,7 @@
 			isa = PBXGroup;
 			children = (
 				5A5407F519961F87005FA214 /* default_configuration.json */,
+				449C9E261A71DB5C00D49B7F /* remote_configuration-debug.json */,
 				443B54F119933C1F00BAB282 /* czzSettingsCentre.h */,
 				443B54F219933C1F00BAB282 /* czzSettingsCentre.m */,
 			);
@@ -2454,6 +2457,7 @@
 				444F5B381A40EA3500EB391F /* 37.png in Resources */,
 				444F5B481A40EA3500EB391F /* 53.png in Resources */,
 				44E791E61A17856500A63C04 /* menu.png in Resources */,
+				449C9E271A71DB5C00D49B7F /* remote_configuration-debug.json in Resources */,
 				444F5B391A40EA3500EB391F /* 38.png in Resources */,
 				444F5B1E1A40EA3500EB391F /* 11.png in Resources */,
 				44C73BD51A496C4F0051D4C2 /* iphone4 launch screen.png in Resources */,
