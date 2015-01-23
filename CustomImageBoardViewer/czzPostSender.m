@@ -96,9 +96,14 @@
     }
     if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
     {
-        BOOL success = [[jsonResponse valueForKey:@"success"] boolValue];
-        NSString *errorMessage = [jsonResponse valueForKey:@"msg"];
-        [self.delegate statusReceived:success message:errorMessage];
+        @try {
+            BOOL success = [[jsonResponse valueForKey:@"success"] boolValue];
+            NSString *errorMessage = [jsonResponse valueForKey:@"msg"];
+            [self.delegate statusReceived:success message:errorMessage];
+        }
+        @catch (NSException *exception) {
+            [self.delegate statusReceived:NO message:@"Unknown Error"];
+        }
     }
 }
 

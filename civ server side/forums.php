@@ -7,7 +7,7 @@
 	if (isset($_GET["version"])) {
 		$version = $_GET["version"];
 	}
-	if (strcasecmp($version, "2.2") == 0)
+	if (strcasecmp($version, "2.0.1") == 0)
 		echo file_get_contents($censoredFile);
 	else
 		echo file_get_contents($file);

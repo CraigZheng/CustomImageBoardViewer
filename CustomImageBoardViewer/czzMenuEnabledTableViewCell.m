@@ -309,7 +309,7 @@
         //Start or stop the image downloader
         if ([[czzImageCentre sharedInstance] containsImageDownloaderWithURL:myThread.imgSrc]){
             [[czzImageCentre sharedInstance] stopAndRemoveImageDownloaderWithURL:myThread.imgSrc];
-            [[czzAppDelegate sharedAppDelegate] showToast:@"图片下载被终止了"];
+            [[czzAppDelegate sharedAppDelegate] showToast:@"下载终止"];
             DLog(@"stop: %@", myThread.imgSrc);
         } else {
             BOOL completedURL = NO;

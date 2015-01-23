@@ -144,7 +144,7 @@
     viewControllerNotInTransition = YES;
     shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
     
-    NSTimeInterval delayTime = 5.0;
+    NSTimeInterval delayTime = 8.0;
 #ifdef DEBUG
     delayTime = 9999;
 #endif
