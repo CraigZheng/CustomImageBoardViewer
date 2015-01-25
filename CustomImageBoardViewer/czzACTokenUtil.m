@@ -13,13 +13,14 @@
 +(NSHTTPCookie *)createCookieWithValue:(NSString *)value forURL:(NSURL *)url {
     if (!value && !url)
         return nil;
-    NSDictionary *cookieDictionary = [NSDictionary dictionaryWithObjectsAndKeys:@"userId", NSHTTPCookieName,
+    NSDictionary *cookieDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[url host], NSHTTPCookieDomain,
+                                      @"/", NSHTTPCookiePath,
+                                      @"userId", NSHTTPCookieName,
                                       value, NSHTTPCookieValue,
-                                      url, NSHTTPCookieDomain,
-                                      @"/", NSHTTPCookiePath
-                                      , nil];
+                                      nil];
     
-    return [NSHTTPCookie cookieWithProperties:cookieDictionary];
+    NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:cookieDictionary];
+    return cookie;
 }
 
 +(NSString *)createJsonFileWithCookie:(NSHTTPCookie *)cookie {

@@ -16,4 +16,5 @@
 -(NSArray*)currentACCookies;
 -(void)refreshACCookies;
 -(void)setACCookie:(NSHTTPCookie*)cookie ForURL:(NSURL*)url;
+-(void)deleteCookie:(NSHTTPCookie*)cookie;
 @end

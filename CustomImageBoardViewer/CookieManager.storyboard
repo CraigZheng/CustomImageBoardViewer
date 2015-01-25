@@ -8,11 +8,15 @@
         <!--Navigation Controller-->
         <scene sceneID="bwW-fH-A2w">
             <objects>
-                <navigationController id="qOn-oZ-P35" sceneMemberID="viewController">
+                <navigationController toolbarHidden="NO" id="qOn-oZ-P35" sceneMemberID="viewController">
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="h6T-LS-1Ex">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" id="7qA-bb-R4L">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="fbg-qH-p2B" kind="relationship" relationship="rootViewController" id="a4F-GZ-cGB"/>
                     </connections>
@@ -24,17 +28,17 @@
         <!--Cookie Manager-->
         <scene sceneID="aFv-aM-ugo">
             <objects>
-                <viewController id="fbg-qH-p2B" customClass="czzCookieManagerViewController" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="fbg-qH-p2B" customClass="czzCookieManagerViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gtm-fj-Jiu"/>
                         <viewControllerLayoutGuide type="bottom" id="eF3-xm-59U"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="1lK-Jl-Aur">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="436"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="2pu-67-HS0">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="436"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cookie_info_table_view_cell_identifier" id="XM7-f8-VNB">
@@ -44,12 +48,12 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CONTENT" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Rau-co-OEC">
-                                                    <rect key="frame" x="70" y="0.0" width="250" height="60"/>
+                                                    <rect key="frame" x="70" y="0.0" width="250" height="39"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="cIV-0O-ltG">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="cIV-0O-ltG">
                                                     <rect key="frame" x="0.0" y="0.0" width="70" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="70" id="tzg-Xd-xa6"/>
@@ -58,16 +62,34 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Domain" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="lOh-Jo-UrS">
+                                                    <rect key="frame" x="70" y="39" width="250" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="nOF-6S-gPS"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Rau-co-OEC" firstAttribute="leading" secondItem="cIV-0O-ltG" secondAttribute="trailing" id="9ia-ac-FHk"/>
                                                 <constraint firstItem="cIV-0O-ltG" firstAttribute="top" secondItem="xPI-J5-N7R" secondAttribute="top" id="JbG-wJ-xGa"/>
                                                 <constraint firstItem="Rau-co-OEC" firstAttribute="top" secondItem="xPI-J5-N7R" secondAttribute="top" id="Y8c-Tg-jTt"/>
+                                                <constraint firstAttribute="bottom" secondItem="lOh-Jo-UrS" secondAttribute="bottom" id="b2w-wY-F3S"/>
                                                 <constraint firstItem="cIV-0O-ltG" firstAttribute="leading" secondItem="xPI-J5-N7R" secondAttribute="leading" id="f5a-Um-MAg"/>
                                                 <constraint firstAttribute="bottom" secondItem="cIV-0O-ltG" secondAttribute="bottom" id="gWO-94-Rv5"/>
+                                                <constraint firstItem="lOh-Jo-UrS" firstAttribute="leading" secondItem="cIV-0O-ltG" secondAttribute="trailing" id="hrb-ha-4gW"/>
+                                                <constraint firstAttribute="trailing" secondItem="lOh-Jo-UrS" secondAttribute="trailing" id="lIQ-yT-98Z"/>
+                                                <constraint firstItem="lOh-Jo-UrS" firstAttribute="top" secondItem="Rau-co-OEC" secondAttribute="bottom" id="vE9-Dm-EHi"/>
                                                 <constraint firstAttribute="bottom" secondItem="Rau-co-OEC" secondAttribute="bottom" id="vSs-hW-lUi"/>
                                                 <constraint firstAttribute="trailing" secondItem="Rau-co-OEC" secondAttribute="trailing" id="ydR-xK-FuS"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="vSs-hW-lUi"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
@@ -85,7 +107,23 @@
                             <constraint firstAttribute="bottom" secondItem="2pu-67-HS0" secondAttribute="bottom" id="rWA-oA-E7x"/>
                         </constraints>
                     </view>
-                    <toolbarItems/>
+                    <toolbarItems>
+                        <barButtonItem title="Use" id="vpv-0K-5pH">
+                            <connections>
+                                <action selector="useCookieAction:" destination="fbg-qH-p2B" id="Ya7-Eb-5uB"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem title="Share" id="XCn-Ui-yRi">
+                            <connections>
+                                <action selector="shareCookieAction:" destination="fbg-qH-p2B" id="8Nc-qG-GTd"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem title="Delete" id="62A-53-ux4">
+                            <connections>
+                                <action selector="deleteCookieAction:" destination="fbg-qH-p2B" id="mUr-Lx-xgh"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" title="Cookie Manager" id="jK1-Nh-Def">
                         <barButtonItem key="rightBarButtonItem" image="view.png" id="X7g-Yh-BPr">
                             <connections>

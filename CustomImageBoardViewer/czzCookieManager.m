@@ -24,6 +24,7 @@
     if (self) {
         acCookies = [NSMutableArray new];
         cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+        cookieStorage.cookieAcceptPolicy = NSHTTPCookieAcceptPolicyAlways;
     }
     
     return self;
@@ -42,7 +43,19 @@
 }
 
 -(void)setACCookie:(NSHTTPCookie *)cookie ForURL:(NSURL *)url {
+    if (!cookie)
+    {
+        DLog(@"incoming cookie is nil");
+        return;
+    }
     [cookieStorage setCookies:@[cookie] forURL:url mainDocumentURL:nil];
+}
+
+-(void)deleteCookie:(NSHTTPCookie *)cookie {
+#ifdef DEBUG
+    return;
+#endif
+    [cookieStorage deleteCookie:cookie];
 }
 
 -(NSArray *)currentACCookies {

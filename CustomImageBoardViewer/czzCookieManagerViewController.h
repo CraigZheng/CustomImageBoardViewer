@@ -15,4 +15,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *cookieManagerTableView;
 
 - (IBAction)reloadAction:(id)sender;
+- (IBAction)useCookieAction:(id)sender;
+- (IBAction)shareCookieAction:(id)sender;
+- (IBAction)deleteCookieAction:(id)sender;
 @end
