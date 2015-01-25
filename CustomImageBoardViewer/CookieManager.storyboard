@@ -25,7 +25,7 @@
             </objects>
             <point key="canvasLocation" x="-415" y="251"/>
         </scene>
-        <!--Cookie Manager-->
+        <!--Czz Cookie Manager View Controller-->
         <scene sceneID="aFv-aM-ugo">
             <objects>
                 <viewController hidesBottomBarWhenPushed="YES" id="fbg-qH-p2B" customClass="czzCookieManagerViewController" sceneMemberID="viewController">
@@ -108,32 +108,54 @@
                         </constraints>
                     </view>
                     <toolbarItems>
-                        <barButtonItem title="Use" id="vpv-0K-5pH">
+                        <barButtonItem image="checked_user.png" id="vpv-0K-5pH">
                             <connections>
                                 <action selector="useCookieAction:" destination="fbg-qH-p2B" id="Ya7-Eb-5uB"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem title="Share" id="XCn-Ui-yRi">
+                        <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="I9O-5x-i0w"/>
+                        <barButtonItem image="save_as.png" id="xtj-Ws-h4d">
+                            <connections>
+                                <action selector="saveCookieAction:" destination="fbg-qH-p2B" id="qFl-rA-ucc"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="qZN-Fo-CRi"/>
+                        <barButtonItem image="upload.png" id="XCn-Ui-yRi">
                             <connections>
                                 <action selector="shareCookieAction:" destination="fbg-qH-p2B" id="8Nc-qG-GTd"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem title="Delete" id="62A-53-ux4">
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="nUV-Yt-3GY"/>
+                        <barButtonItem image="remove_user.png" id="ckG-1C-qgR">
                             <connections>
-                                <action selector="deleteCookieAction:" destination="fbg-qH-p2B" id="mUr-Lx-xgh"/>
+                                <action selector="deleteCookieAction:" destination="fbg-qH-p2B" id="chF-Ie-z7Z"/>
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" title="Cookie Manager" id="jK1-Nh-Def">
-                        <barButtonItem key="rightBarButtonItem" image="view.png" id="X7g-Yh-BPr">
+                    <navigationItem key="navigationItem" id="jK1-Nh-Def">
+                        <nil key="title"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="Yak-0B-RLq">
+                            <rect key="frame" x="96" y="7" width="128" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="新鲜"/>
+                                <segment title="保鲜"/>
+                            </segments>
                             <connections>
-                                <action selector="reloadAction:" destination="fbg-qH-p2B" id="Nsj-Hx-KOQ"/>
+                                <action selector="cookieManagerSegmentControlAction:" destination="fbg-qH-p2B" eventType="valueChanged" id="jux-i6-nvZ"/>
+                            </connections>
+                        </segmentedControl>
+                        <barButtonItem key="rightBarButtonItem" image="add_user.png" id="Gd3-SJ-jIZ">
+                            <connections>
+                                <action selector="addCookieAction:" destination="fbg-qH-p2B" id="hDd-TR-RuA"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
+                        <outlet property="cookieManagerSegmentControl" destination="Yak-0B-RLq" id="Moj-8d-QQM"/>
                         <outlet property="cookieManagerTableView" destination="2pu-67-HS0" id="EJP-kk-EL4"/>
+                        <outlet property="saveCookieBarButtonItem" destination="xtj-Ws-h4d" id="4Ka-Ga-rTm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4sK-rC-Hw6" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -142,6 +164,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="view.png" width="20" height="20"/>
+        <image name="add_user.png" width="20" height="20"/>
+        <image name="checked_user.png" width="20" height="20"/>
+        <image name="remove_user.png" width="20" height="20"/>
+        <image name="save_as.png" width="20" height="20"/>
+        <image name="upload.png" width="20" height="20"/>
     </resources>
 </document>

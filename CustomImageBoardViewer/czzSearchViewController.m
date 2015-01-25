@@ -214,7 +214,7 @@
     DLog(@"should navigate to URL: %@", request.URL.absoluteString);
     //user tapped on link
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
-        if ([request.URL.absoluteString rangeOfString:@"h.acfun.tv"].location == NSNotFound) {
+        if ([request.URL.absoluteString rangeOfString:[settingCentre a_isle_host]].location == NSNotFound) {
             [[czzAppDelegate sharedAppDelegate].window makeToast:@"这个App只支持AC匿名版的链接" duration:2.0 position:@"center" image:[UIImage imageNamed:@"warning.png"]];
             return NO;
         } else {

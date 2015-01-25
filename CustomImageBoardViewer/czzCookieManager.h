@@ -7,14 +7,22 @@
 //
 
 #define CookieManager [czzCookieManager sharedInstance]
+#define COOKIES_ARCHIVE_FILE @"COOKIES_ARCHIVE_FILE.dat"
 
 #import <Foundation/Foundation.h>
 
 @interface czzCookieManager : NSObject
-+(id)sharedInstance;
+@property NSMutableArray *archivedCookies;
 
 -(NSArray*)currentACCookies;
+-(NSHTTPCookie*)currentInUseCookie;
+-(BOOL)addValueAsCookie:(NSString*)cookieValue;
+-(void)archiveCookie:(NSHTTPCookie*)cookie;
+-(void)deleteArchiveCookie:(NSHTTPCookie*)cookie;
 -(void)refreshACCookies;
 -(void)setACCookie:(NSHTTPCookie*)cookie ForURL:(NSURL*)url;
 -(void)deleteCookie:(NSHTTPCookie*)cookie;
+
++(id)sharedInstance;
+
 @end

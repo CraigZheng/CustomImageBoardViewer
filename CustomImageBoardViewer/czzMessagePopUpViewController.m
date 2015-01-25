@@ -23,13 +23,12 @@
 
 
 -(void)show  {
+    popup = [KLCPopup popupWithContentView:self.view showType:KLCPopupShowTypeBounceIn dismissType:KLCPopupDismissTypeBounceOut maskType:KLCPopupMaskTypeDimmed dismissOnBackgroundTouch:YES dismissOnContentTouch:YES];
     if (messageToShow)
         messageContentLabel.text = messageToShow;
     if (imageToShow)
         messageImageView.image = imageToShow;
-    
-    popup = [KLCPopup popupWithContentView:self.view showType:KLCPopupShowTypeBounceIn dismissType:KLCPopupDismissTypeBounceOut maskType:KLCPopupMaskTypeDimmed dismissOnBackgroundTouch:YES dismissOnContentTouch:YES];
-    
+
     [popup showWithLayout:KLCPopupLayoutCenter];
 }
 
