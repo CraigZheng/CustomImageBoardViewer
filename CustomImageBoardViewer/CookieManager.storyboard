@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="fbg-qH-p2B">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="bwW-fH-A2w">
+            <objects>
+                <navigationController id="qOn-oZ-P35" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="h6T-LS-1Ex">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="fbg-qH-p2B" kind="relationship" relationship="rootViewController" id="a4F-GZ-cGB"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1Qh-Sp-Po0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-415" y="251"/>
+        </scene>
+        <!--Cookie Manager-->
+        <scene sceneID="aFv-aM-ugo">
+            <objects>
+                <viewController id="fbg-qH-p2B" customClass="czzCookieManagerViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gtm-fj-Jiu"/>
+                        <viewControllerLayoutGuide type="bottom" id="eF3-xm-59U"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1lK-Jl-Aur">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="2pu-67-HS0">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cookie_info_table_view_cell_identifier" id="XM7-f8-VNB">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XM7-f8-VNB" id="xPI-J5-N7R">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CONTENT" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Rau-co-OEC">
+                                                    <rect key="frame" x="70" y="0.0" width="250" height="60"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="cIV-0O-ltG">
+                                                    <rect key="frame" x="0.0" y="0.0" width="70" height="60"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="70" id="tzg-Xd-xa6"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Rau-co-OEC" firstAttribute="leading" secondItem="cIV-0O-ltG" secondAttribute="trailing" id="9ia-ac-FHk"/>
+                                                <constraint firstItem="cIV-0O-ltG" firstAttribute="top" secondItem="xPI-J5-N7R" secondAttribute="top" id="JbG-wJ-xGa"/>
+                                                <constraint firstItem="Rau-co-OEC" firstAttribute="top" secondItem="xPI-J5-N7R" secondAttribute="top" id="Y8c-Tg-jTt"/>
+                                                <constraint firstItem="cIV-0O-ltG" firstAttribute="leading" secondItem="xPI-J5-N7R" secondAttribute="leading" id="f5a-Um-MAg"/>
+                                                <constraint firstAttribute="bottom" secondItem="cIV-0O-ltG" secondAttribute="bottom" id="gWO-94-Rv5"/>
+                                                <constraint firstAttribute="bottom" secondItem="Rau-co-OEC" secondAttribute="bottom" id="vSs-hW-lUi"/>
+                                                <constraint firstAttribute="trailing" secondItem="Rau-co-OEC" secondAttribute="trailing" id="ydR-xK-FuS"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="fbg-qH-p2B" id="R09-ab-QsZ"/>
+                                    <outlet property="delegate" destination="fbg-qH-p2B" id="1xV-xO-RUW"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="2pu-67-HS0" firstAttribute="leading" secondItem="1lK-Jl-Aur" secondAttribute="leading" id="Yh0-Lv-XxG"/>
+                            <constraint firstItem="2pu-67-HS0" firstAttribute="top" secondItem="1lK-Jl-Aur" secondAttribute="top" id="eTC-xw-dWN"/>
+                            <constraint firstAttribute="trailing" secondItem="2pu-67-HS0" secondAttribute="trailing" id="ffL-LY-uaf"/>
+                            <constraint firstAttribute="bottom" secondItem="2pu-67-HS0" secondAttribute="bottom" id="rWA-oA-E7x"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Cookie Manager" id="jK1-Nh-Def">
+                        <barButtonItem key="rightBarButtonItem" image="view.png" id="X7g-Yh-BPr">
+                            <connections>
+                                <action selector="reloadAction:" destination="fbg-qH-p2B" id="Nsj-Hx-KOQ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <outlet property="cookieManagerTableView" destination="2pu-67-HS0" id="EJP-kk-EL4"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4sK-rC-Hw6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="297" y="225"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="view.png" width="20" height="20"/>
+    </resources>
+</document>

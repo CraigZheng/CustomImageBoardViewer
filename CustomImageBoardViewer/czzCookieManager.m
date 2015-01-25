@@ -22,6 +22,7 @@
 -(instancetype)init {
     self = [super init];
     if (self) {
+        acCookies = [NSMutableArray new];
         cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     }
     
@@ -42,6 +43,10 @@
 
 -(void)setACCookie:(NSHTTPCookie *)cookie ForURL:(NSURL *)url {
     [cookieStorage setCookies:@[cookie] forURL:url mainDocumentURL:nil];
+}
+
+-(NSArray *)currentACCookies {
+    return acCookies;
 }
 
 

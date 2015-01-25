@@ -317,6 +317,11 @@
 		44DF8ED31A74CAAA0097F7F5 /* czzCookieManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44DF8ED21A74CAAA0097F7F5 /* czzCookieManager.m */; };
 		44DF8EDA1A74D0F00097F7F5 /* czzACTokenUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44DF8ED91A74D0F00097F7F5 /* czzACTokenUtil.m */; };
 		44DF8EDB1A74D0F00097F7F5 /* czzACTokenUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44DF8ED91A74D0F00097F7F5 /* czzACTokenUtil.m */; };
+		44DF8EDE1A74D62E0097F7F5 /* czzCookieManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44DF8EDD1A74D62E0097F7F5 /* czzCookieManagerViewController.m */; };
+		44DF8EDF1A74D62E0097F7F5 /* czzCookieManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44DF8EDD1A74D62E0097F7F5 /* czzCookieManagerViewController.m */; };
+		44DF8EE21A74D6600097F7F5 /* CookieManager.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44DF8EE11A74D6600097F7F5 /* CookieManager.storyboard */; };
+		44DF8EE81A74DA3B0097F7F5 /* czzMessagePopUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44DF8EE71A74DA3B0097F7F5 /* czzMessagePopUpViewController.m */; };
+		44DF8EEB1A74DA510097F7F5 /* MessagePopup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44DF8EEA1A74DA510097F7F5 /* MessagePopup.storyboard */; };
 		44E791811A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */; };
 		44E791CD1A17856500A63C04 /* advance.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918D1A17856500A63C04 /* advance.png */; };
 		44E791CE1A17856500A63C04 /* advance@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918E1A17856500A63C04 /* advance@2x.png */; };
@@ -854,6 +859,12 @@
 		44DF8ED21A74CAAA0097F7F5 /* czzCookieManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzCookieManager.m; sourceTree = "<group>"; };
 		44DF8ED81A74D0F00097F7F5 /* czzACTokenUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzACTokenUtil.h; sourceTree = "<group>"; };
 		44DF8ED91A74D0F00097F7F5 /* czzACTokenUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzACTokenUtil.m; sourceTree = "<group>"; };
+		44DF8EDC1A74D62E0097F7F5 /* czzCookieManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzCookieManagerViewController.h; sourceTree = "<group>"; };
+		44DF8EDD1A74D62E0097F7F5 /* czzCookieManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzCookieManagerViewController.m; sourceTree = "<group>"; };
+		44DF8EE11A74D6600097F7F5 /* CookieManager.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CookieManager.storyboard; sourceTree = "<group>"; };
+		44DF8EE61A74DA3B0097F7F5 /* czzMessagePopUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzMessagePopUpViewController.h; sourceTree = "<group>"; };
+		44DF8EE71A74DA3B0097F7F5 /* czzMessagePopUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzMessagePopUpViewController.m; sourceTree = "<group>"; };
+		44DF8EEA1A74DA510097F7F5 /* MessagePopup.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MessagePopup.storyboard; sourceTree = "<group>"; };
 		44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NotificationCentreStoryBoard.storyboard; sourceTree = "<group>"; };
 		44E7918D1A17856500A63C04 /* advance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = advance.png; sourceTree = "<group>"; };
 		44E7918E1A17856500A63C04 /* advance@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "advance@2x.png"; sourceTree = "<group>"; };
@@ -1114,6 +1125,7 @@
 				4453C07619F634B700A8250F /* Launch Screen.xib */,
 				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
 				44DF8ECC1A74CA4B0097F7F5 /* Utils */,
+				44DF8EE01A74D6320097F7F5 /* czzCookieManagerViewController */,
 				442EC8681A1A1320005650E4 /* czzNavigationController */,
 				446CC58319DC3827009BF24E /* czzHTMLParserView */,
 				5AF85E691970025F0031D0CB /* czzSearchViewController */,
@@ -1983,6 +1995,7 @@
 				44C73B8B1A4840170051D4C2 /* HistoryManager */,
 				44DF8ED01A74CA640097F7F5 /* ImageViewerUtil */,
 				44DF8ED41A74CAAE0097F7F5 /* CookieManager */,
+				44DF8EE91A74DA3F0097F7F5 /* MessagePopUpController */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -2005,6 +2018,26 @@
 				44DF8ED91A74D0F00097F7F5 /* czzACTokenUtil.m */,
 			);
 			name = CookieManager;
+			sourceTree = "<group>";
+		};
+		44DF8EE01A74D6320097F7F5 /* czzCookieManagerViewController */ = {
+			isa = PBXGroup;
+			children = (
+				44DF8EE11A74D6600097F7F5 /* CookieManager.storyboard */,
+				44DF8EDC1A74D62E0097F7F5 /* czzCookieManagerViewController.h */,
+				44DF8EDD1A74D62E0097F7F5 /* czzCookieManagerViewController.m */,
+			);
+			name = czzCookieManagerViewController;
+			sourceTree = "<group>";
+		};
+		44DF8EE91A74DA3F0097F7F5 /* MessagePopUpController */ = {
+			isa = PBXGroup;
+			children = (
+				44DF8EE61A74DA3B0097F7F5 /* czzMessagePopUpViewController.h */,
+				44DF8EE71A74DA3B0097F7F5 /* czzMessagePopUpViewController.m */,
+				44DF8EEA1A74DA510097F7F5 /* MessagePopup.storyboard */,
+			);
+			name = MessagePopUpController;
 			sourceTree = "<group>";
 		};
 		44E7918C1A17856500A63C04 /* icons */ = {
@@ -2389,6 +2422,7 @@
 				44E791D51A17856500A63C04 /* collapse_arrow@3x.png in Resources */,
 				44B54E6A1A0EE1B80004C5B4 /* czzThreadViewTableViewCell.xib in Resources */,
 				44E791E91A17856500A63C04 /* message.png in Resources */,
+				44DF8EEB1A74DA510097F7F5 /* MessagePopup.storyboard in Resources */,
 				44E791E41A17856500A63C04 /* link@2x.png in Resources */,
 				444F5B3D1A40EA3500EB391F /* 42.png in Resources */,
 				444F5B1F1A40EA3500EB391F /* 12.png in Resources */,
@@ -2414,6 +2448,7 @@
 				44B89E711A2AF2200085F766 /* running_ac-6.gif in Resources */,
 				44E791E31A17856500A63C04 /* link.png in Resources */,
 				44E791D71A17856500A63C04 /* delete.png in Resources */,
+				44DF8EE21A74D6600097F7F5 /* CookieManager.storyboard in Resources */,
 				44E791F71A17856500A63C04 /* search@3x.png in Resources */,
 				44E791E81A17856500A63C04 /* menu@3x.png in Resources */,
 				443B54E91990BD3300BAB282 /* LICENSE in Resources */,
@@ -2546,6 +2581,7 @@
 				4416B72619413EAF00B69C5B /* FPPopoverView.m in Sources */,
 				444146E21A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.m in Sources */,
 				442A8FA119DB7DF200A3516E /* MWGridCell.m in Sources */,
+				44DF8EE81A74DA3B0097F7F5 /* czzMessagePopUpViewController.m in Sources */,
 				441E5D2417F4797F00289DBD /* czzForumGroup.m in Sources */,
 				442A8FFC19DB7F5400A3516E /* UIImageView+WebCache.m in Sources */,
 				44C73B891A4840100051D4C2 /* czzHistoryManager.m in Sources */,
@@ -2659,6 +2695,7 @@
 				442A8FAB19DB7DF200A3516E /* NSIndexPath+PSTCollectionViewAdditions.m in Sources */,
 				44B96E37185B97C400D664A4 /* czzSettingsViewController.m in Sources */,
 				442A8FA019DB7DF200A3516E /* MWCaptionView.m in Sources */,
+				44DF8EDE1A74D62E0097F7F5 /* czzCookieManagerViewController.m in Sources */,
 				4498B689199248ED0014F73F /* czzJSONProcessor.m in Sources */,
 				443B54E21990BD3300BAB282 /* string_buffer.c in Sources */,
 				4479B07D1A0BB8E70074D484 /* czzTextViewHeightCalculator.m in Sources */,
@@ -2677,6 +2714,7 @@
 				441E5CFD17F4691300289DBD /* CustomImageBoardViewerTests.m in Sources */,
 				44C73B7E1A47153B0051D4C2 /* NSObjectUtil.m in Sources */,
 				44C73B8F1A484F280051D4C2 /* czzFavouriteManager.m in Sources */,
+				44DF8EDF1A74D62E0097F7F5 /* czzCookieManagerViewController.m in Sources */,
 				44DF8EDB1A74D0F00097F7F5 /* czzACTokenUtil.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

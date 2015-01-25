@@ -13,6 +13,7 @@
 @interface czzCookieManager : NSObject
 +(id)sharedInstance;
 
+-(NSArray*)currentACCookies;
 -(void)refreshACCookies;
 -(void)setACCookie:(NSHTTPCookie*)cookie ForURL:(NSURL*)url;
 @end

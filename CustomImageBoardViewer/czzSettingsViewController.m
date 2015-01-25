@@ -12,6 +12,7 @@
 #import "czzAppDelegate.h"
 #import "czzHomeViewController.h"
 #import "czzSettingsCentre.h"
+#import "czzCookieManagerViewController.h"
 #import "czzNotificationCentreTableViewController.h"
 
 #import "DartCrowdSourcingLib/DartCrowdSourcingLib.h"
@@ -159,6 +160,8 @@
             [alertView show];
         } else if ([command isEqualToString:@"捐款给App的作者"]) {
             [self openDonationLink];
+        } else if ([command isEqualToString:@"饼干管理器"]) {
+            [self.navigationController pushViewController:[czzCookieManagerViewController new] animated:YES];
         }
     }
 }
