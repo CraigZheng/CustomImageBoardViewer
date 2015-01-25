@@ -13,6 +13,7 @@
 #import "SMXMLDocument.h"
 #import "czzForum.h"
 #import "czzSettingsCentre.h"
+#import "czzCookieManager.h"
 
 //#import <BugSense-iOS/BugSenseController.h>
 #import <SplunkMint-iOS/SplunkMint-iOS.h>
@@ -52,6 +53,7 @@
         [DartCrowdSourcingLib disableCollection];
     }
 
+    czzCookieManager *cookieManager = CookieManager;
     return YES;
 }
 							

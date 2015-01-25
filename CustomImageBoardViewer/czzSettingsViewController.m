@@ -175,6 +175,7 @@
     if (settingsCentre.should_allow_dart)
         [switchCommands addObject:@"Monitor Performance"];
     [regularCommands addObject:@"图片管理器"];
+    [regularCommands addObject:@"饼干管理器"];
     [regularCommands addObject:@"清空缓存"];
     [regularCommands addObject:@"清除ID信息"];
     [regularCommands addObject:@"通知中心"];
