@@ -182,6 +182,9 @@
     [regularCommands addObject:@"清空缓存"];
 //    [regularCommands addObject:@"清除ID信息"];
     [regularCommands addObject:@"通知中心"];
+#ifdef DEBUG
+    [regularCommands addObject:@"DEBUG BUILD"];
+#endif
     NSURL *donationLinkURL = [NSURL URLWithString:settingsCentre.donationLink];
     if (donationLinkURL && settingsCentre.donationLink.length > 0)
         [regularCommands addObject:@"捐款给App的作者"];
