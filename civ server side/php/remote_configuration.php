@@ -13,7 +13,7 @@
 		$json["app_version"] = $version;
 	}
 	
-	if (strcasecmp($version, "2.0.1") == 0)
+	if (strcasecmp($version, "2.1") == 0)
 		echo file_get_contents($censoredFile);
 	else if (strcasecmp($version, "DEBUG") == 0)
 		echo file_get_contents($debugFile);
