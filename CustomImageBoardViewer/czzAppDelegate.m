@@ -53,7 +53,6 @@
         [DartCrowdSourcingLib disableCollection];
     }
 
-    czzCookieManager *cookieManager = CookieManager;
     return YES;
 }
 							

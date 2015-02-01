@@ -58,10 +58,13 @@
                <string>卡牌桌游</string>
                <string>炉石传说</string>
                <string>怪物猎人</string>
+				<string>AC大逃杀</string>
+
                <string>索尼</string>
                <string>任天堂</string>
                <string>口袋妖怪</string>
-               <string>AC大逃杀</string>
+               <string>日麻</string>
+               <string>舰娘</string>
             </ForumNames>
          </ForumGroup>
          <ForumGroup>
