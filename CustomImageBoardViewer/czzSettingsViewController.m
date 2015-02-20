@@ -15,8 +15,6 @@
 #import "czzCookieManagerViewController.h"
 #import "czzNotificationCentreTableViewController.h"
 
-#import "DartCrowdSourcingLib/DartCrowdSourcingLib.h"
-
 @interface czzSettingsViewController ()<UIAlertViewDelegate, UIActionSheetDelegate>
 @property NSMutableArray *commands;
 @property NSMutableArray *regularCommands;
@@ -104,7 +102,7 @@
          else if ([command isEqualToString:@"每月自动清理缓存"]) {
              [commandSwitch setOn:settingsCentre.autoCleanImageCache];
          } else if ([command isEqualToString:@"Monitor Performance"]) {
-             [commandSwitch setOn:[DartCrowdSourcingConstants isEnabled]];
+//             [commandSwitch setOn:[DartCrowdSourcingConstants isEnabled]];
          }
     } else if (indexPath.section == 1){
         UILabel *commandLabel = (UILabel*)[cell viewWithTag:5];
@@ -277,10 +275,6 @@
             settingsCentre.autoCleanImageCache = !settingsCentre.autoCleanImageCache;
             [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"每月自动清理缓存： %@", settingsCentre.autoCleanImageCache ? @"On" : @"Off"]];
         } else if ([command isEqualToString:@"Monitor Performance"]) {
-            if (switchControl.on)
-                [DartCrowdSourcingLib enableCollection];
-            else
-                [DartCrowdSourcingLib disableCollection];
             [self.settingsTableView reloadData];
         }
         [settingsCentre saveSettings];

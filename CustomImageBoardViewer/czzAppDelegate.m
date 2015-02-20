@@ -18,9 +18,6 @@
 //#import <BugSense-iOS/BugSenseController.h>
 #import <SplunkMint-iOS/SplunkMint-iOS.h>
 
-//Dart integration
-#import "DartCrowdSourcingLib/DartCrowdSourcingLib.h"
-
 @interface czzAppDelegate()<czzBlacklistDownloaderDelegate, NSURLConnectionDataDelegate>
 @property czzSettingsCentre *settingsCentre;
 @end
@@ -43,15 +40,6 @@
     [settingsCentre downloadSettings];
     
     [self checkFolders];
-
-    //Dart integration
-    if (settingsCentre.should_allow_dart) {
-        [DartCrowdSourcingLib setEnableGPS:NO];
-        [DartCrowdSourcingLib setEnableBackgroundGPS:NO];
-        [DartCrowdSourcingLib initWithApiKey:@"CustomImageBoardViewer" version:nil homeMccMnc:@"50502" testerID:@"CustomImageBoardViewer" uploadURL:nil];
-    } else {
-        [DartCrowdSourcingLib disableCollection];
-    }
 
     return YES;
 }
@@ -107,8 +95,6 @@
 
 #pragma mark - background fetch
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    //dart intergration
-    [DartCrowdSourcingLib performBackgroundLoggingWithCompletionHandler:nil andResult:UIBackgroundFetchResultNoData];
     completionHandler(UIBackgroundFetchResultNoData);
 }
 
