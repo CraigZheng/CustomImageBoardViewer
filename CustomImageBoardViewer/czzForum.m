@@ -30,6 +30,26 @@
     return self;
 }
 
+/*
+ at march 2015, the original A isle is dead, a new format is adapted by the new A isle
+ */
+-(id)initWithJSONDictionaryV2:(NSDictionary*)jsonDict {
+    self = [super init];
+    @try {
+        {
+            if (jsonDict) {
+                self.forumID = [[self readFromJsonDictionary:jsonDict withName:@"id"] integerValue];
+                self.name = [self readFromJsonDictionary:jsonDict withName:@"name"];
+            }
+            return self;
+        }
+    }
+    @catch (NSException *exception) {
+        DLog(@"%@", exception);
+    }
+    return nil;
+}
+
 -(id)readFromJsonDictionary:(NSDictionary*)dict withName:(NSString*)name {
     if ([[dict valueForKey:name] isEqual:[NSNull null]]) {
         return nil;
