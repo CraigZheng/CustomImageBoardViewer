@@ -15,7 +15,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define CONFIGURATION_URL @"http://www.my-realm.com/php/remote_configuration.php"
+#define CONFIGURATION_URL @"http://civ.atwebpages.com/php/remote_configuration.php"
 
 @interface czzSettingsCentre : NSObject
 

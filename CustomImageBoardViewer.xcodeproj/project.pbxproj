@@ -188,9 +188,6 @@
 		4453C07719F634B700A8250F /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4453C07619F634B700A8250F /* Launch Screen.xib */; };
 		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
 		446CC58219DC2BDE009BF24E /* czzHTMLParserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 446CC58119DC2BDE009BF24E /* czzHTMLParserViewController.m */; };
-		447573BF1AAC05F9002FA3C9 /* default_forum_v2.json in Resources */ = {isa = PBXBuildFile; fileRef = 447573BE1AAC05F9002FA3C9 /* default_forum_v2.json */; };
-		447573C41AAC0EB8002FA3C9 /* default_configuration_v2.json in Resources */ = {isa = PBXBuildFile; fileRef = 447573C21AAC0EB8002FA3C9 /* default_configuration_v2.json */; };
-		447573C51AAC0EB8002FA3C9 /* default_configuration-censored_v2.json in Resources */ = {isa = PBXBuildFile; fileRef = 447573C31AAC0EB8002FA3C9 /* default_configuration-censored_v2.json */; };
 		4479B07D1A0BB8E70074D484 /* czzTextViewHeightCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4479B07C1A0BB8E70074D484 /* czzTextViewHeightCalculator.m */; };
 		4479B08A1A0CCB270074D484 /* MiniThreadView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4479B0891A0CCB270074D484 /* MiniThreadView.storyboard */; };
 		4479B0901A0CCB6D0074D484 /* czzMiniThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4479B08F1A0CCB6D0074D484 /* czzMiniThreadViewController.m */; };
@@ -742,9 +739,6 @@
 		4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFavouriteManagerViewController.m; sourceTree = "<group>"; };
 		446CC58019DC2BDE009BF24E /* czzHTMLParserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzHTMLParserViewController.h; sourceTree = "<group>"; };
 		446CC58119DC2BDE009BF24E /* czzHTMLParserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = czzHTMLParserViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		447573BE1AAC05F9002FA3C9 /* default_forum_v2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = default_forum_v2.json; sourceTree = "<group>"; };
-		447573C21AAC0EB8002FA3C9 /* default_configuration_v2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = default_configuration_v2.json; sourceTree = "<group>"; };
-		447573C31AAC0EB8002FA3C9 /* default_configuration-censored_v2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "default_configuration-censored_v2.json"; sourceTree = "<group>"; };
 		4479B07B1A0BB8E70074D484 /* czzTextViewHeightCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzTextViewHeightCalculator.h; sourceTree = "<group>"; };
 		4479B07C1A0BB8E70074D484 /* czzTextViewHeightCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzTextViewHeightCalculator.m; sourceTree = "<group>"; };
 		4479B0891A0CCB270074D484 /* MiniThreadView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MiniThreadView.storyboard; sourceTree = "<group>"; };
@@ -1610,7 +1604,8 @@
 		443B54F619933F4C00BAB282 /* czzSettingsCentre */ = {
 			isa = PBXGroup;
 			children = (
-				447573C01AAC0600002FA3C9 /* local json */,
+				5A5407F519961F87005FA214 /* default_configuration.json */,
+				449C9E261A71DB5C00D49B7F /* remote_configuration-debug.json */,
 				443B54F119933C1F00BAB282 /* czzSettingsCentre.h */,
 				443B54F219933C1F00BAB282 /* czzSettingsCentre.m */,
 			);
@@ -1725,26 +1720,6 @@
 				446CC58119DC2BDE009BF24E /* czzHTMLParserViewController.m */,
 			);
 			name = czzHTMLParserView;
-			sourceTree = "<group>";
-		};
-		447573C01AAC0600002FA3C9 /* local json */ = {
-			isa = PBXGroup;
-			children = (
-				447573C11AAC060A002FA3C9 /* v2 */,
-				5A5407F519961F87005FA214 /* default_configuration.json */,
-				449C9E261A71DB5C00D49B7F /* remote_configuration-debug.json */,
-			);
-			name = "local json";
-			sourceTree = "<group>";
-		};
-		447573C11AAC060A002FA3C9 /* v2 */ = {
-			isa = PBXGroup;
-			children = (
-				447573C21AAC0EB8002FA3C9 /* default_configuration_v2.json */,
-				447573C31AAC0EB8002FA3C9 /* default_configuration-censored_v2.json */,
-				447573BE1AAC05F9002FA3C9 /* default_forum_v2.json */,
-			);
-			name = v2;
 			sourceTree = "<group>";
 		};
 		4479B0911A0CCB750074D484 /* MiniThreadView */ = {
@@ -2510,7 +2485,6 @@
 				5A637439195D8AB0004AF1FC /* LICENSE in Resources */,
 				44E791ED1A17856500A63C04 /* previous@2x.png in Resources */,
 				444F5B181A40EA3500EB391F /* 05.png in Resources */,
-				447573BF1AAC05F9002FA3C9 /* default_forum_v2.json in Resources */,
 				4432BA971AA88764002C66F5 /* new AC isle api.json in Resources */,
 				444F5B271A40EA3500EB391F /* 20.png in Resources */,
 				4432BA941AA88613002C66F5 /* thread content example.json in Resources */,
@@ -2520,7 +2494,6 @@
 				44C73BAF1A4969E30051D4C2 /* Icon-60@2x.png in Resources */,
 				444F5B431A40EA3500EB391F /* 48.png in Resources */,
 				444F5B241A40EA3500EB391F /* 17.png in Resources */,
-				447573C51AAC0EB8002FA3C9 /* default_configuration-censored_v2.json in Resources */,
 				444F5B201A40EA3500EB391F /* 13.png in Resources */,
 				444F5B2D1A40EA3500EB391F /* 26.png in Resources */,
 				44E792001A17856500A63C04 /* sleeping@3x.png in Resources */,
@@ -2568,7 +2541,6 @@
 				44CF25541A25A2A500BD8228 /* sent@3x.png in Resources */,
 				44E791E11A17856500A63C04 /* happy@2x.png in Resources */,
 				441E5CD917F4691300289DBD /* InfoPlist.strings in Resources */,
-				447573C41AAC0EB8002FA3C9 /* default_configuration_v2.json in Resources */,
 				444F5B381A40EA3500EB391F /* 37.png in Resources */,
 				444F5B481A40EA3500EB391F /* 53.png in Resources */,
 				44E791E61A17856500A63C04 /* menu.png in Resources */,

@@ -19,6 +19,7 @@
 
 @interface czzForumsViewController () <czzXMLDownloaderDelegate, UITableViewDataSource, UITableViewDelegate>
 @property czzXMLDownloader *xmlDownloader;
+@property NSMutableArray *forumGroups;
 @property BOOL failedToConnect;
 @property NSDate *lastAdUpdateTime;
 @property NSTimeInterval adUpdateInterval;
@@ -30,6 +31,7 @@
 @implementation czzForumsViewController
 @synthesize xmlDownloader;
 @synthesize forumsTableView;
+@synthesize forumGroups;
 @synthesize failedToConnect;
 @synthesize bannerView_;
 @synthesize lastAdUpdateTime;
@@ -43,6 +45,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    forumGroups = [NSMutableArray new];
     [self refreshForums];
     bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
 //    bannerView_.adUnitID = @"a151ef285f8e0dd";
@@ -50,7 +53,7 @@
     bannerView_.rootViewController = self;
     adUpdateInterval = 10 * 60;
     //load default forumID json file to avoid crash caused by bad network connection
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"default_forum_v2" ofType:@"json"];
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"default_forumID" ofType:@"json"];
     NSData *JSONData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
     NSArray *defaultForums = [self parseJsonForForum:JSONData];
     if (defaultForums.count > 0)
@@ -110,15 +113,16 @@
     NSError* error;
     NSMutableArray *newForums = [NSMutableArray new];
 
-    NSArray *jsonArray;
+    NSDictionary *jsonDict;
     if (jsonData)
-        jsonArray = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+        jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
     else {
         error = [NSError errorWithDomain:@"Empty Data" code:999 userInfo:nil];
     }
     if (!error) {
-        for (NSDictionary* rawForum in jsonArray) {
-            czzForum *newForum = [[czzForum alloc] initWithJSONDictionaryV2:rawForum];
+        NSArray *rawForumData = [jsonDict valueForKey:@"forum"];
+        for (NSDictionary* rawForum in rawForumData) {
+            czzForum *newForum = [[czzForum alloc] initWithJSONDictionary:rawForum];
             [newForums addObject:newForum];
         }
     }
@@ -134,70 +138,70 @@
 }
 
 #pragma UITableView datasouce
-//-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-//    if (failedToConnect)
-//        return 1;
-//    return forumGroups.count;
-//}
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    if (failedToConnect)
+        return 1;
+    return forumGroups.count;
+}
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (failedToConnect)
         return 1;
-
-    return forums.count + 1;
+    czzForumGroup *forumGroup = [forumGroups objectAtIndex:section];
+    if (section == 0)
+    {
+        return forumGroup.forumNames.count + 1;
+    }
+    return forumGroup.forumNames.count;
 }
 
-//-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-//    if (failedToConnect || forumGroups.count == 0){
-//        return @" ";
-//    }
-//    czzForumGroup *forumGroup = [forumGroups objectAtIndex:section];
-//    return forumGroup.area;
-//    
-//}
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    if (failedToConnect || forumGroups.count == 0){
+        return @" ";
+    }
+    czzForumGroup *forumGroup = [forumGroups objectAtIndex:section];
+    return forumGroup.area;
+    
+}
 
 #pragma UITableView delegate
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *cell_identifier = @"forum_cell_identifier";
-    //failed to connect cell
     if (failedToConnect){
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"no_service_cell_identifier"];
         return cell;
     }
+    czzForumGroup *forumGroup = [forumGroups objectAtIndex:indexPath.section];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier];
-    //ad cell
-    if (indexPath.row >= forums.count) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"ad_cell_identifier" forIndexPath:indexPath];
-        //position of the ad
-        if (!bannerView_.superview) {
-            [bannerView_ setFrame:CGRectMake(0, 0, bannerView_.bounds.size.width,
-                                             bannerView_.bounds.size.height)];
-            [self refreshAd];
-        }
-        if (!shouldHideCoverView) {
-            //the cover view
-            if (adCoverView.superview) {
-                [adCoverView removeFromSuperview];
-            }
-            adCoverView = [[UIView alloc] initWithFrame:bannerView_.frame];
-            adCoverView.backgroundColor = [UIColor whiteColor];
-            UILabel *tapMeLabel = [[UILabel alloc] initWithFrame:adCoverView.frame];
-            tapMeLabel.text = @"点我，我是广告";
-            tapMeLabel.textAlignment = NSTextAlignmentCenter;
-            tapMeLabel.userInteractionEnabled = NO;
-            [adCoverView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissCoverView)]];
-            [adCoverView addSubview:tapMeLabel];
-            [cell.contentView addSubview:bannerView_];
-            [cell.contentView addSubview:adCoverView];
-        }
-        return cell;
-    }
-    czzForum *forum = [forums objectAtIndex:indexPath.row];
     if (cell){
-        if (indexPath.row < forums.count) {
+        if (indexPath.row < forumGroup.forumNames.count) {
             UILabel *titleLabel = (UILabel*)[cell viewWithTag:1];
             titleLabel.textColor = [settingCentre contentTextColour];
-            titleLabel.text = forum.name;
+            [titleLabel setText:[forumGroup.forumNames objectAtIndex:indexPath.row]];
+        } else {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"ad_cell_identifier" forIndexPath:indexPath];
+            //position of the ad
+            if (!bannerView_.superview) {
+                [bannerView_ setFrame:CGRectMake(0, 0, bannerView_.bounds.size.width,
+                                                 bannerView_.bounds.size.height)];
+                [self refreshAd];
+            }
+            if (!shouldHideCoverView) {
+                //the cover view
+                if (adCoverView.superview) {
+                    [adCoverView removeFromSuperview];
+                }
+                adCoverView = [[UIView alloc] initWithFrame:bannerView_.frame];
+                adCoverView.backgroundColor = [UIColor whiteColor];
+                UILabel *tapMeLabel = [[UILabel alloc] initWithFrame:adCoverView.frame];
+                tapMeLabel.text = @"点我，我是广告";
+                tapMeLabel.textAlignment = NSTextAlignmentCenter;
+                tapMeLabel.userInteractionEnabled = NO;
+                [adCoverView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissCoverView)]];
+                [adCoverView addSubview:tapMeLabel];
+                [cell.contentView addSubview:bannerView_];
+                [cell.contentView addSubview:adCoverView];
+            }
         }
     }
     //background colour - nighty mode enable
@@ -210,8 +214,12 @@
         [self refreshForums];
         return;
     }
-    czzForum *forum = [forums objectAtIndex:indexPath.row];
-    NSString *forumName = forum.name;
+    if (forumGroups.count == 0)
+        return;
+    czzForumGroup *forumGroup = [forumGroups objectAtIndex:indexPath.section];
+    if (indexPath.row >= forumGroup.forumNames.count)
+        return;
+    NSString *forumName = [forumGroup.forumNames objectAtIndex:indexPath.row];
     [self.viewDeckController toggleLeftViewAnimated:YES];
     //POST a local notification to inform other view controllers that a new forum is picked
     NSMutableDictionary *userInfo = [NSMutableDictionary new];
@@ -222,10 +230,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     //ad cell
-//    if (indexPath.section == 0 && indexPath.row == [forumGroups.lastObject forumNames].count) {
-//        return bannerView_.bounds.size.height;
-//    }
-    if (indexPath.row >= forums.count) {
+    if (indexPath.section == 0 && indexPath.row == [forumGroups.lastObject forumNames].count) {
         return bannerView_.bounds.size.height;
     }
     return 44;
@@ -234,12 +239,32 @@
 #pragma czzXMLDownloaderDelegate
 -(void)downloadOf:(NSURL *)xmlURL successed:(BOOL)successed result:(NSData *)xmlData{
     if (successed){
-        NSArray *defaultForums = [self parseJsonForForum:xmlData];
-        forums = [NSMutableArray arrayWithArray:defaultForums];
-        [czzAppDelegate sharedAppDelegate].forums = defaultForums;
+        forumGroups = [NSMutableArray new];
+        //parse the return XML object
+        NSError *error;
+        SMXMLDocument *xmlDoc = [[SMXMLDocument alloc] initWithData:xmlData error:&error];
+        if (error){
+            DLog(@"%@", error);
+            [self.view makeToast:@"数据错误：服务器可能在维护中！" duration:1.5 position:@"bottom" image:[UIImage imageNamed:@"warning"]];
+        }
+        NSArray *children = [xmlDoc.root children];
+        for (SMXMLElement *child in children){
+            //parse the result
+            if ([child.name isEqualToString:@"status"]){
+                NSInteger status = [child.value integerValue];
+                if (status != 200){
+                    [self.view makeToast:@"网络错误：无法接上服务器" duration:1.5 position:@"bottom" image:[UIImage imageNamed:@"warning"]];
+                    break;
+                }
+            }
+            //parse the model
+            if ([child.name isEqualToString:@"model"]){
+                [self parseModel:child];
+            }
+        }
     }
     [progressView stopAnimating];
-    if (forums.count <= 0)
+    if (forumGroups.count <= 0)
         failedToConnect = YES;
     [forumsTableView reloadData];
 }
@@ -251,5 +276,32 @@
     }
     shouldHideCoverView = YES;
 }
+
+#pragma XML parser
+-(void)parseModel:(SMXMLElement*)model{
+    for (SMXMLElement *child in model.children) {
+        if ([child.name isEqualToString:@"ArrayOfForumGroup"]){
+            for (SMXMLElement *forumGroup in child.children) {
+                [self parseForumGroup:forumGroup];
+            }
+        }
+    }
+}
+
+-(void)parseForumGroup:(SMXMLElement*)forumGroup{
+    czzForumGroup *newForumGroup = [czzForumGroup new];
+    for (SMXMLElement *child in forumGroup.children) {
+        if ([child.name isEqualToString:@"Area"]){
+            newForumGroup.area = child.value;
+        } else if ([child.name isEqualToString:@"ForumNames"]){
+            //each children would be a name of a forum
+            for (SMXMLElement *forum in child.children) {
+                [newForumGroup.forumNames addObject:forum.value];
+            }
+        }
+    }
+    [forumGroups addObject:newForumGroup];
+}
+
 
 @end
