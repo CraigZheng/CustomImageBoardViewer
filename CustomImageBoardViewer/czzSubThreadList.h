@@ -8,6 +8,8 @@
 
 #define SUB_THREAD_LIST_CACHE_FILE @"_cache.dat"
 
+#define kThreadID @"<THREAD_ID>"
+
 #import "czzThreadList.h"
 
 @interface czzSubThreadList : czzThreadList

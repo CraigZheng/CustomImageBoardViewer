@@ -13,6 +13,7 @@
 #import "czzBlacklistEntity.h"
 #import "czzImageCentre.h"
 #import "NSString+HTML.h"
+#import "czzSubThreadList.h"
 #import "czzSettingsCentre.h"
 
 @interface czzThread()
@@ -29,7 +30,7 @@
 }
 
 -(instancetype)initWithThreadID:(NSInteger)threadID {
-    NSString *target = [[settingCentre thread_url] stringByReplacingOccurrencesOfString:THREAD_ID withString:[NSString stringWithFormat:@"%ld", (long)threadID]];
+    NSString *target = [[[settingCentre thread_content_host] stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long)threadID]] stringByReplacingOccurrencesOfString:kPage withString:@"1"];
     NSURLResponse *response;
     NSData *data = [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:target]] returningResponse:&response error:nil];
     if (data)
@@ -37,7 +38,7 @@
         NSError *error;
         NSDictionary *rawJson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
         if (!error) {
-            czzThread *resultThread = [[czzThread alloc] initWithJSONDictionary:[rawJson objectForKey:@"threads"]];
+            czzThread *resultThread = [[czzThread alloc] initWithJSONDictionaryV2:rawJson];
             return resultThread;
         }
     }
@@ -84,7 +85,7 @@
             self.postDateTime = [formatter dateFromString:dateTimeString];
 
             //various contents
-            self.UID = [[NSAttributedString alloc] initWithString:[self readFromJsonDictionary:data withName:@"admin"] ? [self readFromJsonDictionary:data withName:@"name"] : [self readFromJsonDictionary:data withName:@"userid"]];
+            self.UID = [[NSAttributedString alloc] initWithString:[[self readFromJsonDictionary:data withName:@"admin"] boolValue] ? [self readFromJsonDictionary:data withName:@"name"] : [self readFromJsonDictionary:data withName:@"userid"]];
             self.email = [self readFromJsonDictionary:data withName:@"email"];
             self.title = [self readFromJsonDictionary:data withName:@"title"];
             self.content = [self renderHTMLToAttributedString:[self readFromJsonDictionary:data withName:@"content"]];

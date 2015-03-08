@@ -119,7 +119,7 @@
 - (IBAction)openThreadAction:(id)sender {
     [[czzAppDelegate sharedAppDelegate].window makeToastActivity];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        czzThread *parentThread = [[czzThread alloc] initWithThreadID:myThread.parentID];
+        czzThread *parentThread = [[czzThread alloc] initWithThreadID:myThread.parentID ? myThread.parentID : myThread.ID];
         dispatch_async(dispatch_get_main_queue(), ^{
             if (parentThread) {
                 if (delegate && [delegate respondsToSelector:@selector(miniThreadWantsToOpenThread:)])

@@ -99,10 +99,11 @@
         //page number data
         [self updatePageNumberWithJsonDict:[parsedObjects objectForKey:@"page"]];
         //thread and sub thread data
-        czzThread *parentThread = [[czzThread alloc] initWithJSONDictionary:[parsedObjects objectForKey:@"threads"]];
+//        czzThread *parentThread = [[czzThread alloc] initWithJSONDictionary:[parsedObjects objectForKey:@"threads"]];
+        czzThread *parentThread = [[czzThread alloc] initWithJSONDictionaryV2:parsedObjects];
         NSArray* parsedThreadData = [parsedObjects objectForKey:@"replys"];
         for (NSDictionary *rawThreadData in parsedThreadData) {
-            czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
+            czzThread *newThread = [[czzThread alloc] initWithJSONDictionaryV2:rawThreadData];
             [processedThreads addObject:newThread];
         }
         
