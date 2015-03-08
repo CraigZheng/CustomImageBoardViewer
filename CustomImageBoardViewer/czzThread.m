@@ -16,16 +16,13 @@
 #import "czzSettingsCentre.h"
 
 @interface czzThread()
-@property czzSettingsCentre *settingsCentre;
 @end
 
 @implementation czzThread
-@synthesize settingsCentre;
 
 -(id)init {
     self = [super init];
     if (self) {
-        settingsCentre = [czzSettingsCentre sharedInstance];
         self.replyToList = [NSMutableArray new];
     }
     return self;
@@ -46,6 +43,63 @@
     }
     
     return nil;
+}
+
+/*
+ "id": "185934",
+ "img": "2015-03-08/54fbc263e793f",
+ "ext": ".jpg",
+ "now": "2015-03-08(日)11:30:43",
+ "userid": "Xr4haKp",
+ "name": "ATM",
+ "email": "",
+ "title": "无标题",
+ "content": "A岛安卓客户端领到假饼干的各位请注意：在手机的应用管理里清除A岛客户端的所有应用数据后重新领取饼干即可<br />\r\n现在限时开放领取饼干，请各位在此串回复领取饼干，禁止另开串，谢谢合作。",
+ "admin": "1",
+ "remainReplys": 2162,
+ "replyCount": "2172",
+ "replys":
+ */
+/*
+ new format
+ */
+-(instancetype)initWithJSONDictionaryV2:(NSDictionary *)data {
+    self = [super init];
+    if (self) {
+        @try {
+            self.ID = [[self readFromJsonDictionary:data withName:@"id"] integerValue];
+            //images
+            NSString *imgString = [self readFromJsonDictionary:data withName:@"img"];
+            if (imgString.length) {
+                self.imgSrc = [imgString stringByAppendingString:[self readFromJsonDictionary:data withName:@"ext"]];
+                self.imgSrc = [[settingCentre image_host] stringByAppendingPathComponent:self.imgSrc];
+                self.thImgSrc = [[imgString stringByAppendingString:@"_t"] stringByAppendingString:[self readFromJsonDictionary:data withName:@"ext"]];
+                self.thImgSrc = [[settingCentre image_host] stringByAppendingPathComponent:self.thImgSrc];
+                
+            }
+            //date -  "now": "2015-03-08(日)11:30:43",
+            NSDateFormatter *formatter = [NSDateFormatter new];
+            formatter.dateFormat = @"yyyyMMddHHmmss";
+            NSString *dateTimeString = [[[self readFromJsonDictionary:data withName:@"now"] componentsSeparatedByCharactersInSet: [[NSCharacterSet decimalDigitCharacterSet] invertedSet]] componentsJoinedByString:@""];
+            self.postDateTime = [formatter dateFromString:dateTimeString];
+
+            //various contents
+            self.UID = [[NSAttributedString alloc] initWithString:[self readFromJsonDictionary:data withName:@"admin"] ? [self readFromJsonDictionary:data withName:@"name"] : [self readFromJsonDictionary:data withName:@"userid"]];
+            self.email = [self readFromJsonDictionary:data withName:@"email"];
+            self.title = [self readFromJsonDictionary:data withName:@"title"];
+            self.content = [self renderHTMLToAttributedString:[self readFromJsonDictionary:data withName:@"content"]];
+            self.responseCount = [[self readFromJsonDictionary:data withName:@"replyCount"] integerValue];
+            //check contents
+            [self checkBlacklist];
+            [self checkImageURLs];
+            [self checkRemoteConfiguration];
+        }
+        @catch (NSException *exception) {
+            DLog(@"%@", exception);
+            return nil;
+        }
+    }
+    return self;
 }
 
 -(id)initWithJSONDictionary:(NSDictionary *)data {
@@ -117,7 +171,7 @@
  */
 
 -(void)checkBlacklist {
-    if (!settingsCentre.shouldEnableBlacklistFiltering)
+    if (![settingCentre shouldEnableBlacklistFiltering])
         return;
     //consor contents
     czzBlacklistEntity *blacklistEntity = [[czzBlacklist sharedInstance] blacklistEntityForThreadID:self.ID];
@@ -145,9 +199,10 @@
 
 -(void)checkImageURLs {
     if (self.thImgSrc.length != 0){
-        NSString *targetImgURL = [settingsCentre.thumbnail_host stringByAppendingPathComponent:self.thImgSrc];
+//        NSString *targetImgURL = [[settingCentre thumbnail_host] stringByAppendingPathComponent:self.thImgSrc];
+        NSString *targetImgURL = self.thImgSrc;
         //if is set to show image
-        if (settingsCentre.userDefShouldDisplayThumbnail || !settingsCentre.shouldDisplayThumbnail){
+        if ([settingCentre userDefShouldDisplayThumbnail] || ![settingCentre shouldDisplayThumbnail]){
             dispatch_async(dispatch_get_main_queue(), ^{
                 [[czzImageCentre sharedInstance] downloadThumbnailWithURL:targetImgURL isCompletedURL:YES];
             });
@@ -159,13 +214,13 @@
 }
 
 -(void)checkRemoteConfiguration {
-    if (!settingsCentre.shouldDisplayThumbnail) {
+    if (![settingCentre shouldDisplayThumbnail]) {
         self.thImgSrc = nil;
     }
-    if (!settingsCentre.shouldDisplayImage) {
+    if (![settingCentre shouldDisplayImage]) {
         self.imgSrc = nil;
     }
-    if (!settingsCentre.shouldDisplayContent) {
+    if (![settingCentre shouldDisplayContent]) {
         self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
     }
 }
@@ -243,7 +298,7 @@
     }
     
     //colour - adjust to nighty mode
-    [attributedHtmlString setAttributes:@{NSForegroundColorAttributeName: settingsCentre.contentTextColour} range:NSMakeRange(0, attributedHtmlString.length)];
+    [attributedHtmlString setAttributes:@{NSForegroundColorAttributeName: [settingCentre contentTextColour]} range:NSMakeRange(0, attributedHtmlString.length)];
     for (NSString *pendingText in pendingTextToRender) {
         NSRange textRange = [attributedHtmlString.string rangeOfString:pendingText];
         [attributedHtmlString setAttributes:@{NSForegroundColorAttributeName: fontColor} range:textRange];
@@ -392,6 +447,14 @@
         
     }
     return self;
+}
+
+-(id)readFromJsonDictionary:(NSDictionary*)dict withName:(NSString*)dictName {
+    if ([[dict valueForKey:dictName] isEqual:[NSNull null]]) {
+        return nil;
+    }
+    id value = [dict valueForKey:dictName];
+    return value;
 }
 
 -(NSString *)description {

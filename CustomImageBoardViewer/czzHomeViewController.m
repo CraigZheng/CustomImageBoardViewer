@@ -117,7 +117,7 @@
     //register a notification observer
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(forumPicked:)
-                                                 name:@"ForumNamePicked"
+                                                 name:kForumPickedNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(openPickedThread:)
@@ -151,13 +151,14 @@
     delayTime = 9999;
 #endif
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        if (threadList.forumName.length <= 0) {
+        if (threadList.forum.name.length <= 0) {
             if ([czzAppDelegate sharedAppDelegate].forums.count > 0)
             {
                 [[czzAppDelegate sharedAppDelegate].window makeToast:@"用户没有选择板块，随机选择……"];
                 @try {
                     int randomIndex = rand() % [czzAppDelegate sharedAppDelegate].forums.count;
-                    [threadList setForumName:[[[czzAppDelegate sharedAppDelegate].forums objectAtIndex:randomIndex] name]];
+//                    [threadList setForumName:[[[czzAppDelegate sharedAppDelegate].forums objectAtIndex:randomIndex] name]];
+                    [threadList setForum:[[czzAppDelegate sharedAppDelegate].forums objectAtIndex:randomIndex]];
                     [self refreshThread:self];
                 }
                 @catch (NSException *exception) {
@@ -241,7 +242,8 @@
     {
         [threadTableView setContentOffset:threadList.currentOffSet animated:NO];
     }
-    [self setForumName:threadList.forumName];
+//    [self setForumName:threadList.forumName];
+    [self setSelectedForum:threadList.forum];
     threads = [NSArray arrayWithArray:threadList.threads];
     horizontalHeights = [NSArray arrayWithArray:threadList.horizontalHeights];
     verticalHeights = [NSArray arrayWithArray:threadList.verticalHeights];
@@ -337,25 +339,25 @@
     czzNotificationCentreTableViewController *notificationCentreViewController = [[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
     [self.navigationController pushViewController:notificationCentreViewController animated:YES];
 }
-
+#warning COME BACK LATER
 -(void)newPost{
-    if (threadList.forumName.length > 0){
-        czzPostViewController *newPostViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
-        [newPostViewController setForumName:threadList.forumName];
-        newPostViewController.postMode = NEW_POST;
-        [self.navigationController presentViewController:newPostViewController animated:YES completion:nil];
-    } else {
-        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"未选定一个版块" duration:1.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
-    }
+//    if (threadList.forumName.length > 0){
+//        czzPostViewController *newPostViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
+//        [newPostViewController setForumName:threadList.forumName];
+//        newPostViewController.postMode = NEW_POST;
+//        [self.navigationController presentViewController:newPostViewController animated:YES completion:nil];
+//    } else {
+//        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"未选定一个版块" duration:1.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
+//    }
 }
-
--(void)moreInfoAction {
-    if (threadList.forumName.length) {
-        czzMoreInfoViewController *moreInfoViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"more_info_view_controller"];
-        moreInfoViewController.forumName = threadList.forumName;
-        [self presentViewController:moreInfoViewController animated:YES completion:nil];
-    }
-}
+//
+//-(void)moreInfoAction {
+//    if (threadList.forumName.length) {
+//        czzMoreInfoViewController *moreInfoViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"more_info_view_controller"];
+//        moreInfoViewController.forumName = threadList.forumName;
+//        [self presentViewController:moreInfoViewController animated:YES completion:nil];
+//    }
+//}
 
 #pragma mark - UITableView datasource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -487,6 +489,9 @@
     [refreshControl endRefreshing];
     if (viewControllerNotInTransition)
         [progressView stopAnimating];
+    if (!wasSuccessul) {
+        [progressView showWarning];
+    }
 }
 
 #pragma mark - self.refreshControl and download controls
@@ -528,26 +533,35 @@
 #pragma Notification handler - forumPicked
 -(void)forumPicked:(NSNotification*)notification{
     NSDictionary *userInfo = notification.userInfo;
-    NSString *forumname = [userInfo objectForKey:@"ForumName"];
-    if (forumname){
-        [self setForumName:forumname];
+    czzForum *forum = [userInfo objectForKey:kPickedForum];
+    if (forum){
+//        [self setForumName:forum.name];
+        [self setSelectedForum:forum];
         [self refreshThread:self];
         //disallow image downloading if specified by remote settings
         shouldHideImageForThisForum = false;
         for (NSString *specifiedForum in settingsCentre.shouldHideImageInForums) {
-            if ([specifiedForum isEqualToString:forumname]) {
+            if ([specifiedForum isEqualToString:forum.name]) {
                 shouldHideImageForThisForum = true;
                 break;
             }
         }
+    } else {
+        [NSException raise:@"NOT A VALID FORUM" format:@""];
     }
 }
 
--(void)setForumName:(NSString *)name{
-    threadList.forumName = name;
-    self.title = threadList.forumName;
+-(void)setSelectedForum:(czzForum*)forum {
+    threadList.forum = forum;
+    self.title = threadList.forum.name;
     self.navigationItem.backBarButtonItem.title = self.title;
 }
+
+//-(void)setForumName:(NSString *)name{
+//    threadList.forumName = name;
+//    self.title = threadList.forumName;
+//    self.navigationItem.backBarButtonItem.title = self.title;
+//}
 
 #pragma mark - czzMenuEnableTableViewCellDelegate
 -(void)userTapInImageView:(NSString *)imgURL {

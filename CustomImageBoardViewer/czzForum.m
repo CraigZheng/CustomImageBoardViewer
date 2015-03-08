@@ -9,6 +9,7 @@
 #import "czzForum.h"
 
 @implementation czzForum
+@synthesize name, header, lock, cooldown, forumID, createdAt, updatedAt;
 
 -(id)initWithJSONDictionary:(NSDictionary *)jsonDict {
     self = [super init];
@@ -50,12 +51,36 @@
     return nil;
 }
 
--(id)readFromJsonDictionary:(NSDictionary*)dict withName:(NSString*)name {
-    if ([[dict valueForKey:name] isEqual:[NSNull null]]) {
+-(id)readFromJsonDictionary:(NSDictionary*)dict withName:(NSString*)dictName {
+    if ([[dict valueForKey:dictName] isEqual:[NSNull null]]) {
         return nil;
     }
-    id value = [dict valueForKey:name];
+    id value = [dict valueForKey:dictName];
     return value;
+}
+
+-(void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:name forKey:@"name"];
+    [aCoder encodeObject:header forKey:@"header"];
+    [aCoder encodeBool:lock forKey:@"lock"];
+    [aCoder encodeInteger:cooldown forKey:@"cooldown"];
+    [aCoder encodeInteger:forumID forKey:@"forumID"];
+    [aCoder encodeObject:createdAt forKey:@"createdAt"];
+    [aCoder encodeObject:updatedAt forKey:@"updatedAt"];
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    if (self) {
+        self.name = [aDecoder decodeObjectForKey:@"name"];
+        self.header = [aDecoder decodeObjectForKey:@"header"];
+        self.lock = [aDecoder decodeBoolForKey:@"lock"];
+        self.cooldown = [aDecoder decodeIntegerForKey:@"cooldown"];
+        self.forumID = [aDecoder decodeIntegerForKey:@"forumID"];
+        self.createdAt = [aDecoder decodeObjectForKey:@"createdAt"];
+        self.updatedAt = [aDecoder decodeObjectForKey:@"updatedAt"];
+    }
+    return self;
 }
 
 @end

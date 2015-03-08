@@ -137,6 +137,9 @@
 }
 
 -(void)downloadSettings {
+#warning DISABLED REFRESH
+    DLog(@"DISABLED REFRESH FOR DEBUGGING");
+    return;
     NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
 //#ifdef DEBUG
 //    versionString = @"DEBUG";

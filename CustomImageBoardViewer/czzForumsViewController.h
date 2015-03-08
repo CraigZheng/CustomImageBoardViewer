@@ -10,6 +10,9 @@
 #import "IIViewDeckController.h"
 #import "GADBannerView.h"
 
+#define kForumPickedNotification @"ForumNamePicked"
+#define kPickedForum @"ForumName"
+
 @interface czzForumsViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UITableView *forumsTableView;
 @property GADBannerView *bannerView_;

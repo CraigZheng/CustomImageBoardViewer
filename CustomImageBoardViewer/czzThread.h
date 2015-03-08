@@ -33,7 +33,10 @@
 @property BOOL blockAll;
 #pragma mark - CLICKABLE CONTENT
 @property NSMutableArray *replyToList;
+
 -(id)initWithJSONDictionary:(NSDictionary*)data;
+-(instancetype)initWithJSONDictionaryV2:(NSDictionary *)data;
+
 -(NSAttributedString*)renderHTMLToAttributedString:(NSString*)htmlString;
 
 -(BOOL)isEqual:(id)object;

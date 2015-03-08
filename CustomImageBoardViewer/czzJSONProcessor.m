@@ -17,6 +17,22 @@
 @synthesize processedThreads;
 @synthesize delegate;
 
+/*
+ "id": "185934",
+ "img": "2015-03-08/54fbc263e793f",
+ "ext": ".jpg",
+ "now": "2015-03-08(日)11:30:43",
+ "userid": "Xr4haKp",
+ "name": "ATM",
+ "email": "",
+ "title": "无标题",
+ "content": "A岛安卓客户端领到假饼干的各位请注意：在手机的应用管理里清除A岛客户端的所有应用数据后重新领取饼干即可<br />\r\n现在限时开放领取饼干，请各位在此串回复领取饼干，禁止另开串，谢谢合作。",
+ "admin": "1",
+ "remainReplys": 2162,
+ "replyCount": "2172",
+ "replys":
+ */
+
 -(void)processThreadListFromData:(NSData *)jsonData {
     processedThreads = [NSMutableArray new];
     NSError *error;
@@ -36,12 +52,12 @@
         }
     }
     @try {
-        //page number data
-        [self updatePageNumberWithJsonDict:[parsedObjects objectForKey:@"page"]];
+//        //page number data
+//        [self updatePageNumberWithJsonDict:[parsedObjects objectForKey:@"page"]];
         //thread list data
-        NSArray* parsedThreadData = [[parsedObjects objectForKey:@"data"] objectForKey:@"threads"];
-        for (NSDictionary *rawThreadData in parsedThreadData) {
-            czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
+//        NSArray* parsedThreadData = [[parsedObjects objectForKey:@"data"] objectForKey:@"threads"];
+        for (NSDictionary *rawThreadData in parsedObjects) {
+            czzThread *newThread = [[czzThread alloc] initWithJSONDictionaryV2:rawThreadData];
             if (newThread)
                 [processedThreads addObject:newThread];
         }

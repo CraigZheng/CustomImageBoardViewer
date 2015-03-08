@@ -8,8 +8,12 @@
 
 #define DEFAULT_THREAD_LIST_CACHE_FILE @"DEFAULT_THREAD_LIST_CACHE_FILE.dat"
 
+#define kForumID @"<FORUM_ID>"
+#define kPage @"<PAGE>"
+
 #import "czzThread.h"
 //#import "czzSubThreadList.h"
+#import "czzForum.h"
 
 #import "czzJSONProcessor.h"
 #import "czzXMLDownloader.h"
@@ -35,7 +39,8 @@
 
 @interface czzThreadList : NSObject <czzXMLDownloaderDelegate, czzJSONProcessorDelegate, NSCoding>
 @property BOOL shouldHideImageForThisForum;
-@property (nonatomic) NSString *forumName;
+//@property (nonatomic) NSString *forumName;
+@property (nonatomic) czzForum *forum;
 @property NSInteger pageNumber;
 @property NSInteger totalPages;
 @property NSMutableArray *threads;

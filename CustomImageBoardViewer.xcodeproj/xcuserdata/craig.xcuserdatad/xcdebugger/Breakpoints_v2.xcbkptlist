@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomImageBoardViewer/czzThreadList.m"
-            timestampString = "440915696.463733"
+            timestampString = "447501050.766288"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "209"
-            endingLineNumber = "209"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
             landmarkName = "-calculateHeightsForThreads:"
             landmarkType = "5">
          </BreakpointContent>

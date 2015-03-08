@@ -210,13 +210,12 @@
         [self refreshForums];
         return;
     }
-    czzForum *forum = [forums objectAtIndex:indexPath.row];
-    NSString *forumName = forum.name;
+    czzForum *pickedForum = [forums objectAtIndex:indexPath.row];
     [self.viewDeckController toggleLeftViewAnimated:YES];
     //POST a local notification to inform other view controllers that a new forum is picked
     NSMutableDictionary *userInfo = [NSMutableDictionary new];
-    [userInfo setObject:forumName forKey:@"ForumName"];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"ForumNamePicked" object:self userInfo:userInfo];
+    [userInfo setObject:pickedForum forKey:kPickedForum];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kForumPickedNotification object:self userInfo:userInfo];
     
 }
 
