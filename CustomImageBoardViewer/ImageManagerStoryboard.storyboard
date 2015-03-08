@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Czz On Screen Image Manager View Controller-->
@@ -80,11 +81,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="DPg-B7-9so">
-                                <rect key="frame" x="0.0" y="80" width="320" height="320"/>
+                                <rect key="frame" x="8" y="80" width="304" height="320"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" id="0TR-hR-M30"/>
-                                    <constraint firstAttribute="height" constant="320" id="7oE-tV-4V1"/>
+                                    <constraint firstAttribute="height" priority="250" constant="320" id="7oE-tV-4V1"/>
                                     <constraint firstAttribute="height" constant="200" id="VWi-fW-bgX"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="320" id="afu-Qs-rxb"/>
                                 </constraints>
@@ -160,6 +161,7 @@
                                 </cells>
                                 <variation key="default">
                                     <mask key="constraints">
+                                        <exclude reference="0TR-hR-M30"/>
                                         <exclude reference="VWi-fW-bgX"/>
                                         <exclude reference="afu-Qs-rxb"/>
                                     </mask>
@@ -200,6 +202,7 @@
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="DPg-B7-9so" secondAttribute="centerX" id="4cA-4W-IiJ"/>
+                            <constraint firstAttribute="width" secondItem="DPg-B7-9so" secondAttribute="width" multiplier="1:0.95" priority="250" id="Ad7-aP-58l"/>
                             <constraint firstAttribute="centerX" secondItem="ow5-My-3da" secondAttribute="centerX" id="CKb-5t-Kmz"/>
                             <constraint firstAttribute="trailing" secondItem="DPg-B7-9so" secondAttribute="trailing" id="H3c-cP-VkB"/>
                             <constraint firstItem="DPg-B7-9so" firstAttribute="top" secondItem="vdA-xk-e2R" secondAttribute="top" constant="80" id="IvD-z9-OUP"/>
