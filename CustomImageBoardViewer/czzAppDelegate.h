@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "IIViewDeckController.h"
 #import "czzHomeViewController.h"
+#import "NSObject+Extension.h"
 
 //the host will be changed very soon
 #define my_main_host @"http://civ.atwebpages.com/"

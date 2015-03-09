@@ -408,6 +408,8 @@
 		44E7920B1A17856500A63C04 /* view@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E791CB1A17856500A63C04 /* view@2x.png */; };
 		44E7920C1A17856500A63C04 /* view@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E791CC1A17856500A63C04 /* view@3x.png */; };
 		44FC4345180067CF0028D7C9 /* czzPostSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 44FC4344180067CF0028D7C9 /* czzPostSender.m */; };
+		44FD5BAD1AAD4C08003CC354 /* NSObject+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 44FD5BAC1AAD4C08003CC354 /* NSObject+Extension.m */; };
+		44FD5BAE1AAD4C08003CC354 /* NSObject+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 44FD5BAC1AAD4C08003CC354 /* NSObject+Extension.m */; };
 		5A0A6BD61848691C0094D7FB /* czzMoreInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0A6BD51848691C0094D7FB /* czzMoreInfoViewController.m */; };
 		5A1593EC18E71E93001A774B /* czzThreadRefButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1593EB18E71E93001A774B /* czzThreadRefButton.m */; };
 		5A26E77919398D7F00B709C9 /* czzNotificationBannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A26E77719398D7F00B709C9 /* czzNotificationBannerViewController.m */; };
@@ -959,6 +961,8 @@
 		44E791CC1A17856500A63C04 /* view@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "view@3x.png"; sourceTree = "<group>"; };
 		44FC4343180067CF0028D7C9 /* czzPostSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzPostSender.h; sourceTree = "<group>"; };
 		44FC4344180067CF0028D7C9 /* czzPostSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzPostSender.m; sourceTree = "<group>"; };
+		44FD5BAB1AAD4C08003CC354 /* NSObject+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Extension.h"; sourceTree = "<group>"; };
+		44FD5BAC1AAD4C08003CC354 /* NSObject+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Extension.m"; sourceTree = "<group>"; };
 		5A0A6BD41848691C0094D7FB /* czzMoreInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzMoreInfoViewController.h; sourceTree = "<group>"; };
 		5A0A6BD51848691C0094D7FB /* czzMoreInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzMoreInfoViewController.m; sourceTree = "<group>"; };
 		5A1593EA18E71E93001A774B /* czzThreadRefButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadRefButton.h; sourceTree = "<group>"; };
@@ -2037,6 +2041,7 @@
 		44DF8ECC1A74CA4B0097F7F5 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				44FD5BA71AAD4B75003CC354 /* NSObjectCategory */,
 				44C73B7F1A4715400051D4C2 /* NSObjectUtil */,
 				444146DF1A1ACA9700B27D69 /* ImageManager */,
 				44C73B901A484F2C0051D4C2 /* FavouriteManager */,
@@ -2203,6 +2208,15 @@
 				44FC4344180067CF0028D7C9 /* czzPostSender.m */,
 			);
 			name = czzPostSender;
+			sourceTree = "<group>";
+		};
+		44FD5BA71AAD4B75003CC354 /* NSObjectCategory */ = {
+			isa = PBXGroup;
+			children = (
+				44FD5BAB1AAD4C08003CC354 /* NSObject+Extension.h */,
+				44FD5BAC1AAD4C08003CC354 /* NSObject+Extension.m */,
+			);
+			name = NSObjectCategory;
 			sourceTree = "<group>";
 		};
 		5A0A6BD7184869200094D7FB /* czzMoreInfoViewController */ = {
@@ -2677,6 +2691,7 @@
 				44B89E871A2AFC6B0085F766 /* czzThreadList.m in Sources */,
 				5A6266AA193A17FF00AD949F /* czzNotificationDownloader.m in Sources */,
 				443B54DE1990BD3300BAB282 /* attribute.c in Sources */,
+				44FD5BAD1AAD4C08003CC354 /* NSObject+Extension.m in Sources */,
 				442A8FF019DB7F5400A3516E /* SDImageCache.m in Sources */,
 				44C34543187E59A500FDE45D /* UIViewController+KNSemiModal.m in Sources */,
 				442A8FA819DB7DF200A3516E /* DACircularProgressView.m in Sources */,
@@ -2777,6 +2792,7 @@
 				44C73B7E1A47153B0051D4C2 /* NSObjectUtil.m in Sources */,
 				44C73B8F1A484F280051D4C2 /* czzFavouriteManager.m in Sources */,
 				44DF8EDF1A74D62E0097F7F5 /* czzCookieManagerViewController.m in Sources */,
+				44FD5BAE1AAD4C08003CC354 /* NSObject+Extension.m in Sources */,
 				44DF8EDB1A74D0F00097F7F5 /* czzACTokenUtil.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

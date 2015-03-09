@@ -453,14 +453,6 @@
     return self;
 }
 
--(id)readFromJsonDictionary:(NSDictionary*)dict withName:(NSString*)dictName {
-    if ([[dict valueForKey:dictName] isEqual:[NSNull null]]) {
-        return nil;
-    }
-    id value = [dict valueForKey:dictName];
-    return value;
-}
-
 -(NSString *)description {
     return [NSString stringWithFormat:@"ID:%ld - UID:%@ - content:%@ - img:%@", (long) self.ID, self.UID.string, self.content.string, self.imgSrc];
 }

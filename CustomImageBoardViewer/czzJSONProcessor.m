@@ -8,6 +8,7 @@
 
 #import "czzJSONProcessor.h"
 #import "czzThread.h"
+#import "czzAppDelegate.h"
 
 @interface czzJSONProcessor()
 @property NSMutableArray *processedThreads;
@@ -97,11 +98,11 @@
     }
     @try {
         //page number data
-        [self updatePageNumberWithJsonDict:[parsedObjects objectForKey:@"page"]];
+        [self updatePageNumberWithJsonDict:[self readFromJsonDictionary:parsedObjects withName:@"page"]];
         //thread and sub thread data
 //        czzThread *parentThread = [[czzThread alloc] initWithJSONDictionary:[parsedObjects objectForKey:@"threads"]];
         czzThread *parentThread = [[czzThread alloc] initWithJSONDictionaryV2:parsedObjects];
-        NSArray* parsedThreadData = [parsedObjects objectForKey:@"replys"];
+        NSArray* parsedThreadData = [self readFromJsonDictionary:parsedObjects withName:@"replys"];
         for (NSDictionary *rawThreadData in parsedThreadData) {
             czzThread *newThread = [[czzThread alloc] initWithJSONDictionaryV2:rawThreadData];
             [processedThreads addObject:newThread];
@@ -141,13 +142,6 @@
     }
 }
 
--(id)readFromJsonDictionary:(NSDictionary*)dict withName:(NSString*)name {
-    if ([[dict valueForKey:name] isEqual:[NSNull null]]) {
-        return nil;
-    }
-    id value = [dict valueForKey:name];
-    return value;
-}
 /*
  page =     {
  page = 1;
