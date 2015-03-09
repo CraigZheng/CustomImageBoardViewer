@@ -9,12 +9,9 @@ DerivedData
 
 *.dia
 
-Build/Products/Debug-iphoneos/CustomImageBoardViewer.app/en.lproj/Main_iPhone.storyboardc/aOD-Hr-NEd-view-6rP-cG-rqX.nib/runtime.nib
-
-Build/Products/Debug-iphoneos/CustomImageBoardViewer.app/en.lproj/Main_iPhone.storyboardc/J6Q-bT-kkR-view-4mA-oB-atS.nib/objects.nib
-
-Build/Products/Debug-iphoneos/CustomImageBoardViewer.app/en.lproj/Main_iPhone.storyboardc/P9r-Cg-Rjf-view-GOK-fb-xVX.nib/objects.nib
-
+Build/*
 *.nib
 
 CustomImageBoardViewer/Objective-C-HMTL-Parser/
+
+Build/CustomImageBoardViewer.build/Debug-iphoneos/CustomImageBoardViewer.build/dgph
