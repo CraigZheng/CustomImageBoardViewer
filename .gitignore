@@ -1,3 +1,6 @@
+Build/
+
+Build/**
 
 CustomImageBoardViewer.xcodeproj/project.xcworkspace/xcuserdata/craig.xcuserdatad/UserInterfaceState.xcuserstate
 DerivedData
@@ -9,7 +12,7 @@ DerivedData
 
 *.dia
 
-Build/
+
 *.nib
 
 CustomImageBoardViewer/Objective-C-HMTL-Parser/

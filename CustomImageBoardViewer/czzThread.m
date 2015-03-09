@@ -242,8 +242,11 @@
         for (NSString* segment in segments) {
             NSString *processedSeg = [segment stringByReplacingOccurrencesOfString:@"No." withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, segment.length)];
             NSInteger refNumber  = processedSeg.integerValue;
-            if (refNumber != 0)
+            if (refNumber != 0) {
+                if (!self.replyToList)
+                    self.replyToList = [NSMutableArray new];
                 [self.replyToList addObject:[NSNumber numberWithInteger:refNumber]];
+            }
         }
     }
 
