@@ -9,9 +9,11 @@ DerivedData
 
 *.dia
 
-Build/*
+Build/
 *.nib
 
 CustomImageBoardViewer/Objective-C-HMTL-Parser/
 
 Build/CustomImageBoardViewer.build/Debug-iphoneos/CustomImageBoardViewer.build/dgph
+
+Build/Debug-iphoneos/CustomImageBoardViewer.app.dSYM/Contents/Info.plist

@@ -996,25 +996,25 @@
                                 <action selector="postAction:" destination="JnF-wS-C9I" id="zss-kn-tAq"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="fn1-vx-9Ma"/>
+                        <barButtonItem width="37" style="plain" systemItem="fixedSpace" id="fn1-vx-9Ma"/>
                         <barButtonItem image="search.png" id="IEY-Zf-6SC">
                             <connections>
                                 <action selector="searchAction:" destination="JnF-wS-C9I" id="nVE-FU-sKp"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Ce0-gG-M2z"/>
+                        <barButtonItem width="37" style="plain" systemItem="fixedSpace" id="Ce0-gG-M2z"/>
                         <barButtonItem image="bookmark.png" id="Xnt-yu-NQh">
                             <connections>
                                 <action selector="bookmarkAction:" destination="JnF-wS-C9I" id="5Xv-ia-0yn"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Maa-gj-Fdj"/>
+                        <barButtonItem width="37" style="plain" systemItem="fixedSpace" id="Maa-gj-Fdj"/>
                         <barButtonItem image="advance.png" id="hBx-aX-JHK">
                             <connections>
                                 <action selector="jumpAction:" destination="JnF-wS-C9I" id="ceo-vg-v4x"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="nYk-qL-i6i"/>
+                        <barButtonItem width="37" style="plain" systemItem="fixedSpace" id="nYk-qL-i6i"/>
                         <barButtonItem image="settings.png" id="T1x-La-d5b">
                             <connections>
                                 <action selector="settingsAction:" destination="JnF-wS-C9I" id="PEi-VR-bxX"/>
@@ -1054,7 +1054,7 @@
             <objects>
                 <tableViewController hidesBottomBarWhenPushed="YES" id="aOD-Hr-NEd" customClass="czzFavouriteManagerViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="6rP-cG-rqX">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -1065,7 +1065,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击以加载更多串" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bfM-v5-1TU">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="点击以加载更多串" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bfM-v5-1TU">
                                             <rect key="frame" x="84" y="11" width="432" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <color key="textColor" red="1" green="0.57347453749999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1092,7 +1092,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="正在加载" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mXR-Qm-DmO">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="正在加载" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mXR-Qm-DmO">
                                             <rect key="frame" x="83" y="11" width="434" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <color key="textColor" red="1" green="0.57347453749999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1164,8 +1164,8 @@
         <image name="upload.png" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="90f-dH-dau"/>
-        <segue reference="Uep-8w-iun"/>
         <segue reference="5Fw-Ve-fjP"/>
+        <segue reference="Uep-8w-iun"/>
+        <segue reference="DWL-6t-CEf"/>
     </inferredMetricsTieBreakers>
 </document>

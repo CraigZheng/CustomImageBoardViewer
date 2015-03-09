@@ -95,7 +95,7 @@
     progressView = [(czzNavigationController*) self.navigationController progressView];
     
     //right bar button items
-    infoBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"info.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(moreInfoAction)];
+    infoBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"info.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(moreInfoAction:)];
     self.navigationItem.leftBarButtonItems = @[forumListButton, infoBarButton];
 
     imageViewerUtil = [czzImageViewerUtil new];
@@ -171,13 +171,12 @@
     UIButton *settingsGearImageButton;
     if (!settingsBarButton.customView) {
         //create a container view that has an image button as its sub view
-        UIView *buttonContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-        settingsGearImageButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 20, 20)];
+        settingsGearImageButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+        settingsGearImageButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 20);
         [settingsGearImageButton setImage:[[UIImage imageNamed:@"settings.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         settingsGearImageButton.tag = 999;
-        [buttonContainerView addSubview:settingsGearImageButton];
         //add the container view
-        settingsBarButton.customView = buttonContainerView;
+        settingsBarButton.customView = settingsGearImageButton;
     } else {
         //retrive the gear image button
         settingsGearImageButton = (UIButton*) [settingsBarButton.customView viewWithTag:999];
@@ -350,14 +349,14 @@
 //        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"未选定一个版块" duration:1.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
 //    }
 }
-//
-//-(void)moreInfoAction {
-//    if (threadList.forumName.length) {
+
+-(IBAction)moreInfoAction:(id)sender {
+//    if (threadList.forum) {
 //        czzMoreInfoViewController *moreInfoViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"more_info_view_controller"];
 //        moreInfoViewController.forumName = threadList.forumName;
 //        [self presentViewController:moreInfoViewController animated:YES completion:nil];
 //    }
-//}
+}
 
 #pragma mark - UITableView datasource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

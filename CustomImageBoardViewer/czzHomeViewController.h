@@ -31,4 +31,5 @@
 -(void)scrollTableViewToTop;
 -(void)scrollTableViewToBottom;
 
+-(IBAction)moreInfoAction:(id)sender;
 @end
