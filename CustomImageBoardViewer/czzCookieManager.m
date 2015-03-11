@@ -21,6 +21,7 @@
 @synthesize acCookies;
 @synthesize archivedCookies;
 
+//http://ano-zhai-so.n1.yun.tf:8999/Home/Api/getCookie
 -(instancetype)init {
     self = [super init];
     if (self) {
@@ -32,16 +33,35 @@
         }
         cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
         cookieStorage.cookieAcceptPolicy = NSHTTPCookieAcceptPolicyAlways;
+        [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://ano-zhai-so.n1.yun.tf:8999/Home/Api/getCookie"]] queue:[NSOperationQueue new] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+            
+        }];
+        [self getCookie];
     }
     
     return self;
+}
+
+-(void)getCookie {
+#warning need to come back later after they fixed this issue
+    __block NSMutableURLRequest *urlRequest = [NSMutableURLRequest new];
+    urlRequest.URL = [NSURL URLWithString:@"http://ano-zhai-so.n1.yun.tf:8999/Home/Api/getCookie"];
+    [urlRequest setValue:@"HAvfun Client" forHTTPHeaderField:@"User-Agent"];
+
+    [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue new] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        DLog(@"%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+        
+        for (NSHTTPCookie *cookie in [cookieStorage cookiesForURL:urlRequest.URL]) {
+            DLog(@"%@:%@", cookie.name, cookie.value);
+        }
+    }];
 }
 
 -(void)refreshACCookies {
     NSMutableArray *cookies = [NSMutableArray new];
     
     for (NSHTTPCookie *cookie in [cookieStorage cookies]) {
-        if ([cookie.name.lowercaseString isEqualToString:@"userId".lowercaseString]) {
+        if ([cookie.name.lowercaseString isEqualToString:@"username".lowercaseString]) {
             DLog(@"%@", cookie);
             [cookies addObject:cookie];
         }
@@ -70,7 +90,7 @@
     NSArray *allCookies = [cookieStorage cookiesForURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
     NSHTTPCookie *inUseCookie;
     for (NSHTTPCookie *cookie in allCookies) {
-        if ([cookie.name.lowercaseString isEqualToString:@"userId".lowercaseString]) {
+        if ([cookie.name.lowercaseString isEqualToString:@"username".lowercaseString]) {
             inUseCookie = cookie;
             break;
         }
