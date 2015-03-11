@@ -24,7 +24,7 @@
   "thread_url": "http://h.acfun.tv/t/THREAD_ID.json",
   "get_forum_info_url": "http://h.acfun.tv/api/forum/get?forumName=",
   "ac_host": "http://www.acfun.tv/",
-  "a_isle_host": "http://h.acfun.tv/",
+  "a_isle_host": "http://ano-zhai-so.n1.yun.tf",
   "thread_list_host": "http://ano-zhai-so.n1.yun.tf:8999/Home/Api/showt?id=<FORUM_ID>&page=<PAGE>.html",
   "thread_content_host": "http://ano-zhai-so.n1.yun.tf:8999/Home/Api/thread?id=<THREAD_ID>&page=<PAGE>.html",
   "thumbnail_host": "http://ano-zhai-so.n1.yun.tf:8999/Public/Upload/",

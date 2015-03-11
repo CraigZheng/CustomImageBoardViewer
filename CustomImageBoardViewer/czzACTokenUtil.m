@@ -15,7 +15,7 @@
         return nil;
     NSDictionary *cookieDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[url host], NSHTTPCookieDomain,
                                       @"/", NSHTTPCookiePath,
-                                      @"userId", NSHTTPCookieName,
+                                      @"username", NSHTTPCookieName,
                                       value, NSHTTPCookieValue,
                                       nil];
     

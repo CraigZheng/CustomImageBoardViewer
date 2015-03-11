@@ -200,7 +200,7 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
 }
 
 +(instancetype)new {
-    return [[UIStoryboard storyboardWithName:COOKIE_MANAGER_VIEW_CONTROLLER_STORYBOARD_NAME bundle:nil] instantiateInitialViewController];
+    return [[UIStoryboard storyboardWithName:COOKIE_MANAGER_VIEW_CONTROLLER_STORYBOARD_NAME bundle:nil] instantiateViewControllerWithIdentifier:CZZ_COOKIE_MANAGER_VIEW_CONTROLLER_IDENTIFIER];
 }
 
 @end
