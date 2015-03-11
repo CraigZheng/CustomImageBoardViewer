@@ -10,7 +10,7 @@
 
 @implementation czzPost
 @synthesize name, email,title, content, imgData, access_token;
-@synthesize parentID, forumName;
+@synthesize parentID, forum;//forumName;
 @synthesize forumID;
 
 //during the initialisation, init the access token with data from the last time
@@ -35,10 +35,16 @@
             
             NSMutableData *requestData = [NSMutableData new];
             //init the access_token from file
-            if (forumName && forumName.length > 0){
-                [params setObject:forumName forKey:@"forumName"];
+//            if (forumName && forumName.length > 0){
+//                [params setObject:forumName forKey:@"forumName"];
+//                
+//                NSData *forumData = [[NSString stringWithFormat:@"&forumName=%@", forumName] dataUsingEncoding:NSUTF8StringEncoding];
+//                [requestData appendData:forumData];
+//            }
+            if (forum) {
+                [params setObject:[NSString stringWithFormat:@"%ld", (long) forum.forumID] forKey:@"fid"];
                 
-                NSData *forumData = [[NSString stringWithFormat:@"&forumName=%@", forumName] dataUsingEncoding:NSUTF8StringEncoding];
+                NSData *forumData = [[NSString stringWithFormat:@"&fid=%ld", (long)forum.forumID] dataUsingEncoding:NSUTF8StringEncoding];
                 [requestData appendData:forumData];
             }
             if (forumID && forumID.length > 0) {

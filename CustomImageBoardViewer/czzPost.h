@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "czzForum.h"
+#import "czzThread.h"
 @interface czzPost : NSObject
 @property NSString *name;
 @property NSString *email;
@@ -15,7 +16,8 @@
 @property NSString *content;
 @property NSString *access_token;
 @property NSInteger parentID;
-@property NSString *forumName;
+//@property NSString *forumName;
+@property czzForum *forum;
 @property NSString *forumID;
 
 @property NSData *imgData;

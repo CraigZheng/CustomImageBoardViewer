@@ -90,7 +90,8 @@
         case NEW_POST:
             title = @"新帖";
             targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:forumName];
-            postSender.forumName = forumName;
+//            postSender.forumName = forumName;
+            postSender.forum = forum;
             break;
         case REPLY_POST:
             if (self.replyTo)
@@ -102,9 +103,12 @@
             break;
         case REPORT_POST:
             title = @"举报";
-            postSender.forumName = @"值班室";
-            targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:postSender.forumName];
-            postSender.forumID = [[czzAppDelegate sharedAppDelegate] getForumIDFromForumName:postSender.forumName];
+#warning this will no doubt cause trouble
+        [NSException raise:@"NOT IMPLEMENTED" format:@"%@ is not ready", NSStringFromSelector(_cmd)];
+//            postSender.forumName = @"值班室";
+//            targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:postSender.forumName];
+//            postSender.forum = forum;
+//            postSender.forumID = [[czzAppDelegate sharedAppDelegate] getForumIDFromForumName:postSender.forumName];
             break;
     }
     self.postNaviBar.topItem.title = title;

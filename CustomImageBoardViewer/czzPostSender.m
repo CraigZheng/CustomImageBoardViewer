@@ -23,7 +23,7 @@
 @synthesize name, email, title, content, imgData;
 @synthesize myPost;
 @synthesize urlConn;
-@synthesize targetURL, forumName, forumID, parentID;
+@synthesize targetURL, forum, forumID, parentID;
 @synthesize urlRequest, requestBody;
 @synthesize receivedResponse;
 
@@ -114,9 +114,14 @@
 
 #pragma mark - Setters, while setting the members of this class, also set the member of myPost object
 
--(void)setForumName:(NSString *)f{
-    forumName = f;
-    myPost.forumName = [self encodeNSString:forumName];
+//-(void)setForumName:(NSString *)f{
+//    forumName = f;
+//    myPost.forumName = [self encodeNSString:forumName];
+//}
+
+-(void)setForum:(czzForum *)f {
+    forum = f;
+    myPost.forum = forum;
 }
 
 -(void)setForumID:(NSString *)fid {

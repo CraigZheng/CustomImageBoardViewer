@@ -340,14 +340,14 @@
 }
 #warning COME BACK LATER
 -(void)newPost{
-//    if (threadList.forumName.length > 0){
-//        czzPostViewController *newPostViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
-//        [newPostViewController setForumName:threadList.forumName];
-//        newPostViewController.postMode = NEW_POST;
-//        [self.navigationController presentViewController:newPostViewController animated:YES completion:nil];
-//    } else {
-//        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"未选定一个版块" duration:1.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
-//    }
+    if (threadList.forum){
+        czzPostViewController *newPostViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
+        newPostViewController.forum = threadList.forum;
+        newPostViewController.postMode = NEW_POST;
+        [self.navigationController presentViewController:newPostViewController animated:YES completion:nil];
+    } else {
+        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"未选定一个版块" duration:1.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
+    }
 }
 
 -(IBAction)moreInfoAction:(id)sender {

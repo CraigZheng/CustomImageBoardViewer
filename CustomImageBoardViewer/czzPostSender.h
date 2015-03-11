@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "czzForum.h"
 
 @protocol czzPostSenderDelegate <NSObject>
 @optional
@@ -16,7 +17,8 @@
 @interface czzPostSender : NSObject
 @property (nonatomic) NSURL *targetURL;
 @property id<czzPostSenderDelegate> delegate;
-@property (nonatomic) NSString *forumName;
+//@property (nonatomic) NSString *forumName;
+@property (nonatomic) czzForum *forum;
 @property (nonatomic) NSString *forumID;
 @property (nonatomic) NSInteger parentID;
 //for czzPost object
