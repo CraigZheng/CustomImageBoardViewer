@@ -46,7 +46,9 @@
 - (IBAction)upButtonAction:(id)sender {
     SEL scrollToTopSelector = NSSelectorFromString(@"scrollTableViewToTop");
     if (self.parentViewController && [self.parentViewController respondsToSelector:scrollToTopSelector]) {
-        [self.parentViewController performSelector:scrollToTopSelector];
+        SuppressPerformSelectorLeakWarning(
+                                           [self.parentViewController performSelector:scrollToTopSelector];
+                                           );
     }
     [self updateTimer];
 
@@ -55,7 +57,12 @@
 - (IBAction)bottomButtonAction:(id)sender {
     SEL scrollToBottomSelector = NSSelectorFromString(@"scrollTableViewToBottom");
     if (self.parentViewController && [self.parentViewController respondsToSelector:scrollToBottomSelector])
-        [self.parentViewController performSelector:scrollToBottomSelector];
+    {
+        SuppressPerformSelectorLeakWarning(
+                                           [self.parentViewController performSelector:scrollToBottomSelector];
+
+        );
+    }
     [self updateTimer];
 }
 

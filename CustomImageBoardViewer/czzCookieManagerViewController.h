@@ -8,6 +8,8 @@
 
 #define COOKIE_MANAGER_VIEW_CONTROLLER_STORYBOARD_NAME @"CookieManager"
 
+#define CZZ_COOKIE_MANAGER_VIEW_CONTROLLER_IDENTIFIER @"CZZ_COOKIE_MANAGER_VIEW_CONTROLLER_IDENTIFIER"
+
 #import <UIKit/UIKit.h>
 
 @interface czzCookieManagerViewController : UIViewController

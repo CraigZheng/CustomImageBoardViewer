@@ -55,7 +55,6 @@
     //settings centre
     settingsCentre = [czzSettingsCentre sharedInstance];
     //favourite threads
-    NSString* libraryPath = [czzAppDelegate libraryFolder];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(replyToThread:)
                                                  name:@"ReplyAction"

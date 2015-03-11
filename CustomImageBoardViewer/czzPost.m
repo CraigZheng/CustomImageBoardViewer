@@ -48,7 +48,7 @@
                 [requestData appendData:forumIDData];
             }
             if (parentID > 0){
-                [params setObject:[NSString stringWithFormat:@"%d", parentID] forKey:@"parentID"];
+                [params setObject:[NSString stringWithFormat:@"%ld", (long)parentID] forKey:@"parentID"];
                 
                 NSString *parentIDPara = [NSString stringWithFormat:@"&parentID=%ld", (long)parentID];
                 [requestData appendData:[parentIDPara dataUsingEncoding:NSUTF8StringEncoding]];
@@ -140,7 +140,7 @@
     const unsigned char *dataBuffer = [data bytes];
     NSInteger i;
     for (i=0; i<[data length]; ++i) {
-        [stringBuffer appendFormat:@"%02X", (NSUInteger)dataBuffer[i]];
+        [stringBuffer appendFormat:@"%02lX", (unsigned long)dataBuffer[i]];
     }
     
     return stringBuffer;

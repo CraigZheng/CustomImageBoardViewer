@@ -11,7 +11,6 @@
 #import "czzHTMLToThreadParser.h"
 #import "czzThread.h"
 #import "NSString+HTML.h"
-#import "ObjectiveGumbo.h"
 
 @interface czzHTMLToThreadParser ()
 @end
