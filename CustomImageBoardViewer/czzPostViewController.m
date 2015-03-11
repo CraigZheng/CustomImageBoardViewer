@@ -89,8 +89,9 @@
     switch (postMode) {
         case NEW_POST:
             title = @"新帖";
-            targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:forumName];
+//            targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:forumName];
 //            postSender.forumName = forumName;
+            targetURLString = [settingCentre create_new_post_url];
             postSender.forum = forum;
             break;
         case REPLY_POST:
