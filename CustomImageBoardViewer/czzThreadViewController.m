@@ -517,7 +517,7 @@
 
 - (IBAction)shareAction:(id)sender {
     //create the thread link - hardcode it
-    NSString *threadLink = [[settingCentre share_post_url] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld", (long)self.parentThread.ID]];
+    NSString *threadLink = [[settingCentre share_post_url] stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long) threadList.parentThread.ID]];
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[[NSURL URLWithString:threadLink]] applicationActivities:nil];
     if ([activityViewController respondsToSelector:@selector(popoverPresentationController)])
         activityViewController.popoverPresentationController.sourceView = self.view;

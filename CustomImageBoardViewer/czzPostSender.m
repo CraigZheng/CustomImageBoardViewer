@@ -62,6 +62,15 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
+    if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
+    {
+        if ([(NSHTTPURLResponse*)response statusCode] == 200) {
+            [self.delegate statusReceived:YES message:@"成功"];
+        } else {
+            [self.delegate statusReceived:NO message:@"失败"];
+        }
+    }
+
     receivedResponse = [NSMutableData new];
 }
 
@@ -82,29 +91,29 @@
 #pragma mark - Decode the self.response xml data - at Aug 2014, they've changed to return value to json format
 -(void)response:(NSData*)jsonData{
     DLog(@"%@", [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]);
-    NSError *error;
-    NSDictionary *jsonResponse;
-    if (jsonData)
-        jsonResponse = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
-    else
-        error = [NSError errorWithDomain:@"Empty data!" code:9999 userInfo:nil];
-    if (error) {
-        if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
-        {
-            [self.delegate statusReceived:NO message:@"Can not parse responed message - format might not be json"];
-        }
-    }
-    if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
-    {
-        @try {
-            BOOL success = [[jsonResponse valueForKey:@"success"] boolValue];
-            NSString *errorMessage = [jsonResponse valueForKey:@"msg"];
-            [self.delegate statusReceived:success message:errorMessage];
-        }
-        @catch (NSException *exception) {
-            [self.delegate statusReceived:NO message:@"Unknown Error"];
-        }
-    }
+//    NSError *error;
+//    NSDictionary *jsonResponse;
+//    if (jsonData)
+//        jsonResponse = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+//    else
+//        error = [NSError errorWithDomain:@"Empty data!" code:9999 userInfo:nil];
+//    if (error) {
+//        if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
+//        {
+//            [self.delegate statusReceived:NO message:@"Can not parse responed message - format might not be json"];
+//        }
+//    }
+//    if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
+//    {
+//        @try {
+//            BOOL success = [[jsonResponse valueForKey:@"success"] boolValue];
+//            NSString *errorMessage = [jsonResponse valueForKey:@"msg"];
+//            [self.delegate statusReceived:success message:errorMessage];
+//        }
+//        @catch (NSException *exception) {
+//            [self.delegate statusReceived:NO message:@"Unknown Error"];
+//        }
+//    }
 }
 
 #pragma mark - Setters, also sets the urlRequest and the first parameter(either parentID or forumName)

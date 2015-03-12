@@ -274,7 +274,7 @@
 //Open the link associated with the button
 -(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
-    NSString *hostPrefix = [settingCentre share_post_url];
+    NSString *hostPrefix = [[NSURL URLWithString:[settingCentre share_post_url]] host];
     if ([buttonTitle rangeOfString:hostPrefix options:NSCaseInsensitiveSearch].location != NSNotFound) {
         if (delegate && [delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
             [delegate userTapInQuotedText:[buttonTitle stringByReplacingOccurrencesOfString:hostPrefix withString:@""]];
@@ -283,8 +283,6 @@
     }
     
     NSURL *link = [NSURL URLWithString:buttonTitle];
-//    czzInAppBrowserViewController *inAppBrowser = [[UIStoryboard storyboardWithName:@"InAppBrowserStoryboard" bundle:nil] instantiateInitialViewController];
-//    inAppBrowser.targetURL = link;
     [[UIApplication sharedApplication] openURL:link];
 }
 

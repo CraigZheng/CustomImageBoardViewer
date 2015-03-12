@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 Craig. All rights reserved.
 //
 
+#define kThreadID @"<THREAD_ID>"
+
 #import "czzRightSideViewController.h"
 #import "czzThreadViewController.h"
 #import "czzPostViewController.h"
@@ -133,7 +135,7 @@
     } else if ([command isEqualToString:@"加入收藏"]){
         [self favouriteAction];
     } else if ([command isEqualToString:@"复制串的地址"]){
-        NSString *address = [[settingCentre share_post_url] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld", (long)self.parentThread.ID]];
+        NSString *address = [[settingCentre share_post_url] stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long) selectedThread.parentID]];
         [[UIPasteboard generalPasteboard] setString:address];
         [[czzAppDelegate sharedAppDelegate] showToast:@"地址已复制"];
     } else if ([command isEqualToString:@"跳页"]) {

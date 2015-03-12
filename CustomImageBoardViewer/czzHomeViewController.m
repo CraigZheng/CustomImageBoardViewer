@@ -338,7 +338,7 @@
     czzNotificationCentreTableViewController *notificationCentreViewController = [[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
     [self.navigationController pushViewController:notificationCentreViewController animated:YES];
 }
-#warning COME BACK LATER
+
 -(void)newPost{
     if (threadList.forum){
         czzPostViewController *newPostViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];

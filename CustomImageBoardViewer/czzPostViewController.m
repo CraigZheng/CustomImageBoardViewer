@@ -104,7 +104,6 @@
         break;
         case REPORT_POST:
         title = @"举报";
-#warning this will no doubt cause trouble
         targetURLString = [settingCentre create_new_post_url];
         czzForum *destinationForum = [czzForum new];
         destinationForum.forumID = 5;
