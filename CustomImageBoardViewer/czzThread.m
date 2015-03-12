@@ -85,7 +85,10 @@
             self.postDateTime = [formatter dateFromString:dateTimeString];
 
             //various contents
-            self.UID = [[NSAttributedString alloc] initWithString:[[self readFromJsonDictionary:data withName:@"admin"] boolValue] ? [self readFromJsonDictionary:data withName:@"name"] : [self readFromJsonDictionary:data withName:@"userid"]];
+            if ([[self readFromJsonDictionary:data withName:@"admin"] boolValue]) {
+                self.UID = [[NSAttributedString alloc] initWithString:[self readFromJsonDictionary:data withName:@"name"] attributes:@{NSForegroundColorAttributeName : [UIColor redColor]}];
+            } else
+                self.UID = [[NSAttributedString alloc] initWithString:[self readFromJsonDictionary:data withName:@"userid"]];
             self.email = [self readFromJsonDictionary:data withName:@"email"];
             self.title = [self readFromJsonDictionary:data withName:@"title"];
             self.content = [self renderHTMLToAttributedString:[self readFromJsonDictionary:data withName:@"content"]];

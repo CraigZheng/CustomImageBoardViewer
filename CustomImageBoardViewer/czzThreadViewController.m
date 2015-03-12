@@ -437,7 +437,7 @@
     {
         CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
         if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !(threadList.isDownloading || threadList.isProcessing)){
-            if (((threadList.pageNumber - 1) * settingsCentre.response_per_page + threads.count % settingsCentre.response_per_page - 1) < parentThread.responseCount) {
+            if (threadList.pageNumber < threadList.totalPages) {
                 [threadList loadMoreThreads];
                 [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
             }
