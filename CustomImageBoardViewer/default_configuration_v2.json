@@ -19,7 +19,7 @@
   "forum_list_detail_url": "http://h.acfun.tv/api/homepage",
   "reply_post_url": "http://ano-zhai-so.n1.yun.tf:8999/Home/Forum/doReplyThread.html",
   "create_new_post_url": "http://ano-zhai-so.n1.yun.tf:8999/Home/Forum/doPostThread.html",
-  "report_post_placeholder": "http://h.acfun.tv/t/PARENT_ID?r=THREAD_ID\n理由:",
+  "report_post_placeholder": ">>No.THREAD_ID\n理由:",
   "share_post_url": "http://h.acfun.tv/t/",
   "thread_url": "http://h.acfun.tv/t/THREAD_ID.json",
   "get_forum_info_url": "http://h.acfun.tv/api/forum/get?forumName=",

@@ -171,8 +171,8 @@
     UIButton *settingsGearImageButton;
     if (!settingsBarButton.customView) {
         //create a container view that has an image button as its sub view
-        settingsGearImageButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-        settingsGearImageButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 20);
+        settingsGearImageButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 48, 37)];
+        settingsGearImageButton.imageEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10);
         [settingsGearImageButton setImage:[[UIImage imageNamed:@"settings.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         settingsGearImageButton.tag = 999;
         //add the container view

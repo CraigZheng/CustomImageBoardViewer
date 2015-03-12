@@ -92,8 +92,8 @@
         [refreshSettingsTimer invalidate];
     }
 #ifdef DEBUG
-    //in debug build, refresh the settings every 60 seconds
-    configuration_refresh_interval = 60;
+    //in debug build, refresh the settings every 5 minutes
+    configuration_refresh_interval = 60 * 5;
 #endif
     refreshSettingsTimer = [NSTimer scheduledTimerWithTimeInterval:configuration_refresh_interval target:self selector:@selector(downloadSettings) userInfo:nil repeats:YES];
 }
@@ -137,14 +137,15 @@
 }
 
 -(void)downloadSettings {
-#warning DISABLED REFRESH
-    DLog(@"DISABLED REFRESH FOR DEBUGGING");
+#warning come back and enable it later
+    DLog(@"will enable it later")
     return;
     NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-//#ifdef DEBUG
-//    versionString = @"DEBUG";
-//#endif
+#ifdef DEBUG
+    versionString = @"DEBUG";
+#endif
     NSString *configurationURL = [NSString stringWithFormat:@"%@?version=%@", CONFIGURATION_URL, versionString];
+    DLog(@"updating settings from remote server: %@", configurationURL);
     [NSURLConnection sendAsynchronousRequest: [NSURLRequest requestWithURL:[NSURL URLWithString:configurationURL]]
                                        queue:[NSOperationQueue new]
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {

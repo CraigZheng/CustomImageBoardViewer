@@ -46,9 +46,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
     self.edgesForExtendedLayout = UIRectEdgeNone;
-
+    
     postSender = [czzPostSender new];
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
     toolbar.autoresizingMask = toolbar.autoresizingMask | UIViewAutoresizingFlexibleHeight;
@@ -57,7 +57,7 @@
     toolbar.tintColor = [settingCentre tintColour];
     //assign an input accessory view to it
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-//    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    //    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     UIBarButtonItem *pickEmojiButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lol.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(pickEmojiAction:)];
     UIBarButtonItem *pickImgButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"picture.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(pickImageAction:)];
     postButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sent.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(postAction:)];
@@ -76,7 +76,7 @@
     postNaviBar.tintColor = [settingCentre tintColour];
     [postNaviBar
      setTitleTextAttributes:@{NSForegroundColorAttributeName : postNaviBar.tintColor}];
-
+    
     postBackgroundView.backgroundColor = [settingCentre barTintColour];
     
     //construct the title, content and targetURLString based on selected post mode
@@ -85,36 +85,36 @@
     targetURLString = [settingCentre reply_post_url];
     NSString *forumID = [[czzAppDelegate sharedAppDelegate] getForumIDFromForumName:forumName];
     postSender.forumID = forumID;
-
+    
     switch (postMode) {
         case NEW_POST:
-            title = @"新帖";
-//            targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:forumName];
-//            postSender.forumName = forumName;
-            targetURLString = [settingCentre create_new_post_url];
-            postSender.forum = forum;
-            break;
+        title = @"新帖";
+        //            targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:forumName];
+        //            postSender.forumName = forumName;
+        targetURLString = [settingCentre create_new_post_url];
+        postSender.forum = forum;
+        break;
         case REPLY_POST:
-            if (self.replyTo)
-            {
-                title = [NSString stringWithFormat:@"回复:%ld", (long)replyTo.ID];
-                content = [NSString stringWithFormat:@">>No.%ld\n\n", (long)replyTo.ID];
-            }
-            targetURLString = [[settingCentre reply_post_url] stringByReplacingOccurrencesOfString:PARENT_ID withString:[NSString stringWithFormat:@"%ld", (long)thread.ID]];
-            break;
+        if (self.replyTo)
+        {
+            title = [NSString stringWithFormat:@"回复:%ld", (long)replyTo.ID];
+            content = [NSString stringWithFormat:@">>No.%ld\n\n", (long)replyTo.ID];
+        }
+        targetURLString = [[settingCentre reply_post_url] stringByReplacingOccurrencesOfString:PARENT_ID withString:[NSString stringWithFormat:@"%ld", (long)thread.ID]];
+        break;
         case REPORT_POST:
-            title = @"举报";
+        title = @"举报";
 #warning this will no doubt cause trouble
-        [NSException raise:@"NOT IMPLEMENTED" format:@"%@ is not ready", NSStringFromSelector(_cmd)];
-//            postSender.forumName = @"值班室";
-//            targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:postSender.forumName];
-//            postSender.forum = forum;
-//            postSender.forumID = [[czzAppDelegate sharedAppDelegate] getForumIDFromForumName:postSender.forumName];
-            break;
+        targetURLString = [settingCentre create_new_post_url];
+        czzForum *destinationForum = [czzForum new];
+        destinationForum.forumID = 5;
+        destinationForum.name = @"值班室";
+        postSender.forum = destinationForum;
+        break;
     }
     self.postNaviBar.topItem.title = title;
     postTextView.text = content;
-
+    
     // observe keyboard hide and show notifications to resize the text view appropriately
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
@@ -193,7 +193,7 @@
 #pragma mark - UIActionSheetDelegate
 -(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     if (buttonIndex == actionSheet.destructiveButtonIndex)
-        [self resetContent];
+    [self resetContent];
 }
 
 -(void)resetContent{
@@ -215,7 +215,7 @@
     } else {
         [[[czzAppDelegate sharedAppDelegate] window] makeToast:titleWithSize duration:1.5 position:@"top" image:pickedImage];
     }
-
+    
     [postSender setImgData:imageData];
     [picker dismissViewControllerAnimated:YES completion:^{
         [postTextView becomeFirstResponder];
@@ -290,7 +290,7 @@
      Reduce the size of the text view so that it's not obscured by the keyboard.
      Animate the resize so that it's in sync with the appearance of the keyboard.
      */
-
+    
     NSDictionary *userInfo = [notification userInfo];
     
     // Get the origin of the keyboard when it's displayed.
@@ -343,8 +343,8 @@
 #pragma mark - czzEmojiCollectionViewController delegate
 -(void)emojiSelected:(NSString *)emoji{
     UIPasteboard* generalPasteboard = [UIPasteboard generalPasteboard];
-	NSArray* items = [generalPasteboard.items copy];
-	generalPasteboard.string = emoji;
+    NSArray* items = [generalPasteboard.items copy];
+    generalPasteboard.string = emoji;
     [postTextView paste: self];
     generalPasteboard.items = items;
     [self dismissSemiModalViewWithCompletion:^{

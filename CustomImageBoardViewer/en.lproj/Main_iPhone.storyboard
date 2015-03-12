@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
@@ -996,25 +996,25 @@
                                 <action selector="postAction:" destination="JnF-wS-C9I" id="zss-kn-tAq"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem width="37" style="plain" systemItem="fixedSpace" id="fn1-vx-9Ma"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="wT1-MB-Gco"/>
                         <barButtonItem image="search.png" id="IEY-Zf-6SC">
                             <connections>
                                 <action selector="searchAction:" destination="JnF-wS-C9I" id="nVE-FU-sKp"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem width="37" style="plain" systemItem="fixedSpace" id="Ce0-gG-M2z"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="7Bt-wn-PBp"/>
                         <barButtonItem image="bookmark.png" id="Xnt-yu-NQh">
                             <connections>
                                 <action selector="bookmarkAction:" destination="JnF-wS-C9I" id="5Xv-ia-0yn"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem width="37" style="plain" systemItem="fixedSpace" id="Maa-gj-Fdj"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="nwi-2z-AkL"/>
                         <barButtonItem image="advance.png" id="hBx-aX-JHK">
                             <connections>
                                 <action selector="jumpAction:" destination="JnF-wS-C9I" id="ceo-vg-v4x"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem width="37" style="plain" systemItem="fixedSpace" id="nYk-qL-i6i"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="cVs-6a-VGz"/>
                         <barButtonItem image="settings.png" id="T1x-La-d5b">
                             <connections>
                                 <action selector="settingsAction:" destination="JnF-wS-C9I" id="PEi-VR-bxX"/>
