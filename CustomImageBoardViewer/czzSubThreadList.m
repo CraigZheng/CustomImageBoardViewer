@@ -209,14 +209,15 @@
 -(void)calculatePageNumberForThread:(czzThread*)thread {
     NSInteger nextFloor = round_up_to_max_pow(thread.responseCount, [settingCentre response_per_page]);
     DLog(@"real response cound is %ld, nearest %ld is %ld", (long)thread.responseCount, (long)[settingCentre response_per_page], (long)nextFloor);
-    DLog(@"calculated result is %ld/%ld", (long)pageNumber, (long)nextFloor / 20);
-    totalPages = nextFloor / 20;
+    DLog(@"calculated result is %ld/%ld", (long)pageNumber, (long)nextFloor / [settingCentre response_per_page]);
+    totalPages = nextFloor / [settingCentre response_per_page];
 }
 
+//this is a C function copied from SO, which calculates the nearst number that is power of "power"
 NSInteger round_up_to_max_pow(NSInteger n, NSInteger power)
 {
-    int tmp = n;
-    int i = 0;
+    NSInteger tmp = n;
+    NSInteger i = 0;
     while ((tmp /= power) >= power) {
         i++;
     }

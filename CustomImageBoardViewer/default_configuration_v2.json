@@ -13,7 +13,7 @@
   "forum_list_refresh_interval": 3600,
   "notification_refresh_interval": 3600,
   "threads_per_page": 20,
-  "response_per_page": 20,
+  "response_per_page": 19,
   "thread_format": "json",
   "forum_list_url": "http://www.my-realm.com/forums.php",
   "forum_list_detail_url": "http://h.acfun.tv/api/homepage",
