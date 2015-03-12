@@ -21,7 +21,7 @@
   "create_new_post_url": "http://ano-zhai-so.n1.yun.tf:8999/Home/Forum/doPostThread.html",
   "report_post_placeholder": ">>No.THREAD_ID\n理由:",
   "share_post_url": "http://h.adnmb.com/home/forum/thread/id/<THREAD_ID>.html",
-  "thread_url": "http://h.acfun.tv/t/THREAD_ID.json",
+  "thread_url": "http://ano-zhai-so.n1.yun.tf:8999/Home/Api/thread?id=1&page=1.html",
   "get_forum_info_url": "http://h.acfun.tv/api/forum/get?forumName=",
   "ac_host": "http://www.acfun.tv/",
   "a_isle_host": "http://ano-zhai-so.n1.yun.tf",

@@ -137,9 +137,6 @@
 }
 
 -(void)downloadSettings {
-#warning come back and enable it later
-    DLog(@"will enable it later")
-    return;
     NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
 #ifdef DEBUG
     versionString = @"DEBUG";
