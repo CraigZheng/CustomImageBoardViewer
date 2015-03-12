@@ -80,7 +80,7 @@
         [self parseJSONData:JSONData];
         [self scheduleRefreshSettings];
         //restore previous settings
-//        [self restoreSettings];
+        [self restoreSettings];
     }
     return self;
 }
