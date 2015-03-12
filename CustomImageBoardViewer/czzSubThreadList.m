@@ -197,12 +197,41 @@
         }
         [self calculateHeightsForThreads:lastBatchOfThreads];
     }
+    //calculate current number and total page number
+    [self calculatePageNumberForThread:parentThread];
     dispatch_async(dispatch_get_main_queue(), ^{
         if (delegate && [delegate respondsToSelector:@selector(subThreadProcessed:wasSuccessful:newThreads:allThreads:)]) {
             [delegate subThreadProcessed:self wasSuccessful:success newThreads:lastBatchOfThreads allThreads:threads];
         }
     });
 }
+
+-(void)calculatePageNumberForThread:(czzThread*)thread {
+    NSInteger nextFloor = round_up_to_max_pow(thread.responseCount, [settingCentre response_per_page]);
+    DLog(@"real response cound is %ld, nearest %ld is %ld", (long)thread.responseCount, (long)[settingCentre response_per_page], (long)nextFloor);
+    DLog(@"calculated result is %ld/%ld", (long)pageNumber, (long)nextFloor / 20);
+    totalPages = nextFloor / 20;
+}
+
+NSInteger round_up_to_max_pow(NSInteger n, NSInteger power)
+{
+    int tmp = n;
+    int i = 0;
+    while ((tmp /= power) >= power) {
+        i++;
+    }
+    
+    if (n % (NSInteger)(pow(power, i + 1) + 0.5)) {
+        tmp++;
+    }
+    
+    for (; i >= 0; i--) {
+        tmp *= power;
+    }
+    
+    return tmp;
+}
+
 
 -(void)pageNumberUpdated:(NSInteger)currentPage inAllPage:(NSInteger)allPage {
     pageNumber = currentPage;

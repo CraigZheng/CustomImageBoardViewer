@@ -97,17 +97,16 @@
         }
     }
     @try {
-        //page number data
-        [self updatePageNumberWithJsonDict:[self readFromJsonDictionary:parsedObjects withName:@"page"]];
         //thread and sub thread data
-//        czzThread *parentThread = [[czzThread alloc] initWithJSONDictionary:[parsedObjects objectForKey:@"threads"]];
         czzThread *parentThread = [[czzThread alloc] initWithJSONDictionaryV2:parsedObjects];
         NSArray* parsedThreadData = [self readFromJsonDictionary:parsedObjects withName:@"replys"];
         for (NSDictionary *rawThreadData in parsedThreadData) {
             czzThread *newThread = [[czzThread alloc] initWithJSONDictionaryV2:rawThreadData];
             [processedThreads addObject:newThread];
         }
-        
+//        //page number data
+//        [self updatePageNumberWithJsonDict:[self readFromJsonDictionary:parsedObjects withName:@"page"]];
+
         if (delegate) {
             if ([delegate respondsToSelector:@selector(subThreadProcessedForThread::::)]) {
                 [delegate subThreadProcessedForThread:self :parentThread :processedThreads :YES];
@@ -141,7 +140,6 @@
             [delegate pageNumberUpdated:pageNumber inAllPage:totalPages];
     }
 }
-
 /*
  page =     {
  page = 1;
