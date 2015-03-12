@@ -7,6 +7,7 @@
 	//V2 configuration
 	$fileV2 = "remote_configuration_v2.json";
 	$censoredFileV2 = "remote_configuration-censored_v2.json";
+	$debugFile = $fileV2;
 	
 	$version = "1.0";
 	if (isset($_GET["version"])) {
