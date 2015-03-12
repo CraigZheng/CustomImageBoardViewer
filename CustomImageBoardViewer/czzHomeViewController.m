@@ -27,12 +27,10 @@
 #import "GSIndeterminateProgressView.h"
 #import "czzThreadList.h"
 
-#import "CCBottomRefreshControl/UIScrollView+BottomRefreshControl.h"
-
 #import <CoreText/CoreText.h>
 
 
-@interface czzHomeViewController() <UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzThreadListProtocol, czzOnScreenImageManagerViewControllerDelegate>
+@interface czzHomeViewController() <UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzThreadListProtocol, czzOnScreenImageManagerViewControllerDelegate, UIStateRestoring>
 @property NSArray *threads;
 @property NSArray *verticalHeights;
 @property NSArray *horizontalHeights;
@@ -125,6 +123,7 @@
                                              selector:@selector(openPickedThread:)
                                                  name:@"ShouldOpenThreadInThreadViewController"
                                                object:nil];
+    
     //register a refresh control
     refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
@@ -321,7 +320,7 @@
 -(void)scrollTableViewToBottom {
     @try {
         if (threads.count > 1)
-            [threadTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:threads.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+            [threadTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:threads.count inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
     }
     @catch (NSException *exception) {
         
@@ -361,25 +360,24 @@
 
 #pragma mark - UITableView datasource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-//    if (threads.count > 0)
-//        return threads.count + 1;
+    if (threads.count > 0)
+        return threads.count + 1;
     return threads.count;
 }
 
 #pragma mark - UITableView delegate
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    //this will never happen again
-//    if (indexPath.row == threads.count){
-//        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
-//        if (threadList.isDownloading || threadList.isProcessing) {
-//            cell = [tableView dequeueReusableCellWithIdentifier:@"loading_cell_identifier"];
-//            UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
-//            [activityIndicator startAnimating];
-//        }
-//        cell.backgroundColor = [settingsCentre viewBackgroundColour];
-//        return cell;
-//    }
+    if (indexPath.row == threads.count){
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
+        if (threadList.isDownloading || threadList.isProcessing) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"loading_cell_identifier"];
+            UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
+            [activityIndicator startAnimating];
+        }
+        cell.backgroundColor = [settingsCentre viewBackgroundColour];
+        return cell;
+    }
 
     NSString *cell_identifier = [settingsCentre userDefShouldUseBigImage] ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
     czzThread *thread = [threads objectAtIndex:indexPath.row];
@@ -450,17 +448,17 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)aScrollView
 {
-//    NSArray *visibleRows = [threadTableView visibleCells];
-//    UITableViewCell *lastVisibleCell = [visibleRows lastObject];
-//    NSIndexPath *path = [threadTableView indexPathForCell:lastVisibleCell];
-//    if(path.row == threads.count && threads.count > 0)
-//    {
-//        CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
-//        if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !(threadList.isDownloading || threadList.isProcessing)){
-//            [threadList loadMoreThreads];
-//            [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-//        }
-//    }
+    NSArray *visibleRows = [threadTableView visibleCells];
+    UITableViewCell *lastVisibleCell = [visibleRows lastObject];
+    NSIndexPath *path = [threadTableView indexPathForCell:lastVisibleCell];
+    if(path.row == threads.count && threads.count > 0)
+    {
+        CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
+        if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !(threadList.isDownloading || threadList.isProcessing)){
+            [threadList loadMoreThreads];
+            [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
+    }
 }
 
 #pragma mark - czzThreadListProtocol
@@ -498,11 +496,6 @@
 #pragma mark - self.refreshControl and download controls
 -(void)dragOnRefreshControlAction:(id)sender{
     [self refreshThread:nil];
-}
-
--(void)dragOnBottomUpRefreshControlAction:(id)sender {
-    if (!threadList.isDownloading)
-        [threadList loadMoreThreads];
 }
 
 //create a new NSURL outta targetURLString, and reload the content threadTableView

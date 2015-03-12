@@ -28,8 +28,6 @@
 #import "czzSubThreadList.h"
 #import "GSIndeterminateProgressView.h"
 
-#import "CCBottomRefreshControl/UIScrollView+BottomRefreshControl.h"
-
 #define OVERLAY_VIEW 122
 
 @interface czzThreadViewController ()<czzThreadListProtocol, UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzMiniThreadViewControllerProtocol, czzOnScreenImageManagerViewControllerDelegate>
@@ -113,10 +111,6 @@
     //settings
     settingsCentre = [czzSettingsCentre sharedInstance];
     shouldHighlight = settingsCentre.userDefShouldHighlightPO;
-    //add the drag to load view to this view controlelr
-    UIRefreshControl *bottomRefreshControl = [[UIRefreshControl alloc] init];
-    [bottomRefreshControl addTarget:self action:@selector(loadMoreThreads) forControlEvents:UIControlEventValueChanged];
-    threadTableView.bottomRefreshControl = bottomRefreshControl;
     //add the UIRefreshControl to uitableview
     refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
@@ -232,8 +226,8 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-//    if (threads.count > 0)
-//        return threads.count + 1;
+    if (threads.count > 0)
+        return threads.count + 1;
     return threads.count;
 }
 
@@ -242,22 +236,21 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *cell_identifier = [[czzSettingsCentre sharedInstance] userDefShouldUseBigImage] ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
-//  after adapting the UITableViewDragToLoadMore category, this will never happen again
-//    if (indexPath.row == threads.count){
-//        UITableViewCell *cell;// = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
-//        if (threadList.isDownloading || threadList.isProcessing) {
-//            cell = [tableView dequeueReusableCellWithIdentifier:@"loading_cell_identifier"];
-//            UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
-//            [activityIndicator startAnimating];
-//        } else if (parentThread.responseCount > settingsCentre.response_per_page && (threadList.pageNumber * settingsCentre.response_per_page + threads.count % settingsCentre.response_per_page - 1) < parentThread.responseCount){
-//
-//            cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
-//        } else {
-//            cell = [tableView dequeueReusableCellWithIdentifier:@"no_more_cell_identifier"];
-//        }
-//        cell.backgroundColor = [settingsCentre viewBackgroundColour];
-//        return cell;
-//    }
+    if (indexPath.row == threads.count){
+        UITableViewCell *cell;// = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
+        if (threadList.isDownloading || threadList.isProcessing) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"loading_cell_identifier"];
+            UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
+            [activityIndicator startAnimating];
+        } else if (parentThread.responseCount > settingsCentre.response_per_page && (threadList.pageNumber * settingsCentre.response_per_page + threads.count % settingsCentre.response_per_page - 1) < parentThread.responseCount){
+
+            cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
+        } else {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"no_more_cell_identifier"];
+        }
+        cell.backgroundColor = [settingsCentre viewBackgroundColour];
+        return cell;
+    }
     czzThread *thread = [threads objectAtIndex:indexPath.row];
 
     czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
@@ -354,7 +347,7 @@
 -(void)scrollTableViewToBottom {
     @try {
         if (threads.count > 1)
-            [threadTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:threads.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+            [threadTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:threads.count inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
     }
     @catch (NSException *exception) {
         
@@ -437,19 +430,19 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)aScrollView
 {
-//    NSArray *visibleRows = [threadTableView visibleCells];
-//    UITableViewCell *lastVisibleCell = [visibleRows lastObject];
-//    NSIndexPath *path = [threadTableView indexPathForCell:lastVisibleCell];
-//    if(path.row == threads.count && threads.count > 0)
-//    {
-//        CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
-//        if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !(threadList.isDownloading || threadList.isProcessing)){
-//            if (((threadList.pageNumber - 1) * settingsCentre.response_per_page + threads.count % settingsCentre.response_per_page - 1) < parentThread.responseCount) {
-//                [threadList loadMoreThreads];
-//                [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-//            }
-//        }
-//    }
+    NSArray *visibleRows = [threadTableView visibleCells];
+    UITableViewCell *lastVisibleCell = [visibleRows lastObject];
+    NSIndexPath *path = [threadTableView indexPathForCell:lastVisibleCell];
+    if(path.row == threads.count && threads.count > 0)
+    {
+        CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
+        if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !(threadList.isDownloading || threadList.isProcessing)){
+            if (((threadList.pageNumber - 1) * settingsCentre.response_per_page + threads.count % settingsCentre.response_per_page - 1) < parentThread.responseCount) {
+                [threadList loadMoreThreads];
+                [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+        }
+    }
 }
 
 #pragma mark - czzSubThreadListProtocol
@@ -468,7 +461,6 @@
             [progressView stopAnimating];
             [progressView showWarning];
         }
-        
     }
 }
 
@@ -476,9 +468,9 @@
     if (wasSuccessul) {
         [self copyDataFromThreadList];
         [threadTableView reloadData];
+        [refreshControl endRefreshing];
+        [progressView stopAnimating];
     }
-    [refreshControl endRefreshing];
-    [progressView stopAnimating];
 }
 
 -(void)updateNumberButton {
