@@ -273,9 +273,11 @@
 #pragma - mark UIActionSheet delegate
 //Open the link associated with the button
 -(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == actionSheet.cancelButtonIndex)
+        return;
     NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
     NSString *hostPrefix = [[NSURL URLWithString:[settingCentre share_post_url]] host];
-    if ([buttonTitle rangeOfString:hostPrefix options:NSCaseInsensitiveSearch].location != NSNotFound) {
+    if (hostPrefix.length && [buttonTitle rangeOfString:hostPrefix options:NSCaseInsensitiveSearch].location != NSNotFound) {
         if (delegate && [delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
             [delegate userTapInQuotedText:[buttonTitle stringByReplacingOccurrencesOfString:hostPrefix withString:@""]];
         }
