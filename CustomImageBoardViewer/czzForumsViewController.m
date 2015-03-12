@@ -210,6 +210,9 @@
         [self refreshForums];
         return;
     }
+    //avoid index out of bound
+    if (indexPath.row >= forums.count)
+        return;
     czzForum *pickedForum = [forums objectAtIndex:indexPath.row];
     [self.viewDeckController toggleLeftViewAnimated:YES];
     //POST a local notification to inform other view controllers that a new forum is picked
