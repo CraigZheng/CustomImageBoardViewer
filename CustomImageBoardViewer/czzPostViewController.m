@@ -94,6 +94,7 @@
         targetURLString = [settingCentre create_new_post_url];
         postSender.forum = forum;
         break;
+        
         case REPLY_POST:
         if (self.replyTo)
         {
@@ -101,7 +102,9 @@
             content = [NSString stringWithFormat:@">>No.%ld\n\n", (long)replyTo.ID];
         }
         targetURLString = [[settingCentre reply_post_url] stringByReplacingOccurrencesOfString:PARENT_ID withString:[NSString stringWithFormat:@"%ld", (long)thread.ID]];
+        postSender.parentID = thread.ID;
         break;
+        
         case REPORT_POST:
         title = @"举报";
         targetURLString = [settingCentre create_new_post_url];

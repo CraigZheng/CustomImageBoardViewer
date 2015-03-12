@@ -54,9 +54,9 @@
                 [requestData appendData:forumIDData];
             }
             if (parentID > 0){
-                [params setObject:[NSString stringWithFormat:@"%ld", (long)parentID] forKey:@"parentID"];
+                [params setObject:[NSString stringWithFormat:@"%ld", (long)parentID] forKey:@"resto"];
                 
-                NSString *parentIDPara = [NSString stringWithFormat:@"&parentID=%ld", (long)parentID];
+                NSString *parentIDPara = [NSString stringWithFormat:@"&resto=%ld", (long)parentID];
                 [requestData appendData:[parentIDPara dataUsingEncoding:NSUTF8StringEncoding]];
             }
             if (access_token){
