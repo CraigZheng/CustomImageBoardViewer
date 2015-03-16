@@ -36,7 +36,7 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    cookieManager = [czzCookieManager new];
+    cookieManager = CookieManager;
     [self refreshData];
     
     cookieManagerTableView.backgroundColor = [settingCentre viewBackgroundColour];

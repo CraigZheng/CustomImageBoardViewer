@@ -40,7 +40,8 @@
     [settingsCentre downloadSettings];
     
     [self checkFolders];
-
+    //check cookie
+    CookieManager;
     return YES;
 }
 							

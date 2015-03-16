@@ -30,29 +30,33 @@
         NSMutableArray *tempArray = [self restoreArchivedCookies];
         if (tempArray) {
             archivedCookies = tempArray;
-        }
+        } else
+            [self refreshACCookies];
         cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
         cookieStorage.cookieAcceptPolicy = NSHTTPCookieAcceptPolicyAlways;
-        [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://ano-zhai-so.n1.yun.tf:8999/Home/Api/getCookie"]] queue:[NSOperationQueue new] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-            
-        }];
-        [self getCookie];
+        [self getCookieIfHungry];
     }
     
     return self;
 }
 
--(void)getCookie {
-#warning need to come back later after they fixed this issue
+
+-(void)getCookieIfHungry {
+    if (acCookies.count > 0)
+        return;
+    DLog(@"current cookie empty, try to eat a cookie");
     __block NSMutableURLRequest *urlRequest = [NSMutableURLRequest new];
-    urlRequest.URL = [NSURL URLWithString:@"http://ano-zhai-so.n1.yun.tf:8999/Home/Api/getCookie"];
+    NSString *getCookieURLString = [NSString stringWithFormat:@"http://ano-zhai-so.n1.yun.tf:8999/Home/Api/getCookie?deviceid=%@", [UIDevice currentDevice].identifierForVendor.UUIDString];
+
+    urlRequest.URL = [NSURL URLWithString:getCookieURLString];
     [urlRequest setValue:@"HAvfun Client" forHTTPHeaderField:@"User-Agent"];
 
     [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue new] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         DLog(@"%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-        
-        for (NSHTTPCookie *cookie in [cookieStorage cookiesForURL:urlRequest.URL]) {
-            DLog(@"%@:%@", cookie.name, cookie.value);
+        if ([(NSHTTPURLResponse*)response statusCode] == 200) {
+            DLog(@"I ate a cookie!");
+        } else {
+            DLog(@"can't find a cookie to eat!");
         }
     }];
 }
