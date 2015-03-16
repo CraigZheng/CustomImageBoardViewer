@@ -2217,6 +2217,7 @@
 				ORGANIZATIONNAME = Craig;
 				TargetAttributes = {
 					441E5CCA17F4691300289DBD = {
+						DevelopmentTeam = 9EBE9MWW9X;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
@@ -2826,8 +2827,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/craig/Developer/Libraries/BugSense,
@@ -2850,7 +2851,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0905b22f-ec2e-4eca-90f0-b1110b1b1567";
+				PROVISIONING_PROFILE = "6945a03c-a3a8-4c2e-8137-182f25180477";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
