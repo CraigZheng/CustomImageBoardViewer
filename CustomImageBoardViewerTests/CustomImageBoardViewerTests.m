@@ -39,7 +39,7 @@
     // Put setup code here. This method is called before the invocation of each test method in the class.
     threadList = [czzThreadList new];
     threadList.delegate = self;
-    threadList.forumName = @"日记";
+   // threadList.forumName = @"日记";
     
     czzThread *parentThread = [czzThread new];
     parentThread.ID = 5361014;
