@@ -78,6 +78,11 @@
 #endif
         NSData *JSONData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
         [self parseJSONData:JSONData];
+#ifdef DEBUG
+        //if debug, enough, no more code can be run from now
+        return self;
+#endif
+        [self downloadSettings];
         [self scheduleRefreshSettings];
         //restore previous settings
         [self restoreSettings];
@@ -137,6 +142,7 @@
 }
 
 -(void)downloadSettings {
+    
     NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
 //#ifdef DEBUG
 //    versionString = @"DEBUG";
