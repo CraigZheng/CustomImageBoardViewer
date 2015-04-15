@@ -74,7 +74,7 @@
         NSString *filePath = [[NSBundle mainBundle] pathForResource:@"default_configuration" ofType:@"json"];
         
 #ifdef DEBUG
-        filePath = [[NSBundle mainBundle] pathForResource:@"remote_configuration-debug" ofType:@"json"];
+//        filePath = [[NSBundle mainBundle] pathForResource:@"remote_configuration-debug" ofType:@"json"];
 #endif
         NSData *JSONData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
         [self parseJSONData:JSONData];
@@ -85,7 +85,7 @@
         [self downloadSettings];
         [self scheduleRefreshSettings];
         //restore previous settings
-        [self restoreSettings];
+//        [self restoreSettings];
     }
     return self;
 }
