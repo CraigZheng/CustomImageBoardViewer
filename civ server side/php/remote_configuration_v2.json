@@ -16,7 +16,7 @@
   "response_per_page": 19,
   "thread_format": "json",
   "forum_list_url": "http://www.my-realm.com/forums.php",
-  "forum_list_detail_url": "http://h.acfun.tv/api/homepage",
+  "forum_list_detail_url": "",
   "reply_post_url": "http://ano-zhai-so.n1.yun.tf:8999/Home/Forum/doReplyThread.html",
   "create_new_post_url": "http://ano-zhai-so.n1.yun.tf:8999/Home/Forum/doPostThread.html",
   "report_post_placeholder": ">>No.THREAD_ID\n理由:",
