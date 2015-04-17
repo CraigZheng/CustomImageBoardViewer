@@ -123,7 +123,8 @@
         NSArray *rawForumData = [jsonDict valueForKey:@"forum"];
         for (NSDictionary* rawForum in rawForumData) {
             czzForum *newForum = [[czzForum alloc] initWithJSONDictionary:rawForum];
-            [newForums addObject:newForum];
+            if (newForum)
+                [newForums addObject:newForum];
         }
     }
     return newForums;
