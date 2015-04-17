@@ -45,6 +45,7 @@
 		441E5E5417F52DEF00289DBD /* czzThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E5E5317F52DEF00289DBD /* czzThreadViewController.m */; };
 		4425A286199700F000671B88 /* test_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 4425A285199700F000671B88 /* test_image.png */; };
 		4425A2891997109600671B88 /* czzForum.m in Sources */ = {isa = PBXBuildFile; fileRef = 4425A2881997109600671B88 /* czzForum.m */; };
+		4428A08C1AE1C04400CEBA33 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4428A08B1AE1C04400CEBA33 /* GoogleMobileAds.framework */; };
 		442A8FA019DB7DF200A3516E /* MWCaptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A8F4619DB7DF200A3516E /* MWCaptionView.m */; };
 		442A8FA119DB7DF200A3516E /* MWGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A8F4919DB7DF200A3516E /* MWGridCell.m */; };
 		442A8FA219DB7DF200A3516E /* MWGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A8F4B19DB7DF200A3516E /* MWGridViewController.m */; };
@@ -98,8 +99,6 @@
 		443141971A2B38D6007D65B3 /* czzSubThreadList.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141961A2B38D6007D65B3 /* czzSubThreadList.m */; };
 		4431419A1A2B5198007D65B3 /* GSIndeterminateProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141991A2B5198007D65B3 /* GSIndeterminateProgressView.m */; };
 		443141A21A3BFB5B007D65B3 /* KLCPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141A11A3BFB5B007D65B3 /* KLCPopup.m */; };
-		443141B31A3C1C77007D65B3 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 443141B11A3C1C77007D65B3 /* libGoogleAdMobAds.a */; };
-		443141B41A3C1C77007D65B3 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 443141B21A3C1C77007D65B3 /* README.txt */; };
 		4432BA911AA88544002C66F5 /* thread list example.json in Resources */ = {isa = PBXBuildFile; fileRef = 4432BA901AA88544002C66F5 /* thread list example.json */; };
 		4432BA941AA88613002C66F5 /* thread content example.json in Resources */ = {isa = PBXBuildFile; fileRef = 4432BA921AA88613002C66F5 /* thread content example.json */; };
 		4432BA951AA88613002C66F5 /* get forums example.json in Resources */ = {isa = PBXBuildFile; fileRef = 4432BA931AA88613002C66F5 /* get forums example.json */; };
@@ -499,6 +498,7 @@
 		4425A285199700F000671B88 /* test_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_image.png; sourceTree = "<group>"; };
 		4425A2871997109600671B88 /* czzForum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzForum.h; sourceTree = "<group>"; };
 		4425A2881997109600671B88 /* czzForum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzForum.m; sourceTree = "<group>"; };
+		4428A08B1AE1C04400CEBA33 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
 		442A8F4519DB7DF200A3516E /* MWCaptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWCaptionView.h; sourceTree = "<group>"; };
 		442A8F4619DB7DF200A3516E /* MWCaptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWCaptionView.m; sourceTree = "<group>"; };
 		442A8F4719DB7DF200A3516E /* MWCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWCommon.h; sourceTree = "<group>"; };
@@ -608,20 +608,6 @@
 		443141991A2B5198007D65B3 /* GSIndeterminateProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSIndeterminateProgressView.m; sourceTree = "<group>"; };
 		443141A01A3BFB5B007D65B3 /* KLCPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLCPopup.h; sourceTree = "<group>"; };
 		443141A11A3BFB5B007D65B3 /* KLCPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLCPopup.m; sourceTree = "<group>"; };
-		443141A51A3C1C77007D65B3 /* GADAdMobExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdMobExtras.h; sourceTree = "<group>"; };
-		443141A61A3C1C77007D65B3 /* GADAdNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdNetworkExtras.h; sourceTree = "<group>"; };
-		443141A71A3C1C77007D65B3 /* GADAdSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdSize.h; sourceTree = "<group>"; };
-		443141A81A3C1C77007D65B3 /* GADBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerView.h; sourceTree = "<group>"; };
-		443141A91A3C1C77007D65B3 /* GADBannerViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerViewDelegate.h; sourceTree = "<group>"; };
-		443141AA1A3C1C77007D65B3 /* GADInAppPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInAppPurchase.h; sourceTree = "<group>"; };
-		443141AB1A3C1C77007D65B3 /* GADInAppPurchaseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInAppPurchaseDelegate.h; sourceTree = "<group>"; };
-		443141AC1A3C1C77007D65B3 /* GADInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitial.h; sourceTree = "<group>"; };
-		443141AD1A3C1C77007D65B3 /* GADInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitialDelegate.h; sourceTree = "<group>"; };
-		443141AE1A3C1C77007D65B3 /* GADModules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADModules.h; sourceTree = "<group>"; };
-		443141AF1A3C1C77007D65B3 /* GADRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequest.h; sourceTree = "<group>"; };
-		443141B01A3C1C77007D65B3 /* GADRequestError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequestError.h; sourceTree = "<group>"; };
-		443141B11A3C1C77007D65B3 /* libGoogleAdMobAds.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAdMobAds.a; sourceTree = "<group>"; };
-		443141B21A3C1C77007D65B3 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		4432BA901AA88544002C66F5 /* thread list example.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "thread list example.json"; sourceTree = "<group>"; };
 		4432BA921AA88613002C66F5 /* thread content example.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "thread content example.json"; sourceTree = "<group>"; };
 		4432BA931AA88613002C66F5 /* get forums example.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "get forums example.json"; sourceTree = "<group>"; };
@@ -993,13 +979,13 @@
 			files = (
 				442A901819DB9BAF00A3516E /* libxml2.dylib in Frameworks */,
 				44BB0BC31A1AE700006C50F5 /* SplunkMint-iOS.framework in Frameworks */,
+				4428A08C1AE1C04400CEBA33 /* GoogleMobileAds.framework in Frameworks */,
 				447FD254195D1AF1003E30C2 /* libz.dylib in Frameworks */,
 				44412975186E9B1000075AA2 /* StoreKit.framework in Frameworks */,
 				44B86461185D810500C29B92 /* SystemConfiguration.framework in Frameworks */,
 				44B8645D185D80F500C29B92 /* MessageUI.framework in Frameworks */,
 				44B8645B185D80ED00C29B92 /* AVFoundation.framework in Frameworks */,
 				44B86459185D80E300C29B92 /* AudioToolbox.framework in Frameworks */,
-				443141B31A3C1C77007D65B3 /* libGoogleAdMobAds.a in Frameworks */,
 				44B86457185D80A300C29B92 /* AdSupport.framework in Frameworks */,
 				44C89ADC185C145C00E65B73 /* QuartzCore.framework in Frameworks */,
 				440B2FC917F7F42600544926 /* MobileCoreServices.framework in Frameworks */,
@@ -1514,27 +1500,6 @@
 			path = KLCPopup;
 			sourceTree = "<group>";
 		};
-		443141A41A3C1C77007D65B3 /* GoogldAdmob */ = {
-			isa = PBXGroup;
-			children = (
-				443141A51A3C1C77007D65B3 /* GADAdMobExtras.h */,
-				443141A61A3C1C77007D65B3 /* GADAdNetworkExtras.h */,
-				443141A71A3C1C77007D65B3 /* GADAdSize.h */,
-				443141A81A3C1C77007D65B3 /* GADBannerView.h */,
-				443141A91A3C1C77007D65B3 /* GADBannerViewDelegate.h */,
-				443141AA1A3C1C77007D65B3 /* GADInAppPurchase.h */,
-				443141AB1A3C1C77007D65B3 /* GADInAppPurchaseDelegate.h */,
-				443141AC1A3C1C77007D65B3 /* GADInterstitial.h */,
-				443141AD1A3C1C77007D65B3 /* GADInterstitialDelegate.h */,
-				443141AE1A3C1C77007D65B3 /* GADModules.h */,
-				443141AF1A3C1C77007D65B3 /* GADRequest.h */,
-				443141B01A3C1C77007D65B3 /* GADRequestError.h */,
-				443141B11A3C1C77007D65B3 /* libGoogleAdMobAds.a */,
-				443141B21A3C1C77007D65B3 /* README.txt */,
-			);
-			path = GoogldAdmob;
-			sourceTree = "<group>";
-		};
 		4432BA8F1AA8850C002C66F5 /* Examples */ = {
 			isa = PBXGroup;
 			children = (
@@ -1817,7 +1782,7 @@
 		44B89E771A2AF3CE0085F766 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
-				443141A41A3C1C77007D65B3 /* GoogldAdmob */,
+				4428A08B1AE1C04400CEBA33 /* GoogleMobileAds.framework */,
 				4431419F1A3BFB5B007D65B3 /* KLCPopup */,
 				4431419B1A2B519D007D65B3 /* GSIndetermineProgressView */,
 				44B89E7E1A2AFBE30085F766 /* UINavigationController+SGProgress */,
@@ -2490,7 +2455,6 @@
 				4432BA941AA88613002C66F5 /* thread content example.json in Resources */,
 				444F5B441A40EA3500EB391F /* 49.png in Resources */,
 				44CF254D1A25A2A500BD8228 /* delete_file@2x.png in Resources */,
-				443141B41A3C1C77007D65B3 /* README.txt in Resources */,
 				44C73BAF1A4969E30051D4C2 /* Icon-60@2x.png in Resources */,
 				444F5B431A40EA3500EB391F /* 48.png in Resources */,
 				444F5B241A40EA3500EB391F /* 17.png in Resources */,
@@ -2890,6 +2854,7 @@
 					3.6,
 					2,
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/CustomImageBoardViewer",
 				);
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2925,6 +2890,7 @@
 					3.6,
 					2,
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/CustomImageBoardViewer",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Prefix.pch";

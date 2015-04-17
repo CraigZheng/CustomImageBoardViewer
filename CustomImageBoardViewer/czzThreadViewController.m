@@ -412,7 +412,10 @@
 
 -(void)miniThreadWantsToOpenThread:(czzThread*)thread {
     [self dismissViewControllerAnimated:YES completion:^{
-        [self switchToParentThread:thread];
+//        [self switchToParentThread:thread];
+        czzThreadViewController *openThreadViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"thread_view_controller"];
+        openThreadViewController.parentThread = thread;
+        [self.navigationController pushViewController:openThreadViewController animated:YES];
     }];
 }
 
