@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "IIViewDeckController.h"
-#import <GoogleMobileAds/GADBannerView.h>
+#import "GADBannerView.h"
 
 @interface czzMoreInfoViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIWebView *headerTextWebView;

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "IIViewDeckController.h"
-#import <GoogleMobileAds/GADBannerView.h>
+#import "GADBannerView.h"
 
 @interface czzForumsViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UITableView *forumsTableView;
