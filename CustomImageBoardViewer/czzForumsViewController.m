@@ -119,7 +119,8 @@
     if (!error) {
         for (NSDictionary* rawForum in jsonArray) {
             czzForum *newForum = [[czzForum alloc] initWithJSONDictionaryV2:rawForum];
-            [newForums addObject:newForum];
+            if (newForum)
+                [newForums addObject:newForum];
         }
     }
     return newForums;
@@ -239,10 +240,10 @@
         NSArray *defaultForums = [self parseJsonForForum:xmlData];
         forums = [NSMutableArray arrayWithArray:defaultForums];
         [czzAppDelegate sharedAppDelegate].forums = defaultForums;
+    } else {
+        failedToConnect = YES;
     }
     [progressView stopAnimating];
-    if (forums.count <= 0)
-        failedToConnect = YES;
     [forumsTableView reloadData];
 }
 
