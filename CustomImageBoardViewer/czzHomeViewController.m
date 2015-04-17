@@ -231,7 +231,7 @@
         threadViewController.parentThread = threadList.displayedThread;
         NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
         [viewControllers addObject:threadViewController];
-        [self.navigationController setViewControllers:viewControllers animated:NO];
+        [self.navigationController setViewControllers:viewControllers animated:YES];
     }
 }
 
