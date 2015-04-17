@@ -95,13 +95,24 @@
     [[czzAppDelegate sharedAppDelegate].window hideToastActivity];
 }
 
+/*
+ check numeric string
+ */
+-(BOOL)isNumeric:(NSString*)inputString {
+    BOOL valid;
+    NSCharacterSet *alphaNums = [NSCharacterSet decimalDigitCharacterSet];
+    NSCharacterSet *inStringSet = [NSCharacterSet characterSetWithCharactersInString:inputString];
+    valid = [alphaNums isSupersetOfSet:inStringSet];
+    return valid;
+}
+
 #pragma mark - UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     //search
     if (alertView == searchInputAlertView) {
         if (buttonIndex != alertView.cancelButtonIndex) {
             searchKeyword = [[[alertView textFieldAtIndex:0] text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-            if (searchKeyword.integerValue > 0) {
+            if ([self isNumeric:searchKeyword]) {
                 [[czzAppDelegate sharedAppDelegate].window makeToast:@"请稍等..."];
                 [self downloadAndPrepareThreadWithID:searchKeyword.integerValue];
                 
