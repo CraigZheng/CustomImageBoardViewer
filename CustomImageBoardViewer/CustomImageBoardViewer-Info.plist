@@ -21,17 +21,17 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.1</string>
+	<string>2.3</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.1.4</string>
+	<string>2.3</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Provide Us Your Location To Help Us Keep Track Of The App&apos;s Performance</string>
+	<string>Provide Us Your Location To Help Us Keep Track Of The App's Performance</string>
 	<key>NSLocationUsageDescription</key>
-	<string>Provide Us Your Location To Help Us Keep Track Of The App&apos;s Performance</string>
+	<string>Provide Us Your Location To Help Us Keep Track Of The App's Performance</string>
 	<key>UILaunchStoryboardName</key>
 	<string>Launch Screen</string>
 	<key>UIMainStoryboardFile</key>

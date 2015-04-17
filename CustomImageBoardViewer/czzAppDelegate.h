@@ -11,8 +11,8 @@
 #import "czzHomeViewController.h"
 
 //the host will be changed very soon
-#define my_main_host @"http://civ.atwebpages.com/"
-#define my_backup_host @"http://civ.my-realm.com/"
+#define my_main_host @"www.my-realm.com"
+#define my_backup_host @"http://civ.atwebpages.com/"
 
 @interface czzAppDelegate : UIResponder <UIApplicationDelegate>
 
