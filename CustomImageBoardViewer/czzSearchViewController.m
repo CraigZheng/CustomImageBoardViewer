@@ -222,7 +222,7 @@
             return NO;
         } else {
             //get final URL
-            NSString *acURL = [[request.URL.absoluteString componentsSeparatedByString:@"?"].firstObject stringByReplacingOccurrencesOfString:@"m/" withString:@""]; //only the first few components are useful, the host and the thread id
+            NSString *acURL = [[request.URL.absoluteString componentsSeparatedByString:@"?"].firstObject stringByDeletingPathExtension]; //only the first few components are useful, the host and the thread id
             targetURL = [NSURL URLWithString:acURL];
             NSData *data=nil;
             
@@ -233,7 +233,7 @@
             NSURL *LastURL=[response URL];
             
             //from final URL get thread ID
-            NSString *threadID = [LastURL.absoluteString stringByReplacingOccurrencesOfString:@"http://h.acfun.tv/t/" withString:@""];
+            NSString *threadID = [LastURL.absoluteString stringByReplacingOccurrencesOfString:[settingCentre share_post_url] withString:@""];
             [[czzAppDelegate sharedAppDelegate].window makeToast:@"请稍等..."];
             [self downloadAndPrepareThreadWithID:threadID.integerValue];
             
