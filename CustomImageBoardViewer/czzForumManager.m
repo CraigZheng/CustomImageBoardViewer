@@ -30,6 +30,8 @@
 }
 
 -(void)updateForum {
+#warning NOT READY YET
+    return;
     NSString *bundleIdentifier = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"];
     NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
 #ifdef DEBUG
@@ -55,7 +57,7 @@
         error = [NSError errorWithDomain:@"Empty Data" code:999 userInfo:nil];
     }
     if (!error) {
-        NSArray *rawForumData = [jsonDict valueForKey:@"forum"];
+        NSArray *rawForumData = [self readFromJsonDictionary:jsonDict withName:@"forum"];
         for (NSDictionary* rawForum in rawForumData) {
             czzForumGroup *forumGroup = [[czzForumGroup alloc] initWithJSONDictionary:rawForum];
             if (forumGroup)

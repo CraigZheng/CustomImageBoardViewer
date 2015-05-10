@@ -20,7 +20,6 @@
 @interface czzForumsViewController () <czzForumManagerDelegate, UITableViewDataSource, UITableViewDelegate>
 @property czzURLDownloader *xmlDownloader;
 @property NSMutableArray *forumGroups;
-@property BOOL failedToConnect;
 @property NSDate *lastAdUpdateTime;
 @property NSTimeInterval adUpdateInterval;
 @property UIView *adCoverView;
@@ -33,13 +32,11 @@
 @synthesize xmlDownloader;
 @synthesize forumsTableView;
 @synthesize forumGroups;
-@synthesize failedToConnect;
 @synthesize bannerView_;
 @synthesize lastAdUpdateTime;
 @synthesize adUpdateInterval;
 @synthesize adCoverView;
 @synthesize shouldHideCoverView;
-@synthesize forums;
 @synthesize progressView;
 @synthesize forumManager;
 
@@ -81,19 +78,7 @@
 }
 
 -(void)refreshForums{
-    failedToConnect = NO;
-    if (xmlDownloader)
-        [xmlDownloader stop];
-    NSString *bundleIdentifier = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"];
-    NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-#ifdef DEBUG
-    versionString = @"DEBUG";
-#endif
-    NSString *forumString = [[settingCentre forum_list_url] stringByAppendingString:[NSString stringWithFormat:@"?version=%@", [NSString stringWithFormat:@"%@-%@", bundleIdentifier, versionString]]];
-    NSLog(@"Forum config URL: %@", forumString);
-    xmlDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:forumString] delegate:self startNow:YES];
-    [progressView startAnimating];
-    
+    [forumManager updateForum];
 }
 
 -(void)refreshAd {
@@ -110,8 +95,6 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (failedToConnect)
-        return 1;
     czzForumGroup *forumGroup = [forumGroups objectAtIndex:section];
     if (section == 0)
     {
@@ -121,7 +104,7 @@
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    if (failedToConnect || forumGroups.count == 0){
+    if (forumGroups.count == 0){
         return @" ";
     }
     czzForumGroup *forumGroup = [forumGroups objectAtIndex:section];
@@ -132,10 +115,6 @@
 #pragma UITableView delegate
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *cell_identifier = @"forum_cell_identifier";
-    if (failedToConnect){
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"no_service_cell_identifier"];
-        return cell;
-    }
     czzForumGroup *forumGroup = [forumGroups objectAtIndex:indexPath.section];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier];
     if (cell){
@@ -178,14 +157,10 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (failedToConnect){
-        [self refreshForums];
-        return;
-    }
     //avoid index out of bound
-    if (indexPath.row >= forums.count)
+    if (indexPath.row >= [[forumGroups objectAtIndex:indexPath.section] availableForums].count)
         return;
-    czzForum *pickedForum = [forums objectAtIndex:indexPath.row];
+    czzForum *pickedForum = [[[forumGroups objectAtIndex:indexPath.section] availableForums] objectAtIndex:indexPath.row];
     [self.viewDeckController toggleLeftViewAnimated:YES];
     //POST a local notification to inform other view controllers that a new forum is picked
     NSMutableDictionary *userInfo = [NSMutableDictionary new];

@@ -24,10 +24,10 @@
 @end
 
 @implementation czzFavouriteManagerViewController
+@synthesize title;
 @synthesize internalThreads;
 @synthesize selectedIndex;
 @synthesize threads;
-@synthesize title;
 @synthesize titleSegmentedControl;
 @synthesize selectedThread;
 @synthesize selectedManager;
