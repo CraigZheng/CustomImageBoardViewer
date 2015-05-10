@@ -156,7 +156,7 @@
     if (successed){
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             isProcessing = YES;
-            [threadListProcessor processThreadListFromData:xmlData];
+            [threadListProcessor processThreadListFromData:xmlData forForum:forum];
         });
     }
     

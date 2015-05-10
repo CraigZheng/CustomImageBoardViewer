@@ -34,7 +34,7 @@
  "replys":
  */
 
--(void)processThreadListFromData:(NSData *)jsonData {
+-(void)processThreadListFromData:(NSData *)jsonData forForum:(czzForum*)forum{
     processedThreads = [NSMutableArray new];
     NSError *error;
     NSDictionary *parsedObjects;
@@ -53,22 +53,27 @@
         }
     }
     @try {
-//        //page number data
-        [self updatePageNumberWithJsonDict:[parsedObjects objectForKey:@"page"]];
-        //thread list data
-//        NSArray* parsedThreadData = [[parsedObjects objectForKey:@"data"] objectForKey:@"threads"];
-        for (NSDictionary *rawThreadData in parsedObjects) {
-            czzThread *newThread = [[czzThread alloc] initWithJSONDictionaryV2:rawThreadData];
-            if (newThread)
-                [processedThreads addObject:newThread];
-        }
-        if (delegate) {
-            if ([delegate respondsToSelector:@selector(threadListProcessed:::)]) {
-                [delegate threadListProcessed:self :processedThreads :YES];
-            } else if ([delegate respondsToSelector:@selector(threadListProcessed::)]) {
-                [delegate threadListProcessed:processedThreads :YES];
+        if (forum.parserType == FORUM_PARSER_AISLE) {
+            //page number data
+            [self updatePageNumberWithJsonDict:[parsedObjects objectForKey:@"page"]];
+            //thread list data
+            NSArray* parsedThreadData = [[parsedObjects objectForKey:@"data"] objectForKey:@"threads"];
+            for (NSDictionary *rawThreadData in parsedThreadData) {
+                czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
+                if (newThread)
+                    [processedThreads addObject:newThread];
             }
+            if (delegate) {
+                if ([delegate respondsToSelector:@selector(threadListProcessed:::)]) {
+                    [delegate threadListProcessed:self :processedThreads :YES];
+                } else if ([delegate respondsToSelector:@selector(threadListProcessed::)]) {
+                    [delegate threadListProcessed:processedThreads :YES];
+                }
+            }
+        } else if (forum.parserType == FORUM_PARSER_A_DAO) {
+            //TODO: switch to V2
         }
+        
     }
     @catch (NSException *exception) {
         DLog(@"%@", exception);

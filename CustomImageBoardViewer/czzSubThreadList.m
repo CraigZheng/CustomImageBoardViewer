@@ -31,6 +31,7 @@
 @synthesize lastBatchOfThreads;
 @synthesize cutOffIndex;
 @synthesize currentOffSet;
+@synthesize forum;
 @synthesize restoredFromCache;
 
 -(instancetype)initWithParentThread:(czzThread *)thread {
@@ -149,10 +150,10 @@
 }
 
 #pragma mark - czzXMLDownloaderDelegate
--(void)downloadOf:(NSURL *)xmlURL successed:(BOOL)successed result:(NSData *)xmlData {
+-(void)downloadOf:(NSURL *)xmlURL successed:(BOOL)successed result:(NSData *)receivedData {
     isDownloading = NO;
     if (successed) {
-        [subThreadProcessor processSubThreadFromData:xmlData];
+        [subThreadProcessor processSubThreadFromData:receivedData forForum:forum];
     }
     dispatch_async(dispatch_get_main_queue(), ^{
         if (delegate && [delegate respondsToSelector:@selector(threadListDownloaded:wasSuccessful:)]) {

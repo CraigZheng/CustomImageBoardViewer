@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "czzForum.h"
 
 @class czzThread;
 @class czzJSONProcessor;
@@ -21,8 +22,8 @@
 @end
 
 @interface czzJSONProcessor : NSObject
--(void)processThreadListFromData:(NSData*)jsonData;
--(void)processSubThreadFromData:(NSData*)jsonData;
+-(void)processThreadListFromData:(NSData*)jsonData forForum:(czzForum*)forum;
+-(void)processSubThreadFromData:(NSData*)jsonData forForum:(czzForum*)forum;
 
 @property id<czzJSONProcessorDelegate> delegate;
 @end
