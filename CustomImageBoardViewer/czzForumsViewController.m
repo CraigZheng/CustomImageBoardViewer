@@ -91,7 +91,7 @@
     versionString = @"DEBUG";
 #endif
     NSString *forumString = [[settingCentre forum_list_url] stringByAppendingString:[NSString stringWithFormat:@"?version=%@", [NSString stringWithFormat:@"%@-%@", bundleIdentifier, versionString]]];
-
+    NSLog(@"Forum config URL: %@", forumString);
     xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:forumString] delegate:self startNow:YES];
     [progressView startAnimating];
     

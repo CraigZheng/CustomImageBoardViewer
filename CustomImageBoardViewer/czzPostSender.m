@@ -75,6 +75,7 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection{
+    DLog(@"received response: \n%@", [[NSString alloc] initWithData:self.receivedResponse encoding:NSUTF8StringEncoding]);
 //    [self response:receivedResponse];
 }
 

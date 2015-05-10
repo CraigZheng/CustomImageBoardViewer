@@ -18,9 +18,7 @@
 		if (strpos($version, "DEBUG") !== false) {
 			echo file_get_contents($file);
 		}
-		else if (strpos($version, "2.3") !== false) {
-			echo file_get_contents($censoredFile);
-		} else {
+		else {
 			echo file_get_contents($file);
 		}
 		return;
