@@ -9,7 +9,7 @@
 #import "czzForum.h"
 
 @implementation czzForum
-@synthesize name, header, lock, cooldown, forumID, createdAt, updatedAt;
+@synthesize name, header, lock, cooldown, forumID, createdAt, updatedAt, forumURL, threadContentURL;
 
 -(id)initWithJSONDictionary:(NSDictionary *)jsonDict {
     self = [super init];
@@ -23,11 +23,17 @@
                 self.forumID = [[self readFromJsonDictionary:jsonDict withName:@"id"] integerValue];
                 self.createdAt = [NSDate dateWithTimeIntervalSince1970:[[self readFromJsonDictionary:jsonDict withName:@"createdAt"] doubleValue] / 1000];
                 self.updatedAt = [NSDate dateWithTimeIntervalSince1970:[[self readFromJsonDictionary:jsonDict withName:@"updatedAt"] doubleValue] / 1000];
+                
                 self.forumURL = [self readFromJsonDictionary:jsonDict withName:@"targetURL"];
-                if (!self.forumURL) {
+                if (!self.forumURL.length) {
                     if (self.name)
                         self.forumURL = @"http://h.nimingban.com/api/<kForum>?page=<kPageNumber>";
                 }
+                self.threadContentURL = [self readFromJsonDictionary:jsonDict withName:@"threadContentURL"];
+                if (!self.threadContentURL.length) {
+                    self.threadContentURL = @"http://h.nimingban.com/api/t/<THREAD_ID>?page=<kPageNumber>";
+                }
+                
                 self.imageHost = [self readFromJsonDictionary:jsonDict withName:@"imageHost"];
                 if (!self.imageHost.length) {
                     //give it a default image host

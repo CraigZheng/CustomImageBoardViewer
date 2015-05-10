@@ -17,5 +17,5 @@
 @property (nonatomic) czzThread *parentThread;
 @property BOOL restoredFromCache;
 
--(instancetype)initWithParentThread:(czzThread*)thread;
+-(instancetype)initWithParentThread:(czzThread*)thread andForum:(czzForum*)forum;
 @end

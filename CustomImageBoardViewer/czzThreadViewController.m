@@ -25,7 +25,6 @@
 #import "czzMiniThreadViewController.h"
 #import "czzNavigationController.h"
 #import "czzOnScreenImageManagerViewController.h"
-#import "czzSubThreadList.h"
 #import "GSIndeterminateProgressView.h"
 
 #define OVERLAY_VIEW 122
@@ -51,7 +50,6 @@
 @property czzMiniThreadViewController *miniThreadView;
 @property BOOL viewControllerNotInTransition;
 @property UIRefreshControl *refreshControl;
-@property czzSubThreadList *threadList;
 @property GSIndeterminateProgressView *progressView;
 @end
 
@@ -95,9 +93,6 @@
     verticalHeights = [NSMutableArray new];
     horizontalHeights = [NSMutableArray new];
 
-    //thread list, source of all data
-    threadList = [[czzSubThreadList alloc] initWithParentThread:parentThread];
-    [threadList restorePreviousState];
     threadList.delegate = self;
     threadList.parentViewController = self;
     [self copyDataFromThreadList];

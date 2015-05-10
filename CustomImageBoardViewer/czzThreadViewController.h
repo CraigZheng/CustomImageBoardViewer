@@ -10,6 +10,8 @@
 
 #import <UIKit/UIKit.h>
 #import "czzThread.h"
+#import "czzForum.h"
+#import "czzSubThreadList.h"
 #import "IIViewDeckController.h"
 
 @interface czzThreadViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
@@ -22,6 +24,8 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *moreButton;
 @property UIBarButtonItem *numberBarButton;
 @property BOOL shouldRestoreContentOffset;
+@property czzSubThreadList *threadList;
+
 
 - (IBAction)moreAction:(id)sender;
 - (IBAction)replyAction:(id)sender;

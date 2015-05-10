@@ -23,6 +23,7 @@ typedef enum {
 @property NSDate *createdAt;
 @property NSDate *updatedAt;
 @property NSString *forumURL;
+@property NSString *threadContentURL;
 @property NSString *imageHost;
 @property FORUM_PARSER_TYPE parserType;
 

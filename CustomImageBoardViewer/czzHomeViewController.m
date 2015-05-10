@@ -26,6 +26,7 @@
 #import "UIBarButtonItem+Badge.h"
 #import "GSIndeterminateProgressView.h"
 #import "czzThreadList.h"
+#import "czzSubThreadList.h"
 
 #import <CoreText/CoreText.h>
 
@@ -614,7 +615,8 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([[segue identifier] isEqualToString:@"go_thread_view_segue"]){
         threadViewController = [segue destinationViewController];
-        [threadViewController setParentThread:selectedThread];
+        czzSubThreadList *subThreadList = [[czzSubThreadList alloc] initWithParentThread:selectedThread andForum:threadList.forum];
+        threadViewController.threadList = subThreadList;
         threadList.displayedThread = selectedThread;
     }
 }

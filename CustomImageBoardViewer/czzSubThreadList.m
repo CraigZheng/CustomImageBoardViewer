@@ -34,16 +34,17 @@
 @synthesize forum;
 @synthesize restoredFromCache;
 
--(instancetype)initWithParentThread:(czzThread *)thread {
+-(instancetype)initWithParentThread:(czzThread *)thread andForum:(czzForum *)fo{
     self = [super init];
     if (self) {
-        parentThread = thread;
+        self.forum = fo;
+        self.parentThread = thread;
         //record history
         [historyManager recordThread:parentThread];
         parentID = [NSString stringWithFormat:@"%ld", (long) parentThread.ID];
         subThreadProcessor = [czzJSONProcessor new];
         subThreadProcessor.delegate = self;
-        baseURLString = [[settingCentre thread_content_host] stringByReplacingOccurrencesOfString:kThreadID withString:parentID];
+
         totalPages = pageNumber = 1;
 
         threads = [NSMutableArray new];
@@ -113,7 +114,8 @@
 -(void)setParentThread:(czzThread *)thread {
     parentThread = thread;
     parentID = [NSString stringWithFormat:@"%ld", (long)parentThread.ID];
-    baseURLString = [[settingCentre thread_content_host] stringByReplacingOccurrencesOfString:kThreadID withString:parentID];
+    baseURLString = [forum.threadContentURL stringByReplacingOccurrencesOfString:kThreadID withString:parentID];
+    
 }
 
 -(void)removeAll {
@@ -139,7 +141,6 @@
     pageNumber = pn;
     if (pageNumber >= totalPages)
         pageNumber = totalPages;
-//    NSString *targetURLStringWithPN = [baseURLString stringByAppendingString:[NSString stringWithFormat:@"?page=%ld", (long)pageNumber]];
     NSString *targetURLStringWithPN = [baseURLString stringByReplacingOccurrencesOfString:kPageNumber withString:[NSString stringWithFormat:@"%ld", (long) pageNumber]];
     threadDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
     isDownloading = YES;
