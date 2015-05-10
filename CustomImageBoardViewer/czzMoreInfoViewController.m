@@ -56,18 +56,19 @@
     self.title = [NSString stringWithFormat:@"介绍：%@", forumName];
     moreInfoNavItem.title = self.title;
     @try {
-        for (czzForum *forum in [czzAppDelegate sharedAppDelegate].forums) {
-            if ([forum.name isEqualToString:forumName]) {
-                if (forum.header.length > 0) {
-                    NSString *headerText = [forum.header stringByReplacingOccurrencesOfString:@"@Time" withString:[NSString stringWithFormat:@"%ld", (long)forum.cooldown]];
-                    if (headerTextWebView.loading){
-                        [headerTextWebView stopLoading];
-                    }
-                    [headerTextWebView loadHTMLString:headerText baseURL:Nil];
-                }
-                break;
-            }
-        }
+#warning TO BE ADDED LATER
+//        for (czzForum *forum in [czzAppDelegate sharedAppDelegate].forums) {
+//            if ([forum.name isEqualToString:forumName]) {
+//                if (forum.header.length > 0) {
+//                    NSString *headerText = [forum.header stringByReplacingOccurrencesOfString:@"@Time" withString:[NSString stringWithFormat:@"%ld", (long)forum.cooldown]];
+//                    if (headerTextWebView.loading){
+//                        [headerTextWebView stopLoading];
+//                    }
+//                    [headerTextWebView loadHTMLString:headerText baseURL:Nil];
+//                }
+//                break;
+//            }
+//        }
     }
     @catch (NSException *exception) {
         DLog(@"%@", exception);

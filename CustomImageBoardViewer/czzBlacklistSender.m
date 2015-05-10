@@ -7,7 +7,7 @@
 //
 
 #import "czzBlacklistSender.h"
-#import "czzXMLDownloader.h"
+#import "czzURLDownloader.h"
 #import "SMXMLDocument.h"
 #import "czzBlacklist.h"
 #import "czzAppDelegate.h"

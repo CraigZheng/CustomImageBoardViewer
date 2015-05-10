@@ -83,8 +83,8 @@
     NSString *title = @"回复";
     NSString *content = @"";
     targetURLString = [settingCentre reply_post_url];
-    NSString *forumID = [[czzAppDelegate sharedAppDelegate] getForumIDFromForumName:forumName];
-    postSender.forumID = forumID;
+//    NSString *forumID = [[czzAppDelegate sharedAppDelegate] getForumIDFromForumName:forumName];
+//    postSender.forumID = forumID;
     
     switch (postMode) {
         case NEW_POST:

@@ -133,7 +133,7 @@
     pageNumber = pn;
 //    NSString *targetURLStringWithPN = [baseURLString stringByAppendingString:[NSString stringWithFormat:@"?page=%ld", (long)pageNumber]];
     NSString *targetURLStringWithPN = [baseURLString stringByReplacingOccurrencesOfString:kPage withString:[NSString stringWithFormat:@"%ld", (long) pn]];
-    xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
+    xmlDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
     isDownloading = YES;
     if (delegate && [delegate respondsToSelector:@selector(threadListBeginDownloading:)]) {
         [delegate threadListBeginDownloading:self];
@@ -167,7 +167,7 @@
     });
 }
 
--(void)downloadUpdated:(czzXMLDownloader *)downloader progress:(CGFloat)progress {
+-(void)downloadUpdated:(czzURLDownloader *)downloader progress:(CGFloat)progress {
     if (delegate && [delegate respondsToSelector:@selector(threadListUpdated:progress:)]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [delegate threadListUpdated:self progress:progress];

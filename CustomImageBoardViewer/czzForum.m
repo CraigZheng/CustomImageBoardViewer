@@ -23,6 +23,20 @@
                 self.forumID = [[self readFromJsonDictionary:jsonDict withName:@"id"] integerValue];
                 self.createdAt = [NSDate dateWithTimeIntervalSince1970:[[self readFromJsonDictionary:jsonDict withName:@"createdAt"] doubleValue] / 1000];
                 self.updatedAt = [NSDate dateWithTimeIntervalSince1970:[[self readFromJsonDictionary:jsonDict withName:@"updatedAt"] doubleValue] / 1000];
+                self.forumURL = [self readFromJsonDictionary:jsonDict withName:@"targetURL"];
+                if (!self.forumURL) {
+                    self.forumURL = [[settingCentre thread_list_host] stringByAppendingString:self.name];
+                }
+                self.imageHost = [self readFromJsonDictionary:jsonDict withName:@"imageHost"];
+                if (!self.imageHost.length) {
+                    //give it a default image host
+                    self.imageHost = [settingCentre image_host];
+                }
+                self.forumParser = [[self readFromJsonDictionary:jsonDict withName:@"forumParser"] integerValue];
+                if (self.forumParser == 0) {
+                    //default to Aisle format
+                    self.forumParser = 1;
+                }
             }
             @catch (NSException *exception) {
             }
@@ -31,32 +45,26 @@
     return self;
 }
 
-/*
- at march 2015, the original A isle is dead, a new format is adapted by the new A isle
- */
--(id)initWithJSONDictionaryV2:(NSDictionary*)jsonDict {
-    self = [super init];
-    @try {
-        {
-            if (jsonDict) {
-                self.forumID = [[self readFromJsonDictionary:jsonDict withName:@"id"] integerValue];
-                self.name = [self readFromJsonDictionary:jsonDict withName:@"name"];
+-(NSDictionary *)toDictionary {
+    NSMutableDictionary *dict = [NSMutableDictionary new];
+    NSDictionary *allProperties = [NSObject classPropsFor:self.class];
+    for (NSString *propertyKey in allProperties.allKeys) {
+        @try {
+            id value = [self valueForKey:propertyKey];
+            if (value) {
+                //json format doesnt support NSDate
+                if ([value isKindOfClass:[NSDate class]]) {
+                    [dict setObject:@([value timeIntervalSince1970] * 1000) forKey:propertyKey];
+                }
+                else
+                    [dict setObject:value forKey:propertyKey];
             }
-            return self;
+        }
+        @catch (NSException *exception) {
+            DLog(@"%@", exception);
         }
     }
-    @catch (NSException *exception) {
-        DLog(@"%@", exception);
-    }
-    return nil;
-}
-
--(id)readFromJsonDictionary:(NSDictionary*)dict withName:(NSString*)dictName {
-    if ([[dict valueForKey:dictName] isEqual:[NSNull null]]) {
-        return nil;
-    }
-    id value = [dict valueForKey:dictName];
-    return value;
+    return dict;
 }
 
 -(void)encodeWithCoder:(NSCoder *)aCoder {

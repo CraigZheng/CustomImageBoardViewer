@@ -6,22 +6,22 @@
 //  Copyright (c) 2013 Craig. All rights reserved.
 //
 
-#import "czzXMLDownloader.h"
+#import "czzURLDownloader.h"
 
-@interface czzXMLDownloader()
+@interface czzURLDownloader()
 @property NSURLConnection *urlConn;
-@property NSMutableData *receivedXMLData;
+@property NSMutableData *receivedData;
 @property NSUInteger expectedLength;
 @end
 
-@implementation czzXMLDownloader
+@implementation czzURLDownloader
 @synthesize urlConn;
 @synthesize targetURL;
-@synthesize receivedXMLData;
+@synthesize receivedData;
 @synthesize expectedLength;
 @synthesize backgroundTaskID;
 
--(id)initWithTargetURL:(NSURL *)url delegate:(id<czzXMLDownloaderDelegate>)delegate startNow:(BOOL)now{
+-(id)initWithTargetURL:(NSURL *)url delegate:(id<czzURLDownloaderProtocol>)delegate startNow:(BOOL)now{
     self = [super init];
     if (self){
         targetURL = url;
@@ -54,7 +54,7 @@
 
 #pragma NSURLConnectionDelegate
 -(void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse *)response{
-    self.receivedXMLData = [NSMutableData new];
+    self.receivedData = [NSMutableData new];
     expectedLength = response.expectedContentLength;
     self.backgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         [connection cancel];
@@ -62,9 +62,9 @@
 }
 
 -(void)connection:(NSURLConnection*)connection didReceiveData:(NSData *)data{
-    [self.receivedXMLData appendData:data];
+    [self.receivedData appendData:data];
     if (self.delegate && [self.delegate respondsToSelector:@selector(downloadUpdated:progress:)]) {
-        CGFloat progress = (CGFloat)self.receivedXMLData.length / (CGFloat)expectedLength;
+        CGFloat progress = (CGFloat)self.receivedData.length / (CGFloat)expectedLength;
         [self.delegate downloadUpdated:self progress:progress];
     }
 }
@@ -78,7 +78,7 @@
 
 -(void)connectionDidFinishLoading:(NSURLConnection*)connection{
     if ([self.delegate respondsToSelector:@selector(downloadOf:successed:result:)]){
-        [self.delegate downloadOf:connection.currentRequest.URL successed:YES result:self.receivedXMLData];
+        [self.delegate downloadOf:connection.currentRequest.URL successed:YES result:self.receivedData];
     }
     [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskID];
 

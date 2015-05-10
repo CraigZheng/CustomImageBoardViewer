@@ -11,7 +11,6 @@
 #import "czzBlacklist.h"
 #import "Toast+UIView.h"
 #import "SMXMLDocument.h"
-#import "czzForum.h"
 #import "czzSettingsCentre.h"
 #import "czzCookieManager.h"
 
@@ -116,14 +115,8 @@
     id flag = nil;
     [URL getResourceValue: &flag
                    forKey: NSURLIsExcludedFromBackupKey error: &error];
-    DLog (@"NSURLIsExcludedFromBackupKey flag value is %@", flag);
-
     BOOL success = [URL setResourceValue:[NSNumber numberWithBool: YES]
                                   forKey: NSURLIsExcludedFromBackupKey error: &error];
-    if(!success){
-        DLog(@"Error excluding %@ from backup %@", [URL lastPathComponent], error);
-    }
-    
     return success;
 }
 
@@ -208,16 +201,6 @@
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
     [[incomingView layer] addAnimation:animation forKey:kCATransition];
     incomingView.hidden = NO;
-}
-
-#pragma mark - forumName
--(NSString *)getForumIDFromForumName:(NSString *)fName {
-    for (czzForum *forum in self.forums) {
-        if ([forum.name isEqualToString:fName]) {
-            return [NSString stringWithFormat:@"%ld", (long)forum.forumID];
-        }
-    }
-    return @"0";
 }
 
 /*

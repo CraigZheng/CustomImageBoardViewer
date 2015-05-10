@@ -152,19 +152,20 @@
 #endif
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         if (threadList.forum.name.length <= 0) {
-            if ([czzAppDelegate sharedAppDelegate].forums.count > 0)
-            {
-                [[czzAppDelegate sharedAppDelegate].window makeToast:@"用户没有选择板块，随机选择……"];
-                @try {
-                    int randomIndex = rand() % [czzAppDelegate sharedAppDelegate].forums.count;
-//                    [threadList setForumName:[[[czzAppDelegate sharedAppDelegate].forums objectAtIndex:randomIndex] name]];
-                    [threadList setForum:[[czzAppDelegate sharedAppDelegate].forums objectAtIndex:randomIndex]];
-                    [self refreshThread:self];
-                }
-                @catch (NSException *exception) {
-                    
-                }
-            }
+#warning TODO TO BE ADDED LATER
+//            if ([czzAppDelegate sharedAppDelegate].forums.count > 0)
+//            {
+//                [[czzAppDelegate sharedAppDelegate].window makeToast:@"用户没有选择板块，随机选择……"];
+//                @try {
+//                    int randomIndex = rand() % [czzAppDelegate sharedAppDelegate].forums.count;
+////                    [threadList setForumName:[[[czzAppDelegate sharedAppDelegate].forums objectAtIndex:randomIndex] name]];
+//                    [threadList setForum:[[czzAppDelegate sharedAppDelegate].forums objectAtIndex:randomIndex]];
+//                    [self refreshThread:self];
+//                }
+//                @catch (NSException *exception) {
+//                    
+//                }
+//            }
         }
     });
     //check if should show a badget on settings button

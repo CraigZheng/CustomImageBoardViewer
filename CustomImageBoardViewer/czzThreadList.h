@@ -16,7 +16,7 @@
 #import "czzForum.h"
 
 #import "czzJSONProcessor.h"
-#import "czzXMLDownloader.h"
+#import "czzURLDownloader.h"
 #import "czzSettingsCentre.h"
 #import "czzTextViewHeightCalculator.h"
 #import "czzAppDelegate.h"
@@ -37,7 +37,7 @@
 
 @end
 
-@interface czzThreadList : NSObject <czzXMLDownloaderDelegate, czzJSONProcessorDelegate, NSCoding>
+@interface czzThreadList : NSObject <czzURLDownloaderProtocol, czzJSONProcessorDelegate, NSCoding>
 @property BOOL shouldHideImageForThisForum;
 //@property (nonatomic) NSString *forumName;
 @property (nonatomic) czzForum *forum;
@@ -55,7 +55,7 @@
 @property CGPoint currentOffSet;
 @property czzThread *displayedThread;
 
-@property czzXMLDownloader *xmlDownloader;
+@property czzURLDownloader *xmlDownloader;
 @property czzJSONProcessor *threadListProcessor;
 @property czzJSONProcessor *subThreadProcessor;
 

@@ -8,17 +8,17 @@
 
 #import "czzForumsViewController.h"
 #import "czzThread.h"
-#import "czzURLDownloader.h"
+#import "czzXMLDownloader.h"
 #import "czzForumGroup.h"
 #import "SMXMLDocument.h"
 #import "Toast+UIView.h"
 #import "czzAppDelegate.h"
 #import "czzSettingsCentre.h"
-#import "czzForumManager.h"
+#import "czzForum.h"
 #import "GSIndeterminateProgressView.h"
 
-@interface czzForumsViewController () <czzURLDownloaderProtocol, UITableViewDataSource, UITableViewDelegate>
-@property czzURLDownloader *xmlDownloader;
+@interface czzForumsViewController () <czzXMLDownloaderDelegate, UITableViewDataSource, UITableViewDelegate>
+@property czzXMLDownloader *xmlDownloader;
 @property NSMutableArray *forumGroups;
 @property BOOL failedToConnect;
 @property NSDate *lastAdUpdateTime;
@@ -26,7 +26,6 @@
 @property UIView *adCoverView;
 @property BOOL shouldHideCoverView;
 @property GSIndeterminateProgressView *progressView;
-@property czzForumManager *forumManager;
 @end
 
 @implementation czzForumsViewController
@@ -41,13 +40,11 @@
 @synthesize shouldHideCoverView;
 @synthesize forums;
 @synthesize progressView;
-@synthesize forumManager;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    forumManager = [czzForumManager sharedInstance];
     forumGroups = [NSMutableArray new];
     [self refreshForums];
     bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
@@ -55,6 +52,12 @@
     bannerView_.adUnitID = @"ca-app-pub-2081665256237089/4247713655";
     bannerView_.rootViewController = self;
     adUpdateInterval = 10 * 60;
+    //load default forumID json file to avoid crash caused by bad network connection
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"default_forumID" ofType:@"json"];
+    NSData *JSONData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
+    NSArray *defaultForums = [self parseJsonForForum:JSONData];
+    if (defaultForums.count > 0)
+        [czzAppDelegate sharedAppDelegate].forums = defaultForums;
     
     self.navigationController.navigationBar.barTintColor = [settingCentre barTintColour];
     self.navigationController.navigationBar.tintColor = [settingCentre tintColour];
@@ -89,11 +92,22 @@
 #endif
     NSString *forumString = [[settingCentre forum_list_url] stringByAppendingString:[NSString stringWithFormat:@"?version=%@", [NSString stringWithFormat:@"%@-%@", bundleIdentifier, versionString]]];
     NSLog(@"Forum config URL: %@", forumString);
-    xmlDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:forumString] delegate:self startNow:YES];
+    xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:forumString] delegate:self startNow:YES];
     [progressView startAnimating];
     
     //added after the old server is down, this is necessary for the new a isle server
     NSURL *forumURL = [NSURL URLWithString:[settingCentre forum_list_detail_url]];
+    [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:forumURL] queue:[NSOperationQueue new] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        if (!connectionError) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (data) {
+                    NSArray *newForums = [self parseJsonForForum:data];
+                    if (newForums.count > 0)
+                        [czzAppDelegate sharedAppDelegate].forums = newForums;
+                }
+            });
+        }
+    }];
 }
 
 -(NSArray*)parseJsonForForum:(NSData*)jsonData {
@@ -107,9 +121,14 @@
         error = [NSError errorWithDomain:@"Empty Data" code:999 userInfo:nil];
     }
     if (!error) {
+<<<<<<< HEAD
+        for (NSDictionary* rawForum in jsonArray) {
+            czzForum *newForum = [[czzForum alloc] initWithJSONDictionaryV2:rawForum];
+=======
         NSArray *rawForumData = [jsonDict valueForKey:@"forum"];
         for (NSDictionary* rawForum in rawForumData) {
             czzForum *newForum = [[czzForum alloc] initWithJSONDictionary:rawForum];
+>>>>>>> new-api-from-april
             if (newForum)
                 [newForums addObject:newForum];
         }
@@ -202,10 +221,19 @@
         [self refreshForums];
         return;
     }
+<<<<<<< HEAD
     //avoid index out of bound
     if (indexPath.row >= forums.count)
         return;
     czzForum *pickedForum = [forums objectAtIndex:indexPath.row];
+=======
+    if (forumGroups.count == 0)
+        return;
+    czzForumGroup *forumGroup = [forumGroups objectAtIndex:indexPath.section];
+    if (indexPath.row >= forumGroup.forumNames.count)
+        return;
+    NSString *forumName = [forumGroup.forumNames objectAtIndex:indexPath.row];
+>>>>>>> new-api-from-april
     [self.viewDeckController toggleLeftViewAnimated:YES];
     //POST a local notification to inform other view controllers that a new forum is picked
     NSMutableDictionary *userInfo = [NSMutableDictionary new];
@@ -225,13 +253,43 @@
 #pragma czzXMLDownloaderDelegate
 -(void)downloadOf:(NSURL *)xmlURL successed:(BOOL)successed result:(NSData *)xmlData{
     if (successed){
+<<<<<<< HEAD
         NSArray *defaultForums = [self parseJsonForForum:xmlData];
         forums = [NSMutableArray arrayWithArray:defaultForums];
-        //TODO absort the parsed forums
+        [czzAppDelegate sharedAppDelegate].forums = defaultForums;
     } else {
         failedToConnect = YES;
     }
     [progressView stopAnimating];
+=======
+        forumGroups = [NSMutableArray new];
+        //parse the return XML object
+        NSError *error;
+        SMXMLDocument *xmlDoc = [[SMXMLDocument alloc] initWithData:xmlData error:&error];
+        if (error){
+            DLog(@"%@", error);
+            [self.view makeToast:@"数据错误：服务器可能在维护中！" duration:1.5 position:@"bottom" image:[UIImage imageNamed:@"warning"]];
+        }
+        NSArray *children = [xmlDoc.root children];
+        for (SMXMLElement *child in children){
+            //parse the result
+            if ([child.name isEqualToString:@"status"]){
+                NSInteger status = [child.value integerValue];
+                if (status != 200){
+                    [self.view makeToast:@"网络错误：无法接上服务器" duration:1.5 position:@"bottom" image:[UIImage imageNamed:@"warning"]];
+                    break;
+                }
+            }
+            //parse the model
+            if ([child.name isEqualToString:@"model"]){
+                [self parseModel:child];
+            }
+        }
+    }
+    [progressView stopAnimating];
+    if (forumGroups.count <= 0)
+        failedToConnect = YES;
+>>>>>>> new-api-from-april
     [forumsTableView reloadData];
 }
 

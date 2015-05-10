@@ -22,7 +22,6 @@
 @property (nonatomic) NSString *myhost;
 @property czzHomeViewController *homeViewController; //this is pretty much the root of the whole app.
 @property (nonatomic) NSString *vendorID;
-@property NSArray *forums;
 
 -(void)showToast:(NSString*)string;
 + (czzAppDelegate*) sharedAppDelegate;
@@ -36,5 +35,4 @@
 -(void)doSingleViewHideAnimation:(UIView*)incomingView :(NSString*)animType :(CGFloat)duration;
 -(void)doSingleViewShowAnimation:(UIView*)incomingView :(NSString*)animType :(CGFloat)duration;
 
--(NSString*)getForumIDFromForumName:(NSString*)fName;
 @end

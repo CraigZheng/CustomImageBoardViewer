@@ -42,6 +42,7 @@ Stuff; \
 _Pragma("clang diagnostic pop") \
 } while (0)
 
+#import "NSObject+Extension.h"
 
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
