@@ -29,9 +29,10 @@
         [request setHTTPShouldHandleCookies:YES];
         [request setHTTPMethod:@"GET"];
         [request setValue:@"application/xml" forHTTPHeaderField:@"Accept"];
-        //set user agent
-        [request setValue:@"HAvfun Client" forHTTPHeaderField:@"User-Agent"];
+
         urlConn = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:now];
+        if (now)
+            DLog(@"%@ make request to: %@", NSStringFromClass(self.class), targetURL);
         self.delegate = delegate;
     }
     return self;
@@ -39,6 +40,7 @@
 
 -(void)start{
     [urlConn start];
+    DLog(@"%@ make request to: %@", NSStringFromClass(self.class), targetURL);
 }
 
 -(void)stop{

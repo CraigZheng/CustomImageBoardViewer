@@ -16,7 +16,7 @@
 -(void)downloadUpdated:(czzXMLDownloader*)downloader progress:(CGFloat)progress;
 @end
 
-@interface czzXMLDownloader : NSObject<NSURLConnectionDelegate>
+@interface czzXMLDownloader : NSObject<NSURLConnectionDataDelegate>
 @property (nonatomic) NSURL *targetURL;
 @property id<czzXMLDownloaderDelegate>  delegate;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskID;

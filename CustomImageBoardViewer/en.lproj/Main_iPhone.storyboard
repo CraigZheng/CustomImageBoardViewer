@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
@@ -248,7 +248,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="I9c-ob-c1k">
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="forum_cell_identifier" id="137-wE-iXz">
@@ -261,7 +261,7 @@
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Forum" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="261" translatesAutoresizingMaskIntoConstraints="NO" id="3xi-TT-e8h">
                                                     <rect key="frame" x="20" y="0.0" width="261" height="43"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -433,7 +433,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="KwU-Hq-ROf">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="command_cell_identifier" id="wM5-xh-nZv">
                                         <rect key="frame" x="0.0" y="46" width="320" height="45"/>
@@ -812,7 +812,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="238" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="4iw-Az-V4Y">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="switch_cell_identifier" id="ZC5-7D-yBN">
                                         <rect key="frame" x="0.0" y="46" width="320" height="45"/>
@@ -996,19 +996,25 @@
                                 <action selector="postAction:" destination="JnF-wS-C9I" id="zss-kn-tAq"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="wT1-MB-Gco"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="fn1-vx-9Ma"/>
+                        <barButtonItem image="search.png" id="IEY-Zf-6SC">
+                            <connections>
+                                <action selector="searchAction:" destination="JnF-wS-C9I" id="nVE-FU-sKp"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Ce0-gG-M2z"/>
                         <barButtonItem image="bookmark.png" id="Xnt-yu-NQh">
                             <connections>
                                 <action selector="bookmarkAction:" destination="JnF-wS-C9I" id="5Xv-ia-0yn"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="nwi-2z-AkL"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Maa-gj-Fdj"/>
                         <barButtonItem image="advance.png" id="hBx-aX-JHK">
                             <connections>
                                 <action selector="jumpAction:" destination="JnF-wS-C9I" id="ceo-vg-v4x"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="cVs-6a-VGz"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="nYk-qL-i6i"/>
                         <barButtonItem image="settings.png" id="T1x-La-d5b">
                             <connections>
                                 <action selector="settingsAction:" destination="JnF-wS-C9I" id="PEi-VR-bxX"/>
@@ -1048,7 +1054,7 @@
             <objects>
                 <tableViewController hidesBottomBarWhenPushed="YES" id="aOD-Hr-NEd" customClass="czzFavouriteManagerViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="6rP-cG-rqX">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -1059,7 +1065,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="点击以加载更多串" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bfM-v5-1TU">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击以加载更多串" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bfM-v5-1TU">
                                             <rect key="frame" x="84" y="11" width="432" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <color key="textColor" red="1" green="0.57347453749999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1086,7 +1092,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="正在加载" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mXR-Qm-DmO">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="正在加载" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mXR-Qm-DmO">
                                             <rect key="frame" x="83" y="11" width="434" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <color key="textColor" red="1" green="0.57347453749999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1151,6 +1157,7 @@
         <image name="menu.png" width="20" height="20"/>
         <image name="message.png" width="20" height="20"/>
         <image name="reply.png" width="20" height="20"/>
+        <image name="search.png" width="20" height="20"/>
         <image name="settings.png" width="20" height="20"/>
         <image name="settings_wrench.png" width="20" height="20"/>
         <image name="star.png" width="20" height="20"/>
@@ -1158,7 +1165,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="5Fw-Ve-fjP"/>
-        <segue reference="DWL-6t-CEf"/>
-        <segue reference="Uep-8w-iun"/>
+        <segue reference="vK6-NU-jzp"/>
+        <segue reference="90f-dH-dau"/>
     </inferredMetricsTieBreakers>
 </document>

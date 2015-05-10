@@ -72,6 +72,11 @@
     }
 
     receivedResponse = [NSMutableData new];
+    if ([(NSHTTPURLResponse*)response statusCode] == 200) {
+        [self.delegate statusReceived:YES message:@"What a great success!"];
+    } else {
+        [self.delegate statusReceived:NO message:[NSString stringWithFormat:@"Failed! Status code: %ld", (long)[(NSHTTPURLResponse*)response statusCode]]];
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
@@ -79,7 +84,8 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection{
-    [self response:receivedResponse];
+    DLog(@"received response: \n%@", [[NSString alloc] initWithData:self.receivedResponse encoding:NSUTF8StringEncoding]);
+//    [self response:receivedResponse];
 }
 
 -(void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {

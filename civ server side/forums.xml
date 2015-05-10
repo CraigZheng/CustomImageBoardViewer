@@ -42,7 +42,6 @@
             <Area>游戏</Area>
             <ForumNames>
                <string>游戏</string>
-               <string>沃土</string>
                <string>DNF</string>
                <string>EVE</string>
                <string>战争雷霆</string>
@@ -51,6 +50,8 @@
                <string>LOL</string>
                <string>DOTA</string>
                <string>Minecraft</string>
+               <string>D3</string>
+               <string>GTA5</string>
                <string>MUG</string>
                <string>MUGEN</string>
                <string>WOT</string>
@@ -59,7 +60,6 @@
                <string>炉石传说</string>
                <string>怪物猎人</string>
 				<string>AC大逃杀</string>
-
                <string>索尼</string>
                <string>任天堂</string>
                <string>口袋妖怪</string>

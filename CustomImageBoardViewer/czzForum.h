@@ -18,5 +18,4 @@
 @property NSDate *updatedAt;
 
 -(id)initWithJSONDictionary:(NSDictionary*)jsonDict;
--(id)initWithJSONDictionaryV2:(NSDictionary*)jsonDict;
 @end

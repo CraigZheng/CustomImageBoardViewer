@@ -6,8 +6,9 @@
 //  Copyright (c) 2014 Craig. All rights reserved.
 //
 #define KEYWORD @"KEYWORD"
-#define GOOGLE_SEARCH_COMMAND @"https://www.google.com.au/#q=site:h.acfun.tv+KEYWORD&sort=date:D:S:d1"
-#define BING_SEARCH_COMMAND @"http://m.bing.com/search?q=site%3Ah.acfun.tv+KEYWORD&btsrc=internal"
+#define A_ISLE_HOST @"A_ISLE_HOST"
+#define GOOGLE_SEARCH_COMMAND @"https://www.google.com.au/#q=site:A_ISLE_HOST+KEYWORD&sort=date:D:S:d1"
+#define BING_SEARCH_COMMAND @"http://m.bing.com/search?q=site%3AA_ISLE_HOST+KEYWORD&btsrc=internal"
 #define AC_SEARCH_COMMAND @"http://h.acfun.tv/thread/search?key=KEYWORD"
 
 #define USER_SELECTED_SEARCH_ENGINE @"DEFAULT_SEARCH_ENGINE"
@@ -29,7 +30,7 @@
 @property NSArray *searchResult;
 @property UIAlertView *searchInputAlertView;
 @property NSString *searchKeyword;
-@property NSString *searchCommand;
+@property NSString *selectedSearchEngine;
 @property NSURL *targetURL;
 @property czzMiniThreadViewController *miniThreadView;
 @property GSIndeterminateProgressView *progressView;
@@ -38,7 +39,7 @@
 @implementation czzSearchViewController
 @synthesize selectedParentThread;
 @synthesize searchInputAlertView;
-@synthesize searchCommand;
+@synthesize selectedSearchEngine;
 @synthesize searchWebView;
 @synthesize predefinedSearchKeyword;
 @synthesize searchEngineSegmentedControl;
@@ -52,14 +53,14 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    searchCommand = BING_SEARCH_COMMAND;
+    selectedSearchEngine = BING_SEARCH_COMMAND;
     //restore selected search engine
     NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
     if ([userDef objectForKey:USER_SELECTED_SEARCH_ENGINE]){
-        searchCommand = [userDef stringForKey:USER_SELECTED_SEARCH_ENGINE];
-        if ([searchCommand isEqualToString:BING_SEARCH_COMMAND]) {
+        selectedSearchEngine = [userDef stringForKey:USER_SELECTED_SEARCH_ENGINE];
+        if ([selectedSearchEngine isEqualToString:BING_SEARCH_COMMAND]) {
             searchEngineSegmentedControl.selectedSegmentIndex = 0;
-        } else if ([searchCommand isEqualToString:GOOGLE_SEARCH_COMMAND]) {
+        } else if ([selectedSearchEngine isEqualToString:GOOGLE_SEARCH_COMMAND]) {
             searchEngineSegmentedControl.selectedSegmentIndex = 1;
         } else {
             searchEngineSegmentedControl.selectedSegmentIndex = 2;
@@ -94,13 +95,24 @@
     [[czzAppDelegate sharedAppDelegate].window hideToastActivity];
 }
 
+/*
+ check numeric string
+ */
+-(BOOL)isNumeric:(NSString*)inputString {
+    BOOL valid;
+    NSCharacterSet *alphaNums = [NSCharacterSet decimalDigitCharacterSet];
+    NSCharacterSet *inStringSet = [NSCharacterSet characterSetWithCharactersInString:inputString];
+    valid = [alphaNums isSupersetOfSet:inStringSet];
+    return valid;
+}
+
 #pragma mark - UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     //search
     if (alertView == searchInputAlertView) {
         if (buttonIndex != alertView.cancelButtonIndex) {
             searchKeyword = [[[alertView textFieldAtIndex:0] text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-            if (searchKeyword.integerValue > 0) {
+            if ([self isNumeric:searchKeyword]) {
                 [[czzAppDelegate sharedAppDelegate].window makeToast:@"请稍等..."];
                 [self downloadAndPrepareThreadWithID:searchKeyword.integerValue];
                 
@@ -109,7 +121,7 @@
                 if (!request) {
                     [[czzAppDelegate sharedAppDelegate].window makeToast:@"无效的关键词"];
                 } else {
-                    if ([searchCommand isEqualToString:AC_SEARCH_COMMAND]) {
+                    if ([selectedSearchEngine isEqualToString:AC_SEARCH_COMMAND]) {
                         [self openURLAndConvertToczzThreadFormat:request.URL];
                     } else
                         [searchWebView loadRequest:request];
@@ -129,7 +141,9 @@
     if (keyword.length == 0) {
         return nil;
     }
-    NSString *searchURL = [searchCommand stringByReplacingOccurrencesOfString:KEYWORD withString:keyword];
+    NSURL *aIsleHostURL = [NSURL URLWithString:[settingCentre a_isle_host]];
+    NSString *searchURL = [[selectedSearchEngine stringByReplacingOccurrencesOfString:A_ISLE_HOST withString:[aIsleHostURL host]] stringByReplacingOccurrencesOfString:KEYWORD withString:keyword];
+    DLog(@"search: %@", searchURL);
     return [NSURLRequest requestWithURL:[NSURL URLWithString:searchURL]];
 }
 #pragma mark - Navigation
@@ -174,7 +188,7 @@
                         searchResult = threads;
                         // if viewController is visible
                         if (self.isViewLoaded && self.view.window) {
-                            if ([searchCommand isEqualToString:AC_SEARCH_COMMAND]) {
+                            if ([selectedSearchEngine isEqualToString:AC_SEARCH_COMMAND]) {
                                 [self performSegueWithIdentifier:@"go_favourite_view_segue" sender:self];
                             } else
                                 [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
@@ -218,32 +232,30 @@
             [[czzAppDelegate sharedAppDelegate].window makeToast:@"这个App只支持AC匿名版的链接" duration:2.0 position:@"center" image:[UIImage imageNamed:@"warning.png"]];
             return NO;
         } else {
-            if ([request.URL.host rangeOfString:@"acfun"].location != NSNotFound) {
-                
-                //get final URL
-                NSString *acURL = [[request.URL.absoluteString componentsSeparatedByString:@"?"].firstObject stringByReplacingOccurrencesOfString:@"m/" withString:@""]; //only the first few components are useful, the host and the thread id
-                targetURL = [NSURL URLWithString:acURL];
-                NSData *data=nil;
-                
-                NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:targetURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10];
-                NSURLResponse *response;
-                NSError *error;
-                data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-                NSURL *LastURL=[response URL];
-                
-                //from final URL get thread ID
-                NSString *threadID = [LastURL.absoluteString stringByReplacingOccurrencesOfString:@"http://h.acfun.tv/t/" withString:@""];
-                [[czzAppDelegate sharedAppDelegate].window makeToast:@"请稍等..."];
-                [self downloadAndPrepareThreadWithID:threadID.integerValue];
+            //get final URL
+            NSString *acURL = [[request.URL.absoluteString componentsSeparatedByString:@"?"].firstObject stringByDeletingPathExtension]; //only the first few components are useful, the host and the thread id
+            targetURL = [NSURL URLWithString:acURL];
+            NSData *data=nil;
+            
+            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:targetURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:4];
+            NSURLResponse *response;
+            NSError *error;
+            data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+            NSURL *LastURL=[response URL];
+            
+            //from final URL get thread ID
+            NSString *threadID = [LastURL.absoluteString stringByReplacingOccurrencesOfString:[settingCentre share_post_url] withString:@""];
+            [[czzAppDelegate sharedAppDelegate].window makeToast:@"请稍等..."];
+            [self downloadAndPrepareThreadWithID:threadID.integerValue];
+            
+            return NO;
+            
+            //old ways
+            [self performSegueWithIdentifier:@"go_html_parser_view_controller" sender:self];
+            return NO;
 
-                return NO;
-                
-                //old ways
-                [self performSegueWithIdentifier:@"go_html_parser_view_controller" sender:self];
-                return NO;
-            }
         }
-        return YES;
+        return NO;
     }
     return YES;
 }
@@ -265,16 +277,16 @@
 - (IBAction)segmentControlChanged:(id)sender {
     UISegmentedControl *segmentedControl = (UISegmentedControl*)sender;
     if (segmentedControl.selectedSegmentIndex == 0) {
-        searchCommand = BING_SEARCH_COMMAND;
+        selectedSearchEngine = BING_SEARCH_COMMAND;
     } else if (segmentedControl.selectedSegmentIndex == 1)
     {
-        searchCommand = GOOGLE_SEARCH_COMMAND;
+        selectedSearchEngine = GOOGLE_SEARCH_COMMAND;
     }
     else if (segmentedControl.selectedSegmentIndex ==2) {
-        searchCommand = AC_SEARCH_COMMAND;
+        selectedSearchEngine = AC_SEARCH_COMMAND;
     }
     NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
-    [userDef setObject:searchCommand forKey:USER_SELECTED_SEARCH_ENGINE];
+    [userDef setObject:selectedSearchEngine forKey:USER_SELECTED_SEARCH_ENGINE];
     [userDef synchronize];
 }
 

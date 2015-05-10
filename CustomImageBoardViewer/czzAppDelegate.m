@@ -37,7 +37,6 @@
     
     myhost = my_main_host;
     settingsCentre = [czzSettingsCentre sharedInstance];
-    [settingsCentre downloadSettings];
     
     [self checkFolders];
     //check cookie
