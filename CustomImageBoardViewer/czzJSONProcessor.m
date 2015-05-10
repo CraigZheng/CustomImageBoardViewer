@@ -87,7 +87,7 @@
     }
 }
 
--(void)processSubThreadFromData:(NSData *)jsonData {
+-(void)processSubThreadFromData:(NSData *)jsonData forForum:(czzForum *)forum{
     processedThreads = [NSMutableArray new];
     NSError *error;
     NSDictionary *parsedObjects;
@@ -102,22 +102,26 @@
         }
     }
     @try {
-        //thread and sub thread data
-        czzThread *parentThread = [[czzThread alloc] initWithJSONDictionaryV2:parsedObjects];
-        NSArray* parsedThreadData = [self readFromJsonDictionary:parsedObjects withName:@"replys"];
-        for (NSDictionary *rawThreadData in parsedThreadData) {
-            czzThread *newThread = [[czzThread alloc] initWithJSONDictionaryV2:rawThreadData];
-            [processedThreads addObject:newThread];
-        }
-//        //page number data
-//        [self updatePageNumberWithJsonDict:[self readFromJsonDictionary:parsedObjects withName:@"page"]];
-
-        if (delegate) {
-            if ([delegate respondsToSelector:@selector(subThreadProcessedForThread::::)]) {
-                [delegate subThreadProcessedForThread:self :parentThread :processedThreads :YES];
-            } else if ([delegate respondsToSelector:@selector(subThreadProcessedForThread:::)]) {
-                [delegate subThreadProcessedForThread:parentThread :processedThreads :YES];
+        if (forum.parserType == FORUM_PARSER_AISLE) {
+            //thread and sub thread data
+            czzThread *parentThread = [[czzThread alloc] initWithJSONDictionary:parsedObjects];
+            NSArray* parsedThreadData = [self readFromJsonDictionary:parsedObjects withName:@"replys"];
+            for (NSDictionary *rawThreadData in parsedThreadData) {
+                czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
+                [processedThreads addObject:newThread];
             }
+            //        //page number data
+            [self updatePageNumberWithJsonDict:[self readFromJsonDictionary:parsedObjects withName:@"page"]];
+            
+            if (delegate) {
+                if ([delegate respondsToSelector:@selector(subThreadProcessedForThread::::)]) {
+                    [delegate subThreadProcessedForThread:self :parentThread :processedThreads :YES];
+                } else if ([delegate respondsToSelector:@selector(subThreadProcessedForThread:::)]) {
+                    [delegate subThreadProcessedForThread:parentThread :processedThreads :YES];
+                }
+            }
+        } else if (forum.parserType == FORUM_PARSER_A_DAO) {
+            //TODO: add parser for A dao parser type
         }
     }
     @catch (NSException *exception) {
