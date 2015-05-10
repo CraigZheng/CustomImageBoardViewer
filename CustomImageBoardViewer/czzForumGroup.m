@@ -63,4 +63,15 @@
     }
     return self;
 }
+
+-(NSDictionary *)toDictionary {
+    if (self.allForums.count) {
+        NSMutableArray *tempAllForums = [NSMutableArray new];
+        for (czzForum *forum in self.allForums) {
+            [tempAllForums addObject:[forum toDictionary]];
+        }
+        return [NSDictionary dictionaryWithObject:tempAllForums forKey:area];
+    }
+    return nil;
+}
 @end

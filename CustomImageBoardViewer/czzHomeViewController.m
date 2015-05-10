@@ -535,7 +535,6 @@
     NSDictionary *userInfo = notification.userInfo;
     czzForum *forum = [userInfo objectForKey:kPickedForum];
     if (forum){
-//        [self setForumName:forum.name];
         [self setSelectedForum:forum];
         [self refreshThread:self];
         //disallow image downloading if specified by remote settings
@@ -556,12 +555,6 @@
     self.title = threadList.forum.name;
     self.navigationItem.backBarButtonItem.title = self.title;
 }
-
-//-(void)setForumName:(NSString *)name{
-//    threadList.forumName = name;
-//    self.title = threadList.forumName;
-//    self.navigationItem.backBarButtonItem.title = self.title;
-//}
 
 #pragma mark - czzMenuEnableTableViewCellDelegate
 -(void)userTapInImageView:(NSString *)imgURL {

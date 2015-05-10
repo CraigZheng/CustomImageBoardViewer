@@ -12,7 +12,7 @@
 @end
 
 @implementation czzThreadList
-@synthesize xmlDownloader;
+@synthesize threadDownloader;
 @synthesize threadListProcessor;
 @synthesize baseURLString;
 @synthesize shouldHideImageForThisForum;
@@ -105,7 +105,7 @@
 
 -(void)setForum:(czzForum *)fo {
     forum = fo;
-    baseURLString = [[settingCentre thread_list_host] stringByReplacingOccurrencesOfString:kForumID withString:[NSString stringWithFormat:@"%ld", (long)forum.forumID]];
+    baseURLString = [forum.forumURL stringByReplacingOccurrencesOfString:kForum withString:[NSString stringWithFormat:@"%@", forum.name]];
     DLog(@"forum picked:%@ - base URL: %@", forum.name, baseURLString);
 }
 
@@ -128,12 +128,12 @@
     [self downloadOf:nil successed:YES result:mockData];
     return;
 #endif
-    if (xmlDownloader)
-        [xmlDownloader stop];
+    if (threadDownloader)
+        [threadDownloader stop];
     pageNumber = pn;
-//    NSString *targetURLStringWithPN = [baseURLString stringByAppendingString:[NSString stringWithFormat:@"?page=%ld", (long)pageNumber]];
-    NSString *targetURLStringWithPN = [baseURLString stringByReplacingOccurrencesOfString:kPage withString:[NSString stringWithFormat:@"%ld", (long) pn]];
-    xmlDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
+
+    NSString *targetURLStringWithPN = [[baseURLString stringByReplacingOccurrencesOfString:kPageNumber withString:[NSString stringWithFormat:@"%ld", (long) pageNumber]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    threadDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
     isDownloading = YES;
     if (delegate && [delegate respondsToSelector:@selector(threadListBeginDownloading:)]) {
         [delegate threadListBeginDownloading:self];
@@ -148,10 +148,10 @@
     [verticalHeights removeAllObjects];
 }
 
-#pragma czzXMLDownloader - thread xml data received
+#pragma mark - czzURLDownloaderDelegate
 -(void)downloadOf:(NSURL *)targetURL successed:(BOOL)successed result:(NSData *)xmlData{
-    [xmlDownloader stop];
-    xmlDownloader = nil;
+    [threadDownloader stop];
+    threadDownloader = nil;
     isDownloading = NO;
     if (successed){
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

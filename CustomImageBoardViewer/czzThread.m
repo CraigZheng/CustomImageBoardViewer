@@ -30,7 +30,7 @@
 }
 
 -(instancetype)initWithThreadID:(NSInteger)threadID {
-    NSString *target = [[[settingCentre thread_content_host] stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long)threadID]] stringByReplacingOccurrencesOfString:kPage withString:@"1"];
+    NSString *target = [[[settingCentre thread_content_host] stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long)threadID]] stringByReplacingOccurrencesOfString:kPageNumber withString:@"1"];
     NSURLResponse *response;
     NSData *data = [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:target]] returningResponse:&response error:nil];
     if (data)

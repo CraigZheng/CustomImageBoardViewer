@@ -54,7 +54,7 @@
     }
     @try {
 //        //page number data
-//        [self updatePageNumberWithJsonDict:[parsedObjects objectForKey:@"page"]];
+        [self updatePageNumberWithJsonDict:[parsedObjects objectForKey:@"page"]];
         //thread list data
 //        NSArray* parsedThreadData = [[parsedObjects objectForKey:@"data"] objectForKey:@"threads"];
         for (NSDictionary *rawThreadData in parsedObjects) {

@@ -26,7 +26,7 @@
                 self.forumURL = [self readFromJsonDictionary:jsonDict withName:@"targetURL"];
                 if (!self.forumURL) {
                     if (self.name)
-                        self.forumURL = [[settingCentre thread_list_host] stringByAppendingString:self.name];
+                        self.forumURL = @"http://h.nimingban.com/api/<kForum>?page=<kPageNumber>";
                 }
                 self.imageHost = [self readFromJsonDictionary:jsonDict withName:@"imageHost"];
                 if (!self.imageHost.length) {

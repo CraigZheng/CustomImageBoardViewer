@@ -8,8 +8,8 @@
 
 #define DEFAULT_THREAD_LIST_CACHE_FILE @"DEFAULT_THREAD_LIST_CACHE_FILE.dat"
 
-#define kForumID @"<FORUM_ID>"
-#define kPage @"<PAGE>"
+#define kForum @"<kForum>"
+#define kPageNumber @"<kPageNumber>"
 
 #import "czzThread.h"
 //#import "czzSubThreadList.h"
@@ -55,7 +55,7 @@
 @property CGPoint currentOffSet;
 @property czzThread *displayedThread;
 
-@property czzURLDownloader *xmlDownloader;
+@property czzURLDownloader *threadDownloader;
 @property czzJSONProcessor *threadListProcessor;
 @property czzJSONProcessor *subThreadProcessor;
 

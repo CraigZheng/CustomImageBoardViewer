@@ -20,7 +20,7 @@
 @synthesize parentThread;
 @synthesize baseURLString;
 @synthesize delegate;
-@synthesize xmlDownloader;
+@synthesize threadDownloader;
 @synthesize threadListProcessor;
 @synthesize subThreadProcessor;
 @synthesize pageNumber;
@@ -133,14 +133,14 @@
     [self downloadOf:nil successed:YES result:mockData];
     return;
 #endif
-    if (xmlDownloader)
-        [xmlDownloader stop];
+    if (threadDownloader)
+        [threadDownloader stop];
     pageNumber = pn;
     if (pageNumber >= totalPages)
         pageNumber = totalPages;
 //    NSString *targetURLStringWithPN = [baseURLString stringByAppendingString:[NSString stringWithFormat:@"?page=%ld", (long)pageNumber]];
-    NSString *targetURLStringWithPN = [baseURLString stringByReplacingOccurrencesOfString:kPage withString:[NSString stringWithFormat:@"%ld", (long) pageNumber]];
-    xmlDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
+    NSString *targetURLStringWithPN = [baseURLString stringByReplacingOccurrencesOfString:kPageNumber withString:[NSString stringWithFormat:@"%ld", (long) pageNumber]];
+    threadDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
     isDownloading = YES;
     DLog(@"%@", targetURLStringWithPN);
     if (delegate && [delegate respondsToSelector:@selector(threadListBeginDownloading:)]) {

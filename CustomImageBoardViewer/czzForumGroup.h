@@ -16,4 +16,5 @@
 -(NSArray*)allForums;
 -(NSArray*)availableForums;
 -(id)initWithJSONDictionary:(NSDictionary*)jsonDict;
+-(NSDictionary*)toDictionary;
 @end
