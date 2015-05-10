@@ -8,31 +8,45 @@
 
 #import "czzForumManager.h"
 
+@interface czzForumManager() <czzURLDownloaderProtocol>
+@property czzURLDownloader *forumDownloader;
+
+@end
+
 @implementation czzForumManager
-@synthesize availableForums, allForums, forumDownloader;
+@synthesize allForumGroups, forumDownloader;
 
 -(instancetype)init {
     self = [super init];
     if (self) {
         //load default forumID json file to avoid crash caused by bad network connection
-        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"default_forumID" ofType:@"json"];
+        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"default_forums" ofType:@"json"];
         NSData *JSONData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
         NSArray *defaultForums = [self parseJsonForForum:JSONData];
         
-        allForums = [NSMutableArray arrayWithArray:defaultForums];
-        availableForums = [NSMutableArray new];
-        for (czzForum *forum in allForums) {
-            if (!forum.lock) {
-                [self.availableForums addObject:forum];
-            }
-        }
+        allForumGroups = [NSMutableArray arrayWithArray:defaultForums];
     }
     return self;
 }
 
+-(void)updateForum {
+    NSString *bundleIdentifier = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"];
+    NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+#ifdef DEBUG
+    versionString = @"DEBUG";
+#endif
+    NSString *forumString = [[settingCentre forum_list_url] stringByAppendingString:[NSString stringWithFormat:@"?version=%@", [NSString stringWithFormat:@"%@-%@", bundleIdentifier, versionString]]];
+    NSLog(@"Forum config URL: %@", forumString);
+
+    if (forumDownloader) {
+        [forumDownloader stop];
+    }
+    forumDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:forumString] delegate:self startNow:YES];
+}
+
 -(NSArray*)parseJsonForForum:(NSData*)jsonData {
     NSError* error;
-    NSMutableArray *newForums = [NSMutableArray new];
+    NSMutableArray *newForumGroup = [NSMutableArray new];
     
     NSDictionary *jsonDict;
     if (jsonData)
@@ -43,18 +57,19 @@
     if (!error) {
         NSArray *rawForumData = [jsonDict valueForKey:@"forum"];
         for (NSDictionary* rawForum in rawForumData) {
-            czzForum *newForum = [[czzForum alloc] initWithJSONDictionary:rawForum];
-            if (newForum)
-                [newForums addObject:newForum];
+            czzForumGroup *forumGroup = [[czzForumGroup alloc] initWithJSONDictionary:rawForum];
+            if (forumGroup)
+                [newForumGroup addObject:forumGroup];
         }
     }
-    return newForums;
+    return newForumGroup;
 }
 
 
 #pragma mark - czzURLDownloaderProtocol
 -(void)downloadOf:(NSURL *)url successed:(BOOL)successed result:(NSData *)downloadedData {
-    
+    if (successed)
+        [self parseJsonForForum:downloadedData];
 }
 
 + (id)sharedInstance

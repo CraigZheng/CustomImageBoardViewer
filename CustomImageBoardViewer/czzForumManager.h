@@ -10,13 +10,23 @@
 
 #import "czzURLDownloader.h"
 #import "czzForum.h"
+#import "czzForumGroup.h"
 #import "czzSettingsCentre.h"
 
-@interface czzForumManager : NSObject <czzURLDownloaderProtocol>
-@property (nonatomic) NSMutableArray *availableForums;
-@property NSMutableArray *allForums; //including those that are locked
-@property czzURLDownloader *forumDownloader;
+@class czzForumManager;
+@protocol czzForumManagerDelegate <NSObject>
+-(void)forumManager:(czzForumManager*)manager updated:(BOOL)wasSuccessful;
+@optional
+-(void)forumManagerDidStartUpdate:(czzForumManager*)manager;
+@end
 
+@interface czzForumManager : NSObject <czzURLDownloaderProtocol>
+
+@property NSMutableArray *allForumGroups; //including those that are locked
+
+@property id<czzForumManagerDelegate> delegate;
+
+-(void)updateForum;
 -(NSArray*)parseJsonForForum:(NSData*)jsonData;
 
 +(id)sharedInstance;

@@ -17,7 +17,7 @@
 #import "czzForumManager.h"
 #import "GSIndeterminateProgressView.h"
 
-@interface czzForumsViewController () <czzURLDownloaderProtocol, UITableViewDataSource, UITableViewDelegate>
+@interface czzForumsViewController () <czzForumManagerDelegate, UITableViewDataSource, UITableViewDelegate>
 @property czzURLDownloader *xmlDownloader;
 @property NSMutableArray *forumGroups;
 @property BOOL failedToConnect;
@@ -65,6 +65,8 @@
     progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     [self.navigationController.navigationBar addSubview:progressView];
 
+    //assign data source
+    forumGroups = forumManager.allForumGroups;
 }
 
 
@@ -92,29 +94,6 @@
     xmlDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:forumString] delegate:self startNow:YES];
     [progressView startAnimating];
     
-    //added after the old server is down, this is necessary for the new a isle server
-    NSURL *forumURL = [NSURL URLWithString:[settingCentre forum_list_detail_url]];
-}
-
--(NSArray*)parseJsonForForum:(NSData*)jsonData {
-    NSError* error;
-    NSMutableArray *newForums = [NSMutableArray new];
-
-    NSDictionary *jsonDict;
-    if (jsonData)
-        jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
-    else {
-        error = [NSError errorWithDomain:@"Empty Data" code:999 userInfo:nil];
-    }
-    if (!error) {
-        NSArray *rawForumData = [jsonDict valueForKey:@"forum"];
-        for (NSDictionary* rawForum in rawForumData) {
-            czzForum *newForum = [[czzForum alloc] initWithJSONDictionary:rawForum];
-            if (newForum)
-                [newForums addObject:newForum];
-        }
-    }
-    return newForums;
 }
 
 -(void)refreshAd {
@@ -127,8 +106,6 @@
 
 #pragma UITableView datasouce
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    if (failedToConnect)
-        return 1;
     return forumGroups.count;
 }
 
@@ -138,9 +115,9 @@
     czzForumGroup *forumGroup = [forumGroups objectAtIndex:section];
     if (section == 0)
     {
-        return forumGroup.forumNames.count + 1;
+        return [forumGroup availableForums].count + 1;
     }
-    return forumGroup.forumNames.count;
+    return [forumGroup availableForums].count;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
@@ -162,11 +139,14 @@
     czzForumGroup *forumGroup = [forumGroups objectAtIndex:indexPath.section];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier];
     if (cell){
-        if (indexPath.row < forumGroup.forumNames.count) {
+        if (indexPath.row < [forumGroup availableForums].count) {
+            czzForum *forum = [[forumGroup availableForums] objectAtIndex:indexPath.row];
             UILabel *titleLabel = (UILabel*)[cell viewWithTag:1];
             titleLabel.textColor = [settingCentre contentTextColour];
-            [titleLabel setText:[forumGroup.forumNames objectAtIndex:indexPath.row]];
-        } else {
+            [titleLabel setText:forum.name];
+        }
+        //last cell of the first section should be the ad cell
+        else {
             cell = [tableView dequeueReusableCellWithIdentifier:@"ad_cell_identifier" forIndexPath:indexPath];
             //position of the ad
             if (!bannerView_.superview) {
@@ -216,23 +196,22 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     //ad cell
-    if (indexPath.section == 0 && indexPath.row == [forumGroups.lastObject forumNames].count) {
+    if (indexPath.section == 0 && indexPath.row == [[forumGroups objectAtIndex:indexPath.section] availableForums].count) {
         return bannerView_.bounds.size.height;
     }
     return 44;
 }
 
-#pragma czzXMLDownloaderDelegate
--(void)downloadOf:(NSURL *)xmlURL successed:(BOOL)successed result:(NSData *)xmlData{
-    if (successed){
-        NSArray *defaultForums = [self parseJsonForForum:xmlData];
-        forums = [NSMutableArray arrayWithArray:defaultForums];
-        //TODO absort the parsed forums
-    } else {
-        failedToConnect = YES;
+#pragma mark - czzForumManagerDelegate
+-(void)forumManager:(czzForumManager *)manager updated:(BOOL)wasSuccessful {
+    if (wasSuccessful) {
+        [forumsTableView reloadData];
     }
     [progressView stopAnimating];
-    [forumsTableView reloadData];
+}
+
+-(void)forumManagerDidStartUpdate:(czzForumManager *)manager {
+    [progressView startAnimating];
 }
 
 #pragma mark - dismiss cover view
@@ -242,32 +221,5 @@
     }
     shouldHideCoverView = YES;
 }
-
-#pragma XML parser
--(void)parseModel:(SMXMLElement*)model{
-    for (SMXMLElement *child in model.children) {
-        if ([child.name isEqualToString:@"ArrayOfForumGroup"]){
-            for (SMXMLElement *forumGroup in child.children) {
-                [self parseForumGroup:forumGroup];
-            }
-        }
-    }
-}
-
--(void)parseForumGroup:(SMXMLElement*)forumGroup{
-    czzForumGroup *newForumGroup = [czzForumGroup new];
-    for (SMXMLElement *child in forumGroup.children) {
-        if ([child.name isEqualToString:@"Area"]){
-            newForumGroup.area = child.value;
-        } else if ([child.name isEqualToString:@"ForumNames"]){
-            //each children would be a name of a forum
-            for (SMXMLElement *forum in child.children) {
-                [newForumGroup.forumNames addObject:forum.value];
-            }
-        }
-    }
-    [forumGroups addObject:newForumGroup];
-}
-
 
 @end

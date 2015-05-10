@@ -7,8 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "czzForum.h"
 
 @interface czzForumGroup : NSObject
 @property NSString *area;
-@property NSMutableArray *forumNames;
+@property NSMutableArray *forums;
+
+-(NSArray*)allForums;
+-(NSArray*)availableForums;
+-(id)initWithJSONDictionary:(NSDictionary*)jsonDict;
 @end

@@ -15,6 +15,7 @@
 		440B2FD017F8191700544926 /* czzPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 440B2FCF17F8191700544926 /* czzPost.m */; };
 		4411B2EA1AFF472900E94A5B /* czzForumManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4411B2E91AFF472900E94A5B /* czzForumManager.m */; };
 		4411B2ED1AFF547C00E94A5B /* NSObject+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 4411B2EC1AFF547C00E94A5B /* NSObject+Extension.m */; };
+		4411B2EF1AFF6A5500E94A5B /* default_forums.json in Resources */ = {isa = PBXBuildFile; fileRef = 4411B2EE1AFF6A5500E94A5B /* default_forums.json */; };
 		4412FA151935865800681438 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 4412FA141935865800681438 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		4416B71D19413D9300B69C5B /* czzEmotionPickerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4416B71C19413D9300B69C5B /* czzEmotionPickerTableViewController.m */; };
 		4416B72519413EAF00B69C5B /* FPPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4416B72019413EAF00B69C5B /* FPPopoverController.m */; };
@@ -367,7 +368,6 @@
 		5A6266AA193A17FF00AD949F /* czzNotificationDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6266A9193A17FF00AD949F /* czzNotificationDownloader.m */; };
 		5A637439195D8AB0004AF1FC /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5A637437195D8AB0004AF1FC /* LICENSE */; };
 		5A88B8401938AFDB00071343 /* czzNotificationCentreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A88B83F1938AFDB00071343 /* czzNotificationCentreTableViewController.m */; };
-		5AA5B6B519A95E7D00DCC3DA /* default_forumID.json in Resources */ = {isa = PBXBuildFile; fileRef = 5AA5B6B419A95E7D00DCC3DA /* default_forumID.json */; };
 		5ADCA46A1938F67F002BA60B /* ValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCA4691938F67F002BA60B /* ValueFormatter.m */; };
 		5AF85E62196EDC110031D0CB /* czzHTMLToThreadParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF85E61196EDC110031D0CB /* czzHTMLToThreadParser.m */; };
 		5AF85E681970025A0031D0CB /* czzSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF85E671970025A0031D0CB /* czzSearchViewController.m */; };
@@ -400,6 +400,7 @@
 		4411B2E91AFF472900E94A5B /* czzForumManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzForumManager.m; sourceTree = "<group>"; };
 		4411B2EB1AFF547C00E94A5B /* NSObject+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Extension.h"; sourceTree = "<group>"; };
 		4411B2EC1AFF547C00E94A5B /* NSObject+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Extension.m"; sourceTree = "<group>"; };
+		4411B2EE1AFF6A5500E94A5B /* default_forums.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = default_forums.json; sourceTree = "<group>"; };
 		4412FA131935865800681438 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		4412FA141935865800681438 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		4416B71B19413D9300B69C5B /* czzEmotionPickerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzEmotionPickerTableViewController.h; sourceTree = "<group>"; };
@@ -920,7 +921,6 @@
 		5A637437195D8AB0004AF1FC /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		5A88B83E1938AFDB00071343 /* czzNotificationCentreTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzNotificationCentreTableViewController.h; sourceTree = "<group>"; };
 		5A88B83F1938AFDB00071343 /* czzNotificationCentreTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzNotificationCentreTableViewController.m; sourceTree = "<group>"; };
-		5AA5B6B419A95E7D00DCC3DA /* default_forumID.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = default_forumID.json; sourceTree = "<group>"; };
 		5ADCA4681938F67F002BA60B /* ValueFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueFormatter.h; sourceTree = "<group>"; };
 		5ADCA4691938F67F002BA60B /* ValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueFormatter.m; sourceTree = "<group>"; };
 		5AF85E60196EDC110031D0CB /* czzHTMLToThreadParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzHTMLToThreadParser.h; sourceTree = "<group>"; };
@@ -1167,10 +1167,10 @@
 		441E5D1717F46B3200289DBD /* czzForumsViewController */ = {
 			isa = PBXGroup;
 			children = (
+				4411B2EE1AFF6A5500E94A5B /* default_forums.json */,
 				441E5D2517F4798300289DBD /* czzForumGroup */,
 				440B2FC517F7DB7800544926 /* czzForumsViewController.h */,
 				440B2FC617F7DB7800544926 /* czzForumsViewController.m */,
-				5AA5B6B419A95E7D00DCC3DA /* default_forumID.json */,
 			);
 			name = czzForumsViewController;
 			sourceTree = "<group>";
@@ -2276,7 +2276,6 @@
 				444F5B351A40EA3500EB391F /* 34.png in Resources */,
 				44A9E15B1AE1D16000740CE1 /* iTunesArtwork@2x.png in Resources */,
 				444F5B301A40EA3500EB391F /* 29.png in Resources */,
-				5AA5B6B519A95E7D00DCC3DA /* default_forumID.json in Resources */,
 				44E791F21A17856500A63C04 /* sad.png in Resources */,
 				44DF8EFC1A7512730097F7F5 /* add_user@2x.png in Resources */,
 				44CF254E1A25A2A500BD8228 /* delete_file@3x.png in Resources */,
@@ -2413,6 +2412,7 @@
 				444F5B431A40EA3500EB391F /* 48.png in Resources */,
 				444F5B241A40EA3500EB391F /* 17.png in Resources */,
 				444F5B201A40EA3500EB391F /* 13.png in Resources */,
+				4411B2EF1AFF6A5500E94A5B /* default_forums.json in Resources */,
 				444F5B2D1A40EA3500EB391F /* 26.png in Resources */,
 				44E792001A17856500A63C04 /* sleeping@3x.png in Resources */,
 				444F5B141A40EA3500EB391F /* 01.png in Resources */,
