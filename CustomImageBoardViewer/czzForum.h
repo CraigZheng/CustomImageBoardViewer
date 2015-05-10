@@ -12,7 +12,7 @@
 typedef enum {
     FORUM_PARSER_AISLE = 1,
     FORUM_PARSER_A_DAO = 2
-} FORUM_PARSER;
+} FORUM_PARSER_TYPE;
 
 @interface czzForum : NSObject <NSCoding>
 @property NSString *name;
@@ -24,7 +24,7 @@ typedef enum {
 @property NSDate *updatedAt;
 @property NSString *forumURL;
 @property NSString *imageHost;
-@property FORUM_PARSER forumParser;
+@property FORUM_PARSER_TYPE parserType;
 
 -(id)initWithJSONDictionary:(NSDictionary*)jsonDict;
 -(NSDictionary*)toDictionary;

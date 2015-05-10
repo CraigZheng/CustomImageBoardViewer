@@ -19,18 +19,12 @@
         NSData *JSONData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
         NSArray *defaultForums = [self parseJsonForForum:JSONData];
         
-        NSMutableArray *tempAll = [NSMutableArray new];
-        
-        for (czzForum *forum in defaultForums) {
-            NSDictionary *dict = [forum toDictionary];
-            [tempAll addObject:dict];
-        }
-        @try {
-            NSData *data = [NSJSONSerialization dataWithJSONObject:tempAll options:0 error:nil];
-            NSString *jsonForums = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            DLog(@"%@", jsonForums);
-        } @catch (NSError *e) {
-            DLog(@"%@", e);
+        allForums = [NSMutableArray arrayWithArray:defaultForums];
+        availableForums = [NSMutableArray new];
+        for (czzForum *forum in allForums) {
+            if (!forum.lock) {
+                [self.availableForums addObject:forum];
+            }
         }
     }
     return self;

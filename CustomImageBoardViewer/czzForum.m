@@ -25,17 +25,18 @@
                 self.updatedAt = [NSDate dateWithTimeIntervalSince1970:[[self readFromJsonDictionary:jsonDict withName:@"updatedAt"] doubleValue] / 1000];
                 self.forumURL = [self readFromJsonDictionary:jsonDict withName:@"targetURL"];
                 if (!self.forumURL) {
-                    self.forumURL = [[settingCentre thread_list_host] stringByAppendingString:self.name];
+                    if (self.name)
+                        self.forumURL = [[settingCentre thread_list_host] stringByAppendingString:self.name];
                 }
                 self.imageHost = [self readFromJsonDictionary:jsonDict withName:@"imageHost"];
                 if (!self.imageHost.length) {
                     //give it a default image host
                     self.imageHost = [settingCentre image_host];
                 }
-                self.forumParser = [[self readFromJsonDictionary:jsonDict withName:@"forumParser"] integerValue];
-                if (self.forumParser == 0) {
+                self.parserType = [[self readFromJsonDictionary:jsonDict withName:@"forumParser"] integerValue];
+                if (self.parserType == 0) {
                     //default to Aisle format
-                    self.forumParser = 1;
+                    self.parserType = 1;
                 }
             }
             @catch (NSException *exception) {
