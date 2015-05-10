@@ -7,6 +7,7 @@
 //
 
 #import "czzThreadList.h"
+#import "czzImageCentre.h"
 
 @interface czzThreadList ()
 @end
@@ -177,6 +178,23 @@
 
 #pragma mark - czzJSONProcesserProtocol
 -(void)threadListProcessed:(czzJSONProcessor *)processor :(NSArray *)newThreads :(BOOL)success {
+    for (czzThread *thread in newThreads) {
+        if (thread.thImgSrc.length != 0){
+            NSString *targetImgURL;
+            if ([thread.thImgSrc hasPrefix:@"http"])
+                targetImgURL = thread.thImgSrc;
+            else
+                targetImgURL = [forum.imageHost stringByAppendingPathComponent:thread.thImgSrc];
+            //if is set to show image
+            if ([settingCentre userDefShouldDisplayThumbnail] || ![settingCentre shouldDisplayThumbnail]){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[czzImageCentre sharedInstance] downloadThumbnailWithURL:targetImgURL isCompletedURL:YES];
+                });
+            }
+        }
+
+    }
+    
     isProcessing = NO;
     if (success){
         if (shouldHideImageForThisForum)

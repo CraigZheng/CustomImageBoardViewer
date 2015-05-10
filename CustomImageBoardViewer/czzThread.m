@@ -73,10 +73,8 @@
             NSString *imgString = [self readFromJsonDictionary:data withName:@"img"];
             if (imgString.length) {
                 self.imgSrc = [imgString stringByAppendingString:[self readFromJsonDictionary:data withName:@"ext"]];
-                self.imgSrc = [[settingCentre image_host] stringByAppendingPathComponent:self.imgSrc];
-                self.thImgSrc = [[imgString stringByAppendingString:@"_t"] stringByAppendingString:[self readFromJsonDictionary:data withName:@"ext"]];
-                self.thImgSrc = [[settingCentre image_host] stringByAppendingPathComponent:self.thImgSrc];
-                
+
+                self.thImgSrc = [[imgString stringByAppendingString:@"_t"] stringByAppendingString:[self readFromJsonDictionary:data withName:@"ext"]];                
             }
             //date -  "now": "2015-03-08(日)11:30:43",
             NSDateFormatter *formatter = [NSDateFormatter new];
@@ -95,7 +93,6 @@
             self.responseCount = [[self readFromJsonDictionary:data withName:@"replyCount"] integerValue];
             //check contents
             [self checkBlacklist];
-            [self checkImageURLs];
             [self checkRemoteConfiguration];
         }
         @catch (NSException *exception) {
@@ -145,7 +142,6 @@
             self.sage = [[data objectForKey:@"sage"] boolValue];
             self.responseCount = [[data objectForKey:@"replyCount"] integerValue];
             [self checkBlacklist];
-            [self checkImageURLs];
             [self checkRemoteConfiguration];
 
         }
@@ -199,22 +195,6 @@
         }
     }
 
-}
-
--(void)checkImageURLs {
-    if (self.thImgSrc.length != 0){
-//        NSString *targetImgURL = [[settingCentre thumbnail_host] stringByAppendingPathComponent:self.thImgSrc];
-        NSString *targetImgURL = self.thImgSrc;
-        //if is set to show image
-        if ([settingCentre userDefShouldDisplayThumbnail] || ![settingCentre shouldDisplayThumbnail]){
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[czzImageCentre sharedInstance] downloadThumbnailWithURL:targetImgURL isCompletedURL:YES];
-            });
-        } else {
-            self.thImgSrc = nil;
-        }
-
-    }
 }
 
 -(void)checkRemoteConfiguration {
