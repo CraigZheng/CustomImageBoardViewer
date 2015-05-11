@@ -147,6 +147,7 @@
     //configure the right view as menu
     UINavigationController *rightController = [self.storyboard instantiateViewControllerWithIdentifier:@"right_menu_view_controller"];    threadMenuViewController = [rightController.viewControllers objectAtIndex:0];
     threadMenuViewController.parentThread = parentThread;
+    threadMenuViewController.forum = threadList.forum;
     threadMenuViewController.selectedThread = parentThread;
     self.viewDeckController.rightController = rightController;
     //do not allow panning

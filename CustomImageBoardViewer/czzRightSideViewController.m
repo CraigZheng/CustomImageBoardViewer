@@ -36,6 +36,7 @@
 @synthesize reportCommand;
 @synthesize allCommand;
 @synthesize parentThread;
+@synthesize forum;
 @synthesize commandTableView;
 @synthesize threadDepandentCommand;
 @synthesize urlCon;
@@ -170,6 +171,7 @@
 #pragma mark - reply actions
 -(void)replyMainAction {
     czzPostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
+    postViewController.forum = forum;
     [postViewController setThread:parentThread];
     postViewController.postMode = REPLY_POST;
     [self presentViewController:postViewController animated:YES completion:^{
@@ -196,7 +198,7 @@
     [self presentViewController:newPostViewController animated:YES completion:^{
         [self.viewDeckController toggleRightViewAnimated:YES];
         NSString *reportString = [[settingCentre report_post_placeholder] stringByReplacingOccurrencesOfString:PARENT_ID withString:[NSString stringWithFormat:@"%ld", (long)parentThread.ID]];
-        reportString = [reportString stringByReplacingOccurrencesOfString:THREAD_ID withString:[NSString stringWithFormat:@"%ld", (long)selectedThread.ID]];
+        reportString = [reportString stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long)selectedThread.ID]];
         newPostViewController.postTextView.text = reportString;
         newPostViewController.postNaviBar.topItem.title = [NSString stringWithFormat:@"举报:%ld", (long)selectedThread.ID];
         //construct a blacklist that to be submitted to my server and pass it to new post view controller

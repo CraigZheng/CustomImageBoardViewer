@@ -22,7 +22,6 @@
 #import "czzSettingsCentre.h"
 
 @interface czzPostViewController () <czzPostSenderDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
-@property NSString *targetURLString;
 @property NSMutableData *receivedResponse;
 @property czzPostSender *postSender;
 @end
@@ -32,7 +31,6 @@
 @synthesize thread;
 @synthesize replyTo;
 @synthesize postNaviBar;
-@synthesize targetURLString;
 @synthesize postButton;
 @synthesize receivedResponse;
 @synthesize blacklistEntity;
@@ -57,7 +55,6 @@
     toolbar.tintColor = [settingCentre tintColour];
     //assign an input accessory view to it
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    //    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     UIBarButtonItem *pickEmojiButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lol.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(pickEmojiAction:)];
     UIBarButtonItem *pickImgButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"picture.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(pickImageAction:)];
     postButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sent.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(postAction:)];
@@ -82,37 +79,32 @@
     //construct the title, content and targetURLString based on selected post mode
     NSString *title = @"回复";
     NSString *content = @"";
-    targetURLString = [settingCentre reply_post_url];
-//    NSString *forumID = [[czzAppDelegate sharedAppDelegate] getForumIDFromForumName:forumName];
-//    postSender.forumID = forumID;
     
+    postSender.forum = forum;
+    //assign forum or parent thread based on user selection
     switch (postMode) {
         case NEW_POST:
-        title = @"新帖";
-        //            targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:forumName];
-        //            postSender.forumName = forumName;
-        targetURLString = [settingCentre create_new_post_url];
-        postSender.forum = forum;
+            title = @"新内容";
+            postSender.parentThread = nil;
         break;
         
         case REPLY_POST:
-        if (self.replyTo)
-        {
-            title = [NSString stringWithFormat:@"回复:%ld", (long)replyTo.ID];
-            content = [NSString stringWithFormat:@">>No.%ld\n\n", (long)replyTo.ID];
-        }
-        targetURLString = [[settingCentre reply_post_url] stringByReplacingOccurrencesOfString:PARENT_ID withString:[NSString stringWithFormat:@"%ld", (long)thread.ID]];
-        postSender.parentID = thread.ID;
-        break;
+            if (self.replyTo)
+            {
+                title = [NSString stringWithFormat:@"回复:%ld", (long)replyTo.ID];
+                content = [NSString stringWithFormat:@">>No.%ld\n\n", (long)replyTo.ID];
+            }
+            postSender.parentThread = thread;
+            break;
         
         case REPORT_POST:
-        title = @"举报";
-        targetURLString = [settingCentre create_new_post_url];
-        czzForum *destinationForum = [czzForum new];
-        destinationForum.forumID = 5;
-        destinationForum.name = @"值班室";
-        postSender.forum = destinationForum;
-        break;
+            title = @"举报";
+            czzForum *destinationForum = [czzForum new];
+            destinationForum.forumID = 5;
+            destinationForum.name = @"值班室";
+            postSender.forum = destinationForum;
+            postSender.parentThread = nil;
+            break;
     }
     self.postNaviBar.topItem.title = title;
     postTextView.text = content;
@@ -140,9 +132,6 @@
 
 - (IBAction)postAction:(id)sender {
     //assign the appropriate target URL and delegate to the postSender
-    NSURL *targetURL = [NSURL URLWithString:[targetURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    postSender.targetURL = targetURL;
-    postSender.parentID = thread.ID;
     postSender.delegate = self;
     postSender.content = postTextView.text;
     [postSender sendPost];

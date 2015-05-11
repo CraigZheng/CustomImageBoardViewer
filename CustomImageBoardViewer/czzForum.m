@@ -31,7 +31,15 @@
                 }
                 self.threadContentURL = [self readFromJsonDictionary:jsonDict withName:@"threadContentURL"];
                 if (!self.threadContentURL.length) {
-                    self.threadContentURL = @"http://h.nimingban.com/api/t/<THREAD_ID>?page=<kPageNumber>";
+                    self.threadContentURL = [settingCentre thread_content_host];
+                }
+                self.replyThreadURL = [self readFromJsonDictionary:jsonDict withName:@"replyThreadURL"];
+                if (!self.replyThreadURL.length) {
+                    self.replyThreadURL = [settingCentre reply_post_url];
+                }
+                self.createThreadURL = [self readFromJsonDictionary:jsonDict withName:@"createThreadURL"];
+                if (!self.createThreadURL.length) {
+                    self.createThreadURL = [settingCentre create_new_post_url];
                 }
                 
                 self.imageHost = [self readFromJsonDictionary:jsonDict withName:@"imageHost"];

@@ -23,7 +23,7 @@
 @synthesize name, email, title, content, imgData;
 @synthesize myPost;
 @synthesize urlConn;
-@synthesize targetURL, forum, forumID, parentID;
+@synthesize targetURL, forum, forumID, parentThread;
 @synthesize urlRequest, requestBody;
 @synthesize receivedResponse;
 
@@ -37,6 +37,7 @@
 }
 
 -(void)sendPost{
+    
     urlRequest = [self createMutableURLRequestWithURL:targetURL];
     if (myPost.isReady && urlRequest){
         [requestBody appendData:myPost.makeRequestBody];
@@ -123,16 +124,8 @@
 }
 
 #pragma mark - Setters, also sets the urlRequest and the first parameter(either parentID or forumName)
--(void)setTargetURL:(NSURL *)t{
-    targetURL = t;
-}
 
 #pragma mark - Setters, while setting the members of this class, also set the member of myPost object
-
-//-(void)setForumName:(NSString *)f{
-//    forumName = f;
-//    myPost.forumName = [self encodeNSString:forumName];
-//}
 
 -(void)setForum:(czzForum *)f {
     forum = f;
@@ -144,9 +137,9 @@
     myPost.forumID = [self encodeNSString:forumID];
 }
 
--(void)setParentID:(NSInteger)p{
-    parentID = p;
-    myPost.parentID = parentID;
+-(void)setParentThread:(czzThread *)thread{
+    parentThread = thread;
+    myPost.parentID = parentThread.ID;
 }
 
 -(void)setName:(NSString *)n{

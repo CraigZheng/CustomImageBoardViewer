@@ -24,6 +24,8 @@ typedef enum {
 @property NSDate *updatedAt;
 @property NSString *forumURL;
 @property NSString *threadContentURL;
+@property NSString *replyThreadURL;
+@property NSString *createThreadURL;
 @property NSString *imageHost;
 @property FORUM_PARSER_TYPE parserType;
 

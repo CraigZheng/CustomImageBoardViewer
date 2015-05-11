@@ -8,9 +8,6 @@
 
 #define DEFAULT_THREAD_LIST_CACHE_FILE @"DEFAULT_THREAD_LIST_CACHE_FILE.dat"
 
-#define kForum @"<kForum>"
-#define kPageNumber @"<kPageNumber>"
-
 #import "czzThread.h"
 //#import "czzSubThreadList.h"
 #import "czzForum.h"

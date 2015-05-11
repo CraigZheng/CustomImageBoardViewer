@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "czzThread.h"
+#import "czzForum.h"
 #import "IIViewDeckController.h"
 
 @interface czzRightSideViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UITableView *commandTableView;
 @property (nonatomic) czzThread *parentThread;
+@property czzForum *forum;
 @property (nonatomic) czzThread *selectedThread;
 
 -(void)reportAction;

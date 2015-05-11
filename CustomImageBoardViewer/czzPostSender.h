@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "czzForum.h"
+#import "czzThread.h"
 
 @protocol czzPostSenderDelegate <NSObject>
 @optional
@@ -20,7 +21,7 @@
 //@property (nonatomic) NSString *forumName;
 @property (nonatomic) czzForum *forum;
 @property (nonatomic) NSString *forumID;
-@property (nonatomic) NSInteger parentID;
+@property (nonatomic) czzThread *parentThread;
 //for czzPost object
 @property (nonatomic) NSString *name;
 @property (nonatomic) NSString *email;
