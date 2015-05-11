@@ -107,7 +107,7 @@
     }
     
     czzThreadViewController *threadViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"czz_thread_view_controller"];
-    threadViewController.parentThread = parsedThread;
+//    threadViewController.parentThread = parsedThread;
     if (highlightKeyword.length > 0)
         threadViewController.shouldHighlightSelectedUser = highlightKeyword;
     

@@ -15,7 +15,7 @@
 #import "IIViewDeckController.h"
 
 @interface czzThreadViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
-@property (nonatomic) czzThread *parentThread;
+
 @property (strong, nonatomic) IBOutlet UITableView *threadTableView;
 @property NSString *shouldHighlightSelectedUser;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *starButton;

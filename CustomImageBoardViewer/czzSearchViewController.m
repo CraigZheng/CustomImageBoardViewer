@@ -159,7 +159,8 @@
         }
     } else if ([segue.identifier isEqualToString:@"go_thread_view_segue"]) {
         czzThreadViewController *threadViewController = (czzThreadViewController*) segue.destinationViewController;
-        threadViewController.parentThread = selectedParentThread;
+//        threadViewController.parentThread = selectedParentThread;
+#warning TO BE ADJUSTED LATER
     }
 }
 

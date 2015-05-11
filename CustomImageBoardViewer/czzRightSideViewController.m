@@ -172,7 +172,7 @@
 -(void)replyMainAction {
     czzPostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
     postViewController.forum = forum;
-    [postViewController setThread:parentThread];
+    postViewController.thread = parentThread;
     postViewController.postMode = REPLY_POST;
     [self presentViewController:postViewController animated:YES completion:^{
         [self.viewDeckController toggleRightViewAnimated:NO];

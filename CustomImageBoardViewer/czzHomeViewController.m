@@ -230,7 +230,8 @@
         DLog(@"%@", NSStringFromSelector(_cmd));
         threadViewController = [self.storyboard instantiateViewControllerWithIdentifier:THREAD_VIEW_CONTROLLER];
         threadViewController.shouldRestoreContentOffset = YES;
-        threadViewController.parentThread = threadList.displayedThread;
+//        threadViewController.parentThread = threadList.displayedThread;
+#warning TO BE ADJUSTED LATER
         NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
         [viewControllers addObject:threadViewController];
         [self.navigationController setViewControllers:viewControllers animated:YES];

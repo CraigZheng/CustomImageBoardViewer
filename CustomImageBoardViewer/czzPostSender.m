@@ -37,7 +37,14 @@
 }
 
 -(void)sendPost{
-    
+    //has parent thread, should reply to it
+    if (parentThread) {
+        targetURL = [NSURL URLWithString:[forum.replyThreadURL stringByReplacingOccurrencesOfString:kParentID withString:[NSString stringWithFormat:@"%ld", (long)parentThread.ID]]];
+    }
+    //does not have parent thread, should create a new thread instead.
+    else {
+        targetURL = [NSURL URLWithString:[forum.createThreadURL stringByReplacingOccurrencesOfString:kForum withString:[forum.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    }
     urlRequest = [self createMutableURLRequestWithURL:targetURL];
     if (myPost.isReady && urlRequest){
         [requestBody appendData:myPost.makeRequestBody];

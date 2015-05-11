@@ -61,7 +61,6 @@
 @synthesize threadTableView;
 @synthesize selectedIndex;
 @synthesize threadMenuViewController;
-@synthesize parentThread;
 @synthesize threadsTableViewContentOffSet;
 @synthesize shouldHighlight;
 @synthesize shouldHighlightSelectedUser;
@@ -115,7 +114,7 @@
     //register xib
     [self.threadTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
     [self.threadTableView registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER];
-    self.title = parentThread.title;
+    self.title = threadList.parentThread.title;
     self.navigationItem.backBarButtonItem.title = self.title;
     
     //set up custom edit menu
@@ -146,9 +145,9 @@
     [super viewWillAppear:animated];
     //configure the right view as menu
     UINavigationController *rightController = [self.storyboard instantiateViewControllerWithIdentifier:@"right_menu_view_controller"];    threadMenuViewController = [rightController.viewControllers objectAtIndex:0];
-    threadMenuViewController.parentThread = parentThread;
+    threadMenuViewController.parentThread = threadList.parentThread;
     threadMenuViewController.forum = threadList.forum;
-    threadMenuViewController.selectedThread = parentThread;
+    threadMenuViewController.selectedThread = threadList.parentThread;
     self.viewDeckController.rightController = rightController;
     //do not allow panning
     self.viewDeckController.panningMode = IIViewDeckNoPanning;
@@ -238,7 +237,7 @@
             cell = [tableView dequeueReusableCellWithIdentifier:@"loading_cell_identifier"];
             UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
             [activityIndicator startAnimating];
-        } else if (parentThread.responseCount > settingsCentre.response_per_page && (threadList.pageNumber * settingsCentre.response_per_page + threads.count % settingsCentre.response_per_page - 1) < parentThread.responseCount){
+        } else if (threadList.parentThread.responseCount > settingsCentre.response_per_page && (threadList.pageNumber * settingsCentre.response_per_page + threads.count % settingsCentre.response_per_page - 1) < threadList.parentThread.responseCount){
 
             cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
         } else {
@@ -254,7 +253,7 @@
     if (cell){
         cell.delegate = self;
         cell.shouldHighlightSelectedUser = shouldHighlightSelectedUser;
-        cell.parentThread = parentThread;
+        cell.parentThread = threadList.parentThread;
         cell.myThread = thread;
         cell.myIndexPath = indexPath;
     }
@@ -410,7 +409,8 @@
     [self dismissViewControllerAnimated:YES completion:^{
 //        [self switchToParentThread:thread];
         czzThreadViewController *openThreadViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"thread_view_controller"];
-        openThreadViewController.parentThread = thread;
+        threadList.parentThread = thread;
+        openThreadViewController.threadList = threadList;
         [self.navigationController pushViewController:openThreadViewController animated:YES];
     }];
 }
@@ -648,8 +648,7 @@
     if (newParentThread)
     {
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.parentThread = newParentThread;
-            [threadList setParentThread:self.parentThread];
+            [threadList setParentThread:newParentThread];
             [self refreshThread:nil];
         });
     }

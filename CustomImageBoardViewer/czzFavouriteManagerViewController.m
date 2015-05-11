@@ -177,7 +177,8 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"go_thread_view_segue"]) {
         czzThreadViewController *threadViewController = (czzThreadViewController*)segue.destinationViewController;
-        threadViewController.parentThread = selectedThread;
+#warning TO BE ADJUSTED
+//        threadViewController.parentThread = selectedThread;
     }
 }
 
