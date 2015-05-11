@@ -137,8 +137,6 @@
         [threadList loadMoreThreads];
     }
 
-    //register an obverser while adding a parent view controller
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(entersBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
