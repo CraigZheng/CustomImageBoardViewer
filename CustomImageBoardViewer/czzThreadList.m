@@ -230,8 +230,8 @@
     longWidth = MAX([UIScreen mainScreen].applicationFrame.size.width, [UIScreen mainScreen].applicationFrame.size.height);
     dispatch_async(dispatch_get_main_queue(), ^{
         for (czzThread *thread in newThreads) {
-            CGFloat shortHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:parentViewController.view forWidth:shortWidth hasImage:thread.imgSrc.length > 0 withExtra:NO];
-            CGFloat longHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:parentViewController.view forWidth:longWidth hasImage:thread.imgSrc.length > 0 withExtra:YES];
+            CGFloat shortHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:[UIApplication sharedApplication].keyWindow.rootViewController.view forWidth:shortWidth hasImage:thread.imgSrc.length > 0 withExtra:NO];
+            CGFloat longHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:[UIApplication sharedApplication].keyWindow.rootViewController.view forWidth:longWidth hasImage:thread.imgSrc.length > 0 withExtra:YES];
             [verticalHeights addObject:[NSNumber numberWithFloat:shortHeight]];
             [horizontalHeights addObject:[NSNumber numberWithFloat:longHeight]];
         }

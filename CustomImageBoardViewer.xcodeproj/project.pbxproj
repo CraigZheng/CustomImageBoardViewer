@@ -98,6 +98,11 @@
 		442EC86C1A1A1C8D005650E4 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 442EC8691A1A1C8D005650E4 /* info.png */; };
 		442EC86D1A1A1C8D005650E4 /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 442EC86A1A1A1C8D005650E4 /* info@2x.png */; };
 		442EC86E1A1A1C8D005650E4 /* info@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 442EC86B1A1A1C8D005650E4 /* info@3x.png */; };
+		442F1FD31B13500C00267698 /* czzAppActivityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FD21B13500C00267698 /* czzAppActivityManager.m */; };
+		442F1FD71B13535B00267698 /* czzThreadTableViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FD61B13535B00267698 /* czzThreadTableViewDelegate.m */; };
+		442F1FD81B13535B00267698 /* czzThreadTableViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FD61B13535B00267698 /* czzThreadTableViewDelegate.m */; };
+		442F1FDB1B13537300267698 /* czzThreadTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FDA1B13537300267698 /* czzThreadTableViewDataSource.m */; };
+		442F1FDC1B13537300267698 /* czzThreadTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FDA1B13537300267698 /* czzThreadTableViewDataSource.m */; };
 		443141971A2B38D6007D65B3 /* czzSubThreadList.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141961A2B38D6007D65B3 /* czzSubThreadList.m */; };
 		4431419A1A2B5198007D65B3 /* GSIndeterminateProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141991A2B5198007D65B3 /* GSIndeterminateProgressView.m */; };
 		443141A21A3BFB5B007D65B3 /* KLCPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141A11A3BFB5B007D65B3 /* KLCPopup.m */; };
@@ -558,6 +563,12 @@
 		442EC8691A1A1C8D005650E4 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
 		442EC86A1A1A1C8D005650E4 /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info@2x.png"; sourceTree = "<group>"; };
 		442EC86B1A1A1C8D005650E4 /* info@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info@3x.png"; sourceTree = "<group>"; };
+		442F1FD11B13500C00267698 /* czzAppActivityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzAppActivityManager.h; sourceTree = "<group>"; };
+		442F1FD21B13500C00267698 /* czzAppActivityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzAppActivityManager.m; sourceTree = "<group>"; };
+		442F1FD51B13535B00267698 /* czzThreadTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadTableViewDelegate.h; sourceTree = "<group>"; };
+		442F1FD61B13535B00267698 /* czzThreadTableViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadTableViewDelegate.m; sourceTree = "<group>"; };
+		442F1FD91B13537300267698 /* czzThreadTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadTableViewDataSource.h; sourceTree = "<group>"; };
+		442F1FDA1B13537300267698 /* czzThreadTableViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadTableViewDataSource.m; sourceTree = "<group>"; };
 		443141951A2B38D6007D65B3 /* czzSubThreadList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzSubThreadList.h; sourceTree = "<group>"; };
 		443141961A2B38D6007D65B3 /* czzSubThreadList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzSubThreadList.m; sourceTree = "<group>"; };
 		443141981A2B5198007D65B3 /* GSIndeterminateProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSIndeterminateProgressView.h; sourceTree = "<group>"; };
@@ -1086,6 +1097,8 @@
 				44E7918C1A17856500A63C04 /* icons */,
 				441E5CDD17F4691300289DBD /* czzAppDelegate.h */,
 				441E5CDE17F4691300289DBD /* czzAppDelegate.m */,
+				442F1FD11B13500C00267698 /* czzAppActivityManager.h */,
+				442F1FD21B13500C00267698 /* czzAppActivityManager.m */,
 				4453C07619F634B700A8250F /* Launch Screen.xib */,
 				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
 				44DF8ECC1A74CA4B0097F7F5 /* Utils */,
@@ -1441,6 +1454,17 @@
 			name = czzNavigationController;
 			sourceTree = "<group>";
 		};
+		442F1FD41B13533900267698 /* ThreadTableView delegates */ = {
+			isa = PBXGroup;
+			children = (
+				442F1FD51B13535B00267698 /* czzThreadTableViewDelegate.h */,
+				442F1FD61B13535B00267698 /* czzThreadTableViewDelegate.m */,
+				442F1FD91B13537300267698 /* czzThreadTableViewDataSource.h */,
+				442F1FDA1B13537300267698 /* czzThreadTableViewDataSource.m */,
+			);
+			name = "ThreadTableView delegates";
+			sourceTree = "<group>";
+		};
 		4431419B1A2B519D007D65B3 /* GSIndetermineProgressView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1659,6 +1683,7 @@
 		448C85DF1A06F14300115FEC /* ThreadView */ = {
 			isa = PBXGroup;
 			children = (
+				442F1FD41B13533900267698 /* ThreadTableView delegates */,
 				4479B0911A0CCB750074D484 /* MiniThreadView */,
 				441E5E5517F52DF300289DBD /* czzThreadViewController */,
 				441E5D1817F46B5100289DBD /* czzHomeViewController */,
@@ -2495,6 +2520,7 @@
 				442A901D19DB9C3C00A3516E /* HTMLNode.m in Sources */,
 				442A8FB719DB7DF200A3516E /* PSTGridLayoutSection.m in Sources */,
 				44C73B8E1A484F280051D4C2 /* czzFavouriteManager.m in Sources */,
+				442F1FD31B13500C00267698 /* czzAppActivityManager.m in Sources */,
 				4448C2AA180FF6C600D2CD76 /* czzBlacklistSender.m in Sources */,
 				44858EAC1A0C5B0A00DD822B /* czzImageViewerUtil.m in Sources */,
 				4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */,
@@ -2507,6 +2533,7 @@
 				44B89E751A2AF39F0085F766 /* UIImage+animatedGIF.m in Sources */,
 				442EC8631A1A130A005650E4 /* czzNavigationController.m in Sources */,
 				4416B72619413EAF00B69C5B /* FPPopoverView.m in Sources */,
+				442F1FD71B13535B00267698 /* czzThreadTableViewDelegate.m in Sources */,
 				444146E21A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.m in Sources */,
 				442A8FA119DB7DF200A3516E /* MWGridCell.m in Sources */,
 				44DF8EE81A74DA3B0097F7F5 /* czzMessagePopUpViewController.m in Sources */,
@@ -2575,6 +2602,7 @@
 				442A8FB519DB7DF200A3516E /* PSTGridLayoutItem.m in Sources */,
 				442A8FF319DB7F5400A3516E /* SDWebImageDownloader.m in Sources */,
 				44DF8EDA1A74D0F00097F7F5 /* czzACTokenUtil.m in Sources */,
+				442F1FDB1B13537300267698 /* czzThreadTableViewDataSource.m in Sources */,
 				440B2F6117F5EED800544926 /* GTMNSString+HTML.m in Sources */,
 				442A8FF519DB7F5400A3516E /* SDWebImageManager.m in Sources */,
 				5A26E77919398D7F00B709C9 /* czzNotificationBannerViewController.m in Sources */,
@@ -2623,7 +2651,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				442F1FD81B13535B00267698 /* czzThreadTableViewDelegate.m in Sources */,
 				44C73B8A1A4840100051D4C2 /* czzHistoryManager.m in Sources */,
+				442F1FDC1B13537300267698 /* czzThreadTableViewDataSource.m in Sources */,
 				441E5CFD17F4691300289DBD /* CustomImageBoardViewerTests.m in Sources */,
 				44C73B8F1A484F280051D4C2 /* czzFavouriteManager.m in Sources */,
 				44DF8EDF1A74D62E0097F7F5 /* czzCookieManagerViewController.m in Sources */,

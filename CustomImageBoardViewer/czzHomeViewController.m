@@ -28,13 +28,13 @@
 #import "czzThreadList.h"
 #import "czzSubThreadList.h"
 
+#import "czzThreadTableViewDataSource.h"
+
 #import <CoreText/CoreText.h>
 
 
 @interface czzHomeViewController() <UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzThreadListProtocol, czzOnScreenImageManagerViewControllerDelegate, UIStateRestoring>
 @property NSArray *threads;
-@property NSArray *verticalHeights;
-@property NSArray *horizontalHeights;
 @property NSInteger currentPage;
 @property NSIndexPath *selectedIndex;
 @property czzThread *selectedThread;
@@ -51,13 +51,13 @@
 @property UIBarButtonItem *numberBarButton;
 @property GSIndeterminateProgressView *progressView;
 @property czzThreadList* threadList;
+
+@property czzThreadTableViewDataSource *tableViewDataSource;
 @end
 
 @implementation czzHomeViewController
 @synthesize currentPage;
 @synthesize threads;
-@synthesize verticalHeights;
-@synthesize horizontalHeights;
 @synthesize threadTableView;
 @synthesize selectedIndex;
 @synthesize selectedThread;
@@ -80,17 +80,20 @@
 @synthesize settingsBarButton;
 @synthesize progressView;
 
+@synthesize tableViewDataSource;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     //thread list, source of all data
-    threadList = [czzThreadList new];
-    [threadList restorePreviousState];
+    if (!threadList) {
+        threadList = [czzThreadList new];
+    }
     //assign delegate and parentViewController
     threadList.delegate = self;
     threadList.parentViewController = self;
 
-    [self copyDataFromThreadList]; //grab any possible data
+    [self updateView];
     
     //progress bar
     progressView = [(czzNavigationController*) self.navigationController progressView];
@@ -101,14 +104,15 @@
 
     imageViewerUtil = [czzImageViewerUtil new];
     [czzAppDelegate sharedAppDelegate].homeViewController = self; //retain a reference to app delegate, so when entering background, the delegate can inform this controller for further actions
-    settingsCentre = [czzSettingsCentre sharedInstance];
+    settingsCentre = settingCentre;
 
     //thumbnail folder
     thumbnailFolder = [czzAppDelegate thumbnailFolder];
     
-    //register xib
-    [threadTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
-    [threadTableView registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER];
+    //assign a custom tableview data source
+    threadTableView.dataSource = tableViewDataSource = [czzThreadTableViewDataSource initWithThreadList:self.threadList];
+    threadTableView.delegate = tableViewDataSource;
+    
     //configure the view deck controller with half size and tap to close mode
     self.viewDeckController.leftSize = self.view.frame.size.width/4;
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
@@ -129,9 +133,6 @@
     refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
     [threadTableView addSubview: refreshControl];
-    
-    //restore previous session
-    [self restorePreviousSession];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -224,31 +225,14 @@
     }
 }
 
--(void)restorePreviousSession {
-    if (threadList.displayedThread)
-    {
-        DLog(@"%@", NSStringFromSelector(_cmd));
-        threadViewController = [self.storyboard instantiateViewControllerWithIdentifier:THREAD_VIEW_CONTROLLER];
-        threadViewController.shouldRestoreContentOffset = YES;
-//        threadViewController.parentThread = threadList.displayedThread;
-#warning TO BE ADJUSTED LATER
-        NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
-        [viewControllers addObject:threadViewController];
-        [self.navigationController setViewControllers:viewControllers animated:YES];
-    }
-}
-
--(void)copyDataFromThreadList {
+-(void)updateView {
     //scroll to previous content offset if current off set is empty
     if (CGPointEqualToPoint(threadTableView.contentOffset, CGPointZero))
     {
         [threadTableView setContentOffset:threadList.currentOffSet animated:NO];
     }
-//    [self setForumName:threadList.forumName];
     [self setSelectedForum:threadList.forum];
     threads = [NSArray arrayWithArray:threadList.threads];
-    horizontalHeights = [NSArray arrayWithArray:threadList.horizontalHeights];
-    verticalHeights = [NSArray arrayWithArray:threadList.verticalHeights];
     [self updateNumberButton];
 }
 
@@ -361,109 +345,6 @@
 //    }
 }
 
-#pragma mark - UITableView datasource
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (threads.count > 0)
-        return threads.count + 1;
-    return threads.count;
-}
-
-#pragma mark - UITableView delegate
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == threads.count){
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
-        if (threadList.isDownloading || threadList.isProcessing) {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"loading_cell_identifier"];
-            UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
-            [activityIndicator startAnimating];
-        }
-        cell.backgroundColor = [settingsCentre viewBackgroundColour];
-        return cell;
-    }
-
-    NSString *cell_identifier = [settingsCentre userDefShouldUseBigImage] ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
-    czzThread *thread = [threads objectAtIndex:indexPath.row];
-    czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
-    if (cell){
-        cell.delegate = self;
-        cell.shouldHighlight = NO;
-        cell.shouldAllowClickOnImage = !settingsCentre.userDefShouldUseBigImage;
-        cell.parentThread = thread;
-        cell.myIndexPath = indexPath;
-        cell.myThread = thread;
-    }
-    return cell;
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    selectedIndex = indexPath;
-    @try {
-        if (indexPath.row < threads.count) {
-            selectedThread = [threads objectAtIndex:selectedIndex.row];
-            if (!settingsCentre.shouldAllowOpenBlockedThread) {
-                czzBlacklistEntity *blacklistEntity = [[czzBlacklist sharedInstance] blacklistEntityForThreadID:selectedThread.ID];
-                if (blacklistEntity){
-                    DLog(@"blacklisted thread");
-                    return;
-                }
-            }
-        }
-    }
-    @catch (NSException *exception) {
-        
-    }
-    if (selectedIndex.row < threads.count)
-        [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
-    else {
-        [threadList loadMoreThreads];
-        [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    }
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if (indexPath.row >= threads.count)
-        return tableView.rowHeight;
-    
-    NSArray *heightArray = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? verticalHeights : horizontalHeights;
-    CGFloat preferHeight = tableView.rowHeight;
-    @try {
-        preferHeight = [[heightArray objectAtIndex:indexPath.row] floatValue];
-    }
-    @catch (NSException *exception) {
-        DLog(@"%@", exception);
-    }
-    
-    return preferHeight;
-}
-
-#pragma mark - UIScrollVIew delegate
--(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    threadList.currentOffSet = scrollView.contentOffset;
-}
-
--(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    if (onScreenCommandViewController && threads.count > 1 && shouldDisplayQuickScrollCommand) {
-        [onScreenCommandViewController show];
-    }
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)aScrollView
-{
-    NSArray *visibleRows = [threadTableView visibleCells];
-    UITableViewCell *lastVisibleCell = [visibleRows lastObject];
-    NSIndexPath *path = [threadTableView indexPathForCell:lastVisibleCell];
-    if(path.row == threads.count && threads.count > 0)
-    {
-        CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
-        if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !(threadList.isDownloading || threadList.isProcessing)){
-            [threadList loadMoreThreads];
-            [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-        }
-    }
-}
-
 #pragma mark - czzThreadListProtocol
 -(void)threadListDownloaded:(czzThreadList *)threadList wasSuccessful:(BOOL)wasSuccessful {
     DLog(@"%@", NSStringFromSelector(_cmd));
@@ -481,7 +362,7 @@
 
 -(void)threadListProcessed:(czzThreadList *)list wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     DLog(@"%@", NSStringFromSelector(_cmd));
-    [self copyDataFromThreadList];
+    [self updateView];
     [threadTableView reloadData];
     if (list.pageNumber == 1 && allThreads.count > 1) //just refreshed
     {
@@ -556,22 +437,6 @@
     threadList.forum = forum;
     self.title = threadList.forum.name;
     self.navigationItem.backBarButtonItem.title = self.title;
-}
-
-#pragma mark - czzMenuEnableTableViewCellDelegate
--(void)userTapInImageView:(NSString *)imgURL {
-    [self openImageWithPath:imgURL];
-}
-
--(void)imageDownloadedForIndexPath:(NSIndexPath *)index filePath:(NSString *)path isThumbnail:(BOOL)isThumbnail {
-    if (isThumbnail) {
-        @try {
-            [threadTableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationAutomatic];
-        }
-        @catch (NSException *exception) {
-            DLog(@"%@", exception);
-        }
-    }
 }
 
 #pragma mark - czzOnScreenImageManagerViewControllerDelegate
