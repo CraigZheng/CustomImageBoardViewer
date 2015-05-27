@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class czzHomeViewModelManager;
-@interface czzThreadTableViewDataSource : NSObject <UITableViewDataSource, UITableViewDelegate>
+@interface czzHomeTableViewDataSource : NSObject <UITableViewDataSource, UITableViewDelegate>
 
 @property czzHomeViewModelManager *homeViewManager;
 

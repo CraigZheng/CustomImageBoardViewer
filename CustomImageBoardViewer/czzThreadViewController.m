@@ -44,7 +44,6 @@
 @property BOOL shouldDisplayQuickScrollCommand;
 @property NSString *thumbnailFolder;
 @property NSString *keywordToSearch;
-@property czzSettingsCentre *settingsCentre;
 @property UIViewController *rightViewController;
 @property UIViewController *topViewController;
 @property czzMiniThreadViewController *miniThreadView;
@@ -70,7 +69,6 @@
 @synthesize shouldDisplayQuickScrollCommand;
 @synthesize thumbnailFolder;
 @synthesize keywordToSearch;
-@synthesize settingsCentre;
 @synthesize rightViewController;
 @synthesize topViewController;
 @synthesize viewControllerNotInTransition;
@@ -88,12 +86,9 @@
     [super viewDidLoad];
     
     //init arrays
-    threads = [NSMutableArray new];
-    verticalHeights = [NSMutableArray new];
-    horizontalHeights = [NSMutableArray new];
 
     threadViewModelManager.delegate = self;
-    [self copyDataFromthreadViewModelManager];
+    [self applyViewModel];
 
     //progress view
     progressView = [(czzNavigationController*)self.navigationController progressView];
@@ -102,8 +97,8 @@
     thumbnailFolder = [czzAppDelegate thumbnailFolder];
     imageViewerUtil = [czzImageViewerUtil new];
     //settings
-    settingsCentre = [czzSettingsCentre sharedInstance];
-    shouldHighlight = settingsCentre.userDefShouldHighlightPO;
+
+    shouldHighlight = [settingCentre userDefShouldHighlightPO];
     //add the UIRefreshControl to uitableview
     refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
@@ -128,7 +123,7 @@
     onScreenCommandViewController = [[UIStoryboard storyboardWithName:@"OnScreenCommand" bundle:nil] instantiateInitialViewController];
     [self addChildViewController:onScreenCommandViewController];
     [onScreenCommandViewController hide];
-    shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
+    shouldDisplayQuickScrollCommand = [settingCentre userDefShouldShowOnScreenCommand];
     
     //if in foreground, load more threads
     if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground)
@@ -160,7 +155,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SearchUser:) name:@"SearchAction" object:nil];
 
     //background colour
-    self.threadTableView.backgroundColor = settingsCentre.viewBackgroundColour;
+    self.threadTableView.backgroundColor = [settingCentre viewBackgroundColour];
     
     //on screen image manager view
     czzOnScreenImageManagerViewController *onScreenImgMrg = [(czzNavigationController*)self.navigationController onScreenImageManagerView];
@@ -198,7 +193,7 @@
     viewControllerNotInTransition = YES;
 }
 
--(void)copyDataFromthreadViewModelManager {
+-(void)applyViewModel {
     if (shouldRestoreContentOffset && CGPointEqualToPoint(threadTableView.contentOffset, CGPointZero)) {
         [threadTableView setContentOffset:threadViewModelManager.currentOffSet animated:NO];
     }
@@ -225,20 +220,20 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *cell_identifier = [[czzSettingsCentre sharedInstance] userDefShouldUseBigImage] ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
+    NSString *cell_identifier = [settingCentre userDefShouldUseBigImage] ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
     if (indexPath.row == threads.count){
         UITableViewCell *cell;// = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
         if (threadViewModelManager.isDownloading || threadViewModelManager.isProcessing) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"loading_cell_identifier"];
             UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
             [activityIndicator startAnimating];
-        } else if (threadViewModelManager.parentThread.responseCount > settingsCentre.response_per_page && (threadViewModelManager.pageNumber * settingsCentre.response_per_page + threads.count % settingsCentre.response_per_page - 1) < threadViewModelManager.parentThread.responseCount){
+        } else if (threadViewModelManager.parentThread.responseCount > [settingCentre response_per_page] && (threadViewModelManager.pageNumber * [settingCentre response_per_page] + threads.count % [settingCentre response_per_page] - 1) < threadViewModelManager.parentThread.responseCount){
 
             cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
         } else {
             cell = [tableView dequeueReusableCellWithIdentifier:@"no_more_cell_identifier"];
         }
-        cell.backgroundColor = [settingsCentre viewBackgroundColour];
+        cell.backgroundColor = [settingCentre viewBackgroundColour];
         return cell;
     }
     czzThread *thread = [threads objectAtIndex:indexPath.row];
@@ -460,7 +455,7 @@
 
 -(void)subThreadProcessed:(czzHomeViewModelManager *)threadViewModelManager wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     if (wasSuccessul) {
-        [self copyDataFromthreadViewModelManager];
+        [self applyViewModel];
         [threadTableView reloadData];
         [refreshControl endRefreshing];
         [progressView stopAnimating];
@@ -563,7 +558,7 @@
                 DLog(@"%@", exception);
             }
         }
-    } else if (settingsCentre.userDefShouldAutoOpenImage) {
+    } else if ([settingCentre userDefShouldAutoOpenImage]) {
         [self openImageWithPath:path];
     }
 }

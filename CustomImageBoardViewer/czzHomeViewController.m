@@ -29,7 +29,7 @@
 #import "czzThreadViewModelManager.h"
 #import "czzHomeTableViewDelegate.h"
 
-#import "czzThreadTableViewDataSource.h"
+#import "czzHomeTableViewDataSource.h"
 
 #import <CoreText/CoreText.h>
 
@@ -53,7 +53,7 @@
 @property GSIndeterminateProgressView *progressView;
 @property czzHomeViewModelManager* homeViewManager;
 
-@property czzThreadTableViewDataSource *tableViewDataSource;
+@property czzHomeTableViewDataSource *tableViewDataSource;
 @property czzHomeTableViewDelegate *tableViewDelegate;
 @end
 
@@ -112,7 +112,7 @@
     thumbnailFolder = [czzAppDelegate thumbnailFolder];
     
     //assign a custom tableview data source
-    threadTableView.dataSource = tableViewDataSource = [czzThreadTableViewDataSource initWithViewModelManager:self.homeViewManager];
+    threadTableView.dataSource = tableViewDataSource = [czzHomeTableViewDataSource initWithViewModelManager:self.homeViewManager];
     threadTableView.delegate = tableViewDelegate = [czzHomeTableViewDelegate initWithViewModelManager:self.homeViewManager];
     
     //configure the view deck controller with half size and tap to close mode

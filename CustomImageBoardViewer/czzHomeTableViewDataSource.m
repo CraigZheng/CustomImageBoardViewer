@@ -6,18 +6,18 @@
 //  Copyright (c) 2015 Craig. All rights reserved.
 //
 
-#import "czzThreadTableViewDataSource.h"
+#import "czzHomeTableViewDataSource.h"
 
 #import "czzHomeViewModelManager.h"
 #import "czzSettingsCentre.h"
 
 #import "czzMenuEnabledTableViewCell.h"
 
-@interface czzThreadTableViewDataSource () <czzMenuEnabledTableViewCellProtocol>
+@interface czzHomeTableViewDataSource () <czzMenuEnabledTableViewCellProtocol>
 @property (weak, nonatomic) UITableView *myTableView;
 @end
 
-@implementation czzThreadTableViewDataSource
+@implementation czzHomeTableViewDataSource
 @synthesize myTableView;
 @synthesize homeViewManager;
 
@@ -89,7 +89,7 @@
 }
 
 +(instancetype)initWithViewModelManager:(czzHomeViewModelManager *)threadList {
-    czzThreadTableViewDataSource *dataSource = [czzThreadTableViewDataSource new];
+    czzHomeTableViewDataSource *dataSource = [czzHomeTableViewDataSource new];
     dataSource.homeViewManager = threadList;
     return dataSource;
 }
