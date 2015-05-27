@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+#import "czzMenuEnabledTableViewCell.h"
+
 @class czzHomeViewModelManager;
-@interface czzHomeTableViewDataSource : NSObject <UITableViewDataSource, UITableViewDelegate>
+@interface czzHomeTableViewDataSource : NSObject <UITableViewDataSource, UITableViewDelegate, czzMenuEnabledTableViewCellProtocol>
+@property czzHomeViewModelManager *viewModelManager;
+@property (weak, nonatomic) UITableView *myTableView;
 
-@property czzHomeViewModelManager *homeViewManager;
-
-+(instancetype)initWithViewModelManager:(czzHomeViewModelManager*)threadList;
++(instancetype)initWithViewModelManager:(czzHomeViewModelManager*)viewModelManager;
 @end

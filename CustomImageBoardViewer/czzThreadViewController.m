@@ -21,6 +21,7 @@
 #import "czzOnScreenCommandViewController.h"
 #import "czzSearchViewController.h"
 #import "czzSettingsCentre.h"
+#import "czzThreadTableViewDataSource.h"
 #import "czzTextViewHeightCalculator.h"
 #import "czzMiniThreadViewController.h"
 #import "czzNavigationController.h"
@@ -49,6 +50,8 @@
 @property czzMiniThreadViewController *miniThreadView;
 @property BOOL viewControllerNotInTransition;
 @property UIRefreshControl *refreshControl;
+@property czzThreadTableViewDataSource *tableViewDataSource;
+
 @property GSIndeterminateProgressView *progressView;
 @end
 
@@ -79,16 +82,17 @@
 @synthesize threadViewModelManager;
 @synthesize progressView;
 @synthesize moreButton;
+@synthesize tableViewDataSource;
 @synthesize shouldRestoreContentOffset;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    //init arrays
-
     threadViewModelManager.delegate = self;
     [self applyViewModel];
+    
+    threadTableView.dataSource = tableViewDataSource = [czzThreadTableViewDataSource initWithViewModelManager:self.threadViewModelManager];
 
     //progress view
     progressView = [(czzNavigationController*)self.navigationController progressView];
@@ -105,9 +109,6 @@
     [threadTableView addSubview: refreshControl];
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
 
-    //register xib
-    [self.threadTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
-    [self.threadTableView registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER];
     self.title = threadViewModelManager.parentThread.title;
     self.navigationItem.backBarButtonItem.title = self.title;
     
@@ -206,59 +207,7 @@
     [self updateNumberButton];
 }
 
-#pragma mark - Table view data source
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    // Return the number of rows in the section.
-    if (threads.count > 0)
-        return threads.count + 1;
-    return threads.count;
-}
-
 #pragma mark UITableView delegate
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSString *cell_identifier = [settingCentre userDefShouldUseBigImage] ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
-    if (indexPath.row == threads.count){
-        UITableViewCell *cell;// = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
-        if (threadViewModelManager.isDownloading || threadViewModelManager.isProcessing) {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"loading_cell_identifier"];
-            UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
-            [activityIndicator startAnimating];
-        } else if (threadViewModelManager.parentThread.responseCount > [settingCentre response_per_page] && (threadViewModelManager.pageNumber * [settingCentre response_per_page] + threads.count % [settingCentre response_per_page] - 1) < threadViewModelManager.parentThread.responseCount){
-
-            cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
-        } else {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"no_more_cell_identifier"];
-        }
-        cell.backgroundColor = [settingCentre viewBackgroundColour];
-        return cell;
-    }
-    czzThread *thread = [threads objectAtIndex:indexPath.row];
-
-    czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
-    // Configure the cell...
-    if (cell){
-        cell.delegate = self;
-        cell.shouldHighlightSelectedUser = shouldHighlightSelectedUser;
-        cell.parentThread = threadViewModelManager.parentThread;
-        cell.myThread = thread;
-        cell.myIndexPath = indexPath;
-    }
-    return cell;
-}
-
-- (CGRect)frameOfTextRange:(NSRange)range inTextView:(UITextView *)textView {
-    UITextPosition *beginning = textView.beginningOfDocument;
-    UITextPosition *start = [textView positionFromPosition:beginning offset:range.location];
-    UITextPosition *end = [textView positionFromPosition:start offset:range.length];
-    UITextRange *textRange = [textView textRangeFromPosition:start toPosition:end];
-    CGRect rect = [textView firstRectForRange:textRange];
-    return rect;
-}
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     selectedIndex = indexPath;
     if (selectedIndex.row < threads.count){
@@ -348,6 +297,7 @@
         }
         else
             shouldHighlightSelectedUser = selectedThread.UID.string;
+        self.tableViewDataSource.shouldHighlightSelectedUser = shouldHighlightSelectedUser;
         [threadTableView reloadData];
     }
 }
