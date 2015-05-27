@@ -14,11 +14,11 @@
 
 @implementation czzHomeViewModelManager
 @synthesize threadDownloader;
-@synthesize threadListProcessor;
+@synthesize threadListDataProcessor;
 @synthesize baseURLString;
 @synthesize shouldHideImageForThisForum;
 @synthesize threads;
-@synthesize subThreadProcessor;
+@synthesize threadContentListDataProcessor;
 //@synthesize forumName;
 @synthesize forum;
 @synthesize pageNumber;
@@ -26,7 +26,6 @@
 @synthesize delegate;
 @synthesize lastBatchOfThreads;
 @synthesize isDownloading, isProcessing;
-@synthesize horizontalHeights, verticalHeights;
 @synthesize currentOffSet;
 @synthesize displayedThread;
 
@@ -38,11 +37,11 @@
         isProcessing = NO;
         pageNumber = totalPages = 1;
         threads = [NSMutableArray new];
-        horizontalHeights = [NSMutableArray new];
-        verticalHeights = [NSMutableArray new];
+        self.horizontalHeights = [NSMutableArray new];
+        self.verticalHeights = [NSMutableArray new];
 
-        threadListProcessor = [czzJSONProcessor new];
-        threadListProcessor.delegate = self;
+        threadListDataProcessor = [czzJSONProcessor new];
+        threadListDataProcessor.delegate = self;
     }
     return self;
 }
@@ -77,8 +76,8 @@
                 self.pageNumber = tempThreadList.pageNumber;
                 self.totalPages = tempThreadList.totalPages;
                 self.threads = tempThreadList.threads;
-                self.verticalHeights = tempThreadList.verticalHeights;
-                self.horizontalHeights = tempThreadList.horizontalHeights;
+                self.self.verticalHeights = tempThreadList.self.verticalHeights;
+                self.self.horizontalHeights = tempThreadList.self.horizontalHeights;
                 self.baseURLString = tempThreadList.baseURLString;
                 self.currentOffSet = tempThreadList.currentOffSet;
                 self.lastBatchOfThreads = tempThreadList.lastBatchOfThreads;
@@ -105,8 +104,8 @@
 
 -(void)refresh {
     threads = [NSMutableArray new];
-    horizontalHeights = [NSMutableArray new];
-    verticalHeights = [NSMutableArray new];
+    self.horizontalHeights = [NSMutableArray new];
+    self.verticalHeights = [NSMutableArray new];
     lastBatchOfThreads = nil;
     pageNumber = 1;
     [self loadMoreThreads:pageNumber];
@@ -138,8 +137,8 @@
     pageNumber = 1;
     [threads removeAllObjects];
     lastBatchOfThreads = nil;
-    [horizontalHeights removeAllObjects];
-    [verticalHeights removeAllObjects];
+    [self.horizontalHeights removeAllObjects];
+    [self.verticalHeights removeAllObjects];
 }
 
 #pragma mark - czzURLDownloaderDelegate
@@ -150,7 +149,7 @@
     if (successed){
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             isProcessing = YES;
-            [threadListProcessor processThreadListFromData:xmlData forForum:forum];
+            [threadListDataProcessor processThreadListFromData:xmlData forForum:forum];
         });
     }
     
@@ -226,8 +225,8 @@
         for (czzThread *thread in newThreads) {
             CGFloat shortHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:[UIApplication sharedApplication].keyWindow.rootViewController.view forWidth:shortWidth hasImage:thread.imgSrc.length > 0 withExtra:NO];
             CGFloat longHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:[UIApplication sharedApplication].keyWindow.rootViewController.view forWidth:longWidth hasImage:thread.imgSrc.length > 0 withExtra:YES];
-            [verticalHeights addObject:[NSNumber numberWithFloat:shortHeight]];
-            [horizontalHeights addObject:[NSNumber numberWithFloat:longHeight]];
+            [self.verticalHeights addObject:[NSNumber numberWithFloat:shortHeight]];
+            [self.horizontalHeights addObject:[NSNumber numberWithFloat:longHeight]];
         }
     });
 }
@@ -243,8 +242,8 @@
     //parent view controller can not be encoded
     //delegate can not be encoded
     //isDownloading and isProcessing should not be encoded
-    [aCoder encodeObject:horizontalHeights forKey:@"horizontalHeights"];
-    [aCoder encodeObject:verticalHeights forKey:@"verticalHeights"];
+    [aCoder encodeObject:self.horizontalHeights forKey:@"self.horizontalHeights"];
+    [aCoder encodeObject:self.verticalHeights forKey:@"self.verticalHeights"];
     [aCoder encodeObject:baseURLString forKey:@"baseURLString"];
     [aCoder encodeObject:[NSValue valueWithCGPoint:currentOffSet] forKey:@"currentOffSet"];
     [aCoder encodeObject:displayedThread forKey:@"displayedThread"];
@@ -261,8 +260,8 @@
         newThreadList.totalPages = [aDecoder decodeIntegerForKey:@"totalPages"];
         newThreadList.threads = [aDecoder decodeObjectForKey:@"threads"];
         newThreadList.lastBatchOfThreads = [aDecoder decodeObjectForKey:@"lastBatchOfThreads"];
-        newThreadList.horizontalHeights = [aDecoder decodeObjectForKey:@"horizontalHeights"];
-        newThreadList.verticalHeights = [aDecoder decodeObjectForKey:@"verticalHeights"];
+        newThreadList.self.horizontalHeights = [aDecoder decodeObjectForKey:@"self.horizontalHeights"];
+        newThreadList.self.verticalHeights = [aDecoder decodeObjectForKey:@"self.verticalHeights"];
         newThreadList.baseURLString = [aDecoder decodeObjectForKey:@"baseURLString"];
         newThreadList.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
         newThreadList.displayedThread = [aDecoder decodeObjectForKey:@"displayedThread"];

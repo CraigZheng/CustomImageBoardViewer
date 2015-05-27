@@ -49,7 +49,6 @@
     czzNavigationController *centreViewController = [storyboard instantiateViewControllerWithIdentifier:@"home_navigation_controller"];
     
     self = [super initWithCenterViewController:centreViewController leftViewController:nil];
-//    self.topController = [storyboard instantiateViewControllerWithIdentifier:@"more_info_view_controller"];
 
     return self;
 }

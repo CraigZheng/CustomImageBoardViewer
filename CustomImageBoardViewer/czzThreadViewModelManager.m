@@ -15,23 +15,22 @@
 @end
 
 @implementation czzThreadViewModelManager
-@synthesize totalPages;
-@synthesize parentID;
-@synthesize parentThread;
-@synthesize baseURLString;
-@synthesize delegate;
-@synthesize threadDownloader;
-@synthesize threadListProcessor;
-@synthesize subThreadProcessor;
-@synthesize pageNumber;
-@synthesize isDownloading, isProcessing;
-@synthesize threads;
-@synthesize verticalHeights, horizontalHeights;
-@synthesize lastBatchOfThreads;
-@synthesize cutOffIndex;
-@synthesize currentOffSet;
-@synthesize forum;
-@synthesize restoredFromCache;
+//@synthesize totalPages;
+//@synthesize parentID;
+//@synthesize parentThread;
+//@synthesize baseURLString;
+//@synthesize delegate;
+//@synthesize threadDownloader;
+//@synthesize threadListDataProcessor;
+//@synthesize threadContentListDataProcessor;
+//@synthesize pageNumber;
+//@synthesize isDownloading, isProcessing;
+//@synthesize threads;
+//@synthesize lastBatchOfThreads;
+//@synthesize cutOffIndex;
+//@synthesize currentOffSet;
+//@synthesize forum;
+//@synthesize restoredFromCache;
 
 -(instancetype)initWithParentThread:(czzThread *)thread andForum:(czzForum *)fo{
     self = [super init];
@@ -39,16 +38,16 @@
         self.forum = fo;
         self.parentThread = thread;
         //record history
-        [historyManager recordThread:parentThread];
-        parentID = [NSString stringWithFormat:@"%ld", (long) parentThread.ID];
-        subThreadProcessor = [czzJSONProcessor new];
-        subThreadProcessor.delegate = self;
+        [historyManager recordThread:self.parentThread];
+        self.parentID = [NSString stringWithFormat:@"%ld", (long) self.parentThread.ID];
+        self.threadContentListDataProcessor = [czzJSONProcessor new];
+        self.threadContentListDataProcessor.delegate = self;
 
-        totalPages = pageNumber = 1;
+        self.totalPages = self.pageNumber = 1;
 
-        threads = [NSMutableArray new];
-        verticalHeights = [NSMutableArray new];
-        horizontalHeights = [NSMutableArray new];
+        self.threads = [NSMutableArray new];
+        self.verticalHeights = [NSMutableArray new];
+        self.horizontalHeights = [NSMutableArray new];
         
     }
     
@@ -57,7 +56,7 @@
 
 -(void)restorePreviousState {
     @try {
-        NSString *cacheFile = [[czzAppDelegate threadCacheFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
+        NSString *cacheFile = [[czzAppDelegate threadCacheFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)self.parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
         if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
             czzThreadViewModelManager *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithFile:cacheFile];
             //always delete the cache file after reading it to ensure safety
@@ -69,17 +68,17 @@
                 self.pageNumber = tempThreadList.pageNumber;
                 self.totalPages = tempThreadList.totalPages;
                 self.threads = tempThreadList.threads;
-                self.verticalHeights = tempThreadList.verticalHeights;
-                self.horizontalHeights = tempThreadList.horizontalHeights;
+                self.self.verticalHeights = tempThreadList.self.verticalHeights;
+                self.self.horizontalHeights = tempThreadList.self.horizontalHeights;
                 self.baseURLString = tempThreadList.baseURLString;
                 self.currentOffSet = tempThreadList.currentOffSet;
                 self.lastBatchOfThreads = tempThreadList.lastBatchOfThreads;
                 self.shouldHideImageForThisForum = tempThreadList.shouldHideImageForThisForum;
-                restoredFromCache = YES;
+                self.restoredFromCache = YES;
                 return;
             }
         }
-        restoredFromCache = NO;
+        self.restoredFromCache = NO;
     }
     @catch (NSException *exception) {
         DLog(@"%@", exception);
@@ -92,7 +91,7 @@
 }
 
 -(void)saveCurrentState {
-    NSString *cachePath = [[czzAppDelegate threadCacheFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
+    NSString *cachePath = [[czzAppDelegate threadCacheFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)self.parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
     if ([NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
     } else {
         DLog(@"save state failed");
@@ -100,105 +99,67 @@
     }
 }
 
--(void)refresh {
-    [self removeAll];
-    totalPages = 1;
-    [self loadMoreThreads];
-}
-
+#pragma mark - setters
 -(void)setParentThread:(czzThread *)thread {
-    parentThread = thread;
-    parentID = [NSString stringWithFormat:@"%ld", (long)parentThread.ID];
-    baseURLString = [forum.threadContentURL stringByReplacingOccurrencesOfString:kThreadID withString:parentID];
+    _parentThread = thread;
+    self.parentID = [NSString stringWithFormat:@"%ld", (long)self.parentThread.ID];
+    self.baseURLString = [self.forum.threadContentURL stringByReplacingOccurrencesOfString:kThreadID withString:self.parentID];
     
-}
-
--(void)removeAll {
-    pageNumber = 1;
-    [threads removeAllObjects];
-    lastBatchOfThreads = nil;
-    [horizontalHeights removeAllObjects];
-    [verticalHeights removeAllObjects];
-}
-
--(void)loadMoreThreads {
-    [self loadMoreThreads:pageNumber + 1];
-}
-
--(void)loadMoreThreads:(NSInteger)pn {
-#ifdef UNITTEST
-    NSData *mockData = [[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"subThreadList" ofType:@"json"]]];
-    [self downloadOf:nil successed:YES result:mockData];
-    return;
-#endif
-    if (threadDownloader)
-        [threadDownloader stop];
-    pageNumber = pn;
-    if (pageNumber >= totalPages)
-        pageNumber = totalPages;
-    NSString *targetURLStringWithPN = [baseURLString stringByReplacingOccurrencesOfString:kPageNumber withString:[NSString stringWithFormat:@"%ld", (long) pageNumber]];
-    threadDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
-    isDownloading = YES;
-    DLog(@"%@", targetURLStringWithPN);
-    if (delegate && [delegate respondsToSelector:@selector(threadListBeginDownloading:)]) {
-        [delegate threadListBeginDownloading:self];
-    }
 }
 
 #pragma mark - czzXMLDownloaderDelegate
 -(void)downloadOf:(NSURL *)xmlURL successed:(BOOL)successed result:(NSData *)receivedData {
-    isDownloading = NO;
+    self.isDownloading = NO;
     if (successed) {
-        [subThreadProcessor processSubThreadFromData:receivedData forForum:forum];
+        [self.threadContentListDataProcessor processSubThreadFromData:receivedData forForum:self.forum];
     }
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (delegate && [delegate respondsToSelector:@selector(threadListDownloaded:wasSuccessful:)]) {
-            [delegate threadListDownloaded:self wasSuccessful:successed];
+        if ([self.delegate respondsToSelector:@selector(threadListDownloaded:wasSuccessful:)]) {
+            [self.delegate threadListDownloaded:self wasSuccessful:successed];
         }
     });
 }
 
 #pragma mark - czzJsonProcesserDelegate
 -(void)subThreadProcessedForThread:(czzJSONProcessor *)processor :(czzThread *)forThread :(NSArray *)newThread :(BOOL)success {
-//    DLog(@"%@", NSStringFromSelector(_cmd));
-    isProcessing = NO;
+    self.isProcessing = NO;
     if (success) {
-        lastBatchOfThreads = newThread;
-        parentThread = forThread ? forThread : parentThread;
+        self.lastBatchOfThreads = newThread;
+        self.parentThread = forThread ? forThread : self.parentThread;
         NSArray *processedNewThread;
-        if (threads.count > 0) {
-            NSInteger lastChunkIndex = threads.count - lastBatchOfThreads.count;
+        if (self.threads.count > 0) {
+            NSInteger lastChunkIndex = self.threads.count - self.lastBatchOfThreads.count;
             if (lastChunkIndex < 1)
                 lastChunkIndex = 1;
-            cutOffIndex = lastChunkIndex;
-            NSInteger lastChunkLength = threads.count - lastChunkIndex;
+            self.cutOffIndex = lastChunkIndex;
+            NSInteger lastChunkLength = self.threads.count - lastChunkIndex;
             NSRange lastChunkRange = NSMakeRange(lastChunkIndex, lastChunkLength);
-            NSArray *lastChunkOfThread = [threads subarrayWithRange:lastChunkRange];
+            NSArray *lastChunkOfThread = [self.threads subarrayWithRange:lastChunkRange];
             NSMutableOrderedSet *oldThreadSet = [NSMutableOrderedSet orderedSetWithArray:lastChunkOfThread];
             [oldThreadSet addObjectsFromArray:newThread];
-            [threads removeObjectsInRange:lastChunkRange];
+            [self.threads removeObjectsInRange:lastChunkRange];
             processedNewThread = oldThreadSet.array;
         } else {
-            cutOffIndex = 0;
+            self.cutOffIndex = 0;
             NSMutableArray *threadsWithParent = [NSMutableArray new];
-            [threadsWithParent addObject:parentThread];
+            [threadsWithParent addObject:self.parentThread];
             [threadsWithParent addObjectsFromArray:newThread];
             processedNewThread = threadsWithParent;
         }
-        lastBatchOfThreads = processedNewThread;
-        [threads addObjectsFromArray:lastBatchOfThreads];
+        self.lastBatchOfThreads = processedNewThread;
+        [self.threads addObjectsFromArray:self.lastBatchOfThreads];
         //replace parent thread
-        if (threads.count >= 1)
+        if (self.threads.count >= 1)
         {
-            [threads replaceObjectAtIndex:0 withObject:parentThread];
+            [self.threads replaceObjectAtIndex:0 withObject:self.parentThread];
         }
-        [self calculateHeightsForThreads:lastBatchOfThreads];
+        [self calculateHeightsForThreads:self.lastBatchOfThreads];
     }
     //calculate current number and total page number
-    [self calculatePageNumberForThread:parentThread];
+    [self calculatePageNumberForThread:self.parentThread];
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (delegate && [delegate respondsToSelector:@selector(subThreadProcessed:wasSuccessful:newThreads:allThreads:)]) {
-            [delegate subThreadProcessed:self wasSuccessful:success newThreads:lastBatchOfThreads allThreads:threads];
+        if ([self.delegate respondsToSelector:@selector(subThreadProcessed:wasSuccessful:newThreads:allThreads:)]) {
+            [self.delegate subThreadProcessed:self wasSuccessful:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
         }
     });
 }
@@ -207,8 +168,8 @@
 //    NSInteger nextFloor = round_up_to_max_pow(thread.responseCount, [settingCentre response_per_page]);
     NSInteger nextFloor = RoundTo(thread.responseCount, [settingCentre response_per_page]);
     DLog(@"real response cound is %ld, nearest %ld is %ld", (long)thread.responseCount, (long)[settingCentre response_per_page], (long)nextFloor);
-    DLog(@"calculated result is %ld/%ld", (long)pageNumber, (long)nextFloor / [settingCentre response_per_page]);
-    totalPages = nextFloor / [settingCentre response_per_page];
+    DLog(@"calculated result is %ld/%ld", (long)self.pageNumber, (long)nextFloor / [settingCentre response_per_page]);
+    self.totalPages = nextFloor / [settingCentre response_per_page];
 }
 
 float RoundTo(float number, float to)
@@ -222,47 +183,42 @@ float RoundTo(float number, float to)
 }
 
 
--(void)pageNumberUpdated:(NSInteger)currentPage inAllPage:(NSInteger)allPage {
-    pageNumber = currentPage;
-    totalPages = allPage;
-    DLog(@"current page: %ld, total pages:%ld",(long)pageNumber, (long)totalPages);
-}
-
 /*
  calculate heights for both horizontal and vertical of the parent view controller
  */
-//-(void)calculateHeightsForThreads:(NSArray*)newThreads {
+-(void)calculateHeightsForThreads:(NSArray*)newThreads {
+    [super calculateHeightsForThreads:newThreads];
 //    CGFloat shortWidth, longWidth;
 //    shortWidth = MIN([UIScreen mainScreen].applicationFrame.size.height, [UIScreen mainScreen].applicationFrame.size.width);
 //    longWidth = MAX([UIScreen mainScreen].applicationFrame.size.width, [UIScreen mainScreen].applicationFrame.size.height);
 //    dispatch_async(dispatch_get_main_queue(), ^{
 ////        NSDate *date = [NSDate new];
-//        if (verticalHeights.count > 0 && horizontalHeights.count > 0) {
-//            [verticalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, verticalHeights.count - cutOffIndex)];
-//            [horizontalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, horizontalHeights.count - cutOffIndex)];
+//        if (self.verticalHeights.count > 0 && self.horizontalHeights.count > 0) {
+//            [self.verticalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, self.verticalHeights.count - cutOffIndex)];
+//            [self.horizontalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, self.horizontalHeights.count - cutOffIndex)];
 //        }
 //        for (czzThread *thread in newThreads) {
 //            CGFloat shortHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:parentViewController.view forWidth:shortWidth hasImage:thread.imgSrc.length > 0 withExtra:NO];
 //            CGFloat longHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:parentViewController.view forWidth:longWidth hasImage:thread.imgSrc.length > 0 withExtra:YES];
-//            [verticalHeights addObject:[NSNumber numberWithFloat:shortHeight]];
-//            [horizontalHeights addObject:[NSNumber numberWithFloat:longHeight]];
+//            [self.verticalHeights addObject:[NSNumber numberWithFloat:shortHeight]];
+//            [self.horizontalHeights addObject:[NSNumber numberWithFloat:longHeight]];
 //        }
 ////        DLog(@"processing time: %.2f", [[NSDate new] timeIntervalSinceDate:date]);
-////        DLog(@"size of heights array: %lu", verticalHeights.count);
+////        DLog(@"size of heights array: %lu", self.verticalHeights.count);
 //    });
-//}
+}
 
 #pragma mark - NSCoding
 -(void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeObject:parentThread forKey:@"parentThread"];
-    [aCoder encodeInteger:pageNumber forKey:@"pageNumber"];
-    [aCoder encodeInteger:totalPages forKey:@"totalPages"];
-    [aCoder encodeObject:threads forKey:@"threads"];
-    [aCoder encodeObject:lastBatchOfThreads forKey:@"lastBatchOfThreads"];
-    [aCoder encodeObject:horizontalHeights forKey:@"horizontalHeights"];
-    [aCoder encodeObject:verticalHeights forKey:@"verticalHeights"];
-    [aCoder encodeObject:baseURLString forKey:@"baseURLString"];
-    [aCoder encodeObject:[NSValue valueWithCGPoint:currentOffSet] forKey:@"currentOffSet"];
+    [aCoder encodeObject:self.parentThread forKey:@"parentThread"];
+    [aCoder encodeInteger:self.pageNumber forKey:@"pageNumber"];
+    [aCoder encodeInteger:self.totalPages forKey:@"totalPages"];
+    [aCoder encodeObject:self.threads forKey:@"threads"];
+    [aCoder encodeObject:self.lastBatchOfThreads forKey:@"lastBatchOfThreads"];
+    [aCoder encodeObject:self.horizontalHeights forKey:@"self.horizontalHeights"];
+    [aCoder encodeObject:self.verticalHeights forKey:@"self.verticalHeights"];
+    [aCoder encodeObject:self.baseURLString forKey:@"baseURLString"];
+    [aCoder encodeObject:[NSValue valueWithCGPoint:self.currentOffSet] forKey:@"currentOffSet"];
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder {
@@ -275,8 +231,8 @@ float RoundTo(float number, float to)
         newThreadList.totalPages = [aDecoder decodeIntegerForKey:@"totalPages"];
         newThreadList.threads = [aDecoder decodeObjectForKey:@"threads"];
         newThreadList.lastBatchOfThreads = [aDecoder decodeObjectForKey:@"lastBatchOfThreads"];
-        newThreadList.horizontalHeights = [aDecoder decodeObjectForKey:@"horizontalHeights"];
-        newThreadList.verticalHeights = [aDecoder decodeObjectForKey:@"verticalHeights"];
+        newThreadList.self.horizontalHeights = [aDecoder decodeObjectForKey:@"self.horizontalHeights"];
+        newThreadList.self.verticalHeights = [aDecoder decodeObjectForKey:@"self.verticalHeights"];
         newThreadList.baseURLString = [aDecoder decodeObjectForKey:@"baseURLString"];
         newThreadList.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
         return newThreadList;

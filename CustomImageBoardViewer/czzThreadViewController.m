@@ -133,7 +133,11 @@
     //if in foreground, load more threads
     if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground)
     {
-        [threadViewModelManager loadMoreThreads];
+        if (threadViewModelManager.pageNumber == 1) {
+            [threadViewModelManager refresh];
+        } else {
+            [threadViewModelManager loadMoreThreads];
+        }
     }
 
 }

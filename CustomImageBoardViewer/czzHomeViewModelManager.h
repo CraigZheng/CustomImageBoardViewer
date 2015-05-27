@@ -52,8 +52,8 @@
 @property czzThread *displayedThread;
 
 @property czzURLDownloader *threadDownloader;
-@property czzJSONProcessor *threadListProcessor;
-@property czzJSONProcessor *subThreadProcessor;
+@property czzJSONProcessor *threadListDataProcessor;
+@property czzJSONProcessor *threadContentListDataProcessor;
 
 -(void)refresh;
 -(void)loadMoreThreads;
