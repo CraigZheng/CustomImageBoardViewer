@@ -99,11 +99,15 @@
 		442EC86D1A1A1C8D005650E4 /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 442EC86A1A1A1C8D005650E4 /* info@2x.png */; };
 		442EC86E1A1A1C8D005650E4 /* info@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 442EC86B1A1A1C8D005650E4 /* info@3x.png */; };
 		442F1FD31B13500C00267698 /* czzAppActivityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FD21B13500C00267698 /* czzAppActivityManager.m */; };
-		442F1FD71B13535B00267698 /* czzThreadTableViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FD61B13535B00267698 /* czzThreadTableViewDelegate.m */; };
-		442F1FD81B13535B00267698 /* czzThreadTableViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FD61B13535B00267698 /* czzThreadTableViewDelegate.m */; };
+		442F1FD71B13535B00267698 /* czzHomeTableViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FD61B13535B00267698 /* czzHomeTableViewDelegate.m */; };
+		442F1FD81B13535B00267698 /* czzHomeTableViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FD61B13535B00267698 /* czzHomeTableViewDelegate.m */; };
 		442F1FDB1B13537300267698 /* czzThreadTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FDA1B13537300267698 /* czzThreadTableViewDataSource.m */; };
 		442F1FDC1B13537300267698 /* czzThreadTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FDA1B13537300267698 /* czzThreadTableViewDataSource.m */; };
-		443141971A2B38D6007D65B3 /* czzSubThreadList.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141961A2B38D6007D65B3 /* czzSubThreadList.m */; };
+		442F1FE21B15FC8500267698 /* UINavigationController+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FDE1B15FC8500267698 /* UINavigationController+Util.m */; };
+		442F1FE31B15FC8500267698 /* UINavigationController+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FDE1B15FC8500267698 /* UINavigationController+Util.m */; };
+		442F1FE41B15FC8500267698 /* UIApplication+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FE01B15FC8500267698 /* UIApplication+Util.m */; };
+		442F1FE51B15FC8500267698 /* UIApplication+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FE01B15FC8500267698 /* UIApplication+Util.m */; };
+		443141971A2B38D6007D65B3 /* czzThreadViewModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141961A2B38D6007D65B3 /* czzThreadViewModelManager.m */; };
 		4431419A1A2B5198007D65B3 /* GSIndeterminateProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141991A2B5198007D65B3 /* GSIndeterminateProgressView.m */; };
 		443141A21A3BFB5B007D65B3 /* KLCPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141A11A3BFB5B007D65B3 /* KLCPopup.m */; };
 		4432BA911AA88544002C66F5 /* thread list example.json in Resources */ = {isa = PBXBuildFile; fileRef = 4432BA901AA88544002C66F5 /* thread list example.json */; };
@@ -216,7 +220,7 @@
 		44B89E791A2AF4340085F766 /* running_ac.gif in Resources */ = {isa = PBXBuildFile; fileRef = 44B89E781A2AF4340085F766 /* running_ac.gif */; };
 		44B89E831A2AFBE30085F766 /* SGProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B89E801A2AFBE30085F766 /* SGProgressView.m */; };
 		44B89E841A2AFBE30085F766 /* UINavigationController+SGProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B89E821A2AFBE30085F766 /* UINavigationController+SGProgress.m */; };
-		44B89E871A2AFC6B0085F766 /* czzThreadList.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B89E861A2AFC6B0085F766 /* czzThreadList.m */; };
+		44B89E871A2AFC6B0085F766 /* czzHomeViewModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B89E861A2AFC6B0085F766 /* czzHomeViewModelManager.m */; };
 		44B96E33185B8B8100D664A4 /* czzImageManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B96E32185B8B8100D664A4 /* czzImageManagerViewController.m */; };
 		44B96E37185B97C400D664A4 /* czzSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B96E36185B97C400D664A4 /* czzSettingsViewController.m */; };
 		44BB0BC31A1AE700006C50F5 /* SplunkMint-iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44BB0BC21A1AE700006C50F5 /* SplunkMint-iOS.framework */; };
@@ -565,12 +569,16 @@
 		442EC86B1A1A1C8D005650E4 /* info@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info@3x.png"; sourceTree = "<group>"; };
 		442F1FD11B13500C00267698 /* czzAppActivityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzAppActivityManager.h; sourceTree = "<group>"; };
 		442F1FD21B13500C00267698 /* czzAppActivityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzAppActivityManager.m; sourceTree = "<group>"; };
-		442F1FD51B13535B00267698 /* czzThreadTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadTableViewDelegate.h; sourceTree = "<group>"; };
-		442F1FD61B13535B00267698 /* czzThreadTableViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadTableViewDelegate.m; sourceTree = "<group>"; };
+		442F1FD51B13535B00267698 /* czzHomeTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzHomeTableViewDelegate.h; sourceTree = "<group>"; };
+		442F1FD61B13535B00267698 /* czzHomeTableViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzHomeTableViewDelegate.m; sourceTree = "<group>"; };
 		442F1FD91B13537300267698 /* czzThreadTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadTableViewDataSource.h; sourceTree = "<group>"; };
 		442F1FDA1B13537300267698 /* czzThreadTableViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadTableViewDataSource.m; sourceTree = "<group>"; };
-		443141951A2B38D6007D65B3 /* czzSubThreadList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzSubThreadList.h; sourceTree = "<group>"; };
-		443141961A2B38D6007D65B3 /* czzSubThreadList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzSubThreadList.m; sourceTree = "<group>"; };
+		442F1FDE1B15FC8500267698 /* UINavigationController+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+Util.m"; sourceTree = "<group>"; };
+		442F1FDF1B15FC8500267698 /* UINavigationController+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+Util.h"; sourceTree = "<group>"; };
+		442F1FE01B15FC8500267698 /* UIApplication+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+Util.m"; sourceTree = "<group>"; };
+		442F1FE11B15FC8500267698 /* UIApplication+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+Util.h"; sourceTree = "<group>"; };
+		443141951A2B38D6007D65B3 /* czzThreadViewModelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewModelManager.h; sourceTree = "<group>"; };
+		443141961A2B38D6007D65B3 /* czzThreadViewModelManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewModelManager.m; sourceTree = "<group>"; };
 		443141981A2B5198007D65B3 /* GSIndeterminateProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSIndeterminateProgressView.h; sourceTree = "<group>"; };
 		443141991A2B5198007D65B3 /* GSIndeterminateProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSIndeterminateProgressView.m; sourceTree = "<group>"; };
 		443141A01A3BFB5B007D65B3 /* KLCPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLCPopup.h; sourceTree = "<group>"; };
@@ -757,8 +765,8 @@
 		44B89E801A2AFBE30085F766 /* SGProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGProgressView.m; sourceTree = "<group>"; };
 		44B89E811A2AFBE30085F766 /* UINavigationController+SGProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+SGProgress.h"; sourceTree = "<group>"; };
 		44B89E821A2AFBE30085F766 /* UINavigationController+SGProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+SGProgress.m"; sourceTree = "<group>"; };
-		44B89E851A2AFC6B0085F766 /* czzThreadList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadList.h; sourceTree = "<group>"; };
-		44B89E861A2AFC6B0085F766 /* czzThreadList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadList.m; sourceTree = "<group>"; };
+		44B89E851A2AFC6B0085F766 /* czzHomeViewModelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzHomeViewModelManager.h; sourceTree = "<group>"; };
+		44B89E861A2AFC6B0085F766 /* czzHomeViewModelManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzHomeViewModelManager.m; sourceTree = "<group>"; };
 		44B96E31185B8B8100D664A4 /* czzImageManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzImageManagerViewController.h; sourceTree = "<group>"; };
 		44B96E32185B8B8100D664A4 /* czzImageManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzImageManagerViewController.m; sourceTree = "<group>"; };
 		44B96E35185B97C400D664A4 /* czzSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzSettingsViewController.h; sourceTree = "<group>"; };
@@ -1242,10 +1250,10 @@
 		441E5D2D17F490E100289DBD /* czzThread */ = {
 			isa = PBXGroup;
 			children = (
-				44B89E851A2AFC6B0085F766 /* czzThreadList.h */,
-				44B89E861A2AFC6B0085F766 /* czzThreadList.m */,
-				443141951A2B38D6007D65B3 /* czzSubThreadList.h */,
-				443141961A2B38D6007D65B3 /* czzSubThreadList.m */,
+				44B89E851A2AFC6B0085F766 /* czzHomeViewModelManager.h */,
+				44B89E861A2AFC6B0085F766 /* czzHomeViewModelManager.m */,
+				443141951A2B38D6007D65B3 /* czzThreadViewModelManager.h */,
+				443141961A2B38D6007D65B3 /* czzThreadViewModelManager.m */,
 				441E5D2117F46FBC00289DBD /* czzXMLDownloader */,
 				4498B68A199249180014F73F /* czzJSONProcessor */,
 				441E5D2A17F48F8C00289DBD /* czzThread.h */,
@@ -1457,12 +1465,23 @@
 		442F1FD41B13533900267698 /* ThreadTableView delegates */ = {
 			isa = PBXGroup;
 			children = (
-				442F1FD51B13535B00267698 /* czzThreadTableViewDelegate.h */,
-				442F1FD61B13535B00267698 /* czzThreadTableViewDelegate.m */,
+				442F1FD51B13535B00267698 /* czzHomeTableViewDelegate.h */,
+				442F1FD61B13535B00267698 /* czzHomeTableViewDelegate.m */,
 				442F1FD91B13537300267698 /* czzThreadTableViewDataSource.h */,
 				442F1FDA1B13537300267698 /* czzThreadTableViewDataSource.m */,
 			);
 			name = "ThreadTableView delegates";
+			sourceTree = "<group>";
+		};
+		442F1FE61B15FC8B00267698 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				442F1FDE1B15FC8500267698 /* UINavigationController+Util.m */,
+				442F1FDF1B15FC8500267698 /* UINavigationController+Util.h */,
+				442F1FE01B15FC8500267698 /* UIApplication+Util.m */,
+				442F1FE11B15FC8500267698 /* UIApplication+Util.h */,
+			);
+			name = UI;
 			sourceTree = "<group>";
 		};
 		4431419B1A2B519D007D65B3 /* GSIndetermineProgressView */ = {
@@ -1964,6 +1983,7 @@
 		44DF8ECC1A74CA4B0097F7F5 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				442F1FE61B15FC8B00267698 /* UI */,
 				44C73B7F1A4715400051D4C2 /* NSObjectUtil */,
 				444146DF1A1ACA9700B27D69 /* ImageManager */,
 				44C73B901A484F2C0051D4C2 /* FavouriteManager */,
@@ -2519,6 +2539,7 @@
 				4411B2EA1AFF472900E94A5B /* czzForumManager.m in Sources */,
 				442A901D19DB9C3C00A3516E /* HTMLNode.m in Sources */,
 				442A8FB719DB7DF200A3516E /* PSTGridLayoutSection.m in Sources */,
+				442F1FE21B15FC8500267698 /* UINavigationController+Util.m in Sources */,
 				44C73B8E1A484F280051D4C2 /* czzFavouriteManager.m in Sources */,
 				442F1FD31B13500C00267698 /* czzAppActivityManager.m in Sources */,
 				4448C2AA180FF6C600D2CD76 /* czzBlacklistSender.m in Sources */,
@@ -2527,13 +2548,14 @@
 				442A8FF819DB7F5400A3516E /* UIImage+GIF.m in Sources */,
 				441E5D2917F48B3D00289DBD /* Toast+UIView.m in Sources */,
 				441E5D0C17F4699400289DBD /* IISideController.m in Sources */,
+				442F1FE41B15FC8500267698 /* UIApplication+Util.m in Sources */,
 				4485F4FC19F5FF38007A73CC /* NSString+HTML.m in Sources */,
 				441E5CDF17F4691300289DBD /* czzAppDelegate.m in Sources */,
 				441E5D2C17F48F8C00289DBD /* czzThread.m in Sources */,
 				44B89E751A2AF39F0085F766 /* UIImage+animatedGIF.m in Sources */,
 				442EC8631A1A130A005650E4 /* czzNavigationController.m in Sources */,
 				4416B72619413EAF00B69C5B /* FPPopoverView.m in Sources */,
-				442F1FD71B13535B00267698 /* czzThreadTableViewDelegate.m in Sources */,
+				442F1FD71B13535B00267698 /* czzHomeTableViewDelegate.m in Sources */,
 				444146E21A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.m in Sources */,
 				442A8FA119DB7DF200A3516E /* MWGridCell.m in Sources */,
 				44DF8EE81A74DA3B0097F7F5 /* czzMessagePopUpViewController.m in Sources */,
@@ -2563,7 +2585,7 @@
 				44AE2AFA187254E4002CB021 /* czzMenuEnabledTableViewCell.m in Sources */,
 				44DF8ED31A74CAAA0097F7F5 /* czzCookieManager.m in Sources */,
 				5A27E140193CA11300D0094F /* czzNotificationManager.m in Sources */,
-				44B89E871A2AFC6B0085F766 /* czzThreadList.m in Sources */,
+				44B89E871A2AFC6B0085F766 /* czzHomeViewModelManager.m in Sources */,
 				4411B2ED1AFF547C00E94A5B /* NSObject+Extension.m in Sources */,
 				5A6266AA193A17FF00AD949F /* czzNotificationDownloader.m in Sources */,
 				442A8FF019DB7F5400A3516E /* SDImageCache.m in Sources */,
@@ -2611,7 +2633,7 @@
 				442A8FED19DB7F5400A3516E /* MKAnnotationView+WebCache.m in Sources */,
 				442A8FFB19DB7F5400A3516E /* UIImageView+HighlightedWebCache.m in Sources */,
 				44AE2B011872924C002CB021 /* PartialTransparentView.m in Sources */,
-				443141971A2B38D6007D65B3 /* czzSubThreadList.m in Sources */,
+				443141971A2B38D6007D65B3 /* czzThreadViewModelManager.m in Sources */,
 				5AF85E62196EDC110031D0CB /* czzHTMLToThreadParser.m in Sources */,
 				442A8FA719DB7DF200A3516E /* MWZoomingScrollView.m in Sources */,
 				441E5CDB17F4691300289DBD /* main.m in Sources */,
@@ -2651,10 +2673,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				442F1FD81B13535B00267698 /* czzThreadTableViewDelegate.m in Sources */,
+				442F1FD81B13535B00267698 /* czzHomeTableViewDelegate.m in Sources */,
 				44C73B8A1A4840100051D4C2 /* czzHistoryManager.m in Sources */,
 				442F1FDC1B13537300267698 /* czzThreadTableViewDataSource.m in Sources */,
+				442F1FE31B15FC8500267698 /* UINavigationController+Util.m in Sources */,
 				441E5CFD17F4691300289DBD /* CustomImageBoardViewerTests.m in Sources */,
+				442F1FE51B15FC8500267698 /* UIApplication+Util.m in Sources */,
 				44C73B8F1A484F280051D4C2 /* czzFavouriteManager.m in Sources */,
 				44DF8EDF1A74D62E0097F7F5 /* czzCookieManagerViewController.m in Sources */,
 				44DF8EDB1A74D0F00097F7F5 /* czzACTokenUtil.m in Sources */,

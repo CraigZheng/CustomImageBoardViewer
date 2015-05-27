@@ -21,20 +21,20 @@
 #import "NSObjectUtil.h"
 #import <Foundation/Foundation.h>
 
-@class czzThreadList;
+@class czzHomeViewModelManager;
 @protocol czzThreadListProtocol <NSObject>
 @optional
--(void)threadListBeginDownloading:(czzThreadList*)threadList;
--(void)threadListProcessed:(czzThreadList*)threadList wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray*)newThreads allThreads:(NSArray*)allThreads;
--(void)subThreadProcessed:(czzThreadList*)threadList wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray*)newThreads allThreads:(NSArray*)allThreads;
+-(void)threadListBeginDownloading:(czzHomeViewModelManager*)threadList;
+-(void)threadListProcessed:(czzHomeViewModelManager*)threadList wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray*)newThreads allThreads:(NSArray*)allThreads;
+-(void)subThreadProcessed:(czzHomeViewModelManager*)threadList wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray*)newThreads allThreads:(NSArray*)allThreads;
 
 //updates
--(void)threadListUpdated:(czzThreadList*)threadList progress:(CGFloat)progress;
--(void)threadListDownloaded:(czzThreadList*)threadList wasSuccessful:(BOOL)wasSuccessful;
+-(void)threadListUpdated:(czzHomeViewModelManager*)threadList progress:(CGFloat)progress;
+-(void)threadListDownloaded:(czzHomeViewModelManager*)threadList wasSuccessful:(BOOL)wasSuccessful;
 
 @end
 
-@interface czzThreadList : NSObject <czzURLDownloaderProtocol, czzJSONProcessorDelegate, NSCoding>
+@interface czzHomeViewModelManager : NSObject <czzURLDownloaderProtocol, czzJSONProcessorDelegate, NSCoding>
 @property BOOL shouldHideImageForThisForum;
 //@property (nonatomic) NSString *forumName;
 @property (nonatomic) czzForum *forum;
@@ -42,7 +42,6 @@
 @property NSInteger totalPages;
 @property NSMutableArray *threads;
 @property NSArray *lastBatchOfThreads;
-@property (nonatomic) UIViewController *parentViewController;
 @property id<czzThreadListProtocol> delegate;
 @property BOOL isDownloading;
 @property BOOL isProcessing;

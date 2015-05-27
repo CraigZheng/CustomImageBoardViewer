@@ -7,14 +7,14 @@
 //
 #define settingCentre [czzSettingsCentre sharedInstance]
 
-#import "czzSubThreadList.h"
+#import "czzThreadViewModelManager.h"
 #import "czzHistoryManager.h"
 
-@interface czzSubThreadList()
+@interface czzThreadViewModelManager()
 @property NSUInteger cutOffIndex;
 @end
 
-@implementation czzSubThreadList
+@implementation czzThreadViewModelManager
 @synthesize totalPages;
 @synthesize parentID;
 @synthesize parentThread;
@@ -25,7 +25,6 @@
 @synthesize subThreadProcessor;
 @synthesize pageNumber;
 @synthesize isDownloading, isProcessing;
-@synthesize parentViewController;
 @synthesize threads;
 @synthesize verticalHeights, horizontalHeights;
 @synthesize lastBatchOfThreads;
@@ -60,11 +59,11 @@
     @try {
         NSString *cacheFile = [[czzAppDelegate threadCacheFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
         if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
-            czzSubThreadList *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithFile:cacheFile];
+            czzThreadViewModelManager *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithFile:cacheFile];
             //always delete the cache file after reading it to ensure safety
             [[NSFileManager defaultManager] removeItemAtPath:cacheFile error:nil];
             //copy data
-            if (tempThreadList && [tempThreadList isKindOfClass:[czzSubThreadList class]])
+            if (tempThreadList && [tempThreadList isKindOfClass:[czzThreadViewModelManager class]])
             {
                 self.parentThread = tempThreadList.parentThread;
                 self.pageNumber = tempThreadList.pageNumber;
@@ -105,10 +104,6 @@
     [self removeAll];
     totalPages = 1;
     [self loadMoreThreads];
-}
-
--(void)setParentViewController:(UIViewController *)viewCon {
-    parentViewController = viewCon;
 }
 
 -(void)setParentThread:(czzThread *)thread {
@@ -236,26 +231,26 @@ float RoundTo(float number, float to)
 /*
  calculate heights for both horizontal and vertical of the parent view controller
  */
--(void)calculateHeightsForThreads:(NSArray*)newThreads {
-    CGFloat shortWidth, longWidth;
-    shortWidth = MIN([UIScreen mainScreen].applicationFrame.size.height, [UIScreen mainScreen].applicationFrame.size.width);
-    longWidth = MAX([UIScreen mainScreen].applicationFrame.size.width, [UIScreen mainScreen].applicationFrame.size.height);
-    dispatch_async(dispatch_get_main_queue(), ^{
-//        NSDate *date = [NSDate new];
-        if (verticalHeights.count > 0 && horizontalHeights.count > 0) {
-            [verticalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, verticalHeights.count - cutOffIndex)];
-            [horizontalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, horizontalHeights.count - cutOffIndex)];
-        }
-        for (czzThread *thread in newThreads) {
-            CGFloat shortHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:parentViewController.view forWidth:shortWidth hasImage:thread.imgSrc.length > 0 withExtra:NO];
-            CGFloat longHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:parentViewController.view forWidth:longWidth hasImage:thread.imgSrc.length > 0 withExtra:YES];
-            [verticalHeights addObject:[NSNumber numberWithFloat:shortHeight]];
-            [horizontalHeights addObject:[NSNumber numberWithFloat:longHeight]];
-        }
-//        DLog(@"processing time: %.2f", [[NSDate new] timeIntervalSinceDate:date]);
-//        DLog(@"size of heights array: %lu", verticalHeights.count);
-    });
-}
+//-(void)calculateHeightsForThreads:(NSArray*)newThreads {
+//    CGFloat shortWidth, longWidth;
+//    shortWidth = MIN([UIScreen mainScreen].applicationFrame.size.height, [UIScreen mainScreen].applicationFrame.size.width);
+//    longWidth = MAX([UIScreen mainScreen].applicationFrame.size.width, [UIScreen mainScreen].applicationFrame.size.height);
+//    dispatch_async(dispatch_get_main_queue(), ^{
+////        NSDate *date = [NSDate new];
+//        if (verticalHeights.count > 0 && horizontalHeights.count > 0) {
+//            [verticalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, verticalHeights.count - cutOffIndex)];
+//            [horizontalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, horizontalHeights.count - cutOffIndex)];
+//        }
+//        for (czzThread *thread in newThreads) {
+//            CGFloat shortHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:parentViewController.view forWidth:shortWidth hasImage:thread.imgSrc.length > 0 withExtra:NO];
+//            CGFloat longHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:parentViewController.view forWidth:longWidth hasImage:thread.imgSrc.length > 0 withExtra:YES];
+//            [verticalHeights addObject:[NSNumber numberWithFloat:shortHeight]];
+//            [horizontalHeights addObject:[NSNumber numberWithFloat:longHeight]];
+//        }
+////        DLog(@"processing time: %.2f", [[NSDate new] timeIntervalSinceDate:date]);
+////        DLog(@"size of heights array: %lu", verticalHeights.count);
+//    });
+//}
 
 #pragma mark - NSCoding
 -(void)encodeWithCoder:(NSCoder *)aCoder {
@@ -271,7 +266,7 @@ float RoundTo(float number, float to)
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder {
-    czzSubThreadList *newThreadList = [czzSubThreadList new];
+    czzThreadViewModelManager *newThreadList = [czzThreadViewModelManager new];
     [[NSNotificationCenter defaultCenter] removeObserver:newThreadList];
     @try {
         //create a temporary threadlist object

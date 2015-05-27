@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@class czzThreadList;
+@class czzHomeViewModelManager;
 @interface czzThreadTableViewDataSource : NSObject <UITableViewDataSource, UITableViewDelegate>
 
-@property czzThreadList *threadList;
+@property czzHomeViewModelManager *homeViewManager;
 
-+(instancetype)initWithThreadList:(czzThreadList*)threadList;
++(instancetype)initWithViewModelManager:(czzHomeViewModelManager*)threadList;
 @end

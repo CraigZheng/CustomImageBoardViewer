@@ -1,4 +1,4 @@
-//
+    //
 //  czzThreadViewController.m
 //  CustomImageBoardViewer
 //
@@ -78,7 +78,7 @@
 @synthesize imageViewerUtil;
 @synthesize refreshControl;
 @synthesize onScreenImageManagerViewContainer;
-@synthesize threadList;
+@synthesize threadViewModelManager;
 @synthesize progressView;
 @synthesize moreButton;
 @synthesize shouldRestoreContentOffset;
@@ -92,9 +92,8 @@
     verticalHeights = [NSMutableArray new];
     horizontalHeights = [NSMutableArray new];
 
-    threadList.delegate = self;
-    threadList.parentViewController = self;
-    [self copyDataFromThreadList];
+    threadViewModelManager.delegate = self;
+    [self copyDataFromthreadViewModelManager];
 
     //progress view
     progressView = [(czzNavigationController*)self.navigationController progressView];
@@ -114,7 +113,7 @@
     //register xib
     [self.threadTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
     [self.threadTableView registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER];
-    self.title = threadList.parentThread.title;
+    self.title = threadViewModelManager.parentThread.title;
     self.navigationItem.backBarButtonItem.title = self.title;
     
     //set up custom edit menu
@@ -134,7 +133,7 @@
     //if in foreground, load more threads
     if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground)
     {
-        [threadList loadMoreThreads];
+        [threadViewModelManager loadMoreThreads];
     }
 
 }
@@ -143,9 +142,9 @@
     [super viewWillAppear:animated];
     //configure the right view as menu
     UINavigationController *rightController = [self.storyboard instantiateViewControllerWithIdentifier:@"right_menu_view_controller"];    threadMenuViewController = [rightController.viewControllers objectAtIndex:0];
-    threadMenuViewController.parentThread = threadList.parentThread;
-    threadMenuViewController.forum = threadList.forum;
-    threadMenuViewController.selectedThread = threadList.parentThread;
+    threadMenuViewController.parentThread = threadViewModelManager.parentThread;
+    threadMenuViewController.forum = threadViewModelManager.forum;
+    threadMenuViewController.selectedThread = threadViewModelManager.parentThread;
     self.viewDeckController.rightController = rightController;
     //do not allow panning
     self.viewDeckController.panningMode = IIViewDeckNoPanning;
@@ -187,7 +186,6 @@
 
 -(void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [threadList saveCurrentState];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -196,21 +194,16 @@
     viewControllerNotInTransition = YES;
 }
 
--(void)entersBackground {
-    if (threadList)
-        [threadList saveCurrentState];
-}
-
--(void)copyDataFromThreadList {
+-(void)copyDataFromthreadViewModelManager {
     if (shouldRestoreContentOffset && CGPointEqualToPoint(threadTableView.contentOffset, CGPointZero)) {
-        [threadTableView setContentOffset:threadList.currentOffSet animated:NO];
+        [threadTableView setContentOffset:threadViewModelManager.currentOffSet animated:NO];
     }
-    if (threadList.threads.count > 0)
-        threads = [NSArray arrayWithArray:threadList.threads];
-    if (threadList.horizontalHeights.count > 0)
-        horizontalHeights = [NSArray arrayWithArray:threadList.horizontalHeights];
-    if (threadList.verticalHeights.count > 0)
-        verticalHeights = [NSArray arrayWithArray:threadList.verticalHeights];
+    if (threadViewModelManager.threads.count > 0)
+        threads = [NSArray arrayWithArray:threadViewModelManager.threads];
+    if (threadViewModelManager.horizontalHeights.count > 0)
+        horizontalHeights = [NSArray arrayWithArray:threadViewModelManager.horizontalHeights];
+    if (threadViewModelManager.verticalHeights.count > 0)
+        verticalHeights = [NSArray arrayWithArray:threadViewModelManager.verticalHeights];
     [self updateNumberButton];
 }
 
@@ -231,11 +224,11 @@
     NSString *cell_identifier = [[czzSettingsCentre sharedInstance] userDefShouldUseBigImage] ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
     if (indexPath.row == threads.count){
         UITableViewCell *cell;// = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
-        if (threadList.isDownloading || threadList.isProcessing) {
+        if (threadViewModelManager.isDownloading || threadViewModelManager.isProcessing) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"loading_cell_identifier"];
             UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
             [activityIndicator startAnimating];
-        } else if (threadList.parentThread.responseCount > settingsCentre.response_per_page && (threadList.pageNumber * settingsCentre.response_per_page + threads.count % settingsCentre.response_per_page - 1) < threadList.parentThread.responseCount){
+        } else if (threadViewModelManager.parentThread.responseCount > settingsCentre.response_per_page && (threadViewModelManager.pageNumber * settingsCentre.response_per_page + threads.count % settingsCentre.response_per_page - 1) < threadViewModelManager.parentThread.responseCount){
 
             cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
         } else {
@@ -251,7 +244,7 @@
     if (cell){
         cell.delegate = self;
         cell.shouldHighlightSelectedUser = shouldHighlightSelectedUser;
-        cell.parentThread = threadList.parentThread;
+        cell.parentThread = threadViewModelManager.parentThread;
         cell.myThread = thread;
         cell.myIndexPath = indexPath;
     }
@@ -275,7 +268,7 @@
             [threadMenuViewController setSelectedThread:selectedThread];
         }
     } else {
-        [threadList loadMoreThreads];
+        [threadViewModelManager loadMoreThreads];
         [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
 }
@@ -321,7 +314,7 @@
 
 #pragma mark - jump to and download controls
 -(void)PromptForJumpToPage{
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"跳页: %ld/%ld", (long) threadList.pageNumber, (long) threadList.totalPages] message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"跳页: %ld/%ld", (long) threadViewModelManager.pageNumber, (long) threadViewModelManager.totalPages] message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     UITextField *textInputField = [alertView textFieldAtIndex:0];
     if (textInputField)
@@ -376,12 +369,12 @@
         NSInteger newPageNumber = [[[alertView textFieldAtIndex:0] text] integerValue];
         if (newPageNumber > 0){
             //clear threads and ready to accept new threads
-            [threadList removeAll];
-            [threadList loadMoreThreads:newPageNumber];
+            [threadViewModelManager removeAll];
+            [threadViewModelManager loadMoreThreads:newPageNumber];
             [threadTableView reloadData];
             [refreshControl beginRefreshing];
 
-            [[[czzAppDelegate sharedAppDelegate] window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) threadList.pageNumber]];
+            [[[czzAppDelegate sharedAppDelegate] window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) threadViewModelManager.pageNumber]];
         } else {
             [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"页码无效..."];
         }
@@ -389,7 +382,7 @@
 }
 
 -(void)refreshThread:(id)sender{
-    [threadList refresh];
+    [threadViewModelManager refresh];
 }
 
 
@@ -407,8 +400,8 @@
     [self dismissViewControllerAnimated:YES completion:^{
 //        [self switchToParentThread:thread];
         czzThreadViewController *openThreadViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"thread_view_controller"];
-        threadList.parentThread = thread;
-        openThreadViewController.threadList = threadList;
+        threadViewModelManager.parentThread = thread;
+        openThreadViewController.threadViewModelManager = threadViewModelManager;
         [self.navigationController pushViewController:openThreadViewController animated:YES];
     }];
 }
@@ -422,7 +415,7 @@
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    threadList.currentOffSet = scrollView.contentOffset;
+    threadViewModelManager.currentOffSet = scrollView.contentOffset;
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)aScrollView
@@ -433,24 +426,24 @@
     if(path.row == threads.count && threads.count > 0)
     {
         CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
-        if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !(threadList.isDownloading || threadList.isProcessing)){
-            if (threadList.pageNumber < threadList.totalPages) {
-                [threadList loadMoreThreads];
+        if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !(threadViewModelManager.isDownloading || threadViewModelManager.isProcessing)){
+            if (threadViewModelManager.pageNumber < threadViewModelManager.totalPages) {
+                [threadViewModelManager loadMoreThreads];
                 [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
             }
         }
     }
 }
 
-#pragma mark - czzSubThreadListProtocol
--(void)threadListBeginDownloading:(czzThreadList *)threadList {
+#pragma mark - czzSubthreadViewModelManagerProtocol
+-(void)threadViewModelManagerBeginDownloading:(czzHomeViewModelManager *)threadViewModelManager {
 //    DLog(@"%@", NSStringFromSelector(_cmd));
     if (!progressView.isAnimating) {
         [progressView startAnimating];
     }
 }
 
--(void)threadListDownloaded:(czzThreadList *)threadList wasSuccessful:(BOOL)wasSuccessful {
+-(void)threadViewModelManagerDownloaded:(czzHomeViewModelManager *)threadViewModelManager wasSuccessful:(BOOL)wasSuccessful {
     if (!wasSuccessful)
     {
         if (progressView.isAnimating) {
@@ -461,9 +454,9 @@
     }
 }
 
--(void)subThreadProcessed:(czzThreadList *)threadList wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
+-(void)subThreadProcessed:(czzHomeViewModelManager *)threadViewModelManager wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     if (wasSuccessul) {
-        [self copyDataFromThreadList];
+        [self copyDataFromthreadViewModelManager];
         [threadTableView reloadData];
         [refreshControl endRefreshing];
         [progressView stopAnimating];
@@ -514,7 +507,7 @@
 
 - (IBAction)shareAction:(id)sender {
     //create the thread link - hardcode it
-    NSString *threadLink = [[settingCentre share_post_url] stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long) threadList.parentThread.ID]];
+    NSString *threadLink = [[settingCentre share_post_url] stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long) threadViewModelManager.parentThread.ID]];
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[[NSURL URLWithString:threadLink]] applicationActivities:nil];
     if ([activityViewController respondsToSelector:@selector(popoverPresentationController)])
         activityViewController.popoverPresentationController.sourceView = self.view;
@@ -646,7 +639,7 @@
     if (newParentThread)
     {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [threadList setParentThread:newParentThread];
+            [threadViewModelManager setParentThread:newParentThread];
             [self refreshThread:nil];
         });
     }
@@ -673,5 +666,7 @@
     }
 }
 
-
++(instancetype)new {
+    return [[UIStoryboard storyboardWithName:THREAD_VIEW_CONTROLLER_STORYBOARD_NAME bundle:nil] instantiateViewControllerWithIdentifier:THREAD_VIEW_CONTROLLER_ID];
+}
 @end

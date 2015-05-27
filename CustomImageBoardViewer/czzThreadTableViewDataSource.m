@@ -8,7 +8,7 @@
 
 #import "czzThreadTableViewDataSource.h"
 
-#import "czzThreadList.h"
+#import "czzHomeViewModelManager.h"
 #import "czzSettingsCentre.h"
 
 #import "czzMenuEnabledTableViewCell.h"
@@ -19,7 +19,7 @@
 
 @implementation czzThreadTableViewDataSource
 @synthesize myTableView;
-@synthesize threadList;
+@synthesize homeViewManager;
 
 -(void)reset {
     
@@ -27,9 +27,9 @@
 
 #pragma mark - UITableView datasource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (threadList.threads.count > 0)
-        return threadList.threads.count + 1;
-    return threadList.threads.count;
+    if (homeViewManager.threads.count > 0)
+        return homeViewManager.threads.count + 1;
+    return homeViewManager.threads.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -37,9 +37,9 @@
         self.myTableView = tableView;
     }
     
-    if (indexPath.row == threadList.threads.count){
+    if (indexPath.row == homeViewManager.threads.count){
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
-        if (threadList.isDownloading || threadList.isProcessing) {
+        if (homeViewManager.isDownloading || homeViewManager.isProcessing) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"loading_cell_identifier"];
             UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
             [activityIndicator startAnimating];
@@ -49,7 +49,7 @@
     }
     
     NSString *cell_identifier = [settingCentre userDefShouldUseBigImage] ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
-    czzThread *thread = [threadList.threads objectAtIndex:indexPath.row];
+    czzThread *thread = [homeViewManager.threads objectAtIndex:indexPath.row];
     czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
     if (cell){
         cell.delegate = self;
@@ -60,76 +60,6 @@
         cell.myThread = thread;
     }
     return cell;
-}
-
-#pragma mark - UITableViewDelegate
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    DLog(@"%s", __func__);
-//    selectedIndex = indexPath;
-//    @try {
-//        if (indexPath.row < threads.count) {
-//            selectedThread = [threads objectAtIndex:selectedIndex.row];
-//            if (!settingsCentre.shouldAllowOpenBlockedThread) {
-//                czzBlacklistEntity *blacklistEntity = [[czzBlacklist sharedInstance] blacklistEntityForThreadID:selectedThread.ID];
-//                if (blacklistEntity){
-//                    DLog(@"blacklisted thread");
-//                    return;
-//                }
-//            }
-//        }
-//    }
-//    @catch (NSException *exception) {
-//        
-//    }
-//    if (selectedIndex.row < threads.count)
-//        [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
-//    else {
-//        [threadList loadMoreThreads];
-//        [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-//    }
-}
-
-
-#pragma mark - UIScrollVIew delegate
--(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    threadList.currentOffSet = scrollView.contentOffset;
-}
-
--(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-//    if (onScreenCommandViewController && threads.count > 1 && shouldDisplayQuickScrollCommand) {
-//        [onScreenCommandViewController show];
-//    }
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)aScrollView
-{
-//    NSArray *visibleRows = [threadTableView visibleCells];
-//    UITableViewCell *lastVisibleCell = [visibleRows lastObject];
-//    NSIndexPath *path = [threadTableView indexPathForCell:lastVisibleCell];
-//    if(path.row == threads.count && threads.count > 0)
-//    {
-//        CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
-//        if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !(threadList.isDownloading || threadList.isProcessing)){
-//            [threadList loadMoreThreads];
-//            [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-//        }
-//    }
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row >= threadList.threads.count)
-        return tableView.rowHeight;
-    
-    NSArray *heightArray = UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].keyWindow.rootViewController.interfaceOrientation) ? threadList.verticalHeights : threadList.horizontalHeights;
-    CGFloat preferHeight = tableView.rowHeight;
-    @try {
-        preferHeight = [[heightArray objectAtIndex:indexPath.row] floatValue];
-    }
-    @catch (NSException *exception) {
-        DLog(@"%@", exception);
-    }
-    
-    return preferHeight;
 }
 
 #pragma mark - czzMenuEnableTableViewCellDelegate
@@ -158,9 +88,9 @@
     }
 }
 
-+(instancetype)initWithThreadList:(czzThreadList *)threadList {
++(instancetype)initWithViewModelManager:(czzHomeViewModelManager *)threadList {
     czzThreadTableViewDataSource *dataSource = [czzThreadTableViewDataSource new];
-    dataSource.threadList = threadList;
+    dataSource.homeViewManager = threadList;
     return dataSource;
 }
 @end

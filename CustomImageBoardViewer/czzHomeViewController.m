@@ -25,15 +25,16 @@
 #import "czzOnScreenImageManagerViewController.h"
 #import "UIBarButtonItem+Badge.h"
 #import "GSIndeterminateProgressView.h"
-#import "czzThreadList.h"
-#import "czzSubThreadList.h"
+#import "czzHomeViewModelManager.h"
+#import "czzThreadViewModelManager.h"
+#import "czzHomeTableViewDelegate.h"
 
 #import "czzThreadTableViewDataSource.h"
 
 #import <CoreText/CoreText.h>
 
 
-@interface czzHomeViewController() <UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzThreadListProtocol, czzOnScreenImageManagerViewControllerDelegate, UIStateRestoring>
+@interface czzHomeViewController() <UIAlertViewDelegate, czzThreadListProtocol, czzOnScreenImageManagerViewControllerDelegate, UIStateRestoring>
 @property NSArray *threads;
 @property NSInteger currentPage;
 @property NSIndexPath *selectedIndex;
@@ -50,9 +51,10 @@
 @property UIRefreshControl* refreshControl;
 @property UIBarButtonItem *numberBarButton;
 @property GSIndeterminateProgressView *progressView;
-@property czzThreadList* threadList;
+@property czzHomeViewModelManager* homeViewManager;
 
 @property czzThreadTableViewDataSource *tableViewDataSource;
+@property czzHomeTableViewDelegate *tableViewDelegate;
 @end
 
 @implementation czzHomeViewController
@@ -76,22 +78,22 @@
 @synthesize numberBarButton;
 @synthesize forumListButton;
 @synthesize refreshControl;
-@synthesize threadList;
+@synthesize homeViewManager;
 @synthesize settingsBarButton;
 @synthesize progressView;
 
 @synthesize tableViewDataSource;
+@synthesize tableViewDelegate;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     //thread list, source of all data
-    if (!threadList) {
-        threadList = [czzThreadList new];
+    if (!homeViewManager) {
+        homeViewManager = [czzHomeViewModelManager new];
     }
     //assign delegate and parentViewController
-    threadList.delegate = self;
-    threadList.parentViewController = self;
+    homeViewManager.delegate = self;
 
     [self updateView];
     
@@ -110,8 +112,8 @@
     thumbnailFolder = [czzAppDelegate thumbnailFolder];
     
     //assign a custom tableview data source
-    threadTableView.dataSource = tableViewDataSource = [czzThreadTableViewDataSource initWithThreadList:self.threadList];
-    threadTableView.delegate = tableViewDataSource;
+    threadTableView.dataSource = tableViewDataSource = [czzThreadTableViewDataSource initWithViewModelManager:self.homeViewManager];
+    threadTableView.delegate = tableViewDelegate = [czzHomeTableViewDelegate initWithViewModelManager:self.homeViewManager];
     
     //configure the view deck controller with half size and tap to close mode
     self.viewDeckController.leftSize = self.view.frame.size.width/4;
@@ -153,7 +155,7 @@
     delayTime = 9999;
 #endif
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        if (threadList.forum.name.length <= 0) {
+        if (homeViewManager.forum.name.length <= 0) {
 #warning TODO TO BE ADDED LATER
 //            if ([czzAppDelegate sharedAppDelegate].forums.count > 0)
 //            {
@@ -216,7 +218,6 @@
     [onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
     
     self.threadTableView.backgroundColor = settingsCentre.viewBackgroundColour;
-    threadList.displayedThread = nil;
     
     //if big image mode, perform a reload
     if ([settingCentre userDefShouldUseBigImage])
@@ -229,10 +230,10 @@
     //scroll to previous content offset if current off set is empty
     if (CGPointEqualToPoint(threadTableView.contentOffset, CGPointZero))
     {
-        [threadTableView setContentOffset:threadList.currentOffSet animated:NO];
+        [threadTableView setContentOffset:homeViewManager.currentOffSet animated:NO];
     }
-    [self setSelectedForum:threadList.forum];
-    threads = [NSArray arrayWithArray:threadList.threads];
+    [self setSelectedForum:homeViewManager.forum];
+    threads = [NSArray arrayWithArray:homeViewManager.threads];
     [self updateNumberButton];
 }
 
@@ -281,13 +282,13 @@
         if (newPageNumber > 0){
 
             //clear threads and ready to accept new threads
-            [threadList removeAll];
+            [homeViewManager removeAll];
             [threadTableView reloadData];
             [refreshControl beginRefreshing];
-            [threadList removeAll];
-            [threadList loadMoreThreads:newPageNumber];
+            [homeViewManager removeAll];
+            [homeViewManager loadMoreThreads:newPageNumber];
 
-            [[[czzAppDelegate sharedAppDelegate] window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)threadList.pageNumber]];
+            [[[czzAppDelegate sharedAppDelegate] window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)homeViewManager.pageNumber]];
         } else {
             [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"页码无效..."];
         }
@@ -327,9 +328,9 @@
 }
 
 -(void)newPost{
-    if (threadList.forum){
+    if (homeViewManager.forum){
         czzPostViewController *newPostViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
-        newPostViewController.forum = threadList.forum;
+        newPostViewController.forum = homeViewManager.forum;
         newPostViewController.postMode = NEW_POST;
         [self.navigationController presentViewController:newPostViewController animated:YES completion:nil];
     } else {
@@ -346,7 +347,7 @@
 }
 
 #pragma mark - czzThreadListProtocol
--(void)threadListDownloaded:(czzThreadList *)threadList wasSuccessful:(BOOL)wasSuccessful {
+-(void)threadListDownloaded:(czzHomeViewModelManager *)threadList wasSuccessful:(BOOL)wasSuccessful {
     DLog(@"%@", NSStringFromSelector(_cmd));
     if (!wasSuccessful && viewControllerNotInTransition) {
         [refreshControl endRefreshing];
@@ -355,12 +356,12 @@
     }
 }
 
--(void)threadListBeginDownloading:(czzThreadList *)threadList {
+-(void)threadListBeginDownloading:(czzHomeViewModelManager *)threadList {
     if (!progressView.isAnimating)
         [progressView startAnimating];
 }
 
--(void)threadListProcessed:(czzThreadList *)list wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
+-(void)threadListProcessed:(czzHomeViewModelManager *)list wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     DLog(@"%@", NSStringFromSelector(_cmd));
     [self updateView];
     [threadTableView reloadData];
@@ -386,7 +387,7 @@
 -(void)refreshThread:(id)sender{
 //    [threadTableView reloadData];
     //reset to default page number
-    [threadList refresh];
+    [homeViewManager refresh];
 }
 
 -(void)updateNumberButton {
@@ -434,8 +435,8 @@
 }
 
 -(void)setSelectedForum:(czzForum*)forum {
-    threadList.forum = forum;
-    self.title = threadList.forum.name;
+    homeViewManager.forum = forum;
+    self.title = homeViewManager.forum.name;
     self.navigationItem.backBarButtonItem.title = self.title;
 }
 
@@ -481,9 +482,9 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([[segue identifier] isEqualToString:@"go_thread_view_segue"]){
         threadViewController = [segue destinationViewController];
-        czzSubThreadList *subThreadList = [[czzSubThreadList alloc] initWithParentThread:selectedThread andForum:threadList.forum];
-        threadViewController.threadList = subThreadList;
-        threadList.displayedThread = selectedThread;
+        czzThreadViewModelManager *subThreadList = [[czzThreadViewModelManager alloc] initWithParentThread:selectedThread andForum:homeViewManager.forum];
+        threadViewController.threadViewModelManager = subThreadList;
+        homeViewManager.displayedThread = selectedThread;
     }
 }
 

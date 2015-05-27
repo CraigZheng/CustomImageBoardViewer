@@ -6,12 +6,14 @@
 //  Copyright (c) 2013 Craig. All rights reserved.
 //
 
-#define THREAD_VIEW_CONTROLLER @"thread_view_controller"
+#define THREAD_VIEW_CONTROLLER_ID @"thread_view_controller"
+
+#define THREAD_VIEW_CONTROLLER_STORYBOARD_NAME @"Main_iPhone"
 
 #import <UIKit/UIKit.h>
 #import "czzThread.h"
 #import "czzForum.h"
-#import "czzSubThreadList.h"
+#import "czzThreadViewModelManager.h"
 #import "IIViewDeckController.h"
 
 @interface czzThreadViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
@@ -24,7 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *moreButton;
 @property UIBarButtonItem *numberBarButton;
 @property BOOL shouldRestoreContentOffset;
-@property czzSubThreadList *threadList;
+@property czzThreadViewModelManager *threadViewModelManager;
 
 
 - (IBAction)moreAction:(id)sender;

@@ -6,13 +6,13 @@
 //  Copyright (c) 2014 Craig. All rights reserved.
 //
 
-#import "czzThreadList.h"
+#import "czzHomeViewModelManager.h"
 #import "czzImageCentre.h"
 
-@interface czzThreadList ()
+@interface czzHomeViewModelManager ()
 @end
 
-@implementation czzThreadList
+@implementation czzHomeViewModelManager
 @synthesize threadDownloader;
 @synthesize threadListProcessor;
 @synthesize baseURLString;
@@ -27,7 +27,6 @@
 @synthesize lastBatchOfThreads;
 @synthesize isDownloading, isProcessing;
 @synthesize horizontalHeights, verticalHeights;
-@synthesize parentViewController;
 @synthesize currentOffSet;
 @synthesize displayedThread;
 
@@ -67,11 +66,11 @@
     @try {
         NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:DEFAULT_THREAD_LIST_CACHE_FILE];
         if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
-            czzThreadList *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithFile:cacheFile];
+            czzHomeViewModelManager *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithFile:cacheFile];
             //always delete the cache file after reading it to ensure safety
             [[NSFileManager defaultManager] removeItemAtPath:cacheFile error:nil];
             //copy data
-            if (tempThreadList && [tempThreadList isKindOfClass:[czzThreadList class]])
+            if (tempThreadList && [tempThreadList isKindOfClass:[czzHomeViewModelManager class]])
             {
 //                forumName = tempThreadList.forumName;
                 self.forum = tempThreadList.forum;
@@ -91,11 +90,6 @@
     @catch (NSException *exception) {
         DLog(@"%@", exception);
     }
-}
-
--(void)setParentViewController:(UIViewController *)viewCon {
-    parentViewController = viewCon;
-    //register an obverser while adding a parent view controller
 }
 
 //-(void)setForumName:(NSString *)name {
@@ -257,7 +251,7 @@
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder {
-    czzThreadList *newThreadList = [czzThreadList new];
+    czzHomeViewModelManager *newThreadList = [czzHomeViewModelManager new];
     [[NSNotificationCenter defaultCenter] removeObserver:newThreadList];
     @try {
         //create a temporary threadlist object
