@@ -77,7 +77,7 @@
 
 }
 
-+(instancetype)initWithViewModelManager:(czzHomeViewModelManager *)viewModelManager {
++(instancetype)initWithViewModelManager:(czzThreadViewModelManager *)viewModelManager {
     czzThreadTableViewDataSource *threadDataSource = [czzThreadTableViewDataSource new];
     threadDataSource.viewModelManager = viewModelManager;
     return threadDataSource;

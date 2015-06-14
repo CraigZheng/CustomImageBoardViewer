@@ -54,13 +54,23 @@
     return self;
 }
 
+-(instancetype)restoreWithFile:(NSString *)filePath {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        czzThreadViewModelManager *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+        //copy data
+        if (tempThreadList && [tempThreadList isKindOfClass:[czzThreadViewModelManager class]])
+        {
+            return tempThreadList;
+        }
+    }
+    return nil;
+}
+
 -(void)restorePreviousState {
     @try {
         NSString *cacheFile = [[czzAppDelegate threadCacheFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)self.parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
         if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
-            czzThreadViewModelManager *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithFile:cacheFile];
-            //always delete the cache file after reading it to ensure safety
-            [[NSFileManager defaultManager] removeItemAtPath:cacheFile error:nil];
+            czzThreadViewModelManager *tempThreadList = [self restoreWithFile:cacheFile];
             //copy data
             if (tempThreadList && [tempThreadList isKindOfClass:[czzThreadViewModelManager class]])
             {
@@ -68,8 +78,8 @@
                 self.pageNumber = tempThreadList.pageNumber;
                 self.totalPages = tempThreadList.totalPages;
                 self.threads = tempThreadList.threads;
-                self.self.verticalHeights = tempThreadList.self.verticalHeights;
-                self.self.horizontalHeights = tempThreadList.self.horizontalHeights;
+                self.verticalHeights = tempThreadList.self.verticalHeights;
+                self.horizontalHeights = tempThreadList.self.horizontalHeights;
                 self.baseURLString = tempThreadList.baseURLString;
                 self.currentOffSet = tempThreadList.currentOffSet;
                 self.lastBatchOfThreads = tempThreadList.lastBatchOfThreads;

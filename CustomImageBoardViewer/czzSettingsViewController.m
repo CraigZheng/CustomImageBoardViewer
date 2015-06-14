@@ -160,6 +160,14 @@
             [self openDonationLink];
         } else if ([command isEqualToString:@"饼干管理器"]) {
             [self.navigationController pushViewController:[czzCookieManagerViewController new] animated:YES];
+        } else if ([command isEqualToString:@"LAUNCH UTILITY"]) {
+            UIViewController *utilityViewContorller = [[UIStoryboard storyboardWithName:@"Utility" bundle:nil] instantiateInitialViewController];
+            if (utilityViewContorller) {
+                [czzAppDelegate sharedAppDelegate].window.rootViewController = utilityViewContorller;
+                [[czzAppDelegate sharedAppDelegate].window makeKeyAndVisible];
+            } else {
+                DLog(@"Utility view contorller nil, cannot instantiate from Utility storyboard file.");
+            }
         }
     }
 }
@@ -182,6 +190,7 @@
     [regularCommands addObject:@"通知中心"];
 #ifdef DEBUG
     [regularCommands addObject:@"DEBUG BUILD"];
+    [regularCommands addObject:@"LAUNCH UTILITY"];
 #endif
     NSURL *donationLinkURL = [NSURL URLWithString:settingsCentre.donationLink];
     if (donationLinkURL && settingsCentre.donationLink.length > 0)

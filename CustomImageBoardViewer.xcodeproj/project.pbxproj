@@ -303,6 +303,9 @@
 		44DF8F071A7512730097F7F5 /* save_as.png in Resources */ = {isa = PBXBuildFile; fileRef = 44DF8EF81A7512730097F7F5 /* save_as.png */; };
 		44DF8F081A7512730097F7F5 /* save_as@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44DF8EF91A7512730097F7F5 /* save_as@2x.png */; };
 		44DF8F091A7512730097F7F5 /* save_as@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44DF8EFA1A7512730097F7F5 /* save_as@3x.png */; };
+		44E2D2D81B2DB77B0029D783 /* Utility.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44E2D2D71B2DB77B0029D783 /* Utility.storyboard */; };
+		44E2D2DC1B2DB94E0029D783 /* czzThreadListUtilTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E2D2DB1B2DB94E0029D783 /* czzThreadListUtilTableViewController.m */; };
+		44E2D2DF1B2DC0A30029D783 /* ThreadModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 44E2D2DD1B2DC0A30029D783 /* ThreadModel.xcdatamodeld */; };
 		44E791811A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */; };
 		44E791CD1A17856500A63C04 /* advance.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918D1A17856500A63C04 /* advance.png */; };
 		44E791CE1A17856500A63C04 /* advance@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918E1A17856500A63C04 /* advance@2x.png */; };
@@ -854,6 +857,10 @@
 		44DF8EF81A7512730097F7F5 /* save_as.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = save_as.png; sourceTree = "<group>"; };
 		44DF8EF91A7512730097F7F5 /* save_as@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "save_as@2x.png"; sourceTree = "<group>"; };
 		44DF8EFA1A7512730097F7F5 /* save_as@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "save_as@3x.png"; sourceTree = "<group>"; };
+		44E2D2D71B2DB77B0029D783 /* Utility.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Utility.storyboard; sourceTree = "<group>"; };
+		44E2D2DA1B2DB94E0029D783 /* czzThreadListUtilTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadListUtilTableViewController.h; sourceTree = "<group>"; };
+		44E2D2DB1B2DB94E0029D783 /* czzThreadListUtilTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadListUtilTableViewController.m; sourceTree = "<group>"; };
+		44E2D2DE1B2DC0A30029D783 /* ThreadModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ThreadModel.xcdatamodel; sourceTree = "<group>"; };
 		44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NotificationCentreStoryBoard.storyboard; sourceTree = "<group>"; };
 		44E7918D1A17856500A63C04 /* advance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = advance.png; sourceTree = "<group>"; };
 		44E7918E1A17856500A63C04 /* advance@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "advance@2x.png"; sourceTree = "<group>"; };
@@ -1113,6 +1120,8 @@
 				442F1FD21B13500C00267698 /* czzAppActivityManager.m */,
 				4453C07619F634B700A8250F /* Launch Screen.xib */,
 				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
+				44E2D2D71B2DB77B0029D783 /* Utility.storyboard */,
+				44E2D2D91B2DB7AD0029D783 /* UtilViewControllers */,
 				44DF8ECC1A74CA4B0097F7F5 /* Utils */,
 				44DF8EE01A74D6320097F7F5 /* czzCookieManagerViewController */,
 				442EC8681A1A1320005650E4 /* czzNavigationController */,
@@ -2057,6 +2066,16 @@
 			name = MessagePopUpController;
 			sourceTree = "<group>";
 		};
+		44E2D2D91B2DB7AD0029D783 /* UtilViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				44E2D2DA1B2DB94E0029D783 /* czzThreadListUtilTableViewController.h */,
+				44E2D2DB1B2DB94E0029D783 /* czzThreadListUtilTableViewController.m */,
+				44E2D2DD1B2DC0A30029D783 /* ThreadModel.xcdatamodeld */,
+			);
+			name = UtilViewControllers;
+			sourceTree = "<group>";
+		};
 		44E7918C1A17856500A63C04 /* icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -2383,6 +2402,7 @@
 				44E792021A17856500A63C04 /* solid_star@2x.png in Resources */,
 				442EC86D1A1A1C8D005650E4 /* info@2x.png in Resources */,
 				44E791EE1A17856500A63C04 /* previous@3x.png in Resources */,
+				44E2D2D81B2DB77B0029D783 /* Utility.storyboard in Resources */,
 				44DF8F081A7512730097F7F5 /* save_as@2x.png in Resources */,
 				44E791F41A17856500A63C04 /* sad@3x.png in Resources */,
 				44E791D01A17856500A63C04 /* bookmark.png in Resources */,
@@ -2627,6 +2647,7 @@
 				442A8FEE19DB7F5400A3516E /* NSData+GIF.m in Sources */,
 				442A8FF619DB7F5400A3516E /* SDWebImagePrefetcher.m in Sources */,
 				441E5E5417F52DEF00289DBD /* czzThreadViewController.m in Sources */,
+				44E2D2DC1B2DB94E0029D783 /* czzThreadListUtilTableViewController.m in Sources */,
 				441E5CE817F4691300289DBD /* czzHomeViewController.m in Sources */,
 				5A2B2D941936264A00BA2870 /* czzFeedbackViewController.m in Sources */,
 				44CF256A1A26B4D000BD8228 /* UIView+MGBadgeView.m in Sources */,
@@ -2635,6 +2656,7 @@
 				442F1FEB1B160C9300267698 /* czzThreadTableViewDataSource.m in Sources */,
 				442A8FFA19DB7F5400A3516E /* UIImage+WebP.m in Sources */,
 				4498B68D1993A6190014F73F /* PropertyUtil.m in Sources */,
+				44E2D2DF1B2DC0A30029D783 /* ThreadModel.xcdatamodeld in Sources */,
 				5A0A6BD61848691C0094D7FB /* czzMoreInfoViewController.m in Sources */,
 				4448C2AD18100C6B00D2CD76 /* czzBlacklist.m in Sources */,
 				442A8FB619DB7DF200A3516E /* PSTGridLayoutRow.m in Sources */,
@@ -2979,6 +3001,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		44E2D2DD1B2DC0A30029D783 /* ThreadModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				44E2D2DE1B2DC0A30029D783 /* ThreadModel.xcdatamodel */,
+			);
+			currentVersion = 44E2D2DE1B2DC0A30029D783 /* ThreadModel.xcdatamodel */;
+			path = ThreadModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 441E5CC317F4691300289DBD /* Project object */;
 }

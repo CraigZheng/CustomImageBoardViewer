@@ -182,6 +182,9 @@
     [onScreenCommandViewController hide];
     //no longer ready for more push animation
     viewControllerNotInTransition = NO;
+    
+#warning DEBUG ONLY, REMOVE LATER
+    [self.threadViewModelManager saveCurrentState];
 }
 
 -(void)viewDidDisappear:(BOOL)animated {
