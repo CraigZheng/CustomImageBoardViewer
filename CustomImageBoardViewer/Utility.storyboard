@@ -40,7 +40,13 @@
                             <outlet property="delegate" destination="4zC-2N-FE2" id="Hvb-JE-8XX"/>
                         </connections>
                     </tableView>
-                    <toolbarItems/>
+                    <toolbarItems>
+                        <barButtonItem title="SAVE" id="Ofs-Rx-O5W">
+                            <connections>
+                                <action selector="saveButtonAction:" destination="4zC-2N-FE2" id="edZ-D1-O6E"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" title="ThreadListUtil" id="QcD-MS-QX0">
                         <barButtonItem key="rightBarButtonItem" title="Launch" id="7aT-vg-xRl">
                             <connections>
@@ -48,7 +54,6 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2uk-ip-L2q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -57,11 +62,15 @@
         <!--Navigation Controller-->
         <scene sceneID="ogd-CS-PvX">
             <objects>
-                <navigationController id="NId-rn-G7h" sceneMemberID="viewController">
+                <navigationController toolbarHidden="NO" id="NId-rn-G7h" sceneMemberID="viewController">
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="p7M-aQ-1WM">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="adH-jS-UHT">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="4zC-2N-FE2" kind="relationship" relationship="rootViewController" id="dJt-mL-2x6"/>
                     </connections>

@@ -9,6 +9,7 @@
 #import "czzThreadListUtilTableViewController.h"
 #import "czzAppDelegate.h"
 #import "czzThreadViewModelManager.h"
+#import "czzCoreDataManager.h"
 
 @interface czzThreadListUtilTableViewController ()
 @property NSArray *cacheFiles;
@@ -65,6 +66,16 @@ NSString* const cellIdentifier = @"cellIdentifier";
         [[czzAppDelegate sharedAppDelegate].window makeKeyAndVisible];
     } else {
         DLog(@"Cannot instantiate initial view controller from main storyboard.");
+    }
+}
+
+- (IBAction)saveButtonAction:(id)sender {
+    for (NSString *cacheFile in cacheFiles) {
+        czzThreadViewModelManager *viewModelManager = [self readThreadViewModelWithCacheFile:cacheFile];
+        NSArray *threads = viewModelManager.threads;
+        for (czzThread *thread in threads) {
+            [CoreDataManager insertThreadIntoContext:thread];
+        }
     }
 }
 @end

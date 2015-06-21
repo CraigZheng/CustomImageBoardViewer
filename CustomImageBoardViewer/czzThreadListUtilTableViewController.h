@@ -10,5 +10,6 @@
 
 @interface czzThreadListUtilTableViewController : UITableViewController
 - (IBAction)launchButtonAction:(id)sender;
+- (IBAction)saveButtonAction:(id)sender;
 
 @end
