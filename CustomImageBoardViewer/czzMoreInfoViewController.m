@@ -96,7 +96,7 @@
 }
 
 - (IBAction)homePageAction:(id)sender {
-    NSString *homePageURL = [[settingCentre ac_host] stringByAppendingPathComponent:@"u/712573.aspx"];
+    NSString *homePageURL = @"http://www.weibo.com/u/3868827431"; // Weibo home page URL
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:homePageURL]];
 
 }
