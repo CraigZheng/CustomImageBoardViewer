@@ -19,7 +19,6 @@
 @synthesize shouldHideImageForThisForum;
 @synthesize threads;
 @synthesize threadContentListDataProcessor;
-//@synthesize forumName;
 @synthesize forum;
 @synthesize pageNumber;
 @synthesize totalPages;
@@ -71,7 +70,6 @@
             //copy data
             if (tempThreadList && [tempThreadList isKindOfClass:[czzHomeViewModelManager class]])
             {
-//                forumName = tempThreadList.forumName;
                 self.forum = tempThreadList.forum;
                 self.pageNumber = tempThreadList.pageNumber;
                 self.totalPages = tempThreadList.totalPages;
@@ -90,11 +88,6 @@
         DLog(@"%@", exception);
     }
 }
-
-//-(void)setForumName:(NSString *)name {
-//    forumName = name;
-//    baseURLString = [[settingCentre thread_list_host] stringByAppendingString:forumName ? [forumName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] : @""];
-//}
 
 -(void)setForum:(czzForum *)fo {
     forum = fo;

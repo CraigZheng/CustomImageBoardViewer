@@ -15,22 +15,6 @@
 @end
 
 @implementation czzThreadViewModelManager
-//@synthesize totalPages;
-//@synthesize parentID;
-//@synthesize parentThread;
-//@synthesize baseURLString;
-//@synthesize delegate;
-//@synthesize threadDownloader;
-//@synthesize threadListDataProcessor;
-//@synthesize threadContentListDataProcessor;
-//@synthesize pageNumber;
-//@synthesize isDownloading, isProcessing;
-//@synthesize threads;
-//@synthesize lastBatchOfThreads;
-//@synthesize cutOffIndex;
-//@synthesize currentOffSet;
-//@synthesize forum;
-//@synthesize restoredFromCache;
 
 -(instancetype)initWithParentThread:(czzThread *)thread andForum:(czzForum *)fo{
     self = [super init];

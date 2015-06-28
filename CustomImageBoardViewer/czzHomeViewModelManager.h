@@ -9,7 +9,6 @@
 #define DEFAULT_THREAD_LIST_CACHE_FILE @"DEFAULT_THREAD_LIST_CACHE_FILE.dat"
 
 #import "czzThread.h"
-//#import "czzSubThreadList.h"
 #import "czzForum.h"
 
 #import "czzJSONProcessor.h"

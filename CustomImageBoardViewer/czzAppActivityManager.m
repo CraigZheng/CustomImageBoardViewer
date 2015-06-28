@@ -30,7 +30,11 @@
 }
 
 -(void)applicationDidEnterBackground {
-
+    NSArray *viewControllers = NavigationController.viewControllers;
+    DLog(@"View controllers in navigation bar:");
+    for (UIViewController* viewController in viewControllers) {
+        DLog(@"%@", NSStringFromClass([viewController class]));
+    }
 }
 
 + (id)sharedManager
