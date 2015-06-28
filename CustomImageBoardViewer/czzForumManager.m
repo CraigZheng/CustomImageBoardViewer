@@ -76,14 +76,22 @@
     return newForumGroup;
 }
 
-
 #pragma mark - czzURLDownloaderProtocol
 -(void)downloadOf:(NSURL *)url successed:(BOOL)successed result:(NSData *)downloadedData {
     if (successed)
         [self parseJsonForForum:downloadedData];
 }
 
-+ (id)sharedInstance
+#pragma mark - getters
+-(NSArray *)availableForums {
+    NSMutableArray *forums = [NSMutableArray new];
+    for (czzForumGroup *forumGroup in self.allForumGroups) {
+        [forums addObjectsFromArray:[forumGroup availableForums]];
+    }
+    return forums;
+}
+
++ (id)sharedManager
 {
     // structure used to test whether the block has completed or not
     static dispatch_once_t p = 0;

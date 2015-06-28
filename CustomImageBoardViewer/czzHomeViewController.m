@@ -27,6 +27,7 @@
 #import "GSIndeterminateProgressView.h"
 #import "czzHomeViewModelManager.h"
 #import "czzThreadViewModelManager.h"
+#import "czzForumManager.h"
 #import "czzHomeTableViewDelegate.h"
 
 #import "czzHomeTableViewDataSource.h"
@@ -105,7 +106,6 @@
     self.navigationItem.leftBarButtonItems = @[forumListButton, infoBarButton];
 
     imageViewerUtil = [czzImageViewerUtil new];
-    [czzAppDelegate sharedAppDelegate].homeViewController = self; //retain a reference to app delegate, so when entering background, the delegate can inform this controller for further actions
     settingsCentre = settingCentre;
 
     //thumbnail folder
@@ -156,20 +156,18 @@
 #endif
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         if (homeViewManager.forum.name.length <= 0) {
-#warning TODO TO BE ADDED LATER
-//            if ([czzAppDelegate sharedAppDelegate].forums.count > 0)
-//            {
-//                [[czzAppDelegate sharedAppDelegate].window makeToast:@"用户没有选择板块，随机选择……"];
-//                @try {
-//                    int randomIndex = rand() % [czzAppDelegate sharedAppDelegate].forums.count;
-////                    [threadList setForumName:[[[czzAppDelegate sharedAppDelegate].forums objectAtIndex:randomIndex] name]];
-//                    [threadList setForum:[[czzAppDelegate sharedAppDelegate].forums objectAtIndex:randomIndex]];
-//                    [self refreshThread:self];
-//                }
-//                @catch (NSException *exception) {
-//                    
-//                }
-//            }
+            if ([ForumManager availableForums].count > 0)
+            {
+                [[czzAppDelegate sharedAppDelegate].window makeToast:@"用户没有选择板块，随机选择……"];
+                @try {
+                    int randomIndex = rand() % [ForumManager availableForums].count;
+                    [homeViewManager setForum:[[ForumManager availableForums] objectAtIndex:randomIndex]];
+                    [self refreshThread:self];
+                }
+                @catch (NSException *exception) {
+                    
+                }
+            }
         }
     });
     //check if should show a badget on settings button
@@ -385,7 +383,6 @@
 
 //create a new NSURL outta targetURLString, and reload the content threadTableView
 -(void)refreshThread:(id)sender{
-//    [threadTableView reloadData];
     //reset to default page number
     [homeViewManager refresh];
 }

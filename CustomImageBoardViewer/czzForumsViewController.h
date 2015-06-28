@@ -15,5 +15,5 @@
 
 @interface czzForumsViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UITableView *forumsTableView;
-@property GADBannerView *bannerView_;
+@property (strong) GADBannerView *bannerView_;
 @end

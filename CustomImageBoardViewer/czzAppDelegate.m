@@ -26,7 +26,6 @@
 @implementation czzAppDelegate
 @synthesize shouldUseBackupServer;
 @synthesize myhost;
-@synthesize homeViewController;
 @synthesize settingsCentre;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -87,16 +86,6 @@
     }
     return NO;
 }
-
-
-//-(BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder
-//{
-//    return YES;
-//}
-//
-//-(BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder {
-//    return YES;
-//}
 
 #pragma mark - background fetch
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {

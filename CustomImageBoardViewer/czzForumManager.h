@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Craig. All rights reserved.
 //
 
+#define ForumManager [czzForumManager sharedManager]
+
 #import <Foundation/Foundation.h>
 
 #import "czzURLDownloader.h"
@@ -23,11 +25,12 @@
 @interface czzForumManager : NSObject <czzURLDownloaderProtocol>
 
 @property NSMutableArray *allForumGroups; //including those that are locked
+@property (strong, nonatomic) NSArray *availableForums;
 
 @property id<czzForumManagerDelegate> delegate;
 
 -(void)updateForum;
 -(NSArray*)parseJsonForForum:(NSData*)jsonData;
 
-+(id)sharedInstance;
++(id)sharedManager;
 @end

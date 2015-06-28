@@ -47,7 +47,7 @@
                     //give it a default image host
                     self.imageHost = [settingCentre image_host];
                 }
-                self.parserType = [[self readFromJsonDictionary:jsonDict withName:@"forumParser"] integerValue];
+                self.parserType = (FORUM_PARSER_TYPE)[[self readFromJsonDictionary:jsonDict withName:@"forumParser"] integerValue];
                 if (self.parserType == 0) {
                     //default to Aisle format
                     self.parserType = 1;

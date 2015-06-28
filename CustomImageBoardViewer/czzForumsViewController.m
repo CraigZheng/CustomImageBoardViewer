@@ -44,7 +44,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    forumManager = [czzForumManager sharedInstance];
+    forumManager = [czzForumManager sharedManager];
     forumGroups = [NSMutableArray new];
     [self refreshForums];
     bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];

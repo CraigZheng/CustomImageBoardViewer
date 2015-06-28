@@ -11,7 +11,8 @@
 
 typedef enum {
     FORUM_PARSER_AISLE = 1,
-    FORUM_PARSER_A_DAO = 2
+    FORUM_PARSER_A_DAO = 2,
+    FORUM_PARSER_UNKNOWN = 0
 } FORUM_PARSER_TYPE;
 
 @interface czzForum : NSObject <NSCoding>
