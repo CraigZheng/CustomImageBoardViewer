@@ -170,7 +170,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 DLog(@"feedback sent");
                 [self.navigationController popViewControllerAnimated:YES];
-                [[czzAppDelegate sharedAppDelegate].window makeToast:@"谢谢你的意见！" duration:1.5 position:@"bottom"];
+                [AppDelegate.window makeToast:@"谢谢你的意见！" duration:1.5 position:@"bottom"];
             });
             
         } else {

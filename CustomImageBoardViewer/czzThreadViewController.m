@@ -323,9 +323,9 @@
             [threadTableView reloadData];
             [refreshControl beginRefreshing];
 
-            [[[czzAppDelegate sharedAppDelegate] window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) threadViewModelManager.pageNumber]];
+            [[AppDelegate window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) threadViewModelManager.pageNumber]];
         } else {
-            [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"页码无效..."];
+            [[AppDelegate window] makeToast:@"页码无效..."];
         }
     }
 }
@@ -339,7 +339,7 @@
 -(void)miniThreadViewFinishedLoading:(BOOL)successful {
     DLog(@"%@", NSStringFromSelector(_cmd));
     if (!successful) {
-        [[czzAppDelegate sharedAppDelegate].window makeToast:[NSString stringWithFormat:@"无法下载:%ld", (long)miniThreadView.threadID]];
+        [AppDelegate.window makeToast:[NSString stringWithFormat:@"无法下载:%ld", (long)miniThreadView.threadID]];
         
     } else if (viewControllerNotInTransition)
         [self presentViewController:miniThreadView animated:YES completion:nil];
@@ -491,7 +491,7 @@
     }
     
     //not in this thread
-    [[czzAppDelegate sharedAppDelegate].window makeToast:[NSString stringWithFormat:@"需要下载: %@", text]];
+    [AppDelegate.window makeToast:[NSString stringWithFormat:@"需要下载: %@", text]];
     miniThreadView = [[UIStoryboard storyboardWithName:@"MiniThreadView" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
     miniThreadView.delegate = self;
     [miniThreadView setThreadID:refNumber];
@@ -596,7 +596,7 @@
 
 #pragma mark - rotation change
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
-    UIView *containerView = [[[czzAppDelegate sharedAppDelegate] window] viewWithTag:OVERLAY_VIEW];
+    UIView *containerView = [[AppDelegate window] viewWithTag:OVERLAY_VIEW];
     //if the container view is not nil, deselect it
     if (containerView)
         [self performSelector:@selector(tapOnFloatingView:) withObject:nil];

@@ -29,7 +29,7 @@
 #ifdef DEBUG
         versionString = @"DEBUG";
 #endif
-        targetURLString = [[czzAppDelegate sharedAppDelegate].myhost stringByAppendingPathComponent:[NSString stringWithFormat:@"php/download_blacklist.php?version=%@", versionString]];
+        targetURLString = [AppDelegate.myhost stringByAppendingPathComponent:[NSString stringWithFormat:@"php/download_blacklist.php?version=%@", versionString]];
     }
     return self;
 }

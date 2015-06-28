@@ -117,7 +117,7 @@
 #pragma mark - custom menu action
 -(void)menuActionCopy:(id)sender{
     [[UIPasteboard generalPasteboard] setString:self.myThread.content.string];
-    [[czzAppDelegate sharedAppDelegate] showToast:@"内容已复制"];
+    [AppDelegate showToast:@"内容已复制"];
 }
 
 -(void)menuActionReply:(id)sender{
@@ -309,7 +309,7 @@
         //Start or stop the image downloader
         if ([[czzImageCentre sharedInstance] containsImageDownloaderWithURL:myThread.imgSrc]){
             [[czzImageCentre sharedInstance] stopAndRemoveImageDownloaderWithURL:myThread.imgSrc];
-            [[czzAppDelegate sharedAppDelegate] showToast:@"下载终止"];
+            [AppDelegate showToast:@"下载终止"];
             DLog(@"stop: %@", myThread.imgSrc);
         } else {
             BOOL completedURL = NO;

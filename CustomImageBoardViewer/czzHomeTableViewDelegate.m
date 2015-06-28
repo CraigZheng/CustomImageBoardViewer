@@ -52,45 +52,12 @@
         //@todo open the selected thread
         czzThreadViewController *threadViewController = [czzThreadViewController new];
         threadViewController.threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:selectedThread andForum:homeViewManager.forum];
-        
-        UINavigationController *rootNavCon = (UINavigationController*)[UIApplication rootViewController];
-        if ([rootNavCon isKindOfClass:[UINavigationController class]]) {
-            [rootNavCon pushViewController:threadViewController animated:YES];
-        } else {
-            [[UIApplication rootViewController] presentViewController:threadViewController animated:YES completion:nil];
-        }
+        [NavigationController pushViewController:threadViewController animated:YES];
     }
     else {
         [homeViewManager loadMoreThreads];
         [myTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
-}
-
-
-#pragma mark - UIScrollVIew delegate
--(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    homeViewManager.currentOffSet = scrollView.contentOffset;
-}
-
--(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    //    if (onScreenCommandViewController && threads.count > 1 && shouldDisplayQuickScrollCommand) {
-    //        [onScreenCommandViewController show];
-    //    }
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)aScrollView
-{
-    //    NSArray *visibleRows = [threadTableView visibleCells];
-    //    UITableViewCell *lastVisibleCell = [visibleRows lastObject];
-    //    NSIndexPath *path = [threadTableView indexPathForCell:lastVisibleCell];
-    //    if(path.row == threads.count && threads.count > 0)
-    //    {
-    //        CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
-    //        if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !(threadList.isDownloading || threadList.isProcessing)){
-    //            [threadList loadMoreThreads];
-    //            [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-    //        }
-    //    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

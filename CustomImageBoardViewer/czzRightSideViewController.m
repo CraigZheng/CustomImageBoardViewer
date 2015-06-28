@@ -117,10 +117,10 @@
     NSString *command = [commandArray objectAtIndex:indexPath.row];
     if ([command isEqualToString:@"复制内容"]){
         [[UIPasteboard generalPasteboard] setString:selectedThread.content.string];
-        [[czzAppDelegate sharedAppDelegate] showToast:@"内容已复制"];
+        [AppDelegate showToast:@"内容已复制"];
     } else if ([command isEqualToString:@"复制选定串的ID"]){
         [[UIPasteboard generalPasteboard] setString:[NSString stringWithFormat:@"%ld", (long)selectedThread.ID]];
-        [[czzAppDelegate sharedAppDelegate] showToast:@"ID已复制"];
+        [AppDelegate showToast:@"ID已复制"];
     } else if ([command hasPrefix:@"复制图片链接"]){
 //        NSString *urlString = [settingsCentre.image_host stringByAppendingPathComponent:[self.selectedThread.imgSrc stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
         NSString *urlString = self.selectedThread.imgSrc;
@@ -138,7 +138,7 @@
     } else if ([command isEqualToString:@"复制串的地址"]){
         NSString *address = [[settingCentre share_post_url] stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long) selectedThread.parentID]];
         [[UIPasteboard generalPasteboard] setString:address];
-        [[czzAppDelegate sharedAppDelegate] showToast:@"地址已复制"];
+        [AppDelegate showToast:@"地址已复制"];
     } else if ([command isEqualToString:@"跳页"]) {
         [self.viewDeckController toggleRightViewAnimated:YES completion:
          ^(IIViewDeckController *controller, BOOL success){
@@ -165,7 +165,7 @@
 -(void)favouriteAction {
     if (parentThread)
         [favouriteManager addFavourite:parentThread];
-    [[czzAppDelegate sharedAppDelegate] showToast:@"已加入收藏"];
+    [AppDelegate showToast:@"已加入收藏"];
 }
 
 #pragma mark - reply actions

@@ -103,7 +103,7 @@
 }
 
 -(void)updateVerticalFrame {
-    CGRect windowBounds = [czzAppDelegate sharedAppDelegate].window.bounds;
+    CGRect windowBounds = AppDelegate.window.bounds;
     if (self.parentViewController) {
         windowBounds = self.parentViewController.view.frame;
     }
@@ -119,7 +119,7 @@
 }
 
 -(void)updateHorizontalFrame {
-    CGRect windowBounds = [czzAppDelegate sharedAppDelegate].window.bounds;
+    CGRect windowBounds = AppDelegate.window.bounds;
     if (self.parentViewController) {
         windowBounds = self.parentViewController.view.frame;
     }

@@ -13,7 +13,6 @@
 #import "czzBlacklistEntity.h"
 #import "czzImageCentre.h"
 #import "NSString+HTML.h"
-#import "czzThreadViewModelManager.h"
 #import "czzSettingsCentre.h"
 
 @interface czzThread()

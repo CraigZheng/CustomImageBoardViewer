@@ -183,7 +183,7 @@
     done = NO;
     czzNotificationDownloader *downloader = [czzNotificationDownloader new];
     downloader.delegate = self;
-    [downloader downloadNotificationWithVendorID:[czzAppDelegate sharedAppDelegate].vendorID];
+    [downloader downloadNotificationWithVendorID:AppDelegate.vendorID];
     
     XCTAssertTrue([self waitForCompletion:5.0], @"Timeout");
 

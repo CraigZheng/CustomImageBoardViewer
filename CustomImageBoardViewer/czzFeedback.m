@@ -37,9 +37,9 @@
         DLog(@"need content");
         return NO;
     }
-    NSString *targetHost = [[czzAppDelegate sharedAppDelegate].myhost stringByAppendingPathComponent:feedback_host];
+    NSString *targetHost = [AppDelegate.myhost stringByAppendingPathComponent:feedback_host];
     targetHost = [targetHost stringByAppendingFormat:@"access_token=%@&vendorID=%@&time=%@&name=%@&content=%@&emotion=%ld",
-                  self.access_token, [czzAppDelegate sharedAppDelegate].vendorID, self.time, name, content, (long)emotion];
+                  self.access_token, AppDelegate.vendorID, self.time, name, content, (long)emotion];
     if (notification) {
         targetHost = [targetHost stringByAppendingFormat:@"&notificationID=%@&title=%@&topic=%@", notification.notificationID, notification.title, notification.topic];
     }

@@ -166,12 +166,12 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
     
     if (alertView == saveCookieAlertView) {
         [cookieManager archiveCookie:selectedCookie];
-        [[czzAppDelegate sharedAppDelegate] showToast:@"饼干已放入保鲜库"];
+        [AppDelegate showToast:@"饼干已放入保鲜库"];
     } else if (alertView == useCookieAlertView) {
         NSHTTPCookie *newCookie = [czzACTokenUtil createCookieWithValue:selectedCookie.value forURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
         if (newCookie) {
             [cookieManager setACCookie:newCookie ForURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
-            [[czzAppDelegate sharedAppDelegate] showToast:@"饼干已启用"];
+            [AppDelegate showToast:@"饼干已启用"];
         } else {
             DLog(@"token nil");
         }
@@ -183,16 +183,16 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
         } else if (cookieManagerSegmentControl.selectedSegmentIndex == 1) {
             [cookieManager deleteArchiveCookie:selectedCookie];
         }
-        [[czzAppDelegate sharedAppDelegate] showToast:@"饼干已删除"];
+        [AppDelegate showToast:@"饼干已删除"];
     } else if (alertView == addCookieAlertView) {
         UITextField *textField = [addCookieAlertView textFieldAtIndex:0];
         NSString *text = textField.text;
         if (text.length)
         {
             if ([cookieManager addValueAsCookie:text]) {
-                [[czzAppDelegate sharedAppDelegate] showToast:@"饼干已添加"];
+                [AppDelegate showToast:@"饼干已添加"];
             } else {
-                [[czzAppDelegate sharedAppDelegate] showToast:@"饼干添加失败，请检查输入"];
+                [AppDelegate showToast:@"饼干添加失败，请检查输入"];
             }
         }
     }

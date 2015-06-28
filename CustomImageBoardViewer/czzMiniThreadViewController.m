@@ -50,18 +50,18 @@
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [[czzAppDelegate sharedAppDelegate].window hideToastActivity];
+    [AppDelegate.window hideToastActivity];
 }
 
 -(void)setThreadID:(NSInteger)tID {
     threadID = tID;
     //start downloading content for thread id
-    [[czzAppDelegate sharedAppDelegate].window makeToastActivity];
+    [AppDelegate.window makeToastActivity];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         czzThread *resultThread = [[czzThread alloc] initWithThreadID:threadID];
         dispatch_async(dispatch_get_main_queue(), ^{
             BOOL successful = NO;
-            [[czzAppDelegate sharedAppDelegate].window hideToastActivity];
+            [AppDelegate.window hideToastActivity];
             if (resultThread) {
                 [self setMyThread:resultThread];
                 successful = YES;
@@ -117,7 +117,7 @@
 }
 
 - (IBAction)openThreadAction:(id)sender {
-    [[czzAppDelegate sharedAppDelegate].window makeToastActivity];
+    [AppDelegate.window makeToastActivity];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         czzThread *parentThread = [[czzThread alloc] initWithThreadID:myThread.parentID ? myThread.parentID : myThread.ID];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -125,9 +125,9 @@
                 if (delegate && [delegate respondsToSelector:@selector(miniThreadWantsToOpenThread:)])
                     [delegate miniThreadWantsToOpenThread:parentThread];
             } else {
-                [[czzAppDelegate sharedAppDelegate].window makeToast:@"无法打开！"];
+                [AppDelegate.window makeToast:@"无法打开！"];
             }
-            [[czzAppDelegate sharedAppDelegate].window hideToastActivity];
+            [AppDelegate.window hideToastActivity];
         });
     });
 }

@@ -190,7 +190,7 @@
 -(void)resetContent{
     postTextView.text = @"";
     postSender.imgData = nil;
-    [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"内容和图片已清空"];
+    [[AppDelegate window] makeToast:@"内容和图片已清空"];
 }
 
 #pragma UIImagePickerController delegate
@@ -202,9 +202,9 @@
     if (pickedImage.size.width * pickedImage.size.height > 1920 * 1080){
         NSInteger newWidth = 1080;
         pickedImage = [self imageWithImage:pickedImage scaledToWidth:newWidth];
-        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"由于图片尺寸太大，已进行压缩" duration:1.5 position:@"top" title:titleWithSize image:pickedImage];
+        [[AppDelegate window] makeToast:@"由于图片尺寸太大，已进行压缩" duration:1.5 position:@"top" title:titleWithSize image:pickedImage];
     } else {
-        [[[czzAppDelegate sharedAppDelegate] window] makeToast:titleWithSize duration:1.5 position:@"top" image:pickedImage];
+        [[AppDelegate window] makeToast:titleWithSize duration:1.5 position:@"top" image:pickedImage];
     }
     
     [postSender setImgData:imageData];
@@ -257,7 +257,7 @@
     if (status) {
         [self dismissViewControllerAnimated:YES completion:^{
             //dismiss this view controller and upon its dismiss, notify user that the message is posted
-            [[czzAppDelegate sharedAppDelegate] showToast:@"串已发"];
+            [AppDelegate showToast:@"串已发"];
         }];
     } else {
         [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:message duration:1.5 position:@"top" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];

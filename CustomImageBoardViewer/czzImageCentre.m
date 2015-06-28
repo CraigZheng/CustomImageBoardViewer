@@ -226,7 +226,7 @@
         [delegate imageCentreDownloadStarted:self downloader:imgDown];
     }
     
-    [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"开始下载图片"];
+    [[AppDelegate window] makeToast:@"开始下载图片"];
 }
 
 //Check if given image URL is currently being downloaded
@@ -265,7 +265,7 @@
         }
     }
     
-    [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"下载终止"];
+    [[AppDelegate window] makeToast:@"下载终止"];
 }
 
 #pragma mark czzImageDownloader delegate
@@ -288,7 +288,7 @@
     } else {
         //inform receiver that download is failed
         [userInfo setObject:[NSNumber numberWithBool:NO] forKey:@"Success"];
-        [[czzAppDelegate sharedAppDelegate] showToast:@"图片下载失败：请检查网络和储存空间"];
+        [AppDelegate showToast:@"图片下载失败：请检查网络和储存空间"];
     }
 
     if (isThumbnail)
@@ -321,13 +321,13 @@
 #pragma mark - remove images
 -(void)removeFullSizeImages{
     [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate imageFolder] error:nil];
-    [[czzAppDelegate sharedAppDelegate] checkFolders];
+    [AppDelegate checkFolders];
     [self scanCurrentLocalImages];
 }
 
 -(void)removeThumbnails{
     [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate thumbnailFolder] error:nil];
-    [[czzAppDelegate sharedAppDelegate] checkFolders];
+    [AppDelegate checkFolders];
     [self scanCurrentLocalImages];
 }
 

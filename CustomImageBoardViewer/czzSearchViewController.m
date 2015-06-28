@@ -92,7 +92,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [[czzAppDelegate sharedAppDelegate].window hideToastActivity];
+    [AppDelegate.window hideToastActivity];
 }
 
 /*
@@ -113,13 +113,13 @@
         if (buttonIndex != alertView.cancelButtonIndex) {
             searchKeyword = [[[alertView textFieldAtIndex:0] text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             if ([self isNumeric:searchKeyword]) {
-                [[czzAppDelegate sharedAppDelegate].window makeToast:@"请稍等..."];
+                [AppDelegate.window makeToast:@"请稍等..."];
                 [self downloadAndPrepareThreadWithID:searchKeyword.integerValue];
                 
             } else {
                 NSURLRequest *request = [self makeRequestWithKeyword:searchKeyword];
                 if (!request) {
-                    [[czzAppDelegate sharedAppDelegate].window makeToast:@"无效的关键词"];
+                    [AppDelegate.window makeToast:@"无效的关键词"];
                 } else {
                     if ([selectedSearchEngine isEqualToString:AC_SEARCH_COMMAND]) {
                         [self openURLAndConvertToczzThreadFormat:request.URL];
@@ -166,7 +166,7 @@
 
 -(void)openURLAndConvertToczzThreadFormat:(NSURL*)url {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[czzAppDelegate sharedAppDelegate].window makeToastActivity];
+        [AppDelegate.window makeToastActivity];
     });
     if ([url.absoluteString rangeOfString:@"?ph"].location != NSNotFound) {
         NSString *urlString = url.absoluteString;
@@ -196,7 +196,7 @@
 
                         }
                     } else {
-                        [[czzAppDelegate sharedAppDelegate].window makeToast:@"无法打开这个链接" duration:2.0 position:@"bottom" image:[UIImage imageNamed:@"warning.png"]];
+                        [AppDelegate.window makeToast:@"无法打开这个链接" duration:2.0 position:@"bottom" image:[UIImage imageNamed:@"warning.png"]];
                     }
                 });
 
@@ -204,16 +204,16 @@
             @catch (NSException *exception) {
                 DLog(@"%@", exception);
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [[czzAppDelegate sharedAppDelegate].window makeToast:@"无法打开这个链接" duration:2.0 position:@"bottom" image:[UIImage imageNamed:@"warning.png"]];
+                    [AppDelegate.window makeToast:@"无法打开这个链接" duration:2.0 position:@"bottom" image:[UIImage imageNamed:@"warning.png"]];
                 });
             }
             dispatch_async(dispatch_get_main_queue(), ^{
-                [[czzAppDelegate sharedAppDelegate].window hideToastActivity];
+                [AppDelegate.window hideToastActivity];
             });
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [[czzAppDelegate sharedAppDelegate].window makeToast:@"无法找到有效资料" duration:2.0 position:@"bottom" image:[UIImage imageNamed:@"warning.png"]];
-                [[czzAppDelegate sharedAppDelegate].window hideToastActivity];
+                [AppDelegate.window makeToast:@"无法找到有效资料" duration:2.0 position:@"bottom" image:[UIImage imageNamed:@"warning.png"]];
+                [AppDelegate.window hideToastActivity];
             });
         }
     });
@@ -222,7 +222,7 @@
 
 #pragma mark - UIWebViewDelegate
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    [[czzAppDelegate sharedAppDelegate].window hideToastActivity];
+    [AppDelegate.window hideToastActivity];
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
@@ -230,7 +230,7 @@
     //user tapped on link
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
         if ([request.URL.absoluteString rangeOfString:[settingCentre a_isle_host]].location == NSNotFound) {
-            [[czzAppDelegate sharedAppDelegate].window makeToast:@"这个App只支持AC匿名版的链接" duration:2.0 position:@"center" image:[UIImage imageNamed:@"warning.png"]];
+            [AppDelegate.window makeToast:@"这个App只支持AC匿名版的链接" duration:2.0 position:@"center" image:[UIImage imageNamed:@"warning.png"]];
             return NO;
         } else {
             //get final URL
@@ -246,7 +246,7 @@
             
             //from final URL get thread ID
             NSString *threadID = [LastURL.absoluteString stringByReplacingOccurrencesOfString:[settingCentre share_post_url] withString:@""];
-            [[czzAppDelegate sharedAppDelegate].window makeToast:@"请稍等..."];
+            [AppDelegate.window makeToast:@"请稍等..."];
             [self downloadAndPrepareThreadWithID:threadID.integerValue];
             
             return NO;
@@ -294,7 +294,7 @@
 #pragma mark - czzMiniThreadViewControllerProtocol
 -(void)miniThreadViewFinishedLoading:(BOOL)successful {
     if (!successful) {
-        [[czzAppDelegate sharedAppDelegate].window makeToast:[NSString stringWithFormat:@"无法下载:%ld", (long)miniThreadView.threadID]];
+        [AppDelegate.window makeToast:[NSString stringWithFormat:@"无法下载:%ld", (long)miniThreadView.threadID]];
         return;
     }
     if (self.isViewLoaded && self.view.window)

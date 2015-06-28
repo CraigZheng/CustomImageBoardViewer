@@ -32,7 +32,7 @@
 
 -(void)downloadNotificationWithVendorID:(NSString *)vendorID {
     //make a post request to the server with vendorID
-    NSString *targetURLString = [[czzAppDelegate sharedAppDelegate].myhost stringByAppendingPathComponent:@"php"];
+    NSString *targetURLString = [AppDelegate.myhost stringByAppendingPathComponent:@"php"];
     targetURLString = [targetURLString stringByAppendingPathComponent:notificationFile];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:targetURLString]];
     [request setHTTPMethod:@"POST"];

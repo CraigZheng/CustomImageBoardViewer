@@ -90,7 +90,7 @@
     if (!lastUpdateTime || [[NSDate new] timeIntervalSinceDate:lastUpdateTime] > notificationDownloadInterval) {
         notificationDownloader = [czzNotificationDownloader new];
         notificationDownloader.delegate = self;
-        [notificationDownloader downloadNotificationWithVendorID:[czzAppDelegate sharedAppDelegate].vendorID];
+        [notificationDownloader downloadNotificationWithVendorID:AppDelegate.vendorID];
         lastUpdateTime = [NSDate new];
         [[NSUserDefaults standardUserDefaults] setObject:lastUpdateTime forKey:@"LastNotificationUpdateTime"];
     }
@@ -127,14 +127,14 @@
 
         statusIcon.hidden = YES;
         if (currentNotification.priority > 1) {
-            [[czzAppDelegate sharedAppDelegate] doSingleViewShowAnimation:statusIcon :kCATransitionFade :0.4];
+            [AppDelegate doSingleViewShowAnimation:statusIcon :kCATransitionFade :0.4];
         } else {
             statusIcon.hidden = YES;
         }
 
-        [[czzAppDelegate sharedAppDelegate] doSingleViewHideAnimation:headerLabel :kCATransitionFade :0.4];
+        [AppDelegate doSingleViewHideAnimation:headerLabel :kCATransitionFade :0.4];
         headerLabel.text = currentNotification.title;
-        [[czzAppDelegate sharedAppDelegate] doSingleViewShowAnimation:headerLabel :kCATransitionFade :0.4];
+        [AppDelegate doSingleViewShowAnimation:headerLabel :kCATransitionFade :0.4];
     }
 }
 
@@ -153,12 +153,12 @@
     if (parentView && !self.view.superview) {
         [parentView addSubview:self.view];
     }
-    [[czzAppDelegate sharedAppDelegate] doSingleViewShowAnimation:self.view :kCATransitionFade :0.2];
+    [AppDelegate doSingleViewShowAnimation:self.view :kCATransitionFade :0.2];
 
 }
 
 -(void)hide {
-    [[czzAppDelegate sharedAppDelegate] doSingleViewHideAnimation:self.view :kCATransitionFade :0.2];
+    [AppDelegate doSingleViewHideAnimation:self.view :kCATransitionFade :0.2];
 }
 
 - (IBAction)dismissAction:(id)sender {

@@ -91,12 +91,10 @@
     [super viewDidLoad];
     //thread list, source of all data
     if (!homeViewManager) {
-        homeViewManager = [czzHomeViewModelManager new];
+        homeViewManager = [czzHomeViewModelManager sharedManager];
     }
     //assign delegate and parentViewController
     homeViewManager.delegate = self;
-
-    [self updateView];
     
     //progress bar
     progressView = [(czzNavigationController*) self.navigationController progressView];
@@ -114,11 +112,12 @@
     //assign a custom tableview data source
     threadTableView.dataSource = tableViewDataSource = [czzHomeTableViewDataSource initWithViewModelManager:self.homeViewManager];
     threadTableView.delegate = tableViewDelegate = [czzHomeTableViewDelegate initWithViewModelManager:self.homeViewManager];
-    
+    [self updateTableView];
+
     //configure the view deck controller with half size and tap to close mode
     self.viewDeckController.leftSize = self.view.frame.size.width/4;
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
-    self.viewDeckController.enabled = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
+    self.viewDeckController.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
     leftController = [self.storyboard instantiateViewControllerWithIdentifier:@"left_side_view_controller"];
 
     //register a notification observer
@@ -158,7 +157,7 @@
         if (homeViewManager.forum.name.length <= 0) {
             if ([ForumManager availableForums].count > 0)
             {
-                [[czzAppDelegate sharedAppDelegate].window makeToast:@"用户没有选择板块，随机选择……"];
+                [AppDelegate.window makeToast:@"用户没有选择板块，随机选择……"];
                 @try {
                     int randomIndex = rand() % [ForumManager availableForums].count;
                     [homeViewManager setForum:[[ForumManager availableForums] objectAtIndex:randomIndex]];
@@ -209,7 +208,7 @@
     self.viewDeckController.panningMode = IIViewDeckFullViewPanning;
 
     //on screen image manager view
-    czzOnScreenImageManagerViewController *onScreenImgMrg = [(czzNavigationController*)self.navigationController onScreenImageManagerView];
+    czzOnScreenImageManagerViewController *onScreenImgMrg = [NavigationController onScreenImageManagerView];
     onScreenImgMrg.view.frame = onScreenImageManagerViewContainer.bounds;
     onScreenImgMrg.delegate = self;
     [self addChildViewController:onScreenImgMrg];
@@ -224,15 +223,14 @@
     }
 }
 
--(void)updateView {
-    //scroll to previous content offset if current off set is empty
-    if (CGPointEqualToPoint(threadTableView.contentOffset, CGPointZero))
-    {
-        [threadTableView setContentOffset:homeViewManager.currentOffSet animated:NO];
-    }
+/*
+ This method would update the contents related to the table view
+ */
+-(void)updateTableView {
     [self setSelectedForum:homeViewManager.forum];
-    threads = [NSArray arrayWithArray:homeViewManager.threads];
     [self updateNumberButton];
+    threads = [NSArray arrayWithArray:homeViewManager.threads];
+    [threadTableView reloadData];
 }
 
 - (IBAction)sideButtonAction:(id)sender {
@@ -281,14 +279,13 @@
 
             //clear threads and ready to accept new threads
             [homeViewManager removeAll];
-            [threadTableView reloadData];
+            [self updateTableView];
             [refreshControl beginRefreshing];
-            [homeViewManager removeAll];
             [homeViewManager loadMoreThreads:newPageNumber];
 
-            [[[czzAppDelegate sharedAppDelegate] window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)homeViewManager.pageNumber]];
+            [[AppDelegate window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)homeViewManager.pageNumber]];
         } else {
-            [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"页码无效..."];
+            [[AppDelegate window] makeToast:@"页码无效..."];
         }
     }
 }
@@ -332,7 +329,7 @@
         newPostViewController.postMode = NEW_POST;
         [self.navigationController presentViewController:newPostViewController animated:YES completion:nil];
     } else {
-        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"未选定一个版块" duration:1.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
+        [[AppDelegate window] makeToast:@"未选定一个版块" duration:1.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
     }
 }
 
@@ -361,8 +358,7 @@
 
 -(void)threadListProcessed:(czzHomeViewModelManager *)list wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     DLog(@"%@", NSStringFromSelector(_cmd));
-    [self updateView];
-    [threadTableView reloadData];
+    [self updateTableView];
     if (list.pageNumber == 1 && allThreads.count > 1) //just refreshed
     {
         [self scrollTableViewToTop:NO];

@@ -155,7 +155,7 @@
                                        [self saveSettings]; //save settings from remote
                                        DLog(@"settings updated from remote server");
                                        if (message.length > 0) {
-                                           [[czzAppDelegate sharedAppDelegate] showToast:message];
+                                           [AppDelegate showToast:message];
                                        }
                                    }
                                });

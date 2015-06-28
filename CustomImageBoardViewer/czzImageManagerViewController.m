@@ -39,7 +39,7 @@
     if ([[czzImageCentre sharedInstance] ready])
         [self reloadImageFileFromImageCentre];
     else
-        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"图片还在载入中，请稍后重试..."];
+        [[AppDelegate window] makeToast:@"图片还在载入中，请稍后重试..."];
 
 }
 
@@ -110,7 +110,7 @@
 -(void)didReceiveMemoryWarning {
     [self dismissViewControllerAnimated:YES completion:nil];
     [self.navigationController popToRootViewControllerAnimated:YES];
-    [[czzAppDelegate sharedAppDelegate].window makeToast:@"内存不足，退出图片管理器以避免崩溃"];
+    [AppDelegate.window makeToast:@"内存不足，退出图片管理器以避免崩溃"];
 }
 
 @end

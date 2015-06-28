@@ -156,8 +156,8 @@
         } else if ([command isEqualToString:@"LAUNCH UTILITY"]) {
             UIViewController *utilityViewContorller = [[UIStoryboard storyboardWithName:@"Utility" bundle:nil] instantiateInitialViewController];
             if (utilityViewContorller) {
-                [czzAppDelegate sharedAppDelegate].window.rootViewController = utilityViewContorller;
-                [[czzAppDelegate sharedAppDelegate].window makeKeyAndVisible];
+                AppDelegate.window.rootViewController = utilityViewContorller;
+                [AppDelegate.window makeKeyAndVisible];
             } else {
                 DLog(@"Utility view contorller nil, cannot instantiate from Utility storyboard file.");
             }
@@ -203,7 +203,7 @@
         for (NSHTTPCookie *cookie in cookies) {
             [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
         }
-        [[czzAppDelegate sharedAppDelegate] showToast:@"ID信息已清除"];
+        [AppDelegate showToast:@"ID信息已清除"];
     }
     else if ([alertView.title isEqualToString:@"强制退出"])
     {
@@ -212,8 +212,8 @@
     else if ([alertView.title hasPrefix:@"切换模式"]) {
         settingsCentre.userDefShouldUseBigImage = !settingsCentre.userDefShouldUseBigImage;
         [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate threadCacheFolder] error:nil];
-        [[czzAppDelegate sharedAppDelegate] checkFolders];
-        [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"大图模式：%@，刷新后生效", settingsCentre.userDefShouldUseBigImage ? @"On" : @"Off"]];
+        [AppDelegate checkFolders];
+        [AppDelegate showToast:[NSString stringWithFormat:@"大图模式：%@，刷新后生效", settingsCentre.userDefShouldUseBigImage ? @"On" : @"Off"]];
         [settingsCentre saveSettings];
         [self.settingsTableView reloadData];
     }
@@ -229,12 +229,12 @@
     if ([title hasPrefix:@"图片管理器"]){
         [[czzImageCentre sharedInstance] removeFullSizeImages];
         [[czzImageCentre sharedInstance] removeThumbnails];
-        [[czzAppDelegate sharedAppDelegate] showToast:@"图片管理器已清空"];
+        [AppDelegate showToast:@"图片管理器已清空"];
     }
     else if ([title hasPrefix:@"串缓存"]){
         [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate threadCacheFolder] error:nil];
-        [[czzAppDelegate sharedAppDelegate] checkFolders];
-        [[czzAppDelegate sharedAppDelegate] showToast:@"串缓存已清空"];
+        [AppDelegate checkFolders];
+        [AppDelegate showToast:@"串缓存已清空"];
     }
 }
 
@@ -251,7 +251,7 @@
         if ([command isEqualToString:@"显示图片"]){
             //下载图片
             settingsCentre.userDefShouldDisplayThumbnail = switchControl.on;
-            [[czzAppDelegate sharedAppDelegate] showToast:@"刷新后生效"];
+            [AppDelegate showToast:@"刷新后生效"];
         }
         else if ([command isEqualToString:@"图片下载完毕自动打开"]){
             //自动打开图片
@@ -263,10 +263,10 @@
             settingsCentre.userDefShouldHighlightPO = switchControl.on;
         } else if ([command isEqualToString:@"显示快速滑动按钮"]) {
             settingsCentre.userDefShouldShowOnScreenCommand = switchControl.on;
-            [[czzAppDelegate sharedAppDelegate] showToast:@"重启后生效"];
+            [AppDelegate showToast:@"重启后生效"];
         } else if ([command isEqualToString:@"夜间模式"]) {
             settingsCentre.nightyMode = !settingsCentre.nightyMode;
-            [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"夜间模式：%@，刷新后生效", settingsCentre.nightyMode ? @"On" : @"Off"]];
+            [AppDelegate showToast:[NSString stringWithFormat:@"夜间模式：%@，刷新后生效", settingsCentre.nightyMode ? @"On" : @"Off"]];
             [self.settingsTableView reloadData];
         }
         else if ([command isEqualToString:@"大图模式"]) {
@@ -275,7 +275,7 @@
         }
         else if ([command isEqualToString:@"每月自动清理缓存"]) {
             settingsCentre.autoCleanImageCache = !settingsCentre.autoCleanImageCache;
-            [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"每月自动清理缓存： %@", settingsCentre.autoCleanImageCache ? @"On" : @"Off"]];
+            [AppDelegate showToast:[NSString stringWithFormat:@"每月自动清理缓存： %@", settingsCentre.autoCleanImageCache ? @"On" : @"Off"]];
         } else if ([command isEqualToString:@"Monitor Performance"]) {
             [self.settingsTableView reloadData];
         }
@@ -286,7 +286,7 @@
 -(void)toggleBigImageMode {
     /*
     settingsCentre.userDefShouldUseBigImage = !settingsCentre.userDefShouldUseBigImage;
-    [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"大图模式：%@，刷新后生效", settingsCentre.nightyMode ? @"On" : @"Off"]];
+    [AppDelegate showToast:[NSString stringWithFormat:@"大图模式：%@，刷新后生效", settingsCentre.nightyMode ? @"On" : @"Off"]];
     [self.settingsTableView reloadData];
      */
     UIAlertView *bigImageAlertView = [[UIAlertView alloc] initWithTitle:@"切换模式" message:@"切换大图模式将会清空串缓存，请确认！" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
@@ -301,7 +301,7 @@
             [[UIApplication sharedApplication] openURL:donationLinkURL];
         }
     } else {
-        [[czzAppDelegate sharedAppDelegate] showToast:@"谢谢，现在作者并不需要捐款。。。"];
+        [AppDelegate showToast:@"谢谢，现在作者并不需要捐款。。。"];
     }
 }
 

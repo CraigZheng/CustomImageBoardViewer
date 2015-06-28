@@ -62,8 +62,8 @@ NSString* const cellIdentifier = @"cellIdentifier";
 - (IBAction)launchButtonAction:(id)sender {
     UIViewController *mainViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateInitialViewController];
     if (mainViewController) {
-        [czzAppDelegate sharedAppDelegate].window.rootViewController = mainViewController;
-        [[czzAppDelegate sharedAppDelegate].window makeKeyAndVisible];
+        AppDelegate.window.rootViewController = mainViewController;
+        [AppDelegate.window makeKeyAndVisible];
     } else {
         DLog(@"Cannot instantiate initial view controller from main storyboard.");
     }
