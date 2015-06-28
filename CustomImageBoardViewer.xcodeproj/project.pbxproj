@@ -308,10 +308,10 @@
 		44E2D2DF1B2DC0A30029D783 /* ThreadModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 44E2D2DD1B2DC0A30029D783 /* ThreadModel.xcdatamodeld */; };
 		44E454331B3676FD0079B3A8 /* czzCoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E454321B3676FD0079B3A8 /* czzCoreDataManager.m */; };
 		44E454341B3676FD0079B3A8 /* czzCoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E454321B3676FD0079B3A8 /* czzCoreDataManager.m */; };
-		44E454531B3684430079B3A8 /* ThreadData.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E454521B3684430079B3A8 /* ThreadData.m */; };
-		44E454541B3684430079B3A8 /* ThreadData.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E454521B3684430079B3A8 /* ThreadData.m */; };
-		44E454571B3684440079B3A8 /* ForumData.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E454561B3684440079B3A8 /* ForumData.m */; };
-		44E454581B3684440079B3A8 /* ForumData.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E454561B3684440079B3A8 /* ForumData.m */; };
+		44E4545D1B3E46000079B3A8 /* czzForumData.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E4545A1B3E46000079B3A8 /* czzForumData.m */; };
+		44E4545E1B3E46000079B3A8 /* czzForumData.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E4545A1B3E46000079B3A8 /* czzForumData.m */; };
+		44E4545F1B3E46000079B3A8 /* czzThreadData.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E4545C1B3E46000079B3A8 /* czzThreadData.m */; };
+		44E454601B3E46000079B3A8 /* czzThreadData.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E4545C1B3E46000079B3A8 /* czzThreadData.m */; };
 		44E791811A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */; };
 		44E791CD1A17856500A63C04 /* advance.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918D1A17856500A63C04 /* advance.png */; };
 		44E791CE1A17856500A63C04 /* advance@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918E1A17856500A63C04 /* advance@2x.png */; };
@@ -869,10 +869,10 @@
 		44E2D2DE1B2DC0A30029D783 /* ThreadModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ThreadModel.xcdatamodel; sourceTree = "<group>"; };
 		44E454311B3676FD0079B3A8 /* czzCoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzCoreDataManager.h; sourceTree = "<group>"; };
 		44E454321B3676FD0079B3A8 /* czzCoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzCoreDataManager.m; sourceTree = "<group>"; };
-		44E454511B3684430079B3A8 /* ThreadData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadData.h; sourceTree = "<group>"; };
-		44E454521B3684430079B3A8 /* ThreadData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreadData.m; sourceTree = "<group>"; };
-		44E454551B3684440079B3A8 /* ForumData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForumData.h; sourceTree = "<group>"; };
-		44E454561B3684440079B3A8 /* ForumData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForumData.m; sourceTree = "<group>"; };
+		44E454591B3E46000079B3A8 /* czzForumData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzForumData.h; sourceTree = "<group>"; };
+		44E4545A1B3E46000079B3A8 /* czzForumData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzForumData.m; sourceTree = "<group>"; };
+		44E4545B1B3E46000079B3A8 /* czzThreadData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadData.h; sourceTree = "<group>"; };
+		44E4545C1B3E46000079B3A8 /* czzThreadData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadData.m; sourceTree = "<group>"; };
 		44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NotificationCentreStoryBoard.storyboard; sourceTree = "<group>"; };
 		44E7918D1A17856500A63C04 /* advance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = advance.png; sourceTree = "<group>"; };
 		44E7918E1A17856500A63C04 /* advance@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "advance@2x.png"; sourceTree = "<group>"; };
@@ -2092,12 +2092,12 @@
 		44E454301B3676C00079B3A8 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				44E454591B3E46000079B3A8 /* czzForumData.h */,
+				44E4545A1B3E46000079B3A8 /* czzForumData.m */,
+				44E4545B1B3E46000079B3A8 /* czzThreadData.h */,
+				44E4545C1B3E46000079B3A8 /* czzThreadData.m */,
 				44E454311B3676FD0079B3A8 /* czzCoreDataManager.h */,
 				44E454321B3676FD0079B3A8 /* czzCoreDataManager.m */,
-				44E454551B3684440079B3A8 /* ForumData.h */,
-				44E454561B3684440079B3A8 /* ForumData.m */,
-				44E454511B3684430079B3A8 /* ThreadData.h */,
-				44E454521B3684430079B3A8 /* ThreadData.m */,
 			);
 			name = CoreData;
 			sourceTree = "<group>";
@@ -2615,7 +2615,6 @@
 				4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */,
 				442A8FF819DB7F5400A3516E /* UIImage+GIF.m in Sources */,
 				441E5D2917F48B3D00289DBD /* Toast+UIView.m in Sources */,
-				44E454531B3684430079B3A8 /* ThreadData.m in Sources */,
 				441E5D0C17F4699400289DBD /* IISideController.m in Sources */,
 				442F1FE41B15FC8500267698 /* UIApplication+Util.m in Sources */,
 				4485F4FC19F5FF38007A73CC /* NSString+HTML.m in Sources */,
@@ -2633,6 +2632,7 @@
 				44C73B891A4840100051D4C2 /* czzHistoryManager.m in Sources */,
 				44E454331B3676FD0079B3A8 /* czzCoreDataManager.m in Sources */,
 				44B96E33185B8B8100D664A4 /* czzImageManagerViewController.m in Sources */,
+				44E4545F1B3E46000079B3A8 /* czzThreadData.m in Sources */,
 				44B89E841A2AFBE30085F766 /* UINavigationController+SGProgress.m in Sources */,
 				442A8FA619DB7DF200A3516E /* MWTapDetectingView.m in Sources */,
 				441E5D0D17F4699400289DBD /* IIViewDeckController.m in Sources */,
@@ -2665,6 +2665,7 @@
 				4425A2891997109600671B88 /* czzForum.m in Sources */,
 				4479B0901A0CCB6D0074D484 /* czzMiniThreadViewController.m in Sources */,
 				442A8FA519DB7DF200A3516E /* MWTapDetectingImageView.m in Sources */,
+				44E4545D1B3E46000079B3A8 /* czzForumData.m in Sources */,
 				5AF85E681970025A0031D0CB /* czzSearchViewController.m in Sources */,
 				4448C2A7180FF55A00D2CD76 /* czzBlacklistDownloader.m in Sources */,
 				442CD0E31851601A0021AD37 /* czzImageDownloader.m in Sources */,
@@ -2685,7 +2686,6 @@
 				442A8FFA19DB7F5400A3516E /* UIImage+WebP.m in Sources */,
 				4498B68D1993A6190014F73F /* PropertyUtil.m in Sources */,
 				44E2D2DF1B2DC0A30029D783 /* ThreadModel.xcdatamodeld in Sources */,
-				44E454571B3684440079B3A8 /* ForumData.m in Sources */,
 				5A0A6BD61848691C0094D7FB /* czzMoreInfoViewController.m in Sources */,
 				4448C2AD18100C6B00D2CD76 /* czzBlacklist.m in Sources */,
 				442A8FB619DB7DF200A3516E /* PSTGridLayoutRow.m in Sources */,
@@ -2749,14 +2749,14 @@
 			files = (
 				442F1FD81B13535B00267698 /* czzHomeTableViewDelegate.m in Sources */,
 				44C73B8A1A4840100051D4C2 /* czzHistoryManager.m in Sources */,
-				44E454581B3684440079B3A8 /* ForumData.m in Sources */,
 				442F1FEC1B160C9300267698 /* czzThreadTableViewDataSource.m in Sources */,
 				442F1FDC1B13537300267698 /* czzHomeTableViewDataSource.m in Sources */,
 				442F1FE31B15FC8500267698 /* UINavigationController+Util.m in Sources */,
-				44E454541B3684430079B3A8 /* ThreadData.m in Sources */,
 				441E5CFD17F4691300289DBD /* CustomImageBoardViewerTests.m in Sources */,
 				442F1FE51B15FC8500267698 /* UIApplication+Util.m in Sources */,
+				44E4545E1B3E46000079B3A8 /* czzForumData.m in Sources */,
 				44C73B8F1A484F280051D4C2 /* czzFavouriteManager.m in Sources */,
+				44E454601B3E46000079B3A8 /* czzThreadData.m in Sources */,
 				44DF8EDF1A74D62E0097F7F5 /* czzCookieManagerViewController.m in Sources */,
 				44E454341B3676FD0079B3A8 /* czzCoreDataManager.m in Sources */,
 				44DF8EDB1A74D0F00097F7F5 /* czzACTokenUtil.m in Sources */,

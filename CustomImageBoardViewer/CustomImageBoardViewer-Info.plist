@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>A岛匿名版</string>
+	<string>AC匿名版</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIcons</key>
@@ -29,9 +29,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Provide Us Your Location To Help Us Keep Track Of The App's Performance</string>
+	<string>Provide Us Your Location To Help Us Keep Track Of The App&apos;s Performance</string>
 	<key>NSLocationUsageDescription</key>
-	<string>Provide Us Your Location To Help Us Keep Track Of The App's Performance</string>
+	<string>Provide Us Your Location To Help Us Keep Track Of The App&apos;s Performance</string>
 	<key>UILaunchStoryboardName</key>
 	<string>Launch Screen</string>
 	<key>UIMainStoryboardFile</key>

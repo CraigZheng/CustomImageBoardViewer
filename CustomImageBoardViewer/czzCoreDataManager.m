@@ -18,7 +18,7 @@
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 -(void)insertThreadIntoContext:(czzThread *)thread {
-    ThreadData *newThread = [NSEntityDescription insertNewObjectForEntityForName:@"ThreadData" inManagedObjectContext:self.managedObjectContext];
+    czzThreadData *newThread = [NSEntityDescription insertNewObjectForEntityForName:@"czzThreadData" inManagedObjectContext:self.managedObjectContext];
     
     
     // Copy properties from the incoming thread
@@ -29,6 +29,10 @@
         DLog(@"Insert property failed: %@", error);
     }
     
+}
+
+-(void)deleteczzThreadData:(czzThreadData *)czzThreadData {
+    [self.managedObjectContext deleteObject:czzThreadData];
 }
 
 - (NSManagedObjectModel *)managedObjectModel {
@@ -59,8 +63,8 @@
     
     NSError *error = nil;
     NSString *failureReason = @"There was an error creating or loading the application's saved data.";
-    
-    NSDictionary *options = @{ NSSQLitePragmasOption : @{@"journal_mode" : @"DELETE"} };
+
+    NSDictionary *options = @{ NSSQLitePragmasOption : @{@"journal_mode" : @"DELETE"}, NSMigratePersistentStoresAutomaticallyOption:@YES, NSInferMappingModelAutomaticallyOption:@YES };
     if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error]) {
         // Report any error we got.
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];

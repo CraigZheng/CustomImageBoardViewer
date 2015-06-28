@@ -1,15 +1,15 @@
 //
-//  ForumData.m
-//  CustomImageBoardViewer
+//  czzForumData.m
+//  
 //
-//  Created by Craig Zheng on 21/06/2015.
-//  Copyright (c) 2015 Craig. All rights reserved.
+//  Created by Craig Zheng on 27/06/2015.
+//
 //
 
-#import "ForumData.h"
+#import "czzForumData.h"
 
 
-@implementation ForumData
+@implementation czzForumData
 
 @dynamic cooldown;
 @dynamic createdAt;

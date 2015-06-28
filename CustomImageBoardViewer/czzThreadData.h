@@ -1,17 +1,17 @@
 //
-//  ThreadData.h
-//  CustomImageBoardViewer
+//  czzThreadData.h
+//  
 //
-//  Created by Craig Zheng on 21/06/2015.
-//  Copyright (c) 2015 Craig. All rights reserved.
+//  Created by Craig Zheng on 27/06/2015.
+//
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import "czzThread.h"
 
 
-@interface ThreadData : NSManagedObject
+@class czzThread;
+@interface czzThreadData : NSManagedObject
 
 @property (nonatomic, retain) NSNumber * blockAll;
 @property (nonatomic, retain) NSNumber * blockContent;

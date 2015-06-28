@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "czzThread.h"
-#import "ThreadData.h"
+#import "czzThreadData.h"
 
 #define CoreDataManager [czzCoreDataManager sharedInstance]
 
@@ -20,6 +20,6 @@
 - (void)saveContext;
 
 -(void)insertThreadIntoContext:(czzThread*)thread;
-
+-(void)deleteThreadData:(czzThreadData*)threadData;
 +(id)sharedInstance;
 @end

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14D136" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="ForumData" representedClassName="ForumData" syncable="YES">
+    <entity name="ForumData" representedClassName="czzForumData" syncable="YES">
         <attribute name="cooldown" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="createThreadURL" optional="YES" attributeType="String" syncable="YES"/>
@@ -14,7 +14,7 @@
         <attribute name="threadContentURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
-    <entity name="ThreadData" representedClassName="ThreadData" syncable="YES">
+    <entity name="ThreadData" representedClassName="czzThreadData" syncable="YES">
         <attribute name="blockAll" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="blockContent" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="blockImage" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -37,7 +37,7 @@
         <attribute name="updateDateTime" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
     <elements>
-        <element name="ForumData" positionX="-18" positionY="27" width="128" height="225"/>
-        <element name="ThreadData" positionX="-45" positionY="0" width="128" height="345"/>
+        <element name="ForumData" positionX="-18" positionY="27" width="128" height="30"/>
+        <element name="ThreadData" positionX="-45" positionY="0" width="128" height="30"/>
     </elements>
 </model>

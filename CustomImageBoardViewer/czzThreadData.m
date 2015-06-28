@@ -1,14 +1,15 @@
 //
-//  ThreadData.m
-//  CustomImageBoardViewer
+//  czzThreadData.m
+//  
 //
-//  Created by Craig Zheng on 21/06/2015.
-//  Copyright (c) 2015 Craig. All rights reserved.
+//  Created by Craig Zheng on 27/06/2015.
+//
 //
 
-#import "ThreadData.h"
+#import "czzThreadData.h"
+#import "czzThread.h"
 
-@implementation ThreadData
+@implementation czzThreadData
 
 @dynamic blockAll;
 @dynamic blockContent;
@@ -61,4 +62,5 @@
     
     return YES;
 }
+
 @end

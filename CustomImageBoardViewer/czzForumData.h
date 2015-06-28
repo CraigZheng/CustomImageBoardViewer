@@ -1,16 +1,16 @@
 //
-//  ForumData.h
-//  CustomImageBoardViewer
+//  czzForumData.h
+//  
 //
-//  Created by Craig Zheng on 21/06/2015.
-//  Copyright (c) 2015 Craig. All rights reserved.
+//  Created by Craig Zheng on 27/06/2015.
+//
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
 
-@interface ForumData : NSManagedObject
+@interface czzForumData : NSManagedObject
 
 @property (nonatomic, retain) NSNumber * cooldown;
 @property (nonatomic, retain) NSDate * createdAt;
