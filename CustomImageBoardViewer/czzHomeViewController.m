@@ -118,7 +118,7 @@
     //configure the view deck controller with half size and tap to close mode
     self.viewDeckController.leftSize = self.view.frame.size.width/4;
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
-    self.viewDeckController.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
+    self.viewDeckController.enabled = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
     leftController = [self.storyboard instantiateViewControllerWithIdentifier:@"left_side_view_controller"];
 
     //register a notification observer
@@ -339,11 +339,11 @@
 }
 
 -(IBAction)moreInfoAction:(id)sender {
-//    if (threadList.forum) {
-//        czzMoreInfoViewController *moreInfoViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"more_info_view_controller"];
-//        moreInfoViewController.forumName = threadList.forumName;
-//        [self presentViewController:moreInfoViewController animated:YES completion:nil];
-//    }
+    if (homeViewManager.forum) {
+        czzMoreInfoViewController *moreInfoViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"more_info_view_controller"];
+        moreInfoViewController.forum = homeViewManager.forum;
+        [self presentViewController:moreInfoViewController animated:YES completion:nil];
+    }
 }
 
 #pragma mark - czzThreadListProtocol

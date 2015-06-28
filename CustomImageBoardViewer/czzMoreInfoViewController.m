@@ -20,7 +20,6 @@
 @implementation czzMoreInfoViewController
 @synthesize headerTextWebView;
 @synthesize baseURL;
-@synthesize forumName;
 @synthesize bannerView_;
 @synthesize moreInfoNavItem;
 @synthesize moreInfoNaviBar;
@@ -43,45 +42,43 @@
      setTitleTextAttributes:@{NSForegroundColorAttributeName : moreInfoNaviBar.tintColor}];
 
     barBackgroundView.backgroundColor = [settingCentre barTintColour];
+    self.view.backgroundColor = [settingCentre viewBackgroundColour];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self renderContent];
+}
+
+-(void)renderContent {
     //position of the ad
     [bannerView_ setFrame:CGRectMake(0, self.view.bounds.size.height - bannerView_.bounds.size.height, bannerView_.bounds.size.width,
                                      bannerView_.bounds.size.height)];
     [bannerView_ loadRequest:[GADRequest request]];
     [self.view addSubview:bannerView_];
     //load forum info
-    self.title = [NSString stringWithFormat:@"介绍：%@", forumName];
+    self.title = [NSString stringWithFormat:@"介绍：%@", self.forum.name];
     moreInfoNavItem.title = self.title;
     @try {
-#warning TO BE ADDED LATER
-//        for (czzForum *forum in [czzAppDelegate sharedAppDelegate].forums) {
-//            if ([forum.name isEqualToString:forumName]) {
-//                if (forum.header.length > 0) {
-//                    NSString *headerText = [forum.header stringByReplacingOccurrencesOfString:@"@Time" withString:[NSString stringWithFormat:@"%ld", (long)forum.cooldown]];
-//                    if (headerTextWebView.loading){
-//                        [headerTextWebView stopLoading];
-//                    }
-//                    [headerTextWebView loadHTMLString:headerText baseURL:Nil];
-//                }
-//                break;
-//            }
-//        }
+        NSString *headerText = [self.forum.header stringByReplacingOccurrencesOfString:@"@Time" withString:[NSString stringWithFormat:@"%ld", (long)self.forum.cooldown]];
+        if (headerTextWebView.loading){
+            [headerTextWebView stopLoading];
+        }
+        [headerTextWebView loadHTMLString:headerText baseURL:Nil];
     }
     @catch (NSException *exception) {
         DLog(@"%@", exception);
     }
-
-    self.view.backgroundColor = [settingCentre viewBackgroundColour];
+    
 }
 
+#pragma mark - setters
 /*upon setting the forum name, this view controller should download relevent info from the server, 
  then put it in a web view
  */
--(void)setForumName:(NSString *)forumname{
-    forumName = forumname;
+-(void)setForum:(czzForum *)f {
+    _forum = f;
+    [self renderContent];
 }
 
 #pragma UIWebView delegate, open links in safari

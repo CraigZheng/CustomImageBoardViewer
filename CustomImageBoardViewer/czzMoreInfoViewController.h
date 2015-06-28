@@ -10,9 +10,11 @@
 #import "IIViewDeckController.h"
 #import "GADBannerView.h"
 
+#import "czzForum.h"
+
 @interface czzMoreInfoViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIWebView *headerTextWebView;
-@property (nonatomic) NSString *forumName;
+@property (strong, nonatomic) czzForum *forum;
 @property GADBannerView *bannerView_;
 @property (weak, nonatomic) IBOutlet UIView *barBackgroundView;
 @property (weak, nonatomic) IBOutlet UINavigationItem *moreInfoNavItem;

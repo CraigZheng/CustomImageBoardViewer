@@ -62,4 +62,6 @@
 //save and restore
 -(void)saveCurrentState;
 -(void)restorePreviousState;
+
++(instancetype)sharedManager;
 @end
