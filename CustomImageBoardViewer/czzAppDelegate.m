@@ -13,6 +13,8 @@
 #import "SMXMLDocument.h"
 #import "czzSettingsCentre.h"
 #import "czzCookieManager.h"
+#import "czzAppActivityManager.h"
+
 
 //#import <BugSense-iOS/BugSenseController.h>
 #import <SplunkMint-iOS/SplunkMint-iOS.h>
@@ -37,9 +39,13 @@
     myhost = my_main_host;
     settingsCentre = [czzSettingsCentre sharedInstance];
     
+    
     [self checkFolders];
     //check cookie
     CookieManager;
+    // Prepare to launch
+    AppActivityManager;
+
     return YES;
 }
 							

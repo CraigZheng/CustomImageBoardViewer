@@ -31,13 +31,18 @@
         <attribute name="responseCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="sage" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="thImgSrc" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="threadID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="threadID" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="uid" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="uid" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
         <attribute name="updateDateTime" optional="YES" attributeType="Date" syncable="YES"/>
+    </entity>
+    <entity name="TopicData" representedClassName="czzTopicData" syncable="YES">
+        <attribute name="replies" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="threadID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
         <element name="ForumData" positionX="-18" positionY="27" width="128" height="30"/>
-        <element name="ThreadData" positionX="-45" positionY="0" width="128" height="30"/>
+        <element name="ThreadData" positionX="-135" positionY="-81" width="128" height="30"/>
+        <element name="TopicData" positionX="-252" positionY="69" width="128" height="30"/>
     </elements>
 </model>

@@ -312,6 +312,7 @@
 		44E4545E1B3E46000079B3A8 /* czzForumData.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E4545A1B3E46000079B3A8 /* czzForumData.m */; };
 		44E4545F1B3E46000079B3A8 /* czzThreadData.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E4545C1B3E46000079B3A8 /* czzThreadData.m */; };
 		44E454601B3E46000079B3A8 /* czzThreadData.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E4545C1B3E46000079B3A8 /* czzThreadData.m */; };
+		44E454631B3FFC830079B3A8 /* czzTopicData.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E454621B3FFC830079B3A8 /* czzTopicData.m */; };
 		44E791811A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */; };
 		44E791CD1A17856500A63C04 /* advance.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918D1A17856500A63C04 /* advance.png */; };
 		44E791CE1A17856500A63C04 /* advance@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918E1A17856500A63C04 /* advance@2x.png */; };
@@ -873,6 +874,8 @@
 		44E4545A1B3E46000079B3A8 /* czzForumData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzForumData.m; sourceTree = "<group>"; };
 		44E4545B1B3E46000079B3A8 /* czzThreadData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadData.h; sourceTree = "<group>"; };
 		44E4545C1B3E46000079B3A8 /* czzThreadData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadData.m; sourceTree = "<group>"; };
+		44E454611B3FFC830079B3A8 /* czzTopicData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzTopicData.h; sourceTree = "<group>"; };
+		44E454621B3FFC830079B3A8 /* czzTopicData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzTopicData.m; sourceTree = "<group>"; };
 		44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NotificationCentreStoryBoard.storyboard; sourceTree = "<group>"; };
 		44E7918D1A17856500A63C04 /* advance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = advance.png; sourceTree = "<group>"; };
 		44E7918E1A17856500A63C04 /* advance@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "advance@2x.png"; sourceTree = "<group>"; };
@@ -1133,6 +1136,7 @@
 				4453C07619F634B700A8250F /* Launch Screen.xib */,
 				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
 				44E2D2D71B2DB77B0029D783 /* Utility.storyboard */,
+				44E454301B3676C00079B3A8 /* CoreData */,
 				44E2D2D91B2DB7AD0029D783 /* UtilViewControllers */,
 				44DF8ECC1A74CA4B0097F7F5 /* Utils */,
 				44DF8EE01A74D6320097F7F5 /* czzCookieManagerViewController */,
@@ -2081,10 +2085,8 @@
 		44E2D2D91B2DB7AD0029D783 /* UtilViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				44E454301B3676C00079B3A8 /* CoreData */,
 				44E2D2DA1B2DB94E0029D783 /* czzThreadListUtilTableViewController.h */,
 				44E2D2DB1B2DB94E0029D783 /* czzThreadListUtilTableViewController.m */,
-				44E2D2DD1B2DC0A30029D783 /* ThreadModel.xcdatamodeld */,
 			);
 			name = UtilViewControllers;
 			sourceTree = "<group>";
@@ -2096,8 +2098,11 @@
 				44E4545A1B3E46000079B3A8 /* czzForumData.m */,
 				44E4545B1B3E46000079B3A8 /* czzThreadData.h */,
 				44E4545C1B3E46000079B3A8 /* czzThreadData.m */,
+				44E454611B3FFC830079B3A8 /* czzTopicData.h */,
+				44E454621B3FFC830079B3A8 /* czzTopicData.m */,
 				44E454311B3676FD0079B3A8 /* czzCoreDataManager.h */,
 				44E454321B3676FD0079B3A8 /* czzCoreDataManager.m */,
+				44E2D2DD1B2DC0A30029D783 /* ThreadModel.xcdatamodeld */,
 			);
 			name = CoreData;
 			sourceTree = "<group>";
@@ -2715,6 +2720,7 @@
 				441E5D0E17F4699400289DBD /* IIWrapController.m in Sources */,
 				5A88B8401938AFDB00071343 /* czzNotificationCentreTableViewController.m in Sources */,
 				442A8FAC19DB7DF200A3516E /* PSTCollectionView.m in Sources */,
+				44E454631B3FFC830079B3A8 /* czzTopicData.m in Sources */,
 				443B54F319933C1F00BAB282 /* czzSettingsCentre.m in Sources */,
 				442A8FB319DB7DF200A3516E /* PSTCollectionViewUpdateItem.m in Sources */,
 				4416B71D19413D9300B69C5B /* czzEmotionPickerTableViewController.m in Sources */,

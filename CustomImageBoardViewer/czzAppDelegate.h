@@ -15,6 +15,9 @@
 #define my_main_host @"www.my-realm.com"
 #define my_backup_host @"http://civ.atwebpages.com/"
 
+// Manager singleton
+#define AppDelegate [czzAppDelegate sharedAppDelegate]
+
 @interface czzAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
