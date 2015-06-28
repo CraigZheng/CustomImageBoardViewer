@@ -32,7 +32,7 @@
 {
     // Override point for customization after application launch.
 
-    [[Mint sharedInstance] initAndStartSession:@"cd668a8e"];
+    [[Mint sharedInstance] initAndStartSession:@"c06438ea"]; // App ID for BT isle
     [[Mint sharedInstance] setUserIdentifier:[UIDevice currentDevice].identifierForVendor.UUIDString];
     
     myhost = my_main_host;
