@@ -14,7 +14,7 @@
 @interface czzHomeViewController : UIViewController <UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *threadTableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *menuBarButton;
-@property UIBarButtonItem *infoBarButton;
+@property (strong) UIBarButtonItem *infoBarButton;
 @property (weak, nonatomic) IBOutlet UIView *onScreenImageManagerViewContainer;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *forumListButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsBarButton;

@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Craig. All rights reserved.
 //
 
+#define NavigationController [czzNavigationController sharedInstance]
+
 #import <UIKit/UIKit.h>
 #import "czzNotificationBannerViewController.h"
 #import "czzOnScreenImageManagerViewController.h"
@@ -13,8 +15,10 @@
 #import "GSIndeterminateProgressView.h"
 
 @interface czzNavigationController : UINavigationController
-@property czzNotificationBannerViewController *notificationBannerViewController;
-@property czzOnScreenImageManagerViewController *onScreenImageManagerView;
-@property czzShortImageManagerCollectionViewController *shortImageMangerController;
-@property GSIndeterminateProgressView *progressView;
+@property (strong) czzNotificationBannerViewController *notificationBannerViewController;
+@property (strong) czzOnScreenImageManagerViewController *onScreenImageManagerView;
+@property (strong) czzShortImageManagerCollectionViewController *shortImageMangerController;
+@property (strong) GSIndeterminateProgressView *progressView;
+
++(instancetype)sharedInstance;
 @end

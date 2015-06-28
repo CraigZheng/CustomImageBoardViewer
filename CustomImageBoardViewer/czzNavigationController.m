@@ -10,6 +10,8 @@
 #import "czzHomeViewController.h"
 #import "czzSettingsCentre.h"
 
+id sharedInstance;
+
 @interface czzNavigationController () <UINavigationControllerDelegate>
 
 @end
@@ -19,7 +21,6 @@
 @synthesize onScreenImageManagerView;
 @synthesize shortImageMangerController;
 @synthesize progressView;
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -74,5 +75,14 @@
 
 -(void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
 
+}
+
++ (instancetype)sharedInstance
+{
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        sharedInstance = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"home_navigation_controller"];
+    });
+    return sharedInstance;
 }
 @end
