@@ -20,6 +20,13 @@
     self = [czzThreadViewModelManager sharedManager];
     if (self) {
         self.forum = forum;
+        // Give it a default forum
+        //TODO: give it something more real
+        if (!self.forum) {
+            self.forum = [czzForum new];
+            self.forum.threadContentURL = [settingCentre thread_content_host];
+            self.forum.parserType = FORUM_PARSER_AISLE;
+        }
         self.parentThread = thread;
         //record history
         [historyManager recordThread:self.parentThread];

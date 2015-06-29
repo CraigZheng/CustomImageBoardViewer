@@ -17,7 +17,7 @@
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzThreadTableViewCommandCellTableViewCell.h"
 #import "czzHistoryManager.h"
-
+#import "czzThreadViewModelManager.h"
 
 @interface czzFavouriteManagerViewController ()
 @property NSIndexPath *selectedIndex;
@@ -87,8 +87,10 @@
     selectedIndex = indexPath;
     if (selectedIndex.row < threads.count){
         selectedThread = [threads objectAtIndex:selectedIndex.row];
-        
-        [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
+        czzThreadViewModelManager *threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:selectedThread andForum:selectedThread.forum];
+        czzThreadViewController *threadViewController = [czzThreadViewController new];
+        threadViewController.threadViewModelManager = threadViewModelManager;
+        [NavigationController pushViewController:threadViewController animated:YES];
     }
 }
 
