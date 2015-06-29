@@ -79,6 +79,13 @@
     return preferHeight;
 }
 
+#pragma mark - UIScrollViewDelegate
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    if ([settingCentre userDefShouldShowOnScreenCommand]) {
+        //TODO: SHOW ON SCREEN COMMAND
+    }
+}
+
 +(instancetype)initWithViewModelManager:(czzHomeViewModelManager *)viewModelManager {
     czzHomeTableViewDelegate *sharedDelegate = [czzHomeTableViewDelegate sharedInstance];
     sharedDelegate.homeViewManager = viewModelManager;

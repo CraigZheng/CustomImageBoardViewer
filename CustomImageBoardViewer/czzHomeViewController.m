@@ -282,7 +282,6 @@
     [threadTableView setContentOffset:CGPointMake(0.0f, -threadTableView.contentInset.top) animated:animated];
 }
 
-
 -(void)scrollTableViewToBottom {
     @try {
         if (homeViewManager.threads.count > 1)

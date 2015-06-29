@@ -16,10 +16,10 @@
 
 @implementation czzThreadViewModelManager
 
--(instancetype)initWithParentThread:(czzThread *)thread andForum:(czzForum *)fo{
+-(instancetype)initWithParentThread:(czzThread *)thread andForum:(czzForum *)forum{
     self = [czzThreadViewModelManager sharedManager];
     if (self) {
-        self.forum = fo;
+        self.forum = forum;
         self.parentThread = thread;
         //record history
         [historyManager recordThread:self.parentThread];

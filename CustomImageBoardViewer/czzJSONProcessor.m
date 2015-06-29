@@ -70,7 +70,7 @@
                     [delegate threadListProcessed:processedThreads :YES];
                 }
             }
-        } else if (forum.parserType == FORUM_PARSER_A_DAO) {
+        } else if (forum.parserType == FORUM_PARSER_BT_ISLE) {
             //TODO: switch to V2
         }
         
@@ -110,7 +110,7 @@
                 czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
                 [processedThreads addObject:newThread];
             }
-            //        //page number data
+            // Page number data
             [self updatePageNumberWithJsonDict:[self readFromJsonDictionary:parsedObjects withName:@"page"]];
             
             if (delegate) {
@@ -120,7 +120,7 @@
                     [delegate subThreadProcessedForThread:parentThread :processedThreads :YES];
                 }
             }
-        } else if (forum.parserType == FORUM_PARSER_A_DAO) {
+        } else if (forum.parserType == FORUM_PARSER_BT_ISLE) {
             //TODO: add parser for A dao parser type
         }
     }
