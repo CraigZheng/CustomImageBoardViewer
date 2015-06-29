@@ -186,6 +186,8 @@
 
 -(void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
+#warning DEBUGGING ONLY
+    [self.threadViewModelManager saveCurrentState];
 }
 
 -(void)viewDidAppear:(BOOL)animated{

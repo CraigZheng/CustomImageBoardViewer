@@ -130,7 +130,6 @@
                 NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" * %@ * \n\n", self.title] attributes:nil];
                 [content appendAttributedString:[self renderHTMLToAttributedString:[data objectForKey:@"content"]]];
                 self.content = content;
-//                self.content = [self renderHTMLToAttributedString:[NSString stringWithFormat:@" * %@ * \n\n%@", self.title, [data objectForKey:@"content"]]];
             }
             else
                 self.content = [self renderHTMLToAttributedString:[NSString stringWithString:[data objectForKey:@"content"]]];
@@ -233,64 +232,6 @@
     }
 
     return renderedString;
-
-    //old methods
-    htmlString = [htmlString gtm_stringByUnescapingFromHTML];
-    htmlString = [htmlString stringByReplacingOccurrencesOfString:@"&#180" withString:@"´"];
-    htmlString = [htmlString stringByReplacingOccurrencesOfString:@"&nbsp;ﾟ" withString:@"　ﾟ"];
-    htmlString = [htmlString stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n"];
-    htmlString = [htmlString stringByReplacingOccurrencesOfString:@"<br>" withString:@"\n"];
-
-    NSMutableAttributedString *attributedHtmlString = [[NSMutableAttributedString alloc] initWithString:htmlString];
-    NSRange r;
-    //remove everything between < and >
-    NSMutableArray *pendingTextToRender = [NSMutableArray new];
-    UIColor *fontColor = [UIColor blackColor];
-    while ((r = [attributedHtmlString.string rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound) {
-        NSRange endTagRange;
-        NSString *tagString = [attributedHtmlString.string substringWithRange:r];
-        if ([tagString rangeOfString:@"<font"].location != NSNotFound && (endTagRange = [attributedHtmlString.string rangeOfString:@"<+/[^>]+>" options:NSRegularExpressionSearch range:NSMakeRange(r.location + r.length, attributedHtmlString.length - r.length - r.location)]).location != NSNotFound) {
-//            NSRange textRange = NSMakeRange(r.location + r.length, endTagRange.location - r.length);
-            NSRange textRange = NSMakeRange(r.location + r.length, endTagRange.location - r.location - r.length);
-            NSString *textWithTag = [attributedHtmlString.string substringWithRange:textRange];
-            if (textWithTag.length > 0) {
-                [pendingTextToRender addObject:textWithTag];
-            }
-            if ([fontColor isEqual:[UIColor blackColor]]) {
-                NSString *colorString;
-                @try {
-                    if ([tagString rangeOfString:@"#"].location != NSNotFound)
-                        colorString = [tagString substringWithRange:NSMakeRange([tagString rangeOfString:@"#"].location, 7)];
-                    else
-                        colorString = @"";
-                }
-                @catch (NSException *exception) {
-                    DLog(@"%@", exception);
-                    colorString = @"";
-                }
-                fontColor = [self colorForHex:colorString];
-            }
-            //CLICKABLE CONTENT
-            if ([textWithTag rangeOfString:@">>"].location != NSNotFound){
-                NSString *newString = [[textWithTag componentsSeparatedByCharactersInSet:
-                                        [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
-                                       componentsJoinedByString:@""];
-                if ([newString integerValue] != 0)
-                    [self.replyToList addObject:[NSNumber numberWithInteger:[newString integerValue]]];
-            }
-
-        }
-        [attributedHtmlString deleteCharactersInRange:r];
-    }
-    
-    //colour - adjust to nighty mode
-    [attributedHtmlString setAttributes:@{NSForegroundColorAttributeName: [settingCentre contentTextColour]} range:NSMakeRange(0, attributedHtmlString.length)];
-    for (NSString *pendingText in pendingTextToRender) {
-        NSRange textRange = [attributedHtmlString.string rangeOfString:pendingText];
-        [attributedHtmlString setAttributes:@{NSForegroundColorAttributeName: fontColor} range:textRange];
-    }
-//    return fragments;
-    return attributedHtmlString;
 }
 
 #pragma mark - isEqual and Hash function, for this class to be used within a NSSet
@@ -329,6 +270,7 @@
     [encoder encodeBool:self.blockContent forKey:@"blockContent"];
     [encoder encodeBool:self.blockImage forKey:@"blockImage"];
     [encoder encodeBool:self.blockAll forKey:@"blockAll"];
+    [encoder encodeObject:self.forum forKey:@"forum"];
 }
 
 -(id)initWithCoder:(NSCoder*)decoder{
@@ -353,6 +295,7 @@
         self.blockContent = [decoder decodeBoolForKey:@"blockContent"];
         self.blockImage = [decoder decodeBoolForKey:@"blockImage"];
         self.blockAll = [decoder decodeBoolForKey:@"blockAll"];
+        self.forum = [decoder decodeObjectForKey:@"forum"];
         //blacklist info might be updated when this thread is not in the memory
         //consor contents
         czzBlacklistEntity *blacklistEntity = [[czzBlacklist sharedInstance] blacklistEntityForThreadID:self.ID];

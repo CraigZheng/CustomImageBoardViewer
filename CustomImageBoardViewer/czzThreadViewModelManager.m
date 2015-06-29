@@ -182,24 +182,6 @@ float RoundTo(float number, float to)
  */
 -(void)calculateHeightsForThreads:(NSArray*)newThreads {
     [super calculateHeightsForThreads:newThreads];
-//    CGFloat shortWidth, longWidth;
-//    shortWidth = MIN([UIScreen mainScreen].applicationFrame.size.height, [UIScreen mainScreen].applicationFrame.size.width);
-//    longWidth = MAX([UIScreen mainScreen].applicationFrame.size.width, [UIScreen mainScreen].applicationFrame.size.height);
-//    dispatch_async(dispatch_get_main_queue(), ^{
-////        NSDate *date = [NSDate new];
-//        if (self.verticalHeights.count > 0 && self.horizontalHeights.count > 0) {
-//            [self.verticalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, self.verticalHeights.count - cutOffIndex)];
-//            [self.horizontalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, self.horizontalHeights.count - cutOffIndex)];
-//        }
-//        for (czzThread *thread in newThreads) {
-//            CGFloat shortHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:parentViewController.view forWidth:shortWidth hasImage:thread.imgSrc.length > 0 withExtra:NO];
-//            CGFloat longHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:parentViewController.view forWidth:longWidth hasImage:thread.imgSrc.length > 0 withExtra:YES];
-//            [self.verticalHeights addObject:[NSNumber numberWithFloat:shortHeight]];
-//            [self.horizontalHeights addObject:[NSNumber numberWithFloat:longHeight]];
-//        }
-////        DLog(@"processing time: %.2f", [[NSDate new] timeIntervalSinceDate:date]);
-////        DLog(@"size of heights array: %lu", self.verticalHeights.count);
-//    });
 }
 
 #pragma mark - NSCoding
@@ -213,6 +195,7 @@ float RoundTo(float number, float to)
     [aCoder encodeObject:self.verticalHeights forKey:@"self.verticalHeights"];
     [aCoder encodeObject:self.baseURLString forKey:@"baseURLString"];
     [aCoder encodeObject:[NSValue valueWithCGPoint:self.currentOffSet] forKey:@"currentOffSet"];
+    [aCoder encodeObject:self.forum forKey:@"forum"];
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder {
@@ -229,6 +212,7 @@ float RoundTo(float number, float to)
         newThreadList.self.verticalHeights = [aDecoder decodeObjectForKey:@"self.verticalHeights"];
         newThreadList.baseURLString = [aDecoder decodeObjectForKey:@"baseURLString"];
         newThreadList.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
+        newThreadList.forum = [aDecoder decodeObjectForKey:@"forum"];
         return newThreadList;
         
     }

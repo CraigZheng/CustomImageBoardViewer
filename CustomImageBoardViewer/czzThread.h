@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "czzForum.h"
+
 @class SMXMLElement;
 
 @interface czzThread : NSObject
@@ -33,6 +35,8 @@
 @property BOOL blockAll;
 #pragma mark - CLICKABLE CONTENT
 @property NSMutableArray *replyToList;
+
+@property czzForum *forum;
 
 -(id)initWithJSONDictionary:(NSDictionary*)data;
 -(instancetype)initWithJSONDictionaryV2:(NSDictionary *)data;

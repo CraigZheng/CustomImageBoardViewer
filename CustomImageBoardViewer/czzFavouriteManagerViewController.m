@@ -16,6 +16,7 @@
 #import "czzFavouriteManager.h"
 #import "czzHistoryManager.h"
 
+
 @interface czzFavouriteManagerViewController ()
 @property NSIndexPath *selectedIndex;
 @property NSMutableSet *internalThreads;
@@ -89,6 +90,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
     selectedIndex = indexPath;
     if (selectedIndex.row < threads.count){
         selectedThread = [threads objectAtIndex:selectedIndex.row];
+        
         [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
     }
 }
@@ -170,15 +172,6 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
         [historyManager setVerticalHeights:nil];
         selectedManager = historyManager;
         threads = [NSMutableOrderedSet orderedSetWithArray:[[threads reverseObjectEnumerator] allObjects]]; //hisotry are recorded backward
-    }
-}
-
-#pragma prepare for segue
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"go_thread_view_segue"]) {
-        czzThreadViewController *threadViewController = (czzThreadViewController*)segue.destinationViewController;
-#warning TO BE ADJUSTED
-//        threadViewController.parentThread = selectedThread;
     }
 }
 

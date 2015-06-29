@@ -60,8 +60,10 @@
             NSArray* parsedThreadData = [[parsedObjects objectForKey:@"data"] objectForKey:@"threads"];
             for (NSDictionary *rawThreadData in parsedThreadData) {
                 czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
-                if (newThread)
+                if (newThread) {
+                    newThread.forum = forum;
                     [processedThreads addObject:newThread];
+                }
             }
             if (delegate) {
                 if ([delegate respondsToSelector:@selector(threadListProcessed:::)]) {
@@ -105,10 +107,14 @@
         if (forum.parserType == FORUM_PARSER_AISLE) {
             //thread and sub thread data
             czzThread *parentThread = [[czzThread alloc] initWithJSONDictionary:[parsedObjects objectForKey:@"threads"]];
+            parentThread.forum = forum; // Record source forum
             NSArray* parsedThreadData = [self readFromJsonDictionary:parsedObjects withName:@"replys"];
             for (NSDictionary *rawThreadData in parsedThreadData) {
                 czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
-                [processedThreads addObject:newThread];
+                if (newThread) {
+                    newThread.forum = forum;
+                    [processedThreads addObject:newThread];
+                }
             }
             // Page number data
             [self updatePageNumberWithJsonDict:[self readFromJsonDictionary:parsedObjects withName:@"page"]];
