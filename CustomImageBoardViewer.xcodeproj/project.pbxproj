@@ -179,6 +179,11 @@
 		444F5B481A40EA3500EB391F /* 53.png in Resources */ = {isa = PBXBuildFile; fileRef = 444F5B121A40EA3500EB391F /* 53.png */; };
 		444F5B491A40EA3500EB391F /* 54.png in Resources */ = {isa = PBXBuildFile; fileRef = 444F5B131A40EA3500EB391F /* 54.png */; };
 		4453C07719F634B700A8250F /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4453C07619F634B700A8250F /* Launch Screen.xib */; };
+		445B7B4F1B418C720046CFDB /* czzLoadingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 445B7B4E1B418C720046CFDB /* czzLoadingTableViewCell.xib */; };
+		445B7B511B418C960046CFDB /* czzLoadMoreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 445B7B501B418C960046CFDB /* czzLoadMoreTableViewCell.xib */; };
+		445B7B531B418CBE0046CFDB /* czzNoMoreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 445B7B521B418CBE0046CFDB /* czzNoMoreTableViewCell.xib */; };
+		445B7B561B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 445B7B551B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.m */; };
+		445B7B591B418F020046CFDB /* czzThreadTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 445B7B581B418F020046CFDB /* czzThreadTableView.m */; };
 		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
 		446CC58219DC2BDE009BF24E /* czzHTMLParserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 446CC58119DC2BDE009BF24E /* czzHTMLParserViewController.m */; };
 		4479B07D1A0BB8E70074D484 /* czzTextViewHeightCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4479B07C1A0BB8E70074D484 /* czzTextViewHeightCalculator.m */; };
@@ -710,6 +715,13 @@
 		444F5B121A40EA3500EB391F /* 53.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 53.png; sourceTree = "<group>"; };
 		444F5B131A40EA3500EB391F /* 54.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 54.png; sourceTree = "<group>"; };
 		4453C07619F634B700A8250F /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Launch Screen.xib"; path = "../Launch Screen.xib"; sourceTree = "<group>"; };
+		445B7B4E1B418C720046CFDB /* czzLoadingTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzLoadingTableViewCell.xib; sourceTree = "<group>"; };
+		445B7B501B418C960046CFDB /* czzLoadMoreTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzLoadMoreTableViewCell.xib; sourceTree = "<group>"; };
+		445B7B521B418CBE0046CFDB /* czzNoMoreTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzNoMoreTableViewCell.xib; sourceTree = "<group>"; };
+		445B7B541B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadTableViewCommandCellTableViewCell.h; sourceTree = "<group>"; };
+		445B7B551B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadTableViewCommandCellTableViewCell.m; sourceTree = "<group>"; };
+		445B7B571B418F020046CFDB /* czzThreadTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadTableView.h; sourceTree = "<group>"; };
+		445B7B581B418F020046CFDB /* czzThreadTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadTableView.m; sourceTree = "<group>"; };
 		4462EF2318659BC200E6BE78 /* czzFavouriteManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFavouriteManagerViewController.h; sourceTree = "<group>"; };
 		4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFavouriteManagerViewController.m; sourceTree = "<group>"; };
 		446CC58019DC2BDE009BF24E /* czzHTMLParserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzHTMLParserViewController.h; sourceTree = "<group>"; };
@@ -1301,7 +1313,6 @@
 				441E5E5317F52DEF00289DBD /* czzThreadViewController.m */,
 				440B2FCD17F8057C00544926 /* czzPostViewController */,
 				440B2FBE17F7C5E700544926 /* czzThreadMenuViewController */,
-				44AE2AFB1872569C002CB021 /* czzMenuEnabledTableViewCell */,
 				44AE2B021872B413002CB021 /* czzNoSelectionTextView */,
 				44AE2B031872B41D002CB021 /* PartialTransparentView */,
 			);
@@ -1716,6 +1727,21 @@
 			path = "acmusume-large";
 			sourceTree = "<group>";
 		};
+		445B7B4B1B418B400046CFDB /* CommonUI */ = {
+			isa = PBXGroup;
+			children = (
+				445B7B571B418F020046CFDB /* czzThreadTableView.h */,
+				445B7B581B418F020046CFDB /* czzThreadTableView.m */,
+				445B7B521B418CBE0046CFDB /* czzNoMoreTableViewCell.xib */,
+				445B7B4E1B418C720046CFDB /* czzLoadingTableViewCell.xib */,
+				445B7B501B418C960046CFDB /* czzLoadMoreTableViewCell.xib */,
+				445B7B541B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.h */,
+				445B7B551B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.m */,
+				44AE2AFB1872569C002CB021 /* czzMenuEnabledTableViewCell */,
+			);
+			name = CommonUI;
+			sourceTree = "<group>";
+		};
 		4462EF2218659B8600E6BE78 /* czzFavouriteManagerVIewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1749,6 +1775,7 @@
 		448C85DF1A06F14300115FEC /* ThreadView */ = {
 			isa = PBXGroup;
 			children = (
+				445B7B4B1B418B400046CFDB /* CommonUI */,
 				442F1FD41B13533900267698 /* Data source and delegate */,
 				4479B0911A0CCB750074D484 /* MiniThreadView */,
 				441E5E5517F52DF300289DBD /* czzThreadViewController */,
@@ -2391,6 +2418,7 @@
 				44E792031A17856500A63C04 /* solid_star@3x.png in Resources */,
 				44A9E1591AE1D16000740CE1 /* Icon@2x.png in Resources */,
 				444F5B351A40EA3500EB391F /* 34.png in Resources */,
+				445B7B531B418CBE0046CFDB /* czzNoMoreTableViewCell.xib in Resources */,
 				44A9E15B1AE1D16000740CE1 /* iTunesArtwork@2x.png in Resources */,
 				444F5B301A40EA3500EB391F /* 29.png in Resources */,
 				44E791F21A17856500A63C04 /* sad.png in Resources */,
@@ -2407,6 +2435,7 @@
 				44E791FA1A17856500A63C04 /* settings@3x.png in Resources */,
 				44DF8EFF1A7512730097F7F5 /* checked_user@2x.png in Resources */,
 				44E7920C1A17856500A63C04 /* view@3x.png in Resources */,
+				445B7B511B418C960046CFDB /* czzLoadMoreTableViewCell.xib in Resources */,
 				444F5B1C1A40EA3500EB391F /* 09.png in Resources */,
 				44E791E51A17856500A63C04 /* link@3x.png in Resources */,
 				444F5B451A40EA3500EB391F /* 50.png in Resources */,
@@ -2539,6 +2568,7 @@
 				4432BA951AA88613002C66F5 /* get forums example.json in Resources */,
 				44E7920B1A17856500A63C04 /* view@2x.png in Resources */,
 				44E791D21A17856500A63C04 /* bookmark@3x.png in Resources */,
+				445B7B4F1B418C720046CFDB /* czzLoadingTableViewCell.xib in Resources */,
 				44B89E6E1A2AF2200085F766 /* running_ac-3.gif in Resources */,
 				44DF8F011A7512730097F7F5 /* edit_file.png in Resources */,
 				44A9E1531AE1D16000740CE1 /* Icon-60.png in Resources */,
@@ -2638,6 +2668,7 @@
 				44E454331B3676FD0079B3A8 /* czzCoreDataManager.m in Sources */,
 				44B96E33185B8B8100D664A4 /* czzImageManagerViewController.m in Sources */,
 				44E4545F1B3E46000079B3A8 /* czzThreadData.m in Sources */,
+				445B7B561B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.m in Sources */,
 				44B89E841A2AFBE30085F766 /* UINavigationController+SGProgress.m in Sources */,
 				442A8FA619DB7DF200A3516E /* MWTapDetectingView.m in Sources */,
 				441E5D0D17F4699400289DBD /* IIViewDeckController.m in Sources */,
@@ -2694,6 +2725,7 @@
 				5A0A6BD61848691C0094D7FB /* czzMoreInfoViewController.m in Sources */,
 				4448C2AD18100C6B00D2CD76 /* czzBlacklist.m in Sources */,
 				442A8FB619DB7DF200A3516E /* PSTGridLayoutRow.m in Sources */,
+				445B7B591B418F020046CFDB /* czzThreadTableView.m in Sources */,
 				441E5D1B17F46E7900289DBD /* SMXMLDocument.m in Sources */,
 				441E5D1217F46A0900289DBD /* czzEntryPointViewController.m in Sources */,
 				442A8FA419DB7DF200A3516E /* MWPhotoBrowser.m in Sources */,

@@ -14,6 +14,8 @@
 #import "czzTextViewHeightCalculator.h"
 #import "czzSettingsCentre.h"
 #import "czzFavouriteManager.h"
+#import "czzMenuEnabledTableViewCell.h"
+#import "czzThreadTableViewCommandCellTableViewCell.h"
 #import "czzHistoryManager.h"
 
 
@@ -33,14 +35,9 @@
 @synthesize selectedThread;
 @synthesize selectedManager;
 
-static NSString *threadViewBigImageCellIdentifier = @"thread_big_image_cell_identifier";
-static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.tableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:[NSBundle mainBundle]] forCellReuseIdentifier:threadViewCellIdentifier];
-    [self.tableView registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:threadViewBigImageCellIdentifier];
     [self copyDataFromManager];
     
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
@@ -72,7 +69,7 @@ static NSString *threadViewCellIdentifier = @"thread_cell_identifier";
 #pragma UITableView delegate
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    NSString *cell_identifier = [[czzSettingsCentre sharedInstance] userDefShouldUseBigImage] ? threadViewBigImageCellIdentifier : threadViewCellIdentifier;
+    NSString *cell_identifier = [[czzSettingsCentre sharedInstance] userDefShouldUseBigImage] ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
     czzThread *thread = [threads objectAtIndex:indexPath.row];
 
     czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];

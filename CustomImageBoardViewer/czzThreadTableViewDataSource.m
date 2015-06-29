@@ -7,6 +7,7 @@
 //
 
 #import "czzThreadTableViewDataSource.h"
+#import "czzThreadTableViewCommandCellTableViewCell.h"
 
 @interface czzThreadTableViewDataSource ()
 @property czzThreadViewModelManager *viewModelManager;
@@ -27,20 +28,20 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (!self.myTableView) {
-        self.myTableView = tableView;
+        self.myTableView = (czzThreadTableView*)tableView;
     }
     NSString *cell_identifier = [settingCentre userDefShouldUseBigImage] ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
     if (indexPath.row == self.viewModelManager.threads.count){
         UITableViewCell *cell;// = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
         if (self.viewModelManager.isDownloading || self.viewModelManager.isProcessing) {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"loading_cell_identifier"];
+            cell = [tableView dequeueReusableCellWithIdentifier:THREAD_TABLE_VIEW_CELL_LOADING_CELL_IDENTIFIER];
             UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
             [activityIndicator startAnimating];
         } else if (self.viewModelManager.parentThread.responseCount > [settingCentre response_per_page] && (self.viewModelManager.pageNumber * [settingCentre response_per_page] + self.viewModelManager.threads.count % [settingCentre response_per_page] - 1) < self.viewModelManager.parentThread.responseCount){
             
-            cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
+            cell = [tableView dequeueReusableCellWithIdentifier:THREAD_TABLE_VIEW_CELL_LOAD_MORE_CELL_IDENTIFIER];
         } else {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"no_more_cell_identifier"];
+            cell = [tableView dequeueReusableCellWithIdentifier:THREAD_TABLE_VIEW_CELL_NO_MORE_CELL_IDENTIFIER];
         }
         cell.backgroundColor = [settingCentre viewBackgroundColour];
         return cell;
@@ -66,15 +67,6 @@
     UITextRange *textRange = [textView textRangeFromPosition:start toPosition:end];
     CGRect rect = [textView firstRectForRange:textRange];
     return rect;
-}
-
-#pragma mark - setters
--(void)setMyTableView:(UITableView *)myTableView {
-    [super setMyTableView:myTableView];
-    //register xib
-    [myTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
-    [myTableView registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER];
-
 }
 
 +(instancetype)initWithViewModelManager:(czzThreadViewModelManager *)viewModelManager {

@@ -15,18 +15,17 @@
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidFinishLaunching) name:UIApplicationDidFinishLaunchingNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
     }
     return self;
 }
 
 -(void)applicationDidFinishLaunching {
-    UIViewController *rootViewController = AppDelegate.window.rootViewController;
-    if (!rootViewController) {
-        rootViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateInitialViewController];
-        AppDelegate.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        AppDelegate.window.rootViewController = rootViewController;
-        [AppDelegate.window makeKeyAndVisible];
-    }
+    [self launchApp];
+}
+
+-(void)applicationDidBecomeActive {
+    [self launchApp];
 }
 
 -(void)applicationDidEnterBackground {
@@ -34,6 +33,16 @@
     DLog(@"View controllers in navigation bar:");
     for (UIViewController* viewController in viewControllers) {
         DLog(@"%@", NSStringFromClass([viewController class]));
+    }
+}
+
+-(void)launchApp {
+    UIViewController *rootViewController = AppDelegate.window.rootViewController;
+    if (!rootViewController) {
+        rootViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateInitialViewController];
+        AppDelegate.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        AppDelegate.window.rootViewController = rootViewController;
+        [AppDelegate.window makeKeyAndVisible];
     }
 }
 

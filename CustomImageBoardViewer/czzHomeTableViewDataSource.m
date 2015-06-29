@@ -10,6 +10,7 @@
 
 #import "czzHomeViewModelManager.h"
 #import "czzSettingsCentre.h"
+#import "czzThreadTableViewCommandCellTableViewCell.h"
 
 @interface czzHomeTableViewDataSource ()
 
@@ -32,13 +33,13 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (!myTableView) {
-        self.myTableView = tableView;
+        self.myTableView = (czzThreadTableView*)tableView;
     }
     
     if (indexPath.row == viewModelManager.threads.count){
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:THREAD_TABLE_VIEW_CELL_LOAD_MORE_CELL_IDENTIFIER];
         if (viewModelManager.isDownloading || viewModelManager.isProcessing) {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"loading_cell_identifier"];
+            cell = [tableView dequeueReusableCellWithIdentifier:THREAD_TABLE_VIEW_CELL_LOADING_CELL_IDENTIFIER];
             UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
             [activityIndicator startAnimating];
         }
@@ -78,12 +79,9 @@
 
 
 #pragma mark - setters
--(void)setMyTableView:(UITableView *)incomingTableView {
+-(void)setMyTableView:(czzThreadTableView *)incomingTableView {
     myTableView = incomingTableView;
-    if (myTableView) {
-        [myTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
-        [myTableView registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER];
-    }
+
 }
 
 +(instancetype)initWithViewModelManager:(czzHomeViewModelManager *)viewModelManager {
