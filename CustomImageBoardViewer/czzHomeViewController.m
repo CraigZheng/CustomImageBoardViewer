@@ -17,8 +17,6 @@
 #import "czzAppDelegate.h"
 #import "czzOnScreenCommandViewController.h"
 #import "czzSettingsCentre.h"
-#import "czzMenuEnabledTableViewCell.h"
-#import "czzTextViewHeightCalculator.h"
 #import "czzImageViewerUtil.h"
 #import "czzNavigationController.h"
 #import "czzNotificationCentreTableViewController.h"
@@ -36,11 +34,6 @@
 
 
 @interface czzHomeViewController() <UIAlertViewDelegate, czzThreadListProtocol, czzOnScreenImageManagerViewControllerDelegate, UIStateRestoring>
-@property NSArray *threads;
-@property NSInteger currentPage;
-@property NSIndexPath *selectedIndex;
-@property czzThread *selectedThread;
-@property czzThreadViewController *threadViewController;
 @property UIViewController *leftController;
 @property czzOnScreenCommandViewController *onScreenCommandViewController;
 @property BOOL shouldDisplayQuickScrollCommand;
@@ -59,14 +52,9 @@
 @end
 
 @implementation czzHomeViewController
-@synthesize currentPage;
-@synthesize threads;
 @synthesize threadTableView;
-@synthesize selectedIndex;
-@synthesize selectedThread;
 @synthesize leftController;
 @synthesize onScreenCommandViewController;
-@synthesize threadViewController;
 @synthesize shouldDisplayQuickScrollCommand;
 @synthesize thumbnailFolder;
 @synthesize settingsCentre;
@@ -124,10 +112,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(forumPicked:)
                                                  name:kForumPickedNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(openPickedThread:)
-                                                 name:@"ShouldOpenThreadInThreadViewController"
                                                object:nil];
     
     //register a refresh control
@@ -229,7 +213,6 @@
 -(void)updateTableView {
     [self setSelectedForum:homeViewManager.forum];
     [self updateNumberButton];
-    threads = [NSArray arrayWithArray:homeViewManager.threads];
     [threadTableView reloadData];
 }
 
@@ -302,8 +285,8 @@
 
 -(void)scrollTableViewToBottom {
     @try {
-        if (threads.count > 1)
-            [threadTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:threads.count inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        if (homeViewManager.threads.count > 1)
+            [threadTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:homeViewManager.threads.count inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
     }
     @catch (NSException *exception) {
         
@@ -396,8 +379,8 @@
     } else
         numberBarButton.customView = numberButton;
 
-    [numberButton setTitle:[NSString stringWithFormat:@"%ld", (long) threads.count] forState:UIControlStateNormal];
-    if (threads.count <= 0) {
+    [numberButton setTitle:[NSString stringWithFormat:@"%ld", (long) homeViewManager.threads.count] forState:UIControlStateNormal];
+    if (homeViewManager.threads.count <= 0) {
         numberButton.hidden = YES;
         self.navigationItem.rightBarButtonItems = @[menuBarButton];
     }
@@ -453,32 +436,6 @@
         [imageViewerUtil showPhoto:path inViewController:self];
     }
 
-}
-
-#pragma mark - notification handler - favourite thread selected
--(void)openPickedThread:(NSNotification*)notification{
-    NSDictionary *userInfo = notification.userInfo;
-    if ([userInfo objectForKey:@"PickedThread"]){
-        selectedThread = [userInfo objectForKey:@"PickedThread"];
-        [self openSelectedThread];
-    }
-}
-
--(void)openSelectedThread {
-    if (selectedThread) {
-        [self.navigationController popToRootViewControllerAnimated:NO];
-        [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
-    }
-}
-
-#pragma Prepare for segue, here we associate an ID for the incoming thread view
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([[segue identifier] isEqualToString:@"go_thread_view_segue"]){
-        threadViewController = [segue destinationViewController];
-        czzThreadViewModelManager *subThreadList = [[czzThreadViewModelManager alloc] initWithParentThread:selectedThread andForum:homeViewManager.forum];
-        threadViewController.threadViewModelManager = subThreadList;
-        homeViewManager.displayedThread = selectedThread;
-    }
 }
 
 #pragma mark - rotation events

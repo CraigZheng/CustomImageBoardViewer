@@ -11,7 +11,7 @@
 #import "czzForumsViewController.h"
 
 @class czzThread;
-@interface czzHomeViewController : UIViewController <UITableViewDelegate>
+@interface czzHomeViewController : UIViewController 
 @property (strong, nonatomic) IBOutlet UITableView *threadTableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *menuBarButton;
 @property (strong) UIBarButtonItem *infoBarButton;
