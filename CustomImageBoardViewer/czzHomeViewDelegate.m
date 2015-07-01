@@ -23,7 +23,6 @@
 
 @interface czzHomeViewDelegate()
 
-@property (strong) czzThreadTableView *myTableView;
 @property (strong) czzImageViewerUtil *imageViewerUtil;
 @end
 
@@ -39,6 +38,9 @@
 
 #pragma mark - UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (!self.myTableView) {
+        self.myTableView = (czzThreadTableView*)tableView;
+    }
     czzThread *selectedThread;
     @try {
         if (indexPath.row < self.viewModelManager.threads.count) {
