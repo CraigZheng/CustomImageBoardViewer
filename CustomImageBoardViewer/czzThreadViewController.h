@@ -13,16 +13,16 @@
 #import <UIKit/UIKit.h>
 #import "czzThread.h"
 #import "czzForum.h"
+#import "czzThreadTableView.h"
 #import "czzThreadViewModelManager.h"
 #import "IIViewDeckController.h"
 
-@interface czzThreadViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface czzThreadViewController : UIViewController
 
-@property (strong, nonatomic) IBOutlet UITableView *threadTableView;
+@property (strong, nonatomic) IBOutlet czzThreadTableView *threadTableView;
 @property NSString *shouldHighlightSelectedUser;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *starButton;
 @property (weak, nonatomic) IBOutlet UIView *onScreenImageManagerViewContainer;
-//@property (weak, nonatomic) IBOutlet UIBarButtonItem *numberBarButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *moreButton;
 @property UIBarButtonItem *numberBarButton;
 @property BOOL shouldRestoreContentOffset;
@@ -35,8 +35,5 @@
 - (IBAction)jumpAction:(id)sender;
 - (IBAction)reportAction:(id)sender;
 - (IBAction)shareAction:(id)sender;
-
--(void)scrollTableViewToTop;
--(void)scrollTableViewToBottom;
 
 @end

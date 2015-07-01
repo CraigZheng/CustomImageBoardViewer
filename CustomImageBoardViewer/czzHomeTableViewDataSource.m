@@ -11,6 +11,7 @@
 #import "czzHomeViewModelManager.h"
 #import "czzSettingsCentre.h"
 #import "czzThreadTableViewCommandCellTableViewCell.h"
+#import "czzImageViewerUtil.h"
 
 @interface czzHomeTableViewDataSource ()
 
@@ -21,7 +22,7 @@
 @synthesize viewModelManager;
 
 -(void)reset {
-    
+    //TODO reset
 }
 
 #pragma mark - UITableView datasource
@@ -51,7 +52,7 @@
     czzThread *thread = [viewModelManager.threads objectAtIndex:indexPath.row];
     czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
     if (cell){
-        cell.delegate = self;
+        cell.delegate = self.tableViewDelegate;
         cell.shouldHighlight = NO;
         cell.shouldAllowClickOnImage = ![settingCentre userDefShouldUseBigImage];
         cell.parentThread = thread;
@@ -59,22 +60,6 @@
         cell.myThread = thread;
     }
     return cell;
-}
-
-#pragma mark - czzMenuEnableTableViewCellDelegate
--(void)userTapInImageView:(NSString *)imgURL {
-//    [self openImageWithPath:imgURL];
-}
-
--(void)imageDownloadedForIndexPath:(NSIndexPath *)index filePath:(NSString *)path isThumbnail:(BOOL)isThumbnail {
-    if (isThumbnail) {
-        @try {
-            [myTableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationAutomatic];
-        }
-        @catch (NSException *exception) {
-            DLog(@"%@", exception);
-        }
-    }
 }
 
 #pragma mark - setters

@@ -56,9 +56,14 @@
 }
 
 -(void)show {
-    if (viewControllerToShow.navigationController)
+    if (viewControllerToShow.navigationController || [viewControllerToShow isKindOfClass:[UINavigationController class]])
     {
-        [viewControllerToShow.navigationController pushViewController:photoBrowser animated:YES];
+        // If the viewControllerToShow is a UINavigationViewController
+        if ([viewControllerToShow isKindOfClass:[UINavigationController class]]) {
+            [(UINavigationController*)viewControllerToShow pushViewController:photoBrowser animated:YES];
+        } else {
+            [viewControllerToShow.navigationController pushViewController:photoBrowser animated:YES];
+        }
     } else {
         photoBrowserNavigationController = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
         photoBrowserNavigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;

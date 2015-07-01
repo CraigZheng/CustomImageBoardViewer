@@ -16,46 +16,36 @@
 @implementation czzThreadTableViewDataSource
 @dynamic viewModelManager;
 
+-(instancetype)init {
+    self = [super init];
+    if (self) {
+        self.viewModelManager = [czzThreadViewModelManager sharedManager];
+    }
+    return self;
+}
+
 #pragma mark - Table view data source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    if (self.viewModelManager.threads.count > 0)
-        return self.viewModelManager.threads.count + 1;
-    return self.viewModelManager.threads.count;
+    NSInteger rowNumber = [super tableView:tableView numberOfRowsInSection:section];
+    return rowNumber;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (!self.myTableView) {
-        self.myTableView = (czzThreadTableView*)tableView;
-    }
-    NSString *cell_identifier = [settingCentre userDefShouldUseBigImage] ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
-    if (indexPath.row == self.viewModelManager.threads.count){
-        UITableViewCell *cell;// = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
-        if (self.viewModelManager.isDownloading || self.viewModelManager.isProcessing) {
-            cell = [tableView dequeueReusableCellWithIdentifier:THREAD_TABLE_VIEW_CELL_LOADING_CELL_IDENTIFIER];
-            UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
-            [activityIndicator startAnimating];
-        } else if (self.viewModelManager.parentThread.responseCount > [settingCentre response_per_page] && (self.viewModelManager.pageNumber * [settingCentre response_per_page] + self.viewModelManager.threads.count % [settingCentre response_per_page] - 1) < self.viewModelManager.parentThread.responseCount){
-            
-            cell = [tableView dequeueReusableCellWithIdentifier:THREAD_TABLE_VIEW_CELL_LOAD_MORE_CELL_IDENTIFIER];
-        } else {
-            cell = [tableView dequeueReusableCellWithIdentifier:THREAD_TABLE_VIEW_CELL_NO_MORE_CELL_IDENTIFIER];
+    UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    // If within the range of threads, is a thread view cell, otherwise is a command cell.
+    if (indexPath.row < self.viewModelManager.threads.count) {
+        czzThread *thread = [self.viewModelManager.threads objectAtIndex:indexPath.row];
+        // Thread view cell
+        if (cell && [cell isKindOfClass:[czzMenuEnabledTableViewCell class]]){
+            czzMenuEnabledTableViewCell *threadViewCell = (czzMenuEnabledTableViewCell*)cell;
+            threadViewCell.delegate = self.tableViewDelegate;
+            threadViewCell.shouldHighlightSelectedUser = self.shouldHighlightSelectedUser;
+            threadViewCell.parentThread = self.viewModelManager.parentThread;
+            threadViewCell.myThread = thread;
+            threadViewCell.myIndexPath = indexPath;
         }
-        cell.backgroundColor = [settingCentre viewBackgroundColour];
-        return cell;
-    }
-    czzThread *thread = [self.viewModelManager.threads objectAtIndex:indexPath.row];
-    
-    czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
-    // Configure the cell...
-    if (cell){
-        cell.delegate = self;
-        cell.shouldHighlightSelectedUser = self.shouldHighlightSelectedUser;
-        cell.parentThread = self.viewModelManager.parentThread;
-        cell.myThread = thread;
-        cell.myIndexPath = indexPath;
     }
     return cell;
 }

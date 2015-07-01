@@ -25,7 +25,7 @@
 #import "czzHomeViewModelManager.h"
 #import "czzThreadViewModelManager.h"
 #import "czzForumManager.h"
-#import "czzHomeTableViewDelegate.h"
+#import "czzHomeViewDelegate.h"
 
 #import "czzHomeTableViewDataSource.h"
 
@@ -46,7 +46,7 @@
 @property czzHomeViewModelManager* homeViewManager;
 
 @property czzHomeTableViewDataSource *tableViewDataSource;
-@property czzHomeTableViewDelegate *tableViewDelegate;
+@property czzHomeViewDelegate *homeViewDelegate;
 @end
 
 @implementation czzHomeViewController
@@ -69,7 +69,7 @@
 @synthesize progressView;
 
 @synthesize tableViewDataSource;
-@synthesize tableViewDelegate;
+@synthesize homeViewDelegate;
 
 - (void)viewDidLoad
 {
@@ -96,7 +96,8 @@
     
     //assign a custom tableview data source
     threadTableView.dataSource = tableViewDataSource = [czzHomeTableViewDataSource initWithViewModelManager:self.homeViewManager];
-    threadTableView.delegate = tableViewDelegate = [czzHomeTableViewDelegate initWithViewModelManager:self.homeViewManager];
+    threadTableView.delegate = homeViewDelegate = [czzHomeViewDelegate initWithViewModelManager:self.homeViewManager];
+    tableViewDataSource.tableViewDelegate = homeViewDelegate;
     [self updateTableView];
 
     //configure the view deck controller with half size and tap to close mode
@@ -184,7 +185,7 @@
     //on screen image manager view
     czzOnScreenImageManagerViewController *onScreenImgMrg = [NavigationManager.delegate onScreenImageManagerView];
     onScreenImgMrg.view.frame = onScreenImageManagerViewContainer.bounds;
-    onScreenImgMrg.delegate = self;
+    onScreenImgMrg.delegate = homeViewDelegate;
     [self addChildViewController:onScreenImgMrg];
     [onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
     
@@ -263,25 +264,6 @@
     }
 }
 
-#pragma mark - scrollToTop and scrollToBottom
--(void)scrollTableViewToTop {
-    [self scrollTableViewToTop:YES];
-}
-
--(void)scrollTableViewToTop:(BOOL)animated {
-    [threadTableView setContentOffset:CGPointMake(0.0f, -threadTableView.contentInset.top) animated:animated];
-}
-
--(void)scrollTableViewToBottom {
-    @try {
-        if (homeViewManager.threads.count > 1)
-            [threadTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:homeViewManager.threads.count inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-    }
-    @catch (NSException *exception) {
-        
-    }
-}
-
 #pragma mark - more action and commands
 -(void)openSettingsPanel{
     UIViewController *settingsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"settings_view_controller"];
@@ -331,10 +313,6 @@
 -(void)threadListProcessed:(czzHomeViewModelManager *)list wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     DLog(@"%@", NSStringFromSelector(_cmd));
     [self updateTableView];
-    if (list.pageNumber == 1 && allThreads.count > 1) //just refreshed
-    {
-        [self scrollTableViewToTop:NO];
-    }
     
     [refreshControl endRefreshing];
     if (viewControllerNotInTransition)
@@ -403,28 +381,6 @@
     homeViewManager.forum = forum;
     self.title = homeViewManager.forum.name;
     self.navigationItem.backBarButtonItem.title = self.title;
-}
-
-#pragma mark - czzOnScreenImageManagerViewControllerDelegate
--(void)onScreenImageManagerDownloadFinished:(czzOnScreenImageManagerViewController *)controller imagePath:(NSString *)path wasSuccessful:(BOOL)success {
-    if (success) {
-        if ([settingCentre userDefShouldAutoOpenImage])
-            [self openImageWithPath:path];
-    } else
-        DLog(@"img download failed");
-}
-
--(void)onScreenImageManagerSelectedImage:(NSString *)path {
-    [self openImageWithPath:path];
-}
-
-#pragma mark - open images
--(void)openImageWithPath:(NSString*)path{
-    DLog(@"%@", NSStringFromSelector(_cmd));
-    if (viewControllerNotInTransition) {
-        [imageViewerUtil showPhoto:path inViewController:self];
-    }
-
 }
 
 #pragma mark - rotation events

@@ -26,6 +26,7 @@
 #import "czzNavigationController.h"
 #import "czzOnScreenImageManagerViewController.h"
 #import "GSIndeterminateProgressView.h"
+#import "czzThreadViewDelegate.h"
 
 #define OVERLAY_VIEW 122
 
@@ -49,6 +50,7 @@
 @property BOOL viewControllerNotInTransition;
 @property UIRefreshControl *refreshControl;
 @property czzThreadTableViewDataSource *tableViewDataSource;
+@property czzThreadViewDelegate *threadViewDelegate;
 
 @property GSIndeterminateProgressView *progressView;
 @end
@@ -80,6 +82,7 @@
 @synthesize progressView;
 @synthesize moreButton;
 @synthesize tableViewDataSource;
+@synthesize threadViewDelegate;
 @synthesize shouldRestoreContentOffset;
 
 - (void)viewDidLoad
@@ -90,7 +93,9 @@
     [self applyViewModel];
     
     threadTableView.dataSource = tableViewDataSource = [czzThreadTableViewDataSource initWithViewModelManager:self.threadViewModelManager];
-
+    threadTableView.delegate = threadViewDelegate = [czzThreadViewDelegate initWithViewModelManager:threadViewModelManager];
+    tableViewDataSource.tableViewDelegate = threadViewDelegate;
+    
     //progress view
     progressView = [(czzNavigationController*)self.navigationController progressView];
     
@@ -117,8 +122,6 @@
 //    UIMenuItem *searchMenuItem = [[UIMenuItem alloc] initWithTitle:@"搜索他" action:@selector(menuActionSearch:)];
     [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, highlightMenuItem, /*searchMenuItem,*/ openMenuItem]];
     [[UIMenuController sharedMenuController] update];
-
-    shouldDisplayQuickScrollCommand = [settingCentre userDefShouldShowOnScreenCommand];
     
     //if in foreground, load more threads
     if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground)
@@ -155,7 +158,7 @@
     //on screen image manager view
     czzOnScreenImageManagerViewController *onScreenImgMrg = [(czzNavigationController*)self.navigationController onScreenImageManagerView];
     onScreenImgMrg.view.frame = onScreenImageManagerViewContainer.bounds;
-    onScreenImgMrg.delegate = self;
+    onScreenImgMrg.delegate = threadViewDelegate;
     [self addChildViewController:onScreenImgMrg];
     [onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
     
@@ -267,21 +270,6 @@
     [alertView show];
 }
 
-#pragma mark - scrollToTop and scrollToBottom 
--(void)scrollTableViewToTop {
-    [threadTableView setContentOffset:CGPointMake(0.0f, -threadTableView.contentInset.top) animated:YES];
-}
-
--(void)scrollTableViewToBottom {
-    @try {
-        if (threads.count > 1)
-            [threadTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:threads.count inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-    }
-    @catch (NSException *exception) {
-        
-    }
-}
-
 #pragma mark - highlight thread selected
 -(void)HighlightThreadSelected:(NSNotification*)notification {
     czzThread *selectedThread = [notification.userInfo objectForKey:@"HighlightThread"];
@@ -349,17 +337,6 @@
     }];
 }
 
-
-#pragma mark - UIScrollVIew delegate
--(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-//    if (onScreenCommandViewController && threads.count > 1 && shouldDisplayQuickScrollCommand) {
-//        [onScreenCommandViewController show];
-//    }
-}
-
--(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    threadViewModelManager.currentOffSet = scrollView.contentOffset;
-}
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)aScrollView
 {

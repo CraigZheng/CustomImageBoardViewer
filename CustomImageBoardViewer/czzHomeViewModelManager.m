@@ -13,34 +13,20 @@
 @end
 
 @implementation czzHomeViewModelManager
-@synthesize threadDownloader;
-@synthesize threadListDataProcessor;
-@synthesize baseURLString;
-@synthesize shouldHideImageForThisForum;
-@synthesize threads;
-@synthesize threadContentListDataProcessor;
-@synthesize forum;
-@synthesize pageNumber;
-@synthesize totalPages;
-@synthesize delegate;
-@synthesize lastBatchOfThreads;
-@synthesize isDownloading, isProcessing;
-@synthesize currentOffSet;
-@synthesize displayedThread;
 
 -(instancetype)init {
     self = [super init];
     if (self) {
-        baseURLString = [settingCentre thread_list_host];
-        isDownloading = NO;
-        isProcessing = NO;
-        pageNumber = totalPages = 1;
-        threads = [NSMutableArray new];
+        self.baseURLString = [settingCentre thread_list_host];
+        self.isDownloading = NO;
+        self.isProcessing = NO;
+        self.pageNumber = self.totalPages = 1;
+        self.threads = [NSMutableArray new];
         self.horizontalHeights = [NSMutableArray new];
         self.verticalHeights = [NSMutableArray new];
 
-        threadListDataProcessor = [czzJSONProcessor new];
-        threadListDataProcessor.delegate = self;
+        self.threadListDataProcessor = [czzJSONProcessor new];
+        self.threadListDataProcessor.delegate = self;
     }
     return self;
 }
@@ -89,23 +75,26 @@
     }
 }
 
--(void)setForum:(czzForum *)fo {
-    forum = fo;
-    baseURLString = [forum.forumURL stringByReplacingOccurrencesOfString:kForum withString:[NSString stringWithFormat:@"%@", forum.name]];
-    DLog(@"forum picked:%@ - base URL: %@", forum.name, baseURLString);
+#pragma mark - setters
+-(void)setForum:(czzForum *)forum {
+    _forum = forum;
+    if (forum) {
+        self.baseURLString = [forum.forumURL stringByReplacingOccurrencesOfString:kForum withString:[NSString stringWithFormat:@"%@", forum.name]];
+        DLog(@"forum picked:%@ - base URL: %@", forum.name, self.baseURLString);
+    }
 }
 
 -(void)refresh {
-    threads = [NSMutableArray new];
+    self.threads = [NSMutableArray new];
     self.horizontalHeights = [NSMutableArray new];
     self.verticalHeights = [NSMutableArray new];
-    lastBatchOfThreads = nil;
-    pageNumber = 1;
-    [self loadMoreThreads:pageNumber];
+    self.lastBatchOfThreads = nil;
+    self.pageNumber = 1;
+    [self loadMoreThreads:self.pageNumber];
 }
 
 -(void)loadMoreThreads {
-    [self loadMoreThreads:pageNumber + 1];
+    [self loadMoreThreads:self.pageNumber + 1];
 }
 
 -(void)loadMoreThreads:(NSInteger)pn {
@@ -114,49 +103,49 @@
     [self downloadOf:nil successed:YES result:mockData];
     return;
 #endif
-    if (threadDownloader)
-        [threadDownloader stop];
-    pageNumber = pn;
+    if (self.threadDownloader)
+        [self.threadDownloader stop];
+    self.pageNumber = pn;
 
-    NSString *targetURLStringWithPN = [[baseURLString stringByReplacingOccurrencesOfString:kPageNumber withString:[NSString stringWithFormat:@"%ld", (long) pageNumber]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    threadDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
-    isDownloading = YES;
-    if (delegate && [delegate respondsToSelector:@selector(threadListBeginDownloading:)]) {
-        [delegate threadListBeginDownloading:self];
+    NSString *targetURLStringWithPN = [[self.baseURLString stringByReplacingOccurrencesOfString:kPageNumber withString:[NSString stringWithFormat:@"%ld", (long) self.pageNumber]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    self.threadDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
+    self.isDownloading = YES;
+    if ([self.delegate respondsToSelector:@selector(threadListBeginDownloading:)]) {
+        [self.delegate threadListBeginDownloading:self];
     }
 }
 
 -(void)removeAll {
-    pageNumber = 1;
-    [threads removeAllObjects];
-    lastBatchOfThreads = nil;
+    self.pageNumber = 1;
+    [self.threads removeAllObjects];
+    self.lastBatchOfThreads = nil;
     [self.horizontalHeights removeAllObjects];
     [self.verticalHeights removeAllObjects];
 }
 
 #pragma mark - czzURLDownloaderDelegate
 -(void)downloadOf:(NSURL *)targetURL successed:(BOOL)successed result:(NSData *)xmlData{
-    [threadDownloader stop];
-    threadDownloader = nil;
-    isDownloading = NO;
+    [self.threadDownloader stop];
+    self.threadDownloader = nil;
+    self.isDownloading = NO;
     if (successed){
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            isProcessing = YES;
-            [threadListDataProcessor processThreadListFromData:xmlData forForum:forum];
+            self.isProcessing = YES;
+            [self.threadListDataProcessor processThreadListFromData:xmlData forForum:self.forum];
         });
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (delegate && [delegate respondsToSelector:@selector(threadListDownloaded:wasSuccessful:)]) {
-            [delegate threadListDownloaded:self wasSuccessful:successed];
+        if ([self.delegate respondsToSelector:@selector(threadListDownloaded:wasSuccessful:)]) {
+            [self.delegate threadListDownloaded:self wasSuccessful:successed];
         }
     });
 }
 
 -(void)downloadUpdated:(czzURLDownloader *)downloader progress:(CGFloat)progress {
-    if (delegate && [delegate respondsToSelector:@selector(threadListUpdated:progress:)]) {
+    if ([self.delegate respondsToSelector:@selector(threadListUpdated:progress:)]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [delegate threadListUpdated:self progress:progress];
+            [self.delegate threadListUpdated:self progress:progress];
         });
     }
 }
@@ -169,7 +158,7 @@
             if ([thread.thImgSrc hasPrefix:@"http"])
                 targetImgURL = thread.thImgSrc;
             else
-                targetImgURL = [forum.imageHost stringByAppendingPathComponent:thread.thImgSrc];
+                targetImgURL = [self.forum.imageHost stringByAppendingPathComponent:thread.thImgSrc];
             //if is set to show image
             if ([settingCentre userDefShouldDisplayThumbnail] || ![settingCentre shouldDisplayThumbnail]){
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -180,31 +169,31 @@
 
     }
     
-    isProcessing = NO;
+    self.isProcessing = NO;
     if (success){
-        if (shouldHideImageForThisForum)
+        if (self.shouldHideImageForThisForum)
         {
             for (czzThread *thread in newThreads) {
                 thread.thImgSrc = nil;
             }
         }
         //process the returned data and pass into the array
-        lastBatchOfThreads = newThreads;
-        [threads addObjectsFromArray:newThreads];
+        self.lastBatchOfThreads = newThreads;
+        [self.threads addObjectsFromArray:newThreads];
         //calculate heights for both vertical and horizontal
-        [self calculateHeightsForThreads:lastBatchOfThreads];
+        [self calculateHeightsForThreads:self.lastBatchOfThreads];
     }
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (delegate && [delegate respondsToSelector:@selector(threadListProcessed:wasSuccessful:newThreads:allThreads:)]) {
-            [delegate threadListProcessed:self wasSuccessful:success newThreads:lastBatchOfThreads allThreads:threads];
+        if ([self.delegate respondsToSelector:@selector(threadListProcessed:wasSuccessful:newThreads:allThreads:)]) {
+            [self.delegate threadListProcessed:self wasSuccessful:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
         }
         DLog(@"%@", NSStringFromSelector(_cmd));
     });
 }
 
 -(void)pageNumberUpdated:(NSInteger)currentPage inAllPage:(NSInteger)allPage {
-    pageNumber = currentPage;
-    totalPages = allPage;
+    self.pageNumber = currentPage;
+    self.totalPages = allPage;
 }
 
 /*
@@ -226,20 +215,20 @@
 
 #pragma mark - NSCoding
 -(void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeBool:shouldHideImageForThisForum forKey:@"shouldHideImageForThisForum"];
-    [aCoder encodeObject:forum forKey:@"forum"];
-    [aCoder encodeInteger:pageNumber forKey:@"pageNumber"];
-    [aCoder encodeInteger:totalPages forKey:@"totalPages"];
-    [aCoder encodeObject:threads forKey:@"threads"];
-    [aCoder encodeObject:lastBatchOfThreads forKey:@"lastBatchOfThreads"];
+    [aCoder encodeBool:self.shouldHideImageForThisForum forKey:@"shouldHideImageForThisForum"];
+    [aCoder encodeObject:self.forum forKey:@"forum"];
+    [aCoder encodeInteger:self.pageNumber forKey:@"pageNumber"];
+    [aCoder encodeInteger:self.totalPages forKey:@"totalPages"];
+    [aCoder encodeObject:self.threads forKey:@"threads"];
+    [aCoder encodeObject:self.lastBatchOfThreads forKey:@"lastBatchOfThreads"];
     //parent view controller can not be encoded
     //delegate can not be encoded
     //isDownloading and isProcessing should not be encoded
     [aCoder encodeObject:self.horizontalHeights forKey:@"self.horizontalHeights"];
     [aCoder encodeObject:self.verticalHeights forKey:@"self.verticalHeights"];
-    [aCoder encodeObject:baseURLString forKey:@"baseURLString"];
-    [aCoder encodeObject:[NSValue valueWithCGPoint:currentOffSet] forKey:@"currentOffSet"];
-    [aCoder encodeObject:displayedThread forKey:@"displayedThread"];
+    [aCoder encodeObject:self.baseURLString forKey:@"baseURLString"];
+    [aCoder encodeObject:[NSValue valueWithCGPoint:self.currentOffSet] forKey:@"currentOffSet"];
+    [aCoder encodeObject:self.displayedThread forKey:@"displayedThread"];
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder {
