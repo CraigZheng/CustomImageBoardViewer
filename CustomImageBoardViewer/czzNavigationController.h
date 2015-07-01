@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 Craig. All rights reserved.
 //
 
-#define NavigationController [czzNavigationController sharedInstance]
-
 #import <UIKit/UIKit.h>
 #import "czzNotificationBannerViewController.h"
 #import "czzOnScreenImageManagerViewController.h"
@@ -20,5 +18,4 @@
 @property (strong) czzShortImageManagerCollectionViewController *shortImageMangerController;
 @property (strong) GSIndeterminateProgressView *progressView;
 
-+(instancetype)sharedInstance;
 @end

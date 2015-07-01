@@ -184,6 +184,7 @@
 		445B7B531B418CBE0046CFDB /* czzNoMoreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 445B7B521B418CBE0046CFDB /* czzNoMoreTableViewCell.xib */; };
 		445B7B561B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 445B7B551B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.m */; };
 		445B7B591B418F020046CFDB /* czzThreadTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 445B7B581B418F020046CFDB /* czzThreadTableView.m */; };
+		445B7B5C1B43EBCA0046CFDB /* czzNavigationViewModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 445B7B5B1B43EBCA0046CFDB /* czzNavigationViewModelManager.m */; };
 		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
 		446CC58219DC2BDE009BF24E /* czzHTMLParserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 446CC58119DC2BDE009BF24E /* czzHTMLParserViewController.m */; };
 		4479B07D1A0BB8E70074D484 /* czzTextViewHeightCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4479B07C1A0BB8E70074D484 /* czzTextViewHeightCalculator.m */; };
@@ -722,6 +723,8 @@
 		445B7B551B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadTableViewCommandCellTableViewCell.m; sourceTree = "<group>"; };
 		445B7B571B418F020046CFDB /* czzThreadTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadTableView.h; sourceTree = "<group>"; };
 		445B7B581B418F020046CFDB /* czzThreadTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadTableView.m; sourceTree = "<group>"; };
+		445B7B5A1B43EBCA0046CFDB /* czzNavigationViewModelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzNavigationViewModelManager.h; sourceTree = "<group>"; };
+		445B7B5B1B43EBCA0046CFDB /* czzNavigationViewModelManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzNavigationViewModelManager.m; sourceTree = "<group>"; };
 		4462EF2318659BC200E6BE78 /* czzFavouriteManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFavouriteManagerViewController.h; sourceTree = "<group>"; };
 		4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFavouriteManagerViewController.m; sourceTree = "<group>"; };
 		446CC58019DC2BDE009BF24E /* czzHTMLParserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzHTMLParserViewController.h; sourceTree = "<group>"; };
@@ -1498,6 +1501,8 @@
 			children = (
 				442EC8611A1A130A005650E4 /* czzNavigationController.h */,
 				442EC8621A1A130A005650E4 /* czzNavigationController.m */,
+				445B7B5A1B43EBCA0046CFDB /* czzNavigationViewModelManager.h */,
+				445B7B5B1B43EBCA0046CFDB /* czzNavigationViewModelManager.m */,
 			);
 			name = czzNavigationController;
 			sourceTree = "<group>";
@@ -2735,6 +2740,7 @@
 				442A8FB519DB7DF200A3516E /* PSTGridLayoutItem.m in Sources */,
 				442A8FF319DB7F5400A3516E /* SDWebImageDownloader.m in Sources */,
 				44DF8EDA1A74D0F00097F7F5 /* czzACTokenUtil.m in Sources */,
+				445B7B5C1B43EBCA0046CFDB /* czzNavigationViewModelManager.m in Sources */,
 				442F1FDB1B13537300267698 /* czzHomeTableViewDataSource.m in Sources */,
 				440B2F6117F5EED800544926 /* GTMNSString+HTML.m in Sources */,
 				442A8FF519DB7F5400A3516E /* SDWebImageManager.m in Sources */,

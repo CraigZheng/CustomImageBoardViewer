@@ -56,5 +56,5 @@ _Pragma("clang diagnostic pop") \
 
 #import "UIApplication+Util.h"
 #import "czzAppDelegate.h"
-#import "czzNavigationController.h"
+#import "czzNavigationViewModelManager.h"
 

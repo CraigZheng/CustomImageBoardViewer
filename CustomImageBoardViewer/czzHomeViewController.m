@@ -192,7 +192,7 @@
     self.viewDeckController.panningMode = IIViewDeckFullViewPanning;
 
     //on screen image manager view
-    czzOnScreenImageManagerViewController *onScreenImgMrg = [NavigationController onScreenImageManagerView];
+    czzOnScreenImageManagerViewController *onScreenImgMrg = [NavigationManager.delegate onScreenImageManagerView];
     onScreenImgMrg.view.frame = onScreenImageManagerViewContainer.bounds;
     onScreenImgMrg.delegate = self;
     [self addChildViewController:onScreenImgMrg];

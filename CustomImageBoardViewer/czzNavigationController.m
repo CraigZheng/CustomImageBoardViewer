@@ -8,11 +8,10 @@
 
 #import "czzNavigationController.h"
 #import "czzHomeViewController.h"
+#import "czzNavigationViewModelManager.h"
 #import "czzSettingsCentre.h"
 
-id sharedInstance;
-
-@interface czzNavigationController () <UINavigationControllerDelegate>
+@interface czzNavigationController () <UINavigationControllerDelegate, czzNavigationViewModelManagerDelegate>
 
 @end
 
@@ -26,6 +25,7 @@ id sharedInstance;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.delegate = self;
+    NavigationManager.delegate = self;
 
     //notification banner view
     notificationBannerViewController = (czzNotificationBannerViewController*) ([[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:nil] instantiateViewControllerWithIdentifier:@"notification_banner_view_controller"]);
@@ -63,9 +63,6 @@ id sharedInstance;
      setTitleTextAttributes:@{NSForegroundColorAttributeName : self.navigationBar.tintColor}];
     self.toolbar.barTintColor = self.navigationBar.barTintColor;
     self.toolbar.tintColor = self.navigationBar.tintColor;
-//    if ([settingCentre nightyMode]) {
-//        self.navigationBar.barTintColor = [settingCentre ]
-//    }
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -73,16 +70,25 @@ id sharedInstance;
 
 }
 
+#pragma mark - UINavigationViewControllerDelegate
 -(void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
 
 }
 
-+ (instancetype)sharedInstance
-{
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        sharedInstance = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"home_navigation_controller"];
-    });
-    return sharedInstance;
+#pragma mark - czzNavigationViewModelManagerDelegate
+-(void)viewModelManager:(czzNavigationViewModelManager *)manager wantsToPopToViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    [self popToViewController:viewController animated:animated];
+}
+
+-(void)viewModelManager:(czzNavigationViewModelManager *)manager wantsToPopViewControllerAnimated:(BOOL)animated {
+    [self popViewControllerAnimated:animated];
+}
+
+-(void)viewModelManager:(czzNavigationViewModelManager *)manager wantsToPushViewController:(UIViewController *)viewController animated:(BOOL)animated{
+    [self pushViewController:viewController animated:animated];
+}
+
++(instancetype)new {
+    return [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"home_navigation_controller"];
 }
 @end

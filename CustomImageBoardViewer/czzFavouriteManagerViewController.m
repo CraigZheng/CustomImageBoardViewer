@@ -90,7 +90,7 @@
         czzThreadViewModelManager *threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:selectedThread andForum:selectedThread.forum];
         czzThreadViewController *threadViewController = [czzThreadViewController new];
         threadViewController.threadViewModelManager = threadViewModelManager;
-        [NavigationController pushViewController:threadViewController animated:YES];
+        [NavigationManager pushViewController:threadViewController animated:YES];
     }
 }
 

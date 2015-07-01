@@ -46,7 +46,7 @@
     }
      */
     storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:Nil];
-    czzNavigationController *centreViewController = NavigationController;
+    czzNavigationController *centreViewController = [czzNavigationController new];
     
     self = [super initWithCenterViewController:centreViewController leftViewController:nil];
 
