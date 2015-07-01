@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+#import "czzOnScreenCommandViewController.h"
+
 @interface czzThreadTableView : UITableView
+
+@property czzOnScreenCommandViewController *upDownViewController;
 
 @end

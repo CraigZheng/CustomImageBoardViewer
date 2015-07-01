@@ -15,7 +15,6 @@
 #import "czzBlacklist.h"
 #import "czzMoreInfoViewController.h"
 #import "czzAppDelegate.h"
-#import "czzOnScreenCommandViewController.h"
 #import "czzSettingsCentre.h"
 #import "czzImageViewerUtil.h"
 #import "czzNavigationController.h"
@@ -35,7 +34,6 @@
 
 @interface czzHomeViewController() <UIAlertViewDelegate, czzThreadListProtocol, czzOnScreenImageManagerViewControllerDelegate, UIStateRestoring>
 @property UIViewController *leftController;
-@property czzOnScreenCommandViewController *onScreenCommandViewController;
 @property BOOL shouldDisplayQuickScrollCommand;
 @property NSString *thumbnailFolder;
 @property czzSettingsCentre *settingsCentre;
@@ -54,7 +52,6 @@
 @implementation czzHomeViewController
 @synthesize threadTableView;
 @synthesize leftController;
-@synthesize onScreenCommandViewController;
 @synthesize shouldDisplayQuickScrollCommand;
 @synthesize thumbnailFolder;
 @synthesize settingsCentre;
@@ -122,16 +119,9 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    if (!onScreenCommandViewController) {
-        //onscreen command
-        onScreenCommandViewController = [[UIStoryboard storyboardWithName:@"OnScreenCommand" bundle:nil] instantiateInitialViewController];
-        [self addChildViewController:onScreenCommandViewController];
-    }
     
     viewControllerNotInTransition = YES;
     shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
-    if (shouldDisplayQuickScrollCommand)
-        [onScreenCommandViewController show];
     
     NSTimeInterval delayTime = 8.0;
 #ifdef DEBUG

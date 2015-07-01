@@ -14,6 +14,7 @@
 #import "czzBlacklist.h"
 #import "czzThread.h"
 #import "czzSettingsCentre.h"
+#import "czzThreadTableView.h"
 #import "czzThreadViewModelManager.h"
 
 #import "UIApplication+Util.h"
@@ -21,7 +22,7 @@
 
 @interface czzHomeTableViewDelegate()
 @property czzHomeViewModelManager *homeViewManager;
-@property UITableView *myTableView;
+@property czzThreadTableView *myTableView;
 @end
 
 @implementation czzHomeTableViewDelegate
@@ -62,7 +63,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (!myTableView) {
-        myTableView = tableView;
+        myTableView = (czzThreadTableView*)tableView;
     }
     if (indexPath.row >= homeViewManager.threads.count)
         return tableView.rowHeight;
@@ -82,7 +83,7 @@
 #pragma mark - UIScrollViewDelegate
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     if ([settingCentre userDefShouldShowOnScreenCommand]) {
-        //TODO: SHOW ON SCREEN COMMAND
+        [myTableView.upDownViewController show];
     }
 }
 

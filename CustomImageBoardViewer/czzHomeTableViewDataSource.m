@@ -77,7 +77,6 @@
     }
 }
 
-
 #pragma mark - setters
 -(void)setMyTableView:(czzThreadTableView *)incomingTableView {
     myTableView = incomingTableView;

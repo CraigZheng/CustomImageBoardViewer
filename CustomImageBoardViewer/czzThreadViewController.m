@@ -18,7 +18,6 @@
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzThreadRefButton.h"
 #import "PartialTransparentView.h"
-#import "czzOnScreenCommandViewController.h"
 #import "czzSearchViewController.h"
 #import "czzSettingsCentre.h"
 #import "czzThreadTableViewDataSource.h"
@@ -41,7 +40,6 @@
 @property czzImageViewerUtil *imageViewerUtil;
 @property CGPoint threadsTableViewContentOffSet; //record the content offset of the threads tableview
 @property BOOL shouldHighlight;
-@property czzOnScreenCommandViewController *onScreenCommandViewController;
 @property BOOL shouldDisplayQuickScrollCommand;
 @property NSString *thumbnailFolder;
 @property NSString *keywordToSearch;
@@ -68,7 +66,6 @@
 @synthesize shouldHighlightSelectedUser;
 @synthesize verticalHeights;
 @synthesize horizontalHeights;
-@synthesize onScreenCommandViewController;
 @synthesize shouldDisplayQuickScrollCommand;
 @synthesize thumbnailFolder;
 @synthesize keywordToSearch;
@@ -120,10 +117,7 @@
 //    UIMenuItem *searchMenuItem = [[UIMenuItem alloc] initWithTitle:@"搜索他" action:@selector(menuActionSearch:)];
     [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, highlightMenuItem, /*searchMenuItem,*/ openMenuItem]];
     [[UIMenuController sharedMenuController] update];
-    //show on screen command
-    onScreenCommandViewController = [[UIStoryboard storyboardWithName:@"OnScreenCommand" bundle:nil] instantiateInitialViewController];
-    [self addChildViewController:onScreenCommandViewController];
-    [onScreenCommandViewController hide];
+
     shouldDisplayQuickScrollCommand = [settingCentre userDefShouldShowOnScreenCommand];
     
     //if in foreground, load more threads
@@ -178,8 +172,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     //disable right view controller
     self.viewDeckController.rightController = nil;
-    //hide on screen command
-    [onScreenCommandViewController hide];
     //no longer ready for more push animation
     viewControllerNotInTransition = NO;
 }
@@ -360,9 +352,9 @@
 
 #pragma mark - UIScrollVIew delegate
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    if (onScreenCommandViewController && threads.count > 1 && shouldDisplayQuickScrollCommand) {
-        [onScreenCommandViewController show];
-    }
+//    if (onScreenCommandViewController && threads.count > 1 && shouldDisplayQuickScrollCommand) {
+//        [onScreenCommandViewController show];
+//    }
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {

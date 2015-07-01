@@ -8,6 +8,8 @@
 
 #import "czzOnScreenCommandViewController.h"
 #import "czzAppDelegate.h"
+#import "czzThreadTableView.h"
+
 
 @interface czzOnScreenCommandViewController ()
 @property NSTimer *timeoutTimer;
@@ -32,6 +34,8 @@
     bottomButton.layer.backgroundColor = [UIColor clearColor].CGColor;
     self.view.frame = CGRectMake(0, 0, 60, 120);
     self.view.backgroundColor = [UIColor clearColor];
+    // Initially should be hidden
+    [self hide];
 }
 
 -(void)giveViewRoundCornersAndShadow:(CALayer*) layer{
@@ -44,25 +48,13 @@
 }
 
 - (IBAction)upButtonAction:(id)sender {
-    SEL scrollToTopSelector = NSSelectorFromString(@"scrollTableViewToTop");
-    if (self.parentViewController && [self.parentViewController respondsToSelector:scrollToTopSelector]) {
-        SuppressPerformSelectorLeakWarning(
-                                           [self.parentViewController performSelector:scrollToTopSelector];
-                                           );
-    }
+    [self.delegate onScreenCommandTapOnUp:self];
     [self updateTimer];
 
 }
 
 - (IBAction)bottomButtonAction:(id)sender {
-    SEL scrollToBottomSelector = NSSelectorFromString(@"scrollTableViewToBottom");
-    if (self.parentViewController && [self.parentViewController respondsToSelector:scrollToBottomSelector])
-    {
-        SuppressPerformSelectorLeakWarning(
-                                           [self.parentViewController performSelector:scrollToBottomSelector];
-
-        );
-    }
+    [self.delegate onScreenCommandTapOnDown:self];
     [self updateTimer];
 }
 
@@ -70,13 +62,12 @@
 {
     if (self.view.hidden) {
         size = CGSizeMake(60, 120);
-        if (self.parentViewController) {
-            if (!self.view.superview)
-                [self.parentViewController.view addSubview:self.view];
-            
-            [self updateFrame];
-            //            [parentView addSubview:self.view];
+        if (!self.view.superview) {
+            [AppDelegate.window addSubview:self.view];
         }
+        
+        [self updateFrame];
+
         self.view.hidden = NO;
     }
     [self updateTimer];
@@ -84,7 +75,6 @@
 
 -(void)hide{
     self.view.hidden = YES;
-//    [self.view removeFromSuperview];
 }
 
 -(void)updateTimer {
@@ -95,7 +85,7 @@
 }
 
 -(void)updateFrame {
-    if (UIInterfaceOrientationIsPortrait(self.parentViewController.interfaceOrientation)) {
+    if (UIInterfaceOrientationIsPortrait(NavigationManager.delegate.interfaceOrientation)) {
         [self updateVerticalFrame];
     } else {
         [self updateHorizontalFrame];
@@ -104,8 +94,8 @@
 
 -(void)updateVerticalFrame {
     CGRect windowBounds = AppDelegate.window.bounds;
-    if (self.parentViewController) {
-        windowBounds = self.parentViewController.view.frame;
+    if (self.view.superview) {
+        windowBounds = self.view.superview.frame;
     }
     CGRect myFrame = self.view.frame;
     CGFloat width = windowBounds.size.width;
@@ -120,8 +110,8 @@
 
 -(void)updateHorizontalFrame {
     CGRect windowBounds = AppDelegate.window.bounds;
-    if (self.parentViewController) {
-        windowBounds = self.parentViewController.view.frame;
+    if (self.view.superview) {
+        windowBounds = self.view.superview.frame;
     }
     CGRect myFrame = self.view.frame;
     CGFloat width = windowBounds.size.width;
@@ -132,7 +122,19 @@
     myFrame.size.width = size.width;
     myFrame.size.height = size.height;
     self.view.frame = myFrame;
+}
 
+#pragma mark - setter
+-(void)setDelegate:(czzThreadTableView<czzOnScreenCommandViewControllerDelegate>*)delegate {
+    _delegate = delegate;
+    // Add this view to delegate's superview, so it won't scroll with the delegate
+    if (delegate.superview) {
+        [delegate.superview addSubview:self.view];
+    }
+}
+
++(instancetype)new {
+    return [[UIStoryboard storyboardWithName:@"OnScreenCommand" bundle:nil] instantiateInitialViewController];
 }
 
 @end

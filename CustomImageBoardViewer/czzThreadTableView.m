@@ -10,6 +10,11 @@
 
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzThreadTableViewCommandCellTableViewCell.h"
+#import "czzOnScreenCommandViewController.h"
+
+@interface czzThreadTableView () <czzOnScreenCommandViewControllerDelegate>
+
+@end
 
 @implementation czzThreadTableView
 
@@ -29,6 +34,11 @@
     return self;
 }
 
+-(void)awakeFromNib {
+    self.upDownViewController = [czzOnScreenCommandViewController new];
+    self.upDownViewController.delegate = self;
+}
+
 -(void)registerNibs {
     // Register thread view cells
     [self registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
@@ -39,4 +49,25 @@
     [self registerNib:[UINib nibWithNibName:THREAD_TABLE_VIEW_CELL_NO_MORE_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_TABLE_VIEW_CELL_NO_MORE_CELL_IDENTIFIER];
 }
 
+#pragma mark - czzOnScreenCommandViewControllerDelegate
+-(void)onScreenCommandTapOnUp:(id)sender {
+    // Scroll to top
+    [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
+                atScrollPosition:UITableViewScrollPositionTop
+                        animated:YES];
+}
+
+-(void)onScreenCommandTapOnDown:(id)sender {
+    // Scroll to bottom
+    if ([self numberOfRowsInSection:0] > 0) {
+        [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self numberOfRowsInSection:0] - 1 inSection:0]
+                    atScrollPosition:UITableViewScrollPositionBottom
+                            animated:YES];
+    }
+}
+
+#pragma mark - setters
+-(void)setDelegate:(id<UITableViewDelegate>)delegate {
+    [super setDelegate:delegate];
+}
 @end

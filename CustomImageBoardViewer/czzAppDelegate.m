@@ -88,9 +88,9 @@
 }
 
 #pragma mark - background fetch
--(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    completionHandler(UIBackgroundFetchResultNoData);
-}
+//-(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+//    completionHandler(UIBackgroundFetchResultNoData);
+//}
 
 -(NSString *)myhost {
     if (shouldUseBackupServer)
