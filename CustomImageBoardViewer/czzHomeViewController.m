@@ -98,6 +98,7 @@
     threadTableView.dataSource = tableViewDataSource = [czzHomeTableViewDataSource initWithViewModelManager:self.homeViewManager];
     threadTableView.delegate = homeViewDelegate = [czzHomeViewDelegate initWithViewModelManager:self.homeViewManager];
     tableViewDataSource.tableViewDelegate = homeViewDelegate;
+    
     [self updateTableView];
 
     //configure the view deck controller with half size and tap to close mode

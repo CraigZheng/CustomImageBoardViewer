@@ -212,7 +212,7 @@
     htmlString = [htmlString stringByReplacingOccurrencesOfString:@"&nbsp;ﾟ" withString:@"　ﾟ"];
 //    htmlString = [htmlString stringByReplacingOccurrencesOfString:@"&#180" withString:@"´"];
 
-    NSAttributedString *renderedString = [[NSAttributedString alloc] initWithData:[htmlString dataUsingEncoding:NSUTF8StringEncoding]
+    NSMutableAttributedString *renderedString = [[NSMutableAttributedString alloc] initWithData:[htmlString dataUsingEncoding:NSUTF8StringEncoding]
                                             options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
                                                       NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
                                  documentAttributes:nil error:nil];
@@ -231,6 +231,7 @@
         }
     }
 
+    [renderedString addAttribute:NSFontAttributeName value:[settingCentre contentFont] range:NSMakeRange(0, renderedString.length)];
     return renderedString;
 }
 

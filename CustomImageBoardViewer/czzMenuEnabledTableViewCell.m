@@ -93,24 +93,24 @@
     sageLabel.hidden = YES;
     lockLabel.hidden = YES;
     responseLabel.hidden = YES;
-    
-    //colours
-    if (settingsCentre.nightyMode) {
-        UIColor *viewBackgroundColour = [settingsCentre viewBackgroundColour];
-        contentTextView.backgroundColor = viewBackgroundColour;
-        idLabel.backgroundColor = viewBackgroundColour;
-        posterLabel.backgroundColor = viewBackgroundColour;
-        dateLabel.backgroundColor = viewBackgroundColour;
-        threadContentView.backgroundColor = viewBackgroundColour;
-        self.contentView.backgroundColor = [UIColor darkGrayColor];
-    } else {
-        contentTextView.backgroundColor = [UIColor whiteColor];
-        idLabel.backgroundColor = [UIColor whiteColor];
-        dateLabel.backgroundColor = [UIColor whiteColor];
-        posterLabel.backgroundColor = [UIColor whiteColor];
-        threadContentView.backgroundColor = [UIColor whiteColor];
-        self.contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    }
+#warning UNCOMMENT AFTER DEBUGGIN
+//    //colours
+//    if (settingsCentre.nightyMode) {
+//        UIColor *viewBackgroundColour = [settingsCentre viewBackgroundColour];
+//        contentTextView.backgroundColor = viewBackgroundColour;
+//        idLabel.backgroundColor = viewBackgroundColour;
+//        posterLabel.backgroundColor = viewBackgroundColour;
+//        dateLabel.backgroundColor = viewBackgroundColour;
+//        threadContentView.backgroundColor = viewBackgroundColour;
+//        self.contentView.backgroundColor = [UIColor darkGrayColor];
+//    } else {
+//        contentTextView.backgroundColor = [UIColor whiteColor];
+//        idLabel.backgroundColor = [UIColor whiteColor];
+//        dateLabel.backgroundColor = [UIColor whiteColor];
+//        posterLabel.backgroundColor = [UIColor whiteColor];
+//        threadContentView.backgroundColor = [UIColor whiteColor];
+//        self.contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+//    }
 
 }
 
@@ -183,6 +183,7 @@
     [self resetViews];
     if (myThread.thImgSrc.length > 0){
         previewImageView.hidden = NO;
+        self.imageContainerZeroHeight.priority = 1;
         [previewImageView setImage:[UIImage imageNamed:@"Icon.png"]];
         NSString *filePath = [thumbnailFolder stringByAppendingPathComponent:[myThread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
         UIImage *previewImage =[[UIImage alloc] initWithContentsOfFile:filePath];
@@ -196,11 +197,13 @@
         }
         if (previewImage){
             [previewImageView setImage:previewImage];
-        } 
+        }
         
         //assign a gesture recogniser to it
         if (shouldAllowClickOnImage)
             [previewImageView setGestureRecognizers:@[tapOnImageGestureRecogniser]];
+    } else {
+        self.imageContainerZeroHeight.priority = UILayoutPriorityRequired - 1;
     }
     //if harmful flag is set, display warning header of harmful thread
     NSMutableAttributedString *contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:myThread.content];
@@ -215,10 +218,8 @@
     //content textview
     if (settingsCentre.nightyMode)
         [contentAttrString addAttribute:NSForegroundColorAttributeName value:settingsCentre.contentTextColour range:NSMakeRange(0, contentAttrString.length)];
-
+    
     contentTextView.attributedText = contentAttrString;
-    contentTextView.font = settingsCentre.contentFont;
-
     
     idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)myThread.ID];
     //set the color

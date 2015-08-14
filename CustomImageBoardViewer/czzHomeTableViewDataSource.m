@@ -59,13 +59,14 @@
         cell.myIndexPath = indexPath;
         cell.myThread = thread;
     }
+    [cell setNeedsUpdateConstraints];
+    [cell updateConstraintsIfNeeded];
     return cell;
 }
 
 #pragma mark - setters
 -(void)setMyTableView:(czzThreadTableView *)incomingTableView {
     myTableView = incomingTableView;
-
 }
 
 +(instancetype)initWithViewModelManager:(czzHomeViewModelManager *)viewModelManager {
