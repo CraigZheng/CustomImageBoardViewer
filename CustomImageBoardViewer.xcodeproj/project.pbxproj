@@ -43,6 +43,7 @@
 		441E5D2C17F48F8C00289DBD /* czzThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E5D2B17F48F8C00289DBD /* czzThread.m */; };
 		441E5E4E17F4A9C500289DBD /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5E4D17F4A9C500289DBD /* CoreText.framework */; };
 		441E5E5417F52DEF00289DBD /* czzThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E5E5317F52DEF00289DBD /* czzThreadViewController.m */; };
+		441EE5AD1B8462EE00A859A8 /* czzForumManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 441EE5AC1B8462EE00A859A8 /* czzForumManager.m */; };
 		4425A286199700F000671B88 /* test_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 4425A285199700F000671B88 /* test_image.png */; };
 		4425A2891997109600671B88 /* czzForum.m in Sources */ = {isa = PBXBuildFile; fileRef = 4425A2881997109600671B88 /* czzForum.m */; };
 		442A8FA019DB7DF200A3516E /* MWCaptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A8F4619DB7DF200A3516E /* MWCaptionView.m */; };
@@ -466,6 +467,8 @@
 		441E5E4D17F4A9C500289DBD /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		441E5E5217F52DEF00289DBD /* czzThreadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewController.h; sourceTree = "<group>"; };
 		441E5E5317F52DEF00289DBD /* czzThreadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewController.m; sourceTree = "<group>"; };
+		441EE5AB1B8462EE00A859A8 /* czzForumManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzForumManager.h; sourceTree = "<group>"; };
+		441EE5AC1B8462EE00A859A8 /* czzForumManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzForumManager.m; sourceTree = "<group>"; };
 		4425A285199700F000671B88 /* test_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_image.png; sourceTree = "<group>"; };
 		4425A2871997109600671B88 /* czzForum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzForum.h; sourceTree = "<group>"; };
 		4425A2881997109600671B88 /* czzForum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzForum.m; sourceTree = "<group>"; };
@@ -1190,6 +1193,8 @@
 				5AA5B6B419A95E7D00DCC3DA /* default_forumID.json */,
 				4425A2871997109600671B88 /* czzForum.h */,
 				4425A2881997109600671B88 /* czzForum.m */,
+				441EE5AB1B8462EE00A859A8 /* czzForumManager.h */,
+				441EE5AC1B8462EE00A859A8 /* czzForumManager.m */,
 			);
 			name = czzForumsViewController;
 			sourceTree = "<group>";
@@ -2561,6 +2566,7 @@
 				5A6266AA193A17FF00AD949F /* czzNotificationDownloader.m in Sources */,
 				443B54DE1990BD3300BAB282 /* attribute.c in Sources */,
 				442A8FF019DB7F5400A3516E /* SDImageCache.m in Sources */,
+				441EE5AD1B8462EE00A859A8 /* czzForumManager.m in Sources */,
 				44A9E15C1AE1D16000740CE1 /* README.md in Sources */,
 				44C34543187E59A500FDE45D /* UIViewController+KNSemiModal.m in Sources */,
 				442A8FA819DB7DF200A3516E /* DACircularProgressView.m in Sources */,
