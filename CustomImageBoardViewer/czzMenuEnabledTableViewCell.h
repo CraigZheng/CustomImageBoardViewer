@@ -40,7 +40,6 @@
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;
 @property (weak, nonatomic) IBOutlet UILabel *responseLabel;
 @property (weak, nonatomic) IBOutlet UIView *threadContentView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageContainerZeroHeight;
 @property NSIndexPath *myIndexPath;
 
 @property NSString *shouldHighlightSelectedUser;

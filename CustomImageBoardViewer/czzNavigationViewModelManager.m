@@ -22,7 +22,7 @@
 }
 
 +(instancetype)sharedManager {
-    dispatch_once_t once_token;
+    static dispatch_once_t once_token;
     static id sharedManager;
     if (!sharedManager) {
         dispatch_once(&once_token, ^{

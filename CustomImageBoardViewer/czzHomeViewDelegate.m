@@ -24,7 +24,6 @@
 @interface czzHomeViewDelegate()
 
 @property (strong) czzImageViewerUtil *imageViewerUtil;
-@property (strong) NSMutableDictionary *cachedCells;
 @end
 
 @implementation czzHomeViewDelegate
@@ -33,7 +32,6 @@
     self = [super init];
     if (self) {
         self.imageViewerUtil = [czzImageViewerUtil new];
-        self.cachedCells = [NSMutableDictionary new];
     }
     return self;
 }
@@ -76,38 +74,6 @@
     if (!self.myTableView) {
         self.myTableView = (czzThreadTableView*)tableView;
     }
-    
-    if (indexPath.row < self.viewModelManager.threads.count) {
-        NSString *cell_identifier = [settingCentre userDefShouldUseBigImage] ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
-        czzThread *thread = [self.viewModelManager.threads objectAtIndex:indexPath.row];
-        
-        static czzMenuEnabledTableViewCell *cell = nil;
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            cell = [self.myTableView dequeueReusableCellWithIdentifier:cell_identifier];
-        });
-        
-        if (cell){
-            cell.shouldHighlight = NO;
-            cell.shouldAllowClickOnImage = ![settingCentre userDefShouldUseBigImage];
-            cell.parentThread = thread;
-            cell.myIndexPath = indexPath;
-            cell.myThread = thread;
-        }
-        
-        [cell setNeedsUpdateConstraints];
-        [cell updateConstraintsIfNeeded];
-        cell.bounds = CGRectMake(0.0f, 0.0f, CGRectGetWidth(tableView.bounds), CGRectGetHeight(cell.bounds));
-        [cell setNeedsLayout];
-        [cell layoutIfNeeded];
-        
-        CGSize systemDesiredSize = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
-        CGFloat desiredHeight = systemDesiredSize.height + 20;
-        return desiredHeight;
-    } else {
-        return self.myTableView.rowHeight;
-    }
-    /*
     if (indexPath.row >= self.viewModelManager.threads.count)
         return tableView.rowHeight;
     
@@ -121,7 +87,6 @@
     }
     
     return preferHeight;
-     */
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -158,12 +123,6 @@
 
 -(void)onScreenImageManagerSelectedImage:(NSString *)path {
     [self.imageViewerUtil showPhoto:path inViewController:NavigationManager.delegate];
-}
-
-#pragma mark - setters
--(void)setMyTableView:(czzThreadTableView *)myTableView {
-    _myTableView = myTableView;
-    _myTableView.estimatedRowHeight = UITableViewAutomaticDimension;
 }
 
 +(instancetype)initWithViewModelManager:(czzHomeViewModelManager *)viewModelManager {

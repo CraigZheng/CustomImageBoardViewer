@@ -15,4 +15,14 @@ xcuserdata
 profile
 *.moved-aside
 DerivedData
-.idea/
+*.o
+
+*.d
+
+*.o
+
+*.dia
+
+Build/*
+
+CustomImageBoardViewer/Objective-C-HMTL-Parser/

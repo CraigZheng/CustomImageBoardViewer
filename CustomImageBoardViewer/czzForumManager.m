@@ -32,6 +32,7 @@
         }
         NSData *data = [NSJSONSerialization dataWithJSONObject:array options:NSJSONWritingPrettyPrinted error:nil];
         NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        DLog(@"%@", json);
         
     }
     return self;
