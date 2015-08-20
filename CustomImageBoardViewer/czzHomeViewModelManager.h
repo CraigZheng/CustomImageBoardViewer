@@ -11,6 +11,7 @@
 #import "czzThread.h"
 #import "czzForum.h"
 
+#import "czzForum.h"
 #import "czzJSONProcessor.h"
 #import "czzURLDownloader.h"
 #import "czzSettingsCentre.h"
@@ -35,7 +36,6 @@
 
 @interface czzHomeViewModelManager : NSObject <czzURLDownloaderProtocol, czzJSONProcessorDelegate, NSCoding>
 @property BOOL shouldHideImageForThisForum;
-//@property (nonatomic) NSString *forumName;
 @property (nonatomic) czzForum *forum;
 @property NSInteger pageNumber;
 @property NSInteger totalPages;

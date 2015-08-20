@@ -193,7 +193,6 @@
 
 -(void)reportAction {
     czzPostViewController *newPostViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
-    [newPostViewController setForumName:@"值班室"];
     newPostViewController.postMode = REPORT_POST;
     [self presentViewController:newPostViewController animated:YES completion:^{
         [self.viewDeckController toggleRightViewAnimated:YES];

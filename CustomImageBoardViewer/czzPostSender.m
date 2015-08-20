@@ -8,6 +8,7 @@
 
 #import "czzPostSender.h"
 #import "czzPost.h"
+#import "czzSettingsCentre.h"
 #import "SMXMLDocument.h"
 #import "Toast+UIView.h"
 
@@ -39,11 +40,11 @@
 -(void)sendPost{
     //has parent thread, should reply to it
     if (parentThread) {
-        targetURL = [NSURL URLWithString:[forum.replyThreadURL stringByReplacingOccurrencesOfString:kParentID withString:[NSString stringWithFormat:@"%ld", (long)parentThread.ID]]];
+        targetURL = [NSURL URLWithString:[[settingCentre reply_post_url] stringByReplacingOccurrencesOfString:kParentID withString:[NSString stringWithFormat:@"%ld", (long)parentThread.ID]]];
     }
     //does not have parent thread, should create a new thread instead.
     else {
-        targetURL = [NSURL URLWithString:[forum.createThreadURL stringByReplacingOccurrencesOfString:kForum withString:[forum.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+        targetURL = [NSURL URLWithString:[[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:kForum withString:[forum.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     }
     urlRequest = [self createMutableURLRequestWithURL:targetURL];
     if (myPost.isReady && urlRequest){
@@ -137,6 +138,7 @@
 -(void)setForum:(czzForum *)f {
     forum = f;
     myPost.forum = forum;
+    [self setForumID:[NSString stringWithFormat:@"%ld", (long)forum.forumID]];
 }
 
 -(void)setForumID:(NSString *)fid {

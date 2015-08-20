@@ -72,15 +72,6 @@
     
 }
 
-#pragma mark - setters
-/*upon setting the forum name, this view controller should download relevent info from the server, 
- then put it in a web view
- */
--(void)setForum:(czzForum *)f {
-    _forum = f;
-    [self renderContent];
-}
-
 #pragma UIWebView delegate, open links in safari
 -(BOOL) webView:(UIWebView *)inWeb shouldStartLoadWithRequest:(NSURLRequest *)inRequest navigationType:(UIWebViewNavigationType)inType {
     if ( inType == UIWebViewNavigationTypeLinkClicked ) {

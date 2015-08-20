@@ -26,6 +26,7 @@
 #import "czzThreadViewModelManager.h"
 #import "czzForumManager.h"
 #import "czzHomeViewDelegate.h"
+#import "czzThreadViewModelManager.h"
 
 #import "czzHomeTableViewDataSource.h"
 
@@ -129,13 +130,13 @@
     delayTime = 9999;
 #endif
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        if (homeViewManager.forum.name.length <= 0) {
-            if ([ForumManager availableForums].count > 0)
+        if (!homeViewManager.forum) {
+            if ([czzForumManager sharedManager].forums.count > 0)
             {
                 [AppDelegate.window makeToast:@"用户没有选择板块，随机选择……"];
                 @try {
-                    int randomIndex = rand() % [ForumManager availableForums].count;
-                    [homeViewManager setForum:[[ForumManager availableForums] objectAtIndex:randomIndex]];
+                    int randomIndex = rand() % [czzForumManager sharedManager].forums.count;
+                    [homeViewManager setForum:[[czzForumManager sharedManager].forums objectAtIndex:randomIndex]];
                     [self refreshThread:self];
                 }
                 @catch (NSException *exception) {
@@ -205,6 +206,19 @@
     [self setSelectedForum:homeViewManager.forum];
     [self updateNumberButton];
     [threadTableView reloadData];
+}
+
+-(void)restorePreviousSession {
+    if (homeViewManager.displayedThread)
+    {
+        DLog(@"%@", NSStringFromSelector(_cmd));
+        czzThreadViewController* threadViewController = [self.storyboard instantiateViewControllerWithIdentifier:THREAD_VIEW_CONTROLLER_ID];
+        threadViewController.shouldRestoreContentOffset = YES;
+        threadViewController.threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:homeViewManager.displayedThread andForum:homeViewManager.forum];
+        NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+        [viewControllers addObject:threadViewController];
+        [self.navigationController setViewControllers:viewControllers animated:YES];
+    }
 }
 
 - (IBAction)sideButtonAction:(id)sender {

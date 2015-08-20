@@ -18,6 +18,7 @@
 #import "czzEmojiCollectionViewController.h"
 #import "ValueFormatter.h"
 #import "czzForumsViewController.h"
+#import "czzForumManager.h"
 #import "NSString+HTML.h"
 #import "czzSettingsCentre.h"
 
@@ -36,7 +37,6 @@
 @synthesize blacklistEntity;
 @synthesize postSender;
 @synthesize postMode;
-@synthesize forumName;
 @synthesize forum;
 @synthesize sendingProgressVIew;
 @synthesize postBackgroundView;
@@ -82,12 +82,14 @@
     
     postSender.forum = forum;
     //assign forum or parent thread based on user selection
+    NSString *targetURLString;
     switch (postMode) {
         case NEW_POST:
             title = @"新内容";
             postSender.parentThread = nil;
-        break;
-        
+            targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:forum.name];
+            postSender.forum = forum;
+            break;
         case REPLY_POST:
             if (self.replyTo)
             {
@@ -99,11 +101,13 @@
         
         case REPORT_POST:
             title = @"举报";
-            czzForum *destinationForum = [czzForum new];
-            destinationForum.forumID = 5;
-            destinationForum.name = @"值班室";
-            postSender.forum = destinationForum;
-            postSender.parentThread = nil;
+            NSString *forumName = @"值班室";
+            targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:forumName];
+            for (czzForum *tempForum in [czzForumManager sharedManager].forums) {
+                if ([tempForum.name isEqualToString:forumName]) {
+                    postSender.forum = tempForum;
+                }
+            }
             break;
     }
     self.postNaviBar.topItem.title = title;

@@ -53,7 +53,7 @@
         }
     }
     @try {
-        if (forum.parserType == FORUM_PARSER_AISLE) {
+//        if (forum.parserType == FORUM_PARSER_AISLE) {
             //page number data
             [self updatePageNumberWithJsonDict:[parsedObjects objectForKey:@"page"]];
             //thread list data
@@ -72,9 +72,9 @@
                     [delegate threadListProcessed:processedThreads :YES];
                 }
             }
-        } else if (forum.parserType == FORUM_PARSER_BT_ISLE) {
-            //TODO: switch to V2
-        }
+//        } else if (forum.parserType == FORUM_PARSER_BT_ISLE) {
+//            //TODO: switch to V2
+//        }
         
     }
     @catch (NSException *exception) {
@@ -104,7 +104,7 @@
         }
     }
     @try {
-        if (forum.parserType == FORUM_PARSER_AISLE) {
+//        if (forum.parserType == FORUM_PARSER_AISLE) {
             //thread and sub thread data
             czzThread *parentThread = [[czzThread alloc] initWithJSONDictionary:[parsedObjects objectForKey:@"threads"]];
             parentThread.forum = forum; // Record source forum
@@ -126,9 +126,9 @@
                     [delegate subThreadProcessedForThread:parentThread :processedThreads :YES];
                 }
             }
-        } else if (forum.parserType == FORUM_PARSER_BT_ISLE) {
-            //TODO: add parser for A dao parser type
-        }
+//        } else if (forum.parserType == FORUM_PARSER_BT_ISLE) {
+//            //TODO: add parser for A dao parser type
+//        }
     }
     @catch (NSException *exception) {
         DLog(@"%@", exception);

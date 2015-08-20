@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "IIViewDeckController.h"
 #import "GADBannerView.h"
+#import "czzForum.h"
 
 #import "czzForum.h"
 

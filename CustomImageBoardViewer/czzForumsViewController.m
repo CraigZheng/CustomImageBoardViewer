@@ -17,6 +17,9 @@
 #import "czzForumManager.h"
 #import "GSIndeterminateProgressView.h"
 
+NSString * const kForumPickedNotification = @"ForumNamePicked";
+NSString * const kPickedForum = @"PickedForum";
+
 @interface czzForumsViewController () <UITableViewDataSource, UITableViewDelegate>
 @property BOOL failedToConnect;
 @property NSDate *lastAdUpdateTime;
@@ -170,12 +173,12 @@
     czzForumGroup *forumGroup = [self.forumManager.forumGroups objectAtIndex:indexPath.section];
     if (indexPath.row >= forumGroup.forums.count)
         return;
-    NSString *forumName = [forumGroup.forums objectAtIndex:indexPath.row];
+    czzForum *forum = [forumGroup.forums objectAtIndex:indexPath.row];
     [self.viewDeckController toggleLeftViewAnimated:YES];
     //POST a local notification to inform other view controllers that a new forum is picked
     NSMutableDictionary *userInfo = [NSMutableDictionary new];
-    [userInfo setObject:forumName forKey:@"ForumName"];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"ForumNamePicked" object:self userInfo:userInfo];
+    [userInfo setObject:forum forKey:kPickedForum];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kForumPickedNotification object:self userInfo:userInfo];
     
 }
 

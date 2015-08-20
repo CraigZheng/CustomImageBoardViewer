@@ -24,8 +24,6 @@
         //TODO: give it something more real
         if (!self.forum) {
             self.forum = [czzForum new];
-            self.forum.threadContentURL = [settingCentre thread_content_host];
-            self.forum.parserType = FORUM_PARSER_AISLE;
         }
         self.parentThread = thread;
         //record history
@@ -104,7 +102,7 @@
 -(void)setParentThread:(czzThread *)thread {
     _parentThread = thread;
     self.parentID = [NSString stringWithFormat:@"%ld", (long)self.parentThread.ID];
-    self.baseURLString = [self.forum.threadContentURL stringByReplacingOccurrencesOfString:kThreadID withString:self.parentID];
+    self.baseURLString = [[settingCentre thread_content_host] stringByReplacingOccurrencesOfString:kThreadID withString:self.parentID];
     
 }
 

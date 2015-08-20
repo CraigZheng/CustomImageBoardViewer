@@ -79,7 +79,7 @@
 -(void)setForum:(czzForum *)forum {
     _forum = forum;
     if (forum) {
-        self.baseURLString = [forum.forumURL stringByReplacingOccurrencesOfString:kForum withString:[NSString stringWithFormat:@"%@", forum.name]];
+        self.baseURLString = [[settingCentre thread_list_host] stringByReplacingOccurrencesOfString:kForum withString:[NSString stringWithFormat:@"%@", forum.name]];
         DLog(@"forum picked:%@ - base URL: %@", forum.name, self.baseURLString);
     }
 }
@@ -158,7 +158,7 @@
             if ([thread.thImgSrc hasPrefix:@"http"])
                 targetImgURL = thread.thImgSrc;
             else
-                targetImgURL = [self.forum.imageHost stringByAppendingPathComponent:thread.thImgSrc];
+                targetImgURL = [[settingCentre thumbnail_host] stringByAppendingPathComponent:thread.thImgSrc];
             //if is set to show image
             if ([settingCentre userDefShouldDisplayThumbnail] || ![settingCentre shouldDisplayThumbnail]){
                 dispatch_async(dispatch_get_main_queue(), ^{
