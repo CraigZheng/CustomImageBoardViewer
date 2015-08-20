@@ -2,110 +2,85 @@
 //  czzForumManager.m
 //  CustomImageBoardViewer
 //
-//  Created by Craig Zheng on 10/05/2015.
+//  Created by Craig on 19/08/2015.
 //  Copyright (c) 2015 Craig. All rights reserved.
 //
 
 #import "czzForumManager.h"
+#import "czzURLDownloader.h"
+#import "czzForumGroup.h"
+#import "czzSettingsCentre.h"
 
 @interface czzForumManager() <czzURLDownloaderProtocol>
 @property czzURLDownloader *forumDownloader;
-
+@property (copy) void (^completionHandler) (BOOL, NSError*);
 @end
 
 @implementation czzForumManager
-@synthesize allForumGroups, forumDownloader;
 
--(instancetype)init {
-    self = [super init];
-    if (self) {
-        //load default forumID json file to avoid crash caused by bad network connection
-        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"default_forums" ofType:@"json"];
-        NSData *JSONData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
-        NSArray *defaultForums = [self parseJsonForForum:JSONData];
-        
-        allForumGroups = [NSMutableArray arrayWithArray:defaultForums];
-        
-        NSMutableArray *array = [NSMutableArray new];
-        for (czzForumGroup *group in allForumGroups) {
-            [array addObject:[group toDictionary]];
-        }
-        NSData *data = [NSJSONSerialization dataWithJSONObject:array options:NSJSONWritingPrettyPrinted error:nil];
-        NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        DLog(@"%@", json);
-        
-    }
-    return self;
-}
-
--(void)updateForum {
-#warning NOT READY YET
-    return;
+- (void)updateForums:(void (^)(BOOL, NSError *))completionHandler {
+    if (self.forumDownloader)
+        [self.forumDownloader stop];
     NSString *bundleIdentifier = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"];
     NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-#ifdef DEBUG
-    versionString = @"DEBUG";
-#endif
+
     NSString *forumString = [[settingCentre forum_list_url] stringByAppendingString:[NSString stringWithFormat:@"?version=%@", [NSString stringWithFormat:@"%@-%@", bundleIdentifier, versionString]]];
     NSLog(@"Forum config URL: %@", forumString);
+    self.forumDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:forumString] delegate:self startNow:YES];
 
-    if (forumDownloader) {
-        [forumDownloader stop];
-    }
-    forumDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:forumString] delegate:self startNow:YES];
+    self.completionHandler = completionHandler;
 }
 
--(NSArray*)parseJsonForForum:(NSData*)jsonData {
-    NSError* error;
-    NSMutableArray *newForumGroup = [NSMutableArray new];
-    
-    NSDictionary *jsonDict;
-    if (jsonData)
-        jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
-    else {
-        error = [NSError errorWithDomain:@"Empty Data" code:999 userInfo:nil];
+#pragma mark - Getters
+- (NSArray *)forumGroups {
+    if (!_forumGroups) {
+        _forumGroups = [NSMutableArray new];
     }
-    if (!error) {
-        NSArray *rawForumData = [self readFromJsonDictionary:jsonDict withName:@"forum"];
-        for (NSDictionary* rawForum in rawForumData) {
-            czzForumGroup *forumGroup = [[czzForumGroup alloc] initWithJSONDictionary:rawForum];
-            if (forumGroup)
-                [newForumGroup addObject:forumGroup];
-        }
-    }
-    return newForumGroup;
+    return _forumGroups;
 }
 
-#pragma mark - czzURLDownloaderProtocol
--(void)downloadOf:(NSURL *)url successed:(BOOL)successed result:(NSData *)downloadedData {
-    if (successed)
-        [self parseJsonForForum:downloadedData];
-}
-
-#pragma mark - getters
--(NSArray *)availableForums {
+- (NSArray *)forums {
     NSMutableArray *forums = [NSMutableArray new];
-    for (czzForumGroup *forumGroup in self.allForumGroups) {
-        [forums addObjectsFromArray:[forumGroup availableForums]];
+    
+    for (czzForumGroup *forumGroup in self.forumGroups) {
+        [forums addObjectsFromArray:forumGroup.forums];
     }
+    
     return forums;
 }
 
-+ (id)sharedManager
-{
-    // structure used to test whether the block has completed or not
-    static dispatch_once_t p = 0;
+#pragma mark - czzXMLDownloaderDelegate
+-(void)downloadOf:(NSURL *)xmlURL successed:(BOOL)successed result:(NSData *)xmlData {
+    @try {
+        if (successed) {
+            NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:xmlData options:NSJSONReadingMutableContainers error:nil];
+            if (jsonArray.count) {
+                [self.forumGroups removeAllObjects];
+                for (NSDictionary *dictionary in jsonArray) {
+                    [self.forumGroups addObject:[czzForumGroup initWithDictionary:dictionary]];
+                }
+            }
+        }
+    }
+    @catch (NSException *exception) {
+        // If exception, not successed.
+        DLog(@"%@", exception);
+        successed = NO;
+    }
+
+    if (self.completionHandler) {
+        self.completionHandler(successed, nil);
+    }
+}
+
++ (instancetype)sharedManager {
+    static id sharedManager;
+    static dispatch_once_t onceToken;
     
-    // initialize sharedObject as nil (first call only)
-    __strong static id _sharedObject = nil;
-    
-    // executes a block object once and only once for the lifetime of an application
-    dispatch_once(&p, ^{
-        _sharedObject = [[self alloc] init];
+    dispatch_once(&onceToken, ^{
+        sharedManager = [self new];
     });
-    
-    // returns the same object each time
-    return _sharedObject;
+    return sharedManager;
 }
 
 @end

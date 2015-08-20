@@ -7,13 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "czzSettingsCentre.h"
-
-typedef enum {
-    FORUM_PARSER_AISLE = 1,
-    FORUM_PARSER_BT_ISLE = 2,
-    FORUM_PARSER_UNKNOWN = 0
-} FORUM_PARSER_TYPE;
 
 @interface czzForum : NSObject <NSCoding>
 @property NSString *name;
@@ -23,14 +16,7 @@ typedef enum {
 @property NSInteger forumID;
 @property NSDate *createdAt;
 @property NSDate *updatedAt;
-@property NSString *forumURL;
-@property NSString *threadContentURL;
-@property NSString *replyThreadURL;
-@property NSString *createThreadURL;
-@property NSString *imageHost;
-@property FORUM_PARSER_TYPE parserType;
 
 -(id)initWithJSONDictionary:(NSDictionary*)jsonDict;
--(NSDictionary*)toDictionary;
-
++(id)initWithJSONDictionary:(NSDictionary*)jsonDict;
 @end

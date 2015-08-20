@@ -9,7 +9,6 @@
 #import "czzForum.h"
 
 @implementation czzForum
-@synthesize name, header, lock, cooldown, forumID, createdAt, updatedAt, forumURL, threadContentURL;
 
 -(id)initWithJSONDictionary:(NSDictionary *)jsonDict {
     self = [super init];
@@ -17,41 +16,12 @@
         if (jsonDict) {
             @try {
                 self.name = [self readFromJsonDictionary:jsonDict withName:@"name"];
-                self.header = [self readFromJsonDictionary:jsonDict withName:@"header"];
+                self.header = [self readFromJsonDictionary:jsonDict withName:@"msg"];
                 self.lock = [[self readFromJsonDictionary:jsonDict withName:@"lock"] boolValue];
-                self.cooldown = [[self readFromJsonDictionary:jsonDict withName:@"cooldown"] integerValue];
+                self.cooldown = [[self readFromJsonDictionary:jsonDict withName:@"interval"] integerValue];
                 self.forumID = [[self readFromJsonDictionary:jsonDict withName:@"id"] integerValue];
                 self.createdAt = [NSDate dateWithTimeIntervalSince1970:[[self readFromJsonDictionary:jsonDict withName:@"createdAt"] doubleValue] / 1000];
                 self.updatedAt = [NSDate dateWithTimeIntervalSince1970:[[self readFromJsonDictionary:jsonDict withName:@"updatedAt"] doubleValue] / 1000];
-                
-                self.forumURL = [self readFromJsonDictionary:jsonDict withName:@"targetURL"];
-                if (!self.forumURL.length) {
-                    if (self.name)
-                        self.forumURL = @"http://h.nimingban.com/api/<kForum>?page=<kPageNumber>";
-                }
-                self.threadContentURL = [self readFromJsonDictionary:jsonDict withName:@"threadContentURL"];
-                if (!self.threadContentURL.length) {
-                    self.threadContentURL = [settingCentre thread_content_host];
-                }
-                self.replyThreadURL = [self readFromJsonDictionary:jsonDict withName:@"replyThreadURL"];
-                if (!self.replyThreadURL.length) {
-                    self.replyThreadURL = [settingCentre reply_post_url];
-                }
-                self.createThreadURL = [self readFromJsonDictionary:jsonDict withName:@"createThreadURL"];
-                if (!self.createThreadURL.length) {
-                    self.createThreadURL = [settingCentre create_new_post_url];
-                }
-                
-                self.imageHost = [self readFromJsonDictionary:jsonDict withName:@"imageHost"];
-                if (!self.imageHost.length) {
-                    //give it a default image host
-                    self.imageHost = [settingCentre image_host];
-                }
-                self.parserType = (FORUM_PARSER_TYPE)[[self readFromJsonDictionary:jsonDict withName:@"forumParser"] integerValue];
-                if (self.parserType == 0) {
-                    //default to Aisle format
-                    self.parserType = 1;
-                }
             }
             @catch (NSException *exception) {
             }
@@ -60,50 +30,55 @@
     return self;
 }
 
--(NSDictionary *)toDictionary {
-    NSMutableDictionary *dict = [NSMutableDictionary new];
-    NSDictionary *allProperties = [NSObject classPropsFor:self.class];
-    for (NSString *propertyKey in allProperties.allKeys) {
-        @try {
-            id value = [self valueForKey:propertyKey];
-            if (value) {
-                //json format doesnt support NSDate
-                if ([value isKindOfClass:[NSDate class]]) {
-                    [dict setObject:@([value timeIntervalSince1970] * 1000) forKey:propertyKey];
-                }
-                else
-                    [dict setObject:value forKey:propertyKey];
-            }
-        }
-        @catch (NSException *exception) {
-            DLog(@"%@", exception);
-        }
+-(id)readFromJsonDictionary:(NSDictionary*)dict withName:(NSString*)name {
+    if ([[dict valueForKey:name] isEqual:[NSNull null]]) {
+        return nil;
     }
-    return dict;
+    id value = [dict valueForKey:name];
+    return value;
+}
+
+#pragma mark - NSCoding protocol
+-(id)initWithCoder:(NSCoder *)aDecoder {
+    czzForum *forum = [czzForum new];
+    forum.name = [aDecoder decodeObjectForKey:@"name"];
+    forum.header = [aDecoder decodeObjectForKey:@"header"];
+    forum.lock = [aDecoder decodeBoolForKey:@"lock"];
+    forum.cooldown = [aDecoder decodeIntegerForKey:@"cooldown"];
+    forum.forumID = [aDecoder decodeIntegerForKey:@"forumID"];
+    forum.createdAt = [aDecoder decodeObjectForKey:@"createdAt"];
+    forum.updatedAt = [aDecoder decodeObjectForKey:@"updatedAt"];
+    return forum;
 }
 
 -(void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeObject:name forKey:@"name"];
-    [aCoder encodeObject:header forKey:@"header"];
-    [aCoder encodeBool:lock forKey:@"lock"];
-    [aCoder encodeInteger:cooldown forKey:@"cooldown"];
-    [aCoder encodeInteger:forumID forKey:@"forumID"];
-    [aCoder encodeObject:createdAt forKey:@"createdAt"];
-    [aCoder encodeObject:updatedAt forKey:@"updatedAt"];
+    [aCoder encodeObject:self.name forKey:@"name"];
+    [aCoder encodeObject:self.header forKey:@"header"];
+    [aCoder encodeBool:self.lock forKey:@"lock"];
+    [aCoder encodeInteger:self.cooldown forKey:@"cooldown"];
+    [aCoder encodeInteger:self.forumID forKey:@"forumID"];
+    [aCoder encodeObject:self.createdAt forKey:@"createdAt"];
+    [aCoder encodeObject:self.updatedAt forKey:@"updatedAt"];
+    
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    self = [super init];
-    if (self) {
-        self.name = [aDecoder decodeObjectForKey:@"name"];
-        self.header = [aDecoder decodeObjectForKey:@"header"];
-        self.lock = [aDecoder decodeBoolForKey:@"lock"];
-        self.cooldown = [aDecoder decodeIntegerForKey:@"cooldown"];
-        self.forumID = [aDecoder decodeIntegerForKey:@"forumID"];
-        self.createdAt = [aDecoder decodeObjectForKey:@"createdAt"];
-        self.updatedAt = [aDecoder decodeObjectForKey:@"updatedAt"];
-    }
-    return self;
++(id)initWithJSONDictionary:(NSDictionary *)jsonDict {
+    return [[czzForum alloc] initWithJSONDictionary:jsonDict];
 }
 
+
+/**
+ {
+ "id": "18",
+ "fgroup": "6",
+ "sort": "1",
+ "name": "值班室",
+ "showName": "",
+ "msg": "<p>&bull;本版发文间隔为15秒。<br />\r\n&bull;请在此举报不良内容，并附上串地址以及发言者ID。如果是回复串，请附上&ldquo;回应&rdquo;链接的地址，格式为&gt;&gt;No.串ID或&gt;&gt;No.回复ID<br />\r\n&bull;主站相关问题反馈、建议请在这里留言<br />\r\n&bull;已处理的举报将锁定。</p>\r\n",
+ "interval": "15",
+ "createdAt": "2011-09-30 23:55:20",
+ "updateAt": "2015-07-26 15:39:24",
+ "status": "n"
+ }
+ */
 @end

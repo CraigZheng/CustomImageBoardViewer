@@ -2,35 +2,19 @@
 //  czzForumManager.h
 //  CustomImageBoardViewer
 //
-//  Created by Craig Zheng on 10/05/2015.
+//  Created by Craig on 19/08/2015.
 //  Copyright (c) 2015 Craig. All rights reserved.
 //
 
-#define ForumManager [czzForumManager sharedManager]
-
 #import <Foundation/Foundation.h>
-
-#import "czzURLDownloader.h"
 #import "czzForum.h"
 #import "czzForumGroup.h"
-#import "czzSettingsCentre.h"
 
-@class czzForumManager;
-@protocol czzForumManagerDelegate <NSObject>
--(void)forumManager:(czzForumManager*)manager updated:(BOOL)wasSuccessful;
-@optional
--(void)forumManagerDidStartUpdate:(czzForumManager*)manager;
-@end
+@interface czzForumManager : NSObject
+@property (nonatomic, strong) NSMutableArray *forumGroups;
+@property (nonatomic) NSArray *forums;
+- (void)updateForums:(void(^)(BOOL success, NSError *error))completionHandler;
 
-@interface czzForumManager : NSObject <czzURLDownloaderProtocol>
++ (instancetype)sharedManager;
 
-@property NSMutableArray *allForumGroups; //including those that are locked
-@property (strong, nonatomic) NSArray *availableForums;
-
-@property id<czzForumManagerDelegate> delegate;
-
--(void)updateForum;
--(NSArray*)parseJsonForForum:(NSData*)jsonData;
-
-+(id)sharedManager;
 @end
