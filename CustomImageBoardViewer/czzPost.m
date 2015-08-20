@@ -42,15 +42,15 @@
                 [requestData appendData:forumData];
             }
             if (forumID && forumID.length > 0) {
-                [params setObject:forumID forKey:@"forum"];
+                [params setObject:forumID forKey:@"fid"];
                 
-                NSData *forumIDData = [[NSString stringWithFormat:@"&forum=%@", forumID] dataUsingEncoding:NSUTF8StringEncoding];
+                NSData *forumIDData = [[NSString stringWithFormat:@"&fid=%@", forumID] dataUsingEncoding:NSUTF8StringEncoding];
                 [requestData appendData:forumIDData];
             }
             if (parentID > 0){
-                [params setObject:[NSString stringWithFormat:@"%d", parentID] forKey:@"parentID"];
+                [params setObject:[NSString stringWithFormat:@"%ld", (long)parentID] forKey:@"resto"];
                 
-                NSString *parentIDPara = [NSString stringWithFormat:@"&parentID=%ld", (long)parentID];
+                NSString *parentIDPara = [NSString stringWithFormat:@"&resto=%ld", (long)parentID];
                 [requestData appendData:[parentIDPara dataUsingEncoding:NSUTF8StringEncoding]];
             }
             if (access_token){
