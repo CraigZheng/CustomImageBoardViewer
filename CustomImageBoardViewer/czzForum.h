@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface czzForum : NSObject
+@interface czzForum : NSObject <NSCoding>
 @property NSString *name;
 @property NSString *header;
 @property BOOL lock;
@@ -18,4 +18,5 @@
 @property NSDate *updatedAt;
 
 -(id)initWithJSONDictionary:(NSDictionary*)jsonDict;
++(id)initWithJSONDictionary:(NSDictionary*)jsonDict;
 @end

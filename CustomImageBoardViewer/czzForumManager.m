@@ -8,6 +8,7 @@
 
 #import "czzForumManager.h"
 #import "czzXMLDownloader.h"
+#import "czzForumGroup.h"
 #import "czzSettingsCentre.h"
 
 @interface czzForumManager() <czzXMLDownloaderDelegate>
@@ -22,15 +23,15 @@
         [self.forumDownloader stop];
     NSString *bundleIdentifier = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"];
     NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-#ifdef DEBUG
-    versionString = @"DEBUG";
-#endif
+
     NSString *forumString = [[settingCentre forum_list_url] stringByAppendingString:[NSString stringWithFormat:@"?version=%@", [NSString stringWithFormat:@"%@-%@", bundleIdentifier, versionString]]];
     NSLog(@"Forum config URL: %@", forumString);
     self.forumDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:forumString] delegate:self startNow:YES];
 
+    self.completionHandler = completionHandler;
 }
 
+#pragma mark - Getters
 - (NSArray *)forumGroups {
     if (!_forumGroups) {
         _forumGroups = [NSMutableArray new];
@@ -38,8 +39,32 @@
     return _forumGroups;
 }
 
+- (NSArray *)forums {
+    NSMutableArray *forums = [NSMutableArray new];
+    
+    for (czzForumGroup *forumGroup in self.forumGroups) {
+        [forums addObjectsFromArray:forumGroup.forums];
+    }
+    
+    return forums;
+}
+
 #pragma mark - czzXMLDownloaderDelegate
 -(void)downloadOf:(NSURL *)xmlURL successed:(BOOL)successed result:(NSData *)xmlData {
+    @try {
+        NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:xmlData options:NSJSONReadingMutableContainers error:nil];
+        if (jsonArray.count) {
+            for (NSDictionary *dictionary in jsonArray) {
+                [self.forumGroups addObject:[czzForumGroup initWithDictionary:dictionary]];
+            }
+        }
+    }
+    @catch (NSException *exception) {
+        // If exception, not successed.
+        DLog(@"%@", exception);
+        successed = NO;
+    }
+
     if (self.completionHandler) {
         self.completionHandler(successed, nil);
     }

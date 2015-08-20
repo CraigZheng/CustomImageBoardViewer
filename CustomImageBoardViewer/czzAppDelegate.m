@@ -209,16 +209,6 @@
     incomingView.hidden = NO;
 }
 
-#pragma mark - forumName
--(NSString *)getForumIDFromForumName:(NSString *)fName {
-    for (czzForum *forum in self.forums) {
-        if ([forum.name isEqualToString:fName]) {
-            return [NSString stringWithFormat:@"%ld", (long)forum.forumID];
-        }
-    }
-    return @"0";
-}
-
 /*
  check the library directory and image folders
 */

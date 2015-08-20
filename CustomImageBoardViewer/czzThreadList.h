@@ -11,6 +11,7 @@
 #import "czzThread.h"
 //#import "czzSubThreadList.h"
 
+#import "czzForum.h"
 #import "czzJSONProcessor.h"
 #import "czzXMLDownloader.h"
 #import "czzSettingsCentre.h"
@@ -35,7 +36,7 @@
 
 @interface czzThreadList : NSObject <czzXMLDownloaderDelegate, czzJSONProcessorDelegate, NSCoding>
 @property BOOL shouldHideImageForThisForum;
-@property (nonatomic) NSString *forumName;
+@property (nonatomic) czzForum *forum;
 @property NSInteger pageNumber;
 @property NSInteger totalPages;
 @property NSMutableArray *threads;

@@ -18,7 +18,6 @@
 @synthesize shouldHideImageForThisForum;
 @synthesize threads;
 @synthesize subThreadProcessor;
-@synthesize forumName;
 @synthesize pageNumber;
 @synthesize totalPages;
 @synthesize delegate;
@@ -71,7 +70,7 @@
             //copy data
             if (tempThreadList && [tempThreadList isKindOfClass:[czzThreadList class]])
             {
-                forumName = tempThreadList.forumName;
+                self.forum = tempThreadList.forum;
                 self.pageNumber = tempThreadList.pageNumber;
                 self.totalPages = tempThreadList.totalPages;
                 self.threads = tempThreadList.threads;
@@ -96,9 +95,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(entersBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
 
--(void)setForumName:(NSString *)name {
-    forumName = name;
-    baseURLString = [[settingCentre thread_list_host] stringByAppendingString:forumName ? [forumName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] : @""];
+-(void)setForum:(czzForum *)forum {
+    _forum = forum;
+    baseURLString = [[settingCentre thread_list_host] stringByAppendingString:forum.name ? [forum.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] : @""];
 }
 
 -(void)refresh {
@@ -215,7 +214,7 @@
 #pragma mark - NSCoding
 -(void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeBool:shouldHideImageForThisForum forKey:@"shouldHideImageForThisForum"];
-    [aCoder encodeObject:forumName forKey:@"forumName"];
+    [aCoder encodeObject:self.forum forKey:@"forum"];
     [aCoder encodeInteger:pageNumber forKey:@"pageNumber"];
     [aCoder encodeInteger:totalPages forKey:@"totalPages"];
     [aCoder encodeObject:threads forKey:@"threads"];
@@ -236,7 +235,7 @@
     @try {
         //create a temporary threadlist object
         newThreadList.shouldHideImageForThisForum = [aDecoder decodeBoolForKey:@"shouldHideImageForThisForum"];
-        newThreadList.forumName = [aDecoder decodeObjectForKey:@"forumName"];
+        newThreadList.forum = [aDecoder decodeObjectForKey:@"forum"];
         newThreadList.pageNumber = [aDecoder decodeIntegerForKey:@"pageNumber"];
         newThreadList.totalPages = [aDecoder decodeIntegerForKey:@"totalPages"];
         newThreadList.threads = [aDecoder decodeObjectForKey:@"threads"];

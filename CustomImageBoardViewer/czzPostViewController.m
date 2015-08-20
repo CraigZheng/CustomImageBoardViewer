@@ -18,6 +18,7 @@
 #import "czzEmojiCollectionViewController.h"
 #import "ValueFormatter.h"
 #import "czzForumsViewController.h"
+#import "czzForumManager.h"
 #import "NSString+HTML.h"
 #import "czzSettingsCentre.h"
 
@@ -38,7 +39,6 @@
 @synthesize blacklistEntity;
 @synthesize postSender;
 @synthesize postMode;
-@synthesize forumName;
 @synthesize forum;
 @synthesize sendingProgressVIew;
 @synthesize postBackgroundView;
@@ -83,14 +83,14 @@
     NSString *title = @"回复";
     NSString *content = @"";
     targetURLString = [settingCentre reply_post_url];
-    NSString *forumID = [[czzAppDelegate sharedAppDelegate] getForumIDFromForumName:forumName];
+    NSString *forumID = [NSString stringWithFormat:@"%ld", (long)self.forum.forumID];
     postSender.forumID = forumID;
 
     switch (postMode) {
         case NEW_POST:
             title = @"新帖";
-            targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:forumName];
-            postSender.forumName = forumName;
+            targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:forum.name];
+            postSender.forumName = forum.name;
             break;
         case REPLY_POST:
             if (self.replyTo)
@@ -104,7 +104,11 @@
             title = @"举报";
             postSender.forumName = @"值班室";
             targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:postSender.forumName];
-            postSender.forumID = [[czzAppDelegate sharedAppDelegate] getForumIDFromForumName:postSender.forumName];
+            for (czzForum *tempForum in [czzForumManager sharedManager].forums) {
+                if ([tempForum.name isEqualToString:postSender.forumName]) {
+                    postSender.forumID = [NSString stringWithFormat:@"%ld", (long)tempForum.forumID];
+                }
+            }
             break;
     }
     self.postNaviBar.topItem.title = title;

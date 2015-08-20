@@ -28,7 +28,6 @@
 @property czzForum *forum;
 @property (nonatomic) NSInteger postMode;
 @property (nonatomic) czzBlacklistEntity *blacklistEntity;
-@property NSString *forumName;
 @property (strong, nonatomic) IBOutlet UITextView *postTextView;
 @property (strong, nonatomic) IBOutlet UINavigationBar *postNaviBar;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *postButton;

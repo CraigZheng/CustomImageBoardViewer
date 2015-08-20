@@ -20,7 +20,6 @@
 @implementation czzMoreInfoViewController
 @synthesize headerTextWebView;
 @synthesize baseURL;
-@synthesize forumName;
 @synthesize bannerView_;
 @synthesize moreInfoNavItem;
 @synthesize moreInfoNaviBar;
@@ -53,34 +52,20 @@
     [bannerView_ loadRequest:[GADRequest request]];
     [self.view addSubview:bannerView_];
     //load forum info
-    self.title = [NSString stringWithFormat:@"介绍：%@", forumName];
+    self.title = [NSString stringWithFormat:@"介绍：%@", self.forum.name];
     moreInfoNavItem.title = self.title;
     @try {
-        for (czzForum *forum in [czzAppDelegate sharedAppDelegate].forums) {
-            if ([forum.name isEqualToString:forumName]) {
-                if (forum.header.length > 0) {
-                    NSString *headerText = [forum.header stringByReplacingOccurrencesOfString:@"@Time" withString:[NSString stringWithFormat:@"%ld", (long)forum.cooldown]];
-                    if (headerTextWebView.loading){
-                        [headerTextWebView stopLoading];
-                    }
-                    [headerTextWebView loadHTMLString:headerText baseURL:Nil];
-                }
-                break;
-            }
+        NSString *headerText = [self.forum.header stringByReplacingOccurrencesOfString:@"@Time" withString:[NSString stringWithFormat:@"%ld", (long)self.forum.cooldown]];
+        if (headerTextWebView.loading){
+            [headerTextWebView stopLoading];
         }
+        [headerTextWebView loadHTMLString:headerText baseURL:Nil];
     }
     @catch (NSException *exception) {
         DLog(@"%@", exception);
     }
 
     self.view.backgroundColor = [settingCentre viewBackgroundColour];
-}
-
-/*upon setting the forum name, this view controller should download relevent info from the server, 
- then put it in a web view
- */
--(void)setForumName:(NSString *)forumname{
-    forumName = forumname;
 }
 
 #pragma UIWebView delegate, open links in safari

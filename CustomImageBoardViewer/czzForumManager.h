@@ -7,11 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "czzForum.h"
+#import "czzForumGroup.h"
 
 @interface czzForumManager : NSObject
 @property (nonatomic, strong) NSMutableArray *forumGroups;
-
+@property (nonatomic) NSArray *forums;
 - (void)updateForums:(void(^)(BOOL success, NSError *error))completionHandler;
 
 + (instancetype)sharedManager;
