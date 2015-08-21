@@ -21,7 +21,12 @@
 	
 	//AC island
 	if (strpos($version, $bundleIdentifier) !== false) {
-		echo file_get_contents($file);
+		if (strpos($version, "2.4") !== false) {
+			echo file_get_contents($file);
+		}
+		else {
+			echo file_get_contents($file);
+		}
 		return;
 	}
 	
