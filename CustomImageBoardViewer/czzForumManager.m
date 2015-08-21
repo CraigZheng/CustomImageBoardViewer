@@ -52,10 +52,13 @@
 #pragma mark - czzXMLDownloaderDelegate
 -(void)downloadOf:(NSURL *)xmlURL successed:(BOOL)successed result:(NSData *)xmlData {
     @try {
-        NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:xmlData options:NSJSONReadingMutableContainers error:nil];
-        if (jsonArray.count) {
-            for (NSDictionary *dictionary in jsonArray) {
-                [self.forumGroups addObject:[czzForumGroup initWithDictionary:dictionary]];
+        if (successed) {
+            NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:xmlData options:NSJSONReadingMutableContainers error:nil];
+            if (jsonArray.count) {
+                [self.forumGroups removeAllObjects];
+                for (NSDictionary *dictionary in jsonArray) {
+                    [self.forumGroups addObject:[czzForumGroup initWithDictionary:dictionary]];
+                }
             }
         }
     }

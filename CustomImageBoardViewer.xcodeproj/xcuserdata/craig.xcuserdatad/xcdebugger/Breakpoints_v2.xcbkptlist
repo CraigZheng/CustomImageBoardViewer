@@ -32,22 +32,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CustomImageBoardViewer/czzPostSender.m"
-            timestampString = "453045576.592186"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
-            landmarkName = "-sendPost"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -67,13 +51,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CustomImageBoardViewer/czzRightSideViewController.m"
-            timestampString = "453045724.109424"
+            filePath = "CustomImageBoardViewer/czzPostSender.m"
+            timestampString = "461819315.464888"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "175"
-            endingLineNumber = "175"
-            landmarkName = "-replyMainAction"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "-sendPost"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

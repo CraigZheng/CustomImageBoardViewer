@@ -65,7 +65,7 @@
     NSMutableArray *cookies = [NSMutableArray new];
     
     for (NSHTTPCookie *cookie in [cookieStorage cookies]) {
-        if ([cookie.name.lowercaseString isEqualToString:@"username".lowercaseString]) {
+        if ([cookie.name.lowercaseString isEqualToString:@"userhash".lowercaseString]) {
             DLog(@"%@", cookie);
             [cookies addObject:cookie];
         }

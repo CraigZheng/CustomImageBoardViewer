@@ -138,12 +138,7 @@
     pageNumber = pn;
     if (pageNumber >= totalPages)
         pageNumber = totalPages;
-<<<<<<< HEAD
-//    NSString *targetURLStringWithPN = [baseURLString stringByAppendingString:[NSString stringWithFormat:@"?page=%ld", (long)pageNumber]];
-    NSString *targetURLStringWithPN = [baseURLString stringByReplacingOccurrencesOfString:kPage withString:[NSString stringWithFormat:@"%ld", (long) pageNumber]];
-=======
-    NSString *targetURLStringWithPN = [baseURLString stringByAppendingString:[NSString stringWithFormat:@".json?page=%ld", (long)pageNumber]];
->>>>>>> new-api-from-april
+    NSString *targetURLStringWithPN = [baseURLString stringByAppendingString:[NSString stringWithFormat:@"?page=%ld", (long)pageNumber]];
     xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
     isDownloading = YES;
     DLog(@"%@", targetURLStringWithPN);

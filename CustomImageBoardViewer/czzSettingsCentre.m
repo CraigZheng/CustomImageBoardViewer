@@ -79,8 +79,7 @@
         NSData *JSONData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
         [self parseJSONData:JSONData];
         
-#warning DISABLE REFRESHING AND RESTORING SETTINGS FOR NOW
-//        [self scheduleRefreshSettings];
+        [self scheduleRefreshSettings];
         
         //restore previous settings
 //        [self restoreSettings];
@@ -89,6 +88,7 @@
 }
 
 -(void)scheduleRefreshSettings {
+    [self downloadSettings];
     if (configuration_refresh_interval <= 60) //fail safe
         return;
     if (refreshSettingsTimer.isValid) {
@@ -140,11 +140,9 @@
 }
 
 -(void)downloadSettings {
+    NSString *bundleIdentifier = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"];
     NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-#ifdef DEBUG
-    versionString = @"DEBUG";
-#endif
-    NSString *configurationURL = [NSString stringWithFormat:@"%@?version=%@", CONFIGURATION_URL, versionString];
+    NSString *configurationURL = [NSString stringWithFormat:@"%@?version=%@", CONFIGURATION_URL, [NSString stringWithFormat:@"%@-%@", bundleIdentifier, versionString]];
     DLog(@"updating settings from remote server: %@", configurationURL);
     [NSURLConnection sendAsynchronousRequest: [NSURLRequest requestWithURL:[NSURL URLWithString:configurationURL]]
                                        queue:[NSOperationQueue new]
