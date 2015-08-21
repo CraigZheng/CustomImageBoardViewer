@@ -8,6 +8,11 @@
 	//V2 for the BT isle
 	$fileV2 = "forums_v2.json";
 	$censoredFileV2 = "forums_v2-censored.json";
+	
+	//V3 for BT isle in the A isle's hide
+	$fileV3 = "forums_v3.json";
+	$censoredFileV2 = "forums_v2-censored.json";
+
 
 	$version = "1.0";
 	if (isset($_GET["version"])) {
@@ -17,6 +22,8 @@
 	if (strpos($version, $bundleIdentifier) !== false) {
 		if (strpos($version, "DEBUG") !== false) {
 			echo file_get_contents($file);
+		} else if (strpos($version, "2.4") !== false) {
+			echo file_get_contents($fileV3); 
 		}
 		else {
 			echo file_get_contents($file);

@@ -9,6 +9,8 @@
             <ForumNames>
                <string>综合版1</string>
                <string>欢乐恶搞</string>
+               <string>天台</string>
+               <string>圈内</string>
                <string>数码</string>
                <string>日记</string>
                <string>推理</string>
@@ -18,6 +20,8 @@
                <string>貓版</string>
                <string>音乐</string>
                <string>体育</string>
+               <string>女装</string>
+               <string>姐妹1</string>
                <string>军武</string>
                <string>模型</string>
                <string>考试</string>
@@ -45,8 +49,6 @@
                <string>DNF</string>
                <string>EVE</string>
                <string>战争雷霆</string>
-               <string>扩散性百万亚瑟王</string>
-               <string>信喵之野望</string>
                <string>LOL</string>
                <string>DOTA</string>
                <string>Minecraft</string>
@@ -71,6 +73,7 @@
             <Area>三次元</Area>
             <ForumNames>
                <string>AKB</string>
+               <string>SNH48</string>
                <string>COSPLAY</string>
                <string>影视</string>
                <string>摄影</string>
