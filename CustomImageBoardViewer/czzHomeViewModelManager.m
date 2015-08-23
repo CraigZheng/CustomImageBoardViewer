@@ -125,6 +125,24 @@
     [self.verticalHeights removeAllObjects];
 }
 
+- (void)downloadThumbnailsForThreads:(NSArray*)threads {
+    for (czzThread *thread in threads) {
+        if (thread.thImgSrc.length != 0){
+            NSString *targetImgURL;
+            if ([thread.thImgSrc hasPrefix:@"http"])
+                targetImgURL = thread.thImgSrc;
+            else
+                targetImgURL = [[settingCentre thumbnail_host] stringByAppendingPathComponent:thread.thImgSrc];
+            //if is set to show image
+            if ([settingCentre userDefShouldDisplayThumbnail] || ![settingCentre shouldDisplayThumbnail]){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[czzImageCentre sharedInstance] downloadThumbnailWithURL:targetImgURL isCompletedURL:YES];
+                });
+            }
+        }
+    }
+}
+
 #pragma mark - czzURLDownloaderDelegate
 -(void)downloadOf:(NSURL *)targetURL successed:(BOOL)successed result:(NSData *)xmlData{
     [self.threadDownloader stop];
@@ -154,23 +172,6 @@
 
 #pragma mark - czzJSONProcesserProtocol
 -(void)threadListProcessed:(czzJSONProcessor *)processor :(NSArray *)newThreads :(BOOL)success {
-    for (czzThread *thread in newThreads) {
-        if (thread.thImgSrc.length != 0){
-            NSString *targetImgURL;
-            if ([thread.thImgSrc hasPrefix:@"http"])
-                targetImgURL = thread.thImgSrc;
-            else
-                targetImgURL = [[settingCentre thumbnail_host] stringByAppendingPathComponent:thread.thImgSrc];
-            //if is set to show image
-            if ([settingCentre userDefShouldDisplayThumbnail] || ![settingCentre shouldDisplayThumbnail]){
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [[czzImageCentre sharedInstance] downloadThumbnailWithURL:targetImgURL isCompletedURL:YES];
-                });
-            }
-        }
-
-    }
-    
     self.isProcessing = NO;
     if (success){
         if (self.shouldHideImageForThisForum)
@@ -179,6 +180,7 @@
                 thread.thImgSrc = nil;
             }
         }
+        [self downloadThumbnailsForThreads:newThreads];
         //process the returned data and pass into the array
         self.lastBatchOfThreads = newThreads;
         [self.threads addObjectsFromArray:newThreads];

@@ -154,6 +154,8 @@
         }
         [self calculateHeightsForThreads:self.lastBatchOfThreads cutOffFromIndex:self.cutOffIndex];
     }
+    // Download images for the new batch of threads
+    [self downloadThumbnailsForThreads:newThread];
     //calculate current number and total page number
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([self.delegate respondsToSelector:@selector(subThreadProcessed:wasSuccessful:newThreads:allThreads:)]) {

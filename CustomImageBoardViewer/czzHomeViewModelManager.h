@@ -59,6 +59,7 @@
 -(void)loadMoreThreads:(NSInteger)pageNumber;
 -(void)removeAll;
 -(void)calculateHeightsForThreads:(NSArray*)newThreads;
+-(void)downloadThumbnailsForThreads:(NSArray*)threads;
 //save and restore
 -(void)saveCurrentState;
 -(void)restorePreviousState;
