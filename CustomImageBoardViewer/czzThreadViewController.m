@@ -30,7 +30,7 @@
 
 #define OVERLAY_VIEW 122
 
-@interface czzThreadViewController ()<czzThreadListProtocol, UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzMiniThreadViewControllerProtocol, czzOnScreenImageManagerViewControllerDelegate>
+@interface czzThreadViewController ()<czzThreadListProtocol, UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzMiniThreadViewControllerProtocol>
 @property NSString *baseURLString;
 @property NSString *targetURLString;
 @property NSArray *threads;
@@ -446,25 +446,6 @@
     if (!userTouchInView)
         [threadTableView setContentOffset:threadsTableViewContentOffSet animated:YES];
     threadTableView.scrollEnabled = YES;
-}
-
-//show image
--(void)openImageWithPath:(NSString*)path{
-    if (viewControllerNotInTransition)
-        [imageViewerUtil showPhoto:path inViewController:self];
-}
-
-#pragma mark - czzOnScreenImageManagerViewControllerDelegate
--(void)onScreenImageManagerDownloadFinished:(czzOnScreenImageManagerViewController *)controller imagePath:(NSString *)path wasSuccessful:(BOOL)success {
-    if (success) {
-        if ([settingCentre userDefShouldAutoOpenImage])
-            [self openImageWithPath:path];
-    } else
-        DLog(@"img download failed");
-}
-
--(void)onScreenImageManagerSelectedImage:(NSString *)path {
-    [self openImageWithPath:path];
 }
 
 #pragma mark - prepare for segue

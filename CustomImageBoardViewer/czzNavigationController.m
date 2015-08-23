@@ -24,8 +24,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.delegate = self;
     NavigationManager.delegate = self;
+    self.delegate = NavigationManager;
 
     //notification banner view
     notificationBannerViewController = (czzNotificationBannerViewController*) ([[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:nil] instantiateViewControllerWithIdentifier:@"notification_banner_view_controller"]);
@@ -63,16 +63,6 @@
      setTitleTextAttributes:@{NSForegroundColorAttributeName : self.navigationBar.tintColor}];
     self.toolbar.barTintColor = self.navigationBar.barTintColor;
     self.toolbar.tintColor = self.navigationBar.tintColor;
-}
-
--(void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-
-}
-
-#pragma mark - UINavigationViewControllerDelegate
--(void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
-
 }
 
 #pragma mark - czzNavigationViewModelManagerDelegate

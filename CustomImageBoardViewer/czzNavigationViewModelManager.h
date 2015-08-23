@@ -18,8 +18,10 @@
 
 @end
 
-@interface czzNavigationViewModelManager : NSObject
+@interface czzNavigationViewModelManager : NSObject <UINavigationControllerDelegate>
 @property (weak) czzNavigationController<czzNavigationViewModelManagerDelegate> *delegate;
+@property (copy) void(^pushAnimationCompletionHandler)(void);
+@property (assign, nonatomic) BOOL isInTransition;
 
 -(void)pushViewController:(UIViewController*)viewController animated:(BOOL)animated;
 -(void)popViewControllerAnimated:(BOOL)animted;

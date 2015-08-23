@@ -21,6 +21,19 @@
     [self.delegate viewModelManager:self wantsToPopToViewController:viewController animated:animated];
 }
 
+#pragma mark - UINavigationControllerDelegate
+-(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    self.isInTransition = YES;
+}
+
+-(void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    self.isInTransition = NO;
+    if (self.pushAnimationCompletionHandler) {
+        self.pushAnimationCompletionHandler();
+        self.pushAnimationCompletionHandler = nil;
+    }
+}
+
 +(instancetype)sharedManager {
     static dispatch_once_t once_token;
     static id sharedManager;

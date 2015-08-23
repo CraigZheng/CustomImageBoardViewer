@@ -138,7 +138,7 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
         //if parent view controller is not nil, show in parent view
         if (hostViewController) {
             imageViewerUtil = [czzImageViewerUtil new];
-            [imageViewerUtil showPhotos:downloadedImages inViewController:hostViewController withIndex:indexPath.row];
+            [imageViewerUtil showPhotos:downloadedImages withIndex:indexPath.row];
         } else {
             NSString *imgPath = [downloadedImages objectAtIndex:indexPath.row];
             if (delegate && [delegate respondsToSelector:@selector(userTappedOnImageWithPath:)]) {

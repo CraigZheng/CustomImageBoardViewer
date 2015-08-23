@@ -96,7 +96,7 @@
 
 #pragma UICollectionViewDelegate
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    [imageViewerUtil showPhotos:Images inViewController:self withIndex:indexPath.row];
+    [imageViewerUtil showPhotos:Images withIndex:indexPath.row];
 }
 
 //show different categories of images

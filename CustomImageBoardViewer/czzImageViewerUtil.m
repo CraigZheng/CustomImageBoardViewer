@@ -8,14 +8,12 @@
 
 #import "czzImageViewerUtil.h"
 @interface czzImageViewerUtil ()
-@property UIViewController *viewControllerToShow;
 @end
 
 @implementation czzImageViewerUtil
 @synthesize photoBrowser;
 @synthesize photoBrowserDataSource;
 @synthesize documentInteractionController;
-@synthesize viewControllerToShow;
 @synthesize photoBrowserNavigationController;
 
 -(instancetype)init {
@@ -27,10 +25,9 @@
     return self;
 }
 
--(void)showPhoto:(NSString *)photoPath inViewController:(UIViewController *)viewCon {
-    if (photoPath.length > 0 && viewCon) {
+-(void)showPhoto:(NSString *)photoPath {
+    if (photoPath.length) {
         [self prepareMWPhotoBrowser];
-        viewControllerToShow = viewCon;
         if (!photoBrowserDataSource)
             photoBrowserDataSource = [NSMutableArray new];
         if (![photoBrowserDataSource containsObject:photoPath])
@@ -42,10 +39,9 @@
     }
 }
 
--(void)showPhotos:(NSArray *)photos inViewController:(UIViewController *)viewCon withIndex:(NSInteger)index {
-    if (photos.count > 0 && viewCon) {
+-(void)showPhotos:(NSArray *)photos withIndex:(NSInteger)index {
+    if (photos.count > 0) {
         [self prepareMWPhotoBrowser];
-        viewControllerToShow = viewCon;
         photoBrowserDataSource = [NSMutableArray arrayWithArray:photos];
         [photoBrowser setCurrentPhotoIndex:index];
         [self show];
@@ -56,18 +52,20 @@
 }
 
 -(void)show {
-    if (viewControllerToShow.navigationController || [viewControllerToShow isKindOfClass:[UINavigationController class]])
+    if (NavigationManager.delegate)
     {
-        // If the viewControllerToShow is a UINavigationViewController
-        if ([viewControllerToShow isKindOfClass:[UINavigationController class]]) {
-            [(UINavigationController*)viewControllerToShow pushViewController:photoBrowser animated:YES];
+        
+        if (NavigationManager.isInTransition || YES) {
+            NavigationManager.pushAnimationCompletionHandler = ^{
+                [NavigationManager pushViewController:photoBrowser animated:YES];
+            };
         } else {
-            [viewControllerToShow.navigationController pushViewController:photoBrowser animated:YES];
+            [NavigationManager pushViewController:photoBrowser animated:YES];
         }
     } else {
         photoBrowserNavigationController = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
         photoBrowserNavigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-        [viewControllerToShow presentViewController:photoBrowserNavigationController animated:YES completion:nil];
+        [[UIApplication rootViewController] presentViewController:photoBrowserNavigationController animated:YES completion:nil];
     }
 }
 
@@ -114,7 +112,7 @@
     }
     //iphone
     else {
-        [documentInteractionController presentOptionsMenuFromRect:viewControllerToShow.view.frame inView:viewToShowDocumentInteractionController animated:YES];
+        [documentInteractionController presentOptionsMenuFromRect:[UIApplication topViewController].view.frame inView:viewToShowDocumentInteractionController animated:YES];
     }
 }
 

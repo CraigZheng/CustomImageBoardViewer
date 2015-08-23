@@ -127,7 +127,7 @@
 
 #pragma mark - czzMenuEnableTableViewCellDelegate
 -(void)userTapInImageView:(NSString *)imgURL {
-    [self.imageViewerUtil showPhoto:imgURL inViewController:NavigationManager.delegate];
+    [self.imageViewerUtil showPhoto:imgURL];
 }
 
 -(void)imageDownloadedForIndexPath:(NSIndexPath *)index filePath:(NSString *)path isThumbnail:(BOOL)isThumbnail {
@@ -145,13 +145,13 @@
 -(void)onScreenImageManagerDownloadFinished:(czzOnScreenImageManagerViewController *)controller imagePath:(NSString *)path wasSuccessful:(BOOL)success {
     if (success) {
         if ([settingCentre userDefShouldAutoOpenImage])
-            [self.imageViewerUtil showPhoto:path inViewController:NavigationManager.delegate];
+            [self.imageViewerUtil showPhoto:path];
     } else
         DLog(@"img download failed");
 }
 
 -(void)onScreenImageManagerSelectedImage:(NSString *)path {
-    [self.imageViewerUtil showPhoto:path inViewController:NavigationManager.delegate];
+    [self.imageViewerUtil showPhoto:path];
 }
 
 #pragma mark - Getters {
