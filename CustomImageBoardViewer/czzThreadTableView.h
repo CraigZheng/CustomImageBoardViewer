@@ -10,8 +10,14 @@
 
 #import "czzOnScreenCommandViewController.h"
 
+typedef enum {
+    czzThreadTableViewLastCommandCellTypeLoadMore = 0,
+    czzThreadTableViewLastCommandCellTypeReleaseToLoadMore = 1,
+    czzThreadTableViewLastCommandCellTypeLoading = 2,
+    czzThreadTableViewLastCommandCellTypeNoMore = 3
+} czzThreadTableViewLastCommandCellType;
+
 @interface czzThreadTableView : UITableView
-
 @property czzOnScreenCommandViewController *upDownViewController;
-
+@property czzThreadTableViewLastCommandCellType lastCellType;
 @end

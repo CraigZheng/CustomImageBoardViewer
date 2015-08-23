@@ -38,13 +38,15 @@
     }
     
     if (indexPath.row == viewModelManager.threads.count){
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:THREAD_TABLE_VIEW_CELL_LOAD_MORE_CELL_IDENTIFIER];
+        //Last row
+        NSString *lastCellIdentifier = THREAD_TABLE_VIEW_CELL_LOAD_MORE_CELL_IDENTIFIER;
         if (viewModelManager.isDownloading || viewModelManager.isProcessing) {
-            cell = [tableView dequeueReusableCellWithIdentifier:THREAD_TABLE_VIEW_CELL_LOADING_CELL_IDENTIFIER];
-            UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
-            [activityIndicator startAnimating];
+            lastCellIdentifier = THREAD_TABLE_VIEW_CELL_LOADING_CELL_IDENTIFIER;
         }
+        
+        czzThreadTableViewCommandCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:lastCellIdentifier forIndexPath:indexPath];
         cell.backgroundColor = [settingCentre viewBackgroundColour];
+        [cell.activityIndicator startAnimating];
         return cell;
     }
     

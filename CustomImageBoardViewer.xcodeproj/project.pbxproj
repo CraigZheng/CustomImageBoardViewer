@@ -195,6 +195,7 @@
 		44858EAC1A0C5B0A00DD822B /* czzImageViewerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44858EAB1A0C5B0A00DD822B /* czzImageViewerUtil.m */; };
 		4485F4FC19F5FF38007A73CC /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 4485F4FB19F5FF38007A73CC /* NSString+HTML.m */; };
 		448C85E41A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 448C85E31A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib */; };
+		4498A7E71B899B6000312A11 /* czzReleaseToLoadTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4498A7E61B899B6000312A11 /* czzReleaseToLoadTableViewCell.xib */; };
 		4498B689199248ED0014F73F /* czzJSONProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498B688199248ED0014F73F /* czzJSONProcessor.m */; };
 		4498B68D1993A6190014F73F /* PropertyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498B68C1993A6190014F73F /* PropertyUtil.m */; };
 		449C9E271A71DB5C00D49B7F /* remote_configuration-debug.json in Resources */ = {isa = PBXBuildFile; fileRef = 449C9E261A71DB5C00D49B7F /* remote_configuration-debug.json */; };
@@ -743,6 +744,7 @@
 		4485F4FA19F5FF38007A73CC /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
 		4485F4FB19F5FF38007A73CC /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTML.m"; sourceTree = "<group>"; };
 		448C85E31A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzThreadViewBigImageTableViewCell.xib; sourceTree = "<group>"; };
+		4498A7E61B899B6000312A11 /* czzReleaseToLoadTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzReleaseToLoadTableViewCell.xib; sourceTree = "<group>"; };
 		4498B687199248ED0014F73F /* czzJSONProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzJSONProcessor.h; sourceTree = "<group>"; };
 		4498B688199248ED0014F73F /* czzJSONProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzJSONProcessor.m; sourceTree = "<group>"; };
 		4498B68B1993A6190014F73F /* PropertyUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PropertyUtil.h; path = ../PropertyUtil.h; sourceTree = "<group>"; };
@@ -1744,6 +1746,7 @@
 				445B7B581B418F020046CFDB /* czzThreadTableView.m */,
 				445B7B521B418CBE0046CFDB /* czzNoMoreTableViewCell.xib */,
 				445B7B4E1B418C720046CFDB /* czzLoadingTableViewCell.xib */,
+				4498A7E61B899B6000312A11 /* czzReleaseToLoadTableViewCell.xib */,
 				445B7B501B418C960046CFDB /* czzLoadMoreTableViewCell.xib */,
 				445B7B541B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.h */,
 				445B7B551B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.m */,
@@ -2551,6 +2554,7 @@
 				44DF8F001A7512730097F7F5 /* checked_user@3x.png in Resources */,
 				44E791E31A17856500A63C04 /* link.png in Resources */,
 				44E791D71A17856500A63C04 /* delete.png in Resources */,
+				4498A7E71B899B6000312A11 /* czzReleaseToLoadTableViewCell.xib in Resources */,
 				44DF8EE21A74D6600097F7F5 /* CookieManager.storyboard in Resources */,
 				44E791F71A17856500A63C04 /* search@3x.png in Resources */,
 				44A9E1541AE1D16000740CE1 /* Icon-72.png in Resources */,

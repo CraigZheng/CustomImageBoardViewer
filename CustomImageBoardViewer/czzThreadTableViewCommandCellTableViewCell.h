@@ -9,10 +9,14 @@
 #define THREAD_TABLE_VIEW_CELL_NO_MORE_CELL_NIB_NAME @"czzNoMoreTableViewCell"
 #define THREAD_TABLE_VIEW_CELL_LOADING_CELL_NIB_NAME @"czzLoadingTableViewCell"
 #define THREAD_TABLE_VIEW_CELL_LOAD_MORE_CELL_NIB_NAME @"czzLoadMoreTableViewCell"
+#define THREAD_TABLE_VEWI_CELL_RELEASE_TO_LOAD_MORE_NIB_NAME @"czzReleaseToLoadTableViewCell"
+
 
 #define THREAD_TABLE_VIEW_CELL_NO_MORE_CELL_IDENTIFIER @"no_more_cell_identifier"
 #define THREAD_TABLE_VIEW_CELL_LOADING_CELL_IDENTIFIER @"loading_cell_identifier"
 #define THREAD_TABLE_VIEW_CELL_LOAD_MORE_CELL_IDENTIFIER @"load_more_cell_identifier"
+#define THREAD_TABLE_VIEW_CELL_RELEASE_TO_LOAD_MORE_CELL_IDENTIFIER @"release_to_load_more_cell_identifier"
+#define THREAD_TABLE_VIEW_CELL_RELEASE_TO_LOAD_MORE_CELL_IDENTIFIER @"release_to_load_more_cell_identifier"
 
 #import <UIKit/UIKit.h>
 

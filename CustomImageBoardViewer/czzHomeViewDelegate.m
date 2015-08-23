@@ -96,6 +96,25 @@
     }
 }
 
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)aScrollView
+{
+    if (!(self.viewModelManager.isDownloading || self.viewModelManager.isProcessing) && self.viewModelManager.threads.count > 0) {
+        NSArray *visibleRows = [self.myTableView visibleCells];
+        UITableViewCell *lastVisibleCell = [visibleRows lastObject];
+        NSIndexPath *path = [self.myTableView indexPathForCell:lastVisibleCell];
+        if(path.row == self.viewModelManager.threads.count)
+        {
+            CGRect lastCellRect = [self.myTableView rectForRowAtIndexPath:path];
+            if (lastCellRect.origin.y + lastCellRect.size.height >= self.myTableView.frame.origin.y + self.myTableView.frame.size.height){
+                [self.viewModelManager loadMoreThreads];
+                [self.myTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:self.viewModelManager.threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+        }
+    }
+}
+
+
 #pragma mark - czzMenuEnableTableViewCellDelegate
 -(void)userTapInImageView:(NSString *)imgURL {
     [self.imageViewerUtil showPhoto:imgURL inViewController:NavigationManager.delegate];

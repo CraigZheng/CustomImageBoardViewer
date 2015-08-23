@@ -47,6 +47,7 @@
     [self registerNib:[UINib nibWithNibName:THREAD_TABLE_VIEW_CELL_LOAD_MORE_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_TABLE_VIEW_CELL_LOAD_MORE_CELL_IDENTIFIER];
     [self registerNib:[UINib nibWithNibName:THREAD_TABLE_VIEW_CELL_LOADING_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_TABLE_VIEW_CELL_LOADING_CELL_IDENTIFIER];
     [self registerNib:[UINib nibWithNibName:THREAD_TABLE_VIEW_CELL_NO_MORE_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_TABLE_VIEW_CELL_NO_MORE_CELL_IDENTIFIER];
+    [self registerNib:[UINib nibWithNibName:THREAD_TABLE_VEWI_CELL_RELEASE_TO_LOAD_MORE_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_TABLE_VIEW_CELL_RELEASE_TO_LOAD_MORE_CELL_IDENTIFIER];
 }
 
 #pragma mark - czzOnScreenCommandViewControllerDelegate

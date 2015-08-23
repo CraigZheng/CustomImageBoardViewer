@@ -26,8 +26,8 @@
     if (self){
         // Add bundle identifier and app ID to the target URL
         NSString *targetURLString = url.absoluteString;
-        targetURLString = [targetURLString stringByAppendingFormat:@"?version=%@", [UIApplication bundleVersion]];
-        targetURLString = [targetURLString stringByAppendingFormat:@"?appID=%@", [UIApplication appId]];
+        targetURLString = [targetURLString stringByAppendingFormat:@"&version=%@", [UIApplication bundleVersion]];
+        targetURLString = [targetURLString stringByAppendingFormat:@"&appID=%@", [UIApplication appId]];
         
         targetURL = [NSURL URLWithString:targetURLString];
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:targetURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:20];
