@@ -317,11 +317,13 @@
         [progressView stopAnimating];
         [progressView showWarning];
     }
+    self.threadTableView.lastCellType = czzThreadTableViewLastCommandCellTypeLoadMore;
 }
 
 -(void)threadListBeginDownloading:(czzHomeViewModelManager *)threadList {
     if (!progressView.isAnimating)
         [progressView startAnimating];
+    
 }
 
 -(void)threadListProcessed:(czzHomeViewModelManager *)list wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {

@@ -24,6 +24,9 @@
 @interface czzHomeViewDelegate()
 
 @property (strong) czzImageViewerUtil *imageViewerUtil;
+@property (nonatomic, readonly) NSIndexPath *lastRowIndexPath;
+@property (nonatomic, readonly) BOOL tableViewIsDraggedOverTheBottom;
+@property (nonatomic, readonly) BOOL tableViewIsDraggedOverTheBottomWithPadding;
 @end
 
 @implementation czzHomeViewDelegate
@@ -96,20 +99,27 @@
     }
 }
 
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)aScrollView
-{
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (!(self.viewModelManager.isDownloading || self.viewModelManager.isProcessing) && self.viewModelManager.threads.count > 0) {
-        NSArray *visibleRows = [self.myTableView visibleCells];
-        UITableViewCell *lastVisibleCell = [visibleRows lastObject];
-        NSIndexPath *path = [self.myTableView indexPathForCell:lastVisibleCell];
-        if(path.row == self.viewModelManager.threads.count)
-        {
-            CGRect lastCellRect = [self.myTableView rectForRowAtIndexPath:path];
-            if (lastCellRect.origin.y + lastCellRect.size.height >= self.myTableView.frame.origin.y + self.myTableView.frame.size.height){
-                [self.viewModelManager loadMoreThreads];
-                [self.myTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:self.viewModelManager.threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+        if (self.tableViewIsDraggedOverTheBottom) {
+            if (self.tableViewIsDraggedOverTheBottomWithPadding) {
+                self.myTableView.lastCellType = czzThreadTableViewLastCommandCellTypeReleaseToLoadMore;
+                [self.myTableView reloadData];
+            } else {
+                if (self.myTableView.lastCellType == czzThreadTableViewLastCommandCellTypeReleaseToLoadMore) {
+                    self.myTableView.lastCellType = czzThreadTableViewLastCommandCellTypeLoadMore;
+                    [self.myTableView reloadData];
+                }
             }
+        }
+    }
+}
+
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (!(self.viewModelManager.isDownloading || self.viewModelManager.isProcessing) && self.viewModelManager.threads.count > 0) {
+        if (self.tableViewIsDraggedOverTheBottomWithPadding) {
+            [self.viewModelManager loadMoreThreads];
+            [self.myTableView reloadRowsAtIndexPaths:@[self.lastRowIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
     }
 }
@@ -142,6 +152,43 @@
 
 -(void)onScreenImageManagerSelectedImage:(NSString *)path {
     [self.imageViewerUtil showPhoto:path inViewController:NavigationManager.delegate];
+}
+
+#pragma mark - Getters {
+- (BOOL)tableViewIsDraggedOverTheBottom {
+    NSArray *visibleRows = [self.myTableView visibleCells];
+    UITableViewCell *lastVisibleCell = [visibleRows lastObject];
+    NSIndexPath *path = [self.myTableView indexPathForCell:lastVisibleCell];
+    if(path.row == self.viewModelManager.threads.count || true)
+    {
+        CGPoint contentOffSet = self.myTableView.contentOffset;
+        CGRect lastCellRect = [self.myTableView rectForRowAtIndexPath:path];
+        if (lastCellRect.origin.y + lastCellRect.size.height + 44 < contentOffSet.y + self.myTableView.frame.size.height) {
+            return YES;
+        } else {
+            return NO;
+        }
+    }
+}
+
+- (BOOL)tableViewIsDraggedOverTheBottomWithPadding {
+    NSArray *visibleRows = [self.myTableView visibleCells];
+    UITableViewCell *lastVisibleCell = [visibleRows lastObject];
+    NSIndexPath *path = [self.myTableView indexPathForCell:lastVisibleCell];
+    if(path.row == self.viewModelManager.threads.count || true)
+    {
+        CGPoint contentOffSet = self.myTableView.contentOffset;
+        CGRect lastCellRect = [self.myTableView rectForRowAtIndexPath:path];
+        if (lastCellRect.origin.y + lastCellRect.size.height + 44 * 2 < contentOffSet.y + self.myTableView.frame.size.height) {
+            return YES;
+        } else {
+            return NO;
+        }
+    }
+}
+
+- (NSIndexPath *)lastRowIndexPath {
+    return [NSIndexPath indexPathForRow:self.viewModelManager.threads.count inSection:0];
 }
 
 +(instancetype)initWithViewModelManager:(czzHomeViewModelManager *)viewModelManager {

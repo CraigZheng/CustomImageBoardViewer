@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "IIViewDeckController.h"
 #import "czzForumsViewController.h"
+#import "czzThreadTableView.h"
 
 @class czzThread;
 @interface czzHomeViewController : UIViewController 
-@property (strong, nonatomic) IBOutlet UITableView *threadTableView;
+@property (strong, nonatomic) IBOutlet czzThreadTableView *threadTableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *menuBarButton;
 @property (strong) UIBarButtonItem *infoBarButton;
 @property (weak, nonatomic) IBOutlet UIView *onScreenImageManagerViewContainer;
@@ -27,9 +28,4 @@
 - (IBAction)searchAction:(id)sender;
 - (IBAction)bookmarkAction:(id)sender;
 - (IBAction)settingsAction:(id)sender;
-
--(void)scrollTableViewToTop;
--(void)scrollTableViewToBottom;
-
--(IBAction)moreInfoAction:(id)sender;
 @end

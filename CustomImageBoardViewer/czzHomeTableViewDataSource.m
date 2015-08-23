@@ -40,6 +40,9 @@
     if (indexPath.row == viewModelManager.threads.count){
         //Last row
         NSString *lastCellIdentifier = THREAD_TABLE_VIEW_CELL_LOAD_MORE_CELL_IDENTIFIER;
+        if (self.myTableView.lastCellType == czzThreadTableViewLastCommandCellTypeReleaseToLoadMore) {
+            lastCellIdentifier = THREAD_TABLE_VIEW_CELL_RELEASE_TO_LOAD_MORE_CELL_IDENTIFIER;
+        }
         if (viewModelManager.isDownloading || viewModelManager.isProcessing) {
             lastCellIdentifier = THREAD_TABLE_VIEW_CELL_LOADING_CELL_IDENTIFIER;
         }

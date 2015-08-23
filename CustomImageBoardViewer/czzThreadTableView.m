@@ -50,6 +50,10 @@
     [self registerNib:[UINib nibWithNibName:THREAD_TABLE_VEWI_CELL_RELEASE_TO_LOAD_MORE_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_TABLE_VIEW_CELL_RELEASE_TO_LOAD_MORE_CELL_IDENTIFIER];
 }
 
+- (void)reloadData {
+    [super reloadData];
+}
+
 #pragma mark - czzOnScreenCommandViewControllerDelegate
 -(void)onScreenCommandTapOnUp:(id)sender {
     // Scroll to top
