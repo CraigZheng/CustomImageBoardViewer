@@ -11,5 +11,6 @@
 @interface UIApplication (Util)
 +(UIViewController*)topViewController;
 +(UIViewController*)rootViewController;
-
++(NSString*)bundleVersion;
++(NSString*)appId;
 @end

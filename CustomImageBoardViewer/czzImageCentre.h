@@ -25,14 +25,14 @@
 @end
 
 @interface czzImageCentre : NSObject
-@property NSMutableOrderedSet *currentImageDownloaders;
-@property NSMutableOrderedSet *currentThumbnailDownloaders;
-@property NSMutableSet *currentLocalImages;
-@property NSMutableSet *currentLocalThumbnails;
-@property NSMutableArray *localImagesArray;
-@property NSMutableArray *localThumbnailsArray;
+@property (nonatomic, strong) NSMutableOrderedSet *currentImageDownloaders;
+@property (nonatomic, strong) NSMutableOrderedSet *currentThumbnailDownloaders;
+@property (nonatomic, strong) NSMutableSet *currentLocalImages;
+@property (nonatomic, strong) NSMutableSet *currentLocalThumbnails;
+@property (nonatomic, strong) NSMutableArray *localImagesArray;
+@property (nonatomic, strong) NSMutableArray *localThumbnailsArray;
 @property Boolean ready;
-@property id<czzImageCentreProtocol> delegate;
+@property (nonatomic, weak) id<czzImageCentreProtocol> delegate;
 
 +(id)sharedInstance;
 + (NSDate*) getModificationDateForFileAtPath:(NSString*)path;

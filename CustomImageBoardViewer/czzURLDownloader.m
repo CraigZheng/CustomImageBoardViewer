@@ -24,7 +24,12 @@
 -(id)initWithTargetURL:(NSURL *)url delegate:(id<czzURLDownloaderProtocol>)delegate startNow:(BOOL)now{
     self = [super init];
     if (self){
-        targetURL = url;
+        // Add bundle identifier and app ID to the target URL
+        NSString *targetURLString = url.absoluteString;
+        targetURLString = [targetURLString stringByAppendingFormat:@"?version=%@", [UIApplication bundleVersion]];
+        targetURLString = [targetURLString stringByAppendingFormat:@"?appID=%@", [UIApplication appId]];
+        
+        targetURL = [NSURL URLWithString:targetURLString];
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:targetURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:20];
         [request setHTTPShouldHandleCookies:YES];
         [request setHTTPMethod:@"GET"];
@@ -47,15 +52,10 @@
     [urlConn cancel];
 }
 
--(void)setTargetURL:(NSURL *)url{
-    targetURL = url;
-    urlConn = [[NSURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:url] delegate:self];
-}
-
 #pragma NSURLConnectionDelegate
 -(void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse *)response{
     self.receivedData = [NSMutableData new];
-    expectedLength = response.expectedContentLength;
+    expectedLength = (NSUInteger)response.expectedContentLength;
     self.backgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         [connection cancel];
     }];

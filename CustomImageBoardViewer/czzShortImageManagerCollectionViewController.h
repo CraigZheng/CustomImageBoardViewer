@@ -20,11 +20,11 @@
 @end
 
 @interface czzShortImageManagerCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
-@property id<czzShortImageManagerCollectionViewControllerProtocol> delegate;
+@property (weak, nonatomic) id<czzShortImageManagerCollectionViewControllerProtocol> delegate;
 @property (weak, nonatomic) IBOutlet UICollectionView *managerCollectionView;
-@property NSMutableArray *downloadedImages;
+@property (strong, nonatomic) NSMutableArray *downloadedImages;
 @property (weak, nonatomic) IBOutlet UIView *placeholderView;
-@property UIViewController *hostViewController;
+@property (strong, nonatomic) UIViewController *hostViewController;
 
 @property BOOL isShowing;
 

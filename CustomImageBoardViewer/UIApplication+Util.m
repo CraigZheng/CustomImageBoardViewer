@@ -42,5 +42,14 @@
     return rootViewController;
 }
 
++(NSString *)bundleVersion{
+    NSString *bundleIdentifier = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"];
+    NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
 
+    return [NSString stringWithFormat:@"%@-%@", bundleIdentifier, versionString];
+}
+
++(NSString *)appId {
+    return [NSString stringWithFormat:@"%@", @"A-Island-IOS-App"];
+}
 @end

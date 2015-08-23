@@ -140,9 +140,7 @@
 }
 
 -(void)downloadSettings {
-    NSString *bundleIdentifier = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"];
-    NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-    NSString *configurationURL = [NSString stringWithFormat:@"%@?version=%@", CONFIGURATION_URL, [NSString stringWithFormat:@"%@-%@", bundleIdentifier, versionString]];
+    NSString *configurationURL = CONFIGURATION_URL;
     DLog(@"updating settings from remote server: %@", configurationURL);
     [NSURLConnection sendAsynchronousRequest: [NSURLRequest requestWithURL:[NSURL URLWithString:configurationURL]]
                                        queue:[NSOperationQueue new]
