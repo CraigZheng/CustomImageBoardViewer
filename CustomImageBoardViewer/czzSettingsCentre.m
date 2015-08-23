@@ -10,11 +10,13 @@
 #import "PropertyUtil.h"
 #import <objc/runtime.h>
 #import "czzAppDelegate.h"
+#import "czzURLDownloader.h"
 #import <UIKit/UIKit.h>
 
-@interface czzSettingsCentre () <NSCoding>
+@interface czzSettingsCentre () <NSCoding, czzURLDownloaderProtocol>
 @property NSTimer *refreshSettingsTimer;
 @property (nonatomic) NSString *settingsFile;
+@property czzURLDownloader *urlDownloader;
 @end
 
 @implementation czzSettingsCentre
@@ -30,6 +32,7 @@
 @synthesize should_allow_dart;
 @synthesize donationLink;
 @synthesize shouldAllowOpenBlockedThread;
+@synthesize urlDownloader;
 //settings added at short version 2.0.1
 @synthesize forum_list_detail_url, reply_post_url, create_new_post_url, report_post_placeholder, share_post_url, thread_url, get_forum_info_url;
 
@@ -141,24 +144,8 @@
 
 -(void)downloadSettings {
     NSString *configurationURL = CONFIGURATION_URL;
-    DLog(@"updating settings from remote server: %@", configurationURL);
-    [NSURLConnection sendAsynchronousRequest: [NSURLRequest requestWithURL:[NSURL URLWithString:configurationURL]]
-                                       queue:[NSOperationQueue new]
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                               dispatch_async(dispatch_get_main_queue(), ^{
-                                   if (data) {
-                                       [self parseJSONData:data];
-                                       [self saveSettings]; //save settings from remote
-                                       DLog(@"settings updated from remote server");
-                                       if (message.length > 0) {
-                                           [AppDelegate showToast:message];
-                                       }
-                                   }
-                               });
-                           }];
-
+    urlDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:configurationURL] delegate:self startNow:YES];
 }
-
 -(void)parseJSONData:(NSData*)jsonData {
     NSError *error;
     NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
@@ -214,6 +201,22 @@
     NSString* libraryPath = [czzAppDelegate libraryFolder];
     return [libraryPath stringByAppendingPathComponent:@"Settings.dat"];
 }
+
+#pragma mark - czzURLDownloaderDelegate
+-(void)downloadOf:(NSURL *)url successed:(BOOL)successed result:(NSData *)downloadedData {
+    if (successed) {
+        if (downloadedData) {
+            [self parseJSONData:downloadedData];
+            [self saveSettings]; //save settings from remote
+            DLog(@"settings updated from remote server");
+            if (message.length > 0) {
+                [AppDelegate showToast:message];
+            }
+        }
+    }
+}
+
+#pragma mark - NSCoding delegate
 
 -(void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeBool:shouldUseRemoteConfiguration forKey:@"shouldUseRemoteConfiguration"];
