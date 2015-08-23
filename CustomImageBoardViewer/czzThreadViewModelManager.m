@@ -102,7 +102,7 @@
 -(void)setParentThread:(czzThread *)thread {
     _parentThread = thread;
     self.parentID = [NSString stringWithFormat:@"%ld", (long)self.parentThread.ID];
-    self.baseURLString = [[settingCentre thread_content_host] stringByReplacingOccurrencesOfString:kThreadID withString:self.parentID];
+    self.baseURLString = [[settingCentre thread_content_host] stringByReplacingOccurrencesOfString:kParentID withString:self.parentID];
     
 }
 
@@ -155,20 +155,11 @@
         [self calculateHeightsForThreads:self.lastBatchOfThreads];
     }
     //calculate current number and total page number
-    [self calculatePageNumberForThread:self.parentThread];
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([self.delegate respondsToSelector:@selector(subThreadProcessed:wasSuccessful:newThreads:allThreads:)]) {
             [self.delegate subThreadProcessed:self wasSuccessful:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
         }
     });
-}
-
--(void)calculatePageNumberForThread:(czzThread*)thread {
-//    NSInteger nextFloor = round_up_to_max_pow(thread.responseCount, [settingCentre response_per_page]);
-    NSInteger nextFloor = RoundTo(thread.responseCount, [settingCentre response_per_page]);
-    DLog(@"real response cound is %ld, nearest %ld is %ld", (long)thread.responseCount, (long)[settingCentre response_per_page], (long)nextFloor);
-    DLog(@"calculated result is %ld/%ld", (long)self.pageNumber, (long)nextFloor / [settingCentre response_per_page]);
-    self.totalPages = nextFloor / [settingCentre response_per_page];
 }
 
 float RoundTo(float number, float to)

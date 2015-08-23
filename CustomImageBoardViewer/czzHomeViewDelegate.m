@@ -106,7 +106,7 @@
                 self.myTableView.lastCellType = czzThreadTableViewLastCommandCellTypeReleaseToLoadMore;
                 [self.myTableView reloadData];
             } else {
-                if (self.myTableView.lastCellType == czzThreadTableViewLastCommandCellTypeReleaseToLoadMore) {
+                if (self.myTableView.lastCellType != czzThreadTableViewLastCommandCellTypeLoadMore) {
                     self.myTableView.lastCellType = czzThreadTableViewLastCommandCellTypeLoadMore;
                     [self.myTableView reloadData];
                 }

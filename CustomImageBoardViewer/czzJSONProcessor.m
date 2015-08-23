@@ -53,28 +53,30 @@
         }
     }
     @try {
-//        if (forum.parserType == FORUM_PARSER_AISLE) {
-            //page number data
+        //        if (forum.parserType == FORUM_PARSER_AISLE) {
+        //page number data
+        if ([parsedObjects objectForKey:@"page"]) {
             [self updatePageNumberWithJsonDict:[parsedObjects objectForKey:@"page"]];
-            //thread list data
-            NSArray* parsedThreadData = [[parsedObjects objectForKey:@"data"] objectForKey:@"threads"];
-            for (NSDictionary *rawThreadData in parsedThreadData) {
-                czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
-                if (newThread) {
-                    newThread.forum = forum;
-                    [processedThreads addObject:newThread];
-                }
+        }
+        //thread list data
+        NSArray* parsedThreadData = [[parsedObjects objectForKey:@"data"] objectForKey:@"threads"];
+        for (NSDictionary *rawThreadData in parsedThreadData) {
+            czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
+            if (newThread) {
+                newThread.forum = forum;
+                [processedThreads addObject:newThread];
             }
-            if (delegate) {
-                if ([delegate respondsToSelector:@selector(threadListProcessed:::)]) {
-                    [delegate threadListProcessed:self :processedThreads :YES];
-                } else if ([delegate respondsToSelector:@selector(threadListProcessed::)]) {
-                    [delegate threadListProcessed:processedThreads :YES];
-                }
+        }
+        if (delegate) {
+            if ([delegate respondsToSelector:@selector(threadListProcessed:::)]) {
+                [delegate threadListProcessed:self :processedThreads :YES];
+            } else if ([delegate respondsToSelector:@selector(threadListProcessed::)]) {
+                [delegate threadListProcessed:processedThreads :YES];
             }
-//        } else if (forum.parserType == FORUM_PARSER_BT_ISLE) {
-//            //TODO: switch to V2
-//        }
+        }
+        //        } else if (forum.parserType == FORUM_PARSER_BT_ISLE) {
+        //            //TODO: switch to V2
+        //        }
         
     }
     @catch (NSException *exception) {
@@ -104,31 +106,36 @@
         }
     }
     @try {
-//        if (forum.parserType == FORUM_PARSER_AISLE) {
-            //thread and sub thread data
-            czzThread *parentThread = [[czzThread alloc] initWithJSONDictionary:[parsedObjects objectForKey:@"threads"]];
-            parentThread.forum = forum; // Record source forum
-            NSArray* parsedThreadData = [self readFromJsonDictionary:parsedObjects withName:@"replys"];
-            for (NSDictionary *rawThreadData in parsedThreadData) {
-                czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
-                if (newThread) {
-                    newThread.forum = forum;
-                    [processedThreads addObject:newThread];
-                }
+        //        if (forum.parserType == FORUM_PARSER_AISLE) {
+        //thread and sub thread data
+        czzThread *parentThread;
+        if ([parsedObjects objectForKey:@"threads"]) {
+            parentThread = [[czzThread alloc] initWithJSONDictionary:[parsedObjects objectForKey:@"threads"]];
+        }
+        parentThread.forum = forum; // Record source forum
+        NSArray* parsedThreadData = [self readFromJsonDictionary:parsedObjects withName:@"replys"];
+        for (NSDictionary *rawThreadData in parsedThreadData) {
+            czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
+            if (newThread) {
+                newThread.forum = forum;
+                [processedThreads addObject:newThread];
             }
-            // Page number data
+        }
+        // Page number data
+        if ([parsedObjects objectForKey:@"page"]) {
             [self updatePageNumberWithJsonDict:[self readFromJsonDictionary:parsedObjects withName:@"page"]];
-            
-            if (delegate) {
-                if ([delegate respondsToSelector:@selector(subThreadProcessedForThread::::)]) {
-                    [delegate subThreadProcessedForThread:self :parentThread :processedThreads :YES];
-                } else if ([delegate respondsToSelector:@selector(subThreadProcessedForThread:::)]) {
-                    [delegate subThreadProcessedForThread:parentThread :processedThreads :YES];
-                }
+        }
+        
+        if (delegate) {
+            if ([delegate respondsToSelector:@selector(subThreadProcessedForThread::::)]) {
+                [delegate subThreadProcessedForThread:self :parentThread :processedThreads :YES];
+            } else if ([delegate respondsToSelector:@selector(subThreadProcessedForThread:::)]) {
+                [delegate subThreadProcessedForThread:parentThread :processedThreads :YES];
             }
-//        } else if (forum.parserType == FORUM_PARSER_BT_ISLE) {
-//            //TODO: add parser for A dao parser type
-//        }
+        }
+        //        } else if (forum.parserType == FORUM_PARSER_BT_ISLE) {
+        //            //TODO: add parser for A dao parser type
+        //        }
     }
     @catch (NSException *exception) {
         DLog(@"%@", exception);
@@ -161,7 +168,7 @@
  size = 5;
  title = "No.5366351";
  };
-
+ 
  */
 
 @end

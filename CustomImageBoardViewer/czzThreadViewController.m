@@ -348,7 +348,6 @@
 
 #pragma mark - czzSubthreadViewModelManagerProtocol
 -(void)threadViewModelManagerBeginDownloading:(czzHomeViewModelManager *)threadViewModelManager {
-//    DLog(@"%@", NSStringFromSelector(_cmd));
     if (!progressView.isAnimating) {
         [progressView startAnimating];
     }
@@ -363,6 +362,8 @@
             [progressView showWarning];
         }
     }
+    // Reset the lastCellType back to default.
+    self.threadTableView.lastCellType = czzThreadTableViewLastCommandCellTypeLoadMore;
 }
 
 -(void)subThreadProcessed:(czzHomeViewModelManager *)threadViewModelManager wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
@@ -424,76 +425,6 @@
         activityViewController.popoverPresentationController.sourceView = self.view;
     [self presentViewController:activityViewController animated:YES completion:nil];
 }
-
-#pragma mark - TableViewCellDelegate
--(void)userTapInImageView:(NSString *)imgURL {
-    for (NSString *file in [[czzImageCentre sharedInstance] currentLocalImages]) {
-        if ([file.lastPathComponent.lowercaseString isEqualToString:imgURL.lastPathComponent.lowercaseString])
-        {
-            [self openImageWithPath:file];
-            return;
-        }
-    }
-}
-
--(void)userTapInQuotedText:(NSString *)text {
-    NSInteger refNumber = text.integerValue;
-    
-    for (czzThread *thread in threads) {
-        if (thread.ID == refNumber){
-            //record the current content offset
-            threadsTableViewContentOffSet = threadTableView.contentOffset;
-            //scroll to the tapped cell
-            [threadTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[threads indexOfObject:thread] inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:NO];
-            //retrive the tapped tableview cell from the tableview
-            UITableViewCell *selectedCell = [threadTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[threads indexOfObject:thread] inSection:0]];
-            [self highlightTableViewCell:selectedCell];
-            return;
-        }
-    }
-    
-    //not in this thread
-    [AppDelegate.window makeToast:[NSString stringWithFormat:@"需要下载: %@", text]];
-    miniThreadView = [[UIStoryboard storyboardWithName:@"MiniThreadView" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
-    miniThreadView.delegate = self;
-    [miniThreadView setThreadID:refNumber];
-}
-
--(void)imageDownloadedForIndexPath:(NSIndexPath *)index filePath:(NSString *)path isThumbnail:(BOOL)isThumbnail {
-    if (isThumbnail)
-    {
-        if (index && index.row < threads.count) {
-            @try {
-                [threadTableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationAutomatic];
-            }
-            @catch (NSException *exception) {
-                DLog(@"%@", exception);
-            }
-        }
-    } else if ([settingCentre userDefShouldAutoOpenImage]) {
-        [self openImageWithPath:path];
-    }
-}
-
-#pragma mark - high light
--(void)highlightTableViewCell:(UITableViewCell*)tableviewcell{
-    //disable the scrolling view
-    self.threadTableView.scrollEnabled = NO;
-    PartialTransparentView *containerView = [[PartialTransparentView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.threadTableView.contentSize.height) backgroundColor:[[UIColor darkGrayColor] colorWithAlphaComponent:0.7f] andTransparentRects:[NSArray arrayWithObject:[NSValue valueWithCGRect:tableviewcell.frame]]];
-    
-    containerView.userInteractionEnabled = YES;
-    containerView.tag = OVERLAY_VIEW;
-    
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnFloatingView: )];
-    //fade in effect
-    containerView.alpha = 0.0f;
-    [threadTableView addSubview:containerView];
-    [UIView animateWithDuration:0.2
-                     animations:^{containerView.alpha = 1.0f;}
-                     completion:^(BOOL finished){[containerView addGestureRecognizer:tapRecognizer];}];
-    
-}
-
 -(void)tapOnFloatingView:(UIGestureRecognizer*)gestureRecognizer{
     PartialTransparentView *containerView = (PartialTransparentView*)[threadTableView viewWithTag:OVERLAY_VIEW];
     [UIView animateWithDuration:0.2 animations:^{
