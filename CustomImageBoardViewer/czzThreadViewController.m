@@ -368,11 +368,13 @@
 
 -(void)subThreadProcessed:(czzHomeViewModelManager *)threadViewModelManager wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     if (wasSuccessul) {
-        [self applyViewModel];
-        [threadTableView reloadData];
-        [refreshControl endRefreshing];
-        [progressView stopAnimating];
+        if (newThreads.count) {
+            [self applyViewModel];
+        }
     }
+    [threadTableView reloadData];
+    [refreshControl endRefreshing];
+    [progressView stopAnimating];
 }
 
 -(void)updateNumberButton {

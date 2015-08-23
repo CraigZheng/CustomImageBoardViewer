@@ -103,6 +103,8 @@
         DLog(@"%@", error);
         if ([delegate respondsToSelector:@selector(subThreadProcessedForThread:::)]) {
             [delegate subThreadProcessedForThread:nil :nil :NO];
+        } else {
+            [delegate subThreadProcessedForThread:self :nil :nil :NO];
         }
     }
     @try {

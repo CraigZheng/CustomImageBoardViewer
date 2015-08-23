@@ -155,15 +155,17 @@
 #pragma mark - setter
 -(void)setMyThread:(czzThread *)thread{
     myThread = thread;
-    NSDataDetector *linkDetector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
-    links = [NSMutableArray new];
-    NSArray *matches = [linkDetector matchesInString:myThread.content.string
-                                         options:0
-                                           range:NSMakeRange(0, [myThread.content.string length])];
-    for (NSTextCheckingResult *match in matches) {
-        if ([match resultType] == NSTextCheckingTypeLink) {
-            NSURL *url = [match URL];
-            [links addObject:url.absoluteString];
+    if (myThread.content) {
+        NSDataDetector *linkDetector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
+        links = [NSMutableArray new];
+        NSArray *matches = [linkDetector matchesInString:myThread.content.string
+                                                 options:0
+                                                   range:NSMakeRange(0, [myThread.content.string length])];
+        for (NSTextCheckingResult *match in matches) {
+            if ([match resultType] == NSTextCheckingTypeLink) {
+                NSURL *url = [match URL];
+                [links addObject:url.absoluteString];
+            }
         }
     }
     [self prepareUIWithMyThread];
@@ -181,7 +183,7 @@
 #pragma mark - consturct UI elements
 -(void)prepareUIWithMyThread {
     [self resetViews];
-    if (myThread.thImgSrc.length > 0){
+    if (myThread.thImgSrc.length){
         previewImageView.hidden = NO;
         [previewImageView setImage:[UIImage imageNamed:@"Icon.png"]];
         NSString *filePath = [thumbnailFolder stringByAppendingPathComponent:[myThread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
@@ -203,7 +205,9 @@
             [previewImageView setGestureRecognizers:@[tapOnImageGestureRecogniser]];
     }
     //if harmful flag is set, display warning header of harmful thread
-    NSMutableAttributedString *contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:myThread.content];
+    NSMutableAttributedString *contentAttrString;
+    if (myThread.content)
+        contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:myThread.content];
     if (myThread.harmful){
         NSDictionary *warningStringAttributes = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObject:[UIColor lightGrayColor]] forKeys:[NSArray arrayWithObject:NSForegroundColorAttributeName]];
         NSAttributedString *warningAttString = [[NSAttributedString alloc] initWithString:WARNINGHEADER attributes:warningStringAttributes];
@@ -223,7 +227,8 @@
     idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)myThread.ID];
     //set the color
     NSMutableAttributedString *uidAttrString = [[NSMutableAttributedString alloc] initWithString:@"UID:"];
-    [uidAttrString appendAttributedString:myThread.UID];
+    if (myThread.UID)
+        [uidAttrString appendAttributedString:myThread.UID];
     posterLabel.attributedText = uidAttrString;
     NSDateFormatter *dateFormatter = [NSDateFormatter new];
     [dateFormatter setDateFormat:@"yyyy MM-dd, HH:mm"];
