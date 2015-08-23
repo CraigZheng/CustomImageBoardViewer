@@ -55,7 +55,7 @@
     if (NavigationManager.delegate)
     {
         
-        if (NavigationManager.isInTransition || YES) {
+        if (NavigationManager.isInTransition) {
             NavigationManager.pushAnimationCompletionHandler = ^{
                 [NavigationManager pushViewController:photoBrowser animated:YES];
             };

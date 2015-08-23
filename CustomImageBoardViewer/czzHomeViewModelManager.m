@@ -106,6 +106,8 @@
     if (self.threadDownloader)
         [self.threadDownloader stop];
     self.pageNumber = pn;
+    if (self.pageNumber > self.totalPages)
+        self.pageNumber = self.totalPages;
 
     NSString *targetURLStringWithPN = [[self.baseURLString stringByReplacingOccurrencesOfString:kPageNumber withString:[NSString stringWithFormat:@"%ld", (long) self.pageNumber]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     self.threadDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];

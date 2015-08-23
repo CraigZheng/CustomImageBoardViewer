@@ -152,7 +152,7 @@
         {
             [self.threads replaceObjectAtIndex:0 withObject:self.parentThread];
         }
-        [self calculateHeightsForThreads:self.lastBatchOfThreads];
+        [self calculateHeightsForThreads:self.lastBatchOfThreads cutOffFromIndex:self.cutOffIndex];
     }
     //calculate current number and total page number
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -176,8 +176,21 @@ float RoundTo(float number, float to)
 /*
  calculate heights for both horizontal and vertical of the parent view controller
  */
--(void)calculateHeightsForThreads:(NSArray*)newThreads {
-    [super calculateHeightsForThreads:newThreads];
+-(void)calculateHeightsForThreads:(NSArray*)newThreads cutOffFromIndex:(NSInteger)cutOffIndex{
+    @try {
+        // Remove duplicate height objects, then calculate the newThreads
+        [self.verticalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, self.verticalHeights.count - cutOffIndex)];
+        [self.horizontalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, self.horizontalHeights.count - cutOffIndex)];
+        [super calculateHeightsForThreads:newThreads];
+
+    }
+    @catch (NSException *exception) {
+        // If error, remove all height objects, and calculate all from the beginning
+        DLog(@"%@", exception);
+        [self.verticalHeights removeAllObjects];
+        [self.horizontalHeights removeAllObjects];
+        [super calculateHeightsForThreads:self.threads];
+    }
 }
 
 #pragma mark - NSCoding
