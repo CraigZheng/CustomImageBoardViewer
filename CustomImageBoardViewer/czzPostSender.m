@@ -51,6 +51,7 @@
         [requestBody appendData:myPost.makeRequestBody];
         [urlRequest setHTTPBody:requestBody];
         urlConn = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self startImmediately:YES];
+        DLog(@"Sending post to: %@", urlRequest);
     } else {
         if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
         {
