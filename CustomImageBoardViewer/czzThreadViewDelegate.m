@@ -44,10 +44,19 @@
 -(BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender{
     return (action == @selector(copy:));
 }
+
 -(void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender{
     
 }
 
+#pragma mark - czzMenuEnableTableViewCellDelegate
+- (void)userTapInQuotedText:(NSString *)text {
+    for (czzThread *thread in self.viewModelManager.threads) {
+        if (thread.ID == text.integerValue) {
+            [self.myTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self.viewModelManager.threads indexOfObject:thread] inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:YES];
+        }
+    }
+}
 
 +(instancetype)initWithViewModelManager:(czzThreadViewModelManager *)viewModelManager {
     czzThreadViewDelegate *sharedDelegate = [czzThreadViewDelegate sharedInstance];

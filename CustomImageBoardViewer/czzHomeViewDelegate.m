@@ -83,7 +83,8 @@
     NSArray *heightArray = UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].keyWindow.rootViewController.interfaceOrientation) ? self.viewModelManager.verticalHeights : self.viewModelManager.horizontalHeights;
     CGFloat preferHeight = tableView.rowHeight;
     @try {
-        preferHeight = [[heightArray objectAtIndex:indexPath.row] floatValue];
+        if (indexPath.row < heightArray.count)
+            preferHeight = [[heightArray objectAtIndex:indexPath.row] floatValue];
     }
     @catch (NSException *exception) {
         DLog(@"%@", exception);
@@ -161,20 +162,27 @@
 
 - (BOOL)tableViewIsDraggedOverTheBottomWithPadding:(CGFloat)padding {
     BOOL isOver = NO;
-    if (self.myTableView && [self.myTableView visibleCells]) {
-        NSArray *visibleRows = [self.myTableView visibleCells];
-        UITableViewCell *lastVisibleCell = [visibleRows lastObject];
-        NSIndexPath *path = [self.myTableView indexPathForCell:lastVisibleCell];
-        if(path.row == self.viewModelManager.threads.count || true)
-        {
-            CGPoint contentOffSet = self.myTableView.contentOffset;
-            CGRect lastCellRect = [self.myTableView rectForRowAtIndexPath:path];
-            if (lastCellRect.origin.y + lastCellRect.size.height + padding < contentOffSet.y + self.myTableView.frame.size.height) {
-                isOver = YES;
-            } else {
-                isOver = NO;
+    @try {
+        if (self.myTableView.window) {
+            NSArray *visibleRows = [self.myTableView visibleCells];
+            if (visibleRows) {
+                UITableViewCell *lastVisibleCell = [visibleRows lastObject];
+                NSIndexPath *path = [self.myTableView indexPathForCell:lastVisibleCell];
+                if(path.row == self.viewModelManager.threads.count || true)
+                {
+                    CGPoint contentOffSet = self.myTableView.contentOffset;
+                    CGRect lastCellRect = [self.myTableView rectForRowAtIndexPath:path];
+                    if (lastCellRect.origin.y + lastCellRect.size.height + padding < contentOffSet.y + self.myTableView.frame.size.height) {
+                        isOver = YES;
+                    } else {
+                        isOver = NO;
+                    }
+                }
             }
         }
+    }
+    @catch (NSException *exception) {
+        DLog(@"%@", exception);
     }
     return isOver;
 }

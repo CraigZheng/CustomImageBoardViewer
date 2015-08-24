@@ -17,7 +17,7 @@
 @implementation czzThreadViewModelManager
 
 -(instancetype)initWithParentThread:(czzThread *)thread andForum:(czzForum *)forum{
-    self = [czzThreadViewModelManager sharedManager];
+    self = [czzThreadViewModelManager new];
     if (self) {
         self.forum = forum;
         // Give it a default forum
