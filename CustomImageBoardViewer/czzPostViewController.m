@@ -261,7 +261,7 @@
     if (status) {
         [self dismissViewControllerAnimated:YES completion:^{
             //dismiss this view controller and upon its dismiss, notify user that the message is posted
-            [AppDelegate showToast:@"串已发"];
+            [AppDelegate showToast:@"提交成功"];
         }];
     } else {
         [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:message duration:1.5 position:@"top" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];

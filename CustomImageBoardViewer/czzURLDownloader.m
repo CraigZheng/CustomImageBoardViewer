@@ -26,6 +26,9 @@
     if (self){
         // Add bundle identifier and app ID to the target URL
         NSString *targetURLString = url.absoluteString;
+        if (![targetURLString hasSuffix:@"?"]) {
+            targetURLString = [targetURLString stringByAppendingString:@"?"]; // Adding ? sign at the end to allow parsing by PHP.
+        }
         targetURLString = [targetURLString stringByAppendingFormat:@"&version=%@", [UIApplication bundleVersion]];
         targetURLString = [targetURLString stringByAppendingFormat:@"&appID=%@", [UIApplication appId]];
         
