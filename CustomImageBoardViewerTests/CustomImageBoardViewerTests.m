@@ -257,17 +257,17 @@
 }
 
 #pragma mark - czzThreadListProtocol 
--(void)threadListDownloaded:(czzHomeViewModelManager *)threadList wasSuccessful:(BOOL)wasSuccessful {
+-(void)viewModelManager:(czzHomeViewModelManager *)threadList downloadSuccessful:(BOOL)wasSuccessful {
     NSLog(@"thread list downloaded: %@", wasSuccessful ? @"successed" : @"failed");
     XCTAssertTrue(wasSuccessful);
 }
 
--(void)threadListProcessed:(czzHomeViewModelManager *)threadList wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
+-(void)viewModelManager:(czzHomeViewModelManager *)threadList processedThreadData:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     NSLog(@"thread list processed");
     done = YES;
 }
 
--(void)subThreadProcessed:(czzHomeViewModelManager *)threadList wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
+-(void)viewModelManager:(czzHomeViewModelManager *)threadList processedSubThreadData:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     DLog(@"%@", NSStringFromSelector(_cmd));
     XCTAssertTrue(wasSuccessul);
     done = YES;

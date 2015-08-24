@@ -347,13 +347,13 @@
 }
 
 #pragma mark - czzSubthreadViewModelManagerProtocol
--(void)threadViewModelManagerBeginDownloading:(czzHomeViewModelManager *)threadViewModelManager {
+-(void)viewModelManagerBeginDownloading:(czzHomeViewModelManager *)threadList {
     if (!progressView.isAnimating) {
         [progressView startAnimating];
     }
 }
 
--(void)threadViewModelManagerDownloaded:(czzHomeViewModelManager *)threadViewModelManager wasSuccessful:(BOOL)wasSuccessful {
+-(void)viewModelManager:(czzHomeViewModelManager *)threadList downloadSuccessful:(BOOL)wasSuccessful {
     if (!wasSuccessful)
     {
         if (progressView.isAnimating) {
@@ -364,7 +364,7 @@
     }
 }
 
--(void)subThreadProcessed:(czzHomeViewModelManager *)threadViewModelManager wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
+-(void)viewModelManager:(czzHomeViewModelManager *)threadViewModelManager processedSubThreadData:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     if (wasSuccessul) {
         if (newThreads.count) {
             [self applyViewModel];

@@ -112,8 +112,8 @@
     NSString *targetURLStringWithPN = [[self.baseURLString stringByReplacingOccurrencesOfString:kPageNumber withString:[NSString stringWithFormat:@"%ld", (long) self.pageNumber]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     self.threadDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
     self.isDownloading = YES;
-    if ([self.delegate respondsToSelector:@selector(threadListBeginDownloading:)]) {
-        [self.delegate threadListBeginDownloading:self];
+    if ([self.delegate respondsToSelector:@selector(viewModelManagerBeginDownloading:)]) {
+        [self.delegate viewModelManagerBeginDownloading:self];
     }
 }
 
@@ -156,16 +156,16 @@
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.delegate respondsToSelector:@selector(threadListDownloaded:wasSuccessful:)]) {
-            [self.delegate threadListDownloaded:self wasSuccessful:successed];
+        if ([self.delegate respondsToSelector:@selector(viewModelManager:downloadSuccessful:)]) {
+            [self.delegate viewModelManager:self downloadSuccessful:successed];
         }
     });
 }
 
 -(void)downloadUpdated:(czzURLDownloader *)downloader progress:(CGFloat)progress {
-    if ([self.delegate respondsToSelector:@selector(threadListUpdated:progress:)]) {
+    if ([self.delegate respondsToSelector:@selector(viewModelManager:downloadProgressUpdated:)]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate threadListUpdated:self progress:progress];
+            [self.delegate viewModelManager:self downloadProgressUpdated:progress];
         });
     }
 }
@@ -188,8 +188,8 @@
         [self calculateHeightsForThreads:self.lastBatchOfThreads];
     }
     dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.delegate respondsToSelector:@selector(threadListProcessed:wasSuccessful:newThreads:allThreads:)]) {
-            [self.delegate threadListProcessed:self wasSuccessful:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
+        if ([self.delegate respondsToSelector:@selector(viewModelManager:processedThreadData:newThreads:allThreads:)]) {
+            [self.delegate viewModelManager:self processedThreadData:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
         }
         DLog(@"%@", NSStringFromSelector(_cmd));
     });

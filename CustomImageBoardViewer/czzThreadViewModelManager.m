@@ -113,8 +113,8 @@
         [self.threadContentListDataProcessor processSubThreadFromData:receivedData forForum:self.forum];
     }
     dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.delegate respondsToSelector:@selector(threadListDownloaded:wasSuccessful:)]) {
-            [self.delegate threadListDownloaded:self wasSuccessful:successed];
+        if ([self.delegate respondsToSelector:@selector(viewModelManager:downloadSuccessful:)]) {
+            [self.delegate viewModelManager:self downloadSuccessful:successed];
         }
     });
 }
@@ -158,8 +158,8 @@
     [self downloadThumbnailsForThreads:newThread];
     //calculate current number and total page number
     dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.delegate respondsToSelector:@selector(subThreadProcessed:wasSuccessful:newThreads:allThreads:)]) {
-            [self.delegate subThreadProcessed:self wasSuccessful:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
+        if ([self.delegate respondsToSelector:@selector(viewModelManager:processedSubThreadData:newThreads:allThreads:)]) {
+            [self.delegate viewModelManager:self processedSubThreadData:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
         }
     });
 }

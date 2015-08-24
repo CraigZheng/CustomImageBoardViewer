@@ -24,13 +24,13 @@
 @class czzHomeViewModelManager;
 @protocol czzThreadListProtocol <NSObject>
 @optional
--(void)threadListBeginDownloading:(czzHomeViewModelManager*)threadList;
--(void)threadListProcessed:(czzHomeViewModelManager*)threadList wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray*)newThreads allThreads:(NSArray*)allThreads;
--(void)subThreadProcessed:(czzHomeViewModelManager*)threadList wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray*)newThreads allThreads:(NSArray*)allThreads;
+-(void)viewModelManagerBeginDownloading:(czzHomeViewModelManager*)threadList;
+-(void)viewModelManager:(czzHomeViewModelManager*)threadList processedThreadData:(BOOL)wasSuccessul newThreads:(NSArray*)newThreads allThreads:(NSArray*)allThreads;
+-(void)viewModelManager:(czzHomeViewModelManager*)threadList processedSubThreadData:(BOOL)wasSuccessul newThreads:(NSArray*)newThreads allThreads:(NSArray*)allThreads;
 
 //updates
--(void)threadListUpdated:(czzHomeViewModelManager*)threadList progress:(CGFloat)progress;
--(void)threadListDownloaded:(czzHomeViewModelManager*)threadList wasSuccessful:(BOOL)wasSuccessful;
+-(void)viewModelManager:(czzHomeViewModelManager*)threadList downloadProgressUpdated:(CGFloat)progress;
+-(void)viewModelManager:(czzHomeViewModelManager*)threadList downloadSuccessful:(BOOL)wasSuccessful;
 
 @end
 

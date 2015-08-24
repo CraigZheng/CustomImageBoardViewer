@@ -310,7 +310,7 @@
 }
 
 #pragma mark - czzThreadListProtocol
--(void)threadListDownloaded:(czzHomeViewModelManager *)threadList wasSuccessful:(BOOL)wasSuccessful {
+-(void)viewModelManager:(czzHomeViewModelManager *)threadList downloadSuccessful:(BOOL)wasSuccessful {
     DLog(@"%@", NSStringFromSelector(_cmd));
     if (!wasSuccessful && viewControllerNotInTransition) {
         [refreshControl endRefreshing];
@@ -320,13 +320,13 @@
     self.threadTableView.lastCellType = czzThreadTableViewLastCommandCellTypeLoadMore;
 }
 
--(void)threadListBeginDownloading:(czzHomeViewModelManager *)threadList {
+-(void)viewModelManagerBeginDownloading:(czzHomeViewModelManager *)threadList {
     if (!progressView.isAnimating)
         [progressView startAnimating];
     
 }
 
--(void)threadListProcessed:(czzHomeViewModelManager *)list wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
+-(void)viewModelManager:(czzHomeViewModelManager *)list processedThreadData:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     DLog(@"%@", NSStringFromSelector(_cmd));
     [self updateTableView];
     
