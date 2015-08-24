@@ -37,6 +37,7 @@
         [request setHTTPShouldHandleCookies:YES];
         [request setHTTPMethod:@"GET"];
         [request setValue:@"application/xml" forHTTPHeaderField:@"Accept"];
+        [request setValue:@"HavfunClient" forKey:@"User-Agent"];
 
         urlConn = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:now];
         if (now)
