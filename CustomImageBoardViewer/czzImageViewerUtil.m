@@ -57,10 +57,14 @@
         
         if (NavigationManager.isInTransition) {
             NavigationManager.pushAnimationCompletionHandler = ^{
-                [NavigationManager pushViewController:photoBrowser animated:YES];
+                if (![[UIApplication topViewController] isKindOfClass:[photoBrowser class]]) {
+                    [NavigationManager pushViewController:photoBrowser animated:YES];
+                }
             };
         } else {
-            [NavigationManager pushViewController:photoBrowser animated:YES];
+            if (![[UIApplication topViewController] isKindOfClass:[photoBrowser class]]) {
+                [NavigationManager pushViewController:photoBrowser animated:YES];
+            }
         }
     } else {
         photoBrowserNavigationController = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
