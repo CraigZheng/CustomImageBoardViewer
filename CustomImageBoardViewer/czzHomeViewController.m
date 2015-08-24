@@ -310,6 +310,12 @@
 }
 
 #pragma mark - czzThreadListProtocol
+- (void)viewModelManagerWantsToReload:(czzHomeViewModelManager *)manager {
+    if (manager.threads.count) {
+        [self.threadTableView reloadData];
+    }
+}
+
 -(void)viewModelManager:(czzHomeViewModelManager *)threadList downloadSuccessful:(BOOL)wasSuccessful {
     DLog(@"%@", NSStringFromSelector(_cmd));
     if (!wasSuccessful && viewControllerNotInTransition) {

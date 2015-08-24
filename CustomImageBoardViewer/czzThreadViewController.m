@@ -348,6 +348,12 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 #pragma mark - czzSubthreadViewModelManagerProtocol
+- (void)viewModelManagerWantsToReload:(czzHomeViewModelManager *)manager {
+    if (manager.threads.count) {
+        [self.threadTableView reloadData];
+    }
+}
+
 -(void)viewModelManagerBeginDownloading:(czzHomeViewModelManager *)threadList {
     if (!progressView.isAnimating) {
         [progressView startAnimating];

@@ -72,6 +72,12 @@
     }
 }
 
+- (void)reloadData {
+    if ([self.delegate respondsToSelector:@selector(viewModelManagerWantsToReload:)]) {
+        [self.delegate viewModelManagerWantsToReload:self];
+    }
+}
+
 #pragma mark - setters
 -(void)setForum:(czzForum *)forum {
     _forum = forum;

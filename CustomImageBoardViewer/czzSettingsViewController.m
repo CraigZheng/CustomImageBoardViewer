@@ -14,6 +14,7 @@
 #import "czzSettingsCentre.h"
 #import "czzCookieManagerViewController.h"
 #import "czzNotificationCentreTableViewController.h"
+#import "czzHomeViewModelManager.h"
 
 @interface czzSettingsViewController ()<UIAlertViewDelegate, UIActionSheetDelegate>
 @property NSMutableArray *commands;
@@ -213,7 +214,8 @@
         settingsCentre.userDefShouldUseBigImage = !settingsCentre.userDefShouldUseBigImage;
         [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate threadCacheFolder] error:nil];
         [AppDelegate checkFolders];
-        [AppDelegate showToast:[NSString stringWithFormat:@"大图模式：%@，刷新后生效", settingsCentre.userDefShouldUseBigImage ? @"On" : @"Off"]];
+        [AppDelegate showToast:[NSString stringWithFormat:@"大图模式：%@", settingsCentre.userDefShouldUseBigImage ? @"On" : @"Off"]];
+        [[czzHomeViewModelManager sharedManager] refresh];
         [settingsCentre saveSettings];
         [self.settingsTableView reloadData];
     }
@@ -251,7 +253,8 @@
         if ([command isEqualToString:@"显示图片"]){
             //下载图片
             settingsCentre.userDefShouldDisplayThumbnail = switchControl.on;
-            [AppDelegate showToast:@"刷新后生效"];
+            [AppDelegate showToast:@"更改图片显示设置..."];
+            [[czzHomeViewModelManager sharedManager] reloadData];
         }
         else if ([command isEqualToString:@"图片下载完毕自动打开"]){
             //自动打开图片
@@ -266,7 +269,8 @@
             [AppDelegate showToast:@"重启后生效"];
         } else if ([command isEqualToString:@"夜间模式"]) {
             settingsCentre.nightyMode = !settingsCentre.nightyMode;
-            [AppDelegate showToast:[NSString stringWithFormat:@"夜间模式：%@，刷新后生效", settingsCentre.nightyMode ? @"On" : @"Off"]];
+            [AppDelegate showToast:[NSString stringWithFormat:@"夜间模式：%@", settingsCentre.nightyMode ? @"On" : @"Off"]];
+            [[czzHomeViewModelManager sharedManager] reloadData];
             [self.settingsTableView reloadData];
         }
         else if ([command isEqualToString:@"大图模式"]) {

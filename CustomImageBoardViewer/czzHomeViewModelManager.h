@@ -32,6 +32,9 @@
 -(void)viewModelManager:(czzHomeViewModelManager*)threadList downloadProgressUpdated:(CGFloat)progress;
 -(void)viewModelManager:(czzHomeViewModelManager*)threadList downloadSuccessful:(BOOL)wasSuccessful;
 
+// Need to reload
+-(void)viewModelManagerWantsToReload:(czzHomeViewModelManager*)manager;
+
 @end
 
 @interface czzHomeViewModelManager : NSObject <czzURLDownloaderProtocol, czzJSONProcessorDelegate, NSCoding>
@@ -59,11 +62,13 @@
 @property (nonatomic, strong) czzJSONProcessor *threadContentListDataProcessor;
 
 -(void)refresh;
+-(void)reloadData;
 -(void)loadMoreThreads;
 -(void)loadMoreThreads:(NSInteger)pageNumber;
 -(void)removeAll;
 -(void)calculateHeightsForThreads:(NSArray*)newThreads;
 -(void)downloadThumbnailsForThreads:(NSArray*)threads;
+
 //save and restore
 -(void)saveCurrentState;
 -(void)restorePreviousState;

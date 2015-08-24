@@ -130,7 +130,11 @@
                 for (NSString *propertyName in properties) {
                     if ([self respondsToSelector:NSSelectorFromString(propertyName)]) {
                         @try {
-                            [self setValue:[archivedSettings valueForKey:propertyName] forKey:propertyName];
+                            if ([propertyName isEqualToString:@"description"] || [propertyName isEqualToString:@"debugDescription"] || [propertyName isEqualToString:@"hash"] || [propertyName isEqualToString:@"superclass"]) {
+                                // Do nothing
+                            } else {
+                                [self setValue:[archivedSettings valueForKey:propertyName] forKey:propertyName];
+                            }
                         }
                         @catch (NSException *exception) {
                             DLog(@"%@", exception);
