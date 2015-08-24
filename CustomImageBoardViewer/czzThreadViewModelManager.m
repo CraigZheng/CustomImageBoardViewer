@@ -21,7 +21,6 @@
     if (self) {
         self.forum = forum;
         // Give it a default forum
-        //TODO: give it something more real
         if (!self.forum) {
             self.forum = [czzForum new];
         }
@@ -31,13 +30,7 @@
         self.parentID = [NSString stringWithFormat:@"%ld", (long) self.parentThread.ID];
         self.threadContentListDataProcessor = [czzJSONProcessor new];
         self.threadContentListDataProcessor.delegate = self;
-
-        self.totalPages = self.pageNumber = 1;
-
-        self.threads = [NSMutableArray new];
-        self.verticalHeights = [NSMutableArray new];
-        self.horizontalHeights = [NSMutableArray new];
-        
+        [self reset];
     }
     
     return self;
@@ -195,6 +188,12 @@ float RoundTo(float number, float to)
     }
 }
 
+- (void)reset {
+    self.totalPages = self.pageNumber = 1;
+    self.threads = self.horizontalHeights = self.verticalHeights = nil;
+    self.cachedThreads = self.cachedHorizontalHeights = self.cachedVerticalHeights = nil;
+}
+
 #pragma mark - NSCoding
 -(void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:self.parentThread forKey:@"parentThread"];
@@ -251,5 +250,6 @@ float RoundTo(float number, float to)
     return _sharedObject;
 }
 
+#pragma mark - Getter
 
 @end

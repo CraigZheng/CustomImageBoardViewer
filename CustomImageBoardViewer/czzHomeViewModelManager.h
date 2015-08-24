@@ -35,24 +35,28 @@
 @end
 
 @interface czzHomeViewModelManager : NSObject <czzURLDownloaderProtocol, czzJSONProcessorDelegate, NSCoding>
-@property BOOL shouldHideImageForThisForum;
-@property (nonatomic) czzForum *forum;
-@property NSInteger pageNumber;
-@property NSInteger totalPages;
-@property NSMutableArray *threads;
-@property NSArray *lastBatchOfThreads;
-@property id<czzThreadListProtocol> delegate;
-@property BOOL isDownloading;
-@property BOOL isProcessing;
-@property NSMutableArray *horizontalHeights;
-@property NSMutableArray *verticalHeights;
-@property NSString *baseURLString;
-@property CGPoint currentOffSet;
-@property czzThread *displayedThread;
+@property (nonatomic, assign) BOOL shouldHideImageForThisForum;
+@property (nonatomic, strong) czzForum *forum;
+@property (nonatomic, assign) NSInteger pageNumber;
+@property (nonatomic, assign) NSInteger totalPages;
+@property (nonatomic, strong) NSMutableArray *threads;
+@property (nonatomic, strong) NSArray *lastBatchOfThreads;
+@property (nonatomic, weak) id<czzThreadListProtocol> delegate;
+@property (nonatomic, assign) BOOL isDownloading;
+@property (nonatomic, assign) BOOL isProcessing;
+@property (nonatomic, strong) NSMutableArray *horizontalHeights;
+@property (nonatomic, strong) NSMutableArray *verticalHeights;
+@property (nonatomic, strong) NSString *baseURLString;
+@property (nonatomic, assign) CGPoint currentOffSet;
+@property (nonatomic, strong) czzThread *displayedThread;
+@property (nonatomic, strong) NSMutableArray *cachedThreads;
+@property (nonatomic, strong) NSMutableArray *cachedHorizontalHeights;
+@property (nonatomic, strong) NSMutableArray *cachedVerticalHeights;
 
-@property czzURLDownloader *threadDownloader;
-@property czzJSONProcessor *threadListDataProcessor;
-@property czzJSONProcessor *threadContentListDataProcessor;
+
+@property (nonatomic, strong) czzURLDownloader *threadDownloader;
+@property (nonatomic, strong) czzJSONProcessor *threadListDataProcessor;
+@property (nonatomic, strong) czzJSONProcessor *threadContentListDataProcessor;
 
 -(void)refresh;
 -(void)loadMoreThreads;

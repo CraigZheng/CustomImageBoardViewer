@@ -18,6 +18,8 @@ typedef enum {
 } czzThreadTableViewLastCommandCellType;
 
 @interface czzThreadTableView : UITableView
-@property czzOnScreenCommandViewController *upDownViewController;
-@property czzThreadTableViewLastCommandCellType lastCellType;
+@property (nonatomic, strong) czzOnScreenCommandViewController *upDownViewController;
+@property (nonatomic, assign) czzThreadTableViewLastCommandCellType lastCellType;
+
+-(void)scrollToTop;
 @end

@@ -329,7 +329,10 @@
 -(void)viewModelManager:(czzHomeViewModelManager *)list processedThreadData:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     DLog(@"%@", NSStringFromSelector(_cmd));
     [self updateTableView];
-    
+    // If pageNumber == 1, then is a forum change, scroll to top.
+    if (wasSuccessul && self.homeViewManager.pageNumber == 1) {
+        [self.threadTableView scrollToTop];
+    }
     [refreshControl endRefreshing];
     if (viewControllerNotInTransition)
         [progressView stopAnimating];
@@ -343,7 +346,6 @@
     [self refreshThread:nil];
 }
 
-//create a new NSURL outta targetURLString, and reload the content threadTableView
 -(void)refreshThread:(id)sender{
     //reset to default page number
     [homeViewManager refresh];

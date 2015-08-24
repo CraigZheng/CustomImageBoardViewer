@@ -26,7 +26,7 @@
 @property (strong) czzImageViewerUtil *imageViewerUtil;
 @property (nonatomic, readonly) NSIndexPath *lastRowIndexPath;
 @property (nonatomic, readonly) BOOL tableViewIsDraggedOverTheBottom;
-@property (nonatomic, readonly) BOOL tableViewIsDraggedOverTheBottomWithPadding;
+- (BOOL)tableViewIsDraggedOverTheBottomWithPadding:(CGFloat)padding;
 @end
 
 @implementation czzHomeViewDelegate
@@ -102,7 +102,7 @@
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (!(self.viewModelManager.isDownloading || self.viewModelManager.isProcessing) && self.viewModelManager.threads.count > 0) {
         if (self.tableViewIsDraggedOverTheBottom) {
-            if (self.tableViewIsDraggedOverTheBottomWithPadding) {
+            if ([self tableViewIsDraggedOverTheBottomWithPadding:44 * 2]) {
                 self.myTableView.lastCellType = czzThreadTableViewLastCommandCellTypeReleaseToLoadMore;
                 [self.myTableView reloadData];
             } else {
@@ -117,7 +117,7 @@
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     if (!(self.viewModelManager.isDownloading || self.viewModelManager.isProcessing) && self.viewModelManager.threads.count > 0) {
-        if (self.tableViewIsDraggedOverTheBottomWithPadding) {
+        if ([self tableViewIsDraggedOverTheBottomWithPadding:44 * 2]) {
             [self.viewModelManager loadMoreThreads];
             [self.myTableView reloadRowsAtIndexPaths:@[self.lastRowIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
@@ -156,35 +156,27 @@
 
 #pragma mark - Getters {
 - (BOOL)tableViewIsDraggedOverTheBottom {
-    NSArray *visibleRows = [self.myTableView visibleCells];
-    UITableViewCell *lastVisibleCell = [visibleRows lastObject];
-    NSIndexPath *path = [self.myTableView indexPathForCell:lastVisibleCell];
-    if(path.row == self.viewModelManager.threads.count || true)
-    {
-        CGPoint contentOffSet = self.myTableView.contentOffset;
-        CGRect lastCellRect = [self.myTableView rectForRowAtIndexPath:path];
-        if (lastCellRect.origin.y + lastCellRect.size.height + 44 < contentOffSet.y + self.myTableView.frame.size.height) {
-            return YES;
-        } else {
-            return NO;
-        }
-    }
+    return [self tableViewIsDraggedOverTheBottomWithPadding:44];
 }
 
-- (BOOL)tableViewIsDraggedOverTheBottomWithPadding {
-    NSArray *visibleRows = [self.myTableView visibleCells];
-    UITableViewCell *lastVisibleCell = [visibleRows lastObject];
-    NSIndexPath *path = [self.myTableView indexPathForCell:lastVisibleCell];
-    if(path.row == self.viewModelManager.threads.count || true)
-    {
-        CGPoint contentOffSet = self.myTableView.contentOffset;
-        CGRect lastCellRect = [self.myTableView rectForRowAtIndexPath:path];
-        if (lastCellRect.origin.y + lastCellRect.size.height + 44 * 2 < contentOffSet.y + self.myTableView.frame.size.height) {
-            return YES;
-        } else {
-            return NO;
+- (BOOL)tableViewIsDraggedOverTheBottomWithPadding:(CGFloat)padding {
+    BOOL isOver = NO;
+    if (self.myTableView && [self.myTableView visibleCells]) {
+        NSArray *visibleRows = [self.myTableView visibleCells];
+        UITableViewCell *lastVisibleCell = [visibleRows lastObject];
+        NSIndexPath *path = [self.myTableView indexPathForCell:lastVisibleCell];
+        if(path.row == self.viewModelManager.threads.count || true)
+        {
+            CGPoint contentOffSet = self.myTableView.contentOffset;
+            CGRect lastCellRect = [self.myTableView rectForRowAtIndexPath:path];
+            if (lastCellRect.origin.y + lastCellRect.size.height + padding < contentOffSet.y + self.myTableView.frame.size.height) {
+                isOver = YES;
+            } else {
+                isOver = NO;
+            }
         }
     }
+    return isOver;
 }
 
 - (NSIndexPath *)lastRowIndexPath {

@@ -54,6 +54,12 @@
     [super reloadData];
 }
 
+-(void)scrollToTop {
+    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+        [self setContentOffset:CGPointMake(0, -self.contentInset.top) animated:NO];
+    }];
+}
+
 #pragma mark - czzOnScreenCommandViewControllerDelegate
 -(void)onScreenCommandTapOnUp:(id)sender {
     // Scroll to top

@@ -21,9 +21,6 @@
         self.isDownloading = NO;
         self.isProcessing = NO;
         self.pageNumber = self.totalPages = 1;
-        self.threads = [NSMutableArray new];
-        self.horizontalHeights = [NSMutableArray new];
-        self.verticalHeights = [NSMutableArray new];
 
         self.threadListDataProcessor = [czzJSONProcessor new];
         self.threadListDataProcessor.delegate = self;
@@ -85,11 +82,7 @@
 }
 
 -(void)refresh {
-    self.threads = [NSMutableArray new];
-    self.horizontalHeights = [NSMutableArray new];
-    self.verticalHeights = [NSMutableArray new];
-    self.lastBatchOfThreads = nil;
-    self.pageNumber = 1;
+    [self removeAll];
     [self loadMoreThreads:self.pageNumber];
 }
 
@@ -119,10 +112,13 @@
 
 -(void)removeAll {
     self.pageNumber = 1;
-    [self.threads removeAllObjects];
-    self.lastBatchOfThreads = nil;
-    [self.horizontalHeights removeAllObjects];
-    [self.verticalHeights removeAllObjects];
+    // Keep old threads in the cache
+    self.cachedThreads = self.threads;
+    self.cachedHorizontalHeights = self.horizontalHeights;
+    self.cachedVerticalHeights = self.verticalHeights;
+    
+    // Clear all.
+    self.lastBatchOfThreads = self.horizontalHeights = self.verticalHeights = self.threads = nil;
 }
 
 - (void)downloadThumbnailsForThreads:(NSArray*)threads {
@@ -174,6 +170,7 @@
 -(void)threadListProcessed:(czzJSONProcessor *)processor :(NSArray *)newThreads :(BOOL)success {
     self.isProcessing = NO;
     if (success){
+        self.cachedVerticalHeights = self.cachedHorizontalHeights = self.cachedThreads = nil;
         if (self.shouldHideImageForThisForum)
         {
             for (czzThread *thread in newThreads) {
@@ -215,6 +212,34 @@
             [self.horizontalHeights addObject:[NSNumber numberWithFloat:longHeight]];
         }
     });
+}
+
+#pragma mark - Getters
+- (NSMutableArray *)threads {
+    if (!_threads) {
+        _threads = [NSMutableArray new];
+    } else if (!_threads.count && self.cachedThreads.count) {
+        return self.cachedThreads;
+    }
+    return _threads;
+}
+
+- (NSMutableArray *)horizontalHeights {
+    if (!_horizontalHeights) {
+        _horizontalHeights = [NSMutableArray new];
+    } else if (!_horizontalHeights.count && self.cachedHorizontalHeights.count) {
+        return self.cachedHorizontalHeights;
+    }
+    return _horizontalHeights;
+}
+
+- (NSMutableArray *)verticalHeights {
+    if (!_verticalHeights) {
+        _verticalHeights = [NSMutableArray new];
+    } else if (!_verticalHeights.count && self.cachedVerticalHeights.count) {
+        return self.cachedVerticalHeights;
+    }
+    return _verticalHeights;
 }
 
 #pragma mark - NSCoding
