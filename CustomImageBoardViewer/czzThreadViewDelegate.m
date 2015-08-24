@@ -8,6 +8,13 @@
 
 #import "czzThreadViewDelegate.h"
 
+#import "PartialTransparentView.h"
+
+@interface czzThreadViewDelegate ()
+@property (nonatomic, strong) PartialTransparentView *containerView;
+@property (nonatomic, assign) CGPoint threadsTableViewContentOffSet;
+@end
+
 @implementation czzThreadViewDelegate
 
 -(instancetype)init {
@@ -23,6 +30,58 @@
         [[UIMenuController sharedMenuController] update];
     }
     return self;
+}
+
+-(void)highlightTableViewCell:(UITableViewCell*)tableviewcell{
+    //disable the scrolling view
+    self.myTableView.scrollEnabled = NO;
+    if (!self.containerView) {
+        self.containerView = [PartialTransparentView new];
+        self.containerView.opaque = NO;
+    }
+    
+    self.containerView.frame = CGRectMake(self.myTableView.frame.origin.x, self.myTableView.frame.origin.y, self.myTableView.frame.size.width, self.myTableView.contentSize.height);
+    self.containerView.rectsArray = [NSArray arrayWithObject:[NSValue valueWithCGRect:tableviewcell.frame]];
+    self.containerView.backgroundColor = [[UIColor darkGrayColor] colorWithAlphaComponent:0.7];
+    
+    self.containerView.userInteractionEnabled = YES;
+    [self.containerView setNeedsDisplay];
+    
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnFloatingView: )];
+    //fade in effect
+    self.containerView.alpha = 0.0f;
+    [self.myTableView addSubview:self.containerView];
+    [UIView animateWithDuration:0.2
+                     animations:^{self.containerView.alpha = 1.0f;}
+                     completion:^(BOOL finished){[self.containerView addGestureRecognizer:tapRecognizer];}];
+    
+}
+
+-(void)tapOnFloatingView:(id)sender {
+    UIGestureRecognizer *gestureRecognizer = sender;
+    [UIView animateWithDuration:0.2
+                     animations:^{
+                         self.containerView.alpha = 0;
+                     }
+                     completion:^(BOOL finished) {
+                         [self.containerView removeFromSuperview];
+                         [self.myTableView reloadData];
+                     }];
+    
+    CGPoint touchPoint = [gestureRecognizer locationInView:self.myTableView];
+    NSArray *rectArray = self.containerView.rectsArray;
+    BOOL userTouchInView = NO;
+    for (NSValue *rect in rectArray) {
+        if (CGRectContainsPoint([rect CGRectValue], touchPoint)) {
+            userTouchInView = YES;
+            break;
+        }
+    }
+    
+    if (!userTouchInView)
+        [self.myTableView setContentOffset:self.threadsTableViewContentOffSet animated:YES];
+    self.myTableView.scrollEnabled = YES;
+
 }
 
 #pragma mark - UITableViewDelegate
@@ -51,35 +110,34 @@
 
 #pragma mark - czzMenuEnableTableViewCellDelegate
 - (void)userTapInQuotedText:(NSString *)text {
+    // Text cannot be parsed to an integer, return...
+    if (!text.integerValue) {
+        return;
+    }
     for (czzThread *thread in self.viewModelManager.threads) {
         if (thread.ID == text.integerValue) {
-            [self.myTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self.viewModelManager.threads indexOfObject:thread] inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:YES];
+            self.threadsTableViewContentOffSet = self.myTableView.contentOffset;
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.viewModelManager.threads indexOfObject:thread] inSection:0];
+            [self.myTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:NO];
+            [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+                [self highlightTableViewCell:[self.myTableView cellForRowAtIndexPath:indexPath]];
+            }];
+            return;
         }
     }
+    czzThread *dummyParentThread = [czzThread new];
+    dummyParentThread.ID = text.integerValue;
+    czzThreadViewModelManager *threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:dummyParentThread andForum:nil];
+    czzThreadViewController *threadViewController = [[UIStoryboard storyboardWithName:THREAD_VIEW_CONTROLLER_STORYBOARD_NAME bundle:nil] instantiateViewControllerWithIdentifier:THREAD_VIEW_CONTROLLER_ID];
+    threadViewController.threadViewModelManager = threadViewModelManager;
+    [NavigationManager pushViewController:threadViewController animated:YES];
 }
 
 +(instancetype)initWithViewModelManager:(czzThreadViewModelManager *)viewModelManager {
-    czzThreadViewDelegate *sharedDelegate = [czzThreadViewDelegate sharedInstance];
+    czzThreadViewDelegate *sharedDelegate = [czzThreadViewDelegate new];
     sharedDelegate.viewModelManager = viewModelManager;
     return sharedDelegate;
 }
 
-
-+ (instancetype)sharedInstance
-{
-    // structure used to test whether the block has completed or not
-    static dispatch_once_t p = 0;
-    
-    // initialize sharedObject as nil (first call only)
-    __strong static id _sharedObject = nil;
-    
-    // executes a block object once and only once for the lifetime of an application
-    dispatch_once(&p, ^{
-        _sharedObject = [[self alloc] init];
-    });
-    
-    // returns the same object each time
-    return _sharedObject;
-}
 
 @end

@@ -134,7 +134,8 @@
 -(void)imageDownloadedForIndexPath:(NSIndexPath *)index filePath:(NSString *)path isThumbnail:(BOOL)isThumbnail {
     if (isThumbnail) {
         @try {
-            [self.myTableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationAutomatic];
+            if (index.row < self.viewModelManager.threads.count)
+                [self.myTableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
         @catch (NSException *exception) {
             DLog(@"%@", exception);

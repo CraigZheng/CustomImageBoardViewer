@@ -307,6 +307,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 -(void)refreshThread:(id)sender{
     [threadViewModelManager refresh];
+    [self.threadTableView reloadData];
 }
 
 

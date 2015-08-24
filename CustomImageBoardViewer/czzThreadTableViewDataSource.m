@@ -16,14 +16,6 @@
 @implementation czzThreadTableViewDataSource
 @dynamic viewModelManager;
 
--(instancetype)init {
-    self = [super init];
-    if (self) {
-        self.viewModelManager = [czzThreadViewModelManager sharedManager];
-    }
-    return self;
-}
-
 #pragma mark - Table view data source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {

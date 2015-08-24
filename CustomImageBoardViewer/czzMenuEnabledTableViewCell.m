@@ -295,7 +295,6 @@
 
 #pragma mark - user actions
 -(void)userTapInQuotedText:(czzThreadRefButton*)sender {
-    DLog(@"%@", NSStringFromSelector(_cmd));
     if (delegate && [delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
         [delegate userTapInQuotedText:[NSString stringWithFormat:@"%ld", (long)sender.threadRefNumber]];
     }
