@@ -7,6 +7,7 @@
 //
 
 #import "czzAppActivityManager.h"
+#import "czzSettingsCentre.h"
 
 @implementation czzAppActivityManager
 
@@ -34,6 +35,9 @@
     for (UIViewController* viewController in viewControllers) {
         DLog(@"%@", NSStringFromClass([viewController class]));
     }
+    
+    // Save settings
+    [settingCentre saveSettings];
 }
 
 -(void)launchApp {

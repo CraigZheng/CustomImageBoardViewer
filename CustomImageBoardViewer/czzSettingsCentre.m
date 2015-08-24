@@ -36,7 +36,7 @@
 //settings added at short version 2.0.1
 @synthesize forum_list_detail_url, reply_post_url, create_new_post_url, report_post_placeholder, share_post_url, thread_url, get_forum_info_url;
 
-+ (id)sharedInstance
++ (instancetype)sharedInstance
 {
     // structure used to test whether the block has completed or not
     static dispatch_once_t p = 0;
@@ -53,7 +53,7 @@
     return _sharedObject;
 }
 
--(id)init {
+-(instancetype)init {
     self = [super init];
     if (self) {
         //default settings
@@ -84,8 +84,8 @@
         
         [self scheduleRefreshSettings];
         
-        //restore previous settings
-//        [self restoreSettings];
+//        restore previous settings
+        [self restoreSettings];
     }
     return self;
 }
@@ -128,7 +128,16 @@
             NSArray *properties = [PropertyUtil classPropsFor:self.class].allKeys;
             if (properties.count > 0) {
                 for (NSString *propertyName in properties) {
-                    [self setValue:[archivedSettings valueForKey:propertyName] forKey:propertyName];
+                    if ([self respondsToSelector:NSSelectorFromString(propertyName)]) {
+                        @try {
+                            [self setValue:[archivedSettings valueForKey:propertyName] forKey:propertyName];
+                        }
+                        @catch (NSException *exception) {
+                            DLog(@"%@", exception);
+                        }
+                    }
+                    else
+                        DLog(@"%@ - cannot be restored:", propertyName);
                 }
             }
             return YES;
@@ -263,7 +272,7 @@
     [aCoder encodeBool:should_allow_dart forKey:@"shouldAllowDart"];
 }
 
--(id)initWithCoder:(NSCoder *)aDecoder {
+-(instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super init];
     if (self) {
         self.shouldUseRemoteConfiguration = [aDecoder decodeBoolForKey:@"shouldUseRemoteConfiguration"];

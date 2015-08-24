@@ -59,7 +59,7 @@
 //Debug settings
 @property BOOL should_allow_dart;
 
-+ (id)sharedInstance;
++ (instancetype)sharedInstance;
 -(void)downloadSettings;
 -(BOOL)saveSettings;
 -(BOOL)restoreSettings;
