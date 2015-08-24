@@ -37,6 +37,7 @@
             threadViewCell.parentThread = self.viewModelManager.parentThread;
             threadViewCell.myThread = thread;
             threadViewCell.myIndexPath = indexPath;
+            threadViewCell.shouldAllowClickOnImage = YES;
         }
     }
     return cell;

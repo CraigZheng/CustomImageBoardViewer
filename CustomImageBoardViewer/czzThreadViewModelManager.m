@@ -19,14 +19,16 @@
 -(instancetype)initWithParentThread:(czzThread *)thread andForum:(czzForum *)forum{
     self = [czzThreadViewModelManager new];
     if (self) {
+        // Record history
+        if (self.parentThread)
+            [historyManager recordThread:self.parentThread];
+
         self.forum = forum;
         // Give it a default forum
         if (!self.forum) {
             self.forum = [czzForum new];
         }
         self.parentThread = thread;
-        //record history
-        [historyManager recordThread:self.parentThread];
         self.parentID = [NSString stringWithFormat:@"%ld", (long) self.parentThread.ID];
         self.threadContentListDataProcessor = [czzJSONProcessor new];
         self.threadContentListDataProcessor.delegate = self;

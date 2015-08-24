@@ -6,8 +6,6 @@
 //  Copyright (c) 2013 Craig. All rights reserved.
 //
 
-#define kThreadID @"<THREAD_ID>"
-
 #import "czzRightSideViewController.h"
 #import "czzThreadViewController.h"
 #import "czzPostViewController.h"
@@ -30,13 +28,10 @@
 @end
 
 @implementation czzRightSideViewController
-@synthesize selectedThread;
 @synthesize replyCommand;
 @synthesize shareCommand;
 @synthesize reportCommand;
 @synthesize allCommand;
-@synthesize parentThread;
-@synthesize forum;
 @synthesize commandTableView;
 @synthesize threadDepandentCommand;
 @synthesize urlCon;
@@ -116,10 +111,10 @@
     NSArray *commandArray = [allCommand objectAtIndex:indexPath.section];
     NSString *command = [commandArray objectAtIndex:indexPath.row];
     if ([command isEqualToString:@"复制内容"]){
-        [[UIPasteboard generalPasteboard] setString:selectedThread.content.string];
+        [[UIPasteboard generalPasteboard] setString:self.selectedThread.content.string];
         [AppDelegate showToast:@"内容已复制"];
     } else if ([command isEqualToString:@"复制选定串的ID"]){
-        [[UIPasteboard generalPasteboard] setString:[NSString stringWithFormat:@"%ld", (long)selectedThread.ID]];
+        [[UIPasteboard generalPasteboard] setString:[NSString stringWithFormat:@"%ld", (long)self.selectedThread.ID]];
         [AppDelegate showToast:@"ID已复制"];
     } else if ([command hasPrefix:@"复制图片链接"]){
 //        NSString *urlString = [settingsCentre.image_host stringByAppendingPathComponent:[self.selectedThread.imgSrc stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
@@ -136,7 +131,7 @@
     } else if ([command isEqualToString:@"加入收藏"]){
         [self favouriteAction];
     } else if ([command isEqualToString:@"复制串的地址"]){
-        NSString *address = [[settingCentre share_post_url] stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long) selectedThread.parentID]];
+        NSString *address = [[settingCentre share_post_url] stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long) self.selectedThread.parentID]];
         [[UIPasteboard generalPasteboard] setString:address];
         [AppDelegate showToast:@"地址已复制"];
     } else if ([command isEqualToString:@"跳页"]) {
@@ -148,11 +143,11 @@
 }
 
 -(void)setSelectedThread:(czzThread *)thd{
-    selectedThread = thd;
+    _selectedThread = thd;
     [threadDepandentCommand removeAllObjects];
     if (self.selectedThread){
         self.title = [NSString stringWithFormat:@"NO:%ld", (long)self.selectedThread.ID];
-        if (selectedThread.imgSrc.length != 0)
+        if (_selectedThread.imgSrc.length != 0)
         {
             //provide an option to allow users to copy the link address of image URL
             [threadDepandentCommand addObject:@"复制图片链接"];
@@ -163,16 +158,16 @@
 
 #pragma mark - favirouteAction
 -(void)favouriteAction {
-    if (parentThread)
-        [favouriteManager addFavourite:parentThread];
+    if (self.parentThread)
+        [favouriteManager addFavourite:self.parentThread];
     [AppDelegate showToast:@"已加入收藏"];
 }
 
 #pragma mark - reply actions
 -(void)replyMainAction {
     czzPostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
-    postViewController.forum = forum;
-    postViewController.thread = parentThread;
+    postViewController.forum = self.forum;
+    postViewController.thread = self.parentThread;
     postViewController.postMode = REPLY_POST;
     [self presentViewController:postViewController animated:YES completion:^{
         [self.viewDeckController toggleRightViewAnimated:NO];
@@ -182,8 +177,8 @@
 
 -(void)replySelectedAction {
     czzPostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
-    [postViewController setThread:parentThread];
-    [postViewController setReplyTo:selectedThread];
+    [postViewController setThread:self.parentThread];
+    [postViewController setReplyTo:self.selectedThread];
     postViewController.postMode = REPLY_POST;
     [self presentViewController:postViewController animated:YES completion:^{
         [self.viewDeckController toggleRightViewAnimated:NO];
@@ -196,13 +191,13 @@
     newPostViewController.postMode = REPORT_POST;
     [self presentViewController:newPostViewController animated:YES completion:^{
         [self.viewDeckController toggleRightViewAnimated:YES];
-        NSString *reportString = [[settingCentre report_post_placeholder] stringByReplacingOccurrencesOfString:PARENT_ID withString:[NSString stringWithFormat:@"%ld", (long)parentThread.ID]];
-        reportString = [reportString stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long)selectedThread.ID]];
+        NSString *reportString = [[settingCentre report_post_placeholder] stringByReplacingOccurrencesOfString:PARENT_ID withString:[NSString stringWithFormat:@"%ld", (long)self.parentThread.ID]];
+        reportString = [reportString stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long)self.selectedThread.ID]];
         newPostViewController.postTextView.text = reportString;
-        newPostViewController.postNaviBar.topItem.title = [NSString stringWithFormat:@"举报:%ld", (long)selectedThread.ID];
+        newPostViewController.postNaviBar.topItem.title = [NSString stringWithFormat:@"举报:%ld", (long)self.selectedThread.ID];
         //construct a blacklist that to be submitted to my server and pass it to new post view controller
         czzBlacklistEntity *blacklistEntity = [czzBlacklistEntity new];
-        blacklistEntity.threadID = selectedThread.ID;
+        blacklistEntity.threadID = self.selectedThread.ID;
         newPostViewController.blacklistEntity = blacklistEntity;
     }];
 }
@@ -219,10 +214,20 @@
     czzThread *replyToThread = [userInfo objectForKey:@"ReplyToThread"];
     if (replyToThread){
         czzPostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
-        [postViewController setThread:parentThread];
+        [postViewController setThread:self.parentThread];
         [postViewController setReplyTo:replyToThread];
         postViewController.postMode = REPLY_POST;
         [self presentViewController:postViewController animated:YES completion:nil];
     }
 }
+
+#pragma mark - Getters
+- (czzThread *)parentThread {
+    return self.threadViewModelManager.parentThread;
+}
+
+- (czzForum *)forum {
+    return self.threadViewModelManager.forum;
+}
+
 @end

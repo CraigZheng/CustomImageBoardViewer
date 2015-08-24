@@ -132,9 +132,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [super viewWillAppear:animated];
     //configure the right view as menu
     UINavigationController *rightController = [self.storyboard instantiateViewControllerWithIdentifier:@"right_menu_view_controller"];    threadMenuViewController = [rightController.viewControllers objectAtIndex:0];
-    threadMenuViewController.parentThread = threadViewModelManager.parentThread;
-    threadMenuViewController.forum = threadViewModelManager.forum;
-    threadMenuViewController.selectedThread = threadViewModelManager.parentThread;
+    threadMenuViewController.threadViewModelManager = self.threadViewModelManager;
     self.viewDeckController.rightController = rightController;
     //do not allow panning
     self.viewDeckController.panningMode = IIViewDeckNoPanning;
@@ -459,17 +457,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
         czzSearchViewController *searchViewController = (czzSearchViewController*)segue.destinationViewController;
         if (keywordToSearch.length > 0)
             searchViewController.predefinedSearchKeyword = keywordToSearch;
-    }
-}
-
-#pragma mark - switch parent thread
--(void)switchToParentThread:(czzThread*)newParentThread {
-    if (newParentThread)
-    {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [threadViewModelManager setParentThread:newParentThread];
-            [self refreshThread:nil];
-        });
     }
 }
 
