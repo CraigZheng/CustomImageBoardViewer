@@ -30,7 +30,7 @@
 
 #define OVERLAY_VIEW 122
 
-@interface czzThreadViewController ()<czzThreadListProtocol, UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzMiniThreadViewControllerProtocol>
+@interface czzThreadViewController ()<czzThreadListProtocol, UIAlertViewDelegate, czzMiniThreadViewControllerProtocol>
 @property NSString *baseURLString;
 @property NSString *targetURLString;
 @property NSArray *threads;
@@ -362,8 +362,6 @@
             [progressView showWarning];
         }
     }
-    // Reset the lastCellType back to default.
-    self.threadTableView.lastCellType = czzThreadTableViewLastCommandCellTypeLoadMore;
 }
 
 -(void)subThreadProcessed:(czzHomeViewModelManager *)threadViewModelManager wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
@@ -375,6 +373,8 @@
     [threadTableView reloadData];
     [refreshControl endRefreshing];
     [progressView stopAnimating];
+    // Reset the lastCellType back to default.
+    self.threadTableView.lastCellType = czzThreadTableViewLastCommandCellTypeLoadMore;
 }
 
 -(void)updateNumberButton {

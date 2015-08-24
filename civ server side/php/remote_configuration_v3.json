@@ -1,5 +1,5 @@
 {
-  "configuration_version": "2.4",
+  "configuration_version": "3.0",
   "shouldUseRemoteConfiguration": true,
   "shouldDisplayImage": true,
   "shouldDisplayThumbnail": true,
@@ -24,10 +24,10 @@
   "get_forum_info_url": "http://h.nimingban.com/forum/get?forumName=",
   "ac_host": "http://www.acfun.tv/",
   "a_isle_host": "http://h.nimingban.com/",
-  "thread_list_host": "http://h.nimingban.com/api/<kForum>",
-  "thread_content_host": "http://h.nimingban.com/api/t/<kThreadID>",
+  "thread_list_host": "http://h.nimingban.com/api/<kForum>?page=<kPageNumber>",
+  "thread_content_host": "http://h.nimingban.com/api/t/<kParentID>?page=<kPageNumber>",
   "thumbnail_host": "http://cdn.ovear.info:8999/",
   "image_host": "http://cdn.ovear.info:8999/",
   "donation_link": "",
-  "message": "2.4 DEBUG"
+  "message": "3.0 DEBUG"
 }

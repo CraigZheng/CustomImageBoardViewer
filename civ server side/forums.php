@@ -22,7 +22,7 @@
 	if (strpos($version, $bundleIdentifier) !== false) {
 		if (strpos($version, "DEBUG") !== false) {
 			echo file_get_contents($file);
-		} else if (strpos($version, "2.4") !== false) {
+		} else if (strpos($version, "3.0") !== false) {
 			echo file_get_contents($fileV3); 
 		}
 		else {
