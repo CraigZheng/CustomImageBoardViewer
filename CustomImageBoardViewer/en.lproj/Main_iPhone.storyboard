@@ -127,7 +127,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AQu-Ga-SVD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1291.7333333333333" y="-481.85333333333335"/>
+            <point key="canvasLocation" x="654" y="349"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="GKc-UN-PdR">
@@ -490,7 +490,7 @@
                         <outlet property="searchWebView" destination="Epk-0O-hhD" id="opO-RH-UDv"/>
                         <segue destination="aOD-Hr-NEd" kind="push" identifier="go_favourite_view_segue" id="A7J-kM-xfA"/>
                         <segue destination="tKd-jP-nKQ" kind="modal" identifier="go_html_parser_view_controller" id="cde-HH-jwo"/>
-                        <segue destination="CES-L8-oRQ" kind="push" identifier="go_thread_view_segue" id="ec7-IS-eS6"/>
+                        <segue destination="CES-L8-oRQ" kind="push" identifier="showThreadView" id="ec7-IS-eS6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q9W-vI-B1B" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -527,7 +527,7 @@
                     <navigationItem key="navigationItem" id="DUu-bn-15A"/>
                     <connections>
                         <outlet property="contentTextView" destination="VKw-kS-if5" id="yy1-5v-OCl"/>
-                        <segue destination="CES-L8-oRQ" kind="push" identifier="go_thread_view_segue" id="uiO-MH-gCg"/>
+                        <segue destination="CES-L8-oRQ" kind="push" identifier="showThreadView" id="uiO-MH-gCg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ItM-gg-vOd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -864,7 +864,7 @@
                         <outlet property="threadTableView" destination="l2k-8P-m8U" id="5yI-la-cPn"/>
                         <segue destination="aOD-Hr-NEd" kind="push" identifier="go_favourite_manager_view_controller_segue" id="DWL-6t-CEf"/>
                         <segue destination="4fE-Ef-JB7" kind="push" identifier="go_search_view_segue" id="Uep-8w-iun"/>
-                        <segue destination="CES-L8-oRQ" kind="push" identifier="go_thread_view_segue" id="5Fw-Ve-fjP"/>
+                        <segue destination="CES-L8-oRQ" kind="push" identifier="showThreadView" id="5Fw-Ve-fjP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fay-4h-MEE" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -905,12 +905,12 @@
                     </navigationItem>
                     <connections>
                         <outlet property="titleSegmentedControl" destination="SL4-5w-f3w" id="uRL-6I-CAE"/>
-                        <segue destination="CES-L8-oRQ" kind="push" identifier="go_thread_view_segue" id="vj6-ho-19y"/>
+                        <segue destination="CES-L8-oRQ" kind="push" identifier="showThreadView" id="vj6-ho-19y"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T25-Ph-svD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="718" y="-229.99999999999994"/>
+            <point key="canvasLocation" x="654" y="-294"/>
         </scene>
     </scenes>
     <resources>
@@ -935,8 +935,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Uep-8w-iun"/>
-        <segue reference="5Fw-Ve-fjP"/>
         <segue reference="DWL-6t-CEf"/>
+        <segue reference="5Fw-Ve-fjP"/>
+        <segue reference="vK6-NU-jzp"/>
     </inferredMetricsTieBreakers>
 </document>

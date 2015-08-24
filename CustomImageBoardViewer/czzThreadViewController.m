@@ -30,6 +30,8 @@
 
 #define OVERLAY_VIEW 122
 
+NSString * const showThreadViewSegueIdentifier = @"showThreadView";
+
 @interface czzThreadViewController ()<czzThreadListProtocol, UIAlertViewDelegate, czzMiniThreadViewControllerProtocol>
 @property NSString *baseURLString;
 @property NSString *targetURLString;

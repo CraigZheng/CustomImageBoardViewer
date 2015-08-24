@@ -17,6 +17,8 @@
 #import "czzThreadViewModelManager.h"
 #import "IIViewDeckController.h"
 
+extern NSString * const showThreadViewSegueIdentifier;
+
 @interface czzThreadViewController : UIViewController
 
 @property (strong, nonatomic) IBOutlet czzThreadTableView *threadTableView;

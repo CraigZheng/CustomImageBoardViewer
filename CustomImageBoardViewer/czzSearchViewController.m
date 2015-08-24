@@ -163,10 +163,10 @@
             parserViewController.targetURL = targetURL;
             parserViewController.highlightKeyword = searchKeyword;
         }
-    } else if ([segue.identifier isEqualToString:@"go_thread_view_segue"]) {
+    } else if ([segue.identifier isEqualToString:showThreadViewSegueIdentifier]) {
         czzThreadViewController *threadViewController = (czzThreadViewController*) segue.destinationViewController;
-//        threadViewController.parentThread = selectedParentThread;
-#warning TO BE ADJUSTED LATER
+        czzThreadViewModelManager *threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:selectedParentThread andForum:[czzForum new]];
+        threadViewController.threadViewModelManager = threadViewModelManager;
     }
 }
 
@@ -198,7 +198,7 @@
                             if ([selectedSearchEngine isEqualToString:AC_SEARCH_COMMAND]) {
                                 [self performSegueWithIdentifier:@"go_favourite_view_segue" sender:self];
                             } else
-                                [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
+                                [self performSegueWithIdentifier:showThreadViewSegueIdentifier sender:self];
 
                         }
                     } else {
@@ -313,7 +313,7 @@
         return;
     [self dismissViewControllerAnimated:YES completion:^{
         selectedParentThread = thread;
-        [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
+        [self performSegueWithIdentifier:showThreadViewSegueIdentifier sender:self];
     }];
 }
 @end
