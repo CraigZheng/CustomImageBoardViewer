@@ -191,6 +191,13 @@
     return [NSIndexPath indexPathForRow:self.viewModelManager.threads.count inSection:0];
 }
 
+#pragma marl - Setters
+- (void)setMyTableView:(czzThreadTableView *)myTableView {
+    _myTableView = myTableView;
+    if (myTableView) {
+    }
+}
+
 +(instancetype)initWithViewModelManager:(czzHomeViewModelManager *)viewModelManager {
     czzHomeViewDelegate *sharedDelegate = [czzHomeViewDelegate sharedInstance];
     sharedDelegate.viewModelManager = viewModelManager;

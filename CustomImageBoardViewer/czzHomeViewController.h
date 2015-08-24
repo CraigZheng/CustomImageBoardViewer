@@ -28,4 +28,5 @@
 - (IBAction)searchAction:(id)sender;
 - (IBAction)bookmarkAction:(id)sender;
 - (IBAction)settingsAction:(id)sender;
+
 @end

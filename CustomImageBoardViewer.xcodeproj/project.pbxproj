@@ -195,7 +195,11 @@
 		44858EAC1A0C5B0A00DD822B /* czzImageViewerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44858EAB1A0C5B0A00DD822B /* czzImageViewerUtil.m */; };
 		4485F4FC19F5FF38007A73CC /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 4485F4FB19F5FF38007A73CC /* NSString+HTML.m */; };
 		448C85E41A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 448C85E31A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib */; };
-		4498A7E71B899B6000312A11 /* czzReleaseToLoadTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4498A7E61B899B6000312A11 /* czzReleaseToLoadTableViewCell.xib */; };
+		4498A7D21B89978200312A11 /* czzTableViewRefreshView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4498A7D11B89978200312A11 /* czzTableViewRefreshView.xib */; };
+		4498A7DF1B89982600312A11 /* ALView+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498A7D71B89982600312A11 /* ALView+PureLayout.m */; };
+		4498A7E01B89982600312A11 /* NSArray+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498A7D91B89982600312A11 /* NSArray+PureLayout.m */; };
+		4498A7E11B89982600312A11 /* NSLayoutConstraint+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498A7DB1B89982600312A11 /* NSLayoutConstraint+PureLayout.m */; };
+		4498A7E41B89984500312A11 /* CPAutoFillView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498A7E31B89984400312A11 /* CPAutoFillView.m */; };
 		4498B689199248ED0014F73F /* czzJSONProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498B688199248ED0014F73F /* czzJSONProcessor.m */; };
 		4498B68D1993A6190014F73F /* PropertyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498B68C1993A6190014F73F /* PropertyUtil.m */; };
 		449C9E271A71DB5C00D49B7F /* remote_configuration-debug.json in Resources */ = {isa = PBXBuildFile; fileRef = 449C9E261A71DB5C00D49B7F /* remote_configuration-debug.json */; };
@@ -745,6 +749,18 @@
 		4485F4FB19F5FF38007A73CC /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTML.m"; sourceTree = "<group>"; };
 		448C85E31A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzThreadViewBigImageTableViewCell.xib; sourceTree = "<group>"; };
 		4498A7E61B899B6000312A11 /* czzReleaseToLoadTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzReleaseToLoadTableViewCell.xib; sourceTree = "<group>"; };
+		4498A7D11B89978200312A11 /* czzTableViewRefreshView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzTableViewRefreshView.xib; sourceTree = "<group>"; };
+		4498A7D61B89982600312A11 /* ALView+PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALView+PureLayout.h"; sourceTree = "<group>"; };
+		4498A7D71B89982600312A11 /* ALView+PureLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALView+PureLayout.m"; sourceTree = "<group>"; };
+		4498A7D81B89982600312A11 /* NSArray+PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+PureLayout.h"; sourceTree = "<group>"; };
+		4498A7D91B89982600312A11 /* NSArray+PureLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+PureLayout.m"; sourceTree = "<group>"; };
+		4498A7DA1B89982600312A11 /* NSLayoutConstraint+PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+PureLayout.h"; sourceTree = "<group>"; };
+		4498A7DB1B89982600312A11 /* NSLayoutConstraint+PureLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+PureLayout.m"; sourceTree = "<group>"; };
+		4498A7DC1B89982600312A11 /* PureLayout+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PureLayout+Internal.h"; sourceTree = "<group>"; };
+		4498A7DD1B89982600312A11 /* PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PureLayout.h; sourceTree = "<group>"; };
+		4498A7DE1B89982600312A11 /* PureLayoutDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PureLayoutDefines.h; sourceTree = "<group>"; };
+		4498A7E21B89984400312A11 /* CPAutoFillView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPAutoFillView.h; sourceTree = "<group>"; };
+		4498A7E31B89984400312A11 /* CPAutoFillView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPAutoFillView.m; sourceTree = "<group>"; };
 		4498B687199248ED0014F73F /* czzJSONProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzJSONProcessor.h; sourceTree = "<group>"; };
 		4498B688199248ED0014F73F /* czzJSONProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzJSONProcessor.m; sourceTree = "<group>"; };
 		4498B68B1993A6190014F73F /* PropertyUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PropertyUtil.h; path = ../PropertyUtil.h; sourceTree = "<group>"; };
@@ -1751,6 +1767,7 @@
 				445B7B541B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.h */,
 				445B7B551B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.m */,
 				44AE2AFB1872569C002CB021 /* czzMenuEnabledTableViewCell */,
+				4498A7D11B89978200312A11 /* czzTableViewRefreshView.xib */,
 			);
 			name = CommonUI;
 			sourceTree = "<group>";
@@ -1797,6 +1814,39 @@
 				4479B07C1A0BB8E70074D484 /* czzTextViewHeightCalculator.m */,
 			);
 			name = ThreadView;
+			sourceTree = "<group>";
+		};
+		4498A7D41B89982600312A11 /* PureLayout */ = {
+			isa = PBXGroup;
+			children = (
+				4498A7D51B89982600312A11 /* Source */,
+			);
+			path = PureLayout;
+			sourceTree = "<group>";
+		};
+		4498A7D51B89982600312A11 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				4498A7D61B89982600312A11 /* ALView+PureLayout.h */,
+				4498A7D71B89982600312A11 /* ALView+PureLayout.m */,
+				4498A7D81B89982600312A11 /* NSArray+PureLayout.h */,
+				4498A7D91B89982600312A11 /* NSArray+PureLayout.m */,
+				4498A7DA1B89982600312A11 /* NSLayoutConstraint+PureLayout.h */,
+				4498A7DB1B89982600312A11 /* NSLayoutConstraint+PureLayout.m */,
+				4498A7DC1B89982600312A11 /* PureLayout+Internal.h */,
+				4498A7DD1B89982600312A11 /* PureLayout.h */,
+				4498A7DE1B89982600312A11 /* PureLayoutDefines.h */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		4498A7E51B89984A00312A11 /* AutoFille View */ = {
+			isa = PBXGroup;
+			children = (
+				4498A7E21B89984400312A11 /* CPAutoFillView.h */,
+				4498A7E31B89984400312A11 /* CPAutoFillView.m */,
+			);
+			name = "AutoFille View";
 			sourceTree = "<group>";
 		};
 		4498B68A199249180014F73F /* czzJSONProcessor */ = {
@@ -1910,6 +1960,8 @@
 		44B89E771A2AF3CE0085F766 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				4498A7E51B89984A00312A11 /* AutoFille View */,
+				4498A7D41B89982600312A11 /* PureLayout */,
 				44A9E0FF1AE1CAC600740CE1 /* GoogldAdmob */,
 				4431419F1A3BFB5B007D65B3 /* KLCPopup */,
 				4431419B1A2B519D007D65B3 /* GSIndetermineProgressView */,
@@ -2440,6 +2492,7 @@
 				44CF25511A25A2A500BD8228 /* picture@2x.png in Resources */,
 				44DF8F091A7512730097F7F5 /* save_as@3x.png in Resources */,
 				444F5B1A1A40EA3500EB391F /* 07.png in Resources */,
+				4498A7D21B89978200312A11 /* czzTableViewRefreshView.xib in Resources */,
 				5A5407F619961F87005FA214 /* default_configuration.json in Resources */,
 				4453C07719F634B700A8250F /* Launch Screen.xib in Resources */,
 				44E791F01A17856500A63C04 /* reply@2x.png in Resources */,
@@ -2703,6 +2756,7 @@
 				44AE2AFE18725EC4002CB021 /* czzNoSelectionTextView.m in Sources */,
 				442A8FAE19DB7DF200A3516E /* PSTCollectionViewController.m in Sources */,
 				44AE2AFA187254E4002CB021 /* czzMenuEnabledTableViewCell.m in Sources */,
+				4498A7E01B89982600312A11 /* NSArray+PureLayout.m in Sources */,
 				44DF8ED31A74CAAA0097F7F5 /* czzCookieManager.m in Sources */,
 				5A27E140193CA11300D0094F /* czzNotificationManager.m in Sources */,
 				44B89E871A2AFC6B0085F766 /* czzHomeViewModelManager.m in Sources */,
@@ -2783,9 +2837,12 @@
 				44CF25711A26F2E700BD8228 /* UIBarButtonItem+Badge.m in Sources */,
 				5A2B2D8D1936172C00BA2870 /* czzFeedback.m in Sources */,
 				443141A21A3BFB5B007D65B3 /* KLCPopup.m in Sources */,
+				4498A7E11B89982600312A11 /* NSLayoutConstraint+PureLayout.m in Sources */,
+				4498A7E41B89984500312A11 /* CPAutoFillView.m in Sources */,
 				4416B72519413EAF00B69C5B /* FPPopoverController.m in Sources */,
 				442A8FAB19DB7DF200A3516E /* NSIndexPath+PSTCollectionViewAdditions.m in Sources */,
 				44B96E37185B97C400D664A4 /* czzSettingsViewController.m in Sources */,
+				4498A7DF1B89982600312A11 /* ALView+PureLayout.m in Sources */,
 				442A8FA019DB7DF200A3516E /* MWCaptionView.m in Sources */,
 				44DF8EDE1A74D62E0097F7F5 /* czzCookieManagerViewController.m in Sources */,
 				4498B689199248ED0014F73F /* czzJSONProcessor.m in Sources */,
