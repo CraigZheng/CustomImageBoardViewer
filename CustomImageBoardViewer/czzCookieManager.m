@@ -10,8 +10,9 @@
 #import "czzSettingsCentre.h"
 #import "czzAppDelegate.h"
 #import "czzACTokenUtil.h"
+#import "czzURLDownloader.h"
 
-@interface czzCookieManager()
+@interface czzCookieManager() <czzURLDownloaderProtocol>
 @property NSHTTPCookieStorage *cookieStorage;
 @property NSMutableArray *acCookies;
 @end
@@ -48,17 +49,8 @@
     __block NSMutableURLRequest *urlRequest = [NSMutableURLRequest new];
     NSString *getCookieURLString = [NSString stringWithFormat:@"http://ano-zhai-so.n1.yun.tf:8999/Home/Api/getCookie?deviceid=%@", [UIDevice currentDevice].identifierForVendor.UUIDString];
 
-    urlRequest.URL = [NSURL URLWithString:getCookieURLString];
-    [urlRequest setValue:@"HAvfun Client" forHTTPHeaderField:@"User-Agent"];
-
-    [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue new] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        DLog(@"%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-        if ([(NSHTTPURLResponse*)response statusCode] == 200) {
-            DLog(@"I ate a cookie!");
-        } else {
-            DLog(@"can't find a cookie to eat!");
-        }
-    }];
+    czzURLDownloader *urlDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:getCookieURLString] delegate:self startNow:YES];
+    DLog(@"%@", urlDownloader);
 }
 
 -(void)refreshACCookies {
@@ -135,6 +127,16 @@
 
     }
     return nil;
+}
+
+#pragma mark - czzURLDownloaderDelegate
+- (void)downloadOf:(NSURL *)url successed:(BOOL)successed result:(NSData *)downloadedData {
+    if (successed) {
+        DLog(@"I ate a cookie!");
+    } else {
+        DLog(@"can't find a cookie to eat!");
+    }
+
 }
 
 + (id)sharedInstance

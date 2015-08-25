@@ -239,6 +239,7 @@
 		44B96E37185B97C400D664A4 /* czzSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B96E36185B97C400D664A4 /* czzSettingsViewController.m */; };
 		44BB0BC31A1AE700006C50F5 /* SplunkMint-iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44BB0BC21A1AE700006C50F5 /* SplunkMint-iOS.framework */; };
 		44BE2E3A19383FEF00601943 /* czzOnScreenCommandViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BE2E3819383FEF00601943 /* czzOnScreenCommandViewController.m */; };
+		44BFEF411B8C0D7B0095772B /* DeviceHardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BFEF401B8C0D7B0095772B /* DeviceHardware.m */; };
 		44C34543187E59A500FDE45D /* UIViewController+KNSemiModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C34542187E59A500FDE45D /* UIViewController+KNSemiModal.m */; };
 		44C3454C187E5C6100FDE45D /* czzEmojiCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44C3454B187E5C6100FDE45D /* czzEmojiCollectionViewCell.xib */; };
 		44C34550187E616500FDE45D /* czzEmojiCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C3454E187E616500FDE45D /* czzEmojiCollectionViewController.m */; };
@@ -748,7 +749,6 @@
 		4485F4FA19F5FF38007A73CC /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
 		4485F4FB19F5FF38007A73CC /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTML.m"; sourceTree = "<group>"; };
 		448C85E31A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzThreadViewBigImageTableViewCell.xib; sourceTree = "<group>"; };
-		4498A7E61B899B6000312A11 /* czzReleaseToLoadTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzReleaseToLoadTableViewCell.xib; sourceTree = "<group>"; };
 		4498A7D11B89978200312A11 /* czzTableViewRefreshView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzTableViewRefreshView.xib; sourceTree = "<group>"; };
 		4498A7D61B89982600312A11 /* ALView+PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALView+PureLayout.h"; sourceTree = "<group>"; };
 		4498A7D71B89982600312A11 /* ALView+PureLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALView+PureLayout.m"; sourceTree = "<group>"; };
@@ -761,6 +761,7 @@
 		4498A7DE1B89982600312A11 /* PureLayoutDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PureLayoutDefines.h; sourceTree = "<group>"; };
 		4498A7E21B89984400312A11 /* CPAutoFillView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPAutoFillView.h; sourceTree = "<group>"; };
 		4498A7E31B89984400312A11 /* CPAutoFillView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPAutoFillView.m; sourceTree = "<group>"; };
+		4498A7E61B899B6000312A11 /* czzReleaseToLoadTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzReleaseToLoadTableViewCell.xib; sourceTree = "<group>"; };
 		4498B687199248ED0014F73F /* czzJSONProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzJSONProcessor.h; sourceTree = "<group>"; };
 		4498B688199248ED0014F73F /* czzJSONProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzJSONProcessor.m; sourceTree = "<group>"; };
 		4498B68B1993A6190014F73F /* PropertyUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PropertyUtil.h; path = ../PropertyUtil.h; sourceTree = "<group>"; };
@@ -824,6 +825,8 @@
 		44BB0BC21A1AE700006C50F5 /* SplunkMint-iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "SplunkMint-iOS.framework"; sourceTree = "<group>"; };
 		44BE2E3719383FEF00601943 /* czzOnScreenCommandViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzOnScreenCommandViewController.h; sourceTree = "<group>"; };
 		44BE2E3819383FEF00601943 /* czzOnScreenCommandViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzOnScreenCommandViewController.m; sourceTree = "<group>"; };
+		44BFEF3F1B8C0D7B0095772B /* DeviceHardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceHardware.h; sourceTree = "<group>"; };
+		44BFEF401B8C0D7B0095772B /* DeviceHardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceHardware.m; sourceTree = "<group>"; };
 		44C34541187E59A500FDE45D /* UIViewController+KNSemiModal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+KNSemiModal.h"; sourceTree = "<group>"; };
 		44C34542187E59A500FDE45D /* UIViewController+KNSemiModal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+KNSemiModal.m"; sourceTree = "<group>"; };
 		44C3454B187E5C6100FDE45D /* czzEmojiCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzEmojiCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -1960,6 +1963,7 @@
 		44B89E771A2AF3CE0085F766 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				44BFEF421B8C0D7F0095772B /* DeviceHardware */,
 				4498A7E51B89984A00312A11 /* AutoFille View */,
 				4498A7D41B89982600312A11 /* PureLayout */,
 				44A9E0FF1AE1CAC600740CE1 /* GoogldAdmob */,
@@ -2020,6 +2024,15 @@
 				44CF255E1A2699D000BD8228 /* OnScreenCommand.storyboard */,
 			);
 			name = czzOnScreenCommand;
+			sourceTree = "<group>";
+		};
+		44BFEF421B8C0D7F0095772B /* DeviceHardware */ = {
+			isa = PBXGroup;
+			children = (
+				44BFEF3F1B8C0D7B0095772B /* DeviceHardware.h */,
+				44BFEF401B8C0D7B0095772B /* DeviceHardware.m */,
+			);
+			name = DeviceHardware;
 			sourceTree = "<group>";
 		};
 		44C34544187E59AC00FDE45D /* KNSemiModal */ = {
@@ -2607,7 +2620,6 @@
 				44DF8F001A7512730097F7F5 /* checked_user@3x.png in Resources */,
 				44E791E31A17856500A63C04 /* link.png in Resources */,
 				44E791D71A17856500A63C04 /* delete.png in Resources */,
-				4498A7E71B899B6000312A11 /* czzReleaseToLoadTableViewCell.xib in Resources */,
 				44DF8EE21A74D6600097F7F5 /* CookieManager.storyboard in Resources */,
 				44E791F71A17856500A63C04 /* search@3x.png in Resources */,
 				44A9E1541AE1D16000740CE1 /* Icon-72.png in Resources */,
@@ -2781,6 +2793,7 @@
 				442A8FF619DB7F5400A3516E /* SDWebImagePrefetcher.m in Sources */,
 				441E5E5417F52DEF00289DBD /* czzThreadViewController.m in Sources */,
 				44E2D2DC1B2DB94E0029D783 /* czzThreadListUtilTableViewController.m in Sources */,
+				44BFEF411B8C0D7B0095772B /* DeviceHardware.m in Sources */,
 				441E5CE817F4691300289DBD /* czzHomeViewController.m in Sources */,
 				5A2B2D941936264A00BA2870 /* czzFeedbackViewController.m in Sources */,
 				44CF256A1A26B4D000BD8228 /* UIView+MGBadgeView.m in Sources */,

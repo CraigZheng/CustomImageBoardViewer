@@ -8,6 +8,8 @@
 
 #import "czzURLDownloader.h"
 
+#import "DeviceHardware.h"
+
 @interface czzURLDownloader()
 @property NSURLConnection *urlConn;
 @property NSMutableData *receivedData;
@@ -37,8 +39,7 @@
         [request setHTTPShouldHandleCookies:YES];
         [request setHTTPMethod:@"GET"];
         [request setValue:@"application/xml" forHTTPHeaderField:@"Accept"];
-        [request setValue:@"HavfunClient" forHTTPHeaderField:@"User-Agent"];
-
+        [request setValue:[NSString stringWithFormat:@"HavfunClient-%@", [DeviceHardware platform]] forHTTPHeaderField:@"User-Agent"];
         urlConn = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:now];
         if (now)
             DLog(@"%@ make request to: %@", NSStringFromClass(self.class), targetURL);
