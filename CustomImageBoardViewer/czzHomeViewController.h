@@ -29,4 +29,5 @@
 - (IBAction)bookmarkAction:(id)sender;
 - (IBAction)settingsAction:(id)sender;
 
+- (void)saveCurrentState;
 @end

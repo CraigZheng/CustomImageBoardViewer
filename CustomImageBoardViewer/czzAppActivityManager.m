@@ -8,6 +8,8 @@
 
 #import "czzAppActivityManager.h"
 #import "czzSettingsCentre.h"
+#import "czzHomeViewModelManager.h"
+#import "czzThreadViewModelManager.h"
 
 @implementation czzAppActivityManager
 
@@ -34,6 +36,9 @@
     DLog(@"View controllers in navigation bar:");
     for (UIViewController* viewController in viewControllers) {
         DLog(@"%@", NSStringFromClass([viewController class]));
+        if ([viewController respondsToSelector:@selector(saveCurrentState)]) {
+            [viewController performSelector:@selector(saveCurrentState)];
+        }
     }
     
     // Save settings
@@ -43,6 +48,8 @@
 -(void)launchApp {
     UIViewController *rootViewController = AppDelegate.window.rootViewController;
     if (!rootViewController) {
+        [[czzHomeViewModelManager sharedManager] restorePreviousState]; 
+        
         rootViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateInitialViewController];
         AppDelegate.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         AppDelegate.window.rootViewController = rootViewController;

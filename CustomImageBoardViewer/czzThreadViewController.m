@@ -92,12 +92,14 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [super viewDidLoad];
     
     threadViewModelManager.delegate = self;
-    [self applyViewModel];
+    [threadViewModelManager restorePreviousState];
     
     threadTableView.dataSource = tableViewDataSource = [czzThreadTableViewDataSource initWithViewModelManager:self.threadViewModelManager];
     threadTableView.delegate = threadViewDelegate = [czzThreadViewDelegate initWithViewModelManager:threadViewModelManager];
     tableViewDataSource.tableViewDelegate = threadViewDelegate;
     
+    [self applyViewModel];
+
     //progress view
     progressView = [(czzNavigationController*)self.navigationController progressView];
     
@@ -119,10 +121,17 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     //if in foreground, load more threads
     if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground)
     {
-        if (threadViewModelManager.pageNumber == 1) {
-            [threadViewModelManager refresh];
+        if (self.threadViewModelManager.restoredFromCache) {
+            // Start loading at the end of push animation.
+            NavigationManager.pushAnimationCompletionHandler = ^{
+                if (!self.threadViewModelManager.threads.count) {
+                    [self refreshThread:self];
+                } else {
+                    [self.threadViewModelManager loadMoreThreads];
+                }
+            };
         } else {
-            [threadViewModelManager loadMoreThreads];
+            [self refreshThread:self];
         }
     }
 
@@ -485,6 +494,12 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     }
     @catch (NSException *exception) {
     }
+}
+
+#pragma mark - State perserving
+- (void)saveCurrentState {
+    self.threadViewModelManager.currentOffSet = self.threadTableView.contentOffset;
+    [self.threadViewModelManager saveCurrentState];
 }
 
 +(instancetype)new {

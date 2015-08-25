@@ -10,6 +10,7 @@
 #import "czzImageCentre.h"
 
 @interface czzHomeViewModelManager ()
+@property (nonatomic, readonly) NSString *cacheFile;
 @end
 
 @implementation czzHomeViewModelManager
@@ -28,13 +29,8 @@
     return self;
 }
 
--(void)entersBackground {
-    DLog(@"%@", NSStringFromSelector(_cmd));
-    [self saveCurrentState];
-}
-
 -(void)saveCurrentState {
-    NSString *cachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:DEFAULT_THREAD_LIST_CACHE_FILE];
+    NSString *cachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:self.cacheFile];
     if ([NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
         DLog(@"save state successed");
     } else {
@@ -45,7 +41,7 @@
 
 -(void)restorePreviousState {
     @try {
-        NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:DEFAULT_THREAD_LIST_CACHE_FILE];
+        NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:self.cacheFile];
         if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
             czzHomeViewModelManager *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithFile:cacheFile];
             //always delete the cache file after reading it to ensure safety
@@ -221,6 +217,10 @@
 }
 
 #pragma mark - Getters
+- (NSString *)cacheFile {
+    return [NSString stringWithFormat:@"%@-%@", [UIApplication bundleVersion], DEFAULT_THREAD_LIST_CACHE_FILE];
+}
+
 - (NSMutableArray *)threads {
     if (!_threads) {
         _threads = [NSMutableArray new];

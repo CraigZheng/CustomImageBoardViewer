@@ -76,9 +76,8 @@
 {
     [super viewDidLoad];
     //thread list, source of all data
-    if (!homeViewManager) {
-        homeViewManager = [czzHomeViewModelManager sharedManager];
-    }
+    homeViewManager = [czzHomeViewModelManager sharedManager];
+
     //assign delegate and parentViewController
     homeViewManager.delegate = self;
     
@@ -99,7 +98,14 @@
     threadTableView.dataSource = tableViewDataSource = [czzHomeTableViewDataSource initWithViewModelManager:self.homeViewManager];
     threadTableView.delegate = homeViewDelegate = [czzHomeViewDelegate initWithViewModelManager:self.homeViewManager];
     tableViewDataSource.tableViewDelegate = homeViewDelegate;
+    
+    // Load data into tableview
     [self updateTableView];
+    if (!CGPointEqualToPoint(CGPointZero, self.homeViewManager.currentOffSet)) {
+        [self.threadTableView setContentOffset:self.homeViewManager.currentOffSet animated:NO];
+    }
+    // Set the currentOffSet back to zero
+    self.homeViewManager.currentOffSet = CGPointZero;
 
     //configure the view deck controller with half size and tap to close mode
     self.viewDeckController.leftSize = self.view.frame.size.width/4;
@@ -208,19 +214,13 @@
     [threadTableView reloadData];
 }
 
--(void)restorePreviousSession {
-    if (homeViewManager.displayedThread)
-    {
-        DLog(@"%@", NSStringFromSelector(_cmd));
-        czzThreadViewController* threadViewController = [self.storyboard instantiateViewControllerWithIdentifier:THREAD_VIEW_CONTROLLER_ID];
-        threadViewController.shouldRestoreContentOffset = YES;
-        threadViewController.threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:homeViewManager.displayedThread andForum:homeViewManager.forum];
-        NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
-        [viewControllers addObject:threadViewController];
-        [self.navigationController setViewControllers:viewControllers animated:YES];
-    }
+#pragma mark - State perserving
+- (void)saveCurrentState {
+    self.homeViewManager.currentOffSet = self.threadTableView.contentOffset;
+    [self.homeViewManager saveCurrentState];
 }
 
+#pragma mark - ButtonActions
 - (IBAction)sideButtonAction:(id)sender {
     [self.viewDeckController toggleLeftViewAnimated:YES];
 }
