@@ -46,7 +46,8 @@
     }
     czzThread *selectedThread;
     @try {
-        if (indexPath.row < self.viewModelManager.threads.count) {
+        NSArray *threads = self.viewModelManager.threads;
+        if (indexPath.row < threads.count) {
             selectedThread = [self.viewModelManager.threads objectAtIndex:indexPath.row];
             if (![settingCentre shouldAllowOpenBlockedThread]) {
                 czzBlacklistEntity *blacklistEntity = [[czzBlacklist sharedInstance] blacklistEntityForThreadID:selectedThread.ID];

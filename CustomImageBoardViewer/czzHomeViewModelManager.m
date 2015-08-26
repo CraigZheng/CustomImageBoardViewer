@@ -220,7 +220,8 @@
 - (NSMutableArray *)threads {
     if (!_threads) {
         _threads = [NSMutableArray new];
-    } else if (!_threads.count && self.cachedThreads.count) {
+    }
+    if (!_threads.count && self.cachedThreads.count) {
         return self.cachedThreads;
     }
     return _threads;
@@ -229,7 +230,8 @@
 - (NSMutableArray *)horizontalHeights {
     if (!_horizontalHeights) {
         _horizontalHeights = [NSMutableArray new];
-    } else if (!_horizontalHeights.count && self.cachedHorizontalHeights.count) {
+    }
+    if (!_horizontalHeights.count && self.cachedHorizontalHeights.count) {
         return self.cachedHorizontalHeights;
     }
     return _horizontalHeights;
@@ -238,7 +240,8 @@
 - (NSMutableArray *)verticalHeights {
     if (!_verticalHeights) {
         _verticalHeights = [NSMutableArray new];
-    } else if (!_verticalHeights.count && self.cachedVerticalHeights.count) {
+    }
+    if (!_verticalHeights.count && self.cachedVerticalHeights.count) {
         return self.cachedVerticalHeights;
     }
     return _verticalHeights;
