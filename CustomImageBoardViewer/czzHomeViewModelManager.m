@@ -18,7 +18,6 @@
 -(instancetype)init {
     self = [super init];
     if (self) {
-        self.baseURLString = [settingCentre thread_list_host];
         self.isDownloading = NO;
         self.isProcessing = NO;
         self.pageNumber = self.totalPages = 1;
@@ -29,6 +28,7 @@
     return self;
 }
 
+#pragma mark - state perserving/restoring
 -(void)saveCurrentState {
     NSString *cachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:self.cacheFile];
     if ([NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
@@ -55,7 +55,6 @@
                 self.threads = tempThreadList.threads;
                 self.self.verticalHeights = tempThreadList.self.verticalHeights;
                 self.self.horizontalHeights = tempThreadList.self.horizontalHeights;
-                self.baseURLString = tempThreadList.baseURLString;
                 self.currentOffSet = tempThreadList.currentOffSet;
                 self.lastBatchOfThreads = tempThreadList.lastBatchOfThreads;
                 self.shouldHideImageForThisForum = tempThreadList.shouldHideImageForThisForum;
@@ -68,18 +67,10 @@
     }
 }
 
+#pragma mark - reload/refresh actions
 - (void)reloadData {
     if ([self.delegate respondsToSelector:@selector(viewModelManagerWantsToReload:)]) {
         [self.delegate viewModelManagerWantsToReload:self];
-    }
-}
-
-#pragma mark - setters
--(void)setForum:(czzForum *)forum {
-    _forum = forum;
-    if (forum) {
-        self.baseURLString = [[settingCentre thread_list_host] stringByReplacingOccurrencesOfString:kForum withString:[NSString stringWithFormat:@"%@", forum.name]];
-        DLog(@"forum picked:%@ - base URL: %@", forum.name, self.baseURLString);
     }
 }
 
@@ -216,6 +207,11 @@
     });
 }
 
+#pragma mark - setters
+-(void)setForum:(czzForum *)forum {
+    _forum = forum;
+}
+
 #pragma mark - Getters
 - (NSString *)cacheFile {
     return [NSString stringWithFormat:@"%@-%@", [UIApplication bundleVersion], DEFAULT_THREAD_LIST_CACHE_FILE];
@@ -248,6 +244,10 @@
     return _verticalHeights;
 }
 
+- (NSString *)baseURLString{
+    return [[settingCentre thread_list_host] stringByReplacingOccurrencesOfString:kForum withString:[NSString stringWithFormat:@"%@", self.forum.name]];
+}
+
 #pragma mark - NSCoding
 -(void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeBool:self.shouldHideImageForThisForum forKey:@"shouldHideImageForThisForum"];
@@ -261,7 +261,6 @@
     //isDownloading and isProcessing should not be encoded
     [aCoder encodeObject:self.horizontalHeights forKey:@"self.horizontalHeights"];
     [aCoder encodeObject:self.verticalHeights forKey:@"self.verticalHeights"];
-    [aCoder encodeObject:self.baseURLString forKey:@"baseURLString"];
     [aCoder encodeObject:[NSValue valueWithCGPoint:self.currentOffSet] forKey:@"currentOffSet"];
     [aCoder encodeObject:self.displayedThread forKey:@"displayedThread"];
 }
@@ -279,7 +278,6 @@
         newThreadList.lastBatchOfThreads = [aDecoder decodeObjectForKey:@"lastBatchOfThreads"];
         newThreadList.self.horizontalHeights = [aDecoder decodeObjectForKey:@"self.horizontalHeights"];
         newThreadList.self.verticalHeights = [aDecoder decodeObjectForKey:@"self.verticalHeights"];
-        newThreadList.baseURLString = [aDecoder decodeObjectForKey:@"baseURLString"];
         newThreadList.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
         newThreadList.displayedThread = [aDecoder decodeObjectForKey:@"displayedThread"];
         return newThreadList;

@@ -49,7 +49,7 @@
 @property (nonatomic, assign) BOOL isProcessing;
 @property (nonatomic, strong) NSMutableArray *horizontalHeights;
 @property (nonatomic, strong) NSMutableArray *verticalHeights;
-@property (nonatomic, strong) NSString *baseURLString;
+@property (nonatomic, readonly) NSString *baseURLString;
 @property (nonatomic, assign) CGPoint currentOffSet;
 @property (nonatomic, strong) czzThread *displayedThread;
 @property (nonatomic, strong) NSMutableArray *cachedThreads;

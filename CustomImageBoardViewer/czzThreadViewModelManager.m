@@ -15,6 +15,7 @@
 @end
 
 @implementation czzThreadViewModelManager
+@synthesize forum = _forum;
 
 -(instancetype)initWithParentThread:(czzThread *)thread andForum:(czzForum *)forum{
     self = [czzThreadViewModelManager new];
@@ -50,6 +51,7 @@
     return nil;
 }
 
+#pragma mark - state perserving/restoring
 -(void)restorePreviousState {
     @try {
         NSString *cacheFile = [[czzAppDelegate threadCacheFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)self.parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
@@ -64,7 +66,6 @@
                 self.threads = tempThreadList.threads;
                 self.verticalHeights = tempThreadList.self.verticalHeights;
                 self.horizontalHeights = tempThreadList.self.horizontalHeights;
-                self.baseURLString = tempThreadList.baseURLString;
                 self.currentOffSet = tempThreadList.currentOffSet;
                 self.lastBatchOfThreads = tempThreadList.lastBatchOfThreads;
                 self.shouldHideImageForThisForum = tempThreadList.shouldHideImageForThisForum;
@@ -77,11 +78,6 @@
     @catch (NSException *exception) {
         DLog(@"%@", exception);
     }
-}
-
--(void)entersBackground {
-    DLog(@"%@", NSStringFromSelector(_cmd));
-    [self saveCurrentState];
 }
 
 -(void)saveCurrentState {
@@ -97,8 +93,12 @@
 -(void)setParentThread:(czzThread *)thread {
     _parentThread = thread;
     self.parentID = [NSString stringWithFormat:@"%ld", (long)self.parentThread.ID];
-    self.baseURLString = [[settingCentre thread_content_host] stringByReplacingOccurrencesOfString:kParentID withString:self.parentID];
     
+}
+
+#pragma mark - getters
+- (NSString *)baseURLString {
+    return [[settingCentre thread_content_host] stringByReplacingOccurrencesOfString:kParentID withString:self.parentID];
 }
 
 #pragma mark - czzXMLDownloaderDelegate
@@ -212,7 +212,6 @@ float RoundTo(float number, float to)
     [aCoder encodeObject:self.lastBatchOfThreads forKey:@"lastBatchOfThreads"];
     [aCoder encodeObject:self.horizontalHeights forKey:@"self.horizontalHeights"];
     [aCoder encodeObject:self.verticalHeights forKey:@"self.verticalHeights"];
-    [aCoder encodeObject:self.baseURLString forKey:@"baseURLString"];
     [aCoder encodeObject:[NSValue valueWithCGPoint:self.currentOffSet] forKey:@"currentOffSet"];
     [aCoder encodeObject:self.forum forKey:@"forum"];
 }
@@ -229,7 +228,6 @@ float RoundTo(float number, float to)
         newThreadList.lastBatchOfThreads = [aDecoder decodeObjectForKey:@"lastBatchOfThreads"];
         newThreadList.self.horizontalHeights = [aDecoder decodeObjectForKey:@"self.horizontalHeights"];
         newThreadList.self.verticalHeights = [aDecoder decodeObjectForKey:@"self.verticalHeights"];
-        newThreadList.baseURLString = [aDecoder decodeObjectForKey:@"baseURLString"];
         newThreadList.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
         newThreadList.forum = [aDecoder decodeObjectForKey:@"forum"];
         return newThreadList;
