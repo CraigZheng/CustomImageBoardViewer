@@ -24,27 +24,33 @@
 }
 
 - (void)renderContent {
-    NSString *commandLabelString;
-    [self.loadingActivityIndicator stopAnimating];
-    switch (self.cellType) {
-        case czzThreadViewCommandStatusCellViewTypeLoadMore:
-            commandLabelString = @"Tap To Load More";
-            break;
-        case czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore:
-            commandLabelString = @"Release To Load More";
-            break;
-        case czzThreadViewCommandStatusCellViewTypeNoMore:
-            commandLabelString = @"No More Content, Tap To Refresh";
-            break;
-        case czzThreadViewCommandStatusCellViewTypeLoading:
-            commandLabelString = @"Loading, Please Wait";
-            [self.loadingActivityIndicator startAnimating];
-            break;
-        default:
-            break;
+    @try {
+        if (self.isPresented) {
+            NSString *commandLabelString;
+            [self.loadingActivityIndicator stopAnimating];
+            switch (self.cellType) {
+                case czzThreadViewCommandStatusCellViewTypeLoadMore:
+                    commandLabelString = @"Tap To Load More";
+                    break;
+                case czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore:
+                    commandLabelString = @"Release To Load More";
+                    break;
+                case czzThreadViewCommandStatusCellViewTypeNoMore:
+                    commandLabelString = @"No More Content, Tap To Refresh";
+                    break;
+                case czzThreadViewCommandStatusCellViewTypeLoading:
+                    commandLabelString = @"Loading, Please Wait";
+                    [self.loadingActivityIndicator startAnimating];
+                    break;
+                default:
+                    break;
+            }
+            self.commandStatusLabel.text = commandLabelString;
+        }
     }
-    self.commandStatusLabel.text = commandLabelString;
-    [self.view setNeedsDisplay];
+    @catch (NSException *exception) {
+        DLog(@"%@",exception);
+    }
 }
 
 #pragma mark - Setters

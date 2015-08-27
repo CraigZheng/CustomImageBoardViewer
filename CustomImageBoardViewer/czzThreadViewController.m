@@ -35,23 +35,23 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @interface czzThreadViewController ()<czzThreadListProtocol, UIAlertViewDelegate, czzMiniThreadViewControllerProtocol>
 @property (strong, nonatomic) NSString *baseURLString;
 @property (strong, nonatomic) NSString *targetURLString;
-@property NSArray *threads;
-@property NSArray *verticalHeights;
-@property NSArray *horizontalHeights;
-@property NSIndexPath *selectedIndex;
-@property czzRightSideViewController *threadMenuViewController;
-@property czzImageViewerUtil *imageViewerUtil;
+@property (strong, nonatomic) NSArray *threads;
+@property (strong, nonatomic) NSArray *verticalHeights;
+@property (strong, nonatomic) NSArray *horizontalHeights;
+@property (strong, nonatomic) NSIndexPath *selectedIndex;
+@property (strong, nonatomic) czzRightSideViewController *threadMenuViewController;
+@property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
 @property CGPoint threadsTableViewContentOffSet; //record the content offset of the threads tableview
 @property (assign, nonatomic) BOOL shouldHighlight;
 @property (assign, nonatomic) BOOL shouldDisplayQuickScrollCommand;
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (strong, nonatomic) NSString *keywordToSearch;
-@property UIViewController *rightViewController;
-@property UIViewController *topViewController;
-@property czzMiniThreadViewController *miniThreadView;
-@property UIRefreshControl *refreshControl;
-@property czzThreadTableViewDataSource *tableViewDataSource;
-@property czzThreadViewDelegate *threadViewDelegate;
+@property (strong, nonatomic) UIViewController *rightViewController;
+@property (strong, nonatomic) UIViewController *topViewController;
+@property (strong, nonatomic) czzMiniThreadViewController *miniThreadView;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
+@property (strong, nonatomic) czzThreadTableViewDataSource *tableViewDataSource;
+@property (strong, nonatomic) czzThreadViewDelegate *threadViewDelegate;
 
 @property GSIndeterminateProgressView *progressView;
 @end
@@ -176,7 +176,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     self.viewDeckController.rightController = nil;
     // Save current state for later.
     [self.threadViewModelManager saveCurrentState];
-
 }
 
 -(void)applyViewModel {
@@ -326,24 +325,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     }];
 }
 
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)aScrollView
-{
-    NSArray *visibleRows = [threadTableView visibleCells];
-    UITableViewCell *lastVisibleCell = [visibleRows lastObject];
-    NSIndexPath *path = [threadTableView indexPathForCell:lastVisibleCell];
-    if(path.row == threads.count && threads.count > 0)
-    {
-        CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
-        if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !(threadViewModelManager.isDownloading || threadViewModelManager.isProcessing)){
-            if (threadViewModelManager.pageNumber < threadViewModelManager.totalPages) {
-                [threadViewModelManager loadMoreThreads];
-                [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-            }
-        }
-    }
-}
-
 #pragma mark - czzSubthreadViewModelManagerProtocol
 - (void)viewModelManagerWantsToReload:(czzHomeViewModelManager *)manager {
     if (manager.threads.count) {
@@ -378,7 +359,12 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [refreshControl endRefreshing];
     [progressView stopAnimating];
     // Reset the lastCellType back to default.
-    self.threadTableView.lastCellType = czzThreadTableViewLastCommandCellTypeLoadMore;
+    @try {
+        self.threadTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
+    }
+    @catch (NSException *exception) {
+        DLog(@"%@", exception);
+    }
 }
 
 -(void)updateNumberButton {
@@ -431,6 +417,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
         activityViewController.popoverPresentationController.sourceView = self.view;
     [self presentViewController:activityViewController animated:YES completion:nil];
 }
+
 -(void)tapOnFloatingView:(UIGestureRecognizer*)gestureRecognizer{
     PartialTransparentView *containerView = (PartialTransparentView*)[threadTableView viewWithTag:OVERLAY_VIEW];
     [UIView animateWithDuration:0.2 animations:^{

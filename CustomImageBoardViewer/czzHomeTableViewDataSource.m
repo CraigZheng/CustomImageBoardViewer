@@ -18,7 +18,7 @@
 @end
 
 @implementation czzHomeTableViewDataSource
-@synthesize myTableView;
+@synthesize myTableView = _myTableView;
 @synthesize viewModelManager;
 
 -(void)reset {
@@ -33,7 +33,7 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (!myTableView) {
+    if (!self.myTableView) {
         self.myTableView = (czzThreadTableView*)tableView;
     }
     
@@ -41,14 +41,13 @@
         //Last row
         NSString *lastCellIdentifier = THREAD_TABLEVIEW_COMMAND_CELL_IDENTIFIER;
         czzThreadTableViewCommandCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:lastCellIdentifier forIndexPath:indexPath];
-        cell.cellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
-        if (self.myTableView.lastCellType == czzThreadTableViewLastCommandCellTypeReleaseToLoadMore) {
-            cell.cellType = czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore;
-        } else if (self.viewModelManager.pageNumber == self.viewModelManager.totalPages) {
-            cell.cellType = czzThreadViewCommandStatusCellViewTypeNoMore;
+        cell.commandStatusViewController = self.myTableView.lastCellCommandViewController;
+        self.myTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
+        if (self.viewModelManager.pageNumber == self.viewModelManager.totalPages) {
+            self.myTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeNoMore;
         }
         if (viewModelManager.isDownloading || viewModelManager.isProcessing) {
-            cell.cellType = czzThreadViewCommandStatusCellViewTypeLoading;
+            self.myTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
         }
         
         cell.backgroundColor = [settingCentre viewBackgroundColour];
@@ -71,7 +70,7 @@
 
 #pragma mark - setters
 -(void)setMyTableView:(czzThreadTableView *)incomingTableView {
-    myTableView = incomingTableView;
+    _myTableView = incomingTableView;
 
 }
 

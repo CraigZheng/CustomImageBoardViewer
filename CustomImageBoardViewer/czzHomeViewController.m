@@ -323,7 +323,7 @@
         [progressView stopAnimating];
         [progressView showWarning];
     }
-    self.threadTableView.lastCellType = czzThreadTableViewLastCommandCellTypeLoadMore;
+    self.threadTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
 }
 
 -(void)viewModelManagerBeginDownloading:(czzHomeViewModelManager *)threadList {

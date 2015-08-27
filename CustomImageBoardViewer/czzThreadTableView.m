@@ -78,4 +78,17 @@
 -(void)setDelegate:(id<UITableViewDelegate>)delegate {
     [super setDelegate:delegate];
 }
+
+- (void)setLastCellType:(czzThreadViewCommandStatusCellViewType)lastCellType {
+    _lastCellType = lastCellType;
+    self.lastCellCommandViewController.cellType = lastCellType;
+}
+
+#pragma mark - Getters
+- (czzThreadViewCommandStatusCellViewController *)lastCellCommandViewController {
+    if (!_lastCellCommandViewController) {
+        _lastCellCommandViewController = [czzThreadViewCommandStatusCellViewController new];
+    }
+    return _lastCellCommandViewController;
+}
 @end

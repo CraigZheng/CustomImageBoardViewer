@@ -105,12 +105,10 @@
     if (!(self.viewModelManager.isDownloading || self.viewModelManager.isProcessing) && self.viewModelManager.threads.count > 0) {
         if (self.tableViewIsDraggedOverTheBottom) {
             if ([self tableViewIsDraggedOverTheBottomWithPadding:44 * 2]) {
-                self.myTableView.lastCellType = czzThreadTableViewLastCommandCellTypeReleaseToLoadMore;
-                [self.myTableView reloadData];
+                self.myTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore;
             } else {
-                if (self.myTableView.lastCellType != czzThreadTableViewLastCommandCellTypeLoadMore) {
-                    self.myTableView.lastCellType = czzThreadTableViewLastCommandCellTypeLoadMore;
-                    [self.myTableView reloadData];
+                if (self.myTableView.lastCellType != czzThreadViewCommandStatusCellViewTypeLoadMore) {
+                    self.myTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
                 }
             }
         }
@@ -139,6 +137,7 @@
                 [self.myTableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
         @catch (NSException *exception) {
+            [self.myTableView reloadData];
             DLog(@"%@", exception);
         }
     }

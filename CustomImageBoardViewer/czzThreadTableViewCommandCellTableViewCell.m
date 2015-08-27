@@ -9,25 +9,22 @@
 #import "czzThreadTableViewCommandCellTableViewCell.h"
 
 @interface czzThreadTableViewCommandCellTableViewCell ()
-@property (nonatomic, strong) czzThreadViewCommandStatusCellViewController *commandStatusViewController;
 @end
 
 @implementation czzThreadTableViewCommandCellTableViewCell
 
-- (void)awakeFromNib {
-}
-
-#pragma mark - Getters
-- (czzThreadViewCommandStatusCellViewController *)commandStatusViewController {
-    if (!_commandStatusViewController && self.contentView) {
-        _commandStatusViewController = [czzThreadViewCommandStatusCellViewController new];
-        [self.contentView addSubview:_commandStatusViewController.view];
-    }
-    return _commandStatusViewController;
-}
-
 #pragma mark - Setters
 - (void)setCellType:(czzThreadViewCommandStatusCellViewType)cellType {
     self.commandStatusViewController.cellType = cellType;
+}
+
+- (void)setCommandStatusViewController:(czzThreadViewCommandStatusCellViewController *)commandStatusViewController {
+    if (self.contentView.window) {
+        _commandStatusViewController = commandStatusViewController;
+        for (UIView *subView in self.contentView.subviews) {
+            [subView removeFromSuperview];
+        }
+        [self.contentView addSubview:_commandStatusViewController.view];
+    }
 }
 @end

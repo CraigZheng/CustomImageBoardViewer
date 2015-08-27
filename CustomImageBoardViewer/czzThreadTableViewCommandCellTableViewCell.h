@@ -14,4 +14,6 @@
 
 @interface czzThreadTableViewCommandCellTableViewCell : UITableViewCell
 @property (nonatomic, assign) czzThreadViewCommandStatusCellViewType cellType;
+@property (nonatomic, strong) czzThreadViewCommandStatusCellViewController *commandStatusViewController;
+
 @end
