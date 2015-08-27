@@ -123,11 +123,12 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     {
         if (self.threadViewModelManager.restoredFromCache) {
             // Start loading at the end of push animation.
+            __weak czzThreadViewController *weakSelf = self;
             NavigationManager.pushAnimationCompletionHandler = ^{
-                if (!self.threadViewModelManager.threads.count) {
-                    [self refreshThread:self];
+                if (!weakSelf.threadViewModelManager.threads.count) {
+                    [weakSelf refreshThread:weakSelf];
                 } else {
-                    [self.threadViewModelManager loadMoreThreads];
+                    [weakSelf.threadViewModelManager loadMoreThreads];
                 }
             };
         } else {

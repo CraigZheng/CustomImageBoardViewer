@@ -43,9 +43,10 @@
     @try {
         NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:self.cacheFile];
         if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
-            czzHomeViewModelManager *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithFile:cacheFile];
-            //always delete the cache file after reading it to ensure safety
+            NSData *cacheData = [NSData dataWithContentsOfFile:cacheFile];
+            // Always delete the cache file after reading it to ensure safety.
             [[NSFileManager defaultManager] removeItemAtPath:cacheFile error:nil];
+            czzHomeViewModelManager *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithData:cacheData];
             //copy data
             if (tempThreadList && [tempThreadList isKindOfClass:[czzHomeViewModelManager class]])
             {
@@ -53,8 +54,8 @@
                 self.pageNumber = tempThreadList.pageNumber;
                 self.totalPages = tempThreadList.totalPages;
                 self.threads = tempThreadList.threads;
-                self.self.verticalHeights = tempThreadList.self.verticalHeights;
-                self.self.horizontalHeights = tempThreadList.self.horizontalHeights;
+                self.verticalHeights = tempThreadList.self.verticalHeights;
+                self.horizontalHeights = tempThreadList.self.horizontalHeights;
                 self.currentOffSet = tempThreadList.currentOffSet;
                 self.lastBatchOfThreads = tempThreadList.lastBatchOfThreads;
                 self.shouldHideImageForThisForum = tempThreadList.shouldHideImageForThisForum;

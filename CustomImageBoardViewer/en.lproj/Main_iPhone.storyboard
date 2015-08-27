@@ -713,7 +713,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" tag="4" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PI1-YJ-ICj">
-                                                    <rect key="frame" x="251" y="8" width="51" height="27.5"/>
+                                                    <rect key="frame" x="251" y="8" width="51" height="27"/>
                                                 </switch>
                                             </subviews>
                                             <constraints>

@@ -39,19 +39,19 @@
     
     if (indexPath.row == viewModelManager.threads.count){
         //Last row
-        NSString *lastCellIdentifier = THREAD_TABLE_VIEW_CELL_LOAD_MORE_CELL_IDENTIFIER;
+        NSString *lastCellIdentifier = THREAD_TABLEVIEW_COMMAND_CELL_IDENTIFIER;
+        czzThreadTableViewCommandCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:lastCellIdentifier forIndexPath:indexPath];
+        cell.cellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
         if (self.myTableView.lastCellType == czzThreadTableViewLastCommandCellTypeReleaseToLoadMore) {
-            lastCellIdentifier = THREAD_TABLE_VIEW_CELL_RELEASE_TO_LOAD_MORE_CELL_IDENTIFIER;
+            cell.cellType = czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore;
         } else if (self.viewModelManager.pageNumber == self.viewModelManager.totalPages) {
-            lastCellIdentifier = THREAD_TABLE_VIEW_CELL_NO_MORE_CELL_IDENTIFIER;
+            cell.cellType = czzThreadViewCommandStatusCellViewTypeNoMore;
         }
         if (viewModelManager.isDownloading || viewModelManager.isProcessing) {
-            lastCellIdentifier = THREAD_TABLE_VIEW_CELL_LOADING_CELL_IDENTIFIER;
+            cell.cellType = czzThreadViewCommandStatusCellViewTypeLoading;
         }
         
-        czzThreadTableViewCommandCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:lastCellIdentifier forIndexPath:indexPath];
         cell.backgroundColor = [settingCentre viewBackgroundColour];
-        [cell.activityIndicator startAnimating];
         return cell;
     }
     

@@ -8,19 +8,26 @@
 
 #import "czzThreadTableViewCommandCellTableViewCell.h"
 
+@interface czzThreadTableViewCommandCellTableViewCell ()
+@property (nonatomic, strong) czzThreadViewCommandStatusCellViewController *commandStatusViewController;
+@end
+
 @implementation czzThreadTableViewCommandCellTableViewCell
 
 - (void)awakeFromNib {
-    // Initialization code
-    if (self.activityIndicator) {
-        [self.activityIndicator startAnimating];
+}
+
+#pragma mark - Getters
+- (czzThreadViewCommandStatusCellViewController *)commandStatusViewController {
+    if (!_commandStatusViewController && self.contentView) {
+        _commandStatusViewController = [czzThreadViewCommandStatusCellViewController new];
+        [self.contentView addSubview:_commandStatusViewController.view];
     }
+    return _commandStatusViewController;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+#pragma mark - Setters
+- (void)setCellType:(czzThreadViewCommandStatusCellViewType)cellType {
+    self.commandStatusViewController.cellType = cellType;
 }
-
 @end

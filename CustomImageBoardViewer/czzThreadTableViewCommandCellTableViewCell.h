@@ -6,22 +6,12 @@
 //  Copyright (c) 2015 Craig. All rights reserved.
 //
 
-#define THREAD_TABLE_VIEW_CELL_NO_MORE_CELL_NIB_NAME @"czzNoMoreTableViewCell"
-#define THREAD_TABLE_VIEW_CELL_LOADING_CELL_NIB_NAME @"czzLoadingTableViewCell"
-#define THREAD_TABLE_VIEW_CELL_LOAD_MORE_CELL_NIB_NAME @"czzLoadMoreTableViewCell"
-#define THREAD_TABLE_VEWI_CELL_RELEASE_TO_LOAD_MORE_NIB_NAME @"czzReleaseToLoadTableViewCell"
-
-
-#define THREAD_TABLE_VIEW_CELL_NO_MORE_CELL_IDENTIFIER @"no_more_cell_identifier"
-#define THREAD_TABLE_VIEW_CELL_LOADING_CELL_IDENTIFIER @"loading_cell_identifier"
-#define THREAD_TABLE_VIEW_CELL_LOAD_MORE_CELL_IDENTIFIER @"load_more_cell_identifier"
-#define THREAD_TABLE_VIEW_CELL_RELEASE_TO_LOAD_MORE_CELL_IDENTIFIER @"release_to_load_more_cell_identifier"
-#define THREAD_TABLE_VIEW_CELL_RELEASE_TO_LOAD_MORE_CELL_IDENTIFIER @"release_to_load_more_cell_identifier"
+#define THREAD_TABLEVIEW_COMMAND_CELL_NIB_NAME @"czzThreadTableViewCommandCellTableViewCell"
+#define THREAD_TABLEVIEW_COMMAND_CELL_IDENTIFIER @"threadTableViewCommandCellTableViewCell"
 
 #import <UIKit/UIKit.h>
+#import "czzThreadViewCommandStatusCellViewController.h"
 
 @interface czzThreadTableViewCommandCellTableViewCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UILabel *commandLabel;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
-
+@property (nonatomic, assign) czzThreadViewCommandStatusCellViewType cellType;
 @end

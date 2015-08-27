@@ -28,9 +28,14 @@
 
 -(void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
     self.isInTransition = NO;
-    if (self.pushAnimationCompletionHandler) {
-        self.pushAnimationCompletionHandler();
-        self.pushAnimationCompletionHandler = nil;
+    @try {
+        if (self.pushAnimationCompletionHandler) {
+            self.pushAnimationCompletionHandler();
+            self.pushAnimationCompletionHandler = nil;
+        }
+    }
+    @catch (NSException *exception) {
+        DLog(@"%@", exception);
     }
 }
 
