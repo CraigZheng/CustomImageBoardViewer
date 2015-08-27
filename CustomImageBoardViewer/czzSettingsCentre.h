@@ -21,7 +21,7 @@
 @property (assign, nonatomic) BOOL shouldDisplayThumbnail;
 @property (assign, nonatomic) BOOL shouldDisplayContent;
 @property (assign, nonatomic) BOOL shouldAllowOpenBlockedThread;
-@property NSArray *shouldHideImageInForums;
+@property (strong, nonatomic) NSArray *shouldHideImageInForums;
 @property NSTimeInterval configuration_refresh_interval;
 @property NSTimeInterval blacklist_refresh_interval;
 @property NSTimeInterval forum_list_refresh_interval;

@@ -70,7 +70,7 @@
 -(void)downloadThumbnailsForThreads:(NSArray*)threads;
 
 //save and restore
--(void)saveCurrentState;
+-(NSString*)saveCurrentState;
 -(void)restorePreviousState;
 
 +(instancetype)sharedManager;

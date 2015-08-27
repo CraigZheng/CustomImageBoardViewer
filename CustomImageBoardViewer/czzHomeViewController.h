@@ -10,6 +10,7 @@
 #import "IIViewDeckController.h"
 #import "czzForumsViewController.h"
 #import "czzThreadTableView.h"
+#import "czzThreadViewModelManager.h"
 
 @class czzThread;
 @interface czzHomeViewController : UIViewController 
@@ -19,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIView *onScreenImageManagerViewContainer;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *forumListButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsBarButton;
+@property (strong, nonatomic) czzHomeViewModelManager* homeViewManager;
 
 - (IBAction)sideButtonAction:(id)sender;
 - (IBAction)moreAction:(id)sender;
@@ -29,5 +31,5 @@
 - (IBAction)bookmarkAction:(id)sender;
 - (IBAction)settingsAction:(id)sender;
 
-- (void)saveCurrentState;
+- (NSString*)saveCurrentState;
 @end

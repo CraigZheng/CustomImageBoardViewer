@@ -33,11 +33,10 @@
 
 -(void)applicationDidEnterBackground {
     NSArray *viewControllers = NavigationManager.delegate.viewControllers;
-    DLog(@"View controllers in navigation bar:");
     for (UIViewController* viewController in viewControllers) {
-        DLog(@"%@", NSStringFromClass([viewController class]));
         if ([viewController respondsToSelector:@selector(saveCurrentState)]) {
-            [viewController performSelector:@selector(saveCurrentState)];
+            id result = [viewController performSelector:@selector(saveCurrentState)];
+            DLog(@"%@: %@", NSStringFromClass(viewController.class), result);
         }
     }
     
@@ -51,7 +50,8 @@
         [[czzHomeViewModelManager sharedManager] restorePreviousState]; 
         
         rootViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateInitialViewController];
-        AppDelegate.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        if (!AppDelegate.window)
+            AppDelegate.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         AppDelegate.window.rootViewController = rootViewController;
         [AppDelegate.window makeKeyAndVisible];
     }

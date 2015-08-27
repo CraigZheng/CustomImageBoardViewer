@@ -12,7 +12,7 @@
 
 @interface czzThreadViewModelManager : czzHomeViewModelManager
 @property (strong, nonatomic) NSString* parentID;
-@property (nonatomic) czzThread *parentThread;
+@property (strong, nonatomic) czzThread *parentThread;
 @property (assign, nonatomic) BOOL restoredFromCache;
 
 -(instancetype)initWithParentThread:(czzThread*)thread andForum:(czzForum*)forum;

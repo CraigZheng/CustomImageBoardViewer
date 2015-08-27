@@ -23,7 +23,6 @@
 #import "UIBarButtonItem+Badge.h"
 #import "GSIndeterminateProgressView.h"
 #import "czzHomeViewModelManager.h"
-#import "czzThreadViewModelManager.h"
 #import "czzForumManager.h"
 #import "czzHomeViewDelegate.h"
 #import "czzThreadViewModelManager.h"
@@ -44,7 +43,6 @@
 @property UIRefreshControl* refreshControl;
 @property UIBarButtonItem *numberBarButton;
 @property GSIndeterminateProgressView *progressView;
-@property czzHomeViewModelManager* homeViewManager;
 
 @property czzHomeTableViewDataSource *tableViewDataSource;
 @property czzHomeViewDelegate *homeViewDelegate;
@@ -214,9 +212,9 @@
 }
 
 #pragma mark - State perserving
-- (void)saveCurrentState {
+- (NSString*)saveCurrentState {
     self.homeViewManager.currentOffSet = self.threadTableView.contentOffset;
-    [self.homeViewManager saveCurrentState];
+    return [self.homeViewManager saveCurrentState];
 }
 
 #pragma mark - ButtonActions

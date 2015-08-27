@@ -163,7 +163,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     // Disable right view controller
     self.viewDeckController.rightController = nil;
-    // Save current state for later.
+    // Cache downloaded data into disk.
     [self.threadViewModelManager saveCurrentState];
 }
 
@@ -424,9 +424,9 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 #pragma mark - State perserving
-- (void)saveCurrentState {
-//    self.threadViewModelManager.currentOffSet = self.threadTableView.contentOffset;
-    [self.threadViewModelManager saveCurrentState];
+- (NSString*)saveCurrentState {
+    self.threadViewModelManager.currentOffSet = self.threadTableView.contentOffset;
+    return [self.threadViewModelManager saveCurrentState];
 }
 
 +(instancetype)new {

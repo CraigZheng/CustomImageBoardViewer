@@ -17,7 +17,7 @@
 @end
 
 @interface czzURLDownloader : NSObject<NSURLConnectionDataDelegate>
-@property (nonatomic) NSURL *targetURL;
+@property (strong, nonatomic) NSURL *targetURL;
 @property (weak, nonatomic) id<czzURLDownloaderProtocol>  delegate;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskID;
 

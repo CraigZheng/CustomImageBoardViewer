@@ -81,12 +81,14 @@
     }
 }
 
--(void)saveCurrentState {
+-(NSString*)saveCurrentState {
     NSString *cachePath = [[czzAppDelegate threadCacheFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)self.parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
     if ([NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
+        return cachePath;
     } else {
         DLog(@"save state failed");
         [[NSFileManager defaultManager] removeItemAtPath:cachePath error:nil];
+        return nil;
     }
 }
 
