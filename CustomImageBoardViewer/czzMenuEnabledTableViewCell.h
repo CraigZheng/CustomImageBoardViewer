@@ -42,12 +42,12 @@
 @property (weak, nonatomic) IBOutlet UIView *threadContentView;
 @property NSIndexPath *myIndexPath;
 
-@property NSString *shouldHighlightSelectedUser;
+@property (strong, nonatomic) NSString *shouldHighlightSelectedUser;
 @property (weak, nonatomic) id<czzMenuEnabledTableViewCellProtocol> delegate;
 
 @property NSDictionary *downloadedImages;
-@property BOOL shouldHighlight;
-@property BOOL shouldAllowClickOnImage;
+@property (assign, nonatomic) BOOL shouldHighlight;
+@property (assign, nonatomic) BOOL shouldAllowClickOnImage;
 @property NSMutableArray *links;
 @property czzThread *parentThread;
 @property (nonatomic) czzThread *myThread;

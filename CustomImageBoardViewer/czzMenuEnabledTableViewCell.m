@@ -19,8 +19,8 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate>
-@property NSString *thumbnailFolder;
-@property NSString *imageFolder;
+@property (strong, nonatomic) NSString *thumbnailFolder;
+@property (strong, nonatomic) NSString *imageFolder;
 @property czzSettingsCentre *settingsCentre;
 @property UITapGestureRecognizer *tapOnImageGestureRecogniser;
 @property NSMutableSet *requestedImageURL;

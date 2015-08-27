@@ -13,8 +13,8 @@
 @interface czzImageDownloader()<NSURLConnectionDelegate>
 @property NSURLConnection *urlConn;
 @property NSMutableData *receivedData;
-@property NSString *baseURLString;
-@property NSString *fileName;
+@property (strong, nonatomic) NSString *baseURLString;
+@property (strong, nonatomic) NSString *fileName;
 @property long long fileSize;
 @property NSUInteger downloadedSize;
 @end

@@ -44,8 +44,8 @@ typedef NSUInteger PRIORITY;
 @property (nonatomic, strong) NSString *replyToID;
 @property NSInteger shouldDisplayXTimes; //default is 1;
 //local fields
-@property BOOL hasDisplayed;
+@property (assign, nonatomic) BOOL hasDisplayed;
 @property NSInteger timeBeenDisplayed;
-@property BOOL hasOpened;
+@property (assign, nonatomic) BOOL hasOpened;
 -(id)initWithXMLElement:(SMXMLElement*)xmlElement;
 @end

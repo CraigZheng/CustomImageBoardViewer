@@ -29,8 +29,8 @@
 @property czzThread *selectedParentThread;
 @property NSArray *searchResult;
 @property UIAlertView *searchInputAlertView;
-@property NSString *searchKeyword;
-@property NSString *selectedSearchEngine;
+@property (strong, nonatomic) NSString *searchKeyword;
+@property (strong, nonatomic) NSString *selectedSearchEngine;
 @property NSURL *targetURL;
 @property czzMiniThreadViewController *miniThreadView;
 @property GSIndeterminateProgressView *progressView;

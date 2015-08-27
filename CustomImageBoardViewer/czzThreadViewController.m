@@ -33,8 +33,8 @@
 NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 @interface czzThreadViewController ()<czzThreadListProtocol, UIAlertViewDelegate, czzMiniThreadViewControllerProtocol>
-@property NSString *baseURLString;
-@property NSString *targetURLString;
+@property (strong, nonatomic) NSString *baseURLString;
+@property (strong, nonatomic) NSString *targetURLString;
 @property NSArray *threads;
 @property NSArray *verticalHeights;
 @property NSArray *horizontalHeights;
@@ -42,14 +42,14 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @property czzRightSideViewController *threadMenuViewController;
 @property czzImageViewerUtil *imageViewerUtil;
 @property CGPoint threadsTableViewContentOffSet; //record the content offset of the threads tableview
-@property BOOL shouldHighlight;
-@property BOOL shouldDisplayQuickScrollCommand;
-@property NSString *thumbnailFolder;
-@property NSString *keywordToSearch;
+@property (assign, nonatomic) BOOL shouldHighlight;
+@property (assign, nonatomic) BOOL shouldDisplayQuickScrollCommand;
+@property (strong, nonatomic) NSString *thumbnailFolder;
+@property (strong, nonatomic) NSString *keywordToSearch;
 @property UIViewController *rightViewController;
 @property UIViewController *topViewController;
 @property czzMiniThreadViewController *miniThreadView;
-@property BOOL viewControllerNotInTransition;
+@property (assign, nonatomic) BOOL viewControllerNotInTransition;
 @property UIRefreshControl *refreshControl;
 @property czzThreadTableViewDataSource *tableViewDataSource;
 @property czzThreadViewDelegate *threadViewDelegate;

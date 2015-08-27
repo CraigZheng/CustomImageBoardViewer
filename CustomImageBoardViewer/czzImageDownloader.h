@@ -21,13 +21,13 @@
 
 @interface czzImageDownloader : NSObject
 @property (nonatomic) NSString *imageURLString;
-@property NSString *targetURLString;
-@property NSString *savePath;
+@property (strong, nonatomic) NSString *targetURLString;
+@property (strong, nonatomic) NSString *savePath;
 
 @property (weak, nonatomic) id<czzImageDownloaderDelegate> delegate;
-@property BOOL isThumbnail;
+@property (assign, nonatomic) BOOL isThumbnail;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskID;
-@property BOOL shouldAddHost;
+@property (assign, nonatomic) BOOL shouldAddHost;
 -(id)init;
 -(void)start;
 -(void)stop;

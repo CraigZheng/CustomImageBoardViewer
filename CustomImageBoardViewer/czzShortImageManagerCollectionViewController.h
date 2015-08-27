@@ -26,7 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIView *placeholderView;
 @property (strong, nonatomic) UIViewController *hostViewController;
 
-@property BOOL isShowing;
+@property (assign, nonatomic) BOOL isShowing;
 
 -(void)updateProgressForDownloader:(czzImageDownloader*)downloader;
 -(void)imageDownloaded:(NSString*)imgPath;

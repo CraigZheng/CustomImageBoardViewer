@@ -18,7 +18,7 @@
 @interface czzNotificationCentreTableViewController ()<UIDocumentInteractionControllerDelegate, UIActionSheetDelegate>
 @property czzNotificationManager *notificationManager;
 @property czzImageCentre *imageCentre;
-@property NSString *imageFolder;
+@property (strong, nonatomic) NSString *imageFolder;
 @property UIDocumentInteractionController *documentInteractionController;
 @property UIActionSheet *openLinkActionSheet;
 @end

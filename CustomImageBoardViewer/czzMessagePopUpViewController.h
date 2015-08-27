@@ -15,7 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *messageContentLabel;
 
 @property UIImage *imageToShow;
-@property NSString *messageToShow;
+@property (strong, nonatomic) NSString *messageToShow;
 
 -(void)show;
 

@@ -10,15 +10,15 @@
 #import "czzForum.h"
 #import "czzThread.h"
 @interface czzPost : NSObject
-@property NSString *name;
-@property NSString *email;
-@property NSString *title;
-@property NSString *content;
-@property NSString *access_token;
+@property (strong, nonatomic) NSString *name;
+@property (strong, nonatomic) NSString *email;
+@property (strong, nonatomic) NSString *title;
+@property (strong, nonatomic) NSString *content;
+@property (strong, nonatomic) NSString *access_token;
 @property NSInteger parentID;
-//@property NSString *forumName;
+//@property (strong, nonatomic) NSString *forumName;
 @property czzForum *forum;
-@property NSString *forumID;
+@property (strong, nonatomic) NSString *forumID;
 
 @property NSData *imgData;
 -(BOOL)isReady;

@@ -35,11 +35,11 @@
 
 @interface czzHomeViewController() <UIAlertViewDelegate, czzThreadListProtocol, czzOnScreenImageManagerViewControllerDelegate, UIStateRestoring>
 @property UIViewController *leftController;
-@property BOOL shouldDisplayQuickScrollCommand;
-@property NSString *thumbnailFolder;
+@property (assign, nonatomic) BOOL shouldDisplayQuickScrollCommand;
+@property (strong, nonatomic) NSString *thumbnailFolder;
 @property czzSettingsCentre *settingsCentre;
-@property BOOL shouldHideImageForThisForum;
-@property BOOL viewControllerNotInTransition;
+@property (assign, nonatomic) BOOL shouldHideImageForThisForum;
+@property (assign, nonatomic) BOOL viewControllerNotInTransition;
 @property czzImageViewerUtil *imageViewerUtil;
 @property UIRefreshControl* refreshControl;
 @property UIBarButtonItem *numberBarButton;

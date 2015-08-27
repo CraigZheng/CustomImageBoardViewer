@@ -21,7 +21,7 @@
 @interface czzAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property BOOL shouldUseBackupServer;
+@property (assign, nonatomic) BOOL shouldUseBackupServer;
 @property (strong, nonatomic) NSString *myhost;
 @property (strong, nonatomic) NSString *vendorID;
 

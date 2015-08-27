@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface czzForumGroup : NSObject
-@property NSString *area;
+@property (strong, nonatomic) NSString *area;
 @property NSMutableArray *forums;
 
 + (instancetype)initWithDictionary:(NSDictionary *)dictionary;

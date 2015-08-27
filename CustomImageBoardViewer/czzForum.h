@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @interface czzForum : NSObject <NSCoding>
-@property NSString *name;
-@property NSString *header;
-@property BOOL lock;
+@property (strong, nonatomic) NSString *name;
+@property (strong, nonatomic) NSString *header;
+@property (assign, nonatomic) BOOL lock;
 @property NSInteger cooldown;
 @property NSInteger forumID;
 @property NSDate *createdAt;

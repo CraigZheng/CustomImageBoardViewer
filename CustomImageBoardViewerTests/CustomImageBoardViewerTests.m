@@ -22,7 +22,7 @@
 
 
 @interface CustomImageBoardViewerTests : XCTestCase<czzNotificationDownloaderDelegate, czzPostSenderDelegate, czzThreadListProtocol>
-@property BOOL done;
+@property (assign, nonatomic) BOOL done;
 @property czzHomeViewModelManager *threadList;
 @property czzThreadViewModelManager *subThreadList;
 @end

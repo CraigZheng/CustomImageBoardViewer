@@ -31,7 +31,7 @@
 @property (nonatomic, strong) NSMutableSet *currentLocalThumbnails;
 @property (nonatomic, strong) NSMutableArray *localImagesArray;
 @property (nonatomic, strong) NSMutableArray *localThumbnailsArray;
-@property Boolean ready;
+@property (assign, nonatomic) BOOL ready;
 @property (nonatomic, weak) id<czzImageCentreProtocol> delegate;
 
 +(id)sharedInstance;

@@ -14,7 +14,7 @@
 @interface czzBlacklistDownloader()<NSURLConnectionDelegate>
 @property NSURLConnection *urlConn;
 @property NSMutableData *receivedResponse;
-@property NSString *targetURLString;
+@property (strong, nonatomic) NSString *targetURLString;
 @end
 
 @implementation czzBlacklistDownloader

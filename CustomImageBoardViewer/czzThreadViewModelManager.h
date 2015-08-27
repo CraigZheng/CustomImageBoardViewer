@@ -11,9 +11,9 @@
 #import "czzHomeViewModelManager.h"
 
 @interface czzThreadViewModelManager : czzHomeViewModelManager
-@property NSString* parentID;
+@property (strong, nonatomic) NSString* parentID;
 @property (nonatomic) czzThread *parentThread;
-@property BOOL restoredFromCache;
+@property (assign, nonatomic) BOOL restoredFromCache;
 
 -(instancetype)initWithParentThread:(czzThread*)thread andForum:(czzForum*)forum;
 -(instancetype)restoreWithFile:(NSString*)filePath;

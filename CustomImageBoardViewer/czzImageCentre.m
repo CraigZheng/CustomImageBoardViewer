@@ -17,8 +17,8 @@
 #include <sys/stat.h>
 
 @interface czzImageCentre()<czzImageDownloaderDelegate>
-@property NSString *thumbnailFolder;
-@property NSString *imageFolder;
+@property (strong, nonatomic) NSString *thumbnailFolder;
+@property (strong, nonatomic) NSString *imageFolder;
 @property czzSettingsCentre *settingsCentre;
 @property NSDate *lastCleanDate;
 @end

@@ -12,5 +12,5 @@
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;
 
 @property NSURL *targetURL;
-@property NSString *highlightKeyword;
+@property (strong, nonatomic) NSString *highlightKeyword;
 @end

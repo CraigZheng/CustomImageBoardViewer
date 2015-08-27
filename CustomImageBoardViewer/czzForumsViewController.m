@@ -21,11 +21,11 @@ NSString * const kForumPickedNotification = @"ForumNamePicked";
 NSString * const kPickedForum = @"PickedForum";
 
 @interface czzForumsViewController () <UITableViewDataSource, UITableViewDelegate>
-@property BOOL failedToConnect;
+@property (assign, nonatomic) BOOL failedToConnect;
 @property NSDate *lastAdUpdateTime;
 @property NSTimeInterval adUpdateInterval;
 @property UIView *adCoverView;
-@property BOOL shouldHideCoverView;
+@property (assign, nonatomic) BOOL shouldHideCoverView;
 @property GSIndeterminateProgressView *progressView;
 @property czzForumManager *forumManager;
 @end

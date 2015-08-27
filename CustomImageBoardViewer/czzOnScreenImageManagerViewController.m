@@ -19,8 +19,8 @@
 #import "KLCPopup.h"
 
 @interface czzOnScreenImageManagerViewController () <czzImageCentreProtocol, czzShortImageManagerCollectionViewControllerProtocol>
-@property BOOL iconAnimating;
-@property BOOL isShowingShortImageManagerController;
+@property (assign, nonatomic) BOOL iconAnimating;
+@property (assign, nonatomic) BOOL isShowingShortImageManagerController;
 @property czzImageCentre *imageCentre;
 @property (nonatomic) czzShortImageManagerCollectionViewController *shortImageManagerCollectionViewController;
 @end

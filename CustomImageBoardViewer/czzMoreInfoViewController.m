@@ -14,7 +14,7 @@
 #import "czzForum.h"
 
 @interface czzMoreInfoViewController ()<UIWebViewDelegate>
-@property NSString *baseURL;
+@property (strong, nonatomic) NSString *baseURL;
 @end
 
 @implementation czzMoreInfoViewController
