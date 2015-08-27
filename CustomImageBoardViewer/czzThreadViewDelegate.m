@@ -32,10 +32,6 @@
     return self;
 }
 
-- (void)dealloc {
-    DLog(@"%s", __PRETTY_FUNCTION__);
-}
-
 -(void)highlightTableViewCell:(UITableViewCell*)tableviewcell{
     //disable the scrolling view
     self.myTableView.scrollEnabled = NO;

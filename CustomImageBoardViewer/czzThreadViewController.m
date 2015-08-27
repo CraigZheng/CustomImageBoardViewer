@@ -167,6 +167,12 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [self.threadViewModelManager saveCurrentState];
 }
 
+- (void)dealloc {
+    // Avoid calling deacllocated data source and delegate.
+    threadTableView.dataSource = nil;
+    threadTableView.delegate = nil;
+}
+
 -(void)applyViewModel {
     [self updateNumberButton];
 }

@@ -17,7 +17,7 @@
 @property (nonatomic, strong) czzThread *parentThread;
 @property (nonatomic, strong) czzForum *forum;
 @property (nonatomic, strong) czzThread *selectedThread;
-@property (nonatomic, strong) czzThreadViewModelManager *threadViewModelManager;
+@property (nonatomic, weak) czzThreadViewModelManager *threadViewModelManager;
 
 -(void)reportAction;
 -(void)replyMainAction;
