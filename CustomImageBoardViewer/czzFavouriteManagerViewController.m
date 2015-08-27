@@ -23,7 +23,7 @@
 @property NSIndexPath *selectedIndex;
 @property NSMutableSet *internalThreads;
 @property czzThread *selectedThread;
-@property id selectedManager;
+@property (weak, nonatomic) id selectedManager;
 @end
 
 @implementation czzFavouriteManagerViewController

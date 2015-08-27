@@ -19,5 +19,5 @@
 @property NSString *targetURLString;
 -(void)sendBlacklistUpdate;
 
-@property id<czzBlacklistSenderDelegate> delegate;
+@property (weak, nonatomic) id<czzBlacklistSenderDelegate> delegate;
 @end

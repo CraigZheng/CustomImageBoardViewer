@@ -25,6 +25,6 @@
 -(void)processThreadListFromData:(NSData*)jsonData forForum:(czzForum*)forum;
 -(void)processSubThreadFromData:(NSData*)jsonData forForum:(czzForum*)forum;
 
-@property id<czzJSONProcessorDelegate> delegate;
+@property (weak, nonatomic) id<czzJSONProcessorDelegate> delegate;
 @end
 

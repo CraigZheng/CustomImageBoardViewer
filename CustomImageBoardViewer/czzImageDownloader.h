@@ -24,7 +24,7 @@
 @property NSString *targetURLString;
 @property NSString *savePath;
 
-@property id<czzImageDownloaderDelegate> delegate;
+@property (weak, nonatomic) id<czzImageDownloaderDelegate> delegate;
 @property BOOL isThumbnail;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskID;
 @property BOOL shouldAddHost;

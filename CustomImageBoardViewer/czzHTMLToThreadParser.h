@@ -16,7 +16,7 @@
 @interface czzHTMLToThreadParser : NSObject
 @property NSArray *parsedThreads;
 @property NSString *htmlContent;
-@property id<HTMLParserDelegate> delegate;
+@property (weak, nonatomic) id<HTMLParserDelegate> delegate;
 
 -(void)parse:(NSString*)htmlString;
 @end

@@ -43,7 +43,7 @@
 @property NSIndexPath *myIndexPath;
 
 @property NSString *shouldHighlightSelectedUser;
-@property id<czzMenuEnabledTableViewCellProtocol> delegate;
+@property (weak, nonatomic) id<czzMenuEnabledTableViewCellProtocol> delegate;
 
 @property NSDictionary *downloadedImages;
 @property BOOL shouldHighlight;

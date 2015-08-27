@@ -17,7 +17,7 @@
 @end
 @interface czzPostSender : NSObject
 @property (nonatomic) NSURL *targetURL;
-@property id<czzPostSenderDelegate> delegate;
+@property (weak, nonatomic) id<czzPostSenderDelegate> delegate;
 //@property (nonatomic) NSString *forumName;
 @property (nonatomic) czzForum *forum;
 @property (nonatomic) NSString *forumID;
