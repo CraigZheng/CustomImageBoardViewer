@@ -49,7 +49,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @property UIViewController *rightViewController;
 @property UIViewController *topViewController;
 @property czzMiniThreadViewController *miniThreadView;
-@property (assign, nonatomic) BOOL viewControllerNotInTransition;
 @property UIRefreshControl *refreshControl;
 @property czzThreadTableViewDataSource *tableViewDataSource;
 @property czzThreadViewDelegate *threadViewDelegate;
@@ -75,7 +74,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @synthesize keywordToSearch;
 @synthesize rightViewController;
 @synthesize topViewController;
-@synthesize viewControllerNotInTransition;
 @synthesize miniThreadView;
 @synthesize imageViewerUtil;
 @synthesize refreshControl;
@@ -174,22 +172,11 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    //disable right view controller
+    // Disable right view controller
     self.viewDeckController.rightController = nil;
-    //no longer ready for more push animation
-    viewControllerNotInTransition = NO;
-}
-
--(void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-#warning DEBUGGING ONLY
+    // Save current state for later.
     [self.threadViewModelManager saveCurrentState];
-}
 
--(void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    //ready for push animation
-    viewControllerNotInTransition = YES;
 }
 
 -(void)applyViewModel {
@@ -325,7 +312,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     if (!successful) {
         [AppDelegate.window makeToast:[NSString stringWithFormat:@"无法下载:%ld", (long)miniThreadView.threadID]];
         
-    } else if (viewControllerNotInTransition)
+    } else if (self.isPresented)
         [self presentViewController:miniThreadView animated:YES completion:nil];
 }
 

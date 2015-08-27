@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		440A62A01B8E90130046E4CE /* czzThreadViewCommandStatusCellViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 440A629F1B8E90130046E4CE /* czzThreadViewCommandStatusCellViewController.m */; };
 		440A62A21B8E97540046E4CE /* czzThreadTableViewCommandStatusCellViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 440A62A11B8E97540046E4CE /* czzThreadTableViewCommandStatusCellViewController.storyboard */; };
+		440A62A81B8EBC160046E4CE /* UIViewController+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 440A62A71B8EBC160046E4CE /* UIViewController+Util.m */; };
 		440B2F6117F5EED800544926 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 440B2F6017F5EED800544926 /* GTMNSString+HTML.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		440B2FBD17F7C5DC00544926 /* czzRightSideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 440B2FBC17F7C5DC00544926 /* czzRightSideViewController.m */; };
 		440B2FC717F7DB7800544926 /* czzForumsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 440B2FC617F7DB7800544926 /* czzForumsViewController.m */; };
@@ -421,6 +422,8 @@
 		440A629E1B8E90130046E4CE /* czzThreadViewCommandStatusCellViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewCommandStatusCellViewController.h; sourceTree = "<group>"; };
 		440A629F1B8E90130046E4CE /* czzThreadViewCommandStatusCellViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewCommandStatusCellViewController.m; sourceTree = "<group>"; };
 		440A62A11B8E97540046E4CE /* czzThreadTableViewCommandStatusCellViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = czzThreadTableViewCommandStatusCellViewController.storyboard; sourceTree = "<group>"; };
+		440A62A61B8EBC160046E4CE /* UIViewController+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Util.h"; sourceTree = "<group>"; };
+		440A62A71B8EBC160046E4CE /* UIViewController+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Util.m"; sourceTree = "<group>"; };
 		440B2F5E17F5EED800544926 /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
 		440B2F5F17F5EED800544926 /* GTMNSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTMNSString+HTML.h"; sourceTree = "<group>"; };
 		440B2F6017F5EED800544926 /* GTMNSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTMNSString+HTML.m"; sourceTree = "<group>"; };
@@ -1547,6 +1550,8 @@
 				442F1FDF1B15FC8500267698 /* UINavigationController+Util.h */,
 				442F1FE01B15FC8500267698 /* UIApplication+Util.m */,
 				442F1FE11B15FC8500267698 /* UIApplication+Util.h */,
+				440A62A61B8EBC160046E4CE /* UIViewController+Util.h */,
+				440A62A71B8EBC160046E4CE /* UIViewController+Util.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -2809,6 +2814,7 @@
 				445B7B591B418F020046CFDB /* czzThreadTableView.m in Sources */,
 				441E5D1B17F46E7900289DBD /* SMXMLDocument.m in Sources */,
 				441E5D1217F46A0900289DBD /* czzEntryPointViewController.m in Sources */,
+				440A62A81B8EBC160046E4CE /* UIViewController+Util.m in Sources */,
 				442A8FA419DB7DF200A3516E /* MWPhotoBrowser.m in Sources */,
 				441E5D2017F46FB600289DBD /* czzURLDownloader.m in Sources */,
 				442A901E19DB9C3C00A3516E /* HTMLParser.m in Sources */,
