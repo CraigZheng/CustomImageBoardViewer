@@ -51,11 +51,6 @@
     circle.lineWidth = 0;
     mainIcon.layer.mask=circle;
     //shadow
-//    mainIcon.layer.shadowColor = [UIColor blackColor].CGColor;
-//    mainIcon.layer.shadowRadius = 10.f;
-//    mainIcon.layer.shadowOffset = CGSizeMake(0.f, 5.f);
-//    mainIcon.layer.shadowOpacity = 1.f;
-//    mainIcon.clipsToBounds = NO;
     
     iconAnimating = NO;
     

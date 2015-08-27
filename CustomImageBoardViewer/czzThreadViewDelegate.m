@@ -32,6 +32,10 @@
     return self;
 }
 
+- (void)dealloc {
+    DLog(@"%s", __PRETTY_FUNCTION__);
+}
+
 -(void)highlightTableViewCell:(UITableViewCell*)tableviewcell{
     //disable the scrolling view
     self.myTableView.scrollEnabled = NO;
@@ -134,9 +138,9 @@
 }
 
 +(instancetype)initWithViewModelManager:(czzThreadViewModelManager *)viewModelManager {
-    czzThreadViewDelegate *sharedDelegate = [czzThreadViewDelegate new];
-    sharedDelegate.viewModelManager = viewModelManager;
-    return sharedDelegate;
+    czzThreadViewDelegate *threadViewDelegate = [czzThreadViewDelegate new];
+    threadViewDelegate.viewModelManager = viewModelManager;
+    return threadViewDelegate;
 }
 
 

@@ -15,9 +15,9 @@
 
 @interface czzHomeViewDelegate : NSObject <UITableViewDelegate, czzMenuEnabledTableViewCellProtocol, czzOnScreenImageManagerViewControllerDelegate>
 
-@property czzHomeViewModelManager *viewModelManager;
+@property (weak, nonatomic) czzHomeViewModelManager *viewModelManager;
 @property (weak, nonatomic) czzThreadTableView *myTableView;
 
 + (instancetype)sharedInstance;
-+(instancetype)initWithViewModelManager:(czzHomeViewModelManager*)viewModelManager;
++ (instancetype)initWithViewModelManager:(czzHomeViewModelManager*)viewModelManager;
 @end

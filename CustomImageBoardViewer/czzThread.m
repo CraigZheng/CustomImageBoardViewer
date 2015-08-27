@@ -107,9 +107,7 @@
     if (self) {
         @try {
             self.ID = [[data objectForKey:@"id"] integerValue];
-            
             self.parentID = [[data objectForKey:@"parent"] integerValue] != 0 ? [[data objectForKey:@"parent"] integerValue] : self.ID;
-
             self.postDateTime = [NSDate dateWithTimeIntervalSince1970:[[data objectForKey:@"createdAt"] doubleValue] / 1000.0];
             self.updateDateTime = [NSDate dateWithTimeIntervalSince1970:[[data objectForKey:@"updatedAt"] doubleValue] / 1000.0];
             //UID might have different colour, but I am setting any colour other than default to red at the moment
@@ -208,30 +206,34 @@
 }
 
 -(NSAttributedString*)renderHTMLToAttributedString:(NSString*)htmlString{
-    htmlString = [htmlString stringByDecodingHTMLEntities];
-    htmlString = [htmlString stringByReplacingOccurrencesOfString:@"&nbsp;ﾟ" withString:@"　ﾟ"];
-//    htmlString = [htmlString stringByReplacingOccurrencesOfString:@"&#180" withString:@"´"];
-
-    NSAttributedString *renderedString = [[NSAttributedString alloc] initWithData:[htmlString dataUsingEncoding:NSUTF8StringEncoding]
-                                            options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
-                                                      NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
-                                 documentAttributes:nil error:nil];
-    
-    //fine all >> quoted text
-    NSArray *segments = [renderedString.string componentsSeparatedByString:@">>"];
-    if (segments.count > 1) {
-        for (NSString* segment in segments) {
-            NSString *processedSeg = [segment stringByReplacingOccurrencesOfString:@"No." withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, segment.length)];
-            NSInteger refNumber  = processedSeg.integerValue;
-            if (refNumber != 0) {
-                if (!self.replyToList)
-                    self.replyToList = [NSMutableArray new];
-                [self.replyToList addObject:[NSNumber numberWithInteger:refNumber]];
+    @try {
+        NSString *htmlCopy = [[htmlString copy] stringByDecodingHTMLEntities];
+        htmlCopy = [htmlCopy stringByReplacingOccurrencesOfString:@"&nbsp;ﾟ" withString:@"　ﾟ"];
+        NSAttributedString *renderedString = [[NSAttributedString alloc] initWithData:[htmlCopy dataUsingEncoding:NSUTF8StringEncoding]
+                                                                              options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+                                                                                        NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
+                                                                   documentAttributes:nil error:nil];
+        
+        //fine all >> quoted text
+        NSArray *segments = [renderedString.string componentsSeparatedByString:@">>"];
+        if (segments.count > 1) {
+            for (NSString* segment in segments) {
+                NSString *processedSeg = [segment stringByReplacingOccurrencesOfString:@"No." withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, segment.length)];
+                NSInteger refNumber  = processedSeg.integerValue;
+                if (refNumber != 0) {
+                    if (!self.replyToList)
+                        self.replyToList = [NSMutableArray new];
+                    [self.replyToList addObject:[NSNumber numberWithInteger:refNumber]];
+                }
             }
         }
+        
+        return renderedString;
     }
-
-    return renderedString;
+    @catch (NSException *exception) {
+        DLog(@"%@", exception);
+    }
+    return [[NSAttributedString alloc] initWithString:htmlString.length ? htmlString : @""];
 }
 
 #pragma mark - isEqual and Hash function, for this class to be used within a NSSet
@@ -297,7 +299,7 @@
         self.blockAll = [decoder decodeBoolForKey:@"blockAll"];
         self.forum = [decoder decodeObjectForKey:@"forum"];
         //blacklist info might be updated when this thread is not in the memory
-        //consor contents
+        //censored contents
         czzBlacklistEntity *blacklistEntity = [[czzBlacklist sharedInstance] blacklistEntityForThreadID:self.ID];
         if (blacklistEntity){
             //assign the blacklist value to this thread

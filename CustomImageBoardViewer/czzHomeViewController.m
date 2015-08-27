@@ -191,7 +191,6 @@
 
     //on screen image manager view
     czzOnScreenImageManagerViewController *onScreenImgMrg = [NavigationManager.delegate onScreenImageManagerView];
-    onScreenImgMrg.view.frame = onScreenImageManagerViewContainer.bounds;
     onScreenImgMrg.delegate = homeViewDelegate;
     [self addChildViewController:onScreenImgMrg];
     [onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];

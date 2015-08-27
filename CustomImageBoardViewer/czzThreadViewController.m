@@ -33,11 +33,6 @@
 NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 @interface czzThreadViewController ()<czzThreadListProtocol, UIAlertViewDelegate, czzMiniThreadViewControllerProtocol>
-@property (strong, nonatomic) NSString *baseURLString;
-@property (strong, nonatomic) NSString *targetURLString;
-@property (strong, nonatomic) NSArray *threads;
-@property (strong, nonatomic) NSArray *verticalHeights;
-@property (strong, nonatomic) NSArray *horizontalHeights;
 @property (strong, nonatomic) NSIndexPath *selectedIndex;
 @property (strong, nonatomic) czzRightSideViewController *threadMenuViewController;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
@@ -57,18 +52,13 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @end
 
 @implementation czzThreadViewController
-@synthesize baseURLString;
 @synthesize numberBarButton;
-@synthesize targetURLString;
-@synthesize threads;
 @synthesize threadTableView;
 @synthesize selectedIndex;
 @synthesize threadMenuViewController;
 @synthesize threadsTableViewContentOffSet;
 @synthesize shouldHighlight;
 @synthesize shouldHighlightSelectedUser;
-@synthesize verticalHeights;
-@synthesize horizontalHeights;
 @synthesize shouldDisplayQuickScrollCommand;
 @synthesize thumbnailFolder;
 @synthesize keywordToSearch;
@@ -156,7 +146,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     
     //on screen image manager view
     czzOnScreenImageManagerViewController *onScreenImgMrg = [(czzNavigationController*)self.navigationController onScreenImageManagerView];
-    onScreenImgMrg.view.frame = onScreenImageManagerViewContainer.bounds;
     onScreenImgMrg.delegate = threadViewDelegate;
     [self addChildViewController:onScreenImgMrg];
     [onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
@@ -179,23 +168,14 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 -(void)applyViewModel {
-    if (shouldRestoreContentOffset && CGPointEqualToPoint(threadTableView.contentOffset, CGPointZero)) {
-        [threadTableView setContentOffset:threadViewModelManager.currentOffSet animated:NO];
-    }
-    if (threadViewModelManager.threads.count > 0)
-        threads = [NSArray arrayWithArray:threadViewModelManager.threads];
-    if (threadViewModelManager.horizontalHeights.count > 0)
-        horizontalHeights = [NSArray arrayWithArray:threadViewModelManager.horizontalHeights];
-    if (threadViewModelManager.verticalHeights.count > 0)
-        verticalHeights = [NSArray arrayWithArray:threadViewModelManager.verticalHeights];
     [self updateNumberButton];
 }
 
 #pragma mark UITableView delegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     selectedIndex = indexPath;
-    if (selectedIndex.row < threads.count){
-        czzThread *selectedThread = [threads objectAtIndex:indexPath.row];
+    if (selectedIndex.row < self.threadViewModelManager.threads.count){
+        czzThread *selectedThread = [self.threadViewModelManager.threads objectAtIndex:indexPath.row];
         if (selectedThread){
             [threadMenuViewController setSelectedThread:selectedThread];
         }
@@ -210,7 +190,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 -(BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row < threads.count)
+    if (indexPath.row < self.threadViewModelManager.threads.count)
         return YES;
     return NO;
 }
@@ -224,11 +204,10 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if (indexPath.row >= threads.count)
+    if (indexPath.row >= self.threadViewModelManager.threads.count)
         return tableView.rowHeight;
     
-    NSArray *heightArray = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? verticalHeights : horizontalHeights;
+    NSArray *heightArray = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? self.threadViewModelManager.verticalHeights : self.threadViewModelManager.horizontalHeights;
     CGFloat preferHeight = tableView.rowHeight;
     @try {
         preferHeight = [[heightArray objectAtIndex:indexPath.row] floatValue];
@@ -380,8 +359,8 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     } else
         numberBarButton.customView = numberButton;
 
-    [numberButton setTitle:[NSString stringWithFormat:@"%ld", (long) threads.count] forState:UIControlStateNormal];
-    if (threads.count <= 0)
+    [numberButton setTitle:[NSString stringWithFormat:@"%ld", (long) self.threadViewModelManager.threads.count] forState:UIControlStateNormal];
+    if (self.threadViewModelManager.threads.count <= 0)
         numberButton.hidden = YES;
     else
         numberButton.hidden = NO;
@@ -473,7 +452,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 #pragma mark - State perserving
 - (void)saveCurrentState {
-    self.threadViewModelManager.currentOffSet = self.threadTableView.contentOffset;
+//    self.threadViewModelManager.currentOffSet = self.threadTableView.contentOffset;
     [self.threadViewModelManager saveCurrentState];
 }
 
