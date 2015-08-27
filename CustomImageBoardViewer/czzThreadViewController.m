@@ -174,6 +174,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 -(void)applyViewModel {
+    self.title = self.threadViewModelManager.parentThread.title;
     [self updateNumberButton];
 }
 
@@ -344,12 +345,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [refreshControl endRefreshing];
     [progressView stopAnimating];
     // Reset the lastCellType back to default.
-    @try {
-        self.threadTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
-    }
-    @catch (NSException *exception) {
-        DLog(@"%@", exception);
-    }
+    self.threadTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
 }
 
 -(void)updateNumberButton {

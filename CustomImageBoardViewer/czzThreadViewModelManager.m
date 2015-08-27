@@ -21,6 +21,7 @@
     self = [czzThreadViewModelManager new];
     if (self) {
         // Record history
+        self.parentThread = thread;
         if (self.parentThread)
             [historyManager recordThread:self.parentThread];
 
