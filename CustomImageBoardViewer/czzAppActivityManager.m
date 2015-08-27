@@ -42,15 +42,17 @@
 -(void)applicationDidEnterBackground {
     NSArray *viewControllers = NavigationManager.delegate.viewControllers;
     for (UIViewController* viewController in viewControllers) {
+        // Save states
+        if ([viewController respondsToSelector:@selector(saveCurrentState)]) {
+            [viewController performSelector:@selector(saveCurrentState)];
+        }
+        // Retrive the viewModelManager objects
         if ([viewController respondsToSelector:@selector(viewModelManager)]) {
             czzHomeViewModelManager *viewModelManager = [viewController performSelector:@selector(viewModelManager)];
-            DLog(@"%@: %@", NSStringFromClass(viewController.class), viewModelManager);
             if ([viewModelManager isMemberOfClass:[czzHomeViewModelManager class]]) {
                 self.homeViewModelManager = viewModelManager;
-                [self.homeViewModelManager saveCurrentState];
             } else if ([viewModelManager isMemberOfClass:[czzThreadViewModelManager class]]) {
                 self.threadViewModelManager = (czzThreadViewModelManager*)viewModelManager;
-                [self.threadViewModelManager saveCurrentState];
             }
         }
     }
