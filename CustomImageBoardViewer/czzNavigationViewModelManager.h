@@ -15,6 +15,7 @@
 -(void)viewModelManager:(czzNavigationViewModelManager*)manager wantsToPushViewController:(UIViewController*)viewController animated:(BOOL)animated;
 -(void)viewModelManager:(czzNavigationViewModelManager*)manager wantsToPopViewControllerAnimated:(BOOL)animated;
 -(void)viewModelManager:(czzNavigationViewModelManager*)manager wantsToPopToViewController:(UIViewController*)viewController animated:(BOOL)animated;
+-(void)viewModelManager:(czzNavigationViewModelManager*)manager wantsToSetViewController:(NSArray*)viewControllers animated:(BOOL)animated;
 
 @end
 
@@ -26,6 +27,7 @@
 -(void)pushViewController:(UIViewController*)viewController animated:(BOOL)animated;
 -(void)popViewControllerAnimated:(BOOL)animted;
 -(void)popToViewController:(UIViewController*)viewController animated:(BOOL)animated;
+-(void)setViewController:(NSArray*)viewControllers animated:(BOOL)animated;
 
 +(instancetype)sharedManager;
 @end

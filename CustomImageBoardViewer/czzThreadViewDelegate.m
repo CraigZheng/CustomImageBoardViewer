@@ -129,7 +129,7 @@
     dummyParentThread.ID = text.integerValue;
     czzThreadViewModelManager *threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:dummyParentThread andForum:nil];
     czzThreadViewController *threadViewController = [[UIStoryboard storyboardWithName:THREAD_VIEW_CONTROLLER_STORYBOARD_NAME bundle:nil] instantiateViewControllerWithIdentifier:THREAD_VIEW_CONTROLLER_ID];
-    threadViewController.threadViewModelManager = threadViewModelManager;
+    threadViewController.viewModelManager = threadViewModelManager;
     [NavigationManager pushViewController:threadViewController animated:YES];
 }
 

@@ -28,7 +28,7 @@ extern NSString * const showThreadViewSegueIdentifier;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *moreButton;
 @property (strong, nonatomic) UIBarButtonItem *numberBarButton;
 @property (assign, nonatomic) BOOL shouldRestoreContentOffset;
-@property (strong, nonatomic) czzThreadViewModelManager *threadViewModelManager;
+@property (strong, nonatomic) czzThreadViewModelManager *viewModelManager;
 
 
 - (IBAction)moreAction:(id)sender;

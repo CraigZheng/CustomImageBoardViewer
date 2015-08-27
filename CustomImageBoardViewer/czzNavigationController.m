@@ -78,6 +78,10 @@
     [self pushViewController:viewController animated:animated];
 }
 
+- (void)viewModelManager:(czzNavigationViewModelManager *)manager wantsToSetViewController:(NSArray *)viewControllers animated:(BOOL)animated {
+    [self setViewControllers:viewControllers animated:animated];
+}
+
 +(instancetype)new {
     return [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"home_navigation_controller"];
 }

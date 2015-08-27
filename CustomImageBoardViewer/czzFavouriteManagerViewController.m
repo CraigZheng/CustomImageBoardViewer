@@ -89,7 +89,7 @@
         selectedThread = [threads objectAtIndex:selectedIndex.row];
         czzThreadViewModelManager *threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:selectedThread andForum:selectedThread.forum];
         czzThreadViewController *threadViewController = [czzThreadViewController new];
-        threadViewController.threadViewModelManager = threadViewModelManager;
+        threadViewController.viewModelManager = threadViewModelManager;
         [NavigationManager pushViewController:threadViewController animated:YES];
     }
 }

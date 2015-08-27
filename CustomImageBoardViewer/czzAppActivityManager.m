@@ -10,6 +10,14 @@
 #import "czzSettingsCentre.h"
 #import "czzHomeViewModelManager.h"
 #import "czzThreadViewModelManager.h"
+#import "czzNavigationViewModelManager.h"
+#import "czzHomeViewController.h"
+#import "czzThreadViewController.h"
+
+@interface czzAppActivityManager () <NSCoding>
+@property (nonatomic, weak) czzHomeViewModelManager *homeViewModelManager;
+@property (nonatomic, weak) czzThreadViewModelManager *threadViewModelManager;
+@end
 
 @implementation czzAppActivityManager
 
@@ -34,9 +42,16 @@
 -(void)applicationDidEnterBackground {
     NSArray *viewControllers = NavigationManager.delegate.viewControllers;
     for (UIViewController* viewController in viewControllers) {
-        if ([viewController respondsToSelector:@selector(saveCurrentState)]) {
-            id result = [viewController performSelector:@selector(saveCurrentState)];
-            DLog(@"%@: %@", NSStringFromClass(viewController.class), result);
+        if ([viewController respondsToSelector:@selector(viewModelManager)]) {
+            czzHomeViewModelManager *viewModelManager = [viewController performSelector:@selector(viewModelManager)];
+            DLog(@"%@: %@", NSStringFromClass(viewController.class), viewModelManager);
+            if ([viewModelManager isMemberOfClass:[czzHomeViewModelManager class]]) {
+                self.homeViewModelManager = viewModelManager;
+                [self.homeViewModelManager saveCurrentState];
+            } else if ([viewModelManager isMemberOfClass:[czzThreadViewModelManager class]]) {
+                self.threadViewModelManager = (czzThreadViewModelManager*)viewModelManager;
+                [self.threadViewModelManager saveCurrentState];
+            }
         }
     }
     
@@ -47,15 +62,28 @@
 -(void)launchApp {
     UIViewController *rootViewController = AppDelegate.window.rootViewController;
     if (!rootViewController) {
-        [[czzHomeViewModelManager sharedManager] restorePreviousState]; 
+        self.homeViewModelManager = [czzHomeViewModelManager sharedManager];
+        [self.homeViewModelManager restorePreviousState];
+        // TODO: restore threadViewModelManager
         
         rootViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateInitialViewController];
         if (!AppDelegate.window)
             AppDelegate.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         AppDelegate.window.rootViewController = rootViewController;
         [AppDelegate.window makeKeyAndVisible];
+        
+        if (self.homeViewModelManager) {
+            czzHomeViewController *homeViewController = [czzHomeViewController new];
+            homeViewController.viewModelManager = self.homeViewModelManager;
+            [NavigationManager setViewController:@[homeViewController] animated:YES];
+        }
     }
+    // Clear any left over
+    self.homeViewModelManager = self.threadViewModelManager = nil;
 }
+
+#pragma mark - NSCoding
+
 
 + (instancetype)sharedManager
 {

@@ -65,7 +65,7 @@
     {
         //@todo open the selected thread
         czzThreadViewController *threadViewController = [czzThreadViewController new];
-        threadViewController.threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:selectedThread andForum:self.viewModelManager.forum];
+        threadViewController.viewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:selectedThread andForum:self.viewModelManager.forum];
         [NavigationManager pushViewController:threadViewController animated:YES];
     }
     else {

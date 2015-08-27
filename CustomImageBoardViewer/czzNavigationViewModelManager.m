@@ -21,6 +21,10 @@
     [self.delegate viewModelManager:self wantsToPopToViewController:viewController animated:animated];
 }
 
+- (void)setViewController:(NSArray *)viewControllers animated:(BOOL)animated {
+    [self.delegate viewModelManager:self wantsToSetViewController:viewControllers animated:animated];
+}
+
 #pragma mark - UINavigationControllerDelegate
 -(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
     self.isInTransition = YES;
