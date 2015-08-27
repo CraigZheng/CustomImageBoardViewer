@@ -7,7 +7,6 @@
 //
 
 #import "czzRightSideViewController.h"
-#import "czzThreadViewController.h"
 #import "czzPostViewController.h"
 #import "czzFavouriteManager.h"
 #import "Toast+UIView.h"

@@ -13,7 +13,7 @@
 
 @class czzThread;
 @interface czzHomeViewController : UIViewController 
-@property (strong, nonatomic) IBOutlet czzThreadTableView *threadTableView;
+@property (weak, nonatomic) IBOutlet czzThreadTableView *threadTableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *menuBarButton;
 @property (strong) UIBarButtonItem *infoBarButton;
 @property (weak, nonatomic) IBOutlet UIView *onScreenImageManagerViewContainer;

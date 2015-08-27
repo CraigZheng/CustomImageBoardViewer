@@ -165,11 +165,10 @@
     BOOL isOver = NO;
     @try {
         if (self.myTableView.window) {
-            NSArray *visibleRows = [self.myTableView visibleCells];
-            if (visibleRows) {
-                UITableViewCell *lastVisibleCell = [visibleRows lastObject];
+            UITableViewCell *lastVisibleCell = [[self.myTableView visibleCells] lastObject];
+            if (lastVisibleCell) {
                 NSIndexPath *path = [self.myTableView indexPathForCell:lastVisibleCell];
-                if(path.row == self.viewModelManager.threads.count || true)
+                if (path.row == self.viewModelManager.threads.count)
                 {
                     CGPoint contentOffSet = self.myTableView.contentOffset;
                     CGRect lastCellRect = [self.myTableView rectForRowAtIndexPath:path];

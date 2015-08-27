@@ -138,18 +138,19 @@
     [self.threadDownloader stop];
     self.threadDownloader = nil;
     self.isDownloading = NO;
-    if (successed){
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            self.isProcessing = YES;
-            [self.threadListDataProcessor processThreadListFromData:xmlData forForum:self.forum];
-        });
-    }
-    
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([self.delegate respondsToSelector:@selector(viewModelManager:downloadSuccessful:)]) {
             [self.delegate viewModelManager:self downloadSuccessful:successed];
         }
     });
+    if (successed){
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            if ([self.delegate isPresented]) {
+                self.isProcessing = YES;
+                [self.threadListDataProcessor processThreadListFromData:xmlData forForum:self.forum];
+            }
+        });
+    }
 }
 
 -(void)downloadUpdated:(czzURLDownloader *)downloader progress:(CGFloat)progress {

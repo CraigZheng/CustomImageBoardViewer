@@ -397,29 +397,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [self presentViewController:activityViewController animated:YES completion:nil];
 }
 
--(void)tapOnFloatingView:(UIGestureRecognizer*)gestureRecognizer{
-    PartialTransparentView *containerView = (PartialTransparentView*)[threadTableView viewWithTag:OVERLAY_VIEW];
-    [UIView animateWithDuration:0.2 animations:^{
-        containerView.alpha = 0.0f;
-    } completion:^(BOOL finished){
-        [containerView removeFromSuperview];
-        //scroll back to the original position
-    }];
-    CGPoint touchPoint = [gestureRecognizer locationInView:threadTableView];
-    NSArray *rectArray = containerView.rectsArray;
-    BOOL userTouchInView = NO;
-    for (NSValue *rect in rectArray) {
-        if (CGRectContainsPoint([rect CGRectValue], touchPoint)) {
-            userTouchInView = YES;
-            break;
-        }
-    }
-    
-    if (!userTouchInView)
-        [threadTableView setContentOffset:threadsTableViewContentOffSet animated:YES];
-    threadTableView.scrollEnabled = YES;
-}
-
 #pragma mark - prepare for segue
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"go_search_view_segue"]) {
@@ -430,12 +407,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 #pragma mark - rotation change
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
-    UIView *containerView = [[AppDelegate window] viewWithTag:OVERLAY_VIEW];
-    //if the container view is not nil, deselect it
-    if (containerView)
-        [self performSelector:@selector(tapOnFloatingView:) withObject:nil];
-}
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     @try {

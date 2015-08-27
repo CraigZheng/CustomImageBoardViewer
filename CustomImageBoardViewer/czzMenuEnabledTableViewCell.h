@@ -19,7 +19,6 @@
 
 #import <UIKit/UIKit.h>
 #import "czzThread.h"
-#import "czzThreadViewController.h"
 #import "DACircularProgressView.h"
 
 

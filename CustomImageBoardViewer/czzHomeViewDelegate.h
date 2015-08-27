@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzOnScreenImageManagerViewController.h"
+#import "czzThreadViewController.h"
 
 @class czzHomeViewModelManager;
 

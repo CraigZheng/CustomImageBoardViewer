@@ -21,14 +21,14 @@ extern NSString * const showThreadViewSegueIdentifier;
 
 @interface czzThreadViewController : UIViewController
 
-@property (strong, nonatomic) IBOutlet czzThreadTableView *threadTableView;
+@property (weak, nonatomic) IBOutlet czzThreadTableView *threadTableView;
 @property (strong, nonatomic) NSString *shouldHighlightSelectedUser;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *starButton;
 @property (weak, nonatomic) IBOutlet UIView *onScreenImageManagerViewContainer;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *moreButton;
-@property UIBarButtonItem *numberBarButton;
+@property (strong, nonatomic) UIBarButtonItem *numberBarButton;
 @property (assign, nonatomic) BOOL shouldRestoreContentOffset;
-@property czzThreadViewModelManager *threadViewModelManager;
+@property (strong, nonatomic) czzThreadViewModelManager *threadViewModelManager;
 
 
 - (IBAction)moreAction:(id)sender;
