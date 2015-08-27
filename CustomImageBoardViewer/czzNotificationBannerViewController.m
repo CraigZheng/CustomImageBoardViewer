@@ -185,7 +185,6 @@
 }
 
 -(BOOL)shouldShow {
-    DLog(@"needsToBePresented = %d", needsToBePresented);
     return needsToBePresented;
 }
 

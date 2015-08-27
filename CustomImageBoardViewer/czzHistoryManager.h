@@ -24,5 +24,5 @@
 -(void)clearRecord;
 -(void)saveCurrentState;
 
-+(id)sharedInstance;
++(instancetype)sharedInstance;
 @end

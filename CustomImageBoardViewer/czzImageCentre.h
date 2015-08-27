@@ -34,7 +34,7 @@
 @property (assign, nonatomic) BOOL ready;
 @property (nonatomic, weak) id<czzImageCentreProtocol> delegate;
 
-+(id)sharedInstance;
++(instancetype)sharedInstance;
 + (NSDate*) getModificationDateForFileAtPath:(NSString*)path;
 
 -(void)scanCurrentLocalImages;

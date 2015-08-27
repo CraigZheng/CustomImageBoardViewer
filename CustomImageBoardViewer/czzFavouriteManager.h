@@ -21,5 +21,5 @@
 -(BOOL)removeFavourite:(czzThread*)thread;
 -(void)removeAll;
 -(void)saveCurrentState;
-+(id)sharedInstance;
++(instancetype)sharedInstance;
 @end

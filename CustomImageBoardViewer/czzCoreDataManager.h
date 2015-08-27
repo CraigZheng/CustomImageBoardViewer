@@ -21,5 +21,5 @@
 
 -(void)insertThreadIntoContext:(czzThread*)thread;
 -(void)deleteThreadData:(czzThreadData*)threadData;
-+(id)sharedInstance;
++(instancetype)sharedInstance;
 @end

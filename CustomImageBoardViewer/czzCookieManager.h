@@ -23,6 +23,6 @@
 -(void)setACCookie:(NSHTTPCookie*)cookie ForURL:(NSURL*)url;
 -(void)deleteCookie:(NSHTTPCookie*)cookie;
 
-+(id)sharedInstance;
++(instancetype)sharedInstance;
 
 @end
