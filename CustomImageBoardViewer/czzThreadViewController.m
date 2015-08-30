@@ -32,7 +32,7 @@
 
 NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
-@interface czzThreadViewController ()<czzThreadListProtocol, UIAlertViewDelegate, czzMiniThreadViewControllerProtocol>
+@interface czzThreadViewController ()<UIAlertViewDelegate, czzMiniThreadViewControllerProtocol>
 @property (strong, nonatomic) NSIndexPath *selectedIndex;
 @property (strong, nonatomic) czzRightSideViewController *threadMenuViewController;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
@@ -312,6 +312,15 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 #pragma mark - czzSubthreadViewModelManagerProtocol
+- (void)viewModelManager:(czzHomeViewModelManager *)viewModelManager wantsToScrollToContentOffset:(CGPoint)offset {
+    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+        // If not CGPointZero
+        if (!CGPointEqualToPoint(CGPointZero, offset) && self.threadTableView) {
+            self.threadTableView.contentOffset = offset;
+        }
+    }];
+}
+
 - (void)viewModelManagerWantsToReload:(czzHomeViewModelManager *)manager {
     if (manager.threads.count) {
         [self.threadTableView reloadData];

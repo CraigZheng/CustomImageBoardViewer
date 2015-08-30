@@ -13,7 +13,7 @@
 #import "czzThreadViewModelManager.h"
 
 @class czzThread;
-@interface czzHomeViewController : UIViewController 
+@interface czzHomeViewController : UIViewController <czzThreadListProtocol>
 @property (weak, nonatomic) IBOutlet czzThreadTableView *threadTableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *menuBarButton;
 @property (strong) UIBarButtonItem *infoBarButton;

@@ -117,6 +117,12 @@
     self.lastBatchOfThreads = self.horizontalHeights = self.verticalHeights = self.threads = nil;
 }
 
+- (void)scrollToContentOffset:(CGPoint)offset {
+    if ([self.delegate respondsToSelector:@selector(viewModelManager:wantsToScrollToContentOffset:)]) {
+        [self.delegate viewModelManager:self wantsToScrollToContentOffset:offset];
+    }
+}
+
 - (void)downloadThumbnailsForThreads:(NSArray*)threads {
     for (czzThread *thread in threads) {
         if (thread.thImgSrc.length != 0){

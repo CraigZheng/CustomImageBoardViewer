@@ -32,7 +32,7 @@
 #import <CoreText/CoreText.h>
 
 
-@interface czzHomeViewController() <UIAlertViewDelegate, czzThreadListProtocol, czzOnScreenImageManagerViewControllerDelegate, UIStateRestoring>
+@interface czzHomeViewController() <UIAlertViewDelegate, czzOnScreenImageManagerViewControllerDelegate, UIStateRestoring>
 @property UIViewController *leftController;
 @property (assign, nonatomic) BOOL shouldDisplayQuickScrollCommand;
 @property (strong, nonatomic) NSString *thumbnailFolder;

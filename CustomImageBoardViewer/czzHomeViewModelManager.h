@@ -27,6 +27,7 @@
 -(void)viewModelManagerBeginDownloading:(czzHomeViewModelManager*)threadList;
 -(void)viewModelManager:(czzHomeViewModelManager*)threadList processedThreadData:(BOOL)wasSuccessul newThreads:(NSArray*)newThreads allThreads:(NSArray*)allThreads;
 -(void)viewModelManager:(czzHomeViewModelManager*)threadList processedSubThreadData:(BOOL)wasSuccessul newThreads:(NSArray*)newThreads allThreads:(NSArray*)allThreads;
+- (void)viewModelManager:(czzHomeViewModelManager*)viewModelManager wantsToScrollToContentOffset:(CGPoint)offset;
 
 //updates
 -(void)viewModelManager:(czzHomeViewModelManager*)threadList downloadProgressUpdated:(CGFloat)progress;
@@ -68,6 +69,7 @@
 -(void)removeAll;
 -(void)calculateHeightsForThreads:(NSArray*)newThreads;
 -(void)downloadThumbnailsForThreads:(NSArray*)threads;
+-(void)scrollToContentOffset:(CGPoint)offset;
 
 //save and restore
 -(NSString*)saveCurrentState;

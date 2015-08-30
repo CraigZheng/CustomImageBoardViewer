@@ -115,13 +115,19 @@ NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
             NSMutableArray *restoredViewControllers = [NSMutableArray new];
             czzHomeViewController *homeViewController = [czzHomeViewController new];
             homeViewController.viewModelManager = self.homeViewModelManager;
+            self.homeViewModelManager.delegate = homeViewController;
             [restoredViewControllers addObject:homeViewController];
             if (self.threadViewModelManager) {
                 czzThreadViewController *threadViewController = [czzThreadViewController new];
                 threadViewController.viewModelManager = self.threadViewModelManager;
+                self.threadViewModelManager.delegate = threadViewController;
                 [restoredViewControllers addObject:threadViewController];
             }
             [NavigationManager setViewController:restoredViewControllers animated:NO];
+            if (self.threadViewModelManager) {
+                // Restore the content offset for thread view controller.
+                [self.threadViewModelManager scrollToContentOffset:self.threadViewModelManager.currentOffSet];
+            }
         }
     }
     // Clear any left over

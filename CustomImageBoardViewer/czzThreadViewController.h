@@ -19,7 +19,7 @@
 
 extern NSString * const showThreadViewSegueIdentifier;
 
-@interface czzThreadViewController : UIViewController
+@interface czzThreadViewController : UIViewController <czzThreadListProtocol>
 
 @property (weak, nonatomic) IBOutlet czzThreadTableView *threadTableView;
 @property (strong, nonatomic) NSString *shouldHighlightSelectedUser;
