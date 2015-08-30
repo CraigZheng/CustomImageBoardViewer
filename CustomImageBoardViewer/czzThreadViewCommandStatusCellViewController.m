@@ -30,16 +30,16 @@
             [self.loadingActivityIndicator stopAnimating];
             switch (self.cellType) {
                 case czzThreadViewCommandStatusCellViewTypeLoadMore:
-                    commandLabelString = @"Tap To Load More";
+                    commandLabelString = @"点击以加载";
                     break;
                 case czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore:
-                    commandLabelString = @"Release To Load More";
+                    commandLabelString = @"松开以加载";
                     break;
                 case czzThreadViewCommandStatusCellViewTypeNoMore:
-                    commandLabelString = @"No More Content, Tap To Refresh";
+                    commandLabelString = @"没有更多内容，点击以加载";
                     break;
                 case czzThreadViewCommandStatusCellViewTypeLoading:
-                    commandLabelString = @"Loading, Please Wait";
+                    commandLabelString = @"加载中...";
                     [self.loadingActivityIndicator startAnimating];
                     break;
                 default:
