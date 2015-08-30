@@ -46,17 +46,18 @@
     if (acCookies.count > 0)
         return;
     DLog(@"current cookie empty, try to eat a cookie");
-    NSString *getCookieURLString = [NSString stringWithFormat:@"http://ano-zhai-so.n1.yun.tf:8999/Home/Api/getCookie?deviceid=%@", [UIDevice currentDevice].identifierForVendor.UUIDString];
+    NSString *getCookieURLString = [NSString stringWithFormat:@"%@/Home/Api/getCookie?deviceid=%@", [settingCentre a_isle_host], [UIDevice currentDevice].identifierForVendor.UUIDString];
 
     czzURLDownloader *urlDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:getCookieURLString] delegate:self startNow:YES];
     DLog(@"%@", urlDownloader);
+    [urlDownloader start];
 }
 
 -(void)refreshACCookies {
     NSMutableArray *cookies = [NSMutableArray new];
     
     for (NSHTTPCookie *cookie in [cookieStorage cookies]) {
-        if ([cookie.name.lowercaseString isEqualToString:@"userhash".lowercaseString]) {
+        if ([cookie.name.lowercaseString isEqualToString:cookieName.lowercaseString]) {
             DLog(@"%@", cookie);
             [cookies addObject:cookie];
         }
@@ -85,7 +86,7 @@
     NSArray *allCookies = [cookieStorage cookiesForURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
     NSHTTPCookie *inUseCookie;
     for (NSHTTPCookie *cookie in allCookies) {
-        if ([cookie.name.lowercaseString isEqualToString:@"username".lowercaseString]) {
+        if ([cookie.name.lowercaseString isEqualToString:cookieName.lowercaseString]) {
             inUseCookie = cookie;
             break;
         }
