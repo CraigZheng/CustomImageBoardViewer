@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-NSString * const cookieName = @"userhash";
+extern NSString * const cookieName;
 
 @interface czzACTokenUtil : NSObject
 

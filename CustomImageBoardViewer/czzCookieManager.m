@@ -46,7 +46,7 @@
     if (acCookies.count > 0)
         return;
     DLog(@"current cookie empty, try to eat a cookie");
-    NSString *getCookieURLString = [NSString stringWithFormat:@"%@/Home/Api/getCookie?deviceid=%@", [settingCentre a_isle_host], [UIDevice currentDevice].identifierForVendor.UUIDString];
+    NSString *getCookieURLString = [[settingCentre a_isle_host] stringByAppendingPathComponent:[NSString stringWithFormat:@"/Home/Api/getCookie?deviceid=%@", [UIDevice currentDevice].identifierForVendor.UUIDString]];
 
     czzURLDownloader *urlDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:getCookieURLString] delegate:self startNow:YES];
     DLog(@"%@", urlDownloader);

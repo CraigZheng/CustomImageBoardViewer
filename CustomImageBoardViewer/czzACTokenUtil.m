@@ -8,6 +8,8 @@
 
 #import "czzACTokenUtil.h"
 
+NSString * const cookieName = @"userhash";
+
 @implementation czzACTokenUtil
 
 +(NSHTTPCookie *)createCookieWithValue:(NSString *)value forURL:(NSURL *)url {
