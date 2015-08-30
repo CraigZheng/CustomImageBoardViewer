@@ -190,7 +190,7 @@
     newPostViewController.postMode = REPORT_POST;
     [self presentViewController:newPostViewController animated:YES completion:^{
         [self.viewDeckController toggleRightViewAnimated:YES];
-        NSString *reportString = [[settingCentre report_post_placeholder] stringByReplacingOccurrencesOfString:PARENT_ID withString:[NSString stringWithFormat:@"%ld", (long)self.parentThread.ID]];
+        NSString *reportString = [[settingCentre report_post_placeholder] stringByReplacingOccurrencesOfString:kParentID withString:[NSString stringWithFormat:@"%ld", (long)self.parentThread.ID]];
         reportString = [reportString stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long)self.selectedThread.ID]];
         newPostViewController.postTextView.text = reportString;
         newPostViewController.postNaviBar.topItem.title = [NSString stringWithFormat:@"举报:%ld", (long)self.selectedThread.ID];
