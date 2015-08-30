@@ -314,12 +314,10 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 #pragma mark - czzSubthreadViewModelManagerProtocol
 - (void)viewModelManager:(czzHomeViewModelManager *)viewModelManager wantsToScrollToContentOffset:(CGPoint)offset {
-    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-        // If not CGPointZero
-        if (!CGPointEqualToPoint(CGPointZero, offset) && self.threadTableView) {
-            self.threadTableView.contentOffset = offset;
-        }
-    }];
+    // If not CGPointZero
+    if (!CGPointEqualToPoint(CGPointZero, offset) && self.threadTableView) {
+        self.threadTableView.contentOffset = offset;
+    }
 }
 
 - (void)viewModelManagerWantsToReload:(czzHomeViewModelManager *)manager {

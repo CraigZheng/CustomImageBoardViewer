@@ -53,7 +53,9 @@ NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
         @try {
             NSData *cacheFileContent = [NSData dataWithContentsOfFile:self.cacheFilePath];
             // Delete cache file immediately.
+#ifndef DEBUG
             [[NSFileManager defaultManager] removeItemAtPath:self.cacheFilePath error:nil];
+#endif
             czzAppActivityManager *tempAppActivityManager = [NSKeyedUnarchiver unarchiveObjectWithData:cacheFileContent];
             if (tempAppActivityManager) {
                 self.homeViewModelManager = tempAppActivityManager.homeViewModelManager;
@@ -113,21 +115,27 @@ NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
         
         if (self.homeViewModelManager) {
             NSMutableArray *restoredViewControllers = [NSMutableArray new];
+            czzThreadViewController *threadViewController;
             czzHomeViewController *homeViewController = [czzHomeViewController new];
             homeViewController.viewModelManager = self.homeViewModelManager;
             self.homeViewModelManager.delegate = homeViewController;
             [restoredViewControllers addObject:homeViewController];
             if (self.threadViewModelManager) {
-                czzThreadViewController *threadViewController = [czzThreadViewController new];
+                threadViewController = [czzThreadViewController new];
                 threadViewController.viewModelManager = self.threadViewModelManager;
                 self.threadViewModelManager.delegate = threadViewController;
+                // Set alpha to 0, to avoid thread tableview giving a jumpping appearance...
+                threadViewController.view.alpha = 0;
                 [restoredViewControllers addObject:threadViewController];
             }
             [NavigationManager setViewController:restoredViewControllers animated:NO];
-            if (self.threadViewModelManager) {
-                // Restore the content offset for thread view controller.
-                [self.threadViewModelManager scrollToContentOffset:self.threadViewModelManager.currentOffSet];
-            }
+            [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+                if (threadViewController.viewModelManager) {
+                    // Restore the content offset for thread view controller.
+                    [threadViewController.viewModelManager scrollToContentOffset:threadViewController.viewModelManager.currentOffSet];
+                }
+                threadViewController.view.alpha = 1;
+            }];
         }
     }
     // Clear any left over
