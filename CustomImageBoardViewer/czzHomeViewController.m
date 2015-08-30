@@ -208,7 +208,7 @@
  */
 -(void)updateTableView {
     [self setSelectedForum:viewModelManager.forum];
-    [self updateNumberButton];
+    [self updateBarButtons];
     [threadTableView reloadData];
 }
 
@@ -355,7 +355,8 @@
     [viewModelManager refresh];
 }
 
--(void)updateNumberButton {
+-(void)updateBarButtons {
+    // Amount of threads button.
     UIButton *numberButton = [UIButton buttonWithType:UIButtonTypeCustom];
     numberButton.frame = CGRectMake(numberButton.frame.origin.x, numberButton.frame.origin.y, 24, 24);
     numberButton.layer.cornerRadius = 12;
@@ -377,6 +378,12 @@
         numberButton.hidden = NO;
         self.navigationItem.rightBarButtonItems = @[menuBarButton, numberBarButton];
     }
+    
+    // Jump button
+    NSString *pageNumber = [NSString stringWithFormat:@"%ld", (long)self.viewModelManager.pageNumber];
+    NSString *totalPages = self.viewModelManager.totalPages < 99 ? [NSString stringWithFormat:@"%ld", (long)self.viewModelManager.totalPages] : @"∞";
+    self.jumpBarButtonItem.image = nil;
+    self.jumpBarButtonItem.title = [NSString stringWithFormat:@"%@/%@", pageNumber, totalPages];
 }
 
 #pragma Notification handler - forumPicked

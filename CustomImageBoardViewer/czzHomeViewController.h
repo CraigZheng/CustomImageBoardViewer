@@ -16,6 +16,8 @@
 @interface czzHomeViewController : UIViewController <czzThreadListProtocol>
 @property (weak, nonatomic) IBOutlet czzThreadTableView *threadTableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *menuBarButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *jumpBarButtonItem;
+
 @property (strong) UIBarButtonItem *infoBarButton;
 @property (weak, nonatomic) IBOutlet UIView *onScreenImageManagerViewContainer;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *forumListButton;
