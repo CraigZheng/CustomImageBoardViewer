@@ -24,7 +24,6 @@
 }
 
 -(void)entersBackground {
-    DLog(@"%@", NSStringFromSelector(_cmd));
     [self saveCurrentState];
 }
 

@@ -14,9 +14,12 @@
 #import "czzHomeViewController.h"
 #import "czzThreadViewController.h"
 
+NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
+
 @interface czzAppActivityManager () <NSCoding>
-@property (nonatomic, weak) czzHomeViewModelManager *homeViewModelManager;
-@property (nonatomic, weak) czzThreadViewModelManager *threadViewModelManager;
+@property (nonatomic, strong) czzHomeViewModelManager *homeViewModelManager;
+@property (nonatomic, strong) czzThreadViewModelManager *threadViewModelManager;
+@property (nonatomic, readonly) NSString *cacheFilePath;
 @end
 
 @implementation czzAppActivityManager
@@ -24,13 +27,48 @@
 -(instancetype)init {
     self = [super init];
     if (self) {
+        [self restoreState];
+
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidFinishLaunching) name:UIApplicationDidFinishLaunchingNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
+        // Try to restore from cache file.
     }
     return self;
 }
 
+#pragma mark - state perserving and restoring
+- (NSString*)saveCurrentState {
+    if ([NSKeyedArchiver archiveRootObject:self toFile:self.cacheFilePath]) {
+        DLog(@"%@ successfully saved state", NSStringFromClass(self.class));
+    } else {
+        DLog(@"state cannot be saved for %@", NSStringFromClass(self.class));
+    }
+    return self.cacheFilePath;
+}
+
+- (void)restoreState {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:self.cacheFilePath]) {
+        DLog(@"%@ cache state file exists, trying to recover...", NSStringFromClass(self.class));
+        @try {
+            NSData *cacheFileContent = [NSData dataWithContentsOfFile:self.cacheFilePath];
+            // Delete cache file immediately.
+            [[NSFileManager defaultManager] removeItemAtPath:self.cacheFilePath error:nil];
+            czzAppActivityManager *tempAppActivityManager = [NSKeyedUnarchiver unarchiveObjectWithData:cacheFileContent];
+            if (tempAppActivityManager) {
+                self.homeViewModelManager = tempAppActivityManager.homeViewModelManager;
+                self.threadViewModelManager = tempAppActivityManager.threadViewModelManager;
+                
+                DLog(@"%@ successfully recovered from %@", NSStringFromClass(self.class), self.cacheFilePath);
+            }
+        }
+        @catch (NSException *exception) {
+            DLog(@"%@", exception);
+        }
+    }
+}
+
+#pragma mark - Application life cycle
 -(void)applicationDidFinishLaunching {
     [self launchApp];
 }
@@ -42,7 +80,7 @@
 -(void)applicationDidEnterBackground {
     NSArray *viewControllers = NavigationManager.delegate.viewControllers;
     for (UIViewController* viewController in viewControllers) {
-        // Save states
+        // Tell view controllers to save their current states.
         if ([viewController respondsToSelector:@selector(saveCurrentState)]) {
             [viewController performSelector:@selector(saveCurrentState)];
         }
@@ -57,6 +95,8 @@
         }
     }
     
+    // Save self.
+    [self saveCurrentState];
     // Save settings
     [settingCentre saveSettings];
 }
@@ -64,9 +104,6 @@
 -(void)launchApp {
     UIViewController *rootViewController = AppDelegate.window.rootViewController;
     if (!rootViewController) {
-        self.homeViewModelManager = [czzHomeViewModelManager sharedManager];
-        [self.homeViewModelManager restorePreviousState];
-        // TODO: restore threadViewModelManager
         
         rootViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateInitialViewController];
         if (!AppDelegate.window)
@@ -75,17 +112,44 @@
         [AppDelegate.window makeKeyAndVisible];
         
         if (self.homeViewModelManager) {
+            NSMutableArray *restoredViewControllers = [NSMutableArray new];
             czzHomeViewController *homeViewController = [czzHomeViewController new];
             homeViewController.viewModelManager = self.homeViewModelManager;
-            [NavigationManager setViewController:@[homeViewController] animated:YES];
+            [restoredViewControllers addObject:homeViewController];
+            if (self.threadViewModelManager) {
+                czzThreadViewController *threadViewController = [czzThreadViewController new];
+                threadViewController.viewModelManager = self.threadViewModelManager;
+                [restoredViewControllers addObject:threadViewController];
+            }
+            [NavigationManager setViewController:restoredViewControllers animated:NO];
         }
     }
     // Clear any left over
     self.homeViewModelManager = self.threadViewModelManager = nil;
 }
 
-#pragma mark - NSCoding
+#pragma mark - Getters
+- (NSString *)cacheFilePath {
+    return [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:APP_STATE_CACHE_FILE];
+}
 
+#pragma mark - NSCoding
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    self.homeViewModelManager = [aDecoder decodeObjectForKey:@"homeViewModelManager"];
+    self.threadViewModelManager = [aDecoder decodeObjectForKey:@"threadViewModelManager"];
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    if (self.homeViewModelManager) {
+        [aCoder encodeObject:self.homeViewModelManager forKey:@"homeViewModelManager"];
+    }
+    if (self.threadViewModelManager) {
+        [aCoder encodeObject:self.threadViewModelManager forKey:@"threadViewModelManager"];
+    }
+}
 
 + (instancetype)sharedManager
 {
