@@ -53,9 +53,9 @@ NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
         @try {
             NSData *cacheFileContent = [NSData dataWithContentsOfFile:self.cacheFilePath];
             // Delete cache file immediately.
-#ifndef DEBUG
+//#ifndef DEBUG
             [[NSFileManager defaultManager] removeItemAtPath:self.cacheFilePath error:nil];
-#endif
+//#endif
             czzAppActivityManager *tempAppActivityManager = [NSKeyedUnarchiver unarchiveObjectWithData:cacheFileContent];
             if (tempAppActivityManager) {
                 self.homeViewModelManager = tempAppActivityManager.homeViewModelManager;

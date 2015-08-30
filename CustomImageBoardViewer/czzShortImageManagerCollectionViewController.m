@@ -102,7 +102,7 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
         UILabel *downloaderLabel = (UILabel*) [cell viewWithTag:2];
         czzImageDownloader *currentDownloader = [downloaders objectAtIndex:indexPath.row];
         //thumbnail
-        UIImage *thumbnailImage = [UIImage imageWithContentsOfFile:[[[[[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:[[currentDownloader targetURLString] lastPathComponent]] stringByDeletingPathExtension] stringByAppendingString:@"_t"] stringByAppendingPathExtension:[currentDownloader targetURLString].pathExtension]];
+        UIImage *thumbnailImage = [UIImage imageWithContentsOfFile:[[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:[[currentDownloader targetURLString] lastPathComponent]]];
         if (thumbnailImage) {
             downloaderThumbnailImageView.image = thumbnailImage;
         } else {
