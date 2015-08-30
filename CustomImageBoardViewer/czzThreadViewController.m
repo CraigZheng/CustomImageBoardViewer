@@ -129,7 +129,8 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     //configure the right view as menu
-    UINavigationController *rightController = [self.storyboard instantiateViewControllerWithIdentifier:@"right_menu_view_controller"];    threadMenuViewController = [rightController.viewControllers objectAtIndex:0];
+    UINavigationController *rightController = [self.storyboard instantiateViewControllerWithIdentifier:@"right_menu_view_controller"];
+    threadMenuViewController = [rightController.viewControllers objectAtIndex:0];
     threadMenuViewController.threadViewModelManager = self.viewModelManager;
     self.viewDeckController.rightController = rightController;
     //do not allow panning

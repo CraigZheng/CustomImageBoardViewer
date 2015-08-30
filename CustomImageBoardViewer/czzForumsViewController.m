@@ -77,9 +77,11 @@ NSString * const kPickedForum = @"PickedForum";
 }
 
 -(void)refreshForums{
+    [self.progressView startAnimating];
     [self.forumManager updateForums:^(BOOL success, NSError *error) {
         failedToConnect = !success;
         [self.forumsTableView reloadData];
+        [self.progressView stopAnimating];
     }];
 }
 
