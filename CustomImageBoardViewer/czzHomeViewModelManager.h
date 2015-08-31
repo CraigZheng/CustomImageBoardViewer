@@ -22,7 +22,7 @@
 #import <Foundation/Foundation.h>
 
 @class czzHomeViewModelManager;
-@protocol czzThreadListProtocol <NSObject>
+@protocol czzHomeViewModelManagerDelegate <NSObject>
 @optional
 -(void)viewModelManagerBeginDownloading:(czzHomeViewModelManager*)threadList;
 -(void)viewModelManager:(czzHomeViewModelManager*)threadList processedThreadData:(BOOL)wasSuccessul newThreads:(NSArray*)newThreads allThreads:(NSArray*)allThreads;
@@ -45,7 +45,7 @@
 @property (nonatomic, assign) NSInteger totalPages;
 @property (nonatomic, strong) NSMutableArray *threads;
 @property (nonatomic, strong) NSArray *lastBatchOfThreads;
-@property (nonatomic, weak) UIViewController<czzThreadListProtocol> *delegate;
+@property (nonatomic, weak) UIViewController<czzHomeViewModelManagerDelegate> *delegate;
 @property (nonatomic, assign) BOOL isDownloading;
 @property (nonatomic, assign) BOOL isProcessing;
 @property (nonatomic, strong) NSMutableArray *horizontalHeights;
