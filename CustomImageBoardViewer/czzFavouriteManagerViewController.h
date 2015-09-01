@@ -11,7 +11,9 @@
 
 
 @interface czzFavouriteManagerViewController : UITableViewController
-@property NSMutableArray *threads;
-@property NSString *title;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *titleSegmentedControl;
+@property NSMutableOrderedSet *threads;
+
 - (IBAction)editAction:(id)sender;
+- (IBAction)titleSegmentedControlAction:(id)sender;
 @end

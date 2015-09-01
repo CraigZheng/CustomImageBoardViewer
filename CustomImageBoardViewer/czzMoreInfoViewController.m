@@ -14,62 +14,62 @@
 #import "czzForum.h"
 
 @interface czzMoreInfoViewController ()<UIWebViewDelegate>
-@property NSString *baseURL;
-@property czzSettingsCentre *settingsCentre;
+@property (strong, nonatomic) NSString *baseURL;
 @end
 
 @implementation czzMoreInfoViewController
 @synthesize headerTextWebView;
 @synthesize baseURL;
-@synthesize forumName;
-@synthesize settingsCentre;
 @synthesize bannerView_;
+@synthesize moreInfoNavItem;
+@synthesize moreInfoNaviBar;
+@synthesize barBackgroundView;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    settingsCentre = [czzSettingsCentre sharedInstance];
-    baseURL = @"http://h.acfun.tv/api/forum/get?forumName=";
+    baseURL = [settingCentre get_forum_info_url];
     //admob module
     bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
     bannerView_.adUnitID = @"a152ad4b0262649";
     bannerView_.rootViewController = self;
+    
+    //colours
+    moreInfoNaviBar.barTintColor = [settingCentre barTintColour];
+    moreInfoNaviBar.tintColor = [settingCentre tintColour];
+    [moreInfoNaviBar
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : moreInfoNaviBar.tintColor}];
+
+    barBackgroundView.backgroundColor = [settingCentre barTintColour];
+    self.view.backgroundColor = [settingCentre viewBackgroundColour];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self renderContent];
+}
+
+-(void)renderContent {
     //position of the ad
     [bannerView_ setFrame:CGRectMake(0, self.view.bounds.size.height - bannerView_.bounds.size.height, bannerView_.bounds.size.width,
                                      bannerView_.bounds.size.height)];
     [bannerView_ loadRequest:[GADRequest request]];
     [self.view addSubview:bannerView_];
-    self.view.backgroundColor = settingsCentre.viewBackgroundColour;
-}
-
-/*upon setting the forum name, this view controller should download relevent info from the server, 
- then put it in a web view
- */
--(void)setForumName:(NSString *)forumname{
-    forumName = forumname;
-    self.title = [NSString stringWithFormat:@"介绍：%@",forumname];
+    //load forum info
+    self.title = [NSString stringWithFormat:@"介绍：%@", self.forum.name];
+    moreInfoNavItem.title = self.title;
     @try {
-        for (czzForum *forum in [czzAppDelegate sharedAppDelegate].forums) {
-            if ([forum.name isEqualToString:forumName]) {
-                if (forum.header.length > 0) {
-                    NSString *headerText = [forum.header stringByReplacingOccurrencesOfString:@"@Time" withString:[NSString stringWithFormat:@"%ld", (long)forum.cooldown]];
-                    if (headerTextWebView.loading){
-                        [headerTextWebView stopLoading];
-                    }
-                    [headerTextWebView loadHTMLString:headerText baseURL:Nil];
-                }
-                break;
-            }
+        NSString *headerText = [self.forum.header stringByReplacingOccurrencesOfString:@"@Time" withString:[NSString stringWithFormat:@"%ld", (long)self.forum.cooldown]];
+        if (headerTextWebView.loading){
+            [headerTextWebView stopLoading];
         }
+        [headerTextWebView loadHTMLString:headerText baseURL:Nil];
     }
     @catch (NSException *exception) {
-        NSLog(@"%@", exception);
+        DLog(@"%@", exception);
     }
+    
 }
 
 #pragma UIWebView delegate, open links in safari
@@ -82,8 +82,12 @@
     return YES;
 }
 
+- (IBAction)dismissAction:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (IBAction)homePageAction:(id)sender {
-    NSString *homePageURL = [settingsCentre.ac_host stringByAppendingPathComponent:@"u/712573.aspx"];
+    NSString *homePageURL = @"http://www.weibo.com/u/3868827431"; // Weibo home page URL
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:homePageURL]];
 
 }

@@ -14,7 +14,7 @@
 
 // Debug Logging
 #if 0 // Set to 1 to enable debug logging
-#define MWLog(x, ...) NSLog(x, ## __VA_ARGS__);
+#define MWLog(x, ...) DLog(x, ## __VA_ARGS__);
 #else
 #define MWLog(x, ...)
 #endif
@@ -52,6 +52,9 @@
 @property (nonatomic) BOOL startOnGrid;
 @property (nonatomic) NSUInteger delayToHideElements;
 @property (nonatomic, readonly) NSUInteger currentIndex;
+
+//access to action button
+@property UIBarButtonItem *actionButton;
 
 // Init
 - (id)initWithPhotos:(NSArray *)photosArray  __attribute__((deprecated("Use initWithDelegate: instead"))); // Depreciated

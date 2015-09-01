@@ -8,12 +8,13 @@
 
 #import "czzImageDownloader.h"
 #import "czzAppDelegate.h"
+#import "czzSettingsCentre.h"
 
 @interface czzImageDownloader()<NSURLConnectionDelegate>
 @property NSURLConnection *urlConn;
 @property NSMutableData *receivedData;
-@property NSString *baseURLString;
-@property NSString *fileName;
+@property (strong, nonatomic) NSString *baseURLString;
+@property (strong, nonatomic) NSString *fileName;
 @property long long fileSize;
 @property NSUInteger downloadedSize;
 @end
@@ -31,11 +32,13 @@
 @synthesize downloadedSize;
 @synthesize backgroundTaskID;
 @synthesize shouldAddHost;
+@synthesize savePath;
+
 
 -(id)init{
     self = [super init];
     if (self){
-        baseURLString = @"http://h.acfun.tv";
+        baseURLString = [[czzSettingsCentre sharedInstance] image_host];
         shouldAddHost = YES;
     }
     return self;
@@ -109,9 +112,10 @@
     NSString *filePath = [basePath stringByAppendingPathComponent:fileName];
     NSError *error;
     [receivedData writeToFile:filePath options:NSDataWritingAtomic error:&error];
+    savePath = filePath;
     if (delegate && [delegate respondsToSelector:@selector(downloadFinished:success:isThumbnail:saveTo:)]){
         if (error){
-            NSLog(@"%@", error);
+            DLog(@"%@", error);
             [delegate downloadFinished:self success:NO isThumbnail:isThumbnail saveTo:filePath];
         } else {
             [delegate downloadFinished:self success:YES isThumbnail:isThumbnail saveTo:filePath];
@@ -122,7 +126,7 @@
 }
 
 //current downloading progress
--(double)progress{
+-(CGFloat)progress{
     double pro = (double)downloadedSize / (double)fileSize;
     return pro;
 }

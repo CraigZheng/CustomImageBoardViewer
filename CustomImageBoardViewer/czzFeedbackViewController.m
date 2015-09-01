@@ -9,6 +9,7 @@
 #import "czzFeedbackViewController.h"
 #import "FPPopoverController.h"
 #import "czzAppDelegate.h"
+#import "czzSettingsCentre.h"
 #import "Toast+UIView.h"
 
 @interface czzFeedbackViewController ()
@@ -118,27 +119,42 @@
 
 -(UIToolbar*)makeToolBar {
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
-    toolbar.barStyle = UIBarStyleBlack;
-    
+    toolbar.barStyle = UIBarStyleDefault;
+    toolbar.barTintColor = [settingCentre barTintColour];
+    toolbar.tintColor = [settingCentre tintColour];
     //assign an input accessory view to it
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
 //    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    UIBarButtonItem *plusEmotionButton = [[UIBarButtonItem alloc] initWithTitle:@"+1" style:UIBarButtonItemStyleBordered target:self action:@selector(plusAction:)];
-    UIBarButtonItem *minusEmotionButton = [[UIBarButtonItem alloc] initWithTitle:@"-1" style:UIBarButtonItemStyleBordered target:self action:@selector(minusAction:)];
-    UIBarButtonItem *postButton = [[UIBarButtonItem alloc] initWithTitle:@"发表" style:UIBarButtonItemStyleBordered target:self action:@selector(sendAction:)];
-    NSArray *buttons = [NSArray arrayWithObjects: plusEmotionButton, minusEmotionButton, flexibleSpace, postButton, nil];
+    UIBarButtonItem *plusEmotionButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"happy.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(plusAction:)];
+    UIBarButtonItem *minusEmotionButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sad.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(minusAction:)];
+    UIBarButtonItem *postButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sent.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(sendAction:)];
+    NSArray *buttons = [NSArray arrayWithObjects: flexibleSpace,
+                        plusEmotionButton,
+                        flexibleSpace,
+                        minusEmotionButton,
+                        flexibleSpace,
+                        postButton,
+                        nil];
     toolbar.items = buttons;
     return toolbar;
 }
 
 - (IBAction)plusAction:(id)sender {
     myFeedback.emotion = happy;
-    [self.view makeToast:nil duration:1.5 position:@"top" image:[UIImage imageNamed:@"emotion_smile_icon.png"]];
+    UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"happy.png"]];
+    imgView.frame = CGRectMake(0, 0, 60, 60);
+    imgView.backgroundColor = [UIColor whiteColor];
+    
+    [self.view showToast:imgView duration:1.5 position:@"top"];
 }
 
 - (IBAction)minusAction:(id)sender {
     myFeedback.emotion = sad;
-    [self.view makeToast:nil duration:1.5 position:@"top" image:[UIImage imageNamed:@"emotion_sad_icon.png"]];
+    UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"sad.png"]];
+    imgView.frame = CGRectMake(0, 0, 60, 60);
+    imgView.backgroundColor = [UIColor whiteColor];
+    
+    [self.view showToast:imgView duration:1.5 position:@"top"];
 
 }
 
@@ -152,14 +168,14 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if ([myFeedback sendFeedback:myNotification]) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@"feedback sent");
+                DLog(@"feedback sent");
                 [self.navigationController popViewControllerAnimated:YES];
-                [[czzAppDelegate sharedAppDelegate].window makeToast:@"谢谢你的意见！" duration:1.5 position:@"bottom"];
+                [AppDelegate.window makeToast:@"谢谢你的意见！" duration:1.5 position:@"bottom"];
             });
             
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@"feedback sent");
+                DLog(@"feedback sent");
                 [self.navigationController popViewControllerAnimated:YES];
                 [self.view makeToast:@"无法发送，请到我的主页直接给我留言" duration:1.5 position:@"bottom"];
             });

@@ -86,7 +86,7 @@
     if(_shadowColor) CGColorRelease(_shadowColor);
     
 #ifdef FP_DEBUG
-    NSLog(@"FPPopoverController dealloc");
+    DLog(@"FPPopoverController dealloc");
 #endif
 
     SAFE_ARC_RELEASE(_contentView);

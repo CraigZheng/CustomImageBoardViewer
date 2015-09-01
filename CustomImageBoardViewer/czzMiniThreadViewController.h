@@ -8,7 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
+@class czzThread;
+@protocol czzMiniThreadViewControllerProtocol <NSObject>
+@optional
+-(void)miniThreadViewFinishedLoading:(BOOL)successful;
+-(void)miniThreadWantsToOpenThread:(czzThread*)thread;
+@end
+
 @interface czzMiniThreadViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UITableView *threadTableView;
-@property NSInteger threadID;
+@property (nonatomic) NSInteger threadID;
+@property (weak, nonatomic) IBOutlet UINavigationItem *miniThreadNaBarItem;
+@property (weak, nonatomic) IBOutlet UINavigationBar *miniThreadNavBar;
+@property (weak, nonatomic) IBOutlet UIView *barBackgroundView;
+@property (weak, nonatomic) id<czzMiniThreadViewControllerProtocol> delegate;
+- (IBAction)cancelButtonAction:(id)sender;
+- (IBAction)openThreadAction:(id)sender;
 @end

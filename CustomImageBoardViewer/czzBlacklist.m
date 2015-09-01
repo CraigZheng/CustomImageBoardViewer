@@ -10,7 +10,7 @@
 
 @implementation czzBlacklist
 @synthesize blacklistEntities;
-+ (id)sharedInstance
++ (instancetype)sharedInstance
 {
     // structure used to test whether the block has completed or not
     static dispatch_once_t p = 0;
@@ -36,7 +36,7 @@
 
     }
     @catch (NSException *exception) {
-        NSLog(@"%@", exception);
+        DLog(@"%@", exception);
     }
     return nil;
 }

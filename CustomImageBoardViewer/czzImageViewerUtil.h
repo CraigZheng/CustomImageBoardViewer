@@ -15,6 +15,6 @@
 @property UIDocumentInteractionController *documentInteractionController;
 @property UINavigationController *photoBrowserNavigationController;
 
--(void)showPhoto:(NSString*)photoPath inViewController:(UIViewController*)viewCon;
--(void)showPhotos:(NSArray*)photos inViewController:(UIViewController*)viewCon withIndex:(NSInteger)index;
+-(void)showPhoto:(NSString*)photoPath;
+-(void)showPhotos:(NSArray*)photos withIndex:(NSInteger)index;
 @end

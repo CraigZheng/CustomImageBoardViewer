@@ -14,7 +14,7 @@
 @interface czzBlacklistDownloader()<NSURLConnectionDelegate>
 @property NSURLConnection *urlConn;
 @property NSMutableData *receivedResponse;
-@property NSString *targetURLString;
+@property (strong, nonatomic) NSString *targetURLString;
 @end
 
 @implementation czzBlacklistDownloader
@@ -24,9 +24,12 @@
 
 -(id)init{
     self = [super init];
-    if (self){
-        //targetURLString = @"http://civ.my-realm.com/php/download_blacklist.php";
-        targetURLString = [[czzAppDelegate sharedAppDelegate].myhost stringByAppendingPathComponent:@"php/download_blacklist.php"];
+    if (self) {
+        NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+#ifdef DEBUG
+        versionString = @"DEBUG";
+#endif
+        targetURLString = [AppDelegate.myhost stringByAppendingPathComponent:[NSString stringWithFormat:@"php/download_blacklist.php?version=%@", versionString]];
     }
     return self;
 }

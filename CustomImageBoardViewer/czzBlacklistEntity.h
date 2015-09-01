@@ -12,11 +12,11 @@
 @property NSInteger ID;
 @property NSInteger threadID;
 @property NSDate *date;
-@property NSString *reason;
-@property BOOL content;
-@property BOOL image;
-@property BOOL harmful;
-@property BOOL block;
+@property (strong, nonatomic) NSString *reason;
+@property (assign, nonatomic) BOOL content;
+@property (assign, nonatomic) BOOL image;
+@property (assign, nonatomic) BOOL harmful;
+@property (assign, nonatomic) BOOL block;
 
 -(BOOL)isReady;
 -(NSData*)requestBody;

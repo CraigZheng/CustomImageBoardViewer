@@ -14,11 +14,11 @@
 @interface czzFeedback : NSObject
 
 @property (nonatomic) NSString *access_token;
-@property NSString *topic;
-@property NSString *title;
+@property (strong, nonatomic) NSString *topic;
+@property (strong, nonatomic) NSString *title;
 @property (nonatomic) NSString *time;
-@property NSString *name;
-@property NSString *content; //required
+@property (strong, nonatomic) NSString *name;
+@property (strong, nonatomic) NSString *content; //required
 @property EMOTIONS emotion;
 
 -(BOOL)sendFeedback:(czzNotification*)notification;

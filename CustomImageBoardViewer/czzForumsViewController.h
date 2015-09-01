@@ -10,8 +10,12 @@
 #import "IIViewDeckController.h"
 #import "GADBannerView.h"
 
+extern NSString * const kForumPickedNotification;
+extern NSString * const kPickedForum;
+
+
 @interface czzForumsViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UITableView *forumsTableView;
-@property GADBannerView *bannerView_;
-@property NSArray *forums;
+@property (strong, nonatomic) GADBannerView *bannerView_;
+@property (strong, nonatomic) NSArray *forums;
 @end

@@ -10,20 +10,20 @@
 
 
 #import "czzMenuEnabledTableViewCell.h"
-#import "czzPostViewController.h"
 #import "czzAppDelegate.h"
 #import "czzImageCentre.h"
-#import "DACircularProgressView.h"
 #import "czzSettingsCentre.h"
 #import "czzThreadRefButton.h"
+#import "czzImageDownloader.h"
+
 #import <QuartzCore/QuartzCore.h>
 
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate>
-@property NSString *thumbnailFolder;
-@property NSString *imageFolder;
+@property (strong, nonatomic) NSString *thumbnailFolder;
+@property (strong, nonatomic) NSString *imageFolder;
 @property czzSettingsCentre *settingsCentre;
 @property UITapGestureRecognizer *tapOnImageGestureRecogniser;
-
+@property NSMutableSet *requestedImageURL;
 @end
 
 @implementation czzMenuEnabledTableViewCell
@@ -35,9 +35,10 @@
 @synthesize previewImageView;
 @synthesize contentTextView;
 @synthesize responseLabel;
-@synthesize circularProgressView;
+@synthesize threadContentView;
 
 @synthesize settingsCentre;
+@synthesize myIndexPath;
 @synthesize shouldHighlight;
 @synthesize shouldHighlightSelectedUser;
 @synthesize shouldAllowClickOnImage;
@@ -48,15 +49,25 @@
 @synthesize thumbnailFolder;
 @synthesize tapOnImageGestureRecogniser;
 @synthesize delegate;
+@synthesize requestedImageURL;
 
 -(void)awakeFromNib {
-    thumbnailFolder = [czzAppDelegate libraryFolder];
-    thumbnailFolder = [thumbnailFolder stringByAppendingPathComponent:@"Thumbnails"];
-    imageFolder = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:@"Images"];
+    thumbnailFolder = [czzAppDelegate thumbnailFolder];
+    imageFolder = [czzAppDelegate imageFolder];
     settingsCentre = [czzSettingsCentre sharedInstance];
     shouldHighlight = settingsCentre.userDefShouldHighlightPO;
     shouldAllowClickOnImage = YES;
+    requestedImageURL = [NSMutableSet new];
     tapOnImageGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTapInImageView:)];
+    
+    //apply shadow and radius to background view
+    threadContentView.layer.masksToBounds = NO;
+    threadContentView.layer.cornerRadius = 5;
+    //register for nsnotification centre for image downloaded notification
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(imageDownloaded:)
+                                                 name:@"ThumbnailDownloaded"
+                                               object:nil];
 }
 
 -(BOOL)canPerformAction:(SEL)action withSender:(id)sender{
@@ -78,28 +89,39 @@
         [oldButton removeFromSuperview];
     }
     previewImageView.hidden = YES;
-    circularProgressView.hidden = YES;
     
     sageLabel.hidden = YES;
     lockLabel.hidden = YES;
     responseLabel.hidden = YES;
     
-    self.contentView.backgroundColor = [UIColor clearColor];
-    posterLabel.backgroundColor = [UIColor clearColor];
-    self.backgroundColor = [UIColor clearColor];
-    if (settingsCentre.nightyMode)
-        self.backgroundColor = [settingsCentre viewBackgroundColour];
+    //colours
+    if (settingsCentre.nightyMode) {
+        UIColor *viewBackgroundColour = [settingsCentre viewBackgroundColour];
+        contentTextView.backgroundColor = viewBackgroundColour;
+        idLabel.backgroundColor = viewBackgroundColour;
+        posterLabel.backgroundColor = viewBackgroundColour;
+        dateLabel.backgroundColor = viewBackgroundColour;
+        threadContentView.backgroundColor = viewBackgroundColour;
+        self.contentView.backgroundColor = [UIColor darkGrayColor];
+    } else {
+        contentTextView.backgroundColor = [UIColor whiteColor];
+        idLabel.backgroundColor = [UIColor whiteColor];
+        dateLabel.backgroundColor = [UIColor whiteColor];
+        posterLabel.backgroundColor = [UIColor whiteColor];
+        threadContentView.backgroundColor = [UIColor whiteColor];
+        self.contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    }
 
 }
 
 #pragma mark - custom menu action
 -(void)menuActionCopy:(id)sender{
     [[UIPasteboard generalPasteboard] setString:self.myThread.content.string];
-    [[czzAppDelegate sharedAppDelegate] showToast:@"内容已复制"];
+    [AppDelegate showToast:@"内容已复制"];
 }
 
 -(void)menuActionReply:(id)sender{
-    NSLog(@"reply: %@", sender);
+    DLog(@"reply: %@", sender);
     NSDictionary *userInfo = [NSDictionary dictionaryWithObject:self.myThread forKey:@"ReplyToThread"];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ReplyAction" object:Nil userInfo:userInfo];
 }
@@ -133,15 +155,17 @@
 #pragma mark - setter
 -(void)setMyThread:(czzThread *)thread{
     myThread = thread;
-    NSDataDetector *linkDetector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
-    links = [NSMutableArray new];
-    NSArray *matches = [linkDetector matchesInString:myThread.content.string
-                                         options:0
-                                           range:NSMakeRange(0, [myThread.content.string length])];
-    for (NSTextCheckingResult *match in matches) {
-        if ([match resultType] == NSTextCheckingTypeLink) {
-            NSURL *url = [match URL];
-            [links addObject:url.absoluteString];
+    if (myThread.content) {
+        NSDataDetector *linkDetector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
+        links = [NSMutableArray new];
+        NSArray *matches = [linkDetector matchesInString:myThread.content.string
+                                                 options:0
+                                                   range:NSMakeRange(0, [myThread.content.string length])];
+        for (NSTextCheckingResult *match in matches) {
+            if ([match resultType] == NSTextCheckingTypeLink) {
+                NSURL *url = [match URL];
+                [links addObject:url.absoluteString];
+            }
         }
     }
     [self prepareUIWithMyThread];
@@ -158,10 +182,8 @@
 
 #pragma mark - consturct UI elements
 -(void)prepareUIWithMyThread {
-//    NSDate *startDate = [NSDate new];
     [self resetViews];
-    //NSLog(@"time consuming step 1: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
-    if (myThread.thImgSrc.length > 0){
+    if (myThread.thImgSrc.length){
         previewImageView.hidden = NO;
         [previewImageView setImage:[UIImage imageNamed:@"Icon.png"]];
         NSString *filePath = [thumbnailFolder stringByAppendingPathComponent:[myThread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
@@ -182,9 +204,10 @@
         if (shouldAllowClickOnImage)
             [previewImageView setGestureRecognizers:@[tapOnImageGestureRecogniser]];
     }
-    //NSLog(@"time consuming step 2: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
     //if harmful flag is set, display warning header of harmful thread
-    NSMutableAttributedString *contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:myThread.content];
+    NSMutableAttributedString *contentAttrString;
+    if (myThread.content)
+        contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:myThread.content];
     if (myThread.harmful){
         NSDictionary *warningStringAttributes = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObject:[UIColor lightGrayColor]] forKeys:[NSArray arrayWithObject:NSForegroundColorAttributeName]];
         NSAttributedString *warningAttString = [[NSAttributedString alloc] initWithString:WARNINGHEADER attributes:warningStringAttributes];
@@ -196,27 +219,19 @@
     //content textview
     if (settingsCentre.nightyMode)
         [contentAttrString addAttribute:NSForegroundColorAttributeName value:settingsCentre.contentTextColour range:NSMakeRange(0, contentAttrString.length)];
-    //shadow for big image mode
-    if ([settingsCentre userDefShouldUseBigImage]) {
-        contentTextView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.85];
-    }
+
     contentTextView.attributedText = contentAttrString;
     contentTextView.font = settingsCentre.contentFont;
 
-    //NSLog(@"time consuming step 3: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
-    if ([UIDevice currentDevice].systemVersion.floatValue < 7.0) {
-        NSMutableAttributedString *tempAttributedString = [[NSMutableAttributedString alloc] initWithAttributedString:contentTextView.attributedText];
-        [tempAttributedString addAttribute:NSFontAttributeName value:settingsCentre.contentFont range:NSMakeRange(0, tempAttributedString.length)];
-        contentTextView.attributedText = tempAttributedString;
-    }
     
     idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)myThread.ID];
     //set the color
     NSMutableAttributedString *uidAttrString = [[NSMutableAttributedString alloc] initWithString:@"UID:"];
-    [uidAttrString appendAttributedString:myThread.UID];
+    if (myThread.UID)
+        [uidAttrString appendAttributedString:myThread.UID];
     posterLabel.attributedText = uidAttrString;
     NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    [dateFormatter setDateFormat:@"时间:yyyy MM-dd, HH:mm"];
+    [dateFormatter setDateFormat:@"yyyy MM-dd, HH:mm"];
     dateLabel.text = [dateFormatter stringFromDate:myThread.postDateTime];
     if (myThread.sage)
         [sageLabel setHidden:NO];
@@ -247,37 +262,46 @@
             }
         }
     }
-    //NSLog(@"time consuming step 4: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
+    //DLog(@"time consuming step 4: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
     
     //highlight original poster
     if (shouldHighlight && parentThread && [myThread.UID.string isEqualToString:parentThread.UID.string]) {
         posterLabel.backgroundColor = [UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:200.0f/255.0f alpha:1.0];
-        self.contentView.backgroundColor = [UIColor clearColor];
-    } else if (shouldHighlightSelectedUser && [myThread.UID.string isEqualToString:shouldHighlightSelectedUser]) {
-        posterLabel.backgroundColor = [UIColor clearColor];
-        self.contentView.backgroundColor = [UIColor colorWithRed:222.0f/255.0f green:222.0f/255.0f blue:255.0f/255.0f alpha:1.0];
     }
-    //NSLog(@"time consuming step 5: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
+    else if (shouldHighlightSelectedUser && [myThread.UID.string isEqualToString:shouldHighlightSelectedUser]) {
+        posterLabel.backgroundColor = [UIColor whiteColor];
+        contentTextView.backgroundColor = self.contentView.backgroundColor;
+    }
+    //DLog(@"time consuming step 5: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
 }
 
 #pragma - mark UIActionSheet delegate
 //Open the link associated with the button
 -(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == actionSheet.cancelButtonIndex)
+        return;
     NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
+    NSString *hostPrefix = [settingCentre share_post_url];
+    if (hostPrefix.length && [buttonTitle rangeOfString:hostPrefix options:NSCaseInsensitiveSearch].location != NSNotFound) {
+        if (delegate && [delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
+            [delegate userTapInQuotedText:[buttonTitle stringByReplacingOccurrencesOfString:hostPrefix withString:@""]];
+        }
+        return;
+    }
+    
     NSURL *link = [NSURL URLWithString:buttonTitle];
     [[UIApplication sharedApplication] openURL:link];
 }
 
 #pragma mark - user actions
 -(void)userTapInQuotedText:(czzThreadRefButton*)sender {
-    NSLog(@"%@", NSStringFromSelector(_cmd));
     if (delegate && [delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
         [delegate userTapInQuotedText:[NSString stringWithFormat:@"%ld", (long)sender.threadRefNumber]];
     }
 }
 
 -(void)userTapInImageView:(id)sender {
-    NSLog(@"%@", NSStringFromSelector(_cmd));
+    DLog(@"%@", NSStringFromSelector(_cmd));
     if (delegate && [delegate respondsToSelector:@selector(userTapInImageView:)]) {
         for (NSString *file in [[czzImageCentre sharedInstance] currentLocalImages]) {
             if ([file.lastPathComponent.lowercaseString isEqualToString:myThread.imgSrc.lastPathComponent.lowercaseString])
@@ -289,8 +313,8 @@
         //Start or stop the image downloader
         if ([[czzImageCentre sharedInstance] containsImageDownloaderWithURL:myThread.imgSrc]){
             [[czzImageCentre sharedInstance] stopAndRemoveImageDownloaderWithURL:myThread.imgSrc];
-            [[czzAppDelegate sharedAppDelegate] showToast:@"图片下载被终止了"];
-            NSLog(@"stop: %@", myThread.imgSrc);
+            [AppDelegate showToast:@"下载终止"];
+            DLog(@"stop: %@", myThread.imgSrc);
         } else {
             BOOL completedURL = NO;
             if ([[[NSURL URLWithString:myThread.imgSrc] scheme] isEqualToString:@"http"]) {
@@ -299,13 +323,29 @@
                 myThread.imgSrc = [[[czzSettingsCentre sharedInstance] image_host] stringByAppendingPathComponent:myThread.imgSrc];
                 completedURL = YES;
             }
-            NSLog(@"start : %@", myThread.imgSrc);
+            DLog(@"start : %@", myThread.imgSrc);
             [[czzImageCentre sharedInstance] downloadImageWithURL:myThread.imgSrc isCompletedURL:completedURL];
-            [[czzAppDelegate sharedAppDelegate] showToast:@"正在下载图片"];
+            [requestedImageURL addObject:myThread.imgSrc];
         }
 
     }
 }
 
+#pragma mark - notification handler - image downloaded
+-(void)imageDownloaded:(NSNotification*)notification{
+    czzImageDownloader *imgDownloader = [notification.userInfo objectForKey:@"ImageDownloader"];
+    BOOL success = [[notification.userInfo objectForKey:@"Success"] boolValue];
+    if (!success){
+        return;
+    }
+    if (imgDownloader && delegate)
+    {
+        if (imgDownloader.isThumbnail) {
+            if ([imgDownloader.targetURLString.lastPathComponent isEqualToString:myThread.thImgSrc.lastPathComponent]) {
+                [delegate imageDownloadedForIndexPath:myIndexPath filePath:[notification.userInfo objectForKey:@"FilePath"] isThumbnail:imgDownloader.isThumbnail];
+            }
+        }
+    }
+}
 
 @end

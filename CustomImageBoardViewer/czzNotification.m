@@ -48,7 +48,7 @@
 -(void)assignPropertyWithXMLData:(SMXMLElement*)xmlElement {
     
     for (SMXMLElement *child in xmlElement.children) {
-//        NSLog(@"%@, %@", child.name, child.value);
+//        DLog(@"%@, %@", child.name, child.value);
         if ([child.name isEqualToString:@"sender"]) {
             self.sender = child.value;
         } else if ([child.name isEqualToString:@"topic"]){

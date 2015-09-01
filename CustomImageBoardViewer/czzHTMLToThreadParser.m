@@ -11,7 +11,6 @@
 #import "czzHTMLToThreadParser.h"
 #import "czzThread.h"
 #import "NSString+HTML.h"
-#import "ObjectiveGumbo.h"
 
 @interface czzHTMLToThreadParser ()
 @end
@@ -25,7 +24,7 @@
     htmlContent = htmlString;
     NSDate *startTime = [NSDate new];
     [self scanHTML:htmlContent];
-    NSLog(@"took %f second to render", [[NSDate new] timeIntervalSinceDate:startTime]);
+    DLog(@"took %f second to render", [[NSDate new] timeIntervalSinceDate:startTime]);
 }
 
 -(void)scanHTML:(NSString*)htmlString {
@@ -128,7 +127,7 @@
             }
         }
         @catch (NSException *exception) {
-            NSLog(@"%@", exception);
+            DLog(@"%@", exception);
         }
     }
     //assign UID

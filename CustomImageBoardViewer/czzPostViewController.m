@@ -18,14 +18,13 @@
 #import "czzEmojiCollectionViewController.h"
 #import "ValueFormatter.h"
 #import "czzForumsViewController.h"
+#import "czzForumManager.h"
 #import "NSString+HTML.h"
 #import "czzSettingsCentre.h"
 
 @interface czzPostViewController () <czzPostSenderDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
-@property NSString *targetURLString;
 @property NSMutableData *receivedResponse;
 @property czzPostSender *postSender;
-@property czzSettingsCentre *settingsCentre;
 @end
 
 @implementation czzPostViewController
@@ -33,49 +32,63 @@
 @synthesize thread;
 @synthesize replyTo;
 @synthesize postNaviBar;
-@synthesize targetURLString;
 @synthesize postButton;
 @synthesize receivedResponse;
 @synthesize blacklistEntity;
 @synthesize postSender;
 @synthesize postMode;
-@synthesize forumName;
 @synthesize forum;
-@synthesize settingsCentre;
+@synthesize sendingProgressVIew;
+@synthesize postBackgroundView;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-    postSender = [czzPostSender new];
-    settingsCentre = [czzSettingsCentre sharedInstance];
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
-    toolbar.barStyle = UIBarStyleBlack;
+    // Do any additional setup after loading the view.
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     
+    postSender = [czzPostSender new];
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
+    toolbar.autoresizingMask = toolbar.autoresizingMask | UIViewAutoresizingFlexibleHeight;
+    toolbar.barStyle = UIBarStyleDefault;
+    toolbar.barTintColor = [settingCentre barTintColour];
+    toolbar.tintColor = [settingCentre tintColour];
     //assign an input accessory view to it
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *pickEmojiButton = [[UIBarButtonItem alloc] initWithTitle:@"颜文字" style:UIBarButtonItemStyleBordered target:self action:@selector(pickEmojiAction:)];
-    UIBarButtonItem *pickImgButton = [[UIBarButtonItem alloc] initWithTitle:@"图片" style:UIBarButtonItemStyleBordered target:self action:@selector(pickImageAction:)];
-    postButton = [[UIBarButtonItem alloc] initWithTitle:@"发表" style:UIBarButtonItemStyleBordered target:self action:@selector(postAction:)];
-    NSArray *buttons = [NSArray arrayWithObjects: flexibleSpace, pickEmojiButton, pickImgButton, postButton, nil];
+    UIBarButtonItem *pickEmojiButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lol.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(pickEmojiAction:)];
+    UIBarButtonItem *pickImgButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"picture.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(pickImageAction:)];
+    postButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sent.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(postAction:)];
+    NSArray *buttons = [NSArray arrayWithObjects: flexibleSpace,
+                        pickEmojiButton,
+                        flexibleSpace,
+                        pickImgButton,
+                        flexibleSpace,
+                        postButton, nil];
     toolbar.items = buttons;
     postTextView.inputAccessoryView = toolbar;
     // colour
-    postTextView.backgroundColor = settingsCentre.viewBackgroundColour;
-    postTextView.textColor = settingsCentre.contentTextColour;
+    postTextView.backgroundColor = [settingCentre viewBackgroundColour];
+    postTextView.textColor = [settingCentre contentTextColour];
+    postNaviBar.barTintColor = [settingCentre barTintColour];
+    postNaviBar.tintColor = [settingCentre tintColour];
+    [postNaviBar
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : postNaviBar.tintColor}];
+    
+    postBackgroundView.backgroundColor = [settingCentre barTintColour];
     
     //construct the title, content and targetURLString based on selected post mode
     NSString *title = @"回复";
     NSString *content = @"";
-    targetURLString = REPLY_POST_URL;
-    NSString *forumID = [[czzAppDelegate sharedAppDelegate] getForumIDFromForumName:forumName];
-    postSender.forumID = forumID;
-
+    
+    postSender.forum = forum;
+    //assign forum or parent thread based on user selection
+    NSString *targetURLString;
     switch (postMode) {
         case NEW_POST:
-            title = @"新帖";
-            targetURLString = [NEW_POST_URL stringByReplacingOccurrencesOfString:FORUM_NAME withString:forumName];
-            postSender.forumName = forumName;
+            title = @"新内容";
+            postSender.parentThread = nil;
+            targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:forum.name];
+            postSender.forum = forum;
             break;
         case REPLY_POST:
             if (self.replyTo)
@@ -83,18 +96,23 @@
                 title = [NSString stringWithFormat:@"回复:%ld", (long)replyTo.ID];
                 content = [NSString stringWithFormat:@">>No.%ld\n\n", (long)replyTo.ID];
             }
-            targetURLString = [REPLY_POST_URL stringByReplacingOccurrencesOfString:PARENT_ID withString:[NSString stringWithFormat:@"%ld", (long)thread.ID]];
+            postSender.parentThread = thread;
             break;
+        
         case REPORT_POST:
             title = @"举报";
-            postSender.forumName = @"值班室";
-            targetURLString = [NEW_POST_URL stringByReplacingOccurrencesOfString:FORUM_NAME withString:postSender.forumName];
-            postSender.forumID = [[czzAppDelegate sharedAppDelegate] getForumIDFromForumName:postSender.forumName];
+            NSString *forumName = @"值班室";
+            targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:forumName];
+            for (czzForum *tempForum in [czzForumManager sharedManager].forums) {
+                if ([tempForum.name isEqualToString:forumName]) {
+                    postSender.forum = tempForum;
+                }
+            }
             break;
     }
     self.postNaviBar.topItem.title = title;
     postTextView.text = content;
-
+    
     // observe keyboard hide and show notifications to resize the text view appropriately
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
@@ -118,9 +136,6 @@
 
 - (IBAction)postAction:(id)sender {
     //assign the appropriate target URL and delegate to the postSender
-    NSURL *targetURL = [NSURL URLWithString:[targetURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    postSender.targetURL = targetURL;
-    postSender.parentID = thread.ID;
     postSender.delegate = self;
     postSender.content = postTextView.text;
     [postSender sendPost];
@@ -173,13 +188,13 @@
 #pragma mark - UIActionSheetDelegate
 -(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     if (buttonIndex == actionSheet.destructiveButtonIndex)
-        [self resetContent];
+    [self resetContent];
 }
 
 -(void)resetContent{
     postTextView.text = @"";
     postSender.imgData = nil;
-    [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"内容和图片已清空"];
+    [[AppDelegate window] makeToast:@"内容和图片已清空"];
 }
 
 #pragma UIImagePickerController delegate
@@ -188,14 +203,14 @@
     NSData *imageData = UIImageJPEGRepresentation(pickedImage, 0.85);
     NSString *titleWithSize = [ValueFormatter convertByte:imageData.length];
     //resize the image if the picked image is too big
-    if (pickedImage.size.width * pickedImage.size.height > 1600 * 900){
-        NSInteger newWidth = 900;
+    if (pickedImage.size.width * pickedImage.size.height > 1920 * 1080){
+        NSInteger newWidth = 1080;
         pickedImage = [self imageWithImage:pickedImage scaledToWidth:newWidth];
-        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"由于图片尺寸太大，已进行压缩" duration:1.5 position:@"top" title:titleWithSize image:pickedImage];
+        [[AppDelegate window] makeToast:@"由于图片尺寸太大，已进行压缩" duration:1.5 position:@"top" title:titleWithSize image:pickedImage];
     } else {
-        [[[czzAppDelegate sharedAppDelegate] window] makeToast:titleWithSize duration:1.5 position:@"top" image:pickedImage];
+        [[AppDelegate window] makeToast:titleWithSize duration:1.5 position:@"top" image:pickedImage];
     }
-
+    
     [postSender setImgData:imageData];
     [picker dismissViewControllerAnimated:YES completion:^{
         [postTextView becomeFirstResponder];
@@ -246,7 +261,7 @@
     if (status) {
         [self dismissViewControllerAnimated:YES completion:^{
             //dismiss this view controller and upon its dismiss, notify user that the message is posted
-            [[czzAppDelegate sharedAppDelegate] showToast:@"帖子已发"];
+            [AppDelegate showToast:@"提交成功"];
         }];
     } else {
         [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:message duration:1.5 position:@"top" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
@@ -260,6 +275,7 @@
 }
 
 -(void)postSenderProgressUpdated:(CGFloat)percent {
+    sendingProgressVIew.progress = percent;
     self.postNaviBar.topItem.title = [NSString stringWithFormat:@"发送中 - %d%%", (int)(percent * 100)];
 }
 
@@ -283,7 +299,7 @@
     keyboardRect = [self.view convertRect:keyboardRect fromView:nil];
     
     CGFloat keyboardTop = keyboardRect.origin.y;
-    CGRect newTextViewFrame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y + postNaviBar.frame.size.height, self.view.bounds.size.width, self.view.bounds.size.height);
+    CGRect newTextViewFrame = CGRectMake(self.view.bounds.origin.x, postTextView.frame.origin.y, self.view.bounds.size.width, self.view.bounds.size.height);
     newTextViewFrame.size.height = keyboardTop - 44 - self.view.bounds.origin.y;
     
     // Get the duration of the animation.
@@ -314,30 +330,16 @@
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:animationDuration];
     
-    postTextView.frame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y + postNaviBar.frame.size.height, self.view.bounds.size.width, self.view.bounds.size.height);
+    postTextView.frame = CGRectMake(self.view.bounds.origin.x, postTextView.frame.origin.y, self.view.bounds.size.width, self.view.bounds.size.height);
     
     [UIView commitAnimations];
-}
-
-#pragma Orientation change event
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
-    //set the height of the bar based on device
-    //yeah, hard coded, but who cares
-    CGRect frame = postNaviBar.frame;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone && UIInterfaceOrientationIsPortrait(self.interfaceOrientation)){
-        frame.size.height = 32;
-    } else {
-        frame.size.height = 44;
-    }
-    [postNaviBar setFrame:frame];
-    
 }
 
 #pragma mark - czzEmojiCollectionViewController delegate
 -(void)emojiSelected:(NSString *)emoji{
     UIPasteboard* generalPasteboard = [UIPasteboard generalPasteboard];
-	NSArray* items = [generalPasteboard.items copy];
-	generalPasteboard.string = emoji;
+    NSArray* items = [generalPasteboard.items copy];
+    generalPasteboard.string = emoji;
     [postTextView paste: self];
     generalPasteboard.items = items;
     [self dismissSemiModalViewWithCompletion:^{

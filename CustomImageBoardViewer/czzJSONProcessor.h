@@ -7,18 +7,24 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "czzForum.h"
 
 @class czzThread;
-@protocol czzJSONProcessorDelegate
+@class czzJSONProcessor;
+@protocol czzJSONProcessorDelegate<NSObject>
 @optional
+-(void)threadListProcessed:(czzJSONProcessor*)processor :(NSArray*)newThread :(BOOL)success;
+-(void)subThreadProcessedForThread:(czzJSONProcessor*)processor :(czzThread*)parentThread :(NSArray*)newThread :(BOOL) success;
+
 -(void)threadListProcessed:(NSArray*)newThread :(BOOL)success;
 -(void)subThreadProcessedForThread:(czzThread*)parentThread :(NSArray*)newThread :(BOOL) success;
+-(void)pageNumberUpdated:(NSInteger)currentPage inAllPage:(NSInteger)allPage;
 @end
 
 @interface czzJSONProcessor : NSObject
--(void)processThreadListFromData:(NSData*)jsonData;
--(void)processSubThreadFromData:(NSData*)jsonData;
+-(void)processThreadListFromData:(NSData*)jsonData forForum:(czzForum*)forum;
+-(void)processSubThreadFromData:(NSData*)jsonData forForum:(czzForum*)forum;
 
-@property id<czzJSONProcessorDelegate> delegate;
+@property (weak, nonatomic) id<czzJSONProcessorDelegate> delegate;
 @end
 

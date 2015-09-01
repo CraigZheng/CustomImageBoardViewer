@@ -40,6 +40,7 @@
 @synthesize cachePath;
 @synthesize currentNotificationIndex;
 @synthesize notificationManager;
+@synthesize numberButton;
 @synthesize homeViewController;
 
 - (void)viewDidLoad
@@ -47,26 +48,35 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     notificationDownloadInterval = 60 * 60;//every 1 hour
+#ifdef DEBUG
+    notificationDownloadInterval = 5 * 60;//every 5 minutes for debug
+#endif
     notifications = [NSMutableOrderedSet new];
     notificationManager = [czzNotificationManager new];
     self.view.layer.shadowOffset = CGSizeMake(4, 4);
     currentNotificationIndex = 0;
     self.view.layer.shadowRadius = 2;
     constantHeight = 44; //the height for this view, should not be changed at all time
-    [self updateFrameForVertical];
     textUpdateInterval = 5;
     updateTextTimer = [NSTimer scheduledTimerWithTimeInterval:textUpdateInterval target:self selector:@selector(updateText) userInfo:nil repeats:YES];
     [self checkCachedNotifications];
     //check notification download for the first time
     [self downloadNotification];
+    //update the number button on the left
+    [self updateNumberButton];
+
     //call every 2 minute, determine if should check for last update time and call for download
     NSTimeInterval notificationDownloaderCheckInterval = 2 * 60;
     downloadNotificationTimer = [NSTimer scheduledTimerWithTimeInterval:notificationDownloaderCheckInterval target:self selector:@selector(downloadNotification) userInfo:nil repeats:YES];
+    
 }
 
 #pragma mark - restore cached notification
 -(void)checkCachedNotifications {
-    NSMutableOrderedSet *cachedSet = [notificationManager checkCachedNotifications];
+    NSMutableOrderedSet *cachedSet = [notificationManager checkCachedNotifications];//#ifdef DEBUG
+//    needsToBePresented = YES;
+//#endif
+
     if (cachedSet) {
         [notifications addObjectsFromArray:cachedSet.array];
     }
@@ -80,7 +90,7 @@
     if (!lastUpdateTime || [[NSDate new] timeIntervalSinceDate:lastUpdateTime] > notificationDownloadInterval) {
         notificationDownloader = [czzNotificationDownloader new];
         notificationDownloader.delegate = self;
-        [notificationDownloader downloadNotificationWithVendorID:[czzAppDelegate sharedAppDelegate].vendorID];
+        [notificationDownloader downloadNotificationWithVendorID:AppDelegate.vendorID];
         lastUpdateTime = [NSDate new];
         [[NSUserDefaults standardUserDefaults] setObject:lastUpdateTime forKey:@"LastNotificationUpdateTime"];
     }
@@ -101,7 +111,7 @@
             [self updateViewsWithCurrentNotification];
         }
         @catch (NSException *exception) {
-            NSLog(@"%@", exception);
+            DLog(@"%@", exception);
         }
     } else {
         self.needsToBePresented = NO;
@@ -117,14 +127,14 @@
 
         statusIcon.hidden = YES;
         if (currentNotification.priority > 1) {
-            [[czzAppDelegate sharedAppDelegate] doSingleViewShowAnimation:statusIcon :kCATransitionFade :0.4];
+            [AppDelegate doSingleViewShowAnimation:statusIcon :kCATransitionFade :0.4];
         } else {
             statusIcon.hidden = YES;
         }
 
-        [[czzAppDelegate sharedAppDelegate] doSingleViewHideAnimation:headerLabel :kCATransitionFade :0.4];
+        [AppDelegate doSingleViewHideAnimation:headerLabel :kCATransitionFade :0.4];
         headerLabel.text = currentNotification.title;
-        [[czzAppDelegate sharedAppDelegate] doSingleViewShowAnimation:headerLabel :kCATransitionFade :0.4];
+        [AppDelegate doSingleViewShowAnimation:headerLabel :kCATransitionFade :0.4];
     }
 }
 
@@ -143,12 +153,12 @@
     if (parentView && !self.view.superview) {
         [parentView addSubview:self.view];
     }
-    [[czzAppDelegate sharedAppDelegate] doSingleViewShowAnimation:self.view :kCATransitionFromTop :0.2];
+    [AppDelegate doSingleViewShowAnimation:self.view :kCATransitionFade :0.2];
 
 }
 
 -(void)hide {
-    [[czzAppDelegate sharedAppDelegate] doSingleViewHideAnimation:self.view :kCATransitionFromBottom :0.2];
+    [AppDelegate doSingleViewHideAnimation:self.view :kCATransitionFade :0.2];
 }
 
 - (IBAction)dismissAction:(id)sender {
@@ -163,69 +173,42 @@
 }
 
 - (IBAction)tapOnViewAction:(id)sender {
-    NSLog(@"tap on view");
+    DLog(@"tap on view");
     if (homeViewController) {
-        czzNotificationCentreTableViewController *notificationCentreViewController = [homeViewController.storyboard instantiateViewControllerWithIdentifier:@"notification_centre_view_controller"];
+        czzNotificationCentreTableViewController *notificationCentreViewController = [[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"notification_centre_view_controller"];
         notificationCentreViewController.currentNotification = currentNotification;
         notificationCentreViewController.notifications = notifications;
-        [homeViewController pushViewController:notificationCentreViewController :YES];
-        [self setNeedsToBePresented:NO];
+        
+        [homeViewController pushViewController:notificationCentreViewController animated:YES];
+        [self dismissAction:nil];
     }
 }
 
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    //theres an ugly transtition, therefore need to hide it before showing it again
-    self.view.hidden = YES;
+-(BOOL)shouldShow {
+    return needsToBePresented;
 }
 
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-        [self updateFrameForHorizontal];
-    } else {
-        [self updateFrameForVertical];
-    }
-}
-
--(void)updateFrameForVertical {
-    if (parentView) {
-        CGRect parentFrame = parentView.bounds;
-        CGRect myFrame = self.view.frame;
-        myFrame.size.width = parentFrame.size.width;
-        myFrame.size.height = constantHeight;
-        myFrame.origin.y = parentFrame.size.height - myFrame.size.height;
-        self.view.frame = myFrame;
-    }
-    if (needsToBePresented) {
-        [[czzAppDelegate sharedAppDelegate] doSingleViewShowAnimation:self.view :kCATransitionFromTop :0.2];
-    }
-}
-
--(void)updateFrameForHorizontal {
-    self.view.hidden = YES;
-    if (parentView) {
-        CGRect parentFrame = parentView.bounds;
-        CGRect myFrame = self.view.frame;
-        myFrame.size.width = parentFrame.size.width;
-        myFrame.size.height = constantHeight;
-        myFrame.origin.y = parentFrame.size.height - myFrame.size.height;
-        self.view.frame = myFrame;
-    }
-    if (needsToBePresented) {
-        [[czzAppDelegate sharedAppDelegate] doSingleViewShowAnimation:self.view :kCATransitionFromTop :0.2];
-    }
+-(void)updateNumberButton {
+    numberButton.layer.cornerRadius = numberButton.frame.size.width / 2;
+    if (notifications.count > 1) {
+        [numberButton setTitle:[NSString stringWithFormat:@"%ld", (long) notifications.count] forState:UIControlStateNormal];
+        numberButton.hidden = NO;
+    } else
+        numberButton.hidden = YES;
 }
 
 #pragma mark - czzNotificationDownloaderDelegate
 -(void)notificationDownloaded:(NSArray *)downloadedNotifications {
-#ifdef DEBUG
-    [notifications removeAllObjects];
-    [notificationManager removeNotifications];
-#endif
+//#ifdef DEBUG
+//    [notifications removeAllObjects];
+//    [notificationManager removeNotifications];
+//#endif
     NSInteger originalCount = notifications.count;
     if (downloadedNotifications.count > 0) {
+        [notifications removeAllObjects]; //remove all and accept whats been downloaded
         [notifications addObjectsFromArray:downloadedNotifications];
         //if one or more new notifications are downloaded
-        if (notifications.count > originalCount) {
+        if (notifications.count != originalCount) {
             self.needsToBePresented = YES;
             @try {
                 NSArray *sortedArray = [notifications.array sortedArrayUsingComparator: ^(id a, id b) {
@@ -241,11 +224,11 @@
                 notifications = [NSMutableOrderedSet orderedSetWithArray:sortedArray];
             }
             @catch (NSException *exception) {
-                NSLog(@"%@", exception);
+                DLog(@"%@", exception);
             }
         }
     } else {
-        NSLog(@"downloaded notification empty!");
+        DLog(@"downloaded notification empty!");
     }
     [self saveNotifications];
 }
@@ -266,7 +249,7 @@
             notifications = [NSMutableOrderedSet orderedSetWithArray:sortedArray];
         }
         @catch (NSException *exception) {
-            NSLog(@"%@", exception);
+            DLog(@"%@", exception);
         }
         [notificationManager saveNotifications:notifications];
     }

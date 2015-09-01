@@ -2,12 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Provide Us Your Location To Help Us Keep Track Of The App&apos;s Performance</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
-	<key>NSLocationUsageDescription</key>
-	<string>Provide Us Your Location To Help Us Keep Track Of The App&apos;s Performance</string>
 	<key>CFBundleDisplayName</key>
 	<string>AC匿名版</string>
 	<key>CFBundleExecutable</key>
@@ -17,7 +13,7 @@
 	<key>CFBundleIcons~ipad</key>
 	<dict/>
 	<key>CFBundleIdentifier</key>
-	<string>com.craig.acfunbrowser</string>
+	<string>com.craig.ac-channel-browser</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -25,21 +21,19 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.5</string>
+	<string>3.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.6</string>
+	<string>3.0.1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>fetch</string>
-	</array>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Provide Us Your Location To Help Us Keep Track Of The App's Performance</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Provide Us Your Location To Help Us Keep Track Of The App's Performance</string>
 	<key>UILaunchStoryboardName</key>
 	<string>Launch Screen</string>
-	<key>UIMainStoryboardFile</key>
-	<string>Main_iPhone</string>
 	<key>UIMainStoryboardFile~ipad</key>
 	<string>Main_iPhone</string>
 	<key>UIRequiredDeviceCapabilities</key>

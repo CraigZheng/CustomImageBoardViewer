@@ -8,6 +8,7 @@
 
 #import "czzEmojiCollectionViewController.h"
 #import "UIViewController+KNSemiModal.h"
+#import "czzSettingsCentre.h"
 
 @interface czzEmojiCollectionViewController ()<UICollectionViewDataSource, UICollectionViewDelegate>
 @property NSArray *emojis;
@@ -16,6 +17,7 @@
 @implementation czzEmojiCollectionViewController
 @synthesize emojis;
 @synthesize emojiCollectionView;
+@synthesize emojiPickerToolbar;
 
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -36,6 +38,11 @@
     // Do any additional setup after loading the view from its nib.
     emojis = [self readyEmoji];
     [self.emojiCollectionView registerNib:[UINib nibWithNibName:@"czzEmojiCollectionViewCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:@"emoji_collection_cell_identifier"];
+    
+    //colours
+    emojiPickerToolbar.barTintColor = [settingCentre barTintColour];
+    emojiPickerToolbar.tintColor = [settingCentre tintColour];
+    emojiCollectionView.backgroundColor = [settingCentre barTintColour];
     
 }
 
@@ -76,7 +83,7 @@
     NSError *error;
     NSString *emojiFileContent = [NSString stringWithContentsOfFile:emojiFile encoding:NSUTF8StringEncoding error:&error];
     if (error){
-        NSLog(@"%@", error);
+        DLog(@"%@", error);
     }
     NSArray *lines;
     lines = [emojiFileContent componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];

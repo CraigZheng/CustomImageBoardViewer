@@ -8,36 +8,34 @@
 
 #import "czzOnScreenCommandViewController.h"
 #import "czzAppDelegate.h"
+#import "czzThreadTableView.h"
+
 
 @interface czzOnScreenCommandViewController ()
 @property NSTimer *timeoutTimer;
-@property UIView* parentView;
 @end
 
 @implementation czzOnScreenCommandViewController
 @synthesize upperButton;
 @synthesize bottomButton;
-@synthesize backgroundView;
-@synthesize tableviewController;
 @synthesize timeoutInterval;
 @synthesize timeoutTimer;
-@synthesize parentView;
 @synthesize size;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     timeoutInterval = 2.0;
-    size = CGSizeMake(60, 120);
-//    [self giveViewRoundCornersAndShadow:backgroundView.layer];
+    [self giveViewRoundCornersAndShadow:self.view.layer];
     [self giveViewRoundCornersAndShadow:upperButton.layer];
     [self giveViewRoundCornersAndShadow:bottomButton.layer];
     upperButton.layer.backgroundColor = [UIColor clearColor].CGColor;
     bottomButton.layer.backgroundColor = [UIColor clearColor].CGColor;
-    parentView = [[[czzAppDelegate sharedAppDelegate].window subviews] objectAtIndex:0];
-//    parentView = [czzAppDelegate sharedAppDelegate].window;
-//    [self updateFrame];
-
+    self.view.frame = CGRectMake(0, 0, 60, 120);
+    self.view.backgroundColor = [UIColor clearColor];
+    // Initially should be hidden
+    [self hide];
 }
 
 -(void)giveViewRoundCornersAndShadow:(CALayer*) layer{
@@ -47,38 +45,36 @@
     layer.shadowRadius = 2;
     layer.shadowOpacity = 0.5;
     layer.shadowColor = [UIColor darkGrayColor].CGColor;
-
 }
 
 - (IBAction)upButtonAction:(id)sender {
-    SEL scrollToTopSelector = NSSelectorFromString(@"scrollTableViewToTop");
-    if (tableviewController && [tableviewController respondsToSelector:scrollToTopSelector]) {
-        [tableviewController performSelector:scrollToTopSelector];
-    }
+    [self.delegate onScreenCommandTapOnUp:self];
     [self updateTimer];
 
 }
 
 - (IBAction)bottomButtonAction:(id)sender {
-    SEL scrollToBottomSelector = NSSelectorFromString(@"scrollTableViewToBottom");
-    if (tableviewController && [tableviewController respondsToSelector:scrollToBottomSelector])
-        [tableviewController performSelector:scrollToBottomSelector];
+    [self.delegate onScreenCommandTapOnDown:self];
     [self updateTimer];
 }
 
 -(void)show
 {
-    self.view.hidden = NO;
-    if (parentView) {
+    if (self.view.hidden) {
+        size = CGSizeMake(60, 120);
+        if (!self.view.superview) {
+            [AppDelegate.window addSubview:self.view];
+        }
+        
         [self updateFrame];
-        [parentView addSubview:self.view];
+
+        self.view.hidden = NO;
     }
     [self updateTimer];
 }
 
 -(void)hide{
     self.view.hidden = YES;
-    [self.view removeFromSuperview];
 }
 
 -(void)updateTimer {
@@ -89,7 +85,7 @@
 }
 
 -(void)updateFrame {
-    if (UIInterfaceOrientationIsPortrait(tableviewController.interfaceOrientation)) {
+    if (UIInterfaceOrientationIsPortrait(NavigationManager.delegate.interfaceOrientation)) {
         [self updateVerticalFrame];
     } else {
         [self updateHorizontalFrame];
@@ -97,30 +93,48 @@
 }
 
 -(void)updateVerticalFrame {
-    CGRect windowBounds = [czzAppDelegate sharedAppDelegate].window.bounds;
+    CGRect windowBounds = AppDelegate.window.bounds;
+    if (self.view.superview) {
+        windowBounds = self.view.superview.frame;
+    }
     CGRect myFrame = self.view.frame;
     CGFloat width = windowBounds.size.width;
     CGFloat height = windowBounds.size.height;
-    CGFloat padding = size.width / 4;
-    myFrame.origin.x = (width - size.width -  padding) / 2;
-    myFrame.origin.y = height - size.height - padding * 3;
+    CGFloat padding = size.width / 2;
+    myFrame.origin.x = (width - size.width) / 2;
+    myFrame.origin.y = height - size.height - padding * 2;
     myFrame.size.width = size.width;
     myFrame.size.height = size.height;
     self.view.frame = myFrame;
 }
 
 -(void)updateHorizontalFrame {
-    CGRect windowBounds = [czzAppDelegate sharedAppDelegate].window.bounds;
+    CGRect windowBounds = AppDelegate.window.bounds;
+    if (self.view.superview) {
+        windowBounds = self.view.superview.frame;
+    }
     CGRect myFrame = self.view.frame;
-    CGFloat width = windowBounds.size.height;
-    CGFloat height = windowBounds.size.width;
-    CGFloat padding = size.width / 4;
-    myFrame.origin.x = width - size.width - padding * 2;
+    CGFloat width = windowBounds.size.width;
+    CGFloat height = windowBounds.size.height;
+    CGFloat padding = size.width / 2;
+    myFrame.origin.x = width - size.width - padding * 3;
     myFrame.origin.y = height - size.height - padding * 3;
     myFrame.size.width = size.width;
     myFrame.size.height = size.height;
     self.view.frame = myFrame;
+}
 
+#pragma mark - setter
+-(void)setDelegate:(czzThreadTableView<czzOnScreenCommandViewControllerDelegate>*)delegate {
+    _delegate = delegate;
+    // Add this view to delegate's superview, so it won't scroll with the delegate
+    if (delegate.superview) {
+        [delegate.superview addSubview:self.view];
+    }
+}
+
++(instancetype)new {
+    return [[UIStoryboard storyboardWithName:@"OnScreenCommand" bundle:nil] instantiateInitialViewController];
 }
 
 @end

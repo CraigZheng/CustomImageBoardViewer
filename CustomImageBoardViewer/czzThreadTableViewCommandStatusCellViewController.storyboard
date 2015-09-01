@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="LSR-WF-lpq">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <scenes>
+        <!--Czz Thread View Command Status Cell View Controller-->
+        <scene sceneID="t7t-iq-Kf2">
+            <objects>
+                <viewController id="LSR-WF-lpq" customClass="czzThreadViewCommandStatusCellViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="bvs-m7-ifb"/>
+                        <viewControllerLayoutGuide type="bottom" id="aJf-fS-fcj"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="IoW-wW-ZaL" customClass="CPAutoFillView">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="COMMAND LABEL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tI3-AE-CFC">
+                                <rect key="frame" x="44" y="12" width="232" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="1" green="0.57347453749999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <activityIndicatorView opaque="NO" tag="2" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="2f0-p6-AIA">
+                                <rect key="frame" x="16" y="13" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerY" secondItem="tI3-AE-CFC" secondAttribute="centerY" id="IoC-TY-4jG"/>
+                            <constraint firstAttribute="centerX" secondItem="tI3-AE-CFC" secondAttribute="centerX" id="NAN-g8-VqE"/>
+                            <constraint firstItem="tI3-AE-CFC" firstAttribute="leading" secondItem="2f0-p6-AIA" secondAttribute="trailing" constant="8" symbolic="YES" id="WnX-fC-PTo"/>
+                            <constraint firstItem="tI3-AE-CFC" firstAttribute="centerY" secondItem="2f0-p6-AIA" secondAttribute="centerY" id="e96-hl-dWl"/>
+                            <constraint firstItem="2f0-p6-AIA" firstAttribute="leading" secondItem="IoW-wW-ZaL" secondAttribute="leading" constant="16" id="fD9-1s-4mj"/>
+                            <constraint firstItem="tI3-AE-CFC" firstAttribute="bottom" secondItem="2f0-p6-AIA" secondAttribute="bottom" id="jTG-f5-HjW"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="44"/>
+                    <connections>
+                        <outlet property="commandStatusLabel" destination="tI3-AE-CFC" id="PmN-1e-2YB"/>
+                        <outlet property="loadingActivityIndicator" destination="2f0-p6-AIA" id="zJJ-cG-sIU"/>
+                        <outlet property="view" destination="IoW-wW-ZaL" id="wEJ-9g-gK0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZPm-mf-ZIO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="379" y="398"/>
+        </scene>
+    </scenes>
+</document>

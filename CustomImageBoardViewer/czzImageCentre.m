@@ -6,21 +6,26 @@
 //  Copyright (c) 2013 Craig. All rights reserved.
 //
 
+
+
 #import "czzImageCentre.h"
 #import "czzImageDownloader.h"
 #import "czzAppDelegate.h"
+#import "Toast+UIView.h"
 #import "czzSettingsCentre.h"
 
 #include <sys/stat.h>
 
 @interface czzImageCentre()<czzImageDownloaderDelegate>
-@property NSString *thumbnailFolder;
-@property NSString *imageFolder;
+@property (strong, nonatomic) NSString *thumbnailFolder;
+@property (strong, nonatomic) NSString *imageFolder;
 @property czzSettingsCentre *settingsCentre;
+@property NSDate *lastCleanDate;
 @end
 
 @implementation czzImageCentre
 @synthesize currentImageDownloaders;
+@synthesize currentThumbnailDownloaders;
 @synthesize currentLocalThumbnails;
 @synthesize currentLocalImages;
 @synthesize thumbnailFolder;
@@ -28,8 +33,10 @@
 @synthesize localImagesArray;
 @synthesize localThumbnailsArray;
 @synthesize settingsCentre;
+@synthesize delegate;
+@synthesize lastCleanDate;
 
-+ (id)sharedInstance
++ (instancetype)sharedInstance
 {
     // structure used to test whether the block has completed or not
     static dispatch_once_t p = 0;
@@ -47,13 +54,24 @@
 }
 - (id)init {
     if (self = [super init]) {
-        currentImageDownloaders = [NSMutableSet new];
-        NSString* libraryPath = [czzAppDelegate libraryFolder];
-        thumbnailFolder = [libraryPath stringByAppendingPathComponent:@"Thumbnails"];
-        imageFolder = [libraryPath stringByAppendingPathComponent:@"Images"];
+        currentImageDownloaders = [NSMutableOrderedSet new];
+        currentThumbnailDownloaders = [NSMutableOrderedSet new];
+        thumbnailFolder = [czzAppDelegate thumbnailFolder];
+        imageFolder = [czzAppDelegate imageFolder];
         currentLocalImages = [NSMutableSet new];
         settingsCentre = [czzSettingsCentre sharedInstance];
+        //last clean date, or set to today if not found
+        NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
+        if ([userDef objectForKey:kLastCleanDate])
+        {
+            lastCleanDate = [userDef objectForKey:kLastCleanDate];
+        } else {
+            lastCleanDate = [NSDate new];
+            [self recordLastCleanDate:lastCleanDate];
+        }
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            if (settingsCentre.autoCleanImageCache && [[NSDate new] timeIntervalSinceDate:lastCleanDate] > kCleanInterval)
+                [self cleanOldFiles];
             [self scanCurrentLocalImages];
         });
         
@@ -61,6 +79,29 @@
     }
     return self;
 }
+
+-(void)recordLastCleanDate:(NSDate*)date {
+    [[NSUserDefaults standardUserDefaults] setObject:date forKey:kLastCleanDate];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+/*
+ delete all the files that are older than a predefined age
+ */
+-(void)cleanOldFiles {
+    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:thumbnailFolder error:nil];
+    for (NSString *entity in files) {
+        NSString *file = [thumbnailFolder stringByAppendingPathComponent:entity];
+        [self isFileOlderThan30Days:file];
+    }
+    files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:imageFolder error:nil];
+    for (NSString *entity in files) {
+        NSString *file = [imageFolder stringByAppendingPathComponent:entity];
+        [self isFileOlderThan30Days:file];
+    }
+    [self recordLastCleanDate:[NSDate new]];
+}
+
 
 /*
  scan the library for downloaded images
@@ -76,11 +117,7 @@
             [file.pathExtension.lowercaseString isEqualToString:@"png"] ||
             [file.pathExtension.lowercaseString isEqualToString:@"gif"])
         {
-            if (settingsCentre.autoCleanImageCache) {
-                if (![self isFileOlderThan30Days:file])
-                    [tempImgs addObject:file];
-            } else
-                [tempImgs addObject:file];
+            [tempImgs addObject:file];
         }
     }
     //Images folder
@@ -94,11 +131,7 @@
             [file.pathExtension.lowercaseString isEqualToString:@"png"] ||
             [file.pathExtension.lowercaseString isEqualToString:@"gif"])
         {
-            if (settingsCentre.autoCleanImageCache) {
-                if (![self isFileOlderThan30Days:file])
-                    [tempImgs addObject:file];
-            } else
-                [tempImgs addObject:file];
+            [tempImgs addObject:file];
         }
     }
     currentLocalImages = tempImgs;
@@ -112,15 +145,15 @@
     NSDate *today = [NSDate new];
     @try {
         NSDate *fileModifiedDate = [czzImageCentre getModificationDateForFileAtPath:filePath];
-        //if older than 30 days
-        if ([today timeIntervalSinceDate:fileModifiedDate] > 2592000) {
+        //if older than a predefined days - 30 days
+        if ([today timeIntervalSinceDate:fileModifiedDate] > kCleanInterval) {
             //delete this file and return YES
             [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
             return YES;
         }
     }
     @catch (NSException *exception) {
-        NSLog(@"%@", exception);
+        DLog(@"%@", exception);
     }
     return NO;
 }
@@ -133,7 +166,7 @@
             return [date2 compare:date1];
         }
         @catch (NSException *exception) {
-            NSLog(@"%@", exception);
+            DLog(@"%@", exception);
         }
         return NSOrderedSame;
     }];
@@ -155,11 +188,16 @@
     imgDown.imageURLString = imgURL;
     //3. check current image downloaders for image downloader with same target url
     //if image downloader with save target url is present, stop that one and add the new downloader in, and start the new one
-    if ([currentImageDownloaders containsObject:imgDown]){
+    if ([currentThumbnailDownloaders containsObject:imgDown]){
         [self stopAndRemoveImageDownloaderWithURL:imgURL];
     }
     [imgDown start];
-    [currentImageDownloaders addObject:imgDown];
+    [currentThumbnailDownloaders addObject:imgDown];
+    //inform delegate
+    if (delegate && [delegate respondsToSelector:@selector(imageCentreDownloadStarted:downloader:)])
+    {
+        [delegate imageCentreDownloadStarted:self downloader:imgDown];
+    }
 }
 
 -(void)downloadImageWithURL:(NSString*)imgURL isCompletedURL:(BOOL)completeURL{
@@ -182,6 +220,13 @@
     }
     [imgDown start];
     [currentImageDownloaders addObject:imgDown];
+    //inform delegate
+    if (delegate && [delegate respondsToSelector:@selector(imageCentreDownloadStarted:downloader:)])
+    {
+        [delegate imageCentreDownloadStarted:self downloader:imgDown];
+    }
+    
+    [[AppDelegate window] makeToast:@"开始下载图片"];
 }
 
 //Check if given image URL is currently being downloaded
@@ -213,8 +258,14 @@
         for (czzImageDownloader *downloader in downloadersWithSameTargetURL) {
             [downloader stop];
             [currentImageDownloaders removeObject:downloader];
+            //inform delegate
+            if (delegate && [delegate respondsToSelector:@selector(imageCentreDownloadFinished:downloader:wasSuccessful:)]) {
+                [delegate imageCentreDownloadFinished:self downloader:downloader wasSuccessful:NO];
+            }
         }
     }
+    
+    [[AppDelegate window] makeToast:@"下载终止"];
 }
 
 #pragma mark czzImageDownloader delegate
@@ -233,54 +284,50 @@
         else {
             [currentLocalImages addObject:path];
             [localImagesArray insertObject:path atIndex:0];
-            [[czzAppDelegate sharedAppDelegate] showToast:@"图片下载好了"];
         }
     } else {
         //inform receiver that download is failed
         [userInfo setObject:[NSNumber numberWithBool:NO] forKey:@"Success"];
-        [[czzAppDelegate sharedAppDelegate] showToast:@"图片下载失败：请检查网络和储存空间"];
+        [AppDelegate showToast:@"图片下载失败：请检查网络和储存空间"];
     }
+
     if (isThumbnail)
         [[NSNotificationCenter defaultCenter]
          postNotificationName:@"ThumbnailDownloaded" object:Nil userInfo:userInfo];
-    else
-        [[NSNotificationCenter defaultCenter]
-             postNotificationName:@"ImageDownloaded" object:Nil userInfo:userInfo];
-    //delete the image downloader
+
+    NSMutableOrderedSet *setWithThisDownloader = imgDownloader.isThumbnail ? currentThumbnailDownloaders : currentImageDownloaders;
     NSPredicate *sameImgURL = [NSPredicate predicateWithFormat:@"imageURLString == %@", imgDownloader.imageURLString];
-    NSSet *downloaderWithSameImageURLString = [currentImageDownloaders filteredSetUsingPredicate:sameImgURL];
+    NSSet *downloaderWithSameImageURLString = [setWithThisDownloader.set filteredSetUsingPredicate:sameImgURL];
     for (czzImageDownloader *imgDown in downloaderWithSameImageURLString) {
         [imgDown stop];
-        [currentImageDownloaders removeObject:imgDown];
+        [setWithThisDownloader removeObject:imgDown];
+    }
+    
+    if (delegate && [delegate respondsToSelector:@selector(imageCentreDownloadFinished:downloader:wasSuccessful:)]) {
+        [delegate imageCentreDownloadFinished:self downloader:imgDownloader wasSuccessful:success];
     }
 }
 
 
--(void)downloaderProgressUpdated:(czzImageDownloader *)imgDownloader expectedLength:(NSUInteger)total downloadedLength:(NSUInteger)downloaded{
+-(void)downloaderProgressUpdated:(czzImageDownloader *)imgDownloader expectedLength:(NSUInteger)total downloadedLength:(NSUInteger)downloadedLength{
     //inform full size image download update
     if (!imgDownloader.isThumbnail){
-        [[NSNotificationCenter defaultCenter]
-         postNotificationName:@"ImageDownloaderProgressUpdated"
-         object:Nil
-         userInfo:[NSDictionary dictionaryWithObject:imgDownloader forKey:@"ImageDownloader"]];
+        if (delegate && [delegate respondsToSelector:@selector(imageCentreDownloadUpdated:downloader:progress:)]) {
+            [delegate imageCentreDownloadUpdated:self downloader:imgDownloader progress:(CGFloat)downloadedLength / (CGFloat)total];
+        }
     }
 }
 
 #pragma mark - remove images
 -(void)removeFullSizeImages{
-    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:imageFolder error:nil];
-    for (NSString *file in files) {
-        [[NSFileManager defaultManager] removeItemAtPath:[imageFolder stringByAppendingPathComponent:file] error:nil];
-    }
+    [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate imageFolder] error:nil];
+    [AppDelegate checkFolders];
     [self scanCurrentLocalImages];
 }
 
 -(void)removeThumbnails{
-    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:thumbnailFolder error:nil];
-    //delete every files inside thumbnail folder and image folder
-    for (NSString *file in files) {
-        [[NSFileManager defaultManager] removeItemAtPath:[thumbnailFolder stringByAppendingPathComponent:file] error:nil];
-    }
+    [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate thumbnailFolder] error:nil];
+    [AppDelegate checkFolders];
     [self scanCurrentLocalImages];
 }
 

@@ -8,14 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
-@interface czzOnScreenCommandViewController : UIViewController
-@property (strong, nonatomic) IBOutlet UIView *backgroundView;
+@protocol czzOnScreenCommandViewControllerDelegate <NSObject>
+-(void)onScreenCommandTapOnUp:(id)sender;
+-(void)onScreenCommandTapOnDown:(id)sender;
+@end
 
-@property (strong, nonatomic) IBOutlet UIButton *bottomButton;
-@property (strong, nonatomic) IBOutlet UIButton *upperButton;
+@class czzThreadTableView;
+@interface czzOnScreenCommandViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UIButton *upperButton;
+@property (weak, nonatomic) IBOutlet UIButton *bottomButton;
+
+@property (weak, nonatomic) czzThreadTableView<czzOnScreenCommandViewControllerDelegate> *delegate;
+
 @property CGSize size;
 @property NSTimeInterval timeoutInterval;
-@property (nonatomic) UITableViewController *tableviewController;
 - (IBAction)upButtonAction:(id)sender;
 - (IBAction)bottomButtonAction:(id)sender;
 

@@ -39,7 +39,7 @@
     if ([[czzImageCentre sharedInstance] ready])
         [self reloadImageFileFromImageCentre];
     else
-        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"图片还在载入中，请稍后重试..."];
+        [[AppDelegate window] makeToast:@"图片还在载入中，请稍后重试..."];
 
 }
 
@@ -72,9 +72,16 @@
     NSString *imgFile = [Images objectAtIndex:indexPath.row];
     if (cell && imgFile){
         UIImageView *previewImageView = (UIImageView*)[cell viewWithTag:1];
-        UIImage *previewImage = [UIImage imageWithContentsOfFile:imgFile];
-        if (previewImage)
-            [previewImageView setImage:previewImage];
+        UIImage *previewImage;// = [UIImage imageWithContentsOfFile:imgFile];
+        NSString *thumbnailPath = [[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:[[[imgFile.lastPathComponent stringByDeletingPathExtension] stringByAppendingString:@"_t"] stringByAppendingPathExtension:imgFile.pathExtension]];
+        UIImage *thumbnailImage = [UIImage imageWithContentsOfFile:thumbnailPath];
+        
+        previewImage = thumbnailImage ? thumbnailImage : [UIImage imageWithContentsOfFile:imgFile];
+        if (previewImage) {
+            previewImageView.image = previewImage;
+        } else {
+            previewImageView.image = [UIImage imageNamed:@"icon.png"];
+        }
     }
     return cell;
 }
@@ -89,7 +96,7 @@
 
 #pragma UICollectionViewDelegate
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    [imageViewerUtil showPhotos:Images inViewController:self withIndex:indexPath.row];
+    [imageViewerUtil showPhotos:Images withIndex:indexPath.row];
 }
 
 //show different categories of images
@@ -103,7 +110,7 @@
 -(void)didReceiveMemoryWarning {
     [self dismissViewControllerAnimated:YES completion:nil];
     [self.navigationController popToRootViewControllerAnimated:YES];
-    [[czzAppDelegate sharedAppDelegate].window makeToast:@"内存不足，退出图片管理器以避免崩溃"];
+    [AppDelegate.window makeToast:@"内存不足，退出图片管理器以避免崩溃"];
 }
 
 @end

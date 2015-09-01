@@ -6,44 +6,78 @@
 //  Copyright (c) 2014 Craig. All rights reserved.
 //
 
-#define THREAD_VIEW_CELL_NIB @"czzThreadViewTableViewCell"
-
 #import "czzMiniThreadViewController.h"
 #import "czzThread.h"
+#import "Toast+UIView.h"
+#import "czzAppDelegate.h"
+#import "czzImageViewerUtil.h"
+#import "czzSettingsCentre.h"
 #import "czzMenuEnabledTableViewCell.h"
+#import "czzTextViewHeightCalculator.h"
 
 @interface czzMiniThreadViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic) czzThread *myThread;
+@property NSInteger parentID;
+@property CGSize rowSize;
 @end
 
 @implementation czzMiniThreadViewController
 @synthesize threadID;
 @synthesize myThread;
 @synthesize threadTableView;
+@synthesize delegate;
+@synthesize rowSize;
+@synthesize parentID;
+@synthesize miniThreadNaBarItem;
+@synthesize miniThreadNavBar;
+@synthesize barBackgroundView;
 
-static NSString *cellIdentifier = @"thread_view_cell";
-static NSString *emptyCellIdenfiier = @"empty_cell_identifier";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    UINib *cellNib = [UINib nibWithNibName:@"czzThreadViewTableViewCell" bundle:nil];
-    [threadTableView registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
+    //register NIB
+    [threadTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
+    [threadTableView registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER];
+    
+    //colours
+    miniThreadNavBar.barTintColor = [settingCentre barTintColour];
+    miniThreadNavBar.tintColor = [settingCentre tintColour];
+    [miniThreadNavBar
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : miniThreadNavBar.tintColor}];
+    barBackgroundView.backgroundColor = [settingCentre barTintColour];
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [AppDelegate.window hideToastActivity];
+}
+
+-(void)setThreadID:(NSInteger)tID {
+    threadID = tID;
+    //start downloading content for thread id
+    [AppDelegate.window makeToastActivity];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        czzThread *resultThread = [[czzThread alloc] initWithThreadID:threadID];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            BOOL successful = NO;
+            [AppDelegate.window hideToastActivity];
+            if (resultThread) {
+                [self setMyThread:resultThread];
+                successful = YES;
+                //reset my frame to show the only table view row
+            }
+            if (delegate && [delegate respondsToSelector:@selector(miniThreadViewFinishedLoading:)])
+                [delegate miniThreadViewFinishedLoading:successful];
+            miniThreadNaBarItem.title = myThread.title;
+            miniThreadNaBarItem.backBarButtonItem.title = self.title;
+            
+        });
+    });
 }
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    NSString *target = [NSString stringWithFormat:@"http://h.acfun.tv/t/%ld.json", (long)threadID];
-    [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:target]]  queue:[NSOperationQueue new] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        if (!connectionError) {
-            NSDictionary *rawJson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            czzThread *resultThread = [[czzThread alloc] initWithJSONDictionary:[rawJson objectForKey:@"threads"]];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (resultThread)
-                    [self setMyThread:resultThread];
-            });
-        }
-    }];
 }
 
 -(void)setMyThread:(czzThread *)thread {
@@ -57,14 +91,49 @@ static NSString *emptyCellIdenfiier = @"empty_cell_identifier";
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    NSString *cellIdentifier = [settingCentre userDefShouldUseBigImage] ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
+    
+    czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell) {
-//        cell.shouldHighlight = NO;
-//        cell.parentThread = myThread;
-//        cell.myThread = myThread;
-        
+        cell.shouldHighlight = NO;
+        cell.parentThread = myThread;
+        cell.myThread = myThread;
     }
     return cell;
 }
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CGFloat preferHeight = tableView.rowHeight;
+    preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:myThread inView:self.view hasImage:myThread.thImgSrc.length > 0];
+    preferHeight = MAX(tableView.rowHeight, preferHeight);
+    rowSize = CGSizeMake(self.view.frame.size.width, preferHeight);
+
+    return preferHeight;
+}
+
 #pragma mark - uitableview delegate
+- (IBAction)cancelButtonAction:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)openThreadAction:(id)sender {
+    [AppDelegate.window makeToastActivity];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        czzThread *parentThread = [[czzThread alloc] initWithThreadID:myThread.parentID ? myThread.parentID : myThread.ID];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (parentThread) {
+                if (delegate && [delegate respondsToSelector:@selector(miniThreadWantsToOpenThread:)])
+                    [delegate miniThreadWantsToOpenThread:parentThread];
+            } else {
+                [AppDelegate.window makeToast:@"无法打开！"];
+            }
+            [AppDelegate.window hideToastActivity];
+        });
+    });
+}
+
+#pragma mark - rotation event
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    [threadTableView reloadData];
+}
 @end

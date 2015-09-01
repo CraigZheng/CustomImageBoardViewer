@@ -1,0 +1,25 @@
+get forum list
+http://ano-zhai-so.n1.yun.tf:8999/Home/Api/getForumList
+
+get thread list
+http://ano-zhai-so.n1.yun.tf:8999/Home/Api/showt?id=<FORUM_ID>&page=<PAGE>.html
+
+thread content
+http://ano-zhai-so.n1.yun.tf:8999/Home/Api/thread?id=<THREAD_ID>&page=<PAGE>.html
+
+get cookie
+http://ano-zhai-so.n1.yun.tf:8999/Home/Api/getCookie
+
+User agent set to "HAvfun Client"
+
+get full size image
+http://ano-zhai-so.n1.yun.tf:8999/Public/Upload/2015-03-01/54f30b9339ab3.png
+
+get thumbnail
+http://ano-zhai-so.n1.yun.tf:8999/Public/Upload/2015-03-01/54f30b9339ab3_t.png
+
+post thread (POST->content)
+http://ano-zhai-so.n1.yun.tf:8999/Home/Forum/doPostThread.html
+
+reply thread (POST->content)
+doReplyThread

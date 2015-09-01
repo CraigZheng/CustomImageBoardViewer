@@ -42,13 +42,13 @@
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [[czzAppDelegate sharedAppDelegate].window hideToastActivity];
+    [AppDelegate.window hideToastActivity];
 }
 
 -(void)openURLAndConvertToczzThreadFormat:(NSURL*)url {
     dispatch_async(dispatch_get_main_queue(), ^{
         contentTextView.text = @"";
-        [[czzAppDelegate sharedAppDelegate].window makeToastActivity];
+        [AppDelegate.window makeToastActivity];
     });
     if ([url.absoluteString rangeOfString:@"?ph"].location != NSNotFound) {
         NSString *urlString = url.absoluteString;
@@ -77,24 +77,24 @@
                             [self presentThreadViewControllerWithParsedThread];
                         }
                     } else {
-                        [[czzAppDelegate sharedAppDelegate].window makeToast:@"无法打开这个链接" duration:2.0 position:@"bottom" image:[UIImage imageNamed:@"warning.png"]];
+                        [AppDelegate.window makeToast:@"无法打开这个链接" duration:2.0 position:@"bottom" image:[UIImage imageNamed:@"warning.png"]];
                     }
                 });
                 
             }
             @catch (NSException *exception) {
-                NSLog(@"%@", exception);
+                DLog(@"%@", exception);
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [[czzAppDelegate sharedAppDelegate].window makeToast:@"无法打开这个链接" duration:2.0 position:@"bottom" image:[UIImage imageNamed:@"warning.png"]];
+                    [AppDelegate.window makeToast:@"无法打开这个链接" duration:2.0 position:@"bottom" image:[UIImage imageNamed:@"warning.png"]];
                 });
             }
             dispatch_async(dispatch_get_main_queue(), ^{
-                [[czzAppDelegate sharedAppDelegate].window hideToastActivity];
+                [AppDelegate.window hideToastActivity];
             });
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [[czzAppDelegate sharedAppDelegate].window makeToast:@"无法找到有效资料" duration:2.0 position:@"bottom" image:[UIImage imageNamed:@"warning.png"]];
-                [[czzAppDelegate sharedAppDelegate].window hideToastActivity];
+                [AppDelegate.window makeToast:@"无法找到有效资料" duration:2.0 position:@"bottom" image:[UIImage imageNamed:@"warning.png"]];
+                [AppDelegate.window hideToastActivity];
             });
         }
     });
@@ -107,7 +107,7 @@
     }
     
     czzThreadViewController *threadViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"czz_thread_view_controller"];
-    threadViewController.parentThread = parsedThread;
+//    threadViewController.parentThread = parsedThread;
     if (highlightKeyword.length > 0)
         threadViewController.shouldHighlightSelectedUser = highlightKeyword;
     

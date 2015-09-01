@@ -34,24 +34,24 @@
 
 -(BOOL)sendFeedback:(czzNotification*)notification{
     if (content.length <= 0) {
-        NSLog(@"need content");
+        DLog(@"need content");
         return NO;
     }
-    NSString *targetHost = [[czzAppDelegate sharedAppDelegate].myhost stringByAppendingPathComponent:feedback_host];
+    NSString *targetHost = [AppDelegate.myhost stringByAppendingPathComponent:feedback_host];
     targetHost = [targetHost stringByAppendingFormat:@"access_token=%@&vendorID=%@&time=%@&name=%@&content=%@&emotion=%ld",
-                  self.access_token, [czzAppDelegate sharedAppDelegate].vendorID, self.time, name, content, (long)emotion];
+                  self.access_token, AppDelegate.vendorID, self.time, name, content, (long)emotion];
     if (notification) {
         targetHost = [targetHost stringByAppendingFormat:@"&notificationID=%@&title=%@&topic=%@", notification.notificationID, notification.title, notification.topic];
     }
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]) {
         targetHost = [targetHost stringByAppendingFormat:@"&UID=%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]];
     }
-    NSLog(@"target url string = %@", targetHost);
+    DLog(@"target url string = %@", targetHost);
 
     NSError *error;
     [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[targetHost stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]] returningResponse:nil error:&error];
     if (error) {
-        NSLog(@"%@", error);
+        DLog(@"%@", error);
         return NO;
     }
 

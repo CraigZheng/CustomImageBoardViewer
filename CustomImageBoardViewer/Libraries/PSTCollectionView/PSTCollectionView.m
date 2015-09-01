@@ -2235,7 +2235,7 @@ static BOOL PSTRegisterClass(NSString *UIClassName, Class PSTClass) {
         // If the UIKit class is smaller then our subclass, ivars won't clash, so there's no issue.
         long sizeDifference = class_getInstanceSize(UIClass) - class_getInstanceSize(PSTClass);
         if (sizeDifference > 0) {
-            NSLog(@"Warning! ivar size mismatch in %@ - can't change the superclass.", PSTClass);
+            DLog(@"Warning! ivar size mismatch in %@ - can't change the superclass.", PSTClass);
             return NO;
         } else {
 #pragma clang diagnostic push
@@ -2298,19 +2298,19 @@ static void PSTPrintIvarsForClass(Class aClass) {
     unsigned int varCount;
     Ivar *vars = class_copyIvarList(aClass, &varCount);
     for (int i = 0; i < varCount; i++) {
-        NSLog(@"%s %s", ivar_getTypeEncoding(vars[i]), ivar_getName(vars[i]));
+        DLog(@"%s %s", ivar_getTypeEncoding(vars[i]), ivar_getName(vars[i]));
     }
     free(vars);
 }
 
 __attribute__((constructor)) static void PSTCheckIfIVarLayoutIsEqualSize(void) {
     @autoreleasepool {
-        NSLog(@"PSTCollectionView size = %zd, UICollectionView size = %zd", class_getInstanceSize(PSTCollectionView.class),class_getInstanceSize(UICollectionView.class));
-        NSLog(@"PSTCollectionViewCell size = %zd, UICollectionViewCell size = %zd", class_getInstanceSize(PSTCollectionViewCell.class),class_getInstanceSize(UICollectionViewCell.class));
-        NSLog(@"PSTCollectionViewController size = %zd, UICollectionViewController size = %zd", class_getInstanceSize(PSTCollectionViewController.class),class_getInstanceSize(UICollectionViewController.class));
-        NSLog(@"PSTCollectionViewLayout size = %zd, UICollectionViewLayout size = %zd", class_getInstanceSize(PSTCollectionViewLayout.class),class_getInstanceSize(UICollectionViewLayout.class));
-        NSLog(@"PSTCollectionViewFlowLayout size = %zd, UICollectionViewFlowLayout size = %zd", class_getInstanceSize(PSTCollectionViewFlowLayout.class),class_getInstanceSize(UICollectionViewFlowLayout.class));
-        //PSTPrintIvarsForClass(PSTCollectionViewFlowLayout.class); NSLog(@"\n\n\n");PSTPrintIvarsForClass(UICollectionViewFlowLayout.class);
+        DLog(@"PSTCollectionView size = %zd, UICollectionView size = %zd", class_getInstanceSize(PSTCollectionView.class),class_getInstanceSize(UICollectionView.class));
+        DLog(@"PSTCollectionViewCell size = %zd, UICollectionViewCell size = %zd", class_getInstanceSize(PSTCollectionViewCell.class),class_getInstanceSize(UICollectionViewCell.class));
+        DLog(@"PSTCollectionViewController size = %zd, UICollectionViewController size = %zd", class_getInstanceSize(PSTCollectionViewController.class),class_getInstanceSize(UICollectionViewController.class));
+        DLog(@"PSTCollectionViewLayout size = %zd, UICollectionViewLayout size = %zd", class_getInstanceSize(PSTCollectionViewLayout.class),class_getInstanceSize(UICollectionViewLayout.class));
+        DLog(@"PSTCollectionViewFlowLayout size = %zd, UICollectionViewFlowLayout size = %zd", class_getInstanceSize(PSTCollectionViewFlowLayout.class),class_getInstanceSize(UICollectionViewFlowLayout.class));
+        //PSTPrintIvarsForClass(PSTCollectionViewFlowLayout.class); DLog(@"\n\n\n");PSTPrintIvarsForClass(UICollectionViewFlowLayout.class);
     }
 }
 #endif

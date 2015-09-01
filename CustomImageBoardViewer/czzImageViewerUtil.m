@@ -8,14 +8,12 @@
 
 #import "czzImageViewerUtil.h"
 @interface czzImageViewerUtil ()
-@property UIViewController *viewControllerToShow;
 @end
 
 @implementation czzImageViewerUtil
 @synthesize photoBrowser;
 @synthesize photoBrowserDataSource;
 @synthesize documentInteractionController;
-@synthesize viewControllerToShow;
 @synthesize photoBrowserNavigationController;
 
 -(instancetype)init {
@@ -27,10 +25,9 @@
     return self;
 }
 
--(void)showPhoto:(NSString *)photoPath inViewController:(UIViewController *)viewCon {
-    if (photoPath.length > 0 && viewCon) {
+-(void)showPhoto:(NSString *)photoPath {
+    if (photoPath.length) {
         [self prepareMWPhotoBrowser];
-        viewControllerToShow = viewCon;
         if (!photoBrowserDataSource)
             photoBrowserDataSource = [NSMutableArray new];
         if (![photoBrowserDataSource containsObject:photoPath])
@@ -38,27 +35,42 @@
         [photoBrowser setCurrentPhotoIndex: [photoBrowserDataSource indexOfObject:photoPath]];
         [self show];
     } else {
-        NSLog(@"Either photo path or view controller is nil");
+        DLog(@"Either photo path or view controller is nil");
     }
 }
 
--(void)showPhotos:(NSArray *)photos inViewController:(UIViewController *)viewCon withIndex:(NSInteger)index {
-    if (photos.count > 0 && viewCon) {
+-(void)showPhotos:(NSArray *)photos withIndex:(NSInteger)index {
+    if (photos.count > 0) {
         [self prepareMWPhotoBrowser];
-        viewControllerToShow = viewCon;
         photoBrowserDataSource = [NSMutableArray arrayWithArray:photos];
         [photoBrowser setCurrentPhotoIndex:index];
         [self show];
     }
     else {
-        NSLog(@"Either photos or view controller is nil");
+        DLog(@"Either photos or view controller is nil");
     }
 }
 
 -(void)show {
-    photoBrowserNavigationController = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
-    photoBrowserNavigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    [viewControllerToShow presentViewController:photoBrowserNavigationController animated:YES completion:nil];
+    if (NavigationManager.delegate)
+    {
+        
+        if (NavigationManager.isInTransition) {
+            NavigationManager.pushAnimationCompletionHandler = ^{
+                if (![[UIApplication topViewController] isKindOfClass:[photoBrowser class]]) {
+                    [NavigationManager pushViewController:photoBrowser animated:YES];
+                }
+            };
+        } else {
+            if (![[UIApplication topViewController] isKindOfClass:[photoBrowser class]]) {
+                [NavigationManager pushViewController:photoBrowser animated:YES];
+            }
+        }
+    } else {
+        photoBrowserNavigationController = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
+        photoBrowserNavigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        [[UIApplication rootViewController] presentViewController:photoBrowserNavigationController animated:YES completion:nil];
+    }
 }
 
 -(void)prepareMWPhotoBrowser {
@@ -73,6 +85,8 @@
     photoBrowser.delayToHideElements = 4.0;
     photoBrowser.enableSwipeToDismiss = NO; // dont dismiss
     photoBrowser.displayActionButton = YES;
+    photoBrowser.hidesBottomBarWhenPushed = YES;
+
 }
 
 #pragma mark - MWPhotoBrowserDelegate
@@ -82,16 +96,28 @@
         return photo;
     }
     @catch (NSException *exception) {
-        NSLog(@"%@", exception);
+        DLog(@"%@", exception);
     }
     return nil;
 }
 
--(void)photoBrowser:(MWPhotoBrowser *)photoBrowser actionButtonPressedForPhotoAtIndex:(NSUInteger)index {
+-(void)photoBrowser:(MWPhotoBrowser *)browser actionButtonPressedForPhotoAtIndex:(NSUInteger)index {
     NSURL *fileURL = [NSURL fileURLWithPath:[photoBrowserDataSource objectAtIndex:index]];
     documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:fileURL];
-    UIView *viewToShowDocumentInteractionController = photoBrowserNavigationController.view;
-    [documentInteractionController presentOptionsMenuFromRect:CGRectMake(0, 0, viewControllerToShow.view.frame.size.width, viewControllerToShow.view.frame.size.height) inView:viewToShowDocumentInteractionController animated:YES];
+    UIView *viewToShowDocumentInteractionController;
+    if (photoBrowserNavigationController)
+        viewToShowDocumentInteractionController = photoBrowserNavigationController.view;
+    else
+        viewToShowDocumentInteractionController = photoBrowser.view;
+    //ipad
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+    {
+        [documentInteractionController presentOptionsMenuFromBarButtonItem:browser.actionButton animated:YES];
+    }
+    //iphone
+    else {
+        [documentInteractionController presentOptionsMenuFromRect:[UIApplication topViewController].view.frame inView:viewToShowDocumentInteractionController animated:YES];
+    }
 }
 
 -(void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser {

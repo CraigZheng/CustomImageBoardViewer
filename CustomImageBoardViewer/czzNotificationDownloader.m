@@ -32,13 +32,16 @@
 
 -(void)downloadNotificationWithVendorID:(NSString *)vendorID {
     //make a post request to the server with vendorID
-    NSString *targetURLString = [[czzAppDelegate sharedAppDelegate].myhost stringByAppendingPathComponent:@"php"];
+    NSString *targetURLString = [AppDelegate.myhost stringByAppendingPathComponent:@"php"];
     targetURLString = [targetURLString stringByAppendingPathComponent:notificationFile];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:targetURLString]];
     [request setHTTPMethod:@"POST"];
     
     NSMutableData *requestData = [NSMutableData new];
-    [requestData appendData:[[NSString stringWithFormat:@"&vendorID=%@", [czzAppDelegate sharedAppDelegate].vendorID] dataUsingEncoding:NSUTF8StringEncoding]];
+#ifdef DEBUG
+    vendorID = @"DEBUG";
+#endif
+    [requestData appendData:[[NSString stringWithFormat:@"&vendorID=%@", vendorID] dataUsingEncoding:NSUTF8StringEncoding]];
     [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)requestData.length] forHTTPHeaderField:@"Content-length"];
     [request setHTTPBody:requestData];
     
@@ -48,7 +51,7 @@
 
 #pragma mark - NSURLConnectionDataDelegate
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
-    NSLog(@"error %@", error);
+    DLog(@"error %@", error);
     if (delegate) {
         [delegate notificationDownloaded:nil];
     }
@@ -66,7 +69,7 @@
     NSMutableArray *notifications = [NSMutableArray new];
     NSError *error;
     SMXMLDocument *xmlDoc = [SMXMLDocument documentWithData:receivedData error:&error];
-//    NSLog(@"downloaded notification php content: %@", [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding]);
+//    DLog(@"downloaded notification php content: %@", [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding]);
     for (SMXMLElement *element in xmlDoc.root.children) {
         if ([element.name isEqualToString:@"message"]) {
             czzNotification *notification = [[czzNotification alloc] initWithXMLElement:element];

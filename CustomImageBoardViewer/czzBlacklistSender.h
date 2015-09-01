@@ -16,8 +16,8 @@
 
 @interface czzBlacklistSender : NSObject
 @property czzBlacklistEntity *blacklistEntity;
-@property NSString *targetURLString;
+@property (strong, nonatomic) NSString *targetURLString;
 -(void)sendBlacklistUpdate;
 
-@property id<czzBlacklistSenderDelegate> delegate;
+@property (weak, nonatomic) id<czzBlacklistSenderDelegate> delegate;
 @end

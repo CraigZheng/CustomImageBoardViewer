@@ -19,5 +19,5 @@
 -(void)processThreadListFromData:(NSData*)xmlData;
 -(void)processSubThreadFromData:(NSData*)xmlData;
 
-@property id<czzXMLProcessorDelegate> delegate;
+@property (weak, nonatomic) id<czzXMLProcessorDelegate> delegate;
 @end

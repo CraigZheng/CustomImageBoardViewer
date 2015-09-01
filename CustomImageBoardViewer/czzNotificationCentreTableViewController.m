@@ -8,6 +8,8 @@
 
 #import "czzNotificationCentreTableViewController.h"
 #import "czzNotificationManager.h"
+#import "czzNavigationController.h"
+#import "czzNotificationBannerViewController.h"
 #import "czzImageCentre.h"
 #import "czzImageDownloader.h"
 #import "czzFeedbackViewController.h"
@@ -16,7 +18,7 @@
 @interface czzNotificationCentreTableViewController ()<UIDocumentInteractionControllerDelegate, UIActionSheetDelegate>
 @property czzNotificationManager *notificationManager;
 @property czzImageCentre *imageCentre;
-@property NSString *imageFolder;
+@property (strong, nonatomic) NSString *imageFolder;
 @property UIDocumentInteractionController *documentInteractionController;
 @property UIActionSheet *openLinkActionSheet;
 @end
@@ -59,7 +61,7 @@
         notifications = [NSMutableOrderedSet orderedSetWithArray:sortedArray];
     }
     @catch (NSException *exception) {
-        NSLog(@"%@", exception);
+        DLog(@"%@", exception);
     }
 }
 
@@ -73,9 +75,15 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(thumbnailDownloaded:) name:@"ThumbnailDownloaded" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaderUpdated:) name:@"ImageDownloaderProgressUpdated" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ImageDownloaded" object:nil];
-    NSLog(@"tableview content size %@", [NSValue valueWithCGSize:self.tableView.contentSize]);
-    NSLog(@"tableview bound size %@", [NSValue valueWithCGSize:self.tableView.bounds.size]);
+    DLog(@"tableview content size %@", [NSValue valueWithCGSize:self.tableView.contentSize]);
+    DLog(@"tableview bound size %@", [NSValue valueWithCGSize:self.tableView.bounds.size]);
     [self.view bringSubviewToFront:self.tableView];
+    
+    //dismiss banner view - if any
+    czzNotificationBannerViewController *bannerViewController = [(czzNavigationController*)self.navigationController notificationBannerViewController];
+    if (bannerViewController) {
+        [bannerViewController dismissAction:nil];
+    }
 }
 
 -(void)viewDidDisappear:(BOOL)animated {
@@ -161,25 +169,8 @@
 -(void)presentFeedbackViewControllerWithNotification:(czzNotification*)notification {
     czzFeedbackViewController *feedbackViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"feedback_view_controller"];
     feedbackViewController.myNotification = notification;
-    //        [self.navigationController pushViewController:feedbackViewController animated:YES];
-    [[czzAppDelegate sharedAppDelegate].homeViewController pushViewController:feedbackViewController :YES];
-}
+    [self.navigationController pushViewController:feedbackViewController animated:YES];
 
-#pragma mark - download tapped images
-- (IBAction)userTapInImage:(id)sender {
-    UITapGestureRecognizer *tapGestureRecognizer = (UITapGestureRecognizer*)sender;
-    CGPoint tapLocation = [tapGestureRecognizer locationInView:self.tableView];
-    NSIndexPath *tapIndexPath = [self.tableView indexPathForRowAtPoint:tapLocation];
-    czzNotification *tappedNotification = [notifications objectAtIndex:tapIndexPath.row];
-    for (NSString *file in [[czzImageCentre sharedInstance] currentLocalImages]) {
-        if ([file.lastPathComponent.lowercaseString isEqualToString:tappedNotification.imgSrc.lastPathComponent.lowercaseString])
-        {
-            [self showDocumentController:file];
-            return;
-        }
-    }
-    [[czzImageCentre sharedInstance] downloadImageWithURL:tappedNotification.imgSrc isCompletedURL:YES];
-    [[czzAppDelegate sharedAppDelegate] showToast:@"正在下载图片"];
 }
 
 //show documentcontroller

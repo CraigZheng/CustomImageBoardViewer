@@ -186,6 +186,7 @@
     }
     if (self.displayActionButton) {
         _actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(actionButtonPressed:)];
+        self.actionButton = _actionButton;
     }
     
 
@@ -255,8 +256,8 @@
 
     // Left button - Grid
     /////////////////////////////
-    //add quit button
-    [items addObject:[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStylePlain target:self action:@selector(doneButtonPressed:)]];
+//    //add quit button
+//    [items addObject:[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStylePlain target:self action:@selector(doneButtonPressed:)]];
     /////////////////////////////
 
     if (_enableGrid) {

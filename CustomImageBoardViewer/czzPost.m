@@ -10,7 +10,7 @@
 
 @implementation czzPost
 @synthesize name, email,title, content, imgData, access_token;
-@synthesize parentID, forumName;
+@synthesize parentID, forum;//forumName;
 @synthesize forumID;
 
 //during the initialisation, init the access token with data from the last time
@@ -35,22 +35,28 @@
             
             NSMutableData *requestData = [NSMutableData new];
             //init the access_token from file
-            if (forumName && forumName.length > 0){
-                [params setObject:forumName forKey:@"forumName"];
+//            if (forumName && forumName.length > 0){
+//                [params setObject:forumName forKey:@"forumName"];
+//                
+//                NSData *forumData = [[NSString stringWithFormat:@"&forumName=%@", forumName] dataUsingEncoding:NSUTF8StringEncoding];
+//                [requestData appendData:forumData];
+//            }
+            if (forum) {
+                [params setObject:[NSString stringWithFormat:@"%ld", (long) forum.forumID] forKey:@"fid"];
                 
-                NSData *forumData = [[NSString stringWithFormat:@"&forumName=%@", forumName] dataUsingEncoding:NSUTF8StringEncoding];
+                NSData *forumData = [[NSString stringWithFormat:@"&fid=%ld", (long)forum.forumID] dataUsingEncoding:NSUTF8StringEncoding];
                 [requestData appendData:forumData];
             }
             if (forumID && forumID.length > 0) {
-                [params setObject:forumID forKey:@"forum"];
+                [params setObject:forumID forKey:@"fid"];
                 
-                NSData *forumIDData = [[NSString stringWithFormat:@"&forum=%@", forumID] dataUsingEncoding:NSUTF8StringEncoding];
+                NSData *forumIDData = [[NSString stringWithFormat:@"&fid=%@", forumID] dataUsingEncoding:NSUTF8StringEncoding];
                 [requestData appendData:forumIDData];
             }
             if (parentID > 0){
-                [params setObject:[NSString stringWithFormat:@"%d", parentID] forKey:@"parentID"];
+                [params setObject:[NSString stringWithFormat:@"%ld", (long)parentID] forKey:@"resto"];
                 
-                NSString *parentIDPara = [NSString stringWithFormat:@"&parentID=%ld", (long)parentID];
+                NSString *parentIDPara = [NSString stringWithFormat:@"&resto=%ld", (long)parentID];
                 [requestData appendData:[parentIDPara dataUsingEncoding:NSUTF8StringEncoding]];
             }
             if (access_token){
@@ -115,7 +121,7 @@
         }
     }
     @catch (NSException *exception) {
-        NSLog(@"%@", exception);
+        DLog(@"%@", exception);
     }
     return nil;
 }
@@ -140,7 +146,7 @@
     const unsigned char *dataBuffer = [data bytes];
     NSInteger i;
     for (i=0; i<[data length]; ++i) {
-        [stringBuffer appendFormat:@"%02X", (NSUInteger)dataBuffer[i]];
+        [stringBuffer appendFormat:@"%02lX", (unsigned long)dataBuffer[i]];
     }
     
     return stringBuffer;

@@ -15,26 +15,112 @@
 #import "czzSettingsCentre.h"
 #import "czzPost.h"
 #import "czzPostSender.h"
+#import "czzHomeViewModelManager.h"
+#import "czzThreadViewModelManager.h"
+#import "czzHistoryManager.h"
 #import "PropertyUtil.h"
 
 
-@interface CustomImageBoardViewerTests : XCTestCase<czzNotificationDownloaderDelegate, czzPostSenderDelegate>
-@property BOOL done;
+@interface CustomImageBoardViewerTests : XCTestCase<czzNotificationDownloaderDelegate, czzPostSenderDelegate, czzHomeViewModelManagerDelegate>
+@property (assign, nonatomic) BOOL done;
+@property czzHomeViewModelManager *threadList;
+@property czzThreadViewModelManager *subThreadList;
 @end
 
 @implementation CustomImageBoardViewerTests
 @synthesize done;
+@synthesize threadList;
+@synthesize subThreadList;
+
 
 - (void)setUp
 {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
+    threadList = [czzHomeViewModelManager new];
+    threadList.delegate = self;
+    threadList.forumName = @"日记";
+    
+    czzThread *parentThread = [czzThread new];
+    parentThread.ID = 5361014;
+    parentThread.content = [[NSAttributedString alloc] initWithString:NSStringFromSelector(_cmd) attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12]}];
+    
+    subThreadList = [[czzThreadViewModelManager alloc] initWithParentThread:parentThread];
+    subThreadList.delegate = self;
+
 }
 
 - (void)tearDown
 {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
+}
+
+-(void)testHistoryManager {
+    czzThread *thread = [czzThread new];
+    thread.ID = 5361014;
+    thread.content = [[NSAttributedString alloc] initWithString:NSStringFromSelector(_cmd) attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12]}];
+    [historyManager clearRecord];
+    [historyManager recordThread:thread];
+    XCTAssert([historyManager browserHistory].count > 0);
+    
+    //adding same thread
+    czzThread *thread2 = [czzThread new];
+    thread2.ID = 5361014;
+    thread2.content = [[NSAttributedString alloc] initWithString:NSStringFromSelector(_cmd) attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12]}];
+    [historyManager recordThread:thread2];
+
+    XCTAssert([historyManager browserHistory].count == 1);
+
+    //adding different thread
+    czzThread* thread3 = [czzThread new];
+    thread3.ID = 239857019;
+    thread3.content = [[NSAttributedString alloc] initWithString:@"dfgajnlgakml" attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12]}];
+
+    [historyManager recordThread:thread3];
+    XCTAssert([historyManager browserHistory].count == 2);
+    
+    //test saving and restoring sate
+    [historyManager saveCurrentState];
+    NSMutableOrderedSet *set = [[czzHistoryManager new] browserHistory];
+    XCTAssert(set.count != 0);
+    
+    //test clearing state
+    [historyManager clearRecord];
+    set = [[czzHistoryManager new] browserHistory];
+    XCTAssert(set.count == 0);
+
+}
+
+-(void)testSubThreadListDownload {
+    [subThreadList refresh];
+    [self waitForCompletion:10];
+    
+    NSInteger refreshThreadCount = subThreadList.threads.count;
+    XCTAssertTrue(refreshThreadCount > 10);
+}
+
+-(void)testSubThreadListLoadMore {
+    [subThreadList loadMoreThreads:3];
+    [self waitForCompletion:30];
+    XCTAssertTrue(subThreadList.threads.count > subThreadList.lastBatchOfThreads.count, @"thread list count: %d, refresh thread count: %d", subThreadList.threads.count, subThreadList.lastBatchOfThreads.count);
+}
+
+-(void)testThreadListDownload {
+    [threadList refresh];
+    [self waitForCompletion:20];
+    
+    NSInteger refreshThreadCount = threadList.threads.count;
+    XCTAssertTrue(refreshThreadCount > 0);
+
+}
+
+-(void)testThreadListLoadMore {
+    [threadList loadMoreThreads];
+    [self waitForCompletion:30];
+    
+    XCTAssertTrue(threadList.threads.count > 0);
+    XCTAssertTrue(threadList.threads.count > threadList.lastBatchOfThreads.count);
 }
 
 -(void)testSettingsCentre {
@@ -97,13 +183,15 @@
     done = NO;
     czzNotificationDownloader *downloader = [czzNotificationDownloader new];
     downloader.delegate = self;
-    [downloader downloadNotificationWithVendorID:[czzAppDelegate sharedAppDelegate].vendorID];
+    [downloader downloadNotificationWithVendorID:AppDelegate.vendorID];
     
     XCTAssertTrue([self waitForCompletion:5.0], @"Timeout");
 
 }
 
 -(void)testPostSenderReply {
+    return;
+    
     czzPostSender *postSender = [czzPostSender new];
     postSender.delegate = self;
     postSender.targetURL = [NSURL URLWithString:@"http://h.acfun.tv/api/t/4010298/create"];
@@ -122,6 +210,8 @@
 }
 
 -(void)testPostSenderWithImage {
+    return;
+    
     czzPostSender *postSender = [czzPostSender new];
     postSender.delegate = self;
     postSender.targetURL = [NSURL URLWithString:@"http://h.acfun.tv/api/t/4010298/create"];
@@ -163,6 +253,23 @@
 -(void)statusReceived:(BOOL)status message:(NSString *)message {
     NSLog(@"message: %@", message);
     XCTAssertTrue(status, @"status not YES");
+    done = YES;
+}
+
+#pragma mark - czzThreadListProtocol 
+-(void)viewModelManager:(czzHomeViewModelManager *)threadList downloadSuccessful:(BOOL)wasSuccessful {
+    NSLog(@"thread list downloaded: %@", wasSuccessful ? @"successed" : @"failed");
+    XCTAssertTrue(wasSuccessful);
+}
+
+-(void)viewModelManager:(czzHomeViewModelManager *)threadList processedThreadData:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
+    NSLog(@"thread list processed");
+    done = YES;
+}
+
+-(void)viewModelManager:(czzHomeViewModelManager *)threadList processedSubThreadData:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
+    DLog(@"%@", NSStringFromSelector(_cmd));
+    XCTAssertTrue(wasSuccessul);
     done = YES;
 }
 
