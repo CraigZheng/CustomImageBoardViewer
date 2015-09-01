@@ -26,6 +26,7 @@
 - (void)renderContent {
     @try {
         if (self.isPresented) {
+            self.view.backgroundColor = [settingCentre viewBackgroundColour];
             NSString *commandLabelString;
             [self.loadingActivityIndicator stopAnimating];
             switch (self.cellType) {

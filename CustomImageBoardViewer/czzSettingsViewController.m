@@ -254,7 +254,6 @@
             //下载图片
             settingsCentre.userDefShouldDisplayThumbnail = switchControl.on;
             [AppDelegate showToast:@"更改图片显示设置..."];
-            [[czzHomeViewModelManager sharedManager] reloadData];
         }
         else if ([command isEqualToString:@"图片下载完毕自动打开"]){
             //自动打开图片
@@ -284,6 +283,7 @@
             [self.settingsTableView reloadData];
         }
         [settingsCentre saveSettings];
+        [[czzHomeViewModelManager sharedManager] reloadData];
     }
 }
 

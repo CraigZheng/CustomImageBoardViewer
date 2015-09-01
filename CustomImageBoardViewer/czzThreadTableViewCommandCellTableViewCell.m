@@ -13,11 +13,12 @@
 
 @implementation czzThreadTableViewCommandCellTableViewCell
 
-#pragma mark - Setters
-- (void)setCellType:(czzThreadViewCommandStatusCellViewType)cellType {
-    self.commandStatusViewController.cellType = cellType;
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.contentView.backgroundColor = [settingCentre viewBackgroundColour];
 }
 
+#pragma mark - Setters
 - (void)setCommandStatusViewController:(czzThreadViewCommandStatusCellViewController *)commandStatusViewController {
     if (self.contentView.window) {
         _commandStatusViewController = commandStatusViewController;

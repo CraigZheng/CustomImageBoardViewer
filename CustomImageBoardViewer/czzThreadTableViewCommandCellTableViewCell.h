@@ -13,7 +13,6 @@
 #import "czzThreadViewCommandStatusCellViewController.h"
 
 @interface czzThreadTableViewCommandCellTableViewCell : UITableViewCell
-@property (nonatomic, assign) czzThreadViewCommandStatusCellViewType cellType;
 @property (nonatomic, assign) czzThreadViewCommandStatusCellViewController *commandStatusViewController;
 
 @end
