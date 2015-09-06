@@ -17,11 +17,13 @@
 @end
 
 @interface czzURLDownloader : NSObject<NSURLConnectionDataDelegate>
-@property (strong, nonatomic) NSURL *targetURL;
 @property (weak, nonatomic) id<czzURLDownloaderProtocol>  delegate;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskID;
 
--(id)initWithTargetURL:(NSURL*)url delegate:(id<czzURLDownloaderProtocol>)delegate startNow:(BOOL)now;
+-(instancetype)initWithTargetURL:(NSURL*)url delegate:(id<czzURLDownloaderProtocol>)delegate startNow:(BOOL)now;
++(void)sendSynchronousRequestWithURL:(NSURL*)url completionHandler:(void(^)(BOOL success, NSData *downloadedData, NSError *error))completionHandler;
+
+
 -(void)start;
 -(void)stop;
 @end

@@ -13,36 +13,40 @@
 @interface czzURLDownloader()
 @property NSURLConnection *urlConn;
 @property NSMutableData *receivedData;
+@property (strong, nonatomic) NSURL *targetURL;
 @property NSUInteger expectedLength;
 @end
 
 @implementation czzURLDownloader
 @synthesize urlConn;
-@synthesize targetURL;
 @synthesize receivedData;
 @synthesize expectedLength;
 @synthesize backgroundTaskID;
 
--(id)initWithTargetURL:(NSURL *)url delegate:(id<czzURLDownloaderProtocol>)delegate startNow:(BOOL)now{
++(void)sendSynchronousRequestWithURL:(NSURL *)url completionHandler:(void (^)(BOOL, NSData *, NSError *))completionHandler {
+    czzURLDownloader *urlDownload = [czzURLDownloader new];
+    urlDownload.targetURL = url;
+    
+    NSData *downloadedData;
+    NSURLResponse *response;
+    NSError *error;
+    downloadedData = [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:urlDownload.targetURL] returningResponse:&response error:&error];
+    
+    completionHandler(!error, downloadedData, error);
+}
+
+-(instancetype)initWithTargetURL:(NSURL *)url delegate:(id<czzURLDownloaderProtocol>)delegate startNow:(BOOL)now{
     self = [super init];
     if (self){
-        // Add bundle identifier and app ID to the target URL
-        NSString *targetURLString = url.absoluteString;
-        if (![targetURLString hasSuffix:@"?"]) {
-            targetURLString = [targetURLString stringByAppendingString:@"?"]; // Adding ? sign at the end to allow parsing by PHP.
-        }
-        targetURLString = [targetURLString stringByAppendingFormat:@"&version=%@", [UIApplication bundleVersion]];
-        targetURLString = [targetURLString stringByAppendingFormat:@"&appID=%@", [UIApplication appId]];
-        
-        targetURL = [NSURL URLWithString:targetURLString];
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:targetURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:20];
+        self.targetURL = url;
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:self.targetURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:20];
         [request setHTTPShouldHandleCookies:YES];
         [request setHTTPMethod:@"GET"];
         [request setValue:@"application/xml" forHTTPHeaderField:@"Accept"];
         [request setValue:[NSString stringWithFormat:@"HavfunClient-%@", [DeviceHardware platform]] forHTTPHeaderField:@"User-Agent"];
         urlConn = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:now];
         if (now)
-            DLog(@"%@ make request to: %@", NSStringFromClass(self.class), targetURL);
+            DLog(@"%@ make request to: %@", NSStringFromClass(self.class), self.targetURL);
         self.delegate = delegate;
     }
     return self;
@@ -50,11 +54,28 @@
 
 -(void)start{
     [urlConn start];
-    DLog(@"%@ make request to: %@", NSStringFromClass(self.class), targetURL);
+    DLog(@"%@ make request to: %@", NSStringFromClass(self.class), self.targetURL);
 }
 
 -(void)stop{
     [urlConn cancel];
+}
+
+#pragma mark - Setters
+-(void)setTargetURL:(NSURL *)targetURL {
+    if ((!_targetURL)) {
+        // Add bundle identifier and app ID to the target URL
+        NSString *targetURLString = targetURL.absoluteString;
+        if (![targetURLString hasSuffix:@"?"]) {
+            targetURLString = [targetURLString stringByAppendingString:@"?"]; // Adding ? sign at the end to allow parsing by PHP.
+        }
+        targetURLString = [targetURLString stringByAppendingFormat:@"&version=%@", [UIApplication bundleVersion]];
+        targetURLString = [targetURLString stringByAppendingFormat:@"&appID=%@", [UIApplication appId]];
+        
+        _targetURL = [NSURL URLWithString:targetURLString];
+    } else {
+        _targetURL = targetURL;
+    }
 }
 
 #pragma NSURLConnectionDelegate
@@ -86,6 +107,6 @@
         [self.delegate downloadOf:connection.currentRequest.URL successed:YES result:self.receivedData];
     }
     [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskID];
-
+    
 }
 @end

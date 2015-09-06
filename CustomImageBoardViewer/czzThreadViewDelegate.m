@@ -112,23 +112,23 @@
 
 #pragma mark - czzMenuEnableTableViewCellDelegate
 - (void)userTapInQuotedText:(NSString *)text {
-#warning REMOVE AFTER DEBUG
-//    // Text cannot be parsed to an integer, return...
-//    if (!text.integerValue) {
-//        return;
-//    }
-//    for (czzThread *thread in self.viewModelManager.threads) {
-//        if (thread.ID == text.integerValue) {
-//            self.threadsTableViewContentOffSet = self.myTableView.contentOffset;
-//            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.viewModelManager.threads indexOfObject:thread] inSection:0];
-//            [self.myTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:NO];
-//            [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-//                [self highlightTableViewCell:[self.myTableView cellForRowAtIndexPath:indexPath]];
-//            }];
-//            return;
-//        }
-//    }
-//
+    // Text cannot be parsed to an integer, return...
+    if (!text.integerValue) {
+        return;
+    }
+    for (czzThread *thread in self.viewModelManager.threads) {
+        if (thread.ID == text.integerValue) {
+            self.threadsTableViewContentOffSet = self.myTableView.contentOffset;
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.viewModelManager.threads indexOfObject:thread] inSection:0];
+            [self.myTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:NO];
+            [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+                [self highlightTableViewCell:[self.myTableView cellForRowAtIndexPath:indexPath]];
+            }];
+            return;
+        }
+    }
+
+    // Thread not found in the downloaded thread, get it from server instead.
     [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"正在下载: %ld", (long)text.integerValue]];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         czzThread * thread = [[czzThread alloc] initWithThreadID:text.integerValue];

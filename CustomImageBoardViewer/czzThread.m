@@ -14,6 +14,7 @@
 #import "czzImageCentre.h"
 #import "NSString+HTML.h"
 #import "czzSettingsCentre.h"
+#import "czzURLDownloader.h"
 
 @interface czzThread()
 @end
@@ -30,19 +31,16 @@
 
 -(instancetype)initWithThreadID:(NSInteger)threadID {
     NSString *threadURLString = [[settingCentre quote_thread_host] stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long)threadID]];
-    NSURLResponse *response;
-    NSData *data = [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:threadURLString]] returningResponse:&response error:nil];
-    if (data)
-    {
-        NSError *error;
-        NSDictionary *rawJson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-        if (!error) {
-            czzThread *resultThread = [[czzThread alloc] initWithJSONDictionary:rawJson];
-            return resultThread;
+    __block czzThread *thread;
+    [czzURLDownloader sendSynchronousRequestWithURL:[NSURL URLWithString:threadURLString] completionHandler:^(BOOL success, NSData *downloadedData, NSError *error) {
+        if (success) {
+            NSDictionary *rawJson = [NSJSONSerialization JSONObjectWithData:downloadedData options:NSJSONReadingMutableContainers error:&error];
+            if (!error)
+                thread = [[czzThread alloc] initWithJSONDictionary:rawJson];
         }
-    }
+    }];
     
-    return nil;
+    return thread;
 }
 
 /*
