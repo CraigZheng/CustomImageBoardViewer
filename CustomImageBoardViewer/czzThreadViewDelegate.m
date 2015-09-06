@@ -16,6 +16,7 @@
 @end
 
 @implementation czzThreadViewDelegate
+@dynamic viewModelManager;
 
 -(instancetype)init {
     self = [super init];
@@ -32,6 +33,7 @@
     return self;
 }
 
+#pragma mark - UI managements.
 -(void)highlightTableViewCell:(UITableViewCell*)tableviewcell{
     //disable the scrolling view
     self.myTableView.scrollEnabled = NO;
@@ -110,27 +112,35 @@
 
 #pragma mark - czzMenuEnableTableViewCellDelegate
 - (void)userTapInQuotedText:(NSString *)text {
-    // Text cannot be parsed to an integer, return...
-    if (!text.integerValue) {
-        return;
-    }
-    for (czzThread *thread in self.viewModelManager.threads) {
-        if (thread.ID == text.integerValue) {
-            self.threadsTableViewContentOffSet = self.myTableView.contentOffset;
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.viewModelManager.threads indexOfObject:thread] inSection:0];
-            [self.myTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:NO];
-            [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-                [self highlightTableViewCell:[self.myTableView cellForRowAtIndexPath:indexPath]];
-            }];
-            return;
-        }
-    }
-    czzThread *dummyParentThread = [czzThread new];
-    dummyParentThread.ID = text.integerValue;
-    czzThreadViewModelManager *threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:dummyParentThread andForum:nil];
-    czzThreadViewController *threadViewController = [[UIStoryboard storyboardWithName:THREAD_VIEW_CONTROLLER_STORYBOARD_NAME bundle:nil] instantiateViewControllerWithIdentifier:THREAD_VIEW_CONTROLLER_ID];
-    threadViewController.viewModelManager = threadViewModelManager;
-    [NavigationManager pushViewController:threadViewController animated:YES];
+#warning REMOVE AFTER DEBUG
+//    // Text cannot be parsed to an integer, return...
+//    if (!text.integerValue) {
+//        return;
+//    }
+//    for (czzThread *thread in self.viewModelManager.threads) {
+//        if (thread.ID == text.integerValue) {
+//            self.threadsTableViewContentOffSet = self.myTableView.contentOffset;
+//            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.viewModelManager.threads indexOfObject:thread] inSection:0];
+//            [self.myTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:NO];
+//            [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+//                [self highlightTableViewCell:[self.myTableView cellForRowAtIndexPath:indexPath]];
+//            }];
+//            return;
+//        }
+//    }
+//
+    [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"正在下载: %ld", (long)text.integerValue]];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        czzThread * thread = [[czzThread alloc] initWithThreadID:text.integerValue];
+        // After return, run the remaining codes in main thread.
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (thread) {
+                [self.viewModelManager showContentWithThread:thread];
+            } else {
+                [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"找不到引用串：%ld", thread.ID]];
+            }
+        });
+    });
 }
 
 +(instancetype)initWithViewModelManager:(czzThreadViewModelManager *)viewModelManager {

@@ -23,7 +23,7 @@
 #import "czzSettingsCentre.h"
 #import "czzNavigationController.h"
 
-@interface czzSearchViewController ()<UIAlertViewDelegate, UIWebViewDelegate, czzMiniThreadViewControllerProtocol>
+@interface czzSearchViewController ()<UIAlertViewDelegate, UIWebViewDelegate>
 @property czzThread *selectedParentThread;
 @property NSArray *searchResult;
 @property UIAlertView *searchInputAlertView;
@@ -230,23 +230,5 @@
     [userDef synchronize];
 }
 
-#pragma mark - czzMiniThreadViewControllerProtocol
--(void)miniThreadViewFinishedLoading:(BOOL)successful {
-    if (!successful) {
-        [AppDelegate.window makeToast:[NSString stringWithFormat:@"无法下载:%ld", (long)miniThreadView.threadID]];
-        return;
-    }
-    if (self.isViewLoaded && self.view.window)
-        [self presentViewController:miniThreadView animated:YES completion:nil];
 
-}
-
--(void)miniThreadWantsToOpenThread:(czzThread *)thread {
-    if (!thread)
-        return;
-    [self dismissViewControllerAnimated:YES completion:^{
-        selectedParentThread = thread;
-        [self performSegueWithIdentifier:showThreadViewSegueIdentifier sender:self];
-    }];
-}
 @end

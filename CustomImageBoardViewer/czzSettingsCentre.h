@@ -43,6 +43,7 @@
 @property (strong, nonatomic) NSString *a_isle_host;
 @property (strong, nonatomic) NSString *thread_list_host;
 @property (strong, nonatomic) NSString *thread_content_host;
+@property (strong, nonatomic) NSString *quote_thread_host;
 @property (strong, nonatomic) NSString *image_host;
 @property (strong, nonatomic) NSString *thumbnail_host;
 @property (strong, nonatomic) NSString *message;

@@ -32,7 +32,7 @@
 
 NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
-@interface czzThreadViewController ()<UIAlertViewDelegate, czzMiniThreadViewControllerProtocol>
+@interface czzThreadViewController ()<UIAlertViewDelegate>
 @property (strong, nonatomic) NSIndexPath *selectedIndex;
 @property (strong, nonatomic) czzRightSideViewController *threadMenuViewController;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
@@ -214,27 +214,13 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [self.threadTableView reloadData];
 }
 
-
-#pragma mark - czzMiniThreadViewProtocol
--(void)miniThreadViewFinishedLoading:(BOOL)successful {
-    DLog(@"%@", NSStringFromSelector(_cmd));
-    if (!successful) {
-        [AppDelegate.window makeToast:[NSString stringWithFormat:@"无法下载:%ld", (long)miniThreadView.threadID]];
-        
-    } else if (self.isPresented)
-        [self presentViewController:miniThreadView animated:YES completion:nil];
+#pragma mark - czzThreadViewModelManagerDelegate
+- (void)viewModelManager:(czzThreadViewModelManager *)viewModelManager wantsToShowContentForThread:(czzThread *)thread {
+    self.miniThreadView = [czzMiniThreadViewController new];
+    self.miniThreadView.myThread = thread;
+    [self.miniThreadView show];
 }
 
--(void)miniThreadWantsToOpenThread:(czzThread*)thread {
-    [self dismissViewControllerAnimated:YES completion:^{
-        czzThreadViewController *openThreadViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"thread_view_controller"];
-        self.viewModelManager.parentThread = thread;
-        openThreadViewController.viewModelManager = self.viewModelManager;
-        [self.navigationController pushViewController:openThreadViewController animated:YES];
-    }];
-}
-
-#pragma mark - czzSubthreadViewModelManagerProtocol
 - (void)viewModelManager:(czzHomeViewModelManager *)viewModelManager wantsToScrollToContentOffset:(CGPoint)offset {
     // If not CGPointZero
     if (!CGPointEqualToPoint(CGPointZero, offset) && self.threadTableView) {

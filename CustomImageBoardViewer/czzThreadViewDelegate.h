@@ -10,6 +10,7 @@
 #import "czzThreadViewModelManager.h"
 
 @interface czzThreadViewDelegate : czzHomeViewDelegate
+@property (weak, nonatomic) czzThreadViewModelManager *viewModelManager;
 
 +(instancetype)initWithViewModelManager:(czzThreadViewModelManager *)viewModelManager;
 @end

@@ -29,9 +29,9 @@
 }
 
 -(instancetype)initWithThreadID:(NSInteger)threadID {
-    NSString *target = [[[settingCentre thread_content_host] stringByReplacingOccurrencesOfString:kParentID withString:[NSString stringWithFormat:@"%ld", (long)threadID]] stringByReplacingOccurrencesOfString:kPageNumber withString:@"1"];
+    NSString *threadURLString = [[settingCentre quote_thread_host] stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long)threadID]];
     NSURLResponse *response;
-    NSData *data = [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:target]] returningResponse:&response error:nil];
+    NSData *data = [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:threadURLString]] returningResponse:&response error:nil];
     if (data)
     {
         NSError *error;
@@ -111,14 +111,15 @@
             self.postDateTime = [NSDate dateWithTimeIntervalSince1970:[[data objectForKey:@"createdAt"] doubleValue] / 1000.0];
             self.updateDateTime = [NSDate dateWithTimeIntervalSince1970:[[data objectForKey:@"updatedAt"] doubleValue] / 1000.0];
             //UID might have different colour, but I am setting any colour other than default to red at the moment
-            NSString *uidString = [data objectForKey:@"uid"];
-            NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[self renderHTMLToAttributedString:uidString].string];
-            //if the given string contains keyword "color", then render it red to indicate its important
-            if ([uidString.lowercaseString rangeOfString:@"color"].location != NSNotFound) {
-                [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, attrString.length)];
+            NSString *uidString = [data objectForKey:@"uid"] ? [data objectForKey:@"uid"] : [data objectForKey:@"userid"];
+            if (uidString.length) {
+                NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[self renderHTMLToAttributedString:uidString].string];
+                //if the given string contains keyword "color", then render it red to indicate its important
+                if ([uidString.lowercaseString rangeOfString:@"color"].location != NSNotFound) {
+                    [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, attrString.length)];
+                }
+                self.UID = attrString;
             }
-            self.UID = attrString;
-            
             self.name = [data objectForKey:@"name"];
             self.email = [data objectForKey:@"email"];
             self.title = [data objectForKey:@"title"];
@@ -131,9 +132,20 @@
             }
             else
                 self.content = [self renderHTMLToAttributedString:[NSString stringWithString:[data objectForKey:@"content"]]];
+            // The server returns 2 different sets of API with minor differences: either a single "image" with an image path, or
+            // 2 fields: "img" and "ext" that together, form an image path.
+            if (![data objectForKey:@"image"]) {
+                NSString *img = [data objectForKey:@"img"] ? [data objectForKey:@"img"] : @"";
+                NSString *extension = [data objectForKey:@"ext"] ? [data objectForKey:@"ext"] : @"";
+                self.imgSrc = [NSString stringWithFormat:@"%@%@", img, extension];
+            } else {
+                self.imgSrc = [data objectForKey:@"image"];
+            }
             
-            self.imgSrc = [data objectForKey:@"image"];
             self.thImgSrc = [data objectForKey:@"thumb"];
+            if (!self.thImgSrc) {
+                self.thImgSrc = self.imgSrc;
+            }
             self.lock = [[data objectForKey:@"lock"] boolValue];
             self.sage = [[data objectForKey:@"sage"] boolValue];
             self.responseCount = [[data objectForKey:@"replyCount"] integerValue];

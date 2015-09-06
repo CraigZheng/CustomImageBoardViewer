@@ -24,7 +24,7 @@
 @synthesize refreshSettingsTimer;
 @synthesize shouldDisplayContent, shouldDisplayImage, shouldDisplayThumbnail, shouldEnableBlacklistFiltering, shouldUseRemoteConfiguration, shouldHideImageInForums;
 @synthesize configuration_refresh_interval, blacklist_refresh_interval, forum_list_refresh_interval, notification_refresh_interval;
-@synthesize a_isle_host, thread_content_host, threads_per_page, thread_format, thread_list_host, response_per_page;
+@synthesize a_isle_host, thread_content_host, threads_per_page, thread_format, thread_list_host, response_per_page, quote_thread_host;
 @synthesize message, image_host, ac_host, forum_list_url, thumbnail_host;
 @synthesize userDefShouldAutoOpenImage, userDefShouldCacheData, userDefShouldDisplayThumbnail, userDefShouldHighlightPO, userDefShouldShowOnScreenCommand ,userDefShouldUseBigImage;
 @synthesize nightyMode;
@@ -188,6 +188,7 @@
         a_isle_host = [jsonObject objectForKey:@"a_isle_host"];
         thread_list_host = [jsonObject objectForKey:@"thread_list_host"];
         thread_content_host = [jsonObject objectForKey:@"thread_content_host"];
+        quote_thread_host = [jsonObject objectForKey:@"quote_thread_host"];
         image_host = [jsonObject objectForKey:@"image_host"];
         thumbnail_host = [jsonObject objectForKey:@"thumbnail_host"];
         donationLink = [jsonObject objectForKey:@"donation_link"];
@@ -250,6 +251,7 @@
     [aCoder encodeObject:a_isle_host forKey:@"a_isle_host"];
     [aCoder encodeObject:thread_list_host forKey:@"thread_list_host"];
     [aCoder encodeObject:thread_content_host forKey:@"thread_content_host"];
+    [aCoder encodeObject:quote_thread_host forKey:@"quote_thread_host"];
     [aCoder encodeObject:image_host forKey:@"image_host"];
     [aCoder encodeObject:thumbnail_host forKey:@"thumbnail_host"];
     [aCoder encodeObject:message forKey:@"message"];
@@ -297,6 +299,7 @@
         self.a_isle_host = [aDecoder decodeObjectForKey:@"a_isle_host"];
         self.thread_list_host = [aDecoder decodeObjectForKey:@"thread_list_host"];
         self.thread_content_host = [aDecoder decodeObjectForKey:@"thread_content_host"];
+        self.quote_thread_host = [aDecoder decodeObjectForKey:@"quote_thread_host"];
         self.image_host = [aDecoder decodeObjectForKey:@"image_host"];
         self.thumbnail_host = [aDecoder decodeObjectForKey:@"thumbnail_host"];
         self.donationLink = [aDecoder decodeObjectForKey:@"donationLink"];

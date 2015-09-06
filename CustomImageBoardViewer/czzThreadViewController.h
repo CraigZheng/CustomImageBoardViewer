@@ -19,7 +19,7 @@
 
 extern NSString * const showThreadViewSegueIdentifier;
 
-@interface czzThreadViewController : UIViewController <czzHomeViewModelManagerDelegate>
+@interface czzThreadViewController : UIViewController <czzThreadViewModelManagerDelegate>
 
 @property (weak, nonatomic) IBOutlet czzThreadTableView *threadTableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *starButton;

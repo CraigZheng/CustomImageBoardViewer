@@ -16,6 +16,7 @@
 
 @implementation czzThreadViewModelManager
 @synthesize forum = _forum;
+@dynamic delegate;
 
 #pragma mark - life cycle.
 -(instancetype)initWithParentThread:(czzThread *)thread andForum:(czzForum *)forum{
@@ -96,6 +97,15 @@
         DLog(@"save state failed");
         [[NSFileManager defaultManager] removeItemAtPath:cachePath error:nil];
         return nil;
+    }
+}
+
+#pragma mark - Delegate actions
+- (void)showContentWithThread:(czzThread *)thread {
+    if (thread && [self.delegate respondsToSelector:@selector(viewModelManager:wantsToShowContentForThread:)]) {
+        [self.delegate viewModelManager:self wantsToShowContentForThread:thread];
+    } else {
+        DLog(@"Thread or delegate nil: %s", __PRETTY_FUNCTION__);
     }
 }
 

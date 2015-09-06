@@ -16,22 +16,15 @@
 #import "czzTextViewHeightCalculator.h"
 
 @interface czzMiniThreadViewController () <UITableViewDataSource, UITableViewDelegate>
-@property (nonatomic) czzThread *myThread;
 @property NSInteger parentID;
 @property CGSize rowSize;
+@property KLCPopup *popup;
 @end
 
 @implementation czzMiniThreadViewController
-@synthesize threadID;
-@synthesize myThread;
 @synthesize threadTableView;
-@synthesize delegate;
 @synthesize rowSize;
 @synthesize parentID;
-@synthesize miniThreadNaBarItem;
-@synthesize miniThreadNavBar;
-@synthesize barBackgroundView;
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -40,12 +33,6 @@
     [threadTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
     [threadTableView registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER];
     
-    //colours
-    miniThreadNavBar.barTintColor = [settingCentre barTintColour];
-    miniThreadNavBar.tintColor = [settingCentre tintColour];
-    [miniThreadNavBar
-     setTitleTextAttributes:@{NSForegroundColorAttributeName : miniThreadNavBar.tintColor}];
-    barBackgroundView.backgroundColor = [settingCentre barTintColour];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -53,41 +40,24 @@
     [AppDelegate.window hideToastActivity];
 }
 
--(void)setThreadID:(NSInteger)tID {
-    threadID = tID;
-    //start downloading content for thread id
-    [AppDelegate.window makeToastActivity];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        czzThread *resultThread = [[czzThread alloc] initWithThreadID:threadID];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            BOOL successful = NO;
-            [AppDelegate.window hideToastActivity];
-            if (resultThread) {
-                [self setMyThread:resultThread];
-                successful = YES;
-                //reset my frame to show the only table view row
-            }
-            if (delegate && [delegate respondsToSelector:@selector(miniThreadViewFinishedLoading:)])
-                [delegate miniThreadViewFinishedLoading:successful];
-            miniThreadNaBarItem.title = myThread.title;
-            miniThreadNaBarItem.backBarButtonItem.title = self.title;
-            
-        });
-    });
-}
-
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 }
 
+-(void)show{
+    self.popup = [KLCPopup popupWithContentView:self.view showType:KLCPopupShowTypeFadeIn dismissType:KLCPopupDismissTypeFadeOut maskType:KLCPopupMaskTypeDimmed dismissOnBackgroundTouch:YES dismissOnContentTouch:YES];
+    [self.threadTableView reloadData];
+    [self.popup show];
+}
+
 -(void)setMyThread:(czzThread *)thread {
-    myThread = thread;
+    _myThread = thread;
     [self.threadTableView reloadData];
 }
 
 #pragma mark -uitableview datasource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return myThread ? 1 : 0;
+    return self.myThread ? 1 : 0;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -96,44 +66,29 @@
     czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell) {
         cell.shouldHighlight = NO;
-        cell.parentThread = myThread;
-        cell.myThread = myThread;
+        cell.parentThread = self.myThread;
+        cell.myThread = self.myThread;
     }
     return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat preferHeight = tableView.rowHeight;
-    preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:myThread inView:self.view hasImage:myThread.thImgSrc.length > 0];
+    preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:self.myThread inView:self.view hasImage:self.myThread.thImgSrc.length > 0];
     preferHeight = MAX(tableView.rowHeight, preferHeight);
     rowSize = CGSizeMake(self.view.frame.size.width, preferHeight);
 
+    self.threadTableViewHeight.constant = preferHeight;
     return preferHeight;
 }
 
-#pragma mark - uitableview delegate
-- (IBAction)cancelButtonAction:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (IBAction)openThreadAction:(id)sender {
-    [AppDelegate.window makeToastActivity];
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        czzThread *parentThread = [[czzThread alloc] initWithThreadID:myThread.parentID ? myThread.parentID : myThread.ID];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (parentThread) {
-                if (delegate && [delegate respondsToSelector:@selector(miniThreadWantsToOpenThread:)])
-                    [delegate miniThreadWantsToOpenThread:parentThread];
-            } else {
-                [AppDelegate.window makeToast:@"无法打开！"];
-            }
-            [AppDelegate.window hideToastActivity];
-        });
-    });
-}
 
 #pragma mark - rotation event
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [threadTableView reloadData];
+}
+
++ (instancetype)new {
+    return [[UIStoryboard storyboardWithName:@"MiniThreadView" bundle:nil] instantiateViewControllerWithIdentifier:@"mini_thread_view_controller"];
 }
 @end

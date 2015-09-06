@@ -26,8 +26,9 @@
   "a_isle_host": "http://h.nimingban.com/",
   "thread_list_host": "http://h.nimingban.com/api/<kForum>?page=<kPageNumber>",
   "thread_content_host": "http://h.nimingban.com/api/t/<kParentID>?page=<kPageNumber>",
+  "quote_thread_host": "http://h.nimingban.com/Api/ref/id/<kThreadID>",
   "thumbnail_host": "http://cdn.ovear.info:8999/",
   "image_host": "http://cdn.ovear.info:8999/",
   "donation_link": "",
-  "message": "3.0 DEBUG"
+  "message": ""
 }
