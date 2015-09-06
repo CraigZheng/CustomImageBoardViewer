@@ -36,7 +36,6 @@
 @property UIViewController *leftController;
 @property (assign, nonatomic) BOOL shouldDisplayQuickScrollCommand;
 @property (strong, nonatomic) NSString *thumbnailFolder;
-@property czzSettingsCentre *settingsCentre;
 @property (assign, nonatomic) BOOL shouldHideImageForThisForum;
 @property (assign, nonatomic) BOOL viewControllerNotInTransition;
 @property czzImageViewerUtil *imageViewerUtil;
@@ -53,7 +52,6 @@
 @synthesize leftController;
 @synthesize shouldDisplayQuickScrollCommand;
 @synthesize thumbnailFolder;
-@synthesize settingsCentre;
 @synthesize shouldHideImageForThisForum;
 @synthesize viewControllerNotInTransition;
 @synthesize imageViewerUtil;
@@ -83,12 +81,11 @@
     //progress bar
     progressView = [(czzNavigationController*) self.navigationController progressView];
     
-    //right bar button items
+    //left bar button items
     infoBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"info.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(moreInfoAction:)];
     self.navigationItem.leftBarButtonItems = @[forumListButton, infoBarButton];
 
     imageViewerUtil = [czzImageViewerUtil new];
-    settingsCentre = settingCentre;
 
     //thumbnail folder
     thumbnailFolder = [czzAppDelegate thumbnailFolder];
@@ -128,9 +125,9 @@
     [super viewDidAppear:animated];
     
     viewControllerNotInTransition = YES;
-    shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
+    shouldDisplayQuickScrollCommand = settingCentre.userDefShouldShowOnScreenCommand;
     
-    NSTimeInterval delayTime = 8.0;
+    NSTimeInterval delayTime = 4.0;
 #ifdef DEBUG
     delayTime = 9999;
 #endif
@@ -194,7 +191,7 @@
     [self addChildViewController:onScreenImgMrg];
     [onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
     
-    self.threadTableView.backgroundColor = settingsCentre.viewBackgroundColour;
+    self.threadTableView.backgroundColor = settingCentre.viewBackgroundColour;
     
     // Always reload
     [threadTableView reloadData];
@@ -392,7 +389,7 @@
         [self refreshThread:self];
         //disallow image downloading if specified by remote settings
         shouldHideImageForThisForum = false;
-        for (NSString *specifiedForum in settingsCentre.shouldHideImageInForums) {
+        for (NSString *specifiedForum in settingCentre.shouldHideImageInForums) {
             if ([specifiedForum isEqualToString:forum.name]) {
                 shouldHideImageForThisForum = true;
                 break;

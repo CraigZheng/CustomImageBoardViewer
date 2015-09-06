@@ -61,9 +61,9 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7vQ-Rb-bPA">
-                                <rect key="frame" x="260" y="376" width="40" height="40"/>
+                                <rect key="frame" x="240" y="356" width="60" height="60"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="P2C-qt-tg3"/>
+                                    <constraint firstAttribute="height" constant="60" id="P2C-qt-tg3"/>
                                     <constraint firstAttribute="width" secondItem="7vQ-Rb-bPA" secondAttribute="height" multiplier="1:1" id="Rdf-Wd-IHD"/>
                                 </constraints>
                             </containerView>
@@ -795,9 +795,9 @@
                                 </connections>
                             </tableView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Js0-yW-ln4">
-                                <rect key="frame" x="260" y="376" width="40" height="40"/>
+                                <rect key="frame" x="240" y="356" width="60" height="60"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="HQl-Ao-M9i"/>
+                                    <constraint firstAttribute="width" constant="60" id="HQl-Ao-M9i"/>
                                     <constraint firstAttribute="width" secondItem="Js0-yW-ln4" secondAttribute="height" id="veY-cY-Nbi"/>
                                 </constraints>
                             </containerView>
@@ -937,8 +937,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="DWL-6t-CEf"/>
+        <segue reference="Uep-8w-iun"/>
         <segue reference="5Fw-Ve-fjP"/>
-        <segue reference="vK6-NU-jzp"/>
+        <segue reference="DWL-6t-CEf"/>
     </inferredMetricsTieBreakers>
 </document>

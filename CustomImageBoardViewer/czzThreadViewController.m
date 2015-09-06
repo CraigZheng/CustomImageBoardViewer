@@ -68,26 +68,24 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @synthesize imageViewerUtil;
 @synthesize refreshControl;
 @synthesize onScreenImageManagerViewContainer;
-@synthesize viewModelManager;
 @synthesize progressView;
 @synthesize moreButton;
 @synthesize tableViewDataSource;
 @synthesize threadViewDelegate;
 @synthesize shouldRestoreContentOffset;
 
+#pragma mark - view controller life cycle.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    viewModelManager.delegate = self;
-    [viewModelManager restorePreviousState];
+    self.viewModelManager.delegate = self;
+    [self.viewModelManager restorePreviousState];
     
     threadTableView.dataSource = tableViewDataSource = [czzThreadTableViewDataSource initWithViewModelManager:self.viewModelManager];
-    threadTableView.delegate = threadViewDelegate = [czzThreadViewDelegate initWithViewModelManager:viewModelManager];
+    threadTableView.delegate = threadViewDelegate = [czzThreadViewDelegate initWithViewModelManager:self.viewModelManager];
     tableViewDataSource.tableViewDelegate = threadViewDelegate;
     
-    [self applyViewModel];
-
     //progress view
     progressView = [(czzNavigationController*)self.navigationController progressView];
     
@@ -103,7 +101,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [threadTableView addSubview: refreshControl];
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
 
-    self.title = viewModelManager.parentThread.title;
     self.navigationItem.backBarButtonItem.title = self.title;
     
     //if in foreground, load more threads
@@ -174,57 +171,11 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     threadTableView.delegate = nil;
 }
 
--(void)applyViewModel {
+#pragma mark - setter
+-(void)setViewModelManager:(czzThreadViewModelManager *)modelManager {
+    _viewModelManager = modelManager;
     self.title = self.viewModelManager.parentThread.title;
     [self updateBarButtons];
-}
-
-#pragma mark UITableView delegate
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    selectedIndex = indexPath;
-    if (selectedIndex.row < self.viewModelManager.threads.count){
-        czzThread *selectedThread = [self.viewModelManager.threads objectAtIndex:indexPath.row];
-        if (selectedThread){
-            [threadMenuViewController setSelectedThread:selectedThread];
-        }
-    } else {
-        [viewModelManager loadMoreThreads];
-        [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    }
-}
-
--(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
-
-}
-
--(BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row < self.viewModelManager.threads.count)
-        return YES;
-    return NO;
-}
-
--(BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender{
-    return (action == @selector(copy:));
-}
-
--(void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender{
-    
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row >= self.viewModelManager.threads.count)
-        return tableView.rowHeight;
-    
-    NSArray *heightArray = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? self.viewModelManager.verticalHeights : self.viewModelManager.horizontalHeights;
-    CGFloat preferHeight = tableView.rowHeight;
-    @try {
-        preferHeight = [[heightArray objectAtIndex:indexPath.row] floatValue];
-    }
-    @catch (NSException *exception) {
-        DLog(@"%@", exception);
-    }
-    
-    return preferHeight;
 }
 
 -(void)dragOnRefreshControlAction:(id)sender{
@@ -233,7 +184,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 #pragma mark - jump to and download controls
 -(void)PromptForJumpToPage{
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"跳页: %ld/%ld", (long) viewModelManager.pageNumber, (long) viewModelManager.totalPages] message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"跳页: %ld/%ld", (long) self.viewModelManager.pageNumber, (long) self.viewModelManager.totalPages] message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     UITextField *textInputField = [alertView textFieldAtIndex:0];
     if (textInputField)
@@ -274,12 +225,12 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
         NSInteger newPageNumber = [[[alertView textFieldAtIndex:0] text] integerValue];
         if (newPageNumber > 0){
             //clear threads and ready to accept new threads
-            [viewModelManager removeAll];
-            [viewModelManager loadMoreThreads:newPageNumber];
+            [self.viewModelManager removeAll];
+            [self.viewModelManager loadMoreThreads:newPageNumber];
             [threadTableView reloadData];
             [refreshControl beginRefreshing];
 
-            [[AppDelegate window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) viewModelManager.pageNumber]];
+            [[AppDelegate window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) self.viewModelManager.pageNumber]];
         } else {
             [[AppDelegate window] makeToast:@"页码无效..."];
         }
@@ -287,7 +238,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 -(void)refreshThread:(id)sender{
-    [viewModelManager refresh];
+    [self.viewModelManager refresh];
     [self.threadTableView reloadData];
 }
 
@@ -304,10 +255,9 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 -(void)miniThreadWantsToOpenThread:(czzThread*)thread {
     [self dismissViewControllerAnimated:YES completion:^{
-//        [self switchToParentThread:thread];
         czzThreadViewController *openThreadViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"thread_view_controller"];
-        viewModelManager.parentThread = thread;
-        openThreadViewController.viewModelManager = viewModelManager;
+        self.viewModelManager.parentThread = thread;
+        openThreadViewController.viewModelManager = self.viewModelManager;
         [self.navigationController pushViewController:openThreadViewController animated:YES];
     }];
 }
@@ -346,7 +296,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 -(void)viewModelManager:(czzHomeViewModelManager *)threadViewModelManager processedSubThreadData:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     if (wasSuccessul) {
         if (newThreads.count) {
-            [self applyViewModel];
+            self.viewModelManager = (czzThreadViewModelManager*)threadViewModelManager;
         }
     }
     [threadTableView reloadData];
@@ -406,7 +356,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 - (IBAction)shareAction:(id)sender {
     //create the thread link - hardcode it
-    NSString *threadLink = [[settingCentre share_post_url] stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long) viewModelManager.parentThread.ID]];
+    NSString *threadLink = [[settingCentre share_post_url] stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long) self.viewModelManager.parentThread.ID]];
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[[NSURL URLWithString:threadLink]] applicationActivities:nil];
     if ([activityViewController respondsToSelector:@selector(popoverPresentationController)])
         activityViewController.popoverPresentationController.sourceView = self.view;
