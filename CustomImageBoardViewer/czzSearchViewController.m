@@ -175,23 +175,24 @@
             //get final URL
             NSString *acURL = [[request.URL.absoluteString componentsSeparatedByString:@"?"].firstObject stringByDeletingPathExtension]; //only the first few components are useful, the host and the thread id
             targetURL = [NSURL URLWithString:acURL];
-            NSData *data=nil;
-            
-            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:targetURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:4];
-            NSURLResponse *response;
-            NSError *error;
-            data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-            NSURL *LastURL=[response URL];
-            
-            //from final URL get thread ID
-            NSString *threadID = [LastURL.absoluteString stringByReplacingOccurrencesOfString:[settingCentre share_post_url] withString:@""];
             [AppDelegate.window makeToast:@"请稍等..."];
-            [self downloadAndPrepareThreadWithID:threadID.integerValue];
+
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                NSData *data = nil;
+                
+                NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:targetURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:4];
+                NSURLResponse *response;
+                NSError *error;
+                data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+                NSURL *LastURL = [response URL];
+                
+                //from final URL get thread ID
+                NSString *threadID = [LastURL.absoluteString componentsSeparatedByString:@"/"].lastObject;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self downloadAndPrepareThreadWithID:threadID.integerValue];
+                });
+            });
             
-            return NO;
-            
-            //old ways
-            [self performSegueWithIdentifier:@"go_html_parser_view_controller" sender:self];
             return NO;
 
         }

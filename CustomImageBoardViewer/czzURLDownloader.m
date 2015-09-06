@@ -24,13 +24,13 @@
 @synthesize backgroundTaskID;
 
 +(void)sendSynchronousRequestWithURL:(NSURL *)url completionHandler:(void (^)(BOOL, NSData *, NSError *))completionHandler {
-    czzURLDownloader *urlDownload = [czzURLDownloader new];
-    urlDownload.targetURL = url;
+    czzURLDownloader *urlDownloader = [czzURLDownloader new];
+    urlDownloader.targetURL = url;
     
     NSData *downloadedData;
     NSURLResponse *response;
     NSError *error;
-    downloadedData = [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:urlDownload.targetURL] returningResponse:&response error:&error];
+    downloadedData = [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:urlDownloader.targetURL] returningResponse:&response error:&error];
     
     completionHandler(!error, downloadedData, error);
 }
