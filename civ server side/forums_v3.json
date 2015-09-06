@@ -1,25 +1,5 @@
 [
   {
-    "id": "999",
-    "sort": "999",
-    "name": "debug 3.0",
-    "status": "n",
-    "forums": [
-      {
-        "id": "18",
-        "fgroup": "6",
-        "sort": "1",
-        "name": "值班室",
-        "showName": "",
-        "msg": "<p>&bull;本版发文间隔为15秒。<br />\r\n&bull;请在此举报不良内容，并附上串地址以及发言者ID。如果是回复串，请附上&ldquo;回应&rdquo;链接的地址，格式为&gt;&gt;No.串ID或&gt;&gt;No.回复ID<br />\r\n&bull;主站相关问题反馈、建议请在这里留言<br />\r\n&bull;已处理的举报将锁定。</p>\r\n",
-        "interval": "15",
-        "createdAt": "2011-09-30 23:55:20",
-        "updateAt": "2015-07-26 15:39:24",
-        "status": "n"
-      }
-    ]
-  },
-  {
     "id": "4",
     "sort": "1",
     "name": "综合",
@@ -31,7 +11,7 @@
         "sort": "1",
         "name": "综合版1",
         "showName": "",
-        "msg": "<p><a href=\"http://www.acfun.tv/random.aspx\" target=\"_blank\"><img alt=\"随便看看~\" src=\"http://cover.acfunwiki.org/face.php\" style=\"float:left\" /></a></p>\r\n\r\n<p>&bull;欢迎光临，有关A岛的介绍请点&rarr;<a href=\"http://wiki.acfun.tv/index.php/%C4%E4%C3%FB%CC%D6%C2%DB%B0%E6\" target=\"_blank\">这里</a><br />\r\n&bull;禁H，露点图删，永久封推广链接，<strong>严禁张贴他人隐私资料，引战一律删。</strong><br />\r\n&bull;请文明讨论，人身攻击、辱骂内容一律砍+没收饼干，<strong>造谣砍串封IP。</strong><br />\r\n&bull;主站相关&rarr;<a href=\"/f/%E5%80%BC%E7%8F%AD%E5%AE%A4\">值班室</a>。宣传QQ群&rarr;<a href=\"http://wiki.acfun.tv/index.php/QQ\" target=\"_blank\">QQ群索引</a><br />\r\n&bull;有关<a href=\"http://wiki.acfun.tv/index.php/SAGE\" target=\"_blank\">SAGE</a>的规则请点&rarr;<a href=\"http://wiki.acfun.tv/index.php/SAGE\" target=\"_blank\">这里</a><br />\r\n&bull;<strong>丧尸们<a href=\"http://static.acfun.mm111.net/h/mp3/tnnaii-h-island-c.mp3\">快来食我大雕啦</a>~</strong><br />\r\n&bull;本版发文间隔为15秒。</p>\r\n",
+        "msg": "<p><a href=\"http://www.acfun.tv/random.aspx\" target=\"_blank\"><img alt=\"随便看看~\" src=\"http://cover.acfunwiki.org/face.php\" style=\"float:left\" /></a></p>\r\n\r\n<p>&bull;欢迎光临，有关A岛的介绍请点&rarr;<a href=\"http://sx1.atv.ac:5566/index.php/%C4%E4%C3%FB%CC%D6%C2%DB%B0%E6\" target=\"_blank\">这里</a><br />\r\n&bull;禁H，露点图删，永久封推广链接，<strong>严禁张贴他人隐私资料，引战一律删。</strong><br />\r\n&bull;请文明讨论，人身攻击、辱骂内容一律砍+没收饼干，<strong>造谣砍串封IP。</strong><br />\r\n&bull;主站相关&rarr;<a href=\"/f/%E5%80%BC%E7%8F%AD%E5%AE%A4\">值班室</a>。宣传QQ群&rarr;<a href=\"http://sx1.atv.ac:5566/index.php/QQ\" target=\"_blank\">QQ群索引</a><br />\r\n&bull;有关<a href=\"http://sx1.atv.ac:5566/index.php/SAGE\" target=\"_blank\">SAGE</a>的规则请点&rarr;<a href=\"http://sx1.atv.ac:5566/index.php/SAGE\" target=\"_blank\">这里</a><br />\r\n&bull;<strong>丧尸们<a href=\"http://static.acfun.mm111.net/h/mp3/tnnaii-h-island-c.mp3\">快来食我大雕啦</a>~</strong><br />\r\n&bull;本版发文间隔为15秒。</p>\r\n",
         "interval": "15",
         "createdAt": "2011-10-21 15:49:28",
         "updateAt": "2015-06-23 17:26:28",
@@ -110,27 +90,39 @@
         "status": "n"
       },
       {
-        "id": "17",
-        "fgroup": "4",
-        "sort": "9",
-        "name": "二次创作",
-        "showName": "绘画涂鸦(二创)",
-        "msg": "<p><a href=\"http://wiki.acfun.tv/index.php/%C9%B3%B0%FC\" target=\"_blank\"><img alt=\"你们都是触！\" src=\"http://static.acfun.mm111.net/h/upload2/images/2013-09-04/4edea57d-5dc3-4543-ae63-9898eca33c45.gif\" style=\"float:left; height:200px; width:240px\" /></a><br />\r\n&bull;你们都是触！<br />\r\n&bull;欢迎各位深海巨触前来吃沙包、切磋画技，屠新手村请谨慎。<br />\r\n&bull;<a href=\"http://drawdevil.com/acfun\" target=\"_blank\">在线画室</a>欢迎互触。<br />\r\n&bull;可发布同人作品宣传、推广，漫展摊位贩卖信息。<br />\r\n&bull;欢迎进行AC娘、TD娘的各种创作。好的作品可能会放在首页哦=w=<br />\r\n&bull;<strong>涂鸦⑨课群：242826209</strong><br />\r\n&bull;<a href=\"http://static.acfun.mm111.net/h/h/PlantAC1.03.swf\">种植AC娘试玩</a>|<a href=\"http://static.acfun.mm111.net/h/h/ACmario.swf\">超级AC姐妹试玩</a><br />\r\n&bull;本版发文间隔为15秒。</p>\r\n",
-        "interval": "15",
-        "createdAt": "2011-10-22 18:27:59",
-        "updateAt": "2014-09-16 20:12:23",
-        "status": "n"
-      },
-      {
         "id": "56",
         "fgroup": "4",
-        "sort": "11",
+        "sort": "8",
         "name": "考试",
         "showName": "校园(考试)",
         "msg": "<p>\r\n\t•备考还上什么A岛！<br/>\r\n\t•欢迎各路学霸考王互触<br/>\r\n\t•可以询问备考问题、日西考试成绩<br/>\r\n\t•本版发文间隔15秒\r\n</p>",
         "interval": "15",
         "createdAt": "2013-03-14 08:43:53",
         "updateAt": "2014-08-02 04:54:24",
+        "status": "n"
+      },
+      {
+        "id": "103",
+        "fgroup": "4",
+        "sort": "9",
+        "name": "文学",
+        "showName": "文学(推书)<font color=\"red\">New!</font>",
+        "msg": "•书虫专用版，欢迎咬文嚼字、评文推书<br>\r\n•今天的风儿好喧嚣<br>\r\n•<s>那边超市的薯片半价啦！</s><br>\r\n•本版发文间隔15秒。",
+        "interval": "15",
+        "createdAt": "0000-00-00 00:00:00",
+        "updateAt": "0000-00-00 00:00:00",
+        "status": "n"
+      },
+      {
+        "id": "17",
+        "fgroup": "4",
+        "sort": "10",
+        "name": "二次创作",
+        "showName": "绘画涂鸦(二创)",
+        "msg": "<p><a href=\"http://wiki.acfun.tv/index.php/%C9%B3%B0%FC\" target=\"_blank\"><img alt=\"你们都是触！\" src=\"http://static.acfun.mm111.net/h/upload2/images/2013-09-04/4edea57d-5dc3-4543-ae63-9898eca33c45.gif\" style=\"float:left; height:200px; width:240px\" /></a><br />\r\n&bull;你们都是触！<br />\r\n&bull;欢迎各位深海巨触前来吃沙包、切磋画技，屠新手村请谨慎。<br />\r\n&bull;<a href=\"http://drawdevil.com/acfun\" target=\"_blank\">在线画室</a>欢迎互触。<br />\r\n&bull;可发布同人作品宣传、推广，漫展摊位贩卖信息。<br />\r\n&bull;欢迎进行AC娘、TD娘的各种创作。好的作品可能会放在首页哦=w=<br />\r\n&bull;<strong>涂鸦⑨课群：242826209</strong><br />\r\n&bull;<a href=\"http://static.acfun.mm111.net/h/h/PlantAC1.03.swf\">种植AC娘试玩</a>|<a href=\"http://static.acfun.mm111.net/h/h/ACmario.swf\">超级AC姐妹试玩</a><br />\r\n&bull;本版发文间隔为15秒。</p>\r\n",
+        "interval": "15",
+        "createdAt": "2011-10-22 18:27:59",
+        "updateAt": "2014-09-16 20:12:23",
         "status": "n"
       },
       {
@@ -146,9 +138,21 @@
         "status": "n"
       },
       {
-        "id": "97",
+        "id": "102",
         "fgroup": "4",
         "sort": "13",
+        "name": "女性向",
+        "showName": "",
+        "msg": "•本版用于小说、drama、动画、游戏、名人等兴趣及作品的女性向讨论，默认以女性视角发串<br>\r\n•请和谐讨论，一串一事，请勿争吵CP，禁发H图或H文，违者一律删+封<br>\r\n•本版发文间隔为15秒。",
+        "interval": "15",
+        "createdAt": "0000-00-00 00:00:00",
+        "updateAt": "0000-00-00 00:00:00",
+        "status": "n"
+      },
+      {
+        "id": "97",
+        "fgroup": "4",
+        "sort": "14",
         "name": "女装",
         "showName": "女装(时尚)",
         "msg": "<p>&bull;可以讨论流行时尚，贴女装照<br />\r\n&bull;其实版块名倒着念就是&ldquo;丧尸装女&rdquo;<br />\r\n&bull;请遵守版规，擦边请自重，严禁五位数<br />\r\n&bull;<a href=\"http://www.acfun.tv/v/ac1869204\" target=\"_blank\">这就是你开女装版的原因吗！</a><br />\r\n&bull;本版发文间隔15秒</p>\r\n",
@@ -207,7 +211,7 @@
         "sort": "1",
         "name": "动画",
         "showName": "",
-        "msg": "<p><img src=\"http://cdn.ovear.info:8999/thumb/2015-6-21/7407834f-17d2-4ab8-a31f-b5205e201bcb.jpg\" /><br />\r\n&bull;我说你们这些银啊，知不知道王老爷子说的：&ldquo;安心做个萌豚，岂不美哉？&rdquo;<br />\r\n&bull;<a href=\"http://acgdb.com/anime201504/date\" target=\"blank\">每日放送</a><br />\r\n&bull;本版发文间隔为15秒。</p>\r\n",
+        "msg": "<p><img src=\"http://hacfun-tv.n1.yun.tf:8999/Public/Upload/thumb/image/2015-6-21/7407834f-17d2-4ab8-a31f-b5205e201bcb.jpg\" /><br />\r\n&bull;我说你们这些银啊，知不知道王老爷子说的：&ldquo;安心做个萌豚，岂不美哉？&rdquo;<br />\r\n&bull;<a href=\"http://acgdb.com/anime201504/date\" target=\"blank\">每日放送</a><br />\r\n&bull;本版发文间隔为15秒。</p>\r\n",
         "interval": "15",
         "createdAt": "2011-09-24 16:00:20",
         "updateAt": "2015-07-21 21:59:21",
@@ -252,10 +256,10 @@
       {
         "id": "87",
         "fgroup": "1",
-        "sort": "5",
+        "sort": "6",
         "name": "轻小说",
         "showName": "",
-        "msg": "•连载禁止，讨论为主。<br />\r\n•非日本轻小说类禁止。<br />\r\n•连载以及非日本轻小说入口：<a href=\"/f/%E5%B0%8F%E8%AF%B4\">小说</a><br />\r\n•本版发文间隔15秒",
+        "msg": "•本版以日系轻小说类为主，网文也可讨论。<br />\r\n•连载禁止，讨论为主。<br />\r\n•小说连载→<a href=\"/f/%E5%B0%8F%E8%AF%B4\">小说</a><br />\r\n•非小说类→<a href=\"/f/%E6%96%87%E5%AD%A6\">文学</a><br>\r\n•本版发文间隔15秒",
         "interval": "15",
         "createdAt": "2014-04-16 11:52:00",
         "updateAt": "2014-08-02 04:54:26",
@@ -264,7 +268,7 @@
       {
         "id": "19",
         "fgroup": "1",
-        "sort": "6",
+        "sort": "7",
         "name": "小说",
         "showName": "小说(连载)",
         "msg": "•欢迎光临小说版，这里是文字描绘的缤纷世界！<br />\r\n•小说推荐、剧情讨论、原创小说均可在此发串。<br />\r\n•长篇连载允许，欢迎各路文豪。<br />\r\n•H文禁止，擦边球自重，一定要发的话请张贴站外链接而不是直接发文。<br />\r\n•本版发文间隔为15秒。<br />",
@@ -274,9 +278,21 @@
         "status": "n"
       },
       {
-        "id": "6",
+        "id": "64",
         "fgroup": "1",
         "sort": "8",
+        "name": "GALGAME",
+        "showName": "",
+        "msg": "<img title=\"大家一起来推黄油\" src=\"http://hacfun.tv/Public/Upload/thumb/2015-08-19/55d4437e66e9b.jpg\" height=132px width=200px style=\"float:left\" />•只允许发大网盘链接，如百度云、360云盘、迅雷快传、115之类，带广告跳转或种子（磁力）链接一律删+封<br>\r\n•请遵守封面总版规，尤其禁止发H图或H文，违者一律删+封<br>\r\n•黄油⑨课：304166656<br>\r\n•本版发文间隔15秒",
+        "interval": "15",
+        "createdAt": "2013-08-07 20:50:09",
+        "updateAt": "2014-08-02 04:54:24",
+        "status": "n"
+      },
+      {
+        "id": "6",
+        "fgroup": "1",
+        "sort": "10",
         "name": "VOCALOID",
         "showName": "",
         "msg": "•本版发文间隔为15秒。",
@@ -288,7 +304,7 @@
       {
         "id": "5",
         "fgroup": "1",
-        "sort": "9",
+        "sort": "11",
         "name": "东方Project",
         "showName": "",
         "msg": "•本版发文间隔为15秒。",
@@ -300,13 +316,25 @@
       {
         "id": "93",
         "fgroup": "1",
-        "sort": "10",
+        "sort": "12",
         "name": "舰娘",
         "showName": "",
         "msg": "<p>&bull;舰C和舰N都可以讨论，请在发串时说明<br>&bull;本版发文间隔15秒</p>\r\n",
         "interval": "15",
         "createdAt": "2015-01-22 01:42:57",
         "updateAt": "2015-01-22 01:49:36",
+        "status": "n"
+      },
+      {
+        "id": "101",
+        "fgroup": "1",
+        "sort": "13",
+        "name": "LoveLive",
+        "showName": "",
+        "msg": "<p>&bull;Niconiconi~<br>&bull;本版发文间隔15秒</p>\r\n",
+        "interval": "15",
+        "createdAt": "0000-00-00 00:00:00",
+        "updateAt": "0000-00-00 00:00:00",
         "status": "n"
       }
     ]

@@ -103,9 +103,11 @@
             title = @"举报";
             NSString *forumName = @"值班室";
             targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:forumName];
+            // Select the admin forum from the downloaded forums.
             for (czzForum *tempForum in [czzForumManager sharedManager].forums) {
                 if ([tempForum.name isEqualToString:forumName]) {
                     postSender.forum = tempForum;
+                    break;
                 }
             }
             break;
