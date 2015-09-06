@@ -33,6 +33,7 @@
         if (cell && [cell isKindOfClass:[czzMenuEnabledTableViewCell class]]){
             czzMenuEnabledTableViewCell *threadViewCell = (czzMenuEnabledTableViewCell*)cell;
             threadViewCell.delegate = self.tableViewDelegate;
+            threadViewCell.shouldHighlight = YES;
             threadViewCell.shouldHighlightSelectedUser = self.shouldHighlightSelectedUser;
             threadViewCell.parentThread = self.viewModelManager.parentThread;
             threadViewCell.myThread = thread;

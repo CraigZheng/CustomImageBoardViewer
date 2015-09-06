@@ -262,17 +262,14 @@
             }
         }
     }
-    //DLog(@"time consuming step 4: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
     
     //highlight original poster
     if (shouldHighlight && parentThread && [myThread.UID.string isEqualToString:parentThread.UID.string]) {
         posterLabel.backgroundColor = [UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:200.0f/255.0f alpha:1.0];
     }
     else if (shouldHighlightSelectedUser && [myThread.UID.string isEqualToString:shouldHighlightSelectedUser]) {
-        posterLabel.backgroundColor = [UIColor whiteColor];
         contentTextView.backgroundColor = self.contentView.backgroundColor;
     }
-    //DLog(@"time consuming step 5: %f", [[NSDate new] timeIntervalSinceDate:startDate]);
 }
 
 #pragma - mark UIActionSheet delegate
