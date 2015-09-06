@@ -34,7 +34,7 @@
             czzMenuEnabledTableViewCell *threadViewCell = (czzMenuEnabledTableViewCell*)cell;
             threadViewCell.delegate = self.tableViewDelegate;
             threadViewCell.shouldHighlight = YES;
-            threadViewCell.shouldHighlightSelectedUser = self.shouldHighlightSelectedUser;
+            threadViewCell.selectedUserToHighlight = self.viewModelManager.selectedUserToHighlight;
             threadViewCell.parentThread = self.viewModelManager.parentThread;
             threadViewCell.myThread = thread;
             threadViewCell.myIndexPath = indexPath;

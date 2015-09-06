@@ -9,7 +9,6 @@
 #import "czzHomeTableViewDataSource.h"
 
 @interface czzThreadTableViewDataSource : czzHomeTableViewDataSource
-@property (strong, nonatomic) NSString *shouldHighlightSelectedUser;
 
 +(instancetype)initWithViewModelManager:(czzThreadViewModelManager *)viewModelManager;
 @end

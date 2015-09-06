@@ -11,12 +11,13 @@
 #import "czzHistoryManager.h"
 
 @interface czzThreadViewModelManager()
-@property NSUInteger cutOffIndex;
+@property (nonatomic, assign) NSUInteger cutOffIndex;
 @end
 
 @implementation czzThreadViewModelManager
 @synthesize forum = _forum;
 
+#pragma mark - life cycle.
 -(instancetype)initWithParentThread:(czzThread *)thread andForum:(czzForum *)forum{
     self = [czzThreadViewModelManager new];
     if (self) {
@@ -35,6 +36,8 @@
         self.threadContentListDataProcessor = [czzJSONProcessor new];
         self.threadContentListDataProcessor.delegate = self;
         [self reset];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(HighlightThreadSelected:) name:@"HighlightAction" object:nil];
     }
     
     return self;
@@ -50,6 +53,10 @@
         }
     }
     return nil;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - state perserving/restoring
@@ -164,6 +171,7 @@
     });
 }
 
+#pragma mark - calculations
 float RoundTo(float number, float to)
 {
     if (number >= 0) {
@@ -195,15 +203,36 @@ float RoundTo(float number, float to)
     }
 }
 
+#pragma mark - content managements.
 - (void)reset {
     self.totalPages = self.pageNumber = 1;
     self.threads = self.horizontalHeights = self.verticalHeights = nil;
     self.cachedThreads = self.cachedHorizontalHeights = self.cachedVerticalHeights = nil;
 }
 
+-(void)removeAll {
+    self.pageNumber = 1;
+    // Clear all.
+    
+    self.lastBatchOfThreads = self.horizontalHeights = self.verticalHeights = self.threads = nil;
+}
+
 - (void)refresh {
     [self reset];
     [super refresh];
+}
+
+#pragma mark - highlight thread selected
+-(void)HighlightThreadSelected:(NSNotification*)notification {
+    czzThread *selectedThread = [notification.userInfo objectForKey:@"HighlightThread"];
+    if (selectedThread) {
+        if ([self.selectedUserToHighlight isEqual:selectedThread.UID.string]) {
+            self.selectedUserToHighlight = nil;
+        }
+        else
+            self.selectedUserToHighlight = selectedThread.UID.string;
+        [self.delegate viewModelManagerWantsToReload:self];
+    }
 }
 
 #pragma mark - NSCoding

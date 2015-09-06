@@ -58,7 +58,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @synthesize threadMenuViewController;
 @synthesize threadsTableViewContentOffSet;
 @synthesize shouldHighlight;
-@synthesize shouldHighlightSelectedUser;
 @synthesize shouldDisplayQuickScrollCommand;
 @synthesize thumbnailFolder;
 @synthesize keywordToSearch;
@@ -134,10 +133,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     self.viewDeckController.panningMode = IIViewDeckNoPanning;
     //disable left controller
     self.viewDeckController.leftController = nil;
-    //Jump to command observer
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(PromptForJumpToPage) name:@"JumpToPageCommand" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(HighlightThreadSelected:) name:@"HighlightAction" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SearchUser:) name:@"SearchAction" object:nil];
 
     //background colour
     self.threadTableView.backgroundColor = [settingCentre viewBackgroundColour];
@@ -193,29 +188,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
         textInputField.keyboardAppearance = UIKeyboardAppearanceDark;
     }
     [alertView show];
-}
-
-#pragma mark - highlight thread selected
--(void)HighlightThreadSelected:(NSNotification*)notification {
-    czzThread *selectedThread = [notification.userInfo objectForKey:@"HighlightThread"];
-    if (selectedThread) {
-        if ([shouldHighlightSelectedUser isEqual:selectedThread.UID.string]) {
-            shouldHighlightSelectedUser = nil;
-        }
-        else
-            shouldHighlightSelectedUser = selectedThread.UID.string;
-        self.tableViewDataSource.shouldHighlightSelectedUser = shouldHighlightSelectedUser;
-        [threadTableView reloadData];
-    }
-}
-
-#pragma mark - search this particula user 
--(void)SearchUser:(NSNotification*)notification {
-    czzThread *selectedThread = [notification.userInfo objectForKey:@"SearchUser"];
-    if (selectedThread) {
-        keywordToSearch = selectedThread.UID.string;
-        [self performSegueWithIdentifier:@"go_search_view_segue" sender:self];
-    }
 }
 
 #pragma mark - UIAlertViewDelegate

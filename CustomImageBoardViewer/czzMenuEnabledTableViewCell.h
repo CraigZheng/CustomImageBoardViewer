@@ -41,7 +41,7 @@
 @property (weak, nonatomic) IBOutlet UIView *threadContentView;
 @property NSIndexPath *myIndexPath;
 
-@property (strong, nonatomic) NSString *shouldHighlightSelectedUser;
+@property (strong, nonatomic) NSString *selectedUserToHighlight;
 @property (weak, nonatomic) id<czzMenuEnabledTableViewCellProtocol> delegate;
 
 @property NSDictionary *downloadedImages;

@@ -40,7 +40,7 @@
 @synthesize settingsCentre;
 @synthesize myIndexPath;
 @synthesize shouldHighlight;
-@synthesize shouldHighlightSelectedUser;
+@synthesize selectedUserToHighlight;
 @synthesize shouldAllowClickOnImage;
 @synthesize links;
 @synthesize parentThread;
@@ -267,7 +267,7 @@
     if (shouldHighlight && parentThread && [myThread.UID.string isEqualToString:parentThread.UID.string]) {
         posterLabel.backgroundColor = [UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:200.0f/255.0f alpha:1.0];
     }
-    else if (shouldHighlightSelectedUser && [myThread.UID.string isEqualToString:shouldHighlightSelectedUser]) {
+    else if (selectedUserToHighlight && [myThread.UID.string isEqualToString:selectedUserToHighlight]) {
         contentTextView.backgroundColor = self.contentView.backgroundColor;
     }
 }

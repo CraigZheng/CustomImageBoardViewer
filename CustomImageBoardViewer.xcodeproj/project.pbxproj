@@ -188,7 +188,6 @@
 		445B7B5C1B43EBCA0046CFDB /* czzNavigationViewModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 445B7B5B1B43EBCA0046CFDB /* czzNavigationViewModelManager.m */; };
 		445B7B5F1B4404810046CFDB /* czzThreadViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 445B7B5E1B4404810046CFDB /* czzThreadViewDelegate.m */; };
 		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
-		446CC58219DC2BDE009BF24E /* czzHTMLParserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 446CC58119DC2BDE009BF24E /* czzHTMLParserViewController.m */; };
 		4479B07D1A0BB8E70074D484 /* czzTextViewHeightCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4479B07C1A0BB8E70074D484 /* czzTextViewHeightCalculator.m */; };
 		4479B08A1A0CCB270074D484 /* MiniThreadView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4479B0891A0CCB270074D484 /* MiniThreadView.storyboard */; };
 		4479B0901A0CCB6D0074D484 /* czzMiniThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4479B08F1A0CCB6D0074D484 /* czzMiniThreadViewController.m */; };
@@ -404,7 +403,6 @@
 		5A637439195D8AB0004AF1FC /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5A637437195D8AB0004AF1FC /* LICENSE */; };
 		5A88B8401938AFDB00071343 /* czzNotificationCentreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A88B83F1938AFDB00071343 /* czzNotificationCentreTableViewController.m */; };
 		5ADCA46A1938F67F002BA60B /* ValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCA4691938F67F002BA60B /* ValueFormatter.m */; };
-		5AF85E62196EDC110031D0CB /* czzHTMLToThreadParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF85E61196EDC110031D0CB /* czzHTMLToThreadParser.m */; };
 		5AF85E681970025A0031D0CB /* czzSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF85E671970025A0031D0CB /* czzSearchViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -740,8 +738,6 @@
 		445B7B5E1B4404810046CFDB /* czzThreadViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewDelegate.m; sourceTree = "<group>"; };
 		4462EF2318659BC200E6BE78 /* czzFavouriteManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFavouriteManagerViewController.h; sourceTree = "<group>"; };
 		4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFavouriteManagerViewController.m; sourceTree = "<group>"; };
-		446CC58019DC2BDE009BF24E /* czzHTMLParserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzHTMLParserViewController.h; sourceTree = "<group>"; };
-		446CC58119DC2BDE009BF24E /* czzHTMLParserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = czzHTMLParserViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		4479B07B1A0BB8E70074D484 /* czzTextViewHeightCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzTextViewHeightCalculator.h; sourceTree = "<group>"; };
 		4479B07C1A0BB8E70074D484 /* czzTextViewHeightCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzTextViewHeightCalculator.m; sourceTree = "<group>"; };
 		4479B0891A0CCB270074D484 /* MiniThreadView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MiniThreadView.storyboard; sourceTree = "<group>"; };
@@ -1010,8 +1006,6 @@
 		5A88B83F1938AFDB00071343 /* czzNotificationCentreTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzNotificationCentreTableViewController.m; sourceTree = "<group>"; };
 		5ADCA4681938F67F002BA60B /* ValueFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueFormatter.h; sourceTree = "<group>"; };
 		5ADCA4691938F67F002BA60B /* ValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueFormatter.m; sourceTree = "<group>"; };
-		5AF85E60196EDC110031D0CB /* czzHTMLToThreadParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzHTMLToThreadParser.h; sourceTree = "<group>"; };
-		5AF85E61196EDC110031D0CB /* czzHTMLToThreadParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzHTMLToThreadParser.m; sourceTree = "<group>"; };
 		5AF85E661970025A0031D0CB /* czzSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzSearchViewController.h; sourceTree = "<group>"; };
 		5AF85E671970025A0031D0CB /* czzSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzSearchViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1183,7 +1177,6 @@
 				44DF8ECC1A74CA4B0097F7F5 /* Utils */,
 				44DF8EE01A74D6320097F7F5 /* czzCookieManagerViewController */,
 				442EC8681A1A1320005650E4 /* czzNavigationController */,
-				446CC58319DC3827009BF24E /* czzHTMLParserView */,
 				5AF85E691970025F0031D0CB /* czzSearchViewController */,
 				5A88B8411938AFE000071343 /* czzNotificationCentre */,
 				44BE2E3C1938400A00601943 /* czzOnScreenCommand */,
@@ -1787,17 +1780,6 @@
 				4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */,
 			);
 			name = czzFavouriteManagerVIewController;
-			sourceTree = "<group>";
-		};
-		446CC58319DC3827009BF24E /* czzHTMLParserView */ = {
-			isa = PBXGroup;
-			children = (
-				5AF85E60196EDC110031D0CB /* czzHTMLToThreadParser.h */,
-				5AF85E61196EDC110031D0CB /* czzHTMLToThreadParser.m */,
-				446CC58019DC2BDE009BF24E /* czzHTMLParserViewController.h */,
-				446CC58119DC2BDE009BF24E /* czzHTMLParserViewController.m */,
-			);
-			name = czzHTMLParserView;
 			sourceTree = "<group>";
 		};
 		4479B0911A0CCB750074D484 /* MiniThreadView */ = {
@@ -2756,7 +2738,6 @@
 				44B89E841A2AFBE30085F766 /* UINavigationController+SGProgress.m in Sources */,
 				442A8FA619DB7DF200A3516E /* MWTapDetectingView.m in Sources */,
 				441E5D0D17F4699400289DBD /* IIViewDeckController.m in Sources */,
-				446CC58219DC2BDE009BF24E /* czzHTMLParserViewController.m in Sources */,
 				44CF25691A26B4D000BD8228 /* README.md in Sources */,
 				5A1593EC18E71E93001A774B /* czzThreadRefButton.m in Sources */,
 				44C34550187E616500FDE45D /* czzEmojiCollectionViewController.m in Sources */,
@@ -2833,7 +2814,6 @@
 				442A8FFB19DB7F5400A3516E /* UIImageView+HighlightedWebCache.m in Sources */,
 				44AE2B011872924C002CB021 /* PartialTransparentView.m in Sources */,
 				443141971A2B38D6007D65B3 /* czzThreadViewModelManager.m in Sources */,
-				5AF85E62196EDC110031D0CB /* czzHTMLToThreadParser.m in Sources */,
 				442A8FA719DB7DF200A3516E /* MWZoomingScrollView.m in Sources */,
 				441E5CDB17F4691300289DBD /* main.m in Sources */,
 				44FC4345180067CF0028D7C9 /* czzPostSender.m in Sources */,
