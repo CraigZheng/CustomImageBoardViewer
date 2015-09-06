@@ -196,11 +196,8 @@
     
     self.threadTableView.backgroundColor = settingsCentre.viewBackgroundColour;
     
-    //if big image mode, perform a reload
-    if ([settingCentre userDefShouldUseBigImage])
-    {
-        [threadTableView reloadData];
-    }
+    // Always reload
+    [threadTableView reloadData];
 }
 
 /*
