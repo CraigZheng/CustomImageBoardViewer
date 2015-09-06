@@ -73,10 +73,9 @@
     if (cell && imgFile){
         UIImageView *previewImageView = (UIImageView*)[cell viewWithTag:1];
         UIImage *previewImage;// = [UIImage imageWithContentsOfFile:imgFile];
-        NSString *thumbnailPath = [[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:[[[imgFile.lastPathComponent stringByDeletingPathExtension] stringByAppendingString:@"_t"] stringByAppendingPathExtension:imgFile.pathExtension]];
-        UIImage *thumbnailImage = [UIImage imageWithContentsOfFile:thumbnailPath];
+        UIImage *thumbnailImg = [UIImage imageWithContentsOfFile:[[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:imgFile.lastPathComponent]];
         
-        previewImage = thumbnailImage ? thumbnailImage : [UIImage imageWithContentsOfFile:imgFile];
+        previewImage = thumbnailImg ? thumbnailImg : [UIImage imageWithContentsOfFile:imgFile];
         if (previewImage) {
             previewImageView.image = previewImage;
         } else {
