@@ -15,12 +15,10 @@
 
 #import "czzSearchViewController.h"
 #import "czzThread.h"
-#import "czzHTMLToThreadParser.h"
 #import "czzThreadViewController.h"
 #import "czzAppDelegate.h"
 #import "czzFavouriteManagerViewController.h"
 #import "Toast+UIView.h"
-#import "czzHTMLParserViewController.h"
 #import "czzMiniThreadViewController.h"
 #import "czzSettingsCentre.h"
 #import "czzNavigationController.h"
@@ -121,10 +119,7 @@
                 if (!request) {
                     [AppDelegate.window makeToast:@"无效的关键词"];
                 } else {
-                    if ([selectedSearchEngine isEqualToString:AC_SEARCH_COMMAND]) {
-                        [self openURLAndConvertToczzThreadFormat:request.URL];
-                    } else
-                        [searchWebView loadRequest:request];
+                    [searchWebView loadRequest:request];
                 }
             }
         }
@@ -157,73 +152,11 @@
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"go_html_parser_view_controller"]) {
-        czzHTMLParserViewController *parserViewController = (czzHTMLParserViewController *)segue.destinationViewController;
-        if ([parserViewController isKindOfClass:[czzHTMLParserViewController class]]) {
-            parserViewController.targetURL = targetURL;
-            parserViewController.highlightKeyword = searchKeyword;
-        }
-    } else if ([segue.identifier isEqualToString:showThreadViewSegueIdentifier]) {
+    if ([segue.identifier isEqualToString:showThreadViewSegueIdentifier]) {
         czzThreadViewController *threadViewController = (czzThreadViewController*) segue.destinationViewController;
         czzThreadViewModelManager *threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:selectedParentThread andForum:[czzForum new]];
         threadViewController.viewModelManager = threadViewModelManager;
     }
-}
-
--(void)openURLAndConvertToczzThreadFormat:(NSURL*)url {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [AppDelegate.window makeToastActivity];
-    });
-    if ([url.absoluteString rangeOfString:@"?ph"].location != NSNotFound) {
-        NSString *urlString = url.absoluteString;
-        urlString = [urlString substringToIndex:[urlString rangeOfString:@"?ph"].location];
-        //remove "pn" - page number parameter
-        url = [NSURL URLWithString:urlString];
-    }
-    //load html in background thread
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSData *htmlData = [NSData dataWithContentsOfURL:url];
-        if (htmlData) {
-            @try {
-                NSString *htmlString = [[NSString alloc] initWithData:htmlData encoding:NSUTF8StringEncoding];
-                czzHTMLToThreadParser *htmlParser = [czzHTMLToThreadParser new];
-                [htmlParser parse:htmlString];
-                NSArray *threads = htmlParser.parsedThreads;
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if (threads.count > 0) {
-                        selectedParentThread = [threads firstObject];
-                        searchResult = threads;
-                        // if viewController is visible
-                        if (self.isViewLoaded && self.view.window) {
-                            if ([selectedSearchEngine isEqualToString:AC_SEARCH_COMMAND]) {
-                                [self performSegueWithIdentifier:@"go_favourite_view_segue" sender:self];
-                            } else
-                                [self performSegueWithIdentifier:showThreadViewSegueIdentifier sender:self];
-
-                        }
-                    } else {
-                        [AppDelegate.window makeToast:@"无法打开这个链接" duration:2.0 position:@"bottom" image:[UIImage imageNamed:@"warning.png"]];
-                    }
-                });
-
-            }
-            @catch (NSException *exception) {
-                DLog(@"%@", exception);
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [AppDelegate.window makeToast:@"无法打开这个链接" duration:2.0 position:@"bottom" image:[UIImage imageNamed:@"warning.png"]];
-                });
-            }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [AppDelegate.window hideToastActivity];
-            });
-        } else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [AppDelegate.window makeToast:@"无法找到有效资料" duration:2.0 position:@"bottom" image:[UIImage imageNamed:@"warning.png"]];
-                [AppDelegate.window hideToastActivity];
-            });
-        }
-    });
-
 }
 
 #pragma mark - UIWebViewDelegate
