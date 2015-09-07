@@ -118,8 +118,9 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
         } else {
             [self refreshThread:self];
         }
+    } else {
+        DLog(@"App in background, nothing needs to be done.");
     }
-
 }
 
 -(void)viewWillAppear:(BOOL)animated{
