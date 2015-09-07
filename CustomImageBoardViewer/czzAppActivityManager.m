@@ -125,7 +125,7 @@ NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
                 threadViewController.viewModelManager = self.threadViewModelManager;
                 self.threadViewModelManager.delegate = threadViewController;
                 // Set alpha to 0, to avoid thread tableview giving a jumpping appearance...
-                threadViewController.view.alpha = 0;
+                threadViewController.threadTableView.alpha = 0;
                 [restoredViewControllers addObject:threadViewController];
             }
             [NavigationManager setViewController:restoredViewControllers animated:NO];
@@ -134,7 +134,7 @@ NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
                     // Restore the content offset for thread view controller.
                     [threadViewController.viewModelManager scrollToContentOffset:threadViewController.viewModelManager.currentOffSet];
                 }
-                threadViewController.view.alpha = 1;
+                threadViewController.threadTableView.alpha = 1;
             }];
         }
     }
