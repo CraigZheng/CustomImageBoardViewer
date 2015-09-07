@@ -59,8 +59,7 @@
 
 
 @property (nonatomic, strong) czzURLDownloader *threadDownloader;
-@property (nonatomic, strong) czzJSONProcessor *threadListDataProcessor;
-@property (nonatomic, strong) czzJSONProcessor *threadContentListDataProcessor;
+@property (nonatomic, strong) czzJSONProcessor *threadDataProcessor;
 
 -(void)refresh;
 -(void)reloadData;

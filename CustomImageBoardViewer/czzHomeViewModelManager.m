@@ -22,8 +22,6 @@
         self.isProcessing = NO;
         self.pageNumber = self.totalPages = 1;
 
-        self.threadListDataProcessor = [czzJSONProcessor new];
-        self.threadListDataProcessor.delegate = self;
     }
     return self;
 }
@@ -155,7 +153,7 @@
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             if ([self.delegate isPresented]) {
                 self.isProcessing = YES;
-                [self.threadListDataProcessor processThreadListFromData:xmlData forForum:self.forum];
+                [self.threadDataProcessor processThreadListFromData:xmlData forForum:self.forum];
             }
         });
     }
@@ -217,12 +215,20 @@
     });
 }
 
-#pragma mark - setters
+#pragma mark - Setters
 -(void)setForum:(czzForum *)forum {
     _forum = forum;
 }
 
 #pragma mark - Getters
+- (czzJSONProcessor *)threadDataProcessor {
+    if (!_threadDataProcessor) {
+        _threadDataProcessor = [czzJSONProcessor new];
+        _threadDataProcessor.delegate = self;
+    }
+    return _threadDataProcessor;
+}
+
 - (NSString *)cacheFile {
     return [NSString stringWithFormat:@"%@-%@", [UIApplication bundleVersion], DEFAULT_THREAD_LIST_CACHE_FILE];
 }

@@ -34,8 +34,7 @@
         }
         self.parentThread = thread;
         self.parentID = [NSString stringWithFormat:@"%ld", (long) self.parentThread.ID];
-        self.threadContentListDataProcessor = [czzJSONProcessor new];
-        self.threadContentListDataProcessor.delegate = self;
+
         [self reset];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(HighlightThreadSelected:) name:@"HighlightAction" object:nil];
@@ -125,7 +124,7 @@
 -(void)downloadOf:(NSURL *)xmlURL successed:(BOOL)successed result:(NSData *)receivedData {
     self.isDownloading = NO;
     if (successed) {
-        [self.threadContentListDataProcessor processSubThreadFromData:receivedData forForum:self.forum];
+        [self.threadDataProcessor processSubThreadFromData:receivedData forForum:self.forum];
     }
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([self.delegate respondsToSelector:@selector(viewModelManager:downloadSuccessful:)]) {
