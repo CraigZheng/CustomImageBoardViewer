@@ -28,7 +28,6 @@
 #import "GSIndeterminateProgressView.h"
 #import "czzThreadViewDelegate.h"
 
-#define OVERLAY_VIEW 122
 
 NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 

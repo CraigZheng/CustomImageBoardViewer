@@ -8,11 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "IIViewDeckController.h"
-#import "czzForumsViewController.h"
-#import "czzThreadTableView.h"
-#import "czzThreadViewModelManager.h"
+#import "czzHomeViewModelManager.h"
 
-@class czzThread;
+@class czzThread, czzThreadTableView;
 @interface czzHomeViewController : UIViewController <czzHomeViewModelManagerDelegate>
 @property (weak, nonatomic) IBOutlet czzThreadTableView *threadTableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *menuBarButton;

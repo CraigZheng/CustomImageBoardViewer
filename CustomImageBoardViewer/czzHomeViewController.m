@@ -26,6 +26,8 @@
 #import "czzForumManager.h"
 #import "czzHomeViewDelegate.h"
 #import "czzThreadViewModelManager.h"
+#import "czzForumsViewController.h"
+#import "czzThreadTableView.h"
 
 #import "czzHomeTableViewDataSource.h"
 
@@ -33,27 +35,23 @@
 
 
 @interface czzHomeViewController() <UIAlertViewDelegate, czzOnScreenImageManagerViewControllerDelegate, UIStateRestoring>
-@property UIViewController *leftController;
-@property (assign, nonatomic) BOOL shouldDisplayQuickScrollCommand;
+@property (strong, nonatomic) UIViewController *leftController;
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (assign, nonatomic) BOOL shouldHideImageForThisForum;
-@property (assign, nonatomic) BOOL viewControllerNotInTransition;
-@property czzImageViewerUtil *imageViewerUtil;
-@property UIRefreshControl* refreshControl;
-@property UIBarButtonItem *numberBarButton;
-@property GSIndeterminateProgressView *progressView;
+@property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
+@property (strong, nonatomic) UIRefreshControl* refreshControl;
+@property (strong, nonatomic) UIBarButtonItem *numberBarButton;
+@property (assign, nonatomic) GSIndeterminateProgressView *progressView;
 
-@property czzHomeTableViewDataSource *tableViewDataSource;
-@property czzHomeViewDelegate *homeViewDelegate;
+@property (strong, nonatomic) czzHomeTableViewDataSource *tableViewDataSource;
+@property (strong, nonatomic) czzHomeViewDelegate *homeViewDelegate;
 @end
 
 @implementation czzHomeViewController
 @synthesize threadTableView;
 @synthesize leftController;
-@synthesize shouldDisplayQuickScrollCommand;
 @synthesize thumbnailFolder;
 @synthesize shouldHideImageForThisForum;
-@synthesize viewControllerNotInTransition;
 @synthesize imageViewerUtil;
 @synthesize menuBarButton;
 @synthesize infoBarButton;
@@ -125,9 +123,6 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     
-    viewControllerNotInTransition = YES;
-    shouldDisplayQuickScrollCommand = settingCentre.userDefShouldShowOnScreenCommand;
-    
     NSTimeInterval delayTime = 4.0;
 #ifdef DEBUG
     delayTime = 9999;
@@ -176,7 +171,6 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    viewControllerNotInTransition = NO;
     [refreshControl endRefreshing];
 }
 
@@ -311,7 +305,7 @@
 
 -(void)viewModelManager:(czzHomeViewModelManager *)viewModelManager downloadSuccessful:(BOOL)wasSuccessful {
     DLog(@"%@", NSStringFromSelector(_cmd));
-    if (!wasSuccessful && viewControllerNotInTransition) {
+    if (!wasSuccessful && !NavigationManager.isInTransition) {
         [refreshControl endRefreshing];
         [progressView stopAnimating];
         [progressView showWarning];
@@ -333,7 +327,8 @@
     }
     [self updateTableView];
     [refreshControl endRefreshing];
-    if (viewControllerNotInTransition)
+    // If is in transition, is better not do anything.
+    if (!NavigationManager.isInTransition)
         [progressView stopAnimating];
     if (!wasSuccessul) {
         [progressView showWarning];
@@ -389,10 +384,10 @@
         [self setSelectedForum:forum];
         [self refreshThread:self];
         //disallow image downloading if specified by remote settings
-        shouldHideImageForThisForum = false;
+        shouldHideImageForThisForum = NO;
         for (NSString *specifiedForum in settingCentre.shouldHideImageInForums) {
             if ([specifiedForum isEqualToString:forum.name]) {
-                shouldHideImageForThisForum = true;
+                shouldHideImageForThisForum = YES;
                 break;
             }
         }
