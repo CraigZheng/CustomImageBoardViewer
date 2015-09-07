@@ -148,5 +148,7 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
     }
 }
 
-
++ (instancetype)new {
+    return [[UIStoryboard storyboardWithName:@"ImageManagerStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:SHORT_IMAGE_MANAGER_VIEW_CONTROLLER];
+}
 @end

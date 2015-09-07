@@ -42,11 +42,11 @@
     //create on screen command if nil
     if (!onScreenImageManagerView)
     {
-        onScreenImageManagerView = [[UIStoryboard storyboardWithName:@"ImageManagerStoryboard" bundle:nil] instantiateInitialViewController];
+        onScreenImageManagerView = [czzOnScreenImageManagerViewController new];
         [onScreenImageManagerView stopAnimating]; //hide it at launch
     }
     if (!shortImageMangerController) {
-        shortImageMangerController = [[UIStoryboard storyboardWithName:@"ImageManagerStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:SHORT_IMAGE_MANAGER_VIEW_CONTROLLER];
+        shortImageMangerController = [czzShortImageManagerCollectionViewController new];;
     }
 
 }

@@ -134,4 +134,7 @@
     }
 }
 
++ (instancetype)new {
+    return [[UIStoryboard storyboardWithName:@"ImageManagerStoryboard" bundle:nil] instantiateInitialViewController];
+}
 @end

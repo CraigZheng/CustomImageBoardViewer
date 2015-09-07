@@ -95,10 +95,8 @@ NSString * const kPickedForum = @"PickedForum";
 }
 
 - (IBAction)moreInfoAction:(id)sender {
-    [self.viewDeckController toggleLeftViewAnimated:YES completion:^(IIViewDeckController *controller, BOOL success) {
-        // Present more info view controller with no selected forum.
-        [[UIApplication topViewController] presentViewController:[czzMoreInfoViewController new] animated:YES completion:nil];
-    }];
+    // Present more info view controller with no selected forum.
+    [[UIApplication topViewController] presentViewController:[czzMoreInfoViewController new] animated:YES completion:nil];
 }
 
 #pragma UITableView datasouce
