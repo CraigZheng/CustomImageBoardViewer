@@ -68,6 +68,7 @@
 @synthesize tableViewDataSource;
 @synthesize homeViewDelegate;
 
+#pragma mark - life cycle
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -301,14 +302,14 @@
     }
 }
 
-#pragma mark - czzThreadListProtocol
+#pragma mark - czzHomeViewModelManagerDelegate
 - (void)viewModelManagerWantsToReload:(czzHomeViewModelManager *)manager {
     if (manager.threads.count) {
         [self.threadTableView reloadData];
     }
 }
 
--(void)viewModelManager:(czzHomeViewModelManager *)threadList downloadSuccessful:(BOOL)wasSuccessful {
+-(void)viewModelManager:(czzHomeViewModelManager *)viewModelManager downloadSuccessful:(BOOL)wasSuccessful {
     DLog(@"%@", NSStringFromSelector(_cmd));
     if (!wasSuccessful && viewControllerNotInTransition) {
         [refreshControl endRefreshing];
@@ -318,7 +319,7 @@
     self.threadTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
 }
 
--(void)viewModelManagerBeginDownloading:(czzHomeViewModelManager *)threadList {
+-(void)viewModelManagerBeginDownloading:(czzHomeViewModelManager *)viewModelManager {
     if (!progressView.isAnimating)
         [progressView startAnimating];
     

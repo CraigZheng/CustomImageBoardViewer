@@ -235,13 +235,13 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     }
 }
 
--(void)viewModelManagerBeginDownloading:(czzHomeViewModelManager *)threadList {
+-(void)viewModelManagerBeginDownloading:(czzHomeViewModelManager *)viewModelManager {
     if (!progressView.isAnimating) {
         [progressView startAnimating];
     }
 }
 
--(void)viewModelManager:(czzHomeViewModelManager *)threadList downloadSuccessful:(BOOL)wasSuccessful {
+-(void)viewModelManager:(czzHomeViewModelManager *)viewModelManager downloadSuccessful:(BOOL)wasSuccessful {
     if (!wasSuccessful)
     {
         if (progressView.isAnimating) {
