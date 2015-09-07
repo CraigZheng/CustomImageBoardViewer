@@ -208,4 +208,8 @@ NSString * const kPickedForum = @"PickedForum";
     shouldHideCoverView = YES;
 }
 
++ (instancetype)new {
+    return [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"left_side_view_controller"];
+}
+
 @end

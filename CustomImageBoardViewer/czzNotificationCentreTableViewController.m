@@ -167,7 +167,7 @@
 }
 
 -(void)presentFeedbackViewControllerWithNotification:(czzNotification*)notification {
-    czzFeedbackViewController *feedbackViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"feedback_view_controller"];
+    czzFeedbackViewController *feedbackViewController = [czzFeedbackViewController new];
     feedbackViewController.myNotification = notification;
     [self.navigationController pushViewController:feedbackViewController animated:YES];
 

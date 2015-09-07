@@ -164,7 +164,7 @@
 
 #pragma mark - reply actions
 -(void)replyMainAction {
-    czzPostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
+    czzPostViewController *postViewController = [czzPostViewController new];
     postViewController.forum = self.forum;
     postViewController.thread = self.parentThread;
     postViewController.postMode = REPLY_POST;
@@ -175,7 +175,7 @@
 }
 
 -(void)replySelectedAction {
-    czzPostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
+    czzPostViewController *postViewController = [czzPostViewController new];
     [postViewController setThread:self.parentThread];
     [postViewController setReplyTo:self.selectedThread];
     postViewController.postMode = REPLY_POST;
@@ -186,7 +186,7 @@
 
 
 -(void)reportAction {
-    czzPostViewController *newPostViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
+    czzPostViewController *newPostViewController = [czzPostViewController new];
     newPostViewController.postMode = REPORT_POST;
     [self presentViewController:newPostViewController animated:YES completion:^{
         [self.viewDeckController toggleRightViewAnimated:YES];
@@ -212,7 +212,7 @@
     NSDictionary *userInfo = notification.userInfo;
     czzThread *replyToThread = [userInfo objectForKey:@"ReplyToThread"];
     if (replyToThread){
-        czzPostViewController *postViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
+        czzPostViewController *postViewController = [czzPostViewController new];
         [postViewController setThread:self.parentThread];
         [postViewController setReplyTo:replyToThread];
         postViewController.postMode = REPLY_POST;

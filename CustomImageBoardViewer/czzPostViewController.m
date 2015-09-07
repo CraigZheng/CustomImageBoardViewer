@@ -349,4 +349,8 @@
     }];
 }
 
++ (instancetype)new {
+    return [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"post_view_controller"];
+}
+
 @end

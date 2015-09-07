@@ -28,6 +28,7 @@
 #import "czzThreadViewModelManager.h"
 #import "czzForumsViewController.h"
 #import "czzThreadTableView.h"
+#import "czzSettingsViewController.h"
 
 #import "czzHomeTableViewDataSource.h"
 
@@ -106,7 +107,7 @@
     self.viewDeckController.leftSize = self.view.frame.size.width/4;
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
     self.viewDeckController.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
-    leftController = [self.storyboard instantiateViewControllerWithIdentifier:@"left_side_view_controller"];
+    leftController = [czzForumsViewController new];
 
     //register a notification observer
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -267,7 +268,7 @@
 
 #pragma mark - more action and commands
 -(void)openSettingsPanel{
-    UIViewController *settingsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"settings_view_controller"];
+    czzSettingsViewController *settingsViewController = [czzSettingsViewController new];
     [self.navigationController pushViewController:settingsViewController animated:YES];
 }
 
@@ -278,7 +279,7 @@
 
 -(void)newPost{
     if (viewModelManager.forum){
-        czzPostViewController *newPostViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
+        czzPostViewController *newPostViewController = [czzPostViewController new];
         newPostViewController.forum = viewModelManager.forum;
         newPostViewController.postMode = NEW_POST;
         [self.navigationController presentViewController:newPostViewController animated:YES completion:nil];
