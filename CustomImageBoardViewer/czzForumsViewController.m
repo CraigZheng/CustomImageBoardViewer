@@ -16,6 +16,7 @@
 #import "czzForum.h"
 #import "czzForumManager.h"
 #import "GSIndeterminateProgressView.h"
+#import "czzMoreInfoViewController.h"
 
 NSString * const kForumPickedNotification = @"ForumNamePicked";
 NSString * const kPickedForum = @"PickedForum";
@@ -91,6 +92,13 @@ NSString * const kPickedForum = @"PickedForum";
         lastAdUpdateTime = [NSDate new];
         [self refreshForums];//might be a good idea to update the forums as well
     }
+}
+
+- (IBAction)moreInfoAction:(id)sender {
+    [self.viewDeckController toggleLeftViewAnimated:YES completion:^(IIViewDeckController *controller, BOOL success) {
+        // Present more info view controller with no selected forum.
+        [[UIApplication topViewController] presentViewController:[czzMoreInfoViewController new] animated:YES completion:nil];
+    }];
 }
 
 #pragma UITableView datasouce

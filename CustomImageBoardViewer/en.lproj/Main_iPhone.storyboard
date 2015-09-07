@@ -229,7 +229,13 @@
                             <constraint firstItem="I9c-ob-c1k" firstAttribute="top" secondItem="iOg-hy-73e" secondAttribute="bottom" id="vhI-FU-6FQ"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="讨论版" id="2OT-yf-Fwg"/>
+                    <navigationItem key="navigationItem" title="讨论版" id="2OT-yf-Fwg">
+                        <barButtonItem key="leftBarButtonItem" image="info.png" id="0vb-vZ-Dkp">
+                            <connections>
+                                <action selector="moreInfoAction:" destination="hin-eg-joT" id="6dY-4w-Eht"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="forumsTableView" destination="I9c-ob-c1k" id="aRU-3Y-c84"/>
                     </connections>
@@ -580,7 +586,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tPW-SV-WlO">
+                            <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tPW-SV-WlO">
                                 <rect key="frame" x="0.0" y="84" width="320" height="360"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -884,6 +890,7 @@
         <image name="delete.png" width="20" height="20"/>
         <image name="delete_file.png" width="20" height="20"/>
         <image name="error.png" width="20" height="20"/>
+        <image name="info.png" width="20" height="20"/>
         <image name="menu.png" width="20" height="20"/>
         <image name="message.png" width="20" height="20"/>
         <image name="reply.png" width="20" height="20"/>

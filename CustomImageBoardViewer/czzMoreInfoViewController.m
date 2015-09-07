@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 Craig. All rights reserved.
 //
 
+#define COVER_URL @"http://cover.acfunwiki.org/cover.php"
+
 #import "czzMoreInfoViewController.h"
 #import "SMXMLDocument.h"
 #import "czzAppDelegate.h"
@@ -56,20 +58,32 @@
                                      bannerView_.bounds.size.height)];
     [bannerView_ loadRequest:[GADRequest request]];
     [self.view addSubview:bannerView_];
-    //load forum info
-    self.title = [NSString stringWithFormat:@"介绍：%@", self.forum.name];
-    moreInfoNavItem.title = self.title;
+    
+    if (headerTextWebView.loading){
+        [headerTextWebView stopLoading];
+    }
+    
+    // Scaled page would be too small for text.
+    headerTextWebView.scalesPageToFit = NO;
     @try {
-        NSString *headerText = [self.forum.header stringByReplacingOccurrencesOfString:@"@Time" withString:[NSString stringWithFormat:@"%ld", (long)self.forum.cooldown]];
-        if (headerTextWebView.loading){
-            [headerTextWebView stopLoading];
+        if (self.forum) {
+            //load forum info
+            self.title = [NSString stringWithFormat:@"介绍：%@", self.forum.name];
+            NSString *headerText = [self.forum.header stringByReplacingOccurrencesOfString:@"@Time" withString:[NSString stringWithFormat:@"%ld", (long)self.forum.cooldown]];
+            [headerTextWebView loadHTMLString:headerText baseURL:Nil];
+            
+        } else {
+            self.title = @"A岛-AC匿名版";
+            // No selected forum, load default value.
+            [headerTextWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:COVER_URL]]];
+            // Scale for image.
+            headerTextWebView.scalesPageToFit = YES;
         }
-        [headerTextWebView loadHTMLString:headerText baseURL:Nil];
     }
     @catch (NSException *exception) {
         DLog(@"%@", exception);
     }
-    
+    moreInfoNavItem.title = self.title;
 }
 
 #pragma UIWebView delegate, open links in safari
@@ -90,6 +104,10 @@
     NSString *homePageURL = @"http://www.weibo.com/u/3868827431"; // Weibo home page URL
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:homePageURL]];
 
+}
+
++ (instancetype)new {
+    return [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"more_info_view_controller"];
 }
 
 @end

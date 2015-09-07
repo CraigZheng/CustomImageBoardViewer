@@ -269,7 +269,6 @@
 -(void)openSettingsPanel{
     UIViewController *settingsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"settings_view_controller"];
     [self.navigationController pushViewController:settingsViewController animated:YES];
-    //[self.viewDeckController toggleTopViewAnimated:YES];
 }
 
 -(void)openNotificationCentre {
@@ -289,11 +288,9 @@
 }
 
 -(IBAction)moreInfoAction:(id)sender {
-    if (viewModelManager.forum) {
-        czzMoreInfoViewController *moreInfoViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"more_info_view_controller"];
-        moreInfoViewController.forum = viewModelManager.forum;
-        [self presentViewController:moreInfoViewController animated:YES completion:nil];
-    }
+    czzMoreInfoViewController *moreInfoViewController = [czzMoreInfoViewController new];
+    moreInfoViewController.forum = viewModelManager.forum;
+    [self presentViewController:moreInfoViewController animated:YES completion:nil];
 }
 
 #pragma mark - czzHomeViewModelManagerDelegate
