@@ -193,7 +193,7 @@
         NSString *reportString = [[settingCentre report_post_placeholder] stringByReplacingOccurrencesOfString:kParentID withString:[NSString stringWithFormat:@"%ld", (long)self.parentThread.ID]];
         reportString = [reportString stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long)self.selectedThread.ID]];
         newPostViewController.postTextView.text = reportString;
-        newPostViewController.postNaviBar.topItem.title = [NSString stringWithFormat:@"举报:%ld", (long)self.selectedThread.ID];
+        newPostViewController.postNaviBar.topItem.title = [NSString stringWithFormat:@"举报:%ld", (long)self.parentThread.ID];
         //construct a blacklist that to be submitted to my server and pass it to new post view controller
         czzBlacklistEntity *blacklistEntity = [czzBlacklistEntity new];
         blacklistEntity.threadID = self.selectedThread.ID;
