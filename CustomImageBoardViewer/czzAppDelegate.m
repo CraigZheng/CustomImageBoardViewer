@@ -14,7 +14,7 @@
 #import "czzSettingsCentre.h"
 #import "czzCookieManager.h"
 #import "czzAppActivityManager.h"
-
+#import "TalkingData.h"
 
 //#import <BugSense-iOS/BugSenseController.h>
 #import <SplunkMint-iOS/SplunkMint-iOS.h>
@@ -30,10 +30,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
-
     [[Mint sharedInstance] initAndStartSession:@"cd668a8e"];
     [[Mint sharedInstance] setUserIdentifier:[UIDevice currentDevice].identifierForVendor.UUIDString];
+    
+    // Talkind data initialisation
+    [TalkingData sessionStarted:@"B8168DD03CD9EF62B476CEDFBC3FB52D" withChannelId:@""];
     
     myhost = my_main_host;
     settingsCentre = [czzSettingsCentre sharedInstance];

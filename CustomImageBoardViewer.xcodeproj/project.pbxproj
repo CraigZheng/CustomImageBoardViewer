@@ -202,6 +202,9 @@
 		4498A7E41B89984500312A11 /* CPAutoFillView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498A7E31B89984400312A11 /* CPAutoFillView.m */; };
 		4498B689199248ED0014F73F /* czzJSONProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498B688199248ED0014F73F /* czzJSONProcessor.m */; };
 		4498B68D1993A6190014F73F /* PropertyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498B68C1993A6190014F73F /* PropertyUtil.m */; };
+		4498CEC01B9E752A004D2380 /* libTalkingData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4498CEBE1B9E752A004D2380 /* libTalkingData.a */; };
+		4498CEC21B9E754A004D2380 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4498CEC11B9E754A004D2380 /* Security.framework */; };
+		4498CEC41B9E756D004D2380 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4498CEC31B9E756D004D2380 /* CoreTelephony.framework */; };
 		449C9E271A71DB5C00D49B7F /* remote_configuration-debug.json in Resources */ = {isa = PBXBuildFile; fileRef = 449C9E261A71DB5C00D49B7F /* remote_configuration-debug.json */; };
 		44A9E10E1AE1CAC600740CE1 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 44A9E10C1AE1CAC600740CE1 /* libGoogleAdMobAds.a */; };
 		44A9E10F1AE1CAC600740CE1 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 44A9E10D1AE1CAC600740CE1 /* README.txt */; };
@@ -765,6 +768,10 @@
 		4498B688199248ED0014F73F /* czzJSONProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzJSONProcessor.m; sourceTree = "<group>"; };
 		4498B68B1993A6190014F73F /* PropertyUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PropertyUtil.h; path = ../PropertyUtil.h; sourceTree = "<group>"; };
 		4498B68C1993A6190014F73F /* PropertyUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PropertyUtil.m; path = ../PropertyUtil.m; sourceTree = "<group>"; };
+		4498CEBE1B9E752A004D2380 /* libTalkingData.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTalkingData.a; sourceTree = "<group>"; };
+		4498CEBF1B9E752A004D2380 /* TalkingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TalkingData.h; sourceTree = "<group>"; };
+		4498CEC11B9E754A004D2380 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		4498CEC31B9E756D004D2380 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		449C9E261A71DB5C00D49B7F /* remote_configuration-debug.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "remote_configuration-debug.json"; sourceTree = "<group>"; };
 		44A9E1001AE1CAC600740CE1 /* GADAdMobExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdMobExtras.h; sourceTree = "<group>"; };
 		44A9E1011AE1CAC600740CE1 /* GADAdNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdNetworkExtras.h; sourceTree = "<group>"; };
@@ -1015,9 +1022,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4498CEC41B9E756D004D2380 /* CoreTelephony.framework in Frameworks */,
+				4498CEC21B9E754A004D2380 /* Security.framework in Frameworks */,
 				442A901819DB9BAF00A3516E /* libxml2.dylib in Frameworks */,
 				44A9E10E1AE1CAC600740CE1 /* libGoogleAdMobAds.a in Frameworks */,
 				44BB0BC31A1AE700006C50F5 /* SplunkMint-iOS.framework in Frameworks */,
+				4498CEC01B9E752A004D2380 /* libTalkingData.a in Frameworks */,
 				447FD254195D1AF1003E30C2 /* libz.dylib in Frameworks */,
 				44412975186E9B1000075AA2 /* StoreKit.framework in Frameworks */,
 				44B86461185D810500C29B92 /* SystemConfiguration.framework in Frameworks */,
@@ -1139,6 +1149,8 @@
 		441E5CCD17F4691300289DBD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4498CEC31B9E756D004D2380 /* CoreTelephony.framework */,
+				4498CEC11B9E754A004D2380 /* Security.framework */,
 				442A901719DB9BAF00A3516E /* libxml2.dylib */,
 				5A637437195D8AB0004AF1FC /* LICENSE */,
 				447FD253195D1AF1003E30C2 /* libz.dylib */,
@@ -1857,6 +1869,15 @@
 			name = PropertyUtil;
 			sourceTree = "<group>";
 		};
+		4498CEBD1B9E751E004D2380 /* TalkingData */ = {
+			isa = PBXGroup;
+			children = (
+				4498CEBE1B9E752A004D2380 /* libTalkingData.a */,
+				4498CEBF1B9E752A004D2380 /* TalkingData.h */,
+			);
+			name = TalkingData;
+			sourceTree = "<group>";
+		};
 		44A9E0FF1AE1CAC600740CE1 /* GoogldAdmob */ = {
 			isa = PBXGroup;
 			children = (
@@ -1950,6 +1971,7 @@
 		44B89E771A2AF3CE0085F766 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				4498CEBD1B9E751E004D2380 /* TalkingData */,
 				44BFEF421B8C0D7F0095772B /* DeviceHardware */,
 				4498A7E51B89984A00312A11 /* AutoFille View */,
 				4498A7D41B89982600312A11 /* PureLayout */,
@@ -3022,6 +3044,7 @@
 					/Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer,
 					/Users/CraigZheng/Developer/CustomImageBoardViewer/CustomImageBoardViewer,
 					"$(PROJECT_DIR)/CustomImageBoardViewer/GoogldAdmob",
+					"$(PROJECT_DIR)/CustomImageBoardViewer",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -3057,6 +3080,7 @@
 					/Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer,
 					/Users/CraigZheng/Developer/CustomImageBoardViewer/CustomImageBoardViewer,
 					"$(PROJECT_DIR)/CustomImageBoardViewer/GoogldAdmob",
+					"$(PROJECT_DIR)/CustomImageBoardViewer",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
