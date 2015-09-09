@@ -151,7 +151,7 @@
     });
     if (successed){
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            if ([self.delegate isPresented]) {
+            if ([(UIViewController*)self.delegate isPresented]) {
                 self.isProcessing = YES;
                 [self.threadDataProcessor processThreadListFromData:xmlData forForum:self.forum];
             }

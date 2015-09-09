@@ -21,7 +21,7 @@
 @property (strong, nonatomic) czzThread *parentThread;
 @property (assign, nonatomic) BOOL restoredFromCache;
 @property (strong, nonatomic) NSString *selectedUserToHighlight;
-@property (weak, nonatomic) UIViewController<czzThreadViewModelManagerDelegate> *delegate;
+@property (weak, nonatomic) id<czzThreadViewModelManagerDelegate> delegate;
 
 - (void)reset;
 -(instancetype)initWithParentThread:(czzThread*)thread andForum:(czzForum*)forum;

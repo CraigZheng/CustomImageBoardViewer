@@ -45,7 +45,7 @@
 @property (nonatomic, assign) NSInteger totalPages;
 @property (nonatomic, strong) NSMutableArray *threads;
 @property (nonatomic, strong) NSArray *lastBatchOfThreads;
-@property (nonatomic, weak) UIViewController<czzHomeViewModelManagerDelegate> *delegate;
+@property (nonatomic, weak) id<czzHomeViewModelManagerDelegate> delegate;
 @property (nonatomic, assign) BOOL isDownloading;
 @property (nonatomic, assign) BOOL isProcessing;
 @property (nonatomic, strong) NSMutableArray *horizontalHeights;

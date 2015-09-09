@@ -188,6 +188,17 @@
 		445B7B5C1B43EBCA0046CFDB /* czzNavigationViewModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 445B7B5B1B43EBCA0046CFDB /* czzNavigationViewModelManager.m */; };
 		445B7B5F1B4404810046CFDB /* czzThreadViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 445B7B5E1B4404810046CFDB /* czzThreadViewDelegate.m */; };
 		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
+		4476B63A1B9FDD43004E6650 /* InterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4476B6391B9FDD43004E6650 /* InterfaceController.m */; };
+		4476B63D1B9FDD43004E6650 /* GlanceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4476B63C1B9FDD43004E6650 /* GlanceController.m */; };
+		4476B63F1B9FDD43004E6650 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4476B63E1B9FDD43004E6650 /* Images.xcassets */; };
+		4476B6431B9FDD43004E6650 /* CustomImageBoardViewer WatchKit App.app in Resources */ = {isa = PBXBuildFile; fileRef = 4476B6421B9FDD43004E6650 /* CustomImageBoardViewer WatchKit App.app */; };
+		4476B64B1B9FDD43004E6650 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4476B6491B9FDD43004E6650 /* Interface.storyboard */; };
+		4476B64D1B9FDD43004E6650 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4476B64C1B9FDD43004E6650 /* Images.xcassets */; };
+		4476B6501B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4476B6341B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		4476B6591B9FE4AC004E6650 /* czzHomeViewModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B89E861A2AFC6B0085F766 /* czzHomeViewModelManager.m */; };
+		4476B65A1B9FE4DF004E6650 /* czzThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E5D2B17F48F8C00289DBD /* czzThread.m */; };
+		4476B65B1B9FE4E6004E6650 /* czzThreadViewModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141961A2B38D6007D65B3 /* czzThreadViewModelManager.m */; };
+		4476B65C1B9FE5DE004E6650 /* czzSettingsCentre.m in Sources */ = {isa = PBXBuildFile; fileRef = 443B54F219933C1F00BAB282 /* czzSettingsCentre.m */; };
 		4479B07D1A0BB8E70074D484 /* czzTextViewHeightCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4479B07C1A0BB8E70074D484 /* czzTextViewHeightCalculator.m */; };
 		4479B08A1A0CCB270074D484 /* MiniThreadView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4479B0891A0CCB270074D484 /* MiniThreadView.storyboard */; };
 		4479B0901A0CCB6D0074D484 /* czzMiniThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4479B08F1A0CCB6D0074D484 /* czzMiniThreadViewController.m */; };
@@ -417,7 +428,35 @@
 			remoteGlobalIDString = 441E5CCA17F4691300289DBD;
 			remoteInfo = CustomImageBoardViewer;
 		};
+		4476B6441B9FDD43004E6650 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 441E5CC317F4691300289DBD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4476B6411B9FDD43004E6650;
+			remoteInfo = "CustomImageBoardViewer WatchKit App";
+		};
+		4476B64E1B9FDD43004E6650 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 441E5CC317F4691300289DBD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4476B6331B9FDD43004E6650;
+			remoteInfo = "CustomImageBoardViewer WatchKit Extension";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4476B6571B9FDD43004E6650 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				4476B6501B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		440A629E1B8E90130046E4CE /* czzThreadViewCommandStatusCellViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewCommandStatusCellViewController.h; sourceTree = "<group>"; };
@@ -741,6 +780,17 @@
 		445B7B5E1B4404810046CFDB /* czzThreadViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewDelegate.m; sourceTree = "<group>"; };
 		4462EF2318659BC200E6BE78 /* czzFavouriteManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFavouriteManagerViewController.h; sourceTree = "<group>"; };
 		4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFavouriteManagerViewController.m; sourceTree = "<group>"; };
+		4476B6341B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "CustomImageBoardViewer WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4476B6371B9FDD43004E6650 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4476B6381B9FDD43004E6650 /* InterfaceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterfaceController.h; sourceTree = "<group>"; };
+		4476B6391B9FDD43004E6650 /* InterfaceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InterfaceController.m; sourceTree = "<group>"; };
+		4476B63B1B9FDD43004E6650 /* GlanceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GlanceController.h; sourceTree = "<group>"; };
+		4476B63C1B9FDD43004E6650 /* GlanceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GlanceController.m; sourceTree = "<group>"; };
+		4476B63E1B9FDD43004E6650 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		4476B6421B9FDD43004E6650 /* CustomImageBoardViewer WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CustomImageBoardViewer WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4476B6481B9FDD43004E6650 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4476B64A1B9FDD43004E6650 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		4476B64C1B9FDD43004E6650 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4479B07B1A0BB8E70074D484 /* czzTextViewHeightCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzTextViewHeightCalculator.h; sourceTree = "<group>"; };
 		4479B07C1A0BB8E70074D484 /* czzTextViewHeightCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzTextViewHeightCalculator.m; sourceTree = "<group>"; };
 		4479B0891A0CCB270074D484 /* MiniThreadView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MiniThreadView.storyboard; sourceTree = "<group>"; };
@@ -1054,6 +1104,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4476B6311B9FDD43004E6650 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -1132,6 +1189,8 @@
 			children = (
 				441E5CD417F4691300289DBD /* CustomImageBoardViewer */,
 				441E5CF617F4691300289DBD /* CustomImageBoardViewerTests */,
+				4476B6351B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension */,
+				4476B6461B9FDD43004E6650 /* CustomImageBoardViewer WatchKit App */,
 				441E5CCD17F4691300289DBD /* Frameworks */,
 				441E5CCC17F4691300289DBD /* Products */,
 			);
@@ -1142,6 +1201,8 @@
 			children = (
 				441E5CCB17F4691300289DBD /* CustomImageBoardViewer.app */,
 				441E5CEF17F4691300289DBD /* CustomImageBoardViewerTests.xctest */,
+				4476B6341B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension.appex */,
+				4476B6421B9FDD43004E6650 /* CustomImageBoardViewer WatchKit App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1794,6 +1855,45 @@
 			name = czzFavouriteManagerVIewController;
 			sourceTree = "<group>";
 		};
+		4476B6351B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension */ = {
+			isa = PBXGroup;
+			children = (
+				4476B6381B9FDD43004E6650 /* InterfaceController.h */,
+				4476B6391B9FDD43004E6650 /* InterfaceController.m */,
+				4476B63B1B9FDD43004E6650 /* GlanceController.h */,
+				4476B63C1B9FDD43004E6650 /* GlanceController.m */,
+				4476B63E1B9FDD43004E6650 /* Images.xcassets */,
+				4476B6361B9FDD43004E6650 /* Supporting Files */,
+			);
+			path = "CustomImageBoardViewer WatchKit Extension";
+			sourceTree = "<group>";
+		};
+		4476B6361B9FDD43004E6650 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4476B6371B9FDD43004E6650 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4476B6461B9FDD43004E6650 /* CustomImageBoardViewer WatchKit App */ = {
+			isa = PBXGroup;
+			children = (
+				4476B6491B9FDD43004E6650 /* Interface.storyboard */,
+				4476B64C1B9FDD43004E6650 /* Images.xcassets */,
+				4476B6471B9FDD43004E6650 /* Supporting Files */,
+			);
+			path = "CustomImageBoardViewer WatchKit App";
+			sourceTree = "<group>";
+		};
+		4476B6471B9FDD43004E6650 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4476B6481B9FDD43004E6650 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		4479B0911A0CCB750074D484 /* MiniThreadView */ = {
 			isa = PBXGroup;
 			children = (
@@ -2412,10 +2512,12 @@
 				441E5CC717F4691300289DBD /* Sources */,
 				441E5CC817F4691300289DBD /* Frameworks */,
 				441E5CC917F4691300289DBD /* Resources */,
+				4476B6571B9FDD43004E6650 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				4476B64F1B9FDD43004E6650 /* PBXTargetDependency */,
 			);
 			name = CustomImageBoardViewer;
 			productName = CustomImageBoardViewer;
@@ -2439,6 +2541,39 @@
 			productName = CustomImageBoardViewerTests;
 			productReference = 441E5CEF17F4691300289DBD /* CustomImageBoardViewerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		4476B6331B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4476B6561B9FDD43004E6650 /* Build configuration list for PBXNativeTarget "CustomImageBoardViewer WatchKit Extension" */;
+			buildPhases = (
+				4476B6301B9FDD43004E6650 /* Sources */,
+				4476B6311B9FDD43004E6650 /* Frameworks */,
+				4476B6321B9FDD43004E6650 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4476B6451B9FDD43004E6650 /* PBXTargetDependency */,
+			);
+			name = "CustomImageBoardViewer WatchKit Extension";
+			productName = "CustomImageBoardViewer WatchKit Extension";
+			productReference = 4476B6341B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension.appex */;
+			productType = "com.apple.product-type.watchkit-extension";
+		};
+		4476B6411B9FDD43004E6650 /* CustomImageBoardViewer WatchKit App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4476B6551B9FDD43004E6650 /* Build configuration list for PBXNativeTarget "CustomImageBoardViewer WatchKit App" */;
+			buildPhases = (
+				4476B6401B9FDD43004E6650 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "CustomImageBoardViewer WatchKit App";
+			productName = "CustomImageBoardViewer WatchKit App";
+			productReference = 4476B6421B9FDD43004E6650 /* CustomImageBoardViewer WatchKit App.app */;
+			productType = "com.apple.product-type.application.watchapp";
 		};
 /* End PBXNativeTarget section */
 
@@ -2464,6 +2599,14 @@
 					441E5CEE17F4691300289DBD = {
 						TestTargetID = 441E5CCA17F4691300289DBD;
 					};
+					4476B6331B9FDD43004E6650 = {
+						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = 9EBE9MWW9X;
+					};
+					4476B6411B9FDD43004E6650 = {
+						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = 9EBE9MWW9X;
+					};
 				};
 			};
 			buildConfigurationList = 441E5CC617F4691300289DBD /* Build configuration list for PBXProject "CustomImageBoardViewer" */;
@@ -2481,6 +2624,8 @@
 			targets = (
 				441E5CCA17F4691300289DBD /* CustomImageBoardViewer */,
 				441E5CEE17F4691300289DBD /* CustomImageBoardViewerTests */,
+				4476B6331B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension */,
+				4476B6411B9FDD43004E6650 /* CustomImageBoardViewer WatchKit App */,
 			);
 		};
 /* End PBXProject section */
@@ -2719,6 +2864,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4476B6321B9FDD43004E6650 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4476B6431B9FDD43004E6650 /* CustomImageBoardViewer WatchKit App.app in Resources */,
+				4476B63F1B9FDD43004E6650 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4476B6401B9FDD43004E6650 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4476B64B1B9FDD43004E6650 /* Interface.storyboard in Resources */,
+				4476B64D1B9FDD43004E6650 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -2895,6 +3058,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4476B6301B9FDD43004E6650 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4476B65C1B9FE5DE004E6650 /* czzSettingsCentre.m in Sources */,
+				4476B6591B9FE4AC004E6650 /* czzHomeViewModelManager.m in Sources */,
+				4476B65A1B9FE4DF004E6650 /* czzThread.m in Sources */,
+				4476B63A1B9FDD43004E6650 /* InterfaceController.m in Sources */,
+				4476B63D1B9FDD43004E6650 /* GlanceController.m in Sources */,
+				4476B65B1B9FE4E6004E6650 /* czzThreadViewModelManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2902,6 +3078,16 @@
 			isa = PBXTargetDependency;
 			target = 441E5CCA17F4691300289DBD /* CustomImageBoardViewer */;
 			targetProxy = 441E5CF417F4691300289DBD /* PBXContainerItemProxy */;
+		};
+		4476B6451B9FDD43004E6650 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4476B6411B9FDD43004E6650 /* CustomImageBoardViewer WatchKit App */;
+			targetProxy = 4476B6441B9FDD43004E6650 /* PBXContainerItemProxy */;
+		};
+		4476B64F1B9FDD43004E6650 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4476B6331B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension */;
+			targetProxy = 4476B64E1B9FDD43004E6650 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2928,6 +3114,14 @@
 				441E5CFA17F4691300289DBD /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		4476B6491B9FDD43004E6650 /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4476B64A1B9FDD43004E6650 /* Base */,
+			);
+			name = Interface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -3136,6 +3330,100 @@
 			};
 			name = Release;
 		};
+		4476B6511B9FDD43004E6650 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "CustomImageBoardViewer WatchKit Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		4476B6521B9FDD43004E6650 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "CustomImageBoardViewer WatchKit Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		4476B6531B9FDD43004E6650 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				IBSC_MODULE = CustomImageBoardViewer_WatchKit_Extension;
+				INFOPLIST_FILE = "CustomImageBoardViewer WatchKit App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+			};
+			name = Debug;
+		};
+		4476B6541B9FDD43004E6650 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				IBSC_MODULE = CustomImageBoardViewer_WatchKit_Extension;
+				INFOPLIST_FILE = "CustomImageBoardViewer WatchKit App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -3165,6 +3453,22 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		4476B6551B9FDD43004E6650 /* Build configuration list for PBXNativeTarget "CustomImageBoardViewer WatchKit App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4476B6531B9FDD43004E6650 /* Debug */,
+				4476B6541B9FDD43004E6650 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		4476B6561B9FDD43004E6650 /* Build configuration list for PBXNativeTarget "CustomImageBoardViewer WatchKit Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4476B6511B9FDD43004E6650 /* Debug */,
+				4476B6521B9FDD43004E6650 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 
