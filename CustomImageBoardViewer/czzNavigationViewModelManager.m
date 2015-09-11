@@ -28,6 +28,11 @@
 #pragma mark - UINavigationControllerDelegate
 -(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
     self.isInTransition = YES;
+    dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, 0.29 * NSEC_PER_SEC);
+    // After a certain period of time, set the isInTransition back to NO. This prevents the error that triggerd by user partially return to the previous view controller.
+    dispatch_after(delay, dispatch_get_main_queue(), ^{
+        self.isInTransition = NO;
+    });
 }
 
 -(void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
