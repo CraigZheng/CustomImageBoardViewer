@@ -15,6 +15,7 @@
 #import "NSString+HTML.h"
 #import "czzSettingsCentre.h"
 #import "czzURLDownloader.h"
+#import "NSDictionary+Util.h"
 
 @interface czzThread()
 @end
@@ -61,33 +62,33 @@
 /*
  new format
  */
--(instancetype)initWithJSONDictionaryV2:(NSDictionary *)data {
+-(instancetype)initWithJSONDictionaryV2:(NSDictionary *)jsonDict {
     self = [super init];
     if (self) {
         @try {
-            self.ID = [[self readFromJsonDictionary:data withName:@"id"] integerValue];
+            self.ID = [[jsonDict jsonValueWithKey:@"id"] integerValue];
             //images
-            NSString *imgString = [self readFromJsonDictionary:data withName:@"img"];
+            NSString *imgString = [jsonDict jsonValueWithKey:@"img"];
             if (imgString.length) {
-                self.imgSrc = [imgString stringByAppendingString:[self readFromJsonDictionary:data withName:@"ext"]];
+                self.imgSrc = [imgString stringByAppendingString:[jsonDict jsonValueWithKey:@"ext"]];
 
-                self.thImgSrc = [[imgString stringByAppendingString:@"_t"] stringByAppendingString:[self readFromJsonDictionary:data withName:@"ext"]];                
+                self.thImgSrc = [[imgString stringByAppendingString:@"_t"] stringByAppendingString:[jsonDict jsonValueWithKey:@"ext"]];                
             }
             //date -  "now": "2015-03-08(日)11:30:43",
             NSDateFormatter *formatter = [NSDateFormatter new];
             formatter.dateFormat = @"yyyyMMddHHmmss";
-            NSString *dateTimeString = [[[self readFromJsonDictionary:data withName:@"now"] componentsSeparatedByCharactersInSet: [[NSCharacterSet decimalDigitCharacterSet] invertedSet]] componentsJoinedByString:@""];
+            NSString *dateTimeString = [[[jsonDict jsonValueWithKey:@"now"] componentsSeparatedByCharactersInSet: [[NSCharacterSet decimalDigitCharacterSet] invertedSet]] componentsJoinedByString:@""];
             self.postDateTime = [formatter dateFromString:dateTimeString];
 
             //various contents
-            if ([[self readFromJsonDictionary:data withName:@"admin"] boolValue]) {
-                self.UID = [[NSAttributedString alloc] initWithString:[self readFromJsonDictionary:data withName:@"name"] attributes:@{NSForegroundColorAttributeName : [UIColor redColor]}];
+            if ([[jsonDict jsonValueWithKey:@"admin"] boolValue]) {
+                self.UID = [[NSAttributedString alloc] initWithString:[jsonDict jsonValueWithKey:@"name"] attributes:@{NSForegroundColorAttributeName : [UIColor redColor]}];
             } else
-                self.UID = [[NSAttributedString alloc] initWithString:[self readFromJsonDictionary:data withName:@"userid"]];
-            self.email = [self readFromJsonDictionary:data withName:@"email"];
-            self.title = [self readFromJsonDictionary:data withName:@"title"];
-            self.content = [self renderHTMLToAttributedString:[self readFromJsonDictionary:data withName:@"content"]];
-            self.responseCount = [[self readFromJsonDictionary:data withName:@"replyCount"] integerValue];
+                self.UID = [[NSAttributedString alloc] initWithString:[jsonDict jsonValueWithKey:@"userid"]];
+            self.email = [jsonDict jsonValueWithKey:@"email"];
+            self.title = [jsonDict jsonValueWithKey:@"title"];
+            self.content = [self renderHTMLToAttributedString:[jsonDict jsonValueWithKey:@"content"]];
+            self.responseCount = [[jsonDict jsonValueWithKey:@"replyCount"] integerValue];
             //check contents
             [self checkBlacklist];
             [self checkRemoteConfiguration];

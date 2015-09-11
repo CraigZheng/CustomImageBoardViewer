@@ -39,7 +39,7 @@
 @property (strong, nonatomic) czzForum *forum;
 
 -(id)initWithJSONDictionary:(NSDictionary*)data;
--(instancetype)initWithJSONDictionaryV2:(NSDictionary *)data;
+-(instancetype)initWithJSONDictionaryV2:(NSDictionary *)jsonDict;
 
 -(NSAttributedString*)renderHTMLToAttributedString:(NSString*)htmlString;
 

@@ -10,4 +10,5 @@
 
 @interface NSDictionary (Util)
 
+-(id)jsonValueWithKey:(NSString*)key;
 @end

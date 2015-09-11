@@ -7,22 +7,18 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>6F9E9DC0-3613-4056-BB12-30285F778E18</string>
 	<key>IDESourceControlProjectName</key>
-	<string>CustomImageBoardViewer</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>32815DC622DED770ACB938B9C2A33ADE7A3CB589</key>
 		<string>https://github.com/CraigZheng/CustomImageBoardViewer.git</string>
-		<key>8B12E6E32F296CC7AE19E832A729B74D00C78ECA</key>
-		<string>https://github.com/dartgroup/dart.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>CustomImageBoardViewer.xcodeproj</string>
+	<string>CustomImageBoardViewer.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>32815DC622DED770ACB938B9C2A33ADE7A3CB589</key>
 		<string>../..</string>
-		<key>8B12E6E32F296CC7AE19E832A729B74D00C78ECA</key>
-		<string>../../../dart</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/CraigZheng/CustomImageBoardViewer.git</string>
@@ -39,14 +35,6 @@
 			<string>32815DC622DED770ACB938B9C2A33ADE7A3CB589</string>
 			<key>IDESourceControlWCCName</key>
 			<string>CustomImageBoardViewer</string>
-		</dict>
-		<dict>
-			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.git</string>
-			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>8B12E6E32F296CC7AE19E832A729B74D00C78ECA</string>
-			<key>IDESourceControlWCCName</key>
-			<string>dart</string>
 		</dict>
 	</array>
 </dict>

@@ -9,6 +9,7 @@
 #import "czzJSONProcessor.h"
 #import "czzThread.h"
 #import "czzAppDelegate.h"
+#import "NSDictionary+Util.h"
 
 @interface czzJSONProcessor()
 @property NSMutableArray *processedThreads;
@@ -115,7 +116,7 @@
             parentThread = [[czzThread alloc] initWithJSONDictionary:[parsedObjects objectForKey:@"threads"]];
         }
         parentThread.forum = forum; // Record source forum
-        NSArray* parsedThreadData = [self readFromJsonDictionary:parsedObjects withName:@"replys"];
+        NSArray* parsedThreadData = [parsedObjects jsonValueWithKey:@"replys"];
         for (NSDictionary *rawThreadData in parsedThreadData) {
             czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
             if (newThread) {
@@ -125,7 +126,7 @@
         }
         // Page number data
         if ([parsedObjects objectForKey:@"page"]) {
-            [self updatePageNumberWithJsonDict:[self readFromJsonDictionary:parsedObjects withName:@"page"]];
+            [self updatePageNumberWithJsonDict:[parsedObjects jsonValueWithKey:@"page"]];
         }
         
         if (delegate) {
@@ -158,8 +159,8 @@
     //check if dictionary has the following 2 keys
     if ([jsonDict valueForKey:@"page"] && [jsonDict valueForKey:@"size"])
     {
-        NSInteger pageNumber = [[self readFromJsonDictionary:jsonDict withName:@"page"] integerValue];
-        NSInteger totalPages = [[self readFromJsonDictionary:jsonDict withName:@"size"] integerValue];
+        NSInteger pageNumber = [[jsonDict jsonValueWithKey:@"page"] integerValue];
+        NSInteger totalPages = [[jsonDict jsonValueWithKey:@"size"] integerValue];
         if ([delegate respondsToSelector:@selector(pageNumberUpdated:inAllPage:)])
             [delegate pageNumberUpdated:pageNumber inAllPage:totalPages];
     }

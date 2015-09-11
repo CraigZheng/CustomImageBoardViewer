@@ -10,4 +10,11 @@
 
 @implementation NSDictionary (Util)
 
+-(id)jsonValueWithKey:(NSString *)key {
+    id value = [self objectForKey:key];
+    if ([value isEqual:[NSNull null]]) {
+        value = nil;
+    }
+    return value;
+}
 @end
