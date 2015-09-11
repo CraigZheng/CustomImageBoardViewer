@@ -13,8 +13,8 @@
 @class SMXMLElement;
 
 @interface czzThread : NSObject
-@property NSInteger responseCount;
-@property NSInteger ID;
+@property (assign, nonatomic) NSInteger responseCount;
+@property (assign, nonatomic) NSInteger ID;
 @property (strong, nonatomic) NSAttributedString *UID;
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *email;
@@ -27,7 +27,7 @@
 @property (strong, nonatomic) NSDate *postDateTime;
 @property (strong, nonatomic) NSDate *updateDateTime;
 @property (assign, nonatomic) BOOL isParent;
-@property NSInteger parentID;
+@property (assign, nonatomic) NSInteger parentID;
 #pragma mark - CONTENT CENSORING PROPERTIES
 @property (assign, nonatomic) BOOL harmful;
 @property (assign, nonatomic) BOOL blockContent;
