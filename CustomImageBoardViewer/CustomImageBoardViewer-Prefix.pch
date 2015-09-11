@@ -42,7 +42,7 @@ Stuff; \
 _Pragma("clang diagnostic pop") \
 } while (0)
 
-#import "NSObject+Extension.h"
+#import "NSObject+Util.h"
 
 #define kForum @"<kForum>"
 #define kPageNumber @"<kPageNumber>"
