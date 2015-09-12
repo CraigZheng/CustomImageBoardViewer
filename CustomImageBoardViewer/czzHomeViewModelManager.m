@@ -96,7 +96,11 @@
     if (self.pageNumber > self.totalPages)
         self.pageNumber = self.totalPages;
 
-    NSString *targetURLStringWithPN = [[self.baseURLString stringByReplacingOccurrencesOfString:kPageNumber withString:[NSString stringWithFormat:@"%ld", (long) self.pageNumber]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *targetURLStringWithPN = [[[self.baseURLString
+                                         stringByReplacingOccurrencesOfString:kPageNumber
+                                         withString:[NSString stringWithFormat:@"%ld", (long) self.pageNumber]]
+                                        stringByReplacingOccurrencesOfString:kForumID
+                                        withString:[NSString stringWithFormat:@"%ld", (long)self.forum.forumID]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     self.threadDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
     self.isDownloading = YES;
     if ([self.delegate respondsToSelector:@selector(viewModelManagerBeginDownloading:)]) {

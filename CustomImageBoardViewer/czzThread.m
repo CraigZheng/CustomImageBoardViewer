@@ -59,47 +59,6 @@
  "replyCount": "2172",
  "replys":
  */
-/*
- new format
- */
--(instancetype)initWithJSONDictionaryV2:(NSDictionary *)jsonDict {
-    self = [super init];
-    if (self) {
-        @try {
-            self.ID = [[jsonDict jsonValueWithKey:@"id"] integerValue];
-            //images
-            NSString *imgString = [jsonDict jsonValueWithKey:@"img"];
-            if (imgString.length) {
-                self.imgSrc = [imgString stringByAppendingString:[jsonDict jsonValueWithKey:@"ext"]];
-
-                self.thImgSrc = [[imgString stringByAppendingString:@"_t"] stringByAppendingString:[jsonDict jsonValueWithKey:@"ext"]];                
-            }
-            //date -  "now": "2015-03-08(日)11:30:43",
-            NSDateFormatter *formatter = [NSDateFormatter new];
-            formatter.dateFormat = @"yyyyMMddHHmmss";
-            NSString *dateTimeString = [[[jsonDict jsonValueWithKey:@"now"] componentsSeparatedByCharactersInSet: [[NSCharacterSet decimalDigitCharacterSet] invertedSet]] componentsJoinedByString:@""];
-            self.postDateTime = [formatter dateFromString:dateTimeString];
-
-            //various contents
-            if ([[jsonDict jsonValueWithKey:@"admin"] boolValue]) {
-                self.UID = [[NSAttributedString alloc] initWithString:[jsonDict jsonValueWithKey:@"name"] attributes:@{NSForegroundColorAttributeName : [UIColor redColor]}];
-            } else
-                self.UID = [[NSAttributedString alloc] initWithString:[jsonDict jsonValueWithKey:@"userid"]];
-            self.email = [jsonDict jsonValueWithKey:@"email"];
-            self.title = [jsonDict jsonValueWithKey:@"title"];
-            self.content = [self renderHTMLToAttributedString:[jsonDict jsonValueWithKey:@"content"]];
-            self.responseCount = [[jsonDict jsonValueWithKey:@"replyCount"] integerValue];
-            //check contents
-            [self checkBlacklist];
-            [self checkRemoteConfiguration];
-        }
-        @catch (NSException *exception) {
-            DLog(@"%@", exception);
-            return nil;
-        }
-    }
-    return self;
-}
 
 -(id)initWithJSONDictionary:(NSDictionary *)data {
     self = [self init];

@@ -45,6 +45,7 @@ _Pragma("clang diagnostic pop") \
 #import "NSObject+Util.h"
 
 #define kForum @"<kForum>"
+#define kForumID @"<kForumID>"
 #define kPageNumber @"<kPageNumber>"
 #define kParentID @"<kParentID>"
 #define kThreadID @"<kThreadID>"
