@@ -22,12 +22,12 @@
 @property (assign, nonatomic) BOOL shouldDisplayContent;
 @property (assign, nonatomic) BOOL shouldAllowOpenBlockedThread;
 @property (strong, nonatomic) NSArray *shouldHideImageInForums;
-@property NSTimeInterval configuration_refresh_interval;
-@property NSTimeInterval blacklist_refresh_interval;
-@property NSTimeInterval forum_list_refresh_interval;
-@property NSTimeInterval notification_refresh_interval;
-@property NSInteger threads_per_page;
-@property NSInteger response_per_page;
+@property (assign, nonatomic) NSTimeInterval configuration_refresh_interval;
+@property (assign, nonatomic) NSTimeInterval blacklist_refresh_interval;
+@property (assign, nonatomic) NSTimeInterval forum_list_refresh_interval;
+@property (assign, nonatomic) NSTimeInterval notification_refresh_interval;
+@property (assign, nonatomic) NSInteger threads_per_page;
+@property (assign, nonatomic) NSInteger response_per_page;
 @property (strong, nonatomic) NSString *thread_format;
 @property (strong, nonatomic) NSString *forum_list_url;
 //these are the new settings at version 2.0.1(short version)
