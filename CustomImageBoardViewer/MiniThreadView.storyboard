@@ -51,14 +51,32 @@
                                 <connections>
                                     <outlet property="dataSource" destination="hhF-PX-LQi" id="WYY-pj-E1k"/>
                                     <outlet property="delegate" destination="hhF-PX-LQi" id="DPt-r9-PVW"/>
+                                    <outletCollection property="gestureRecognizers" destination="ku7-qC-8fG" appends="YES" id="TI2-iE-k9e"/>
                                 </connections>
                             </tableView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jLN-ZX-Iyy">
+                                <rect key="frame" x="0.0" y="340" width="600" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="NHy-d3-GNV"/>
+                                </constraints>
+                                <items>
+                                    <barButtonItem systemItem="action" id="x9R-wd-73d">
+                                        <connections>
+                                            <action selector="openAction:" destination="hhF-PX-LQi" id="obi-Su-naO"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Qv5-y2-dIS" firstAttribute="top" secondItem="Mcz-3s-JhL" secondAttribute="bottom" id="3Em-rk-EGi"/>
+                            <constraint firstItem="6Ax-86-Aa9" firstAttribute="top" relation="greaterThanOrEqual" secondItem="jLN-ZX-Iyy" secondAttribute="bottom" id="5Nn-er-QMI"/>
+                            <constraint firstAttribute="trailing" secondItem="jLN-ZX-Iyy" secondAttribute="trailing" id="SdR-ah-Hm4"/>
+                            <constraint firstItem="jLN-ZX-Iyy" firstAttribute="top" secondItem="Qv5-y2-dIS" secondAttribute="bottom" priority="750" id="SlR-Sw-kh0"/>
                             <constraint firstAttribute="trailing" secondItem="Qv5-y2-dIS" secondAttribute="trailing" id="XsB-pL-bh7"/>
                             <constraint firstItem="Qv5-y2-dIS" firstAttribute="leading" secondItem="OhQ-9z-HaB" secondAttribute="leading" id="dVC-6i-mqO"/>
+                            <constraint firstItem="jLN-ZX-Iyy" firstAttribute="leading" secondItem="OhQ-9z-HaB" secondAttribute="leading" id="j5q-Gb-JIW"/>
                             <constraint firstAttribute="centerY" secondItem="Qv5-y2-dIS" secondAttribute="centerY" id="pD0-FN-Qgb"/>
                             <constraint firstItem="Qv5-y2-dIS" firstAttribute="top" secondItem="Mcz-3s-JhL" secondAttribute="bottom" id="ptF-we-5Jy"/>
                             <constraint firstAttribute="bottom" secondItem="Qv5-y2-dIS" secondAttribute="bottom" id="wpK-Rh-7eK"/>
@@ -70,14 +88,23 @@
                                 <exclude reference="wpK-Rh-7eK"/>
                             </mask>
                         </variation>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="ku7-qC-8fG" appends="YES" id="CeL-9u-jNd"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="Wfg-Q3-ed9"/>
                     <connections>
+                        <outlet property="miniThreadViewToolBar" destination="jLN-ZX-Iyy" id="4QR-uq-Mch"/>
                         <outlet property="threadTableView" destination="Qv5-y2-dIS" id="BJz-9b-D7s"/>
                         <outlet property="threadTableViewHeight" destination="76E-PO-nCq" id="2aZ-p4-PfJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PVH-Rl-Dn8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="ku7-qC-8fG">
+                    <connections>
+                        <action selector="tapOnBackgroundView:" destination="hhF-PX-LQi" id="XO5-2d-eo8"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="255" y="266"/>
         </scene>
