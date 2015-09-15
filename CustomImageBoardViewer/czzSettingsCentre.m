@@ -114,11 +114,6 @@
     }
 }
 
--(void)getPropertyTypeWithName:(NSString*)propertyName {
-    NSString *classString = NSStringFromClass([[self valueForKey:propertyName] class]);
-
-    DLog(@"class: %@", classString);
-}
 
 - (BOOL)restoreSettings {
     @try {
