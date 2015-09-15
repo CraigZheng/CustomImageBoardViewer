@@ -61,8 +61,10 @@
 // Flash the content view, grab user's attention.
 -(void)flash {
     self.orangeOverlayView.alpha = 0.5;
-    [UIView animateWithDuration:0.2 animations:^{
-        self.orangeOverlayView.alpha = 0;
+    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+        [UIView animateWithDuration:0.2 animations:^{
+            self.orangeOverlayView.alpha = 0;
+        }];
     }];
 }
 
