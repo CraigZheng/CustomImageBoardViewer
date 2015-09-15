@@ -21,7 +21,6 @@
     [super viewDidLoad];
     self.cellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
     self.orangeOverlayView.alpha = 0;
-    self.orangeOverlayView.backgroundColor = [settingCentre barTintColour];
     
     [self renderContent];
 }
