@@ -60,7 +60,7 @@
     if (cell){
         cell.delegate = self.tableViewDelegate;
         cell.shouldHighlight = NO;
-        cell.shouldAllowClickOnImage = YES;
+        cell.shouldAllowClickOnImage = ![settingCentre userDefShouldUseBigImage];
         cell.parentThread = thread;
         cell.myIndexPath = indexPath;
         cell.myThread = thread;

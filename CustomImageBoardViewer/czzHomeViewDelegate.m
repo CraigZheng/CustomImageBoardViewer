@@ -132,7 +132,7 @@
         if ([file.lastPathComponent.lowercaseString isEqualToString:imgURL.lastPathComponent.lowercaseString])
         {
             // Show image and return.
-            [self.imageViewerUtil showPhoto:imgURL];
+            [self.imageViewerUtil showPhoto:file];
             return;
         }
     }

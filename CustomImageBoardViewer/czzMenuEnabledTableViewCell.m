@@ -40,7 +40,6 @@
 @synthesize myIndexPath;
 @synthesize shouldHighlight;
 @synthesize selectedUserToHighlight;
-@synthesize shouldAllowClickOnImage;
 @synthesize links;
 @synthesize parentThread;
 @synthesize myThread;
@@ -54,7 +53,7 @@
     imageFolder = [czzAppDelegate imageFolder];
     settingsCentre = [czzSettingsCentre sharedInstance];
     shouldHighlight = settingsCentre.userDefShouldHighlightPO;
-    shouldAllowClickOnImage = YES;
+    self.shouldAllowClickOnImage = YES;
     tapOnImageGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTapInImageView:)];
     
     //apply shadow and radius to background view
@@ -196,7 +195,6 @@
         if (previewImage){
             [previewImageView setImage:previewImage];
         } 
-        
         //assign a gesture recogniser to it
         [previewImageView setGestureRecognizers:@[tapOnImageGestureRecogniser]];
     }
@@ -298,11 +296,18 @@
 
 -(void)userTapInImageView:(id)sender {
     DLog(@"%@", NSStringFromSelector(_cmd));
-    if (shouldAllowClickOnImage && [delegate respondsToSelector:@selector(userTapInImageView:)]) {
+    if (self.shouldAllowClickOnImage && [delegate respondsToSelector:@selector(userTapInImageView:)]) {
         [delegate userTapInImageView:myThread.imgSrc];
     } else {
         DLog(@"Tap on image view dis-allowed.");
     }
+}
+
+#pragma mark - Setters
+-(void)setShouldAllowClickOnImage:(BOOL)shouldAllowClickOnImage {
+    _shouldAllowClickOnImage = shouldAllowClickOnImage;
+    tapOnImageGestureRecogniser.enabled = shouldAllowClickOnImage;
+    tapOnImageGestureRecogniser.cancelsTouchesInView = shouldAllowClickOnImage;
 }
 
 #pragma mark - notification handler - image downloaded
