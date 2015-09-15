@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -15,7 +15,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="119"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="glN-TF-xhj">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="glN-TF-xhj">
                         <rect key="frame" x="0.0" y="4" width="337" height="386"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NO" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zcJ-Iq-ivZ">
@@ -55,7 +55,7 @@
                                 <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
-                            <textView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" misplaced="YES" scrollEnabled="NO" editable="NO" text="Content" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="oML-xg-Zfq" customClass="czzNoSelectionTextView">
+                            <textView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Content" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="oML-xg-Zfq" customClass="czzNoSelectionTextView">
                                 <rect key="frame" x="0.0" y="16" width="337" height="370"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="250" constant="26" id="6Qy-Et-6aq"/>
@@ -64,7 +64,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
                             </textView>
-                            <imageView clipsSubviews="YES" tag="9" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="3HO-Hu-PUf">
+                            <imageView clipsSubviews="YES" tag="9" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="3HO-Hu-PUf">
                                 <rect key="frame" x="0.0" y="105" width="337" height="280"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="1RW-94-iNc"/>
@@ -106,7 +106,7 @@
                                 <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="回应:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="po6-xX-Zcg">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="回应:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="po6-xX-Zcg">
                                 <rect key="frame" x="237" y="371" width="80" height="13"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="80" id="IFY-yM-JZ8"/>

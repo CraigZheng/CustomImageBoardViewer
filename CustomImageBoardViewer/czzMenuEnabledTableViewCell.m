@@ -201,8 +201,7 @@
         } 
         
         //assign a gesture recogniser to it
-        if (shouldAllowClickOnImage)
-            [previewImageView setGestureRecognizers:@[tapOnImageGestureRecogniser]];
+        [previewImageView setGestureRecognizers:@[tapOnImageGestureRecogniser]];
     }
     //if harmful flag is set, display warning header of harmful thread
     NSMutableAttributedString *contentAttrString;
@@ -283,7 +282,7 @@
     NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
     NSString *hostPrefix = [settingCentre share_post_url];
     if (hostPrefix.length && [buttonTitle rangeOfString:hostPrefix options:NSCaseInsensitiveSearch].location != NSNotFound) {
-        if (delegate && [delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
+        if ([delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
             [delegate userTapInQuotedText:[buttonTitle stringByReplacingOccurrencesOfString:hostPrefix withString:@""]];
         }
         return;
@@ -295,39 +294,44 @@
 
 #pragma mark - user actions
 -(void)userTapInQuotedText:(czzThreadRefButton*)sender {
-    if (delegate && [delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
+    if ([delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
         [delegate userTapInQuotedText:[NSString stringWithFormat:@"%ld", (long)sender.threadRefNumber]];
     }
 }
 
 -(void)userTapInImageView:(id)sender {
     DLog(@"%@", NSStringFromSelector(_cmd));
-    if (delegate && [delegate respondsToSelector:@selector(userTapInImageView:)]) {
-        for (NSString *file in [[czzImageCentre sharedInstance] currentLocalImages]) {
-            if ([file.lastPathComponent.lowercaseString isEqualToString:myThread.imgSrc.lastPathComponent.lowercaseString])
-            {
-                [delegate userTapInImageView:file];
-                return;
+    if (shouldAllowClickOnImage) {
+        if ([delegate respondsToSelector:@selector(userTapInImageView:)]) {
+            // If image exists
+            for (NSString *file in [[czzImageCentre sharedInstance] currentLocalImages]) {
+                if ([file.lastPathComponent.lowercaseString isEqualToString:myThread.imgSrc.lastPathComponent.lowercaseString])
+                {
+                    [delegate userTapInImageView:file];
+                    return;
+                }
             }
-        }
-        //Start or stop the image downloader
-        if ([[czzImageCentre sharedInstance] containsImageDownloaderWithURL:myThread.imgSrc]){
-            [[czzImageCentre sharedInstance] stopAndRemoveImageDownloaderWithURL:myThread.imgSrc];
-            [AppDelegate showToast:@"下载终止"];
-            DLog(@"stop: %@", myThread.imgSrc);
-        } else {
-            BOOL completedURL = NO;
-            if ([[[NSURL URLWithString:myThread.imgSrc] scheme] isEqualToString:@"http"]) {
-                completedURL = YES;
+            //Start or stop the image downloader
+            if ([[czzImageCentre sharedInstance] containsImageDownloaderWithURL:myThread.imgSrc]){
+                [[czzImageCentre sharedInstance] stopAndRemoveImageDownloaderWithURL:myThread.imgSrc];
+                [AppDelegate showToast:@"下载终止"];
+                DLog(@"stop: %@", myThread.imgSrc);
             } else {
-                myThread.imgSrc = [[[czzSettingsCentre sharedInstance] image_host] stringByAppendingPathComponent:myThread.imgSrc];
-                completedURL = YES;
+                BOOL completedURL = NO;
+                if ([[[NSURL URLWithString:myThread.imgSrc] scheme] isEqualToString:@"http"]) {
+                    completedURL = YES;
+                } else {
+                    myThread.imgSrc = [[[czzSettingsCentre sharedInstance] image_host] stringByAppendingPathComponent:myThread.imgSrc];
+                    completedURL = YES;
+                }
+                DLog(@"start : %@", myThread.imgSrc);
+                [[czzImageCentre sharedInstance] downloadImageWithURL:myThread.imgSrc isCompletedURL:completedURL];
+                [requestedImageURL addObject:myThread.imgSrc];
             }
-            DLog(@"start : %@", myThread.imgSrc);
-            [[czzImageCentre sharedInstance] downloadImageWithURL:myThread.imgSrc isCompletedURL:completedURL];
-            [requestedImageURL addObject:myThread.imgSrc];
+            
         }
-
+    } else {
+        DLog(@"Tap on image view dis-allowed.");
     }
 }
 
