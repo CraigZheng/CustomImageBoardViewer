@@ -127,7 +127,27 @@
 
 #pragma mark - czzMenuEnableTableViewCellDelegate
 -(void)userTapInImageView:(NSString *)imgURL {
-    [self.imageViewerUtil showPhoto:imgURL];
+    // If image exists
+    for (NSString *file in [[czzImageCentre sharedInstance] currentLocalImages]) {
+        if ([file.lastPathComponent.lowercaseString isEqualToString:imgURL.lastPathComponent.lowercaseString])
+        {
+            // Show image and return.
+            [self.imageViewerUtil showPhoto:imgURL];
+            return;
+        }
+    }
+    // Image not found in local storage, start or stop the image downloader with the image URL
+    if ([[czzImageCentre sharedInstance] containsImageDownloaderWithURL:imgURL]){
+        [[czzImageCentre sharedInstance] stopAndRemoveImageDownloaderWithURL:imgURL];
+        [AppDelegate showToast:@"下载终止"];
+        DLog(@"stop: %@", imgURL);
+    } else {
+        if (![[[NSURL URLWithString:imgURL] scheme] hasPrefix:@"http"]) {
+            imgURL = [[[czzSettingsCentre sharedInstance] image_host] stringByAppendingPathComponent:imgURL];
+        }
+        DLog(@"start : %@", imgURL);
+        [[czzImageCentre sharedInstance] downloadImageWithURL:imgURL isCompletedURL:YES];
+    }
 }
 
 -(void)imageDownloadedForIndexPath:(NSIndexPath *)index filePath:(NSString *)path isThumbnail:(BOOL)isThumbnail {

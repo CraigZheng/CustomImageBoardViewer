@@ -23,7 +23,6 @@
 @property (strong, nonatomic) NSString *imageFolder;
 @property czzSettingsCentre *settingsCentre;
 @property UITapGestureRecognizer *tapOnImageGestureRecogniser;
-@property NSMutableSet *requestedImageURL;
 @end
 
 @implementation czzMenuEnabledTableViewCell
@@ -49,7 +48,6 @@
 @synthesize thumbnailFolder;
 @synthesize tapOnImageGestureRecogniser;
 @synthesize delegate;
-@synthesize requestedImageURL;
 
 -(void)awakeFromNib {
     thumbnailFolder = [czzAppDelegate thumbnailFolder];
@@ -57,7 +55,6 @@
     settingsCentre = [czzSettingsCentre sharedInstance];
     shouldHighlight = settingsCentre.userDefShouldHighlightPO;
     shouldAllowClickOnImage = YES;
-    requestedImageURL = [NSMutableSet new];
     tapOnImageGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTapInImageView:)];
     
     //apply shadow and radius to background view
@@ -301,35 +298,8 @@
 
 -(void)userTapInImageView:(id)sender {
     DLog(@"%@", NSStringFromSelector(_cmd));
-    if (shouldAllowClickOnImage) {
-        if ([delegate respondsToSelector:@selector(userTapInImageView:)]) {
-            // If image exists
-            for (NSString *file in [[czzImageCentre sharedInstance] currentLocalImages]) {
-                if ([file.lastPathComponent.lowercaseString isEqualToString:myThread.imgSrc.lastPathComponent.lowercaseString])
-                {
-                    [delegate userTapInImageView:file];
-                    return;
-                }
-            }
-            //Start or stop the image downloader
-            if ([[czzImageCentre sharedInstance] containsImageDownloaderWithURL:myThread.imgSrc]){
-                [[czzImageCentre sharedInstance] stopAndRemoveImageDownloaderWithURL:myThread.imgSrc];
-                [AppDelegate showToast:@"下载终止"];
-                DLog(@"stop: %@", myThread.imgSrc);
-            } else {
-                BOOL completedURL = NO;
-                if ([[[NSURL URLWithString:myThread.imgSrc] scheme] isEqualToString:@"http"]) {
-                    completedURL = YES;
-                } else {
-                    myThread.imgSrc = [[[czzSettingsCentre sharedInstance] image_host] stringByAppendingPathComponent:myThread.imgSrc];
-                    completedURL = YES;
-                }
-                DLog(@"start : %@", myThread.imgSrc);
-                [[czzImageCentre sharedInstance] downloadImageWithURL:myThread.imgSrc isCompletedURL:completedURL];
-                [requestedImageURL addObject:myThread.imgSrc];
-            }
-            
-        }
+    if (shouldAllowClickOnImage && [delegate respondsToSelector:@selector(userTapInImageView:)]) {
+        [delegate userTapInImageView:myThread.imgSrc];
     } else {
         DLog(@"Tap on image view dis-allowed.");
     }
