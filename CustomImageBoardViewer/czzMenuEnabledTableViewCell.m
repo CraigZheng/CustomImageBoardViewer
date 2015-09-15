@@ -225,8 +225,8 @@
 
     
     idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)myThread.ID];
-    //set the color
-    NSMutableAttributedString *uidAttrString = [[NSMutableAttributedString alloc] initWithString:@"UID:"];
+
+    NSMutableAttributedString *uidAttrString = [[NSMutableAttributedString alloc] initWithString:@"ID:"];
     if (myThread.UID)
         [uidAttrString appendAttributedString:myThread.UID];
     posterLabel.attributedText = uidAttrString;
@@ -265,8 +265,11 @@
     
     //highlight original poster
     if (shouldHighlight && parentThread && [myThread.UID.string isEqualToString:parentThread.UID.string]) {
-        posterLabel.backgroundColor = [UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:200.0f/255.0f alpha:1.0];
+        NSMutableAttributedString *opAttributedString = [[NSMutableAttributedString alloc] initWithAttributedString:posterLabel.attributedText];
+        [opAttributedString addAttributes:@{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle)} range:NSMakeRange(0, opAttributedString.length)];
+        posterLabel.attributedText = opAttributedString;
     }
+    //highlight the selected user
     else if (selectedUserToHighlight && [myThread.UID.string isEqualToString:selectedUserToHighlight]) {
         contentTextView.backgroundColor = self.contentView.backgroundColor;
     }
