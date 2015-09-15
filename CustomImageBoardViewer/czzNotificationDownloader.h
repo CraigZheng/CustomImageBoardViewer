@@ -15,7 +15,7 @@
 
 @interface czzNotificationDownloader : NSObject
 @property (strong, nonatomic) NSString *notificationFile;
-@property NSURLConnection *urlConn;
+@property czzURLDownloader *urlDownloader;
 @property (weak, nonatomic) id<czzNotificationDownloaderDelegate> delegate;
 
 -(void)downloadNotificationWithVendorID:(NSString*)vendorID;
