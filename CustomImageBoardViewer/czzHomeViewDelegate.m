@@ -153,8 +153,10 @@
 -(void)imageDownloadedForIndexPath:(NSIndexPath *)index filePath:(NSString *)path isThumbnail:(BOOL)isThumbnail {
     if (isThumbnail) {
         @try {
-            if (index.row < self.viewModelManager.threads.count)
-                [self.myTableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+                if (index.row < self.viewModelManager.threads.count)
+                    [self.myTableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }];
         }
         @catch (NSException *exception) {
             [self.myTableView reloadData];
