@@ -94,12 +94,7 @@
 //}
 
 -(NSString *)myhost {
-    if (shouldUseBackupServer)
-    {
-        return my_backup_host;
-    } else {
-        return my_main_host;
-    }
+    return [settingsCentre database_host];
 }
 
 - (BOOL)addSkipBackupAttributeToItemAtURL:(NSURL *)URL

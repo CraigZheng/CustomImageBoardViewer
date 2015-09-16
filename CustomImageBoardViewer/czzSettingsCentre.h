@@ -30,6 +30,7 @@
 @property (assign, nonatomic) NSInteger response_per_page;
 @property (strong, nonatomic) NSString *thread_format;
 @property (strong, nonatomic) NSString *forum_list_url;
+@property (strong, nonatomic) NSString *database_host;
 //these are the new settings at version 2.0.1(short version)
 @property (strong, nonatomic) NSString *forum_list_detail_url;
 @property (strong, nonatomic) NSString *reply_post_url;
