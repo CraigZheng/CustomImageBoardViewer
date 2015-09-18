@@ -14,8 +14,10 @@
 #import "czzSettingsCentre.h"
 #import "czzCookieManager.h"
 #import "czzAppActivityManager.h"
-#import "TalkingData.h"
 
+#ifndef TARGET_IPHONE_SIMULATOR
+#import "TalkingData.h"
+#endif
 //#import <BugSense-iOS/BugSenseController.h>
 #import <SplunkMint-iOS/SplunkMint-iOS.h>
 
@@ -34,8 +36,9 @@
     [[Mint sharedInstance] setUserIdentifier:[UIDevice currentDevice].identifierForVendor.UUIDString];
     
     // Talkind data initialisation
+#ifndef TARGET_IPHONE_SIMULATOR
     [TalkingData sessionStarted:@"B8168DD03CD9EF62B476CEDFBC3FB52D" withChannelId:@""];
-    
+#endif
     myhost = my_main_host;
     settingsCentre = [czzSettingsCentre sharedInstance];
     
