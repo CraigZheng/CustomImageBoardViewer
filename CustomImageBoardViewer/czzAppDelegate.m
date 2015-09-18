@@ -13,6 +13,7 @@
 #import "SMXMLDocument.h"
 #import "czzSettingsCentre.h"
 #import "czzCookieManager.h"
+#import "czzWatchKitManager.h"
 #import "czzAppActivityManager.h"
 
 #ifndef TARGET_IPHONE_SIMULATOR
@@ -60,10 +61,6 @@
     [blacklistDownloader downloadBlacklist];
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application
-{
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
 
 -(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
     DLog(@"%@", url.absoluteString);
@@ -76,19 +73,7 @@
 #pragma mark - Watch kit extension
 
 - (void)application:(UIApplication *)application handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))reply {
-    czzHomeViewModelManager *homeViewModelManager = [czzHomeViewModelManager sharedManager];
-
-    if (homeViewModelManager.threads.count) {
-        NSMutableArray *wkThreads = [NSMutableArray new];
-        for (czzThread* thread in homeViewModelManager.threads) {
-            [wkThreads addObject:[thread watchKitThread]];
-        }
-        reply(@{@"HOME_VIEW_THREADS" : wkThreads});
-    } else {
-        [homeViewModelManager refresh];
-        
-    }
-    
+    [[czzWatchKitManager sharedManager] handleWatchKitExtensionRequest:userInfo reply:reply];
 }
 
 #pragma mark - background fetch
