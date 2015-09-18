@@ -24,8 +24,11 @@
             if (success) {
                 //TODO: if success? if fail?
             }
-            reply([self watchKitThreadsWithThreads:threads]);
+            NSDictionary *wkThreads = [self watchKitThreadsWithThreads:threads];
+            [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"Passing %ld objects to watch kit...", (long)threads.count]];
+            reply(wkThreads);
         };
+        [[czzAppDelegate sharedAppDelegate] showToast:@"Downloading for watch kit..."];
         [homeViewModelManager refresh];
         
     }
@@ -34,7 +37,7 @@
 -(NSDictionary *)watchKitThreadsWithThreads:(NSArray *)threads {
     NSMutableArray *wkThreads = [NSMutableArray new];
     for (czzThread* thread in threads) {
-        [wkThreads addObject:[thread watchKitThread]];
+        [wkThreads addObject:[[thread watchKitThread] encodeToDictionary]];
     }
 
     return @{@"HOME_VIEW_THREADS" : wkThreads};

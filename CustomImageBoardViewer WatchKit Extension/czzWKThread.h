@@ -17,4 +17,7 @@
 @property (nonatomic, strong) NSString *imageFile;
 
 @property (nonatomic, strong) NSDate *postDate;
+
+-(instancetype)initWithDictionary:(NSDictionary*)dict;
+-(NSDictionary*)encodeToDictionary;
 @end

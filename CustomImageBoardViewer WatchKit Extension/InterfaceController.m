@@ -7,6 +7,7 @@
 //
 
 #import "InterfaceController.h"
+#import "czzWKThread.h"
 
 @interface InterfaceController()
 @property (weak, nonatomic) IBOutlet WKInterfaceLabel *firstRowLabel;
@@ -27,7 +28,11 @@
     
     [WKInterfaceController openParentApplication:@{@"VIEW" : @"HOME"} reply:^(NSDictionary *replyInfo, NSError *error) {
         NSLog(@"MAIN APP CALLED COMPLETION HANDLER");
-        NSLog(@"%@", replyInfo.allValues);
+        NSArray *threadDictionaries = [replyInfo objectForKey:@"HOME_VIEW_THREADS"];
+        for (NSDictionary *dict in threadDictionaries) {
+            czzWKThread *thread = [[czzWKThread alloc] initWithDictionary:dict];
+            NSLog(@"thread: %@", thread);
+        }
     }];
 }
 
