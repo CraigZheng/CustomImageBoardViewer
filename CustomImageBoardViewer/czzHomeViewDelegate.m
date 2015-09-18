@@ -68,7 +68,8 @@
         threadViewController.viewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:selectedThread andForum:self.viewModelManager.forum];
         [NavigationManager pushViewController:threadViewController animated:YES];
     }
-    else {
+    // If not downloading or processing, load more threads.
+    else if (!self.viewModelManager.isDownloading || !self.viewModelManager.isProcessing) {
         [self.viewModelManager loadMoreThreads];
         [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
