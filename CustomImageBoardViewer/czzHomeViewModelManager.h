@@ -75,4 +75,5 @@
 -(void)restorePreviousState;
 
 +(instancetype)sharedManager;
++(void)setSharedManager:(czzHomeViewModelManager*)manager;
 @end

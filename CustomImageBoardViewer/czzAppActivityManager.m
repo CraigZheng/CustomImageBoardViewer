@@ -114,6 +114,9 @@ NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
         [AppDelegate.window makeKeyAndVisible];
         
         if (self.homeViewModelManager) {
+            // The app is being launched, set the singleton for czzHomeViewModelManager
+            [czzHomeViewModelManager setSharedManager:self.homeViewModelManager];
+            
             NSMutableArray *restoredViewControllers = [NSMutableArray new];
             czzThreadViewController *threadViewController;
             czzHomeViewController *homeViewController = [czzHomeViewController new];
