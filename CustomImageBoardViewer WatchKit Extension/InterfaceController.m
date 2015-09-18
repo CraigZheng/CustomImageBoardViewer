@@ -7,10 +7,8 @@
 //
 
 #import "InterfaceController.h"
-#import "czzHomeViewModelManager.h"
 
-@interface InterfaceController() <czzHomeViewModelManagerDelegate>
-@property (nonatomic, strong) czzHomeViewModelManager *viewModelManager;
+@interface InterfaceController()
 @property (weak, nonatomic) IBOutlet WKInterfaceLabel *firstRowLabel;
 @end
 
@@ -21,8 +19,6 @@
     [super awakeWithContext:context];
 
     // Configure interface objects here.
-    self.viewModelManager.delegate = self;
-    [self.viewModelManager refresh];
 }
 
 - (void)willActivate {
@@ -35,20 +31,6 @@
     [super didDeactivate];
 }
 
-#pragma mark - czzHomeViewModelManagerDelegate
-- (void)viewModelManager:(czzHomeViewModelManager *)threadList processedThreadData:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
-    if (wasSuccessul) {
-        czzThread *firstThread = newThreads.firstObject;
-        [self.firstRowLabel setText:firstThread.content.string];
-    } else {
-        NSLog(@"UNSUCCESSFUL");
-    }
-}
-
-#pragma mark - Getters
-- (czzHomeViewModelManager *)viewModelManager {
-    return [czzHomeViewModelManager sharedManager];
-}
 @end
 
 

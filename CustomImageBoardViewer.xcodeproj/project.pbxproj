@@ -193,10 +193,6 @@
 		4476B6431B9FDD43004E6650 /* CustomImageBoardViewer WatchKit App.app in Resources */ = {isa = PBXBuildFile; fileRef = 4476B6421B9FDD43004E6650 /* CustomImageBoardViewer WatchKit App.app */; };
 		4476B64B1B9FDD43004E6650 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4476B6491B9FDD43004E6650 /* Interface.storyboard */; };
 		4476B64D1B9FDD43004E6650 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4476B64C1B9FDD43004E6650 /* Images.xcassets */; };
-		4476B6591B9FE4AC004E6650 /* czzHomeViewModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B89E861A2AFC6B0085F766 /* czzHomeViewModelManager.m */; };
-		4476B65A1B9FE4DF004E6650 /* czzThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E5D2B17F48F8C00289DBD /* czzThread.m */; };
-		4476B65B1B9FE4E6004E6650 /* czzThreadViewModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141961A2B38D6007D65B3 /* czzThreadViewModelManager.m */; };
-		4476B65C1B9FE5DE004E6650 /* czzSettingsCentre.m in Sources */ = {isa = PBXBuildFile; fileRef = 443B54F219933C1F00BAB282 /* czzSettingsCentre.m */; };
 		4479B07D1A0BB8E70074D484 /* czzTextViewHeightCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4479B07C1A0BB8E70074D484 /* czzTextViewHeightCalculator.m */; };
 		4479B08A1A0CCB270074D484 /* MiniThreadView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4479B0891A0CCB270074D484 /* MiniThreadView.storyboard */; };
 		4479B0901A0CCB6D0074D484 /* czzMiniThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4479B08F1A0CCB6D0074D484 /* czzMiniThreadViewController.m */; };
@@ -337,7 +333,6 @@
 		44E3F7421BA2FFB600597A3F /* PropertyAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E3F73D1BA2FFB600597A3F /* PropertyAttribute.m */; };
 		44E3F7471BA3007500597A3F /* NSDictionary+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E3F7461BA3007500597A3F /* NSDictionary+Util.m */; };
 		44E3F7481BA3007500597A3F /* NSDictionary+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E3F7461BA3007500597A3F /* NSDictionary+Util.m */; };
-		44E3F7491BA3007500597A3F /* NSDictionary+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E3F7461BA3007500597A3F /* NSDictionary+Util.m */; };
 		44E454331B3676FD0079B3A8 /* czzCoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E454321B3676FD0079B3A8 /* czzCoreDataManager.m */; };
 		44E454341B3676FD0079B3A8 /* czzCoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E454321B3676FD0079B3A8 /* czzCoreDataManager.m */; };
 		44E4545D1B3E46000079B3A8 /* czzForumData.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E4545A1B3E46000079B3A8 /* czzForumData.m */; };
@@ -3065,13 +3060,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4476B65C1B9FE5DE004E6650 /* czzSettingsCentre.m in Sources */,
-				44E3F7491BA3007500597A3F /* NSDictionary+Util.m in Sources */,
-				4476B6591B9FE4AC004E6650 /* czzHomeViewModelManager.m in Sources */,
-				4476B65A1B9FE4DF004E6650 /* czzThread.m in Sources */,
 				4476B63A1B9FDD43004E6650 /* InterfaceController.m in Sources */,
 				4476B63D1B9FDD43004E6650 /* GlanceController.m in Sources */,
-				4476B65B1B9FE4E6004E6650 /* czzThreadViewModelManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
