@@ -57,6 +57,8 @@
 @property (nonatomic, strong) NSMutableArray *cachedHorizontalHeights;
 @property (nonatomic, strong) NSMutableArray *cachedVerticalHeights;
 
+// Watch kit completion handler - for temporarily setting the delegate to the watch kit manager
+@property (copy)void(^watchKitCompletionHandler)(BOOL success, NSArray* threads);
 
 @property (nonatomic, strong) czzURLDownloader *threadDownloader;
 @property (nonatomic, strong) czzJSONProcessor *threadDataProcessor;

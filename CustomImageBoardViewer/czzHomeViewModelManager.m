@@ -158,6 +158,12 @@
             self.isProcessing = YES;
             [self.threadDataProcessor processThreadListFromData:xmlData forForum:self.forum];
         });
+    } else {
+        // Make sure the completionHandler for the watch kit is no more.
+        if (self.watchKitCompletionHandler) {
+            self.watchKitCompletionHandler(NO, nil);
+            self.watchKitCompletionHandler = nil;
+        }
     }
 }
 
@@ -188,7 +194,12 @@
         [self calculateHeightsForThreads:self.lastBatchOfThreads];
     }
     dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.delegate respondsToSelector:@selector(viewModelManager:processedThreadData:newThreads:allThreads:)]) {
+        if (self.watchKitCompletionHandler) {
+            self.watchKitCompletionHandler(success, self.threads);
+            self.watchKitCompletionHandler = nil;
+        }
+        // No watch kit completion handler, inform delegate instead.
+        else if ([self.delegate respondsToSelector:@selector(viewModelManager:processedThreadData:newThreads:allThreads:)]) {
             [self.delegate viewModelManager:self processedThreadData:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
         }
         DLog(@"%@", NSStringFromSelector(_cmd));
