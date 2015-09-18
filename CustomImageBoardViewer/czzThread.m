@@ -209,12 +209,13 @@
 #pragma mark - convert to czzWKThread object
 
 -(czzWKThread *)watchKitThread {
-    czzWKThread *wkThread;
-    if (self) {
-        wkThread = [czzWKThread new];
-        wkThread.name = self.UID.string;
-        wkThread.title = self.title.string;
-    }
+    czzWKThread *wkThread = [czzWKThread new];
+    wkThread.title = self.title;
+    wkThread.name = self.UID.string;
+    wkThread.content = self.content.string;
+    wkThread.postDate = self.postDateTime;
+    wkThread.thumbnailFile = self.thImgSrc;
+    wkThread.imageFile = self.imgSrc;
     
     return wkThread;
 }

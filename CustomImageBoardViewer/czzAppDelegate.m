@@ -21,7 +21,7 @@
 //#import <BugSense-iOS/BugSenseController.h>
 #import <SplunkMint-iOS/SplunkMint-iOS.h>
 
-@interface czzAppDelegate()<czzBlacklistDownloaderDelegate>
+@interface czzAppDelegate()<czzBlacklistDownloaderDelegate, czzHomeViewModelManagerDelegate>
 @property czzSettingsCentre *settingsCentre;
 @end
 
@@ -77,13 +77,18 @@
 
 - (void)application:(UIApplication *)application handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))reply {
     czzHomeViewModelManager *homeViewModelManager = [czzHomeViewModelManager sharedManager];
-    
-    NSMutableDictionary *threads = [NSMutableDictionary new];
-    for (czzThread *thread in homeViewModelManager.threads) {
-        [threads setObject:thread.content.string forKey:thread.UID.string];
+
+    if (homeViewModelManager.threads.count) {
+        NSMutableArray *wkThreads = [NSMutableArray new];
+        for (czzThread* thread in homeViewModelManager.threads) {
+            [wkThreads addObject:[thread watchKitThread]];
+        }
+        reply(@{@"HOME_VIEW_THREADS" : wkThreads});
+    } else {
+        [homeViewModelManager refresh];
+        
     }
     
-    reply(threads);
 }
 
 #pragma mark - background fetch

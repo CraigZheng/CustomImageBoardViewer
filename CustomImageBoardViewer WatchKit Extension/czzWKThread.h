@@ -8,12 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@interface czzWKThread : NSObject
+@interface czzWKThread : NSObject <NSSecureCoding>
 
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *content;
-@property (nonatomic, strong) NSData *thumnailData;
-@property (nonatomic, strong) NSData *imageData;
+@property (nonatomic, strong) NSString *thumbnailFile;
+@property (nonatomic, strong) NSString *imageFile;
 
+@property (nonatomic, strong) NSDate *postDate;
 @end
