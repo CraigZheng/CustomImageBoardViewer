@@ -206,6 +206,19 @@
     return [[NSAttributedString alloc] initWithString:htmlString.length ? htmlString : @""];
 }
 
+#pragma mark - convert to czzWKThread object
+
+-(czzWKThread *)watchKitThread {
+    czzWKThread *wkThread;
+    if (self) {
+        wkThread = [czzWKThread new];
+        wkThread.name = self.UID.string;
+        wkThread.title = self.title.string;
+    }
+    
+    return wkThread;
+}
+
 #pragma mark - isEqual and Hash function, for this class to be used within a NSSet
 -(BOOL)isEqual:(id)object{
     if ([object isKindOfClass:self.class]) {

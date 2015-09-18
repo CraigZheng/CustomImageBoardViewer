@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "czzForum.h"
+#import "czzWKThread.h"
 
 @class SMXMLElement;
 
@@ -45,4 +46,6 @@
 -(BOOL)isEqual:(id)object;
 -(NSUInteger)hash;
 -(instancetype)initWithThreadID:(NSInteger)threadID;
+
+-(czzWKThread *)watchKitThread;
 @end
