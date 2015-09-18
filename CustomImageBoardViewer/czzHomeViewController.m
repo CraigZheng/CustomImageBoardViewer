@@ -60,7 +60,6 @@
 @synthesize numberBarButton;
 @synthesize forumListButton;
 @synthesize refreshControl;
-@synthesize viewModelManager;
 @synthesize settingsBarButton;
 @synthesize progressView;
 
@@ -71,12 +70,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //thread list, source of all data
-    if (!viewModelManager)
-        viewModelManager = [czzHomeViewModelManager sharedManager];
 
     //assign delegate and parentViewController
-    viewModelManager.delegate = self;
+    self.viewModelManager.delegate = self;
     
     //progress bar
     progressView = [(czzNavigationController*) self.navigationController progressView];
@@ -129,13 +125,13 @@
     delayTime = 9999;
 #endif
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        if (!viewModelManager.forum) {
+        if (!self.viewModelManager.forum) {
             if ([czzForumManager sharedManager].forums.count > 0)
             {
                 [AppDelegate.window makeToast:@"用户没有选择板块，随机选择……"];
                 @try {
                     int randomIndex = rand() % [czzForumManager sharedManager].forums.count;
-                    [viewModelManager setForum:[[czzForumManager sharedManager].forums objectAtIndex:randomIndex]];
+                    [self.viewModelManager setForum:[[czzForumManager sharedManager].forums objectAtIndex:randomIndex]];
                     [self refreshThread:self];
                 }
                 @catch (NSException *exception) {
@@ -197,7 +193,7 @@
  This method would update the contents related to the table view
  */
 -(void)updateTableView {
-    [self setSelectedForum:viewModelManager.forum];
+    [self setSelectedForum:self.viewModelManager.forum];
     [self updateBarButtons];
     [threadTableView reloadData];
 }
@@ -254,12 +250,12 @@
         if (newPageNumber > 0){
 
             //clear threads and ready to accept new threads
-            [viewModelManager removeAll];
+            [self.viewModelManager removeAll];
             [self updateTableView];
             [refreshControl beginRefreshing];
-            [viewModelManager loadMoreThreads:newPageNumber];
+            [self.viewModelManager loadMoreThreads:newPageNumber];
 
-            [[AppDelegate window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)viewModelManager.pageNumber]];
+            [[AppDelegate window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)self.viewModelManager.pageNumber]];
         } else {
             [[AppDelegate window] makeToast:@"页码无效..."];
         }
@@ -278,9 +274,9 @@
 }
 
 -(void)newPost{
-    if (viewModelManager.forum){
+    if (self.viewModelManager.forum){
         czzPostViewController *newPostViewController = [czzPostViewController new];
-        newPostViewController.forum = viewModelManager.forum;
+        newPostViewController.forum = self.viewModelManager.forum;
         newPostViewController.postMode = NEW_POST;
         [self.navigationController presentViewController:newPostViewController animated:YES completion:nil];
     } else {
@@ -290,11 +286,17 @@
 
 -(IBAction)moreInfoAction:(id)sender {
     czzMoreInfoViewController *moreInfoViewController = [czzMoreInfoViewController new];
-    moreInfoViewController.forum = viewModelManager.forum;
+    moreInfoViewController.forum = self.viewModelManager.forum;
     [self presentViewController:moreInfoViewController animated:YES completion:nil];
 }
 
-#pragma mark - czzHomeViewModelManagerDelegate
+#pragma mark - Getters
+-(czzHomeViewModelManager *)viewModelManager {
+    return [czzHomeViewModelManager sharedManager];
+}
+
+
+#pragma mark - czzHomeself.viewModelManagerDelegate
 - (void)viewModelManagerWantsToReload:(czzHomeViewModelManager *)manager {
     if (manager.threads.count) {
         [self.threadTableView reloadData];
@@ -340,7 +342,7 @@
 
 -(void)refreshThread:(id)sender{
     //reset to default page number
-    [viewModelManager refresh];
+    [self.viewModelManager refresh];
 }
 
 -(void)updateBarButtons {
@@ -357,8 +359,8 @@
     } else
         numberBarButton.customView = numberButton;
 
-    [numberButton setTitle:[NSString stringWithFormat:@"%ld", (long) viewModelManager.threads.count] forState:UIControlStateNormal];
-    if (viewModelManager.threads.count <= 0) {
+    [numberButton setTitle:[NSString stringWithFormat:@"%ld", (long) self.viewModelManager.threads.count] forState:UIControlStateNormal];
+    if (self.viewModelManager.threads.count <= 0) {
         numberButton.hidden = YES;
         self.navigationItem.rightBarButtonItems = @[menuBarButton];
     }
@@ -395,8 +397,8 @@
 }
 
 -(void)setSelectedForum:(czzForum*)forum {
-    viewModelManager.forum = forum;
-    self.title = viewModelManager.forum.name;
+    self.viewModelManager.forum = forum;
+    self.title = self.viewModelManager.forum.name;
     self.navigationItem.backBarButtonItem.title = self.title;
 }
 

@@ -120,7 +120,6 @@ NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
             NSMutableArray *restoredViewControllers = [NSMutableArray new];
             czzThreadViewController *threadViewController;
             czzHomeViewController *homeViewController = [czzHomeViewController new];
-            homeViewController.viewModelManager = self.homeViewModelManager;
             self.homeViewModelManager.delegate = homeViewController;
             [restoredViewControllers addObject:homeViewController];
             if (self.threadViewModelManager) {

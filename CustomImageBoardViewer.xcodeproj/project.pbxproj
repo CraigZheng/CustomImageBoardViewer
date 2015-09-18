@@ -721,6 +721,8 @@
 		44E454601B3E46000079B3A8 /* czzThreadData.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E4545C1B3E46000079B3A8 /* czzThreadData.m */; };
 		44E454631B3FFC830079B3A8 /* czzTopicData.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E454621B3FFC830079B3A8 /* czzTopicData.m */; };
 		44E469D51BAC3B5D00C0AACC /* CustomImageBoardViewer WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4476B6341B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		44E469DC1BAC421D00C0AACC /* czzWatchKitManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469DB1BAC421D00C0AACC /* czzWatchKitManager.m */; settings = {ASSET_TAGS = (); }; };
+		44E469DD1BAC421D00C0AACC /* czzWatchKitManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469DB1BAC421D00C0AACC /* czzWatchKitManager.m */; settings = {ASSET_TAGS = (); }; };
 		44E791811A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */; };
 		44E791CD1A17856500A63C04 /* advance.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918D1A17856500A63C04 /* advance.png */; };
 		44E791CE1A17856500A63C04 /* advance@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918E1A17856500A63C04 /* advance@2x.png */; };
@@ -1378,6 +1380,8 @@
 		44E4545C1B3E46000079B3A8 /* czzThreadData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadData.m; sourceTree = "<group>"; };
 		44E454611B3FFC830079B3A8 /* czzTopicData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzTopicData.h; sourceTree = "<group>"; };
 		44E454621B3FFC830079B3A8 /* czzTopicData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzTopicData.m; sourceTree = "<group>"; };
+		44E469DA1BAC421D00C0AACC /* czzWatchKitManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWatchKitManager.h; sourceTree = "<group>"; };
+		44E469DB1BAC421D00C0AACC /* czzWatchKitManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWatchKitManager.m; sourceTree = "<group>"; };
 		44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NotificationCentreStoryBoard.storyboard; sourceTree = "<group>"; };
 		44E7918D1A17856500A63C04 /* advance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = advance.png; sourceTree = "<group>"; };
 		44E7918E1A17856500A63C04 /* advance@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "advance@2x.png"; sourceTree = "<group>"; };
@@ -1670,6 +1674,7 @@
 		441E5CD417F4691300289DBD /* CustomImageBoardViewer */ = {
 			isa = PBXGroup;
 			children = (
+				44E469D91BAC41FE00C0AACC /* WatchKit */,
 				4432BA8F1AA8850C002C66F5 /* Examples */,
 				44E7918C1A17856500A63C04 /* icons */,
 				441E5CDD17F4691300289DBD /* czzAppDelegate.h */,
@@ -2769,6 +2774,15 @@
 			name = CoreData;
 			sourceTree = "<group>";
 		};
+		44E469D91BAC41FE00C0AACC /* WatchKit */ = {
+			isa = PBXGroup;
+			children = (
+				44E469DA1BAC421D00C0AACC /* czzWatchKitManager.h */,
+				44E469DB1BAC421D00C0AACC /* czzWatchKitManager.m */,
+			);
+			name = WatchKit;
+			sourceTree = "<group>";
+		};
 		44E7918C1A17856500A63C04 /* icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -3645,6 +3659,7 @@
 				442A8FEF19DB7F5400A3516E /* NSData+ImageContentType.m in Sources */,
 				442A8FA219DB7DF200A3516E /* MWGridViewController.m in Sources */,
 				440B2FCC17F8057500544926 /* czzPostViewController.m in Sources */,
+				44E469DC1BAC421D00C0AACC /* czzWatchKitManager.m in Sources */,
 				442A8FEE19DB7F5400A3516E /* NSData+GIF.m in Sources */,
 				442A8FF619DB7F5400A3516E /* SDWebImagePrefetcher.m in Sources */,
 				441E5E5417F52DEF00289DBD /* czzThreadViewController.m in Sources */,
@@ -3825,6 +3840,7 @@
 				445540211BABEBA700667435 /* NSData+ImageContentType.m in Sources */,
 				445540221BABEBA700667435 /* MWGridViewController.m in Sources */,
 				445540231BABEBA700667435 /* czzPostViewController.m in Sources */,
+				44E469DD1BAC421D00C0AACC /* czzWatchKitManager.m in Sources */,
 				445540241BABEBA700667435 /* NSData+GIF.m in Sources */,
 				445540251BABEBA700667435 /* SDWebImagePrefetcher.m in Sources */,
 				445540261BABEBA700667435 /* czzThreadViewController.m in Sources */,
