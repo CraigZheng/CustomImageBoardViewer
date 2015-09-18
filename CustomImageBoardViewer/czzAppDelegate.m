@@ -21,7 +21,7 @@
 //#import <BugSense-iOS/BugSenseController.h>
 #import <SplunkMint-iOS/SplunkMint-iOS.h>
 
-@interface czzAppDelegate()<czzBlacklistDownloaderDelegate, NSURLConnectionDataDelegate>
+@interface czzAppDelegate()<czzBlacklistDownloaderDelegate>
 @property czzSettingsCentre *settingsCentre;
 @end
 
@@ -52,24 +52,6 @@
     return YES;
 }
 							
-- (void)applicationWillResignActive:(UIApplication *)application
-{
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-}
-
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-
-}
-
-- (void)applicationWillEnterForeground:(UIApplication *)application
-{
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
-
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
@@ -89,6 +71,19 @@
         return YES;
     }
     return NO;
+}
+
+#pragma mark - Watch kit extension
+
+- (void)application:(UIApplication *)application handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))reply {
+    czzHomeViewModelManager *homeViewModelManager = [czzHomeViewModelManager sharedManager];
+    
+    NSMutableDictionary *threads = [NSMutableDictionary new];
+    for (czzThread *thread in homeViewModelManager.threads) {
+        [threads setObject:thread.content.string forKey:thread.UID.string];
+    }
+    
+    reply(threads);
 }
 
 #pragma mark - background fetch
@@ -117,20 +112,6 @@
 
 -(NSString *)vendorID {
     return [UIDevice currentDevice].identifierForVendor.UUIDString;
-}
-
-#pragma mark - NSURLConnectionDelegate
--(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    shouldUseBackupServer = YES;
-}
-
--(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-    if ([((NSHTTPURLResponse *)response) statusCode] == 404) {
-        shouldUseBackupServer = YES;
-    } else {
-        shouldUseBackupServer = NO;
-    }
-    [connection cancel];
 }
 
 #pragma mark czzBlacklistDownloader delegate

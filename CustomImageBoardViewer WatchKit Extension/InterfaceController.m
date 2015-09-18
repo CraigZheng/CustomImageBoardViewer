@@ -24,6 +24,11 @@
 - (void)willActivate {
     // This method is called when watch view controller is about to be visible to user
     [super willActivate];
+    
+    [WKInterfaceController openParentApplication:@{@"USER" : @"INFO"} reply:^(NSDictionary *replyInfo, NSError *error) {
+        NSLog(@"MAIN APP CALLED COMPLETION HANDLER");
+        NSLog(@"%@:%@", replyInfo, error);
+    }];
 }
 
 - (void)didDeactivate {
