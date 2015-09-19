@@ -21,7 +21,20 @@
 
 - (void)awakeWithContext:(id)context {
     [super awakeWithContext:context];
+    [self reloadData];
+}
 
+- (void)willActivate {
+    [super willActivate];
+    [self reloadTableView];
+}
+
+- (void)didDeactivate {
+    // This method is called when watch view controller is no longer visible
+    [super didDeactivate];
+}
+
+-(void)reloadData {
     [WKInterfaceController openParentApplication:@{@"COMMAND" : @(watchKitCommandLoadHomeView)} reply:^(NSDictionary *replyInfo, NSError *error) {
         NSLog(@"MAIN APP CALLED COMPLETION HANDLER");
         NSArray *threadDictionaries = [replyInfo objectForKey:@(watchKitCommandLoadHomeView)];
@@ -35,17 +48,10 @@
         
         [self reloadTableView];
     }];
-
 }
 
-- (void)willActivate {
-    [super willActivate];
-    [self reloadTableView];
-}
-
-- (void)didDeactivate {
-    // This method is called when watch view controller is no longer visible
-    [super didDeactivate];
+- (IBAction)reloadButtonAction {
+    [self reloadData];
 }
 
 #pragma mark - TableView

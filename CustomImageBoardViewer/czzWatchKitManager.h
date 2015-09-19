@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface czzWatchKitManager : NSObject
--(void)handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))reply;
+-(void)handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))reply withBackgroundTaskIdentifier:(UIBackgroundTaskIdentifier)backgroundTaskIdentifier;
 
 +(instancetype)sharedManager;
 @end

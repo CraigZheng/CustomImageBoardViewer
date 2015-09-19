@@ -25,7 +25,7 @@
                                             <imageView alignment="left" id="3YK-YS-rlG"/>
                                             <group width="1" alignment="left" id="bpU-90-M5f">
                                                 <items>
-                                                    <imageView width="10" height="10" alignment="left" verticalAlignment="center" image="picture.png" id="EEs-GL-HuX">
+                                                    <imageView width="12" height="12" alignment="left" verticalAlignment="bottom" image="picture.png" contentMode="scaleAspectFill" id="EEs-GL-HuX">
                                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </imageView>
                                                     <label alignment="right" verticalAlignment="bottom" text="Infomation" textAlignment="right" id="pGz-Mb-1qc">
@@ -44,6 +44,11 @@
                                 </tableRow>
                             </items>
                         </table>
+                        <button width="1" alignment="left" title="Reload" id="Y1b-2f-gGI">
+                            <connections>
+                                <action selector="reloadButtonAction" destination="AgC-eL-Hgc" id="0Fc-80-DPP"/>
+                            </connections>
+                        </button>
                     </items>
                     <connections>
                         <outlet property="screenTitleLabel" destination="2nn-uC-7pc" id="LYe-Sb-ffS"/>

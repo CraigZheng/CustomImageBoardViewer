@@ -10,24 +10,26 @@
 #import "czzWatchKitCommand.h"
 
 @interface czzWatchKitManager () <czzHomeViewModelManagerDelegate>
-
+@property (assign, nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
+@property (copy)void (^reply)(NSDictionary *replyDictionary);
 @end
 
 @implementation czzWatchKitManager
 
--(void)handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))reply{
-    
+-(void)handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))reply withBackgroundTaskIdentifier:(UIBackgroundTaskIdentifier)backgroundTaskIdentifier{
+    self.backgroundTaskIdentifier = backgroundTaskIdentifier;
+    self.reply = reply;
     if ([[userInfo objectForKey:@"COMMAND"]  isEqual: @(watchKitCommandLoadHomeView)]) {
-        [self watchKitLoadHomeView:(reply)];
+        [self watchKitLoadHomeView];
     }
 }
 
--(void)watchKitLoadHomeView:(void (^)(NSDictionary *))watchKitReply {
+-(void)watchKitLoadHomeView {
     czzHomeViewModelManager *homeViewModelManager = [czzHomeViewModelManager sharedManager];
     
     if (homeViewModelManager.threads.count) {
-        watchKitReply(@{@(watchKitCommandLoadHomeView) : [self watchKitThreadsWithThreads:homeViewModelManager.threads],
-                        @(watchKitMiscInfoScreenTitleHome) : homeViewModelManager.forum.name.length ? homeViewModelManager.forum.name : @"不知道"});
+        [self replyWithDictionary:(@{@(watchKitCommandLoadHomeView) : [self watchKitThreadsWithThreads:homeViewModelManager.threads],
+                        @(watchKitMiscInfoScreenTitleHome) : homeViewModelManager.forum.name.length ? homeViewModelManager.forum.name : @"不知道"})];
     } else {
         __weak typeof(homeViewModelManager) weakHomeViewModelManager = homeViewModelManager; // To suppress the warning of having strong reference in a block.
         homeViewModelManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
@@ -37,12 +39,28 @@
             NSDictionary *wkThreads = @{@(watchKitCommandLoadHomeView) : [self watchKitThreadsWithThreads:threads],
                                         @(watchKitMiscInfoScreenTitleHome) : weakHomeViewModelManager.forum.name.length ? weakHomeViewModelManager.forum.name : @"不知道"};
             [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"Passing %ld objects to watch kit...", (long)wkThreads.allValues.count]];
-            watchKitReply(wkThreads);
+            [self replyWithDictionary:wkThreads];
         };
         [[czzAppDelegate sharedAppDelegate] showToast:@"Downloading for watch kit..."];
         [homeViewModelManager refresh];
         
     }
+}
+
+-(void)replyWithDictionary:(NSDictionary *)dict {
+    if (self.reply) {
+        self.reply(dict);
+        self.reply = nil;
+    }
+    [self endBackgroundTask];
+}
+
+-(void)endBackgroundTask {
+    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+        if (self.backgroundTaskIdentifier != UIBackgroundTaskInvalid) {
+            [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskIdentifier];
+        }
+    }];
 }
 
 -(NSArray *)watchKitThreadsWithThreads:(NSArray *)threads {

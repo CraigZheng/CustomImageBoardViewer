@@ -73,7 +73,13 @@
 #pragma mark - Watch kit extension
 
 - (void)application:(UIApplication *)application handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))reply {
-    [[czzWatchKitManager sharedManager] handleWatchKitExtensionRequest:userInfo reply:reply];
+    __block UIBackgroundTaskIdentifier wkBackgroundTaskIdentifier;
+    wkBackgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithName:@"backgroundTask"
+                                                                              expirationHandler:^{
+                                                                                  wkBackgroundTaskIdentifier = UIBackgroundTaskInvalid;
+                                                                              }];
+
+    [[czzWatchKitManager sharedManager] handleWatchKitExtensionRequest:userInfo reply:reply withBackgroundTaskIdentifier:wkBackgroundTaskIdentifier];
 }
 
 #pragma mark - background fetch
