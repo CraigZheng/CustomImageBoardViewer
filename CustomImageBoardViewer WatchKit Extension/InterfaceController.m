@@ -49,6 +49,10 @@
 }
 
 #pragma mark - TableView
+-(void)table:(WKInterfaceTable *)table didSelectRowAtIndex:(NSInteger)rowIndex {
+    //TODO: show more
+}
+
 -(void)reloadTableView {
     [self.wkThreadsTableView setNumberOfRows:self.wkThreads.count withRowType:wkHomeViewRowControllerIdentifier];
     

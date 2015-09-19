@@ -729,6 +729,11 @@
 		44E469E61BADA54300C0AACC /* czzWatchKitHomeRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469E51BADA54300C0AACC /* czzWatchKitHomeRowController.m */; settings = {ASSET_TAGS = (); }; };
 		44E469E71BADA54300C0AACC /* czzWatchKitHomeRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469E51BADA54300C0AACC /* czzWatchKitHomeRowController.m */; settings = {ASSET_TAGS = (); }; };
 		44E469E81BADA54300C0AACC /* czzWatchKitHomeRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469E51BADA54300C0AACC /* czzWatchKitHomeRowController.m */; settings = {ASSET_TAGS = (); }; };
+		44E469E91BADB0C900C0AACC /* 01.png in Resources */ = {isa = PBXBuildFile; fileRef = 444F5ADE1A40EA3500EB391F /* 01.png */; settings = {ASSET_TAGS = (); }; };
+		44E469EA1BADB0CA00C0AACC /* 01.png in Resources */ = {isa = PBXBuildFile; fileRef = 444F5ADE1A40EA3500EB391F /* 01.png */; settings = {ASSET_TAGS = (); }; };
+		44E469EB1BADB0D100C0AACC /* 02.png in Resources */ = {isa = PBXBuildFile; fileRef = 444F5ADF1A40EA3500EB391F /* 02.png */; settings = {ASSET_TAGS = (); }; };
+		44E469EC1BADB10500C0AACC /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25401A25A2A500BD8228 /* picture.png */; settings = {ASSET_TAGS = (); }; };
+		44E469ED1BADB10600C0AACC /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25401A25A2A500BD8228 /* picture.png */; settings = {ASSET_TAGS = (); }; };
 		44E791811A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */; };
 		44E791CD1A17856500A63C04 /* advance.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918D1A17856500A63C04 /* advance.png */; };
 		44E791CE1A17856500A63C04 /* advance@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918E1A17856500A63C04 /* advance@2x.png */; };
@@ -3580,8 +3585,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				44E469E91BADB0C900C0AACC /* 01.png in Resources */,
+				44E469ED1BADB10600C0AACC /* picture.png in Resources */,
 				4476B6431B9FDD43004E6650 /* CustomImageBoardViewer WatchKit App.app in Resources */,
 				4476B63F1B9FDD43004E6650 /* Images.xcassets in Resources */,
+				44E469EB1BADB0D100C0AACC /* 02.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3589,7 +3597,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				44E469EA1BADB0CA00C0AACC /* 01.png in Resources */,
 				4476B64B1B9FDD43004E6650 /* Interface.storyboard in Resources */,
+				44E469EC1BADB10500C0AACC /* picture.png in Resources */,
 				4476B64D1B9FDD43004E6650 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

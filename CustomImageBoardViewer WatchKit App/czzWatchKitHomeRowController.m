@@ -19,13 +19,14 @@
         dateFormatter.dateFormat = @"h:ma";
         
         [self.wkThreadContentLabel setText:wkThread.content];
-        [self.wkThreadInformationLabel setText:[NSString stringWithFormat:@"%@ - %@", [dateFormatter stringFromDate:wkThread.postDate], wkThread.name]];
+        [self.wkThreadInformationLabel setText:[NSString stringWithFormat:@"%@-%@", [dateFormatter stringFromDate:wkThread.postDate], wkThread.name]];
         
         //TODO - figure out why is it not working
+        
         if (wkThread.thumbnailFile.length) {
-            [self.wkThreadThumbnailImage setImage:[UIImage imageNamed:@"01.png"]];
+            [self.wkThreadThumbnailImage setImage:[[UIImage imageNamed:@"picture.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
         } else {
-            [self.wkThreadThumbnailImage setImage:[UIImage imageNamed:@"02.png"]];
+            [self.wkThreadThumbnailImage setImage:nil];
         }
     }
 }
