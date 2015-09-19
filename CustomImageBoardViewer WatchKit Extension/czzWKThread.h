@@ -10,6 +10,7 @@
 
 @interface czzWKThread : NSObject
 
+@property (nonatomic, assign) NSInteger ID;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *content;

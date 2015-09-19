@@ -723,6 +723,12 @@
 		44E469D51BAC3B5D00C0AACC /* CustomImageBoardViewer WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4476B6341B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		44E469DC1BAC421D00C0AACC /* czzWatchKitManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469DB1BAC421D00C0AACC /* czzWatchKitManager.m */; settings = {ASSET_TAGS = (); }; };
 		44E469DD1BAC421D00C0AACC /* czzWatchKitManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469DB1BAC421D00C0AACC /* czzWatchKitManager.m */; settings = {ASSET_TAGS = (); }; };
+		44E469E11BAD9B5000C0AACC /* czzWatchKitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469E01BAD9B5000C0AACC /* czzWatchKitCommand.m */; settings = {ASSET_TAGS = (); }; };
+		44E469E21BAD9B5000C0AACC /* czzWatchKitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469E01BAD9B5000C0AACC /* czzWatchKitCommand.m */; settings = {ASSET_TAGS = (); }; };
+		44E469E31BAD9B5000C0AACC /* czzWatchKitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469E01BAD9B5000C0AACC /* czzWatchKitCommand.m */; settings = {ASSET_TAGS = (); }; };
+		44E469E61BADA54300C0AACC /* czzWatchKitHomeRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469E51BADA54300C0AACC /* czzWatchKitHomeRowController.m */; settings = {ASSET_TAGS = (); }; };
+		44E469E71BADA54300C0AACC /* czzWatchKitHomeRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469E51BADA54300C0AACC /* czzWatchKitHomeRowController.m */; settings = {ASSET_TAGS = (); }; };
+		44E469E81BADA54300C0AACC /* czzWatchKitHomeRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469E51BADA54300C0AACC /* czzWatchKitHomeRowController.m */; settings = {ASSET_TAGS = (); }; };
 		44E791811A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */; };
 		44E791CD1A17856500A63C04 /* advance.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918D1A17856500A63C04 /* advance.png */; };
 		44E791CE1A17856500A63C04 /* advance@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918E1A17856500A63C04 /* advance@2x.png */; };
@@ -1382,6 +1388,10 @@
 		44E454621B3FFC830079B3A8 /* czzTopicData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzTopicData.m; sourceTree = "<group>"; };
 		44E469DA1BAC421D00C0AACC /* czzWatchKitManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWatchKitManager.h; sourceTree = "<group>"; };
 		44E469DB1BAC421D00C0AACC /* czzWatchKitManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWatchKitManager.m; sourceTree = "<group>"; };
+		44E469DF1BAD9B5000C0AACC /* czzWatchKitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWatchKitCommand.h; sourceTree = "<group>"; };
+		44E469E01BAD9B5000C0AACC /* czzWatchKitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWatchKitCommand.m; sourceTree = "<group>"; };
+		44E469E41BADA54300C0AACC /* czzWatchKitHomeRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWatchKitHomeRowController.h; sourceTree = "<group>"; };
+		44E469E51BADA54300C0AACC /* czzWatchKitHomeRowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWatchKitHomeRowController.m; sourceTree = "<group>"; };
 		44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NotificationCentreStoryBoard.storyboard; sourceTree = "<group>"; };
 		44E7918D1A17856500A63C04 /* advance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = advance.png; sourceTree = "<group>"; };
 		44E7918E1A17856500A63C04 /* advance@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "advance@2x.png"; sourceTree = "<group>"; };
@@ -2323,6 +2333,8 @@
 				4476B6491B9FDD43004E6650 /* Interface.storyboard */,
 				4476B64C1B9FDD43004E6650 /* Images.xcassets */,
 				4476B6471B9FDD43004E6650 /* Supporting Files */,
+				44E469E41BADA54300C0AACC /* czzWatchKitHomeRowController.h */,
+				44E469E51BADA54300C0AACC /* czzWatchKitHomeRowController.m */,
 			);
 			path = "CustomImageBoardViewer WatchKit App";
 			sourceTree = "<group>";
@@ -2779,6 +2791,8 @@
 			children = (
 				44E469DA1BAC421D00C0AACC /* czzWatchKitManager.h */,
 				44E469DB1BAC421D00C0AACC /* czzWatchKitManager.m */,
+				44E469DF1BAD9B5000C0AACC /* czzWatchKitCommand.h */,
+				44E469E01BAD9B5000C0AACC /* czzWatchKitCommand.m */,
 			);
 			name = WatchKit;
 			sourceTree = "<group>";
@@ -3591,6 +3605,7 @@
 				442A901D19DB9C3C00A3516E /* HTMLNode.m in Sources */,
 				442A8FB719DB7DF200A3516E /* PSTGridLayoutSection.m in Sources */,
 				442F1FE21B15FC8500267698 /* UINavigationController+Util.m in Sources */,
+				44E469E61BADA54300C0AACC /* czzWatchKitHomeRowController.m in Sources */,
 				44C73B8E1A484F280051D4C2 /* czzFavouriteManager.m in Sources */,
 				442F1FD31B13500C00267698 /* czzAppActivityManager.m in Sources */,
 				4448C2AA180FF6C600D2CD76 /* czzBlacklistSender.m in Sources */,
@@ -3681,6 +3696,7 @@
 				441E5D1B17F46E7900289DBD /* SMXMLDocument.m in Sources */,
 				441E5D1217F46A0900289DBD /* czzEntryPointViewController.m in Sources */,
 				440A62A81B8EBC160046E4CE /* UIViewController+Util.m in Sources */,
+				44E469E11BAD9B5000C0AACC /* czzWatchKitCommand.m in Sources */,
 				442A8FA419DB7DF200A3516E /* MWPhotoBrowser.m in Sources */,
 				441E5D2017F46FB600289DBD /* czzURLDownloader.m in Sources */,
 				442A901E19DB9C3C00A3516E /* HTMLParser.m in Sources */,
@@ -3772,6 +3788,7 @@
 				44553FDE1BABEBA700667435 /* HTMLNode.m in Sources */,
 				44553FDF1BABEBA700667435 /* PSTGridLayoutSection.m in Sources */,
 				44553FE01BABEBA700667435 /* UINavigationController+Util.m in Sources */,
+				44E469E81BADA54300C0AACC /* czzWatchKitHomeRowController.m in Sources */,
 				44553FE11BABEBA700667435 /* czzFavouriteManager.m in Sources */,
 				44553FE21BABEBA700667435 /* czzAppActivityManager.m in Sources */,
 				44553FE31BABEBA700667435 /* czzBlacklistSender.m in Sources */,
@@ -3862,6 +3879,7 @@
 				445540361BABEBA700667435 /* SMXMLDocument.m in Sources */,
 				445540371BABEBA700667435 /* czzEntryPointViewController.m in Sources */,
 				445540381BABEBA700667435 /* UIViewController+Util.m in Sources */,
+				44E469E31BAD9B5000C0AACC /* czzWatchKitCommand.m in Sources */,
 				445540391BABEBA700667435 /* MWPhotoBrowser.m in Sources */,
 				4455403A1BABEBA700667435 /* czzURLDownloader.m in Sources */,
 				4455403B1BABEBA700667435 /* HTMLParser.m in Sources */,
@@ -3925,9 +3943,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				44E469E21BAD9B5000C0AACC /* czzWatchKitCommand.m in Sources */,
 				4476B63A1B9FDD43004E6650 /* InterfaceController.m in Sources */,
 				447CD6941BABF4E800C4E70B /* czzWKThread.m in Sources */,
 				4476B63D1B9FDD43004E6650 /* GlanceController.m in Sources */,
+				44E469E71BADA54300C0AACC /* czzWatchKitHomeRowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

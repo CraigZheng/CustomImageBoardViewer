@@ -15,6 +15,7 @@
 
 -(instancetype)initWithDictionary:(NSDictionary *)dict {
     self = [super init];
+    self.ID = [[dict objectForKey:@"ID"] integerValue];
     self.name = [dict objectForKey:@"name"];
     self.title = [dict objectForKey:@"title"];
     self.content = [dict objectForKey:@"content"];
@@ -27,7 +28,7 @@
 
 -(NSDictionary *)encodeToDictionary {
     NSMutableDictionary *wkDictionary = [NSMutableDictionary new];
-    
+    [wkDictionary setObject:@(self.ID) forKey:@"ID"];
     [wkDictionary setObject:self.name forKey:@"name"];
     [wkDictionary setObject:self.title forKey:@"title"];
     [wkDictionary setObject:self.content forKey:@"content"];

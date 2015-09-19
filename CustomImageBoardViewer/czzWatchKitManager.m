@@ -26,13 +26,16 @@
     czzHomeViewModelManager *homeViewModelManager = [czzHomeViewModelManager sharedManager];
     
     if (homeViewModelManager.threads.count) {
-        watchKitReply(@{@(watchKitCommandLoadHomeView) : [self watchKitThreadsWithThreads:homeViewModelManager.threads]});
+        watchKitReply(@{@(watchKitCommandLoadHomeView) : [self watchKitThreadsWithThreads:homeViewModelManager.threads],
+                        @(watchKitMiscInfoScreenTitleHome) : homeViewModelManager.forum.name.length ? homeViewModelManager.forum.name : @"不知道"});
     } else {
+        __weak typeof(homeViewModelManager) weakHomeViewModelManager = homeViewModelManager; // To suppress the warning of having strong reference in a block.
         homeViewModelManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
             if (success) {
                 //TODO: if success? if fail?
             }
-            NSDictionary *wkThreads = @{@(watchKitCommandLoadHomeView) : [self watchKitThreadsWithThreads:threads]};
+            NSDictionary *wkThreads = @{@(watchKitCommandLoadHomeView) : [self watchKitThreadsWithThreads:threads],
+                                        @(watchKitMiscInfoScreenTitleHome) : weakHomeViewModelManager.forum.name.length ? weakHomeViewModelManager.forum.name : @"不知道"};
             [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"Passing %ld objects to watch kit...", (long)wkThreads.allValues.count]];
             watchKitReply(wkThreads);
         };
