@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface czzWKThread : NSObject <NSSecureCoding>
+@interface czzWKThread : NSObject 
 
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *title;
