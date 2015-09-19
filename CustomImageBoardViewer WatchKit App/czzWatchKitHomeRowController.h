@@ -18,6 +18,7 @@
 @property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceLabel *wkThreadContentLabel;
 @property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceLabel *wkThreadInformationLabel;
 @property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceImage *wkThreadImage;
+@property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceImage *wkThreadThumbnailImage;
 
 @property (strong, nonatomic) czzWKThread *wkThread;
 @end

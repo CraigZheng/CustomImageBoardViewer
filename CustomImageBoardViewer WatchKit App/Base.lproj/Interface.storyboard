@@ -23,15 +23,23 @@
                                             <separator alignment="left" id="evR-bo-Eib"/>
                                             <label width="1" alignment="left" text="Content" numberOfLines="0" id="dFG-gt-rRo"/>
                                             <imageView alignment="left" id="3YK-YS-rlG"/>
-                                            <label width="1" alignment="center" verticalAlignment="bottom" text="Infomation" textAlignment="right" id="pGz-Mb-1qc">
-                                                <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
-                                            </label>
+                                            <group width="1" alignment="left" id="bpU-90-M5f">
+                                                <items>
+                                                    <imageView width="20" height="20" alignment="left" image="01.png" id="EEs-GL-HuX">
+                                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </imageView>
+                                                    <label alignment="right" verticalAlignment="bottom" text="Infomation" textAlignment="right" id="pGz-Mb-1qc">
+                                                        <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                                    </label>
+                                                </items>
+                                            </group>
                                         </items>
                                     </group>
                                     <connections>
                                         <outlet property="wkThreadContentLabel" destination="dFG-gt-rRo" id="6lJ-Fl-InX"/>
                                         <outlet property="wkThreadImage" destination="3YK-YS-rlG" id="GZL-Nv-gEj"/>
                                         <outlet property="wkThreadInformationLabel" destination="pGz-Mb-1qc" id="yR7-bB-HiH"/>
+                                        <outlet property="wkThreadThumbnailImage" destination="EEs-GL-HuX" id="SzX-0G-OiX"/>
                                     </connections>
                                 </tableRow>
                             </items>

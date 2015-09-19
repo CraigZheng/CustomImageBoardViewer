@@ -16,10 +16,17 @@
     
     if (wkThread) {
         NSDateFormatter *dateFormatter = [NSDateFormatter new];
-        dateFormatter.dateFormat = @"h:m";
+        dateFormatter.dateFormat = @"h:ma";
         
         [self.wkThreadContentLabel setText:wkThread.content];
         [self.wkThreadInformationLabel setText:[NSString stringWithFormat:@"%@ - %@", [dateFormatter stringFromDate:wkThread.postDate], wkThread.name]];
+        
+        //TODO - figure out why is it not working
+        if (wkThread.thumbnailFile.length) {
+            [self.wkThreadThumbnailImage setImage:[UIImage imageNamed:@"01.png"]];
+        } else {
+            [self.wkThreadThumbnailImage setImage:[UIImage imageNamed:@"02.png"]];
+        }
     }
 }
 @end
