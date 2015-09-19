@@ -7,6 +7,7 @@
 //
 
 #import "czzWatchKitManager.h"
+#import "czzWatchKitCommand.h"
 
 @interface czzWatchKitManager () <czzHomeViewModelManagerDelegate>
 
@@ -15,18 +16,25 @@
 @implementation czzWatchKitManager
 
 -(void)handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))reply{
-    czzHomeViewModelManager *homeViewModelManager = [czzHomeViewModelManager sharedManager];
+    
+    if ([[userInfo objectForKey:@"COMMAND"]  isEqual: @(watchKitCommandLoadHomeView)]) {
+        [self watchKitLoadHomeView:(reply)];
+    }
+}
 
-    if (homeViewModelManager.threads.count && NO) {
-        reply([self watchKitThreadsWithThreads:homeViewModelManager.threads]);
+-(void)watchKitLoadHomeView:(void (^)(NSDictionary *))watchKitReply {
+    czzHomeViewModelManager *homeViewModelManager = [czzHomeViewModelManager sharedManager];
+    
+    if (homeViewModelManager.threads.count) {
+        watchKitReply(@{@(watchKitCommandLoadHomeView) : [self watchKitThreadsWithThreads:homeViewModelManager.threads]});
     } else {
         homeViewModelManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
             if (success) {
                 //TODO: if success? if fail?
             }
-            NSDictionary *wkThreads = [self watchKitThreadsWithThreads:threads];
-            [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"Passing %ld objects to watch kit...", (long)threads.count]];
-            reply(wkThreads);
+            NSDictionary *wkThreads = @{@(watchKitCommandLoadHomeView) : [self watchKitThreadsWithThreads:threads]};
+            [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"Passing %ld objects to watch kit...", (long)wkThreads.allValues.count]];
+            watchKitReply(wkThreads);
         };
         [[czzAppDelegate sharedAppDelegate] showToast:@"Downloading for watch kit..."];
         [homeViewModelManager refresh];
@@ -34,13 +42,25 @@
     }
 }
 
--(NSDictionary *)watchKitThreadsWithThreads:(NSArray *)threads {
+-(NSArray *)watchKitThreadsWithThreads:(NSArray *)threads {
     NSMutableArray *wkThreads = [NSMutableArray new];
     for (czzThread* thread in threads) {
         [wkThreads addObject:[[thread watchKitThread] encodeToDictionary]];
     }
+    
+#ifdef DEBUG
+    // Load from cache
+    NSString *wkThreadCache = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:@"wkCaches.dat"];
+    if (!wkThreads.count) {
+        wkThreads = [NSKeyedUnarchiver unarchiveObjectWithFile:wkThreadCache];
+    } else {
+        [NSKeyedArchiver archiveRootObject:wkThreads toFile:wkThreadCache];
+    }
+    
+    
+#endif
 
-    return @{@"HOME_VIEW_THREADS" : wkThreads};
+    return wkThreads;
 }
 
 +(instancetype)sharedManager {

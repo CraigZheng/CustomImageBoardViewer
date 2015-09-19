@@ -8,6 +8,7 @@
 
 #import "InterfaceController.h"
 #import "czzWKThread.h"
+#import "czzWatchKitCommand.h"
 
 @interface InterfaceController()
 @property (weak, nonatomic) IBOutlet WKInterfaceLabel *firstRowLabel;
@@ -26,9 +27,9 @@
     // This method is called when watch view controller is about to be visible to user
     [super willActivate];
     
-    [WKInterfaceController openParentApplication:@{@"VIEW" : @"HOME"} reply:^(NSDictionary *replyInfo, NSError *error) {
+    [WKInterfaceController openParentApplication:@{@"COMMAND" : @(watchKitCommandLoadHomeView)} reply:^(NSDictionary *replyInfo, NSError *error) {
         NSLog(@"MAIN APP CALLED COMPLETION HANDLER");
-        NSArray *threadDictionaries = [replyInfo objectForKey:@"HOME_VIEW_THREADS"];
+        NSArray *threadDictionaries = [replyInfo objectForKey:@(watchKitCommandLoadHomeView)];
         for (NSDictionary *dict in threadDictionaries) {
             czzWKThread *thread = [[czzWKThread alloc] initWithDictionary:dict];
             NSLog(@"thread: %@", thread);

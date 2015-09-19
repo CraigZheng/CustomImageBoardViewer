@@ -33,11 +33,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+#ifndef TARGET_IPHONE_SIMULATOR
     [[Mint sharedInstance] initAndStartSession:@"cd668a8e"];
     [[Mint sharedInstance] setUserIdentifier:[UIDevice currentDevice].identifierForVendor.UUIDString];
     
     // Talkind data initialisation
-#ifndef TARGET_IPHONE_SIMULATOR
     [TalkingData sessionStarted:@"B8168DD03CD9EF62B476CEDFBC3FB52D" withChannelId:@""];
 #endif
     myhost = my_main_host;

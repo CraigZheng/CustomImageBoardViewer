@@ -10,6 +10,21 @@
 
 @implementation czzWKThread
 
+#pragma mark - NSSecureCoding
+
+
+-(instancetype)initWithDictionary:(NSDictionary *)dict {
+    self = [super init];
+    self.name = [dict objectForKey:@"name"];
+    self.title = [dict objectForKey:@"title"];
+    self.content = [dict objectForKey:@"content"];
+    self.thumbnailFile = [dict objectForKey:@"thumbnailFile"];
+    self.imageFile = [dict objectForKey:@"imageFile"];
+    self.postDate = [dict objectForKey:@"postDate"];
+    
+    return self;
+}
+
 -(NSDictionary *)encodeToDictionary {
     NSMutableDictionary *wkDictionary = [NSMutableDictionary new];
     
