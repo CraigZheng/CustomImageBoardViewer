@@ -62,22 +62,17 @@
     self.threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:parentThread andForum:nil];
     
     [self.threadViewModelManager restorePreviousState];
-    if (self.threadViewModelManager.threads.count || NO) {
-        NSDictionary *replyDictionary = @{@(watchKitCommandLoadThreadView) : [self watchKitThreadsWithThreads:self.threadViewModelManager.threads]};
-        [self replyWithDictionary:replyDictionary];
+    __weak typeof (self.threadViewModelManager) weakThreadViewModelManager = self.threadViewModelManager;
+    __weak typeof (self) weakSelf = self;
+    self.threadViewModelManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
+        NSDictionary *replyDictionary = @{@(watchKitCommandLoadThreadView) : [weakSelf watchKitThreadsWithThreads:weakThreadViewModelManager.threads]};
+        [weakSelf replyWithDictionary:replyDictionary];
+    };
+    
+    if (loadMore && self.threadViewModelManager.threads.count > 1) {
+        [self.threadViewModelManager loadMoreThreads];
     } else {
-        __weak typeof (self.threadViewModelManager) weakThreadViewModelManager = self.threadViewModelManager;
-        __weak typeof (self) weakSelf = self;
-        self.threadViewModelManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
-            NSDictionary *replyDictionary = @{@(watchKitCommandLoadThreadView) : [weakSelf watchKitThreadsWithThreads:weakThreadViewModelManager.threads]};
-            [weakSelf replyWithDictionary:replyDictionary];
-        };
-        
-        if (loadMore && self.threadViewModelManager.threads.count > 1) {
-            [self.threadViewModelManager loadMoreThreads];
-        } else {
-            [self.threadViewModelManager refresh];
-        }
+        [self.threadViewModelManager refresh];
     }
 }
 

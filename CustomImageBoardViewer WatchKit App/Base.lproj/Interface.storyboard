@@ -109,8 +109,16 @@
                         </table>
                         <group width="1" alignment="left" id="nto-G3-cLR">
                             <items>
-                                <button alignment="left" title="More" id="kUx-4k-8Up"/>
-                                <button alignment="right" title="Watch" id="uOQ-ga-i2h"/>
+                                <button alignment="left" title="More" id="kUx-4k-8Up">
+                                    <connections>
+                                        <action selector="loadMoreButtonAction" destination="PDK-Cg-DDX" id="buM-WE-Rtj"/>
+                                    </connections>
+                                </button>
+                                <button alignment="right" title="Watch" id="uOQ-ga-i2h">
+                                    <connections>
+                                        <action selector="watchButtonAction" destination="PDK-Cg-DDX" id="WVg-Vx-kVI"/>
+                                    </connections>
+                                </button>
                             </items>
                         </group>
                     </items>

@@ -15,6 +15,7 @@ typedef NS_ENUM(NSInteger, watchKitCommand) {
     watchKitCommandLoadHomeView = 1,
     watchKitCommandLoadThreadView = 2,
     watchKitCommandLoadForumView = 3,
+    watchKitCommandWatchThread = 4,
     watchKitCommandUnknown = 0
 };
 
