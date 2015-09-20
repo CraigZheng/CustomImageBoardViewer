@@ -24,15 +24,16 @@
     [super awakeWithContext:context];
     self.wkThread = [[czzWKThread alloc] initWithDictionary:[context objectForKey:@(watchKitCommandLoadThreadView)]];
 #warning DEBUGGING
-    self.wkThread = [czzWKThread new];
-    self.wkThread.ID = 6678197;
-    self.wkThread.name = @"MOCK NAME";
-    self.wkThread.title = @"";
-    self.wkThread.content = @"MOCK CONTENT";
-    self.wkThread.thumbnailFile = @"";
-    self.wkThread.imageFile = @"";
-    self.wkThread.postDate = [NSDate new];
-    
+    if (!self.wkThread) {
+        self.wkThread = [czzWKThread new];
+        self.wkThread.ID = 6678197;
+        self.wkThread.name = @"MOCK NAME";
+        self.wkThread.title = @"";
+        self.wkThread.content = @"MOCK CONTENT";
+        self.wkThread.thumbnailFile = @"";
+        self.wkThread.imageFile = @"";
+        self.wkThread.postDate = [NSDate new];
+    }
     
     [self reloadData];
 }
@@ -61,7 +62,7 @@
             }
             [self reloadTableView];
         }];
-        [self.idLabel setText:[NSString stringWithFormat:@"No. %ld - ID %@", (long)self.wkThread.ID, self.wkThread.name]];
+        [self.idLabel setText:[NSString stringWithFormat:@"No. %ld", (long)self.wkThread.ID]];
     }
 }
 -(void)reloadTableView {

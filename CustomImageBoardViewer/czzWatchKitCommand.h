@@ -8,9 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+#define watchKidCommand @"COMMAND"
+#define watchKitCommandLoadMore @"watchKitCommandLoadMore"
+
 typedef NS_ENUM(NSInteger, watchKitCommand) {
     watchKitCommandLoadHomeView = 1,
     watchKitCommandLoadThreadView = 2,
+    watchKitCommandLoadForumView = 3,
     watchKitCommandUnknown = 0
 };
 

@@ -37,8 +37,11 @@
 }
 
 -(void)reloadData {
-    [WKInterfaceController openParentApplication:@{@"COMMAND" : @(watchKitCommandLoadHomeView)} reply:^(NSDictionary *replyInfo, NSError *error) {
-        NSLog(@"MAIN APP CALLED COMPLETION HANDLER");
+    [self loadMore:NO];
+}
+
+-(void)loadMore:(BOOL)more {
+    [WKInterfaceController openParentApplication:@{watchKidCommand : @(watchKitCommandLoadHomeView), watchKitCommandLoadMore : @(more)} reply:^(NSDictionary *replyInfo, NSError *error) {
         NSArray *threadDictionaries = [replyInfo objectForKey:@(watchKitCommandLoadHomeView)];
         self.wkThreads = [NSMutableArray new];
         for (NSDictionary *dict in threadDictionaries) {
@@ -55,6 +58,11 @@
 - (IBAction)reloadButtonAction {
     [self reloadData];
 }
+
+- (IBAction)loadMoreButtonAction {
+    [self loadMore:YES];
+}
+
 
 -(id)contextForSegueWithIdentifier:(NSString *)segueIdentifier inTable:(WKInterfaceTable *)table rowIndex:(NSInteger)rowIndex {
     self.selectedThread = [self.wkThreads objectAtIndex:rowIndex];

@@ -23,43 +23,41 @@
 -(void)handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))reply withBackgroundTaskIdentifier:(UIBackgroundTaskIdentifier)backgroundTaskIdentifier{
     self.backgroundTaskIdentifier = backgroundTaskIdentifier;
     self.reply = reply;
-    id command = [userInfo objectForKey:@"COMMAND"];
+    id command = [userInfo objectForKey:watchKidCommand];
+    BOOL loadMore = [[userInfo objectForKey:watchKitCommandLoadMore] boolValue];
     if ([command isEqual: @(watchKitCommandLoadHomeView)]) {
-        [self watchKitLoadHomeView];
+        [self watchKitLoadHomeView:loadMore];
     } else if ([command isEqual:@(watchKitCommandLoadThreadView)]) {
         czzWKThread *selectedThread = [[czzWKThread alloc] initWithDictionary:[userInfo objectForKey:@"THREAD"]];
         if (selectedThread) {
-            [self watchKitLoadThreadView:selectedThread];
+            [self watchKitLoadThreadView:selectedThread loadMore:loadMore];
         }
     }
 }
 
--(void)watchKitLoadHomeView {
+-(void)watchKitLoadHomeView:(BOOL)loadMore {
     self.homeViewModelManager = [czzHomeViewModelManager sharedManager];
     
     __block NSMutableDictionary *replyDictionary = [NSMutableDictionary new];
-    
-    [replyDictionary addEntriesFromDictionary:@{@(watchKitMiscInfoScreenTitleHome) : self.homeViewModelManager.forum.name.length ? self.homeViewModelManager.forum.name : @"没有板块"}];
-    if (self.homeViewModelManager.threads.count) {
-        [replyDictionary addEntriesFromDictionary:@{@(watchKitCommandLoadHomeView) : [self watchKitThreadsWithThreads:self.homeViewModelManager.threads]}];
-        [self replyWithDictionary: replyDictionary];
+    __weak typeof (self) weakSelf = self;
+    self.homeViewModelManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
+        if (success) {
+            //TODO: if success? if fail?
+        }
+        [replyDictionary addEntriesFromDictionary:@{@(watchKitMiscInfoScreenTitleHome) : weakSelf.homeViewModelManager.forum.name.length ? [NSString stringWithFormat:@"%@-%ld", weakSelf.homeViewModelManager.forum.name, (long)weakSelf.homeViewModelManager.pageNumber] : @"没有板块"}];
+        [replyDictionary addEntriesFromDictionary:@{@(watchKitCommandLoadHomeView) : [weakSelf watchKitThreadsWithThreads:threads]}];
+        [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"Passing %ld objects to watch kit...", (long)replyDictionary.allValues.count]];
+        [weakSelf replyWithDictionary:replyDictionary];
+    };
+    [[czzAppDelegate sharedAppDelegate] showToast:@"Downloading for watch kit..."];
+    if (loadMore && self.homeViewModelManager.threads.count) {
+        [self.homeViewModelManager loadMoreThreads];
     } else {
-        __weak typeof (self) weakSelf = self;
-        self.homeViewModelManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
-            if (success) {
-                //TODO: if success? if fail?
-            }
-            [replyDictionary addEntriesFromDictionary:@{@(watchKitCommandLoadHomeView) : [weakSelf watchKitThreadsWithThreads:threads]}];
-            [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"Passing %ld objects to watch kit...", (long)replyDictionary.allValues.count]];
-            [self replyWithDictionary:replyDictionary];
-        };
-        [[czzAppDelegate sharedAppDelegate] showToast:@"Downloading for watch kit..."];
         [self.homeViewModelManager refresh];
-        
     }
 }
 
--(void)watchKitLoadThreadView:(czzWKThread*)selectedThread {
+-(void)watchKitLoadThreadView:(czzWKThread*)selectedThread loadMore:(BOOL)loadMore {
     czzThread *parentThread = [[czzThread alloc] initWithThreadID:selectedThread.ID];
     self.threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:parentThread andForum:nil];
     
@@ -75,7 +73,11 @@
             [weakSelf replyWithDictionary:replyDictionary];
         };
         
-        [self.threadViewModelManager refresh];
+        if (loadMore && self.threadViewModelManager.threads.count > 1) {
+            [self.threadViewModelManager loadMoreThreads];
+        } else {
+            [self.threadViewModelManager refresh];
+        }
     }
 }
 

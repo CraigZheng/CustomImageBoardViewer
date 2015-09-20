@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="PDK-Cg-DDX">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="8092"/>
@@ -12,7 +12,9 @@
                     <items>
                         <group width="1" alignment="left" id="GxK-pe-wV2">
                             <items>
-                                <label alignment="left" text="综合1" id="2nn-uC-7pc"/>
+                                <label alignment="left" text="综合1" id="2nn-uC-7pc">
+                                    <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                                </label>
                             </items>
                         </group>
                         <table alignment="left" id="fNI-O2-IGG">
@@ -45,11 +47,20 @@
                                 </tableRow>
                             </items>
                         </table>
-                        <button width="1" alignment="left" title="Reload" id="Y1b-2f-gGI">
-                            <connections>
-                                <action selector="reloadButtonAction" destination="AgC-eL-Hgc" id="0Fc-80-DPP"/>
-                            </connections>
-                        </button>
+                        <group width="1" alignment="left" id="pdB-w5-5Ao">
+                            <items>
+                                <button alignment="left" title="Reload" id="ZuJ-BB-CjR">
+                                    <connections>
+                                        <action selector="reloadButtonAction" destination="AgC-eL-Hgc" id="f5y-eq-wMq"/>
+                                    </connections>
+                                </button>
+                                <button alignment="right" title="Next" id="rOK-0j-0pb">
+                                    <connections>
+                                        <action selector="loadMoreButtonAction" destination="AgC-eL-Hgc" id="XHj-Gq-OnY"/>
+                                    </connections>
+                                </button>
+                            </items>
+                        </group>
                     </items>
                     <connections>
                         <outlet property="screenTitleLabel" destination="2nn-uC-7pc" id="LYe-Sb-ffS"/>
@@ -64,7 +75,9 @@
             <objects>
                 <controller identifier="czzWKThreadViewController" hidesWhenLoading="NO" id="PDK-Cg-DDX" customClass="czzWKThreadViewController">
                     <items>
-                        <label alignment="left" text="ID" id="q3p-gH-wCs"/>
+                        <label alignment="left" text="ID" id="q3p-gH-wCs">
+                            <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                        </label>
                         <table alignment="left" id="ssM-ZN-gZK">
                             <items>
                                 <tableRow identifier="wkHomeViewRow" id="vfM-qP-lAX" customClass="czzWatchKitHomeRowController">
@@ -96,7 +109,7 @@
                         </table>
                         <group width="1" alignment="left" id="nto-G3-cLR">
                             <items>
-                                <button alignment="left" title="Reload" id="kUx-4k-8Up"/>
+                                <button alignment="left" title="More" id="kUx-4k-8Up"/>
                                 <button alignment="right" title="Watch" id="uOQ-ga-i2h"/>
                             </items>
                         </group>
