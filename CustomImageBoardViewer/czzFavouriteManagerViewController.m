@@ -29,6 +29,7 @@ NSInteger const historyIndex = 2;
 @property NSMutableSet *internalThreads;
 @property czzThread *selectedThread;
 @property (weak, nonatomic) id selectedManager;
+@property NSArray *updatedThreads;
 @end
 
 @implementation czzFavouriteManagerViewController
@@ -85,6 +86,14 @@ NSInteger const historyIndex = 2;
         cell.myThread = thread;
     }
     cell.backgroundColor = [UIColor clearColor];
+    // If I am seeing the list from watchlist
+    if (selectedManager == [czzWatchListManager sharedManager]) {
+        for (czzThread *updatedThread in self.updatedThreads) {
+            if (updatedThread.ID == thread.ID) {
+                cell.backgroundColor = [UIColor lightGrayColor];
+            }
+        }
+    }
     return cell;
 }
 
@@ -181,6 +190,11 @@ NSInteger const historyIndex = 2;
     } else if (titleSegmentedControl.selectedSegmentIndex == watchIndex) {
         threads = [czzWatchListManager sharedManager].watchedThreads;
         selectedManager = [czzWatchListManager sharedManager];
+        //Update watched threads
+        [[czzWatchListManager sharedManager] refreshWatchedThreads:^(NSArray *updatedThreads) {
+            self.updatedThreads = updatedThreads;
+            [self.tableView reloadData];
+        }];
     }
 }
 
