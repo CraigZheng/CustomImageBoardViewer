@@ -12,6 +12,9 @@
 
 @interface czzWatchKitManager () <czzHomeViewModelManagerDelegate>
 @property (assign, nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
+@property (strong, nonatomic) czzHomeViewModelManager *homeViewModelManager;
+@property (strong, nonatomic) czzThreadViewModelManager *threadViewModelManager;
+
 @property (copy)void (^reply)(NSDictionary *replyDictionary);
 @end
 
@@ -32,45 +35,47 @@
 }
 
 -(void)watchKitLoadHomeView {
-    czzHomeViewModelManager *homeViewModelManager = [czzHomeViewModelManager sharedManager];
+    self.homeViewModelManager = [czzHomeViewModelManager sharedManager];
     
     __block NSMutableDictionary *replyDictionary = [NSMutableDictionary new];
     
-    [replyDictionary addEntriesFromDictionary:@{@(watchKitMiscInfoScreenTitleHome) : homeViewModelManager.forum.name.length ? homeViewModelManager.forum.name : @"没有板块"}];
-    if (homeViewModelManager.threads.count) {
-        [replyDictionary addEntriesFromDictionary:@{@(watchKitCommandLoadHomeView) : [self watchKitThreadsWithThreads:homeViewModelManager.threads]}];
+    [replyDictionary addEntriesFromDictionary:@{@(watchKitMiscInfoScreenTitleHome) : self.homeViewModelManager.forum.name.length ? self.homeViewModelManager.forum.name : @"没有板块"}];
+    if (self.homeViewModelManager.threads.count) {
+        [replyDictionary addEntriesFromDictionary:@{@(watchKitCommandLoadHomeView) : [self watchKitThreadsWithThreads:self.homeViewModelManager.threads]}];
         [self replyWithDictionary: replyDictionary];
     } else {
-        homeViewModelManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
+        __weak typeof (self) weakSelf = self;
+        self.homeViewModelManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
             if (success) {
                 //TODO: if success? if fail?
             }
-            [replyDictionary addEntriesFromDictionary:@{@(watchKitCommandLoadHomeView) : [self watchKitThreadsWithThreads:threads]}];
+            [replyDictionary addEntriesFromDictionary:@{@(watchKitCommandLoadHomeView) : [weakSelf watchKitThreadsWithThreads:threads]}];
             [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"Passing %ld objects to watch kit...", (long)replyDictionary.allValues.count]];
             [self replyWithDictionary:replyDictionary];
         };
         [[czzAppDelegate sharedAppDelegate] showToast:@"Downloading for watch kit..."];
-        [homeViewModelManager refresh];
+        [self.homeViewModelManager refresh];
         
     }
 }
 
 -(void)watchKitLoadThreadView:(czzWKThread*)selectedThread {
     czzThread *parentThread = [[czzThread alloc] initWithThreadID:selectedThread.ID];
-    czzThreadViewModelManager *threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:parentThread andForum:nil];
+    self.threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:parentThread andForum:nil];
     
-    [threadViewModelManager restorePreviousState];
-    if (threadViewModelManager.threads.count) {
-        NSDictionary *replyDictionary = @{@(watchKitCommandLoadThreadView) : [self watchKitThreadsWithThreads:threadViewModelManager.threads]};
+    [self.threadViewModelManager restorePreviousState];
+    if (self.threadViewModelManager.threads.count || NO) {
+        NSDictionary *replyDictionary = @{@(watchKitCommandLoadThreadView) : [self watchKitThreadsWithThreads:self.threadViewModelManager.threads]};
         [self replyWithDictionary:replyDictionary];
     } else {
-        __weak typeof (threadViewModelManager) weakThreadViewModelManager = threadViewModelManager;
-        threadViewModelManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
-            NSDictionary *replyDictionary = @{@(watchKitCommandLoadThreadView) : [self watchKitThreadsWithThreads:weakThreadViewModelManager.threads]};
-            [self replyWithDictionary:replyDictionary];
+        __weak typeof (self.threadViewModelManager) weakThreadViewModelManager = self.threadViewModelManager;
+        __weak typeof (self) weakSelf = self;
+        self.threadViewModelManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
+            NSDictionary *replyDictionary = @{@(watchKitCommandLoadThreadView) : [weakSelf watchKitThreadsWithThreads:weakThreadViewModelManager.threads]};
+            [weakSelf replyWithDictionary:replyDictionary];
         };
         
-        [threadViewModelManager refresh];
+        [self.threadViewModelManager refresh];
     }
 }
 
