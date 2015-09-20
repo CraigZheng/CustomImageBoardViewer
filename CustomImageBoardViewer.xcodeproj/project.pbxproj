@@ -27,6 +27,9 @@
 		441A6A761BAE8B4A008E380C /* czzWKForum.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A751BAE8B4A008E380C /* czzWKForum.m */; settings = {ASSET_TAGS = (); }; };
 		441A6A771BAE8B4A008E380C /* czzWKForum.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A751BAE8B4A008E380C /* czzWKForum.m */; settings = {ASSET_TAGS = (); }; };
 		441A6A781BAE8B4A008E380C /* czzWKForum.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A751BAE8B4A008E380C /* czzWKForum.m */; settings = {ASSET_TAGS = (); }; };
+		441A6A7B1BAE995A008E380C /* czzWKForumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A7A1BAE995A008E380C /* czzWKForumViewController.m */; settings = {ASSET_TAGS = (); }; };
+		441A6A7C1BAE995A008E380C /* czzWKForumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A7A1BAE995A008E380C /* czzWKForumViewController.m */; settings = {ASSET_TAGS = (); }; };
+		441A6A7D1BAE995A008E380C /* czzWKForumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A7A1BAE995A008E380C /* czzWKForumViewController.m */; settings = {ASSET_TAGS = (); }; };
 		441E5CCF17F4691300289DBD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5CCE17F4691300289DBD /* Foundation.framework */; };
 		441E5CD117F4691300289DBD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5CD017F4691300289DBD /* CoreGraphics.framework */; };
 		441E5CD317F4691300289DBD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5CD217F4691300289DBD /* UIKit.framework */; };
@@ -910,6 +913,8 @@
 		441A6A721BAE78FB008E380C /* czzWKThreadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWKThreadViewController.m; sourceTree = "<group>"; };
 		441A6A741BAE8B4A008E380C /* czzWKForum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWKForum.h; sourceTree = "<group>"; };
 		441A6A751BAE8B4A008E380C /* czzWKForum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWKForum.m; sourceTree = "<group>"; };
+		441A6A791BAE995A008E380C /* czzWKForumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWKForumViewController.h; sourceTree = "<group>"; };
+		441A6A7A1BAE995A008E380C /* czzWKForumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWKForumViewController.m; sourceTree = "<group>"; };
 		441E5CCB17F4691300289DBD /* CustomImageBoardViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomImageBoardViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		441E5CCE17F4691300289DBD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		441E5CD017F4691300289DBD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -2332,6 +2337,8 @@
 				441A6A751BAE8B4A008E380C /* czzWKForum.m */,
 				441A6A711BAE78FB008E380C /* czzWKThreadViewController.h */,
 				441A6A721BAE78FB008E380C /* czzWKThreadViewController.m */,
+				441A6A791BAE995A008E380C /* czzWKForumViewController.h */,
+				441A6A7A1BAE995A008E380C /* czzWKForumViewController.m */,
 			);
 			path = "CustomImageBoardViewer WatchKit Extension";
 			sourceTree = "<group>";
@@ -3741,6 +3748,7 @@
 				44E3F7471BA3007500597A3F /* NSDictionary+Util.m in Sources */,
 				443141971A2B38D6007D65B3 /* czzThreadViewModelManager.m in Sources */,
 				442A8FA719DB7DF200A3516E /* MWZoomingScrollView.m in Sources */,
+				441A6A7B1BAE995A008E380C /* czzWKForumViewController.m in Sources */,
 				441E5CDB17F4691300289DBD /* main.m in Sources */,
 				44FC4345180067CF0028D7C9 /* czzPostSender.m in Sources */,
 				441E5D0E17F4699400289DBD /* IIWrapController.m in Sources */,
@@ -3925,6 +3933,7 @@
 				4455404B1BABEBA700667435 /* NSDictionary+Util.m in Sources */,
 				4455404C1BABEBA700667435 /* czzThreadViewModelManager.m in Sources */,
 				4455404D1BABEBA700667435 /* MWZoomingScrollView.m in Sources */,
+				441A6A7D1BAE995A008E380C /* czzWKForumViewController.m in Sources */,
 				4455404E1BABEBA700667435 /* main.m in Sources */,
 				4455404F1BABEBA700667435 /* czzPostSender.m in Sources */,
 				445540501BABEBA700667435 /* IIWrapController.m in Sources */,
@@ -3973,6 +3982,7 @@
 				4476B63A1B9FDD43004E6650 /* InterfaceController.m in Sources */,
 				447CD6941BABF4E800C4E70B /* czzWKThread.m in Sources */,
 				4476B63D1B9FDD43004E6650 /* GlanceController.m in Sources */,
+				441A6A7C1BAE995A008E380C /* czzWKForumViewController.m in Sources */,
 				44E469E71BADA54300C0AACC /* czzWatchKitHomeRowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
