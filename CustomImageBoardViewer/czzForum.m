@@ -38,6 +38,14 @@
     return value;
 }
 
+-(czzWKForum *)watchKitForum {
+    czzWKForum *wkForum = [czzWKForum new];
+    wkForum.name = self.name;
+    wkForum.forumID = self.forumID;
+    
+    return wkForum;
+}
+
 #pragma mark - NSCoding protocol
 -(id)initWithCoder:(NSCoder *)aDecoder {
     czzForum *forum = [czzForum new];

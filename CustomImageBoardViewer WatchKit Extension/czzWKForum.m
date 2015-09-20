@@ -10,4 +10,18 @@
 
 @implementation czzWKForum
 
+-(instancetype)initWithDictionary:(NSDictionary *)dict {
+    self = [super init];
+    self.name = [dict objectForKey:@"name"];
+    self.forumID = [[dict objectForKey:@"forumID"] integerValue];
+    return self;
+}
+
+-(NSDictionary *)encodeToDictionary {
+    NSMutableDictionary *dict = [NSMutableDictionary new];
+    [dict setObject:@(self.forumID) forKey:@"forumID"];
+    [dict setObject:self.name forKey:@"name"];
+    return dict;
+}
+
 @end

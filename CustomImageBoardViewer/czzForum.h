@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "czzWKForum.h"
+
 @interface czzForum : NSObject <NSCoding>
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *header;
@@ -19,4 +21,6 @@
 
 -(id)initWithJSONDictionary:(NSDictionary*)jsonDict;
 +(id)initWithJSONDictionary:(NSDictionary*)jsonDict;
+
+-(czzWKForum*)watchKitForum;
 @end

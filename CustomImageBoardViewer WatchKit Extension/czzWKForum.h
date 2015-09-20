@@ -10,4 +10,9 @@
 
 @interface czzWKForum : NSObject
 
+@property (strong, nonatomic) NSString *name;
+@property (assign, nonatomic) NSInteger forumID;
+
+-(instancetype)initWithDictionary:(NSDictionary*)dict;
+-(NSDictionary*)encodeToDictionary;
 @end
