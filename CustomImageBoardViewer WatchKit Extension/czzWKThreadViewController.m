@@ -63,7 +63,7 @@
 
 -(void)loadMore {
     if (self.wkThread) {
-        [WKInterfaceController openParentApplication:@{watchKidCommand : @(watchKitCommandLoadThreadView),
+        [WKInterfaceController openParentApplication:@{watchKitCommandKey : @(watchKitCommandLoadThreadView),
                                                        @"THREAD" : [self.wkThread encodeToDictionary],
                                                        watchKitCommandLoadMore : @(YES)} reply:^(NSDictionary * _Nonnull replyInfo, NSError * _Nullable error) {
             self.wkThreads = [NSMutableArray new];

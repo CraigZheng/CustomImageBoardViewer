@@ -16,20 +16,30 @@
 @property (assign, nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
 @property (strong, nonatomic) czzHomeViewModelManager *homeViewModelManager;
 @property (strong, nonatomic) czzThreadViewModelManager *threadViewModelManager;
+@property (strong, nonatomic) NSString *requestedImageURL;
 
 @property (copy)void (^reply)(NSDictionary *replyDictionary);
 @end
 
 @implementation czzWatchKitManager
 
+-(instancetype)init {
+    self = [super init];
+    if (self) {
+//        [[NSNotificationCenter defaultCenter] addObserver:THUMBNAIL_DOWNLOADED_NOTIFICATION selector:@selector(handleThumbnailDownloaded:) name:THUMBNAIL_DOWNLOADED_NOTIFICATION object:nil];
+    }
+    
+    return self;
+}
+
 -(void)handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))reply withBackgroundTaskIdentifier:(UIBackgroundTaskIdentifier)backgroundTaskIdentifier{
     self.backgroundTaskIdentifier = backgroundTaskIdentifier;
     self.reply = reply;
-    id command = [userInfo objectForKey:watchKidCommand];
+    id command = [userInfo objectForKey:watchKitCommandKey];
 
     BOOL loadMore = [[userInfo objectForKey:watchKitCommandLoadMore] boolValue];
     if ([command isEqual: @(watchKitCommandLoadHomeView)]) {
-        czzWKForum *forum = [[czzWKForum alloc] initWithDictionary:[userInfo objectForKey:watchKidCommandForumKey]];
+        czzWKForum *forum = [[czzWKForum alloc] initWithDictionary:[userInfo objectForKey:watchKitCommandForumKey]];
         [self watchKitLoadHomeView:forum loadMore:loadMore];
     } else if ([command isEqual:@(watchKitCommandLoadThreadView)]) {
         czzWKThread *selectedThread = [[czzWKThread alloc] initWithDictionary:[userInfo objectForKey:@"THREAD"]];
@@ -38,7 +48,21 @@
         }
     } else if ([command isEqual:@(watchKitCommandLoadForumView)]) {
         [self watchKitLoadForumView];
+    } else if ([command isEqual:@(watchKitCommandLoadImage)]) {
+        NSString *imgURL = [userInfo objectForKey:watchKitCommandImageKey];
+        [self watchkitLoadImage:imgURL];
     }
+}
+
+-(void)watchkitLoadImage:(NSString*)imgURL {
+    NSString *targetImgURL;
+    if ([imgURL hasPrefix:@"http"])
+        targetImgURL = imgURL;
+    else
+        targetImgURL = [[settingCentre thumbnail_host] stringByAppendingPathComponent:imgURL];
+
+    [[czzImageCentre sharedInstance] downloadThumbnailWithURL:imgURL isCompletedURL:YES];
+    
 }
 
 -(void)watchKitLoadForumView {
@@ -116,6 +140,15 @@
             [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskIdentifier];
         }
     }];
+}
+
+#pragma mark - Thumbnail downloaded notification 
+-(void)handleThumbnailDownloaded:(NSNotification*)notification {
+//    NSString *downloadedImageName = [[notification.userInfo objectForKey:@"FilePath"] lastPathComponent];
+//    
+//    if ([self.requestedImageURL.lastPathComponent isEqualToString:downloadedImageName]) {
+//        NSDictionary *imgReply =
+//    }
 }
 
 -(NSArray *)watchKitThreadsWithThreads:(NSArray *)threads {

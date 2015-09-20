@@ -50,7 +50,7 @@
 }
 
 -(void)loadForumData {
-    [WKInterfaceController openParentApplication:@{watchKidCommand : @(watchKitCommandLoadForumView)} reply:^(NSDictionary * _Nonnull replyInfo, NSError * _Nullable error) {
+    [WKInterfaceController openParentApplication:@{watchKitCommandKey : @(watchKitCommandLoadForumView)} reply:^(NSDictionary * _Nonnull replyInfo, NSError * _Nullable error) {
         self.wkForums = [NSMutableArray new];
         for (NSDictionary *dict in [replyInfo objectForKey:@(watchKitCommandLoadForumView)]) {
             czzWKForum *forum = [[czzWKForum alloc] initWithDictionary:dict];

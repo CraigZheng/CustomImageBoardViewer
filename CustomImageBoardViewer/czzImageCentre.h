@@ -13,6 +13,8 @@
 #define kLastCleanDate @"kLastCleanDate"
 #define kCleanInterval 2592000
 
+#define THUMBNAIL_DOWNLOADED_NOTIFICATION @"ThumbnailDownloaded"
+
 #import <Foundation/Foundation.h>
 
 @class czzImageCentre;

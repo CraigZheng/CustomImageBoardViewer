@@ -10,9 +10,6 @@
             <objects>
                 <controller title="板块列表" id="oY8-ul-yHo" customClass="czzWKForumViewController">
                     <items>
-                        <label alignment="left" text="板块" id="pLB-y8-gQs">
-                            <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
-                        </label>
                         <table alignment="left" id="NzZ-TO-325">
                             <items>
                                 <tableRow identifier="wkForumsRowControllerIdentifier" id="kxs-LE-DB1" customClass="czzWKForumRowController">

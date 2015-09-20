@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-#define watchKidCommand @"COMMAND"
-#define watchKidCommandForumKey @"FORUM"
+#define watchKitCommandKey @"COMMAND"
+#define watchKitCommandForumKey @"FORUM"
+#define watchKitCommandThreadKey @"THREAD"
+#define watchKitCommandImageKey @"IMAGE"
 
 #define watchKitCommandLoadMore @"watchKitCommandLoadMore"
 
@@ -18,6 +20,7 @@ typedef NS_ENUM(NSInteger, watchKitCommand) {
     watchKitCommandLoadThreadView = 2,
     watchKitCommandLoadForumView = 3,
     watchKitCommandWatchThread = 4,
+    watchKitCommandLoadImage = 5,
     watchKitCommandUnknown = 0
 };
 

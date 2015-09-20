@@ -47,8 +47,8 @@
 }
 
 -(void)loadMore:(BOOL)more {
-    [WKInterfaceController openParentApplication:@{watchKidCommand : @(watchKitCommandLoadHomeView), watchKitCommandLoadMore : @(more),
-                                                   watchKidCommandForumKey : [self.selectedForum encodeToDictionary]} reply:^(NSDictionary *replyInfo, NSError *error) {
+    [WKInterfaceController openParentApplication:@{watchKitCommandKey : @(watchKitCommandLoadHomeView), watchKitCommandLoadMore : @(more),
+                                                   watchKitCommandForumKey : [self.selectedForum encodeToDictionary]} reply:^(NSDictionary *replyInfo, NSError *error) {
         NSArray *threadDictionaries = [replyInfo objectForKey:@(watchKitCommandLoadHomeView)];
         self.wkThreads = [NSMutableArray new];
         for (NSDictionary *dict in threadDictionaries) {

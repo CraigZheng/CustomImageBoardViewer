@@ -21,7 +21,7 @@
         [self.wkThreadContentLabel setText:wkThread.content];
         [self.wkThreadInformationLabel setText:[NSString stringWithFormat:@"%@-%@", [dateFormatter stringFromDate:wkThread.postDate], wkThread.name]];
         
-        //TODO - figure out why is it not working
+        //TODO: show actual image
         
         if (wkThread.thumbnailFile.length) {
             [self.wkThreadThumbnailImage setImage:[[UIImage imageNamed:@"picture.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];

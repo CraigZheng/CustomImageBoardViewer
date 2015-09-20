@@ -293,7 +293,7 @@
 
     if (isThumbnail)
         [[NSNotificationCenter defaultCenter]
-         postNotificationName:@"ThumbnailDownloaded" object:Nil userInfo:userInfo];
+         postNotificationName:THUMBNAIL_DOWNLOADED_NOTIFICATION object:Nil userInfo:userInfo];
 
     NSMutableOrderedSet *setWithThisDownloader = imgDownloader.isThumbnail ? currentThumbnailDownloaders : currentImageDownloaders;
     NSPredicate *sameImgURL = [NSPredicate predicateWithFormat:@"imageURLString == %@", imgDownloader.imageURLString];
