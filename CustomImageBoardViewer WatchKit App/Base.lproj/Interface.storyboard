@@ -40,6 +40,7 @@
                                         <outlet property="wkThreadImage" destination="3YK-YS-rlG" id="GZL-Nv-gEj"/>
                                         <outlet property="wkThreadInformationLabel" destination="pGz-Mb-1qc" id="yR7-bB-HiH"/>
                                         <outlet property="wkThreadThumbnailImage" destination="EEs-GL-HuX" id="SzX-0G-OiX"/>
+                                        <segue destination="PDK-Cg-DDX" kind="push" id="shC-Hi-78y"/>
                                     </connections>
                                 </tableRow>
                             </items>
@@ -57,6 +58,56 @@
                 </controller>
             </objects>
             <point key="canvasLocation" x="164" y="216.5"/>
+        </scene>
+        <!--czzWKThreadViewController-->
+        <scene sceneID="fpF-q4-YuA">
+            <objects>
+                <controller identifier="czzWKThreadViewController" hidesWhenLoading="NO" id="PDK-Cg-DDX" customClass="czzWKThreadViewController">
+                    <items>
+                        <label alignment="left" text="ID" id="q3p-gH-wCs"/>
+                        <table alignment="left" id="ssM-ZN-gZK">
+                            <items>
+                                <tableRow identifier="wkHomeViewRow" id="vfM-qP-lAX" customClass="czzWatchKitHomeRowController">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" id="GXv-WR-EuV">
+                                        <items>
+                                            <separator alignment="left" id="am3-zt-abW"/>
+                                            <label width="1" alignment="left" text="Content" numberOfLines="0" id="8Q3-Fj-oOm"/>
+                                            <imageView alignment="left" id="btO-YY-a3h"/>
+                                            <group width="1" alignment="left" id="u2c-AC-GI2">
+                                                <items>
+                                                    <imageView width="12" height="12" alignment="left" verticalAlignment="bottom" image="picture.png" contentMode="scaleAspectFill" id="2em-Zy-u56">
+                                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </imageView>
+                                                    <label alignment="right" verticalAlignment="bottom" text="Infomation" textAlignment="right" id="RaF-vv-tZM">
+                                                        <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                                    </label>
+                                                </items>
+                                            </group>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="wkThreadContentLabel" destination="8Q3-Fj-oOm" id="PTJ-in-Jm5"/>
+                                        <outlet property="wkThreadImage" destination="btO-YY-a3h" id="hN1-3M-nFn"/>
+                                        <outlet property="wkThreadInformationLabel" destination="RaF-vv-tZM" id="zpd-E5-RuC"/>
+                                        <outlet property="wkThreadThumbnailImage" destination="2em-Zy-u56" id="lSv-KQ-rRE"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <group width="1" alignment="left" id="nto-G3-cLR">
+                            <items>
+                                <button alignment="left" title="Reload" id="kUx-4k-8Up"/>
+                                <button alignment="right" title="Watch" id="uOQ-ga-i2h"/>
+                            </items>
+                        </group>
+                    </items>
+                    <connections>
+                        <outlet property="idLabel" destination="q3p-gH-wCs" id="IDa-ip-XAK"/>
+                        <outlet property="wkThreadsTableView" destination="ssM-ZN-gZK" id="4sA-b0-os7"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="345" y="213"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="rjY-Ar-IMT">

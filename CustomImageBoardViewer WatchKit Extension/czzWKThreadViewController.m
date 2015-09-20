@@ -1,34 +1,40 @@
 //
-//  InterfaceController.m
-//  CustomImageBoardViewer WatchKit Extension
+//  czzWKThreadViewController.m
+//  CustomImageBoardViewer
 //
-//  Created by Craig on 9/09/2015.
-//  Copyright (c) 2015 Craig. All rights reserved.
+//  Created by Craig Zheng on 20/09/2015.
+//  Copyright © 2015 Craig. All rights reserved.
 //
 
-#import "InterfaceController.h"
-#import "czzWKThread.h"
-#import "czzWatchKitCommand.h"
-#import "czzWatchKitHomeRowController.h"
 #import "czzWKThreadViewController.h"
 
-@interface InterfaceController()
+#import "czzWatchKitCommand.h"
+#import "czzWatchKitHomeRowController.h"
 
+@interface czzWKThreadViewController ()
+@property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceLabel *idLabel;
+@property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceTable *wkThreadsTableView;
 @property (strong, nonatomic) NSMutableArray *wkThreads;
-@property (strong, nonatomic) czzWKThread *selectedThread;
+
 @end
 
-
-@implementation InterfaceController
+@implementation czzWKThreadViewController
 
 - (void)awakeWithContext:(id)context {
     [super awakeWithContext:context];
-    [self reloadData];
+    self.wkThread = [[czzWKThread alloc] initWithDictionary:[context objectForKey:@(watchKitCommandLoadThreadView)]];
+    if (self.wkThread) {
+        [WKInterfaceController openParentApplication:@{@"COMMAND" : @(watchKitCommandLoadThreadView), @"THREAD" : [self.wkThread encodeToDictionary]} reply:^(NSDictionary * _Nonnull replyInfo, NSError * _Nullable error) {
+            
+        }];
+        [self.idLabel setText:[NSString stringWithFormat:@"No. %ld - ID %@", (long)self.wkThread.ID, self.wkThread.name]];
+    }
 }
 
+#pragma mark - Life cycle.
 - (void)willActivate {
+    // This method is called when watch view controller is about to be visible to user
     [super willActivate];
-    [self reloadTableView];
 }
 
 - (void)didDeactivate {
@@ -36,6 +42,7 @@
     [super didDeactivate];
 }
 
+#pragma mark - TableView
 -(void)reloadData {
     [WKInterfaceController openParentApplication:@{@"COMMAND" : @(watchKitCommandLoadHomeView)} reply:^(NSDictionary *replyInfo, NSError *error) {
         NSLog(@"MAIN APP CALLED COMPLETION HANDLER");
@@ -46,23 +53,11 @@
             NSLog(@"thread: %@", thread);
             [self.wkThreads addObject:thread];
         }
-        [self.screenTitleLabel setText:[replyInfo objectForKey:@(watchKitMiscInfoScreenTitleHome)]];
+        [self.idLabel setText:[replyInfo objectForKey:@(watchKitMiscInfoScreenTitleHome)]];
         
         [self reloadTableView];
     }];
 }
-
-- (IBAction)reloadButtonAction {
-    [self reloadData];
-}
-
--(id)contextForSegueWithIdentifier:(NSString *)segueIdentifier inTable:(WKInterfaceTable *)table rowIndex:(NSInteger)rowIndex {
-    self.selectedThread = [self.wkThreads objectAtIndex:rowIndex];
-    
-    return @{@(watchKitCommandLoadThreadView) : [self.selectedThread encodeToDictionary]};
-}
-
-#pragma mark - TableView
 -(void)reloadTableView {
     [self.wkThreadsTableView setNumberOfRows:self.wkThreads.count withRowType:wkHomeViewRowControllerIdentifier];
     
@@ -71,7 +66,7 @@
         
         theRow.wkThread = obj;
     }];
-
+    
 }
 
 @end

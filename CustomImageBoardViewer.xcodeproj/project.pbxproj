@@ -23,6 +23,7 @@
 		4416B72519413EAF00B69C5B /* FPPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4416B72019413EAF00B69C5B /* FPPopoverController.m */; };
 		4416B72619413EAF00B69C5B /* FPPopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4416B72219413EAF00B69C5B /* FPPopoverView.m */; };
 		4416B72719413EAF00B69C5B /* FPTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4416B72419413EAF00B69C5B /* FPTouchView.m */; };
+		441A6A731BAE78FB008E380C /* czzWKThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A721BAE78FB008E380C /* czzWKThreadViewController.m */; settings = {ASSET_TAGS = (); }; };
 		441E5CCF17F4691300289DBD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5CCE17F4691300289DBD /* Foundation.framework */; };
 		441E5CD117F4691300289DBD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5CD017F4691300289DBD /* CoreGraphics.framework */; };
 		441E5CD317F4691300289DBD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5CD217F4691300289DBD /* UIKit.framework */; };
@@ -902,6 +903,8 @@
 		4416B72219413EAF00B69C5B /* FPPopoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPPopoverView.m; sourceTree = "<group>"; };
 		4416B72319413EAF00B69C5B /* FPTouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FPTouchView.h; sourceTree = "<group>"; };
 		4416B72419413EAF00B69C5B /* FPTouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPTouchView.m; sourceTree = "<group>"; };
+		441A6A711BAE78FB008E380C /* czzWKThreadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWKThreadViewController.h; sourceTree = "<group>"; };
+		441A6A721BAE78FB008E380C /* czzWKThreadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWKThreadViewController.m; sourceTree = "<group>"; };
 		441E5CCB17F4691300289DBD /* CustomImageBoardViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomImageBoardViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		441E5CCE17F4691300289DBD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		441E5CD017F4691300289DBD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -2320,6 +2323,8 @@
 				4476B6361B9FDD43004E6650 /* Supporting Files */,
 				447CD6901BABF4E800C4E70B /* czzWKThread.h */,
 				447CD6911BABF4E800C4E70B /* czzWKThread.m */,
+				441A6A711BAE78FB008E380C /* czzWKThreadViewController.h */,
+				441A6A721BAE78FB008E380C /* czzWKThreadViewController.m */,
 			);
 			path = "CustomImageBoardViewer WatchKit Extension";
 			sourceTree = "<group>";
@@ -3953,6 +3958,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				441A6A731BAE78FB008E380C /* czzWKThreadViewController.m in Sources */,
 				44E469E21BAD9B5000C0AACC /* czzWatchKitCommand.m in Sources */,
 				4476B63A1B9FDD43004E6650 /* InterfaceController.m in Sources */,
 				447CD6941BABF4E800C4E70B /* czzWKThread.m in Sources */,

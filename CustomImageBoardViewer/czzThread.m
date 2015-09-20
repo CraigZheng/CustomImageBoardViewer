@@ -210,6 +210,7 @@
 
 -(czzWKThread *)watchKitThread {
     czzWKThread *wkThread = [czzWKThread new];
+    wkThread.ID = self.ID;
     wkThread.title = self.title;
     wkThread.name = self.UID.string;
     wkThread.content = self.content.string;
