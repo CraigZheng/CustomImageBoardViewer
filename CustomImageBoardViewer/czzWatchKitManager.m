@@ -8,7 +8,9 @@
 
 #import "czzWatchKitManager.h"
 #import "czzWatchKitCommand.h"
+#import "czzWKForum.h"
 #import "czzThreadViewModelManager.h"
+#import "czzForumManager.h"
 
 @interface czzWatchKitManager () <czzHomeViewModelManagerDelegate>
 @property (assign, nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
@@ -24,19 +26,41 @@
     self.backgroundTaskIdentifier = backgroundTaskIdentifier;
     self.reply = reply;
     id command = [userInfo objectForKey:watchKidCommand];
+
     BOOL loadMore = [[userInfo objectForKey:watchKitCommandLoadMore] boolValue];
     if ([command isEqual: @(watchKitCommandLoadHomeView)]) {
-        [self watchKitLoadHomeView:loadMore];
+        czzWKForum *forum = [[czzWKForum alloc] initWithDictionary:[userInfo objectForKey:watchKidCommandForumKey]];
+        [self watchKitLoadHomeView:forum loadMore:loadMore];
     } else if ([command isEqual:@(watchKitCommandLoadThreadView)]) {
         czzWKThread *selectedThread = [[czzWKThread alloc] initWithDictionary:[userInfo objectForKey:@"THREAD"]];
         if (selectedThread) {
             [self watchKitLoadThreadView:selectedThread loadMore:loadMore];
         }
+    } else if ([command isEqual:@(watchKitCommandLoadForumView)]) {
+        [self watchKitLoadForumView];
     }
 }
 
--(void)watchKitLoadHomeView:(BOOL)loadMore {
+-(void)watchKitLoadForumView {
+    [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
+
+    [[czzForumManager sharedManager] updateForums:^(BOOL success, NSError *error) {
+        NSMutableArray *forums = [NSMutableArray new];
+        for (czzForum *forum in [[czzForumManager sharedManager] forums]) {
+            [forums addObject: [[forum watchKitForum] encodeToDictionary]];
+        }
+        [self replyWithDictionary:@{@(watchKitCommandLoadForumView) : forums}];
+    }];
+}
+
+-(void)watchKitLoadHomeView:(czzWKForum*)forum loadMore:(BOOL)loadMore {
+    [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
+    
     self.homeViewModelManager = [czzHomeViewModelManager sharedManager];
+    
+    czzForum *selectedForum = [czzForum new];
+    selectedForum.name = forum.name;
+    [self.homeViewModelManager setForum:selectedForum];
     
     __block NSMutableDictionary *replyDictionary = [NSMutableDictionary new];
     __weak typeof (self) weakSelf = self;
@@ -46,10 +70,8 @@
         }
         [replyDictionary addEntriesFromDictionary:@{@(watchKitMiscInfoScreenTitleHome) : weakSelf.homeViewModelManager.forum.name.length ? [NSString stringWithFormat:@"%@-%ld", weakSelf.homeViewModelManager.forum.name, (long)weakSelf.homeViewModelManager.pageNumber] : @"没有板块"}];
         [replyDictionary addEntriesFromDictionary:@{@(watchKitCommandLoadHomeView) : [weakSelf watchKitThreadsWithThreads:threads]}];
-        [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"Passing %ld objects to watch kit...", (long)replyDictionary.allValues.count]];
         [weakSelf replyWithDictionary:replyDictionary];
     };
-    [[czzAppDelegate sharedAppDelegate] showToast:@"Downloading for watch kit..."];
     if (loadMore && self.homeViewModelManager.threads.count) {
         [self.homeViewModelManager loadMoreThreads];
     } else {
@@ -58,6 +80,8 @@
 }
 
 -(void)watchKitLoadThreadView:(czzWKThread*)selectedThread loadMore:(BOOL)loadMore {
+    [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
+    
     czzThread *parentThread = [[czzThread alloc] initWithThreadID:selectedThread.ID];
     self.threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:parentThread andForum:nil];
     
@@ -77,6 +101,8 @@
 }
 
 -(void)replyWithDictionary:(NSDictionary *)dict {
+    [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"Passing %ld objects to watch kit...", (long)dict.allValues.count]];
+
     if (self.reply) {
         self.reply(dict);
         self.reply = nil;

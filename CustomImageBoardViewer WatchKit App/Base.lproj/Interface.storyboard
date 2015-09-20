@@ -5,21 +5,27 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="8092"/>
     </dependencies>
     <scenes>
-        <!--CzzWK Forum View Controller-->
+        <!--板块列表-->
         <scene sceneID="gc4-Y4-v2a">
             <objects>
-                <controller hidesWhenLoading="NO" id="oY8-ul-yHo" customClass="czzWKForumViewController">
+                <controller title="板块列表" id="oY8-ul-yHo" customClass="czzWKForumViewController">
                     <items>
+                        <label alignment="left" text="板块" id="pLB-y8-gQs">
+                            <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                        </label>
                         <table alignment="left" id="NzZ-TO-325">
                             <items>
                                 <tableRow identifier="wkForumsRowControllerIdentifier" id="kxs-LE-DB1" customClass="czzWKForumRowController">
-                                    <group key="rootItem" width="1" height="0.0" alignment="left" id="Uzq-rM-g3W">
+                                    <group key="rootItem" width="1" height="40" alignment="left" layout="vertical" id="Uzq-rM-g3W">
                                         <items>
-                                            <label alignment="left" text="ForumName" id="185-xI-UHW"/>
+                                            <label alignment="left" verticalAlignment="center" text="ForumName" id="185-xI-UHW">
+                                                <fontDescription key="font" style="UICTFontTextStyleSubhead"/>
+                                            </label>
                                         </items>
                                     </group>
                                     <connections>
                                         <outlet property="forumNameLabel" destination="185-xI-UHW" id="O0R-Je-Iau"/>
+                                        <segue destination="AgC-eL-Hgc" kind="push" id="Ihw-9K-6Xd"/>
                                     </connections>
                                 </tableRow>
                             </items>
@@ -32,14 +38,14 @@
             </objects>
             <point key="canvasLocation" x="-29" y="218"/>
         </scene>
-        <!--Interface Controller-->
+        <!--板块内容-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="InterfaceController">
+                <controller title="板块内容" id="AgC-eL-Hgc" customClass="InterfaceController">
                     <items>
                         <group width="1" alignment="left" id="GxK-pe-wV2">
                             <items>
-                                <label alignment="left" text="综合1" id="2nn-uC-7pc">
+                                <label alignment="left" text="板块" id="2nn-uC-7pc">
                                     <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
                                 </label>
                             </items>
@@ -76,12 +82,7 @@
                         </table>
                         <group width="1" alignment="left" id="pdB-w5-5Ao">
                             <items>
-                                <button alignment="left" title="Reload" id="ZuJ-BB-CjR">
-                                    <connections>
-                                        <action selector="reloadButtonAction" destination="AgC-eL-Hgc" id="f5y-eq-wMq"/>
-                                    </connections>
-                                </button>
-                                <button alignment="right" title="Next" id="rOK-0j-0pb">
+                                <button width="1" alignment="center" title="Next" id="rOK-0j-0pb">
                                     <connections>
                                         <action selector="loadMoreButtonAction" destination="AgC-eL-Hgc" id="XHj-Gq-OnY"/>
                                     </connections>
@@ -97,10 +98,10 @@
             </objects>
             <point key="canvasLocation" x="164" y="216.5"/>
         </scene>
-        <!--czzWKThreadViewController-->
+        <!--串内容-->
         <scene sceneID="fpF-q4-YuA">
             <objects>
-                <controller identifier="czzWKThreadViewController" hidesWhenLoading="NO" id="PDK-Cg-DDX" customClass="czzWKThreadViewController">
+                <controller identifier="czzWKThreadViewController" title="串内容" id="PDK-Cg-DDX" customClass="czzWKThreadViewController">
                     <items>
                         <label alignment="left" text="ID" id="q3p-gH-wCs">
                             <fontDescription key="font" style="UICTFontTextStyleHeadline"/>

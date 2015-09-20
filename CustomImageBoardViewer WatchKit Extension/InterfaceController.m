@@ -8,6 +8,7 @@
 
 #import "InterfaceController.h"
 #import "czzWKThread.h"
+#import "czzWKForum.h"
 #import "czzWatchKitCommand.h"
 #import "czzWatchKitHomeRowController.h"
 #import "czzWKThreadViewController.h"
@@ -15,6 +16,7 @@
 @interface InterfaceController()
 
 @property (strong, nonatomic) NSMutableArray *wkThreads;
+@property (strong, nonatomic) czzWKForum *selectedForum;
 @property (strong, nonatomic) czzWKThread *selectedThread;
 @end
 
@@ -23,11 +25,15 @@
 
 - (void)awakeWithContext:(id)context {
     [super awakeWithContext:context];
-    [self reloadData];
+    self.selectedForum = [[czzWKForum alloc] initWithDictionary:[context objectForKey:@(watchKitCommandLoadForumView)]];
+    
 }
 
 - (void)willActivate {
     [super willActivate];
+    if (!self.wkThreads.count) {
+        [self reloadData];
+    }
     [self reloadTableView];
 }
 
@@ -41,7 +47,8 @@
 }
 
 -(void)loadMore:(BOOL)more {
-    [WKInterfaceController openParentApplication:@{watchKidCommand : @(watchKitCommandLoadHomeView), watchKitCommandLoadMore : @(more)} reply:^(NSDictionary *replyInfo, NSError *error) {
+    [WKInterfaceController openParentApplication:@{watchKidCommand : @(watchKitCommandLoadHomeView), watchKitCommandLoadMore : @(more),
+                                                   watchKidCommandForumKey : [self.selectedForum encodeToDictionary]} reply:^(NSDictionary *replyInfo, NSError *error) {
         NSArray *threadDictionaries = [replyInfo objectForKey:@(watchKitCommandLoadHomeView)];
         self.wkThreads = [NSMutableArray new];
         for (NSDictionary *dict in threadDictionaries) {

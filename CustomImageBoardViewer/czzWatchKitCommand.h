@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 
 #define watchKidCommand @"COMMAND"
+#define watchKidCommandForumKey @"FORUM"
+
 #define watchKitCommandLoadMore @"watchKitCommandLoadMore"
 
 typedef NS_ENUM(NSInteger, watchKitCommand) {

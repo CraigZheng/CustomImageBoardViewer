@@ -38,6 +38,10 @@
 - (void)willActivate {
     // This method is called when watch view controller is about to be visible to user
     [super willActivate];
+    if (!self.wkForums.count)
+    {
+        [self loadForumData];   
+    }
 }
 
 - (void)didDeactivate {
@@ -63,6 +67,13 @@
         czzWKForumRowController *rowController = [self.wkForumsTableView rowControllerAtIndex:idx];
         [rowController.forumNameLabel setText:[(czzWKForum*)obj name]];
     }];
+}
+
+#pragma mark - Segue events
+-(id)contextForSegueWithIdentifier:(NSString *)segueIdentifier inTable:(WKInterfaceTable *)table rowIndex:(NSInteger)rowIndex {
+    czzWKForum *selectedForum = [self.wkForums objectAtIndex:rowIndex];
+    
+    return @{@(watchKitCommandLoadForumView) : [selectedForum encodeToDictionary]};
 }
 
 @end
