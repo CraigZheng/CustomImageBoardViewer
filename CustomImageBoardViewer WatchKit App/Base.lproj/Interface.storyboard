@@ -144,6 +144,11 @@
                                         <action selector="loadMoreButtonAction" destination="PDK-Cg-DDX" id="buM-WE-Rtj"/>
                                     </connections>
                                 </button>
+                                <button width="1" alignment="left" title="Watch" id="UO5-u7-Yml">
+                                    <connections>
+                                        <action selector="watchButtonAction" destination="PDK-Cg-DDX" id="ohP-ZG-AIU"/>
+                                    </connections>
+                                </button>
                             </items>
                         </group>
                     </items>
