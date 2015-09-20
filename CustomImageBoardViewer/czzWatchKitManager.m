@@ -27,19 +27,20 @@
 -(void)watchKitLoadHomeView {
     czzHomeViewModelManager *homeViewModelManager = [czzHomeViewModelManager sharedManager];
     
+    __block NSMutableDictionary *replyDictionary = [NSMutableDictionary new];
+    
+    [replyDictionary addEntriesFromDictionary:@{@(watchKitMiscInfoScreenTitleHome) : homeViewModelManager.forum.name.length ? homeViewModelManager.forum.name : @"没有板块"}];
     if (homeViewModelManager.threads.count) {
-        [self replyWithDictionary:(@{@(watchKitCommandLoadHomeView) : [self watchKitThreadsWithThreads:homeViewModelManager.threads],
-                        @(watchKitMiscInfoScreenTitleHome) : homeViewModelManager.forum.name.length ? homeViewModelManager.forum.name : @"不知道"})];
+        [replyDictionary addEntriesFromDictionary:@{@(watchKitCommandLoadHomeView) : [self watchKitThreadsWithThreads:homeViewModelManager.threads]}];
+        [self replyWithDictionary: replyDictionary];
     } else {
-        __weak typeof(homeViewModelManager) weakHomeViewModelManager = homeViewModelManager; // To suppress the warning of having strong reference in a block.
         homeViewModelManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
             if (success) {
                 //TODO: if success? if fail?
             }
-            NSDictionary *wkThreads = @{@(watchKitCommandLoadHomeView) : [self watchKitThreadsWithThreads:threads],
-                                        @(watchKitMiscInfoScreenTitleHome) : weakHomeViewModelManager.forum.name.length ? weakHomeViewModelManager.forum.name : @"不知道"};
-            [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"Passing %ld objects to watch kit...", (long)wkThreads.allValues.count]];
-            [self replyWithDictionary:wkThreads];
+            [replyDictionary addEntriesFromDictionary:@{@(watchKitCommandLoadHomeView) : [self watchKitThreadsWithThreads:threads]}];
+            [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"Passing %ld objects to watch kit...", (long)replyDictionary.allValues.count]];
+            [self replyWithDictionary:replyDictionary];
         };
         [[czzAppDelegate sharedAppDelegate] showToast:@"Downloading for watch kit..."];
         [homeViewModelManager refresh];
