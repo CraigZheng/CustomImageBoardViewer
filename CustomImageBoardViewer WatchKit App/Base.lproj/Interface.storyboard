@@ -77,8 +77,13 @@
                                 </tableRow>
                             </items>
                         </table>
-                        <group width="1" alignment="left" id="pdB-w5-5Ao">
+                        <group width="1" alignment="left" layout="vertical" id="pdB-w5-5Ao">
                             <items>
+                                <button width="1" alignment="left" title="Reload" id="kZk-X9-WZ7">
+                                    <connections>
+                                        <action selector="reloadButtonAction" destination="AgC-eL-Hgc" id="VhJ-Qz-Tpm"/>
+                                    </connections>
+                                </button>
                                 <button width="1" alignment="center" title="Next" id="rOK-0j-0pb">
                                     <connections>
                                         <action selector="loadMoreButtonAction" destination="AgC-eL-Hgc" id="XHj-Gq-OnY"/>
@@ -132,16 +137,11 @@
                                 </tableRow>
                             </items>
                         </table>
-                        <group width="1" alignment="left" id="nto-G3-cLR">
+                        <group width="1" alignment="left" layout="vertical" id="nto-G3-cLR">
                             <items>
-                                <button alignment="left" title="More" id="kUx-4k-8Up">
+                                <button width="1" alignment="center" title="More" id="kUx-4k-8Up">
                                     <connections>
                                         <action selector="loadMoreButtonAction" destination="PDK-Cg-DDX" id="buM-WE-Rtj"/>
-                                    </connections>
-                                </button>
-                                <button alignment="right" title="Watch" id="uOQ-ga-i2h">
-                                    <connections>
-                                        <action selector="watchButtonAction" destination="PDK-Cg-DDX" id="WVg-Vx-kVI"/>
                                     </connections>
                                 </button>
                             </items>

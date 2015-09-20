@@ -80,7 +80,7 @@
 -(void)watchKitLoadHomeView:(czzWKForum*)forum loadMore:(BOOL)loadMore {
     [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
     
-    self.homeViewModelManager = [czzHomeViewModelManager sharedManager];
+    self.homeViewModelManager = [czzHomeViewModelManager new];
     
     czzForum *selectedForum = [czzForum new];
     selectedForum.name = forum.name;
