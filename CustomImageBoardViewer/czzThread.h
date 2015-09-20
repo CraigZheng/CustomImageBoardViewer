@@ -46,6 +46,7 @@
 -(BOOL)isEqual:(id)object;
 -(NSUInteger)hash;
 -(instancetype)initWithThreadID:(NSInteger)threadID;
+-(instancetype)initWithParentID:(NSInteger)parentID;
 
 -(czzWKThread *)watchKitThread;
 @end

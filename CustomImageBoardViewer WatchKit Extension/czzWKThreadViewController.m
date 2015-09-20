@@ -23,18 +23,6 @@
 - (void)awakeWithContext:(id)context {
     [super awakeWithContext:context];
     self.wkThread = [[czzWKThread alloc] initWithDictionary:[context objectForKey:@(watchKitCommandLoadThreadView)]];
-#warning DEBUGGING
-    if (!self.wkThread) {
-        self.wkThread = [czzWKThread new];
-        self.wkThread.ID = 2305992;
-        self.wkThread.name = @"MOCK NAME";
-        self.wkThread.title = @"";
-        self.wkThread.content = @"MOCK CONTENT";
-        self.wkThread.thumbnailFile = @"";
-        self.wkThread.imageFile = @"";
-        self.wkThread.postDate = [NSDate new];
-    }
-    
     [self loadMore];
 }
 

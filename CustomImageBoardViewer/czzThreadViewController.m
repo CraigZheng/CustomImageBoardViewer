@@ -27,7 +27,7 @@
 #import "czzOnScreenImageManagerViewController.h"
 #import "GSIndeterminateProgressView.h"
 #import "czzThreadViewDelegate.h"
-
+#import "czzWatchListManager.h"
 
 NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
@@ -302,6 +302,9 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 - (IBAction)starAction:(id)sender {
     [threadMenuViewController favouriteAction];
+    
+#warning DEBUGGING
+    [[czzWatchListManager sharedManager] addToWatchList:self.viewModelManager.parentThread];
 }
 
 - (IBAction)jumpAction:(id)sender {

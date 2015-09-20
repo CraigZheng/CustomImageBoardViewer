@@ -30,6 +30,8 @@
 		441A6A7B1BAE995A008E380C /* czzWKForumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A7A1BAE995A008E380C /* czzWKForumViewController.m */; settings = {ASSET_TAGS = (); }; };
 		441A6A7C1BAE995A008E380C /* czzWKForumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A7A1BAE995A008E380C /* czzWKForumViewController.m */; settings = {ASSET_TAGS = (); }; };
 		441A6A7D1BAE995A008E380C /* czzWKForumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A7A1BAE995A008E380C /* czzWKForumViewController.m */; settings = {ASSET_TAGS = (); }; };
+		441A6A821BAEC013008E380C /* czzWatchListManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A811BAEC013008E380C /* czzWatchListManager.m */; settings = {ASSET_TAGS = (); }; };
+		441A6A831BAEC013008E380C /* czzWatchListManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A811BAEC013008E380C /* czzWatchListManager.m */; settings = {ASSET_TAGS = (); }; };
 		441E5CCF17F4691300289DBD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5CCE17F4691300289DBD /* Foundation.framework */; };
 		441E5CD117F4691300289DBD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5CD017F4691300289DBD /* CoreGraphics.framework */; };
 		441E5CD317F4691300289DBD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5CD217F4691300289DBD /* UIKit.framework */; };
@@ -915,6 +917,8 @@
 		441A6A751BAE8B4A008E380C /* czzWKForum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWKForum.m; sourceTree = "<group>"; };
 		441A6A791BAE995A008E380C /* czzWKForumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWKForumViewController.h; sourceTree = "<group>"; };
 		441A6A7A1BAE995A008E380C /* czzWKForumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWKForumViewController.m; sourceTree = "<group>"; };
+		441A6A801BAEC013008E380C /* czzWatchListManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWatchListManager.h; sourceTree = "<group>"; };
+		441A6A811BAEC013008E380C /* czzWatchListManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWatchListManager.m; sourceTree = "<group>"; };
 		441E5CCB17F4691300289DBD /* CustomImageBoardViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomImageBoardViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		441E5CCE17F4691300289DBD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		441E5CD017F4691300289DBD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -1651,6 +1655,7 @@
 		441A6A7E1BAEBF64008E380C /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				441A6A7F1BAEBFF6008E380C /* WatchListManager */,
 				442EC8681A1A1320005650E4 /* czzNavigationControllerManager */,
 				5A88B8411938AFE000071343 /* czzNotificationCentre */,
 				441E5D2517F4798300289DBD /* czzForumGroup */,
@@ -1662,6 +1667,15 @@
 				44E469D91BAC41FE00C0AACC /* WatchKit */,
 			);
 			name = Manager;
+			sourceTree = "<group>";
+		};
+		441A6A7F1BAEBFF6008E380C /* WatchListManager */ = {
+			isa = PBXGroup;
+			children = (
+				441A6A801BAEC013008E380C /* czzWatchListManager.h */,
+				441A6A811BAEC013008E380C /* czzWatchListManager.m */,
+			);
+			name = WatchListManager;
 			sourceTree = "<group>";
 		};
 		441E5CC217F4691300289DBD = {
@@ -3741,6 +3755,7 @@
 				442A8FAF19DB7DF200A3516E /* PSTCollectionViewData.m in Sources */,
 				442A8FB519DB7DF200A3516E /* PSTGridLayoutItem.m in Sources */,
 				442A8FF319DB7F5400A3516E /* SDWebImageDownloader.m in Sources */,
+				441A6A821BAEC013008E380C /* czzWatchListManager.m in Sources */,
 				44DF8EDA1A74D0F00097F7F5 /* czzACTokenUtil.m in Sources */,
 				445B7B5C1B43EBCA0046CFDB /* czzNavigationViewModelManager.m in Sources */,
 				442F1FDB1B13537300267698 /* czzHomeTableViewDataSource.m in Sources */,
@@ -3926,6 +3941,7 @@
 				4455403C1BABEBA700667435 /* PSTCollectionViewData.m in Sources */,
 				4455403D1BABEBA700667435 /* PSTGridLayoutItem.m in Sources */,
 				4455403E1BABEBA700667435 /* SDWebImageDownloader.m in Sources */,
+				441A6A831BAEC013008E380C /* czzWatchListManager.m in Sources */,
 				4455403F1BABEBA700667435 /* czzACTokenUtil.m in Sources */,
 				445540401BABEBA700667435 /* czzNavigationViewModelManager.m in Sources */,
 				445540411BABEBA700667435 /* czzHomeTableViewDataSource.m in Sources */,

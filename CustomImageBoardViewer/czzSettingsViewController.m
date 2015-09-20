@@ -15,6 +15,7 @@
 #import "czzCookieManagerViewController.h"
 #import "czzNotificationCentreTableViewController.h"
 #import "czzHomeViewModelManager.h"
+#import "czzWatchListManager.h"
 
 @interface czzSettingsViewController ()<UIAlertViewDelegate, UIActionSheetDelegate>
 @property NSMutableArray *commands;
@@ -170,6 +171,7 @@
             } else {
                 DLog(@"Utility view contorller nil, cannot instantiate from Utility storyboard file.");
             }
+        } else if ([command isEqualToString:@"WATCHLIST"]) {
         }
     }
 }
@@ -193,6 +195,7 @@
 #ifdef DEBUG
     [regularCommands addObject:@"DEBUG BUILD"];
     [regularCommands addObject:@"LAUNCH UTILITY"];
+    [regularCommands addObject:@"WATCHLIST"];
 #endif
     NSURL *donationLinkURL = [NSURL URLWithString:settingsCentre.donationLink];
     if (donationLinkURL && settingsCentre.donationLink.length > 0)

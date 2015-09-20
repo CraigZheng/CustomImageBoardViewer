@@ -44,6 +44,21 @@
     return thread;
 }
 
+-(instancetype)initWithParentID:(NSInteger)parentID {
+    NSString *threadURLString = [[[settingCentre thread_content_host] stringByReplacingOccurrencesOfString:kParentID withString:[NSString stringWithFormat:@"%ld", (long)parentID]] stringByReplacingOccurrencesOfString:kPageNumber withString:@"1"];
+    __block czzThread *thread;
+    [czzURLDownloader sendSynchronousRequestWithURL:[NSURL URLWithString:threadURLString] completionHandler:^(BOOL success, NSData *downloadedData, NSError *error) {
+        if (success) {
+            NSDictionary *rawJson = [NSJSONSerialization JSONObjectWithData:downloadedData options:NSJSONReadingMutableContainers error:&error];
+            if (!error) {
+                thread = [[czzThread alloc] initWithJSONDictionary:[rawJson objectForKey:@"threads"]];
+            }
+        }
+    }];
+    
+    return thread;
+}
+
 /*
  "id": "185934",
  "img": "2015-03-08/54fbc263e793f",
