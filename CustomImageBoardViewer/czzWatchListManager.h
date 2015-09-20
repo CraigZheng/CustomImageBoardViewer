@@ -11,6 +11,11 @@
 #import "czzThread.h"
 
 @interface czzWatchListManager : NSObject <NSCoding>
+@property (nonatomic, strong) NSMutableOrderedSet *watchedThreads;
+@property (nonatomic, strong) NSArray *updatedThreads;
+
+@property NSMutableArray *verticalHeights;
+@property NSMutableArray *horizontalHeights;
 
 -(void)addToWatchList:(czzThread*)thread;
 -(void)removeFromWatchList:(czzThread*)thread;

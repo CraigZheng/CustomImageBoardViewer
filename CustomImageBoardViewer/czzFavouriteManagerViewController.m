@@ -17,7 +17,12 @@
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzThreadTableViewCommandCellTableViewCell.h"
 #import "czzHistoryManager.h"
+#import "czzWatchListManager.h"
 #import "czzThreadViewModelManager.h"
+
+NSInteger const bookmarkIndex = 0;
+NSInteger const watchIndex = 1;
+NSInteger const historyIndex = 2;
 
 @interface czzFavouriteManagerViewController ()
 @property NSIndexPath *selectedIndex;
@@ -97,10 +102,12 @@
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     if (editingStyle == UITableViewCellEditingStyleDelete){
         czzThread* threadToDelete = [threads objectAtIndex:indexPath.row];
-        if (titleSegmentedControl.selectedSegmentIndex == 0) {
+        if (titleSegmentedControl.selectedSegmentIndex == bookmarkIndex) {
             [favouriteManager removeFavourite:threadToDelete];
-        } else if (titleSegmentedControl.selectedSegmentIndex == 1) {
+        } else if (titleSegmentedControl.selectedSegmentIndex == historyIndex) {
             [historyManager removeThread:threadToDelete];
+        } else if (titleSegmentedControl.selectedSegmentIndex == watchIndex) {
+            [[czzWatchListManager sharedManager] removeFromWatchList:threadToDelete];
         }
         [selectedManager setHorizontalHeights:nil];
         [selectedManager setVerticalHeights:nil];
@@ -161,16 +168,19 @@
 }
 
 -(void)copyDataFromManager {
-    if (titleSegmentedControl.selectedSegmentIndex == 0) {
+    if (titleSegmentedControl.selectedSegmentIndex == bookmarkIndex) {
         threads = [favouriteManager favouriteThreads];
         selectedManager = favouriteManager;
-    } else if (titleSegmentedControl.selectedSegmentIndex == 1) {
+    } else if (titleSegmentedControl.selectedSegmentIndex == historyIndex) {
         threads = [historyManager browserHistory];
         //clear cached heights, since history manager would change frequently
         [historyManager setHorizontalHeights:nil];
         [historyManager setVerticalHeights:nil];
         selectedManager = historyManager;
         threads = [NSMutableOrderedSet orderedSetWithArray:[[threads reverseObjectEnumerator] allObjects]]; //hisotry are recorded backward
+    } else if (titleSegmentedControl.selectedSegmentIndex == watchIndex) {
+        threads = [czzWatchListManager sharedManager].watchedThreads;
+        selectedManager = [czzWatchListManager sharedManager];
     }
 }
 

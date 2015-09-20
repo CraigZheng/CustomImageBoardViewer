@@ -14,7 +14,6 @@
 
 @interface czzWatchListManager ()
 
-@property (nonatomic, strong) NSMutableOrderedSet *watchedThreads;
 @property (nonatomic, strong) NSTimer *refreshTimer;
 @property (nonatomic, strong) czzThreadViewModelManager *threadViewModelManager;
 @end
@@ -35,6 +34,7 @@
 
 -(void)removeFromWatchList:(czzThread *)thread {
     [self.watchedThreads removeObject:thread];
+    [self saveState];
 }
 
 #pragma mark - Refresh action
@@ -54,6 +54,7 @@
             [self.watchedThreads addObject:thread];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
+            self.updatedThreads = updatedThread;
             completionHandler(updatedThread);
             [self saveState];
         });

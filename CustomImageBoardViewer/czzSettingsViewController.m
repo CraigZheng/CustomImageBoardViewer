@@ -172,6 +172,7 @@
                 DLog(@"Utility view contorller nil, cannot instantiate from Utility storyboard file.");
             }
         } else if ([command isEqualToString:@"WATCHLIST"]) {
+            
         }
     }
 }
