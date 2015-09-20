@@ -1648,6 +1648,22 @@
 			name = FPPopover;
 			sourceTree = "<group>";
 		};
+		441A6A7E1BAEBF64008E380C /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				442EC8681A1A1320005650E4 /* czzNavigationControllerManager */,
+				5A88B8411938AFE000071343 /* czzNotificationCentre */,
+				441E5D2517F4798300289DBD /* czzForumGroup */,
+				444146DF1A1ACA9700B27D69 /* ImageManager */,
+				44C73B901A484F2C0051D4C2 /* FavouriteManager */,
+				44C73B8B1A4840170051D4C2 /* HistoryManager */,
+				44DF8ED01A74CA640097F7F5 /* ImageViewerUtil */,
+				44DF8ED41A74CAAE0097F7F5 /* CookieManager */,
+				44E469D91BAC41FE00C0AACC /* WatchKit */,
+			);
+			name = Manager;
+			sourceTree = "<group>";
+		};
 		441E5CC217F4691300289DBD = {
 			isa = PBXGroup;
 			children = (
@@ -1702,7 +1718,7 @@
 		441E5CD417F4691300289DBD /* CustomImageBoardViewer */ = {
 			isa = PBXGroup;
 			children = (
-				44E469D91BAC41FE00C0AACC /* WatchKit */,
+				441A6A7E1BAEBF64008E380C /* Manager */,
 				4432BA8F1AA8850C002C66F5 /* Examples */,
 				44E7918C1A17856500A63C04 /* icons */,
 				441E5CDD17F4691300289DBD /* czzAppDelegate.h */,
@@ -1716,9 +1732,7 @@
 				44E2D2D91B2DB7AD0029D783 /* UtilViewControllers */,
 				44DF8ECC1A74CA4B0097F7F5 /* Utils */,
 				44DF8EE01A74D6320097F7F5 /* czzCookieManagerViewController */,
-				442EC8681A1A1320005650E4 /* czzNavigationController */,
 				5AF85E691970025F0031D0CB /* czzSearchViewController */,
-				5A88B8411938AFE000071343 /* czzNotificationCentre */,
 				44BE2E3C1938400A00601943 /* czzOnScreenCommand */,
 				5A2B2D8E1936179500BA2870 /* czzFeedbackController */,
 				44C3454A187E5A8300FDE45D /* czzEmoji */,
@@ -1793,7 +1807,6 @@
 			isa = PBXGroup;
 			children = (
 				4411B2EE1AFF6A5500E94A5B /* default_forums.json */,
-				441E5D2517F4798300289DBD /* czzForumGroup */,
 				440B2FC517F7DB7800544926 /* czzForumsViewController.h */,
 				440B2FC617F7DB7800544926 /* czzForumsViewController.m */,
 			);
@@ -2056,7 +2069,7 @@
 			name = czzImageDownloader;
 			sourceTree = "<group>";
 		};
-		442EC8681A1A1320005650E4 /* czzNavigationController */ = {
+		442EC8681A1A1320005650E4 /* czzNavigationControllerManager */ = {
 			isa = PBXGroup;
 			children = (
 				442EC8611A1A130A005650E4 /* czzNavigationController.h */,
@@ -2064,7 +2077,7 @@
 				445B7B5A1B43EBCA0046CFDB /* czzNavigationViewModelManager.h */,
 				445B7B5B1B43EBCA0046CFDB /* czzNavigationViewModelManager.m */,
 			);
-			name = czzNavigationController;
+			name = czzNavigationControllerManager;
 			sourceTree = "<group>";
 		};
 		442F1FD41B13533900267698 /* Data source and delegate */ = {
@@ -2726,11 +2739,6 @@
 				44E3F7441BA3005600597A3F /* NSDictionary */,
 				442F1FE61B15FC8B00267698 /* UI */,
 				44C73B7F1A4715400051D4C2 /* NSObjectUtil */,
-				444146DF1A1ACA9700B27D69 /* ImageManager */,
-				44C73B901A484F2C0051D4C2 /* FavouriteManager */,
-				44C73B8B1A4840170051D4C2 /* HistoryManager */,
-				44DF8ED01A74CA640097F7F5 /* ImageViewerUtil */,
-				44DF8ED41A74CAAE0097F7F5 /* CookieManager */,
 				44DF8EE91A74DA3F0097F7F5 /* MessagePopUpController */,
 			);
 			name = Utils;
