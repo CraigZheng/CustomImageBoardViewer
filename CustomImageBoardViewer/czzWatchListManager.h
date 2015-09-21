@@ -12,7 +12,7 @@
 
 @interface czzWatchListManager : NSObject <NSCoding>
 @property (nonatomic, strong) NSMutableOrderedSet *watchedThreads;
-@property (nonatomic, strong) NSArray *updatedThreads;
+@property (nonatomic, strong) NSMutableArray *updatedThreads;
 
 @property NSMutableArray *verticalHeights;
 @property NSMutableArray *horizontalHeights;

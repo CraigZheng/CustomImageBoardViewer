@@ -16,7 +16,6 @@
 
 @property (nonatomic, strong) NSTimer *refreshTimer;
 @property (nonatomic, strong) czzThreadViewModelManager *threadViewModelManager;
-
 @end
 
 @implementation czzWatchListManager
@@ -25,12 +24,22 @@
 -(instancetype)init {
     self = [super init];
     [self restoreState];
+    
     return self;
 }
 
 -(void)addToWatchList:(czzThread *)thread {
     [self.watchedThreads addObject:thread];
     [self saveState];
+    
+    // Permision for local notification - only when adding to the watchlist
+    UIUserNotificationType types = UIUserNotificationTypeBadge |
+    UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+    
+    UIUserNotificationSettings *mySettings =
+    [UIUserNotificationSettings settingsForTypes:types categories:nil];
+    
+    [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
 }
 
 -(void)removeFromWatchList:(czzThread *)thread {
@@ -45,27 +54,37 @@
         return;
     }
     self.isDownloading = YES;
+    self.updatedThreads = [NSMutableArray new];
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSMutableArray *updatedThread = [NSMutableArray new];
-        for (czzThread *thread in self.watchedThreads) {
-            czzThread *newThread = [[czzThread alloc] initWithParentID:thread.ID];
+        // Since the content of watchedThreads might be mutabled, use its [self.watchedThreads copy] instead.
+        NSDate *startDate = [NSDate new];
+        
+        for (czzThread *thread in [self.watchedThreads copy]) {
+            NSInteger originalResponseCount = thread.responseCount;
+            NSInteger originalThreadID = thread.ID;
+            czzThread *newThread = [[czzThread alloc] initWithParentID:originalThreadID];
             
-            if (thread.responseCount != newThread.responseCount) {
+            if (originalResponseCount != newThread.responseCount) {
                 //Record the old thread with old data, later we will remove it from the OrderedSet, then put it back to update the set.
-                [updatedThread addObject:newThread];
+                [self.updatedThreads addObject:newThread];
             }
         }
-        for (czzThread *thread in updatedThread) {
-            [self.watchedThreads removeObject:thread];
-            [self.watchedThreads addObject:thread];
-        }
+        [self updateWatchedThreadsWithThreads:self.updatedThreads];
         self.isDownloading = NO;
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.updatedThreads = updatedThread;
-            completionHandler(updatedThread);
+            DLog(@"%ld threads downloaded in %.1f seconds, %ld threads have new content", (long)self.watchedThreads.count, [[NSDate new] timeIntervalSinceDate:startDate], (long)self.updatedThreads.count);
+            completionHandler(self.updatedThreads);
             [self saveState];
         });
     });
+}
+
+-(void)updateWatchedThreadsWithThreads:(NSArray*)updatedThreads {
+    for (czzThread *thread in updatedThreads) {
+        [self.watchedThreads removeObject:thread];
+        [self.watchedThreads addObject:thread];
+    }
 }
 
 #pragma mark - State restoration
