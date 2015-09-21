@@ -191,6 +191,7 @@ NSInteger const historyIndex = 2;
         threads = [czzWatchListManager sharedManager].watchedThreads;
         selectedManager = [czzWatchListManager sharedManager];
         //Update watched threads
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
         [[czzWatchListManager sharedManager] refreshWatchedThreads:^(NSArray *updatedThreads) {
             self.updatedThreads = updatedThreads;
             [self.tableView reloadData];
@@ -201,5 +202,9 @@ NSInteger const historyIndex = 2;
 #pragma mark - rotation
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
     [self.tableView reloadData];
+}
+
++(instancetype)new {
+    return [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"favourite_manager_view_controller"];
 }
 @end

@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "czzMenuEnabledTableViewCell.h"
 
-
 @interface czzFavouriteManagerViewController : UITableViewController
 @property (weak, nonatomic) IBOutlet UISegmentedControl *titleSegmentedControl;
 @property NSMutableOrderedSet *threads;

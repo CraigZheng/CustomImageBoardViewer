@@ -14,7 +14,9 @@
 #import "czzSettingsCentre.h"
 #import "czzCookieManager.h"
 #import "czzWatchKitManager.h"
+#import "czzWatchListManager.h"
 #import "czzAppActivityManager.h"
+#import "czzFavouriteManagerViewController.h"
 
 #ifndef TARGET_IPHONE_SIMULATOR
 #import "TalkingData.h"
@@ -50,6 +52,18 @@
     // Prepare to launch
     AppActivityManager;
 
+    // Permision for local notification
+    UIUserNotificationType types = UIUserNotificationTypeBadge |
+    UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+    
+    UIUserNotificationSettings *mySettings =
+    [UIUserNotificationSettings settingsForTypes:types categories:nil];
+    
+    [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+
+    // Background fetch interval
+    [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
+    
     return YES;
 }
 							
@@ -83,9 +97,32 @@
 }
 
 #pragma mark - background fetch
-//-(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-//    completionHandler(UIBackgroundFetchResultNoData);
-//}
+-(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    [[czzWatchListManager sharedManager] refreshWatchedThreads:^(NSArray *updatedThreads) {
+        UIBackgroundFetchResult backgroundFetchResult = UIBackgroundFetchResultNoData;
+        if (updatedThreads.count) {
+            UILocalNotification *localNotif = [[UILocalNotification alloc] init];
+            localNotif.fireDate = [NSDate dateWithTimeInterval:1.0 sinceDate:[NSDate new]];
+            localNotif.alertTitle = [NSString stringWithFormat:@"%ld thread(s) updated", (long)updatedThreads.count];
+            localNotif.alertBody = [NSString stringWithFormat:@"%@", [(czzThread*)updatedThreads.firstObject content].string];
+            localNotif.soundName = UILocalNotificationDefaultSoundName;
+            localNotif.applicationIconBadgeNumber = updatedThreads.count;
+
+            [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
+            
+            backgroundFetchResult = UIBackgroundFetchResultNewData;
+        }
+        completionHandler(backgroundFetchResult);
+    }];
+}
+
+-(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+        // Received local notification, most likely watch list is updated        
+        czzFavouriteManagerViewController *favouriteManagerViewController = [czzFavouriteManagerViewController new];
+        [NavigationManager pushViewController:favouriteManagerViewController animated:YES];
+    }];
+}
 
 -(NSString *)myhost {
     return [settingsCentre database_host];

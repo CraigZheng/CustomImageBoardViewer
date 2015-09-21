@@ -17,10 +17,12 @@
 @property NSMutableArray *verticalHeights;
 @property NSMutableArray *horizontalHeights;
 
+@property (nonatomic, assign) BOOL isDownloading;
+
 -(void)addToWatchList:(czzThread*)thread;
 -(void)removeFromWatchList:(czzThread*)thread;
 
--(void)refreshWatchedThreads:(void(^)(NSArray* threads))completionHandler;
+-(void)refreshWatchedThreads:(void(^)(NSArray* updatedThreads))completionHandler;
 
 +(instancetype)sharedManager;
 @end

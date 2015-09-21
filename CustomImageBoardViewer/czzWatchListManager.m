@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong) NSTimer *refreshTimer;
 @property (nonatomic, strong) czzThreadViewModelManager *threadViewModelManager;
+
 @end
 
 @implementation czzWatchListManager
@@ -39,6 +40,11 @@
 
 #pragma mark - Refresh action
 -(void)refreshWatchedThreads:(void (^)(NSArray *))completionHandler {
+    if (self.isDownloading) {
+        DLog(@"%@ is downloading, cannot proceed further...", NSStringFromClass(self.class));
+        return;
+    }
+    self.isDownloading = YES;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSMutableArray *updatedThread = [NSMutableArray new];
         for (czzThread *thread in self.watchedThreads) {
@@ -53,6 +59,7 @@
             [self.watchedThreads removeObject:thread];
             [self.watchedThreads addObject:thread];
         }
+        self.isDownloading = NO;
         dispatch_async(dispatch_get_main_queue(), ^{
             self.updatedThreads = updatedThread;
             completionHandler(updatedThread);

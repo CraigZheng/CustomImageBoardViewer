@@ -3130,7 +3130,7 @@
 						DevelopmentTeam = 9EBE9MWW9X;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.InAppPurchase = {
 								enabled = 0;
@@ -3139,6 +3139,13 @@
 					};
 					441E5CEE17F4691300289DBD = {
 						TestTargetID = 441E5CCA17F4691300289DBD;
+					};
+					44553FDB1BABEBA700667435 = {
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					4476B6331B9FDD43004E6650 = {
 						CreatedOnToolsVersion = 6.4;
