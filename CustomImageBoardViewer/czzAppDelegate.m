@@ -52,15 +52,6 @@
     // Prepare to launch
     AppActivityManager;
 
-    // Permision for local notification
-    UIUserNotificationType types = UIUserNotificationTypeBadge |
-    UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
-    
-    UIUserNotificationSettings *mySettings =
-    [UIUserNotificationSettings settingsForTypes:types categories:nil];
-    
-    [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
-
     // Background fetch interval
     [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
     
@@ -100,9 +91,11 @@
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     [[czzWatchListManager sharedManager] refreshWatchedThreads:^(NSArray *updatedThreads) {
         UIBackgroundFetchResult backgroundFetchResult = UIBackgroundFetchResultNoData;
+        
+        UILocalNotification *localNotif = [[UILocalNotification alloc] init];
+        localNotif.fireDate = [NSDate dateWithTimeInterval:1.0 sinceDate:[NSDate new]];
+
         if (updatedThreads.count) {
-            UILocalNotification *localNotif = [[UILocalNotification alloc] init];
-            localNotif.fireDate = [NSDate dateWithTimeInterval:1.0 sinceDate:[NSDate new]];
             localNotif.alertTitle = [NSString stringWithFormat:@"%ld thread(s) updated", (long)updatedThreads.count];
             localNotif.alertBody = [NSString stringWithFormat:@"%@", [(czzThread*)updatedThreads.firstObject content].string];
             localNotif.soundName = UILocalNotificationDefaultSoundName;
@@ -111,6 +104,13 @@
             [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
             
             backgroundFetchResult = UIBackgroundFetchResultNewData;
+        } else {
+#ifdef DEBUG
+            localNotif.alertTitle = [NSString stringWithFormat:@"No threads updated"];
+            localNotif.alertBody = [NSString stringWithFormat:@"Background fetch is fired but no new content is available."];
+            localNotif.soundName = UILocalNotificationDefaultSoundName;
+            [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
+#endif
         }
         completionHandler(backgroundFetchResult);
     }];
