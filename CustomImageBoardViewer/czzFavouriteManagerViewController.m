@@ -85,12 +85,12 @@ NSInteger const historyIndex = 2;
         cell.parentThread = thread;
         cell.myThread = thread;
     }
-    cell.backgroundColor = [UIColor clearColor];
+    // TODO: need to create a standalone watchlist manager, or improve this one.
     // If I am seeing the list from watchlist
     if (selectedManager == [czzWatchListManager sharedManager]) {
-        for (czzThread *updatedThread in self.updatedThreads) {
+        for (czzThread *updatedThread in [[czzWatchListManager sharedManager] updatedThreads]) {
             if (updatedThread.ID == thread.ID) {
-                cell.backgroundColor = [UIColor lightGrayColor];
+                //TODO: highligh
             }
         }
     }

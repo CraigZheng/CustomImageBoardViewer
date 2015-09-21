@@ -104,6 +104,9 @@ NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
 }
 
 -(void)launchApp {
+    if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
+        return;
+    }
     UIViewController *rootViewController = AppDelegate.window.rootViewController;
     if (!rootViewController) {
         
@@ -142,6 +145,11 @@ NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
     }
     // Clear any left over
     self.homeViewModelManager = self.threadViewModelManager = nil;
+    
+    if (self.appLaunchCompletionHandler) {
+        self.appLaunchCompletionHandler();
+        self.appLaunchCompletionHandler = nil;
+    }
 }
 
 #pragma mark - Getters

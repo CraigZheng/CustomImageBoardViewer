@@ -11,6 +11,7 @@
 
 
 @interface czzAppActivityManager : NSObject
+@property (copy)void(^appLaunchCompletionHandler)(void);
 
 +(instancetype)sharedManager;
 @end

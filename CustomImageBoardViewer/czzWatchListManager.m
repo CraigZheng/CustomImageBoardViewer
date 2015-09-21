@@ -53,6 +53,7 @@
         DLog(@"%@ is downloading, cannot proceed further...", NSStringFromClass(self.class));
         return;
     }
+    DLog(@"Watchlist manager refreshing watched threads...");
     self.isDownloading = YES;
     self.updatedThreads = [NSMutableArray new];
     
