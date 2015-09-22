@@ -101,16 +101,19 @@
             localNotif.soundName = UILocalNotificationDefaultSoundName;
             localNotif.applicationIconBadgeNumber = updatedThreads.count;
 
-            [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
+            // If the app is running in the background, schedule the notification, otherwise don't schedule it.
+            // TODO: if the app is running in the foreground, inform user that new updated threads are available.
+            if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground)
+                [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
             
             backgroundFetchResult = UIBackgroundFetchResultNewData;
         } else {
-#ifdef DEBUG
-            localNotif.alertTitle = [NSString stringWithFormat:@"No threads updated"];
-            localNotif.alertBody = [NSString stringWithFormat:@"Background fetch is fired but no new content is available."];
-            localNotif.soundName = UILocalNotificationDefaultSoundName;
-            [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
-#endif
+//#ifdef DEBUG
+//            localNotif.alertTitle = [NSString stringWithFormat:@"No threads updated"];
+//            localNotif.alertBody = [NSString stringWithFormat:@"Background fetch is fired but no new content is available."];
+//            localNotif.soundName = UILocalNotificationDefaultSoundName;
+//            [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
+//#endif
         }
         completionHandler(backgroundFetchResult);
     }];
