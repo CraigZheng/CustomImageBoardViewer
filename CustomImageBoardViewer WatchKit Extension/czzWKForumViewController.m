@@ -66,7 +66,7 @@
     [self.wkForums enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         czzWKForumRowController *rowController = [self.wkForumsTableView rowControllerAtIndex:idx];
         [rowController.forumNameLabel setText:[(czzWKForum*)obj name]];
-    };
+    }];
 }
 
 #pragma mark - Segue events
