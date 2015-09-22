@@ -117,18 +117,16 @@
 }
 
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-        if (self.window.rootViewController) {
-            // Received local notification, most likely watch list is updated
+    if (self.window.rootViewController) {
+        // Received local notification, most likely watch list is updated
+        czzFavouriteManagerViewController *favouriteManagerViewController = [czzFavouriteManagerViewController new];
+        [NavigationManager pushViewController:favouriteManagerViewController animated:YES];
+    } else {
+        [czzAppActivityManager sharedManager].appLaunchCompletionHandler = ^{
             czzFavouriteManagerViewController *favouriteManagerViewController = [czzFavouriteManagerViewController new];
             [NavigationManager pushViewController:favouriteManagerViewController animated:YES];
-        } else {
-            [czzAppActivityManager sharedManager].appLaunchCompletionHandler = ^{
-                czzFavouriteManagerViewController *favouriteManagerViewController = [czzFavouriteManagerViewController new];
-                [NavigationManager pushViewController:favouriteManagerViewController animated:YES];
-            };
-        }
-    }];
+        };
+    }
 }
 
 -(NSString *)myhost {

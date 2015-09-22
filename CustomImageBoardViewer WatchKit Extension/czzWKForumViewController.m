@@ -50,7 +50,7 @@
 }
 
 -(void)loadForumData {
-    [WKInterfaceController openParentApplication:@{watchKitCommandKey : @(watchKitCommandLoadForumView)} reply:^(NSDictionary * _Nonnull replyInfo, NSError * _Nullable error) {
+    [WKInterfaceController openParentApplication:@{watchKitCommandKey : @(watchKitCommandLoadForumView)} reply:^(NSDictionary *replyInfo, NSError *error) {
         self.wkForums = [NSMutableArray new];
         for (NSDictionary *dict in [replyInfo objectForKey:@(watchKitCommandLoadForumView)]) {
             czzWKForum *forum = [[czzWKForum alloc] initWithDictionary:dict];
@@ -63,10 +63,10 @@
 #pragma mark - TableView
 -(void)reloadTableView {
     [self.wkForumsTableView setNumberOfRows:self.wkForums.count withRowType:wkForumsRowControllerIdentifier];
-    [self.wkForums enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [self.wkForums enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         czzWKForumRowController *rowController = [self.wkForumsTableView rowControllerAtIndex:idx];
         [rowController.forumNameLabel setText:[(czzWKForum*)obj name]];
-    }];
+    };
 }
 
 #pragma mark - Segue events

@@ -32,7 +32,7 @@
 
 - (IBAction)watchButtonAction {
     if (self.wkThread) {
-        [WKInterfaceController openParentApplication:@{@(watchKitCommandWatchThread) : [self.wkThread encodeToDictionary]} reply:^(NSDictionary * _Nonnull replyInfo, NSError * _Nullable error) {
+        [WKInterfaceController openParentApplication:@{@(watchKitCommandWatchThread) : [self.wkThread encodeToDictionary]} reply:^(NSDictionary * replyInfo, NSError * error) {
             
         }];
     }
@@ -53,7 +53,7 @@
     if (self.wkThread) {
         [WKInterfaceController openParentApplication:@{watchKitCommandKey : @(watchKitCommandLoadThreadView),
                                                        @"THREAD" : [self.wkThread encodeToDictionary],
-                                                       watchKitCommandLoadMore : @(YES)} reply:^(NSDictionary * _Nonnull replyInfo, NSError * _Nullable error) {
+                                                       watchKitCommandLoadMore : @(YES)} reply:^(NSDictionary *replyInfo, NSError * error) {
             self.wkThreads = [NSMutableArray new];
             for (NSDictionary *dict in [replyInfo objectForKey:@(watchKitCommandLoadThreadView)]) {
                 czzWKThread *thread = [[czzWKThread alloc] initWithDictionary:dict];
@@ -70,7 +70,7 @@
 -(void)reloadTableView {
     [self.wkThreadsTableView setNumberOfRows:self.wkThreads.count withRowType:wkHomeViewRowControllerIdentifier];
     
-    [self.wkThreads enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [self.wkThreads enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         czzWatchKitHomeRowController* theRow = [self.wkThreadsTableView rowControllerAtIndex:idx];
         
         theRow.wkThread = obj;
