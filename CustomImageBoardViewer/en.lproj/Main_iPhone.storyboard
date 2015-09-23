@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Czz Entry Point View Controller-->
@@ -61,8 +62,8 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
-                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7vQ-Rb-bPA">
-                                <rect key="frame" x="240" y="356" width="60" height="60"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7vQ-Rb-bPA">
+                                <rect key="frame" x="240" y="488" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="P2C-qt-tg3"/>
                                     <constraint firstAttribute="width" secondItem="7vQ-Rb-bPA" secondAttribute="height" multiplier="1:1" id="Rdf-Wd-IHD"/>
@@ -112,11 +113,18 @@
                         </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="串" id="BD0-Cp-BxW">
-                        <barButtonItem key="rightBarButtonItem" image="settings_wrench.png" id="YCE-84-cqh">
-                            <connections>
-                                <action selector="moreAction:" destination="CES-L8-oRQ" id="wuQ-Qk-NfU"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="visible.png" id="IcJ-JJ-lZo">
+                                <connections>
+                                    <action selector="watchAction:" destination="CES-L8-oRQ" id="q5D-NQ-AWM"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="settings_wrench.png" id="YCE-84-cqh">
+                                <connections>
+                                    <action selector="moreAction:" destination="CES-L8-oRQ" id="wuQ-Qk-NfU"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="jumpBarButtonItem" destination="M3o-im-Wqp" id="9er-CF-kVc"/>
@@ -453,8 +461,8 @@
                                     <outlet property="delegate" destination="4fE-Ef-JB7" id="yBY-be-CC5"/>
                                 </connections>
                             </webView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YfX-wW-cvp">
-                                <rect key="frame" x="0.0" y="392" width="320" height="44"/>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YfX-wW-cvp">
+                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="8uj-zG-q9h"/>
                                 </constraints>
@@ -901,6 +909,7 @@
         <image name="settings_wrench.png" width="20" height="20"/>
         <image name="star.png" width="20" height="20"/>
         <image name="upload.png" width="20" height="20"/>
+        <image name="visible.png" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="vj6-ho-19y"/>

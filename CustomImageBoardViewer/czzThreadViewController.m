@@ -302,10 +302,13 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 - (IBAction)starAction:(id)sender {
     [threadMenuViewController favouriteAction];
-    
-#warning DEBUGGING
+
+}
+
+- (IBAction)watchAction:(id)sender {
     [[czzWatchListManager sharedManager] addToWatchList:self.viewModelManager.parentThread];
 }
+
 
 - (IBAction)jumpAction:(id)sender {
     [self PromptForJumpToPage];
