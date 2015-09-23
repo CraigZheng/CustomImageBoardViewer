@@ -107,13 +107,6 @@
                 [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
             
             backgroundFetchResult = UIBackgroundFetchResultNewData;
-        } else {
-//#ifdef DEBUG
-//            localNotif.alertTitle = [NSString stringWithFormat:@"No threads updated"];
-//            localNotif.alertBody = [NSString stringWithFormat:@"Background fetch is fired but no new content is available."];
-//            localNotif.soundName = UILocalNotificationDefaultSoundName;
-//            [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
-//#endif
         }
         completionHandler(backgroundFetchResult);
     }];
