@@ -53,7 +53,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 @implementation czzThreadViewController
 @synthesize numberBarButton;
-@synthesize threadTableView;
 @synthesize selectedIndex;
 @synthesize threadMenuViewController;
 @synthesize threadsTableViewContentOffSet;
@@ -81,8 +80,8 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     self.viewModelManager.delegate = self;
     [self.viewModelManager restorePreviousState];
     
-    threadTableView.dataSource = tableViewDataSource = [czzThreadTableViewDataSource initWithViewModelManager:self.viewModelManager];
-    threadTableView.delegate = threadViewDelegate = [czzThreadViewDelegate initWithViewModelManager:self.viewModelManager];
+    self.threadTableView.dataSource = tableViewDataSource = [czzThreadTableViewDataSource initWithViewModelManager:self.viewModelManager];
+    self.threadTableView.delegate = threadViewDelegate = [czzThreadViewDelegate initWithViewModelManager:self.viewModelManager];
     tableViewDataSource.tableViewDelegate = threadViewDelegate;
     
     //progress view
@@ -97,7 +96,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     //add the UIRefreshControl to uitableview
     refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
-    [threadTableView addSubview: refreshControl];
+    [self.threadTableView addSubview: refreshControl];
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
 
     self.navigationItem.backBarButtonItem.title = self.title;
@@ -147,7 +146,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     //if big image mode, perform a reload
     if ([settingCentre userDefShouldUseBigImage])
     {
-        [threadTableView reloadData];
+        [self updateTableView];
     }
 
 }
@@ -163,8 +162,35 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 - (void)dealloc {
     // Avoid calling deacllocated data source and delegate.
-    threadTableView.dataSource = nil;
-    threadTableView.delegate = nil;
+    self.threadTableView.dataSource = nil;
+    self.threadTableView.delegate = nil;
+}
+
+
+/*
+ This method would update the contents related to the table view
+ */
+-(void)updateTableView {
+    [self.threadTableView reloadData];
+    
+    // Update bar buttons.
+    if (!numberBarButton.customView) {
+        numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
+    }
+    
+    [(czzRoundButton *)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.viewModelManager.threads.count] forState:UIControlStateNormal];
+    if (self.viewModelManager.threads.count <= 0) {
+        numberBarButton.customView.hidden = YES;
+    }
+    else {
+        numberBarButton.customView.hidden = NO;
+    }
+    
+    // Jump button
+    NSString *pageNumber = [NSString stringWithFormat:@"%ld", (long)self.viewModelManager.pageNumber];
+    NSString *totalPages = self.viewModelManager.totalPages < 99 ? [NSString stringWithFormat:@"%ld", (long)self.viewModelManager.totalPages] : @"∞";
+    self.jumpBarButtonItem.image = nil;
+    self.jumpBarButtonItem.title = [NSString stringWithFormat:@"%@/%@", pageNumber, totalPages];
 }
 
 #pragma mark - setter
@@ -216,7 +242,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
             //clear threads and ready to accept new threads
             [self.viewModelManager removeAll];
             [self.viewModelManager loadMoreThreads:newPageNumber];
-            [threadTableView reloadData];
+            [self updateTableView];
             [refreshControl beginRefreshing];
 
             [[AppDelegate window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) self.viewModelManager.pageNumber]];
@@ -228,7 +254,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 -(void)refreshThread:(id)sender{
     [self.viewModelManager refresh];
-    [self.threadTableView reloadData];
+    [self updateTableView];
 }
 
 #pragma mark - czzThreadViewModelManagerDelegate
@@ -247,7 +273,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 - (void)viewModelManagerWantsToReload:(czzHomeViewModelManager *)manager {
     if (manager.threads.count) {
-        [self.threadTableView reloadData];
+        [self updateTableView];
     }
 }
 
@@ -274,7 +300,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
             self.viewModelManager = (czzThreadViewModelManager*)threadViewModelManager;
         }
     }
-    [threadTableView reloadData];
+    [self updateTableView];
     [refreshControl endRefreshing];
     [progressView stopAnimating];
     // Reset the lastCellType back to default.
@@ -330,11 +356,11 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     @try {
-        NSInteger numberOfVisibleRows = [threadTableView indexPathsForVisibleRows].count / 2;
+        NSInteger numberOfVisibleRows = [self.threadTableView indexPathsForVisibleRows].count / 2;
         if (numberOfVisibleRows > 1) {
-            NSIndexPath *currentMiddleIndexPath = [[threadTableView indexPathsForVisibleRows] objectAtIndex:numberOfVisibleRows];
-            [threadTableView reloadData];
-            [threadTableView scrollToRowAtIndexPath:currentMiddleIndexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
+            NSIndexPath *currentMiddleIndexPath = [[self.threadTableView indexPathsForVisibleRows] objectAtIndex:numberOfVisibleRows];
+            [self updateTableView];
+            [self.threadTableView scrollToRowAtIndexPath:currentMiddleIndexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
         }
     }
     @catch (NSException *exception) {

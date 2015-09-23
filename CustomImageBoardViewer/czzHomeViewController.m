@@ -44,13 +44,13 @@
 @property (strong, nonatomic) UIRefreshControl* refreshControl;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *numberBarButton;
 @property (assign, nonatomic) GSIndeterminateProgressView *progressView;
+@property (strong, nonatomic) czzForum *selectedForum;
 
 @property (strong, nonatomic) czzHomeTableViewDataSource *tableViewDataSource;
 @property (strong, nonatomic) czzHomeViewDelegate *homeViewDelegate;
 @end
 
 @implementation czzHomeViewController
-@synthesize threadTableView;
 @synthesize leftController;
 @synthesize thumbnailFolder;
 @synthesize shouldHideImageForThisForum;
@@ -84,8 +84,8 @@
     thumbnailFolder = [czzAppDelegate thumbnailFolder];
     
     //assign a custom tableview data source
-    threadTableView.dataSource = tableViewDataSource = [czzHomeTableViewDataSource initWithViewModelManager:self.viewModelManager];
-    threadTableView.delegate = homeViewDelegate = [czzHomeViewDelegate initWithViewModelManager:self.viewModelManager];
+    self.threadTableView.dataSource = tableViewDataSource = [czzHomeTableViewDataSource initWithViewModelManager:self.viewModelManager];
+    self.threadTableView.delegate = homeViewDelegate = [czzHomeViewDelegate initWithViewModelManager:self.viewModelManager];
     tableViewDataSource.tableViewDelegate = homeViewDelegate;
     
     // Load data into tableview
@@ -111,7 +111,7 @@
     //register a refresh control
     refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
-    [threadTableView addSubview: refreshControl];
+    [self.threadTableView addSubview: refreshControl];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -183,15 +183,14 @@
     self.threadTableView.backgroundColor = settingCentre.viewBackgroundColour;
     
     // Always reload
-    [threadTableView reloadData];
+    [self updateTableView];
 }
 
 /*
  This method would update the contents related to the table view
  */
 -(void)updateTableView {
-    [self setSelectedForum:self.viewModelManager.forum];
-    [threadTableView reloadData];
+    [self.threadTableView reloadData];
     
     // Update bar buttons.
     if (!numberBarButton.customView) {
@@ -314,7 +313,7 @@
 #pragma mark - czzHomeself.viewModelManagerDelegate
 - (void)viewModelManagerWantsToReload:(czzHomeViewModelManager *)manager {
     if (manager.threads.count) {
-        [self.threadTableView reloadData];
+        [self updateTableView];
     }
 }
 
@@ -365,7 +364,7 @@
     NSDictionary *userInfo = notification.userInfo;
     czzForum *forum = [userInfo objectForKey:kPickedForum];
     if (forum){
-        [self setSelectedForum:forum];
+        self.selectedForum = forum;
         [self refreshThread:self];
         //disallow image downloading if specified by remote settings
         shouldHideImageForThisForum = NO;
@@ -380,8 +379,8 @@
     }
 }
 
--(void)setSelectedForum:(czzForum*)forum {
-    self.viewModelManager.forum = forum;
+-(void)setSelectedForum:(czzForum *)selectedForum {
+    self.viewModelManager.forum = selectedForum;
     self.title = self.viewModelManager.forum.name;
     self.navigationItem.backBarButtonItem.title = self.title;
 }
@@ -389,11 +388,11 @@
 #pragma mark - rotation events
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     @try {
-        NSInteger numberOfVisibleRows = [threadTableView indexPathsForVisibleRows].count / 2;
+        NSInteger numberOfVisibleRows = [self.threadTableView indexPathsForVisibleRows].count / 2;
         if (numberOfVisibleRows > 0) {
-            NSIndexPath *currentMiddleIndexPath = [[threadTableView indexPathsForVisibleRows] objectAtIndex:numberOfVisibleRows];
-            [threadTableView reloadData];
-            [threadTableView scrollToRowAtIndexPath:currentMiddleIndexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
+            NSIndexPath *currentMiddleIndexPath = [[self.threadTableView indexPathsForVisibleRows] objectAtIndex:numberOfVisibleRows];
+            [self updateTableView];
+            [self.threadTableView scrollToRowAtIndexPath:currentMiddleIndexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
         }
     }
     @catch (NSException *exception) {

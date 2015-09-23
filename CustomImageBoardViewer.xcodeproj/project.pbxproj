@@ -39,7 +39,6 @@
 		441A6A8B1BB28DF7008E380C /* CustomImageBoardViewer WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4476B6341B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		441A6A8E1BB28DF7008E380C /* CustomImageBoardViewer WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 4476B6421B9FDD43004E6650 /* CustomImageBoardViewer WatchKit App.app */; };
 		441A6A941BB2939C008E380C /* czzRoundButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A931BB2939C008E380C /* czzRoundButton.m */; settings = {ASSET_TAGS = (); }; };
-		441A6A951BB2939C008E380C /* czzRoundButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A931BB2939C008E380C /* czzRoundButton.m */; settings = {ASSET_TAGS = (); }; };
 		441A6A961BB2939C008E380C /* czzRoundButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A931BB2939C008E380C /* czzRoundButton.m */; settings = {ASSET_TAGS = (); }; };
 		441E5CCF17F4691300289DBD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5CCE17F4691300289DBD /* Foundation.framework */; };
 		441E5CD117F4691300289DBD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5CD017F4691300289DBD /* CoreGraphics.framework */; };
@@ -580,6 +579,7 @@
 		445B7B5C1B43EBCA0046CFDB /* czzNavigationViewModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 445B7B5B1B43EBCA0046CFDB /* czzNavigationViewModelManager.m */; };
 		445B7B5F1B4404810046CFDB /* czzThreadViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 445B7B5E1B4404810046CFDB /* czzThreadViewDelegate.m */; };
 		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
+		447664661BB2A840007F40FB /* CustomImageBoardViewer WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4476B6341B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		4476B63A1B9FDD43004E6650 /* InterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4476B6391B9FDD43004E6650 /* InterfaceController.m */; };
 		4476B63D1B9FDD43004E6650 /* GlanceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4476B63C1B9FDD43004E6650 /* GlanceController.m */; };
 		4476B63F1B9FDD43004E6650 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4476B63E1B9FDD43004E6650 /* Images.xcassets */; };
@@ -851,6 +851,13 @@
 			remoteGlobalIDString = 441E5CCA17F4691300289DBD;
 			remoteInfo = CustomImageBoardViewer;
 		};
+		447664671BB2A840007F40FB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 441E5CC317F4691300289DBD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4476B6331B9FDD43004E6650;
+			remoteInfo = "CustomImageBoardViewer WatchKit Extension";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -874,6 +881,17 @@
 				441A6A8E1BB28DF7008E380C /* CustomImageBoardViewer WatchKit App.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		447664691BB2A840007F40FB /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				447664661BB2A840007F40FB /* CustomImageBoardViewer WatchKit Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -3048,11 +3066,13 @@
 				441E5CC817F4691300289DBD /* Frameworks */,
 				441E5CC917F4691300289DBD /* Resources */,
 				441A6A901BB28DF7008E380C /* Embed Watch Content */,
+				447664691BB2A840007F40FB /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				441A6A8D1BB28DF7008E380C /* PBXTargetDependency */,
+				447664681BB2A840007F40FB /* PBXTargetDependency */,
 			);
 			name = CustomImageBoardViewer;
 			productName = CustomImageBoardViewer;
@@ -4024,7 +4044,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				441A6A951BB2939C008E380C /* czzRoundButton.m in Sources */,
 				441A6A731BAE78FB008E380C /* czzWKThreadViewController.m in Sources */,
 				441A6A771BAE8B4A008E380C /* czzWKForum.m in Sources */,
 				44E469E21BAD9B5000C0AACC /* czzWatchKitCommand.m in Sources */,
@@ -4053,6 +4072,11 @@
 			isa = PBXTargetDependency;
 			target = 441E5CCA17F4691300289DBD /* CustomImageBoardViewer */;
 			targetProxy = 441E5CF417F4691300289DBD /* PBXContainerItemProxy */;
+		};
+		447664681BB2A840007F40FB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4476B6331B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension */;
+			targetProxy = 447664671BB2A840007F40FB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -4386,7 +4410,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -4416,7 +4440,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Haozheng Zheng (9EBE9MWW9X)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
