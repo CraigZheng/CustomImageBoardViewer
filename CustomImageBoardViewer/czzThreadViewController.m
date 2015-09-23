@@ -28,6 +28,7 @@
 #import "GSIndeterminateProgressView.h"
 #import "czzThreadViewDelegate.h"
 #import "czzWatchListManager.h"
+#import "czzRoundButton.h"
 
 NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
@@ -170,7 +171,23 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 -(void)setViewModelManager:(czzThreadViewModelManager *)modelManager {
     _viewModelManager = modelManager;
     self.title = self.viewModelManager.parentThread.title;
-    [self updateBarButtons];
+
+    // Update bar buttons.
+    if (!numberBarButton.customView) {
+        numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
+    }
+    
+    [(czzRoundButton*)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.viewModelManager.threads.count] forState:UIControlStateNormal];
+    if (self.viewModelManager.threads.count <= 0)
+        numberBarButton.customView.hidden = YES;
+    else
+        numberBarButton.customView.hidden = NO;
+    
+    // Jump button
+    NSString *pageNumber = [NSString stringWithFormat:@"%ld", (long)self.viewModelManager.pageNumber];
+    NSString *totalPages = self.viewModelManager.totalPages < 99 ? [NSString stringWithFormat:@"%ld", (long)self.viewModelManager.totalPages] : @"∞";
+    self.jumpBarButtonItem.image = nil;
+    self.jumpBarButtonItem.title = [NSString stringWithFormat:@"%@/%@", pageNumber, totalPages];
 }
 
 -(void)dragOnRefreshControlAction:(id)sender{
@@ -262,29 +279,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [progressView stopAnimating];
     // Reset the lastCellType back to default.
     self.threadTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
-}
-
--(void)updateBarButtons {
-    UIButton *numberButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    numberButton.frame = CGRectMake(numberButton.frame.origin.x, numberButton.frame.origin.y, 24, 24);
-    numberButton.layer.cornerRadius = 12;
-    numberButton.titleLabel.font = [UIFont systemFontOfSize:11];
-    [numberButton setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-    numberButton.backgroundColor = [UIColor whiteColor];
-    
-    numberBarButton.customView = numberButton;
-
-    [numberButton setTitle:[NSString stringWithFormat:@"%ld", (long) self.viewModelManager.threads.count] forState:UIControlStateNormal];
-    if (self.viewModelManager.threads.count <= 0)
-        numberButton.hidden = YES;
-    else
-        numberButton.hidden = NO;
-    
-    // Jump button
-    NSString *pageNumber = [NSString stringWithFormat:@"%ld", (long)self.viewModelManager.pageNumber];
-    NSString *totalPages = self.viewModelManager.totalPages < 99 ? [NSString stringWithFormat:@"%ld", (long)self.viewModelManager.totalPages] : @"∞";
-    self.jumpBarButtonItem.image = nil;
-    self.jumpBarButtonItem.title = [NSString stringWithFormat:@"%@/%@", pageNumber, totalPages];
 }
 
 #pragma mark - UI button actions

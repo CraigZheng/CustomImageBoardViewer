@@ -38,6 +38,9 @@
 		441A6A881BB28D96008E380C /* visible@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 441A6A841BB28D96008E380C /* visible@2x.png */; settings = {ASSET_TAGS = (); }; };
 		441A6A8B1BB28DF7008E380C /* CustomImageBoardViewer WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4476B6341B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		441A6A8E1BB28DF7008E380C /* CustomImageBoardViewer WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 4476B6421B9FDD43004E6650 /* CustomImageBoardViewer WatchKit App.app */; };
+		441A6A941BB2939C008E380C /* czzRoundButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A931BB2939C008E380C /* czzRoundButton.m */; settings = {ASSET_TAGS = (); }; };
+		441A6A951BB2939C008E380C /* czzRoundButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A931BB2939C008E380C /* czzRoundButton.m */; settings = {ASSET_TAGS = (); }; };
+		441A6A961BB2939C008E380C /* czzRoundButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A931BB2939C008E380C /* czzRoundButton.m */; settings = {ASSET_TAGS = (); }; };
 		441E5CCF17F4691300289DBD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5CCE17F4691300289DBD /* Foundation.framework */; };
 		441E5CD117F4691300289DBD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5CD017F4691300289DBD /* CoreGraphics.framework */; };
 		441E5CD317F4691300289DBD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5CD217F4691300289DBD /* UIKit.framework */; };
@@ -916,6 +919,8 @@
 		441A6A801BAEC013008E380C /* czzWatchListManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWatchListManager.h; sourceTree = "<group>"; };
 		441A6A811BAEC013008E380C /* czzWatchListManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWatchListManager.m; sourceTree = "<group>"; };
 		441A6A841BB28D96008E380C /* visible@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "visible@2x.png"; sourceTree = "<group>"; };
+		441A6A921BB2939C008E380C /* czzRoundButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzRoundButton.h; sourceTree = "<group>"; };
+		441A6A931BB2939C008E380C /* czzRoundButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzRoundButton.m; sourceTree = "<group>"; };
 		441E5CCB17F4691300289DBD /* CustomImageBoardViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomImageBoardViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		441E5CCE17F4691300289DBD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		441E5CD017F4691300289DBD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -1673,6 +1678,15 @@
 				441A6A811BAEC013008E380C /* czzWatchListManager.m */,
 			);
 			name = WatchListManager;
+			sourceTree = "<group>";
+		};
+		441A6A911BB29380008E380C /* UIButton */ = {
+			isa = PBXGroup;
+			children = (
+				441A6A921BB2939C008E380C /* czzRoundButton.h */,
+				441A6A931BB2939C008E380C /* czzRoundButton.m */,
+			);
+			name = UIButton;
 			sourceTree = "<group>";
 		};
 		441E5CC217F4691300289DBD = {
@@ -2747,6 +2761,7 @@
 		44DF8ECC1A74CA4B0097F7F5 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				441A6A911BB29380008E380C /* UIButton */,
 				44E3F7441BA3005600597A3F /* NSDictionary */,
 				442F1FE61B15FC8B00267698 /* UI */,
 				44C73B7F1A4715400051D4C2 /* NSObjectUtil */,
@@ -3737,6 +3752,7 @@
 				442A8FEE19DB7F5400A3516E /* NSData+GIF.m in Sources */,
 				442A8FF619DB7F5400A3516E /* SDWebImagePrefetcher.m in Sources */,
 				441E5E5417F52DEF00289DBD /* czzThreadViewController.m in Sources */,
+				441A6A941BB2939C008E380C /* czzRoundButton.m in Sources */,
 				44E2D2DC1B2DB94E0029D783 /* czzThreadListUtilTableViewController.m in Sources */,
 				44BFEF411B8C0D7B0095772B /* DeviceHardware.m in Sources */,
 				441E5CE817F4691300289DBD /* czzHomeViewController.m in Sources */,
@@ -3923,6 +3939,7 @@
 				445540241BABEBA700667435 /* NSData+GIF.m in Sources */,
 				445540251BABEBA700667435 /* SDWebImagePrefetcher.m in Sources */,
 				445540261BABEBA700667435 /* czzThreadViewController.m in Sources */,
+				441A6A961BB2939C008E380C /* czzRoundButton.m in Sources */,
 				445540271BABEBA700667435 /* czzThreadListUtilTableViewController.m in Sources */,
 				445540281BABEBA700667435 /* DeviceHardware.m in Sources */,
 				445540291BABEBA700667435 /* czzHomeViewController.m in Sources */,
@@ -4007,6 +4024,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				441A6A951BB2939C008E380C /* czzRoundButton.m in Sources */,
 				441A6A731BAE78FB008E380C /* czzWKThreadViewController.m in Sources */,
 				441A6A771BAE8B4A008E380C /* czzWKForum.m in Sources */,
 				44E469E21BAD9B5000C0AACC /* czzWatchKitCommand.m in Sources */,
