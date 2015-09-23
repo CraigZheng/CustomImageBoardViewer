@@ -41,7 +41,7 @@
 @property (assign, nonatomic) BOOL shouldHideImageForThisForum;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
 @property (strong, nonatomic) UIRefreshControl* refreshControl;
-@property (strong, nonatomic) UIBarButtonItem *numberBarButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *numberBarButton;
 @property (assign, nonatomic) GSIndeterminateProgressView *progressView;
 
 @property (strong, nonatomic) czzHomeTableViewDataSource *tableViewDataSource;
@@ -77,10 +77,6 @@
     //progress bar
     progressView = [(czzNavigationController*) self.navigationController progressView];
     
-    //left bar button items
-    infoBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"info.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(moreInfoAction:)];
-    self.navigationItem.leftBarButtonItems = @[forumListButton, infoBarButton];
-
     imageViewerUtil = [czzImageViewerUtil new];
 
     //thumbnail folder
@@ -354,19 +350,14 @@
     [numberButton setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
     numberButton.backgroundColor = [UIColor whiteColor];
 
-    if (!numberBarButton) {
-        numberBarButton = [[UIBarButtonItem alloc] initWithCustomView:numberButton];
-    } else
-        numberBarButton.customView = numberButton;
+    numberBarButton.customView = numberButton;
 
     [numberButton setTitle:[NSString stringWithFormat:@"%ld", (long) self.viewModelManager.threads.count] forState:UIControlStateNormal];
     if (self.viewModelManager.threads.count <= 0) {
-        numberButton.hidden = YES;
-        self.navigationItem.rightBarButtonItems = @[menuBarButton];
+//        numberButton.hidden = YES;
     }
     else {
-        numberButton.hidden = NO;
-        self.navigationItem.rightBarButtonItems = @[menuBarButton, numberBarButton];
+//        numberButton.hidden = NO;
     }
     
     // Jump button

@@ -113,22 +113,24 @@
                         </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="串" id="BD0-Cp-BxW">
+                        <barButtonItem key="leftBarButtonItem" image="visible.png" id="IcJ-JJ-lZo">
+                            <connections>
+                                <action selector="watchAction:" destination="CES-L8-oRQ" id="q5D-NQ-AWM"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem image="settings_wrench.png" id="YCE-84-cqh">
                                 <connections>
                                     <action selector="moreAction:" destination="CES-L8-oRQ" id="wuQ-Qk-NfU"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem image="visible.png" id="IcJ-JJ-lZo">
-                                <connections>
-                                    <action selector="watchAction:" destination="CES-L8-oRQ" id="q5D-NQ-AWM"/>
-                                </connections>
-                            </barButtonItem>
+                            <barButtonItem title="0/0" id="4KW-uO-bRF"/>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="jumpBarButtonItem" destination="M3o-im-Wqp" id="9er-CF-kVc"/>
                         <outlet property="moreButton" destination="YCE-84-cqh" id="Irg-zp-7RR"/>
+                        <outlet property="numberBarButton" destination="4KW-uO-bRF" id="WGT-rj-8ib"/>
                         <outlet property="onScreenImageManagerViewContainer" destination="7vQ-Rb-bPA" id="uZj-Br-hDd"/>
                         <outlet property="starButton" destination="eAd-IU-rZD" id="AWa-Az-nEv"/>
                         <outlet property="threadTableView" destination="kEK-ic-Yzh" id="7gl-zA-agX"/>
@@ -822,21 +824,32 @@
                         </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="A岛" id="T7t-ag-5xh">
-                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="8WD-yv-VRu">
-                            <connections>
-                                <action selector="sideButtonAction:" destination="JnF-wS-C9I" id="CbS-87-egE"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="settings_wrench.png" id="DSK-Nh-2gx">
-                            <connections>
-                                <action selector="moreAction:" destination="JnF-wS-C9I" id="6KJ-d5-3Mh"/>
-                            </connections>
-                        </barButtonItem>
+                        <leftBarButtonItems>
+                            <barButtonItem image="menu.png" id="8WD-yv-VRu">
+                                <connections>
+                                    <action selector="sideButtonAction:" destination="JnF-wS-C9I" id="CbS-87-egE"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="info.png" id="yYD-SS-jel">
+                                <connections>
+                                    <action selector="moreInfoAction:" destination="JnF-wS-C9I" id="ZLa-ko-LWZ"/>
+                                </connections>
+                            </barButtonItem>
+                        </leftBarButtonItems>
+                        <rightBarButtonItems>
+                            <barButtonItem image="settings_wrench.png" id="DSK-Nh-2gx">
+                                <connections>
+                                    <action selector="moreAction:" destination="JnF-wS-C9I" id="6KJ-d5-3Mh"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="0/0" id="K87-RF-vDp"/>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="forumListButton" destination="8WD-yv-VRu" id="DLY-p4-ThH"/>
                         <outlet property="jumpBarButtonItem" destination="hBx-aX-JHK" id="sth-yF-T96"/>
                         <outlet property="menuBarButton" destination="DSK-Nh-2gx" id="QeK-nC-MEP"/>
+                        <outlet property="numberBarButton" destination="K87-RF-vDp" id="mLR-7X-U8p"/>
                         <outlet property="onScreenImageManagerViewContainer" destination="Js0-yW-ln4" id="RGH-rd-G71"/>
                         <outlet property="settingsBarButton" destination="T1x-La-d5b" id="pgG-ZV-6rj"/>
                         <outlet property="threadTableView" destination="l2k-8P-m8U" id="5yI-la-cPn"/>
@@ -912,7 +925,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="DWL-6t-CEf"/>
-        <segue reference="vj6-ho-19y"/>
+        <segue reference="5Fw-Ve-fjP"/>
         <segue reference="vK6-NU-jzp"/>
     </inferredMetricsTieBreakers>
 </document>

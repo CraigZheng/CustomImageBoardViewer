@@ -272,17 +272,13 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [numberButton setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
     numberButton.backgroundColor = [UIColor whiteColor];
     
-    if (!numberBarButton) {
-        numberBarButton = [[UIBarButtonItem alloc] initWithCustomView:numberButton];
-    } else
-        numberBarButton.customView = numberButton;
+    numberBarButton.customView = numberButton;
 
     [numberButton setTitle:[NSString stringWithFormat:@"%ld", (long) self.viewModelManager.threads.count] forState:UIControlStateNormal];
     if (self.viewModelManager.threads.count <= 0)
         numberButton.hidden = YES;
     else
         numberButton.hidden = NO;
-    self.navigationItem.rightBarButtonItems = @[moreButton, numberBarButton];
     
     // Jump button
     NSString *pageNumber = [NSString stringWithFormat:@"%ld", (long)self.viewModelManager.pageNumber];
