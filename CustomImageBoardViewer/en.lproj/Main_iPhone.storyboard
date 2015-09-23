@@ -113,15 +113,15 @@
                         </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="串" id="BD0-Cp-BxW">
-                        <barButtonItem key="leftBarButtonItem" image="visible.png" id="IcJ-JJ-lZo">
-                            <connections>
-                                <action selector="watchAction:" destination="CES-L8-oRQ" id="q5D-NQ-AWM"/>
-                            </connections>
-                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem image="settings_wrench.png" id="YCE-84-cqh">
                                 <connections>
                                     <action selector="moreAction:" destination="CES-L8-oRQ" id="wuQ-Qk-NfU"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="visible.png" id="IcJ-JJ-lZo">
+                                <connections>
+                                    <action selector="watchAction:" destination="CES-L8-oRQ" id="q5D-NQ-AWM"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="0/0" id="4KW-uO-bRF"/>
