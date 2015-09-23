@@ -102,7 +102,6 @@
             localNotif.applicationIconBadgeNumber = updatedThreads.count;
 
             // If the app is running in the background, schedule the notification, otherwise don't schedule it.
-            // TODO: if the app is running in the foreground, inform user that new updated threads are available.
             if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground)
                 [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
             

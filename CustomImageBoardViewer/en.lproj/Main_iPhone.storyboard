@@ -63,7 +63,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7vQ-Rb-bPA">
-                                <rect key="frame" x="240" y="488" width="60" height="60"/>
+                                <rect key="frame" x="240" y="444" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="P2C-qt-tg3"/>
                                     <constraint firstAttribute="width" secondItem="7vQ-Rb-bPA" secondAttribute="height" multiplier="1:1" id="Rdf-Wd-IHD"/>
@@ -114,14 +114,14 @@
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="串" id="BD0-Cp-BxW">
                         <rightBarButtonItems>
-                            <barButtonItem image="visible.png" id="IcJ-JJ-lZo">
-                                <connections>
-                                    <action selector="watchAction:" destination="CES-L8-oRQ" id="q5D-NQ-AWM"/>
-                                </connections>
-                            </barButtonItem>
                             <barButtonItem image="settings_wrench.png" id="YCE-84-cqh">
                                 <connections>
                                     <action selector="moreAction:" destination="CES-L8-oRQ" id="wuQ-Qk-NfU"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="visible.png" id="IcJ-JJ-lZo">
+                                <connections>
+                                    <action selector="watchAction:" destination="CES-L8-oRQ" id="q5D-NQ-AWM"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -137,7 +137,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AQu-Ga-SVD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="654" y="349"/>
+            <point key="canvasLocation" x="1088" y="377"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="GKc-UN-PdR">
@@ -462,7 +462,7 @@
                                 </connections>
                             </webView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YfX-wW-cvp">
-                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="480" width="320" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="8uj-zG-q9h"/>
                                 </constraints>
@@ -760,11 +760,11 @@
                         <viewControllerLayoutGuide type="bottom" id="VdM-sp-3WW"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="O4m-yZ-FbH">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="l2k-8P-m8U" customClass="czzThreadTableView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="JnF-wS-C9I" id="Hq6-lH-geL"/>
@@ -772,7 +772,7 @@
                                 </connections>
                             </tableView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Js0-yW-ln4">
-                                <rect key="frame" x="240" y="356" width="60" height="60"/>
+                                <rect key="frame" x="240" y="444" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="HQl-Ao-M9i"/>
                                     <constraint firstAttribute="width" secondItem="Js0-yW-ln4" secondAttribute="height" id="veY-cY-Nbi"/>
@@ -833,7 +833,6 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="forumListButton" destination="8WD-yv-VRu" id="DLY-p4-ThH"/>
                         <outlet property="jumpBarButtonItem" destination="hBx-aX-JHK" id="sth-yF-T96"/>
@@ -912,8 +911,8 @@
         <image name="visible.png" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="DWL-6t-CEf"/>
         <segue reference="vj6-ho-19y"/>
-        <segue reference="90f-dH-dau"/>
         <segue reference="vK6-NU-jzp"/>
     </inferredMetricsTieBreakers>
 </document>
