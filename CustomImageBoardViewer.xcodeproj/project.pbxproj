@@ -37,7 +37,6 @@
 		441A6A871BB28D96008E380C /* visible@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 441A6A841BB28D96008E380C /* visible@2x.png */; settings = {ASSET_TAGS = (); }; };
 		441A6A881BB28D96008E380C /* visible@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 441A6A841BB28D96008E380C /* visible@2x.png */; settings = {ASSET_TAGS = (); }; };
 		441A6A8B1BB28DF7008E380C /* CustomImageBoardViewer WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4476B6341B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		441A6A8E1BB28DF7008E380C /* CustomImageBoardViewer WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 4476B6421B9FDD43004E6650 /* CustomImageBoardViewer WatchKit App.app */; };
 		441A6A941BB2939C008E380C /* czzRoundButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A931BB2939C008E380C /* czzRoundButton.m */; settings = {ASSET_TAGS = (); }; };
 		441A6A961BB2939C008E380C /* czzRoundButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A931BB2939C008E380C /* czzRoundButton.m */; settings = {ASSET_TAGS = (); }; };
 		441E5CCF17F4691300289DBD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5CCE17F4691300289DBD /* Foundation.framework */; };
@@ -836,13 +835,6 @@
 			remoteGlobalIDString = 4476B6331B9FDD43004E6650;
 			remoteInfo = "CustomImageBoardViewer WatchKit Extension";
 		};
-		441A6A8C1BB28DF7008E380C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 441E5CC317F4691300289DBD /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4476B6411B9FDD43004E6650;
-			remoteInfo = "CustomImageBoardViewer WatchKit App";
-		};
 		441E5CF417F4691300289DBD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 441E5CC317F4691300289DBD /* Project object */;
@@ -866,11 +858,10 @@
 		};
 		441A6A901BB28DF7008E380C /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				441A6A8E1BB28DF7008E380C /* CustomImageBoardViewer WatchKit App.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2760,6 +2751,7 @@
 		44DF8ECC1A74CA4B0097F7F5 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				44FCCD541BB39866006A6652 /* UIBarButtonItem */,
 				441A6A911BB29380008E380C /* UIButton */,
 				44E3F7441BA3005600597A3F /* NSDictionary */,
 				442F1FE61B15FC8B00267698 /* UI */,
@@ -2972,6 +2964,13 @@
 			name = czzPostSender;
 			sourceTree = "<group>";
 		};
+		44FCCD541BB39866006A6652 /* UIBarButtonItem */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = UIBarButtonItem;
+			sourceTree = "<group>";
+		};
 		5A0A6BD7184869200094D7FB /* czzMoreInfoViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -3051,7 +3050,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				441A6A8D1BB28DF7008E380C /* PBXTargetDependency */,
 			);
 			name = CustomImageBoardViewer;
 			productName = CustomImageBoardViewer;
@@ -4041,11 +4039,6 @@
 			isa = PBXTargetDependency;
 			target = 4476B6331B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension */;
 			targetProxy = 441A6A891BB28DF7008E380C /* PBXContainerItemProxy */;
-		};
-		441A6A8D1BB28DF7008E380C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4476B6411B9FDD43004E6650 /* CustomImageBoardViewer WatchKit App */;
-			targetProxy = 441A6A8C1BB28DF7008E380C /* PBXContainerItemProxy */;
 		};
 		441E5CF517F4691300289DBD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

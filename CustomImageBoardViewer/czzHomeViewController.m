@@ -198,18 +198,16 @@
     }
     
     [(czzRoundButton *)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.viewModelManager.threads.count] forState:UIControlStateNormal];
-    if (self.viewModelManager.threads.count <= 0) {
-        numberBarButton.customView.hidden = YES;
-    }
-    else {
-        numberBarButton.customView.hidden = NO;
-    }
     
     // Jump button
     NSString *pageNumber = [NSString stringWithFormat:@"%ld", (long)self.viewModelManager.pageNumber];
     NSString *totalPages = self.viewModelManager.totalPages < 99 ? [NSString stringWithFormat:@"%ld", (long)self.viewModelManager.totalPages] : @"∞";
     self.jumpBarButtonItem.image = nil;
     self.jumpBarButtonItem.title = [NSString stringWithFormat:@"%@/%@", pageNumber, totalPages];
+    
+    // Other data
+    self.title = self.viewModelManager.forum.name;
+    self.navigationItem.backBarButtonItem.title = self.title;
 }
 
 #pragma mark - State perserving
@@ -380,9 +378,8 @@
 }
 
 -(void)setSelectedForum:(czzForum *)selectedForum {
+    _selectedForum = selectedForum;
     self.viewModelManager.forum = selectedForum;
-    self.title = self.viewModelManager.forum.name;
-    self.navigationItem.backBarButtonItem.title = self.title;
 }
 
 #pragma mark - rotation events

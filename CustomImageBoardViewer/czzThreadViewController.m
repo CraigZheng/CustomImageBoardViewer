@@ -179,12 +179,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     }
     
     [(czzRoundButton *)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.viewModelManager.threads.count] forState:UIControlStateNormal];
-    if (self.viewModelManager.threads.count <= 0) {
-        numberBarButton.customView.hidden = YES;
-    }
-    else {
-        numberBarButton.customView.hidden = NO;
-    }
     
     // Jump button
     NSString *pageNumber = [NSString stringWithFormat:@"%ld", (long)self.viewModelManager.pageNumber];
