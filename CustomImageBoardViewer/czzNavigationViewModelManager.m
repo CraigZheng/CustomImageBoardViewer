@@ -7,6 +7,9 @@
 //
 
 #import "czzNavigationViewModelManager.h"
+#import "czzHomeViewController.h"
+#import "czzThreadViewController.h"
+
 
 @implementation czzNavigationViewModelManager
 -(void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
@@ -45,6 +48,17 @@
     }
     @catch (NSException *exception) {
         DLog(@"%@", exception);
+    }
+    
+    // Reload animating progress view.
+    if ([viewController isKindOfClass:[czzHomeViewController class]] ||
+        [viewController isKindOfClass:[czzThreadViewController class]]) {
+        czzHomeViewModelManager *viewModelManager = [viewController performSelector:@selector(viewModelManager)];
+        if ([viewModelManager isDownloading]) {
+            [self.delegate.progressView startAnimating];
+        } else {
+            [self.delegate.progressView stopAnimating];
+        }
     }
 }
 
