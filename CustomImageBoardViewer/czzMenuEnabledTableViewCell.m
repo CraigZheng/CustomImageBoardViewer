@@ -197,7 +197,7 @@
     if (myThread.UID)
         [uidAttrString appendAttributedString:myThread.UID];
     posterLabel.attributedText = uidAttrString;
-    dateLabel.text = [dateFormatter stringFromDate:myThread.postDateTime];
+    dateLabel.text = [self.dateFormatter stringFromDate:myThread.postDateTime];
     if (myThread.sage)
         [sageLabel setHidden:NO];
     if (myThread.lock)
