@@ -27,7 +27,7 @@
 @property (weak, nonatomic) id<czzImageDownloaderDelegate> delegate;
 @property (assign, nonatomic) BOOL isThumbnail;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskID;
-@property (assign, nonatomic) BOOL shouldAddHost;
+
 -(id)init;
 -(void)start;
 -(void)stop;

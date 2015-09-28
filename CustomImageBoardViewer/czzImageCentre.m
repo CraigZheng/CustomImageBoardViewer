@@ -182,7 +182,6 @@
     
     //2. constrct an image downloader with the provided url
     czzImageDownloader *imgDown = [[czzImageDownloader alloc] init];
-    imgDown.shouldAddHost = !completeURL;
     imgDown.delegate = self;
     imgDown.isThumbnail = YES;
     imgDown.imageURLString = imgURL;
@@ -210,7 +209,6 @@
     
     //2. constrct an image downloader with the provided url
     czzImageDownloader *imgDown = [[czzImageDownloader alloc] init];
-    imgDown.shouldAddHost = !completeURL;
     imgDown.delegate = self;
     imgDown.imageURLString = imgURL;
     //3. check current image downloaders for image downloader with same target url
@@ -252,7 +250,7 @@
     if ([currentImageDownloaders containsObject:imgDown]){
         NSMutableSet *downloadersWithSameTargetURL = [NSMutableSet new];
         for (czzImageDownloader *downloader in currentImageDownloaders) {
-            if ([downloader.imageURLString isEqualToString:imgDown.imageURLString])
+            if ([downloader isEqual:imgDown])
                 [downloadersWithSameTargetURL addObject:downloader];
         }
         for (czzImageDownloader *downloader in downloadersWithSameTargetURL) {

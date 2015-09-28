@@ -31,7 +31,6 @@
 @synthesize fileSize;
 @synthesize downloadedSize;
 @synthesize backgroundTaskID;
-@synthesize shouldAddHost;
 @synthesize savePath;
 
 
@@ -39,7 +38,6 @@
     self = [super init];
     if (self){
         baseURLString = [[czzSettingsCentre sharedInstance] image_host];
-        shouldAddHost = YES;
     }
     return self;
 }
@@ -62,7 +60,7 @@
 #pragma setter for imgURLString
 -(void)setImageURLString:(NSString *)urlstring{
     imageURLString = urlstring;
-    if (shouldAddHost)
+    if (![imageURLString hasPrefix:@"http"])
         targetURLString = [baseURLString stringByAppendingPathComponent:[imageURLString stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
     else
         targetURLString = imageURLString;
@@ -135,7 +133,7 @@
 -(BOOL)isEqual:(id)object{
     if ([object isKindOfClass:[czzImageDownloader class]]) {
         czzImageDownloader *incomingDownloader = (czzImageDownloader*)object;
-        return [incomingDownloader.imageURLString isEqualToString:self.imageURLString];
+        return [incomingDownloader.targetURLString isEqualToString:self.targetURLString];
     }
     return NO;
 }
