@@ -23,6 +23,7 @@
 @property (strong, nonatomic) NSString *imageFolder;
 @property czzSettingsCentre *settingsCentre;
 @property UITapGestureRecognizer *tapOnImageGestureRecogniser;
+@property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @end
 
 @implementation czzMenuEnabledTableViewCell
@@ -148,34 +149,6 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"SearchAction" object:Nil userInfo:userInfo];
 }
 
-#pragma mark - setter
--(void)setMyThread:(czzThread *)thread{
-    myThread = thread;
-    if (myThread.content) {
-        NSDataDetector *linkDetector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
-        links = [NSMutableArray new];
-        NSArray *matches = [linkDetector matchesInString:myThread.content.string
-                                                 options:0
-                                                   range:NSMakeRange(0, [myThread.content.string length])];
-        for (NSTextCheckingResult *match in matches) {
-            if ([match resultType] == NSTextCheckingTypeLink) {
-                NSURL *url = [match URL];
-                [links addObject:url.absoluteString];
-            }
-        }
-    }
-    [self prepareUIWithMyThread];
-}
-
-- (CGRect)frameOfTextRange:(NSRange)range inTextView:(UITextView *)textView {
-    UITextPosition *beginning = textView.beginningOfDocument;
-    UITextPosition *start = [textView positionFromPosition:beginning offset:range.location];
-    UITextPosition *end = [textView positionFromPosition:start offset:range.length];
-    UITextRange *textRange = [textView textRangeFromPosition:start toPosition:end];
-    CGRect rect = [textView firstRectForRange:textRange];
-    return rect;
-}
-
 #pragma mark - consturct UI elements
 -(void)prepareUIWithMyThread {
     [self resetViews];
@@ -224,8 +197,6 @@
     if (myThread.UID)
         [uidAttrString appendAttributedString:myThread.UID];
     posterLabel.attributedText = uidAttrString;
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    [dateFormatter setDateFormat:@"yyyy MM-dd, HH:mm"];
     dateLabel.text = [dateFormatter stringFromDate:myThread.postDateTime];
     if (myThread.sage)
         [sageLabel setHidden:NO];
@@ -269,6 +240,15 @@
     }
 }
 
+- (CGRect)frameOfTextRange:(NSRange)range inTextView:(UITextView *)textView {
+    UITextPosition *beginning = textView.beginningOfDocument;
+    UITextPosition *start = [textView positionFromPosition:beginning offset:range.location];
+    UITextPosition *end = [textView positionFromPosition:start offset:range.length];
+    UITextRange *textRange = [textView textRangeFromPosition:start toPosition:end];
+    CGRect rect = [textView firstRectForRange:textRange];
+    return rect;
+}
+
 #pragma - mark UIActionSheet delegate
 //Open the link associated with the button
 -(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
@@ -308,6 +288,34 @@
     _shouldAllowClickOnImage = shouldAllowClickOnImage;
     tapOnImageGestureRecogniser.enabled = shouldAllowClickOnImage;
     tapOnImageGestureRecogniser.cancelsTouchesInView = shouldAllowClickOnImage;
+}
+
+-(void)setMyThread:(czzThread *)thread{
+    myThread = thread;
+    if (myThread.content) {
+        NSDataDetector *linkDetector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
+        links = [NSMutableArray new];
+        NSArray *matches = [linkDetector matchesInString:myThread.content.string
+                                                 options:0
+                                                   range:NSMakeRange(0, [myThread.content.string length])];
+        for (NSTextCheckingResult *match in matches) {
+            if ([match resultType] == NSTextCheckingTypeLink) {
+                NSURL *url = [match URL];
+                [links addObject:url.absoluteString];
+            }
+        }
+    }
+    [self prepareUIWithMyThread];
+}
+
+#pragma mark - Getters
+- (NSDateFormatter *)dateFormatter {
+    if (!_dateFormatter) {
+        _dateFormatter = [NSDateFormatter new];
+        [_dateFormatter setDateFormat:@"yyyy MM-dd, HH:mm"];
+    }
+    
+    return _dateFormatter;
 }
 
 #pragma mark - notification handler - image downloaded
