@@ -25,8 +25,8 @@
     return self;
 }
 
--(void)showPhoto:(NSString *)photoPath {
-    if (photoPath.length) {
+-(void)showPhoto:(NSURL *)photoPath {
+    if ([[czzImageCacheManager sharedInstance] hasImageWithName:photoPath.lastPathComponent]) {
         [self prepareMWPhotoBrowser];
         if (!photoBrowserDataSource)
             photoBrowserDataSource = [NSMutableArray new];
@@ -35,7 +35,7 @@
         [photoBrowser setCurrentPhotoIndex: [photoBrowserDataSource indexOfObject:photoPath]];
         [self show];
     } else {
-        DLog(@"Either photo path or view controller is nil");
+        DLog(@"Either photo path is nil");
     }
 }
 
@@ -103,7 +103,7 @@
 }
 
 -(void)photoBrowser:(MWPhotoBrowser *)browser actionButtonPressedForPhotoAtIndex:(NSUInteger)index {
-    NSURL *fileURL = [NSURL fileURLWithPath:[photoBrowserDataSource objectAtIndex:index]];
+    NSURL *fileURL = [photoBrowserDataSource objectAtIndex:index];
     documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:fileURL];
     UIView *viewToShowDocumentInteractionController;
     if (photoBrowserNavigationController)

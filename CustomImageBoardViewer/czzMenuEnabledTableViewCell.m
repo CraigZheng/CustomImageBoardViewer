@@ -155,14 +155,14 @@
     if (myThread.thImgSrc.length){
         previewImageView.hidden = NO;
         [previewImageView setImage:[UIImage imageNamed:@"Icon.png"]];
-        NSString *filePath = [thumbnailFolder stringByAppendingPathComponent:[myThread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
-        UIImage *previewImage =[[UIImage alloc] initWithContentsOfFile:filePath];
+
+        NSString *imageName = myThread.thImgSrc.lastPathComponent;
+        UIImage *previewImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:imageName]]];
 
         if (settingsCentre.userDefShouldUseBigImage)
         {
-            NSString *fullImagePath = [imageFolder stringByAppendingPathComponent:[myThread.imgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
-            if ([[NSFileManager defaultManager] fileExistsAtPath:fullImagePath]) {
-                previewImage = [[UIImage alloc] initWithContentsOfFile:fullImagePath];
+            if ([[czzImageCacheManager sharedInstance] hasImageWithName:imageName]) {
+                previewImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:imageName]]];
             }
         }
         if (previewImage){

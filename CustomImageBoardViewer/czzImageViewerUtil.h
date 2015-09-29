@@ -11,10 +11,10 @@
 
 @interface czzImageViewerUtil : NSObject <MWPhotoBrowserDelegate>
 @property MWPhotoBrowser *photoBrowser;
-@property NSMutableArray *photoBrowserDataSource;
+@property NSMutableArray<NSURL *> *photoBrowserDataSource;
 @property UIDocumentInteractionController *documentInteractionController;
 @property UINavigationController *photoBrowserNavigationController;
 
--(void)showPhoto:(NSString*)photoPath;
+-(void)showPhoto:(NSURL*)photoPath;
 -(void)showPhotos:(NSArray*)photos withIndex:(NSInteger)index;
 @end
