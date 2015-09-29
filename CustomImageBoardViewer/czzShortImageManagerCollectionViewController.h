@@ -10,7 +10,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "czzImageCentre.h"
+#import "czzImageCacheManager.h"
 #import "czzAppDelegate.h"
 
 @protocol czzShortImageManagerCollectionViewControllerProtocol <NSObject>

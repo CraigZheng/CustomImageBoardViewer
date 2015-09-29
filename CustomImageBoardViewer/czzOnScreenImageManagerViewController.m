@@ -10,7 +10,7 @@
 #import "czzNavigationController.h"
 #import "UIImage+animatedGIF.h"
 #import "czzImageDownloader.h"
-#import "czzImageCentre.h"
+#import "czzImageCacheManager.h"
 #import "czzSettingsCentre.h"
 
 #import <QuartzCore/QuartzCore.h>
@@ -21,7 +21,7 @@
 @interface czzOnScreenImageManagerViewController () <czzImageCentreProtocol, czzShortImageManagerCollectionViewControllerProtocol>
 @property (assign, nonatomic) BOOL iconAnimating;
 @property (assign, nonatomic) BOOL isShowingShortImageManagerController;
-@property czzImageCentre *imageCentre;
+@property czzImageCacheManager *imageCentre;
 @property (nonatomic) czzShortImageManagerCollectionViewController *shortImageManagerCollectionViewController;
 @end
 
@@ -55,7 +55,7 @@
     iconAnimating = NO;
     
     //image centre
-    imageCentre = [czzImageCentre sharedInstance];
+    imageCentre = [czzImageCacheManager sharedInstance];
     imageCentre.delegate = self;
     
     //badge view
@@ -95,7 +95,7 @@
 }
 
 #pragma mark - czzImageCentreDelegate
--(void)imageCentreDownloadFinished:(czzImageCentre *)imgCentre downloader:(czzImageDownloader *)downloader wasSuccessful:(BOOL)success {
+-(void)imageCentreDownloadFinished:(czzImageCacheManager *)imgCentre downloader:(czzImageDownloader *)downloader wasSuccessful:(BOOL)success {
     if (success && !downloader.isThumbnail) {
         if (delegate
             && [delegate respondsToSelector:@selector(onScreenImageManagerDownloadFinished:imagePath:wasSuccessful:)]
@@ -114,13 +114,13 @@
     }
 }
 
--(void)imageCentreDownloadUpdated:(czzImageCentre *)imgCentre downloader:(czzImageDownloader *)downloader progress:(CGFloat)progress {
+-(void)imageCentreDownloadUpdated:(czzImageCacheManager *)imgCentre downloader:(czzImageDownloader *)downloader progress:(CGFloat)progress {
     if (self.shortImageManagerCollectionViewController.isShowing) {
         [self.shortImageManagerCollectionViewController updateProgressForDownloader:downloader];
     }
 }
 
--(void)imageCentreDownloadStarted:(czzImageCentre *)imgCentre downloader:(czzImageDownloader *)downloader {
+-(void)imageCentreDownloadStarted:(czzImageCacheManager *)imgCentre downloader:(czzImageDownloader *)downloader {
     if (!downloader.isThumbnail && !iconAnimating)
         [self startAnimating];
 }

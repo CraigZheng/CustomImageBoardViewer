@@ -61,7 +61,7 @@
     else
         targetImgURL = [[settingCentre thumbnail_host] stringByAppendingPathComponent:imgURL];
 
-    [[czzImageCentre sharedInstance] downloadThumbnailWithURL:imgURL isCompletedURL:YES];
+    [[czzImageCacheManager sharedInstance] downloadThumbnailWithURL:imgURL isCompletedURL:YES];
     
 }
 

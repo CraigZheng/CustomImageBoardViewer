@@ -11,7 +11,7 @@
 
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzAppDelegate.h"
-#import "czzImageCentre.h"
+#import "czzImageCacheManager.h"
 #import "czzSettingsCentre.h"
 #import "czzThreadRefButton.h"
 #import "czzImageDownloader.h"

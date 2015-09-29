@@ -9,13 +9,13 @@
 #import "czzShortImageManagerCollectionViewController.h"
 #import "UIView+MGBadgeView.h"
 #import "czzAppDelegate.h"
-#import "czzImageCentre.h"
+#import "czzImageCacheManager.h"
 #import "czzImageDownloader.h"
 #import "czzImageViewerUtil.h"
 #import "KLCPopup.h"
 
 @interface czzShortImageManagerCollectionViewController ()<czzImageCentreProtocol>
-@property czzImageCentre *imageCentre;
+@property czzImageCacheManager *imageCentre;
 @property NSArray *downloaders;
 @property KLCPopup *popup;
 @property czzImageViewerUtil *imageViewerUtil;
@@ -58,7 +58,7 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
 }
 
 -(void)show {
-    imageCentre = [czzImageCentre sharedInstance];
+    imageCentre = [czzImageCacheManager sharedInstance];
     downloaders = imageCentre.currentImageDownloaders.array;
 
     popup = [KLCPopup popupWithContentView:self.view showType:KLCPopupShowTypeBounceIn dismissType:KLCPopupDismissTypeBounceOut maskType:KLCPopupMaskTypeDimmed dismissOnBackgroundTouch:YES dismissOnContentTouch:NO];

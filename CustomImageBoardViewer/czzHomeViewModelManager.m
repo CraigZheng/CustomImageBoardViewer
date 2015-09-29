@@ -7,7 +7,7 @@
 //
 
 #import "czzHomeViewModelManager.h"
-#import "czzImageCentre.h"
+#import "czzImageCacheManager.h"
 
 @interface czzHomeViewModelManager ()
 @property (nonatomic, readonly) NSString *cacheFile;
@@ -136,7 +136,7 @@
             //if is set to show image
             if ([settingCentre userDefShouldDisplayThumbnail] || ![settingCentre shouldDisplayThumbnail]){
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [[czzImageCentre sharedInstance] downloadThumbnailWithURL:targetImgURL isCompletedURL:YES];
+                    [[czzImageCacheManager sharedInstance] downloadThumbnailWithURL:targetImgURL isCompletedURL:YES];
                 });
             }
         }

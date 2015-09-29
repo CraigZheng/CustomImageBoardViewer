@@ -111,7 +111,7 @@
 		442A901D19DB9C3C00A3516E /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A901A19DB9C3C00A3516E /* HTMLNode.m */; };
 		442A901E19DB9C3C00A3516E /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A901C19DB9C3C00A3516E /* HTMLParser.m */; };
 		442CD0E31851601A0021AD37 /* czzImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 442CD0E21851601A0021AD37 /* czzImageDownloader.m */; };
-		442CD0E718517BED0021AD37 /* czzImageCentre.m in Sources */ = {isa = PBXBuildFile; fileRef = 442CD0E618517BED0021AD37 /* czzImageCentre.m */; };
+		442CD0E718517BED0021AD37 /* czzImageCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 442CD0E618517BED0021AD37 /* czzImageCacheManager.m */; };
 		442EC8631A1A130A005650E4 /* czzNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 442EC8621A1A130A005650E4 /* czzNavigationController.m */; };
 		442EC86C1A1A1C8D005650E4 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 442EC8691A1A1C8D005650E4 /* info.png */; };
 		442EC86D1A1A1C8D005650E4 /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 442EC86A1A1A1C8D005650E4 /* info@2x.png */; };
@@ -239,7 +239,7 @@
 		445540041BABEBA700667435 /* UIButton+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A8FE019DB7F5400A3516E /* UIButton+WebCache.m */; };
 		445540051BABEBA700667435 /* SGProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B89E801A2AFBE30085F766 /* SGProgressView.m */; };
 		445540061BABEBA700667435 /* czzForumsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 440B2FC617F7DB7800544926 /* czzForumsViewController.m */; };
-		445540071BABEBA700667435 /* czzImageCentre.m in Sources */ = {isa = PBXBuildFile; fileRef = 442CD0E618517BED0021AD37 /* czzImageCentre.m */; };
+		445540071BABEBA700667435 /* czzImageCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 442CD0E618517BED0021AD37 /* czzImageCacheManager.m */; };
 		445540081BABEBA700667435 /* PSTCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A8F7219DB7DF200A3516E /* PSTCollectionViewLayout.m */; };
 		445540091BABEBA700667435 /* czzOnScreenCommandViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BE2E3819383FEF00601943 /* czzOnScreenCommandViewController.m */; };
 		4455400A1BABEBA700667435 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 4412FA141935865800681438 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -579,7 +579,6 @@
 		445B7B5F1B4404810046CFDB /* czzThreadViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 445B7B5E1B4404810046CFDB /* czzThreadViewDelegate.m */; };
 		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
 		4476646A1BB577FB007F40FB /* CustomImageBoardViewer WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4476B6341B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		4476646E1BB578AA007F40FB /* CustomImageBoardViewer WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4476B6341B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		4476B63A1B9FDD43004E6650 /* InterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4476B6391B9FDD43004E6650 /* InterfaceController.m */; };
 		4476B63D1B9FDD43004E6650 /* GlanceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4476B63C1B9FDD43004E6650 /* GlanceController.m */; };
 		4476B63F1B9FDD43004E6650 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4476B63E1B9FDD43004E6650 /* Images.xcassets */; };
@@ -851,13 +850,6 @@
 			remoteGlobalIDString = 4476B6331B9FDD43004E6650;
 			remoteInfo = "CustomImageBoardViewer WatchKit Extension";
 		};
-		4476646F1BB578AA007F40FB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 441E5CC317F4691300289DBD /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4476B6331B9FDD43004E6650;
-			remoteInfo = "CustomImageBoardViewer WatchKit Extension";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -889,17 +881,6 @@
 			dstSubfolderSpec = 13;
 			files = (
 				4476646A1BB577FB007F40FB /* CustomImageBoardViewer WatchKit Extension.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		447664711BB578AA007F40FB /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				4476646E1BB578AA007F40FB /* CustomImageBoardViewer WatchKit Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1088,8 +1069,8 @@
 		442A901C19DB9C3C00A3516E /* HTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HTMLParser.m; path = ../HTMLParser.m; sourceTree = "<group>"; };
 		442CD0E11851601A0021AD37 /* czzImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzImageDownloader.h; sourceTree = "<group>"; };
 		442CD0E21851601A0021AD37 /* czzImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzImageDownloader.m; sourceTree = "<group>"; };
-		442CD0E518517BED0021AD37 /* czzImageCentre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzImageCentre.h; sourceTree = "<group>"; };
-		442CD0E618517BED0021AD37 /* czzImageCentre.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzImageCentre.m; sourceTree = "<group>"; };
+		442CD0E518517BED0021AD37 /* czzImageCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzImageCacheManager.h; sourceTree = "<group>"; };
+		442CD0E618517BED0021AD37 /* czzImageCacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzImageCacheManager.m; sourceTree = "<group>"; };
 		442EC8611A1A130A005650E4 /* czzNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzNavigationController.h; sourceTree = "<group>"; };
 		442EC8621A1A130A005650E4 /* czzNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzNavigationController.m; sourceTree = "<group>"; };
 		442EC8691A1A1C8D005650E4 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
@@ -1795,7 +1776,7 @@
 				441E5D1717F46B3200289DBD /* czzForumsViewController */,
 				441E5D1317F46A0E00289DBD /* czzEntryPointViewController */,
 				441E5D2D17F490E100289DBD /* czzThread */,
-				442CD0E4185160200021AD37 /* czzImageDownloader */,
+				442CD0E4185160200021AD37 /* czzImageManager */,
 				44B89E771A2AF3CE0085F766 /* 3rd Party */,
 				44C73B861A471F0A0051D4C2 /* Mock */,
 				441E5CE917F4691300289DBD /* Images.xcassets */,
@@ -2111,15 +2092,15 @@
 			path = "Objective-C-HMTL-Parser";
 			sourceTree = "<group>";
 		};
-		442CD0E4185160200021AD37 /* czzImageDownloader */ = {
+		442CD0E4185160200021AD37 /* czzImageManager */ = {
 			isa = PBXGroup;
 			children = (
 				442CD0E11851601A0021AD37 /* czzImageDownloader.h */,
 				442CD0E21851601A0021AD37 /* czzImageDownloader.m */,
-				442CD0E518517BED0021AD37 /* czzImageCentre.h */,
-				442CD0E618517BED0021AD37 /* czzImageCentre.m */,
+				442CD0E518517BED0021AD37 /* czzImageCacheManager.h */,
+				442CD0E618517BED0021AD37 /* czzImageCacheManager.m */,
 			);
-			name = czzImageDownloader;
+			name = czzImageManager;
 			sourceTree = "<group>";
 		};
 		442EC8681A1A1320005650E4 /* czzNavigationControllerManager */ = {
@@ -3084,12 +3065,10 @@
 				441E5CC817F4691300289DBD /* Frameworks */,
 				441E5CC917F4691300289DBD /* Resources */,
 				441A6A901BB28DF7008E380C /* Embed Watch Content */,
-				447664711BB578AA007F40FB /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				447664701BB578AA007F40FB /* PBXTargetDependency */,
 			);
 			name = CustomImageBoardViewer;
 			productName = CustomImageBoardViewer;
@@ -3756,7 +3735,7 @@
 				442A8FF719DB7F5400A3516E /* UIButton+WebCache.m in Sources */,
 				44B89E831A2AFBE30085F766 /* SGProgressView.m in Sources */,
 				440B2FC717F7DB7800544926 /* czzForumsViewController.m in Sources */,
-				442CD0E718517BED0021AD37 /* czzImageCentre.m in Sources */,
+				442CD0E718517BED0021AD37 /* czzImageCacheManager.m in Sources */,
 				442A8FB219DB7DF200A3516E /* PSTCollectionViewLayout.m in Sources */,
 				44BE2E3A19383FEF00601943 /* czzOnScreenCommandViewController.m in Sources */,
 				4412FA151935865800681438 /* Reachability.m in Sources */,
@@ -3943,7 +3922,7 @@
 				445540041BABEBA700667435 /* UIButton+WebCache.m in Sources */,
 				445540051BABEBA700667435 /* SGProgressView.m in Sources */,
 				445540061BABEBA700667435 /* czzForumsViewController.m in Sources */,
-				445540071BABEBA700667435 /* czzImageCentre.m in Sources */,
+				445540071BABEBA700667435 /* czzImageCacheManager.m in Sources */,
 				445540081BABEBA700667435 /* PSTCollectionViewLayout.m in Sources */,
 				445540091BABEBA700667435 /* czzOnScreenCommandViewController.m in Sources */,
 				4455400A1BABEBA700667435 /* Reachability.m in Sources */,
@@ -4091,11 +4070,6 @@
 			isa = PBXTargetDependency;
 			target = 4476B6331B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension */;
 			targetProxy = 4476646B1BB577FB007F40FB /* PBXContainerItemProxy */;
-		};
-		447664701BB578AA007F40FB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4476B6331B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension */;
-			targetProxy = 4476646F1BB578AA007F40FB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

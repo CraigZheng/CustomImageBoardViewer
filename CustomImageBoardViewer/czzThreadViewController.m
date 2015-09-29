@@ -10,7 +10,7 @@
 #import "czzThread.h"
 #import "Toast+UIView.h"
 #import "SMXMLDocument.h"
-#import "czzImageCentre.h"
+#import "czzImageCacheManager.h"
 #import "czzImageViewerUtil.h"
 #import "czzAppDelegate.h"
 #import "czzRightSideViewController.h"

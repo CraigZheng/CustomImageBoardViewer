@@ -11,7 +11,7 @@
 #import "czzFavouriteManager.h"
 #import "Toast+UIView.h"
 #import "czzBlacklistEntity.h"
-#import "czzImageCentre.h"
+#import "czzImageCacheManager.h"
 #import "czzAppDelegate.h"
 #import "czzSettingsCentre.h"
 

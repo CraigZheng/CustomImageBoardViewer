@@ -26,7 +26,7 @@
 -(void)imageCentreDownloadStarted:(czzImageCentre*)imgCentre downloader:(czzImageDownloader*)downloader;
 @end
 
-@interface czzImageCentre : NSObject
+@interface czzImageCacheManager : NSObject
 @property (nonatomic, strong) NSMutableOrderedSet *currentImageDownloaders;
 @property (nonatomic, strong) NSMutableOrderedSet *currentThumbnailDownloaders;
 @property (nonatomic, strong) NSMutableSet *currentLocalImages;
@@ -39,7 +39,7 @@
 +(instancetype)sharedInstance;
 + (NSDate*) getModificationDateForFileAtPath:(NSString*)path;
 
--(void)scanCurrentLocalImages;
+-(void)reloadCaches;
 -(void)downloadThumbnailWithURL:(NSString*)imgURL isCompletedURL:(BOOL)completeURL;
 -(void)downloadImageWithURL:(NSString*)imgURL isCompletedURL:(BOOL)completeURL;
 -(Boolean)containsImageDownloaderWithURL:(NSString*)imgURL;

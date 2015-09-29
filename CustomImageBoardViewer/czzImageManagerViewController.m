@@ -7,7 +7,7 @@
 //
 
 #import "czzImageManagerViewController.h"
-#import "czzImageCentre.h"
+#import "czzImageCacheManager.h"
 #import "czzAppDelegate.h"
 #import "Toast+UIView.h"
 #import "czzImageViewerUtil.h"
@@ -36,7 +36,7 @@
     imageViewerUtil = [czzImageViewerUtil new];
 //    //show all images
     imageCategory = ALL_IMAGE;
-    if ([[czzImageCentre sharedInstance] ready])
+    if ([[czzImageCacheManager sharedInstance] ready])
         [self reloadImageFileFromImageCentre];
     else
         [[AppDelegate window] makeToast:@"图片还在载入中，请稍后重试..."];
@@ -47,12 +47,12 @@
 -(void)reloadImageFileFromImageCentre{
     Images = [NSMutableArray new];
     if (imageCategory == ALL_IMAGE){
-        [Images addObjectsFromArray:[[czzImageCentre sharedInstance] localThumbnailsArray]];
-        [Images addObjectsFromArray:[[czzImageCentre sharedInstance] localImagesArray]];
+        [Images addObjectsFromArray:[[czzImageCacheManager sharedInstance] localThumbnailsArray]];
+        [Images addObjectsFromArray:[[czzImageCacheManager sharedInstance] localImagesArray]];
     } else if (imageCategory == FULL_SIZE_IMAGE) {
-        [Images addObjectsFromArray:[[czzImageCentre sharedInstance] localImagesArray]];
+        [Images addObjectsFromArray:[[czzImageCacheManager sharedInstance] localImagesArray]];
     } else if (imageCategory == THUMBNAIL){
-        [Images addObjectsFromArray:[[czzImageCentre sharedInstance] localThumbnailsArray]];
+        [Images addObjectsFromArray:[[czzImageCacheManager sharedInstance] localThumbnailsArray]];
     }
     [self.collectionView reloadData];
 }

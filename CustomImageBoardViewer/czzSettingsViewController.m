@@ -8,7 +8,7 @@
 
 #import "czzSettingsViewController.h"
 #import "Toast+UIView.h"
-#import "czzImageCentre.h"
+#import "czzImageCacheManager.h"
 #import "czzAppDelegate.h"
 #import "czzHomeViewController.h"
 #import "czzSettingsCentre.h"
@@ -240,8 +240,8 @@
     }
     NSString *title = [actionSheet buttonTitleAtIndex:buttonIndex];
     if ([title hasPrefix:@"图片管理器"]){
-        [[czzImageCentre sharedInstance] removeFullSizeImages];
-        [[czzImageCentre sharedInstance] removeThumbnails];
+        [[czzImageCacheManager sharedInstance] removeFullSizeImages];
+        [[czzImageCacheManager sharedInstance] removeThumbnails];
         [AppDelegate showToast:@"图片管理器已清空"];
     }
     else if ([title hasPrefix:@"串缓存"]){

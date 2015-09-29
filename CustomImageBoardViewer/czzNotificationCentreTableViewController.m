@@ -10,14 +10,14 @@
 #import "czzNotificationManager.h"
 #import "czzNavigationController.h"
 #import "czzNotificationBannerViewController.h"
-#import "czzImageCentre.h"
+#import "czzImageCacheManager.h"
 #import "czzImageDownloader.h"
 #import "czzFeedbackViewController.h"
 #import "DACircularProgressView.h"
 
 @interface czzNotificationCentreTableViewController ()<UIDocumentInteractionControllerDelegate, UIActionSheetDelegate>
 @property czzNotificationManager *notificationManager;
-@property czzImageCentre *imageCentre;
+@property czzImageCacheManager *imageCentre;
 @property (strong, nonatomic) NSString *imageFolder;
 @property UIDocumentInteractionController *documentInteractionController;
 @property UIActionSheet *openLinkActionSheet;
@@ -39,7 +39,7 @@
     imageFolder = [imageFolder stringByAppendingPathComponent:@"Thumbnails"];
 
     notificationManager = [czzNotificationManager new];
-    imageCentre = [czzImageCentre sharedInstance];
+    imageCentre = [czzImageCacheManager sharedInstance];
     if (!notifications) {
         notifications = [NSMutableOrderedSet new];
         NSMutableOrderedSet *cachedSet = [notificationManager checkCachedNotifications];
@@ -69,7 +69,7 @@
     [super viewDidAppear:animated];
     for (czzNotification *notification in notifications) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[czzImageCentre sharedInstance] downloadThumbnailWithURL:notification.thImgSrc isCompletedURL:YES];
+            [[czzImageCacheManager sharedInstance] downloadThumbnailWithURL:notification.thImgSrc isCompletedURL:YES];
         });
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(thumbnailDownloaded:) name:@"ThumbnailDownloaded" object:nil];

@@ -11,7 +11,7 @@
 #import "GTMNSString+HTML.h"
 #import "czzBlacklist.h"
 #import "czzBlacklistEntity.h"
-#import "czzImageCentre.h"
+#import "czzImageCacheManager.h"
 #import "NSString+HTML.h"
 #import "czzSettingsCentre.h"
 #import "czzURLDownloader.h"

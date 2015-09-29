@@ -8,7 +8,7 @@
 
 
 
-#import "czzImageCentre.h"
+#import "czzImageCacheManager.h"
 #import "czzImageDownloader.h"
 #import "czzAppDelegate.h"
 #import "Toast+UIView.h"
@@ -16,14 +16,14 @@
 
 #include <sys/stat.h>
 
-@interface czzImageCentre()<czzImageDownloaderDelegate>
+@interface czzImageCacheManager()<czzImageDownloaderDelegate>
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (strong, nonatomic) NSString *imageFolder;
 @property czzSettingsCentre *settingsCentre;
 @property NSDate *lastCleanDate;
 @end
 
-@implementation czzImageCentre
+@implementation czzImageCacheManager
 @synthesize currentImageDownloaders;
 @synthesize currentThumbnailDownloaders;
 @synthesize currentLocalThumbnails;
@@ -72,7 +72,7 @@
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
             if (settingsCentre.autoCleanImageCache && [[NSDate new] timeIntervalSinceDate:lastCleanDate] > kCleanInterval)
                 [self cleanOldFiles];
-            [self scanCurrentLocalImages];
+            [self reloadCaches];
         });
         
         //register notifications for saving and restoring image arrays
@@ -106,7 +106,7 @@
 /*
  scan the library for downloaded images
  */
--(void)scanCurrentLocalImages{
+-(void)reloadCaches{
     NSMutableSet *tempImgs = [NSMutableSet new];
     //files in thumbnail folder
     NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:thumbnailFolder error:Nil];
@@ -144,7 +144,7 @@
 -(BOOL)isFileOlderThan30Days:(NSString*)filePath {
     NSDate *today = [NSDate new];
     @try {
-        NSDate *fileModifiedDate = [czzImageCentre getModificationDateForFileAtPath:filePath];
+        NSDate *fileModifiedDate = [czzImageCacheManager getModificationDateForFileAtPath:filePath];
         //if older than a predefined days - 30 days
         if ([today timeIntervalSinceDate:fileModifiedDate] > kCleanInterval) {
             //delete this file and return YES
@@ -161,8 +161,8 @@
 -(NSArray*)sortArrayOfFileWithModificationDate:(NSArray*)array {
     return [array sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         @try {
-            NSDate *date1 = [czzImageCentre getModificationDateForFileAtPath:obj1];
-            NSDate *date2 = [czzImageCentre getModificationDateForFileAtPath:obj2];
+            NSDate *date1 = [czzImageCacheManager getModificationDateForFileAtPath:obj1];
+            NSDate *date2 = [czzImageCacheManager getModificationDateForFileAtPath:obj2];
             return [date2 compare:date1];
         }
         @catch (NSException *exception) {
@@ -320,13 +320,13 @@
 -(void)removeFullSizeImages{
     [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate imageFolder] error:nil];
     [AppDelegate checkFolders];
-    [self scanCurrentLocalImages];
+    [self reloadCaches];
 }
 
 -(void)removeThumbnails{
     [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate thumbnailFolder] error:nil];
     [AppDelegate checkFolders];
-    [self scanCurrentLocalImages];
+    [self reloadCaches];
 }
 
 -(void)removeAllImages{
