@@ -17,7 +17,7 @@
 #define THUMBNAIL 2
 
 @interface czzImageManagerViewController ()
-@property NSMutableArray *Images;
+@property NSMutableArray<NSURL *> *Images;
 @property NSInteger imageCategory;
 @property czzImageViewerUtil *imageViewerUtil;
 @end
@@ -36,10 +36,10 @@
     imageViewerUtil = [czzImageViewerUtil new];
 //    //show all images
     imageCategory = ALL_IMAGE;
-    if ([[czzImageCacheManager sharedInstance] ready])
+//    if ([[czzImageCacheManager sharedInstance] ready])
         [self reloadImageFileFromImageCentre];
-    else
-        [[AppDelegate window] makeToast:@"图片还在载入中，请稍后重试..."];
+//    else
+//        [[AppDelegate window] makeToast:@"图片还在载入中，请稍后重试..."];
 
 }
 
@@ -47,12 +47,12 @@
 -(void)reloadImageFileFromImageCentre{
     Images = [NSMutableArray new];
     if (imageCategory == ALL_IMAGE){
-        [Images addObjectsFromArray:[[czzImageCacheManager sharedInstance] localThumbnailsArray]];
-        [Images addObjectsFromArray:[[czzImageCacheManager sharedInstance] localImagesArray]];
+        [Images addObjectsFromArray:[[czzImageCacheManager sharedInstance] thumbnailImages]];
+        [Images addObjectsFromArray:[[czzImageCacheManager sharedInstance] fullsizeImages]];
     } else if (imageCategory == FULL_SIZE_IMAGE) {
-        [Images addObjectsFromArray:[[czzImageCacheManager sharedInstance] localImagesArray]];
+        [Images addObjectsFromArray:[[czzImageCacheManager sharedInstance] fullsizeImages]];
     } else if (imageCategory == THUMBNAIL){
-        [Images addObjectsFromArray:[[czzImageCacheManager sharedInstance] localThumbnailsArray]];
+        [Images addObjectsFromArray:[[czzImageCacheManager sharedInstance] thumbnailImages]];
     }
     [self.collectionView reloadData];
 }
@@ -69,13 +69,13 @@
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"preview_image_cell_identifier" forIndexPath:indexPath];
-    NSString *imgFile = [Images objectAtIndex:indexPath.row];
-    if (cell && imgFile){
+    NSURL *imageFileURL = [Images objectAtIndex:indexPath.row];
+    if (cell && imageFileURL){
         UIImageView *previewImageView = (UIImageView*)[cell viewWithTag:1];
         UIImage *previewImage;// = [UIImage imageWithContentsOfFile:imgFile];
-        UIImage *thumbnailImg = [UIImage imageWithContentsOfFile:[[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:imgFile.lastPathComponent]];
+        UIImage *thumbnailImg = [UIImage imageWithContentsOfFile:[[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:imageFileURL.lastPathComponent]];
         
-        previewImage = thumbnailImg ? thumbnailImg : [UIImage imageWithContentsOfFile:imgFile];
+        previewImage = thumbnailImg ? thumbnailImg : [UIImage imageWithData:[NSData dataWithContentsOfURL:imageFileURL]];
         if (previewImage) {
             previewImageView.image = previewImage;
         } else {

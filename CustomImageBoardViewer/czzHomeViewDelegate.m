@@ -129,14 +129,11 @@
 #pragma mark - czzMenuEnableTableViewCellDelegate
 -(void)userTapInImageView:(NSString *)imgURL {
     // If image exists
-    for (NSString *file in [[czzImageCacheManager sharedInstance] currentLocalImages]) {
-        if ([file.lastPathComponent.lowercaseString isEqualToString:imgURL.lastPathComponent.lowercaseString])
-        {
-            // Show image and return.
-            [self.imageViewerUtil showPhoto:file];
-            return;
-        }
+    if ([[czzImageCacheManager sharedInstance] hasImageWithName:imgURL.lastPathComponent]) {
+        [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:imgURL.lastPathComponent]];
+        return;
     }
+    
     // Image not found in local storage, start or stop the image downloader with the image URL
     if ([[czzImageCacheManager sharedInstance] containsImageDownloaderWithURL:imgURL]){
         [[czzImageCacheManager sharedInstance] stopAndRemoveImageDownloaderWithURL:imgURL];

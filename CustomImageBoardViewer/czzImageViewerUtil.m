@@ -92,7 +92,8 @@
 #pragma mark - MWPhotoBrowserDelegate
 -(id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
     @try {
-        MWPhoto *photo= [MWPhoto photoWithURL:[NSURL fileURLWithPath:[photoBrowserDataSource objectAtIndex:index]]];
+        id source = [photoBrowserDataSource objectAtIndex:index];
+        MWPhoto *photo= [MWPhoto photoWithURL:([source isKindOfClass:[NSURL class]] ? source : [NSURL fileURLWithPath:source])];
         return photo;
     }
     @catch (NSException *exception) {

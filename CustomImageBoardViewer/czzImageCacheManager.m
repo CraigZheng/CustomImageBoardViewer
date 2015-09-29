@@ -13,218 +13,132 @@
 #import "czzAppDelegate.h"
 #import "Toast+UIView.h"
 #import "czzSettingsCentre.h"
+#import "NSFileManager+Util.h"
 
 #include <sys/stat.h>
 
 @interface czzImageCacheManager()<czzImageDownloaderDelegate>
-@property (strong, nonatomic) NSString *thumbnailFolder;
-@property (strong, nonatomic) NSString *imageFolder;
-@property czzSettingsCentre *settingsCentre;
-@property NSDate *lastCleanDate;
 @end
 
 @implementation czzImageCacheManager
 @synthesize currentImageDownloaders;
 @synthesize currentThumbnailDownloaders;
-@synthesize currentLocalThumbnails;
-@synthesize currentLocalImages;
-@synthesize thumbnailFolder;
-@synthesize imageFolder;
-@synthesize localImagesArray;
-@synthesize localThumbnailsArray;
-@synthesize settingsCentre;
 @synthesize delegate;
-@synthesize lastCleanDate;
 
-+ (instancetype)sharedInstance
-{
-    // structure used to test whether the block has completed or not
-    static dispatch_once_t p = 0;
-    
-    // initialize sharedObject as nil (first call only)
-    __strong static id _sharedObject = nil;
-    
-    // executes a block object once and only once for the lifetime of an application
-    dispatch_once(&p, ^{
-        _sharedObject = [[self alloc] init];
-    });
-    
-    // returns the same object each time
-    return _sharedObject;
-}
-- (id)init {
-    if (self = [super init]) {
-        currentImageDownloaders = [NSMutableOrderedSet new];
-        currentThumbnailDownloaders = [NSMutableOrderedSet new];
-        thumbnailFolder = [czzAppDelegate thumbnailFolder];
-        imageFolder = [czzAppDelegate imageFolder];
-        currentLocalImages = [NSMutableSet new];
-        settingsCentre = [czzSettingsCentre sharedInstance];
-        //last clean date, or set to today if not found
-        NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
-        if ([userDef objectForKey:kLastCleanDate])
-        {
-            lastCleanDate = [userDef objectForKey:kLastCleanDate];
-        } else {
-            lastCleanDate = [NSDate new];
-            [self recordLastCleanDate:lastCleanDate];
-        }
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-            if (settingsCentre.autoCleanImageCache && [[NSDate new] timeIntervalSinceDate:lastCleanDate] > kCleanInterval)
-                [self cleanOldFiles];
-            [self reloadCaches];
-        });
-        
-        //register notifications for saving and restoring image arrays
-    }
-    return self;
-}
+#pragma mark - Cache management.
 
--(void)recordLastCleanDate:(NSDate*)date {
-    [[NSUserDefaults standardUserDefaults] setObject:date forKey:kLastCleanDate];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-/*
- delete all the files that are older than a predefined age
- */
--(void)cleanOldFiles {
-    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:thumbnailFolder error:nil];
-    for (NSString *entity in files) {
-        NSString *file = [thumbnailFolder stringByAppendingPathComponent:entity];
-        [self isFileOlderThan30Days:file];
-    }
-    files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:imageFolder error:nil];
-    for (NSString *entity in files) {
-        NSString *file = [imageFolder stringByAppendingPathComponent:entity];
-        [self isFileOlderThan30Days:file];
-    }
-    [self recordLastCleanDate:[NSDate new]];
-}
-
-
-/*
- scan the library for downloaded images
+/**
+ Reset local caches.
  */
 -(void)reloadCaches{
-    NSMutableSet *tempImgs = [NSMutableSet new];
-    //files in thumbnail folder
-    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:thumbnailFolder error:Nil];
-    for (NSString *entity in files) {
-        NSString *file = [thumbnailFolder stringByAppendingPathComponent:entity];
-        if ([file.pathExtension.lowercaseString isEqualToString:@"jpg"] ||
-            [file.pathExtension.lowercaseString isEqualToString:@"jpeg"] ||
-            [file.pathExtension.lowercaseString isEqualToString:@"png"] ||
-            [file.pathExtension.lowercaseString isEqualToString:@"gif"])
-        {
-            [tempImgs addObject:file];
-        }
-    }
-    //Images folder
-    currentLocalThumbnails = tempImgs;
-    tempImgs = [NSMutableSet new];
-    files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:imageFolder error:Nil];
-    for (NSString *entity in files) {
-        NSString *file = [imageFolder stringByAppendingPathComponent:entity];
-        if ([file.pathExtension.lowercaseString isEqualToString:@"jpg"] ||
-            [file.pathExtension.lowercaseString isEqualToString:@"jpeg"] ||
-            [file.pathExtension.lowercaseString isEqualToString:@"png"] ||
-            [file.pathExtension.lowercaseString isEqualToString:@"gif"])
-        {
-            [tempImgs addObject:file];
-        }
-    }
-    currentLocalImages = tempImgs;
-    //sort these arrays and store them into separated arrays
-    localImagesArray = [NSMutableArray arrayWithArray:[self sortArrayOfFileWithModificationDate: [currentLocalImages allObjects]]];
-    localThumbnailsArray = [NSMutableArray arrayWithArray:[self sortArrayOfFileWithModificationDate:[currentLocalThumbnails allObjects]]];
-    self.ready = YES;
+    self.thumbnailImages = nil;
+    self.fullsizeImages = nil;
 }
 
--(BOOL)isFileOlderThan30Days:(NSString*)filePath {
-    NSDate *today = [NSDate new];
-    @try {
-        NSDate *fileModifiedDate = [czzImageCacheManager getModificationDateForFileAtPath:filePath];
-        //if older than a predefined days - 30 days
-        if ([today timeIntervalSinceDate:fileModifiedDate] > kCleanInterval) {
-            //delete this file and return YES
-            [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
-            return YES;
-        }
-    }
-    @catch (NSException *exception) {
-        DLog(@"%@", exception);
-    }
-    return NO;
+
+-(void)removeFullSizeImages{
+    [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate imageFolder] error:nil];
+    [AppDelegate checkFolders];
+    [self reloadCaches];
 }
 
--(NSArray*)sortArrayOfFileWithModificationDate:(NSArray*)array {
-    return [array sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        @try {
-            NSDate *date1 = [czzImageCacheManager getModificationDateForFileAtPath:obj1];
-            NSDate *date2 = [czzImageCacheManager getModificationDateForFileAtPath:obj2];
-            return [date2 compare:date1];
-        }
-        @catch (NSException *exception) {
-            DLog(@"%@", exception);
-        }
-        return NSOrderedSame;
-    }];
+-(void)removeThumbnails{
+    [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate thumbnailFolder] error:nil];
+    [AppDelegate checkFolders];
+    [self reloadCaches];
 }
+
+-(void)removeAllImages{
+    [self removeThumbnails];
+    [self removeFullSizeImages];
+}
+
+-(NSString *)totalSizeForFullSizeImages{
+    return [NSByteCountFormatter stringFromByteCount:[[NSFileManager defaultManager] sizeOfFolder:[czzAppDelegate imageFolder]] countStyle:NSByteCountFormatterCountStyleFile];
+}
+
+-(NSString *)totalSizeForThumbnails{
+    return [NSByteCountFormatter stringFromByteCount:[[NSFileManager defaultManager] sizeOfFolder:[czzAppDelegate thumbnailFolder]] countStyle:NSByteCountFormatterCountStyleFile];
+}
+
+
+#pragma mark - Getters
+-(NSArray *)fullsizeImages {
+    if (!_fullsizeImages) {
+        _fullsizeImages = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:[NSURL fileURLWithPath:[czzAppDelegate imageFolder]] sortWithCreationDate:YES error:nil];
+        // No image at the moment.
+        if (!_fullsizeImages) {
+            _fullsizeImages = [NSArray new];
+        }
+    }
+    return _fullsizeImages;
+}
+
+-(NSArray *)thumbnailImages {
+    if (!_thumbnailImages) {
+        _thumbnailImages = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:[NSURL fileURLWithPath:[czzAppDelegate thumbnailFolder]] sortWithCreationDate:YES error:nil];
+        if (!_thumbnailImages) {
+            _thumbnailImages = [NSArray new];
+        }
+    }
+    return _thumbnailImages;
+}
+
+#pragma mark - Downloading
 
 -(void)downloadThumbnailWithURL:(NSString *)imgURL isCompletedURL:(BOOL)completeURL{
-    //1. check local library for same image
-    for (NSString *file in currentLocalThumbnails) {
-        //if there's already an image file with the same name, then there is no need to redownload it
-        if ([file.lastPathComponent.lowercaseString isEqualToString:imgURL.lastPathComponent.lowercaseString])
-            return;
-    }
-    
-    //2. constrct an image downloader with the provided url
-    czzImageDownloader *imgDown = [[czzImageDownloader alloc] init];
-    imgDown.delegate = self;
-    imgDown.isThumbnail = YES;
-    imgDown.imageURLString = imgURL;
-    //3. check current image downloaders for image downloader with same target url
-    //if image downloader with save target url is present, stop that one and add the new downloader in, and start the new one
-    if ([currentThumbnailDownloaders containsObject:imgDown]){
-        [self stopAndRemoveImageDownloaderWithURL:imgURL];
-    }
-    [imgDown start];
-    [currentThumbnailDownloaders addObject:imgDown];
-    //inform delegate
-    if (delegate && [delegate respondsToSelector:@selector(imageCentreDownloadStarted:downloader:)])
-    {
-        [delegate imageCentreDownloadStarted:self downloader:imgDown];
-    }
+//    //1. check local library for same image
+//    for (NSString *file in currentLocalThumbnails) {
+//        //if there's already an image file with the same name, then there is no need to redownload it
+//        if ([file.lastPathComponent.lowercaseString isEqualToString:imgURL.lastPathComponent.lowercaseString])
+//            return;
+//    }
+//    
+//    //2. constrct an image downloader with the provided url
+//    czzImageDownloader *imgDown = [[czzImageDownloader alloc] init];
+//    imgDown.delegate = self;
+//    imgDown.isThumbnail = YES;
+//    imgDown.imageURLString = imgURL;
+//    //3. check current image downloaders for image downloader with same target url
+//    //if image downloader with save target url is present, stop that one and add the new downloader in, and start the new one
+//    if ([currentThumbnailDownloaders containsObject:imgDown]){
+//        [self stopAndRemoveImageDownloaderWithURL:imgURL];
+//    }
+//    [imgDown start];
+//    [currentThumbnailDownloaders addObject:imgDown];
+//    //inform delegate
+//    if (delegate && [delegate respondsToSelector:@selector(imageCentreDownloadStarted:downloader:)])
+//    {
+//        [delegate imageCentreDownloadStarted:self downloader:imgDown];
+//    }
 }
 
 -(void)downloadImageWithURL:(NSString*)imgURL isCompletedURL:(BOOL)completeURL{
-    //1. check local library for same image
-    for (NSString *file in currentLocalImages) {
-        //if there's already an image file with the same name, then there is no need to redownload it
-        if ([file.lastPathComponent.lowercaseString isEqualToString:imgURL.lastPathComponent.lowercaseString])
-            return;
-    }
-    
-    //2. constrct an image downloader with the provided url
-    czzImageDownloader *imgDown = [[czzImageDownloader alloc] init];
-    imgDown.delegate = self;
-    imgDown.imageURLString = imgURL;
-    //3. check current image downloaders for image downloader with same target url
-    //if image downloader with save target url is present, stop that one and add the new downloader in, and start the new one
-    if ([currentImageDownloaders containsObject:imgDown]){
-        [self stopAndRemoveImageDownloaderWithURL:imgURL];
-    }
-    [imgDown start];
-    [currentImageDownloaders addObject:imgDown];
-    //inform delegate
-    if (delegate && [delegate respondsToSelector:@selector(imageCentreDownloadStarted:downloader:)])
-    {
-        [delegate imageCentreDownloadStarted:self downloader:imgDown];
-    }
-    
-    [[AppDelegate window] makeToast:@"开始下载图片"];
+//    //1. check local library for same image
+//    for (NSString *file in currentLocalImages) {
+//        //if there's already an image file with the same name, then there is no need to redownload it
+//        if ([file.lastPathComponent.lowercaseString isEqualToString:imgURL.lastPathComponent.lowercaseString])
+//            return;
+//    }
+//    
+//    //2. constrct an image downloader with the provided url
+//    czzImageDownloader *imgDown = [[czzImageDownloader alloc] init];
+//    imgDown.delegate = self;
+//    imgDown.imageURLString = imgURL;
+//    //3. check current image downloaders for image downloader with same target url
+//    //if image downloader with save target url is present, stop that one and add the new downloader in, and start the new one
+//    if ([currentImageDownloaders containsObject:imgDown]){
+//        [self stopAndRemoveImageDownloaderWithURL:imgURL];
+//    }
+//    [imgDown start];
+//    [currentImageDownloaders addObject:imgDown];
+//    //inform delegate
+//    if (delegate && [delegate respondsToSelector:@selector(imageCentreDownloadStarted:downloader:)])
+//    {
+//        [delegate imageCentreDownloadStarted:self downloader:imgDown];
+//    }
+//    
+//    [[AppDelegate window] makeToast:@"开始下载图片"];
 }
 
 //Check if given image URL is currently being downloaded
@@ -268,42 +182,42 @@
 
 #pragma mark czzImageDownloader delegate
 -(void)downloadFinished:(czzImageDownloader *)imgDownloader success:(BOOL)success isThumbnail:(BOOL)isThumbnail saveTo:(NSString *)path{
-    //post a notification to inform other view controllers that a download is finished
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                     imgDownloader, @"ImageDownloader",
-                                     path, @"FilePath", nil];
-    if (success){
-        //inform receiver that download is successed
-        [userInfo setObject:[NSNumber numberWithBool:YES] forKey:@"Success"];
-        if (isThumbnail) {
-            [currentLocalThumbnails addObject:path];
-            [localThumbnailsArray insertObject:path atIndex:0];
-        }
-        else {
-            [currentLocalImages addObject:path];
-            [localImagesArray insertObject:path atIndex:0];
-        }
-    } else {
-        //inform receiver that download is failed
-        [userInfo setObject:[NSNumber numberWithBool:NO] forKey:@"Success"];
-        [AppDelegate showToast:@"图片下载失败：请检查网络和储存空间"];
-    }
-
-    if (isThumbnail)
-        [[NSNotificationCenter defaultCenter]
-         postNotificationName:THUMBNAIL_DOWNLOADED_NOTIFICATION object:Nil userInfo:userInfo];
-
-    NSMutableOrderedSet *setWithThisDownloader = imgDownloader.isThumbnail ? currentThumbnailDownloaders : currentImageDownloaders;
-    NSPredicate *sameImgURL = [NSPredicate predicateWithFormat:@"imageURLString == %@", imgDownloader.imageURLString];
-    NSSet *downloaderWithSameImageURLString = [setWithThisDownloader.set filteredSetUsingPredicate:sameImgURL];
-    for (czzImageDownloader *imgDown in downloaderWithSameImageURLString) {
-        [imgDown stop];
-        [setWithThisDownloader removeObject:imgDown];
-    }
-    
-    if (delegate && [delegate respondsToSelector:@selector(imageCentreDownloadFinished:downloader:wasSuccessful:)]) {
-        [delegate imageCentreDownloadFinished:self downloader:imgDownloader wasSuccessful:success];
-    }
+//    //post a notification to inform other view controllers that a download is finished
+//    NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+//                                     imgDownloader, @"ImageDownloader",
+//                                     path, @"FilePath", nil];
+//    if (success){
+//        //inform receiver that download is successed
+//        [userInfo setObject:[NSNumber numberWithBool:YES] forKey:@"Success"];
+//        if (isThumbnail) {
+//            [currentLocalThumbnails addObject:path];
+//            [localThumbnailsArray insertObject:path atIndex:0];
+//        }
+//        else {
+//            [currentLocalImages addObject:path];
+//            [localImagesArray insertObject:path atIndex:0];
+//        }
+//    } else {
+//        //inform receiver that download is failed
+//        [userInfo setObject:[NSNumber numberWithBool:NO] forKey:@"Success"];
+//        [AppDelegate showToast:@"图片下载失败：请检查网络和储存空间"];
+//    }
+//
+//    if (isThumbnail)
+//        [[NSNotificationCenter defaultCenter]
+//         postNotificationName:THUMBNAIL_DOWNLOADED_NOTIFICATION object:Nil userInfo:userInfo];
+//
+//    NSMutableOrderedSet *setWithThisDownloader = imgDownloader.isThumbnail ? currentThumbnailDownloaders : currentImageDownloaders;
+//    NSPredicate *sameImgURL = [NSPredicate predicateWithFormat:@"imageURLString == %@", imgDownloader.imageURLString];
+//    NSSet *downloaderWithSameImageURLString = [setWithThisDownloader.set filteredSetUsingPredicate:sameImgURL];
+//    for (czzImageDownloader *imgDown in downloaderWithSameImageURLString) {
+//        [imgDown stop];
+//        [setWithThisDownloader removeObject:imgDown];
+//    }
+//    
+//    if (delegate && [delegate respondsToSelector:@selector(imageCentreDownloadFinished:downloader:wasSuccessful:)]) {
+//        [delegate imageCentreDownloadFinished:self downloader:imgDownloader wasSuccessful:success];
+//    }
 }
 
 
@@ -316,71 +230,21 @@
     }
 }
 
-#pragma mark - remove images
--(void)removeFullSizeImages{
-    [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate imageFolder] error:nil];
-    [AppDelegate checkFolders];
-    [self reloadCaches];
-}
-
--(void)removeThumbnails{
-    [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate thumbnailFolder] error:nil];
-    [AppDelegate checkFolders];
-    [self reloadCaches];
-}
-
--(void)removeAllImages{
-    [self removeThumbnails];
-    [self removeFullSizeImages];
-}
-
--(NSString *)totalSizeForFullSizeImages{
-    return [self sizeOfFolder:imageFolder];
-}
-
--(NSString *)totalSizeForThumbnails{
-    return [self sizeOfFolder:thumbnailFolder];
-}
-
--(NSString *)sizeOfFolder:(NSString *)folderPath
++ (instancetype)sharedInstance
 {
-    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:folderPath error:nil];
-    NSEnumerator *contentsEnumurator = [contents objectEnumerator];
+    // structure used to test whether the block has completed or not
+    static dispatch_once_t p = 0;
     
-    NSString *file;
-    unsigned long long int folderSize = 0;
+    // initialize sharedObject as nil (first call only)
+    __strong static id _sharedObject = nil;
     
-    while (file = [contentsEnumurator nextObject]) {
-        NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[folderPath stringByAppendingPathComponent:file] error:nil];
-        folderSize += [[fileAttributes objectForKey:NSFileSize] intValue];
-    }
+    // executes a block object once and only once for the lifetime of an application
+    dispatch_once(&p, ^{
+        _sharedObject = [[self alloc] init];
+    });
     
-    //This line will give you formatted size from bytes ....
-    NSString *folderSizeStr = [NSByteCountFormatter stringFromByteCount:folderSize countStyle:NSByteCountFormatterCountStyleFile];
-    return folderSizeStr;
-}
-
-//this should speed up the process - copied from http://stackoverflow.com/questions/1523793/get-directory-contents-in-date-modified-order
-+ (NSDate*) getModificationDateForFileAtPath:(NSString*)path {
-    struct tm* date; // create a time structure
-    struct stat attrib; // create a file attribute structure
-    
-    stat([path UTF8String], &attrib);   // get the attributes of afile.txt
-    
-    date = gmtime(&(attrib.st_mtime));  // Get the last modified time and put it into the time structure
-    
-    NSDateComponents *comps = [[NSDateComponents alloc] init];
-    [comps setSecond:   date->tm_sec];
-    [comps setMinute:   date->tm_min];
-    [comps setHour:     date->tm_hour];
-    [comps setDay:      date->tm_mday];
-    [comps setMonth:    date->tm_mon + 1];
-    [comps setYear:     date->tm_year + 1900];
-    
-    NSCalendar *cal = [NSCalendar currentCalendar];
-    NSDate *modificationDate = [[cal dateFromComponents:comps] dateByAddingTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT]];
-    
-    return modificationDate;
+    // returns the same object each time
+    return _sharedObject;
 }
 
 @end

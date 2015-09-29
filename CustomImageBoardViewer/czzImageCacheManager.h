@@ -17,23 +17,21 @@
 
 #import <Foundation/Foundation.h>
 
-@class czzImageCentre;
+@class czzImageCacheManager;
 @class czzImageDownloader;
 @protocol czzImageCentreProtocol <NSObject>
 @optional
--(void)imageCentreDownloadUpdated:(czzImageCentre*)imgCentre downloader:(czzImageDownloader*)downloader progress:(CGFloat)progress;
--(void)imageCentreDownloadFinished:(czzImageCentre*)imgCentre downloader:(czzImageDownloader*)downloader wasSuccessful:(BOOL)success;
--(void)imageCentreDownloadStarted:(czzImageCentre*)imgCentre downloader:(czzImageDownloader*)downloader;
+-(void)imageCentreDownloadUpdated:(czzImageCacheManager*)imgCentre downloader:(czzImageDownloader*)downloader progress:(CGFloat)progress;
+-(void)imageCentreDownloadFinished:(czzImageCacheManager*)imgCentre downloader:(czzImageDownloader*)downloader wasSuccessful:(BOOL)success;
+-(void)imageCentreDownloadStarted:(czzImageCacheManager*)imgCentre downloader:(czzImageDownloader*)downloader;
 @end
 
 @interface czzImageCacheManager : NSObject
 @property (nonatomic, strong) NSMutableOrderedSet *currentImageDownloaders;
 @property (nonatomic, strong) NSMutableOrderedSet *currentThumbnailDownloaders;
-@property (nonatomic, strong) NSMutableSet *currentLocalImages;
-@property (nonatomic, strong) NSMutableSet *currentLocalThumbnails;
-@property (nonatomic, strong) NSMutableArray *localImagesArray;
-@property (nonatomic, strong) NSMutableArray *localThumbnailsArray;
-@property (assign, nonatomic) BOOL ready;
+@property (nonatomic, strong) NSArray<NSURL *> *thumbnailImages;
+@property (nonatomic, strong) NSArray<NSURL *> *fullsizeImages;
+
 @property (nonatomic, weak) id<czzImageCentreProtocol> delegate;
 
 +(instancetype)sharedInstance;
@@ -49,4 +47,7 @@
 -(void)removeThumbnails;
 -(NSString*)totalSizeForFullSizeImages;
 -(NSString*)totalSizeForThumbnails;
+
+-(BOOL)hasImageWithName:(NSString*)imageName;
+-(NSString*)pathForImageWithName:(NSString*)imageName;
 @end
