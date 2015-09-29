@@ -34,8 +34,6 @@
 
 @property (nonatomic, weak) id<czzImageCentreProtocol> delegate;
 
-+(instancetype)sharedInstance;
-
 -(void)downloadThumbnailWithURL:(NSString*)imgURL isCompletedURL:(BOOL)completeURL;
 -(void)downloadImageWithURL:(NSString*)imgURL isCompletedURL:(BOOL)completeURL;
 -(Boolean)containsImageDownloaderWithURL:(NSString*)imgURL;
@@ -52,4 +50,7 @@
 -(BOOL)hasThumbnailWithName:(NSString*)thumbnailImageName;
 -(NSURL*)pathForImageWithName:(NSString*)imageName;
 -(NSURL*)pathForThumbnailWithName:(NSString*)thumbnailImageName;
+
++(instancetype)sharedInstance;
+
 @end
