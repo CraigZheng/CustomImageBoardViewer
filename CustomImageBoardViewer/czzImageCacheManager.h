@@ -35,13 +35,13 @@
 @property (nonatomic, weak) id<czzImageCentreProtocol> delegate;
 
 +(instancetype)sharedInstance;
-+ (NSDate*) getModificationDateForFileAtPath:(NSString*)path;
 
--(void)reloadCaches;
 -(void)downloadThumbnailWithURL:(NSString*)imgURL isCompletedURL:(BOOL)completeURL;
 -(void)downloadImageWithURL:(NSString*)imgURL isCompletedURL:(BOOL)completeURL;
 -(Boolean)containsImageDownloaderWithURL:(NSString*)imgURL;
 -(void)stopAndRemoveImageDownloaderWithURL:(NSString*)imgURL;
+
+-(void)reloadCaches;
 -(void)removeAllImages;
 -(void)removeFullSizeImages;
 -(void)removeThumbnails;
@@ -49,5 +49,7 @@
 -(NSString*)totalSizeForThumbnails;
 
 -(BOOL)hasImageWithName:(NSString*)imageName;
--(NSString*)pathForImageWithName:(NSString*)imageName;
+-(BOOL)hasThumbnailWithName:(NSString*)thumbnailImageName;
+-(NSURL*)pathForImageWithName:(NSString*)imageName;
+-(NSURL*)pathForThumbnailWithName:(NSString*)thumbnailImageName;
 @end

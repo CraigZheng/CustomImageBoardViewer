@@ -72,10 +72,12 @@
     NSURL *imageFileURL = [Images objectAtIndex:indexPath.row];
     if (cell && imageFileURL){
         UIImageView *previewImageView = (UIImageView*)[cell viewWithTag:1];
-        UIImage *previewImage;// = [UIImage imageWithContentsOfFile:imgFile];
-        UIImage *thumbnailImg = [UIImage imageWithContentsOfFile:[[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:imageFileURL.lastPathComponent]];
+        NSString *imageName = imageFileURL.lastPathComponent;
+        UIImage *previewImage = [UIImage imageWithData:
+                                 [NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] hasThumbnailWithName:imageName] ?
+                                  [[czzImageCacheManager sharedInstance] pathForThumbnailWithName:imageName] :
+                                  [[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]]];
         
-        previewImage = thumbnailImg ? thumbnailImg : [UIImage imageWithData:[NSData dataWithContentsOfURL:imageFileURL]];
         if (previewImage) {
             previewImageView.image = previewImage;
         } else {

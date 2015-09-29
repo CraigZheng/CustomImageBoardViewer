@@ -61,6 +61,42 @@
     return [NSByteCountFormatter stringFromByteCount:[[NSFileManager defaultManager] sizeOfFolder:[czzAppDelegate thumbnailFolder]] countStyle:NSByteCountFormatterCountStyleFile];
 }
 
+#pragma mark - Access to caches.
+
+-(BOOL)hasImageWithName:(NSString *)imageName isThumbnail:(BOOL)thumbnail {
+    NSURL *fileURL = [self pathForImageWithName:imageName isThumbnail:thumbnail];
+    return [[NSFileManager defaultManager] fileExistsAtPath:fileURL.path];
+}
+
+-(BOOL)hasImageWithName:(NSString *)imageName {
+    return [self hasImageWithName:imageName isThumbnail:NO];
+}
+
+-(BOOL)hasThumbnailWithName:(NSString *)thumbnailImageName {
+    return [self hasImageWithName:thumbnailImageName isThumbnail:YES];
+}
+
+-(NSURL *)pathForImageWithName:(NSString *)imageName {
+    NSURL *fileURL;
+    if ([self hasImageWithName:imageName]) {
+        fileURL = [self pathForImageWithName:imageName isThumbnail:NO];
+    }
+    return fileURL;
+}
+
+-(NSURL *)pathForThumbnailWithName:(NSString *)thumbnailImageName {
+    NSURL *fileURL;
+    if ([self hasThumbnailWithName:thumbnailImageName]) {
+        fileURL = [self pathForImageWithName:thumbnailImageName isThumbnail:YES];
+    }
+    return fileURL;
+}
+
+-(NSURL*)pathForImageWithName:(NSString *)imageName isThumbnail:(BOOL)thumbnail {
+    NSURL *fileURL = [NSURL fileURLWithPath:thumbnail ? [[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:imageName] : [[czzAppDelegate imageFolder] stringByAppendingPathComponent:imageName]];
+    
+    return fileURL;
+}
 
 #pragma mark - Getters
 -(NSArray *)fullsizeImages {
