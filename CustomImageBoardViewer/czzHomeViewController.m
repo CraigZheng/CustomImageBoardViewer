@@ -200,10 +200,8 @@
     [(czzRoundButton *)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.viewModelManager.threads.count] forState:UIControlStateNormal];
     
     // Jump button
-    NSString *pageNumber = [NSString stringWithFormat:@"%ld", (long)self.viewModelManager.pageNumber];
-    NSString *totalPages = self.viewModelManager.totalPages < 99 ? [NSString stringWithFormat:@"%ld", (long)self.viewModelManager.totalPages] : @"∞";
     self.jumpBarButtonItem.image = nil;
-    self.jumpBarButtonItem.title = [NSString stringWithFormat:@"%@/%@", pageNumber, totalPages];
+    self.jumpBarButtonItem.title = [NSString stringWithFormat:@"%ld", (long)self.viewModelManager.pageNumber];
     
     // Other data
     self.title = self.viewModelManager.forum.name;
