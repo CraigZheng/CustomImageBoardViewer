@@ -192,28 +192,28 @@
 
 //stop and remove the image downloader with given URL
 -(void)stopAndRemoveImageDownloaderWithURL:(NSString *)imgURL{
-    //construct an img downloader with given URL
-    czzImageDownloader *imgDown = [[czzImageDownloader alloc] init];
-    imgDown.delegate = self;
-    imgDown.imageURLString = imgURL;
-    //if image downloader with save target url is present, return YES
-    if ([currentImageDownloaders containsObject:imgDown]){
-        NSMutableSet *downloadersWithSameTargetURL = [NSMutableSet new];
-        for (czzImageDownloader *downloader in currentImageDownloaders) {
-            if ([downloader isEqual:imgDown])
-                [downloadersWithSameTargetURL addObject:downloader];
-        }
-        for (czzImageDownloader *downloader in downloadersWithSameTargetURL) {
-            [downloader stop];
-            [currentImageDownloaders removeObject:downloader];
-            //inform delegate
-            if (delegate && [delegate respondsToSelector:@selector(imageCentreDownloadFinished:downloader:wasSuccessful:)]) {
-                [delegate imageCentreDownloadFinished:self downloader:downloader wasSuccessful:NO];
-            }
-        }
-    }
-    
-    [[AppDelegate window] makeToast:@"下载终止"];
+//    //construct an img downloader with given URL
+//    czzImageDownloader *imgDown = [[czzImageDownloader alloc] init];
+//    imgDown.delegate = self;
+//    imgDown.imageURLString = imgURL;
+//    //if image downloader with save target url is present, return YES
+//    if ([currentImageDownloaders containsObject:imgDown]){
+//        NSMutableSet *downloadersWithSameTargetURL = [NSMutableSet new];
+//        for (czzImageDownloader *downloader in currentImageDownloaders) {
+//            if ([downloader isEqual:imgDown])
+//                [downloadersWithSameTargetURL addObject:downloader];
+//        }
+//        for (czzImageDownloader *downloader in downloadersWithSameTargetURL) {
+//            [downloader stop];
+//            [currentImageDownloaders removeObject:downloader];
+//            //inform delegate
+//            if (delegate && [delegate respondsToSelector:@selector(imageCentreDownloadFinished:downloader:wasSuccessful:)]) {
+//                [delegate imageCentreDownloadFinished:self downloader:downloader wasSuccessful:NO];
+//            }
+//        }
+//    }
+//    
+//    [[AppDelegate window] makeToast:@"下载终止"];
 }
 
 #pragma mark czzImageDownloader delegate

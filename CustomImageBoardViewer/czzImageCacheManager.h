@@ -10,9 +10,6 @@
  it also serves as the service centre of local images, feeding images to appropriate view controllers, and preventing same image being downloaded twice.
  */
 
-#define kLastCleanDate @"kLastCleanDate"
-#define kCleanInterval 2592000
-
 #define THUMBNAIL_DOWNLOADED_NOTIFICATION @"ThumbnailDownloaded"
 
 #import <Foundation/Foundation.h>

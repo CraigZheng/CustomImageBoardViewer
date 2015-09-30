@@ -21,7 +21,7 @@
 
 @interface czzImageDownloader : NSObject
 @property (nonatomic) NSString *imageURLString;
-@property (strong, nonatomic) NSString *targetURLString;
+@property (readonly, nonatomic) NSString *targetURLString;
 @property (strong, nonatomic) NSString *savePath;
 
 @property (weak, nonatomic) id<czzImageDownloaderDelegate> delegate;

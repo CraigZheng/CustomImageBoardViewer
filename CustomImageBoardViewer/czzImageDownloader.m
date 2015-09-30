@@ -23,7 +23,6 @@
 @synthesize urlConn;
 @synthesize imageURLString;
 @synthesize baseURLString;
-@synthesize targetURLString;
 @synthesize receivedData;
 @synthesize fileName;
 @synthesize delegate;
@@ -48,7 +47,7 @@
     if (urlConn){
         [urlConn cancel];
     }
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:targetURLString]];
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:self.targetURLString]];
     urlConn = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self startImmediately:YES];
 }
 
@@ -57,14 +56,18 @@
         [urlConn cancel];
 }
 
-#pragma setter for imgURLString
--(void)setImageURLString:(NSString *)urlstring{
-    imageURLString = urlstring;
+#pragma mark - Getters
+
+-(NSString *)targetURLString {
+    NSString *targetURLString;
     if (![imageURLString hasPrefix:@"http"])
         targetURLString = [baseURLString stringByAppendingPathComponent:[imageURLString stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
     else
         targetURLString = imageURLString;
+    return targetURLString;
 }
+
+
 #pragma NSURLConnection delegate
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     //notify delegate that the download is failed
