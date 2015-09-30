@@ -11,8 +11,7 @@
 
 @interface czzImageDownloaderManager () <czzImageDownloaderDelegate>
 @property (nonatomic, strong) NSMutableOrderedSet<czzWeakReferenceDelegate*> *delegates;
-@property (nonatomic, strong) NSMutableSet<czzImageDownloader*> *thumbnailDownloaders;
-@property (nonatomic, strong) NSMutableSet<czzImageDownloader*> *imageDownloaders;
+
 @end
 
 @implementation czzImageDownloaderManager
@@ -25,7 +24,7 @@
     }
     // Loop through all delegate objects in delegates, and remove those that are invalid.
     NSMutableArray *delegatesToRemove = [NSMutableArray new];
-    for (czzWeakReferenceDelegate * weakRefDelegate in self.delegates) {
+    for (czzWeakReferenceDelegate * weakRefDelegate in _delegates) {
         if (!weakRefDelegate.isValid) {
             [delegatesToRemove addObject:weakRefDelegate];
         }
@@ -84,7 +83,12 @@
                 [delegate imageDownloaderManager:self downloadedStopped:downloaderToStop imageName:imageName];
             }
         }];
+        DLog(@"Image download stopped by user: %@", imageName);
     }
+}
+
+-(BOOL)isImageDownloading:(NSString *)imageName {
+    return [self isImageDownloading:imageName isThumbnail:NO];
 }
 
 -(BOOL)isImageDownloading:(NSString *)imageName isThumbnail:(BOOL)thumbnail{
@@ -112,6 +116,14 @@
 }
 
 #pragma mark - czzImageDownloaderDelegate
+-(void)downloaderProgressUpdated:(czzImageDownloader *)imgDownloader expectedLength:(NSUInteger)total downloadedLength:(NSUInteger)downloaded {
+    [self iterateDelegatesWithBlock:^(id<czzImageDownloaderManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(imageDownloaderManager:downloadedUpdated:imageName:progress:)]) {
+            [delegate imageDownloaderManager:self downloadedUpdated:imgDownloader imageName:imgDownloader.imageURLString.lastPathComponent progress:(CGFloat)downloaded / (CGFloat)total];
+        }
+    }];
+}
+
 -(void)downloadFinished:(czzImageDownloader *)imgDownloader success:(BOOL)success isThumbnail:(BOOL)thumbnail saveTo:(NSString *)path {
     if (success) {
         [self iterateDelegatesWithBlock:^(id<czzImageDownloaderManagerDelegate> delegate) {

@@ -8,6 +8,7 @@
 
 #import "czzHomeViewModelManager.h"
 #import "czzImageCacheManager.h"
+#import "czzImageDownloaderManager.h"
 
 @interface czzHomeViewModelManager ()
 @property (nonatomic, readonly) NSString *cacheFile;
@@ -128,15 +129,10 @@
 - (void)downloadThumbnailsForThreads:(NSArray*)threads {
     for (czzThread *thread in threads) {
         if (thread.thImgSrc.length != 0){
-            NSString *targetImgURL;
-            if ([thread.thImgSrc hasPrefix:@"http"])
-                targetImgURL = thread.thImgSrc;
-            else
-                targetImgURL = [[settingCentre thumbnail_host] stringByAppendingPathComponent:thread.thImgSrc];
-            //if is set to show image
+            // If image should be shown.
             if ([settingCentre userDefShouldDisplayThumbnail] || ![settingCentre shouldDisplayThumbnail]){
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [[czzImageCacheManager sharedInstance] downloadThumbnailWithURL:targetImgURL isCompletedURL:YES];
+                    [[czzImageDownloaderManager sharedManager] downloadImageWithURL:thread.thImgSrc isThumbnail:YES];
                 });
             }
         }

@@ -48,6 +48,11 @@
     }
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:self.targetURLString]];
     urlConn = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self startImmediately:YES];
+    
+    // Notify delegate that download is started
+    if ([delegate respondsToSelector:@selector(downloadStarted:)]){
+        [delegate downloadStarted:self];
+    }
 }
 
 -(void)stop{
@@ -85,10 +90,7 @@
     fileName = response.suggestedFilename;
     fileSize = [response expectedContentLength];
     downloadedSize = 0;
-    //notify delegate that download is started
-    if (delegate && [delegate respondsToSelector:@selector(downloadStarted:)]){
-        [delegate downloadStarted:self];
-    }
+
     self.backgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         // Cancel the connection
         [connection cancel];

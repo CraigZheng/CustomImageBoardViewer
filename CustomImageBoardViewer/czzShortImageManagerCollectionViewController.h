@@ -22,14 +22,10 @@
 @interface czzShortImageManagerCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (weak, nonatomic) id<czzShortImageManagerCollectionViewControllerProtocol> delegate;
 @property (weak, nonatomic) IBOutlet UICollectionView *managerCollectionView;
-@property (strong, nonatomic) NSMutableArray *downloadedImages;
 @property (weak, nonatomic) IBOutlet UIView *placeholderView;
 @property (strong, nonatomic) UIViewController *hostViewController;
 
 @property (assign, nonatomic) BOOL isShowing;
-
--(void)updateProgressForDownloader:(czzImageDownloader*)downloader;
--(void)imageDownloaded:(NSString*)imgPath;
 
 - (IBAction)tapOnViewAction:(id)sender;
 

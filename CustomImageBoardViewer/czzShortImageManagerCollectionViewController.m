@@ -11,20 +11,19 @@
 #import "czzAppDelegate.h"
 #import "czzImageCacheManager.h"
 #import "czzImageDownloader.h"
+#import "czzImageDownloaderManager.h"
 #import "czzImageViewerUtil.h"
 #import "KLCPopup.h"
 
-@interface czzShortImageManagerCollectionViewController ()<czzImageCentreProtocol>
-@property czzImageCacheManager *imageCentre;
-@property NSArray *downloaders;
-@property KLCPopup *popup;
-@property czzImageViewerUtil *imageViewerUtil;
+@interface czzShortImageManagerCollectionViewController ()<czzImageDownloaderManagerDelegate>
+@property (strong, nonatomic) KLCPopup *popup;
+@property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
+@property (strong, nonatomic) NSMutableArray *downloadedImages;
+@property (readonly, nonatomic) NSArray *downloaders;
 @end
 
 @implementation czzShortImageManagerCollectionViewController
 @synthesize delegate;
-@synthesize imageCentre;
-@synthesize downloaders;
 @synthesize popup;
 @synthesize managerCollectionView;
 @synthesize isShowing;
@@ -39,12 +38,15 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    downloadedImages = [NSMutableArray new];
+    
+    [[czzImageDownloaderManager sharedManager] addDelegate:self];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [managerCollectionView reloadData];
-    if (downloadedImages.count == 0 && downloaders.count == 0)
+    if (downloadedImages.count == 0 && self.downloaders.count == 0)
     {
         placeholderView.hidden = NO;
     } else {
@@ -58,9 +60,6 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
 }
 
 -(void)show {
-    imageCentre = [czzImageCacheManager sharedInstance];
-    downloaders = imageCentre.currentImageDownloaders.array;
-
     popup = [KLCPopup popupWithContentView:self.view showType:KLCPopupShowTypeBounceIn dismissType:KLCPopupDismissTypeBounceOut maskType:KLCPopupMaskTypeDimmed dismissOnBackgroundTouch:YES dismissOnContentTouch:NO];
     
     [popup showWithLayout:KLCPopupLayoutCenter];
@@ -68,25 +67,16 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
     isShowing = YES;
 }
 
--(void)updateProgressForDownloader:(czzImageDownloader *)downloader {
-    [managerCollectionView reloadData];
-}
-
--(void)imageDownloaded:(NSString *)imgPath {
-    if (!downloadedImages)
-        downloadedImages = [NSMutableArray new];
-    if (downloadedImages.count)
-        [downloadedImages insertObject:imgPath atIndex:0];
-    else
-        [downloadedImages addObject:imgPath];
-    [managerCollectionView reloadData];
+#pragma mark - Getter
+-(NSArray *)downloaders {
+    return [[[czzImageDownloaderManager sharedManager] imageDownloaders] allObjects];
 }
 
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (section == 0)
-        return downloaders.count;
+        return self.downloaders.count;
     return downloadedImages.count;
 }
 
@@ -100,7 +90,7 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
         
         UIImageView *downloaderThumbnailImageView = (UIImageView*) [cell viewWithTag:1];
         UILabel *downloaderLabel = (UILabel*) [cell viewWithTag:2];
-        czzImageDownloader *currentDownloader = [downloaders objectAtIndex:indexPath.row];
+        czzImageDownloader *currentDownloader = [self.downloaders objectAtIndex:indexPath.row];
         //thumbnail
         UIImage *thumbnailImage = [UIImage imageWithContentsOfFile:[[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:[[currentDownloader targetURLString] lastPathComponent]]];
         if (thumbnailImage) {
@@ -129,9 +119,8 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
 #pragma mark - UICollectionView delegate
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        czzImageDownloader *imgDownloader = [downloaders objectAtIndex:indexPath.row];
-        [imageCentre stopAndRemoveImageDownloaderWithURL:imgDownloader.imageURLString];
-        DLog(@"stop downloading: %@", imgDownloader.imageURLString);
+        czzImageDownloader *imageDownloader = [self.downloaders objectAtIndex:indexPath.row];
+        [[czzImageDownloaderManager sharedManager] stopDownloadingImage:imageDownloader.imageURLString.lastPathComponent];
     }
     //downloaded image section
     else if (indexPath.section == 1) {
@@ -145,6 +134,24 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
                 [delegate userTappedOnImageWithPath:imgPath];
             }
         }
+    }
+}
+
+#pragma mark - czzImageDownloaderManagerDelegate
+-(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedUpdated:(czzImageDownloader *)downloader imageName:(NSString *)imageName progress:(CGFloat)progress {
+    [self.managerCollectionView reloadData];
+}
+
+-(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
+    // This view controller cares only for the full size images.
+    if (!downloader.isThumbnail) {
+        if (success) {
+            if (downloadedImages.count)
+                [downloadedImages insertObject:downloader.savePath atIndex:0];
+            else
+                [downloadedImages addObject:downloader.savePath];
+        }
+        [self.managerCollectionView reloadData];
     }
 }
 

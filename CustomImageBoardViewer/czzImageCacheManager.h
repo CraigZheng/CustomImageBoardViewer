@@ -14,27 +14,9 @@
 
 #import <Foundation/Foundation.h>
 
-@class czzImageCacheManager;
-@class czzImageDownloader;
-@protocol czzImageCentreProtocol <NSObject>
-@optional
--(void)imageCentreDownloadUpdated:(czzImageCacheManager*)imgCentre downloader:(czzImageDownloader*)downloader progress:(CGFloat)progress;
--(void)imageCentreDownloadFinished:(czzImageCacheManager*)imgCentre downloader:(czzImageDownloader*)downloader wasSuccessful:(BOOL)success;
--(void)imageCentreDownloadStarted:(czzImageCacheManager*)imgCentre downloader:(czzImageDownloader*)downloader;
-@end
-
 @interface czzImageCacheManager : NSObject
-@property (nonatomic, strong) NSMutableOrderedSet *currentImageDownloaders;
-@property (nonatomic, strong) NSMutableOrderedSet *currentThumbnailDownloaders;
 @property (nonatomic, strong) NSArray<NSURL *> *thumbnailImages;
 @property (nonatomic, strong) NSArray<NSURL *> *fullsizeImages;
-
-@property (nonatomic, weak) id<czzImageCentreProtocol> delegate;
-
--(void)downloadThumbnailWithURL:(NSString*)imgURL isCompletedURL:(BOOL)completeURL;
--(void)downloadImageWithURL:(NSString*)imgURL isCompletedURL:(BOOL)completeURL;
--(Boolean)containsImageDownloaderWithURL:(NSString*)imgURL;
--(void)stopAndRemoveImageDownloaderWithURL:(NSString*)imgURL;
 
 -(void)reloadCaches;
 -(void)removeAllImages;

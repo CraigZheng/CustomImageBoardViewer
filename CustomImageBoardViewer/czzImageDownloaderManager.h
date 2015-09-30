@@ -23,6 +23,8 @@
 @end
 
 @interface czzImageDownloaderManager : NSObject
+@property (nonatomic, strong) NSMutableSet<czzImageDownloader*> *thumbnailDownloaders;
+@property (nonatomic, strong) NSMutableSet<czzImageDownloader*> *imageDownloaders;
 
 -(void)addDelegate:(id<czzImageDownloaderManagerDelegate>)delegate;
 -(void)removeDelegate:(id<czzImageDownloaderManagerDelegate>)delegate;
@@ -30,6 +32,7 @@
 
 -(void)downloadImageWithURL:(NSString*)imageURL isThumbnail:(BOOL)thumbnail;
 -(void)stopDownloadingImage:(NSString*)imageName;
+-(BOOL)isImageDownloading:(NSString *)imageName;
 
 +(instancetype)sharedManager;
 @end

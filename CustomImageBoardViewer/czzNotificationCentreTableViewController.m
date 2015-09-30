@@ -11,6 +11,7 @@
 #import "czzNavigationController.h"
 #import "czzNotificationBannerViewController.h"
 #import "czzImageCacheManager.h"
+#import "czzImageDownloaderManager.h"
 #import "czzImageDownloader.h"
 #import "czzFeedbackViewController.h"
 #import "DACircularProgressView.h"
@@ -69,7 +70,7 @@
     [super viewDidAppear:animated];
     for (czzNotification *notification in notifications) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[czzImageCacheManager sharedInstance] downloadThumbnailWithURL:notification.thImgSrc isCompletedURL:YES];
+            [[czzImageDownloaderManager sharedManager] downloadImageWithURL:notification.imgSrc isThumbnail:NO];
         });
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(thumbnailDownloaded:) name:@"ThumbnailDownloaded" object:nil];

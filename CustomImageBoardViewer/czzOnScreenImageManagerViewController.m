@@ -10,6 +10,7 @@
 #import "czzNavigationController.h"
 #import "UIImage+animatedGIF.h"
 #import "czzImageDownloader.h"
+#import "czzImageDownloaderManager.h"
 #import "czzImageCacheManager.h"
 #import "czzSettingsCentre.h"
 
@@ -18,21 +19,18 @@
 #import "UIView+MGBadgeView.h"
 #import "KLCPopup.h"
 
-@interface czzOnScreenImageManagerViewController () <czzImageCentreProtocol, czzShortImageManagerCollectionViewControllerProtocol>
+@interface czzOnScreenImageManagerViewController () <czzImageDownloaderManagerDelegate, czzShortImageManagerCollectionViewControllerProtocol>
 @property (assign, nonatomic) BOOL iconAnimating;
 @property (assign, nonatomic) BOOL isShowingShortImageManagerController;
-@property czzImageCacheManager *imageCentre;
 @property (nonatomic) czzShortImageManagerCollectionViewController *shortImageManagerCollectionViewController;
 @end
 
 @implementation czzOnScreenImageManagerViewController
 @synthesize mainIcon;
 @synthesize iconAnimating;
-@synthesize imageCentre;
 @synthesize delegate;
 @synthesize isShowingShortImageManagerController;
 @synthesize shortImageManagerCollectionViewController;
-@synthesize downloadedImages;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -54,14 +52,12 @@
     
     iconAnimating = NO;
     
-    //image centre
-    imageCentre = [czzImageCacheManager sharedInstance];
-    imageCentre.delegate = self;
-    
     //badge view
     [self.view.badgeView setPosition:MGBadgePositionTopRight];
     [self.view.badgeView setBadgeColor:[UIColor redColor]];
 
+    // Add self to be a delegate of czzImageDownloaderManager
+    [[czzImageDownloaderManager sharedManager] addDelegate:self];
 }
 
 -(czzShortImageManagerCollectionViewController *)shortImageManagerCollectionViewController {
@@ -90,39 +86,36 @@
     mainIcon.image = [UIImage imageNamed:@"Icon.png"];
 }
 
--(NSMutableArray *)downloadedImages {
-    return self.shortImageManagerCollectionViewController.downloadedImages;
-}
-
-#pragma mark - czzImageCentreDelegate
--(void)imageCentreDownloadFinished:(czzImageCacheManager *)imgCentre downloader:(czzImageDownloader *)downloader wasSuccessful:(BOOL)success {
+#pragma mark - czzImageDownloaderDelegate
+-(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
     if (success && !downloader.isThumbnail) {
-        if (delegate
-            && [delegate respondsToSelector:@selector(onScreenImageManagerDownloadFinished:imagePath:wasSuccessful:)]
-            && !self.shortImageManagerCollectionViewController.isShowing
-            ) {
-            [delegate onScreenImageManagerDownloadFinished:self imagePath:downloader.savePath wasSuccessful:success];
-            if (![settingCentre userDefShouldAutoOpenImage]) {
-                [self.view.badgeView setBadgeValue:self.view.badgeView.badgeValue + 1];
-            }
+        if (![settingCentre userDefShouldAutoOpenImage]) {
+            [self.view.badgeView setBadgeValue:self.view.badgeView.badgeValue + 1];
         }
-        [self.shortImageManagerCollectionViewController imageDownloaded:downloader.savePath];
     }
-    if (imageCentre.currentImageDownloaders.count <= 0)
+    if (manager.imageDownloaders.count <= 0)
     {
         [self stopAnimating];
     }
 }
 
--(void)imageCentreDownloadUpdated:(czzImageCacheManager *)imgCentre downloader:(czzImageDownloader *)downloader progress:(CGFloat)progress {
-    if (self.shortImageManagerCollectionViewController.isShowing) {
-        [self.shortImageManagerCollectionViewController updateProgressForDownloader:downloader];
-    }
-}
+#warning MOVE THIS PART TO czzShortImageManagerViewController.
+//-(void)imageCentreDownloadUpdated:(czzImageCacheManager *)imgCentre downloader:(czzImageDownloader *)downloader progress:(CGFloat)progress {
+//    if (self.shortImageManagerCollectionViewController.isShowing) {
+//        [self.shortImageManagerCollectionViewController reloadTableView];
+//    }
+//}
 
--(void)imageCentreDownloadStarted:(czzImageCacheManager *)imgCentre downloader:(czzImageDownloader *)downloader {
+-(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedStarted:(czzImageDownloader *)downloader imageName:(NSString *)imageName {
     if (!downloader.isThumbnail && !iconAnimating)
         [self startAnimating];
+}
+
+-(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedStopped:(czzImageDownloader *)downloader imageName:(NSString *)imageName {
+    if (manager.imageDownloaders.count <= 0)
+    {
+        [self stopAnimating];
+    }
 }
 
 #pragma mark - czzShortImageManagerCollectionViewControllerDelegate

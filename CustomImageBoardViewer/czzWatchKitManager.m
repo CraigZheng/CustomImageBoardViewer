@@ -10,6 +10,7 @@
 #import "czzWatchKitCommand.h"
 #import "czzWKForum.h"
 #import "czzThreadViewModelManager.h"
+#import "czzImageDownloaderManager.h"
 #import "czzForumManager.h"
 
 @interface czzWatchKitManager () <czzHomeViewModelManagerDelegate>
@@ -60,8 +61,8 @@
         targetImgURL = imgURL;
     else
         targetImgURL = [[settingCentre thumbnail_host] stringByAppendingPathComponent:imgURL];
-
-    [[czzImageCacheManager sharedInstance] downloadThumbnailWithURL:imgURL isCompletedURL:YES];
+    [[czzImageDownloaderManager sharedManager] downloadImageWithURL:imgURL isThumbnail:NO];
+//    [[czzImageCacheManager sharedInstance] downloadThumbnailWithURL:imgURL isCompletedURL:YES];
     
 }
 

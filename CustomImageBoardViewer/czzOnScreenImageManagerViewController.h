@@ -12,7 +12,6 @@
 @class czzOnScreenImageManagerViewController;
 @protocol czzOnScreenImageManagerViewControllerDelegate <NSObject>
 @optional
--(void)onScreenImageManagerDownloadFinished:(czzOnScreenImageManagerViewController*)controller imagePath:(NSString*)path wasSuccessful:(BOOL)success;
 -(void)onScreenImageManagerSelectedImage:(NSString*)path;
 @end
 
@@ -20,7 +19,6 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *mainIcon;
 @property (weak, nonatomic) id<czzOnScreenImageManagerViewControllerDelegate> delegate;
-@property (strong, nonatomic) NSMutableArray *downloadedImages;
 
 - (IBAction)tapOnImageManagerIconAction:(id)sender;
 

@@ -15,10 +15,11 @@
 #import "czzSettingsCentre.h"
 #import "czzThreadRefButton.h"
 #import "czzImageDownloader.h"
+#import "czzImageDownloaderManager.h"
 
 #import <QuartzCore/QuartzCore.h>
 
-@interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate>
+@interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, czzImageDownloaderManagerDelegate>
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (strong, nonatomic) NSString *imageFolder;
 @property czzSettingsCentre *settingsCentre;
@@ -57,14 +58,12 @@
     self.shouldAllowClickOnImage = YES;
     tapOnImageGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTapInImageView:)];
     
-    //apply shadow and radius to background view
+    // Apply shadow and radius to background view.
     threadContentView.layer.masksToBounds = NO;
     threadContentView.layer.cornerRadius = 5;
-    //register for nsnotification centre for image downloaded notification
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(imageDownloaded:)
-                                                 name:@"ThumbnailDownloaded"
-                                               object:nil];
+
+    // Add self to be a delegate of czzImageDownloaderManager.
+    [[czzImageDownloaderManager sharedManager] addDelegate:self];
 }
 
 -(BOOL)canPerformAction:(SEL)action withSender:(id)sender{
@@ -318,18 +317,14 @@
     return _dateFormatter;
 }
 
-#pragma mark - notification handler - image downloaded
--(void)imageDownloaded:(NSNotification*)notification{
-    czzImageDownloader *imgDownloader = [notification.userInfo objectForKey:@"ImageDownloader"];
-    BOOL success = [[notification.userInfo objectForKey:@"Success"] boolValue];
-    if (!success){
-        return;
-    }
-    if (imgDownloader && delegate)
-    {
-        if (imgDownloader.isThumbnail) {
-            if ([imgDownloader.targetURLString.lastPathComponent isEqualToString:myThread.thImgSrc.lastPathComponent]) {
-                [delegate imageDownloadedForIndexPath:myIndexPath filePath:[notification.userInfo objectForKey:@"FilePath"] isThumbnail:imgDownloader.isThumbnail];
+#pragma mark - czzImageDownloaderManagerDelegate
+-(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
+    if (success && delegate) {
+        if (downloader.isThumbnail) {
+            if ([downloader.targetURLString.lastPathComponent isEqualToString:myThread.thImgSrc.lastPathComponent]) {
+                if ([delegate respondsToSelector:@selector(imageDownloadedForIndexPath:filePath:isThumbnail:)]) {
+                    [delegate imageDownloadedForIndexPath:myIndexPath filePath:downloader.savePath isThumbnail:YES];
+                }
             }
         }
     }

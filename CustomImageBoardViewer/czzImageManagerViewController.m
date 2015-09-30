@@ -34,17 +34,14 @@
 	// Do any additional setup after loading the view.
     self.collectionView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
     imageViewerUtil = [czzImageViewerUtil new];
-//    //show all images
+    // Show all images.
     imageCategory = ALL_IMAGE;
-//    if ([[czzImageCacheManager sharedInstance] ready])
-        [self reloadImageFileFromImageCentre];
-//    else
-//        [[AppDelegate window] makeToast:@"图片还在载入中，请稍后重试..."];
-
+    [self reloadImageFiles];
+    [[czzImageCacheManager sharedInstance] reloadCaches];
 }
 
 #pragma Load data from image centre
--(void)reloadImageFileFromImageCentre{
+-(void)reloadImageFiles{
     Images = [NSMutableArray new];
     if (imageCategory == ALL_IMAGE){
         [Images addObjectsFromArray:[[czzImageCacheManager sharedInstance] thumbnailImages]];
@@ -104,7 +101,7 @@
 - (IBAction)gallarySegmentControlAction:(id)sender {
     UISegmentedControl *control = (UISegmentedControl*)sender;
     imageCategory = control.selectedSegmentIndex;
-    [self reloadImageFileFromImageCentre];
+    [self reloadImageFiles];
 }
 
 #pragma mark memory pressure

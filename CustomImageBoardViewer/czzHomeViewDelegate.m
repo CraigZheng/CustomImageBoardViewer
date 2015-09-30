@@ -13,6 +13,8 @@
 #import "czzHomeViewModelManager.h"
 #import "czzBlacklist.h"
 #import "czzThread.h"
+#import "czzImageDownloader.h"
+#import "czzImageDownloaderManager.h"
 #import "czzSettingsCentre.h"
 #import "czzThreadTableView.h"
 #import "czzImageViewerUtil.h"
@@ -21,7 +23,7 @@
 #import "UIApplication+Util.h"
 #import "UINavigationController+Util.h"
 
-@interface czzHomeViewDelegate()
+@interface czzHomeViewDelegate() <czzImageDownloaderManagerDelegate>
 
 @property (strong) czzImageViewerUtil *imageViewerUtil;
 @property (nonatomic, readonly) NSIndexPath *lastRowIndexPath;
@@ -35,6 +37,7 @@
     self = [super init];
     if (self) {
         self.imageViewerUtil = [czzImageViewerUtil new];
+        [[czzImageDownloaderManager sharedManager] addDelegate:self];
     }
     return self;
 }
@@ -135,16 +138,10 @@
     }
     
     // Image not found in local storage, start or stop the image downloader with the image URL
-    if ([[czzImageCacheManager sharedInstance] containsImageDownloaderWithURL:imgURL]){
-        [[czzImageCacheManager sharedInstance] stopAndRemoveImageDownloaderWithURL:imgURL];
-        [AppDelegate showToast:@"下载终止"];
-        DLog(@"stop: %@", imgURL);
+    if ([[czzImageDownloaderManager sharedManager] isImageDownloading:imgURL.lastPathComponent]) {
+        [[czzImageDownloaderManager sharedManager] stopDownloadingImage:imgURL.lastPathComponent];
     } else {
-        if (![[[NSURL URLWithString:imgURL] scheme] hasPrefix:@"http"]) {
-            imgURL = [[[czzSettingsCentre sharedInstance] image_host] stringByAppendingPathComponent:imgURL];
-        }
-        DLog(@"start : %@", imgURL);
-        [[czzImageCacheManager sharedInstance] downloadImageWithURL:imgURL isCompletedURL:YES];
+        [[czzImageDownloaderManager sharedManager] downloadImageWithURL:imgURL isThumbnail:NO];
     }
 }
 
@@ -164,16 +161,28 @@
 }
 
 #pragma mark - czzOnScreenImageManagerViewControllerDelegate
--(void)onScreenImageManagerDownloadFinished:(czzOnScreenImageManagerViewController *)controller imagePath:(NSString *)path wasSuccessful:(BOOL)success {
+
+-(void)onScreenImageManagerSelectedImage:(NSString *)path {
+    [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:path.lastPathComponent]];
+}
+
+#pragma mark - czzImageDownloaderManagerDelegate
+-(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
     if (success) {
         if ([settingCentre userDefShouldAutoOpenImage])
-            [self.imageViewerUtil showPhoto:path];
+            [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]];
     } else
         DLog(@"img download failed");
 }
 
--(void)onScreenImageManagerSelectedImage:(NSString *)path {
-    [self.imageViewerUtil showPhoto:path];
+-(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedStopped:(czzImageDownloader *)downloader imageName:(NSString *)imageName {
+    if (![downloader isThumbnail])
+        [AppDelegate showToast:@"停止下载图片..."];
+}
+
+-(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedStarted:(czzImageDownloader *)downloader imageName:(NSString *)imageName {
+    if (![downloader isThumbnail])
+        [AppDelegate showToast:@"开始下载图片..."];
 }
 
 #pragma mark - Getters {
