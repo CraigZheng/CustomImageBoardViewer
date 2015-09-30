@@ -125,16 +125,15 @@
 }
 
 -(void)downloadFinished:(czzImageDownloader *)imgDownloader success:(BOOL)success isThumbnail:(BOOL)thumbnail saveTo:(NSString *)path {
-    if (success) {
-        [self iterateDelegatesWithBlock:^(id<czzImageDownloaderManagerDelegate> delegate) {
-            if ([delegate respondsToSelector:@selector(imageDownloaderManager:downloadedFinished:imageName:wasSuccessful:)]) {
-                [delegate imageDownloaderManager:self downloadedFinished:imgDownloader imageName:imgDownloader.imageURLString.lastPathComponent wasSuccessful:success];
-            }
-        }];
-    }
     // Remove from either imageDownloaders or thumbnailDownloaders
     [self.imageDownloaders removeObject:imgDownloader];
     [self.thumbnailDownloaders removeObject:imgDownloader];
+
+    [self iterateDelegatesWithBlock:^(id<czzImageDownloaderManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(imageDownloaderManager:downloadedFinished:imageName:wasSuccessful:)]) {
+            [delegate imageDownloaderManager:self downloadedFinished:imgDownloader imageName:imgDownloader.imageURLString.lastPathComponent wasSuccessful:success];
+        }
+    }];
 }
 
 - (void)downloadStarted:(czzImageDownloader *)imgDownloader {

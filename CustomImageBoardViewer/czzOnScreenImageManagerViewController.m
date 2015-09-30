@@ -88,23 +88,18 @@
 
 #pragma mark - czzImageDownloaderDelegate
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
-    if (success && !downloader.isThumbnail) {
-        if (![settingCentre userDefShouldAutoOpenImage]) {
-            [self.view.badgeView setBadgeValue:self.view.badgeView.badgeValue + 1];
+    if (!downloader.isThumbnail) {
+        if (success) {
+            if (![settingCentre userDefShouldAutoOpenImage]) {
+                [self.view.badgeView setBadgeValue:self.view.badgeView.badgeValue + 1];
+            }
+        }
+        if (manager.imageDownloaders.count <= 0)
+        {
+            [self stopAnimating];
         }
     }
-    if (manager.imageDownloaders.count <= 0)
-    {
-        [self stopAnimating];
-    }
 }
-
-#warning MOVE THIS PART TO czzShortImageManagerViewController.
-//-(void)imageCentreDownloadUpdated:(czzImageCacheManager *)imgCentre downloader:(czzImageDownloader *)downloader progress:(CGFloat)progress {
-//    if (self.shortImageManagerCollectionViewController.isShowing) {
-//        [self.shortImageManagerCollectionViewController reloadTableView];
-//    }
-//}
 
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedStarted:(czzImageDownloader *)downloader imageName:(NSString *)imageName {
     if (!downloader.isThumbnail && !iconAnimating)
