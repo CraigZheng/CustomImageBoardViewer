@@ -17,6 +17,7 @@
 @property (strong, nonatomic) NSString *fileName;
 @property long long fileSize;
 @property NSUInteger downloadedSize;
+@property (strong, nonatomic) NSString *internalSavePath;
 @end
 
 @implementation czzImageDownloader
@@ -30,8 +31,6 @@
 @synthesize fileSize;
 @synthesize downloadedSize;
 @synthesize backgroundTaskID;
-@synthesize savePath;
-
 
 -(id)init{
     self = [super init];
@@ -52,8 +51,12 @@
 }
 
 -(void)stop{
-    if (urlConn)
+    if (urlConn) {
         [urlConn cancel];
+        if ([self.delegate respondsToSelector:@selector(downloadStopped:)]) {
+            [self.delegate downloadStopped:self];
+        }
+    }
 }
 
 #pragma mark - Getters
@@ -113,7 +116,7 @@
     NSString *filePath = [basePath stringByAppendingPathComponent:fileName];
     NSError *error;
     [receivedData writeToFile:filePath options:NSDataWritingAtomic error:&error];
-    savePath = filePath;
+    self.internalSavePath = filePath;
     if (delegate && [delegate respondsToSelector:@selector(downloadFinished:success:isThumbnail:saveTo:)]){
         if (error){
             DLog(@"%@", error);
@@ -123,6 +126,8 @@
         }
     }
     [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskID];
+    // Dereference the urlConn.
+    urlConn = nil;
 
 }
 
@@ -131,6 +136,8 @@
     double pro = (double)downloadedSize / (double)fileSize;
     return pro;
 }
+
+#pragma mark - Getters
 
 //determine if 2 downloaders are equal by compare the target URL
 -(BOOL)isEqual:(id)object{
@@ -144,4 +151,9 @@
 -(NSUInteger)hash{
     return imageURLString.hash;
 }
+
+-(NSString *)savePath {
+    return self.internalSavePath;
+}
+
 @end

@@ -16,13 +16,15 @@
 -(void)downloadFinished:(czzImageDownloader*)imgDownloader success:(BOOL)success isThumbnail:(BOOL)thumbnail saveTo:(NSString*)path;
 @optional
 -(void)downloadStarted:(czzImageDownloader*)imgDownloader;
+-(void)downloadStopped:(czzImageDownloader*)imgDownloader;
+
 -(void)downloaderProgressUpdated:(czzImageDownloader*)imgDownloader expectedLength:(NSUInteger)total downloadedLength:(NSUInteger)downloaded;
 @end
 
 @interface czzImageDownloader : NSObject
 @property (nonatomic) NSString *imageURLString;
 @property (readonly, nonatomic) NSString *targetURLString;
-@property (strong, nonatomic) NSString *savePath;
+@property (readonly, nonatomic) NSString *savePath;
 
 @property (weak, nonatomic) id<czzImageDownloaderDelegate> delegate;
 @property (assign, nonatomic) BOOL isThumbnail;

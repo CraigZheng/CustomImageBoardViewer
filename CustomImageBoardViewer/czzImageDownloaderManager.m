@@ -10,21 +10,93 @@
 #import "czzImageDownloader.h"
 
 @interface czzImageDownloaderManager () <czzImageDownloaderDelegate>
-@property (nonatomic, strong) NSMutableOrderedSet *delegates;
-@property 
+@property (nonatomic, strong) NSMutableOrderedSet<czzWeakReferenceDelegate*> *delegates;
+@property (nonatomic, strong) NSMutableSet<czzImageDownloader*> *thumbnailDownloaders;
+@property (nonatomic, strong) NSMutableSet<czzImageDownloader*> *imageDownloaders;
 @end
 
 @implementation czzImageDownloaderManager
 
--(instancetype)init {
-    self = [super init];
-    if (self) {
-        self.delegates = [NSMutableOrderedSet new];
+#pragma mark - Getters
+
+-(NSMutableOrderedSet *)delegates {
+    if (!_delegates) {
+        _delegates = [NSMutableOrderedSet new];
     }
-    return self;
+    // Loop through all delegate objects in delegates, and remove those that are invalid.
+    NSMutableArray *delegatesToRemove = [NSMutableArray new];
+    for (czzWeakReferenceDelegate * weakRefDelegate in self.delegates) {
+        if (!weakRefDelegate.isValid) {
+            [delegatesToRemove addObject:weakRefDelegate];
+        }
+    }
+    [_delegates removeObjectsInArray:delegatesToRemove];
+    return _delegates;
 }
 
-#pragma mark - Download management.
+-(NSMutableSet *)thumbnailDownloaders {
+    if (!_thumbnailDownloaders) {
+        _thumbnailDownloaders = [NSMutableSet new];
+    }
+    return _thumbnailDownloaders;
+}
+
+-(NSMutableSet *)imageDownloaders {
+    if (!_imageDownloaders) {
+        _imageDownloaders = [NSMutableSet new];
+    }
+    return _imageDownloaders;
+}
+
+#pragma mark - Download management
+
+-(void)downloadImageWithURL:(NSString *)imageURL isThumbnail:(BOOL)thumbnail{
+    if (![self isImageDownloading:imageURL.lastPathComponent isThumbnail:thumbnail]) {
+        czzImageDownloader *imageDownloader = [czzImageDownloader new];
+        imageDownloader.imageURLString = imageURL;
+        imageDownloader.isThumbnail = thumbnail;
+        imageDownloader.delegate = self;
+        if (thumbnail) {
+            [self.thumbnailDownloaders addObject:imageDownloader];
+        } else {
+            [self.imageDownloaders addObject:imageDownloader];
+        }
+        // Start downloading.
+        [imageDownloader start];
+    } else {
+        DLog(@"%@: %@ is downloading.", imageURL, thumbnail ? @"Fullsize Image" : @"Thumbnail Image");
+    }
+}
+
+-(void)stopDownloadingImage:(NSString *)imageName {
+    czzImageDownloader *downloaderToStop;
+    for (czzImageDownloader *imageDownloader in self.imageDownloaders) {
+        if ([imageDownloader.imageURLString.lastPathComponent isEqualToString:imageName]) {
+            downloaderToStop = imageDownloader;
+            break;
+        }
+    }
+    if (downloaderToStop) {
+        [self.imageDownloaders removeObject:downloaderToStop];
+        [downloaderToStop stop];
+        [self iterateDelegatesWithBlock:^(id<czzImageDownloaderManagerDelegate> delegate) {
+            if ([delegate respondsToSelector:@selector(imageDownloaderManager:downloadedStopped:imageName:)]) {
+                [delegate imageDownloaderManager:self downloadedStopped:downloaderToStop imageName:imageName];
+            }
+        }];
+    }
+}
+
+-(BOOL)isImageDownloading:(NSString *)imageName isThumbnail:(BOOL)thumbnail{
+    BOOL downloading = NO;
+    for (czzImageDownloader *downloader in thumbnail ? self.thumbnailDownloaders : self.imageDownloaders) {
+        if ([downloader.imageURLString.lastPathComponent isEqualToString:imageName]) {
+            downloading = YES;
+            break;
+        }
+    }
+    return downloading;
+}
 
 #pragma mark - Delegates management
 -(void)addDelegate:(id<czzImageDownloaderManagerDelegate>)delegate {
@@ -41,11 +113,39 @@
 
 #pragma mark - czzImageDownloaderDelegate
 -(void)downloadFinished:(czzImageDownloader *)imgDownloader success:(BOOL)success isThumbnail:(BOOL)thumbnail saveTo:(NSString *)path {
-    
+    if (success) {
+        [self iterateDelegatesWithBlock:^(id<czzImageDownloaderManagerDelegate> delegate) {
+            if ([delegate respondsToSelector:@selector(imageDownloaderManager:downloadedFinished:imageName:wasSuccessful:)]) {
+                [delegate imageDownloaderManager:self downloadedFinished:imgDownloader imageName:imgDownloader.imageURLString.lastPathComponent wasSuccessful:success];
+            }
+        }];
+    }
+    // Remove from either imageDownloaders or thumbnailDownloaders
+    [self.imageDownloaders removeObject:imgDownloader];
+    [self.thumbnailDownloaders removeObject:imgDownloader];
 }
 
 - (void)downloadStarted:(czzImageDownloader *)imgDownloader {
-    
+    [self iterateDelegatesWithBlock:^(id<czzImageDownloaderManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(imageDownloaderManager:downloadedStarted:imageName:)]) {
+            [delegate imageDownloaderManager:self downloadedStarted:imgDownloader imageName:imgDownloader.imageURLString.lastPathComponent];
+        }
+    }];
+}
+
+-(void)downloadStopped:(czzImageDownloader *)imgDownloader {
+    [self iterateDelegatesWithBlock:^(id<czzImageDownloaderManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(imageDownloaderManager:downloadedStopped:imageName:)]) {
+            [delegate imageDownloaderManager:self downloadedStopped:imgDownloader imageName:imgDownloader.imageURLString.lastPathComponent];
+        }
+    }];
+}
+
+-(void)iterateDelegatesWithBlock:(void(^)(id<czzImageDownloaderManagerDelegate> delegate))block {
+    for (czzWeakReferenceDelegate* weakRefDelegate in self.delegates) {
+        id<czzImageDownloaderManagerDelegate> delegate = weakRefDelegate.delegate;
+        block(delegate);
+    }
 }
 
 +(instancetype)sharedManager
