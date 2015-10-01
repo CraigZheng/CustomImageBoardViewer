@@ -23,7 +23,6 @@
 
 
 @protocol czzMenuEnabledTableViewCellProtocol <NSObject>
--(void)imageDownloadedForIndexPath:(NSIndexPath*)index filePath:(NSString*)path isThumbnail:(BOOL)isThumbnail;
 @optional
 -(void)userTapInQuotedText:(NSString*)text;
 -(void)userTapInImageView:(NSString*)imgURL;

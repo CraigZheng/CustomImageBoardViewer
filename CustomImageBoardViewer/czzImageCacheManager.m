@@ -17,7 +17,7 @@
 
 #include <sys/stat.h>
 
-@interface czzImageCacheManager()<czzImageDownloaderDelegate>
+@interface czzImageCacheManager()
 @end
 
 @implementation czzImageCacheManager

@@ -51,18 +51,22 @@
     [super reloadData];
 }
 
--(void)scrollToTop {
+-(void)scrollToTop:(BOOL)animated {
     [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-        [self setContentOffset:CGPointMake(0, -self.contentInset.top) animated:NO];
+//        [self setContentOffset:CGPointMake(0, -self.contentInset.top) animated:animated];
+        [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
+                    atScrollPosition:UITableViewScrollPositionTop
+                            animated:animated];
     }];
 }
 
 #pragma mark - czzOnScreenCommandViewControllerDelegate
 -(void)onScreenCommandTapOnUp:(id)sender {
-    // Scroll to top
-    [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
-                atScrollPosition:UITableViewScrollPositionTop
-                        animated:YES];
+    [self scrollToTop: YES];
+//    // Scroll to top
+//    [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
+//                atScrollPosition:UITableViewScrollPositionTop
+//                        animated:YES];
 }
 
 -(void)onScreenCommandTapOnDown:(id)sender {

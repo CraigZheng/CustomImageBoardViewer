@@ -168,7 +168,7 @@
         } else {
             [self.threads insertObject:self.parentThread atIndex:0];
         }
-        [self calculateHeightsForThreads:self.lastBatchOfThreads cutOffFromIndex:self.cutOffIndex];
+//        [self calculateHeightsForThreads:self.lastBatchOfThreads cutOffFromIndex:self.cutOffIndex];
     }
     // Download images for the new batch of threads
     [self downloadThumbnailsForThreads:newThread];
@@ -196,38 +196,39 @@ float RoundTo(float number, float to)
 }
 
 
-/*
- calculate heights for both horizontal and vertical of the parent view controller
- */
--(void)calculateHeightsForThreads:(NSArray*)newThreads cutOffFromIndex:(NSInteger)cutOffIndex{
-    @try {
-        // Remove duplicate height objects, then calculate the newThreads
-        [self.verticalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, self.verticalHeights.count - cutOffIndex)];
-        [self.horizontalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, self.horizontalHeights.count - cutOffIndex)];
-        [super calculateHeightsForThreads:newThreads];
-
-    }
-    @catch (NSException *exception) {
-        // If error, remove all height objects, and calculate all from the beginning
-        DLog(@"%@", exception);
-        [self.verticalHeights removeAllObjects];
-        [self.horizontalHeights removeAllObjects];
-        [super calculateHeightsForThreads:self.threads];
-    }
-}
+///*
+// calculate heights for both horizontal and vertical of the parent view controller
+// */
+//-(void)calculateHeightsForThreads:(NSArray*)newThreads cutOffFromIndex:(NSInteger)cutOffIndex{
+//    @try {
+//        // Remove duplicate height objects, then calculate the newThreads
+//        [self.verticalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, self.verticalHeights.count - cutOffIndex)];
+//        [self.horizontalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, self.horizontalHeights.count - cutOffIndex)];
+//        [super calculateHeightsForThreads:newThreads];
+//
+//    }
+//    @catch (NSException *exception) {
+//        // If error, remove all height objects, and calculate all from the beginning
+//        DLog(@"%@", exception);
+//        [self.verticalHeights removeAllObjects];
+//        [self.horizontalHeights removeAllObjects];
+//        [super calculateHeightsForThreads:self.threads];
+//    }
+//}
 
 #pragma mark - content managements.
 - (void)reset {
     self.totalPages = self.pageNumber = 1;
-    self.threads = self.horizontalHeights = self.verticalHeights = nil;
-    self.cachedThreads = self.cachedHorizontalHeights = self.cachedVerticalHeights = nil;
+    self.horizontalHeights = self.verticalHeights = nil;
+    self.cachedHorizontalHeights = self.cachedVerticalHeights = nil;
+    self.threads = self.cachedThreads = nil;
 }
 
 -(void)removeAll {
     self.pageNumber = 1;
     // Clear all.
-    
-    self.lastBatchOfThreads = self.horizontalHeights = self.verticalHeights = self.threads = nil;
+    self.lastBatchOfThreads = self.threads = nil;
+    self.horizontalHeights = self.verticalHeights = nil;
 }
 
 - (void)refresh {
@@ -255,27 +256,27 @@ float RoundTo(float number, float to)
     [aCoder encodeInteger:self.totalPages forKey:@"totalPages"];
     [aCoder encodeObject:self.threads forKey:@"threads"];
     [aCoder encodeObject:self.lastBatchOfThreads forKey:@"lastBatchOfThreads"];
-    [aCoder encodeObject:self.horizontalHeights forKey:@"self.horizontalHeights"];
-    [aCoder encodeObject:self.verticalHeights forKey:@"self.verticalHeights"];
+//    [aCoder encodeObject:self.horizontalHeights forKey:@"self.horizontalHeights"];
+//    [aCoder encodeObject:self.verticalHeights forKey:@"self.verticalHeights"];
     [aCoder encodeObject:[NSValue valueWithCGPoint:self.currentOffSet] forKey:@"currentOffSet"];
     [aCoder encodeObject:self.forum forKey:@"forum"];
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder {
-    czzThreadViewModelManager *newThreadList = [czzThreadViewModelManager new];
-    [[NSNotificationCenter defaultCenter] removeObserver:newThreadList];
+    czzThreadViewModelManager *viewModelManager = [czzThreadViewModelManager new];
+    [[NSNotificationCenter defaultCenter] removeObserver:viewModelManager];
     @try {
         //create a temporary threadlist object
-        newThreadList.parentThread = [aDecoder decodeObjectForKey:@"parentThread"];
-        newThreadList.pageNumber = [aDecoder decodeIntegerForKey:@"pageNumber"];
-        newThreadList.totalPages = [aDecoder decodeIntegerForKey:@"totalPages"];
-        newThreadList.threads = [aDecoder decodeObjectForKey:@"threads"];
-        newThreadList.lastBatchOfThreads = [aDecoder decodeObjectForKey:@"lastBatchOfThreads"];
-        newThreadList.self.horizontalHeights = [aDecoder decodeObjectForKey:@"self.horizontalHeights"];
-        newThreadList.self.verticalHeights = [aDecoder decodeObjectForKey:@"self.verticalHeights"];
-        newThreadList.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
-        newThreadList.forum = [aDecoder decodeObjectForKey:@"forum"];
-        return newThreadList;
+        viewModelManager.parentThread = [aDecoder decodeObjectForKey:@"parentThread"];
+        viewModelManager.pageNumber = [aDecoder decodeIntegerForKey:@"pageNumber"];
+        viewModelManager.totalPages = [aDecoder decodeIntegerForKey:@"totalPages"];
+        viewModelManager.threads = [aDecoder decodeObjectForKey:@"threads"];
+        viewModelManager.lastBatchOfThreads = [aDecoder decodeObjectForKey:@"lastBatchOfThreads"];
+//        viewModelManager.horizontalHeights = [aDecoder decodeObjectForKey:@"horizontalHeights"];
+//        viewModelManager.verticalHeights = [aDecoder decodeObjectForKey:@"verticalHeights"];
+        viewModelManager.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
+        viewModelManager.forum = [aDecoder decodeObjectForKey:@"forum"];
+        return viewModelManager;
         
     }
     @catch (NSException *exception) {

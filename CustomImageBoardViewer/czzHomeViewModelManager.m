@@ -117,7 +117,8 @@
     self.cachedVerticalHeights = self.verticalHeights;
     
     // Clear all.
-    self.lastBatchOfThreads = self.horizontalHeights = self.verticalHeights = self.threads = nil;
+    self.horizontalHeights = self.verticalHeights = nil;
+    self.lastBatchOfThreads = self.threads = nil;
 }
 
 - (void)scrollToContentOffset:(CGPoint)offset {
@@ -175,7 +176,8 @@
 -(void)threadListProcessed:(czzJSONProcessor *)processor :(NSArray *)newThreads :(BOOL)success {
     self.isProcessing = NO;
     if (success){
-        self.cachedVerticalHeights = self.cachedHorizontalHeights = self.cachedThreads = nil;
+        self.cachedVerticalHeights = self.cachedHorizontalHeights = nil;
+        self.cachedThreads = nil;
         if (self.shouldHideImageForThisForum)
         {
             for (czzThread *thread in newThreads) {
@@ -187,7 +189,7 @@
         self.lastBatchOfThreads = newThreads;
         [self.threads addObjectsFromArray:newThreads];
         //calculate heights for both vertical and horizontal
-        [self calculateHeightsForThreads:self.lastBatchOfThreads];
+//        [self calculateHeightsForThreads:self.lastBatchOfThreads];
     }
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.watchKitCompletionHandler) {
@@ -207,22 +209,22 @@
     self.totalPages = allPage;
 }
 
-/*
- calculate heights for both horizontal and vertical of the parent view controller
- */
--(void)calculateHeightsForThreads:(NSArray*)newThreads {
-    CGFloat shortWidth, longWidth;
-    shortWidth = MIN([UIScreen mainScreen].applicationFrame.size.height, [UIScreen mainScreen].applicationFrame.size.width);
-    longWidth = MAX([UIScreen mainScreen].applicationFrame.size.width, [UIScreen mainScreen].applicationFrame.size.height);
-    dispatch_async(dispatch_get_main_queue(), ^{
-        for (czzThread *thread in newThreads) {
-            CGFloat shortHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:[UIApplication sharedApplication].keyWindow.rootViewController.view forWidth:shortWidth hasImage:thread.imgSrc.length > 0 withExtra:NO];
-            CGFloat longHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:[UIApplication sharedApplication].keyWindow.rootViewController.view forWidth:longWidth hasImage:thread.imgSrc.length > 0 withExtra:YES];
-            [self.verticalHeights addObject:[NSNumber numberWithFloat:shortHeight]];
-            [self.horizontalHeights addObject:[NSNumber numberWithFloat:longHeight]];
-        }
-    });
-}
+///*
+// calculate heights for both horizontal and vertical of the parent view controller
+// */
+//-(void)calculateHeightsForThreads:(NSArray*)newThreads {
+//    CGFloat shortWidth, longWidth;
+//    shortWidth = MIN([UIScreen mainScreen].applicationFrame.size.height, [UIScreen mainScreen].applicationFrame.size.width);
+//    longWidth = MAX([UIScreen mainScreen].applicationFrame.size.width, [UIScreen mainScreen].applicationFrame.size.height);
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        for (czzThread *thread in newThreads) {
+//            CGFloat shortHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:[UIApplication sharedApplication].keyWindow.rootViewController.view forWidth:shortWidth hasImage:thread.imgSrc.length > 0 withExtra:NO];
+//            CGFloat longHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:[UIApplication sharedApplication].keyWindow.rootViewController.view forWidth:longWidth hasImage:thread.imgSrc.length > 0 withExtra:YES];
+//            [self.verticalHeights addObject:[NSNumber numberWithFloat:shortHeight]];
+//            [self.horizontalHeights addObject:[NSNumber numberWithFloat:longHeight]];
+//        }
+//    });
+//}
 
 #pragma mark - Setters
 -(void)setForum:(czzForum *)forum {
@@ -252,9 +254,9 @@
     return _threads;
 }
 
-- (NSMutableArray *)horizontalHeights {
+- (NSMutableDictionary *)horizontalHeights {
     if (!_horizontalHeights) {
-        _horizontalHeights = [NSMutableArray new];
+        _horizontalHeights = [NSMutableDictionary new];
     }
     if (!_horizontalHeights.count && self.cachedHorizontalHeights.count) {
         return self.cachedHorizontalHeights;
@@ -262,9 +264,9 @@
     return _horizontalHeights;
 }
 
-- (NSMutableArray *)verticalHeights {
+- (NSMutableDictionary *)verticalHeights {
     if (!_verticalHeights) {
-        _verticalHeights = [NSMutableArray new];
+        _verticalHeights = [NSMutableDictionary new];
     }
     if (!_verticalHeights.count && self.cachedVerticalHeights.count) {
         return self.cachedVerticalHeights;
@@ -287,28 +289,28 @@
     //parent view controller can not be encoded
     //delegate can not be encoded
     //isDownloading and isProcessing should not be encoded
-    [aCoder encodeObject:self.horizontalHeights forKey:@"self.horizontalHeights"];
-    [aCoder encodeObject:self.verticalHeights forKey:@"self.verticalHeights"];
+    [aCoder encodeObject:self.horizontalHeights forKey:@"horizontalHeights"];
+    [aCoder encodeObject:self.verticalHeights forKey:@"verticalHeights"];
     [aCoder encodeObject:[NSValue valueWithCGPoint:self.currentOffSet] forKey:@"currentOffSet"];
     [aCoder encodeObject:self.displayedThread forKey:@"displayedThread"];
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder {
-    czzHomeViewModelManager *newThreadList = [czzHomeViewModelManager new];
-    [[NSNotificationCenter defaultCenter] removeObserver:newThreadList];
+    czzHomeViewModelManager *viewModelManager = [czzHomeViewModelManager new];
+    [[NSNotificationCenter defaultCenter] removeObserver:viewModelManager];
     @try {
         //create a temporary threadlist object
-        newThreadList.shouldHideImageForThisForum = [aDecoder decodeBoolForKey:@"shouldHideImageForThisForum"];
-        newThreadList.forum = [aDecoder decodeObjectForKey:@"forum"];
-        newThreadList.pageNumber = [aDecoder decodeIntegerForKey:@"pageNumber"];
-        newThreadList.totalPages = [aDecoder decodeIntegerForKey:@"totalPages"];
-        newThreadList.threads = [aDecoder decodeObjectForKey:@"threads"];
-        newThreadList.lastBatchOfThreads = [aDecoder decodeObjectForKey:@"lastBatchOfThreads"];
-        newThreadList.self.horizontalHeights = [aDecoder decodeObjectForKey:@"self.horizontalHeights"];
-        newThreadList.self.verticalHeights = [aDecoder decodeObjectForKey:@"self.verticalHeights"];
-        newThreadList.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
-        newThreadList.displayedThread = [aDecoder decodeObjectForKey:@"displayedThread"];
-        return newThreadList;
+        viewModelManager.shouldHideImageForThisForum = [aDecoder decodeBoolForKey:@"shouldHideImageForThisForum"];
+        viewModelManager.forum = [aDecoder decodeObjectForKey:@"forum"];
+        viewModelManager.pageNumber = [aDecoder decodeIntegerForKey:@"pageNumber"];
+        viewModelManager.totalPages = [aDecoder decodeIntegerForKey:@"totalPages"];
+        viewModelManager.threads = [aDecoder decodeObjectForKey:@"threads"];
+        viewModelManager.lastBatchOfThreads = [aDecoder decodeObjectForKey:@"lastBatchOfThreads"];
+        viewModelManager.horizontalHeights = [aDecoder decodeObjectForKey:@"horizontalHeights"];
+        viewModelManager.verticalHeights = [aDecoder decodeObjectForKey:@"verticalHeights"];
+        viewModelManager.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
+        viewModelManager.displayedThread = [aDecoder decodeObjectForKey:@"displayedThread"];
+        return viewModelManager;
 
     }
     @catch (NSException *exception) {

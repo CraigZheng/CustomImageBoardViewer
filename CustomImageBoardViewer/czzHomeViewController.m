@@ -333,16 +333,18 @@
     DLog(@"%@", NSStringFromSelector(_cmd));
     // If pageNumber == 1, then is a forum change, scroll to top.
     if (wasSuccessul && self.viewModelManager.pageNumber == 1) {
-        [self.threadTableView scrollToTop];
+        [self.threadTableView scrollToTop:NO];
     }
-    [self updateTableView];
-    [refreshControl endRefreshing];
-    // If is in transition, is better not do anything.
-    if (!NavigationManager.isInTransition)
-        [progressView stopAnimating];
-    if (!wasSuccessul) {
-        [progressView showWarning];
-    }
+    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+        [self updateTableView];
+        [refreshControl endRefreshing];
+        // If is in transition, is better not do anything.
+        if (!NavigationManager.isInTransition)
+            [progressView stopAnimating];
+        if (!wasSuccessul) {
+            [progressView showWarning];
+        }
+    }];
 }
 
 #pragma mark - self.refreshControl and download controls

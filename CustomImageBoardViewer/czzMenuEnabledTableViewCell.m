@@ -322,9 +322,10 @@
     if (success && delegate) {
         if (downloader.isThumbnail) {
             if ([downloader.targetURLString.lastPathComponent isEqualToString:myThread.thImgSrc.lastPathComponent]) {
-                if ([delegate respondsToSelector:@selector(imageDownloadedForIndexPath:filePath:isThumbnail:)]) {
-                    [delegate imageDownloadedForIndexPath:myIndexPath filePath:downloader.savePath isThumbnail:YES];
-                }
+                self.previewImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:downloader.targetURLString.lastPathComponent]]];
+//                if ([delegate respondsToSelector:@selector(imageDownloadedForIndexPath:filePath:isThumbnail:)]) {
+//                    [delegate imageDownloadedForIndexPath:myIndexPath filePath:downloader.savePath isThumbnail:YES];
+//                }
             }
         }
     }

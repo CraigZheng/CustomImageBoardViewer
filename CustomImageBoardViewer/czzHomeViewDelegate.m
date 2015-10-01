@@ -74,8 +74,28 @@
     // If not downloading or processing, load more threads.
     else if (!self.viewModelManager.isDownloading || !self.viewModelManager.isProcessing) {
         [self.viewModelManager loadMoreThreads];
-        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [tableView reloadData];
+//        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
+}
+
+-(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CGFloat estimatedRowHeight = 44;
+    if (indexPath.row < self.viewModelManager.threads.count) {
+        czzThread *thread = [self.viewModelManager.threads objectAtIndex:indexPath.row];
+        if (thread.content.length > 50) {
+            estimatedRowHeight *= 2;
+        } else if (thread.content.length > 150) {
+            estimatedRowHeight *= 3;
+        } else if (thread.content.length > 300) {
+            estimatedRowHeight *= 4;
+        }
+        // Has image = bigger.
+        if (thread.thImgSrc.length) {
+            estimatedRowHeight += 80;
+        }
+    }
+    return estimatedRowHeight;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -85,16 +105,31 @@
     if (indexPath.row >= self.viewModelManager.threads.count)
         return tableView.rowHeight;
     
-    NSArray *heightArray = UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].keyWindow.rootViewController.interfaceOrientation) ? self.viewModelManager.verticalHeights : self.viewModelManager.horizontalHeights;
     CGFloat preferHeight = tableView.rowHeight;
-    @try {
-        if (indexPath.row < heightArray.count)
-            preferHeight = [[heightArray objectAtIndex:indexPath.row] floatValue];
-    }
-    @catch (NSException *exception) {
-        DLog(@"%@", exception);
-    }
+    czzThread *thread = [self.viewModelManager.threads objectAtIndex:indexPath.row];
+    NSString *threadID = [NSString stringWithFormat:@"%ld", (long)thread.ID];
     
+    NSMutableDictionary *heightDictionary = UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].keyWindow.rootViewController.interfaceOrientation) ? self.viewModelManager.verticalHeights : self.viewModelManager.horizontalHeights;
+    
+    NSNumber *heightNumber = [heightDictionary objectForKey:threadID];
+    if ([heightNumber isKindOfClass:[NSNumber class]]) {
+        preferHeight = [heightNumber floatValue];
+    } else {
+        preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:self.myTableView hasImage:thread.thImgSrc.length];
+        heightNumber = @(preferHeight);
+        [heightDictionary setObject:heightNumber forKey:threadID];
+    }
+
+//    NSArray *heightArray = UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].keyWindow.rootViewController.interfaceOrientation) ? self.viewModelManager.verticalHeights : self.viewModelManager.horizontalHeights;
+//    CGFloat preferHeight = tableView.rowHeight;
+//    @try {
+//        if (indexPath.row < heightArray.count)
+//            preferHeight = [[heightArray objectAtIndex:indexPath.row] floatValue];
+//    }
+//    @catch (NSException *exception) {
+//        DLog(@"%@", exception);
+//    }
+//    
     return preferHeight;
 }
 
@@ -142,21 +177,6 @@
         [[czzImageDownloaderManager sharedManager] stopDownloadingImage:imgURL.lastPathComponent];
     } else {
         [[czzImageDownloaderManager sharedManager] downloadImageWithURL:imgURL isThumbnail:NO];
-    }
-}
-
--(void)imageDownloadedForIndexPath:(NSIndexPath *)index filePath:(NSString *)path isThumbnail:(BOOL)isThumbnail {
-    if (isThumbnail) {
-        @try {
-            [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-                if (index.row < self.viewModelManager.threads.count)
-                    [self.myTableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationAutomatic];
-            }];
-        }
-        @catch (NSException *exception) {
-            [self.myTableView reloadData];
-            DLog(@"%@", exception);
-        }
     }
 }
 
@@ -224,6 +244,7 @@
 - (void)setMyTableView:(czzThreadTableView *)myTableView {
     _myTableView = myTableView;
     if (myTableView) {
+        myTableView.estimatedRowHeight = 80;
     }
 }
 

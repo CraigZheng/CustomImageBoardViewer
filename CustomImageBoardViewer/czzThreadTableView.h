@@ -16,5 +16,5 @@
 @property (nonatomic, strong) czzOnScreenCommandViewController *upDownViewController;
 @property (nonatomic, assign) czzThreadViewCommandStatusCellViewType lastCellType;
 @property (nonatomic, strong) czzThreadViewCommandStatusCellViewController *lastCellCommandViewController;
--(void)scrollToTop;
+-(void)scrollToTop:(BOOL)animted;
 @end
