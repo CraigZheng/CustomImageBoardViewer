@@ -256,8 +256,8 @@ float RoundTo(float number, float to)
     [aCoder encodeInteger:self.totalPages forKey:@"totalPages"];
     [aCoder encodeObject:self.threads forKey:@"threads"];
     [aCoder encodeObject:self.lastBatchOfThreads forKey:@"lastBatchOfThreads"];
-//    [aCoder encodeObject:self.horizontalHeights forKey:@"self.horizontalHeights"];
-//    [aCoder encodeObject:self.verticalHeights forKey:@"self.verticalHeights"];
+    [aCoder encodeObject:self.horizontalHeights forKey:@"horizontalHeights"];
+    [aCoder encodeObject:self.verticalHeights forKey:@"verticalHeights"];
     [aCoder encodeObject:[NSValue valueWithCGPoint:self.currentOffSet] forKey:@"currentOffSet"];
     [aCoder encodeObject:self.forum forKey:@"forum"];
 }
@@ -272,8 +272,12 @@ float RoundTo(float number, float to)
         viewModelManager.totalPages = [aDecoder decodeIntegerForKey:@"totalPages"];
         viewModelManager.threads = [aDecoder decodeObjectForKey:@"threads"];
         viewModelManager.lastBatchOfThreads = [aDecoder decodeObjectForKey:@"lastBatchOfThreads"];
-//        viewModelManager.horizontalHeights = [aDecoder decodeObjectForKey:@"horizontalHeights"];
-//        viewModelManager.verticalHeights = [aDecoder decodeObjectForKey:@"verticalHeights"];
+        id horizontalHeights = [aDecoder decodeObjectForKey:@"horizontalHeights"];
+        if ([horizontalHeights isKindOfClass:[NSMutableDictionary class]])
+            viewModelManager.horizontalHeights = horizontalHeights;
+        id verticalHeights = [aDecoder decodeObjectForKey:@"verticalHeights"];
+        if ([verticalHeights isKindOfClass:[NSMutableDictionary class]])
+            viewModelManager.verticalHeights = verticalHeights;
         viewModelManager.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
         viewModelManager.forum = [aDecoder decodeObjectForKey:@"forum"];
         return viewModelManager;

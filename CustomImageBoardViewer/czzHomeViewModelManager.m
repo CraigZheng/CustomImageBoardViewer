@@ -306,8 +306,12 @@
         viewModelManager.totalPages = [aDecoder decodeIntegerForKey:@"totalPages"];
         viewModelManager.threads = [aDecoder decodeObjectForKey:@"threads"];
         viewModelManager.lastBatchOfThreads = [aDecoder decodeObjectForKey:@"lastBatchOfThreads"];
-        viewModelManager.horizontalHeights = [aDecoder decodeObjectForKey:@"horizontalHeights"];
-        viewModelManager.verticalHeights = [aDecoder decodeObjectForKey:@"verticalHeights"];
+        id horizontalHeights = [aDecoder decodeObjectForKey:@"horizontalHeights"];
+        if ([horizontalHeights isKindOfClass:[NSMutableDictionary class]])
+            viewModelManager.horizontalHeights = horizontalHeights;
+        id verticalHeights = [aDecoder decodeObjectForKey:@"verticalHeights"];
+        if ([verticalHeights isKindOfClass:[NSMutableDictionary class]])
+            viewModelManager.verticalHeights = verticalHeights;
         viewModelManager.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
         viewModelManager.displayedThread = [aDecoder decodeObjectForKey:@"displayedThread"];
         return viewModelManager;

@@ -53,10 +53,14 @@
 
 -(void)scrollToTop:(BOOL)animated {
     [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-//        [self setContentOffset:CGPointMake(0, -self.contentInset.top) animated:animated];
-        [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
-                    atScrollPosition:UITableViewScrollPositionTop
-                            animated:animated];
+        if ([self numberOfRowsInSection:0] > 0) {
+            [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
+                        atScrollPosition:UITableViewScrollPositionTop
+                                animated:animated];
+        }
+        else {
+            [self setContentOffset:CGPointMake(0, -self.contentInset.top) animated:animated];
+        }
     }];
 }
 
