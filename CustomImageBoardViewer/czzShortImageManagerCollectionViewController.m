@@ -27,7 +27,6 @@
 @synthesize popup;
 @synthesize managerCollectionView;
 @synthesize isShowing;
-@synthesize downloadedImages;
 @synthesize placeholderView;
 @synthesize imageViewerUtil;
 @synthesize hostViewController;
@@ -36,17 +35,26 @@ static NSString * const reuseIdentifier = @"Cell";
 static NSString *imageCellIdentifier = @"image_cell_identifier";
 static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    downloadedImages = [NSMutableArray new];
-    
-    [[czzImageDownloaderManager sharedManager] addDelegate:self];
+-(instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        [[czzImageDownloaderManager sharedManager] addDelegate:self];
+    }
+    return self;
+}
+
+-(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        [[czzImageDownloaderManager sharedManager] addDelegate:self];
+    }
+    return self;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [managerCollectionView reloadData];
-    if (downloadedImages.count == 0 && self.downloaders.count == 0)
+    if (self.downloadedImages.count == 0 && self.downloaders.count == 0)
     {
         placeholderView.hidden = NO;
     } else {
@@ -72,12 +80,19 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
     return [[[czzImageDownloaderManager sharedManager] imageDownloaders] allObjects];
 }
 
+-(NSMutableArray *)downloadedImages {
+    if (!_downloadedImages) {
+        _downloadedImages = [NSMutableArray new];
+    }
+    return _downloadedImages;
+}
+
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (section == 0)
         return self.downloaders.count;
-    return downloadedImages.count;
+    return self.downloadedImages.count;
 }
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -106,7 +121,7 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
         UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:downloadedImageCellIdentifier forIndexPath:indexPath];
         
         UIImageView *thumbnailImageView = (UIImageView*) [cell viewWithTag:1];
-        NSString *imgPath = [downloadedImages objectAtIndex:indexPath.row];
+        NSString *imgPath = [self.downloadedImages objectAtIndex:indexPath.row];
         UIImage *fullImg = [UIImage imageWithContentsOfFile:imgPath];
         UIImage *thumbnailImg = [UIImage imageWithContentsOfFile:[[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:imgPath.lastPathComponent]];
         
@@ -127,9 +142,9 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
         //if parent view controller is not nil, show in parent view
         if (hostViewController) {
             imageViewerUtil = [czzImageViewerUtil new];
-            [imageViewerUtil showPhotos:downloadedImages withIndex:indexPath.row];
+            [imageViewerUtil showPhotos:self.downloadedImages withIndex:indexPath.row];
         } else {
-            NSString *imgPath = [downloadedImages objectAtIndex:indexPath.row];
+            NSString *imgPath = [self.downloadedImages objectAtIndex:indexPath.row];
             if (delegate && [delegate respondsToSelector:@selector(userTappedOnImageWithPath:)]) {
                 [delegate userTappedOnImageWithPath:imgPath];
             }
@@ -146,10 +161,10 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
     // This view controller cares only for the full size images.
     if (!downloader.isThumbnail) {
         if (success) {
-            if (downloadedImages.count)
-                [downloadedImages insertObject:downloader.savePath atIndex:0];
+            if (self.downloadedImages.count)
+                [self.downloadedImages insertObject:downloader.savePath atIndex:0];
             else
-                [downloadedImages addObject:downloader.savePath];
+                [self.downloadedImages addObject:downloader.savePath];
         }
         [self.managerCollectionView reloadData];
     }
