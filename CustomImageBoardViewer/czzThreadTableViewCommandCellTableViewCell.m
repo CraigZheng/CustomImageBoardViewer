@@ -13,14 +13,14 @@
 
 @implementation czzThreadTableViewCommandCellTableViewCell
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
+-(void)awakeFromNib {
+    [super awakeFromNib];
     self.contentView.backgroundColor = [settingCentre viewBackgroundColour];
 }
 
 #pragma mark - Setters
 - (void)setCommandStatusViewController:(czzThreadViewCommandStatusCellViewController *)commandStatusViewController {
-    if (self.contentView.window) {
+    if (self.contentView) {
         _commandStatusViewController = commandStatusViewController;
         for (UIView *subView in self.contentView.subviews) {
             [subView removeFromSuperview];

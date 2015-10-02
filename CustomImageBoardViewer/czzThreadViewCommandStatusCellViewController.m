@@ -26,31 +26,29 @@
 
 - (void)renderContent {
     @try {
-        if (self.isPresented) {
-            self.view.backgroundColor = [settingCentre viewBackgroundColour];
-            NSString *commandLabelString;
-            [self.loadingActivityIndicator stopAnimating];
-            switch (self.cellType) {
-                case czzThreadViewCommandStatusCellViewTypeLoadMore:
-                    commandLabelString = @"点击以加载";
-                    self.up = NO;
-                    break;
-                case czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore:
-                    commandLabelString = @"松开以加载";
-                    self.up = YES;
-                    break;
-                case czzThreadViewCommandStatusCellViewTypeNoMore:
-                    commandLabelString = @"没有更多内容，点击以加载";
-                    break;
-                case czzThreadViewCommandStatusCellViewTypeLoading:
-                    commandLabelString = @"加载中...";
-                    [self.loadingActivityIndicator startAnimating];
-                    break;
-                default:
-                    break;
-            }
-            self.commandStatusLabel.text = commandLabelString;
+        self.view.backgroundColor = [settingCentre viewBackgroundColour];
+        NSString *commandLabelString;
+        [self.loadingActivityIndicator stopAnimating];
+        switch (self.cellType) {
+            case czzThreadViewCommandStatusCellViewTypeLoadMore:
+                commandLabelString = @"点击以加载";
+                self.up = NO;
+                break;
+            case czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore:
+                commandLabelString = @"松开以加载";
+                self.up = YES;
+                break;
+            case czzThreadViewCommandStatusCellViewTypeNoMore:
+                commandLabelString = @"没有更多内容，点击以加载";
+                break;
+            case czzThreadViewCommandStatusCellViewTypeLoading:
+                commandLabelString = @"加载中...";
+                [self.loadingActivityIndicator startAnimating];
+                break;
+            default:
+                break;
         }
+        self.commandStatusLabel.text = commandLabelString;
     }
     @catch (NSException *exception) {
         DLog(@"%@",exception);
