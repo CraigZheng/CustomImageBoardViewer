@@ -583,6 +583,10 @@
 		445C66341BBEC387004B3E83 /* CPLoadFromNibView.m in Sources */ = {isa = PBXBuildFile; fileRef = 445C66321BBEC387004B3E83 /* CPLoadFromNibView.m */; settings = {ASSET_TAGS = (); }; };
 		445C66381BBEC3DD004B3E83 /* UIView+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 445C66371BBEC3DD004B3E83 /* UIView+Util.m */; settings = {ASSET_TAGS = (); }; };
 		445C66391BBEC3DD004B3E83 /* UIView+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 445C66371BBEC3DD004B3E83 /* UIView+Util.m */; settings = {ASSET_TAGS = (); }; };
+		445C663F1BBEC4E0004B3E83 /* czzThreadViewCellHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 445C663E1BBEC4E0004B3E83 /* czzThreadViewCellHeaderView.m */; settings = {ASSET_TAGS = (); }; };
+		445C66401BBEC4E0004B3E83 /* czzThreadViewCellHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 445C663E1BBEC4E0004B3E83 /* czzThreadViewCellHeaderView.m */; settings = {ASSET_TAGS = (); }; };
+		445C66421BBED3EF004B3E83 /* czzThreadViewCellHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 445C66411BBED3EF004B3E83 /* czzThreadViewCellHeaderView.xib */; settings = {ASSET_TAGS = (); }; };
+		445C66431BBED3EF004B3E83 /* czzThreadViewCellHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 445C66411BBED3EF004B3E83 /* czzThreadViewCellHeaderView.xib */; settings = {ASSET_TAGS = (); }; };
 		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
 		4468A7111BBBC0480076DCD6 /* czzWeakReferenceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */; settings = {ASSET_TAGS = (); }; };
 		4468A7121BBBC0480076DCD6 /* czzWeakReferenceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */; settings = {ASSET_TAGS = (); }; };
@@ -1234,6 +1238,9 @@
 		445C66321BBEC387004B3E83 /* CPLoadFromNibView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPLoadFromNibView.m; sourceTree = "<group>"; };
 		445C66361BBEC3DD004B3E83 /* UIView+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Util.h"; sourceTree = "<group>"; };
 		445C66371BBEC3DD004B3E83 /* UIView+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Util.m"; sourceTree = "<group>"; };
+		445C663D1BBEC4E0004B3E83 /* czzThreadViewCellHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewCellHeaderView.h; sourceTree = "<group>"; };
+		445C663E1BBEC4E0004B3E83 /* czzThreadViewCellHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewCellHeaderView.m; sourceTree = "<group>"; };
+		445C66411BBED3EF004B3E83 /* czzThreadViewCellHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzThreadViewCellHeaderView.xib; sourceTree = "<group>"; };
 		4462EF2318659BC200E6BE78 /* czzFavouriteManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFavouriteManagerViewController.h; sourceTree = "<group>"; };
 		4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFavouriteManagerViewController.m; sourceTree = "<group>"; };
 		4468A70F1BBBC0480076DCD6 /* czzWeakReferenceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWeakReferenceDelegate.h; sourceTree = "<group>"; };
@@ -2580,6 +2587,9 @@
 				448C85E31A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib */,
 				44AE2AF8187254E4002CB021 /* czzMenuEnabledTableViewCell.h */,
 				44AE2AF9187254E4002CB021 /* czzMenuEnabledTableViewCell.m */,
+				445C663D1BBEC4E0004B3E83 /* czzThreadViewCellHeaderView.h */,
+				445C663E1BBEC4E0004B3E83 /* czzThreadViewCellHeaderView.m */,
+				445C66411BBED3EF004B3E83 /* czzThreadViewCellHeaderView.xib */,
 			);
 			name = czzMenuEnabledTableViewCell;
 			sourceTree = "<group>";
@@ -3303,6 +3313,7 @@
 				44CF25681A26B4D000BD8228 /* LICENSE in Resources */,
 				44C73B761A4708BA0051D4C2 /* thumb_down@3x.png in Resources */,
 				44E791D91A17856500A63C04 /* delete@3x.png in Resources */,
+				445C66421BBED3EF004B3E83 /* czzThreadViewCellHeaderView.xib in Resources */,
 				44E791F31A17856500A63C04 /* sad@2x.png in Resources */,
 				44CF25671A26B4D000BD8228 /* .gitignore in Resources */,
 				44E791FE1A17856500A63C04 /* sleeping.png in Resources */,
@@ -3537,6 +3548,7 @@
 				445540B61BABEBA700667435 /* LICENSE in Resources */,
 				445540B71BABEBA700667435 /* thumb_down@3x.png in Resources */,
 				445540B81BABEBA700667435 /* delete@3x.png in Resources */,
+				445C66431BBED3EF004B3E83 /* czzThreadViewCellHeaderView.xib in Resources */,
 				445540B91BABEBA700667435 /* sad@2x.png in Resources */,
 				445540BA1BABEBA700667435 /* .gitignore in Resources */,
 				445540BB1BABEBA700667435 /* sleeping.png in Resources */,
@@ -3820,6 +3832,7 @@
 				442A8FF419DB7F5400A3516E /* SDWebImageDownloaderOperation.m in Sources */,
 				442F1FEB1B160C9300267698 /* czzThreadTableViewDataSource.m in Sources */,
 				442A8FFA19DB7F5400A3516E /* UIImage+WebP.m in Sources */,
+				445C663F1BBEC4E0004B3E83 /* czzThreadViewCellHeaderView.m in Sources */,
 				4498B68D1993A6190014F73F /* PropertyUtil.m in Sources */,
 				44E2D2DF1B2DC0A30029D783 /* ThreadModel.xcdatamodeld in Sources */,
 				5A0A6BD61848691C0094D7FB /* czzMoreInfoViewController.m in Sources */,
@@ -4012,6 +4025,7 @@
 				4455402D1BABEBA700667435 /* SDWebImageDownloaderOperation.m in Sources */,
 				4455402E1BABEBA700667435 /* czzThreadTableViewDataSource.m in Sources */,
 				4455402F1BABEBA700667435 /* UIImage+WebP.m in Sources */,
+				445C66401BBEC4E0004B3E83 /* czzThreadViewCellHeaderView.m in Sources */,
 				445540301BABEBA700667435 /* PropertyUtil.m in Sources */,
 				445540311BABEBA700667435 /* ThreadModel.xcdatamodeld in Sources */,
 				445540321BABEBA700667435 /* czzMoreInfoViewController.m in Sources */,

@@ -16,10 +16,13 @@
 #import "czzThreadRefButton.h"
 #import "czzImageDownloader.h"
 #import "czzImageDownloaderManager.h"
+#import "czzThreadViewCellHeaderView.h"
 
 #import <QuartzCore/QuartzCore.h>
 
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, czzImageDownloaderManagerDelegate>
+@property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
+
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (strong, nonatomic) NSString *imageFolder;
 @property czzSettingsCentre *settingsCentre;
@@ -189,14 +192,9 @@
     contentTextView.attributedText = contentAttrString;
     contentTextView.font = settingsCentre.contentFont;
 
+    // Header and footer
+    self.cellHeaderView.myThread = self.myThread;
     
-    idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)myThread.ID];
-
-    NSMutableAttributedString *uidAttrString = [[NSMutableAttributedString alloc] initWithString:@"ID:"];
-    if (myThread.UID)
-        [uidAttrString appendAttributedString:myThread.UID];
-    posterLabel.attributedText = uidAttrString;
-    dateLabel.text = [self.dateFormatter stringFromDate:myThread.postDateTime];
     if (myThread.sage)
         [sageLabel setHidden:NO];
     if (myThread.lock)
@@ -316,6 +314,7 @@
     
     return _dateFormatter;
 }
+
 
 #pragma mark - czzImageDownloaderManagerDelegate
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
