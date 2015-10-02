@@ -223,18 +223,15 @@
     BOOL isOver = NO;
     @try {
         if (self.myTableView.window) {
-            UITableViewCell *lastVisibleCell = [[self.myTableView visibleCells] lastObject];
-            if (lastVisibleCell) {
-                NSIndexPath *path = [self.myTableView indexPathForCell:lastVisibleCell];
-                if (path.row == self.viewModelManager.threads.count)
-                {
-                    CGPoint contentOffSet = self.myTableView.contentOffset;
-                    CGRect lastCellRect = [self.myTableView rectForRowAtIndexPath:path];
-                    if (lastCellRect.origin.y + lastCellRect.size.height + padding < contentOffSet.y + self.myTableView.frame.size.height) {
-                        isOver = YES;
-                    } else {
-                        isOver = NO;
-                    }
+            NSIndexPath *lastVisibleIndexPath = [self.myTableView indexPathsForVisibleRows].lastObject;
+            if (lastVisibleIndexPath.row == self.viewModelManager.threads.count)
+            {
+                CGPoint contentOffSet = self.myTableView.contentOffset;
+                CGRect lastCellRect = [self.myTableView rectForRowAtIndexPath:lastVisibleIndexPath];
+                if (lastCellRect.origin.y + lastCellRect.size.height + padding < contentOffSet.y + self.myTableView.frame.size.height) {
+                    isOver = YES;
+                } else {
+                    isOver = NO;
                 }
             }
         }
