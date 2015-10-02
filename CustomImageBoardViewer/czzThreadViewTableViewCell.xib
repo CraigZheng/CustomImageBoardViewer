@@ -32,39 +32,6 @@
                                     </mask>
                                 </variation>
                             </textView>
-                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="8" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已锁" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RUs-rl-nii">
-                                <rect key="frame" x="299" y="21" width="20" height="12"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="12" id="6zI-zf-2Ck"/>
-                                    <constraint firstAttribute="width" constant="20" id="heX-9b-UdA"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <color key="textColor" red="0.80000000000000004" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="回应:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="po6-xX-Zcg">
-                                <rect key="frame" x="240" y="277" width="79" height="13"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="79" id="IFY-yM-JZ8"/>
-                                    <constraint firstAttribute="height" constant="13" id="xm3-WI-Q6c"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                                <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <size key="shadowOffset" width="1" height="1"/>
-                            </label>
-                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="7" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SAGE" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ehx-9x-Ubu">
-                                <rect key="frame" x="291" y="1" width="28" height="12"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="12" id="hip-H5-sEb"/>
-                                    <constraint firstAttribute="width" constant="28" id="yO0-gn-iom"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <color key="textColor" red="0.80000000000000004" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <imageView tag="9" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="3HO-Hu-PUf">
                                 <rect key="frame" x="20" y="183" width="100" height="100"/>
                                 <constraints>
@@ -98,33 +65,16 @@
                             <constraint firstItem="Uat-ye-6MX" firstAttribute="leading" secondItem="CR7-Ht-nIE" secondAttribute="leading" id="3o8-jq-Wc8"/>
                             <constraint firstItem="oML-xg-Zfq" firstAttribute="top" secondItem="7eE-XQ-OOV" secondAttribute="bottom" constant="4" id="4oq-lE-fFi"/>
                             <constraint firstAttribute="trailing" secondItem="oML-xg-Zfq" secondAttribute="trailing" id="8ME-tn-8IB"/>
-                            <constraint firstAttribute="trailing" secondItem="ehx-9x-Ubu" secondAttribute="trailing" constant="1" id="Ch9-Q0-N5z"/>
                             <constraint firstAttribute="bottom" secondItem="oML-xg-Zfq" secondAttribute="bottom" id="ClT-yL-DhZ"/>
-                            <constraint firstItem="RUs-rl-nii" firstAttribute="top" secondItem="CR7-Ht-nIE" secondAttribute="top" constant="21" id="Ddc-oQ-tac"/>
                             <constraint firstAttribute="trailing" secondItem="Uat-ye-6MX" secondAttribute="trailing" id="Vsb-Tb-k7C"/>
-                            <constraint firstAttribute="bottom" secondItem="po6-xX-Zcg" secondAttribute="bottom" constant="1" id="WkJ-Cj-Ziz"/>
                             <constraint firstAttribute="bottom" secondItem="3HO-Hu-PUf" secondAttribute="bottom" constant="8" id="ZsW-wF-7uC"/>
                             <constraint firstItem="3HO-Hu-PUf" firstAttribute="leading" secondItem="CR7-Ht-nIE" secondAttribute="leading" constant="20" symbolic="YES" id="b2V-dj-osS"/>
                             <constraint firstItem="oML-xg-Zfq" firstAttribute="leading" secondItem="CR7-Ht-nIE" secondAttribute="leading" id="bCQ-RS-JNf"/>
-                            <constraint firstItem="ehx-9x-Ubu" firstAttribute="top" secondItem="CR7-Ht-nIE" secondAttribute="top" constant="1" id="czI-eP-Lkr"/>
                             <constraint firstAttribute="trailing" secondItem="7eE-XQ-OOV" secondAttribute="trailing" id="g6F-uh-wYM"/>
-                            <constraint firstAttribute="trailing" secondItem="RUs-rl-nii" secondAttribute="trailing" constant="1" id="oaV-xs-m4R"/>
                             <constraint firstItem="7eE-XQ-OOV" firstAttribute="leading" secondItem="CR7-Ht-nIE" secondAttribute="leading" id="pmQ-gG-98v"/>
                             <constraint firstAttribute="bottom" secondItem="Uat-ye-6MX" secondAttribute="bottom" id="pv0-43-axs"/>
-                            <constraint firstAttribute="trailing" secondItem="po6-xX-Zcg" secondAttribute="trailing" constant="1" id="tev-XO-sDk"/>
                             <constraint firstItem="7eE-XQ-OOV" firstAttribute="top" secondItem="CR7-Ht-nIE" secondAttribute="top" id="tlc-bz-yEY"/>
-                            <constraint firstItem="po6-xX-Zcg" firstAttribute="top" secondItem="oML-xg-Zfq" secondAttribute="bottom" constant="2" id="wZ1-pK-KOk"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="RUs-rl-nii"/>
-                                <exclude reference="po6-xX-Zcg"/>
-                                <exclude reference="ehx-9x-Ubu"/>
-                            </mask>
-                            <mask key="constraints">
-                                <exclude reference="wZ1-pK-KOk"/>
-                            </mask>
-                        </variation>
                     </view>
                 </subviews>
                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -139,10 +89,7 @@
                 <outlet property="cellFooterView" destination="Uat-ye-6MX" id="8dW-e4-YJd"/>
                 <outlet property="cellHeaderView" destination="7eE-XQ-OOV" id="YO1-DQ-XYu"/>
                 <outlet property="contentTextView" destination="oML-xg-Zfq" id="CVo-Z2-qN7"/>
-                <outlet property="lockLabel" destination="RUs-rl-nii" id="QIN-wn-fcy"/>
                 <outlet property="previewImageView" destination="3HO-Hu-PUf" id="FXB-hN-4aJ"/>
-                <outlet property="responseLabel" destination="po6-xX-Zcg" id="cf6-5D-kvH"/>
-                <outlet property="sageLabel" destination="ehx-9x-Ubu" id="KPL-PP-zr6"/>
                 <outlet property="threadContentView" destination="CR7-Ht-nIE" id="TFF-8x-opT"/>
             </connections>
             <point key="canvasLocation" x="34" y="459"/>

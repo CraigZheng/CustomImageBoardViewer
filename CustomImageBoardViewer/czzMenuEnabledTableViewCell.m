@@ -33,14 +33,8 @@
 @end
 
 @implementation czzMenuEnabledTableViewCell
-@synthesize idLabel;
-@synthesize posterLabel;
-@synthesize dateLabel;
-@synthesize sageLabel;
-@synthesize lockLabel;
 @synthesize previewImageView;
 @synthesize contentTextView;
-@synthesize responseLabel;
 @synthesize threadContentView;
 
 @synthesize settingsCentre;
@@ -91,24 +85,14 @@
     }
     previewImageView.hidden = YES;
     
-    sageLabel.hidden = YES;
-    lockLabel.hidden = YES;
-    responseLabel.hidden = YES;
-    
     //colours
     if (settingsCentre.nightyMode) {
         UIColor *viewBackgroundColour = [settingsCentre viewBackgroundColour];
         contentTextView.backgroundColor = viewBackgroundColour;
-        idLabel.backgroundColor = viewBackgroundColour;
-        posterLabel.backgroundColor = viewBackgroundColour;
-        dateLabel.backgroundColor = viewBackgroundColour;
         threadContentView.backgroundColor = viewBackgroundColour;
         self.contentView.backgroundColor = [UIColor darkGrayColor];
     } else {
         contentTextView.backgroundColor = [UIColor whiteColor];
-        idLabel.backgroundColor = [UIColor whiteColor];
-        dateLabel.backgroundColor = [UIColor whiteColor];
-        posterLabel.backgroundColor = [UIColor whiteColor];
         threadContentView.backgroundColor = [UIColor whiteColor];
         self.contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     }
@@ -215,18 +199,14 @@
         }
     }
     
-    //highlight original poster
-    if (shouldHighlight && parentThread && [myThread.UID.string isEqualToString:parentThread.UID.string]) {
-        NSMutableAttributedString *opAttributedString = [[NSMutableAttributedString alloc] initWithAttributedString:posterLabel.attributedText];
-        [opAttributedString addAttributes:@{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle)} range:NSMakeRange(0, opAttributedString.length)];
-        posterLabel.attributedText = opAttributedString;
-    }
     //highlight the selected user
-    else if (selectedUserToHighlight && [myThread.UID.string isEqualToString:selectedUserToHighlight]) {
+    if (selectedUserToHighlight && [myThread.UID.string isEqualToString:selectedUserToHighlight]) {
         contentTextView.backgroundColor = self.contentView.backgroundColor;
     }
     
     // Header and footer
+    self.cellHeaderView.shouldHighLight = self.shouldHighlight;
+    self.cellHeaderView.parentUID = self.parentThread.UID.string;
     self.cellFooterView.myThread = self.cellHeaderView.myThread = self.myThread;
 }
 

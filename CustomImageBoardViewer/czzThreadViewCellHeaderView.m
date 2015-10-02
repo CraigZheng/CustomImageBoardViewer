@@ -21,18 +21,6 @@
 
 #pragma mark - Setters
 
--(instancetype)init {
-    return [super init];
-}
-
--(instancetype)initWithCoder:(NSCoder *)aDecoder {
-    return [super initWithCoder:aDecoder];
-}
-
--(instancetype)initWithFrame:(CGRect)frame {
-    return [super initWithFrame:frame];
-}
-
 -(void)setMyThread:(czzThread *)myThread {
     _myThread = myThread;
     if (myThread) {
@@ -42,6 +30,15 @@
             [uidAttrString appendAttributedString:myThread.UID];
         self.posterLabel.attributedText = uidAttrString;
         self.dateLabel.text = [self.dateFormatter stringFromDate:myThread.postDateTime];
+        
+        //highlight original poster
+        if (self.shouldHighLight &&
+            [myThread.UID.string isEqualToString: self.parentUID]) {
+            NSMutableAttributedString *opAttributedString = [[NSMutableAttributedString alloc] initWithAttributedString:self.posterLabel.attributedText];
+            [opAttributedString addAttributes:@{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle)} range:NSMakeRange(0, opAttributedString.length)];
+            self.posterLabel.attributedText = opAttributedString;
+        }
+
     }
 }
 
