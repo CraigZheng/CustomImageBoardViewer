@@ -587,6 +587,10 @@
 		445C66401BBEC4E0004B3E83 /* czzThreadViewCellHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 445C663E1BBEC4E0004B3E83 /* czzThreadViewCellHeaderView.m */; settings = {ASSET_TAGS = (); }; };
 		445C66421BBED3EF004B3E83 /* czzThreadViewCellHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 445C66411BBED3EF004B3E83 /* czzThreadViewCellHeaderView.xib */; settings = {ASSET_TAGS = (); }; };
 		445C66431BBED3EF004B3E83 /* czzThreadViewCellHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 445C66411BBED3EF004B3E83 /* czzThreadViewCellHeaderView.xib */; settings = {ASSET_TAGS = (); }; };
+		445C66451BBED6FB004B3E83 /* czzThreadViewCellFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 445C66441BBED6FB004B3E83 /* czzThreadViewCellFooterView.xib */; settings = {ASSET_TAGS = (); }; };
+		445C66461BBED6FB004B3E83 /* czzThreadViewCellFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 445C66441BBED6FB004B3E83 /* czzThreadViewCellFooterView.xib */; settings = {ASSET_TAGS = (); }; };
+		445C66491BBED722004B3E83 /* czzThreadViewCellFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 445C66481BBED722004B3E83 /* czzThreadViewCellFooterView.m */; settings = {ASSET_TAGS = (); }; };
+		445C664A1BBED722004B3E83 /* czzThreadViewCellFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 445C66481BBED722004B3E83 /* czzThreadViewCellFooterView.m */; settings = {ASSET_TAGS = (); }; };
 		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
 		4468A7111BBBC0480076DCD6 /* czzWeakReferenceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */; settings = {ASSET_TAGS = (); }; };
 		4468A7121BBBC0480076DCD6 /* czzWeakReferenceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */; settings = {ASSET_TAGS = (); }; };
@@ -1241,6 +1245,9 @@
 		445C663D1BBEC4E0004B3E83 /* czzThreadViewCellHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewCellHeaderView.h; sourceTree = "<group>"; };
 		445C663E1BBEC4E0004B3E83 /* czzThreadViewCellHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewCellHeaderView.m; sourceTree = "<group>"; };
 		445C66411BBED3EF004B3E83 /* czzThreadViewCellHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzThreadViewCellHeaderView.xib; sourceTree = "<group>"; };
+		445C66441BBED6FB004B3E83 /* czzThreadViewCellFooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzThreadViewCellFooterView.xib; sourceTree = "<group>"; };
+		445C66471BBED722004B3E83 /* czzThreadViewCellFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewCellFooterView.h; sourceTree = "<group>"; };
+		445C66481BBED722004B3E83 /* czzThreadViewCellFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewCellFooterView.m; sourceTree = "<group>"; };
 		4462EF2318659BC200E6BE78 /* czzFavouriteManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFavouriteManagerViewController.h; sourceTree = "<group>"; };
 		4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFavouriteManagerViewController.m; sourceTree = "<group>"; };
 		4468A70F1BBBC0480076DCD6 /* czzWeakReferenceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWeakReferenceDelegate.h; sourceTree = "<group>"; };
@@ -2590,6 +2597,9 @@
 				445C663D1BBEC4E0004B3E83 /* czzThreadViewCellHeaderView.h */,
 				445C663E1BBEC4E0004B3E83 /* czzThreadViewCellHeaderView.m */,
 				445C66411BBED3EF004B3E83 /* czzThreadViewCellHeaderView.xib */,
+				445C66441BBED6FB004B3E83 /* czzThreadViewCellFooterView.xib */,
+				445C66471BBED722004B3E83 /* czzThreadViewCellFooterView.h */,
+				445C66481BBED722004B3E83 /* czzThreadViewCellFooterView.m */,
 			);
 			name = czzMenuEnabledTableViewCell;
 			sourceTree = "<group>";
@@ -3434,6 +3444,7 @@
 				441A6A851BB28D96008E380C /* visible@2x.png in Resources */,
 				44A9E1531AE1D16000740CE1 /* Icon-60.png in Resources */,
 				44E791CF1A17856500A63C04 /* advance@3x.png in Resources */,
+				445C66451BBED6FB004B3E83 /* czzThreadViewCellFooterView.xib in Resources */,
 				44E791D11A17856500A63C04 /* bookmark@2x.png in Resources */,
 				44E791D81A17856500A63C04 /* delete@2x.png in Resources */,
 				444F5B231A40EA3500EB391F /* 16.png in Resources */,
@@ -3669,6 +3680,7 @@
 				441A6A881BB28D96008E380C /* visible@2x.png in Resources */,
 				4455412E1BABEBA700667435 /* Icon-60.png in Resources */,
 				4455412F1BABEBA700667435 /* advance@3x.png in Resources */,
+				445C66461BBED6FB004B3E83 /* czzThreadViewCellFooterView.xib in Resources */,
 				445541301BABEBA700667435 /* bookmark@2x.png in Resources */,
 				445541311BABEBA700667435 /* delete@2x.png in Resources */,
 				445541321BABEBA700667435 /* 16.png in Resources */,
@@ -3871,6 +3883,7 @@
 				44FC4345180067CF0028D7C9 /* czzPostSender.m in Sources */,
 				441E5D0E17F4699400289DBD /* IIWrapController.m in Sources */,
 				5A88B8401938AFDB00071343 /* czzNotificationCentreTableViewController.m in Sources */,
+				445C66491BBED722004B3E83 /* czzThreadViewCellFooterView.m in Sources */,
 				442A8FAC19DB7DF200A3516E /* PSTCollectionView.m in Sources */,
 				44E454631B3FFC830079B3A8 /* czzTopicData.m in Sources */,
 				443B54F319933C1F00BAB282 /* czzSettingsCentre.m in Sources */,
@@ -4064,6 +4077,7 @@
 				4455404F1BABEBA700667435 /* czzPostSender.m in Sources */,
 				445540501BABEBA700667435 /* IIWrapController.m in Sources */,
 				445540511BABEBA700667435 /* czzNotificationCentreTableViewController.m in Sources */,
+				445C664A1BBED722004B3E83 /* czzThreadViewCellFooterView.m in Sources */,
 				445540521BABEBA700667435 /* PSTCollectionView.m in Sources */,
 				445540531BABEBA700667435 /* czzTopicData.m in Sources */,
 				445540541BABEBA700667435 /* czzSettingsCentre.m in Sources */,

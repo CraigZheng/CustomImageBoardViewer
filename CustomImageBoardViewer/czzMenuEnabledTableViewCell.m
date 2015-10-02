@@ -17,11 +17,13 @@
 #import "czzImageDownloader.h"
 #import "czzImageDownloaderManager.h"
 #import "czzThreadViewCellHeaderView.h"
+#import "czzThreadViewCellFooterView.h"
 
 #import <QuartzCore/QuartzCore.h>
 
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, czzImageDownloaderManagerDelegate>
 @property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
+@property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;
 
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (strong, nonatomic) NSString *imageFolder;
@@ -191,19 +193,7 @@
 
     contentTextView.attributedText = contentAttrString;
     contentTextView.font = settingsCentre.contentFont;
-
-    // Header and footer
-    self.cellHeaderView.myThread = self.myThread;
-    
-    if (myThread.sage)
-        [sageLabel setHidden:NO];
-    if (myThread.lock)
-        [lockLabel setHidden:NO];
-    if (myThread.responseCount > 0) {
-        responseLabel.text = [NSString stringWithFormat:@"回应:%ld", (long)myThread.responseCount];
-        responseLabel.hidden = NO;
-    }
-    
+        
     //clickable content
     for (NSNumber *refNumber in myThread.replyToList) {
         NSInteger rep = refNumber.integerValue;
@@ -235,6 +225,9 @@
     else if (selectedUserToHighlight && [myThread.UID.string isEqualToString:selectedUserToHighlight]) {
         contentTextView.backgroundColor = self.contentView.backgroundColor;
     }
+    
+    // Header and footer
+    self.cellFooterView.myThread = self.cellHeaderView.myThread = self.myThread;
 }
 
 - (CGRect)frameOfTextRange:(NSRange)range inTextView:(UITextView *)textView {
