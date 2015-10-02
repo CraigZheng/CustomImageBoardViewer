@@ -579,6 +579,10 @@
 		445B7B591B418F020046CFDB /* czzThreadTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 445B7B581B418F020046CFDB /* czzThreadTableView.m */; };
 		445B7B5C1B43EBCA0046CFDB /* czzNavigationViewModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 445B7B5B1B43EBCA0046CFDB /* czzNavigationViewModelManager.m */; };
 		445B7B5F1B4404810046CFDB /* czzThreadViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 445B7B5E1B4404810046CFDB /* czzThreadViewDelegate.m */; };
+		445C66331BBEC387004B3E83 /* CPLoadFromNibView.m in Sources */ = {isa = PBXBuildFile; fileRef = 445C66321BBEC387004B3E83 /* CPLoadFromNibView.m */; settings = {ASSET_TAGS = (); }; };
+		445C66341BBEC387004B3E83 /* CPLoadFromNibView.m in Sources */ = {isa = PBXBuildFile; fileRef = 445C66321BBEC387004B3E83 /* CPLoadFromNibView.m */; settings = {ASSET_TAGS = (); }; };
+		445C66381BBEC3DD004B3E83 /* UIView+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 445C66371BBEC3DD004B3E83 /* UIView+Util.m */; settings = {ASSET_TAGS = (); }; };
+		445C66391BBEC3DD004B3E83 /* UIView+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 445C66371BBEC3DD004B3E83 /* UIView+Util.m */; settings = {ASSET_TAGS = (); }; };
 		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
 		4468A7111BBBC0480076DCD6 /* czzWeakReferenceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */; settings = {ASSET_TAGS = (); }; };
 		4468A7121BBBC0480076DCD6 /* czzWeakReferenceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */; settings = {ASSET_TAGS = (); }; };
@@ -1226,6 +1230,10 @@
 		445B7B5B1B43EBCA0046CFDB /* czzNavigationViewModelManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzNavigationViewModelManager.m; sourceTree = "<group>"; };
 		445B7B5D1B4404810046CFDB /* czzThreadViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewDelegate.h; sourceTree = "<group>"; };
 		445B7B5E1B4404810046CFDB /* czzThreadViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewDelegate.m; sourceTree = "<group>"; };
+		445C66311BBEC387004B3E83 /* CPLoadFromNibView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPLoadFromNibView.h; sourceTree = "<group>"; };
+		445C66321BBEC387004B3E83 /* CPLoadFromNibView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPLoadFromNibView.m; sourceTree = "<group>"; };
+		445C66361BBEC3DD004B3E83 /* UIView+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Util.h"; sourceTree = "<group>"; };
+		445C66371BBEC3DD004B3E83 /* UIView+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Util.m"; sourceTree = "<group>"; };
 		4462EF2318659BC200E6BE78 /* czzFavouriteManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFavouriteManagerViewController.h; sourceTree = "<group>"; };
 		4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFavouriteManagerViewController.m; sourceTree = "<group>"; };
 		4468A70F1BBBC0480076DCD6 /* czzWeakReferenceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWeakReferenceDelegate.h; sourceTree = "<group>"; };
@@ -2376,6 +2384,15 @@
 			name = CommonUI;
 			sourceTree = "<group>";
 		};
+		445C66351BBEC38E004B3E83 /* CPLoadFromNib */ = {
+			isa = PBXGroup;
+			children = (
+				445C66311BBEC387004B3E83 /* CPLoadFromNibView.h */,
+				445C66321BBEC387004B3E83 /* CPLoadFromNibView.m */,
+			);
+			name = CPLoadFromNib;
+			sourceTree = "<group>";
+		};
 		4462EF2218659B8600E6BE78 /* czzFavouriteManagerVIewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -2611,6 +2628,7 @@
 		44B89E771A2AF3CE0085F766 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				445C66351BBEC38E004B3E83 /* CPLoadFromNib */,
 				4498CEBD1B9E751E004D2380 /* TalkingData */,
 				44BFEF421B8C0D7F0095772B /* DeviceHardware */,
 				4498A7E51B89984A00312A11 /* AutoFille View */,
@@ -2794,6 +2812,8 @@
 				44DF8EE91A74DA3F0097F7F5 /* MessagePopUpController */,
 				44792C6F1BBAC34400AF5CB5 /* NSFileManager+Util.h */,
 				44792C701BBAC34400AF5CB5 /* NSFileManager+Util.m */,
+				445C66361BBEC3DD004B3E83 /* UIView+Util.h */,
+				445C66371BBEC3DD004B3E83 /* UIView+Util.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -3844,9 +3864,11 @@
 				442A8FB319DB7DF200A3516E /* PSTCollectionViewUpdateItem.m in Sources */,
 				4416B71D19413D9300B69C5B /* czzEmotionPickerTableViewController.m in Sources */,
 				4416B72719413EAF00B69C5B /* FPTouchView.m in Sources */,
+				445C66381BBEC3DD004B3E83 /* UIView+Util.m in Sources */,
 				442A8FB019DB7DF200A3516E /* PSTCollectionViewFlowLayout.m in Sources */,
 				44CF25751A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.m in Sources */,
 				442A8FAD19DB7DF200A3516E /* PSTCollectionViewCell.m in Sources */,
+				445C66331BBEC387004B3E83 /* CPLoadFromNibView.m in Sources */,
 				442A8FA319DB7DF200A3516E /* MWPhoto.m in Sources */,
 				440B2FBD17F7C5DC00544926 /* czzRightSideViewController.m in Sources */,
 				44CF25721A26F2E700BD8228 /* UIButton+Badge.m in Sources */,
@@ -4034,9 +4056,11 @@
 				445540551BABEBA700667435 /* PSTCollectionViewUpdateItem.m in Sources */,
 				445540561BABEBA700667435 /* czzEmotionPickerTableViewController.m in Sources */,
 				445540571BABEBA700667435 /* FPTouchView.m in Sources */,
+				445C66391BBEC3DD004B3E83 /* UIView+Util.m in Sources */,
 				445540581BABEBA700667435 /* PSTCollectionViewFlowLayout.m in Sources */,
 				445540591BABEBA700667435 /* czzShortImageManagerCollectionViewController.m in Sources */,
 				4455405A1BABEBA700667435 /* PSTCollectionViewCell.m in Sources */,
+				445C66341BBEC387004B3E83 /* CPLoadFromNibView.m in Sources */,
 				4455405B1BABEBA700667435 /* MWPhoto.m in Sources */,
 				4455405C1BABEBA700667435 /* czzRightSideViewController.m in Sources */,
 				4455405D1BABEBA700667435 /* UIButton+Badge.m in Sources */,

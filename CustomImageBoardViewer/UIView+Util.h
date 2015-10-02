@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface UIView (Util)
-
+- (void)copyPropertiesFromView:(UIView*)originView;
+- (void)pinToSuperView;
 @end
