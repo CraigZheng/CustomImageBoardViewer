@@ -91,13 +91,9 @@
         if ([cachedHeight isKindOfClass:[NSNumber class]]) {
             estimatedRowHeight = [cachedHeight floatValue];
         } else {
-            if (thread.content.length > 50) {
-                estimatedRowHeight *= 2;
-            } else if (thread.content.length > 150) {
-                estimatedRowHeight *= 3;
-            } else if (thread.content.length > 300) {
-                estimatedRowHeight *= 4;
-            }
+            NSInteger estimatedLines = thread.content.length / 50 + 1;
+            estimatedRowHeight *= estimatedLines;
+            
             // Has image = bigger.
             if (thread.thImgSrc.length) {
                 estimatedRowHeight += settingCentre.userDefShouldUseBigImage ? 160 : 80;
