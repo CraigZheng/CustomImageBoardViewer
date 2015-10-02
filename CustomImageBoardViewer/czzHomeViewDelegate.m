@@ -158,7 +158,7 @@
     if (!(self.viewModelManager.isDownloading || self.viewModelManager.isProcessing) && self.viewModelManager.threads.count > 0) {
         if ([self tableViewIsDraggedOverTheBottomWithPadding:44 * 2]) {
             [self.viewModelManager loadMoreThreads];
-            [self.myTableView reloadRowsAtIndexPaths:@[self.lastRowIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            self.myTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
         }
     }
 }

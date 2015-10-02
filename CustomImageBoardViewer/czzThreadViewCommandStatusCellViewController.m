@@ -7,11 +7,11 @@
 //
 
 #import "czzThreadViewCommandStatusCellViewController.h"
+#import "PureLayout.h"
 
 @interface czzThreadViewCommandStatusCellViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *commandStatusLabel;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingActivityIndicator;
-@property (weak, nonatomic) IBOutlet UIView *orangeOverlayView;
 @property (assign, nonatomic) BOOL up;
 @end
 
@@ -20,7 +20,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.cellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
-    self.orangeOverlayView.alpha = 0;
     
     [self renderContent];
 }
@@ -60,10 +59,17 @@
 
 // Flash the content view, grab user's attention.
 -(void)flash {
-    self.orangeOverlayView.alpha = 0.5;
+    UIView *orangeOverlayView = [UIView new];
+    orangeOverlayView.backgroundColor = [UIColor orangeColor];
+    orangeOverlayView.alpha = 0.5;
+    [self.view addSubview:orangeOverlayView];
+    [orangeOverlayView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
+    
     [[NSOperationQueue currentQueue] addOperationWithBlock:^{
         [UIView animateWithDuration:0.2 animations:^{
-            self.orangeOverlayView.alpha = 0;
+            orangeOverlayView.alpha = 0;
+        } completion:^(BOOL finished) {
+            [orangeOverlayView removeFromSuperview];
         }];
     }];
 }
