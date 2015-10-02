@@ -382,19 +382,19 @@
     self.viewModelManager.forum = selectedForum;
 }
 
-#pragma mark - rotation events
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    @try {
-        NSInteger numberOfVisibleRows = [self.threadTableView indexPathsForVisibleRows].count / 2;
-        if (numberOfVisibleRows > 0) {
-            NSIndexPath *currentMiddleIndexPath = [[self.threadTableView indexPathsForVisibleRows] objectAtIndex:numberOfVisibleRows];
-            [self updateTableView];
-            [self.threadTableView scrollToRowAtIndexPath:currentMiddleIndexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
-        }
-    }
-    @catch (NSException *exception) {
-    }
-}
+//#pragma mark - rotation events
+//-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+//    @try {
+//        NSInteger numberOfVisibleRows = [self.threadTableView indexPathsForVisibleRows].count / 2;
+//        if (numberOfVisibleRows > 0) {
+//            NSIndexPath *currentMiddleIndexPath = [[self.threadTableView indexPathsForVisibleRows] objectAtIndex:numberOfVisibleRows];
+//            [self updateTableView];
+//            [self.threadTableView scrollToRowAtIndexPath:currentMiddleIndexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
+//        }
+//    }
+//    @catch (NSException *exception) {
+//    }
+//}
 
 #pragma mark - pause / restoration
 -(void)encodeRestorableStateWithCoder:(NSCoder *)coder

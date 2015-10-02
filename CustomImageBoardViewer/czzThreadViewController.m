@@ -143,11 +143,11 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [self addChildViewController:onScreenImgMrg];
     [onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
     
-    //if big image mode, perform a reload
-    if ([settingCentre userDefShouldUseBigImage])
-    {
-        [self updateTableView];
-    }
+//    //if big image mode, perform a reload
+//    if ([settingCentre userDefShouldUseBigImage])
+//    {
+//        [self updateTableView];
+//    }
 
 }
 
@@ -348,18 +348,18 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 #pragma mark - rotation change
 
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    @try {
-        NSInteger numberOfVisibleRows = [self.threadTableView indexPathsForVisibleRows].count / 2;
-        if (numberOfVisibleRows > 1) {
-            NSIndexPath *currentMiddleIndexPath = [[self.threadTableView indexPathsForVisibleRows] objectAtIndex:numberOfVisibleRows];
-            [self updateTableView];
-            [self.threadTableView scrollToRowAtIndexPath:currentMiddleIndexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
-        }
-    }
-    @catch (NSException *exception) {
-    }
-}
+//-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+//    @try {
+//        NSInteger numberOfVisibleRows = [self.threadTableView indexPathsForVisibleRows].count / 2;
+//        if (numberOfVisibleRows > 1) {
+//            NSIndexPath *currentMiddleIndexPath = [[self.threadTableView indexPathsForVisibleRows] objectAtIndex:numberOfVisibleRows];
+//            [self updateTableView];
+//            [self.threadTableView scrollToRowAtIndexPath:currentMiddleIndexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
+//        }
+//    }
+//    @catch (NSException *exception) {
+//    }
+//}
 
 #pragma mark - State perserving
 - (NSString*)saveCurrentState {

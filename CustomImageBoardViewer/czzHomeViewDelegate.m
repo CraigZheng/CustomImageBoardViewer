@@ -83,16 +83,25 @@
     CGFloat estimatedRowHeight = 44;
     if (indexPath.row < self.viewModelManager.threads.count) {
         czzThread *thread = [self.viewModelManager.threads objectAtIndex:indexPath.row];
-        if (thread.content.length > 50) {
-            estimatedRowHeight *= 2;
-        } else if (thread.content.length > 150) {
-            estimatedRowHeight *= 3;
-        } else if (thread.content.length > 300) {
-            estimatedRowHeight *= 4;
-        }
-        // Has image = bigger.
-        if (thread.thImgSrc.length) {
-            estimatedRowHeight += 80;
+        // If the height is already available.
+        NSString *threadID = [NSString stringWithFormat:@"%ld", (long)thread.ID];
+        NSMutableDictionary *heightDictionary = UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].keyWindow.rootViewController.interfaceOrientation) ? self.viewModelManager.verticalHeights : self.viewModelManager.horizontalHeights;
+
+        id cachedHeight = [heightDictionary objectForKey:threadID];
+        if ([cachedHeight isKindOfClass:[NSNumber class]]) {
+            estimatedRowHeight = [cachedHeight floatValue];
+        } else {
+            if (thread.content.length > 50) {
+                estimatedRowHeight *= 2;
+            } else if (thread.content.length > 150) {
+                estimatedRowHeight *= 3;
+            } else if (thread.content.length > 300) {
+                estimatedRowHeight *= 4;
+            }
+            // Has image = bigger.
+            if (thread.thImgSrc.length) {
+                estimatedRowHeight += settingCentre.userDefShouldUseBigImage ? 160 : 80;
+            }
         }
     }
     return estimatedRowHeight;
