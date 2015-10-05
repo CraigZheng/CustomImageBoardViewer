@@ -10,5 +10,5 @@
 
 @interface UIViewController (Util)
 @property (nonatomic, readonly) BOOL isPresented;
-
+-(BOOL)isModal;
 @end

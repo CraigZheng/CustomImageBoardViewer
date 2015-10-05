@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="NPJ-KY-FRq">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="1wb-Qs-s0N">
+            <objects>
+                <navigationController id="NPJ-KY-FRq" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Uwd-2s-x75">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="VNW-Ag-gU0" kind="relationship" relationship="rootViewController" id="IjO-9L-RQj"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="g7M-LL-QgO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-572" y="-283"/>
+        </scene>
+        <!--Czz Favourite Manager View Controller-->
+        <scene sceneID="bOk-ci-aBH">
+            <objects>
+                <tableViewController storyboardIdentifier="favourite_manager_view_controller" hidesBottomBarWhenPushed="YES" id="VNW-Ag-gU0" customClass="czzFavouriteManagerViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="j9F-af-Uh9" customClass="czzThreadTableView">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="VNW-Ag-gU0" id="k9I-38-2Vn"/>
+                            <outlet property="delegate" destination="VNW-Ag-gU0" id="Z7Z-lt-8tf"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="tmN-Bp-Dgn">
+                        <nil key="title"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="O6R-MR-mt4">
+                            <rect key="frame" x="236" y="7" width="128" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="收藏"/>
+                                <segment title="注目"/>
+                                <segment title="历史"/>
+                            </segments>
+                            <connections>
+                                <action selector="titleSegmentedControlAction:" destination="VNW-Ag-gU0" eventType="valueChanged" id="AC7-8d-DVx"/>
+                            </connections>
+                        </segmentedControl>
+                        <barButtonItem key="rightBarButtonItem" image="trash.png" id="mMp-ox-ThG">
+                            <connections>
+                                <action selector="editAction:" destination="VNW-Ag-gU0" id="Fcr-oO-VbS"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="titleSegmentedControl" destination="O6R-MR-mt4" id="uMi-vp-KDA"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2dw-18-Ro0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="654" y="-294"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="trash.png" width="25" height="25"/>
+    </resources>
+</document>

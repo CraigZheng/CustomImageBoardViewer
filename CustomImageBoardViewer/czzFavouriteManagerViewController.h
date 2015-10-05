@@ -15,4 +15,8 @@
 
 - (IBAction)editAction:(id)sender;
 - (IBAction)titleSegmentedControlAction:(id)sender;
+
+-(void)dismiss;
+
++(UIViewController*)newInNavigationController;
 @end
