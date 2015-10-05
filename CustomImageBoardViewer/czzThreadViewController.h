@@ -31,6 +31,7 @@ extern NSString * const showThreadViewSegueIdentifier;
 @property (strong, nonatomic) czzThreadViewModelManager *viewModelManager;
 
 
+- (IBAction)moreAction:(id)sender;
 - (IBAction)replyAction:(id)sender;
 - (IBAction)starAction:(id)sender;
 - (IBAction)jumpAction:(id)sender;

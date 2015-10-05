@@ -17,7 +17,7 @@
 
 @interface czzCookieManagerViewController () <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 @property czzCookieManager *cookieManager;
-@property (nonatomic, strong) NSHTTPCookie *selectedCookie;
+@property NSHTTPCookie *selectedCookie;
 @property NSArray *cookiesDataSource;
 
 @end
@@ -25,6 +25,7 @@
 @implementation czzCookieManagerViewController
 @synthesize cookieManagerTableView;
 @synthesize cookieManager;
+@synthesize selectedCookie;
 @synthesize cookiesDataSource;
 @synthesize cookieManagerSegmentControl;
 @synthesize saveCookieBarButtonItem;
@@ -73,7 +74,8 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
 
 #pragma mark - UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    self.selectedCookie = [cookiesDataSource objectAtIndex:indexPath.row];
+    selectedCookie = [cookiesDataSource objectAtIndex:indexPath.row];
+    [self.navigationController setToolbarHidden:NO animated:YES];
 }
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -97,7 +99,7 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
 }
 
 - (IBAction)shareCookieAction:(id)sender {
-    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[self.selectedCookie.value] applicationActivities:nil];
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[selectedCookie.value] applicationActivities:nil];
     if ( [activityViewController respondsToSelector:@selector(popoverPresentationController)] ) { // iOS8
         activityViewController.popoverPresentationController.sourceView = self.view;
     }
@@ -119,7 +121,8 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
 }
 
 - (IBAction)cookieManagerSegmentControlAction:(id)sender {
-    self.selectedCookie = nil;
+    selectedCookie = nil;
+    [self.navigationController setToolbarHidden:YES animated:YES];
     [self refreshData];
 }
 
@@ -156,23 +159,16 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
 
 }
 
-#pragma makr - Setters
--(void)setSelectedCookie:(NSHTTPCookie *)selectedCookie {
-    _selectedCookie = selectedCookie;
-    // If selectedCookie is nil, set navigation bar hidden.
-    [self.navigationController setToolbarHidden:selectedCookie == nil animated:YES];
-}
-
 #pragma mark - UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.cancelButtonIndex == buttonIndex)
         return;
     
     if (alertView == saveCookieAlertView) {
-        [cookieManager archiveCookie:self.selectedCookie];
+        [cookieManager archiveCookie:selectedCookie];
         [AppDelegate showToast:@"饼干已放入保鲜库"];
     } else if (alertView == useCookieAlertView) {
-        NSHTTPCookie *newCookie = [czzACTokenUtil createCookieWithValue:self.selectedCookie.value forURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
+        NSHTTPCookie *newCookie = [czzACTokenUtil createCookieWithValue:selectedCookie.value forURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
         if (newCookie) {
             [cookieManager setACCookie:newCookie ForURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
             [AppDelegate showToast:@"饼干已启用"];
@@ -183,9 +179,9 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
         //do nothing
     } else if (alertView == deleteCookieAlertView) {
         if (cookieManagerSegmentControl.selectedSegmentIndex == 0) {
-            [cookieManager deleteCookie:self.selectedCookie];
+            [cookieManager deleteCookie:selectedCookie];
         } else if (cookieManagerSegmentControl.selectedSegmentIndex == 1) {
-            [cookieManager deleteArchiveCookie:self.selectedCookie];
+            [cookieManager deleteArchiveCookie:selectedCookie];
         }
         [AppDelegate showToast:@"饼干已删除"];
     } else if (alertView == addCookieAlertView) {

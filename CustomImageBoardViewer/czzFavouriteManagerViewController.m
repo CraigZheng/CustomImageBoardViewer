@@ -60,6 +60,7 @@ NSInteger const historyIndex = 2;
     }
     self.view.backgroundColor = [settingCentre viewBackgroundColour];
     [self.tableView reloadData];
+    [self.navigationController setToolbarHidden:YES animated:YES];
     self.tableView.estimatedRowHeight = 44;
 }
 

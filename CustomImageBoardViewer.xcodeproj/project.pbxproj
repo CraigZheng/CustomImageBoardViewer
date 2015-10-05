@@ -611,8 +611,6 @@
 		447CD6931BABF4E800C4E70B /* czzWKThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 447CD6911BABF4E800C4E70B /* czzWKThread.m */; };
 		447CD6941BABF4E800C4E70B /* czzWKThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 447CD6911BABF4E800C4E70B /* czzWKThread.m */; };
 		447CD6951BABF4E800C4E70B /* czzWKThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 447CD6911BABF4E800C4E70B /* czzWKThread.m */; };
-		447E06231BC2391900D24087 /* trash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 447E06221BC2391900D24087 /* trash@2x.png */; settings = {ASSET_TAGS = (); }; };
-		447E06241BC2391900D24087 /* trash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 447E06221BC2391900D24087 /* trash@2x.png */; settings = {ASSET_TAGS = (); }; };
 		447FD254195D1AF1003E30C2 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 447FD253195D1AF1003E30C2 /* libz.dylib */; };
 		44858EAC1A0C5B0A00DD822B /* czzImageViewerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44858EAB1A0C5B0A00DD822B /* czzImageViewerUtil.m */; };
 		4485F4FC19F5FF38007A73CC /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 4485F4FB19F5FF38007A73CC /* NSString+HTML.m */; };

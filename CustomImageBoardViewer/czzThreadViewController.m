@@ -302,6 +302,9 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 #pragma mark - UI button actions
+- (IBAction)moreAction:(id)sender {
+    [self.navigationController setToolbarHidden:!self.navigationController.toolbarHidden animated:YES];
+}
 
 - (IBAction)replyAction:(id)sender {
     [threadMenuViewController replyMainAction];

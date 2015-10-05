@@ -219,6 +219,11 @@
     [self.viewDeckController toggleLeftViewAnimated:YES];
 }
 
+- (IBAction)moreAction:(id)sender {
+    [self.navigationController setToolbarHidden:!self.navigationController.toolbarHidden animated:YES];
+    return;
+}
+
 - (IBAction)postAction:(id)sender {
     [self newPost];
 }
