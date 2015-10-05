@@ -13,7 +13,6 @@
 @class czzThread, czzThreadTableView;
 @interface czzHomeViewController : UIViewController <czzHomeViewModelManagerDelegate>
 @property (weak, nonatomic) IBOutlet czzThreadTableView *threadTableView;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *menuBarButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *jumpBarButtonItem;
 
 @property (strong) UIBarButtonItem *infoBarButton;

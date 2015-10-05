@@ -10,5 +10,5 @@
 
 @interface czzFavouriteManagerPopUpViewController : UIViewController
 
--(void)show;
+-(void)showFromRect:(CGRect)rect inView:(nonnull UIView *)view animated:(BOOL)animated;
 @end

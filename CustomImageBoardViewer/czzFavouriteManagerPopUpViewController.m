@@ -25,11 +25,20 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)show {
-    self.popup = [KLCPopup popupWithContentView:self.view showType:KLCPopupShowTypeBounceIn dismissType:KLCPopupDismissTypeBounceOut maskType:KLCPopupMaskTypeDimmed dismissOnBackgroundTouch:YES dismissOnContentTouch:YES];
+-(void)showFromRect:(CGRect)rect inView:(UIView *)view animated:(BOOL)animated {
+//    self.popup = [KLCPopup popupWithContentView:self.view
+//                                       showType:KLCPopupShowTypeBounceIn
+//                                    dismissType:KLCPopupDismissTypeBounceOut
+//                                       maskType:KLCPopupMaskTypeDimmed dismissOnBackgroundTouch:NO dismissOnContentTouch:NO];
+//
+//    [self.popup showWithLayout:KLCPopupLayoutCenter];
+    UIPopoverPresentationController *popoverPresentationController;
+}
 
-    [self.popup showWithLayout:KLCPopupLayoutCenter];
 
+
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [self.popup dismiss:NO];
 }
 
 +(instancetype)new {

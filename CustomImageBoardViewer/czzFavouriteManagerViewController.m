@@ -19,6 +19,7 @@
 #import "czzHistoryManager.h"
 #import "czzWatchListManager.h"
 #import "czzThreadViewModelManager.h"
+#import "czzCustomSlideAnimationViewController.h"
 
 NSInteger const bookmarkIndex = 0;
 NSInteger const watchIndex = 1;
@@ -71,12 +72,13 @@ NSInteger const historyIndex = 2;
     [favouriteManager saveCurrentState];
 }
 
--(void)dismiss {
-    if (self.navigationController.viewControllers.count > 1) {
-        [self.navigationController popViewControllerAnimated:YES];
-    } else if ([self isModal]) {
-        [self dismissViewControllerAnimated:YES completion:nil];
+-(void)dismiss:(BOOL)isDismissing {
+    czzCustomSlideAnimationViewController *customAnimationViewController = (id)self.navigationController;
+    if ([customAnimationViewController isKindOfClass:[czzCustomSlideAnimationViewController class]]) {
+        customAnimationViewController.isDismissing = isDismissing;
+        [customAnimationViewController dismissViewControllerAnimated:YES completion:nil];
     }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma UITableView datasource
@@ -140,7 +142,7 @@ NSInteger const historyIndex = 2;
         threadViewController.viewModelManager = threadViewModelManager;
         [NavigationManager pushViewController:threadViewController animated:YES];
     }
-    [self dismiss];
+    [self dismiss:NO];
 }
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -192,6 +194,13 @@ NSInteger const historyIndex = 2;
     
     return preferHeight;
 }
+
+#pragma mark - UI actions
+
+- (IBAction)cancelAction:(id)sender {
+    [self dismiss:YES];
+}
+
 
 - (IBAction)editAction:(id)sender {
     [self.tableView setEditing:!self.tableView.editing animated:YES];

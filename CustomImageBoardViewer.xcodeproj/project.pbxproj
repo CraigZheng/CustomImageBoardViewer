@@ -617,6 +617,10 @@
 		447E06271BC23C4200D24087 /* FavouriteManager.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 447E06251BC23C4200D24087 /* FavouriteManager.storyboard */; settings = {ASSET_TAGS = (); }; };
 		447E062B1BC2426900D24087 /* czzFavouriteManagerPopUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 447E062A1BC2426900D24087 /* czzFavouriteManagerPopUpViewController.m */; settings = {ASSET_TAGS = (); }; };
 		447E062C1BC2426900D24087 /* czzFavouriteManagerPopUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 447E062A1BC2426900D24087 /* czzFavouriteManagerPopUpViewController.m */; settings = {ASSET_TAGS = (); }; };
+		447E062F1BC2799500D24087 /* CPWearableViewCustomTransitioningAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 447E062E1BC2799500D24087 /* CPWearableViewCustomTransitioningAnimator.m */; settings = {ASSET_TAGS = (); }; };
+		447E06301BC2799500D24087 /* CPWearableViewCustomTransitioningAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 447E062E1BC2799500D24087 /* CPWearableViewCustomTransitioningAnimator.m */; settings = {ASSET_TAGS = (); }; };
+		447E06331BC279CB00D24087 /* czzCustomSlideAnimationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 447E06321BC279CB00D24087 /* czzCustomSlideAnimationViewController.m */; settings = {ASSET_TAGS = (); }; };
+		447E06341BC279CB00D24087 /* czzCustomSlideAnimationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 447E06321BC279CB00D24087 /* czzCustomSlideAnimationViewController.m */; settings = {ASSET_TAGS = (); }; };
 		447FD254195D1AF1003E30C2 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 447FD253195D1AF1003E30C2 /* libz.dylib */; };
 		44858EAC1A0C5B0A00DD822B /* czzImageViewerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44858EAB1A0C5B0A00DD822B /* czzImageViewerUtil.m */; };
 		4485F4FC19F5FF38007A73CC /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 4485F4FB19F5FF38007A73CC /* NSString+HTML.m */; };
@@ -1286,6 +1290,10 @@
 		447E06251BC23C4200D24087 /* FavouriteManager.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FavouriteManager.storyboard; sourceTree = "<group>"; };
 		447E06291BC2426900D24087 /* czzFavouriteManagerPopUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFavouriteManagerPopUpViewController.h; sourceTree = "<group>"; };
 		447E062A1BC2426900D24087 /* czzFavouriteManagerPopUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFavouriteManagerPopUpViewController.m; sourceTree = "<group>"; };
+		447E062D1BC2799500D24087 /* CPWearableViewCustomTransitioningAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPWearableViewCustomTransitioningAnimator.h; sourceTree = "<group>"; };
+		447E062E1BC2799500D24087 /* CPWearableViewCustomTransitioningAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPWearableViewCustomTransitioningAnimator.m; sourceTree = "<group>"; };
+		447E06311BC279CB00D24087 /* czzCustomSlideAnimationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzCustomSlideAnimationViewController.h; sourceTree = "<group>"; };
+		447E06321BC279CB00D24087 /* czzCustomSlideAnimationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzCustomSlideAnimationViewController.m; sourceTree = "<group>"; };
 		447FD253195D1AF1003E30C2 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		44858EAA1A0C5B0A00DD822B /* czzImageViewerUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzImageViewerUtil.h; sourceTree = "<group>"; };
 		44858EAB1A0C5B0A00DD822B /* czzImageViewerUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzImageViewerUtil.m; sourceTree = "<group>"; };
@@ -2434,11 +2442,15 @@
 		4462EF2218659B8600E6BE78 /* czzFavouriteManagerVIewController */ = {
 			isa = PBXGroup;
 			children = (
+				447E062D1BC2799500D24087 /* CPWearableViewCustomTransitioningAnimator.h */,
+				447E062E1BC2799500D24087 /* CPWearableViewCustomTransitioningAnimator.m */,
 				447E06251BC23C4200D24087 /* FavouriteManager.storyboard */,
 				4462EF2318659BC200E6BE78 /* czzFavouriteManagerViewController.h */,
 				4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */,
 				447E06291BC2426900D24087 /* czzFavouriteManagerPopUpViewController.h */,
 				447E062A1BC2426900D24087 /* czzFavouriteManagerPopUpViewController.m */,
+				447E06311BC279CB00D24087 /* czzCustomSlideAnimationViewController.h */,
+				447E06321BC279CB00D24087 /* czzCustomSlideAnimationViewController.m */,
 			);
 			name = czzFavouriteManagerVIewController;
 			sourceTree = "<group>";
@@ -3807,6 +3819,7 @@
 				442EC8631A1A130A005650E4 /* czzNavigationController.m in Sources */,
 				4416B72619413EAF00B69C5B /* FPPopoverView.m in Sources */,
 				442F1FD71B13535B00267698 /* czzHomeViewDelegate.m in Sources */,
+				447E06331BC279CB00D24087 /* czzCustomSlideAnimationViewController.m in Sources */,
 				444146E21A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.m in Sources */,
 				442A8FA119DB7DF200A3516E /* MWGridCell.m in Sources */,
 				44DF8EE81A74DA3B0097F7F5 /* czzMessagePopUpViewController.m in Sources */,
@@ -3940,6 +3953,7 @@
 				4498A7E41B89984500312A11 /* CPAutoFillView.m in Sources */,
 				4416B72519413EAF00B69C5B /* FPPopoverController.m in Sources */,
 				442A8FAB19DB7DF200A3516E /* NSIndexPath+PSTCollectionViewAdditions.m in Sources */,
+				447E062F1BC2799500D24087 /* CPWearableViewCustomTransitioningAnimator.m in Sources */,
 				44B96E37185B97C400D664A4 /* czzSettingsViewController.m in Sources */,
 				4498A7DF1B89982600312A11 /* ALView+PureLayout.m in Sources */,
 				442A8FA019DB7DF200A3516E /* MWCaptionView.m in Sources */,
@@ -4003,6 +4017,7 @@
 				44553FEE1BABEBA700667435 /* czzNavigationController.m in Sources */,
 				44553FEF1BABEBA700667435 /* FPPopoverView.m in Sources */,
 				44553FF01BABEBA700667435 /* czzHomeViewDelegate.m in Sources */,
+				447E06341BC279CB00D24087 /* czzCustomSlideAnimationViewController.m in Sources */,
 				44553FF11BABEBA700667435 /* czzOnScreenImageManagerViewController.m in Sources */,
 				44553FF21BABEBA700667435 /* MWGridCell.m in Sources */,
 				44553FF31BABEBA700667435 /* czzMessagePopUpViewController.m in Sources */,
@@ -4136,6 +4151,7 @@
 				445540641BABEBA700667435 /* CPAutoFillView.m in Sources */,
 				445540651BABEBA700667435 /* FPPopoverController.m in Sources */,
 				445540661BABEBA700667435 /* NSIndexPath+PSTCollectionViewAdditions.m in Sources */,
+				447E06301BC2799500D24087 /* CPWearableViewCustomTransitioningAnimator.m in Sources */,
 				445540671BABEBA700667435 /* czzSettingsViewController.m in Sources */,
 				445540681BABEBA700667435 /* ALView+PureLayout.m in Sources */,
 				445540691BABEBA700667435 /* MWCaptionView.m in Sources */,

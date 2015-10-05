@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="8TR-f7-Owa">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="NPJ-KY-FRq">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -20,9 +20,6 @@
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pzf-xd-uca">
                                 <rect key="frame" x="60" y="60" width="480" height="480"/>
-                                <connections>
-                                    <segue destination="NPJ-KY-FRq" kind="embed" id="FwY-ux-gxU"/>
-                                </connections>
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -38,11 +35,11 @@
             </objects>
             <point key="canvasLocation" x="-1416" y="-274"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Czz Custom Slide Animation View Controller-->
         <scene sceneID="1wb-Qs-s0N">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g7M-LL-QgO" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <navigationController id="NPJ-KY-FRq" sceneMemberID="viewController">
+                <navigationController id="NPJ-KY-FRq" customClass="czzCustomSlideAnimationViewController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Uwd-2s-x75">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -59,7 +56,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="favourite_manager_view_controller" hidesBottomBarWhenPushed="YES" id="VNW-Ag-gU0" customClass="czzFavouriteManagerViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="j9F-af-Uh9" customClass="czzThreadTableView">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <connections>
@@ -70,9 +67,13 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="tmN-Bp-Dgn">
                         <nil key="title"/>
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="NOT-J6-Qig"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="NOT-J6-Qig">
+                            <connections>
+                                <action selector="cancelAction:" destination="VNW-Ag-gU0" id="Mlz-Y2-nQs"/>
+                            </connections>
+                        </barButtonItem>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="O6R-MR-mt4">
-                            <rect key="frame" x="179" y="7" width="122" height="30"/>
+                            <rect key="frame" x="239" y="7" width="122" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="收藏"/>
@@ -96,7 +97,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2dw-18-Ro0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-116" y="-274"/>
+            <point key="canvasLocation" x="0.0" y="-274"/>
         </scene>
     </scenes>
     <resources>

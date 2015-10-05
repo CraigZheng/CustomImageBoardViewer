@@ -30,7 +30,7 @@
 #import "czzThreadTableView.h"
 #import "czzSettingsViewController.h"
 #import "czzRoundButton.h"
-#import "czzFavouriteManagerPopUpViewController.h"
+#import "czzFavouriteManagerViewController.h"
 
 #import "czzHomeTableViewDataSource.h"
 
@@ -46,7 +46,7 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *numberBarButton;
 @property (assign, nonatomic) GSIndeterminateProgressView *progressView;
 @property (strong, nonatomic) czzForum *selectedForum;
-
+@property (strong, nonatomic) czzFavouriteManagerViewController *favouriteManagerViewController;
 @property (strong, nonatomic) czzHomeTableViewDataSource *tableViewDataSource;
 @property (strong, nonatomic) czzHomeViewDelegate *homeViewDelegate;
 @end
@@ -56,7 +56,6 @@
 @synthesize thumbnailFolder;
 @synthesize shouldHideImageForThisForum;
 @synthesize imageViewerUtil;
-@synthesize menuBarButton;
 @synthesize infoBarButton;
 @synthesize onScreenImageManagerViewContainer;
 @synthesize numberBarButton;
@@ -242,8 +241,10 @@
 
 - (IBAction)bookmarkAction:(id)sender {
     // Present favourite manager modally.
-//    [self presentViewController:[czzFavouriteManagerViewController newInNavigationController] animated:YES completion:nil];
-    [[czzFavouriteManagerPopUpViewController new] show];
+    if (!self.favouriteManagerViewController) {
+        self.favouriteManagerViewController = [czzFavouriteManagerViewController newInNavigationController];
+    }
+    [self presentViewController:self.favouriteManagerViewController animated:YES completion:nil];
 }
 
 - (IBAction)settingsAction:(id)sender {
