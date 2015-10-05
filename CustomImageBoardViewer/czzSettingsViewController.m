@@ -136,11 +136,16 @@
             //图片管理器
             UIViewController *viewController = [[UIStoryboard storyboardWithName:@"ImageManagerStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:@"image_manager_view_controller"];
             [self.navigationController pushViewController:viewController animated:YES];
+//            [self performSegueWithIdentifier:@"go_image_manager_view_controller_segue" sender:self];
         } else if ([command isEqualToString:@"清除ID信息"]){
             //清除ID信息
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"清除ID信息" message:@"确定要清除所有ID信息？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
             [alertView show];
-        } else if ([command isEqualToString:@"意见反馈"]) {
+        } else if ([command isEqualToString:@"收藏"]){
+            //收藏
+            [self performSegueWithIdentifier:@"go_favourite_manager_view_controller_segue" sender:self];
+        }
+        else if ([command isEqualToString:@"意见反馈"]) {
             UIViewController *feedbackViewController = [[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"feedback_view_controller"];
             [self.navigationController pushViewController:feedbackViewController animated:YES];
         }

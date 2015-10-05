@@ -30,7 +30,6 @@
 #import "czzThreadTableView.h"
 #import "czzSettingsViewController.h"
 #import "czzRoundButton.h"
-#import "czzFavouriteManagerViewController.h"
 
 #import "czzHomeTableViewDataSource.h"
 
@@ -241,8 +240,7 @@
 }
 
 - (IBAction)bookmarkAction:(id)sender {
-    // Present favourite manager modally.
-    [self presentViewController:[czzFavouriteManagerViewController newInNavigationController] animated:YES completion:nil];
+    [self performSegueWithIdentifier:@"go_favourite_manager_view_controller_segue" sender:self];
 }
 
 - (IBAction)settingsAction:(id)sender {

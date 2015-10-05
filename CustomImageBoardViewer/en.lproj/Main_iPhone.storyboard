@@ -62,7 +62,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
-                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7vQ-Rb-bPA">
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7vQ-Rb-bPA">
                                 <rect key="frame" x="240" y="444" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="P2C-qt-tg3"/>
@@ -114,6 +114,11 @@
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="串" id="BD0-Cp-BxW">
                         <rightBarButtonItems>
+                            <barButtonItem image="settings_wrench.png" id="YCE-84-cqh">
+                                <connections>
+                                    <action selector="moreAction:" destination="CES-L8-oRQ" id="wuQ-Qk-NfU"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem image="visible.png" id="IcJ-JJ-lZo">
                                 <connections>
                                     <action selector="watchAction:" destination="CES-L8-oRQ" id="q5D-NQ-AWM"/>
@@ -124,6 +129,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="jumpBarButtonItem" destination="M3o-im-Wqp" id="9er-CF-kVc"/>
+                        <outlet property="moreButton" destination="YCE-84-cqh" id="Irg-zp-7RR"/>
                         <outlet property="numberBarButton" destination="4KW-uO-bRF" id="WGT-rj-8ib"/>
                         <outlet property="onScreenImageManagerViewContainer" destination="7vQ-Rb-bPA" id="uZj-Br-hDd"/>
                         <outlet property="starButton" destination="eAd-IU-rZD" id="AWa-Az-nEv"/>
@@ -457,7 +463,7 @@
                                     <outlet property="delegate" destination="4fE-Ef-JB7" id="yBY-be-CC5"/>
                                 </connections>
                             </webView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YfX-wW-cvp">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YfX-wW-cvp">
                                 <rect key="frame" x="0.0" y="480" width="320" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="8uj-zG-q9h"/>
@@ -500,6 +506,7 @@
                     <connections>
                         <outlet property="searchEngineSegmentedControl" destination="XSV-OW-DVO" id="VDh-Xk-WgL"/>
                         <outlet property="searchWebView" destination="Epk-0O-hhD" id="opO-RH-UDv"/>
+                        <segue destination="aOD-Hr-NEd" kind="push" identifier="go_favourite_view_segue" id="A7J-kM-xfA"/>
                         <segue destination="CES-L8-oRQ" kind="push" identifier="showThreadView" id="ec7-IS-eS6"/>
                     </connections>
                 </viewController>
@@ -739,6 +746,7 @@
                     <navigationItem key="navigationItem" title="设置" id="JWX-v1-yiZ"/>
                     <connections>
                         <outlet property="settingsTableView" destination="4iw-Az-V4Y" id="rJt-Ut-zFe"/>
+                        <segue destination="aOD-Hr-NEd" kind="push" identifier="go_favourite_manager_view_controller_segue" id="90f-dH-dau"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SyL-jc-F1x" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -828,15 +836,24 @@
                                 </connections>
                             </barButtonItem>
                         </leftBarButtonItems>
-                        <barButtonItem key="rightBarButtonItem" title="0/0" id="K87-RF-vDp"/>
+                        <rightBarButtonItems>
+                            <barButtonItem image="settings_wrench.png" id="DSK-Nh-2gx">
+                                <connections>
+                                    <action selector="moreAction:" destination="JnF-wS-C9I" id="6KJ-d5-3Mh"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="0/0" id="K87-RF-vDp"/>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="forumListButton" destination="8WD-yv-VRu" id="DLY-p4-ThH"/>
                         <outlet property="jumpBarButtonItem" destination="hBx-aX-JHK" id="sth-yF-T96"/>
+                        <outlet property="menuBarButton" destination="DSK-Nh-2gx" id="QeK-nC-MEP"/>
                         <outlet property="numberBarButton" destination="K87-RF-vDp" id="mLR-7X-U8p"/>
                         <outlet property="onScreenImageManagerViewContainer" destination="Js0-yW-ln4" id="RGH-rd-G71"/>
                         <outlet property="settingsBarButton" destination="T1x-La-d5b" id="pgG-ZV-6rj"/>
                         <outlet property="threadTableView" destination="l2k-8P-m8U" id="5yI-la-cPn"/>
+                        <segue destination="aOD-Hr-NEd" kind="push" identifier="go_favourite_manager_view_controller_segue" id="DWL-6t-CEf"/>
                         <segue destination="4fE-Ef-JB7" kind="push" identifier="go_search_view_segue" id="Uep-8w-iun"/>
                         <segue destination="CES-L8-oRQ" kind="push" identifier="showThreadView" id="5Fw-Ve-fjP"/>
                     </connections>
@@ -844,6 +861,48 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fay-4h-MEE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="170.66666666666666" y="372.98666666666668"/>
+        </scene>
+        <!--Czz Favourite Manager View Controller-->
+        <scene sceneID="G2X-MF-sFX">
+            <objects>
+                <tableViewController storyboardIdentifier="favourite_manager_view_controller" hidesBottomBarWhenPushed="YES" id="aOD-Hr-NEd" customClass="czzFavouriteManagerViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="6rP-cG-rqX" customClass="czzThreadTableView">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="aOD-Hr-NEd" id="OYr-tl-iA0"/>
+                            <outlet property="delegate" destination="aOD-Hr-NEd" id="Wko-Fx-leS"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="cWn-mB-N6O">
+                        <nil key="title"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="SL4-5w-f3w">
+                            <rect key="frame" x="96" y="7" width="128" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="收藏"/>
+                                <segment title="注目"/>
+                                <segment title="历史"/>
+                            </segments>
+                            <connections>
+                                <action selector="titleSegmentedControlAction:" destination="aOD-Hr-NEd" eventType="valueChanged" id="fiO-Nh-3Ta"/>
+                            </connections>
+                        </segmentedControl>
+                        <barButtonItem key="rightBarButtonItem" image="settings_wrench.png" id="3Kd-Br-cM7">
+                            <connections>
+                                <action selector="editAction:" destination="aOD-Hr-NEd" id="KLG-Dy-EFa"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="titleSegmentedControl" destination="SL4-5w-f3w" id="uRL-6I-CAE"/>
+                        <segue destination="CES-L8-oRQ" kind="push" identifier="showThreadView" id="vj6-ho-19y"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="T25-Ph-svD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="654" y="-294"/>
         </scene>
     </scenes>
     <resources>
@@ -859,12 +918,14 @@
         <image name="reply.png" width="20" height="20"/>
         <image name="search.png" width="20" height="20"/>
         <image name="settings.png" width="20" height="20"/>
+        <image name="settings_wrench.png" width="20" height="20"/>
         <image name="star.png" width="20" height="20"/>
         <image name="upload.png" width="20" height="20"/>
         <image name="visible.png" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ec7-IS-eS6"/>
+        <segue reference="DWL-6t-CEf"/>
+        <segue reference="5Fw-Ve-fjP"/>
         <segue reference="vK6-NU-jzp"/>
     </inferredMetricsTieBreakers>
 </document>
