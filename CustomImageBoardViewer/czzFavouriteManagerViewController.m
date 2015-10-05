@@ -25,11 +25,13 @@ NSInteger const watchIndex = 1;
 NSInteger const historyIndex = 2;
 
 @interface czzFavouriteManagerViewController ()
-@property NSIndexPath *selectedIndex;
-@property NSMutableSet *internalThreads;
-@property czzThread *selectedThread;
+@property (nonatomic, strong) NSIndexPath *selectedIndex;
+@property (nonatomic, strong) NSMutableSet *internalThreads;
+@property (nonatomic, strong) czzThread *selectedThread;
 @property (weak, nonatomic) id selectedManager;
-@property NSArray *updatedThreads;
+@property (nonatomic, strong) NSArray *updatedThreads;
+@property (nonatomic, strong) NSMutableDictionary *horizontalHeights;
+@property (nonatomic, strong) NSMutableDictionary *verticalHeights;
 @end
 
 @implementation czzFavouriteManagerViewController
@@ -47,6 +49,8 @@ NSInteger const historyIndex = 2;
     [self copyDataFromManager];
     
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
+    self.horizontalHeights = [NSMutableDictionary new];
+    self.verticalHeights = [NSMutableDictionary new];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -57,6 +61,7 @@ NSInteger const historyIndex = 2;
     self.view.backgroundColor = [settingCentre viewBackgroundColour];
     [self.tableView reloadData];
     [self.navigationController setToolbarHidden:YES animated:YES];
+    self.tableView.estimatedRowHeight = 44;
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -95,6 +100,28 @@ NSInteger const historyIndex = 2;
         }
     }
     return cell;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CGFloat estimatedRowHeight = tableView.estimatedRowHeight;
+    czzThread *thread = [threads objectAtIndex:indexPath.row];
+    // If the height is already available.
+    NSString *threadID = [NSString stringWithFormat:@"%ld", (long)thread.ID];
+    NSMutableDictionary *heightDictionary = UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].keyWindow.rootViewController.interfaceOrientation) ? self.verticalHeights : self.horizontalHeights;
+    
+    id cachedHeight = [heightDictionary objectForKey:threadID];
+    if ([cachedHeight isKindOfClass:[NSNumber class]]) {
+        estimatedRowHeight = [cachedHeight floatValue];
+    } else {
+        NSInteger estimatedLines = thread.content.length / 50 + 1;
+        estimatedRowHeight *= estimatedLines;
+        
+        // Has image = bigger.
+        if (thread.thImgSrc.length) {
+            estimatedRowHeight += settingCentre.userDefShouldUseBigImage ? 160 : 80;
+        }
+    }
+    return estimatedRowHeight;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -140,30 +167,21 @@ NSInteger const historyIndex = 2;
     if (indexPath.row >= threads.count)
         return tableView.rowHeight;
     
-    czzThread *thread = [threads objectAtIndex:indexPath.row];
-    NSMutableArray *heightsArray;
-    
-    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-        if (![selectedManager horizontalHeights])
-            [selectedManager setHorizontalHeights:[NSMutableArray new]];
-        heightsArray = [selectedManager horizontalHeights];
-    } else
-    {
-        if (![selectedManager verticalHeights])
-            [selectedManager setVerticalHeights:[NSMutableArray new]];
-        heightsArray = [selectedManager verticalHeights];
-    }
-    if (!heightsArray)
-        heightsArray = [NSMutableArray new];
-    
     CGFloat preferHeight = tableView.rowHeight;
-    if (heightsArray.count > indexPath.row + 1){
-        preferHeight = [[heightsArray objectAtIndex:indexPath.row] doubleValue];
-    } else {
+    czzThread *thread = [threads objectAtIndex:indexPath.row];
+    NSString *threadIDString = [NSString stringWithFormat:@"%ld", (long)thread.ID];
+
+    NSMutableDictionary *heightsDictionary = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? self.verticalHeights : self.horizontalHeights;
+    NSNumber *heightsNumber = [heightsDictionary objectForKey:threadIDString];
+    
+    if (!heightsNumber) {
         preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:self.view hasImage:thread.thImgSrc.length > 0];
         preferHeight = MAX(tableView.rowHeight, preferHeight);
-        [heightsArray addObject:[NSNumber numberWithDouble:preferHeight]];
+        [heightsDictionary setObject:@(preferHeight) forKey:threadIDString];
+    } else {
+        preferHeight = heightsNumber.floatValue;
     }
+    
     return preferHeight;
 }
 
@@ -182,9 +200,6 @@ NSInteger const historyIndex = 2;
         selectedManager = favouriteManager;
     } else if (titleSegmentedControl.selectedSegmentIndex == historyIndex) {
         threads = [historyManager browserHistory];
-        //clear cached heights, since history manager would change frequently
-        [historyManager setHorizontalHeights:nil];
-        [historyManager setVerticalHeights:nil];
         selectedManager = historyManager;
         threads = [NSMutableOrderedSet orderedSetWithArray:[[threads reverseObjectEnumerator] allObjects]]; //hisotry are recorded backward
     } else if (titleSegmentedControl.selectedSegmentIndex == watchIndex) {

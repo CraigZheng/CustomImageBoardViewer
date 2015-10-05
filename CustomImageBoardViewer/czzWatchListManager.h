@@ -14,9 +14,6 @@
 @property (nonatomic, strong) NSMutableOrderedSet *watchedThreads;
 @property (nonatomic, strong) NSMutableArray *updatedThreads;
 
-@property NSMutableArray *verticalHeights;
-@property NSMutableArray *horizontalHeights;
-
 @property (nonatomic, assign) BOOL isDownloading;
 
 -(void)addToWatchList:(czzThread*)thread;

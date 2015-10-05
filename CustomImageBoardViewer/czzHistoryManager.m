@@ -10,7 +10,6 @@
 
 @implementation czzHistoryManager
 @synthesize browserHistory;
-@synthesize verticalHeights, horizontalHeights;
 
 -(instancetype)init {
     self = [super init];
