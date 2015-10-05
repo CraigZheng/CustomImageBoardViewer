@@ -51,20 +51,6 @@
 
 }
 
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    self.navigationBar.barTintColor = [settingCentre barTintColour];
-    //252	103	61
-    self.navigationBar.tintColor = [settingCentre tintColour];
-    
-    //consistent look for tool bar and label
-    [self.navigationBar
-     setTitleTextAttributes:@{NSForegroundColorAttributeName : self.navigationBar.tintColor}];
-    self.toolbar.barTintColor = self.navigationBar.barTintColor;
-    self.toolbar.tintColor = self.navigationBar.tintColor;
-}
-
 #pragma mark - czzNavigationViewModelManagerDelegate
 -(void)viewModelManager:(czzNavigationViewModelManager *)manager wantsToPopToViewController:(UIViewController *)viewController animated:(BOOL)animated {
     [self popToViewController:viewController animated:animated];
