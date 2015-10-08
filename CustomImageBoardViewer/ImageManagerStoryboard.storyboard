@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="SSq-yE-7jJ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="SSq-yE-7jJ">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -25,13 +25,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Npw-9Z-O4q"/>
                                     <constraint firstAttribute="width" secondItem="2Sd-nf-FFF" secondAttribute="height" multiplier="1:1" id="OAg-ME-ubo"/>
-                                    <constraint firstAttribute="width" constant="60" id="ZGK-7t-Bup"/>
                                 </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="ZGK-7t-Bup"/>
-                                    </mask>
-                                </variation>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="DuY-ZR-HZ1" appends="YES" id="uL3-YR-yc0"/>
                                 </connections>
@@ -39,19 +33,9 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="bwG-Dx-z8m" firstAttribute="top" secondItem="2Sd-nf-FFF" secondAttribute="bottom" constant="8" id="6vJ-oH-MzA"/>
-                            <constraint firstItem="2Sd-nf-FFF" firstAttribute="leading" secondItem="8XP-Rf-aQq" secondAttribute="leading" constant="10" id="OhT-pS-yEy"/>
                             <constraint firstAttribute="centerX" secondItem="2Sd-nf-FFF" secondAttribute="centerX" id="Szv-Er-hv3"/>
                             <constraint firstAttribute="centerY" secondItem="2Sd-nf-FFF" secondAttribute="centerY" id="X1H-yP-3ZD"/>
-                            <constraint firstAttribute="trailing" secondItem="2Sd-nf-FFF" secondAttribute="trailing" constant="10" id="dkr-vZ-hOt"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="OhT-pS-yEy"/>
-                                <exclude reference="dkr-vZ-hOt"/>
-                                <exclude reference="6vJ-oH-MzA"/>
-                            </mask>
-                        </variation>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="200" height="120"/>
@@ -66,7 +50,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="628" y="1091"/>
+            <point key="canvasLocation" x="334.93333333333334" y="1032.8133333333333"/>
         </scene>
         <!--Czz Short Image Manager Collection View Controller-->
         <scene sceneID="3sC-aH-SBP">
@@ -82,12 +66,9 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="DPg-B7-9so">
                                 <rect key="frame" x="8" y="80" width="304" height="320"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="320" id="0TR-hR-M30"/>
                                     <constraint firstAttribute="height" priority="250" constant="320" id="7oE-tV-4V1"/>
-                                    <constraint firstAttribute="height" constant="200" id="VWi-fW-bgX"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="320" id="afu-Qs-rxb"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Cy8-tl-JiG">
                                     <size key="itemSize" width="90" height="100"/>
@@ -112,7 +93,7 @@
                                                         <constraint firstAttribute="height" priority="250" constant="21" id="2rq-cl-uJm"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -126,17 +107,9 @@
                                             <constraint firstAttribute="bottom" secondItem="X3S-fo-dSu" secondAttribute="bottom" id="Dng-sN-Amo"/>
                                             <constraint firstItem="XAK-Gk-vAa" firstAttribute="top" secondItem="g8S-S8-nxr" secondAttribute="top" id="EUt-3D-bt5"/>
                                             <constraint firstAttribute="trailing" secondItem="XAK-Gk-vAa" secondAttribute="trailing" id="GGz-rg-8EV"/>
-                                            <constraint firstItem="XAK-Gk-vAa" firstAttribute="leading" secondItem="g8S-S8-nxr" secondAttribute="leading" id="Mci-wd-zh6"/>
                                             <constraint firstItem="XAK-Gk-vAa" firstAttribute="leading" secondItem="g8S-S8-nxr" secondAttribute="leading" id="QO4-Jd-r1H"/>
                                             <constraint firstAttribute="bottom" secondItem="XAK-Gk-vAa" secondAttribute="bottom" constant="20" id="XNJ-du-wZ8"/>
-                                            <constraint firstAttribute="trailing" secondItem="XAK-Gk-vAa" secondAttribute="trailing" id="bUa-oe-Kkt"/>
                                         </constraints>
-                                        <variation key="default">
-                                            <mask key="constraints">
-                                                <exclude reference="Mci-wd-zh6"/>
-                                                <exclude reference="bUa-oe-Kkt"/>
-                                            </mask>
-                                        </variation>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="downloaded_image_view_cell" id="sSU-Ic-lSK">
                                         <rect key="frame" x="107" y="5" width="90" height="100"/>
@@ -159,13 +132,6 @@
                                         </constraints>
                                     </collectionViewCell>
                                 </cells>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="0TR-hR-M30"/>
-                                        <exclude reference="VWi-fW-bgX"/>
-                                        <exclude reference="afu-Qs-rxb"/>
-                                    </mask>
-                                </variation>
                                 <connections>
                                     <outlet property="dataSource" destination="8B6-JU-J4d" id="F50-Mg-eqk"/>
                                     <outlet property="delegate" destination="8B6-JU-J4d" id="eiy-Xn-2Mq"/>
@@ -204,21 +170,9 @@
                             <constraint firstAttribute="centerX" secondItem="DPg-B7-9so" secondAttribute="centerX" id="4cA-4W-IiJ"/>
                             <constraint firstAttribute="width" secondItem="DPg-B7-9so" secondAttribute="width" multiplier="1:0.95" priority="250" id="Ad7-aP-58l"/>
                             <constraint firstAttribute="centerX" secondItem="ow5-My-3da" secondAttribute="centerX" id="CKb-5t-Kmz"/>
-                            <constraint firstAttribute="trailing" secondItem="DPg-B7-9so" secondAttribute="trailing" id="H3c-cP-VkB"/>
-                            <constraint firstItem="DPg-B7-9so" firstAttribute="top" secondItem="vdA-xk-e2R" secondAttribute="top" constant="80" id="IvD-z9-OUP"/>
                             <constraint firstAttribute="centerY" secondItem="DPg-B7-9so" secondAttribute="centerY" id="PHl-WR-JJk"/>
-                            <constraint firstItem="OCf-Vc-9uO" firstAttribute="top" secondItem="DPg-B7-9so" secondAttribute="bottom" constant="80" id="TX8-zl-iRW"/>
                             <constraint firstAttribute="centerY" secondItem="ow5-My-3da" secondAttribute="centerY" id="VX8-GT-4JJ"/>
-                            <constraint firstItem="DPg-B7-9so" firstAttribute="leading" secondItem="vdA-xk-e2R" secondAttribute="leading" id="hlQ-si-VRu"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="H3c-cP-VkB"/>
-                                <exclude reference="IvD-z9-OUP"/>
-                                <exclude reference="hlQ-si-VRu"/>
-                                <exclude reference="TX8-zl-iRW"/>
-                            </mask>
-                        </variation>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="PKG-T4-KHR" appends="YES" id="oa6-4a-k3C"/>
                         </connections>
@@ -236,14 +190,30 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="982" y="1064"/>
+            <point key="canvasLocation" x="523.73333333333335" y="1007.2533333333333"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="TxF-ca-r3H">
+            <objects>
+                <navigationController id="Ntd-DY-wf2" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="WDM-HK-KCO">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="d0D-be-S8i" kind="relationship" relationship="rootViewController" id="86U-bZ-bun"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8lD-UX-Pj9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="96" y="247"/>
         </scene>
         <!--Czz Image Manager View Controller-->
         <scene sceneID="voG-ze-gpR">
             <objects>
                 <collectionViewController storyboardIdentifier="image_manager_view_controller" autoresizesArchivedViewToFullSize="NO" id="d0D-be-S8i" customClass="czzImageManagerViewController" sceneMemberID="viewController">
                     <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="o2N-tm-AAs">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="mDB-NB-XSP">
                             <size key="itemSize" width="103.5" height="103.5"/>
@@ -253,7 +223,7 @@
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="preview_image_cell_identifier" id="prs-wx-5QU">
-                                <rect key="frame" x="0.0" y="0.0" width="103.5" height="103.5"/>
+                                <rect key="frame" x="0.0" y="64" width="103.5" height="103.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="103.5" height="103.5"/>
@@ -284,9 +254,9 @@
                             <rect key="frame" x="70" y="7" width="180" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
-                                <segment title="全部"/>
                                 <segment title="大图"/>
                                 <segment title="缩图"/>
+                                <segment title="全部"/>
                             </segments>
                             <connections>
                                 <action selector="gallarySegmentControlAction:" destination="d0D-be-S8i" eventType="valueChanged" id="MvU-Ds-1lS"/>
@@ -299,7 +269,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="10j-lv-6c8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="877" y="-641"/>
+            <point key="canvasLocation" x="569" y="247"/>
         </scene>
     </scenes>
     <resources>
