@@ -9,7 +9,7 @@
 
 
 #import "czzImageCacheManager.h"
-#import "czzImageDownloader.h"
+#import "czzImageDownloaderManager.h"
 #import "czzAppDelegate.h"
 #import "Toast+UIView.h"
 #import "czzSettingsCentre.h"
@@ -17,10 +17,18 @@
 
 #include <sys/stat.h>
 
-@interface czzImageCacheManager()
+@interface czzImageCacheManager() <czzImageDownloaderManagerDelegate>
 @end
 
 @implementation czzImageCacheManager
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        [[czzImageDownloaderManager sharedManager] addDelegate:self];
+    }
+    return self;
+}
 
 #pragma mark - Cache management.
 
@@ -115,6 +123,14 @@
         }
     }
     return _thumbnailImages;
+}
+
+#pragma mark - czzImageDownloaderManager
+
+-(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
+    if (success) {
+        [self reloadCaches];
+    }
 }
 
 + (instancetype)sharedInstance

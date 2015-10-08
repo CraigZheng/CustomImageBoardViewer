@@ -37,7 +37,6 @@
     // Show all images.
     imageCategory = FULL_SIZE_IMAGE;
     [self reloadImageFiles];
-    [[czzImageCacheManager sharedInstance] reloadCaches];
 }
 
 #pragma Load data from image centre
