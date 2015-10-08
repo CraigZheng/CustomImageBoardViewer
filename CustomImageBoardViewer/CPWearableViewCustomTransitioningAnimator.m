@@ -25,33 +25,62 @@
     UIView *containerView = [transitionContext containerView];
     NSTimeInterval duration = [self transitionDuration:transitionContext];
 
-    //perform the animation
-    //make the container view twice the size of the current screen size
-    CGRect twiceScreenSize = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width * 2, [UIScreen mainScreen].bounds.size.height);
-    containerView.frame = twiceScreenSize;
-    //adjust the sizes for fromView and toView
+    // Adjust the size, just in case.
     fromView.frame = toView.frame = [UIScreen mainScreen].bounds;
     if (self.isDismissing) {
-        //is dismissing, position from right on the right and toView on the left, animate container view from right to left
-        fromView.frame = CGRectMake(fromView.frame.size.width, 0, fromView.frame.size.width, fromView.frame.size.height);
-        //at the begining, container view should be half way at the centre(x = negative number), then move to left(x = 0);
-        containerView.frame = CGRectMake(-fromView.frame.origin.x, 0, containerView.frame.size.width, containerView.frame.size.height);
-//        [containerView addSubview:fromView];
+        // Is dismissing
+        
+        // Add shadow to the fromView
+        fromView.layer.shadowColor = [UIColor darkGrayColor].CGColor;
+        fromView.layer.shadowOpacity = 0.8;
+        fromView.layer.shadowPath = [UIBezierPath bezierPathWithRect:toView.frame].CGPath;
+        fromView.layer.shadowRadius = 5;
+
+        // fromView positions to full screen.
+        fromView.frame = CGRectMake(0, 0, fromView.frame.size.width, fromView.frame.size.height);
+
+        // toView positions to half way to the left.
+        CGRect toViewRect = toView.frame;
+        toViewRect.origin.x = -(toViewRect.size.width / 2);
+        toView.frame = toViewRect;
         [containerView addSubview:toView];
+        // fromView should be on top of toView.
+        [containerView bringSubviewToFront:fromView];
         [UIView animateWithDuration:duration animations:^{
-            containerView.frame = CGRectMake(0, 0, containerView.frame.size.width, containerView.frame.size.height);
+            // fromView move out of the screen.
+            CGRect fromViewRect = fromView.frame;
+            fromViewRect.origin.x = fromViewRect.size.width;
+            fromView.frame = fromViewRect;
+            
+            // toView move to full screen.
+            CGRect toViewRect = toView.frame;
+            toViewRect.origin.x = 0;
+            toView.frame = toViewRect;
         } completion:^(BOOL finished) {
             [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
         }];
     } else {
-        //is presenting, position the from view on the left and toView on the right, animate x from 0 to the beginning of to view
+        // Is presenting
+        
+        // Add shadow, which represents a layer of depth.
+        toView.layer.shadowColor = [UIColor darkGrayColor].CGColor;
+        toView.layer.shadowOpacity = 0.8;
+        toView.layer.shadowPath = [UIBezierPath bezierPathWithRect:toView.frame].CGPath;
+        toView.layer.shadowRadius = 5;
+        
+        // Position the toView on the right side of the screen.
         toView.frame = CGRectMake(fromView.frame.size.width, 0, toView.frame.size.width, toView.frame.size.height);
-//        [containerView addSubview:fromView];
+        
         [containerView addSubview:toView];
         [UIView animateWithDuration:duration animations:^{
-            CGRect frame = CGRectMake(0, 0, toView.frame.size.width, toView.frame.size.height);
-            toView.frame = frame;
-            fromView.frame = CGRectMake(-fromView.frame.size.width, 0, fromView.frame.size.width, fromView.frame.size.height);
+            // toView move to full screen.
+            CGRect toViewRect = toView.frame;
+            toViewRect.origin.x = 0;
+            toView.frame = toViewRect;
+            // fromView move half out of the screen
+            CGRect fromViewRect = fromView.frame;
+            fromViewRect.origin.x = -(fromViewRect.size.width / 2);
+            fromView.frame = fromViewRect;
         } completion:^(BOOL finished) {
             // Add the following line before completing the transition
             [[[UIApplication sharedApplication] keyWindow] sendSubviewToBack:toVC.view];

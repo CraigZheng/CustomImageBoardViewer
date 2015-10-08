@@ -10,7 +10,8 @@
 #import "CPWearableViewCustomTransitioningAnimator.h"
 
 @interface czzCustomSlideAnimationViewController () <UIViewControllerTransitioningDelegate, UIGestureRecognizerDelegate>
-@property UIPercentDrivenInteractiveTransition *interactivePopTransition;
+@property (strong, nonatomic) UIPercentDrivenInteractiveTransition *interactivePopTransition;
+@property (assign, nonatomic) BOOL isInteractiveTransition;
 @end
 
 @implementation czzCustomSlideAnimationViewController
@@ -41,6 +42,7 @@
     
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         // Create a interactive transition and pop the view controller
+        self.isInteractiveTransition = YES;
         self.interactivePopTransition = [[UIPercentDrivenInteractiveTransition alloc] init];
         self.isDismissing = YES;
         [self dismissViewControllerAnimated:YES completion:nil];
@@ -51,6 +53,7 @@
     }
     else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateCancelled) {
         // Finish or cancel the interactive transition
+        self.isInteractiveTransition = NO;
         if (progress > 0.5) {
             [self.interactivePopTransition finishInteractiveTransition];
         }
@@ -58,7 +61,6 @@
             self.isDismissing = NO;
             [self.interactivePopTransition cancelInteractiveTransition];
         }
-        
         self.interactivePopTransition = nil;
     }
 }
@@ -85,12 +87,12 @@
 
 - (id<UIViewControllerInteractiveTransitioning>)interactionControllerForPresentation:(id<UIViewControllerAnimatedTransitioning>)animator
 {
-    return self.interactivePopTransition;
+    return self.isInteractiveTransition ? self.interactivePopTransition : nil;
 }
 
 - (id<UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator
 {
-    return self.interactivePopTransition;
+    return self.isInteractiveTransition ? self.interactivePopTransition : nil;
 }
 
 
