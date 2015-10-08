@@ -3,43 +3,12 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--Czz Favourite Manager Pop Up View Controller-->
-        <scene sceneID="8Uv-SE-7ei">
-            <objects>
-                <viewController id="8TR-f7-Owa" customClass="czzFavouriteManagerPopUpViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="gsN-wM-zp5"/>
-                        <viewControllerLayoutGuide type="bottom" id="D4x-Lo-BlI"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Xal-41-8T3">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pzf-xd-uca">
-                                <rect key="frame" x="60" y="60" width="480" height="480"/>
-                            </containerView>
-                        </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="Pzf-xd-uca" firstAttribute="width" secondItem="Xal-41-8T3" secondAttribute="width" multiplier="0.8:1" id="47l-1n-D3k"/>
-                            <constraint firstItem="Pzf-xd-uca" firstAttribute="height" secondItem="Xal-41-8T3" secondAttribute="height" multiplier="0.8:1" id="FHX-XD-c4i"/>
-                            <constraint firstItem="Pzf-xd-uca" firstAttribute="centerX" secondItem="Xal-41-8T3" secondAttribute="centerX" id="QhA-aZ-AE6"/>
-                            <constraint firstItem="Pzf-xd-uca" firstAttribute="centerY" secondItem="Xal-41-8T3" secondAttribute="centerY" id="vED-WE-Sog"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Lfz-TD-Cp3" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1416" y="-274"/>
-        </scene>
-        <!--Czz Custom Slide Animation View Controller-->
+        <!--Navigation Controller-->
         <scene sceneID="1wb-Qs-s0N">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="g7M-LL-QgO" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <navigationController id="NPJ-KY-FRq" customClass="czzCustomSlideAnimationViewController" sceneMemberID="viewController">
+                <navigationController id="NPJ-KY-FRq" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Uwd-2s-x75">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -48,8 +17,9 @@
                         <segue destination="VNW-Ag-gU0" kind="relationship" relationship="rootViewController" id="IjO-9L-RQj"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="g7M-LL-QgO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-718" y="-274"/>
+            <point key="canvasLocation" x="-572" y="-283"/>
         </scene>
         <!--Czz Favourite Manager View Controller-->
         <scene sceneID="bOk-ci-aBH">
@@ -64,16 +34,10 @@
                             <outlet property="delegate" destination="VNW-Ag-gU0" id="Z7Z-lt-8tf"/>
                         </connections>
                     </tableView>
-                    <toolbarItems/>
                     <navigationItem key="navigationItem" id="tmN-Bp-Dgn">
                         <nil key="title"/>
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="NOT-J6-Qig">
-                            <connections>
-                                <action selector="cancelAction:" destination="VNW-Ag-gU0" id="Mlz-Y2-nQs"/>
-                            </connections>
-                        </barButtonItem>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="O6R-MR-mt4">
-                            <rect key="frame" x="239" y="7" width="122" height="30"/>
+                            <rect key="frame" x="236" y="7" width="128" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="收藏"/>
@@ -90,14 +54,13 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="titleSegmentedControl" destination="O6R-MR-mt4" id="uMi-vp-KDA"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2dw-18-Ro0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="0.0" y="-274"/>
+            <point key="canvasLocation" x="654" y="-294"/>
         </scene>
     </scenes>
     <resources>

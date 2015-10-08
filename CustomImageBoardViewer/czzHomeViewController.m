@@ -245,7 +245,8 @@
 }
 
 - (IBAction)bookmarkAction:(id)sender {
-    [self performSegueWithIdentifier:@"go_favourite_manager_view_controller_segue" sender:self];
+    // Present favourite manager modally.
+    [self presentViewController:[czzFavouriteManagerViewController newInNavigationController] animated:YES completion:nil];
 }
 
 - (IBAction)settingsAction:(id)sender {

@@ -143,6 +143,7 @@ NSInteger const historyIndex = 2;
         threadViewController.viewModelManager = threadViewModelManager;
         [NavigationManager pushViewController:threadViewController animated:YES];
     }
+    [self dismiss];
 }
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -237,6 +238,10 @@ NSInteger const historyIndex = 2;
 }
 
 +(instancetype)new {
-    return [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"favourite_manager_view_controller"];
+    return [[UIStoryboard storyboardWithName:@"FavouriteManager" bundle:nil] instantiateViewControllerWithIdentifier:@"favourite_manager_view_controller"];
+}
+
++(UIViewController *)newInNavigationController {
+    return [[UIStoryboard storyboardWithName:@"FavouriteManager" bundle:nil] instantiateInitialViewController];
 }
 @end
