@@ -62,7 +62,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
-                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7vQ-Rb-bPA">
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7vQ-Rb-bPA">
                                 <rect key="frame" x="240" y="444" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="P2C-qt-tg3"/>
@@ -441,7 +441,7 @@
         <!--搜索-->
         <scene sceneID="GOM-9C-eeI">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="4fE-Ef-JB7" customClass="czzSearchViewController" sceneMemberID="viewController">
+                <viewController id="4fE-Ef-JB7" customClass="czzSearchViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="WQ1-ci-jbs"/>
                         <viewControllerLayoutGuide type="bottom" id="AEA-PL-ycP"/>
@@ -457,46 +457,38 @@
                                     <outlet property="delegate" destination="4fE-Ef-JB7" id="yBY-be-CC5"/>
                                 </connections>
                             </webView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YfX-wW-cvp">
-                                <rect key="frame" x="0.0" y="480" width="320" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="8uj-zG-q9h"/>
-                                </constraints>
-                                <items>
-                                    <barButtonItem style="plain" id="v7e-1w-UHH">
-                                        <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="XSV-OW-DVO">
-                                            <rect key="frame" x="16" y="6.5" width="161" height="31"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <segments>
-                                                <segment title="必应"/>
-                                                <segment title="谷歌"/>
-                                            </segments>
-                                            <connections>
-                                                <action selector="segmentControlChanged:" destination="4fE-Ef-JB7" eventType="valueChanged" id="Mfp-5i-zbb"/>
-                                            </connections>
-                                        </segmentedControl>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="P07-FE-5su"/>
-                                    <barButtonItem title="再搜" id="SKw-AQ-DWW">
-                                        <connections>
-                                            <action selector="againAction:" destination="4fE-Ef-JB7" id="4If-cq-b4Y"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="Epk-0O-hhD" secondAttribute="bottom" id="0PY-T8-bab"/>
-                            <constraint firstItem="YfX-wW-cvp" firstAttribute="leading" secondItem="9mX-3B-4Yy" secondAttribute="leading" id="0cx-C2-cXW"/>
-                            <constraint firstItem="AEA-PL-ycP" firstAttribute="top" secondItem="YfX-wW-cvp" secondAttribute="bottom" id="EqO-b6-8kO"/>
                             <constraint firstItem="Epk-0O-hhD" firstAttribute="leading" secondItem="9mX-3B-4Yy" secondAttribute="leading" id="T1o-HP-ssu"/>
-                            <constraint firstAttribute="trailing" secondItem="YfX-wW-cvp" secondAttribute="trailing" id="ek1-st-hRO"/>
                             <constraint firstAttribute="trailing" secondItem="Epk-0O-hhD" secondAttribute="trailing" id="hMO-RS-cNH"/>
                             <constraint firstItem="Epk-0O-hhD" firstAttribute="top" secondItem="9mX-3B-4Yy" secondAttribute="top" id="oFs-ec-QnR"/>
                         </constraints>
                     </view>
+                    <toolbarItems>
+                        <barButtonItem style="plain" id="v7e-1w-UHH">
+                            <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="XSV-OW-DVO">
+                                <rect key="frame" x="16" y="6.5" width="161" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="必应"/>
+                                    <segment title="谷歌"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segmentControlChanged:" destination="4fE-Ef-JB7" eventType="valueChanged" id="Mfp-5i-zbb"/>
+                                </connections>
+                            </segmentedControl>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="P07-FE-5su"/>
+                        <barButtonItem title="再搜" id="SKw-AQ-DWW">
+                            <connections>
+                                <action selector="againAction:" destination="4fE-Ef-JB7" id="4If-cq-b4Y"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" title="搜索" id="KgA-lu-vdi"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="searchEngineSegmentedControl" destination="XSV-OW-DVO" id="VDh-Xk-WgL"/>
                         <outlet property="searchWebView" destination="Epk-0O-hhD" id="opO-RH-UDv"/>
