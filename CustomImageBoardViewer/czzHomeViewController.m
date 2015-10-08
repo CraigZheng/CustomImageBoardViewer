@@ -52,41 +52,16 @@
 @end
 
 @implementation czzHomeViewController
-@synthesize leftController;
-@synthesize thumbnailFolder;
-@synthesize shouldHideImageForThisForum;
-@synthesize imageViewerUtil;
-@synthesize infoBarButton;
-@synthesize onScreenImageManagerViewContainer;
-@synthesize numberBarButton;
-@synthesize forumListButton;
-@synthesize refreshControl;
-@synthesize settingsBarButton;
-@synthesize progressView;
-
-@synthesize tableViewDataSource;
-@synthesize homeViewDelegate;
 
 #pragma mark - life cycle
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    //assign delegate and parentViewController
-    self.viewModelManager.delegate = self;
-    
-    //progress bar
-    progressView = [(czzNavigationController*) self.navigationController progressView];
-    
-    imageViewerUtil = [czzImageViewerUtil new];
-
-    //thumbnail folder
-    thumbnailFolder = [czzAppDelegate thumbnailFolder];
     
     //assign a custom tableview data source
-    self.threadTableView.dataSource = tableViewDataSource = [czzHomeTableViewDataSource initWithViewModelManager:self.viewModelManager];
-    self.threadTableView.delegate = homeViewDelegate = [czzHomeViewDelegate initWithViewModelManager:self.viewModelManager];
-    tableViewDataSource.tableViewDelegate = homeViewDelegate;
+    self.threadTableView.dataSource = self.tableViewDataSource;
+    self.threadTableView.delegate = self.homeViewDelegate;
+    self.tableViewDataSource.tableViewDelegate = self.homeViewDelegate;
     
     // Load data into tableview
     [self updateTableView];
@@ -100,7 +75,6 @@
     self.viewDeckController.leftSize = self.view.frame.size.width/4;
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
     self.viewDeckController.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
-    leftController = [czzForumsViewController new];
 
     //register a notification observer
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -108,10 +82,7 @@
                                                  name:kForumPickedNotification
                                                object:nil];
     
-    //register a refresh control
-    refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
-    [self.threadTableView addSubview: refreshControl];
+    [self.threadTableView addSubview: self.refreshControl];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -139,24 +110,24 @@
     });
     //check if should show a badget on settings button
     UIButton *settingsGearImageButton;
-    if (!settingsBarButton.customView) {
+    if (!self.settingsBarButton.customView) {
         //create a container view that has an image button as its sub view
         settingsGearImageButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 48, 37)];
         settingsGearImageButton.imageEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10);
         [settingsGearImageButton setImage:[[UIImage imageNamed:@"settings.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         settingsGearImageButton.tag = 999;
         //add the container view
-        settingsBarButton.customView = settingsGearImageButton;
+        self.settingsBarButton.customView = settingsGearImageButton;
     } else {
         //retrive the gear image button
-        settingsGearImageButton = (UIButton*) [settingsBarButton.customView viewWithTag:999];
+        settingsGearImageButton = (UIButton*) [self.settingsBarButton.customView viewWithTag:999];
     }
     if ([[(czzNavigationController*)self.navigationController notificationBannerViewController] shouldShow]) {
-        settingsBarButton.badgeValue = @"1";
+        self.settingsBarButton.badgeValue = @"1";
         [settingsGearImageButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
         [settingsGearImageButton addTarget:self action:@selector(openNotificationCentre) forControlEvents:UIControlEventTouchUpInside];
     } else {
-        settingsBarButton.badgeValue = nil;
+        self.settingsBarButton.badgeValue = nil;
         [settingsGearImageButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
         [settingsGearImageButton addTarget:self action:@selector(openSettingsPanel) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -165,7 +136,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    [refreshControl endRefreshing];
+    [self.refreshControl endRefreshing];
     // Disable the left controller whenever I am leaving this view controller.
     self.viewDeckController.leftController = nil;
 }
@@ -173,14 +144,14 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.viewDeckController.rightController = nil;
-    self.viewDeckController.leftController = leftController;
+    self.viewDeckController.leftController = self.leftController;
     self.viewDeckController.panningMode = IIViewDeckFullViewPanning;
 
     //on screen image manager view
     czzOnScreenImageManagerViewController *onScreenImgMrg = [NavigationManager.delegate onScreenImageManagerView];
-    onScreenImgMrg.delegate = homeViewDelegate;
+    onScreenImgMrg.delegate = self.homeViewDelegate;
     [self addChildViewController:onScreenImgMrg];
-    [onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
+    [self.onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
     
     self.threadTableView.backgroundColor = settingCentre.viewBackgroundColour;
     
@@ -195,11 +166,11 @@
     [self.threadTableView reloadData];
     
     // Update bar buttons.
-    if (!numberBarButton.customView) {
-        numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
+    if (!self.numberBarButton.customView) {
+        self.numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
     }
     
-    [(czzRoundButton *)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.viewModelManager.threads.count] forState:UIControlStateNormal];
+    [(czzRoundButton *)self.numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.viewModelManager.threads.count] forState:UIControlStateNormal];
     
     // Jump button
     self.jumpBarButtonItem.image = nil;
@@ -260,7 +231,7 @@
             //clear threads and ready to accept new threads
             [self.viewModelManager removeAll];
             [self updateTableView];
-            [refreshControl beginRefreshing];
+            [self.refreshControl beginRefreshing];
             [self.viewModelManager loadMoreThreads:newPageNumber];
 
             [[AppDelegate window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)self.viewModelManager.pageNumber]];
@@ -300,9 +271,47 @@
 
 #pragma mark - Getters
 -(czzHomeViewModelManager *)viewModelManager {
+    [czzHomeViewModelManager sharedManager].delegate = self;
     return [czzHomeViewModelManager sharedManager];
 }
 
+-(GSIndeterminateProgressView *)progressView {
+    if (!_progressView) {
+        _progressView = [(czzNavigationController*) self.navigationController progressView];
+    }
+    return _progressView;
+}
+
+-(UIViewController *)leftController {
+    if (!_leftController) {
+        _leftController = [czzForumsViewController new];
+    }
+    return _leftController;
+}
+
+-(UIRefreshControl *)refreshControl {
+    if (!_refreshControl) {
+        _refreshControl = [[UIRefreshControl alloc] init];
+        [_refreshControl addTarget:self
+                            action:@selector(dragOnRefreshControlAction:)
+                  forControlEvents:UIControlEventValueChanged];
+    }
+    return _refreshControl;
+}
+
+-(czzHomeTableViewDataSource *)tableViewDataSource {
+    if (!_tableViewDataSource) {
+        _tableViewDataSource = [czzHomeTableViewDataSource initWithViewModelManager:self.viewModelManager];
+    }
+    return _tableViewDataSource;
+}
+
+-(czzHomeViewDelegate *)homeViewDelegate {
+    if (!_homeViewDelegate) {
+        _homeViewDelegate = [czzHomeViewDelegate initWithViewModelManager:self.viewModelManager];
+    }
+    return _homeViewDelegate;
+}
 
 #pragma mark - czzHomeself.viewModelManagerDelegate
 - (void)viewModelManagerWantsToReload:(czzHomeViewModelManager *)manager {
@@ -314,16 +323,16 @@
 -(void)viewModelManager:(czzHomeViewModelManager *)viewModelManager downloadSuccessful:(BOOL)wasSuccessful {
     DLog(@"%@", NSStringFromSelector(_cmd));
     if (!wasSuccessful && !NavigationManager.isInTransition) {
-        [refreshControl endRefreshing];
-        [progressView stopAnimating];
-        [progressView showWarning];
+        [self.refreshControl endRefreshing];
+        [self.progressView stopAnimating];
+        [self.progressView showWarning];
     }
     self.threadTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
 }
 
 -(void)viewModelManagerBeginDownloading:(czzHomeViewModelManager *)viewModelManager {
-    if (!progressView.isAnimating)
-        [progressView startAnimating];
+    if (!self.progressView.isAnimating)
+        [self.progressView startAnimating];
     
 }
 
@@ -335,12 +344,12 @@
     }
     [[NSOperationQueue currentQueue] addOperationWithBlock:^{
         [self updateTableView];
-        [refreshControl endRefreshing];
+        [self.refreshControl endRefreshing];
         // If is in transition, is better not do anything.
         if (!NavigationManager.isInTransition)
-            [progressView stopAnimating];
+            [self.progressView stopAnimating];
         if (!wasSuccessul) {
-            [progressView showWarning];
+            [self.progressView showWarning];
         }
     }];
 }
@@ -363,10 +372,10 @@
         self.selectedForum = forum;
         [self refreshThread:self];
         //disallow image downloading if specified by remote settings
-        shouldHideImageForThisForum = NO;
+        self.shouldHideImageForThisForum = NO;
         for (NSString *specifiedForum in settingCentre.shouldHideImageInForums) {
             if ([specifiedForum isEqualToString:forum.name]) {
-                shouldHideImageForThisForum = YES;
+                self.shouldHideImageForThisForum = YES;
                 break;
             }
         }
@@ -375,6 +384,7 @@
     }
 }
 
+#pragma mark - Setters
 -(void)setSelectedForum:(czzForum *)selectedForum {
     _selectedForum = selectedForum;
     self.viewModelManager.forum = selectedForum;
