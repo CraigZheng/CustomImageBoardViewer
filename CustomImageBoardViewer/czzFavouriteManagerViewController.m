@@ -142,7 +142,7 @@ NSInteger const historyIndex = 2;
         threadViewController.viewModelManager = threadViewModelManager;
         [NavigationManager pushViewController:threadViewController animated:YES];
     }
-    [self dismiss];
+    [self dismiss:NO];
 }
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{

@@ -5,10 +5,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <scenes>
-        <!--Navigation Controller-->
+        <!--Czz Custom Slide Animation View Controller-->
         <scene sceneID="1wb-Qs-s0N">
             <objects>
-                <navigationController id="NPJ-KY-FRq" sceneMemberID="viewController">
+                <navigationController id="NPJ-KY-FRq" customClass="czzCustomSlideAnimationViewController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Uwd-2s-x75">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -36,6 +36,11 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="tmN-Bp-Dgn">
                         <nil key="title"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="t83-8E-ebC">
+                            <connections>
+                                <action selector="cancelAction:" destination="VNW-Ag-gU0" id="L9L-Jl-NzV"/>
+                            </connections>
+                        </barButtonItem>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="O6R-MR-mt4">
                             <rect key="frame" x="236" y="7" width="128" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
