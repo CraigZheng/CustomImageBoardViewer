@@ -168,7 +168,7 @@
     postViewController.forum = self.forum;
     postViewController.thread = self.parentThread;
     postViewController.postMode = REPLY_POST;
-    [self presentViewController:postViewController animated:YES completion:^{
+    [[czzNavigationViewModelManager sharedManager].delegate presentViewController:postViewController animated:YES completion:^{
         [self.viewDeckController toggleRightViewAnimated:NO];
     }];
 
@@ -179,7 +179,7 @@
     [postViewController setThread:self.parentThread];
     [postViewController setReplyTo:self.selectedThread];
     postViewController.postMode = REPLY_POST;
-    [self presentViewController:postViewController animated:YES completion:^{
+    [[czzNavigationViewModelManager sharedManager].delegate presentViewController:postViewController animated:YES completion:^{
         [self.viewDeckController toggleRightViewAnimated:NO];
     }];
 }
@@ -188,7 +188,7 @@
 -(void)reportAction {
     czzPostViewController *newPostViewController = [czzPostViewController new];
     newPostViewController.postMode = REPORT_POST;
-    [self presentViewController:newPostViewController animated:YES completion:^{
+    [[czzNavigationViewModelManager sharedManager].delegate presentViewController:newPostViewController animated:YES completion:^{
         [self.viewDeckController toggleRightViewAnimated:YES];
         NSString *reportString = [[settingCentre report_post_placeholder] stringByReplacingOccurrencesOfString:kParentID withString:[NSString stringWithFormat:@"%ld", (long)self.parentThread.ID]];
         reportString = [reportString stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long)self.selectedThread.ID]];
@@ -216,7 +216,7 @@
         [postViewController setThread:self.parentThread];
         [postViewController setReplyTo:replyToThread];
         postViewController.postMode = REPLY_POST;
-        [self presentViewController:postViewController animated:YES completion:nil];
+        [[czzNavigationViewModelManager sharedManager].delegate presentViewController:postViewController animated:YES completion:nil];
     }
 }
 
