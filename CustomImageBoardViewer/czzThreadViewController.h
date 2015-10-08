@@ -15,7 +15,6 @@
 #import "czzForum.h"
 #import "czzThreadTableView.h"
 #import "czzThreadViewModelManager.h"
-#import "IIViewDeckController.h"
 
 extern NSString * const showThreadViewSegueIdentifier;
 

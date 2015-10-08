@@ -166,6 +166,8 @@
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [refreshControl endRefreshing];
+    // Disable the left controller whenever I am leaving this view controller.
+    self.viewDeckController.leftController = nil;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
