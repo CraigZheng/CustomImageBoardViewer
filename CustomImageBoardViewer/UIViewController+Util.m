@@ -10,28 +10,6 @@
 
 @implementation UIViewController (Util)
 
-/**
- detect if being presented as a modal view,  copied from
- http://stackoverflow.com/questions/2798653/is-it-possible-to-determine-whether-viewcontroller-is-presented-as-modal/16764496#16764496
- */
-- (BOOL)isModal {
-    BOOL result = [self _isModal:self];
-    if (self.parentViewController)
-        result = [self _isModal:self.parentViewController];
-    return result;
-}
-
-- (BOOL)_isModal:(UIViewController*)viewController {
-    BOOL result = NO;
-    if (viewController.presentingViewController.presentedViewController == viewController ||
-        (viewController.navigationController != nil && viewController.navigationController.presentingViewController.presentedViewController == viewController.navigationController) ||
-        (viewController.tabBarController != nil && [viewController.tabBarController.presentingViewController isKindOfClass:[UITabBarController class]])) {
-        result = YES;
-    }
-    
-    return result;
-}
-
 - (BOOL)isPresented {
     return self.isViewLoaded && self.view.window;
 }

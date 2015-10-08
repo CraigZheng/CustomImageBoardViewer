@@ -591,8 +591,6 @@
 		445C66461BBED6FB004B3E83 /* czzThreadViewCellFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 445C66441BBED6FB004B3E83 /* czzThreadViewCellFooterView.xib */; settings = {ASSET_TAGS = (); }; };
 		445C66491BBED722004B3E83 /* czzThreadViewCellFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 445C66481BBED722004B3E83 /* czzThreadViewCellFooterView.m */; settings = {ASSET_TAGS = (); }; };
 		445C664A1BBED722004B3E83 /* czzThreadViewCellFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 445C66481BBED722004B3E83 /* czzThreadViewCellFooterView.m */; settings = {ASSET_TAGS = (); }; };
-		445C664E1BC22842004B3E83 /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 445C664D1BC22842004B3E83 /* UINavigationController+FDFullscreenPopGesture.m */; settings = {ASSET_TAGS = (); }; };
-		445C664F1BC22842004B3E83 /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 445C664D1BC22842004B3E83 /* UINavigationController+FDFullscreenPopGesture.m */; settings = {ASSET_TAGS = (); }; };
 		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
 		4468A7111BBBC0480076DCD6 /* czzWeakReferenceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */; settings = {ASSET_TAGS = (); }; };
 		4468A7121BBBC0480076DCD6 /* czzWeakReferenceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */; settings = {ASSET_TAGS = (); }; };
@@ -1260,8 +1258,6 @@
 		445C66441BBED6FB004B3E83 /* czzThreadViewCellFooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzThreadViewCellFooterView.xib; sourceTree = "<group>"; };
 		445C66471BBED722004B3E83 /* czzThreadViewCellFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewCellFooterView.h; sourceTree = "<group>"; };
 		445C66481BBED722004B3E83 /* czzThreadViewCellFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewCellFooterView.m; sourceTree = "<group>"; };
-		445C664C1BC22842004B3E83 /* UINavigationController+FDFullscreenPopGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+FDFullscreenPopGesture.h"; sourceTree = "<group>"; };
-		445C664D1BC22842004B3E83 /* UINavigationController+FDFullscreenPopGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+FDFullscreenPopGesture.m"; sourceTree = "<group>"; };
 		4462EF2318659BC200E6BE78 /* czzFavouriteManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFavouriteManagerViewController.h; sourceTree = "<group>"; };
 		4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFavouriteManagerViewController.m; sourceTree = "<group>"; };
 		4468A70F1BBBC0480076DCD6 /* czzWeakReferenceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWeakReferenceDelegate.h; sourceTree = "<group>"; };
@@ -2430,15 +2426,6 @@
 			name = CPLoadFromNib;
 			sourceTree = "<group>";
 		};
-		445C664B1BC22842004B3E83 /* FDFullscreenPopGesture */ = {
-			isa = PBXGroup;
-			children = (
-				445C664C1BC22842004B3E83 /* UINavigationController+FDFullscreenPopGesture.h */,
-				445C664D1BC22842004B3E83 /* UINavigationController+FDFullscreenPopGesture.m */,
-			);
-			path = FDFullscreenPopGesture;
-			sourceTree = "<group>";
-		};
 		4462EF2218659B8600E6BE78 /* czzFavouriteManagerVIewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -2687,7 +2674,6 @@
 		44B89E771A2AF3CE0085F766 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
-				445C664B1BC22842004B3E83 /* FDFullscreenPopGesture */,
 				445C66351BBEC38E004B3E83 /* CPLoadFromNib */,
 				4498CEBD1B9E751E004D2380 /* TalkingData */,
 				44BFEF421B8C0D7F0095772B /* DeviceHardware */,
@@ -3873,7 +3859,6 @@
 				442CD0E31851601A0021AD37 /* czzImageDownloader.m in Sources */,
 				442A8FFD19DB7F5400A3516E /* UIView+WebCacheOperation.m in Sources */,
 				442A8FEF19DB7F5400A3516E /* NSData+ImageContentType.m in Sources */,
-				445C664E1BC22842004B3E83 /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
 				442A8FA219DB7DF200A3516E /* MWGridViewController.m in Sources */,
 				440B2FCC17F8057500544926 /* czzPostViewController.m in Sources */,
 				44E469DC1BAC421D00C0AACC /* czzWatchKitManager.m in Sources */,
@@ -4071,7 +4056,6 @@
 				4455401F1BABEBA700667435 /* czzImageDownloader.m in Sources */,
 				445540201BABEBA700667435 /* UIView+WebCacheOperation.m in Sources */,
 				445540211BABEBA700667435 /* NSData+ImageContentType.m in Sources */,
-				445C664F1BC22842004B3E83 /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
 				445540221BABEBA700667435 /* MWGridViewController.m in Sources */,
 				445540231BABEBA700667435 /* czzPostViewController.m in Sources */,
 				44E469DD1BAC421D00C0AACC /* czzWatchKitManager.m in Sources */,

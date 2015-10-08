@@ -219,6 +219,11 @@
     [self.viewDeckController toggleLeftViewAnimated:YES];
 }
 
+- (IBAction)moreAction:(id)sender {
+    [self.navigationController setToolbarHidden:!self.navigationController.toolbarHidden animated:YES];
+    return;
+}
+
 - (IBAction)postAction:(id)sender {
     [self newPost];
 }
@@ -240,9 +245,7 @@
 }
 
 - (IBAction)bookmarkAction:(id)sender {
-    // Present favourite manager modally.
-    self.favouriteManagerViewController = [czzFavouriteManagerViewController newInNavigationController];
-    [self.navigationController presentViewController:self.favouriteManagerViewController animated:YES completion:nil];
+    [self performSegueWithIdentifier:@"go_favourite_manager_view_controller_segue" sender:self];
 }
 
 - (IBAction)settingsAction:(id)sender {

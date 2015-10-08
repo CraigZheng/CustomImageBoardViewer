@@ -12,9 +12,9 @@
 #import "Toast+UIView.h"
 #import "czzImageViewerUtil.h"
 
-#define ALL_IMAGE 0
-#define FULL_SIZE_IMAGE 1
-#define THUMBNAIL 2
+#define FULL_SIZE_IMAGE 0
+#define THUMBNAIL 1
+#define ALL_IMAGE 2
 
 @interface czzImageManagerViewController ()
 @property NSMutableArray<NSURL *> *Images;
@@ -35,9 +35,8 @@
     self.collectionView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
     imageViewerUtil = [czzImageViewerUtil new];
     // Show all images.
-    imageCategory = ALL_IMAGE;
+    imageCategory = FULL_SIZE_IMAGE;
     [self reloadImageFiles];
-    [[czzImageCacheManager sharedInstance] reloadCaches];
 }
 
 #pragma Load data from image centre

@@ -22,6 +22,7 @@
 @property (strong, nonatomic) czzHomeViewModelManager* viewModelManager;
 
 - (IBAction)sideButtonAction:(id)sender;
+- (IBAction)moreAction:(id)sender;
 
 - (IBAction)postAction:(id)sender;
 - (IBAction)jumpAction:(id)sender;
