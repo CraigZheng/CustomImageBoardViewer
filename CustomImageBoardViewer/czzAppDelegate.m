@@ -65,6 +65,11 @@
     czzBlacklistDownloader *blacklistDownloader = [czzBlacklistDownloader new];
     blacklistDownloader.delegate = self;
     [blacklistDownloader downloadBlacklist];
+    
+    // Init the CacheCleaner when the app is visible to user.
+    if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+        CacheCleaner;
+    }
 }
 
 
@@ -224,7 +229,5 @@
         //exclude my folders from being backed up to iCloud
         [self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:folderPath]];
     }
-    // Init the CacheCleaner.
-    CacheCleaner;
 }
 @end
