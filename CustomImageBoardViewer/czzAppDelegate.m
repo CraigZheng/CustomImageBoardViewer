@@ -17,6 +17,7 @@
 #import "czzWatchListManager.h"
 #import "czzAppActivityManager.h"
 #import "czzFavouriteManagerViewController.h"
+#import "czzCacheCleaner.h"
 
 #ifndef TARGET_IPHONE_SIMULATOR
 #import "TalkingData.h"
@@ -47,7 +48,7 @@
     
     
     [self checkFolders];
-    //check cookie
+    // Check cookie
     CookieManager;
     // Prepare to launch
     AppActivityManager;
@@ -223,6 +224,7 @@
         //exclude my folders from being backed up to iCloud
         [self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:folderPath]];
     }
-
+    // Init the CacheCleaner.
+    CacheCleaner;
 }
 @end

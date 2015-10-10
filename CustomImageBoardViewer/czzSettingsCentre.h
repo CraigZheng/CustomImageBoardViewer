@@ -57,7 +57,7 @@
 @property (assign, nonatomic) BOOL userDefShouldHighlightPO;
 @property (assign, nonatomic) BOOL userDefShouldUseBigImage;
 @property (assign, nonatomic) BOOL nightyMode;
-@property (assign, nonatomic) BOOL autoCleanImageCache;
+@property (assign, nonatomic) BOOL userDefShouldCleanCaches;
 //Debug settings
 @property (assign, nonatomic) BOOL should_allow_dart;
 

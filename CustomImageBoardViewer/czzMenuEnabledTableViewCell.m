@@ -295,9 +295,11 @@
         if (downloader.isThumbnail) {
             if ([downloader.targetURLString.lastPathComponent isEqualToString:myThread.thImgSrc.lastPathComponent]) {
                 self.previewImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:downloader.targetURLString.lastPathComponent]]];
-//                if ([delegate respondsToSelector:@selector(imageDownloadedForIndexPath:filePath:isThumbnail:)]) {
-//                    [delegate imageDownloadedForIndexPath:myIndexPath filePath:downloader.savePath isThumbnail:YES];
-//                }
+                // A bit of fading in effect.
+                self.previewImageView.alpha = 0;
+                [UIView animateWithDuration:0.2 animations:^{
+                    self.previewImageView.alpha = 1;
+                }];
             }
         }
     }

@@ -27,9 +27,8 @@
 @synthesize database_host;
 @synthesize a_isle_host, thread_content_host, threads_per_page, thread_format, thread_list_host, response_per_page, quote_thread_host;
 @synthesize message, image_host, ac_host, forum_list_url, thumbnail_host;
-@synthesize userDefShouldAutoOpenImage, userDefShouldCacheData, userDefShouldDisplayThumbnail, userDefShouldHighlightPO, userDefShouldShowOnScreenCommand ,userDefShouldUseBigImage;
+@synthesize userDefShouldAutoOpenImage, userDefShouldCacheData, userDefShouldDisplayThumbnail, userDefShouldHighlightPO, userDefShouldShowOnScreenCommand ,userDefShouldUseBigImage, userDefShouldCleanCaches;
 @synthesize nightyMode;
-@synthesize autoCleanImageCache;
 @synthesize should_allow_dart;
 @synthesize donationLink;
 @synthesize shouldAllowOpenBlockedThread;
@@ -65,7 +64,7 @@
         userDefShouldShowOnScreenCommand = YES;
         userDefShouldUseBigImage = NO;
         nightyMode = NO;
-        autoCleanImageCache = NO;
+        userDefShouldCleanCaches = NO;
         shouldAllowOpenBlockedThread = YES;
         
         donationLink = @"";
@@ -261,7 +260,7 @@
     [aCoder encodeBool:userDefShouldHighlightPO forKey:@"userDefShouldHighlightPO"];
     [aCoder encodeBool:userDefShouldUseBigImage forKey:@"userDefShouldUseBigImage"];
     [aCoder encodeBool:nightyMode forKey:@"nightyMode"];
-    [aCoder encodeBool:autoCleanImageCache forKey:@"autoCleanImageCache"];
+    [aCoder encodeBool:userDefShouldCleanCaches forKey:@"userDefShouldCleanCaches"];
     
     //new settings at short version 2.0.1
     [aCoder encodeObject:forum_list_detail_url forKey:@"forum_list_detail_url"];
@@ -311,7 +310,7 @@
         self.userDefShouldUseBigImage = [aDecoder decodeBoolForKey:@"userDefShouldUseBigImage"];
         
         self.nightyMode = [aDecoder decodeBoolForKey:@"nightyMode"];
-        self.autoCleanImageCache = [aDecoder decodeBoolForKey:@"autoCleanImageCache"];
+        self.userDefShouldCleanCaches = [aDecoder decodeBoolForKey:@"userDefShouldCleanCaches"];
         self.should_allow_dart = [aDecoder decodeBoolForKey:@"shouldAllowDart"];
         //new settings at short version 2.0.1
         self.forum_list_detail_url = [aDecoder decodeObjectForKey:@"forum_list_detail_url"];

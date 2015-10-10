@@ -110,7 +110,7 @@
              [commandSwitch setOn:settingsCentre.userDefShouldUseBigImage];
          }
          else if ([command isEqualToString:@"每月自动清理缓存"]) {
-             [commandSwitch setOn:settingsCentre.autoCleanImageCache];
+             [commandSwitch setOn:settingsCentre.userDefShouldCleanCaches];
          } else if ([command isEqualToString:@"Monitor Performance"]) {
 //             [commandSwitch setOn:[DartCrowdSourcingConstants isEnabled]];
          }
@@ -283,8 +283,8 @@
             [self.settingsTableView reloadData];
         }
         else if ([command isEqualToString:@"每月自动清理缓存"]) {
-            settingsCentre.autoCleanImageCache = !settingsCentre.autoCleanImageCache;
-            [AppDelegate showToast:[NSString stringWithFormat:@"每月自动清理缓存： %@", settingsCentre.autoCleanImageCache ? @"On" : @"Off"]];
+            settingsCentre.userDefShouldCleanCaches = !settingsCentre.userDefShouldCleanCaches;
+            [AppDelegate showToast:[NSString stringWithFormat:@"每月自动清理缓存： %@", settingsCentre.userDefShouldCleanCaches ? @"On" : @"Off"]];
         } else if ([command isEqualToString:@"Monitor Performance"]) {
             [self.settingsTableView reloadData];
         }
