@@ -206,8 +206,11 @@ NSString * const kPickedForum = @"PickedForum";
     shouldHideCoverView = YES;
 }
 
-+ (instancetype)new {
-    return [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"left_side_view_controller"];
+#pragma mark - IIViewDeckControllerDelegate
+
+- (void)viewDeckController:(IIViewDeckController *)viewDeckController willOpenViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated {
+    // Notify about the view will appear event.
+    [self viewWillAppear:animated];
 }
 
 @end

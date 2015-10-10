@@ -38,7 +38,7 @@
 
 
 @interface czzHomeViewController() <UIAlertViewDelegate, czzOnScreenImageManagerViewControllerDelegate, UIStateRestoring>
-@property (strong, nonatomic) UIViewController *leftController;
+@property (strong, nonatomic) UINavigationController *leftController;
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (assign, nonatomic) BOOL shouldHideImageForThisForum;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
@@ -282,9 +282,12 @@
     return _progressView;
 }
 
--(UIViewController *)leftController {
+-(UINavigationController *)leftController {
     if (!_leftController) {
-        _leftController = [czzForumsViewController new];
+        // The left menu navigation controller.
+        _leftController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"left_side_view_controller"];
+        // The root view controller of the left menu navigation controller should be the delegate to the viewDeckController.
+        self.viewDeckController.delegate = [(UINavigationController *)_leftController viewControllers][0];
     }
     return _leftController;
 }
