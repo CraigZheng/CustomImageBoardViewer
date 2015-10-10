@@ -19,13 +19,15 @@
 #import "czzFavouriteManagerViewController.h"
 #import "czzCacheCleaner.h"
 
+#import <WatchConnectivity/WatchConnectivity.h>
+
 #ifndef TARGET_IPHONE_SIMULATOR
 #import "TalkingData.h"
 #endif
 //#import <BugSense-iOS/BugSenseController.h>
 #import <SplunkMint-iOS/SplunkMint-iOS.h>
 
-@interface czzAppDelegate()<czzBlacklistDownloaderDelegate, czzHomeViewModelManagerDelegate>
+@interface czzAppDelegate()<czzBlacklistDownloaderDelegate, czzHomeViewModelManagerDelegate, WCSessionDelegate>
 @property czzSettingsCentre *settingsCentre;
 @end
 
@@ -91,6 +93,10 @@
                                                                               }];
 
     [[czzWatchKitManager sharedManager] handleWatchKitExtensionRequest:userInfo reply:reply withBackgroundTaskIdentifier:wkBackgroundTaskIdentifier];
+}
+
+- (void)session:(WCSession *)session didReceiveMessage:(NSDictionary<NSString *,id> *)message {
+    DLog(@"%s: %@", __PRETTY_FUNCTION__, message);
 }
 
 #pragma mark - background fetch

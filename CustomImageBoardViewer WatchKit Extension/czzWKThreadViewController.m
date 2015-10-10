@@ -11,6 +11,8 @@
 #import "czzWatchKitCommand.h"
 #import "czzWatchKitHomeRowController.h"
 
+#import <WatchConnectivity/WatchConnectivity.h>
+
 @interface czzWKThreadViewController ()
 @property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceLabel *idLabel;
 @property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceTable *wkThreadsTableView;
@@ -32,9 +34,9 @@
 
 - (IBAction)watchButtonAction {
     if (self.wkThread) {
-        [WKInterfaceController openParentApplication:@{@(watchKitCommandWatchThread) : [self.wkThread encodeToDictionary]} reply:^(NSDictionary * replyInfo, NSError * error) {
-            
-        }];
+//        [WKInterfaceController openParentApplication:@{@(watchKitCommandWatchThread) : [self.wkThread encodeToDictionary]} reply:^(NSDictionary * replyInfo, NSError * error) {
+//            
+//        }];
     }
 }
 
@@ -51,17 +53,17 @@
 
 -(void)loadMore {
     if (self.wkThread) {
-        [WKInterfaceController openParentApplication:@{watchKitCommandKey : @(watchKitCommandLoadThreadView),
-                                                       @"THREAD" : [self.wkThread encodeToDictionary],
-                                                       watchKitCommandLoadMore : @(YES)} reply:^(NSDictionary *replyInfo, NSError * error) {
-            self.wkThreads = [NSMutableArray new];
-            for (NSDictionary *dict in [replyInfo objectForKey:@(watchKitCommandLoadThreadView)]) {
-                czzWKThread *thread = [[czzWKThread alloc] initWithDictionary:dict];
-                [self.wkThreads addObject:thread];
-            }
-            [self reloadTableView];
-        }];
-        [self.idLabel setText:[NSString stringWithFormat:@"No. %ld", (long)self.wkThread.ID]];
+//        [WKInterfaceController openParentApplication:@{watchKitCommandKey : @(watchKitCommandLoadThreadView),
+//                                                       @"THREAD" : [self.wkThread encodeToDictionary],
+//                                                       watchKitCommandLoadMore : @(YES)} reply:^(NSDictionary *replyInfo, NSError * error) {
+//            self.wkThreads = [NSMutableArray new];
+//            for (NSDictionary *dict in [replyInfo objectForKey:@(watchKitCommandLoadThreadView)]) {
+//                czzWKThread *thread = [[czzWKThread alloc] initWithDictionary:dict];
+//                [self.wkThreads addObject:thread];
+//            }
+//            [self reloadTableView];
+//        }];
+//        [self.idLabel setText:[NSString stringWithFormat:@"No. %ld", (long)self.wkThread.ID]];
     }
 }
 

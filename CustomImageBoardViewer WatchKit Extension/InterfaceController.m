@@ -13,7 +13,9 @@
 #import "czzWatchKitHomeRowController.h"
 #import "czzWKThreadViewController.h"
 
-@interface InterfaceController()
+#import <WatchConnectivity/WatchConnectivity.h>
+
+@interface InterfaceController() <WCSessionDelegate>
 
 @property (strong, nonatomic) NSMutableArray *wkThreads;
 @property (strong, nonatomic) czzWKForum *selectedForum;
@@ -47,19 +49,40 @@
 }
 
 -(void)loadMore:(BOOL)more {
-    [WKInterfaceController openParentApplication:@{watchKitCommandKey : @(watchKitCommandLoadHomeView), watchKitCommandLoadMore : @(more),
-                                                   watchKitCommandForumKey : [self.selectedForum encodeToDictionary]} reply:^(NSDictionary *replyInfo, NSError *error) {
-        NSArray *threadDictionaries = [replyInfo objectForKey:@(watchKitCommandLoadHomeView)];
-        self.wkThreads = [NSMutableArray new];
-        for (NSDictionary *dict in threadDictionaries) {
-            czzWKThread *thread = [[czzWKThread alloc] initWithDictionary:dict];
-            NSLog(@"thread: %@", thread);
-            [self.wkThreads addObject:thread];
-        }
-        [self.screenTitleLabel setText:[replyInfo objectForKey:@(watchKitMiscInfoScreenTitleHome)]];
-        
-        [self reloadTableView];
-    }];
+    [WCSession defaultSession].delegate = self;
+    [[WCSession defaultSession] activateSession];
+    [[WCSession defaultSession] sendMessage:@{watchKitCommandKey : @(watchKitCommandLoadHomeView),
+                                              watchKitCommandLoadMore : @(more),
+                                              watchKitCommandForumKey : [self.selectedForum encodeToDictionary]}
+                               replyHandler:^(NSDictionary<NSString *,id> * _Nonnull replyMessage) {
+                                   NSArray *threadDictionaries = [replyMessage objectForKey:@(watchKitCommandLoadHomeView)];
+                                   self.wkThreads = [NSMutableArray new];
+                                   for (NSDictionary *dict in threadDictionaries) {
+                                       czzWKThread *thread = [[czzWKThread alloc] initWithDictionary:dict];
+                                       NSLog(@"thread: %@", thread);
+                                       [self.wkThreads addObject:thread];
+                                   }
+                                   [self.screenTitleLabel setText:[replyMessage objectForKey:@(watchKitMiscInfoScreenTitleHome)]];
+                                   
+                                   [self reloadTableView];
+
+                               } errorHandler:^(NSError * _Nonnull error) {
+                                   
+                               }];
+    
+//    [WKInterfaceController openParentApplication:@{watchKitCommandKey : @(watchKitCommandLoadHomeView), watchKitCommandLoadMore : @(more),
+//                                                   watchKitCommandForumKey : [self.selectedForum encodeToDictionary]} reply:^(NSDictionary *replyInfo, NSError *error) {
+//        NSArray *threadDictionaries = [replyInfo objectForKey:@(watchKitCommandLoadHomeView)];
+//        self.wkThreads = [NSMutableArray new];
+//        for (NSDictionary *dict in threadDictionaries) {
+//            czzWKThread *thread = [[czzWKThread alloc] initWithDictionary:dict];
+//            NSLog(@"thread: %@", thread);
+//            [self.wkThreads addObject:thread];
+//        }
+//        [self.screenTitleLabel setText:[replyInfo objectForKey:@(watchKitMiscInfoScreenTitleHome)]];
+//        
+//        [self reloadTableView];
+//    }];
 }
 
 - (IBAction)reloadButtonAction {
@@ -75,6 +98,11 @@
     self.selectedThread = [self.wkThreads objectAtIndex:rowIndex];
     
     return @{@(watchKitCommandLoadThreadView) : [self.selectedThread encodeToDictionary]};
+}
+
+#pragma mark - WCSessionDelegate
+-(void)session:(WCSession *)session didReceiveMessage:(NSDictionary<NSString *,id> *)message {
+    
 }
 
 #pragma mark - TableView

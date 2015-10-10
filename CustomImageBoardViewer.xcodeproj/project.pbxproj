@@ -705,6 +705,8 @@
 		44C89ADC185C145C00E65B73 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44C89ADB185C145C00E65B73 /* QuartzCore.framework */; };
 		44CBF4001BC9245300DFECFC /* czzCacheCleaner.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CBF3FF1BC9245300DFECFC /* czzCacheCleaner.m */; settings = {ASSET_TAGS = (); }; };
 		44CBF4011BC9245300DFECFC /* czzCacheCleaner.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CBF3FF1BC9245300DFECFC /* czzCacheCleaner.m */; settings = {ASSET_TAGS = (); }; };
+		44CBF4021BC93D8000DFECFC /* CustomImageBoardViewer WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4476B6341B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		44CBF4071BC93E2700DFECFC /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44CBF4061BC93E2700DFECFC /* WatchConnectivity.framework */; };
 		44CF25491A25A2A500BD8228 /* sent.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF253D1A25A2A500BD8228 /* sent.png */; };
 		44CF254A1A25A2A500BD8228 /* delete_file.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF253E1A25A2A500BD8228 /* delete_file.png */; };
 		44CF254B1A25A2A500BD8228 /* lol.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF253F1A25A2A500BD8228 /* lol.png */; };
@@ -880,6 +882,13 @@
 			remoteGlobalIDString = 4476B6331B9FDD43004E6650;
 			remoteInfo = "CustomImageBoardViewer WatchKit Extension";
 		};
+		44CBF4031BC93D8000DFECFC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 441E5CC317F4691300289DBD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4476B6331B9FDD43004E6650;
+			remoteInfo = "CustomImageBoardViewer WatchKit Extension";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -911,6 +920,17 @@
 			dstSubfolderSpec = 13;
 			files = (
 				4476646A1BB577FB007F40FB /* CustomImageBoardViewer WatchKit Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		44CBF4051BC93D8000DFECFC /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				44CBF4021BC93D8000DFECFC /* CustomImageBoardViewer WatchKit Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1407,6 +1427,7 @@
 		44C89ADB185C145C00E65B73 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		44CBF3FE1BC9245300DFECFC /* czzCacheCleaner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzCacheCleaner.h; sourceTree = "<group>"; };
 		44CBF3FF1BC9245300DFECFC /* czzCacheCleaner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzCacheCleaner.m; sourceTree = "<group>"; };
+		44CBF4061BC93E2700DFECFC /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS2.0.sdk/System/Library/Frameworks/WatchConnectivity.framework; sourceTree = DEVELOPER_DIR; };
 		44CF253D1A25A2A500BD8228 /* sent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sent.png; sourceTree = "<group>"; };
 		44CF253E1A25A2A500BD8228 /* delete_file.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_file.png; sourceTree = "<group>"; };
 		44CF253F1A25A2A500BD8228 /* lol.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lol.png; sourceTree = "<group>"; };
@@ -1643,6 +1664,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				44CBF4071BC93E2700DFECFC /* WatchConnectivity.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1782,6 +1804,7 @@
 		441E5CCD17F4691300289DBD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				44CBF4061BC93E2700DFECFC /* WatchConnectivity.framework */,
 				4498CEC31B9E756D004D2380 /* CoreTelephony.framework */,
 				4498CEC11B9E754A004D2380 /* Security.framework */,
 				442A901719DB9BAF00A3516E /* libxml2.dylib */,
@@ -3163,10 +3186,12 @@
 				441E5CC817F4691300289DBD /* Frameworks */,
 				441E5CC917F4691300289DBD /* Resources */,
 				441A6A901BB28DF7008E380C /* Embed Watch Content */,
+				44CBF4051BC93D8000DFECFC /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				44CBF4041BC93D8000DFECFC /* PBXTargetDependency */,
 			);
 			name = CustomImageBoardViewer;
 			productName = CustomImageBoardViewer;
@@ -4199,6 +4224,11 @@
 			target = 4476B6331B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension */;
 			targetProxy = 4476646B1BB577FB007F40FB /* PBXContainerItemProxy */;
 		};
+		44CBF4041BC93D8000DFECFC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4476B6331B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension */;
+			targetProxy = 44CBF4031BC93D8000DFECFC /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -4598,6 +4628,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				IBSC_MODULE = CustomImageBoardViewer_WatchKit_Extension;
 				INFOPLIST_FILE = "CustomImageBoardViewer WatchKit App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.ac-channel-browser.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4623,6 +4654,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				IBSC_MODULE = CustomImageBoardViewer_WatchKit_Extension;
 				INFOPLIST_FILE = "CustomImageBoardViewer WatchKit App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.ac-channel-browser.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
