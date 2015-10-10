@@ -703,6 +703,8 @@
 		44C73BE01A496D6E0051D4C2 /* ipad horizontal launch screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C73BDD1A496D6E0051D4C2 /* ipad horizontal launch screen.png */; };
 		44C73BE11A496D6E0051D4C2 /* ipad horizontal launch screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C73BDD1A496D6E0051D4C2 /* ipad horizontal launch screen.png */; };
 		44C89ADC185C145C00E65B73 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44C89ADB185C145C00E65B73 /* QuartzCore.framework */; };
+		44CBF4001BC9245300DFECFC /* czzCacheCleaner.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CBF3FF1BC9245300DFECFC /* czzCacheCleaner.m */; settings = {ASSET_TAGS = (); }; };
+		44CBF4011BC9245300DFECFC /* czzCacheCleaner.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CBF3FF1BC9245300DFECFC /* czzCacheCleaner.m */; settings = {ASSET_TAGS = (); }; };
 		44CF25491A25A2A500BD8228 /* sent.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF253D1A25A2A500BD8228 /* sent.png */; };
 		44CF254A1A25A2A500BD8228 /* delete_file.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF253E1A25A2A500BD8228 /* delete_file.png */; };
 		44CF254B1A25A2A500BD8228 /* lol.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF253F1A25A2A500BD8228 /* lol.png */; };
@@ -1403,6 +1405,8 @@
 		44C73BDC1A496D6E0051D4C2 /* ipad 768 horizontal launch screen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ipad 768 horizontal launch screen.png"; sourceTree = "<group>"; };
 		44C73BDD1A496D6E0051D4C2 /* ipad horizontal launch screen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ipad horizontal launch screen.png"; sourceTree = "<group>"; };
 		44C89ADB185C145C00E65B73 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		44CBF3FE1BC9245300DFECFC /* czzCacheCleaner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzCacheCleaner.h; sourceTree = "<group>"; };
+		44CBF3FF1BC9245300DFECFC /* czzCacheCleaner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzCacheCleaner.m; sourceTree = "<group>"; };
 		44CF253D1A25A2A500BD8228 /* sent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sent.png; sourceTree = "<group>"; };
 		44CF253E1A25A2A500BD8228 /* delete_file.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_file.png; sourceTree = "<group>"; };
 		44CF253F1A25A2A500BD8228 /* lol.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lol.png; sourceTree = "<group>"; };
@@ -1814,6 +1818,7 @@
 				4453C07619F634B700A8250F /* Launch Screen.xib */,
 				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
 				44E2D2D71B2DB77B0029D783 /* Utility.storyboard */,
+				44CBF3FD1BC9243300DFECFC /* CacheCleaner */,
 				44E454301B3676C00079B3A8 /* CoreData */,
 				44E2D2D91B2DB7AD0029D783 /* UtilViewControllers */,
 				44DF8ECC1A74CA4B0097F7F5 /* Utils */,
@@ -2821,6 +2826,15 @@
 				44C73BD21A496C4F0051D4C2 /* iphone5 launch screen.png */,
 			);
 			path = "launch screens";
+			sourceTree = "<group>";
+		};
+		44CBF3FD1BC9243300DFECFC /* CacheCleaner */ = {
+			isa = PBXGroup;
+			children = (
+				44CBF3FE1BC9245300DFECFC /* czzCacheCleaner.h */,
+				44CBF3FF1BC9245300DFECFC /* czzCacheCleaner.m */,
+			);
+			name = CacheCleaner;
 			sourceTree = "<group>";
 		};
 		44CF25601A26B4D000BD8228 /* UIView-MGBadgeView-master */ = {
@@ -3911,6 +3925,7 @@
 				442A8FA719DB7DF200A3516E /* MWZoomingScrollView.m in Sources */,
 				441A6A7B1BAE995A008E380C /* czzWKForumViewController.m in Sources */,
 				441E5CDB17F4691300289DBD /* main.m in Sources */,
+				44CBF4001BC9245300DFECFC /* czzCacheCleaner.m in Sources */,
 				44FC4345180067CF0028D7C9 /* czzPostSender.m in Sources */,
 				441E5D0E17F4699400289DBD /* IIWrapController.m in Sources */,
 				5A88B8401938AFDB00071343 /* czzNotificationCentreTableViewController.m in Sources */,
@@ -4108,6 +4123,7 @@
 				4455404D1BABEBA700667435 /* MWZoomingScrollView.m in Sources */,
 				441A6A7D1BAE995A008E380C /* czzWKForumViewController.m in Sources */,
 				4455404E1BABEBA700667435 /* main.m in Sources */,
+				44CBF4011BC9245300DFECFC /* czzCacheCleaner.m in Sources */,
 				4455404F1BABEBA700667435 /* czzPostSender.m in Sources */,
 				445540501BABEBA700667435 /* IIWrapController.m in Sources */,
 				445540511BABEBA700667435 /* czzNotificationCentreTableViewController.m in Sources */,

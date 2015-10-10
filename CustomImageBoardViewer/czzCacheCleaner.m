@@ -9,7 +9,13 @@
 #import "czzCacheCleaner.h"
 
 #import "NSFileManager+Util.h"
+#import "MBProgressHUD.h"
 #import "czzAppDelegate.h"
+
+@interface czzCacheCleaner () <UIAlertViewDelegate>
+@property (strong, nonatomic) NSMutableArray *toBeDeletedFileURLs;
+@property (strong, nonatomic) UIAlertView *confirmCleanAlertView;
+@end
 
 @implementation czzCacheCleaner
 
@@ -29,24 +35,59 @@
     
     NSDateComponents *components= [[NSDateComponents alloc] init];
 //    components.month = -1; // 1 month eariler.
-    components.weekOfMonth = -1;
+    components.day = -1;
+
     NSDate *aMonthAgo = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] dateByAddingComponents:components toDate:[NSDate new] options:0];
     
     NSDateFormatter *debugDateFormatter = [NSDateFormatter new];
     debugDateFormatter.dateFormat = @"yyyy-MM-dd";
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        self.toBeDeletedFileURLs = [NSMutableArray new];
         for (NSString *folderPath in cacheFolders) {
             for (NSURL *fileURL in [[NSFileManager defaultManager] contentsOfDirectoryAtURL:[NSURL fileURLWithPath:folderPath] includingPropertiesForKeys:@[NSURLContentModificationDateKey] options:0 error:nil]) {
                 NSDate *fileCreationDate;
                 [fileURL getResourceValue:&fileCreationDate forKey:NSURLContentModificationDateKey error:nil];
                 if ([fileCreationDate compare:aMonthAgo] == NSOrderedAscending) {
+                    [self.toBeDeletedFileURLs addObject:fileURL];
                 }
-                
             }
         }
+        // Notify user in the main thread.
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.confirmCleanAlertView = [[UIAlertView alloc] initWithTitle:@"每月自动清理缓存..."
+                                                                message:[NSString stringWithFormat:@"%lu个文件已经相当老，是否删除？", self.toBeDeletedFileURLs.count]
+                                                               delegate:self
+                                                      cancelButtonTitle:@"否"
+                                                      otherButtonTitles:@"删除", nil];
+            [self.confirmCleanAlertView show];
+        });
     });
     
+}
+
+#pragma mark - UIAlertViewDelegate
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (self.confirmCleanAlertView == alertView) {
+        if (buttonIndex == alertView.cancelButtonIndex) {
+            [[[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"下次自动检查将会在一个月之后，你也可以在设置中关闭自动检查，或者手动清空缓存。"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+        } else {
+            MBProgressHUD *progressHub = [MBProgressHUD showHUDAddedTo:NavigationManager.delegate.view animated:YES];
+            __block NSInteger deletedFileCount = 0;
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                for (NSURL *fileURL in self.toBeDeletedFileURLs) {
+//                    [[NSFileManager defaultManager] removeItemAtURL:fileURL error:nil];
+//                    [NSThread sleepForTimeInterval:0.001];
+                    deletedFileCount ++;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        progressHub.progress = deletedFileCount / self.toBeDeletedFileURLs.count;
+                        progressHub.labelText = [NSString stringWithFormat:@"%lu/%lu files deleted...", deletedFileCount, (long)self.toBeDeletedFileURLs.count];
+                    });
+                }
+                [progressHub hide:YES];
+            });
+        }
+    }
 }
 
 +(instancetype)sharedInstance {
