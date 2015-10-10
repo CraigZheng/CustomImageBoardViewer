@@ -85,9 +85,50 @@
     // Init the left
 }
 
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    //on screen image manager view
+    czzOnScreenImageManagerViewController *onScreenImgMrg = [NavigationManager.delegate onScreenImageManagerView];
+    onScreenImgMrg.delegate = self.homeViewDelegate;
+    [self addChildViewController:onScreenImgMrg];
+    [self.onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
+    
+    self.threadTableView.backgroundColor = settingCentre.viewBackgroundColour;
+    
+    // Always reload
+    [self updateTableView];
+}
+
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    
+    self.viewDeckController.panningMode = IIViewDeckFullViewPanning;
+    // Check if should show a badget on settings button.
+    UIButton *settingsGearImageButton;
+    if (!self.settingsBarButton.customView) {
+        //create a container view that has an image button as its sub view
+        settingsGearImageButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 48, 37)];
+        settingsGearImageButton.imageEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10);
+        [settingsGearImageButton setImage:[[UIImage imageNamed:@"settings.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        settingsGearImageButton.tag = 999;
+        // Add the container view.
+        self.settingsBarButton.customView = settingsGearImageButton;
+    } else {
+        // Retrive the gear image button.
+        settingsGearImageButton = (UIButton*) [self.settingsBarButton.customView viewWithTag:999];
+    }
+    if ([[(czzNavigationController*)self.navigationController notificationBannerViewController] shouldShow]) {
+        self.settingsBarButton.badgeValue = @"1";
+        [settingsGearImageButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
+        [settingsGearImageButton addTarget:self action:@selector(openNotificationCentre) forControlEvents:UIControlEventTouchUpInside];
+    } else {
+        self.settingsBarButton.badgeValue = nil;
+        [settingsGearImageButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
+        [settingsGearImageButton addTarget:self action:@selector(openSettingsPanel) forControlEvents:UIControlEventTouchUpInside];
+    }
+
+    // Select a random forum after a certain period of inactivity.
     NSTimeInterval delayTime = 4.0;
 #ifdef DEBUG
     delayTime = 9999;
@@ -108,52 +149,16 @@
             }
         }
     });
-    //check if should show a badget on settings button
-    UIButton *settingsGearImageButton;
-    if (!self.settingsBarButton.customView) {
-        //create a container view that has an image button as its sub view
-        settingsGearImageButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 48, 37)];
-        settingsGearImageButton.imageEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10);
-        [settingsGearImageButton setImage:[[UIImage imageNamed:@"settings.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-        settingsGearImageButton.tag = 999;
-        //add the container view
-        self.settingsBarButton.customView = settingsGearImageButton;
-    } else {
-        //retrive the gear image button
-        settingsGearImageButton = (UIButton*) [self.settingsBarButton.customView viewWithTag:999];
-    }
-    if ([[(czzNavigationController*)self.navigationController notificationBannerViewController] shouldShow]) {
-        self.settingsBarButton.badgeValue = @"1";
-        [settingsGearImageButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
-        [settingsGearImageButton addTarget:self action:@selector(openNotificationCentre) forControlEvents:UIControlEventTouchUpInside];
-    } else {
-        self.settingsBarButton.badgeValue = nil;
-        [settingsGearImageButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
-        [settingsGearImageButton addTarget:self action:@selector(openSettingsPanel) forControlEvents:UIControlEventTouchUpInside];
-    }
-    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [self.refreshControl endRefreshing];
-    self.viewDeckController.panningMode = IIViewDeckNoPanning;
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    self.viewDeckController.panningMode = IIViewDeckFullViewPanning;
-
-    //on screen image manager view
-    czzOnScreenImageManagerViewController *onScreenImgMrg = [NavigationManager.delegate onScreenImageManagerView];
-    onScreenImgMrg.delegate = self.homeViewDelegate;
-    [self addChildViewController:onScreenImgMrg];
-    [self.onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
-    
-    self.threadTableView.backgroundColor = settingCentre.viewBackgroundColour;
-    
-    // Always reload
-    [self updateTableView];
+-(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    self.viewDeckController.panningMode = IIViewDeckNoPanning;
 }
 
 /*
