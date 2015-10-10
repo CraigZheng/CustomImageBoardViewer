@@ -339,12 +339,13 @@
 -(void)viewModelManager:(czzHomeViewModelManager *)list processedThreadData:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     DLog(@"%@", NSStringFromSelector(_cmd));
     // If pageNumber == 1, then is a forum change, scroll to top.
-    if (wasSuccessul && self.viewModelManager.pageNumber == 1) {
-        [self.threadTableView scrollToTop:NO];
-    }
     [[NSOperationQueue currentQueue] addOperationWithBlock:^{
         [self updateTableView];
         [self.refreshControl endRefreshing];
+        if (wasSuccessul && self.viewModelManager.pageNumber == 1) {
+            [self.threadTableView scrollToTop:NO];
+        }
+
         // If is in transition, is better not do anything.
         if (!NavigationManager.isInTransition)
             [self.progressView stopAnimating];
