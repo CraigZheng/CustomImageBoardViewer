@@ -38,7 +38,6 @@
 
 
 @interface czzHomeViewController() <UIAlertViewDelegate, czzOnScreenImageManagerViewControllerDelegate, UIStateRestoring>
-@property (strong, nonatomic) UINavigationController *leftController;
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (assign, nonatomic) BOOL shouldHideImageForThisForum;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
@@ -82,7 +81,8 @@
                                                  name:kForumPickedNotification
                                                object:nil];
     
-    [self.threadTableView addSubview: self.refreshControl];
+    [self.threadTableView addSubview:self.refreshControl];
+    // Init the left
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -137,14 +137,11 @@
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [self.refreshControl endRefreshing];
-    // Disable the left controller whenever I am leaving this view controller.
-    self.viewDeckController.leftController = nil;
+    self.viewDeckController.panningMode = IIViewDeckNoPanning;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.viewDeckController.rightController = nil;
-    self.viewDeckController.leftController = self.leftController;
     self.viewDeckController.panningMode = IIViewDeckFullViewPanning;
 
     //on screen image manager view
@@ -280,16 +277,6 @@
         _progressView = [(czzNavigationController*) self.navigationController progressView];
     }
     return _progressView;
-}
-
--(UINavigationController *)leftController {
-    if (!_leftController) {
-        // The left menu navigation controller.
-        _leftController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"left_side_view_controller"];
-        // The root view controller of the left menu navigation controller should be the delegate to the viewDeckController.
-        self.viewDeckController.delegate = [(UINavigationController *)_leftController viewControllers][0];
-    }
-    return _leftController;
 }
 
 -(UIRefreshControl *)refreshControl {
