@@ -129,8 +129,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     threadMenuViewController = [rightController.viewControllers objectAtIndex:0];
     threadMenuViewController.threadViewModelManager = self.viewModelManager;
     self.viewDeckController.rightController = rightController;
-    //disable left controller
-    self.viewDeckController.leftController = nil;
 
     //background colour
     self.threadTableView.backgroundColor = [settingCentre viewBackgroundColour];
