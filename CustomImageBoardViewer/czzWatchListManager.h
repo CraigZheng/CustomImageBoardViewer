@@ -6,6 +6,8 @@
 //  Copyright © 2015 Craig. All rights reserved.
 //
 
+#define WatchListManager [czzWatchListManager sharedManager]
+
 #import <Foundation/Foundation.h>
 
 #import "czzThread.h"

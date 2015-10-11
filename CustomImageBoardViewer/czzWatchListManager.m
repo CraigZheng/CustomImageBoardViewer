@@ -23,7 +23,12 @@
 #pragma mark - Life cycle
 -(instancetype)init {
     self = [super init];
-    [self restoreState];
+    if (self) {
+        [self restoreState];
+        // Background fetch interval
+        // TODO: if watchlist has no watched threads, set the background fetch internal to never. 
+        [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
+    }
     
     return self;
 }

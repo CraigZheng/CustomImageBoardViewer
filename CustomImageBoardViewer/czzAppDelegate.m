@@ -50,11 +50,10 @@
     [self checkFolders];
     // Check cookie
     CookieManager;
+    // Check watchlist manger.
+    
     // Prepare to launch
     AppActivityManager;
-
-    // Background fetch interval
-    [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
     
     return YES;
 }
