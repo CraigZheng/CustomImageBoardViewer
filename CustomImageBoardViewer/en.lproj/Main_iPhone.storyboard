@@ -526,7 +526,7 @@
                             <constraint firstAttribute="trailing" secondItem="Tgk-NW-5N7" secondAttribute="trailing" id="Fl7-d2-73l"/>
                             <constraint firstItem="Tgk-NW-5N7" firstAttribute="leading" secondItem="hg6-I0-Rfv" secondAttribute="leading" id="jpN-cs-Ve8"/>
                             <constraint firstItem="Tgk-NW-5N7" firstAttribute="top" secondItem="t4Y-Zn-CmB" secondAttribute="bottom" id="pDT-jg-vGe"/>
-                            <constraint firstItem="x9R-fb-aTx" firstAttribute="top" secondItem="Tgk-NW-5N7" secondAttribute="bottom" priority="1" id="t23-r3-5t8"/>
+                            <constraint firstItem="x9R-fb-aTx" firstAttribute="top" secondItem="Tgk-NW-5N7" secondAttribute="bottom" id="suq-0c-az0"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
@@ -540,6 +540,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="postTextView" destination="Tgk-NW-5N7" id="Ra4-3I-PNT"/>
+                        <outlet property="postTextViewBottomConstraint" destination="suq-0c-az0" id="yRZ-Cv-Bly"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nki-d0-FSQ" userLabel="First Responder" sceneMemberID="firstResponder"/>

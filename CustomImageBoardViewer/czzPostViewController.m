@@ -27,6 +27,7 @@
 @property czzPostSender *postSender;
 
 @property (strong, nonatomic) UIBarButtonItem *postButton;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *postTextViewBottomConstraint;
 
 - (IBAction)clearAction:(id)sender;
 
@@ -70,10 +71,6 @@
     postTextView.inputAccessoryView = toolbar;
     // colour
     postTextView.backgroundColor = [settingCentre viewBackgroundColour];
-    
-#warning DEBUG
-    postTextView.backgroundColor = [UIColor cyanColor];
-    
     postTextView.textColor = [settingCentre contentTextColour];
     postTextView.text = self.prefilledString;
     
@@ -125,11 +122,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardDidShow:)
-                                                 name:UIKeyboardDidShowNotification
                                                object:nil];
 }
 
@@ -299,10 +291,8 @@
     CGRect keyboardRect = [aValue CGRectValue];
     keyboardRect = [self.view convertRect:keyboardRect fromView:nil];
     
-    CGFloat keyboardTop = keyboardRect.origin.y;
-    CGRect newTextViewFrame = CGRectMake(self.view.bounds.origin.x, postTextView.frame.origin.y, self.view.bounds.size.width, self.view.bounds.size.height);
-    newTextViewFrame.size.height = keyboardTop - 44 - self.view.bounds.origin.y;
-    
+    CGFloat keyboardTop = keyboardRect.size.height;
+
     // Get the duration of the animation.
     NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
     NSTimeInterval animationDuration;
@@ -312,13 +302,9 @@
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:animationDuration];
     
-    postTextView.frame = newTextViewFrame;
+    self.postTextViewBottomConstraint.constant = keyboardTop;
     
     [UIView commitAnimations];
-}
-
--(void)keyboardDidShow:(NSNotification *)notification {
-    DLog(@"size of post text view: %@", [NSValue valueWithCGRect:postTextView.frame]);
 }
 
 -(void)keyboardWillHide:(NSNotification*)notification{
@@ -335,7 +321,7 @@
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:animationDuration];
     
-    postTextView.frame = CGRectMake(self.view.bounds.origin.x, postTextView.frame.origin.y, self.view.bounds.size.width, self.view.bounds.size.height);
+    self.postTextViewBottomConstraint.constant = 0;
     
     [UIView commitAnimations];
 }
