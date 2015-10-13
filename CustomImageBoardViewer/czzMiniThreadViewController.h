@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#import "KLCPopup.h"
 #import "czzThread.h"
 
 @interface czzMiniThreadViewController : UIViewController
