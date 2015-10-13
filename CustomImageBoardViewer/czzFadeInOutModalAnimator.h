@@ -8,6 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface czzSlideUpModalAnimator : NSObject <UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate>
+@interface czzFadeInOutModalAnimator : NSObject <UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate>
 @property (assign, nonatomic) BOOL isDismissing;
 @end

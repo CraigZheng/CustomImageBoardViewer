@@ -6,36 +6,40 @@
 //  Copyright © 2015 Craig. All rights reserved.
 //
 
-#import "czzSlideUpModalAnimator.h"
+#import "czzFadeInOutModalAnimator.h"
 
-@implementation czzSlideUpModalAnimator
+@implementation czzFadeInOutModalAnimator
 
 #pragma mark - UIViewControllerAnimatedTransitioning
 
 -(NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext {
-    return 0.25;
+    return 0.2;
 }
 
 -(void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
-    UIView *inView = [transitionContext containerView];
+    UIView *containerView = [transitionContext containerView];
     UIViewController *toVC = (UIViewController *)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     UIViewController *fromVC = (UIViewController *)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     
+    toVC.view.frame = fromVC.view.frame = containerView.bounds;
     if (self.isDismissing) {
-        [transitionContext completeTransition:YES];
-    } else {
-        [inView addSubview:toVC.view];
-        
-        CGRect screenRect = [[UIScreen mainScreen] bounds];
-        [toVC.view setFrame:CGRectMake(0, screenRect.size.height, fromVC.view.frame.size.width, fromVC.view.frame.size.height)];
-        
-        [UIView animateWithDuration:0.25f
+        fromVC.view.alpha = 1;
+        [UIView animateWithDuration:[self transitionDuration:transitionContext]
                          animations:^{
-                             
-                             [toVC.view setFrame:CGRectMake(0, 0, fromVC.view.frame.size.width, fromVC.view.frame.size.height)];
+                             fromVC.view.alpha = 0;
+        } completion:^(BOOL finished) {
+            [transitionContext completeTransition:YES];
+        }];
+    } else {
+        [containerView addSubview:toVC.view];
+        
+        toVC.view.alpha = 0;
+        [UIView animateWithDuration:[self transitionDuration:transitionContext]
+                         animations:^{
+                             toVC.view.alpha = 1;
                          }
                          completion:^(BOOL finished) {
-                             [transitionContext completeTransition:YES];
+                             [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
                          }];
     }
     
@@ -44,11 +48,11 @@
 #pragma mark - UIViewControllerTransitioningDelegate
 
 -(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
-    return [czzSlideUpModalAnimator new];
+    return [czzFadeInOutModalAnimator new];
 }
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
-    czzSlideUpModalAnimator *animator = [czzSlideUpModalAnimator new];
+    czzFadeInOutModalAnimator *animator = [czzFadeInOutModalAnimator new];
     animator.isDismissing = YES;
     return animator;
 }
