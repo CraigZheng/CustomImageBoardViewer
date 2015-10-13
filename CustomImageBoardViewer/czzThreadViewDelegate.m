@@ -113,6 +113,7 @@
 #pragma mark - czzMenuEnableTableViewCellDelegate
 - (void)userTapInQuotedText:(NSString *)text {
     // Text cannot be parsed to an integer, return...
+    text = [text componentsSeparatedByString:@"/"].lastObject;
     if (!text.integerValue) {
         return;
     }
