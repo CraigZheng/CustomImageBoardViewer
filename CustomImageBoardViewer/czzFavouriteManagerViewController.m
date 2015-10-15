@@ -77,8 +77,9 @@ NSInteger const historyIndex = 2;
     if ([customAnimationViewController isKindOfClass:[czzCustomSlideAnimationViewController class]]) {
         customAnimationViewController.isDismissing = isDismissing;
         [customAnimationViewController dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma UITableView datasource
