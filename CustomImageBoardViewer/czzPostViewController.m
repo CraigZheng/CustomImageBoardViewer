@@ -23,8 +23,9 @@
 #import "czzSettingsCentre.h"
 
 @interface czzPostViewController () <czzPostSenderDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
-@property NSMutableData *receivedResponse;
-@property czzPostSender *postSender;
+@property (nonatomic, strong) NSMutableData *receivedResponse;
+@property (nonatomic, strong) czzPostSender *postSender;
+@property (nonatomic, strong) czzEmojiCollectionViewController *emojiViewController;
 
 @property (strong, nonatomic) UIBarButtonItem *postButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *postTextViewBottomConstraint;
@@ -131,6 +132,13 @@
     [self.postTextView becomeFirstResponder];
 }
 
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    // Dismiss any possible semi modal view.
+    if (self.emojiViewController) {
+        [self dismissSemiModalView];
+    }
+}
 
 - (void)postAction:(id)sender {
     //assign the appropriate target URL and delegate to the postSender
@@ -161,13 +169,18 @@
 
 -(void)pickEmojiAction:(id)sender{
     [postTextView resignFirstResponder];
-    czzEmojiCollectionViewController *emojiViewController = [[czzEmojiCollectionViewController alloc] initWithNibName:@"czzEmojiCollectionViewController" bundle:[NSBundle mainBundle]];
-    emojiViewController.delegate = self;
-    [self presentSemiViewController:emojiViewController withOptions:@{
-                                                                      KNSemiModalOptionKeys.pushParentBack    : @(NO),
-                                                                      KNSemiModalOptionKeys.animationDuration : @(0.3),
-                                                                      KNSemiModalOptionKeys.shadowOpacity     : @(0.0),
-                                                                      }];
+    self.emojiViewController = [[czzEmojiCollectionViewController alloc] initWithNibName:@"czzEmojiCollectionViewController" bundle:[NSBundle mainBundle]];
+    self.emojiViewController.delegate = self;
+    [self presentSemiViewController:self.emojiViewController
+                        withOptions:@{
+                                      KNSemiModalOptionKeys.pushParentBack    : @(NO),
+                                      KNSemiModalOptionKeys.animationDuration : @(0.3),
+                                      KNSemiModalOptionKeys.shadowOpacity     : @(0.0),
+                                      }
+                         completion:nil
+                       dismissBlock:^{
+                           self.emojiViewController = nil;
+                       }];
 }
 
 //delete everything from the text view
