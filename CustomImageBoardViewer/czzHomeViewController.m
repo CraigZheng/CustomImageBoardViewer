@@ -216,7 +216,7 @@
 
 - (IBAction)bookmarkAction:(id)sender {
     // Present favourite manager modally.
-    [self presentViewController:[czzFavouriteManagerViewController newInNavigationController] animated:YES completion:nil];
+    [self.navigationController pushViewController:[czzFavouriteManagerViewController new] animated:YES];
 }
 
 - (IBAction)settingsAction:(id)sender {

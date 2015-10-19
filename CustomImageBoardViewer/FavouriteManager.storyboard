@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="NPJ-KY-FRq">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="VNW-Ag-gU0">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -8,6 +8,7 @@
         <!--Czz Custom Slide Animation View Controller-->
         <scene sceneID="1wb-Qs-s0N">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="g7M-LL-QgO" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController id="NPJ-KY-FRq" customClass="czzCustomSlideAnimationViewController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Uwd-2s-x75">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -17,14 +18,13 @@
                         <segue destination="VNW-Ag-gU0" kind="relationship" relationship="rootViewController" id="IjO-9L-RQj"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="g7M-LL-QgO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-572" y="-283"/>
         </scene>
         <!--Czz Favourite Manager View Controller-->
         <scene sceneID="bOk-ci-aBH">
             <objects>
-                <tableViewController storyboardIdentifier="favourite_manager_view_controller" hidesBottomBarWhenPushed="YES" id="VNW-Ag-gU0" customClass="czzFavouriteManagerViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="favourite_manager_view_controller" id="VNW-Ag-gU0" customClass="czzFavouriteManagerViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="j9F-af-Uh9" customClass="czzThreadTableView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -36,11 +36,6 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="tmN-Bp-Dgn">
                         <nil key="title"/>
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="t83-8E-ebC">
-                            <connections>
-                                <action selector="cancelAction:" destination="VNW-Ag-gU0" id="L9L-Jl-NzV"/>
-                            </connections>
-                        </barButtonItem>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="O6R-MR-mt4">
                             <rect key="frame" x="236" y="7" width="128" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

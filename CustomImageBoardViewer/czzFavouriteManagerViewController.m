@@ -19,7 +19,6 @@
 #import "czzHistoryManager.h"
 #import "czzWatchListManager.h"
 #import "czzThreadViewModelManager.h"
-#import "czzCustomSlideAnimationViewController.h"
 
 NSInteger const bookmarkIndex = 0;
 NSInteger const watchIndex = 1;
@@ -33,6 +32,7 @@ NSInteger const historyIndex = 2;
 @property (nonatomic, strong) NSArray *updatedThreads;
 @property (nonatomic, strong) NSMutableDictionary *horizontalHeights;
 @property (nonatomic, strong) NSMutableDictionary *verticalHeights;
+@property (nonatomic, assign) BOOL toolbarWasHidden;
 @end
 
 @implementation czzFavouriteManagerViewController
@@ -48,8 +48,8 @@ NSInteger const historyIndex = 2;
 {
     [super viewDidLoad];
     [self copyDataFromManager];
-    
-    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
+    self.tableView.estimatedRowHeight = 44;
+
     self.horizontalHeights = [NSMutableDictionary new];
     self.verticalHeights = [NSMutableDictionary new];
 }
@@ -61,25 +61,17 @@ NSInteger const historyIndex = 2;
     }
     self.view.backgroundColor = [settingCentre viewBackgroundColour];
     [self.tableView reloadData];
-    self.tableView.estimatedRowHeight = 44;
+    
+    self.toolbarWasHidden = self.navigationController.toolbarHidden;
+    self.navigationController.toolbarHidden = YES;
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    return;
-    //not ready
     [historyManager saveCurrentState];
     [favouriteManager saveCurrentState];
-}
-
--(void)dismiss:(BOOL)isDismissing {
-    czzCustomSlideAnimationViewController *customAnimationViewController = (id)self.navigationController;
-    if ([customAnimationViewController isKindOfClass:[czzCustomSlideAnimationViewController class]]) {
-        customAnimationViewController.isDismissing = isDismissing;
-        [customAnimationViewController dismissViewControllerAnimated:YES completion:nil];
-    } else {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
+    
+    self.navigationController.toolbarHidden = self.toolbarWasHidden;
 }
 
 #pragma UITableView datasource
@@ -143,7 +135,6 @@ NSInteger const historyIndex = 2;
         threadViewController.viewModelManager = threadViewModelManager;
         [NavigationManager pushViewController:threadViewController animated:YES];
     }
-    [self dismiss:NO];
 }
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -197,11 +188,6 @@ NSInteger const historyIndex = 2;
 }
 
 #pragma mark - UI actions
-
-- (IBAction)cancelAction:(id)sender {
-    [self dismiss:YES];
-}
-
 
 - (IBAction)editAction:(id)sender {
     [self.tableView setEditing:!self.tableView.editing animated:YES];
