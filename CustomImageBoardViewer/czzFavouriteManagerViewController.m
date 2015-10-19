@@ -32,7 +32,6 @@ NSInteger const historyIndex = 2;
 @property (nonatomic, strong) NSArray *updatedThreads;
 @property (nonatomic, strong) NSMutableDictionary *horizontalHeights;
 @property (nonatomic, strong) NSMutableDictionary *verticalHeights;
-@property (nonatomic, assign) BOOL toolbarWasHidden;
 @end
 
 @implementation czzFavouriteManagerViewController
@@ -62,7 +61,6 @@ NSInteger const historyIndex = 2;
     self.view.backgroundColor = [settingCentre viewBackgroundColour];
     [self.tableView reloadData];
     
-    self.toolbarWasHidden = self.navigationController.toolbarHidden;
     self.navigationController.toolbarHidden = YES;
 }
 
@@ -71,7 +69,7 @@ NSInteger const historyIndex = 2;
     [historyManager saveCurrentState];
     [favouriteManager saveCurrentState];
     
-    self.navigationController.toolbarHidden = self.toolbarWasHidden;
+    self.navigationController.toolbarHidden = NO;
 }
 
 #pragma UITableView datasource
