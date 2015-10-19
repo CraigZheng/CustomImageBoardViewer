@@ -47,7 +47,6 @@ NSInteger const historyIndex = 2;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self copyDataFromManager];
     self.tableView.estimatedRowHeight = 44;
 
     self.horizontalHeights = [NSMutableDictionary new];
@@ -56,6 +55,7 @@ NSInteger const historyIndex = 2;
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self copyDataFromManager];
     if (title) {
         self.title = title;
     }

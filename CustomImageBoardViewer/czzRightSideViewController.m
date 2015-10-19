@@ -157,9 +157,9 @@
 
 #pragma mark - favirouteAction
 -(void)favouriteAction {
-    if (self.parentThread)
-        [favouriteManager addFavourite:self.parentThread];
-    [AppDelegate showToast:@"已加入收藏"];
+//    if (self.parentThread)
+//        [favouriteManager addFavourite:self.parentThread];
+//    [AppDelegate showToast:@"已加入收藏"];
 }
 
 #pragma mark - reply actions
