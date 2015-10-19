@@ -801,6 +801,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="forumListButton" destination="8WD-yv-VRu" id="DLY-p4-ThH"/>
+                        <outlet property="infoBarButton" destination="yYD-SS-jel" id="ErO-wg-VV3"/>
                         <outlet property="jumpBarButtonItem" destination="hBx-aX-JHK" id="sth-yF-T96"/>
                         <outlet property="numberBarButton" destination="K87-RF-vDp" id="mLR-7X-U8p"/>
                         <outlet property="onScreenImageManagerViewContainer" destination="Js0-yW-ln4" id="RGH-rd-G71"/>
@@ -833,7 +834,7 @@
         <image name="visible.png" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ec7-IS-eS6"/>
-        <segue reference="vK6-NU-jzp"/>
+        <segue reference="Uep-8w-iun"/>
+        <segue reference="5Fw-Ve-fjP"/>
     </inferredMetricsTieBreakers>
 </document>

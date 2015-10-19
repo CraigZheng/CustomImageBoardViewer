@@ -15,7 +15,7 @@
 @property (weak, nonatomic) IBOutlet czzThreadTableView *threadTableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *jumpBarButtonItem;
 
-@property (strong) UIBarButtonItem *infoBarButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *infoBarButton;
 @property (weak, nonatomic) IBOutlet UIView *onScreenImageManagerViewContainer;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *forumListButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsBarButton;

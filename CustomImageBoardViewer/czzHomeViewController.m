@@ -82,7 +82,17 @@
                                                object:nil];
     
     [self.threadTableView addSubview:self.refreshControl];
-    // Init the left
+    // Info bar button, must use custom view to allow badget value to be set.
+    UIButton *customButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [customButton setImage:[[UIImage imageNamed:@"info.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
+                  forState:UIControlStateNormal];
+    [customButton setTitleColor:[UIColor whiteColor]
+                       forState:UIControlStateHighlighted];
+    customButton.frame = CGRectMake(0, 0, 44, 44);
+    [customButton addTarget:self
+                     action:@selector(moreInfoAction:)
+           forControlEvents:UIControlEventTouchUpInside];
+    self.infoBarButton.customView = customButton;
 }
 
 
@@ -104,28 +114,12 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     self.viewDeckController.panningMode = IIViewDeckFullViewPanning;
-    // Check if should show a badget on settings button.
-    UIButton *settingsGearImageButton;
-    if (!self.settingsBarButton.customView) {
-        //create a container view that has an image button as its sub view
-        settingsGearImageButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 48, 37)];
-        settingsGearImageButton.imageEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10);
-        [settingsGearImageButton setImage:[[UIImage imageNamed:@"settings.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-        settingsGearImageButton.tag = 999;
-        // Add the container view.
-        self.settingsBarButton.customView = settingsGearImageButton;
-    } else {
-        // Retrive the gear image button.
-        settingsGearImageButton = (UIButton*) [self.settingsBarButton.customView viewWithTag:999];
-    }
+    
+    // Add badget number to infoBarButton if necessary.
     if ([[(czzNavigationController*)self.navigationController notificationBannerViewController] shouldShow]) {
-        self.settingsBarButton.badgeValue = @"1";
-        [settingsGearImageButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
-        [settingsGearImageButton addTarget:self action:@selector(openNotificationCentre) forControlEvents:UIControlEventTouchUpInside];
+        self.infoBarButton.badgeValue = @"1";
     } else {
-        self.settingsBarButton.badgeValue = nil;
-        [settingsGearImageButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
-        [settingsGearImageButton addTarget:self action:@selector(openSettingsPanel) forControlEvents:UIControlEventTouchUpInside];
+        self.infoBarButton.badgeValue = nil;
     }
 
     // Select a random forum after a certain period of inactivity.
@@ -266,9 +260,13 @@
 }
 
 -(IBAction)moreInfoAction:(id)sender {
-    czzMoreInfoViewController *moreInfoViewController = [czzMoreInfoViewController new];
-    moreInfoViewController.forum = self.viewModelManager.forum;
-    [self presentViewController:moreInfoViewController animated:YES completion:nil];
+    if ([[(czzNavigationController*)self.navigationController notificationBannerViewController] shouldShow]) {
+        [self openNotificationCentre];
+    } else {
+        czzMoreInfoViewController *moreInfoViewController = [czzMoreInfoViewController new];
+        moreInfoViewController.forum = self.viewModelManager.forum;
+        [self presentViewController:moreInfoViewController animated:YES completion:nil];
+    }
 }
 
 #pragma mark - Getters
