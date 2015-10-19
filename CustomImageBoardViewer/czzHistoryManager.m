@@ -31,7 +31,7 @@
         [browserHistory removeObject:thread];
     [browserHistory addObject:thread];
     //should not be bigger than 100
-    if (browserHistory.count > 99) {
+    if (browserHistory.count > HISTORY_UPPER_LIMIT - 1) {
         [browserHistory removeObject:browserHistory.firstObject]; //remove oldest object
     }
     [self saveCurrentState];

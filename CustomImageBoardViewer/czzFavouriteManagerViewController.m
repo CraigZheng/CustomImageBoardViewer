@@ -147,8 +147,6 @@ NSInteger const historyIndex = 2;
         } else if (titleSegmentedControl.selectedSegmentIndex == watchIndex) {
             [[czzWatchListManager sharedManager] removeFromWatchList:threadToDelete];
         }
-        [selectedManager setHorizontalHeights:nil];
-        [selectedManager setVerticalHeights:nil];
         
         [self copyDataFromManager];
         [tableView reloadData];
