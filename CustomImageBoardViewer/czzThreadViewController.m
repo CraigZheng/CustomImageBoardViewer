@@ -27,6 +27,7 @@
 #import "czzOnScreenImageManagerViewController.h"
 #import "GSIndeterminateProgressView.h"
 #import "czzThreadViewDelegate.h"
+#import "czzFavouriteManager.h"
 #import "czzWatchListManager.h"
 #import "czzRoundButton.h"
 
@@ -129,8 +130,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     threadMenuViewController = [rightController.viewControllers objectAtIndex:0];
     threadMenuViewController.threadViewModelManager = self.viewModelManager;
     self.viewDeckController.rightController = rightController;
-    //disable left controller
-    self.viewDeckController.leftController = nil;
 
     //background colour
     self.threadTableView.backgroundColor = [settingCentre viewBackgroundColour];
@@ -140,13 +139,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     onScreenImgMrg.delegate = threadViewDelegate;
     [self addChildViewController:onScreenImgMrg];
     [onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
-    
-//    //if big image mode, perform a reload
-//    if ([settingCentre userDefShouldUseBigImage])
-//    {
-//        [self updateTableView];
-//    }
-
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -183,6 +175,12 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     NSString *totalPages = self.viewModelManager.totalPages < 99 ? [NSString stringWithFormat:@"%ld", (long)self.viewModelManager.totalPages] : @"∞";
     self.jumpBarButtonItem.image = nil;
     self.jumpBarButtonItem.title = [NSString stringWithFormat:@"%@/%@", pageNumber, totalPages];
+    // Star button image - on or off.
+    if ([favouriteManager isThreadFavourited:self.viewModelManager.parentThread]) {
+        self.starButton.image = [UIImage imageNamed:@"solid_star.png"];
+    } else {
+        self.starButton.image = [UIImage imageNamed:@"star.png"];
+    }
 }
 
 #pragma mark - setter
@@ -306,8 +304,17 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 - (IBAction)starAction:(id)sender {
-    [threadMenuViewController favouriteAction];
-
+    if (self.viewModelManager.parentThread) {
+        if ([favouriteManager isThreadFavourited:self.viewModelManager.parentThread]) {
+            // Already contained, remove instead.
+            [favouriteManager removeFavourite:self.viewModelManager.parentThread];
+            [AppDelegate showToast:@"已移除收藏"];
+        } else {
+            [favouriteManager addFavourite:self.viewModelManager.parentThread];
+            [AppDelegate showToast:@"已加入收藏"];
+        }
+        [self updateTableView];
+    }
 }
 
 - (IBAction)watchAction:(id)sender {

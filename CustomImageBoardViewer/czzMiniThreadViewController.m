@@ -17,12 +17,12 @@
 #import "czzThread.h"
 #import "czzThreadViewController.h"
 #import "czzThreadViewModelManager.h"
+#import "czzFadeInOutModalAnimator.h"
 
 @interface czzMiniThreadViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, assign) NSInteger parentID;
 @property (nonatomic, assign) CGSize rowSize;
-@property (nonatomic, strong) KLCPopup *popup;
-
+@property (nonatomic, strong) czzFadeInOutModalAnimator *customModalAnimator;
 @property (weak, nonatomic) IBOutlet UIToolbar *miniThreadViewToolBar;
 @end
 
@@ -36,7 +36,7 @@
     [super viewDidLoad];
     self.miniThreadViewToolBar.barTintColor = [settingCentre barTintColour];
     self.miniThreadViewToolBar.tintColor = [settingCentre tintColour];
-
+    
     //register NIB
     [threadTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
     [threadTableView registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER];
@@ -53,19 +53,17 @@
 }
 
 -(void)show{
-    self.popup = [KLCPopup popupWithContentView:self.view
-                                       showType:KLCPopupShowTypeFadeIn
-                                    dismissType:KLCPopupDismissTypeFadeOut
-                                       maskType:KLCPopupMaskTypeDimmed
-                       dismissOnBackgroundTouch:YES
-                          dismissOnContentTouch:NO];
-    [self.threadTableView reloadData];
-    [self.popup show];
+    self.modalPresentationStyle = UIModalPresentationCustom;
+    self.transitioningDelegate = self.customModalAnimator = [czzFadeInOutModalAnimator new];
+    [NavigationManager.delegate presentViewController:self animated:YES completion:^{
+        [self.threadTableView reloadData];
+    }];
 }
 
 #pragma mark - UI actions.
 - (IBAction)openAction:(id)sender {
-    [self.popup dismiss:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
     if (self.myThread) {
         czzThreadViewModelManager *threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:self.myThread andForum:nil];
         czzThreadViewController *threadViewController = [[UIStoryboard storyboardWithName:THREAD_VIEW_CONTROLLER_STORYBOARD_NAME bundle:nil] instantiateViewControllerWithIdentifier:THREAD_VIEW_CONTROLLER_ID];
@@ -75,7 +73,7 @@
 }
 
 - (IBAction)tapOnBackgroundView:(id)sender {
-    [self.popup dismiss:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Setters.

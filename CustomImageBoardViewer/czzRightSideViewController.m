@@ -157,9 +157,9 @@
 
 #pragma mark - favirouteAction
 -(void)favouriteAction {
-    if (self.parentThread)
-        [favouriteManager addFavourite:self.parentThread];
-    [AppDelegate showToast:@"已加入收藏"];
+//    if (self.parentThread)
+//        [favouriteManager addFavourite:self.parentThread];
+//    [AppDelegate showToast:@"已加入收藏"];
 }
 
 #pragma mark - reply actions
@@ -168,10 +168,7 @@
     postViewController.forum = self.forum;
     postViewController.thread = self.parentThread;
     postViewController.postMode = REPLY_POST;
-    [[czzNavigationViewModelManager sharedManager].delegate presentViewController:postViewController animated:YES completion:^{
-        [self.viewDeckController toggleRightViewAnimated:NO];
-    }];
-
+    [[czzNavigationViewModelManager sharedManager].delegate pushViewController:postViewController animated:YES];
 }
 
 -(void)replySelectedAction {
@@ -179,26 +176,22 @@
     [postViewController setThread:self.parentThread];
     [postViewController setReplyTo:self.selectedThread];
     postViewController.postMode = REPLY_POST;
-    [[czzNavigationViewModelManager sharedManager].delegate presentViewController:postViewController animated:YES completion:^{
-        [self.viewDeckController toggleRightViewAnimated:NO];
-    }];
+    [[czzNavigationViewModelManager sharedManager].delegate pushViewController:postViewController animated:YES];
 }
 
 
 -(void)reportAction {
     czzPostViewController *newPostViewController = [czzPostViewController new];
     newPostViewController.postMode = REPORT_POST;
-    [[czzNavigationViewModelManager sharedManager].delegate presentViewController:newPostViewController animated:YES completion:^{
-        [self.viewDeckController toggleRightViewAnimated:YES];
-        NSString *reportString = [[settingCentre report_post_placeholder] stringByReplacingOccurrencesOfString:kParentID withString:[NSString stringWithFormat:@"%ld", (long)self.parentThread.ID]];
-        reportString = [reportString stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long)self.selectedThread.ID]];
-        newPostViewController.postTextView.text = reportString;
-        newPostViewController.postNaviBar.topItem.title = [NSString stringWithFormat:@"举报:%ld", (long)self.parentThread.ID];
-        //construct a blacklist that to be submitted to my server and pass it to new post view controller
-        czzBlacklistEntity *blacklistEntity = [czzBlacklistEntity new];
-        blacklistEntity.threadID = self.selectedThread.ID;
-        newPostViewController.blacklistEntity = blacklistEntity;
-    }];
+    [[czzNavigationViewModelManager sharedManager].delegate pushViewController:newPostViewController animated:YES];
+    NSString *reportString = [[settingCentre report_post_placeholder] stringByReplacingOccurrencesOfString:kParentID withString:[NSString stringWithFormat:@"%ld", (long)self.parentThread.ID]];
+    reportString = [reportString stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long)self.selectedThread.ID]];
+    newPostViewController.prefilledString = reportString;
+    newPostViewController.title = [NSString stringWithFormat:@"举报:%ld", (long)self.parentThread.ID];
+    //construct a blacklist that to be submitted to my server and pass it to new post view controller
+    czzBlacklistEntity *blacklistEntity = [czzBlacklistEntity new];
+    blacklistEntity.threadID = self.selectedThread.ID;
+    newPostViewController.blacklistEntity = blacklistEntity;
 }
 
 #pragma UIDocumentInteractionController delegate
@@ -216,7 +209,7 @@
         [postViewController setThread:self.parentThread];
         [postViewController setReplyTo:replyToThread];
         postViewController.postMode = REPLY_POST;
-        [[czzNavigationViewModelManager sharedManager].delegate presentViewController:postViewController animated:YES completion:nil];
+        [[czzNavigationViewModelManager sharedManager].delegate pushViewController:postViewController animated:YES];
     }
 }
 

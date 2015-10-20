@@ -225,7 +225,7 @@
     if (buttonIndex == actionSheet.cancelButtonIndex)
         return;
     NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
-    NSString *hostPrefix = [settingCentre share_post_url];
+    NSString *hostPrefix = [settingCentre a_isle_host];
     if (hostPrefix.length && [buttonTitle rangeOfString:hostPrefix options:NSCaseInsensitiveSearch].location != NSNotFound) {
         if ([delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
             [delegate userTapInQuotedText:[buttonTitle stringByReplacingOccurrencesOfString:hostPrefix withString:@""]];

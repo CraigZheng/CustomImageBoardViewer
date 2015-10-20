@@ -16,6 +16,7 @@
 @property NSMutableOrderedSet *favouriteThreads;
 
 -(void)addFavourite:(czzThread*)thread;
+-(BOOL)isThreadFavourited:(czzThread*)thread;
 -(BOOL)removeFavourite:(czzThread*)thread;
 -(void)removeAll;
 -(void)saveCurrentState;

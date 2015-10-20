@@ -72,20 +72,14 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
+    receivedResponse = [NSMutableData new];
     if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
     {
         if ([(NSHTTPURLResponse*)response statusCode] == 200) {
             [self.delegate statusReceived:YES message:@"成功"];
         } else {
-            [self.delegate statusReceived:NO message:@"失败"];
+            [self.delegate statusReceived:NO message:[NSString stringWithFormat:@"Failed! Status code: %ld", (long)[(NSHTTPURLResponse*)response statusCode]]];
         }
-    }
-
-    receivedResponse = [NSMutableData new];
-    if ([(NSHTTPURLResponse*)response statusCode] == 200) {
-        [self.delegate statusReceived:YES message:@"What a great success!"];
-    } else {
-        [self.delegate statusReceived:NO message:[NSString stringWithFormat:@"Failed! Status code: %ld", (long)[(NSHTTPURLResponse*)response statusCode]]];
     }
 }
 

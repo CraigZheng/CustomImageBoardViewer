@@ -66,6 +66,8 @@
 		441E5D2C17F48F8C00289DBD /* czzThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E5D2B17F48F8C00289DBD /* czzThread.m */; };
 		441E5E4E17F4A9C500289DBD /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5E4D17F4A9C500289DBD /* CoreText.framework */; };
 		441E5E5417F52DEF00289DBD /* czzThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E5E5317F52DEF00289DBD /* czzThreadViewController.m */; };
+		4424FE4D1BCD33A70096F261 /* czzFadeInOutModalAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4424FE4C1BCD33A70096F261 /* czzFadeInOutModalAnimator.m */; settings = {ASSET_TAGS = (); }; };
+		4424FE4E1BCD33A70096F261 /* czzFadeInOutModalAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4424FE4C1BCD33A70096F261 /* czzFadeInOutModalAnimator.m */; settings = {ASSET_TAGS = (); }; };
 		4425A286199700F000671B88 /* test_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 4425A285199700F000671B88 /* test_image.png */; };
 		4425A2891997109600671B88 /* czzForum.m in Sources */ = {isa = PBXBuildFile; fileRef = 4425A2881997109600671B88 /* czzForum.m */; };
 		442A8FA019DB7DF200A3516E /* MWCaptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A8F4619DB7DF200A3516E /* MWCaptionView.m */; };
@@ -1022,6 +1024,8 @@
 		441E5E4D17F4A9C500289DBD /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		441E5E5217F52DEF00289DBD /* czzThreadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewController.h; sourceTree = "<group>"; };
 		441E5E5317F52DEF00289DBD /* czzThreadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewController.m; sourceTree = "<group>"; };
+		4424FE4B1BCD33A70096F261 /* czzFadeInOutModalAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFadeInOutModalAnimator.h; sourceTree = "<group>"; };
+		4424FE4C1BCD33A70096F261 /* czzFadeInOutModalAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFadeInOutModalAnimator.m; sourceTree = "<group>"; };
 		4425A285199700F000671B88 /* test_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_image.png; sourceTree = "<group>"; };
 		4425A2871997109600671B88 /* czzForum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzForum.h; sourceTree = "<group>"; };
 		4425A2881997109600671B88 /* czzForum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzForum.m; sourceTree = "<group>"; };
@@ -2525,6 +2529,8 @@
 				4479B0891A0CCB270074D484 /* MiniThreadView.storyboard */,
 				4479B08E1A0CCB6D0074D484 /* czzMiniThreadViewController.h */,
 				4479B08F1A0CCB6D0074D484 /* czzMiniThreadViewController.m */,
+				4424FE4B1BCD33A70096F261 /* czzFadeInOutModalAnimator.h */,
+				4424FE4C1BCD33A70096F261 /* czzFadeInOutModalAnimator.m */,
 			);
 			name = MiniThreadView;
 			sourceTree = "<group>";
@@ -3888,6 +3894,7 @@
 				44E3F7411BA2FFB600597A3F /* PropertyAttribute.m in Sources */,
 				44C34543187E59A500FDE45D /* UIViewController+KNSemiModal.m in Sources */,
 				442A8FA819DB7DF200A3516E /* DACircularProgressView.m in Sources */,
+				4424FE4D1BCD33A70096F261 /* czzFadeInOutModalAnimator.m in Sources */,
 				4425A2891997109600671B88 /* czzForum.m in Sources */,
 				4479B0901A0CCB6D0074D484 /* czzMiniThreadViewController.m in Sources */,
 				442A8FA519DB7DF200A3516E /* MWTapDetectingImageView.m in Sources */,
@@ -4086,6 +4093,7 @@
 				445540161BABEBA700667435 /* PropertyAttribute.m in Sources */,
 				445540171BABEBA700667435 /* UIViewController+KNSemiModal.m in Sources */,
 				445540181BABEBA700667435 /* DACircularProgressView.m in Sources */,
+				4424FE4E1BCD33A70096F261 /* czzFadeInOutModalAnimator.m in Sources */,
 				445540191BABEBA700667435 /* czzForum.m in Sources */,
 				4455401A1BABEBA700667435 /* czzMiniThreadViewController.m in Sources */,
 				4455401B1BABEBA700667435 /* MWTapDetectingImageView.m in Sources */,

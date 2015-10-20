@@ -23,18 +23,11 @@
 @property czzThread *thread;
 @property czzThread *replyTo;
 @property czzForum *forum;
-@property (nonatomic) NSInteger postMode;
-@property (nonatomic) czzBlacklistEntity *blacklistEntity;
-@property (strong, nonatomic) IBOutlet UITextView *postTextView;
-@property (strong, nonatomic) IBOutlet UINavigationBar *postNaviBar;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *postButton;
-@property (weak, nonatomic) IBOutlet UIProgressView *sendingProgressVIew;
-@property (weak, nonatomic) IBOutlet UIView *fillerBannerView;
-@property (weak, nonatomic) IBOutlet UIView *postBackgroundView;
+@property (nonatomic, assign) NSInteger postMode;
+@property (nonatomic, strong) czzBlacklistEntity *blacklistEntity;
 
-- (IBAction)postAction:(id)sender;
-- (IBAction)cancelAction:(id)sender;
-- (IBAction)pickImageAction:(id)sender;
-- (IBAction)clearAction:(id)sender;
+@property (nonatomic, strong) NSString *prefilledString;
+
+@property (strong, nonatomic) IBOutlet UITextView *postTextView;
 
 @end

@@ -33,6 +33,10 @@
     [self saveCurrentState];
 }
 
+-(BOOL)isThreadFavourited:(czzThread *)thread {
+    return [self.favouriteThreads containsObject:thread];
+}
+
 -(BOOL)removeFavourite:(czzThread *)thread {
     if ([favouriteThreads containsObject:thread])
     {

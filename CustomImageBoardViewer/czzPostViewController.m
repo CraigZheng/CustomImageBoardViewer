@@ -23,23 +23,27 @@
 #import "czzSettingsCentre.h"
 
 @interface czzPostViewController () <czzPostSenderDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
-@property NSMutableData *receivedResponse;
-@property czzPostSender *postSender;
+@property (nonatomic, strong) NSMutableData *receivedResponse;
+@property (nonatomic, strong) czzPostSender *postSender;
+@property (nonatomic, strong) czzEmojiCollectionViewController *emojiViewController;
+
+@property (strong, nonatomic) UIBarButtonItem *postButton;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *postTextViewBottomConstraint;
+
+- (IBAction)clearAction:(id)sender;
+
 @end
 
 @implementation czzPostViewController
 @synthesize postTextView;
 @synthesize thread;
 @synthesize replyTo;
-@synthesize postNaviBar;
 @synthesize postButton;
 @synthesize receivedResponse;
 @synthesize blacklistEntity;
 @synthesize postSender;
 @synthesize postMode;
 @synthesize forum;
-@synthesize sendingProgressVIew;
-@synthesize postBackgroundView;
 
 - (void)viewDidLoad
 {
@@ -69,12 +73,7 @@
     // colour
     postTextView.backgroundColor = [settingCentre viewBackgroundColour];
     postTextView.textColor = [settingCentre contentTextColour];
-    postNaviBar.barTintColor = [settingCentre barTintColour];
-    postNaviBar.tintColor = [settingCentre tintColour];
-    [postNaviBar
-     setTitleTextAttributes:@{NSForegroundColorAttributeName : postNaviBar.tintColor}];
-    
-    postBackgroundView.backgroundColor = [settingCentre barTintColour];
+    postTextView.text = self.prefilledString;
     
     //construct the title, content and targetURLString based on selected post mode
     NSString *title = @"回复";
@@ -112,8 +111,9 @@
             }
             break;
     }
-    self.postNaviBar.topItem.title = title;
-    postTextView.text = content;
+    self.title = title;
+    if (content.length)
+        postTextView.text = content;
     
     // observe keyboard hide and show notifications to resize the text view appropriately
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -126,17 +126,21 @@
                                                object:nil];
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     //Register focus on text view
     [self.postTextView becomeFirstResponder];
 }
 
--(void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    // Dismiss any possible semi modal view.
+    if (self.emojiViewController) {
+        [self dismissSemiModalView];
+    }
 }
 
-- (IBAction)postAction:(id)sender {
+- (void)postAction:(id)sender {
     //assign the appropriate target URL and delegate to the postSender
     postSender.delegate = self;
     postSender.content = postTextView.text;
@@ -155,11 +159,7 @@
     }
 }
 
-- (IBAction)cancelAction:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (IBAction)pickImageAction:(id)sender {
+- (void)pickImageAction:(id)sender {
     UIImagePickerController *mediaUI = [[UIImagePickerController alloc] init];
     mediaUI.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     mediaUI.allowsEditing = NO;
@@ -169,34 +169,41 @@
 
 -(void)pickEmojiAction:(id)sender{
     [postTextView resignFirstResponder];
-    czzEmojiCollectionViewController *emojiViewController = [[czzEmojiCollectionViewController alloc] initWithNibName:@"czzEmojiCollectionViewController" bundle:[NSBundle mainBundle]];
-    emojiViewController.delegate = self;
-    [self presentSemiViewController:emojiViewController withOptions:@{
-                                                                      KNSemiModalOptionKeys.pushParentBack    : @(NO),
-                                                                      KNSemiModalOptionKeys.animationDuration : @(0.3),
-                                                                      KNSemiModalOptionKeys.shadowOpacity     : @(0.0),
-                                                                      }];
+    self.emojiViewController = [[czzEmojiCollectionViewController alloc] initWithNibName:@"czzEmojiCollectionViewController" bundle:[NSBundle mainBundle]];
+    self.emojiViewController.delegate = self;
+    [self presentSemiViewController:self.emojiViewController
+                        withOptions:@{
+                                      KNSemiModalOptionKeys.pushParentBack    : @(NO),
+                                      KNSemiModalOptionKeys.animationDuration : @(0.3),
+                                      KNSemiModalOptionKeys.shadowOpacity     : @(0.0),
+                                      }
+                         completion:nil
+                       dismissBlock:^{
+                           self.emojiViewController = nil;
+                       }];
 }
 
 //delete everything from the text view
 - (IBAction)clearAction:(id)sender {
     if (postTextView.text.length > 0)
     {
+        [self.postTextView resignFirstResponder];
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"清空内容和图片？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"清空" otherButtonTitles: nil];
         [actionSheet showInView:self.view];
-    }
-}
 
-#pragma mark - UIActionSheetDelegate
--(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == actionSheet.destructiveButtonIndex)
-    [self resetContent];
+    }
 }
 
 -(void)resetContent{
     postTextView.text = @"";
     postSender.imgData = nil;
     [[AppDelegate window] makeToast:@"内容和图片已清空"];
+}
+
+#pragma mark - UIActionSheetDelegate
+-(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == actionSheet.destructiveButtonIndex)
+    [self resetContent];
 }
 
 #pragma UIImagePickerController delegate
@@ -261,15 +268,13 @@
 #pragma czzPostSender delegate
 -(void)statusReceived:(BOOL)status message:(NSString *)message{
     if (status) {
-        [self dismissViewControllerAnimated:YES completion:^{
-            //dismiss this view controller and upon its dismiss, notify user that the message is posted
-            [AppDelegate showToast:@"提交成功"];
-        }];
+        [self.navigationController popViewControllerAnimated:YES];
+        [AppDelegate showToast:@"提交成功"];
     } else {
         [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:message duration:1.5 position:@"top" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
-        self.postNaviBar.topItem.title = message.length > 0 ? message : @"出错，没有更多信息";
+        self.title = message.length > 0 ? message : @"出错，没有更多信息";
     }
-    [self performSelectorInBackground:@selector(enablePostButton) withObject:Nil];
+    [self enablePostButton];
 }
 
 -(void)enablePostButton{
@@ -277,11 +282,10 @@
 }
 
 -(void)postSenderProgressUpdated:(CGFloat)percent {
-    sendingProgressVIew.progress = percent;
-    self.postNaviBar.topItem.title = [NSString stringWithFormat:@"发送中 - %d%%", (int)(percent * 100)];
+    self.title = [NSString stringWithFormat:@"发送中 - %d%%", (int)(percent * 100)];
 }
 
-#pragma Keyboard actions
+#pragma mark - Keyboard events.
 -(void)keyboardWillShow:(NSNotification*)notification{
     /*
      Reduce the size of the text view so that it's not obscured by the keyboard.
@@ -300,10 +304,8 @@
     CGRect keyboardRect = [aValue CGRectValue];
     keyboardRect = [self.view convertRect:keyboardRect fromView:nil];
     
-    CGFloat keyboardTop = keyboardRect.origin.y;
-    CGRect newTextViewFrame = CGRectMake(self.view.bounds.origin.x, postTextView.frame.origin.y, self.view.bounds.size.width, self.view.bounds.size.height);
-    newTextViewFrame.size.height = keyboardTop - 44 - self.view.bounds.origin.y;
-    
+    CGFloat keyboardTop = keyboardRect.size.height;
+
     // Get the duration of the animation.
     NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
     NSTimeInterval animationDuration;
@@ -313,7 +315,7 @@
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:animationDuration];
     
-    postTextView.frame = newTextViewFrame;
+    self.postTextViewBottomConstraint.constant = keyboardTop;
     
     [UIView commitAnimations];
 }
@@ -332,7 +334,7 @@
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:animationDuration];
     
-    postTextView.frame = CGRectMake(self.view.bounds.origin.x, postTextView.frame.origin.y, self.view.bounds.size.width, self.view.bounds.size.height);
+    self.postTextViewBottomConstraint.constant = 0;
     
     [UIView commitAnimations];
 }
