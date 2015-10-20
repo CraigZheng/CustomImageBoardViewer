@@ -16,6 +16,8 @@
 
 @property (nonatomic, strong) NSTimer *refreshTimer;
 @property (nonatomic, strong) czzThreadViewModelManager *threadViewModelManager;
+@property (nonatomic, strong) NSMutableOrderedSet *manuallyAddedThreads;
+
 @end
 
 @implementation czzWatchListManager
@@ -34,7 +36,7 @@
 }
 
 -(void)addToWatchList:(czzThread *)thread {
-    [self.watchedThreads addObject:thread];
+    [self.manuallyAddedThreads addObject:thread];
     [self saveState];
     
     // Permision for local notification - only when adding to the watchlist
@@ -47,8 +49,17 @@
     [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
 }
 
+-(void)addToRespondedList:(czzThread *)thread {
+    if (self.respondedThreads.count > 5) {
+        // If the responded history is bigger than 5, remove the oldest.
+        [self.respondedThreads removeObjectAtIndex:0];
+    }
+    [self.respondedThreads addObject:thread];
+    [self saveState];
+}
+
 -(void)removeFromWatchList:(czzThread *)thread {
-    [self.watchedThreads removeObject:thread];
+    [self.manuallyAddedThreads removeObject:thread];
     [self saveState];
 }
 
@@ -88,8 +99,14 @@
 
 -(void)updateWatchedThreadsWithThreads:(NSArray*)updatedThreads {
     for (czzThread *thread in updatedThreads) {
-        [self.watchedThreads removeObject:thread];
-        [self.watchedThreads addObject:thread];
+        if ([self.manuallyAddedThreads containsObject:thread]) {
+            [self.manuallyAddedThreads removeObject:thread];
+            [self.manuallyAddedThreads addObject:thread];
+        }
+        if ([self.respondedThreads containsObject:thread]) {
+            [self.respondedThreads removeObject:thread];
+            [self.respondedThreads addObject:thread];
+        }
     }
 }
 
@@ -98,7 +115,8 @@
     @try {
         czzWatchListManager *tempWatchListManager = [NSKeyedUnarchiver unarchiveObjectWithFile:[[czzAppDelegate libraryFolder] stringByAppendingPathComponent:WATCH_LIST_CACHE_FILE]];
         if (tempWatchListManager && tempWatchListManager.watchedThreads.count) {
-            self.watchedThreads = tempWatchListManager.watchedThreads;
+            self.manuallyAddedThreads = tempWatchListManager.manuallyAddedThreads;
+            self.respondedThreads = tempWatchListManager.respondedThreads;
         }
     }
     @catch (NSException *exception) {
@@ -113,20 +131,35 @@
 #pragma mark - NSCodingDelegate
 -(instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super init];
-    self.watchedThreads = [aDecoder decodeObjectForKey:@"watchedThreads"];
+    self.manuallyAddedThreads = [aDecoder decodeObjectForKey:@"manuallyAddedThreads"];
+    self.respondedThreads = [aDecoder decodeObjectForKey:@"respondedThreads"];
     return self;
 }
 
 -(void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeObject:self.watchedThreads forKey:@"watchedThreads"];
+    [aCoder encodeObject:self.manuallyAddedThreads forKey:@"manuallyAddedThreads"];
+    [aCoder encodeObject:self.respondedThreads forKey:@"respondedThreads"];
 }
 
 #pragma mark - Getters
--(NSMutableOrderedSet *)watchedThreads {
-    if (!_watchedThreads) {
-        _watchedThreads = [NSMutableOrderedSet new];
+-(NSOrderedSet *)watchedThreads {
+    NSMutableOrderedSet *tempSet = [NSMutableOrderedSet orderedSetWithOrderedSet:self.manuallyAddedThreads];
+    [tempSet unionOrderedSet:self.respondedThreads];
+    return [tempSet copy];
+}
+
+-(NSMutableOrderedSet *)manuallyAddedThreads {
+    if (!_manuallyAddedThreads) {
+        _manuallyAddedThreads = [NSMutableOrderedSet new];
     }
-    return _watchedThreads;
+    return _manuallyAddedThreads;
+}
+
+-(NSMutableOrderedSet *)respondedThreads {
+    if (!_respondedThreads) {
+        _respondedThreads = [NSMutableOrderedSet new];
+    }
+    return _respondedThreads;
 }
 
 +(instancetype)sharedManager {

@@ -21,6 +21,7 @@
 #import "czzForumManager.h"
 #import "NSString+HTML.h"
 #import "czzSettingsCentre.h"
+#import "czzWatchListManager.h"
 
 @interface czzPostViewController () <czzPostSenderDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
 @property (nonatomic, strong) NSMutableData *receivedResponse;
@@ -270,6 +271,10 @@
     if (status) {
         [self.navigationController popViewControllerAnimated:YES];
         [AppDelegate showToast:@"提交成功"];
+        
+        if (postSender.parentThread) {
+            [WatchListManager addToRespondedList:self.thread];
+        }
     } else {
         [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:message duration:1.5 position:@"top" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
         self.title = message.length > 0 ? message : @"出错，没有更多信息";

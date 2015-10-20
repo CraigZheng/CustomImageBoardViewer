@@ -13,12 +13,14 @@
 #import "czzThread.h"
 
 @interface czzWatchListManager : NSObject <NSCoding>
-@property (nonatomic, strong) NSMutableOrderedSet *watchedThreads;
+@property (nonatomic, readonly) NSOrderedSet *watchedThreads;
+@property (nonatomic, strong) NSMutableOrderedSet *respondedThreads;
 @property (nonatomic, strong) NSMutableArray *updatedThreads;
 
 @property (nonatomic, assign) BOOL isDownloading;
 
 -(void)addToWatchList:(czzThread*)thread;
+-(void)addToRespondedList:(czzThread*)thread;
 -(void)removeFromWatchList:(czzThread*)thread;
 
 -(void)refreshWatchedThreads:(void(^)(NSArray* updatedThreads))completionHandler;
