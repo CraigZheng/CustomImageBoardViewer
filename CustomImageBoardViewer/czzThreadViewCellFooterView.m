@@ -30,7 +30,7 @@
         if (self.myThread.responseCount) {
             // If should highlight response label, use the badgeView instead, which provides a nice looking badge view.
             self.responseCountLabel.hidden = NO;
-            if (self.highlightResponse || YES) {
+            if (self.highlightResponse) {
                 self.responseCountLabel.badgeView.badgeValue = self.myThread.responseCount;
                 self.responseCountLabel.badgeView.position = MGBadgePositionTopLeft;
                 self.responseCountLabel.badgeView.badgeColor = [UIColor redColor];
