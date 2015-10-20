@@ -50,6 +50,12 @@ NSInteger const historyIndex = 2;
 
     self.horizontalHeights = [NSMutableDictionary new];
     self.verticalHeights = [NSMutableDictionary new];
+    //Update watched threads when loading this view.
+    [[czzWatchListManager sharedManager] refreshWatchedThreads:^(NSArray *updatedThreads) {
+        self.updatedThreads = updatedThreads;
+        [self.tableView reloadData];
+    }];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -203,12 +209,7 @@ NSInteger const historyIndex = 2;
     } else if (titleSegmentedControl.selectedSegmentIndex == watchIndex) {
         threads = [czzWatchListManager sharedManager].watchedThreads;
         selectedManager = [czzWatchListManager sharedManager];
-        //Update watched threads
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-        [[czzWatchListManager sharedManager] refreshWatchedThreads:^(NSArray *updatedThreads) {
-            self.updatedThreads = updatedThreads;
-            [self.tableView reloadData];
-        }];
     }
 }
 
