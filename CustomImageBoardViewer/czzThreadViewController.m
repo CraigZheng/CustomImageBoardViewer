@@ -319,6 +319,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 - (IBAction)watchAction:(id)sender {
     [[czzWatchListManager sharedManager] addToWatchList:self.viewModelManager.parentThread];
+    [AppDelegate showToast:@"已注目"];
 }
 
 
