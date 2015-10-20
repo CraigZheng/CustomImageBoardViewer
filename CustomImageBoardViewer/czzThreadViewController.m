@@ -141,6 +141,11 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.viewDeckController.panningMode = IIViewDeckNoPanning;
+}
+
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
