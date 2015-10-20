@@ -12,4 +12,5 @@
 @interface czzThreadViewCellFooterView : CPLoadFromNibView
 
 @property (strong, nonatomic) czzThread *myThread;
+@property (assign, nonatomic) BOOL highlightResponse;
 @end

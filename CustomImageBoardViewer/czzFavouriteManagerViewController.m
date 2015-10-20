@@ -94,9 +94,7 @@ NSInteger const historyIndex = 2;
     // If I am seeing the list from watchlist
     if (selectedManager == [czzWatchListManager sharedManager]) {
         for (czzThread *updatedThread in [[czzWatchListManager sharedManager] updatedThreads]) {
-            if (updatedThread.ID == thread.ID) {
-                //TODO: highligh
-            }
+            cell.shouldHighlightResponse = updatedThread.ID == thread.ID;
         }
     }
     return cell;

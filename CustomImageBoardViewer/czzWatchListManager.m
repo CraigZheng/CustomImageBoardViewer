@@ -72,7 +72,7 @@
             czzThread *newThread = [[czzThread alloc] initWithParentID:originalThreadID];
             
             if (originalResponseCount != newThread.responseCount) {
-                //Record the old thread with old data, later we will remove it from the OrderedSet, then put it back to update the set.
+                // Record the old thread with old data, later we will remove it from the OrderedSet, then put it back to update the set.
                 [self.updatedThreads addObject:newThread];
             }
         }

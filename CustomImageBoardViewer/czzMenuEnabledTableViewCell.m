@@ -208,6 +208,7 @@
     self.cellHeaderView.shouldHighLight = self.shouldHighlight;
     self.cellHeaderView.parentUID = self.parentThread.UID.string;
     self.cellFooterView.myThread = self.cellHeaderView.myThread = self.myThread;
+    self.cellFooterView.highlightResponse = self.shouldHighlightResponse;
 }
 
 - (CGRect)frameOfTextRange:(NSRange)range inTextView:(UITextView *)textView {

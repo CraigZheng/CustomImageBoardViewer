@@ -40,6 +40,7 @@
 @property NSDictionary *downloadedImages;
 @property (assign, nonatomic) BOOL shouldHighlight;
 @property (assign, nonatomic) BOOL shouldAllowClickOnImage;
+@property (assign, nonatomic) BOOL shouldHighlightResponse;
 @property NSMutableArray *links;
 @property czzThread *parentThread;
 @property (nonatomic) czzThread *myThread;
