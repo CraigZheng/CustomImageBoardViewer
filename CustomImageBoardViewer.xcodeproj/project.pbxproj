@@ -131,7 +131,7 @@
 		442F1FE51B15FC8500267698 /* UIApplication+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FE01B15FC8500267698 /* UIApplication+Util.m */; };
 		442F1FEB1B160C9300267698 /* czzThreadTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FEA1B160C9300267698 /* czzThreadTableViewDataSource.m */; };
 		442F1FEC1B160C9300267698 /* czzThreadTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FEA1B160C9300267698 /* czzThreadTableViewDataSource.m */; };
-		443141971A2B38D6007D65B3 /* czzThreadViewModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141961A2B38D6007D65B3 /* czzThreadViewModelManager.m */; };
+		443141971A2B38D6007D65B3 /* czzThreadViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141961A2B38D6007D65B3 /* czzThreadViewManager.m */; };
 		4431419A1A2B5198007D65B3 /* GSIndeterminateProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141991A2B5198007D65B3 /* GSIndeterminateProgressView.m */; };
 		443141A21A3BFB5B007D65B3 /* KLCPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141A11A3BFB5B007D65B3 /* KLCPopup.m */; };
 		4432BA911AA88544002C66F5 /* thread list example.json in Resources */ = {isa = PBXBuildFile; fileRef = 4432BA901AA88544002C66F5 /* thread list example.json */; };
@@ -312,7 +312,7 @@
 		445540491BABEBA700667435 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A8FE819DB7F5400A3516E /* UIImageView+HighlightedWebCache.m */; };
 		4455404A1BABEBA700667435 /* PartialTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AE2B001872924C002CB021 /* PartialTransparentView.m */; };
 		4455404B1BABEBA700667435 /* NSDictionary+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E3F7461BA3007500597A3F /* NSDictionary+Util.m */; };
-		4455404C1BABEBA700667435 /* czzThreadViewModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141961A2B38D6007D65B3 /* czzThreadViewModelManager.m */; };
+		4455404C1BABEBA700667435 /* czzThreadViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141961A2B38D6007D65B3 /* czzThreadViewManager.m */; };
 		4455404D1BABEBA700667435 /* MWZoomingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A8F5719DB7DF200A3516E /* MWZoomingScrollView.m */; };
 		4455404E1BABEBA700667435 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E5CDA17F4691300289DBD /* main.m */; };
 		4455404F1BABEBA700667435 /* czzPostSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 44FC4344180067CF0028D7C9 /* czzPostSender.m */; };
@@ -1124,8 +1124,8 @@
 		442F1FE11B15FC8500267698 /* UIApplication+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+Util.h"; sourceTree = "<group>"; };
 		442F1FE91B160C9300267698 /* czzThreadTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadTableViewDataSource.h; sourceTree = "<group>"; };
 		442F1FEA1B160C9300267698 /* czzThreadTableViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadTableViewDataSource.m; sourceTree = "<group>"; };
-		443141951A2B38D6007D65B3 /* czzThreadViewModelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewModelManager.h; sourceTree = "<group>"; };
-		443141961A2B38D6007D65B3 /* czzThreadViewModelManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewModelManager.m; sourceTree = "<group>"; };
+		443141951A2B38D6007D65B3 /* czzThreadViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewManager.h; sourceTree = "<group>"; };
+		443141961A2B38D6007D65B3 /* czzThreadViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewManager.m; sourceTree = "<group>"; };
 		443141981A2B5198007D65B3 /* GSIndeterminateProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSIndeterminateProgressView.h; sourceTree = "<group>"; };
 		443141991A2B5198007D65B3 /* GSIndeterminateProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSIndeterminateProgressView.m; sourceTree = "<group>"; };
 		443141A01A3BFB5B007D65B3 /* KLCPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLCPopup.h; sourceTree = "<group>"; };
@@ -1965,8 +1965,8 @@
 			children = (
 				44B89E851A2AFC6B0085F766 /* czzHomeViewModelManager.h */,
 				44B89E861A2AFC6B0085F766 /* czzHomeViewModelManager.m */,
-				443141951A2B38D6007D65B3 /* czzThreadViewModelManager.h */,
-				443141961A2B38D6007D65B3 /* czzThreadViewModelManager.m */,
+				443141951A2B38D6007D65B3 /* czzThreadViewManager.h */,
+				443141961A2B38D6007D65B3 /* czzThreadViewManager.m */,
 				441E5D2117F46FBC00289DBD /* czzXMLDownloader */,
 				4498B68A199249180014F73F /* czzJSONProcessor */,
 				441E5D2A17F48F8C00289DBD /* czzThread.h */,
@@ -3928,7 +3928,7 @@
 				442A8FFB19DB7F5400A3516E /* UIImageView+HighlightedWebCache.m in Sources */,
 				44AE2B011872924C002CB021 /* PartialTransparentView.m in Sources */,
 				44E3F7471BA3007500597A3F /* NSDictionary+Util.m in Sources */,
-				443141971A2B38D6007D65B3 /* czzThreadViewModelManager.m in Sources */,
+				443141971A2B38D6007D65B3 /* czzThreadViewManager.m in Sources */,
 				442A8FA719DB7DF200A3516E /* MWZoomingScrollView.m in Sources */,
 				441A6A7B1BAE995A008E380C /* czzWKForumViewController.m in Sources */,
 				441E5CDB17F4691300289DBD /* main.m in Sources */,
@@ -4127,7 +4127,7 @@
 				445540491BABEBA700667435 /* UIImageView+HighlightedWebCache.m in Sources */,
 				4455404A1BABEBA700667435 /* PartialTransparentView.m in Sources */,
 				4455404B1BABEBA700667435 /* NSDictionary+Util.m in Sources */,
-				4455404C1BABEBA700667435 /* czzThreadViewModelManager.m in Sources */,
+				4455404C1BABEBA700667435 /* czzThreadViewManager.m in Sources */,
 				4455404D1BABEBA700667435 /* MWZoomingScrollView.m in Sources */,
 				441A6A7D1BAE995A008E380C /* czzWKForumViewController.m in Sources */,
 				4455404E1BABEBA700667435 /* main.m in Sources */,

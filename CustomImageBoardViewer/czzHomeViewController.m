@@ -25,7 +25,7 @@
 #import "czzHomeViewModelManager.h"
 #import "czzForumManager.h"
 #import "czzHomeViewDelegate.h"
-#import "czzThreadViewModelManager.h"
+#import "czzThreadViewManager.h"
 #import "czzForumsViewController.h"
 #import "czzThreadTableView.h"
 #import "czzSettingsViewController.h"

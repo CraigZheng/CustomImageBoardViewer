@@ -16,7 +16,7 @@
 #import "czzPost.h"
 #import "czzPostSender.h"
 #import "czzHomeViewModelManager.h"
-#import "czzThreadViewModelManager.h"
+#import "czzThreadViewManager.h"
 #import "czzHistoryManager.h"
 #import "PropertyUtil.h"
 
@@ -24,7 +24,7 @@
 @interface CustomImageBoardViewerTests : XCTestCase<czzNotificationDownloaderDelegate, czzPostSenderDelegate, czzHomeViewModelManagerDelegate>
 @property (assign, nonatomic) BOOL done;
 @property czzHomeViewModelManager *threadList;
-@property czzThreadViewModelManager *subThreadList;
+@property czzThreadViewManager *subThreadList;
 @end
 
 @implementation CustomImageBoardViewerTests
@@ -45,7 +45,7 @@
     parentThread.ID = 5361014;
     parentThread.content = [[NSAttributedString alloc] initWithString:NSStringFromSelector(_cmd) attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12]}];
     
-    subThreadList = [[czzThreadViewModelManager alloc] initWithParentThread:parentThread];
+    subThreadList = [[czzThreadViewManager alloc] initWithParentThread:parentThread];
     subThreadList.delegate = self;
 
 }

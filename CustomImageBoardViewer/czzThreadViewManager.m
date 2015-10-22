@@ -7,20 +7,20 @@
 //
 #define settingCentre [czzSettingsCentre sharedInstance]
 
-#import "czzThreadViewModelManager.h"
+#import "czzThreadViewManager.h"
 #import "czzHistoryManager.h"
 
-@interface czzThreadViewModelManager()
+@interface czzThreadViewManager()
 @property (nonatomic, assign) NSUInteger cutOffIndex;
 @end
 
-@implementation czzThreadViewModelManager
+@implementation czzThreadViewManager
 @synthesize forum = _forum;
 @dynamic delegate;
 
 #pragma mark - life cycle.
 -(instancetype)initWithParentThread:(czzThread *)thread andForum:(czzForum *)forum{
-    self = [czzThreadViewModelManager new];
+    self = [czzThreadViewManager new];
     if (self) {
         // Record history
         self.parentThread = thread;
@@ -45,9 +45,9 @@
 
 -(instancetype)restoreWithFile:(NSString *)filePath {
     if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-        czzThreadViewModelManager *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+        czzThreadViewManager *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
         //copy data
-        if (tempThreadList && [tempThreadList isKindOfClass:[czzThreadViewModelManager class]])
+        if (tempThreadList && [tempThreadList isKindOfClass:[czzThreadViewManager class]])
         {
             return tempThreadList;
         }
@@ -64,9 +64,9 @@
     @try {
         NSString *cacheFile = [[czzAppDelegate threadCacheFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)self.parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
         if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
-            czzThreadViewModelManager *tempThreadList = [self restoreWithFile:cacheFile];
+            czzThreadViewManager *tempThreadList = [self restoreWithFile:cacheFile];
             //copy data
-            if (tempThreadList && [tempThreadList isKindOfClass:[czzThreadViewModelManager class]])
+            if (tempThreadList && [tempThreadList isKindOfClass:[czzThreadViewManager class]])
             {
                 self.parentThread = tempThreadList.parentThread;
                 self.pageNumber = tempThreadList.pageNumber;
@@ -101,8 +101,8 @@
 
 #pragma mark - Delegate actions
 - (void)showContentWithThread:(czzThread *)thread {
-    if (thread && [self.delegate respondsToSelector:@selector(viewModelManager:wantsToShowContentForThread:)]) {
-        [self.delegate viewModelManager:self wantsToShowContentForThread:thread];
+    if (thread && [self.delegate respondsToSelector:@selector(threadViewManager:wantsToShowContentForThread:)]) {
+        [self.delegate threadViewManager:self wantsToShowContentForThread:thread];
     } else {
         DLog(@"Thread or delegate nil: %s", __PRETTY_FUNCTION__);
     }
@@ -263,7 +263,7 @@ float RoundTo(float number, float to)
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder {
-    czzThreadViewModelManager *viewModelManager = [czzThreadViewModelManager new];
+    czzThreadViewManager *viewModelManager = [czzThreadViewManager new];
     [[NSNotificationCenter defaultCenter] removeObserver:viewModelManager];
     @try {
         //create a temporary threadlist object

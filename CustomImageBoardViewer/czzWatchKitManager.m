@@ -9,14 +9,14 @@
 #import "czzWatchKitManager.h"
 #import "czzWatchKitCommand.h"
 #import "czzWKForum.h"
-#import "czzThreadViewModelManager.h"
+#import "czzThreadViewManager.h"
 #import "czzImageDownloaderManager.h"
 #import "czzForumManager.h"
 
 @interface czzWatchKitManager () <czzHomeViewModelManagerDelegate>
 @property (assign, nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
 @property (strong, nonatomic) czzHomeViewModelManager *homeViewModelManager;
-@property (strong, nonatomic) czzThreadViewModelManager *threadViewModelManager;
+@property (strong, nonatomic) czzThreadViewManager *threadViewManager;
 @property (strong, nonatomic) NSString *requestedImageURL;
 
 @property (copy)void (^reply)(NSDictionary *replyDictionary);
@@ -108,20 +108,20 @@
     [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
     
     czzThread *parentThread = [[czzThread alloc] initWithThreadID:selectedThread.ID];
-    self.threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:parentThread andForum:nil];
+    self.threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:parentThread andForum:nil];
     
-    [self.threadViewModelManager restorePreviousState];
-    __weak typeof (self.threadViewModelManager) weakThreadViewModelManager = self.threadViewModelManager;
+    [self.threadViewManager restorePreviousState];
+    __weak typeof (self.threadViewManager) weakthreadViewManager = self.threadViewManager;
     __weak typeof (self) weakSelf = self;
-    self.threadViewModelManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
-        NSDictionary *replyDictionary = @{@(watchKitCommandLoadThreadView) : [weakSelf watchKitThreadsWithThreads:weakThreadViewModelManager.threads]};
+    self.threadViewManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
+        NSDictionary *replyDictionary = @{@(watchKitCommandLoadThreadView) : [weakSelf watchKitThreadsWithThreads:weakthreadViewManager.threads]};
         [weakSelf replyWithDictionary:replyDictionary];
     };
     
-    if (loadMore && self.threadViewModelManager.threads.count > 1) {
-        [self.threadViewModelManager loadMoreThreads];
+    if (loadMore && self.threadViewManager.threads.count > 1) {
+        [self.threadViewManager loadMoreThreads];
     } else {
-        [self.threadViewModelManager refresh];
+        [self.threadViewManager refresh];
     }
 }
 

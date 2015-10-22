@@ -18,7 +18,7 @@
 #import "czzSettingsCentre.h"
 #import "czzThreadTableView.h"
 #import "czzImageViewerUtil.h"
-#import "czzThreadViewModelManager.h"
+#import "czzThreadViewManager.h"
 
 #import "UIApplication+Util.h"
 #import "UINavigationController+Util.h"
@@ -68,7 +68,7 @@
     {
         //@todo open the selected thread
         czzThreadViewController *threadViewController = [czzThreadViewController new];
-        threadViewController.viewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:selectedThread andForum:self.viewModelManager.forum];
+        threadViewController.viewModelManager = [[czzThreadViewManager alloc] initWithParentThread:selectedThread andForum:self.viewModelManager.forum];
         [NavigationManager pushViewController:threadViewController animated:YES];
     }
     // If not downloading or processing, load more threads.

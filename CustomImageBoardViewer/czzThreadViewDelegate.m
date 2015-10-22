@@ -144,7 +144,7 @@
     });
 }
 
-+(instancetype)initWithViewModelManager:(czzThreadViewModelManager *)viewModelManager {
++(instancetype)initWithViewModelManager:(czzThreadViewManager *)viewModelManager {
     czzThreadViewDelegate *threadViewDelegate = [czzThreadViewDelegate new];
     threadViewDelegate.viewModelManager = viewModelManager;
     return threadViewDelegate;

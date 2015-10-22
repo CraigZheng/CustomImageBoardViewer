@@ -10,7 +10,7 @@
 #import "czzThreadTableViewCommandCellTableViewCell.h"
 
 @interface czzThreadTableViewDataSource ()
-@property czzThreadViewModelManager *viewModelManager;
+@property czzThreadViewManager *viewModelManager;
 @end
 
 @implementation czzThreadTableViewDataSource
@@ -53,7 +53,7 @@
     return rect;
 }
 
-+(instancetype)initWithViewModelManager:(czzThreadViewModelManager *)viewModelManager {
++(instancetype)initWithViewModelManager:(czzThreadViewManager *)viewModelManager {
     czzThreadTableViewDataSource *threadDataSource = [czzThreadTableViewDataSource new];
     threadDataSource.viewModelManager = viewModelManager;
     return threadDataSource;

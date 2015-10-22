@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "czzThread.h"
 #import "czzForum.h"
-#import "czzThreadViewModelManager.h"
+#import "czzThreadViewManager.h"
 #import "IIViewDeckController.h"
 
 @interface czzRightSideViewController : UIViewController
@@ -17,7 +17,7 @@
 @property (nonatomic, strong) czzThread *parentThread;
 @property (nonatomic, strong) czzForum *forum;
 @property (nonatomic, strong) czzThread *selectedThread;
-@property (nonatomic, weak) czzThreadViewModelManager *threadViewModelManager;
+@property (nonatomic, weak) czzThreadViewManager *threadViewManager;
 
 -(void)reportAction;
 -(void)replyMainAction;

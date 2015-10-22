@@ -129,9 +129,9 @@
 -(void)downloadAndPrepareThreadWithID:(NSInteger)threadID {
     czzThread *dummpyParentThread = [czzThread new];
     dummpyParentThread.ID = threadID;
-    czzThreadViewModelManager *threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:dummpyParentThread andForum:nil];
+    czzThreadViewManager *threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:dummpyParentThread andForum:nil];
     czzThreadViewController *threadViewController = [[UIStoryboard storyboardWithName:THREAD_VIEW_CONTROLLER_STORYBOARD_NAME bundle:nil] instantiateViewControllerWithIdentifier:THREAD_VIEW_CONTROLLER_ID];
-    threadViewController.viewModelManager = threadViewModelManager;
+    threadViewController.viewModelManager = threadViewManager;
     [NavigationManager pushViewController:threadViewController animated:YES];
 //    miniThreadView = [[UIStoryboard storyboardWithName:@"MiniThreadView" bundle:nil] instantiateInitialViewController];
 //    miniThreadView.delegate = self;
@@ -154,8 +154,8 @@
 {
     if ([segue.identifier isEqualToString:showThreadViewSegueIdentifier]) {
         czzThreadViewController *threadViewController = (czzThreadViewController*) segue.destinationViewController;
-        czzThreadViewModelManager *threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:selectedParentThread andForum:[czzForum new]];
-        threadViewController.viewModelManager = threadViewModelManager;
+        czzThreadViewManager *threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:selectedParentThread andForum:[czzForum new]];
+        threadViewController.viewModelManager = threadViewManager;
     }
 }
 

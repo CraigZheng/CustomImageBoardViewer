@@ -128,7 +128,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     //configure the right view as menu
     UINavigationController *rightController = [self.storyboard instantiateViewControllerWithIdentifier:@"right_menu_view_controller"];
     threadMenuViewController = [rightController.viewControllers objectAtIndex:0];
-    threadMenuViewController.threadViewModelManager = self.viewModelManager;
+    threadMenuViewController.threadViewManager = self.viewModelManager;
     self.viewDeckController.rightController = rightController;
 
     //background colour
@@ -184,7 +184,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 #pragma mark - setter
--(void)setViewModelManager:(czzThreadViewModelManager *)modelManager {
+-(void)setViewModelManager:(czzThreadViewManager *)modelManager {
     _viewModelManager = modelManager;
     self.title = self.viewModelManager.parentThread.title;
 
@@ -247,8 +247,8 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [self updateTableView];
 }
 
-#pragma mark - czzThreadViewModelManagerDelegate
-- (void)viewModelManager:(czzThreadViewModelManager *)viewModelManager wantsToShowContentForThread:(czzThread *)thread {
+#pragma mark - czzThreadViewManagerDelegate
+- (void)threadViewManager:(czzThreadViewManager *)viewModelManager wantsToShowContentForThread:(czzThread *)thread {
     self.miniThreadView = [czzMiniThreadViewController new];
     self.miniThreadView.myThread = thread;
     [self.miniThreadView show];
@@ -284,10 +284,10 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     }
 }
 
--(void)viewModelManager:(czzHomeViewModelManager *)threadViewModelManager processedSubThreadData:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
+-(void)viewModelManager:(czzHomeViewModelManager *)threadViewManager processedSubThreadData:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     if (wasSuccessul) {
         if (newThreads.count) {
-            self.viewModelManager = (czzThreadViewModelManager*)threadViewModelManager;
+            self.viewModelManager = (czzThreadViewManager*)threadViewManager;
         }
     }
     [self updateTableView];

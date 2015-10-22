@@ -18,7 +18,7 @@
 #import "czzThreadTableViewCommandCellTableViewCell.h"
 #import "czzHistoryManager.h"
 #import "czzWatchListManager.h"
-#import "czzThreadViewModelManager.h"
+#import "czzThreadViewManager.h"
 
 NSInteger const bookmarkIndex = 0;
 NSInteger const watchIndex = 1;
@@ -128,9 +128,9 @@ NSInteger const historyIndex = 2;
     selectedIndex = indexPath;
     if (selectedIndex.row < threads.count){
         selectedThread = [threads objectAtIndex:selectedIndex.row];
-        czzThreadViewModelManager *threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:selectedThread andForum:selectedThread.forum];
+        czzThreadViewManager *threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:selectedThread andForum:selectedThread.forum];
         czzThreadViewController *threadViewController = [czzThreadViewController new];
-        threadViewController.viewModelManager = threadViewModelManager;
+        threadViewController.viewModelManager = threadViewManager;
         [NavigationManager pushViewController:threadViewController animated:YES];
     }
 }
