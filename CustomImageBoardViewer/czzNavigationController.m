@@ -8,10 +8,10 @@
 
 #import "czzNavigationController.h"
 #import "czzHomeViewController.h"
-#import "czzNavigationViewModelManager.h"
+#import "czzNavigationManager.h"
 #import "czzSettingsCentre.h"
 
-@interface czzNavigationController () <UINavigationControllerDelegate, czzNavigationViewModelManagerDelegate>
+@interface czzNavigationController () <UINavigationControllerDelegate, czzNavigationManagerDelegate>
 
 @end
 
@@ -51,20 +51,20 @@
 
 }
 
-#pragma mark - czzNavigationViewModelManagerDelegate
--(void)viewModelManager:(czzNavigationViewModelManager *)manager wantsToPopToViewController:(UIViewController *)viewController animated:(BOOL)animated {
+#pragma mark - czzNavigationManagerDelegate
+-(void)viewModelManager:(czzNavigationManager *)manager wantsToPopToViewController:(UIViewController *)viewController animated:(BOOL)animated {
     [self popToViewController:viewController animated:animated];
 }
 
--(void)viewModelManager:(czzNavigationViewModelManager *)manager wantsToPopViewControllerAnimated:(BOOL)animated {
+-(void)viewModelManager:(czzNavigationManager *)manager wantsToPopViewControllerAnimated:(BOOL)animated {
     [self popViewControllerAnimated:animated];
 }
 
--(void)viewModelManager:(czzNavigationViewModelManager *)manager wantsToPushViewController:(UIViewController *)viewController animated:(BOOL)animated{
+-(void)viewModelManager:(czzNavigationManager *)manager wantsToPushViewController:(UIViewController *)viewController animated:(BOOL)animated{
     [self pushViewController:viewController animated:animated];
 }
 
-- (void)viewModelManager:(czzNavigationViewModelManager *)manager wantsToSetViewController:(NSArray *)viewControllers animated:(BOOL)animated {
+- (void)viewModelManager:(czzNavigationManager *)manager wantsToSetViewController:(NSArray *)viewControllers animated:(BOOL)animated {
     [self setViewControllers:viewControllers animated:animated];
 }
 

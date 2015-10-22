@@ -10,7 +10,7 @@
 #import "czzSettingsCentre.h"
 #import "czzHomeViewModelManager.h"
 #import "czzThreadViewModelManager.h"
-#import "czzNavigationViewModelManager.h"
+#import "czzNavigationManager.h"
 #import "czzHomeViewController.h"
 #import "czzThreadViewController.h"
 

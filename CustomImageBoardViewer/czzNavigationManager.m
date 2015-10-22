@@ -1,17 +1,17 @@
 //
-//  czzNavigationViewModelManager.m
+//  czzNavigationManager.m
 //  CustomImageBoardViewer
 //
 //  Created by Craig Zheng on 1/07/2015.
 //  Copyright (c) 2015 Craig. All rights reserved.
 //
 
-#import "czzNavigationViewModelManager.h"
+#import "czzNavigationManager.h"
 #import "czzHomeViewController.h"
 #import "czzThreadViewController.h"
 
 
-@implementation czzNavigationViewModelManager
+@implementation czzNavigationManager
 -(void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
     [self.delegate viewModelManager:self wantsToPushViewController:viewController animated:animated];
 }
@@ -67,7 +67,7 @@
     static id sharedManager;
     if (!sharedManager) {
         dispatch_once(&once_token, ^{
-            sharedManager = [czzNavigationViewModelManager new];
+            sharedManager = [czzNavigationManager new];
         });
     }
     return sharedManager;
