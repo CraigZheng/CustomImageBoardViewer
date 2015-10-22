@@ -52,19 +52,19 @@
 }
 
 #pragma mark - czzNavigationManagerDelegate
--(void)viewModelManager:(czzNavigationManager *)manager wantsToPopToViewController:(UIViewController *)viewController animated:(BOOL)animated {
+-(void)navigationManager:(czzNavigationManager *)manager wantsToPopToViewController:(UIViewController *)viewController animated:(BOOL)animated {
     [self popToViewController:viewController animated:animated];
 }
 
--(void)viewModelManager:(czzNavigationManager *)manager wantsToPopViewControllerAnimated:(BOOL)animated {
+-(void)navigationManager:(czzNavigationManager *)manager wantsToPopViewControllerAnimated:(BOOL)animated {
     [self popViewControllerAnimated:animated];
 }
 
--(void)viewModelManager:(czzNavigationManager *)manager wantsToPushViewController:(UIViewController *)viewController animated:(BOOL)animated{
+-(void)navigationManager:(czzNavigationManager *)manager wantsToPushViewController:(UIViewController *)viewController animated:(BOOL)animated{
     [self pushViewController:viewController animated:animated];
 }
 
-- (void)viewModelManager:(czzNavigationManager *)manager wantsToSetViewController:(NSArray *)viewControllers animated:(BOOL)animated {
+- (void)navigationManager:(czzNavigationManager *)manager wantsToSetViewController:(NSArray *)viewControllers animated:(BOOL)animated {
     [self setViewControllers:viewControllers animated:animated];
 }
 

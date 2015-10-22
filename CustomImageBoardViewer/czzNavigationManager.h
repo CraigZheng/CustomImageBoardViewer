@@ -12,10 +12,10 @@
 
 @class czzNavigationManager;
 @protocol czzNavigationManagerDelegate <NSObject>
--(void)viewModelManager:(czzNavigationManager*)manager wantsToPushViewController:(UIViewController*)viewController animated:(BOOL)animated;
--(void)viewModelManager:(czzNavigationManager*)manager wantsToPopViewControllerAnimated:(BOOL)animated;
--(void)viewModelManager:(czzNavigationManager*)manager wantsToPopToViewController:(UIViewController*)viewController animated:(BOOL)animated;
--(void)viewModelManager:(czzNavigationManager*)manager wantsToSetViewController:(NSArray*)viewControllers animated:(BOOL)animated;
+-(void)navigationManager:(czzNavigationManager*)manager wantsToPushViewController:(UIViewController*)viewController animated:(BOOL)animated;
+-(void)navigationManager:(czzNavigationManager*)manager wantsToPopViewControllerAnimated:(BOOL)animated;
+-(void)navigationManager:(czzNavigationManager*)manager wantsToPopToViewController:(UIViewController*)viewController animated:(BOOL)animated;
+-(void)navigationManager:(czzNavigationManager*)manager wantsToSetViewController:(NSArray*)viewControllers animated:(BOOL)animated;
 
 @end
 

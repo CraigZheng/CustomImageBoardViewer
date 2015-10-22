@@ -13,19 +13,19 @@
 
 @implementation czzNavigationManager
 -(void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
-    [self.delegate viewModelManager:self wantsToPushViewController:viewController animated:animated];
+    [self.delegate navigationManager:self wantsToPushViewController:viewController animated:animated];
 }
 
 -(void)popViewControllerAnimated:(BOOL)animted {
-    [self.delegate viewModelManager:self wantsToPopViewControllerAnimated:animted];
+    [self.delegate navigationManager:self wantsToPopViewControllerAnimated:animted];
 }
 
 -(void)popToViewController:(UIViewController *)viewController animated:(BOOL)animated {
-    [self.delegate viewModelManager:self wantsToPopToViewController:viewController animated:animated];
+    [self.delegate navigationManager:self wantsToPopToViewController:viewController animated:animated];
 }
 
 - (void)setViewController:(NSArray *)viewControllers animated:(BOOL)animated {
-    [self.delegate viewModelManager:self wantsToSetViewController:viewControllers animated:animated];
+    [self.delegate navigationManager:self wantsToSetViewController:viewControllers animated:animated];
 }
 
 #pragma mark - UINavigationControllerDelegate
