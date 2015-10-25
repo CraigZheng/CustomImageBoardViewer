@@ -10,7 +10,7 @@
 
 #import "czzMenuEnabledTableViewCell.h"
 
-#import "czzHomeViewModelManager.h"
+#import "czzHomeViewManager.h"
 #import "czzBlacklist.h"
 #import "czzThread.h"
 #import "czzImageDownloader.h"
@@ -250,7 +250,7 @@
     }
 }
 
-+(instancetype)initWithViewModelManager:(czzHomeViewModelManager *)viewModelManager {
++(instancetype)initWithViewModelManager:(czzHomeViewManager *)viewModelManager {
     czzHomeViewDelegate *sharedDelegate = [czzHomeViewDelegate sharedInstance];
     sharedDelegate.viewModelManager = viewModelManager;
     return sharedDelegate;

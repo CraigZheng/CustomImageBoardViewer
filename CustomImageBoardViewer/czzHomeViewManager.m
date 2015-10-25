@@ -6,15 +6,15 @@
 //  Copyright (c) 2014 Craig. All rights reserved.
 //
 
-#import "czzHomeViewModelManager.h"
+#import "czzHomeViewManager.h"
 #import "czzImageCacheManager.h"
 #import "czzImageDownloaderManager.h"
 
-@interface czzHomeViewModelManager ()
+@interface czzHomeViewManager ()
 @property (nonatomic, readonly) NSString *cacheFile;
 @end
 
-@implementation czzHomeViewModelManager
+@implementation czzHomeViewManager
 
 -(instancetype)init {
     self = [super init];
@@ -47,9 +47,9 @@
             NSData *cacheData = [NSData dataWithContentsOfFile:cacheFile];
             // Always delete the cache file after reading it to ensure safety.
             [[NSFileManager defaultManager] removeItemAtPath:cacheFile error:nil];
-            czzHomeViewModelManager *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithData:cacheData];
+            czzHomeViewManager *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithData:cacheData];
             //copy data
-            if (tempThreadList && [tempThreadList isKindOfClass:[czzHomeViewModelManager class]])
+            if (tempThreadList && [tempThreadList isKindOfClass:[czzHomeViewManager class]])
             {
                 self.forum = tempThreadList.forum;
                 self.pageNumber = tempThreadList.pageNumber;
@@ -296,7 +296,7 @@
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder {
-    czzHomeViewModelManager *viewModelManager = [czzHomeViewModelManager new];
+    czzHomeViewManager *viewModelManager = [czzHomeViewManager new];
     [[NSNotificationCenter defaultCenter] removeObserver:viewModelManager];
     @try {
         //create a temporary threadlist object
@@ -342,7 +342,7 @@ __strong static id _sharedObject = nil;
     return _sharedObject;
 }
 
-+ (void)setSharedManager:(czzHomeViewModelManager *)manager {
++ (void)setSharedManager:(czzHomeViewManager *)manager {
     _sharedObject = manager;
 }
 

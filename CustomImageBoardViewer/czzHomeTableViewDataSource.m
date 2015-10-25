@@ -8,7 +8,7 @@
 
 #import "czzHomeTableViewDataSource.h"
 
-#import "czzHomeViewModelManager.h"
+#import "czzHomeViewManager.h"
 #import "czzSettingsCentre.h"
 #import "czzThreadTableViewCommandCellTableViewCell.h"
 #import "czzImageViewerUtil.h"
@@ -74,7 +74,7 @@
 
 }
 
-+(instancetype)initWithViewModelManager:(czzHomeViewModelManager *)viewModelManager {
++(instancetype)initWithViewModelManager:(czzHomeViewManager *)viewModelManager {
     czzHomeTableViewDataSource *dataSource = [czzHomeTableViewDataSource new];
     dataSource.viewModelManager = viewModelManager;
     return dataSource;

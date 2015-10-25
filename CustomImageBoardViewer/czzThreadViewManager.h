@@ -8,15 +8,15 @@
 
 #define SUB_THREAD_LIST_CACHE_FILE @"_cache.dat"
 
-#import "czzHomeViewModelManager.h"
+#import "czzHomeViewManager.h"
 
 @class czzThreadViewManager;
-@protocol czzThreadViewManagerDelegate <czzHomeViewModelManagerDelegate>
+@protocol czzThreadViewManagerDelegate <czzHomeViewManagerDelegate>
 @optional
 -(void)threadViewManager:(czzThreadViewManager*)threadViewManager wantsToShowContentForThread:(czzThread*)thread;
 @end
 
-@interface czzThreadViewManager : czzHomeViewModelManager
+@interface czzThreadViewManager : czzHomeViewManager
 @property (strong, nonatomic) NSString* parentID;
 @property (strong, nonatomic) czzThread *parentThread;
 @property (assign, nonatomic) BOOL restoredFromCache;

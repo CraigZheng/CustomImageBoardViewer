@@ -22,7 +22,7 @@
 #import "czzOnScreenImageManagerViewController.h"
 #import "UIBarButtonItem+Badge.h"
 #import "GSIndeterminateProgressView.h"
-#import "czzHomeViewModelManager.h"
+#import "czzHomeViewManager.h"
 #import "czzForumManager.h"
 #import "czzHomeViewDelegate.h"
 #import "czzThreadViewManager.h"
@@ -270,9 +270,9 @@
 }
 
 #pragma mark - Getters
--(czzHomeViewModelManager *)viewModelManager {
-    [czzHomeViewModelManager sharedManager].delegate = self;
-    return [czzHomeViewModelManager sharedManager];
+-(czzHomeViewManager *)viewModelManager {
+    [czzHomeViewManager sharedManager].delegate = self;
+    return [czzHomeViewManager sharedManager];
 }
 
 -(GSIndeterminateProgressView *)progressView {
@@ -307,13 +307,13 @@
 }
 
 #pragma mark - czzHomeself.viewModelManagerDelegate
-- (void)viewModelManagerWantsToReload:(czzHomeViewModelManager *)manager {
+- (void)viewModelManagerWantsToReload:(czzHomeViewManager *)manager {
     if (manager.threads.count) {
         [self updateTableView];
     }
 }
 
--(void)viewModelManager:(czzHomeViewModelManager *)viewModelManager downloadSuccessful:(BOOL)wasSuccessful {
+-(void)viewModelManager:(czzHomeViewManager *)viewModelManager downloadSuccessful:(BOOL)wasSuccessful {
     DLog(@"%@", NSStringFromSelector(_cmd));
     if (!wasSuccessful && !NavigationManager.isInTransition) {
         [self.refreshControl endRefreshing];
@@ -323,13 +323,13 @@
     self.threadTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
 }
 
--(void)viewModelManagerBeginDownloading:(czzHomeViewModelManager *)viewModelManager {
+-(void)viewModelManagerBeginDownloading:(czzHomeViewManager *)viewModelManager {
     if (!self.progressView.isAnimating)
         [self.progressView startAnimating];
     
 }
 
--(void)viewModelManager:(czzHomeViewModelManager *)list processedThreadData:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
+-(void)viewModelManager:(czzHomeViewManager *)list processedThreadData:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     DLog(@"%@", NSStringFromSelector(_cmd));
     // If pageNumber == 1, then is a forum change, scroll to top.
     [[NSOperationQueue currentQueue] addOperationWithBlock:^{

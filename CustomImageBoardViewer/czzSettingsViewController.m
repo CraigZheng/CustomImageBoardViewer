@@ -14,7 +14,7 @@
 #import "czzSettingsCentre.h"
 #import "czzCookieManagerViewController.h"
 #import "czzNotificationCentreTableViewController.h"
-#import "czzHomeViewModelManager.h"
+#import "czzHomeViewManager.h"
 #import "czzWatchListManager.h"
 
 @interface czzSettingsViewController ()<UIAlertViewDelegate, UIActionSheetDelegate>
@@ -221,7 +221,7 @@
         [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate threadCacheFolder] error:nil];
         [AppDelegate checkFolders];
         [AppDelegate showToast:[NSString stringWithFormat:@"大图模式：%@", settingsCentre.userDefShouldUseBigImage ? @"On" : @"Off"]];
-        [[czzHomeViewModelManager sharedManager] refresh];
+        [[czzHomeViewManager sharedManager] refresh];
         [settingsCentre saveSettings];
         [self.settingsTableView reloadData];
     }
@@ -275,7 +275,7 @@
         } else if ([command isEqualToString:@"夜间模式"]) {
             settingsCentre.nightyMode = !settingsCentre.nightyMode;
             [AppDelegate showToast:[NSString stringWithFormat:@"夜间模式：%@", settingsCentre.nightyMode ? @"On" : @"Off"]];
-            [[czzHomeViewModelManager sharedManager] reloadData];
+            [[czzHomeViewManager sharedManager] reloadData];
             [self.settingsTableView reloadData];
         }
         else if ([command isEqualToString:@"大图模式"]) {
@@ -289,7 +289,7 @@
             [self.settingsTableView reloadData];
         }
         [settingsCentre saveSettings];
-        [[czzHomeViewModelManager sharedManager] reloadData];
+        [[czzHomeViewManager sharedManager] reloadData];
     }
 }
 

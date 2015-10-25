@@ -25,7 +25,7 @@
 //#import <BugSense-iOS/BugSenseController.h>
 #import <SplunkMint-iOS/SplunkMint-iOS.h>
 
-@interface czzAppDelegate()<czzBlacklistDownloaderDelegate, czzHomeViewModelManagerDelegate>
+@interface czzAppDelegate()<czzBlacklistDownloaderDelegate, czzHomeViewManagerDelegate>
 @property czzSettingsCentre *settingsCentre;
 @end
 

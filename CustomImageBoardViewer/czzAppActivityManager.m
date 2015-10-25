@@ -8,7 +8,7 @@
 
 #import "czzAppActivityManager.h"
 #import "czzSettingsCentre.h"
-#import "czzHomeViewModelManager.h"
+#import "czzHomeViewManager.h"
 #import "czzThreadViewManager.h"
 #import "czzNavigationManager.h"
 #import "czzHomeViewController.h"
@@ -17,7 +17,7 @@
 NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
 
 @interface czzAppActivityManager () <NSCoding>
-@property (nonatomic, strong) czzHomeViewModelManager *homeViewModelManager;
+@property (nonatomic, strong) czzHomeViewManager *homeViewModelManager;
 @property (nonatomic, strong) czzThreadViewManager *threadViewManager;
 @property (nonatomic, readonly) NSString *cacheFilePath;
 @end
@@ -88,8 +88,8 @@ NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
         }
         // Retrive the viewModelManager objects
         if ([viewController respondsToSelector:@selector(viewModelManager)]) {
-            czzHomeViewModelManager *viewModelManager = [viewController performSelector:@selector(viewModelManager)];
-            if ([viewModelManager isMemberOfClass:[czzHomeViewModelManager class]]) {
+            czzHomeViewManager *viewModelManager = [viewController performSelector:@selector(viewModelManager)];
+            if ([viewModelManager isMemberOfClass:[czzHomeViewManager class]]) {
                 self.homeViewModelManager = viewModelManager;
             } else if ([viewModelManager isMemberOfClass:[czzThreadViewManager class]]) {
                 self.threadViewManager = (czzThreadViewManager*)viewModelManager;
@@ -118,7 +118,7 @@ NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
         
         if (self.homeViewModelManager) {
             // The app is being launched, set the singleton for czzHomeViewModelManager
-            [czzHomeViewModelManager setSharedManager:self.homeViewModelManager];
+            [czzHomeViewManager setSharedManager:self.homeViewModelManager];
             
             NSMutableArray *restoredViewControllers = [NSMutableArray new];
             czzThreadViewController *threadViewController;

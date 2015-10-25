@@ -53,7 +53,7 @@
     // Reload animating progress view.
     if ([viewController isKindOfClass:[czzHomeViewController class]] ||
         [viewController isKindOfClass:[czzThreadViewController class]]) {
-        czzHomeViewModelManager *viewModelManager = [viewController performSelector:@selector(viewModelManager)];
+        czzHomeViewManager *viewModelManager = [viewController performSelector:@selector(viewModelManager)];
         if ([viewModelManager isDownloading]) {
             [self.delegate.progressView startAnimating];
         } else {

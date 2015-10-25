@@ -12,11 +12,11 @@
 #import "czzThreadTableView.h"
 #import "czzHomeViewDelegate.h"
 
-@class czzHomeViewModelManager;
+@class czzHomeViewManager;
 @interface czzHomeTableViewDataSource : NSObject <UITableViewDataSource, UITableViewDelegate>
-@property czzHomeViewModelManager *viewModelManager;
+@property czzHomeViewManager *viewModelManager;
 @property (weak, nonatomic) czzThreadTableView *myTableView;
 @property (weak, nonatomic) czzHomeViewDelegate *tableViewDelegate;
 
-+(instancetype)initWithViewModelManager:(czzHomeViewModelManager*)viewModelManager;
++(instancetype)initWithViewModelManager:(czzHomeViewManager*)viewModelManager;
 @end

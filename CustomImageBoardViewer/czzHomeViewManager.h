@@ -21,31 +21,31 @@
 #import "NSObjectUtil.h"
 #import <Foundation/Foundation.h>
 
-@class czzHomeViewModelManager;
-@protocol czzHomeViewModelManagerDelegate <NSObject>
+@class czzHomeViewManager;
+@protocol czzHomeViewManagerDelegate <NSObject>
 @optional
--(void)viewModelManagerBeginDownloading:(czzHomeViewModelManager*)threadList;
--(void)viewModelManager:(czzHomeViewModelManager*)threadList processedThreadData:(BOOL)wasSuccessul newThreads:(NSArray*)newThreads allThreads:(NSArray*)allThreads;
--(void)viewModelManager:(czzHomeViewModelManager*)threadList processedSubThreadData:(BOOL)wasSuccessul newThreads:(NSArray*)newThreads allThreads:(NSArray*)allThreads;
-- (void)viewModelManager:(czzHomeViewModelManager*)viewModelManager wantsToScrollToContentOffset:(CGPoint)offset;
+-(void)viewModelManagerBeginDownloading:(czzHomeViewManager*)threadList;
+-(void)viewModelManager:(czzHomeViewManager*)threadList processedThreadData:(BOOL)wasSuccessul newThreads:(NSArray*)newThreads allThreads:(NSArray*)allThreads;
+-(void)viewModelManager:(czzHomeViewManager*)threadList processedSubThreadData:(BOOL)wasSuccessul newThreads:(NSArray*)newThreads allThreads:(NSArray*)allThreads;
+- (void)viewModelManager:(czzHomeViewManager*)viewModelManager wantsToScrollToContentOffset:(CGPoint)offset;
 
 //updates
--(void)viewModelManager:(czzHomeViewModelManager*)threadList downloadProgressUpdated:(CGFloat)progress;
--(void)viewModelManager:(czzHomeViewModelManager*)threadList downloadSuccessful:(BOOL)wasSuccessful;
+-(void)viewModelManager:(czzHomeViewManager*)threadList downloadProgressUpdated:(CGFloat)progress;
+-(void)viewModelManager:(czzHomeViewManager*)threadList downloadSuccessful:(BOOL)wasSuccessful;
 
 // Need to reload
--(void)viewModelManagerWantsToReload:(czzHomeViewModelManager*)manager;
+-(void)viewModelManagerWantsToReload:(czzHomeViewManager*)manager;
 
 @end
 
-@interface czzHomeViewModelManager : NSObject <czzURLDownloaderProtocol, czzJSONProcessorDelegate, NSCoding>
+@interface czzHomeViewManager : NSObject <czzURLDownloaderProtocol, czzJSONProcessorDelegate, NSCoding>
 @property (nonatomic, assign) BOOL shouldHideImageForThisForum;
 @property (nonatomic, strong) czzForum *forum;
 @property (nonatomic, assign) NSInteger pageNumber;
 @property (nonatomic, assign) NSInteger totalPages;
 @property (nonatomic, strong) NSMutableArray *threads;
 @property (nonatomic, strong) NSArray *lastBatchOfThreads;
-@property (nonatomic, weak) id<czzHomeViewModelManagerDelegate> delegate;
+@property (nonatomic, weak) id<czzHomeViewManagerDelegate> delegate;
 @property (nonatomic, assign) BOOL isDownloading;
 @property (nonatomic, assign) BOOL isProcessing;
 @property (nonatomic, strong) NSMutableDictionary *horizontalHeights;
@@ -77,5 +77,5 @@
 -(void)restorePreviousState;
 
 +(instancetype)sharedManager;
-+(void)setSharedManager:(czzHomeViewModelManager*)manager;
++(void)setSharedManager:(czzHomeViewManager*)manager;
 @end

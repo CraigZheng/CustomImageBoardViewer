@@ -254,26 +254,26 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [self.miniThreadView show];
 }
 
-- (void)viewModelManager:(czzHomeViewModelManager *)viewModelManager wantsToScrollToContentOffset:(CGPoint)offset {
+- (void)viewModelManager:(czzHomeViewManager *)viewModelManager wantsToScrollToContentOffset:(CGPoint)offset {
     // If not CGPointZero
     if (!CGPointEqualToPoint(CGPointZero, offset) && self.threadTableView) {
         self.threadTableView.contentOffset = offset;
     }
 }
 
-- (void)viewModelManagerWantsToReload:(czzHomeViewModelManager *)manager {
+- (void)viewModelManagerWantsToReload:(czzHomeViewManager *)manager {
     if (manager.threads.count) {
         [self updateTableView];
     }
 }
 
--(void)viewModelManagerBeginDownloading:(czzHomeViewModelManager *)viewModelManager {
+-(void)viewModelManagerBeginDownloading:(czzHomeViewManager *)viewModelManager {
     if (!progressView.isAnimating) {
         [progressView startAnimating];
     }
 }
 
--(void)viewModelManager:(czzHomeViewModelManager *)viewModelManager downloadSuccessful:(BOOL)wasSuccessful {
+-(void)viewModelManager:(czzHomeViewManager *)viewModelManager downloadSuccessful:(BOOL)wasSuccessful {
     if (!wasSuccessful)
     {
         if (progressView.isAnimating) {
@@ -284,7 +284,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     }
 }
 
--(void)viewModelManager:(czzHomeViewModelManager *)threadViewManager processedSubThreadData:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
+-(void)viewModelManager:(czzHomeViewManager *)threadViewManager processedSubThreadData:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     if (wasSuccessul) {
         if (newThreads.count) {
             self.viewModelManager = (czzThreadViewManager*)threadViewManager;

@@ -13,9 +13,9 @@
 #import "czzImageDownloaderManager.h"
 #import "czzForumManager.h"
 
-@interface czzWatchKitManager () <czzHomeViewModelManagerDelegate>
+@interface czzWatchKitManager () <czzHomeViewManagerDelegate>
 @property (assign, nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
-@property (strong, nonatomic) czzHomeViewModelManager *homeViewModelManager;
+@property (strong, nonatomic) czzHomeViewManager *homeViewModelManager;
 @property (strong, nonatomic) czzThreadViewManager *threadViewManager;
 @property (strong, nonatomic) NSString *requestedImageURL;
 
@@ -81,7 +81,7 @@
 -(void)watchKitLoadHomeView:(czzWKForum*)forum loadMore:(BOOL)loadMore {
     [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
     
-    self.homeViewModelManager = [czzHomeViewModelManager new];
+    self.homeViewModelManager = [czzHomeViewManager new];
     
     czzForum *selectedForum = [czzForum new];
     selectedForum.name = forum.name;
