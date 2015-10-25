@@ -24,17 +24,17 @@
 @class czzHomeViewManager;
 @protocol czzHomeViewManagerDelegate <NSObject>
 @optional
--(void)viewModelManagerBeginDownloading:(czzHomeViewManager*)threadList;
--(void)viewModelManager:(czzHomeViewManager*)threadList processedThreadData:(BOOL)wasSuccessul newThreads:(NSArray*)newThreads allThreads:(NSArray*)allThreads;
--(void)viewModelManager:(czzHomeViewManager*)threadList processedSubThreadData:(BOOL)wasSuccessul newThreads:(NSArray*)newThreads allThreads:(NSArray*)allThreads;
-- (void)viewModelManager:(czzHomeViewManager*)viewModelManager wantsToScrollToContentOffset:(CGPoint)offset;
+-(void)homeViewManagerBeginsDownloading:(czzHomeViewManager*)homeViewManager;
+-(void)homeViewManager:(czzHomeViewManager*)homeViewManager threadListProcessed:(BOOL)wasSuccessul newThreads:(NSArray*)newThreads allThreads:(NSArray*)allThreads;
+-(void)homeViewManager:(czzHomeViewManager*)homeViewManager threadContentProcessed:(BOOL)wasSuccessul newThreads:(NSArray*)newThreads allThreads:(NSArray*)allThreads;
+- (void)homeViewManager:(czzHomeViewManager*)homeViewManager wantsToScrollToContentOffset:(CGPoint)offset;
 
 //updates
--(void)viewModelManager:(czzHomeViewManager*)threadList downloadProgressUpdated:(CGFloat)progress;
--(void)viewModelManager:(czzHomeViewManager*)threadList downloadSuccessful:(BOOL)wasSuccessful;
+-(void)homeViewManager:(czzHomeViewManager*)homeViewManager downloadProgressUpdated:(CGFloat)progress;
+-(void)homeViewManager:(czzHomeViewManager*)homeViewManager downloadSuccessful:(BOOL)wasSuccessful;
 
 // Need to reload
--(void)viewModelManagerWantsToReload:(czzHomeViewManager*)manager;
+-(void)homeViewManagerWantsToReload:(czzHomeViewManager*)manager;
 
 @end
 

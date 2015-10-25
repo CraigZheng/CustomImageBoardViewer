@@ -128,7 +128,7 @@
     }
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([self.delegate respondsToSelector:@selector(viewModelManager:downloadSuccessful:)]) {
-            [self.delegate viewModelManager:self downloadSuccessful:successed];
+            [self.delegate homeViewManager:self downloadSuccessful:successed];
         }
     });
 }
@@ -179,7 +179,7 @@
             self.watchKitCompletionHandler = nil;
         }
         else if ([self.delegate respondsToSelector:@selector(viewModelManager:processedSubThreadData:newThreads:allThreads:)]) {
-            [self.delegate viewModelManager:self processedSubThreadData:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
+            [self.delegate homeViewManager:self threadContentProcessed:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
         }
     });
 }
@@ -245,7 +245,7 @@ float RoundTo(float number, float to)
         }
         else
             self.selectedUserToHighlight = selectedThread.UID.string;
-        [self.delegate viewModelManagerWantsToReload:self];
+        [self.delegate homeViewManagerWantsToReload:self];
     }
 }
 

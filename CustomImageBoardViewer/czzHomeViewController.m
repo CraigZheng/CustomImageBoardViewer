@@ -307,13 +307,13 @@
 }
 
 #pragma mark - czzHomeself.viewModelManagerDelegate
-- (void)viewModelManagerWantsToReload:(czzHomeViewManager *)manager {
+- (void)homeViewManagerWantsToReload:(czzHomeViewManager *)manager {
     if (manager.threads.count) {
         [self updateTableView];
     }
 }
 
--(void)viewModelManager:(czzHomeViewManager *)viewModelManager downloadSuccessful:(BOOL)wasSuccessful {
+-(void)homeViewManager:(czzHomeViewManager *)viewModelManager downloadSuccessful:(BOOL)wasSuccessful {
     DLog(@"%@", NSStringFromSelector(_cmd));
     if (!wasSuccessful && !NavigationManager.isInTransition) {
         [self.refreshControl endRefreshing];
@@ -323,13 +323,13 @@
     self.threadTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
 }
 
--(void)viewModelManagerBeginDownloading:(czzHomeViewManager *)viewModelManager {
+-(void)homeViewManagerBeginsDownloading:(czzHomeViewManager *)viewModelManager {
     if (!self.progressView.isAnimating)
         [self.progressView startAnimating];
     
 }
 
--(void)viewModelManager:(czzHomeViewManager *)list processedThreadData:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
+-(void)homeViewManager:(czzHomeViewManager *)list threadListProcessed:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     DLog(@"%@", NSStringFromSelector(_cmd));
     // If pageNumber == 1, then is a forum change, scroll to top.
     [[NSOperationQueue currentQueue] addOperationWithBlock:^{

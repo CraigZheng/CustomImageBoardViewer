@@ -71,8 +71,8 @@
 
 #pragma mark - reload/refresh actions
 - (void)reloadData {
-    if ([self.delegate respondsToSelector:@selector(viewModelManagerWantsToReload:)]) {
-        [self.delegate viewModelManagerWantsToReload:self];
+    if ([self.delegate respondsToSelector:@selector(homeViewManagerWantsToReload:)]) {
+        [self.delegate homeViewManagerWantsToReload:self];
     }
 }
 
@@ -104,8 +104,8 @@
                                         withString:[NSString stringWithFormat:@"%ld", (long)self.forum.forumID]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     self.threadDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
     self.isDownloading = YES;
-    if ([self.delegate respondsToSelector:@selector(viewModelManagerBeginDownloading:)]) {
-        [self.delegate viewModelManagerBeginDownloading:self];
+    if ([self.delegate respondsToSelector:@selector(homeViewManagerBeginsDownloading:)]) {
+        [self.delegate homeViewManagerBeginsDownloading:self];
     }
 }
 
@@ -122,8 +122,8 @@
 }
 
 - (void)scrollToContentOffset:(CGPoint)offset {
-    if ([self.delegate respondsToSelector:@selector(viewModelManager:wantsToScrollToContentOffset:)]) {
-        [self.delegate viewModelManager:self wantsToScrollToContentOffset:offset];
+    if ([self.delegate respondsToSelector:@selector(homeViewManager:wantsToScrollToContentOffset:)]) {
+        [self.delegate homeViewManager:self wantsToScrollToContentOffset:offset];
     }
 }
 
@@ -146,8 +146,8 @@
     self.threadDownloader = nil;
     self.isDownloading = NO;
     dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.delegate respondsToSelector:@selector(viewModelManager:downloadSuccessful:)]) {
-            [self.delegate viewModelManager:self downloadSuccessful:successed];
+        if ([self.delegate respondsToSelector:@selector(homeViewManager:downloadSuccessful:)]) {
+            [self.delegate homeViewManager:self downloadSuccessful:successed];
         }
     });
     if (successed){
@@ -165,9 +165,9 @@
 }
 
 -(void)downloadUpdated:(czzURLDownloader *)downloader progress:(CGFloat)progress {
-    if ([self.delegate respondsToSelector:@selector(viewModelManager:downloadProgressUpdated:)]) {
+    if ([self.delegate respondsToSelector:@selector(homeViewManager:downloadProgressUpdated:)]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate viewModelManager:self downloadProgressUpdated:progress];
+            [self.delegate homeViewManager:self downloadProgressUpdated:progress];
         });
     }
 }
@@ -197,8 +197,8 @@
             self.watchKitCompletionHandler = nil;
         }
         // No watch kit completion handler, inform delegate instead.
-        else if ([self.delegate respondsToSelector:@selector(viewModelManager:processedThreadData:newThreads:allThreads:)]) {
-            [self.delegate viewModelManager:self processedThreadData:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
+        else if ([self.delegate respondsToSelector:@selector(homeViewManager:threadListProcessed:newThreads:allThreads:)]) {
+            [self.delegate homeViewManager:self threadListProcessed:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
         }
         DLog(@"%@", NSStringFromSelector(_cmd));
     });
