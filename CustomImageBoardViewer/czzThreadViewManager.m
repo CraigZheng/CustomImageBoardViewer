@@ -127,7 +127,7 @@
         [self.threadDataProcessor processSubThreadFromData:receivedData forForum:self.forum];
     }
     dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.delegate respondsToSelector:@selector(viewModelManager:downloadSuccessful:)]) {
+        if ([self.delegate respondsToSelector:@selector(homeViewManager:downloadSuccessful:)]) {
             [self.delegate homeViewManager:self downloadSuccessful:successed];
         }
     });
@@ -178,7 +178,7 @@
             self.watchKitCompletionHandler(success, self.threads);
             self.watchKitCompletionHandler = nil;
         }
-        else if ([self.delegate respondsToSelector:@selector(viewModelManager:processedSubThreadData:newThreads:allThreads:)]) {
+        else if ([self.delegate respondsToSelector:@selector(homeViewManager:threadContentProcessed:newThreads:allThreads:)]) {
             [self.delegate homeViewManager:self threadContentProcessed:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
         }
     });
