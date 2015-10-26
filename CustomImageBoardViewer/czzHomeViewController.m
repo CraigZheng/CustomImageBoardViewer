@@ -306,7 +306,7 @@
     return _homeViewDelegate;
 }
 
-#pragma mark - czzHomeself.viewModelManagerDelegate
+#pragma mark - czzHomeViewManagerDelegate
 - (void)homeViewManagerWantsToReload:(czzHomeViewManager *)manager {
     if (manager.threads.count) {
         [self updateTableView];
