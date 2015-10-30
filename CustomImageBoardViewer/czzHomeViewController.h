@@ -19,7 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIView *onScreenImageManagerViewContainer;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *forumListButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsBarButton;
-@property (strong, nonatomic) czzHomeViewManager* viewModelManager;
+@property (strong, nonatomic) czzHomeViewManager* homeViewManager;
 
 - (IBAction)sideButtonAction:(id)sender;
 

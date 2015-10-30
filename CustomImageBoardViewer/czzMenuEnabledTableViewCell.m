@@ -24,6 +24,7 @@
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, czzImageDownloaderManagerDelegate>
 @property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentToImageBottomConstraint;
 
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (strong, nonatomic) NSString *imageFolder;
@@ -83,7 +84,6 @@
     while ((oldButton = [self viewWithTag:999999]) != nil) {
         [oldButton removeFromSuperview];
     }
-    previewImageView.hidden = YES;
     
     //colours
     if (settingsCentre.nightyMode) {
@@ -141,7 +141,10 @@
 -(void)prepareUIWithMyThread {
     [self resetViews];
     if (myThread.thImgSrc.length){
+        // Has thumbnail image, show the preview image view...
         previewImageView.hidden = NO;
+        self.contentToImageBottomConstraint.priority = UILayoutPriorityRequired - 1;
+        
         [previewImageView setImage:[UIImage imageNamed:@"Icon.png"]];
 
         NSString *imageName = myThread.thImgSrc.lastPathComponent;
@@ -158,6 +161,10 @@
         } 
         //assign a gesture recogniser to it
         [previewImageView setGestureRecognizers:@[tapOnImageGestureRecogniser]];
+    } else {
+        // No thumbnail image, hide the preview image view...
+        previewImageView.hidden = YES;
+        self.contentToImageBottomConstraint.priority = 1; // Lower priority than the content to bottom constraint.
     }
     //if harmful flag is set, display warning header of harmful thread
     NSMutableAttributedString *contentAttrString;

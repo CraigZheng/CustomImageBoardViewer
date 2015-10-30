@@ -17,7 +17,7 @@
 NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
 
 @interface czzAppActivityManager () <NSCoding>
-@property (nonatomic, strong) czzHomeViewManager *homeViewModelManager;
+@property (nonatomic, strong) czzHomeViewManager *homeViewManager;
 @property (nonatomic, strong) czzThreadViewManager *threadViewManager;
 @property (nonatomic, readonly) NSString *cacheFilePath;
 @end
@@ -58,7 +58,7 @@ NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
 //#endif
             czzAppActivityManager *tempAppActivityManager = [NSKeyedUnarchiver unarchiveObjectWithData:cacheFileContent];
             if (tempAppActivityManager) {
-                self.homeViewModelManager = tempAppActivityManager.homeViewModelManager;
+                self.homeViewManager = tempAppActivityManager.homeViewManager;
                 self.threadViewManager = tempAppActivityManager.threadViewManager;
                 
                 DLog(@"%@ successfully recovered from %@", NSStringFromClass(self.class), self.cacheFilePath);
@@ -86,15 +86,20 @@ NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
         if ([viewController respondsToSelector:@selector(saveCurrentState)]) {
             [viewController performSelector:@selector(saveCurrentState)];
         }
-        // Retrive the viewModelManager objects
-        if ([viewController respondsToSelector:@selector(viewModelManager)]) {
-            czzHomeViewManager *viewModelManager = [viewController performSelector:@selector(viewModelManager)];
-            if ([viewModelManager isMemberOfClass:[czzHomeViewManager class]]) {
-                self.homeViewModelManager = viewModelManager;
-            } else if ([viewModelManager isMemberOfClass:[czzThreadViewManager class]]) {
-                self.threadViewManager = (czzThreadViewManager*)viewModelManager;
-            }
+        // Retrive the viewManager objects
+        czzHomeViewManager *viewManager;
+        if ([viewController respondsToSelector:@selector(homeViewManager)]) {
+            viewManager = [viewController performSelector:@selector(homeViewManager)];
+        } else if ([viewController respondsToSelector:@selector(threadViewManager)]) {
+            viewManager = [viewController performSelector:@selector(threadViewManager)];
         }
+        
+        if ([viewManager isMemberOfClass:[czzHomeViewManager class]]) {
+            self.homeViewManager = viewManager;
+        } else if ([viewManager isMemberOfClass:[czzThreadViewManager class]]) {
+            self.threadViewManager = (czzThreadViewManager*)viewManager;
+        }
+
     }
     
     // Save self.
@@ -116,18 +121,18 @@ NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
         AppDelegate.window.rootViewController = rootViewController;
         [AppDelegate.window makeKeyAndVisible];
         
-        if (self.homeViewModelManager) {
-            // The app is being launched, set the singleton for czzHomeViewModelManager
-            [czzHomeViewManager setSharedManager:self.homeViewModelManager];
+        if (self.homeViewManager) {
+            // The app is being launched, set the singleton for czzHomeViewManager
+            [czzHomeViewManager setSharedManager:self.homeViewManager];
             
             NSMutableArray *restoredViewControllers = [NSMutableArray new];
             czzThreadViewController *threadViewController;
             czzHomeViewController *homeViewController = [czzHomeViewController new];
-            self.homeViewModelManager.delegate = homeViewController;
+            self.homeViewManager.delegate = homeViewController;
             [restoredViewControllers addObject:homeViewController];
             if (self.threadViewManager) {
                 threadViewController = [czzThreadViewController new];
-                threadViewController.viewModelManager = self.threadViewManager;
+                threadViewController.threadViewManager = self.threadViewManager;
                 self.threadViewManager.delegate = threadViewController;
                 // Set alpha to 0, to avoid thread tableview giving a jumpping appearance...
                 threadViewController.threadTableView.alpha = 0;
@@ -135,16 +140,16 @@ NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
             }
             [NavigationManager setViewController:restoredViewControllers animated:NO];
             [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-                if (threadViewController.viewModelManager) {
+                if (threadViewController.threadViewManager) {
                     // Restore the content offset for thread view controller.
-                    [threadViewController.viewModelManager scrollToContentOffset:threadViewController.viewModelManager.currentOffSet];
+                    [threadViewController.threadViewManager scrollToContentOffset:threadViewController.threadViewManager.currentOffSet];
                 }
                 threadViewController.threadTableView.alpha = 1;
             }];
         }
     }
     // Clear any left over
-    self.homeViewModelManager = self.threadViewManager = nil;
+    self.homeViewManager = self.threadViewManager = nil;
     
     if (self.appLaunchCompletionHandler) {
         self.appLaunchCompletionHandler();
@@ -160,15 +165,15 @@ NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
 #pragma mark - NSCoding
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super init];
-    self.homeViewModelManager = [aDecoder decodeObjectForKey:@"homeViewModelManager"];
+    self.homeViewManager = [aDecoder decodeObjectForKey:@"homeViewManager"];
     self.threadViewManager = [aDecoder decodeObjectForKey:@"threadViewManager"];
     
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
-    if (self.homeViewModelManager) {
-        [aCoder encodeObject:self.homeViewModelManager forKey:@"homeViewModelManager"];
+    if (self.homeViewManager) {
+        [aCoder encodeObject:self.homeViewManager forKey:@"homeViewManager"];
     }
     if (self.threadViewManager) {
         [aCoder encodeObject:self.threadViewManager forKey:@"threadViewManager"];

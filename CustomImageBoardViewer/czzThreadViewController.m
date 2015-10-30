@@ -78,11 +78,11 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 {
     [super viewDidLoad];
     
-    self.viewModelManager.delegate = self;
-    [self.viewModelManager restorePreviousState];
+    self.threadViewManager.delegate = self;
+    [self.threadViewManager restorePreviousState];
     
-    self.threadTableView.dataSource = tableViewDataSource = [czzThreadTableViewDataSource initWithViewModelManager:self.viewModelManager];
-    self.threadTableView.delegate = threadViewDelegate = [czzThreadViewDelegate initWithViewModelManager:self.viewModelManager];
+    self.threadTableView.dataSource = tableViewDataSource = [czzThreadTableViewDataSource initWithThreadViewManager:self.threadViewManager];
+    self.threadTableView.delegate = threadViewDelegate = [czzThreadViewDelegate initWithThreadViewManager:self.threadViewManager];
     tableViewDataSource.tableViewDelegate = threadViewDelegate;
     
     //progress view
@@ -105,14 +105,14 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     //if in foreground, load more threads
     if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground)
     {
-        if (self.viewModelManager.restoredFromCache) {
+        if (self.threadViewManager.restoredFromCache) {
             // Start loading at the end of push animation.
             __weak czzThreadViewController *weakSelf = self;
             NavigationManager.pushAnimationCompletionHandler = ^{
-                if (!weakSelf.viewModelManager.threads.count) {
+                if (!weakSelf.threadViewManager.threads.count) {
                     [weakSelf refreshThread:weakSelf];
                 } else {
-                    [weakSelf.viewModelManager loadMoreThreads];
+                    [weakSelf.threadViewManager loadMoreThreads];
                 }
             };
         } else {
@@ -128,7 +128,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     //configure the right view as menu
     UINavigationController *rightController = [self.storyboard instantiateViewControllerWithIdentifier:@"right_menu_view_controller"];
     threadMenuViewController = [rightController.viewControllers objectAtIndex:0];
-    threadMenuViewController.threadViewManager = self.viewModelManager;
+    threadMenuViewController.threadViewManager = self.threadViewManager;
     self.viewDeckController.rightController = rightController;
 
     //background colour
@@ -147,7 +147,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     // Disable right view controller
     self.viewDeckController.rightController = nil;
     // Cache downloaded data into disk.
-    [self.viewModelManager saveCurrentState];
+    [self.threadViewManager saveCurrentState];
 }
 
 - (void)dealloc {
@@ -168,15 +168,15 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
         numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
     }
     
-    [(czzRoundButton *)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.viewModelManager.threads.count] forState:UIControlStateNormal];
+    [(czzRoundButton *)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.threadViewManager.threads.count] forState:UIControlStateNormal];
     
     // Jump button
-    NSString *pageNumber = [NSString stringWithFormat:@"%ld", (long)self.viewModelManager.pageNumber];
-    NSString *totalPages = self.viewModelManager.totalPages < 99 ? [NSString stringWithFormat:@"%ld", (long)self.viewModelManager.totalPages] : @"∞";
+    NSString *pageNumber = [NSString stringWithFormat:@"%ld", (long)self.threadViewManager.pageNumber];
+    NSString *totalPages = self.threadViewManager.totalPages < 99 ? [NSString stringWithFormat:@"%ld", (long)self.threadViewManager.totalPages] : @"∞";
     self.jumpBarButtonItem.image = nil;
     self.jumpBarButtonItem.title = [NSString stringWithFormat:@"%@/%@", pageNumber, totalPages];
     // Star button image - on or off.
-    if ([favouriteManager isThreadFavourited:self.viewModelManager.parentThread]) {
+    if ([favouriteManager isThreadFavourited:self.threadViewManager.parentThread]) {
         self.starButton.image = [UIImage imageNamed:@"solid_star.png"];
     } else {
         self.starButton.image = [UIImage imageNamed:@"star.png"];
@@ -184,24 +184,24 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 #pragma mark - setter
--(void)setViewModelManager:(czzThreadViewManager *)modelManager {
-    _viewModelManager = modelManager;
-    self.title = self.viewModelManager.parentThread.title;
+-(void)setthreadViewManager:(czzThreadViewManager *)modelManager {
+    _threadViewManager = modelManager;
+    self.title = self.threadViewManager.parentThread.title;
 
     // Update bar buttons.
     if (!numberBarButton.customView) {
         numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
     }
     
-    [(czzRoundButton*)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.viewModelManager.threads.count] forState:UIControlStateNormal];
-    if (self.viewModelManager.threads.count <= 0)
+    [(czzRoundButton*)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.threadViewManager.threads.count] forState:UIControlStateNormal];
+    if (self.threadViewManager.threads.count <= 0)
         numberBarButton.customView.hidden = YES;
     else
         numberBarButton.customView.hidden = NO;
     
     // Jump button
-    NSString *pageNumber = [NSString stringWithFormat:@"%ld", (long)self.viewModelManager.pageNumber];
-    NSString *totalPages = self.viewModelManager.totalPages < 99 ? [NSString stringWithFormat:@"%ld", (long)self.viewModelManager.totalPages] : @"∞";
+    NSString *pageNumber = [NSString stringWithFormat:@"%ld", (long)self.threadViewManager.pageNumber];
+    NSString *totalPages = self.threadViewManager.totalPages < 99 ? [NSString stringWithFormat:@"%ld", (long)self.threadViewManager.totalPages] : @"∞";
     self.jumpBarButtonItem.image = nil;
     self.jumpBarButtonItem.title = [NSString stringWithFormat:@"%@/%@", pageNumber, totalPages];
 }
@@ -212,7 +212,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 #pragma mark - jump to and download controls
 -(void)PromptForJumpToPage{
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"跳页: %ld/%ld", (long) self.viewModelManager.pageNumber, (long) self.viewModelManager.totalPages] message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"跳页: %ld/%ld", (long) self.threadViewManager.pageNumber, (long) self.threadViewManager.totalPages] message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     UITextField *textInputField = [alertView textFieldAtIndex:0];
     if (textInputField)
@@ -230,12 +230,12 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
         NSInteger newPageNumber = [[[alertView textFieldAtIndex:0] text] integerValue];
         if (newPageNumber > 0){
             //clear threads and ready to accept new threads
-            [self.viewModelManager removeAll];
-            [self.viewModelManager loadMoreThreads:newPageNumber];
+            [self.threadViewManager removeAll];
+            [self.threadViewManager loadMoreThreads:newPageNumber];
             [self updateTableView];
             [refreshControl beginRefreshing];
 
-            [[AppDelegate window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) self.viewModelManager.pageNumber]];
+            [[AppDelegate window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) self.threadViewManager.pageNumber]];
         } else {
             [[AppDelegate window] makeToast:@"页码无效..."];
         }
@@ -243,18 +243,18 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 -(void)refreshThread:(id)sender{
-    [self.viewModelManager refresh];
+    [self.threadViewManager refresh];
     [self updateTableView];
 }
 
 #pragma mark - czzThreadViewManagerDelegate
-- (void)threadViewManager:(czzThreadViewManager *)viewModelManager wantsToShowContentForThread:(czzThread *)thread {
+- (void)threadViewManager:(czzThreadViewManager *)threadViewManager wantsToShowContentForThread:(czzThread *)thread {
     self.miniThreadView = [czzMiniThreadViewController new];
     self.miniThreadView.myThread = thread;
     [self.miniThreadView show];
 }
 
-- (void)homeViewManager:(czzHomeViewManager *)viewModelManager wantsToScrollToContentOffset:(CGPoint)offset {
+- (void)homeViewManager:(czzHomeViewManager *)threadViewManager wantsToScrollToContentOffset:(CGPoint)offset {
     // If not CGPointZero
     if (!CGPointEqualToPoint(CGPointZero, offset) && self.threadTableView) {
         self.threadTableView.contentOffset = offset;
@@ -267,13 +267,13 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     }
 }
 
--(void)homeViewManagerBeginsDownloading:(czzHomeViewManager *)viewModelManager {
+-(void)homeViewManagerBeginsDownloading:(czzHomeViewManager *)threadViewManager {
     if (!progressView.isAnimating) {
         [progressView startAnimating];
     }
 }
 
--(void)homeViewManager:(czzHomeViewManager *)viewModelManager downloadSuccessful:(BOOL)wasSuccessful {
+-(void)homeViewManager:(czzHomeViewManager *)threadViewManager downloadSuccessful:(BOOL)wasSuccessful {
     if (!wasSuccessful)
     {
         if (progressView.isAnimating) {
@@ -287,7 +287,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 -(void)homeViewManager:(czzHomeViewManager *)threadViewManager threadContentProcessed:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     if (wasSuccessul) {
         if (newThreads.count) {
-            self.viewModelManager = (czzThreadViewManager*)threadViewManager;
+            self.threadViewManager = (czzThreadViewManager*)threadViewManager;
         }
     }
     [self updateTableView];
@@ -304,13 +304,13 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 - (IBAction)starAction:(id)sender {
-    if (self.viewModelManager.parentThread) {
-        if ([favouriteManager isThreadFavourited:self.viewModelManager.parentThread]) {
+    if (self.threadViewManager.parentThread) {
+        if ([favouriteManager isThreadFavourited:self.threadViewManager.parentThread]) {
             // Already contained, remove instead.
-            [favouriteManager removeFavourite:self.viewModelManager.parentThread];
+            [favouriteManager removeFavourite:self.threadViewManager.parentThread];
             [AppDelegate showToast:@"已移除收藏"];
         } else {
-            [favouriteManager addFavourite:self.viewModelManager.parentThread];
+            [favouriteManager addFavourite:self.threadViewManager.parentThread];
             [AppDelegate showToast:@"已加入收藏"];
         }
         [self updateTableView];
@@ -318,7 +318,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 - (IBAction)watchAction:(id)sender {
-    [[czzWatchListManager sharedManager] addToWatchList:self.viewModelManager.parentThread];
+    [[czzWatchListManager sharedManager] addToWatchList:self.threadViewManager.parentThread];
 }
 
 
@@ -332,7 +332,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 - (IBAction)shareAction:(id)sender {
     //create the thread link - hardcode it
-    NSString *threadLink = [[settingCentre share_post_url] stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long) self.viewModelManager.parentThread.ID]];
+    NSString *threadLink = [[settingCentre share_post_url] stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long) self.threadViewManager.parentThread.ID]];
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[[NSURL URLWithString:threadLink]] applicationActivities:nil];
     if ([activityViewController respondsToSelector:@selector(popoverPresentationController)])
         activityViewController.popoverPresentationController.sourceView = self.view;
@@ -358,8 +358,8 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 #pragma mark - State perserving
 - (NSString*)saveCurrentState {
-    self.viewModelManager.currentOffSet = self.threadTableView.contentOffset;
-    return [self.viewModelManager saveCurrentState];
+    self.threadViewManager.currentOffSet = self.threadTableView.contentOffset;
+    return [self.threadViewManager saveCurrentState];
 }
 
 +(instancetype)new {

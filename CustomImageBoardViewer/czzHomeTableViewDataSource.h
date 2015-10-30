@@ -14,9 +14,9 @@
 
 @class czzHomeViewManager;
 @interface czzHomeTableViewDataSource : NSObject <UITableViewDataSource, UITableViewDelegate>
-@property czzHomeViewManager *viewModelManager;
+@property czzHomeViewManager *homeViewManager;
 @property (weak, nonatomic) czzThreadTableView *myTableView;
 @property (weak, nonatomic) czzHomeViewDelegate *tableViewDelegate;
 
-+(instancetype)initWithViewModelManager:(czzHomeViewManager*)viewModelManager;
++(instancetype)initWithHomeViewManager:(czzHomeViewManager*)homeViewManager;
 @end

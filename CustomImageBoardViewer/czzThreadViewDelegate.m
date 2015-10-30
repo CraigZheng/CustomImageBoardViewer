@@ -16,7 +16,6 @@
 @end
 
 @implementation czzThreadViewDelegate
-@dynamic viewModelManager;
 
 -(instancetype)init {
     self = [super init];
@@ -88,7 +87,7 @@
 
 #pragma mark - UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row < self.viewModelManager.threads.count) {
+    if (indexPath.row < self.threadViewManager.threads.count) {
         
     } else {
         [super tableView:tableView didSelectRowAtIndexPath:indexPath];
@@ -96,7 +95,7 @@
 }
 
 -(BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row < self.viewModelManager.threads.count) {
+    if (indexPath.row < self.threadViewManager.threads.count) {
         return YES;
     }
     return NO;
@@ -117,10 +116,10 @@
     if (!text.integerValue) {
         return;
     }
-    for (czzThread *thread in self.viewModelManager.threads) {
+    for (czzThread *thread in self.threadViewManager.threads) {
         if (thread.ID == text.integerValue) {
             self.threadsTableViewContentOffSet = self.myTableView.contentOffset;
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.viewModelManager.threads indexOfObject:thread] inSection:0];
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.threadViewManager.threads indexOfObject:thread] inSection:0];
             [self.myTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:NO];
             [[NSOperationQueue currentQueue] addOperationWithBlock:^{
                 [self highlightTableViewCell:[self.myTableView cellForRowAtIndexPath:indexPath]];
@@ -136,7 +135,7 @@
         // After return, run the remaining codes in main thread.
         dispatch_async(dispatch_get_main_queue(), ^{
             if (thread) {
-                [self.viewModelManager showContentWithThread:thread];
+                [self.threadViewManager showContentWithThread:thread];
             } else {
                 [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"找不到引用串：%ld", thread.ID]];
             }
@@ -144,9 +143,9 @@
     });
 }
 
-+(instancetype)initWithViewModelManager:(czzThreadViewManager *)viewModelManager {
++(instancetype)initWithThreadViewManager:(czzThreadViewManager *)threadViewManager {
     czzThreadViewDelegate *threadViewDelegate = [czzThreadViewDelegate new];
-    threadViewDelegate.viewModelManager = viewModelManager;
+    threadViewDelegate.threadViewManager = threadViewManager;
     return threadViewDelegate;
 }
 

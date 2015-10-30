@@ -130,7 +130,7 @@ NSInteger const historyIndex = 2;
         selectedThread = [threads objectAtIndex:selectedIndex.row];
         czzThreadViewManager *threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:selectedThread andForum:selectedThread.forum];
         czzThreadViewController *threadViewController = [czzThreadViewController new];
-        threadViewController.viewModelManager = threadViewManager;
+        threadViewController.threadViewManager = threadViewManager;
         [NavigationManager pushViewController:threadViewController animated:YES];
     }
 }

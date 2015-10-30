@@ -49,9 +49,9 @@
     }
     czzThread *selectedThread;
     @try {
-        NSArray *threads = self.viewModelManager.threads;
+        NSArray *threads = self.homeViewManager.threads;
         if (indexPath.row < threads.count) {
-            selectedThread = [self.viewModelManager.threads objectAtIndex:indexPath.row];
+            selectedThread = [self.homeViewManager.threads objectAtIndex:indexPath.row];
             if (![settingCentre shouldAllowOpenBlockedThread]) {
                 czzBlacklistEntity *blacklistEntity = [[czzBlacklist sharedInstance] blacklistEntityForThreadID:selectedThread.ID];
                 if (blacklistEntity){
@@ -64,16 +64,16 @@
     @catch (NSException *exception) {
         DLog(@"%@", exception);
     }
-    if (indexPath.row < self.viewModelManager.threads.count)
+    if (indexPath.row < self.homeViewManager.threads.count)
     {
         //@todo open the selected thread
         czzThreadViewController *threadViewController = [czzThreadViewController new];
-        threadViewController.viewModelManager = [[czzThreadViewManager alloc] initWithParentThread:selectedThread andForum:self.viewModelManager.forum];
+        threadViewController.threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:selectedThread andForum:self.homeViewManager.forum];
         [NavigationManager pushViewController:threadViewController animated:YES];
     }
     // If not downloading or processing, load more threads.
-    else if (!self.viewModelManager.isDownloading || !self.viewModelManager.isProcessing) {
-        [self.viewModelManager loadMoreThreads];
+    else if (!self.homeViewManager.isDownloading || !self.homeViewManager.isProcessing) {
+        [self.homeViewManager loadMoreThreads];
         [tableView reloadData];
 //        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
@@ -146,7 +146,7 @@
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (!(self.viewModelManager.isDownloading || self.viewModelManager.isProcessing) && self.viewModelManager.threads.count > 0) {
+    if (!(self.homeViewManager.isDownloading || self.homeViewManager.isProcessing) && self.homeViewManager.threads.count > 0) {
         if (self.tableViewIsDraggedOverTheBottom) {
             if ([self tableViewIsDraggedOverTheBottomWithPadding:44 * 2]) {
                 self.myTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore;
@@ -160,9 +160,9 @@
 }
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (!(self.viewModelManager.isDownloading || self.viewModelManager.isProcessing) && self.viewModelManager.threads.count > 0) {
+    if (!(self.homeViewManager.isDownloading || self.homeViewManager.isProcessing) && self.homeViewManager.threads.count > 0) {
         if ([self tableViewIsDraggedOverTheBottomWithPadding:44 * 2]) {
-            [self.viewModelManager loadMoreThreads];
+            [self.homeViewManager loadMoreThreads];
             self.myTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
         }
     }
@@ -220,7 +220,7 @@
     @try {
         if (self.myTableView.window) {
             NSIndexPath *lastVisibleIndexPath = [self.myTableView indexPathsForVisibleRows].lastObject;
-            if (lastVisibleIndexPath.row == self.viewModelManager.threads.count)
+            if (lastVisibleIndexPath.row == self.homeViewManager.threads.count)
             {
                 CGPoint contentOffSet = self.myTableView.contentOffset;
                 CGRect lastCellRect = [self.myTableView rectForRowAtIndexPath:lastVisibleIndexPath];
@@ -239,7 +239,7 @@
 }
 
 - (NSIndexPath *)lastRowIndexPath {
-    return [NSIndexPath indexPathForRow:self.viewModelManager.threads.count inSection:0];
+    return [NSIndexPath indexPathForRow:self.homeViewManager.threads.count inSection:0];
 }
 
 #pragma marl - Setters
@@ -247,12 +247,13 @@
     _myTableView = myTableView;
     if (myTableView) {
         myTableView.estimatedRowHeight = 80;
+        myTableView.rowHeight = UITableViewAutomaticDimension;
     }
 }
 
-+(instancetype)initWithViewModelManager:(czzHomeViewManager *)viewModelManager {
++(instancetype)initWithHomeViewManager:(czzHomeViewManager *)homeViewManager {
     czzHomeViewDelegate *sharedDelegate = [czzHomeViewDelegate sharedInstance];
-    sharedDelegate.viewModelManager = viewModelManager;
+    sharedDelegate.homeViewManager = homeViewManager;
     return sharedDelegate;
 }
 

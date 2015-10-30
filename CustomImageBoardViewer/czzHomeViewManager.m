@@ -296,25 +296,25 @@
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder {
-    czzHomeViewManager *viewModelManager = [czzHomeViewManager new];
-    [[NSNotificationCenter defaultCenter] removeObserver:viewModelManager];
+    czzHomeViewManager *homeViewManager = [czzHomeViewManager new];
+    [[NSNotificationCenter defaultCenter] removeObserver:homeViewManager];
     @try {
         //create a temporary threadlist object
-        viewModelManager.shouldHideImageForThisForum = [aDecoder decodeBoolForKey:@"shouldHideImageForThisForum"];
-        viewModelManager.forum = [aDecoder decodeObjectForKey:@"forum"];
-        viewModelManager.pageNumber = [aDecoder decodeIntegerForKey:@"pageNumber"];
-        viewModelManager.totalPages = [aDecoder decodeIntegerForKey:@"totalPages"];
-        viewModelManager.threads = [aDecoder decodeObjectForKey:@"threads"];
-        viewModelManager.lastBatchOfThreads = [aDecoder decodeObjectForKey:@"lastBatchOfThreads"];
+        homeViewManager.shouldHideImageForThisForum = [aDecoder decodeBoolForKey:@"shouldHideImageForThisForum"];
+        homeViewManager.forum = [aDecoder decodeObjectForKey:@"forum"];
+        homeViewManager.pageNumber = [aDecoder decodeIntegerForKey:@"pageNumber"];
+        homeViewManager.totalPages = [aDecoder decodeIntegerForKey:@"totalPages"];
+        homeViewManager.threads = [aDecoder decodeObjectForKey:@"threads"];
+        homeViewManager.lastBatchOfThreads = [aDecoder decodeObjectForKey:@"lastBatchOfThreads"];
         id horizontalHeights = [aDecoder decodeObjectForKey:@"horizontalHeights"];
         if ([horizontalHeights isKindOfClass:[NSMutableDictionary class]])
-            viewModelManager.horizontalHeights = horizontalHeights;
+            homeViewManager.horizontalHeights = horizontalHeights;
         id verticalHeights = [aDecoder decodeObjectForKey:@"verticalHeights"];
         if ([verticalHeights isKindOfClass:[NSMutableDictionary class]])
-            viewModelManager.verticalHeights = verticalHeights;
-        viewModelManager.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
-        viewModelManager.displayedThread = [aDecoder decodeObjectForKey:@"displayedThread"];
-        return viewModelManager;
+            homeViewManager.verticalHeights = verticalHeights;
+        homeViewManager.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
+        homeViewManager.displayedThread = [aDecoder decodeObjectForKey:@"displayedThread"];
+        return homeViewManager;
 
     }
     @catch (NSException *exception) {

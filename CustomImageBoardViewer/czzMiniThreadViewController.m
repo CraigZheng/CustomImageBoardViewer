@@ -67,7 +67,7 @@
     if (self.myThread) {
         czzThreadViewManager *threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:self.myThread andForum:nil];
         czzThreadViewController *threadViewController = [[UIStoryboard storyboardWithName:THREAD_VIEW_CONTROLLER_STORYBOARD_NAME bundle:nil] instantiateViewControllerWithIdentifier:THREAD_VIEW_CONTROLLER_ID];
-        threadViewController.viewModelManager = threadViewManager;
+        threadViewController.threadViewManager = threadViewManager;
         [NavigationManager pushViewController:threadViewController animated:YES];
     }
 }

@@ -15,7 +15,7 @@
 
 @interface czzWatchKitManager () <czzHomeViewManagerDelegate>
 @property (assign, nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
-@property (strong, nonatomic) czzHomeViewManager *homeViewModelManager;
+@property (strong, nonatomic) czzHomeViewManager *homeViewManager;
 @property (strong, nonatomic) czzThreadViewManager *threadViewManager;
 @property (strong, nonatomic) NSString *requestedImageURL;
 
@@ -81,26 +81,26 @@
 -(void)watchKitLoadHomeView:(czzWKForum*)forum loadMore:(BOOL)loadMore {
     [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
     
-    self.homeViewModelManager = [czzHomeViewManager new];
+    self.homeViewManager = [czzHomeViewManager new];
     
     czzForum *selectedForum = [czzForum new];
     selectedForum.name = forum.name;
-    [self.homeViewModelManager setForum:selectedForum];
+    [self.homeViewManager setForum:selectedForum];
     
     __block NSMutableDictionary *replyDictionary = [NSMutableDictionary new];
     __weak typeof (self) weakSelf = self;
-    self.homeViewModelManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
+    self.homeViewManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
         if (success) {
             //TODO: if success? if fail?
         }
-        [replyDictionary addEntriesFromDictionary:@{@(watchKitMiscInfoScreenTitleHome) : weakSelf.homeViewModelManager.forum.name.length ? [NSString stringWithFormat:@"%@-%ld", weakSelf.homeViewModelManager.forum.name, (long)weakSelf.homeViewModelManager.pageNumber] : @"没有板块"}];
+        [replyDictionary addEntriesFromDictionary:@{@(watchKitMiscInfoScreenTitleHome) : weakSelf.homeViewManager.forum.name.length ? [NSString stringWithFormat:@"%@-%ld", weakSelf.homeViewManager.forum.name, (long)weakSelf.homeViewManager.pageNumber] : @"没有板块"}];
         [replyDictionary addEntriesFromDictionary:@{@(watchKitCommandLoadHomeView) : [weakSelf watchKitThreadsWithThreads:threads]}];
         [weakSelf replyWithDictionary:replyDictionary];
     };
-    if (loadMore && self.homeViewModelManager.threads.count) {
-        [self.homeViewModelManager loadMoreThreads];
+    if (loadMore && self.homeViewManager.threads.count) {
+        [self.homeViewManager loadMoreThreads];
     } else {
-        [self.homeViewModelManager refresh];
+        [self.homeViewManager refresh];
     }
 }
 

@@ -10,11 +10,10 @@
 #import "czzThreadTableViewCommandCellTableViewCell.h"
 
 @interface czzThreadTableViewDataSource ()
-@property czzThreadViewManager *viewModelManager;
+@property czzThreadViewManager *threadViewManager;
 @end
 
 @implementation czzThreadTableViewDataSource
-@dynamic viewModelManager;
 
 #pragma mark - Table view data source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -27,15 +26,15 @@
 {
     UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     // If within the range of threads, is a thread view cell, otherwise is a command cell.
-    if (indexPath.row < self.viewModelManager.threads.count) {
-        czzThread *thread = [self.viewModelManager.threads objectAtIndex:indexPath.row];
+    if (indexPath.row < self.threadViewManager.threads.count) {
+        czzThread *thread = [self.threadViewManager.threads objectAtIndex:indexPath.row];
         // Thread view cell
         if (cell && [cell isKindOfClass:[czzMenuEnabledTableViewCell class]]){
             czzMenuEnabledTableViewCell *threadViewCell = (czzMenuEnabledTableViewCell*)cell;
             threadViewCell.delegate = self.tableViewDelegate;
             threadViewCell.shouldHighlight = YES;
-            threadViewCell.selectedUserToHighlight = self.viewModelManager.selectedUserToHighlight;
-            threadViewCell.parentThread = self.viewModelManager.parentThread;
+            threadViewCell.selectedUserToHighlight = self.threadViewManager.selectedUserToHighlight;
+            threadViewCell.parentThread = self.threadViewManager.parentThread;
             threadViewCell.myThread = thread;
             threadViewCell.myIndexPath = indexPath;
             threadViewCell.shouldAllowClickOnImage = YES;
@@ -53,9 +52,9 @@
     return rect;
 }
 
-+(instancetype)initWithViewModelManager:(czzThreadViewManager *)viewModelManager {
++(instancetype)initWithThreadViewManager:(czzThreadViewManager *)threadViewManager {
     czzThreadTableViewDataSource *threadDataSource = [czzThreadTableViewDataSource new];
-    threadDataSource.viewModelManager = viewModelManager;
+    threadDataSource.threadViewManager = threadViewManager;
     return threadDataSource;
 }
 @end
