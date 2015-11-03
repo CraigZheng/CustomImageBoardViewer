@@ -60,6 +60,10 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
     } else {
         placeholderView.hidden = YES;
     }
+    // Google Analytic integration
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 - (IBAction)tapOnViewAction:(id)sender {

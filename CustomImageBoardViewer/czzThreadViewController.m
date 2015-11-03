@@ -125,6 +125,11 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    // Google Analytic integration
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+
     //configure the right view as menu
     UINavigationController *rightController = [self.storyboard instantiateViewControllerWithIdentifier:@"right_menu_view_controller"];
     threadMenuViewController = [rightController.viewControllers objectAtIndex:0];

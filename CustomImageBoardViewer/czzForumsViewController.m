@@ -68,6 +68,11 @@ NSString * const kPickedForum = @"PickedForum";
 
 
 -(void)viewWillAppear:(BOOL)animated{
+    // Google Analytic integration
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+
     [super viewWillAppear:animated];
     if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]){
         self.automaticallyAdjustsScrollViewInsets = NO;
