@@ -80,11 +80,6 @@
 }
 
 -(void)resetViews {
-    UIView *oldButton;
-    while ((oldButton = [self viewWithTag:999999]) != nil) {
-        [oldButton removeFromSuperview];
-    }
-    
     //colours
     if (settingsCentre.nightyMode) {
         UIColor *viewBackgroundColour = [settingsCentre viewBackgroundColour];
@@ -184,28 +179,7 @@
 
     contentTextView.attributedText = contentAttrString;
     contentTextView.font = settingsCentre.contentFont;
-        
-    //clickable content
-    for (NSNumber *refNumber in myThread.replyToList) {
-        NSInteger rep = refNumber.integerValue;
-        if (rep > 0) {
-            NSString *quotedNumberText = [NSString stringWithFormat:@"%ld", (long)rep];
-            NSRange range = [contentTextView.attributedText.string rangeOfString:quotedNumberText];
-            if (range.location != NSNotFound){
-                CGRect result = [self frameOfTextRange:range inTextView:contentTextView];
-                
-                if (!CGSizeEqualToSize(CGSizeZero, result.size)){
-                    czzThreadRefButton *threadRefButton = [[czzThreadRefButton alloc] initWithFrame:CGRectMake(result.origin.x, result.origin.y + contentTextView.frame.origin.y, result.size.width, result.size.height)];
-                    threadRefButton.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.1f];
-                    threadRefButton.tag = 999999;
-                    [threadRefButton addTarget:self action:@selector(userTapInQuotedText:) forControlEvents:UIControlEventTouchUpInside];
-                    threadRefButton.threadRefNumber = rep;
-                    [self.contentView addSubview:threadRefButton];
-                }
-            }
-        }
-    }
-    
+            
     //highlight the selected user
     if (selectedUserToHighlight && [myThread.UID.string isEqualToString:selectedUserToHighlight]) {
         contentTextView.backgroundColor = self.contentView.backgroundColor;
@@ -215,15 +189,6 @@
     self.cellHeaderView.shouldHighLight = self.shouldHighlight;
     self.cellHeaderView.parentUID = self.parentThread.UID.string;
     self.cellFooterView.myThread = self.cellHeaderView.myThread = self.myThread;
-}
-
-- (CGRect)frameOfTextRange:(NSRange)range inTextView:(UITextView *)textView {
-    UITextPosition *beginning = textView.beginningOfDocument;
-    UITextPosition *start = [textView positionFromPosition:beginning offset:range.location];
-    UITextPosition *end = [textView positionFromPosition:start offset:range.length];
-    UITextRange *textRange = [textView textRangeFromPosition:start toPosition:end];
-    CGRect rect = [textView firstRectForRange:textRange];
-    return rect;
 }
 
 #pragma - mark UIActionSheet delegate
@@ -245,11 +210,7 @@
 }
 
 #pragma mark - user actions
--(void)userTapInQuotedText:(czzThreadRefButton*)sender {
-    if ([delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
-        [delegate userTapInQuotedText:[NSString stringWithFormat:@"%ld", (long)sender.threadRefNumber]];
-    }
-}
+
 
 -(void)userTapInImageView:(id)sender {
     DLog(@"%@", NSStringFromSelector(_cmd));

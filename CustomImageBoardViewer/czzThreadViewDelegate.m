@@ -9,6 +9,7 @@
 #import "czzThreadViewDelegate.h"
 
 #import "PartialTransparentView.h"
+#import "czzThreadRefButton.h"
 
 @interface czzThreadViewDelegate ()
 @property (nonatomic, strong) PartialTransparentView *containerView;
@@ -85,7 +86,59 @@
 
 }
 
+- (CGRect)frameOfTextRange:(NSRange)range inTextView:(UITextView *)textView {
+    UITextPosition *beginning = textView.beginningOfDocument;
+    UITextPosition *start = [textView positionFromPosition:beginning offset:range.location];
+    UITextPosition *end = [textView positionFromPosition:start offset:range.length];
+    UITextRange *textRange = [textView textRangeFromPosition:start toPosition:end];
+    CGRect rect = [textView firstRectForRange:textRange];
+    return rect;
+}
+
+#pragma mark - UI actions
+
+-(void)userTapInRefButton:(czzThreadRefButton *)button {
+    [self userTapInQuotedText:[NSString stringWithFormat:@"%ld", (long)button.threadRefNumber]];
+}
+
 #pragma mark - UITableViewDelegate
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    czzMenuEnabledTableViewCell *threadViewCell;
+    if ([cell isKindOfClass:[czzMenuEnabledTableViewCell class]]) {
+        threadViewCell = (czzMenuEnabledTableViewCell*)cell;
+    } else {
+        return;
+    }
+    // Clear the content view for previous czzThreadRefButton.
+    for (UIView *subView in threadViewCell.contentView.subviews) {
+        if ([subView isKindOfClass:[czzThreadRefButton class]]) {
+            [subView removeFromSuperview];
+        }
+    }
+    
+    // Clickable content, find the quoted text and add a button to corresponding location.
+    for (NSNumber *refNumber in threadViewCell.myThread.replyToList) {
+        NSInteger rep = refNumber.integerValue;
+        if (rep > 0) {
+            NSString *quotedNumberText = [NSString stringWithFormat:@"%ld", (long)rep];
+            NSRange range = [threadViewCell.contentTextView.attributedText.string rangeOfString:quotedNumberText];
+            if (range.location != NSNotFound){
+                CGRect result = [self frameOfTextRange:range inTextView:threadViewCell.contentTextView];
+                
+                if (!CGSizeEqualToSize(CGSizeZero, result.size)){
+                    czzThreadRefButton *threadRefButton = [[czzThreadRefButton alloc] initWithFrame:CGRectMake(result.origin.x, result.origin.y + threadViewCell.contentTextView.frame.origin.y, result.size.width, result.size.height)];
+                    threadRefButton.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.1f];
+                    threadRefButton.tag = 999999;
+                    [threadRefButton addTarget:self action:@selector(userTapInRefButton:) forControlEvents:UIControlEventTouchUpInside];
+                    threadRefButton.threadRefNumber = rep;
+                    [threadViewCell.contentView addSubview:threadRefButton];
+                }
+            }
+        }
+    }
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row < self.threadViewManager.threads.count) {
         
