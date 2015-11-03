@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "IIViewDeckController.h"
-#import "GADBannerView.h"
-#import "czzForum.h"
 
+@import GoogleMobileAds;
+
+#import "IIViewDeckController.h"
 #import "czzForum.h"
 
 @interface czzMoreInfoViewController : UIViewController

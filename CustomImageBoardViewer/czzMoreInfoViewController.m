@@ -33,8 +33,8 @@
 	// Do any additional setup after loading the view.
     baseURL = [settingCentre get_forum_info_url];
     //admob module
-    bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
-    bannerView_.adUnitID = @"a152ad4b0262649";
+    bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerLandscape];
+    bannerView_.adUnitID = @"ca-app-pub-2081665256237089/4247713655";
     bannerView_.rootViewController = self;
     
     //colours
@@ -54,8 +54,8 @@
 
 -(void)renderContent {
     //position of the ad
-    [bannerView_ setFrame:CGRectMake(0, self.view.bounds.size.height - bannerView_.bounds.size.height, bannerView_.bounds.size.width,
-                                     bannerView_.bounds.size.height)];
+    [bannerView_ setFrame:CGRectMake(0, self.view.bounds.size.height - bannerView_.bounds.size.height, CGRectGetWidth(bannerView_.frame),
+                                     CGRectGetHeight(bannerView_.frame))];
     [bannerView_ loadRequest:[GADRequest request]];
     [self.view addSubview:bannerView_];
     
