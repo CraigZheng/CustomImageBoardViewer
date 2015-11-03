@@ -55,8 +55,6 @@
                 self.pageNumber = tempThreadList.pageNumber;
                 self.totalPages = tempThreadList.totalPages;
                 self.threads = tempThreadList.threads;
-                self.verticalHeights = tempThreadList.self.verticalHeights;
-                self.horizontalHeights = tempThreadList.self.horizontalHeights;
                 self.currentOffSet = tempThreadList.currentOffSet;
                 self.lastBatchOfThreads = tempThreadList.lastBatchOfThreads;
                 self.shouldHideImageForThisForum = tempThreadList.shouldHideImageForThisForum;
@@ -113,11 +111,8 @@
     self.pageNumber = 1;
     // Keep old threads in the cache
     self.cachedThreads = self.threads;
-    self.cachedHorizontalHeights = self.horizontalHeights;
-    self.cachedVerticalHeights = self.verticalHeights;
     
     // Clear all.
-    self.horizontalHeights = self.verticalHeights = nil;
     self.lastBatchOfThreads = self.threads = nil;
 }
 
@@ -176,7 +171,6 @@
 -(void)threadListProcessed:(czzJSONProcessor *)processor :(NSArray *)newThreads :(BOOL)success {
     self.isProcessing = NO;
     if (success){
-        self.cachedVerticalHeights = self.cachedHorizontalHeights = nil;
         self.cachedThreads = nil;
         if (self.shouldHideImageForThisForum)
         {
@@ -254,26 +248,6 @@
     return _threads;
 }
 
-- (NSMutableDictionary *)horizontalHeights {
-    if (!_horizontalHeights) {
-        _horizontalHeights = [NSMutableDictionary new];
-    }
-    if (!_horizontalHeights.count && self.cachedHorizontalHeights.count) {
-        return self.cachedHorizontalHeights;
-    }
-    return _horizontalHeights;
-}
-
-- (NSMutableDictionary *)verticalHeights {
-    if (!_verticalHeights) {
-        _verticalHeights = [NSMutableDictionary new];
-    }
-    if (!_verticalHeights.count && self.cachedVerticalHeights.count) {
-        return self.cachedVerticalHeights;
-    }
-    return _verticalHeights;
-}
-
 - (NSString *)baseURLString{
     return [[settingCentre thread_list_host] stringByReplacingOccurrencesOfString:kForum withString:[NSString stringWithFormat:@"%@", self.forum.name]];
 }
@@ -289,8 +263,6 @@
     //parent view controller can not be encoded
     //delegate can not be encoded
     //isDownloading and isProcessing should not be encoded
-    [aCoder encodeObject:self.horizontalHeights forKey:@"horizontalHeights"];
-    [aCoder encodeObject:self.verticalHeights forKey:@"verticalHeights"];
     [aCoder encodeObject:[NSValue valueWithCGPoint:self.currentOffSet] forKey:@"currentOffSet"];
     [aCoder encodeObject:self.displayedThread forKey:@"displayedThread"];
 }
@@ -306,12 +278,6 @@
         homeViewManager.totalPages = [aDecoder decodeIntegerForKey:@"totalPages"];
         homeViewManager.threads = [aDecoder decodeObjectForKey:@"threads"];
         homeViewManager.lastBatchOfThreads = [aDecoder decodeObjectForKey:@"lastBatchOfThreads"];
-        id horizontalHeights = [aDecoder decodeObjectForKey:@"horizontalHeights"];
-        if ([horizontalHeights isKindOfClass:[NSMutableDictionary class]])
-            homeViewManager.horizontalHeights = horizontalHeights;
-        id verticalHeights = [aDecoder decodeObjectForKey:@"verticalHeights"];
-        if ([verticalHeights isKindOfClass:[NSMutableDictionary class]])
-            homeViewManager.verticalHeights = verticalHeights;
         homeViewManager.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
         homeViewManager.displayedThread = [aDecoder decodeObjectForKey:@"displayedThread"];
         return homeViewManager;

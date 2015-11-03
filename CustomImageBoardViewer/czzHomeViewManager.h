@@ -48,14 +48,10 @@
 @property (nonatomic, weak) id<czzHomeViewManagerDelegate> delegate;
 @property (nonatomic, assign) BOOL isDownloading;
 @property (nonatomic, assign) BOOL isProcessing;
-@property (nonatomic, strong) NSMutableDictionary *horizontalHeights;
-@property (nonatomic, strong) NSMutableDictionary *verticalHeights;
 @property (nonatomic, readonly) NSString *baseURLString;
 @property (nonatomic, assign) CGPoint currentOffSet;
 @property (nonatomic, strong) czzThread *displayedThread;
 @property (nonatomic, strong) NSMutableArray *cachedThreads;
-@property (nonatomic, strong) NSMutableDictionary *cachedHorizontalHeights;
-@property (nonatomic, strong) NSMutableDictionary *cachedVerticalHeights;
 
 // Watch kit completion handler - for temporarily setting the delegate to the watch kit manager
 @property (copy)void(^watchKitCompletionHandler)(BOOL success, NSArray* threads);

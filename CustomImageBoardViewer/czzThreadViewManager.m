@@ -72,8 +72,6 @@
                 self.pageNumber = tempThreadList.pageNumber;
                 self.totalPages = tempThreadList.totalPages;
                 self.threads = tempThreadList.threads;
-                self.verticalHeights = tempThreadList.self.verticalHeights;
-                self.horizontalHeights = tempThreadList.self.horizontalHeights;
                 self.currentOffSet = tempThreadList.currentOffSet;
                 self.lastBatchOfThreads = tempThreadList.lastBatchOfThreads;
                 self.shouldHideImageForThisForum = tempThreadList.shouldHideImageForThisForum;
@@ -219,8 +217,6 @@ float RoundTo(float number, float to)
 #pragma mark - content managements.
 - (void)reset {
     self.totalPages = self.pageNumber = 1;
-    self.horizontalHeights = self.verticalHeights = nil;
-    self.cachedHorizontalHeights = self.cachedVerticalHeights = nil;
     self.threads = self.cachedThreads = nil;
 }
 
@@ -228,7 +224,6 @@ float RoundTo(float number, float to)
     self.pageNumber = 1;
     // Clear all.
     self.lastBatchOfThreads = self.threads = nil;
-    self.horizontalHeights = self.verticalHeights = nil;
 }
 
 - (void)refresh {
@@ -256,8 +251,6 @@ float RoundTo(float number, float to)
     [aCoder encodeInteger:self.totalPages forKey:@"totalPages"];
     [aCoder encodeObject:self.threads forKey:@"threads"];
     [aCoder encodeObject:self.lastBatchOfThreads forKey:@"lastBatchOfThreads"];
-    [aCoder encodeObject:self.horizontalHeights forKey:@"horizontalHeights"];
-    [aCoder encodeObject:self.verticalHeights forKey:@"verticalHeights"];
     [aCoder encodeObject:[NSValue valueWithCGPoint:self.currentOffSet] forKey:@"currentOffSet"];
     [aCoder encodeObject:self.forum forKey:@"forum"];
 }
@@ -272,12 +265,6 @@ float RoundTo(float number, float to)
         threadViewManager.totalPages = [aDecoder decodeIntegerForKey:@"totalPages"];
         threadViewManager.threads = [aDecoder decodeObjectForKey:@"threads"];
         threadViewManager.lastBatchOfThreads = [aDecoder decodeObjectForKey:@"lastBatchOfThreads"];
-        id horizontalHeights = [aDecoder decodeObjectForKey:@"horizontalHeights"];
-        if ([horizontalHeights isKindOfClass:[NSMutableDictionary class]])
-            threadViewManager.horizontalHeights = horizontalHeights;
-        id verticalHeights = [aDecoder decodeObjectForKey:@"verticalHeights"];
-        if ([verticalHeights isKindOfClass:[NSMutableDictionary class]])
-            threadViewManager.verticalHeights = verticalHeights;
         threadViewManager.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
         threadViewManager.forum = [aDecoder decodeObjectForKey:@"forum"];
         return threadViewManager;

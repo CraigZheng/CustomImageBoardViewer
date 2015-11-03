@@ -84,20 +84,12 @@
     if (indexPath.row < self.homeViewManager.threads.count) {
         czzThread *thread = [self.homeViewManager.threads objectAtIndex:indexPath.row];
         // If the height is already available.
-        NSString *threadID = [NSString stringWithFormat:@"%ld", (long)thread.ID];
-        NSMutableDictionary *heightDictionary = UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].keyWindow.rootViewController.interfaceOrientation) ? self.homeViewManager.verticalHeights : self.homeViewManager.horizontalHeights;
-
-        id cachedHeight = [heightDictionary objectForKey:threadID];
-        if ([cachedHeight isKindOfClass:[NSNumber class]]) {
-            estimatedRowHeight = [cachedHeight floatValue];
-        } else {
-            NSInteger estimatedLines = thread.content.length / 50 + 1;
-            estimatedRowHeight *= estimatedLines;
-            
-            // Has image = bigger.
-            if (thread.thImgSrc.length) {
-                estimatedRowHeight += settingCentre.userDefShouldUseBigImage ? 160 : 80;
-            }
+        NSInteger estimatedLines = thread.content.length / 50 + 1;
+        estimatedRowHeight *= estimatedLines;
+        
+        // Has image = bigger.
+        if (thread.thImgSrc.length) {
+            estimatedRowHeight += settingCentre.userDefShouldUseBigImage ? 160 : 80;
         }
     }
     return estimatedRowHeight;
