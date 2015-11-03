@@ -41,6 +41,13 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
     cookieManagerTableView.backgroundColor = [settingCentre viewBackgroundColour];
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    // Google Analytic integration
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
 
 #pragma mark - UITableViewDataSource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
