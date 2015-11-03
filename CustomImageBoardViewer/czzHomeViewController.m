@@ -386,6 +386,13 @@
 -(void)setSelectedForum:(czzForum *)selectedForum {
     _selectedForum = selectedForum;
     self.viewModelManager.forum = selectedForum;
+    
+    if (selectedForum) {
+        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Home"
+                                                                                            action:@"Pick Forum"
+                                                                                             label:selectedForum.name
+                                                                                             value:@1] build]];
+    }
 }
 
 #pragma mark - rotation events

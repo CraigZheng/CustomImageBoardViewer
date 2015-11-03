@@ -165,6 +165,19 @@
             [blacklistSender sendBlacklistUpdate];
         }
     }
+    
+    // Google Analytic integration.
+    NSString *label = self.postSender.content;
+    // Chunk the text.
+    if (label.length > 100) {
+        label = [label substringToIndex:99];
+    }
+    NSInteger ID = postSender.parentThread ? postSender.parentThread.ID : 0;
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Thread"
+                                                                                        action:@"Post Thread"
+                                                                                         label:label
+                                                                                         value:@(ID)] build]];
+
 }
 
 - (void)pickImageAction:(id)sender {

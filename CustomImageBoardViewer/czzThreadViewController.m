@@ -121,6 +121,17 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     } else {
         DLog(@"App in background, nothing needs to be done.");
     }
+    
+    // Google Analytic integration.
+    NSString *label = self.viewModelManager.parentThread.content.string;
+    // Chunk the text.
+    if (label.length > 20) {
+        label = [label substringToIndex:19];
+    }
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Thread"
+                                                                                        action:@"View Thread"
+                                                                                         label:label
+                                                                                         value:@(self.viewModelManager.parentThread.ID)] build]];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
