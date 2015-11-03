@@ -52,9 +52,14 @@
     return rect;
 }
 
-+(instancetype)initWithThreadViewManager:(czzThreadViewManager *)threadViewManager {
-    czzThreadTableViewDataSource *threadDataSource = [czzThreadTableViewDataSource new];
-    threadDataSource.threadViewManager = threadViewManager;
-    return threadDataSource;
+#pragma mark - Accessors
+
+-(czzThreadViewManager *)threadViewManager {
+    return (id)[super homeViewManager];
 }
+
+-(void)setThreadViewManager:(czzThreadViewManager *)threadViewManager {
+    [super setHomeViewManager:threadViewManager];
+}
+
 @end

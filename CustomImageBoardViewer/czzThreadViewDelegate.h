@@ -11,6 +11,4 @@
 
 @interface czzThreadViewDelegate : czzHomeViewDelegate
 @property (weak, nonatomic) czzThreadViewManager *threadViewManager;
-
-+(instancetype)initWithThreadViewManager:(czzThreadViewManager *)threadViewManager;
 @end

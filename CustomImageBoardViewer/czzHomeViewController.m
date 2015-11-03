@@ -294,14 +294,14 @@
 
 -(czzHomeTableViewDataSource *)tableViewDataSource {
     if (!_tableViewDataSource) {
-        _tableViewDataSource = [czzHomeTableViewDataSource initWithHomeViewManager:self.homeViewManager];
+        _tableViewDataSource = [czzHomeTableViewDataSource initWithViewManager:self.homeViewManager andTableView:self.threadTableView];
     }
     return _tableViewDataSource;
 }
 
 -(czzHomeViewDelegate *)homeViewDelegate {
     if (!_homeViewDelegate) {
-        _homeViewDelegate = [czzHomeViewDelegate initWithHomeViewManager:self.homeViewManager];
+        _homeViewDelegate = [czzHomeViewDelegate initWithViewManager:self.homeViewManager andTableView:self.threadTableView];
     }
     return _homeViewDelegate;
 }

@@ -251,9 +251,10 @@
     }
 }
 
-+(instancetype)initWithHomeViewManager:(czzHomeViewManager *)homeViewManager {
++(instancetype)initWithViewManager:(czzHomeViewManager *)viewManager andTableView:(czzThreadTableView *)tableView {
     czzHomeViewDelegate *sharedDelegate = [czzHomeViewDelegate sharedInstance];
-    sharedDelegate.homeViewManager = homeViewManager;
+    sharedDelegate.homeViewManager = viewManager;
+    sharedDelegate.myTableView = tableView;
     return sharedDelegate;
 }
 

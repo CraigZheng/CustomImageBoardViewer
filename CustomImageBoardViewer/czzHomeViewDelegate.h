@@ -20,5 +20,5 @@
 @property (weak, nonatomic) czzThreadTableView *myTableView;
 
 + (instancetype)sharedInstance;
-+ (instancetype)initWithHomeViewManager:(czzHomeViewManager*)homeViewManager;
++ (instancetype)initWithViewManager:(czzHomeViewManager *)viewManager andTableView:(czzThreadTableView *)tableView;
 @end

@@ -33,10 +33,6 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (!self.myTableView) {
-        self.myTableView = (czzThreadTableView*)tableView;
-    }
-    
     if (indexPath.row == homeViewManager.threads.count){
         //Last row
         NSString *lastCellIdentifier = THREAD_TABLEVIEW_COMMAND_CELL_IDENTIFIER;
@@ -68,15 +64,12 @@
     return cell;
 }
 
-#pragma mark - setters
--(void)setMyTableView:(czzThreadTableView *)incomingTableView {
-    _myTableView = incomingTableView;
 
-}
 
-+(instancetype)initWithHomeViewManager:(czzHomeViewManager *)homeViewManager {
++(instancetype)initWithViewManager:(czzHomeViewManager *)viewManager andTableView:(czzThreadTableView *)tableView {
     czzHomeTableViewDataSource *dataSource = [czzHomeTableViewDataSource new];
-    dataSource.homeViewManager = homeViewManager;
+    dataSource.homeViewManager = viewManager;
+    dataSource.myTableView = tableView;
     return dataSource;
 }
 @end

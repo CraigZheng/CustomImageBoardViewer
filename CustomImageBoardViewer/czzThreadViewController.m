@@ -81,8 +81,8 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     self.threadViewManager.delegate = self;
     [self.threadViewManager restorePreviousState];
     
-    self.threadTableView.dataSource = tableViewDataSource = [czzThreadTableViewDataSource initWithThreadViewManager:self.threadViewManager];
-    self.threadTableView.delegate = threadViewDelegate = [czzThreadViewDelegate initWithThreadViewManager:self.threadViewManager];
+    self.threadTableView.dataSource = tableViewDataSource = [czzThreadTableViewDataSource initWithViewManager:self.threadViewManager andTableView:self.threadTableView];
+    self.threadTableView.delegate = threadViewDelegate = [czzThreadViewDelegate initWithViewManager:self.threadViewManager andTableView:self.threadTableView];
     tableViewDataSource.tableViewDelegate = threadViewDelegate;
     
     //progress view

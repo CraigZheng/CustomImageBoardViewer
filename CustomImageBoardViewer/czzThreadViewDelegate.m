@@ -143,9 +143,20 @@
     });
 }
 
-+(instancetype)initWithThreadViewManager:(czzThreadViewManager *)threadViewManager {
-    czzThreadViewDelegate *threadViewDelegate = [czzThreadViewDelegate new];
-    threadViewDelegate.threadViewManager = threadViewManager;
+#pragma mark - Accessors
+
+-(czzThreadViewManager *)threadViewManager {
+    return (id)[super homeViewManager];
+}
+
+- (void)setThreadViewManager:(czzThreadViewManager *)threadViewManager {
+    [super setHomeViewManager:threadViewManager];
+}
+
++(instancetype)initWithViewManager:(czzHomeViewManager *)viewManager andTableView:(czzThreadTableView *)tableView {
+    czzThreadViewDelegate *threadViewDelegate = [[czzThreadViewDelegate alloc] init];
+    threadViewDelegate.homeViewManager = viewManager;
+    threadViewDelegate.myTableView = tableView;
     return threadViewDelegate;
 }
 
