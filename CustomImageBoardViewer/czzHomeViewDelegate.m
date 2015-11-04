@@ -95,41 +95,6 @@
     return estimatedRowHeight;
 }
 
-//-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    if (!self.myTableView) {
-//        self.myTableView = (czzThreadTableView*)tableView;
-//    }
-//    if (indexPath.row >= self.homeViewManager.threads.count)
-//        return tableView.rowHeight;
-//    
-//    CGFloat preferHeight = tableView.rowHeight;
-//    czzThread *thread = [self.homeViewManager.threads objectAtIndex:indexPath.row];
-//    NSString *threadID = [NSString stringWithFormat:@"%ld", (long)thread.ID];
-//    
-//    NSMutableDictionary *heightDictionary = UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].keyWindow.rootViewController.interfaceOrientation) ? self.homeViewManager.verticalHeights : self.homeViewManager.horizontalHeights;
-//    
-//    NSNumber *heightNumber = [heightDictionary objectForKey:threadID];
-//    if ([heightNumber isKindOfClass:[NSNumber class]]) {
-//        preferHeight = [heightNumber floatValue];
-//    } else {
-//        preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:self.myTableView hasImage:thread.thImgSrc.length];
-//        heightNumber = @(preferHeight);
-//        [heightDictionary setObject:heightNumber forKey:threadID];
-//    }
-//
-////    NSArray *heightArray = UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].keyWindow.rootViewController.interfaceOrientation) ? self.homeViewManager.verticalHeights : self.homeViewManager.horizontalHeights;
-////    CGFloat preferHeight = tableView.rowHeight;
-////    @try {
-////        if (indexPath.row < heightArray.count)
-////            preferHeight = [[heightArray objectAtIndex:indexPath.row] floatValue];
-////    }
-////    @catch (NSException *exception) {
-////        DLog(@"%@", exception);
-////    }
-////    
-//    return preferHeight;
-//}
-
 #pragma mark - UIScrollViewDelegate
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     if ([settingCentre userDefShouldShowOnScreenCommand]) {

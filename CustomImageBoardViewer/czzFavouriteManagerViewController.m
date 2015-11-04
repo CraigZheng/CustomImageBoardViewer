@@ -155,34 +155,6 @@ NSInteger const historyIndex = 2;
     return YES;
 }
 
-//-(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return UITableViewAutomaticDimension;
-//}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if (indexPath.row >= threads.count)
-        return tableView.rowHeight;
-    
-    CGFloat preferHeight = tableView.rowHeight;
-    czzThread *thread = [threads objectAtIndex:indexPath.row];
-    NSString *threadIDString = [NSString stringWithFormat:@"%ld", (long)thread.ID];
-
-    NSMutableDictionary *heightsDictionary = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? self.verticalHeights : self.horizontalHeights;
-    NSNumber *heightsNumber = [heightsDictionary objectForKey:threadIDString];
-    
-    if (!heightsNumber) {
-        preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:self.view hasImage:thread.thImgSrc.length > 0];
-        preferHeight = MAX(tableView.rowHeight, preferHeight);
-        [heightsDictionary setObject:@(preferHeight) forKey:threadIDString];
-    } else {
-        preferHeight = heightsNumber.floatValue;
-    }
-    
-    return preferHeight;
-}
-
 #pragma mark - UI actions
 
 - (IBAction)editAction:(id)sender {
