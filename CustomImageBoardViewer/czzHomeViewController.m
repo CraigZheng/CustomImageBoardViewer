@@ -167,11 +167,7 @@
     }
     
     [(czzRoundButton *)self.numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.homeViewManager.threads.count] forState:UIControlStateNormal];
-    
-    // Jump button
-    self.jumpBarButtonItem.image = nil;
-    self.jumpBarButtonItem.title = [NSString stringWithFormat:@"%ld", (long)self.homeViewManager.pageNumber];
-    
+        
     // Other data
     self.title = self.homeViewManager.forum.name;
     self.navigationItem.backBarButtonItem.title = self.title;

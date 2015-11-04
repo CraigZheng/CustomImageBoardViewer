@@ -170,11 +170,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     
     [(czzRoundButton *)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.threadViewManager.threads.count] forState:UIControlStateNormal];
     
-    // Jump button
-    NSString *pageNumber = [NSString stringWithFormat:@"%ld", (long)self.threadViewManager.pageNumber];
-    NSString *totalPages = self.threadViewManager.totalPages < 99 ? [NSString stringWithFormat:@"%ld", (long)self.threadViewManager.totalPages] : @"∞";
-    self.jumpBarButtonItem.image = nil;
-    self.jumpBarButtonItem.title = [NSString stringWithFormat:@"%@/%@", pageNumber, totalPages];
     // Star button image - on or off.
     if ([favouriteManager isThreadFavourited:self.threadViewManager.parentThread]) {
         self.starButton.image = [UIImage imageNamed:@"solid_star.png"];
@@ -198,12 +193,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
         numberBarButton.customView.hidden = YES;
     else
         numberBarButton.customView.hidden = NO;
-    
-    // Jump button
-    NSString *pageNumber = [NSString stringWithFormat:@"%ld", (long)self.threadViewManager.pageNumber];
-    NSString *totalPages = self.threadViewManager.totalPages < 99 ? [NSString stringWithFormat:@"%ld", (long)self.threadViewManager.totalPages] : @"∞";
-    self.jumpBarButtonItem.image = nil;
-    self.jumpBarButtonItem.title = [NSString stringWithFormat:@"%@/%@", pageNumber, totalPages];
 }
 
 -(void)dragOnRefreshControlAction:(id)sender{
