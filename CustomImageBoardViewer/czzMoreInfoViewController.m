@@ -24,8 +24,6 @@
 @synthesize baseURL;
 @synthesize bannerView_;
 @synthesize moreInfoNavItem;
-@synthesize moreInfoNaviBar;
-@synthesize barBackgroundView;
 
 - (void)viewDidLoad
 {
@@ -38,12 +36,11 @@
     bannerView_.rootViewController = self;
     
     //colours
-    moreInfoNaviBar.barTintColor = [settingCentre barTintColour];
-    moreInfoNaviBar.tintColor = [settingCentre tintColour];
-    [moreInfoNaviBar
-     setTitleTextAttributes:@{NSForegroundColorAttributeName : moreInfoNaviBar.tintColor}];
+    self.navigationController.navigationBar.barTintColor = [settingCentre barTintColour];
+    self.navigationController.navigationBar.tintColor = [settingCentre tintColour];
+     [self.navigationController.navigationBar
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : self.navigationController.navigationBar.tintColor}];
 
-    barBackgroundView.backgroundColor = [settingCentre barTintColour];
     self.view.backgroundColor = [settingCentre viewBackgroundColour];
 }
 
