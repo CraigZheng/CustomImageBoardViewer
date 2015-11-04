@@ -39,6 +39,15 @@
     }
 }
 
+-(void)showPhotoWithImage:(UIImage *)image {
+    if (image) {
+        [self prepareMWPhotoBrowser];
+        photoBrowserDataSource = [@[image] mutableCopy];
+        [photoBrowser setCurrentPhotoIndex:0];
+        [self show];
+    }
+}
+
 -(void)showPhotos:(NSArray *)photos withIndex:(NSInteger)index {
     if (photos.count > 0) {
         [self prepareMWPhotoBrowser];
@@ -52,9 +61,8 @@
 }
 
 -(void)show {
-    if (NavigationManager.delegate)
-    {
-        
+    // If top view controller is the main czz navigation controller.
+    if (NavigationManager.delegate == [UIApplication topViewController]) {
         if (NavigationManager.isInTransition) {
             NavigationManager.pushAnimationCompletionHandler = ^{
                 if (![[UIApplication topViewController] isKindOfClass:[photoBrowser class]]) {
@@ -65,6 +73,12 @@
             if (![[UIApplication topViewController] isKindOfClass:[photoBrowser class]]) {
                 [NavigationManager pushViewController:photoBrowser animated:YES];
             }
+        }
+    } else if ([UIApplication topViewController].navigationController || [[UIApplication topViewController] isKindOfClass:[UINavigationController class]]) {
+        // if the top view controller has a navigation controller.
+        UINavigationController *naviCon = [UIApplication topViewController].navigationController ? [UIApplication topViewController].navigationController : (UINavigationController *)[UIApplication topViewController];
+        if (naviCon) {
+            [naviCon pushViewController:photoBrowser animated:YES];
         }
     } else {
         photoBrowserNavigationController = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
@@ -93,7 +107,12 @@
 -(id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
     @try {
         id source = [photoBrowserDataSource objectAtIndex:index];
-        MWPhoto *photo= [MWPhoto photoWithURL:([source isKindOfClass:[NSURL class]] ? source : [NSURL fileURLWithPath:source])];
+        MWPhoto *photo;
+        if ([source isKindOfClass:[UIImage class]]) {
+            photo = [MWPhoto photoWithImage:source];
+        } else {
+            photo = [MWPhoto photoWithURL:([source isKindOfClass:[NSURL class]] ? source : [NSURL fileURLWithPath:source])];
+        }
         return photo;
     }
     @catch (NSException *exception) {

@@ -656,8 +656,14 @@
                                 <action selector="dismissAction:" destination="pea-yg-qeq" id="JIp-BQ-DgW"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="GPP-nr-nzg">
+                            <connections>
+                                <action selector="actionButtonAction:" destination="pea-yg-qeq" id="vhh-Lx-JGu"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="actionButton" destination="GPP-nr-nzg" id="wii-Uu-ZG5"/>
                         <outlet property="headerTextWebView" destination="tPW-SV-WlO" id="nwu-gv-TDr"/>
                         <outlet property="moreInfoNavItem" destination="Nzv-Uz-NLI" id="g88-QE-Wpf"/>
                     </connections>
