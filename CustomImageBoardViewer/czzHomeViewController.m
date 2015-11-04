@@ -93,6 +93,9 @@
                      action:@selector(moreInfoAction:)
            forControlEvents:UIControlEventTouchUpInside];
     self.infoBarButton.customView = customButton;
+    
+    // Always reload
+    [self updateTableView];
 }
 
 
@@ -106,9 +109,6 @@
     [self.onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
     
     self.threadTableView.backgroundColor = settingCentre.viewBackgroundColour;
-    
-    // Always reload
-    [self updateTableView];
 }
 
 -(void)viewDidAppear:(BOOL)animated{

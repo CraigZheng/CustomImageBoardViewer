@@ -184,8 +184,8 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 #pragma mark - setter
--(void)setthreadViewManager:(czzThreadViewManager *)modelManager {
-    _threadViewManager = modelManager;
+-(void)setThreadViewManager:(czzThreadViewManager *)viewManager {
+    _threadViewManager = viewManager;
     self.title = self.threadViewManager.parentThread.title;
 
     // Update bar buttons.

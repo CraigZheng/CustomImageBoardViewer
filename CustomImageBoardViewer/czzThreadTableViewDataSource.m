@@ -62,4 +62,11 @@
     [super setHomeViewManager:threadViewManager];
 }
 
++ (instancetype)initWithViewManager:(czzHomeViewManager *)viewManager andTableView:(czzThreadTableView *)tableView {
+    czzThreadTableViewDataSource *dataSource = [[czzThreadTableViewDataSource alloc] init];
+    dataSource.threadViewManager = (id)viewManager;
+    dataSource.myTableView = tableView;
+    return dataSource;
+}
+
 @end
