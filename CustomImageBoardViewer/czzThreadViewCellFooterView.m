@@ -35,4 +35,8 @@
     }
 }
 
+-(BOOL)isHidden {
+    return self.sageLabel.hidden == self.lockedLabel.hidden == self.responseCountLabel.hidden == YES;
+}
+
 @end
