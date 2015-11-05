@@ -592,6 +592,8 @@
 		445C66491BBED722004B3E83 /* czzThreadViewCellFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 445C66481BBED722004B3E83 /* czzThreadViewCellFooterView.m */; };
 		445C664A1BBED722004B3E83 /* czzThreadViewCellFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 445C66481BBED722004B3E83 /* czzThreadViewCellFooterView.m */; };
 		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
+		446656C71BEAF89C0045276B /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4420661E1BE83F390023D91F /* GoogleMobileAds.framework */; };
+		446656C81BEAF89C0045276B /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4420661E1BE83F390023D91F /* GoogleMobileAds.framework */; };
 		4468A7111BBBC0480076DCD6 /* czzWeakReferenceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */; };
 		4468A7121BBBC0480076DCD6 /* czzWeakReferenceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */; };
 		4476646A1BB577FB007F40FB /* CustomImageBoardViewer WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4476B6341B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -1578,9 +1580,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4420661F1BE83F390023D91F /* GoogleMobileAds.framework in Frameworks */,
 				4498CEC41B9E756D004D2380 /* CoreTelephony.framework in Frameworks */,
 				4498CEC21B9E754A004D2380 /* Security.framework in Frameworks */,
+				446656C71BEAF89C0045276B /* GoogleMobileAds.framework in Frameworks */,
 				442A901819DB9BAF00A3516E /* libxml2.dylib in Frameworks */,
 				44BB0BC31A1AE700006C50F5 /* SplunkMint-iOS.framework in Frameworks */,
 				4498CEC01B9E752A004D2380 /* libTalkingData.a in Frameworks */,
@@ -1615,7 +1617,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				442066201BE83F390023D91F /* GoogleMobileAds.framework in Frameworks */,
+				446656C81BEAF89C0045276B /* GoogleMobileAds.framework in Frameworks */,
 				445540721BABEBA700667435 /* CoreTelephony.framework in Frameworks */,
 				445540731BABEBA700667435 /* Security.framework in Frameworks */,
 				445540741BABEBA700667435 /* libxml2.dylib in Frameworks */,
@@ -3371,7 +3373,6 @@
 				44C73B741A4708BA0051D4C2 /* thumb_down.png in Resources */,
 				44C34557187E6CF000FDE45D /* sougo_emoji_UTF16.txt in Resources */,
 				444F5B371A40EA3500EB391F /* 36.png in Resources */,
-				442066231BE846820023D91F /* GoogleService-Info.plist in Resources */,
 				44B89E6C1A2AF2200085F766 /* running_ac-1.gif in Resources */,
 				44E792081A17856500A63C04 /* upload@2x.png in Resources */,
 				44B89E791A2AF4340085F766 /* running_ac.gif in Resources */,
@@ -3557,7 +3558,6 @@
 				4425A286199700F000671B88 /* test_image.png in Resources */,
 				44C73BD81A496C4F0051D4C2 /* iphone5 launch screen.png in Resources */,
 				44C73B831A471F060051D4C2 /* subThreadList.json in Resources */,
-				442066241BE846820023D91F /* GoogleService-Info.plist in Resources */,
 				44C73BDF1A496D6E0051D4C2 /* ipad 768 horizontal launch screen.png in Resources */,
 				44C73B851A471F060051D4C2 /* threadList.json in Resources */,
 			);
@@ -3610,7 +3610,6 @@
 				445540AD1BABEBA700667435 /* thumb_down.png in Resources */,
 				445540AE1BABEBA700667435 /* sougo_emoji_UTF16.txt in Resources */,
 				445540AF1BABEBA700667435 /* 36.png in Resources */,
-				442066271BE846820023D91F /* GoogleService-Info.plist in Resources */,
 				445540B01BABEBA700667435 /* running_ac-1.gif in Resources */,
 				445540B11BABEBA700667435 /* upload@2x.png in Resources */,
 				445540B21BABEBA700667435 /* running_ac.gif in Resources */,
@@ -3793,7 +3792,6 @@
 				44E469ED1BADB10600C0AACC /* picture.png in Resources */,
 				4476B63F1B9FDD43004E6650 /* Images.xcassets in Resources */,
 				44E469EB1BADB0D100C0AACC /* 02.png in Resources */,
-				442066251BE846820023D91F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3806,7 +3804,6 @@
 				44E469EC1BADB10500C0AACC /* picture.png in Resources */,
 				441A6A871BB28D96008E380C /* visible@2x.png in Resources */,
 				4476B64D1B9FDD43004E6650 /* Images.xcassets in Resources */,
-				442066261BE846820023D91F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

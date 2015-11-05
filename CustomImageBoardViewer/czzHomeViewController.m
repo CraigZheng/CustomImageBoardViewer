@@ -383,8 +383,6 @@
 -(void)setSelectedForum:(czzForum *)selectedForum {
     _selectedForum = selectedForum;
     self.homeViewManager.forum = selectedForum;
-    self.viewModelManager.forum = selectedForum;
-    
     if (selectedForum) {
         [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Home"
                                                                                             action:@"Pick Forum"
