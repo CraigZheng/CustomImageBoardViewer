@@ -44,17 +44,18 @@
     // Talkind data initialisation
     [TalkingData sessionStarted:@"B8168DD03CD9EF62B476CEDFBC3FB52D" withChannelId:@""];
     
+#endif
     // Google analytic configuration
     // Configure tracker from GoogleService-Info.plist.
     NSError *configureError;
     [[GGLContext sharedInstance] configureWithError:&configureError];
     NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
     
-//    // Optional: configure GAI options.
-//    GAI *gai = [GAI sharedInstance];
-//    gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
-//    gai.logger.logLevel = kGAILogLevelVerbose;  // remove before app release
-#endif
+    //    // Optional: configure GAI options.
+    //    GAI *gai = [GAI sharedInstance];
+    //    gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
+    //    gai.logger.logLevel = kGAILogLevelVerbose;  // remove before app release
+
     myhost = my_main_host;
     settingsCentre = [czzSettingsCentre sharedInstance];
     
