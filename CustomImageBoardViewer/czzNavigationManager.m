@@ -51,14 +51,16 @@
     }
     
     // Reload animating progress view.
-    if ([viewController isKindOfClass:[czzHomeViewController class]] ||
-        [viewController isKindOfClass:[czzThreadViewController class]]) {
-        czzHomeViewModelManager *viewModelManager = [viewController performSelector:@selector(viewModelManager)];
-        if ([viewModelManager isDownloading]) {
-            [self.delegate.progressView startAnimating];
-        } else {
-            [self.delegate.progressView stopAnimating];
-        }
+    czzHomeViewManager *viewManager;
+    if ([viewController isKindOfClass:[czzHomeViewController class]]) {
+        viewManager = [viewController performSelector:@selector(homeViewManager)];
+    } else if ([viewController isKindOfClass:[czzThreadViewController class]]) {
+        viewManager = [viewController performSelector:@selector(threadViewManager)];
+    }
+    if ([viewManager isDownloading]) {
+        [self.delegate.progressView startAnimating];
+    } else {
+        [self.delegate.progressView stopAnimating];
     }
 }
 

@@ -6,15 +6,15 @@
 //  Copyright (c) 2014 Craig. All rights reserved.
 //
 
-#import "czzHomeViewModelManager.h"
+#import "czzHomeViewManager.h"
 #import "czzImageCacheManager.h"
 #import "czzImageDownloaderManager.h"
 
-@interface czzHomeViewModelManager ()
+@interface czzHomeViewManager ()
 @property (nonatomic, readonly) NSString *cacheFile;
 @end
 
-@implementation czzHomeViewModelManager
+@implementation czzHomeViewManager
 
 -(instancetype)init {
     self = [super init];
@@ -47,16 +47,14 @@
             NSData *cacheData = [NSData dataWithContentsOfFile:cacheFile];
             // Always delete the cache file after reading it to ensure safety.
             [[NSFileManager defaultManager] removeItemAtPath:cacheFile error:nil];
-            czzHomeViewModelManager *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithData:cacheData];
+            czzHomeViewManager *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithData:cacheData];
             //copy data
-            if (tempThreadList && [tempThreadList isKindOfClass:[czzHomeViewModelManager class]])
+            if (tempThreadList && [tempThreadList isKindOfClass:[czzHomeViewManager class]])
             {
                 self.forum = tempThreadList.forum;
                 self.pageNumber = tempThreadList.pageNumber;
                 self.totalPages = tempThreadList.totalPages;
                 self.threads = tempThreadList.threads;
-                self.verticalHeights = tempThreadList.self.verticalHeights;
-                self.horizontalHeights = tempThreadList.self.horizontalHeights;
                 self.currentOffSet = tempThreadList.currentOffSet;
                 self.lastBatchOfThreads = tempThreadList.lastBatchOfThreads;
                 self.shouldHideImageForThisForum = tempThreadList.shouldHideImageForThisForum;
@@ -71,8 +69,8 @@
 
 #pragma mark - reload/refresh actions
 - (void)reloadData {
-    if ([self.delegate respondsToSelector:@selector(viewModelManagerWantsToReload:)]) {
-        [self.delegate viewModelManagerWantsToReload:self];
+    if ([self.delegate respondsToSelector:@selector(homeViewManagerWantsToReload:)]) {
+        [self.delegate homeViewManagerWantsToReload:self];
     }
 }
 
@@ -104,8 +102,8 @@
                                         withString:[NSString stringWithFormat:@"%ld", (long)self.forum.forumID]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     self.threadDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
     self.isDownloading = YES;
-    if ([self.delegate respondsToSelector:@selector(viewModelManagerBeginDownloading:)]) {
-        [self.delegate viewModelManagerBeginDownloading:self];
+    if ([self.delegate respondsToSelector:@selector(homeViewManagerBeginsDownloading:)]) {
+        [self.delegate homeViewManagerBeginsDownloading:self];
     }
 }
 
@@ -113,17 +111,14 @@
     self.pageNumber = 1;
     // Keep old threads in the cache
     self.cachedThreads = self.threads;
-    self.cachedHorizontalHeights = self.horizontalHeights;
-    self.cachedVerticalHeights = self.verticalHeights;
     
     // Clear all.
-    self.horizontalHeights = self.verticalHeights = nil;
     self.lastBatchOfThreads = self.threads = nil;
 }
 
 - (void)scrollToContentOffset:(CGPoint)offset {
-    if ([self.delegate respondsToSelector:@selector(viewModelManager:wantsToScrollToContentOffset:)]) {
-        [self.delegate viewModelManager:self wantsToScrollToContentOffset:offset];
+    if ([self.delegate respondsToSelector:@selector(homeViewManager:wantsToScrollToContentOffset:)]) {
+        [self.delegate homeViewManager:self wantsToScrollToContentOffset:offset];
     }
 }
 
@@ -146,8 +141,8 @@
     self.threadDownloader = nil;
     self.isDownloading = NO;
     dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.delegate respondsToSelector:@selector(viewModelManager:downloadSuccessful:)]) {
-            [self.delegate viewModelManager:self downloadSuccessful:successed];
+        if ([self.delegate respondsToSelector:@selector(homeViewManager:downloadSuccessful:)]) {
+            [self.delegate homeViewManager:self downloadSuccessful:successed];
         }
     });
     if (successed){
@@ -165,9 +160,9 @@
 }
 
 -(void)downloadUpdated:(czzURLDownloader *)downloader progress:(CGFloat)progress {
-    if ([self.delegate respondsToSelector:@selector(viewModelManager:downloadProgressUpdated:)]) {
+    if ([self.delegate respondsToSelector:@selector(homeViewManager:downloadProgressUpdated:)]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate viewModelManager:self downloadProgressUpdated:progress];
+            [self.delegate homeViewManager:self downloadProgressUpdated:progress];
         });
     }
 }
@@ -176,7 +171,6 @@
 -(void)threadListProcessed:(czzJSONProcessor *)processor :(NSArray *)newThreads :(BOOL)success {
     self.isProcessing = NO;
     if (success){
-        self.cachedVerticalHeights = self.cachedHorizontalHeights = nil;
         self.cachedThreads = nil;
         if (self.shouldHideImageForThisForum)
         {
@@ -197,8 +191,8 @@
             self.watchKitCompletionHandler = nil;
         }
         // No watch kit completion handler, inform delegate instead.
-        else if ([self.delegate respondsToSelector:@selector(viewModelManager:processedThreadData:newThreads:allThreads:)]) {
-            [self.delegate viewModelManager:self processedThreadData:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
+        else if ([self.delegate respondsToSelector:@selector(homeViewManager:threadListProcessed:newThreads:allThreads:)]) {
+            [self.delegate homeViewManager:self threadListProcessed:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
         }
         DLog(@"%@", NSStringFromSelector(_cmd));
     });
@@ -254,26 +248,6 @@
     return _threads;
 }
 
-- (NSMutableDictionary *)horizontalHeights {
-    if (!_horizontalHeights) {
-        _horizontalHeights = [NSMutableDictionary new];
-    }
-    if (!_horizontalHeights.count && self.cachedHorizontalHeights.count) {
-        return self.cachedHorizontalHeights;
-    }
-    return _horizontalHeights;
-}
-
-- (NSMutableDictionary *)verticalHeights {
-    if (!_verticalHeights) {
-        _verticalHeights = [NSMutableDictionary new];
-    }
-    if (!_verticalHeights.count && self.cachedVerticalHeights.count) {
-        return self.cachedVerticalHeights;
-    }
-    return _verticalHeights;
-}
-
 - (NSString *)baseURLString{
     return [[settingCentre thread_list_host] stringByReplacingOccurrencesOfString:kForum withString:[NSString stringWithFormat:@"%@", self.forum.name]];
 }
@@ -289,32 +263,24 @@
     //parent view controller can not be encoded
     //delegate can not be encoded
     //isDownloading and isProcessing should not be encoded
-    [aCoder encodeObject:self.horizontalHeights forKey:@"horizontalHeights"];
-    [aCoder encodeObject:self.verticalHeights forKey:@"verticalHeights"];
     [aCoder encodeObject:[NSValue valueWithCGPoint:self.currentOffSet] forKey:@"currentOffSet"];
     [aCoder encodeObject:self.displayedThread forKey:@"displayedThread"];
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder {
-    czzHomeViewModelManager *viewModelManager = [czzHomeViewModelManager new];
-    [[NSNotificationCenter defaultCenter] removeObserver:viewModelManager];
+    czzHomeViewManager *homeViewManager = [czzHomeViewManager new];
+    [[NSNotificationCenter defaultCenter] removeObserver:homeViewManager];
     @try {
         //create a temporary threadlist object
-        viewModelManager.shouldHideImageForThisForum = [aDecoder decodeBoolForKey:@"shouldHideImageForThisForum"];
-        viewModelManager.forum = [aDecoder decodeObjectForKey:@"forum"];
-        viewModelManager.pageNumber = [aDecoder decodeIntegerForKey:@"pageNumber"];
-        viewModelManager.totalPages = [aDecoder decodeIntegerForKey:@"totalPages"];
-        viewModelManager.threads = [aDecoder decodeObjectForKey:@"threads"];
-        viewModelManager.lastBatchOfThreads = [aDecoder decodeObjectForKey:@"lastBatchOfThreads"];
-        id horizontalHeights = [aDecoder decodeObjectForKey:@"horizontalHeights"];
-        if ([horizontalHeights isKindOfClass:[NSMutableDictionary class]])
-            viewModelManager.horizontalHeights = horizontalHeights;
-        id verticalHeights = [aDecoder decodeObjectForKey:@"verticalHeights"];
-        if ([verticalHeights isKindOfClass:[NSMutableDictionary class]])
-            viewModelManager.verticalHeights = verticalHeights;
-        viewModelManager.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
-        viewModelManager.displayedThread = [aDecoder decodeObjectForKey:@"displayedThread"];
-        return viewModelManager;
+        homeViewManager.shouldHideImageForThisForum = [aDecoder decodeBoolForKey:@"shouldHideImageForThisForum"];
+        homeViewManager.forum = [aDecoder decodeObjectForKey:@"forum"];
+        homeViewManager.pageNumber = [aDecoder decodeIntegerForKey:@"pageNumber"];
+        homeViewManager.totalPages = [aDecoder decodeIntegerForKey:@"totalPages"];
+        homeViewManager.threads = [aDecoder decodeObjectForKey:@"threads"];
+        homeViewManager.lastBatchOfThreads = [aDecoder decodeObjectForKey:@"lastBatchOfThreads"];
+        homeViewManager.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
+        homeViewManager.displayedThread = [aDecoder decodeObjectForKey:@"displayedThread"];
+        return homeViewManager;
 
     }
     @catch (NSException *exception) {
@@ -342,7 +308,7 @@ __strong static id _sharedObject = nil;
     return _sharedObject;
 }
 
-+ (void)setSharedManager:(czzHomeViewModelManager *)manager {
++ (void)setSharedManager:(czzHomeViewManager *)manager {
     _sharedObject = manager;
 }
 

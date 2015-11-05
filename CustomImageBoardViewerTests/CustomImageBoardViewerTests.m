@@ -15,16 +15,16 @@
 #import "czzSettingsCentre.h"
 #import "czzPost.h"
 #import "czzPostSender.h"
-#import "czzHomeViewModelManager.h"
-#import "czzThreadViewModelManager.h"
+#import "czzHomeViewManager.h"
+#import "czzThreadViewManager.h"
 #import "czzHistoryManager.h"
 #import "PropertyUtil.h"
 
 
-@interface CustomImageBoardViewerTests : XCTestCase<czzNotificationDownloaderDelegate, czzPostSenderDelegate, czzHomeViewModelManagerDelegate>
+@interface CustomImageBoardViewerTests : XCTestCase<czzNotificationDownloaderDelegate, czzPostSenderDelegate, czzHomeViewManagerDelegate>
 @property (assign, nonatomic) BOOL done;
-@property czzHomeViewModelManager *threadList;
-@property czzThreadViewModelManager *subThreadList;
+@property czzHomeViewManager *threadList;
+@property czzThreadViewManager *subThreadList;
 @end
 
 @implementation CustomImageBoardViewerTests
@@ -37,7 +37,7 @@
 {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
-    threadList = [czzHomeViewModelManager new];
+    threadList = [czzHomeViewManager new];
     threadList.delegate = self;
     threadList.forumName = @"日记";
     
@@ -45,7 +45,7 @@
     parentThread.ID = 5361014;
     parentThread.content = [[NSAttributedString alloc] initWithString:NSStringFromSelector(_cmd) attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12]}];
     
-    subThreadList = [[czzThreadViewModelManager alloc] initWithParentThread:parentThread];
+    subThreadList = [[czzThreadViewManager alloc] initWithParentThread:parentThread];
     subThreadList.delegate = self;
 
 }
@@ -257,17 +257,17 @@
 }
 
 #pragma mark - czzThreadListProtocol 
--(void)viewModelManager:(czzHomeViewModelManager *)threadList downloadSuccessful:(BOOL)wasSuccessful {
+-(void)homeViewManager:(czzHomeViewManager *)threadList downloadSuccessful:(BOOL)wasSuccessful {
     NSLog(@"thread list downloaded: %@", wasSuccessful ? @"successed" : @"failed");
     XCTAssertTrue(wasSuccessful);
 }
 
--(void)viewModelManager:(czzHomeViewModelManager *)threadList processedThreadData:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
+-(void)homeViewManager:(czzHomeViewManager *)threadList threadListProcessed:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     NSLog(@"thread list processed");
     done = YES;
 }
 
--(void)viewModelManager:(czzHomeViewModelManager *)threadList processedSubThreadData:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
+-(void)homeViewManager:(czzHomeViewManager *)threadList threadContentProcessed:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     DLog(@"%@", NSStringFromSelector(_cmd));
     XCTAssertTrue(wasSuccessul);
     done = YES;

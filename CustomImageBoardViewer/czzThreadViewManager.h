@@ -8,20 +8,20 @@
 
 #define SUB_THREAD_LIST_CACHE_FILE @"_cache.dat"
 
-#import "czzHomeViewModelManager.h"
+#import "czzHomeViewManager.h"
 
-@class czzThreadViewModelManager;
-@protocol czzThreadViewModelManagerDelegate <czzHomeViewModelManagerDelegate>
+@class czzThreadViewManager;
+@protocol czzThreadViewManagerDelegate <czzHomeViewManagerDelegate>
 @optional
--(void)viewModelManager:(czzThreadViewModelManager*)viewModelManager wantsToShowContentForThread:(czzThread*)thread;
+-(void)threadViewManager:(czzThreadViewManager*)threadViewManager wantsToShowContentForThread:(czzThread*)thread;
 @end
 
-@interface czzThreadViewModelManager : czzHomeViewModelManager
+@interface czzThreadViewManager : czzHomeViewManager
 @property (strong, nonatomic) NSString* parentID;
 @property (strong, nonatomic) czzThread *parentThread;
 @property (assign, nonatomic) BOOL restoredFromCache;
 @property (strong, nonatomic) NSString *selectedUserToHighlight;
-@property (weak, nonatomic) id<czzThreadViewModelManagerDelegate> delegate;
+@property (weak, nonatomic) id<czzThreadViewManagerDelegate> delegate;
 
 - (void)reset;
 -(instancetype)initWithParentThread:(czzThread*)thread andForum:(czzForum*)forum;

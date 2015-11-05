@@ -215,11 +215,11 @@
 
 #pragma mark - Getters
 - (czzThread *)parentThread {
-    return self.threadViewModelManager.parentThread;
+    return self.threadViewManager.parentThread;
 }
 
 - (czzForum *)forum {
-    return self.threadViewModelManager.forum;
+    return self.threadViewManager.forum;
 }
 
 @end

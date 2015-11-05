@@ -8,7 +8,7 @@
 
 #import "czzHomeTableViewDataSource.h"
 
-#import "czzHomeViewModelManager.h"
+#import "czzHomeViewManager.h"
 #import "czzSettingsCentre.h"
 #import "czzThreadTableViewCommandCellTableViewCell.h"
 #import "czzImageViewerUtil.h"
@@ -19,7 +19,7 @@
 
 @implementation czzHomeTableViewDataSource
 @synthesize myTableView = _myTableView;
-@synthesize viewModelManager;
+@synthesize homeViewManager;
 
 -(void)reset {
     //TODO reset
@@ -27,26 +27,22 @@
 
 #pragma mark - UITableView datasource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (viewModelManager.threads.count > 0)
-        return viewModelManager.threads.count + 1;
-    return viewModelManager.threads.count;
+    if (homeViewManager.threads.count > 0)
+        return homeViewManager.threads.count + 1;
+    return homeViewManager.threads.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (!self.myTableView) {
-        self.myTableView = (czzThreadTableView*)tableView;
-    }
-    
-    if (indexPath.row == viewModelManager.threads.count){
+    if (indexPath.row == homeViewManager.threads.count){
         //Last row
         NSString *lastCellIdentifier = THREAD_TABLEVIEW_COMMAND_CELL_IDENTIFIER;
         czzThreadTableViewCommandCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:lastCellIdentifier forIndexPath:indexPath];
         cell.commandStatusViewController = self.myTableView.lastCellCommandViewController;
         self.myTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
-        if (self.viewModelManager.pageNumber == self.viewModelManager.totalPages) {
+        if (self.homeViewManager.pageNumber == self.homeViewManager.totalPages) {
             self.myTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeNoMore;
         }
-        if (viewModelManager.isDownloading || viewModelManager.isProcessing) {
+        if (homeViewManager.isDownloading || homeViewManager.isProcessing) {
             self.myTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
         }
         
@@ -55,7 +51,7 @@
     }
     
     NSString *cell_identifier = [settingCentre userDefShouldUseBigImage] ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
-    czzThread *thread = [viewModelManager.threads objectAtIndex:indexPath.row];
+    czzThread *thread = [homeViewManager.threads objectAtIndex:indexPath.row];
     czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
     if (cell){
         cell.delegate = self.tableViewDelegate;
@@ -68,15 +64,12 @@
     return cell;
 }
 
-#pragma mark - setters
--(void)setMyTableView:(czzThreadTableView *)incomingTableView {
-    _myTableView = incomingTableView;
 
-}
 
-+(instancetype)initWithViewModelManager:(czzHomeViewModelManager *)viewModelManager {
++(instancetype)initWithViewManager:(czzHomeViewManager *)viewManager andTableView:(czzThreadTableView *)tableView {
     czzHomeTableViewDataSource *dataSource = [czzHomeTableViewDataSource new];
-    dataSource.viewModelManager = viewModelManager;
+    dataSource.homeViewManager = viewManager;
+    dataSource.myTableView = tableView;
     return dataSource;
 }
 @end

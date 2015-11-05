@@ -7,20 +7,20 @@
 //
 #define settingCentre [czzSettingsCentre sharedInstance]
 
-#import "czzThreadViewModelManager.h"
+#import "czzThreadViewManager.h"
 #import "czzHistoryManager.h"
 
-@interface czzThreadViewModelManager()
+@interface czzThreadViewManager()
 @property (nonatomic, assign) NSUInteger cutOffIndex;
 @end
 
-@implementation czzThreadViewModelManager
+@implementation czzThreadViewManager
 @synthesize forum = _forum;
 @dynamic delegate;
 
 #pragma mark - life cycle.
 -(instancetype)initWithParentThread:(czzThread *)thread andForum:(czzForum *)forum{
-    self = [czzThreadViewModelManager new];
+    self = [czzThreadViewManager new];
     if (self) {
         // Record history
         self.parentThread = thread;
@@ -45,9 +45,9 @@
 
 -(instancetype)restoreWithFile:(NSString *)filePath {
     if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-        czzThreadViewModelManager *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+        czzThreadViewManager *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
         //copy data
-        if (tempThreadList && [tempThreadList isKindOfClass:[czzThreadViewModelManager class]])
+        if (tempThreadList && [tempThreadList isKindOfClass:[czzThreadViewManager class]])
         {
             return tempThreadList;
         }
@@ -64,16 +64,14 @@
     @try {
         NSString *cacheFile = [[czzAppDelegate threadCacheFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)self.parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
         if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
-            czzThreadViewModelManager *tempThreadList = [self restoreWithFile:cacheFile];
+            czzThreadViewManager *tempThreadList = [self restoreWithFile:cacheFile];
             //copy data
-            if (tempThreadList && [tempThreadList isKindOfClass:[czzThreadViewModelManager class]])
+            if (tempThreadList && [tempThreadList isKindOfClass:[czzThreadViewManager class]])
             {
                 self.parentThread = tempThreadList.parentThread;
                 self.pageNumber = tempThreadList.pageNumber;
                 self.totalPages = tempThreadList.totalPages;
                 self.threads = tempThreadList.threads;
-                self.verticalHeights = tempThreadList.self.verticalHeights;
-                self.horizontalHeights = tempThreadList.self.horizontalHeights;
                 self.currentOffSet = tempThreadList.currentOffSet;
                 self.lastBatchOfThreads = tempThreadList.lastBatchOfThreads;
                 self.shouldHideImageForThisForum = tempThreadList.shouldHideImageForThisForum;
@@ -101,8 +99,8 @@
 
 #pragma mark - Delegate actions
 - (void)showContentWithThread:(czzThread *)thread {
-    if (thread && [self.delegate respondsToSelector:@selector(viewModelManager:wantsToShowContentForThread:)]) {
-        [self.delegate viewModelManager:self wantsToShowContentForThread:thread];
+    if (thread && [self.delegate respondsToSelector:@selector(threadViewManager:wantsToShowContentForThread:)]) {
+        [self.delegate threadViewManager:self wantsToShowContentForThread:thread];
     } else {
         DLog(@"Thread or delegate nil: %s", __PRETTY_FUNCTION__);
     }
@@ -127,8 +125,8 @@
         [self.threadDataProcessor processSubThreadFromData:receivedData forForum:self.forum];
     }
     dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.delegate respondsToSelector:@selector(viewModelManager:downloadSuccessful:)]) {
-            [self.delegate viewModelManager:self downloadSuccessful:successed];
+        if ([self.delegate respondsToSelector:@selector(homeViewManager:downloadSuccessful:)]) {
+            [self.delegate homeViewManager:self downloadSuccessful:successed];
         }
     });
 }
@@ -178,8 +176,8 @@
             self.watchKitCompletionHandler(success, self.threads);
             self.watchKitCompletionHandler = nil;
         }
-        else if ([self.delegate respondsToSelector:@selector(viewModelManager:processedSubThreadData:newThreads:allThreads:)]) {
-            [self.delegate viewModelManager:self processedSubThreadData:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
+        else if ([self.delegate respondsToSelector:@selector(homeViewManager:threadContentProcessed:newThreads:allThreads:)]) {
+            [self.delegate homeViewManager:self threadContentProcessed:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
         }
     });
 }
@@ -219,8 +217,6 @@ float RoundTo(float number, float to)
 #pragma mark - content managements.
 - (void)reset {
     self.totalPages = self.pageNumber = 1;
-    self.horizontalHeights = self.verticalHeights = nil;
-    self.cachedHorizontalHeights = self.cachedVerticalHeights = nil;
     self.threads = self.cachedThreads = nil;
 }
 
@@ -228,7 +224,6 @@ float RoundTo(float number, float to)
     self.pageNumber = 1;
     // Clear all.
     self.lastBatchOfThreads = self.threads = nil;
-    self.horizontalHeights = self.verticalHeights = nil;
 }
 
 - (void)refresh {
@@ -245,7 +240,7 @@ float RoundTo(float number, float to)
         }
         else
             self.selectedUserToHighlight = selectedThread.UID.string;
-        [self.delegate viewModelManagerWantsToReload:self];
+        [self.delegate homeViewManagerWantsToReload:self];
     }
 }
 
@@ -256,31 +251,23 @@ float RoundTo(float number, float to)
     [aCoder encodeInteger:self.totalPages forKey:@"totalPages"];
     [aCoder encodeObject:self.threads forKey:@"threads"];
     [aCoder encodeObject:self.lastBatchOfThreads forKey:@"lastBatchOfThreads"];
-    [aCoder encodeObject:self.horizontalHeights forKey:@"horizontalHeights"];
-    [aCoder encodeObject:self.verticalHeights forKey:@"verticalHeights"];
     [aCoder encodeObject:[NSValue valueWithCGPoint:self.currentOffSet] forKey:@"currentOffSet"];
     [aCoder encodeObject:self.forum forKey:@"forum"];
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder {
-    czzThreadViewModelManager *viewModelManager = [czzThreadViewModelManager new];
-    [[NSNotificationCenter defaultCenter] removeObserver:viewModelManager];
+    czzThreadViewManager *threadViewManager = [czzThreadViewManager new];
+    [[NSNotificationCenter defaultCenter] removeObserver:threadViewManager];
     @try {
         //create a temporary threadlist object
-        viewModelManager.parentThread = [aDecoder decodeObjectForKey:@"parentThread"];
-        viewModelManager.pageNumber = [aDecoder decodeIntegerForKey:@"pageNumber"];
-        viewModelManager.totalPages = [aDecoder decodeIntegerForKey:@"totalPages"];
-        viewModelManager.threads = [aDecoder decodeObjectForKey:@"threads"];
-        viewModelManager.lastBatchOfThreads = [aDecoder decodeObjectForKey:@"lastBatchOfThreads"];
-        id horizontalHeights = [aDecoder decodeObjectForKey:@"horizontalHeights"];
-        if ([horizontalHeights isKindOfClass:[NSMutableDictionary class]])
-            viewModelManager.horizontalHeights = horizontalHeights;
-        id verticalHeights = [aDecoder decodeObjectForKey:@"verticalHeights"];
-        if ([verticalHeights isKindOfClass:[NSMutableDictionary class]])
-            viewModelManager.verticalHeights = verticalHeights;
-        viewModelManager.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
-        viewModelManager.forum = [aDecoder decodeObjectForKey:@"forum"];
-        return viewModelManager;
+        threadViewManager.parentThread = [aDecoder decodeObjectForKey:@"parentThread"];
+        threadViewManager.pageNumber = [aDecoder decodeIntegerForKey:@"pageNumber"];
+        threadViewManager.totalPages = [aDecoder decodeIntegerForKey:@"totalPages"];
+        threadViewManager.threads = [aDecoder decodeObjectForKey:@"threads"];
+        threadViewManager.lastBatchOfThreads = [aDecoder decodeObjectForKey:@"lastBatchOfThreads"];
+        threadViewManager.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
+        threadViewManager.forum = [aDecoder decodeObjectForKey:@"forum"];
+        return threadViewManager;
         
     }
     @catch (NSException *exception) {

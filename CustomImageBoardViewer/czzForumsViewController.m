@@ -102,7 +102,7 @@ NSString * const kPickedForum = @"PickedForum";
 - (IBAction)moreInfoAction:(id)sender {
     // Present more info view controller with no selected forum.
     UIViewController *topViewContorller = [UIApplication topViewController];
-    [topViewContorller presentViewController:[czzMoreInfoViewController new] animated:YES completion:nil];
+    [topViewContorller presentViewController:[[UINavigationController alloc] initWithRootViewController:[czzMoreInfoViewController new]] animated:YES completion:nil];
 }
 
 #pragma UITableView datasouce

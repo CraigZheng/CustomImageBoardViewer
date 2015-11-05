@@ -10,5 +10,4 @@
 
 @interface czzThreadTableViewDataSource : czzHomeTableViewDataSource
 
-+(instancetype)initWithViewModelManager:(czzThreadViewModelManager *)viewModelManager;
 @end

@@ -16,7 +16,7 @@
 #import "czzTextViewHeightCalculator.h"
 #import "czzThread.h"
 #import "czzThreadViewController.h"
-#import "czzThreadViewModelManager.h"
+#import "czzThreadViewManager.h"
 #import "czzFadeInOutModalAnimator.h"
 
 @interface czzMiniThreadViewController () <UITableViewDataSource, UITableViewDelegate>
@@ -65,9 +65,9 @@
     [self dismissViewControllerAnimated:YES completion:nil];
     
     if (self.myThread) {
-        czzThreadViewModelManager *threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:self.myThread andForum:nil];
+        czzThreadViewManager *threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:self.myThread andForum:nil];
         czzThreadViewController *threadViewController = [[UIStoryboard storyboardWithName:THREAD_VIEW_CONTROLLER_STORYBOARD_NAME bundle:nil] instantiateViewControllerWithIdentifier:THREAD_VIEW_CONTROLLER_ID];
-        threadViewController.viewModelManager = threadViewModelManager;
+        threadViewController.threadViewManager = threadViewManager;
         [NavigationManager pushViewController:threadViewController animated:YES];
     }
 }

@@ -14,9 +14,12 @@
 #import "czzSettingsCentre.h"
 #import "Toast+UIView.h"
 #import "czzForum.h"
+#import "czzImageViewerUtil.h"
 
 @interface czzMoreInfoViewController ()<UIWebViewDelegate>
 @property (strong, nonatomic) NSString *baseURL;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *actionButton;
+@property NSData *coverData;
 @end
 
 @implementation czzMoreInfoViewController
@@ -24,8 +27,6 @@
 @synthesize baseURL;
 @synthesize bannerView_;
 @synthesize moreInfoNavItem;
-@synthesize moreInfoNaviBar;
-@synthesize barBackgroundView;
 
 - (void)viewDidLoad
 {
@@ -38,19 +39,17 @@
     bannerView_.rootViewController = self;
     
     //colours
-    moreInfoNaviBar.barTintColor = [settingCentre barTintColour];
-    moreInfoNaviBar.tintColor = [settingCentre tintColour];
-    [moreInfoNaviBar
-     setTitleTextAttributes:@{NSForegroundColorAttributeName : moreInfoNaviBar.tintColor}];
-
-    barBackgroundView.backgroundColor = [settingCentre barTintColour];
+    self.navigationController.navigationBar.barTintColor = [settingCentre barTintColour];
+    self.navigationController.navigationBar.tintColor = [settingCentre tintColour];
+     [self.navigationController.navigationBar
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : self.navigationController.navigationBar.tintColor}];
     self.view.backgroundColor = [settingCentre viewBackgroundColour];
+    // Load image.
+    [self renderContent];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self renderContent];
-    
+    [super viewWillAppear:animated];    
     // Google Analytic integration
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
     [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
@@ -80,7 +79,18 @@
         } else {
             self.title = @"A岛-AC匿名版";
             // No selected forum, load default value.
-            [headerTextWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:COVER_URL]]];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                NSError *error;
+                self.coverData = [NSData dataWithContentsOfURL:[NSURL URLWithString:COVER_URL] options:NSDataReadingUncached error:&error];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (!error) {
+                        [headerTextWebView loadData:self.coverData MIMEType:@"image/jpeg" textEncodingName:@"utf-8" baseURL:[NSURL new]];
+                    } else {
+                         self.coverData = nil;
+                        [headerTextWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:COVER_URL]]];
+                    }
+                });
+            });
             // Scale for image.
             headerTextWebView.scalesPageToFit = YES;
         }
@@ -89,6 +99,14 @@
         DLog(@"%@", exception);
     }
     moreInfoNavItem.title = self.title;
+}
+
+#pragma mark - UI actions
+- (IBAction)actionButtonAction:(id)sender {
+    if (self.coverData) {
+        UIImage *coverImage = [UIImage imageWithData:self.coverData];
+        [[czzImageViewerUtil new] showPhotoWithImage:coverImage];
+    }
 }
 
 #pragma UIWebView delegate, open links in safari

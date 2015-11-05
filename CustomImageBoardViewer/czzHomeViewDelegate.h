@@ -11,14 +11,14 @@
 #import "czzOnScreenImageManagerViewController.h"
 #import "czzThreadViewController.h"
 
-@class czzHomeViewModelManager;
+@class czzHomeViewManager;
 
 
 @interface czzHomeViewDelegate : NSObject <UITableViewDelegate, czzMenuEnabledTableViewCellProtocol, czzOnScreenImageManagerViewControllerDelegate>
 
-@property (weak, nonatomic) czzHomeViewModelManager *viewModelManager;
+@property (weak, nonatomic) czzHomeViewManager *homeViewManager;
 @property (weak, nonatomic) czzThreadTableView *myTableView;
 
 + (instancetype)sharedInstance;
-+ (instancetype)initWithViewModelManager:(czzHomeViewModelManager*)viewModelManager;
++ (instancetype)initWithViewManager:(czzHomeViewManager *)viewManager andTableView:(czzThreadTableView *)tableView;
 @end

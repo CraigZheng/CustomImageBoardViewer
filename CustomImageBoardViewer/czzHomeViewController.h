@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "IIViewDeckController.h"
-#import "czzHomeViewModelManager.h"
+#import "czzHomeViewManager.h"
 
 @class czzThread, czzThreadTableView;
-@interface czzHomeViewController : UIViewController <czzHomeViewModelManagerDelegate>
+@interface czzHomeViewController : UIViewController <czzHomeViewManagerDelegate>
 @property (weak, nonatomic) IBOutlet czzThreadTableView *threadTableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *jumpBarButtonItem;
 
@@ -19,7 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIView *onScreenImageManagerViewContainer;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *forumListButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsBarButton;
-@property (strong, nonatomic) czzHomeViewModelManager* viewModelManager;
+@property (strong, nonatomic) czzHomeViewManager* homeViewManager;
 
 - (IBAction)sideButtonAction:(id)sender;
 
