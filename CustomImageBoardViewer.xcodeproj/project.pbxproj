@@ -594,6 +594,8 @@
 		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
 		446656C71BEAF89C0045276B /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4420661E1BE83F390023D91F /* GoogleMobileAds.framework */; };
 		446656C81BEAF89C0045276B /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4420661E1BE83F390023D91F /* GoogleMobileAds.framework */; };
+		446656C91BEAF9380045276B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 442066221BE846820023D91F /* GoogleService-Info.plist */; };
+		446656CA1BEAF9390045276B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 442066221BE846820023D91F /* GoogleService-Info.plist */; };
 		4468A7111BBBC0480076DCD6 /* czzWeakReferenceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */; };
 		4468A7121BBBC0480076DCD6 /* czzWeakReferenceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */; };
 		4476646A1BB577FB007F40FB /* CustomImageBoardViewer WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4476B6341B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -3373,6 +3375,7 @@
 				44C73B741A4708BA0051D4C2 /* thumb_down.png in Resources */,
 				44C34557187E6CF000FDE45D /* sougo_emoji_UTF16.txt in Resources */,
 				444F5B371A40EA3500EB391F /* 36.png in Resources */,
+				446656C91BEAF9380045276B /* GoogleService-Info.plist in Resources */,
 				44B89E6C1A2AF2200085F766 /* running_ac-1.gif in Resources */,
 				44E792081A17856500A63C04 /* upload@2x.png in Resources */,
 				44B89E791A2AF4340085F766 /* running_ac.gif in Resources */,
@@ -3610,6 +3613,7 @@
 				445540AD1BABEBA700667435 /* thumb_down.png in Resources */,
 				445540AE1BABEBA700667435 /* sougo_emoji_UTF16.txt in Resources */,
 				445540AF1BABEBA700667435 /* 36.png in Resources */,
+				446656CA1BEAF9390045276B /* GoogleService-Info.plist in Resources */,
 				445540B01BABEBA700667435 /* running_ac-1.gif in Resources */,
 				445540B11BABEBA700667435 /* upload@2x.png in Resources */,
 				445540B21BABEBA700667435 /* running_ac.gif in Resources */,
