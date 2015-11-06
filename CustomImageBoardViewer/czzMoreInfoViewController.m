@@ -19,7 +19,8 @@
 @interface czzMoreInfoViewController ()<UIWebViewDelegate>
 @property (strong, nonatomic) NSString *baseURL;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *actionButton;
-@property NSData *coverData;
+@property (copy, nonatomic) NSData *coverData;
+@property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
 @end
 
 @implementation czzMoreInfoViewController
@@ -105,7 +106,7 @@
 - (IBAction)actionButtonAction:(id)sender {
     if (self.coverData) {
         UIImage *coverImage = [UIImage imageWithData:self.coverData];
-        [[czzImageViewerUtil new] showPhotoWithImage:coverImage];
+        [(self.imageViewerUtil = [czzImageViewerUtil new]) showPhotoWithImage:coverImage];
     }
 }
 

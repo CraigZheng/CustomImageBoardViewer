@@ -122,8 +122,17 @@
 }
 
 -(void)photoBrowser:(MWPhotoBrowser *)browser actionButtonPressedForPhotoAtIndex:(NSUInteger)index {
-    NSURL *fileURL = [photoBrowserDataSource objectAtIndex:index];
-    documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:fileURL];
+    id source = [photoBrowserDataSource objectAtIndex:index];
+    if ([source isKindOfClass:[UIImage class]]) {
+        // Because the source is an UIImage object, it cannot be open directly by document interaction controller.
+        // Must save it temporarily to the disk before openning. 
+        NSURL *tempFileURL = [NSURL fileURLWithPath:[[czzAppDelegate libraryFolder] stringByAppendingPathComponent:@"tempImage.jpg"]];
+        NSData *data = UIImageJPEGRepresentation((UIImage *)source, 0.99);
+        [data writeToURL:tempFileURL atomically:NO];
+        documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:tempFileURL];
+    } else {
+        documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:source];
+    }
     UIView *viewToShowDocumentInteractionController;
     if (photoBrowserNavigationController)
         viewToShowDocumentInteractionController = photoBrowserNavigationController.view;
