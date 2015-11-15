@@ -598,7 +598,6 @@
 		446656CA1BEAF9390045276B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 442066221BE846820023D91F /* GoogleService-Info.plist */; };
 		4468A7111BBBC0480076DCD6 /* czzWeakReferenceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */; };
 		4468A7121BBBC0480076DCD6 /* czzWeakReferenceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */; };
-		4476646A1BB577FB007F40FB /* CustomImageBoardViewer WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4476B6341B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		4476B63A1B9FDD43004E6650 /* InterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4476B6391B9FDD43004E6650 /* InterfaceController.m */; };
 		4476B63D1B9FDD43004E6650 /* GlanceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4476B63C1B9FDD43004E6650 /* GlanceController.m */; };
 		4476B63F1B9FDD43004E6650 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4476B63E1B9FDD43004E6650 /* Images.xcassets */; };
@@ -879,13 +878,6 @@
 			remoteGlobalIDString = 441E5CCA17F4691300289DBD;
 			remoteInfo = CustomImageBoardViewer;
 		};
-		4476646B1BB577FB007F40FB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 441E5CC317F4691300289DBD /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4476B6331B9FDD43004E6650;
-			remoteInfo = "CustomImageBoardViewer WatchKit Extension";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -908,17 +900,6 @@
 			files = (
 			);
 			name = "Embed Watch Content";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4476646D1BB577FC007F40FB /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				4476646A1BB577FB007F40FB /* CustomImageBoardViewer WatchKit Extension.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -3230,14 +3211,12 @@
 				44553FDC1BABEBA700667435 /* Sources */,
 				445540711BABEBA700667435 /* Frameworks */,
 				445540851BABEBA700667435 /* Resources */,
-				4476646D1BB577FC007F40FB /* Embed App Extensions */,
 				8662BC3586652DB08CBF0BAA /* Embed Pods Frameworks */,
 				6930B85C23361D6EAB8E573F /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				4476646C1BB577FB007F40FB /* PBXTargetDependency */,
 			);
 			name = "CIV-Simulator";
 			productName = CustomImageBoardViewer;
@@ -4325,11 +4304,6 @@
 			isa = PBXTargetDependency;
 			target = 441E5CCA17F4691300289DBD /* CustomImageBoardViewer */;
 			targetProxy = 441E5CF417F4691300289DBD /* PBXContainerItemProxy */;
-		};
-		4476646C1BB577FB007F40FB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4476B6331B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension */;
-			targetProxy = 4476646B1BB577FB007F40FB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

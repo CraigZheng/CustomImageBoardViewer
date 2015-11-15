@@ -47,19 +47,20 @@
 }
 
 -(void)loadMore:(BOOL)more {
-    [WKInterfaceController openParentApplication:@{watchKitCommandKey : @(watchKitCommandLoadHomeView), watchKitCommandLoadMore : @(more),
-                                                   watchKitCommandForumKey : [self.selectedForum encodeToDictionary]} reply:^(NSDictionary *replyInfo, NSError *error) {
-        NSArray *threadDictionaries = [replyInfo objectForKey:@(watchKitCommandLoadHomeView)];
-        self.wkThreads = [NSMutableArray new];
-        for (NSDictionary *dict in threadDictionaries) {
-            czzWKThread *thread = [[czzWKThread alloc] initWithDictionary:dict];
-            NSLog(@"thread: %@", thread);
-            [self.wkThreads addObject:thread];
-        }
-        [self.screenTitleLabel setText:[replyInfo objectForKey:@(watchKitMiscInfoScreenTitleHome)]];
-        
-        [self reloadTableView];
-    }];
+#warning TODO: MADE IT COMPATIBLE WITH WATCH OS 2
+//    [WKInterfaceController openParentApplication:@{watchKitCommandKey : @(watchKitCommandLoadHomeView), watchKitCommandLoadMore : @(more),
+//                                                   watchKitCommandForumKey : [self.selectedForum encodeToDictionary]} reply:^(NSDictionary *replyInfo, NSError *error) {
+//        NSArray *threadDictionaries = [replyInfo objectForKey:@(watchKitCommandLoadHomeView)];
+//        self.wkThreads = [NSMutableArray new];
+//        for (NSDictionary *dict in threadDictionaries) {
+//            czzWKThread *thread = [[czzWKThread alloc] initWithDictionary:dict];
+//            NSLog(@"thread: %@", thread);
+//            [self.wkThreads addObject:thread];
+//        }
+//        [self.screenTitleLabel setText:[replyInfo objectForKey:@(watchKitMiscInfoScreenTitleHome)]];
+//        
+//        [self reloadTableView];
+//    }];
 }
 
 - (IBAction)reloadButtonAction {
