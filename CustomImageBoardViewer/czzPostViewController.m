@@ -126,6 +126,14 @@
                                                object:nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    // Google Analytic integration
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
+
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     //Register focus on text view
@@ -157,6 +165,19 @@
             [blacklistSender sendBlacklistUpdate];
         }
     }
+    
+    // Google Analytic integration.
+    NSString *label = self.postSender.content;
+    // Chunk the text.
+    if (label.length > 100) {
+        label = [label substringToIndex:99];
+    }
+    NSInteger ID = postSender.parentThread ? postSender.parentThread.ID : 0;
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Thread"
+                                                                                        action:@"Post Thread"
+                                                                                         label:label
+                                                                                         value:@(ID)] build]];
+
 }
 
 - (void)pickImageAction:(id)sender {

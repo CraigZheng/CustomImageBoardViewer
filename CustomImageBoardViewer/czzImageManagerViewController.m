@@ -39,6 +39,14 @@
     [self reloadImageFiles];
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    // Google Analytic integration
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
+
 #pragma Load data from image centre
 -(void)reloadImageFiles{
     Images = [NSMutableArray new];

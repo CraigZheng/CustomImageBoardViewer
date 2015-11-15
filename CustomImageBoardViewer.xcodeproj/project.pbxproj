@@ -352,7 +352,6 @@
 		445540721BABEBA700667435 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4498CEC31B9E756D004D2380 /* CoreTelephony.framework */; };
 		445540731BABEBA700667435 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4498CEC11B9E754A004D2380 /* Security.framework */; };
 		445540741BABEBA700667435 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 442A901719DB9BAF00A3516E /* libxml2.dylib */; };
-		445540751BABEBA700667435 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 44A9E10C1AE1CAC600740CE1 /* libGoogleAdMobAds.a */; };
 		445540761BABEBA700667435 /* SplunkMint-iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44BB0BC21A1AE700006C50F5 /* SplunkMint-iOS.framework */; };
 		445540781BABEBA700667435 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 447FD253195D1AF1003E30C2 /* libz.dylib */; };
 		445540791BABEBA700667435 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44412974186E9B1000075AA2 /* StoreKit.framework */; };
@@ -447,7 +446,6 @@
 		445540D31BABEBA700667435 /* 41.png in Resources */ = {isa = PBXBuildFile; fileRef = 444F5B061A40EA3500EB391F /* 41.png */; };
 		445540D41BABEBA700667435 /* error.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7919A1A17856500A63C04 /* error.png */; };
 		445540D51BABEBA700667435 /* advance.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918D1A17856500A63C04 /* advance.png */; };
-		445540D61BABEBA700667435 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 44A9E10D1AE1CAC600740CE1 /* README.txt */; };
 		445540D71BABEBA700667435 /* 10.png in Resources */ = {isa = PBXBuildFile; fileRef = 444F5AE71A40EA3500EB391F /* 10.png */; };
 		445540D81BABEBA700667435 /* advance@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918E1A17856500A63C04 /* advance@2x.png */; };
 		445540D91BABEBA700667435 /* lol.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF253F1A25A2A500BD8228 /* lol.png */; };
@@ -594,6 +592,10 @@
 		445C66491BBED722004B3E83 /* czzThreadViewCellFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 445C66481BBED722004B3E83 /* czzThreadViewCellFooterView.m */; };
 		445C664A1BBED722004B3E83 /* czzThreadViewCellFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 445C66481BBED722004B3E83 /* czzThreadViewCellFooterView.m */; };
 		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
+		446656C71BEAF89C0045276B /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4420661E1BE83F390023D91F /* GoogleMobileAds.framework */; };
+		446656C81BEAF89C0045276B /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4420661E1BE83F390023D91F /* GoogleMobileAds.framework */; };
+		446656C91BEAF9380045276B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 442066221BE846820023D91F /* GoogleService-Info.plist */; };
+		446656CA1BEAF9390045276B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 442066221BE846820023D91F /* GoogleService-Info.plist */; };
 		4468A7111BBBC0480076DCD6 /* czzWeakReferenceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */; };
 		4468A7121BBBC0480076DCD6 /* czzWeakReferenceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */; };
 		4476646A1BB577FB007F40FB /* CustomImageBoardViewer WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4476B6341B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -636,8 +638,6 @@
 		4498CEC21B9E754A004D2380 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4498CEC11B9E754A004D2380 /* Security.framework */; };
 		4498CEC41B9E756D004D2380 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4498CEC31B9E756D004D2380 /* CoreTelephony.framework */; };
 		449C9E271A71DB5C00D49B7F /* remote_configuration-debug.json in Resources */ = {isa = PBXBuildFile; fileRef = 449C9E261A71DB5C00D49B7F /* remote_configuration-debug.json */; };
-		44A9E10E1AE1CAC600740CE1 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 44A9E10C1AE1CAC600740CE1 /* libGoogleAdMobAds.a */; };
-		44A9E10F1AE1CAC600740CE1 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 44A9E10D1AE1CAC600740CE1 /* README.txt */; };
 		44A9E1531AE1D16000740CE1 /* Icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = 44A9E1491AE1D16000740CE1 /* Icon-60.png */; };
 		44A9E1541AE1D16000740CE1 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 44A9E14A1AE1D16000740CE1 /* Icon-72.png */; };
 		44A9E1551AE1D16000740CE1 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44A9E14B1AE1D16000740CE1 /* Icon-72@2x.png */; };
@@ -858,6 +858,8 @@
 		5A88B8401938AFDB00071343 /* czzNotificationCentreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A88B83F1938AFDB00071343 /* czzNotificationCentreTableViewController.m */; };
 		5ADCA46A1938F67F002BA60B /* ValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCA4691938F67F002BA60B /* ValueFormatter.m */; };
 		5AF85E681970025A0031D0CB /* czzSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF85E671970025A0031D0CB /* czzSearchViewController.m */; };
+		630F9886EEDAB17CFBFA967C /* libPods-CustomImageBoardViewer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BEAABE8BC8244F1C4DC4C0C /* libPods-CustomImageBoardViewer.a */; };
+		F3D2E22375146FBDED685182 /* libPods-CIV-Simulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ACCEC90A7B8DF04971F5816 /* libPods-CIV-Simulator.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -920,6 +922,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2EDAC0061FC74216378DDC26 /* Pods-CIV-Simulator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CIV-Simulator.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CIV-Simulator/Pods-CIV-Simulator.debug.xcconfig"; sourceTree = "<group>"; };
+		31FEEA8309F3AF0A6D9D9D8F /* Pods-CustomImageBoardViewer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewer.release.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer.release.xcconfig"; sourceTree = "<group>"; };
+		3ACCEC90A7B8DF04971F5816 /* libPods-CIV-Simulator.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CIV-Simulator.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		440A629E1B8E90130046E4CE /* czzThreadViewCommandStatusCellViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewCommandStatusCellViewController.h; sourceTree = "<group>"; };
 		440A629F1B8E90130046E4CE /* czzThreadViewCommandStatusCellViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewCommandStatusCellViewController.m; sourceTree = "<group>"; };
 		440A62A11B8E97540046E4CE /* czzThreadTableViewCommandStatusCellViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = czzThreadTableViewCommandStatusCellViewController.storyboard; sourceTree = "<group>"; };
@@ -1004,6 +1009,8 @@
 		441E5E4D17F4A9C500289DBD /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		441E5E5217F52DEF00289DBD /* czzThreadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewController.h; sourceTree = "<group>"; };
 		441E5E5317F52DEF00289DBD /* czzThreadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewController.m; sourceTree = "<group>"; };
+		4420661E1BE83F390023D91F /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
+		442066221BE846820023D91F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4424FE4B1BCD33A70096F261 /* czzFadeInOutModalAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFadeInOutModalAnimator.h; sourceTree = "<group>"; };
 		4424FE4C1BCD33A70096F261 /* czzFadeInOutModalAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFadeInOutModalAnimator.m; sourceTree = "<group>"; };
 		4425A285199700F000671B88 /* test_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_image.png; sourceTree = "<group>"; };
@@ -1323,20 +1330,6 @@
 		4498CEC11B9E754A004D2380 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		4498CEC31B9E756D004D2380 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		449C9E261A71DB5C00D49B7F /* remote_configuration-debug.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "remote_configuration-debug.json"; sourceTree = "<group>"; };
-		44A9E1001AE1CAC600740CE1 /* GADAdMobExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdMobExtras.h; sourceTree = "<group>"; };
-		44A9E1011AE1CAC600740CE1 /* GADAdNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdNetworkExtras.h; sourceTree = "<group>"; };
-		44A9E1021AE1CAC600740CE1 /* GADAdSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdSize.h; sourceTree = "<group>"; };
-		44A9E1031AE1CAC600740CE1 /* GADBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerView.h; sourceTree = "<group>"; };
-		44A9E1041AE1CAC600740CE1 /* GADBannerViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerViewDelegate.h; sourceTree = "<group>"; };
-		44A9E1051AE1CAC600740CE1 /* GADInAppPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInAppPurchase.h; sourceTree = "<group>"; };
-		44A9E1061AE1CAC600740CE1 /* GADInAppPurchaseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInAppPurchaseDelegate.h; sourceTree = "<group>"; };
-		44A9E1071AE1CAC600740CE1 /* GADInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitial.h; sourceTree = "<group>"; };
-		44A9E1081AE1CAC600740CE1 /* GADInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitialDelegate.h; sourceTree = "<group>"; };
-		44A9E1091AE1CAC600740CE1 /* GADModules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADModules.h; sourceTree = "<group>"; };
-		44A9E10A1AE1CAC600740CE1 /* GADRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequest.h; sourceTree = "<group>"; };
-		44A9E10B1AE1CAC600740CE1 /* GADRequestError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequestError.h; sourceTree = "<group>"; };
-		44A9E10C1AE1CAC600740CE1 /* libGoogleAdMobAds.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAdMobAds.a; sourceTree = "<group>"; };
-		44A9E10D1AE1CAC600740CE1 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		44A9E1491AE1D16000740CE1 /* Icon-60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60.png"; sourceTree = "<group>"; };
 		44A9E14A1AE1D16000740CE1 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		44A9E14B1AE1D16000740CE1 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
@@ -1551,6 +1544,7 @@
 		44E791CC1A17856500A63C04 /* view@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "view@3x.png"; sourceTree = "<group>"; };
 		44FC4343180067CF0028D7C9 /* czzPostSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzPostSender.h; sourceTree = "<group>"; };
 		44FC4344180067CF0028D7C9 /* czzPostSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzPostSender.m; sourceTree = "<group>"; };
+		505660B3F87FABFEE33CE10C /* Pods-CIV-Simulator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CIV-Simulator.release.xcconfig"; path = "Pods/Target Support Files/Pods-CIV-Simulator/Pods-CIV-Simulator.release.xcconfig"; sourceTree = "<group>"; };
 		5A0A6BD41848691C0094D7FB /* czzMoreInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzMoreInfoViewController.h; sourceTree = "<group>"; };
 		5A0A6BD51848691C0094D7FB /* czzMoreInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzMoreInfoViewController.m; sourceTree = "<group>"; };
 		5A1593EA18E71E93001A774B /* czzThreadRefButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadRefButton.h; sourceTree = "<group>"; };
@@ -1579,6 +1573,8 @@
 		5ADCA4691938F67F002BA60B /* ValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueFormatter.m; sourceTree = "<group>"; };
 		5AF85E661970025A0031D0CB /* czzSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzSearchViewController.h; sourceTree = "<group>"; };
 		5AF85E671970025A0031D0CB /* czzSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzSearchViewController.m; sourceTree = "<group>"; };
+		7BEAABE8BC8244F1C4DC4C0C /* libPods-CustomImageBoardViewer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CustomImageBoardViewer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5C49E341BD3C40D61F99BB3 /* Pods-CustomImageBoardViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1588,8 +1584,8 @@
 			files = (
 				4498CEC41B9E756D004D2380 /* CoreTelephony.framework in Frameworks */,
 				4498CEC21B9E754A004D2380 /* Security.framework in Frameworks */,
+				446656C71BEAF89C0045276B /* GoogleMobileAds.framework in Frameworks */,
 				442A901819DB9BAF00A3516E /* libxml2.dylib in Frameworks */,
-				44A9E10E1AE1CAC600740CE1 /* libGoogleAdMobAds.a in Frameworks */,
 				44BB0BC31A1AE700006C50F5 /* SplunkMint-iOS.framework in Frameworks */,
 				4498CEC01B9E752A004D2380 /* libTalkingData.a in Frameworks */,
 				447FD254195D1AF1003E30C2 /* libz.dylib in Frameworks */,
@@ -1605,6 +1601,7 @@
 				441E5CD117F4691300289DBD /* CoreGraphics.framework in Frameworks */,
 				441E5CD317F4691300289DBD /* UIKit.framework in Frameworks */,
 				441E5CCF17F4691300289DBD /* Foundation.framework in Frameworks */,
+				630F9886EEDAB17CFBFA967C /* libPods-CustomImageBoardViewer.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1622,10 +1619,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				446656C81BEAF89C0045276B /* GoogleMobileAds.framework in Frameworks */,
 				445540721BABEBA700667435 /* CoreTelephony.framework in Frameworks */,
 				445540731BABEBA700667435 /* Security.framework in Frameworks */,
 				445540741BABEBA700667435 /* libxml2.dylib in Frameworks */,
-				445540751BABEBA700667435 /* libGoogleAdMobAds.a in Frameworks */,
 				445540761BABEBA700667435 /* SplunkMint-iOS.framework in Frameworks */,
 				445540781BABEBA700667435 /* libz.dylib in Frameworks */,
 				445540791BABEBA700667435 /* StoreKit.framework in Frameworks */,
@@ -1640,6 +1637,7 @@
 				445540821BABEBA700667435 /* CoreGraphics.framework in Frameworks */,
 				445540831BABEBA700667435 /* UIKit.framework in Frameworks */,
 				445540841BABEBA700667435 /* Foundation.framework in Frameworks */,
+				F3D2E22375146FBDED685182 /* libPods-CIV-Simulator.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1768,6 +1766,7 @@
 				441E5CCD17F4691300289DBD /* Frameworks */,
 				441E5CCC17F4691300289DBD /* Products */,
 				4455415B1BABEBA700667435 /* CustomImageBoardViewer copy-Info.plist */,
+				992BBD96EEC914CF40C16224 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1805,6 +1804,8 @@
 				441E5CD017F4691300289DBD /* CoreGraphics.framework */,
 				441E5CD217F4691300289DBD /* UIKit.framework */,
 				441E5CF017F4691300289DBD /* XCTest.framework */,
+				3ACCEC90A7B8DF04971F5816 /* libPods-CIV-Simulator.a */,
+				7BEAABE8BC8244F1C4DC4C0C /* libPods-CustomImageBoardViewer.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1989,6 +1990,14 @@
 				44AE2B031872B41D002CB021 /* PartialTransparentView */,
 			);
 			name = czzThreadViewController;
+			sourceTree = "<group>";
+		};
+		442066211BE846540023D91F /* GoogleAnalytic */ = {
+			isa = PBXGroup;
+			children = (
+				442066221BE846820023D91F /* GoogleService-Info.plist */,
+			);
+			name = GoogleAnalytic;
 			sourceTree = "<group>";
 		};
 		442A8F4419DB7DF200A3516E /* Classes */ = {
@@ -2589,20 +2598,7 @@
 		44A9E0FF1AE1CAC600740CE1 /* GoogldAdmob */ = {
 			isa = PBXGroup;
 			children = (
-				44A9E1001AE1CAC600740CE1 /* GADAdMobExtras.h */,
-				44A9E1011AE1CAC600740CE1 /* GADAdNetworkExtras.h */,
-				44A9E1021AE1CAC600740CE1 /* GADAdSize.h */,
-				44A9E1031AE1CAC600740CE1 /* GADBannerView.h */,
-				44A9E1041AE1CAC600740CE1 /* GADBannerViewDelegate.h */,
-				44A9E1051AE1CAC600740CE1 /* GADInAppPurchase.h */,
-				44A9E1061AE1CAC600740CE1 /* GADInAppPurchaseDelegate.h */,
-				44A9E1071AE1CAC600740CE1 /* GADInterstitial.h */,
-				44A9E1081AE1CAC600740CE1 /* GADInterstitialDelegate.h */,
-				44A9E1091AE1CAC600740CE1 /* GADModules.h */,
-				44A9E10A1AE1CAC600740CE1 /* GADRequest.h */,
-				44A9E10B1AE1CAC600740CE1 /* GADRequestError.h */,
-				44A9E10C1AE1CAC600740CE1 /* libGoogleAdMobAds.a */,
-				44A9E10D1AE1CAC600740CE1 /* README.txt */,
+				4420661E1BE83F390023D91F /* GoogleMobileAds.framework */,
 			);
 			path = GoogldAdmob;
 			sourceTree = "<group>";
@@ -2685,6 +2681,7 @@
 		44B89E771A2AF3CE0085F766 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				442066211BE846540023D91F /* GoogleAnalytic */,
 				445C66351BBEC38E004B3E83 /* CPLoadFromNib */,
 				4498CEBD1B9E751E004D2380 /* TalkingData */,
 				44BFEF421B8C0D7F0095772B /* DeviceHardware */,
@@ -3158,6 +3155,17 @@
 			name = czzSearchViewController;
 			sourceTree = "<group>";
 		};
+		992BBD96EEC914CF40C16224 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				2EDAC0061FC74216378DDC26 /* Pods-CIV-Simulator.debug.xcconfig */,
+				505660B3F87FABFEE33CE10C /* Pods-CIV-Simulator.release.xcconfig */,
+				E5C49E341BD3C40D61F99BB3 /* Pods-CustomImageBoardViewer.debug.xcconfig */,
+				31FEEA8309F3AF0A6D9D9D8F /* Pods-CustomImageBoardViewer.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -3165,10 +3173,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 441E5D0017F4691300289DBD /* Build configuration list for PBXNativeTarget "CustomImageBoardViewer" */;
 			buildPhases = (
+				83D1960D871F215C67CDC085 /* Check Pods Manifest.lock */,
 				441E5CC717F4691300289DBD /* Sources */,
 				441E5CC817F4691300289DBD /* Frameworks */,
 				441E5CC917F4691300289DBD /* Resources */,
 				441A6A901BB28DF7008E380C /* Embed Watch Content */,
+				50DFA6DAB02EE5692689F09C /* Embed Pods Frameworks */,
+				DB95B09DE356EE470E38C186 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -3201,10 +3212,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 445541571BABEBA700667435 /* Build configuration list for PBXNativeTarget "CIV-Simulator" */;
 			buildPhases = (
+				89CF5F570E7F26104C06F39F /* Check Pods Manifest.lock */,
 				44553FDC1BABEBA700667435 /* Sources */,
 				445540711BABEBA700667435 /* Frameworks */,
 				445540851BABEBA700667435 /* Resources */,
 				4476646D1BB577FC007F40FB /* Embed App Extensions */,
+				8662BC3586652DB08CBF0BAA /* Embed Pods Frameworks */,
+				6930B85C23361D6EAB8E573F /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -3361,6 +3375,7 @@
 				44C73B741A4708BA0051D4C2 /* thumb_down.png in Resources */,
 				44C34557187E6CF000FDE45D /* sougo_emoji_UTF16.txt in Resources */,
 				444F5B371A40EA3500EB391F /* 36.png in Resources */,
+				446656C91BEAF9380045276B /* GoogleService-Info.plist in Resources */,
 				44B89E6C1A2AF2200085F766 /* running_ac-1.gif in Resources */,
 				44E792081A17856500A63C04 /* upload@2x.png in Resources */,
 				44B89E791A2AF4340085F766 /* running_ac.gif in Resources */,
@@ -3401,7 +3416,6 @@
 				444F5B3C1A40EA3500EB391F /* 41.png in Resources */,
 				44E791DA1A17856500A63C04 /* error.png in Resources */,
 				44E791CD1A17856500A63C04 /* advance.png in Resources */,
-				44A9E10F1AE1CAC600740CE1 /* README.txt in Resources */,
 				444F5B1D1A40EA3500EB391F /* 10.png in Resources */,
 				44E791CE1A17856500A63C04 /* advance@2x.png in Resources */,
 				44CF254B1A25A2A500BD8228 /* lol.png in Resources */,
@@ -3599,6 +3613,7 @@
 				445540AD1BABEBA700667435 /* thumb_down.png in Resources */,
 				445540AE1BABEBA700667435 /* sougo_emoji_UTF16.txt in Resources */,
 				445540AF1BABEBA700667435 /* 36.png in Resources */,
+				446656CA1BEAF9390045276B /* GoogleService-Info.plist in Resources */,
 				445540B01BABEBA700667435 /* running_ac-1.gif in Resources */,
 				445540B11BABEBA700667435 /* upload@2x.png in Resources */,
 				445540B21BABEBA700667435 /* running_ac.gif in Resources */,
@@ -3639,7 +3654,6 @@
 				445540D31BABEBA700667435 /* 41.png in Resources */,
 				445540D41BABEBA700667435 /* error.png in Resources */,
 				445540D51BABEBA700667435 /* advance.png in Resources */,
-				445540D61BABEBA700667435 /* README.txt in Resources */,
 				445540D71BABEBA700667435 /* 10.png in Resources */,
 				445540D81BABEBA700667435 /* advance@2x.png in Resources */,
 				445540D91BABEBA700667435 /* lol.png in Resources */,
@@ -3798,6 +3812,99 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		50DFA6DAB02EE5692689F09C /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6930B85C23361D6EAB8E573F /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CIV-Simulator/Pods-CIV-Simulator-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		83D1960D871F215C67CDC085 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		8662BC3586652DB08CBF0BAA /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CIV-Simulator/Pods-CIV-Simulator-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		89CF5F570E7F26104C06F39F /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		DB95B09DE356EE470E38C186 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		441E5CC717F4691300289DBD /* Sources */ = {
@@ -4334,6 +4441,7 @@
 		};
 		441E5D0117F4691300289DBD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E5C49E341BD3C40D61F99BB3 /* Pods-CustomImageBoardViewer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -4347,6 +4455,7 @@
 					2,
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/CustomImageBoardViewer",
+					"$(PROJECT_DIR)/CustomImageBoardViewer/GoogldAdmob",
 				);
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -4360,10 +4469,7 @@
 					"$(PROJECT_DIR)/CustomImageBoardViewer/GoogldAdmob",
 					"$(PROJECT_DIR)/CustomImageBoardViewer",
 				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.ac-channel-browser";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -4373,6 +4479,7 @@
 		};
 		441E5D0217F4691300289DBD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 31FEEA8309F3AF0A6D9D9D8F /* Pods-CustomImageBoardViewer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -4386,6 +4493,7 @@
 					2,
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/CustomImageBoardViewer",
+					"$(PROJECT_DIR)/CustomImageBoardViewer/GoogldAdmob",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Prefix.pch";
@@ -4398,10 +4506,7 @@
 					"$(PROJECT_DIR)/CustomImageBoardViewer/GoogldAdmob",
 					"$(PROJECT_DIR)/CustomImageBoardViewer",
 				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.ac-channel-browser";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -4457,6 +4562,7 @@
 		};
 		445541581BABEBA700667435 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2EDAC0061FC74216378DDC26 /* Pods-CIV-Simulator.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -4470,6 +4576,7 @@
 					2,
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/CustomImageBoardViewer",
+					"$(PROJECT_DIR)/CustomImageBoardViewer/GoogldAdmob",
 				);
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -4483,10 +4590,7 @@
 					"$(PROJECT_DIR)/CustomImageBoardViewer/GoogldAdmob",
 					"$(PROJECT_DIR)/CustomImageBoardViewer",
 				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.ac-channel-browser";
 				PRODUCT_NAME = "CustomImageBoardViewer copy";
 				PROVISIONING_PROFILE = "";
@@ -4496,6 +4600,7 @@
 		};
 		445541591BABEBA700667435 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 505660B3F87FABFEE33CE10C /* Pods-CIV-Simulator.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -4509,6 +4614,7 @@
 					2,
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/CustomImageBoardViewer",
+					"$(PROJECT_DIR)/CustomImageBoardViewer/GoogldAdmob",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Prefix.pch";
@@ -4521,10 +4627,7 @@
 					"$(PROJECT_DIR)/CustomImageBoardViewer/GoogldAdmob",
 					"$(PROJECT_DIR)/CustomImageBoardViewer",
 				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.ac-channel-browser";
 				PRODUCT_NAME = "CustomImageBoardViewer copy";
 				PROVISIONING_PROFILE = "";

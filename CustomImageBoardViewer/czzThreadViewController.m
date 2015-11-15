@@ -121,10 +121,26 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     } else {
         DLog(@"App in background, nothing needs to be done.");
     }
+    
+    // Google Analytic integration.
+    NSString *label = self.threadViewManager.parentThread.content.string;
+    // Chunk the text.
+    if (label.length > 20) {
+        label = [label substringToIndex:19];
+    }
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Thread"
+                                                                                        action:@"View Thread"
+                                                                                         label:label
+                                                                                         value:@(self.threadViewManager.parentThread.ID)] build]];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    // Google Analytic integration
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+
     //configure the right view as menu
     UINavigationController *rightController = [self.storyboard instantiateViewControllerWithIdentifier:@"right_menu_view_controller"];
     threadMenuViewController = [rightController.viewControllers objectAtIndex:0];
