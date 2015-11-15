@@ -15,12 +15,16 @@
 
 @optional
 - (void)threadDownloaderDownloadUpdated:(czzThreadDownloader *)downloader progress:(CGFloat)progress;
-- (void)threadDownloaderProcessUpdated:(czzThreadDownloader *)downloader progress:(CGFloat)progress;
 @end
 
 @interface czzThreadDownloader : NSObject
-@property (nonatomic, strong) czzThread *parentThread;
-@property (nonatomic, strong) czzForum *parentForum;
+@property (nonatomic, assign) NSInteger pageNumber;
 
 @property (nonatomic, weak) id<czzThreadDownloaderDelegate>delegate;
+
+- (instancetype)initWithForum:(czzForum *)forum;
+- (instancetype)initWithForum:(czzForum *)forum andThread:(czzThread *)thread;
+
+- (void)start;
+- (void)stop;
 @end
