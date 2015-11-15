@@ -153,7 +153,7 @@
 }
 
 -(void)iterateDelegatesWithBlock:(void(^)(id<czzImageDownloaderManagerDelegate> delegate))block {
-    for (czzWeakReferenceDelegate* weakRefDelegate in self.delegates) {
+    for (czzWeakReferenceDelegate* weakRefDelegate in [self.delegates copy]) {
         id<czzImageDownloaderManagerDelegate> delegate = weakRefDelegate.delegate;
         block(delegate);
     }

@@ -10,7 +10,7 @@
 
 @class czzThreadDownloader;
 @protocol czzThreadDownloaderDelegate <NSObject>
-- (void)threadDownloaderBeganDownload:(czzThreadDownloader *)downloader;
+- (void)threadDownloaderBeginsDownload:(czzThreadDownloader *)downloader;
 - (void)threadDownloaderCompleted:(czzThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads error:(NSError *)error;
 
 @optional

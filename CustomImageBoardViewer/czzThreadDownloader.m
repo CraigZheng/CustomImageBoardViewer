@@ -41,13 +41,13 @@
 
 - (void)start {
     [self stop];
-    NSURL *targetURL = [NSURL URLWithString:self.targetURLString];
+    NSURL *targetURL = [NSURL URLWithString:[self.targetURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     self.urlDownloader = [[czzURLDownloader alloc] initWithTargetURL:targetURL
                                                             delegate:self
                                                             startNow:YES];
     DLog(@"Start downloading: %@", targetURL.absoluteString);
-    if ([self.delegate respondsToSelector:@selector(threadDownloaderBeganDownload:)]) {
-        [self.delegate threadDownloaderBeganDownload:self];
+    if ([self.delegate respondsToSelector:@selector(threadDownloaderBeginsDownload:)]) {
+        [self.delegate threadDownloaderBeginsDownload:self];
     }
 }
 
@@ -63,12 +63,10 @@
 
 - (void)setParentForum:(czzForum *)parentForum {
     _parentForum = parentForum;
-    self.parentThread = nil; // Can only be one.
 }
 
 - (void)setParentThread:(czzThread *)parentThread {
     _parentThread = parentThread;
-    self.parentForum = nil;
 }
 
 #pragma mark - Getters
@@ -85,8 +83,8 @@
     } else if (self.parentForum) {
         // For browsing forum.
         targetURLString = [settingCentre thread_list_host];
-        targetURLString = [targetURLString stringByReplacingOccurrencesOfString:kForumID
-                                                                     withString:[NSString stringWithFormat:@"%ld", (long)self.parentForum.forumID]];
+        targetURLString = [targetURLString stringByReplacingOccurrencesOfString:kForum
+                                                                     withString:self.parentForum.name];
     }
     assert(targetURLString.length != 0);
     targetURLString = [targetURLString stringByReplacingOccurrencesOfString:kPageNumber

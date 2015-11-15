@@ -9,9 +9,12 @@
 #import "czzHomeViewManager.h"
 #import "czzImageCacheManager.h"
 #import "czzImageDownloaderManager.h"
+#import "czzThreadDownloader.h"
 
-@interface czzHomeViewManager ()
+@interface czzHomeViewManager () <czzThreadDownloaderDelegate>
 @property (nonatomic, readonly) NSString *cacheFile;
+
+@property (nonatomic, strong) czzThreadDownloader *downloader;
 @end
 
 @implementation czzHomeViewManager
@@ -89,18 +92,17 @@
     [self downloadOf:nil successed:YES result:mockData];
     return;
 #endif
-    if (self.threadDownloader)
-        [self.threadDownloader stop];
+    if (self.downloader)
+        [self.downloader stop];
     self.pageNumber = pn;
     if (self.pageNumber > self.totalPages)
         self.pageNumber = self.totalPages;
-
-    NSString *targetURLStringWithPN = [[[self.baseURLString
-                                         stringByReplacingOccurrencesOfString:kPageNumber
-                                         withString:[NSString stringWithFormat:@"%ld", (long) self.pageNumber]]
-                                        stringByReplacingOccurrencesOfString:kForumID
-                                        withString:[NSString stringWithFormat:@"%ld", (long)self.forum.forumID]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    self.threadDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
+    // Construct and start downloading for forum with page number,
+    self.downloader = [[czzThreadDownloader alloc] initWithForum:self.forum];
+    self.downloader.pageNumber = self.pageNumber;
+    self.downloader.delegate = self;
+    [self.downloader start];
+    
     self.isDownloading = YES;
     if ([self.delegate respondsToSelector:@selector(homeViewManagerBeginsDownloading:)]) {
         [self.delegate homeViewManagerBeginsDownloading:self];
@@ -133,6 +135,44 @@
             }
         }
     }
+}
+
+#pragma mark - czzThreadDownloaderDelegate
+- (void)threadDownloaderBeginsDownload:(czzThreadDownloader *)downloader {
+    [self.delegate homeViewManagerBeginsDownloading:self];
+}
+
+- (void)threadDownloaderDownloadUpdated:(czzThreadDownloader *)downloader progress:(CGFloat)progress {
+    if ([self.delegate respondsToSelector:@selector(homeViewManager:downloadProgressUpdated:)])
+        [self.delegate homeViewManager:self downloadProgressUpdated:progress];
+}
+
+- (void)threadDownloaderCompleted:(czzThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads error:(NSError *)error {
+    self.isProcessing = self.isDownloading = NO;
+    if (success){
+        self.cachedThreads = nil;
+        if (self.shouldHideImageForThisForum)
+        {
+            for (czzThread *thread in threads) {
+                thread.thImgSrc = nil;
+            }
+        }
+        [self downloadThumbnailsForThreads:threads];
+        self.lastBatchOfThreads = threads;
+        // Add to total threads.
+        [self.threads addObjectsFromArray:threads];
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.watchKitCompletionHandler) {
+            self.watchKitCompletionHandler(success, self.threads);
+            self.watchKitCompletionHandler = nil;
+        }
+        // No watch kit completion handler, inform delegate instead.
+        else if ([self.delegate respondsToSelector:@selector(homeViewManager:threadListProcessed:newThreads:allThreads:)]) {
+            [self.delegate homeViewManager:self threadListProcessed:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
+        }
+        DLog(@"%@", NSStringFromSelector(_cmd));
+    });
 }
 
 #pragma mark - czzURLDownloaderDelegate
@@ -203,23 +243,6 @@
     self.totalPages = allPage;
 }
 
-///*
-// calculate heights for both horizontal and vertical of the parent view controller
-// */
-//-(void)calculateHeightsForThreads:(NSArray*)newThreads {
-//    CGFloat shortWidth, longWidth;
-//    shortWidth = MIN([UIScreen mainScreen].applicationFrame.size.height, [UIScreen mainScreen].applicationFrame.size.width);
-//    longWidth = MAX([UIScreen mainScreen].applicationFrame.size.width, [UIScreen mainScreen].applicationFrame.size.height);
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        for (czzThread *thread in newThreads) {
-//            CGFloat shortHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:[UIApplication sharedApplication].keyWindow.rootViewController.view forWidth:shortWidth hasImage:thread.imgSrc.length > 0 withExtra:NO];
-//            CGFloat longHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:[UIApplication sharedApplication].keyWindow.rootViewController.view forWidth:longWidth hasImage:thread.imgSrc.length > 0 withExtra:YES];
-//            [self.verticalHeights addObject:[NSNumber numberWithFloat:shortHeight]];
-//            [self.horizontalHeights addObject:[NSNumber numberWithFloat:longHeight]];
-//        }
-//    });
-//}
-
 #pragma mark - Setters
 -(void)setForum:(czzForum *)forum {
     _forum = forum;
@@ -248,9 +271,9 @@
     return _threads;
 }
 
-- (NSString *)baseURLString{
-    return [[settingCentre thread_list_host] stringByReplacingOccurrencesOfString:kForum withString:[NSString stringWithFormat:@"%@", self.forum.name]];
-}
+//- (NSString *)baseURLString{
+//    return [[settingCentre thread_list_host] stringByReplacingOccurrencesOfString:kForum withString:[NSString stringWithFormat:@"%@", self.forum.name]];
+//}
 
 #pragma mark - NSCoding
 -(void)encodeWithCoder:(NSCoder *)aCoder {
