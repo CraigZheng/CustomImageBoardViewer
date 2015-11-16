@@ -21,7 +21,7 @@
         messageContentLabel.text = messageToShow;
     if (imageToShow)
         messageImageView.image = imageToShow;
-    [self modalShow];
+    [super modalShow];
 }
 
 +(instancetype)new {

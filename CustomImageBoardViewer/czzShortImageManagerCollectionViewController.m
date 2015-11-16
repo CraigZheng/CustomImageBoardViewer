@@ -34,6 +34,7 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
     self = [super initWithCoder:aDecoder];
     if (self) {
         [[czzImageDownloaderManager sharedManager] addDelegate:self];
+        self.dismissOnTap = NO;
     }
     return self;
 }
@@ -42,6 +43,7 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         [[czzImageDownloaderManager sharedManager] addDelegate:self];
+        self.dismissOnTap = NO;
     }
     return self;
 }

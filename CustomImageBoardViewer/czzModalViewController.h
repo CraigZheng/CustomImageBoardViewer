@@ -11,6 +11,7 @@
 
 @interface czzModalViewController : UIViewController
 @property (nonatomic, strong) czzFadeInOutModalAnimator *modalAnimator;
+@property (nonatomic, assign) BOOL dismissOnTap;
 
 -(void)modalShow;
 
