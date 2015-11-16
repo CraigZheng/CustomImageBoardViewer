@@ -65,15 +65,9 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
     }
 }
 
--(void)show {
-    [[UIApplication topViewController] presentViewController:self
-                                                     animated:YES
-                                                   completion:nil];
-}
-
 - (void)dismiss {
     if (self.isModal) {
-        [self dismissViewControllerAnimated:self completion:nil];
+        [self dismissViewControllerAnimated:YES completion:nil];
     } else if (self.navigationController.childViewControllers.count > 1) {
         [self.navigationController popViewControllerAnimated:YES];
     } else {

@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 
+#import "czzModalViewController.h"
+
 @class czzOnScreenImageManagerViewController;
 @protocol czzOnScreenImageManagerViewControllerDelegate <NSObject>
 @optional

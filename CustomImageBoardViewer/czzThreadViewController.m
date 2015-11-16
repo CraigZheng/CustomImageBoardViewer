@@ -240,7 +240,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 - (void)threadViewManager:(czzThreadViewManager *)threadViewManager wantsToShowContentForThread:(czzThread *)thread {
     self.miniThreadView = [czzMiniThreadViewController new];
     self.miniThreadView.myThread = thread;
-    [self.miniThreadView show];
+    [self.miniThreadView modalShow];
 }
 
 - (void)homeViewManager:(czzHomeViewManager *)threadViewManager wantsToScrollToContentOffset:(CGPoint)offset {

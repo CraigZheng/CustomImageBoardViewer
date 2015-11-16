@@ -17,7 +17,6 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "UIView+MGBadgeView.h"
-#import "KLCPopup.h"
 
 @interface czzOnScreenImageManagerViewController () <czzImageDownloaderManagerDelegate, czzShortImageManagerCollectionViewControllerProtocol>
 @property (assign, nonatomic) BOOL iconAnimating;
@@ -69,7 +68,7 @@
 }
 
 - (IBAction)tapOnImageManagerIconAction:(id)sender {
-    [self.shortImageManagerCollectionViewController show];
+    [self.shortImageManagerCollectionViewController modalShow];
     //reset badge value
     self.view.badgeView.badgeValue = 0;
 }
@@ -114,7 +113,6 @@
 
 #pragma mark - czzShortImageManagerCollectionViewControllerDelegate
 -(void)userTappedOnImageWithPath:(NSString *)imagePath {
-    [KLCPopup dismissAllPopups];
     if (delegate && [delegate respondsToSelector:@selector(onScreenImageManagerSelectedImage:)])
     {
         [delegate onScreenImageManagerSelectedImage:imagePath];

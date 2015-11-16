@@ -7,10 +7,8 @@
 //
 
 #import "czzFavouriteManagerPopUpViewController.h"
-#import "KLCPopup.h"
 
 @interface czzFavouriteManagerPopUpViewController ()
-@property (strong, nonatomic) KLCPopup *popup;
 @end
 
 @implementation czzFavouriteManagerPopUpViewController
@@ -33,12 +31,6 @@
 //
 //    [self.popup showWithLayout:KLCPopupLayoutCenter];
     UIPopoverPresentationController *popoverPresentationController;
-}
-
-
-
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    [self.popup dismiss:NO];
 }
 
 +(instancetype)new {

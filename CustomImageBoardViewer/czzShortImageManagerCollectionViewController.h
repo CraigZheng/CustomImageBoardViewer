@@ -10,6 +10,7 @@
 
 #import <UIKit/UIKit.h>
 
+#import "czzModalViewController.h"
 #import "czzImageCacheManager.h"
 #import "czzAppDelegate.h"
 
@@ -19,10 +20,9 @@
 
 @end
 
-@interface czzShortImageManagerCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface czzShortImageManagerCollectionViewController : czzModalViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (weak, nonatomic) id<czzShortImageManagerCollectionViewControllerProtocol> delegate;
 @property (weak, nonatomic) IBOutlet UICollectionView *managerCollectionView;
 @property (weak, nonatomic) IBOutlet UIView *placeholderView;
 
--(void)show;
 @end
