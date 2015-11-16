@@ -23,11 +23,6 @@
 @property (weak, nonatomic) id<czzShortImageManagerCollectionViewControllerProtocol> delegate;
 @property (weak, nonatomic) IBOutlet UICollectionView *managerCollectionView;
 @property (weak, nonatomic) IBOutlet UIView *placeholderView;
-@property (strong, nonatomic) UIViewController *hostViewController;
-
-@property (assign, nonatomic) BOOL isShowing;
-
-- (IBAction)tapOnViewAction:(id)sender;
 
 -(void)show;
 @end

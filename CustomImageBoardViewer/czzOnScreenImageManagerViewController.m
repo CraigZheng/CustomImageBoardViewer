@@ -63,7 +63,6 @@
 -(czzShortImageManagerCollectionViewController *)shortImageManagerCollectionViewController {
     //grab and return the short image manager from my own navigation controller
     shortImageManagerCollectionViewController = [(czzNavigationController*)self.parentViewController.navigationController shortImageMangerController];
-    shortImageManagerCollectionViewController.hostViewController = self.parentViewController;
     if (!shortImageManagerCollectionViewController.delegate)
         shortImageManagerCollectionViewController.delegate = self;
     return shortImageManagerCollectionViewController;

@@ -13,10 +13,8 @@
 #import "czzImageDownloader.h"
 #import "czzImageDownloaderManager.h"
 #import "czzImageViewerUtil.h"
-#import "KLCPopup.h"
 
 @interface czzShortImageManagerCollectionViewController ()<czzImageDownloaderManagerDelegate>
-@property (strong, nonatomic) KLCPopup *popup;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
 @property (strong, nonatomic) NSMutableArray *downloadedImages;
 @property (readonly, nonatomic) NSArray *downloaders;
@@ -24,12 +22,9 @@
 
 @implementation czzShortImageManagerCollectionViewController
 @synthesize delegate;
-@synthesize popup;
 @synthesize managerCollectionView;
-@synthesize isShowing;
 @synthesize placeholderView;
 @synthesize imageViewerUtil;
-@synthesize hostViewController;
 
 static NSString * const reuseIdentifier = @"Cell";
 static NSString *imageCellIdentifier = @"image_cell_identifier";
@@ -62,17 +57,28 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
     }
 }
 
-- (IBAction)tapOnViewAction:(id)sender {
-    isShowing = NO;
-    [popup dismiss:YES];
+- (IBAction)tapOnBackgroundViewAction:(id)sender {
+    UITapGestureRecognizer *tapSender = sender;
+    // If the tap gesture is located outside of the collection view.
+    if (!CGRectContainsPoint(self.managerCollectionView.frame, [tapSender locationInView:self.view])) {
+        [self dismiss];
+    }
 }
 
 -(void)show {
-    popup = [KLCPopup popupWithContentView:self.view showType:KLCPopupShowTypeBounceIn dismissType:KLCPopupDismissTypeBounceOut maskType:KLCPopupMaskTypeDimmed dismissOnBackgroundTouch:YES dismissOnContentTouch:NO];
-    
-    [popup showWithLayout:KLCPopupLayoutCenter];
-    
-    isShowing = YES;
+    [[UIApplication topViewController] presentViewController:self
+                                                     animated:YES
+                                                   completion:nil];
+}
+
+- (void)dismiss {
+    if (self.isModal) {
+        [self dismissViewControllerAnimated:self completion:nil];
+    } else if (self.navigationController.childViewControllers.count > 1) {
+        [self.navigationController popViewControllerAnimated:YES];
+    } else {
+        DLog(@"%@ cannot be dismissed", NSStringFromClass(self.class));
+    }
 }
 
 #pragma mark - Getter
@@ -136,19 +142,23 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
     if (indexPath.section == 0) {
         czzImageDownloader *imageDownloader = [self.downloaders objectAtIndex:indexPath.row];
         [[czzImageDownloaderManager sharedManager] stopDownloadingImage:imageDownloader.imageURLString.lastPathComponent];
+        [self dismiss];
     }
     //downloaded image section
     else if (indexPath.section == 1) {
         //if parent view controller is not nil, show in parent view
-        if (hostViewController) {
-            imageViewerUtil = [czzImageViewerUtil new];
-            [imageViewerUtil showPhotos:self.downloadedImages withIndex:indexPath.row];
-        } else {
-            NSString *imgPath = [self.downloadedImages objectAtIndex:indexPath.row];
-            if (delegate && [delegate respondsToSelector:@selector(userTappedOnImageWithPath:)]) {
-                [delegate userTappedOnImageWithPath:imgPath];
+        [self dismissViewControllerAnimated:YES completion:^{
+            DLog(@"%s", __PRETTY_FUNCTION__);
+            if (self.delegate) {
+                NSString *imgPath = [self.downloadedImages objectAtIndex:indexPath.row];
+                if (delegate && [delegate respondsToSelector:@selector(userTappedOnImageWithPath:)]) {
+                    [delegate userTappedOnImageWithPath:imgPath];
+                }
+            } else {
+                imageViewerUtil = [czzImageViewerUtil new];
+                [imageViewerUtil showPhotos:self.downloadedImages withIndex:indexPath.row];
             }
-        }
+        }];
     }
 }
 
