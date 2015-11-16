@@ -16,7 +16,7 @@
 
 @interface czzShortImageManagerCollectionViewController ()<czzImageDownloaderManagerDelegate>
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
-@property (strong, nonatomic) NSMutableArray *downloadedImages;
+@property (strong, nonatomic) NSArray *downloadedImages;
 @property (readonly, nonatomic) NSArray *downloaders;
 @end
 
@@ -30,22 +30,10 @@ static NSString * const reuseIdentifier = @"Cell";
 static NSString *imageCellIdentifier = @"image_cell_identifier";
 static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
 
--(instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        [[czzImageDownloaderManager sharedManager] addDelegate:self];
-        self.dismissOnTap = NO;
-    }
-    return self;
-}
-
--(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        [[czzImageDownloaderManager sharedManager] addDelegate:self];
-        self.dismissOnTap = NO;
-    }
-    return self;
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [[czzImageDownloaderManager sharedManager] addDelegate:self];
+    self.dismissOnTap = NO;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -82,11 +70,8 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
     return [[[czzImageDownloaderManager sharedManager] imageDownloaders] allObjects];
 }
 
--(NSMutableArray *)downloadedImages {
-    if (!_downloadedImages) {
-        _downloadedImages = [NSMutableArray new];
-    }
-    return _downloadedImages;
+-(NSArray *)downloadedImages {
+    return [[czzImageDownloaderManager sharedManager] downloadedImages];
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -166,12 +151,6 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
     // This view controller cares only for the full size images.
     if (!downloader.isThumbnail) {
-        if (success) {
-            if (self.downloadedImages.count)
-                [self.downloadedImages insertObject:downloader.savePath atIndex:0];
-            else
-                [self.downloadedImages addObject:downloader.savePath];
-        }
         [self.managerCollectionView reloadData];
     }
 }
