@@ -200,7 +200,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="77w-dF-ORj" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="PKG-T4-KHR">
+                <tapGestureRecognizer cancelsTouchesInView="NO" id="PKG-T4-KHR">
                     <connections>
                         <action selector="tapOnBackgroundViewAction:" destination="8B6-JU-J4d" id="KXw-y7-RxK"/>
                     </connections>

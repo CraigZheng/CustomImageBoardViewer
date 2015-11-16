@@ -85,7 +85,8 @@
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
     if (!downloader.isThumbnail) {
         if (success) {
-            if (![settingCentre userDefShouldAutoOpenImage]) {
+            if (![settingCentre userDefShouldAutoOpenImage] &&
+                !self.isShowingShortImageManagerController) {
                 [self.view.badgeView setBadgeValue:self.view.badgeView.badgeValue + 1];
             }
         }
@@ -114,6 +115,16 @@
     {
         [delegate onScreenImageManagerSelectedImage:imagePath];
     }
+}
+
+#pragma mark - Getter
+
+- (BOOL)isShowingShortImageManagerController {
+    // If the topViewController is a czzShortImageManagerCollectionViewController, return YES.
+    if ([[UIApplication topViewController] isMemberOfClass:[czzShortImageManagerCollectionViewController class]]) {
+        return YES;
+    }
+    return NO;
 }
 
 + (instancetype)new {
