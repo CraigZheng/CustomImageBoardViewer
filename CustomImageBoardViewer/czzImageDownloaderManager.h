@@ -25,6 +25,7 @@
 @interface czzImageDownloaderManager : NSObject
 @property (nonatomic, strong) NSMutableSet<czzImageDownloader*> *thumbnailDownloaders;
 @property (nonatomic, strong) NSMutableSet<czzImageDownloader*> *imageDownloaders;
+@property (nonatomic, readonly) NSArray *downloadedImages;
 
 -(void)addDelegate:(id<czzImageDownloaderManagerDelegate>)delegate;
 -(void)removeDelegate:(id<czzImageDownloaderManagerDelegate>)delegate;

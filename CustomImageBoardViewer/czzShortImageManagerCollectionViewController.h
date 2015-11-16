@@ -10,6 +10,7 @@
 
 #import <UIKit/UIKit.h>
 
+#import "czzModalViewController.h"
 #import "czzImageCacheManager.h"
 #import "czzAppDelegate.h"
 
@@ -23,11 +24,5 @@
 @property (weak, nonatomic) id<czzShortImageManagerCollectionViewControllerProtocol> delegate;
 @property (weak, nonatomic) IBOutlet UICollectionView *managerCollectionView;
 @property (weak, nonatomic) IBOutlet UIView *placeholderView;
-@property (strong, nonatomic) UIViewController *hostViewController;
 
-@property (assign, nonatomic) BOOL isShowing;
-
-- (IBAction)tapOnViewAction:(id)sender;
-
--(void)show;
 @end
