@@ -83,9 +83,9 @@
     CGFloat estimatedRowHeight = 44;
     if (indexPath.row < self.homeViewManager.threads.count) {
         czzThread *thread = [self.homeViewManager.threads objectAtIndex:indexPath.row];
-        // If the height is already available.
+        // More text = bigger.
         NSInteger estimatedLines = thread.content.length / 50 + 1;
-        estimatedRowHeight *= estimatedLines;
+        estimatedRowHeight += 30 * estimatedLines;
         
         // Has image = bigger.
         if (thread.thImgSrc.length) {
