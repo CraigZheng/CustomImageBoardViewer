@@ -20,7 +20,7 @@
 
 @end
 
-@interface czzShortImageManagerCollectionViewController : czzModalViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface czzShortImageManagerCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (weak, nonatomic) id<czzShortImageManagerCollectionViewControllerProtocol> delegate;
 @property (weak, nonatomic) IBOutlet UICollectionView *managerCollectionView;
 @property (weak, nonatomic) IBOutlet UIView *placeholderView;

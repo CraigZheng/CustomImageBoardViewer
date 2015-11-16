@@ -33,7 +33,6 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[czzImageDownloaderManager sharedManager] addDelegate:self];
-    self.dismissOnTap = NO;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -48,8 +47,10 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
 }
 
 - (IBAction)tapOnBackgroundViewAction:(id)sender {
+    DLog(@"%s", __PRETTY_FUNCTION__);
     UITapGestureRecognizer *tapSender = sender;
     // If the tap gesture is located outside of the collection view.
+    DLog(@"");
     if (!CGRectContainsPoint(self.managerCollectionView.frame, [tapSender locationInView:self.view])) {
         [self dismiss];
     }

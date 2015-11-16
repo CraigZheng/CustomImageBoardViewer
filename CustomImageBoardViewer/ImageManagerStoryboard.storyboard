@@ -47,11 +47,11 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="coN-ef-nk3" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="DuY-ZR-HZ1">
                     <connections>
-                        <action selector="tapOnImageManagerIconAction:" destination="SSq-yE-7jJ" id="nml-dA-Tze"/>
+                        <segue destination="8B6-JU-J4d" kind="modal" id="NUZ-62-7Y1"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="185" y="1038"/>
+            <point key="canvasLocation" x="55" y="1007"/>
         </scene>
         <!--Czz Short Image Manager Collection View Controller-->
         <scene sceneID="3sC-aH-SBP">
@@ -200,7 +200,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="77w-dF-ORj" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer cancelsTouchesInView="NO" id="PKG-T4-KHR">
+                <tapGestureRecognizer id="PKG-T4-KHR">
                     <connections>
                         <action selector="tapOnBackgroundViewAction:" destination="8B6-JU-J4d" id="KXw-y7-RxK"/>
                     </connections>

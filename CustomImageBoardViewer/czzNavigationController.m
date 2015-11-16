@@ -18,7 +18,6 @@
 @implementation czzNavigationController
 @synthesize notificationBannerViewController;
 @synthesize onScreenImageManagerView;
-@synthesize shortImageMangerController;
 @synthesize progressView;
 
 - (void)viewDidLoad {
@@ -45,10 +44,6 @@
         onScreenImageManagerView = [czzOnScreenImageManagerViewController new];
         [onScreenImageManagerView stopAnimating]; //hide it at launch
     }
-    if (!shortImageMangerController) {
-        shortImageMangerController = [czzShortImageManagerCollectionViewController new];;
-    }
-
 }
 
 #pragma mark - czzNavigationManagerDelegate
