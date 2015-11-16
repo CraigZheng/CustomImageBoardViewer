@@ -26,7 +26,7 @@
 }
 
 -(void)showPhoto:(NSURL *)photoPath {
-    if ([[czzImageCacheManager sharedInstance] hasImageWithName:photoPath.lastPathComponent]) {
+    if (photoPath && [[czzImageCacheManager sharedInstance] hasImageWithName:photoPath.lastPathComponent]) {
         [self prepareMWPhotoBrowser];
         if (!photoBrowserDataSource)
             photoBrowserDataSource = [NSMutableArray new];

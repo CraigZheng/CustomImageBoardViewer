@@ -22,7 +22,6 @@
 @interface czzMiniThreadViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, assign) NSInteger parentID;
 @property (nonatomic, assign) CGSize rowSize;
-@property (nonatomic, strong) czzFadeInOutModalAnimator *customModalAnimator;
 @property (weak, nonatomic) IBOutlet UIToolbar *miniThreadViewToolBar;
 @end
 
@@ -50,14 +49,6 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-}
-
--(void)show{
-    self.modalPresentationStyle = UIModalPresentationCustom;
-    self.transitioningDelegate = self.customModalAnimator = [czzFadeInOutModalAnimator new];
-    [NavigationManager.delegate presentViewController:self animated:YES completion:^{
-        [self.threadTableView reloadData];
-    }];
 }
 
 #pragma mark - UI actions.

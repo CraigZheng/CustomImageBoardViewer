@@ -7,29 +7,21 @@
 //
 
 #import "czzMessagePopUpViewController.h"
-#import "KLCPopup.h"
-
-@interface czzMessagePopUpViewController ()
-@property KLCPopup *popup;
-@end
 
 @implementation czzMessagePopUpViewController
-@synthesize popup, messageContentLabel, messageImageView, messageToShow, imageToShow;
+@synthesize messageContentLabel, messageImageView, messageToShow, imageToShow;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 }
 
-
--(void)show  {
-    popup = [KLCPopup popupWithContentView:self.view showType:KLCPopupShowTypeBounceIn dismissType:KLCPopupDismissTypeBounceOut maskType:KLCPopupMaskTypeDimmed dismissOnBackgroundTouch:YES dismissOnContentTouch:YES];
+-(void)modalShow {
     if (messageToShow)
         messageContentLabel.text = messageToShow;
     if (imageToShow)
         messageImageView.image = imageToShow;
-
-    [popup showWithLayout:KLCPopupLayoutCenter];
+    [super modalShow];
 }
 
 +(instancetype)new {

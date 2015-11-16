@@ -13,8 +13,6 @@
 #import "czzSettingsCentre.h"
 #import "czzAppDelegate.h"
 
-#import "KLCPopup.h"
-
 @interface czzCookieManagerViewController () <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 @property czzCookieManager *cookieManager;
 @property (nonatomic, strong) NSHTTPCookie *selectedCookie;
@@ -157,7 +155,7 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
         messagePopUp.imageToShow = cookieManagerSegmentControl.selectedSegmentIndex == 0 ? [UIImage imageNamed:@"35.png"] : [UIImage imageNamed:@"03.png"];
         
         messagePopUp.messageToShow = [NSString stringWithFormat:@"没有%@的饼干...", [cookieManagerSegmentControl titleForSegmentAtIndex:cookieManagerSegmentControl.selectedSegmentIndex]];
-        [messagePopUp show];
+        [messagePopUp modalShow];
     }
     [cookieManagerTableView reloadData];
 
