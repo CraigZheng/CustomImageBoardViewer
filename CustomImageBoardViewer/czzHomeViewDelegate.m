@@ -84,9 +84,12 @@
     if (indexPath.row < self.homeViewManager.threads.count) {
         czzThread *thread = [self.homeViewManager.threads objectAtIndex:indexPath.row];
         // More text = bigger.
-        NSInteger estimatedLines = thread.content.length / 50 + 1;
-        estimatedRowHeight += 30 * estimatedLines;
-        
+        NSDictionary *attributesDictionary = @{NSFontAttributeName : [settingCentre contentFont]};
+        CGRect fontSizeFor7 = [thread.content.string boundingRectWithSize:CGSizeMake(CGRectGetWidth(tableView.frame), MAXFLOAT)
+                                                                  options:NSStringDrawingUsesLineFragmentOrigin
+                                                               attributes:attributesDictionary
+                                                                  context:nil];
+        estimatedRowHeight = fontSizeFor7.size.height += 40; // 40: header and footer views.
         // Has image = bigger.
         if (thread.thImgSrc.length) {
             estimatedRowHeight += settingCentre.userDefShouldUseBigImage ? 160 : 80;
