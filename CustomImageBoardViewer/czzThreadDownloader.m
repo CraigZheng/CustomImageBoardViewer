@@ -15,9 +15,6 @@
 @property (nonatomic, strong) czzURLDownloader *urlDownloader;
 @property (nonatomic, strong) czzJSONProcessor *jsonProcessor;
 
-@property (nonatomic, strong) czzThread *parentThread;
-@property (nonatomic, strong) czzForum *parentForum;
-
 @property (nonatomic, readonly) NSString * targetURLString;
 @end
 
@@ -118,12 +115,12 @@
 - (void)downloadOf:(NSURL *)url successed:(BOOL)successed result:(NSData *)downloadedData {
     if (successed) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            if (self.parentForum) {
-                [self.jsonProcessor processThreadListFromData:downloadedData
-                                                     forForum:self.parentForum];
-            } else if (self.parentThread) {
+            if (self.parentThread) {
                 [self.jsonProcessor processSubThreadFromData:downloadedData
                                                     forForum:self.parentForum];
+            } else if (self.parentForum) {
+                [self.jsonProcessor processThreadListFromData:downloadedData
+                                                     forForum:self.parentForum];
             }
         });
     } else {
@@ -154,5 +151,13 @@
     });
 }
 
+- (void)subThreadProcessedForThread:(czzJSONProcessor *)processor :(czzThread *)parentThread :(NSArray *)newThread :(BOOL)success {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.delegate threadDownloaderCompleted:self
+                                         success:success
+                               downloadedThreads:newThread
+                                           error:nil];
+    });
+}
 
 @end

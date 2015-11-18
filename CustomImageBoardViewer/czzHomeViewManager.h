@@ -15,11 +15,12 @@
 #import "czzSettingsCentre.h"
 #import "czzTextViewHeightCalculator.h"
 #import "czzAppDelegate.h"
+#import "czzThreadDownloader.h"
 
 #import "NSObjectUtil.h"
 #import <Foundation/Foundation.h>
 
-@class czzHomeViewManager, czzThreadDownloader;
+@class czzHomeViewManager;
 @protocol czzHomeViewManagerDelegate <NSObject>
 @optional
 -(void)homeViewManagerBeginsDownloading:(czzHomeViewManager*)homeViewManager;
@@ -36,7 +37,7 @@
 
 @end
 
-@interface czzHomeViewManager : NSObject <NSCoding>
+@interface czzHomeViewManager : NSObject <NSCoding, czzThreadDownloaderDelegate>
 @property (nonatomic, assign) BOOL shouldHideImageForThisForum;
 @property (nonatomic, strong) czzForum *forum;
 @property (nonatomic, assign) NSInteger pageNumber;

@@ -9,9 +9,8 @@
 #import "czzHomeViewManager.h"
 #import "czzImageCacheManager.h"
 #import "czzImageDownloaderManager.h"
-#import "czzThreadDownloader.h"
 
-@interface czzHomeViewManager () <czzThreadDownloaderDelegate>
+@interface czzHomeViewManager ()
 @property (nonatomic, readonly) NSString *cacheFile;
 
 @end

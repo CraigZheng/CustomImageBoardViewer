@@ -21,6 +21,8 @@
 @property (nonatomic, assign) NSInteger pageNumber;
 
 @property (nonatomic, weak) id<czzThreadDownloaderDelegate>delegate;
+@property (nonatomic, strong) czzThread *parentThread;
+@property (nonatomic, strong) czzForum *parentForum;
 
 - (instancetype)initWithForum:(czzForum *)forum;
 - (instancetype)initWithForum:(czzForum *)forum andThread:(czzThread *)thread;
