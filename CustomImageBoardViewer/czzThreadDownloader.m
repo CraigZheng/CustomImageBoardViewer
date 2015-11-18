@@ -8,6 +8,9 @@
 
 #import "czzThreadDownloader.h"
 
+#import "czzURLDownloader.h"
+#import "czzJSONProcessor.h"
+
 @interface czzThreadDownloader() <czzURLDownloaderProtocol, czzJSONProcessorDelegate>
 @property (nonatomic, strong) czzURLDownloader *urlDownloader;
 @property (nonatomic, strong) czzJSONProcessor *jsonProcessor;

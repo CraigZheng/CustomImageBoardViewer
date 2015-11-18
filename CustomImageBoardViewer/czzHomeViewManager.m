@@ -14,7 +14,6 @@
 @interface czzHomeViewManager () <czzThreadDownloaderDelegate>
 @property (nonatomic, readonly) NSString *cacheFile;
 
-@property (nonatomic, strong) czzThreadDownloader *downloader;
 @end
 
 @implementation czzHomeViewManager
@@ -175,69 +174,6 @@
     });
 }
 
-#pragma mark - czzURLDownloaderDelegate
--(void)downloadOf:(NSURL *)targetURL successed:(BOOL)successed result:(NSData *)xmlData{
-    [self.threadDownloader stop];
-    self.threadDownloader = nil;
-    self.isDownloading = NO;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.delegate respondsToSelector:@selector(homeViewManager:downloadSuccessful:)]) {
-            [self.delegate homeViewManager:self downloadSuccessful:successed];
-        }
-    });
-    if (successed){
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            self.isProcessing = YES;
-            [self.threadDataProcessor processThreadListFromData:xmlData forForum:self.forum];
-        });
-    } else {
-        // Make sure the completionHandler for the watch kit is no more.
-        if (self.watchKitCompletionHandler) {
-            self.watchKitCompletionHandler(NO, nil);
-            self.watchKitCompletionHandler = nil;
-        }
-    }
-}
-
--(void)downloadUpdated:(czzURLDownloader *)downloader progress:(CGFloat)progress {
-    if ([self.delegate respondsToSelector:@selector(homeViewManager:downloadProgressUpdated:)]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate homeViewManager:self downloadProgressUpdated:progress];
-        });
-    }
-}
-
-#pragma mark - czzJSONProcesserProtocol
--(void)threadListProcessed:(czzJSONProcessor *)processor :(NSArray *)newThreads :(BOOL)success {
-    self.isProcessing = NO;
-    if (success){
-        self.cachedThreads = nil;
-        if (self.shouldHideImageForThisForum)
-        {
-            for (czzThread *thread in newThreads) {
-                thread.thImgSrc = nil;
-            }
-        }
-        [self downloadThumbnailsForThreads:newThreads];
-        //process the returned data and pass into the array
-        self.lastBatchOfThreads = newThreads;
-        [self.threads addObjectsFromArray:newThreads];
-        //calculate heights for both vertical and horizontal
-//        [self calculateHeightsForThreads:self.lastBatchOfThreads];
-    }
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.watchKitCompletionHandler) {
-            self.watchKitCompletionHandler(success, self.threads);
-            self.watchKitCompletionHandler = nil;
-        }
-        // No watch kit completion handler, inform delegate instead.
-        else if ([self.delegate respondsToSelector:@selector(homeViewManager:threadListProcessed:newThreads:allThreads:)]) {
-            [self.delegate homeViewManager:self threadListProcessed:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
-        }
-        DLog(@"%@", NSStringFromSelector(_cmd));
-    });
-}
-
 -(void)pageNumberUpdated:(NSInteger)currentPage inAllPage:(NSInteger)allPage {
     self.pageNumber = currentPage;
     self.totalPages = allPage;
@@ -249,13 +185,6 @@
 }
 
 #pragma mark - Getters
-- (czzJSONProcessor *)threadDataProcessor {
-    if (!_threadDataProcessor) {
-        _threadDataProcessor = [czzJSONProcessor new];
-        _threadDataProcessor.delegate = self;
-    }
-    return _threadDataProcessor;
-}
 
 - (NSString *)cacheFile {
     return [NSString stringWithFormat:@"%@-%@", [UIApplication bundleVersion], DEFAULT_THREAD_LIST_CACHE_FILE];
@@ -270,10 +199,6 @@
     }
     return _threads;
 }
-
-//- (NSString *)baseURLString{
-//    return [[settingCentre thread_list_host] stringByReplacingOccurrencesOfString:kForum withString:[NSString stringWithFormat:@"%@", self.forum.name]];
-//}
 
 #pragma mark - NSCoding
 -(void)encodeWithCoder:(NSCoder *)aCoder {
