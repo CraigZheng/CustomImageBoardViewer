@@ -99,7 +99,7 @@
  Page number should not be smaller than 1.
  */
 - (NSInteger)pageNumber {
-    if (_pageNumber <= 0) {
+    if (_pageNumber <= 1) {
         _pageNumber = 1;
     }
     return _pageNumber;

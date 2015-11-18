@@ -97,9 +97,7 @@
     if (self.pageNumber > self.totalPages)
         self.pageNumber = self.totalPages;
     // Construct and start downloading for forum with page number,
-    self.downloader = [[czzThreadDownloader alloc] initWithForum:self.forum];
     self.downloader.pageNumber = self.pageNumber;
-    self.downloader.delegate = self;
     [self.downloader start];
     
     self.isDownloading = YES;
@@ -185,6 +183,14 @@
 }
 
 #pragma mark - Getters
+
+- (czzThreadDownloader *)downloader {
+    if (!_downloader) {
+        _downloader =  [[czzThreadDownloader alloc] initWithForum:self.forum];
+        _downloader.delegate = self;
+    }
+    return _downloader;
+}
 
 - (NSString *)cacheFile {
     return [NSString stringWithFormat:@"%@-%@", [UIApplication bundleVersion], DEFAULT_THREAD_LIST_CACHE_FILE];

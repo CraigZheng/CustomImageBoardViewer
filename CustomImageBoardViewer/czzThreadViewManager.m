@@ -9,6 +9,7 @@
 
 #import "czzThreadViewManager.h"
 #import "czzHistoryManager.h"
+#import "czzThreadDownloader.h"
 
 @interface czzThreadViewManager()
 @property (nonatomic, assign) NSUInteger cutOffIndex;
@@ -16,6 +17,7 @@
 
 @implementation czzThreadViewManager
 @synthesize forum = _forum;
+@synthesize downloader = _downloader;
 @dynamic delegate;
 
 #pragma mark - life cycle.
@@ -193,27 +195,6 @@ float RoundTo(float number, float to)
     }
 }
 
-
-///*
-// calculate heights for both horizontal and vertical of the parent view controller
-// */
-//-(void)calculateHeightsForThreads:(NSArray*)newThreads cutOffFromIndex:(NSInteger)cutOffIndex{
-//    @try {
-//        // Remove duplicate height objects, then calculate the newThreads
-//        [self.verticalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, self.verticalHeights.count - cutOffIndex)];
-//        [self.horizontalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, self.horizontalHeights.count - cutOffIndex)];
-//        [super calculateHeightsForThreads:newThreads];
-//
-//    }
-//    @catch (NSException *exception) {
-//        // If error, remove all height objects, and calculate all from the beginning
-//        DLog(@"%@", exception);
-//        [self.verticalHeights removeAllObjects];
-//        [self.horizontalHeights removeAllObjects];
-//        [super calculateHeightsForThreads:self.threads];
-//    }
-//}
-
 #pragma mark - content managements.
 - (void)reset {
     self.totalPages = self.pageNumber = 1;
@@ -284,5 +265,12 @@ float RoundTo(float number, float to)
 }
 
 #pragma mark - Getter
+
+- (czzThreadDownloader *)downloader {
+    if (!_downloader) {
+        _downloader = [[czzThreadDownloader alloc] initWithForum:self.forum andThread:self.parentThread];
+    }
+    return _downloader;
+}
 
 @end
