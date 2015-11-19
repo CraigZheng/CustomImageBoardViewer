@@ -22,7 +22,6 @@ NSString * const kForumPickedNotification = @"ForumNamePicked";
 NSString * const kPickedForum = @"PickedForum";
 
 @interface czzForumsViewController () <UITableViewDataSource, UITableViewDelegate>
-@property (assign, nonatomic) BOOL failedToConnect;
 @property NSDate *lastAdUpdateTime;
 @property NSTimeInterval adUpdateInterval;
 @property UIView *adCoverView;
@@ -33,7 +32,6 @@ NSString * const kPickedForum = @"PickedForum";
 
 @implementation czzForumsViewController
 @synthesize forumsTableView;
-@synthesize failedToConnect;
 @synthesize bannerView_;
 @synthesize lastAdUpdateTime;
 @synthesize adUpdateInterval;
@@ -68,6 +66,11 @@ NSString * const kPickedForum = @"PickedForum";
 
 
 -(void)viewWillAppear:(BOOL)animated{
+    // Google Analytic integration
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+
     [super viewWillAppear:animated];
     if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]){
         self.automaticallyAdjustsScrollViewInsets = NO;
@@ -80,7 +83,6 @@ NSString * const kPickedForum = @"PickedForum";
 -(void)refreshForums{
     [self.progressView startAnimating];
     [self.forumManager updateForums:^(BOOL success, NSError *error) {
-        failedToConnect = !success;
         [self.forumsTableView reloadData];
         [self.progressView stopAnimating];
     }];
@@ -97,18 +99,18 @@ NSString * const kPickedForum = @"PickedForum";
 - (IBAction)moreInfoAction:(id)sender {
     // Present more info view controller with no selected forum.
     UIViewController *topViewContorller = [UIApplication topViewController];
-    [topViewContorller presentViewController:[czzMoreInfoViewController new] animated:YES completion:nil];
+    [topViewContorller presentViewController:[[UINavigationController alloc] initWithRootViewController:[czzMoreInfoViewController new]] animated:YES completion:nil];
 }
 
 #pragma UITableView datasouce
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    if (failedToConnect)
+    if (!self.forumManager.forumGroups.count)
         return 1;
     return self.forumManager.forumGroups.count;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (failedToConnect)
+    if (!self.forumManager.forumGroups.count)
         return 1;
     czzForumGroup *forumGroup = [self.forumManager.forumGroups objectAtIndex:section];
     if (section == 0)
@@ -119,7 +121,7 @@ NSString * const kPickedForum = @"PickedForum";
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    if (failedToConnect || self.forumManager.forumGroups.count == 0){
+    if (self.forumManager.forumGroups.count == 0){
         return @" ";
     }
     czzForumGroup *forumGroup = [self.forumManager.forumGroups objectAtIndex:section];
@@ -130,7 +132,7 @@ NSString * const kPickedForum = @"PickedForum";
 #pragma UITableView delegate
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *cell_identifier = @"forum_cell_identifier";
-    if (failedToConnect){
+    if (!self.forumManager.forumGroups.count){
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"no_service_cell_identifier"];
         return cell;
     }
@@ -173,7 +175,7 @@ NSString * const kPickedForum = @"PickedForum";
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (failedToConnect){
+    if (!self.forumManager.forumGroups.count){
         [self refreshForums];
         return;
     }

@@ -12,7 +12,7 @@
 
 #pragma mark - Getters
 -(BOOL)isValid {
-    return self.delegate;
+    return self.delegate != nil;
 }
 
 -(NSUInteger)hash {

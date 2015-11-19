@@ -49,27 +49,7 @@
 }
 
 -(void)loadMore:(BOOL)more {
-    [WCSession defaultSession].delegate = self;
-    [[WCSession defaultSession] activateSession];
-    [[WCSession defaultSession] sendMessage:@{watchKitCommandKey : @(watchKitCommandLoadHomeView),
-                                              watchKitCommandLoadMore : @(more),
-                                              watchKitCommandForumKey : [self.selectedForum encodeToDictionary]}
-                               replyHandler:^(NSDictionary<NSString *,id> * _Nonnull replyMessage) {
-                                   NSArray *threadDictionaries = [replyMessage objectForKey:@(watchKitCommandLoadHomeView)];
-                                   self.wkThreads = [NSMutableArray new];
-                                   for (NSDictionary *dict in threadDictionaries) {
-                                       czzWKThread *thread = [[czzWKThread alloc] initWithDictionary:dict];
-                                       NSLog(@"thread: %@", thread);
-                                       [self.wkThreads addObject:thread];
-                                   }
-                                   [self.screenTitleLabel setText:[replyMessage objectForKey:@(watchKitMiscInfoScreenTitleHome)]];
-                                   
-                                   [self reloadTableView];
-
-                               } errorHandler:^(NSError * _Nonnull error) {
-                                   
-                               }];
-    
+#warning TODO: MADE IT COMPATIBLE WITH WATCH OS 2
 //    [WKInterfaceController openParentApplication:@{watchKitCommandKey : @(watchKitCommandLoadHomeView), watchKitCommandLoadMore : @(more),
 //                                                   watchKitCommandForumKey : [self.selectedForum encodeToDictionary]} reply:^(NSDictionary *replyInfo, NSError *error) {
 //        NSArray *threadDictionaries = [replyInfo objectForKey:@(watchKitCommandLoadHomeView)];

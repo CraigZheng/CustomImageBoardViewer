@@ -47,28 +47,33 @@
 }
 
 #pragma mark - NSCoding protocol
+
+#pragma mark - NSCoding delegate
 -(id)initWithCoder:(NSCoder *)aDecoder {
-    czzForum *forum = [czzForum new];
-    forum.name = [aDecoder decodeObjectForKey:@"name"];
-    forum.header = [aDecoder decodeObjectForKey:@"header"];
-    forum.lock = [aDecoder decodeBoolForKey:@"lock"];
-    forum.cooldown = [aDecoder decodeIntegerForKey:@"cooldown"];
-    forum.forumID = [aDecoder decodeIntegerForKey:@"forumID"];
-    forum.createdAt = [aDecoder decodeObjectForKey:@"createdAt"];
-    forum.updatedAt = [aDecoder decodeObjectForKey:@"updatedAt"];
-    return forum;
+    self = [super init];
+    @try {
+        NSDictionary *properties = [NSObject classPropsFor:self.class];
+        for (PropertyAttribute *property in properties.allValues) {
+            if (property.propertyAttributeType != PropertyAttributeTypeReadOnly) {
+                id value = [aDecoder decodeObjectForKey:property.propertyName];
+                [self setValue:value forKey:property.propertyName];
+            }
+        }
+    }
+    @catch (NSException *exception) {
+        DLog(@"%@", exception);
+    }
+    
+    return self;
 }
 
 -(void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeObject:self.name forKey:@"name"];
-    [aCoder encodeObject:self.header forKey:@"header"];
-    [aCoder encodeBool:self.lock forKey:@"lock"];
-    [aCoder encodeInteger:self.cooldown forKey:@"cooldown"];
-    [aCoder encodeInteger:self.forumID forKey:@"forumID"];
-    [aCoder encodeObject:self.createdAt forKey:@"createdAt"];
-    [aCoder encodeObject:self.updatedAt forKey:@"updatedAt"];
-    
+    NSDictionary *properties = [NSObject classPropsFor:self.class];
+    for (PropertyAttribute *property in properties.allValues) {
+        [aCoder encodeObject:[self valueForKey:property.propertyName] forKey:property.propertyName];
+    }
 }
+
 
 +(id)initWithJSONDictionary:(NSDictionary *)jsonDict {
     return [[czzForum alloc] initWithJSONDictionary:jsonDict];

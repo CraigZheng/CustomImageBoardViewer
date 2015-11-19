@@ -24,6 +24,7 @@
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, czzImageDownloaderManagerDelegate>
 @property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentToImageBottomConstraint;
 
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (strong, nonatomic) NSString *imageFolder;
@@ -79,12 +80,6 @@
 }
 
 -(void)resetViews {
-    UIView *oldButton;
-    while ((oldButton = [self viewWithTag:999999]) != nil) {
-        [oldButton removeFromSuperview];
-    }
-    previewImageView.hidden = YES;
-    
     //colours
     if (settingsCentre.nightyMode) {
         UIColor *viewBackgroundColour = [settingsCentre viewBackgroundColour];
@@ -106,9 +101,9 @@
 }
 
 -(void)menuActionReply:(id)sender{
-    DLog(@"reply: %@", sender);
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:self.myThread forKey:@"ReplyToThread"];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"ReplyAction" object:Nil userInfo:userInfo];
+    if ([self.delegate respondsToSelector:@selector(userWantsToReply:)]) {
+        [self.delegate userWantsToReply:self.myThread];
+    }
 }
 
 -(void)menuActionOpen:(id)sender{
@@ -128,20 +123,25 @@
 }
 
 -(void)menuActionHighlight:(id)sender {
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:self.myThread forKey:@"HighlightThread"];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"HighlightAction" object:Nil userInfo:userInfo];
+    if ([self.delegate respondsToSelector:@selector(userWantsToHighLight:)]) {
+        [self.delegate userWantsToHighLight:self.myThread];
+    }
 }
 
 -(void)menuActionSearch:(id) sender {
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:self.myThread forKey:@"SearchUser"];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"SearchAction" object:Nil userInfo:userInfo];
+    if ([self.delegate respondsToSelector:@selector(userWantsToSearch:)]) {
+        [self.delegate userWantsToSearch:self.myThread];
+    }
 }
 
 #pragma mark - consturct UI elements
 -(void)prepareUIWithMyThread {
     [self resetViews];
     if (myThread.thImgSrc.length){
+        // Has thumbnail image, show the preview image view...
         previewImageView.hidden = NO;
+        self.contentToImageBottomConstraint.priority = UILayoutPriorityRequired - 1;
+        
         [previewImageView setImage:[UIImage imageNamed:@"Icon.png"]];
 
         NSString *imageName = myThread.thImgSrc.lastPathComponent;
@@ -158,6 +158,10 @@
         } 
         //assign a gesture recogniser to it
         [previewImageView setGestureRecognizers:@[tapOnImageGestureRecogniser]];
+    } else {
+        // No thumbnail image, hide the preview image view...
+        previewImageView.hidden = YES;
+        self.contentToImageBottomConstraint.priority = 1; // Lower priority than the content to bottom constraint.
     }
     //if harmful flag is set, display warning header of harmful thread
     NSMutableAttributedString *contentAttrString;
@@ -177,28 +181,7 @@
 
     contentTextView.attributedText = contentAttrString;
     contentTextView.font = settingsCentre.contentFont;
-        
-    //clickable content
-    for (NSNumber *refNumber in myThread.replyToList) {
-        NSInteger rep = refNumber.integerValue;
-        if (rep > 0) {
-            NSString *quotedNumberText = [NSString stringWithFormat:@"%ld", (long)rep];
-            NSRange range = [contentTextView.attributedText.string rangeOfString:quotedNumberText];
-            if (range.location != NSNotFound){
-                CGRect result = [self frameOfTextRange:range inTextView:contentTextView];
-                
-                if (!CGSizeEqualToSize(CGSizeZero, result.size)){
-                    czzThreadRefButton *threadRefButton = [[czzThreadRefButton alloc] initWithFrame:CGRectMake(result.origin.x, result.origin.y + contentTextView.frame.origin.y, result.size.width, result.size.height)];
-                    threadRefButton.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.1f];
-                    threadRefButton.tag = 999999;
-                    [threadRefButton addTarget:self action:@selector(userTapInQuotedText:) forControlEvents:UIControlEventTouchUpInside];
-                    threadRefButton.threadRefNumber = rep;
-                    [self.contentView addSubview:threadRefButton];
-                }
-            }
-        }
-    }
-    
+            
     //highlight the selected user
     if (selectedUserToHighlight && [myThread.UID.string isEqualToString:selectedUserToHighlight]) {
         contentTextView.backgroundColor = self.contentView.backgroundColor;
@@ -208,15 +191,6 @@
     self.cellHeaderView.shouldHighLight = self.shouldHighlight;
     self.cellHeaderView.parentUID = self.parentThread.UID.string;
     self.cellFooterView.myThread = self.cellHeaderView.myThread = self.myThread;
-}
-
-- (CGRect)frameOfTextRange:(NSRange)range inTextView:(UITextView *)textView {
-    UITextPosition *beginning = textView.beginningOfDocument;
-    UITextPosition *start = [textView positionFromPosition:beginning offset:range.location];
-    UITextPosition *end = [textView positionFromPosition:start offset:range.length];
-    UITextRange *textRange = [textView textRangeFromPosition:start toPosition:end];
-    CGRect rect = [textView firstRectForRange:textRange];
-    return rect;
 }
 
 #pragma - mark UIActionSheet delegate
@@ -238,11 +212,7 @@
 }
 
 #pragma mark - user actions
--(void)userTapInQuotedText:(czzThreadRefButton*)sender {
-    if ([delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
-        [delegate userTapInQuotedText:[NSString stringWithFormat:@"%ld", (long)sender.threadRefNumber]];
-    }
-}
+
 
 -(void)userTapInImageView:(id)sender {
     DLog(@"%@", NSStringFromSelector(_cmd));

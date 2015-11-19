@@ -168,7 +168,7 @@
     postViewController.forum = self.forum;
     postViewController.thread = self.parentThread;
     postViewController.postMode = REPLY_POST;
-    [[czzNavigationViewModelManager sharedManager].delegate pushViewController:postViewController animated:YES];
+    [[czzNavigationManager sharedManager].delegate pushViewController:postViewController animated:YES];
 }
 
 -(void)replySelectedAction {
@@ -176,14 +176,14 @@
     [postViewController setThread:self.parentThread];
     [postViewController setReplyTo:self.selectedThread];
     postViewController.postMode = REPLY_POST;
-    [[czzNavigationViewModelManager sharedManager].delegate pushViewController:postViewController animated:YES];
+    [[czzNavigationManager sharedManager].delegate pushViewController:postViewController animated:YES];
 }
 
 
 -(void)reportAction {
     czzPostViewController *newPostViewController = [czzPostViewController new];
     newPostViewController.postMode = REPORT_POST;
-    [[czzNavigationViewModelManager sharedManager].delegate pushViewController:newPostViewController animated:YES];
+    [[czzNavigationManager sharedManager].delegate pushViewController:newPostViewController animated:YES];
     NSString *reportString = [[settingCentre report_post_placeholder] stringByReplacingOccurrencesOfString:kParentID withString:[NSString stringWithFormat:@"%ld", (long)self.parentThread.ID]];
     reportString = [reportString stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long)self.selectedThread.ID]];
     newPostViewController.prefilledString = reportString;
@@ -209,17 +209,17 @@
         [postViewController setThread:self.parentThread];
         [postViewController setReplyTo:replyToThread];
         postViewController.postMode = REPLY_POST;
-        [[czzNavigationViewModelManager sharedManager].delegate pushViewController:postViewController animated:YES];
+        [[czzNavigationManager sharedManager].delegate pushViewController:postViewController animated:YES];
     }
 }
 
 #pragma mark - Getters
 - (czzThread *)parentThread {
-    return self.threadViewModelManager.parentThread;
+    return self.threadViewManager.parentThread;
 }
 
 - (czzForum *)forum {
-    return self.threadViewModelManager.forum;
+    return self.threadViewManager.forum;
 }
 
 @end

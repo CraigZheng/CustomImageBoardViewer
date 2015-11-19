@@ -9,6 +9,7 @@
 #import "czzThreadViewDelegate.h"
 
 #import "PartialTransparentView.h"
+#import "czzThreadRefButton.h"
 
 @interface czzThreadViewDelegate ()
 @property (nonatomic, strong) PartialTransparentView *containerView;
@@ -16,7 +17,6 @@
 @end
 
 @implementation czzThreadViewDelegate
-@dynamic viewModelManager;
 
 -(instancetype)init {
     self = [super init];
@@ -86,9 +86,61 @@
 
 }
 
+- (CGRect)frameOfTextRange:(NSRange)range inTextView:(UITextView *)textView {
+    UITextPosition *beginning = textView.beginningOfDocument;
+    UITextPosition *start = [textView positionFromPosition:beginning offset:range.location];
+    UITextPosition *end = [textView positionFromPosition:start offset:range.length];
+    UITextRange *textRange = [textView textRangeFromPosition:start toPosition:end];
+    CGRect rect = [textView firstRectForRange:textRange];
+    return rect;
+}
+
+#pragma mark - UI actions
+
+-(void)userTapInRefButton:(czzThreadRefButton *)button {
+    [self userTapInQuotedText:[NSString stringWithFormat:@"%ld", (long)button.threadRefNumber]];
+}
+
 #pragma mark - UITableViewDelegate
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    czzMenuEnabledTableViewCell *threadViewCell;
+    if ([cell isKindOfClass:[czzMenuEnabledTableViewCell class]]) {
+        threadViewCell = (czzMenuEnabledTableViewCell*)cell;
+    } else {
+        return;
+    }
+    // Clear the content view for previous czzThreadRefButton.
+    for (UIView *subView in threadViewCell.contentView.subviews) {
+        if ([subView isKindOfClass:[czzThreadRefButton class]]) {
+            [subView removeFromSuperview];
+        }
+    }
+    
+    // Clickable content, find the quoted text and add a button to corresponding location.
+    for (NSNumber *refNumber in threadViewCell.myThread.replyToList) {
+        NSInteger rep = refNumber.integerValue;
+        if (rep > 0) {
+            NSString *quotedNumberText = [NSString stringWithFormat:@"%ld", (long)rep];
+            NSRange range = [threadViewCell.contentTextView.attributedText.string rangeOfString:quotedNumberText];
+            if (range.location != NSNotFound){
+                CGRect result = [self frameOfTextRange:range inTextView:threadViewCell.contentTextView];
+                
+                if (!CGSizeEqualToSize(CGSizeZero, result.size)){
+                    czzThreadRefButton *threadRefButton = [[czzThreadRefButton alloc] initWithFrame:CGRectMake(result.origin.x, result.origin.y + threadViewCell.contentTextView.frame.origin.y, result.size.width, result.size.height)];
+                    threadRefButton.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.1f];
+                    threadRefButton.tag = 999999;
+                    [threadRefButton addTarget:self action:@selector(userTapInRefButton:) forControlEvents:UIControlEventTouchUpInside];
+                    threadRefButton.threadRefNumber = rep;
+                    [threadViewCell.contentView addSubview:threadRefButton];
+                }
+            }
+        }
+    }
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row < self.viewModelManager.threads.count) {
+    if (indexPath.row < self.threadViewManager.threads.count) {
         
     } else {
         [super tableView:tableView didSelectRowAtIndexPath:indexPath];
@@ -96,7 +148,7 @@
 }
 
 -(BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row < self.viewModelManager.threads.count) {
+    if (indexPath.row < self.threadViewManager.threads.count) {
         return YES;
     }
     return NO;
@@ -117,10 +169,10 @@
     if (!text.integerValue) {
         return;
     }
-    for (czzThread *thread in self.viewModelManager.threads) {
+    for (czzThread *thread in self.threadViewManager.threads) {
         if (thread.ID == text.integerValue) {
             self.threadsTableViewContentOffSet = self.myTableView.contentOffset;
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.viewModelManager.threads indexOfObject:thread] inSection:0];
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.threadViewManager.threads indexOfObject:thread] inSection:0];
             [self.myTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:NO];
             [[NSOperationQueue currentQueue] addOperationWithBlock:^{
                 [self highlightTableViewCell:[self.myTableView cellForRowAtIndexPath:indexPath]];
@@ -136,7 +188,7 @@
         // After return, run the remaining codes in main thread.
         dispatch_async(dispatch_get_main_queue(), ^{
             if (thread) {
-                [self.viewModelManager showContentWithThread:thread];
+                [self.threadViewManager showContentWithThread:thread];
             } else {
                 [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"找不到引用串：%ld", thread.ID]];
             }
@@ -144,9 +196,20 @@
     });
 }
 
-+(instancetype)initWithViewModelManager:(czzThreadViewModelManager *)viewModelManager {
-    czzThreadViewDelegate *threadViewDelegate = [czzThreadViewDelegate new];
-    threadViewDelegate.viewModelManager = viewModelManager;
+#pragma mark - Accessors
+
+-(czzThreadViewManager *)threadViewManager {
+    return (id)[super homeViewManager];
+}
+
+- (void)setThreadViewManager:(czzThreadViewManager *)threadViewManager {
+    [super setHomeViewManager:threadViewManager];
+}
+
++(instancetype)initWithViewManager:(czzHomeViewManager *)viewManager andTableView:(czzThreadTableView *)tableView {
+    czzThreadViewDelegate *threadViewDelegate = [[czzThreadViewDelegate alloc] init];
+    threadViewDelegate.homeViewManager = viewManager;
+    threadViewDelegate.myTableView = tableView;
     return threadViewDelegate;
 }
 

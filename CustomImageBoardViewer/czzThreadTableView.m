@@ -37,6 +37,8 @@
 -(void)awakeFromNib {
     self.upDownViewController = [czzOnScreenCommandViewController new];
     self.upDownViewController.delegate = self;
+    self.estimatedRowHeight = 44.0;
+    self.rowHeight = UITableViewAutomaticDimension;
 }
 
 -(void)registerNibs {

@@ -18,7 +18,7 @@
 #import "czzThreadTableViewCommandCellTableViewCell.h"
 #import "czzHistoryManager.h"
 #import "czzWatchListManager.h"
-#import "czzThreadViewModelManager.h"
+#import "czzThreadViewManager.h"
 
 NSInteger const bookmarkIndex = 0;
 NSInteger const watchIndex = 1;
@@ -128,9 +128,9 @@ NSInteger const historyIndex = 2;
     selectedIndex = indexPath;
     if (selectedIndex.row < threads.count){
         selectedThread = [threads objectAtIndex:selectedIndex.row];
-        czzThreadViewModelManager *threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:selectedThread andForum:selectedThread.forum];
+        czzThreadViewManager *threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:selectedThread andForum:selectedThread.forum];
         czzThreadViewController *threadViewController = [czzThreadViewController new];
-        threadViewController.viewModelManager = threadViewModelManager;
+        threadViewController.threadViewManager = threadViewManager;
         [NavigationManager pushViewController:threadViewController animated:YES];
     }
 }
@@ -153,34 +153,6 @@ NSInteger const historyIndex = 2;
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
     return YES;
-}
-
-//-(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return UITableViewAutomaticDimension;
-//}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if (indexPath.row >= threads.count)
-        return tableView.rowHeight;
-    
-    CGFloat preferHeight = tableView.rowHeight;
-    czzThread *thread = [threads objectAtIndex:indexPath.row];
-    NSString *threadIDString = [NSString stringWithFormat:@"%ld", (long)thread.ID];
-
-    NSMutableDictionary *heightsDictionary = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? self.verticalHeights : self.horizontalHeights;
-    NSNumber *heightsNumber = [heightsDictionary objectForKey:threadIDString];
-    
-    if (!heightsNumber) {
-        preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:self.view hasImage:thread.thImgSrc.length > 0];
-        preferHeight = MAX(tableView.rowHeight, preferHeight);
-        [heightsDictionary setObject:@(preferHeight) forKey:threadIDString];
-    } else {
-        preferHeight = heightsNumber.floatValue;
-    }
-    
-    return preferHeight;
 }
 
 #pragma mark - UI actions

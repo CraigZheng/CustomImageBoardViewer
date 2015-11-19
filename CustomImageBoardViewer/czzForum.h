@@ -12,6 +12,7 @@
 
 @interface czzForum : NSObject <NSCoding>
 @property (strong, nonatomic) NSString *name;
+@property (strong, nonatomic) NSString *screenName;
 @property (strong, nonatomic) NSString *header;
 @property (assign, nonatomic) BOOL lock;
 @property (assign, nonatomic) NSInteger cooldown;

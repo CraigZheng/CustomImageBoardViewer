@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Google/Analytics.h>
 
 @interface UIViewController (Util)
 @property (nonatomic, readonly) BOOL isPresented;

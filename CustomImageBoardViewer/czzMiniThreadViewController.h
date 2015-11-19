@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+#import "czzModalViewController.h"
 #import "czzThread.h"
 
-@interface czzMiniThreadViewController : UIViewController
+@interface czzMiniThreadViewController : czzModalViewController
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *threadTableViewHeight;
 @property (weak, nonatomic) IBOutlet UITableView *threadTableView;
 @property (nonatomic) czzThread *myThread;
 
--(void)show;
 @end

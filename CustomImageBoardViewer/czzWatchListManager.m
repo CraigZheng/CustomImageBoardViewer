@@ -7,7 +7,7 @@
 //
 
 #import "czzWatchListManager.h"
-#import "czzThreadViewModelManager.h"
+#import "czzThreadViewManager.h"
 #import "czzMessagePopUpViewController.h"
 
 #define WATCH_LIST_CACHE_FILE @"watchedThreads.dat"
@@ -15,7 +15,7 @@
 @interface czzWatchListManager ()
 
 @property (nonatomic, strong) NSTimer *refreshTimer;
-@property (nonatomic, strong) czzThreadViewModelManager *threadViewModelManager;
+@property (nonatomic, strong) czzThreadViewManager *threadViewManager;
 @end
 
 @implementation czzWatchListManager

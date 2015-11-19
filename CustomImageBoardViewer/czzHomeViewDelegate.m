@@ -10,7 +10,7 @@
 
 #import "czzMenuEnabledTableViewCell.h"
 
-#import "czzHomeViewModelManager.h"
+#import "czzHomeViewManager.h"
 #import "czzBlacklist.h"
 #import "czzThread.h"
 #import "czzImageDownloader.h"
@@ -18,7 +18,8 @@
 #import "czzSettingsCentre.h"
 #import "czzThreadTableView.h"
 #import "czzImageViewerUtil.h"
-#import "czzThreadViewModelManager.h"
+#import "czzThreadViewManager.h"
+#import "czzPostViewController.h"
 
 #import "UIApplication+Util.h"
 #import "UINavigationController+Util.h"
@@ -42,6 +43,36 @@
     return self;
 }
 
+- (void)replyToThread:(czzThread *)thread {
+    czzPostViewController *postViewController = [czzPostViewController new];
+    postViewController.forum = self.homeViewManager.forum;
+    postViewController.replyTo = thread;
+    postViewController.postMode = REPLY_POST;
+    [[czzNavigationManager sharedManager].delegate pushViewController:postViewController animated:YES];
+}
+
+- (void)replyMainThread:(czzThread *)thread {
+    czzPostViewController *postViewController = [czzPostViewController new];
+    postViewController.forum = self.homeViewManager.forum;
+    postViewController.thread = thread;
+    postViewController.postMode = REPLY_POST;
+    [[czzNavigationManager sharedManager].delegate pushViewController:postViewController animated:YES];
+}
+
+- (void)reportThread:(czzThread *)selectedThread inParentThread:(czzThread *)parentThread {
+    czzPostViewController *newPostViewController = [czzPostViewController new];
+    newPostViewController.postMode = REPORT_POST;
+    [[czzNavigationManager sharedManager].delegate pushViewController:newPostViewController animated:YES];
+    NSString *reportString = [[settingCentre report_post_placeholder] stringByReplacingOccurrencesOfString:kParentID withString:[NSString stringWithFormat:@"%ld", (long)parentThread.ID]];
+    reportString = [reportString stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long)selectedThread.ID]];
+    newPostViewController.prefilledString = reportString;
+    newPostViewController.title = [NSString stringWithFormat:@"举报:%ld", (long)parentThread.ID];
+    //construct a blacklist that to be submitted to my server and pass it to new post view controller
+    czzBlacklistEntity *blacklistEntity = [czzBlacklistEntity new];
+    blacklistEntity.threadID = selectedThread.ID;
+    newPostViewController.blacklistEntity = blacklistEntity;
+}
+
 #pragma mark - UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (!self.myTableView) {
@@ -49,9 +80,9 @@
     }
     czzThread *selectedThread;
     @try {
-        NSArray *threads = self.viewModelManager.threads;
+        NSArray *threads = self.homeViewManager.threads;
         if (indexPath.row < threads.count) {
-            selectedThread = [self.viewModelManager.threads objectAtIndex:indexPath.row];
+            selectedThread = [self.homeViewManager.threads objectAtIndex:indexPath.row];
             if (![settingCentre shouldAllowOpenBlockedThread]) {
                 czzBlacklistEntity *blacklistEntity = [[czzBlacklist sharedInstance] blacklistEntityForThreadID:selectedThread.ID];
                 if (blacklistEntity){
@@ -64,16 +95,16 @@
     @catch (NSException *exception) {
         DLog(@"%@", exception);
     }
-    if (indexPath.row < self.viewModelManager.threads.count)
+    if (indexPath.row < self.homeViewManager.threads.count)
     {
         //@todo open the selected thread
         czzThreadViewController *threadViewController = [czzThreadViewController new];
-        threadViewController.viewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:selectedThread andForum:self.viewModelManager.forum];
+        threadViewController.threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:selectedThread andForum:self.homeViewManager.forum];
         [NavigationManager pushViewController:threadViewController animated:YES];
     }
     // If not downloading or processing, load more threads.
-    else if (!self.viewModelManager.isDownloading || !self.viewModelManager.isProcessing) {
-        [self.viewModelManager loadMoreThreads];
+    else if (!self.homeViewManager.isDownloading) {
+        [self.homeViewManager loadMoreThreads];
         [tableView reloadData];
 //        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
@@ -81,61 +112,21 @@
 
 -(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat estimatedRowHeight = 44;
-    if (indexPath.row < self.viewModelManager.threads.count) {
-        czzThread *thread = [self.viewModelManager.threads objectAtIndex:indexPath.row];
-        // If the height is already available.
-        NSString *threadID = [NSString stringWithFormat:@"%ld", (long)thread.ID];
-        NSMutableDictionary *heightDictionary = UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].keyWindow.rootViewController.interfaceOrientation) ? self.viewModelManager.verticalHeights : self.viewModelManager.horizontalHeights;
-
-        id cachedHeight = [heightDictionary objectForKey:threadID];
-        if ([cachedHeight isKindOfClass:[NSNumber class]]) {
-            estimatedRowHeight = [cachedHeight floatValue];
-        } else {
-            NSInteger estimatedLines = thread.content.length / 50 + 1;
-            estimatedRowHeight *= estimatedLines;
-            
-            // Has image = bigger.
-            if (thread.thImgSrc.length) {
-                estimatedRowHeight += settingCentre.userDefShouldUseBigImage ? 160 : 80;
-            }
+    if (indexPath.row < self.homeViewManager.threads.count) {
+        czzThread *thread = [self.homeViewManager.threads objectAtIndex:indexPath.row];
+        // More text = bigger.
+        NSDictionary *attributesDictionary = @{NSFontAttributeName : [settingCentre contentFont]};
+        CGRect fontSizeFor7 = [thread.content.string boundingRectWithSize:CGSizeMake(CGRectGetWidth(tableView.frame), MAXFLOAT)
+                                                                  options:NSStringDrawingUsesLineFragmentOrigin
+                                                               attributes:attributesDictionary
+                                                                  context:nil];
+        estimatedRowHeight = fontSizeFor7.size.height += 40; // 40: header and footer views.
+        // Has image = bigger.
+        if (thread.thImgSrc.length) {
+            estimatedRowHeight += settingCentre.userDefShouldUseBigImage ? 160 : 80;
         }
     }
     return estimatedRowHeight;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (!self.myTableView) {
-        self.myTableView = (czzThreadTableView*)tableView;
-    }
-    if (indexPath.row >= self.viewModelManager.threads.count)
-        return tableView.rowHeight;
-    
-    CGFloat preferHeight = tableView.rowHeight;
-    czzThread *thread = [self.viewModelManager.threads objectAtIndex:indexPath.row];
-    NSString *threadID = [NSString stringWithFormat:@"%ld", (long)thread.ID];
-    
-    NSMutableDictionary *heightDictionary = UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].keyWindow.rootViewController.interfaceOrientation) ? self.viewModelManager.verticalHeights : self.viewModelManager.horizontalHeights;
-    
-    NSNumber *heightNumber = [heightDictionary objectForKey:threadID];
-    if ([heightNumber isKindOfClass:[NSNumber class]]) {
-        preferHeight = [heightNumber floatValue];
-    } else {
-        preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:self.myTableView hasImage:thread.thImgSrc.length];
-        heightNumber = @(preferHeight);
-        [heightDictionary setObject:heightNumber forKey:threadID];
-    }
-
-//    NSArray *heightArray = UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].keyWindow.rootViewController.interfaceOrientation) ? self.viewModelManager.verticalHeights : self.viewModelManager.horizontalHeights;
-//    CGFloat preferHeight = tableView.rowHeight;
-//    @try {
-//        if (indexPath.row < heightArray.count)
-//            preferHeight = [[heightArray objectAtIndex:indexPath.row] floatValue];
-//    }
-//    @catch (NSException *exception) {
-//        DLog(@"%@", exception);
-//    }
-//    
-    return preferHeight;
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -146,7 +137,7 @@
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (!(self.viewModelManager.isDownloading || self.viewModelManager.isProcessing) && self.viewModelManager.threads.count > 0) {
+    if (!self.homeViewManager.isDownloading && self.homeViewManager.threads.count > 0) {
         if (self.tableViewIsDraggedOverTheBottom) {
             if ([self tableViewIsDraggedOverTheBottomWithPadding:44 * 2]) {
                 self.myTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore;
@@ -160,9 +151,9 @@
 }
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (!(self.viewModelManager.isDownloading || self.viewModelManager.isProcessing) && self.viewModelManager.threads.count > 0) {
+    if (!self.homeViewManager.isDownloading && self.homeViewManager.threads.count > 0) {
         if ([self tableViewIsDraggedOverTheBottomWithPadding:44 * 2]) {
-            [self.viewModelManager loadMoreThreads];
+            [self.homeViewManager loadMoreThreads];
             self.myTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
         }
     }
@@ -183,6 +174,22 @@
     } else {
         [[czzImageDownloaderManager sharedManager] downloadImageWithURL:imgURL isThumbnail:NO];
     }
+}
+
+- (void)userWantsToReply:(czzThread *)thread {
+    DLog(@"%s : %@", __PRETTY_FUNCTION__, thread);
+    [self replyToThread:thread];
+}
+
+- (void)userWantsToHighLight:(czzThread *)thread {
+    DLog(@"%s : %@", __PRETTY_FUNCTION__, thread);
+    if ([self.homeViewManager isKindOfClass:[czzThreadViewManager class]]) {
+        [(czzThreadViewManager *)self.homeViewManager HighlightThreadSelected:thread];
+    }
+}
+
+- (void)userWantsToSearch:(czzThread *)thread {
+    DLog(@"%s : NOT IMPLEMENTED", __PRETTY_FUNCTION__);
 }
 
 #pragma mark - czzOnScreenImageManagerViewControllerDelegate
@@ -220,7 +227,7 @@
     @try {
         if (self.myTableView.window) {
             NSIndexPath *lastVisibleIndexPath = [self.myTableView indexPathsForVisibleRows].lastObject;
-            if (lastVisibleIndexPath.row == self.viewModelManager.threads.count)
+            if (lastVisibleIndexPath.row == self.homeViewManager.threads.count)
             {
                 CGPoint contentOffSet = self.myTableView.contentOffset;
                 CGRect lastCellRect = [self.myTableView rectForRowAtIndexPath:lastVisibleIndexPath];
@@ -239,7 +246,7 @@
 }
 
 - (NSIndexPath *)lastRowIndexPath {
-    return [NSIndexPath indexPathForRow:self.viewModelManager.threads.count inSection:0];
+    return [NSIndexPath indexPathForRow:self.homeViewManager.threads.count inSection:0];
 }
 
 #pragma marl - Setters
@@ -247,12 +254,14 @@
     _myTableView = myTableView;
     if (myTableView) {
         myTableView.estimatedRowHeight = 80;
+        myTableView.rowHeight = UITableViewAutomaticDimension;
     }
 }
 
-+(instancetype)initWithViewModelManager:(czzHomeViewModelManager *)viewModelManager {
++(instancetype)initWithViewManager:(czzHomeViewManager *)viewManager andTableView:(czzThreadTableView *)tableView {
     czzHomeViewDelegate *sharedDelegate = [czzHomeViewDelegate sharedInstance];
-    sharedDelegate.viewModelManager = viewModelManager;
+    sharedDelegate.homeViewManager = viewManager;
+    sharedDelegate.myTableView = tableView;
     return sharedDelegate;
 }
 

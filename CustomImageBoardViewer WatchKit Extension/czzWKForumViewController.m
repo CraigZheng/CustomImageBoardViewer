@@ -50,6 +50,7 @@
 }
 
 -(void)loadForumData {
+#warning TODO: MADE IT COMPATIBLE WITH WATCH OS 2
 //    [WKInterfaceController openParentApplication:@{watchKitCommandKey : @(watchKitCommandLoadForumView)} reply:^(NSDictionary *replyInfo, NSError *error) {
 //        self.wkForums = [NSMutableArray new];
 //        for (NSDictionary *dict in [replyInfo objectForKey:@(watchKitCommandLoadForumView)]) {

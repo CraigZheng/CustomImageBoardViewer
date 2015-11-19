@@ -18,6 +18,7 @@
 #import "czzAppActivityManager.h"
 #import "czzFavouriteManagerViewController.h"
 #import "czzCacheCleaner.h"
+#import <Google/Analytics.h>
 
 #import <WatchConnectivity/WatchConnectivity.h>
 
@@ -27,7 +28,7 @@
 //#import <BugSense-iOS/BugSenseController.h>
 #import <SplunkMint-iOS/SplunkMint-iOS.h>
 
-@interface czzAppDelegate()<czzBlacklistDownloaderDelegate, czzHomeViewModelManagerDelegate, WCSessionDelegate>
+@interface czzAppDelegate()<czzBlacklistDownloaderDelegate, czzHomeViewManagerDelegate>
 @property czzSettingsCentre *settingsCentre;
 @end
 
@@ -44,7 +45,19 @@
     
     // Talkind data initialisation
     [TalkingData sessionStarted:@"B8168DD03CD9EF62B476CEDFBC3FB52D" withChannelId:@""];
+    
 #endif
+    // Google analytic configuration
+    // Configure tracker from GoogleService-Info.plist.
+    NSError *configureError;
+    [[GGLContext sharedInstance] configureWithError:&configureError];
+    NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
+    
+    //    // Optional: configure GAI options.
+    //    GAI *gai = [GAI sharedInstance];
+    //    gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
+    //    gai.logger.logLevel = kGAILogLevelVerbose;  // remove before app release
+
     myhost = my_main_host;
     settingsCentre = [czzSettingsCentre sharedInstance];
     

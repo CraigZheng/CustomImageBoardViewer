@@ -34,6 +34,7 @@
 
 - (IBAction)watchButtonAction {
     if (self.wkThread) {
+#warning TODO: MADE IT COMPATIBLE WITH WATCH OS 2
 //        [WKInterfaceController openParentApplication:@{@(watchKitCommandWatchThread) : [self.wkThread encodeToDictionary]} reply:^(NSDictionary * replyInfo, NSError * error) {
 //            
 //        }];
@@ -53,6 +54,7 @@
 
 -(void)loadMore {
     if (self.wkThread) {
+#warning TODO: MADE IT COMPATIBLE WITH WATCH OS 2
 //        [WKInterfaceController openParentApplication:@{watchKitCommandKey : @(watchKitCommandLoadThreadView),
 //                                                       @"THREAD" : [self.wkThread encodeToDictionary],
 //                                                       watchKitCommandLoadMore : @(YES)} reply:^(NSDictionary *replyInfo, NSError * error) {
