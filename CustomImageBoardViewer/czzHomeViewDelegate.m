@@ -72,7 +72,7 @@
         [NavigationManager pushViewController:threadViewController animated:YES];
     }
     // If not downloading or processing, load more threads.
-    else if (!self.homeViewManager.isDownloading || !self.homeViewManager.isProcessing) {
+    else if (!self.homeViewManager.isDownloading) {
         [self.homeViewManager loadMoreThreads];
         [tableView reloadData];
 //        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -103,7 +103,7 @@
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (!(self.homeViewManager.isDownloading || self.homeViewManager.isProcessing) && self.homeViewManager.threads.count > 0) {
+    if (!self.homeViewManager.isDownloading && self.homeViewManager.threads.count > 0) {
         if (self.tableViewIsDraggedOverTheBottom) {
             if ([self tableViewIsDraggedOverTheBottomWithPadding:44 * 2]) {
                 self.myTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore;
@@ -117,7 +117,7 @@
 }
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (!(self.homeViewManager.isDownloading || self.homeViewManager.isProcessing) && self.homeViewManager.threads.count > 0) {
+    if (!self.homeViewManager.isDownloading && self.homeViewManager.threads.count > 0) {
         if ([self tableViewIsDraggedOverTheBottomWithPadding:44 * 2]) {
             [self.homeViewManager loadMoreThreads];
             self.myTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;

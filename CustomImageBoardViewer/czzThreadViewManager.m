@@ -123,7 +123,7 @@
 #pragma mark - czzThreadDownloaderDelegate
 
 - (void)threadDownloaderCompleted:(czzThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads error:(NSError *)error {
-    self.isProcessing = NO;
+    self.isDownloading = NO;
     if (success) {
         self.lastBatchOfThreads = threads;
         self.parentThread = downloader.parentThread;

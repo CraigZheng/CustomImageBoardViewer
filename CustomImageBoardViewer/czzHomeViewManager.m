@@ -21,7 +21,6 @@
     self = [super init];
     if (self) {
         self.isDownloading = NO;
-        self.isProcessing = NO;
         self.pageNumber = self.totalPages = 1;
 
     }
@@ -144,7 +143,7 @@
 }
 
 - (void)threadDownloaderCompleted:(czzThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads error:(NSError *)error {
-    self.isProcessing = self.isDownloading = NO;
+    self.isDownloading = NO;
     if (success){
         self.cachedThreads = nil;
         if (self.shouldHideImageForThisForum)
