@@ -46,8 +46,8 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) czzThreadTableViewDataSource *tableViewDataSource;
 @property (strong, nonatomic) czzThreadViewDelegate *threadViewDelegate;
-
-@property GSIndeterminateProgressView *progressView;
+@property (strong, nonatomic) czzOnScreenImageManagerViewController *onScreenImageManagerViewController;
+@property (weak, nonatomic) GSIndeterminateProgressView *progressView;
 @end
 
 @implementation czzThreadViewController
@@ -82,15 +82,22 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     self.threadTableView.delegate = threadViewDelegate = [czzThreadViewDelegate initWithViewManager:self.threadViewManager andTableView:self.threadTableView];
     tableViewDataSource.tableViewDelegate = threadViewDelegate;
     
-    //progress view
+    // Progress view
     progressView = [(czzNavigationController*)self.navigationController progressView];
     
-    //thumbnail folder
+    // Thumbnail folder
     thumbnailFolder = [czzAppDelegate thumbnailFolder];
     imageViewerUtil = [czzImageViewerUtil new];
-    //settings
-
+    // Settings
     shouldHighlight = [settingCentre userDefShouldHighlightPO];
+    // On screen image manager view controller
+    if (!self.onScreenImageManagerViewController) {
+        self.onScreenImageManagerViewController = [czzOnScreenImageManagerViewController new];
+        self.onScreenImageManagerViewController.delegate = self.threadViewDelegate;
+        [self addChildViewController:self.onScreenImageManagerViewController];
+        [self.onScreenImageManagerViewContainer addSubview:self.onScreenImageManagerViewController.view];
+    }
+
     //add the UIRefreshControl to uitableview
     refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
@@ -140,12 +147,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
     //background colour
     self.threadTableView.backgroundColor = [settingCentre viewBackgroundColour];
-    
-    //on screen image manager view
-    czzOnScreenImageManagerViewController *onScreenImgMrg = [(czzNavigationController*)self.navigationController onScreenImageManagerView];
-    onScreenImgMrg.delegate = threadViewDelegate;
-    [self addChildViewController:onScreenImgMrg];
-    [onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

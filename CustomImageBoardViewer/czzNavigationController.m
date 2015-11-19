@@ -17,7 +17,6 @@
 
 @implementation czzNavigationController
 @synthesize notificationBannerViewController;
-@synthesize onScreenImageManagerView;
 @synthesize progressView;
 
 - (void)viewDidLoad {
@@ -36,14 +35,6 @@
     progressView = [[GSIndeterminateProgressView alloc] initWithFrame:CGRectMake(0, self.navigationBar.frame.size.height - 2, self.navigationBar.frame.size.width, 2)];
     progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     [self.navigationBar addSubview:progressView];
-    
-    
-    //create on screen command if nil
-    if (!onScreenImageManagerView)
-    {
-        onScreenImageManagerView = [czzOnScreenImageManagerViewController new];
-        [onScreenImageManagerView stopAnimating]; //hide it at launch
-    }
 }
 
 #pragma mark - czzNavigationManagerDelegate

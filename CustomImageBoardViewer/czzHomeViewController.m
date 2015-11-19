@@ -37,7 +37,7 @@
 #import <CoreText/CoreText.h>
 
 
-@interface czzHomeViewController() <UIAlertViewDelegate, czzOnScreenImageManagerViewControllerDelegate, UIStateRestoring>
+@interface czzHomeViewController() <UIAlertViewDelegate, UIStateRestoring>
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (assign, nonatomic) BOOL shouldHideImageForThisForum;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
@@ -48,6 +48,7 @@
 @property (strong, nonatomic) czzFavouriteManagerViewController *favouriteManagerViewController;
 @property (strong, nonatomic) czzHomeTableViewDataSource *tableViewDataSource;
 @property (strong, nonatomic) czzHomeViewDelegate *homeViewDelegate;
+@property (strong, nonatomic) czzOnScreenImageManagerViewController *onScreenImageManagerViewController;
 @end
 
 @implementation czzHomeViewController
@@ -70,12 +71,19 @@
     // Set the currentOffSet back to zero
     self.homeViewManager.currentOffSet = CGPointZero;
 
-    //configure the view deck controller with half size and tap to close mode
+    // Configure the view deck controller with half size and tap to close mode
     self.viewDeckController.leftSize = self.view.frame.size.width/4;
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
     self.viewDeckController.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
 
-    //register a notification observer
+    // On screen image manager view controller
+    if (!self.onScreenImageManagerViewController) {
+        self.onScreenImageManagerViewController = [czzOnScreenImageManagerViewController new];
+        self.onScreenImageManagerViewController.delegate = self.homeViewDelegate;
+        [self addChildViewController:self.onScreenImageManagerViewController];
+        [self.onScreenImageManagerViewContainer addSubview:self.onScreenImageManagerViewController.view];
+    }
+    // Register a notification observer
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(forumPicked:)
                                                  name:kForumPickedNotification
@@ -105,12 +113,6 @@
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
     [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
-
-    //on screen image manager view
-    czzOnScreenImageManagerViewController *onScreenImgMrg = [NavigationManager.delegate onScreenImageManagerView];
-    onScreenImgMrg.delegate = self.homeViewDelegate;
-    [self addChildViewController:onScreenImgMrg];
-    [self.onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
     
     self.threadTableView.backgroundColor = settingCentre.viewBackgroundColour;
 }
