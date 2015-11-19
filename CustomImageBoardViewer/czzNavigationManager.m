@@ -57,10 +57,12 @@
     } else if ([viewController isKindOfClass:[czzThreadViewController class]]) {
         viewManager = [viewController performSelector:@selector(threadViewManager)];
     }
-    if ([viewManager isDownloading]) {
-        [self.delegate.progressView startAnimating];
-    } else {
-        [self.delegate.progressView stopAnimating];
+    if (viewManager) {
+        if ([viewManager isDownloading]) {
+            [self.delegate.progressView startAnimating];
+        } else {
+            [self.delegate.progressView stopAnimating];
+        }
     }
 }
 
