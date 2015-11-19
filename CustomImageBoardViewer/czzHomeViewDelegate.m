@@ -19,6 +19,7 @@
 #import "czzThreadTableView.h"
 #import "czzImageViewerUtil.h"
 #import "czzThreadViewManager.h"
+#import "czzPostViewController.h"
 
 #import "UIApplication+Util.h"
 #import "UINavigationController+Util.h"
@@ -40,6 +41,36 @@
         [[czzImageDownloaderManager sharedManager] addDelegate:self];
     }
     return self;
+}
+
+- (void)replyToThread:(czzThread *)thread {
+    czzPostViewController *postViewController = [czzPostViewController new];
+    postViewController.forum = self.homeViewManager.forum;
+    postViewController.replyTo = thread;
+    postViewController.postMode = REPLY_POST;
+    [[czzNavigationManager sharedManager].delegate pushViewController:postViewController animated:YES];
+}
+
+- (void)replyMainThread:(czzThread *)thread {
+    czzPostViewController *postViewController = [czzPostViewController new];
+    postViewController.forum = self.homeViewManager.forum;
+    postViewController.thread = thread;
+    postViewController.postMode = REPLY_POST;
+    [[czzNavigationManager sharedManager].delegate pushViewController:postViewController animated:YES];
+}
+
+- (void)reportThread:(czzThread *)selectedThread inParentThread:(czzThread *)parentThread {
+    czzPostViewController *newPostViewController = [czzPostViewController new];
+    newPostViewController.postMode = REPORT_POST;
+    [[czzNavigationManager sharedManager].delegate pushViewController:newPostViewController animated:YES];
+    NSString *reportString = [[settingCentre report_post_placeholder] stringByReplacingOccurrencesOfString:kParentID withString:[NSString stringWithFormat:@"%ld", (long)parentThread.ID]];
+    reportString = [reportString stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long)selectedThread.ID]];
+    newPostViewController.prefilledString = reportString;
+    newPostViewController.title = [NSString stringWithFormat:@"举报:%ld", (long)parentThread.ID];
+    //construct a blacklist that to be submitted to my server and pass it to new post view controller
+    czzBlacklistEntity *blacklistEntity = [czzBlacklistEntity new];
+    blacklistEntity.threadID = selectedThread.ID;
+    newPostViewController.blacklistEntity = blacklistEntity;
 }
 
 #pragma mark - UITableViewDelegate
@@ -72,7 +103,7 @@
         [NavigationManager pushViewController:threadViewController animated:YES];
     }
     // If not downloading or processing, load more threads.
-    else if (!self.homeViewManager.isDownloading || !self.homeViewManager.isProcessing) {
+    else if (!self.homeViewManager.isDownloading) {
         [self.homeViewManager loadMoreThreads];
         [tableView reloadData];
 //        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -106,7 +137,7 @@
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (!(self.homeViewManager.isDownloading || self.homeViewManager.isProcessing) && self.homeViewManager.threads.count > 0) {
+    if (!self.homeViewManager.isDownloading && self.homeViewManager.threads.count > 0) {
         if (self.tableViewIsDraggedOverTheBottom) {
             if ([self tableViewIsDraggedOverTheBottomWithPadding:44 * 2]) {
                 self.myTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore;
@@ -120,7 +151,7 @@
 }
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (!(self.homeViewManager.isDownloading || self.homeViewManager.isProcessing) && self.homeViewManager.threads.count > 0) {
+    if (!self.homeViewManager.isDownloading && self.homeViewManager.threads.count > 0) {
         if ([self tableViewIsDraggedOverTheBottomWithPadding:44 * 2]) {
             [self.homeViewManager loadMoreThreads];
             self.myTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
@@ -143,6 +174,22 @@
     } else {
         [[czzImageDownloaderManager sharedManager] downloadImageWithURL:imgURL isThumbnail:NO];
     }
+}
+
+- (void)userWantsToReply:(czzThread *)thread {
+    DLog(@"%s : %@", __PRETTY_FUNCTION__, thread);
+    [self replyToThread:thread];
+}
+
+- (void)userWantsToHighLight:(czzThread *)thread {
+    DLog(@"%s : %@", __PRETTY_FUNCTION__, thread);
+    if ([self.homeViewManager isKindOfClass:[czzThreadViewManager class]]) {
+        [(czzThreadViewManager *)self.homeViewManager HighlightThreadSelected:thread];
+    }
+}
+
+- (void)userWantsToSearch:(czzThread *)thread {
+    DLog(@"%s : NOT IMPLEMENTED", __PRETTY_FUNCTION__);
 }
 
 #pragma mark - czzOnScreenImageManagerViewControllerDelegate

@@ -62,7 +62,7 @@
 
 -(void)show {
     // If top view controller is the main czz navigation controller.
-    if (NavigationManager.delegate == [UIApplication topViewController]) {
+    if (NavigationManager.delegate == [UIApplication rootViewController]) {
         if (NavigationManager.isInTransition) {
             NavigationManager.pushAnimationCompletionHandler = ^{
                 if (![[UIApplication topViewController] isKindOfClass:[photoBrowser class]]) {
@@ -130,8 +130,10 @@
         NSData *data = UIImageJPEGRepresentation((UIImage *)source, 0.99);
         [data writeToURL:tempFileURL atomically:NO];
         documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:tempFileURL];
-    } else {
+    } else if ([source isKindOfClass:[NSURL class]]){
         documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:source];
+    } else {
+        documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:source]];
     }
     UIView *viewToShowDocumentInteractionController;
     if (photoBrowserNavigationController)

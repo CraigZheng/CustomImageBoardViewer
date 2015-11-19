@@ -14,10 +14,10 @@
 #import "czzImageCacheManager.h"
 #import "czzAppDelegate.h"
 
+@class czzShortImageManagerCollectionViewController;
 @protocol czzShortImageManagerCollectionViewControllerProtocol <NSObject>
 @optional
--(void)userTappedOnImageWithPath:(NSString*)imagePath;
-
+- (void)shortImageManager:(czzShortImageManagerCollectionViewController *)manager selectedImageWithIndex:(NSInteger)index inImages:(NSArray *)imageSource;
 @end
 
 @interface czzShortImageManagerCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>

@@ -9,6 +9,7 @@
 
 #import "czzThreadViewManager.h"
 #import "czzHistoryManager.h"
+#import "czzThreadDownloader.h"
 
 @interface czzThreadViewManager()
 @property (nonatomic, assign) NSUInteger cutOffIndex;
@@ -16,6 +17,7 @@
 
 @implementation czzThreadViewManager
 @synthesize forum = _forum;
+@synthesize downloader = _downloader;
 @dynamic delegate;
 
 #pragma mark - life cycle.
@@ -36,8 +38,6 @@
         self.parentID = [NSString stringWithFormat:@"%ld", (long) self.parentThread.ID];
 
         [self reset];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(HighlightThreadSelected:) name:@"HighlightAction" object:nil];
     }
     
     return self;
@@ -118,25 +118,13 @@
     return [[settingCentre thread_content_host] stringByReplacingOccurrencesOfString:kParentID withString:self.parentID];
 }
 
-#pragma mark - czzXMLDownloaderDelegate
--(void)downloadOf:(NSURL *)xmlURL successed:(BOOL)successed result:(NSData *)receivedData {
-    self.isDownloading = NO;
-    if (successed) {
-        [self.threadDataProcessor processSubThreadFromData:receivedData forForum:self.forum];
-    }
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.delegate respondsToSelector:@selector(homeViewManager:downloadSuccessful:)]) {
-            [self.delegate homeViewManager:self downloadSuccessful:successed];
-        }
-    });
-}
+#pragma mark - czzThreadDownloaderDelegate
 
-#pragma mark - czzJsonProcesserDelegate
--(void)subThreadProcessedForThread:(czzJSONProcessor *)processor :(czzThread *)forThread :(NSArray *)newThread :(BOOL)success {
-    self.isProcessing = NO;
+- (void)threadDownloaderCompleted:(czzThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads error:(NSError *)error {
+    self.isDownloading = NO;
     if (success) {
-        self.lastBatchOfThreads = newThread;
-        self.parentThread = forThread ? forThread : self.parentThread;
+        self.lastBatchOfThreads = threads;
+        self.parentThread = downloader.parentThread;
         NSArray *processedNewThread;
         if (self.threads.count > 0) {
             NSInteger lastChunkIndex = self.threads.count - self.lastBatchOfThreads.count;
@@ -147,14 +135,14 @@
             NSRange lastChunkRange = NSMakeRange(lastChunkIndex, lastChunkLength);
             NSArray *lastChunkOfThread = [self.threads subarrayWithRange:lastChunkRange];
             NSMutableOrderedSet *oldThreadSet = [NSMutableOrderedSet orderedSetWithArray:lastChunkOfThread];
-            [oldThreadSet addObjectsFromArray:newThread];
+            [oldThreadSet addObjectsFromArray:threads];
             [self.threads removeObjectsInRange:lastChunkRange];
             processedNewThread = oldThreadSet.array;
         } else {
             self.cutOffIndex = 0;
             NSMutableArray *threadsWithParent = [NSMutableArray new];
             [threadsWithParent addObject:self.parentThread];
-            [threadsWithParent addObjectsFromArray:newThread];
+            [threadsWithParent addObjectsFromArray:threads];
             processedNewThread = threadsWithParent;
         }
         self.lastBatchOfThreads = processedNewThread;
@@ -166,21 +154,82 @@
         } else {
             [self.threads insertObject:self.parentThread atIndex:0];
         }
-//        [self calculateHeightsForThreads:self.lastBatchOfThreads cutOffFromIndex:self.cutOffIndex];
+        //        [self calculateHeightsForThreads:self.lastBatchOfThreads cutOffFromIndex:self.cutOffIndex];
     }
     // Download images for the new batch of threads
-    [self downloadThumbnailsForThreads:newThread];
+    [self downloadThumbnailsForThreads:threads];
     //calculate current number and total page number
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.watchKitCompletionHandler) {
-            self.watchKitCompletionHandler(success, self.threads);
-            self.watchKitCompletionHandler = nil;
-        }
-        else if ([self.delegate respondsToSelector:@selector(homeViewManager:threadContentProcessed:newThreads:allThreads:)]) {
+        if ([self.delegate respondsToSelector:@selector(homeViewManager:threadContentProcessed:newThreads:allThreads:)]) {
             [self.delegate homeViewManager:self threadContentProcessed:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
         }
     });
+
 }
+
+#pragma mark - czzXMLDownloaderDelegate
+//-(void)downloadOf:(NSURL *)xmlURL successed:(BOOL)successed result:(NSData *)receivedData {
+//    self.isDownloading = NO;
+//    if (successed) {
+//        [self.threadDataProcessor processSubThreadFromData:receivedData forForum:self.forum];
+//    }
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        if ([self.delegate respondsToSelector:@selector(homeViewManager:downloadSuccessful:)]) {
+//            [self.delegate homeViewManager:self downloadSuccessful:successed];
+//        }
+//    });
+//}
+//
+//#pragma mark - czzJsonProcesserDelegate
+//-(void)subThreadProcessedForThread:(czzJSONProcessor *)processor :(czzThread *)forThread :(NSArray *)newThread :(BOOL)success {
+//    self.isProcessing = NO;
+//    if (success) {
+//        self.lastBatchOfThreads = newThread;
+//        self.parentThread = forThread ? forThread : self.parentThread;
+//        NSArray *processedNewThread;
+//        if (self.threads.count > 0) {
+//            NSInteger lastChunkIndex = self.threads.count - self.lastBatchOfThreads.count;
+//            if (lastChunkIndex < 1)
+//                lastChunkIndex = 1;
+//            self.cutOffIndex = lastChunkIndex;
+//            NSInteger lastChunkLength = self.threads.count - lastChunkIndex;
+//            NSRange lastChunkRange = NSMakeRange(lastChunkIndex, lastChunkLength);
+//            NSArray *lastChunkOfThread = [self.threads subarrayWithRange:lastChunkRange];
+//            NSMutableOrderedSet *oldThreadSet = [NSMutableOrderedSet orderedSetWithArray:lastChunkOfThread];
+//            [oldThreadSet addObjectsFromArray:newThread];
+//            [self.threads removeObjectsInRange:lastChunkRange];
+//            processedNewThread = oldThreadSet.array;
+//        } else {
+//            self.cutOffIndex = 0;
+//            NSMutableArray *threadsWithParent = [NSMutableArray new];
+//            [threadsWithParent addObject:self.parentThread];
+//            [threadsWithParent addObjectsFromArray:newThread];
+//            processedNewThread = threadsWithParent;
+//        }
+//        self.lastBatchOfThreads = processedNewThread;
+//        [self.threads addObjectsFromArray:self.lastBatchOfThreads];
+//        //replace parent thread
+//        if (self.threads.count >= 1)
+//        {
+//            [self.threads replaceObjectAtIndex:0 withObject:self.parentThread];
+//        } else {
+//            [self.threads insertObject:self.parentThread atIndex:0];
+//        }
+////        [self calculateHeightsForThreads:self.lastBatchOfThreads cutOffFromIndex:self.cutOffIndex];
+//    }
+//    // Download images for the new batch of threads
+//    [self downloadThumbnailsForThreads:newThread];
+//    //calculate current number and total page number
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        if (self.watchKitCompletionHandler) {
+//            self.watchKitCompletionHandler(success, self.threads);
+//            self.watchKitCompletionHandler = nil;
+//        }
+//        else if ([self.delegate respondsToSelector:@selector(homeViewManager:threadContentProcessed:newThreads:allThreads:)]) {
+//            [self.delegate homeViewManager:self threadContentProcessed:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
+//        }
+//    });
+//}
 
 #pragma mark - calculations
 float RoundTo(float number, float to)
@@ -192,27 +241,6 @@ float RoundTo(float number, float to)
         return to * ceilf(number / to - 0.5f);
     }
 }
-
-
-///*
-// calculate heights for both horizontal and vertical of the parent view controller
-// */
-//-(void)calculateHeightsForThreads:(NSArray*)newThreads cutOffFromIndex:(NSInteger)cutOffIndex{
-//    @try {
-//        // Remove duplicate height objects, then calculate the newThreads
-//        [self.verticalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, self.verticalHeights.count - cutOffIndex)];
-//        [self.horizontalHeights removeObjectsInRange:NSMakeRange(cutOffIndex, self.horizontalHeights.count - cutOffIndex)];
-//        [super calculateHeightsForThreads:newThreads];
-//
-//    }
-//    @catch (NSException *exception) {
-//        // If error, remove all height objects, and calculate all from the beginning
-//        DLog(@"%@", exception);
-//        [self.verticalHeights removeAllObjects];
-//        [self.horizontalHeights removeAllObjects];
-//        [super calculateHeightsForThreads:self.threads];
-//    }
-//}
 
 #pragma mark - content managements.
 - (void)reset {
@@ -232,8 +260,7 @@ float RoundTo(float number, float to)
 }
 
 #pragma mark - highlight thread selected
--(void)HighlightThreadSelected:(NSNotification*)notification {
-    czzThread *selectedThread = [notification.userInfo objectForKey:@"HighlightThread"];
+-(void)HighlightThreadSelected:(czzThread *)selectedThread {
     if (selectedThread) {
         if ([self.selectedUserToHighlight isEqual:selectedThread.UID.string]) {
             self.selectedUserToHighlight = nil;
@@ -284,5 +311,13 @@ float RoundTo(float number, float to)
 }
 
 #pragma mark - Getter
+
+- (czzThreadDownloader *)downloader {
+    if (!_downloader) {
+        _downloader = [[czzThreadDownloader alloc] initWithForum:self.forum andThread:self.parentThread];
+    }
+    _downloader.delegate = self;
+    return _downloader;
+}
 
 @end

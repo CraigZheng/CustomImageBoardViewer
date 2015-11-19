@@ -635,6 +635,8 @@
 		4498CEC21B9E754A004D2380 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4498CEC11B9E754A004D2380 /* Security.framework */; };
 		4498CEC41B9E756D004D2380 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4498CEC31B9E756D004D2380 /* CoreTelephony.framework */; };
 		449C9E271A71DB5C00D49B7F /* remote_configuration-debug.json in Resources */ = {isa = PBXBuildFile; fileRef = 449C9E261A71DB5C00D49B7F /* remote_configuration-debug.json */; };
+		449E928A1BF8A33300EE2F58 /* czzThreadDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 449E92891BF8A33300EE2F58 /* czzThreadDownloader.m */; };
+		449E928B1BF8A33300EE2F58 /* czzThreadDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 449E92891BF8A33300EE2F58 /* czzThreadDownloader.m */; };
 		449E928E1BF9D15C00EE2F58 /* czzModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 449E928D1BF9D15C00EE2F58 /* czzModalViewController.m */; };
 		449E928F1BF9D15C00EE2F58 /* czzModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 449E928D1BF9D15C00EE2F58 /* czzModalViewController.m */; };
 		44A9E1531AE1D16000740CE1 /* Icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = 44A9E1491AE1D16000740CE1 /* Icon-60.png */; };
@@ -1309,6 +1311,8 @@
 		4498CEC11B9E754A004D2380 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		4498CEC31B9E756D004D2380 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		449C9E261A71DB5C00D49B7F /* remote_configuration-debug.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "remote_configuration-debug.json"; sourceTree = "<group>"; };
+		449E92881BF8A33300EE2F58 /* czzThreadDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadDownloader.h; sourceTree = "<group>"; };
+		449E92891BF8A33300EE2F58 /* czzThreadDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadDownloader.m; sourceTree = "<group>"; };
 		449E928C1BF9D15C00EE2F58 /* czzModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzModalViewController.h; sourceTree = "<group>"; };
 		449E928D1BF9D15C00EE2F58 /* czzModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzModalViewController.m; sourceTree = "<group>"; };
 		44A9E1491AE1D16000740CE1 /* Icon-60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60.png"; sourceTree = "<group>"; };
@@ -1949,8 +1953,7 @@
 				44B89E861A2AFC6B0085F766 /* czzHomeViewManager.m */,
 				443141951A2B38D6007D65B3 /* czzThreadViewManager.h */,
 				443141961A2B38D6007D65B3 /* czzThreadViewManager.m */,
-				441E5D2117F46FBC00289DBD /* czzXMLDownloader */,
-				4498B68A199249180014F73F /* czzJSONProcessor */,
+				449E92821BF8A25F00EE2F58 /* czzThreadDownloader */,
 				441E5D2A17F48F8C00289DBD /* czzThread.h */,
 				441E5D2B17F48F8C00289DBD /* czzThread.m */,
 				4448C2A4180FF51D00D2CD76 /* czzBlacklist */,
@@ -2567,6 +2570,17 @@
 				4498CEBF1B9E752A004D2380 /* TalkingData.h */,
 			);
 			name = TalkingData;
+			sourceTree = "<group>";
+		};
+		449E92821BF8A25F00EE2F58 /* czzThreadDownloader */ = {
+			isa = PBXGroup;
+			children = (
+				441E5D2117F46FBC00289DBD /* czzXMLDownloader */,
+				4498B68A199249180014F73F /* czzJSONProcessor */,
+				449E92881BF8A33300EE2F58 /* czzThreadDownloader.h */,
+				449E92891BF8A33300EE2F58 /* czzThreadDownloader.m */,
+			);
+			name = czzThreadDownloader;
 			sourceTree = "<group>";
 		};
 		44A9E0FF1AE1CAC600740CE1 /* GoogldAdmob */ = {
@@ -3189,6 +3203,8 @@
 				44553FDC1BABEBA700667435 /* Sources */,
 				445540711BABEBA700667435 /* Frameworks */,
 				445540851BABEBA700667435 /* Resources */,
+				8662BC3586652DB08CBF0BAA /* Embed Pods Frameworks */,
+				6930B85C23361D6EAB8E573F /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -3240,6 +3256,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = czz;
+				LastSwiftUpdateCheck = 0710;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = Craig;
 				TargetAttributes = {
@@ -4000,6 +4017,7 @@
 				5A26E77919398D7F00B709C9 /* czzNotificationBannerViewController.m in Sources */,
 				440B2FD017F8191700544926 /* czzPost.m in Sources */,
 				442A8FB419DB7DF200A3516E /* PSTGridLayoutInfo.m in Sources */,
+				449E928A1BF8A33300EE2F58 /* czzThreadDownloader.m in Sources */,
 				44E3F73E1BA2FFB600597A3F /* NSObject+Util.m in Sources */,
 				442A8FED19DB7F5400A3516E /* MKAnnotationView+WebCache.m in Sources */,
 				442A8FFB19DB7F5400A3516E /* UIImageView+HighlightedWebCache.m in Sources */,
@@ -4199,6 +4217,7 @@
 				445540441BABEBA700667435 /* czzNotificationBannerViewController.m in Sources */,
 				445540451BABEBA700667435 /* czzPost.m in Sources */,
 				445540461BABEBA700667435 /* PSTGridLayoutInfo.m in Sources */,
+				449E928B1BF8A33300EE2F58 /* czzThreadDownloader.m in Sources */,
 				445540471BABEBA700667435 /* NSObject+Util.m in Sources */,
 				445540481BABEBA700667435 /* MKAnnotationView+WebCache.m in Sources */,
 				445540491BABEBA700667435 /* UIImageView+HighlightedWebCache.m in Sources */,
@@ -4409,6 +4428,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -4426,6 +4446,7 @@
 				GCC_PREFIX_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Prefix.pch";
 				INFOPLIST_FILE = "CustomImageBoardViewer/CustomImageBoardViewer-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer,
@@ -4437,6 +4458,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.ac-channel-browser";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -4447,6 +4470,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Haozheng Zheng (9EBE9MWW9X)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Haozheng Zheng (9EBE9MWW9X)";
 				ENABLE_BITCODE = NO;
@@ -4463,6 +4487,7 @@
 				GCC_PREFIX_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Prefix.pch";
 				INFOPLIST_FILE = "CustomImageBoardViewer/CustomImageBoardViewer-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer,
@@ -4474,6 +4499,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.ac-channel-browser";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Bridging-Header.h";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -4530,6 +4556,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -4547,6 +4574,7 @@
 				GCC_PREFIX_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Prefix.pch";
 				INFOPLIST_FILE = "CustomImageBoardViewer copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer,
@@ -4558,6 +4586,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.ac-channel-browser";
 				PRODUCT_NAME = "CustomImageBoardViewer copy";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "CustomImageBoardViewer/CIV-Simulator-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -4568,6 +4598,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Haozheng Zheng (9EBE9MWW9X)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Haozheng Zheng (9EBE9MWW9X)";
 				ENABLE_BITCODE = NO;
@@ -4584,6 +4615,7 @@
 				GCC_PREFIX_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Prefix.pch";
 				INFOPLIST_FILE = "CustomImageBoardViewer copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer,
@@ -4595,6 +4627,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.ac-channel-browser";
 				PRODUCT_NAME = "CustomImageBoardViewer copy";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "CustomImageBoardViewer/CIV-Simulator-Bridging-Header.h";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

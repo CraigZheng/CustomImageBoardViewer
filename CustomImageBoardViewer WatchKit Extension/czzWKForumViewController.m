@@ -50,14 +50,15 @@
 }
 
 -(void)loadForumData {
-    [WKInterfaceController openParentApplication:@{watchKitCommandKey : @(watchKitCommandLoadForumView)} reply:^(NSDictionary *replyInfo, NSError *error) {
-        self.wkForums = [NSMutableArray new];
-        for (NSDictionary *dict in [replyInfo objectForKey:@(watchKitCommandLoadForumView)]) {
-            czzWKForum *forum = [[czzWKForum alloc] initWithDictionary:dict];
-            [self.wkForums addObject:forum];
-        }
-        [self reloadTableView];
-    }];
+#warning TODO: MADE IT COMPATIBLE WITH WATCH OS 2
+//    [WKInterfaceController openParentApplication:@{watchKitCommandKey : @(watchKitCommandLoadForumView)} reply:^(NSDictionary *replyInfo, NSError *error) {
+//        self.wkForums = [NSMutableArray new];
+//        for (NSDictionary *dict in [replyInfo objectForKey:@(watchKitCommandLoadForumView)]) {
+//            czzWKForum *forum = [[czzWKForum alloc] initWithDictionary:dict];
+//            [self.wkForums addObject:forum];
+//        }
+//        [self reloadTableView];
+//    }];
 }
 
 #pragma mark - TableView

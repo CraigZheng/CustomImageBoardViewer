@@ -13,6 +13,7 @@
 #import "czzImageDownloaderManager.h"
 #import "czzImageCacheManager.h"
 #import "czzSettingsCentre.h"
+#import "czzImageViewerUtil.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -21,6 +22,7 @@
 @interface czzOnScreenImageManagerViewController () <czzImageDownloaderManagerDelegate, czzShortImageManagerCollectionViewControllerProtocol>
 @property (assign, nonatomic) BOOL iconAnimating;
 @property (assign, nonatomic) BOOL isShowingShortImageManagerController;
+@property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
 @end
 
 @implementation czzOnScreenImageManagerViewController
@@ -109,12 +111,11 @@
     }
 }
 
-#pragma mark - czzShortImageManagerCollectionViewControllerDelegate
--(void)userTappedOnImageWithPath:(NSString *)imagePath {
-    if (delegate && [delegate respondsToSelector:@selector(onScreenImageManagerSelectedImage:)])
-    {
-        [delegate onScreenImageManagerSelectedImage:imagePath];
-    }
+#pragma mark - czzShortImageManagerCollectionViewController
+
+- (void)shortImageManager:(czzShortImageManagerCollectionViewController *)manager selectedImageWithIndex:(NSInteger)index inImages:(NSArray *)imageSource {
+    self.imageViewerUtil = [czzImageViewerUtil new];
+    [self.imageViewerUtil showPhotos:imageSource withIndex:index];
 }
 
 #pragma mark - Getter

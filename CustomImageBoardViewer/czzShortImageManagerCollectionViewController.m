@@ -76,7 +76,8 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
 }
 
 -(NSArray *)downloadedImages {
-    return [[czzImageDownloaderManager sharedManager] downloadedImages];
+    // Reverse the downloaded images.
+    return [[[[czzImageDownloaderManager sharedManager] downloadedImages] reverseObjectEnumerator] allObjects];
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -132,19 +133,13 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
     }
     //downloaded image section
     else if (indexPath.section == 1) {
-        //if parent view controller is not nil, show in parent view
-        [self dismissViewControllerAnimated:YES completion:^{
-            DLog(@"%s", __PRETTY_FUNCTION__);
-            if (self.delegate) {
-                NSString *imgPath = [self.downloadedImages objectAtIndex:indexPath.row];
-                if (delegate && [delegate respondsToSelector:@selector(userTappedOnImageWithPath:)]) {
-                    [delegate userTappedOnImageWithPath:imgPath];
-                }
-            } else {
-                imageViewerUtil = [czzImageViewerUtil new];
-                [imageViewerUtil showPhotos:self.downloadedImages withIndex:indexPath.row];
-            }
-        }];
+        if ([delegate respondsToSelector:@selector(shortImageManager:selectedImageWithIndex:inImages:)]) {
+                [delegate shortImageManager:self selectedImageWithIndex:indexPath.row inImages:[self.downloadedImages copy]];
+        } else {
+            imageViewerUtil = [czzImageViewerUtil new];
+            [imageViewerUtil showPhotos:self.downloadedImages withIndex:indexPath.row];
+        }
+        [self dismiss];
     }
 }
 

@@ -12,11 +12,10 @@
 #import "czzForum.h"
 
 #import "czzForum.h"
-#import "czzJSONProcessor.h"
-#import "czzURLDownloader.h"
 #import "czzSettingsCentre.h"
 #import "czzTextViewHeightCalculator.h"
 #import "czzAppDelegate.h"
+#import "czzThreadDownloader.h"
 
 #import "NSObjectUtil.h"
 #import <Foundation/Foundation.h>
@@ -38,7 +37,7 @@
 
 @end
 
-@interface czzHomeViewManager : NSObject <czzURLDownloaderProtocol, czzJSONProcessorDelegate, NSCoding>
+@interface czzHomeViewManager : NSObject <NSCoding, czzThreadDownloaderDelegate>
 @property (nonatomic, assign) BOOL shouldHideImageForThisForum;
 @property (nonatomic, strong) czzForum *forum;
 @property (nonatomic, assign) NSInteger pageNumber;
@@ -47,17 +46,12 @@
 @property (nonatomic, strong) NSArray *lastBatchOfThreads;
 @property (nonatomic, weak) id<czzHomeViewManagerDelegate> delegate;
 @property (nonatomic, assign) BOOL isDownloading;
-@property (nonatomic, assign) BOOL isProcessing;
 @property (nonatomic, readonly) NSString *baseURLString;
 @property (nonatomic, assign) CGPoint currentOffSet;
 @property (nonatomic, strong) czzThread *displayedThread;
 @property (nonatomic, strong) NSMutableArray *cachedThreads;
 
-// Watch kit completion handler - for temporarily setting the delegate to the watch kit manager
-@property (copy)void(^watchKitCompletionHandler)(BOOL success, NSArray* threads);
-
-@property (nonatomic, strong) czzURLDownloader *threadDownloader;
-@property (nonatomic, strong) czzJSONProcessor *threadDataProcessor;
+@property (nonatomic, strong) czzThreadDownloader *downloader;
 
 -(void)refresh;
 -(void)reloadData;

@@ -26,6 +26,10 @@
 @optional
 -(void)userTapInQuotedText:(NSString*)text;
 -(void)userTapInImageView:(NSString*)imgURL;
+// Menu actions
+- (void)userWantsToReply:(czzThread *)thread;
+- (void)userWantsToHighLight:(czzThread *)thread;
+- (void)userWantsToSearch:(czzThread *)thread;
 @end
 
 @interface czzMenuEnabledTableViewCell : UITableViewCell

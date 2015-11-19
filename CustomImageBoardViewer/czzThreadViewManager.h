@@ -24,7 +24,8 @@
 @property (weak, nonatomic) id<czzThreadViewManagerDelegate> delegate;
 
 - (void)reset;
--(instancetype)initWithParentThread:(czzThread*)thread andForum:(czzForum*)forum;
--(instancetype)restoreWithFile:(NSString*)filePath;
--(void)showContentWithThread:(czzThread*)thread;
+- (void)HighlightThreadSelected:(czzThread *)selectedThread;
+- (instancetype)initWithParentThread:(czzThread*)thread andForum:(czzForum*)forum;
+- (instancetype)restoreWithFile:(NSString*)filePath;
+- (void)showContentWithThread:(czzThread*)thread;
 @end

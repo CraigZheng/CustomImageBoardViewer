@@ -101,9 +101,9 @@
 }
 
 -(void)menuActionReply:(id)sender{
-    DLog(@"reply: %@", sender);
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:self.myThread forKey:@"ReplyToThread"];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"ReplyAction" object:Nil userInfo:userInfo];
+    if ([self.delegate respondsToSelector:@selector(userWantsToReply:)]) {
+        [self.delegate userWantsToReply:self.myThread];
+    }
 }
 
 -(void)menuActionOpen:(id)sender{
@@ -123,13 +123,15 @@
 }
 
 -(void)menuActionHighlight:(id)sender {
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:self.myThread forKey:@"HighlightThread"];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"HighlightAction" object:Nil userInfo:userInfo];
+    if ([self.delegate respondsToSelector:@selector(userWantsToHighLight:)]) {
+        [self.delegate userWantsToHighLight:self.myThread];
+    }
 }
 
 -(void)menuActionSearch:(id) sender {
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:self.myThread forKey:@"SearchUser"];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"SearchAction" object:Nil userInfo:userInfo];
+    if ([self.delegate respondsToSelector:@selector(userWantsToSearch:)]) {
+        [self.delegate userWantsToSearch:self.myThread];
+    }
 }
 
 #pragma mark - consturct UI elements

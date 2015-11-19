@@ -42,7 +42,7 @@
         if (self.homeViewManager.pageNumber == self.homeViewManager.totalPages) {
             self.myTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeNoMore;
         }
-        if (homeViewManager.isDownloading || homeViewManager.isProcessing) {
+        if (homeViewManager.isDownloading) {
             self.myTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
         }
         
