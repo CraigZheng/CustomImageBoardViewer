@@ -22,7 +22,11 @@ typedef NS_ENUM(NSInteger, watchkitCommandAction) {
 };
 
 @interface czzWatchKitCommand : NSObject
-@property (nonatomic, strong) id caller;
+@property (nonatomic, strong) NSString *caller;
 @property (nonatomic, assign) watchkitCommandAction action;
 @property (nonatomic, strong) NSDictionary *parameter;
+@property (nonatomic, readonly) NSString *jsonDictionary;
+
+- (instancetype)initWithDictionary:(NSDictionary *)dict;
+- (NSDictionary *)encodeToDictionary;
 @end

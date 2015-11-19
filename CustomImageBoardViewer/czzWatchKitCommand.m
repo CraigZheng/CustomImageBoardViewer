@@ -14,7 +14,7 @@ NSString * const kWatchkitCommandParameter = @"PARAMETER";
 
 @implementation czzWatchKitCommand
 
--(instancetype)initWithDictionary:(NSDictionary *)dict {
+- (instancetype)initWithDictionary:(NSDictionary *)dict {
     self = [super init];
     self.caller = [dict objectForKey:kWatchkitCommandCaller];
     self.action = [[dict objectForKey:kWatchkitCommandAction] integerValue];
@@ -22,12 +22,23 @@ NSString * const kWatchkitCommandParameter = @"PARAMETER";
     return self;
 }
 
--(NSDictionary *)encodeToDictionary {
+- (NSDictionary *)encodeToDictionary {
     NSMutableDictionary *dict = [NSMutableDictionary new];
     [dict setObject:self.caller forKey:kWatchkitCommandCaller];
     [dict setObject:@(self.action) forKey:kWatchkitCommandAction];
     [dict setObject:self.parameter forKey:kWatchkitCommandParameter];
     return dict;
+}
+
+- (NSString *)jsonDictionary {
+    NSString *jsonString = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:[self encodeToDictionary] options:NSJSONWritingPrettyPrinted error:nil]
+                                 encoding:NSUTF8StringEncoding];
+    DLog(@"jsonDict : %@", jsonString);
+    return jsonString;
+}
+
+- (NSString *)description {
+    return self.jsonDictionary;
 }
 
 @end

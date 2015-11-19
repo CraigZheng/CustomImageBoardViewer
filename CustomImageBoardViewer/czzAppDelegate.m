@@ -70,6 +70,9 @@
     // Prepare to launch
     AppActivityManager;
     
+    // The watchkit session.
+    [WCSession defaultSession].delegate = self;
+    [[WCSession defaultSession] activateSession];
     return YES;
 }
 							

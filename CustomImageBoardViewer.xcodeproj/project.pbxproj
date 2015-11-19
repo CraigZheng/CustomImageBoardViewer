@@ -834,6 +834,7 @@
 		44E7920A1A17856500A63C04 /* view.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E791CA1A17856500A63C04 /* view.png */; };
 		44E7920B1A17856500A63C04 /* view@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E791CB1A17856500A63C04 /* view@2x.png */; };
 		44E7920C1A17856500A63C04 /* view@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E791CC1A17856500A63C04 /* view@3x.png */; };
+		44F86B651BFE0012001306E8 /* czzWatchKitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469E01BAD9B5000C0AACC /* czzWatchKitCommand.m */; };
 		44FC4345180067CF0028D7C9 /* czzPostSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 44FC4344180067CF0028D7C9 /* czzPostSender.m */; };
 		5A0A6BD61848691C0094D7FB /* czzMoreInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0A6BD51848691C0094D7FB /* czzMoreInfoViewController.m */; };
 		5A1593EC18E71E93001A774B /* czzThreadRefButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1593EB18E71E93001A774B /* czzThreadRefButton.m */; };
@@ -4288,6 +4289,7 @@
 				44A294C81BFDF1050033D438 /* czzWKThread.m in Sources */,
 				44A294C71BFDF1050033D438 /* czzWKForum.m in Sources */,
 				44A294C61BFDF1050033D438 /* InterfaceController.m in Sources */,
+				44F86B651BFE0012001306E8 /* czzWatchKitCommand.m in Sources */,
 				44A294A51BFDEFF60033D438 /* NotificationController.m in Sources */,
 				44A294C41BFDF1050033D438 /* czzWKForumInterfaceController.m in Sources */,
 				44A294C31BFDF1050033D438 /* czzWatchKitHomeRowController.m in Sources */,
@@ -4793,6 +4795,7 @@
 				44A294AE1BFDEFF60033D438 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		44A294B01BFDEFF60033D438 /* Build configuration list for PBXNativeTarget "CIVWatchApp" */ = {
 			isa = XCConfigurationList;
@@ -4801,6 +4804,7 @@
 				44A294B21BFDEFF60033D438 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

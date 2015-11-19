@@ -36,23 +36,28 @@
 -(void)handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))reply withBackgroundTaskIdentifier:(UIBackgroundTaskIdentifier)backgroundTaskIdentifier{
     self.backgroundTaskIdentifier = backgroundTaskIdentifier;
     self.reply = reply;
-    id command = [userInfo objectForKey:watchKitCommandKey];
-
-    BOOL loadMore = [[userInfo objectForKey:watchKitCommandLoadMore] boolValue];
-    if ([command isEqual: @(watchKitCommandLoadHomeView)]) {
-        czzWKForum *forum = [[czzWKForum alloc] initWithDictionary:[userInfo objectForKey:watchKitCommandForumKey]];
-        [self watchKitLoadHomeView:forum loadMore:loadMore];
-    } else if ([command isEqual:@(watchKitCommandLoadThreadView)]) {
-        czzWKThread *selectedThread = [[czzWKThread alloc] initWithDictionary:[userInfo objectForKey:@"THREAD"]];
-        if (selectedThread) {
-            [self watchKitLoadThreadView:selectedThread loadMore:loadMore];
-        }
-    } else if ([command isEqual:@(watchKitCommandLoadForumView)]) {
-        [self watchKitLoadForumView];
-    } else if ([command isEqual:@(watchKitCommandLoadImage)]) {
-        NSString *imgURL = [userInfo objectForKey:watchKitCommandImageKey];
-        [self watchkitLoadImage:imgURL];
-    }
+    
+#warning DEBUG
+    czzWatchKitCommand *command = [[czzWatchKitCommand alloc] initWithDictionary:userInfo];
+    command.caller = NSStringFromClass(self.class);
+    reply(command.encodeToDictionary);
+//    id command = [userInfo objectForKey:watchKitCommandKey];
+//
+//    BOOL loadMore = [[userInfo objectForKey:watchKitCommandLoadMore] boolValue];
+//    if ([command isEqual: @(watchKitCommandLoadHomeView)]) {
+//        czzWKForum *forum = [[czzWKForum alloc] initWithDictionary:[userInfo objectForKey:watchKitCommandForumKey]];
+//        [self watchKitLoadHomeView:forum loadMore:loadMore];
+//    } else if ([command isEqual:@(watchKitCommandLoadThreadView)]) {
+//        czzWKThread *selectedThread = [[czzWKThread alloc] initWithDictionary:[userInfo objectForKey:@"THREAD"]];
+//        if (selectedThread) {
+//            [self watchKitLoadThreadView:selectedThread loadMore:loadMore];
+//        }
+//    } else if ([command isEqual:@(watchKitCommandLoadForumView)]) {
+//        [self watchKitLoadForumView];
+//    } else if ([command isEqual:@(watchKitCommandLoadImage)]) {
+//        NSString *imgURL = [userInfo objectForKey:watchKitCommandImageKey];
+//        [self watchkitLoadImage:imgURL];
+//    }
 }
 
 -(void)watchkitLoadImage:(NSString*)imgURL {
