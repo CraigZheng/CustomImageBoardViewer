@@ -23,4 +23,8 @@
     // Use this method to pause ongoing tasks, disable timers, etc.
 }
 
++ (instancetype)sharedInstance {
+    return [WKExtension sharedExtension].delegate;
+}
+
 @end

@@ -628,8 +628,8 @@
 		44A294A71BFDEFF60033D438 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44A294A61BFDEFF60033D438 /* Assets.xcassets */; };
 		44A294AB1BFDEFF60033D438 /* CIVWatchApp.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 44A2948A1BFDEFF50033D438 /* CIVWatchApp.app */; };
 		44A294C31BFDF1050033D438 /* czzWatchKitHomeRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294B71BFDF1050033D438 /* czzWatchKitHomeRowController.m */; };
-		44A294C41BFDF1050033D438 /* czzWKForumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294B91BFDF1050033D438 /* czzWKForumViewController.m */; };
-		44A294C51BFDF1050033D438 /* czzWKThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294BB1BFDF1050033D438 /* czzWKThreadViewController.m */; };
+		44A294C41BFDF1050033D438 /* czzWKForumInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294B91BFDF1050033D438 /* czzWKForumInterfaceController.m */; };
+		44A294C51BFDF1050033D438 /* czzWKThreadInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294BB1BFDF1050033D438 /* czzWKThreadInterfaceController.m */; };
 		44A294C61BFDF1050033D438 /* InterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294BD1BFDF1050033D438 /* InterfaceController.m */; };
 		44A294C71BFDF1050033D438 /* czzWKForum.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294C01BFDF1050033D438 /* czzWKForum.m */; };
 		44A294C81BFDF1050033D438 /* czzWKThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294C21BFDF1050033D438 /* czzWKThread.m */; };
@@ -1314,10 +1314,10 @@
 		44A294A81BFDEFF60033D438 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		44A294B61BFDF1050033D438 /* czzWatchKitHomeRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWatchKitHomeRowController.h; sourceTree = "<group>"; };
 		44A294B71BFDF1050033D438 /* czzWatchKitHomeRowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWatchKitHomeRowController.m; sourceTree = "<group>"; };
-		44A294B81BFDF1050033D438 /* czzWKForumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWKForumViewController.h; sourceTree = "<group>"; };
-		44A294B91BFDF1050033D438 /* czzWKForumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWKForumViewController.m; sourceTree = "<group>"; };
-		44A294BA1BFDF1050033D438 /* czzWKThreadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWKThreadViewController.h; sourceTree = "<group>"; };
-		44A294BB1BFDF1050033D438 /* czzWKThreadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWKThreadViewController.m; sourceTree = "<group>"; };
+		44A294B81BFDF1050033D438 /* czzWKForumInterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWKForumInterfaceController.h; sourceTree = "<group>"; };
+		44A294B91BFDF1050033D438 /* czzWKForumInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWKForumInterfaceController.m; sourceTree = "<group>"; };
+		44A294BA1BFDF1050033D438 /* czzWKThreadInterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWKThreadInterfaceController.h; sourceTree = "<group>"; };
+		44A294BB1BFDF1050033D438 /* czzWKThreadInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWKThreadInterfaceController.m; sourceTree = "<group>"; };
 		44A294BC1BFDF1050033D438 /* InterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceController.h; sourceTree = "<group>"; };
 		44A294BD1BFDF1050033D438 /* InterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InterfaceController.m; sourceTree = "<group>"; };
 		44A294BF1BFDF1050033D438 /* czzWKForum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWKForum.h; sourceTree = "<group>"; };
@@ -2582,10 +2582,10 @@
 			children = (
 				44A294B61BFDF1050033D438 /* czzWatchKitHomeRowController.h */,
 				44A294B71BFDF1050033D438 /* czzWatchKitHomeRowController.m */,
-				44A294B81BFDF1050033D438 /* czzWKForumViewController.h */,
-				44A294B91BFDF1050033D438 /* czzWKForumViewController.m */,
-				44A294BA1BFDF1050033D438 /* czzWKThreadViewController.h */,
-				44A294BB1BFDF1050033D438 /* czzWKThreadViewController.m */,
+				44A294B81BFDF1050033D438 /* czzWKForumInterfaceController.h */,
+				44A294B91BFDF1050033D438 /* czzWKForumInterfaceController.m */,
+				44A294BA1BFDF1050033D438 /* czzWKThreadInterfaceController.h */,
+				44A294BB1BFDF1050033D438 /* czzWKThreadInterfaceController.m */,
 				44A294BC1BFDF1050033D438 /* InterfaceController.h */,
 				44A294BD1BFDF1050033D438 /* InterfaceController.m */,
 			);
@@ -4287,9 +4287,9 @@
 				44A294C71BFDF1050033D438 /* czzWKForum.m in Sources */,
 				44A294C61BFDF1050033D438 /* InterfaceController.m in Sources */,
 				44A294A51BFDEFF60033D438 /* NotificationController.m in Sources */,
-				44A294C41BFDF1050033D438 /* czzWKForumViewController.m in Sources */,
+				44A294C41BFDF1050033D438 /* czzWKForumInterfaceController.m in Sources */,
 				44A294C31BFDF1050033D438 /* czzWatchKitHomeRowController.m in Sources */,
-				44A294C51BFDF1050033D438 /* czzWKThreadViewController.m in Sources */,
+				44A294C51BFDF1050033D438 /* czzWKThreadInterfaceController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

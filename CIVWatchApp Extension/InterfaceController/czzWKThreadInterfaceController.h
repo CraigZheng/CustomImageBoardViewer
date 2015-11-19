@@ -13,7 +13,7 @@
 
 #define wkThreadViewControllerIdentifier @"czzWKThreadViewController"
 
-@interface czzWKThreadViewController : WKInterfaceController
+@interface czzWKThreadInterfaceController : WKInterfaceController
 
 @property (nonatomic, strong) czzWKThread *wkThread;
 @end

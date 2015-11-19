@@ -11,6 +11,6 @@
 
 #import "czzWKForum.h"
 
-@interface czzWKForumViewController : WKInterfaceController
+@interface czzWKForumInterfaceController : WKInterfaceController
 
 @end

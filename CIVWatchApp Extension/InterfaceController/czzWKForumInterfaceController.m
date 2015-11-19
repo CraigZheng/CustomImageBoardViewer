@@ -6,7 +6,7 @@
 //  Copyright © 2015 Craig. All rights reserved.
 //
 
-#import "czzWKForumViewController.h"
+#import "czzWKForumInterfaceController.h"
 
 #import "czzWatchKitCommand.h"
 
@@ -22,12 +22,12 @@
 
 @end
 
-@interface czzWKForumViewController ()
+@interface czzWKForumInterfaceController ()
 @property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceTable *wkForumsTableView;
 @property (strong, nonatomic) NSMutableArray *wkForums;
 @end
 
-@implementation czzWKForumViewController
+@implementation czzWKForumInterfaceController
 
 - (void)awakeWithContext:(id)context {
     [super awakeWithContext:context];

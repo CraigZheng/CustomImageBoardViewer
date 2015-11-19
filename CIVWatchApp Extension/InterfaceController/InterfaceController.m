@@ -11,7 +11,7 @@
 #import "czzWKForum.h"
 #import "czzWatchKitCommand.h"
 #import "czzWatchKitHomeRowController.h"
-#import "czzWKThreadViewController.h"
+#import "czzWKThreadInterfaceController.h"
 
 #import <WatchConnectivity/WatchConnectivity.h>
 

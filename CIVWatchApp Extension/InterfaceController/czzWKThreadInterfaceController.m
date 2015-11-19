@@ -1,26 +1,26 @@
 //
-//  czzWKThreadViewController.m
+//  czzWKThreadInterfaceController.m
 //  CustomImageBoardViewer
 //
 //  Created by Craig Zheng on 20/09/2015.
 //  Copyright © 2015 Craig. All rights reserved.
 //
 
-#import "czzWKThreadViewController.h"
+#import "czzWKThreadInterfaceController.h"
 
 #import "czzWatchKitCommand.h"
 #import "czzWatchKitHomeRowController.h"
 
 #import <WatchConnectivity/WatchConnectivity.h>
 
-@interface czzWKThreadViewController ()
+@interface czzWKThreadInterfaceController ()
 @property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceLabel *idLabel;
 @property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceTable *wkThreadsTableView;
 @property (strong, nonatomic) NSMutableArray *wkThreads;
 
 @end
 
-@implementation czzWKThreadViewController
+@implementation czzWKThreadInterfaceController
 
 - (void)awakeWithContext:(id)context {
     [super awakeWithContext:context];

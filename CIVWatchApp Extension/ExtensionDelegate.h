@@ -10,4 +10,5 @@
 
 @interface ExtensionDelegate : NSObject <WKExtensionDelegate>
 
++ (instancetype)sharedInstance;
 @end

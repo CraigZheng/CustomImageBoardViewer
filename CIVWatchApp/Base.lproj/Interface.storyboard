@@ -8,7 +8,7 @@
         <!--板块列表-->
         <scene sceneID="gc4-Y4-v2a">
             <objects>
-                <controller title="板块列表" id="oY8-ul-yHo" customClass="czzWKForumViewController">
+                <controller title="板块列表" id="oY8-ul-yHo" customClass="czzWKForumInterfaceController">
                     <items>
                         <table alignment="left" id="NzZ-TO-325">
                             <items>
@@ -103,7 +103,7 @@
         <!--串内容-->
         <scene sceneID="fpF-q4-YuA">
             <objects>
-                <controller identifier="czzWKThreadViewController" title="串内容" id="PDK-Cg-DDX" customClass="czzWKThreadViewController">
+                <controller identifier="czzWKThreadViewController" title="串内容" id="PDK-Cg-DDX" customClass="czzWKThreadInterfaceController">
                     <items>
                         <label alignment="left" text="ID" id="q3p-gH-wCs">
                             <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
