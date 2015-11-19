@@ -38,8 +38,6 @@
         self.parentID = [NSString stringWithFormat:@"%ld", (long) self.parentThread.ID];
 
         [self reset];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(HighlightThreadSelected:) name:@"HighlightAction" object:nil];
     }
     
     return self;
@@ -262,8 +260,7 @@ float RoundTo(float number, float to)
 }
 
 #pragma mark - highlight thread selected
--(void)HighlightThreadSelected:(NSNotification*)notification {
-    czzThread *selectedThread = [notification.userInfo objectForKey:@"HighlightThread"];
+-(void)HighlightThreadSelected:(czzThread *)selectedThread {
     if (selectedThread) {
         if ([self.selectedUserToHighlight isEqual:selectedThread.UID.string]) {
             self.selectedUserToHighlight = nil;

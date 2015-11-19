@@ -19,6 +19,7 @@
 #import "czzThreadTableView.h"
 #import "czzImageViewerUtil.h"
 #import "czzThreadViewManager.h"
+#import "czzPostViewController.h"
 
 #import "UIApplication+Util.h"
 #import "UINavigationController+Util.h"
@@ -40,6 +41,14 @@
         [[czzImageDownloaderManager sharedManager] addDelegate:self];
     }
     return self;
+}
+
+- (void)replyToThread:(czzThread *)thread {
+    czzPostViewController *postViewController = [czzPostViewController new];
+    postViewController.forum = self.homeViewManager.forum;
+    postViewController.thread = thread;
+    postViewController.postMode = REPLY_POST;
+    [[czzNavigationManager sharedManager].delegate pushViewController:postViewController animated:YES];
 }
 
 #pragma mark - UITableViewDelegate
@@ -140,6 +149,22 @@
     } else {
         [[czzImageDownloaderManager sharedManager] downloadImageWithURL:imgURL isThumbnail:NO];
     }
+}
+
+- (void)userWantsToReply:(czzThread *)thread {
+    DLog(@"%s : %@", __PRETTY_FUNCTION__, thread);
+    [self replyToThread:thread];
+}
+
+- (void)userWantsToHighLight:(czzThread *)thread {
+    DLog(@"%s : %@", __PRETTY_FUNCTION__, thread);
+    if ([self.homeViewManager isKindOfClass:[czzThreadViewManager class]]) {
+        [(czzThreadViewManager *)self.homeViewManager HighlightThreadSelected:thread];
+    }
+}
+
+- (void)userWantsToSearch:(czzThread *)thread {
+    DLog(@"%s : NOT IMPLEMENTED", __PRETTY_FUNCTION__);
 }
 
 #pragma mark - czzOnScreenImageManagerViewControllerDelegate
