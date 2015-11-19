@@ -162,11 +162,7 @@
     [self downloadThumbnailsForThreads:threads];
     //calculate current number and total page number
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.watchKitCompletionHandler) {
-            self.watchKitCompletionHandler(success, self.threads);
-            self.watchKitCompletionHandler = nil;
-        }
-        else if ([self.delegate respondsToSelector:@selector(homeViewManager:threadContentProcessed:newThreads:allThreads:)]) {
+        if ([self.delegate respondsToSelector:@selector(homeViewManager:threadContentProcessed:newThreads:allThreads:)]) {
             [self.delegate homeViewManager:self threadContentProcessed:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
         }
     });

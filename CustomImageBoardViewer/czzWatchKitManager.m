@@ -89,14 +89,15 @@
     
     __block NSMutableDictionary *replyDictionary = [NSMutableDictionary new];
     __weak typeof (self) weakSelf = self;
-    self.homeViewManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
-        if (success) {
-            //TODO: if success? if fail?
-        }
-        [replyDictionary addEntriesFromDictionary:@{@(watchKitMiscInfoScreenTitleHome) : weakSelf.homeViewManager.forum.name.length ? [NSString stringWithFormat:@"%@-%ld", weakSelf.homeViewManager.forum.name, (long)weakSelf.homeViewManager.pageNumber] : @"没有板块"}];
-        [replyDictionary addEntriesFromDictionary:@{@(watchKitCommandLoadHomeView) : [weakSelf watchKitThreadsWithThreads:threads]}];
-        [weakSelf replyWithDictionary:replyDictionary];
-    };
+#warning COME BACK LATER
+//    self.homeViewManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
+//        if (success) {
+//            //TODO: if success? if fail?
+//        }
+//        [replyDictionary addEntriesFromDictionary:@{@(watchKitMiscInfoScreenTitleHome) : weakSelf.homeViewManager.forum.name.length ? [NSString stringWithFormat:@"%@-%ld", weakSelf.homeViewManager.forum.name, (long)weakSelf.homeViewManager.pageNumber] : @"没有板块"}];
+//        [replyDictionary addEntriesFromDictionary:@{@(watchKitCommandLoadHomeView) : [weakSelf watchKitThreadsWithThreads:threads]}];
+//        [weakSelf replyWithDictionary:replyDictionary];
+//    };
     if (loadMore && self.homeViewManager.threads.count) {
         [self.homeViewManager loadMoreThreads];
     } else {
@@ -113,10 +114,11 @@
     [self.threadViewManager restorePreviousState];
     __weak typeof (self.threadViewManager) weakthreadViewManager = self.threadViewManager;
     __weak typeof (self) weakSelf = self;
-    self.threadViewManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
-        NSDictionary *replyDictionary = @{@(watchKitCommandLoadThreadView) : [weakSelf watchKitThreadsWithThreads:weakthreadViewManager.threads]};
-        [weakSelf replyWithDictionary:replyDictionary];
-    };
+#warning COME BACK LATER
+//    self.threadViewManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
+//        NSDictionary *replyDictionary = @{@(watchKitCommandLoadThreadView) : [weakSelf watchKitThreadsWithThreads:weakthreadViewManager.threads]};
+//        [weakSelf replyWithDictionary:replyDictionary];
+//    };
     
     if (loadMore && self.threadViewManager.threads.count > 1) {
         [self.threadViewManager loadMoreThreads];

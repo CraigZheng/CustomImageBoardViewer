@@ -52,9 +52,6 @@
 @property (nonatomic, strong) czzThread *displayedThread;
 @property (nonatomic, strong) NSMutableArray *cachedThreads;
 
-// Watch kit completion handler - for temporarily setting the delegate to the watch kit manager
-@property (copy)void(^watchKitCompletionHandler)(BOOL success, NSArray* threads);
-
 @property (nonatomic, strong) czzThreadDownloader *downloader;
 
 -(void)refresh;

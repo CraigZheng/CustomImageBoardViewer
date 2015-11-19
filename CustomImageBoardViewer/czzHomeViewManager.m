@@ -159,12 +159,7 @@
         [self.threads addObjectsFromArray:threads];
     }
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.watchKitCompletionHandler) {
-            self.watchKitCompletionHandler(success, self.threads);
-            self.watchKitCompletionHandler = nil;
-        }
-        // No watch kit completion handler, inform delegate instead.
-        else if ([self.delegate respondsToSelector:@selector(homeViewManager:threadListProcessed:newThreads:allThreads:)]) {
+        if ([self.delegate respondsToSelector:@selector(homeViewManager:threadListProcessed:newThreads:allThreads:)]) {
             [self.delegate homeViewManager:self threadListProcessed:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
         }
         DLog(@"%@", NSStringFromSelector(_cmd));
