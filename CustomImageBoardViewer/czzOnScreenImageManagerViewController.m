@@ -59,6 +59,12 @@
     [[czzImageDownloaderManager sharedManager] addDelegate:self];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    if ([czzImageDownloaderManager sharedManager].isDownloading) {
+        [self startAnimating];
+    }
+}
+
 - (IBAction)tapOnImageManagerIconAction:(id)sender {
 }
 

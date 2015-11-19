@@ -18,6 +18,10 @@
 
 #pragma mark - Getters
 
+- (BOOL)isDownloading {
+    return self.imageDownloaders.count;
+}
+
 - (NSArray *)downloadedImages {
     return [self.downloadedFullSizeImages copy];
 }
