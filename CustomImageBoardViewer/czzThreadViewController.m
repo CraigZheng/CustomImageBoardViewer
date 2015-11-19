@@ -13,7 +13,6 @@
 #import "czzImageCacheManager.h"
 #import "czzImageViewerUtil.h"
 #import "czzAppDelegate.h"
-#import "czzRightSideViewController.h"
 #import "czzHomeViewController.h"
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzThreadRefButton.h"
@@ -35,7 +34,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 @interface czzThreadViewController ()<UIAlertViewDelegate>
 @property (strong, nonatomic) NSIndexPath *selectedIndex;
-@property (strong, nonatomic) czzRightSideViewController *threadMenuViewController;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
 @property CGPoint threadsTableViewContentOffSet; //record the content offset of the threads tableview
 @property (assign, nonatomic) BOOL shouldHighlight;
@@ -55,7 +53,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @implementation czzThreadViewController
 @synthesize numberBarButton;
 @synthesize selectedIndex;
-@synthesize threadMenuViewController;
 @synthesize threadsTableViewContentOffSet;
 @synthesize shouldHighlight;
 @synthesize shouldDisplayQuickScrollCommand;
@@ -140,12 +137,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
     [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
-
-    //configure the right view as menu
-    UINavigationController *rightController = [self.storyboard instantiateViewControllerWithIdentifier:@"right_menu_view_controller"];
-    threadMenuViewController = [rightController.viewControllers objectAtIndex:0];
-    threadMenuViewController.threadViewManager = self.threadViewManager;
-    self.viewDeckController.rightController = rightController;
 
     //background colour
     self.threadTableView.backgroundColor = [settingCentre viewBackgroundColour];
@@ -305,7 +296,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 #pragma mark - UI button actions
 
 - (IBAction)replyAction:(id)sender {
-    [threadMenuViewController replyMainAction];
+    [self.threadViewDelegate replyMainThread:self.threadViewManager.parentThread];
 }
 
 - (IBAction)starAction:(id)sender {

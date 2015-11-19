@@ -51,6 +51,14 @@
     [[czzNavigationManager sharedManager].delegate pushViewController:postViewController animated:YES];
 }
 
+- (void)replyMainThread:(czzThread *)thread {
+    czzPostViewController *postViewController = [czzPostViewController new];
+    postViewController.forum = self.homeViewManager.forum;
+    postViewController.thread = thread;
+    postViewController.postMode = REPLY_POST;
+    [[czzNavigationManager sharedManager].delegate pushViewController:postViewController animated:YES];
+}
+
 - (void)reportThread:(czzThread *)selectedThread inParentThread:(czzThread *)parentThread {
     czzPostViewController *newPostViewController = [czzPostViewController new];
     newPostViewController.postMode = REPORT_POST;
