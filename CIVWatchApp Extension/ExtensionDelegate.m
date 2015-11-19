@@ -7,6 +7,11 @@
 //
 
 #import "ExtensionDelegate.h"
+@import WatchConnectivity;
+
+@interface ExtensionDelegate() <WCSessionDelegate>
+
+@end
 
 @implementation ExtensionDelegate
 
@@ -23,8 +28,20 @@
     // Use this method to pause ongoing tasks, disable timers, etc.
 }
 
+#pragma mark - WCSessionDelegate
+
+- (void)session:(WCSession *)session didReceiveMessage:(NSDictionary<NSString *,id> *)message {
+    DLog(@"%s : %@", __PRETTY_FUNCTION__, message);
+}
+
+- (void)sessionReachabilityDidChange:(WCSession *)session {
+    DLog(@"%s", __PRETTY_FUNCTION__);
+    // TODO: phone not reachable.
+}
+
 + (instancetype)sharedInstance {
-    return [WKExtension sharedExtension].delegate;
+    // Cast to id to suppress the Nullable warning.
+    return (id)[WKExtension sharedExtension].delegate;
 }
 
 @end
