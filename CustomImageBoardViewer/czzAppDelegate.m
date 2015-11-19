@@ -28,7 +28,7 @@
 //#import <BugSense-iOS/BugSenseController.h>
 #import <SplunkMint-iOS/SplunkMint-iOS.h>
 
-@interface czzAppDelegate()<czzBlacklistDownloaderDelegate, czzHomeViewManagerDelegate>
+@interface czzAppDelegate()<czzBlacklistDownloaderDelegate, czzHomeViewManagerDelegate, WCSessionDelegate>
 @property czzSettingsCentre *settingsCentre;
 @end
 
@@ -95,20 +95,18 @@
     return NO;
 }
 
-#pragma mark - Watch kit extension
+#pragma mark - WCSessionDelegate
 
-- (void)application:(UIApplication *)application handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))reply {
+- (void)session:(WCSession *)session didReceiveMessage:(NSDictionary<NSString *,id> *)message replyHandler:(void (^)(NSDictionary<NSString *,id> * _Nonnull))replyHandler {
     __block UIBackgroundTaskIdentifier wkBackgroundTaskIdentifier;
     wkBackgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithName:@"backgroundTask"
                                                                               expirationHandler:^{
                                                                                   wkBackgroundTaskIdentifier = UIBackgroundTaskInvalid;
                                                                               }];
-
-    [[czzWatchKitManager sharedManager] handleWatchKitExtensionRequest:userInfo reply:reply withBackgroundTaskIdentifier:wkBackgroundTaskIdentifier];
-}
-
-- (void)session:(WCSession *)session didReceiveMessage:(NSDictionary<NSString *,id> *)message {
-    DLog(@"%s: %@", __PRETTY_FUNCTION__, message);
+    
+    [[czzWatchKitManager sharedManager] handleWatchKitExtensionRequest:message
+                                                                 reply:replyHandler
+                                          withBackgroundTaskIdentifier:wkBackgroundTaskIdentifier];
 }
 
 #pragma mark - background fetch

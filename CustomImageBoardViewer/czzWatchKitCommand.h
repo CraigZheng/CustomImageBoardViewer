@@ -8,14 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-#define watchKitCommandKey @"COMMAND"
-#define watchKitCommandForumKey @"FORUM"
-#define watchKitCommandThreadKey @"THREAD"
-#define watchKitCommandImageKey @"IMAGE"
+extern NSString * const kWatchkitCommandCaller;
+extern NSString * const kWatchkitCommandAction;
+extern NSString * const kWatchkitCommandParameter;
 
-#define watchKitCommandLoadMore @"watchKitCommandLoadMore"
-
-typedef NS_ENUM(NSInteger, watchKitCommand) {
+typedef NS_ENUM(NSInteger, watchkitCommandAction) {
     watchKitCommandLoadHomeView = 1,
     watchKitCommandLoadThreadView = 2,
     watchKitCommandLoadForumView = 3,
@@ -24,12 +21,8 @@ typedef NS_ENUM(NSInteger, watchKitCommand) {
     watchKitCommandUnknown = 0
 };
 
-typedef NS_ENUM(NSInteger, watchKitMiscInfo) {
-    watchKitMiscInfoScreenTitleHome = 101,
-    watchKitMiscInfoScreenTitleThread = 102,
-    wwatchKitMiscInfoScreenTitleUnknown = 100
-};
-
 @interface czzWatchKitCommand : NSObject
-
+@property (nonatomic, strong) id caller;
+@property (nonatomic, assign) watchkitCommandAction action;
+@property (nonatomic, strong) NSDictionary *parameter;
 @end
