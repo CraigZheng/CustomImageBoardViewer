@@ -160,4 +160,10 @@
     });
 }
 
+- (void)pageNumberUpdated:(NSInteger)currentPage allPage:(NSInteger)allPage {
+    if ([self.delegate respondsToSelector:@selector(pageNumberUpdated:allPage:)]) {
+        [self.delegate pageNumberUpdated:currentPage allPage:allPage];
+    }
+}
+
 @end

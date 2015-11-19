@@ -161,8 +161,8 @@
     {
         NSInteger pageNumber = [[jsonDict jsonValueWithKey:@"page"] integerValue];
         NSInteger totalPages = [[jsonDict jsonValueWithKey:@"size"] integerValue];
-        if ([delegate respondsToSelector:@selector(pageNumberUpdated:inAllPage:)])
-            [delegate pageNumberUpdated:pageNumber inAllPage:totalPages];
+        if ([delegate respondsToSelector:@selector(pageNumberUpdated:allPage:)])
+            [delegate pageNumberUpdated:pageNumber allPage:totalPages];
     }
 }
 /*

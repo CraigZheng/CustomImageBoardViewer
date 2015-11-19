@@ -15,6 +15,8 @@
 
 @optional
 - (void)threadDownloaderDownloadUpdated:(czzThreadDownloader *)downloader progress:(CGFloat)progress;
+-(void)pageNumberUpdated:(NSInteger)currentPage allPage:(NSInteger)allPage;
+
 @end
 
 @interface czzThreadDownloader : NSObject

@@ -171,7 +171,7 @@
     });
 }
 
--(void)pageNumberUpdated:(NSInteger)currentPage inAllPage:(NSInteger)allPage {
+- (void)pageNumberUpdated:(NSInteger)currentPage allPage:(NSInteger)allPage {
     self.pageNumber = currentPage;
     self.totalPages = allPage;
 }
