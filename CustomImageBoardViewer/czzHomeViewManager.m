@@ -216,7 +216,6 @@
 
 -(id)initWithCoder:(NSCoder *)aDecoder {
     czzHomeViewManager *homeViewManager = [czzHomeViewManager new];
-    [[NSNotificationCenter defaultCenter] removeObserver:homeViewManager];
     @try {
         //create a temporary threadlist object
         homeViewManager.shouldHideImageForThisForum = [aDecoder decodeBoolForKey:@"shouldHideImageForThisForum"];

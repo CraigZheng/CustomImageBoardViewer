@@ -20,6 +20,7 @@
 @property (weak, nonatomic) czzThreadTableView *myTableView;
 
 - (void)replyToThread:(czzThread *)thread;
+- (void)reportThread:(czzThread *)selectedThread inParentThread:(czzThread *)parentThread
 + (instancetype)sharedInstance;
 + (instancetype)initWithViewManager:(czzHomeViewManager *)viewManager andTableView:(czzThreadTableView *)tableView;
 @end

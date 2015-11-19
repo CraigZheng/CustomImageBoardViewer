@@ -46,9 +46,23 @@
 - (void)replyToThread:(czzThread *)thread {
     czzPostViewController *postViewController = [czzPostViewController new];
     postViewController.forum = self.homeViewManager.forum;
-    postViewController.thread = thread;
+    postViewController.replyTo = thread;
     postViewController.postMode = REPLY_POST;
     [[czzNavigationManager sharedManager].delegate pushViewController:postViewController animated:YES];
+}
+
+- (void)reportThread:(czzThread *)selectedThread inParentThread:(czzThread *)parentThread {
+    czzPostViewController *newPostViewController = [czzPostViewController new];
+    newPostViewController.postMode = REPORT_POST;
+    [[czzNavigationManager sharedManager].delegate pushViewController:newPostViewController animated:YES];
+    NSString *reportString = [[settingCentre report_post_placeholder] stringByReplacingOccurrencesOfString:kParentID withString:[NSString stringWithFormat:@"%ld", (long)parentThread.ID]];
+    reportString = [reportString stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long)selectedThread.ID]];
+    newPostViewController.prefilledString = reportString;
+    newPostViewController.title = [NSString stringWithFormat:@"举报:%ld", (long)parentThread.ID];
+    //construct a blacklist that to be submitted to my server and pass it to new post view controller
+    czzBlacklistEntity *blacklistEntity = [czzBlacklistEntity new];
+    blacklistEntity.threadID = selectedThread.ID;
+    newPostViewController.blacklistEntity = blacklistEntity;
 }
 
 #pragma mark - UITableViewDelegate

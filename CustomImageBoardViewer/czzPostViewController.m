@@ -26,7 +26,7 @@
 @property (nonatomic, strong) NSMutableData *receivedResponse;
 @property (nonatomic, strong) czzPostSender *postSender;
 @property (nonatomic, strong) czzEmojiCollectionViewController *emojiViewController;
-
+@property (nonatomic, assign) BOOL didLayout;
 @property (strong, nonatomic) UIBarButtonItem *postButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *postTextViewBottomConstraint;
 
@@ -48,7 +48,43 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    // observe keyboard hide and show notifications to resize the text view appropriately
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (!self.didLayout) {
+        [self renderContent];
+    }
+    // Google Analytic integration
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    //Register focus on text view
+    [self.postTextView becomeFirstResponder];
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    // Dismiss any possible semi modal view.
+    if (self.emojiViewController) {
+        [self dismissSemiModalView];
+    }
+}
+
+- (void)renderContent {
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
     postSender = [czzPostSender new];
@@ -97,7 +133,7 @@
             }
             postSender.parentThread = thread;
             break;
-        
+            
         case REPORT_POST:
             title = @"举报";
             NSString *forumName = @"值班室";
@@ -114,38 +150,8 @@
     self.title = title;
     if (content.length)
         postTextView.text = content;
-    
-    // observe keyboard hide and show notifications to resize the text view appropriately
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillShow:)
-                                                 name:UIKeyboardWillShowNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillHide:)
-                                                 name:UIKeyboardWillHideNotification
-                                               object:nil];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    // Google Analytic integration
-    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
-    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
-}
-
--(void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    //Register focus on text view
-    [self.postTextView becomeFirstResponder];
-}
-
--(void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    // Dismiss any possible semi modal view.
-    if (self.emojiViewController) {
-        [self dismissSemiModalView];
-    }
+    // Already layout contents.
+    self.didLayout = YES;
 }
 
 - (void)postAction:(id)sender {

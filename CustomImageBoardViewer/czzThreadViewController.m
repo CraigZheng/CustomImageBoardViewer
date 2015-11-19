@@ -332,7 +332,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 - (IBAction)reportAction:(id)sender {
-    [threadMenuViewController reportAction];
+    [self.threadViewDelegate reportThread:self.threadViewManager.parentThread inParentThread:self.threadViewManager.parentThread];
 }
 
 - (IBAction)shareAction:(id)sender {
