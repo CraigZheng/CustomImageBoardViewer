@@ -130,8 +130,10 @@
         NSData *data = UIImageJPEGRepresentation((UIImage *)source, 0.99);
         [data writeToURL:tempFileURL atomically:NO];
         documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:tempFileURL];
-    } else {
+    } else if ([source isKindOfClass:[NSURL class]]){
         documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:source];
+    } else {
+        documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:source]];
     }
     UIView *viewToShowDocumentInteractionController;
     if (photoBrowserNavigationController)
