@@ -62,7 +62,7 @@
 
 -(void)show {
     // If top view controller is the main czz navigation controller.
-    if (NavigationManager.delegate == [UIApplication topViewController]) {
+    if (NavigationManager.delegate == [UIApplication rootViewController]) {
         if (NavigationManager.isInTransition) {
             NavigationManager.pushAnimationCompletionHandler = ^{
                 if (![[UIApplication topViewController] isKindOfClass:[photoBrowser class]]) {
