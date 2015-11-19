@@ -316,6 +316,8 @@ float RoundTo(float number, float to)
     if (!_downloader) {
         _downloader = [[czzThreadDownloader alloc] initWithForum:self.forum andThread:self.parentThread];
     }
+    _downloader.parentForum = self.forum;
+    _downloader.parentThread = self.parentThread;
     _downloader.delegate = self;
     return _downloader;
 }

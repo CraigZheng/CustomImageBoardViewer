@@ -180,8 +180,9 @@
 - (czzThreadDownloader *)downloader {
     if (!_downloader) {
         _downloader =  [[czzThreadDownloader alloc] initWithForum:self.forum];
-        _downloader.delegate = self;
     }
+    _downloader.delegate = self;
+    _downloader.parentForum = self.forum;
     return _downloader;
 }
 
