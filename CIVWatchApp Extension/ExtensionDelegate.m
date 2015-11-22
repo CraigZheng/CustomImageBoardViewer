@@ -35,10 +35,15 @@
 
 #pragma mark - Message delivery.
 - (void)sendCommand:(czzWatchKitCommand *)command withCaller:(id<czzWKSessionDelegate>)caller {
+    DLog(@"%s", __PRETTY_FUNCTION__);
+    DLog(@"%@.%ld", command.caller, (long)command.action);
+    DLog(@"%@", command.parameter);
     __weak id<czzWKSessionDelegate> weakRefCaller = caller;
     [[WCSession defaultSession] sendMessage:command.encodeToDictionary replyHandler:^(NSDictionary<NSString *,id> * _Nonnull replyMessage) {
+        DLog(@"%@", replyMessage);
         [weakRefCaller respondReceived:replyMessage error:nil];
     } errorHandler:^(NSError * _Nonnull error) {
+        DLog(@"%@", error);
         [weakRefCaller respondReceived:nil error:error];
     }];
 }

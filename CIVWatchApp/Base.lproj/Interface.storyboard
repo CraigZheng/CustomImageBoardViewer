@@ -10,6 +10,7 @@
             <objects>
                 <controller title="板块列表" id="oY8-ul-yHo" customClass="czzWKForumInterfaceController">
                     <items>
+                        <label width="1" alignment="left" hidden="YES" text="Label" id="qje-8E-I2n"/>
                         <table alignment="left" id="NzZ-TO-325">
                             <items>
                                 <tableRow identifier="wkForumsRowControllerIdentifier" id="kxs-LE-DB1" customClass="czzWKForumRowController">
@@ -29,6 +30,7 @@
                         </table>
                     </items>
                     <connections>
+                        <outlet property="statusLabel" destination="qje-8E-I2n" id="uts-NF-TnN"/>
                         <outlet property="wkForumsTableView" destination="NzZ-TO-325" id="ZER-Ib-unl"/>
                     </connections>
                 </controller>

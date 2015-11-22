@@ -18,19 +18,21 @@
 @end
 
 @implementation czzWKForumRowController
-
+// Empty implementation.
 
 @end
 
 @interface czzWKForumInterfaceController ()
 @property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceTable *wkForumsTableView;
-@property (strong, nonatomic) NSMutableArray *wkForums;
+@property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceLabel *statusLabel;
+@property (strong, nonatomic) NSArray *wkForums;
 @end
 
 @implementation czzWKForumInterfaceController
 
 
 - (void)willActivate {
+    DLog(@"%s", __PRETTY_FUNCTION__);
     // This method is called when watch view controller is about to be visible to user
     [super willActivate];
     if (!self.wkForums.count)
@@ -51,6 +53,22 @@
 #pragma mark - czzWKSessionDelegate
 - (void)respondReceived:(NSDictionary *)response error:(NSError *)error {
     DLog(@"TODO: %s",__PRETTY_FUNCTION__);
+    if (response.count) {
+        NSArray *jsonForums = [response valueForKey:NSStringFromClass(self.class)];
+        NSMutableArray *tempForumsArray = [NSMutableArray new];
+        for (NSDictionary *jsonDict in jsonForums) {
+            czzWKForum *forum = [[czzWKForum alloc] initWithDictionary:jsonDict];
+            if (forum) {
+                [tempForumsArray addObject:forum];
+            }
+        }
+        self.wkForums = [tempForumsArray copy];
+        [self reloadTableView];
+        [self.statusLabel setHidden:YES];
+    } else if (error) {
+        [self.statusLabel setText:error.description];
+        [self.statusLabel setHidden:NO];
+    }
 }
 
 #pragma mark - TableView
