@@ -19,7 +19,6 @@
 @property (strong, nonatomic) czzThreadViewManager *threadViewManager;
 @property (strong, nonatomic) NSString *requestedImageURL;
 
-@property (copy)void (^reply)(NSDictionary *replyDictionary);
 @end
 
 @implementation czzWatchKitManager
@@ -35,12 +34,20 @@
 
 -(void)handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))reply withBackgroundTaskIdentifier:(UIBackgroundTaskIdentifier)backgroundTaskIdentifier{
     self.backgroundTaskIdentifier = backgroundTaskIdentifier;
-    self.reply = reply;
     
-#warning DEBUG
     czzWatchKitCommand *command = [[czzWatchKitCommand alloc] initWithDictionary:userInfo];
-    command.caller = NSStringFromClass(self.class);
-    reply(command.encodeToDictionary);
+    if (command) {
+        switch (command.action) {
+            case watchKitCommandLoadForumView:
+                [self loadWKForumsWithCommand:command replyHandler:reply];
+                break;
+                
+            default:
+                // Reply an empty dictionary to indicate error.
+                reply([NSDictionary new]);
+                break;
+        }
+    }
 //    id command = [userInfo objectForKey:watchKitCommandKey];
 //
 //    BOOL loadMore = [[userInfo objectForKey:watchKitCommandLoadMore] boolValue];
@@ -71,16 +78,25 @@
     
 }
 
--(void)watchKitLoadForumView {
+-(void)loadWKForumsWithCommand:(czzWatchKitCommand *)command replyHandler:(void(^)(NSDictionary *responseMessage))replyHandler {
     [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
 
-    [[czzForumManager sharedManager] updateForums:^(BOOL success, NSError *error) {
+    // Update the forums if necessary
+    if ([czzForumManager sharedManager].forums.count > 0) {
         NSMutableArray *forums = [NSMutableArray new];
         for (czzForum *forum in [[czzForumManager sharedManager] forums]) {
             [forums addObject: [[forum watchKitForum] encodeToDictionary]];
         }
-        [self replyWithDictionary:@{@(watchKitCommandLoadForumView) : forums}];
-    }];
+        replyHandler(@{command.caller : forums});
+    } else {
+        [[czzForumManager sharedManager] updateForums:^(BOOL success, NSError *error) {
+            NSMutableArray *forums = [NSMutableArray new];
+            for (czzForum *forum in [[czzForumManager sharedManager] forums]) {
+                [forums addObject: [[forum watchKitForum] encodeToDictionary]];
+            }
+            replyHandler(@{command.caller : forums});
+        }];
+    }
 }
 
 -(void)watchKitLoadHomeView:(czzWKForum*)forum loadMore:(BOOL)loadMore {
@@ -132,15 +148,16 @@
     }
 }
 
--(void)replyWithDictionary:(NSDictionary *)dict {
-    [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"Passing %ld objects to watch kit...", (long)dict.allValues.count]];
-
-    if (self.reply) {
-        self.reply(dict);
-        self.reply = nil;
-    }
-    [self endBackgroundTask];
-}
+#warning NEEDS UPDATING
+//-(void)replyWithDictionary:(NSDictionary *)dict {
+//    [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"Passing %ld objects to watch kit...", (long)dict.allValues.count]];
+//
+//    if (self.reply) {
+//        self.reply(dict);
+//        self.reply = nil;
+//    }
+//    [self endBackgroundTask];
+//}
 
 -(void)endBackgroundTask {
     [[NSOperationQueue currentQueue] addOperationWithBlock:^{

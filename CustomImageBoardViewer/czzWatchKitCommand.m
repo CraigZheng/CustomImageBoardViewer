@@ -19,6 +19,9 @@ NSString * const kWatchkitCommandParameter = @"PARAMETER";
     self.caller = [dict objectForKey:kWatchkitCommandCaller];
     self.action = [[dict objectForKey:kWatchkitCommandAction] integerValue];
     self.parameter = [dict objectForKey:kWatchkitCommandParameter];
+    if (!self.caller || !self.action) {
+        self = nil;
+    }
     return self;
 }
 
@@ -26,7 +29,8 @@ NSString * const kWatchkitCommandParameter = @"PARAMETER";
     NSMutableDictionary *dict = [NSMutableDictionary new];
     [dict setObject:self.caller forKey:kWatchkitCommandCaller];
     [dict setObject:@(self.action) forKey:kWatchkitCommandAction];
-    [dict setObject:self.parameter forKey:kWatchkitCommandParameter];
+    if (self.parameter)
+        [dict setObject:self.parameter forKey:kWatchkitCommandParameter];
     return dict;
 }
 

@@ -29,11 +29,6 @@
 
 @implementation czzWKForumInterfaceController
 
-- (void)awakeWithContext:(id)context {
-    [super awakeWithContext:context];
-    
-    // Configure interface objects here.
-}
 
 - (void)willActivate {
     // This method is called when watch view controller is about to be visible to user
@@ -44,21 +39,18 @@
     }
 }
 
-- (void)didDeactivate {
-    // This method is called when watch view controller is no longer visible
-    [super didDeactivate];
+-(void)loadForumData {
+    czzWatchKitCommand *loadForumCommand = [czzWatchKitCommand new];
+    loadForumCommand.caller = NSStringFromClass(self.class);
+    loadForumCommand.action = watchKitCommandLoadForumView;
+    // Self is the caller.
+    [[ExtensionDelegate sharedInstance] sendCommand:loadForumCommand
+                                         withCaller:self];
 }
 
--(void)loadForumData {
-#warning TODO: MADE IT COMPATIBLE WITH WATCH OS 2
-//    [WKInterfaceController openParentApplication:@{watchKitCommandKey : @(watchKitCommandLoadForumView)} reply:^(NSDictionary *replyInfo, NSError *error) {
-//        self.wkForums = [NSMutableArray new];
-//        for (NSDictionary *dict in [replyInfo objectForKey:@(watchKitCommandLoadForumView)]) {
-//            czzWKForum *forum = [[czzWKForum alloc] initWithDictionary:dict];
-//            [self.wkForums addObject:forum];
-//        }
-//        [self reloadTableView];
-//    }];
+#pragma mark - czzWKSessionDelegate
+- (void)respondReceived:(NSDictionary *)response error:(NSError *)error {
+    DLog(@"TODO: %s",__PRETTY_FUNCTION__);
 }
 
 #pragma mark - TableView

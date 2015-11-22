@@ -7,6 +7,8 @@
 //
 
 #import "ExtensionDelegate.h"
+#import "czzWatchKitCommand.h"
+
 @import WatchConnectivity;
 
 @interface ExtensionDelegate() <WCSessionDelegate>
@@ -20,12 +22,25 @@
 }
 
 - (void)applicationDidBecomeActive {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    DLog(@"%s", __PRETTY_FUNCTION__);
+    [WCSession defaultSession].delegate = self;
+    [[WCSession defaultSession] activateSession];
+    
 }
 
 - (void)applicationWillResignActive {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, etc.
+}
+
+#pragma mark - Message delivery.
+- (void)sendCommand:(czzWatchKitCommand *)command withCaller:(id<czzWKSessionDelegate>)caller {
+    __weak id<czzWKSessionDelegate> weakRefCaller = caller;
+    [[WCSession defaultSession] sendMessage:command.encodeToDictionary replyHandler:^(NSDictionary<NSString *,id> * _Nonnull replyMessage) {
+        [weakRefCaller respondReceived:replyMessage error:nil];
+    } errorHandler:^(NSError * _Nonnull error) {
+        [weakRefCaller respondReceived:nil error:error];
+    }];
 }
 
 #pragma mark - WCSessionDelegate

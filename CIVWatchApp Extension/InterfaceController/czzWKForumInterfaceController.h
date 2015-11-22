@@ -10,7 +10,8 @@
 #import <Foundation/Foundation.h>
 
 #import "czzWKForum.h"
+#import "ExtensionDelegate.h"
 
-@interface czzWKForumInterfaceController : WKInterfaceController
+@interface czzWKForumInterfaceController : WKInterfaceController <czzWKSessionDelegate>
 
 @end
