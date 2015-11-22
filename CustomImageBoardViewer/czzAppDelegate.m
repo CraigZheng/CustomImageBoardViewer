@@ -61,7 +61,6 @@
     myhost = my_main_host;
     settingsCentre = [czzSettingsCentre sharedInstance];
     
-    
     [self checkFolders];
     // Check cookie
     CookieManager;
@@ -71,8 +70,11 @@
     AppActivityManager;
     
     // The watchkit session.
-    [WCSession defaultSession].delegate = self;
-    [[WCSession defaultSession] activateSession];
+    if ([WCSession isSupported]) {
+        WCSession *session = [WCSession defaultSession];
+        session.delegate = self;
+        [session activateSession];
+    }
     return YES;
 }
 							
@@ -106,7 +108,6 @@
                                                                               expirationHandler:^{
                                                                                   wkBackgroundTaskIdentifier = UIBackgroundTaskInvalid;
                                                                               }];
-    
     [[czzWatchKitManager sharedManager] handleWatchKitExtensionRequest:message
                                                                  reply:replyHandler
                                           withBackgroundTaskIdentifier:wkBackgroundTaskIdentifier];

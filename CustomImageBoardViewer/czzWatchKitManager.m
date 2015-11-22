@@ -87,14 +87,18 @@
         for (czzForum *forum in [[czzForumManager sharedManager] forums]) {
             [forums addObject: [[forum watchKitForum] encodeToDictionary]];
         }
-        replyHandler(@{command.caller : forums});
+        dispatch_async(dispatch_get_main_queue(), ^{
+            replyHandler(@{command.caller : forums});
+        });
     } else {
         [[czzForumManager sharedManager] updateForums:^(BOOL success, NSError *error) {
             NSMutableArray *forums = [NSMutableArray new];
             for (czzForum *forum in [[czzForumManager sharedManager] forums]) {
                 [forums addObject: [[forum watchKitForum] encodeToDictionary]];
             }
-            replyHandler(@{command.caller : forums});
+            dispatch_async(dispatch_get_main_queue(), ^{
+                replyHandler(@{command.caller : forums});
+            });
         }];
     }
 }
