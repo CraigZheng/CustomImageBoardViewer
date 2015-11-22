@@ -103,6 +103,7 @@
 }
 
 -(void)connectionDidFinishLoading:(NSURLConnection*)connection{
+    DLog(@"%s", __PRETTY_FUNCTION__);
     if ([self.delegate respondsToSelector:@selector(downloadOf:successed:result:)]){
         [self.delegate downloadOf:connection.currentRequest.URL successed:YES result:self.receivedData];
     }

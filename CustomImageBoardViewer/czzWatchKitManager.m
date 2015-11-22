@@ -17,7 +17,7 @@
 @property (assign, nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
 @property (strong, nonatomic) czzThreadViewManager *threadViewManager;
 @property (strong, nonatomic) NSString *requestedImageURL;
-
+@property (strong, nonatomic) NSMutableSet *requestedThreadDownloaders;
 @end
 
 @implementation czzWatchKitManager
@@ -105,23 +105,29 @@
 
 -(void)loadHomeWithCommand:(czzWatchKitCommand *)command loadMore:(BOOL)loadMore replyHandler:(void(^)(NSDictionary *responseMessage))replyHandler {
     [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
-    
+    // Get czzForum object from the incoming czzWKForum object.
     czzWKForum *selectedForum = [[czzWKForum alloc] initWithDictionary:[command.parameter valueForKey:@"FORUM"]];
     czzForum *tempForum = [czzForum new];
     tempForum.name = selectedForum.name;
     czzThreadDownloader *threadDownloader = [[czzThreadDownloader alloc] initWithForum:tempForum];
+    __weak id weakRefDownloader = threadDownloader;
+    // Add the newly created downloader object to self.requestedThreadDownloader set.
+    [self.requestedThreadDownloaders addObject:threadDownloader];
     __weak typeof (self) weakSelf = self;
     threadDownloader.completionHandler = ^(BOOL success, NSArray *threads, NSError *error) {
         NSMutableDictionary *replyDictionary = [NSMutableDictionary new];
         [replyDictionary addEntriesFromDictionary:@{command.caller : [weakSelf watchKitThreadsWithThreads:threads]}];
         replyHandler(replyDictionary);
+        if (weakRefDownloader) {
+            [self.requestedThreadDownloaders removeObject:weakRefDownloader];
+        }
     };
     dispatch_async(dispatch_get_main_queue(), ^{
         [threadDownloader start];
     });
     
 //    __block NSMutableDictionary *replyDictionary = [NSMutableDictionary new];
-#warning COME BACK LATER
+//#warning COME BACK LATER
 //    self.homeViewManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
 //        if (success) {
 //            //TODO: if success? if fail?
@@ -206,6 +212,15 @@
 #endif
 
     return wkThreads;
+}
+
+#pragma mark - Getter
+
+- (NSMutableSet *)requestedThreadDownloaders {
+    if (!_requestedThreadDownloaders) {
+        _requestedThreadDownloaders = [NSMutableSet new];
+    }
+    return _requestedThreadDownloaders;
 }
 
 +(instancetype)sharedManager {
