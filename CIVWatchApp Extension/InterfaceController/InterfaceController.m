@@ -12,10 +12,11 @@
 #import "czzWatchKitCommand.h"
 #import "czzWatchKitHomeRowController.h"
 #import "czzWKThreadInterfaceController.h"
+#import "ExtensionDelegate.h"
 
 #import <WatchConnectivity/WatchConnectivity.h>
 
-@interface InterfaceController() <WCSessionDelegate>
+@interface InterfaceController() <czzWKSessionDelegate>
 
 @property (strong, nonatomic) NSMutableArray *wkThreads;
 @property (strong, nonatomic) czzWKForum *selectedForum;
@@ -49,7 +50,13 @@
 }
 
 -(void)loadMore:(BOOL)more {
-#warning TODO: MADE IT COMPATIBLE WITH WATCH OS 2
+    czzWatchKitCommand *loadCommand = [czzWatchKitCommand new];
+    loadCommand.caller = NSStringFromClass(self.class);
+    loadCommand.action = watchKitCommandLoadHomeView;
+    loadCommand.parameter = @{@"FORUM" : self.selectedForum.encodeToDictionary,
+                              @"PAGE" : @(1)};
+    [[ExtensionDelegate sharedInstance] sendCommand:loadCommand
+                                         withCaller:self];
 //    [WKInterfaceController openParentApplication:@{watchKitCommandKey : @(watchKitCommandLoadHomeView), watchKitCommandLoadMore : @(more),
 //                                                   watchKitCommandForumKey : [self.selectedForum encodeToDictionary]} reply:^(NSDictionary *replyInfo, NSError *error) {
 //        NSArray *threadDictionaries = [replyInfo objectForKey:@(watchKitCommandLoadHomeView)];
@@ -73,7 +80,12 @@
     [self loadMore:YES];
 }
 
+#pragma mark - czzWKSessionDelegate
+- (void)respondReceived:(NSDictionary *)response error:(NSError *)error {
+    DLog(@"%s : %@ : %@", __PRETTY_FUNCTION__, response, error);
+}
 
+#pragma mark - segue
 -(id)contextForSegueWithIdentifier:(NSString *)segueIdentifier inTable:(WKInterfaceTable *)table rowIndex:(NSInteger)rowIndex {
     self.selectedThread = [self.wkThreads objectAtIndex:rowIndex];
     

@@ -15,7 +15,6 @@
 
 @interface czzWatchKitManager () <czzHomeViewManagerDelegate>
 @property (assign, nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
-@property (strong, nonatomic) czzHomeViewManager *homeViewManager;
 @property (strong, nonatomic) czzThreadViewManager *threadViewManager;
 @property (strong, nonatomic) NSString *requestedImageURL;
 
@@ -41,7 +40,8 @@
             case watchKitCommandLoadForumView:
                 [self loadWKForumsWithCommand:command replyHandler:reply];
                 break;
-                
+            case watchKitCommandLoadHomeView:
+                [self loadHomeWithCommand:command loadMore:NO replyHandler:reply];
             default:
                 // Reply an empty dictionary to indicate error.
                 reply([NSDictionary new]);
@@ -103,17 +103,24 @@
     }
 }
 
--(void)watchKitLoadHomeView:(czzWKForum*)forum loadMore:(BOOL)loadMore {
+-(void)loadHomeWithCommand:(czzWatchKitCommand *)command loadMore:(BOOL)loadMore replyHandler:(void(^)(NSDictionary *responseMessage))replyHandler {
     [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
     
-    self.homeViewManager = [czzHomeViewManager new];
-    
-    czzForum *selectedForum = [czzForum new];
-    selectedForum.name = forum.name;
-    [self.homeViewManager setForum:selectedForum];
-    
-    __block NSMutableDictionary *replyDictionary = [NSMutableDictionary new];
+    czzWKForum *selectedForum = [[czzWKForum alloc] initWithDictionary:[command.parameter valueForKey:@"FORUM"]];
+    czzForum *tempForum = [czzForum new];
+    tempForum.name = selectedForum.name;
+    czzThreadDownloader *threadDownloader = [[czzThreadDownloader alloc] initWithForum:tempForum];
     __weak typeof (self) weakSelf = self;
+    threadDownloader.completionHandler = ^(BOOL success, NSArray *threads, NSError *error) {
+        NSMutableDictionary *replyDictionary = [NSMutableDictionary new];
+        [replyDictionary addEntriesFromDictionary:@{command.caller : [weakSelf watchKitThreadsWithThreads:threads]}];
+        replyHandler(replyDictionary);
+    };
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [threadDownloader start];
+    });
+    
+//    __block NSMutableDictionary *replyDictionary = [NSMutableDictionary new];
 #warning COME BACK LATER
 //    self.homeViewManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
 //        if (success) {
@@ -123,11 +130,11 @@
 //        [replyDictionary addEntriesFromDictionary:@{@(watchKitCommandLoadHomeView) : [weakSelf watchKitThreadsWithThreads:threads]}];
 //        [weakSelf replyWithDictionary:replyDictionary];
 //    };
-    if (loadMore && self.homeViewManager.threads.count) {
-        [self.homeViewManager loadMoreThreads];
-    } else {
-        [self.homeViewManager refresh];
-    }
+//    if (loadMore && self.homeViewManager.threads.count) {
+//        [self.homeViewManager loadMoreThreads];
+//    } else {
+//        [self.homeViewManager refresh];
+//    }
 }
 
 -(void)watchKitLoadThreadView:(czzWKThread*)selectedThread loadMore:(BOOL)loadMore {
