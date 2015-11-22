@@ -83,6 +83,13 @@
 #pragma mark - czzWKSessionDelegate
 - (void)respondReceived:(NSDictionary *)response error:(NSError *)error {
     DLog(@"%s : %@ : %@", __PRETTY_FUNCTION__, response, error);
+    NSArray *jsonThreads = [response objectForKey:NSStringFromClass(self.class)];
+    [self.wkThreads removeAllObjects];
+    for (NSDictionary *dict in jsonThreads) {
+        czzWKThread *wkThread = [[czzWKThread alloc] initWithDictionary:dict];
+        [self.wkThreads addObject:wkThread];
+    }
+    [self reloadTableView];
 }
 
 #pragma mark - segue
@@ -92,9 +99,13 @@
     return @{@(watchKitCommandLoadThreadView) : [self.selectedThread encodeToDictionary]};
 }
 
-#pragma mark - WCSessionDelegate
--(void)session:(WCSession *)session didReceiveMessage:(NSDictionary<NSString *,id> *)message {
-    
+#pragma mark - Getter
+
+- (NSMutableArray *)wkThreads {
+    if (!_wkThreads) {
+        _wkThreads = [NSMutableArray new];
+    }
+    return _wkThreads;
 }
 
 #pragma mark - TableView

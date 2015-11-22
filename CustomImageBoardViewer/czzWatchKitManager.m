@@ -199,18 +199,6 @@
         [wkThreads addObject:[[thread watchKitThread] encodeToDictionary]];
     }
     
-#ifdef DEBUG
-    // Load from cache
-    NSString *wkThreadCache = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:@"wkCaches.dat"];
-    if (!wkThreads.count) {
-        wkThreads = [NSKeyedUnarchiver unarchiveObjectWithFile:wkThreadCache];
-    } else {
-        [NSKeyedArchiver archiveRootObject:wkThreads toFile:wkThreadCache];
-    }
-    
-    
-#endif
-
     return wkThreads;
 }
 
