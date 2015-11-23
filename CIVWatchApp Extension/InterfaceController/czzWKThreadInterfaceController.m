@@ -10,21 +10,24 @@
 
 #import "czzWatchKitCommand.h"
 #import "czzWatchKitHomeRowController.h"
+#import "ExtensionDelegate.h"
 
 #import <WatchConnectivity/WatchConnectivity.h>
 
-@interface czzWKThreadInterfaceController ()
+@interface czzWKThreadInterfaceController () <czzWKSessionDelegate>
 @property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceLabel *idLabel;
 @property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceTable *wkThreadsTableView;
+@property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceButton *moreButton;
 @property (strong, nonatomic) NSMutableArray *wkThreads;
-
+@property (assign, nonatomic) NSInteger pageNumber;
 @end
 
 @implementation czzWKThreadInterfaceController
 
 - (void)awakeWithContext:(id)context {
     [super awakeWithContext:context];
-    self.wkThread = [[czzWKThread alloc] initWithDictionary:[context objectForKey:@(watchKitCommandLoadThreadView)]];
+    self.parentWKThread = [[czzWKThread alloc] initWithDictionary:[context objectForKey:@(watchKitCommandLoadThreadView)]];
+    self.pageNumber = 1;
     [self loadMore];
 }
 
@@ -33,7 +36,7 @@
 }
 
 - (IBAction)watchButtonAction {
-    if (self.wkThread) {
+    if (self.parentWKThread) {
 #warning TODO: MADE IT COMPATIBLE WITH WATCH OS 2
 //        [WKInterfaceController openParentApplication:@{@(watchKitCommandWatchThread) : [self.wkThread encodeToDictionary]} reply:^(NSDictionary * replyInfo, NSError * error) {
 //            
@@ -53,7 +56,14 @@
 }
 
 -(void)loadMore {
-    if (self.wkThread) {
+    if (self.parentWKThread) {
+        // Disable the load more button until a response is received.
+        [self.moreButton setEnabled:NO];
+        czzWatchKitCommand *loadCommand = [czzWatchKitCommand new];
+        loadCommand.caller = NSStringFromClass(self.class);
+        loadCommand.action = watchKitCommandLoadForumView;
+        loadCommand.parameter = @{@"THREAD" : self.parentWKThread.encodeToDictionary,
+                                  @"PAGE" : @(self.pageNumber)};
 #warning TODO: MADE IT COMPATIBLE WITH WATCH OS 2
 //        [WKInterfaceController openParentApplication:@{watchKitCommandKey : @(watchKitCommandLoadThreadView),
 //                                                       @"THREAD" : [self.wkThread encodeToDictionary],
@@ -67,6 +77,31 @@
 //        }];
 //        [self.idLabel setText:[NSString stringWithFormat:@"No. %ld", (long)self.wkThread.ID]];
     }
+}
+
+#pragma mark - czzWKSessionDelegate
+
+- (void)respondReceived:(NSDictionary *)response error:(NSError *)error {
+    // Re-enable the more button.
+    [self.moreButton setEnabled:NO];
+    if (response.count) {
+        self.pageNumber ++;
+        NSArray *jsonThreads = [response objectForKey:NSStringFromClass(self.class)];
+        for (NSDictionary *jsonDict in jsonThreads) {
+            czzWKThread *wkThread = [[czzWKThread alloc] initWithDictionary:jsonDict];
+            [self.wkThreads addObject:wkThread];
+        }
+    }
+    [self reloadTableView];
+}
+
+#pragma mark - Getter
+
+- (NSMutableArray *)wkThreads {
+    if (!_wkThreads) {
+        _wkThreads = [NSMutableArray new];
+    }
+    return _wkThreads;
 }
 
 #pragma mark - TableView

@@ -19,8 +19,8 @@
         dateFormatter.dateFormat = @"h:ma";
         
         NSString *threadContent = wkThread.content;
-        if (threadContent.length > 50) {
-            threadContent = [threadContent substringToIndex:50];
+        if (threadContent.length > 40) {
+            threadContent = [NSString stringWithFormat:@"%@...", [threadContent substringToIndex:40]];
         }
         [self.wkThreadContentLabel setText:threadContent];
         [self.wkThreadInformationLabel setText:[NSString stringWithFormat:@"%@-%@", [dateFormatter stringFromDate:wkThread.postDate], wkThread.name]];

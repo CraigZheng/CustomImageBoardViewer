@@ -43,6 +43,9 @@
             case watchKitCommandLoadHomeView:
                 [self loadHomeWithCommand:command loadMore:NO replyHandler:reply];
                 break;
+            case watchKitCommandLoadThreadView:
+                [self loadThreadWithCommand:command replyHandler:reply];
+                break;
             default:
                 // Reply an empty dictionary to indicate error.
                 reply([NSDictionary new]);
@@ -143,26 +146,39 @@
 //    }
 }
 
--(void)watchKitLoadThreadView:(czzWKThread*)selectedThread loadMore:(BOOL)loadMore {
+-(void)loadThreadWithCommand:(czzWatchKitCommand *)command replyHandler:(void(^)(NSDictionary *responseMessage))replyHandler {
     [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
-    
-    czzThread *parentThread = [[czzThread alloc] initWithThreadID:selectedThread.ID];
-    self.threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:parentThread andForum:nil];
-    
-    [self.threadViewManager restorePreviousState];
-    __weak typeof (self.threadViewManager) weakthreadViewManager = self.threadViewManager;
+    // Get czzThread from czzWKThread
+    czzWKThread *selectedThread = [[czzWKThread alloc] initWithDictionary:[command.parameter objectForKey:@"THREAD"]];
+    czzThread *tempThread = [czzThread new];
+    tempThread.parentID = tempThread.ID = selectedThread.ID;
+    // Get requested page
+    NSNumber *pageNumber = [command.parameter objectForKey:@"PAGE"];
+    // Construct and start the thread downloader.
+    czzThreadDownloader *threadDownloader = [[czzThreadDownloader alloc] initWithForum:nil andThread:tempThread];
+    threadDownloader.pageNumber = pageNumber.integerValue;
+    [self.requestedThreadDownloaders addObject:threadDownloader];
     __weak typeof (self) weakSelf = self;
+    __weak typeof(threadDownloader) weakRefThreadDownloader = threadDownloader;
+
+    threadDownloader.completionHandler = ^(BOOL success, NSArray *threads, NSError *error){
+        NSDictionary *replyDictionary = @{command.caller : [weakSelf watchKitThreadsWithThreads:threads]};
+        replyHandler(replyDictionary);
+        if (weakRefThreadDownloader) {
+            [weakSelf.requestedThreadDownloaders removeObject:weakRefThreadDownloader];
+        }
+    };
 #warning COME BACK LATER
 //    self.threadViewManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
 //        NSDictionary *replyDictionary = @{@(watchKitCommandLoadThreadView) : [weakSelf watchKitThreadsWithThreads:weakthreadViewManager.threads]};
 //        [weakSelf replyWithDictionary:replyDictionary];
 //    };
     
-    if (loadMore && self.threadViewManager.threads.count > 1) {
-        [self.threadViewManager loadMoreThreads];
-    } else {
-        [self.threadViewManager refresh];
-    }
+//    if (loadMore && self.threadViewManager.threads.count > 1) {
+//        [self.threadViewManager loadMoreThreads];
+//    } else {
+//        [self.threadViewManager refresh];
+//    }
 }
 
 #warning NEEDS UPDATING

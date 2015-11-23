@@ -15,5 +15,5 @@
 
 @interface czzWKThreadInterfaceController : WKInterfaceController
 
-@property (nonatomic, strong) czzWKThread *wkThread;
+@property (nonatomic, strong) czzWKThread *parentWKThread;
 @end
