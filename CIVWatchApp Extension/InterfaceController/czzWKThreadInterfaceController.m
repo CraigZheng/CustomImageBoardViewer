@@ -47,7 +47,8 @@
 - (void)willActivate {
     // This method is called when watch view controller is about to be visible to user
     [super willActivate];
-    if (!self.wkThreads.count) {
+    // self.wkThreads will always include a parent thread.
+    if (self.wkThreads.count <= 1) {
         [self loadMore];
     }
 }
