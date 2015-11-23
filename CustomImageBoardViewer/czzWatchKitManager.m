@@ -168,6 +168,9 @@
             [weakSelf.requestedThreadDownloaders removeObject:weakRefThreadDownloader];
         }
     };
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [threadDownloader start];
+    });
 #warning COME BACK LATER
 //    self.threadViewManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
 //        NSDictionary *replyDictionary = @{@(watchKitCommandLoadThreadView) : [weakSelf watchKitThreadsWithThreads:weakthreadViewManager.threads]};

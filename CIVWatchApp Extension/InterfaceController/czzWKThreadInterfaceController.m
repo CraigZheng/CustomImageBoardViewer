@@ -28,7 +28,6 @@
     [super awakeWithContext:context];
     self.parentWKThread = [[czzWKThread alloc] initWithDictionary:[context objectForKey:@(watchKitCommandLoadThreadView)]];
     self.pageNumber = 1;
-    [self loadMore];
 }
 
 - (IBAction)loadMoreButtonAction {
@@ -48,6 +47,9 @@
 - (void)willActivate {
     // This method is called when watch view controller is about to be visible to user
     [super willActivate];
+    if (!self.wkThreads.count) {
+        [self loadMore];
+    }
 }
 
 - (void)didDeactivate {
@@ -61,9 +63,10 @@
         [self.moreButton setEnabled:NO];
         czzWatchKitCommand *loadCommand = [czzWatchKitCommand new];
         loadCommand.caller = NSStringFromClass(self.class);
-        loadCommand.action = watchKitCommandLoadForumView;
+        loadCommand.action = watchKitCommandLoadThreadView;
         loadCommand.parameter = @{@"THREAD" : self.parentWKThread.encodeToDictionary,
                                   @"PAGE" : @(self.pageNumber)};
+        [[ExtensionDelegate sharedInstance] sendCommand:loadCommand withCaller:self];
 #warning TODO: MADE IT COMPATIBLE WITH WATCH OS 2
 //        [WKInterfaceController openParentApplication:@{watchKitCommandKey : @(watchKitCommandLoadThreadView),
 //                                                       @"THREAD" : [self.wkThread encodeToDictionary],
@@ -83,7 +86,7 @@
 
 - (void)respondReceived:(NSDictionary *)response error:(NSError *)error {
     // Re-enable the more button.
-    [self.moreButton setEnabled:NO];
+    [self.moreButton setEnabled:YES];
     if (response.count) {
         self.pageNumber ++;
         NSArray *jsonThreads = [response objectForKey:NSStringFromClass(self.class)];
@@ -100,6 +103,7 @@
 - (NSMutableArray *)wkThreads {
     if (!_wkThreads) {
         _wkThreads = [NSMutableArray new];
+        [_wkThreads addObject:self.parentWKThread];
     }
     return _wkThreads;
 }

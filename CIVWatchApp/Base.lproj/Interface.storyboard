@@ -156,6 +156,7 @@
                     </items>
                     <connections>
                         <outlet property="idLabel" destination="q3p-gH-wCs" id="IDa-ip-XAK"/>
+                        <outlet property="moreButton" destination="kUx-4k-8Up" id="OKR-7e-GZH"/>
                         <outlet property="wkThreadsTableView" destination="ssM-ZN-gZK" id="4sA-b0-os7"/>
                     </connections>
                 </controller>
