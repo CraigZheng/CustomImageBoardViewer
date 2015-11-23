@@ -18,15 +18,14 @@
 @implementation ExtensionDelegate
 
 - (void)applicationDidFinishLaunching {
+}
+
+- (void)applicationDidBecomeActive {
     DLog(@"%s", __PRETTY_FUNCTION__);
     if ([WCSession isSupported]) {
         [WCSession defaultSession].delegate = self;
         [[WCSession defaultSession] activateSession];
     }
-}
-
-- (void)applicationDidBecomeActive {
-    
 }
 
 - (void)applicationWillResignActive {
