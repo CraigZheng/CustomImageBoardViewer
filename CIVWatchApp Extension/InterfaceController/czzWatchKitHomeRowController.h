@@ -19,6 +19,7 @@
 @property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceLabel *wkThreadInformationLabel;
 @property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceImage *wkThreadImage;
 @property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceImage *wkThreadThumbnailImage;
+@property (assign, nonatomic) BOOL shouldTruncate;
 
 @property (strong, nonatomic) czzWKThread *wkThread;
 @end

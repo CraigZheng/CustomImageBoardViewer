@@ -114,7 +114,7 @@
     
     [self.wkThreads enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         czzWatchKitHomeRowController* theRow = [self.wkThreadsTableView rowControllerAtIndex:idx];
-        
+        theRow.shouldTruncate = YES;
         theRow.wkThread = obj;
     }];
 }

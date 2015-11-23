@@ -19,7 +19,7 @@
         dateFormatter.dateFormat = @"h:ma";
         
         NSString *threadContent = wkThread.content;
-        if (threadContent.length > 40) {
+        if (self.shouldTruncate && threadContent.length > 40) {
             threadContent = [NSString stringWithFormat:@"%@...", [threadContent substringToIndex:40]];
         }
         [self.wkThreadContentLabel setText:threadContent];
