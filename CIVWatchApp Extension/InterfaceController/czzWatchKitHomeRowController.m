@@ -18,7 +18,11 @@
         NSDateFormatter *dateFormatter = [NSDateFormatter new];
         dateFormatter.dateFormat = @"h:ma";
         
-        [self.wkThreadContentLabel setText:wkThread.content];
+        NSString *threadContent = wkThread.content;
+        if (threadContent.length > 50) {
+            threadContent = [threadContent substringToIndex:50];
+        }
+        [self.wkThreadContentLabel setText:threadContent];
         [self.wkThreadInformationLabel setText:[NSString stringWithFormat:@"%@-%@", [dateFormatter stringFromDate:wkThread.postDate], wkThread.name]];
         
         //TODO: show actual image

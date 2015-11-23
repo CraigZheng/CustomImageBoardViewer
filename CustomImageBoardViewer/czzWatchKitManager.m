@@ -42,6 +42,7 @@
                 break;
             case watchKitCommandLoadHomeView:
                 [self loadHomeWithCommand:command loadMore:NO replyHandler:reply];
+                break;
             default:
                 // Reply an empty dictionary to indicate error.
                 reply([NSDictionary new]);
@@ -115,9 +116,8 @@
     [self.requestedThreadDownloaders addObject:threadDownloader];
     __weak typeof (self) weakSelf = self;
     threadDownloader.completionHandler = ^(BOOL success, NSArray *threads, NSError *error) {
-        NSMutableDictionary *replyDictionary = [NSMutableDictionary new];
-        [replyDictionary addEntriesFromDictionary:@{command.caller : [weakSelf watchKitThreadsWithThreads:threads]}];
-        replyHandler(replyDictionary);
+        DLog(@"%s : %ld threads : %@", __PRETTY_FUNCTION__, threads.count, error);
+        replyHandler(@{command.caller : [weakSelf watchKitThreadsWithThreads:threads]});
         if (weakRefDownloader) {
             [self.requestedThreadDownloaders removeObject:weakRefDownloader];
         }
