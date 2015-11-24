@@ -2560,6 +2560,7 @@
 		44A2949A1BFDEFF60033D438 /* CIVWatchApp Extension */ = {
 			isa = PBXGroup;
 			children = (
+				44F86B661C048FF6001306E8 /* Images */,
 				44A294B51BFDF1050033D438 /* InterfaceController */,
 				44A294BE1BFDF1050033D438 /* Model */,
 				44A294A01BFDEFF60033D438 /* ExtensionDelegate.h */,
@@ -3085,6 +3086,13 @@
 				44E791CC1A17856500A63C04 /* view@3x.png */,
 			);
 			path = icons;
+			sourceTree = "<group>";
+		};
+		44F86B661C048FF6001306E8 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 		44FC4346180067D80028D7C9 /* czzPostSender */ = {
