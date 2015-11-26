@@ -11,6 +11,7 @@
 @implementation WKInterfaceImage (ActivityIndicator)
 
 - (void)startLoading {
+    [self setHidden:NO];
     [self setImageNamed:@"Activity"];
     [self startAnimatingWithImagesInRange:NSMakeRange(0, 41)
                                  duration:1.0
@@ -19,5 +20,6 @@
 
 - (void)stopLoading {
     [self stopAnimating];
+    [self setHidden:YES];
 }
 @end

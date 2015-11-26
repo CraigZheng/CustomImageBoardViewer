@@ -28,7 +28,7 @@
                                 </tableRow>
                             </items>
                         </table>
-                        <imageView alignment="center" image="Activity1" id="gke-l4-cly"/>
+                        <imageView alignment="center" hidden="YES" image="Activity1" id="gke-l4-cly"/>
                     </items>
                     <connections>
                         <outlet property="loadingIndicator" destination="gke-l4-cly" id="cb8-3t-sOL"/>
@@ -83,7 +83,7 @@
                         </table>
                         <group width="1" alignment="left" layout="vertical" id="pdB-w5-5Ao">
                             <items>
-                                <imageView alignment="center" image="Activity1" id="04l-bs-keV"/>
+                                <imageView alignment="center" hidden="YES" image="Activity1" id="04l-bs-keV"/>
                                 <button width="1" alignment="left" title="Reload" id="kZk-X9-WZ7">
                                     <connections>
                                         <action selector="reloadButtonAction" destination="AgC-eL-Hgc" id="VhJ-Qz-Tpm"/>
@@ -146,7 +146,7 @@
                         </table>
                         <group width="1" alignment="left" layout="vertical" id="nto-G3-cLR">
                             <items>
-                                <imageView alignment="center" image="Activity1" id="UCO-Hh-mwH"/>
+                                <imageView alignment="center" hidden="YES" image="Activity1" id="UCO-Hh-mwH"/>
                                 <button width="1" alignment="center" title="More" id="kUx-4k-8Up">
                                     <connections>
                                         <action selector="loadMoreButtonAction" destination="PDK-Cg-DDX" id="buM-WE-Rtj"/>
