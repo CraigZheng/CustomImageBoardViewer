@@ -605,6 +605,7 @@
 		44858EAC1A0C5B0A00DD822B /* czzImageViewerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44858EAB1A0C5B0A00DD822B /* czzImageViewerUtil.m */; };
 		4485F4FC19F5FF38007A73CC /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 4485F4FB19F5FF38007A73CC /* NSString+HTML.m */; };
 		448C85E41A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 448C85E31A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib */; };
+		449472761C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 449472751C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m */; };
 		4498A7D21B89978200312A11 /* czzTableViewRefreshView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4498A7D11B89978200312A11 /* czzTableViewRefreshView.xib */; };
 		4498A7DF1B89982600312A11 /* ALView+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498A7D71B89982600312A11 /* ALView+PureLayout.m */; };
 		4498A7E01B89982600312A11 /* NSArray+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498A7D91B89982600312A11 /* NSArray+PureLayout.m */; };
@@ -1278,6 +1279,8 @@
 		4485F4FA19F5FF38007A73CC /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
 		4485F4FB19F5FF38007A73CC /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTML.m"; sourceTree = "<group>"; };
 		448C85E31A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzThreadViewBigImageTableViewCell.xib; sourceTree = "<group>"; };
+		449472741C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WKInterfaceImage+ActivityIndicator.h"; sourceTree = "<group>"; };
+		449472751C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WKInterfaceImage+ActivityIndicator.m"; sourceTree = "<group>"; };
 		4498A7D11B89978200312A11 /* czzTableViewRefreshView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzTableViewRefreshView.xib; sourceTree = "<group>"; };
 		4498A7D61B89982600312A11 /* ALView+PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALView+PureLayout.h"; sourceTree = "<group>"; };
 		4498A7D71B89982600312A11 /* ALView+PureLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALView+PureLayout.m"; sourceTree = "<group>"; };
@@ -2571,6 +2574,8 @@
 				44A294A81BFDEFF60033D438 /* Info.plist */,
 				44A2949B1BFDEFF60033D438 /* Supporting Files */,
 				44A294CF1BFDF7630033D438 /* CIVWatchApp.pch */,
+				449472741C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.h */,
+				449472751C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m */,
 			);
 			path = "CIVWatchApp Extension";
 			sourceTree = "<group>";
@@ -4301,6 +4306,7 @@
 				44A294C81BFDF1050033D438 /* czzWKThread.m in Sources */,
 				44A294C71BFDF1050033D438 /* czzWKForum.m in Sources */,
 				44A294C61BFDF1050033D438 /* InterfaceController.m in Sources */,
+				449472761C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m in Sources */,
 				44F86B651BFE0012001306E8 /* czzWatchKitCommand.m in Sources */,
 				44A294A51BFDEFF60033D438 /* NotificationController.m in Sources */,
 				44A294C41BFDF1050033D438 /* czzWKForumInterfaceController.m in Sources */,

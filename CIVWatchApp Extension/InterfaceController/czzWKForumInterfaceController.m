@@ -9,6 +9,7 @@
 #import "czzWKForumInterfaceController.h"
 
 #import "czzWatchKitCommand.h"
+#import "WKInterfaceImage+ActivityIndicator.h"
 
 #define wkForumsRowControllerIdentifier @"wkForumsRowControllerIdentifier"
 
@@ -25,6 +26,7 @@
 @interface czzWKForumInterfaceController ()
 @property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceTable *wkForumsTableView;
 @property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceLabel *statusLabel;
+@property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceImage *loadingIndicator;
 @property (strong, nonatomic) NSArray *wkForums;
 @end
 
@@ -42,6 +44,8 @@
 }
 
 -(void)loadForumData {
+    [self.loadingIndicator startLoading];
+    
     czzWatchKitCommand *loadForumCommand = [czzWatchKitCommand new];
     loadForumCommand.caller = NSStringFromClass(self.class);
     loadForumCommand.action = watchKitCommandLoadForumView;
@@ -69,6 +73,8 @@
         [self.statusLabel setText:error.description];
         [self.statusLabel setHidden:NO];
     }
+    
+    [self.loadingIndicator stopLoading];
 }
 
 #pragma mark - TableView

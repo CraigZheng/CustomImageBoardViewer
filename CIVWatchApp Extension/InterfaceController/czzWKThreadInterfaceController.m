@@ -11,6 +11,7 @@
 #import "czzWatchKitCommand.h"
 #import "czzWatchKitHomeRowController.h"
 #import "ExtensionDelegate.h"
+#import "WKInterfaceImage+ActivityIndicator.h"
 
 #import <WatchConnectivity/WatchConnectivity.h>
 
@@ -18,6 +19,7 @@
 @property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceLabel *idLabel;
 @property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceTable *wkThreadsTableView;
 @property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceButton *moreButton;
+@property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceImage *loadingIndicator;
 @property (strong, nonatomic) NSMutableArray *wkThreads;
 @property (assign, nonatomic) NSInteger pageNumber;
 @end
@@ -60,6 +62,8 @@
 
 -(void)loadMore {
     if (self.parentWKThread) {
+        [self.loadingIndicator startLoading];
+        
         // Disable the load more button until a response is received.
         [self.moreButton setEnabled:NO];
         czzWatchKitCommand *loadCommand = [czzWatchKitCommand new];
@@ -68,18 +72,6 @@
         loadCommand.parameter = @{@"THREAD" : self.parentWKThread.encodeToDictionary,
                                   @"PAGE" : @(self.pageNumber)};
         [[ExtensionDelegate sharedInstance] sendCommand:loadCommand withCaller:self];
-#warning TODO: MADE IT COMPATIBLE WITH WATCH OS 2
-//        [WKInterfaceController openParentApplication:@{watchKitCommandKey : @(watchKitCommandLoadThreadView),
-//                                                       @"THREAD" : [self.wkThread encodeToDictionary],
-//                                                       watchKitCommandLoadMore : @(YES)} reply:^(NSDictionary *replyInfo, NSError * error) {
-//            self.wkThreads = [NSMutableArray new];
-//            for (NSDictionary *dict in [replyInfo objectForKey:@(watchKitCommandLoadThreadView)]) {
-//                czzWKThread *thread = [[czzWKThread alloc] initWithDictionary:dict];
-//                [self.wkThreads addObject:thread];
-//            }
-//            [self reloadTableView];
-//        }];
-//        [self.idLabel setText:[NSString stringWithFormat:@"No. %ld", (long)self.wkThread.ID]];
     }
 }
 
@@ -97,6 +89,8 @@
         }
     }
     [self reloadTableView];
+    
+    [self.loadingIndicator stopLoading];
 }
 
 #pragma mark - Getter

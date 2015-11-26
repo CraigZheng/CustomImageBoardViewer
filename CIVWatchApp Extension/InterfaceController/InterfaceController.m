@@ -12,6 +12,7 @@
 #import "czzWatchKitCommand.h"
 #import "czzWatchKitHomeRowController.h"
 #import "czzWKThreadInterfaceController.h"
+#import "WKInterfaceImage+ActivityIndicator.h"
 #import "ExtensionDelegate.h"
 
 #import <WatchConnectivity/WatchConnectivity.h>
@@ -21,6 +22,8 @@
 @property (strong, nonatomic) NSMutableArray *wkThreads;
 @property (strong, nonatomic) czzWKForum *selectedForum;
 @property (strong, nonatomic) czzWKThread *selectedThread;
+@property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceButton *reloadButton;
+@property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceImage *loadingIndicator;
 @end
 
 
@@ -37,12 +40,6 @@
     if (!self.wkThreads.count) {
         [self reloadData];
     }
-    [self reloadTableView];
-}
-
-- (void)didDeactivate {
-    // This method is called when watch view controller is no longer visible
-    [super didDeactivate];
 }
 
 -(void)reloadData {
@@ -50,6 +47,9 @@
 }
 
 -(void)loadMore:(BOOL)more {
+    [self.loadingIndicator startLoading];
+    [self.reloadButton setEnabled:NO];
+    // Constructing and sending of the command.
     czzWatchKitCommand *loadCommand = [czzWatchKitCommand new];
     loadCommand.caller = NSStringFromClass(self.class);
     loadCommand.action = watchKitCommandLoadHomeView;
@@ -57,19 +57,6 @@
                               @"PAGE" : @(1)};
     [[ExtensionDelegate sharedInstance] sendCommand:loadCommand
                                          withCaller:self];
-//    [WKInterfaceController openParentApplication:@{watchKitCommandKey : @(watchKitCommandLoadHomeView), watchKitCommandLoadMore : @(more),
-//                                                   watchKitCommandForumKey : [self.selectedForum encodeToDictionary]} reply:^(NSDictionary *replyInfo, NSError *error) {
-//        NSArray *threadDictionaries = [replyInfo objectForKey:@(watchKitCommandLoadHomeView)];
-//        self.wkThreads = [NSMutableArray new];
-//        for (NSDictionary *dict in threadDictionaries) {
-//            czzWKThread *thread = [[czzWKThread alloc] initWithDictionary:dict];
-//            NSLog(@"thread: %@", thread);
-//            [self.wkThreads addObject:thread];
-//        }
-//        [self.screenTitleLabel setText:[replyInfo objectForKey:@(watchKitMiscInfoScreenTitleHome)]];
-//        
-//        [self reloadTableView];
-//    }];
 }
 
 - (IBAction)reloadButtonAction {
@@ -90,6 +77,8 @@
         [self.wkThreads addObject:wkThread];
     }
     [self reloadTableView];
+    [self.loadingIndicator stopLoading];
+    [self.reloadButton setEnabled:YES];
 }
 
 #pragma mark - segue

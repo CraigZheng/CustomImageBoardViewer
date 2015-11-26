@@ -28,8 +28,10 @@
                                 </tableRow>
                             </items>
                         </table>
+                        <imageView alignment="center" image="Activity1" id="gke-l4-cly"/>
                     </items>
                     <connections>
+                        <outlet property="loadingIndicator" destination="gke-l4-cly" id="cb8-3t-sOL"/>
                         <outlet property="statusLabel" destination="qje-8E-I2n" id="uts-NF-TnN"/>
                         <outlet property="wkForumsTableView" destination="NzZ-TO-325" id="ZER-Ib-unl"/>
                     </connections>
@@ -81,12 +83,13 @@
                         </table>
                         <group width="1" alignment="left" layout="vertical" id="pdB-w5-5Ao">
                             <items>
+                                <imageView alignment="center" image="Activity1" id="04l-bs-keV"/>
                                 <button width="1" alignment="left" title="Reload" id="kZk-X9-WZ7">
                                     <connections>
                                         <action selector="reloadButtonAction" destination="AgC-eL-Hgc" id="VhJ-Qz-Tpm"/>
                                     </connections>
                                 </button>
-                                <button width="1" alignment="center" title="Next" id="rOK-0j-0pb">
+                                <button width="1" alignment="center" hidden="YES" title="Next" id="rOK-0j-0pb">
                                     <connections>
                                         <action selector="loadMoreButtonAction" destination="AgC-eL-Hgc" id="XHj-Gq-OnY"/>
                                     </connections>
@@ -95,6 +98,8 @@
                         </group>
                     </items>
                     <connections>
+                        <outlet property="loadingIndicator" destination="04l-bs-keV" id="zYE-Uc-HK9"/>
+                        <outlet property="reloadButton" destination="kZk-X9-WZ7" id="qIh-Zk-D9c"/>
                         <outlet property="screenTitleLabel" destination="2nn-uC-7pc" id="LYe-Sb-ffS"/>
                         <outlet property="wkThreadsTableView" destination="fNI-O2-IGG" id="W2m-zR-agz"/>
                     </connections>
@@ -141,6 +146,7 @@
                         </table>
                         <group width="1" alignment="left" layout="vertical" id="nto-G3-cLR">
                             <items>
+                                <imageView alignment="center" image="Activity1" id="UCO-Hh-mwH"/>
                                 <button width="1" alignment="center" title="More" id="kUx-4k-8Up">
                                     <connections>
                                         <action selector="loadMoreButtonAction" destination="PDK-Cg-DDX" id="buM-WE-Rtj"/>
@@ -156,6 +162,7 @@
                     </items>
                     <connections>
                         <outlet property="idLabel" destination="q3p-gH-wCs" id="IDa-ip-XAK"/>
+                        <outlet property="loadingIndicator" destination="UCO-Hh-mwH" id="inC-cU-wAW"/>
                         <outlet property="moreButton" destination="kUx-4k-8Up" id="OKR-7e-GZH"/>
                         <outlet property="wkThreadsTableView" destination="ssM-ZN-gZK" id="4sA-b0-os7"/>
                     </connections>
