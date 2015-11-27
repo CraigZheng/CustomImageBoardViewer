@@ -36,18 +36,23 @@
 }
 
 -(instancetype)initWithTargetURL:(NSURL *)url delegate:(id<czzURLDownloaderProtocol>)delegate startNow:(BOOL)now{
+    return [self initWithTargetURL:url delegate:delegate startNow:now shouldUseDefaultCookit:YES];
+}
+
+- (instancetype)initWithTargetURL:(NSURL *)url delegate:(id<czzURLDownloaderProtocol>)delegate startNow:(BOOL)now shouldUseDefaultCookit:(BOOL)should {
     self = [super init];
     if (self){
         self.targetURL = url;
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:self.targetURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:20];
-        [request setHTTPShouldHandleCookies:YES];
+        [request setHTTPShouldHandleCookies:should];
         [request setHTTPMethod:@"GET"];
-        [request setValue:@"application/xml" forHTTPHeaderField:@"Accept"];
+        [request setValue:@"text/html" forHTTPHeaderField:@"Content-Type"];
         [request setValue:[NSString stringWithFormat:@"HavfunClient-%@", [DeviceHardware platform]] forHTTPHeaderField:@"User-Agent"];
         urlConn = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:now];
-        if (now)
-            DLog(@"%@ make request to: %@", NSStringFromClass(self.class), self.targetURL);
         self.delegate = delegate;
+        if (now) {
+            [self start];
+        }
     }
     return self;
 }
@@ -55,6 +60,7 @@
 -(void)start{
     [urlConn start];
     DLog(@"%@ make request to: %@", NSStringFromClass(self.class), self.targetURL);
+    DLog(@"Header fields: %@", urlConn.originalRequest.allHTTPHeaderFields);
 }
 
 -(void)stop{

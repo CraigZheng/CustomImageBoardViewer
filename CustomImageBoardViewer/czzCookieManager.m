@@ -48,8 +48,7 @@
     DLog(@"current cookie empty, try to eat a cookie");
     NSString *getCookieURLString = [[settingCentre a_isle_host] stringByAppendingPathComponent:[NSString stringWithFormat:@"/Home/Api/getCookie?deviceid=%@", [UIDevice currentDevice].identifierForVendor.UUIDString]];
 
-    czzURLDownloader *urlDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:getCookieURLString] delegate:self startNow:YES];
-    DLog(@"%@", urlDownloader);
+    czzURLDownloader *urlDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:getCookieURLString] delegate:self startNow:YES shouldUseDefaultCookit:NO];
     [urlDownloader start];
 }
 
@@ -131,7 +130,8 @@
 
 #pragma mark - czzURLDownloaderDelegate
 - (void)downloadOf:(NSURL *)url successed:(BOOL)successed result:(NSData *)downloadedData {
-    if (successed) {
+    NSString *result = [[NSString alloc] initWithData:downloadedData encoding:NSUTF8StringEncoding];
+    if (successed && [result containsString:@"ok"]) {
         DLog(@"I ate a cookie!");
     } else {
         DLog(@"can't find a cookie to eat!");
