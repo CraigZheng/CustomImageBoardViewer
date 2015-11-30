@@ -22,8 +22,8 @@ typedef NS_ENUM(NSInteger, postViewControllerMode) {
 };
 
 @interface czzPostViewController : UIViewController <UITextViewDelegate>
-@property czzThread *thread;
-@property czzThread *replyTo;
+@property czzThread *parentThread;
+@property czzThread *replyToThread;
 @property czzForum *forum;
 @property (nonatomic, strong) czzBlacklistEntity *blacklistEntity;
 @property (nonatomic, assign) postViewControllerMode postMode;

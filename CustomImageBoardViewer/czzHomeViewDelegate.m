@@ -43,10 +43,11 @@
     return self;
 }
 
-- (void)replyToThread:(czzThread *)thread {
+- (void)replyToThread:(czzThread *)thread inParentThread:(czzThread *)parentThread{
     czzPostViewController *postViewController = [czzPostViewController new];
     postViewController.forum = self.homeViewManager.forum;
-    postViewController.replyTo = thread;
+    postViewController.parentThread = parentThread;
+    postViewController.replyToThread = thread;
     postViewController.postMode = postViewControllerModeReply;
     [[czzNavigationManager sharedManager].delegate pushViewController:postViewController animated:YES];
 }
@@ -54,7 +55,7 @@
 - (void)replyMainThread:(czzThread *)thread {
     czzPostViewController *postViewController = [czzPostViewController new];
     postViewController.forum = self.homeViewManager.forum;
-    postViewController.thread = thread;
+    postViewController.parentThread = thread;
     postViewController.postMode = postViewControllerModeReply;
     [[czzNavigationManager sharedManager].delegate pushViewController:postViewController animated:YES];
 }
@@ -176,9 +177,9 @@
     }
 }
 
-- (void)userWantsToReply:(czzThread *)thread {
+- (void)userWantsToReply:(czzThread *)thread inParentThread:(czzThread *)parentThread{
     DLog(@"%s : %@", __PRETTY_FUNCTION__, thread);
-    [self replyToThread:thread];
+    [self replyToThread:thread inParentThread:parentThread];
 }
 
 - (void)userWantsToHighLight:(czzThread *)thread {

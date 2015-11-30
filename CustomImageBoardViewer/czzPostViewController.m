@@ -36,8 +36,6 @@
 
 @implementation czzPostViewController
 @synthesize postTextView;
-@synthesize thread;
-@synthesize replyTo;
 @synthesize postButton;
 @synthesize receivedResponse;
 @synthesize blacklistEntity;
@@ -124,14 +122,16 @@
             postSender.parentThread = nil;
             targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:forum.name];
             postSender.forum = forum;
+            postSender.postMode = postSenderModeNew;
             break;
         case postViewControllerModeReply:
-            if (self.replyTo)
+            if (self.replyToThread)
             {
-                title = [NSString stringWithFormat:@"回复:%ld", (long)replyTo.ID];
-                content = [NSString stringWithFormat:@">>No.%ld\n\n", (long)replyTo.ID];
+                title = [NSString stringWithFormat:@"回复:%ld", (long)self.replyToThread.ID];
+                content = [NSString stringWithFormat:@">>No.%ld\n\n", (long)self.replyToThread.ID];
             }
-            postSender.parentThread = thread;
+            postSender.parentThread = self.parentThread;
+            postSender.postMode = postSenderModeReply;
             break;
             
         case postViewControllerModeReport: {
@@ -145,6 +145,7 @@
                     break;
                 }
             }
+            postSender.postMode = postSenderModeNew;
             break;
         }
         default:

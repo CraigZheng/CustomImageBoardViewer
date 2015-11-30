@@ -19,7 +19,7 @@
 @property (weak, nonatomic) czzHomeViewManager *homeViewManager;
 @property (weak, nonatomic) czzThreadTableView *myTableView;
 
-- (void)replyToThread:(czzThread *)thread;
+- (void)replyToThread:(czzThread *)thread inParentThread:(czzThread *)parentThread;
 - (void)replyMainThread:(czzThread *)thread;
 - (void)reportThread:(czzThread *)selectedThread inParentThread:(czzThread *)parentThread;
 + (instancetype)sharedInstance;

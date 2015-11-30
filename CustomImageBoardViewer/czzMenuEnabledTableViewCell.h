@@ -27,7 +27,7 @@
 -(void)userTapInQuotedText:(NSString*)text;
 -(void)userTapInImageView:(NSString*)imgURL;
 // Menu actions
-- (void)userWantsToReply:(czzThread *)thread;
+- (void)userWantsToReply:(czzThread *)thread inParentThread:(czzThread *)parentThread;
 - (void)userWantsToHighLight:(czzThread *)thread;
 - (void)userWantsToSearch:(czzThread *)thread;
 @end

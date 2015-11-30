@@ -38,13 +38,16 @@
 }
 
 -(void)sendPost{
-    //has parent thread, should reply to it
-    if (parentThread) {
-        targetURL = [NSURL URLWithString:[[settingCentre reply_post_url] stringByReplacingOccurrencesOfString:kParentID withString:[NSString stringWithFormat:@"%ld", (long)parentThread.ID]]];
-    }
-    //does not have parent thread, should create a new thread instead.
-    else {
-        targetURL = [NSURL URLWithString:[[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:kForum withString:[forum.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    switch (self.postMode) {
+        case postSenderModeNew:
+            targetURL = [NSURL URLWithString:[[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:kForum withString:[forum.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+            break;
+        case postSenderModeReply:
+            targetURL = [NSURL URLWithString:[[settingCentre reply_post_url] stringByReplacingOccurrencesOfString:kParentID withString:[NSString stringWithFormat:@"%ld", (long)parentThread.ID]]];
+            break;
+        default:
+            [NSException raise:@"ACTION NOT SUPPORTED" format:@"%s", __func__];
+            break;
     }
     urlRequest = [self createMutableURLRequestWithURL:targetURL];
     if (myPost.isReady && urlRequest){

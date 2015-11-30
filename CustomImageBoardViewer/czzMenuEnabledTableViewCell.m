@@ -101,8 +101,8 @@
 }
 
 -(void)menuActionReply:(id)sender{
-    if ([self.delegate respondsToSelector:@selector(userWantsToReply:)]) {
-        [self.delegate userWantsToReply:self.myThread];
+    if ([self.delegate respondsToSelector:@selector(userWantsToReply:inParentThread:)]) {
+        [self.delegate userWantsToReply:self.myThread inParentThread:self.parentThread];
     }
 }
 
