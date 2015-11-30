@@ -20,13 +20,15 @@
 #import "czzCacheCleaner.h"
 #import <Google/Analytics.h>
 
+#import <WatchConnectivity/WatchConnectivity.h>
+
 #ifndef TARGET_IPHONE_SIMULATOR
 #import "TalkingData.h"
 #endif
 //#import <BugSense-iOS/BugSenseController.h>
 #import <SplunkMint-iOS/SplunkMint-iOS.h>
 
-@interface czzAppDelegate()<czzBlacklistDownloaderDelegate, czzHomeViewManagerDelegate>
+@interface czzAppDelegate()<czzBlacklistDownloaderDelegate, czzHomeViewManagerDelegate, WCSessionDelegate>
 @property czzSettingsCentre *settingsCentre;
 @end
 
@@ -59,7 +61,6 @@
     myhost = my_main_host;
     settingsCentre = [czzSettingsCentre sharedInstance];
     
-    
     [self checkFolders];
     // Check cookie
     CookieManager;
@@ -68,6 +69,12 @@
     // Prepare to launch
     AppActivityManager;
     
+    // The watchkit session.
+    if ([WCSession isSupported]) {
+        WCSession *session = [WCSession defaultSession];
+        session.delegate = self;
+        [session activateSession];
+    }
     return YES;
 }
 							
@@ -93,16 +100,17 @@
     return NO;
 }
 
-#pragma mark - Watch kit extension
+#pragma mark - WCSessionDelegate
 
-- (void)application:(UIApplication *)application handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))reply {
+- (void)session:(WCSession *)session didReceiveMessage:(NSDictionary<NSString *,id> *)message replyHandler:(void (^)(NSDictionary<NSString *,id> * _Nonnull))replyHandler {
     __block UIBackgroundTaskIdentifier wkBackgroundTaskIdentifier;
     wkBackgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithName:@"backgroundTask"
                                                                               expirationHandler:^{
                                                                                   wkBackgroundTaskIdentifier = UIBackgroundTaskInvalid;
                                                                               }];
-
-    [[czzWatchKitManager sharedManager] handleWatchKitExtensionRequest:userInfo reply:reply withBackgroundTaskIdentifier:wkBackgroundTaskIdentifier];
+    [[czzWatchKitManager sharedManager] handleWatchKitExtensionRequest:message
+                                                                 reply:replyHandler
+                                          withBackgroundTaskIdentifier:wkBackgroundTaskIdentifier];
 }
 
 #pragma mark - background fetch

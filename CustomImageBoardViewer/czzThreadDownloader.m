@@ -59,6 +59,18 @@
     }
 }
 
+- (void)notifyDelegateSuccess:(BOOL)success downloadedThreads:(NSArray *)downloadedThreads error:(NSError *)error {
+    if ([self.delegate respondsToSelector:@selector(threadDownloaderCompleted:success:downloadedThreads:error:)]) {
+        [self.delegate threadDownloaderCompleted:self
+                                         success:success
+                               downloadedThreads:downloadedThreads
+                                           error:error];
+    }
+    if (self.completionHandler) {
+        self.completionHandler(success, downloadedThreads, error);
+    }
+}
+
 #pragma mark - Setters
 
 - (void)setParentForum:(czzForum *)parentForum {
@@ -125,10 +137,7 @@
         });
     } else {
         // Inform delegate about the failure.
-        [self.delegate threadDownloaderCompleted:self
-                                         success:NO
-                               downloadedThreads:nil
-                                           error:nil];
+        [self notifyDelegateSuccess:NO downloadedThreads:nil error:nil];
     }
 }
 
@@ -144,19 +153,13 @@
 - (void)threadListProcessed:(czzJSONProcessor *)processor :(NSArray *)newThread :(BOOL)success {
     // TODO: give proper error.
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.delegate threadDownloaderCompleted:self
-                                         success:success
-                               downloadedThreads:newThread
-                                           error:nil];
+        [self notifyDelegateSuccess:success downloadedThreads:newThread error:nil];
     });
 }
 
 - (void)subThreadProcessedForThread:(czzJSONProcessor *)processor :(czzThread *)parentThread :(NSArray *)newThread :(BOOL)success {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.delegate threadDownloaderCompleted:self
-                                         success:success
-                               downloadedThreads:newThread
-                                           error:nil];
+        [self notifyDelegateSuccess:success downloadedThreads:newThread error:nil];
     });
 }
 

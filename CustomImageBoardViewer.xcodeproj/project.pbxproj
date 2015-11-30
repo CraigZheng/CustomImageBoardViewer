@@ -25,20 +25,10 @@
 		4416B72519413EAF00B69C5B /* FPPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4416B72019413EAF00B69C5B /* FPPopoverController.m */; };
 		4416B72619413EAF00B69C5B /* FPPopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4416B72219413EAF00B69C5B /* FPPopoverView.m */; };
 		4416B72719413EAF00B69C5B /* FPTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4416B72419413EAF00B69C5B /* FPTouchView.m */; };
-		441A6A731BAE78FB008E380C /* czzWKThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A721BAE78FB008E380C /* czzWKThreadViewController.m */; };
-		441A6A761BAE8B4A008E380C /* czzWKForum.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A751BAE8B4A008E380C /* czzWKForum.m */; };
-		441A6A771BAE8B4A008E380C /* czzWKForum.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A751BAE8B4A008E380C /* czzWKForum.m */; };
-		441A6A781BAE8B4A008E380C /* czzWKForum.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A751BAE8B4A008E380C /* czzWKForum.m */; };
-		441A6A7B1BAE995A008E380C /* czzWKForumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A7A1BAE995A008E380C /* czzWKForumViewController.m */; };
-		441A6A7C1BAE995A008E380C /* czzWKForumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A7A1BAE995A008E380C /* czzWKForumViewController.m */; };
-		441A6A7D1BAE995A008E380C /* czzWKForumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A7A1BAE995A008E380C /* czzWKForumViewController.m */; };
 		441A6A821BAEC013008E380C /* czzWatchListManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A811BAEC013008E380C /* czzWatchListManager.m */; };
 		441A6A831BAEC013008E380C /* czzWatchListManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A811BAEC013008E380C /* czzWatchListManager.m */; };
 		441A6A851BB28D96008E380C /* visible@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 441A6A841BB28D96008E380C /* visible@2x.png */; };
-		441A6A861BB28D96008E380C /* visible@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 441A6A841BB28D96008E380C /* visible@2x.png */; };
-		441A6A871BB28D96008E380C /* visible@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 441A6A841BB28D96008E380C /* visible@2x.png */; };
 		441A6A881BB28D96008E380C /* visible@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 441A6A841BB28D96008E380C /* visible@2x.png */; };
-		441A6A8B1BB28DF7008E380C /* CustomImageBoardViewer WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4476B6341B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		441A6A941BB2939C008E380C /* czzRoundButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A931BB2939C008E380C /* czzRoundButton.m */; };
 		441A6A961BB2939C008E380C /* czzRoundButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A931BB2939C008E380C /* czzRoundButton.m */; };
 		441E5CCF17F4691300289DBD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5CCE17F4691300289DBD /* Foundation.framework */; };
@@ -596,20 +586,11 @@
 		446656CA1BEAF9390045276B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 442066221BE846820023D91F /* GoogleService-Info.plist */; };
 		4468A7111BBBC0480076DCD6 /* czzWeakReferenceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */; };
 		4468A7121BBBC0480076DCD6 /* czzWeakReferenceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */; };
-		4476B63A1B9FDD43004E6650 /* InterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4476B6391B9FDD43004E6650 /* InterfaceController.m */; };
-		4476B63D1B9FDD43004E6650 /* GlanceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4476B63C1B9FDD43004E6650 /* GlanceController.m */; };
-		4476B63F1B9FDD43004E6650 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4476B63E1B9FDD43004E6650 /* Images.xcassets */; };
-		4476B64B1B9FDD43004E6650 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4476B6491B9FDD43004E6650 /* Interface.storyboard */; };
-		4476B64D1B9FDD43004E6650 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4476B64C1B9FDD43004E6650 /* Images.xcassets */; };
 		44792C711BBAC34400AF5CB5 /* NSFileManager+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 44792C701BBAC34400AF5CB5 /* NSFileManager+Util.m */; };
 		44792C721BBAC34400AF5CB5 /* NSFileManager+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 44792C701BBAC34400AF5CB5 /* NSFileManager+Util.m */; };
 		4479B07D1A0BB8E70074D484 /* czzTextViewHeightCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4479B07C1A0BB8E70074D484 /* czzTextViewHeightCalculator.m */; };
 		4479B08A1A0CCB270074D484 /* MiniThreadView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4479B0891A0CCB270074D484 /* MiniThreadView.storyboard */; };
 		4479B0901A0CCB6D0074D484 /* czzMiniThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4479B08F1A0CCB6D0074D484 /* czzMiniThreadViewController.m */; };
-		447CD6921BABF4E800C4E70B /* czzWKThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 447CD6911BABF4E800C4E70B /* czzWKThread.m */; };
-		447CD6931BABF4E800C4E70B /* czzWKThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 447CD6911BABF4E800C4E70B /* czzWKThread.m */; };
-		447CD6941BABF4E800C4E70B /* czzWKThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 447CD6911BABF4E800C4E70B /* czzWKThread.m */; };
-		447CD6951BABF4E800C4E70B /* czzWKThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 447CD6911BABF4E800C4E70B /* czzWKThread.m */; };
 		447E06231BC2391900D24087 /* trash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 447E06221BC2391900D24087 /* trash@2x.png */; };
 		447E06241BC2391900D24087 /* trash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 447E06221BC2391900D24087 /* trash@2x.png */; };
 		447E06261BC23C4200D24087 /* FavouriteManager.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 447E06251BC23C4200D24087 /* FavouriteManager.storyboard */; };
@@ -624,6 +605,7 @@
 		44858EAC1A0C5B0A00DD822B /* czzImageViewerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44858EAB1A0C5B0A00DD822B /* czzImageViewerUtil.m */; };
 		4485F4FC19F5FF38007A73CC /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 4485F4FB19F5FF38007A73CC /* NSString+HTML.m */; };
 		448C85E41A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 448C85E31A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib */; };
+		449472761C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 449472751C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m */; };
 		4498A7D21B89978200312A11 /* czzTableViewRefreshView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4498A7D11B89978200312A11 /* czzTableViewRefreshView.xib */; };
 		4498A7DF1B89982600312A11 /* ALView+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498A7D71B89982600312A11 /* ALView+PureLayout.m */; };
 		4498A7E01B89982600312A11 /* NSArray+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498A7D91B89982600312A11 /* NSArray+PureLayout.m */; };
@@ -639,6 +621,23 @@
 		449E928B1BF8A33300EE2F58 /* czzThreadDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 449E92891BF8A33300EE2F58 /* czzThreadDownloader.m */; };
 		449E928E1BF9D15C00EE2F58 /* czzModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 449E928D1BF9D15C00EE2F58 /* czzModalViewController.m */; };
 		449E928F1BF9D15C00EE2F58 /* czzModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 449E928D1BF9D15C00EE2F58 /* czzModalViewController.m */; };
+		44A2948E1BFDEFF50033D438 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44A2948C1BFDEFF50033D438 /* Interface.storyboard */; };
+		44A294901BFDEFF50033D438 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44A2948F1BFDEFF50033D438 /* Assets.xcassets */; };
+		44A294971BFDEFF60033D438 /* CIVWatchApp Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 44A294961BFDEFF50033D438 /* CIVWatchApp Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		44A294A21BFDEFF60033D438 /* ExtensionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294A11BFDEFF60033D438 /* ExtensionDelegate.m */; };
+		44A294A51BFDEFF60033D438 /* NotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294A41BFDEFF60033D438 /* NotificationController.m */; };
+		44A294A71BFDEFF60033D438 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44A294A61BFDEFF60033D438 /* Assets.xcassets */; };
+		44A294AB1BFDEFF60033D438 /* CIVWatchApp.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 44A2948A1BFDEFF50033D438 /* CIVWatchApp.app */; };
+		44A294C31BFDF1050033D438 /* czzWatchKitHomeRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294B71BFDF1050033D438 /* czzWatchKitHomeRowController.m */; };
+		44A294C41BFDF1050033D438 /* czzWKForumInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294B91BFDF1050033D438 /* czzWKForumInterfaceController.m */; };
+		44A294C51BFDF1050033D438 /* czzWKThreadInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294BB1BFDF1050033D438 /* czzWKThreadInterfaceController.m */; };
+		44A294C61BFDF1050033D438 /* InterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294BD1BFDF1050033D438 /* InterfaceController.m */; };
+		44A294C71BFDF1050033D438 /* czzWKForum.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294C01BFDF1050033D438 /* czzWKForum.m */; };
+		44A294C81BFDF1050033D438 /* czzWKThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294C21BFDF1050033D438 /* czzWKThread.m */; };
+		44A294C91BFDF13A0033D438 /* czzWKForum.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294C01BFDF1050033D438 /* czzWKForum.m */; };
+		44A294CA1BFDF13B0033D438 /* czzWKForum.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294C01BFDF1050033D438 /* czzWKForum.m */; };
+		44A294CB1BFDF1420033D438 /* czzWKThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294C21BFDF1050033D438 /* czzWKThread.m */; };
+		44A294CC1BFDF1430033D438 /* czzWKThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294C21BFDF1050033D438 /* czzWKThread.m */; };
 		44A9E1531AE1D16000740CE1 /* Icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = 44A9E1491AE1D16000740CE1 /* Icon-60.png */; };
 		44A9E1541AE1D16000740CE1 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 44A9E14A1AE1D16000740CE1 /* Icon-72.png */; };
 		44A9E1551AE1D16000740CE1 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44A9E14B1AE1D16000740CE1 /* Icon-72@2x.png */; };
@@ -672,6 +671,8 @@
 		44B96E33185B8B8100D664A4 /* czzImageManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B96E32185B8B8100D664A4 /* czzImageManagerViewController.m */; };
 		44B96E37185B97C400D664A4 /* czzSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B96E36185B97C400D664A4 /* czzSettingsViewController.m */; };
 		44BB0BC31A1AE700006C50F5 /* SplunkMint-iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44BB0BC21A1AE700006C50F5 /* SplunkMint-iOS.framework */; };
+		44BB9A981C02B4A800B7BCED /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25401A25A2A500BD8228 /* picture.png */; };
+		44BB9A991C02B4A800B7BCED /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25401A25A2A500BD8228 /* picture.png */; };
 		44BE2E3A19383FEF00601943 /* czzOnScreenCommandViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BE2E3819383FEF00601943 /* czzOnScreenCommandViewController.m */; };
 		44BFEF411B8C0D7B0095772B /* DeviceHardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BFEF401B8C0D7B0095772B /* DeviceHardware.m */; };
 		44C34543187E59A500FDE45D /* UIViewController+KNSemiModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C34542187E59A500FDE45D /* UIViewController+KNSemiModal.m */; };
@@ -771,16 +772,7 @@
 		44E469DC1BAC421D00C0AACC /* czzWatchKitManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469DB1BAC421D00C0AACC /* czzWatchKitManager.m */; };
 		44E469DD1BAC421D00C0AACC /* czzWatchKitManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469DB1BAC421D00C0AACC /* czzWatchKitManager.m */; };
 		44E469E11BAD9B5000C0AACC /* czzWatchKitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469E01BAD9B5000C0AACC /* czzWatchKitCommand.m */; };
-		44E469E21BAD9B5000C0AACC /* czzWatchKitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469E01BAD9B5000C0AACC /* czzWatchKitCommand.m */; };
 		44E469E31BAD9B5000C0AACC /* czzWatchKitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469E01BAD9B5000C0AACC /* czzWatchKitCommand.m */; };
-		44E469E61BADA54300C0AACC /* czzWatchKitHomeRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469E51BADA54300C0AACC /* czzWatchKitHomeRowController.m */; };
-		44E469E71BADA54300C0AACC /* czzWatchKitHomeRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469E51BADA54300C0AACC /* czzWatchKitHomeRowController.m */; };
-		44E469E81BADA54300C0AACC /* czzWatchKitHomeRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469E51BADA54300C0AACC /* czzWatchKitHomeRowController.m */; };
-		44E469E91BADB0C900C0AACC /* 01.png in Resources */ = {isa = PBXBuildFile; fileRef = 444F5ADE1A40EA3500EB391F /* 01.png */; };
-		44E469EA1BADB0CA00C0AACC /* 01.png in Resources */ = {isa = PBXBuildFile; fileRef = 444F5ADE1A40EA3500EB391F /* 01.png */; };
-		44E469EB1BADB0D100C0AACC /* 02.png in Resources */ = {isa = PBXBuildFile; fileRef = 444F5ADF1A40EA3500EB391F /* 02.png */; };
-		44E469EC1BADB10500C0AACC /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25401A25A2A500BD8228 /* picture.png */; };
-		44E469ED1BADB10600C0AACC /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25401A25A2A500BD8228 /* picture.png */; };
 		44E791811A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */; };
 		44E791CD1A17856500A63C04 /* advance.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918D1A17856500A63C04 /* advance.png */; };
 		44E791CE1A17856500A63C04 /* advance@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918E1A17856500A63C04 /* advance@2x.png */; };
@@ -845,6 +837,7 @@
 		44E7920A1A17856500A63C04 /* view.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E791CA1A17856500A63C04 /* view.png */; };
 		44E7920B1A17856500A63C04 /* view@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E791CB1A17856500A63C04 /* view@2x.png */; };
 		44E7920C1A17856500A63C04 /* view@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E791CC1A17856500A63C04 /* view@3x.png */; };
+		44F86B651BFE0012001306E8 /* czzWatchKitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469E01BAD9B5000C0AACC /* czzWatchKitCommand.m */; };
 		44FC4345180067CF0028D7C9 /* czzPostSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 44FC4344180067CF0028D7C9 /* czzPostSender.m */; };
 		5A0A6BD61848691C0094D7FB /* czzMoreInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0A6BD51848691C0094D7FB /* czzMoreInfoViewController.m */; };
 		5A1593EC18E71E93001A774B /* czzThreadRefButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1593EB18E71E93001A774B /* czzThreadRefButton.m */; };
@@ -864,13 +857,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		441A6A891BB28DF7008E380C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 441E5CC317F4691300289DBD /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4476B6331B9FDD43004E6650;
-			remoteInfo = "CustomImageBoardViewer WatchKit Extension";
-		};
 		441E5CF417F4691300289DBD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 441E5CC317F4691300289DBD /* Project object */;
@@ -878,28 +864,50 @@
 			remoteGlobalIDString = 441E5CCA17F4691300289DBD;
 			remoteInfo = CustomImageBoardViewer;
 		};
+		44A294981BFDEFF60033D438 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 441E5CC317F4691300289DBD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 44A294951BFDEFF50033D438;
+			remoteInfo = "CIVWatchApp Extension";
+		};
+		44A294A91BFDEFF60033D438 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 441E5CC317F4691300289DBD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 44A294891BFDEFF50033D438;
+			remoteInfo = CIVWatchApp;
+		};
+		44A294CD1BFDF1600033D438 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 441E5CC317F4691300289DBD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 44A294891BFDEFF50033D438;
+			remoteInfo = CIVWatchApp;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		441A6A8F1BB28DF7008E380C /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				441A6A8B1BB28DF7008E380C /* CustomImageBoardViewer WatchKit Extension.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		441A6A901BB28DF7008E380C /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
+				44A294AB1BFDEFF60033D438 /* CIVWatchApp.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		44A294AF1BFDEFF60033D438 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				44A294971BFDEFF60033D438 /* CIVWatchApp Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -941,12 +949,6 @@
 		4416B72219413EAF00B69C5B /* FPPopoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPPopoverView.m; sourceTree = "<group>"; };
 		4416B72319413EAF00B69C5B /* FPTouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FPTouchView.h; sourceTree = "<group>"; };
 		4416B72419413EAF00B69C5B /* FPTouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPTouchView.m; sourceTree = "<group>"; };
-		441A6A711BAE78FB008E380C /* czzWKThreadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWKThreadViewController.h; sourceTree = "<group>"; };
-		441A6A721BAE78FB008E380C /* czzWKThreadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWKThreadViewController.m; sourceTree = "<group>"; };
-		441A6A741BAE8B4A008E380C /* czzWKForum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWKForum.h; sourceTree = "<group>"; };
-		441A6A751BAE8B4A008E380C /* czzWKForum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWKForum.m; sourceTree = "<group>"; };
-		441A6A791BAE995A008E380C /* czzWKForumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWKForumViewController.h; sourceTree = "<group>"; };
-		441A6A7A1BAE995A008E380C /* czzWKForumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWKForumViewController.m; sourceTree = "<group>"; };
 		441A6A801BAEC013008E380C /* czzWatchListManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWatchListManager.h; sourceTree = "<group>"; };
 		441A6A811BAEC013008E380C /* czzWatchListManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWatchListManager.m; sourceTree = "<group>"; };
 		441A6A841BB28D96008E380C /* visible@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "visible@2x.png"; sourceTree = "<group>"; };
@@ -1256,17 +1258,6 @@
 		4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFavouriteManagerViewController.m; sourceTree = "<group>"; };
 		4468A70F1BBBC0480076DCD6 /* czzWeakReferenceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWeakReferenceDelegate.h; sourceTree = "<group>"; };
 		4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWeakReferenceDelegate.m; sourceTree = "<group>"; };
-		4476B6341B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "CustomImageBoardViewer WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4476B6371B9FDD43004E6650 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4476B6381B9FDD43004E6650 /* InterfaceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterfaceController.h; sourceTree = "<group>"; };
-		4476B6391B9FDD43004E6650 /* InterfaceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InterfaceController.m; sourceTree = "<group>"; };
-		4476B63B1B9FDD43004E6650 /* GlanceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GlanceController.h; sourceTree = "<group>"; };
-		4476B63C1B9FDD43004E6650 /* GlanceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GlanceController.m; sourceTree = "<group>"; };
-		4476B63E1B9FDD43004E6650 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		4476B6421B9FDD43004E6650 /* CustomImageBoardViewer WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CustomImageBoardViewer WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4476B6481B9FDD43004E6650 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4476B64A1B9FDD43004E6650 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
-		4476B64C1B9FDD43004E6650 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		44792C6F1BBAC34400AF5CB5 /* NSFileManager+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Util.h"; sourceTree = "<group>"; };
 		44792C701BBAC34400AF5CB5 /* NSFileManager+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Util.m"; sourceTree = "<group>"; };
 		4479B07B1A0BB8E70074D484 /* czzTextViewHeightCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzTextViewHeightCalculator.h; sourceTree = "<group>"; };
@@ -1274,8 +1265,6 @@
 		4479B0891A0CCB270074D484 /* MiniThreadView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MiniThreadView.storyboard; sourceTree = "<group>"; };
 		4479B08E1A0CCB6D0074D484 /* czzMiniThreadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzMiniThreadViewController.h; sourceTree = "<group>"; };
 		4479B08F1A0CCB6D0074D484 /* czzMiniThreadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzMiniThreadViewController.m; sourceTree = "<group>"; };
-		447CD6901BABF4E800C4E70B /* czzWKThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWKThread.h; sourceTree = "<group>"; };
-		447CD6911BABF4E800C4E70B /* czzWKThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWKThread.m; sourceTree = "<group>"; };
 		447E06221BC2391900D24087 /* trash@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "trash@2x.png"; sourceTree = "<group>"; };
 		447E06251BC23C4200D24087 /* FavouriteManager.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FavouriteManager.storyboard; sourceTree = "<group>"; };
 		447E06291BC2426900D24087 /* czzFavouriteManagerPopUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFavouriteManagerPopUpViewController.h; sourceTree = "<group>"; };
@@ -1290,6 +1279,8 @@
 		4485F4FA19F5FF38007A73CC /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
 		4485F4FB19F5FF38007A73CC /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTML.m"; sourceTree = "<group>"; };
 		448C85E31A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzThreadViewBigImageTableViewCell.xib; sourceTree = "<group>"; };
+		449472741C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WKInterfaceImage+ActivityIndicator.h"; sourceTree = "<group>"; };
+		449472751C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WKInterfaceImage+ActivityIndicator.m"; sourceTree = "<group>"; };
 		4498A7D11B89978200312A11 /* czzTableViewRefreshView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzTableViewRefreshView.xib; sourceTree = "<group>"; };
 		4498A7D61B89982600312A11 /* ALView+PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALView+PureLayout.h"; sourceTree = "<group>"; };
 		4498A7D71B89982600312A11 /* ALView+PureLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALView+PureLayout.m"; sourceTree = "<group>"; };
@@ -1315,6 +1306,31 @@
 		449E92891BF8A33300EE2F58 /* czzThreadDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadDownloader.m; sourceTree = "<group>"; };
 		449E928C1BF9D15C00EE2F58 /* czzModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzModalViewController.h; sourceTree = "<group>"; };
 		449E928D1BF9D15C00EE2F58 /* czzModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzModalViewController.m; sourceTree = "<group>"; };
+		44A2948A1BFDEFF50033D438 /* CIVWatchApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CIVWatchApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		44A2948D1BFDEFF50033D438 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		44A2948F1BFDEFF50033D438 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		44A294911BFDEFF50033D438 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		44A294961BFDEFF50033D438 /* CIVWatchApp Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "CIVWatchApp Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		44A2949C1BFDEFF60033D438 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		44A294A01BFDEFF60033D438 /* ExtensionDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExtensionDelegate.h; sourceTree = "<group>"; };
+		44A294A11BFDEFF60033D438 /* ExtensionDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExtensionDelegate.m; sourceTree = "<group>"; };
+		44A294A31BFDEFF60033D438 /* NotificationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationController.h; sourceTree = "<group>"; };
+		44A294A41BFDEFF60033D438 /* NotificationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationController.m; sourceTree = "<group>"; };
+		44A294A61BFDEFF60033D438 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		44A294A81BFDEFF60033D438 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		44A294B61BFDF1050033D438 /* czzWatchKitHomeRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWatchKitHomeRowController.h; sourceTree = "<group>"; };
+		44A294B71BFDF1050033D438 /* czzWatchKitHomeRowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWatchKitHomeRowController.m; sourceTree = "<group>"; };
+		44A294B81BFDF1050033D438 /* czzWKForumInterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWKForumInterfaceController.h; sourceTree = "<group>"; };
+		44A294B91BFDF1050033D438 /* czzWKForumInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWKForumInterfaceController.m; sourceTree = "<group>"; };
+		44A294BA1BFDF1050033D438 /* czzWKThreadInterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWKThreadInterfaceController.h; sourceTree = "<group>"; };
+		44A294BB1BFDF1050033D438 /* czzWKThreadInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWKThreadInterfaceController.m; sourceTree = "<group>"; };
+		44A294BC1BFDF1050033D438 /* InterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceController.h; sourceTree = "<group>"; };
+		44A294BD1BFDF1050033D438 /* InterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InterfaceController.m; sourceTree = "<group>"; };
+		44A294BF1BFDF1050033D438 /* czzWKForum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWKForum.h; sourceTree = "<group>"; };
+		44A294C01BFDF1050033D438 /* czzWKForum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWKForum.m; sourceTree = "<group>"; };
+		44A294C11BFDF1050033D438 /* czzWKThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWKThread.h; sourceTree = "<group>"; };
+		44A294C21BFDF1050033D438 /* czzWKThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWKThread.m; sourceTree = "<group>"; };
+		44A294CF1BFDF7630033D438 /* CIVWatchApp.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CIVWatchApp.pch; sourceTree = "<group>"; };
 		44A9E1491AE1D16000740CE1 /* Icon-60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60.png"; sourceTree = "<group>"; };
 		44A9E14A1AE1D16000740CE1 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		44A9E14B1AE1D16000740CE1 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
@@ -1389,6 +1405,7 @@
 		44C89ADB185C145C00E65B73 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		44CBF3FE1BC9245300DFECFC /* czzCacheCleaner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzCacheCleaner.h; sourceTree = "<group>"; };
 		44CBF3FF1BC9245300DFECFC /* czzCacheCleaner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzCacheCleaner.m; sourceTree = "<group>"; };
+		44CBF4061BC93E2700DFECFC /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS2.0.sdk/System/Library/Frameworks/WatchConnectivity.framework; sourceTree = DEVELOPER_DIR; };
 		44CF253D1A25A2A500BD8228 /* sent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sent.png; sourceTree = "<group>"; };
 		44CF253E1A25A2A500BD8228 /* delete_file.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_file.png; sourceTree = "<group>"; };
 		44CF253F1A25A2A500BD8228 /* lol.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lol.png; sourceTree = "<group>"; };
@@ -1461,8 +1478,6 @@
 		44E469DB1BAC421D00C0AACC /* czzWatchKitManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWatchKitManager.m; sourceTree = "<group>"; };
 		44E469DF1BAD9B5000C0AACC /* czzWatchKitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWatchKitCommand.h; sourceTree = "<group>"; };
 		44E469E01BAD9B5000C0AACC /* czzWatchKitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWatchKitCommand.m; sourceTree = "<group>"; };
-		44E469E41BADA54300C0AACC /* czzWatchKitHomeRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWatchKitHomeRowController.h; sourceTree = "<group>"; };
-		44E469E51BADA54300C0AACC /* czzWatchKitHomeRowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWatchKitHomeRowController.m; sourceTree = "<group>"; };
 		44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NotificationCentreStoryBoard.storyboard; sourceTree = "<group>"; };
 		44E7918D1A17856500A63C04 /* advance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = advance.png; sourceTree = "<group>"; };
 		44E7918E1A17856500A63C04 /* advance@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "advance@2x.png"; sourceTree = "<group>"; };
@@ -1626,7 +1641,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4476B6311B9FDD43004E6650 /* Frameworks */ = {
+		44A294931BFDEFF50033D438 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1746,8 +1761,8 @@
 			children = (
 				441E5CD417F4691300289DBD /* CustomImageBoardViewer */,
 				441E5CF617F4691300289DBD /* CustomImageBoardViewerTests */,
-				4476B6351B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension */,
-				4476B6461B9FDD43004E6650 /* CustomImageBoardViewer WatchKit App */,
+				44A2948B1BFDEFF50033D438 /* CIVWatchApp */,
+				44A2949A1BFDEFF60033D438 /* CIVWatchApp Extension */,
 				441E5CCD17F4691300289DBD /* Frameworks */,
 				441E5CCC17F4691300289DBD /* Products */,
 				4455415B1BABEBA700667435 /* CustomImageBoardViewer copy-Info.plist */,
@@ -1760,9 +1775,9 @@
 			children = (
 				441E5CCB17F4691300289DBD /* CustomImageBoardViewer.app */,
 				441E5CEF17F4691300289DBD /* CustomImageBoardViewerTests.xctest */,
-				4476B6341B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension.appex */,
-				4476B6421B9FDD43004E6650 /* CustomImageBoardViewer WatchKit App.app */,
 				4455415A1BABEBA700667435 /* CustomImageBoardViewer copy.app */,
+				44A2948A1BFDEFF50033D438 /* CIVWatchApp.app */,
+				44A294961BFDEFF50033D438 /* CIVWatchApp Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1770,6 +1785,7 @@
 		441E5CCD17F4691300289DBD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				44CBF4061BC93E2700DFECFC /* WatchConnectivity.framework */,
 				4498CEC31B9E756D004D2380 /* CoreTelephony.framework */,
 				4498CEC11B9E754A004D2380 /* Security.framework */,
 				442A901719DB9BAF00A3516E /* libxml2.dylib */,
@@ -2437,55 +2453,6 @@
 			name = czzFavouriteManagerVIewController;
 			sourceTree = "<group>";
 		};
-		4476B6351B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension */ = {
-			isa = PBXGroup;
-			children = (
-				4476B6381B9FDD43004E6650 /* InterfaceController.h */,
-				4476B6391B9FDD43004E6650 /* InterfaceController.m */,
-				4476B63B1B9FDD43004E6650 /* GlanceController.h */,
-				4476B63C1B9FDD43004E6650 /* GlanceController.m */,
-				4476B63E1B9FDD43004E6650 /* Images.xcassets */,
-				4476B6361B9FDD43004E6650 /* Supporting Files */,
-				447CD6901BABF4E800C4E70B /* czzWKThread.h */,
-				447CD6911BABF4E800C4E70B /* czzWKThread.m */,
-				441A6A741BAE8B4A008E380C /* czzWKForum.h */,
-				441A6A751BAE8B4A008E380C /* czzWKForum.m */,
-				441A6A711BAE78FB008E380C /* czzWKThreadViewController.h */,
-				441A6A721BAE78FB008E380C /* czzWKThreadViewController.m */,
-				441A6A791BAE995A008E380C /* czzWKForumViewController.h */,
-				441A6A7A1BAE995A008E380C /* czzWKForumViewController.m */,
-			);
-			path = "CustomImageBoardViewer WatchKit Extension";
-			sourceTree = "<group>";
-		};
-		4476B6361B9FDD43004E6650 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				4476B6371B9FDD43004E6650 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		4476B6461B9FDD43004E6650 /* CustomImageBoardViewer WatchKit App */ = {
-			isa = PBXGroup;
-			children = (
-				4476B6491B9FDD43004E6650 /* Interface.storyboard */,
-				4476B64C1B9FDD43004E6650 /* Images.xcassets */,
-				4476B6471B9FDD43004E6650 /* Supporting Files */,
-				44E469E41BADA54300C0AACC /* czzWatchKitHomeRowController.h */,
-				44E469E51BADA54300C0AACC /* czzWatchKitHomeRowController.m */,
-			);
-			path = "CustomImageBoardViewer WatchKit App";
-			sourceTree = "<group>";
-		};
-		4476B6471B9FDD43004E6650 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				4476B6481B9FDD43004E6650 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		4479B0911A0CCB750074D484 /* MiniThreadView */ = {
 			isa = PBXGroup;
 			children = (
@@ -2581,6 +2548,70 @@
 				449E92891BF8A33300EE2F58 /* czzThreadDownloader.m */,
 			);
 			name = czzThreadDownloader;
+			sourceTree = "<group>";
+		};
+		44A2948B1BFDEFF50033D438 /* CIVWatchApp */ = {
+			isa = PBXGroup;
+			children = (
+				44A2948C1BFDEFF50033D438 /* Interface.storyboard */,
+				44A2948F1BFDEFF50033D438 /* Assets.xcassets */,
+				44A294911BFDEFF50033D438 /* Info.plist */,
+			);
+			path = CIVWatchApp;
+			sourceTree = "<group>";
+		};
+		44A2949A1BFDEFF60033D438 /* CIVWatchApp Extension */ = {
+			isa = PBXGroup;
+			children = (
+				44F86B661C048FF6001306E8 /* Images */,
+				44A294B51BFDF1050033D438 /* InterfaceController */,
+				44A294BE1BFDF1050033D438 /* Model */,
+				44A294A01BFDEFF60033D438 /* ExtensionDelegate.h */,
+				44A294A11BFDEFF60033D438 /* ExtensionDelegate.m */,
+				44A294A31BFDEFF60033D438 /* NotificationController.h */,
+				44A294A41BFDEFF60033D438 /* NotificationController.m */,
+				44A294A61BFDEFF60033D438 /* Assets.xcassets */,
+				44A294A81BFDEFF60033D438 /* Info.plist */,
+				44A2949B1BFDEFF60033D438 /* Supporting Files */,
+				44A294CF1BFDF7630033D438 /* CIVWatchApp.pch */,
+				449472741C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.h */,
+				449472751C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m */,
+			);
+			path = "CIVWatchApp Extension";
+			sourceTree = "<group>";
+		};
+		44A2949B1BFDEFF60033D438 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				44A2949C1BFDEFF60033D438 /* PushNotificationPayload.apns */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		44A294B51BFDF1050033D438 /* InterfaceController */ = {
+			isa = PBXGroup;
+			children = (
+				44A294B61BFDF1050033D438 /* czzWatchKitHomeRowController.h */,
+				44A294B71BFDF1050033D438 /* czzWatchKitHomeRowController.m */,
+				44A294B81BFDF1050033D438 /* czzWKForumInterfaceController.h */,
+				44A294B91BFDF1050033D438 /* czzWKForumInterfaceController.m */,
+				44A294BA1BFDF1050033D438 /* czzWKThreadInterfaceController.h */,
+				44A294BB1BFDF1050033D438 /* czzWKThreadInterfaceController.m */,
+				44A294BC1BFDF1050033D438 /* InterfaceController.h */,
+				44A294BD1BFDF1050033D438 /* InterfaceController.m */,
+			);
+			path = InterfaceController;
+			sourceTree = "<group>";
+		};
+		44A294BE1BFDF1050033D438 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				44A294BF1BFDF1050033D438 /* czzWKForum.h */,
+				44A294C01BFDF1050033D438 /* czzWKForum.m */,
+				44A294C11BFDF1050033D438 /* czzWKThread.h */,
+				44A294C21BFDF1050033D438 /* czzWKThread.m */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		44A9E0FF1AE1CAC600740CE1 /* GoogldAdmob */ = {
@@ -3062,6 +3093,13 @@
 			path = icons;
 			sourceTree = "<group>";
 		};
+		44F86B661C048FF6001306E8 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
 		44FC4346180067D80028D7C9 /* czzPostSender */ = {
 			isa = PBXGroup;
 			children = (
@@ -3171,6 +3209,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				44A294AA1BFDEFF60033D438 /* PBXTargetDependency */,
 			);
 			name = CustomImageBoardViewer;
 			productName = CustomImageBoardViewer;
@@ -3209,45 +3248,46 @@
 			buildRules = (
 			);
 			dependencies = (
+				44A294CE1BFDF1600033D438 /* PBXTargetDependency */,
 			);
 			name = "CIV-Simulator";
 			productName = CustomImageBoardViewer;
 			productReference = 4455415A1BABEBA700667435 /* CustomImageBoardViewer copy.app */;
 			productType = "com.apple.product-type.application";
 		};
-		4476B6331B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension */ = {
+		44A294891BFDEFF50033D438 /* CIVWatchApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4476B6561B9FDD43004E6650 /* Build configuration list for PBXNativeTarget "CustomImageBoardViewer WatchKit Extension" */;
+			buildConfigurationList = 44A294B01BFDEFF60033D438 /* Build configuration list for PBXNativeTarget "CIVWatchApp" */;
 			buildPhases = (
-				4476B6301B9FDD43004E6650 /* Sources */,
-				4476B6311B9FDD43004E6650 /* Frameworks */,
-				4476B6321B9FDD43004E6650 /* Resources */,
+				44A294881BFDEFF50033D438 /* Resources */,
+				44A294AF1BFDEFF60033D438 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				44A294991BFDEFF60033D438 /* PBXTargetDependency */,
 			);
-			name = "CustomImageBoardViewer WatchKit Extension";
-			productName = "CustomImageBoardViewer WatchKit Extension";
-			productReference = 4476B6341B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension.appex */;
-			productType = "com.apple.product-type.watchkit2-extension";
-		};
-		4476B6411B9FDD43004E6650 /* CustomImageBoardViewer WatchKit App */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 4476B6551B9FDD43004E6650 /* Build configuration list for PBXNativeTarget "CustomImageBoardViewer WatchKit App" */;
-			buildPhases = (
-				4476B6401B9FDD43004E6650 /* Resources */,
-				441A6A8F1BB28DF7008E380C /* Embed App Extensions */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				441A6A8A1BB28DF7008E380C /* PBXTargetDependency */,
-			);
-			name = "CustomImageBoardViewer WatchKit App";
-			productName = "CustomImageBoardViewer WatchKit App";
-			productReference = 4476B6421B9FDD43004E6650 /* CustomImageBoardViewer WatchKit App.app */;
+			name = CIVWatchApp;
+			productName = CIVWatchApp;
+			productReference = 44A2948A1BFDEFF50033D438 /* CIVWatchApp.app */;
 			productType = "com.apple.product-type.application.watchapp2";
+		};
+		44A294951BFDEFF50033D438 /* CIVWatchApp Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 44A294AC1BFDEFF60033D438 /* Build configuration list for PBXNativeTarget "CIVWatchApp Extension" */;
+			buildPhases = (
+				44A294921BFDEFF50033D438 /* Sources */,
+				44A294931BFDEFF50033D438 /* Frameworks */,
+				44A294941BFDEFF50033D438 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "CIVWatchApp Extension";
+			productName = "CIVWatchApp Extension";
+			productReference = 44A294961BFDEFF50033D438 /* CIVWatchApp Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -3281,13 +3321,12 @@
 							};
 						};
 					};
-					4476B6331B9FDD43004E6650 = {
-						CreatedOnToolsVersion = 6.4;
+					44A294891BFDEFF50033D438 = {
+						CreatedOnToolsVersion = 7.1.1;
 						DevelopmentTeam = 9EBE9MWW9X;
 					};
-					4476B6411B9FDD43004E6650 = {
-						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = 9EBE9MWW9X;
+					44A294951BFDEFF50033D438 = {
+						CreatedOnToolsVersion = 7.1.1;
 					};
 				};
 			};
@@ -3306,9 +3345,9 @@
 			targets = (
 				441E5CCA17F4691300289DBD /* CustomImageBoardViewer */,
 				441E5CEE17F4691300289DBD /* CustomImageBoardViewerTests */,
-				4476B6331B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension */,
-				4476B6411B9FDD43004E6650 /* CustomImageBoardViewer WatchKit App */,
 				44553FDB1BABEBA700667435 /* CIV-Simulator */,
+				44A294891BFDEFF50033D438 /* CIVWatchApp */,
+				44A294951BFDEFF50033D438 /* CIVWatchApp Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -3773,27 +3812,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4476B6321B9FDD43004E6650 /* Resources */ = {
+		44A294881BFDEFF50033D438 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				441A6A861BB28D96008E380C /* visible@2x.png in Resources */,
-				44E469E91BADB0C900C0AACC /* 01.png in Resources */,
-				44E469ED1BADB10600C0AACC /* picture.png in Resources */,
-				4476B63F1B9FDD43004E6650 /* Images.xcassets in Resources */,
-				44E469EB1BADB0D100C0AACC /* 02.png in Resources */,
+				44A294901BFDEFF50033D438 /* Assets.xcassets in Resources */,
+				44A2948E1BFDEFF50033D438 /* Interface.storyboard in Resources */,
+				44BB9A991C02B4A800B7BCED /* picture.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4476B6401B9FDD43004E6650 /* Resources */ = {
+		44A294941BFDEFF50033D438 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				44E469EA1BADB0CA00C0AACC /* 01.png in Resources */,
-				4476B64B1B9FDD43004E6650 /* Interface.storyboard in Resources */,
-				44E469EC1BADB10500C0AACC /* picture.png in Resources */,
-				441A6A871BB28D96008E380C /* visible@2x.png in Resources */,
-				4476B64D1B9FDD43004E6650 /* Images.xcassets in Resources */,
+				44BB9A981C02B4A800B7BCED /* picture.png in Resources */,
+				44A294A71BFDEFF60033D438 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3901,7 +3935,6 @@
 				442A901D19DB9C3C00A3516E /* HTMLNode.m in Sources */,
 				442A8FB719DB7DF200A3516E /* PSTGridLayoutSection.m in Sources */,
 				442F1FE21B15FC8500267698 /* UINavigationController+Util.m in Sources */,
-				44E469E61BADA54300C0AACC /* czzWatchKitHomeRowController.m in Sources */,
 				44C73B8E1A484F280051D4C2 /* czzFavouriteManager.m in Sources */,
 				442F1FD31B13500C00267698 /* czzAppActivityManager.m in Sources */,
 				4448C2AA180FF6C600D2CD76 /* czzBlacklistSender.m in Sources */,
@@ -3952,12 +3985,10 @@
 				44AE2AFA187254E4002CB021 /* czzMenuEnabledTableViewCell.m in Sources */,
 				4498A7E01B89982600312A11 /* NSArray+PureLayout.m in Sources */,
 				449E928E1BF9D15C00EE2F58 /* czzModalViewController.m in Sources */,
-				441A6A761BAE8B4A008E380C /* czzWKForum.m in Sources */,
 				44DF8ED31A74CAAA0097F7F5 /* czzCookieManager.m in Sources */,
 				5A27E140193CA11300D0094F /* czzNotificationManager.m in Sources */,
 				44B89E871A2AFC6B0085F766 /* czzHomeViewManager.m in Sources */,
 				5A6266AA193A17FF00AD949F /* czzNotificationDownloader.m in Sources */,
-				447CD6921BABF4E800C4E70B /* czzWKThread.m in Sources */,
 				442A8FF019DB7F5400A3516E /* SDImageCache.m in Sources */,
 				44A9E15C1AE1D16000740CE1 /* README.md in Sources */,
 				44E3F7411BA2FFB600597A3F /* PropertyAttribute.m in Sources */,
@@ -4025,7 +4056,6 @@
 				44E3F7471BA3007500597A3F /* NSDictionary+Util.m in Sources */,
 				443141971A2B38D6007D65B3 /* czzThreadViewManager.m in Sources */,
 				442A8FA719DB7DF200A3516E /* MWZoomingScrollView.m in Sources */,
-				441A6A7B1BAE995A008E380C /* czzWKForumViewController.m in Sources */,
 				441E5CDB17F4691300289DBD /* main.m in Sources */,
 				44CBF4001BC9245300DFECFC /* czzCacheCleaner.m in Sources */,
 				44FC4345180067CF0028D7C9 /* czzPostSender.m in Sources */,
@@ -4054,6 +4084,7 @@
 				4498A7E41B89984500312A11 /* CPAutoFillView.m in Sources */,
 				4416B72519413EAF00B69C5B /* FPPopoverController.m in Sources */,
 				442A8FAB19DB7DF200A3516E /* NSIndexPath+PSTCollectionViewAdditions.m in Sources */,
+				44A294CA1BFDF13B0033D438 /* czzWKForum.m in Sources */,
 				447E062F1BC2799500D24087 /* CPWearableViewCustomTransitioningAnimator.m in Sources */,
 				44B96E37185B97C400D664A4 /* czzSettingsViewController.m in Sources */,
 				4498A7DF1B89982600312A11 /* ALView+PureLayout.m in Sources */,
@@ -4066,6 +4097,7 @@
 				442A8FB119DB7DF200A3516E /* PSTCollectionViewItemKey.m in Sources */,
 				442A8FF119DB7F5400A3516E /* SDWebImageCompat.m in Sources */,
 				447E062B1BC2426900D24087 /* czzFavouriteManagerPopUpViewController.m in Sources */,
+				44A294CC1BFDF1430033D438 /* czzWKThread.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4074,7 +4106,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				442F1FD81B13535B00267698 /* czzHomeViewDelegate.m in Sources */,
-				447CD6931BABF4E800C4E70B /* czzWKThread.m in Sources */,
 				44C73B8A1A4840100051D4C2 /* czzHistoryManager.m in Sources */,
 				442F1FEC1B160C9300267698 /* czzThreadTableViewDataSource.m in Sources */,
 				442F1FDC1B13537300267698 /* czzHomeTableViewDataSource.m in Sources */,
@@ -4101,7 +4132,6 @@
 				44553FDE1BABEBA700667435 /* HTMLNode.m in Sources */,
 				44553FDF1BABEBA700667435 /* PSTGridLayoutSection.m in Sources */,
 				44553FE01BABEBA700667435 /* UINavigationController+Util.m in Sources */,
-				44E469E81BADA54300C0AACC /* czzWatchKitHomeRowController.m in Sources */,
 				44553FE11BABEBA700667435 /* czzFavouriteManager.m in Sources */,
 				44553FE21BABEBA700667435 /* czzAppActivityManager.m in Sources */,
 				44553FE31BABEBA700667435 /* czzBlacklistSender.m in Sources */,
@@ -4152,12 +4182,10 @@
 				4455400E1BABEBA700667435 /* czzMenuEnabledTableViewCell.m in Sources */,
 				4455400F1BABEBA700667435 /* NSArray+PureLayout.m in Sources */,
 				449E928F1BF9D15C00EE2F58 /* czzModalViewController.m in Sources */,
-				441A6A781BAE8B4A008E380C /* czzWKForum.m in Sources */,
 				445540101BABEBA700667435 /* czzCookieManager.m in Sources */,
 				445540111BABEBA700667435 /* czzNotificationManager.m in Sources */,
 				445540121BABEBA700667435 /* czzHomeViewManager.m in Sources */,
 				445540131BABEBA700667435 /* czzNotificationDownloader.m in Sources */,
-				447CD6951BABF4E800C4E70B /* czzWKThread.m in Sources */,
 				445540141BABEBA700667435 /* SDImageCache.m in Sources */,
 				445540151BABEBA700667435 /* README.md in Sources */,
 				445540161BABEBA700667435 /* PropertyAttribute.m in Sources */,
@@ -4225,7 +4253,6 @@
 				4455404B1BABEBA700667435 /* NSDictionary+Util.m in Sources */,
 				4455404C1BABEBA700667435 /* czzThreadViewManager.m in Sources */,
 				4455404D1BABEBA700667435 /* MWZoomingScrollView.m in Sources */,
-				441A6A7D1BAE995A008E380C /* czzWKForumViewController.m in Sources */,
 				4455404E1BABEBA700667435 /* main.m in Sources */,
 				44CBF4011BC9245300DFECFC /* czzCacheCleaner.m in Sources */,
 				4455404F1BABEBA700667435 /* czzPostSender.m in Sources */,
@@ -4254,6 +4281,7 @@
 				445540641BABEBA700667435 /* CPAutoFillView.m in Sources */,
 				445540651BABEBA700667435 /* FPPopoverController.m in Sources */,
 				445540661BABEBA700667435 /* NSIndexPath+PSTCollectionViewAdditions.m in Sources */,
+				44A294C91BFDF13A0033D438 /* czzWKForum.m in Sources */,
 				447E06301BC2799500D24087 /* CPWearableViewCustomTransitioningAnimator.m in Sources */,
 				445540671BABEBA700667435 /* czzSettingsViewController.m in Sources */,
 				445540681BABEBA700667435 /* ALView+PureLayout.m in Sources */,
@@ -4266,36 +4294,49 @@
 				4455406F1BABEBA700667435 /* PSTCollectionViewItemKey.m in Sources */,
 				445540701BABEBA700667435 /* SDWebImageCompat.m in Sources */,
 				447E062C1BC2426900D24087 /* czzFavouriteManagerPopUpViewController.m in Sources */,
+				44A294CB1BFDF1420033D438 /* czzWKThread.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4476B6301B9FDD43004E6650 /* Sources */ = {
+		44A294921BFDEFF50033D438 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				441A6A731BAE78FB008E380C /* czzWKThreadViewController.m in Sources */,
-				441A6A771BAE8B4A008E380C /* czzWKForum.m in Sources */,
-				44E469E21BAD9B5000C0AACC /* czzWatchKitCommand.m in Sources */,
-				4476B63A1B9FDD43004E6650 /* InterfaceController.m in Sources */,
-				447CD6941BABF4E800C4E70B /* czzWKThread.m in Sources */,
-				4476B63D1B9FDD43004E6650 /* GlanceController.m in Sources */,
-				441A6A7C1BAE995A008E380C /* czzWKForumViewController.m in Sources */,
-				44E469E71BADA54300C0AACC /* czzWatchKitHomeRowController.m in Sources */,
+				44A294A21BFDEFF60033D438 /* ExtensionDelegate.m in Sources */,
+				44A294C81BFDF1050033D438 /* czzWKThread.m in Sources */,
+				44A294C71BFDF1050033D438 /* czzWKForum.m in Sources */,
+				44A294C61BFDF1050033D438 /* InterfaceController.m in Sources */,
+				449472761C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m in Sources */,
+				44F86B651BFE0012001306E8 /* czzWatchKitCommand.m in Sources */,
+				44A294A51BFDEFF60033D438 /* NotificationController.m in Sources */,
+				44A294C41BFDF1050033D438 /* czzWKForumInterfaceController.m in Sources */,
+				44A294C31BFDF1050033D438 /* czzWatchKitHomeRowController.m in Sources */,
+				44A294C51BFDF1050033D438 /* czzWKThreadInterfaceController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		441A6A8A1BB28DF7008E380C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4476B6331B9FDD43004E6650 /* CustomImageBoardViewer WatchKit Extension */;
-			targetProxy = 441A6A891BB28DF7008E380C /* PBXContainerItemProxy */;
-		};
 		441E5CF517F4691300289DBD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 441E5CCA17F4691300289DBD /* CustomImageBoardViewer */;
 			targetProxy = 441E5CF417F4691300289DBD /* PBXContainerItemProxy */;
+		};
+		44A294991BFDEFF60033D438 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 44A294951BFDEFF50033D438 /* CIVWatchApp Extension */;
+			targetProxy = 44A294981BFDEFF60033D438 /* PBXContainerItemProxy */;
+		};
+		44A294AA1BFDEFF60033D438 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 44A294891BFDEFF50033D438 /* CIVWatchApp */;
+			targetProxy = 44A294A91BFDEFF60033D438 /* PBXContainerItemProxy */;
+		};
+		44A294CE1BFDF1600033D438 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 44A294891BFDEFF50033D438 /* CIVWatchApp */;
+			targetProxy = 44A294CD1BFDF1600033D438 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -4324,10 +4365,10 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		4476B6491B9FDD43004E6650 /* Interface.storyboard */ = {
+		44A2948C1BFDEFF50033D438 /* Interface.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4476B64A1B9FDD43004E6650 /* Base */,
+				44A2948D1BFDEFF50033D438 /* Base */,
 			);
 			name = Interface.storyboard;
 			sourceTree = "<group>";
@@ -4632,23 +4673,17 @@
 			};
 			name = Release;
 		};
-		4476B6511B9FDD43004E6650 /* Debug */ = {
+		44A294AD1BFDEFF60033D438 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_BITCODE = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
+				GCC_PREFIX_HEADER = "CIVWatchApp Extension/CIVWatchApp.pch";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "CustomImageBoardViewer WatchKit Extension/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				INFOPLIST_FILE = "CIVWatchApp Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.ac-channel-browser.watchkitapp.watchkitextension";
@@ -4656,26 +4691,24 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "watchsimulator watchos";
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
-		4476B6521B9FDD43004E6650 /* Release */ = {
+		44A294AE1BFDEFF60033D438 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Haozheng Zheng (9EBE9MWW9X)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Haozheng Zheng (9EBE9MWW9X)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "CIVWatchApp Extension/CIVWatchApp.pch";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "CustomImageBoardViewer WatchKit Extension/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				INFOPLIST_FILE = "CIVWatchApp Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.ac-channel-browser.watchkitapp.watchkitextension";
@@ -4683,29 +4716,26 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "watchsimulator watchos";
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
-		4476B6531B9FDD43004E6650 /* Debug */ = {
+		44A294B11BFDEFF60033D438 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_BITCODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				IBSC_MODULE = CustomImageBoardViewer_WatchKit_Extension;
-				INFOPLIST_FILE = "CustomImageBoardViewer WatchKit App/Info.plist";
+				IBSC_MODULE = CIVWatchApp_Extension;
+				INFOPLIST_FILE = CIVWatchApp/Info.plist;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.ac-channel-browser.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4717,20 +4747,22 @@
 			};
 			name = Debug;
 		};
-		4476B6541B9FDD43004E6650 /* Release */ = {
+		44A294B21BFDEFF60033D438 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Haozheng Zheng (9EBE9MWW9X)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Haozheng Zheng (9EBE9MWW9X)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				IBSC_MODULE = CustomImageBoardViewer_WatchKit_Extension;
-				INFOPLIST_FILE = "CustomImageBoardViewer WatchKit App/Info.plist";
+				IBSC_MODULE = CIVWatchApp_Extension;
+				INFOPLIST_FILE = CIVWatchApp/Info.plist;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.ac-channel-browser.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4781,20 +4813,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4476B6551B9FDD43004E6650 /* Build configuration list for PBXNativeTarget "CustomImageBoardViewer WatchKit App" */ = {
+		44A294AC1BFDEFF60033D438 /* Build configuration list for PBXNativeTarget "CIVWatchApp Extension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4476B6531B9FDD43004E6650 /* Debug */,
-				4476B6541B9FDD43004E6650 /* Release */,
+				44A294AD1BFDEFF60033D438 /* Debug */,
+				44A294AE1BFDEFF60033D438 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4476B6561B9FDD43004E6650 /* Build configuration list for PBXNativeTarget "CustomImageBoardViewer WatchKit Extension" */ = {
+		44A294B01BFDEFF60033D438 /* Build configuration list for PBXNativeTarget "CIVWatchApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4476B6511B9FDD43004E6650 /* Debug */,
-				4476B6521B9FDD43004E6650 /* Release */,
+				44A294B11BFDEFF60033D438 /* Debug */,
+				44A294B21BFDEFF60033D438 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
