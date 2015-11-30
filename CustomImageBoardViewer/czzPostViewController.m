@@ -119,13 +119,13 @@
     //assign forum or parent thread based on user selection
     NSString *targetURLString;
     switch (postMode) {
-        case NEW_POST:
+        case postViewControllerModeNew:
             title = @"新内容";
             postSender.parentThread = nil;
             targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:forum.name];
             postSender.forum = forum;
             break;
-        case REPLY_POST:
+        case postViewControllerModeReply:
             if (self.replyTo)
             {
                 title = [NSString stringWithFormat:@"回复:%ld", (long)replyTo.ID];
@@ -134,7 +134,7 @@
             postSender.parentThread = thread;
             break;
             
-        case REPORT_POST:
+        case postViewControllerModeReport: {
             title = @"举报";
             NSString *forumName = @"值班室";
             targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:forumName];
@@ -145,6 +145,10 @@
                     break;
                 }
             }
+            break;
+        }
+        default:
+            [NSException raise:@"ACTION NOT SUPPORTED" format:@"%s", __func__];
             break;
     }
     self.title = title;

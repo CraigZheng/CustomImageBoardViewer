@@ -47,7 +47,7 @@
     czzPostViewController *postViewController = [czzPostViewController new];
     postViewController.forum = self.homeViewManager.forum;
     postViewController.replyTo = thread;
-    postViewController.postMode = REPLY_POST;
+    postViewController.postMode = postViewControllerModeReply;
     [[czzNavigationManager sharedManager].delegate pushViewController:postViewController animated:YES];
 }
 
@@ -55,13 +55,13 @@
     czzPostViewController *postViewController = [czzPostViewController new];
     postViewController.forum = self.homeViewManager.forum;
     postViewController.thread = thread;
-    postViewController.postMode = REPLY_POST;
+    postViewController.postMode = postViewControllerModeReply;
     [[czzNavigationManager sharedManager].delegate pushViewController:postViewController animated:YES];
 }
 
 - (void)reportThread:(czzThread *)selectedThread inParentThread:(czzThread *)parentThread {
     czzPostViewController *newPostViewController = [czzPostViewController new];
-    newPostViewController.postMode = REPORT_POST;
+    newPostViewController.postMode = postViewControllerModeReport;
     [[czzNavigationManager sharedManager].delegate pushViewController:newPostViewController animated:YES];
     NSString *reportString = [[settingCentre report_post_placeholder] stringByReplacingOccurrencesOfString:kParentID withString:[NSString stringWithFormat:@"%ld", (long)parentThread.ID]];
     reportString = [reportString stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long)selectedThread.ID]];
