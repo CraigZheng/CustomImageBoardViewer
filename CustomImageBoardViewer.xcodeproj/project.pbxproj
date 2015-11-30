@@ -11,7 +11,6 @@
 		440A62A21B8E97540046E4CE /* czzThreadTableViewCommandStatusCellViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 440A62A11B8E97540046E4CE /* czzThreadTableViewCommandStatusCellViewController.storyboard */; };
 		440A62A81B8EBC160046E4CE /* UIViewController+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 440A62A71B8EBC160046E4CE /* UIViewController+Util.m */; };
 		440B2F6117F5EED800544926 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 440B2F6017F5EED800544926 /* GTMNSString+HTML.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		440B2FBD17F7C5DC00544926 /* czzRightSideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 440B2FBC17F7C5DC00544926 /* czzRightSideViewController.m */; };
 		440B2FC717F7DB7800544926 /* czzForumsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 440B2FC617F7DB7800544926 /* czzForumsViewController.m */; };
 		440B2FC917F7F42600544926 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 440B2FC817F7F42600544926 /* MobileCoreServices.framework */; };
 		440B2FCC17F8057500544926 /* czzPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 440B2FCB17F8057500544926 /* czzPostViewController.m */; };
@@ -317,7 +316,6 @@
 		445540591BABEBA700667435 /* czzShortImageManagerCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CF25741A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.m */; };
 		4455405A1BABEBA700667435 /* PSTCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A8F6619DB7DF200A3516E /* PSTCollectionViewCell.m */; };
 		4455405B1BABEBA700667435 /* MWPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A8F4D19DB7DF200A3516E /* MWPhoto.m */; };
-		4455405C1BABEBA700667435 /* czzRightSideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 440B2FBC17F7C5DC00544926 /* czzRightSideViewController.m */; };
 		4455405D1BABEBA700667435 /* UIButton+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CF25701A26F2E700BD8228 /* UIButton+Badge.m */; };
 		4455405E1BABEBA700667435 /* GSIndeterminateProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141991A2B5198007D65B3 /* GSIndeterminateProgressView.m */; };
 		4455405F1BABEBA700667435 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A8F5E19DB7DF200A3516E /* MBProgressHUD.m */; };
@@ -924,8 +922,6 @@
 		440B2F5E17F5EED800544926 /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
 		440B2F5F17F5EED800544926 /* GTMNSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTMNSString+HTML.h"; sourceTree = "<group>"; };
 		440B2F6017F5EED800544926 /* GTMNSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTMNSString+HTML.m"; sourceTree = "<group>"; };
-		440B2FBB17F7C5DC00544926 /* czzRightSideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzRightSideViewController.h; sourceTree = "<group>"; };
-		440B2FBC17F7C5DC00544926 /* czzRightSideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzRightSideViewController.m; sourceTree = "<group>"; };
 		440B2FC517F7DB7800544926 /* czzForumsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzForumsViewController.h; sourceTree = "<group>"; };
 		440B2FC617F7DB7800544926 /* czzForumsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzForumsViewController.m; sourceTree = "<group>"; };
 		440B2FC817F7F42600544926 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -1664,8 +1660,6 @@
 		440B2FBE17F7C5E700544926 /* czzThreadMenuViewController */ = {
 			isa = PBXGroup;
 			children = (
-				440B2FBB17F7C5DC00544926 /* czzRightSideViewController.h */,
-				440B2FBC17F7C5DC00544926 /* czzRightSideViewController.m */,
 			);
 			name = czzThreadMenuViewController;
 			sourceTree = "<group>";
@@ -4074,7 +4068,6 @@
 				442A8FAD19DB7DF200A3516E /* PSTCollectionViewCell.m in Sources */,
 				445C66331BBEC387004B3E83 /* CPLoadFromNibView.m in Sources */,
 				442A8FA319DB7DF200A3516E /* MWPhoto.m in Sources */,
-				440B2FBD17F7C5DC00544926 /* czzRightSideViewController.m in Sources */,
 				44CF25721A26F2E700BD8228 /* UIButton+Badge.m in Sources */,
 				4431419A1A2B5198007D65B3 /* GSIndeterminateProgressView.m in Sources */,
 				442A8FA919DB7DF200A3516E /* MBProgressHUD.m in Sources */,
@@ -4271,7 +4264,6 @@
 				4455405A1BABEBA700667435 /* PSTCollectionViewCell.m in Sources */,
 				445C66341BBEC387004B3E83 /* CPLoadFromNibView.m in Sources */,
 				4455405B1BABEBA700667435 /* MWPhoto.m in Sources */,
-				4455405C1BABEBA700667435 /* czzRightSideViewController.m in Sources */,
 				4455405D1BABEBA700667435 /* UIButton+Badge.m in Sources */,
 				4455405E1BABEBA700667435 /* GSIndeterminateProgressView.m in Sources */,
 				4455405F1BABEBA700667435 /* MBProgressHUD.m in Sources */,
