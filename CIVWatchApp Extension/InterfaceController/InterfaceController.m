@@ -108,6 +108,15 @@
     }];
 }
 
+#pragma mark - Setters
+
+- (void)setSelectedForum:(czzWKForum *)selectedForum {
+    _selectedForum = selectedForum;
+    if (selectedForum) {
+        [self setTitle:selectedForum.name];
+    }
+}
+
 @end
 
 

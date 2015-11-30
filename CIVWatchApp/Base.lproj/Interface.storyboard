@@ -46,7 +46,7 @@
                     <items>
                         <group width="1" alignment="left" id="GxK-pe-wV2">
                             <items>
-                                <label alignment="left" text="板块" id="2nn-uC-7pc">
+                                <label alignment="left" id="2nn-uC-7pc">
                                     <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
                                 </label>
                             </items>
@@ -112,7 +112,7 @@
             <objects>
                 <controller identifier="czzWKThreadViewController" title="串内容" id="PDK-Cg-DDX" customClass="czzWKThreadInterfaceController">
                     <items>
-                        <label alignment="left" text="ID" id="q3p-gH-wCs">
+                        <label alignment="left" id="q3p-gH-wCs">
                             <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
                         </label>
                         <table alignment="left" id="ssM-ZN-gZK">

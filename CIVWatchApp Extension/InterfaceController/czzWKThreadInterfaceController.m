@@ -116,6 +116,15 @@
     
 }
 
+#pragma mark - Setters
+
+- (void)setParentWKThread:(czzWKThread *)parentWKThread {
+    _parentWKThread = parentWKThread;
+    if (parentWKThread) {
+        [self setTitle:[NSString stringWithFormat:@"%ld", (long)parentWKThread.ID]];
+    }
+}
+
 @end
 
 
