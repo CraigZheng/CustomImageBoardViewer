@@ -48,7 +48,7 @@
                 [self loadThreadWithCommand:command replyHandler:reply];
                 break;
             case watchKitCommandWatchThread:
-//                [self ]
+                [self watchThreadWithCommand:command replyHandler:reply];
                 break;
             default:
                 // Reply an empty dictionary to indicate error.
