@@ -49,6 +49,7 @@
                 break;
             case watchKitCommandWatchThread:
 //                [self ]
+                break;
             default:
                 // Reply an empty dictionary to indicate error.
                 reply([NSDictionary new]);
@@ -69,8 +70,6 @@
 }
 
 -(void)loadWKForumsWithCommand:(czzWatchKitCommand *)command replyHandler:(void(^)(NSDictionary *responseMessage))replyHandler {
-    [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
-
     // Update the forums if necessary
     if ([czzForumManager sharedManager].forums.count > 0) {
         NSMutableArray *forums = [NSMutableArray new];
@@ -94,7 +93,6 @@
 }
 
 -(void)loadHomeWithCommand:(czzWatchKitCommand *)command loadMore:(BOOL)loadMore replyHandler:(void(^)(NSDictionary *responseMessage))replyHandler {
-    [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
     // Get czzForum object from the incoming czzWKForum object.
     czzWKForum *selectedForum = [[czzWKForum alloc] initWithDictionary:[command.parameter valueForKey:@"FORUM"]];
     czzForum *tempForum = [czzForum new];
@@ -117,7 +115,6 @@
 }
 
 -(void)loadThreadWithCommand:(czzWatchKitCommand *)command replyHandler:(void(^)(NSDictionary *responseMessage))replyHandler {
-    [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
     // Get czzThread from czzWKThread
     czzWKThread *tempWKThread = [[czzWKThread alloc] initWithDictionary:[command.parameter objectForKey:@"THREAD"]];
     czzThread *selectedThread = [self fatThreadWithWKThread:tempWKThread];
