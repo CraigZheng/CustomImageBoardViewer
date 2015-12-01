@@ -7,21 +7,39 @@
 //
 
 #import "czzWKThread.h"
+#import "czzThread.h"
 
 @implementation czzWKThread
+
+#pragma mark - Getters
+
+- (czzThread *)fatThread {
+    czzThread *thread = [czzThread new];
+    thread.ID = self.ID;
+    thread.title = self.title;
+    thread.name = self.name;
+    thread.content = [[NSAttributedString alloc] initWithString:self.content];
+    thread.postDateTime = self.postDate;
+    thread.thImgSrc = self.thumbnailFile;
+    thread.imgSrc = self.imageFile;
+    
+    return thread;
+}
 
 #pragma mark - NSSecureCoding
 
 
 -(instancetype)initWithDictionary:(NSDictionary *)dict {
-    self = [super init];
-    self.ID = [[dict objectForKey:@"ID"] integerValue];
-    self.name = [dict objectForKey:@"name"];
-    self.title = [dict objectForKey:@"title"];
-    self.content = [dict objectForKey:@"content"];
-    self.thumbnailFile = [dict objectForKey:@"thumbnailFile"];
-    self.imageFile = [dict objectForKey:@"imageFile"];
-    self.postDate = [dict objectForKey:@"postDate"];
+    if ([dict isKindOfClass:[NSDictionary class]] && dict.count) {
+        self = [self init];
+        self.ID = [[dict objectForKey:@"ID"] integerValue];
+        self.name = [dict objectForKey:@"name"];
+        self.title = [dict objectForKey:@"title"];
+        self.content = [dict objectForKey:@"content"];
+        self.thumbnailFile = [dict objectForKey:@"thumbnailFile"];
+        self.imageFile = [dict objectForKey:@"imageFile"];
+        self.postDate = [dict objectForKey:@"postDate"];
+    }
     
     return self;
 }

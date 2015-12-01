@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+@class czzThread;
 @interface czzWKThread : NSObject
 
 @property (nonatomic, assign) NSInteger ID;
@@ -18,6 +19,8 @@
 @property (nonatomic, strong) NSString *imageFile;
 
 @property (nonatomic, strong) NSDate *postDate;
+
+@property (nonatomic, readonly) czzThread *fatThread;
 
 -(instancetype)initWithDictionary:(NSDictionary*)dict;
 -(NSDictionary*)encodeToDictionary;
