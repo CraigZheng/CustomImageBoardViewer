@@ -38,10 +38,11 @@
 
 - (IBAction)watchButtonAction {
     if (self.parentWKThread) {
-#warning TODO: MADE IT COMPATIBLE WITH WATCH OS 2
-//        [WKInterfaceController openParentApplication:@{@(watchKitCommandWatchThread) : [self.wkThread encodeToDictionary]} reply:^(NSDictionary * replyInfo, NSError * error) {
-//            
-//        }];
+        czzWatchKitCommand *watchCommand = [czzWatchKitCommand new];
+        watchCommand.caller = NSStringFromClass(self.class);
+        watchCommand.action = watchKitCommandWatchThread;
+        watchCommand.parameter = @{@"THREAD" : self.parentWKThread.encodeToDictionary};
+        [[ExtensionDelegate sharedInstance] sendCommand:watchCommand withCaller:self];
     }
 }
 
