@@ -20,8 +20,6 @@
 
 @property (nonatomic, strong) NSDate *postDate;
 
-@property (nonatomic, readonly) czzThread *fatThread;
-
 -(instancetype)initWithDictionary:(NSDictionary*)dict;
 -(NSDictionary*)encodeToDictionary;
 @end

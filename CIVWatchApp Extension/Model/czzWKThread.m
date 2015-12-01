@@ -7,24 +7,8 @@
 //
 
 #import "czzWKThread.h"
-#import "czzThread.h"
 
 @implementation czzWKThread
-
-#pragma mark - Getters
-
-- (czzThread *)fatThread {
-    czzThread *thread = [czzThread new];
-    thread.ID = self.ID;
-    thread.title = self.title;
-    thread.name = self.name;
-    thread.content = [[NSAttributedString alloc] initWithString:self.content];
-    thread.postDateTime = self.postDate;
-    thread.thImgSrc = self.thumbnailFile;
-    thread.imgSrc = self.imageFile;
-    
-    return thread;
-}
 
 #pragma mark - NSSecureCoding
 
