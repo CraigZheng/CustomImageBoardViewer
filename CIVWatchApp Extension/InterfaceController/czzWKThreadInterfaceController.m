@@ -53,6 +53,8 @@
     // self.wkThreads will always include a parent thread.
     if (self.wkThreads.count <= 1) {
         [self loadMore];
+    } else {
+        [self reloadTableView];
     }
 }
 

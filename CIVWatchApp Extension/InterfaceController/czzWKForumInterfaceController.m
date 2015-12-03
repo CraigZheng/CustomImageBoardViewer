@@ -40,6 +40,8 @@
     if (!self.wkForums.count)
     {
         [self loadForumData];   
+    } else {
+        [self reloadTableView];
     }
 }
 
