@@ -7,11 +7,13 @@ target 'CustomImageBoardViewer' do
 pod 'Google/Analytics'
 pod "MWPhotoBrowser"
 pod 'ViewDeck'
+pod 'PureLayout'
 end
 
 target 'CIV-Simulator' do
 pod 'Google/Analytics'
 pod "MWPhotoBrowser"
 pod 'ViewDeck'
+pod 'PureLayout'
 end
 

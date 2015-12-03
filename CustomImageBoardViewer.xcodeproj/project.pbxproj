@@ -183,7 +183,6 @@
 		4455400B1BABEBA700667435 /* czzNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A26E77E1939AA6300B709C9 /* czzNotification.m */; };
 		4455400C1BABEBA700667435 /* czzNoSelectionTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AE2AFD18725EC4002CB021 /* czzNoSelectionTextView.m */; };
 		4455400E1BABEBA700667435 /* czzMenuEnabledTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AE2AF9187254E4002CB021 /* czzMenuEnabledTableViewCell.m */; };
-		4455400F1BABEBA700667435 /* NSArray+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498A7D91B89982600312A11 /* NSArray+PureLayout.m */; };
 		445540101BABEBA700667435 /* czzCookieManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44DF8ED21A74CAAA0097F7F5 /* czzCookieManager.m */; };
 		445540111BABEBA700667435 /* czzNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A27E13F193CA11300D0094F /* czzNotificationManager.m */; };
 		445540121BABEBA700667435 /* czzHomeViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B89E861A2AFC6B0085F766 /* czzHomeViewManager.m */; };
@@ -238,11 +237,9 @@
 		4455405E1BABEBA700667435 /* GSIndeterminateProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141991A2B5198007D65B3 /* GSIndeterminateProgressView.m */; };
 		445540601BABEBA700667435 /* UIBarButtonItem+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CF256E1A26F2E700BD8228 /* UIBarButtonItem+Badge.m */; };
 		445540611BABEBA700667435 /* czzFeedback.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2B2D8C1936172C00BA2870 /* czzFeedback.m */; };
-		445540631BABEBA700667435 /* NSLayoutConstraint+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498A7DB1B89982600312A11 /* NSLayoutConstraint+PureLayout.m */; };
 		445540641BABEBA700667435 /* CPAutoFillView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498A7E31B89984400312A11 /* CPAutoFillView.m */; };
 		445540651BABEBA700667435 /* FPPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4416B72019413EAF00B69C5B /* FPPopoverController.m */; };
 		445540671BABEBA700667435 /* czzSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B96E36185B97C400D664A4 /* czzSettingsViewController.m */; };
-		445540681BABEBA700667435 /* ALView+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498A7D71B89982600312A11 /* ALView+PureLayout.m */; };
 		4455406A1BABEBA700667435 /* czzCookieManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44DF8EDD1A74D62E0097F7F5 /* czzCookieManagerViewController.m */; };
 		4455406B1BABEBA700667435 /* czzJSONProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498B688199248ED0014F73F /* czzJSONProcessor.m */; };
 		4455406C1BABEBA700667435 /* czzTextViewHeightCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4479B07C1A0BB8E70074D484 /* czzTextViewHeightCalculator.m */; };
@@ -517,9 +514,6 @@
 		448C85E41A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 448C85E31A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib */; };
 		449472761C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 449472751C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m */; };
 		4498A7D21B89978200312A11 /* czzTableViewRefreshView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4498A7D11B89978200312A11 /* czzTableViewRefreshView.xib */; };
-		4498A7DF1B89982600312A11 /* ALView+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498A7D71B89982600312A11 /* ALView+PureLayout.m */; };
-		4498A7E01B89982600312A11 /* NSArray+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498A7D91B89982600312A11 /* NSArray+PureLayout.m */; };
-		4498A7E11B89982600312A11 /* NSLayoutConstraint+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498A7DB1B89982600312A11 /* NSLayoutConstraint+PureLayout.m */; };
 		4498A7E41B89984500312A11 /* CPAutoFillView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498A7E31B89984400312A11 /* CPAutoFillView.m */; };
 		4498B689199248ED0014F73F /* czzJSONProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498B688199248ED0014F73F /* czzJSONProcessor.m */; };
 		4498B68D1993A6190014F73F /* PropertyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498B68C1993A6190014F73F /* PropertyUtil.m */; };
@@ -1095,15 +1089,6 @@
 		449472741C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WKInterfaceImage+ActivityIndicator.h"; sourceTree = "<group>"; };
 		449472751C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WKInterfaceImage+ActivityIndicator.m"; sourceTree = "<group>"; };
 		4498A7D11B89978200312A11 /* czzTableViewRefreshView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzTableViewRefreshView.xib; sourceTree = "<group>"; };
-		4498A7D61B89982600312A11 /* ALView+PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALView+PureLayout.h"; sourceTree = "<group>"; };
-		4498A7D71B89982600312A11 /* ALView+PureLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALView+PureLayout.m"; sourceTree = "<group>"; };
-		4498A7D81B89982600312A11 /* NSArray+PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+PureLayout.h"; sourceTree = "<group>"; };
-		4498A7D91B89982600312A11 /* NSArray+PureLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+PureLayout.m"; sourceTree = "<group>"; };
-		4498A7DA1B89982600312A11 /* NSLayoutConstraint+PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+PureLayout.h"; sourceTree = "<group>"; };
-		4498A7DB1B89982600312A11 /* NSLayoutConstraint+PureLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+PureLayout.m"; sourceTree = "<group>"; };
-		4498A7DC1B89982600312A11 /* PureLayout+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PureLayout+Internal.h"; sourceTree = "<group>"; };
-		4498A7DD1B89982600312A11 /* PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PureLayout.h; sourceTree = "<group>"; };
-		4498A7DE1B89982600312A11 /* PureLayoutDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PureLayoutDefines.h; sourceTree = "<group>"; };
 		4498A7E21B89984400312A11 /* CPAutoFillView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPAutoFillView.h; sourceTree = "<group>"; };
 		4498A7E31B89984400312A11 /* CPAutoFillView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPAutoFillView.m; sourceTree = "<group>"; };
 		4498B687199248ED0014F73F /* czzJSONProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzJSONProcessor.h; sourceTree = "<group>"; };
@@ -2125,30 +2110,6 @@
 			name = ThreadView;
 			sourceTree = "<group>";
 		};
-		4498A7D41B89982600312A11 /* PureLayout */ = {
-			isa = PBXGroup;
-			children = (
-				4498A7D51B89982600312A11 /* Source */,
-			);
-			path = PureLayout;
-			sourceTree = "<group>";
-		};
-		4498A7D51B89982600312A11 /* Source */ = {
-			isa = PBXGroup;
-			children = (
-				4498A7D61B89982600312A11 /* ALView+PureLayout.h */,
-				4498A7D71B89982600312A11 /* ALView+PureLayout.m */,
-				4498A7D81B89982600312A11 /* NSArray+PureLayout.h */,
-				4498A7D91B89982600312A11 /* NSArray+PureLayout.m */,
-				4498A7DA1B89982600312A11 /* NSLayoutConstraint+PureLayout.h */,
-				4498A7DB1B89982600312A11 /* NSLayoutConstraint+PureLayout.m */,
-				4498A7DC1B89982600312A11 /* PureLayout+Internal.h */,
-				4498A7DD1B89982600312A11 /* PureLayout.h */,
-				4498A7DE1B89982600312A11 /* PureLayoutDefines.h */,
-			);
-			path = Source;
-			sourceTree = "<group>";
-		};
 		4498A7E51B89984A00312A11 /* AutoFille View */ = {
 			isa = PBXGroup;
 			children = (
@@ -2351,7 +2312,6 @@
 				4498CEBD1B9E751E004D2380 /* TalkingData */,
 				44BFEF421B8C0D7F0095772B /* DeviceHardware */,
 				4498A7E51B89984A00312A11 /* AutoFille View */,
-				4498A7D41B89982600312A11 /* PureLayout */,
 				44A9E0FF1AE1CAC600740CE1 /* GoogldAdmob */,
 				4431419B1A2B519D007D65B3 /* GSIndetermineProgressView */,
 				44B89E7E1A2AFBE30085F766 /* UINavigationController+SGProgress */,
@@ -3614,7 +3574,6 @@
 				44AE2AFE18725EC4002CB021 /* czzNoSelectionTextView.m in Sources */,
 				441514821BBAD2A4005ECD96 /* czzImageDownloaderManager.m in Sources */,
 				44AE2AFA187254E4002CB021 /* czzMenuEnabledTableViewCell.m in Sources */,
-				4498A7E01B89982600312A11 /* NSArray+PureLayout.m in Sources */,
 				449E928E1BF9D15C00EE2F58 /* czzModalViewController.m in Sources */,
 				44DF8ED31A74CAAA0097F7F5 /* czzCookieManager.m in Sources */,
 				5A27E140193CA11300D0094F /* czzNotificationManager.m in Sources */,
@@ -3683,13 +3642,11 @@
 				4431419A1A2B5198007D65B3 /* GSIndeterminateProgressView.m in Sources */,
 				44CF25711A26F2E700BD8228 /* UIBarButtonItem+Badge.m in Sources */,
 				5A2B2D8D1936172C00BA2870 /* czzFeedback.m in Sources */,
-				4498A7E11B89982600312A11 /* NSLayoutConstraint+PureLayout.m in Sources */,
 				4498A7E41B89984500312A11 /* CPAutoFillView.m in Sources */,
 				4416B72519413EAF00B69C5B /* FPPopoverController.m in Sources */,
 				44A294CA1BFDF13B0033D438 /* czzWKForum.m in Sources */,
 				447E062F1BC2799500D24087 /* CPWearableViewCustomTransitioningAnimator.m in Sources */,
 				44B96E37185B97C400D664A4 /* czzSettingsViewController.m in Sources */,
-				4498A7DF1B89982600312A11 /* ALView+PureLayout.m in Sources */,
 				44DF8EDE1A74D62E0097F7F5 /* czzCookieManagerViewController.m in Sources */,
 				4498B689199248ED0014F73F /* czzJSONProcessor.m in Sources */,
 				4479B07D1A0BB8E70074D484 /* czzTextViewHeightCalculator.m in Sources */,
@@ -3767,7 +3724,6 @@
 				4455400C1BABEBA700667435 /* czzNoSelectionTextView.m in Sources */,
 				441514831BBAD2A4005ECD96 /* czzImageDownloaderManager.m in Sources */,
 				4455400E1BABEBA700667435 /* czzMenuEnabledTableViewCell.m in Sources */,
-				4455400F1BABEBA700667435 /* NSArray+PureLayout.m in Sources */,
 				449E928F1BF9D15C00EE2F58 /* czzModalViewController.m in Sources */,
 				445540101BABEBA700667435 /* czzCookieManager.m in Sources */,
 				445540111BABEBA700667435 /* czzNotificationManager.m in Sources */,
@@ -3836,13 +3792,11 @@
 				4455405E1BABEBA700667435 /* GSIndeterminateProgressView.m in Sources */,
 				445540601BABEBA700667435 /* UIBarButtonItem+Badge.m in Sources */,
 				445540611BABEBA700667435 /* czzFeedback.m in Sources */,
-				445540631BABEBA700667435 /* NSLayoutConstraint+PureLayout.m in Sources */,
 				445540641BABEBA700667435 /* CPAutoFillView.m in Sources */,
 				445540651BABEBA700667435 /* FPPopoverController.m in Sources */,
 				44A294C91BFDF13A0033D438 /* czzWKForum.m in Sources */,
 				447E06301BC2799500D24087 /* CPWearableViewCustomTransitioningAnimator.m in Sources */,
 				445540671BABEBA700667435 /* czzSettingsViewController.m in Sources */,
-				445540681BABEBA700667435 /* ALView+PureLayout.m in Sources */,
 				4455406A1BABEBA700667435 /* czzCookieManagerViewController.m in Sources */,
 				4455406B1BABEBA700667435 /* czzJSONProcessor.m in Sources */,
 				4455406C1BABEBA700667435 /* czzTextViewHeightCalculator.m in Sources */,
