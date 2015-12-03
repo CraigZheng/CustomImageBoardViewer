@@ -71,6 +71,7 @@
     // Scaled page would be too small for text.
     headerTextWebView.scalesPageToFit = NO;
     @try {
+        self.actionButton.enabled = self.forum;
         if (self.forum) {
             //load forum info
             self.title = [NSString stringWithFormat:@"介绍：%@", self.forum.name];
@@ -106,7 +107,9 @@
 - (IBAction)actionButtonAction:(id)sender {
     if (self.coverData) {
         UIImage *coverImage = [UIImage imageWithData:self.coverData];
-        [(self.imageViewerUtil = [czzImageViewerUtil new]) showPhotoWithImage:coverImage];
+        self.imageViewerUtil = [czzImageViewerUtil new];
+        self.imageViewerUtil.destinationViewController = self.navigationController ? self.navigationController : self;
+        [self.imageViewerUtil showPhotoWithImage:coverImage];
     }
 }
 

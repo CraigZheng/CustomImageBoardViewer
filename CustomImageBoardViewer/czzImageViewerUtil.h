@@ -14,6 +14,7 @@
 @property NSMutableArray<NSURL *> *photoBrowserDataSource;
 @property UIDocumentInteractionController *documentInteractionController;
 @property UINavigationController *photoBrowserNavigationController;
+@property (nonatomic, strong) UIViewController *destinationViewController;
 
 -(void)showPhoto:(NSURL*)photoPath;
 -(void)showPhotoWithImage:(UIImage *)image;
