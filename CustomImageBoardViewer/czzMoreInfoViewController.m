@@ -71,7 +71,7 @@
     // Scaled page would be too small for text.
     headerTextWebView.scalesPageToFit = NO;
     @try {
-        self.actionButton.enabled = self.forum;
+        self.actionButton.enabled = !self.forum;
         if (self.forum) {
             //load forum info
             self.title = [NSString stringWithFormat:@"介绍：%@", self.forum.name];
