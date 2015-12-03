@@ -26,7 +26,7 @@
 }
 
 -(void)showPhoto:(NSURL *)photoPath {
-    if (photoPath && [[czzImageCacheManager sharedInstance] hasImageWithName:photoPath.lastPathComponent]) {
+    if ([[czzImageCacheManager sharedInstance] hasImageWithName:photoPath.lastPathComponent]) {
         [self prepareMWPhotoBrowser];
         if (!photoBrowserDataSource)
             photoBrowserDataSource = [NSMutableArray new];
@@ -36,15 +36,6 @@
         [self show];
     } else {
         DLog(@"Either photo path is nil");
-    }
-}
-
--(void)showPhotoWithImage:(UIImage *)image {
-    if (image) {
-        [self prepareMWPhotoBrowser];
-        photoBrowserDataSource = [@[image] mutableCopy];
-        [photoBrowser setCurrentPhotoIndex:0];
-        [self show];
     }
 }
 
@@ -61,8 +52,9 @@
 }
 
 -(void)show {
-    // If top view controller is the main czz navigation controller.
-    if (NavigationManager.delegate == [UIApplication rootViewController]) {
+    if (NavigationManager.delegate)
+    {
+        
         if (NavigationManager.isInTransition) {
             NavigationManager.pushAnimationCompletionHandler = ^{
                 if (![[UIApplication topViewController] isKindOfClass:[photoBrowser class]]) {
@@ -73,12 +65,6 @@
             if (![[UIApplication topViewController] isKindOfClass:[photoBrowser class]]) {
                 [NavigationManager pushViewController:photoBrowser animated:YES];
             }
-        }
-    } else if ([UIApplication topViewController].navigationController || [[UIApplication topViewController] isKindOfClass:[UINavigationController class]]) {
-        // if the top view controller has a navigation controller.
-        UINavigationController *naviCon = [UIApplication topViewController].navigationController ? [UIApplication topViewController].navigationController : (UINavigationController *)[UIApplication topViewController];
-        if (naviCon) {
-            [naviCon pushViewController:photoBrowser animated:YES];
         }
     } else {
         photoBrowserNavigationController = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
@@ -107,12 +93,7 @@
 -(id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
     @try {
         id source = [photoBrowserDataSource objectAtIndex:index];
-        MWPhoto *photo;
-        if ([source isKindOfClass:[UIImage class]]) {
-            photo = [MWPhoto photoWithImage:source];
-        } else {
-            photo = [MWPhoto photoWithURL:([source isKindOfClass:[NSURL class]] ? source : [NSURL fileURLWithPath:source])];
-        }
+        MWPhoto *photo= [MWPhoto photoWithURL:([source isKindOfClass:[NSURL class]] ? source : [NSURL fileURLWithPath:source])];
         return photo;
     }
     @catch (NSException *exception) {
@@ -122,19 +103,8 @@
 }
 
 -(void)photoBrowser:(MWPhotoBrowser *)browser actionButtonPressedForPhotoAtIndex:(NSUInteger)index {
-    id source = [photoBrowserDataSource objectAtIndex:index];
-    if ([source isKindOfClass:[UIImage class]]) {
-        // Because the source is an UIImage object, it cannot be open directly by document interaction controller.
-        // Must save it temporarily to the disk before openning. 
-        NSURL *tempFileURL = [NSURL fileURLWithPath:[[czzAppDelegate libraryFolder] stringByAppendingPathComponent:@"tempImage.jpg"]];
-        NSData *data = UIImageJPEGRepresentation((UIImage *)source, 0.99);
-        [data writeToURL:tempFileURL atomically:NO];
-        documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:tempFileURL];
-    } else if ([source isKindOfClass:[NSURL class]]){
-        documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:source];
-    } else {
-        documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:source]];
-    }
+    NSURL *fileURL = [photoBrowserDataSource objectAtIndex:index];
+    documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:fileURL];
     UIView *viewToShowDocumentInteractionController;
     if (photoBrowserNavigationController)
         viewToShowDocumentInteractionController = photoBrowserNavigationController.view;

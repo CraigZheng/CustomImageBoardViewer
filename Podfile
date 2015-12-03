@@ -5,21 +5,11 @@
 
 target 'CustomImageBoardViewer' do
 pod 'Google/Analytics'
-end
-
-target 'CustomImageBoardViewerTests' do
-
-end
-
-target 'CustomImageBoardViewer WatchKit Extension' do
-
-end
-
-target 'CustomImageBoardViewer WatchKit App' do
-
+pod "MWPhotoBrowser"
 end
 
 target 'CIV-Simulator' do
 pod 'Google/Analytics'
+pod "MWPhotoBrowser"
 end
 
