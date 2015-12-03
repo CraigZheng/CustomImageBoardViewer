@@ -51,6 +51,7 @@ NSString * const kPickedForum = @"PickedForum";
     bannerView_.rootViewController = self;
     adUpdateInterval = 10 * 60;
 
+    self.forumsTableView.scrollsToTop = NO;
     self.navigationController.navigationBar.barTintColor = [settingCentre barTintColour];
     self.navigationController.navigationBar.tintColor = [settingCentre tintColour];
     [self.navigationController.navigationBar

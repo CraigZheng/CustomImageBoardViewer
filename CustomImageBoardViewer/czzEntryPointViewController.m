@@ -42,9 +42,7 @@
     storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:Nil];
     czzNavigationController *centreViewController = [czzNavigationController new];
     
-    UINavigationController *naviCon = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"left_side_view_controller"];
-    self = [super initWithCenterViewController:centreViewController
-                            leftViewController:naviCon];
+    self = [super initWithCenterViewController:centreViewController];
     // The root view controller of the left navigation controller will be the delegate for self.viewDeckController.
     self.delegate = [(UINavigationController *)self.leftController viewControllers][0];
     return self;

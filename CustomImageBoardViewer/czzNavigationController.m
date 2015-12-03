@@ -12,7 +12,6 @@
 #import "czzSettingsCentre.h"
 
 @interface czzNavigationController () <UINavigationControllerDelegate, czzNavigationManagerDelegate>
-
 @end
 
 @implementation czzNavigationController
@@ -35,6 +34,15 @@
     progressView = [[GSIndeterminateProgressView alloc] initWithFrame:CGRectMake(0, self.navigationBar.frame.size.height - 2, self.navigationBar.frame.size.width, 2)];
     progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     [self.navigationBar addSubview:progressView];
+}
+
+#pragma mark - Getters
+
+- (UINavigationController *)leftViewController {
+    if (!_leftViewController) {
+        _leftViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"left_side_view_controller"];
+    }
+    return _leftViewController;
 }
 
 #pragma mark - czzNavigationManagerDelegate
