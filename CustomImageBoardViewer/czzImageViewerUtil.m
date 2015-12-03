@@ -113,7 +113,7 @@
     //ipad
     if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
     {
-        [documentInteractionController presentOptionsMenuFromBarButtonItem:browser.actionButton animated:YES];
+        [documentInteractionController presentOptionsMenuFromRect:CGRectZero inView:[UIApplication topViewController].view animated:YES];
     }
     //iphone
     else {
