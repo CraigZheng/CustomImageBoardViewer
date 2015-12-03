@@ -61,9 +61,14 @@
 }
 
 -(void)show {
-    UIViewController *destinationVC = [UIApplication rootViewController];
     if (self.destinationViewController) {
-        destinationVC = self.destinationViewController;
+        if ([self.destinationViewController isKindOfClass:[UINavigationController class]]) {
+            [(UINavigationController *)self.destinationViewController pushViewController:photoBrowser animated:YES];
+        } else {
+            photoBrowserNavigationController = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
+            photoBrowserNavigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+            [self.destinationViewController presentViewController:photoBrowserNavigationController animated:YES completion:nil];
+        }
     } else {
         if (NavigationManager.delegate)
         {
@@ -80,13 +85,6 @@
                 }
             }
         }
-    }
-    if ([destinationVC isKindOfClass:[UINavigationController class]]) {
-        [(UINavigationController *)destinationVC pushViewController:photoBrowser animated:YES];
-    } else {
-        photoBrowserNavigationController = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
-        photoBrowserNavigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-        [destinationVC presentViewController:photoBrowserNavigationController animated:YES completion:nil];
     }
     
 }
