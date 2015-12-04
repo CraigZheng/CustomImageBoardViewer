@@ -16,8 +16,8 @@
                                 <tableRow identifier="wkForumsRowControllerIdentifier" id="kxs-LE-DB1" customClass="czzWKForumRowController">
                                     <group key="rootItem" width="1" height="40" alignment="left" layout="vertical" id="Uzq-rM-g3W">
                                         <items>
-                                            <label alignment="left" verticalAlignment="center" text="ForumName" id="185-xI-UHW">
-                                                <fontDescription key="font" style="UICTFontTextStyleSubhead"/>
+                                            <label alignment="left" verticalAlignment="center" id="185-xI-UHW">
+                                                <fontDescription key="font" style="UICTFontTextStyleTitle1"/>
                                             </label>
                                         </items>
                                     </group>
@@ -57,14 +57,14 @@
                                     <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" id="l6v-Dq-zEd">
                                         <items>
                                             <separator alignment="left" id="evR-bo-Eib"/>
-                                            <label width="1" alignment="left" text="Content" numberOfLines="0" id="dFG-gt-rRo"/>
+                                            <label width="1" alignment="left" numberOfLines="0" id="dFG-gt-rRo"/>
                                             <imageView alignment="left" id="3YK-YS-rlG"/>
                                             <group width="1" alignment="left" id="bpU-90-M5f">
                                                 <items>
                                                     <imageView width="12" height="12" alignment="left" verticalAlignment="bottom" image="picture.png" contentMode="scaleAspectFill" id="EEs-GL-HuX">
                                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </imageView>
-                                                    <label alignment="right" verticalAlignment="bottom" text="Infomation" textAlignment="right" id="pGz-Mb-1qc">
+                                                    <label alignment="right" verticalAlignment="bottom" textAlignment="right" id="pGz-Mb-1qc">
                                                         <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                     </label>
                                                 </items>
@@ -117,18 +117,18 @@
                         </label>
                         <table alignment="left" id="ssM-ZN-gZK">
                             <items>
-                                <tableRow identifier="wkHomeViewRow" id="vfM-qP-lAX" customClass="czzWatchKitHomeRowController">
+                                <tableRow identifier="wkHomeViewRow" selectable="NO" id="vfM-qP-lAX" customClass="czzWatchKitHomeRowController">
                                     <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" id="GXv-WR-EuV">
                                         <items>
                                             <separator alignment="left" id="am3-zt-abW"/>
-                                            <label width="1" alignment="left" text="Content" numberOfLines="0" id="8Q3-Fj-oOm"/>
+                                            <label width="1" alignment="left" numberOfLines="0" id="8Q3-Fj-oOm"/>
                                             <imageView alignment="left" id="btO-YY-a3h"/>
                                             <group width="1" alignment="left" id="u2c-AC-GI2">
                                                 <items>
                                                     <imageView width="12" height="12" alignment="left" verticalAlignment="bottom" image="picture.png" contentMode="scaleAspectFill" id="2em-Zy-u56">
                                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </imageView>
-                                                    <label alignment="right" verticalAlignment="bottom" text="Infomation" textAlignment="right" id="RaF-vv-tZM">
+                                                    <label alignment="right" verticalAlignment="bottom" textAlignment="right" id="RaF-vv-tZM">
                                                         <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                     </label>
                                                 </items>
