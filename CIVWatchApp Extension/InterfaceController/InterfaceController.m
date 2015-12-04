@@ -39,8 +39,6 @@
     [super willActivate];
     if (!self.wkThreads.count) {
         [self reloadData];
-    } else {
-        [self reloadTableView];
     }
 }
 
