@@ -96,7 +96,7 @@
         // For browsing forum.
         targetURLString = [settingCentre thread_list_host];
         targetURLString = [targetURLString stringByReplacingOccurrencesOfString:kForum
-                                                                     withString:self.parentForum.name];
+                                                                     withString:[NSString stringWithFormat:@"%ld", (long)self.parentForum.forumID]];
     }
     assert(targetURLString.length != 0);
     targetURLString = [targetURLString stringByReplacingOccurrencesOfString:kPageNumber

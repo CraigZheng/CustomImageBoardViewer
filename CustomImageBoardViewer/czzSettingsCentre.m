@@ -75,16 +75,16 @@
         should_allow_dart = NO;
         
         NSString *filePath = [[NSBundle mainBundle] pathForResource:@"default_configuration" ofType:@"json"];
-        
-//#ifdef DEBUG
-//        filePath = [[NSBundle mainBundle] pathForResource:@"remote_configuration-debug" ofType:@"json"];
-//#endif
+
         NSData *JSONData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
         [self parseJSONData:JSONData];
         
+#ifdef DEBUG
+#warning DEBUGGING NEW API
+        return self;
+#endif
         [self scheduleRefreshSettings];
-        
-//        restore previous settings
+        // Restore previous settings
         [self restoreSettings];
     }
     return self;

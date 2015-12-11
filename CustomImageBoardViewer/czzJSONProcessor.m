@@ -38,7 +38,7 @@
 -(void)processThreadListFromData:(NSData *)jsonData forForum:(czzForum*)forum{
     processedThreads = [NSMutableArray new];
     NSError *error;
-    NSDictionary *parsedObjects;
+    NSArray *parsedObjects;
     if (jsonData)
         parsedObjects = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
     else
@@ -55,13 +55,12 @@
     }
     @try {
         //        if (forum.parserType == FORUM_PARSER_AISLE) {
-        //page number data
-        if ([parsedObjects objectForKey:@"page"]) {
-            [self updatePageNumberWithJsonDict:[parsedObjects objectForKey:@"page"]];
-        }
+//        //page number data
+//        if ([parsedObjects objectForKey:@"page"]) {
+//            [self updatePageNumberWithJsonDict:[parsedObjects objectForKey:@"page"]];
+//        }
         //thread list data
-        NSArray* parsedThreadData = [[parsedObjects objectForKey:@"data"] objectForKey:@"threads"];
-        for (NSDictionary *rawThreadData in parsedThreadData) {
+        for (NSDictionary *rawThreadData in parsedObjects) {
             czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
             if (newThread) {
                 newThread.forum = forum;
