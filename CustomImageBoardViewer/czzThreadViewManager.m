@@ -28,14 +28,8 @@
         self.parentThread = thread;
         if (self.parentThread)
             [historyManager recordThread:self.parentThread];
-
-        self.forum = forum;
-        // Give it a default forum
-        if (!self.forum) {
-            self.forum = [czzForum new];
-        }
-        self.parentThread = thread;
-        self.parentID = [NSString stringWithFormat:@"%ld", (long) self.parentThread.ID];
+        // Give it a default forum, can be nil.
+        self.forum = forum ?: [czzForum new];
 
         [self reset];
     }
@@ -154,7 +148,6 @@
         } else {
             [self.threads insertObject:self.parentThread atIndex:0];
         }
-        //        [self calculateHeightsForThreads:self.lastBatchOfThreads cutOffFromIndex:self.cutOffIndex];
     }
     // Download images for the new batch of threads
     [self downloadThumbnailsForThreads:threads];
@@ -166,70 +159,6 @@
     });
 
 }
-
-#pragma mark - czzXMLDownloaderDelegate
-//-(void)downloadOf:(NSURL *)xmlURL successed:(BOOL)successed result:(NSData *)receivedData {
-//    self.isDownloading = NO;
-//    if (successed) {
-//        [self.threadDataProcessor processSubThreadFromData:receivedData forForum:self.forum];
-//    }
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        if ([self.delegate respondsToSelector:@selector(homeViewManager:downloadSuccessful:)]) {
-//            [self.delegate homeViewManager:self downloadSuccessful:successed];
-//        }
-//    });
-//}
-//
-//#pragma mark - czzJsonProcesserDelegate
-//-(void)subThreadProcessedForThread:(czzJSONProcessor *)processor :(czzThread *)forThread :(NSArray *)newThread :(BOOL)success {
-//    self.isProcessing = NO;
-//    if (success) {
-//        self.lastBatchOfThreads = newThread;
-//        self.parentThread = forThread ? forThread : self.parentThread;
-//        NSArray *processedNewThread;
-//        if (self.threads.count > 0) {
-//            NSInteger lastChunkIndex = self.threads.count - self.lastBatchOfThreads.count;
-//            if (lastChunkIndex < 1)
-//                lastChunkIndex = 1;
-//            self.cutOffIndex = lastChunkIndex;
-//            NSInteger lastChunkLength = self.threads.count - lastChunkIndex;
-//            NSRange lastChunkRange = NSMakeRange(lastChunkIndex, lastChunkLength);
-//            NSArray *lastChunkOfThread = [self.threads subarrayWithRange:lastChunkRange];
-//            NSMutableOrderedSet *oldThreadSet = [NSMutableOrderedSet orderedSetWithArray:lastChunkOfThread];
-//            [oldThreadSet addObjectsFromArray:newThread];
-//            [self.threads removeObjectsInRange:lastChunkRange];
-//            processedNewThread = oldThreadSet.array;
-//        } else {
-//            self.cutOffIndex = 0;
-//            NSMutableArray *threadsWithParent = [NSMutableArray new];
-//            [threadsWithParent addObject:self.parentThread];
-//            [threadsWithParent addObjectsFromArray:newThread];
-//            processedNewThread = threadsWithParent;
-//        }
-//        self.lastBatchOfThreads = processedNewThread;
-//        [self.threads addObjectsFromArray:self.lastBatchOfThreads];
-//        //replace parent thread
-//        if (self.threads.count >= 1)
-//        {
-//            [self.threads replaceObjectAtIndex:0 withObject:self.parentThread];
-//        } else {
-//            [self.threads insertObject:self.parentThread atIndex:0];
-//        }
-////        [self calculateHeightsForThreads:self.lastBatchOfThreads cutOffFromIndex:self.cutOffIndex];
-//    }
-//    // Download images for the new batch of threads
-//    [self downloadThumbnailsForThreads:newThread];
-//    //calculate current number and total page number
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        if (self.watchKitCompletionHandler) {
-//            self.watchKitCompletionHandler(success, self.threads);
-//            self.watchKitCompletionHandler = nil;
-//        }
-//        else if ([self.delegate respondsToSelector:@selector(homeViewManager:threadContentProcessed:newThreads:allThreads:)]) {
-//            [self.delegate homeViewManager:self threadContentProcessed:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
-//        }
-//    });
-//}
 
 #pragma mark - calculations
 float RoundTo(float number, float to)
