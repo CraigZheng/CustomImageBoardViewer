@@ -82,22 +82,19 @@
             self.ID = [[data objectForKey:@"id"] integerValue];
             self.parentID = [data objectForKey:@"parent"] ? [[data objectForKey:@"parent"] integerValue] : self.ID;
             NSDateFormatter *formatter = [NSDateFormatter new];
-            formatter.dateFormat = @"yyyy-MM-dd(EEEEE)HH:mm:ss";
-            self.postDateTime = [formatter dateFromString:[data objectForKey:@"now"]];
+            formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+            NSString *dateString = [data objectForKey:@"now"];
+            dateString = [[NSRegularExpression regularExpressionWithPattern:@"\\(([^\\)]+)\\)"
+                                                                    options:NSRegularExpressionCaseInsensitive
+                                                                      error:nil] stringByReplacingMatchesInString:dateString options:0 range:NSMakeRange(0, dateString.length) withTemplate:@" "];
+            NSDate *postDate = [formatter dateFromString:dateString];
+            self.postDateTime = postDate;
             
-            self.UID = [data objectForKey:@"uid"] ? [data objectForKey:@"uid"] : [data objectForKey:@"userid"];
+            self.UID = [data objectForKey:@"userid"];
             self.name = [data objectForKey:@"name"];
             self.email = [data objectForKey:@"email"];
             self.title = [data objectForKey:@"title"];
-
-            //content
-            if (self.title.length > 10) {
-                NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" * %@ * \n\n", self.title] attributes:nil];
-                [content appendAttributedString:[self renderHTMLToAttributedString:[data objectForKey:@"content"]]];
-                self.content = content;
-            }
-            else
-                self.content = [self renderHTMLToAttributedString:[NSString stringWithString:[data objectForKey:@"content"]]];
+            self.content = [self renderHTMLToAttributedString:[NSString stringWithString:[data objectForKey:@"content"]]];
 
             self.imgSrc = [[data objectForKey:@"img"] stringByAppendingPathExtension:[data objectForKey:@"ext"]];
             self.lock = [[data objectForKey:@"lock"] boolValue];
