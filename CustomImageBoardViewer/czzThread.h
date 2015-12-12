@@ -16,7 +16,7 @@
 @interface czzThread : NSObject
 @property (assign, nonatomic) NSInteger responseCount;
 @property (assign, nonatomic) NSInteger ID;
-@property (strong, nonatomic) NSAttributedString *UID;
+@property (strong, nonatomic) NSString *UID;
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *email;
 @property (strong, nonatomic) NSString *title;
@@ -49,4 +49,20 @@
 -(instancetype)initWithParentID:(NSInteger)parentID;
 
 -(czzWKThread *)watchKitThread;
+
+/*
+ {
+ "id": "7300953",
+ "img": "2015-12-12/566b717ee1bec",
+ "ext": ".png",
+ "now": "2015-12-12(六)08:59:42",
+ "userid": "GFlBXe8",
+ "name": "无名氏",
+ "email": "",
+ "title": "无标题",
+ "content": "&gt;&gt;No.7299829",
+ "sage": "0",
+ "admin": "0"
+ }
+ */
 @end

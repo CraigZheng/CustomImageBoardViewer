@@ -76,23 +76,16 @@
  */
 
 -(id)initWithJSONDictionary:(NSDictionary *)data {
-    self = [self init];
-    if (self) {
+    if ([data isKindOfClass:[NSDictionary class]]) {
+        self = [self init];
         @try {
             self.ID = [[data objectForKey:@"id"] integerValue];
-            self.parentID = [[data objectForKey:@"parent"] integerValue] != 0 ? [[data objectForKey:@"parent"] integerValue] : self.ID;
-            self.postDateTime = [NSDate dateWithTimeIntervalSince1970:[[data objectForKey:@"createdAt"] doubleValue] / 1000.0];
-            self.updateDateTime = [NSDate dateWithTimeIntervalSince1970:[[data objectForKey:@"updatedAt"] doubleValue] / 1000.0];
-            //UID might have different colour, but I am setting any colour other than default to red at the moment
-            NSString *uidString = [data objectForKey:@"uid"] ? [data objectForKey:@"uid"] : [data objectForKey:@"userid"];
-            if (uidString.length) {
-                NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[self renderHTMLToAttributedString:uidString].string];
-                //if the given string contains keyword "color", then render it red to indicate its important
-                if ([uidString.lowercaseString rangeOfString:@"color"].location != NSNotFound) {
-                    [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, attrString.length)];
-                }
-                self.UID = attrString;
-            }
+            self.parentID = [data objectForKey:@"parent"] ? [[data objectForKey:@"parent"] integerValue] : self.ID;
+            NSDateFormatter *formatter = [NSDateFormatter new];
+            formatter.dateFormat = @"yyyy-MM-dd(EEEEE)HH:mm:ss";
+            self.postDateTime = [formatter dateFromString:[data objectForKey:@"now"]];
+            
+            self.UID = [data objectForKey:@"uid"] ? [data objectForKey:@"uid"] : [data objectForKey:@"userid"];
             self.name = [data objectForKey:@"name"];
             self.email = [data objectForKey:@"email"];
             self.title = [data objectForKey:@"title"];
@@ -105,22 +98,11 @@
             }
             else
                 self.content = [self renderHTMLToAttributedString:[NSString stringWithString:[data objectForKey:@"content"]]];
-            // The server returns 2 different sets of API with minor differences: either a single "image" with an image path, or
-            // 2 fields: "img" and "ext" that together, form an image path.
-            if (![data objectForKey:@"image"]) {
-                NSString *img = [data objectForKey:@"img"] ? [data objectForKey:@"img"] : @"";
-                NSString *extension = [data objectForKey:@"ext"] ? [data objectForKey:@"ext"] : @"";
-                self.imgSrc = [NSString stringWithFormat:@"%@%@", img, extension];
-            } else {
-                self.imgSrc = [data objectForKey:@"image"];
-            }
-            
-            self.thImgSrc = [data objectForKey:@"thumb"];
-            if (!self.thImgSrc) {
-                self.thImgSrc = self.imgSrc;
-            }
+
+            self.imgSrc = [[data objectForKey:@"img"] stringByAppendingPathExtension:[data objectForKey:@"ext"]];
             self.lock = [[data objectForKey:@"lock"] boolValue];
             self.sage = [[data objectForKey:@"sage"] boolValue];
+            
             self.responseCount = [[data objectForKey:@"replyCount"] integerValue];
             [self checkBlacklist];
             [self checkRemoteConfiguration];
@@ -227,7 +209,7 @@
     czzWKThread *wkThread = [czzWKThread new];
     wkThread.ID = self.ID;
     wkThread.title = self.title;
-    wkThread.name = self.UID.string;
+    wkThread.name = self.UID;
     wkThread.content = self.content.string;
     wkThread.postDate = self.postDateTime;
     wkThread.thumbnailFile = self.thImgSrc;
@@ -326,6 +308,6 @@
 }
 
 -(NSString *)description {
-    return [NSString stringWithFormat:@"ID:%ld - UID:%@ - content:%@ - img:%@", (long) self.ID, self.UID.string, self.content.string, self.imgSrc];
+    return [NSString stringWithFormat:@"ID:%ld - UID:%@ - content:%@ - img:%@", (long) self.ID, self.UID, self.content.string, self.imgSrc];
 }
 @end
