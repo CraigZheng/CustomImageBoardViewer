@@ -28,8 +28,8 @@
     "thread_list_host": "http://h.nimingban.com/Api/showf?id=<kForum>&page=<kPageNumber>",
     "thread_content_host": "http://h.nimingban.com/Api/thread?id=<kParentID>&page=<kPageNumber>",
     "quote_thread_host": "http://h.nimingban.com/Api/ref/id/<kThreadID>",
-    "thumbnail_host": "http://cdn.ovear.info:8999/",
-    "image_host": "http://cdn.ovear.info:8999/",
+    "thumbnail_host": "http://cdn.ovear.info:8999/thumb/",
+    "image_host": "http://cdn.ovear.info:8999/image/",
     "donation_link": "",
     "message": ""
 }

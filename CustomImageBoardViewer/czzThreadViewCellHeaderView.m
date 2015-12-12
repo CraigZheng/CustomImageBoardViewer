@@ -25,15 +25,13 @@
     _myThread = myThread;
     if (myThread) {
         self.idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)myThread.ID];
-        NSMutableAttributedString *uidAttrString = [[NSMutableAttributedString alloc] initWithString:@"ID:"];
-        if (myThread.UID)
-            [uidAttrString appendAttributedString:myThread.UID];
+        NSMutableAttributedString *uidAttrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"ID:%@", myThread.UID]];
         self.posterLabel.attributedText = uidAttrString;
         self.dateLabel.text = [self.dateFormatter stringFromDate:myThread.postDateTime];
         
         //highlight original poster
         if (self.shouldHighLight &&
-            [myThread.UID.string isEqualToString: self.parentUID]) {
+            [myThread.UID isEqualToString: self.parentUID]) {
             NSMutableAttributedString *opAttributedString = [[NSMutableAttributedString alloc] initWithAttributedString:self.posterLabel.attributedText];
             [opAttributedString addAttributes:@{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle)} range:NSMakeRange(0, opAttributedString.length)];
             self.posterLabel.attributedText = opAttributedString;

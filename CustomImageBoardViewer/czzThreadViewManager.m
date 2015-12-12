@@ -191,11 +191,11 @@ float RoundTo(float number, float to)
 #pragma mark - highlight thread selected
 -(void)HighlightThreadSelected:(czzThread *)selectedThread {
     if (selectedThread) {
-        if ([self.selectedUserToHighlight isEqual:selectedThread.UID.string]) {
+        if ([self.selectedUserToHighlight isEqual:selectedThread.UID]) {
             self.selectedUserToHighlight = nil;
         }
         else
-            self.selectedUserToHighlight = selectedThread.UID.string;
+            self.selectedUserToHighlight = selectedThread.UID;
         [self.delegate homeViewManagerWantsToReload:self];
     }
 }

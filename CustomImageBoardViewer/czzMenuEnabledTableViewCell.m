@@ -183,13 +183,13 @@
     contentTextView.font = settingsCentre.contentFont;
             
     //highlight the selected user
-    if (selectedUserToHighlight && [myThread.UID.string isEqualToString:selectedUserToHighlight]) {
+    if (selectedUserToHighlight && [myThread.UID isEqualToString:selectedUserToHighlight]) {
         contentTextView.backgroundColor = self.contentView.backgroundColor;
     }
     
     // Header and footer
     self.cellHeaderView.shouldHighLight = self.shouldHighlight;
-    self.cellHeaderView.parentUID = self.parentThread.UID.string;
+    self.cellHeaderView.parentUID = self.parentThread.UID;
     self.cellFooterView.myThread = self.cellHeaderView.myThread = self.myThread;
 }
 

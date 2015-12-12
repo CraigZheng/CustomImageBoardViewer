@@ -9,7 +9,6 @@
 #import "czzThreadListUtilTableViewController.h"
 #import "czzAppDelegate.h"
 #import "czzThreadViewManager.h"
-#import "czzCoreDataManager.h"
 
 @interface czzThreadListUtilTableViewController ()
 @property NSArray *cacheFiles;
@@ -73,9 +72,7 @@ NSString* const cellIdentifier = @"cellIdentifier";
     for (NSString *cacheFile in cacheFiles) {
         czzThreadViewManager *viewModelManager = [self readThreadViewModelWithCacheFile:cacheFile];
         NSArray *threads = viewModelManager.threads;
-        for (czzThread *thread in threads) {
-            [CoreDataManager insertThreadIntoContext:thread];
-        }
+
     }
 }
 @end

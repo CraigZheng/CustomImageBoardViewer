@@ -36,7 +36,7 @@
         czzThread *thread = [[czzThread alloc] initWithJSONDictionary:dict];
         XCTAssert(thread.content.length);
         XCTAssert([thread.postDateTime compare:[NSDate dateWithTimeIntervalSince1970:0]] != NSOrderedSame);
-        XCTAssertFalse([thread.thImgSrc isEqualToString:thread.imgSrc]);
+        XCTAssertTrue(thread.ID > 0);
         
     }
 }
