@@ -639,7 +639,6 @@
 		44DF8EDA1A74D0F00097F7F5 /* czzACTokenUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44DF8ED91A74D0F00097F7F5 /* czzACTokenUtil.m */; };
 		44DF8EDB1A74D0F00097F7F5 /* czzACTokenUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44DF8ED91A74D0F00097F7F5 /* czzACTokenUtil.m */; };
 		44DF8EDE1A74D62E0097F7F5 /* czzCookieManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44DF8EDD1A74D62E0097F7F5 /* czzCookieManagerViewController.m */; };
-		44DF8EDF1A74D62E0097F7F5 /* czzCookieManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44DF8EDD1A74D62E0097F7F5 /* czzCookieManagerViewController.m */; };
 		44DF8EE21A74D6600097F7F5 /* CookieManager.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44DF8EE11A74D6600097F7F5 /* CookieManager.storyboard */; };
 		44DF8EE81A74DA3B0097F7F5 /* czzMessagePopUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44DF8EE71A74DA3B0097F7F5 /* czzMessagePopUpViewController.m */; };
 		44DF8EEB1A74DA510097F7F5 /* MessagePopup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44DF8EEA1A74DA510097F7F5 /* MessagePopup.storyboard */; };
@@ -3677,7 +3676,6 @@
 				44E3F7421BA2FFB600597A3F /* PropertyAttribute.m in Sources */,
 				44C73B8F1A484F280051D4C2 /* czzFavouriteManager.m in Sources */,
 				44E454601B3E46000079B3A8 /* czzThreadData.m in Sources */,
-				44DF8EDF1A74D62E0097F7F5 /* czzCookieManagerViewController.m in Sources */,
 				44E454341B3676FD0079B3A8 /* czzCoreDataManager.m in Sources */,
 				44E3F7481BA3007500597A3F /* NSDictionary+Util.m in Sources */,
 				44DF8EDB1A74D0F00097F7F5 /* czzACTokenUtil.m in Sources */,

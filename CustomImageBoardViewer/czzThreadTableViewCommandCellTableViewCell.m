@@ -7,6 +7,7 @@
 //
 
 #import "czzThreadTableViewCommandCellTableViewCell.h"
+#import "czzSettingsCentre.h"
 
 @interface czzThreadTableViewCommandCellTableViewCell ()
 @end

@@ -8,6 +8,7 @@
 
 #import "czzThreadViewCommandStatusCellViewController.h"
 #import "PureLayout.h"
+#import "czzSettingsCentre.h"
 
 @interface czzThreadViewCommandStatusCellViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *commandStatusLabel;

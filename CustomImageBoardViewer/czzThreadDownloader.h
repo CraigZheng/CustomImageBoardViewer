@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+@class czzThread, czzForum;
 @class czzThreadDownloader;
 @protocol czzThreadDownloaderDelegate <NSObject>
 - (void)threadDownloaderBeginsDownload:(czzThreadDownloader *)downloader;

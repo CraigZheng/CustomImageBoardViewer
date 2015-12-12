@@ -18,6 +18,7 @@
 #import "czzAppActivityManager.h"
 #import "czzFavouriteManagerViewController.h"
 #import "czzCacheCleaner.h"
+#import "czzHomeViewManager.h"
 #import <Google/Analytics.h>
 
 #import <WatchConnectivity/WatchConnectivity.h>

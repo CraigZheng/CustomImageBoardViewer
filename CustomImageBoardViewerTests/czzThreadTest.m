@@ -9,7 +9,8 @@
 #import <XCTest/XCTest.h>
 
 @interface czzThreadTest : XCTestCase
-
+@property (nonatomic, readonly) NSString *listingJson;
+@property (nonatomic, readonly) NSString *contentJson;
 @end
 
 @implementation czzThreadTest
@@ -24,16 +25,34 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+- (void)testThreadListing {
+    NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:[self.listingJson dataUsingEncoding:NSUTF8StringEncoding]
+                                                         options:NSJSONReadingMutableContainers
+                                                           error:nil];
+    XCTAssert(jsonArray.count == 10);
+    for (NSDictionary *dict in jsonArray) {
+        czzThread *thread = [[czzThread alloc] initWithJSONDictionary:dict];
+        XCTAssert(thread.content.length);
+        XCTAssert([thread.postDateTime compare:[NSDate dateWithTimeIntervalSince1970:0]] != NSOrderedSame);
+        XCTAssert(thread.thImgSrc != thread.imgSrc);
+        
+    }
 }
 
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
+#pragma mark - Getters
+
+- (NSString *)listingJson {
+    NSString *listingJson = [NSString stringWithContentsOfFile:[[NSBundle bundleForClass:self.class] pathForResource:@"Threads" ofType:@"json"]
+                                                      encoding:NSUTF8StringEncoding
+                                                         error:nil];
+    return listingJson;
+}
+
+- (NSString *)contentJson {
+    NSString *contentJson = [NSString stringWithContentsOfFile:[[NSBundle bundleForClass:self.class] pathForResource:@"ThreadContent" ofType:@"json"]
+                                                      encoding:NSUTF8StringEncoding
+                                                         error:nil];
+    return contentJson;
 }
 
 @end

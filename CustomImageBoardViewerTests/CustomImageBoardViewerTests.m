@@ -10,7 +10,6 @@
 #import "czzNotification.h"
 #import "czzNotificationDownloader.h"
 #import "SMXMLDocument.h"
-#import "czzAppDelegate.h"
 #import "czzFeedback.h"
 #import "czzSettingsCentre.h"
 #import "czzPost.h"

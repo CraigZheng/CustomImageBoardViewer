@@ -11,6 +11,7 @@
 #import "NSFileManager+Util.h"
 #import "MBProgressHUD.h"
 #import "czzAppDelegate.h"
+#import "czzSettingsCentre.h"
 
 @interface czzCacheCleaner () <UIAlertViewDelegate>
 @property (strong, nonatomic) NSMutableArray *toBeDeletedFileURLs;
