@@ -24,7 +24,7 @@
 #import "UIApplication+Util.h"
 #import "UINavigationController+Util.h"
 
-@interface czzHomeViewDelegate() <czzImageDownloaderManagerDelegate>
+@interface czzHomeViewDelegate() <czzImageDownloaderManagerDelegate, czzMenuEnabledTableViewCellProtocol>
 
 @property (strong) czzImageViewerUtil *imageViewerUtil;
 @property (nonatomic, readonly) NSIndexPath *lastRowIndexPath;

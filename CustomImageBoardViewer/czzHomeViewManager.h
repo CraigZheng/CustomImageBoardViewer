@@ -13,7 +13,6 @@
 
 #import "czzForum.h"
 #import "czzSettingsCentre.h"
-#import "czzTextViewHeightCalculator.h"
 #import "czzAppDelegate.h"
 #import "czzThreadDownloader.h"
 

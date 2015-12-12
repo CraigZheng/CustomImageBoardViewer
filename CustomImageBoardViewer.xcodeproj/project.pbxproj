@@ -1341,6 +1341,7 @@
 		44E791CA1A17856500A63C04 /* view.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = view.png; sourceTree = "<group>"; };
 		44E791CB1A17856500A63C04 /* view@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "view@2x.png"; sourceTree = "<group>"; };
 		44E791CC1A17856500A63C04 /* view@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "view@3x.png"; sourceTree = "<group>"; };
+		44F86B691C1BAC4C001306E8 /* CoustomImageBoardViewerTest.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoustomImageBoardViewerTest.pch; sourceTree = "<group>"; };
 		44FC4343180067CF0028D7C9 /* czzPostSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzPostSender.h; sourceTree = "<group>"; };
 		44FC4344180067CF0028D7C9 /* czzPostSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzPostSender.m; sourceTree = "<group>"; };
 		505660B3F87FABFEE33CE10C /* Pods-CIV-Simulator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CIV-Simulator.release.xcconfig"; path = "Pods/Target Support Files/Pods-CIV-Simulator/Pods-CIV-Simulator.release.xcconfig"; sourceTree = "<group>"; };
@@ -1664,6 +1665,7 @@
 				441E5CFC17F4691300289DBD /* CustomImageBoardViewerTests.m */,
 				44CD96A01C1AA488007E522F /* czzThreadTest.m */,
 				441E5CF717F4691300289DBD /* Supporting Files */,
+				44F86B691C1BAC4C001306E8 /* CoustomImageBoardViewerTest.pch */,
 			);
 			path = CustomImageBoardViewerTests;
 			sourceTree = "<group>";
@@ -4066,7 +4068,7 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Prefix.pch";
+				GCC_PREFIX_HEADER = CustomImageBoardViewerTests/CoustomImageBoardViewerTest.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherit)",
 					"UNITTEST=1",
@@ -4089,7 +4091,7 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Prefix.pch";
+				GCC_PREFIX_HEADER = CustomImageBoardViewerTests/CoustomImageBoardViewerTest.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"UNITTEST=1",
 					"$(inherit)",

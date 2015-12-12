@@ -19,6 +19,8 @@
 #import "czzHistoryManager.h"
 #import "czzWatchListManager.h"
 #import "czzThreadViewManager.h"
+#import "czzMenuEnabledTableViewCell.h"
+
 
 NSInteger const bookmarkIndex = 0;
 NSInteger const watchIndex = 1;

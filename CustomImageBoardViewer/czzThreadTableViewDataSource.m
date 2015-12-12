@@ -8,8 +8,9 @@
 
 #import "czzThreadTableViewDataSource.h"
 #import "czzThreadTableViewCommandCellTableViewCell.h"
+#import "czzMenuEnabledTableViewCell.h"
 
-@interface czzThreadTableViewDataSource ()
+@interface czzThreadTableViewDataSource() <czzMenuEnabledTableViewCellProtocol>
 @property czzThreadViewManager *threadViewManager;
 @end
 

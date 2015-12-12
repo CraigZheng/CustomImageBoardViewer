@@ -19,7 +19,6 @@
 
 #import <UIKit/UIKit.h>
 #import "czzThread.h"
-#import "DACircularProgressView.h"
 
 
 @protocol czzMenuEnabledTableViewCellProtocol <NSObject>

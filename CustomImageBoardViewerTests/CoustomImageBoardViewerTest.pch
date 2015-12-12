@@ -1,0 +1,57 @@
+//
+//  CoustomImageBoardViewerTest.pch
+//  CustomImageBoardViewer
+//
+//  Created by Craig Zheng on 12/12/2015.
+//  Copyright © 2015 Craig. All rights reserved.
+//
+
+#ifndef CoustomImageBoardViewerTest_pch
+#define CoustomImageBoardViewerTest_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+#ifdef DEBUG
+#    define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#    define DLogObj(obj) NSLog(@"%s [Line %d] %@", __PRETTY_FUNCTION__, __LINE__, obj);
+#    define DLogInt(val) NSLog(@"%s [Line %d] %d", __PRETTY_FUNCTION__, __LINE__, val);
+#    define DLogBool(key, val) DLog(@"%@:%@",key, val ? @"yes" : @"no");
+#    define DLogFrame(fr) NSLog(@"%s [Line %d] %f,%f, %f,%f", __PRETTY_FUNCTION__, __LINE__, fr.origin.x, fr.origin.y, fr.size.width,fr.size.height);
+#    define DLogSize(size) NSLog(@"%s [Line %d] %f,%f", __PRETTY_FUNCTION__, __LINE__, size.width, size.height);
+#else
+#    define DLog(...) {}
+#    define DLogObj(obj) {}
+#    define DLogInt(obj) {}
+#    define DLogBool(key, val) {}
+#    define DLogFrame(...) {}
+#    define DLogSize(size) {}
+#endif
+
+#ifndef __IPHONE_5_0
+#warning "This project uses features only available in iOS SDK 5.0 and later."
+#endif
+
+//copied from http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown
+//will suppress perform selector might cause leak warning
+#define SuppressPerformSelectorLeakWarning(Stuff) \
+do { \
+_Pragma("clang diagnostic push") \
+_Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"") \
+Stuff; \
+_Pragma("clang diagnostic pop") \
+} while (0)
+
+#import "NSObject+Util.h"
+
+#define kForum @"<kForum>"
+#define kForumID @"<kForumID>"
+#define kPageNumber @"<kPageNumber>"
+#define kParentID @"<kParentID>"
+#define kThreadID @"<kThreadID>"
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#endif
+
+#endif /* CoustomImageBoardViewerTest_pch */

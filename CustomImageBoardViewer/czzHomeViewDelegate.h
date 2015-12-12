@@ -7,14 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "czzMenuEnabledTableViewCell.h"
 #import "czzOnScreenImageManagerViewController.h"
 #import "czzThreadViewController.h"
 
 @class czzHomeViewManager;
 
 
-@interface czzHomeViewDelegate : NSObject <UITableViewDelegate, czzMenuEnabledTableViewCellProtocol, czzOnScreenImageManagerViewControllerDelegate>
+@interface czzHomeViewDelegate : NSObject <UITableViewDelegate, czzOnScreenImageManagerViewControllerDelegate>
 
 @property (weak, nonatomic) czzHomeViewManager *homeViewManager;
 @property (weak, nonatomic) czzThreadTableView *myTableView;
