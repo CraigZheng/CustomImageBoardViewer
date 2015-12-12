@@ -20,6 +20,7 @@
 #import "czzImageViewerUtil.h"
 #import "czzThreadViewManager.h"
 #import "czzPostViewController.h"
+#import "czzNavigationManager.h"
 
 #import "UIApplication+Util.h"
 #import "UINavigationController+Util.h"

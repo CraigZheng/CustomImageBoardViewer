@@ -73,7 +73,6 @@
 		442F1FE21B15FC8500267698 /* UINavigationController+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FDE1B15FC8500267698 /* UINavigationController+Util.m */; };
 		442F1FE31B15FC8500267698 /* UINavigationController+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FDE1B15FC8500267698 /* UINavigationController+Util.m */; };
 		442F1FE41B15FC8500267698 /* UIApplication+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FE01B15FC8500267698 /* UIApplication+Util.m */; };
-		442F1FE51B15FC8500267698 /* UIApplication+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FE01B15FC8500267698 /* UIApplication+Util.m */; };
 		442F1FEB1B160C9300267698 /* czzThreadTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FEA1B160C9300267698 /* czzThreadTableViewDataSource.m */; };
 		442F1FEC1B160C9300267698 /* czzThreadTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FEA1B160C9300267698 /* czzThreadTableViewDataSource.m */; };
 		443141971A2B38D6007D65B3 /* czzThreadViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141961A2B38D6007D65B3 /* czzThreadViewManager.m */; };
@@ -3671,7 +3670,6 @@
 				442F1FDC1B13537300267698 /* czzHomeTableViewDataSource.m in Sources */,
 				442F1FE31B15FC8500267698 /* UINavigationController+Util.m in Sources */,
 				441E5CFD17F4691300289DBD /* CustomImageBoardViewerTests.m in Sources */,
-				442F1FE51B15FC8500267698 /* UIApplication+Util.m in Sources */,
 				44CD96A11C1AA488007E522F /* czzThreadTest.m in Sources */,
 				44E3F73F1BA2FFB600597A3F /* NSObject+Util.m in Sources */,
 				44E4545E1B3E46000079B3A8 /* czzForumData.m in Sources */,

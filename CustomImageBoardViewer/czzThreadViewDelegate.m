@@ -10,6 +10,7 @@
 
 #import "PartialTransparentView.h"
 #import "czzThreadRefButton.h"
+#import "czzMenuEnabledTableViewCell.h"
 
 @interface czzThreadViewDelegate ()
 @property (nonatomic, strong) PartialTransparentView *containerView;

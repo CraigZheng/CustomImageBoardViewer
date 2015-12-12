@@ -7,7 +7,9 @@
 //
 
 #import "czzImageViewerUtil.h"
-@interface czzImageViewerUtil ()
+#import "MWPhotoBrowser.h"
+
+@interface czzImageViewerUtil () <MWPhotoBrowserDelegate>
 @end
 
 @implementation czzImageViewerUtil

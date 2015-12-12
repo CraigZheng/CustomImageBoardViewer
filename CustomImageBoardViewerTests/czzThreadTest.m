@@ -8,6 +8,8 @@
 
 #import <XCTest/XCTest.h>
 
+#import "czzThread.h"
+
 @interface czzThreadTest : XCTestCase
 @property (nonatomic, readonly) NSString *listingJson;
 @property (nonatomic, readonly) NSString *contentJson;

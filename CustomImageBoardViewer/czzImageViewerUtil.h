@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MWPhotoBrowser.h"
 
-@interface czzImageViewerUtil : NSObject <MWPhotoBrowserDelegate>
+@class MWPhotoBrowser;
+@interface czzImageViewerUtil : NSObject
 @property MWPhotoBrowser *photoBrowser;
 @property NSMutableArray<NSURL *> *photoBrowserDataSource;
 @property UIDocumentInteractionController *documentInteractionController;
