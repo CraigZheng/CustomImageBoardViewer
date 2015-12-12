@@ -741,6 +741,9 @@
 		44E7920B1A17856500A63C04 /* view@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E791CB1A17856500A63C04 /* view@2x.png */; };
 		44E7920C1A17856500A63C04 /* view@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E791CC1A17856500A63C04 /* view@3x.png */; };
 		44F86B651BFE0012001306E8 /* czzWatchKitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469E01BAD9B5000C0AACC /* czzWatchKitCommand.m */; };
+		44F86B6B1C1BB505001306E8 /* ThreadContentPage2.json in Resources */ = {isa = PBXBuildFile; fileRef = 44F86B6A1C1BB505001306E8 /* ThreadContentPage2.json */; };
+		44F86B6C1C1BB505001306E8 /* ThreadContentPage2.json in Resources */ = {isa = PBXBuildFile; fileRef = 44F86B6A1C1BB505001306E8 /* ThreadContentPage2.json */; };
+		44F86B6D1C1BB505001306E8 /* ThreadContentPage2.json in Resources */ = {isa = PBXBuildFile; fileRef = 44F86B6A1C1BB505001306E8 /* ThreadContentPage2.json */; };
 		44FC4345180067CF0028D7C9 /* czzPostSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 44FC4344180067CF0028D7C9 /* czzPostSender.m */; };
 		5A0A6BD61848691C0094D7FB /* czzMoreInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0A6BD51848691C0094D7FB /* czzMoreInfoViewController.m */; };
 		5A1593EC18E71E93001A774B /* czzThreadRefButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1593EB18E71E93001A774B /* czzThreadRefButton.m */; };
@@ -1341,6 +1344,7 @@
 		44E791CB1A17856500A63C04 /* view@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "view@2x.png"; sourceTree = "<group>"; };
 		44E791CC1A17856500A63C04 /* view@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "view@3x.png"; sourceTree = "<group>"; };
 		44F86B691C1BAC4C001306E8 /* CoustomImageBoardViewerTest.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoustomImageBoardViewerTest.pch; sourceTree = "<group>"; };
+		44F86B6A1C1BB505001306E8 /* ThreadContentPage2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ThreadContentPage2.json; sourceTree = "<group>"; };
 		44FC4343180067CF0028D7C9 /* czzPostSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzPostSender.h; sourceTree = "<group>"; };
 		44FC4344180067CF0028D7C9 /* czzPostSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzPostSender.m; sourceTree = "<group>"; };
 		505660B3F87FABFEE33CE10C /* Pods-CIV-Simulator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CIV-Simulator.release.xcconfig"; path = "Pods/Target Support Files/Pods-CIV-Simulator/Pods-CIV-Simulator.release.xcconfig"; sourceTree = "<group>"; };
@@ -2421,6 +2425,7 @@
 			children = (
 				44C73B801A471F060051D4C2 /* ThreadContent.json */,
 				44C73B811A471F060051D4C2 /* Threads.json */,
+				44F86B6A1C1BB505001306E8 /* ThreadContentPage2.json */,
 			);
 			name = Mock;
 			sourceTree = "<group>";
@@ -3017,6 +3022,7 @@
 				44CF254F1A25A2A500BD8228 /* lol@2x.png in Resources */,
 				44CF25681A26B4D000BD8228 /* LICENSE in Resources */,
 				44C73B761A4708BA0051D4C2 /* thumb_down@3x.png in Resources */,
+				44F86B6B1C1BB505001306E8 /* ThreadContentPage2.json in Resources */,
 				44E791D91A17856500A63C04 /* delete@3x.png in Resources */,
 				445C66421BBED3EF004B3E83 /* czzThreadViewCellHeaderView.xib in Resources */,
 				44E791F31A17856500A63C04 /* sad@2x.png in Resources */,
@@ -3190,6 +3196,7 @@
 				441E5CFB17F4691300289DBD /* InfoPlist.strings in Resources */,
 				44C73BD61A496C4F0051D4C2 /* iphone4 launch screen.png in Resources */,
 				44C73BD41A496C4F0051D4C2 /* ipad launch screen.png in Resources */,
+				44F86B6C1C1BB505001306E8 /* ThreadContentPage2.json in Resources */,
 				4425A286199700F000671B88 /* test_image.png in Resources */,
 				44C73BD81A496C4F0051D4C2 /* iphone5 launch screen.png in Resources */,
 				44C73B831A471F060051D4C2 /* ThreadContent.json in Resources */,
@@ -3254,6 +3261,7 @@
 				445540B51BABEBA700667435 /* lol@2x.png in Resources */,
 				445540B61BABEBA700667435 /* LICENSE in Resources */,
 				445540B71BABEBA700667435 /* thumb_down@3x.png in Resources */,
+				44F86B6D1C1BB505001306E8 /* ThreadContentPage2.json in Resources */,
 				445540B81BABEBA700667435 /* delete@3x.png in Resources */,
 				445C66431BBED3EF004B3E83 /* czzThreadViewCellHeaderView.xib in Resources */,
 				445540B91BABEBA700667435 /* sad@2x.png in Resources */,

@@ -41,6 +41,20 @@
     }
 }
 
+- (void)testThreadContent {
+    NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:[self.contentJson dataUsingEncoding:NSUTF8StringEncoding]
+                                                         options:NSJSONReadingMutableContainers
+                                                           error:nil];
+    XCTAssert(jsonArray.count == 20);
+    for (NSDictionary *dict in jsonArray) {
+        czzThread *thread = [[czzThread alloc] initWithJSONDictionary:dict];
+        XCTAssert(thread.content.length);
+        XCTAssert([thread.postDateTime compare:[NSDate dateWithTimeIntervalSince1970:0]] != NSOrderedSame);
+        XCTAssertFalse([thread.thImgSrc isEqualToString:thread.imgSrc]);
+        
+    }
+}
+
 #pragma mark - Getters
 
 - (NSString *)listingJson {
