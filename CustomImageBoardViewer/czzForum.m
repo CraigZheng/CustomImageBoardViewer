@@ -7,6 +7,7 @@
 //
 
 #import "czzForum.h"
+#import "NSObject+NSCodingCompatibleObject.h"
 
 @implementation czzForum
 
@@ -44,34 +45,6 @@
     wkForum.forumID = self.forumID;
     
     return wkForum;
-}
-
-#pragma mark - NSCoding protocol
-
-#pragma mark - NSCoding delegate
--(id)initWithCoder:(NSCoder *)aDecoder {
-    self = [super init];
-    @try {
-        NSDictionary *properties = [NSObject classPropsFor:self.class];
-        for (PropertyAttribute *property in properties.allValues) {
-            if (property.propertyAttributeType != PropertyAttributeTypeReadOnly) {
-                id value = [aDecoder decodeObjectForKey:property.propertyName];
-                [self setValue:value forKey:property.propertyName];
-            }
-        }
-    }
-    @catch (NSException *exception) {
-        DLog(@"%@", exception);
-    }
-    
-    return self;
-}
-
--(void)encodeWithCoder:(NSCoder *)aCoder {
-    NSDictionary *properties = [NSObject classPropsFor:self.class];
-    for (PropertyAttribute *property in properties.allValues) {
-        [aCoder encodeObject:[self valueForKey:property.propertyName] forKey:property.propertyName];
-    }
 }
 
 

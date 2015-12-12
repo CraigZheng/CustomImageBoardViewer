@@ -85,6 +85,9 @@
 		44412975186E9B1000075AA2 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44412974186E9B1000075AA2 /* StoreKit.framework */; };
 		444146DA1A1ACA8700B27D69 /* ImageManagerStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 444146D91A1ACA8700B27D69 /* ImageManagerStoryboard.storyboard */; };
 		444146E21A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 444146E11A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.m */; };
+		4446B5AE1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4446B5AD1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m */; };
+		4446B5AF1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4446B5AD1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m */; };
+		4446B5B01C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4446B5AD1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m */; };
 		4448C2A3180FF50F00D2CD76 /* czzBlacklistEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2A2180FF50F00D2CD76 /* czzBlacklistEntity.m */; };
 		4448C2A7180FF55A00D2CD76 /* czzBlacklistDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2A6180FF55A00D2CD76 /* czzBlacklistDownloader.m */; };
 		4448C2AA180FF6C600D2CD76 /* czzBlacklistSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2A9180FF6C600D2CD76 /* czzBlacklistSender.m */; };
@@ -966,6 +969,8 @@
 		444146D91A1ACA8700B27D69 /* ImageManagerStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ImageManagerStoryboard.storyboard; sourceTree = "<group>"; };
 		444146E01A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzOnScreenImageManagerViewController.h; sourceTree = "<group>"; };
 		444146E11A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzOnScreenImageManagerViewController.m; sourceTree = "<group>"; };
+		4446B5AC1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+NSCodingCompatibleObject.h"; sourceTree = "<group>"; };
+		4446B5AD1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+NSCodingCompatibleObject.m"; sourceTree = "<group>"; };
 		4448C2A1180FF50F00D2CD76 /* czzBlacklistEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzBlacklistEntity.h; sourceTree = "<group>"; };
 		4448C2A2180FF50F00D2CD76 /* czzBlacklistEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzBlacklistEntity.m; sourceTree = "<group>"; };
 		4448C2A5180FF55A00D2CD76 /* czzBlacklistDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzBlacklistDownloader.h; sourceTree = "<group>"; };
@@ -2393,6 +2398,8 @@
 				44E3F73B1BA2FFB600597A3F /* NSObject+Util.m */,
 				44E3F73C1BA2FFB600597A3F /* PropertyAttribute.h */,
 				44E3F73D1BA2FFB600597A3F /* PropertyAttribute.m */,
+				4446B5AC1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.h */,
+				4446B5AD1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m */,
 			);
 			name = NSObjectUtil;
 			sourceTree = "<group>";
@@ -3591,6 +3598,7 @@
 				440B2FD017F8191700544926 /* czzPost.m in Sources */,
 				449E928A1BF8A33300EE2F58 /* czzThreadDownloader.m in Sources */,
 				44E3F73E1BA2FFB600597A3F /* NSObject+Util.m in Sources */,
+				4446B5AE1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m in Sources */,
 				44AE2B011872924C002CB021 /* PartialTransparentView.m in Sources */,
 				44E3F7471BA3007500597A3F /* NSDictionary+Util.m in Sources */,
 				443141971A2B38D6007D65B3 /* czzThreadViewManager.m in Sources */,
@@ -3632,6 +3640,7 @@
 				44C73B8A1A4840100051D4C2 /* czzHistoryManager.m in Sources */,
 				442F1FEC1B160C9300267698 /* czzThreadTableViewDataSource.m in Sources */,
 				442F1FDC1B13537300267698 /* czzHomeTableViewDataSource.m in Sources */,
+				4446B5AF1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m in Sources */,
 				442F1FE31B15FC8500267698 /* UINavigationController+Util.m in Sources */,
 				441E5CFD17F4691300289DBD /* CustomImageBoardViewerTests.m in Sources */,
 				44CD96A11C1AA488007E522F /* czzThreadTest.m in Sources */,
@@ -3732,6 +3741,7 @@
 				445540451BABEBA700667435 /* czzPost.m in Sources */,
 				449E928B1BF8A33300EE2F58 /* czzThreadDownloader.m in Sources */,
 				445540471BABEBA700667435 /* NSObject+Util.m in Sources */,
+				4446B5B01C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m in Sources */,
 				4455404A1BABEBA700667435 /* PartialTransparentView.m in Sources */,
 				4455404B1BABEBA700667435 /* NSDictionary+Util.m in Sources */,
 				4455404C1BABEBA700667435 /* czzThreadViewManager.m in Sources */,
