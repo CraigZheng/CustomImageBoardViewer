@@ -31,12 +31,12 @@
     NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:[self.listingJson dataUsingEncoding:NSUTF8StringEncoding]
                                                          options:NSJSONReadingMutableContainers
                                                            error:nil];
-    XCTAssert(jsonArray.count == 10);
+    XCTAssert(jsonArray.count == 20);
     for (NSDictionary *dict in jsonArray) {
         czzThread *thread = [[czzThread alloc] initWithJSONDictionary:dict];
         XCTAssert(thread.content.length);
         XCTAssert([thread.postDateTime compare:[NSDate dateWithTimeIntervalSince1970:0]] != NSOrderedSame);
-        XCTAssert(thread.thImgSrc != thread.imgSrc);
+        XCTAssertFalse([thread.thImgSrc isEqualToString:thread.imgSrc]);
         
     }
 }
