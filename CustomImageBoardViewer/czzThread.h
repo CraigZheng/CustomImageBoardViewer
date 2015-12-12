@@ -27,24 +27,17 @@
 @property (assign, nonatomic) BOOL sage;
 @property (strong, nonatomic) NSDate *postDateTime;
 @property (strong, nonatomic) NSDate *updateDateTime;
-@property (assign, nonatomic) BOOL isParent;
 @property (assign, nonatomic) NSInteger parentID;
-#pragma mark - CONTENT CENSORING PROPERTIES
-@property (assign, nonatomic) BOOL harmful;
-@property (assign, nonatomic) BOOL blockContent;
-@property (assign, nonatomic) BOOL blockImage;
-@property (assign, nonatomic) BOOL blockAll;
 #pragma mark - CLICKABLE CONTENT
 @property (strong, nonatomic) NSMutableArray *replyToList;
 
 @property (strong, nonatomic) czzForum *forum;
 
--(id)initWithJSONDictionary:(NSDictionary*)data;
-
 -(NSAttributedString*)renderHTMLToAttributedString:(NSString*)htmlString;
 
 -(BOOL)isEqual:(id)object;
 -(NSUInteger)hash;
+-(id)initWithJSONDictionary:(NSDictionary*)data;
 -(instancetype)initWithThreadID:(NSInteger)threadID;
 -(instancetype)initWithParentID:(NSInteger)parentID;
 

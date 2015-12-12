@@ -102,9 +102,6 @@
             self.sage = [[data objectForKey:@"sage"] boolValue];
             
             self.responseCount = [[data objectForKey:@"replyCount"] integerValue];
-            [self checkBlacklist];
-            [self checkRemoteConfiguration];
-
         }
         @catch (NSException *exception) {
             return nil;
@@ -131,44 +128,6 @@
  <UpdateDateTime>2013-09-26T23:42:11.103121</UpdateDateTime>
  */
 
--(void)checkBlacklist {
-    if (![settingCentre shouldEnableBlacklistFiltering])
-        return;
-    //consor contents
-    czzBlacklistEntity *blacklistEntity = [[czzBlacklist sharedInstance] blacklistEntityForThreadID:self.ID];
-    if (blacklistEntity){
-        //assign the blacklist value to this thread
-        self.harmful = blacklistEntity.harmful;
-        self.blockContent = blacklistEntity.content;
-        if (self.blockContent)
-            self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
-        self.blockImage = blacklistEntity.image;
-        if (self.blockImage){
-            self.imgSrc = nil;
-            self.thImgSrc = nil;
-        }
-        self.blockAll = blacklistEntity.block;
-        if (self.blockAll)
-        {
-            self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
-            self.imgSrc = nil;
-            self.thImgSrc = nil;
-        }
-    }
-
-}
-
--(void)checkRemoteConfiguration {
-    if (![settingCentre shouldDisplayThumbnail]) {
-        self.thImgSrc = nil;
-    }
-    if (![settingCentre shouldDisplayImage]) {
-        self.imgSrc = nil;
-    }
-    if (![settingCentre shouldDisplayContent]) {
-        self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
-    }
-}
 
 -(NSAttributedString*)renderHTMLToAttributedString:(NSString*)htmlString{
     @try {
