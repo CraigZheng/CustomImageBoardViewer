@@ -167,14 +167,7 @@
     NSMutableAttributedString *contentAttrString;
     if (myThread.content)
         contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:myThread.content];
-    if (myThread.harmful){
-        NSDictionary *warningStringAttributes = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObject:[UIColor lightGrayColor]] forKeys:[NSArray arrayWithObject:NSForegroundColorAttributeName]];
-        NSAttributedString *warningAttString = [[NSAttributedString alloc] initWithString:WARNINGHEADER attributes:warningStringAttributes];
-        
-        //add the warning header to the front of content attributed string
-        contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:warningAttString];
-        [contentAttrString insertAttributedString:myThread.content atIndex:warningAttString.length];
-    }
+
     //content textview
     if (settingsCentre.nightyMode)
         [contentAttrString addAttribute:NSForegroundColorAttributeName value:settingsCentre.contentTextColour range:NSMakeRange(0, contentAttrString.length)];
