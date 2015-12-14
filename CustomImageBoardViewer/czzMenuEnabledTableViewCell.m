@@ -137,14 +137,14 @@
 #pragma mark - consturct UI elements
 -(void)prepareUIWithMyThread {
     [self resetViews];
-    if (myThread.thImgSrc.length){
+    if (myThread.imgSrc.length){
         // Has thumbnail image, show the preview image view...
         previewImageView.hidden = NO;
         self.contentToImageBottomConstraint.priority = UILayoutPriorityRequired - 1;
         
         [previewImageView setImage:[UIImage imageNamed:@"Icon.png"]];
 
-        NSString *imageName = myThread.thImgSrc.lastPathComponent;
+        NSString *imageName = myThread.imgSrc.lastPathComponent;
         UIImage *previewImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:imageName]]];
 
         if (settingsCentre.userDefShouldUseBigImage)
@@ -256,7 +256,7 @@
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
     if (success && delegate) {
         if (downloader.isThumbnail) {
-            if ([downloader.targetURLString.lastPathComponent isEqualToString:myThread.thImgSrc.lastPathComponent]) {
+            if ([downloader.targetURLString.lastPathComponent isEqualToString:myThread.imgSrc.lastPathComponent]) {
                 self.previewImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:downloader.targetURLString.lastPathComponent]]];
                 // A bit of fading in effect.
                 self.previewImageView.alpha = 0;
