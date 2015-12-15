@@ -121,11 +121,11 @@
 
 - (void)downloadThumbnailsForThreads:(NSArray*)threads {
     for (czzThread *thread in threads) {
-        if (thread.thImgSrc.length != 0){
+        if (thread.imgSrc.length){
             // If image should be shown.
             if ([settingCentre userDefShouldDisplayThumbnail] || ![settingCentre shouldDisplayThumbnail]){
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [[czzImageDownloaderManager sharedManager] downloadImageWithURL:thread.thImgSrc isThumbnail:YES];
+                    [[czzImageDownloaderManager sharedManager] downloadImageWithURL:thread.imgSrc isThumbnail:YES];
                 });
             }
         }

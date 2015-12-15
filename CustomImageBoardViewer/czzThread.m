@@ -160,6 +160,13 @@
     return [[NSAttributedString alloc] initWithString:htmlString.length ? htmlString : @""];
 }
 
+#pragma mark - Accessor
+
+// thImgSrc is no longer in use, return self.imgSrc in its getter instead.
+- (NSString *)thImgSrc {
+    return self.imgSrc;
+}
+
 #pragma mark - convert to czzWKThread object
 
 -(czzWKThread *)watchKitThread {

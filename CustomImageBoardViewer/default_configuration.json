@@ -25,7 +25,7 @@
     "get_forum_info_url": "http://h.nimingban.com/forum/get?forumName=",
     "ac_host": "http://www.acfun.tv/",
     "a_isle_host": "http://h.nimingban.com/",
-    "thread_list_host": "http://h.nimingban.com/Api/showf?id=<kForum>&page=<kPageNumber>",
+    "thread_list_host": "http://h.nimingban.com/Api/showf?id=<kForumID>&page=<kPageNumber>",
     "thread_content_host": "http://h.nimingban.com/Api/thread?id=<kParentID>&page=<kPageNumber>",
     "quote_thread_host": "http://h.nimingban.com/Api/ref/id/<kThreadID>",
     "thumbnail_host": "http://cdn.ovear.info:8999/thumb/",

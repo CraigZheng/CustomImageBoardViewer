@@ -202,8 +202,8 @@
 
 #pragma mark - czzImageDownloaderManagerDelegate
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
-    if (success && !downloader.isThumbnail) {
-        if ([settingCentre userDefShouldAutoOpenImage])
+    if (success) {
+        if (!downloader.isThumbnail && [settingCentre userDefShouldAutoOpenImage])
             [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]];
     } else
         DLog(@"img download failed");

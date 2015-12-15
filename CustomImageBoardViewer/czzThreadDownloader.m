@@ -98,7 +98,7 @@
     } else if (self.parentForum) {
         // For browsing forum.
         targetURLString = [settingCentre thread_list_host];
-        targetURLString = [targetURLString stringByReplacingOccurrencesOfString:kForum
+        targetURLString = [targetURLString stringByReplacingOccurrencesOfString:kForumID
                                                                      withString:[NSString stringWithFormat:@"%ld", (long)self.parentForum.forumID]];
     }
     assert(targetURLString.length != 0);
