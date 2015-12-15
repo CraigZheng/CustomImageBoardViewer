@@ -166,7 +166,6 @@
 }
 
 - (void)pageNumberUpdated:(NSInteger)currentPage allPage:(NSInteger)allPage {
-    self.pageNumber = currentPage;
     self.totalPages = allPage;
 }
 

@@ -160,17 +160,6 @@
 
 }
 
-#pragma mark - calculations
-float RoundTo(float number, float to)
-{
-    if (number >= 0) {
-        return to * floorf(number / to + 1.);
-    }
-    else {
-        return to * ceilf(number / to - 0.5f);
-    }
-}
-
 #pragma mark - content managements.
 - (void)reset {
     self.totalPages = self.pageNumber = 1;

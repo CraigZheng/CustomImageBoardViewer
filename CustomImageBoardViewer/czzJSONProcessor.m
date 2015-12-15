@@ -8,6 +8,7 @@
 
 #import "czzJSONProcessor.h"
 #import "czzThread.h"
+#import "czzSettingsCentre.h"
 #import "czzAppDelegate.h"
 #import "NSDictionary+Util.h"
 
@@ -110,10 +111,7 @@
     @try {
         //        if (forum.parserType == FORUM_PARSER_AISLE) {
         //thread and sub thread data
-        czzThread *parentThread;
-        if ([parsedObjects objectForKey:@"threads"]) {
-            parentThread = [[czzThread alloc] initWithJSONDictionary:[parsedObjects objectForKey:@"threads"]];
-        }
+        czzThread *parentThread = [[czzThread alloc] initWithJSONDictionary:parsedObjects];
         parentThread.forum = forum; // Record source forum
         NSArray* parsedThreadData = [parsedObjects jsonValueWithKey:@"replys"];
         for (NSDictionary *rawThreadData in parsedThreadData) {
@@ -123,10 +121,8 @@
                 [processedThreads addObject:newThread];
             }
         }
-        // Page number data
-        if ([parsedObjects objectForKey:@"page"]) {
-            [self updatePageNumberWithJsonDict:[parsedObjects jsonValueWithKey:@"page"]];
-        }
+        // Page number
+        [self updatePageNumberWithParentThread:parentThread];
         
         if (delegate) {
             if ([delegate respondsToSelector:@selector(subThreadProcessedForThread::::)]) {
@@ -151,19 +147,18 @@
     }
 }
 
--(void)updatePageNumberWithJsonDict:(NSDictionary*)jsonDict {
-    //if jsonDict or delegate is empty
-    if (!jsonDict || !delegate)
-        return;
-    //check if dictionary has the following 2 keys
-    if ([jsonDict valueForKey:@"page"] && [jsonDict valueForKey:@"size"])
-    {
-        NSInteger pageNumber = [[jsonDict jsonValueWithKey:@"page"] integerValue];
-        NSInteger totalPages = [[jsonDict jsonValueWithKey:@"size"] integerValue];
+-(void)updatePageNumberWithParentThread:(czzThread *)parentThread {
+    if (parentThread) {
+        CGFloat pageNumber = 1;
+        CGFloat totalPages = 1; //Default values.
+        
+        totalPages = (CGFloat)parentThread.responseCount / (CGFloat)settingCentre.response_per_page;
+        totalPages = ceilf(totalPages);
         if ([delegate respondsToSelector:@selector(pageNumberUpdated:allPage:)])
-            [delegate pageNumberUpdated:pageNumber allPage:totalPages];
+            [delegate pageNumberUpdated:(NSInteger)pageNumber allPage:(NSInteger)totalPages];
     }
 }
+
 /*
  page =     {
  page = 1;
