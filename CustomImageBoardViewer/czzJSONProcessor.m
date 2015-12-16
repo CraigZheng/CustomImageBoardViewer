@@ -121,8 +121,6 @@
                 [processedThreads addObject:newThread];
             }
         }
-        // Page number
-        [self updatePageNumberWithParentThread:parentThread];
         
         if (delegate) {
             if ([delegate respondsToSelector:@selector(subThreadProcessedForThread::::)]) {
@@ -144,18 +142,6 @@
                 [delegate subThreadProcessedForThread:nil :nil :NO];
             }
         }
-    }
-}
-
--(void)updatePageNumberWithParentThread:(czzThread *)parentThread {
-    if (parentThread) {
-        CGFloat pageNumber = 1;
-        CGFloat totalPages = 1; //Default values.
-        
-        totalPages = (CGFloat)parentThread.responseCount / (CGFloat)settingCentre.response_per_page;
-        totalPages = ceilf(totalPages);
-        if ([delegate respondsToSelector:@selector(pageNumberUpdated:allPage:)])
-            [delegate pageNumberUpdated:(NSInteger)pageNumber allPage:(NSInteger)totalPages];
     }
 }
 

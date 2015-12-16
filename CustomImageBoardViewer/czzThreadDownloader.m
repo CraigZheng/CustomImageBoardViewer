@@ -162,14 +162,19 @@
 
 - (void)subThreadProcessedForThread:(czzJSONProcessor *)processor :(czzThread *)parentThread :(NSArray *)newThread :(BOOL)success {
     dispatch_async(dispatch_get_main_queue(), ^{
+        // Page number, if download is not successful or not enough to fill a page, reverse the page number by 1.
+        CGFloat pageNumber = (success && newThread.count >= settingCentre.response_per_page) ? self.pageNumber : self.pageNumber--;
+        CGFloat totalPages = 1; //Default values.
+        
+        totalPages = (CGFloat)parentThread.responseCount / (CGFloat)settingCentre.response_per_page;
+        totalPages = ceilf(totalPages);
+        // Notify delegate about the page number
+        if ([self.delegate respondsToSelector:@selector(pageNumberUpdated:allPage:)]) {
+            [self.delegate pageNumberUpdated:pageNumber allPage:totalPages];
+        }
+        // Notify delegate about the successful download.
         [self notifyDelegateSuccess:success downloadedThreads:newThread error:nil];
     });
-}
-
-- (void)pageNumberUpdated:(NSInteger)currentPage allPage:(NSInteger)allPage {
-    if ([self.delegate respondsToSelector:@selector(pageNumberUpdated:allPage:)]) {
-        [self.delegate pageNumberUpdated:currentPage allPage:allPage];
-    }
 }
 
 @end

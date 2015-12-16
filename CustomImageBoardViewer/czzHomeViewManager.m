@@ -83,7 +83,7 @@
     [self loadMoreThreads:self.pageNumber + 1];
 }
 
--(void)loadMoreThreads:(NSInteger)pn {
+-(void)loadMoreThreads:(NSInteger)pageNumber {
 #ifdef UNITTEST
     NSData *mockData = [[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"threadList" ofType:@"json"]]];
     [self downloadOf:nil successed:YES result:mockData];
@@ -91,11 +91,10 @@
 #endif
     if (self.downloader)
         [self.downloader stop];
-    self.pageNumber = pn;
-    if (self.pageNumber > self.totalPages)
-        self.pageNumber = self.totalPages;
+    if (pageNumber > self.totalPages)
+        pageNumber = self.totalPages;
     // Construct and start downloading for forum with page number,
-    self.downloader.pageNumber = self.pageNumber;
+    self.downloader.pageNumber = pageNumber;
     [self.downloader start];
     
     self.isDownloading = YES;
@@ -166,6 +165,8 @@
 }
 
 - (void)pageNumberUpdated:(NSInteger)currentPage allPage:(NSInteger)allPage {
+    DLog(@"%s : %ld/%ld", __PRETTY_FUNCTION__, (long)currentPage, (long)allPage);
+    self.pageNumber = currentPage;
     self.totalPages = allPage;
 }
 
