@@ -11,7 +11,7 @@
 #import "czzMenuEnabledTableViewCell.h"
 
 @interface czzThreadTableViewDataSource() <czzMenuEnabledTableViewCellProtocol>
-@property czzThreadViewManager *threadViewManager;
+@property (strong, nonatomic) czzThreadViewManager *threadViewManager;
 @end
 
 @implementation czzThreadTableViewDataSource
@@ -29,6 +29,7 @@
     // If within the range of threads, is a thread view cell, otherwise is a command cell.
     if (indexPath.row < self.threadViewManager.threads.count) {
         czzThread *thread = [self.threadViewManager.threads objectAtIndex:indexPath.row];
+        [self.threadViewManager.referenceIndexDictionary setObject:[indexPath copy] forKey:[NSString stringWithFormat:@"%ld", (long)thread.ID]];
         // Thread view cell
         if (cell && [cell isKindOfClass:[czzMenuEnabledTableViewCell class]]){
             czzMenuEnabledTableViewCell *threadViewCell = (czzMenuEnabledTableViewCell*)cell;

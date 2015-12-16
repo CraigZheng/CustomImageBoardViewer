@@ -240,4 +240,11 @@
     return _downloader;
 }
 
+- (NSMutableDictionary *)referenceIndexDictionary {
+    if (!_referenceIndexDictionary) {
+        _referenceIndexDictionary = [NSMutableDictionary new];
+    }
+    return _referenceIndexDictionary;
+}
+
 @end

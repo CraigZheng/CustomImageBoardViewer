@@ -170,16 +170,19 @@
     if (!text.integerValue) {
         return;
     }
-    for (czzThread *thread in self.threadViewManager.threads) {
-        if (thread.ID == text.integerValue) {
+    NSIndexPath *selectedIndexPath = [self.threadViewManager.referenceIndexDictionary objectForKey:text];
+    if (selectedIndexPath && selectedIndexPath.row < self.threadViewManager.threads.count) {
+        czzThread *selectedThread = [self.threadViewManager.threads objectAtIndex:selectedIndexPath.row];
+        if (selectedThread.ID == text.integerValue) {
             self.threadsTableViewContentOffSet = self.myTableView.contentOffset;
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.threadViewManager.threads indexOfObject:thread] inSection:0];
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.threadViewManager.threads indexOfObject:selectedThread] inSection:0];
             [self.myTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:NO];
             [[NSOperationQueue currentQueue] addOperationWithBlock:^{
                 [self highlightTableViewCell:[self.myTableView cellForRowAtIndexPath:indexPath]];
             }];
             return;
         }
+
     }
 
     // Thread not found in the downloaded thread, get it from server instead.

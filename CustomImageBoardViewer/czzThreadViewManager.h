@@ -22,6 +22,7 @@
 @property (assign, nonatomic) BOOL restoredFromCache;
 @property (strong, nonatomic) NSString *selectedUserToHighlight;
 @property (weak, nonatomic) id<czzThreadViewManagerDelegate> delegate;
+@property (strong, nonatomic) NSMutableDictionary *referenceIndexDictionary;
 
 - (void)reset;
 - (void)HighlightThreadSelected:(czzThread *)selectedThread;
