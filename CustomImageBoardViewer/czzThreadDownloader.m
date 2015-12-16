@@ -74,6 +74,12 @@
     }
 }
 
+- (void)notifyDelegatePageNumberUpdated:(NSInteger)current total:(NSInteger)total {
+    if ([self.delegate respondsToSelector:@selector(pageNumberUpdated:allPage:)]) {
+        [self.delegate pageNumberUpdated:current allPage:total];
+    }
+}
+
 #pragma mark - Setters
 
 - (void)setParentForum:(czzForum *)parentForum {
@@ -156,6 +162,7 @@
 - (void)threadListProcessed:(czzJSONProcessor *)processor :(NSArray *)newThread :(BOOL)success {
     // TODO: give proper error.
     dispatch_async(dispatch_get_main_queue(), ^{
+        [self notifyDelegatePageNumberUpdated:success ? self.pageNumber : self.pageNumber-- total:INT32_MAX];
         [self notifyDelegateSuccess:success downloadedThreads:newThread error:nil];
     });
 }
@@ -169,9 +176,8 @@
         totalPages = (CGFloat)parentThread.responseCount / (CGFloat)settingCentre.response_per_page;
         totalPages = ceilf(totalPages);
         // Notify delegate about the page number
-        if ([self.delegate respondsToSelector:@selector(pageNumberUpdated:allPage:)]) {
-            [self.delegate pageNumberUpdated:pageNumber allPage:totalPages];
-        }
+        [self notifyDelegatePageNumberUpdated:pageNumber total:totalPages];
+        
         // Notify delegate about the successful download.
         [self notifyDelegateSuccess:success downloadedThreads:newThread error:nil];
     });
