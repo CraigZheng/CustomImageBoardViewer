@@ -135,8 +135,6 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
 }
 
 -(void)refreshData {
-    [cookieManager refreshACCookies];
-    
     switch (cookieManagerSegmentControl.selectedSegmentIndex) {
         case 0:
             cookiesDataSource = [cookieManager currentACCookies];
