@@ -16,7 +16,6 @@
 #import "czzSettingsCentre.h"
 #import "czzURLDownloader.h"
 #import "NSDictionary+Util.h"
-#import "NSObject+NSCodingCompatibleObject.h"
 
 @interface czzThread()
 @end
@@ -197,79 +196,46 @@
     return self.UID.hash + self.ID + self.postDateTime.hash;
 }
 
-//#pragma mark - encoding and decoding functions
-//-(void)encodeWithCoder:(NSCoder*)encoder{
-//    [encoder encodeInteger:self.responseCount forKey:@"responseCount"];
-//    [encoder encodeInteger:self.ID forKey:@"ID"];
-//    [encoder encodeObject:self.UID forKey:@"UID"];
-//    [encoder encodeObject:self.name forKey:@"name"];
-//    [encoder encodeObject:self.email forKey:@"email"];
-//    [encoder encodeObject:self.title forKey:@"title"];
-//    [encoder encodeObject:self.content forKey:@"content"];
-//    [encoder encodeObject:self.imgSrc forKey:@"imgSrc"];
-//    [encoder encodeObject:self.thImgSrc forKey:@"thImgSrc"];
-//    [encoder encodeBool:self.lock forKey:@"lock"];
-//    [encoder encodeBool:self.sage forKey:@"sage"];
-//    [encoder encodeObject:self.postDateTime forKey:@"postDateTime"];
-//    [encoder encodeObject:self.updateDateTime forKey:@"updateDateTime"];
-//    [encoder encodeBool:self.isParent forKey:@"isParent"];
-//    [encoder encodeObject:self.replyToList forKey:@"replyToList"];
-//    [encoder encodeBool:self.harmful forKey:@"harmful"];
-//    [encoder encodeBool:self.blockContent forKey:@"blockContent"];
-//    [encoder encodeBool:self.blockImage forKey:@"blockImage"];
-//    [encoder encodeBool:self.blockAll forKey:@"blockAll"];
-//    [encoder encodeObject:self.forum forKey:@"forum"];
-//}
-//
-//-(id)initWithCoder:(NSCoder*)decoder{
-//    self = [czzThread new];
-//    if (self){
-//        self.responseCount = [decoder decodeIntegerForKey:@"responseCount"];
-//        self.ID = [decoder decodeIntegerForKey:@"ID"];
-//        self.UID = [decoder decodeObjectForKey:@"UID"];
-//        self.name = [decoder decodeObjectForKey:@"name"];
-//        self.email = [decoder decodeObjectForKey:@"email"];
-//        self.title = [decoder decodeObjectForKey:@"title"];
-//        self.content = [decoder decodeObjectForKey:@"content"];
-//        self.imgSrc = [decoder decodeObjectForKey:@"imgSrc"];
-//        self.thImgSrc = [decoder decodeObjectForKey:@"thImgSrc"];
-//        self.lock = [decoder decodeBoolForKey:@"lock"];
-//        self.sage = [decoder decodeBoolForKey:@"sage"];
-//        self.postDateTime = [decoder decodeObjectForKey:@"postDateTime"];
-//        self.updateDateTime = [decoder decodeObjectForKey:@"updateDateTime"];
-//        self.isParent = [decoder decodeBoolForKey:@"isParent"];
-//        self.replyToList = [decoder decodeObjectForKey:@"replyToList"];
-//        self.harmful = [decoder decodeBoolForKey:@"harmful"];
-//        self.blockContent = [decoder decodeBoolForKey:@"blockContent"];
-//        self.blockImage = [decoder decodeBoolForKey:@"blockImage"];
-//        self.blockAll = [decoder decodeBoolForKey:@"blockAll"];
-//        self.forum = [decoder decodeObjectForKey:@"forum"];
-//        //blacklist info might be updated when this thread is not in the memory
-//        //censored contents
-//        czzBlacklistEntity *blacklistEntity = [[czzBlacklist sharedInstance] blacklistEntityForThreadID:self.ID];
-//        if (blacklistEntity){
-//            //assign the blacklist value to this thread
-//            self.harmful = blacklistEntity.harmful;
-//            self.blockContent = blacklistEntity.content;
-//            if (self.blockContent)
-//                self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
-//            self.blockImage = blacklistEntity.image;
-//            if (self.blockImage){
-//                self.imgSrc = nil;
-//                self.thImgSrc = nil;
-//            }
-//            self.blockAll = blacklistEntity.block;
-//            if (self.blockAll)
-//            {
-//                self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
-//                self.imgSrc = nil;
-//                self.thImgSrc = nil;
-//            }
-//        }
-//        
-//    }
-//    return self;
-//}
+#pragma mark - encoding and decoding functions
+-(void)encodeWithCoder:(NSCoder*)encoder{
+    [encoder encodeInteger:self.responseCount forKey:@"responseCount"];
+    [encoder encodeInteger:self.ID forKey:@"ID"];
+    [encoder encodeObject:self.UID forKey:@"UID"];
+    [encoder encodeObject:self.name forKey:@"name"];
+    [encoder encodeObject:self.email forKey:@"email"];
+    [encoder encodeObject:self.title forKey:@"title"];
+    [encoder encodeObject:self.content forKey:@"content"];
+    [encoder encodeObject:self.imgSrc forKey:@"imgSrc"];
+    [encoder encodeObject:self.thImgSrc forKey:@"thImgSrc"];
+    [encoder encodeBool:self.lock forKey:@"lock"];
+    [encoder encodeBool:self.sage forKey:@"sage"];
+    [encoder encodeObject:self.postDateTime forKey:@"postDateTime"];
+    [encoder encodeObject:self.updateDateTime forKey:@"updateDateTime"];
+    [encoder encodeObject:self.replyToList forKey:@"replyToList"];
+    [encoder encodeObject:self.forum forKey:@"forum"];
+}
+
+-(id)initWithCoder:(NSCoder*)decoder{
+    self = [czzThread new];
+    if (self){
+        self.responseCount = [decoder decodeIntegerForKey:@"responseCount"];
+        self.ID = [decoder decodeIntegerForKey:@"ID"];
+        self.UID = [decoder decodeObjectForKey:@"UID"];
+        self.name = [decoder decodeObjectForKey:@"name"];
+        self.email = [decoder decodeObjectForKey:@"email"];
+        self.title = [decoder decodeObjectForKey:@"title"];
+        self.content = [decoder decodeObjectForKey:@"content"];
+        self.imgSrc = [decoder decodeObjectForKey:@"imgSrc"];
+        self.thImgSrc = [decoder decodeObjectForKey:@"thImgSrc"];
+        self.lock = [decoder decodeBoolForKey:@"lock"];
+        self.sage = [decoder decodeBoolForKey:@"sage"];
+        self.postDateTime = [decoder decodeObjectForKey:@"postDateTime"];
+        self.updateDateTime = [decoder decodeObjectForKey:@"updateDateTime"];
+        self.replyToList = [decoder decodeObjectForKey:@"replyToList"];
+        self.forum = [decoder decodeObjectForKey:@"forum"];        
+    }
+    return self;
+}
 
 -(NSString *)description {
     return [NSString stringWithFormat:@"ID:%ld - UID:%@ - content:%@ - img:%@", (long) self.ID, self.UID, self.content.string, self.imgSrc];
