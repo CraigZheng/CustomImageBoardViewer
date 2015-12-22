@@ -18,6 +18,7 @@
 #import "czzWatchListManager.h"
 
 @interface czzSettingsViewController ()<UIAlertViewDelegate, UIActionSheetDelegate>
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *debugBarButton;
 @property NSMutableArray *commands;
 @property NSMutableArray *regularCommands;
 @property NSMutableArray *switchCommands;
@@ -33,6 +34,9 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+#ifndef DEBUG
+    self.navigationItem.rightBarButtonItem = nil;
+#endif
     settingsCentre = [czzSettingsCentre sharedInstance];
     commands = [NSMutableArray new];
     regularCommands = [NSMutableArray new];

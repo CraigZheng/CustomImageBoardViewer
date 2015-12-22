@@ -539,6 +539,8 @@
 		44A294CA1BFDF13B0033D438 /* czzWKForum.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294C01BFDF1050033D438 /* czzWKForum.m */; };
 		44A294CB1BFDF1420033D438 /* czzWKThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294C21BFDF1050033D438 /* czzWKThread.m */; };
 		44A294CC1BFDF1430033D438 /* czzWKThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294C21BFDF1050033D438 /* czzWKThread.m */; };
+		44A372DD1C28D9E0004CBA48 /* czzDebugSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A372DC1C28D9E0004CBA48 /* czzDebugSettingsTableViewController.m */; };
+		44A372DE1C28D9E0004CBA48 /* czzDebugSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A372DC1C28D9E0004CBA48 /* czzDebugSettingsTableViewController.m */; };
 		44A9E1531AE1D16000740CE1 /* Icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = 44A9E1491AE1D16000740CE1 /* Icon-60.png */; };
 		44A9E1541AE1D16000740CE1 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 44A9E14A1AE1D16000740CE1 /* Icon-72.png */; };
 		44A9E1551AE1D16000740CE1 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44A9E14B1AE1D16000740CE1 /* Icon-72@2x.png */; };
@@ -1123,6 +1125,8 @@
 		44A294C11BFDF1050033D438 /* czzWKThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWKThread.h; sourceTree = "<group>"; };
 		44A294C21BFDF1050033D438 /* czzWKThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWKThread.m; sourceTree = "<group>"; };
 		44A294CF1BFDF7630033D438 /* CIVWatchApp.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CIVWatchApp.pch; sourceTree = "<group>"; };
+		44A372DB1C28D9E0004CBA48 /* czzDebugSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzDebugSettingsTableViewController.h; sourceTree = "<group>"; };
+		44A372DC1C28D9E0004CBA48 /* czzDebugSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzDebugSettingsTableViewController.m; sourceTree = "<group>"; };
 		44A9E1491AE1D16000740CE1 /* Icon-60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60.png"; sourceTree = "<group>"; };
 		44A9E14A1AE1D16000740CE1 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		44A9E14B1AE1D16000740CE1 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
@@ -2344,6 +2348,8 @@
 				443B54F619933F4C00BAB282 /* czzSettingsCentre */,
 				44B96E35185B97C400D664A4 /* czzSettingsViewController.h */,
 				44B96E36185B97C400D664A4 /* czzSettingsViewController.m */,
+				44A372DB1C28D9E0004CBA48 /* czzDebugSettingsTableViewController.h */,
+				44A372DC1C28D9E0004CBA48 /* czzDebugSettingsTableViewController.m */,
 			);
 			name = czzSettingsViewController;
 			sourceTree = "<group>";
@@ -3563,6 +3569,7 @@
 				4425A2891997109600671B88 /* czzForum.m in Sources */,
 				4479B0901A0CCB6D0074D484 /* czzMiniThreadViewController.m in Sources */,
 				44792C711BBAC34400AF5CB5 /* NSFileManager+Util.m in Sources */,
+				44A372DD1C28D9E0004CBA48 /* czzDebugSettingsTableViewController.m in Sources */,
 				5AF85E681970025A0031D0CB /* czzSearchViewController.m in Sources */,
 				4448C2A7180FF55A00D2CD76 /* czzBlacklistDownloader.m in Sources */,
 				442CD0E31851601A0021AD37 /* czzImageDownloader.m in Sources */,
@@ -3706,6 +3713,7 @@
 				445540191BABEBA700667435 /* czzForum.m in Sources */,
 				4455401A1BABEBA700667435 /* czzMiniThreadViewController.m in Sources */,
 				44792C721BBAC34400AF5CB5 /* NSFileManager+Util.m in Sources */,
+				44A372DE1C28D9E0004CBA48 /* czzDebugSettingsTableViewController.m in Sources */,
 				4455401D1BABEBA700667435 /* czzSearchViewController.m in Sources */,
 				4455401E1BABEBA700667435 /* czzBlacklistDownloader.m in Sources */,
 				4455401F1BABEBA700667435 /* czzImageDownloader.m in Sources */,
