@@ -8,6 +8,7 @@ pod 'Google/Analytics'
 pod "MWPhotoBrowser"
 pod 'ViewDeck'
 pod 'PureLayout'
+pod 'CocoaLumberjack'
 end
 
 target 'CIV-Simulator' do
@@ -15,5 +16,6 @@ pod 'Google/Analytics'
 pod "MWPhotoBrowser"
 pod 'ViewDeck'
 pod 'PureLayout'
+pod 'CocoaLumberjack'
 end
 

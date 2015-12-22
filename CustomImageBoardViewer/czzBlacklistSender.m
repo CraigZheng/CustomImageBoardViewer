@@ -48,7 +48,7 @@
     receivedResponse = [NSMutableData new];
 //    NSDictionary *dict = [(NSHTTPURLResponse*)response allHeaderFields];
 //    for (NSString *header in dict) {
-//        //DLog(@"%@:%@", header, [dict objectForKey:header]);
+//        //DDLogDebug(@"%@:%@", header, [dict objectForKey:header]);
 //    }
 }
 

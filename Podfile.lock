@@ -1,4 +1,12 @@
 PODS:
+  - CocoaLumberjack (2.2.0):
+    - CocoaLumberjack/Default (= 2.2.0)
+    - CocoaLumberjack/Extensions (= 2.2.0)
+  - CocoaLumberjack/Core (2.2.0)
+  - CocoaLumberjack/Default (2.2.0):
+    - CocoaLumberjack/Core
+  - CocoaLumberjack/Extensions (2.2.0):
+    - CocoaLumberjack/Default
   - DACircularProgress (2.3.1)
   - Google/Analytics (1.1.1):
     - Google/Core
@@ -28,12 +36,14 @@ PODS:
   - ViewDeck (2.4.1)
 
 DEPENDENCIES:
+  - CocoaLumberjack
   - Google/Analytics
   - MWPhotoBrowser
   - PureLayout
   - ViewDeck
 
 SPEC CHECKSUMS:
+  CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
   Google: 529a5d8719dff90ea2e7cba5f45302cd359b5456
   GoogleAnalytics: fcf1f1cad57ae1a9a53520018f0f680ceeeb8b49

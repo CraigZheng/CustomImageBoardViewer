@@ -45,7 +45,7 @@
     else
         error = [NSError errorWithDomain:@"Empty Data!" code:999 userInfo:nil];
     if (error) {
-        DLog(@"%@", error);
+        DDLogDebug(@"%@", error);
         if (delegate) {
             if ([delegate respondsToSelector:@selector(threadListProcessed:::)]) {
                 [delegate threadListProcessed:self :nil :NO];
@@ -80,7 +80,7 @@
         
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
         if (delegate) {
             if ([delegate respondsToSelector:@selector(threadListProcessed:::)]) {
                 [delegate threadListProcessed:self :nil :NO];
@@ -100,7 +100,7 @@
     else
         error = [NSError errorWithDomain:@"Empty Data!" code:999 userInfo:nil];
     if (error) {
-        DLog(@"%@", error);
+        DDLogDebug(@"%@", error);
         if ([delegate respondsToSelector:@selector(subThreadProcessedForThread:::)]) {
             [delegate subThreadProcessedForThread:nil :nil :NO];
         } else {
@@ -131,7 +131,7 @@
         //        }
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
         if (delegate) {
             if ([delegate respondsToSelector:@selector(subThreadProcessedForThread::::)]) {
                 [delegate subThreadProcessedForThread:self :nil :nil :NO];

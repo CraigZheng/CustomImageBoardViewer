@@ -78,7 +78,7 @@
         // Start downloading.
         [imageDownloader start];
     } else {
-        DLog(@"%@: %@ is downloading.", imageURL, thumbnail ? @"Fullsize Image" : @"Thumbnail Image");
+        DDLogDebug(@"%@: %@ is downloading.", imageURL, thumbnail ? @"Fullsize Image" : @"Thumbnail Image");
     }
 }
 
@@ -98,7 +98,7 @@
                 [delegate imageDownloaderManager:self downloadedStopped:downloaderToStop imageName:imageName];
             }
         }];
-        DLog(@"Image download stopped by user: %@", imageName);
+        DDLogDebug(@"Image download stopped by user: %@", imageName);
     }
 }
 

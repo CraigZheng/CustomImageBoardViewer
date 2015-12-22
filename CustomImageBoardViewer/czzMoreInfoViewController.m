@@ -98,7 +98,7 @@
         }
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
     }
     moreInfoNavItem.title = self.title;
 }

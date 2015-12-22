@@ -40,16 +40,16 @@ NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
 #pragma mark - state perserving and restoring
 - (NSString*)saveCurrentState {
     if ([NSKeyedArchiver archiveRootObject:self toFile:self.cacheFilePath]) {
-        DLog(@"%@ successfully saved state", NSStringFromClass(self.class));
+        DDLogDebug(@"%@ successfully saved state", NSStringFromClass(self.class));
     } else {
-        DLog(@"state cannot be saved for %@", NSStringFromClass(self.class));
+        DDLogDebug(@"state cannot be saved for %@", NSStringFromClass(self.class));
     }
     return self.cacheFilePath;
 }
 
 - (void)restoreState {
     if ([[NSFileManager defaultManager] fileExistsAtPath:self.cacheFilePath]) {
-        DLog(@"%@ cache state file exists, trying to recover...", NSStringFromClass(self.class));
+        DDLogDebug(@"%@ cache state file exists, trying to recover...", NSStringFromClass(self.class));
         @try {
             NSData *cacheFileContent = [NSData dataWithContentsOfFile:self.cacheFilePath];
             // Delete cache file immediately.
@@ -61,11 +61,11 @@ NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
                 self.homeViewManager = tempAppActivityManager.homeViewManager;
                 self.threadViewManager = tempAppActivityManager.threadViewManager;
                 
-                DLog(@"%@ successfully recovered from %@", NSStringFromClass(self.class), self.cacheFilePath);
+                DDLogDebug(@"%@ successfully recovered from %@", NSStringFromClass(self.class), self.cacheFilePath);
             }
         }
         @catch (NSException *exception) {
-            DLog(@"%@", exception);
+            DDLogDebug(@"%@", exception);
         }
     }
 }

@@ -155,7 +155,7 @@
         return renderedString;
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
     }
     return [[NSAttributedString alloc] initWithString:htmlString.length ? htmlString : @""];
 }

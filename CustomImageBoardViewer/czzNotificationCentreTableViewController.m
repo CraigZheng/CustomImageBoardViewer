@@ -62,7 +62,7 @@
         notifications = [NSMutableOrderedSet orderedSetWithArray:sortedArray];
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
     }
 }
 
@@ -84,8 +84,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(thumbnailDownloaded:) name:@"ThumbnailDownloaded" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaderUpdated:) name:@"ImageDownloaderProgressUpdated" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ImageDownloaded" object:nil];
-    DLog(@"tableview content size %@", [NSValue valueWithCGSize:self.tableView.contentSize]);
-    DLog(@"tableview bound size %@", [NSValue valueWithCGSize:self.tableView.bounds.size]);
+    DDLogDebug(@"tableview content size %@", [NSValue valueWithCGSize:self.tableView.contentSize]);
+    DDLogDebug(@"tableview bound size %@", [NSValue valueWithCGSize:self.tableView.bounds.size]);
     [self.view bringSubviewToFront:self.tableView];
     
     //dismiss banner view - if any

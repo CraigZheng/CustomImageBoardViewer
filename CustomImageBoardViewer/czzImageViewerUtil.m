@@ -37,7 +37,7 @@
         [photoBrowser setCurrentPhotoIndex: [photoBrowserDataSource indexOfObject:photoPath]];
         [self show];
     } else {
-        DLog(@"Either photo path is nil");
+        DDLogDebug(@"Either photo path is nil");
     }
 }
 
@@ -58,7 +58,7 @@
         [self show];
     }
     else {
-        DLog(@"Either photos or view controller is nil");
+        DDLogDebug(@"Either photos or view controller is nil");
     }
 }
 
@@ -120,7 +120,7 @@
         return photo;
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
     }
     return nil;
 }

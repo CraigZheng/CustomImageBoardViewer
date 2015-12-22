@@ -32,7 +32,7 @@ NSString * const cookieName = @"userhash";
         if (!error)
             return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         else
-            DLog(@"%@", error);
+            DDLogDebug(@"%@", error);
     }
     return nil;
 }

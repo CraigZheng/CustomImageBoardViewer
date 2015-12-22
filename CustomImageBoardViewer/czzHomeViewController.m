@@ -317,7 +317,7 @@
 }
 
 -(void)homeViewManager:(czzHomeViewManager *)homeViewManager downloadSuccessful:(BOOL)wasSuccessful {
-    DLog(@"%@", NSStringFromSelector(_cmd));
+    DDLogDebug(@"%@", NSStringFromSelector(_cmd));
     if (!wasSuccessful && !NavigationManager.isInTransition) {
         [self.refreshControl endRefreshing];
         [self.progressView stopAnimating];
@@ -333,7 +333,7 @@
 }
 
 -(void)homeViewManager:(czzHomeViewManager *)list threadListProcessed:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
-    DLog(@"%@", NSStringFromSelector(_cmd));
+    DDLogDebug(@"%@", NSStringFromSelector(_cmd));
     // If pageNumber == 1, then is a forum change, scroll to top.
     [[NSOperationQueue currentQueue] addOperationWithBlock:^{
         [self updateTableView];
@@ -402,7 +402,7 @@
 #pragma mark - pause / restoration
 -(void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
-    DLog(@"%@", NSStringFromSelector(_cmd));
+    DDLogDebug(@"%@", NSStringFromSelector(_cmd));
 }
 
 + (instancetype)new {

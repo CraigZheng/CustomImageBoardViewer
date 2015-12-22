@@ -39,7 +39,7 @@
 -(void)getCookieIfHungry {
     if (self.acCookies.count > 0)
         return;
-    DLog(@"current cookie empty, try to eat a cookie");
+    DDLogDebug(@"current cookie empty, try to eat a cookie");
     NSString *getCookieURLString = [[settingCentre a_isle_host] stringByAppendingPathComponent:[NSString stringWithFormat:@"/Home/Api/getCookie?deviceid=%@", [UIDevice currentDevice].identifierForVendor.UUIDString]];
 
     czzURLDownloader *urlDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:getCookieURLString] delegate:self startNow:YES shouldUseDefaultCookit:NO];
@@ -49,7 +49,7 @@
 -(void)setACCookie:(NSHTTPCookie *)cookie ForURL:(NSURL *)url {
     if (!cookie)
     {
-        DLog(@"incoming cookie is nil");
+        DDLogDebug(@"incoming cookie is nil");
         return;
     }
     [self.cookieStorage setCookies:@[cookie] forURL:url mainDocumentURL:nil];
@@ -114,9 +114,9 @@
 - (void)downloadOf:(NSURL *)url successed:(BOOL)successed result:(NSData *)downloadedData {
     NSString *result = [[NSString alloc] initWithData:downloadedData encoding:NSUTF8StringEncoding];
     if (successed && [result containsString:@"ok"]) {
-        DLog(@"I ate a cookie!");
+        DDLogDebug(@"I ate a cookie!");
     } else {
-        DLog(@"can't find a cookie to eat!");
+        DDLogDebug(@"can't find a cookie to eat!");
     }
 
 }
@@ -127,7 +127,7 @@
     NSMutableArray *cookies = [NSMutableArray new];
     for (NSHTTPCookie *cookie in [self.cookieStorage cookies]) {
         if ([cookie.name.lowercaseString isEqualToString:cookieName.lowercaseString]) {
-            DLog(@"%@", cookie);
+            DDLogDebug(@"%@", cookie);
             [cookies addObject:cookie];
         }
     }

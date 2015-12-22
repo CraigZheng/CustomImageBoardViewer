@@ -208,11 +208,11 @@
 
 
 -(void)userTapInImageView:(id)sender {
-    DLog(@"%@", NSStringFromSelector(_cmd));
+    DDLogDebug(@"%@", NSStringFromSelector(_cmd));
     if (self.shouldAllowClickOnImage && [delegate respondsToSelector:@selector(userTapInImageView:)]) {
         [delegate userTapInImageView:myThread.imgSrc];
     } else {
-        DLog(@"Tap on image view dis-allowed.");
+        DDLogDebug(@"Tap on image view dis-allowed.");
     }
 }
 

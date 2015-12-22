@@ -54,7 +54,7 @@
         [requestBody appendData:myPost.makeRequestBody];
         [urlRequest setHTTPBody:requestBody];
         urlConn = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self startImmediately:YES];
-        DLog(@"Sending post to: %@", urlRequest);
+        DDLogDebug(@"Sending post to: %@", urlRequest);
     } else {
         if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
         {
@@ -70,7 +70,7 @@
     if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
     {
         [self.delegate statusReceived:NO message:[NSString stringWithFormat:@"网络错误"]];
-        DLog(@"%@", error);
+        DDLogDebug(@"%@", error);
     }
 }
 
@@ -91,7 +91,7 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection{
-    DLog(@"received response: \n%@", [[NSString alloc] initWithData:self.receivedResponse encoding:NSUTF8StringEncoding]);
+    DDLogDebug(@"received response: \n%@", [[NSString alloc] initWithData:self.receivedResponse encoding:NSUTF8StringEncoding]);
 //    [self response:receivedResponse];
 }
 
@@ -103,7 +103,7 @@
 
 #pragma mark - Decode the self.response xml data - at Aug 2014, they've changed to return value to json format
 -(void)response:(NSData*)jsonData{
-    DLog(@"%@", [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]);
+    DDLogDebug(@"%@", [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]);
 //    NSError *error;
 //    NSDictionary *jsonResponse;
 //    if (jsonData)

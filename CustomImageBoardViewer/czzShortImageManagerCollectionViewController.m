@@ -51,10 +51,10 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
 }
 
 - (IBAction)tapOnBackgroundViewAction:(id)sender {
-    DLog(@"%s", __PRETTY_FUNCTION__);
+    DDLogDebug(@"%s", __PRETTY_FUNCTION__);
     UITapGestureRecognizer *tapSender = sender;
     // If the tap gesture is located outside of the collection view.
-    DLog(@"");
+    DDLogDebug(@"");
     if (!CGRectContainsPoint(self.managerCollectionView.frame, [tapSender locationInView:self.view])) {
         [self dismiss];
     }
@@ -66,7 +66,7 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
     } else if (self.navigationController.childViewControllers.count > 1) {
         [self.navigationController popViewControllerAnimated:YES];
     } else {
-        DLog(@"%@ cannot be dismissed", NSStringFromClass(self.class));
+        DDLogDebug(@"%@ cannot be dismissed", NSStringFromClass(self.class));
     }
 }
 

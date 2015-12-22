@@ -103,7 +103,7 @@
     [self.requestedThreadDownloaders addObject:threadDownloader];
     __weak typeof (self) weakSelf = self;
     threadDownloader.completionHandler = ^(BOOL success, NSArray *threads, NSError *error) {
-        DLog(@"%s : %ld threads : %@", __PRETTY_FUNCTION__, threads.count, error);
+        DDLogDebug(@"%s : %ld threads : %@", __PRETTY_FUNCTION__, threads.count, error);
         replyHandler(@{command.caller : [weakSelf watchKitThreadsWithThreads:threads]});
         if (weakRefDownloader) {
             [self.requestedThreadDownloaders removeObject:weakRefDownloader];
@@ -140,10 +140,10 @@
 }
 
 - (void)watchThreadWithCommand:(czzWatchKitCommand *)command replyHandler:(void(^)(NSDictionary *responseMessage))replyHandler {
-    DLog(@"%s", __PRETTY_FUNCTION__);
+    DDLogDebug(@"%s", __PRETTY_FUNCTION__);
     czzWKThread *tempWKThread = [[czzWKThread alloc] initWithDictionary:command.parameter[@"THREAD"]];
     czzThread *selectedThread = [self fatThreadWithWKThread:tempWKThread];
-    DLog(@"should watch: %@", tempWKThread);
+    DDLogDebug(@"should watch: %@", tempWKThread);
     //TODO: a proper response.
     replyHandler([NSDictionary new]);
 }

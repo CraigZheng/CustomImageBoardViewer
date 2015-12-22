@@ -123,7 +123,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
             [self refreshThread:self];
         }
     } else {
-        DLog(@"App in background, nothing needs to be done.");
+        DDLogDebug(@"App in background, nothing needs to be done.");
     }
     
     // Google Analytic integration.

@@ -25,7 +25,7 @@ NSString* const cellIdentifier = @"cellIdentifier";
     NSError *error;
     cacheFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[czzAppDelegate threadCacheFolder] error:&error];
     if (error) {
-        DLog(@"%@", error);
+        DDLogDebug(@"%@", error);
     }
 }
 
@@ -64,7 +64,7 @@ NSString* const cellIdentifier = @"cellIdentifier";
         AppDelegate.window.rootViewController = mainViewController;
         [AppDelegate.window makeKeyAndVisible];
     } else {
-        DLog(@"Cannot instantiate initial view controller from main storyboard.");
+        DDLogDebug(@"Cannot instantiate initial view controller from main storyboard.");
     }
 }
 

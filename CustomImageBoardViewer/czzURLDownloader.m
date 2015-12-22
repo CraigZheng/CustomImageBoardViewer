@@ -59,8 +59,8 @@
 
 -(void)start{
     [urlConn start];
-    DLog(@"%@ make request to: %@", NSStringFromClass(self.class), self.targetURL);
-    DLog(@"Header fields: %@", urlConn.originalRequest.allHTTPHeaderFields);
+    DDLogDebug(@"%@ make request to: %@", NSStringFromClass(self.class), self.targetURL);
+    DDLogDebug(@"Header fields: %@", urlConn.originalRequest.allHTTPHeaderFields);
 }
 
 -(void)stop{
@@ -109,7 +109,7 @@
 }
 
 -(void)connectionDidFinishLoading:(NSURLConnection*)connection{
-    DLog(@"%s", __PRETTY_FUNCTION__);
+    DDLogDebug(@"%s", __PRETTY_FUNCTION__);
     if ([self.delegate respondsToSelector:@selector(downloadOf:successed:result:)]){
         [self.delegate downloadOf:connection.currentRequest.URL successed:YES result:self.receivedData];
     }

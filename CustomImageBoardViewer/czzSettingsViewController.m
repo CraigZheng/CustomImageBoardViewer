@@ -173,7 +173,7 @@
                 AppDelegate.window.rootViewController = utilityViewContorller;
                 [AppDelegate.window makeKeyAndVisible];
             } else {
-                DLog(@"Utility view contorller nil, cannot instantiate from Utility storyboard file.");
+                DDLogDebug(@"Utility view contorller nil, cannot instantiate from Utility storyboard file.");
             }
         } else if ([command isEqualToString:@"WATCHLIST"]) {
             

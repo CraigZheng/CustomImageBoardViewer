@@ -29,6 +29,8 @@
 //#import <BugSense-iOS/BugSenseController.h>
 #import <SplunkMint-iOS/SplunkMint-iOS.h>
 
+#define LOG_LEVEL_DEF ddLogLevel
+
 @interface czzAppDelegate()<czzBlacklistDownloaderDelegate, czzHomeViewManagerDelegate, WCSessionDelegate>
 @property czzSettingsCentre *settingsCentre;
 @end
@@ -40,6 +42,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [DDLog addLogger:[DDTTYLogger sharedInstance]]; // TTY = Xcode console
+    [DDLog addLogger:[DDASLLogger sharedInstance]]; // ASL = Apple System Logs
+    
+    DDFileLogger *fileLogger = [[DDFileLogger alloc] init]; // File Logger
+    fileLogger.rollingFrequency = 60 * 60 * 24; // 24 hour rolling
+    fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
+    [DDLog addLogger:fileLogger];
+    
 #ifndef TARGET_IPHONE_SIMULATOR
     [[Mint sharedInstance] initAndStartSession:@"cd668a8e"];
     [[Mint sharedInstance] setUserIdentifier:[UIDevice currentDevice].identifierForVendor.UUIDString];
@@ -94,7 +104,7 @@
 
 
 -(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    DLog(@"%@", url.absoluteString);
+    DDLogDebug(@"%@", url.absoluteString);
     if ([url.host isEqualToString:@"acfun"]) {
         return YES;
     }

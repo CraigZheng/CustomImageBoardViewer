@@ -31,10 +31,10 @@
 -(NSString*)saveCurrentState {
     NSString *cachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:self.cacheFile];
     if ([NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
-        DLog(@"save state successed");
+        DDLogDebug(@"save state successed");
         return cachePath;
     } else {
-        DLog(@"save state failed");
+        DDLogDebug(@"save state failed");
         [[NSFileManager defaultManager] removeItemAtPath:cachePath error:nil];
         return nil;
     }
@@ -63,7 +63,7 @@
         }
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
     }
 }
 
@@ -160,12 +160,12 @@
         if ([self.delegate respondsToSelector:@selector(homeViewManager:threadListProcessed:newThreads:allThreads:)]) {
             [self.delegate homeViewManager:self threadListProcessed:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
         }
-        DLog(@"%@", NSStringFromSelector(_cmd));
+        DDLogDebug(@"%@", NSStringFromSelector(_cmd));
     });
 }
 
 - (void)pageNumberUpdated:(NSInteger)currentPage allPage:(NSInteger)allPage {
-    DLog(@"%s : %ld/%ld", __PRETTY_FUNCTION__, (long)currentPage, (long)allPage);
+    DDLogDebug(@"%s : %ld/%ld", __PRETTY_FUNCTION__, (long)currentPage, (long)allPage);
     self.pageNumber = currentPage;
     self.totalPages = allPage;
 }
@@ -231,7 +231,7 @@
 
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
     }
     return nil;
 }

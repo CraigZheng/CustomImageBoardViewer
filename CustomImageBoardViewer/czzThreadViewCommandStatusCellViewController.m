@@ -52,7 +52,7 @@
         self.commandStatusLabel.text = commandLabelString;
     }
     @catch (NSException *exception) {
-        DLog(@"%@",exception);
+        DDLogDebug(@"%@",exception);
     }
 }
 

@@ -55,10 +55,10 @@
 #pragma mark - Refresh action
 -(void)refreshWatchedThreads:(void (^)(NSArray *))completionHandler {
     if (self.isDownloading) {
-        DLog(@"%@ is downloading, cannot proceed further...", NSStringFromClass(self.class));
+        DDLogDebug(@"%@ is downloading, cannot proceed further...", NSStringFromClass(self.class));
         return;
     }
-    DLog(@"Watchlist manager refreshing watched threads...");
+    DDLogDebug(@"Watchlist manager refreshing watched threads...");
     self.isDownloading = YES;
     self.updatedThreads = [NSMutableArray new];
     
@@ -79,7 +79,7 @@
         [self updateWatchedThreadsWithThreads:self.updatedThreads];
         self.isDownloading = NO;
         dispatch_async(dispatch_get_main_queue(), ^{
-            DLog(@"%ld threads downloaded in %.1f seconds, %ld threads have new content", (long)self.watchedThreads.count, [[NSDate new] timeIntervalSinceDate:startDate], (long)self.updatedThreads.count);
+            DDLogDebug(@"%ld threads downloaded in %.1f seconds, %ld threads have new content", (long)self.watchedThreads.count, [[NSDate new] timeIntervalSinceDate:startDate], (long)self.updatedThreads.count);
             completionHandler(self.updatedThreads);
             [self saveState];
         });
@@ -102,7 +102,7 @@
         }
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
     }
 }
 

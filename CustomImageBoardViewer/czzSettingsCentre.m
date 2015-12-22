@@ -106,10 +106,10 @@
 
 -(BOOL)saveSettings {
     if ([NSKeyedArchiver archiveRootObject:self toFile:self.settingsFile]) {
-        DLog(@"Settings saved to file: %@", self.settingsFile);
+        DDLogDebug(@"Settings saved to file: %@", self.settingsFile);
         return YES;
     } else {
-        DLog(@"Settings can not be saved! Settings file: %@", self.settingsFile);
+        DDLogDebug(@"Settings can not be saved! Settings file: %@", self.settingsFile);
         return NO;
     }
 }
@@ -132,20 +132,20 @@
                             }
                         }
                         @catch (NSException *exception) {
-                            DLog(@"%@", exception);
+                            DDLogDebug(@"%@", exception);
                         }
                     }
                     else
-                        DLog(@"%@ - cannot be restored:", propertyName);
+                        DDLogDebug(@"%@ - cannot be restored:", propertyName);
                 }
             }
             return YES;
         } else {
-            DLog(@"failed to restore files");
+            DDLogDebug(@"failed to restore files");
         }
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
     }
     return NO;
 }
@@ -159,7 +159,7 @@
     NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
 
     if (error) {
-        DLog(@"%@", error);
+        DDLogDebug(@"%@", error);
         return;
     }
     @try {
@@ -203,7 +203,7 @@
         get_forum_info_url = [jsonObject objectForKey:@"get_forum_info_url"];
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
     }
 }
 
@@ -218,7 +218,7 @@
         if (downloadedData) {
             [self parseJSONData:downloadedData];
             [self saveSettings]; //save settings from remote
-            DLog(@"settings updated from remote server");
+            DDLogDebug(@"settings updated from remote server");
             if (message.length > 0) {
                 [AppDelegate showToast:message];
             }

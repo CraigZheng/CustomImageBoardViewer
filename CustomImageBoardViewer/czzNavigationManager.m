@@ -47,7 +47,7 @@
         }
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
     }
     
     // Reload animating progress view.

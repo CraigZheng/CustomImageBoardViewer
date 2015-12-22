@@ -180,7 +180,7 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
             [cookieManager setACCookie:newCookie ForURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
             [AppDelegate showToast:@"饼干已启用"];
         } else {
-            DLog(@"token nil");
+            DDLogDebug(@"token nil");
         }
     } else if (alertView == shareCookieAlertView) {
         //do nothing

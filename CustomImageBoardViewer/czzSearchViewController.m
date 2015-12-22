@@ -148,7 +148,7 @@
     }
     NSURL *aIsleHostURL = [NSURL URLWithString:[settingCentre a_isle_host]];
     NSString *searchURL = [[selectedSearchEngine stringByReplacingOccurrencesOfString:A_ISLE_HOST withString:[aIsleHostURL host]] stringByReplacingOccurrencesOfString:KEYWORD withString:keyword];
-    DLog(@"search: %@", searchURL);
+    DDLogDebug(@"search: %@", searchURL);
     return [NSURLRequest requestWithURL:[NSURL URLWithString:searchURL]];
 }
 #pragma mark - Navigation
@@ -169,7 +169,7 @@
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    DLog(@"should navigate to URL: %@", request.URL.absoluteString);
+    DDLogDebug(@"should navigate to URL: %@", request.URL.absoluteString);
     //user tapped on link
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
         if ([request.URL.absoluteString rangeOfString:[settingCentre a_isle_host]].location == NSNotFound) {

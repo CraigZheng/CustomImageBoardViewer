@@ -48,7 +48,7 @@
     self.urlDownloader = [[czzURLDownloader alloc] initWithTargetURL:targetURL
                                                             delegate:self
                                                             startNow:YES];
-    DLog(@"Start downloading: %@", targetURL.absoluteString);
+    DDLogDebug(@"Start downloading: %@", targetURL.absoluteString);
     if ([self.delegate respondsToSelector:@selector(threadDownloaderBeginsDownload:)]) {
         [self.delegate threadDownloaderBeginsDownload:self];
     }
@@ -56,7 +56,7 @@
 
 - (void)stop {
     if (self.urlDownloader) {
-        DLog(@"%s", __PRETTY_FUNCTION__);
+        DDLogDebug(@"%s", __PRETTY_FUNCTION__);
         self.urlDownloader.delegate = nil;
         [self.urlDownloader stop];
     }

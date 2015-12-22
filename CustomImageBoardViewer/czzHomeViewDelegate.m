@@ -88,14 +88,14 @@
             if (![settingCentre shouldAllowOpenBlockedThread]) {
                 czzBlacklistEntity *blacklistEntity = [[czzBlacklist sharedInstance] blacklistEntityForThreadID:selectedThread.ID];
                 if (blacklistEntity){
-                    DLog(@"blacklisted thread");
+                    DDLogDebug(@"blacklisted thread");
                     return;
                 }
             }
         }
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
     }
     if (indexPath.row < self.homeViewManager.threads.count)
     {
@@ -179,19 +179,19 @@
 }
 
 - (void)userWantsToReply:(czzThread *)thread inParentThread:(czzThread *)parentThread{
-    DLog(@"%s : %@", __PRETTY_FUNCTION__, thread);
+    DDLogDebug(@"%s : %@", __PRETTY_FUNCTION__, thread);
     [self replyToThread:thread inParentThread:parentThread];
 }
 
 - (void)userWantsToHighLight:(czzThread *)thread {
-    DLog(@"%s : %@", __PRETTY_FUNCTION__, thread);
+    DDLogDebug(@"%s : %@", __PRETTY_FUNCTION__, thread);
     if ([self.homeViewManager isKindOfClass:[czzThreadViewManager class]]) {
         [(czzThreadViewManager *)self.homeViewManager HighlightThreadSelected:thread];
     }
 }
 
 - (void)userWantsToSearch:(czzThread *)thread {
-    DLog(@"%s : NOT IMPLEMENTED", __PRETTY_FUNCTION__);
+    DDLogDebug(@"%s : NOT IMPLEMENTED", __PRETTY_FUNCTION__);
 }
 
 #pragma mark - czzOnScreenImageManagerViewControllerDelegate
@@ -206,7 +206,7 @@
         if (!downloader.isThumbnail && [settingCentre userDefShouldAutoOpenImage])
             [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]];
     } else
-        DLog(@"img download failed");
+        DDLogDebug(@"img download failed");
 }
 
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedStopped:(czzImageDownloader *)downloader imageName:(NSString *)imageName {
@@ -242,7 +242,7 @@
         }
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
     }
     return isOver;
 }

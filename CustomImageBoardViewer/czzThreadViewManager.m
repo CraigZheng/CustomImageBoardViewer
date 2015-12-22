@@ -76,7 +76,7 @@
         self.restoredFromCache = NO;
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
     }
 }
 
@@ -85,7 +85,7 @@
     if ([NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
         return cachePath;
     } else {
-        DLog(@"save state failed");
+        DDLogDebug(@"save state failed");
         [[NSFileManager defaultManager] removeItemAtPath:cachePath error:nil];
         return nil;
     }
@@ -96,7 +96,7 @@
     if (thread && [self.delegate respondsToSelector:@selector(threadViewManager:wantsToShowContentForThread:)]) {
         [self.delegate threadViewManager:self wantsToShowContentForThread:thread];
     } else {
-        DLog(@"Thread or delegate nil: %s", __PRETTY_FUNCTION__);
+        DDLogDebug(@"Thread or delegate nil: %s", __PRETTY_FUNCTION__);
     }
 }
 
@@ -216,7 +216,7 @@
         
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
     }
     return nil;
 }
