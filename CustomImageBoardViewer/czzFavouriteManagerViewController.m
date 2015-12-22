@@ -130,7 +130,7 @@ NSInteger const historyIndex = 2;
     selectedIndex = indexPath;
     if (selectedIndex.row < threads.count){
         selectedThread = [threads objectAtIndex:selectedIndex.row];
-        czzThreadViewManager *threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:selectedThread andForum:selectedThread.forum];
+        czzThreadViewManager *threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:selectedThread andForum:nil];
         czzThreadViewController *threadViewController = [czzThreadViewController new];
         threadViewController.threadViewManager = threadViewManager;
         [NavigationManager pushViewController:threadViewController animated:YES];

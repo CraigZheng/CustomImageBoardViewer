@@ -77,11 +77,12 @@
 
 -(void)onScreenCommandTapOnDown:(id)sender {
     // Scroll to bottom
-    if ([self numberOfRowsInSection:0] > 0) {
-        [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self numberOfRowsInSection:0] - 1 inSection:0]
-                    atScrollPosition:UITableViewScrollPositionBottom
-                            animated:YES];
-    }
+    dispatch_after(DISPATCH_TIME_NOW, dispatch_get_main_queue(), ^(void){
+        NSInteger rows = [self numberOfRowsInSection:0];
+        if (rows) {
+            [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:rows - 1 inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:YES];
+        }
+    });
 }
 
 #pragma mark - setters

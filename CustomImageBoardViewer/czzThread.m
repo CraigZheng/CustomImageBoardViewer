@@ -99,6 +99,7 @@
             self.imgSrc = [[data objectForKey:@"img"] stringByAppendingString:[data objectForKey:@"ext"]];
             self.lock = [[data objectForKey:@"lock"] boolValue];
             self.sage = [[data objectForKey:@"sage"] boolValue];
+            self.admin = [[data objectForKey:@"admin"] boolValue];
             
             self.responseCount = [[data objectForKey:@"replyCount"] integerValue];
         }
@@ -209,10 +210,10 @@
     [encoder encodeObject:self.thImgSrc forKey:@"thImgSrc"];
     [encoder encodeBool:self.lock forKey:@"lock"];
     [encoder encodeBool:self.sage forKey:@"sage"];
+    [encoder encodeBool:self.admin forKey:@"admin"];
     [encoder encodeObject:self.postDateTime forKey:@"postDateTime"];
     [encoder encodeObject:self.updateDateTime forKey:@"updateDateTime"];
     [encoder encodeObject:self.replyToList forKey:@"replyToList"];
-    [encoder encodeObject:self.forum forKey:@"forum"];
 }
 
 -(id)initWithCoder:(NSCoder*)decoder{
@@ -229,10 +230,10 @@
         self.thImgSrc = [decoder decodeObjectForKey:@"thImgSrc"];
         self.lock = [decoder decodeBoolForKey:@"lock"];
         self.sage = [decoder decodeBoolForKey:@"sage"];
+        self.admin = [decoder decodeBoolForKey:@"admin"];
         self.postDateTime = [decoder decodeObjectForKey:@"postDateTime"];
         self.updateDateTime = [decoder decodeObjectForKey:@"updateDateTime"];
         self.replyToList = [decoder decodeObjectForKey:@"replyToList"];
-        self.forum = [decoder decodeObjectForKey:@"forum"];        
     }
     return self;
 }

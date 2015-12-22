@@ -25,13 +25,12 @@
 @property (strong, nonatomic) NSString *thImgSrc;
 @property (assign, nonatomic) BOOL lock;
 @property (assign, nonatomic) BOOL sage;
+@property (assign, nonatomic) BOOL admin;
 @property (strong, nonatomic) NSDate *postDateTime;
 @property (strong, nonatomic) NSDate *updateDateTime;
 @property (assign, nonatomic) NSInteger parentID;
 #pragma mark - CLICKABLE CONTENT
 @property (strong, nonatomic) NSMutableArray *replyToList;
-
-@property (strong, nonatomic) czzForum *forum;
 
 -(NSAttributedString*)renderHTMLToAttributedString:(NSString*)htmlString;
 
