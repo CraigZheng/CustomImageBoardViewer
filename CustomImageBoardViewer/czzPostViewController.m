@@ -23,6 +23,8 @@
 #import "czzSettingsCentre.h"
 
 @interface czzPostViewController () <czzPostSenderDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
+@property (nonatomic, strong) UIActionSheet *clearContentActionSheet;
+@property (nonatomic, strong) UIActionSheet *cancelPostingActionSheet;
 @property (nonatomic, strong) NSMutableData *receivedResponse;
 @property (nonatomic, strong) czzPostSender *postSender;
 @property (nonatomic, strong) czzEmojiCollectionViewController *emojiViewController;
@@ -217,13 +219,22 @@
 
 //delete everything from the text view
 - (IBAction)clearAction:(id)sender {
-    if (postTextView.text.length > 0)
+    if (postTextView.text.length > 0 || postSender.imgData)
     {
         [self.postTextView resignFirstResponder];
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"清空内容和图片？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"清空" otherButtonTitles: nil];
-        [actionSheet showInView:self.view];
+        self.clearContentActionSheet = [[UIActionSheet alloc] initWithTitle:@"清空内容和图片？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"清空" otherButtonTitles: nil];
+        [self.clearContentActionSheet showInView:self.view];
 
     }
+}
+
+- (IBAction)cancelAction:(id)sender {
+    if (postTextView.text.length || postSender.imgData) {
+        [self.postTextView resignFirstResponder];
+        self.cancelPostingActionSheet = [[UIActionSheet alloc] initWithTitle:@"确定要中断发送文章？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"中断" otherButtonTitles: nil];
+        [self.cancelPostingActionSheet showInView:self.view];
+    } else
+        [self dismiss];
 }
 
 -(void)resetContent{
@@ -232,10 +243,23 @@
     [[AppDelegate window] makeToast:@"内容和图片已清空"];
 }
 
+- (void)dismiss {
+    if (self.isModal) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
 #pragma mark - UIActionSheetDelegate
 -(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == actionSheet.destructiveButtonIndex)
-    [self resetContent];
+    if (actionSheet == self.clearContentActionSheet) {
+        if (buttonIndex == actionSheet.destructiveButtonIndex)
+            [self resetContent];
+    } else if (actionSheet == self.cancelPostingActionSheet) {
+        if (buttonIndex == actionSheet.destructiveButtonIndex)
+            [self dismiss];
+    }
 }
 
 #pragma UIImagePickerController delegate
@@ -300,7 +324,7 @@
 #pragma czzPostSender delegate
 -(void)statusReceived:(BOOL)status message:(NSString *)message{
     if (status) {
-        [self.navigationController popViewControllerAnimated:YES];
+        [self dismiss];
         [AppDelegate showToast:@"提交成功"];
     } else {
         [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:message duration:1.5 position:@"top" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];

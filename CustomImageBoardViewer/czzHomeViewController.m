@@ -255,7 +255,7 @@
         czzPostViewController *newPostViewController = [czzPostViewController new];
         newPostViewController.forum = self.homeViewManager.forum;
         newPostViewController.postMode = postViewControllerModeNew;
-        [self.navigationController pushViewController:newPostViewController animated:YES];
+        [self presentViewController:[[UINavigationController alloc] initWithRootViewController:newPostViewController] animated:YES completion:nil];
     } else {
         [[AppDelegate window] makeToast:@"未选定一个版块" duration:1.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
     }

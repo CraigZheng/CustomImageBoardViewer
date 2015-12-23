@@ -50,7 +50,7 @@
     postViewController.parentThread = parentThread;
     postViewController.replyToThread = thread;
     postViewController.postMode = postViewControllerModeReply;
-    [[czzNavigationManager sharedManager].delegate pushViewController:postViewController animated:YES];
+    [[czzNavigationManager sharedManager].delegate presentViewController:[[UINavigationController alloc] initWithRootViewController:postViewController] animated:YES completion:nil];
 }
 
 - (void)replyMainThread:(czzThread *)thread {
@@ -58,13 +58,13 @@
     postViewController.forum = self.homeViewManager.forum;
     postViewController.parentThread = thread;
     postViewController.postMode = postViewControllerModeReply;
-    [[czzNavigationManager sharedManager].delegate pushViewController:postViewController animated:YES];
+    [[czzNavigationManager sharedManager].delegate presentViewController:[[UINavigationController alloc] initWithRootViewController:postViewController] animated:YES completion:nil];
 }
 
 - (void)reportThread:(czzThread *)selectedThread inParentThread:(czzThread *)parentThread {
     czzPostViewController *newPostViewController = [czzPostViewController new];
     newPostViewController.postMode = postViewControllerModeReport;
-    [[czzNavigationManager sharedManager].delegate pushViewController:newPostViewController animated:YES];
+    [[czzNavigationManager sharedManager].delegate presentViewController:[[UINavigationController alloc] initWithRootViewController:newPostViewController] animated:YES completion:nil];
     NSString *reportString = [[settingCentre report_post_placeholder] stringByReplacingOccurrencesOfString:kParentID withString:[NSString stringWithFormat:@"%ld", (long)parentThread.ID]];
     reportString = [reportString stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long)selectedThread.ID]];
     newPostViewController.prefilledString = reportString;
