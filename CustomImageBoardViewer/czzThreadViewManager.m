@@ -118,7 +118,8 @@
     self.isDownloading = NO;
     if (success) {
         self.lastBatchOfThreads = threads;
-        self.parentThread = downloader.parentThread;
+        if (downloader.parentThread)
+            self.parentThread = downloader.parentThread;
         NSArray *processedNewThread;
         if (self.threads.count > 0) {
             NSInteger lastChunkIndex = self.threads.count - self.lastBatchOfThreads.count;

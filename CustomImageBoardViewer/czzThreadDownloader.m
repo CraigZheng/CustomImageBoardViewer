@@ -175,6 +175,7 @@
         
         totalPages = (CGFloat)parentThread.responseCount / (CGFloat)settingCentre.response_per_page;
         totalPages = ceilf(totalPages);
+        self.parentThread = parentThread;
         // Notify delegate about the page number
         [self notifyDelegatePageNumberUpdated:pageNumber total:totalPages];
         
