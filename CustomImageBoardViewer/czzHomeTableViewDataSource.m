@@ -39,6 +39,7 @@
         NSString *lastCellIdentifier = THREAD_TABLEVIEW_COMMAND_CELL_IDENTIFIER;
         czzThreadTableViewCommandCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:lastCellIdentifier forIndexPath:indexPath];
         cell.commandStatusViewController = self.myTableView.lastCellCommandViewController;
+        cell.commandStatusViewController.homeViewManager = self.homeViewManager;
         self.myTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
         if (self.homeViewManager.pageNumber == self.homeViewManager.totalPages) {
             self.myTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeNoMore;

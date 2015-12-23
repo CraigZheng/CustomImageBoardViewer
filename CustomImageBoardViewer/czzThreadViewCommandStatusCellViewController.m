@@ -9,6 +9,7 @@
 #import "czzThreadViewCommandStatusCellViewController.h"
 #import "PureLayout.h"
 #import "czzSettingsCentre.h"
+#import "czzThreadViewManager.h"
 
 @interface czzThreadViewCommandStatusCellViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *commandStatusLabel;
@@ -30,20 +31,24 @@
         self.view.backgroundColor = [settingCentre viewBackgroundColour];
         NSString *commandLabelString;
         [self.loadingActivityIndicator stopAnimating];
+        NSString *pageString = @"";
+        if ([self.homeViewManager isMemberOfClass:[czzThreadViewManager class]]) {
+            pageString = [NSString stringWithFormat:@" - 第%ld/%ld页", (long)self.homeViewManager.pageNumber, (long)self.homeViewManager.totalPages];
+        }
         switch (self.cellType) {
             case czzThreadViewCommandStatusCellViewTypeLoadMore:
-                commandLabelString = @"点击以加载";
+                commandLabelString = [NSString stringWithFormat:@"%@%@", @"点击以加载", pageString];
                 self.up = NO;
                 break;
             case czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore:
-                commandLabelString = @"松开以加载";
+                commandLabelString = [NSString stringWithFormat:@"%@%@", @"松开以加载", pageString];
                 self.up = YES;
                 break;
             case czzThreadViewCommandStatusCellViewTypeNoMore:
-                commandLabelString = @"没有更多内容，点击以加载";
+                commandLabelString = [NSString stringWithFormat:@"%@%@", @"没有更多内容，点击以加载", pageString];
                 break;
             case czzThreadViewCommandStatusCellViewTypeLoading:
-                commandLabelString = @"加载中...";
+                commandLabelString = [NSString stringWithFormat:@"%@%@", @"加载中", pageString];
                 [self.loadingActivityIndicator startAnimating];
                 break;
             default:

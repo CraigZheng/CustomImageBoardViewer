@@ -186,6 +186,26 @@
     return _downloader;
 }
 
+/**
+ Total page should never be smaller than 1.
+ */
+- (NSInteger)totalPages {
+    if (_totalPages <= 1) {
+        _totalPages = 1;
+    }
+    return _totalPages;
+}
+
+/**
+ Shhould never be smaller than 1.
+ */
+- (NSInteger)pageNumber {
+    if (_pageNumber <= 1) {
+        _pageNumber = 1;
+    }
+    return _pageNumber;
+}
+
 - (NSString *)cacheFile {
     return [NSString stringWithFormat:@"%@-%@", [UIApplication bundleVersion], DEFAULT_THREAD_LIST_CACHE_FILE];
 }

@@ -15,7 +15,8 @@ typedef NS_ENUM(NSInteger, czzThreadViewCommandStatusCellViewType) {
     czzThreadViewCommandStatusCellViewTypeLoading = 3
 };
 
+@class czzHomeViewManager;
 @interface czzThreadViewCommandStatusCellViewController : UIViewController
-
+@property (nonatomic, strong) czzHomeViewManager *homeViewManager;
 @property (nonatomic, assign) czzThreadViewCommandStatusCellViewType cellType;
 @end
