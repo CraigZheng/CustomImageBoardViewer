@@ -113,7 +113,7 @@
              BOOL shouldHighlight = settingsCentre.userDefShouldHighlightPO;
              [commandSwitch setOn:shouldHighlight];
          } else if ([command isEqualToString:@"夜间模式"]) {
-             [commandSwitch setOn:settingsCentre.nightyMode];
+             [commandSwitch setOn:settingsCentre.userDefNightyMode];
          }
          else if ([command isEqualToString:@"大图模式"]) {
              [commandSwitch setOn:settingsCentre.userDefShouldUseBigImage];
@@ -282,8 +282,8 @@
             settingsCentre.userDefShouldShowOnScreenCommand = switchControl.on;
             [AppDelegate showToast:@"重启后生效"];
         } else if ([command isEqualToString:@"夜间模式"]) {
-            settingsCentre.nightyMode = !settingsCentre.nightyMode;
-            [AppDelegate showToast:[NSString stringWithFormat:@"夜间模式：%@", settingsCentre.nightyMode ? @"On" : @"Off"]];
+            settingsCentre.userDefNightyMode = !settingsCentre.userDefNightyMode;
+            [AppDelegate showToast:[NSString stringWithFormat:@"夜间模式：%@", settingsCentre.userDefNightyMode ? @"On" : @"Off"]];
             [[czzHomeViewManager sharedManager] reloadData];
             [self.settingsTableView reloadData];
         }
@@ -305,7 +305,7 @@
 -(void)toggleBigImageMode {
     /*
     settingsCentre.userDefShouldUseBigImage = !settingsCentre.userDefShouldUseBigImage;
-    [AppDelegate showToast:[NSString stringWithFormat:@"大图模式：%@，刷新后生效", settingsCentre.nightyMode ? @"On" : @"Off"]];
+    [AppDelegate showToast:[NSString stringWithFormat:@"大图模式：%@，刷新后生效", settingsCentre.userDefNightyMode ? @"On" : @"Off"]];
     [self.settingsTableView reloadData];
      */
     UIAlertView *bigImageAlertView = [[UIAlertView alloc] initWithTitle:@"切换模式" message:@"切换大图模式将会清空串缓存，请确认！" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];

@@ -81,7 +81,7 @@
 
 -(void)resetViews {
     //colours
-    if (settingsCentre.nightyMode) {
+    if (settingsCentre.userDefNightyMode) {
         UIColor *viewBackgroundColour = [settingsCentre viewBackgroundColour];
         contentTextView.backgroundColor = viewBackgroundColour;
         threadContentView.backgroundColor = viewBackgroundColour;
@@ -169,7 +169,7 @@
         contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:myThread.content];
 
     //content textview
-    if (settingsCentre.nightyMode)
+    if (settingsCentre.userDefNightyMode)
         [contentAttrString addAttribute:NSForegroundColorAttributeName value:settingsCentre.contentTextColour range:NSMakeRange(0, contentAttrString.length)];
 
     contentTextView.attributedText = contentAttrString;

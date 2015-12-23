@@ -56,15 +56,15 @@
 @property (assign, nonatomic) BOOL userDefShouldCacheData;
 @property (assign, nonatomic) BOOL userDefShouldHighlightPO;
 @property (assign, nonatomic) BOOL userDefShouldUseBigImage;
-@property (assign, nonatomic) BOOL nightyMode;
+@property (assign, nonatomic) BOOL userDefNightyMode;
 @property (assign, nonatomic) BOOL userDefShouldCleanCaches;
 //Debug settings
 @property (assign, nonatomic) BOOL should_allow_dart;
 
 + (instancetype)sharedInstance;
 -(void)downloadSettings;
--(BOOL)saveSettings;
--(BOOL)restoreSettings;
+-(void)saveSettings;
+-(void)restoreSettings;
 
 -(UIFont*)contentFont;
 -(UIColor*)contentTextColour;
