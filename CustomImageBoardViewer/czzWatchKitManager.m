@@ -97,6 +97,7 @@
     czzWKForum *selectedForum = [[czzWKForum alloc] initWithDictionary:[command.parameter valueForKey:@"FORUM"]];
     czzForum *tempForum = [czzForum new];
     tempForum.name = selectedForum.name;
+    tempForum.forumID = selectedForum.forumID;
     czzThreadDownloader *threadDownloader = [[czzThreadDownloader alloc] initWithForum:tempForum];
     __weak id weakRefDownloader = threadDownloader;
     // Add the newly created downloader object to self.requestedThreadDownloader set.

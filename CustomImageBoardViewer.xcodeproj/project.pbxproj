@@ -4084,7 +4084,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Prefix.pch";
-				INFOPLIST_FILE = "CustomImageBoardViewer copy-Info.plist";
+				INFOPLIST_FILE = "CustomImageBoardViewer-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -4125,7 +4125,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Prefix.pch";
-				INFOPLIST_FILE = "CustomImageBoardViewer copy-Info.plist";
+				INFOPLIST_FILE = "CustomImageBoardViewer-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
