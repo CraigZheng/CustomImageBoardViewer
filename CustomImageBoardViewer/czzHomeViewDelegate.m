@@ -8,8 +8,6 @@
 
 #import "czzHomeViewDelegate.h"
 
-#import "czzMenuEnabledTableViewCell.h"
-
 #import "czzHomeViewManager.h"
 #import "czzBlacklist.h"
 #import "czzThread.h"
@@ -25,7 +23,7 @@
 #import "UIApplication+Util.h"
 #import "UINavigationController+Util.h"
 
-@interface czzHomeViewDelegate() <czzImageDownloaderManagerDelegate, czzMenuEnabledTableViewCellProtocol>
+@interface czzHomeViewDelegate() <czzImageDownloaderManagerDelegate>
 
 @property (strong) czzImageViewerUtil *imageViewerUtil;
 @property (nonatomic, readonly) NSIndexPath *lastRowIndexPath;
