@@ -8,6 +8,9 @@
 
 #import "czzThreadViewCellHeaderView.h"
 
+#define RGBCOLOR(r,g,b)[UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1]
+#define brownColour RGBCOLOR(168, 123, 65)
+
 @interface czzThreadViewCellHeaderView()
 @property (weak, nonatomic) IBOutlet UILabel *idLabel;
 @property (weak, nonatomic) IBOutlet UILabel *posterLabel;
@@ -16,17 +19,27 @@
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
 @end
-
+// Default colour 168	123	65
 @implementation czzThreadViewCellHeaderView
 
 #pragma mark - Setters
 
 -(void)setMyThread:(czzThread *)myThread {
     _myThread = myThread;
+    static UIColor *defaultTextColour;
+    // Avoid repeatitve calculation.
+    if (!defaultTextColour) {
+        defaultTextColour = brownColour;
+    }
     if (myThread) {
         self.idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)myThread.ID];
-        NSMutableAttributedString *uidAttrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"ID:%@", myThread.UID]];
-        self.posterLabel.attributedText = uidAttrString;
+        self.posterLabel.text = [NSString stringWithFormat:@"ID:%@", myThread.UID];
+        // If admin, highlight.
+        if (myThread.admin) {
+            self.posterLabel.textColor = [UIColor redColor];
+        } else {
+            self.posterLabel.textColor = defaultTextColour;
+        }
         self.dateLabel.text = [self.dateFormatter stringFromDate:myThread.postDateTime];
         
         //highlight original poster
