@@ -27,9 +27,8 @@
 #    define DLogSize(size) {}
 #endif
 
-#ifndef __IPHONE_5_0
-#warning "This project uses features only available in iOS SDK 5.0 and later."
-#endif
+#import <CocoaLumberjack/CocoaLumberjack.h>
+static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 //copied from http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown
 //will suppress perform selector might cause leak warning

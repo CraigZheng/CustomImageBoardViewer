@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1878CFD6591D679FC9599DA2 /* libPods-CustomImageBoardViewerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6850D2CBBDA799A71735D9A1 /* libPods-CustomImageBoardViewerTests.a */; };
 		440A62A01B8E90130046E4CE /* czzThreadViewCommandStatusCellViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 440A629F1B8E90130046E4CE /* czzThreadViewCommandStatusCellViewController.m */; };
 		440A62A21B8E97540046E4CE /* czzThreadTableViewCommandStatusCellViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 440A62A11B8E97540046E4CE /* czzThreadTableViewCommandStatusCellViewController.storyboard */; };
 		440A62A81B8EBC160046E4CE /* UIViewController+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 440A62A71B8EBC160046E4CE /* UIViewController+Util.m */; };
@@ -1332,6 +1333,8 @@
 		44FC4343180067CF0028D7C9 /* czzPostSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzPostSender.h; sourceTree = "<group>"; };
 		44FC4344180067CF0028D7C9 /* czzPostSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzPostSender.m; sourceTree = "<group>"; };
 		505660B3F87FABFEE33CE10C /* Pods-CIV-Simulator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CIV-Simulator.release.xcconfig"; path = "Pods/Target Support Files/Pods-CIV-Simulator/Pods-CIV-Simulator.release.xcconfig"; sourceTree = "<group>"; };
+		577AF34FEA8149162E3ADD7A /* Pods-CustomImageBoardViewerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		57F4B7F8AAD865C8E4022971 /* Pods-CustomImageBoardViewerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests.release.xcconfig"; sourceTree = "<group>"; };
 		5A0A6BD41848691C0094D7FB /* czzMoreInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzMoreInfoViewController.h; sourceTree = "<group>"; };
 		5A0A6BD51848691C0094D7FB /* czzMoreInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzMoreInfoViewController.m; sourceTree = "<group>"; };
 		5A1593EA18E71E93001A774B /* czzThreadRefButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadRefButton.h; sourceTree = "<group>"; };
@@ -1360,6 +1363,7 @@
 		5ADCA4691938F67F002BA60B /* ValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueFormatter.m; sourceTree = "<group>"; };
 		5AF85E661970025A0031D0CB /* czzSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzSearchViewController.h; sourceTree = "<group>"; };
 		5AF85E671970025A0031D0CB /* czzSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzSearchViewController.m; sourceTree = "<group>"; };
+		6850D2CBBDA799A71735D9A1 /* libPods-CustomImageBoardViewerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CustomImageBoardViewerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BEAABE8BC8244F1C4DC4C0C /* libPods-CustomImageBoardViewer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CustomImageBoardViewer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5C49E341BD3C40D61F99BB3 /* Pods-CustomImageBoardViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1398,6 +1402,7 @@
 				441E5CF117F4691300289DBD /* XCTest.framework in Frameworks */,
 				441E5CF317F4691300289DBD /* UIKit.framework in Frameworks */,
 				441E5CF217F4691300289DBD /* Foundation.framework in Frameworks */,
+				1878CFD6591D679FC9599DA2 /* libPods-CustomImageBoardViewerTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1590,6 +1595,7 @@
 				441E5CF017F4691300289DBD /* XCTest.framework */,
 				3ACCEC90A7B8DF04971F5816 /* libPods-CIV-Simulator.a */,
 				7BEAABE8BC8244F1C4DC4C0C /* libPods-CustomImageBoardViewer.a */,
+				6850D2CBBDA799A71735D9A1 /* libPods-CustomImageBoardViewerTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2759,6 +2765,8 @@
 				505660B3F87FABFEE33CE10C /* Pods-CIV-Simulator.release.xcconfig */,
 				E5C49E341BD3C40D61F99BB3 /* Pods-CustomImageBoardViewer.debug.xcconfig */,
 				31FEEA8309F3AF0A6D9D9D8F /* Pods-CustomImageBoardViewer.release.xcconfig */,
+				577AF34FEA8149162E3ADD7A /* Pods-CustomImageBoardViewerTests.debug.xcconfig */,
+				57F4B7F8AAD865C8E4022971 /* Pods-CustomImageBoardViewerTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -2792,9 +2800,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 441E5D0317F4691300289DBD /* Build configuration list for PBXNativeTarget "CustomImageBoardViewerTests" */;
 			buildPhases = (
+				4E689B44F5EB0E2D88163689 /* Check Pods Manifest.lock */,
 				441E5CEB17F4691300289DBD /* Sources */,
 				441E5CEC17F4691300289DBD /* Frameworks */,
 				441E5CED17F4691300289DBD /* Resources */,
+				09610D2B0F25804B411E500F /* Embed Pods Frameworks */,
+				A54D46F933E562C156EAE868 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -3408,6 +3419,36 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		09610D2B0F25804B411E500F /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4E689B44F5EB0E2D88163689 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		50DFA6DAB02EE5692689F09C /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3481,6 +3522,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A54D46F933E562C156EAE868 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DB95B09DE356EE470E38C186 /* Copy Pods Resources */ = {
@@ -4018,6 +4074,7 @@
 		};
 		441E5D0417F4691300289DBD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 577AF34FEA8149162E3ADD7A /* Pods-CustomImageBoardViewerTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CustomImageBoardViewer.app/CustomImageBoardViewer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4028,12 +4085,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CustomImageBoardViewerTests/CoustomImageBoardViewerTest.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherit)",
+					"$(inherited)",
 					"UNITTEST=1",
 				);
 				INFOPLIST_FILE = "CustomImageBoardViewerTests/CustomImageBoardViewerTests-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -4041,6 +4099,7 @@
 		};
 		441E5D0517F4691300289DBD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 57F4B7F8AAD865C8E4022971 /* Pods-CustomImageBoardViewerTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CustomImageBoardViewer.app/CustomImageBoardViewer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4051,12 +4110,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CustomImageBoardViewerTests/CoustomImageBoardViewerTest.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
 					"UNITTEST=1",
-					"$(inherit)",
 				);
 				INFOPLIST_FILE = "CustomImageBoardViewerTests/CustomImageBoardViewerTests-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};

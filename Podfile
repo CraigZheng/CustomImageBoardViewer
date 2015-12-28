@@ -21,3 +21,6 @@ pod 'PureLayout'
 pod 'CocoaLumberjack'
 end
 
+target 'CustomImageBoardViewerTests' do
+pod 'CocoaLumberjack'
+end

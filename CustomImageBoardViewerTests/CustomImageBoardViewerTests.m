@@ -82,10 +82,10 @@
     settingsCentre.userDefShouldCacheData = !settingsCentre.userDefShouldCacheData;
     settingsCentre.userDefShouldDisplayThumbnail = !settingsCentre.userDefShouldDisplayThumbnail;
     settingsCentre.thread_content_host = @"test_thread_content_host";
-    XCTAssert([settingsCentre saveSettings], @"failed to save settings!");
+    [settingsCentre saveSettings];
     //restore from storage
     czzSettingsCentre *newSettings = [czzSettingsCentre new];
-    XCTAssert([newSettings restoreSettings], @"failed to restore settings!");
+    [newSettings restoreSettings];
     //test every property
     NSArray *properties = [PropertyUtil classPropsFor:settingsCentre.class].allKeys;
     for (NSString *property in properties) {
