@@ -256,6 +256,10 @@ static NSString * const kAutoClean = @"kAutoClean";
     return [UIColor colorWithRed:252/255. green:103/255. blue:61/255. alpha:1.0];
 }
 
+- (UIColor *)transparentBackgroundColour {
+    return [[UIColor grayColor] colorWithAlphaComponent:0.2];
+}
+
 -(UIColor *)tintColour {
     if (self.userDefNightyMode)
         return [UIColor lightTextColor];

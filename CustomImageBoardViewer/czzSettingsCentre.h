@@ -69,6 +69,7 @@
 -(UIFont*)contentFont;
 -(UIColor*)contentTextColour;
 -(UIColor*)viewBackgroundColour;
+-(UIColor*)transparentBackgroundColour;
 
 //UI constants
 -(UIColor*)barTintColour;

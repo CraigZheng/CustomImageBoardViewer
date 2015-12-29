@@ -67,13 +67,15 @@
         NSDate *startDate = [NSDate new];
         
         for (czzThread *thread in [self.watchedThreads copy]) {
-            NSInteger originalResponseCount = thread.responseCount;
-            NSInteger originalThreadID = thread.ID;
-            czzThread *newThread = [[czzThread alloc] initWithParentID:originalThreadID];
-            
-            if (originalResponseCount != newThread.responseCount) {
-                //Record the old thread with old data, later we will remove it from the OrderedSet, then put it back to update the set.
-                [self.updatedThreads addObject:newThread];
+            if (thread.ID > 0) {
+                NSInteger originalResponseCount = thread.responseCount;
+                NSInteger originalThreadID = thread.ID;
+                czzThread *newThread = [[czzThread alloc] initWithParentID:originalThreadID];
+                
+                if (originalResponseCount != newThread.responseCount) {
+                    //Record the old thread with old data, later we will remove it from the OrderedSet, then put it back to update the set.
+                    [self.updatedThreads addObject:newThread];
+                }
             }
         }
         [self updateWatchedThreadsWithThreads:self.updatedThreads];

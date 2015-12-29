@@ -7,13 +7,15 @@
 //
 
 #import "czzMessagePopUpViewController.h"
+#import "czzSettingsCentre.h"
 
 @implementation czzMessagePopUpViewController
 @synthesize messageContentLabel, messageImageView, messageToShow, imageToShow;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    // Transparent background colour.
+    self.view.backgroundColor = settingCentre.transparentBackgroundColour;
 }
 
 -(void)modalShow {

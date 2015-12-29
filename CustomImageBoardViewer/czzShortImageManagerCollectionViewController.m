@@ -13,6 +13,7 @@
 #import "czzImageDownloader.h"
 #import "czzImageDownloaderManager.h"
 #import "czzImageViewerUtil.h"
+#import "czzSettingsCentre.h"
 
 @interface czzShortImageManagerCollectionViewController ()<czzImageDownloaderManagerDelegate>
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
@@ -32,6 +33,7 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = settingCentre.transparentBackgroundColour;
     [[czzImageDownloaderManager sharedManager] addDelegate:self];
 }
 
