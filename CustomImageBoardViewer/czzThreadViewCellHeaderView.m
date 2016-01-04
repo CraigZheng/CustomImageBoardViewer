@@ -32,8 +32,8 @@
         defaultTextColour = brownColour;
     }
     if (myThread) {
-        self.idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)myThread.ID];
-        self.posterLabel.text = [NSString stringWithFormat:@"ID:%@", myThread.UID];
+        self.idLabel.text = [NSString stringWithFormat:@"%ld", (long)myThread.ID];
+        self.posterLabel.text = [NSString stringWithFormat:@"%@", myThread.UID];
         // If admin, highlight.
         if (myThread.admin) {
             self.posterLabel.textColor = [UIColor redColor];
