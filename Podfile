@@ -10,15 +10,7 @@ pod "MWPhotoBrowser"
 pod 'ViewDeck'
 pod 'PureLayout'
 pod 'CocoaLumberjack'
-end
-
-target 'CIV-Simulator' do
-pod 'Google/Analytics'
-pod 'Google-Mobile-Ads-SDK', '~> 7.0'
-pod "MWPhotoBrowser"
-pod 'ViewDeck'
-pod 'PureLayout'
-pod 'CocoaLumberjack'
+pod 'AFNetworking', '~> 3.0'
 end
 
 target 'CustomImageBoardViewerTests' do

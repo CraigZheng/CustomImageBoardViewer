@@ -16,7 +16,7 @@
 -(void)downloadUpdated:(czzURLDownloader*)downloader progress:(CGFloat)progress;
 @end
 
-@interface czzURLDownloader : NSObject<NSURLConnectionDataDelegate>
+@interface czzURLDownloader : NSObject
 @property (weak, nonatomic) id<czzURLDownloaderProtocol>  delegate;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskID;
 

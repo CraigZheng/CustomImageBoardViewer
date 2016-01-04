@@ -7,18 +7,17 @@
 //
 
 #import "czzURLDownloader.h"
-
+#import "AFNetworking.h"
 #import "DeviceHardware.h"
 
 @interface czzURLDownloader()
-@property NSURLConnection *urlConn;
 @property NSMutableData *receivedData;
 @property (strong, nonatomic) NSURL *targetURL;
 @property NSUInteger expectedLength;
+@property (strong, nonatomic) NSURLSessionDataTask *dataTask;
 @end
 
 @implementation czzURLDownloader
-@synthesize urlConn;
 @synthesize receivedData;
 @synthesize expectedLength;
 @synthesize backgroundTaskID;
@@ -48,8 +47,20 @@
         [request setHTTPMethod:@"GET"];
         [request setValue:@"text/html" forHTTPHeaderField:@"Content-Type"];
         [request setValue:[NSString stringWithFormat:@"HavfunClient-%@", [DeviceHardware platform]] forHTTPHeaderField:@"User-Agent"];
-        urlConn = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:now];
         self.delegate = delegate;
+        
+        AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] init];
+        manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+        self.dataTask = [manager dataTaskWithRequest:request uploadProgress:nil downloadProgress:^(NSProgress * _Nonnull downloadProgress) {
+            if ([self.delegate respondsToSelector:@selector(downloadUpdated:progress:)]) {
+                [self.delegate downloadUpdated:self progress:(float)downloadProgress.completedUnitCount / (float)downloadProgress.totalUnitCount];
+            }
+        } completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+            if ([self.delegate respondsToSelector:@selector(downloadOf:successed:result:)]){
+                [self.delegate downloadOf:response.URL successed:error == nil result:responseObject];
+            }
+        }];
+         
         if (now) {
             [self start];
         }
@@ -58,13 +69,16 @@
 }
 
 -(void)start{
-    [urlConn start];
-    DDLogDebug(@"%@ make request to: %@", NSStringFromClass(self.class), self.targetURL);
-    DDLogDebug(@"Header fields: %@", urlConn.originalRequest.allHTTPHeaderFields);
+    if (self.dataTask) {
+        [self.dataTask resume];
+        DDLogDebug(@"%@ make request to: %@", NSStringFromClass(self.class), self.targetURL);
+        DDLogDebug(@"Header fields: %@", self.dataTask.originalRequest.allHTTPHeaderFields);
+    }
 }
 
 -(void)stop{
-    [urlConn cancel];
+    if (self.dataTask.state == NSURLSessionTaskStateRunning)
+        [self.dataTask cancel];
 }
 
 #pragma mark - Setters
@@ -84,36 +98,4 @@
     }
 }
 
-#pragma NSURLConnectionDelegate
--(void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse *)response{
-    self.receivedData = [NSMutableData new];
-    expectedLength = (NSUInteger)response.expectedContentLength;
-    self.backgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-        [connection cancel];
-    }];
-}
-
--(void)connection:(NSURLConnection*)connection didReceiveData:(NSData *)data{
-    [self.receivedData appendData:data];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(downloadUpdated:progress:)]) {
-        CGFloat progress = (CGFloat)self.receivedData.length / (CGFloat)expectedLength;
-        [self.delegate downloadUpdated:self progress:progress];
-    }
-}
-
--(void)connection:(NSURLConnection*)connection didFailWithError:(NSError *)error{
-    if ([self.delegate respondsToSelector:@selector(downloadOf:successed:result:)]){
-        [self.delegate downloadOf:connection.currentRequest.URL successed:NO result:nil];
-    }
-    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskID];
-}
-
--(void)connectionDidFinishLoading:(NSURLConnection*)connection{
-    DDLogDebug(@"%s", __PRETTY_FUNCTION__);
-    if ([self.delegate respondsToSelector:@selector(downloadOf:successed:result:)]){
-        [self.delegate downloadOf:connection.currentRequest.URL successed:YES result:self.receivedData];
-    }
-    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskID];
-    
-}
 @end
