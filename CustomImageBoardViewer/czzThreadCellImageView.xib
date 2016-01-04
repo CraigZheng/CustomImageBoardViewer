@@ -22,7 +22,7 @@
                     </connections>
                 </imageView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="7kt-Ef-SH3" secondAttribute="bottom" id="hxf-Ay-gZn"/>
                 <constraint firstItem="7kt-Ef-SH3" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="juu-9Q-PvY"/>
