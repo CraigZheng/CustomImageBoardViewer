@@ -22,7 +22,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-@interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, czzImageDownloaderManagerDelegate>
+@interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, czzImageDownloaderManagerDelegate, czzThreadCellImageViewDelegate>
 @property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewHeightConstraint;
@@ -31,7 +31,6 @@
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (strong, nonatomic) NSString *imageFolder;
 @property czzSettingsCentre *settingsCentre;
-@property UITapGestureRecognizer *tapOnImageGestureRecogniser;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @end
 
@@ -48,7 +47,6 @@
 @synthesize myThread;
 @synthesize imageFolder;
 @synthesize thumbnailFolder;
-@synthesize tapOnImageGestureRecogniser;
 @synthesize delegate;
 
 -(void)awakeFromNib {
@@ -56,8 +54,8 @@
     imageFolder = [czzAppDelegate imageFolder];
     settingsCentre = [czzSettingsCentre sharedInstance];
     shouldHighlight = settingsCentre.userDefShouldHighlightPO;
+    self.threadCellImageView.delegate = self;
     self.shouldAllowClickOnImage = YES;
-    tapOnImageGestureRecogniser = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTapInImageView:)];
     
     // Apply shadow and radius to background view.
     threadContentView.layer.masksToBounds = NO;
@@ -153,8 +151,6 @@
             }
         }
         [self.threadCellImageView setImage:previewImage];
-        //assign a gesture recogniser to it
-        [self.threadCellImageView setGestureRecognizers:@[tapOnImageGestureRecogniser]];
     } else {
         // No thumbnail image, hide the preview image view...
         self.threadCellImageView.hidden = YES;
@@ -181,6 +177,7 @@
     self.cellHeaderView.shouldHighLight = self.shouldHighlight;
     self.cellHeaderView.parentUID = self.parentThread.UID;
     self.cellFooterView.myThread = self.cellHeaderView.myThread = self.myThread;
+
 }
 
 #pragma - mark UIActionSheet delegate
@@ -203,7 +200,6 @@
 
 #pragma mark - user actions
 
-
 -(void)userTapInImageView:(id)sender {
     DDLogDebug(@"%@", NSStringFromSelector(_cmd));
     if (self.shouldAllowClickOnImage && [delegate respondsToSelector:@selector(userTapInImageView:)]) {
@@ -214,11 +210,6 @@
 }
 
 #pragma mark - Setters
--(void)setShouldAllowClickOnImage:(BOOL)shouldAllowClickOnImage {
-    _shouldAllowClickOnImage = shouldAllowClickOnImage;
-    tapOnImageGestureRecogniser.enabled = shouldAllowClickOnImage;
-    tapOnImageGestureRecogniser.cancelsTouchesInView = shouldAllowClickOnImage;
-}
 
 -(void)setMyThread:(czzThread *)thread{
     myThread = thread;
@@ -262,6 +253,14 @@
                 }];
             }
         }
+    }
+}
+
+#pragma mark - czzThreadCellImageViewDelegate
+
+- (void)cellImageViewTapped:(czzThreadCellImageView *)imageView {
+    if (self.shouldAllowClickOnImage && imageView.image) {
+        [self userTapInImageView:nil];
     }
 }
 
