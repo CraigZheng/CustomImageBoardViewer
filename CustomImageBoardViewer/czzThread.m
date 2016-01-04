@@ -51,7 +51,7 @@
         if (success) {
             NSDictionary *rawJson = [NSJSONSerialization JSONObjectWithData:downloadedData options:NSJSONReadingMutableContainers error:&error];
             if (!error) {
-                thread = [[czzThread alloc] initWithJSONDictionary:[rawJson objectForKey:@"threads"]];
+                thread = [[czzThread alloc] initWithJSONDictionary:rawJson];
             }
         }
     }];
