@@ -32,7 +32,6 @@
 @end
 
 @interface czzMenuEnabledTableViewCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UIImageView *previewImageView;
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;
 @property (weak, nonatomic) IBOutlet UIView *threadContentView;
 @property NSIndexPath *myIndexPath;

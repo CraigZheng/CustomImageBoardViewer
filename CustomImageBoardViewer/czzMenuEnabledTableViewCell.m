@@ -18,13 +18,15 @@
 #import "czzImageDownloaderManager.h"
 #import "czzThreadViewCellHeaderView.h"
 #import "czzThreadViewCellFooterView.h"
+#import "czzThreadCellImageView.h"
 
 #import <QuartzCore/QuartzCore.h>
 
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, czzImageDownloaderManagerDelegate>
 @property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentToImageBottomConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet czzThreadCellImageView *threadCellImageView;
 
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (strong, nonatomic) NSString *imageFolder;
@@ -34,7 +36,6 @@
 @end
 
 @implementation czzMenuEnabledTableViewCell
-@synthesize previewImageView;
 @synthesize contentTextView;
 @synthesize threadContentView;
 
@@ -139,11 +140,9 @@
     [self resetViews];
     if (myThread.imgSrc.length){
         // Has thumbnail image, show the preview image view...
-        previewImageView.hidden = NO;
-        self.contentToImageBottomConstraint.priority = UILayoutPriorityRequired - 1;
+        self.threadCellImageView.hidden = NO;
+        self.imageViewHeightConstraint.constant = 100;
         
-        [previewImageView setImage:[UIImage imageNamed:@"Icon.png"]];
-
         NSString *imageName = myThread.imgSrc.lastPathComponent;
         UIImage *previewImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:imageName]]];
 
@@ -153,15 +152,13 @@
                 previewImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:imageName]]];
             }
         }
-        if (previewImage){
-            [previewImageView setImage:previewImage];
-        } 
+        [self.threadCellImageView setImage:previewImage];
         //assign a gesture recogniser to it
-        [previewImageView setGestureRecognizers:@[tapOnImageGestureRecogniser]];
+        [self.threadCellImageView setGestureRecognizers:@[tapOnImageGestureRecogniser]];
     } else {
         // No thumbnail image, hide the preview image view...
-        previewImageView.hidden = YES;
-        self.contentToImageBottomConstraint.priority = 1; // Lower priority than the content to bottom constraint.
+        self.threadCellImageView.hidden = YES;
+        self.imageViewHeightConstraint.constant = 1;
     }
     //if harmful flag is set, display warning header of harmful thread
     NSMutableAttributedString *contentAttrString;
@@ -257,11 +254,11 @@
     if (success && delegate) {
         if (downloader.isThumbnail) {
             if ([downloader.targetURLString.lastPathComponent isEqualToString:myThread.imgSrc.lastPathComponent]) {
-                self.previewImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:downloader.targetURLString.lastPathComponent]]];
+                self.threadCellImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:downloader.targetURLString.lastPathComponent]]];
                 // A bit of fading in effect.
-                self.previewImageView.alpha = 0;
+                self.threadCellImageView.alpha = 0;
                 [UIView animateWithDuration:0.2 animations:^{
-                    self.previewImageView.alpha = 1;
+                    self.threadCellImageView.alpha = 1;
                 }];
             }
         }

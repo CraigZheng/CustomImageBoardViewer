@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -18,33 +17,6 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CR7-Ht-nIE">
                         <rect key="frame" x="0.0" y="4" width="320" height="291"/>
                         <subviews>
-                            <textView opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" verticalHuggingPriority="100" scrollEnabled="NO" editable="NO" text="Content" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="oML-xg-Zfq" customClass="czzNoSelectionTextView">
-                                <rect key="frame" x="0.0" y="20" width="320" height="155"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" priority="250" constant="26" id="6Qy-Et-6aq"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="6Qy-Et-6aq"/>
-                                    </mask>
-                                </variation>
-                            </textView>
-                            <imageView tag="9" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="3HO-Hu-PUf">
-                                <rect key="frame" x="20" y="183" width="100" height="100"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="3HO-Hu-PUf" secondAttribute="height" multiplier="1:1" id="UZt-BR-d0x"/>
-                                    <constraint firstAttribute="height" constant="100" id="hAG-eB-ZRf"/>
-                                    <constraint firstAttribute="width" constant="80" id="iSY-L8-usO"/>
-                                </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="iSY-L8-usO"/>
-                                    </mask>
-                                </variation>
-                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7eE-XQ-OOV" customClass="czzThreadViewCellHeaderView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -59,29 +31,46 @@
                                     <constraint firstAttribute="height" constant="20" id="CY7-IV-wYX"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aks-kD-ypT" userLabel="Image View Background">
+                                <rect key="frame" x="0.0" y="171" width="320" height="100"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sdF-XB-G6N" customClass="czzThreadCellImageView">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="sdF-XB-G6N" firstAttribute="leading" secondItem="aks-kD-ypT" secondAttribute="leading" id="9cc-EG-xP4"/>
+                                    <constraint firstAttribute="trailing" secondItem="sdF-XB-G6N" secondAttribute="trailing" id="Ad9-wm-vOf"/>
+                                    <constraint firstAttribute="bottom" secondItem="sdF-XB-G6N" secondAttribute="bottom" id="Bbw-om-4s4"/>
+                                    <constraint firstAttribute="height" priority="750" constant="100" identifier="image view height" id="dif-DT-1eL"/>
+                                    <constraint firstItem="sdF-XB-G6N" firstAttribute="top" secondItem="aks-kD-ypT" secondAttribute="top" id="fOZ-3f-r76"/>
+                                </constraints>
+                            </view>
+                            <textView opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Content" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="oML-xg-Zfq" customClass="czzNoSelectionTextView">
+                                <rect key="frame" x="0.0" y="20" width="320" height="151"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Uat-ye-6MX" firstAttribute="leading" secondItem="CR7-Ht-nIE" secondAttribute="leading" id="3o8-jq-Wc8"/>
                             <constraint firstItem="oML-xg-Zfq" firstAttribute="top" secondItem="7eE-XQ-OOV" secondAttribute="bottom" id="4oq-lE-fFi"/>
+                            <constraint firstAttribute="trailing" secondItem="aks-kD-ypT" secondAttribute="trailing" id="6fc-4h-G6b"/>
                             <constraint firstAttribute="trailing" secondItem="oML-xg-Zfq" secondAttribute="trailing" id="8ME-tn-8IB"/>
-                            <constraint firstAttribute="bottom" secondItem="oML-xg-Zfq" secondAttribute="bottom" constant="4" id="ClT-yL-DhZ"/>
-                            <constraint firstItem="3HO-Hu-PUf" firstAttribute="top" secondItem="oML-xg-Zfq" secondAttribute="bottom" priority="999" constant="8" id="K8n-7R-jeL"/>
                             <constraint firstAttribute="trailing" secondItem="Uat-ye-6MX" secondAttribute="trailing" id="Vsb-Tb-k7C"/>
-                            <constraint firstAttribute="bottom" secondItem="3HO-Hu-PUf" secondAttribute="bottom" constant="8" id="ZsW-wF-7uC"/>
-                            <constraint firstItem="3HO-Hu-PUf" firstAttribute="leading" secondItem="CR7-Ht-nIE" secondAttribute="leading" constant="20" symbolic="YES" id="b2V-dj-osS"/>
                             <constraint firstItem="oML-xg-Zfq" firstAttribute="leading" secondItem="CR7-Ht-nIE" secondAttribute="leading" id="bCQ-RS-JNf"/>
                             <constraint firstAttribute="trailing" secondItem="7eE-XQ-OOV" secondAttribute="trailing" id="g6F-uh-wYM"/>
-                            <constraint firstItem="Uat-ye-6MX" firstAttribute="top" secondItem="oML-xg-Zfq" secondAttribute="bottom" priority="750" id="gRW-vh-b6s"/>
+                            <constraint firstItem="aks-kD-ypT" firstAttribute="leading" secondItem="CR7-Ht-nIE" secondAttribute="leading" id="mAW-2V-Sk8"/>
                             <constraint firstItem="7eE-XQ-OOV" firstAttribute="leading" secondItem="CR7-Ht-nIE" secondAttribute="leading" id="pmQ-gG-98v"/>
                             <constraint firstAttribute="bottom" secondItem="Uat-ye-6MX" secondAttribute="bottom" id="pv0-43-axs"/>
+                            <constraint firstItem="aks-kD-ypT" firstAttribute="top" secondItem="oML-xg-Zfq" secondAttribute="bottom" id="qVu-QI-UTn"/>
                             <constraint firstItem="7eE-XQ-OOV" firstAttribute="top" secondItem="CR7-Ht-nIE" secondAttribute="top" id="tlc-bz-yEY"/>
+                            <constraint firstItem="Uat-ye-6MX" firstAttribute="top" secondItem="aks-kD-ypT" secondAttribute="bottom" id="xgt-6E-or1"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="ClT-yL-DhZ"/>
-                            </mask>
-                        </variation>
                     </view>
                 </subviews>
                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -96,14 +85,11 @@
                 <outlet property="cellFooterView" destination="Uat-ye-6MX" id="8dW-e4-YJd"/>
                 <outlet property="cellHeaderView" destination="7eE-XQ-OOV" id="YO1-DQ-XYu"/>
                 <outlet property="contentTextView" destination="oML-xg-Zfq" id="CVo-Z2-qN7"/>
-                <outlet property="contentToImageBottomConstraint" destination="K8n-7R-jeL" id="XTg-Lu-48A"/>
-                <outlet property="previewImageView" destination="3HO-Hu-PUf" id="FXB-hN-4aJ"/>
+                <outlet property="imageViewHeightConstraint" destination="dif-DT-1eL" id="mrJ-MX-PTT"/>
+                <outlet property="threadCellImageView" destination="sdF-XB-G6N" id="NJd-kN-rDN"/>
                 <outlet property="threadContentView" destination="CR7-Ht-nIE" id="TFF-8x-opT"/>
             </connections>
             <point key="canvasLocation" x="34" y="459"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="Icon.png" width="57" height="57"/>
-    </resources>
 </document>
