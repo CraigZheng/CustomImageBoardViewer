@@ -44,7 +44,7 @@
                                     <constraint firstItem="sdF-XB-G6N" firstAttribute="leading" secondItem="aks-kD-ypT" secondAttribute="leading" id="9cc-EG-xP4"/>
                                     <constraint firstAttribute="trailing" secondItem="sdF-XB-G6N" secondAttribute="trailing" id="Ad9-wm-vOf"/>
                                     <constraint firstAttribute="bottom" secondItem="sdF-XB-G6N" secondAttribute="bottom" id="Bbw-om-4s4"/>
-                                    <constraint firstAttribute="height" priority="750" constant="100" identifier="image view height" id="dif-DT-1eL"/>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" priority="750" constant="100" identifier="image view height" id="dif-DT-1eL"/>
                                     <constraint firstItem="sdF-XB-G6N" firstAttribute="top" secondItem="aks-kD-ypT" secondAttribute="top" id="fOZ-3f-r76"/>
                                 </constraints>
                             </view>
