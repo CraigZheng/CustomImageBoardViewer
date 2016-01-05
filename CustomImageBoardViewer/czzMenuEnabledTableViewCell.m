@@ -139,7 +139,11 @@
     if (myThread.imgSrc.length){
         // Has thumbnail image, show the preview image view...
         self.threadCellImageView.hidden = NO;
-        self.imageViewHeightConstraint.constant = 100;
+        if ([settingsCentre userDefShouldUseBigImage]) {
+            self.imageViewHeightConstraint.constant = 200;
+        } else {
+            self.imageViewHeightConstraint.constant = 100;
+        }
         
         NSString *imageName = myThread.imgSrc.lastPathComponent;
         UIImage *previewImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:imageName]]];
@@ -177,7 +181,11 @@
     self.cellHeaderView.shouldHighLight = self.shouldHighlight;
     self.cellHeaderView.parentUID = self.parentThread.UID;
     self.cellFooterView.myThread = self.cellHeaderView.myThread = self.myThread;
-
+    // Big image mode?
+    self.threadCellImageView.bigImageMode = [settingsCentre userDefShouldUseBigImage];
+    if (self.threadCellImageView.bigImageMode && !self.shouldAllowClickOnImage) {
+        self.threadCellImageView.userInteractionEnabled = NO;
+    }
 }
 
 #pragma - mark UIActionSheet delegate

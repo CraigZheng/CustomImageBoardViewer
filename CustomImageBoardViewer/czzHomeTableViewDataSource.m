@@ -52,7 +52,7 @@
         return cell;
     }
     
-    NSString *cell_identifier = [settingCentre userDefShouldUseBigImage] ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
+    NSString *cell_identifier = THREAD_VIEW_CELL_IDENTIFIER;
     czzThread *thread = [homeViewManager.threads objectAtIndex:indexPath.row];
     czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
     if (cell){

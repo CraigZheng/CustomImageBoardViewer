@@ -17,4 +17,5 @@
 @interface czzThreadCellImageView : CPLoadFromNibView
 @property (nonatomic, weak) id<czzThreadCellImageViewDelegate> delegate;
 @property (nonatomic, strong) UIImage *image;
+@property (nonatomic, assign) BOOL bigImageMode;
 @end

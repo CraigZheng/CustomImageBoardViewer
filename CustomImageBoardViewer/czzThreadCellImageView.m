@@ -10,6 +10,7 @@
 
 @interface czzThreadCellImageView()
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *maximumTraillingConstraint;
 
 @end
 
@@ -20,6 +21,13 @@
         self.imageView.image = self.image;
     } else {
         self.imageView.image = [UIImage imageNamed:@"Icon.png"];
+    }
+    if (self.bigImageMode) {
+        self.maximumTraillingConstraint.priority = UILayoutPriorityRequired - 1;
+        self.imageView.contentMode = UIViewContentModeTop;
+    } else {
+        self.maximumTraillingConstraint.priority = 1;
+        self.imageView.contentMode = UIViewContentModeScaleAspectFit;
     }
 }
 
