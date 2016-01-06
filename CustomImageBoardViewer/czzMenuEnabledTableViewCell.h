@@ -13,7 +13,6 @@
 #define THREAD_VIEW_CELL_MARGIN 4 * 2
 
 #define THREAD_TABLE_VLEW_CELL_NIB_NAME @"czzThreadViewTableViewCell"
-#define BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME @"czzThreadViewBigImageTableViewCell"
 //#define BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER @"thread_big_image_cell_identifier"
 #define THREAD_VIEW_CELL_IDENTIFIER @"thread_cell_identifier"
 

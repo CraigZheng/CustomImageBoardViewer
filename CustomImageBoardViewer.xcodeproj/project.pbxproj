@@ -168,7 +168,6 @@
 		447FD254195D1AF1003E30C2 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 447FD253195D1AF1003E30C2 /* libz.dylib */; };
 		44858EAC1A0C5B0A00DD822B /* czzImageViewerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44858EAB1A0C5B0A00DD822B /* czzImageViewerUtil.m */; };
 		4485F4FC19F5FF38007A73CC /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 4485F4FB19F5FF38007A73CC /* NSString+HTML.m */; };
-		448C85E41A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 448C85E31A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib */; };
 		449472761C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 449472751C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m */; };
 		4498A7D21B89978200312A11 /* czzTableViewRefreshView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4498A7D11B89978200312A11 /* czzTableViewRefreshView.xib */; };
 		4498A7E41B89984500312A11 /* CPAutoFillView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498A7E31B89984400312A11 /* CPAutoFillView.m */; };
@@ -734,7 +733,6 @@
 		44858EAB1A0C5B0A00DD822B /* czzImageViewerUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzImageViewerUtil.m; sourceTree = "<group>"; };
 		4485F4FA19F5FF38007A73CC /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
 		4485F4FB19F5FF38007A73CC /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTML.m"; sourceTree = "<group>"; };
-		448C85E31A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzThreadViewBigImageTableViewCell.xib; sourceTree = "<group>"; };
 		449472741C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WKInterfaceImage+ActivityIndicator.h"; sourceTree = "<group>"; };
 		449472751C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WKInterfaceImage+ActivityIndicator.m"; sourceTree = "<group>"; };
 		4498A7D11B89978200312A11 /* czzTableViewRefreshView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzTableViewRefreshView.xib; sourceTree = "<group>"; };
@@ -1868,7 +1866,6 @@
 			isa = PBXGroup;
 			children = (
 				44B54E691A0EE1B80004C5B4 /* czzThreadViewTableViewCell.xib */,
-				448C85E31A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib */,
 				44AE2AF8187254E4002CB021 /* czzMenuEnabledTableViewCell.h */,
 				44AE2AF9187254E4002CB021 /* czzMenuEnabledTableViewCell.m */,
 				445C663D1BBEC4E0004B3E83 /* czzThreadViewCellHeaderView.h */,
@@ -2747,7 +2744,6 @@
 				44DF8F021A7512730097F7F5 /* edit_file@2x.png in Resources */,
 				44E791EB1A17856500A63C04 /* message@3x.png in Resources */,
 				44CF254C1A25A2A500BD8228 /* picture.png in Resources */,
-				448C85E41A06F32B00115FEC /* czzThreadViewBigImageTableViewCell.xib in Resources */,
 				44B89E701A2AF2200085F766 /* running_ac-5.gif in Resources */,
 				444F5B401A40EA3500EB391F /* 45.png in Resources */,
 				44CF25541A25A2A500BD8228 /* sent@3x.png in Resources */,
