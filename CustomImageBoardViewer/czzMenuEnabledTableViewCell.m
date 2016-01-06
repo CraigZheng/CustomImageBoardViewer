@@ -18,13 +18,13 @@
 #import "czzImageDownloaderManager.h"
 #import "czzThreadViewCellHeaderView.h"
 #import "czzThreadViewCellFooterView.h"
+#import "PureLayout/PureLayout.h"
 
 #import <QuartzCore/QuartzCore.h>
 
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, czzImageDownloaderManagerDelegate>
 @property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewHeightConstraint;
 @property (weak, nonatomic) IBOutlet UIImageView *threadCellImageView;
 
 @property (strong, nonatomic) NSString *thumbnailFolder;
@@ -33,6 +33,8 @@
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @property (strong, nonatomic) UIImage *placeholderImage;
 @property (strong, nonatomic) UITapGestureRecognizer *tapOnImageViewRecognizer;
+@property (weak, nonatomic) NSLayoutConstraint *imageViewHeightConstraint;
+
 @end
 
 @implementation czzMenuEnabledTableViewCell
@@ -140,9 +142,9 @@
     if (myThread.imgSrc.length){
         // Has thumbnail image, show the preview image view...
         if ([settingsCentre userDefShouldUseBigImage]) {
-            self.imageViewHeightConstraint.constant = 200;
+            self.imageViewHeightConstraint.priority = 1;
         } else {
-            self.imageViewHeightConstraint.constant = 100;
+            self.imageViewHeightConstraint.priority = UILayoutPriorityRequired - 1;
         }
         
         NSString *imageName = myThread.imgSrc.lastPathComponent;
@@ -156,7 +158,7 @@
         }
         self.threadCellImageView.image = previewImage ?: self.placeholderImage;
     } else {
-        self.imageViewHeightConstraint.constant = 1;
+        self.imageViewHeightConstraint.priority = 1;
         self.threadCellImageView.image = nil;
     }
     //if harmful flag is set, display warning header of harmful thread
@@ -261,13 +263,23 @@
     return _tapOnImageViewRecognizer;
 }
 
+- (NSLayoutConstraint *)imageViewHeightConstraint {
+    if (!_imageViewHeightConstraint ) {
+        // Add the constraint programmatically
+        [NSLayoutConstraint autoSetPriority:UILayoutPriorityRequired - 1 forConstraints:^{
+            _imageViewHeightConstraint = [self.threadCellImageView autoSetDimension:ALDimensionHeight toSize:100 relation:NSLayoutRelationLessThanOrEqual];
+        }];
+    }
+    return _imageViewHeightConstraint;
+}
+
 #pragma mark - czzImageDownloaderManagerDelegate
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
     if (success && delegate) {
         if (downloader.isThumbnail) {
             if ([downloader.targetURLString.lastPathComponent isEqualToString:myThread.imgSrc.lastPathComponent]) {
                 self.threadCellImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:downloader.targetURLString.lastPathComponent]]];
-                if ([self.delegate respondsToSelector:@selector(threadViewCellContentChanged:)]) {
+                if ([settingsCentre userDefShouldUseBigImage] && [self.delegate respondsToSelector:@selector(threadViewCellContentChanged:)]) {
                     [self.delegate threadViewCellContentChanged:self];
                 }
             }

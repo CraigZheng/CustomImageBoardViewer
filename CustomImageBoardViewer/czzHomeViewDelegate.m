@@ -195,7 +195,7 @@
 - (void)threadViewCellContentChanged:(czzMenuEnabledTableViewCell *)cell {
     NSIndexPath *cellIndexPath = [self.myTableView indexPathForCell:cell];
     if (cellIndexPath && [self.myTableView.indexPathsForVisibleRows containsObject:cellIndexPath]) {
-        [self.myTableView reloadRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.myTableView reloadRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
 }
 
