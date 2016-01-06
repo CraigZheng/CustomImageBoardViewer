@@ -192,6 +192,13 @@
     DDLogDebug(@"%s : NOT IMPLEMENTED", __PRETTY_FUNCTION__);
 }
 
+- (void)threadViewCellContentChanged:(czzMenuEnabledTableViewCell *)cell {
+    NSIndexPath *cellIndexPath = [self.myTableView indexPathForCell:cell];
+    if (cellIndexPath) {
+        [self.myTableView reloadRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
+
 #pragma mark - czzOnScreenImageManagerViewControllerDelegate
 
 -(void)onScreenImageManagerSelectedImage:(NSString *)path {

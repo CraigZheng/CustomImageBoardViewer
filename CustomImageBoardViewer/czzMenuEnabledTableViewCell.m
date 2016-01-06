@@ -32,6 +32,7 @@
 @property (strong, nonatomic) NSString *imageFolder;
 @property czzSettingsCentre *settingsCentre;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
+@property (strong, nonatomic) UIImage *placeholderImage;
 @end
 
 @implementation czzMenuEnabledTableViewCell
@@ -138,7 +139,6 @@
     [self resetViews];
     if (myThread.imgSrc.length){
         // Has thumbnail image, show the preview image view...
-//        self.threadCellImageView.hidden = NO;
         if ([settingsCentre userDefShouldUseBigImage]) {
             self.imageViewHeightConstraint.constant = 200;
         } else {
@@ -154,13 +154,10 @@
                 previewImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:imageName]]];
             }
         }
-        [self.threadCellImageView setImage:previewImage];
+        self.threadCellImageView.image = previewImage ?: self.placeholderImage;
     } else {
-        // No thumbnail image, hide the preview image view...
-//        self.threadCellImageView.hidden = YES;
         self.imageViewHeightConstraint.constant = 1;
-        [self.threadCellImageView setImage:nil];
-
+        self.threadCellImageView.image = nil;
     }
     //if harmful flag is set, display warning header of harmful thread
     NSMutableAttributedString *contentAttrString;
@@ -249,6 +246,12 @@
     return _dateFormatter;
 }
 
+- (UIImage *)placeholderImage {
+    if (!_placeholderImage) {
+        _placeholderImage = [UIImage imageNamed:@"Icon.png"];
+    }
+    return _placeholderImage;
+}
 
 #pragma mark - czzImageDownloaderManagerDelegate
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
@@ -256,11 +259,9 @@
         if (downloader.isThumbnail) {
             if ([downloader.targetURLString.lastPathComponent isEqualToString:myThread.imgSrc.lastPathComponent]) {
                 self.threadCellImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:downloader.targetURLString.lastPathComponent]]];
-                // A bit of fading in effect.
-                self.threadCellImageView.alpha = 0;
-                [UIView animateWithDuration:0.2 animations:^{
-                    self.threadCellImageView.alpha = 1;
-                }];
+                if ([self.delegate respondsToSelector:@selector(threadViewCellContentChanged:)]) {
+                    [self.delegate threadViewCellContentChanged:self];
+                }
             }
         }
     }

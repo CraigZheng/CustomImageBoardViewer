@@ -19,6 +19,7 @@
 #import <UIKit/UIKit.h>
 #import "czzThread.h"
 
+@class czzMenuEnabledTableViewCell;
 
 @protocol czzMenuEnabledTableViewCellProtocol <NSObject>
 @optional
@@ -28,6 +29,8 @@
 - (void)userWantsToReply:(czzThread *)thread inParentThread:(czzThread *)parentThread;
 - (void)userWantsToHighLight:(czzThread *)thread;
 - (void)userWantsToSearch:(czzThread *)thread;
+// UI command
+- (void)threadViewCellContentChanged:(czzMenuEnabledTableViewCell *)cell;
 @end
 
 @interface czzMenuEnabledTableViewCell : UITableViewCell
