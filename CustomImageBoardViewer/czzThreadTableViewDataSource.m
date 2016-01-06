@@ -37,7 +37,7 @@
             threadViewCell.shouldHighlight = YES;
             threadViewCell.selectedUserToHighlight = self.threadViewManager.selectedUserToHighlight;
             threadViewCell.cellType = threadViewCellTypeThread;
-
+            threadViewCell.parentThread = self.threadViewManager.parentThread;
             [threadViewCell renderContent];
         }
     }

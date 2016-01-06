@@ -33,7 +33,7 @@
 @property (strong, nonatomic) UIImage *placeholderImage;
 @property (strong, nonatomic) UITapGestureRecognizer *tapOnImageViewRecognizer;
 @property (weak, nonatomic) NSLayoutConstraint *imageViewHeightConstraint;
-
+@property (weak, nonatomic) NSLayoutConstraint *imageViewWidthConstraint;
 @end
 
 @implementation czzMenuEnabledTableViewCell
@@ -125,16 +125,10 @@
 #pragma mark - consturct UI elements
 -(void)renderContent {
     [self resetViews];
+    UIImage *previewImage;
     if (self.thread.imgSrc.length && self.allowImage){
-        // Has thumbnail image, show the preview image view...
-        if (self.bigImageMode) {
-            self.imageViewHeightConstraint.priority = 1;
-        } else {
-            self.imageViewHeightConstraint.priority = UILayoutPriorityRequired - 1;
-        }
-        
         NSString *imageName = self.thread.imgSrc.lastPathComponent;
-        UIImage *previewImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:imageName]]];
+        previewImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:imageName]]];
 
         if (self.bigImageMode)
         {
@@ -144,10 +138,9 @@
         }
         self.threadCellImageView.image = previewImage ?: self.placeholderImage;
     } else {
-        self.imageViewHeightConstraint.priority = 1;
         self.threadCellImageView.image = nil;
     }
-    //if harmful flag is set, display warning header of harmful thread
+    
     NSMutableAttributedString *contentAttrString;
     if (self.thread.content)
         contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:self.thread.content];
@@ -169,16 +162,18 @@
     self.cellHeaderView.parentUID = self.parentThread.UID;
     self.cellFooterView.thread = self.cellHeaderView.thread = self.thread;
 
-    // Should enable the image view?
-    if (self.bigImageMode) {
+    // If big image mode or no image at all, let the image view decide the rect.
+    if (self.bigImageMode || !previewImage) {
         if (self.cellType
             == threadViewCellTypeThread) {
             self.threadCellImageView.userInteractionEnabled = YES;
         } else {
             self.threadCellImageView.userInteractionEnabled = NO;
         }
+        self.imageViewWidthConstraint.priority = self.imageViewHeightConstraint.priority = 1;
     } else {
         self.threadCellImageView.userInteractionEnabled = YES;
+        self.imageViewWidthConstraint.priority = self.imageViewHeightConstraint.priority = UILayoutPriorityRequired - 1;
     }
 }
 
@@ -262,6 +257,16 @@
         }];
     }
     return _imageViewHeightConstraint;
+}
+
+- (NSLayoutConstraint *)imageViewWidthConstraint {
+    if (!_imageViewWidthConstraint ) {
+        // Add the constraint programmatically
+        [NSLayoutConstraint autoSetPriority:UILayoutPriorityRequired - 1 forConstraints:^{
+            _imageViewWidthConstraint = [self.threadCellImageView autoSetDimension:ALDimensionWidth toSize:100];
+        }];
+    }
+    return _imageViewWidthConstraint;
 }
 
 #pragma mark - czzImageDownloaderManagerDelegate
