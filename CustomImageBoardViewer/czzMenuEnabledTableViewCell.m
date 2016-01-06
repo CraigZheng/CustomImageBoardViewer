@@ -18,11 +18,10 @@
 #import "czzImageDownloaderManager.h"
 #import "czzThreadViewCellHeaderView.h"
 #import "czzThreadViewCellFooterView.h"
-#import "czzThreadCellImageView.h"
 
 #import <QuartzCore/QuartzCore.h>
 
-@interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, czzImageDownloaderManagerDelegate, czzThreadCellImageViewDelegate>
+@interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, czzImageDownloaderManagerDelegate>
 @property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewHeightConstraint;
@@ -33,6 +32,7 @@
 @property czzSettingsCentre *settingsCentre;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @property (strong, nonatomic) UIImage *placeholderImage;
+@property (strong, nonatomic) UITapGestureRecognizer *tapOnImageViewRecognizer;
 @end
 
 @implementation czzMenuEnabledTableViewCell
@@ -55,7 +55,7 @@
     imageFolder = [czzAppDelegate imageFolder];
     settingsCentre = [czzSettingsCentre sharedInstance];
     shouldHighlight = settingsCentre.userDefShouldHighlightPO;
-//    self.threadCellImageView.delegate = self;
+    [self.threadCellImageView addGestureRecognizer:self.tapOnImageViewRecognizer];
     self.shouldAllowClickOnImage = YES;
     
     // Apply shadow and radius to background view.
@@ -135,7 +135,7 @@
 }
 
 #pragma mark - consturct UI elements
--(void)prepareUIWithMyThread {
+-(void)renderContent {
     [self resetViews];
     if (myThread.imgSrc.length){
         // Has thumbnail image, show the preview image view...
@@ -180,11 +180,22 @@
     self.cellHeaderView.shouldHighLight = self.shouldHighlight;
     self.cellHeaderView.parentUID = self.parentThread.UID;
     self.cellFooterView.myThread = self.cellHeaderView.myThread = self.myThread;
-//    // Big image mode?
-//    self.threadCellImageView.bigImageMode = [settingsCentre userDefShouldUseBigImage];
-//    if (self.threadCellImageView.bigImageMode && !self.shouldAllowClickOnImage) {
-//        self.threadCellImageView.userInteractionEnabled = NO;
-//    }
+    // Big image mode?
+    if ([settingsCentre userDefShouldUseBigImage] && !self.shouldAllowClickOnImage) {
+        self.threadCellImageView.userInteractionEnabled = NO;
+    } else {
+        self.threadCellImageView.userInteractionEnabled = YES;
+    }
+}
+
+#pragma mark - UI actions
+- (IBAction)tapOnImageView:(id)sender {
+    DDLogDebug(@"%@", NSStringFromSelector(_cmd));
+    if (self.shouldAllowClickOnImage && [delegate respondsToSelector:@selector(userTapInImageView:)]) {
+        [delegate userTapInImageView:myThread.imgSrc];
+    } else {
+        DDLogDebug(@"Tap on image view dis-allowed.");
+    }
 }
 
 #pragma - mark UIActionSheet delegate
@@ -205,17 +216,6 @@
     [[UIApplication sharedApplication] openURL:link];
 }
 
-#pragma mark - user actions
-
--(void)userTapInImageView:(id)sender {
-    DDLogDebug(@"%@", NSStringFromSelector(_cmd));
-    if (self.shouldAllowClickOnImage && [delegate respondsToSelector:@selector(userTapInImageView:)]) {
-        [delegate userTapInImageView:myThread.imgSrc];
-    } else {
-        DDLogDebug(@"Tap on image view dis-allowed.");
-    }
-}
-
 #pragma mark - Setters
 
 -(void)setMyThread:(czzThread *)thread{
@@ -233,7 +233,7 @@
             }
         }
     }
-    [self prepareUIWithMyThread];
+    [self renderContent];
 }
 
 #pragma mark - Getters
@@ -253,6 +253,14 @@
     return _placeholderImage;
 }
 
+- (UITapGestureRecognizer *)tapOnImageViewRecognizer {
+    if (!_tapOnImageViewRecognizer) {
+        _tapOnImageViewRecognizer = [UITapGestureRecognizer new];
+        [_tapOnImageViewRecognizer addTarget:self action:@selector(tapOnImageView:)];
+    }
+    return _tapOnImageViewRecognizer;
+}
+
 #pragma mark - czzImageDownloaderManagerDelegate
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
     if (success && delegate) {
@@ -264,14 +272,6 @@
                 }
             }
         }
-    }
-}
-
-#pragma mark - czzThreadCellImageViewDelegate
-
-- (void)cellImageViewTapped:(czzThreadCellImageView *)imageView {
-    if (self.shouldAllowClickOnImage && imageView.image) {
-        [self userTapInImageView:nil];
     }
 }
 
