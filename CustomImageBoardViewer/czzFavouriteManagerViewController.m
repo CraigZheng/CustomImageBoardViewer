@@ -89,7 +89,7 @@ NSInteger const historyIndex = 2;
         cell.shouldAllowClickOnImage= NO;
         cell.shouldHighlight = NO;
         cell.parentThread = thread;
-        cell.myThread = thread;
+        cell.thread = thread;
     }
     // TODO: need to create a standalone watchlist manager, or improve this one.
     // If I am seeing the list from watchlist

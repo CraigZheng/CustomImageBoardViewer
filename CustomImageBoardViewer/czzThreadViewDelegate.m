@@ -119,7 +119,7 @@
     }
     
     // Clickable content, find the quoted text and add a button to corresponding location.
-    for (NSNumber *refNumber in threadViewCell.myThread.replyToList) {
+    for (NSNumber *refNumber in threadViewCell.thread.replyToList) {
         NSInteger rep = refNumber.integerValue;
         if (rep > 0) {
             NSString *quotedNumberText = [NSString stringWithFormat:@"%ld", (long)rep];

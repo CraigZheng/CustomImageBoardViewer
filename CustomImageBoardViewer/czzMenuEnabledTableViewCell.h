@@ -19,6 +19,11 @@
 #import <UIKit/UIKit.h>
 #import "czzThread.h"
 
+typedef NS_ENUM(NSInteger, threadViewCellType) {
+    threadViewCellTypeHome = 0,
+    threadViewCellTypeThread = 1
+};
+
 @class czzMenuEnabledTableViewCell;
 
 @protocol czzMenuEnabledTableViewCellProtocol <NSObject>
@@ -44,9 +49,13 @@
 @property NSDictionary *downloadedImages;
 @property (assign, nonatomic) BOOL shouldHighlight;
 @property (assign, nonatomic) BOOL shouldAllowClickOnImage;
-@property NSMutableArray *links;
-@property czzThread *parentThread;
-@property (nonatomic) czzThread *myThread;
+@property (nonatomic, strong) NSMutableArray *links;
+@property (nonatomic, strong) czzThread *parentThread;
+@property (nonatomic, strong) czzThread *thread;
+@property (nonatomic, assign) BOOL bigImageMode;
+@property (nonatomic, assign) BOOL allowImage;
+@property (nonatomic, assign) BOOL nightyMode;
+@property (nonatomic, assign) threadViewCellType cellType;
 
 @end
 

@@ -20,8 +20,8 @@
 
 #pragma mark - Setters
 
--(void)setMyThread:(czzThread *)myThread {
-    _myThread = myThread;
+-(void)setThread:(czzThread *)myThread {
+    _thread = myThread;
     self.sageLabel.hidden = self.lockedLabel.hidden = self.responseCountLabel.hidden = YES;
     if (myThread) {
         if (myThread.sage)

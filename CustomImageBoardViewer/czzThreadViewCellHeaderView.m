@@ -24,8 +24,8 @@
 
 #pragma mark - Setters
 
--(void)setMyThread:(czzThread *)myThread {
-    _myThread = myThread;
+-(void)setThread:(czzThread *)myThread {
+    _thread = myThread;
     static UIColor *defaultTextColour;
     // Avoid repeatitve calculation.
     if (!defaultTextColour) {

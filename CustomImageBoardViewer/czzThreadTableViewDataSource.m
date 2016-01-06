@@ -37,7 +37,7 @@
             threadViewCell.shouldHighlight = YES;
             threadViewCell.selectedUserToHighlight = self.threadViewManager.selectedUserToHighlight;
             threadViewCell.parentThread = self.threadViewManager.parentThread;
-            threadViewCell.myThread = thread;
+            threadViewCell.thread = thread;
             threadViewCell.myIndexPath = indexPath;
             threadViewCell.shouldAllowClickOnImage = YES;
         }

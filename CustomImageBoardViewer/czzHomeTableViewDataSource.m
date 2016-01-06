@@ -61,7 +61,7 @@
         cell.shouldAllowClickOnImage = ![settingCentre userDefShouldUseBigImage];
         cell.parentThread = thread;
         cell.myIndexPath = indexPath;
-        cell.myThread = thread;
+        cell.thread = thread;
     }
     return cell;
 }

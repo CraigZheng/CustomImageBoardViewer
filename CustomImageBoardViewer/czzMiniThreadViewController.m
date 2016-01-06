@@ -83,7 +83,7 @@
     if (cell) {
         cell.shouldHighlight = NO;
         cell.parentThread = self.myThread;
-        cell.myThread = self.myThread;
+        cell.thread = self.myThread;
     }
     return cell;
 }
