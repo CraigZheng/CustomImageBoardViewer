@@ -170,8 +170,16 @@
     self.cellFooterView.thread = self.cellHeaderView.thread = self.thread;
 
     // Should enable the image view?
-    self.threadCellImageView.userInteractionEnabled = self.cellType
-    == threadViewCellTypeThread;
+    if (self.bigImageMode) {
+        if (self.cellType
+            == threadViewCellTypeThread) {
+            self.threadCellImageView.userInteractionEnabled = YES;
+        } else {
+            self.threadCellImageView.userInteractionEnabled = NO;
+        }
+    } else {
+        self.threadCellImageView.userInteractionEnabled = YES;
+    }
 }
 
 #pragma mark - UI actions
@@ -219,7 +227,6 @@
             }
         }
     }
-    [self renderContent];
 }
 
 #pragma mark - Getters

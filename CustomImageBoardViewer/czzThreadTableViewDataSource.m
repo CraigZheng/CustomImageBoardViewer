@@ -36,10 +36,9 @@
             threadViewCell.delegate = self.tableViewDelegate;
             threadViewCell.shouldHighlight = YES;
             threadViewCell.selectedUserToHighlight = self.threadViewManager.selectedUserToHighlight;
-            threadViewCell.parentThread = self.threadViewManager.parentThread;
-            threadViewCell.thread = thread;
-            threadViewCell.myIndexPath = indexPath;
-            threadViewCell.shouldAllowClickOnImage = YES;
+            threadViewCell.cellType = threadViewCellTypeThread;
+
+            [threadViewCell renderContent];
         }
     }
     return cell;

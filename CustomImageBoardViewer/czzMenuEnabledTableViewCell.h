@@ -57,6 +57,8 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 @property (nonatomic, assign) BOOL nightyMode;
 @property (nonatomic, assign) threadViewCellType cellType;
 
+- (void)renderContent;
+
 @end
 
 

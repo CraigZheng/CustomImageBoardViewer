@@ -58,15 +58,18 @@
     if (cell){
         cell.delegate = self.tableViewDelegate;
         cell.shouldHighlight = NO;
-        cell.shouldAllowClickOnImage = ![settingCentre userDefShouldUseBigImage];
-        cell.parentThread = thread;
         cell.myIndexPath = indexPath;
+        cell.nightyMode = [settingCentre userDefNightyMode];
+        cell.bigImageMode = [settingCentre userDefShouldUseBigImage];
+        cell.cellType = threadViewCellTypeHome;
+        cell.parentThread = thread;
         cell.thread = thread;
+        if ([self isMemberOfClass:[czzHomeTableViewDataSource class]]) {
+            [cell renderContent];
+        }
     }
     return cell;
 }
-
-
 
 +(instancetype)initWithViewManager:(czzHomeViewManager *)viewManager andTableView:(czzThreadTableView *)tableView {
     czzHomeTableViewDataSource *dataSource = [czzHomeTableViewDataSource new];
