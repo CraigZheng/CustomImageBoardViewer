@@ -16,11 +16,14 @@
 
 @implementation czzThreadCellImageView
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.imageView.image = [UIImage imageNamed:@"Icon.png"];
+}
+
 - (void)renderContent {
     if (self.image) {
         self.imageView.image = self.image;
-    } else {
-        self.imageView.image = [UIImage imageNamed:@"Icon.png"];
     }
     if (self.bigImageMode) {
         self.maximumTraillingConstraint.priority = UILayoutPriorityRequired - 1;

@@ -11,12 +11,17 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView contentMode="scaleAspectFit" image="Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="7kt-Ef-SH3">
-                    <rect key="frame" x="20" y="0.0" width="100" height="100"/>
+                <imageView contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="7kt-Ef-SH3">
+                    <rect key="frame" x="20" y="0.0" width="560" height="100"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="100" placeholder="YES" id="KFm-dC-AcA"/>
                         <constraint firstAttribute="width" priority="751" constant="100" id="hDN-QY-pzt"/>
                     </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="hDN-QY-pzt"/>
+                        </mask>
+                    </variation>
                     <connections>
                         <outletCollection property="gestureRecognizers" destination="ShH-07-YIM" appends="YES" id="pOQ-Wy-aGu"/>
                     </connections>
@@ -41,7 +46,4 @@
             </connections>
         </tapGestureRecognizer>
     </objects>
-    <resources>
-        <image name="Icon.png" width="57" height="57"/>
-    </resources>
 </document>

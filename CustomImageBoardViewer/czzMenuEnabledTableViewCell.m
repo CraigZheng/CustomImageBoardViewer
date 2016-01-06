@@ -26,7 +26,7 @@
 @property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewHeightConstraint;
-@property (weak, nonatomic) IBOutlet czzThreadCellImageView *threadCellImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *threadCellImageView;
 
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (strong, nonatomic) NSString *imageFolder;
@@ -54,7 +54,7 @@
     imageFolder = [czzAppDelegate imageFolder];
     settingsCentre = [czzSettingsCentre sharedInstance];
     shouldHighlight = settingsCentre.userDefShouldHighlightPO;
-    self.threadCellImageView.delegate = self;
+//    self.threadCellImageView.delegate = self;
     self.shouldAllowClickOnImage = YES;
     
     // Apply shadow and radius to background view.
@@ -138,7 +138,7 @@
     [self resetViews];
     if (myThread.imgSrc.length){
         // Has thumbnail image, show the preview image view...
-        self.threadCellImageView.hidden = NO;
+//        self.threadCellImageView.hidden = NO;
         if ([settingsCentre userDefShouldUseBigImage]) {
             self.imageViewHeightConstraint.constant = 200;
         } else {
@@ -157,8 +157,10 @@
         [self.threadCellImageView setImage:previewImage];
     } else {
         // No thumbnail image, hide the preview image view...
-        self.threadCellImageView.hidden = YES;
+//        self.threadCellImageView.hidden = YES;
         self.imageViewHeightConstraint.constant = 1;
+        [self.threadCellImageView setImage:nil];
+
     }
     //if harmful flag is set, display warning header of harmful thread
     NSMutableAttributedString *contentAttrString;
@@ -181,11 +183,11 @@
     self.cellHeaderView.shouldHighLight = self.shouldHighlight;
     self.cellHeaderView.parentUID = self.parentThread.UID;
     self.cellFooterView.myThread = self.cellHeaderView.myThread = self.myThread;
-    // Big image mode?
-    self.threadCellImageView.bigImageMode = [settingsCentre userDefShouldUseBigImage];
-    if (self.threadCellImageView.bigImageMode && !self.shouldAllowClickOnImage) {
-        self.threadCellImageView.userInteractionEnabled = NO;
-    }
+//    // Big image mode?
+//    self.threadCellImageView.bigImageMode = [settingsCentre userDefShouldUseBigImage];
+//    if (self.threadCellImageView.bigImageMode && !self.shouldAllowClickOnImage) {
+//        self.threadCellImageView.userInteractionEnabled = NO;
+//    }
 }
 
 #pragma - mark UIActionSheet delegate

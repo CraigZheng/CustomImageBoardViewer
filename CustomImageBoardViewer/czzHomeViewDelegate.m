@@ -110,24 +110,24 @@
     }
 }
 
--(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat estimatedRowHeight = 44;
-    if (indexPath.row < self.homeViewManager.threads.count) {
-        czzThread *thread = [self.homeViewManager.threads objectAtIndex:indexPath.row];
-        // More text = bigger.
-        NSDictionary *attributesDictionary = @{NSFontAttributeName : [settingCentre contentFont]};
-        CGRect fontSizeFor7 = [thread.content.string boundingRectWithSize:CGSizeMake(CGRectGetWidth(tableView.frame), MAXFLOAT)
-                                                                  options:NSStringDrawingUsesLineFragmentOrigin
-                                                               attributes:attributesDictionary
-                                                                  context:nil];
-        estimatedRowHeight = fontSizeFor7.size.height += 40; // 40: header and footer views.
-        // Has image = bigger.
-        if (thread.thImgSrc.length) {
-            estimatedRowHeight += settingCentre.userDefShouldUseBigImage ? 160 : 80;
-        }
-    }
-    return estimatedRowHeight;
-}
+//-(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    CGFloat estimatedRowHeight = 44;
+//    if (indexPath.row < self.homeViewManager.threads.count) {
+//        czzThread *thread = [self.homeViewManager.threads objectAtIndex:indexPath.row];
+//        // More text = bigger.
+//        NSDictionary *attributesDictionary = @{NSFontAttributeName : [settingCentre contentFont]};
+//        CGRect fontSizeFor7 = [thread.content.string boundingRectWithSize:CGSizeMake(CGRectGetWidth(tableView.frame), MAXFLOAT)
+//                                                                  options:NSStringDrawingUsesLineFragmentOrigin
+//                                                               attributes:attributesDictionary
+//                                                                  context:nil];
+//        estimatedRowHeight = fontSizeFor7.size.height += 40; // 40: header and footer views.
+//        // Has image = bigger.
+//        if (thread.thImgSrc.length) {
+//            estimatedRowHeight += settingCentre.userDefShouldUseBigImage ? 160 : 80;
+//        }
+//    }
+//    return estimatedRowHeight;
+//}
 
 #pragma mark - UIScrollViewDelegate
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
