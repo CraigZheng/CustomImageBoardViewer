@@ -77,8 +77,9 @@
         }
         // Start downloading.
         [imageDownloader start];
+        DDLogDebug(@"Started downloading %@ for: %@.", thumbnail ? @"Fullsize Image" : @"Thumbnail Image" , imageURL);
     } else {
-        DDLogDebug(@"%@: %@ is downloading.", imageURL, thumbnail ? @"Fullsize Image" : @"Thumbnail Image");
+        DDLogDebug(@"%@ is already in download.", imageURL);
     }
 }
 

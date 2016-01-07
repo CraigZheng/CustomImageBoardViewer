@@ -115,7 +115,8 @@
         if ([settingCentre userDefShouldDisplayThumbnail] || ![settingCentre shouldDisplayThumbnail]){
             dispatch_async(dispatch_get_main_queue(), ^{
                 czzThread *thread = [(czzMenuEnabledTableViewCell *)cell thread];
-                if (thread.imgSrc.length){
+                // If thread has an image link, and that link is not already been cached.
+                if (thread.imgSrc.length && ![[czzImageCacheManager sharedInstance] hasThumbnailWithName:thread.imgSrc.lastPathComponent]){
                     [[czzImageDownloaderManager sharedManager] downloadImageWithURL:thread.imgSrc
                                                                         isThumbnail:YES];
                 }
