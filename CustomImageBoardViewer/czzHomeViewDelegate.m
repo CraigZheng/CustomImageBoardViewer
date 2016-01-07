@@ -28,6 +28,10 @@
 @property (strong) czzImageViewerUtil *imageViewerUtil;
 @property (nonatomic, readonly) NSIndexPath *lastRowIndexPath;
 @property (nonatomic, readonly) BOOL tableViewIsDraggedOverTheBottom;
+@property (nonatomic, strong) NSMutableDictionary *cachedHorizontalHeights;
+@property (nonatomic, strong) NSMutableDictionary *cachedVerticalHeights;
+@property (nonatomic, assign) BOOL bigImageMode;
+
 - (BOOL)tableViewIsDraggedOverTheBottomWithPadding:(CGFloat)padding;
 @end
 
@@ -37,7 +41,14 @@
     self = [super init];
     if (self) {
         self.imageViewerUtil = [czzImageViewerUtil new];
+        self.bigImageMode = [settingCentre userDefShouldUseBigImage];
         [[czzImageDownloaderManager sharedManager] addDelegate:self];
+        if ([self isMemberOfClass:[czzHomeViewDelegate class]]) {
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(settingsChangedNotificationReceived:)
+                                                         name:settingsChangedNotification
+                                                       object:nil];
+        }
     }
     return self;
 }
@@ -134,24 +145,26 @@
     }
 }
 
-//-(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    CGFloat estimatedRowHeight = 44;
-//    if (indexPath.row < self.homeViewManager.threads.count) {
-//        czzThread *thread = [self.homeViewManager.threads objectAtIndex:indexPath.row];
-//        // More text = bigger.
-//        NSDictionary *attributesDictionary = @{NSFontAttributeName : [settingCentre contentFont]};
-//        CGRect fontSizeFor7 = [thread.content.string boundingRectWithSize:CGSizeMake(CGRectGetWidth(tableView.frame), MAXFLOAT)
-//                                                                  options:NSStringDrawingUsesLineFragmentOrigin
-//                                                               attributes:attributesDictionary
-//                                                                  context:nil];
-//        estimatedRowHeight = fontSizeFor7.size.height += 40; // 40: header and footer views.
-//        // Has image = bigger.
-//        if (thread.thImgSrc.length) {
-//            estimatedRowHeight += settingCentre.userDefShouldUseBigImage ? 160 : 80;
-//        }
-//    }
-//    return estimatedRowHeight;
-//}
+- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (UIInterfaceOrientationIsPortrait([UIApplication rootViewController].interfaceOrientation)) {
+        [self.cachedVerticalHeights setObject:@(CGRectGetHeight(cell.frame)) forKey:indexPath];
+    } else {
+        [self.cachedHorizontalHeights setObject:@(CGRectGetHeight(cell.frame)) forKey:indexPath];
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSNumber *cachedHeight;
+    if (UIInterfaceOrientationIsPortrait([UIApplication rootViewController].interfaceOrientation)) {
+        cachedHeight = [self.cachedVerticalHeights objectForKey:indexPath];
+    } else {
+        cachedHeight = [self.cachedHorizontalHeights objectForKey:indexPath];
+    }
+    if (cachedHeight) {
+        DDLogDebug(@"Cached height for %ldth row: %.1f", (long)indexPath.row, cachedHeight.floatValue);
+    }
+    return cachedHeight.floatValue ?: UITableViewAutomaticDimension;
+}
 
 #pragma mark - UIScrollViewDelegate
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
@@ -183,6 +196,15 @@
     }
 }
 
+#pragma mark - Notification handler
+
+- (void)settingsChangedNotificationReceived:(NSNotification *)notification {
+    if (self.bigImageMode != settingCentre.userDefShouldUseBigImage) {
+        self.cachedHorizontalHeights = nil;
+        self.cachedVerticalHeights = nil;
+        self.bigImageMode = settingCentre.userDefShouldUseBigImage;
+    }
+}
 
 #pragma mark - czzMenuEnableTableViewCellDelegate
 -(void)userTapInImageView:(NSString *)imgURL {
@@ -252,6 +274,21 @@
 }
 
 #pragma mark - Getters {
+
+- (NSMutableDictionary *)cachedHorizontalHeights {
+    if (!_cachedHorizontalHeights) {
+        _cachedHorizontalHeights = [NSMutableDictionary new];
+    }
+    return _cachedHorizontalHeights;
+}
+
+- (NSMutableDictionary *)cachedVerticalHeights {
+    if (!_cachedVerticalHeights) {
+        _cachedVerticalHeights = [NSMutableDictionary new];
+    }
+    return _cachedVerticalHeights;
+}
+
 - (BOOL)tableViewIsDraggedOverTheBottom {
     return [self tableViewIsDraggedOverTheBottomWithPadding:44];
 }

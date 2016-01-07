@@ -12,6 +12,8 @@
 
 #define CONFIGURATION_URL @"http://www.my-realm.com/php/remote_configuration.php"
 
+extern NSString * const settingsChangedNotification;
+
 @interface czzSettingsCentre : NSObject
 
 //Remote configurations

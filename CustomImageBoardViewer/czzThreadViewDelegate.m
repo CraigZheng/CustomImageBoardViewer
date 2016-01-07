@@ -195,7 +195,7 @@
             if (thread) {
                 [self.threadViewManager showContentWithThread:thread];
             } else {
-                [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"找不到引用串：%ld", thread.ID]];
+                [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"找不到引用串：%ld", (long)thread.ID]];
             }
         });
     });

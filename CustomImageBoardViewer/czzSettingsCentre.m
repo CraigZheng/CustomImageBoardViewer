@@ -23,6 +23,8 @@ static NSString * const kNightyMode = @"kNightyMode";
 static NSString * const kAutoClean = @"kAutoClean";
 static NSString * const kAutoDownloadImage = @"kAutoDownloadImage";
 
+NSString * const settingsChangedNotification = @"settingsChangedNotification";
+
 @interface czzSettingsCentre () <czzURLDownloaderProtocol>
 @property NSTimer *refreshSettingsTimer;
 @property (nonatomic) NSString *settingsFile;
@@ -37,8 +39,6 @@ static NSString * const kAutoDownloadImage = @"kAutoDownloadImage";
 @synthesize database_host;
 @synthesize a_isle_host, thread_content_host, threads_per_page, thread_format, thread_list_host, response_per_page, quote_thread_host;
 @synthesize message, image_host, ac_host, forum_list_url, thumbnail_host;
-@synthesize userDefShouldAutoOpenImage, userDefShouldCacheData, userDefShouldDisplayThumbnail, userDefShouldHighlightPO, userDefShouldShowOnScreenCommand ,userDefShouldUseBigImage, userDefShouldCleanCaches;
-@synthesize userDefNightyMode;
 @synthesize should_allow_dart;
 @synthesize donationLink;
 @synthesize shouldAllowOpenBlockedThread;
@@ -67,14 +67,14 @@ static NSString * const kAutoDownloadImage = @"kAutoDownloadImage";
     self = [super init];
     if (self) {
         //default settings
-        userDefShouldAutoOpenImage = YES;
-        userDefShouldDisplayThumbnail = YES;
-        userDefShouldCacheData = YES;
-        userDefShouldHighlightPO = YES;
-        userDefShouldShowOnScreenCommand = YES;
-        userDefShouldUseBigImage = NO;
-        userDefNightyMode = NO;
-        userDefShouldCleanCaches = NO;
+        self.userDefShouldAutoOpenImage = YES;
+        self.userDefShouldDisplayThumbnail = YES;
+        self.userDefShouldCacheData = YES;
+        self.userDefShouldHighlightPO = YES;
+        self.userDefShouldShowOnScreenCommand = YES;
+        self.userDefShouldUseBigImage = NO;
+        self.userDefNightyMode = NO;
+        self.userDefShouldCleanCaches = NO;
         self.userDefShouldAutoDownloadImage = NO;
         shouldAllowOpenBlockedThread = YES;
         
@@ -117,44 +117,47 @@ static NSString * const kAutoDownloadImage = @"kAutoDownloadImage";
 
 -(void)saveSettings {
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    [userDefault setBool:userDefShouldDisplayThumbnail forKey:kDisplayThumbnail];
-    [userDefault setBool:userDefShouldShowOnScreenCommand forKey:kShowOnScreenCommand];
-    [userDefault setBool:userDefShouldAutoOpenImage forKey:kAutoOpenImage];
-    [userDefault setBool:userDefShouldCacheData forKey:kCacheData];
-    [userDefault setBool:userDefShouldHighlightPO forKey:kHighLightPO];
-    [userDefault setBool:userDefShouldUseBigImage forKey:kBigImageMode];
-    [userDefault setBool:userDefNightyMode forKey:kNightyMode];
-    [userDefault setBool:userDefShouldCleanCaches forKey:kAutoClean];
+    [userDefault setBool:self.userDefShouldDisplayThumbnail forKey:kDisplayThumbnail];
+    [userDefault setBool:self.userDefShouldShowOnScreenCommand forKey:kShowOnScreenCommand];
+    [userDefault setBool:self.userDefShouldAutoOpenImage forKey:kAutoOpenImage];
+    [userDefault setBool:self.userDefShouldCacheData forKey:kCacheData];
+    [userDefault setBool:self.userDefShouldHighlightPO forKey:kHighLightPO];
+    [userDefault setBool:self.userDefShouldUseBigImage forKey:kBigImageMode];
+    [userDefault setBool:self.userDefNightyMode forKey:kNightyMode];
+    [userDefault setBool:self.userDefShouldCleanCaches forKey:kAutoClean];
     [userDefault setBool:self.userDefShouldAutoDownloadImage forKey:kAutoDownloadImage];
     [userDefault synchronize];
+    // Post a notification about the settings changed.
+    [[NSNotificationCenter defaultCenter] postNotificationName:settingsChangedNotification
+                                                        object:nil];
 }
 
 
 - (void)restoreSettings {
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     if ([userDefault objectForKey:kDisplayThumbnail]) {
-        userDefShouldDisplayThumbnail = [userDefault boolForKey:kDisplayThumbnail];
+        self.userDefShouldDisplayThumbnail = [userDefault boolForKey:kDisplayThumbnail];
     }
     if ([userDefault objectForKey:kShowOnScreenCommand]) {
-        userDefShouldShowOnScreenCommand = [userDefault boolForKey:kShowOnScreenCommand];
+        self.userDefShouldShowOnScreenCommand = [userDefault boolForKey:kShowOnScreenCommand];
     }
     if ([userDefault objectForKey:kAutoOpenImage]) {
-        userDefShouldAutoOpenImage = [userDefault boolForKey:kAutoOpenImage];
+        self.userDefShouldAutoOpenImage = [userDefault boolForKey:kAutoOpenImage];
     }
     if ([userDefault objectForKey:kCacheData]) {
-        userDefShouldCacheData = [userDefault boolForKey:kCacheData];
+        self.userDefShouldCacheData = [userDefault boolForKey:kCacheData];
     }
     if ([userDefault objectForKey:kHighLightPO]) {
-        userDefShouldHighlightPO = [userDefault boolForKey:kHighLightPO];
+        self.userDefShouldHighlightPO = [userDefault boolForKey:kHighLightPO];
     }
     if ([userDefault objectForKey:kBigImageMode]) {
-        userDefShouldUseBigImage = [userDefault boolForKey:kBigImageMode];
+        self.userDefShouldUseBigImage = [userDefault boolForKey:kBigImageMode];
     }
     if ([userDefault objectForKey:kNightyMode]) {
-        userDefNightyMode = [userDefault boolForKey:kNightyMode];
+        self.userDefNightyMode = [userDefault boolForKey:kNightyMode];
     }
     if ([userDefault objectForKey:kAutoClean]) {
-        userDefShouldCleanCaches = [userDefault boolForKey:kAutoClean];
+        self.userDefShouldCleanCaches = [userDefault boolForKey:kAutoClean];
     }
     self.userDefShouldAutoDownloadImage = [userDefault boolForKey:kAutoDownloadImage];
 }
