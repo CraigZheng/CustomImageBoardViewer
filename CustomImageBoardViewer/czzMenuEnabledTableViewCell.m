@@ -154,30 +154,19 @@ static NSInteger const fixedConstraintConstant = 120;
 #pragma mark - consturct UI elements
 -(void)renderContent {
     [self resetViews];
-
-    NSMutableAttributedString *contentAttrString;
-    if (self.thread.content) {
-        contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:self.thread.content];
-    }
-
-    //content textview
     if (self.nightyMode) {
+        NSMutableAttributedString *contentAttrString = [self.thread.content mutableCopy];
         [contentAttrString addAttribute:NSForegroundColorAttributeName value:settingCentre.contentTextColour range:NSMakeRange(0, contentAttrString.length)];
+        self.contentTextView.attributedText = contentAttrString;
+    } else {
+        self.contentTextView.attributedText = self.thread.content;
     }
-
-    self.contentTextView.attributedText = contentAttrString;
     self.contentTextView.font = settingCentre.contentFont;
             
-    //highlight the selected user
+    // Highlight the selected user.
     if (self.selectedUserToHighlight && [self.thread.UID isEqualToString:self.selectedUserToHighlight]) {
         self.contentTextView.backgroundColor = self.contentView.backgroundColor;
     }
-    
-    // Header and footer
-    self.cellHeaderView.shouldHighLight = self.shouldHighlight;
-    self.cellHeaderView.parentUID = self.parentThread.UID;
-    self.cellFooterView.thread = self.cellHeaderView.thread = self.thread;
-
     // Images.
     UIImage *previewImage;
     NSString *imageName;
@@ -211,6 +200,12 @@ static NSInteger const fixedConstraintConstant = 120;
         self.flexibleImageViewHeightConstraint.constant =
         self.flexibleImageViewWidthConstraint.constant = 0;
     }
+    // Header and footer
+    self.cellHeaderView.shouldHighLight = self.shouldHighlight;
+    self.cellHeaderView.parentUID = self.parentThread.UID;
+    self.cellFooterView.thread = self.cellHeaderView.thread = self.thread;
+
+    [self.cellImageView layoutIfNeeded];
 }
 
 #pragma mark - UI actions
