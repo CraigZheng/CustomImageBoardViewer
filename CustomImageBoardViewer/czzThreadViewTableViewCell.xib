@@ -11,7 +11,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" tableViewCell="LrR-hX-6Zz" id="mQi-J3-PXM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="199"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="199.5"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CR7-Ht-nIE">
@@ -75,9 +75,9 @@
             <connections>
                 <outlet property="cellFooterView" destination="Uat-ye-6MX" id="8dW-e4-YJd"/>
                 <outlet property="cellHeaderView" destination="7eE-XQ-OOV" id="YO1-DQ-XYu"/>
+                <outlet property="cellImageView" destination="qgo-eG-Ahf" id="PLG-kr-TZj"/>
                 <outlet property="contentTextView" destination="oML-xg-Zfq" id="CVo-Z2-qN7"/>
                 <outlet property="imageViewLeadingConstraint" destination="8cB-8z-bgY" id="tFy-Ty-kQX"/>
-                <outlet property="threadCellImageView" destination="qgo-eG-Ahf" id="PLG-kr-TZj"/>
                 <outlet property="threadContentView" destination="CR7-Ht-nIE" id="TFF-8x-opT"/>
             </connections>
             <point key="canvasLocation" x="34" y="459"/>

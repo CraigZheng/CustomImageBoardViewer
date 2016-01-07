@@ -227,8 +227,6 @@
 		44B89E871A2AFC6B0085F766 /* czzHomeViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B89E861A2AFC6B0085F766 /* czzHomeViewManager.m */; };
 		44B96E33185B8B8100D664A4 /* czzImageManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B96E32185B8B8100D664A4 /* czzImageManagerViewController.m */; };
 		44B96E37185B97C400D664A4 /* czzSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B96E36185B97C400D664A4 /* czzSettingsViewController.m */; };
-		44B998041C3A073D00E2FC93 /* czzThreadCellImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B998031C3A073D00E2FC93 /* czzThreadCellImageView.xib */; };
-		44B998071C3A074C00E2FC93 /* czzThreadCellImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B998061C3A074C00E2FC93 /* czzThreadCellImageView.m */; };
 		44BB0BC31A1AE700006C50F5 /* SplunkMint-iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44BB0BC21A1AE700006C50F5 /* SplunkMint-iOS.framework */; };
 		44BB9A981C02B4A800B7BCED /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25401A25A2A500BD8228 /* picture.png */; };
 		44BB9A991C02B4A800B7BCED /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25401A25A2A500BD8228 /* picture.png */; };
@@ -819,9 +817,6 @@
 		44B96E32185B8B8100D664A4 /* czzImageManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzImageManagerViewController.m; sourceTree = "<group>"; };
 		44B96E35185B97C400D664A4 /* czzSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzSettingsViewController.h; sourceTree = "<group>"; };
 		44B96E36185B97C400D664A4 /* czzSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzSettingsViewController.m; sourceTree = "<group>"; };
-		44B998031C3A073D00E2FC93 /* czzThreadCellImageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzThreadCellImageView.xib; sourceTree = "<group>"; };
-		44B998051C3A074C00E2FC93 /* czzThreadCellImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadCellImageView.h; sourceTree = "<group>"; };
-		44B998061C3A074C00E2FC93 /* czzThreadCellImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadCellImageView.m; sourceTree = "<group>"; };
 		44BB0BC21A1AE700006C50F5 /* SplunkMint-iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "SplunkMint-iOS.framework"; sourceTree = "<group>"; };
 		44BE2E3719383FEF00601943 /* czzOnScreenCommandViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzOnScreenCommandViewController.h; sourceTree = "<group>"; };
 		44BE2E3819383FEF00601943 /* czzOnScreenCommandViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzOnScreenCommandViewController.m; sourceTree = "<group>"; };
@@ -1874,9 +1869,6 @@
 				445C66441BBED6FB004B3E83 /* czzThreadViewCellFooterView.xib */,
 				445C66471BBED722004B3E83 /* czzThreadViewCellFooterView.h */,
 				445C66481BBED722004B3E83 /* czzThreadViewCellFooterView.m */,
-				44B998031C3A073D00E2FC93 /* czzThreadCellImageView.xib */,
-				44B998051C3A074C00E2FC93 /* czzThreadCellImageView.h */,
-				44B998061C3A074C00E2FC93 /* czzThreadCellImageView.m */,
 			);
 			name = czzMenuEnabledTableViewCell;
 			sourceTree = "<group>";
@@ -2748,7 +2740,6 @@
 				444F5B401A40EA3500EB391F /* 45.png in Resources */,
 				44CF25541A25A2A500BD8228 /* sent@3x.png in Resources */,
 				44E791E11A17856500A63C04 /* happy@2x.png in Resources */,
-				44B998041C3A073D00E2FC93 /* czzThreadCellImageView.xib in Resources */,
 				441E5CD917F4691300289DBD /* InfoPlist.strings in Resources */,
 				444F5B381A40EA3500EB391F /* 37.png in Resources */,
 				444F5B481A40EA3500EB391F /* 53.png in Resources */,
@@ -2971,7 +2962,6 @@
 				445B7B591B418F020046CFDB /* czzThreadTableView.m in Sources */,
 				441E5D1B17F46E7900289DBD /* SMXMLDocument.m in Sources */,
 				441E5D1217F46A0900289DBD /* czzEntryPointViewController.m in Sources */,
-				44B998071C3A074C00E2FC93 /* czzThreadCellImageView.m in Sources */,
 				440A62A81B8EBC160046E4CE /* UIViewController+Util.m in Sources */,
 				44E469E11BAD9B5000C0AACC /* czzWatchKitCommand.m in Sources */,
 				441E5D2017F46FB600289DBD /* czzURLDownloader.m in Sources */,

@@ -20,8 +20,9 @@
 #import "czzThread.h"
 
 typedef NS_ENUM(NSInteger, threadViewCellType) {
-    threadViewCellTypeHome = 0,
-    threadViewCellTypeThread = 1
+    threadViewCellTypeHome = 1,
+    threadViewCellTypeThread = 2,
+    threadViewCellTypeUndefined = 0
 };
 
 @class czzMenuEnabledTableViewCell;
