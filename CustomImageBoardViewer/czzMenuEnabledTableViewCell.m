@@ -308,14 +308,12 @@ static NSInteger const fixedConstraintConstant = 120;
 }
 
 - (void)setCellType:(threadViewCellType)cellType {
-    if (_cellType != cellType) {
-        _cellType = cellType;
-        // When in big image mode, the cell image view should be disabled when the cell type is home.
-        if (cellType == threadViewCellTypeHome && self.bigImageMode) {
-            self.cellImageView.userInteractionEnabled = NO;
-        } else {
-            self.cellImageView.userInteractionEnabled = YES;
-        }
+    _cellType = cellType;
+    // When in big image mode, the cell image view should be disabled when the cell type is home.
+    if (cellType == threadViewCellTypeHome && self.bigImageMode) {
+        self.cellImageView.userInteractionEnabled = NO;
+    } else {
+        self.cellImageView.userInteractionEnabled = YES;
     }
 }
 
