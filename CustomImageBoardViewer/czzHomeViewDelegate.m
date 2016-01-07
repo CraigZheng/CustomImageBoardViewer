@@ -116,9 +116,18 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 czzThread *thread = [(czzMenuEnabledTableViewCell *)cell thread];
                 // If thread has an image link, and that link is not already been cached.
-                if (thread.imgSrc.length && ![[czzImageCacheManager sharedInstance] hasThumbnailWithName:thread.imgSrc.lastPathComponent]){
-                    [[czzImageDownloaderManager sharedManager] downloadImageWithURL:thread.imgSrc
-                                                                        isThumbnail:YES];
+                if (thread.imgSrc.length) {
+                    if (![[czzImageCacheManager sharedInstance] hasThumbnailWithName:thread.imgSrc.lastPathComponent]){
+                        [[czzImageDownloaderManager sharedManager] downloadImageWithURL:thread.imgSrc
+                                                                            isThumbnail:YES];
+                    }
+                    // If is on big image mode and the image has not been cacned.
+                    if ([settingCentre userDefShouldUseBigImage] && [settingCentre userDefShouldAutoDownloadImage]) {
+                        if (![[czzImageCacheManager sharedInstance] hasImageWithName:thread.imgSrc.lastPathComponent]){
+                            [[czzImageDownloaderManager sharedManager] downloadImageWithURL:thread.imgSrc
+                                                                                isThumbnail:NO];
+                        }
+                    }
                 }
             });
         }
@@ -210,7 +219,7 @@
 - (void)threadViewCellContentChanged:(czzMenuEnabledTableViewCell *)cell {
     NSIndexPath *cellIndexPath = [self.myTableView indexPathForCell:cell];
     if (cellIndexPath && [self.myTableView.indexPathsForVisibleRows containsObject:cellIndexPath]) {
-        [self.myTableView reloadRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self.myTableView reloadRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationMiddle];
     }
 }
 

@@ -21,6 +21,7 @@ static NSString * const kCacheData = @"kCacheData";
 static NSString * const kBigImageMode = @"kBigImageMode";
 static NSString * const kNightyMode = @"kNightyMode";
 static NSString * const kAutoClean = @"kAutoClean";
+static NSString * const kAutoDownloadImage = @"kAutoDownloadImage";
 
 @interface czzSettingsCentre () <czzURLDownloaderProtocol>
 @property NSTimer *refreshSettingsTimer;
@@ -74,6 +75,7 @@ static NSString * const kAutoClean = @"kAutoClean";
         userDefShouldUseBigImage = NO;
         userDefNightyMode = NO;
         userDefShouldCleanCaches = NO;
+        self.userDefShouldAutoDownloadImage = NO;
         shouldAllowOpenBlockedThread = YES;
         
         donationLink = @"";
@@ -123,6 +125,7 @@ static NSString * const kAutoClean = @"kAutoClean";
     [userDefault setBool:userDefShouldUseBigImage forKey:kBigImageMode];
     [userDefault setBool:userDefNightyMode forKey:kNightyMode];
     [userDefault setBool:userDefShouldCleanCaches forKey:kAutoClean];
+    [userDefault setBool:self.userDefShouldAutoDownloadImage forKey:kAutoDownloadImage];
     [userDefault synchronize];
 }
 
@@ -153,12 +156,14 @@ static NSString * const kAutoClean = @"kAutoClean";
     if ([userDefault objectForKey:kAutoClean]) {
         userDefShouldCleanCaches = [userDefault boolForKey:kAutoClean];
     }
+    self.userDefShouldAutoDownloadImage = [userDefault boolForKey:kAutoDownloadImage];
 }
 
 -(void)downloadSettings {
     NSString *configurationURL = CONFIGURATION_URL;
     urlDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:configurationURL] delegate:self startNow:YES];
 }
+
 -(void)parseJSONData:(NSData*)jsonData {
     NSError *error;
     NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];

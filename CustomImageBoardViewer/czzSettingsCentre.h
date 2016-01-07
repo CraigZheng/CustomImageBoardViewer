@@ -58,6 +58,7 @@
 @property (assign, nonatomic) BOOL userDefShouldUseBigImage;
 @property (assign, nonatomic) BOOL userDefNightyMode;
 @property (assign, nonatomic) BOOL userDefShouldCleanCaches;
+@property (assign, nonatomic) BOOL userDefShouldAutoDownloadImage;
 //Debug settings
 @property (assign, nonatomic) BOOL should_allow_dart;
 

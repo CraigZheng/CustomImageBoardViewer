@@ -303,7 +303,6 @@ static NSInteger const fixedConstraintConstant = 120;
             self.flexibleImageViewWidthConstraint.priority = 1;
         }
         [self renderContent];
-        DDLogDebug(@"Toggle big image mode: %d", bigImageMode);
     }
 }
 
@@ -332,6 +331,14 @@ static NSInteger const fixedConstraintConstant = 120;
                     [UIView animateWithDuration:0.2 animations:^{
                         self.cellImageView.alpha = 1;
                     }];
+                }
+            }
+        } else if (self.bigImageMode) {
+            // Not thumbnail, but self is in big image mode.
+            if ([downloader.targetURLString.lastPathComponent isEqualToString:self.thread.imgSrc.lastPathComponent]) {
+                // If match, inform delegate.
+                if ([self.delegate respondsToSelector:@selector(threadViewCellContentChanged:)]) {
+                    [self.delegate threadViewCellContentChanged:self];
                 }
             }
         }

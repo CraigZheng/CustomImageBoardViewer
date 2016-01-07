@@ -38,9 +38,6 @@
     self.navigationItem.rightBarButtonItem = nil;
 #endif
     settingsCentre = [czzSettingsCentre sharedInstance];
-    commands = [NSMutableArray new];
-    regularCommands = [NSMutableArray new];
-    switchCommands = [NSMutableArray new];
     [self prepareCommands];
     self.settingsTableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
 }
@@ -122,6 +119,8 @@
              [commandSwitch setOn:settingsCentre.userDefShouldCleanCaches];
          } else if ([command isEqualToString:@"Monitor Performance"]) {
 //             [commandSwitch setOn:[DartCrowdSourcingConstants isEnabled]];
+         } else if ([command isEqualToString:@"自动下载大图"]) {
+             [commandSwitch setOn:settingCentre.userDefShouldAutoDownloadImage];
          }
     } else if (indexPath.section == 1){
         UILabel *commandLabel = (UILabel*)[cell viewWithTag:5];
@@ -183,10 +182,17 @@
 
 #pragma mark - prepareCommands for the menu
 -(void)prepareCommands{
+    commands = [NSMutableArray new];
+    regularCommands = [NSMutableArray new];
+    switchCommands = [NSMutableArray new];
+
     [switchCommands addObject:@"显示图片"];
     [switchCommands addObject:@"显示快速滑动按钮"];
     [switchCommands addObject:@"夜间模式"];
     [switchCommands addObject:@"大图模式"];
+    if ([settingCentre userDefShouldUseBigImage]) {
+        [switchCommands addObject:@"自动下载大图"];
+    }
     [switchCommands addObject:@"图片下载完毕自动打开"];
 //    [switchCommands addObject:@"开启串缓存"];
     [switchCommands addObject:@"每月自动清理缓存"];
@@ -296,6 +302,9 @@
             [AppDelegate showToast:[NSString stringWithFormat:@"每月自动清理缓存： %@", settingsCentre.userDefShouldCleanCaches ? @"On" : @"Off"]];
         } else if ([command isEqualToString:@"Monitor Performance"]) {
             [self.settingsTableView reloadData];
+        } else if ([command isEqualToString:@"自动下载大图"]) {
+            settingsCentre.userDefShouldAutoDownloadImage = !settingsCentre.userDefShouldAutoDownloadImage;
+            [AppDelegate showToast:[NSString stringWithFormat:@"自动下载大图： %@", settingsCentre.userDefShouldCleanCaches ? @"On" : @"Off"]];
         }
         [settingsCentre saveSettings];
         [[czzHomeViewManager sharedManager] reloadData];
@@ -305,7 +314,8 @@
 -(void)toggleBigImageMode {
     settingsCentre.userDefShouldUseBigImage = !settingsCentre.userDefShouldUseBigImage;
     [AppDelegate showToast:[NSString stringWithFormat:@"大图模式：%@", settingsCentre.userDefShouldUseBigImage ? @"On" : @"Off"]];
-
+    [self prepareCommands];
+    [self.settingsTableView reloadData];
     [[czzHomeViewManager sharedManager] reloadData];
 }
 
