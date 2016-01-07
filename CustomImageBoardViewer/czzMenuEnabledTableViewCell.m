@@ -58,7 +58,7 @@ static NSInteger const fixedConstraintConstant = 120;
     [self.cellImageView autoMatchDimension:ALDimensionHeight
                                      toDimension:ALDimensionWidth
                                           ofView:self.cellImageView
-                                  withMultiplier:1.0
+                                  withMultiplier:0.6
                                         relation:NSLayoutRelationLessThanOrEqual];
     // Add the fixed constraitns, constants = 120, priorities = high.
     [NSLayoutConstraint autoSetPriority:UILayoutPriorityDefaultHigh forConstraints:^{
