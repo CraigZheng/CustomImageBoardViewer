@@ -217,10 +217,13 @@
 }
 
 - (void)threadViewCellContentChanged:(czzMenuEnabledTableViewCell *)cell {
-    NSIndexPath *cellIndexPath = [self.myTableView indexPathForCell:cell];
-    if (cellIndexPath && [self.myTableView.indexPathsForVisibleRows containsObject:cellIndexPath]) {
-        [self.myTableView reloadRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationMiddle];
-    }
+    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+        NSIndexPath *cellIndexPath = [self.myTableView indexPathForCell:cell];
+        if (cellIndexPath && [self.myTableView.indexPathsForVisibleRows containsObject:cellIndexPath]) {
+            
+            [self.myTableView reloadRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationMiddle];
+        }
+    }];
 }
 
 #pragma mark - czzOnScreenImageManagerViewControllerDelegate
