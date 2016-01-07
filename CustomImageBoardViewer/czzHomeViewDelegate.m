@@ -220,8 +220,8 @@
     [[NSOperationQueue currentQueue] addOperationWithBlock:^{
         NSIndexPath *cellIndexPath = [self.myTableView indexPathForCell:cell];
         if (cellIndexPath && [self.myTableView.indexPathsForVisibleRows containsObject:cellIndexPath]) {
-            
-            [self.myTableView reloadRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationMiddle];
+            [self.myTableView reloadRowsAtIndexPaths:@[cellIndexPath]
+                                    withRowAnimation:UITableViewRowAnimationNone];
         }
     }];
 }

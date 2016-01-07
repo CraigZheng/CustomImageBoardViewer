@@ -187,11 +187,19 @@ static NSInteger const fixedConstraintConstant = 120;
         self.fixedImageViewHeightConstraint.constant = fixedConstraintConstant;
         
         self.imageViewLeadingConstraint.constant = self.bigImageMode ? 8 : 16; // The leading would be 8 for big image mode.
+        // If valid image and big image mode.
         if (self.bigImageMode) {
-            // Big image mode is on, calculate the aspect ratio and apply to the constraints.
-            CGFloat aspectRatio = self.cellImageView.intrinsicContentSize.height / self.cellImageView.intrinsicContentSize.width;
-            self.flexibleImageViewWidthConstraint.constant = CGRectGetWidth(self.frame) - self.imageViewLeadingConstraint.constant * 2; // Remove the padding for leading and trailing.
-            self.flexibleImageViewHeightConstraint.constant = self.flexibleImageViewWidthConstraint.constant * aspectRatio;
+            if (self.cellImageView.image == self.placeholderImage) {
+                // Place holder image, not valid... use fixed constant instead.
+                self.flexibleImageViewWidthConstraint.constant =
+                self.flexibleImageViewHeightConstraint.constant = fixedConstraintConstant;
+
+            } else {
+                // Big image mode is on, calculate the aspect ratio and apply to the constraints.
+                CGFloat aspectRatio = self.cellImageView.intrinsicContentSize.height / self.cellImageView.intrinsicContentSize.width;
+                self.flexibleImageViewWidthConstraint.constant = CGRectGetWidth(self.frame) - self.imageViewLeadingConstraint.constant * 2; // Remove the padding for leading and trailing.
+                self.flexibleImageViewHeightConstraint.constant = self.flexibleImageViewWidthConstraint.constant * aspectRatio;
+            }
         }
     } else {
         // Set all size constraints to 0 when nil.
