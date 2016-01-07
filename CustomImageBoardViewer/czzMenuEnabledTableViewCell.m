@@ -61,7 +61,7 @@ static NSInteger const fixedConstraintConstant = 120;
                                   withMultiplier:1.0
                                         relation:NSLayoutRelationLessThanOrEqual];
     // Add the fixed constraitns, constants = 120, priorities = high.
-    [NSLayoutConstraint autoSetPriority:UILayoutPriorityDefaultLow forConstraints:^{
+    [NSLayoutConstraint autoSetPriority:UILayoutPriorityDefaultHigh forConstraints:^{
         self.fixedImageViewHeightConstraint = [self.cellImageView autoSetDimension:ALDimensionHeight
                                                                             toSize:fixedConstraintConstant];
         self.fixedImageViewWidthConstraint = [self.cellImageView autoSetDimension:ALDimensionWidth
@@ -325,8 +325,15 @@ static NSInteger const fixedConstraintConstant = 120;
         if (downloader.isThumbnail) {
             if ([downloader.targetURLString.lastPathComponent isEqualToString:self.thread.imgSrc.lastPathComponent]) {
                 self.cellImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:downloader.targetURLString.lastPathComponent]]];
-                if (self.bigImageMode && [self.delegate respondsToSelector:@selector(threadViewCellContentChanged:)]) {
-                    [self.delegate threadViewCellContentChanged:self];
+                if (self.bigImageMode) {
+                    if ([self.delegate respondsToSelector:@selector(threadViewCellContentChanged:)]) {
+                        [self.delegate threadViewCellContentChanged:self];
+                    }
+                } else {
+                    self.cellImageView.alpha = 0.5;
+                    [UIView animateWithDuration:0.2 animations:^{
+                        self.cellImageView.alpha = 1;
+                    }];
                 }
             }
         }
