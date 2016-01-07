@@ -33,8 +33,9 @@
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @property (strong, nonatomic) UIImage *placeholderImage;
 @property (strong, nonatomic) UITapGestureRecognizer *tapOnImageViewRecognizer;
-@property (weak, nonatomic) NSLayoutConstraint *imageViewHeightConstraint;
-@property (weak, nonatomic) NSLayoutConstraint *imageViewWidthConstraint;
+@property (strong, nonatomic) NSLayoutConstraint *imageViewHeightConstraint;
+@property (strong, nonatomic) NSLayoutConstraint *imageViewWidthConstraint;
+@property (strong, nonatomic) NSLayoutConstraint *imageViewCentreHorizontalConstraint;
 @end
 
 @implementation czzMenuEnabledTableViewCell
@@ -44,8 +45,14 @@
     self.imageFolder = [czzAppDelegate imageFolder];
     self.shouldHighlight = YES;
     self.allowImage = YES;
-    [self.threadCellImageView addGestureRecognizer:self.tapOnImageViewRecognizer];
     self.shouldAllowClickOnImage = YES;
+
+    [self.threadCellImageView addGestureRecognizer:self.tapOnImageViewRecognizer];
+    [self.threadCellImageView autoMatchDimension:ALDimensionHeight
+                                     toDimension:ALDimensionWidth
+                                          ofView:self.threadCellImageView
+                                  withMultiplier:1.0
+                                        relation:NSLayoutRelationLessThanOrEqual];
     
     // Apply shadow and radius to background view.
     self.threadContentView.layer.masksToBounds = NO;
@@ -155,6 +162,8 @@
     self.threadCellImageView.image = nil;
     self.threadCellImageView.userInteractionEnabled = YES;
     self.imageViewWidthConstraint.priority = self.imageViewHeightConstraint.priority = 1;
+    self.imageViewLeadingConstraint.constant = 16;
+    self.imageViewCentreHorizontalConstraint.priority = 1; // Disable centre horizontal.
     if (self.allowImage && (imageName = self.thread.imgSrc.lastPathComponent).length) {
         previewImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:imageName]]];
         if (self.bigImageMode) {
@@ -165,8 +174,14 @@
         self.threadCellImageView.image = previewImage ?: self.placeholderImage;
     }
     // If the image in the image view is not nil and the current view is not on big image mode, turn on the size constraints.
-    if (self.threadCellImageView.image && !self.bigImageMode) {
-        self.imageViewWidthConstraint.priority = self.imageViewHeightConstraint.priority = UILayoutPriorityRequired - 1;
+    if (self.threadCellImageView.image) {
+        if (self.bigImageMode) {
+            self.imageViewLeadingConstraint.constant = 8;
+            // Enable centre horizontal.
+            self.imageViewCentreHorizontalConstraint.priority = UILayoutPriorityRequired - 1;
+        } else {
+            self.imageViewWidthConstraint.priority = self.imageViewHeightConstraint.priority = UILayoutPriorityRequired - 1;
+        }
     }
     if (self.bigImageMode && self.cellType == threadViewCellTypeHome) {
         // When in big image mode, the cell image view should be disabled when the cell type is home.
@@ -264,6 +279,15 @@
         }];
     }
     return _imageViewWidthConstraint;
+}
+
+- (NSLayoutConstraint *)imageViewCentreHorizontalConstraint {
+    if (!_imageViewCentreHorizontalConstraint) {
+        [NSLayoutConstraint autoSetPriority:UILayoutPriorityRequired - 1 forConstraints:^{
+            _imageViewCentreHorizontalConstraint = [self.threadCellImageView autoAlignAxisToSuperviewAxis:ALAxisVertical];
+        }];
+    }
+    return _imageViewCentreHorizontalConstraint;
 }
 
 #pragma mark - czzImageDownloaderManagerDelegate
