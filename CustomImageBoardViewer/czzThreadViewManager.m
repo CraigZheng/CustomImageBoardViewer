@@ -150,8 +150,6 @@
             [self.threads insertObject:self.parentThread atIndex:0];
         }
     }
-    // Download images for the new batch of threads
-    [self downloadThumbnailsForThreads:threads];
     //calculate current number and total page number
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([self.delegate respondsToSelector:@selector(homeViewManager:threadContentProcessed:newThreads:allThreads:)]) {

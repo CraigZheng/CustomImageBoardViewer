@@ -105,6 +105,7 @@
 #pragma mark - UITableViewDelegate
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
     czzMenuEnabledTableViewCell *threadViewCell;
     if ([cell isKindOfClass:[czzMenuEnabledTableViewCell class]]) {
         threadViewCell = (czzMenuEnabledTableViewCell*)cell;

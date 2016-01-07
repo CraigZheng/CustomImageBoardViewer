@@ -118,19 +118,6 @@
     }
 }
 
-- (void)downloadThumbnailsForThreads:(NSArray*)threads {
-    for (czzThread *thread in threads) {
-        if (thread.imgSrc.length){
-            // If image should be shown.
-            if ([settingCentre userDefShouldDisplayThumbnail] || ![settingCentre shouldDisplayThumbnail]){
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [[czzImageDownloaderManager sharedManager] downloadImageWithURL:thread.imgSrc isThumbnail:YES];
-                });
-            }
-        }
-    }
-}
-
 #pragma mark - czzThreadDownloaderDelegate
 - (void)threadDownloaderBeginsDownload:(czzThreadDownloader *)downloader {
     [self.delegate homeViewManagerBeginsDownloading:self];
@@ -151,7 +138,6 @@
                 thread.thImgSrc = nil;
             }
         }
-        [self downloadThumbnailsForThreads:threads];
         self.lastBatchOfThreads = threads;
         // Add to total threads.
         [self.threads addObjectsFromArray:threads];

@@ -84,6 +84,7 @@
         cell.shouldHighlight = NO;
         cell.parentThread = self.myThread;
         cell.thread = self.myThread;
+        [cell renderContent];
     }
     return cell;
 }

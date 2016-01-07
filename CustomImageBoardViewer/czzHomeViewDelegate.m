@@ -106,7 +106,21 @@
     else if (!self.homeViewManager.isDownloading) {
         [self.homeViewManager loadMoreThreads];
         [tableView reloadData];
-//        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([cell isKindOfClass:[czzMenuEnabledTableViewCell class]]) {
+        // If image should be shown.
+        if ([settingCentre userDefShouldDisplayThumbnail] || ![settingCentre shouldDisplayThumbnail]){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                czzThread *thread = [(czzMenuEnabledTableViewCell *)cell thread];
+                if (thread.imgSrc.length){
+                    [[czzImageDownloaderManager sharedManager] downloadImageWithURL:thread.imgSrc
+                                                                        isThumbnail:YES];
+                }
+            });
+        }
     }
 }
 
