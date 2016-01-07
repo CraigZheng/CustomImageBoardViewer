@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;
 @property (weak, nonatomic) IBOutlet UIImageView *threadCellImageView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewLeadingConstraint;
 
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (strong, nonatomic) NSString *imageFolder;
@@ -125,22 +126,7 @@
 #pragma mark - consturct UI elements
 -(void)renderContent {
     [self resetViews];
-    UIImage *previewImage;
-    if (self.thread.imgSrc.length && self.allowImage){
-        NSString *imageName = self.thread.imgSrc.lastPathComponent;
-        previewImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:imageName]]];
 
-        if (self.bigImageMode)
-        {
-            if ([[czzImageCacheManager sharedInstance] hasImageWithName:imageName]) {
-                previewImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:imageName]]];
-            }
-        }
-        self.threadCellImageView.image = previewImage ?: self.placeholderImage;
-    } else {
-        self.threadCellImageView.image = nil;
-    }
-    
     NSMutableAttributedString *contentAttrString;
     if (self.thread.content)
         contentAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:self.thread.content];
@@ -162,18 +148,29 @@
     self.cellHeaderView.parentUID = self.parentThread.UID;
     self.cellFooterView.thread = self.cellHeaderView.thread = self.thread;
 
-    // If big image mode or no image at all, let the image view decide the rect.
-    if (self.bigImageMode || !previewImage) {
-        if (self.cellType
-            == threadViewCellTypeThread) {
-            self.threadCellImageView.userInteractionEnabled = YES;
-        } else {
-            self.threadCellImageView.userInteractionEnabled = NO;
+    // Images.
+    UIImage *previewImage;
+    NSString *imageName;
+    // Reset the cell image view, deactivate all size constraints.
+    self.threadCellImageView.image = nil;
+    self.threadCellImageView.userInteractionEnabled = YES;
+    self.imageViewWidthConstraint.priority = self.imageViewHeightConstraint.priority = 1;
+    if (self.allowImage && (imageName = self.thread.imgSrc.lastPathComponent).length) {
+        previewImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:imageName]]];
+        if (self.bigImageMode) {
+            // If big image mode, try to grab the full size image.
+            UIImage *fullImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]]];
+            previewImage = fullImage ?: previewImage;
         }
-        self.imageViewWidthConstraint.priority = self.imageViewHeightConstraint.priority = 1;
-    } else {
-        self.threadCellImageView.userInteractionEnabled = YES;
+        self.threadCellImageView.image = previewImage ?: self.placeholderImage;
+    }
+    // If the image in the image view is not nil and the current view is not on big image mode, turn on the size constraints.
+    if (self.threadCellImageView.image && !self.bigImageMode) {
         self.imageViewWidthConstraint.priority = self.imageViewHeightConstraint.priority = UILayoutPriorityRequired - 1;
+    }
+    if (self.bigImageMode && self.cellType == threadViewCellTypeHome) {
+        // When in big image mode, the cell image view should be disabled when the cell type is home.
+        self.threadCellImageView.userInteractionEnabled = NO;
     }
 }
 

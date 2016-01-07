@@ -11,7 +11,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" tableViewCell="LrR-hX-6Zz" id="mQi-J3-PXM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="199.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="199"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CR7-Ht-nIE">
@@ -32,13 +32,13 @@
                                 </constraints>
                             </view>
                             <textView opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" verticalHuggingPriority="251" scrollEnabled="NO" editable="NO" text="Content" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="oML-xg-Zfq" customClass="czzNoSelectionTextView">
-                                <rect key="frame" x="0.0" y="20" width="320" height="35.5"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
                             </textView>
                             <imageView contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="qgo-eG-Ahf">
-                                <rect key="frame" x="20" y="55.5" width="100" height="115.5"/>
+                                <rect key="frame" x="8" y="56" width="100" height="115"/>
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" placeholder="YES" id="whb-JN-WeU"/>
@@ -50,7 +50,8 @@
                             <constraint firstItem="Uat-ye-6MX" firstAttribute="leading" secondItem="CR7-Ht-nIE" secondAttribute="leading" id="3o8-jq-Wc8"/>
                             <constraint firstItem="oML-xg-Zfq" firstAttribute="top" secondItem="7eE-XQ-OOV" secondAttribute="bottom" id="4oq-lE-fFi"/>
                             <constraint firstAttribute="trailing" secondItem="oML-xg-Zfq" secondAttribute="trailing" id="8ME-tn-8IB"/>
-                            <constraint firstItem="qgo-eG-Ahf" firstAttribute="leading" secondItem="CR7-Ht-nIE" secondAttribute="leading" constant="20" symbolic="YES" id="8cB-8z-bgY"/>
+                            <constraint firstItem="qgo-eG-Ahf" firstAttribute="leading" secondItem="CR7-Ht-nIE" secondAttribute="leading" constant="8" id="8cB-8z-bgY"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="qgo-eG-Ahf" secondAttribute="trailing" constant="8" id="Ddt-CU-yPi"/>
                             <constraint firstItem="qgo-eG-Ahf" firstAttribute="top" secondItem="oML-xg-Zfq" secondAttribute="bottom" id="Smg-Xt-n39"/>
                             <constraint firstAttribute="trailing" secondItem="Uat-ye-6MX" secondAttribute="trailing" id="Vsb-Tb-k7C"/>
                             <constraint firstItem="oML-xg-Zfq" firstAttribute="leading" secondItem="CR7-Ht-nIE" secondAttribute="leading" id="bCQ-RS-JNf"/>
@@ -75,6 +76,7 @@
                 <outlet property="cellFooterView" destination="Uat-ye-6MX" id="8dW-e4-YJd"/>
                 <outlet property="cellHeaderView" destination="7eE-XQ-OOV" id="YO1-DQ-XYu"/>
                 <outlet property="contentTextView" destination="oML-xg-Zfq" id="CVo-Z2-qN7"/>
+                <outlet property="imageViewLeadingConstraint" destination="8cB-8z-bgY" id="tFy-Ty-kQX"/>
                 <outlet property="threadCellImageView" destination="qgo-eG-Ahf" id="PLG-kr-TZj"/>
                 <outlet property="threadContentView" destination="CR7-Ht-nIE" id="TFF-8x-opT"/>
             </connections>
