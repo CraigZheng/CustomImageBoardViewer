@@ -90,13 +90,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat preferHeight = tableView.rowHeight;
-    preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:self.myThread inView:self.view hasImage:self.myThread.thImgSrc.length > 0];
-    preferHeight = MAX(tableView.rowHeight, preferHeight);
-    rowSize = CGSizeMake(self.view.frame.size.width, preferHeight);
-
-    self.threadTableViewHeight.constant = preferHeight;
-    return preferHeight;
+    return UITableViewAutomaticDimension;
 }
 
 
