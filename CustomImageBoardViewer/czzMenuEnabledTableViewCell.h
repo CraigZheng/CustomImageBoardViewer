@@ -40,8 +40,6 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 @end
 
 @interface czzMenuEnabledTableViewCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UITextView *contentTextView;
-@property (weak, nonatomic) IBOutlet UIView *threadContentView;
 @property NSIndexPath *myIndexPath;
 
 @property (strong, nonatomic) NSString *selectedUserToHighlight;

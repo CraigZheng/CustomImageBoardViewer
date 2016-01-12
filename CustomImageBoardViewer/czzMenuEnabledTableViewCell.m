@@ -25,6 +25,8 @@
 static NSInteger const fixedConstraintConstant = 120;
 
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, czzImageDownloaderManagerDelegate>
+@property (weak, nonatomic) IBOutlet UITextView *contentTextView;
+@property (weak, nonatomic) IBOutlet UIView *threadContentView;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;
 @property (weak, nonatomic) IBOutlet UIImageView *cellImageView;
@@ -108,7 +110,12 @@ static NSInteger const fixedConstraintConstant = 120;
         self.threadContentView.backgroundColor = [UIColor whiteColor];
         self.contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     }
-
+    // Clear the content view for previous czzThreadRefButton.
+    for (UIView *subView in self.contentView.subviews) {
+        if ([subView isKindOfClass:[czzThreadRefButton class]]) {
+            [subView removeFromSuperview];
+        }
+    }
 }
 
 #pragma mark - custom menu action
@@ -152,6 +159,16 @@ static NSInteger const fixedConstraintConstant = 120;
 }
 
 #pragma mark - consturct UI elements
+
+- (CGRect)frameOfTextRange:(NSRange)range inTextView:(UITextView *)textView {
+    UITextPosition *beginning = textView.beginningOfDocument;
+    UITextPosition *start = [textView positionFromPosition:beginning offset:range.location];
+    UITextPosition *end = [textView positionFromPosition:start offset:range.length];
+    UITextRange *textRange = [textView textRangeFromPosition:start toPosition:end];
+    CGRect rect = [textView firstRectForRange:textRange];
+    return rect;
+}
+
 -(void)renderContent {
     [self resetViews];
     if (self.nightyMode) {
@@ -213,6 +230,28 @@ static NSInteger const fixedConstraintConstant = 120;
     self.cellHeaderView.parentUID = self.parentThread.UID;
     self.cellFooterView.thread = self.cellHeaderView.thread = self.thread;
 
+    // Clickable content, find the quoted text and add a button to corresponding location.
+    for (NSNumber *refNumber in self.thread.replyToList) {
+        NSInteger rep = refNumber.integerValue;
+        if (rep > 0) {
+            NSString *quotedNumberText = [NSString stringWithFormat:@"%ld", (long)rep];
+            NSRange range = [self.contentTextView.attributedText.string rangeOfString:quotedNumberText];
+            if (range.location != NSNotFound){
+                CGRect result = [self frameOfTextRange:range inTextView:self.contentTextView];
+                
+                if (!CGSizeEqualToSize(CGSizeZero, result.size)){
+                    czzThreadRefButton *threadRefButton = [[czzThreadRefButton alloc] initWithFrame:CGRectMake(result.origin.x, result.origin.y + self.contentTextView.frame.origin.y, result.size.width, result.size.height)];
+                    threadRefButton.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.1f];
+                    threadRefButton.tag = 999999;
+                    [threadRefButton addTarget:self action:@selector(userTapInRefButton:) forControlEvents:UIControlEventTouchUpInside];
+                    threadRefButton.threadRefNumber = rep;
+                    [self.contentView addSubview:threadRefButton];
+                }
+            }
+        }
+    }
+
+    
     [self.cellImageView layoutIfNeeded];
 }
 
@@ -223,6 +262,14 @@ static NSInteger const fixedConstraintConstant = 120;
         [self.delegate userTapInImageView:self.thread.imgSrc];
     } else {
         DDLogDebug(@"Tap on image view dis-allowed.");
+    }
+}
+
+- (void)userTapInRefButton:(id)sender {
+    if ([sender isKindOfClass:[czzThreadRefButton class]]) {
+        if ([self.delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
+            [self.delegate userTapInQuotedText:[NSString stringWithFormat:@"%ld", (long)[(czzThreadRefButton *)sender threadRefNumber]]];
+        }
     }
 }
 
