@@ -18,6 +18,8 @@
 
 @property (weak, nonatomic) czzHomeViewManager *homeViewManager;
 @property (weak, nonatomic) czzThreadTableView *myTableView;
+@property (nonatomic, strong) NSMutableDictionary *cachedHorizontalHeights;
+@property (nonatomic, strong) NSMutableDictionary *cachedVerticalHeights;
 
 - (void)replyToThread:(czzThread *)thread inParentThread:(czzThread *)parentThread;
 - (void)replyMainThread:(czzThread *)thread;

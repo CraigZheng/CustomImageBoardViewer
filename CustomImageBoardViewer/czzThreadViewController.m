@@ -350,7 +350,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 #pragma mark - rotation events
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    [self.threadTableView reloadData];
+    [self updateTableView];
 }
 
 #pragma mark - State perserving

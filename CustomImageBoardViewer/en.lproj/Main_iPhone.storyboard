@@ -863,7 +863,14 @@
                                 </connections>
                             </barButtonItem>
                         </leftBarButtonItems>
-                        <barButtonItem key="rightBarButtonItem" title="0/0" id="K87-RF-vDp"/>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="refresh" id="3vz-Ho-PTJ">
+                                <connections>
+                                    <action selector="reloadDataAction:" destination="JnF-wS-C9I" id="z9h-V0-RX7"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="0/0" id="K87-RF-vDp"/>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="forumListButton" destination="8WD-yv-VRu" id="DLY-p4-ThH"/>

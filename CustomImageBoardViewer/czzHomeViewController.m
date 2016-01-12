@@ -165,18 +165,18 @@
  This method would update the contents related to the table view
  */
 -(void)updateTableView {
-    [self.threadTableView reloadData];
-    
     // Update bar buttons.
     if (!self.numberBarButton.customView) {
         self.numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
     }
-    
+    // Give the amount number a title.
     [(czzRoundButton *)self.numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.homeViewManager.threads.count] forState:UIControlStateNormal];
-        
     // Other data
     self.title = self.homeViewManager.forum.name;
     self.navigationItem.backBarButtonItem.title = self.title;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.threadTableView reloadData];
+    });
 }
 
 #pragma mark - State perserving
@@ -240,6 +240,13 @@
 }
 
 #pragma mark - more action and commands
+
+- (IBAction)reloadDataAction:(id)sender {
+    self.homeViewDelegate.cachedVerticalHeights = self.homeViewDelegate.cachedHorizontalHeights = nil;
+    [self.threadTableView reloadData];
+}
+
+
 -(void)openSettingsPanel{
     czzSettingsViewController *settingsViewController = [czzSettingsViewController new];
     [self.navigationController pushViewController:settingsViewController animated:YES];
@@ -339,6 +346,7 @@
         [self.refreshControl endRefreshing];
         if (wasSuccessul && self.homeViewManager.pageNumber == 1) {
             [self.threadTableView scrollToTop:NO];
+            self.homeViewDelegate.cachedHorizontalHeights = self.homeViewDelegate.cachedVerticalHeights = nil;
         }
         [self updateTableView];
 
@@ -396,7 +404,7 @@
 #pragma mark - rotation events
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    [self.threadTableView reloadData];
+    [self updateTableView];
 }
 
 #pragma mark - pause / restoration

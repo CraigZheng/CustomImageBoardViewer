@@ -28,11 +28,11 @@
 @property (strong) czzImageViewerUtil *imageViewerUtil;
 @property (nonatomic, readonly) NSIndexPath *lastRowIndexPath;
 @property (nonatomic, readonly) BOOL tableViewIsDraggedOverTheBottom;
-@property (nonatomic, strong) NSMutableDictionary *cachedHorizontalHeights;
-@property (nonatomic, strong) NSMutableDictionary *cachedVerticalHeights;
 @property (nonatomic, assign) BOOL bigImageMode;
+@property (nonatomic, strong) czzMenuEnabledTableViewCell *sizingCell;
 
 - (BOOL)tableViewIsDraggedOverTheBottomWithPadding:(CGFloat)padding;
+
 @end
 
 @implementation czzHomeViewDelegate
@@ -145,25 +145,74 @@
     }
 }
 
-- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (UIInterfaceOrientationIsPortrait([UIApplication rootViewController].interfaceOrientation)) {
-        [self.cachedVerticalHeights setObject:@(CGRectGetHeight(cell.frame)) forKey:indexPath];
-    } else {
-        [self.cachedHorizontalHeights setObject:@(CGRectGetHeight(cell.frame)) forKey:indexPath];
-    }
-}
+//- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+//    if (indexPath.row < self.homeViewManager.threads.count) {
+//        czzThread *thread = self.homeViewManager.threads[indexPath.row];
+//        NSNumber *height = @(CGRectGetHeight(cell.frame));
+//        DLog(@"Actual cell size: %@", [NSValue valueWithCGRect:cell.frame]);
+//        if (UIInterfaceOrientationIsPortrait([UIApplication rootViewController].interfaceOrientation)) {
+//            [self.cachedVerticalHeights setObject:height
+//                                           forKey:@(thread.ID)];
+//        } else {
+//            [self.cachedHorizontalHeights setObject:height
+//                                             forKey:@(thread.ID)];
+//        }
+//    }
+//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSNumber *cachedHeight;
-    if (UIInterfaceOrientationIsPortrait([UIApplication rootViewController].interfaceOrientation)) {
-        cachedHeight = [self.cachedVerticalHeights objectForKey:indexPath];
-    } else {
-        cachedHeight = [self.cachedHorizontalHeights objectForKey:indexPath];
+    CGFloat preferedHeight = UITableViewAutomaticDimension;
+    if (indexPath.row < self.homeViewManager.threads.count) {
+        czzThread *thread = self.homeViewManager.threads[indexPath.row];
+        NSNumber *cachedHeight;
+        if (UIInterfaceOrientationIsPortrait([UIApplication rootViewController].interfaceOrientation)) {
+            cachedHeight = [self.cachedVerticalHeights
+                            objectForKey:@(thread.ID)];
+        } else {
+            cachedHeight = [self.cachedHorizontalHeights
+                            objectForKey:@(thread.ID)];
+        }
+        if (cachedHeight) {
+            DDLogDebug(@"Cached height for %ldth row is %ld", (long)indexPath.row, cachedHeight.integerValue);
+        } else {
+            self.sizingCell.thread = self.sizingCell.parentThread = thread;
+            self.sizingCell.cellType = threadViewCellTypeHome;
+
+            [self.sizingCell renderContent];
+            
+            [self.sizingCell setNeedsUpdateConstraints];
+            [self.sizingCell updateConstraintsIfNeeded];
+            
+            // Set the width of the cell to match the width of the table view. This is important so that we'll get the
+            // correct cell height for different table view widths if the cell's height depends on its width (due to
+            // multi-line UILabels word wrapping, etc). We don't need to do this above in -[tableView:cellForRowAtIndexPath]
+            // because it happens automatically when the cell is used in the table view.
+            // Also note, the final width of the cell may not be the width of the table view in some cases, for example when a
+            // section index is displayed along the right side of the table view. You must account for the reduced cell width.
+            self.sizingCell.frame = self.sizingCell.bounds = CGRectMake(0.0f, 0.0f, CGRectGetWidth(tableView.bounds), CGRectGetHeight(self.sizingCell.bounds));
+            
+            // Do the layout pass on the cell, which will calculate the frames for all the views based on the constraints.
+            // (Note that you must set the preferredMaxLayoutWidth on multi-line UILabels inside the -[layoutSubviews] method
+            // of the UITableViewCell subclass, or do it manually at this point before the below 2 lines!)
+            [self.sizingCell setNeedsLayout];
+            [self.sizingCell layoutIfNeeded];
+            
+            CGSize calculatedSize = [self.sizingCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+            cachedHeight = @(calculatedSize.height);
+            DDLogDebug(@"Caching height for %ldth row: %ld", indexPath.row, cachedHeight.integerValue);
+            if (UIInterfaceOrientationIsPortrait([UIApplication rootViewController].interfaceOrientation)) {
+                [self.cachedVerticalHeights setObject:cachedHeight
+                                               forKey:@(thread.ID)];
+            } else {
+                [self.cachedHorizontalHeights setObject:cachedHeight
+                                                 forKey:@(thread.ID)];
+            }
+        }
+        if (cachedHeight) {
+            preferedHeight = cachedHeight.floatValue;
+        }
     }
-    if (cachedHeight) {
-        DDLogDebug(@"Cached height for %ldth row: %.1f", (long)indexPath.row, cachedHeight.floatValue);
-    }
-    return cachedHeight.floatValue ?: UITableViewAutomaticDimension;
+    return preferedHeight;
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -239,6 +288,8 @@
 }
 
 - (void)threadViewCellContentChanged:(czzMenuEnabledTableViewCell *)cell {
+    [self.cachedHorizontalHeights removeObjectForKey:@(cell.thread.ID)];
+    [self.cachedVerticalHeights removeObjectForKey:@(cell.thread.ID)];
     [[NSOperationQueue currentQueue] addOperationWithBlock:^{
         NSIndexPath *cellIndexPath = [self.myTableView indexPathForCell:cell];
         if (cellIndexPath && [self.myTableView.indexPathsForVisibleRows containsObject:cellIndexPath]) {
@@ -273,7 +324,14 @@
         [AppDelegate showToast:@"开始下载图片..."];
 }
 
-#pragma mark - Getters {
+#pragma mark - Getters 
+
+- (czzMenuEnabledTableViewCell *)sizingCell {
+    if (!_sizingCell) {
+        _sizingCell = [self.myTableView dequeueReusableCellWithIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
+    }
+    return _sizingCell;
+}
 
 - (NSMutableDictionary *)cachedHorizontalHeights {
     if (!_cachedHorizontalHeights) {

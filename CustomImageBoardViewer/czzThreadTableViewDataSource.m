@@ -44,15 +44,6 @@
     return cell;
 }
 
-- (CGRect)frameOfTextRange:(NSRange)range inTextView:(UITextView *)textView {
-    UITextPosition *beginning = textView.beginningOfDocument;
-    UITextPosition *start = [textView positionFromPosition:beginning offset:range.location];
-    UITextPosition *end = [textView positionFromPosition:start offset:range.length];
-    UITextRange *textRange = [textView textRangeFromPosition:start toPosition:end];
-    CGRect rect = [textView firstRectForRange:textRange];
-    return rect;
-}
-
 #pragma mark - Accessors
 
 -(czzThreadViewManager *)threadViewManager {

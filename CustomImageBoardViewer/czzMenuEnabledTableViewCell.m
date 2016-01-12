@@ -18,7 +18,7 @@
 #import "czzImageDownloaderManager.h"
 #import "czzThreadViewCellHeaderView.h"
 #import "czzThreadViewCellFooterView.h"
-#import "PureLayout/PureLayout.h"
+//#import "PureLayout/PureLayout.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -29,8 +29,9 @@ static NSInteger const fixedConstraintConstant = 120;
 @property (weak, nonatomic) IBOutlet UIView *threadContentView;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerViewHeightConstraint;
 @property (weak, nonatomic) IBOutlet UIImageView *cellImageView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewLeadingConstraint;
+//@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewLeadingConstraint;
 
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (strong, nonatomic) NSString *imageFolder;
@@ -38,11 +39,11 @@ static NSInteger const fixedConstraintConstant = 120;
 @property (strong, nonatomic) UIImage *placeholderImage;
 @property (strong, nonatomic) UITapGestureRecognizer *tapOnImageViewRecognizer;
 
-@property (strong, nonatomic) NSLayoutConstraint *imageViewCentreHorizontalConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *fixedImageViewHeightConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *fixedImageViewWidthConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *flexibleImageViewHeightConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *flexibleImageViewWidthConstraint;
+//@property (strong, nonatomic) NSLayoutConstraint *imageViewCentreHorizontalConstraint;
+//@property (strong, nonatomic) NSLayoutConstraint *fixedImageViewHeightConstraint;
+//@property (strong, nonatomic) NSLayoutConstraint *fixedImageViewWidthConstraint;
+//@property (strong, nonatomic) NSLayoutConstraint *flexibleImageViewHeightConstraint;
+//@property (strong, nonatomic) NSLayoutConstraint *flexibleImageViewWidthConstraint;
 
 @end
 
@@ -57,25 +58,25 @@ static NSInteger const fixedConstraintConstant = 120;
 
     [self.cellImageView addGestureRecognizer:self.tapOnImageViewRecognizer];
     // Make sure the height of the image view never exceed the width.
-    [self.cellImageView autoMatchDimension:ALDimensionHeight
-                                     toDimension:ALDimensionWidth
-                                          ofView:self.cellImageView
-                                  withMultiplier:0.6
-                                        relation:NSLayoutRelationLessThanOrEqual];
+//    [self.cellImageView autoMatchDimension:ALDimensionHeight
+//                                     toDimension:ALDimensionWidth
+//                                          ofView:self.cellImageView
+//                                  withMultiplier:0.6
+//                                        relation:NSLayoutRelationLessThanOrEqual];
     // Add the fixed constraitns, constants = 120, priorities = high.
-    [NSLayoutConstraint autoSetPriority:UILayoutPriorityDefaultHigh forConstraints:^{
-        self.fixedImageViewHeightConstraint = [self.cellImageView autoSetDimension:ALDimensionHeight
-                                                                            toSize:fixedConstraintConstant];
-        self.fixedImageViewWidthConstraint = [self.cellImageView autoSetDimension:ALDimensionWidth
-                                                                           toSize:fixedConstraintConstant];
-    }];
+//    [NSLayoutConstraint autoSetPriority:UILayoutPriorityDefaultHigh forConstraints:^{
+//        self.fixedImageViewHeightConstraint = [self.cellImageView autoSetDimension:ALDimensionHeight
+//                                                                            toSize:fixedConstraintConstant];
+//        self.fixedImageViewWidthConstraint = [self.cellImageView autoSetDimension:ALDimensionWidth
+//                                                                           toSize:fixedConstraintConstant];
+//    }];
     // Add the flexible constraints, constants = 1, priorities = 1.
-    [NSLayoutConstraint autoSetPriority:1 forConstraints:^{
-        self.flexibleImageViewHeightConstraint = [self.cellImageView autoSetDimension:ALDimensionHeight
-                                                                               toSize:1];
-        self.flexibleImageViewWidthConstraint = [self.cellImageView autoSetDimension:ALDimensionWidth
-                                                                              toSize:1];
-    }];
+//    [NSLayoutConstraint autoSetPriority:1 forConstraints:^{
+//        self.flexibleImageViewHeightConstraint = [self.cellImageView autoSetDimension:ALDimensionHeight
+//                                                                               toSize:1];
+//        self.flexibleImageViewWidthConstraint = [self.cellImageView autoSetDimension:ALDimensionWidth
+//                                                                              toSize:1];
+//    }];
     
     // Apply shadow and radius to background view.
     self.threadContentView.layer.masksToBounds = NO;
@@ -176,10 +177,12 @@ static NSInteger const fixedConstraintConstant = 120;
         [contentAttrString addAttribute:NSForegroundColorAttributeName value:settingCentre.contentTextColour range:NSMakeRange(0, contentAttrString.length)];
         self.contentTextView.attributedText = contentAttrString;
     } else {
-        self.contentTextView.attributedText = self.thread.content;
+        self.contentTextView.text = self.thread.content.string;
     }
     self.contentTextView.font = settingCentre.contentFont;
-            
+    
+    [self.contentTextView layoutIfNeeded];
+    
     // Highlight the selected user.
     if (self.selectedUserToHighlight && [self.thread.UID isEqualToString:self.selectedUserToHighlight]) {
         self.contentTextView.backgroundColor = self.contentView.backgroundColor;
@@ -199,32 +202,32 @@ static NSInteger const fixedConstraintConstant = 120;
         self.cellImageView.image = previewImage ?: self.placeholderImage;
     }
     // If the image is not nil, reset the fixed constraints and calculate the flexible constraints.
-    if (self.cellImageView.image) {
-        self.fixedImageViewWidthConstraint.constant =
-        self.fixedImageViewHeightConstraint.constant = fixedConstraintConstant;
-        
-        self.imageViewLeadingConstraint.constant = self.bigImageMode ? 8 : 16; // The leading would be 8 for big image mode.
-        // If valid image and big image mode.
-        if (self.bigImageMode) {
-            if (self.cellImageView.image == self.placeholderImage) {
-                // Place holder image, not valid... use fixed constant instead.
-                self.flexibleImageViewWidthConstraint.constant =
-                self.flexibleImageViewHeightConstraint.constant = fixedConstraintConstant;
-
-            } else {
-                // Big image mode is on, calculate the aspect ratio and apply to the constraints.
-                CGFloat aspectRatio = self.cellImageView.intrinsicContentSize.height / self.cellImageView.intrinsicContentSize.width;
-                self.flexibleImageViewWidthConstraint.constant = CGRectGetWidth(self.frame) - self.imageViewLeadingConstraint.constant * 2; // Remove the padding for leading and trailing.
-                self.flexibleImageViewHeightConstraint.constant = self.flexibleImageViewWidthConstraint.constant * aspectRatio;
-            }
-        }
-    } else {
-        // Set all size constraints to 0 when nil.
-        self.fixedImageViewWidthConstraint.constant =
-        self.fixedImageViewHeightConstraint.constant =
-        self.flexibleImageViewHeightConstraint.constant =
-        self.flexibleImageViewWidthConstraint.constant = 0;
-    }
+//    if (self.cellImageView.image) {
+//        self.fixedImageViewWidthConstraint.constant =
+//        self.fixedImageViewHeightConstraint.constant = fixedConstraintConstant;
+//        
+//        self.imageViewLeadingConstraint.constant = self.bigImageMode ? 8 : 16; // The leading would be 8 for big image mode.
+//        // If valid image and big image mode.
+//        if (self.bigImageMode) {
+//            if (self.cellImageView.image == self.placeholderImage) {
+//                // Place holder image, not valid... use fixed constant instead.
+//                self.flexibleImageViewWidthConstraint.constant =
+//                self.flexibleImageViewHeightConstraint.constant = fixedConstraintConstant;
+//
+//            } else {
+//                // Big image mode is on, calculate the aspect ratio and apply to the constraints.
+//                CGFloat aspectRatio = self.cellImageView.intrinsicContentSize.height / self.cellImageView.intrinsicContentSize.width;
+//                self.flexibleImageViewWidthConstraint.constant = CGRectGetWidth(self.frame) - self.imageViewLeadingConstraint.constant * 2; // Remove the padding for leading and trailing.
+//                self.flexibleImageViewHeightConstraint.constant = self.flexibleImageViewWidthConstraint.constant * aspectRatio;
+//            }
+//        }
+//    } else {
+//        // Set all size constraints to 0 when nil.
+//        self.fixedImageViewWidthConstraint.constant =
+//        self.fixedImageViewHeightConstraint.constant =
+//        self.flexibleImageViewHeightConstraint.constant =
+//        self.flexibleImageViewWidthConstraint.constant = 0;
+//    }
     // Header and footer
     self.cellHeaderView.shouldHighLight = self.shouldHighlight;
     self.cellHeaderView.parentUID = self.parentThread.UID;
@@ -250,9 +253,6 @@ static NSInteger const fixedConstraintConstant = 120;
             }
         }
     }
-
-    
-    [self.cellImageView layoutIfNeeded];
 }
 
 #pragma mark - UI actions
@@ -308,6 +308,10 @@ static NSInteger const fixedConstraintConstant = 120;
             }
         }
     }
+    
+    DLog(@"Self view size: %@", [NSValue valueWithCGSize:self.frame.size]);
+    DLog(@"Content view frame: %@", [NSValue valueWithCGRect:self.contentView.frame]);
+    DLog(@"Text view frame: %@, intrinsicSize: %@", [NSValue valueWithCGRect:self.contentTextView.frame], [NSValue valueWithCGSize:self.contentTextView.intrinsicContentSize]);
 }
 
 #pragma mark - Getters
@@ -335,31 +339,31 @@ static NSInteger const fixedConstraintConstant = 120;
     return _tapOnImageViewRecognizer;
 }
 
-- (NSLayoutConstraint *)imageViewCentreHorizontalConstraint {
-    if (!_imageViewCentreHorizontalConstraint) {
-        [NSLayoutConstraint autoSetPriority:UILayoutPriorityRequired - 1 forConstraints:^{
-            _imageViewCentreHorizontalConstraint = [self.cellImageView autoAlignAxisToSuperviewAxis:ALAxisVertical];
-        }];
-    }
-    return _imageViewCentreHorizontalConstraint;
-}
-
-- (void)setBigImageMode:(BOOL)bigImageMode {
-    if (_bigImageMode != bigImageMode) {
-        _bigImageMode = bigImageMode;
-        if (bigImageMode) {
-            // If big image mode, set priorities to 999.
-            self.imageViewCentreHorizontalConstraint.priority =
-            self.flexibleImageViewHeightConstraint.priority =
-            self.flexibleImageViewWidthConstraint.priority = UILayoutPriorityRequired - 1;
-        } else {
-            self.imageViewCentreHorizontalConstraint.priority =
-            self.flexibleImageViewHeightConstraint.priority =
-            self.flexibleImageViewWidthConstraint.priority = 1;
-        }
-        [self renderContent];
-    }
-}
+//- (NSLayoutConstraint *)imageViewCentreHorizontalConstraint {
+//    if (!_imageViewCentreHorizontalConstraint) {
+//        [NSLayoutConstraint autoSetPriority:UILayoutPriorityRequired - 1 forConstraints:^{
+//            _imageViewCentreHorizontalConstraint = [self.cellImageView autoAlignAxisToSuperviewAxis:ALAxisVertical];
+//        }];
+//    }
+//    return _imageViewCentreHorizontalConstraint;
+//}
+//
+//- (void)setBigImageMode:(BOOL)bigImageMode {
+//    if (_bigImageMode != bigImageMode) {
+//        _bigImageMode = bigImageMode;
+//        if (bigImageMode) {
+//            // If big image mode, set priorities to 999.
+//            self.imageViewCentreHorizontalConstraint.priority =
+//            self.flexibleImageViewHeightConstraint.priority =
+//            self.flexibleImageViewWidthConstraint.priority = UILayoutPriorityRequired - 1;
+//        } else {
+//            self.imageViewCentreHorizontalConstraint.priority =
+//            self.flexibleImageViewHeightConstraint.priority =
+//            self.flexibleImageViewWidthConstraint.priority = 1;
+//        }
+//        [self renderContent];
+//    }
+//}
 
 - (void)setCellType:(threadViewCellType)cellType {
     _cellType = cellType;
@@ -377,16 +381,24 @@ static NSInteger const fixedConstraintConstant = 120;
         if (downloader.isThumbnail) {
             if ([downloader.targetURLString.lastPathComponent isEqualToString:self.thread.imgSrc.lastPathComponent]) {
                 self.cellImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:downloader.targetURLString.lastPathComponent]]];
-                if (self.bigImageMode) {
-                    if ([self.delegate respondsToSelector:@selector(threadViewCellContentChanged:)]) {
-                        [self.delegate threadViewCellContentChanged:self];
-                    }
-                } else {
-                    self.cellImageView.alpha = 0.5;
-                    [UIView animateWithDuration:0.2 animations:^{
-                        self.cellImageView.alpha = 1;
-                    }];
+//                if (self.bigImageMode) {
+//                    if ([self.delegate respondsToSelector:@selector(threadViewCellContentChanged:)]) {
+//                        [self.delegate threadViewCellContentChanged:self];
+//                    }
+//                } else {
+//                    self.cellImageView.alpha = 0.5;
+//                    [UIView animateWithDuration:0.2 animations:^{
+//                        self.cellImageView.alpha = 1;
+//                    }];
+//                }
+                if ([self.delegate respondsToSelector:@selector(threadViewCellContentChanged:)]) {
+                    [self.delegate threadViewCellContentChanged:self];
                 }
+                self.cellImageView.alpha = 0.5;
+                [UIView animateWithDuration:0.2 animations:^{
+                    self.cellImageView.alpha = 1;
+                }];
+
             }
         } else if (self.bigImageMode) {
             // Not thumbnail, but self is in big image mode.
