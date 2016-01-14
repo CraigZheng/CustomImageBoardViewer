@@ -25,7 +25,7 @@
 #import "czzNavigationController.h"
 #import "czzOnScreenImageManagerViewController.h"
 #import "GSIndeterminateProgressView.h"
-#import "czzThreadViewDelegate.h"
+#import "czzThreadTableViewManager.h"
 #import "czzFavouriteManager.h"
 #import "czzWatchListManager.h"
 #import "czzRoundButton.h"
@@ -45,7 +45,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @property (strong, nonatomic) czzMiniThreadViewController *miniThreadView;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) czzThreadTableViewDataSource *tableViewDataSource;
-@property (strong, nonatomic) czzThreadViewDelegate *threadViewDelegate;
+@property (strong, nonatomic) czzThreadTableViewManager *threadViewDelegate;
 @property (strong, nonatomic) czzOnScreenImageManagerViewController *onScreenImageManagerViewController;
 @property (weak, nonatomic) GSIndeterminateProgressView *progressView;
 @end
@@ -78,10 +78,12 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     self.threadViewManager.delegate = self;
     [self.threadViewManager restorePreviousState];
     
+#warning come back later
+    /*
     self.threadTableView.dataSource = tableViewDataSource = [czzThreadTableViewDataSource initWithViewManager:self.threadViewManager andTableView:self.threadTableView];
     self.threadTableView.delegate = threadViewDelegate = [czzThreadViewDelegate initWithViewManager:self.threadViewManager andTableView:self.threadTableView];
     tableViewDataSource.tableViewDelegate = threadViewDelegate;
-    
+    */
     // Progress view
     progressView = [(czzNavigationController*)self.navigationController progressView];
     

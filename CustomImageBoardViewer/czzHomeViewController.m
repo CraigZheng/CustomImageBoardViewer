@@ -24,15 +24,14 @@
 #import "GSIndeterminateProgressView.h"
 #import "czzHomeViewManager.h"
 #import "czzForumManager.h"
-#import "czzHomeViewDelegate.h"
+#import "czzHomeTableViewManager.h"
 #import "czzThreadViewManager.h"
 #import "czzForumsViewController.h"
 #import "czzThreadTableView.h"
 #import "czzSettingsViewController.h"
 #import "czzRoundButton.h"
 #import "czzFavouriteManagerViewController.h"
-
-#import "czzHomeTableViewDataSource.h"
+#import "czzHomeTableViewManager.h"
 
 #import <CoreText/CoreText.h>
 
@@ -46,8 +45,7 @@
 @property (assign, nonatomic) GSIndeterminateProgressView *progressView;
 @property (strong, nonatomic) czzForum *selectedForum;
 @property (strong, nonatomic) czzFavouriteManagerViewController *favouriteManagerViewController;
-@property (strong, nonatomic) czzHomeTableViewDataSource *tableViewDataSource;
-@property (strong, nonatomic) czzHomeViewDelegate *homeViewDelegate;
+@property (strong, nonatomic) czzHomeTableViewManager *homeTableViewManager;
 @property (strong, nonatomic) czzOnScreenImageManagerViewController *onScreenImageManagerViewController;
 @end
 
@@ -59,9 +57,8 @@
     [super viewDidLoad];
     
     //assign a custom tableview data source
-    self.threadTableView.dataSource = self.tableViewDataSource;
-    self.threadTableView.delegate = self.homeViewDelegate;
-    self.tableViewDataSource.tableViewDelegate = self.homeViewDelegate;
+    self.threadTableView.dataSource = self.homeTableViewManager;
+    self.threadTableView.delegate = self.homeTableViewManager;
     
     // Load data into tableview
     [self updateTableView];
@@ -79,7 +76,6 @@
     // On screen image manager view controller
     if (!self.onScreenImageManagerViewController) {
         self.onScreenImageManagerViewController = [czzOnScreenImageManagerViewController new];
-        self.onScreenImageManagerViewController.delegate = self.homeViewDelegate;
         [self addChildViewController:self.onScreenImageManagerViewController];
         [self.onScreenImageManagerViewContainer addSubview:self.onScreenImageManagerViewController.view];
     }
@@ -242,7 +238,7 @@
 #pragma mark - more action and commands
 
 - (IBAction)reloadDataAction:(id)sender {
-    self.homeViewDelegate.cachedVerticalHeights = self.homeViewDelegate.cachedHorizontalHeights = nil;
+    self.homeTableViewManager.cachedVerticalHeights = self.homeTableViewManager.cachedHorizontalHeights = nil;
     [self.threadTableView reloadData];
 }
 
@@ -301,21 +297,14 @@
     return _refreshControl;
 }
 
--(czzHomeTableViewDataSource *)tableViewDataSource {
-    if (!_tableViewDataSource) {
-        _tableViewDataSource = [czzHomeTableViewDataSource initWithViewManager:self.homeViewManager andTableView:self.threadTableView];
+-(czzHomeTableViewManager *)homeTableViewManager {
+    if (!_homeTableViewManager) {
+        _homeTableViewManager = [czzHomeTableViewManager new];
+        _homeTableViewManager.homeViewManager = self.homeViewManager;
+        _homeTableViewManager.homeTableView = self.threadTableView;
     }
-    return _tableViewDataSource;
+    return _homeTableViewManager;
 }
-
--(czzHomeViewDelegate *)homeViewDelegate {
-    if (!_homeViewDelegate) {
-        _homeViewDelegate = [czzHomeViewDelegate initWithViewManager:self.homeViewManager andTableView:self.threadTableView];
-    }
-    return _homeViewDelegate;
-}
-
-
 
 - (void)homeViewManagerWantsToReload:(czzHomeViewManager *)manager {
     if (manager.threads.count) {
@@ -346,7 +335,7 @@
         [self.refreshControl endRefreshing];
         if (wasSuccessul && self.homeViewManager.pageNumber == 1) {
             [self.threadTableView scrollToTop:NO];
-            self.homeViewDelegate.cachedHorizontalHeights = self.homeViewDelegate.cachedVerticalHeights = nil;
+            self.homeTableViewManager.cachedHorizontalHeights = self.homeTableViewManager.cachedVerticalHeights = nil;
         }
         [self updateTableView];
 

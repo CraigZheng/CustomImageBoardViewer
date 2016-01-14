@@ -11,19 +11,19 @@
 #import "czzThreadViewController.h"
 #import "czzMenuEnabledTableViewCell.h"
 
-@class czzHomeViewManager;
+@class czzHomeViewManager, czzThreadViewCommandStatusCellViewController;
 
 
-@interface czzHomeViewDelegate : NSObject <UITableViewDelegate, czzOnScreenImageManagerViewControllerDelegate, czzMenuEnabledTableViewCellProtocol>
+@interface czzHomeTableViewManager : NSObject <UITableViewDelegate, UITableViewDataSource, czzOnScreenImageManagerViewControllerDelegate>
 
 @property (weak, nonatomic) czzHomeViewManager *homeViewManager;
-@property (weak, nonatomic) czzThreadTableView *myTableView;
+@property (weak, nonatomic) czzThreadTableView *homeTableView;
 @property (nonatomic, strong) NSMutableDictionary *cachedHorizontalHeights;
 @property (nonatomic, strong) NSMutableDictionary *cachedVerticalHeights;
+@property (nonatomic, assign) czzThreadViewCommandStatusCellViewController *commandStatusViewController;
 
 - (void)replyToThread:(czzThread *)thread inParentThread:(czzThread *)parentThread;
 - (void)replyMainThread:(czzThread *)thread;
 - (void)reportThread:(czzThread *)selectedThread inParentThread:(czzThread *)parentThread;
-+ (instancetype)sharedInstance;
-+ (instancetype)initWithViewManager:(czzHomeViewManager *)viewManager andTableView:(czzThreadTableView *)tableView;
+
 @end

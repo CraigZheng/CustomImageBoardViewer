@@ -6,18 +6,18 @@
 //  Copyright (c) 2015 Craig. All rights reserved.
 //
 
-#import "czzThreadViewDelegate.h"
+#import "czzThreadTableViewManager.h"
 
 #import "PartialTransparentView.h"
 #import "czzThreadRefButton.h"
 #import "czzMenuEnabledTableViewCell.h"
 
-@interface czzThreadViewDelegate ()
+@interface czzThreadTableViewManager ()
 @property (nonatomic, strong) PartialTransparentView *containerView;
 @property (nonatomic, assign) CGPoint threadsTableViewContentOffSet;
 @end
 
-@implementation czzThreadViewDelegate
+@implementation czzThreadTableViewManager
 
 -(instancetype)init {
     self = [super init];
@@ -33,7 +33,7 @@
     }
     return self;
 }
-
+/*
 #pragma mark - UI managements.
 -(void)highlightTableViewCell:(UITableViewCell*)tableviewcell{
     //disable the scrolling view
@@ -176,5 +176,5 @@
     return threadViewDelegate;
 }
 
-
+*/
 @end

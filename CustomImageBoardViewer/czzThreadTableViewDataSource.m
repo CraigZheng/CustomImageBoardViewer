@@ -9,7 +9,7 @@
 #import "czzThreadTableViewDataSource.h"
 #import "czzThreadTableViewCommandCellTableViewCell.h"
 #import "czzMenuEnabledTableViewCell.h"
-
+/*
 @interface czzThreadTableViewDataSource() <czzMenuEnabledTableViewCellProtocol>
 @property (strong, nonatomic) czzThreadViewManager *threadViewManager;
 @end
@@ -33,7 +33,8 @@
         // Thread view cell
         if (cell && [cell isKindOfClass:[czzMenuEnabledTableViewCell class]]){
             czzMenuEnabledTableViewCell *threadViewCell = (czzMenuEnabledTableViewCell*)cell;
-            threadViewCell.delegate = self.tableViewDelegate;
+#warning COME BACK LATER
+//            threadViewCell.delegate = self.tableViewDelegate;
             threadViewCell.shouldHighlight = YES;
             threadViewCell.selectedUserToHighlight = self.threadViewManager.selectedUserToHighlight;
             threadViewCell.cellType = threadViewCellTypeThread;
@@ -62,3 +63,4 @@
 }
 
 @end
+*/

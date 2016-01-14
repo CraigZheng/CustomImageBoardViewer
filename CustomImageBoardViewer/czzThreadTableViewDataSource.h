@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Craig. All rights reserved.
 //
 
-#import "czzHomeTableViewDataSource.h"
-
-@interface czzThreadTableViewDataSource : czzHomeTableViewDataSource
-
+//#import "czzHomeTableViewDataSource.h"
+#warning COME BACK LATER
+//@interface czzThreadTableViewDataSource : czzHomeTableViewDataSource
+@interface czzThreadTableViewDataSource : NSObject
 @end
