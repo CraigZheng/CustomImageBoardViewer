@@ -19,7 +19,6 @@
 #import "PartialTransparentView.h"
 #import "czzSearchViewController.h"
 #import "czzSettingsCentre.h"
-#import "czzThreadTableViewDataSource.h"
 #import "czzTextViewHeightCalculator.h"
 #import "czzMiniThreadViewController.h"
 #import "czzNavigationController.h"
@@ -44,8 +43,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @property (strong, nonatomic) UIViewController *topViewController;
 @property (strong, nonatomic) czzMiniThreadViewController *miniThreadView;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
-@property (strong, nonatomic) czzThreadTableViewDataSource *tableViewDataSource;
-@property (strong, nonatomic) czzThreadTableViewManager *threadViewDelegate;
+@property (strong, nonatomic) czzThreadTableViewManager *threadTableViewManager;
 @property (strong, nonatomic) czzOnScreenImageManagerViewController *onScreenImageManagerViewController;
 @property (weak, nonatomic) GSIndeterminateProgressView *progressView;
 @end
@@ -66,8 +64,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @synthesize onScreenImageManagerViewContainer;
 @synthesize progressView;
 @synthesize moreButton;
-@synthesize tableViewDataSource;
-@synthesize threadViewDelegate;
 @synthesize shouldRestoreContentOffset;
 
 #pragma mark - view controller life cycle.
@@ -78,12 +74,9 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     self.threadViewManager.delegate = self;
     [self.threadViewManager restorePreviousState];
     
-#warning come back later
-    /*
-    self.threadTableView.dataSource = tableViewDataSource = [czzThreadTableViewDataSource initWithViewManager:self.threadViewManager andTableView:self.threadTableView];
-    self.threadTableView.delegate = threadViewDelegate = [czzThreadViewDelegate initWithViewManager:self.threadViewManager andTableView:self.threadTableView];
-    tableViewDataSource.tableViewDelegate = threadViewDelegate;
-    */
+    self.threadTableView.dataSource = self.threadTableViewManager;
+    self.threadTableView.delegate = self.threadTableViewManager;
+
     // Progress view
     progressView = [(czzNavigationController*)self.navigationController progressView];
     
@@ -95,7 +88,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     // On screen image manager view controller
     if (!self.onScreenImageManagerViewController) {
         self.onScreenImageManagerViewController = [czzOnScreenImageManagerViewController new];
-        self.onScreenImageManagerViewController.delegate = self.threadViewDelegate;
+        self.onScreenImageManagerViewController.delegate = self.threadTableViewManager;
         [self addChildViewController:self.onScreenImageManagerViewController];
         [self.onScreenImageManagerViewContainer addSubview:self.onScreenImageManagerViewController.view];
     }
@@ -186,6 +179,15 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     } else {
         self.starButton.image = [UIImage imageNamed:@"star.png"];
     }
+}
+
+#pragma mark - Getters
+- (czzThreadTableViewManager *)threadTableViewManager {
+    if (!_threadTableViewManager) {
+        _threadTableViewManager.threadViewManager = self.threadViewManager;
+        _threadTableViewManager.threadTableView = self.threadTableView;
+    }
+    return _threadTableViewManager;
 }
 
 #pragma mark - setter
@@ -299,7 +301,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 #pragma mark - UI button actions
 
 - (IBAction)replyAction:(id)sender {
-    [self.threadViewDelegate replyMainThread:self.threadViewManager.parentThread];
+    [self.threadTableViewManager replyMainThread:self.threadViewManager.parentThread];
 }
 
 - (IBAction)starAction:(id)sender {
@@ -326,7 +328,8 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 - (IBAction)reportAction:(id)sender {
-    [self.threadViewDelegate reportThread:self.threadViewManager.parentThread inParentThread:self.threadViewManager.parentThread];
+#warning come back later
+//    [self.threadTableView reportThread:self.threadViewManager.parentThread inParentThread:self.threadViewManager.parentThread];
 }
 
 - (IBAction)shareAction:(id)sender {

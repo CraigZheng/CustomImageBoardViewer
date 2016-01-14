@@ -14,7 +14,7 @@
 @class czzHomeViewManager, czzThreadViewCommandStatusCellViewController;
 
 
-@interface czzHomeTableViewManager : NSObject <UITableViewDelegate, UITableViewDataSource, czzOnScreenImageManagerViewControllerDelegate>
+@interface czzHomeTableViewManager : NSObject <UITableViewDelegate, UITableViewDataSource, czzOnScreenImageManagerViewControllerDelegate, czzMenuEnabledTableViewCellProtocol>
 
 @property (weak, nonatomic) czzHomeViewManager *homeViewManager;
 @property (weak, nonatomic) czzThreadTableView *homeTableView;

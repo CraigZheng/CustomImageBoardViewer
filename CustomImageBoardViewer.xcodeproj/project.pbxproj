@@ -67,8 +67,6 @@
 		442F1FE21B15FC8500267698 /* UINavigationController+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FDE1B15FC8500267698 /* UINavigationController+Util.m */; };
 		442F1FE31B15FC8500267698 /* UINavigationController+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FDE1B15FC8500267698 /* UINavigationController+Util.m */; };
 		442F1FE41B15FC8500267698 /* UIApplication+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FE01B15FC8500267698 /* UIApplication+Util.m */; };
-		442F1FEB1B160C9300267698 /* czzThreadTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FEA1B160C9300267698 /* czzThreadTableViewDataSource.m */; };
-		442F1FEC1B160C9300267698 /* czzThreadTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FEA1B160C9300267698 /* czzThreadTableViewDataSource.m */; };
 		443141971A2B38D6007D65B3 /* czzThreadViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141961A2B38D6007D65B3 /* czzThreadViewManager.m */; };
 		4431419A1A2B5198007D65B3 /* GSIndeterminateProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141991A2B5198007D65B3 /* GSIndeterminateProgressView.m */; };
 		4432BA911AA88544002C66F5 /* thread list example.json in Resources */ = {isa = PBXBuildFile; fileRef = 4432BA901AA88544002C66F5 /* thread list example.json */; };
@@ -562,8 +560,6 @@
 		442F1FDF1B15FC8500267698 /* UINavigationController+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+Util.h"; sourceTree = "<group>"; };
 		442F1FE01B15FC8500267698 /* UIApplication+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+Util.m"; sourceTree = "<group>"; };
 		442F1FE11B15FC8500267698 /* UIApplication+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+Util.h"; sourceTree = "<group>"; };
-		442F1FE91B160C9300267698 /* czzThreadTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadTableViewDataSource.h; sourceTree = "<group>"; };
-		442F1FEA1B160C9300267698 /* czzThreadTableViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadTableViewDataSource.m; sourceTree = "<group>"; };
 		443141951A2B38D6007D65B3 /* czzThreadViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewManager.h; sourceTree = "<group>"; };
 		443141961A2B38D6007D65B3 /* czzThreadViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewManager.m; sourceTree = "<group>"; };
 		443141981A2B5198007D65B3 /* GSIndeterminateProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSIndeterminateProgressView.h; sourceTree = "<group>"; };
@@ -1473,8 +1469,6 @@
 			children = (
 				445B7B5D1B4404810046CFDB /* czzThreadTableViewManager.h */,
 				445B7B5E1B4404810046CFDB /* czzThreadTableViewManager.m */,
-				442F1FE91B160C9300267698 /* czzThreadTableViewDataSource.h */,
-				442F1FEA1B160C9300267698 /* czzThreadTableViewDataSource.m */,
 			);
 			name = "thread view";
 			sourceTree = "<group>";
@@ -2948,7 +2942,6 @@
 				5A2B2D941936264A00BA2870 /* czzFeedbackViewController.m in Sources */,
 				44CF256A1A26B4D000BD8228 /* UIView+MGBadgeView.m in Sources */,
 				4448C2A3180FF50F00D2CD76 /* czzBlacklistEntity.m in Sources */,
-				442F1FEB1B160C9300267698 /* czzThreadTableViewDataSource.m in Sources */,
 				445C663F1BBEC4E0004B3E83 /* czzThreadViewCellHeaderView.m in Sources */,
 				4498B68D1993A6190014F73F /* PropertyUtil.m in Sources */,
 				5A0A6BD61848691C0094D7FB /* czzMoreInfoViewController.m in Sources */,
@@ -3009,7 +3002,6 @@
 			files = (
 				442F1FD81B13535B00267698 /* czzHomeTableViewManager.m in Sources */,
 				44C73B8A1A4840100051D4C2 /* czzHistoryManager.m in Sources */,
-				442F1FEC1B160C9300267698 /* czzThreadTableViewDataSource.m in Sources */,
 				4446B5AF1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m in Sources */,
 				442F1FE31B15FC8500267698 /* UINavigationController+Util.m in Sources */,
 				441E5CFD17F4691300289DBD /* CustomImageBoardViewerTests.m in Sources */,

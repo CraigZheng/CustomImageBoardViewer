@@ -9,6 +9,7 @@
 #import "czzHomeTableViewManager.h"
 #import "czzThreadViewManager.h"
 
-@interface czzThreadTableViewManager : czzHomeTableViewManager
+@interface czzThreadTableViewManager : czzHomeTableViewManager 
 @property (weak, nonatomic) czzThreadViewManager *threadViewManager;
+@property (weak, nonatomic) czzThreadTableView *threadTableView;
 @end
