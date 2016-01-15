@@ -38,6 +38,7 @@ static NSInteger const fixedConstraintConstant = 120;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @property (strong, nonatomic) UIImage *placeholderImage;
 @property (strong, nonatomic) UITapGestureRecognizer *tapOnImageViewRecognizer;
+@property (strong, nonatomic) NSMutableArray<czzThreadRefButton *> *referenceButtons;
 
 //@property (strong, nonatomic) NSLayoutConstraint *imageViewCentreHorizontalConstraint;
 //@property (strong, nonatomic) NSLayoutConstraint *fixedImageViewHeightConstraint;
@@ -52,6 +53,7 @@ static NSInteger const fixedConstraintConstant = 120;
 -(void)awakeFromNib {
     self.thumbnailFolder = [czzAppDelegate thumbnailFolder];
     self.imageFolder = [czzAppDelegate imageFolder];
+    self.referenceButtons = [NSMutableArray new];
     self.shouldHighlight = YES;
     self.allowImage = YES;
     self.shouldAllowClickOnImage = YES;
@@ -86,6 +88,35 @@ static NSInteger const fixedConstraintConstant = 120;
     [[czzImageDownloaderManager sharedManager] addDelegate:self];
 }
 
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    for (czzThreadRefButton *button in self.referenceButtons) {
+        [button removeFromSuperview];
+    }
+    // Clickable content, find the quoted text and add a button to corresponding location.
+    for (NSNumber *refNumber in self.thread.replyToList) {
+        NSInteger rep = refNumber.integerValue;
+        if (rep > 0) {
+            NSString *quotedNumberText = [NSString stringWithFormat:@"%ld", (long)rep];
+            NSRange range = [self.contentTextView.attributedText.string rangeOfString:quotedNumberText];
+            if (range.location != NSNotFound){
+                CGRect result = [self frameOfTextRange:range inTextView:self.contentTextView];
+                
+                if (!CGSizeEqualToSize(CGSizeZero, result.size)){
+                    czzThreadRefButton *threadRefButton = [[czzThreadRefButton alloc] initWithFrame:CGRectMake(result.origin.x, result.origin.y + self.contentTextView.frame.origin.y, result.size.width, result.size.height)];
+                    threadRefButton.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.1f];
+                    [threadRefButton addTarget:self action:@selector(userTapInRefButton:) forControlEvents:UIControlEventTouchUpInside];
+                    threadRefButton.threadRefNumber = rep;
+                    [self.contentView addSubview:threadRefButton];
+                    [self.referenceButtons addObject:threadRefButton];
+                }
+            }
+        }
+    }
+    
+}
+
 -(BOOL)canPerformAction:(SEL)action withSender:(id)sender{
     if (action == @selector(menuActionOpen:) && self.links.count > 0)
         return YES;
@@ -110,12 +141,6 @@ static NSInteger const fixedConstraintConstant = 120;
         self.contentTextView.backgroundColor = [UIColor whiteColor];
         self.threadContentView.backgroundColor = [UIColor whiteColor];
         self.contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    }
-    // Clear the content view for previous czzThreadRefButton.
-    for (UIView *subView in self.contentView.subviews) {
-        if ([subView isKindOfClass:[czzThreadRefButton class]]) {
-            [subView removeFromSuperview];
-        }
     }
 }
 
@@ -232,31 +257,6 @@ static NSInteger const fixedConstraintConstant = 120;
     self.cellHeaderView.shouldHighLight = self.shouldHighlight;
     self.cellHeaderView.parentUID = self.parentThread.UID;
     self.cellFooterView.thread = self.cellHeaderView.thread = self.thread;
-
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    // Clickable content, find the quoted text and add a button to corresponding location.
-    for (NSNumber *refNumber in self.thread.replyToList) {
-        NSInteger rep = refNumber.integerValue;
-        if (rep > 0) {
-            NSString *quotedNumberText = [NSString stringWithFormat:@"%ld", (long)rep];
-            NSRange range = [self.contentTextView.attributedText.string rangeOfString:quotedNumberText];
-            if (range.location != NSNotFound){
-                CGRect result = [self frameOfTextRange:range inTextView:self.contentTextView];
-                
-                if (!CGSizeEqualToSize(CGSizeZero, result.size)){
-                    czzThreadRefButton *threadRefButton = [[czzThreadRefButton alloc] initWithFrame:CGRectMake(result.origin.x, result.origin.y + self.contentTextView.frame.origin.y, result.size.width, result.size.height)];
-                    threadRefButton.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.1f];
-                    threadRefButton.tag = 999999;
-                    [threadRefButton addTarget:self action:@selector(userTapInRefButton:) forControlEvents:UIControlEventTouchUpInside];
-                    threadRefButton.threadRefNumber = rep;
-                    [self.contentView addSubview:threadRefButton];
-                }
-            }
-        }
-    }
 
 }
 
