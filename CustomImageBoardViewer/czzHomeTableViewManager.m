@@ -264,18 +264,15 @@
 }
 
 - (void)threadViewCellContentChanged:(czzMenuEnabledTableViewCell *)cell {
-    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-        NSNumber *threadID = @(cell.thread.ID);
-        [self.cachedHorizontalHeights removeObjectForKey:threadID];
-        [self.cachedVerticalHeights removeObjectForKey:threadID];
-        [self.pendingChangedThreadID addObject:threadID];
-
-        NSIndexPath *cellIndexPath = [self.homeTableView indexPathForCell:cell];
-        if (cellIndexPath && [self.homeTableView.indexPathsForVisibleRows containsObject:cellIndexPath]) {
-            [self.homeTableView reloadRowsAtIndexPaths:@[cellIndexPath]
-                                    withRowAnimation:UITableViewRowAnimationNone];
-        }
-    }];
+    NSNumber *threadID = @(cell.thread.ID);
+    [self.cachedHorizontalHeights removeObjectForKey:threadID];
+    [self.cachedVerticalHeights removeObjectForKey:threadID];
+    [self.pendingChangedThreadID addObject:threadID];
+    
+    NSIndexPath *cellIndexPath = [self.homeTableView indexPathForCell:cell];
+    if (cellIndexPath && [self.homeTableView.indexPathsForVisibleRows containsObject:cellIndexPath]) {
+        [self reloadData];
+    }
 }
 
 #pragma mark - czzImageDownloaderManagerDelegate

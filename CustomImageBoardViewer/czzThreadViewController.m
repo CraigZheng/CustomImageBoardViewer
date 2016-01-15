@@ -166,8 +166,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
  This method would update the contents related to the table view
  */
 -(void)updateTableView {
-    [self.threadTableView reloadData];
-    
     // Update bar buttons.
     if (!numberBarButton.customView) {
         numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
@@ -181,6 +179,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     } else {
         self.starButton.image = [UIImage imageNamed:@"star.png"];
     }
+    [self.threadTableViewManager reloadData];
 }
 
 #pragma mark - Getters

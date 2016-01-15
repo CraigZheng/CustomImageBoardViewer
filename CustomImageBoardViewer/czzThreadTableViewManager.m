@@ -202,4 +202,8 @@
     return self.threadViewManager;
 }
 
+- (czzThreadTableView *)homeTableView {
+    return self.threadTableView;
+}
+
 @end
