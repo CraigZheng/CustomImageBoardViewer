@@ -44,6 +44,7 @@
     self = [super init];
     if (self) {
         self.imageViewerUtil = [czzImageViewerUtil new];
+        self.pendingChangedThreadID = [NSMutableArray new];
         self.bigImageMode = [settingCentre userDefShouldUseBigImage];
         [[czzImageDownloaderManager sharedManager] addDelegate:self];
         if ([self isMemberOfClass:[czzHomeTableViewManager class]]) {
@@ -56,6 +57,19 @@
     return self;
 }
 
+- (void)reloadData {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.homeTableView) {
+            for (NSIndexPath *indexPath in self.homeTableView.indexPathsForVisibleRows) {
+                if (indexPath.row < self.homeViewManager.threads.count) {
+                    czzThread *thread = self.homeViewManager.threads[indexPath.row];
+                    [self.pendingChangedThreadID addObject:@(thread.ID)];
+                }
+            }
+            [self.homeTableView reloadData];
+        }
+    });
+}
 
 #pragma mark - UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -118,6 +132,35 @@
     }
 }
 
+- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([cell isKindOfClass:[czzMenuEnabledTableViewCell class]]) {
+        NSNumber *threadID = @([(czzMenuEnabledTableViewCell *)cell thread].ID);
+        if ([self.pendingChangedThreadID containsObject:threadID]) {
+            // Do nothing, the cell is waiting to be changed.
+        } else {
+            CGFloat actualHeight = CGRectGetHeight(cell.frame);
+            [self.cachedHeights setObject:@(actualHeight) forKey:threadID];
+        }
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CGFloat height = UITableViewAutomaticDimension;
+    
+    if (indexPath.row < self.homeViewManager.threads.count) {
+        NSNumber *threadID = @([self.homeViewManager.threads[indexPath.row] ID]);
+        // If the changes pending contain this thread, don't cache its height.
+        if ([self.pendingChangedThreadID containsObject:threadID]) {
+            [self.pendingChangedThreadID removeObject:threadID];
+        } else {
+            NSNumber *cachedHeight = [self.cachedHeights objectForKey:threadID];
+            if (cachedHeight) {
+                height = cachedHeight.floatValue;
+            }
+        }
+    }
+    return height;
+}
 
 #pragma mark - UITableView datasource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -220,26 +263,13 @@
     }
 }
 
-- (void)userWantsToReply:(czzThread *)thread inParentThread:(czzThread *)parentThread{
-    DDLogDebug(@"%s : %@", __PRETTY_FUNCTION__, thread);
-    [czzReplyUtil replyToThread:thread inParentThread:parentThread];
-}
-
-- (void)userWantsToHighLight:(czzThread *)thread {
-    DDLogDebug(@"%s : %@", __PRETTY_FUNCTION__, thread);
-    if ([self.homeViewManager isKindOfClass:[czzThreadViewManager class]]) {
-        [(czzThreadViewManager *)self.homeViewManager HighlightThreadSelected:thread];
-    }
-}
-
-- (void)userWantsToSearch:(czzThread *)thread {
-    DDLogDebug(@"%s : NOT IMPLEMENTED", __PRETTY_FUNCTION__);
-}
-
 - (void)threadViewCellContentChanged:(czzMenuEnabledTableViewCell *)cell {
-    [self.cachedHorizontalHeights removeObjectForKey:@(cell.thread.ID)];
-    [self.cachedVerticalHeights removeObjectForKey:@(cell.thread.ID)];
     [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+        NSNumber *threadID = @(cell.thread.ID);
+        [self.cachedHorizontalHeights removeObjectForKey:threadID];
+        [self.cachedVerticalHeights removeObjectForKey:threadID];
+        [self.pendingChangedThreadID addObject:threadID];
+
         NSIndexPath *cellIndexPath = [self.homeTableView indexPathForCell:cell];
         if (cellIndexPath && [self.homeTableView.indexPathsForVisibleRows containsObject:cellIndexPath]) {
             [self.homeTableView reloadRowsAtIndexPaths:@[cellIndexPath]
@@ -274,6 +304,14 @@
         _sizingCell = [self.homeTableView dequeueReusableCellWithIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
     }
     return _sizingCell;
+}
+
+- (NSMutableDictionary *)cachedHeights {
+    if (UIInterfaceOrientationIsPortrait([UIApplication rootViewController].interfaceOrientation)) {
+        return self.cachedVerticalHeights;
+    } else {
+        return self.cachedHorizontalHeights;
+    }
 }
 
 - (NSMutableDictionary *)cachedHorizontalHeights {

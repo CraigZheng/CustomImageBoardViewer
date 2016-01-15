@@ -171,9 +171,7 @@
     // Other data
     self.title = self.homeViewManager.forum.name;
     self.navigationItem.backBarButtonItem.title = self.title;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.threadTableView reloadData];
-    });
+    [self.homeTableViewManager reloadData];
 }
 
 #pragma mark - State perserving
@@ -240,7 +238,7 @@
 
 - (IBAction)reloadDataAction:(id)sender {
     self.homeTableViewManager.cachedVerticalHeights = self.homeTableViewManager.cachedHorizontalHeights = nil;
-    [self.threadTableView reloadData];
+    [self.homeTableViewManager reloadData];
 }
 
 

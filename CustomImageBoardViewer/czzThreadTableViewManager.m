@@ -11,6 +11,7 @@
 #import "PartialTransparentView.h"
 #import "czzThreadRefButton.h"
 #import "czzMenuEnabledTableViewCell.h"
+#import "czzReplyUtil.h"
 
 @interface czzThreadTableViewManager ()
 @property (nonatomic, strong) PartialTransparentView *containerView;
@@ -177,6 +178,22 @@
             }
         });
     });
+}
+
+- (void)userWantsToReply:(czzThread *)thread inParentThread:(czzThread *)parentThread{
+    DDLogDebug(@"%s : %@", __PRETTY_FUNCTION__, thread);
+    [czzReplyUtil replyToThread:thread inParentThread:parentThread];
+}
+
+- (void)userWantsToHighLight:(czzThread *)thread {
+    DDLogDebug(@"%s : %@", __PRETTY_FUNCTION__, thread);
+    if ([self.homeViewManager isKindOfClass:[czzThreadViewManager class]]) {
+        [(czzThreadViewManager *)self.homeViewManager HighlightThreadSelected:thread];
+    }
+}
+
+- (void)userWantsToSearch:(czzThread *)thread {
+    DDLogDebug(@"%s : NOT IMPLEMENTED", __PRETTY_FUNCTION__);
 }
 
 #pragma mark - Getter
