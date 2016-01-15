@@ -22,8 +22,4 @@
 @property (nonatomic, strong) NSMutableDictionary *cachedVerticalHeights;
 @property (nonatomic, assign) czzThreadViewCommandStatusCellViewController *commandStatusViewController;
 
-- (void)replyToThread:(czzThread *)thread inParentThread:(czzThread *)parentThread;
-- (void)replyMainThread:(czzThread *)thread;
-- (void)reportThread:(czzThread *)selectedThread inParentThread:(czzThread *)parentThread;
-
 @end

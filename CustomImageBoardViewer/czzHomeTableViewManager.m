@@ -21,7 +21,7 @@
 #import "czzNavigationManager.h"
 #import "czzThreadViewCommandStatusCellViewController.h"
 #import "czzThreadTableViewCommandCellTableViewCell.h"
-
+#import "czzReplyUtil.h"
 #import "UIApplication+Util.h"
 #import "UINavigationController+Util.h"
 #import "czzMenuEnabledTableViewCell.h"
@@ -56,36 +56,6 @@
     return self;
 }
 
-- (void)replyToThread:(czzThread *)thread inParentThread:(czzThread *)parentThread{
-    czzPostViewController *postViewController = [czzPostViewController new];
-    postViewController.forum = self.homeViewManager.forum;
-    postViewController.parentThread = parentThread;
-    postViewController.replyToThread = thread;
-    postViewController.postMode = postViewControllerModeReply;
-    [[czzNavigationManager sharedManager].delegate presentViewController:[[UINavigationController alloc] initWithRootViewController:postViewController] animated:YES completion:nil];
-}
-
-- (void)replyMainThread:(czzThread *)thread {
-    czzPostViewController *postViewController = [czzPostViewController new];
-    postViewController.forum = self.homeViewManager.forum;
-    postViewController.parentThread = thread;
-    postViewController.postMode = postViewControllerModeReply;
-    [[czzNavigationManager sharedManager].delegate presentViewController:[[UINavigationController alloc] initWithRootViewController:postViewController] animated:YES completion:nil];
-}
-
-- (void)reportThread:(czzThread *)selectedThread inParentThread:(czzThread *)parentThread {
-    czzPostViewController *newPostViewController = [czzPostViewController new];
-    newPostViewController.postMode = postViewControllerModeReport;
-    [[czzNavigationManager sharedManager].delegate presentViewController:[[UINavigationController alloc] initWithRootViewController:newPostViewController] animated:YES completion:nil];
-    NSString *reportString = [[settingCentre report_post_placeholder] stringByReplacingOccurrencesOfString:kParentID withString:[NSString stringWithFormat:@"%ld", (long)parentThread.ID]];
-    reportString = [reportString stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long)selectedThread.ID]];
-    newPostViewController.prefilledString = reportString;
-    newPostViewController.title = [NSString stringWithFormat:@"举报:%ld", (long)parentThread.ID];
-    //construct a blacklist that to be submitted to my server and pass it to new post view controller
-    czzBlacklistEntity *blacklistEntity = [czzBlacklistEntity new];
-    blacklistEntity.threadID = selectedThread.ID;
-    newPostViewController.blacklistEntity = blacklistEntity;
-}
 
 #pragma mark - UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -252,7 +222,7 @@
 
 - (void)userWantsToReply:(czzThread *)thread inParentThread:(czzThread *)parentThread{
     DDLogDebug(@"%s : %@", __PRETTY_FUNCTION__, thread);
-    [self replyToThread:thread inParentThread:parentThread];
+    [czzReplyUtil replyToThread:thread inParentThread:parentThread];
 }
 
 - (void)userWantsToHighLight:(czzThread *)thread {

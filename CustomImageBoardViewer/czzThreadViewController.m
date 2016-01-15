@@ -28,6 +28,7 @@
 #import "czzFavouriteManager.h"
 #import "czzWatchListManager.h"
 #import "czzRoundButton.h"
+#import "czzReplyUtil.h"
 
 NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
@@ -303,7 +304,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 #pragma mark - UI button actions
 
 - (IBAction)replyAction:(id)sender {
-    [self.threadTableViewManager replyMainThread:self.threadViewManager.parentThread];
+    [czzReplyUtil replyMainThread:self.threadViewManager.parentThread];
 }
 
 - (IBAction)starAction:(id)sender {
@@ -330,8 +331,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 - (IBAction)reportAction:(id)sender {
-#warning come back later
-//    [self.threadTableView reportThread:self.threadViewManager.parentThread inParentThread:self.threadViewManager.parentThread];
+    [czzReplyUtil reportThread:self.threadViewManager.parentThread inParentThread:self.threadViewManager.parentThread];
 }
 
 - (IBAction)shareAction:(id)sender {

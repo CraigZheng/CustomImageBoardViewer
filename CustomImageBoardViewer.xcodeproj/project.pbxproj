@@ -315,6 +315,7 @@
 		44E3F7481BA3007500597A3F /* NSDictionary+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E3F7461BA3007500597A3F /* NSDictionary+Util.m */; };
 		44E469DC1BAC421D00C0AACC /* czzWatchKitManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469DB1BAC421D00C0AACC /* czzWatchKitManager.m */; };
 		44E469E11BAD9B5000C0AACC /* czzWatchKitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469E01BAD9B5000C0AACC /* czzWatchKitCommand.m */; };
+		44E744841C48815900CD4AF3 /* czzReplyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E744831C48815900CD4AF3 /* czzReplyUtil.m */; };
 		44E791811A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */; };
 		44E791CD1A17856500A63C04 /* advance.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918D1A17856500A63C04 /* advance.png */; };
 		44E791CE1A17856500A63C04 /* advance@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918E1A17856500A63C04 /* advance@2x.png */; };
@@ -907,6 +908,8 @@
 		44E469DB1BAC421D00C0AACC /* czzWatchKitManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWatchKitManager.m; sourceTree = "<group>"; };
 		44E469DF1BAD9B5000C0AACC /* czzWatchKitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWatchKitCommand.h; sourceTree = "<group>"; };
 		44E469E01BAD9B5000C0AACC /* czzWatchKitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWatchKitCommand.m; sourceTree = "<group>"; };
+		44E744821C48815900CD4AF3 /* czzReplyUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzReplyUtil.h; sourceTree = "<group>"; };
+		44E744831C48815900CD4AF3 /* czzReplyUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzReplyUtil.m; sourceTree = "<group>"; };
 		44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NotificationCentreStoryBoard.storyboard; sourceTree = "<group>"; };
 		44E7918D1A17856500A63C04 /* advance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = advance.png; sourceTree = "<group>"; };
 		44E7918E1A17856500A63C04 /* advance@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "advance@2x.png"; sourceTree = "<group>"; };
@@ -1662,6 +1665,8 @@
 				44AE2AFB1872569C002CB021 /* czzMenuEnabledTableViewCell */,
 				4498A7D11B89978200312A11 /* czzTableViewRefreshView.xib */,
 				440A62A11B8E97540046E4CE /* czzThreadTableViewCommandStatusCellViewController.storyboard */,
+				44E744821C48815900CD4AF3 /* czzReplyUtil.h */,
+				44E744831C48815900CD4AF3 /* czzReplyUtil.m */,
 			);
 			name = CommonUI;
 			sourceTree = "<group>";
@@ -2888,6 +2893,7 @@
 				4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */,
 				441E5D2917F48B3D00289DBD /* Toast+UIView.m in Sources */,
 				442F1FE41B15FC8500267698 /* UIApplication+Util.m in Sources */,
+				44E744841C48815900CD4AF3 /* czzReplyUtil.m in Sources */,
 				4485F4FC19F5FF38007A73CC /* NSString+HTML.m in Sources */,
 				441E5CDF17F4691300289DBD /* czzAppDelegate.m in Sources */,
 				441E5D2C17F48F8C00289DBD /* czzThread.m in Sources */,
