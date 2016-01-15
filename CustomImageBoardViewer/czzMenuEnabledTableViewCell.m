@@ -308,10 +308,6 @@ static NSInteger const fixedConstraintConstant = 120;
             }
         }
     }
-    
-    DLog(@"Self view size: %@", [NSValue valueWithCGSize:self.frame.size]);
-    DLog(@"Content view frame: %@", [NSValue valueWithCGRect:self.contentView.frame]);
-    DLog(@"Text view frame: %@, intrinsicSize: %@", [NSValue valueWithCGRect:self.contentTextView.frame], [NSValue valueWithCGSize:self.contentTextView.intrinsicContentSize]);
 }
 
 #pragma mark - Getters

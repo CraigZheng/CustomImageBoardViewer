@@ -48,7 +48,6 @@
     self.containerView.backgroundColor = [[UIColor darkGrayColor] colorWithAlphaComponent:0.7];
     
     self.containerView.userInteractionEnabled = YES;
-    [self.containerView setNeedsDisplay];
     
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnFloatingView: )];
     //fade in effect
@@ -178,6 +177,12 @@
             }
         });
     });
+}
+
+#pragma mark - Getter
+
+- (czzHomeViewManager *)homeViewManager {
+    return self.threadViewManager;
 }
 
 @end

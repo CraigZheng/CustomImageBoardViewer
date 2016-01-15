@@ -70,10 +70,11 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    // self.threadViewManager must not be nil.
+    assert(self.threadTableViewManager != nil);
     self.threadViewManager.delegate = self;
     [self.threadViewManager restorePreviousState];
-    
+    // The manager for the table view.
     self.threadTableView.dataSource = self.threadTableViewManager;
     self.threadTableView.delegate = self.threadTableViewManager;
 
@@ -184,6 +185,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 #pragma mark - Getters
 - (czzThreadTableViewManager *)threadTableViewManager {
     if (!_threadTableViewManager) {
+        _threadTableViewManager = [czzThreadTableViewManager new];
         _threadTableViewManager.threadViewManager = self.threadViewManager;
         _threadTableViewManager.threadTableView = self.threadTableView;
     }
