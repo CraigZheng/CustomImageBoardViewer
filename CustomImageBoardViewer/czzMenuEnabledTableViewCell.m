@@ -233,6 +233,10 @@ static NSInteger const fixedConstraintConstant = 120;
     self.cellHeaderView.parentUID = self.parentThread.UID;
     self.cellFooterView.thread = self.cellHeaderView.thread = self.thread;
 
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
     // Clickable content, find the quoted text and add a button to corresponding location.
     for (NSNumber *refNumber in self.thread.replyToList) {
         NSInteger rep = refNumber.integerValue;
@@ -253,6 +257,7 @@ static NSInteger const fixedConstraintConstant = 120;
             }
         }
     }
+
 }
 
 #pragma mark - UI actions
