@@ -198,11 +198,12 @@ static NSInteger const fixedConstraintConstant = 120;
 -(void)renderContent {
     [self resetViews];
     if (self.nightyMode) {
+        // If nighty mode, add nighty mode attributes to the text.
         NSMutableAttributedString *contentAttrString = [self.thread.content mutableCopy];
         [contentAttrString addAttribute:NSForegroundColorAttributeName value:settingCentre.contentTextColour range:NSMakeRange(0, contentAttrString.length)];
         self.contentTextView.attributedText = contentAttrString;
     } else {
-        self.contentTextView.text = self.thread.content.string;
+        self.contentTextView.attributedText = self.thread.content;
     }
     self.contentTextView.font = settingCentre.contentFont;
     
