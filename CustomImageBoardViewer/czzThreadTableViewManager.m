@@ -36,18 +36,15 @@
 }
 
 #pragma mark - UI managements.
--(void)highlightTableViewCell:(UITableViewCell*)tableviewcell{
+-(void)highlightTableViewCell:(NSIndexPath *)indexPath{
     //disable the scrolling view
     self.threadTableView.scrollEnabled = NO;
-    if (!self.containerView) {
-        self.containerView = [PartialTransparentView new];
-        self.containerView.opaque = NO;
-    }
-    
-    self.containerView.frame = CGRectMake(self.threadTableView.frame.origin.x, self.threadTableView.frame.origin.y, self.threadTableView.frame.size.width, self.threadTableView.contentSize.height);
-    self.containerView.rectsArray = [NSArray arrayWithObject:[NSValue valueWithCGRect:tableviewcell.frame]];
+    self.containerView = [PartialTransparentView new];
+    self.containerView.opaque = NO;
+    self.containerView.frame = CGRectMake(0, 0, self.threadTableView.contentSize.width, self.threadTableView.contentSize.height);
+    CGRect cellRect = [self.threadTableView rectForRowAtIndexPath:indexPath];
+    self.containerView.rectsArray = @[[NSValue valueWithCGRect:cellRect]];
     self.containerView.backgroundColor = [[UIColor darkGrayColor] colorWithAlphaComponent:0.7];
-    
     self.containerView.userInteractionEnabled = YES;
     
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnFloatingView: )];
@@ -56,7 +53,9 @@
     [self.threadTableView addSubview:self.containerView];
     [UIView animateWithDuration:0.2
                      animations:^{self.containerView.alpha = 1.0f;}
-                     completion:^(BOOL finished){[self.containerView addGestureRecognizer:tapRecognizer];}];
+                     completion:^(BOOL finished){
+                         [self.containerView addGestureRecognizer:tapRecognizer];
+                     }];
     
 }
 
@@ -158,7 +157,7 @@
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.threadViewManager.threads indexOfObject:selectedThread] inSection:0];
             [self.threadTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:NO];
             [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-                [self highlightTableViewCell:[self.threadTableView cellForRowAtIndexPath:indexPath]];
+                [self highlightTableViewCell:indexPath];
             }];
             return;
         }
