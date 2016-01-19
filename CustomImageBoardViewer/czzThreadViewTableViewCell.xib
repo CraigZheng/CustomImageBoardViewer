@@ -14,53 +14,67 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="199"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MEF-mY-tW7" customClass="czzThreadViewCellHeaderView">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IhT-0w-ZAx">
+                        <rect key="frame" x="0.0" y="4" width="320" height="191"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" editable="NO" text="Content" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Ukr-ZL-AuZ">
+                                <rect key="frame" x="0.0" y="20" width="320" height="91"/>
+                                <color key="backgroundColor" red="0.48064864309999999" green="0.73640522200000003" blue="0.47121710529999999" alpha="0.82596072639999996" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon-60.png" translatesAutoresizingMaskIntoConstraints="NO" id="bmx-w2-KYS">
+                                <rect key="frame" x="8" y="111" width="60" height="60"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MEF-mY-tW7" customClass="czzThreadViewCellHeaderView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="jdK-HT-8Eo"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mRe-27-FEO" userLabel="Cell Footer View" customClass="czzThreadViewCellFooterView">
+                                <rect key="frame" x="0.0" y="171" width="320" height="20"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="ybK-SF-ARO"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="20" id="jdK-HT-8Eo"/>
+                            <constraint firstAttribute="trailing" secondItem="MEF-mY-tW7" secondAttribute="trailing" id="2fG-A1-ZDG"/>
+                            <constraint firstItem="Ukr-ZL-AuZ" firstAttribute="top" secondItem="MEF-mY-tW7" secondAttribute="bottom" id="JAO-km-5C3"/>
+                            <constraint firstItem="Ukr-ZL-AuZ" firstAttribute="leading" secondItem="IhT-0w-ZAx" secondAttribute="leading" id="JbS-Uu-dWd"/>
+                            <constraint firstItem="MEF-mY-tW7" firstAttribute="leading" secondItem="IhT-0w-ZAx" secondAttribute="leading" id="KGe-Z8-lag"/>
+                            <constraint firstItem="bmx-w2-KYS" firstAttribute="leading" secondItem="IhT-0w-ZAx" secondAttribute="leading" constant="8" id="XBU-VU-eYg"/>
+                            <constraint firstAttribute="bottom" secondItem="mRe-27-FEO" secondAttribute="bottom" id="dXL-F5-89P"/>
+                            <constraint firstItem="mRe-27-FEO" firstAttribute="leading" secondItem="IhT-0w-ZAx" secondAttribute="leading" id="elb-UB-9bk"/>
+                            <constraint firstItem="MEF-mY-tW7" firstAttribute="top" secondItem="IhT-0w-ZAx" secondAttribute="top" id="gPO-ym-lgx"/>
+                            <constraint firstAttribute="trailing" secondItem="Ukr-ZL-AuZ" secondAttribute="trailing" id="gkH-D6-igz"/>
+                            <constraint firstAttribute="trailing" secondItem="mRe-27-FEO" secondAttribute="trailing" id="kn4-5Y-gci"/>
+                            <constraint firstItem="mRe-27-FEO" firstAttribute="top" secondItem="bmx-w2-KYS" secondAttribute="bottom" id="ud2-A1-dKm"/>
+                            <constraint firstItem="bmx-w2-KYS" firstAttribute="top" secondItem="Ukr-ZL-AuZ" secondAttribute="bottom" id="vQQ-UO-oNC"/>
                         </constraints>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mRe-27-FEO" userLabel="Cell Footer View" customClass="czzThreadViewCellFooterView">
-                        <rect key="frame" x="0.0" y="179" width="320" height="20"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="20" id="ybK-SF-ARO"/>
-                        </constraints>
-                    </view>
-                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" editable="NO" text="Content" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Ukr-ZL-AuZ">
-                        <rect key="frame" x="0.0" y="20" width="320" height="99"/>
-                        <color key="backgroundColor" red="0.48064864309999999" green="0.73640522200000003" blue="0.47121710529999999" alpha="0.82596072639999996" colorSpace="calibratedRGB"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                    </textView>
-                    <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon-60.png" translatesAutoresizingMaskIntoConstraints="NO" id="bmx-w2-KYS">
-                        <rect key="frame" x="8" y="119" width="60" height="60"/>
-                    </imageView>
                 </subviews>
+                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="Ukr-ZL-AuZ" secondAttribute="trailing" id="7QW-S7-5QK"/>
-                    <constraint firstItem="mRe-27-FEO" firstAttribute="leading" secondItem="lgC-X4-SAR" secondAttribute="leading" id="C9P-JW-V37"/>
-                    <constraint firstItem="mRe-27-FEO" firstAttribute="top" secondItem="bmx-w2-KYS" secondAttribute="bottom" id="DpG-hT-mRe"/>
-                    <constraint firstItem="bmx-w2-KYS" firstAttribute="leading" secondItem="lgC-X4-SAR" secondAttribute="leading" constant="8" id="F3f-t7-tni"/>
-                    <constraint firstAttribute="bottom" secondItem="mRe-27-FEO" secondAttribute="bottom" id="IEy-gd-ZnH"/>
-                    <constraint firstAttribute="trailing" secondItem="MEF-mY-tW7" secondAttribute="trailing" id="Ttt-lo-grj"/>
-                    <constraint firstAttribute="trailing" secondItem="mRe-27-FEO" secondAttribute="trailing" id="Ynq-dP-5Nj"/>
-                    <constraint firstItem="Ukr-ZL-AuZ" firstAttribute="leading" secondItem="lgC-X4-SAR" secondAttribute="leading" id="avq-xg-n2e"/>
-                    <constraint firstItem="MEF-mY-tW7" firstAttribute="top" secondItem="lgC-X4-SAR" secondAttribute="top" id="coz-jl-MdI"/>
-                    <constraint firstItem="MEF-mY-tW7" firstAttribute="leading" secondItem="lgC-X4-SAR" secondAttribute="leading" id="fkB-eS-iJW"/>
-                    <constraint firstItem="bmx-w2-KYS" firstAttribute="top" secondItem="Ukr-ZL-AuZ" secondAttribute="bottom" id="iIw-IB-rrj"/>
-                    <constraint firstItem="Ukr-ZL-AuZ" firstAttribute="top" secondItem="MEF-mY-tW7" secondAttribute="bottom" id="oDT-CU-Ttf"/>
+                    <constraint firstItem="IhT-0w-ZAx" firstAttribute="top" secondItem="lgC-X4-SAR" secondAttribute="top" constant="4" id="FhZ-pi-2S6"/>
+                    <constraint firstAttribute="bottom" secondItem="IhT-0w-ZAx" secondAttribute="bottom" constant="4" id="ML8-Sh-hXi"/>
+                    <constraint firstAttribute="trailing" secondItem="IhT-0w-ZAx" secondAttribute="trailing" id="Qlf-iQ-4Eb"/>
+                    <constraint firstItem="IhT-0w-ZAx" firstAttribute="leading" secondItem="lgC-X4-SAR" secondAttribute="leading" id="u7j-RZ-Aj4"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="cellFooterView" destination="mRe-27-FEO" id="kVx-ag-QHO"/>
                 <outlet property="cellHeaderView" destination="MEF-mY-tW7" id="boP-4c-SPF"/>
                 <outlet property="cellImageView" destination="bmx-w2-KYS" id="xy3-c3-bCu"/>
+                <outlet property="containerView" destination="IhT-0w-ZAx" id="mCq-XL-BMq"/>
                 <outlet property="contentTextView" destination="Ukr-ZL-AuZ" id="FcH-2v-RBE"/>
                 <outlet property="footerViewHeightConstraint" destination="ybK-SF-ARO" id="JEF-fy-6Az"/>
             </connections>
-            <point key="canvasLocation" x="326" y="505"/>
+            <point key="canvasLocation" x="-162" y="417"/>
         </tableViewCell>
     </objects>
     <resources>

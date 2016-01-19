@@ -26,7 +26,7 @@ static NSInteger const fixedConstraintConstant = 120;
 
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, czzImageDownloaderManagerDelegate>
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;
-@property (weak, nonatomic) IBOutlet UIView *threadContentView;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerViewHeightConstraint;
@@ -57,7 +57,7 @@ static NSInteger const fixedConstraintConstant = 120;
     self.shouldHighlight = YES;
     self.allowImage = YES;
     self.shouldAllowClickOnImage = YES;
-
+    
     [self.cellImageView addGestureRecognizer:self.tapOnImageViewRecognizer];
     // Make sure the height of the image view never exceed the width.
 //    [self.cellImageView autoMatchDimension:ALDimensionHeight
@@ -81,8 +81,8 @@ static NSInteger const fixedConstraintConstant = 120;
 //    }];
     
     // Apply shadow and radius to background view.
-    self.threadContentView.layer.masksToBounds = NO;
-    self.threadContentView.layer.cornerRadius = 5;
+    self.containerView.layer.masksToBounds = NO;
+    self.containerView.layer.cornerRadius = 5;
 
     // Add self to be a delegate of czzImageDownloaderManager.
     [[czzImageDownloaderManager sharedManager] addDelegate:self];
@@ -135,11 +135,11 @@ static NSInteger const fixedConstraintConstant = 120;
     if (self.nightyMode) {
         UIColor *viewBackgroundColour = [settingCentre viewBackgroundColour];
         self.contentTextView.backgroundColor = viewBackgroundColour;
-        self.threadContentView.backgroundColor = viewBackgroundColour;
+        self.containerView.backgroundColor = viewBackgroundColour;
         self.contentView.backgroundColor = [UIColor darkGrayColor];
     } else {
         self.contentTextView.backgroundColor = [UIColor whiteColor];
-        self.threadContentView.backgroundColor = [UIColor whiteColor];
+        self.containerView.backgroundColor = [UIColor whiteColor];
         self.contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     }
 }
