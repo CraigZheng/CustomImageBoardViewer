@@ -142,7 +142,9 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 
-    //background colour
+    // Reload data.
+    [self updateTableView];
+    // Background colour.
     self.threadTableView.backgroundColor = [settingCentre viewBackgroundColour];
 }
 
