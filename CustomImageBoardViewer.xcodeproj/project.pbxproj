@@ -2481,7 +2481,7 @@
 				ORGANIZATIONNAME = Craig;
 				TargetAttributes = {
 					441E5CCA17F4691300289DBD = {
-						DevelopmentTeam = 7A5XEHKD3N;
+						DevelopmentTeam = 9EBE9MWW9X;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -2496,11 +2496,11 @@
 					};
 					44A294891BFDEFF50033D438 = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = 7A5XEHKD3N;
+						DevelopmentTeam = 9EBE9MWW9X;
 					};
 					44A294951BFDEFF50033D438 = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = 7A5XEHKD3N;
+						DevelopmentTeam = 9EBE9MWW9X;
 					};
 				};
 			};
