@@ -37,28 +37,37 @@
                                     <constraint firstAttribute="height" constant="20" id="jdK-HT-8Eo"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mRe-27-FEO" userLabel="Cell Footer View" customClass="czzThreadViewCellFooterView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DQO-8l-g9f" userLabel="Footer View Container">
                                 <rect key="frame" x="0.0" y="171" width="320" height="20"/>
-                                <color key="backgroundColor" red="1" green="0.63375720099999999" blue="0.27949856020000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mRe-27-FEO" userLabel="Cell Footer View" customClass="czzThreadViewCellFooterView">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
+                                        <color key="backgroundColor" red="1" green="0.63375720099999999" blue="0.27949856020000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="ybK-SF-ARO"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="ybK-SF-ARO"/>
+                                    <constraint firstAttribute="height" constant="20" id="joL-XX-SQV"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="MEF-mY-tW7" secondAttribute="trailing" id="2fG-A1-ZDG"/>
+                            <constraint firstAttribute="bottom" secondItem="DQO-8l-g9f" secondAttribute="bottom" id="3I6-Ro-EmC"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="bmx-w2-KYS" secondAttribute="trailing" constant="8" id="3wb-Fm-cfi"/>
                             <constraint firstItem="Ukr-ZL-AuZ" firstAttribute="top" secondItem="MEF-mY-tW7" secondAttribute="bottom" id="JAO-km-5C3"/>
                             <constraint firstItem="Ukr-ZL-AuZ" firstAttribute="leading" secondItem="IhT-0w-ZAx" secondAttribute="leading" id="JbS-Uu-dWd"/>
                             <constraint firstItem="MEF-mY-tW7" firstAttribute="leading" secondItem="IhT-0w-ZAx" secondAttribute="leading" id="KGe-Z8-lag"/>
                             <constraint firstItem="bmx-w2-KYS" firstAttribute="leading" secondItem="IhT-0w-ZAx" secondAttribute="leading" constant="8" id="XBU-VU-eYg"/>
-                            <constraint firstAttribute="bottom" secondItem="mRe-27-FEO" secondAttribute="bottom" id="dXL-F5-89P"/>
-                            <constraint firstItem="mRe-27-FEO" firstAttribute="leading" secondItem="IhT-0w-ZAx" secondAttribute="leading" id="elb-UB-9bk"/>
+                            <constraint firstItem="DQO-8l-g9f" firstAttribute="top" secondItem="bmx-w2-KYS" secondAttribute="bottom" id="dFU-UK-7Ao"/>
+                            <constraint firstAttribute="trailing" secondItem="DQO-8l-g9f" secondAttribute="trailing" id="fBb-WN-Kda"/>
                             <constraint firstItem="MEF-mY-tW7" firstAttribute="top" secondItem="IhT-0w-ZAx" secondAttribute="top" id="gPO-ym-lgx"/>
+                            <constraint firstItem="DQO-8l-g9f" firstAttribute="leading" secondItem="IhT-0w-ZAx" secondAttribute="leading" id="gaP-BZ-kOM"/>
                             <constraint firstAttribute="trailing" secondItem="Ukr-ZL-AuZ" secondAttribute="trailing" id="gkH-D6-igz"/>
-                            <constraint firstAttribute="trailing" secondItem="mRe-27-FEO" secondAttribute="trailing" id="kn4-5Y-gci"/>
-                            <constraint firstItem="mRe-27-FEO" firstAttribute="top" secondItem="bmx-w2-KYS" secondAttribute="bottom" id="ud2-A1-dKm"/>
                             <constraint firstItem="bmx-w2-KYS" firstAttribute="top" secondItem="Ukr-ZL-AuZ" secondAttribute="bottom" priority="250" id="vQQ-UO-oNC"/>
                         </constraints>
                     </view>
@@ -77,11 +86,12 @@
                 <outlet property="cellImageView" destination="bmx-w2-KYS" id="xy3-c3-bCu"/>
                 <outlet property="containerView" destination="IhT-0w-ZAx" id="mCq-XL-BMq"/>
                 <outlet property="contentTextView" destination="Ukr-ZL-AuZ" id="FcH-2v-RBE"/>
+                <outlet property="footerContainerViewHeightConstraint" destination="joL-XX-SQV" id="BO7-4Q-ylI"/>
                 <outlet property="footerViewHeightConstraint" destination="ybK-SF-ARO" id="JEF-fy-6Az"/>
                 <outlet property="imageViewHeightConstraint" destination="6jA-95-Bw3" id="5HF-KP-HlB"/>
                 <outlet property="imageViewWidthConstraint" destination="H2g-gs-Iim" id="JoO-hb-lFD"/>
             </connections>
-            <point key="canvasLocation" x="-162" y="417"/>
+            <point key="canvasLocation" x="-348" y="428"/>
         </tableViewCell>
     </objects>
     <resources>

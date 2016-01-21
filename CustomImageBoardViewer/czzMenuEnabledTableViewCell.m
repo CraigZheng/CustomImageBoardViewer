@@ -33,6 +33,7 @@ static NSInteger const fixedConstraintConstant = 100;
 @property (weak, nonatomic) IBOutlet UIImageView *cellImageView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewHeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewWidthConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerContainerViewHeightConstraint;
 
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (strong, nonatomic) NSString *imageFolder;
@@ -264,7 +265,11 @@ static NSInteger const fixedConstraintConstant = 100;
     self.cellHeaderView.shouldHighLight = self.shouldHighlight;
     self.cellHeaderView.parentUID = self.parentThread.UID;
     self.cellFooterView.thread = self.cellHeaderView.thread = self.thread;
-
+    if (self.cellFooterView.isHidden) {
+        self.footerContainerViewHeightConstraint.constant = 8;
+    } else {
+        self.footerContainerViewHeightConstraint.constant = 20;
+    }
 }
 
 #pragma mark - UI actions
