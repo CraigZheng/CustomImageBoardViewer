@@ -31,11 +31,11 @@ static NSInteger const veryLowConstraintPriority = 1;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerViewHeightConstraint;
 @property (weak, nonatomic) IBOutlet UIImageView *cellImageView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewHeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewWidthConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerContainerViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewCentreAlignConstraint;
 
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (strong, nonatomic) NSString *imageFolder;
@@ -216,10 +216,14 @@ static NSInteger const veryLowConstraintPriority = 1;
         CGFloat aspectRatio = self.cellImageView.intrinsicContentSize.height / self.cellImageView.intrinsicContentSize.width;
         self.imageViewWidthConstraint.constant = CGRectGetWidth(self.frame) - 8 * 2; // Remove the padding for leading and trailing.
         self.imageViewHeightConstraint.constant = self.imageViewWidthConstraint.constant * aspectRatio;
+        // Positioning of the image view.
+        self.imageViewCentreAlignConstraint.priority = veryHightConstraintPriority;
         // Make sure the height never bigger than 80% of width.
         if (self.imageViewHeightConstraint.constant > self.imageViewWidthConstraint.constant * 0.8) {
             self.imageViewHeightConstraint.constant = self.imageViewWidthConstraint.constant * 0.8;
         }
+    } else {
+        self.imageViewCentreAlignConstraint.priority = veryLowConstraintPriority;
     }
     
     // Header and footer

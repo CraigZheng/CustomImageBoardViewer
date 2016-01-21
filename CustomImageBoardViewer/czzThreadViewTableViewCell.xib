@@ -63,12 +63,13 @@
                             <constraint firstItem="Ukr-ZL-AuZ" firstAttribute="top" secondItem="MEF-mY-tW7" secondAttribute="bottom" id="JAO-km-5C3"/>
                             <constraint firstItem="Ukr-ZL-AuZ" firstAttribute="leading" secondItem="IhT-0w-ZAx" secondAttribute="leading" id="JbS-Uu-dWd"/>
                             <constraint firstItem="MEF-mY-tW7" firstAttribute="leading" secondItem="IhT-0w-ZAx" secondAttribute="leading" id="KGe-Z8-lag"/>
-                            <constraint firstItem="bmx-w2-KYS" firstAttribute="leading" secondItem="IhT-0w-ZAx" secondAttribute="leading" constant="8" id="XBU-VU-eYg"/>
+                            <constraint firstItem="bmx-w2-KYS" firstAttribute="leading" secondItem="IhT-0w-ZAx" secondAttribute="leading" priority="750" constant="8" id="XBU-VU-eYg"/>
                             <constraint firstItem="DQO-8l-g9f" firstAttribute="top" secondItem="bmx-w2-KYS" secondAttribute="bottom" id="dFU-UK-7Ao"/>
                             <constraint firstAttribute="trailing" secondItem="DQO-8l-g9f" secondAttribute="trailing" id="fBb-WN-Kda"/>
                             <constraint firstItem="MEF-mY-tW7" firstAttribute="top" secondItem="IhT-0w-ZAx" secondAttribute="top" id="gPO-ym-lgx"/>
                             <constraint firstItem="DQO-8l-g9f" firstAttribute="leading" secondItem="IhT-0w-ZAx" secondAttribute="leading" id="gaP-BZ-kOM"/>
                             <constraint firstAttribute="trailing" secondItem="Ukr-ZL-AuZ" secondAttribute="trailing" id="gkH-D6-igz"/>
+                            <constraint firstItem="bmx-w2-KYS" firstAttribute="centerX" secondItem="IhT-0w-ZAx" secondAttribute="centerX" priority="250" id="p5f-3c-OT5"/>
                             <constraint firstItem="bmx-w2-KYS" firstAttribute="top" secondItem="Ukr-ZL-AuZ" secondAttribute="bottom" priority="250" id="vQQ-UO-oNC"/>
                         </constraints>
                     </view>
@@ -88,6 +89,7 @@
                 <outlet property="containerView" destination="IhT-0w-ZAx" id="mCq-XL-BMq"/>
                 <outlet property="contentTextView" destination="Ukr-ZL-AuZ" id="FcH-2v-RBE"/>
                 <outlet property="footerContainerViewHeightConstraint" destination="joL-XX-SQV" id="BO7-4Q-ylI"/>
+                <outlet property="imageViewCentreAlignConstraint" destination="p5f-3c-OT5" id="Lqf-1l-DcH"/>
                 <outlet property="imageViewHeightConstraint" destination="6jA-95-Bw3" id="5HF-KP-HlB"/>
                 <outlet property="imageViewWidthConstraint" destination="H2g-gs-Iim" id="JoO-hb-lFD"/>
             </connections>
