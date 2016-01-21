@@ -271,10 +271,15 @@
     [self.cachedHorizontalHeights removeObjectForKey:threadID];
     [self.cachedVerticalHeights removeObjectForKey:threadID];
     [self.pendingChangedThreadID addObject:threadID];
-    
-    NSIndexPath *cellIndexPath = [self.homeTableView indexPathForCell:cell];
-    if (cellIndexPath && [self.homeTableView.indexPathsForVisibleRows containsObject:cellIndexPath]) {
-        [self reloadData];
+
+    // If not big image mode, the size of the image should be the same, so no need to reload data.
+    if (settingCentre.userDefShouldUseBigImage) {
+        
+        NSIndexPath *cellIndexPath = [self.homeTableView indexPathForCell:cell];
+        if (cellIndexPath && [self.homeTableView.indexPathsForVisibleRows containsObject:cellIndexPath]) {
+            [self.homeTableView reloadRowsAtIndexPaths:@[cellIndexPath]
+                                      withRowAnimation:UITableViewRowAnimationNone];
+        }
     }
 }
 
