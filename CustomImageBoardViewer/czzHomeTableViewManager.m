@@ -146,19 +146,22 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat height = UITableViewAutomaticDimension;
-    
-    if (indexPath.row < self.homeViewManager.threads.count) {
-        NSNumber *threadID = @([self.homeViewManager.threads[indexPath.row] ID]);
-        // If the changes pending contain this thread, don't cache its height.
-        if ([self.pendingChangedThreadID containsObject:threadID]) {
-            [self.pendingChangedThreadID removeObject:threadID];
-        } else {
-            NSNumber *cachedHeight = [self.cachedHeights objectForKey:threadID];
-            if (cachedHeight) {
-                height = cachedHeight.floatValue;
+    // If is using big image mode, don't use the cached heights, calculate them in real time.
+    if (!settingCentre.userDefShouldUseBigImage) {
+        if (indexPath.row < self.homeViewManager.threads.count) {
+            NSNumber *threadID = @([self.homeViewManager.threads[indexPath.row] ID]);
+            // If the changes pending contain this thread, don't cache its height.
+            if ([self.pendingChangedThreadID containsObject:threadID]) {
+                [self.pendingChangedThreadID removeObject:threadID];
+            } else {
+                NSNumber *cachedHeight = [self.cachedHeights objectForKey:threadID];
+                if (cachedHeight) {
+                    height = cachedHeight.floatValue;
+                }
             }
         }
     }
+
     return height;
 }
 
