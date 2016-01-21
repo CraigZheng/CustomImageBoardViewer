@@ -329,26 +329,23 @@ static NSInteger const veryLowConstraintPriority = 1;
 
 #pragma mark - czzImageDownloaderManagerDelegate
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
-    if (success && self.delegate) {
-        if (downloader.isThumbnail) {
-            if ([downloader.targetURLString.lastPathComponent isEqualToString:self.thread.imgSrc.lastPathComponent]) {
+    if (success &&
+        [self.delegate respondsToSelector:@selector(threadViewCellContentChanged:)]) {
+        if ([downloader.targetURLString.lastPathComponent isEqualToString:self.thread.imgSrc.lastPathComponent]) {
+            DDLogDebug(@"Content changed in %ld row, %p: %@ is downloaded.", (long)self.myIndexPath.row, self, downloader.targetURLString.lastPathComponent);
+            if (downloader.isThumbnail) {
+                // Assign the thumbnail image.
                 self.cellImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:downloader.targetURLString.lastPathComponent]]];
-                if ([self.delegate respondsToSelector:@selector(threadViewCellContentChanged:)]) {
-                    [self.delegate threadViewCellContentChanged:self];
-                }
                 self.cellImageView.alpha = 0.5;
                 [UIView animateWithDuration:0.2 animations:^{
                     self.cellImageView.alpha = 1;
                 }];
-
-            }
-        } else if (self.bigImageMode) {
-            // Not thumbnail, but self is in big image mode.
-            if ([downloader.targetURLString.lastPathComponent isEqualToString:self.thread.imgSrc.lastPathComponent]) {
+                [self.delegate threadViewCellContentChanged:self];
+                
+            } else if (self.bigImageMode) {
+                // Not thumbnail, but big image mode should inform delegate about the full size image as well.
                 // If match, inform delegate.
-                if ([self.delegate respondsToSelector:@selector(threadViewCellContentChanged:)]) {
-                    [self.delegate threadViewCellContentChanged:self];
-                }
+                [self.delegate threadViewCellContentChanged:self];
             }
         }
     }
