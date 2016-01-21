@@ -332,7 +332,6 @@ static NSInteger const veryLowConstraintPriority = 1;
     if (success &&
         [self.delegate respondsToSelector:@selector(threadViewCellContentChanged:)]) {
         if ([downloader.targetURLString.lastPathComponent isEqualToString:self.thread.imgSrc.lastPathComponent]) {
-            DDLogDebug(@"Content changed in %ld row, %p: %@ is downloaded.", (long)self.myIndexPath.row, self, downloader.targetURLString.lastPathComponent);
             if (downloader.isThumbnail) {
                 // Assign the thumbnail image.
                 self.cellImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:downloader.targetURLString.lastPathComponent]]];

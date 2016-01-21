@@ -33,6 +33,8 @@
 @property (nonatomic, readonly) BOOL tableViewIsDraggedOverTheBottom;
 @property (nonatomic, assign) BOOL bigImageMode;
 @property (nonatomic, strong) czzMenuEnabledTableViewCell *sizingCell;
+@property (nonatomic, strong) NSMutableOrderedSet *pendingBulkUpdateIndexes;
+@property (nonatomic, strong) NSTimer *bulkUpdateTimer;
 
 - (BOOL)tableViewIsDraggedOverTheBottomWithPadding:(CGFloat)padding;
 
@@ -44,6 +46,7 @@
     self = [super init];
     if (self) {
         self.imageViewerUtil = [czzImageViewerUtil new];
+        self.pendingBulkUpdateIndexes = [NSMutableOrderedSet new];
         self.pendingChangedThreadID = [NSMutableArray new];
         self.bigImageMode = [settingCentre userDefShouldUseBigImage];
         [[czzImageDownloaderManager sharedManager] addDelegate:self];
@@ -69,6 +72,25 @@
             [self.homeTableView reloadData];
         }
     });
+}
+
+- (void)bulkUpdateRows:(id)sender {
+    NSMutableArray *pendingIndexes = [NSMutableArray new];
+    // Find all the pending indexes that are still visible.
+    for (NSIndexPath *cellIndexPath in self.pendingBulkUpdateIndexes) {
+        if ([self.homeTableView.indexPathsForVisibleRows containsObject:cellIndexPath]) {
+            [pendingIndexes addObject:cellIndexPath];
+        }
+    }
+    // Update all the visible pending indexes.
+    if (pendingIndexes.count) {
+        [self.homeTableView beginUpdates];
+        [self.homeTableView reloadRowsAtIndexPaths:pendingIndexes
+                                  withRowAnimation:UITableViewRowAnimationNone];
+        [self.homeTableView endUpdates];
+    }
+    // Clear pending indexes.
+    [self.pendingBulkUpdateIndexes removeAllObjects];
 }
 
 #pragma mark - UITableViewDelegate
@@ -274,11 +296,17 @@
 
     // If not big image mode, the size of the image should be the same, so no need to reload data.
     if (settingCentre.userDefShouldUseBigImage) {
-        
+        // Group the incoming calls within next set period of time to update in a batch.
+        if (!self.bulkUpdateTimer.isValid) {
+            self.bulkUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:0.4
+                                                                    target:self
+                                                                  selector:@selector(bulkUpdateRows:)
+                                                                  userInfo:nil
+                                                                   repeats:NO];
+        }
         NSIndexPath *cellIndexPath = [self.homeTableView indexPathForCell:cell];
-        if (cellIndexPath && [self.homeTableView.indexPathsForVisibleRows containsObject:cellIndexPath]) {
-            [self.homeTableView reloadRowsAtIndexPaths:@[cellIndexPath]
-                                      withRowAnimation:UITableViewRowAnimationNone];
+        if (cellIndexPath) {
+            [self.pendingBulkUpdateIndexes addObject:cellIndexPath];
         }
     }
 }
