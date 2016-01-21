@@ -216,6 +216,10 @@ static NSInteger const veryLowConstraintPriority = 1;
         CGFloat aspectRatio = self.cellImageView.intrinsicContentSize.height / self.cellImageView.intrinsicContentSize.width;
         self.imageViewWidthConstraint.constant = CGRectGetWidth(self.frame) - 8 * 2; // Remove the padding for leading and trailing.
         self.imageViewHeightConstraint.constant = self.imageViewWidthConstraint.constant * aspectRatio;
+        // Make sure the height never bigger than 80% of width.
+        if (self.imageViewHeightConstraint.constant > self.imageViewWidthConstraint.constant * 0.8) {
+            self.imageViewHeightConstraint.constant = self.imageViewWidthConstraint.constant * 0.8;
+        }
     }
     
     // Header and footer
