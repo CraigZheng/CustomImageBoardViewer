@@ -22,7 +22,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-static NSInteger const fixedConstraintConstant = 120;
+static NSInteger const fixedConstraintConstant = 100;
 
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, czzImageDownloaderManagerDelegate>
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;
@@ -31,7 +31,8 @@ static NSInteger const fixedConstraintConstant = 120;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerViewHeightConstraint;
 @property (weak, nonatomic) IBOutlet UIImageView *cellImageView;
-//@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewLeadingConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewWidthConstraint;
 
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (strong, nonatomic) NSString *imageFolder;
@@ -216,8 +217,6 @@ static NSInteger const fixedConstraintConstant = 120;
     // Images.
     UIImage *previewImage;
     NSString *imageName;
-    // Reset the cell image view, deactivate all size constraints.
-    self.cellImageView.image = nil;
     if (self.allowImage && (imageName = self.thread.imgSrc.lastPathComponent).length) {
         previewImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:imageName]]];
         if (self.bigImageMode) {
@@ -225,7 +224,14 @@ static NSInteger const fixedConstraintConstant = 120;
             UIImage *fullImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]]];
             previewImage = fullImage ?: previewImage;
         }
+        self.imageViewHeightConstraint.constant =
+        self.imageViewWidthConstraint.constant = fixedConstraintConstant;
         self.cellImageView.image = previewImage ?: self.placeholderImage;
+    } else {
+        // Reset the cell image view, deactivate all size constraints.
+        self.imageViewHeightConstraint.constant =
+        self.imageViewWidthConstraint.constant = 0;
+        self.cellImageView.image = nil;
     }
     // If the image is not nil, reset the fixed constraints and calculate the flexible constraints.
 //    if (self.cellImageView.image) {

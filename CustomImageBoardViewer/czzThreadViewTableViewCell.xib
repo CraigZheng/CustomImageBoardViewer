@@ -11,31 +11,35 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" horizontalCompressionResistancePriority="1000" tableViewCell="vW5-oN-WIG" id="lgC-X4-SAR">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="199"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="199.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IhT-0w-ZAx">
                         <rect key="frame" x="0.0" y="4" width="320" height="191"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" editable="NO" text="Content" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Ukr-ZL-AuZ">
-                                <rect key="frame" x="0.0" y="20" width="320" height="91"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="37.5"/>
                                 <color key="backgroundColor" red="0.48064864309999999" green="0.73640522200000003" blue="0.47121710529999999" alpha="0.82596072639999996" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon-60.png" translatesAutoresizingMaskIntoConstraints="NO" id="bmx-w2-KYS">
-                                <rect key="frame" x="8" y="111" width="60" height="60"/>
+                                <rect key="frame" x="8" y="71" width="100" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="6jA-95-Bw3"/>
+                                    <constraint firstAttribute="width" constant="100" id="H2g-gs-Iim"/>
+                                </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MEF-mY-tW7" customClass="czzThreadViewCellHeaderView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="0.63375720099999999" blue="0.27949856020000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="jdK-HT-8Eo"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mRe-27-FEO" userLabel="Cell Footer View" customClass="czzThreadViewCellFooterView">
                                 <rect key="frame" x="0.0" y="171" width="320" height="20"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="0.63375720099999999" blue="0.27949856020000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="ybK-SF-ARO"/>
                                 </constraints>
@@ -44,6 +48,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="MEF-mY-tW7" secondAttribute="trailing" id="2fG-A1-ZDG"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="bmx-w2-KYS" secondAttribute="trailing" constant="8" id="3wb-Fm-cfi"/>
                             <constraint firstItem="Ukr-ZL-AuZ" firstAttribute="top" secondItem="MEF-mY-tW7" secondAttribute="bottom" id="JAO-km-5C3"/>
                             <constraint firstItem="Ukr-ZL-AuZ" firstAttribute="leading" secondItem="IhT-0w-ZAx" secondAttribute="leading" id="JbS-Uu-dWd"/>
                             <constraint firstItem="MEF-mY-tW7" firstAttribute="leading" secondItem="IhT-0w-ZAx" secondAttribute="leading" id="KGe-Z8-lag"/>
@@ -54,7 +59,7 @@
                             <constraint firstAttribute="trailing" secondItem="Ukr-ZL-AuZ" secondAttribute="trailing" id="gkH-D6-igz"/>
                             <constraint firstAttribute="trailing" secondItem="mRe-27-FEO" secondAttribute="trailing" id="kn4-5Y-gci"/>
                             <constraint firstItem="mRe-27-FEO" firstAttribute="top" secondItem="bmx-w2-KYS" secondAttribute="bottom" id="ud2-A1-dKm"/>
-                            <constraint firstItem="bmx-w2-KYS" firstAttribute="top" secondItem="Ukr-ZL-AuZ" secondAttribute="bottom" id="vQQ-UO-oNC"/>
+                            <constraint firstItem="bmx-w2-KYS" firstAttribute="top" secondItem="Ukr-ZL-AuZ" secondAttribute="bottom" priority="250" id="vQQ-UO-oNC"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -73,6 +78,8 @@
                 <outlet property="containerView" destination="IhT-0w-ZAx" id="mCq-XL-BMq"/>
                 <outlet property="contentTextView" destination="Ukr-ZL-AuZ" id="FcH-2v-RBE"/>
                 <outlet property="footerViewHeightConstraint" destination="ybK-SF-ARO" id="JEF-fy-6Az"/>
+                <outlet property="imageViewHeightConstraint" destination="6jA-95-Bw3" id="5HF-KP-HlB"/>
+                <outlet property="imageViewWidthConstraint" destination="H2g-gs-Iim" id="JoO-hb-lFD"/>
             </connections>
             <point key="canvasLocation" x="-162" y="417"/>
         </tableViewCell>
