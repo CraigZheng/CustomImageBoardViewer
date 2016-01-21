@@ -234,13 +234,7 @@
     }
 }
 
-#pragma mark - more action and commands
-
-- (IBAction)reloadDataAction:(id)sender {
-    self.homeTableViewManager.cachedVerticalHeights = self.homeTableViewManager.cachedHorizontalHeights = nil;
-    [self.homeTableViewManager reloadData];
-}
-
+#pragma mark - UI actions and commands.
 
 -(void)openSettingsPanel{
     czzSettingsViewController *settingsViewController = [czzSettingsViewController new];
