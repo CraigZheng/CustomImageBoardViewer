@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Craig. All rights reserved.
 //
 
-#import "czzHomeViewDelegate.h"
+#import "czzHomeTableViewManager.h"
 
 #import "czzHomeViewManager.h"
 #import "czzBlacklist.h"
@@ -19,31 +19,38 @@
 #import "czzThreadViewManager.h"
 #import "czzPostViewController.h"
 #import "czzNavigationManager.h"
-
+#import "czzThreadViewCommandStatusCellViewController.h"
+#import "czzThreadTableViewCommandCellTableViewCell.h"
+#import "czzReplyUtil.h"
 #import "UIApplication+Util.h"
 #import "UINavigationController+Util.h"
+#import "czzMenuEnabledTableViewCell.h"
 
-@interface czzHomeViewDelegate() <czzImageDownloaderManagerDelegate>
+@interface czzHomeTableViewManager() <czzImageDownloaderManagerDelegate>
 
 @property (strong) czzImageViewerUtil *imageViewerUtil;
 @property (nonatomic, readonly) NSIndexPath *lastRowIndexPath;
 @property (nonatomic, readonly) BOOL tableViewIsDraggedOverTheBottom;
-@property (nonatomic, strong) NSMutableDictionary *cachedHorizontalHeights;
-@property (nonatomic, strong) NSMutableDictionary *cachedVerticalHeights;
 @property (nonatomic, assign) BOOL bigImageMode;
+@property (nonatomic, strong) czzMenuEnabledTableViewCell *sizingCell;
+@property (nonatomic, strong) NSMutableOrderedSet *pendingBulkUpdateIndexes;
+@property (nonatomic, strong) NSTimer *bulkUpdateTimer;
 
 - (BOOL)tableViewIsDraggedOverTheBottomWithPadding:(CGFloat)padding;
+
 @end
 
-@implementation czzHomeViewDelegate
+@implementation czzHomeTableViewManager
 
 -(instancetype)init {
     self = [super init];
     if (self) {
         self.imageViewerUtil = [czzImageViewerUtil new];
+        self.pendingBulkUpdateIndexes = [NSMutableOrderedSet new];
+        self.pendingChangedThreadID = [NSMutableArray new];
         self.bigImageMode = [settingCentre userDefShouldUseBigImage];
         [[czzImageDownloaderManager sharedManager] addDelegate:self];
-        if ([self isMemberOfClass:[czzHomeViewDelegate class]]) {
+        if ([self isMemberOfClass:[czzHomeTableViewManager class]]) {
             [[NSNotificationCenter defaultCenter] addObserver:self
                                                      selector:@selector(settingsChangedNotificationReceived:)
                                                          name:settingsChangedNotification
@@ -53,41 +60,41 @@
     return self;
 }
 
-- (void)replyToThread:(czzThread *)thread inParentThread:(czzThread *)parentThread{
-    czzPostViewController *postViewController = [czzPostViewController new];
-    postViewController.forum = self.homeViewManager.forum;
-    postViewController.parentThread = parentThread;
-    postViewController.replyToThread = thread;
-    postViewController.postMode = postViewControllerModeReply;
-    [[czzNavigationManager sharedManager].delegate presentViewController:[[UINavigationController alloc] initWithRootViewController:postViewController] animated:YES completion:nil];
+- (void)reloadData {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.homeTableView) {
+            for (NSIndexPath *indexPath in self.homeTableView.indexPathsForVisibleRows) {
+                if (indexPath.row < self.homeViewManager.threads.count) {
+                    czzThread *thread = self.homeViewManager.threads[indexPath.row];
+                    [self.pendingChangedThreadID addObject:@(thread.ID)];
+                }
+            }
+            [self.homeTableView reloadData];
+        }
+    });
 }
 
-- (void)replyMainThread:(czzThread *)thread {
-    czzPostViewController *postViewController = [czzPostViewController new];
-    postViewController.forum = self.homeViewManager.forum;
-    postViewController.parentThread = thread;
-    postViewController.postMode = postViewControllerModeReply;
-    [[czzNavigationManager sharedManager].delegate presentViewController:[[UINavigationController alloc] initWithRootViewController:postViewController] animated:YES completion:nil];
-}
-
-- (void)reportThread:(czzThread *)selectedThread inParentThread:(czzThread *)parentThread {
-    czzPostViewController *newPostViewController = [czzPostViewController new];
-    newPostViewController.postMode = postViewControllerModeReport;
-    [[czzNavigationManager sharedManager].delegate presentViewController:[[UINavigationController alloc] initWithRootViewController:newPostViewController] animated:YES completion:nil];
-    NSString *reportString = [[settingCentre report_post_placeholder] stringByReplacingOccurrencesOfString:kParentID withString:[NSString stringWithFormat:@"%ld", (long)parentThread.ID]];
-    reportString = [reportString stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long)selectedThread.ID]];
-    newPostViewController.prefilledString = reportString;
-    newPostViewController.title = [NSString stringWithFormat:@"举报:%ld", (long)parentThread.ID];
-    //construct a blacklist that to be submitted to my server and pass it to new post view controller
-    czzBlacklistEntity *blacklistEntity = [czzBlacklistEntity new];
-    blacklistEntity.threadID = selectedThread.ID;
-    newPostViewController.blacklistEntity = blacklistEntity;
+- (void)bulkUpdateRows:(id)sender {
+    NSMutableArray *pendingIndexes = [NSMutableArray new];
+    // Find all the pending indexes that are still visible.
+    for (NSIndexPath *cellIndexPath in self.pendingBulkUpdateIndexes) {
+        if ([self.homeTableView.indexPathsForVisibleRows containsObject:cellIndexPath]) {
+            [pendingIndexes addObject:cellIndexPath];
+        }
+    }
+    // Update all the visible pending indexes.
+    if (pendingIndexes.count) {
+        [self.homeTableView reloadRowsAtIndexPaths:pendingIndexes
+                                  withRowAnimation:UITableViewRowAnimationNone];
+    }
+    // Clear pending indexes.
+    [self.pendingBulkUpdateIndexes removeAllObjects];
 }
 
 #pragma mark - UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (!self.myTableView) {
-        self.myTableView = (czzThreadTableView*)tableView;
+    if (!self.homeTableView) {
+        self.homeTableView = (czzThreadTableView*)tableView;
     }
     czzThread *selectedThread;
     @try {
@@ -146,30 +153,87 @@
 }
 
 - (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (UIInterfaceOrientationIsPortrait([UIApplication rootViewController].interfaceOrientation)) {
-        [self.cachedVerticalHeights setObject:@(CGRectGetHeight(cell.frame)) forKey:indexPath];
-    } else {
-        [self.cachedHorizontalHeights setObject:@(CGRectGetHeight(cell.frame)) forKey:indexPath];
+    if ([cell isKindOfClass:[czzMenuEnabledTableViewCell class]]) {
+        NSNumber *threadID = @([(czzMenuEnabledTableViewCell *)cell thread].ID);
+        if ([self.pendingChangedThreadID containsObject:threadID]) {
+            // Do nothing, the cell is waiting to be changed.
+        } else {
+            CGFloat actualHeight = CGRectGetHeight(cell.frame);
+            [self.cachedHeights setObject:@(actualHeight) forKey:threadID];
+        }
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSNumber *cachedHeight;
-    if (UIInterfaceOrientationIsPortrait([UIApplication rootViewController].interfaceOrientation)) {
-        cachedHeight = [self.cachedVerticalHeights objectForKey:indexPath];
-    } else {
-        cachedHeight = [self.cachedHorizontalHeights objectForKey:indexPath];
+    CGFloat height = UITableViewAutomaticDimension;
+    // If is using big image mode, don't use the cached heights, calculate them in real time.
+    if (!settingCentre.userDefShouldUseBigImage) {
+        if (indexPath.row < self.homeViewManager.threads.count) {
+            NSNumber *threadID = @([self.homeViewManager.threads[indexPath.row] ID]);
+            // If the changes pending contain this thread, don't cache its height.
+            if ([self.pendingChangedThreadID containsObject:threadID]) {
+                [self.pendingChangedThreadID removeObject:threadID];
+            } else {
+                NSNumber *cachedHeight = [self.cachedHeights objectForKey:threadID];
+                if (cachedHeight) {
+                    height = cachedHeight.floatValue;
+                }
+            }
+        }
     }
-    if (cachedHeight) {
-        DDLogDebug(@"Cached height for %ldth row: %.1f", (long)indexPath.row, cachedHeight.floatValue);
+
+    return height;
+}
+
+#pragma mark - UITableView datasource
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (self.homeViewManager.threads.count > 0)
+        return self.homeViewManager.threads.count + 1;
+    return self.homeViewManager.threads.count;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == self.homeViewManager.threads.count){
+        //Last row
+        NSString *lastCellIdentifier = THREAD_TABLEVIEW_COMMAND_CELL_IDENTIFIER;
+        czzThreadTableViewCommandCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:lastCellIdentifier forIndexPath:indexPath];
+        cell.commandStatusViewController = self.homeTableView.lastCellCommandViewController;
+        cell.commandStatusViewController.homeViewManager = self.homeViewManager;
+        self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
+        if (self.homeViewManager.pageNumber == self.homeViewManager.totalPages) {
+            self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeNoMore;
+        }
+        if (self.homeViewManager.isDownloading) {
+            self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
+        }
+        
+        cell.backgroundColor = [settingCentre viewBackgroundColour];
+        return cell;
     }
-    return cachedHeight.floatValue ?: UITableViewAutomaticDimension;
+    
+    NSString *cell_identifier = THREAD_VIEW_CELL_IDENTIFIER;
+    czzThread *thread = [self.homeViewManager.threads objectAtIndex:indexPath.row];
+    czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
+    if (cell){
+        cell.delegate = self;
+        cell.shouldHighlight = NO;
+        cell.myIndexPath = indexPath;
+        cell.nightyMode = [settingCentre userDefNightyMode];
+        cell.bigImageMode = [settingCentre userDefShouldUseBigImage];
+        cell.cellType = threadViewCellTypeHome;
+        cell.parentThread = thread;
+        cell.thread = thread;
+        if ([self isMemberOfClass:[czzHomeTableViewManager class]]) {
+            [cell renderContent];
+        }
+    }
+    return cell;
 }
 
 #pragma mark - UIScrollViewDelegate
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     if ([settingCentre userDefShouldShowOnScreenCommand]) {
-        [self.myTableView.upDownViewController show];
+        [self.homeTableView.upDownViewController show];
     }
 }
 
@@ -177,10 +241,10 @@
     if (!self.homeViewManager.isDownloading && self.homeViewManager.threads.count > 0) {
         if (self.tableViewIsDraggedOverTheBottom) {
             if ([self tableViewIsDraggedOverTheBottomWithPadding:44 * 2]) {
-                self.myTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore;
+                self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore;
             } else {
-                if (self.myTableView.lastCellType != czzThreadViewCommandStatusCellViewTypeLoadMore) {
-                    self.myTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
+                if (self.homeTableView.lastCellType != czzThreadViewCommandStatusCellViewTypeLoadMore) {
+                    self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
                 }
             }
         }
@@ -191,7 +255,7 @@
     if (!self.homeViewManager.isDownloading && self.homeViewManager.threads.count > 0) {
         if ([self tableViewIsDraggedOverTheBottomWithPadding:44 * 2]) {
             [self.homeViewManager loadMoreThreads];
-            self.myTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
+            self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
         }
     }
 }
@@ -222,42 +286,33 @@
     }
 }
 
-- (void)userWantsToReply:(czzThread *)thread inParentThread:(czzThread *)parentThread{
-    DDLogDebug(@"%s : %@", __PRETTY_FUNCTION__, thread);
-    [self replyToThread:thread inParentThread:parentThread];
-}
-
-- (void)userWantsToHighLight:(czzThread *)thread {
-    DDLogDebug(@"%s : %@", __PRETTY_FUNCTION__, thread);
-    if ([self.homeViewManager isKindOfClass:[czzThreadViewManager class]]) {
-        [(czzThreadViewManager *)self.homeViewManager HighlightThreadSelected:thread];
-    }
-}
-
-- (void)userWantsToSearch:(czzThread *)thread {
-    DDLogDebug(@"%s : NOT IMPLEMENTED", __PRETTY_FUNCTION__);
-}
-
 - (void)threadViewCellContentChanged:(czzMenuEnabledTableViewCell *)cell {
-    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-        NSIndexPath *cellIndexPath = [self.myTableView indexPathForCell:cell];
-        if (cellIndexPath && [self.myTableView.indexPathsForVisibleRows containsObject:cellIndexPath]) {
-            [self.myTableView reloadRowsAtIndexPaths:@[cellIndexPath]
-                                    withRowAnimation:UITableViewRowAnimationNone];
+    NSNumber *threadID = @(cell.thread.ID);
+    [self.cachedHorizontalHeights removeObjectForKey:threadID];
+    [self.cachedVerticalHeights removeObjectForKey:threadID];
+    [self.pendingChangedThreadID addObject:threadID];
+
+    // If not big image mode, the size of the image should be the same, so no need to reload data.
+    if (settingCentre.userDefShouldUseBigImage) {
+        // Group the incoming calls within next set period of time to update in a batch.
+        if (!self.bulkUpdateTimer.isValid) {
+            self.bulkUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:0.4
+                                                                    target:self
+                                                                  selector:@selector(bulkUpdateRows:)
+                                                                  userInfo:nil
+                                                                   repeats:NO];
         }
-    }];
-}
-
-#pragma mark - czzOnScreenImageManagerViewControllerDelegate
-
--(void)onScreenImageManagerSelectedImage:(NSString *)path {
-    [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:path.lastPathComponent]];
+        NSIndexPath *cellIndexPath = [self.homeTableView indexPathForCell:cell];
+        if (cellIndexPath) {
+            [self.pendingBulkUpdateIndexes addObject:cellIndexPath];
+        }
+    }
 }
 
 #pragma mark - czzImageDownloaderManagerDelegate
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
     if (success) {
-        if (!downloader.isThumbnail && [settingCentre userDefShouldAutoOpenImage] && [self isMemberOfClass:[czzHomeViewDelegate class]])
+        if (!downloader.isThumbnail && [settingCentre userDefShouldAutoOpenImage] && [self isMemberOfClass:[czzHomeTableViewManager class]])
             [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]];
     } else
         DDLogDebug(@"img download failed");
@@ -273,7 +328,22 @@
         [AppDelegate showToast:@"开始下载图片..."];
 }
 
-#pragma mark - Getters {
+#pragma mark - Getters 
+
+- (czzMenuEnabledTableViewCell *)sizingCell {
+    if (!_sizingCell) {
+        _sizingCell = [self.homeTableView dequeueReusableCellWithIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
+    }
+    return _sizingCell;
+}
+
+- (NSMutableDictionary *)cachedHeights {
+    if (UIInterfaceOrientationIsPortrait([UIApplication rootViewController].interfaceOrientation)) {
+        return self.cachedVerticalHeights;
+    } else {
+        return self.cachedHorizontalHeights;
+    }
+}
 
 - (NSMutableDictionary *)cachedHorizontalHeights {
     if (!_cachedHorizontalHeights) {
@@ -296,13 +366,13 @@
 - (BOOL)tableViewIsDraggedOverTheBottomWithPadding:(CGFloat)padding {
     BOOL isOver = NO;
     @try {
-        if (self.myTableView.window) {
-            NSIndexPath *lastVisibleIndexPath = [self.myTableView indexPathsForVisibleRows].lastObject;
+        if (self.homeTableView.window) {
+            NSIndexPath *lastVisibleIndexPath = [self.homeTableView indexPathsForVisibleRows].lastObject;
             if (lastVisibleIndexPath.row == self.homeViewManager.threads.count)
             {
-                CGPoint contentOffSet = self.myTableView.contentOffset;
-                CGRect lastCellRect = [self.myTableView rectForRowAtIndexPath:lastVisibleIndexPath];
-                if (lastCellRect.origin.y + lastCellRect.size.height + padding < contentOffSet.y + self.myTableView.frame.size.height) {
+                CGPoint contentOffSet = self.homeTableView.contentOffset;
+                CGRect lastCellRect = [self.homeTableView rectForRowAtIndexPath:lastVisibleIndexPath];
+                if (lastCellRect.origin.y + lastCellRect.size.height + padding < contentOffSet.y + self.homeTableView.frame.size.height) {
                     isOver = YES;
                 } else {
                     isOver = NO;
@@ -321,36 +391,12 @@
 }
 
 #pragma marl - Setters
-- (void)setMyTableView:(czzThreadTableView *)myTableView {
-    _myTableView = myTableView;
-    if (myTableView) {
-        myTableView.estimatedRowHeight = 80;
-        myTableView.rowHeight = UITableViewAutomaticDimension;
+- (void)setHomeTableView:(czzThreadTableView *)homeTableView {
+    _homeTableView = homeTableView;
+    if (homeTableView) {
+        homeTableView.estimatedRowHeight = 80;
+        homeTableView.rowHeight = UITableViewAutomaticDimension;
     }
-}
-
-+(instancetype)initWithViewManager:(czzHomeViewManager *)viewManager andTableView:(czzThreadTableView *)tableView {
-    czzHomeViewDelegate *sharedDelegate = [czzHomeViewDelegate sharedInstance];
-    sharedDelegate.homeViewManager = viewManager;
-    sharedDelegate.myTableView = tableView;
-    return sharedDelegate;
-}
-
-+ (instancetype)sharedInstance
-{
-    // structure used to test whether the block has completed or not
-    static dispatch_once_t p = 0;
-    
-    // initialize sharedObject as nil (first call only)
-    __strong static id _sharedObject = nil;
-    
-    // executes a block object once and only once for the lifetime of an application
-    dispatch_once(&p, ^{
-        _sharedObject = [[self alloc] init];
-    });
-    
-    // returns the same object each time
-    return _sharedObject;
 }
 
 @end

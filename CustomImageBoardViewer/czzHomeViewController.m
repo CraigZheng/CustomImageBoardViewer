@@ -24,15 +24,15 @@
 #import "GSIndeterminateProgressView.h"
 #import "czzHomeViewManager.h"
 #import "czzForumManager.h"
-#import "czzHomeViewDelegate.h"
+#import "czzHomeTableViewManager.h"
 #import "czzThreadViewManager.h"
 #import "czzForumsViewController.h"
 #import "czzThreadTableView.h"
 #import "czzSettingsViewController.h"
 #import "czzRoundButton.h"
 #import "czzFavouriteManagerViewController.h"
-
-#import "czzHomeTableViewDataSource.h"
+#import "czzHomeTableViewManager.h"
+#import "czzReplyUtil.h"
 
 #import <CoreText/CoreText.h>
 
@@ -46,8 +46,7 @@
 @property (assign, nonatomic) GSIndeterminateProgressView *progressView;
 @property (strong, nonatomic) czzForum *selectedForum;
 @property (strong, nonatomic) czzFavouriteManagerViewController *favouriteManagerViewController;
-@property (strong, nonatomic) czzHomeTableViewDataSource *tableViewDataSource;
-@property (strong, nonatomic) czzHomeViewDelegate *homeViewDelegate;
+@property (strong, nonatomic) czzHomeTableViewManager *homeTableViewManager;
 @property (strong, nonatomic) czzOnScreenImageManagerViewController *onScreenImageManagerViewController;
 @end
 
@@ -59,9 +58,8 @@
     [super viewDidLoad];
     
     //assign a custom tableview data source
-    self.threadTableView.dataSource = self.tableViewDataSource;
-    self.threadTableView.delegate = self.homeViewDelegate;
-    self.tableViewDataSource.tableViewDelegate = self.homeViewDelegate;
+    self.threadTableView.dataSource = self.homeTableViewManager;
+    self.threadTableView.delegate = self.homeTableViewManager;
     
     // Load data into tableview
     [self updateTableView];
@@ -79,7 +77,6 @@
     // On screen image manager view controller
     if (!self.onScreenImageManagerViewController) {
         self.onScreenImageManagerViewController = [czzOnScreenImageManagerViewController new];
-        self.onScreenImageManagerViewController.delegate = self.homeViewDelegate;
         [self addChildViewController:self.onScreenImageManagerViewController];
         [self.onScreenImageManagerViewContainer addSubview:self.onScreenImageManagerViewController.view];
     }
@@ -165,18 +162,16 @@
  This method would update the contents related to the table view
  */
 -(void)updateTableView {
-    [self.threadTableView reloadData];
-    
     // Update bar buttons.
     if (!self.numberBarButton.customView) {
         self.numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
     }
-    
+    // Give the amount number a title.
     [(czzRoundButton *)self.numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.homeViewManager.threads.count] forState:UIControlStateNormal];
-        
     // Other data
     self.title = self.homeViewManager.forum.name;
     self.navigationItem.backBarButtonItem.title = self.title;
+    [self.homeTableViewManager reloadData];
 }
 
 #pragma mark - State perserving
@@ -191,7 +186,7 @@
 }
 
 - (IBAction)postAction:(id)sender {
-    [self newPost];
+    [czzReplyUtil postToForum:self.homeViewManager.forum];
 }
 
 - (IBAction)jumpAction:(id)sender {
@@ -239,7 +234,8 @@
     }
 }
 
-#pragma mark - more action and commands
+#pragma mark - UI actions and commands.
+
 -(void)openSettingsPanel{
     czzSettingsViewController *settingsViewController = [czzSettingsViewController new];
     [self.navigationController pushViewController:settingsViewController animated:YES];
@@ -248,17 +244,6 @@
 -(void)openNotificationCentre {
     czzNotificationCentreTableViewController *notificationCentreViewController = [[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
     [self.navigationController pushViewController:notificationCentreViewController animated:YES];
-}
-
--(void)newPost{
-    if (self.homeViewManager.forum){
-        czzPostViewController *newPostViewController = [czzPostViewController new];
-        newPostViewController.forum = self.homeViewManager.forum;
-        newPostViewController.postMode = postViewControllerModeNew;
-        [self presentViewController:[[UINavigationController alloc] initWithRootViewController:newPostViewController] animated:YES completion:nil];
-    } else {
-        [[AppDelegate window] makeToast:@"未选定一个版块" duration:1.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
-    }
 }
 
 -(IBAction)moreInfoAction:(id)sender {
@@ -294,21 +279,14 @@
     return _refreshControl;
 }
 
--(czzHomeTableViewDataSource *)tableViewDataSource {
-    if (!_tableViewDataSource) {
-        _tableViewDataSource = [czzHomeTableViewDataSource initWithViewManager:self.homeViewManager andTableView:self.threadTableView];
+-(czzHomeTableViewManager *)homeTableViewManager {
+    if (!_homeTableViewManager) {
+        _homeTableViewManager = [czzHomeTableViewManager new];
+        _homeTableViewManager.homeViewManager = self.homeViewManager;
+        _homeTableViewManager.homeTableView = self.threadTableView;
     }
-    return _tableViewDataSource;
+    return _homeTableViewManager;
 }
-
--(czzHomeViewDelegate *)homeViewDelegate {
-    if (!_homeViewDelegate) {
-        _homeViewDelegate = [czzHomeViewDelegate initWithViewManager:self.homeViewManager andTableView:self.threadTableView];
-    }
-    return _homeViewDelegate;
-}
-
-
 
 - (void)homeViewManagerWantsToReload:(czzHomeViewManager *)manager {
     if (manager.threads.count) {
@@ -339,6 +317,7 @@
         [self.refreshControl endRefreshing];
         if (wasSuccessul && self.homeViewManager.pageNumber == 1) {
             [self.threadTableView scrollToTop:NO];
+            self.homeTableViewManager.cachedHorizontalHeights = self.homeTableViewManager.cachedVerticalHeights = nil;
         }
         [self updateTableView];
 
@@ -396,7 +375,7 @@
 #pragma mark - rotation events
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    [self.threadTableView reloadData];
+    [self updateTableView];
 }
 
 #pragma mark - pause / restoration

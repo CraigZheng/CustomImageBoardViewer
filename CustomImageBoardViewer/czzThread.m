@@ -96,7 +96,9 @@
             self.title = [data objectForKey:@"title"];
             self.content = [self renderHTMLToAttributedString:[NSString stringWithString:[data objectForKey:@"content"]]];
 
-            self.imgSrc = [[data objectForKey:@"img"] stringByAppendingString:[data objectForKey:@"ext"]];
+            if ([[data objectForKey:@"img"] length] && [[data objectForKey:@"ext"] length]) {
+                self.imgSrc = [[data objectForKey:@"img"] stringByAppendingString:[data objectForKey:@"ext"]];
+            }
             self.lock = [[data objectForKey:@"lock"] boolValue];
             self.sage = [[data objectForKey:@"sage"] boolValue];
             self.admin = [[data objectForKey:@"admin"] boolValue];

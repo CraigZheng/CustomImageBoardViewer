@@ -6,9 +6,10 @@
 //  Copyright (c) 2015 Craig. All rights reserved.
 //
 
-#import "czzHomeViewDelegate.h"
+#import "czzHomeTableViewManager.h"
 #import "czzThreadViewManager.h"
 
-@interface czzThreadViewDelegate : czzHomeViewDelegate
+@interface czzThreadTableViewManager : czzHomeTableViewManager
 @property (weak, nonatomic) czzThreadViewManager *threadViewManager;
+@property (weak, nonatomic) czzThreadTableView *threadTableView;
 @end

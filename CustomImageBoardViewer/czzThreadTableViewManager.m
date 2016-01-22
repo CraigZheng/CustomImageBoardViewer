@@ -6,18 +6,19 @@
 //  Copyright (c) 2015 Craig. All rights reserved.
 //
 
-#import "czzThreadViewDelegate.h"
+#import "czzThreadTableViewManager.h"
 
 #import "PartialTransparentView.h"
 #import "czzThreadRefButton.h"
 #import "czzMenuEnabledTableViewCell.h"
+#import "czzReplyUtil.h"
 
-@interface czzThreadViewDelegate ()
+@interface czzThreadTableViewManager ()
 @property (nonatomic, strong) PartialTransparentView *containerView;
 @property (nonatomic, assign) CGPoint threadsTableViewContentOffSet;
 @end
 
-@implementation czzThreadViewDelegate
+@implementation czzThreadTableViewManager
 
 -(instancetype)init {
     self = [super init];
@@ -35,28 +36,26 @@
 }
 
 #pragma mark - UI managements.
--(void)highlightTableViewCell:(UITableViewCell*)tableviewcell{
+-(void)highlightTableViewCell:(NSIndexPath *)indexPath{
     //disable the scrolling view
-    self.myTableView.scrollEnabled = NO;
-    if (!self.containerView) {
-        self.containerView = [PartialTransparentView new];
-        self.containerView.opaque = NO;
-    }
-    
-    self.containerView.frame = CGRectMake(self.myTableView.frame.origin.x, self.myTableView.frame.origin.y, self.myTableView.frame.size.width, self.myTableView.contentSize.height);
-    self.containerView.rectsArray = [NSArray arrayWithObject:[NSValue valueWithCGRect:tableviewcell.frame]];
+    self.threadTableView.scrollEnabled = NO;
+    self.containerView = [PartialTransparentView new];
+    self.containerView.opaque = NO;
+    self.containerView.frame = CGRectMake(0, 0, self.threadTableView.contentSize.width, self.threadTableView.contentSize.height);
+    CGRect cellRect = [self.threadTableView rectForRowAtIndexPath:indexPath];
+    self.containerView.rectsArray = @[[NSValue valueWithCGRect:cellRect]];
     self.containerView.backgroundColor = [[UIColor darkGrayColor] colorWithAlphaComponent:0.7];
-    
     self.containerView.userInteractionEnabled = YES;
-    [self.containerView setNeedsDisplay];
     
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnFloatingView: )];
     //fade in effect
     self.containerView.alpha = 0.0f;
-    [self.myTableView addSubview:self.containerView];
+    [self.threadTableView addSubview:self.containerView];
     [UIView animateWithDuration:0.2
                      animations:^{self.containerView.alpha = 1.0f;}
-                     completion:^(BOOL finished){[self.containerView addGestureRecognizer:tapRecognizer];}];
+                     completion:^(BOOL finished){
+                         [self.containerView addGestureRecognizer:tapRecognizer];
+                     }];
     
 }
 
@@ -68,10 +67,10 @@
                      }
                      completion:^(BOOL finished) {
                          [self.containerView removeFromSuperview];
-                         [self.myTableView reloadData];
+                         [self.threadTableView reloadData];
                      }];
     
-    CGPoint touchPoint = [gestureRecognizer locationInView:self.myTableView];
+    CGPoint touchPoint = [gestureRecognizer locationInView:self.threadTableView];
     NSArray *rectArray = self.containerView.rectsArray;
     BOOL userTouchInView = NO;
     for (NSValue *rect in rectArray) {
@@ -82,12 +81,33 @@
     }
     
     if (!userTouchInView)
-        [self.myTableView setContentOffset:self.threadsTableViewContentOffSet animated:YES];
-    self.myTableView.scrollEnabled = YES;
+        [self.threadTableView setContentOffset:self.threadsTableViewContentOffSet animated:YES];
+    self.threadTableView.scrollEnabled = YES;
 
 }
 
 #pragma mark - UITableViewDelegate
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    // If within the range of threads, is a thread view cell, otherwise is a command cell.
+    if (indexPath.row < self.threadViewManager.threads.count) {
+        czzThread *thread = [self.threadViewManager.threads objectAtIndex:indexPath.row];
+        [self.threadViewManager.referenceIndexDictionary setObject:[indexPath copy] forKey:[NSString stringWithFormat:@"%ld", (long)thread.ID]];
+        // Thread view cell
+        if (cell && [cell isKindOfClass:[czzMenuEnabledTableViewCell class]]){
+            czzMenuEnabledTableViewCell *threadViewCell = (czzMenuEnabledTableViewCell*)cell;
+            threadViewCell.delegate = self;
+            threadViewCell.shouldHighlight = YES;
+            threadViewCell.selectedUserToHighlight = self.threadViewManager.selectedUserToHighlight;
+            threadViewCell.cellType = threadViewCellTypeThread;
+            threadViewCell.parentThread = self.threadViewManager.parentThread;
+            [threadViewCell renderContent];
+        }
+    }
+    return cell;
+}
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     [super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
@@ -133,11 +153,11 @@
     if (selectedIndexPath && selectedIndexPath.row < self.threadViewManager.threads.count) {
         czzThread *selectedThread = [self.threadViewManager.threads objectAtIndex:selectedIndexPath.row];
         if (selectedThread.ID == text.integerValue) {
-            self.threadsTableViewContentOffSet = self.myTableView.contentOffset;
+            self.threadsTableViewContentOffSet = self.threadTableView.contentOffset;
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.threadViewManager.threads indexOfObject:selectedThread] inSection:0];
-            [self.myTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:NO];
+            [self.threadTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:NO];
             [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-                [self highlightTableViewCell:[self.myTableView cellForRowAtIndexPath:indexPath]];
+                [self highlightTableViewCell:indexPath];
             }];
             return;
         }
@@ -159,22 +179,30 @@
     });
 }
 
-#pragma mark - Accessors
-
--(czzThreadViewManager *)threadViewManager {
-    return (id)[super homeViewManager];
+- (void)userWantsToReply:(czzThread *)thread inParentThread:(czzThread *)parentThread{
+    DDLogDebug(@"%s : %@", __PRETTY_FUNCTION__, thread);
+    [czzReplyUtil replyToThread:thread inParentThread:parentThread];
 }
 
-- (void)setThreadViewManager:(czzThreadViewManager *)threadViewManager {
-    [super setHomeViewManager:threadViewManager];
+- (void)userWantsToHighLight:(czzThread *)thread {
+    DDLogDebug(@"%s : %@", __PRETTY_FUNCTION__, thread);
+    if ([self.homeViewManager isKindOfClass:[czzThreadViewManager class]]) {
+        [(czzThreadViewManager *)self.homeViewManager HighlightThreadSelected:thread];
+    }
 }
 
-+(instancetype)initWithViewManager:(czzHomeViewManager *)viewManager andTableView:(czzThreadTableView *)tableView {
-    czzThreadViewDelegate *threadViewDelegate = [[czzThreadViewDelegate alloc] init];
-    threadViewDelegate.homeViewManager = viewManager;
-    threadViewDelegate.myTableView = tableView;
-    return threadViewDelegate;
+- (void)userWantsToSearch:(czzThread *)thread {
+    DDLogDebug(@"%s : NOT IMPLEMENTED", __PRETTY_FUNCTION__);
 }
 
+#pragma mark - Getter
+
+- (czzHomeViewManager *)homeViewManager {
+    return self.threadViewManager;
+}
+
+- (czzThreadTableView *)homeTableView {
+    return self.threadTableView;
+}
 
 @end

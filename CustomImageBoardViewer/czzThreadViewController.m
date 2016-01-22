@@ -19,16 +19,16 @@
 #import "PartialTransparentView.h"
 #import "czzSearchViewController.h"
 #import "czzSettingsCentre.h"
-#import "czzThreadTableViewDataSource.h"
 #import "czzTextViewHeightCalculator.h"
 #import "czzMiniThreadViewController.h"
 #import "czzNavigationController.h"
 #import "czzOnScreenImageManagerViewController.h"
 #import "GSIndeterminateProgressView.h"
-#import "czzThreadViewDelegate.h"
+#import "czzThreadTableViewManager.h"
 #import "czzFavouriteManager.h"
 #import "czzWatchListManager.h"
 #import "czzRoundButton.h"
+#import "czzReplyUtil.h"
 
 NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
@@ -44,8 +44,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @property (strong, nonatomic) UIViewController *topViewController;
 @property (strong, nonatomic) czzMiniThreadViewController *miniThreadView;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
-@property (strong, nonatomic) czzThreadTableViewDataSource *tableViewDataSource;
-@property (strong, nonatomic) czzThreadViewDelegate *threadViewDelegate;
+@property (strong, nonatomic) czzThreadTableViewManager *threadTableViewManager;
 @property (strong, nonatomic) czzOnScreenImageManagerViewController *onScreenImageManagerViewController;
 @property (weak, nonatomic) GSIndeterminateProgressView *progressView;
 @end
@@ -66,22 +65,20 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @synthesize onScreenImageManagerViewContainer;
 @synthesize progressView;
 @synthesize moreButton;
-@synthesize tableViewDataSource;
-@synthesize threadViewDelegate;
 @synthesize shouldRestoreContentOffset;
 
 #pragma mark - view controller life cycle.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    // self.threadViewManager must not be nil.
+    assert(self.threadTableViewManager != nil);
     self.threadViewManager.delegate = self;
     [self.threadViewManager restorePreviousState];
-    
-    self.threadTableView.dataSource = tableViewDataSource = [czzThreadTableViewDataSource initWithViewManager:self.threadViewManager andTableView:self.threadTableView];
-    self.threadTableView.delegate = threadViewDelegate = [czzThreadViewDelegate initWithViewManager:self.threadViewManager andTableView:self.threadTableView];
-    tableViewDataSource.tableViewDelegate = threadViewDelegate;
-    
+    // The manager for the table view.
+    self.threadTableView.dataSource = self.threadTableViewManager;
+    self.threadTableView.delegate = self.threadTableViewManager;
+
     // Progress view
     progressView = [(czzNavigationController*)self.navigationController progressView];
     
@@ -93,7 +90,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     // On screen image manager view controller
     if (!self.onScreenImageManagerViewController) {
         self.onScreenImageManagerViewController = [czzOnScreenImageManagerViewController new];
-        self.onScreenImageManagerViewController.delegate = self.threadViewDelegate;
+        self.onScreenImageManagerViewController.delegate = self.threadTableViewManager;
         [self addChildViewController:self.onScreenImageManagerViewController];
         [self.onScreenImageManagerViewContainer addSubview:self.onScreenImageManagerViewController.view];
     }
@@ -145,7 +142,9 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 
-    //background colour
+    // Reload data.
+    [self updateTableView];
+    // Background colour.
     self.threadTableView.backgroundColor = [settingCentre viewBackgroundColour];
 }
 
@@ -169,8 +168,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
  This method would update the contents related to the table view
  */
 -(void)updateTableView {
-    [self.threadTableView reloadData];
-    
     // Update bar buttons.
     if (!numberBarButton.customView) {
         numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
@@ -184,6 +181,17 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     } else {
         self.starButton.image = [UIImage imageNamed:@"star.png"];
     }
+    [self.threadTableViewManager reloadData];
+}
+
+#pragma mark - Getters
+- (czzThreadTableViewManager *)threadTableViewManager {
+    if (!_threadTableViewManager) {
+        _threadTableViewManager = [czzThreadTableViewManager new];
+        _threadTableViewManager.threadViewManager = self.threadViewManager;
+        _threadTableViewManager.threadTableView = self.threadTableView;
+    }
+    return _threadTableViewManager;
 }
 
 #pragma mark - setter
@@ -297,7 +305,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 #pragma mark - UI button actions
 
 - (IBAction)replyAction:(id)sender {
-    [self.threadViewDelegate replyMainThread:self.threadViewManager.parentThread];
+    [czzReplyUtil replyMainThread:self.threadViewManager.parentThread];
 }
 
 - (IBAction)starAction:(id)sender {
@@ -324,7 +332,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 - (IBAction)reportAction:(id)sender {
-    [self.threadViewDelegate reportThread:self.threadViewManager.parentThread inParentThread:self.threadViewManager.parentThread];
+    [czzReplyUtil reportThread:self.threadViewManager.parentThread inParentThread:self.threadViewManager.parentThread];
 }
 
 - (IBAction)shareAction:(id)sender {
@@ -350,7 +358,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 #pragma mark - rotation events
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    [self.threadTableView reloadData];
+    [self updateTableView];
 }
 
 #pragma mark - State perserving
