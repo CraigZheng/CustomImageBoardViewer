@@ -21,7 +21,7 @@
 @property (nonatomic, strong) NSMutableDictionary *cachedHorizontalHeights;
 @property (nonatomic, strong) NSMutableDictionary *cachedVerticalHeights;
 @property (nonatomic, strong) NSMutableDictionary *cachedHeights;
-@property (nonatomic, strong) NSMutableArray<NSNumber *> *pendingChangedThreadID;
+@property (nonatomic, strong) NSMutableOrderedSet<NSNumber *> *pendingChangedThreadID;
 @property (nonatomic, assign) czzThreadViewCommandStatusCellViewController *commandStatusViewController;
 
 - (void)reloadData;

@@ -47,7 +47,7 @@
     if (self) {
         self.imageViewerUtil = [czzImageViewerUtil new];
         self.pendingBulkUpdateIndexes = [NSMutableOrderedSet new];
-        self.pendingChangedThreadID = [NSMutableArray new];
+        self.pendingChangedThreadID = [NSMutableOrderedSet new];
         self.bigImageMode = [settingCentre userDefShouldUseBigImage];
         [[czzImageDownloaderManager sharedManager] addDelegate:self];
         if ([self isMemberOfClass:[czzHomeTableViewManager class]]) {
