@@ -312,8 +312,13 @@
 #pragma mark - czzImageDownloaderManagerDelegate
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
     if (success) {
-        if (!downloader.isThumbnail && [settingCentre userDefShouldAutoOpenImage] && [self isMemberOfClass:[czzHomeTableViewManager class]])
+        // If: not thumbnail, self is czzHomeTableViewManager, should auto open image and not auto download image.
+        if (!downloader.isThumbnail &&
+            [self isMemberOfClass:[czzHomeTableViewManager class]] &&
+            [settingCentre userDefShouldAutoOpenImage] &&
+            ![settingCentre userDefShouldAutoDownloadImage]) {
             [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]];
+        }
     } else
         DDLogDebug(@"img download failed");
 }
