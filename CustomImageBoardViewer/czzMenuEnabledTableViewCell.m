@@ -292,7 +292,29 @@ static NSInteger const veryLowConstraintPriority = 1;
     }
 }
 
+- (void)setCellType:(threadViewCellType)cellType {
+    _cellType = cellType;
+    // When in big image mode, the cell image view should be disabled when the cell type is home.
+    if (cellType == threadViewCellTypeHome && self.bigImageMode) {
+        self.cellImageView.userInteractionEnabled = NO;
+    } else {
+        self.cellImageView.userInteractionEnabled = YES;
+    }
+}
+
 #pragma mark - Getters
+- (BOOL)imageUpdated {
+    BOOL updated = NO;
+    // If self.thread points to an image URL, but the cell image view still shows the placeholder image, return NO.
+    if (self.thread.imgSrc.length &&
+        self.cellImageView.image == self.placeholderImage) {
+        updated = NO;
+    } else {
+        updated = YES;
+    }
+    return updated;
+}
+
 - (NSDateFormatter *)dateFormatter {
     if (!_dateFormatter) {
         _dateFormatter = [NSDateFormatter new];
@@ -317,15 +339,6 @@ static NSInteger const veryLowConstraintPriority = 1;
     return _tapOnImageViewRecognizer;
 }
 
-- (void)setCellType:(threadViewCellType)cellType {
-    _cellType = cellType;
-    // When in big image mode, the cell image view should be disabled when the cell type is home.
-    if (cellType == threadViewCellTypeHome && self.bigImageMode) {
-        self.cellImageView.userInteractionEnabled = NO;
-    } else {
-        self.cellImageView.userInteractionEnabled = YES;
-    }
-}
 
 #pragma mark - czzImageDownloaderManagerDelegate
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
@@ -343,7 +356,7 @@ static NSInteger const veryLowConstraintPriority = 1;
                 
             } else if (self.bigImageMode) {
                 // If the cell image view still shows the placeholder image, inform the delegate now.
-                if (self.cellImageView.image == self.placeholderImage) {
+                if (!self.imageUpdated) {
                     [self.delegate threadViewCellContentChanged:self];
                 }
                 // Assign the fullsize image.
