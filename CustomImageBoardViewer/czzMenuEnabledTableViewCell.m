@@ -342,9 +342,12 @@ static NSInteger const veryLowConstraintPriority = 1;
                 [self.delegate threadViewCellContentChanged:self];
                 
             } else if (self.bigImageMode) {
-                // Not thumbnail, but big image mode should inform delegate about the full size image as well.
-                // If match, inform delegate.
-                [self.delegate threadViewCellContentChanged:self];
+                // If the cell image view still shows the placeholder image, inform the delegate now.
+                if (self.cellImageView.image == self.placeholderImage) {
+                    [self.delegate threadViewCellContentChanged:self];
+                }
+                // Assign the fullsize image.
+                self.cellImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForImageWithName:downloader.targetURLString.lastPathComponent]]];
             }
         }
     }
