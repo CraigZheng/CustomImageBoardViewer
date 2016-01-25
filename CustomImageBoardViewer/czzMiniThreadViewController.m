@@ -36,17 +36,17 @@
     self.miniThreadViewToolBar.barTintColor = [settingCentre barTintColour];
     self.miniThreadViewToolBar.tintColor = [settingCentre tintColour];
     
-    //register NIB
-    [threadTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
+    // Register NIB.
+    [threadTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil]
+          forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
+    // Set estimated row height and actual row height.
+    threadTableView.rowHeight = UITableViewAutomaticDimension;
+    threadTableView.estimatedRowHeight = 44.0;
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [AppDelegate.window hideToastActivity];
-}
-
--(void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
 }
 
 #pragma mark - UI actions.
@@ -88,11 +88,6 @@
     }
     return cell;
 }
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return UITableViewAutomaticDimension;
-}
-
 
 #pragma mark - rotation event
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {

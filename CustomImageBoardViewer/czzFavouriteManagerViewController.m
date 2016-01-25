@@ -32,8 +32,7 @@ NSInteger const historyIndex = 2;
 @property (nonatomic, strong) czzThread *selectedThread;
 @property (weak, nonatomic) id selectedManager;
 @property (nonatomic, strong) NSArray *updatedThreads;
-@property (nonatomic, strong) NSMutableDictionary *horizontalHeights;
-@property (nonatomic, strong) NSMutableDictionary *verticalHeights;
+
 @end
 
 @implementation czzFavouriteManagerViewController
@@ -49,9 +48,7 @@ NSInteger const historyIndex = 2;
 {
     [super viewDidLoad];
     self.tableView.estimatedRowHeight = 44;
-
-    self.horizontalHeights = [NSMutableDictionary new];
-    self.verticalHeights = [NSMutableDictionary new];
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -90,6 +87,7 @@ NSInteger const historyIndex = 2;
         cell.shouldHighlight = NO;
         cell.parentThread = thread;
         cell.thread = thread;
+        [cell renderContent]; // Render content must be done manually.
     }
     // TODO: need to create a standalone watchlist manager, or improve this one.
     // If I am seeing the list from watchlist
@@ -101,28 +99,6 @@ NSInteger const historyIndex = 2;
         }
     }
     return cell;
-}
-
--(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat estimatedRowHeight = tableView.estimatedRowHeight;
-    czzThread *thread = [threads objectAtIndex:indexPath.row];
-    // If the height is already available.
-    NSString *threadID = [NSString stringWithFormat:@"%ld", (long)thread.ID];
-    NSMutableDictionary *heightDictionary = UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].keyWindow.rootViewController.interfaceOrientation) ? self.verticalHeights : self.horizontalHeights;
-    
-    id cachedHeight = [heightDictionary objectForKey:threadID];
-    if ([cachedHeight isKindOfClass:[NSNumber class]]) {
-        estimatedRowHeight = [cachedHeight floatValue];
-    } else {
-        NSInteger estimatedLines = thread.content.length / 50 + 1;
-        estimatedRowHeight *= estimatedLines;
-        
-        // Has image = bigger.
-        if (thread.thImgSrc.length) {
-            estimatedRowHeight += settingCentre.userDefShouldUseBigImage ? 160 : 80;
-        }
-    }
-    return estimatedRowHeight;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
