@@ -293,8 +293,7 @@
 
 - (void)settingsChangedNotificationReceived:(NSNotification *)notification {
     if (self.bigImageMode != settingCentre.userDefShouldUseBigImage) {
-        self.cachedHorizontalHeights = nil;
-        self.cachedVerticalHeights = nil;
+        self.cachedHeights = nil;
         self.bigImageMode = settingCentre.userDefShouldUseBigImage;
     }
 }
@@ -317,8 +316,7 @@
 
 - (void)threadViewCellContentChanged:(czzMenuEnabledTableViewCell *)cell {
     NSNumber *threadID = @(cell.thread.ID);
-    [self.cachedHorizontalHeights removeObjectForKey:threadID];
-    [self.cachedVerticalHeights removeObjectForKey:threadID];
+    [self.cachedHeights removeObjectForKey:threadID];
     [self.pendingChangedThreadID addObject:threadID];
 
     // If not big image mode, the size of the image should be the same, so no need to reload data.
@@ -362,6 +360,12 @@
         [AppDelegate showToast:@"开始下载图片..."];
 }
 
+#pragma mark - Rotation event.
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    // Clear the cached heights.
+    self.cachedHeights = nil;
+}
+
 #pragma mark - Getters 
 
 - (czzMenuEnabledTableViewCell *)sizingCell {
@@ -372,25 +376,10 @@
 }
 
 - (NSMutableDictionary *)cachedHeights {
-    if (UIInterfaceOrientationIsPortrait([UIApplication rootViewController].interfaceOrientation)) {
-        return self.cachedVerticalHeights;
-    } else {
-        return self.cachedHorizontalHeights;
+    if (!_cachedHeights) {
+        _cachedHeights = [NSMutableDictionary new];
     }
-}
-
-- (NSMutableDictionary *)cachedHorizontalHeights {
-    if (!_cachedHorizontalHeights) {
-        _cachedHorizontalHeights = [NSMutableDictionary new];
-    }
-    return _cachedHorizontalHeights;
-}
-
-- (NSMutableDictionary *)cachedVerticalHeights {
-    if (!_cachedVerticalHeights) {
-        _cachedVerticalHeights = [NSMutableDictionary new];
-    }
-    return _cachedVerticalHeights;
+    return _cachedHeights;
 }
 
 - (BOOL)tableViewIsDraggedOverTheBottom {
