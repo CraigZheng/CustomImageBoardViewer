@@ -44,6 +44,16 @@
     threadTableView.estimatedRowHeight = 44.0;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.threadTableView reloadData];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.threadTableViewHeight.constant = self.threadTableView.contentSize.height;
+}
+
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [AppDelegate.window hideToastActivity];
@@ -63,12 +73,6 @@
 
 - (IBAction)tapOnBackgroundView:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-#pragma mark - Setters.
--(void)setMyThread:(czzThread *)thread {
-    _myThread = thread;
-    [self.threadTableView reloadData];
 }
 
 #pragma mark - UITableViewDataSource
