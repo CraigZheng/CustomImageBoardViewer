@@ -19,6 +19,10 @@
 #import <UIKit/UIKit.h>
 #import "czzThread.h"
 
+extern NSInteger const fixedConstraintConstant;
+extern NSInteger const veryHightConstraintPriority;
+extern NSInteger const veryLowConstraintPriority;
+
 typedef NS_ENUM(NSInteger, threadViewCellType) {
     threadViewCellTypeHome = 1,
     threadViewCellTypeThread = 2,

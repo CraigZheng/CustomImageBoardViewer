@@ -22,9 +22,9 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-static NSInteger const fixedConstraintConstant = 100;
-static NSInteger const veryHightConstraintPriority = 999;
-static NSInteger const veryLowConstraintPriority = 1;
+NSInteger const fixedConstraintConstant = 100;
+NSInteger const veryHightConstraintPriority = 999;
+NSInteger const veryLowConstraintPriority = 1;
 
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, czzImageDownloaderManagerDelegate>
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;

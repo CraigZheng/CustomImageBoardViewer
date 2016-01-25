@@ -185,6 +185,34 @@
     return height;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CGFloat estimatedHeight = 44.0;
+    if (indexPath.row < self.homeViewManager.threads.count) {
+        czzThread *thread = self.homeViewManager.threads[indexPath.row];
+        NSNumber *threadID = @(thread.ID);
+        // If its been cached.
+        if ([self.cachedHeights objectForKey:threadID]) {
+            estimatedHeight = [[self.cachedHeights objectForKey:threadID] floatValue];
+        } else {
+            // Calculate an estimated height based on if an image is available.
+            estimatedHeight = 100;
+            if (thread.imgSrc.length) {
+                // If big image mode and has the image/thumbnail, add 70% of the shortest edge to the estimated height.
+                if (self.bigImageMode &&
+                    ([[czzImageCacheManager sharedInstance] hasThumbnailWithName:thread.imgSrc.lastPathComponent] ||
+                     [[czzImageCacheManager sharedInstance] hasImageWithName:thread.imgSrc.lastPathComponent])) {
+                        estimatedHeight += MIN(CGRectGetWidth(tableView.frame), CGRectGetHeight(tableView.frame)) * 0.8;
+                    } else {
+                        // Add the fixed image view constraint constant to the estimated height.
+                        estimatedHeight += fixedConstraintConstant;
+                    }
+            }
+        }
+    }
+    DLog(@"Estimated height: %.1f", estimatedHeight);
+    return estimatedHeight;
+}
+
 #pragma mark - UITableView datasource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (self.homeViewManager.threads.count > 0)
