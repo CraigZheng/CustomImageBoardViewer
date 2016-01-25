@@ -195,7 +195,8 @@
             estimatedHeight = [[self.cachedHeights objectForKey:threadID] floatValue];
         } else {
             // Calculate an estimated height based on if an image is available.
-            estimatedHeight = 100;
+            // If the width is bigger than height, set the base height to be 50, otherwise let it be 100.
+            estimatedHeight = CGRectGetWidth(tableView.frame) > CGRectGetHeight(tableView.frame) ? 50 : 100;
             if (thread.imgSrc.length) {
                 // If big image mode and has the image/thumbnail, add 70% of the shortest edge to the estimated height.
                 if (self.bigImageMode &&
