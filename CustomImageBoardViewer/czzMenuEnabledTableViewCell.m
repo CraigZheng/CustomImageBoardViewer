@@ -221,6 +221,10 @@ NSInteger const veryLowConstraintPriority = 1;
         // Make sure the height never bigger than 80% of width.
         if (self.imageViewHeightConstraint.constant > self.imageViewWidthConstraint.constant * 0.8) {
             self.imageViewHeightConstraint.constant = self.imageViewWidthConstraint.constant * 0.8;
+            // Make sure the height never exceed the shortest of the screen edges.
+            if (self.imageViewHeightConstraint.constant > MIN(CGRectGetHeight([UIScreen mainScreen].bounds), CGRectGetWidth([UIScreen mainScreen].bounds))) {
+                self.imageViewHeightConstraint.constant = MIN(CGRectGetHeight([UIScreen mainScreen].bounds), CGRectGetWidth([UIScreen mainScreen].bounds)) * 0.8;
+            }
         }
     } else {
         self.imageViewCentreAlignConstraint.priority = veryLowConstraintPriority;
