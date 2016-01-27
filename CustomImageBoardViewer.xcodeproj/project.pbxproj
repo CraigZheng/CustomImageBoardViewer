@@ -680,7 +680,6 @@
 		444F5B121A40EA3500EB391F /* 53.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 53.png; sourceTree = "<group>"; };
 		444F5B131A40EA3500EB391F /* 54.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 54.png; sourceTree = "<group>"; };
 		4453C07619F634B700A8250F /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Launch Screen.xib"; path = "../Launch Screen.xib"; sourceTree = "<group>"; };
-		4455415B1BABEBA700667435 /* CustomImageBoardViewer copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "CustomImageBoardViewer copy-Info.plist"; path = "/Users/Craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer copy-Info.plist"; sourceTree = "<absolute>"; };
 		445B7B521B418CBE0046CFDB /* czzThreadTableViewCommandCellTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzThreadTableViewCommandCellTableViewCell.xib; sourceTree = "<group>"; };
 		445B7B541B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadTableViewCommandCellTableViewCell.h; sourceTree = "<group>"; };
 		445B7B551B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadTableViewCommandCellTableViewCell.m; sourceTree = "<group>"; };
@@ -1174,7 +1173,6 @@
 				44A2949A1BFDEFF60033D438 /* CIVWatchApp Extension */,
 				441E5CCD17F4691300289DBD /* Frameworks */,
 				441E5CCC17F4691300289DBD /* Products */,
-				4455415B1BABEBA700667435 /* CustomImageBoardViewer copy-Info.plist */,
 				992BBD96EEC914CF40C16224 /* Pods */,
 			);
 			sourceTree = "<group>";
