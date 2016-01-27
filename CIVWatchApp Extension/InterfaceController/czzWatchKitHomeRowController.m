@@ -27,7 +27,7 @@
         
         //TODO: show actual image
         
-        if (wkThread.thumbnailFile.length) {
+        if (wkThread.imageFile.length) {
             [self.wkThreadThumbnailImage setImage:[[UIImage imageNamed:@"picture.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
         } else {
             [self.wkThreadThumbnailImage setImage:nil];
