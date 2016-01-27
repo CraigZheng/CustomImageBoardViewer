@@ -329,7 +329,7 @@
         [AppDelegate showToast:@"提交成功"];
         
         if (postSender.parentThread) {
-            [WatchListManager addToRespondedList:self.thread];
+            [WatchListManager addToRespondedList:self.replyToThread];
         }
     } else {
         [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:message duration:1.5 position:@"top" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
