@@ -249,6 +249,7 @@
         cell.myIndexPath = indexPath;
         cell.nightyMode = [settingCentre userDefNightyMode];
         cell.bigImageMode = [settingCentre userDefShouldUseBigImage];
+        cell.allowImage = [settingCentre userDefShouldDisplayThumbnail];
         cell.cellType = threadViewCellTypeHome;
         cell.parentThread = thread;
         cell.thread = thread;
@@ -292,10 +293,8 @@
 #pragma mark - Notification handler
 
 - (void)settingsChangedNotificationReceived:(NSNotification *)notification {
-    if (self.bigImageMode != settingCentre.userDefShouldUseBigImage) {
-        self.cachedHeights = nil;
-        self.bigImageMode = settingCentre.userDefShouldUseBigImage;
-    }
+    // When settings are changed, always clear the heights cache.
+    self.cachedHeights = nil;
 }
 
 #pragma mark - czzMenuEnableTableViewCellDelegate
