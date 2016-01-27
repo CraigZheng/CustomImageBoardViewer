@@ -8,8 +8,7 @@
 
 #import "czzThreadListUtilTableViewController.h"
 #import "czzAppDelegate.h"
-#import "czzThreadViewModelManager.h"
-#import "czzCoreDataManager.h"
+#import "czzThreadViewManager.h"
 
 @interface czzThreadListUtilTableViewController ()
 @property NSArray *cacheFiles;
@@ -26,7 +25,7 @@ NSString* const cellIdentifier = @"cellIdentifier";
     NSError *error;
     cacheFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[czzAppDelegate threadCacheFolder] error:&error];
     if (error) {
-        DLog(@"%@", error);
+        DDLogDebug(@"%@", error);
     }
 }
 
@@ -42,7 +41,7 @@ NSString* const cellIdentifier = @"cellIdentifier";
     // Configure the cell...
     if (cell) {
         cell.textLabel.text = cacheFile;
-        czzThreadViewModelManager *viewModelManager = [self readThreadViewModelWithCacheFile:cacheFile];
+        czzThreadViewManager *viewModelManager = [self readThreadViewModelWithCacheFile:cacheFile];
         if (viewModelManager) {
             cell.detailTextLabel.text = viewModelManager.parentThread.description;
         }
@@ -51,12 +50,12 @@ NSString* const cellIdentifier = @"cellIdentifier";
     return cell;
 }
 
--(czzThreadViewModelManager*)readThreadViewModelWithCacheFile:(NSString*)file {
+-(czzThreadViewManager*)readThreadViewModelWithCacheFile:(NSString*)file {
     if (!file.length) {
         return nil;
     }
     NSString *filePath = [[czzAppDelegate threadCacheFolder] stringByAppendingPathComponent:file];
-    return [[czzThreadViewModelManager alloc] restoreWithFile:filePath];
+    return [[czzThreadViewManager alloc] restoreWithFile:filePath];
 }
 
 - (IBAction)launchButtonAction:(id)sender {
@@ -65,17 +64,15 @@ NSString* const cellIdentifier = @"cellIdentifier";
         AppDelegate.window.rootViewController = mainViewController;
         [AppDelegate.window makeKeyAndVisible];
     } else {
-        DLog(@"Cannot instantiate initial view controller from main storyboard.");
+        DDLogDebug(@"Cannot instantiate initial view controller from main storyboard.");
     }
 }
 
 - (IBAction)saveButtonAction:(id)sender {
     for (NSString *cacheFile in cacheFiles) {
-        czzThreadViewModelManager *viewModelManager = [self readThreadViewModelWithCacheFile:cacheFile];
+        czzThreadViewManager *viewModelManager = [self readThreadViewModelWithCacheFile:cacheFile];
         NSArray *threads = viewModelManager.threads;
-        for (czzThread *thread in threads) {
-            [CoreDataManager insertThreadIntoContext:thread];
-        }
+
     }
 }
 @end

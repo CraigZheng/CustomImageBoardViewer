@@ -22,22 +22,22 @@
 #import "czzOnScreenImageManagerViewController.h"
 #import "UIBarButtonItem+Badge.h"
 #import "GSIndeterminateProgressView.h"
-#import "czzHomeViewModelManager.h"
+#import "czzHomeViewManager.h"
 #import "czzForumManager.h"
-#import "czzHomeViewDelegate.h"
-#import "czzThreadViewModelManager.h"
+#import "czzHomeTableViewManager.h"
+#import "czzThreadViewManager.h"
 #import "czzForumsViewController.h"
 #import "czzThreadTableView.h"
 #import "czzSettingsViewController.h"
 #import "czzRoundButton.h"
 #import "czzFavouriteManagerViewController.h"
-
-#import "czzHomeTableViewDataSource.h"
+#import "czzHomeTableViewManager.h"
+#import "czzReplyUtil.h"
 
 #import <CoreText/CoreText.h>
 
 
-@interface czzHomeViewController() <UIAlertViewDelegate, czzOnScreenImageManagerViewControllerDelegate, UIStateRestoring>
+@interface czzHomeViewController() <UIAlertViewDelegate, UIStateRestoring>
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (assign, nonatomic) BOOL shouldHideImageForThisForum;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
@@ -46,8 +46,8 @@
 @property (assign, nonatomic) GSIndeterminateProgressView *progressView;
 @property (strong, nonatomic) czzForum *selectedForum;
 @property (strong, nonatomic) czzFavouriteManagerViewController *favouriteManagerViewController;
-@property (strong, nonatomic) czzHomeTableViewDataSource *tableViewDataSource;
-@property (strong, nonatomic) czzHomeViewDelegate *homeViewDelegate;
+@property (strong, nonatomic) czzHomeTableViewManager *homeTableViewManager;
+@property (strong, nonatomic) czzOnScreenImageManagerViewController *onScreenImageManagerViewController;
 @end
 
 @implementation czzHomeViewController
@@ -58,24 +58,29 @@
     [super viewDidLoad];
     
     //assign a custom tableview data source
-    self.threadTableView.dataSource = self.tableViewDataSource;
-    self.threadTableView.delegate = self.homeViewDelegate;
-    self.tableViewDataSource.tableViewDelegate = self.homeViewDelegate;
+    self.threadTableView.dataSource = self.homeTableViewManager;
+    self.threadTableView.delegate = self.homeTableViewManager;
     
     // Load data into tableview
     [self updateTableView];
-    if (!CGPointEqualToPoint(CGPointZero, self.viewModelManager.currentOffSet)) {
-        [self.threadTableView setContentOffset:self.viewModelManager.currentOffSet animated:NO];
+    if (!CGPointEqualToPoint(CGPointZero, self.homeViewManager.currentOffSet)) {
+        [self.threadTableView setContentOffset:self.homeViewManager.currentOffSet animated:NO];
     }
     // Set the currentOffSet back to zero
-    self.viewModelManager.currentOffSet = CGPointZero;
+    self.homeViewManager.currentOffSet = CGPointZero;
 
-    //configure the view deck controller with half size and tap to close mode
+    // Configure the view deck controller with half size and tap to close mode
     self.viewDeckController.leftSize = self.view.frame.size.width/4;
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
     self.viewDeckController.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
 
-    //register a notification observer
+    // On screen image manager view controller
+    if (!self.onScreenImageManagerViewController) {
+        self.onScreenImageManagerViewController = [czzOnScreenImageManagerViewController new];
+        [self addChildViewController:self.onScreenImageManagerViewController];
+        [self.onScreenImageManagerViewContainer addSubview:self.onScreenImageManagerViewController.view];
+    }
+    // Register a notification observer
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(forumPicked:)
                                                  name:kForumPickedNotification
@@ -93,22 +98,20 @@
                      action:@selector(moreInfoAction:)
            forControlEvents:UIControlEventTouchUpInside];
     self.infoBarButton.customView = customButton;
+    
+    // Always reload
+    [self updateTableView];
 }
 
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
-    //on screen image manager view
-    czzOnScreenImageManagerViewController *onScreenImgMrg = [NavigationManager.delegate onScreenImageManagerView];
-    onScreenImgMrg.delegate = self.homeViewDelegate;
-    [self addChildViewController:onScreenImgMrg];
-    [self.onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
+    // Google Analytic integration
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
     
     self.threadTableView.backgroundColor = settingCentre.viewBackgroundColour;
-    
-    // Always reload
-    [self updateTableView];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -128,13 +131,13 @@
     delayTime = 9999;
 #endif
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        if (!self.viewModelManager.forum) {
+        if (!self.homeViewManager.forum) {
             if ([czzForumManager sharedManager].forums.count > 0)
             {
                 [AppDelegate.window makeToast:@"用户没有选择板块，随机选择……"];
                 @try {
                     int randomIndex = rand() % [czzForumManager sharedManager].forums.count;
-                    [self.viewModelManager setForum:[[czzForumManager sharedManager].forums objectAtIndex:randomIndex]];
+                    [self.homeViewManager setForum:[[czzForumManager sharedManager].forums objectAtIndex:randomIndex]];
                     [self refreshThread:self];
                 }
                 @catch (NSException *exception) {
@@ -159,28 +162,22 @@
  This method would update the contents related to the table view
  */
 -(void)updateTableView {
-    [self.threadTableView reloadData];
-    
     // Update bar buttons.
     if (!self.numberBarButton.customView) {
         self.numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
     }
-    
-    [(czzRoundButton *)self.numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.viewModelManager.threads.count] forState:UIControlStateNormal];
-    
-    // Jump button
-    self.jumpBarButtonItem.image = nil;
-    self.jumpBarButtonItem.title = [NSString stringWithFormat:@"%ld", (long)self.viewModelManager.pageNumber];
-    
+    // Give the amount number a title.
+    [(czzRoundButton *)self.numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.homeViewManager.threads.count] forState:UIControlStateNormal];
     // Other data
-    self.title = self.viewModelManager.forum.name;
+    self.title = self.homeViewManager.forum.name;
     self.navigationItem.backBarButtonItem.title = self.title;
+    [self.homeTableViewManager reloadData];
 }
 
 #pragma mark - State perserving
 - (NSString*)saveCurrentState {
-    self.viewModelManager.currentOffSet = self.threadTableView.contentOffset;
-    return [self.viewModelManager saveCurrentState];
+    self.homeViewManager.currentOffSet = self.threadTableView.contentOffset;
+    return [self.homeViewManager saveCurrentState];
 }
 
 #pragma mark - ButtonActions
@@ -189,7 +186,7 @@
 }
 
 - (IBAction)postAction:(id)sender {
-    [self newPost];
+    [czzReplyUtil postToForum:self.homeViewManager.forum];
 }
 
 - (IBAction)jumpAction:(id)sender {
@@ -225,19 +222,20 @@
         if (newPageNumber > 0){
 
             //clear threads and ready to accept new threads
-            [self.viewModelManager removeAll];
+            [self.homeViewManager removeAll];
             [self updateTableView];
             [self.refreshControl beginRefreshing];
-            [self.viewModelManager loadMoreThreads:newPageNumber];
+            [self.homeViewManager loadMoreThreads:newPageNumber];
 
-            [[AppDelegate window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)self.viewModelManager.pageNumber]];
+            [[AppDelegate window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)self.homeViewManager.pageNumber]];
         } else {
             [[AppDelegate window] makeToast:@"页码无效..."];
         }
     }
 }
 
-#pragma mark - more action and commands
+#pragma mark - UI actions and commands.
+
 -(void)openSettingsPanel{
     czzSettingsViewController *settingsViewController = [czzSettingsViewController new];
     [self.navigationController pushViewController:settingsViewController animated:YES];
@@ -248,31 +246,20 @@
     [self.navigationController pushViewController:notificationCentreViewController animated:YES];
 }
 
--(void)newPost{
-    if (self.viewModelManager.forum){
-        czzPostViewController *newPostViewController = [czzPostViewController new];
-        newPostViewController.forum = self.viewModelManager.forum;
-        newPostViewController.postMode = NEW_POST;
-        [self.navigationController pushViewController:newPostViewController animated:YES];
-    } else {
-        [[AppDelegate window] makeToast:@"未选定一个版块" duration:1.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
-    }
-}
-
 -(IBAction)moreInfoAction:(id)sender {
     if ([[(czzNavigationController*)self.navigationController notificationBannerViewController] shouldShow]) {
         [self openNotificationCentre];
     } else {
         czzMoreInfoViewController *moreInfoViewController = [czzMoreInfoViewController new];
-        moreInfoViewController.forum = self.viewModelManager.forum;
-        [self presentViewController:moreInfoViewController animated:YES completion:nil];
+        moreInfoViewController.forum = self.homeViewManager.forum;
+        [self presentViewController:[[UINavigationController alloc] initWithRootViewController:moreInfoViewController] animated:YES completion:nil];
     }
 }
 
 #pragma mark - Getters
--(czzHomeViewModelManager *)viewModelManager {
-    [czzHomeViewModelManager sharedManager].delegate = self;
-    return [czzHomeViewModelManager sharedManager];
+-(czzHomeViewManager *)homeViewManager {
+    [czzHomeViewManager sharedManager].delegate = self;
+    return [czzHomeViewManager sharedManager];
 }
 
 -(GSIndeterminateProgressView *)progressView {
@@ -292,29 +279,23 @@
     return _refreshControl;
 }
 
--(czzHomeTableViewDataSource *)tableViewDataSource {
-    if (!_tableViewDataSource) {
-        _tableViewDataSource = [czzHomeTableViewDataSource initWithViewModelManager:self.viewModelManager];
+-(czzHomeTableViewManager *)homeTableViewManager {
+    if (!_homeTableViewManager) {
+        _homeTableViewManager = [czzHomeTableViewManager new];
+        _homeTableViewManager.homeViewManager = self.homeViewManager;
+        _homeTableViewManager.homeTableView = self.threadTableView;
     }
-    return _tableViewDataSource;
+    return _homeTableViewManager;
 }
 
--(czzHomeViewDelegate *)homeViewDelegate {
-    if (!_homeViewDelegate) {
-        _homeViewDelegate = [czzHomeViewDelegate initWithViewModelManager:self.viewModelManager];
-    }
-    return _homeViewDelegate;
-}
-
-#pragma mark - czzHomeself.viewModelManagerDelegate
-- (void)viewModelManagerWantsToReload:(czzHomeViewModelManager *)manager {
+- (void)homeViewManagerWantsToReload:(czzHomeViewManager *)manager {
     if (manager.threads.count) {
         [self updateTableView];
     }
 }
 
--(void)viewModelManager:(czzHomeViewModelManager *)viewModelManager downloadSuccessful:(BOOL)wasSuccessful {
-    DLog(@"%@", NSStringFromSelector(_cmd));
+-(void)homeViewManager:(czzHomeViewManager *)homeViewManager downloadSuccessful:(BOOL)wasSuccessful {
+    DDLogDebug(@"%@", NSStringFromSelector(_cmd));
     if (!wasSuccessful && !NavigationManager.isInTransition) {
         [self.refreshControl endRefreshing];
         [self.progressView stopAnimating];
@@ -323,21 +304,23 @@
     self.threadTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
 }
 
--(void)viewModelManagerBeginDownloading:(czzHomeViewModelManager *)viewModelManager {
+-(void)homeViewManagerBeginsDownloading:(czzHomeViewManager *)homeViewManager {
     if (!self.progressView.isAnimating)
         [self.progressView startAnimating];
     
 }
 
--(void)viewModelManager:(czzHomeViewModelManager *)list processedThreadData:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
-    DLog(@"%@", NSStringFromSelector(_cmd));
+-(void)homeViewManager:(czzHomeViewManager *)list threadListProcessed:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
+    DDLogDebug(@"%@", NSStringFromSelector(_cmd));
     // If pageNumber == 1, then is a forum change, scroll to top.
     [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-        [self updateTableView];
         [self.refreshControl endRefreshing];
-        if (wasSuccessul && self.viewModelManager.pageNumber == 1) {
+        if (wasSuccessul && self.homeViewManager.pageNumber == 1) {
             [self.threadTableView scrollToTop:NO];
+            // Set to a new set of threads now, clear the cached heights.
+            self.homeTableViewManager.cachedHeights = nil;
         }
+        [self updateTableView];
 
         // If is in transition, is better not do anything.
         if (!NavigationManager.isInTransition)
@@ -355,7 +338,7 @@
 
 -(void)refreshThread:(id)sender{
     //reset to default page number
-    [self.viewModelManager refresh];
+    [self.homeViewManager refresh];
 }
 
 #pragma Notification handler - forumPicked
@@ -381,19 +364,25 @@
 #pragma mark - Setters
 -(void)setSelectedForum:(czzForum *)selectedForum {
     _selectedForum = selectedForum;
-    self.viewModelManager.forum = selectedForum;
+    self.homeViewManager.forum = selectedForum;
+    if (selectedForum) {
+        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Home"
+                                                                                            action:@"Pick Forum"
+                                                                                             label:selectedForum.name
+                                                                                             value:@1] build]];
+    }
 }
 
-#pragma mark - rotation events
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    [self.threadTableView reloadData];
+#pragma mark - Rotation events.
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [self updateTableView];
 }
 
 #pragma mark - pause / restoration
 -(void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
-    DLog(@"%@", NSStringFromSelector(_cmd));
+    DDLogDebug(@"%@", NSStringFromSelector(_cmd));
 }
 
 + (instancetype)new {

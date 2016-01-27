@@ -51,7 +51,7 @@
         if (success) {
             NSDictionary *rawJson = [NSJSONSerialization JSONObjectWithData:downloadedData options:NSJSONReadingMutableContainers error:&error];
             if (!error) {
-                thread = [[czzThread alloc] initWithJSONDictionary:[rawJson objectForKey:@"threads"]];
+                thread = [[czzThread alloc] initWithJSONDictionary:rawJson];
             }
         }
     }];
@@ -76,55 +76,34 @@
  */
 
 -(id)initWithJSONDictionary:(NSDictionary *)data {
-    self = [self init];
-    if (self) {
+    if ([data isKindOfClass:[NSDictionary class]]) {
+        self = [self init];
         @try {
             self.ID = [[data objectForKey:@"id"] integerValue];
-            self.parentID = [[data objectForKey:@"parent"] integerValue] != 0 ? [[data objectForKey:@"parent"] integerValue] : self.ID;
-            self.postDateTime = [NSDate dateWithTimeIntervalSince1970:[[data objectForKey:@"createdAt"] doubleValue] / 1000.0];
-            self.updateDateTime = [NSDate dateWithTimeIntervalSince1970:[[data objectForKey:@"updatedAt"] doubleValue] / 1000.0];
-            //UID might have different colour, but I am setting any colour other than default to red at the moment
-            NSString *uidString = [data objectForKey:@"uid"] ? [data objectForKey:@"uid"] : [data objectForKey:@"userid"];
-            if (uidString.length) {
-                NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[self renderHTMLToAttributedString:uidString].string];
-                //if the given string contains keyword "color", then render it red to indicate its important
-                if ([uidString.lowercaseString rangeOfString:@"color"].location != NSNotFound) {
-                    [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, attrString.length)];
-                }
-                self.UID = attrString;
-            }
+            self.parentID = [data objectForKey:@"parent"] ? [[data objectForKey:@"parent"] integerValue] : self.ID;
+            NSDateFormatter *formatter = [NSDateFormatter new];
+            formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+            NSString *dateString = [data objectForKey:@"now"];
+            dateString = [[NSRegularExpression regularExpressionWithPattern:@"\\(([^\\)]+)\\)"
+                                                                    options:NSRegularExpressionCaseInsensitive
+                                                                      error:nil] stringByReplacingMatchesInString:dateString options:0 range:NSMakeRange(0, dateString.length) withTemplate:@" "];
+            NSDate *postDate = [formatter dateFromString:dateString];
+            self.postDateTime = postDate;
+            
+            self.UID = [data objectForKey:@"userid"];
             self.name = [data objectForKey:@"name"];
             self.email = [data objectForKey:@"email"];
             self.title = [data objectForKey:@"title"];
+            self.content = [self renderHTMLToAttributedString:[NSString stringWithString:[data objectForKey:@"content"]]];
 
-            //content
-            if (self.title.length > 10) {
-                NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" * %@ * \n\n", self.title] attributes:nil];
-                [content appendAttributedString:[self renderHTMLToAttributedString:[data objectForKey:@"content"]]];
-                self.content = content;
-            }
-            else
-                self.content = [self renderHTMLToAttributedString:[NSString stringWithString:[data objectForKey:@"content"]]];
-            // The server returns 2 different sets of API with minor differences: either a single "image" with an image path, or
-            // 2 fields: "img" and "ext" that together, form an image path.
-            if (![data objectForKey:@"image"]) {
-                NSString *img = [data objectForKey:@"img"] ? [data objectForKey:@"img"] : @"";
-                NSString *extension = [data objectForKey:@"ext"] ? [data objectForKey:@"ext"] : @"";
-                self.imgSrc = [NSString stringWithFormat:@"%@%@", img, extension];
-            } else {
-                self.imgSrc = [data objectForKey:@"image"];
-            }
-            
-            self.thImgSrc = [data objectForKey:@"thumb"];
-            if (!self.thImgSrc) {
-                self.thImgSrc = self.imgSrc;
+            if ([[data objectForKey:@"img"] length] && [[data objectForKey:@"ext"] length]) {
+                self.imgSrc = [[data objectForKey:@"img"] stringByAppendingString:[data objectForKey:@"ext"]];
             }
             self.lock = [[data objectForKey:@"lock"] boolValue];
             self.sage = [[data objectForKey:@"sage"] boolValue];
+            self.admin = [[data objectForKey:@"admin"] boolValue];
+            
             self.responseCount = [[data objectForKey:@"replyCount"] integerValue];
-            [self checkBlacklist];
-            [self checkRemoteConfiguration];
-
         }
         @catch (NSException *exception) {
             return nil;
@@ -151,44 +130,6 @@
  <UpdateDateTime>2013-09-26T23:42:11.103121</UpdateDateTime>
  */
 
--(void)checkBlacklist {
-    if (![settingCentre shouldEnableBlacklistFiltering])
-        return;
-    //consor contents
-    czzBlacklistEntity *blacklistEntity = [[czzBlacklist sharedInstance] blacklistEntityForThreadID:self.ID];
-    if (blacklistEntity){
-        //assign the blacklist value to this thread
-        self.harmful = blacklistEntity.harmful;
-        self.blockContent = blacklistEntity.content;
-        if (self.blockContent)
-            self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
-        self.blockImage = blacklistEntity.image;
-        if (self.blockImage){
-            self.imgSrc = nil;
-            self.thImgSrc = nil;
-        }
-        self.blockAll = blacklistEntity.block;
-        if (self.blockAll)
-        {
-            self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
-            self.imgSrc = nil;
-            self.thImgSrc = nil;
-        }
-    }
-
-}
-
--(void)checkRemoteConfiguration {
-    if (![settingCentre shouldDisplayThumbnail]) {
-        self.thImgSrc = nil;
-    }
-    if (![settingCentre shouldDisplayImage]) {
-        self.imgSrc = nil;
-    }
-    if (![settingCentre shouldDisplayContent]) {
-        self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
-    }
-}
 
 -(NSAttributedString*)renderHTMLToAttributedString:(NSString*)htmlString{
     @try {
@@ -216,9 +157,16 @@
         return renderedString;
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
     }
     return [[NSAttributedString alloc] initWithString:htmlString.length ? htmlString : @""];
+}
+
+#pragma mark - Accessor
+
+// thImgSrc is no longer in use, return self.imgSrc in its getter instead.
+- (NSString *)thImgSrc {
+    return self.imgSrc;
 }
 
 #pragma mark - convert to czzWKThread object
@@ -227,7 +175,7 @@
     czzWKThread *wkThread = [czzWKThread new];
     wkThread.ID = self.ID;
     wkThread.title = self.title;
-    wkThread.name = self.UID.string;
+    wkThread.name = self.UID;
     wkThread.content = self.content.string;
     wkThread.postDate = self.postDateTime;
     wkThread.thumbnailFile = self.thImgSrc;
@@ -264,15 +212,10 @@
     [encoder encodeObject:self.thImgSrc forKey:@"thImgSrc"];
     [encoder encodeBool:self.lock forKey:@"lock"];
     [encoder encodeBool:self.sage forKey:@"sage"];
+    [encoder encodeBool:self.admin forKey:@"admin"];
     [encoder encodeObject:self.postDateTime forKey:@"postDateTime"];
     [encoder encodeObject:self.updateDateTime forKey:@"updateDateTime"];
-    [encoder encodeBool:self.isParent forKey:@"isParent"];
     [encoder encodeObject:self.replyToList forKey:@"replyToList"];
-    [encoder encodeBool:self.harmful forKey:@"harmful"];
-    [encoder encodeBool:self.blockContent forKey:@"blockContent"];
-    [encoder encodeBool:self.blockImage forKey:@"blockImage"];
-    [encoder encodeBool:self.blockAll forKey:@"blockAll"];
-    [encoder encodeObject:self.forum forKey:@"forum"];
 }
 
 -(id)initWithCoder:(NSCoder*)decoder{
@@ -289,43 +232,15 @@
         self.thImgSrc = [decoder decodeObjectForKey:@"thImgSrc"];
         self.lock = [decoder decodeBoolForKey:@"lock"];
         self.sage = [decoder decodeBoolForKey:@"sage"];
+        self.admin = [decoder decodeBoolForKey:@"admin"];
         self.postDateTime = [decoder decodeObjectForKey:@"postDateTime"];
         self.updateDateTime = [decoder decodeObjectForKey:@"updateDateTime"];
-        self.isParent = [decoder decodeBoolForKey:@"isParent"];
         self.replyToList = [decoder decodeObjectForKey:@"replyToList"];
-        self.harmful = [decoder decodeBoolForKey:@"harmful"];
-        self.blockContent = [decoder decodeBoolForKey:@"blockContent"];
-        self.blockImage = [decoder decodeBoolForKey:@"blockImage"];
-        self.blockAll = [decoder decodeBoolForKey:@"blockAll"];
-        self.forum = [decoder decodeObjectForKey:@"forum"];
-        //blacklist info might be updated when this thread is not in the memory
-        //censored contents
-        czzBlacklistEntity *blacklistEntity = [[czzBlacklist sharedInstance] blacklistEntityForThreadID:self.ID];
-        if (blacklistEntity){
-            //assign the blacklist value to this thread
-            self.harmful = blacklistEntity.harmful;
-            self.blockContent = blacklistEntity.content;
-            if (self.blockContent)
-                self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
-            self.blockImage = blacklistEntity.image;
-            if (self.blockImage){
-                self.imgSrc = nil;
-                self.thImgSrc = nil;
-            }
-            self.blockAll = blacklistEntity.block;
-            if (self.blockAll)
-            {
-                self.content = [[NSMutableAttributedString alloc] initWithString:@"已屏蔽"];
-                self.imgSrc = nil;
-                self.thImgSrc = nil;
-            }
-        }
-        
     }
     return self;
 }
 
 -(NSString *)description {
-    return [NSString stringWithFormat:@"ID:%ld - UID:%@ - content:%@ - img:%@", (long) self.ID, self.UID.string, self.content.string, self.imgSrc];
+    return [NSString stringWithFormat:@"ID:%ld - UID:%@ - content:%@ - img:%@", (long) self.ID, self.UID, self.content.string, self.imgSrc];
 }
 @end

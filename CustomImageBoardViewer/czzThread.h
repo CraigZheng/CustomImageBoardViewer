@@ -16,7 +16,7 @@
 @interface czzThread : NSObject
 @property (assign, nonatomic) NSInteger responseCount;
 @property (assign, nonatomic) NSInteger ID;
-@property (strong, nonatomic) NSAttributedString *UID;
+@property (strong, nonatomic) NSString *UID;
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *email;
 @property (strong, nonatomic) NSString *title;
@@ -25,28 +25,36 @@
 @property (strong, nonatomic) NSString *thImgSrc;
 @property (assign, nonatomic) BOOL lock;
 @property (assign, nonatomic) BOOL sage;
+@property (assign, nonatomic) BOOL admin;
 @property (strong, nonatomic) NSDate *postDateTime;
 @property (strong, nonatomic) NSDate *updateDateTime;
-@property (assign, nonatomic) BOOL isParent;
 @property (assign, nonatomic) NSInteger parentID;
-#pragma mark - CONTENT CENSORING PROPERTIES
-@property (assign, nonatomic) BOOL harmful;
-@property (assign, nonatomic) BOOL blockContent;
-@property (assign, nonatomic) BOOL blockImage;
-@property (assign, nonatomic) BOOL blockAll;
 #pragma mark - CLICKABLE CONTENT
 @property (strong, nonatomic) NSMutableArray *replyToList;
-
-@property (strong, nonatomic) czzForum *forum;
-
--(id)initWithJSONDictionary:(NSDictionary*)data;
 
 -(NSAttributedString*)renderHTMLToAttributedString:(NSString*)htmlString;
 
 -(BOOL)isEqual:(id)object;
 -(NSUInteger)hash;
+-(id)initWithJSONDictionary:(NSDictionary*)data;
 -(instancetype)initWithThreadID:(NSInteger)threadID;
 -(instancetype)initWithParentID:(NSInteger)parentID;
 
 -(czzWKThread *)watchKitThread;
+
+/*
+ {
+ "id": "7300953",
+ "img": "2015-12-12/566b717ee1bec",
+ "ext": ".png",
+ "now": "2015-12-12(六)08:59:42",
+ "userid": "GFlBXe8",
+ "name": "无名氏",
+ "email": "",
+ "title": "无标题",
+ "content": "&gt;&gt;No.7299829",
+ "sage": "0",
+ "admin": "0"
+ }
+ */
 @end

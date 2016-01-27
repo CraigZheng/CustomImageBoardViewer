@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "IIViewDeckController.h"
-#import "GADBannerView.h"
+@import GoogleMobileAds;
 
 extern NSString * const kForumPickedNotification;
 extern NSString * const kPickedForum;

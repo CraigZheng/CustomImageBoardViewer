@@ -7,18 +7,17 @@
 //
 
 #import "czzURLDownloader.h"
-
+#import "AFNetworking.h"
 #import "DeviceHardware.h"
 
 @interface czzURLDownloader()
-@property NSURLConnection *urlConn;
 @property NSMutableData *receivedData;
 @property (strong, nonatomic) NSURL *targetURL;
 @property NSUInteger expectedLength;
+@property (strong, nonatomic) NSURLSessionDataTask *dataTask;
 @end
 
 @implementation czzURLDownloader
-@synthesize urlConn;
 @synthesize receivedData;
 @synthesize expectedLength;
 @synthesize backgroundTaskID;
@@ -36,29 +35,50 @@
 }
 
 -(instancetype)initWithTargetURL:(NSURL *)url delegate:(id<czzURLDownloaderProtocol>)delegate startNow:(BOOL)now{
+    return [self initWithTargetURL:url delegate:delegate startNow:now shouldUseDefaultCookit:YES];
+}
+
+- (instancetype)initWithTargetURL:(NSURL *)url delegate:(id<czzURLDownloaderProtocol>)delegate startNow:(BOOL)now shouldUseDefaultCookit:(BOOL)should {
     self = [super init];
     if (self){
         self.targetURL = url;
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:self.targetURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:20];
-        [request setHTTPShouldHandleCookies:YES];
+        [request setHTTPShouldHandleCookies:should];
         [request setHTTPMethod:@"GET"];
-        [request setValue:@"application/xml" forHTTPHeaderField:@"Accept"];
+        [request setValue:@"text/html" forHTTPHeaderField:@"Content-Type"];
         [request setValue:[NSString stringWithFormat:@"HavfunClient-%@", [DeviceHardware platform]] forHTTPHeaderField:@"User-Agent"];
-        urlConn = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:now];
-        if (now)
-            DLog(@"%@ make request to: %@", NSStringFromClass(self.class), self.targetURL);
         self.delegate = delegate;
+        
+        AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] init];
+        manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+        self.dataTask = [manager dataTaskWithRequest:request uploadProgress:nil downloadProgress:^(NSProgress * _Nonnull downloadProgress) {
+            if ([self.delegate respondsToSelector:@selector(downloadUpdated:progress:)]) {
+                [self.delegate downloadUpdated:self progress:(float)downloadProgress.completedUnitCount / (float)downloadProgress.totalUnitCount];
+            }
+        } completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+            if ([self.delegate respondsToSelector:@selector(downloadOf:successed:result:)]){
+                [self.delegate downloadOf:response.URL successed:error == nil result:responseObject];
+            }
+        }];
+         
+        if (now) {
+            [self start];
+        }
     }
     return self;
 }
 
 -(void)start{
-    [urlConn start];
-    DLog(@"%@ make request to: %@", NSStringFromClass(self.class), self.targetURL);
+    if (self.dataTask) {
+        [self.dataTask resume];
+        DDLogDebug(@"%@ make request to: %@", NSStringFromClass(self.class), self.targetURL);
+        DDLogDebug(@"Header fields: %@", self.dataTask.originalRequest.allHTTPHeaderFields);
+    }
 }
 
 -(void)stop{
-    [urlConn cancel];
+    if (self.dataTask.state == NSURLSessionTaskStateRunning)
+        [self.dataTask cancel];
 }
 
 #pragma mark - Setters
@@ -78,35 +98,4 @@
     }
 }
 
-#pragma NSURLConnectionDelegate
--(void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse *)response{
-    self.receivedData = [NSMutableData new];
-    expectedLength = (NSUInteger)response.expectedContentLength;
-    self.backgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-        [connection cancel];
-    }];
-}
-
--(void)connection:(NSURLConnection*)connection didReceiveData:(NSData *)data{
-    [self.receivedData appendData:data];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(downloadUpdated:progress:)]) {
-        CGFloat progress = (CGFloat)self.receivedData.length / (CGFloat)expectedLength;
-        [self.delegate downloadUpdated:self progress:progress];
-    }
-}
-
--(void)connection:(NSURLConnection*)connection didFailWithError:(NSError *)error{
-    if ([self.delegate respondsToSelector:@selector(downloadOf:successed:result:)]){
-        [self.delegate downloadOf:connection.currentRequest.URL successed:NO result:nil];
-    }
-    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskID];
-}
-
--(void)connectionDidFinishLoading:(NSURLConnection*)connection{
-    if ([self.delegate respondsToSelector:@selector(downloadOf:successed:result:)]){
-        [self.delegate downloadOf:connection.currentRequest.URL successed:YES result:self.receivedData];
-    }
-    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskID];
-    
-}
 @end

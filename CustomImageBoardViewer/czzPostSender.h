@@ -10,6 +10,12 @@
 #import "czzForum.h"
 #import "czzThread.h"
 
+typedef NS_ENUM(NSInteger, postSenderMode) {
+    postSenderModeUnknown = 0,
+    postSenderModeNew,
+    postSenderModeReply
+};
+
 @protocol czzPostSenderDelegate <NSObject>
 @optional
 -(void)postSenderProgressUpdated:(CGFloat)percent;
@@ -29,5 +35,6 @@
 @property (nonatomic) NSString *content;
 @property (nonatomic) NSData *imgData;
 
+@property (nonatomic) postSenderMode postMode;
 -(void)sendPost;
 @end

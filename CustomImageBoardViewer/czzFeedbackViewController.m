@@ -168,14 +168,14 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if ([myFeedback sendFeedback:myNotification]) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                DLog(@"feedback sent");
+                DDLogDebug(@"feedback sent");
                 [self.navigationController popViewControllerAnimated:YES];
                 [AppDelegate.window makeToast:@"谢谢你的意见！" duration:1.5 position:@"bottom"];
             });
             
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                DLog(@"feedback sent");
+                DDLogDebug(@"feedback sent");
                 [self.navigationController popViewControllerAnimated:YES];
                 [self.view makeToast:@"无法发送，请到我的主页直接给我留言" duration:1.5 position:@"bottom"];
             });

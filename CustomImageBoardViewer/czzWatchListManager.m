@@ -7,7 +7,7 @@
 //
 
 #import "czzWatchListManager.h"
-#import "czzThreadViewModelManager.h"
+#import "czzThreadViewManager.h"
 #import "czzMessagePopUpViewController.h"
 
 #define WATCH_LIST_CACHE_FILE @"watchedThreads.dat"
@@ -15,9 +15,8 @@
 @interface czzWatchListManager ()
 
 @property (nonatomic, strong) NSTimer *refreshTimer;
-@property (nonatomic, strong) czzThreadViewModelManager *threadViewModelManager;
 @property (nonatomic, strong) NSMutableOrderedSet *manuallyAddedThreads;
-
+@property (nonatomic, strong) czzThreadViewManager *threadViewManager;
 @end
 
 @implementation czzWatchListManager
@@ -66,10 +65,10 @@
 #pragma mark - Refresh action
 -(void)refreshWatchedThreads:(void (^)(NSArray *))completionHandler {
     if (self.isDownloading) {
-        DLog(@"%@ is downloading, cannot proceed further...", NSStringFromClass(self.class));
+        DDLogDebug(@"%@ is downloading, cannot proceed further...", NSStringFromClass(self.class));
         return;
     }
-    DLog(@"Watchlist manager refreshing watched threads...");
+    DDLogDebug(@"Watchlist manager refreshing watched threads...");
     self.isDownloading = YES;
     self.updatedThreads = [NSMutableArray new];
     
@@ -78,19 +77,21 @@
         NSDate *startDate = [NSDate new];
         
         for (czzThread *thread in [self.watchedThreads copy]) {
-            NSInteger originalResponseCount = thread.responseCount;
-            NSInteger originalThreadID = thread.ID;
-            czzThread *newThread = [[czzThread alloc] initWithParentID:originalThreadID];
-            
-            if (originalResponseCount != newThread.responseCount) {
-                // Record the old thread with old data, later we will remove it from the OrderedSet, then put it back to update the set.
-                [self.updatedThreads addObject:newThread];
+            if (thread.ID > 0) {
+                NSInteger originalResponseCount = thread.responseCount;
+                NSInteger originalThreadID = thread.ID;
+                czzThread *newThread = [[czzThread alloc] initWithParentID:originalThreadID];
+                
+                if (originalResponseCount > newThread.responseCount) {
+                    //Record the old thread with old data, later we will remove it from the OrderedSet, then put it back to update the set.
+                    [self.updatedThreads addObject:newThread];
+                }
             }
         }
         [self updateWatchedThreadsWithThreads:self.updatedThreads];
         self.isDownloading = NO;
         dispatch_async(dispatch_get_main_queue(), ^{
-            DLog(@"%ld threads downloaded in %.1f seconds, %ld threads have new content", (long)self.watchedThreads.count, [[NSDate new] timeIntervalSinceDate:startDate], (long)self.updatedThreads.count);
+            DDLogDebug(@"%ld threads downloaded in %.1f seconds, %ld threads have new content", (long)self.watchedThreads.count, [[NSDate new] timeIntervalSinceDate:startDate], (long)self.updatedThreads.count);
             completionHandler(self.updatedThreads);
             [self saveState];
         });
@@ -120,7 +121,7 @@
         }
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
     }
 }
 

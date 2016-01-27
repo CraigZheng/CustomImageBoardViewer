@@ -63,7 +63,7 @@
 -(void)saveCurrentState {
     NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:FAVOURITE_THREAD_CACHE_FILE];
     if (![NSKeyedArchiver archiveRootObject:favouriteThreads toFile:cacheFile]) {
-        DLog(@"can not save favourite threads to %@", cacheFile);
+        DDLogDebug(@"can not save favourite threads to %@", cacheFile);
     }
 }
 
@@ -79,7 +79,7 @@
         }
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
         favouriteThreads = [NSMutableOrderedSet new];
     }
 }

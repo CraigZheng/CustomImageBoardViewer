@@ -13,16 +13,16 @@
 #import "czzImageDownloaderManager.h"
 #import "czzImageCacheManager.h"
 #import "czzSettingsCentre.h"
+#import "czzImageViewerUtil.h"
 
 #import <QuartzCore/QuartzCore.h>
 
 #import "UIView+MGBadgeView.h"
-#import "KLCPopup.h"
 
 @interface czzOnScreenImageManagerViewController () <czzImageDownloaderManagerDelegate, czzShortImageManagerCollectionViewControllerProtocol>
 @property (assign, nonatomic) BOOL iconAnimating;
 @property (assign, nonatomic) BOOL isShowingShortImageManagerController;
-@property (nonatomic) czzShortImageManagerCollectionViewController *shortImageManagerCollectionViewController;
+@property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
 @end
 
 @implementation czzOnScreenImageManagerViewController
@@ -30,7 +30,6 @@
 @synthesize iconAnimating;
 @synthesize delegate;
 @synthesize isShowingShortImageManagerController;
-@synthesize shortImageManagerCollectionViewController;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -60,19 +59,13 @@
     [[czzImageDownloaderManager sharedManager] addDelegate:self];
 }
 
--(czzShortImageManagerCollectionViewController *)shortImageManagerCollectionViewController {
-    //grab and return the short image manager from my own navigation controller
-    shortImageManagerCollectionViewController = [(czzNavigationController*)self.parentViewController.navigationController shortImageMangerController];
-    shortImageManagerCollectionViewController.hostViewController = self.parentViewController;
-    if (!shortImageManagerCollectionViewController.delegate)
-        shortImageManagerCollectionViewController.delegate = self;
-    return shortImageManagerCollectionViewController;
+- (void)viewWillAppear:(BOOL)animated {
+    if ([czzImageDownloaderManager sharedManager].isDownloading) {
+        [self startAnimating];
+    }
 }
 
 - (IBAction)tapOnImageManagerIconAction:(id)sender {
-    [self.shortImageManagerCollectionViewController show];
-    //reset badge value
-    self.view.badgeView.badgeValue = 0;
 }
 
 -(void)startAnimating {
@@ -86,11 +79,22 @@
     mainIcon.image = [UIImage imageNamed:@"Icon.png"];
 }
 
+#pragma mark - Prepare for segue
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.destinationViewController isKindOfClass:[czzShortImageManagerCollectionViewController class]]) {
+        [(czzShortImageManagerCollectionViewController *)segue.destinationViewController setDelegate:self];
+        // Reset badge value.
+        self.view.badgeView.badgeValue = 0;
+    }
+}
+
 #pragma mark - czzImageDownloaderDelegate
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
     if (!downloader.isThumbnail) {
         if (success) {
-            if (![settingCentre userDefShouldAutoOpenImage]) {
+            if (![settingCentre userDefShouldAutoOpenImage] &&
+                !self.isShowingShortImageManagerController) {
                 [self.view.badgeView setBadgeValue:self.view.badgeView.badgeValue + 1];
             }
         }
@@ -113,13 +117,21 @@
     }
 }
 
-#pragma mark - czzShortImageManagerCollectionViewControllerDelegate
--(void)userTappedOnImageWithPath:(NSString *)imagePath {
-    [KLCPopup dismissAllPopups];
-    if (delegate && [delegate respondsToSelector:@selector(onScreenImageManagerSelectedImage:)])
-    {
-        [delegate onScreenImageManagerSelectedImage:imagePath];
+#pragma mark - czzShortImageManagerCollectionViewController
+
+- (void)shortImageManager:(czzShortImageManagerCollectionViewController *)manager selectedImageWithIndex:(NSInteger)index inImages:(NSArray *)imageSource {
+    self.imageViewerUtil = [czzImageViewerUtil new];
+    [self.imageViewerUtil showPhotos:imageSource withIndex:index];
+}
+
+#pragma mark - Getter
+
+- (BOOL)isShowingShortImageManagerController {
+    // If the topViewController is a czzShortImageManagerCollectionViewController, return YES.
+    if ([[UIApplication topViewController] isMemberOfClass:[czzShortImageManagerCollectionViewController class]]) {
+        return YES;
     }
+    return NO;
 }
 
 + (instancetype)new {

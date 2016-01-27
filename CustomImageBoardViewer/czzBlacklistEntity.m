@@ -40,7 +40,7 @@
             NSData *imageData = [[NSString stringWithFormat:@"&image=%d", 1] dataUsingEncoding:NSUTF8StringEncoding];
             [body appendData:imageData];
         }
-        //DLog(@"%@", [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding]);
+        //DDLogDebug(@"%@", [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding]);
         return body;
     }
     return  nil;

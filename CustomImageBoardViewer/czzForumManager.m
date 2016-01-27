@@ -62,7 +62,7 @@
     }
     @catch (NSException *exception) {
         // If exception, not successed.
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
         successed = NO;
     }
 

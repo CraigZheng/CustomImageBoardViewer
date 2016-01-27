@@ -18,6 +18,10 @@
 #import "czzAppActivityManager.h"
 #import "czzFavouriteManagerViewController.h"
 #import "czzCacheCleaner.h"
+#import "czzHomeViewManager.h"
+#import <Google/Analytics.h>
+
+#import <WatchConnectivity/WatchConnectivity.h>
 
 #ifndef TARGET_IPHONE_SIMULATOR
 #import "TalkingData.h"
@@ -25,7 +29,9 @@
 //#import <BugSense-iOS/BugSenseController.h>
 #import <SplunkMint-iOS/SplunkMint-iOS.h>
 
-@interface czzAppDelegate()<czzBlacklistDownloaderDelegate, czzHomeViewModelManagerDelegate>
+#define LOG_LEVEL_DEF ddLogLevel
+
+@interface czzAppDelegate()<czzBlacklistDownloaderDelegate, czzHomeViewManagerDelegate, WCSessionDelegate>
 @property czzSettingsCentre *settingsCentre;
 @end
 
@@ -36,16 +42,35 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [DDLog addLogger:[DDTTYLogger sharedInstance]]; // TTY = Xcode console
+    [DDLog addLogger:[DDASLLogger sharedInstance]]; // ASL = Apple System Logs
+    
+    DDFileLogger *fileLogger = [[DDFileLogger alloc] init]; // File Logger
+    fileLogger.rollingFrequency = 60 * 60 * 24; // 24 hour rolling
+    fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
+    [DDLog addLogger:fileLogger];
+    
 #ifndef TARGET_IPHONE_SIMULATOR
     [[Mint sharedInstance] initAndStartSession:@"cd668a8e"];
     [[Mint sharedInstance] setUserIdentifier:[UIDevice currentDevice].identifierForVendor.UUIDString];
     
     // Talkind data initialisation
     [TalkingData sessionStarted:@"B8168DD03CD9EF62B476CEDFBC3FB52D" withChannelId:@""];
+    
 #endif
+    // Google analytic configuration
+    // Configure tracker from GoogleService-Info.plist.
+    NSError *configureError;
+    [[GGLContext sharedInstance] configureWithError:&configureError];
+    NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
+    
+    //    // Optional: configure GAI options.
+    //    GAI *gai = [GAI sharedInstance];
+    //    gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
+    //    gai.logger.logLevel = kGAILogLevelVerbose;  // remove before app release
+
     myhost = my_main_host;
     settingsCentre = [czzSettingsCentre sharedInstance];
-    
     
     [self checkFolders];
     // Check cookie
@@ -55,6 +80,12 @@
     // Prepare to launch
     AppActivityManager;
     
+    // The watchkit session.
+    if ([WCSession isSupported]) {
+        WCSession *session = [WCSession defaultSession];
+        session.delegate = self;
+        [session activateSession];
+    }
     return YES;
 }
 							
@@ -73,23 +104,24 @@
 
 
 -(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    DLog(@"%@", url.absoluteString);
+    DDLogDebug(@"%@", url.absoluteString);
     if ([url.host isEqualToString:@"acfun"]) {
         return YES;
     }
     return NO;
 }
 
-#pragma mark - Watch kit extension
+#pragma mark - WCSessionDelegate
 
-- (void)application:(UIApplication *)application handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))reply {
+- (void)session:(WCSession *)session didReceiveMessage:(NSDictionary<NSString *,id> *)message replyHandler:(void (^)(NSDictionary<NSString *,id> * _Nonnull))replyHandler {
     __block UIBackgroundTaskIdentifier wkBackgroundTaskIdentifier;
     wkBackgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithName:@"backgroundTask"
                                                                               expirationHandler:^{
                                                                                   wkBackgroundTaskIdentifier = UIBackgroundTaskInvalid;
                                                                               }];
-
-    [[czzWatchKitManager sharedManager] handleWatchKitExtensionRequest:userInfo reply:reply withBackgroundTaskIdentifier:wkBackgroundTaskIdentifier];
+    [[czzWatchKitManager sharedManager] handleWatchKitExtensionRequest:message
+                                                                 reply:replyHandler
+                                          withBackgroundTaskIdentifier:wkBackgroundTaskIdentifier];
 }
 
 #pragma mark - background fetch

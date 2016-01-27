@@ -11,7 +11,7 @@
 
 @interface czzThreadViewCellHeaderView : CPLoadFromNibView
 
-@property (strong, nonatomic) czzThread *myThread;
+@property (strong, nonatomic) czzThread *thread;
 @property (strong, nonatomic) NSString *parentUID;
 @property (assign, nonatomic) BOOL shouldHighLight;
 

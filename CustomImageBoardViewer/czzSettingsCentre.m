@@ -13,7 +13,19 @@
 #import "czzURLDownloader.h"
 #import <UIKit/UIKit.h>
 
-@interface czzSettingsCentre () <NSCoding, czzURLDownloaderProtocol>
+static NSString * const kDisplayThumbnail = @"kDisplayThumbnail";
+static NSString * const kShowOnScreenCommand = @"kShowOnScreenCommand";
+static NSString * const kAutoOpenImage = @"kAutoOpenImage";
+static NSString * const kHighLightPO = @"kHighLightPO";
+static NSString * const kCacheData = @"kCacheData";
+static NSString * const kBigImageMode = @"kBigImageMode";
+static NSString * const kNightyMode = @"kNightyMode";
+static NSString * const kAutoClean = @"kAutoClean";
+static NSString * const kAutoDownloadImage = @"kAutoDownloadImage";
+
+NSString * const settingsChangedNotification = @"settingsChangedNotification";
+
+@interface czzSettingsCentre () <czzURLDownloaderProtocol>
 @property NSTimer *refreshSettingsTimer;
 @property (nonatomic) NSString *settingsFile;
 @property czzURLDownloader *urlDownloader;
@@ -27,8 +39,6 @@
 @synthesize database_host;
 @synthesize a_isle_host, thread_content_host, threads_per_page, thread_format, thread_list_host, response_per_page, quote_thread_host;
 @synthesize message, image_host, ac_host, forum_list_url, thumbnail_host;
-@synthesize userDefShouldAutoOpenImage, userDefShouldCacheData, userDefShouldDisplayThumbnail, userDefShouldHighlightPO, userDefShouldShowOnScreenCommand ,userDefShouldUseBigImage, userDefShouldCleanCaches;
-@synthesize nightyMode;
 @synthesize should_allow_dart;
 @synthesize donationLink;
 @synthesize shouldAllowOpenBlockedThread;
@@ -57,14 +67,15 @@
     self = [super init];
     if (self) {
         //default settings
-        userDefShouldAutoOpenImage = YES;
-        userDefShouldDisplayThumbnail = YES;
-        userDefShouldCacheData = YES;
-        userDefShouldHighlightPO = YES;
-        userDefShouldShowOnScreenCommand = YES;
-        userDefShouldUseBigImage = NO;
-        nightyMode = NO;
-        userDefShouldCleanCaches = NO;
+        self.userDefShouldAutoOpenImage = YES;
+        self.userDefShouldDisplayThumbnail = YES;
+        self.userDefShouldCacheData = YES;
+        self.userDefShouldHighlightPO = YES;
+        self.userDefShouldShowOnScreenCommand = YES;
+        self.userDefShouldUseBigImage = NO;
+        self.userDefNightyMode = NO;
+        self.userDefShouldCleanCaches = NO;
+        self.userDefShouldAutoDownloadImage = NO;
         shouldAllowOpenBlockedThread = YES;
         
         donationLink = @"";
@@ -75,17 +86,17 @@
         should_allow_dart = NO;
         
         NSString *filePath = [[NSBundle mainBundle] pathForResource:@"default_configuration" ofType:@"json"];
-        
-//#ifdef DEBUG
-//        filePath = [[NSBundle mainBundle] pathForResource:@"remote_configuration-debug" ofType:@"json"];
-//#endif
+
         NSData *JSONData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
         [self parseJSONData:JSONData];
         
-        [self scheduleRefreshSettings];
-        
-//        restore previous settings
         [self restoreSettings];
+#ifdef DEBUG
+#warning DEBUGGING NEW API
+        return self;
+#endif
+        [self scheduleRefreshSettings];
+        // Restore previous settings
     }
     return self;
 }
@@ -104,62 +115,64 @@
     refreshSettingsTimer = [NSTimer scheduledTimerWithTimeInterval:configuration_refresh_interval target:self selector:@selector(downloadSettings) userInfo:nil repeats:YES];
 }
 
--(BOOL)saveSettings {
-    if ([NSKeyedArchiver archiveRootObject:self toFile:self.settingsFile]) {
-        DLog(@"Settings saved to file: %@", self.settingsFile);
-        return YES;
-    } else {
-        DLog(@"Settings can not be saved! Settings file: %@", self.settingsFile);
-        return NO;
-    }
+-(void)saveSettings {
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setBool:self.userDefShouldDisplayThumbnail forKey:kDisplayThumbnail];
+    [userDefault setBool:self.userDefShouldShowOnScreenCommand forKey:kShowOnScreenCommand];
+    [userDefault setBool:self.userDefShouldAutoOpenImage forKey:kAutoOpenImage];
+    [userDefault setBool:self.userDefShouldCacheData forKey:kCacheData];
+    [userDefault setBool:self.userDefShouldHighlightPO forKey:kHighLightPO];
+    [userDefault setBool:self.userDefShouldUseBigImage forKey:kBigImageMode];
+    [userDefault setBool:self.userDefNightyMode forKey:kNightyMode];
+    [userDefault setBool:self.userDefShouldCleanCaches forKey:kAutoClean];
+    [userDefault setBool:self.userDefShouldAutoDownloadImage forKey:kAutoDownloadImage];
+    [userDefault synchronize];
+    // Post a notification about the settings changed.
+    [[NSNotificationCenter defaultCenter] postNotificationName:settingsChangedNotification
+                                                        object:nil];
 }
 
 
-- (BOOL)restoreSettings {
-    @try {
-        czzSettingsCentre *archivedSettings = [NSKeyedUnarchiver unarchiveObjectWithFile:self.settingsFile];
-        if (archivedSettings && archivedSettings.class == self.class)
-        {
-            NSArray *properties = [PropertyUtil classPropsFor:self.class].allKeys;
-            if (properties.count > 0) {
-                for (NSString *propertyName in properties) {
-                    if ([self respondsToSelector:NSSelectorFromString(propertyName)]) {
-                        @try {
-                            if ([propertyName isEqualToString:@"description"] || [propertyName isEqualToString:@"debugDescription"] || [propertyName isEqualToString:@"hash"] || [propertyName isEqualToString:@"superclass"]) {
-                                // Do nothing
-                            } else {
-                                [self setValue:[archivedSettings valueForKey:propertyName] forKey:propertyName];
-                            }
-                        }
-                        @catch (NSException *exception) {
-                            DLog(@"%@", exception);
-                        }
-                    }
-                    else
-                        DLog(@"%@ - cannot be restored:", propertyName);
-                }
-            }
-            return YES;
-        } else {
-            DLog(@"failed to restore files");
-        }
+- (void)restoreSettings {
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault objectForKey:kDisplayThumbnail]) {
+        self.userDefShouldDisplayThumbnail = [userDefault boolForKey:kDisplayThumbnail];
     }
-    @catch (NSException *exception) {
-        DLog(@"%@", exception);
+    if ([userDefault objectForKey:kShowOnScreenCommand]) {
+        self.userDefShouldShowOnScreenCommand = [userDefault boolForKey:kShowOnScreenCommand];
     }
-    return NO;
+    if ([userDefault objectForKey:kAutoOpenImage]) {
+        self.userDefShouldAutoOpenImage = [userDefault boolForKey:kAutoOpenImage];
+    }
+    if ([userDefault objectForKey:kCacheData]) {
+        self.userDefShouldCacheData = [userDefault boolForKey:kCacheData];
+    }
+    if ([userDefault objectForKey:kHighLightPO]) {
+        self.userDefShouldHighlightPO = [userDefault boolForKey:kHighLightPO];
+    }
+    if ([userDefault objectForKey:kBigImageMode]) {
+        self.userDefShouldUseBigImage = [userDefault boolForKey:kBigImageMode];
+    }
+    if ([userDefault objectForKey:kNightyMode]) {
+        self.userDefNightyMode = [userDefault boolForKey:kNightyMode];
+    }
+    if ([userDefault objectForKey:kAutoClean]) {
+        self.userDefShouldCleanCaches = [userDefault boolForKey:kAutoClean];
+    }
+    self.userDefShouldAutoDownloadImage = [userDefault boolForKey:kAutoDownloadImage];
 }
 
 -(void)downloadSettings {
     NSString *configurationURL = CONFIGURATION_URL;
     urlDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:configurationURL] delegate:self startNow:YES];
 }
+
 -(void)parseJSONData:(NSData*)jsonData {
     NSError *error;
     NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
 
     if (error) {
-        DLog(@"%@", error);
+        DDLogDebug(@"%@", error);
         return;
     }
     @try {
@@ -203,7 +216,7 @@
         get_forum_info_url = [jsonObject objectForKey:@"get_forum_info_url"];
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
     }
 }
 
@@ -218,111 +231,12 @@
         if (downloadedData) {
             [self parseJSONData:downloadedData];
             [self saveSettings]; //save settings from remote
-            DLog(@"settings updated from remote server");
+            DDLogDebug(@"settings updated from remote server");
             if (message.length > 0) {
                 [AppDelegate showToast:message];
             }
         }
     }
-}
-
-#pragma mark - NSCoding delegate
-
--(void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeBool:shouldUseRemoteConfiguration forKey:@"shouldUseRemoteConfiguration"];
-    [aCoder encodeBool:shouldEnableBlacklistFiltering forKey:@"shouldEnableBlacklistFiltering"];
-    [aCoder encodeBool:shouldDisplayImage forKey:@"shouldDisplayImage"];
-    [aCoder encodeBool:shouldDisplayThumbnail forKey:@"shouldDisplayThumbnail"];
-    [aCoder encodeBool:shouldDisplayContent forKey:@"shouldDisplayContent"];
-    [aCoder encodeObject:shouldHideImageInForums forKey:@"shouldHideImageInForums"];
-    [aCoder encodeDouble:configuration_refresh_interval forKey:@"configuration_refresh_interval"];
-    [aCoder encodeDouble:blacklist_refresh_interval forKey:@"blacklist_refresh_interval"];
-    [aCoder encodeDouble:forum_list_refresh_interval forKey:@"forum_list_refresh_interval"];
-    [aCoder encodeDouble:notification_refresh_interval forKey:@"notification_refresh_interval"];
-    [aCoder encodeInteger:threads_per_page forKey:@"threads_per_page"];
-    [aCoder encodeInteger:response_per_page forKey:@"response_per_page"];
-    [aCoder encodeObject:thread_format forKey:@"thread_format"];
-    [aCoder encodeObject:forum_list_url forKey:@"forum_list_url"];
-    [aCoder encodeObject:ac_host forKey:@"ac_host"];
-    [aCoder encodeObject:a_isle_host forKey:@"a_isle_host"];
-    [aCoder encodeObject:database_host forKey:@"database_host"];
-    [aCoder encodeObject:thread_list_host forKey:@"thread_list_host"];
-    [aCoder encodeObject:thread_content_host forKey:@"thread_content_host"];
-    [aCoder encodeObject:quote_thread_host forKey:@"quote_thread_host"];
-    [aCoder encodeObject:image_host forKey:@"image_host"];
-    [aCoder encodeObject:thumbnail_host forKey:@"thumbnail_host"];
-    [aCoder encodeObject:message forKey:@"message"];
-    [aCoder encodeObject:donationLink forKey:@"donationLink"];
-    [aCoder encodeBool:userDefShouldDisplayThumbnail forKey:@"userDefShouldDisplayThumbnail"];
-    [aCoder encodeBool:userDefShouldShowOnScreenCommand forKey:@"userDefShouldShowOnScreenCommand"];
-    [aCoder encodeBool:userDefShouldAutoOpenImage forKey:@"userDefShouldAutoOpenImage"];
-//    [aCoder encodeBool:userDefShouldCacheData forKey:@"userDefShouldCacheData"];
-    [aCoder encodeBool:userDefShouldHighlightPO forKey:@"userDefShouldHighlightPO"];
-    [aCoder encodeBool:userDefShouldUseBigImage forKey:@"userDefShouldUseBigImage"];
-    [aCoder encodeBool:nightyMode forKey:@"nightyMode"];
-    [aCoder encodeBool:userDefShouldCleanCaches forKey:@"userDefShouldCleanCaches"];
-    
-    //new settings at short version 2.0.1
-    [aCoder encodeObject:forum_list_detail_url forKey:@"forum_list_detail_url"];
-    [aCoder encodeObject:reply_post_url forKey:@"reply_post_url"];
-    [aCoder encodeObject:create_new_post_url forKey:@"create_new_post_url"];
-    [aCoder encodeObject:report_post_placeholder forKey:@"report_post_placeholder"];
-    [aCoder encodeObject:share_post_url forKey:@"share_post_url"];
-    [aCoder encodeObject:thread_url forKey:@"thread_url"];
-    [aCoder encodeObject:get_forum_info_url forKey:@"get_forum_info_url"];
-    
-    //dart settings
-    [aCoder encodeBool:should_allow_dart forKey:@"shouldAllowDart"];
-}
-
--(instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super init];
-    if (self) {
-        self.shouldUseRemoteConfiguration = [aDecoder decodeBoolForKey:@"shouldUseRemoteConfiguration"];
-        self.shouldEnableBlacklistFiltering = [aDecoder decodeBoolForKey:@"shouldEnableBlacklistFiltering"];
-        self.shouldDisplayImage = [aDecoder decodeBoolForKey:@"shouldDisplayImage"];
-        self.shouldDisplayThumbnail = [aDecoder decodeBoolForKey:@"shouldDisplayThumbnail"];
-        self.shouldDisplayContent = [aDecoder decodeBoolForKey:@"shouldDisplayContent"];
-        self.shouldHideImageInForums = [aDecoder decodeObjectForKey:@"shouldHideImageInForums"];
-        self.configuration_refresh_interval = [aDecoder decodeDoubleForKey:@"configuration_refresh_interval"];
-        self.blacklist_refresh_interval = [aDecoder decodeDoubleForKey:@"blacklist_refresh_interval"];
-        self.forum_list_refresh_interval = [aDecoder decodeDoubleForKey:@"forum_list_refresh_interval"];
-        self.notification_refresh_interval = [aDecoder decodeDoubleForKey:@"notification_refresh_interval"];
-        self.threads_per_page = [aDecoder decodeIntegerForKey:@"threads_per_page"];
-        self.response_per_page = [aDecoder decodeIntegerForKey:@"response_per_page"];
-        self.thread_format = [aDecoder decodeObjectForKey:@"thread_format"];
-        self.forum_list_url = [aDecoder decodeObjectForKey:@"forum_list_url"];
-        self.ac_host = [aDecoder decodeObjectForKey:@"ac_host"];
-        self.a_isle_host = [aDecoder decodeObjectForKey:@"a_isle_host"];
-        self.database_host = [aDecoder decodeObjectForKey:@"database_host"];
-        self.thread_list_host = [aDecoder decodeObjectForKey:@"thread_list_host"];
-        self.thread_content_host = [aDecoder decodeObjectForKey:@"thread_content_host"];
-        self.quote_thread_host = [aDecoder decodeObjectForKey:@"quote_thread_host"];
-        self.image_host = [aDecoder decodeObjectForKey:@"image_host"];
-        self.thumbnail_host = [aDecoder decodeObjectForKey:@"thumbnail_host"];
-        self.donationLink = [aDecoder decodeObjectForKey:@"donationLink"];
-        self.message = [aDecoder decodeObjectForKey:@"message"];
-        self.userDefShouldDisplayThumbnail = [aDecoder decodeBoolForKey:@"userDefShouldDisplayThumbnail"];
-        self.userDefShouldShowOnScreenCommand = [aDecoder decodeBoolForKey:@"userDefShouldShowOnScreenCommand"];
-        self.userDefShouldAutoOpenImage = [aDecoder decodeBoolForKey:@"userDefShouldAutoOpenImage"];
-//        self.userDefShouldCacheData = [aDecoder decodeBoolForKey:@"userDefShouldCacheData"];
-        self.userDefShouldHighlightPO = [aDecoder decodeBoolForKey:@"userDefShouldHighlightPO"];
-        self.userDefShouldUseBigImage = [aDecoder decodeBoolForKey:@"userDefShouldUseBigImage"];
-        
-        self.nightyMode = [aDecoder decodeBoolForKey:@"nightyMode"];
-        self.userDefShouldCleanCaches = [aDecoder decodeBoolForKey:@"userDefShouldCleanCaches"];
-        self.should_allow_dart = [aDecoder decodeBoolForKey:@"shouldAllowDart"];
-        //new settings at short version 2.0.1
-        self.forum_list_detail_url = [aDecoder decodeObjectForKey:@"forum_list_detail_url"];
-        self.reply_post_url = [aDecoder decodeObjectForKey:@"reply_post_url"];
-        self.create_new_post_url = [aDecoder decodeObjectForKey:@"create_new_post_url"];
-        self.report_post_placeholder = [aDecoder decodeObjectForKey:@"report_post_placeholder"];
-        self.share_post_url = [aDecoder decodeObjectForKey:@"share_post_url"];
-        self.thread_url = [aDecoder decodeObjectForKey:@"thread_url"];
-        self.get_forum_info_url = [aDecoder decodeObjectForKey:@"get_forum_info_url"];
-
-    }
-    return self;
 }
 
 -(UIFont *)contentFont {
@@ -335,13 +249,13 @@
 }
 
 -(UIColor *)contentTextColour {
-    if (self.nightyMode)
+    if (self.userDefNightyMode)
         return [UIColor colorWithRed:252/255.0f green:160/255.0f blue:30/255.0f alpha:1.0f];
     return [UIColor blackColor];
 }
 
 -(UIColor *)viewBackgroundColour {
-    if (self.nightyMode)
+    if (self.userDefNightyMode)
         return [UIColor colorWithRed:20/255.0f green:20/255.0f blue:20/255.0f alpha:1.0f];
     return [UIColor whiteColor];
 }
@@ -350,8 +264,12 @@
     return [UIColor colorWithRed:252/255. green:103/255. blue:61/255. alpha:1.0];
 }
 
+- (UIColor *)transparentBackgroundColour {
+    return [[UIColor grayColor] colorWithAlphaComponent:0.2];
+}
+
 -(UIColor *)tintColour {
-    if (self.nightyMode)
+    if (self.userDefNightyMode)
         return [UIColor lightTextColor];
     return [UIColor whiteColor];
 }

@@ -10,45 +10,22 @@
 #import "czzNotification.h"
 #import "czzNotificationDownloader.h"
 #import "SMXMLDocument.h"
-#import "czzAppDelegate.h"
 #import "czzFeedback.h"
 #import "czzSettingsCentre.h"
 #import "czzPost.h"
 #import "czzPostSender.h"
-#import "czzHomeViewModelManager.h"
-#import "czzThreadViewModelManager.h"
+#import "czzHomeViewManager.h"
+#import "czzThreadViewManager.h"
 #import "czzHistoryManager.h"
 #import "PropertyUtil.h"
 
 
-@interface CustomImageBoardViewerTests : XCTestCase<czzNotificationDownloaderDelegate, czzPostSenderDelegate, czzHomeViewModelManagerDelegate>
+@interface CustomImageBoardViewerTests : XCTestCase<czzNotificationDownloaderDelegate, czzPostSenderDelegate, czzHomeViewManagerDelegate>
 @property (assign, nonatomic) BOOL done;
-@property czzHomeViewModelManager *threadList;
-@property czzThreadViewModelManager *subThreadList;
 @end
 
 @implementation CustomImageBoardViewerTests
 @synthesize done;
-@synthesize threadList;
-@synthesize subThreadList;
-
-
-- (void)setUp
-{
-    [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-    threadList = [czzHomeViewModelManager new];
-    threadList.delegate = self;
-    threadList.forumName = @"日记";
-    
-    czzThread *parentThread = [czzThread new];
-    parentThread.ID = 5361014;
-    parentThread.content = [[NSAttributedString alloc] initWithString:NSStringFromSelector(_cmd) attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12]}];
-    
-    subThreadList = [[czzThreadViewModelManager alloc] initWithParentThread:parentThread];
-    subThreadList.delegate = self;
-
-}
 
 - (void)tearDown
 {
@@ -92,37 +69,6 @@
 
 }
 
--(void)testSubThreadListDownload {
-    [subThreadList refresh];
-    [self waitForCompletion:10];
-    
-    NSInteger refreshThreadCount = subThreadList.threads.count;
-    XCTAssertTrue(refreshThreadCount > 10);
-}
-
--(void)testSubThreadListLoadMore {
-    [subThreadList loadMoreThreads:3];
-    [self waitForCompletion:30];
-    XCTAssertTrue(subThreadList.threads.count > subThreadList.lastBatchOfThreads.count, @"thread list count: %d, refresh thread count: %d", subThreadList.threads.count, subThreadList.lastBatchOfThreads.count);
-}
-
--(void)testThreadListDownload {
-    [threadList refresh];
-    [self waitForCompletion:20];
-    
-    NSInteger refreshThreadCount = threadList.threads.count;
-    XCTAssertTrue(refreshThreadCount > 0);
-
-}
-
--(void)testThreadListLoadMore {
-    [threadList loadMoreThreads];
-    [self waitForCompletion:30];
-    
-    XCTAssertTrue(threadList.threads.count > 0);
-    XCTAssertTrue(threadList.threads.count > threadList.lastBatchOfThreads.count);
-}
-
 -(void)testSettingsCentre {
     czzSettingsCentre *settingsCentre = [czzSettingsCentre sharedInstance];
     XCTAssertEqual(3600, settingsCentre.configuration_refresh_interval, "configuration not equal to 3600!");
@@ -136,10 +82,10 @@
     settingsCentre.userDefShouldCacheData = !settingsCentre.userDefShouldCacheData;
     settingsCentre.userDefShouldDisplayThumbnail = !settingsCentre.userDefShouldDisplayThumbnail;
     settingsCentre.thread_content_host = @"test_thread_content_host";
-    XCTAssert([settingsCentre saveSettings], @"failed to save settings!");
+    [settingsCentre saveSettings];
     //restore from storage
     czzSettingsCentre *newSettings = [czzSettingsCentre new];
-    XCTAssert([newSettings restoreSettings], @"failed to restore settings!");
+    [newSettings restoreSettings];
     //test every property
     NSArray *properties = [PropertyUtil classPropsFor:settingsCentre.class].allKeys;
     for (NSString *property in properties) {
@@ -189,50 +135,6 @@
 
 }
 
--(void)testPostSenderReply {
-    return;
-    
-    czzPostSender *postSender = [czzPostSender new];
-    postSender.delegate = self;
-    postSender.targetURL = [NSURL URLWithString:@"http://h.acfun.tv/api/t/4010298/create"];
-    //content - random bullshit
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    [dateFormatter setDateFormat:@"Y-m-d hh-MM-ss"];
-    postSender.content = [NSString stringWithFormat:@"TEST - BY IOS AT %@", [dateFormatter stringFromDate:[NSDate new]]];
-    NSString *longText = [self generateRandomTextWithLength:1024];
-    postSender.content = [postSender.content stringByAppendingString:longText];
-    //end content
-    postSender.email = @"sage";
-    postSender.name = @"渣渣";
-    postSender.title = @"渣渣";
-    [postSender sendPost];
-    XCTAssertTrue([self waitForCompletion:5.0], @"Timeout");
-}
-
--(void)testPostSenderWithImage {
-    return;
-    
-    czzPostSender *postSender = [czzPostSender new];
-    postSender.delegate = self;
-    postSender.targetURL = [NSURL URLWithString:@"http://h.acfun.tv/api/t/4010298/create"];
-    //content - random bullshit
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    [dateFormatter setDateFormat:@"Y-m-d hh-MM-ss"];
-    postSender.content = [NSString stringWithFormat:@"TEST WITH IMAGE - BY IOS AT %@", [dateFormatter stringFromDate:[NSDate new]]];
-    //end content
-    postSender.email = @"sage";
-    postSender.name = @"渣渣";
-    postSender.title = @"渣渣";
-    //image
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    NSString *resource = [bundle pathForResource:@"test_image" ofType:@"png"];
-    UIImage *img = [UIImage imageWithContentsOfFile:resource];
-    postSender.imgData = UIImageJPEGRepresentation(img, 0.85);
-    //end image
-    [postSender sendPost];
-    XCTAssertTrue([self waitForCompletion:20.0], @"Timeout");
-}
-
 -(NSString*)generateRandomTextWithLength:(NSInteger)length {
     NSString *candidates = @"abcdefghijklmnoprrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     NSMutableString *string = [NSMutableString new];
@@ -257,17 +159,17 @@
 }
 
 #pragma mark - czzThreadListProtocol 
--(void)viewModelManager:(czzHomeViewModelManager *)threadList downloadSuccessful:(BOOL)wasSuccessful {
+-(void)homeViewManager:(czzHomeViewManager *)threadList downloadSuccessful:(BOOL)wasSuccessful {
     NSLog(@"thread list downloaded: %@", wasSuccessful ? @"successed" : @"failed");
     XCTAssertTrue(wasSuccessful);
 }
 
--(void)viewModelManager:(czzHomeViewModelManager *)threadList processedThreadData:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
+-(void)homeViewManager:(czzHomeViewManager *)threadList threadListProcessed:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     NSLog(@"thread list processed");
     done = YES;
 }
 
--(void)viewModelManager:(czzHomeViewModelManager *)threadList processedSubThreadData:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
+-(void)homeViewManager:(czzHomeViewManager *)threadList threadContentProcessed:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     DLog(@"%@", NSStringFromSelector(_cmd));
     XCTAssertTrue(wasSuccessul);
     done = YES;

@@ -13,28 +13,22 @@
 #import "czzURLDownloader.h"
 
 @interface czzCookieManager() <czzURLDownloaderProtocol>
-@property NSHTTPCookieStorage *cookieStorage;
-@property NSMutableArray *acCookies;
+@property (nonatomic, strong) NSHTTPCookieStorage *cookieStorage;
+@property (nonatomic, strong) NSMutableArray *acCookies;
 @end
 
 @implementation czzCookieManager
-@synthesize cookieStorage;
-@synthesize acCookies;
 @synthesize archivedCookies;
 
 //http://ano-zhai-so.n1.yun.tf:8999/Home/Api/getCookie
 -(instancetype)init {
     self = [super init];
     if (self) {
-        acCookies = [NSMutableArray new];
         archivedCookies = [NSMutableArray new];
         NSMutableArray *tempArray = [self restoreArchivedCookies];
         if (tempArray) {
             archivedCookies = tempArray;
-        } else
-            [self refreshACCookies];
-        cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-        cookieStorage.cookieAcceptPolicy = NSHTTPCookieAcceptPolicyAlways;
+        }
         [self getCookieIfHungry];
     }
     
@@ -43,47 +37,34 @@
 
 
 -(void)getCookieIfHungry {
-    if (acCookies.count > 0)
+    if (self.acCookies.count > 0)
         return;
-    DLog(@"current cookie empty, try to eat a cookie");
+    DDLogDebug(@"current cookie empty, try to eat a cookie");
     NSString *getCookieURLString = [[settingCentre a_isle_host] stringByAppendingPathComponent:[NSString stringWithFormat:@"/Home/Api/getCookie?deviceid=%@", [UIDevice currentDevice].identifierForVendor.UUIDString]];
 
-    czzURLDownloader *urlDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:getCookieURLString] delegate:self startNow:YES];
-    DLog(@"%@", urlDownloader);
+    czzURLDownloader *urlDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:getCookieURLString] delegate:self startNow:YES shouldUseDefaultCookit:NO];
     [urlDownloader start];
-}
-
--(void)refreshACCookies {
-    NSMutableArray *cookies = [NSMutableArray new];
-    
-    for (NSHTTPCookie *cookie in [cookieStorage cookies]) {
-        if ([cookie.name.lowercaseString isEqualToString:cookieName.lowercaseString]) {
-            DLog(@"%@", cookie);
-            [cookies addObject:cookie];
-        }
-    }
-    acCookies = cookies;
 }
 
 -(void)setACCookie:(NSHTTPCookie *)cookie ForURL:(NSURL *)url {
     if (!cookie)
     {
-        DLog(@"incoming cookie is nil");
+        DDLogDebug(@"incoming cookie is nil");
         return;
     }
-    [cookieStorage setCookies:@[cookie] forURL:url mainDocumentURL:nil];
+    [self.cookieStorage setCookies:@[cookie] forURL:url mainDocumentURL:nil];
 }
 
 -(void)deleteCookie:(NSHTTPCookie *)cookie {
-    [cookieStorage deleteCookie:cookie];
+    [self.cookieStorage deleteCookie:cookie];
 }
 
 -(NSArray *)currentACCookies {
-    return acCookies;
+    return [self.acCookies copy];
 }
 
 -(NSHTTPCookie *)currentInUseCookie {
-    NSArray *allCookies = [cookieStorage cookiesForURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
+    NSArray *allCookies = [self.cookieStorage cookiesForURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
     NSHTTPCookie *inUseCookie;
     for (NSHTTPCookie *cookie in allCookies) {
         if ([cookie.name.lowercaseString isEqualToString:cookieName.lowercaseString]) {
@@ -131,12 +112,31 @@
 
 #pragma mark - czzURLDownloaderDelegate
 - (void)downloadOf:(NSURL *)url successed:(BOOL)successed result:(NSData *)downloadedData {
-    if (successed) {
-        DLog(@"I ate a cookie!");
+    NSString *result = [[NSString alloc] initWithData:downloadedData encoding:NSUTF8StringEncoding];
+    if (successed && [result containsString:@"ok"]) {
+        DDLogDebug(@"I ate a cookie!");
     } else {
-        DLog(@"can't find a cookie to eat!");
+        DDLogDebug(@"can't find a cookie to eat!");
     }
 
+}
+
+#pragma mark - Getters
+
+- (NSMutableArray *)acCookies {
+    NSMutableArray *cookies = [NSMutableArray new];
+    for (NSHTTPCookie *cookie in [self.cookieStorage cookies]) {
+        if ([cookie.name.lowercaseString isEqualToString:cookieName.lowercaseString]) {
+            DDLogDebug(@"%@", cookie);
+            [cookies addObject:cookie];
+        }
+    }
+    return cookies;
+}
+
+- (NSHTTPCookieStorage *)cookieStorage {
+    [NSHTTPCookieStorage sharedHTTPCookieStorage].cookieAcceptPolicy = NSHTTPCookieAcceptPolicyAlways;
+    return [NSHTTPCookieStorage sharedHTTPCookieStorage];
 }
 
 + (instancetype)sharedInstance

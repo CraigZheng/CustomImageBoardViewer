@@ -13,25 +13,37 @@
 #define THREAD_VIEW_CELL_MARGIN 4 * 2
 
 #define THREAD_TABLE_VLEW_CELL_NIB_NAME @"czzThreadViewTableViewCell"
-#define BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME @"czzThreadViewBigImageTableViewCell"
-#define BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER @"thread_big_image_cell_identifier"
+//#define BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER @"thread_big_image_cell_identifier"
 #define THREAD_VIEW_CELL_IDENTIFIER @"thread_cell_identifier"
 
 #import <UIKit/UIKit.h>
 #import "czzThread.h"
-#import "DACircularProgressView.h"
 
+extern NSInteger const fixedConstraintConstant;
+extern NSInteger const veryHightConstraintPriority;
+extern NSInteger const veryLowConstraintPriority;
+
+typedef NS_ENUM(NSInteger, threadViewCellType) {
+    threadViewCellTypeHome = 1,
+    threadViewCellTypeThread = 2,
+    threadViewCellTypeUndefined = 0
+};
+
+@class czzMenuEnabledTableViewCell;
 
 @protocol czzMenuEnabledTableViewCellProtocol <NSObject>
 @optional
 -(void)userTapInQuotedText:(NSString*)text;
 -(void)userTapInImageView:(NSString*)imgURL;
+// Menu actions
+- (void)userWantsToReply:(czzThread *)thread inParentThread:(czzThread *)parentThread;
+- (void)userWantsToHighLight:(czzThread *)thread;
+- (void)userWantsToSearch:(czzThread *)thread;
+// UI command
+- (void)threadViewCellContentChanged:(czzMenuEnabledTableViewCell *)cell;
 @end
 
 @interface czzMenuEnabledTableViewCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UIImageView *previewImageView;
-@property (weak, nonatomic) IBOutlet UITextView *contentTextView;
-@property (weak, nonatomic) IBOutlet UIView *threadContentView;
 @property NSIndexPath *myIndexPath;
 
 @property (strong, nonatomic) NSString *selectedUserToHighlight;
@@ -40,10 +52,15 @@
 @property NSDictionary *downloadedImages;
 @property (assign, nonatomic) BOOL shouldHighlight;
 @property (assign, nonatomic) BOOL shouldAllowClickOnImage;
-@property (assign, nonatomic) BOOL shouldHighlightResponse;
-@property NSMutableArray *links;
-@property czzThread *parentThread;
-@property (nonatomic) czzThread *myThread;
+@property (nonatomic, strong) NSMutableArray *links;
+@property (nonatomic, strong) czzThread *parentThread;
+@property (nonatomic, strong) czzThread *thread;
+@property (nonatomic, assign) BOOL bigImageMode;
+@property (nonatomic, assign) BOOL allowImage;
+@property (nonatomic, assign) BOOL nightyMode;
+@property (nonatomic, assign) threadViewCellType cellType;
+@property (nonatomic, readonly) BOOL imageUpdated;
+- (void)renderContent;
 
 @end
 

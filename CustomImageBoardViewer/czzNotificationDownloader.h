@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "czzURLDownloader.h"
+
 @protocol czzNotificationDownloaderDelegate <NSObject>
 -(void)notificationDownloaded:(NSArray*)notifications;
 

@@ -38,20 +38,23 @@
 }
 
 -(void)sendPost{
-    //has parent thread, should reply to it
-    if (parentThread) {
-        targetURL = [NSURL URLWithString:[[settingCentre reply_post_url] stringByReplacingOccurrencesOfString:kParentID withString:[NSString stringWithFormat:@"%ld", (long)parentThread.ID]]];
-    }
-    //does not have parent thread, should create a new thread instead.
-    else {
-        targetURL = [NSURL URLWithString:[[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:kForum withString:[forum.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    switch (self.postMode) {
+        case postSenderModeNew:
+            targetURL = [NSURL URLWithString:[[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:kForum withString:[forum.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+            break;
+        case postSenderModeReply:
+            targetURL = [NSURL URLWithString:[[settingCentre reply_post_url] stringByReplacingOccurrencesOfString:kParentID withString:[NSString stringWithFormat:@"%ld", (long)parentThread.ID]]];
+            break;
+        default:
+            [NSException raise:@"ACTION NOT SUPPORTED" format:@"%s", __func__];
+            break;
     }
     urlRequest = [self createMutableURLRequestWithURL:targetURL];
     if (myPost.isReady && urlRequest){
         [requestBody appendData:myPost.makeRequestBody];
         [urlRequest setHTTPBody:requestBody];
         urlConn = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self startImmediately:YES];
-        DLog(@"Sending post to: %@", urlRequest);
+        DDLogDebug(@"Sending post to: %@", urlRequest);
     } else {
         if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
         {
@@ -67,7 +70,7 @@
     if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
     {
         [self.delegate statusReceived:NO message:[NSString stringWithFormat:@"网络错误"]];
-        DLog(@"%@", error);
+        DDLogDebug(@"%@", error);
     }
 }
 
@@ -88,7 +91,7 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection{
-    DLog(@"received response: \n%@", [[NSString alloc] initWithData:self.receivedResponse encoding:NSUTF8StringEncoding]);
+    DDLogDebug(@"received response: \n%@", [[NSString alloc] initWithData:self.receivedResponse encoding:NSUTF8StringEncoding]);
 //    [self response:receivedResponse];
 }
 
@@ -100,7 +103,7 @@
 
 #pragma mark - Decode the self.response xml data - at Aug 2014, they've changed to return value to json format
 -(void)response:(NSData*)jsonData{
-    DLog(@"%@", [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]);
+    DDLogDebug(@"%@", [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]);
 //    NSError *error;
 //    NSDictionary *jsonResponse;
 //    if (jsonData)

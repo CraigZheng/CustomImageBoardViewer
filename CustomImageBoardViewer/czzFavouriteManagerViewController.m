@@ -18,7 +18,9 @@
 #import "czzThreadTableViewCommandCellTableViewCell.h"
 #import "czzHistoryManager.h"
 #import "czzWatchListManager.h"
-#import "czzThreadViewModelManager.h"
+#import "czzThreadViewManager.h"
+#import "czzMenuEnabledTableViewCell.h"
+
 
 NSInteger const bookmarkIndex = 0;
 NSInteger const watchIndex = 1;
@@ -30,8 +32,7 @@ NSInteger const historyIndex = 2;
 @property (nonatomic, strong) czzThread *selectedThread;
 @property (weak, nonatomic) id selectedManager;
 @property (nonatomic, strong) NSArray *updatedThreads;
-@property (nonatomic, strong) NSMutableDictionary *horizontalHeights;
-@property (nonatomic, strong) NSMutableDictionary *verticalHeights;
+
 @end
 
 @implementation czzFavouriteManagerViewController
@@ -47,15 +48,7 @@ NSInteger const historyIndex = 2;
 {
     [super viewDidLoad];
     self.tableView.estimatedRowHeight = 44;
-
-    self.horizontalHeights = [NSMutableDictionary new];
-    self.verticalHeights = [NSMutableDictionary new];
-    //Update watched threads when loading this view.
-    [[czzWatchListManager sharedManager] refreshWatchedThreads:^(NSArray *updatedThreads) {
-        self.updatedThreads = updatedThreads;
-        [self.tableView reloadData];
-    }];
-
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -85,8 +78,7 @@ NSInteger const historyIndex = 2;
 
 #pragma UITableView delegate
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    NSString *cell_identifier = [[czzSettingsCentre sharedInstance] userDefShouldUseBigImage] ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
+    NSString *cell_identifier = THREAD_VIEW_CELL_IDENTIFIER;
     czzThread *thread = [threads objectAtIndex:indexPath.row];
 
     czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
@@ -94,47 +86,28 @@ NSInteger const historyIndex = 2;
         cell.shouldAllowClickOnImage= NO;
         cell.shouldHighlight = NO;
         cell.parentThread = thread;
-        cell.myThread = thread;
+        cell.thread = thread;
+        [cell renderContent]; // Render content must be done manually.
     }
     // TODO: need to create a standalone watchlist manager, or improve this one.
     // If I am seeing the list from watchlist
     if (selectedManager == [czzWatchListManager sharedManager]) {
         for (czzThread *updatedThread in [[czzWatchListManager sharedManager] updatedThreads]) {
-            cell.shouldHighlightResponse = updatedThread.ID == thread.ID;
+            if (updatedThread.ID == thread.ID) {
+                //TODO: highligh
+            }
         }
     }
     return cell;
-}
-
--(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat estimatedRowHeight = tableView.estimatedRowHeight;
-    czzThread *thread = [threads objectAtIndex:indexPath.row];
-    // If the height is already available.
-    NSString *threadID = [NSString stringWithFormat:@"%ld", (long)thread.ID];
-    NSMutableDictionary *heightDictionary = UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].keyWindow.rootViewController.interfaceOrientation) ? self.verticalHeights : self.horizontalHeights;
-    
-    id cachedHeight = [heightDictionary objectForKey:threadID];
-    if ([cachedHeight isKindOfClass:[NSNumber class]]) {
-        estimatedRowHeight = [cachedHeight floatValue];
-    } else {
-        NSInteger estimatedLines = thread.content.length / 50 + 1;
-        estimatedRowHeight *= estimatedLines;
-        
-        // Has image = bigger.
-        if (thread.thImgSrc.length) {
-            estimatedRowHeight += settingCentre.userDefShouldUseBigImage ? 160 : 80;
-        }
-    }
-    return estimatedRowHeight;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     selectedIndex = indexPath;
     if (selectedIndex.row < threads.count){
         selectedThread = [threads objectAtIndex:selectedIndex.row];
-        czzThreadViewModelManager *threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:selectedThread andForum:selectedThread.forum];
+        czzThreadViewManager *threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:selectedThread andForum:nil];
         czzThreadViewController *threadViewController = [czzThreadViewController new];
-        threadViewController.viewModelManager = threadViewModelManager;
+        threadViewController.threadViewManager = threadViewManager;
         [NavigationManager pushViewController:threadViewController animated:YES];
     }
 }
@@ -159,34 +132,6 @@ NSInteger const historyIndex = 2;
     return YES;
 }
 
-//-(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return UITableViewAutomaticDimension;
-//}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if (indexPath.row >= threads.count)
-        return tableView.rowHeight;
-    
-    CGFloat preferHeight = tableView.rowHeight;
-    czzThread *thread = [threads objectAtIndex:indexPath.row];
-    NSString *threadIDString = [NSString stringWithFormat:@"%ld", (long)thread.ID];
-
-    NSMutableDictionary *heightsDictionary = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? self.verticalHeights : self.horizontalHeights;
-    NSNumber *heightsNumber = [heightsDictionary objectForKey:threadIDString];
-    
-    if (!heightsNumber) {
-        preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:thread inView:self.view hasImage:thread.thImgSrc.length > 0];
-        preferHeight = MAX(tableView.rowHeight, preferHeight);
-        [heightsDictionary setObject:@(preferHeight) forKey:threadIDString];
-    } else {
-        preferHeight = heightsNumber.floatValue;
-    }
-    
-    return preferHeight;
-}
-
 #pragma mark - UI actions
 
 - (IBAction)editAction:(id)sender {
@@ -209,7 +154,12 @@ NSInteger const historyIndex = 2;
     } else if (titleSegmentedControl.selectedSegmentIndex == watchIndex) {
         threads = [czzWatchListManager sharedManager].watchedThreads;
         selectedManager = [czzWatchListManager sharedManager];
+        //Update watched threads
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+        [[czzWatchListManager sharedManager] refreshWatchedThreads:^(NSArray *updatedThreads) {
+            self.updatedThreads = updatedThreads;
+            [self.tableView reloadData];
+        }];
     }
 }
 

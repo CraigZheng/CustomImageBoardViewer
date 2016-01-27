@@ -19,7 +19,6 @@
 -(BOOL)addValueAsCookie:(NSString*)cookieValue;
 -(void)archiveCookie:(NSHTTPCookie*)cookie;
 -(void)deleteArchiveCookie:(NSHTTPCookie*)cookie;
--(void)refreshACCookies;
 -(void)setACCookie:(NSHTTPCookie*)cookie ForURL:(NSURL*)url;
 -(void)deleteCookie:(NSHTTPCookie*)cookie;
 

@@ -21,7 +21,7 @@
         if ([self.delegate respondsToSelector:@selector(threadListProcessed::)]){
             [self.delegate threadListProcessed:nil :NO];
         }
-        DLog(@"%@", error);
+        DDLogDebug(@"%@", error);
     }
     @try {
         for (SMXMLElement *child in xmlDoc.root.children) {
@@ -89,7 +89,7 @@
     if (error){
         if ([self.delegate respondsToSelector:@selector(subThreadProcessed::)])
             [self.delegate subThreadProcessed:nil :NO];
-        DLog(@"%@", error);
+        DDLogDebug(@"%@", error);
     }
     for (SMXMLElement *child in xmlDoc.root.children) {
         if ([child.name isEqualToString:@"model"]){

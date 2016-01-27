@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="oY8-ul-yHo">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="9515"/>
+    </dependencies>
+    <scenes>
+        <!--板块列表-->
+        <scene sceneID="gc4-Y4-v2a">
+            <objects>
+                <controller title="板块列表" id="oY8-ul-yHo" customClass="czzWKForumInterfaceController">
+                    <items>
+                        <label width="1" alignment="left" hidden="YES" text="Label" id="qje-8E-I2n"/>
+                        <table alignment="left" id="NzZ-TO-325">
+                            <items>
+                                <tableRow identifier="wkForumsRowControllerIdentifier" id="kxs-LE-DB1" customClass="czzWKForumRowController">
+                                    <group key="rootItem" width="1" height="40" alignment="left" layout="vertical" id="Uzq-rM-g3W">
+                                        <items>
+                                            <label alignment="left" verticalAlignment="center" id="185-xI-UHW">
+                                                <fontDescription key="font" style="UICTFontTextStyleTitle1"/>
+                                            </label>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="forumNameLabel" destination="185-xI-UHW" id="O0R-Je-Iau"/>
+                                        <segue destination="AgC-eL-Hgc" kind="push" id="Ihw-9K-6Xd"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <imageView alignment="center" hidden="YES" image="Activity1" id="gke-l4-cly"/>
+                    </items>
+                    <connections>
+                        <outlet property="loadingIndicator" destination="gke-l4-cly" id="cb8-3t-sOL"/>
+                        <outlet property="statusLabel" destination="qje-8E-I2n" id="uts-NF-TnN"/>
+                        <outlet property="wkForumsTableView" destination="NzZ-TO-325" id="ZER-Ib-unl"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="-82" y="217"/>
+        </scene>
+        <!--板块内容-->
+        <scene sceneID="aou-V4-d1y">
+            <objects>
+                <controller title="板块内容" id="AgC-eL-Hgc" customClass="InterfaceController">
+                    <items>
+                        <group width="1" alignment="left" id="GxK-pe-wV2">
+                            <items>
+                                <label alignment="left" id="2nn-uC-7pc">
+                                    <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                                </label>
+                            </items>
+                        </group>
+                        <table alignment="left" id="fNI-O2-IGG">
+                            <items>
+                                <tableRow identifier="wkHomeViewRow" id="JYl-HG-3OB" customClass="czzWatchKitHomeRowController">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" id="l6v-Dq-zEd">
+                                        <items>
+                                            <separator alignment="left" id="evR-bo-Eib"/>
+                                            <label width="1" alignment="left" numberOfLines="0" id="dFG-gt-rRo"/>
+                                            <imageView alignment="left" id="3YK-YS-rlG"/>
+                                            <group width="1" alignment="left" id="bpU-90-M5f">
+                                                <items>
+                                                    <imageView width="12" height="12" alignment="left" verticalAlignment="bottom" image="picture.png" contentMode="scaleAspectFill" id="EEs-GL-HuX">
+                                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </imageView>
+                                                    <label alignment="right" verticalAlignment="bottom" textAlignment="right" id="pGz-Mb-1qc">
+                                                        <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                                    </label>
+                                                </items>
+                                            </group>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="wkThreadContentLabel" destination="dFG-gt-rRo" id="6lJ-Fl-InX"/>
+                                        <outlet property="wkThreadImage" destination="3YK-YS-rlG" id="GZL-Nv-gEj"/>
+                                        <outlet property="wkThreadInformationLabel" destination="pGz-Mb-1qc" id="yR7-bB-HiH"/>
+                                        <outlet property="wkThreadThumbnailImage" destination="EEs-GL-HuX" id="SzX-0G-OiX"/>
+                                        <segue destination="PDK-Cg-DDX" kind="push" id="shC-Hi-78y"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <group width="1" alignment="left" layout="vertical" id="pdB-w5-5Ao">
+                            <items>
+                                <imageView alignment="center" hidden="YES" image="Activity1" id="04l-bs-keV"/>
+                                <button width="1" alignment="left" title="Reload" id="kZk-X9-WZ7">
+                                    <connections>
+                                        <action selector="reloadButtonAction" destination="AgC-eL-Hgc" id="VhJ-Qz-Tpm"/>
+                                    </connections>
+                                </button>
+                                <button width="1" alignment="center" hidden="YES" title="Next" id="rOK-0j-0pb">
+                                    <connections>
+                                        <action selector="loadMoreButtonAction" destination="AgC-eL-Hgc" id="XHj-Gq-OnY"/>
+                                    </connections>
+                                </button>
+                            </items>
+                        </group>
+                    </items>
+                    <connections>
+                        <outlet property="loadingIndicator" destination="04l-bs-keV" id="zYE-Uc-HK9"/>
+                        <outlet property="reloadButton" destination="kZk-X9-WZ7" id="qIh-Zk-D9c"/>
+                        <outlet property="screenTitleLabel" destination="2nn-uC-7pc" id="LYe-Sb-ffS"/>
+                        <outlet property="wkThreadsTableView" destination="fNI-O2-IGG" id="W2m-zR-agz"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="164" y="216.5"/>
+        </scene>
+        <!--串内容-->
+        <scene sceneID="fpF-q4-YuA">
+            <objects>
+                <controller identifier="czzWKThreadViewController" title="串内容" id="PDK-Cg-DDX" customClass="czzWKThreadInterfaceController">
+                    <items>
+                        <label alignment="left" id="q3p-gH-wCs">
+                            <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                        </label>
+                        <table alignment="left" id="ssM-ZN-gZK">
+                            <items>
+                                <tableRow identifier="wkHomeViewRow" selectable="NO" id="vfM-qP-lAX" customClass="czzWatchKitHomeRowController">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" id="GXv-WR-EuV">
+                                        <items>
+                                            <separator alignment="left" id="am3-zt-abW"/>
+                                            <label width="1" alignment="left" numberOfLines="0" id="8Q3-Fj-oOm"/>
+                                            <imageView alignment="left" id="btO-YY-a3h"/>
+                                            <group width="1" alignment="left" id="u2c-AC-GI2">
+                                                <items>
+                                                    <imageView width="12" height="12" alignment="left" verticalAlignment="bottom" image="picture.png" contentMode="scaleAspectFill" id="2em-Zy-u56">
+                                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </imageView>
+                                                    <label alignment="right" verticalAlignment="bottom" textAlignment="right" id="RaF-vv-tZM">
+                                                        <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                                    </label>
+                                                </items>
+                                            </group>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="wkThreadContentLabel" destination="8Q3-Fj-oOm" id="PTJ-in-Jm5"/>
+                                        <outlet property="wkThreadImage" destination="btO-YY-a3h" id="hN1-3M-nFn"/>
+                                        <outlet property="wkThreadInformationLabel" destination="RaF-vv-tZM" id="zpd-E5-RuC"/>
+                                        <outlet property="wkThreadThumbnailImage" destination="2em-Zy-u56" id="lSv-KQ-rRE"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <group width="1" alignment="left" layout="vertical" id="nto-G3-cLR">
+                            <items>
+                                <imageView alignment="center" hidden="YES" image="Activity1" id="UCO-Hh-mwH"/>
+                                <button width="1" alignment="center" title="More" id="kUx-4k-8Up">
+                                    <connections>
+                                        <action selector="loadMoreButtonAction" destination="PDK-Cg-DDX" id="buM-WE-Rtj"/>
+                                    </connections>
+                                </button>
+                                <button width="1" alignment="left" hidden="YES" title="Watch" id="UO5-u7-Yml">
+                                    <connections>
+                                        <action selector="watchButtonAction" destination="PDK-Cg-DDX" id="ohP-ZG-AIU"/>
+                                    </connections>
+                                </button>
+                            </items>
+                        </group>
+                    </items>
+                    <connections>
+                        <outlet property="idLabel" destination="q3p-gH-wCs" id="IDa-ip-XAK"/>
+                        <outlet property="loadingIndicator" destination="UCO-Hh-mwH" id="inC-cU-wAW"/>
+                        <outlet property="moreButton" destination="kUx-4k-8Up" id="OKR-7e-GZH"/>
+                        <outlet property="wkThreadsTableView" destination="ssM-ZN-gZK" id="4sA-b0-os7"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="345" y="213"/>
+        </scene>
+    </scenes>
+</document>

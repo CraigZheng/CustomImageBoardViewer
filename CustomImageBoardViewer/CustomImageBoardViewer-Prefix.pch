@@ -11,6 +11,8 @@
 // DLog(@"here");
 // DLog(@"value: %d", x);
 // Unfortunately this doesn't work DLog(aStringVariable); you have to do this instead DLog(@"%@", aStringVariable);
+#import <CocoaLumberjack/CocoaLumberjack.h>
+static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 #ifdef DEBUG
 #    define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
@@ -57,7 +59,6 @@ _Pragma("clang diagnostic pop") \
 
 #import "UIApplication+Util.h"
 #import "UIView+Util.h"
-#import "czzAppDelegate.h"
-#import "czzNavigationViewModelManager.h"
+#import "czzNavigationManager.h"
 #import "UIViewController+Util.h"
 

@@ -8,8 +8,6 @@
 
 #import "czzThreadViewCellFooterView.h"
 
-#import "UIView+MGBadgeView.h"
-
 @interface czzThreadViewCellFooterView()
 
 @property (weak, nonatomic) IBOutlet UILabel *sageLabel;
@@ -20,38 +18,25 @@
 
 @implementation czzThreadViewCellFooterView
 
--(void)renderContent {
+#pragma mark - Setters
+
+-(void)setThread:(czzThread *)myThread {
+    _thread = myThread;
     self.sageLabel.hidden = self.lockedLabel.hidden = self.responseCountLabel.hidden = YES;
-    if (self.myThread) {
-        if (self.myThread.sage)
+    if (myThread) {
+        if (myThread.sage)
             self.sageLabel.hidden = NO;
-        if (self.myThread.lock)
+        if (myThread.lock)
             self.lockedLabel.hidden = NO;
-        if (self.myThread.responseCount) {
-            // If should highlight response label, use the badgeView instead, which provides a nice looking badge view.
+        if (myThread.responseCount) {
+            self.responseCountLabel.text = [NSString stringWithFormat:@"回应:%ld", (long)myThread.responseCount];
             self.responseCountLabel.hidden = NO;
-            if (self.highlightResponse) {
-                self.responseCountLabel.badgeView.badgeValue = self.myThread.responseCount;
-                self.responseCountLabel.badgeView.position = MGBadgePositionTopLeft;
-                self.responseCountLabel.badgeView.badgeColor = [UIColor redColor];
-                self.responseCountLabel.text = nil;
-            } else {
-                self.responseCountLabel.text = [NSString stringWithFormat:@"回应:%ld", (long)self.myThread.responseCount];
-            }
         }
     }
 }
 
-#pragma mark - Setters
-
--(void)setMyThread:(czzThread *)myThread {
-    _myThread = myThread;
-    [self renderContent];
-}
-
--(void)setHighlightResponse:(BOOL)highlightResponse {
-    _highlightResponse = highlightResponse;
-    [self renderContent];
+-(BOOL)isHidden {
+    return self.sageLabel.hidden == self.lockedLabel.hidden == self.responseCountLabel.hidden == YES;
 }
 
 @end

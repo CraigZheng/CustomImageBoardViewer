@@ -7,6 +7,7 @@
 //
 
 #import "czzForum.h"
+#import "NSObject+NSCodingCompatibleObject.h"
 
 @implementation czzForum
 
@@ -46,29 +47,6 @@
     return wkForum;
 }
 
-#pragma mark - NSCoding protocol
--(id)initWithCoder:(NSCoder *)aDecoder {
-    czzForum *forum = [czzForum new];
-    forum.name = [aDecoder decodeObjectForKey:@"name"];
-    forum.header = [aDecoder decodeObjectForKey:@"header"];
-    forum.lock = [aDecoder decodeBoolForKey:@"lock"];
-    forum.cooldown = [aDecoder decodeIntegerForKey:@"cooldown"];
-    forum.forumID = [aDecoder decodeIntegerForKey:@"forumID"];
-    forum.createdAt = [aDecoder decodeObjectForKey:@"createdAt"];
-    forum.updatedAt = [aDecoder decodeObjectForKey:@"updatedAt"];
-    return forum;
-}
-
--(void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeObject:self.name forKey:@"name"];
-    [aCoder encodeObject:self.header forKey:@"header"];
-    [aCoder encodeBool:self.lock forKey:@"lock"];
-    [aCoder encodeInteger:self.cooldown forKey:@"cooldown"];
-    [aCoder encodeInteger:self.forumID forKey:@"forumID"];
-    [aCoder encodeObject:self.createdAt forKey:@"createdAt"];
-    [aCoder encodeObject:self.updatedAt forKey:@"updatedAt"];
-    
-}
 
 +(id)initWithJSONDictionary:(NSDictionary *)jsonDict {
     return [[czzForum alloc] initWithJSONDictionary:jsonDict];

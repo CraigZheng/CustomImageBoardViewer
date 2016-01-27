@@ -84,8 +84,12 @@
 
 }
 
--(void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    // Google Analytic integration
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -129,9 +133,9 @@
 -(void)downloadAndPrepareThreadWithID:(NSInteger)threadID {
     czzThread *dummpyParentThread = [czzThread new];
     dummpyParentThread.ID = threadID;
-    czzThreadViewModelManager *threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:dummpyParentThread andForum:nil];
+    czzThreadViewManager *threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:dummpyParentThread andForum:nil];
     czzThreadViewController *threadViewController = [[UIStoryboard storyboardWithName:THREAD_VIEW_CONTROLLER_STORYBOARD_NAME bundle:nil] instantiateViewControllerWithIdentifier:THREAD_VIEW_CONTROLLER_ID];
-    threadViewController.viewModelManager = threadViewModelManager;
+    threadViewController.threadViewManager = threadViewManager;
     [NavigationManager pushViewController:threadViewController animated:YES];
 //    miniThreadView = [[UIStoryboard storyboardWithName:@"MiniThreadView" bundle:nil] instantiateInitialViewController];
 //    miniThreadView.delegate = self;
@@ -144,7 +148,7 @@
     }
     NSURL *aIsleHostURL = [NSURL URLWithString:[settingCentre a_isle_host]];
     NSString *searchURL = [[selectedSearchEngine stringByReplacingOccurrencesOfString:A_ISLE_HOST withString:[aIsleHostURL host]] stringByReplacingOccurrencesOfString:KEYWORD withString:keyword];
-    DLog(@"search: %@", searchURL);
+    DDLogDebug(@"search: %@", searchURL);
     return [NSURLRequest requestWithURL:[NSURL URLWithString:searchURL]];
 }
 #pragma mark - Navigation
@@ -154,8 +158,8 @@
 {
     if ([segue.identifier isEqualToString:showThreadViewSegueIdentifier]) {
         czzThreadViewController *threadViewController = (czzThreadViewController*) segue.destinationViewController;
-        czzThreadViewModelManager *threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:selectedParentThread andForum:[czzForum new]];
-        threadViewController.viewModelManager = threadViewModelManager;
+        czzThreadViewManager *threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:selectedParentThread andForum:[czzForum new]];
+        threadViewController.threadViewManager = threadViewManager;
     }
 }
 
@@ -165,7 +169,7 @@
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    DLog(@"should navigate to URL: %@", request.URL.absoluteString);
+    DDLogDebug(@"should navigate to URL: %@", request.URL.absoluteString);
     //user tapped on link
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
         if ([request.URL.absoluteString rangeOfString:[settingCentre a_isle_host]].location == NSNotFound) {

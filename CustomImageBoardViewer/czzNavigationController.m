@@ -8,17 +8,14 @@
 
 #import "czzNavigationController.h"
 #import "czzHomeViewController.h"
-#import "czzNavigationViewModelManager.h"
+#import "czzNavigationManager.h"
 #import "czzSettingsCentre.h"
 
-@interface czzNavigationController () <UINavigationControllerDelegate, czzNavigationViewModelManagerDelegate>
-
+@interface czzNavigationController () <UINavigationControllerDelegate, czzNavigationManagerDelegate>
 @end
 
 @implementation czzNavigationController
 @synthesize notificationBannerViewController;
-@synthesize onScreenImageManagerView;
-@synthesize shortImageMangerController;
 @synthesize progressView;
 
 - (void)viewDidLoad {
@@ -37,34 +34,31 @@
     progressView = [[GSIndeterminateProgressView alloc] initWithFrame:CGRectMake(0, self.navigationBar.frame.size.height - 2, self.navigationBar.frame.size.width, 2)];
     progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     [self.navigationBar addSubview:progressView];
-    
-    
-    //create on screen command if nil
-    if (!onScreenImageManagerView)
-    {
-        onScreenImageManagerView = [czzOnScreenImageManagerViewController new];
-        [onScreenImageManagerView stopAnimating]; //hide it at launch
-    }
-    if (!shortImageMangerController) {
-        shortImageMangerController = [czzShortImageManagerCollectionViewController new];;
-    }
-
 }
 
-#pragma mark - czzNavigationViewModelManagerDelegate
--(void)viewModelManager:(czzNavigationViewModelManager *)manager wantsToPopToViewController:(UIViewController *)viewController animated:(BOOL)animated {
+#pragma mark - Getters
+
+- (UINavigationController *)leftViewController {
+    if (!_leftViewController) {
+        _leftViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"left_side_view_controller"];
+    }
+    return _leftViewController;
+}
+
+#pragma mark - czzNavigationManagerDelegate
+-(void)navigationManager:(czzNavigationManager *)manager wantsToPopToViewController:(UIViewController *)viewController animated:(BOOL)animated {
     [self popToViewController:viewController animated:animated];
 }
 
--(void)viewModelManager:(czzNavigationViewModelManager *)manager wantsToPopViewControllerAnimated:(BOOL)animated {
+-(void)navigationManager:(czzNavigationManager *)manager wantsToPopViewControllerAnimated:(BOOL)animated {
     [self popViewControllerAnimated:animated];
 }
 
--(void)viewModelManager:(czzNavigationViewModelManager *)manager wantsToPushViewController:(UIViewController *)viewController animated:(BOOL)animated{
+-(void)navigationManager:(czzNavigationManager *)manager wantsToPushViewController:(UIViewController *)viewController animated:(BOOL)animated{
     [self pushViewController:viewController animated:animated];
 }
 
-- (void)viewModelManager:(czzNavigationViewModelManager *)manager wantsToSetViewController:(NSArray *)viewControllers animated:(BOOL)animated {
+- (void)navigationManager:(czzNavigationManager *)manager wantsToSetViewController:(NSArray *)viewControllers animated:(BOOL)animated {
     [self setViewControllers:viewControllers animated:animated];
 }
 

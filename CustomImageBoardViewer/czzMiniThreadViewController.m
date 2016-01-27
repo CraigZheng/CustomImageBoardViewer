@@ -16,13 +16,12 @@
 #import "czzTextViewHeightCalculator.h"
 #import "czzThread.h"
 #import "czzThreadViewController.h"
-#import "czzThreadViewModelManager.h"
+#import "czzThreadViewManager.h"
 #import "czzFadeInOutModalAnimator.h"
 
 @interface czzMiniThreadViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, assign) NSInteger parentID;
 @property (nonatomic, assign) CGSize rowSize;
-@property (nonatomic, strong) czzFadeInOutModalAnimator *customModalAnimator;
 @property (weak, nonatomic) IBOutlet UIToolbar *miniThreadViewToolBar;
 @end
 
@@ -37,10 +36,22 @@
     self.miniThreadViewToolBar.barTintColor = [settingCentre barTintColour];
     self.miniThreadViewToolBar.tintColor = [settingCentre tintColour];
     
-    //register NIB
-    [threadTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
-    [threadTableView registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER];
-    
+    // Register NIB.
+    [threadTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil]
+          forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
+    // Set estimated row height and actual row height.
+    threadTableView.rowHeight = UITableViewAutomaticDimension;
+    threadTableView.estimatedRowHeight = 44.0;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.threadTableView reloadData];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.threadTableViewHeight.constant = self.threadTableView.contentSize.height;
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -48,26 +59,14 @@
     [AppDelegate.window hideToastActivity];
 }
 
--(void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-
--(void)show{
-    self.modalPresentationStyle = UIModalPresentationCustom;
-    self.transitioningDelegate = self.customModalAnimator = [czzFadeInOutModalAnimator new];
-    [NavigationManager.delegate presentViewController:self animated:YES completion:^{
-        [self.threadTableView reloadData];
-    }];
-}
-
 #pragma mark - UI actions.
 - (IBAction)openAction:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
     
     if (self.myThread) {
-        czzThreadViewModelManager *threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:self.myThread andForum:nil];
+        czzThreadViewManager *threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:self.myThread andForum:nil];
         czzThreadViewController *threadViewController = [[UIStoryboard storyboardWithName:THREAD_VIEW_CONTROLLER_STORYBOARD_NAME bundle:nil] instantiateViewControllerWithIdentifier:THREAD_VIEW_CONTROLLER_ID];
-        threadViewController.viewModelManager = threadViewModelManager;
+        threadViewController.threadViewManager = threadViewManager;
         [NavigationManager pushViewController:threadViewController animated:YES];
     }
 }
@@ -76,39 +75,23 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - Setters.
--(void)setMyThread:(czzThread *)thread {
-    _myThread = thread;
-    [self.threadTableView reloadData];
-}
-
 #pragma mark - UITableViewDataSource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.myThread ? 1 : 0;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *cellIdentifier = [settingCentre userDefShouldUseBigImage] ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
+    NSString *cellIdentifier = THREAD_VIEW_CELL_IDENTIFIER;
     
     czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell) {
         cell.shouldHighlight = NO;
         cell.parentThread = self.myThread;
-        cell.myThread = self.myThread;
+        cell.thread = self.myThread;
+        [cell renderContent];
     }
     return cell;
 }
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat preferHeight = tableView.rowHeight;
-    preferHeight = [czzTextViewHeightCalculator calculatePerfectHeightForThreadContent:self.myThread inView:self.view hasImage:self.myThread.thImgSrc.length > 0];
-    preferHeight = MAX(tableView.rowHeight, preferHeight);
-    rowSize = CGSizeMake(self.view.frame.size.width, preferHeight);
-
-    self.threadTableViewHeight.constant = preferHeight;
-    return preferHeight;
-}
-
 
 #pragma mark - rotation event
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {

@@ -8,6 +8,9 @@
 
 #import "czzThreadViewCellHeaderView.h"
 
+#define RGBCOLOR(r,g,b)[UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1]
+#define brownColour RGBCOLOR(168, 123, 65)
+
 @interface czzThreadViewCellHeaderView()
 @property (weak, nonatomic) IBOutlet UILabel *idLabel;
 @property (weak, nonatomic) IBOutlet UILabel *posterLabel;
@@ -16,24 +19,32 @@
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
 @end
-
+// Default colour 168	123	65
 @implementation czzThreadViewCellHeaderView
 
 #pragma mark - Setters
 
--(void)setMyThread:(czzThread *)myThread {
-    _myThread = myThread;
+-(void)setThread:(czzThread *)myThread {
+    _thread = myThread;
+    static UIColor *defaultTextColour;
+    // Avoid repeatitve calculation.
+    if (!defaultTextColour) {
+        defaultTextColour = brownColour;
+    }
     if (myThread) {
-        self.idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)myThread.ID];
-        NSMutableAttributedString *uidAttrString = [[NSMutableAttributedString alloc] initWithString:@"ID:"];
-        if (myThread.UID)
-            [uidAttrString appendAttributedString:myThread.UID];
-        self.posterLabel.attributedText = uidAttrString;
+        self.idLabel.text = [NSString stringWithFormat:@"%ld", (long)myThread.ID];
+        self.posterLabel.text = [NSString stringWithFormat:@"%@", myThread.UID];
+        // If admin, highlight.
+        if (myThread.admin) {
+            self.posterLabel.textColor = [UIColor redColor];
+        } else {
+            self.posterLabel.textColor = defaultTextColour;
+        }
         self.dateLabel.text = [self.dateFormatter stringFromDate:myThread.postDateTime];
         
         //highlight original poster
         if (self.shouldHighLight &&
-            [myThread.UID.string isEqualToString: self.parentUID]) {
+            [myThread.UID isEqualToString: self.parentUID]) {
             NSMutableAttributedString *opAttributedString = [[NSMutableAttributedString alloc] initWithAttributedString:self.posterLabel.attributedText];
             [opAttributedString addAttributes:@{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle)} range:NSMakeRange(0, opAttributedString.length)];
             self.posterLabel.attributedText = opAttributedString;

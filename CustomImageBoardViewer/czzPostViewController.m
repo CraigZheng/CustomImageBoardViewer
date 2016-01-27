@@ -24,10 +24,12 @@
 #import "czzWatchListManager.h"
 
 @interface czzPostViewController () <czzPostSenderDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
+@property (nonatomic, strong) UIActionSheet *clearContentActionSheet;
+@property (nonatomic, strong) UIActionSheet *cancelPostingActionSheet;
 @property (nonatomic, strong) NSMutableData *receivedResponse;
 @property (nonatomic, strong) czzPostSender *postSender;
 @property (nonatomic, strong) czzEmojiCollectionViewController *emojiViewController;
-
+@property (nonatomic, assign) BOOL didLayout;
 @property (strong, nonatomic) UIBarButtonItem *postButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *postTextViewBottomConstraint;
 
@@ -37,8 +39,6 @@
 
 @implementation czzPostViewController
 @synthesize postTextView;
-@synthesize thread;
-@synthesize replyTo;
 @synthesize postButton;
 @synthesize receivedResponse;
 @synthesize blacklistEntity;
@@ -49,7 +49,43 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    // observe keyboard hide and show notifications to resize the text view appropriately
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (!self.didLayout) {
+        [self renderContent];
+    }
+    // Google Analytic integration
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    //Register focus on text view
+    [self.postTextView becomeFirstResponder];
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    // Dismiss any possible semi modal view.
+    if (self.emojiViewController) {
+        [self dismissSemiModalView];
+    }
+}
+
+- (void)renderContent {
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
     postSender = [czzPostSender new];
@@ -84,22 +120,24 @@
     //assign forum or parent thread based on user selection
     NSString *targetURLString;
     switch (postMode) {
-        case NEW_POST:
+        case postViewControllerModeNew:
             title = @"新内容";
             postSender.parentThread = nil;
             targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:forum.name];
             postSender.forum = forum;
+            postSender.postMode = postSenderModeNew;
             break;
-        case REPLY_POST:
-            if (self.replyTo)
+        case postViewControllerModeReply:
+            if (self.replyToThread)
             {
-                title = [NSString stringWithFormat:@"回复:%ld", (long)replyTo.ID];
-                content = [NSString stringWithFormat:@">>No.%ld\n\n", (long)replyTo.ID];
+                title = [NSString stringWithFormat:@"回复:%ld", (long)self.replyToThread.ID];
+                content = [NSString stringWithFormat:@">>No.%ld\n\n", (long)self.replyToThread.ID];
             }
-            postSender.parentThread = thread;
+            postSender.parentThread = self.parentThread;
+            postSender.postMode = postSenderModeReply;
             break;
-        
-        case REPORT_POST:
+            
+        case postViewControllerModeReport: {
             title = @"举报";
             NSString *forumName = @"值班室";
             targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:forumName];
@@ -110,35 +148,18 @@
                     break;
                 }
             }
+            postSender.postMode = postSenderModeNew;
+            break;
+        }
+        default:
+            [NSException raise:@"ACTION NOT SUPPORTED" format:@"%s", __func__];
             break;
     }
     self.title = title;
     if (content.length)
         postTextView.text = content;
-    
-    // observe keyboard hide and show notifications to resize the text view appropriately
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillShow:)
-                                                 name:UIKeyboardWillShowNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillHide:)
-                                                 name:UIKeyboardWillHideNotification
-                                               object:nil];
-}
-
--(void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    //Register focus on text view
-    [self.postTextView becomeFirstResponder];
-}
-
--(void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    // Dismiss any possible semi modal view.
-    if (self.emojiViewController) {
-        [self dismissSemiModalView];
-    }
+    // Already layout contents.
+    self.didLayout = YES;
 }
 
 - (void)postAction:(id)sender {
@@ -158,6 +179,19 @@
             [blacklistSender sendBlacklistUpdate];
         }
     }
+    
+    // Google Analytic integration.
+    NSString *label = self.postSender.content;
+    // Chunk the text.
+    if (label.length > 100) {
+        label = [label substringToIndex:99];
+    }
+    NSInteger ID = postSender.parentThread ? postSender.parentThread.ID : 0;
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Thread"
+                                                                                        action:@"Post Thread"
+                                                                                         label:label
+                                                                                         value:@(ID)] build]];
+
 }
 
 - (void)pickImageAction:(id)sender {
@@ -186,13 +220,22 @@
 
 //delete everything from the text view
 - (IBAction)clearAction:(id)sender {
-    if (postTextView.text.length > 0)
+    if (postTextView.text.length > 0 || postSender.imgData)
     {
         [self.postTextView resignFirstResponder];
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"清空内容和图片？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"清空" otherButtonTitles: nil];
-        [actionSheet showInView:self.view];
+        self.clearContentActionSheet = [[UIActionSheet alloc] initWithTitle:@"清空内容和图片？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"清空" otherButtonTitles: nil];
+        [self.clearContentActionSheet showInView:self.view];
 
     }
+}
+
+- (IBAction)cancelAction:(id)sender {
+    if (postTextView.text.length || postSender.imgData) {
+        [self.postTextView resignFirstResponder];
+        self.cancelPostingActionSheet = [[UIActionSheet alloc] initWithTitle:@"确定要中断发送文章？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"中断" otherButtonTitles: nil];
+        [self.cancelPostingActionSheet showInView:self.view];
+    } else
+        [self dismiss];
 }
 
 -(void)resetContent{
@@ -201,10 +244,23 @@
     [[AppDelegate window] makeToast:@"内容和图片已清空"];
 }
 
+- (void)dismiss {
+    if (self.isModal) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
 #pragma mark - UIActionSheetDelegate
 -(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == actionSheet.destructiveButtonIndex)
-    [self resetContent];
+    if (actionSheet == self.clearContentActionSheet) {
+        if (buttonIndex == actionSheet.destructiveButtonIndex)
+            [self resetContent];
+    } else if (actionSheet == self.cancelPostingActionSheet) {
+        if (buttonIndex == actionSheet.destructiveButtonIndex)
+            [self dismiss];
+    }
 }
 
 #pragma UIImagePickerController delegate
@@ -269,7 +325,7 @@
 #pragma czzPostSender delegate
 -(void)statusReceived:(BOOL)status message:(NSString *)message{
     if (status) {
-        [self.navigationController popViewControllerAnimated:YES];
+        [self dismiss];
         [AppDelegate showToast:@"提交成功"];
         
         if (postSender.parentThread) {

@@ -13,8 +13,6 @@
 #import "czzSettingsCentre.h"
 #import "czzAppDelegate.h"
 
-#import "KLCPopup.h"
-
 @interface czzCookieManagerViewController () <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 @property czzCookieManager *cookieManager;
 @property (nonatomic, strong) NSHTTPCookie *selectedCookie;
@@ -41,6 +39,13 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
     cookieManagerTableView.backgroundColor = [settingCentre viewBackgroundColour];
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    // Google Analytic integration
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
 
 #pragma mark - UITableViewDataSource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -130,8 +135,6 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
 }
 
 -(void)refreshData {
-    [cookieManager refreshACCookies];
-    
     switch (cookieManagerSegmentControl.selectedSegmentIndex) {
         case 0:
             cookiesDataSource = [cookieManager currentACCookies];
@@ -150,7 +153,7 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
         messagePopUp.imageToShow = cookieManagerSegmentControl.selectedSegmentIndex == 0 ? [UIImage imageNamed:@"35.png"] : [UIImage imageNamed:@"03.png"];
         
         messagePopUp.messageToShow = [NSString stringWithFormat:@"没有%@的饼干...", [cookieManagerSegmentControl titleForSegmentAtIndex:cookieManagerSegmentControl.selectedSegmentIndex]];
-        [messagePopUp show];
+        [messagePopUp modalShow];
     }
     [cookieManagerTableView reloadData];
 
@@ -177,7 +180,7 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
             [cookieManager setACCookie:newCookie ForURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
             [AppDelegate showToast:@"饼干已启用"];
         } else {
-            DLog(@"token nil");
+            DDLogDebug(@"token nil");
         }
     } else if (alertView == shareCookieAlertView) {
         //do nothing

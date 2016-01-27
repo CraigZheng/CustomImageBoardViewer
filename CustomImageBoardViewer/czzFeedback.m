@@ -34,7 +34,7 @@
 
 -(BOOL)sendFeedback:(czzNotification*)notification{
     if (content.length <= 0) {
-        DLog(@"need content");
+        DDLogDebug(@"need content");
         return NO;
     }
     NSString *targetHost = [AppDelegate.myhost stringByAppendingPathComponent:feedback_host];
@@ -46,12 +46,12 @@
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]) {
         targetHost = [targetHost stringByAppendingFormat:@"&UID=%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]];
     }
-    DLog(@"target url string = %@", targetHost);
+    DDLogDebug(@"target url string = %@", targetHost);
 
     NSError *error;
     [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[targetHost stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]] returningResponse:nil error:&error];
     if (error) {
-        DLog(@"%@", error);
+        DDLogDebug(@"%@", error);
         return NO;
     }
 

@@ -7,6 +7,7 @@
 //
 
 #import "UINavigationController+Util.h"
+#import "czzSettingsCentre.h"
 
 @implementation UINavigationController (Util)
 

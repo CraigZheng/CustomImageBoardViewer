@@ -14,10 +14,11 @@
 #import "czzSettingsCentre.h"
 #import "czzCookieManagerViewController.h"
 #import "czzNotificationCentreTableViewController.h"
-#import "czzHomeViewModelManager.h"
+#import "czzHomeViewManager.h"
 #import "czzWatchListManager.h"
 
 @interface czzSettingsViewController ()<UIAlertViewDelegate, UIActionSheetDelegate>
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *debugBarButton;
 @property NSMutableArray *commands;
 @property NSMutableArray *regularCommands;
 @property NSMutableArray *switchCommands;
@@ -33,10 +34,10 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+#ifndef DEBUG
+    self.navigationItem.rightBarButtonItem = nil;
+#endif
     settingsCentre = [czzSettingsCentre sharedInstance];
-    commands = [NSMutableArray new];
-    regularCommands = [NSMutableArray new];
-    switchCommands = [NSMutableArray new];
     [self prepareCommands];
     self.settingsTableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
 }
@@ -44,6 +45,11 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.view.backgroundColor = settingsCentre.viewBackgroundColour;
+    
+    // Google Analytic integration
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 #pragma mark UITableViewDataSource
@@ -104,7 +110,7 @@
              BOOL shouldHighlight = settingsCentre.userDefShouldHighlightPO;
              [commandSwitch setOn:shouldHighlight];
          } else if ([command isEqualToString:@"夜间模式"]) {
-             [commandSwitch setOn:settingsCentre.nightyMode];
+             [commandSwitch setOn:settingsCentre.userDefNightyMode];
          }
          else if ([command isEqualToString:@"大图模式"]) {
              [commandSwitch setOn:settingsCentre.userDefShouldUseBigImage];
@@ -113,6 +119,8 @@
              [commandSwitch setOn:settingsCentre.userDefShouldCleanCaches];
          } else if ([command isEqualToString:@"Monitor Performance"]) {
 //             [commandSwitch setOn:[DartCrowdSourcingConstants isEnabled]];
+         } else if ([command isEqualToString:@"自动下载大图"]) {
+             [commandSwitch setOn:settingCentre.userDefShouldAutoDownloadImage];
          }
     } else if (indexPath.section == 1){
         UILabel *commandLabel = (UILabel*)[cell viewWithTag:5];
@@ -164,7 +172,7 @@
                 AppDelegate.window.rootViewController = utilityViewContorller;
                 [AppDelegate.window makeKeyAndVisible];
             } else {
-                DLog(@"Utility view contorller nil, cannot instantiate from Utility storyboard file.");
+                DDLogDebug(@"Utility view contorller nil, cannot instantiate from Utility storyboard file.");
             }
         } else if ([command isEqualToString:@"WATCHLIST"]) {
             
@@ -174,10 +182,17 @@
 
 #pragma mark - prepareCommands for the menu
 -(void)prepareCommands{
+    commands = [NSMutableArray new];
+    regularCommands = [NSMutableArray new];
+    switchCommands = [NSMutableArray new];
+
     [switchCommands addObject:@"显示图片"];
     [switchCommands addObject:@"显示快速滑动按钮"];
     [switchCommands addObject:@"夜间模式"];
     [switchCommands addObject:@"大图模式"];
+    if ([settingCentre userDefShouldUseBigImage]) {
+        [switchCommands addObject:@"自动下载大图"];
+    }
     [switchCommands addObject:@"图片下载完毕自动打开"];
 //    [switchCommands addObject:@"开启串缓存"];
     [switchCommands addObject:@"每月自动清理缓存"];
@@ -221,7 +236,7 @@
         [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate threadCacheFolder] error:nil];
         [AppDelegate checkFolders];
         [AppDelegate showToast:[NSString stringWithFormat:@"大图模式：%@", settingsCentre.userDefShouldUseBigImage ? @"On" : @"Off"]];
-        [[czzHomeViewModelManager sharedManager] refresh];
+        [[czzHomeViewManager sharedManager] refresh];
         [settingsCentre saveSettings];
         [self.settingsTableView reloadData];
     }
@@ -273,9 +288,9 @@
             settingsCentre.userDefShouldShowOnScreenCommand = switchControl.on;
             [AppDelegate showToast:@"重启后生效"];
         } else if ([command isEqualToString:@"夜间模式"]) {
-            settingsCentre.nightyMode = !settingsCentre.nightyMode;
-            [AppDelegate showToast:[NSString stringWithFormat:@"夜间模式：%@", settingsCentre.nightyMode ? @"On" : @"Off"]];
-            [[czzHomeViewModelManager sharedManager] reloadData];
+            settingsCentre.userDefNightyMode = !settingsCentre.userDefNightyMode;
+            [AppDelegate showToast:[NSString stringWithFormat:@"夜间模式：%@", settingsCentre.userDefNightyMode ? @"On" : @"Off"]];
+            [[czzHomeViewManager sharedManager] reloadData];
             [self.settingsTableView reloadData];
         }
         else if ([command isEqualToString:@"大图模式"]) {
@@ -287,21 +302,21 @@
             [AppDelegate showToast:[NSString stringWithFormat:@"每月自动清理缓存： %@", settingsCentre.userDefShouldCleanCaches ? @"On" : @"Off"]];
         } else if ([command isEqualToString:@"Monitor Performance"]) {
             [self.settingsTableView reloadData];
+        } else if ([command isEqualToString:@"自动下载大图"]) {
+            settingsCentre.userDefShouldAutoDownloadImage = !settingsCentre.userDefShouldAutoDownloadImage;
+            [AppDelegate showToast:[NSString stringWithFormat:@"自动下载大图： %@", settingsCentre.userDefShouldCleanCaches ? @"On" : @"Off"]];
         }
         [settingsCentre saveSettings];
-        [[czzHomeViewModelManager sharedManager] reloadData];
+        [[czzHomeViewManager sharedManager] reloadData];
     }
 }
 
 -(void)toggleBigImageMode {
-    /*
     settingsCentre.userDefShouldUseBigImage = !settingsCentre.userDefShouldUseBigImage;
-    [AppDelegate showToast:[NSString stringWithFormat:@"大图模式：%@，刷新后生效", settingsCentre.nightyMode ? @"On" : @"Off"]];
+    [AppDelegate showToast:[NSString stringWithFormat:@"大图模式：%@", settingsCentre.userDefShouldUseBigImage ? @"On" : @"Off"]];
+    [self prepareCommands];
     [self.settingsTableView reloadData];
-     */
-    UIAlertView *bigImageAlertView = [[UIAlertView alloc] initWithTitle:@"切换模式" message:@"切换大图模式将会清空串缓存，请确认！" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
-    [bigImageAlertView show];
-    [settingsCentre saveSettings];
+    [[czzHomeViewManager sharedManager] reloadData];
 }
 
 -(void)openDonationLink {

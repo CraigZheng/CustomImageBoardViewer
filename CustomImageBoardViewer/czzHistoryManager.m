@@ -62,7 +62,7 @@
         }
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
     }
 
 }
@@ -70,7 +70,7 @@
 -(void)saveCurrentState {
     NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:HISTORY_CACHE_FILE];
     if (![NSKeyedArchiver archiveRootObject:browserHistory toFile:cacheFile]) {
-        DLog(@"unable to save browser history");
+        DDLogDebug(@"unable to save browser history");
     }
 }
 

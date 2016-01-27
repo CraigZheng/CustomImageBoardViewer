@@ -23,7 +23,6 @@
 @implementation czzImageDownloader
 @synthesize urlConn;
 @synthesize imageURLString;
-@synthesize baseURLString;
 @synthesize receivedData;
 @synthesize fileName;
 @synthesize delegate;
@@ -31,14 +30,6 @@
 @synthesize fileSize;
 @synthesize downloadedSize;
 @synthesize backgroundTaskID;
-
--(id)init{
-    self = [super init];
-    if (self){
-        baseURLString = [[czzSettingsCentre sharedInstance] image_host];
-    }
-    return self;
-}
 
 -(void)start{
     if (!imageURLString)
@@ -69,10 +60,18 @@
 -(NSString *)targetURLString {
     NSString *targetURLString;
     if (![imageURLString hasPrefix:@"http"])
-        targetURLString = [baseURLString stringByAppendingPathComponent:[imageURLString stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
+        targetURLString = [self.baseURLString stringByAppendingPathComponent:[imageURLString stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
     else
         targetURLString = imageURLString;
     return targetURLString;
+}
+
+- (NSString *)baseURLString {
+    if (isThumbnail) {
+        return [settingCentre thumbnail_host];
+    } else {
+        return [settingCentre image_host];
+    }
 }
 
 
@@ -121,7 +120,7 @@
     self.internalSavePath = filePath;
     if (delegate && [delegate respondsToSelector:@selector(downloadFinished:success:isThumbnail:saveTo:)]){
         if (error){
-            DLog(@"%@", error);
+            DDLogDebug(@"%@", error);
             [delegate downloadFinished:self success:NO isThumbnail:isThumbnail saveTo:filePath];
         } else {
             [delegate downloadFinished:self success:YES isThumbnail:isThumbnail saveTo:filePath];

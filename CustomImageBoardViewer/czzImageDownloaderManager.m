@@ -11,12 +11,27 @@
 
 @interface czzImageDownloaderManager () <czzImageDownloaderDelegate>
 @property (nonatomic, strong) NSMutableOrderedSet<czzWeakReferenceDelegate*> *delegates;
-
+@property (nonatomic, strong) NSMutableArray *downloadedFullSizeImages;
 @end
 
 @implementation czzImageDownloaderManager
 
 #pragma mark - Getters
+
+- (BOOL)isDownloading {
+    return self.imageDownloaders.count;
+}
+
+- (NSArray *)downloadedImages {
+    return [self.downloadedFullSizeImages copy];
+}
+
+- (NSMutableArray *)downloadedFullSizeImages {
+    if (!_downloadedFullSizeImages) {
+        _downloadedFullSizeImages = [NSMutableArray new];
+    }
+    return _downloadedFullSizeImages;
+}
 
 -(NSMutableOrderedSet *)delegates {
     if (!_delegates) {
@@ -62,8 +77,9 @@
         }
         // Start downloading.
         [imageDownloader start];
+        DDLogDebug(@"Started downloading %@ for: %@.", !thumbnail ? @"Fullsize Image" : @"Thumbnail Image" , imageURL);
     } else {
-        DLog(@"%@: %@ is downloading.", imageURL, thumbnail ? @"Fullsize Image" : @"Thumbnail Image");
+        DDLogDebug(@"%@ is already in download.", imageURL);
     }
 }
 
@@ -83,7 +99,7 @@
                 [delegate imageDownloaderManager:self downloadedStopped:downloaderToStop imageName:imageName];
             }
         }];
-        DLog(@"Image download stopped by user: %@", imageName);
+        DDLogDebug(@"Image download stopped by user: %@", imageName);
     }
 }
 
@@ -129,6 +145,10 @@
     [self.imageDownloaders removeObject:imgDownloader];
     [self.thumbnailDownloaders removeObject:imgDownloader];
 
+    // Record successfully downloaded full size image to self.downloadedFullSizeImages
+    if (success && !thumbnail) {
+        [self.downloadedFullSizeImages addObject:path];
+    }
     [self iterateDelegatesWithBlock:^(id<czzImageDownloaderManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(imageDownloaderManager:downloadedFinished:imageName:wasSuccessful:)]) {
             [delegate imageDownloaderManager:self downloadedFinished:imgDownloader imageName:imgDownloader.imageURLString.lastPathComponent wasSuccessful:success];
@@ -153,7 +173,7 @@
 }
 
 -(void)iterateDelegatesWithBlock:(void(^)(id<czzImageDownloaderManagerDelegate> delegate))block {
-    for (czzWeakReferenceDelegate* weakRefDelegate in self.delegates) {
+    for (czzWeakReferenceDelegate* weakRefDelegate in [self.delegates copy]) {
         id<czzImageDownloaderManagerDelegate> delegate = weakRefDelegate.delegate;
         block(delegate);
     }

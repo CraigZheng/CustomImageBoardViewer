@@ -37,12 +37,13 @@
 -(void)awakeFromNib {
     self.upDownViewController = [czzOnScreenCommandViewController new];
     self.upDownViewController.delegate = self;
+    self.estimatedRowHeight = 44.0;
+    self.rowHeight = UITableViewAutomaticDimension;
 }
 
 -(void)registerNibs {
     // Register thread view cells
     [self registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
-    [self registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER];
     // Register thread view command cells
     [self registerNib:[UINib nibWithNibName:THREAD_TABLEVIEW_COMMAND_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_TABLEVIEW_COMMAND_CELL_IDENTIFIER];
 }
@@ -75,11 +76,12 @@
 
 -(void)onScreenCommandTapOnDown:(id)sender {
     // Scroll to bottom
-    if ([self numberOfRowsInSection:0] > 0) {
-        [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self numberOfRowsInSection:0] - 1 inSection:0]
-                    atScrollPosition:UITableViewScrollPositionBottom
-                            animated:YES];
-    }
+    dispatch_after(DISPATCH_TIME_NOW, dispatch_get_main_queue(), ^(void){
+        NSInteger rows = [self numberOfRowsInSection:0];
+        if (rows) {
+            [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:rows - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        }
+    });
 }
 
 #pragma mark - setters

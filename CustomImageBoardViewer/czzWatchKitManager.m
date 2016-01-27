@@ -9,17 +9,16 @@
 #import "czzWatchKitManager.h"
 #import "czzWatchKitCommand.h"
 #import "czzWKForum.h"
-#import "czzThreadViewModelManager.h"
+#import "czzThreadViewManager.h"
 #import "czzImageDownloaderManager.h"
+#import "czzWatchListManager.h"
 #import "czzForumManager.h"
 
-@interface czzWatchKitManager () <czzHomeViewModelManagerDelegate>
+@interface czzWatchKitManager () <czzHomeViewManagerDelegate>
 @property (assign, nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
-@property (strong, nonatomic) czzHomeViewModelManager *homeViewModelManager;
-@property (strong, nonatomic) czzThreadViewModelManager *threadViewModelManager;
+@property (strong, nonatomic) czzThreadViewManager *threadViewManager;
 @property (strong, nonatomic) NSString *requestedImageURL;
-
-@property (copy)void (^reply)(NSDictionary *replyDictionary);
+@property (strong, nonatomic) NSMutableSet *requestedThreadDownloaders;
 @end
 
 @implementation czzWatchKitManager
@@ -35,23 +34,27 @@
 
 -(void)handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))reply withBackgroundTaskIdentifier:(UIBackgroundTaskIdentifier)backgroundTaskIdentifier{
     self.backgroundTaskIdentifier = backgroundTaskIdentifier;
-    self.reply = reply;
-    id command = [userInfo objectForKey:watchKitCommandKey];
-
-    BOOL loadMore = [[userInfo objectForKey:watchKitCommandLoadMore] boolValue];
-    if ([command isEqual: @(watchKitCommandLoadHomeView)]) {
-        czzWKForum *forum = [[czzWKForum alloc] initWithDictionary:[userInfo objectForKey:watchKitCommandForumKey]];
-        [self watchKitLoadHomeView:forum loadMore:loadMore];
-    } else if ([command isEqual:@(watchKitCommandLoadThreadView)]) {
-        czzWKThread *selectedThread = [[czzWKThread alloc] initWithDictionary:[userInfo objectForKey:@"THREAD"]];
-        if (selectedThread) {
-            [self watchKitLoadThreadView:selectedThread loadMore:loadMore];
+    
+    czzWatchKitCommand *command = [[czzWatchKitCommand alloc] initWithDictionary:userInfo];
+    if (command) {
+        switch (command.action) {
+            case watchKitCommandLoadForumView:
+                [self loadWKForumsWithCommand:command replyHandler:reply];
+                break;
+            case watchKitCommandLoadHomeView:
+                [self loadHomeWithCommand:command loadMore:NO replyHandler:reply];
+                break;
+            case watchKitCommandLoadThreadView:
+                [self loadThreadWithCommand:command replyHandler:reply];
+                break;
+            case watchKitCommandWatchThread:
+                [self watchThreadWithCommand:command replyHandler:reply];
+                break;
+            default:
+                // Reply an empty dictionary to indicate error.
+                reply([NSDictionary new]);
+                break;
         }
-    } else if ([command isEqual:@(watchKitCommandLoadForumView)]) {
-        [self watchKitLoadForumView];
-    } else if ([command isEqual:@(watchKitCommandLoadImage)]) {
-        NSString *imgURL = [userInfo objectForKey:watchKitCommandImageKey];
-        [self watchkitLoadImage:imgURL];
     }
 }
 
@@ -66,73 +69,84 @@
     
 }
 
--(void)watchKitLoadForumView {
-    [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
-
-    [[czzForumManager sharedManager] updateForums:^(BOOL success, NSError *error) {
+-(void)loadWKForumsWithCommand:(czzWatchKitCommand *)command replyHandler:(void(^)(NSDictionary *responseMessage))replyHandler {
+    // Update the forums if necessary
+    if ([czzForumManager sharedManager].forums.count > 0) {
         NSMutableArray *forums = [NSMutableArray new];
         for (czzForum *forum in [[czzForumManager sharedManager] forums]) {
             [forums addObject: [[forum watchKitForum] encodeToDictionary]];
         }
-        [self replyWithDictionary:@{@(watchKitCommandLoadForumView) : forums}];
-    }];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            replyHandler(@{command.caller : forums});
+        });
+    } else {
+        [[czzForumManager sharedManager] updateForums:^(BOOL success, NSError *error) {
+            NSMutableArray *forums = [NSMutableArray new];
+            for (czzForum *forum in [[czzForumManager sharedManager] forums]) {
+                [forums addObject: [[forum watchKitForum] encodeToDictionary]];
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                replyHandler(@{command.caller : forums});
+            });
+        }];
+    }
 }
 
--(void)watchKitLoadHomeView:(czzWKForum*)forum loadMore:(BOOL)loadMore {
-    [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
-    
-    self.homeViewModelManager = [czzHomeViewModelManager new];
-    
-    czzForum *selectedForum = [czzForum new];
-    selectedForum.name = forum.name;
-    [self.homeViewModelManager setForum:selectedForum];
-    
-    __block NSMutableDictionary *replyDictionary = [NSMutableDictionary new];
+-(void)loadHomeWithCommand:(czzWatchKitCommand *)command loadMore:(BOOL)loadMore replyHandler:(void(^)(NSDictionary *responseMessage))replyHandler {
+    // Get czzForum object from the incoming czzWKForum object.
+    czzWKForum *selectedForum = [[czzWKForum alloc] initWithDictionary:[command.parameter valueForKey:@"FORUM"]];
+    czzForum *tempForum = [czzForum new];
+    tempForum.name = selectedForum.name;
+    tempForum.forumID = selectedForum.forumID;
+    czzThreadDownloader *threadDownloader = [[czzThreadDownloader alloc] initWithForum:tempForum];
+    __weak id weakRefDownloader = threadDownloader;
+    // Add the newly created downloader object to self.requestedThreadDownloader set.
+    [self.requestedThreadDownloaders addObject:threadDownloader];
     __weak typeof (self) weakSelf = self;
-    self.homeViewModelManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
-        if (success) {
-            //TODO: if success? if fail?
+    threadDownloader.completionHandler = ^(BOOL success, NSArray *threads, NSError *error) {
+        DDLogDebug(@"%s : %ld threads : %@", __PRETTY_FUNCTION__, threads.count, error);
+        replyHandler(@{command.caller : [weakSelf watchKitThreadsWithThreads:threads]});
+        if (weakRefDownloader) {
+            [self.requestedThreadDownloaders removeObject:weakRefDownloader];
         }
-        [replyDictionary addEntriesFromDictionary:@{@(watchKitMiscInfoScreenTitleHome) : weakSelf.homeViewModelManager.forum.name.length ? [NSString stringWithFormat:@"%@-%ld", weakSelf.homeViewModelManager.forum.name, (long)weakSelf.homeViewModelManager.pageNumber] : @"没有板块"}];
-        [replyDictionary addEntriesFromDictionary:@{@(watchKitCommandLoadHomeView) : [weakSelf watchKitThreadsWithThreads:threads]}];
-        [weakSelf replyWithDictionary:replyDictionary];
     };
-    if (loadMore && self.homeViewModelManager.threads.count) {
-        [self.homeViewModelManager loadMoreThreads];
-    } else {
-        [self.homeViewModelManager refresh];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [threadDownloader start];
+    });
 }
 
--(void)watchKitLoadThreadView:(czzWKThread*)selectedThread loadMore:(BOOL)loadMore {
-    [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__]];
-    
-    czzThread *parentThread = [[czzThread alloc] initWithThreadID:selectedThread.ID];
-    self.threadViewModelManager = [[czzThreadViewModelManager alloc] initWithParentThread:parentThread andForum:nil];
-    
-    [self.threadViewModelManager restorePreviousState];
-    __weak typeof (self.threadViewModelManager) weakThreadViewModelManager = self.threadViewModelManager;
+-(void)loadThreadWithCommand:(czzWatchKitCommand *)command replyHandler:(void(^)(NSDictionary *responseMessage))replyHandler {
+    // Get czzThread from czzWKThread
+    czzWKThread *tempWKThread = [[czzWKThread alloc] initWithDictionary:[command.parameter objectForKey:@"THREAD"]];
+    czzThread *selectedThread = [self fatThreadWithWKThread:tempWKThread];
+    // Get requested page
+    NSNumber *pageNumber = [command.parameter objectForKey:@"PAGE"];
+    // Construct and start the thread downloader.
+    czzThreadDownloader *threadDownloader = [[czzThreadDownloader alloc] initWithForum:nil andThread:selectedThread];
+    threadDownloader.pageNumber = pageNumber.integerValue;
+    [self.requestedThreadDownloaders addObject:threadDownloader];
     __weak typeof (self) weakSelf = self;
-    self.threadViewModelManager.watchKitCompletionHandler = ^(BOOL success, NSArray *threads) {
-        NSDictionary *replyDictionary = @{@(watchKitCommandLoadThreadView) : [weakSelf watchKitThreadsWithThreads:weakThreadViewModelManager.threads]};
-        [weakSelf replyWithDictionary:replyDictionary];
+    __weak typeof(threadDownloader) weakRefThreadDownloader = threadDownloader;
+
+    threadDownloader.completionHandler = ^(BOOL success, NSArray *threads, NSError *error){
+        NSDictionary *replyDictionary = @{command.caller : [weakSelf watchKitThreadsWithThreads:threads]};
+        replyHandler(replyDictionary);
+        if (weakRefThreadDownloader) {
+            [weakSelf.requestedThreadDownloaders removeObject:weakRefThreadDownloader];
+        }
     };
-    
-    if (loadMore && self.threadViewModelManager.threads.count > 1) {
-        [self.threadViewModelManager loadMoreThreads];
-    } else {
-        [self.threadViewModelManager refresh];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [threadDownloader start];
+    });
 }
 
--(void)replyWithDictionary:(NSDictionary *)dict {
-    [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"Passing %ld objects to watch kit...", (long)dict.allValues.count]];
-
-    if (self.reply) {
-        self.reply(dict);
-        self.reply = nil;
-    }
-    [self endBackgroundTask];
+- (void)watchThreadWithCommand:(czzWatchKitCommand *)command replyHandler:(void(^)(NSDictionary *responseMessage))replyHandler {
+    DDLogDebug(@"%s", __PRETTY_FUNCTION__);
+    czzWKThread *tempWKThread = [[czzWKThread alloc] initWithDictionary:command.parameter[@"THREAD"]];
+    czzThread *selectedThread = [self fatThreadWithWKThread:tempWKThread];
+    DDLogDebug(@"should watch: %@", tempWKThread);
+    //TODO: a proper response.
+    replyHandler([NSDictionary new]);
 }
 
 -(void)endBackgroundTask {
@@ -152,25 +166,37 @@
 //    }
 }
 
+#pragma mark - Util methods
+
 -(NSArray *)watchKitThreadsWithThreads:(NSArray *)threads {
     NSMutableArray *wkThreads = [NSMutableArray new];
     for (czzThread* thread in threads) {
         [wkThreads addObject:[[thread watchKitThread] encodeToDictionary]];
     }
     
-#ifdef DEBUG
-    // Load from cache
-    NSString *wkThreadCache = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:@"wkCaches.dat"];
-    if (!wkThreads.count) {
-        wkThreads = [NSKeyedUnarchiver unarchiveObjectWithFile:wkThreadCache];
-    } else {
-        [NSKeyedArchiver archiveRootObject:wkThreads toFile:wkThreadCache];
-    }
-    
-    
-#endif
-
     return wkThreads;
+}
+
+- (czzThread *)fatThreadWithWKThread:(czzWKThread *)wkThread {
+    czzThread *thread = [czzThread new];
+    thread.ID = wkThread.ID;
+    thread.title = wkThread.title;
+    thread.name = wkThread.name;
+    thread.content = [[NSAttributedString alloc] initWithString:wkThread.content];
+    thread.postDateTime = wkThread.postDate;
+    thread.thImgSrc = wkThread.thumbnailFile;
+    thread.imgSrc = wkThread.imageFile;
+    
+    return thread;
+}
+
+#pragma mark - Getter
+
+- (NSMutableSet *)requestedThreadDownloaders {
+    if (!_requestedThreadDownloaders) {
+        _requestedThreadDownloaders = [NSMutableSet new];
+    }
+    return _requestedThreadDownloaders;
 }
 
 +(instancetype)sharedManager {

@@ -16,11 +16,13 @@
 -(void)downloadUpdated:(czzURLDownloader*)downloader progress:(CGFloat)progress;
 @end
 
-@interface czzURLDownloader : NSObject<NSURLConnectionDataDelegate>
+@interface czzURLDownloader : NSObject
 @property (weak, nonatomic) id<czzURLDownloaderProtocol>  delegate;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskID;
 
 -(instancetype)initWithTargetURL:(NSURL*)url delegate:(id<czzURLDownloaderProtocol>)delegate startNow:(BOOL)now;
+-(instancetype)initWithTargetURL:(NSURL*)url delegate:(id<czzURLDownloaderProtocol>)delegate startNow:(BOOL)now shouldUseDefaultCookit:(BOOL)should;
+
 +(void)sendSynchronousRequestWithURL:(NSURL*)url completionHandler:(void(^)(BOOL success, NSData *downloadedData, NSError *error))completionHandler;
 
 
