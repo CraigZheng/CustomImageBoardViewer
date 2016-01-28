@@ -22,9 +22,9 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-static NSInteger const fixedConstraintConstant = 100;
-static NSInteger const veryHightConstraintPriority = 999;
-static NSInteger const veryLowConstraintPriority = 1;
+NSInteger const fixedConstraintConstant = 100;
+NSInteger const veryHightConstraintPriority = 999;
+NSInteger const veryLowConstraintPriority = 1;
 
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, czzImageDownloaderManagerDelegate>
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;
@@ -218,9 +218,10 @@ static NSInteger const veryLowConstraintPriority = 1;
         self.imageViewHeightConstraint.constant = self.imageViewWidthConstraint.constant * aspectRatio;
         // Positioning of the image view.
         self.imageViewCentreAlignConstraint.priority = veryHightConstraintPriority;
-        // Make sure the height never bigger than 80% of width.
-        if (self.imageViewHeightConstraint.constant > self.imageViewWidthConstraint.constant * 0.8) {
-            self.imageViewHeightConstraint.constant = self.imageViewWidthConstraint.constant * 0.8;
+
+        // Make sure the height never exceed 80% of the shortest of the screen edges.
+        if (self.imageViewHeightConstraint.constant > MIN(CGRectGetHeight([UIScreen mainScreen].bounds), CGRectGetWidth([UIScreen mainScreen].bounds)) * 0.8) {
+            self.imageViewHeightConstraint.constant = MIN(CGRectGetHeight([UIScreen mainScreen].bounds), CGRectGetWidth([UIScreen mainScreen].bounds)) * 0.8;
         }
     } else {
         self.imageViewCentreAlignConstraint.priority = veryLowConstraintPriority;
@@ -292,7 +293,29 @@ static NSInteger const veryLowConstraintPriority = 1;
     }
 }
 
+- (void)setCellType:(threadViewCellType)cellType {
+    _cellType = cellType;
+    // When in big image mode, the cell image view should be disabled when the cell type is home.
+    if (cellType == threadViewCellTypeHome && self.bigImageMode) {
+        self.cellImageView.userInteractionEnabled = NO;
+    } else {
+        self.cellImageView.userInteractionEnabled = YES;
+    }
+}
+
 #pragma mark - Getters
+- (BOOL)imageUpdated {
+    BOOL updated = NO;
+    // If self.thread points to an image URL, but the cell image view still shows the placeholder image, return NO.
+    if (self.thread.imgSrc.length &&
+        self.cellImageView.image == self.placeholderImage) {
+        updated = NO;
+    } else {
+        updated = YES;
+    }
+    return updated;
+}
+
 - (NSDateFormatter *)dateFormatter {
     if (!_dateFormatter) {
         _dateFormatter = [NSDateFormatter new];
@@ -317,15 +340,6 @@ static NSInteger const veryLowConstraintPriority = 1;
     return _tapOnImageViewRecognizer;
 }
 
-- (void)setCellType:(threadViewCellType)cellType {
-    _cellType = cellType;
-    // When in big image mode, the cell image view should be disabled when the cell type is home.
-    if (cellType == threadViewCellTypeHome && self.bigImageMode) {
-        self.cellImageView.userInteractionEnabled = NO;
-    } else {
-        self.cellImageView.userInteractionEnabled = YES;
-    }
-}
 
 #pragma mark - czzImageDownloaderManagerDelegate
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
@@ -342,9 +356,12 @@ static NSInteger const veryLowConstraintPriority = 1;
                 [self.delegate threadViewCellContentChanged:self];
                 
             } else if (self.bigImageMode) {
-                // Not thumbnail, but big image mode should inform delegate about the full size image as well.
-                // If match, inform delegate.
-                [self.delegate threadViewCellContentChanged:self];
+                // If the cell image view still shows the placeholder image, inform the delegate now.
+                if (!self.imageUpdated) {
+                    [self.delegate threadViewCellContentChanged:self];
+                }
+                // Assign the fullsize image.
+                self.cellImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForImageWithName:downloader.targetURLString.lastPathComponent]]];
             }
         }
     }

@@ -47,7 +47,7 @@
     if (self) {
         self.imageViewerUtil = [czzImageViewerUtil new];
         self.pendingBulkUpdateIndexes = [NSMutableOrderedSet new];
-        self.pendingChangedThreadID = [NSMutableArray new];
+        self.pendingChangedThreadID = [NSMutableOrderedSet new];
         self.bigImageMode = [settingCentre userDefShouldUseBigImage];
         [[czzImageDownloaderManager sharedManager] addDelegate:self];
         if ([self isMemberOfClass:[czzHomeTableViewManager class]]) {
@@ -185,6 +185,35 @@
     return height;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CGFloat estimatedHeight = 44.0;
+    if (indexPath.row < self.homeViewManager.threads.count) {
+        czzThread *thread = self.homeViewManager.threads[indexPath.row];
+        NSNumber *threadID = @(thread.ID);
+        // If its been cached.
+        if ([self.cachedHeights objectForKey:threadID]) {
+            estimatedHeight = [[self.cachedHeights objectForKey:threadID] floatValue];
+        } else {
+            // Calculate an estimated height based on if an image is available.
+            // If the width is bigger than height, set the base height to be 50, otherwise let it be 100.
+            estimatedHeight = CGRectGetWidth(tableView.frame) > CGRectGetHeight(tableView.frame) ? 50 : 100;
+            if (thread.imgSrc.length) {
+                // If big image mode and has the image/thumbnail, add 70% of the shortest edge to the estimated height.
+                if (self.bigImageMode &&
+                    ([[czzImageCacheManager sharedInstance] hasThumbnailWithName:thread.imgSrc.lastPathComponent] ||
+                     [[czzImageCacheManager sharedInstance] hasImageWithName:thread.imgSrc.lastPathComponent])) {
+                        estimatedHeight += MIN(CGRectGetWidth(tableView.frame), CGRectGetHeight(tableView.frame)) * 0.8;
+                    } else {
+                        // Add the fixed image view constraint constant to the estimated height.
+                        estimatedHeight += fixedConstraintConstant;
+                    }
+            }
+        }
+    }
+    DLog(@"Estimated height: %.1f", estimatedHeight);
+    return estimatedHeight;
+}
+
 #pragma mark - UITableView datasource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (self.homeViewManager.threads.count > 0)
@@ -220,6 +249,7 @@
         cell.myIndexPath = indexPath;
         cell.nightyMode = [settingCentre userDefNightyMode];
         cell.bigImageMode = [settingCentre userDefShouldUseBigImage];
+        cell.allowImage = [settingCentre userDefShouldDisplayThumbnail];
         cell.cellType = threadViewCellTypeHome;
         cell.parentThread = thread;
         cell.thread = thread;
@@ -263,11 +293,8 @@
 #pragma mark - Notification handler
 
 - (void)settingsChangedNotificationReceived:(NSNotification *)notification {
-    if (self.bigImageMode != settingCentre.userDefShouldUseBigImage) {
-        self.cachedHorizontalHeights = nil;
-        self.cachedVerticalHeights = nil;
-        self.bigImageMode = settingCentre.userDefShouldUseBigImage;
-    }
+    // When settings are changed, always clear the heights cache.
+    self.cachedHeights = nil;
 }
 
 #pragma mark - czzMenuEnableTableViewCellDelegate
@@ -288,8 +315,7 @@
 
 - (void)threadViewCellContentChanged:(czzMenuEnabledTableViewCell *)cell {
     NSNumber *threadID = @(cell.thread.ID);
-    [self.cachedHorizontalHeights removeObjectForKey:threadID];
-    [self.cachedVerticalHeights removeObjectForKey:threadID];
+    [self.cachedHeights removeObjectForKey:threadID];
     [self.pendingChangedThreadID addObject:threadID];
 
     // If not big image mode, the size of the image should be the same, so no need to reload data.
@@ -312,8 +338,13 @@
 #pragma mark - czzImageDownloaderManagerDelegate
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
     if (success) {
-        if (!downloader.isThumbnail && [settingCentre userDefShouldAutoOpenImage] && [self isMemberOfClass:[czzHomeTableViewManager class]])
+        // If: not thumbnail, self is czzHomeTableViewManager, should auto open image and not auto download image.
+        if (!downloader.isThumbnail &&
+            [self isMemberOfClass:[czzHomeTableViewManager class]] &&
+            [settingCentre userDefShouldAutoOpenImage] &&
+            ![settingCentre userDefShouldAutoDownloadImage]) {
             [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]];
+        }
     } else
         DDLogDebug(@"img download failed");
 }
@@ -328,6 +359,12 @@
         [AppDelegate showToast:@"开始下载图片..."];
 }
 
+#pragma mark - Rotation event.
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    // Clear the cached heights.
+    self.cachedHeights = nil;
+}
+
 #pragma mark - Getters 
 
 - (czzMenuEnabledTableViewCell *)sizingCell {
@@ -338,25 +375,10 @@
 }
 
 - (NSMutableDictionary *)cachedHeights {
-    if (UIInterfaceOrientationIsPortrait([UIApplication rootViewController].interfaceOrientation)) {
-        return self.cachedVerticalHeights;
-    } else {
-        return self.cachedHorizontalHeights;
+    if (!_cachedHeights) {
+        _cachedHeights = [NSMutableDictionary new];
     }
-}
-
-- (NSMutableDictionary *)cachedHorizontalHeights {
-    if (!_cachedHorizontalHeights) {
-        _cachedHorizontalHeights = [NSMutableDictionary new];
-    }
-    return _cachedHorizontalHeights;
-}
-
-- (NSMutableDictionary *)cachedVerticalHeights {
-    if (!_cachedVerticalHeights) {
-        _cachedVerticalHeights = [NSMutableDictionary new];
-    }
-    return _cachedVerticalHeights;
+    return _cachedHeights;
 }
 
 - (BOOL)tableViewIsDraggedOverTheBottom {

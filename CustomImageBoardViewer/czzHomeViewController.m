@@ -317,7 +317,8 @@
         [self.refreshControl endRefreshing];
         if (wasSuccessul && self.homeViewManager.pageNumber == 1) {
             [self.threadTableView scrollToTop:NO];
-            self.homeTableViewManager.cachedHorizontalHeights = self.homeTableViewManager.cachedVerticalHeights = nil;
+            // Set to a new set of threads now, clear the cached heights.
+            self.homeTableViewManager.cachedHeights = nil;
         }
         [self updateTableView];
 
@@ -372,9 +373,9 @@
     }
 }
 
-#pragma mark - rotation events
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+#pragma mark - Rotation events.
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     [self updateTableView];
 }
 

@@ -353,11 +353,9 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     }
 }
 
-#pragma mark - rotation change
-
-#pragma mark - rotation events
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+#pragma mark - Rotation event.
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     [self updateTableView];
 }
 

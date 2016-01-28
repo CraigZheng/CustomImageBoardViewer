@@ -36,17 +36,27 @@
     self.miniThreadViewToolBar.barTintColor = [settingCentre barTintColour];
     self.miniThreadViewToolBar.tintColor = [settingCentre tintColour];
     
-    //register NIB
-    [threadTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
+    // Register NIB.
+    [threadTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil]
+          forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
+    // Set estimated row height and actual row height.
+    threadTableView.rowHeight = UITableViewAutomaticDimension;
+    threadTableView.estimatedRowHeight = 44.0;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.threadTableView reloadData];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.threadTableViewHeight.constant = self.threadTableView.contentSize.height;
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [AppDelegate.window hideToastActivity];
-}
-
--(void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
 }
 
 #pragma mark - UI actions.
@@ -63,12 +73,6 @@
 
 - (IBAction)tapOnBackgroundView:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-#pragma mark - Setters.
--(void)setMyThread:(czzThread *)thread {
-    _myThread = thread;
-    [self.threadTableView reloadData];
 }
 
 #pragma mark - UITableViewDataSource
@@ -88,11 +92,6 @@
     }
     return cell;
 }
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return UITableViewAutomaticDimension;
-}
-
 
 #pragma mark - rotation event
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
