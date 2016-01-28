@@ -12,6 +12,7 @@
 @import WatchConnectivity;
 
 @interface ExtensionDelegate() <WCSessionDelegate>
+@property (weak) id<czzWKSessionDelegate> weakRefCaller;
 
 @end
 
@@ -38,14 +39,21 @@
     DLog(@"%s", __PRETTY_FUNCTION__);
     DLog(@"%@.%ld", command.caller, (long)command.action);
     DLog(@"%@", command.parameter);
-    __weak id<czzWKSessionDelegate> weakRefCaller = caller;
-    [[WCSession defaultSession] sendMessage:command.encodeToDictionary replyHandler:^(NSDictionary<NSString *,id> * _Nonnull replyMessage) {
-        DLog(@"%@", replyMessage);
-        [weakRefCaller respondReceived:replyMessage error:nil];
-    } errorHandler:^(NSError * _Nonnull error) {
-        DLog(@"%@", error);
-        [weakRefCaller respondReceived:nil error:error];
-    }];
+    
+    self.weakRefCaller = caller;
+    [[WCSession defaultSession] updateApplicationContext:command.encodeToDictionary error:nil];
+    
+//    [[WCSession defaultSession] sendMessage:command.encodeToDictionary replyHandler:^(NSDictionary<NSString *,id> * _Nonnull replyMessage) {
+//        DLog(@"%@", replyMessage);
+//        [weakRefCaller respondReceived:replyMessage error:nil];
+//    } errorHandler:^(NSError * _Nonnull error) {
+//        DLog(@"%@", error);
+//        [weakRefCaller respondReceived:nil error:error];
+//    }];
+}
+
+- (void)session:(WCSession *)session didReceiveApplicationContext:(NSDictionary<NSString *,id> *)applicationContext {
+    [self.weakRefCaller respondReceived:applicationContext error:nil];
 }
 
 #pragma mark - WCSessionDelegate

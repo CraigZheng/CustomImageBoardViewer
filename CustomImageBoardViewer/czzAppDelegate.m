@@ -124,6 +124,18 @@
                                           withBackgroundTaskIdentifier:wkBackgroundTaskIdentifier];
 }
 
+- (void)session:(WCSession *)session didReceiveApplicationContext:(NSDictionary<NSString *,id> *)applicationContext {
+    __block UIBackgroundTaskIdentifier wkBackgroundTaskIdentifier;
+    wkBackgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithName:@"backgroundTask"
+                                                                              expirationHandler:^{
+                                                                                  wkBackgroundTaskIdentifier = UIBackgroundTaskInvalid;
+                                                                              }];
+    [[czzWatchKitManager sharedManager] handleWatchKitExtensionRequest:applicationContext
+                                                                 reply:nil
+                                          withBackgroundTaskIdentifier:wkBackgroundTaskIdentifier];
+
+}
+
 #pragma mark - background fetch
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     [[czzWatchListManager sharedManager] refreshWatchedThreads:^(NSArray *updatedThreads) {
