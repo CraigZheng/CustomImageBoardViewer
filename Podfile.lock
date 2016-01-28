@@ -40,6 +40,9 @@ PODS:
   - GoogleSymbolUtilities (1.0.3)
   - GoogleUtilities (1.1.0):
     - GoogleSymbolUtilities (~> 1.0.0)
+  - HockeySDK (3.8.5):
+    - HockeySDK/AllFeaturesLib (= 3.8.5)
+  - HockeySDK/AllFeaturesLib (3.8.5)
   - MBProgressHUD (0.9.2)
   - MWPhotoBrowser (2.1.1):
     - DACircularProgress (~> 2.3)
@@ -56,6 +59,7 @@ DEPENDENCIES:
   - CocoaLumberjack
   - Google-Mobile-Ads-SDK (~> 7.0)
   - Google/Analytics
+  - HockeySDK
   - MWPhotoBrowser
   - PureLayout
   - ViewDeck
@@ -71,6 +75,7 @@ SPEC CHECKSUMS:
   GoogleNetworkingUtilities: 292992ab31b7b4ba32809a0e8b40e324cdfb2c0c
   GoogleSymbolUtilities: 82ad9f93d3615244b3f4ce440f5ab2515e8b4f56
   GoogleUtilities: 8ed9134debe11719097881711464752900668f10
+  HockeySDK: dd11a2b9da3372fd025643bee5bc10c8c613d169
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MWPhotoBrowser: ba0d0c09ffda3a7ea10093518738c502c1c7141c
   PureLayout: f35f5384c9c4e4479df041dbe33ad7577b71ddfb
