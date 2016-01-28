@@ -240,7 +240,7 @@
 
 -(void)resetContent{
     postTextView.text = @"";
-    postSender.imgData = nil;
+    [postSender setImgData:nil format:nil];
     [[AppDelegate window] makeToast:@"内容和图片已清空"];
 }
 
@@ -291,8 +291,8 @@
         } else {
             [[AppDelegate window] makeToast:titleWithSize duration:1.5 position:@"top" image:pickedImage];
         }
-        
-        [postSender setImgData:imageData];
+        // No need to specify the format
+        [postSender setImgData:imageData format:nil];
     }
     [picker dismissViewControllerAnimated:YES completion:^{
         [postTextView becomeFirstResponder];
