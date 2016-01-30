@@ -151,6 +151,14 @@
     if (!_manuallyAddedThreads) {
         _manuallyAddedThreads = [NSMutableOrderedSet new];
     }
+    // Set background fetch interval based on the count of threads being watched.
+    if (_manuallyAddedThreads.count) {
+        [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
+    } else {
+        // No thread is currently being watched, should never execute.
+        [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalNever];
+    }
+
     return _manuallyAddedThreads;
 }
 
