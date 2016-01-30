@@ -25,13 +25,12 @@
     self = [super init];
     if (self) {
         [self restoreState];
-        // Background fetch interval
-        // TODO: if watchlist has no watched threads, set the background fetch internal to never. 
-        [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
+        
     }
     
     return self;
 }
+
 
 -(void)addToWatchList:(czzThread *)thread {
     [self.watchedThreads addObject:thread];
@@ -40,7 +39,6 @@
     // Permision for local notification - only when adding to the watchlist
     UIUserNotificationType types = UIUserNotificationTypeBadge |
     UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
-    
     UIUserNotificationSettings *mySettings =
     [UIUserNotificationSettings settingsForTypes:types categories:nil];
     
@@ -127,6 +125,13 @@
 -(NSMutableOrderedSet *)watchedThreads {
     if (!_watchedThreads) {
         _watchedThreads = [NSMutableOrderedSet new];
+    }
+    // Set background fetch interval based on the count of threads being watched.
+    if (_watchedThreads.count) {
+        [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
+    } else {
+        // No thread is currently being watched, should never execute.
+        [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalNever];
     }
     return _watchedThreads;
 }
