@@ -225,6 +225,12 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     return [libraryPath stringByAppendingPathComponent:@"Settings.dat"];
 }
 
+#pragma mark - Getters
+
+- (BOOL)userDefShouldCleanCaches {
+    return NO;
+}
+
 #pragma mark - czzURLDownloaderDelegate
 -(void)downloadOf:(NSURL *)url successed:(BOOL)successed result:(NSData *)downloadedData {
     if (successed) {
