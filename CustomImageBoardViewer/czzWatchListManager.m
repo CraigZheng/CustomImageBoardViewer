@@ -102,15 +102,19 @@ static NSInteger const refreshInterval = 60; // When debugging, every minute.
 #pragma mark - Refresh action
 
 - (void)refreshWatchedThreadsInForeground {
-    // TODO: call refresh.
     [self refreshWatchedThreadsWithCompletionHandler:^(NSArray *updatedThreads) {
         DDLogDebug(@"%s: %ld threads updated in the foreground.", __PRETTY_FUNCTION__, (long)updatedThreads.count);
+        [AppDelegate showToast:[NSString stringWithFormat:@"%ld thread(s) updated in background.", (long)updatedThreads.count]];
     }];
 }
 
 -(void)refreshWatchedThreadsWithCompletionHandler:(void (^)(NSArray *))completionHandler {
     if (self.isDownloading) {
         DDLogDebug(@"%@ is downloading, cannot proceed further...", NSStringFromClass(self.class));
+        return;
+    }
+    if (!self.watchedThreads.count) {
+        DDLogDebug(@"No currently watched threads, no need to refresh.");
         return;
     }
     DDLogDebug(@"Watchlist manager refreshing watched threads...");
@@ -126,9 +130,8 @@ static NSInteger const refreshInterval = 60; // When debugging, every minute.
                 NSInteger originalResponseCount = thread.responseCount;
                 NSInteger originalThreadID = thread.ID;
                 czzThread *newThread = [[czzThread alloc] initWithParentID:originalThreadID];
-                
-                if (originalResponseCount > newThread.responseCount) {
-                    //Record the old thread with old data, later we will remove it from the OrderedSet, then put it back to update the set.
+                // If the updated thread has more replies than the recorded thread.
+                if (newThread.responseCount > originalResponseCount) {
                     [self.updatedThreads addObject:newThread];
                 }
             }

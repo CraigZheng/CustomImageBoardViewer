@@ -156,10 +156,10 @@ NSInteger const historyIndex = 2;
         selectedManager = [czzWatchListManager sharedManager];
         //Update watched threads
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-        [[czzWatchListManager sharedManager] refreshWatchedThreads:^(NSArray *updatedThreads) {
-            self.updatedThreads = updatedThreads;
-            [self.tableView reloadData];
-        }];
+//        [[czzWatchListManager sharedManager] refreshWatchedThreads:^(NSArray *updatedThreads) {
+//            self.updatedThreads = updatedThreads;
+//            [self.tableView reloadData];
+//        }];
     }
 }
 

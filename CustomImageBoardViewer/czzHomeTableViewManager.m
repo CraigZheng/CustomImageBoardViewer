@@ -210,7 +210,6 @@
             }
         }
     }
-    DLog(@"Estimated height: %.1f", estimatedHeight);
     return estimatedHeight;
 }
 
