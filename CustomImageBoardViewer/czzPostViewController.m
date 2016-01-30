@@ -349,9 +349,9 @@
     if (status) {
         [self dismiss];
         [AppDelegate showToast:@"提交成功"];
-        
+        // Add the just replied thread to watchlist manager.
         if (postSender.parentThread) {
-            [WatchListManager addToRespondedList:self.replyToThread];
+            [WatchListManager addToRespondedList:postSender.parentThread];
         }
     } else {
         [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:message duration:1.5 position:@"top" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
