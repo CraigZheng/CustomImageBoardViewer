@@ -106,6 +106,8 @@
     if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
         CacheCleaner;
     }
+    // Init the watch list manager.
+    WatchListManager;
 }
 
 

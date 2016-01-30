@@ -12,11 +12,17 @@
 
 #define WATCH_LIST_CACHE_FILE @"watchedThreads.dat"
 
+#ifdef DEBUG
+static NSInteger const refreshInterval = 60; // When debugging, every minute.
+#else
+    static NSInteger const refreshInterval = 60 * 3; // Every 3 minutes.
+#endif
 @interface czzWatchListManager ()
 
 @property (nonatomic, strong) NSTimer *refreshTimer;
 @property (nonatomic, strong) NSMutableOrderedSet *manuallyAddedThreads;
 @property (nonatomic, strong) czzThreadViewManager *threadViewManager;
+
 @end
 
 @implementation czzWatchListManager
@@ -26,13 +32,47 @@
     self = [super init];
     if (self) {
         [self restoreState];
-        
+        // Listen to app life cycle events.
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleApplicationDidBecomeActive:)
+                                                     name:UIApplicationDidBecomeActiveNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleApplicationDidEnterBackground:)
+                                                     name:UIApplicationDidEnterBackgroundNotification
+                                                   object:nil];
     }
     
     return self;
 }
 
+- (void)handleApplicationDidBecomeActive:(NSNotification *)notification {
+    // Start the refresh timer.
+    [self startTimer];
+}
 
+- (void)handleApplicationDidEnterBackground:(NSNotification *)notification {
+    // Stop the refresh timer.
+    [self stopTimer];
+}
+
+- (void)startTimer {
+    [self stopTimer];
+    // Call the refresh method every designated time.
+    self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:refreshInterval
+                                                         target:self
+                                                       selector:@selector(refreshWatchedThreadsInForeground)
+                                                       userInfo:nil
+                                                        repeats:YES];
+}
+
+- (void)stopTimer {
+    if (self.refreshTimer.isValid) {
+        [self.refreshTimer invalidate];
+    }
+}
+
+#pragma mark - Threads managements.
 -(void)addToWatchList:(czzThread *)thread {
     [self.manuallyAddedThreads addObject:thread];
     [self saveState];
@@ -42,7 +82,6 @@
     UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
     UIUserNotificationSettings *mySettings =
     [UIUserNotificationSettings settingsForTypes:types categories:nil];
-    
     [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
 }
 
@@ -61,6 +100,14 @@
 }
 
 #pragma mark - Refresh action
+
+- (void)refreshWatchedThreadsInForeground {
+    // TODO: call refresh.
+    [self refreshWatchedThreadsWithCompletionHandler:^(NSArray *updatedThreads) {
+        DDLogDebug(@"%s: %ld threads updated in the foreground.", __PRETTY_FUNCTION__, (long)updatedThreads.count);
+    }];
+}
+
 -(void)refreshWatchedThreadsWithCompletionHandler:(void (^)(NSArray *))completionHandler {
     if (self.isDownloading) {
         DDLogDebug(@"%@ is downloading, cannot proceed further...", NSStringFromClass(self.class));
