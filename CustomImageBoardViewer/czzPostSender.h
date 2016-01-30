@@ -33,8 +33,10 @@ typedef NS_ENUM(NSInteger, postSenderMode) {
 @property (nonatomic) NSString *email;
 @property (nonatomic) NSString *title;
 @property (nonatomic) NSString *content;
-@property (nonatomic) NSData *imgData;
+@property (readonly) NSData *imgData;
 
 @property (nonatomic) postSenderMode postMode;
--(void)sendPost;
+
+- (void)setImgData:(NSData *)imgData format:(NSString*)format;
+- (void)sendPost;
 @end

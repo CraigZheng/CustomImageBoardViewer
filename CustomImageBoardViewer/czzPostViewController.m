@@ -21,6 +21,7 @@
 #import "czzForumManager.h"
 #import "NSString+HTML.h"
 #import "czzSettingsCentre.h"
+#import <AssetsLibrary/AssetsLibrary.h>
 
 @interface czzPostViewController () <czzPostSenderDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
 @property (nonatomic, strong) UIActionSheet *clearContentActionSheet;
@@ -239,7 +240,7 @@
 
 -(void)resetContent{
     postTextView.text = @"";
-    postSender.imgData = nil;
+    [postSender setImgData:nil format:nil];
     [[AppDelegate window] makeToast:@"内容和图片已清空"];
 }
 
@@ -265,18 +266,39 @@
 #pragma UIImagePickerController delegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     UIImage *pickedImage = [info valueForKey:UIImagePickerControllerOriginalImage];
-    NSData *imageData = UIImageJPEGRepresentation(pickedImage, 0.85);
-    NSString *titleWithSize = [ValueFormatter convertByte:imageData.length];
-    //resize the image if the picked image is too big
-    if (pickedImage.size.width * pickedImage.size.height > 1920 * 1080){
-        NSInteger newWidth = 1080;
-        pickedImage = [self imageWithImage:pickedImage scaledToWidth:newWidth];
-        [[AppDelegate window] makeToast:@"由于图片尺寸太大，已进行压缩" duration:1.5 position:@"top" title:titleWithSize image:pickedImage];
+    NSURL *originalURL = [info valueForKey:UIImagePickerControllerReferenceURL];
+
+    // Gif image, need to load from ALAssets representation.
+    if ([originalURL.pathExtension.lowercaseString isEqualToString:@"gif"]) {
+        [[ALAssetsLibrary new] assetForURL:originalURL resultBlock:^(ALAsset *asset) {
+            ALAssetRepresentation *rep = [asset defaultRepresentation];
+            Byte *buffer = (Byte*)malloc(rep.size);
+            NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:rep.size error:nil];
+            NSData *assetData = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
+            [postSender setImgData:assetData format:@"gif"];
+            [[AppDelegate window] makeToast:[NSString stringWithFormat:@"%@", originalURL.lastPathComponent]
+                                   duration:1.5
+                                   position:@"top"
+                                      title:nil
+                                      image:pickedImage];
+        } failureBlock:^(NSError *error) {
+            DDLogDebug(@"%@", error);
+        }];
     } else {
-        [[AppDelegate window] makeToast:titleWithSize duration:1.5 position:@"top" image:pickedImage];
+        // JPG or PNG image, upload straight away.
+        NSData *imageData = UIImageJPEGRepresentation(pickedImage, 0.85);
+        NSString *titleWithSize = [ValueFormatter convertByte:imageData.length];
+        //resize the image if the picked image is too big
+        if (pickedImage.size.width * pickedImage.size.height > 1920 * 1080){
+            NSInteger newWidth = 1080;
+            pickedImage = [self imageWithImage:pickedImage scaledToWidth:newWidth];
+            [[AppDelegate window] makeToast:@"由于图片尺寸太大，已进行压缩" duration:1.5 position:@"top" title:titleWithSize image:pickedImage];
+        } else {
+            [[AppDelegate window] makeToast:titleWithSize duration:1.5 position:@"top" image:pickedImage];
+        }
+        // No need to specify the format
+        [postSender setImgData:imageData format:nil];
     }
-    
-    [postSender setImgData:imageData];
     [picker dismissViewControllerAnimated:YES completion:^{
         [postTextView becomeFirstResponder];
     }];
