@@ -120,7 +120,7 @@ NSInteger const historyIndex = 2;
         } else if (titleSegmentedControl.selectedSegmentIndex == historyIndex) {
             [historyManager removeThread:threadToDelete];
         } else if (titleSegmentedControl.selectedSegmentIndex == watchIndex) {
-            [[czzWatchListManager sharedManager] removeFromWatchList:threadToDelete];
+            [WatchListManager removeFromWatchList:threadToDelete];
         }
         
         [self copyDataFromManager];
@@ -152,7 +152,7 @@ NSInteger const historyIndex = 2;
         selectedManager = historyManager;
         threads = [NSMutableOrderedSet orderedSetWithArray:[[threads reverseObjectEnumerator] allObjects]]; //hisotry are recorded backward
     } else if (titleSegmentedControl.selectedSegmentIndex == watchIndex) {
-        threads = [czzWatchListManager sharedManager].watchedThreads;
+        threads = [czzWatchListManager sharedManager].watchedThreads.mutableCopy;
         selectedManager = [czzWatchListManager sharedManager];
         //Update watched threads
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
