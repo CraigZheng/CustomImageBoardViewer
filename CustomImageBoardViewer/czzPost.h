@@ -21,6 +21,7 @@
 @property (strong, nonatomic) NSString *forumID;
 
 @property NSData *imgData;
+@property NSString *imageFormat;
 -(BOOL)isReady;
 -(NSMutableData*)makeRequestBody;
 -(void)saveAccessToken;

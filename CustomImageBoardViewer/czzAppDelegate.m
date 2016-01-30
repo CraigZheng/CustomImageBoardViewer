@@ -20,7 +20,7 @@
 #import "czzCacheCleaner.h"
 #import "czzHomeViewManager.h"
 #import <Google/Analytics.h>
-
+#import <HockeySDK/HockeySDK.h>
 #import <WatchConnectivity/WatchConnectivity.h>
 
 #ifndef TARGET_IPHONE_SIMULATOR
@@ -58,6 +58,12 @@
     [TalkingData sessionStarted:@"B8168DD03CD9EF62B476CEDFBC3FB52D" withChannelId:@""];
     
 #endif
+    // HockeyApp integration.
+    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"23a865b1803c446eaae22417dc49da19"];
+    [[BITHockeyManager sharedHockeyManager] setEnableStoreUpdateManager: YES];
+    [[BITHockeyManager sharedHockeyManager] startManager];
+    [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
+    
     // Google analytic configuration
     // Configure tracker from GoogleService-Info.plist.
     NSError *configureError;

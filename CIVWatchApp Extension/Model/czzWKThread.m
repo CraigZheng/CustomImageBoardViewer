@@ -30,13 +30,20 @@
 
 -(NSDictionary *)encodeToDictionary {
     NSMutableDictionary *wkDictionary = [NSMutableDictionary new];
-    [wkDictionary setObject:@(self.ID) forKey:@"ID"];
-    [wkDictionary setObject:self.name forKey:@"name"];
-    [wkDictionary setObject:self.title forKey:@"title"];
-    [wkDictionary setObject:self.content forKey:@"content"];
-    [wkDictionary setObject:self.thumbnailFile forKey:@"thumbnailFile"];
-    [wkDictionary setObject:self.imageFile forKey:@"imageFile"];
-    [wkDictionary setObject:self.postDate forKey:@"postDate"];
+    [wkDictionary setObject:@(self.ID)
+                     forKey:@"ID"];
+    [wkDictionary setObject:self.name ?: @""
+                     forKey:@"name"];
+    [wkDictionary setObject:self.title ?: @""
+                     forKey:@"title"];
+    [wkDictionary setObject:self.content ?: @""
+                     forKey:@"content"];
+    [wkDictionary setObject:self.thumbnailFile ?: @""
+                     forKey:@"thumbnailFile"];
+    [wkDictionary setObject:self.imageFile ?: @""
+                     forKey:@"imageFile"];
+    [wkDictionary setObject:self.postDate ?: @""
+                     forKey:@"postDate"];
     
     return wkDictionary;
 }

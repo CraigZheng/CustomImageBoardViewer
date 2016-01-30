@@ -194,8 +194,8 @@
         [switchCommands addObject:@"自动下载大图"];
     }
     [switchCommands addObject:@"图片下载完毕自动打开"];
-//    [switchCommands addObject:@"开启串缓存"];
-    [switchCommands addObject:@"每月自动清理缓存"];
+//    [switchCommands addObject:@"开启串缓存"]; // Disbale as is no longer important.
+//    [switchCommands addObject:@"每月自动清理缓存"]; // Disable for now - version 3.2.
     if (settingsCentre.should_allow_dart)
         [switchCommands addObject:@"Monitor Performance"];
     [regularCommands addObject:@"图片管理器"];
@@ -304,7 +304,7 @@
             [self.settingsTableView reloadData];
         } else if ([command isEqualToString:@"自动下载大图"]) {
             settingsCentre.userDefShouldAutoDownloadImage = !settingsCentre.userDefShouldAutoDownloadImage;
-            [AppDelegate showToast:[NSString stringWithFormat:@"自动下载大图： %@", settingsCentre.userDefShouldCleanCaches ? @"On" : @"Off"]];
+            [AppDelegate showToast:[NSString stringWithFormat:@"自动下载大图： %@", settingsCentre.userDefShouldAutoDownloadImage ? @"On" : @"Off"]];
         }
         [settingsCentre saveSettings];
         [[czzHomeViewManager sharedManager] reloadData];

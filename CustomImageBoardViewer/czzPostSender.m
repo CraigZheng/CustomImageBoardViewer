@@ -18,6 +18,7 @@
 @property NSMutableURLRequest *urlRequest;
 @property NSMutableData *requestBody;
 @property NSMutableData *receivedResponse;
+
 @end
 
 @implementation czzPostSender
@@ -169,9 +170,10 @@
     myPost.content = [self encodeNSString:content];
 }
 
--(void)setImgData:(NSData *)i{
+-(void)setImgData:(NSData *)i format:(NSString *)format{
     imgData = i;
     myPost.imgData = imgData;
+    myPost.imageFormat = format;
 }
 
 -(NSMutableURLRequest*)createMutableURLRequestWithURL:(NSURL*)url{
