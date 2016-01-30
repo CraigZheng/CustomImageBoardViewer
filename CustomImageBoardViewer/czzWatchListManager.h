@@ -23,7 +23,7 @@
 -(void)addToRespondedList:(czzThread*)thread;
 -(void)removeFromWatchList:(czzThread*)thread;
 
--(void)refreshWatchedThreads:(void(^)(NSArray* updatedThreads))completionHandler;
+-(void)refreshWatchedThreadsWithCompletionHandler:(void(^)(NSArray* updatedThreads))completionHandler;
 
 +(instancetype)sharedManager;
 @end

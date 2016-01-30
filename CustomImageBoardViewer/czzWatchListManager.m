@@ -61,7 +61,7 @@
 }
 
 #pragma mark - Refresh action
--(void)refreshWatchedThreads:(void (^)(NSArray *))completionHandler {
+-(void)refreshWatchedThreadsWithCompletionHandler:(void (^)(NSArray *))completionHandler {
     if (self.isDownloading) {
         DDLogDebug(@"%@ is downloading, cannot proceed further...", NSStringFromClass(self.class));
         return;
