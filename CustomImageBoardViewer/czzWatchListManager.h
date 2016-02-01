@@ -21,6 +21,10 @@
 
 -(void)addToWatchList:(czzThread*)thread;
 -(void)addToRespondedList:(czzThread*)thread;
+- (void)addToPostedList:(NSString*)title
+                content:(NSString*)content
+               hasImage:(BOOL)hasImage
+                  forum:(czzForum*)forum;
 -(void)removeFromWatchList:(czzThread*)thread;
 
 -(void)refreshWatchedThreadsWithCompletionHandler:(void(^)(NSArray* updatedThreads))completionHandler;

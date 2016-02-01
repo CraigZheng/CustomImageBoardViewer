@@ -22,6 +22,7 @@ static NSInteger const refreshInterval = 60; // When debugging, every minute.
 @property (nonatomic, strong) NSTimer *refreshTimer;
 @property (nonatomic, strong) NSMutableOrderedSet *manuallyAddedThreads;
 @property (nonatomic, strong) czzThreadViewManager *threadViewManager;
+@property (nonatomic, strong) czzThreadDownloader *threadDownloader;
 
 @end
 
@@ -92,6 +93,40 @@ static NSInteger const refreshInterval = 60; // When debugging, every minute.
     }
     [self.respondedThreads addObject:thread];
     [self saveState];
+}
+
+- (void)addToPostedList:(NSString *)title content:(NSString *)content hasImage:(BOOL)hasImage forum:(czzForum *)forum {
+    self.threadDownloader = [czzThreadDownloader new];
+    self.threadDownloader.pageNumber = 1;
+    self.threadDownloader.parentForum = forum;
+    // In completion handler, compare the downloaded threads and see if there's any that is matching.
+    self.threadDownloader.completionHandler = ^(BOOL success, NSArray *downloadedThreads, NSError *error){
+        DDLogDebug(@"%s, error: %@", __PRETTY_FUNCTION__, error);
+        for (czzThread *thread in downloadedThreads) {
+            // Compare title and content.
+            czzThread *postThread;
+            // TODO: compare the title and content only when there is a title and content for you to compare.
+            if ([thread.title isEqualToString:title] &&
+                [thread.content.string isEqualToString:content]) {
+                // Compare image.
+                if (hasImage) {
+                    if (thread.imgSrc.length) {
+                        postThread = thread;
+                    }
+                }
+                // No image.
+                else if (thread.imgSrc.length == 0) {
+                    postThread = thread;
+                }
+            }
+            if (postThread) {
+                DDLogDebug(@"Found match: %@", postThread);
+                [WatchListManager addToRespondedList:postThread];
+                break;
+            }
+        }
+    };
+    [self.threadDownloader start];
 }
 
 -(void)removeFromWatchList:(czzThread *)thread {
