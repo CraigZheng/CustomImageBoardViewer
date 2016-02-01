@@ -11,7 +11,6 @@ pod 'ViewDeck'
 pod 'PureLayout'
 pod 'CocoaLumberjack'
 pod 'AFNetworking', '~> 3.0'
-pod "HockeySDK"
 end
 
 target 'CustomImageBoardViewerTests' do
