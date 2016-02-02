@@ -136,19 +136,14 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
         for (czzThread *thread in downloadedThreads) {
             // Compare title and content.
             czzThread *matchedThread;
-            // TODO: compare the title and content only when there is a title and content for you to compare.
-            if ([thread.title isEqualToString:title] &&
-                [thread.content.string isEqualToString:content]) {
-                // Compare image.
-                if (hasImage) {
-                    if (thread.imgSrc.length) {
-                        matchedThread = thread;
-                    }
-                }
-                // No image.
-                else if (thread.imgSrc.length == 0) {
-                    matchedThread = thread;
-                }
+            if (title.length && [title isEqualToString:thread.title]) {
+                matchedThread = thread;
+            } else if (content.length && [content isEqualToString:thread.content.string]) {
+                matchedThread = thread;
+            }
+            // If no title and content given, but has image, then the first downloaded thread with image is most likely the matching thread.
+            else if (hasImage && thread.imgSrc.length) {
+                matchedThread = thread;
             }
             if (matchedThread) {
                 DDLogDebug(@"Found match: %@", matchedThread);
