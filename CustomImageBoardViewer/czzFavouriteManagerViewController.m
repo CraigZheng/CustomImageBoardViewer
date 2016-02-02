@@ -19,6 +19,7 @@
 #import "czzHistoryManager.h"
 #import "czzWatchListManager.h"
 #import "czzThreadViewManager.h"
+#import "czzThreadTableView.h"
 #import "czzMenuEnabledTableViewCell.h"
 
 

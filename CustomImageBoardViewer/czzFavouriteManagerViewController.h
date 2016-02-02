@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface czzFavouriteManagerViewController : UITableViewController
+@class czzThreadTableView;
+
+@interface czzFavouriteManagerViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UISegmentedControl *titleSegmentedControl;
+@property (weak, nonatomic) IBOutlet czzThreadTableView *tableView;
 @property NSMutableOrderedSet *threads;
 
 - (IBAction)editAction:(id)sender;
