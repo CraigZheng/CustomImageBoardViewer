@@ -124,7 +124,6 @@ static NSInteger const respondsHistoryIndex = 2;
         }
         
         [self copyDataFromManager];
-        [tableView reloadData];
     }
 }
 
@@ -174,6 +173,8 @@ static NSInteger const respondsHistoryIndex = 2;
 //        }];
     }
     [self.tableView reloadData];
+    // If the currently selected title segmented control is history, enable the selection for history type segmented control.
+    self.historyTypeSegmentedControl.enabled = self.titleSegmentedControl.selectedSegmentIndex == historyIndex;
 }
 
 #pragma mark - rotation

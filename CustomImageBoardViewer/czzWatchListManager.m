@@ -8,6 +8,7 @@
 
 #import "czzWatchListManager.h"
 #import "czzThreadViewManager.h"
+#import "czzFavouriteManager.h"
 #import "czzMessagePopUpViewController.h"
 
 #define WATCH_LIST_CACHE_FILE @"watchedThreads.dat"
@@ -17,6 +18,8 @@ static NSInteger const refreshInterval = 60; // When debugging, every minute.
 #else
     static NSInteger const refreshInterval = 60 * 5; // Every 5 minutes.
 #endif
+static NSInteger const watchlistManagerLimit = 8; // It might take longer than the system allows to refresh anymore than this number.
+
 @interface czzWatchListManager ()
 
 @property (nonatomic, strong) NSTimer *refreshTimer;
@@ -75,15 +78,31 @@ static NSInteger const refreshInterval = 60; // When debugging, every minute.
 
 #pragma mark - Threads managements.
 -(void)addToWatchList:(czzThread *)thread {
-    [self.manuallyAddedThreads addObject:thread];
-    [self saveState];
-    
-    // Permision for local notification - only when adding to the watchlist
-    UIUserNotificationType types = UIUserNotificationTypeBadge |
-    UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
-    UIUserNotificationSettings *mySettings =
-    [UIUserNotificationSettings settingsForTypes:types categories:nil];
-    [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+    // Safe guard.
+    if (!thread) {
+        return;
+    }
+    // Also adding it to the favourite manager.
+    [favouriteManager addFavourite:thread];
+    if (self.manuallyAddedThreads.count < watchlistManagerLimit) {
+        [self.manuallyAddedThreads addObject:thread];
+        [self saveState];
+        
+        // Permision for local notification - only when adding to the watchlist
+        UIUserNotificationType types = UIUserNotificationTypeBadge |
+        UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+        UIUserNotificationSettings *mySettings =
+        [UIUserNotificationSettings settingsForTypes:types categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+    } else {
+        // Display an UIAlert to user, inform them they can not add anymore.
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"爆满啦"
+                                                            message:[NSString stringWithFormat:@"你已注目了%ld个串，请清理后再添加！", (long)self.manuallyAddedThreads.count]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }
 }
 
 -(void)removeFromWatchList:(czzThread *)thread {
