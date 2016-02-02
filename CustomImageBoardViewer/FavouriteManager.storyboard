@@ -55,7 +55,22 @@
                         </constraints>
                     </view>
                     <toolbarItems>
-                        <barButtonItem title="Item" id="jcw-CW-aEI"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="w8h-X8-RTh"/>
+                        <barButtonItem style="plain" id="AgG-fI-jvV">
+                            <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="iTR-B0-7g6">
+                                <rect key="frame" x="233" y="7" width="133" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="浏览"/>
+                                    <segment title="发送"/>
+                                    <segment title="回复"/>
+                                </segments>
+                                <connections>
+                                    <action selector="historyTypeSegmentedControlAction:" destination="K45-e3-i4z" eventType="valueChanged" id="0nr-1i-24q"/>
+                                </connections>
+                            </segmentedControl>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="3hl-iX-2Td"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="ypD-zi-qDn">
                         <nil key="title"/>
@@ -78,11 +93,13 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="historyTypeSegmentedControl" destination="iTR-B0-7g6" id="Zck-fv-o0G"/>
                         <outlet property="tableView" destination="Vm2-vA-dnB" id="uSy-JQ-LmD"/>
                         <outlet property="titleSegmentedControl" destination="tjZ-hV-ITz" id="5H6-nF-dVy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P9y-0W-1c9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <barButtonItem title="Item" id="jcw-CW-aEI"/>
             </objects>
             <point key="canvasLocation" x="287" y="-337"/>
         </scene>
