@@ -48,8 +48,13 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
 }
 
 -(BOOL)removeThread:(czzThread *)thread {
-    if ([browserHistory containsObject:thread]) {
+    if ([browserHistory containsObject:thread] ||
+        [self.respondedThreads containsObject:thread] ||
+        [self.postedThreads containsObject:thread]) {
+        // Remove this thread from all three sets.
         [browserHistory removeObject:thread];
+        [self.respondedThreads removeObject:thread];
+        [self.postedThreads removeObject:thread];
         [self saveCurrentState];
         return YES;
     }
