@@ -8,6 +8,13 @@
 
 #import "czzHistoryManager.h"
 
+#import "czzThreadDownloader.h"
+
+@interface czzHistoryManager()
+@property (strong, nonatomic) czzThreadDownloader *threadDownloader;
+
+@end
+
 @implementation czzHistoryManager
 @synthesize browserHistory;
 
@@ -74,6 +81,50 @@
     }
 }
 
+#pragma mark - Record posts and responds.
+
+-(void)addToRespondedList:(czzThread *)thread {
+    if (self.respondedThreads.count > 5) {
+        // If the responded history is bigger than 5, remove the oldest.
+        [self.respondedThreads removeObjectAtIndex:0];
+    }
+    [self.respondedThreads addObject:thread];
+    [self saveCurrentState];
+}
+
+- (void)addToPostedList:(NSString *)title content:(NSString *)content hasImage:(BOOL)hasImage forum:(czzForum *)forum {
+    self.threadDownloader = [czzThreadDownloader new];
+    self.threadDownloader.pageNumber = 1;
+    self.threadDownloader.parentForum = forum;
+    // In completion handler, compare the downloaded threads and see if there's any that is matching.
+    self.threadDownloader.completionHandler = ^(BOOL success, NSArray *downloadedThreads, NSError *error){
+        DDLogDebug(@"%s, error: %@", __PRETTY_FUNCTION__, error);
+        for (czzThread *thread in downloadedThreads) {
+            // Compare title and content.
+            czzThread *postThread;
+            // TODO: compare the title and content only when there is a title and content for you to compare.
+            if ([thread.title isEqualToString:title] &&
+                [thread.content.string isEqualToString:content]) {
+                // Compare image.
+                if (hasImage) {
+                    if (thread.imgSrc.length) {
+                        postThread = thread;
+                    }
+                }
+                // No image.
+                else if (thread.imgSrc.length == 0) {
+                    postThread = thread;
+                }
+            }
+            if (postThread) {
+                DDLogDebug(@"Found match: %@", postThread);
+                // TODO: add to posted threads.
+                break;
+            }
+        }
+    };
+    [self.threadDownloader start];
+}
 
 + (instancetype)sharedInstance
 {

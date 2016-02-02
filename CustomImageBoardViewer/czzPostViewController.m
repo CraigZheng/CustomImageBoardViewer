@@ -23,7 +23,7 @@
 #import "czzPostSender.h"
 #import "czzSettingsCentre.h"
 #import "czzThreadDownloader.h"
-#import "czzWatchListManager.h"
+#import "czzHistoryManager.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 
 @interface czzPostViewController () <czzPostSenderDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
@@ -353,10 +353,10 @@
         [AppDelegate showToast:@"提交成功"];
         // Add the just replied thread to watchlist manager.
         if (postSender.parentThread) {
-            [WatchListManager addToRespondedList:postSender.parentThread];
+            [historyManager addToRespondedList:postSender.parentThread];
         } else if (postSender.forum) {
             // Post sent to forum, try to locate the just posted thread.
-            [WatchListManager addToPostedList:postSender.title
+            [historyManager addToPostedList:postSender.title
                                       content:postSender.content
                                      hasImage:postSender.imgData != nil
                                         forum:postSender.forum];

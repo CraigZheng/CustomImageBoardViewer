@@ -14,17 +14,11 @@
 
 @interface czzWatchListManager : NSObject <NSCoding>
 @property (nonatomic, readonly) NSOrderedSet *watchedThreads;
-@property (nonatomic, strong) NSMutableOrderedSet *respondedThreads;
 @property (nonatomic, strong) NSMutableArray *updatedThreads;
 
 @property (nonatomic, assign) BOOL isDownloading;
 
 -(void)addToWatchList:(czzThread*)thread;
--(void)addToRespondedList:(czzThread*)thread;
-- (void)addToPostedList:(NSString*)title
-                content:(NSString*)content
-               hasImage:(BOOL)hasImage
-                  forum:(czzForum*)forum;
 -(void)removeFromWatchList:(czzThread*)thread;
 
 -(void)refreshWatchedThreadsWithCompletionHandler:(void(^)(NSArray* updatedThreads))completionHandler;

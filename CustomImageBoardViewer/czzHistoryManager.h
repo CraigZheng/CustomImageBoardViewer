@@ -16,6 +16,12 @@
 
 @interface czzHistoryManager : NSObject 
 @property NSMutableOrderedSet *browserHistory;
+@property (nonatomic, strong) NSMutableOrderedSet *respondedThreads;
+-(void)addToRespondedList:(czzThread*)thread;
+- (void)addToPostedList:(NSString*)title
+                content:(NSString*)content
+               hasImage:(BOOL)hasImage
+                  forum:(czzForum*)forum;
 
 -(void)recordThread:(czzThread*)thread;
 -(BOOL)removeThread:(czzThread*)thread;

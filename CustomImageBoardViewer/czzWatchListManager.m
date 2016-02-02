@@ -15,7 +15,7 @@
 #ifdef DEBUG
 static NSInteger const refreshInterval = 60; // When debugging, every minute.
 #else
-    static NSInteger const refreshInterval = 60 * 3; // Every 3 minutes.
+    static NSInteger const refreshInterval = 60 * 5; // Every 5 minutes.
 #endif
 @interface czzWatchListManager ()
 
@@ -86,49 +86,6 @@ static NSInteger const refreshInterval = 60; // When debugging, every minute.
     [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
 }
 
--(void)addToRespondedList:(czzThread *)thread {
-    if (self.respondedThreads.count > 5) {
-        // If the responded history is bigger than 5, remove the oldest.
-        [self.respondedThreads removeObjectAtIndex:0];
-    }
-    [self.respondedThreads addObject:thread];
-    [self saveState];
-}
-
-- (void)addToPostedList:(NSString *)title content:(NSString *)content hasImage:(BOOL)hasImage forum:(czzForum *)forum {
-    self.threadDownloader = [czzThreadDownloader new];
-    self.threadDownloader.pageNumber = 1;
-    self.threadDownloader.parentForum = forum;
-    // In completion handler, compare the downloaded threads and see if there's any that is matching.
-    self.threadDownloader.completionHandler = ^(BOOL success, NSArray *downloadedThreads, NSError *error){
-        DDLogDebug(@"%s, error: %@", __PRETTY_FUNCTION__, error);
-        for (czzThread *thread in downloadedThreads) {
-            // Compare title and content.
-            czzThread *postThread;
-            // TODO: compare the title and content only when there is a title and content for you to compare.
-            if ([thread.title isEqualToString:title] &&
-                [thread.content.string isEqualToString:content]) {
-                // Compare image.
-                if (hasImage) {
-                    if (thread.imgSrc.length) {
-                        postThread = thread;
-                    }
-                }
-                // No image.
-                else if (thread.imgSrc.length == 0) {
-                    postThread = thread;
-                }
-            }
-            if (postThread) {
-                DDLogDebug(@"Found match: %@", postThread);
-                [WatchListManager addToRespondedList:postThread];
-                break;
-            }
-        }
-    };
-    [self.threadDownloader start];
-}
-
 -(void)removeFromWatchList:(czzThread *)thread {
     [self.manuallyAddedThreads removeObject:thread];
     [self saveState];
@@ -187,10 +144,6 @@ static NSInteger const refreshInterval = 60; // When debugging, every minute.
             [self.manuallyAddedThreads removeObject:thread];
             [self.manuallyAddedThreads addObject:thread];
         }
-        if ([self.respondedThreads containsObject:thread]) {
-            [self.respondedThreads removeObject:thread];
-            [self.respondedThreads addObject:thread];
-        }
     }
 }
 
@@ -200,7 +153,6 @@ static NSInteger const refreshInterval = 60; // When debugging, every minute.
         czzWatchListManager *tempWatchListManager = [NSKeyedUnarchiver unarchiveObjectWithFile:[[czzAppDelegate libraryFolder] stringByAppendingPathComponent:WATCH_LIST_CACHE_FILE]];
         if (tempWatchListManager && tempWatchListManager.watchedThreads.count) {
             self.manuallyAddedThreads = tempWatchListManager.manuallyAddedThreads;
-            self.respondedThreads = tempWatchListManager.respondedThreads;
         }
     }
     @catch (NSException *exception) {
@@ -216,19 +168,16 @@ static NSInteger const refreshInterval = 60; // When debugging, every minute.
 -(instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super init];
     self.manuallyAddedThreads = [aDecoder decodeObjectForKey:@"manuallyAddedThreads"];
-    self.respondedThreads = [aDecoder decodeObjectForKey:@"respondedThreads"];
     return self;
 }
 
 -(void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:self.manuallyAddedThreads forKey:@"manuallyAddedThreads"];
-    [aCoder encodeObject:self.respondedThreads forKey:@"respondedThreads"];
 }
 
 #pragma mark - Getters
 -(NSOrderedSet *)watchedThreads {
     NSMutableOrderedSet *tempSet = [NSMutableOrderedSet orderedSetWithOrderedSet:self.manuallyAddedThreads];
-    [tempSet unionOrderedSet:self.respondedThreads];
     return [tempSet copy];
 }
 
@@ -239,19 +188,14 @@ static NSInteger const refreshInterval = 60; // When debugging, every minute.
     // Set background fetch interval based on the count of threads being watched.
     if (_manuallyAddedThreads.count) {
         [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
+        DDLogDebug(@"Currently watched %ld threads.", (long)_manuallyAddedThreads.count);
     } else {
         // No thread is currently being watched, should never execute.
         [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalNever];
+        DDLogDebug(@"No thread is being watched, set background fetch interval to never.");
     }
 
     return _manuallyAddedThreads;
-}
-
--(NSMutableOrderedSet *)respondedThreads {
-    if (!_respondedThreads) {
-        _respondedThreads = [NSMutableOrderedSet new];
-    }
-    return _respondedThreads;
 }
 
 +(instancetype)sharedManager {
