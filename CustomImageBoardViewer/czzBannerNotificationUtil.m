@@ -12,6 +12,7 @@
 #import "UIApplication+Util.h"
 
 static NSTimeInterval defaultDisplayTime = 2.0;
+static NSTimeInterval defaultAnimationDuration = 0.2;
 
 @interface czzBannerNotificationUtil() <czzBannerViewDelegate>
 
@@ -19,6 +20,8 @@ static NSTimeInterval defaultDisplayTime = 2.0;
 @property (nonatomic, strong) NSTimer *dismissTimer;
 @property (nonatomic, assign) BannerNotificationPosition position;
 @property (nonatomic, copy) void(^userInteractionHandler)(void);
+@property (nonatomic, readonly) CGRect topReferenceFrame;
+@property (nonatomic, readonly) CGRect bottomReferenceFrame;
 
 @end
 
@@ -28,8 +31,8 @@ static NSTimeInterval defaultDisplayTime = 2.0;
     self = [super init];
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(handleUIApplicationDidChangeStatusBarOrientation)
-                                                     name:UIApplicationDidChangeStatusBarOrientationNotification
+                                                 selector:@selector(handleUIApplicationWillChangeStatusBarFrameNotification)
+                                                     name:UIApplicationWillChangeStatusBarFrameNotification
                                                    object:nil];
     }
     return self;
@@ -51,20 +54,9 @@ static NSTimeInterval defaultDisplayTime = 2.0;
 
     CGRect referenceFrame;
     if (self.position == BannerNotificationPositionTop) {
-        if (!topViewController.navigationController.navigationBarHidden) {
-            referenceFrame = topViewController.navigationController.navigationBar.frame;
-        } else {
-            // If hidden, show at the top most position instead.
-            referenceFrame = CGRectMake(0, 0, CGRectGetWidth(topViewController.view.frame), 0);
-        }
+        referenceFrame = self.topReferenceFrame;
     } else {
-        referenceFrame = topViewController.navigationController.toolbar.frame;
-        if (!topViewController.navigationController.toolbarHidden) {
-            referenceFrame = topViewController.navigationController.toolbar.frame;
-        } else {
-            // No tool bar, show at the bottom of the screen.
-            referenceFrame = CGRectMake(0, CGRectGetHeight(topViewController.view.frame), CGRectGetWidth(topViewController.view.frame), 0);
-        }
+        referenceFrame = self.bottomReferenceFrame;
     }
     if (self.bannerView.superview) {
         [self.bannerView removeFromSuperview];
@@ -79,13 +71,60 @@ static NSTimeInterval defaultDisplayTime = 2.0;
     referenceFrame.size.height = self.bannerView.intrinsicContentSize.height;
     self.bannerView.frame = referenceFrame;
     [topViewController.view addSubview:self.bannerView];
+    
+    // Start counting the timer.
+    [self startTimer];
+}
+
+// Wrapper for dismissBannerView:(BOOL), always pass YES.
+- (void)dismissBannerView {
+    [self dismissBannerView:YES];
+}
+
+- (void)dismissBannerView:(BOOL)animated {
+    if (self.bannerView.superview) {
+        if (animated) {
+            // Slide out of sign.
+            CGRect targetFrame;
+            if (self.position == BannerNotificationPositionTop) {
+                targetFrame = self.topReferenceFrame;
+            } else {
+                targetFrame = self.bottomReferenceFrame;
+            }
+            DLog(@"Original frame: %@ -> target frame: %@", [NSValue valueWithCGRect:self.bannerView.frame], [NSValue valueWithCGRect:targetFrame]);
+            [UIView animateWithDuration:defaultAnimationDuration animations:^{
+                self.bannerView.frame = targetFrame;
+            } completion:^(BOOL finished) {
+                [self.bannerView removeFromSuperview];
+            }];
+        } else {
+            [self.bannerView removeFromSuperview];
+        }
+    } else {
+        DLog(@"Banner has no superview, its not displaying.");
+    }
+}
+
+#pragma mark - NSTimer management
+- (void)startTimer {
+    [self stopTimer];
+    self.dismissTimer = [NSTimer scheduledTimerWithTimeInterval:defaultDisplayTime
+                                                         target:self
+                                                       selector:@selector(dismissBannerView)
+                                                       userInfo:nil
+                                                        repeats:NO];
+}
+
+- (void)stopTimer {
+    if (self.dismissTimer.isValid) {
+        [self.dismissTimer invalidate];
+    }
 }
 
 #pragma mark - Rotation event
-- (void)handleUIApplicationDidChangeStatusBarOrientation {
-    // TODO: dismiss first.
-    // TODO: pass the position.
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+- (void)handleUIApplicationWillChangeStatusBarFrameNotification {
+    [self dismissBannerView:NO];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((defaultAnimationDuration * 2) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self displayBannerView];
     });
 }
@@ -108,6 +147,30 @@ static NSTimeInterval defaultDisplayTime = 2.0;
         _bannerView.delegate = self;
     }
     return _bannerView;
+}
+
+- (CGRect)topReferenceFrame {
+    UIViewController *topViewController = [UIApplication topViewController];
+    CGRect referenceFrame;
+    if (!topViewController.navigationController.navigationBarHidden) {
+        referenceFrame = topViewController.navigationController.navigationBar.frame;
+    } else {
+        // If hidden, show at the top most position instead.
+        referenceFrame = CGRectMake(0, 0, CGRectGetWidth(topViewController.view.frame), 0);
+    }
+    return referenceFrame;
+}
+
+- (CGRect)bottomReferenceFrame {
+    UIViewController *topViewController = [UIApplication topViewController];
+    CGRect referenceFrame;
+    if (!topViewController.navigationController.toolbarHidden) {
+        referenceFrame = topViewController.navigationController.toolbar.frame;
+    } else {
+        // No tool bar, show at the bottom of the screen.
+        referenceFrame = CGRectMake(0, CGRectGetHeight(topViewController.view.frame), CGRectGetWidth(topViewController.view.frame), 0);
+    }
+    return referenceFrame;
 }
 
 + (void)displayMessage:(NSString *)message position:(BannerNotificationPosition)position {
