@@ -23,6 +23,6 @@ typedef NS_ENUM(NSInteger, BannerNotificationPosition) {
 + (void)displayMessage:(NSString *)message position:(BannerNotificationPosition)position;
 + (void)displayMessage:(NSString *)message
               position:(BannerNotificationPosition)position
-     completionHandler:(void(^)(void))completionHandler;
+     userInteractionHandler:(void(^)(void))completionHandler;
 
 @end
