@@ -10,6 +10,7 @@
 
 @interface czzBannerView()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 
 @end
 
@@ -17,6 +18,7 @@
 
 - (void)layoutSubviews {
     self.titleLabel.text = self.title;
+    self.cancelButton.hidden = !self.allowCancel;
     [super layoutSubviews];
 }
 
@@ -40,7 +42,32 @@
     return intrinsicContentSize;
 }
 
+#pragma mark - UIActions.
+
+- (IBAction)cancelButtonAction:(id)sender {
+    DLog(@"");
+    if ([self.delegate respondsToSelector:@selector(bannerView:didTouchButton:)]) {
+        [self.delegate bannerView:self
+                   didTouchButton:sender];
+    }
+}
+
+- (IBAction)tapOnBannerViewAction:(id)sender {
+    DLog(@"");
+    if ([self.delegate respondsToSelector:@selector(bannerViewDidTouch:)]) {
+        [self.delegate bannerViewDidTouch:sender];
+    }
+}
+
+
 #pragma mark - Setters
+
+- (void)setAllowCancel:(BOOL)allowCancel {
+    if (_allowCancel != allowCancel) {
+        _allowCancel = allowCancel;
+        [self setNeedsLayout];
+    }
+}
 
 - (void)setTitle:(NSString *)title {
     if (![title isEqualToString:_title]) {

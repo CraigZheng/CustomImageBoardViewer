@@ -74,6 +74,8 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
     referenceFrame.size.height = self.bannerView.intrinsicContentSize.height;
     self.bannerView.frame = referenceFrame;
     [topViewController.view addSubview:self.bannerView];
+    // If self.userInteractionHandler != nil, allowCancel.
+    self.bannerView.allowCancel = self.userInteractionHandler != nil;
     
     // Start counting the timer.
     [self startTimer];
@@ -148,10 +150,16 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
 
 - (void)bannerViewDidTouch:(czzBannerView *)bannerView {
     DLog(@"");
+    // Dismiss, then invoke the userInteractionHandler.
+    [self dismissBannerView:NO];
+    if (self.userInteractionHandler) {
+        self.userInteractionHandler();
+    }
 }
 
 - (void)bannerView:(czzBannerView *)bannerView didTouchButton:(UIButton *)button {
     DLog(@"");
+    [self dismissBannerView:YES];
 }
 
 #pragma mark - Getters

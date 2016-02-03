@@ -20,4 +20,5 @@
 @interface czzBannerView : CPLoadFromNibView
 @property (nonatomic, weak) id<czzBannerViewDelegate> delegate;
 @property (nonatomic, strong) NSString *title;
+@property (nonatomic, assign) BOOL allowCancel;
 @end
