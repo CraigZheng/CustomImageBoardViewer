@@ -12,6 +12,7 @@
 #import "UIApplication+Util.h"
 
 static NSTimeInterval defaultDisplayTime = 2.0;
+static NSTimeInterval displayTimeWithCompletionHandler = 6.0;
 static NSTimeInterval defaultAnimationDuration = 0.2;
 
 @interface czzBannerNotificationUtil() <czzBannerViewDelegate>
@@ -20,6 +21,7 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
 @property (nonatomic, strong) NSTimer *dismissTimer;
 @property (nonatomic, assign) BannerNotificationPosition position;
 @property (nonatomic, copy) void(^userInteractionHandler)(void);
+@property (nonatomic, assign) BOOL waitForInteraction;
 @property (nonatomic, readonly) CGRect topReferenceFrame;
 @property (nonatomic, readonly) CGRect bottomReferenceFrame;
 
@@ -38,11 +40,12 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
     return self;
 }
 
-- (void)displayMessage:(NSString *)message position:(BannerNotificationPosition)position userInteractionHandler:(void (^)(void))userInteractionHandler {
+- (void)displayMessage:(NSString *)message position:(BannerNotificationPosition)position userInteractionHandler:(void (^)(void))userInteractionHandler waitForInteraction:(BOOL)waitForInteraction{
     DLog(@"message: %@", message);
     self.position = position;
     self.userInteractionHandler = userInteractionHandler;
     self.bannerView.title = message;
+    self.waitForInteraction = waitForInteraction;
     [self displayBannerView];
 }
 
@@ -108,7 +111,16 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
 #pragma mark - NSTimer management
 - (void)startTimer {
     [self stopTimer];
-    self.dismissTimer = [NSTimer scheduledTimerWithTimeInterval:defaultDisplayTime
+    NSTimeInterval displayTime = defaultDisplayTime;
+    // If the caller provides a handler, make the display time a bit longer.
+    if (self.userInteractionHandler) {
+        displayTime = displayTimeWithCompletionHandler;
+        // If the caller provides a handler, and wants to wait for interaction.
+        if (self.waitForInteraction) {
+            displayTime = MAXFLOAT;
+        }
+    }
+    self.dismissTimer = [NSTimer scheduledTimerWithTimeInterval:displayTime
                                                          target:self
                                                        selector:@selector(dismissBannerView)
                                                        userInfo:nil
@@ -123,10 +135,13 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
 
 #pragma mark - Rotation event
 - (void)handleUIApplicationWillChangeStatusBarFrameNotification {
-    [self dismissBannerView:NO];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((defaultAnimationDuration * 2) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self displayBannerView];
-    });
+    // If the banner is still showing, dismiss it first, then display it again after the animation.
+    if (self.bannerView.superview) {
+        [self dismissBannerView:NO];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((defaultAnimationDuration * 2) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self displayBannerView];
+        });
+    }
 }
 
 #pragma mark - czzBannerViewDelegate
@@ -176,13 +191,15 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
 + (void)displayMessage:(NSString *)message position:(BannerNotificationPosition)position {
     [self displayMessage:message
                 position:position
-       userInteractionHandler:nil];
+  userInteractionHandler:nil
+      waitForInteraction:NO];
 }
 
-+ (void)displayMessage:(NSString *)message position:(BannerNotificationPosition)position userInteractionHandler:(void (^)(void))userInteractionHandler {
++ (void)displayMessage:(NSString *)message position:(BannerNotificationPosition)position userInteractionHandler:(void (^)(void))userInteractionHandler waitForInteraction:(BOOL)waitForInteraction{
     [[self sharedInstance] displayMessage:message
                                  position:position
-                        userInteractionHandler:userInteractionHandler];
+                   userInteractionHandler:userInteractionHandler
+                       waitForInteraction:waitForInteraction];
 }
 
 + (instancetype)sharedInstance {

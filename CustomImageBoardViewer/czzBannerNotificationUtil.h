@@ -23,6 +23,7 @@ typedef NS_ENUM(NSInteger, BannerNotificationPosition) {
 + (void)displayMessage:(NSString *)message position:(BannerNotificationPosition)position;
 + (void)displayMessage:(NSString *)message
               position:(BannerNotificationPosition)position
-     userInteractionHandler:(void(^)(void))userInteractionHandler;
+userInteractionHandler:(void(^)(void))userInteractionHandler
+    waitForInteraction:(BOOL)waitForInteraction;
 
 @end
