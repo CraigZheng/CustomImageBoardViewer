@@ -26,8 +26,11 @@
     CGSize intrinsicContentSize = [super intrinsicContentSize];
     if (self.title.length) {
         // Has content, calculate its height.
-        CGSize titleIntrinsicContentSize = self.titleLabel.intrinsicContentSize;
-        intrinsicContentSize.height = titleIntrinsicContentSize.height;
+        CGRect titleRect = [self.title boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.titleLabel.frame), MAXFLOAT)
+                                                    options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin
+                                                 attributes:@{NSFontAttributeName: self.titleLabel.font}
+                                                    context:nil];
+        intrinsicContentSize.height = CGRectGetHeight(titleRect);
         // Should not be bigger than 120, or smaller than 40;
         if (intrinsicContentSize.height >= 120) {
             intrinsicContentSize.height = 120;
