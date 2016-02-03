@@ -37,8 +37,10 @@
 
 
 -(void)getCookieIfHungry {
-    if (self.acCookies.count > 0)
+    if (self.acCookies.count > 0) {
+        DDLogDebug(@"%s: no need for anymore cookies.", __PRETTY_FUNCTION__);
         return;
+    }
     DDLogDebug(@"current cookie empty, try to eat a cookie");
     NSString *getCookieURLString = [[settingCentre a_isle_host] stringByAppendingPathComponent:[NSString stringWithFormat:@"/Home/Api/getCookie?deviceid=%@", [UIDevice currentDevice].identifierForVendor.UUIDString]];
 
