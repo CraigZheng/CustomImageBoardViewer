@@ -17,6 +17,8 @@ static NSTimeInterval defaultDisplayTime = 2.0;
 
 @property (nonatomic, strong) czzBannerView *bannerView;
 @property (nonatomic, strong) NSTimer *dismissTimer;
+@property (nonatomic, assign) BannerNotificationPosition position;
+@property (nonatomic, copy) void(^userInteractionHandler)(void);
 
 @end
 
@@ -33,20 +35,22 @@ static NSTimeInterval defaultDisplayTime = 2.0;
     return self;
 }
 
-- (void)displayMessage:(NSString *)message position:(BannerNotificationPosition)position completionHandler:(void (^)(void))completionHandler {
+- (void)displayMessage:(NSString *)message position:(BannerNotificationPosition)position userInteractionHandler:(void (^)(void))userInteractionHandler {
     DLog(@"message: %@", message);
+    self.position = position;
+    self.userInteractionHandler = userInteractionHandler;
     self.bannerView.title = message;
-    [self displayBannerView: position];
+    [self displayBannerView];
 }
 
-- (void)displayBannerView:(BannerNotificationPosition)position {
+- (void)displayBannerView {
     UIViewController *topViewController = [UIApplication topViewController];
     if (!topViewController) {
         return;
     }
 
     CGRect referenceFrame;
-    if (position == BannerNotificationPositionTop) {
+    if (self.position == BannerNotificationPositionTop) {
         if (!topViewController.navigationController.navigationBarHidden) {
             referenceFrame = topViewController.navigationController.navigationBar.frame;
         } else {
@@ -65,7 +69,7 @@ static NSTimeInterval defaultDisplayTime = 2.0;
     if (self.bannerView.superview) {
         [self.bannerView removeFromSuperview];
     }
-    if (position == BannerNotificationPositionTop) {
+    if (self.position == BannerNotificationPositionTop) {
         // Position is top, move the banner down.
         referenceFrame.origin.y += self.bannerView.intrinsicContentSize.height;
     } else {
@@ -82,7 +86,7 @@ static NSTimeInterval defaultDisplayTime = 2.0;
     // TODO: dismiss first.
     // TODO: pass the position.
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self displayBannerView:BannerNotificationPositionTop];
+        [self displayBannerView];
     });
 }
 
@@ -112,10 +116,10 @@ static NSTimeInterval defaultDisplayTime = 2.0;
        userInteractionHandler:nil];
 }
 
-+ (void)displayMessage:(NSString *)message position:(BannerNotificationPosition)position userInteractionHandler:(void (^)(void))completionHandler {
++ (void)displayMessage:(NSString *)message position:(BannerNotificationPosition)position userInteractionHandler:(void (^)(void))userInteractionHandler {
     [[self sharedInstance] displayMessage:message
                                  position:position
-                        completionHandler:completionHandler];
+                        userInteractionHandler:userInteractionHandler];
 }
 
 + (instancetype)sharedInstance {
