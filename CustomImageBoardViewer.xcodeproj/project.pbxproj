@@ -206,6 +206,8 @@
 		44AE2AFA187254E4002CB021 /* czzMenuEnabledTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AE2AF9187254E4002CB021 /* czzMenuEnabledTableViewCell.m */; };
 		44AE2AFE18725EC4002CB021 /* czzNoSelectionTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AE2AFD18725EC4002CB021 /* czzNoSelectionTextView.m */; };
 		44AE2B011872924C002CB021 /* PartialTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AE2B001872924C002CB021 /* PartialTransparentView.m */; };
+		44B05C1D1C6204FE00F6F5E3 /* czzBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B05C1C1C6204FE00F6F5E3 /* czzBannerView.m */; };
+		44B05C1F1C62051F00F6F5E3 /* czzBannerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B05C1E1C62051F00F6F5E3 /* czzBannerView.xib */; };
 		44B54E6A1A0EE1B80004C5B4 /* czzThreadViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B54E691A0EE1B80004C5B4 /* czzThreadViewTableViewCell.xib */; };
 		44B86457185D80A300C29B92 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B86456185D80A300C29B92 /* AdSupport.framework */; };
 		44B86459185D80E300C29B92 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B86458185D80E200C29B92 /* AudioToolbox.framework */; };
@@ -789,6 +791,9 @@
 		44AE2AFD18725EC4002CB021 /* czzNoSelectionTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzNoSelectionTextView.m; sourceTree = "<group>"; };
 		44AE2AFF1872924C002CB021 /* PartialTransparentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PartialTransparentView.h; sourceTree = "<group>"; };
 		44AE2B001872924C002CB021 /* PartialTransparentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PartialTransparentView.m; sourceTree = "<group>"; };
+		44B05C1B1C6204FE00F6F5E3 /* czzBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzBannerView.h; sourceTree = "<group>"; };
+		44B05C1C1C6204FE00F6F5E3 /* czzBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzBannerView.m; sourceTree = "<group>"; };
+		44B05C1E1C62051F00F6F5E3 /* czzBannerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzBannerView.xib; sourceTree = "<group>"; };
 		44B54E691A0EE1B80004C5B4 /* czzThreadViewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzThreadViewTableViewCell.xib; sourceTree = "<group>"; };
 		44B86456185D80A300C29B92 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		44B86458185D80E200C29B92 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -1126,6 +1131,9 @@
 			children = (
 				441356071C61B3B6001B82E5 /* czzBannerNotificationUtil.h */,
 				441356081C61B3B6001B82E5 /* czzBannerNotificationUtil.m */,
+				44B05C1B1C6204FE00F6F5E3 /* czzBannerView.h */,
+				44B05C1C1C6204FE00F6F5E3 /* czzBannerView.m */,
+				44B05C1E1C62051F00F6F5E3 /* czzBannerView.xib */,
 			);
 			name = BannerNotification;
 			sourceTree = "<group>";
@@ -2731,6 +2739,7 @@
 				444F5B411A40EA3500EB391F /* 46.png in Resources */,
 				44CF254A1A25A2A500BD8228 /* delete_file.png in Resources */,
 				44E791EF1A17856500A63C04 /* reply.png in Resources */,
+				44B05C1F1C62051F00F6F5E3 /* czzBannerView.xib in Resources */,
 				44C73BE01A496D6E0051D4C2 /* ipad horizontal launch screen.png in Resources */,
 				44C3455C187E774300FDE45D /* acfun_emoji_UTF8.txt in Resources */,
 				441E5CE217F4691300289DBD /* Main_iPhone.storyboard in Resources */,
@@ -2928,6 +2937,7 @@
 				44CF25691A26B4D000BD8228 /* README.md in Sources */,
 				5A1593EC18E71E93001A774B /* czzThreadRefButton.m in Sources */,
 				44C34550187E616500FDE45D /* czzEmojiCollectionViewController.m in Sources */,
+				44B05C1D1C6204FE00F6F5E3 /* czzBannerView.m in Sources */,
 				44B89E831A2AFBE30085F766 /* SGProgressView.m in Sources */,
 				440B2FC717F7DB7800544926 /* czzForumsViewController.m in Sources */,
 				442CD0E718517BED0021AD37 /* czzImageCacheManager.m in Sources */,
