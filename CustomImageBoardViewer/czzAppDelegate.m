@@ -222,7 +222,7 @@
 
 -(void)showToast:(NSString *)string{
     [czzBannerNotificationUtil displayMessage:string
-                                     position:BannerNotificationPositionTopBottom];
+                                     position:BannerNotificationPositionBottom];
 }
 
 #pragma mark - show and hide uitoolbar

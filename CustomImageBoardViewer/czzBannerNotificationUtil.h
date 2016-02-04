@@ -15,7 +15,7 @@ typedef NS_ENUM(NSInteger, BannerNotificationType) {
 
 typedef NS_ENUM(NSInteger, BannerNotificationPosition) {
     BannerNotificationPositionTop,
-    BannerNotificationPositionTopBottom
+    BannerNotificationPositionBottom
 };
 
 @interface czzBannerNotificationUtil : NSObject

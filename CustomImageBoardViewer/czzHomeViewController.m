@@ -228,10 +228,10 @@
             [self.homeViewManager loadMoreThreads:newPageNumber];
 
             [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)self.homeViewManager.pageNumber]
-                                             position:BannerNotificationPositionTopBottom];
+                                             position:BannerNotificationPositionTop];
         } else {
             [czzBannerNotificationUtil displayMessage:@"页码无效..."
-                                             position:BannerNotificationPositionTopBottom];
+                                             position:BannerNotificationPositionTop];
         }
     }
 }

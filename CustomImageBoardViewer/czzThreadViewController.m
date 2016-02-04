@@ -241,10 +241,10 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
             [refreshControl beginRefreshing];
 
             [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) self.threadViewManager.pageNumber]
-                                             position:BannerNotificationPositionTopBottom];
+                                             position:BannerNotificationPositionTop];
         } else {
             [czzBannerNotificationUtil displayMessage:@"页码无效..."
-                                             position:BannerNotificationPositionTopBottom];
+                                             position:BannerNotificationPositionTop];
         }
     }
 }
