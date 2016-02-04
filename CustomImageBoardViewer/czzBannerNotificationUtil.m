@@ -71,7 +71,7 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
         referenceFrame.origin.y += referenceFrame.size.height;
     } else {
         // Position is bottom, move the banner up.
-        referenceFrame.origin.y -= referenceFrame.size.height;
+        referenceFrame.origin.y -= self.bannerView.intrinsicContentSize.height;
     }
     referenceFrame.size.height = self.bannerView.intrinsicContentSize.height;
     self.bannerView.frame = referenceFrame;
