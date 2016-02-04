@@ -12,6 +12,7 @@
 #import "czzACTokenUtil.h"
 #import "czzSettingsCentre.h"
 #import "czzAppDelegate.h"
+#import "czzBannerNotificationUtil.h"
 
 @interface czzCookieManagerViewController () <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 @property czzCookieManager *cookieManager;
@@ -167,18 +168,18 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
 }
 
 #pragma mark - UIAlertViewDelegate
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (alertView.cancelButtonIndex == buttonIndex)
         return;
     
     if (alertView == saveCookieAlertView) {
         [cookieManager archiveCookie:self.selectedCookie];
-        [AppDelegate showToast:@"饼干已放入保鲜库"];
+        [czzBannerNotificationUtil displayMessage:@"饼干已放入保鲜库" position:BannerNotificationPositionTop];
     } else if (alertView == useCookieAlertView) {
         NSHTTPCookie *newCookie = [czzACTokenUtil createCookieWithValue:self.selectedCookie.value forURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
         if (newCookie) {
             [cookieManager setACCookie:newCookie ForURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
-            [AppDelegate showToast:@"饼干已启用"];
+            [czzBannerNotificationUtil displayMessage:@"饼干已启用" position:BannerNotificationPositionTop];
         } else {
             DDLogDebug(@"token nil");
         }
@@ -190,16 +191,16 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
         } else if (cookieManagerSegmentControl.selectedSegmentIndex == 1) {
             [cookieManager deleteArchiveCookie:self.selectedCookie];
         }
-        [AppDelegate showToast:@"饼干已删除"];
+        [czzBannerNotificationUtil displayMessage:@"饼干已删除" position:BannerNotificationPositionTop];
     } else if (alertView == addCookieAlertView) {
         UITextField *textField = [addCookieAlertView textFieldAtIndex:0];
         NSString *text = textField.text;
         if (text.length)
         {
             if ([cookieManager addValueAsCookie:text]) {
-                [AppDelegate showToast:@"饼干已添加"];
+                [czzBannerNotificationUtil displayMessage:@"饼干已添加" position:BannerNotificationPositionTop];
             } else {
-                [AppDelegate showToast:@"饼干添加失败，请检查输入"];
+                [czzBannerNotificationUtil displayMessage:@"饼干添加失败，请检查输入" position:BannerNotificationPositionTop];
             }
         }
     }

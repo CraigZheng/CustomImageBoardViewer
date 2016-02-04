@@ -110,7 +110,7 @@
 }
 
 #pragma mark - UIAlertViewDelegate
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     //search
     if (alertView == searchInputAlertView) {
         if (buttonIndex != alertView.cancelButtonIndex) {
