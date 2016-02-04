@@ -87,8 +87,6 @@
 }
 
 - (void)renderContent {
-    self.edgesForExtendedLayout = UIRectEdgeNone;
-    
     postSender = [czzPostSender new];
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
     toolbar.autoresizingMask = toolbar.autoresizingMask | UIViewAutoresizingFlexibleHeight;
