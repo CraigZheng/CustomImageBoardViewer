@@ -11,6 +11,8 @@
 #import "czzBannerView.h"
 #import "UIApplication+Util.h"
 
+#import <QuartzCore/QuartzCore.h>
+
 static NSTimeInterval defaultDisplayTime = 2.0;
 static NSTimeInterval displayTimeWithCompletionHandler = 6.0;
 static NSTimeInterval defaultAnimationDuration = 0.2;
@@ -58,27 +60,45 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
     }
 
     CGRect referenceFrame;
+    CGRect targetFrame;
     if (self.position == BannerNotificationPositionTop) {
         referenceFrame = self.topReferenceFrame;
     } else {
         referenceFrame = self.bottomReferenceFrame;
     }
-    if (self.bannerView.superview) {
-        [self.bannerView removeFromSuperview];
-    }
+    // Copy values to target frame, then modify the origin.y.
+    targetFrame = referenceFrame;
     if (self.position == BannerNotificationPositionTop) {
         // Position is top, move the banner down.
-        referenceFrame.origin.y += referenceFrame.size.height;
+        targetFrame.origin.y += referenceFrame.size.height;
     } else {
         // Position is bottom, move the banner up.
-        referenceFrame.origin.y -= self.bannerView.intrinsicContentSize.height;
+        targetFrame.origin.y -= self.bannerView.intrinsicContentSize.height;
     }
-    referenceFrame.size.height = self.bannerView.intrinsicContentSize.height;
-    self.bannerView.frame = referenceFrame;
-    [self.destinationViewController.view addSubview:self.bannerView];
+    targetFrame.size.height = self.bannerView.intrinsicContentSize.height;
+    // Remove all pending animation.
+    [self.bannerView.layer removeAllAnimations];
+    BOOL shouldPerformAnimation = YES;
+    if (self.bannerView.superview) {
+        // The view is already displaying, don't perform the animation.
+        shouldPerformAnimation = NO;
+        [self.bannerView removeFromSuperview];
+    }
     // If self.userInteractionHandler != nil, allowCancel.
     self.bannerView.allowCancel = self.userInteractionHandler != nil;
-    
+    [self.destinationViewController.view addSubview:self.bannerView];
+    if (shouldPerformAnimation) {
+        // Should animate, set the original frame for the banner view.
+        self.bannerView.frame = referenceFrame;
+        // Animate the appearance.
+        [UIView animateWithDuration:defaultAnimationDuration
+                         animations:^{
+                             self.bannerView.frame = targetFrame;
+                         }];
+    } else {
+        // No need to animate, set final frame for the banner view.
+        self.bannerView.frame = targetFrame;
+    }
     // Start counting the timer.
     [self startTimer];
 }
