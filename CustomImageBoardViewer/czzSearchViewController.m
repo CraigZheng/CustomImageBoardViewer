@@ -19,6 +19,7 @@
 #import "czzAppDelegate.h"
 #import "czzFavouriteManagerViewController.h"
 #import "Toast+UIView.h"
+#import "czzBannerNotificationUtil.h"
 #import "czzMiniThreadViewController.h"
 #import "czzSettingsCentre.h"
 #import "czzNavigationController.h"
@@ -109,19 +110,21 @@
 }
 
 #pragma mark - UIAlertViewDelegate
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     //search
     if (alertView == searchInputAlertView) {
         if (buttonIndex != alertView.cancelButtonIndex) {
             searchKeyword = [[[alertView textFieldAtIndex:0] text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             if ([self isNumeric:searchKeyword]) {
-                [AppDelegate.window makeToast:@"请稍等..."];
+                [czzBannerNotificationUtil displayMessage:@"请稍等..."
+                                                 position:BannerNotificationPositionTop];
                 [self downloadAndPrepareThreadWithID:searchKeyword.integerValue];
                 
             } else {
                 NSURLRequest *request = [self makeRequestWithKeyword:searchKeyword];
                 if (!request) {
-                    [AppDelegate.window makeToast:@"无效的关键词"];
+                    [czzBannerNotificationUtil displayMessage:@"无效的关键词"
+                                                     position:BannerNotificationPositionTop];
                 } else {
                     [searchWebView loadRequest:request];
                 }
@@ -173,13 +176,15 @@
     //user tapped on link
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
         if ([request.URL.absoluteString rangeOfString:[settingCentre a_isle_host]].location == NSNotFound) {
-            [AppDelegate.window makeToast:@"这个App只支持AC匿名版的链接" duration:2.0 position:@"center" image:[UIImage imageNamed:@"warning.png"]];
+            [czzBannerNotificationUtil displayMessage:@"这个App只支持AC匿名版的链接"
+                                             position:BannerNotificationPositionTop];
             return NO;
         } else {
             //get final URL
             NSString *acURL = [[request.URL.absoluteString componentsSeparatedByString:@"?"].firstObject stringByDeletingPathExtension]; //only the first few components are useful, the host and the thread id
             targetURL = [NSURL URLWithString:acURL];
-            [AppDelegate.window makeToast:@"请稍等..."];
+            [czzBannerNotificationUtil displayMessage:@"请稍等..."
+                                             position:BannerNotificationPositionTop];
 
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 NSData *data = nil;

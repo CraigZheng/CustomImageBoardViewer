@@ -7,7 +7,7 @@
 //
 
 #import "czzSettingsViewController.h"
-#import "Toast+UIView.h"
+#import "czzBannerNotificationUtil.h"
 #import "czzImageCacheManager.h"
 #import "czzAppDelegate.h"
 #import "czzHomeViewController.h"
@@ -225,7 +225,7 @@
         for (NSHTTPCookie *cookie in cookies) {
             [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
         }
-        [AppDelegate showToast:@"ID信息已清除"];
+        [czzBannerNotificationUtil displayMessage:@"ID信息已清除" position:BannerNotificationPositionTop];
     }
     else if ([alertView.title isEqualToString:@"强制退出"])
     {
@@ -235,7 +235,8 @@
         settingsCentre.userDefShouldUseBigImage = !settingsCentre.userDefShouldUseBigImage;
         [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate threadCacheFolder] error:nil];
         [AppDelegate checkFolders];
-        [AppDelegate showToast:[NSString stringWithFormat:@"大图模式：%@", settingsCentre.userDefShouldUseBigImage ? @"On" : @"Off"]];
+        [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"大图模式：%@", settingsCentre.userDefShouldUseBigImage ? @"On" : @"Off"]
+                                                                    position:BannerNotificationPositionTop];
         [[czzHomeViewManager sharedManager] refresh];
         [settingsCentre saveSettings];
         [self.settingsTableView reloadData];
@@ -252,12 +253,12 @@
     if ([title hasPrefix:@"图片管理器"]){
         [[czzImageCacheManager sharedInstance] removeFullSizeImages];
         [[czzImageCacheManager sharedInstance] removeThumbnails];
-        [AppDelegate showToast:@"图片管理器已清空"];
+        [czzBannerNotificationUtil displayMessage:@"图片管理器已清空" position:BannerNotificationPositionTop];
     }
     else if ([title hasPrefix:@"串缓存"]){
         [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate threadCacheFolder] error:nil];
         [AppDelegate checkFolders];
-        [AppDelegate showToast:@"串缓存已清空"];
+        [czzBannerNotificationUtil displayMessage:@"串缓存已清空" position:BannerNotificationPositionTop];
     }
 }
 
@@ -274,7 +275,7 @@
         if ([command isEqualToString:@"显示图片"]){
             //下载图片
             settingsCentre.userDefShouldDisplayThumbnail = switchControl.on;
-            [AppDelegate showToast:@"更改图片显示设置..."];
+            [czzBannerNotificationUtil displayMessage:@"更改图片显示设置..." position:BannerNotificationPositionTop];
         }
         else if ([command isEqualToString:@"图片下载完毕自动打开"]){
             //自动打开图片
@@ -286,10 +287,11 @@
             settingsCentre.userDefShouldHighlightPO = switchControl.on;
         } else if ([command isEqualToString:@"显示快速滑动按钮"]) {
             settingsCentre.userDefShouldShowOnScreenCommand = switchControl.on;
-            [AppDelegate showToast:@"重启后生效"];
+            [czzBannerNotificationUtil displayMessage:@"重启后生效" position:BannerNotificationPositionTop];
         } else if ([command isEqualToString:@"夜间模式"]) {
             settingsCentre.userDefNightyMode = !settingsCentre.userDefNightyMode;
-            [AppDelegate showToast:[NSString stringWithFormat:@"夜间模式：%@", settingsCentre.userDefNightyMode ? @"On" : @"Off"]];
+            [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"夜间模式：%@", settingsCentre.userDefNightyMode ? @"On" : @"Off"]
+                                                                        position:BannerNotificationPositionTop];
             [[czzHomeViewManager sharedManager] reloadData];
             [self.settingsTableView reloadData];
         }
@@ -299,12 +301,14 @@
         }
         else if ([command isEqualToString:@"每月自动清理缓存"]) {
             settingsCentre.userDefShouldCleanCaches = !settingsCentre.userDefShouldCleanCaches;
-            [AppDelegate showToast:[NSString stringWithFormat:@"每月自动清理缓存： %@", settingsCentre.userDefShouldCleanCaches ? @"On" : @"Off"]];
+            [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"每月自动清理缓存： %@", settingsCentre.userDefShouldCleanCaches ? @"On" : @"Off"]
+                                             position:BannerNotificationPositionTop];
         } else if ([command isEqualToString:@"Monitor Performance"]) {
             [self.settingsTableView reloadData];
         } else if ([command isEqualToString:@"自动下载大图"]) {
             settingsCentre.userDefShouldAutoDownloadImage = !settingsCentre.userDefShouldAutoDownloadImage;
-            [AppDelegate showToast:[NSString stringWithFormat:@"自动下载大图： %@", settingsCentre.userDefShouldAutoDownloadImage ? @"On" : @"Off"]];
+            [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"自动下载大图： %@", settingsCentre.userDefShouldAutoDownloadImage ? @"On" : @"Off"]
+                                             position:BannerNotificationPositionTop];
         }
         [settingsCentre saveSettings];
         [[czzHomeViewManager sharedManager] reloadData];
@@ -313,7 +317,8 @@
 
 -(void)toggleBigImageMode {
     settingsCentre.userDefShouldUseBigImage = !settingsCentre.userDefShouldUseBigImage;
-    [AppDelegate showToast:[NSString stringWithFormat:@"大图模式：%@", settingsCentre.userDefShouldUseBigImage ? @"On" : @"Off"]];
+    [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"大图模式：%@", settingsCentre.userDefShouldUseBigImage ? @"On" : @"Off"]
+                                     position:BannerNotificationPositionTop];
     [self prepareCommands];
     [self.settingsTableView reloadData];
     [[czzHomeViewManager sharedManager] reloadData];
@@ -326,7 +331,7 @@
             [[UIApplication sharedApplication] openURL:donationLinkURL];
         }
     } else {
-        [AppDelegate showToast:@"谢谢，现在作者并不需要捐款。。。"];
+        [czzBannerNotificationUtil displayMessage:@"谢谢，现在作者并不需要捐款。。。" position:BannerNotificationPositionTop];
     }
 }
 

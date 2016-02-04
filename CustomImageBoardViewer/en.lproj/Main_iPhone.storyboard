@@ -470,7 +470,7 @@
                     <toolbarItems>
                         <barButtonItem style="plain" id="v7e-1w-UHH">
                             <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="XSV-OW-DVO">
-                                <rect key="frame" x="16" y="7" width="161" height="31"/>
+                                <rect key="frame" x="16" y="6.5" width="161" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title="必应"/>
@@ -503,17 +503,17 @@
         <!--回复-->
         <scene sceneID="YCR-6r-jxg">
             <objects>
-                <viewController storyboardIdentifier="post_view_controller" hidesBottomBarWhenPushed="YES" id="4co-Qn-de7" customClass="czzPostViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="post_view_controller" automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" id="4co-Qn-de7" customClass="czzPostViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="t4Y-Zn-CmB"/>
                         <viewControllerLayoutGuide type="bottom" id="x9R-fb-aTx"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="hg6-I0-Rfv">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tgk-NW-5N7">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
@@ -530,7 +530,6 @@
                             <constraint firstItem="x9R-fb-aTx" firstAttribute="top" secondItem="Tgk-NW-5N7" secondAttribute="bottom" id="suq-0c-az0"/>
                         </constraints>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="回复" id="Vjg-kg-veu">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="4WB-V9-BIO">
                             <connections>

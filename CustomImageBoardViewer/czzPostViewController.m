@@ -10,6 +10,8 @@
 
 #import "NSString+HTML.h"
 #import "SMXMLDocument.h"
+#import "czzPost.h"
+#import "SMXMLDocument.h"
 #import "Toast+UIView.h"
 #import "UIViewController+KNSemiModal.h"
 #import "ValueFormatter.h"
@@ -24,6 +26,7 @@
 #import "czzSettingsCentre.h"
 #import "czzThreadDownloader.h"
 #import "czzHistoryManager.h"
+#import "czzBannerNotificationUtil.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 
 @interface czzPostViewController () <czzPostSenderDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
@@ -89,8 +92,6 @@
 }
 
 - (void)renderContent {
-    self.edgesForExtendedLayout = UIRectEdgeNone;
-    
     postSender = [czzPostSender new];
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
     toolbar.autoresizingMask = toolbar.autoresizingMask | UIViewAutoresizingFlexibleHeight;
@@ -172,7 +173,8 @@
     [postSender sendPost];
     [postTextView resignFirstResponder];
     [postButton setEnabled:NO];
-    [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:@"正在发送..."];
+    [czzBannerNotificationUtil displayMessage:@"正在发送..."
+                                     position:BannerNotificationPositionTop];
     //if blacklist entity is not nil, then also send a copy to my server
     if (self.blacklistEntity){
         if ([self.blacklistEntity isReady]){
@@ -238,20 +240,35 @@
         self.cancelPostingActionSheet = [[UIActionSheet alloc] initWithTitle:@"确定要中断发送文章？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"中断" otherButtonTitles: nil];
         [self.cancelPostingActionSheet showInView:self.view];
     } else
-        [self dismiss];
+        [self dismissWithCompletionHandler:nil];
 }
 
 -(void)resetContent{
     postTextView.text = @"";
     [postSender setImgData:nil format:nil];
-    [[AppDelegate window] makeToast:@"内容和图片已清空"];
+    [czzBannerNotificationUtil displayMessage:@"内容和图片已清空"
+                                     position:BannerNotificationPositionTop];
 }
 
-- (void)dismiss {
-    if (self.isModal) {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    } else {
+- (void)dismissWithCompletionHandler:(void(^)(void))completionHandler {
+    BOOL isModalView = [self isModal];
+    if (self.navigationController.viewControllers.count > 1) {
+        [CATransaction begin];
+        [CATransaction setCompletionBlock:^{
+            if (completionHandler) {
+                completionHandler();
+            }
+        }];
+        
         [self.navigationController popViewControllerAnimated:YES];
+        [CATransaction commit];
+        
+    } else if (isModalView) {
+        [self.navigationController dismissViewControllerAnimated:YES completion:^{
+            if (completionHandler) {
+                completionHandler();
+            }
+        }];
     }
 }
 
@@ -262,7 +279,7 @@
             [self resetContent];
     } else if (actionSheet == self.cancelPostingActionSheet) {
         if (buttonIndex == actionSheet.destructiveButtonIndex)
-            [self dismiss];
+            [self dismissWithCompletionHandler:nil];
     }
 }
 
@@ -362,7 +379,8 @@
                                         forum:postSender.forum];
         }
     } else {
-        [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:message duration:1.5 position:@"top" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
+        [czzBannerNotificationUtil displayMessage:@"出错啦"
+                                         position:BannerNotificationPositionTop];
         self.title = message.length > 0 ? message : @"出错，没有更多信息";
     }
     [self enablePostButton];
