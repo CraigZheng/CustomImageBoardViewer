@@ -177,10 +177,6 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
 
 - (CGRect)topReferenceFrame {
     UIViewController *referenceViewController = self.destinationViewController ?: [UIApplication topViewController];
-    // If the top view controller is already a navigation controller, get its last child instead.
-    if ([referenceViewController isKindOfClass:[UINavigationController class]]) {
-        referenceViewController = (UINavigationController *)referenceViewController.childViewControllers.lastObject;
-    }
     CGRect referenceFrame;
     if (!referenceViewController.navigationController.navigationBarHidden) {
         referenceFrame = referenceViewController.navigationController.navigationBar.frame;
@@ -193,10 +189,6 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
 
 - (CGRect)bottomReferenceFrame {
     UIViewController *referenceViewController = self.destinationViewController ?: [UIApplication topViewController];
-    // If the top view controller is already a navigation controller, get its last child instead.
-    if ([referenceViewController isKindOfClass:[UINavigationController class]]) {
-        referenceViewController = (UINavigationController *)referenceViewController.childViewControllers.lastObject;
-    }
     CGRect referenceFrame;
     if (!referenceViewController.navigationController.toolbarHidden) {
         referenceFrame = referenceViewController.navigationController.toolbar.frame;
@@ -205,6 +197,14 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
         referenceFrame = CGRectMake(0, CGRectGetHeight(referenceViewController.view.frame), CGRectGetWidth(referenceViewController.view.frame), 0);
     }
     return referenceFrame;
+}
+
+- (UIViewController *)destinationViewController {
+    UIViewController *targetViewController = _destinationViewController;
+    if ([_destinationViewController isKindOfClass:[UINavigationController class]]) {
+        targetViewController = (UINavigationController *)_destinationViewController.childViewControllers.lastObject;
+    }
+    return targetViewController;
 }
 
 + (void)displayMessage:(NSString *)message position:(BannerNotificationPosition)position {
