@@ -7,20 +7,23 @@
 //
 
 #import "czzPostViewController.h"
-#import "czzPost.h"
-#import "Toast+UIView.h"
+
+#import "NSString+HTML.h"
 #import "SMXMLDocument.h"
-#import "czzPostSender.h"
+#import "Toast+UIView.h"
+#import "UIViewController+KNSemiModal.h"
+#import "ValueFormatter.h"
 #import "czzAppDelegate.h"
 #import "czzBlacklistSender.h"
-#import "czzMenuEnabledTableViewCell.h"
-#import "UIViewController+KNSemiModal.h"
 #import "czzEmojiCollectionViewController.h"
-#import "ValueFormatter.h"
-#import "czzForumsViewController.h"
 #import "czzForumManager.h"
-#import "NSString+HTML.h"
+#import "czzForumsViewController.h"
+#import "czzMenuEnabledTableViewCell.h"
+#import "czzPost.h"
+#import "czzPostSender.h"
 #import "czzSettingsCentre.h"
+#import "czzThreadDownloader.h"
+#import "czzHistoryManager.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 
 @interface czzPostViewController () <czzPostSenderDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
@@ -348,6 +351,16 @@
     if (status) {
         [self dismiss];
         [AppDelegate showToast:@"提交成功"];
+        // Add the just replied thread to watchlist manager.
+        if (postSender.parentThread) {
+            [historyManager addToRespondedList:postSender.parentThread];
+        } else if (postSender.forum) {
+            // Post sent to forum, try to locate the just posted thread.
+            [historyManager addToPostedList:postSender.title
+                                      content:postSender.content
+                                     hasImage:postSender.imgData != nil
+                                        forum:postSender.forum];
+        }
     } else {
         [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:message duration:1.5 position:@"top" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
         self.title = message.length > 0 ? message : @"出错，没有更多信息";

@@ -100,6 +100,8 @@
     if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
         CacheCleaner;
     }
+    // Init the watch list manager.
+    WatchListManager;
 }
 
 
@@ -126,7 +128,7 @@
 
 #pragma mark - background fetch
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    [[czzWatchListManager sharedManager] refreshWatchedThreads:^(NSArray *updatedThreads) {
+    [[czzWatchListManager sharedManager] refreshWatchedThreadsWithCompletionHandler:^(NSArray *updatedThreads) {
         UIBackgroundFetchResult backgroundFetchResult = UIBackgroundFetchResultNoData;
         
         UILocalNotification *localNotif = [[UILocalNotification alloc] init];

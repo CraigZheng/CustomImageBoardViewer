@@ -181,6 +181,12 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     } else {
         self.starButton.image = [UIImage imageNamed:@"star.png"];
     }
+    // Watch button image - watched or not.
+    if ([WatchListManager.watchedThreads containsObject:self.threadViewManager.parentThread]) {
+        self.watchButton.image = [UIImage imageNamed:@"visible.png"];
+    } else {
+        self.watchButton.image = [UIImage imageNamed:@"invisible.png"];
+    }
     [self.threadTableViewManager reloadData];
 }
 
@@ -323,7 +329,15 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 - (IBAction)watchAction:(id)sender {
-    [[czzWatchListManager sharedManager] addToWatchList:self.threadViewManager.parentThread];
+    czzThread *targetThread = self.threadViewManager.parentThread;
+    if ([WatchListManager.watchedThreads containsObject:targetThread]) {
+        [AppDelegate showToast:@"已取消注目"];
+        [WatchListManager removeFromWatchList:targetThread];
+    } else {
+        [AppDelegate showToast:@"已注目此串"];
+        [WatchListManager addToWatchList:targetThread];
+    }
+    [self updateTableView];
 }
 
 

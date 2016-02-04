@@ -8,6 +8,16 @@
 
 #import "czzHistoryManager.h"
 
+#import "czzThreadDownloader.h"
+
+static NSString * const postedHistoryFile = @"posted_history_cache.dat";
+static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
+
+@interface czzHistoryManager()
+@property (strong, nonatomic) czzThreadDownloader *threadDownloader;
+
+@end
+
 @implementation czzHistoryManager
 @synthesize browserHistory;
 
@@ -31,15 +41,20 @@
         [browserHistory removeObject:thread];
     [browserHistory addObject:thread];
     //should not be bigger than 100
-    if (browserHistory.count > HISTORY_UPPER_LIMIT - 1) {
+    if (browserHistory.count > HISTORY_UPPER_LIMIT) {
         [browserHistory removeObject:browserHistory.firstObject]; //remove oldest object
     }
     [self saveCurrentState];
 }
 
 -(BOOL)removeThread:(czzThread *)thread {
-    if ([browserHistory containsObject:thread]) {
+    if ([browserHistory containsObject:thread] ||
+        [self.respondedThreads containsObject:thread] ||
+        [self.postedThreads containsObject:thread]) {
+        // Remove this thread from all three sets.
         [browserHistory removeObject:thread];
+        [self.respondedThreads removeObject:thread];
+        [self.postedThreads removeObject:thread];
         [self saveCurrentState];
         return YES;
     }
@@ -52,12 +67,28 @@
 }
 
 -(void)restorePreviousState {
+    NSString *historyCachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:HISTORY_CACHE_FILE];
+    NSString *postedCachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:postedHistoryFile];
+    NSString *respondedCachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:respondedHistoryFile];
     @try {
-        NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:HISTORY_CACHE_FILE];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
-            NSMutableOrderedSet *tempSet = [NSKeyedUnarchiver unarchiveObjectWithFile:cacheFile];
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSMutableOrderedSet *tempSet;
+        if ([fileManager fileExistsAtPath:historyCachePath]) {
+            tempSet = [NSKeyedUnarchiver unarchiveObjectWithFile:historyCachePath];
             if (tempSet) {
                 browserHistory = tempSet;
+            }
+        }
+        if ([fileManager fileExistsAtPath:postedCachePath]) {
+            tempSet = [NSKeyedUnarchiver unarchiveObjectWithFile:postedCachePath];
+            if (tempSet) {
+                self.postedThreads = tempSet;
+            }
+        }
+        if ([fileManager fileExistsAtPath:respondedCachePath]) {
+            tempSet = [NSKeyedUnarchiver unarchiveObjectWithFile:respondedCachePath];
+            if (tempSet) {
+                self.respondedThreads = tempSet;
             }
         }
     }
@@ -68,12 +99,86 @@
 }
 
 -(void)saveCurrentState {
-    NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:HISTORY_CACHE_FILE];
-    if (![NSKeyedArchiver archiveRootObject:browserHistory toFile:cacheFile]) {
+    NSString *historyCachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:HISTORY_CACHE_FILE];
+    NSString *postedCachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:postedHistoryFile];
+    NSString *respondedCachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:respondedHistoryFile];
+    if (![NSKeyedArchiver archiveRootObject:browserHistory toFile:historyCachePath]) {
+        DDLogDebug(@"unable to save browser history");
+    }
+    if (![NSKeyedArchiver archiveRootObject:self.postedThreads toFile:postedCachePath]) {
+        DDLogDebug(@"unable to save browser history");
+    }
+    if (![NSKeyedArchiver archiveRootObject:self.respondedThreads toFile:respondedCachePath]) {
         DDLogDebug(@"unable to save browser history");
     }
 }
 
+#pragma mark - Record posts and responds.
+
+-(void)addToRespondedList:(czzThread *)thread {
+    [self.respondedThreads addObject:thread];
+    // Set a limit.
+    if (self.respondedThreads.count > HISTORY_UPPER_LIMIT) {
+        [self.respondedThreads removeObject:self.respondedThreads.firstObject];
+    }
+    [self saveCurrentState];
+}
+
+- (void)addToPostedList:(NSString *)title content:(NSString *)content hasImage:(BOOL)hasImage forum:(czzForum *)forum {
+    // No title, no content, no image, then what are you doing here?
+    if (!title.length &&
+        !content.length &&
+        !hasImage) {
+        return;
+    }
+    self.threadDownloader = [czzThreadDownloader new];
+    self.threadDownloader.pageNumber = 1;
+    self.threadDownloader.parentForum = forum;
+    // In completion handler, compare the downloaded threads and see if there's any that is matching.
+    __weak typeof(self) weakSelf = self; // Weak self is for supperssing the warning.
+    self.threadDownloader.completionHandler = ^(BOOL success, NSArray *downloadedThreads, NSError *error){
+        DDLogDebug(@"%s, error: %@", __PRETTY_FUNCTION__, error);
+        for (czzThread *thread in downloadedThreads) {
+            // Compare title and content.
+            czzThread *matchedThread;
+            if (title.length && [title isEqualToString:thread.title]) {
+                matchedThread = thread;
+            } else if (content.length && [content isEqualToString:thread.content.string]) {
+                matchedThread = thread;
+            }
+            // If no title and content given, but has image, then the first downloaded thread with image is most likely the matching thread.
+            else if (hasImage && thread.imgSrc.length) {
+                matchedThread = thread;
+            }
+            if (matchedThread) {
+                DDLogDebug(@"Found match: %@", matchedThread);
+                [weakSelf.postedThreads addObject:matchedThread];
+                if (weakSelf.postedThreads.count > HISTORY_UPPER_LIMIT) {
+                    [weakSelf.postedThreads removeObject:weakSelf.postedThreads.firstObject];
+                }
+                [weakSelf saveCurrentState];
+                break;
+            }
+        }
+    };
+    [self.threadDownloader start];
+}
+
+#pragma mark - Getters
+
+- (NSMutableOrderedSet *)postedThreads {
+    if (!_postedThreads) {
+        _postedThreads = [NSMutableOrderedSet new];
+    }
+    return _postedThreads;
+}
+
+- (NSMutableOrderedSet *)respondedThreads {
+    if (!_respondedThreads) {
+        _respondedThreads = [NSMutableOrderedSet new];
+    }
+    return _respondedThreads;
+}
 
 + (instancetype)sharedInstance
 {

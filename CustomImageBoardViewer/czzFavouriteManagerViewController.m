@@ -19,12 +19,16 @@
 #import "czzHistoryManager.h"
 #import "czzWatchListManager.h"
 #import "czzThreadViewManager.h"
+#import "czzThreadTableView.h"
 #import "czzMenuEnabledTableViewCell.h"
 
 
-NSInteger const bookmarkIndex = 0;
-NSInteger const watchIndex = 1;
-NSInteger const historyIndex = 2;
+static NSInteger const bookmarkIndex = 0;
+static NSInteger const watchIndex = 1;
+static NSInteger const historyIndex = 2;
+static NSInteger const browserHistoryIndex = 0;
+static NSInteger const postsHistoryIndex = 1;
+static NSInteger const respondsHistoryIndex = 2;
 
 @interface czzFavouriteManagerViewController ()
 @property (nonatomic, strong) NSIndexPath *selectedIndex;
@@ -58,17 +62,13 @@ NSInteger const historyIndex = 2;
         self.title = title;
     }
     self.view.backgroundColor = [settingCentre viewBackgroundColour];
-    [self.tableView reloadData];
     
-    self.navigationController.toolbarHidden = YES;
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [historyManager saveCurrentState];
     [favouriteManager saveCurrentState];
-    
-    self.navigationController.toolbarHidden = NO;
 }
 
 #pragma UITableView datasource
@@ -120,11 +120,10 @@ NSInteger const historyIndex = 2;
         } else if (titleSegmentedControl.selectedSegmentIndex == historyIndex) {
             [historyManager removeThread:threadToDelete];
         } else if (titleSegmentedControl.selectedSegmentIndex == watchIndex) {
-            [[czzWatchListManager sharedManager] removeFromWatchList:threadToDelete];
+            [WatchListManager removeFromWatchList:threadToDelete];
         }
         
         [self copyDataFromManager];
-        [tableView reloadData];
     }
 }
 
@@ -140,7 +139,12 @@ NSInteger const historyIndex = 2;
 
 - (IBAction)titleSegmentedControlAction:(id)sender {
     [self copyDataFromManager];
-    [self.tableView reloadData];
+    
+}
+
+- (void)historyTypeSegmentedControlAction:(id)sender {
+    [self copyDataFromManager];
+    
 }
 
 -(void)copyDataFromManager {
@@ -148,24 +152,34 @@ NSInteger const historyIndex = 2;
         threads = [favouriteManager favouriteThreads];
         selectedManager = favouriteManager;
     } else if (titleSegmentedControl.selectedSegmentIndex == historyIndex) {
-        threads = [historyManager browserHistory];
+        // Type of history: broswer, posts, responds.
+        if (self.historyTypeSegmentedControl.selectedSegmentIndex == browserHistoryIndex) {
+            threads = [historyManager browserHistory];
+        } else if (self.historyTypeSegmentedControl.selectedSegmentIndex == postsHistoryIndex) {
+            threads = historyManager.postedThreads;
+        } else {
+            threads = historyManager.respondedThreads;
+        }
         selectedManager = historyManager;
         threads = [NSMutableOrderedSet orderedSetWithArray:[[threads reverseObjectEnumerator] allObjects]]; //hisotry are recorded backward
     } else if (titleSegmentedControl.selectedSegmentIndex == watchIndex) {
-        threads = [czzWatchListManager sharedManager].watchedThreads;
+        threads = [czzWatchListManager sharedManager].watchedThreads.mutableCopy;
         selectedManager = [czzWatchListManager sharedManager];
         //Update watched threads
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-        [[czzWatchListManager sharedManager] refreshWatchedThreads:^(NSArray *updatedThreads) {
-            self.updatedThreads = updatedThreads;
-            [self.tableView reloadData];
-        }];
+//        [[czzWatchListManager sharedManager] refreshWatchedThreads:^(NSArray *updatedThreads) {
+//            self.updatedThreads = updatedThreads;
+//            
+//        }];
     }
+    [self.tableView reloadData];
+    // If the currently selected title segmented control is history, enable the selection for history type segmented control.
+    self.historyTypeSegmentedControl.enabled = self.titleSegmentedControl.selectedSegmentIndex == historyIndex;
 }
 
 #pragma mark - rotation
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-    [self.tableView reloadData];
+    
 }
 
 +(instancetype)new {
