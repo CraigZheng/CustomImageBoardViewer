@@ -151,7 +151,7 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
 - (void)bannerViewDidTouch:(czzBannerView *)bannerView {
     DLog(@"");
     // Dismiss, then invoke the userInteractionHandler.
-    [self dismissBannerView:NO];
+    [self dismissBannerView:YES];
     if (self.userInteractionHandler) {
         self.userInteractionHandler();
     }

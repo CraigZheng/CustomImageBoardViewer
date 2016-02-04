@@ -11,6 +11,7 @@
 #import "czzAppDelegate.h"
 #import "czzSettingsCentre.h"
 #import "Toast+UIView.h"
+#import "czzBannerNotificationUtil.h"
 
 @interface czzFeedbackViewController ()
 @property UIViewController *topController;
@@ -162,7 +163,7 @@
     myFeedback.content = contentTextView.text;
     [contentTextView resignFirstResponder];
     if (contentTextView.text.length <= 0) {
-        [self.view makeToast:@"请输入内容" duration:1.5 position:@"bottom"];
+        [czzBannerNotificationUtil displayMessage:@"请输入内容" position:BannerNotificationPositionTop];
         return;
     }
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -177,7 +178,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 DDLogDebug(@"feedback sent");
                 [self.navigationController popViewControllerAnimated:YES];
-                [self.view makeToast:@"无法发送，请到我的主页直接给我留言" duration:1.5 position:@"bottom"];
+                [czzBannerNotificationUtil displayMessage:@"无法发送，请到我的主页直接给我留言" position:BannerNotificationPositionTop];
             });
         }
     });

@@ -19,6 +19,7 @@
 #import "czzFavouriteManagerViewController.h"
 #import "czzCacheCleaner.h"
 #import "czzHomeViewManager.h"
+#import "czzBannerNotificationUtil.h"
 #import <Google/Analytics.h>
 #import <WatchConnectivity/WatchConnectivity.h>
 
@@ -220,7 +221,8 @@
 }
 
 -(void)showToast:(NSString *)string{
-    [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:string];
+    [czzBannerNotificationUtil displayMessage:string
+                                     position:BannerNotificationPositionTopBottom];
 }
 
 #pragma mark - show and hide uitoolbar

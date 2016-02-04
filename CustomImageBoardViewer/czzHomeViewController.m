@@ -8,7 +8,6 @@
 
 #import "czzHomeViewController.h"
 #import "SMXMLDocument.h"
-#import "Toast/Toast+UIView.h"
 #import "czzThread.h"
 #import "czzThreadViewController.h"
 #import "czzPostViewController.h"
@@ -33,6 +32,7 @@
 #import "czzFavouriteManagerViewController.h"
 #import "czzHomeTableViewManager.h"
 #import "czzReplyUtil.h"
+#import "czzBannerNotificationUtil.h"
 
 #import <CoreText/CoreText.h>
 
@@ -134,7 +134,7 @@
         if (!self.homeViewManager.forum) {
             if ([czzForumManager sharedManager].forums.count > 0)
             {
-                [AppDelegate.window makeToast:@"用户没有选择板块，随机选择……"];
+                [czzBannerNotificationUtil displayMessage:@"用户没有选择板块，随机选择……" position:BannerNotificationPositionTop];
                 @try {
                     int randomIndex = rand() % [czzForumManager sharedManager].forums.count;
                     [self.homeViewManager setForum:[[czzForumManager sharedManager].forums objectAtIndex:randomIndex]];
@@ -227,9 +227,11 @@
             [self.refreshControl beginRefreshing];
             [self.homeViewManager loadMoreThreads:newPageNumber];
 
-            [[AppDelegate window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)self.homeViewManager.pageNumber]];
+            [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)self.homeViewManager.pageNumber]
+                                             position:BannerNotificationPositionTopBottom];
         } else {
-            [[AppDelegate window] makeToast:@"页码无效..."];
+            [czzBannerNotificationUtil displayMessage:@"页码无效..."
+                                             position:BannerNotificationPositionTopBottom];
         }
     }
 }

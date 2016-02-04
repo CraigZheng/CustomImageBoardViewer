@@ -19,6 +19,10 @@
 - (void)layoutSubviews {
     self.titleLabel.text = self.title;
     self.cancelButton.hidden = !self.allowCancel;
+    // Set the image of the cancel button.
+    UIImage *cancelButtonImage = [[UIImage imageNamed:@"delete.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [self.cancelButton setImage:cancelButtonImage
+                       forState:UIControlStateNormal];
     [super layoutSubviews];
 }
 

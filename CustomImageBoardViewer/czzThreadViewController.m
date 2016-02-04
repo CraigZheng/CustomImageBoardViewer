@@ -8,7 +8,7 @@
 
 #import "czzThreadViewController.h"
 #import "czzThread.h"
-#import "Toast+UIView.h"
+#import "czzBannerNotificationUtil.h"
 #import "SMXMLDocument.h"
 #import "czzImageCacheManager.h"
 #import "czzImageViewerUtil.h"
@@ -240,9 +240,11 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
             [self updateTableView];
             [refreshControl beginRefreshing];
 
-            [[AppDelegate window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) self.threadViewManager.pageNumber]];
+            [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) self.threadViewManager.pageNumber]
+                                             position:BannerNotificationPositionTopBottom];
         } else {
-            [[AppDelegate window] makeToast:@"页码无效..."];
+            [czzBannerNotificationUtil displayMessage:@"页码无效..."
+                                             position:BannerNotificationPositionTopBottom];
         }
     }
 }
