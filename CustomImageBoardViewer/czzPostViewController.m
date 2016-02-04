@@ -309,8 +309,9 @@
         NSData *imageData = UIImageJPEGRepresentation(pickedImage, 0.85);
         NSString *titleWithSize = [ValueFormatter convertByte:imageData.length];
         //resize the image if the picked image is too big
-        if (pickedImage.size.width * pickedImage.size.height > 1920 * 1080){
-            NSInteger newWidth = 1080;
+        CGFloat scale = pickedImage.size.width * pickedImage.size.height / (1920 * 1080);
+        if (scale > 1){
+            NSInteger newWidth = pickedImage.size.width * scale;
             pickedImage = [self imageWithImage:pickedImage scaledToWidth:newWidth];
             [[AppDelegate window] makeToast:@"由于图片尺寸太大，已进行压缩" duration:1.5 position:@"top" title:titleWithSize image:pickedImage];
         } else {
@@ -366,18 +367,20 @@
 #pragma czzPostSender delegate
 -(void)statusReceived:(BOOL)status message:(NSString *)message{
     if (status) {
-        [self dismiss];
-        [AppDelegate showToast:@"提交成功"];
-        // Add the just replied thread to watchlist manager.
-        if (postSender.parentThread) {
-            [historyManager addToRespondedList:postSender.parentThread];
-        } else if (postSender.forum) {
-            // Post sent to forum, try to locate the just posted thread.
-            [historyManager addToPostedList:postSender.title
-                                      content:postSender.content
-                                     hasImage:postSender.imgData != nil
-                                        forum:postSender.forum];
-        }
+        [self dismissWithCompletionHandler:^{
+            [czzBannerNotificationUtil displayMessage:@"提交成功"
+                                             position:BannerNotificationPositionTop];
+            // Add the just replied thread to watchlist manager.
+            if (postSender.parentThread) {
+                [historyManager addToRespondedList:postSender.parentThread];
+            } else if (postSender.forum) {
+                // Post sent to forum, try to locate the just posted thread.
+                [historyManager addToPostedList:postSender.title
+                                        content:postSender.content
+                                       hasImage:postSender.imgData != nil
+                                          forum:postSender.forum];
+            }
+        }];
     } else {
         [czzBannerNotificationUtil displayMessage:@"出错啦"
                                          position:BannerNotificationPositionTop];
