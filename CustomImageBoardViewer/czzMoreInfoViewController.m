@@ -12,7 +12,7 @@
 #import "SMXMLDocument.h"
 #import "czzAppDelegate.h"
 #import "czzSettingsCentre.h"
-#import "Toast+UIView.h"
+#import "czzBannerNotificationUtil.h"
 #import "czzForum.h"
 #import "czzImageViewerUtil.h"
 
