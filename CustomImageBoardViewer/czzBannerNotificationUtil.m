@@ -24,6 +24,7 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
 @property (nonatomic, assign) BOOL waitForInteraction;
 @property (nonatomic, readonly) CGRect topReferenceFrame;
 @property (nonatomic, readonly) CGRect bottomReferenceFrame;
+@property (nonatomic, weak) UIViewController *destinationViewController;
 
 @end
 
@@ -50,8 +51,9 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
 }
 
 - (void)displayBannerView {
-    UIViewController *topViewController = [UIApplication topViewController];
-    if (!topViewController) {
+    // When the banner is being displayed, keep a reference to the banner notification.
+    self.destinationViewController = [UIApplication topViewController];
+    if (!self.destinationViewController) {
         return;
     }
 
@@ -73,7 +75,7 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
     }
     referenceFrame.size.height = self.bannerView.intrinsicContentSize.height;
     self.bannerView.frame = referenceFrame;
-    [topViewController.view addSubview:self.bannerView];
+    [self.destinationViewController.view addSubview:self.bannerView];
     // If self.userInteractionHandler != nil, allowCancel.
     self.bannerView.allowCancel = self.userInteractionHandler != nil;
     
@@ -173,25 +175,25 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
 }
 
 - (CGRect)topReferenceFrame {
-    UIViewController *topViewController = [UIApplication topViewController];
+    UIViewController *referenceViewController = self.destinationViewController ?: [UIApplication topViewController];
     CGRect referenceFrame;
-    if (!topViewController.navigationController.navigationBarHidden) {
-        referenceFrame = topViewController.navigationController.navigationBar.frame;
+    if (!referenceViewController.navigationController.navigationBarHidden) {
+        referenceFrame = referenceViewController.navigationController.navigationBar.frame;
     } else {
         // If hidden, show at the top most position instead.
-        referenceFrame = CGRectMake(0, 0, CGRectGetWidth(topViewController.view.frame), 0);
+        referenceFrame = CGRectMake(0, 0, CGRectGetWidth(referenceViewController.view.frame), 0);
     }
     return referenceFrame;
 }
 
 - (CGRect)bottomReferenceFrame {
-    UIViewController *topViewController = [UIApplication topViewController];
+    UIViewController *referenceViewController = self.destinationViewController ?: [UIApplication topViewController];
     CGRect referenceFrame;
-    if (!topViewController.navigationController.toolbarHidden) {
-        referenceFrame = topViewController.navigationController.toolbar.frame;
+    if (!referenceViewController.navigationController.toolbarHidden) {
+        referenceFrame = referenceViewController.navigationController.toolbar.frame;
     } else {
         // No tool bar, show at the bottom of the screen.
-        referenceFrame = CGRectMake(0, CGRectGetHeight(topViewController.view.frame), CGRectGetWidth(topViewController.view.frame), 0);
+        referenceFrame = CGRectMake(0, CGRectGetHeight(referenceViewController.view.frame), CGRectGetWidth(referenceViewController.view.frame), 0);
     }
     return referenceFrame;
 }
