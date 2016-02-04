@@ -311,7 +311,7 @@
         //resize the image if the picked image is too big
         CGFloat scale = pickedImage.size.width * pickedImage.size.height / (1920 * 1080);
         if (scale > 1){
-            NSInteger newWidth = pickedImage.size.width * scale;
+            NSInteger newWidth = pickedImage.size.width / scale;
             pickedImage = [self imageWithImage:pickedImage scaledToWidth:newWidth];
             [[AppDelegate window] makeToast:@"由于图片尺寸太大，已进行压缩" duration:1.5 position:@"top" title:titleWithSize image:pickedImage];
         } else {
