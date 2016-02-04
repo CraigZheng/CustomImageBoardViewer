@@ -89,6 +89,7 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
 }
 
 - (void)dismissBannerView:(BOOL)animated {
+    DLog(@"Dismiss with animated:%@", animated ? @"YES" : @"NO");
     if (self.bannerView.superview) {
         if (animated) {
             // Slide out of sign.
@@ -176,6 +177,10 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
 
 - (CGRect)topReferenceFrame {
     UIViewController *referenceViewController = self.destinationViewController ?: [UIApplication topViewController];
+    // If the top view controller is already a navigation controller, get its last child instead.
+    if ([referenceViewController isKindOfClass:[UINavigationController class]]) {
+        referenceViewController = (UINavigationController *)referenceViewController.childViewControllers.lastObject;
+    }
     CGRect referenceFrame;
     if (!referenceViewController.navigationController.navigationBarHidden) {
         referenceFrame = referenceViewController.navigationController.navigationBar.frame;
@@ -188,6 +193,10 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
 
 - (CGRect)bottomReferenceFrame {
     UIViewController *referenceViewController = self.destinationViewController ?: [UIApplication topViewController];
+    // If the top view controller is already a navigation controller, get its last child instead.
+    if ([referenceViewController isKindOfClass:[UINavigationController class]]) {
+        referenceViewController = (UINavigationController *)referenceViewController.childViewControllers.lastObject;
+    }
     CGRect referenceFrame;
     if (!referenceViewController.navigationController.toolbarHidden) {
         referenceFrame = referenceViewController.navigationController.toolbar.frame;
