@@ -9,7 +9,9 @@
 #import "czzWatchListManager.h"
 #import "czzThreadViewManager.h"
 #import "czzFavouriteManager.h"
+#import "czzBannerNotificationUtil.h"
 #import "czzMessagePopUpViewController.h"
+#import "czzFavouriteManagerViewController.h"
 
 #define WATCH_LIST_CACHE_FILE @"watchedThreads.dat"
 
@@ -115,7 +117,29 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 - (void)refreshWatchedThreadsInForeground {
     [self refreshWatchedThreadsWithCompletionHandler:^(NSArray *updatedThreads) {
         DDLogDebug(@"%s: %ld threads updated in the foreground.", __PRETTY_FUNCTION__, (long)updatedThreads.count);
-        [AppDelegate showToast:[NSString stringWithFormat:@"%ld thread(s) updated in background.", (long)updatedThreads.count]];
+        // If updated threads is not empty, inform user by a notification.
+        // This notification also allows user to tap on it to go straight to the favourite manager view controller.
+        if (updatedThreads.count) {
+            NSMutableString *contentSummary = [NSMutableString new];
+            NSInteger summariedContent = 0;
+            for (czzThread *thread in updatedThreads) {
+                [contentSummary appendFormat:@"%@\n", thread.contentSummary];
+                summariedContent ++;
+                // Don't summarise more than 3.
+                if (summariedContent >= 3) {
+                    break;
+                }
+            }
+            [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"注目的串有新内容！\n%ld个新串：%@", (long)updatedThreads.count, contentSummary]
+                                             position:BannerNotificationPositionBottom
+                               userInteractionHandler:^{
+                                   czzFavouriteManagerViewController *favouriteManagerViewController = [czzFavouriteManagerViewController new];
+                                   favouriteManagerViewController.launchToIndex = watchIndex; // Launch to watchlist view.
+                                   [NavigationManager pushViewController:favouriteManagerViewController
+                                                                animated:YES];
+                               }
+                                   waitForInteraction:NO];
+        }
     }];
 }
 
