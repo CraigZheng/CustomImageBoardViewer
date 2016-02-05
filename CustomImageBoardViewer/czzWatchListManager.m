@@ -181,6 +181,14 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 
 -(void)saveState {
     [NSKeyedArchiver archiveRootObject:self toFile:[[czzAppDelegate libraryFolder] stringByAppendingPathComponent:WATCH_LIST_CACHE_FILE]];
+    // Set background fetch interval based on the count of threads being watched.
+    if (self.watchedThreads.count) {
+        [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
+    } else {
+        // No thread is currently being watched, should never execute.
+        [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalNever];
+    }
+    DDLogDebug(@"Currently watched %ld threads.", (long)self.watchedThreads.count);
 }
 
 #pragma mark - NSCodingDelegate
@@ -204,16 +212,6 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
     if (!_manuallyAddedThreads) {
         _manuallyAddedThreads = [NSMutableOrderedSet new];
     }
-    // Set background fetch interval based on the count of threads being watched.
-    if (_manuallyAddedThreads.count) {
-        [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
-        DDLogDebug(@"Currently watched %ld threads.", (long)_manuallyAddedThreads.count);
-    } else {
-        // No thread is currently being watched, should never execute.
-        [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalNever];
-        DDLogDebug(@"No thread is being watched, set background fetch interval to never.");
-    }
-
     return _manuallyAddedThreads;
 }
 

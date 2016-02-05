@@ -129,6 +129,7 @@
 
 #pragma mark - background fetch
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    DDLogDebug(@"%s", __PRETTY_FUNCTION__);
     [[czzWatchListManager sharedManager] refreshWatchedThreadsWithCompletionHandler:^(NSArray *updatedThreads) {
         UIBackgroundFetchResult backgroundFetchResult = UIBackgroundFetchResultNoData;
         
