@@ -16,19 +16,14 @@
 
 @implementation czzBannerView
 
-- (id)awakeAfterUsingCoder:(NSCoder *)aDecoder {
-    self = [super awakeAfterUsingCoder:aDecoder];
-    UIImage *cancelButtonImage = [[UIImage imageNamed:@"delete.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    [self.cancelButton setImage:cancelButtonImage
-                       forState:UIControlStateNormal];
-
-    return self;
-}
-
 - (void)layoutSubviews {
     self.titleLabel.text = self.title;
     self.cancelButton.hidden = !self.allowCancel;
     // Set the image of the cancel button.
+    UIImage *cancelButtonImage = [[UIImage imageNamed:@"delete.png"]
+                                  imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [self.cancelButton setImage:cancelButtonImage
+                       forState:UIControlStateNormal];
     [super layoutSubviews];
 }
 
@@ -51,7 +46,6 @@
         // No content, make it 40.
         intrinsicContentSize.height = 40;
     }
-    DLog(@"content size: %@", [NSValue valueWithCGSize:intrinsicContentSize]);
     return intrinsicContentSize;
 }
 
