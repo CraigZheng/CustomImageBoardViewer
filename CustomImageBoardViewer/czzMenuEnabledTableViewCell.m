@@ -114,11 +114,16 @@ NSInteger const veryLowConstraintPriority = 1;
         self.contentTextView.backgroundColor = viewBackgroundColour;
         self.containerView.backgroundColor = viewBackgroundColour;
         self.contentView.backgroundColor = [UIColor darkGrayColor];
+        
     } else {
         self.contentTextView.backgroundColor = [UIColor whiteColor];
         self.containerView.backgroundColor = [UIColor whiteColor];
         self.contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     }
+}
+
+- (void)highLight {
+    self.contentTextView.backgroundColor = self.containerView.backgroundColor = self.contentView.backgroundColor;
 }
 
 #pragma mark - custom menu action
@@ -188,7 +193,7 @@ NSInteger const veryLowConstraintPriority = 1;
     
     // Highlight the selected user.
     if (self.selectedUserToHighlight && [self.thread.UID isEqualToString:self.selectedUserToHighlight]) {
-        self.contentTextView.backgroundColor = self.contentView.backgroundColor;
+        [self highLight];
     }
     // Images.
     UIImage *previewImage;

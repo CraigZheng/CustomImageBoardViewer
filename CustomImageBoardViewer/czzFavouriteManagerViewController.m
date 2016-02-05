@@ -18,6 +18,7 @@
 #import "czzThreadTableViewCommandCellTableViewCell.h"
 #import "czzHistoryManager.h"
 #import "czzWatchListManager.h"
+#import "czzBannerNotificationUtil.h"
 #import "czzThreadViewManager.h"
 #import "czzThreadTableView.h"
 #import "czzMenuEnabledTableViewCell.h"
@@ -75,6 +76,14 @@ static NSInteger const respondsHistoryIndex = 2;
     [favouriteManager saveCurrentState];
 }
 
+- (void)dealloc {
+    // During dealloc stage, if the selected list is still watchlist, clear the updatedThread in watchlist manager.
+    // We assume user read all of the updated threads.
+    if (self.titleSegmentedControl.selectedSegmentIndex == watchIndex) {
+        WatchListManager.updatedThreads = nil;
+    }
+}
+
 #pragma UITableView datasource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return threads.count;
@@ -91,14 +100,13 @@ static NSInteger const respondsHistoryIndex = 2;
         cell.shouldHighlight = NO;
         cell.parentThread = thread;
         cell.thread = thread;
+        cell.nightyMode = [settingCentre userDefNightyMode];
         [cell renderContent]; // Render content must be done manually.
     }
-    // TODO: need to create a standalone watchlist manager, or improve this one.
-    // If I am seeing the list from watchlist
-    if (selectedManager == [czzWatchListManager sharedManager]) {
-        for (czzThread *updatedThread in [[czzWatchListManager sharedManager] updatedThreads]) {
+    if (selectedManager == WatchListManager) {
+        for (czzThread *updatedThread in WatchListManager.updatedThreads) {
             if (updatedThread.ID == thread.ID) {
-                //TODO: highligh
+                [cell highLight];
             }
         }
     }
@@ -168,13 +176,13 @@ static NSInteger const respondsHistoryIndex = 2;
         threads = [NSMutableOrderedSet orderedSetWithArray:[[threads reverseObjectEnumerator] allObjects]]; //hisotry are recorded backward
     } else if (titleSegmentedControl.selectedSegmentIndex == watchIndex) {
         threads = [czzWatchListManager sharedManager].watchedThreads.mutableCopy;
-        selectedManager = [czzWatchListManager sharedManager];
-        //Update watched threads
+        selectedManager = WatchListManager;
+        // Updated threads have been viewed.
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-//        [[czzWatchListManager sharedManager] refreshWatchedThreads:^(NSArray *updatedThreads) {
-//            self.updatedThreads = updatedThreads;
-//            
-//        }];
+        if (WatchListManager.updatedThreads.count) {
+            [czzBannerNotificationUtil displayMessage:@"已高亮有更新的串"
+                                             position:BannerNotificationPositionTop];
+        }
     }
     [self.tableView reloadData];
     // If the currently selected title segmented control is history, enable the selection for history type segmented control.

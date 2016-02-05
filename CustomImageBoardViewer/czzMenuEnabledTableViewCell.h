@@ -61,7 +61,7 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 @property (nonatomic, assign) threadViewCellType cellType;
 @property (nonatomic, readonly) BOOL imageUpdated;
 - (void)renderContent;
-
+- (void)highLight;
 @end
 
 
