@@ -169,6 +169,20 @@
     return self.imgSrc;
 }
 
+- (NSString *)contentSummary {
+    NSString *summary = @"";
+    if (self.content.string.length) {
+        summary = self.content.string;
+    } else if (self.title.length) {
+        summary = self.title;
+    }
+    // Shrink the length of summary down to 15 characters.
+    if (summary.length > 15) {
+        summary = [NSString stringWithFormat:@"%@...", [summary substringToIndex:12]];
+    }
+    return summary;
+}
+
 #pragma mark - convert to czzWKThread object
 
 -(czzWKThread *)watchKitThread {
