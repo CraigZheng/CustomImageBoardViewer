@@ -23,9 +23,10 @@
 #import "czzMenuEnabledTableViewCell.h"
 
 
-static NSInteger const bookmarkIndex = 0;
-static NSInteger const watchIndex = 1;
-static NSInteger const historyIndex = 2;
+NSInteger const bookmarkIndex = 0;
+NSInteger const watchIndex = 1;
+NSInteger const historyIndex = 2;
+
 static NSInteger const browserHistoryIndex = 0;
 static NSInteger const postsHistoryIndex = 1;
 static NSInteger const respondsHistoryIndex = 2;
@@ -53,11 +54,14 @@ static NSInteger const respondsHistoryIndex = 2;
     [super viewDidLoad];
     self.tableView.estimatedRowHeight = 44;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
+    
+    // Launch to index
+    self.titleSegmentedControl.selectedSegmentIndex = self.launchToIndex;
+    [self copyDataFromManager];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self copyDataFromManager];
     if (title) {
         self.title = title;
     }
