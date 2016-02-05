@@ -18,6 +18,7 @@
 @implementation czzThreadViewManager
 @synthesize forum = _forum;
 @synthesize downloader = _downloader;
+@synthesize threads = _threads;
 @dynamic delegate;
 
 #pragma mark - life cycle.
@@ -110,6 +111,17 @@
 #pragma mark - getters
 - (NSString *)baseURLString {
     return [[settingCentre thread_content_host] stringByReplacingOccurrencesOfString:kParentID withString:self.parentID];
+}
+
+- (NSMutableArray *)threads {
+    // Should always include the parent thread.
+    if (!_threads) {
+        _threads = [NSMutableArray new];
+        if (self.parentThread) {
+            [_threads addObject:self.parentThread];
+        }
+    }
+    return _threads;
 }
 
 #pragma mark - czzThreadDownloaderDelegate
