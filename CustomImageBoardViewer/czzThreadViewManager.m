@@ -9,6 +9,7 @@
 
 #import "czzThreadViewManager.h"
 #import "czzHistoryManager.h"
+#import "czzWatchListManager.h"
 #import "czzThreadDownloader.h"
 
 @interface czzThreadViewManager()
@@ -63,7 +64,7 @@
             //copy data
             if (tempThreadList && [tempThreadList isKindOfClass:[czzThreadViewManager class]])
             {
-                self.parentThread = tempThreadList.parentThread;
+                _parentThread = tempThreadList.parentThread; // Since there's a custom setter in this class, its better not to invoke it.
                 self.pageNumber = tempThreadList.pageNumber;
                 self.totalPages = tempThreadList.totalPages;
                 self.threads = tempThreadList.threads;
@@ -103,9 +104,17 @@
 
 #pragma mark - setters
 -(void)setParentThread:(czzThread *)thread {
-    _parentThread = thread;
-    self.parentID = [NSString stringWithFormat:@"%ld", (long)self.parentThread.ID];
-    
+    if (thread) {
+        _parentThread = thread;
+        self.parentID = [NSString stringWithFormat:@"%ld", (long)self.parentThread.ID];
+        // When setting the parent thread, see if the downloaded parent thread is included in the watchlist manager.
+        // If it is, then update the corresponding thread in watchlist manager.
+        if ([WatchListManager.watchedThreads containsObject:_parentThread]) {
+            // Remove the recorded thread, add the new thread.
+            [WatchListManager removeFromWatchList:_parentThread];
+            [WatchListManager addToWatchList:_parentThread];
+        }
+    }
 }
 
 #pragma mark - getters
