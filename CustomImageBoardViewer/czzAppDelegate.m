@@ -130,15 +130,15 @@
 #pragma mark - background fetch
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     DDLogDebug(@"%s", __PRETTY_FUNCTION__);
-    [[czzWatchListManager sharedManager] refreshWatchedThreadsWithCompletionHandler:^(NSArray *updatedThreads) {
+    [WatchListManager refreshWatchedThreadsWithCompletionHandler:^(NSArray *updatedThreads) {
         UIBackgroundFetchResult backgroundFetchResult = UIBackgroundFetchResultNoData;
         
         UILocalNotification *localNotif = [[UILocalNotification alloc] init];
         localNotif.fireDate = [NSDate dateWithTimeInterval:1.0 sinceDate:[NSDate new]];
 
         if (updatedThreads.count) {
-            localNotif.alertTitle = [NSString stringWithFormat:@"%ld thread(s) updated", (long)updatedThreads.count];
-            localNotif.alertBody = [NSString stringWithFormat:@"%@", [(czzThread*)updatedThreads.firstObject content].string];
+            localNotif.alertTitle = WatchListManager.updateTitle;
+            localNotif.alertBody = WatchListManager.updateContent;
             localNotif.soundName = UILocalNotificationDefaultSoundName;
             localNotif.applicationIconBadgeNumber = updatedThreads.count;
 

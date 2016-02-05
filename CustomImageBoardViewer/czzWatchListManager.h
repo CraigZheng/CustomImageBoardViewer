@@ -15,7 +15,9 @@
 @interface czzWatchListManager : NSObject <NSCoding>
 @property (nonatomic, readonly) NSOrderedSet *watchedThreads;
 @property (nonatomic, strong) NSMutableArray *updatedThreads;
-
+@property (nonatomic, readonly) NSString *updateSummary;
+@property (nonatomic, readonly) NSString *updateTitle;
+@property (nonatomic, readonly) NSString *updateContent;
 @property (nonatomic, assign) BOOL isDownloading;
 
 -(void)addToWatchList:(czzThread*)thread;

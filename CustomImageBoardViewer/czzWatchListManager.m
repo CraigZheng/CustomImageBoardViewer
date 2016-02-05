@@ -120,17 +120,7 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
         // If updated threads is not empty, inform user by a notification.
         // This notification also allows user to tap on it to go straight to the favourite manager view controller.
         if (updatedThreads.count) {
-            NSMutableString *contentSummary = [NSMutableString new];
-            NSInteger summariedContent = 0;
-            for (czzThread *thread in updatedThreads) {
-                [contentSummary appendFormat:@"%@\n", thread.contentSummary];
-                summariedContent ++;
-                // Don't summarise more than 3.
-                if (summariedContent >= 3) {
-                    break;
-                }
-            }
-            [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"注目的串有新内容！\n%ld个新串：%@", (long)updatedThreads.count, contentSummary]
+            [czzBannerNotificationUtil displayMessage:self.updateSummary
                                              position:BannerNotificationPositionBottom
                                userInteractionHandler:^{
                                    czzFavouriteManagerViewController *favouriteManagerViewController = [czzFavouriteManagerViewController new];
@@ -227,6 +217,40 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 }
 
 #pragma mark - Getters
+
+- (NSString *)updateSummary {
+    if (self.updatedThreads.count) {
+        NSString *updateSummary = [NSString stringWithFormat:@"%@\n%@", self.updateTitle, self.updateContent];
+        return updateSummary;
+    }
+    return @"";
+}
+
+- (NSString *)updateTitle {
+    if (self.updatedThreads.count) {
+        return @"注目的串有新内容！";
+    }
+    return @"";
+}
+
+- (NSString *)updateContent {
+    if (self.updatedThreads.count) {
+        NSMutableString *contentSummary = [NSMutableString new];
+        NSInteger summariedContent = 0;
+        for (czzThread *thread in self.updatedThreads) {
+            [contentSummary appendFormat:@"%@\n", thread.contentSummary];
+            summariedContent ++;
+            // Don't summarise more than 3.
+            if (summariedContent >= 3) {
+                break;
+            }
+        }
+        NSString *updateContent = [NSString stringWithFormat:@"%ld个新回复：%@", (long)self.updatedThreads.count, contentSummary];
+        return updateContent;
+    }
+    return @"";
+}
+
 -(NSOrderedSet *)watchedThreads {
     NSMutableOrderedSet *tempSet = [NSMutableOrderedSet orderedSetWithOrderedSet:self.manuallyAddedThreads];
     return [tempSet copy];
