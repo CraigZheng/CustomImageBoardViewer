@@ -8,6 +8,7 @@
 
 #define CookieManager [czzCookieManager sharedInstance]
 #define COOKIES_ARCHIVE_FILE @"COOKIES_ARCHIVE_FILE.dat"
+#define IN_USE_COOKIE_FILE @"IN_USE_COOKIE_FILE.dat"
 
 #import <Foundation/Foundation.h>
 
