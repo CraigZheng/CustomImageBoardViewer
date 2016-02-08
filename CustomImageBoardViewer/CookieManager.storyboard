@@ -100,40 +100,47 @@
                                     <outlet property="delegate" destination="fbg-qH-p2B" id="1xV-xO-RUW"/>
                                 </connections>
                             </tableView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sub-d5-DqM">
+                                <rect key="frame" x="0.0" y="392" width="320" height="44"/>
+                                <items>
+                                    <barButtonItem image="checked_user.png" id="3V8-RM-aXy">
+                                        <connections>
+                                            <action selector="useCookieAction:" destination="fbg-qH-p2B" id="LKw-FA-6Xq"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="Npm-sD-smj"/>
+                                    <barButtonItem image="save_as.png" id="1KD-1i-sCq">
+                                        <connections>
+                                            <action selector="saveCookieAction:" destination="fbg-qH-p2B" id="ipD-5m-qfy"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="eEf-C1-Ftt"/>
+                                    <barButtonItem image="upload.png" id="8fr-aG-NNj">
+                                        <connections>
+                                            <action selector="shareCookieAction:" destination="fbg-qH-p2B" id="D0c-0Y-O8D"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Bbu-CK-ZqS"/>
+                                    <barButtonItem image="remove_user.png" id="0nn-4i-28b">
+                                        <connections>
+                                            <action selector="deleteCookieAction:" destination="fbg-qH-p2B" id="rec-6p-HlV"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="sub-d5-DqM" firstAttribute="leading" secondItem="1lK-Jl-Aur" secondAttribute="leading" id="9ev-Ar-yHy"/>
+                            <constraint firstAttribute="trailing" secondItem="sub-d5-DqM" secondAttribute="trailing" id="MlZ-Wn-JgS"/>
+                            <constraint firstItem="eF3-xm-59U" firstAttribute="top" secondItem="sub-d5-DqM" secondAttribute="bottom" id="Y25-Dp-DKe"/>
                             <constraint firstItem="2pu-67-HS0" firstAttribute="leading" secondItem="1lK-Jl-Aur" secondAttribute="leading" id="Yh0-Lv-XxG"/>
                             <constraint firstItem="2pu-67-HS0" firstAttribute="top" secondItem="1lK-Jl-Aur" secondAttribute="top" id="eTC-xw-dWN"/>
                             <constraint firstAttribute="trailing" secondItem="2pu-67-HS0" secondAttribute="trailing" id="ffL-LY-uaf"/>
                             <constraint firstAttribute="bottom" secondItem="2pu-67-HS0" secondAttribute="bottom" id="rWA-oA-E7x"/>
                         </constraints>
                     </view>
-                    <toolbarItems>
-                        <barButtonItem image="checked_user.png" id="vpv-0K-5pH">
-                            <connections>
-                                <action selector="useCookieAction:" destination="fbg-qH-p2B" id="Ya7-Eb-5uB"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="I9O-5x-i0w"/>
-                        <barButtonItem image="save_as.png" id="xtj-Ws-h4d">
-                            <connections>
-                                <action selector="saveCookieAction:" destination="fbg-qH-p2B" id="qFl-rA-ucc"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="qZN-Fo-CRi"/>
-                        <barButtonItem image="upload.png" id="XCn-Ui-yRi">
-                            <connections>
-                                <action selector="shareCookieAction:" destination="fbg-qH-p2B" id="8Nc-qG-GTd"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="nUV-Yt-3GY"/>
-                        <barButtonItem image="remove_user.png" id="ckG-1C-qgR">
-                            <connections>
-                                <action selector="deleteCookieAction:" destination="fbg-qH-p2B" id="chF-Ie-z7Z"/>
-                            </connections>
-                        </barButtonItem>
-                    </toolbarItems>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" id="jK1-Nh-Def">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="Yak-0B-RLq">
@@ -157,11 +164,11 @@
                     <connections>
                         <outlet property="cookieManagerSegmentControl" destination="Yak-0B-RLq" id="Moj-8d-QQM"/>
                         <outlet property="cookieManagerTableView" destination="2pu-67-HS0" id="EJP-kk-EL4"/>
-                        <outlet property="deleteIdentityButton" destination="ckG-1C-qgR" id="PRd-fH-ZJj"/>
-                        <outlet property="identityActionButton" destination="XCn-Ui-yRi" id="kPL-L8-QpA"/>
-                        <outlet property="saveCookieBarButtonItem" destination="xtj-Ws-h4d" id="4Ka-Ga-rTm"/>
-                        <outlet property="saveIdentityButton" destination="xtj-Ws-h4d" id="PTa-lO-jkh"/>
-                        <outlet property="useIdentityButton" destination="vpv-0K-5pH" id="lGU-8D-TFD"/>
+                        <outlet property="deleteIdentityButton" destination="0nn-4i-28b" id="mEv-Qx-shT"/>
+                        <outlet property="identityActionButton" destination="8fr-aG-NNj" id="vR6-bJ-Ytq"/>
+                        <outlet property="identityToolbar" destination="sub-d5-DqM" id="eEA-HO-Bvq"/>
+                        <outlet property="saveIdentityButton" destination="1KD-1i-sCq" id="e62-tX-JeP"/>
+                        <outlet property="useIdentityButton" destination="3V8-RM-aXy" id="t56-eC-1hd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4sK-rC-Hw6" userLabel="First Responder" sceneMemberID="firstResponder"/>

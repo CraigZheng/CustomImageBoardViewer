@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *saveIdentityButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *identityActionButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteIdentityButton;
+@property (weak, nonatomic) IBOutlet UIToolbar *identityToolbar;
 
 @end
 
@@ -42,6 +43,8 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
     [self refreshData];
     
     cookieManagerTableView.backgroundColor = [settingCentre viewBackgroundColour];
+    self.identityToolbar.tintColor = [UIColor whiteColor];
+    self.identityToolbar.barTintColor = settingCentre.barTintColour;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
