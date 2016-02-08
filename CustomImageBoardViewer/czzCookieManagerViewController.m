@@ -18,6 +18,10 @@
 @property czzCookieManager *cookieManager;
 @property (nonatomic, strong) NSHTTPCookie *selectedCookie;
 @property NSArray *cookiesDataSource;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *useIdentityButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *saveIdentityButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *identityActionButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteIdentityButton;
 
 @end
 
@@ -139,11 +143,9 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
     switch (cookieManagerSegmentControl.selectedSegmentIndex) {
         case 0:
             cookiesDataSource = [cookieManager currentACCookies];
-            saveCookieBarButtonItem.enabled = YES;
             break;
         case 1:
             cookiesDataSource = [cookieManager archivedCookies];
-            saveCookieBarButtonItem.enabled = NO;
             break;
         default:
             cookiesDataSource = [cookieManager currentACCookies];
@@ -156,6 +158,12 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
         messagePopUp.messageToShow = [NSString stringWithFormat:@"没有%@的饼干...", [cookieManagerSegmentControl titleForSegmentAtIndex:cookieManagerSegmentControl.selectedSegmentIndex]];
         [messagePopUp modalShow];
     }
+    // If selectedCookie is nil, set navigation bar buttons to disabled.
+    self.useIdentityButton.enabled =
+    self.deleteIdentityButton.enabled =
+    self.identityActionButton.enabled =
+    self.saveIdentityButton.enabled = self.selectedCookie != nil;
+
     [cookieManagerTableView reloadData];
 
 }
@@ -163,8 +171,11 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
 #pragma makr - Setters
 -(void)setSelectedCookie:(NSHTTPCookie *)selectedCookie {
     _selectedCookie = selectedCookie;
-    // If selectedCookie is nil, set navigation bar hidden.
-    [self.navigationController setToolbarHidden:selectedCookie == nil animated:YES];
+    // If selectedCookie is nil, set navigation bar buttons to disabled.
+    self.useIdentityButton.enabled =
+    self.deleteIdentityButton.enabled =
+    self.identityActionButton.enabled =
+    self.saveIdentityButton.enabled = _selectedCookie != nil;
 }
 
 #pragma mark - UIAlertViewDelegate
