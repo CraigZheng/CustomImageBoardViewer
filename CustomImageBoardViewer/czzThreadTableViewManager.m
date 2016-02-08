@@ -96,9 +96,8 @@
         czzThread *thread = [self.threadViewManager.threads objectAtIndex:indexPath.row];
         [self.threadViewManager.referenceIndexDictionary setObject:[indexPath copy] forKey:[NSString stringWithFormat:@"%ld", (long)thread.ID]];
         // Thread view cell
-        if (cell && [cell isKindOfClass:[czzMenuEnabledTableViewCell class]]){
+        if ([cell isKindOfClass:[czzMenuEnabledTableViewCell class]]){
             czzMenuEnabledTableViewCell *threadViewCell = (czzMenuEnabledTableViewCell*)cell;
-            threadViewCell.delegate = self;
             threadViewCell.shouldHighlight = YES;
             threadViewCell.selectedUserToHighlight = self.threadViewManager.selectedUserToHighlight;
             threadViewCell.cellType = threadViewCellTypeThread;

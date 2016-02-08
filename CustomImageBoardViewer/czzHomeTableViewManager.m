@@ -250,7 +250,6 @@
         cell.bigImageMode = [settingCentre userDefShouldUseBigImage];
         cell.allowImage = [settingCentre userDefShouldDisplayThumbnail];
         cell.cellType = threadViewCellTypeHome;
-        cell.parentThread = thread;
         cell.thread = thread;
         if ([self isMemberOfClass:[czzHomeTableViewManager class]]) {
             [cell renderContent];
