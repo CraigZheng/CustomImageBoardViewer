@@ -219,7 +219,7 @@ NSInteger const veryLowConstraintPriority = 1;
         self.cellImageView.image &&
         self.cellImageView.image != self.placeholderImage) {
         CGFloat aspectRatio = self.cellImageView.intrinsicContentSize.height / self.cellImageView.intrinsicContentSize.width;
-        self.imageViewWidthConstraint.constant = CGRectGetWidth(self.frame) - 8 * 2; // Remove the padding for leading and trailing.
+        self.imageViewWidthConstraint.constant = CGRectGetWidth([UIScreen mainScreen].bounds) - 8 * 2; // Remove the padding for leading and trailing.
         self.imageViewHeightConstraint.constant = self.imageViewWidthConstraint.constant * aspectRatio;
         // Positioning of the image view.
         self.imageViewCentreAlignConstraint.priority = veryHightConstraintPriority;
