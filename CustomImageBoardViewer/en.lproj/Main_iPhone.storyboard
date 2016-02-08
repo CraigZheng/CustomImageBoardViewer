@@ -529,8 +529,12 @@
                             <constraint firstItem="x9R-fb-aTx" firstAttribute="top" secondItem="Tgk-NW-5N7" secondAttribute="bottom" id="suq-0c-az0"/>
                         </constraints>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="回复" id="Vjg-kg-veu">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="4WB-V9-BIO">
+                            <connections>
+                                <action selector="cancelAction:" destination="4co-Qn-de7" id="esE-De-rNl"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="delete_file.png" id="0Vs-4v-0SZ">
                             <connections>
                                 <action selector="clearAction:" destination="4co-Qn-de7" id="ttz-fB-13d"/>
