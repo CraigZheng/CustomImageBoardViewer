@@ -103,24 +103,23 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
     self.navigationItem.backBarButtonItem.title = self.title;
     
-    //if in foreground, load more threads
-    if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground)
-    {
-        if (self.threadViewManager.restoredFromCache) {
-            // Start loading at the end of push animation.
-            __weak czzThreadViewController *weakSelf = self;
-            NavigationManager.pushAnimationCompletionHandler = ^{
-                if (!weakSelf.threadViewManager.threads.count) {
-                    [weakSelf refreshThread:weakSelf];
-                } else {
-                    [weakSelf.threadViewManager loadMoreThreads];
-                }
-            };
+    // What to do when this view controller has completed loading.
+    __weak czzThreadViewController *weakSelf = self;
+    void (^onLoadAction)(void) = ^void(void) {
+        // If threads array contains anything other than the parent thread.
+        if (weakSelf.threadViewManager.threads.count > 1) {
+            [weakSelf refreshThread:weakSelf];
         } else {
-            [self refreshThread:self];
+            [weakSelf.threadViewManager loadMoreThreads];
         }
+    };
+    
+    if (NavigationManager.isInTransition) {
+        NavigationManager.pushAnimationCompletionHandler = ^{
+            onLoadAction();
+        };
     } else {
-        DDLogDebug(@"App in background, nothing needs to be done.");
+        onLoadAction();
     }
     
     // Google Analytic integration.
@@ -142,8 +141,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 
-    // Reload data.
-    [self updateTableView];
     // Background colour.
     self.threadTableView.backgroundColor = [settingCentre viewBackgroundColour];
 }
