@@ -106,8 +106,8 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     // What to do when this view controller has completed loading.
     __weak czzThreadViewController *weakSelf = self;
     void (^onLoadAction)(void) = ^void(void) {
-        // If threads array contains anything other than the parent thread.
-        if (weakSelf.threadViewManager.threads.count > 1) {
+        // If threads array contains nothing other than the parent thread.
+        if (weakSelf.threadViewManager.threads.count <=1 ) {
             [weakSelf refreshThread:weakSelf];
         } else {
             [weakSelf.threadViewManager loadMoreThreads];
