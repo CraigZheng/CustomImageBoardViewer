@@ -161,7 +161,7 @@ static NSInteger const respondsHistoryIndex = 2;
 
 -(void)copyDataFromManager {
     if (titleSegmentedControl.selectedSegmentIndex == bookmarkIndex) {
-        threads = [favouriteManager favouriteThreads];
+        threads = [favouriteManager favouriteThreads].reverseObjectEnumerator.allObjects.mutableCopy;
         selectedManager = favouriteManager;
     } else if (titleSegmentedControl.selectedSegmentIndex == historyIndex) {
         // Type of history: broswer, posts, responds.
@@ -175,7 +175,7 @@ static NSInteger const respondsHistoryIndex = 2;
         selectedManager = historyManager;
         threads = [NSMutableOrderedSet orderedSetWithArray:[[threads reverseObjectEnumerator] allObjects]]; //hisotry are recorded backward
     } else if (titleSegmentedControl.selectedSegmentIndex == watchIndex) {
-        threads = [czzWatchListManager sharedManager].watchedThreads.mutableCopy;
+        threads = [czzWatchListManager sharedManager].watchedThreads.reverseObjectEnumerator.allObjects.mutableCopy;
         selectedManager = WatchListManager;
         // Updated threads have been viewed.
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
@@ -185,6 +185,7 @@ static NSInteger const respondsHistoryIndex = 2;
         }
     }
     [self.tableView reloadData];
+    [self.tableView setContentOffset:CGPointZero animated:NO]; // Scroll to top.
     // If the currently selected title segmented control is history, enable the selection for history type segmented control.
     self.historyTypeSegmentedControl.enabled = self.titleSegmentedControl.selectedSegmentIndex == historyIndex;
 }
