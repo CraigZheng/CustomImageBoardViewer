@@ -62,6 +62,7 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cookie_info_tableview_cell_identifier forIndexPath:indexPath];
+    UILabel *expiryLabel = (UILabel *)[cell viewWithTag:4];
     UILabel *domainLabel = (UILabel*) [cell viewWithTag:3];
     UILabel *nameLabel = (UILabel*) [cell viewWithTag:2];
     UILabel *contentLabel = (UILabel*) [cell viewWithTag:1];
@@ -70,6 +71,9 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
     nameLabel.text = cookie.name;
     contentLabel.text = cookie.value;
     domainLabel.text = cookie.domain;
+    NSDateFormatter *dateFormatter = [NSDateFormatter new];
+    dateFormatter.dateFormat = @"dd/MMM/yyyy";
+    expiryLabel.text = [NSString stringWithFormat:@"有效期至:%@", [dateFormatter stringFromDate:cookie.expiresDate]];
     
     //colour for nighty mode
     nameLabel.textColor = contentLabel.textColor = [settingCentre contentTextColour];
