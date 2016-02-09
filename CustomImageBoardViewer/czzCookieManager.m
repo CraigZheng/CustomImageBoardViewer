@@ -15,6 +15,8 @@
 @interface czzCookieManager() <czzURLDownloaderProtocol>
 @property (nonatomic, strong) NSHTTPCookieStorage *cookieStorage;
 @property (nonatomic, strong) NSMutableArray *acCookies;
+@property (nonatomic, readonly) NSString *archiveFilePath;
+@property (nonatomic, readonly) NSString *inUseFilePath;
 @end
 
 @implementation czzCookieManager
@@ -63,7 +65,7 @@
     DDLogDebug(@"Set in use cookie:");
     DDLogDebug(@"Cookie: %@", cookie);
     DDLogDebug(@"URL: %@", url);
-    [self.cookieStorage setCookies:@[cookie] forURL:url mainDocumentURL:nil];
+    [self.cookieStorage setCookie:cookie];
 }
 
 -(void)deleteCookie:(NSHTTPCookie *)cookie {
@@ -107,27 +109,29 @@
 }
 
 -(void)archiveCookiesToFile {
-    [NSKeyedArchiver archiveRootObject:self.archivedCookies toFile:[[czzAppDelegate libraryFolder] stringByAppendingPathComponent:COOKIES_ARCHIVE_FILE]];
+    // Delete the old copies of archives...
+    [[NSFileManager defaultManager] removeItemAtPath:self.archiveFilePath error:nil];
+    [NSKeyedArchiver archiveRootObject:self.archivedCookies toFile:self.archiveFilePath];
     DDLogDebug(@"Archived cookies saved.");
+    [[NSFileManager defaultManager] removeItemAtPath:self.inUseFilePath error:nil];
     if (self.currentInUseCookie) {
-        [NSKeyedArchiver archiveRootObject:self.currentInUseCookie toFile:[[czzAppDelegate libraryFolder] stringByAppendingPathComponent:IN_USE_COOKIE_FILE]];
+        [NSKeyedArchiver archiveRootObject:self.currentInUseCookie toFile:self.inUseFilePath];
         DDLogDebug(@"In use cookie saved.");
     }
 }
 
 -(void)restoreArchivedCookies {
     // Restore the archived cookies.
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[[czzAppDelegate libraryFolder] stringByAppendingPathComponent:COOKIES_ARCHIVE_FILE]]) {
-        id archivedCookies = [NSKeyedUnarchiver unarchiveObjectWithFile:[[czzAppDelegate libraryFolder] stringByAppendingPathComponent:COOKIES_ARCHIVE_FILE]];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:self.archiveFilePath]) {
+        id archivedCookies = [NSKeyedUnarchiver unarchiveObjectWithFile:self.archiveFilePath];
         if ([archivedCookies isKindOfClass:[NSMutableArray class]]){
             self.archivedCookies = archivedCookies;
             DDLogDebug(@"Archived cookies restored.");
         }
     }
     // Restore the in use cookie.
-    NSString *inUseCookieFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:IN_USE_COOKIE_FILE];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:inUseCookieFile]) {
-        NSHTTPCookie *inUseCookie = [NSKeyedUnarchiver unarchiveObjectWithFile:inUseCookieFile];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:self.inUseFilePath]) {
+        NSHTTPCookie *inUseCookie = [NSKeyedUnarchiver unarchiveObjectWithFile:self.inUseFilePath];
         [self setACCookie:inUseCookie
                    ForURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
     }
@@ -145,6 +149,14 @@
 }
 
 #pragma mark - Getters
+
+- (NSString *)archiveFilePath {
+    return [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:COOKIES_ARCHIVE_FILE];
+}
+
+- (NSString *)inUseFilePath {
+    return [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:IN_USE_COOKIE_FILE];
+}
 
 - (NSMutableArray *)acCookies {
     NSMutableArray *cookies = [NSMutableArray new];
