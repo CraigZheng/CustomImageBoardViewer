@@ -60,6 +60,9 @@
         DDLogDebug(@"incoming cookie is nil");
         return;
     }
+    DDLogDebug(@"Set in use cookie:");
+    DDLogDebug(@"Cookie: %@", cookie);
+    DDLogDebug(@"URL: %@", url);
     [self.cookieStorage setCookies:@[cookie] forURL:url mainDocumentURL:nil];
 }
 
@@ -125,10 +128,8 @@
     NSString *inUseCookieFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:IN_USE_COOKIE_FILE];
     if ([[NSFileManager defaultManager] fileExistsAtPath:inUseCookieFile]) {
         NSHTTPCookie *inUseCookie = [NSKeyedUnarchiver unarchiveObjectWithFile:inUseCookieFile];
-        if (inUseCookie) {
-            [self addValueAsCookie:inUseCookie.properties[cookieName]];
-            DDLogDebug(@"In use cookie restored.");
-        }
+        [self setACCookie:inUseCookie
+                   ForURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
     }
 }
 
@@ -149,10 +150,10 @@
     NSMutableArray *cookies = [NSMutableArray new];
     for (NSHTTPCookie *cookie in [self.cookieStorage cookies]) {
         if ([cookie.name.lowercaseString isEqualToString:cookieName.lowercaseString]) {
-            DDLogDebug(@"%@", cookie);
             [cookies addObject:cookie];
         }
     }
+    DDLogDebug(@"Currently have %ld ac cookies", cookies.count);
     return cookies;
 }
 

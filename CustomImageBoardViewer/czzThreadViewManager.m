@@ -110,6 +110,7 @@
         // When setting the parent thread, see if the downloaded parent thread is included in the watchlist manager.
         // If it is, then update the corresponding thread in watchlist manager.
         if ([WatchListManager.watchedThreads containsObject:_parentThread]) {
+            DDLogDebug(@"Parent thread is being watched, update Watchlist manager...");
             // Remove the recorded thread, add the new thread.
             [WatchListManager removeFromWatchList:_parentThread];
             [WatchListManager addToWatchList:_parentThread];
