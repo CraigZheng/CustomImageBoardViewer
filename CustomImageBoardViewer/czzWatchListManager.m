@@ -28,6 +28,7 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 @property (nonatomic, strong) NSMutableOrderedSet *manuallyAddedThreads;
 @property (nonatomic, strong) czzThreadViewManager *threadViewManager;
 @property (nonatomic, strong) czzThreadDownloader *threadDownloader;
+@property (nonatomic, readonly) NSString *watchlistFilePath;
 
 @end
 
@@ -183,7 +184,7 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 #pragma mark - State restoration
 -(void)restoreState {
     @try {
-        czzWatchListManager *tempWatchListManager = [NSKeyedUnarchiver unarchiveObjectWithFile:[[czzAppDelegate libraryFolder] stringByAppendingPathComponent:WATCH_LIST_CACHE_FILE]];
+        czzWatchListManager *tempWatchListManager = [NSKeyedUnarchiver unarchiveObjectWithFile:self.watchlistFilePath];
         if (tempWatchListManager && tempWatchListManager.watchedThreads.count) {
             self.manuallyAddedThreads = tempWatchListManager.manuallyAddedThreads;
         }
@@ -194,7 +195,8 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 }
 
 -(void)saveState {
-    [NSKeyedArchiver archiveRootObject:self toFile:[[czzAppDelegate libraryFolder] stringByAppendingPathComponent:WATCH_LIST_CACHE_FILE]];
+    [NSKeyedArchiver archiveRootObject:self
+                                toFile:self.watchlistFilePath];
     // Set background fetch interval based on the count of threads being watched.
     if (self.watchedThreads.count) {
         [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
@@ -217,6 +219,10 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 }
 
 #pragma mark - Getters
+
+- (NSString *)watchlistFilePath {
+    return [[[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"Watchlist"] stringByAppendingPathComponent:WATCH_LIST_CACHE_FILE];
+}
 
 - (NSString *)updateSummary {
     if (self.updatedThreads.count) {

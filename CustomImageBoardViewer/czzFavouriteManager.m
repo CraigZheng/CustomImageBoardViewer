@@ -9,6 +9,10 @@
 #import "czzFavouriteManager.h"
 #import "czzAppDelegate.h"
 
+@interface czzFavouriteManager()
+@property (nonatomic, readonly) NSString *favouriteFilePath;
+@end
+
 @implementation czzFavouriteManager
 @synthesize favouriteThreads;
 
@@ -61,17 +65,15 @@
 }
 
 -(void)saveCurrentState {
-    NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:FAVOURITE_THREAD_CACHE_FILE];
-    if (![NSKeyedArchiver archiveRootObject:favouriteThreads toFile:cacheFile]) {
-        DDLogDebug(@"can not save favourite threads to %@", cacheFile);
+    if (![NSKeyedArchiver archiveRootObject:favouriteThreads toFile:self.favouriteFilePath]) {
+        DDLogDebug(@"can not save favourite threads to %@", self.favouriteFilePath);
     }
 }
 
 -(void)restorePreviousState {
     @try {
-        NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:FAVOURITE_THREAD_CACHE_FILE];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
-            NSSet *tempSet = [NSKeyedUnarchiver unarchiveObjectWithFile:cacheFile];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:self.favouriteFilePath]) {
+            NSSet *tempSet = [NSKeyedUnarchiver unarchiveObjectWithFile:self.favouriteFilePath];
             if (tempSet) {
                 NSArray *sortedArray = [self sortTheGivenArray:[tempSet allObjects]];
                 favouriteThreads = [[NSMutableOrderedSet alloc] initWithArray:sortedArray];
@@ -82,6 +84,10 @@
         DDLogDebug(@"%@", exception);
         favouriteThreads = [NSMutableOrderedSet new];
     }
+}
+
+- (NSString *)favouriteFilePath {
+    return [[[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"Favourite"] stringByAppendingPathComponent:FAVOURITE_THREAD_CACHE_FILE];
 }
 
 #pragma sort array - sort the threads so they arrange with ID

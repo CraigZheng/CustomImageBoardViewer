@@ -15,6 +15,9 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
 
 @interface czzHistoryManager()
 @property (strong, nonatomic) czzThreadDownloader *threadDownloader;
+@property (strong, nonatomic) NSString *historyCachePath;
+@property (strong, nonatomic) NSString *postedCachePath;
+@property (strong, nonatomic) NSString *respondedCachePath;
 
 @end
 
@@ -24,6 +27,10 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
 -(instancetype)init {
     self = [super init];
     if (self) {
+        self.historyCachePath = [[[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"History"] stringByAppendingPathComponent:HISTORY_CACHE_FILE];
+        self.postedCachePath = [[[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"History"] stringByAppendingPathComponent:postedHistoryFile];
+        self.respondedCachePath = [[[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"History"] stringByAppendingPathComponent:respondedHistoryFile];
+
         browserHistory = [NSMutableOrderedSet new];
         [self restorePreviousState];
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -67,26 +74,23 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
 }
 
 -(void)restorePreviousState {
-    NSString *historyCachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:HISTORY_CACHE_FILE];
-    NSString *postedCachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:postedHistoryFile];
-    NSString *respondedCachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:respondedHistoryFile];
     @try {
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSMutableOrderedSet *tempSet;
-        if ([fileManager fileExistsAtPath:historyCachePath]) {
-            tempSet = [NSKeyedUnarchiver unarchiveObjectWithFile:historyCachePath];
+        if ([fileManager fileExistsAtPath:self.historyCachePath]) {
+            tempSet = [NSKeyedUnarchiver unarchiveObjectWithFile:self.historyCachePath];
             if (tempSet) {
                 browserHistory = tempSet;
             }
         }
-        if ([fileManager fileExistsAtPath:postedCachePath]) {
-            tempSet = [NSKeyedUnarchiver unarchiveObjectWithFile:postedCachePath];
+        if ([fileManager fileExistsAtPath:self.postedCachePath]) {
+            tempSet = [NSKeyedUnarchiver unarchiveObjectWithFile:self.postedCachePath];
             if (tempSet) {
                 self.postedThreads = tempSet;
             }
         }
-        if ([fileManager fileExistsAtPath:respondedCachePath]) {
-            tempSet = [NSKeyedUnarchiver unarchiveObjectWithFile:respondedCachePath];
+        if ([fileManager fileExistsAtPath:self.respondedCachePath]) {
+            tempSet = [NSKeyedUnarchiver unarchiveObjectWithFile:self.respondedCachePath];
             if (tempSet) {
                 self.respondedThreads = tempSet;
             }
@@ -99,16 +103,13 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
 }
 
 -(void)saveCurrentState {
-    NSString *historyCachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:HISTORY_CACHE_FILE];
-    NSString *postedCachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:postedHistoryFile];
-    NSString *respondedCachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:respondedHistoryFile];
-    if (![NSKeyedArchiver archiveRootObject:browserHistory toFile:historyCachePath]) {
+    if (![NSKeyedArchiver archiveRootObject:browserHistory toFile:self.historyCachePath]) {
         DDLogDebug(@"unable to save browser history");
     }
-    if (![NSKeyedArchiver archiveRootObject:self.postedThreads toFile:postedCachePath]) {
+    if (![NSKeyedArchiver archiveRootObject:self.postedThreads toFile:self.postedCachePath]) {
         DDLogDebug(@"unable to save browser history");
     }
-    if (![NSKeyedArchiver archiveRootObject:self.respondedThreads toFile:respondedCachePath]) {
+    if (![NSKeyedArchiver archiveRootObject:self.respondedThreads toFile:self.respondedCachePath]) {
         DDLogDebug(@"unable to save browser history");
     }
 }

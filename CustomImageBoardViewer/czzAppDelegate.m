@@ -207,6 +207,10 @@
     return [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 }
 
++(NSString *)documentFolder {
+    return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+}
+
 +(NSString *)thumbnailFolder {
     return [[self libraryFolder] stringByAppendingPathComponent:@"Thumbnails"];
 }
