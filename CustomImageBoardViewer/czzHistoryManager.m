@@ -27,9 +27,9 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
 -(instancetype)init {
     self = [super init];
     if (self) {
-        self.historyCachePath = [[[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"History"] stringByAppendingPathComponent:HISTORY_CACHE_FILE];
-        self.postedCachePath = [[[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"History"] stringByAppendingPathComponent:postedHistoryFile];
-        self.respondedCachePath = [[[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"History"] stringByAppendingPathComponent:respondedHistoryFile];
+        self.historyCachePath = [self.historyFolder stringByAppendingPathComponent:HISTORY_CACHE_FILE];
+        self.postedCachePath = [self.historyFolder stringByAppendingPathComponent:postedHistoryFile];
+        self.respondedCachePath = [self.historyFolder stringByAppendingPathComponent:respondedHistoryFile];
 
         browserHistory = [NSMutableOrderedSet new];
         [self restorePreviousState];
@@ -179,6 +179,10 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
         _respondedThreads = [NSMutableOrderedSet new];
     }
     return _respondedThreads;
+}
+
+- (NSString *)historyFolder {
+    return [[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"History"];
 }
 
 + (instancetype)sharedInstance

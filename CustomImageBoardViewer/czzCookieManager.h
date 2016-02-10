@@ -14,6 +14,7 @@
 
 @interface czzCookieManager : NSObject
 @property NSMutableArray *archivedCookies;
+@property (nonatomic, readonly) NSString *cookieFolder;
 
 -(NSArray*)currentACCookies;
 -(NSHTTPCookie*)currentInUseCookie;

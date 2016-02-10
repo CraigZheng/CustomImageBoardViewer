@@ -86,8 +86,14 @@
     }
 }
 
+#pragma mark - Getters
+
 - (NSString *)favouriteFilePath {
-    return [[[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"Favourite"] stringByAppendingPathComponent:FAVOURITE_THREAD_CACHE_FILE];
+    return [self.favouriteFolder stringByAppendingPathComponent:FAVOURITE_THREAD_CACHE_FILE];
+}
+
+- (NSString *)favouriteFolder {
+    return [[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"Favourite"];
 }
 
 #pragma sort array - sort the threads so they arrange with ID

@@ -150,12 +150,16 @@
 
 #pragma mark - Getters
 
+- (NSString *)cookieFolder {
+    return [[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"Cookies"];
+}
+
 - (NSString *)archiveFilePath {
-    return [[[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"Cookies"] stringByAppendingPathComponent:COOKIES_ARCHIVE_FILE];
+    return [self.cookieFolder stringByAppendingPathComponent:COOKIES_ARCHIVE_FILE];
 }
 
 - (NSString *)inUseFilePath {
-    return [[[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"Cookies"] stringByAppendingPathComponent:IN_USE_COOKIE_FILE];
+    return [self.cookieFolder stringByAppendingPathComponent:IN_USE_COOKIE_FILE];
 }
 
 - (NSMutableArray *)acCookies {

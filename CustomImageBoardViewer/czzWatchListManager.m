@@ -220,8 +220,12 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 
 #pragma mark - Getters
 
+- (NSString *)watchlistFolder {
+    return [[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"Watchlist"];
+}
+
 - (NSString *)watchlistFilePath {
-    return [[[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"Watchlist"] stringByAppendingPathComponent:WATCH_LIST_CACHE_FILE];
+    return [self.watchlistFolder stringByAppendingPathComponent:WATCH_LIST_CACHE_FILE];
 }
 
 - (NSString *)updateSummary {

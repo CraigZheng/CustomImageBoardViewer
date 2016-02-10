@@ -20,6 +20,8 @@
 #import "czzCacheCleaner.h"
 #import "czzHomeViewManager.h"
 #import "czzBannerNotificationUtil.h"
+#import "czzHistoryManager.h"
+#import "czzFavouriteManager.h"
 #import <Google/Analytics.h>
 #import <WatchConnectivity/WatchConnectivity.h>
 
@@ -265,9 +267,18 @@
     for (NSString *folderPath in resourceFolders) {
         if (![[NSFileManager defaultManager] fileExistsAtPath:folderPath]){
             [[NSFileManager defaultManager] createDirectoryAtPath:folderPath withIntermediateDirectories:NO attributes:nil error:nil];
+            DDLogDebug(@"Create library folder: %@", folderPath);
         }
         //exclude my folders from being backed up to iCloud
         [self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:folderPath]];
+    }
+    NSArray *managerFolders = @[WatchListManager.watchlistFolder, historyManager.historyFolder, CookieManager.cookieFolder, favouriteManager.favouriteFolder];
+    for (NSString *folderPath in managerFolders) {
+        // Each of them should be backed up.
+        if (![[NSFileManager defaultManager] fileExistsAtPath:folderPath]){
+            [[NSFileManager defaultManager] createDirectoryAtPath:folderPath withIntermediateDirectories:NO attributes:nil error:nil];
+            DDLogDebug(@"Create document folder: %@", folderPath);
+        }
     }
 }
 @end

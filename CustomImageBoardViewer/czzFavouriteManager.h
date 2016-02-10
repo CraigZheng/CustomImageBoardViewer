@@ -14,6 +14,7 @@
 
 @interface czzFavouriteManager : NSObject
 @property NSMutableOrderedSet *favouriteThreads;
+@property (nonatomic, readonly) NSString *favouriteFolder;
 
 -(void)addFavourite:(czzThread*)thread;
 -(BOOL)isThreadFavourited:(czzThread*)thread;

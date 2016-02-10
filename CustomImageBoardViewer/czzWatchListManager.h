@@ -19,6 +19,8 @@
 @property (nonatomic, readonly) NSString *updateTitle;
 @property (nonatomic, readonly) NSString *updateContent;
 @property (nonatomic, assign) BOOL isDownloading;
+@property (readonly, nonatomic) NSString *watchlistFolder;
+
 
 -(void)addToWatchList:(czzThread*)thread;
 -(void)removeFromWatchList:(czzThread*)thread;

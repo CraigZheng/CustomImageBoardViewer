@@ -18,6 +18,7 @@
 @property (nonatomic, strong) NSMutableOrderedSet *browserHistory;
 @property (nonatomic, strong) NSMutableOrderedSet *respondedThreads;
 @property (nonatomic, strong) NSMutableOrderedSet *postedThreads;
+@property (nonatomic, readonly) NSString *historyFolder;
 
 - (void)addToRespondedList:(czzThread*)thread;
 - (void)addToPostedList:(NSString*)title
