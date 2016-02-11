@@ -184,6 +184,25 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 #pragma mark - State restoration
 -(void)restoreState {
     @try {
+        // Try to move legacy codes to the new folder.
+        NSString *legacyPath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:WATCH_LIST_CACHE_FILE];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:legacyPath]) {
+            DDLogDebug(@"Need to restore legacy file for %@", NSStringFromClass(self.class));
+            NSError *error;
+            [[NSFileManager defaultManager] replaceItemAtURL:[NSURL fileURLWithPath:self.watchlistFilePath]
+                                               withItemAtURL:[NSURL fileURLWithPath:legacyPath]
+                                              backupItemName:@"Legacy.dat"
+                                                     options:NSFileManagerItemReplacementUsingNewMetadataOnly
+                                            resultingItemURL:nil
+                                                       error:&error];
+            if (error) {
+                DDLogDebug(@"%s: %@", __PRETTY_FUNCTION__, error);
+            }
+            [[NSFileManager defaultManager] removeItemAtPath:legacyPath error:&error];
+            if (error) {
+                DDLogDebug(@"%s: %@", __PRETTY_FUNCTION__, error);
+            }
+        }
         czzWatchListManager *tempWatchListManager = [NSKeyedUnarchiver unarchiveObjectWithFile:self.watchlistFilePath];
         if (tempWatchListManager && tempWatchListManager.watchedThreads.count) {
             self.manuallyAddedThreads = tempWatchListManager.manuallyAddedThreads;

@@ -72,6 +72,25 @@
 
 -(void)restorePreviousState {
     @try {
+        // Trying to restore the legacy file.
+        NSString *legacyFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:FAVOURITE_THREAD_CACHE_FILE];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:legacyFile]) {
+            DDLogDebug(@"Need to restore legacy file for %@", NSStringFromClass(self.class));
+            NSError *error;
+            [[NSFileManager defaultManager] replaceItemAtURL:[NSURL fileURLWithPath:self.favouriteFilePath]
+                                               withItemAtURL:[NSURL fileURLWithPath:legacyFile]
+                                              backupItemName:@"LegacyFavourite.dat"
+                                                     options:0
+                                            resultingItemURL:nil
+                                                       error:&error];
+            if (error) {
+                DDLogDebug(@"%s: %@", __PRETTY_FUNCTION__, error);
+            }
+            [[NSFileManager defaultManager] removeItemAtPath:legacyFile error:&error];
+            if (error) {
+                DDLogDebug(@"%s: %@", __PRETTY_FUNCTION__, error);
+            }
+        }
         if ([[NSFileManager defaultManager] fileExistsAtPath:self.favouriteFilePath]) {
             NSSet *tempSet = [NSKeyedUnarchiver unarchiveObjectWithFile:self.favouriteFilePath];
             if (tempSet) {

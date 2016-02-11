@@ -77,6 +77,25 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
     @try {
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSMutableOrderedSet *tempSet;
+        // Trying to restore the legacy file.
+        NSString *legacyFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:HISTORY_CACHE_FILE];
+        if ([fileManager fileExistsAtPath:legacyFile]) {
+            DDLogDebug(@"Need to restore legacy file for %@", NSStringFromClass(self.class));
+            NSError *error;
+            [fileManager replaceItemAtURL:[NSURL fileURLWithPath:self.historyCachePath]
+                            withItemAtURL:[NSURL fileURLWithPath:legacyFile]
+                           backupItemName:@"LegacyHistory.dat"
+                                  options:0
+                         resultingItemURL:nil
+                                    error:&error];
+            if (error) {
+                DDLogDebug(@"%s: %@", __PRETTY_FUNCTION__, error);
+            }
+            [fileManager removeItemAtPath:legacyFile error:&error];
+            if (error) {
+                DDLogDebug(@"%s: %@", __PRETTY_FUNCTION__, error);
+            }
+        }
         if ([fileManager fileExistsAtPath:self.historyCachePath]) {
             tempSet = [NSKeyedUnarchiver unarchiveObjectWithFile:self.historyCachePath];
             if (tempSet) {

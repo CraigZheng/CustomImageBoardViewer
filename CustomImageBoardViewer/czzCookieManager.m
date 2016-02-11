@@ -121,6 +121,25 @@
 }
 
 -(void)restoreArchivedCookies {
+    // Try to restore the legacy file, and delete it afterward.
+    NSString *legacyFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:COOKIES_ARCHIVE_FILE];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:legacyFile]) {
+        DDLogDebug(@"Need to restore legacy file for %@", NSStringFromClass(self.class));
+        NSError *error;
+        [[NSFileManager defaultManager] replaceItemAtURL:[NSURL fileURLWithPath:self.archiveFilePath]
+                                           withItemAtURL:[NSURL fileURLWithPath:legacyFile]
+                                          backupItemName:@"LegacyCookie.dat"
+                                                 options:0
+                                        resultingItemURL:nil
+                                                   error:&error];
+        if (error) {
+            DDLogDebug(@"%s: %@", __PRETTY_FUNCTION__, error);
+        }
+        [[NSFileManager defaultManager] removeItemAtPath:legacyFile error:&error];
+        if (error) {
+            DDLogDebug(@"%s: %@", __PRETTY_FUNCTION__, error);
+        }        
+    }
     // Restore the archived cookies.
     if ([[NSFileManager defaultManager] fileExistsAtPath:self.archiveFilePath]) {
         id archivedCookies = [NSKeyedUnarchiver unarchiveObjectWithFile:self.archiveFilePath];
