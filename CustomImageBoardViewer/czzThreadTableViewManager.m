@@ -67,6 +67,7 @@
                      }
                      completion:^(BOOL finished) {
                          [self.containerView removeFromSuperview];
+                         self.containerView = nil;
                          [self.threadTableView reloadData];
                      }];
     
