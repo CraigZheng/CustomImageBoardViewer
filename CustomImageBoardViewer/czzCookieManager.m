@@ -66,10 +66,12 @@
     DDLogDebug(@"Cookie: %@", cookie);
     DDLogDebug(@"URL: %@", url);
     [self.cookieStorage setCookie:cookie];
+    [self archiveCookiesToFile];
 }
 
 -(void)deleteCookie:(NSHTTPCookie *)cookie {
     [self.cookieStorage deleteCookie:cookie];
+    [self archiveCookiesToFile];
 }
 
 -(NSArray *)currentACCookies {
@@ -148,8 +150,9 @@
             DDLogDebug(@"%s: in archive", __PRETTY_FUNCTION__);
         }
     }
-    // Restore the in use cookie.
-    if ([[NSFileManager defaultManager] fileExistsAtPath:self.inUseFilePath]) {
+    // Restore the in use cookie - if the NSCookieStorage does not have an AC cookie.
+    if ([[NSFileManager defaultManager] fileExistsAtPath:self.inUseFilePath] &&
+        !self.currentInUseCookie) {
         NSHTTPCookie *inUseCookie = [NSKeyedUnarchiver unarchiveObjectWithFile:self.inUseFilePath];
         [self setACCookie:inUseCookie
                    ForURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
