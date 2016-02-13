@@ -96,6 +96,7 @@
             if (tempSet) {
                 NSArray *sortedArray = [self sortTheGivenArray:[tempSet allObjects]];
                 favouriteThreads = [[NSMutableOrderedSet alloc] initWithArray:sortedArray];
+                DDLogDebug(@"Restored favourite threads.");
             }
         }
     }

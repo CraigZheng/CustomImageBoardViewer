@@ -207,6 +207,7 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
         if (tempWatchListManager && tempWatchListManager.watchedThreads.count) {
             self.manuallyAddedThreads = tempWatchListManager.manuallyAddedThreads;
         }
+        DDLogDebug(@"Restored watch list.");
     }
     @catch (NSException *exception) {
         DDLogDebug(@"%@", exception);

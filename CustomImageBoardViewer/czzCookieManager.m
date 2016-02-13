@@ -153,6 +153,7 @@
         NSHTTPCookie *inUseCookie = [NSKeyedUnarchiver unarchiveObjectWithFile:self.inUseFilePath];
         [self setACCookie:inUseCookie
                    ForURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
+        DDLogDebug(@"In use cookie restored.");
     }
 }
 
