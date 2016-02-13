@@ -176,7 +176,7 @@
     //user tapped on link
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
         if ([request.URL.absoluteString rangeOfString:[settingCentre a_isle_host]].location == NSNotFound) {
-            [czzBannerNotificationUtil displayMessage:@"这个App只支持AC匿名版的链接"
+            [czzBannerNotificationUtil displayMessage:@"这个App只支持A岛匿名版的链接"
                                              position:BannerNotificationPositionTop];
             return NO;
         } else {
