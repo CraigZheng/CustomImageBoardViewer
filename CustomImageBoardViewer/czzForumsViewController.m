@@ -63,8 +63,12 @@ NSString * const kPickedForum = @"PickedForum";
 
     self.forumManager = [czzForumManager sharedManager];
     [self refreshForums];
+    // Reload the forum view when notification from settings centre is received.
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleSettingsChangedNotification)
+                                                 name:settingsChangedNotification
+                                               object:nil];
 }
-
 
 -(void)viewWillAppear:(BOOL)animated{
     // Google Analytic integration
@@ -215,6 +219,13 @@ NSString * const kPickedForum = @"PickedForum";
 - (void)viewDeckController:(IIViewDeckController *)viewDeckController willOpenViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated {
     // Notify about the view will appear event.
     [self viewWillAppear:animated];
+}
+
+#pragma mark - Settings changed notification.
+
+- (void)handleSettingsChangedNotification {
+    DLog(@"");
+    [self.forumsTableView reloadData];
 }
 
 @end

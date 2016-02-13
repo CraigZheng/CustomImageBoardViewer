@@ -65,6 +65,7 @@
 }
 
 -(void)saveCurrentState {
+    DDLogDebug(@"%s", __PRETTY_FUNCTION__);
     if (![NSKeyedArchiver archiveRootObject:favouriteThreads toFile:self.favouriteFilePath]) {
         DDLogDebug(@"can not save favourite threads to %@", self.favouriteFilePath);
     }
