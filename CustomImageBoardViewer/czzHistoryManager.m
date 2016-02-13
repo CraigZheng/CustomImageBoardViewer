@@ -158,14 +158,20 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
     self.threadDownloader.parentForum = forum;
     // In completion handler, compare the downloaded threads and see if there's any that is matching.
     __weak typeof(self) weakSelf = self; // Weak self is for supperssing the warning.
+    DLog(@"%@", content);
     self.threadDownloader.completionHandler = ^(BOOL success, NSArray *downloadedThreads, NSError *error){
-        DDLogDebug(@"%s, error: %@", __PRETTY_FUNCTION__, error);
+        DLog(@"%s, error: %@", __PRETTY_FUNCTION__, error);
         for (czzThread *thread in downloadedThreads) {
             // Compare title and content.
             czzThread *matchedThread;
-            if (title.length && [title isEqualToString:thread.title]) {
+            DLog(@"Downloaded thread: %@", thread.content.string);
+            // When comparing, remove the white space and newlines from both the reference title/content and the thread title content,
+            // this would reduce the risk of error.
+            if (title.length && [[title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
+                                 isEqualToString:[thread.title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]]) {
                 matchedThread = thread;
-            } else if (content.length && [content isEqualToString:thread.content.string]) {
+            } else if (content.length && [[content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
+                                          isEqualToString:[thread.content.string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]]) {
                 matchedThread = thread;
             }
             // If no title and content given, but has image, then the first downloaded thread with image is most likely the matching thread.
