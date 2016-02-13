@@ -132,7 +132,17 @@
 #pragma mark - background fetch
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     DDLogDebug(@"%s", __PRETTY_FUNCTION__);
+    __block void(^localRefCompletionHandler)(UIBackgroundFetchResult) = completionHandler;
+    // Safe guard.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(25 * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        if (localRefCompletionHandler) {
+            DDLogDebug(@"Background fetch safe gurad: time limit has reached, call completionHandler with NoData as the result.");
+            localRefCompletionHandler(UIBackgroundFetchResultNoData);
+            localRefCompletionHandler = nil;
+        }
+    });
     [WatchListManager refreshWatchedThreadsWithCompletionHandler:^(NSArray *updatedThreads) {
+        DDLogDebug(@"Background fetch completed.");
         UIBackgroundFetchResult backgroundFetchResult = UIBackgroundFetchResultNoData;
         
         UILocalNotification *localNotif = [[UILocalNotification alloc] init];
@@ -150,7 +160,10 @@
             
             backgroundFetchResult = UIBackgroundFetchResultNewData;
         }
-        completionHandler(backgroundFetchResult);
+        if (localRefCompletionHandler) {
+            localRefCompletionHandler(backgroundFetchResult);
+            localRefCompletionHandler = nil;
+        }
     }];
 }
 
