@@ -224,7 +224,7 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
         // No thread is currently being watched, should never execute.
         [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalNever];
     }
-    DDLogDebug(@"Currently watched %ld threads.", (long)self.watchedThreads.count);
+    DDLogDebug(@"%s: %ld threads.", __PRETTY_FUNCTION__, (long)self.watchedThreads.count);
 }
 
 #pragma mark - NSCodingDelegate

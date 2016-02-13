@@ -210,7 +210,7 @@
 }
 
 +(NSString *)documentFolder {
-    return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 }
 
 +(NSString *)thumbnailFolder {

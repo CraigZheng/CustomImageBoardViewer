@@ -112,11 +112,11 @@
     // Delete the old copies of archives...
     [[NSFileManager defaultManager] removeItemAtPath:self.archiveFilePath error:nil];
     [NSKeyedArchiver archiveRootObject:self.archivedCookies toFile:self.archiveFilePath];
-    DDLogDebug(@"Archived cookies saved.");
+    DDLogDebug(@"%s: archive", __PRETTY_FUNCTION__);
     [[NSFileManager defaultManager] removeItemAtPath:self.inUseFilePath error:nil];
     if (self.currentInUseCookie) {
         [NSKeyedArchiver archiveRootObject:self.currentInUseCookie toFile:self.inUseFilePath];
-        DDLogDebug(@"In use cookie saved.");
+        DDLogDebug(@"%s: in use", __PRETTY_FUNCTION__);
     }
 }
 
@@ -145,7 +145,7 @@
         id archivedCookies = [NSKeyedUnarchiver unarchiveObjectWithFile:self.archiveFilePath];
         if ([archivedCookies isKindOfClass:[NSMutableArray class]]){
             self.archivedCookies = archivedCookies;
-            DDLogDebug(@"Archived cookies restored.");
+            DDLogDebug(@"%s: in archive", __PRETTY_FUNCTION__);
         }
     }
     // Restore the in use cookie.
@@ -153,7 +153,7 @@
         NSHTTPCookie *inUseCookie = [NSKeyedUnarchiver unarchiveObjectWithFile:self.inUseFilePath];
         [self setACCookie:inUseCookie
                    ForURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
-        DDLogDebug(@"In use cookie restored.");
+        DDLogDebug(@"%s: in use", __PRETTY_FUNCTION__);
     }
 }
 
