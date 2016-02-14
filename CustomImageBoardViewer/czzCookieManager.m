@@ -195,7 +195,7 @@
             [acCookies addObject:cookie];
         }
     }
-    DDLogDebug(@"Currently have %ld ac cookies", acCookies.count);
+    DDLogDebug(@"Currently have %ld ac cookies", (long)acCookies.count);
     return acCookies;
 }
 

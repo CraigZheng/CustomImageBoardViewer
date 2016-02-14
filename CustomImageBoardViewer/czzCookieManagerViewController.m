@@ -158,13 +158,7 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
             cookiesDataSource = [cookieManager currentACCookies];
             break;
     }
-    if (cookiesDataSource.count == 0) {
-        czzMessagePopUpViewController *messagePopUp = [czzMessagePopUpViewController new];
-        messagePopUp.imageToShow = cookieManagerSegmentControl.selectedSegmentIndex == 0 ? [UIImage imageNamed:@"35.png"] : [UIImage imageNamed:@"03.png"];
-        
-        messagePopUp.messageToShow = [NSString stringWithFormat:@"没有%@的饼干...", [cookieManagerSegmentControl titleForSegmentAtIndex:cookieManagerSegmentControl.selectedSegmentIndex]];
-        [messagePopUp modalShow];
-    }
+    
     // If selectedCookie is nil, set navigation bar buttons to disabled.
     self.useIdentityButton.enabled =
     self.deleteIdentityButton.enabled =
