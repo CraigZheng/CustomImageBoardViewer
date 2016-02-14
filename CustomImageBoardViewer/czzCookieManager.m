@@ -65,7 +65,9 @@
     DDLogDebug(@"Set in use cookie:");
     DDLogDebug(@"Cookie: %@", cookie);
     DDLogDebug(@"URL: %@", url);
-    [self.cookieStorage setCookie:cookie];
+    [self.cookieStorage setCookies:@[cookie]
+                            forURL:[NSURL URLWithString:[settingCentre a_isle_host]]
+                   mainDocumentURL:nil];
     [self archiveCookiesToFile];
 }
 
@@ -186,14 +188,15 @@
 }
 
 - (NSMutableArray *)acCookies {
-    NSMutableArray *cookies = [NSMutableArray new];
-    for (NSHTTPCookie *cookie in [self.cookieStorage cookies]) {
+    NSMutableArray *acCookies = [NSMutableArray new];
+    NSArray *cookies = [self.cookieStorage cookies];
+    for (NSHTTPCookie *cookie in cookies) {
         if ([cookie.name.lowercaseString isEqualToString:cookieName.lowercaseString]) {
-            [cookies addObject:cookie];
+            [acCookies addObject:cookie];
         }
     }
-    DDLogDebug(@"Currently have %ld ac cookies", cookies.count);
-    return cookies;
+    DDLogDebug(@"Currently have %ld ac cookies", acCookies.count);
+    return acCookies;
 }
 
 - (NSHTTPCookieStorage *)cookieStorage {

@@ -19,7 +19,7 @@ NSString * const cookieName = @"userhash";
                                       @"/", NSHTTPCookiePath,
                                       cookieName, NSHTTPCookieName,
                                       value, NSHTTPCookieValue,
-                                      [NSDate distantFuture], NSHTTPCookieExpires, // Forever valid.
+                                      [NSDate dateWithTimeIntervalSinceNow:60 * 60 * 24 * 365], NSHTTPCookieExpires, // Valid for a long time.
                                       nil];
     
     NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:cookieDictionary];

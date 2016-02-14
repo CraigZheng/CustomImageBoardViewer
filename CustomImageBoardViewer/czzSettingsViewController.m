@@ -70,7 +70,8 @@
 
 -(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     if (section == 1)
-        return [NSString stringWithFormat:@"版本号: %@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+        return [NSString stringWithFormat:@"版本号: %@(%@)", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
+                [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
     return nil;
 }
 
