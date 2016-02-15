@@ -103,7 +103,6 @@
     // If within the range of threads, is a thread view cell, otherwise is a command cell.
     if (indexPath.row < self.threadViewManager.threads.count) {
         czzThread *thread = [self.threadViewManager.threads objectAtIndex:indexPath.row];
-        [self.threadViewManager.referenceIndexDictionary setObject:[indexPath copy] forKey:[NSString stringWithFormat:@"%ld", (long)thread.ID]];
         // Thread view cell
         if ([cell isKindOfClass:[czzMenuEnabledTableViewCell class]]){
             czzMenuEnabledTableViewCell *threadViewCell = (czzMenuEnabledTableViewCell*)cell;
@@ -154,10 +153,19 @@
 - (void)userTapInQuotedText:(NSString *)text {
     // Text cannot be parsed to an integer, return...
     text = [text componentsSeparatedByString:@"/"].lastObject;
-    if (!text.integerValue) {
+    NSInteger threadID = text.integerValue;
+    if (!threadID) {
         return;
     }
-    NSIndexPath *selectedIndexPath = [self.threadViewManager.referenceIndexDictionary objectForKey:text];
+    NSIndexPath *selectedIndexPath;
+    // Use a for loop to find the thread with the given ID.
+    for (czzThread *thread in self.threadViewManager.threads) {
+        if (threadID == thread.ID) {
+            selectedIndexPath = [NSIndexPath indexPathForRow:[self.threadViewManager.threads indexOfObject:thread]
+                                                   inSection:0];
+            break;
+        }
+    }
     if (selectedIndexPath && selectedIndexPath.row < self.threadViewManager.threads.count) {
         czzThread *selectedThread = [self.threadViewManager.threads objectAtIndex:selectedIndexPath.row];
         if (selectedThread.ID == text.integerValue) {
