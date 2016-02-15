@@ -90,7 +90,7 @@
             NSDate *postDate = [formatter dateFromString:dateString];
             self.postDateTime = postDate;
             
-            self.UID = [data objectForKey:@"userid"];
+            self.UID = [self renderHTMLToAttributedString:[data objectForKey:@"userid"]].string;
             self.name = [data objectForKey:@"name"];
             self.email = [data objectForKey:@"email"];
             self.title = [data objectForKey:@"title"];
