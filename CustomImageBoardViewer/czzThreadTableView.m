@@ -54,6 +54,7 @@
 
 -(void)scrollToTop:(BOOL)animated {
     [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+        self.quickScrolling = YES;
         if ([self numberOfRowsInSection:0] > 0) {
             [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
                         atScrollPosition:UITableViewScrollPositionTop
@@ -62,16 +63,13 @@
         else {
             [self setContentOffset:CGPointMake(0, -self.contentInset.top) animated:animated];
         }
+        self.quickScrolling = NO;
     }];
 }
 
 #pragma mark - czzOnScreenCommandViewControllerDelegate
 -(void)onScreenCommandTapOnUp:(id)sender {
     [self scrollToTop: YES];
-//    // Scroll to top
-//    [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
-//                atScrollPosition:UITableViewScrollPositionTop
-//                        animated:YES];
 }
 
 -(void)onScreenCommandTapOnDown:(id)sender {
@@ -79,7 +77,11 @@
     dispatch_after(DISPATCH_TIME_NOW, dispatch_get_main_queue(), ^(void){
         NSInteger rows = [self numberOfRowsInSection:0];
         if (rows) {
-            [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:rows - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+            self.quickScrolling = YES;
+            [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:rows - 1 inSection:0]
+                        atScrollPosition:UITableViewScrollPositionBottom
+                                animated:YES];
+            self.quickScrolling = NO;
         }
     });
 }
