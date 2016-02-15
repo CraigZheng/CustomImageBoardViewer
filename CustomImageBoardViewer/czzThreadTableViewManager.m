@@ -31,6 +31,11 @@
         //    UIMenuItem *searchMenuItem = [[UIMenuItem alloc] initWithTitle:@"搜索他" action:@selector(menuActionSearch:)];
         [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, highlightMenuItem, /*searchMenuItem,*/ openMenuItem]];
         [[UIMenuController sharedMenuController] update];
+        // Rotation observer - remove the container view.
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleRotationEvent)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:nil];
     }
     return self;
 }
@@ -41,8 +46,10 @@
     self.threadTableView.scrollEnabled = NO;
     self.containerView = [PartialTransparentView new];
     self.containerView.opaque = NO;
-    self.containerView.frame = CGRectMake(0, 0, self.threadTableView.contentSize.width, self.threadTableView.contentSize.height);
+    self.containerView.frame = [UIApplication topViewController].view.bounds;
+    // Convert the cell rect from within the table view to within the top view.
     CGRect cellRect = [self.threadTableView rectForRowAtIndexPath:indexPath];
+    cellRect = [self.threadTableView convertRect:cellRect toView:[UIApplication topViewController].view];
     self.containerView.rectsArray = @[[NSValue valueWithCGRect:cellRect]];
     self.containerView.backgroundColor = [[UIColor darkGrayColor] colorWithAlphaComponent:0.7];
     self.containerView.userInteractionEnabled = YES;
@@ -50,7 +57,7 @@
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnFloatingView: )];
     //fade in effect
     self.containerView.alpha = 0.0f;
-    [self.threadTableView addSubview:self.containerView];
+    [[UIApplication topViewController].view addSubview:self.containerView];
     [UIView animateWithDuration:0.2
                      animations:^{self.containerView.alpha = 1.0f;}
                      completion:^(BOOL finished){
@@ -71,8 +78,9 @@
                          [self.threadTableView reloadData];
                      }];
     
-    CGPoint touchPoint = [gestureRecognizer locationInView:self.threadTableView];
+    CGPoint touchPoint = [gestureRecognizer locationInView:[UIApplication topViewController].view];
     NSArray *rectArray = self.containerView.rectsArray;
+    // If user touched within the transparent views.
     BOOL userTouchInView = NO;
     for (NSValue *rect in rectArray) {
         if (CGRectContainsPoint([rect CGRectValue], touchPoint)) {
@@ -193,6 +201,16 @@
 
 - (void)userWantsToSearch:(czzThread *)thread {
     DDLogDebug(@"%s : NOT IMPLEMENTED", __PRETTY_FUNCTION__);
+}
+
+#pragma mark - Rotation event.
+- (void)handleRotationEvent {
+    // Remove the container view for any and all rotation event, and re-enable scrolling.
+    if (self.containerView) {
+        [self.containerView removeFromSuperview];
+        self.containerView = nil;
+    }
+    self.threadTableView.scrollEnabled = YES;
 }
 
 #pragma mark - Getter
