@@ -166,7 +166,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat height = UITableViewAutomaticDimension;
-    if ([(czzThreadTableView *)tableView quickScrolling]) {
+    BOOL quickScrolling = [(czzThreadTableView *)tableView quickScrolling];
+    if (quickScrolling) {
+        // If quick scrolling, return the estimated height instead.
         height = [self tableView:tableView
 estimatedHeightForRowAtIndexPath:indexPath];
     } else {
