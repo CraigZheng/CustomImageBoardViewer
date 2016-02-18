@@ -285,13 +285,5 @@
         //exclude my folders from being backed up to iCloud
         [self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:folderPath]];
     }
-    NSArray *managerFolders = @[WatchListManager.watchlistFolder, historyManager.historyFolder, CookieManager.cookieFolder, favouriteManager.favouriteFolder];
-    for (NSString *folderPath in managerFolders) {
-        // Each of them should be backed up.
-        if (![[NSFileManager defaultManager] fileExistsAtPath:folderPath]){
-            [[NSFileManager defaultManager] createDirectoryAtPath:folderPath withIntermediateDirectories:NO attributes:nil error:nil];
-            DDLogDebug(@"Create document folder: %@", folderPath);
-        }
-    }
 }
 @end

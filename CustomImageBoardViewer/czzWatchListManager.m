@@ -241,7 +241,13 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 #pragma mark - Getters
 
 - (NSString *)watchlistFolder {
-    return [[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"Watchlist"];
+    NSString *watchlistFolder = [[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"Watchlist"];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:watchlistFolder]){
+        [[NSFileManager defaultManager] createDirectoryAtPath:watchlistFolder withIntermediateDirectories:NO attributes:nil error:nil];
+        DDLogDebug(@"Create document folder: %@", watchlistFolder);
+    }
+
+    return watchlistFolder;
 }
 
 - (NSString *)watchlistFilePath {

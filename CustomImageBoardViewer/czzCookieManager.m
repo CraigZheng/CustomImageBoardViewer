@@ -176,7 +176,12 @@
 #pragma mark - Getters
 
 - (NSString *)cookieFolder {
-    return [[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"Cookies"];
+    NSString *cookieFolder = [[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"Cookies"];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:cookieFolder]){
+        [[NSFileManager defaultManager] createDirectoryAtPath:cookieFolder withIntermediateDirectories:NO attributes:nil error:nil];
+        DDLogDebug(@"Create document folder: %@", cookieFolder);
+    }
+    return cookieFolder;
 }
 
 - (NSString *)archiveFilePath {

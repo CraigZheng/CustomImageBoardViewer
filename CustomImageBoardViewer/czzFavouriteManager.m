@@ -114,7 +114,12 @@
 }
 
 - (NSString *)favouriteFolder {
-    return [[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"Favourite"];
+    NSString *favouriteFolder = [[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"Favourite"];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:favouriteFolder]){
+        [[NSFileManager defaultManager] createDirectoryAtPath:favouriteFolder withIntermediateDirectories:NO attributes:nil error:nil];
+        DDLogDebug(@"Create document folder: %@", favouriteFolder);
+    }
+    return favouriteFolder;
 }
 
 #pragma sort array - sort the threads so they arrange with ID

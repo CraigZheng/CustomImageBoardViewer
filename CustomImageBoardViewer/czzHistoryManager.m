@@ -209,7 +209,13 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
 }
 
 - (NSString *)historyFolder {
-    return [[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"History"];
+    NSString *historyFolder = [[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"History"];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:historyFolder]){
+        [[NSFileManager defaultManager] createDirectoryAtPath:historyFolder withIntermediateDirectories:NO attributes:nil error:nil];
+        DDLogDebug(@"Create document folder: %@", historyFolder);
+    }
+
+    return historyFolder;
 }
 
 + (instancetype)sharedInstance
