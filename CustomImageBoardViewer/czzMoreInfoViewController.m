@@ -162,12 +162,6 @@
     return YES;
 }
 
-- (IBAction)homePageAction:(id)sender {
-    NSString *homePageURL = @"http://www.weibo.com/u/3868827431"; // Weibo home page URL
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:homePageURL]];
-
-}
-
 + (instancetype)new {
     return [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"more_info_view_controller"];
 }
