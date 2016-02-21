@@ -15,9 +15,11 @@
 
 @interface czzMoreInfoViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIWebView *headerTextWebView;
+@property (weak, nonatomic) IBOutlet UIWebView *coverImageWebView;
 @property (strong, nonatomic) czzForum *forum;
 @property GADBannerView *bannerView_;
 @property (weak, nonatomic) IBOutlet UINavigationItem *moreInfoNavItem;
+@property (weak, nonatomic) IBOutlet UIScrollView *containerScrollView;
 - (IBAction)dismissAction:(id)sender;
 
 - (IBAction)homePageAction:(id)sender;

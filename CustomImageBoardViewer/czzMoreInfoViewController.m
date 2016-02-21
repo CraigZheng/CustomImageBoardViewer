@@ -15,16 +15,18 @@
 #import "czzBannerNotificationUtil.h"
 #import "czzForum.h"
 #import "czzImageViewerUtil.h"
+#import <PureLayout/PureLayout.h>
 
 @interface czzMoreInfoViewController ()<UIWebViewDelegate>
 @property (strong, nonatomic) NSString *baseURL;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *actionButton;
 @property (copy, nonatomic) NSData *coverData;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *headerTextWebViewHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *coverImageWebViewHeight;
 @end
 
 @implementation czzMoreInfoViewController
-@synthesize headerTextWebView;
 @synthesize baseURL;
 @synthesize bannerView_;
 @synthesize moreInfoNavItem;
@@ -58,43 +60,54 @@
 }
 
 -(void)renderContent {
-    //position of the ad
-    [bannerView_ setFrame:CGRectMake(0, self.view.bounds.size.height - bannerView_.bounds.size.height, CGRectGetWidth(bannerView_.frame),
-                                     CGRectGetHeight(bannerView_.frame))];
+    // Position of the banner view.
+    // Constraints, all to the super view, except the top.
     [bannerView_ loadRequest:[GADRequest request]];
     [self.view addSubview:bannerView_];
-    
-    if (headerTextWebView.loading){
-        [headerTextWebView stopLoading];
-    }
-    
-    // Scaled page would be too small for text.
-    headerTextWebView.scalesPageToFit = NO;
+//    [bannerView_ autoSetDimensionsToSize:kGADAdSizeSmartBannerLandscape.size];
+    [bannerView_ autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero
+                                          excludingEdge:ALEdgeTop];
+    // Relative position of the banner view and the web view.
+    [self.containerScrollView autoPinEdge:ALEdgeBottom
+                                 toEdge:ALEdgeTop
+                                 ofView:bannerView_
+                             withOffset:16];
     @try {
+        // Initially hide the cover image web view.
+        self.coverImageWebViewHeight.constant = 0;
         self.actionButton.enabled = !self.forum;
         if (self.forum) {
             //load forum info
             self.title = [NSString stringWithFormat:@"介绍：%@", self.forum.name];
             NSString *headerText = [self.forum.header stringByReplacingOccurrencesOfString:@"@Time" withString:[NSString stringWithFormat:@"%ld", (long)self.forum.cooldown]];
-            [headerTextWebView loadHTMLString:headerText baseURL:Nil];
-            
+            [self.headerTextWebView loadHTMLString:headerText baseURL:Nil];
+            // Set the height to be the min of the width and height of self.view.frame.
+            self.headerTextWebViewHeight.constant = MIN(CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame));
         } else {
             self.title = @"A岛-AC匿名版";
+            self.coverImageWebView.scalesPageToFit = YES;
             // No selected forum, load default value.
+            NSString *rulesHtml = [[NSString alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"rules"
+                                                                                                           ofType:@"html"]
+                                                                  encoding:NSUTF8StringEncoding
+                                                                     error:nil];
+            [self.headerTextWebView loadHTMLString:rulesHtml
+                                           baseURL:nil];
+            // Set the height of the text web view to be the max of width or height.
+            self.headerTextWebViewHeight.constant = MAX(CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame));
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                 NSError *error;
                 self.coverData = [NSData dataWithContentsOfURL:[NSURL URLWithString:COVER_URL] options:NSDataReadingUncached error:&error];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    if (!error) {
-                        [headerTextWebView loadData:self.coverData MIMEType:@"image/jpeg" textEncodingName:@"utf-8" baseURL:[NSURL new]];
+                    if (!error && self.coverData) {
+                        // Set the height of the image web view to be either the width or the height.
+                        self.coverImageWebViewHeight.constant = MIN(CGRectGetHeight(self.view.frame), CGRectGetWidth(self.view.frame));
+                        [self.coverImageWebView loadData:self.coverData MIMEType:@"image/jpeg" textEncodingName:@"utf-8" baseURL:[NSURL new]];
                     } else {
                          self.coverData = nil;
-                        [headerTextWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:COVER_URL]]];
                     }
                 });
             });
-            // Scale for image.
-            headerTextWebView.scalesPageToFit = YES;
         }
     }
     @catch (NSException *exception) {
@@ -113,8 +126,9 @@
     }
 }
 
-#pragma UIWebView delegate, open links in safari
--(BOOL) webView:(UIWebView *)inWeb shouldStartLoadWithRequest:(NSURLRequest *)inRequest navigationType:(UIWebViewNavigationType)inType {
+#pragma mark - UIWebView delegate, open links in safari
+
+- (BOOL)webView:(UIWebView *)inWeb shouldStartLoadWithRequest:(NSURLRequest *)inRequest navigationType:(UIWebViewNavigationType)inType {
     if ( inType == UIWebViewNavigationTypeLinkClicked ) {
         [[UIApplication sharedApplication] openURL:[inRequest URL]];
         return NO;
