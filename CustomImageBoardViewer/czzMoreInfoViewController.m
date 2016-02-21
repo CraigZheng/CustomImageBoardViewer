@@ -59,6 +59,9 @@
 }
 
 -(void)renderContent {
+    // Disable bounce.
+    self.coverImageWebView.scrollView.bounces =
+    self.headerTextWebView.scrollView.bounces = NO;
     // Position of the banner view.
     // Constraints, all to the super view, except the top.
     [bannerView_ loadRequest:[GADRequest request]];
@@ -91,8 +94,8 @@
                                                                      error:nil];
             [self.headerTextWebView loadHTMLString:rulesHtml
                                            baseURL:nil];
-            // Set the height of the text web view to be the max of width or height.
-            self.headerTextWebViewHeight.constant = MAX(CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame));
+            // Set the height of the text web view to be the max of width or height and times 1.5 to make it long enough.
+            self.headerTextWebViewHeight.constant = MAX(CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame)) * 1.5;
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                 NSError *error;
                 self.coverData = [NSData dataWithContentsOfURL:[NSURL URLWithString:COVER_URL] options:NSDataReadingUncached error:&error];

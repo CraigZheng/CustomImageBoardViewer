@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
@@ -580,8 +581,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aND-iu-JAO">
-                                <rect key="frame" x="0.0" y="64" width="320" height="424"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aND-iu-JAO">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="488"/>
                                 <subviews>
                                     <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QYs-HW-2t5">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
@@ -606,7 +607,6 @@
                                         </connections>
                                     </webView>
                                 </subviews>
-                                <color key="backgroundColor" red="1" green="0.63375720099999999" blue="0.27949856020000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="QYs-HW-2t5" firstAttribute="leading" secondItem="aND-iu-JAO" secondAttribute="leading" id="A2H-km-Qdu"/>
                                     <constraint firstAttribute="bottom" secondItem="fEp-5X-ib8" secondAttribute="bottom" id="AdM-cQ-1Bg"/>
@@ -625,7 +625,7 @@
                             <constraint firstAttribute="trailing" secondItem="aND-iu-JAO" secondAttribute="trailing" id="EMu-k8-ueD"/>
                             <constraint firstItem="Nol-um-XSe" firstAttribute="top" secondItem="aND-iu-JAO" secondAttribute="bottom" constant="80" placeholder="YES" id="IcE-1x-5aY"/>
                             <constraint firstItem="aND-iu-JAO" firstAttribute="leading" secondItem="XmS-Dx-lHg" secondAttribute="leading" id="Jcn-42-fu9"/>
-                            <constraint firstItem="aND-iu-JAO" firstAttribute="top" secondItem="rSl-MR-iaT" secondAttribute="bottom" id="kql-eT-6L0"/>
+                            <constraint firstItem="aND-iu-JAO" firstAttribute="top" secondItem="XmS-Dx-lHg" secondAttribute="topMargin" id="VoH-15-GIf"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="更多信息" id="Nzv-Uz-NLI">
