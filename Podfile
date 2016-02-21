@@ -11,6 +11,7 @@ pod 'ViewDeck'
 pod 'PureLayout'
 pod 'CocoaLumberjack'
 pod 'AFNetworking', '~> 3.0'
+pod 'SplunkMint'
 end
 
 target 'CustomImageBoardViewerTests' do
