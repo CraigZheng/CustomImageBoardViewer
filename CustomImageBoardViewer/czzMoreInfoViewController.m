@@ -17,9 +17,8 @@
 #import "czzImageViewerUtil.h"
 #import <PureLayout/PureLayout.h>
 
-@interface czzMoreInfoViewController ()<UIWebViewDelegate>
+@interface czzMoreInfoViewController ()<UIWebViewDelegate, UIGestureRecognizerDelegate>
 @property (strong, nonatomic) NSString *baseURL;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *actionButton;
 @property (copy, nonatomic) NSData *coverData;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *headerTextWebViewHeight;
@@ -75,7 +74,6 @@
     @try {
         // Initially hide the cover image web view.
         self.coverImageWebViewHeight.constant = 0;
-        self.actionButton.enabled = !self.forum;
         if (self.forum) {
             //load forum info
             self.title = [NSString stringWithFormat:@"介绍：%@", self.forum.name];
@@ -117,13 +115,17 @@
 }
 
 #pragma mark - UI actions
-- (IBAction)actionButtonAction:(id)sender {
+- (IBAction)tapOnCoverImageViewAction:(id)sender {
     if (self.coverData) {
         UIImage *coverImage = [UIImage imageWithData:self.coverData];
         self.imageViewerUtil = [czzImageViewerUtil new];
         self.imageViewerUtil.destinationViewController = self.navigationController ? self.navigationController : self;
         [self.imageViewerUtil showPhotoWithImage:coverImage];
     }
+}
+
+- (IBAction)dismissAction:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - UIWebView delegate, open links in safari
@@ -137,8 +139,11 @@
     return YES;
 }
 
-- (IBAction)dismissAction:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+#pragma mark - UIGestureRecognizerDelegate
+
+// This is required in order to get the gesture reconizer working on a web view.
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
 }
 
 - (IBAction)homePageAction:(id)sender {

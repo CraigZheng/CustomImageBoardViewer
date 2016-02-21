@@ -586,11 +586,13 @@
                                     <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QYs-HW-2t5">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="120" id="Ue9-6f-yvr"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="delegate" destination="pea-yg-qeq" id="ytf-qg-Ugo"/>
+                                            <outletCollection property="gestureRecognizers" destination="VFn-d8-rbQ" appends="YES" id="vTS-it-zyy"/>
                                         </connections>
                                     </webView>
                                     <webView contentMode="scaleToFill" placeholderIntrinsicWidth="210" placeholderIntrinsicHeight="212" translatesAutoresizingMaskIntoConstraints="NO" id="fEp-5X-ib8">
@@ -632,14 +634,8 @@
                                 <action selector="dismissAction:" destination="pea-yg-qeq" id="JIp-BQ-DgW"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="GPP-nr-nzg">
-                            <connections>
-                                <action selector="actionButtonAction:" destination="pea-yg-qeq" id="vhh-Lx-JGu"/>
-                            </connections>
-                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="actionButton" destination="GPP-nr-nzg" id="wii-Uu-ZG5"/>
                         <outlet property="containerScrollView" destination="aND-iu-JAO" id="9he-ci-OyY"/>
                         <outlet property="coverImageWebView" destination="QYs-HW-2t5" id="EDJ-vX-dHp"/>
                         <outlet property="coverImageWebViewHeight" destination="Ue9-6f-yvr" id="69P-Og-7yQ"/>
@@ -649,6 +645,12 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E7l-oo-bxG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="VFn-d8-rbQ">
+                    <connections>
+                        <action selector="tapOnCoverImageViewAction:" destination="pea-yg-qeq" id="u27-BU-2pe"/>
+                        <outlet property="delegate" destination="pea-yg-qeq" id="nFh-lC-rFA"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-286" y="-550"/>
         </scene>

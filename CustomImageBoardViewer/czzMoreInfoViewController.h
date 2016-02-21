@@ -22,5 +22,4 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *containerScrollView;
 - (IBAction)dismissAction:(id)sender;
 
-- (IBAction)homePageAction:(id)sender;
 @end
