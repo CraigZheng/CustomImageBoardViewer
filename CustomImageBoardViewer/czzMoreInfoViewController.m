@@ -101,8 +101,21 @@
                 self.coverData = [NSData dataWithContentsOfURL:[NSURL URLWithString:COVER_URL] options:NSDataReadingUncached error:&error];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (!error && self.coverData) {
-                        // Set the height of the image web view to be either the width or the height.
-                        self.coverImageWebViewHeight.constant = MIN(CGRectGetHeight(self.view.frame), CGRectGetWidth(self.view.frame));
+                        // Calculate the correct height for the image view.
+                        UIImage *coverImage = [[UIImage alloc] initWithData:self.coverData];
+                        if (coverImage) {
+                            // The width would the the width of self.view, use it and the aspect ratio of the image to get the height.
+                            CGFloat width = MIN(CGRectGetHeight(self.view.frame), CGRectGetWidth(self.view.frame));
+                            CGFloat height = width * (coverImage.size.height / coverImage.size.width);
+                            // The calculated height should not be bigger than the actual image height.
+                            if (height > coverImage.size.height) {
+                                height = coverImage.size.height;
+                            }
+                            self.coverImageWebViewHeight.constant = height;
+                        } else {
+                            // Placeholder height, set the height of the image web view to be either the width or the height.
+                            self.coverImageWebViewHeight.constant = MIN(CGRectGetHeight(self.view.frame), CGRectGetWidth(self.view.frame));
+                        }
                         [self.coverImageWebView loadData:self.coverData MIMEType:@"image/jpeg" textEncodingName:@"utf-8" baseURL:[NSURL new]];
                     } else {
                          self.coverData = nil;
