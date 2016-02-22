@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="SSq-yE-7jJ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="SSq-yE-7jJ">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Czz On Screen Image Manager View Controller-->
@@ -46,16 +45,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="coN-ef-nk3" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="DuY-ZR-HZ1">
                     <connections>
-                        <action selector="tapOnImageManagerIconAction:" destination="SSq-yE-7jJ" id="nml-dA-Tze"/>
+                        <segue destination="8B6-JU-J4d" kind="modal" id="NUZ-62-7Y1"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="334.93333333333334" y="1032.8133333333333"/>
+            <point key="canvasLocation" x="55" y="1007"/>
         </scene>
         <!--Czz Short Image Manager Collection View Controller-->
         <scene sceneID="3sC-aH-SBP">
             <objects>
-                <viewController storyboardIdentifier="short_image_manager_view_controller" id="8B6-JU-J4d" customClass="czzShortImageManagerCollectionViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="short_image_manager_view_controller" definesPresentationContext="YES" providesPresentationContextTransitionStyle="YES" modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="8B6-JU-J4d" customClass="czzShortImageManagerCollectionViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hh8-75-2OH"/>
                         <viewControllerLayoutGuide type="bottom" id="OCf-Vc-9uO"/>
@@ -65,7 +64,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="DPg-B7-9so">
-                                <rect key="frame" x="8" y="80" width="304" height="320"/>
+                                <rect key="frame" x="0.0" y="80" width="320" height="320"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="250" constant="320" id="7oE-tV-4V1"/>
@@ -112,7 +111,7 @@
                                         </constraints>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="downloaded_image_view_cell" id="sSU-Ic-lSK">
-                                        <rect key="frame" x="107" y="5" width="90" height="100"/>
+                                        <rect key="frame" x="115" y="5" width="90" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="90" height="100"/>
@@ -166,12 +165,16 @@
                                 </constraints>
                             </view>
                         </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="DPg-B7-9so" secondAttribute="centerX" id="4cA-4W-IiJ"/>
-                            <constraint firstAttribute="width" secondItem="DPg-B7-9so" secondAttribute="width" multiplier="1:0.95" priority="250" id="Ad7-aP-58l"/>
                             <constraint firstAttribute="centerX" secondItem="ow5-My-3da" secondAttribute="centerX" id="CKb-5t-Kmz"/>
+                            <constraint firstAttribute="trailing" secondItem="DPg-B7-9so" secondAttribute="trailing" id="FwJ-Ew-wfw"/>
+                            <constraint firstItem="OCf-Vc-9uO" firstAttribute="top" relation="greaterThanOrEqual" secondItem="DPg-B7-9so" secondAttribute="bottom" constant="60" id="Hoc-I8-XEf"/>
                             <constraint firstAttribute="centerY" secondItem="DPg-B7-9so" secondAttribute="centerY" id="PHl-WR-JJk"/>
+                            <constraint firstItem="DPg-B7-9so" firstAttribute="top" relation="greaterThanOrEqual" secondItem="hh8-75-2OH" secondAttribute="bottom" constant="60" id="TTV-7x-ybo"/>
                             <constraint firstAttribute="centerY" secondItem="ow5-My-3da" secondAttribute="centerY" id="VX8-GT-4JJ"/>
+                            <constraint firstItem="DPg-B7-9so" firstAttribute="leading" secondItem="vdA-xk-e2R" secondAttribute="leading" id="glA-Ai-pvY"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="PKG-T4-KHR" appends="YES" id="oa6-4a-k3C"/>
@@ -186,7 +189,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="77w-dF-ORj" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer cancelsTouchesInView="NO" id="PKG-T4-KHR">
                     <connections>
-                        <action selector="tapOnViewAction:" destination="8B6-JU-J4d" id="IZH-N2-S3y"/>
+                        <action selector="tapOnBackgroundViewAction:" destination="8B6-JU-J4d" id="KXw-y7-RxK"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
@@ -223,10 +226,10 @@
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="preview_image_cell_identifier" id="prs-wx-5QU">
-                                <rect key="frame" x="0.0" y="64" width="103.5" height="103.5"/>
+                                <rect key="frame" x="0.0" y="64" width="104" height="104"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="103.5" height="103.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="104" height="104"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="qbE-Zj-WoM">
