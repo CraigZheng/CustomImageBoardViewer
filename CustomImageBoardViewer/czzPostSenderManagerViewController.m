@@ -22,12 +22,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [PostSenderManager addDelegate:self];
+    [self stopAnimating]; // On viewDidLoad, clear everything.
 }
 
 - (void)startAnimating {
     NSURL *gifURL = [[NSBundle mainBundle] URLForResource:@"running_reed"
                                             withExtension:@"gif"];
     self.indicatorImageView.image = [UIImage animatedImageWithAnimatedGIFURL:gifURL];
+    self.view.superview.userInteractionEnabled = YES;
+}
+
+- (void)stopAnimating {
+    self.indicatorImageView.image = nil;
+    // If a display only post view controller is currently presented, dismiss it.
+    if (self.lastPostViewController) {
+        [self.lastPostViewController dismissViewControllerAnimated:YES completion:nil];
+        self.lastPostViewController = nil;
+    }
+    // If currently not visible, set userInteractionEnabled to NO.
+    self.view.superview.userInteractionEnabled = NO;
 }
 
 #pragma mark - UI actions.
@@ -51,11 +64,7 @@
 }
 
 - (void)postSenderManager:(czzPostSenderManager *)manager postingCompletedForSender:(czzPostSender *)postSender success:(BOOL)success message:(NSString *)message {
-    self.indicatorImageView.image = nil;
-    if (self.lastPostViewController) {
-        [self.lastPostViewController dismissViewControllerAnimated:YES completion:nil];
-        self.lastPostViewController = nil;
-    }
+    [self stopAnimating];
 }
 
 + (instancetype)new {
