@@ -14,6 +14,7 @@
 
 @protocol czzPostSenderManagerDelegate <NSObject>
 @optional
+- (void)postSenderManager:(czzPostSenderManager *)manager startPostingForSender:(czzPostSender *)postSender;
 - (void)postSenderManager:(czzPostSenderManager *)manager postingCompletedForSender:(czzPostSender *)postSender success:(BOOL)success message:(NSString *)message;
 @end
 

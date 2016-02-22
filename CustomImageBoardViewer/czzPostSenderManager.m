@@ -33,6 +33,12 @@
         [self.postSenders addObject:postSender];
         postSender.delegate = self;
         [postSender sendPost];
+        // Inform delegate that a postint process has been started.
+        [self iterateDelegatesWithBlock:^(id<czzPostSenderManagerDelegate> delegate) {
+            if ([delegate respondsToSelector:@selector(postSenderManager:startPostingForSender:)]) {
+                [delegate postSenderManager:self startPostingForSender:postSender];
+            }
+        }];
     }
 }
 
