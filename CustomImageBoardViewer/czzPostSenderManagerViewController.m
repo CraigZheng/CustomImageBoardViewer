@@ -11,6 +11,7 @@
 #import "czzPostSenderManager.h"
 #import "czzPostSender.h"
 #import "czzPostViewController.h"
+#import "czzBannerNotificationUtil.h"
 
 @interface czzPostSenderManagerViewController ()<czzPostSenderManagerDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *indicatorImageView;
@@ -22,7 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [PostSenderManager addDelegate:self];
-    [self stopAnimating]; // On viewDidLoad, clear everything.
+    [self stopAnimatingWithCompletionHandler:nil]; // On viewDidLoad, clear everything.
 }
 
 - (void)startAnimating {
@@ -32,12 +33,17 @@
     self.view.superview.userInteractionEnabled = YES;
 }
 
-- (void)stopAnimating {
+- (void)stopAnimatingWithCompletionHandler:(void(^)(void))completionHandler {
     self.indicatorImageView.image = nil;
     // If a display only post view controller is currently presented, dismiss it.
     if (self.lastPostViewController) {
-        [self.lastPostViewController dismissViewControllerAnimated:YES completion:nil];
+        [self.lastPostViewController dismissViewControllerAnimated:YES completion:completionHandler];
         self.lastPostViewController = nil;
+    } else {
+        // Not displaying last post view controller, perform completionHandler immediately.
+        if (completionHandler) {
+            completionHandler();
+        }
     }
     // If currently not visible, set userInteractionEnabled to NO.
     self.view.superview.userInteractionEnabled = NO;
@@ -64,7 +70,15 @@
 }
 
 - (void)postSenderManager:(czzPostSenderManager *)manager postingCompletedForSender:(czzPostSender *)postSender success:(BOOL)success message:(NSString *)message {
-    [self stopAnimating];
+    [self stopAnimatingWithCompletionHandler:^{
+        if (success) {
+            [czzBannerNotificationUtil displayMessage:@"提交成功"
+                                             position:BannerNotificationPositionTop];
+        } else {
+            [czzBannerNotificationUtil displayMessage:message.length ? message : @"出错啦"
+                                             position:BannerNotificationPositionTop];
+        }
+    }];
 }
 
 - (void)postSenderManager:(czzPostSenderManager *)manager postSender:(czzPostSender *)postSender progressUpdated:(CGFloat)percentage {

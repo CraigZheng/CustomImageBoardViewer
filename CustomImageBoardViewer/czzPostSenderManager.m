@@ -88,8 +88,6 @@
 - (void)postSender:(czzPostSender *)postSender completedPosting:(BOOL)successful message:(NSString *)message {
     DLog(@"");
     if (successful) {
-        [czzBannerNotificationUtil displayMessage:@"提交成功"
-                                         position:BannerNotificationPositionTop];
         // Add the just replied thread to watchlist manager.
         if (postSender.parentThread) {
             [historyManager addToRespondedList:postSender.parentThread];
@@ -100,9 +98,6 @@
                                    hasImage:postSender.imgData != nil
                                       forum:postSender.forum];
         }
-    } else {
-        [czzBannerNotificationUtil displayMessage:message.length ? message : @"出错啦"
-                                         position:BannerNotificationPositionTop];
     }
     // Inform all delegates that a post sender is completed.
     [self iterateDelegatesWithBlock:^(id<czzPostSenderManagerDelegate> delegate) {
