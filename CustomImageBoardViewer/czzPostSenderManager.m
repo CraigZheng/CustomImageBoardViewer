@@ -117,6 +117,16 @@
     [self.postSenders removeObject:postSender];
 }
 
+- (void)postSender:(czzPostSender *)postSender progressUpdated:(CGFloat)percent {
+    [self iterateDelegatesWithBlock:^(id<czzPostSenderManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(postSenderManager:postSender:progressUpdated:)]) {
+            [delegate postSenderManager:self
+                             postSender:delegate
+                        progressUpdated:percent];
+        }
+    }];
+}
+
 + (instancetype)sharedManager {
     static id sharedInstance;
     static dispatch_once_t onceToken;

@@ -67,6 +67,13 @@
     [self stopAnimating];
 }
 
+- (void)postSenderManager:(czzPostSenderManager *)manager postSender:(czzPostSender *)postSender progressUpdated:(CGFloat)percentage {
+    // Display progress.
+    if (PostSenderManager.lastPostSender == self.lastPostViewController.displayPostSender) {
+        self.lastPostViewController.title = [NSString stringWithFormat:@"发送中 - %d%%", (int)(percentage * 100)];
+    }
+}
+
 + (instancetype)new {
     return [[UIStoryboard storyboardWithName:@"PostSenderManager"
                                      bundle:[NSBundle mainBundle]] instantiateInitialViewController];

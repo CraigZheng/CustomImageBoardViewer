@@ -189,7 +189,10 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
             }
         }
     };
-    [self.threadDownloader start];
+    // Start the refreshing 5 seconds later, give server some time to respond.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.threadDownloader start];
+    });
 }
 
 #pragma mark - Getters
