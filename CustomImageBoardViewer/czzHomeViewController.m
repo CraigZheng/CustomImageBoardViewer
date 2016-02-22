@@ -32,6 +32,7 @@
 #import "czzFavouriteManagerViewController.h"
 #import "czzHomeTableViewManager.h"
 #import "czzReplyUtil.h"
+#import "czzPostSenderManagerViewController.h"
 #import "czzBannerNotificationUtil.h"
 
 #import <CoreText/CoreText.h>
@@ -43,11 +44,13 @@
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
 @property (strong, nonatomic) UIRefreshControl* refreshControl;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *numberBarButton;
+@property (weak, nonatomic) IBOutlet UIView *postManagerViewContainer;
 @property (assign, nonatomic) GSIndeterminateProgressView *progressView;
 @property (strong, nonatomic) czzForum *selectedForum;
 @property (strong, nonatomic) czzFavouriteManagerViewController *favouriteManagerViewController;
 @property (strong, nonatomic) czzHomeTableViewManager *homeTableViewManager;
 @property (strong, nonatomic) czzOnScreenImageManagerViewController *onScreenImageManagerViewController;
+@property (strong, nonatomic) czzPostSenderManagerViewController *postSenderManagerViewController;
 @end
 
 @implementation czzHomeViewController
@@ -80,6 +83,10 @@
         [self addChildViewController:self.onScreenImageManagerViewController];
         [self.onScreenImageManagerViewContainer addSubview:self.onScreenImageManagerViewController.view];
     }
+    // Post sender manager view controller.
+    self.postSenderManagerViewController = [czzPostSenderManagerViewController new];
+    [self addChildViewController:self.postSenderManagerViewController];
+    [self.postManagerViewContainer addSubview:self.postSenderManagerViewController.view];
     // Register a notification observer
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(forumPicked:)

@@ -22,16 +22,25 @@
     [PostSenderManager addDelegate:self];
 }
 
-#pragma mark - czzPostSenderManagerDelegate
-
-- (void)postSenderManager:(czzPostSenderManager *)manager startPostingForSender:(czzPostSender *)postSender {
+- (void)startAnimating {
     NSURL *gifURL = [[NSBundle mainBundle] URLForResource:@"running_reed"
                                             withExtension:@"gif"];
     self.indicatorImageView.image = [UIImage animatedImageWithAnimatedGIFURL:gifURL];
 }
 
+#pragma mark - czzPostSenderManagerDelegate
+
+- (void)postSenderManager:(czzPostSenderManager *)manager startPostingForSender:(czzPostSender *)postSender {
+    [self startAnimating];
+}
+
 - (void)postSenderManager:(czzPostSenderManager *)manager postingCompletedForSender:(czzPostSender *)postSender success:(BOOL)success message:(NSString *)message {
     self.indicatorImageView.image = nil;
+}
+
++ (instancetype)new {
+    return [[UIStoryboard storyboardWithName:@"PostSenderManager"
+                                     bundle:[NSBundle mainBundle]] instantiateInitialViewController];
 }
 
 @end
