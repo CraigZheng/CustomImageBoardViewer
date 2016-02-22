@@ -364,7 +364,7 @@
     return newImage;
 }
 
-#pragma czzPostSender delegate
+#pragma mark - czzPostSender delegate
 -(void)statusReceived:(BOOL)status message:(NSString *)message{
     if (status) {
         [self dismissWithCompletionHandler:^{

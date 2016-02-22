@@ -80,6 +80,7 @@
 		444146DA1A1ACA8700B27D69 /* ImageManagerStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 444146D91A1ACA8700B27D69 /* ImageManagerStoryboard.storyboard */; };
 		444146E21A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 444146E11A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.m */; };
 		4444DA3A1C7A915F00ED8568 /* running_reed.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4444DA391C7A915F00ED8568 /* running_reed.gif */; };
+		4444DA3D1C7A938700ED8568 /* czzPostSenderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4444DA3C1C7A938700ED8568 /* czzPostSenderManager.m */; };
 		4446B5AE1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4446B5AD1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m */; };
 		4446B5AF1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4446B5AD1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m */; };
 		4448C2A3180FF50F00D2CD76 /* czzBlacklistEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2A2180FF50F00D2CD76 /* czzBlacklistEntity.m */; };
@@ -625,6 +626,8 @@
 		444146E01A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzOnScreenImageManagerViewController.h; sourceTree = "<group>"; };
 		444146E11A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzOnScreenImageManagerViewController.m; sourceTree = "<group>"; };
 		4444DA391C7A915F00ED8568 /* running_reed.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = running_reed.gif; sourceTree = "<group>"; };
+		4444DA3B1C7A938700ED8568 /* czzPostSenderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzPostSenderManager.h; sourceTree = "<group>"; };
+		4444DA3C1C7A938700ED8568 /* czzPostSenderManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzPostSenderManager.m; sourceTree = "<group>"; };
 		4446B5AC1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+NSCodingCompatibleObject.h"; sourceTree = "<group>"; };
 		4446B5AD1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+NSCodingCompatibleObject.m"; sourceTree = "<group>"; };
 		4448C2A1180FF50F00D2CD76 /* czzBlacklistEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzBlacklistEntity.h; sourceTree = "<group>"; };
@@ -2330,6 +2333,8 @@
 				440B2FD117F81A9200544926 /* czzPost */,
 				44FC4343180067CF0028D7C9 /* czzPostSender.h */,
 				44FC4344180067CF0028D7C9 /* czzPostSender.m */,
+				4444DA3B1C7A938700ED8568 /* czzPostSenderManager.h */,
+				4444DA3C1C7A938700ED8568 /* czzPostSenderManager.m */,
 			);
 			name = czzPostSender;
 			sourceTree = "<group>";
@@ -2955,6 +2960,7 @@
 				44AE2AFE18725EC4002CB021 /* czzNoSelectionTextView.m in Sources */,
 				441514821BBAD2A4005ECD96 /* czzImageDownloaderManager.m in Sources */,
 				44AE2AFA187254E4002CB021 /* czzMenuEnabledTableViewCell.m in Sources */,
+				4444DA3D1C7A938700ED8568 /* czzPostSenderManager.m in Sources */,
 				449E928E1BF9D15C00EE2F58 /* czzModalViewController.m in Sources */,
 				44DF8ED31A74CAAA0097F7F5 /* czzCookieManager.m in Sources */,
 				5A27E140193CA11300D0094F /* czzNotificationManager.m in Sources */,
