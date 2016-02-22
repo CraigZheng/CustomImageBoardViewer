@@ -138,7 +138,7 @@
             if (self.displayPostSender.imgData) {
                 [[AppDelegate window] makeToast:nil
                                        duration:1.5
-                                       position:@"top"
+                                       position:@"middle"
                                           image:[UIImage imageWithData:self.displayPostSender.imgData]];
             }
             for (UIBarButtonItem *button in buttons) {

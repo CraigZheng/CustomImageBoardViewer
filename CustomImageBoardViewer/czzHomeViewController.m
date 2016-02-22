@@ -50,7 +50,6 @@
 @property (strong, nonatomic) czzFavouriteManagerViewController *favouriteManagerViewController;
 @property (strong, nonatomic) czzHomeTableViewManager *homeTableViewManager;
 @property (strong, nonatomic) czzOnScreenImageManagerViewController *onScreenImageManagerViewController;
-@property (strong, nonatomic) czzPostSenderManagerViewController *postSenderManagerViewController;
 @end
 
 @implementation czzHomeViewController
@@ -84,9 +83,9 @@
         [self.onScreenImageManagerViewContainer addSubview:self.onScreenImageManagerViewController.view];
     }
     // Post sender manager view controller.
-    self.postSenderManagerViewController = [czzPostSenderManagerViewController new];
-    [self addChildViewController:self.postSenderManagerViewController];
-    [self.postManagerViewContainer addSubview:self.postSenderManagerViewController.view];
+    czzPostSenderManagerViewController *postSenderManagerViewController = [czzPostSenderManagerViewController new];
+    [self addChildViewController:postSenderManagerViewController];
+    [self.postManagerViewContainer addSubview:postSenderManagerViewController.view];
     // Register a notification observer
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(forumPicked:)

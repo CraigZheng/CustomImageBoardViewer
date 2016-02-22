@@ -28,6 +28,7 @@
 #import "czzFavouriteManager.h"
 #import "czzWatchListManager.h"
 #import "czzRoundButton.h"
+#import "czzPostSenderManagerViewController.h"
 #import "czzReplyUtil.h"
 
 NSString * const showThreadViewSegueIdentifier = @"showThreadView";
@@ -46,6 +47,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) czzThreadTableViewManager *threadTableViewManager;
 @property (strong, nonatomic) czzOnScreenImageManagerViewController *onScreenImageManagerViewController;
+@property (weak, nonatomic) IBOutlet UIView *postSenderViewContainer;
 @property (weak, nonatomic) GSIndeterminateProgressView *progressView;
 @end
 
@@ -94,6 +96,10 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
         [self addChildViewController:self.onScreenImageManagerViewController];
         [self.onScreenImageManagerViewContainer addSubview:self.onScreenImageManagerViewController.view];
     }
+    // Post sender manager view controller.
+    czzPostSenderManagerViewController *postSenderManagerViewController = [czzPostSenderManagerViewController new];
+    [self addChildViewController:postSenderManagerViewController];
+    [self.postSenderViewContainer addSubview:postSenderManagerViewController.view];
 
     //add the UIRefreshControl to uitableview
     refreshControl = [[UIRefreshControl alloc] init];
