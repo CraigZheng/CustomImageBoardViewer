@@ -10,10 +10,19 @@
 
 #define PostSenderManager [czzPostSenderManager sharedManager]
 
-@class czzPostSender;
+@class czzPostSender, czzPostSenderManager;
+
+@protocol czzPostSenderManagerDelegate <NSObject>
+@optional
+- (void)postSenderManager:(czzPostSenderManager *)manager postingCompletedForSender:(czzPostSender *)postSender success:(BOOL)success message:(NSString *)message;
+@end
+
 @interface czzPostSenderManager : NSObject
 
 - (void)firePostSender:(czzPostSender *)postSender;
+-(void)addDelegate:(id<czzPostSenderManagerDelegate>)delegate;
+-(void)removeDelegate:(id<czzPostSenderManagerDelegate>)delegate;
+-(BOOL)hasDelegate:(id<czzPostSenderManagerDelegate>)delegate;
 
 + (instancetype)sharedManager;
 @end

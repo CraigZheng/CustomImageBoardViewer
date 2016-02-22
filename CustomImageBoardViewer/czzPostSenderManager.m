@@ -11,9 +11,11 @@
 #import "czzPostSender.h"
 #import "czzBannerNotificationUtil.h"
 #import "czzHistoryManager.h"
+#import "czzWeakReferenceDelegate.h"
 
 @interface czzPostSenderManager() <czzPostSenderDelegate>
 @property (nonatomic, strong) NSMutableOrderedSet *postSenders;
+@property (nonatomic, strong) NSMutableOrderedSet *delegates;
 @end
 
 @implementation czzPostSenderManager
@@ -32,6 +34,43 @@
         postSender.delegate = self;
         [postSender sendPost];
     }
+}
+
+#pragma mark - Getters
+
+-(NSMutableOrderedSet *)delegates {
+    if (!_delegates) {
+        _delegates = [NSMutableOrderedSet new];
+    }
+    // Loop through all delegate objects in delegates, and remove those that are invalid.
+    NSMutableArray *delegatesToRemove = [NSMutableArray new];
+    for (czzWeakReferenceDelegate * weakRefDelegate in _delegates) {
+        if (!weakRefDelegate.isValid) {
+            [delegatesToRemove addObject:weakRefDelegate];
+        }
+    }
+    [_delegates removeObjectsInArray:delegatesToRemove];
+    return _delegates;
+}
+
+#pragma mark - Delegates management
+-(void)addDelegate:(id<czzPostSenderManagerDelegate>)delegate {
+    [self.delegates addObject:[czzWeakReferenceDelegate weakReferenceDelegate:delegate]];
+}
+
+-(void)removeDelegate:(id<czzPostSenderManagerDelegate>)delegate {
+    [self.delegates removeObject:delegate];
+}
+
+-(void)iterateDelegatesWithBlock:(void(^)(id<czzPostSenderManagerDelegate> delegate))block {
+    for (czzWeakReferenceDelegate* weakRefDelegate in [self.delegates copy]) {
+        id<czzPostSenderManagerDelegate> delegate = weakRefDelegate.delegate;
+        block(delegate);
+    }
+}
+
+-(BOOL)hasDelegate:(id<czzPostSenderManagerDelegate>)delegate {
+    return [self.delegates containsObject:delegate];
 }
 
 #pragma mark - czzPostSenderDelegate
@@ -55,6 +94,15 @@
         [czzBannerNotificationUtil displayMessage:message.length ? message : @"出错啦"
                                          position:BannerNotificationPositionTop];
     }
+    // Inform all delegates that a post sender is completed.
+    [self iterateDelegatesWithBlock:^(id<czzPostSenderManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(postSenderManager:postingCompletedForSender:success:message:)]) {
+            [delegate postSenderManager:self
+              postingCompletedForSender:postSender
+                                success:successful
+                                message:message];
+        }
+    }];
     // Remove the completed post sender from self.postSenders.
     [self.postSenders removeObject:postSender];
 }
