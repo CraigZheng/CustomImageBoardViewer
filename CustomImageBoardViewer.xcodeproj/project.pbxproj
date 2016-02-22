@@ -79,6 +79,7 @@
 		44412975186E9B1000075AA2 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44412974186E9B1000075AA2 /* StoreKit.framework */; };
 		444146DA1A1ACA8700B27D69 /* ImageManagerStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 444146D91A1ACA8700B27D69 /* ImageManagerStoryboard.storyboard */; };
 		444146E21A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 444146E11A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.m */; };
+		4444DA3A1C7A915F00ED8568 /* running_reed.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4444DA391C7A915F00ED8568 /* running_reed.gif */; };
 		4446B5AE1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4446B5AD1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m */; };
 		4446B5AF1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4446B5AD1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m */; };
 		4448C2A3180FF50F00D2CD76 /* czzBlacklistEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2A2180FF50F00D2CD76 /* czzBlacklistEntity.m */; };
@@ -623,6 +624,7 @@
 		444146D91A1ACA8700B27D69 /* ImageManagerStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ImageManagerStoryboard.storyboard; sourceTree = "<group>"; };
 		444146E01A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzOnScreenImageManagerViewController.h; sourceTree = "<group>"; };
 		444146E11A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzOnScreenImageManagerViewController.m; sourceTree = "<group>"; };
+		4444DA391C7A915F00ED8568 /* running_reed.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = running_reed.gif; sourceTree = "<group>"; };
 		4446B5AC1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+NSCodingCompatibleObject.h"; sourceTree = "<group>"; };
 		4446B5AD1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+NSCodingCompatibleObject.m"; sourceTree = "<group>"; };
 		4448C2A1180FF50F00D2CD76 /* czzBlacklistEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzBlacklistEntity.h; sourceTree = "<group>"; };
@@ -1908,9 +1910,10 @@
 			name = PartialTransparentView;
 			sourceTree = "<group>";
 		};
-		44B89E721A2AF2260085F766 /* running_ac */ = {
+		44B89E721A2AF2260085F766 /* running_girls */ = {
 			isa = PBXGroup;
 			children = (
+				4444DA391C7A915F00ED8568 /* running_reed.gif */,
 				44B89E781A2AF4340085F766 /* running_ac.gif */,
 				44B89E661A2AF2200085F766 /* running_ac-1.gif */,
 				44B89E671A2AF2200085F766 /* running_ac-2.gif */,
@@ -1919,7 +1922,7 @@
 				44B89E6A1A2AF2200085F766 /* running_ac-5.gif */,
 				44B89E6B1A2AF2200085F766 /* running_ac-6.gif */,
 			);
-			name = running_ac;
+			name = running_girls;
 			sourceTree = "<group>";
 		};
 		44B89E761A2AF3A90085F766 /* UIImage+animatedGIF */ = {
@@ -2213,7 +2216,7 @@
 				44A9E1481AE1D14400740CE1 /* App icon */,
 				44C73BCF1A496C4F0051D4C2 /* launch screens */,
 				444F5ADD1A40EA3500EB391F /* acmusume-large */,
-				44B89E721A2AF2260085F766 /* running_ac */,
+				44B89E721A2AF2260085F766 /* running_girls */,
 				44CF253D1A25A2A500BD8228 /* sent.png */,
 				44C73B711A4708BA0051D4C2 /* thumb_down.png */,
 				44C73B721A4708BA0051D4C2 /* thumb_down@2x.png */,
@@ -2632,6 +2635,7 @@
 				44CF255F1A2699D000BD8228 /* OnScreenCommand.storyboard in Resources */,
 				444F5B261A40EA3500EB391F /* 19.png in Resources */,
 				444F5B221A40EA3500EB391F /* 15.png in Resources */,
+				4444DA3A1C7A915F00ED8568 /* running_reed.gif in Resources */,
 				444F5B161A40EA3500EB391F /* 03.png in Resources */,
 				444F5B211A40EA3500EB391F /* 14.png in Resources */,
 				44A9E1571AE1D16000740CE1 /* Icon-Small-50@2x.png in Resources */,
