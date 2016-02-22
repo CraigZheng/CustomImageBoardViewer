@@ -140,15 +140,18 @@
 
 - (void)postSenderManager:(czzPostSenderManager *)manager postingCompletedForSender:(czzPostSender *)postSender success:(BOOL)success message:(NSString *)message {
     [self stopAnimatingWithCompletionHandler:^{
-        if (success) {
-            [czzBannerNotificationUtil displayMessage:@"提交成功"
-                                             position:BannerNotificationPositionTop];
-        } else {
-            [czzBannerNotificationUtil displayMessage:message.length ? message : @"出错啦"
-                                             position:BannerNotificationPositionTop];
-            // Keep a reference to the failed post sender, and display the warning icon.
-            [self showWarning];
-        }
+        // Delay just a bit.
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if (success) {
+                [czzBannerNotificationUtil displayMessage:@"提交成功"
+                                                 position:BannerNotificationPositionTop];
+            } else {
+                [czzBannerNotificationUtil displayMessage:message.length ? message : @"出错啦"
+                                                 position:BannerNotificationPositionTop];
+                // Keep a reference to the failed post sender, and display the warning icon.
+                [self showWarning];
+            }
+        });
     }];
 }
 
