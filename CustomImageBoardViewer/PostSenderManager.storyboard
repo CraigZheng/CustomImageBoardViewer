@@ -16,10 +16,26 @@
                     <view key="view" contentMode="scaleToFill" id="Opx-tU-LNs">
                         <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NNt-bF-M1T">
+                                <rect key="frame" x="80" y="80" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="9sP-Rb-04v"/>
+                                    <constraint firstAttribute="width" constant="40" id="j0d-AR-BvF"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="NNt-bF-M1T" firstAttribute="centerY" secondItem="Opx-tU-LNs" secondAttribute="centerY" id="HqQ-Q8-YLU"/>
+                            <constraint firstItem="NNt-bF-M1T" firstAttribute="centerX" secondItem="Opx-tU-LNs" secondAttribute="centerX" id="gqc-Aw-SnX"/>
+                        </constraints>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="200" height="200"/>
+                    <connections>
+                        <outlet property="indicatorImageView" destination="NNt-bF-M1T" id="wBp-wc-D22"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kLI-on-rqp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
