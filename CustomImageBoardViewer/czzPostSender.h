@@ -16,10 +16,11 @@ typedef NS_ENUM(NSInteger, postSenderMode) {
     postSenderModeReply
 };
 
+@class czzPostSender;
 @protocol czzPostSenderDelegate <NSObject>
 @optional
--(void)postSenderProgressUpdated:(CGFloat)percent;
--(void)statusReceived:(BOOL)status message:(NSString*)message;
+-(void)postSender:(czzPostSender *)postSender progressUpdated:(CGFloat)percent;
+-(void)postSender:(czzPostSender *)postSender completedPosting:(BOOL)successful message:(NSString*)message;
 @end
 @interface czzPostSender : NSObject
 @property (nonatomic) NSURL *targetURL;

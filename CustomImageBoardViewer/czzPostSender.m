@@ -57,9 +57,9 @@
         urlConn = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self startImmediately:YES];
         DDLogDebug(@"Sending post to: %@", urlRequest);
     } else {
-        if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
+        if ([self.delegate respondsToSelector:@selector(postSender:completedPosting:message:)])
         {
-            [self.delegate statusReceived:NO message:@"请检查内容"];
+            [self.delegate postSender:self completedPosting:NO message:@"请检查内容"];
         }
         
     }
@@ -68,21 +68,25 @@
 #pragma NSURLConnection delegate
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     //inform the delegate
-    if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
+    if ([self.delegate respondsToSelector:@selector(postSender:completedPosting:message:)])
     {
-        [self.delegate statusReceived:NO message:[NSString stringWithFormat:@"网络错误"]];
+        [self.delegate postSender:self completedPosting:NO message:[NSString stringWithFormat:@"网络错误"]];
         DDLogDebug(@"%@", error);
     }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
     receivedResponse = [NSMutableData new];
-    if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
+    if ([self.delegate respondsToSelector:@selector(postSender:completedPosting:message:)])
     {
         if ([(NSHTTPURLResponse*)response statusCode] == 200) {
-            [self.delegate statusReceived:YES message:@"成功"];
+            [self.delegate postSender:self
+                     completedPosting:YES
+                              message:@"成功"];
         } else {
-            [self.delegate statusReceived:NO message:[NSString stringWithFormat:@"Failed! Status code: %ld", (long)[(NSHTTPURLResponse*)response statusCode]]];
+            [self.delegate postSender:self
+                     completedPosting:NO
+                              message:[NSString stringWithFormat:@"Failed! Status code: %ld", (long)[(NSHTTPURLResponse*)response statusCode]]];
         }
     }
 }
@@ -97,8 +101,8 @@
 }
 
 -(void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(postSenderProgressUpdated:)]) {
-        [self.delegate postSenderProgressUpdated:(CGFloat)totalBytesWritten / (CGFloat)totalBytesExpectedToWrite];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(postSender:progressUpdated:)]) {
+        [self.delegate postSender:self progressUpdated:(CGFloat)totalBytesWritten / (CGFloat)totalBytesExpectedToWrite];
     }
 }
 
