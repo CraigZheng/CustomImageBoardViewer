@@ -27,9 +27,10 @@
 #import "czzThreadDownloader.h"
 #import "czzHistoryManager.h"
 #import "czzBannerNotificationUtil.h"
+#import "czzPostSenderManager.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 
-@interface czzPostViewController () <czzPostSenderDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
+@interface czzPostViewController () <UINavigationControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
 @property (nonatomic, strong) UIActionSheet *clearContentActionSheet;
 @property (nonatomic, strong) UIActionSheet *cancelPostingActionSheet;
 @property (nonatomic, strong) NSMutableData *receivedResponse;
@@ -168,13 +169,15 @@
 
 - (void)postAction:(id)sender {
     //assign the appropriate target URL and delegate to the postSender
-    postSender.delegate = self;
     postSender.content = postTextView.text;
-    [postSender sendPost];
+    // Let post sender manager handles the post sender in the background.
+    [PostSenderManager firePostSender:postSender];
     [postTextView resignFirstResponder];
     [postButton setEnabled:NO];
-    [czzBannerNotificationUtil displayMessage:@"正在发送..."
-                                     position:BannerNotificationPositionTop];
+    [self dismissWithCompletionHandler:^{
+        [czzBannerNotificationUtil displayMessage:@"正在发送..."
+                                         position:BannerNotificationPositionTop];
+    }];
     //if blacklist entity is not nil, then also send a copy to my server
     if (self.blacklistEntity){
         if ([self.blacklistEntity isReady]){
@@ -362,31 +365,6 @@
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return newImage;
-}
-
-#pragma mark - czzPostSender delegate
--(void)statusReceived:(BOOL)status message:(NSString *)message{
-    if (status) {
-        [self dismissWithCompletionHandler:^{
-            [czzBannerNotificationUtil displayMessage:@"提交成功"
-                                             position:BannerNotificationPositionTop];
-            // Add the just replied thread to watchlist manager.
-            if (postSender.parentThread) {
-                [historyManager addToRespondedList:postSender.parentThread];
-            } else if (postSender.forum) {
-                // Post sent to forum, try to locate the just posted thread.
-                [historyManager addToPostedList:postSender.title
-                                        content:postSender.content
-                                       hasImage:postSender.imgData != nil
-                                          forum:postSender.forum];
-            }
-        }];
-    } else {
-        [czzBannerNotificationUtil displayMessage:@"出错啦"
-                                         position:BannerNotificationPositionTop];
-        self.title = message.length > 0 ? message : @"出错，没有更多信息";
-    }
-    [self enablePostButton];
 }
 
 -(void)enablePostButton{

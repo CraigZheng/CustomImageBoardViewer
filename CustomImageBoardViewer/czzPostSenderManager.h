@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define PostSenderManager [czzPostSenderManager sharedManager]
+
 @class czzPostSender;
 @interface czzPostSenderManager : NSObject
 

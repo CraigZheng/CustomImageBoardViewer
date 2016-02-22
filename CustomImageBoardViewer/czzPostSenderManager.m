@@ -9,6 +9,8 @@
 #import "czzPostSenderManager.h"
 
 #import "czzPostSender.h"
+#import "czzBannerNotificationUtil.h"
+#import "czzHistoryManager.h"
 
 @interface czzPostSenderManager() <czzPostSenderDelegate>
 @property (nonatomic, strong) NSMutableOrderedSet *postSenders;
@@ -33,31 +35,25 @@
 
 #pragma mark - czzPostSenderDelegate
 
-- (void)statusReceived:(BOOL)status message:(NSString *)message {
+- (void)postSender:(czzPostSender *)postSender completedPosting:(BOOL)successful message:(NSString *)message {
     // TODO: modify the following copy pasta to suit my needs.
-    /*
-    if (status) {
-        [self dismissWithCompletionHandler:^{
-            [czzBannerNotificationUtil displayMessage:@"提交成功"
-                                             position:BannerNotificationPositionTop];
-            // Add the just replied thread to watchlist manager.
-            if (postSender.parentThread) {
-                [historyManager addToRespondedList:postSender.parentThread];
-            } else if (postSender.forum) {
-                // Post sent to forum, try to locate the just posted thread.
-                [historyManager addToPostedList:postSender.title
-                                        content:postSender.content
-                                       hasImage:postSender.imgData != nil
-                                          forum:postSender.forum];
-            }
-        }];
-    } else {
-        [czzBannerNotificationUtil displayMessage:@"出错啦"
+    if (successful) {
+        [czzBannerNotificationUtil displayMessage:@"提交成功"
                                          position:BannerNotificationPositionTop];
-        self.title = message.length > 0 ? message : @"出错，没有更多信息";
+        // Add the just replied thread to watchlist manager.
+        if (postSender.parentThread) {
+            [historyManager addToRespondedList:postSender.parentThread];
+        } else if (postSender.forum) {
+            // Post sent to forum, try to locate the just posted thread.
+            [historyManager addToPostedList:postSender.title
+                                    content:postSender.content
+                                   hasImage:postSender.imgData != nil
+                                      forum:postSender.forum];
+        }
+    } else {
+        [czzBannerNotificationUtil displayMessage:message.length ? message : @"出错啦"
+                                         position:BannerNotificationPositionTop];
     }
-    [self enablePostButton];
-     */
 }
 
 + (instancetype)sharedManager {
