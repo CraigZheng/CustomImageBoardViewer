@@ -37,8 +37,18 @@
     [PostSenderManager addDelegate:self];
     [self stopAnimatingWithCompletionHandler:nil]; // On viewDidLoad, clear everything.
     
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    // Adjust self according to the status of PostSenderManager.
+    [self stopAnimatingWithCompletionHandler:nil];
+    // If there's any active posting.
+    if (PostSenderManager.lastPostSender) {
+        [self startAnimating];
+    }
     // If there's any remaining failed post sender, show warning.
-    if (PostSenderManager.lastFailedPostSender) {
+    else if (PostSenderManager.lastFailedPostSender) {
         [self showWarning];
     }
 }
@@ -76,10 +86,24 @@
 - (IBAction)tapOnIndicatorView:(id)sender {
     DLog(@"");
     if (PostSenderManager.lastFailedPostSender) {
-        // TODO: Should retry?
-        czzPostSender *failedPostSender = PostSenderManager.lastFailedPostSender;
-        // Set the lastFailedPostSender in the manager to nil, indicate that the failed post sender has been consumed.
-        [self stopAnimatingWithCompletionHandler:nil];
+        [self stopAnimatingWithCompletionHandler:^{
+            czzPostSender *failedPostSender = PostSenderManager.lastFailedPostSender;
+            PostSenderManager.lastFailedPostSender = nil; // The failed post sender has been consumed.
+            czzPostViewController *retryPostViewController = [czzPostViewController new];
+            retryPostViewController.postSender = failedPostSender;
+            switch (failedPostSender.postMode) {
+                case postSenderModeNew:
+                    retryPostViewController.postMode = postViewControllerModeNew;
+                    break;
+                case postSenderModeReply:
+                    retryPostViewController.postMode = postSenderModeReply;
+                default:
+                    break;
+            }
+            [[UIApplication rootViewController] presentViewController:[[UINavigationController alloc] initWithRootViewController:retryPostViewController]
+                                                             animated:YES
+                                                           completion:nil];
+        }];
     } else if (PostSenderManager.lastPostSender) {
         self.lastPostViewController = [czzPostViewController new];
         self.lastPostViewController.postMode = postViewControllerModeDisplayOnly;

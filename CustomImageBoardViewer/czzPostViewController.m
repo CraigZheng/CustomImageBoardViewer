@@ -218,36 +218,40 @@
 - (void)postAction:(id)sender {
     //assign the appropriate target URL and delegate to the postSender
     postSender.content = postTextView.text;
-    // Let post sender manager handles the post sender in the background.
-    [PostSenderManager firePostSender:postSender];
-    [postTextView resignFirstResponder];
-    [postButton setEnabled:NO];
-    [self dismissWithCompletionHandler:^{
-        [czzBannerNotificationUtil displayMessage:@"正在发送..."
-                                         position:BannerNotificationPositionTop];
-    }];
-    //if blacklist entity is not nil, then also send a copy to my server
-    if (self.blacklistEntity){
-        if ([self.blacklistEntity isReady]){
-            self.blacklistEntity.reason = postTextView.text;
-            czzBlacklistSender *blacklistSender = [czzBlacklistSender new];
-            blacklistSender.blacklistEntity = self.blacklistEntity;
-            [blacklistSender sendBlacklistUpdate];
+    // Validate the content is ready.
+    if (postSender.content.length != 0 || postSender.imgData != nil) {
+        // Let post sender manager handles the post sender in the background.
+        [PostSenderManager firePostSender:postSender];
+        [postTextView resignFirstResponder];
+        [postButton setEnabled:NO];
+        [self dismissWithCompletionHandler:^{
+            [czzBannerNotificationUtil displayMessage:@"正在发送..."
+                                             position:BannerNotificationPositionTop];
+        }];
+        //if blacklist entity is not nil, then also send a copy to my server
+        if (self.blacklistEntity){
+            if ([self.blacklistEntity isReady]){
+                self.blacklistEntity.reason = postTextView.text;
+                czzBlacklistSender *blacklistSender = [czzBlacklistSender new];
+                blacklistSender.blacklistEntity = self.blacklistEntity;
+                [blacklistSender sendBlacklistUpdate];
+            }
         }
+        
+        // Google Analytic integration.
+        NSString *label = self.postSender.content;
+        // Chunk the text.
+        if (label.length > 100) {
+            label = [label substringToIndex:99];
+        }
+        NSInteger ID = postSender.parentThread ? postSender.parentThread.ID : 0;
+        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Thread"
+                                                                                            action:@"Post Thread"
+                                                                                             label:label
+                                                                                             value:@(ID)] build]];
+    } else {
+        [czzBannerNotificationUtil displayMessage:@"请检查内容" position:BannerNotificationPositionTop];
     }
-    
-    // Google Analytic integration.
-    NSString *label = self.postSender.content;
-    // Chunk the text.
-    if (label.length > 100) {
-        label = [label substringToIndex:99];
-    }
-    NSInteger ID = postSender.parentThread ? postSender.parentThread.ID : 0;
-    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Thread"
-                                                                                        action:@"Post Thread"
-                                                                                         label:label
-                                                                                         value:@(ID)] build]];
-
 }
 
 - (void)pickImageAction:(id)sender {
@@ -276,8 +280,6 @@
 
 //delete everything from the text view
 - (IBAction)clearAction:(id)sender {
-    // Clear the post sender.
-    postSender = nil;
     // Clear the text view.
     if ((postTextView.text.length > 0 || postSender.imgData) &&
         postMode != postViewControllerModeDisplayOnly)
