@@ -14,7 +14,7 @@
 #import "czzReplyUtil.h"
 #import "czzBannerNotificationUtil.h"
 
-@interface czzPostSenderManagerViewController ()<czzPostSenderManagerDelegate>
+@interface czzPostSenderManagerViewController ()<czzPostSenderManagerDelegate, UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *indicatorImageView;
 @property (strong, nonatomic) czzPostViewController *lastPostViewController;
 @end
@@ -86,9 +86,31 @@
 - (IBAction)tapOnIndicatorView:(id)sender {
     DLog(@"");
     if (PostSenderManager.lastFailedPostSender) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"发送失败,是否重试？"
+                                                            message:nil
+                                                           delegate:self
+                                                  cancelButtonTitle:@"取消"
+                                                  otherButtonTitles:@"重试", nil];
+        [alertView show];
+    } else if (PostSenderManager.lastPostSender) {
+        self.lastPostViewController = [czzPostViewController new];
+        self.lastPostViewController.postMode = postViewControllerModeDisplayOnly;
+        self.lastPostViewController.displayPostSender = PostSenderManager.lastPostSender;
+        [[UIApplication rootViewController] presentViewController:[[UINavigationController alloc] initWithRootViewController:self.lastPostViewController]
+                                                         animated:YES
+                                                       completion:nil];
+    }
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    // There's only 1 alert view in this view controller: retry post alert view.
+    czzPostSender *failedPostSender = PostSenderManager.lastFailedPostSender;
+    PostSenderManager.lastFailedPostSender = nil; // The failed post sender has been consumed.
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"重试"]) {
+        // Retry the failed post sender.
         [self stopAnimatingWithCompletionHandler:^{
-            czzPostSender *failedPostSender = PostSenderManager.lastFailedPostSender;
-            PostSenderManager.lastFailedPostSender = nil; // The failed post sender has been consumed.
             czzPostViewController *retryPostViewController = [czzPostViewController new];
             retryPostViewController.postSender = failedPostSender;
             switch (failedPostSender.postMode) {
@@ -104,13 +126,9 @@
                                                              animated:YES
                                                            completion:nil];
         }];
-    } else if (PostSenderManager.lastPostSender) {
-        self.lastPostViewController = [czzPostViewController new];
-        self.lastPostViewController.postMode = postViewControllerModeDisplayOnly;
-        self.lastPostViewController.displayPostSender = PostSenderManager.lastPostSender;
-        [[UIApplication rootViewController] presentViewController:[[UINavigationController alloc] initWithRootViewController:self.lastPostViewController]
-                                                         animated:YES
-                                                       completion:nil];
+    } else {
+        // Don't retry, just dismiss the error.
+        [self stopAnimatingWithCompletionHandler:nil];
     }
 }
 
