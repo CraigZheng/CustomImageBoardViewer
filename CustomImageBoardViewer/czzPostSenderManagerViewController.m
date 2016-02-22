@@ -11,6 +11,7 @@
 #import "czzPostSenderManager.h"
 #import "czzPostSender.h"
 #import "czzPostViewController.h"
+#import "czzReplyUtil.h"
 #import "czzBannerNotificationUtil.h"
 
 @interface czzPostSenderManagerViewController ()<czzPostSenderManagerDelegate>
@@ -22,8 +23,24 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    CAShapeLayer *circle = [CAShapeLayer layer];
+    // Make a circular shape
+    UIBezierPath *circularPath=[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, self.indicatorImageView.frame.size.width, self.indicatorImageView.frame.size.height) cornerRadius:MAX(self.indicatorImageView.frame.size.width, self.indicatorImageView.frame.size.height)];
+    circle.path = circularPath.CGPath;
+    // Configure the apperence of the circle
+    // Make the indicator image view round.
+    circle.fillColor = [UIColor blackColor].CGColor;
+    circle.strokeColor = [UIColor blackColor].CGColor;
+    circle.lineWidth = 0;
+    self.indicatorImageView.layer.mask=circle;
+    
     [PostSenderManager addDelegate:self];
     [self stopAnimatingWithCompletionHandler:nil]; // On viewDidLoad, clear everything.
+    
+    // If there's any remaining failed post sender, show warning.
+    if (PostSenderManager.lastFailedPostSender) {
+        [self showWarning];
+    }
 }
 
 - (void)startAnimating {
@@ -35,6 +52,7 @@
 
 - (void)stopAnimatingWithCompletionHandler:(void(^)(void))completionHandler {
     self.indicatorImageView.image = nil;
+    self.view.superview.userInteractionEnabled = NO;
     // If a display only post view controller is currently presented, dismiss it.
     if (self.lastPostViewController) {
         [self.lastPostViewController dismissViewControllerAnimated:YES completion:completionHandler];
@@ -46,14 +64,23 @@
         }
     }
     // If currently not visible, set userInteractionEnabled to NO.
-    self.view.superview.userInteractionEnabled = NO;
+}
+
+- (void)showWarning {
+    self.indicatorImageView.image = [UIImage imageNamed:@"38.png"];
+    self.view.superview.userInteractionEnabled = YES;
 }
 
 #pragma mark - UI actions.
 
 - (IBAction)tapOnIndicatorView:(id)sender {
     DLog(@"");
-    if (PostSenderManager.lastPostSender) {
+    if (PostSenderManager.lastFailedPostSender) {
+        // TODO: Should retry?
+        czzPostSender *failedPostSender = PostSenderManager.lastFailedPostSender;
+        // Set the lastFailedPostSender in the manager to nil, indicate that the failed post sender has been consumed.
+        [self stopAnimatingWithCompletionHandler:nil];
+    } else if (PostSenderManager.lastPostSender) {
         self.lastPostViewController = [czzPostViewController new];
         self.lastPostViewController.postMode = postViewControllerModeDisplayOnly;
         self.lastPostViewController.displayPostSender = PostSenderManager.lastPostSender;
@@ -77,6 +104,8 @@
         } else {
             [czzBannerNotificationUtil displayMessage:message.length ? message : @"出错啦"
                                              position:BannerNotificationPositionTop];
+            // Keep a reference to the failed post sender, and display the warning icon.
+            [self showWarning];
         }
     }];
 }

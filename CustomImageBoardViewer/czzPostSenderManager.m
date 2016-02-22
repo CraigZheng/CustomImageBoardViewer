@@ -29,6 +29,8 @@
 }
 
 - (void)firePostSender:(czzPostSender *)postSender {
+    // Remove the previous failed post sender.
+    self.lastFailedPostSender = nil;
     if (postSender) {
         [self.postSenders addObject:postSender];
         postSender.delegate = self;
@@ -88,6 +90,8 @@
 - (void)postSender:(czzPostSender *)postSender completedPosting:(BOOL)successful message:(NSString *)message {
     DLog(@"");
     if (successful) {
+        // Remove the last failed post sender.
+        self.lastFailedPostSender = nil;
         // Add the just replied thread to watchlist manager.
         if (postSender.parentThread) {
             [historyManager addToRespondedList:postSender.parentThread];
@@ -98,6 +102,9 @@
                                    hasImage:postSender.imgData != nil
                                       forum:postSender.forum];
         }
+    } else {
+        // Keep record of the last failed post sender.
+        self.lastFailedPostSender = postSender;
     }
     // Inform all delegates that a post sender is completed.
     [self iterateDelegatesWithBlock:^(id<czzPostSenderManagerDelegate> delegate) {
