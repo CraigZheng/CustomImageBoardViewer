@@ -28,6 +28,12 @@
     self.indicatorImageView.image = [UIImage animatedImageWithAnimatedGIFURL:gifURL];
 }
 
+#pragma mark - UI actions.
+
+- (IBAction)tapOnIndicatorView:(id)sender {
+    DLog(@"");
+}
+
 #pragma mark - czzPostSenderManagerDelegate
 
 - (void)postSenderManager:(czzPostSenderManager *)manager startPostingForSender:(czzPostSender *)postSender {
