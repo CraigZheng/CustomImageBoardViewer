@@ -44,6 +44,10 @@
 
 #pragma mark - Getters
 
+- (czzPostSender *)lastPostSender {
+    return self.postSenders.lastObject;
+}
+
 -(NSMutableOrderedSet *)delegates {
     if (!_delegates) {
         _delegates = [NSMutableOrderedSet new];

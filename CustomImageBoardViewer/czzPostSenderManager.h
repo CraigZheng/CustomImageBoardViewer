@@ -19,6 +19,7 @@
 @end
 
 @interface czzPostSenderManager : NSObject
+@property (nonatomic, readonly) czzPostSender* lastPostSender;
 
 - (void)firePostSender:(czzPostSender *)postSender;
 -(void)addDelegate:(id<czzPostSenderManagerDelegate>)delegate;

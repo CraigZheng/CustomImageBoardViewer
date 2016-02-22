@@ -9,10 +9,12 @@
 #import "czzPostSenderManagerViewController.h"
 #import "UIImage+animatedGIF.h"
 #import "czzPostSenderManager.h"
+#import "czzPostSender.h"
+#import "czzPostViewController.h"
 
 @interface czzPostSenderManagerViewController ()<czzPostSenderManagerDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *indicatorImageView;
-
+@property (strong, nonatomic) czzPostViewController *lastPostViewController;
 @end
 
 @implementation czzPostSenderManagerViewController
@@ -32,6 +34,14 @@
 
 - (IBAction)tapOnIndicatorView:(id)sender {
     DLog(@"");
+    if (PostSenderManager.lastPostSender) {
+        self.lastPostViewController = [czzPostViewController new];
+        self.lastPostViewController.postMode = postViewControllerModeDisplayOnly;
+        self.lastPostViewController.displayPostSender = PostSenderManager.lastPostSender;
+        [[UIApplication rootViewController] presentViewController:[[UINavigationController alloc] initWithRootViewController:self.lastPostViewController]
+                                                         animated:YES
+                                                       completion:nil];
+    }
 }
 
 #pragma mark - czzPostSenderManagerDelegate
@@ -42,6 +52,10 @@
 
 - (void)postSenderManager:(czzPostSenderManager *)manager postingCompletedForSender:(czzPostSender *)postSender success:(BOOL)success message:(NSString *)message {
     self.indicatorImageView.image = nil;
+    if (self.lastPostViewController) {
+        [self.lastPostViewController dismissViewControllerAnimated:YES completion:nil];
+        self.lastPostViewController = nil;
+    }
 }
 
 + (instancetype)new {

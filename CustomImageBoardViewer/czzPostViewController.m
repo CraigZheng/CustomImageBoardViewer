@@ -100,10 +100,21 @@
     toolbar.barTintColor = [settingCentre barTintColour];
     toolbar.tintColor = [settingCentre tintColour];
     //assign an input accessory view to it
-    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *pickEmojiButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lol.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(pickEmojiAction:)];
-    UIBarButtonItem *pickImgButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"picture.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(pickImageAction:)];
-    postButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sent.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(postAction:)];
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                                   target:nil
+                                                                                   action:nil];
+    UIBarButtonItem *pickEmojiButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lol.png"]
+                                                                        style:UIBarButtonItemStylePlain
+                                                                       target:self
+                                                                       action:@selector(pickEmojiAction:)];
+    UIBarButtonItem *pickImgButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"picture.png"]
+                                                                      style:UIBarButtonItemStylePlain
+                                                                     target:self
+                                                                     action:@selector(pickImageAction:)];
+    postButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sent.png"]
+                                                  style:UIBarButtonItemStylePlain
+                                                 target:self
+                                                 action:@selector(postAction:)];
     NSArray *buttons = [NSArray arrayWithObjects: flexibleSpace,
                         pickEmojiButton,
                         flexibleSpace,
@@ -129,6 +140,9 @@
                                        duration:1.5
                                        position:@"top"
                                           image:[UIImage imageWithData:self.displayPostSender.imgData]];
+            }
+            for (UIBarButtonItem *button in buttons) {
+                button.enabled = NO;
             }
         }
         // Since is display only, no need to go any further.
@@ -245,7 +259,8 @@
 
 //delete everything from the text view
 - (IBAction)clearAction:(id)sender {
-    if (postTextView.text.length > 0 || postSender.imgData)
+    if ((postTextView.text.length > 0 || postSender.imgData) &&
+        postMode != postViewControllerModeDisplayOnly)
     {
         [self.postTextView resignFirstResponder];
         self.clearContentActionSheet = [[UIActionSheet alloc] initWithTitle:@"清空内容和图片？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"清空" otherButtonTitles: nil];
