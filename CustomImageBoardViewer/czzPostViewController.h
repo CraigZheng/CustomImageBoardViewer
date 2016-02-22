@@ -18,9 +18,11 @@ typedef NS_ENUM(NSInteger, postViewControllerMode) {
     postViewControllerModeUnknown = 0,
     postViewControllerModeNew,
     postViewControllerModeReply,
-    postViewControllerModeReport
+    postViewControllerModeReport,
+    postViewControllerModeDisplayOnly // Readonly mode, does not allow interaction.
 };
 
+@class czzPostSender;
 @interface czzPostViewController : UIViewController <UITextViewDelegate>
 @property czzThread *parentThread;
 @property czzThread *replyToThread;
@@ -28,6 +30,7 @@ typedef NS_ENUM(NSInteger, postViewControllerMode) {
 @property (nonatomic, strong) czzBlacklistEntity *blacklistEntity;
 @property (nonatomic, assign) postViewControllerMode postMode;
 @property (nonatomic, strong) NSString *prefilledString;
+@property (nonatomic, strong) czzPostSender *displayPostSender;
 
 @property (strong, nonatomic) IBOutlet UITextView *postTextView;
 

@@ -116,7 +116,24 @@
     postTextView.backgroundColor = [settingCentre viewBackgroundColour];
     postTextView.textColor = [settingCentre contentTextColour];
     postTextView.text = self.prefilledString;
-    
+    // If is display only mode, show the content and then return.
+    if (postMode == postViewControllerModeDisplayOnly) {
+        assert(self.displayPostSender);
+        if (self.displayPostSender) {
+            self.title = self.displayPostSender.title;
+            self.postTextView.text = self.displayPostSender.content;
+            self.postTextView.editable = NO; // No editable.
+            // Show the picked image.
+            if (self.displayPostSender.imgData) {
+                [[AppDelegate window] makeToast:nil
+                                       duration:1.5
+                                       position:@"top"
+                                          image:[UIImage imageWithData:self.displayPostSender.imgData]];
+            }
+        }
+        // Since is display only, no need to go any further.
+        return;
+    }
     //construct the title, content and targetURLString based on selected post mode
     NSString *title = @"回复";
     NSString *content = @"";
@@ -238,7 +255,8 @@
 }
 
 - (IBAction)cancelAction:(id)sender {
-    if (postTextView.text.length || postSender.imgData) {
+    if ((postTextView.text.length || postSender.imgData) &&
+        postMode != postViewControllerModeDisplayOnly) {
         [self.postTextView resignFirstResponder];
         self.cancelPostingActionSheet = [[UIActionSheet alloc] initWithTitle:@"确定要中断发送文章？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"中断" otherButtonTitles: nil];
         [self.cancelPostingActionSheet showInView:self.view];
