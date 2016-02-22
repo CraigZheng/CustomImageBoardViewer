@@ -371,10 +371,6 @@
     [postButton setEnabled:YES];
 }
 
--(void)postSenderProgressUpdated:(CGFloat)percent {
-    self.title = [NSString stringWithFormat:@"发送中 - %d%%", (int)(percent * 100)];
-}
-
 #pragma mark - Keyboard events.
 -(void)keyboardWillShow:(NSNotification*)notification{
     /*

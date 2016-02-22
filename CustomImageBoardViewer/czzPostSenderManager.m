@@ -28,6 +28,7 @@
 
 - (void)firePostSender:(czzPostSender *)postSender {
     if (postSender) {
+        [self.postSenders addObject:postSender];
         postSender.delegate = self;
         [postSender sendPost];
     }
@@ -36,7 +37,7 @@
 #pragma mark - czzPostSenderDelegate
 
 - (void)postSender:(czzPostSender *)postSender completedPosting:(BOOL)successful message:(NSString *)message {
-    // TODO: modify the following copy pasta to suit my needs.
+    DLog(@"");
     if (successful) {
         [czzBannerNotificationUtil displayMessage:@"提交成功"
                                          position:BannerNotificationPositionTop];
@@ -54,6 +55,8 @@
         [czzBannerNotificationUtil displayMessage:message.length ? message : @"出错啦"
                                          position:BannerNotificationPositionTop];
     }
+    // Remove the completed post sender from self.postSenders.
+    [self.postSenders removeObject:postSender];
 }
 
 + (instancetype)sharedManager {
