@@ -177,6 +177,8 @@
             }
         } else if ([command isEqualToString:@"WATCHLIST"]) {
             
+        } else if ([command isEqualToString:@"作者主页"]) {
+            [self openHomePage];
         }
     }
 }
@@ -212,6 +214,7 @@
     NSURL *donationLinkURL = [NSURL URLWithString:settingsCentre.donationLink];
     if (donationLinkURL && settingsCentre.donationLink.length > 0)
         [regularCommands addObject:@"捐款给App的作者"];
+    [regularCommands addObject:@"作者主页"];
     [regularCommands addObject:@"意见反馈"];
     [regularCommands addObject:@"强制退出"];
 }
@@ -323,6 +326,14 @@
     [self prepareCommands];
     [self.settingsTableView reloadData];
     [[czzHomeViewManager sharedManager] reloadData];
+}
+
+#pragma mark - Button actions.
+
+// Open my home page.
+- (void)openHomePage {
+    NSString *homePageURL = @"http://www.weibo.com/u/3868827431"; // Weibo home page URL
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:homePageURL]];
 }
 
 -(void)openDonationLink {

@@ -57,6 +57,7 @@
 		442A901D19DB9C3C00A3516E /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A901A19DB9C3C00A3516E /* HTMLNode.m */; };
 		442A901E19DB9C3C00A3516E /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A901C19DB9C3C00A3516E /* HTMLParser.m */; };
 		442B3D2C1C79B3B400403227 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 442B3D2B1C79B3B400403227 /* WebKit.framework */; };
+		442B3D2E1C79C1EA00403227 /* rules.html in Resources */ = {isa = PBXBuildFile; fileRef = 442B3D2D1C79C1EA00403227 /* rules.html */; };
 		442CD0E31851601A0021AD37 /* czzImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 442CD0E21851601A0021AD37 /* czzImageDownloader.m */; };
 		442CD0E718517BED0021AD37 /* czzImageCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 442CD0E618517BED0021AD37 /* czzImageCacheManager.m */; };
 		442EC8631A1A130A005650E4 /* czzNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 442EC8621A1A130A005650E4 /* czzNavigationController.m */; };
@@ -556,6 +557,7 @@
 		442A901B19DB9C3C00A3516E /* HTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HTMLParser.h; path = ../HTMLParser.h; sourceTree = "<group>"; };
 		442A901C19DB9C3C00A3516E /* HTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HTMLParser.m; path = ../HTMLParser.m; sourceTree = "<group>"; };
 		442B3D2B1C79B3B400403227 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		442B3D2D1C79C1EA00403227 /* rules.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = rules.html; sourceTree = "<group>"; };
 		442CD0E11851601A0021AD37 /* czzImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzImageDownloader.h; sourceTree = "<group>"; };
 		442CD0E21851601A0021AD37 /* czzImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzImageDownloader.m; sourceTree = "<group>"; };
 		442CD0E518517BED0021AD37 /* czzImageCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzImageCacheManager.h; sourceTree = "<group>"; };
@@ -1294,6 +1296,7 @@
 		441E5CD517F4691300289DBD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				442B3D2D1C79C1EA00403227 /* rules.html */,
 				441E5CD617F4691300289DBD /* CustomImageBoardViewer-Info.plist */,
 				441E5CD717F4691300289DBD /* InfoPlist.strings */,
 				441E5CDA17F4691300289DBD /* main.m */,
@@ -2669,6 +2672,7 @@
 				44CF25501A25A2A500BD8228 /* lol@3x.png in Resources */,
 				444F5B291A40EA3500EB391F /* 22.png in Resources */,
 				44C3454C187E5C6100FDE45D /* czzEmojiCollectionViewCell.xib in Resources */,
+				442B3D2E1C79C1EA00403227 /* rules.html in Resources */,
 				44E791D31A17856500A63C04 /* collapse_arrow.png in Resources */,
 				444F5B2E1A40EA3500EB391F /* 27.png in Resources */,
 				44DF8EFE1A7512730097F7F5 /* checked_user.png in Resources */,
