@@ -31,7 +31,7 @@ typedef NS_ENUM(NSInteger, postViewControllerMode) {
 @property (nonatomic, assign) postViewControllerMode postMode;
 @property (nonatomic, strong) NSString *prefilledString;
 @property (nonatomic, strong) czzPostSender *displayPostSender;
-
+@property (nonatomic, strong) czzPostSender *postSender;
 @property (strong, nonatomic) IBOutlet UITextView *postTextView;
 
 @end

@@ -34,7 +34,6 @@
 @property (nonatomic, strong) UIActionSheet *clearContentActionSheet;
 @property (nonatomic, strong) UIActionSheet *cancelPostingActionSheet;
 @property (nonatomic, strong) NSMutableData *receivedResponse;
-@property (nonatomic, strong) czzPostSender *postSender;
 @property (nonatomic, strong) czzEmojiCollectionViewController *emojiViewController;
 @property (nonatomic, assign) BOOL didLayout;
 @property (strong, nonatomic) UIBarButtonItem *postButton;
@@ -93,7 +92,6 @@
 }
 
 - (void)renderContent {
-    postSender = [czzPostSender new];
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
     toolbar.autoresizingMask = toolbar.autoresizingMask | UIViewAutoresizingFlexibleHeight;
     toolbar.barStyle = UIBarStyleDefault;
@@ -151,45 +149,64 @@
     //construct the title, content and targetURLString based on selected post mode
     NSString *title = @"回复";
     NSString *content = @"";
-    
-    postSender.forum = forum;
-    //assign forum or parent thread based on user selection
     NSString *targetURLString;
-    switch (postMode) {
-        case postViewControllerModeNew:
-            title = @"新内容";
-            postSender.parentThread = nil;
-            targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:forum.name];
-            postSender.forum = forum;
-            postSender.postMode = postSenderModeNew;
-            break;
-        case postViewControllerModeReply:
-            if (self.replyToThread)
-            {
-                title = [NSString stringWithFormat:@"回复:%ld", (long)self.replyToThread.ID];
-                content = [NSString stringWithFormat:@">>No.%ld\n\n", (long)self.replyToThread.ID];
-            }
-            postSender.parentThread = self.parentThread;
-            postSender.postMode = postSenderModeReply;
-            break;
-            
-        case postViewControllerModeReport: {
-            title = @"举报";
-            NSString *forumName = @"值班室";
-            targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:forumName];
-            // Select the admin forum from the downloaded forums.
-            for (czzForum *tempForum in [czzForumManager sharedManager].forums) {
-                if ([tempForum.name isEqualToString:forumName]) {
-                    postSender.forum = tempForum;
-                    break;
-                }
-            }
-            postSender.postMode = postSenderModeNew;
-            break;
+
+    if (postSender) {
+        // If the post sender is ready.
+        targetURLString = postSender.targetURL.absoluteString;
+        content = postSender.content;
+        // The title should respond to the post sender mode.
+        switch (postSender.postMode) {
+            case postSenderModeNew:
+                title = @"新内容";
+                break;
+            case postSenderModeReply:
+                title = [NSString stringWithFormat:@"回复:%ld", (long)postSender.parentThread.ID];
+                break;
+            default:
+                [NSException raise:@"UNSUPPORTED ACTION" format:@""];
+                break;
         }
-        default:
-            [NSException raise:@"ACTION NOT SUPPORTED" format:@"%s", __func__];
-            break;
+    } else {
+        // Construct a new post sender object.
+        postSender = [czzPostSender new];
+        postSender.forum = forum;
+        switch (postMode) {
+            case postViewControllerModeNew:
+                title = @"新内容";
+                postSender.parentThread = nil;
+                targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:forum.name];
+                postSender.forum = forum;
+                postSender.postMode = postSenderModeNew;
+                break;
+            case postViewControllerModeReply:
+                if (self.replyToThread)
+                {
+                    title = [NSString stringWithFormat:@"回复:%ld", (long)self.replyToThread.ID];
+                    content = [NSString stringWithFormat:@">>No.%ld\n\n", (long)self.replyToThread.ID];
+                }
+                postSender.parentThread = self.parentThread;
+                postSender.postMode = postSenderModeReply;
+                break;
+                
+            case postViewControllerModeReport: {
+                title = @"举报";
+                NSString *forumName = @"值班室";
+                targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:forumName];
+                // Select the admin forum from the downloaded forums.
+                for (czzForum *tempForum in [czzForumManager sharedManager].forums) {
+                    if ([tempForum.name isEqualToString:forumName]) {
+                        postSender.forum = tempForum;
+                        break;
+                    }
+                }
+                postSender.postMode = postSenderModeNew;
+                break;
+            }
+            default:
+                [NSException raise:@"ACTION NOT SUPPORTED" format:@"%s", __func__];
+                break;
+        }
     }
     self.title = title;
     if (content.length)
@@ -259,6 +276,9 @@
 
 //delete everything from the text view
 - (IBAction)clearAction:(id)sender {
+    // Clear the post sender.
+    postSender = nil;
+    // Clear the text view.
     if ((postTextView.text.length > 0 || postSender.imgData) &&
         postMode != postViewControllerModeDisplayOnly)
     {
