@@ -215,6 +215,12 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 }
 
 -(void)saveState {
+    // Remove the old file and create a new one.
+    [[NSFileManager defaultManager] removeItemAtPath:self.watchlistFilePath
+                                               error:nil];
+    [[NSFileManager defaultManager] createFileAtPath:self.watchlistFilePath
+                                            contents:nil
+                                          attributes:@{NSFileProtectionKey:NSFileProtectionNone}];
     [NSKeyedArchiver archiveRootObject:self
                                 toFile:self.watchlistFilePath];
     // Set background fetch interval based on the count of threads being watched.
@@ -243,7 +249,10 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 - (NSString *)watchlistFolder {
     NSString *watchlistFolder = [[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"Watchlist"];
     if (![[NSFileManager defaultManager] fileExistsAtPath:watchlistFolder]){
-        [[NSFileManager defaultManager] createDirectoryAtPath:watchlistFolder withIntermediateDirectories:NO attributes:nil error:nil];
+        [[NSFileManager defaultManager] createDirectoryAtPath:watchlistFolder
+                                  withIntermediateDirectories:NO 
+                                                   attributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                                                        error:nil];
         DDLogDebug(@"Create document folder: %@", watchlistFolder);
     }
 

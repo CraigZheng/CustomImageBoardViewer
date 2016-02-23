@@ -23,7 +23,8 @@
         favouriteThreads = [NSMutableOrderedSet new];
         [self restorePreviousState];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(entersBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
+                                                 selector:@selector(entersBackground)
+                                                     name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
     return self;
 }
@@ -66,6 +67,12 @@
 
 -(void)saveCurrentState {
     DDLogDebug(@"%s", __PRETTY_FUNCTION__);
+    // Remove the old cache file.
+    [[NSFileManager defaultManager] removeItemAtPath:self.favouriteFilePath error:nil];
+    // Create the new cache file with the given attributes.
+    [[NSFileManager defaultManager] createFileAtPath:self.favouriteFilePath
+                                            contents:nil
+                                          attributes:@{NSFileProtectionKey:NSFileProtectionNone}];
     if (![NSKeyedArchiver archiveRootObject:favouriteThreads toFile:self.favouriteFilePath]) {
         DDLogDebug(@"can not save favourite threads to %@", self.favouriteFilePath);
     }
@@ -116,7 +123,10 @@
 - (NSString *)favouriteFolder {
     NSString *favouriteFolder = [[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"Favourite"];
     if (![[NSFileManager defaultManager] fileExistsAtPath:favouriteFolder]){
-        [[NSFileManager defaultManager] createDirectoryAtPath:favouriteFolder withIntermediateDirectories:NO attributes:nil error:nil];
+        [[NSFileManager defaultManager] createDirectoryAtPath:favouriteFolder
+                                  withIntermediateDirectories:NO
+                                                   attributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                                                        error:nil];
         DDLogDebug(@"Create document folder: %@", favouriteFolder);
     }
     return favouriteFolder;

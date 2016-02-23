@@ -41,7 +41,7 @@
 #pragma mark - Life cycle.
 - (void)handleDidEnterBackgroundNotification {
     DDLogDebug(@"%s", __PRETTY_FUNCTION__);
-    [self archiveCookiesToFile];
+    [self saveCurrentState];
 }
 
 -(void)getCookieIfHungry {
@@ -68,12 +68,12 @@
     [self.cookieStorage setCookies:@[cookie]
                             forURL:[NSURL URLWithString:[settingCentre a_isle_host]]
                    mainDocumentURL:nil];
-    [self archiveCookiesToFile];
+    [self saveCurrentState];
 }
 
 -(void)deleteCookie:(NSHTTPCookie *)cookie {
     [self.cookieStorage deleteCookie:cookie];
-    [self archiveCookiesToFile];
+    [self saveCurrentState];
 }
 
 -(NSArray *)currentACCookies {
@@ -104,21 +104,29 @@
 
 -(void)archiveCookie:(NSHTTPCookie *)cookie {
     [self.archivedCookies addObject:cookie];
-    [self archiveCookiesToFile];
+    [self saveCurrentState];
 }
 
 -(void)deleteArchiveCookie:(NSHTTPCookie *)cookie {
     [self.archivedCookies removeObject:cookie];
-    [self archiveCookiesToFile];
+    [self saveCurrentState];
 }
 
--(void)archiveCookiesToFile {
+-(void)saveCurrentState {
     // Delete the old copies of archives...
     [[NSFileManager defaultManager] removeItemAtPath:self.archiveFilePath error:nil];
+    // Create a new file for the cookies.
+    [[NSFileManager defaultManager] createFileAtPath:self.archiveFilePath
+                                            contents:nil
+                                          attributes:@{NSFileProtectionKey:NSFileProtectionNone}];
     [NSKeyedArchiver archiveRootObject:self.archivedCookies toFile:self.archiveFilePath];
     DDLogDebug(@"%s: archive", __PRETTY_FUNCTION__);
     [[NSFileManager defaultManager] removeItemAtPath:self.inUseFilePath error:nil];
     if (self.currentInUseCookie) {
+        // Create a new file for the in use cookie.
+        [[NSFileManager defaultManager] createFileAtPath:self.inUseFilePath
+                                                contents:nil
+                                              attributes:@{NSFileProtectionKey:NSFileProtectionNone}];
         [NSKeyedArchiver archiveRootObject:self.currentInUseCookie toFile:self.inUseFilePath];
         DDLogDebug(@"%s: in use", __PRETTY_FUNCTION__);
     }
@@ -178,7 +186,10 @@
 - (NSString *)cookieFolder {
     NSString *cookieFolder = [[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"Cookies"];
     if (![[NSFileManager defaultManager] fileExistsAtPath:cookieFolder]){
-        [[NSFileManager defaultManager] createDirectoryAtPath:cookieFolder withIntermediateDirectories:NO attributes:nil error:nil];
+        [[NSFileManager defaultManager] createDirectoryAtPath:cookieFolder
+                                  withIntermediateDirectories:NO
+                                                   attributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                                                        error:nil];
         DDLogDebug(@"Create document folder: %@", cookieFolder);
     }
     return cookieFolder;

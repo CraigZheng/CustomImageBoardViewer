@@ -124,6 +124,14 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
 
 -(void)saveCurrentState {
     DDLogDebug(@"%s", __PRETTY_FUNCTION__);
+    NSArray *filePaths = @[self.historyCachePath, self.postedCachePath, self.respondedCachePath];
+    for (NSString *filePath in filePaths) {
+        [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+        // Create a new file at the original path with no content and no protection attributes.
+        [[NSFileManager defaultManager] createFileAtPath:filePath
+                                                contents:nil
+                                              attributes:@{NSFileProtectionKey:NSFileProtectionNone}];
+    }
     if (![NSKeyedArchiver archiveRootObject:browserHistory toFile:self.historyCachePath]) {
         DDLogDebug(@"unable to save browser history");
     }
@@ -214,7 +222,10 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
 - (NSString *)historyFolder {
     NSString *historyFolder = [[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"History"];
     if (![[NSFileManager defaultManager] fileExistsAtPath:historyFolder]){
-        [[NSFileManager defaultManager] createDirectoryAtPath:historyFolder withIntermediateDirectories:NO attributes:nil error:nil];
+        [[NSFileManager defaultManager] createDirectoryAtPath:historyFolder
+                                  withIntermediateDirectories:NO
+                                                   attributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                                                        error:nil];
         DDLogDebug(@"Create document folder: %@", historyFolder);
     }
 
