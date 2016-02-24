@@ -189,6 +189,9 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
         if ([[NSFileManager defaultManager] fileExistsAtPath:legacyPath]) {
             DDLogDebug(@"Need to restore legacy file for %@", NSStringFromClass(self.class));
             NSError *error;
+            [[NSFileManager defaultManager] setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                                             ofItemAtPath:legacyPath
+                                                    error:&error];
             [[NSFileManager defaultManager] replaceItemAtURL:[NSURL fileURLWithPath:self.watchlistFilePath]
                                                withItemAtURL:[NSURL fileURLWithPath:legacyPath]
                                               backupItemName:@"Legacy.dat"
@@ -218,9 +221,6 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
     // Remove the old file and create a new one.
     [[NSFileManager defaultManager] removeItemAtPath:self.watchlistFilePath
                                                error:nil];
-    [[NSFileManager defaultManager] createFileAtPath:self.watchlistFilePath
-                                            contents:nil
-                                          attributes:@{NSFileProtectionKey:NSFileProtectionNone}];
     [NSKeyedArchiver archiveRootObject:self
                                 toFile:self.watchlistFilePath];
     // Set background fetch interval based on the count of threads being watched.
@@ -248,19 +248,46 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 
 - (NSString *)watchlistFolder {
     NSString *watchlistFolder = [[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"Watchlist"];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:watchlistFolder]){
-        [[NSFileManager defaultManager] createDirectoryAtPath:watchlistFolder
+    NSFileManager *manager = [NSFileManager defaultManager];
+    if (![manager fileExistsAtPath:watchlistFolder]){
+        [manager createDirectoryAtPath:watchlistFolder
                                   withIntermediateDirectories:NO 
                                                    attributes:@{NSFileProtectionKey:NSFileProtectionNone}
                                                         error:nil];
         DDLogDebug(@"Create document folder: %@", watchlistFolder);
+    } else {
+        NSError *error;
+        [manager setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                  ofItemAtPath:watchlistFolder
+                         error:&error];
+        if (error) {
+            DLog(@"%@", error);
+        }
     }
 
     return watchlistFolder;
 }
 
 - (NSString *)watchlistFilePath {
-    return [self.watchlistFolder stringByAppendingPathComponent:WATCH_LIST_CACHE_FILE];
+    NSString *watchlistFilePath = [self.watchlistFolder stringByAppendingPathComponent:WATCH_LIST_CACHE_FILE];
+    NSFileManager *defaultManager = [NSFileManager defaultManager];
+    if (![defaultManager fileExistsAtPath:watchlistFilePath]) {
+        // Not exists, create the necessary file.
+        [defaultManager createFileAtPath:watchlistFilePath
+                                contents:nil
+                              attributes:@{NSFileProtectionKey:NSFileProtectionNone}];
+    } else {
+        // Exists, set attribute.
+        NSError *error;
+        [defaultManager setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                         ofItemAtPath:watchlistFilePath
+                                error:&error];
+        if (error) {
+            DLog(@"%@", error);
+        }
+    }
+
+    return watchlistFilePath;
 }
 
 - (NSString *)updateSummary {
