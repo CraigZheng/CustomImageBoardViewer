@@ -113,20 +113,18 @@
 }
 
 -(void)saveCurrentState {
-    // Delete the old copies of archives...
-    [[NSFileManager defaultManager] removeItemAtPath:self.archiveFilePath error:nil];
-    // Create a new file for the cookies.
-    [[NSFileManager defaultManager] createFileAtPath:self.archiveFilePath
-                                            contents:nil
-                                          attributes:@{NSFileProtectionKey:NSFileProtectionNone}];
+    DLog(@"");
+    // Remove old cache files.
+    NSError *error;
+    [[NSFileManager defaultManager] removeItemAtPath:self.archiveFilePath
+                                               error:&error];
+    [[NSFileManager defaultManager] removeItemAtPath:self.inUseFilePath
+                                               error:&error];
+    if (error) {
+        DLog(@"%@", error);
+    }
     [NSKeyedArchiver archiveRootObject:self.archivedCookies toFile:self.archiveFilePath];
-    DDLogDebug(@"%s: archive", __PRETTY_FUNCTION__);
-    [[NSFileManager defaultManager] removeItemAtPath:self.inUseFilePath error:nil];
     if (self.currentInUseCookie) {
-        // Create a new file for the in use cookie.
-        [[NSFileManager defaultManager] createFileAtPath:self.inUseFilePath
-                                                contents:nil
-                                              attributes:@{NSFileProtectionKey:NSFileProtectionNone}];
         [NSKeyedArchiver archiveRootObject:self.currentInUseCookie toFile:self.inUseFilePath];
         DDLogDebug(@"%s: in use", __PRETTY_FUNCTION__);
     }
@@ -136,8 +134,11 @@
     // Try to restore the legacy file, and delete it afterward.
     NSString *legacyFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:COOKIES_ARCHIVE_FILE];
     if ([[NSFileManager defaultManager] fileExistsAtPath:legacyFile]) {
-        DDLogDebug(@"Need to restore legacy file for %@", NSStringFromClass(self.class));
         NSError *error;
+        [[NSFileManager defaultManager] setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                                         ofItemAtPath:legacyFile
+                                                error:&error];
+        DDLogDebug(@"Need to restore legacy file for %@", NSStringFromClass(self.class));
         [[NSFileManager defaultManager] replaceItemAtURL:[NSURL fileURLWithPath:self.archiveFilePath]
                                            withItemAtURL:[NSURL fileURLWithPath:legacyFile]
                                           backupItemName:@"LegacyCookie.dat"
@@ -196,11 +197,39 @@
 }
 
 - (NSString *)archiveFilePath {
-    return [self.cookieFolder stringByAppendingPathComponent:COOKIES_ARCHIVE_FILE];
+    NSString *archiveFilePath = [self.cookieFolder stringByAppendingPathComponent:COOKIES_ARCHIVE_FILE];
+    NSFileManager *manager = [NSFileManager defaultManager];
+    NSError *error;
+    // Always make sure the archive file exists, and can be read when the phone is locked.
+    if ([manager fileExistsAtPath:archiveFilePath]) {
+        [manager setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                  ofItemAtPath:archiveFilePath
+                         error:&error];
+    } else {
+        DLog(@"Need to create file at path: %@", archiveFilePath);
+        [[NSFileManager defaultManager] createFileAtPath:archiveFilePath
+                                                contents:nil
+                                              attributes:@{NSFileProtectionKey:NSFileProtectionNone}];
+    }
+    return archiveFilePath;
 }
 
 - (NSString *)inUseFilePath {
-    return [self.cookieFolder stringByAppendingPathComponent:IN_USE_COOKIE_FILE];
+    NSString *inUseFilePath = [self.cookieFolder stringByAppendingPathComponent:IN_USE_COOKIE_FILE];
+    NSFileManager *manager = [NSFileManager defaultManager];
+    NSError *error;
+    // Always make sure the archive file exists, and can be read when the phone is locked.
+    if ([manager fileExistsAtPath:inUseFilePath]) {
+        [manager setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                  ofItemAtPath:inUseFilePath
+                         error:&error];
+    } else {
+        DLog(@"Need to create cache file at path: %@", inUseFilePath);
+        [[NSFileManager defaultManager] createFileAtPath:inUseFilePath
+                                                contents:nil
+                                              attributes:@{NSFileProtectionKey:NSFileProtectionNone}];
+    }
+    return inUseFilePath;
 }
 
 - (NSMutableArray *)acCookies {
