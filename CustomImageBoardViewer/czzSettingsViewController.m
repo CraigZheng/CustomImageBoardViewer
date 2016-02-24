@@ -198,7 +198,7 @@
     }
     [switchCommands addObject:@"图片下载完毕自动打开"];
 //    [switchCommands addObject:@"开启串缓存"]; // Disbale as is no longer important.
-//    [switchCommands addObject:@"每月自动清理缓存"]; // Disable for now - version 3.3.
+//    [switchCommands addObject:@"每月自动清理缓存"]; // Disable for now - version 3.4.
     if (settingsCentre.should_allow_dart)
         [switchCommands addObject:@"Monitor Performance"];
     [regularCommands addObject:@"图片管理器"];
