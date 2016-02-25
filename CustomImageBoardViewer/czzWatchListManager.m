@@ -38,6 +38,40 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 -(instancetype)init {
     self = [super init];
     if (self) {
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSError *error;
+        // Make sure all cache files and folders are in place.
+        // Folder.
+        if (![fileManager fileExistsAtPath:self.watchlistFolder]){
+            [fileManager createDirectoryAtPath:self.watchlistFolder
+                   withIntermediateDirectories:NO
+                                    attributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                                         error:nil];
+            DDLogDebug(@"Create document folder: %@", self.watchlistFolder);
+        } else {
+            [fileManager setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                          ofItemAtPath:self.watchlistFolder
+                                 error:&error];
+            if (error) {
+                DLog(@"%@", error);
+            }
+        }
+        // Cache file.
+        if (![fileManager fileExistsAtPath:self.watchlistFilePath]) {
+            // Not exists, create the necessary file.
+            [fileManager createFileAtPath:self.watchlistFilePath
+                                 contents:nil
+                               attributes:@{NSFileProtectionKey:NSFileProtectionNone}];
+        } else {
+            // Exists, set attribute.
+            [fileManager setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                          ofItemAtPath:self.watchlistFilePath
+                                 error:&error];
+            if (error) {
+                DLog(@"%@", error);
+            }
+        }
+
         [self restoreState];
         // Listen to app life cycle events.
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -184,33 +218,11 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 #pragma mark - State restoration
 -(void)restoreState {
     @try {
-        // Try to move legacy codes to the new folder.
-        NSString *legacyPath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:WATCH_LIST_CACHE_FILE];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:legacyPath]) {
-            DDLogDebug(@"Need to restore legacy file for %@", NSStringFromClass(self.class));
-            NSError *error;
-            [[NSFileManager defaultManager] setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
-                                             ofItemAtPath:legacyPath
-                                                    error:&error];
-            [[NSFileManager defaultManager] replaceItemAtURL:[NSURL fileURLWithPath:self.watchlistFilePath]
-                                               withItemAtURL:[NSURL fileURLWithPath:legacyPath]
-                                              backupItemName:@"Legacy.dat"
-                                                     options:NSFileManagerItemReplacementUsingNewMetadataOnly
-                                            resultingItemURL:nil
-                                                       error:&error];
-            if (error) {
-                DDLogDebug(@"%s: %@", __PRETTY_FUNCTION__, error);
-            }
-            [[NSFileManager defaultManager] removeItemAtPath:legacyPath error:&error];
-            if (error) {
-                DDLogDebug(@"%s: %@", __PRETTY_FUNCTION__, error);
-            }
-        }
         czzWatchListManager *tempWatchListManager = [NSKeyedUnarchiver unarchiveObjectWithFile:self.watchlistFilePath];
         if (tempWatchListManager && tempWatchListManager.watchedThreads.count) {
             self.manuallyAddedThreads = tempWatchListManager.manuallyAddedThreads;
+            DLog(@"Watchlist restored.");
         }
-        DDLogDebug(@"Restored watch list.");
     }
     @catch (NSException *exception) {
         DDLogDebug(@"%@", exception);
@@ -218,9 +230,6 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 }
 
 -(void)saveState {
-    // Remove the old file and create a new one.
-    [[NSFileManager defaultManager] removeItemAtPath:self.watchlistFilePath
-                                               error:nil];
     [NSKeyedArchiver archiveRootObject:self
                                 toFile:self.watchlistFilePath];
     // Set background fetch interval based on the count of threads being watched.
@@ -248,45 +257,11 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 
 - (NSString *)watchlistFolder {
     NSString *watchlistFolder = [[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"Watchlist"];
-    NSFileManager *manager = [NSFileManager defaultManager];
-    if (![manager fileExistsAtPath:watchlistFolder]){
-        [manager createDirectoryAtPath:watchlistFolder
-                                  withIntermediateDirectories:NO 
-                                                   attributes:@{NSFileProtectionKey:NSFileProtectionNone}
-                                                        error:nil];
-        DDLogDebug(@"Create document folder: %@", watchlistFolder);
-    } else {
-        NSError *error;
-        [manager setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
-                  ofItemAtPath:watchlistFolder
-                         error:&error];
-        if (error) {
-            DLog(@"%@", error);
-        }
-    }
-
     return watchlistFolder;
 }
 
 - (NSString *)watchlistFilePath {
     NSString *watchlistFilePath = [self.watchlistFolder stringByAppendingPathComponent:WATCH_LIST_CACHE_FILE];
-    NSFileManager *defaultManager = [NSFileManager defaultManager];
-    if (![defaultManager fileExistsAtPath:watchlistFilePath]) {
-        // Not exists, create the necessary file.
-        [defaultManager createFileAtPath:watchlistFilePath
-                                contents:nil
-                              attributes:@{NSFileProtectionKey:NSFileProtectionNone}];
-    } else {
-        // Exists, set attribute.
-        NSError *error;
-        [defaultManager setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
-                         ofItemAtPath:watchlistFilePath
-                                error:&error];
-        if (error) {
-            DLog(@"%@", error);
-        }
-    }
-
     return watchlistFilePath;
 }
 
