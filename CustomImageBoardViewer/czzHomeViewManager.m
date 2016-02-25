@@ -9,6 +9,7 @@
 #import "czzHomeViewManager.h"
 #import "czzImageCacheManager.h"
 #import "czzImageDownloaderManager.h"
+#import <Google/Analytics.h>
 
 @interface czzHomeViewManager ()
 @property (nonatomic, readonly) NSString *cacheFile;
@@ -75,6 +76,10 @@
 }
 
 -(void)refresh {
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Refresh"
+                                                                                        action:@"Refresh Forum"
+                                                                                         label:self.forum.name
+                                                                                         value:@1] build]];
     [self removeAll];
     [self loadMoreThreads:self.pageNumber];
 }

@@ -239,16 +239,15 @@
         }
         
         // Google Analytic integration.
-        NSString *label = self.postSender.content;
+        NSString *label = @"Post Text";
         // Chunk the text.
-        if (label.length > 100) {
-            label = [label substringToIndex:99];
+        if (self.postSender.imgData) {
+            label = @"Post Image";
         }
-        NSInteger ID = postSender.parentThread ? postSender.parentThread.ID : 0;
         [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Thread"
                                                                                             action:@"Post Thread"
                                                                                              label:label
-                                                                                             value:@(ID)] build]];
+                                                                                             value:@1] build]];
     } else {
         [czzBannerNotificationUtil displayMessage:@"请检查内容" position:BannerNotificationPositionTop];
     }

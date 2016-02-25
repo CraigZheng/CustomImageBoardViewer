@@ -129,15 +129,10 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     }
     
     // Google Analytic integration.
-    NSString *label = self.threadViewManager.parentThread.content.string;
-    // Chunk the text.
-    if (label.length > 20) {
-        label = [label substringToIndex:19];
-    }
     [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Thread"
                                                                                         action:@"View Thread"
-                                                                                         label:label
-                                                                                         value:@(self.threadViewManager.parentThread.ID)] build]];
+                                                                                         label:[NSString stringWithFormat:@"%ld", (long)self.threadViewManager.parentThread.ID]
+                                                                                         value:@1] build]];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
