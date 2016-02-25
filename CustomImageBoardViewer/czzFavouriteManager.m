@@ -20,6 +20,35 @@
     self = [super init];
     
     if (self) {
+        // Check cache folder and files.
+        
+        NSFileManager *manager = [NSFileManager defaultManager];
+        NSError *error;
+        if (![manager fileExistsAtPath:self.favouriteFolder]){
+            [manager createDirectoryAtPath:self.favouriteFolder
+               withIntermediateDirectories:NO
+                                attributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                                     error:nil];
+            DDLogDebug(@"Create document folder: %@", self.favouriteFolder);
+        } else {
+            [manager setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                      ofItemAtPath:self.favouriteFolder
+                             error:&error];
+        }
+        // Create the new cache file with the given attributes.
+        if (![manager fileExistsAtPath:self.favouriteFilePath]) {
+            [manager createFileAtPath:self.favouriteFilePath
+                             contents:nil
+                           attributes:@{NSFileProtectionKey:NSFileProtectionNone}];
+        } else {
+            [manager setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                      ofItemAtPath:self.favouriteFilePath
+                             error:&error];
+        }
+        if (error) {
+            DLog(@"%@", error);
+        }
+
         favouriteThreads = [NSMutableOrderedSet new];
         [self restorePreviousState];
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -67,12 +96,6 @@
 
 -(void)saveCurrentState {
     DDLogDebug(@"%s", __PRETTY_FUNCTION__);
-    // Remove the old cache file.
-    [[NSFileManager defaultManager] removeItemAtPath:self.favouriteFilePath error:nil];
-    // Create the new cache file with the given attributes.
-    [[NSFileManager defaultManager] createFileAtPath:self.favouriteFilePath
-                                            contents:nil
-                                          attributes:@{NSFileProtectionKey:NSFileProtectionNone}];
     if (![NSKeyedArchiver archiveRootObject:favouriteThreads toFile:self.favouriteFilePath]) {
         DDLogDebug(@"can not save favourite threads to %@", self.favouriteFilePath);
     }
@@ -80,25 +103,6 @@
 
 -(void)restorePreviousState {
     @try {
-        // Trying to restore the legacy file.
-        NSString *legacyFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:FAVOURITE_THREAD_CACHE_FILE];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:legacyFile]) {
-            DDLogDebug(@"Need to restore legacy file for %@", NSStringFromClass(self.class));
-            NSError *error;
-            [[NSFileManager defaultManager] replaceItemAtURL:[NSURL fileURLWithPath:self.favouriteFilePath]
-                                               withItemAtURL:[NSURL fileURLWithPath:legacyFile]
-                                              backupItemName:@"LegacyFavourite.dat"
-                                                     options:0
-                                            resultingItemURL:nil
-                                                       error:&error];
-            if (error) {
-                DDLogDebug(@"%s: %@", __PRETTY_FUNCTION__, error);
-            }
-            [[NSFileManager defaultManager] removeItemAtPath:legacyFile error:&error];
-            if (error) {
-                DDLogDebug(@"%s: %@", __PRETTY_FUNCTION__, error);
-            }
-        }
         if ([[NSFileManager defaultManager] fileExistsAtPath:self.favouriteFilePath]) {
             NSSet *tempSet = [NSKeyedUnarchiver unarchiveObjectWithFile:self.favouriteFilePath];
             if (tempSet) {
@@ -122,13 +126,6 @@
 
 - (NSString *)favouriteFolder {
     NSString *favouriteFolder = [[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"Favourite"];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:favouriteFolder]){
-        [[NSFileManager defaultManager] createDirectoryAtPath:favouriteFolder
-                                  withIntermediateDirectories:NO
-                                                   attributes:@{NSFileProtectionKey:NSFileProtectionNone}
-                                                        error:nil];
-        DDLogDebug(@"Create document folder: %@", favouriteFolder);
-    }
     return favouriteFolder;
 }
 
