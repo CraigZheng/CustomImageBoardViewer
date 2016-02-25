@@ -30,6 +30,34 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
         self.historyCachePath = [self.historyFolder stringByAppendingPathComponent:HISTORY_CACHE_FILE];
         self.postedCachePath = [self.historyFolder stringByAppendingPathComponent:postedHistoryFile];
         self.respondedCachePath = [self.historyFolder stringByAppendingPathComponent:respondedHistoryFile];
+        // Check cache files and folders.
+        NSFileManager *manager = [NSFileManager defaultManager];
+        NSError *error;
+        if (![manager fileExistsAtPath:self.historyFolder]){
+            [manager createDirectoryAtPath:self.historyFolder
+               withIntermediateDirectories:NO
+                                attributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                                     error:nil];
+            DDLogDebug(@"Create document folder: %@", self.historyFolder);
+        } else {
+            [manager setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                      ofItemAtPath:self.historyFolder
+                             error:&error];
+        }
+        // Cache files.
+        NSArray *filePaths = @[self.historyCachePath, self.postedCachePath, self.respondedCachePath];
+        for (NSString *filePath in filePaths) {
+            if ([manager fileExistsAtPath:filePath]) {
+                [manager setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                          ofItemAtPath:filePath
+                                 error:&error];
+            } else {
+                // Create a new file at the original path with no content and no protection attributes.
+                [manager createFileAtPath:filePath
+                                 contents:nil
+                               attributes:@{NSFileProtectionKey:NSFileProtectionNone}];
+            }
+        }
 
         browserHistory = [NSMutableOrderedSet new];
         [self restorePreviousState];
@@ -77,25 +105,6 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
     @try {
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSMutableOrderedSet *tempSet;
-        // Trying to restore the legacy file.
-        NSString *legacyFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:HISTORY_CACHE_FILE];
-        if ([fileManager fileExistsAtPath:legacyFile]) {
-            DDLogDebug(@"Need to restore legacy file for %@", NSStringFromClass(self.class));
-            NSError *error;
-            [fileManager replaceItemAtURL:[NSURL fileURLWithPath:self.historyCachePath]
-                            withItemAtURL:[NSURL fileURLWithPath:legacyFile]
-                           backupItemName:@"LegacyHistory.dat"
-                                  options:0
-                         resultingItemURL:nil
-                                    error:&error];
-            if (error) {
-                DDLogDebug(@"%s: %@", __PRETTY_FUNCTION__, error);
-            }
-            [fileManager removeItemAtPath:legacyFile error:&error];
-            if (error) {
-                DDLogDebug(@"%s: %@", __PRETTY_FUNCTION__, error);
-            }
-        }
         if ([fileManager fileExistsAtPath:self.historyCachePath]) {
             tempSet = [NSKeyedUnarchiver unarchiveObjectWithFile:self.historyCachePath];
             if (tempSet) {
@@ -124,14 +133,6 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
 
 -(void)saveCurrentState {
     DDLogDebug(@"%s", __PRETTY_FUNCTION__);
-    NSArray *filePaths = @[self.historyCachePath, self.postedCachePath, self.respondedCachePath];
-    for (NSString *filePath in filePaths) {
-        [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
-        // Create a new file at the original path with no content and no protection attributes.
-        [[NSFileManager defaultManager] createFileAtPath:filePath
-                                                contents:nil
-                                              attributes:@{NSFileProtectionKey:NSFileProtectionNone}];
-    }
     if (![NSKeyedArchiver archiveRootObject:browserHistory toFile:self.historyCachePath]) {
         DDLogDebug(@"unable to save browser history");
     }
@@ -221,14 +222,6 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
 
 - (NSString *)historyFolder {
     NSString *historyFolder = [[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"History"];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:historyFolder]){
-        [[NSFileManager defaultManager] createDirectoryAtPath:historyFolder
-                                  withIntermediateDirectories:NO
-                                                   attributes:@{NSFileProtectionKey:NSFileProtectionNone}
-                                                        error:nil];
-        DDLogDebug(@"Create document folder: %@", historyFolder);
-    }
-
     return historyFolder;
 }
 
