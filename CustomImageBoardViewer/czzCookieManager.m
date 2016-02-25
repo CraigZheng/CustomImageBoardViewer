@@ -25,6 +25,34 @@
 -(instancetype)init {
     self = [super init];
     if (self) {
+        // On init, check both the in use file path and the archive file path.
+        // Always make sure the archive file exists, and can be read when the phone is locked.
+        // In use file.
+        NSFileManager *manager = [NSFileManager defaultManager];
+        NSError *error;
+        // Always make sure the archive file exists, and can be read when the phone is locked.
+        if ([manager fileExistsAtPath:self.inUseFilePath]) {
+            [manager setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                      ofItemAtPath:self.inUseFilePath
+                             error:&error];
+        } else {
+            DLog(@"Need to create cache file at path: %@", self.inUseFilePath);
+            [[NSFileManager defaultManager] createFileAtPath:self.inUseFilePath
+                                                    contents:nil
+                                                  attributes:@{NSFileProtectionKey:NSFileProtectionNone}];
+        }
+        // Archive file.
+        if ([manager fileExistsAtPath:self.archiveFilePath]) {
+            [manager setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                      ofItemAtPath:self.archiveFilePath
+                             error:&error];
+        } else {
+            DLog(@"Need to create file at path: %@", self.archiveFilePath);
+            [[NSFileManager defaultManager] createFileAtPath:self.archiveFilePath
+                                                    contents:nil
+                                                  attributes:@{NSFileProtectionKey:NSFileProtectionNone}];
+        }
+        
         self.archivedCookies = [NSMutableArray new];
         [self restoreArchivedCookies];
         [self getCookieIfHungry];
@@ -113,16 +141,6 @@
 }
 
 -(void)saveCurrentState {
-    DLog(@"");
-    // Remove old cache files.
-    NSError *error;
-    [[NSFileManager defaultManager] removeItemAtPath:self.archiveFilePath
-                                               error:&error];
-    [[NSFileManager defaultManager] removeItemAtPath:self.inUseFilePath
-                                               error:&error];
-    if (error) {
-        DLog(@"%@", error);
-    }
     [NSKeyedArchiver archiveRootObject:self.archivedCookies toFile:self.archiveFilePath];
     if (self.currentInUseCookie) {
         [NSKeyedArchiver archiveRootObject:self.currentInUseCookie toFile:self.inUseFilePath];
@@ -131,32 +149,12 @@
 }
 
 -(void)restoreArchivedCookies {
-    // Try to restore the legacy file, and delete it afterward.
-    NSString *legacyFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:COOKIES_ARCHIVE_FILE];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:legacyFile]) {
-        NSError *error;
-        [[NSFileManager defaultManager] setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
-                                         ofItemAtPath:legacyFile
-                                                error:&error];
-        DDLogDebug(@"Need to restore legacy file for %@", NSStringFromClass(self.class));
-        [[NSFileManager defaultManager] replaceItemAtURL:[NSURL fileURLWithPath:self.archiveFilePath]
-                                           withItemAtURL:[NSURL fileURLWithPath:legacyFile]
-                                          backupItemName:@"LegacyCookie.dat"
-                                                 options:0
-                                        resultingItemURL:nil
-                                                   error:&error];
-        if (error) {
-            DDLogDebug(@"%s: %@", __PRETTY_FUNCTION__, error);
-        }
-        [[NSFileManager defaultManager] removeItemAtPath:legacyFile error:&error];
-        if (error) {
-            DDLogDebug(@"%s: %@", __PRETTY_FUNCTION__, error);
-        }        
-    }
     // Restore the archived cookies.
     if ([[NSFileManager defaultManager] fileExistsAtPath:self.archiveFilePath]) {
         id archivedCookies = [NSKeyedUnarchiver unarchiveObjectWithFile:self.archiveFilePath];
-        if ([archivedCookies isKindOfClass:[NSMutableArray class]]){
+        // Check is a non-empty array.
+        if ([archivedCookies isKindOfClass:[NSMutableArray class]] &&
+            [(NSMutableArray *)archivedCookies count]){
             self.archivedCookies = archivedCookies;
             DDLogDebug(@"%s: in archive", __PRETTY_FUNCTION__);
         }
@@ -198,37 +196,11 @@
 
 - (NSString *)archiveFilePath {
     NSString *archiveFilePath = [self.cookieFolder stringByAppendingPathComponent:COOKIES_ARCHIVE_FILE];
-    NSFileManager *manager = [NSFileManager defaultManager];
-    NSError *error;
-    // Always make sure the archive file exists, and can be read when the phone is locked.
-    if ([manager fileExistsAtPath:archiveFilePath]) {
-        [manager setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
-                  ofItemAtPath:archiveFilePath
-                         error:&error];
-    } else {
-        DLog(@"Need to create file at path: %@", archiveFilePath);
-        [[NSFileManager defaultManager] createFileAtPath:archiveFilePath
-                                                contents:nil
-                                              attributes:@{NSFileProtectionKey:NSFileProtectionNone}];
-    }
     return archiveFilePath;
 }
 
 - (NSString *)inUseFilePath {
     NSString *inUseFilePath = [self.cookieFolder stringByAppendingPathComponent:IN_USE_COOKIE_FILE];
-    NSFileManager *manager = [NSFileManager defaultManager];
-    NSError *error;
-    // Always make sure the archive file exists, and can be read when the phone is locked.
-    if ([manager fileExistsAtPath:inUseFilePath]) {
-        [manager setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
-                  ofItemAtPath:inUseFilePath
-                         error:&error];
-    } else {
-        DLog(@"Need to create cache file at path: %@", inUseFilePath);
-        [[NSFileManager defaultManager] createFileAtPath:inUseFilePath
-                                                contents:nil
-                                              attributes:@{NSFileProtectionKey:NSFileProtectionNone}];
-    }
     return inUseFilePath;
 }
 
