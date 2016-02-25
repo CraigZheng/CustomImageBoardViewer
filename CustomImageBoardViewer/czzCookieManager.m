@@ -25,11 +25,25 @@
 -(instancetype)init {
     self = [super init];
     if (self) {
-        // On init, check both the in use file path and the archive file path.
+        // On init, check the cache folder and files.
         // Always make sure the archive file exists, and can be read when the phone is locked.
-        // In use file.
         NSFileManager *manager = [NSFileManager defaultManager];
         NSError *error;
+        if (![manager fileExistsAtPath:self.cookieFolder]){
+            [manager createDirectoryAtPath:self.cookieFolder
+               withIntermediateDirectories:NO
+                                attributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                                     error:nil];
+            DDLogDebug(@"Create document folder: %@", self.cookieFolder);
+        } else {
+            [manager setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                      ofItemAtPath:self.cookieFolder
+                             error:&error];
+        }
+        if (error) {
+            DLog(@"%@", error);
+        }
+        // In use file.
         // Always make sure the archive file exists, and can be read when the phone is locked.
         if ([manager fileExistsAtPath:self.inUseFilePath]) {
             [manager setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
@@ -184,13 +198,6 @@
 
 - (NSString *)cookieFolder {
     NSString *cookieFolder = [[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"Cookies"];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:cookieFolder]){
-        [[NSFileManager defaultManager] createDirectoryAtPath:cookieFolder
-                                  withIntermediateDirectories:NO
-                                                   attributes:@{NSFileProtectionKey:NSFileProtectionNone}
-                                                        error:nil];
-        DDLogDebug(@"Create document folder: %@", cookieFolder);
-    }
     return cookieFolder;
 }
 
