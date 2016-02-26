@@ -10,6 +10,7 @@
 #import "PropertyUtil.h"
 #import <objc/runtime.h>
 #import "czzAppDelegate.h"
+#import "czzBannerNotificationUtil.h"
 #import "czzURLDownloader.h"
 #import <UIKit/UIKit.h>
 
@@ -239,7 +240,10 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
             [self saveSettings]; //save settings from remote
             DDLogDebug(@"settings updated from remote server");
             if (message.length > 0) {
-                [AppDelegate showToast:message];
+                [czzBannerNotificationUtil displayMessage:message
+                                                 position:BannerNotificationPositionBottom
+                                   userInteractionHandler:^{}
+                                       waitForInteraction:NO];
             }
         }
     }

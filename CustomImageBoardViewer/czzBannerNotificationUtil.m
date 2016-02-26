@@ -13,8 +13,8 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-static NSTimeInterval defaultDisplayTime = 2.0;
-static NSTimeInterval displayTimeWithCompletionHandler = 6.0;
+static NSTimeInterval defaultDisplayTime = 4.0;
+static NSTimeInterval displayTimeWithCompletionHandler = 8.0;
 static NSTimeInterval defaultAnimationDuration = 0.2;
 
 @interface czzBannerNotificationUtil() <czzBannerViewDelegate>
