@@ -136,7 +136,7 @@
             if (self.displayPostSender.imgData) {
                 [[AppDelegate window] makeToast:nil
                                        duration:1.5
-                                       position:@"middle"
+                                       position:@"top"
                                           image:[UIImage imageWithData:self.displayPostSender.imgData]];
             }
             for (UIBarButtonItem *button in buttons) {
@@ -363,7 +363,7 @@
         }];
     } else {
         // JPG or PNG image, upload straight away.
-        NSData *imageData = UIImageJPEGRepresentation(pickedImage, 0.85);
+        NSData *imageData = UIImageJPEGRepresentation(pickedImage, 0.9);
         NSString *titleWithSize = [ValueFormatter convertByte:imageData.length];
         //resize the image if the picked image is too big
         CGFloat scale = pickedImage.size.width * pickedImage.size.height / (1920 * 1080);
@@ -371,9 +371,11 @@
             NSInteger newWidth = pickedImage.size.width / scale;
             pickedImage = [self imageWithImage:pickedImage scaledToWidth:newWidth];
             [[AppDelegate window] makeToast:@"由于图片尺寸太大，已进行压缩" duration:1.5 position:@"top" title:titleWithSize image:pickedImage];
+            imageData = UIImageJPEGRepresentation(pickedImage, 0.9);
         } else {
             [[AppDelegate window] makeToast:titleWithSize duration:1.5 position:@"top" image:pickedImage];
         }
+        imageData = UIImageJPEGRepresentation(pickedImage, 0.9);
         // No need to specify the format
         [postSender setImgData:imageData format:nil];
     }
