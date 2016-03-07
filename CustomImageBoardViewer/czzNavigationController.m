@@ -36,6 +36,14 @@
     [self.navigationBar addSubview:progressView];
 }
 
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    if (self.viewDeckController) {
+        [self.viewDeckController closeLeftView];
+        [self.viewDeckController closeRightView];
+    }
+    [super pushViewController:viewController animated:animated];
+}
+
 #pragma mark - Getters
 
 - (UINavigationController *)leftViewController {
