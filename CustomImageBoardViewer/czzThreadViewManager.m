@@ -93,15 +93,6 @@
     }
 }
 
-#pragma mark - Delegate actions
-- (void)showContentWithThread:(czzThread *)thread {
-    if (thread && [self.delegate respondsToSelector:@selector(threadViewManager:wantsToShowContentForThread:)]) {
-        [self.delegate threadViewManager:self wantsToShowContentForThread:thread];
-    } else {
-        DDLogDebug(@"Thread or delegate nil: %s", __PRETTY_FUNCTION__);
-    }
-}
-
 #pragma mark - setters
 -(void)setParentThread:(czzThread *)thread {
     if (thread) {

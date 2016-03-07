@@ -33,6 +33,7 @@
 #import "czzHomeTableViewManager.h"
 #import "czzReplyUtil.h"
 #import "czzPostSenderManagerViewController.h"
+#import "czzMiniThreadViewController.h"
 #import "czzBannerNotificationUtil.h"
 
 #import <CoreText/CoreText.h>
@@ -50,6 +51,8 @@
 @property (strong, nonatomic) czzFavouriteManagerViewController *favouriteManagerViewController;
 @property (strong, nonatomic) czzHomeTableViewManager *homeTableViewManager;
 @property (strong, nonatomic) czzOnScreenImageManagerViewController *onScreenImageManagerViewController;
+@property (strong, nonatomic) czzMiniThreadViewController *miniThreadView;
+
 @end
 
 @implementation czzHomeViewController
@@ -294,6 +297,14 @@
         _homeTableViewManager.homeTableView = self.threadTableView;
     }
     return _homeTableViewManager;
+}
+
+#pragma mark - czzHomeViewManagerDelegate
+
+- (void)homeViewManager:(czzHomeViewManager *)homeViewManager wantsToShowContentForThread:(czzThread *)thread {
+    self.miniThreadView = [czzMiniThreadViewController new];
+    self.miniThreadView.myThread = thread;
+    [self.miniThreadView modalShow];
 }
 
 - (void)homeViewManagerWantsToReload:(czzHomeViewManager *)manager {

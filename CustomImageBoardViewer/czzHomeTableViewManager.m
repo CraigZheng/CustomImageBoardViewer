@@ -317,6 +317,29 @@ estimatedHeightForRowAtIndexPath:indexPath];
     }
 }
 
+- (void)userTapInQuotedText:(NSString *)text {
+    // Text cannot be parsed to an integer, return...
+    text = [text componentsSeparatedByString:@"/"].lastObject;
+    NSInteger threadID = text.integerValue;
+    if (!threadID) {
+        return;
+    }
+    
+    // Thread not found in the downloaded thread, get it from server instead.
+    [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"正在下载: %ld", (long)text.integerValue]];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        czzThread * thread = [[czzThread alloc] initWithThreadID:text.integerValue];
+        // After return, run the remaining codes in main thread.
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (thread) {
+                [self.homeViewManager showContentWithThread:thread];
+            } else {
+                [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"找不到引用串：%ld", (long)thread.ID]];
+            }
+        });
+    });
+}
+
 - (void)threadViewCellContentChanged:(czzMenuEnabledTableViewCell *)cell {
     NSNumber *threadID = @(cell.thread.ID);
     [self.cachedHeights removeObjectForKey:threadID];

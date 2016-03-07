@@ -181,18 +181,7 @@
     }
 
     // Thread not found in the downloaded thread, get it from server instead.
-    [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"正在下载: %ld", (long)text.integerValue]];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        czzThread * thread = [[czzThread alloc] initWithThreadID:text.integerValue];
-        // After return, run the remaining codes in main thread.
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (thread) {
-                [self.threadViewManager showContentWithThread:thread];
-            } else {
-                [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"找不到引用串：%ld", (long)thread.ID]];
-            }
-        });
-    });
+    [super userTapInQuotedText:text];
 }
 
 - (void)userWantsToReply:(czzThread *)thread inParentThread:(czzThread *)parentThread{

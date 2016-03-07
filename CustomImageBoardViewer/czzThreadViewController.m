@@ -259,7 +259,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 #pragma mark - czzThreadViewManagerDelegate
-- (void)threadViewManager:(czzThreadViewManager *)threadViewManager wantsToShowContentForThread:(czzThread *)thread {
+- (void)homeViewManager:(czzHomeViewManager *)homeViewManager wantsToShowContentForThread:(czzThread *)thread {
     self.miniThreadView = [czzMiniThreadViewController new];
     self.miniThreadView.myThread = thread;
     [self.miniThreadView modalShow];

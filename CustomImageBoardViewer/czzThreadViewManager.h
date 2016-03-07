@@ -12,8 +12,6 @@
 
 @class czzThreadViewManager;
 @protocol czzThreadViewManagerDelegate <czzHomeViewManagerDelegate>
-@optional
--(void)threadViewManager:(czzThreadViewManager*)threadViewManager wantsToShowContentForThread:(czzThread*)thread;
 @end
 
 @interface czzThreadViewManager : czzHomeViewManager
@@ -27,5 +25,4 @@
 - (void)HighlightThreadSelected:(czzThread *)selectedThread;
 - (instancetype)initWithParentThread:(czzThread*)thread andForum:(czzForum*)forum;
 - (instancetype)restoreWithFile:(NSString*)filePath;
-- (void)showContentWithThread:(czzThread*)thread;
 @end

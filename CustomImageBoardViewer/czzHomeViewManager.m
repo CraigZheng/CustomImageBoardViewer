@@ -123,6 +123,15 @@
     }
 }
 
+#pragma mark - Delegate actions
+- (void)showContentWithThread:(czzThread *)thread {
+    if (thread && [self.delegate respondsToSelector:@selector(homeViewManager:wantsToShowContentForThread:)]) {
+        [self.delegate homeViewManager:self wantsToShowContentForThread:thread];
+    } else {
+        DDLogDebug(@"Thread or delegate nil: %s", __PRETTY_FUNCTION__);
+    }
+}
+
 #pragma mark - czzThreadDownloaderDelegate
 - (void)threadDownloaderBeginsDownload:(czzThreadDownloader *)downloader {
     [self.delegate homeViewManagerBeginsDownloading:self];

@@ -33,6 +33,7 @@
 
 // Need to reload
 -(void)homeViewManagerWantsToReload:(czzHomeViewManager*)manager;
+-(void)homeViewManager:(czzHomeViewManager*)homeViewManager wantsToShowContentForThread:(czzThread*)thread;
 
 @end
 
@@ -59,6 +60,7 @@
 -(void)removeAll;
 //-(void)calculateHeightsForThreads:(NSArray*)newThreads;
 -(void)scrollToContentOffset:(CGPoint)offset;
+- (void)showContentWithThread:(czzThread*)thread;
 
 //save and restore
 -(NSString*)saveCurrentState;
