@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+#import "czzURLDownloader.h"
+#import "czzJSONProcessor.h"
+
 @class czzThread, czzForum;
 @class czzThreadDownloader;
 @protocol czzThreadDownloaderDelegate <NSObject>
@@ -20,9 +23,9 @@
 
 @end
 
-@interface czzThreadDownloader : NSObject
+@interface czzThreadDownloader : NSObject <czzURLDownloaderProtocol, czzJSONProcessorDelegate>
 @property (nonatomic, assign) NSInteger pageNumber;
-
+@property (nonatomic, assign) NSInteger totalPages;
 @property (nonatomic, weak) id<czzThreadDownloaderDelegate>delegate;
 @property (nonatomic, strong) czzThread *parentThread;
 @property (nonatomic, strong) czzForum *parentForum;

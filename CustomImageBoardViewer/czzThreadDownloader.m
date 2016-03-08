@@ -8,13 +8,11 @@
 
 #import "czzThreadDownloader.h"
 
-#import "czzURLDownloader.h"
-#import "czzJSONProcessor.h"
 #import "czzThread.h"
 #import "czzForum.h"
 #import "czzSettingsCentre.h"
 
-@interface czzThreadDownloader() <czzURLDownloaderProtocol, czzJSONProcessorDelegate>
+@interface czzThreadDownloader()
 @property (nonatomic, strong) czzURLDownloader *urlDownloader;
 @property (nonatomic, strong) czzJSONProcessor *jsonProcessor;
 
@@ -171,13 +169,13 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         // Page number, if download is not successful or not enough to fill a page, reverse the page number by 1.
         CGFloat pageNumber = (success && newThread.count >= settingCentre.response_per_page) ? self.pageNumber : self.pageNumber--;
-        CGFloat totalPages = 1; //Default values.
         
-        totalPages = (CGFloat)parentThread.responseCount / (CGFloat)settingCentre.response_per_page;
-        totalPages = ceilf(totalPages);
+        self.totalPages = (CGFloat)parentThread.responseCount / (CGFloat)settingCentre.response_per_page;
+        self.totalPages = ceilf(self.totalPages);
         self.parentThread = parentThread;
         // Notify delegate about the page number
-        [self notifyDelegatePageNumberUpdated:pageNumber total:totalPages];
+        [self notifyDelegatePageNumberUpdated:pageNumber
+                                        total:self.totalPages];
         
         // Notify delegate about the successful download.
         [self notifyDelegateSuccess:success downloadedThreads:newThread error:nil];

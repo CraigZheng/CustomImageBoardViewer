@@ -390,6 +390,7 @@
 		44E7920A1A17856500A63C04 /* view.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E791CA1A17856500A63C04 /* view.png */; };
 		44E7920B1A17856500A63C04 /* view@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E791CB1A17856500A63C04 /* view@2x.png */; };
 		44E7920C1A17856500A63C04 /* view@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E791CC1A17856500A63C04 /* view@3x.png */; };
+		44EA3CC91C8E6844007A433E /* czzMassiveThreadDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 44EA3CC81C8E6844007A433E /* czzMassiveThreadDownloader.m */; };
 		44F86B651BFE0012001306E8 /* czzWatchKitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469E01BAD9B5000C0AACC /* czzWatchKitCommand.m */; };
 		44F86B6B1C1BB505001306E8 /* ThreadContentPage2.json in Resources */ = {isa = PBXBuildFile; fileRef = 44F86B6A1C1BB505001306E8 /* ThreadContentPage2.json */; };
 		44F86B6C1C1BB505001306E8 /* ThreadContentPage2.json in Resources */ = {isa = PBXBuildFile; fileRef = 44F86B6A1C1BB505001306E8 /* ThreadContentPage2.json */; };
@@ -997,6 +998,8 @@
 		44E791CA1A17856500A63C04 /* view.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = view.png; sourceTree = "<group>"; };
 		44E791CB1A17856500A63C04 /* view@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "view@2x.png"; sourceTree = "<group>"; };
 		44E791CC1A17856500A63C04 /* view@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "view@3x.png"; sourceTree = "<group>"; };
+		44EA3CC71C8E6844007A433E /* czzMassiveThreadDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzMassiveThreadDownloader.h; sourceTree = "<group>"; };
+		44EA3CC81C8E6844007A433E /* czzMassiveThreadDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzMassiveThreadDownloader.m; sourceTree = "<group>"; };
 		44F86B691C1BAC4C001306E8 /* CoustomImageBoardViewerTest.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoustomImageBoardViewerTest.pch; sourceTree = "<group>"; };
 		44F86B6A1C1BB505001306E8 /* ThreadContentPage2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ThreadContentPage2.json; sourceTree = "<group>"; };
 		44FC4343180067CF0028D7C9 /* czzPostSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzPostSender.h; sourceTree = "<group>"; };
@@ -1802,6 +1805,8 @@
 				4498B68A199249180014F73F /* czzJSONProcessor */,
 				449E92881BF8A33300EE2F58 /* czzThreadDownloader.h */,
 				449E92891BF8A33300EE2F58 /* czzThreadDownloader.m */,
+				44EA3CC71C8E6844007A433E /* czzMassiveThreadDownloader.h */,
+				44EA3CC81C8E6844007A433E /* czzMassiveThreadDownloader.m */,
 			);
 			name = czzThreadDownloader;
 			sourceTree = "<group>";
@@ -2990,6 +2995,7 @@
 				44A372DD1C28D9E0004CBA48 /* czzDebugSettingsTableViewController.m in Sources */,
 				5AF85E681970025A0031D0CB /* czzSearchViewController.m in Sources */,
 				4448C2A7180FF55A00D2CD76 /* czzBlacklistDownloader.m in Sources */,
+				44EA3CC91C8E6844007A433E /* czzMassiveThreadDownloader.m in Sources */,
 				442CD0E31851601A0021AD37 /* czzImageDownloader.m in Sources */,
 				440B2FCC17F8057500544926 /* czzPostViewController.m in Sources */,
 				44E469DC1BAC421D00C0AACC /* czzWatchKitManager.m in Sources */,
