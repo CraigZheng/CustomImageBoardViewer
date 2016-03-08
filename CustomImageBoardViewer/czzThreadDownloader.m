@@ -159,27 +159,23 @@
 
 - (void)threadListProcessed:(czzJSONProcessor *)processor :(NSArray *)newThread :(BOOL)success {
     // TODO: give proper error.
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self notifyDelegatePageNumberUpdated:success ? self.pageNumber : self.pageNumber-- total:INT32_MAX];
-        [self notifyDelegateSuccess:success downloadedThreads:newThread error:nil];
-    });
+    [self notifyDelegatePageNumberUpdated:success ? self.pageNumber : self.pageNumber-- total:INT32_MAX];
+    [self notifyDelegateSuccess:success downloadedThreads:newThread error:nil];
 }
 
 - (void)subThreadProcessedForThread:(czzJSONProcessor *)processor :(czzThread *)parentThread :(NSArray *)newThread :(BOOL)success {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        // Page number, if download is not successful or not enough to fill a page, reverse the page number by 1.
-        CGFloat pageNumber = (success && newThread.count >= settingCentre.response_per_page) ? self.pageNumber : self.pageNumber--;
-        
-        self.totalPages = (CGFloat)parentThread.responseCount / (CGFloat)settingCentre.response_per_page;
-        self.totalPages = ceilf(self.totalPages);
-        self.parentThread = parentThread;
-        // Notify delegate about the page number
-        [self notifyDelegatePageNumberUpdated:pageNumber
-                                        total:self.totalPages];
-        
-        // Notify delegate about the successful download.
-        [self notifyDelegateSuccess:success downloadedThreads:newThread error:nil];
-    });
+    // Page number, if download is not successful or not enough to fill a page, reverse the page number by 1.
+    CGFloat pageNumber = (success && newThread.count >= settingCentre.response_per_page) ? self.pageNumber : self.pageNumber--;
+    
+    self.totalPages = (CGFloat)parentThread.responseCount / (CGFloat)settingCentre.response_per_page;
+    self.totalPages = ceilf(self.totalPages);
+    self.parentThread = parentThread;
+    // Notify delegate about the page number
+    [self notifyDelegatePageNumberUpdated:pageNumber
+                                    total:self.totalPages];
+    
+    // Notify delegate about the successful download.
+    [self notifyDelegateSuccess:success downloadedThreads:newThread error:nil];
 }
 
 @end

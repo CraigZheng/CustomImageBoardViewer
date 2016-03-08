@@ -14,11 +14,11 @@
 @end
 
 @implementation czzMassiveThreadDownloader
+@dynamic delegate;
 
 - (void)start {
     // Must make sure the parentThread is not nil.
     assert(self.parentThread);
-    self.bulkThreads = nil;
     [super start];
 }
 
@@ -28,14 +28,23 @@
     [self.bulkThreads addObjectsFromArray:newThread];
     
     // If success and self.pageNumber not equals to self.total pages, load more.
-    if (success && self.pageNumber < self.totalPages) {
-        self.pageNumber ++;
-        [self start];
+    if (success) {
+        if (self.pageNumber < self.totalPages) {
+            self.pageNumber ++;
+            [self start];
+        } else {
+            // Notify delegate that the download is over.
+            [self.delegate massiveDownloader:self
+                                     success:success
+                           downloadedThreads:self.bulkThreads
+                                      errors:nil]; // TODO: an array of errors.
+        }
     } else {
-        // Notify delegate that the download is over.
-        [self.delegate massiveDownloader:self success:self.pageNumber == self.totalPages
+        // Download failed prematurelly.
+        [self.delegate massiveDownloader:self
+                                 success:success
                        downloadedThreads:self.bulkThreads
-                                  errors:nil]; // TODO: an array of errors.
+                                  errors:nil];
     }
 }
 
