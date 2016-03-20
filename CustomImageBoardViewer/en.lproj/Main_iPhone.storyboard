@@ -481,11 +481,12 @@
                     <toolbarItems>
                         <barButtonItem style="plain" id="v7e-1w-UHH">
                             <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="XSV-OW-DVO">
-                                <rect key="frame" x="16" y="7" width="161" height="31"/>
+                                <rect key="frame" x="16" y="7" width="161" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title="必应"/>
                                     <segment title="谷歌"/>
+                                    <segment title="百度"/>
                                 </segments>
                                 <connections>
                                     <action selector="segmentControlChanged:" destination="4fE-Ef-JB7" eventType="valueChanged" id="Mfp-5i-zbb"/>
@@ -944,7 +945,7 @@
         <image name="visible.png" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="5Fw-Ve-fjP"/>
+        <segue reference="ec7-IS-eS6"/>
         <segue reference="vK6-NU-jzp"/>
     </inferredMetricsTieBreakers>
 </document>
