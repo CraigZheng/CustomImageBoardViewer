@@ -12,6 +12,7 @@ pod 'PureLayout'
 pod 'CocoaLumberjack'
 pod 'AFNetworking', '~> 3.0'
 pod 'SplunkMint'
+pod "QBImagePickerController"
 end
 
 target 'CustomImageBoardViewerTests' do
