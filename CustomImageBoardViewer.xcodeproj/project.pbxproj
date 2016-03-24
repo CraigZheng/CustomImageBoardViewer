@@ -73,6 +73,7 @@
 		442F1FE41B15FC8500267698 /* UIApplication+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FE01B15FC8500267698 /* UIApplication+Util.m */; };
 		443141971A2B38D6007D65B3 /* czzThreadViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141961A2B38D6007D65B3 /* czzThreadViewManager.m */; };
 		4431419A1A2B5198007D65B3 /* GSIndeterminateProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141991A2B5198007D65B3 /* GSIndeterminateProgressView.m */; };
+		4431E53F1CA4B5B00098AA01 /* LaunchPopUpNotification.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4431E53E1CA4B5B00098AA01 /* LaunchPopUpNotification.storyboard */; };
 		4432BA911AA88544002C66F5 /* thread list example.json in Resources */ = {isa = PBXBuildFile; fileRef = 4432BA901AA88544002C66F5 /* thread list example.json */; };
 		4432BA941AA88613002C66F5 /* thread content example.json in Resources */ = {isa = PBXBuildFile; fileRef = 4432BA921AA88613002C66F5 /* thread content example.json */; };
 		4432BA951AA88613002C66F5 /* get forums example.json in Resources */ = {isa = PBXBuildFile; fileRef = 4432BA931AA88613002C66F5 /* get forums example.json */; };
@@ -583,6 +584,7 @@
 		443141961A2B38D6007D65B3 /* czzThreadViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewManager.m; sourceTree = "<group>"; };
 		443141981A2B5198007D65B3 /* GSIndeterminateProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSIndeterminateProgressView.h; sourceTree = "<group>"; };
 		443141991A2B5198007D65B3 /* GSIndeterminateProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSIndeterminateProgressView.m; sourceTree = "<group>"; };
+		4431E53E1CA4B5B00098AA01 /* LaunchPopUpNotification.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchPopUpNotification.storyboard; sourceTree = "<group>"; };
 		4432BA901AA88544002C66F5 /* thread list example.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "thread list example.json"; sourceTree = "<group>"; };
 		4432BA921AA88613002C66F5 /* thread content example.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "thread content example.json"; sourceTree = "<group>"; };
 		4432BA931AA88613002C66F5 /* get forums example.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "get forums example.json"; sourceTree = "<group>"; };
@@ -1278,6 +1280,7 @@
 				44CBF3FD1BC9243300DFECFC /* CacheCleaner */,
 				44E2D2D91B2DB7AD0029D783 /* UtilViewControllers */,
 				44DF8ECC1A74CA4B0097F7F5 /* Utils */,
+				445CA5511CA3BB7000D3C315 /* LaunchPopupNotification */,
 				44DF8EE01A74D6320097F7F5 /* czzCookieManagerViewController */,
 				5AF85E691970025F0031D0CB /* czzSearchViewController */,
 				44BE2E3C1938400A00601943 /* czzOnScreenCommand */,
@@ -1729,6 +1732,7 @@
 			children = (
 				445CA5521CA3BB8F00D3C315 /* czzLaunchPopUpNotification.h */,
 				445CA5531CA3BB8F00D3C315 /* czzLaunchPopUpNotification.m */,
+				4431E53E1CA4B5B00098AA01 /* LaunchPopUpNotification.storyboard */,
 			);
 			name = LaunchPopupNotification;
 			sourceTree = "<group>";
@@ -2150,7 +2154,6 @@
 		44DF8ECC1A74CA4B0097F7F5 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				445CA5511CA3BB7000D3C315 /* LaunchPopupNotification */,
 				441356061C61B37F001B82E5 /* BannerNotification */,
 				44FCCD541BB39866006A6652 /* UIBarButtonItem */,
 				441A6A911BB29380008E380C /* UIButton */,
@@ -2631,6 +2634,7 @@
 				44E791E51A17856500A63C04 /* link@3x.png in Resources */,
 				444F5B451A40EA3500EB391F /* 50.png in Resources */,
 				44E792051A17856500A63C04 /* star@2x.png in Resources */,
+				4431E53F1CA4B5B00098AA01 /* LaunchPopUpNotification.storyboard in Resources */,
 				444F5B2B1A40EA3500EB391F /* 24.png in Resources */,
 				44C73B741A4708BA0051D4C2 /* thumb_down.png in Resources */,
 				44C34557187E6CF000FDE45D /* sougo_emoji_UTF16.txt in Resources */,
