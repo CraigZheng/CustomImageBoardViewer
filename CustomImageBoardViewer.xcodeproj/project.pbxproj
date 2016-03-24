@@ -157,6 +157,8 @@
 		445C66421BBED3EF004B3E83 /* czzThreadViewCellHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 445C66411BBED3EF004B3E83 /* czzThreadViewCellHeaderView.xib */; };
 		445C66451BBED6FB004B3E83 /* czzThreadViewCellFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 445C66441BBED6FB004B3E83 /* czzThreadViewCellFooterView.xib */; };
 		445C66491BBED722004B3E83 /* czzThreadViewCellFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 445C66481BBED722004B3E83 /* czzThreadViewCellFooterView.m */; };
+		445CA5541CA3BB8F00D3C315 /* czzLaunchPopUpNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 445CA5531CA3BB8F00D3C315 /* czzLaunchPopUpNotification.m */; };
+		445CA5551CA3BB9400D3C315 /* czzLaunchPopUpNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 445CA5531CA3BB8F00D3C315 /* czzLaunchPopUpNotification.m */; };
 		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
 		446557631C60F15A0051F1DD /* invisible@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 446557621C60F15A0051F1DD /* invisible@2x.png */; };
 		446656C91BEAF9380045276B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 442066221BE846820023D91F /* GoogleService-Info.plist */; };
@@ -721,6 +723,8 @@
 		445C66441BBED6FB004B3E83 /* czzThreadViewCellFooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzThreadViewCellFooterView.xib; sourceTree = "<group>"; };
 		445C66471BBED722004B3E83 /* czzThreadViewCellFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewCellFooterView.h; sourceTree = "<group>"; };
 		445C66481BBED722004B3E83 /* czzThreadViewCellFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewCellFooterView.m; sourceTree = "<group>"; };
+		445CA5521CA3BB8F00D3C315 /* czzLaunchPopUpNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzLaunchPopUpNotification.h; sourceTree = "<group>"; };
+		445CA5531CA3BB8F00D3C315 /* czzLaunchPopUpNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzLaunchPopUpNotification.m; sourceTree = "<group>"; };
 		4462EF2318659BC200E6BE78 /* czzFavouriteManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFavouriteManagerViewController.h; sourceTree = "<group>"; };
 		4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFavouriteManagerViewController.m; sourceTree = "<group>"; };
 		446557621C60F15A0051F1DD /* invisible@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "invisible@2x.png"; sourceTree = "<group>"; };
@@ -1720,6 +1724,15 @@
 			name = CPLoadFromNib;
 			sourceTree = "<group>";
 		};
+		445CA5511CA3BB7000D3C315 /* LaunchPopupNotification */ = {
+			isa = PBXGroup;
+			children = (
+				445CA5521CA3BB8F00D3C315 /* czzLaunchPopUpNotification.h */,
+				445CA5531CA3BB8F00D3C315 /* czzLaunchPopUpNotification.m */,
+			);
+			name = LaunchPopupNotification;
+			sourceTree = "<group>";
+		};
 		4462EF2218659B8600E6BE78 /* czzFavouriteManagerVIewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -2137,6 +2150,7 @@
 		44DF8ECC1A74CA4B0097F7F5 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				445CA5511CA3BB7000D3C315 /* LaunchPopupNotification */,
 				441356061C61B37F001B82E5 /* BannerNotification */,
 				44FCCD541BB39866006A6652 /* UIBarButtonItem */,
 				441A6A911BB29380008E380C /* UIButton */,
@@ -3010,6 +3024,7 @@
 				5A0A6BD61848691C0094D7FB /* czzMoreInfoViewController.m in Sources */,
 				4448C2AD18100C6B00D2CD76 /* czzBlacklist.m in Sources */,
 				445B7B591B418F020046CFDB /* czzThreadTableView.m in Sources */,
+				445CA5541CA3BB8F00D3C315 /* czzLaunchPopUpNotification.m in Sources */,
 				441E5D1B17F46E7900289DBD /* SMXMLDocument.m in Sources */,
 				441E5D1217F46A0900289DBD /* czzEntryPointViewController.m in Sources */,
 				440A62A81B8EBC160046E4CE /* UIViewController+Util.m in Sources */,
@@ -3064,6 +3079,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				445CA5551CA3BB9400D3C315 /* czzLaunchPopUpNotification.m in Sources */,
 				442F1FD81B13535B00267698 /* czzHomeTableViewManager.m in Sources */,
 				44C73B8A1A4840100051D4C2 /* czzHistoryManager.m in Sources */,
 				4446B5AF1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m in Sources */,

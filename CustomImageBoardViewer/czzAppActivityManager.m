@@ -77,6 +77,8 @@ NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
 
 -(void)applicationDidBecomeActive {
     [self launchApp];
+    // TODO: show notification.
+    
 }
 
 -(void)applicationDidEnterBackground {
