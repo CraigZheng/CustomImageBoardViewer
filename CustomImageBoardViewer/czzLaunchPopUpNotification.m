@@ -20,12 +20,34 @@ static NSString * const kLastNotificationDisplayTime = @"kLastNotificationDispla
                                                                   error:&error];
         if (!error) {
             self = [super init];
-            self.
+            self.enable = [[jsonDict objectForKey:@"enable"] boolValue];
+            NSDateFormatter *formatter = [NSDateFormatter new];
+            formatter.dateFormat = @"ddddmmyyhh";
+            NSDate *date = [formatter dateFromString:[jsonDict objectForKey:@"date"]];
+            self.notificationDate = date;
+            self.notificationContent = [[jsonDict objectForKey:@"content"] stringValue];
         } else {
             DLog(@"%@", error);
         }
     }
-    return self
+    return self;
+}
+
+
+#pragma mark - Showing - hiding.
+
+- (Boolean)tryShow {
+    Boolean showed = false;
+    // TODO: calculate the last display time, and show only if necessary.
+    return showed;
+}
+
+- (void)show {
+    // TODO: show and record date time.
+}
+
+- (void)hide {
+    // TODO: dismiss any showing notification.
 }
 
 @end
