@@ -156,18 +156,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [self.threadViewManager saveCurrentState];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    // Hide the massive download button at first, then show it with animation.
-    if (!self.massiveDownloadButtonHeightConstraint.constant) {
-        DLog(@"Show massive download button.");
-        self.massiveDownloadButtonHeightConstraint.constant = 40;
-        [UIView animateWithDuration:0.2 animations:^{
-            [self.view layoutIfNeeded];
-        }];
-    }
-}
-
 - (void)dealloc {
     // Avoid calling deacllocated data source and delegate.
     self.threadTableView.dataSource = nil;
@@ -226,6 +214,17 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
         numberBarButton.customView.hidden = YES;
     else
         numberBarButton.customView.hidden = NO;
+    // Hide the massive download button at first, then show it with animation.
+    // Show it only when the total pages is equal or bigger than 3, and is not already all downloaded.
+    if (!self.massiveDownloadButtonHeightConstraint.constant &&
+        viewManager.totalPages >= 3 &&
+        viewManager.pageNumber < viewManager.totalPages) {
+        DLog(@"Show massive download button.");
+        self.massiveDownloadButtonHeightConstraint.constant = 40;
+        [UIView animateWithDuration:0.2 animations:^{
+            [self.view layoutIfNeeded];
+        }];
+    }
 }
 
 -(void)dragOnRefreshControlAction:(id)sender{
