@@ -336,8 +336,6 @@
         [self.refreshControl endRefreshing];
         if (wasSuccessul && self.homeViewManager.pageNumber == 1) {
             [self.threadTableView scrollToTop:NO];
-            // Set to a new set of threads now, clear the cached heights.
-            self.homeTableViewManager.cachedHeights = nil;
         }
         [self updateTableView];
 

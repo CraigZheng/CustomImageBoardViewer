@@ -18,8 +18,6 @@
 
 @property (weak, nonatomic) czzHomeViewManager *homeViewManager;
 @property (weak, nonatomic) czzThreadTableView *homeTableView;
-@property (nonatomic, strong) NSMutableDictionary *cachedHeights;
-@property (nonatomic, strong) NSMutableOrderedSet<NSNumber *> *pendingChangedThreadID;
 @property (nonatomic, assign) czzThreadViewCommandStatusCellViewController *commandStatusViewController;
 
 - (void)reloadData;
