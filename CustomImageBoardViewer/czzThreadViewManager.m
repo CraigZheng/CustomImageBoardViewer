@@ -127,7 +127,7 @@
     return _threads;
 }
 
-#pragma mark - czzThreadDownloaderDelegate
+#pragma mark - czzMassiveThreadDownloaderDelegate
 
 - (void)threadDownloaderCompleted:(czzThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads error:(NSError *)error {
     self.isDownloading = NO;
@@ -174,6 +174,10 @@
 
 }
 
+- (void)massiveDownloader:(czzMassiveThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads errors:(NSArray *)errors {
+    DLog(@"");
+}
+
 #pragma mark - content managements.
 - (void)reset {
     self.totalPages = self.pageNumber = 1;
@@ -192,12 +196,14 @@
 }
 
 - (void)loadAll {
+    DLog(@"");
     if (self.massiveDownloader) {
         [self.massiveDownloader stop];
     }
     self.massiveDownloader = [[czzMassiveThreadDownloader alloc] initWithForum:self.downloader.parentForum
                                                                      andThread:self.downloader.parentThread];
     self.massiveDownloader.delegate = self;
+    [self.massiveDownloader start];
 }
 
 - (void)loadMoreThreads {

@@ -225,6 +225,15 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
             [self.view layoutIfNeeded];
         }];
     }
+    // Else, if the massive download button is showing and view manager has reached all of its pages.
+    else if (self.massiveDownloadButtonHeightConstraint.constant &&
+               viewManager.pageNumber >= viewManager.totalPages) {
+        DLog(@"Hide massive download button.");
+        self.massiveDownloadButtonHeightConstraint.constant = 0;
+        [UIView animateWithDuration:0.2 animations:^{
+            [self.view layoutIfNeeded];
+        }];
+    }
 }
 
 -(void)dragOnRefreshControlAction:(id)sender{
