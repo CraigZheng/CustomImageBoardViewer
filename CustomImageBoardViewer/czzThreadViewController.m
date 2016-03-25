@@ -329,6 +329,19 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     self.threadTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
 }
 
+- (void)viewManagerContinousDownloadUpdated:(czzThreadViewManager *)viewManager {
+    // A download of a page is completed, display it on screen.
+    self.threadViewManager = viewManager;
+}
+
+- (void)viewManager:(czzThreadViewManager *)viewManager continousDownloadCompleted:(BOOL)success {
+    // All threads downloaded, the handling of this event would be the same as a single page downloader event.
+    [self homeViewManager:viewManager
+   threadContentProcessed:success
+               newThreads:viewManager.lastBatchOfThreads
+               allThreads:viewManager.threads];
+}
+
 #pragma mark - UI button actions
 
 - (IBAction)massiveDownloadAction:(id)sender {

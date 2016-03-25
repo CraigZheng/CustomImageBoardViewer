@@ -165,30 +165,35 @@
             [self.threads insertObject:self.parentThread atIndex:0];
         }
     }
-    //calculate current number and total page number
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.delegate respondsToSelector:@selector(homeViewManager:threadContentProcessed:newThreads:allThreads:)]) {
-            [self.delegate homeViewManager:self
-                    threadContentProcessed:success
-                                newThreads:self.lastBatchOfThreads
-                                allThreads:self.threads];
-        }
-    });
-
+    // If the downloader is a massive thread downloader, don't inform delegate about thread download completed event, because there could be more such events.
+    if (![downloader isKindOfClass:[czzMassiveThreadDownloader class]]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ([self.delegate respondsToSelector:@selector(homeViewManager:threadContentProcessed:newThreads:allThreads:)]) {
+                [self.delegate homeViewManager:self
+                        threadContentProcessed:success
+                                    newThreads:self.lastBatchOfThreads
+                                    allThreads:self.threads];
+            }
+        });
+    }
 }
 
 - (void)massiveDownloaderUpdated:(czzMassiveThreadDownloader *)downloader {
     // At the moment, the downloading is not finished yet.
-    if ([self.delegate respondsToSelector:@selector(viewManagerContinousDownloadUpdated:)]) {
-        [self.delegate viewManagerContinousDownloadUpdated:self];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([self.delegate respondsToSelector:@selector(viewManagerContinousDownloadUpdated:)]) {
+            [self.delegate viewManagerContinousDownloadUpdated:self];
+        }
+    });
 }
 
 - (void)massiveDownloader:(czzMassiveThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads errors:(NSArray *)errors {
     DLog(@"");
-    if ([self.delegate respondsToSelector:@selector(viewManager:continousDownloadCompleted:)]) {
-        [self.delegate viewManager:self continousDownloadCompleted:success];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([self.delegate respondsToSelector:@selector(viewManager:continousDownloadCompleted:)]) {
+            [self.delegate viewManager:self continousDownloadCompleted:success];
+        }
+    });
 }
 
 #pragma mark - content managements.
