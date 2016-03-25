@@ -61,7 +61,7 @@ static NSString * const kLastNotificationDisplayTime = @"kLastNotificationDispla
 //#ifdef DEBUG
 //    showed = YES;
 //#endif
-    if (showed) {
+    if (showed && self.enable) {
         [self show];
     }
     return showed;
