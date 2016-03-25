@@ -25,7 +25,7 @@ static NSString * const kLastNotificationDisplayTime = @"kLastNotificationDispla
             self = [super init];
             self.enable = [[jsonDict objectForKey:@"enable"] boolValue];
             NSDateFormatter *formatter = [NSDateFormatter new];
-            formatter.dateFormat = @"yyyymmddhh";
+            formatter.dateFormat = @"yyyyMMddhh";
             // The date field in the incoming json is a number, what a stupid design.
             NSString *dateString = @"";
             if ([[jsonDict objectForKey:@"date"] isKindOfClass:[NSString class]]) {
@@ -51,7 +51,8 @@ static NSString * const kLastNotificationDisplayTime = @"kLastNotificationDispla
     // Compare last show time with the current time.
     NSDate *date = [[NSUserDefaults standardUserDefaults] objectForKey:kLastNotificationDisplayTime];
     // If the record date is present, and the notification date is smaller than this record date - don't show.
-    if (date && [self.notificationDate timeIntervalSince1970] < [date timeIntervalSince1970]) {
+    if (date &&
+        [self.notificationDate compare:date] == NSOrderedAscending) {
         // Don't show, since the notificationDate is older than the record date.
         showed = NO;
     } else {
