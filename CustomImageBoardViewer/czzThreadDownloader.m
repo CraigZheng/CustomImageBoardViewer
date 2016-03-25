@@ -165,10 +165,11 @@
 
 - (void)subThreadProcessedForThread:(czzJSONProcessor *)processor :(czzThread *)parentThread :(NSArray *)newThread :(BOOL)success {
     // Page number, if download is not successful or not enough to fill a page, reverse the page number by 1.
-    CGFloat pageNumber = (success && newThread.count >= settingCentre.response_per_page) ? self.pageNumber : self.pageNumber--;
+    NSInteger responsePerPage = settingCentre.response_per_page;
+    CGFloat pageNumber = (success && newThread.count >= responsePerPage) ? self.pageNumber : self.pageNumber--;
     
-    self.totalPages = (CGFloat)parentThread.responseCount / (CGFloat)settingCentre.response_per_page;
-    self.totalPages = ceilf(self.totalPages);
+    CGFloat totalPages = (CGFloat)parentThread.responseCount / (CGFloat)responsePerPage;
+    self.totalPages = ceilf(totalPages);
     self.parentThread = parentThread;
     // Notify delegate about the page number
     [self notifyDelegatePageNumberUpdated:pageNumber
