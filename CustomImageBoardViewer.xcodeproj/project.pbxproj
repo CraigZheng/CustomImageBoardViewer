@@ -173,6 +173,7 @@
 		447FD254195D1AF1003E30C2 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 447FD253195D1AF1003E30C2 /* libz.dylib */; };
 		44858EAC1A0C5B0A00DD822B /* czzImageViewerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44858EAB1A0C5B0A00DD822B /* czzImageViewerUtil.m */; };
 		4485F4FC19F5FF38007A73CC /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 4485F4FB19F5FF38007A73CC /* NSString+HTML.m */; };
+		4490A80F1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4490A80E1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m */; };
 		449472761C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 449472751C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m */; };
 		4498A7D21B89978200312A11 /* czzTableViewRefreshView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4498A7D11B89978200312A11 /* czzTableViewRefreshView.xib */; };
 		4498A7E41B89984500312A11 /* CPAutoFillView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498A7E31B89984400312A11 /* CPAutoFillView.m */; };
@@ -748,6 +749,7 @@
 		44858EAB1A0C5B0A00DD822B /* czzImageViewerUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzImageViewerUtil.m; sourceTree = "<group>"; };
 		4485F4FA19F5FF38007A73CC /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
 		4485F4FB19F5FF38007A73CC /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTML.m"; sourceTree = "<group>"; };
+		4490A80E1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzMassiveThreadDownloaderTest.m; sourceTree = "<group>"; };
 		449472741C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WKInterfaceImage+ActivityIndicator.h"; sourceTree = "<group>"; };
 		449472751C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WKInterfaceImage+ActivityIndicator.m"; sourceTree = "<group>"; };
 		4498A7D11B89978200312A11 /* czzTableViewRefreshView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzTableViewRefreshView.xib; sourceTree = "<group>"; };
@@ -1318,6 +1320,7 @@
 				44CD96A01C1AA488007E522F /* czzThreadTest.m */,
 				441E5CF717F4691300289DBD /* Supporting Files */,
 				44F86B691C1BAC4C001306E8 /* CoustomImageBoardViewerTest.pch */,
+				4490A80E1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m */,
 			);
 			path = CustomImageBoardViewerTests;
 			sourceTree = "<group>";
@@ -3082,6 +3085,7 @@
 			files = (
 				442F1FD81B13535B00267698 /* czzHomeTableViewManager.m in Sources */,
 				44C73B8A1A4840100051D4C2 /* czzHistoryManager.m in Sources */,
+				4490A80F1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m in Sources */,
 				4446B5AF1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m in Sources */,
 				442F1FE31B15FC8500267698 /* UINavigationController+Util.m in Sources */,
 				441E5CFD17F4691300289DBD /* CustomImageBoardViewerTests.m in Sources */,
