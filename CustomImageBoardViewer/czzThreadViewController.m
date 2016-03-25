@@ -323,6 +323,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 #pragma mark - UI button actions
 
 - (IBAction)massiveDownloadAction:(id)sender {
+    [self.threadViewManager loadAll];
 }
 
 - (IBAction)replyAction:(id)sender {

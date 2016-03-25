@@ -11,9 +11,11 @@
 #import "czzHistoryManager.h"
 #import "czzWatchListManager.h"
 #import "czzThreadDownloader.h"
+#import "czzMassiveThreadDownloader.h"
 
-@interface czzThreadViewManager()
+@interface czzThreadViewManager() <czzMassiveThreadDownloaderDelegate>
 @property (nonatomic, assign) NSUInteger cutOffIndex;
+@property (nonatomic, strong) czzMassiveThreadDownloader *massiveDownloader;
 @end
 
 @implementation czzThreadViewManager
@@ -187,6 +189,15 @@
 - (void)refresh {
     [self reset];
     [super refresh];
+}
+
+- (void)loadAll {
+    if (self.massiveDownloader) {
+        [self.massiveDownloader stop];
+    }
+    self.massiveDownloader = [[czzMassiveThreadDownloader alloc] initWithForum:self.downloader.parentForum
+                                                                     andThread:self.downloader.parentThread];
+    self.massiveDownloader.delegate = self;
 }
 
 - (void)loadMoreThreads {
