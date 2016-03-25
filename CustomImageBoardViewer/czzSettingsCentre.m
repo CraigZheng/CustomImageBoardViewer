@@ -12,6 +12,7 @@
 #import "czzAppDelegate.h"
 #import "czzBannerNotificationUtil.h"
 #import "czzURLDownloader.h"
+#import "czzLaunchPopUpNotification.h"
 #import <UIKit/UIKit.h>
 
 static NSString * const kDisplayThumbnail = @"kDisplayThumbnail";
@@ -90,14 +91,10 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
 
         NSData *JSONData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
         [self parseJSONData:JSONData];
-        
-        [self restoreSettings];
-#ifdef DEBUG
-#warning DEBUGGING NEW API
-        return self;
-#endif
-        [self scheduleRefreshSettings];
         // Restore previous settings
+        [self restoreSettings];
+        // Download and scheduel.
+        [self scheduleRefreshSettings];
     }
     return self;
 }
@@ -215,6 +212,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         share_post_url = [jsonObject objectForKey:@"share_post_url"];
         thread_url = [jsonObject objectForKey:@"thread_url"];
         get_forum_info_url = [jsonObject objectForKey:@"get_forum_info_url"];
+        self.popup_notification_link = [jsonObject objectForKey:@"popup_notification_link"];
     }
     @catch (NSException *exception) {
         DDLogDebug(@"%@", exception);
@@ -244,6 +242,32 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
                                                  position:BannerNotificationPositionBottom
                                    userInteractionHandler:^{}
                                        waitForInteraction:NO];
+            }
+            // Perform a short task to get the notification content.
+            if (self.popup_notification_link.length) {
+                NSURL *notificationURL = [NSURL URLWithString:self.popup_notification_link];
+                if (notificationURL) {
+                    DLog(@"Downloading pop up notification...");
+                    [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:notificationURL]
+                                                       queue:[NSOperationQueue currentQueue]
+                                           completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
+                                               if ([(NSHTTPURLResponse *)response statusCode] == 200 && data) {
+                                                   NSString *jsonString = [[NSString alloc] initWithData:data
+                                                                                                encoding:NSUTF8StringEncoding];
+                                                   czzLaunchPopUpNotification *notification = [[czzLaunchPopUpNotification alloc] initWithJson:jsonString];
+                                                   if (notification) {
+                                                       DLog(@"Notification received from server: %@", jsonString);
+                                                       if ([notification tryShow]) {
+                                                           DLog(@"Should show notification");
+                                                       } else {
+                                                           DLog(@"Don't have to show notification.");
+                                                       }
+                                                   } else {
+                                                       DLog(@"No notification has been received.");
+                                                   }
+                                               }
+                                           }];
+                }
             }
         }
     }

@@ -63,6 +63,8 @@ extern NSString * const settingsChangedNotification;
 @property (assign, nonatomic) BOOL userDefShouldAutoDownloadImage;
 //Debug settings
 @property (assign, nonatomic) BOOL should_allow_dart;
+// Popup notification
+@property (assign, nonatomic) NSString *popup_notification_link;
 
 + (instancetype)sharedInstance;
 -(void)downloadSettings;
