@@ -22,10 +22,17 @@ static NSString * const kLastNotificationDisplayTime = @"kLastNotificationDispla
             self = [super init];
             self.enable = [[jsonDict objectForKey:@"enable"] boolValue];
             NSDateFormatter *formatter = [NSDateFormatter new];
-            formatter.dateFormat = @"ddddmmyyhh";
-            NSDate *date = [formatter dateFromString:[jsonDict objectForKey:@"date"]];
+            formatter.dateFormat = @"yyyymmddhh";
+            // The date field in the incoming json is a number, what a stupid design.
+            NSString *dateString = @"";
+            if ([[jsonDict objectForKey:@"date"] isKindOfClass:[NSString class]]) {
+                dateString = [jsonDict objectForKey:@"date"];
+            } else if ([[jsonDict objectForKey:@"date"] isKindOfClass:[NSNumber class]]) {
+                dateString = [NSString stringWithFormat:@"%ld", (long)[[jsonDict objectForKey:@"date"] integerValue]];
+            }
+            NSDate *date = [formatter dateFromString:dateString];
             self.notificationDate = date;
-            self.notificationContent = [[jsonDict objectForKey:@"content"] stringValue];
+            self.notificationContent = [jsonDict objectForKey:@"content"];
         } else {
             DLog(@"%@", error);
         }
