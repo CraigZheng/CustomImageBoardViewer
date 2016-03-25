@@ -40,6 +40,11 @@
     return self;
 }
 
+- (void)dealloc {
+    // Remove all notification handlers, this should fix the crashing on iOS 8.
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - UI managements.
 -(void)highlightTableViewCell:(NSIndexPath *)indexPath{
     //disable the scrolling view
