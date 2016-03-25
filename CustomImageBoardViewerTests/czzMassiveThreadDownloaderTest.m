@@ -9,9 +9,11 @@
 #import <XCTest/XCTest.h>
 
 #import "czzMassiveThreadDownloader.h"
+#import "czzThread.h"
 
 @interface czzMassiveThreadDownloaderTest : XCTestCase <czzMassiveThreadDownloaderDelegate>
-
+@property (nonatomic, strong) czzMassiveThreadDownloader *massiveDownloader;
+@property (nonatomic, strong) XCTestExpectation *expectation;
 @end
 
 @implementation czzMassiveThreadDownloaderTest
@@ -26,22 +28,32 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+- (void)testMassiveDownloader {
+    self.expectation = [self expectationWithDescription:@""];
+    // Use thie thread: 4214593
+    self.massiveDownloader = [[czzMassiveThreadDownloader alloc] initWithForum:nil
+                                                                     andThread:[[czzThread alloc] initWithParentID:4214593]];
+    self.massiveDownloader.delegate = self;
+    [self.massiveDownloader start];
+    [self waitForExpectationsWithTimeout:120 handler:nil];
 }
 
 #pragma mark - czzMassiveThreadDownloaderDelegate
 - (void)threadDownloaderDownloadUpdated:(czzThreadDownloader *)downloader progress:(CGFloat)progress {
-    
+    XCTAssert(downloader.parentThread.responseCount == 66);
 }
 
 - (void)pageNumberUpdated:(NSInteger)currentPage allPage:(NSInteger)allPage {
-    
+    DLog(@"%ld - %ld - %ld", (long)currentPage, (long)allPage, (long)self.massiveDownloader.pageNumber);
+    XCTAssert(currentPage == self.massiveDownloader.pageNumber);
+    XCTAssert(allPage == 4);
 }
 
 - (void)massiveDownloader:(czzMassiveThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads errors:(NSArray *)errors {
-    
+    XCTAssert(success);
+    XCTAssert(threads.count == downloader.parentThread.responseCount);
+    XCTAssert(errors.count == 0);
+    [self.expectation fulfill];
 }
 
 @end
