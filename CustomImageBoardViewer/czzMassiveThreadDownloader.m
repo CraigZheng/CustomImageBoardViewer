@@ -23,10 +23,13 @@
 }
 
 - (void)subThreadProcessedForThread:(czzJSONProcessor *)processor :(czzThread *)parentThread :(NSArray *)newThread :(BOOL)success {
-    // Let the super class finish its processing first.
-    [super subThreadProcessedForThread:processor :parentThread :newThread :success];
     [self.bulkThreads addObjectsFromArray:newThread];
-    
+    // Let the super class finish its processing.
+    [super subThreadProcessedForThread:processor :parentThread :newThread :success];
+    // A good time to inform delegate that a new page has been downloaded.
+    if ([self.delegate respondsToSelector:@selector(massiveDownloaderUpdated:)]) {
+        [self.delegate massiveDownloaderUpdated:self];
+    }
     // If success and self.pageNumber not equals to self.total pages, load more.
     if (success) {
         if (self.pageNumber < self.totalPages) {

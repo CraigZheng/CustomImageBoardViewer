@@ -12,6 +12,9 @@
 
 @class czzThreadViewManager;
 @protocol czzThreadViewManagerDelegate <czzHomeViewManagerDelegate>
+@optional
+- (void)viewManagerContinousDownloadUpdated:(czzThreadViewManager *)viewManager;
+- (void)viewManager:(czzThreadViewManager *)viewManager continousDownloadCompleted:(BOOL)success;
 @end
 
 @interface czzThreadViewManager : czzHomeViewManager

@@ -56,4 +56,8 @@
     [self.expectation fulfill];
 }
 
+- (void)massiveDownloaderUpdated:(czzMassiveThreadDownloader *)downloader {
+    XCTAssert(downloader == self.massiveDownloader);
+}
+
 @end
