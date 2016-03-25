@@ -8,6 +8,9 @@
 
 #import "czzLaunchPopUpNotification.h"
 
+#import "UIApplication+Util.h"
+#import "czzLaunchPopUpNotificationViewController.h"
+
 static NSString * const kLastNotificationDisplayTime = @"kLastNotificationDisplayTime";
 
 @implementation czzLaunchPopUpNotification
@@ -44,17 +47,58 @@ static NSString * const kLastNotificationDisplayTime = @"kLastNotificationDispla
 #pragma mark - Showing - hiding.
 
 - (Boolean)tryShow {
-    Boolean showed = false;
-    // TODO: calculate the last display time, and show only if necessary.
+    Boolean showed = NO;
+    // Compare last show time with the current time.
+    NSDate *date = [[NSUserDefaults standardUserDefaults] objectForKey:kLastNotificationDisplayTime];
+    // If the record date is present, and the notification date is smaller than this record date - don't show.
+    if (date && [self.notificationDate timeIntervalSince1970] < [date timeIntervalSince1970]) {
+        // Don't show, since the notificationDate is older than the record date.
+        showed = NO;
+    } else {
+        // Not been show before, show it.
+        showed = YES;
+    }
+//#ifdef DEBUG
+//    showed = YES;
+//#endif
+    if (showed) {
+        [self show];
+    }
     return showed;
 }
 
 - (void)show {
-    // TODO: show and record date time.
+    // Show time!
+    NSDate *showTime = [NSDate new];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:showTime forKey:kLastNotificationDisplayTime];
+    [userDefaults synchronize];
+    // Show time!
+    czzLaunchPopUpNotificationViewController *popUpViewController = [[UIStoryboard storyboardWithName:@"LaunchPopUpNotification"
+                                                                      bundle:[NSBundle mainBundle]] instantiateInitialViewController];
+    UIViewController *rootViewController = [UIApplication rootViewController];
+    UIViewController *presentedViewController = rootViewController.presentedViewController;
+    if (presentedViewController) {
+        // If root view controller is already presenting a modal view controller, dismiss it, then present the pop up view controller.
+        [rootViewController dismissViewControllerAnimated:NO completion:^{
+            [rootViewController presentViewController:popUpViewController
+                                             animated:YES completion:nil];
+        }];
+    } else {
+        // Present the pop up view controller directly.
+        popUpViewController.htmlContent = self.notificationContent;
+        [rootViewController presentViewController:popUpViewController
+                                         animated:YES
+                                       completion:nil];
+    }
 }
 
 - (void)hide {
-    // TODO: dismiss any showing notification.
+    // If the currently presented modal view controller is a czzLaunchPopUpNotificationViewController, dismiss it.
+    if ([[UIApplication rootViewController].presentedViewController isKindOfClass:[czzLaunchPopUpNotificationViewController class]]) {
+        [[UIApplication rootViewController] dismissViewControllerAnimated:YES
+                                                               completion:nil];
+    }
 }
 
 @end
