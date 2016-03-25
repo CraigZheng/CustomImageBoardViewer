@@ -160,6 +160,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     // Avoid calling deacllocated data source and delegate.
     self.threadTableView.dataSource = nil;
     self.threadTableView.delegate = nil;
+    [self.threadViewManager stopAllOperation];
 }
 
 

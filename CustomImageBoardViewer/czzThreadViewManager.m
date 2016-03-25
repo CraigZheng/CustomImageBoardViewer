@@ -221,7 +221,18 @@
     self.massiveDownloader = [[czzMassiveThreadDownloader alloc] initWithForum:self.downloader.parentForum
                                                                      andThread:self.downloader.parentThread];
     self.massiveDownloader.delegate = self;
+    self.massiveDownloader.pageNumber = self.pageNumber;
     [self.massiveDownloader start];
+}
+
+- (void)stopAllOperation {
+    DLog(@"Should stop all downloading operation.");
+    if (self.massiveDownloader) {
+        [self.massiveDownloader stop];
+    }
+    if (self.downloader) {
+        [self.downloader stop];
+    }
 }
 
 - (void)loadMoreThreads {
