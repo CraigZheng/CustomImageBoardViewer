@@ -49,6 +49,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @property (strong, nonatomic) czzOnScreenImageManagerViewController *onScreenImageManagerViewController;
 @property (weak, nonatomic) IBOutlet UIView *postSenderViewContainer;
 @property (weak, nonatomic) GSIndeterminateProgressView *progressView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *massiveDownloadButtonHeightConstraint;
 @end
 
 @implementation czzThreadViewController
@@ -153,6 +154,18 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     self.viewDeckController.rightController = nil;
     // Cache downloaded data into disk.
     [self.threadViewManager saveCurrentState];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    // Hide the massive download button at first, then show it with animation.
+    if (!self.massiveDownloadButtonHeightConstraint.constant) {
+        DLog(@"Show massive download button.");
+        self.massiveDownloadButtonHeightConstraint.constant = 40;
+        [UIView animateWithDuration:0.2 animations:^{
+            [self.view layoutIfNeeded];
+        }];
+    }
 }
 
 - (void)dealloc {
@@ -309,6 +322,9 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 #pragma mark - UI button actions
+
+- (IBAction)massiveDownloadAction:(id)sender {
+}
 
 - (IBAction)replyAction:(id)sender {
     [czzReplyUtil replyMainThread:self.threadViewManager.parentThread];

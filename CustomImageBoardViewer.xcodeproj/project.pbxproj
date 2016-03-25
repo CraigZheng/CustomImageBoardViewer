@@ -293,6 +293,8 @@
 		44CF25711A26F2E700BD8228 /* UIBarButtonItem+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CF256E1A26F2E700BD8228 /* UIBarButtonItem+Badge.m */; };
 		44CF25721A26F2E700BD8228 /* UIButton+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CF25701A26F2E700BD8228 /* UIButton+Badge.m */; };
 		44CF25751A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CF25741A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.m */; };
+		44DAB4381CA4FE7A00BDE05A /* download@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44DAB4361CA4FE3C00BDE05A /* download@2x.png */; };
+		44DAB4391CA4FE7B00BDE05A /* download@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44DAB4361CA4FE3C00BDE05A /* download@2x.png */; };
 		44DF8ED31A74CAAA0097F7F5 /* czzCookieManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44DF8ED21A74CAAA0097F7F5 /* czzCookieManager.m */; };
 		44DF8EDA1A74D0F00097F7F5 /* czzACTokenUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44DF8ED91A74D0F00097F7F5 /* czzACTokenUtil.m */; };
 		44DF8EDB1A74D0F00097F7F5 /* czzACTokenUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44DF8ED91A74D0F00097F7F5 /* czzACTokenUtil.m */; };
@@ -894,6 +896,7 @@
 		44CF25701A26F2E700BD8228 /* UIButton+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Badge.m"; sourceTree = "<group>"; };
 		44CF25731A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzShortImageManagerCollectionViewController.h; sourceTree = "<group>"; };
 		44CF25741A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzShortImageManagerCollectionViewController.m; sourceTree = "<group>"; };
+		44DAB4361CA4FE3C00BDE05A /* download@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "download@2x.png"; sourceTree = "<group>"; };
 		44DF8ED11A74CAAA0097F7F5 /* czzCookieManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzCookieManager.h; sourceTree = "<group>"; };
 		44DF8ED21A74CAAA0097F7F5 /* czzCookieManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzCookieManager.m; sourceTree = "<group>"; };
 		44DF8ED81A74D0F00097F7F5 /* czzACTokenUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzACTokenUtil.h; sourceTree = "<group>"; };
@@ -1195,13 +1198,13 @@
 			name = WatchListManager;
 			sourceTree = "<group>";
 		};
-		441A6A911BB29380008E380C /* UIButton */ = {
+		441A6A911BB29380008E380C /* Button */ = {
 			isa = PBXGroup;
 			children = (
 				441A6A921BB2939C008E380C /* czzRoundButton.h */,
 				441A6A931BB2939C008E380C /* czzRoundButton.m */,
 			);
-			name = UIButton;
+			name = Button;
 			sourceTree = "<group>";
 		};
 		441E5CC217F4691300289DBD = {
@@ -1283,7 +1286,6 @@
 				440B2FD817F94C5000544926 /* Launch images */,
 				4462EF2218659B8600E6BE78 /* czzFavouriteManagerVIewController */,
 				5A0A6BD7184869200094D7FB /* czzMoreInfoViewController */,
-				448C85DF1A06F14300115FEC /* ThreadView */,
 				441E5D1717F46B3200289DBD /* czzForumsViewController */,
 				441E5D1317F46A0E00289DBD /* czzEntryPointViewController */,
 				441E5D2D17F490E100289DBD /* czzThread */,
@@ -2136,12 +2138,21 @@
 			path = "UIBarButton-Badge";
 			sourceTree = "<group>";
 		};
+		44DAB43A1CA5002600BDE05A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				448C85DF1A06F14300115FEC /* ThreadView */,
+				44FCCD541BB39866006A6652 /* UIBarButtonItem */,
+				441A6A911BB29380008E380C /* Button */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
 		44DF8ECC1A74CA4B0097F7F5 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				44DAB43A1CA5002600BDE05A /* View */,
 				441356061C61B37F001B82E5 /* BannerNotification */,
-				44FCCD541BB39866006A6652 /* UIBarButtonItem */,
-				441A6A911BB29380008E380C /* UIButton */,
 				44E3F7441BA3005600597A3F /* NSDictionary */,
 				442F1FE61B15FC8B00267698 /* UI */,
 				44C73B7F1A4715400051D4C2 /* NSObjectUtil */,
@@ -2234,6 +2245,7 @@
 				444F5ADD1A40EA3500EB391F /* acmusume-large */,
 				44B89E721A2AF2260085F766 /* running_girls */,
 				44CF253D1A25A2A500BD8228 /* sent.png */,
+				44DAB4361CA4FE3C00BDE05A /* download@2x.png */,
 				44C73B711A4708BA0051D4C2 /* thumb_down.png */,
 				44C73B721A4708BA0051D4C2 /* thumb_down@2x.png */,
 				44C73B731A4708BA0051D4C2 /* thumb_down@3x.png */,
@@ -2686,6 +2698,7 @@
 				44C73BDE1A496D6E0051D4C2 /* ipad 768 horizontal launch screen.png in Resources */,
 				44E792041A17856500A63C04 /* star.png in Resources */,
 				444F5B2F1A40EA3500EB391F /* 28.png in Resources */,
+				44DAB4381CA4FE7A00BDE05A /* download@2x.png in Resources */,
 				44CF25491A25A2A500BD8228 /* sent.png in Resources */,
 				44C73B821A471F060051D4C2 /* ThreadContent.json in Resources */,
 				444F5B321A40EA3500EB391F /* 31.png in Resources */,
@@ -2809,6 +2822,7 @@
 				44C73BDB1A496CBD0051D4C2 /* ipad 768 launch screen.png in Resources */,
 				441E5CFB17F4691300289DBD /* InfoPlist.strings in Resources */,
 				44C73BD61A496C4F0051D4C2 /* iphone4 launch screen.png in Resources */,
+				44DAB4391CA4FE7B00BDE05A /* download@2x.png in Resources */,
 				44C73BD41A496C4F0051D4C2 /* ipad launch screen.png in Resources */,
 				44F86B6C1C1BB505001306E8 /* ThreadContentPage2.json in Resources */,
 				4425A286199700F000671B88 /* test_image.png in Resources */,

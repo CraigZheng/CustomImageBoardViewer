@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
@@ -76,19 +76,42 @@
                                     <constraint firstAttribute="height" constant="60" id="vIV-hm-uv9"/>
                                 </constraints>
                             </containerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iTH-zx-FDV" userLabel="Massive Download Button">
+                                <rect key="frame" x="250" y="512" width="40" height="0.0"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" id="A3Z-ed-f8v"/>
+                                    <constraint firstAttribute="width" constant="40" id="Dma-IV-pP7"/>
+                                </constraints>
+                                <state key="normal" image="download.png"/>
+                                <connections>
+                                    <action selector="massiveDownloadAction:" destination="CES-L8-oRQ" eventType="touchUpInside" id="FVm-FW-i1y"/>
+                                </connections>
+                            </button>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vYj-Eq-2Wr" userLabel="Massive Download View Container">
+                                <rect key="frame" x="240" y="84" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="jwb-Sd-ihx"/>
+                                </constraints>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="7vQ-Rb-bPA" firstAttribute="leading" secondItem="4ja-AC-SOf" secondAttribute="leading" id="4qt-jt-U4Q"/>
-                            <constraint firstItem="sn1-5a-vXO" firstAttribute="top" secondItem="7vQ-Rb-bPA" secondAttribute="bottom" constant="20" id="Cua-hZ-W4P"/>
+                            <constraint firstItem="iTH-zx-FDV" firstAttribute="top" secondItem="7vQ-Rb-bPA" secondAttribute="bottom" constant="8" id="Az2-eS-T76"/>
                             <constraint firstItem="7vQ-Rb-bPA" firstAttribute="top" relation="greaterThanOrEqual" secondItem="JNf-Ax-8EN" secondAttribute="bottom" constant="20" id="Uf0-Td-TqX"/>
+                            <constraint firstAttribute="trailing" secondItem="iTH-zx-FDV" secondAttribute="trailing" constant="30" id="a7R-g6-mhm"/>
                             <constraint firstItem="4ja-AC-SOf" firstAttribute="width" secondItem="4ja-AC-SOf" secondAttribute="height" multiplier="1:1" id="bEy-Q7-MId"/>
                             <constraint firstAttribute="bottom" secondItem="kEK-ic-Yzh" secondAttribute="bottom" id="fM4-op-JIX"/>
                             <constraint firstItem="kEK-ic-Yzh" firstAttribute="top" secondItem="JCg-5L-Quq" secondAttribute="top" id="oQc-or-hyu"/>
+                            <constraint firstItem="vYj-Eq-2Wr" firstAttribute="top" secondItem="JNf-Ax-8EN" secondAttribute="bottom" constant="20" id="pfF-DV-FwE"/>
                             <constraint firstItem="7vQ-Rb-bPA" firstAttribute="top" secondItem="4ja-AC-SOf" secondAttribute="bottom" constant="8" id="q6h-sM-m2t"/>
+                            <constraint firstAttribute="trailing" secondItem="vYj-Eq-2Wr" secondAttribute="trailing" constant="20" id="ri6-YQ-YmG"/>
                             <constraint firstAttribute="trailing" secondItem="kEK-ic-Yzh" secondAttribute="trailing" id="sz7-GS-gEf"/>
+                            <constraint firstItem="sn1-5a-vXO" firstAttribute="top" secondItem="iTH-zx-FDV" secondAttribute="bottom" constant="12" id="t0Y-B9-QlT"/>
                             <constraint firstAttribute="trailing" secondItem="7vQ-Rb-bPA" secondAttribute="trailing" constant="20" id="vU0-Cp-nhr"/>
                             <constraint firstItem="kEK-ic-Yzh" firstAttribute="leading" secondItem="JCg-5L-Quq" secondAttribute="leading" id="wT5-EE-ajt"/>
+                            <constraint firstItem="vYj-Eq-2Wr" firstAttribute="width" secondItem="vYj-Eq-2Wr" secondAttribute="height" multiplier="1:1" id="z1f-Ej-GSV"/>
                         </constraints>
                     </view>
                     <toolbarItems>
@@ -134,6 +157,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="jumpBarButtonItem" destination="M3o-im-Wqp" id="9er-CF-kVc"/>
+                        <outlet property="massiveDownloadButtonHeightConstraint" destination="A3Z-ed-f8v" id="Uvh-Xw-oVt"/>
                         <outlet property="numberBarButton" destination="4KW-uO-bRF" id="WGT-rj-8ib"/>
                         <outlet property="onScreenImageManagerViewContainer" destination="7vQ-Rb-bPA" id="uZj-Br-hDd"/>
                         <outlet property="postSenderViewContainer" destination="4ja-AC-SOf" id="d5s-he-CDV"/>
@@ -932,6 +956,7 @@
         <image name="bookmark.png" width="20" height="20"/>
         <image name="delete.png" width="20" height="20"/>
         <image name="delete_file.png" width="20" height="20"/>
+        <image name="download.png" width="57" height="57"/>
         <image name="error.png" width="20" height="20"/>
         <image name="info.png" width="20" height="20"/>
         <image name="menu.png" width="20" height="20"/>
