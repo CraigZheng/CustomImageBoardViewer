@@ -333,6 +333,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 - (void)viewManagerContinousDownloadUpdated:(czzThreadViewManager *)viewManager {
     // A download of a page is completed, display it on screen.
     self.threadViewManager = viewManager;
+    [self updateTableView];
 }
 
 - (void)viewManager:(czzThreadViewManager *)viewManager continousDownloadCompleted:(BOOL)success {
