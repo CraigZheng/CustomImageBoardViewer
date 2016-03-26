@@ -215,9 +215,7 @@
 
 - (void)loadAll {
     DLog(@"");
-    if (self.massiveDownloader) {
-        [self.massiveDownloader stop];
-    }
+    [self stopAllOperation];
     self.massiveDownloader = [[czzMassiveThreadDownloader alloc] initWithForum:self.downloader.parentForum
                                                                      andThread:self.downloader.parentThread];
     self.massiveDownloader.delegate = self;
