@@ -22,7 +22,7 @@
 @class czzHomeViewManager;
 @protocol czzHomeViewManagerDelegate <NSObject>
 @optional
--(void)homeViewManagerBeginsDownloading:(czzHomeViewManager*)homeViewManager;
+-(void)viewManagerDownloadStateChanged:(czzHomeViewManager*)homeViewManager;
 -(void)homeViewManager:(czzHomeViewManager*)homeViewManager threadListProcessed:(BOOL)wasSuccessul newThreads:(NSArray*)newThreads allThreads:(NSArray*)allThreads;
 -(void)homeViewManager:(czzHomeViewManager*)homeViewManager threadContentProcessed:(BOOL)wasSuccessul newThreads:(NSArray*)newThreads allThreads:(NSArray*)allThreads;
 - (void)homeViewManager:(czzHomeViewManager*)homeViewManager wantsToScrollToContentOffset:(CGPoint)offset;

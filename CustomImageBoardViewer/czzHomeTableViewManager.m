@@ -172,7 +172,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
                 }
         }
     }
-    DLog(@"Estimated height: %.1f", estimatedHeight);
+//    DLog(@"Estimated height: %.1f", estimatedHeight);
     return estimatedHeight;
 }
 

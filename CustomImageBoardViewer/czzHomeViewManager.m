@@ -99,10 +99,6 @@
     // Construct and start downloading for forum with page number,
     self.downloader.pageNumber = pageNumber;
     [self.downloader start];
-    
-    if ([self.delegate respondsToSelector:@selector(homeViewManagerBeginsDownloading:)]) {
-        [self.delegate homeViewManagerBeginsDownloading:self];
-    }
 }
 
 -(void)removeAll {
@@ -130,8 +126,10 @@
 }
 
 #pragma mark - czzThreadDownloaderDelegate
-- (void)threadDownloaderBeginsDownload:(czzThreadDownloader *)downloader {
-    [self.delegate homeViewManagerBeginsDownloading:self];
+- (void)threadDownloaderStateChanged:(czzThreadDownloader *)downloader {
+    if ([self.delegate respondsToSelector:@selector(viewManagerDownloadStateChanged:)]) {
+        [self.delegate viewManagerDownloadStateChanged:self];
+    }
 }
 
 - (void)threadDownloaderDownloadUpdated:(czzThreadDownloader *)downloader progress:(CGFloat)progress {
@@ -183,7 +181,8 @@
 }
 
 - (BOOL)isDownloading {
-    return self.downloader.isDownloading;
+    BOOL isDownloading = self.downloader.isDownloading;
+    return isDownloading;
 }
 
 /**

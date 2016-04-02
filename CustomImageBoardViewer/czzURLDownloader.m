@@ -15,6 +15,7 @@
 @property (strong, nonatomic) NSURL *targetURL;
 @property NSUInteger expectedLength;
 @property (strong, nonatomic) NSURLSessionDataTask *dataTask;
+@property (assign, nonatomic) BOOL observerAdded;
 @end
 
 @implementation czzURLDownloader
@@ -56,11 +57,12 @@
                 [self.delegate downloadUpdated:self progress:(float)downloadProgress.completedUnitCount / (float)downloadProgress.totalUnitCount];
             }
         } completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+            [self notifyDelegateAboutStateChanged];
             if ([self.delegate respondsToSelector:@selector(downloadOf:successed:result:)]){
                 [self.delegate downloadOf:response.URL successed:error == nil result:responseObject];
             }
         }];
-         
+        
         if (now) {
             [self start];
         }
@@ -71,14 +73,26 @@
 -(void)start{
     if (self.dataTask) {
         [self.dataTask resume];
+        [self notifyDelegateAboutStateChanged];
         DDLogDebug(@"%@ make request to: %@", NSStringFromClass(self.class), self.targetURL);
         DDLogDebug(@"Header fields: %@", self.dataTask.originalRequest.allHTTPHeaderFields);
     }
 }
 
 -(void)stop{
-    if (self.dataTask.state == NSURLSessionTaskStateRunning)
+    if (self.dataTask.state == NSURLSessionTaskStateRunning) {
         [self.dataTask cancel];
+        [self notifyDelegateAboutStateChanged];
+    }
+    self.dataTask = nil;
+}
+
+- (void)notifyDelegateAboutStateChanged {
+    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+        if ([self.delegate respondsToSelector:@selector(downloadStateChanged:)]) {
+            [self.delegate downloadStateChanged:self];
+        }
+    }];
 }
 
 #pragma mark - Setters
@@ -101,7 +115,8 @@
 #pragma mark - Getters
 
 - (BOOL)isDownloading {
-    return self.dataTask.state == NSURLSessionTaskStateRunning;
+    BOOL isDownloading = self.dataTask.state == NSURLSessionTaskStateRunning;
+    return isDownloading;
 }
 
 @end

@@ -14,6 +14,7 @@
 -(void)downloadOf:(NSURL*)url successed:(BOOL)successed result:(NSData*)downloadedData;
 @optional
 -(void)downloadUpdated:(czzURLDownloader*)downloader progress:(CGFloat)progress;
+-(void)downloadStateChanged:(czzURLDownloader*)downloader;
 @end
 
 @interface czzURLDownloader : NSObject

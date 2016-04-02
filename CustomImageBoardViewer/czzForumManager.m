@@ -19,7 +19,7 @@
 @implementation czzForumManager
 
 - (void)updateForums:(void (^)(BOOL, NSError *))completionHandler {
-    if (self.forumDownloader)
+    if (self.forumDownloader.isDownloading)
         [self.forumDownloader stop];
 
     NSString *forumString = [[settingCentre forum_list_url] stringByAppendingString:[NSString stringWithFormat:@"?version=%@", [UIApplication bundleVersion]]];

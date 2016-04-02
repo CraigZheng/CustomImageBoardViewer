@@ -276,7 +276,9 @@
 }
 
 -(GSIndeterminateProgressView *)progressView {
-    if (!_progressView) {
+    // If the currently visible view controller is self, that means I should have control over the progress view.
+    if (self.navigationController.visibleViewController == self &&
+        !NavigationManager.isInTransition) {
         _progressView = [(czzNavigationController*) self.navigationController progressView];
     }
     return _progressView;
@@ -317,18 +319,17 @@
 
 -(void)homeViewManager:(czzHomeViewManager *)homeViewManager downloadSuccessful:(BOOL)wasSuccessful {
     DDLogDebug(@"%@", NSStringFromSelector(_cmd));
-    if (!wasSuccessful && !NavigationManager.isInTransition) {
-        [self.refreshControl endRefreshing];
-        [self.progressView stopAnimating];
-        [self.progressView showWarning];
-    }
     self.threadTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
 }
 
--(void)homeViewManagerBeginsDownloading:(czzHomeViewManager *)homeViewManager {
-    if (!self.progressView.isAnimating)
+-(void)viewManagerDownloadStateChanged:(czzHomeViewManager *)homeViewManager {
+    if (homeViewManager.isDownloading) {
         [self.progressView startAnimating];
-    
+        [self.refreshControl beginRefreshing];
+    } else {
+        [self.progressView stopAnimating];
+        [self.refreshControl endRefreshing];
+    }
 }
 
 -(void)homeViewManager:(czzHomeViewManager *)list threadListProcessed:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
@@ -340,10 +341,7 @@
             [self.threadTableView scrollToTop:NO];
         }
         [self updateTableView];
-
-        // If is in transition, is better not do anything.
-        if (!NavigationManager.isInTransition)
-            [self.progressView stopAnimating];
+        // Show warning.
         if (!wasSuccessul) {
             [self.progressView showWarning];
         }
