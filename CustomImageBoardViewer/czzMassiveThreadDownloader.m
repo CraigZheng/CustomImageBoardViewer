@@ -25,7 +25,9 @@
 }
 
 - (void)stop {
-    self.manuallyStopped = YES;
+    if (super.isDownloading) {
+        self.manuallyStopped = YES;
+    }
     [super stop];
 }
 
