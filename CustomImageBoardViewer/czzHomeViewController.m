@@ -52,7 +52,7 @@
 @property (strong, nonatomic) czzHomeTableViewManager *homeTableViewManager;
 @property (strong, nonatomic) czzOnScreenImageManagerViewController *onScreenImageManagerViewController;
 @property (strong, nonatomic) czzMiniThreadViewController *miniThreadView;
-
+@property (strong, nonatomic) UIAlertView *confirmJumpToPageAlertView;
 @end
 
 @implementation czzHomeViewController
@@ -207,7 +207,8 @@
         textInputField.keyboardType = UIKeyboardTypeNumberPad;
         textInputField.keyboardAppearance = UIKeyboardAppearanceDark;
     }
-    [alertView show];
+    self.confirmJumpToPageAlertView = alertView;
+    [self.confirmJumpToPageAlertView show];
 }
 
 - (IBAction)searchAction:(id)sender {
@@ -225,22 +226,23 @@
 
 #pragma mark - UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
-    if ([buttonTitle isEqualToString:@"确定"]){
-        NSInteger newPageNumber = [[[alertView textFieldAtIndex:0] text] integerValue];
-        if (newPageNumber > 0){
-
-            //clear threads and ready to accept new threads
-            [self.homeViewManager removeAll];
-            [self updateTableView];
-            [self.refreshControl beginRefreshing];
-            [self.homeViewManager loadMoreThreads:newPageNumber];
-
-            [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)self.homeViewManager.pageNumber]
-                                             position:BannerNotificationPositionTop];
-        } else {
-            [czzBannerNotificationUtil displayMessage:@"页码无效..."
-                                             position:BannerNotificationPositionTop];
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        if (alertView == self.confirmJumpToPageAlertView) {
+            NSInteger newPageNumber = [[[alertView textFieldAtIndex:0] text] integerValue];
+            if (newPageNumber > 0){
+                
+                //clear threads and ready to accept new threads
+                [self.homeViewManager removeAll];
+                [self updateTableView];
+                [self.refreshControl beginRefreshing];
+                [self.homeViewManager loadMoreThreads:newPageNumber];
+                
+                [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)self.homeViewManager.pageNumber]
+                                                 position:BannerNotificationPositionTop];
+            } else {
+                [czzBannerNotificationUtil displayMessage:@"页码无效..."
+                                                 position:BannerNotificationPositionTop];
+            }
         }
     }
 }

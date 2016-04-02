@@ -53,7 +53,7 @@
 }
 
 - (void)stop {
-    if (self.urlDownloader) {
+    if (self.urlDownloader.isDownloading) {
         DDLogDebug(@"%s", __PRETTY_FUNCTION__);
         self.urlDownloader.delegate = nil;
         [self.urlDownloader stop];

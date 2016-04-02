@@ -50,6 +50,8 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @property (weak, nonatomic) IBOutlet UIView *postSenderViewContainer;
 @property (weak, nonatomic) GSIndeterminateProgressView *progressView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *massiveDownloadButtonHeightConstraint;
+@property (strong, nonatomic) UIAlertView *confirmMassiveDownloadAlertView;
+@property (strong, nonatomic) UIAlertView *confirmJumpToPageAlertView;
 @end
 
 @implementation czzThreadViewController
@@ -250,26 +252,33 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
         textInputField.keyboardType = UIKeyboardTypeNumberPad;
         textInputField.keyboardAppearance = UIKeyboardAppearanceDark;
     }
-    [alertView show];
+    self.confirmJumpToPageAlertView = alertView;
+    [self.confirmJumpToPageAlertView show];
 }
 
 #pragma mark - UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
-    if ([buttonTitle isEqualToString:@"确定"]){
-        NSInteger newPageNumber = [[[alertView textFieldAtIndex:0] text] integerValue];
-        if (newPageNumber > 0){
-            //clear threads and ready to accept new threads
-            [self.threadViewManager removeAll];
-            [self.threadViewManager loadMoreThreads:newPageNumber];
-            [self updateTableView];
-            [refreshControl beginRefreshing];
-
-            [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) self.threadViewManager.pageNumber]
-                                             position:BannerNotificationPositionTop];
-        } else {
-            [czzBannerNotificationUtil displayMessage:@"页码无效..."
-                                             position:BannerNotificationPositionTop];
+    // If user did not tap on the cancel button.
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        if (alertView == self.confirmMassiveDownloadAlertView) {
+            // If the incoming alertView is the confirm massive download alert view, start loadAll action.
+            [self.threadViewManager loadAll];
+        } else if (alertView == self.confirmJumpToPageAlertView) {
+            // If user wants to jump to a specific page number, verify that user enters a valid page number.
+            NSInteger newPageNumber = [[[alertView textFieldAtIndex:0] text] integerValue];
+            if (newPageNumber > 0){
+                //clear threads and ready to accept new threads
+                [self.threadViewManager removeAll];
+                [self.threadViewManager loadMoreThreads:newPageNumber];
+                [self updateTableView];
+                [refreshControl beginRefreshing];
+                
+                [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) self.threadViewManager.pageNumber]
+                                                 position:BannerNotificationPositionTop];
+            } else {
+                [czzBannerNotificationUtil displayMessage:@"页码无效..."
+                                                 position:BannerNotificationPositionTop];
+            }
         }
     }
 }
@@ -346,7 +355,14 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 #pragma mark - UI button actions
 
 - (IBAction)massiveDownloadAction:(id)sender {
-    [self.threadViewManager loadAll];
+    // Start massive download action.
+    self.confirmMassiveDownloadAlertView = [[UIAlertView alloc] initWithTitle:@"一键到底!"
+                                                                      message:[NSString stringWithFormat:@"将加载%ld页内容,请确认!",
+                                                                               self.threadViewManager.totalPages - self.threadViewManager.pageNumber]
+                                                                     delegate:self
+                                                            cancelButtonTitle:@"取消"
+                                                            otherButtonTitles:@"确定", nil];
+    [self.confirmMassiveDownloadAlertView show];
 }
 
 - (IBAction)replyAction:(id)sender {
