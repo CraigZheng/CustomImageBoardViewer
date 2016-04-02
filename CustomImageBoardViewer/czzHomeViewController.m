@@ -125,14 +125,7 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    
-#warning debugging progress view
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.progressView startAnimating];
-    });
-#warning end debugging
     self.viewDeckController.panningMode = IIViewDeckFullViewPanning;
-    
     // Add badget number to infoBarButton if necessary.
     if ([[(czzNavigationController*)self.navigationController notificationBannerViewController] shouldShow]) {
         self.infoBarButton.badgeValue = @"1";
@@ -325,6 +318,9 @@
 -(void)homeViewManager:(czzHomeViewManager *)homeViewManager downloadSuccessful:(BOOL)wasSuccessful {
     DDLogDebug(@"%@", NSStringFromSelector(_cmd));
     self.threadTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
+    if (!wasSuccessful) {
+        [self.progressView showWarning];
+    }
 }
 
 -(void)viewManagerDownloadStateChanged:(czzHomeViewManager *)homeViewManager {

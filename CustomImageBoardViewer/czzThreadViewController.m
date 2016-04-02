@@ -312,20 +312,19 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     }
 }
 
--(void)homeViewManagerBeginsDownloading:(czzHomeViewManager *)threadViewManager {
-    if (!self.progressView.isAnimating) {
+-(void)viewManagerDownloadStateChanged:(czzHomeViewManager *)homeViewManager {
+    if (homeViewManager.isDownloading) {
         [self.progressView startAnimating];
+        [self.refreshControl beginRefreshing];
+    } else {
+        [self.progressView stopAnimating];
+        [self.refreshControl endRefreshing];
     }
 }
 
 -(void)homeViewManager:(czzHomeViewManager *)threadViewManager downloadSuccessful:(BOOL)wasSuccessful {
-    if (!wasSuccessful)
-    {
-        if (self.progressView.isAnimating) {
-            [refreshControl endRefreshing];
-            [self.progressView stopAnimating];
-            [self.progressView showWarning];
-        }
+    if (!wasSuccessful) {
+        [self.progressView showWarning];
     }
 }
 
@@ -334,10 +333,10 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
         if (newThreads.count) {
             self.threadViewManager = (czzThreadViewManager*)threadViewManager;
         }
+    } else {
+        [self.progressView showWarning];
     }
     [self updateTableView];
-    [refreshControl endRefreshing];
-    [self.progressView stopAnimating];
     // Reset the lastCellType back to default.
     self.threadTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
 }

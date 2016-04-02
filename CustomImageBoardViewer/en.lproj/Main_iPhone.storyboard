@@ -50,7 +50,7 @@
         <!--串-->
         <scene sceneID="1dv-1T-wAU">
             <objects>
-                <viewController storyboardIdentifier="thread_view_controller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="CES-L8-oRQ" customClass="czzThreadViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="thread_view_controller" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="CES-L8-oRQ" customClass="czzThreadViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="JNf-Ax-8EN"/>
                         <viewControllerLayoutGuide type="bottom" id="sn1-5a-vXO"/>
@@ -59,8 +59,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="kEK-ic-Yzh" customClass="czzThreadTableView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            <tableView autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="kEK-ic-Yzh" customClass="czzThreadTableView">
+                                <rect key="frame" x="0.0" y="64" width="320" height="460"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7vQ-Rb-bPA">
@@ -88,7 +88,7 @@
                                     <action selector="massiveDownloadAction:" destination="CES-L8-oRQ" eventType="touchUpInside" id="FVm-FW-i1y"/>
                                 </connections>
                             </button>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vYj-Eq-2Wr" userLabel="Massive Download View Container">
+                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vYj-Eq-2Wr" userLabel="Massive Download View Container">
                                 <rect key="frame" x="240" y="84" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="jwb-Sd-ihx"/>
@@ -99,11 +99,11 @@
                         <constraints>
                             <constraint firstItem="7vQ-Rb-bPA" firstAttribute="leading" secondItem="4ja-AC-SOf" secondAttribute="leading" id="4qt-jt-U4Q"/>
                             <constraint firstItem="iTH-zx-FDV" firstAttribute="top" secondItem="7vQ-Rb-bPA" secondAttribute="bottom" constant="8" id="Az2-eS-T76"/>
+                            <constraint firstItem="sn1-5a-vXO" firstAttribute="top" secondItem="kEK-ic-Yzh" secondAttribute="bottom" id="NRA-ir-tPT"/>
                             <constraint firstItem="7vQ-Rb-bPA" firstAttribute="top" relation="greaterThanOrEqual" secondItem="JNf-Ax-8EN" secondAttribute="bottom" constant="20" id="Uf0-Td-TqX"/>
                             <constraint firstAttribute="trailing" secondItem="iTH-zx-FDV" secondAttribute="trailing" constant="30" id="a7R-g6-mhm"/>
                             <constraint firstItem="4ja-AC-SOf" firstAttribute="width" secondItem="4ja-AC-SOf" secondAttribute="height" multiplier="1:1" id="bEy-Q7-MId"/>
-                            <constraint firstAttribute="bottom" secondItem="kEK-ic-Yzh" secondAttribute="bottom" id="fM4-op-JIX"/>
-                            <constraint firstItem="kEK-ic-Yzh" firstAttribute="top" secondItem="JCg-5L-Quq" secondAttribute="top" id="oQc-or-hyu"/>
+                            <constraint firstItem="kEK-ic-Yzh" firstAttribute="top" secondItem="JNf-Ax-8EN" secondAttribute="bottom" id="gy0-E8-O6q"/>
                             <constraint firstItem="vYj-Eq-2Wr" firstAttribute="top" secondItem="JNf-Ax-8EN" secondAttribute="bottom" constant="20" id="pfF-DV-FwE"/>
                             <constraint firstItem="7vQ-Rb-bPA" firstAttribute="top" secondItem="4ja-AC-SOf" secondAttribute="bottom" constant="8" id="q6h-sM-m2t"/>
                             <constraint firstAttribute="trailing" secondItem="vYj-Eq-2Wr" secondAttribute="trailing" constant="20" id="ri6-YQ-YmG"/>
@@ -477,7 +477,7 @@
         <!--搜索-->
         <scene sceneID="GOM-9C-eeI">
             <objects>
-                <viewController id="4fE-Ef-JB7" customClass="czzSearchViewController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="4fE-Ef-JB7" customClass="czzSearchViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="WQ1-ci-jbs"/>
                         <viewControllerLayoutGuide type="bottom" id="AEA-PL-ycP"/>
@@ -487,7 +487,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Epk-0O-hhD">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <outlet property="delegate" destination="4fE-Ef-JB7" id="yBY-be-CC5"/>
@@ -497,15 +497,15 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="Epk-0O-hhD" secondAttribute="bottom" id="0PY-T8-bab"/>
+                            <constraint firstItem="Epk-0O-hhD" firstAttribute="top" secondItem="WQ1-ci-jbs" secondAttribute="bottom" id="SX0-Y0-Wrm"/>
                             <constraint firstItem="Epk-0O-hhD" firstAttribute="leading" secondItem="9mX-3B-4Yy" secondAttribute="leading" id="T1o-HP-ssu"/>
                             <constraint firstAttribute="trailing" secondItem="Epk-0O-hhD" secondAttribute="trailing" id="hMO-RS-cNH"/>
-                            <constraint firstItem="Epk-0O-hhD" firstAttribute="top" secondItem="9mX-3B-4Yy" secondAttribute="top" id="oFs-ec-QnR"/>
                         </constraints>
                     </view>
                     <toolbarItems>
                         <barButtonItem style="plain" id="v7e-1w-UHH">
                             <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="XSV-OW-DVO">
-                                <rect key="frame" x="16" y="7" width="161" height="31"/>
+                                <rect key="frame" x="16" y="6.5" width="161" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title="必应"/>
@@ -969,7 +969,7 @@
         <image name="visible.png" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Uep-8w-iun"/>
-        <segue reference="5Fw-Ve-fjP"/>
+        <segue reference="vK6-NU-jzp"/>
+        <segue reference="ec7-IS-eS6"/>
     </inferredMetricsTieBreakers>
 </document>
