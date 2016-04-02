@@ -46,13 +46,13 @@
 @property (strong, nonatomic) UIRefreshControl* refreshControl;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *numberBarButton;
 @property (weak, nonatomic) IBOutlet UIView *postManagerViewContainer;
-@property (assign, nonatomic) GSIndeterminateProgressView *progressView;
+@property (strong, nonatomic) GSIndeterminateProgressView *progressView;
 @property (strong, nonatomic) czzForum *selectedForum;
 @property (strong, nonatomic) czzFavouriteManagerViewController *favouriteManagerViewController;
 @property (strong, nonatomic) czzHomeTableViewManager *homeTableViewManager;
 @property (strong, nonatomic) czzOnScreenImageManagerViewController *onScreenImageManagerViewController;
 @property (strong, nonatomic) czzMiniThreadViewController *miniThreadView;
-
+@property (strong, nonatomic) UIAlertView *confirmJumpToPageAlertView;
 @end
 
 @implementation czzHomeViewController
@@ -126,7 +126,6 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     self.viewDeckController.panningMode = IIViewDeckFullViewPanning;
-    
     // Add badget number to infoBarButton if necessary.
     if ([[(czzNavigationController*)self.navigationController notificationBannerViewController] shouldShow]) {
         self.infoBarButton.badgeValue = @"1";
@@ -207,7 +206,8 @@
         textInputField.keyboardType = UIKeyboardTypeNumberPad;
         textInputField.keyboardAppearance = UIKeyboardAppearanceDark;
     }
-    [alertView show];
+    self.confirmJumpToPageAlertView = alertView;
+    [self.confirmJumpToPageAlertView show];
 }
 
 - (IBAction)searchAction:(id)sender {
@@ -225,22 +225,23 @@
 
 #pragma mark - UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
-    if ([buttonTitle isEqualToString:@"确定"]){
-        NSInteger newPageNumber = [[[alertView textFieldAtIndex:0] text] integerValue];
-        if (newPageNumber > 0){
-
-            //clear threads and ready to accept new threads
-            [self.homeViewManager removeAll];
-            [self updateTableView];
-            [self.refreshControl beginRefreshing];
-            [self.homeViewManager loadMoreThreads:newPageNumber];
-
-            [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)self.homeViewManager.pageNumber]
-                                             position:BannerNotificationPositionTop];
-        } else {
-            [czzBannerNotificationUtil displayMessage:@"页码无效..."
-                                             position:BannerNotificationPositionTop];
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        if (alertView == self.confirmJumpToPageAlertView) {
+            NSInteger newPageNumber = [[[alertView textFieldAtIndex:0] text] integerValue];
+            if (newPageNumber > 0){
+                
+                //clear threads and ready to accept new threads
+                [self.homeViewManager removeAll];
+                [self updateTableView];
+                [self.refreshControl beginRefreshing];
+                [self.homeViewManager loadMoreThreads:newPageNumber];
+                
+                [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)self.homeViewManager.pageNumber]
+                                                 position:BannerNotificationPositionTop];
+            } else {
+                [czzBannerNotificationUtil displayMessage:@"页码无效..."
+                                                 position:BannerNotificationPositionTop];
+            }
         }
     }
 }
@@ -275,7 +276,8 @@
 
 -(GSIndeterminateProgressView *)progressView {
     if (!_progressView) {
-        _progressView = [(czzNavigationController*) self.navigationController progressView];
+        _progressView = [[GSIndeterminateProgressView alloc] initWithParentView:self.view
+                                                                     alignToTop:self.threadTableView];
     }
     return _progressView;
 }
@@ -315,18 +317,20 @@
 
 -(void)homeViewManager:(czzHomeViewManager *)homeViewManager downloadSuccessful:(BOOL)wasSuccessful {
     DDLogDebug(@"%@", NSStringFromSelector(_cmd));
-    if (!wasSuccessful && !NavigationManager.isInTransition) {
-        [self.refreshControl endRefreshing];
-        [self.progressView stopAnimating];
+    self.threadTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
+    if (!wasSuccessful) {
         [self.progressView showWarning];
     }
-    self.threadTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
 }
 
--(void)homeViewManagerBeginsDownloading:(czzHomeViewManager *)homeViewManager {
-    if (!self.progressView.isAnimating)
+-(void)viewManagerDownloadStateChanged:(czzHomeViewManager *)homeViewManager {
+    if (homeViewManager.isDownloading) {
         [self.progressView startAnimating];
-    
+        [self.refreshControl beginRefreshing];
+    } else {
+        [self.progressView stopAnimating];
+        [self.refreshControl endRefreshing];
+    }
 }
 
 -(void)homeViewManager:(czzHomeViewManager *)list threadListProcessed:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
@@ -338,10 +342,7 @@
             [self.threadTableView scrollToTop:NO];
         }
         [self updateTableView];
-
-        // If is in transition, is better not do anything.
-        if (!NavigationManager.isInTransition)
-            [self.progressView stopAnimating];
+        // Show warning.
         if (!wasSuccessul) {
             [self.progressView showWarning];
         }

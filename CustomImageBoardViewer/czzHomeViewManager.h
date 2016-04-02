@@ -22,7 +22,7 @@
 @class czzHomeViewManager;
 @protocol czzHomeViewManagerDelegate <NSObject>
 @optional
--(void)homeViewManagerBeginsDownloading:(czzHomeViewManager*)homeViewManager;
+-(void)viewManagerDownloadStateChanged:(czzHomeViewManager*)homeViewManager;
 -(void)homeViewManager:(czzHomeViewManager*)homeViewManager threadListProcessed:(BOOL)wasSuccessul newThreads:(NSArray*)newThreads allThreads:(NSArray*)allThreads;
 -(void)homeViewManager:(czzHomeViewManager*)homeViewManager threadContentProcessed:(BOOL)wasSuccessul newThreads:(NSArray*)newThreads allThreads:(NSArray*)allThreads;
 - (void)homeViewManager:(czzHomeViewManager*)homeViewManager wantsToScrollToContentOffset:(CGPoint)offset;
@@ -45,7 +45,7 @@
 @property (nonatomic, strong) NSMutableArray *threads;
 @property (nonatomic, strong) NSArray *lastBatchOfThreads;
 @property (nonatomic, weak) id<czzHomeViewManagerDelegate> delegate;
-@property (nonatomic, assign) BOOL isDownloading;
+@property (nonatomic, readonly) BOOL isDownloading;
 @property (nonatomic, readonly) NSString *baseURLString;
 @property (nonatomic, assign) CGPoint currentOffSet;
 @property (nonatomic, strong) czzThread *displayedThread;

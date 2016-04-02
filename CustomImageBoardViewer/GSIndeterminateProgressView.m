@@ -7,6 +7,8 @@
 //
 
 #import "GSIndeterminateProgressView.h"
+#import <PureLayout/PureLayout.h>
+
 @interface GSIndeterminateProgressView()
 @property CGFloat CHUNK_WIDTH;
 @property NSArray *colours;
@@ -155,6 +157,21 @@
             [self animateProgressChunk:chunk delay:0.2];
         }
     }];
+}
+
+- (instancetype)initWithParentView:(UIView *)parentView alignToTop:(UIView *)topView {
+    self = [[GSIndeterminateProgressView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+    [parentView addSubview:self];
+    [self autoPinEdgeToSuperviewEdge:ALEdgeLeft];
+    [self autoPinEdgeToSuperviewEdge:ALEdgeRight];
+    [self autoPinEdge:ALEdgeTop
+                        toEdge:ALEdgeTop
+                        ofView:topView];
+    [self autoSetDimension:ALDimensionHeight
+                             toSize:2];
+    [self layoutIfNeeded];
+
+    return self;
 }
 
 @end

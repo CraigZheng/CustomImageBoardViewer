@@ -25,4 +25,5 @@
 
 - (BOOL)isAnimating;
 
+- (instancetype)initWithParentView:(UIView*)parentView alignToTop:(UIView*)topView;
 @end

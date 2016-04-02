@@ -48,8 +48,10 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @property (strong, nonatomic) czzThreadTableViewManager *threadTableViewManager;
 @property (strong, nonatomic) czzOnScreenImageManagerViewController *onScreenImageManagerViewController;
 @property (weak, nonatomic) IBOutlet UIView *postSenderViewContainer;
-@property (weak, nonatomic) GSIndeterminateProgressView *progressView;
+@property (strong, nonatomic) GSIndeterminateProgressView *progressView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *massiveDownloadButtonHeightConstraint;
+@property (strong, nonatomic) UIAlertView *confirmMassiveDownloadAlertView;
+@property (strong, nonatomic) UIAlertView *confirmJumpToPageAlertView;
 @end
 
 @implementation czzThreadViewController
@@ -66,7 +68,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @synthesize imageViewerUtil;
 @synthesize refreshControl;
 @synthesize onScreenImageManagerViewContainer;
-@synthesize progressView;
 @synthesize moreButton;
 @synthesize shouldRestoreContentOffset;
 
@@ -81,9 +82,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     // The manager for the table view.
     self.threadTableView.dataSource = self.threadTableViewManager;
     self.threadTableView.delegate = self.threadTableViewManager;
-
-    // Progress view
-    progressView = [(czzNavigationController*)self.navigationController progressView];
     
     // Thumbnail folder
     thumbnailFolder = [czzAppDelegate thumbnailFolder];
@@ -200,6 +198,14 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     return _threadTableViewManager;
 }
 
+- (GSIndeterminateProgressView *)progressView {
+    if (!_progressView) {
+        _progressView = [[GSIndeterminateProgressView alloc] initWithParentView:self.view
+                                                                     alignToTop:self.threadTableView];
+    }
+    return _progressView;
+}
+
 #pragma mark - setter
 -(void)setThreadViewManager:(czzThreadViewManager *)viewManager {
     _threadViewManager = viewManager;
@@ -216,10 +222,9 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     else
         numberBarButton.customView.hidden = NO;
     // Hide the massive download button at first, then show it with animation.
-    // Show it only when the total pages is equal or bigger than 3, and is not already all downloaded.
+    // Show it only when the total pages is still 3 or more pages away from the current page number.
     if (!self.massiveDownloadButtonHeightConstraint.constant &&
-        viewManager.totalPages >= 3 &&
-        viewManager.pageNumber < viewManager.totalPages) {
+        viewManager.totalPages - viewManager.pageNumber >= 3) {
         DLog(@"Show massive download button.");
         self.massiveDownloadButtonHeightConstraint.constant = 40;
         [UIView animateWithDuration:0.2 animations:^{
@@ -251,26 +256,33 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
         textInputField.keyboardType = UIKeyboardTypeNumberPad;
         textInputField.keyboardAppearance = UIKeyboardAppearanceDark;
     }
-    [alertView show];
+    self.confirmJumpToPageAlertView = alertView;
+    [self.confirmJumpToPageAlertView show];
 }
 
 #pragma mark - UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
-    if ([buttonTitle isEqualToString:@"确定"]){
-        NSInteger newPageNumber = [[[alertView textFieldAtIndex:0] text] integerValue];
-        if (newPageNumber > 0){
-            //clear threads and ready to accept new threads
-            [self.threadViewManager removeAll];
-            [self.threadViewManager loadMoreThreads:newPageNumber];
-            [self updateTableView];
-            [refreshControl beginRefreshing];
-
-            [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) self.threadViewManager.pageNumber]
-                                             position:BannerNotificationPositionTop];
-        } else {
-            [czzBannerNotificationUtil displayMessage:@"页码无效..."
-                                             position:BannerNotificationPositionTop];
+    // If user did not tap on the cancel button.
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        if (alertView == self.confirmMassiveDownloadAlertView) {
+            // If the incoming alertView is the confirm massive download alert view, start loadAll action.
+            [self.threadViewManager loadAll];
+        } else if (alertView == self.confirmJumpToPageAlertView) {
+            // If user wants to jump to a specific page number, verify that user enters a valid page number.
+            NSInteger newPageNumber = [[[alertView textFieldAtIndex:0] text] integerValue];
+            if (newPageNumber > 0){
+                //clear threads and ready to accept new threads
+                [self.threadViewManager removeAll];
+                [self.threadViewManager loadMoreThreads:newPageNumber];
+                [self updateTableView];
+                [refreshControl beginRefreshing];
+                
+                [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) self.threadViewManager.pageNumber]
+                                                 position:BannerNotificationPositionTop];
+            } else {
+                [czzBannerNotificationUtil displayMessage:@"页码无效..."
+                                                 position:BannerNotificationPositionTop];
+            }
         }
     }
 }
@@ -300,20 +312,19 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     }
 }
 
--(void)homeViewManagerBeginsDownloading:(czzHomeViewManager *)threadViewManager {
-    if (!progressView.isAnimating) {
-        [progressView startAnimating];
+-(void)viewManagerDownloadStateChanged:(czzHomeViewManager *)homeViewManager {
+    if (homeViewManager.isDownloading) {
+        [self.progressView startAnimating];
+        [self.refreshControl beginRefreshing];
+    } else {
+        [self.progressView stopAnimating];
+        [self.refreshControl endRefreshing];
     }
 }
 
 -(void)homeViewManager:(czzHomeViewManager *)threadViewManager downloadSuccessful:(BOOL)wasSuccessful {
-    if (!wasSuccessful)
-    {
-        if (progressView.isAnimating) {
-            [refreshControl endRefreshing];
-            [progressView stopAnimating];
-            [progressView showWarning];
-        }
+    if (!wasSuccessful) {
+        [self.progressView showWarning];
     }
 }
 
@@ -322,10 +333,10 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
         if (newThreads.count) {
             self.threadViewManager = (czzThreadViewManager*)threadViewManager;
         }
+    } else {
+        [self.progressView showWarning];
     }
     [self updateTableView];
-    [refreshControl endRefreshing];
-    [progressView stopAnimating];
     // Reset the lastCellType back to default.
     self.threadTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
 }
@@ -333,6 +344,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 - (void)viewManagerContinousDownloadUpdated:(czzThreadViewManager *)viewManager {
     // A download of a page is completed, display it on screen.
     self.threadViewManager = viewManager;
+    [self updateTableView];
 }
 
 - (void)viewManager:(czzThreadViewManager *)viewManager continousDownloadCompleted:(BOOL)success {
@@ -346,7 +358,14 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 #pragma mark - UI button actions
 
 - (IBAction)massiveDownloadAction:(id)sender {
-    [self.threadViewManager loadAll];
+    // Start massive download action.
+    self.confirmMassiveDownloadAlertView = [[UIAlertView alloc] initWithTitle:@"一键到底!"
+                                                                      message:[NSString stringWithFormat:@"将加载%ld页内容,请确认!",
+                                                                               self.threadViewManager.totalPages - self.threadViewManager.pageNumber]
+                                                                     delegate:self
+                                                            cancelButtonTitle:@"取消"
+                                                            otherButtonTitles:@"确定", nil];
+    [self.confirmMassiveDownloadAlertView show];
 }
 
 - (IBAction)replyAction:(id)sender {

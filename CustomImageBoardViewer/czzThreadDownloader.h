@@ -14,13 +14,12 @@
 @class czzThread, czzForum;
 @class czzThreadDownloader;
 @protocol czzThreadDownloaderDelegate <NSObject>
-- (void)threadDownloaderBeginsDownload:(czzThreadDownloader *)downloader;
+- (void)threadDownloaderStateChanged:(czzThreadDownloader *)downloader;
 - (void)threadDownloaderCompleted:(czzThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads error:(NSError *)error;
 
 @optional
 - (void)threadDownloaderDownloadUpdated:(czzThreadDownloader *)downloader progress:(CGFloat)progress;
--(void)pageNumberUpdated:(NSInteger)currentPage allPage:(NSInteger)allPage;
-
+- (void)pageNumberUpdated:(NSInteger)currentPage allPage:(NSInteger)allPage;
 @end
 
 @interface czzThreadDownloader : NSObject <czzURLDownloaderProtocol, czzJSONProcessorDelegate>
@@ -29,6 +28,7 @@
 @property (nonatomic, weak) id<czzThreadDownloaderDelegate>delegate;
 @property (nonatomic, strong) czzThread *parentThread;
 @property (nonatomic, strong) czzForum *parentForum;
+@property (nonatomic, readonly) BOOL isDownloading;
 @property (nonatomic, copy) void(^completionHandler)(BOOL success, NSArray *downloadedThreads, NSError *error);
 
 - (instancetype)initWithForum:(czzForum *)forum;

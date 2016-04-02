@@ -47,13 +47,10 @@
                                                             delegate:self
                                                             startNow:YES];
     DDLogDebug(@"Start downloading: %@", targetURL.absoluteString);
-    if ([self.delegate respondsToSelector:@selector(threadDownloaderBeginsDownload:)]) {
-        [self.delegate threadDownloaderBeginsDownload:self];
-    }
 }
 
 - (void)stop {
-    if (self.urlDownloader) {
+    if (self.urlDownloader.isDownloading) {
         DDLogDebug(@"%s", __PRETTY_FUNCTION__);
         self.urlDownloader.delegate = nil;
         [self.urlDownloader stop];
@@ -89,6 +86,11 @@
 }
 
 #pragma mark - Getters
+
+- (BOOL)isDownloading {
+    BOOL isDownloading = self.urlDownloader.isDownloading;
+    return isDownloading;
+}
 
 - (NSString *)targetURLString {
     NSString *targetURLString;
@@ -152,6 +154,12 @@
     if ([self.delegate respondsToSelector:@selector(threadDownloaderDownloadUpdated:progress:)]) {
         [self.delegate threadDownloaderDownloadUpdated:self
                                               progress:progress];
+    }
+}
+
+- (void)downloadStateChanged:(czzURLDownloader *)downloader {
+    if ([self.delegate respondsToSelector:@selector(threadDownloaderStateChanged:)]) {
+        [self.delegate threadDownloaderStateChanged:self];
     }
 }
 
