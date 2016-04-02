@@ -310,7 +310,9 @@
 
 // Override isDownloading, this class need to consider the massive downloader as well.
 - (BOOL)isDownloading {
-    return super.isDownloading || self.massiveDownloader.isDownloading;
+    BOOL massiveDownloading = self.massiveDownloader.isDownloading;
+    BOOL normalDownloading = super.isDownloading;
+    return normalDownloading || massiveDownloading;
 }
 
 @end

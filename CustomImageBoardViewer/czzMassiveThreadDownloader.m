@@ -11,6 +11,7 @@
 @interface czzMassiveThreadDownloader()
 @property (nonatomic, strong) NSMutableArray *bulkThreads;
 @property (nonatomic, weak) id<czzMassiveThreadDownloaderDelegate> delegate;
+@property (nonatomic, assign) BOOL manuallyStopped; // A Boolean to indicate that user has manually stopped the operation.
 @end
 
 @implementation czzMassiveThreadDownloader
@@ -19,7 +20,13 @@
 - (void)start {
     // Must make sure the parentThread is not nil.
     assert(self.parentThread);
+    self.manuallyStopped = NO;
     [super start];
+}
+
+- (void)stop {
+    self.manuallyStopped = YES;
+    [super stop];
 }
 
 - (void)subThreadProcessedForThread:(czzJSONProcessor *)processor :(czzThread *)parentThread :(NSArray *)newThread :(BOOL)success {
@@ -58,6 +65,12 @@
         _bulkThreads = [NSMutableArray new];
     }
     return _bulkThreads;
+}
+
+- (BOOL)isDownloading {
+    BOOL normalDownloading = super.isDownloading;
+    BOOL massiveDownloading = self.pageNumber < self.totalPages && !self.manuallyStopped;
+    return normalDownloading || massiveDownloading;
 }
 
 @end
