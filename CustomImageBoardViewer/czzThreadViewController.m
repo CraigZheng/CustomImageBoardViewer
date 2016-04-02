@@ -216,10 +216,9 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     else
         numberBarButton.customView.hidden = NO;
     // Hide the massive download button at first, then show it with animation.
-    // Show it only when the total pages is equal or bigger than 3, and is not already all downloaded.
+    // Show it only when the total pages is still 3 or more pages away from the current page number.
     if (!self.massiveDownloadButtonHeightConstraint.constant &&
-        viewManager.totalPages >= 3 &&
-        viewManager.pageNumber < viewManager.totalPages) {
+        viewManager.totalPages - viewManager.pageNumber >= 3) {
         DLog(@"Show massive download button.");
         self.massiveDownloadButtonHeightConstraint.constant = 40;
         [UIView animateWithDuration:0.2 animations:^{
