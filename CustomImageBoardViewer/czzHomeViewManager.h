@@ -45,7 +45,7 @@
 @property (nonatomic, strong) NSMutableArray *threads;
 @property (nonatomic, strong) NSArray *lastBatchOfThreads;
 @property (nonatomic, weak) id<czzHomeViewManagerDelegate> delegate;
-@property (nonatomic, assign) BOOL isDownloading;
+@property (nonatomic, readonly) BOOL isDownloading;
 @property (nonatomic, readonly) NSString *baseURLString;
 @property (nonatomic, assign) CGPoint currentOffSet;
 @property (nonatomic, strong) czzThread *displayedThread;

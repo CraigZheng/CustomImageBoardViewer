@@ -21,9 +21,7 @@
 -(instancetype)init {
     self = [super init];
     if (self) {
-        self.isDownloading = NO;
         self.pageNumber = self.totalPages = 1;
-
     }
     return self;
 }
@@ -102,7 +100,6 @@
     self.downloader.pageNumber = pageNumber;
     [self.downloader start];
     
-    self.isDownloading = YES;
     if ([self.delegate respondsToSelector:@selector(homeViewManagerBeginsDownloading:)]) {
         [self.delegate homeViewManagerBeginsDownloading:self];
     }
@@ -143,7 +140,6 @@
 }
 
 - (void)threadDownloaderCompleted:(czzThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads error:(NSError *)error {
-    self.isDownloading = NO;
     if (success){
         self.cachedThreads = nil;
         if (self.shouldHideImageForThisForum)
@@ -184,6 +180,10 @@
     _downloader.delegate = self;
     _downloader.parentForum = self.forum;
     return _downloader;
+}
+
+- (BOOL)isDownloading {
+    return self.downloader.isDownloading;
 }
 
 /**

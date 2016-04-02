@@ -130,7 +130,6 @@
 #pragma mark - czzMassiveThreadDownloaderDelegate
 
 - (void)threadDownloaderCompleted:(czzThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads error:(NSError *)error {
-    self.isDownloading = NO;
     if (success) {
         self.lastBatchOfThreads = threads;
         if (downloader.parentThread)
@@ -307,6 +306,11 @@
     _downloader.parentThread = self.parentThread;
     _downloader.delegate = self;
     return _downloader;
+}
+
+// Override isDownloading, this class need to consider the massive downloader as well.
+- (BOOL)isDownloading {
+    return super.isDownloading || self.massiveDownloader.isDownloading;
 }
 
 @end

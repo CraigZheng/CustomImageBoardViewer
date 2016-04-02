@@ -90,6 +90,10 @@
 
 #pragma mark - Getters
 
+- (BOOL)isDownloading {
+    return self.urlDownloader.isDownloading;
+}
+
 - (NSString *)targetURLString {
     NSString *targetURLString;
 

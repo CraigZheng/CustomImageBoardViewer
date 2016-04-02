@@ -98,4 +98,10 @@
     }
 }
 
+#pragma mark - Getters
+
+- (BOOL)isDownloading {
+    return self.dataTask.state == NSURLSessionTaskStateRunning;
+}
+
 @end
