@@ -46,7 +46,7 @@
 @property (strong, nonatomic) UIRefreshControl* refreshControl;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *numberBarButton;
 @property (weak, nonatomic) IBOutlet UIView *postManagerViewContainer;
-@property (assign, nonatomic) GSIndeterminateProgressView *progressView;
+@property (strong, nonatomic) GSIndeterminateProgressView *progressView;
 @property (strong, nonatomic) czzForum *selectedForum;
 @property (strong, nonatomic) czzFavouriteManagerViewController *favouriteManagerViewController;
 @property (strong, nonatomic) czzHomeTableViewManager *homeTableViewManager;
@@ -125,6 +125,12 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    
+#warning debugging progress view
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.progressView startAnimating];
+    });
+#warning end debugging
     self.viewDeckController.panningMode = IIViewDeckFullViewPanning;
     
     // Add badget number to infoBarButton if necessary.
@@ -276,10 +282,9 @@
 }
 
 -(GSIndeterminateProgressView *)progressView {
-    // If the currently visible view controller is self, that means I should have control over the progress view.
-    if (self.navigationController.visibleViewController == self &&
-        !NavigationManager.isInTransition) {
-        _progressView = [(czzNavigationController*) self.navigationController progressView];
+    if (!_progressView) {
+        _progressView = [[GSIndeterminateProgressView alloc] initWithParentView:self.view
+                                                                     alignToTop:self.threadTableView];
     }
     return _progressView;
 }

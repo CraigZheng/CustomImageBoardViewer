@@ -16,7 +16,6 @@
 
 @implementation czzNavigationController
 @synthesize notificationBannerViewController;
-@synthesize progressView;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -30,10 +29,6 @@
     frame = CGRectMake(0, 0, self.navigationBar.frame.size.width, self.navigationBar.frame.size.height);
     notificationBannerViewController.view.frame = frame;
     notificationBannerViewController.homeViewController = self;
-    //progressview
-    progressView = [[GSIndeterminateProgressView alloc] initWithFrame:CGRectMake(0, self.navigationBar.frame.size.height - 2, self.navigationBar.frame.size.width, 2)];
-    progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-    [self.navigationBar addSubview:progressView];
 }
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {

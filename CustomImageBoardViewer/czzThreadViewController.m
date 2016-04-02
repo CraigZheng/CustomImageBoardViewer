@@ -48,7 +48,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @property (strong, nonatomic) czzThreadTableViewManager *threadTableViewManager;
 @property (strong, nonatomic) czzOnScreenImageManagerViewController *onScreenImageManagerViewController;
 @property (weak, nonatomic) IBOutlet UIView *postSenderViewContainer;
-@property (weak, nonatomic) GSIndeterminateProgressView *progressView;
+@property (strong, nonatomic) GSIndeterminateProgressView *progressView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *massiveDownloadButtonHeightConstraint;
 @property (strong, nonatomic) UIAlertView *confirmMassiveDownloadAlertView;
 @property (strong, nonatomic) UIAlertView *confirmJumpToPageAlertView;
@@ -68,7 +68,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @synthesize imageViewerUtil;
 @synthesize refreshControl;
 @synthesize onScreenImageManagerViewContainer;
-@synthesize progressView;
 @synthesize moreButton;
 @synthesize shouldRestoreContentOffset;
 
@@ -83,9 +82,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     // The manager for the table view.
     self.threadTableView.dataSource = self.threadTableViewManager;
     self.threadTableView.delegate = self.threadTableViewManager;
-
-    // Progress view
-    progressView = [(czzNavigationController*)self.navigationController progressView];
     
     // Thumbnail folder
     thumbnailFolder = [czzAppDelegate thumbnailFolder];
@@ -202,6 +198,14 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     return _threadTableViewManager;
 }
 
+- (GSIndeterminateProgressView *)progressView {
+    if (!_progressView) {
+        _progressView = [[GSIndeterminateProgressView alloc] initWithParentView:self.view
+                                                                     alignToTop:self.threadTableView];
+    }
+    return _progressView;
+}
+
 #pragma mark - setter
 -(void)setThreadViewManager:(czzThreadViewManager *)viewManager {
     _threadViewManager = viewManager;
@@ -309,18 +313,18 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 -(void)homeViewManagerBeginsDownloading:(czzHomeViewManager *)threadViewManager {
-    if (!progressView.isAnimating) {
-        [progressView startAnimating];
+    if (!self.progressView.isAnimating) {
+        [self.progressView startAnimating];
     }
 }
 
 -(void)homeViewManager:(czzHomeViewManager *)threadViewManager downloadSuccessful:(BOOL)wasSuccessful {
     if (!wasSuccessful)
     {
-        if (progressView.isAnimating) {
+        if (self.progressView.isAnimating) {
             [refreshControl endRefreshing];
-            [progressView stopAnimating];
-            [progressView showWarning];
+            [self.progressView stopAnimating];
+            [self.progressView showWarning];
         }
     }
 }
@@ -333,7 +337,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     }
     [self updateTableView];
     [refreshControl endRefreshing];
-    [progressView stopAnimating];
+    [self.progressView stopAnimating];
     // Reset the lastCellType back to default.
     self.threadTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
 }

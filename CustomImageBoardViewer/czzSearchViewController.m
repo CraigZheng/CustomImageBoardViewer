@@ -45,7 +45,6 @@
 @synthesize searchResult;
 @synthesize searchKeyword;
 @synthesize targetURL;
-@synthesize progressView;
 @synthesize miniThreadView;
 
 - (void)viewDidLoad
@@ -65,10 +64,7 @@
             searchEngineSegmentedControl.selectedSegmentIndex = 2;
         }
     }
-    
-    //progress view
-    progressView = [(czzNavigationController*)self.navigationController progressView];
-    
+        
     searchInputAlertView = [[UIAlertView alloc] initWithTitle:@"关键词或号码" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     searchInputAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     UITextField *textInputField = [searchInputAlertView textFieldAtIndex:0];
@@ -211,11 +207,11 @@
 }
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView {
-    [progressView stopAnimating];
+    [self.progressView stopAnimating];
 }
 
 -(void)webViewDidStartLoad:(UIWebView *)webView {
-    [progressView startAnimating];
+    [self.progressView startAnimating];
 }
 
 - (IBAction)againAction:(id)sender {
@@ -240,5 +236,14 @@
     [userDef synchronize];
 }
 
+#pragma mark - Getter
+
+- (GSIndeterminateProgressView *)progressView {
+    if (!_progressView) {
+        _progressView = [[GSIndeterminateProgressView alloc] initWithParentView:self.view
+                                                                     alignToTop:self.searchWebView];
+    }
+    return _progressView;
+}
 
 @end
