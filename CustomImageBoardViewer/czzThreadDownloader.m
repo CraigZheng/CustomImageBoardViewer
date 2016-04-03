@@ -135,15 +135,13 @@
 
 - (void)downloadOf:(NSURL *)url successed:(BOOL)successed result:(NSData *)downloadedData {
     if (successed) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            if (self.parentThread) {
-                [self.jsonProcessor processSubThreadFromData:downloadedData
-                                                    forForum:self.parentForum];
-            } else if (self.parentForum) {
-                [self.jsonProcessor processThreadListFromData:downloadedData
-                                                     forForum:self.parentForum];
-            }
-        });
+        if (self.parentThread) {
+            [self.jsonProcessor processSubThreadFromData:downloadedData
+                                                forForum:self.parentForum];
+        } else if (self.parentForum) {
+            [self.jsonProcessor processThreadListFromData:downloadedData
+                                                 forForum:self.parentForum];
+        }
     } else {
         // Inform delegate about the failure.
         [self notifyDelegateSuccess:NO downloadedThreads:nil error:nil];

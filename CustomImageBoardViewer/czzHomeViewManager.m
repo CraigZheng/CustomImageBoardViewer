@@ -150,12 +150,9 @@
         // Add to total threads.
         [self.threads addObjectsFromArray:threads];
     }
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.delegate respondsToSelector:@selector(homeViewManager:threadListProcessed:newThreads:allThreads:)]) {
-            [self.delegate homeViewManager:self threadListProcessed:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
-        }
-        DDLogDebug(@"%@", NSStringFromSelector(_cmd));
-    });
+    if ([self.delegate respondsToSelector:@selector(homeViewManager:threadListProcessed:newThreads:allThreads:)]) {
+        [self.delegate homeViewManager:self threadListProcessed:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
+    }
 }
 
 - (void)pageNumberUpdated:(NSInteger)currentPage allPage:(NSInteger)allPage {

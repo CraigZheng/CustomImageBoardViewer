@@ -229,14 +229,12 @@ estimatedHeightForRowAtIndexPath:indexPath];
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (!self.homeViewManager.isDownloading && self.homeViewManager.threads.count > 0) {
-        if (self.tableViewIsDraggedOverTheBottom) {
-            if ([self tableViewIsDraggedOverTheBottomWithPadding:44 * 2]) {
-                self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore;
-            } else {
-                if (self.homeTableView.lastCellType != czzThreadViewCommandStatusCellViewTypeLoadMore) {
-                    self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
-                }
+    if (self.tableViewIsDraggedOverTheBottom && !self.homeViewManager.isDownloading) {
+        if ([self tableViewIsDraggedOverTheBottomWithPadding:44]) {
+            self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore;
+        } else {
+            if (self.homeTableView.lastCellType != czzThreadViewCommandStatusCellViewTypeLoadMore) {
+                self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
             }
         }
     }
@@ -244,7 +242,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     if (!self.homeViewManager.isDownloading && self.homeViewManager.threads.count > 0) {
-        if ([self tableViewIsDraggedOverTheBottomWithPadding:44 * 2]) {
+        if ([self tableViewIsDraggedOverTheBottomWithPadding:44]) {
             [self.homeViewManager loadMoreThreads];
             self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
         }
