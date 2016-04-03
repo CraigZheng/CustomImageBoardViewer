@@ -14,9 +14,10 @@
 
 @class czzMassiveThreadDownloader;
 @protocol czzMassiveThreadDownloaderDelegate <czzThreadDownloaderDelegate>
+- (void)massiveDownloader:(czzMassiveThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads errors:(NSArray *)errors;
 @optional
 - (void)massiveDownloaderUpdated:(czzMassiveThreadDownloader *)downloader;
-- (void)massiveDownloader:(czzMassiveThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads errors:(NSArray *)errors;
+
 @end
 
 @interface czzMassiveThreadDownloader : czzThreadDownloader

@@ -218,7 +218,7 @@
     self.massiveDownloader = [[czzMassiveThreadDownloader alloc] initWithForum:self.downloader.parentForum
                                                                      andThread:self.downloader.parentThread];
     self.massiveDownloader.delegate = self;
-    self.massiveDownloader.pageNumber = self.pageNumber;
+    self.massiveDownloader.pageNumber = self.pageNumber + 1; // Start from the next page.
     [self.massiveDownloader start];
 }
 

@@ -27,6 +27,9 @@
 - (void)stop {
     if (super.isDownloading) {
         self.manuallyStopped = YES;
+        if ([self.delegate respondsToSelector:@selector(threadDownloaderStateChanged:)]) {
+            [self.delegate threadDownloaderStateChanged:self];
+        }
     }
     [super stop];
 }
@@ -40,7 +43,7 @@
         [self.delegate massiveDownloaderUpdated:self];
     }
     // If success and self.pageNumber not equals to self.total pages, load more.
-    if (success) {
+    if (success && !self.manuallyStopped) {
         if (self.pageNumber < self.totalPages) {
             self.pageNumber ++;
             [self start];
@@ -71,8 +74,8 @@
 
 - (BOOL)isDownloading {
     BOOL normalDownloading = super.isDownloading;
-    BOOL massiveDownloading = self.pageNumber < self.totalPages && !self.manuallyStopped;
-    return normalDownloading || massiveDownloading;
+    BOOL massiveDownloading = self.pageNumber < self.totalPages;
+    return (normalDownloading || massiveDownloading) && !self.manuallyStopped;
 }
 
 @end
