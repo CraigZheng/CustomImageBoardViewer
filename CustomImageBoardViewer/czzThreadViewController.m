@@ -30,6 +30,7 @@
 #import "czzRoundButton.h"
 #import "czzPostSenderManagerViewController.h"
 #import "czzReplyUtil.h"
+#import "UIImage+animatedGIF.h"
 
 NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
@@ -51,7 +52,10 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @property (strong, nonatomic) GSIndeterminateProgressView *progressView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *massiveDownloadButtonHeightConstraint;
 @property (strong, nonatomic) UIAlertView *confirmMassiveDownloadAlertView;
+@property (strong, nonatomic) UIAlertView *confirmCancelMassiveDownloadAlertView;
 @property (strong, nonatomic) UIAlertView *confirmJumpToPageAlertView;
+@property (weak, nonatomic) IBOutlet UIImageView *massiveDownloadIndicatorImageView;
+@property (weak, nonatomic) IBOutlet UIButton *massiveDownloadButton;
 @end
 
 @implementation czzThreadViewController
@@ -283,6 +287,8 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
                 [czzBannerNotificationUtil displayMessage:@"页码无效..."
                                                  position:BannerNotificationPositionTop];
             }
+        } else if (alertView == self.confirmCancelMassiveDownloadAlertView) {
+            [self.threadViewManager stopAllOperation];
         }
     }
 }
@@ -319,6 +325,14 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     } else {
         [self.progressView stopAnimating];
         [self.refreshControl endRefreshing];
+    }
+    // Massive downloading - set images for the massive download indicator.
+    if (self.threadViewManager.isMassiveDownloading) {
+        if (!self.massiveDownloadIndicatorImageView.image)
+            self.massiveDownloadIndicatorImageView.image = [UIImage animatedImageWithAnimatedGIFURL:[[NSBundle mainBundle] URLForResource:@"loading_bar_dot"
+                                                                                                                        withExtension:@"gif"]];
+    } else {
+        self.massiveDownloadIndicatorImageView.image = nil;
     }
 }
 
@@ -358,14 +372,24 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 #pragma mark - UI button actions
 
 - (IBAction)massiveDownloadAction:(id)sender {
-    // Start massive download action.
-    self.confirmMassiveDownloadAlertView = [[UIAlertView alloc] initWithTitle:@"一键到底!"
-                                                                      message:[NSString stringWithFormat:@"将加载%ld页内容,请确认!",
-                                                                               self.threadViewManager.totalPages - self.threadViewManager.pageNumber]
-                                                                     delegate:self
-                                                            cancelButtonTitle:@"取消"
-                                                            otherButtonTitles:@"确定", nil];
-    [self.confirmMassiveDownloadAlertView show];
+    if (self.threadViewManager.isMassiveDownloading) {
+        // Stop massive download.
+        self.confirmCancelMassiveDownloadAlertView = [[UIAlertView alloc] initWithTitle:@"取消一键到底!"
+                                                                                message:[NSString stringWithFormat:@"是否取消一键到底?"]
+                                                                               delegate:self
+                                                                      cancelButtonTitle:@"算了"
+                                                                      otherButtonTitles:@"确定", nil];
+        [self.confirmCancelMassiveDownloadAlertView show];
+    } else {
+        // Start massive download.
+        self.confirmMassiveDownloadAlertView = [[UIAlertView alloc] initWithTitle:@"一键到底!"
+                                                                          message:[NSString stringWithFormat:@"将加载%ld页内容,请确认!",
+                                                                                   self.threadViewManager.totalPages - self.threadViewManager.pageNumber]
+                                                                         delegate:self
+                                                                cancelButtonTitle:@"取消"
+                                                                otherButtonTitles:@"确定", nil];
+        [self.confirmMassiveDownloadAlertView show];
+    }
 }
 
 - (IBAction)replyAction:(id)sender {

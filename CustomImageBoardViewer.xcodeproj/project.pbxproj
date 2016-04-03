@@ -167,6 +167,8 @@
 		446557631C60F15A0051F1DD /* invisible@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 446557621C60F15A0051F1DD /* invisible@2x.png */; };
 		446656C91BEAF9380045276B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 442066221BE846820023D91F /* GoogleService-Info.plist */; };
 		4468A7111BBBC0480076DCD6 /* czzWeakReferenceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */; };
+		446C17B81CB08E2B00B557E2 /* loading_bar_dot.gif in Resources */ = {isa = PBXBuildFile; fileRef = 446C17B71CB08E2B00B557E2 /* loading_bar_dot.gif */; };
+		446C17BA1CB094C400B557E2 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 446C17B91CB094C400B557E2 /* ImageIO.framework */; };
 		447816E01C59A8CB00D7ADBB /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 447816DF1C59A8CB00D7ADBB /* AssetsLibrary.framework */; };
 		44792C711BBAC34400AF5CB5 /* NSFileManager+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 44792C701BBAC34400AF5CB5 /* NSFileManager+Util.m */; };
 		4479B07D1A0BB8E70074D484 /* czzTextViewHeightCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4479B07C1A0BB8E70074D484 /* czzTextViewHeightCalculator.m */; };
@@ -742,6 +744,8 @@
 		446557621C60F15A0051F1DD /* invisible@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "invisible@2x.png"; sourceTree = "<group>"; };
 		4468A70F1BBBC0480076DCD6 /* czzWeakReferenceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWeakReferenceDelegate.h; sourceTree = "<group>"; };
 		4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWeakReferenceDelegate.m; sourceTree = "<group>"; };
+		446C17B71CB08E2B00B557E2 /* loading_bar_dot.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading_bar_dot.gif; sourceTree = "<group>"; };
+		446C17B91CB094C400B557E2 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		447816DF1C59A8CB00D7ADBB /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		44792C6F1BBAC34400AF5CB5 /* NSFileManager+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Util.h"; sourceTree = "<group>"; };
 		44792C701BBAC34400AF5CB5 /* NSFileManager+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Util.m"; sourceTree = "<group>"; };
@@ -1064,6 +1068,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				446C17BA1CB094C400B557E2 /* ImageIO.framework in Frameworks */,
 				442B3D2C1C79B3B400403227 /* WebKit.framework in Frameworks */,
 				447816E01C59A8CB00D7ADBB /* AssetsLibrary.framework in Frameworks */,
 				4498CEC41B9E756D004D2380 /* CoreTelephony.framework in Frameworks */,
@@ -1250,6 +1255,7 @@
 		441E5CCD17F4691300289DBD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				446C17B91CB094C400B557E2 /* ImageIO.framework */,
 				442B3D2B1C79B3B400403227 /* WebKit.framework */,
 				447816DF1C59A8CB00D7ADBB /* AssetsLibrary.framework */,
 				44CBF4061BC93E2700DFECFC /* WatchConnectivity.framework */,
@@ -2269,6 +2275,7 @@
 		44E7918C1A17856500A63C04 /* icons */ = {
 			isa = PBXGroup;
 			children = (
+				446C17B71CB08E2B00B557E2 /* loading_bar_dot.gif */,
 				447E06221BC2391900D24087 /* trash@2x.png */,
 				441A6A841BB28D96008E380C /* visible@2x.png */,
 				446557621C60F15A0051F1DD /* invisible@2x.png */,
@@ -2809,6 +2816,7 @@
 				44E791D81A17856500A63C04 /* delete@2x.png in Resources */,
 				444F5B231A40EA3500EB391F /* 16.png in Resources */,
 				44E791F81A17856500A63C04 /* settings.png in Resources */,
+				446C17B81CB08E2B00B557E2 /* loading_bar_dot.gif in Resources */,
 				44C3455D187E774300FDE45D /* acfun_emoji_UTF16.txt in Resources */,
 				4432BA911AA88544002C66F5 /* thread list example.json in Resources */,
 				4444DA3F1C7AA27200ED8568 /* PostSenderManager.storyboard in Resources */,

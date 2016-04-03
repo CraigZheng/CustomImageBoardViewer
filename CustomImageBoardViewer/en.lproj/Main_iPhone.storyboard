@@ -59,8 +59,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="kEK-ic-Yzh" customClass="czzThreadTableView">
-                                <rect key="frame" x="0.0" y="64" width="320" height="460"/>
+                            <tableView autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="kEK-ic-Yzh" customClass="czzThreadTableView">
+                                <rect key="frame" x="0.0" y="20" width="320" height="504"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7vQ-Rb-bPA">
@@ -76,6 +76,9 @@
                                     <constraint firstAttribute="height" constant="60" id="vIV-hm-uv9"/>
                                 </constraints>
                             </containerView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PlI-hI-DUI" userLabel="Massve Download Indicator Image View">
+                                <rect key="frame" x="250" y="512" width="40" height="0.0"/>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iTH-zx-FDV" userLabel="Massive Download Button">
                                 <rect key="frame" x="250" y="512" width="40" height="0.0"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -88,30 +91,25 @@
                                     <action selector="massiveDownloadAction:" destination="CES-L8-oRQ" eventType="touchUpInside" id="FVm-FW-i1y"/>
                                 </connections>
                             </button>
-                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vYj-Eq-2Wr" userLabel="Massive Download View Container">
-                                <rect key="frame" x="240" y="84" width="60" height="60"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="jwb-Sd-ihx"/>
-                                </constraints>
-                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="7vQ-Rb-bPA" firstAttribute="leading" secondItem="4ja-AC-SOf" secondAttribute="leading" id="4qt-jt-U4Q"/>
                             <constraint firstItem="iTH-zx-FDV" firstAttribute="top" secondItem="7vQ-Rb-bPA" secondAttribute="bottom" constant="8" id="Az2-eS-T76"/>
                             <constraint firstItem="sn1-5a-vXO" firstAttribute="top" secondItem="kEK-ic-Yzh" secondAttribute="bottom" id="NRA-ir-tPT"/>
+                            <constraint firstItem="PlI-hI-DUI" firstAttribute="width" secondItem="iTH-zx-FDV" secondAttribute="width" id="Ncp-lQ-Cih"/>
                             <constraint firstItem="7vQ-Rb-bPA" firstAttribute="top" relation="greaterThanOrEqual" secondItem="JNf-Ax-8EN" secondAttribute="bottom" constant="20" id="Uf0-Td-TqX"/>
                             <constraint firstAttribute="trailing" secondItem="iTH-zx-FDV" secondAttribute="trailing" constant="30" id="a7R-g6-mhm"/>
+                            <constraint firstItem="PlI-hI-DUI" firstAttribute="height" secondItem="iTH-zx-FDV" secondAttribute="height" id="aJa-1H-pZM"/>
                             <constraint firstItem="4ja-AC-SOf" firstAttribute="width" secondItem="4ja-AC-SOf" secondAttribute="height" multiplier="1:1" id="bEy-Q7-MId"/>
                             <constraint firstItem="kEK-ic-Yzh" firstAttribute="top" secondItem="JNf-Ax-8EN" secondAttribute="bottom" id="gy0-E8-O6q"/>
-                            <constraint firstItem="vYj-Eq-2Wr" firstAttribute="top" secondItem="JNf-Ax-8EN" secondAttribute="bottom" constant="20" id="pfF-DV-FwE"/>
+                            <constraint firstItem="PlI-hI-DUI" firstAttribute="centerY" secondItem="iTH-zx-FDV" secondAttribute="centerY" id="mBW-C3-BDM"/>
                             <constraint firstItem="7vQ-Rb-bPA" firstAttribute="top" secondItem="4ja-AC-SOf" secondAttribute="bottom" constant="8" id="q6h-sM-m2t"/>
-                            <constraint firstAttribute="trailing" secondItem="vYj-Eq-2Wr" secondAttribute="trailing" constant="20" id="ri6-YQ-YmG"/>
+                            <constraint firstItem="PlI-hI-DUI" firstAttribute="centerX" secondItem="iTH-zx-FDV" secondAttribute="centerX" id="qJB-nq-YGS"/>
                             <constraint firstAttribute="trailing" secondItem="kEK-ic-Yzh" secondAttribute="trailing" id="sz7-GS-gEf"/>
                             <constraint firstItem="sn1-5a-vXO" firstAttribute="top" secondItem="iTH-zx-FDV" secondAttribute="bottom" constant="12" id="t0Y-B9-QlT"/>
                             <constraint firstAttribute="trailing" secondItem="7vQ-Rb-bPA" secondAttribute="trailing" constant="20" id="vU0-Cp-nhr"/>
                             <constraint firstItem="kEK-ic-Yzh" firstAttribute="leading" secondItem="JCg-5L-Quq" secondAttribute="leading" id="wT5-EE-ajt"/>
-                            <constraint firstItem="vYj-Eq-2Wr" firstAttribute="width" secondItem="vYj-Eq-2Wr" secondAttribute="height" multiplier="1:1" id="z1f-Ej-GSV"/>
                         </constraints>
                     </view>
                     <toolbarItems>
@@ -157,7 +155,9 @@
                     </navigationItem>
                     <connections>
                         <outlet property="jumpBarButtonItem" destination="M3o-im-Wqp" id="9er-CF-kVc"/>
+                        <outlet property="massiveDownloadButton" destination="iTH-zx-FDV" id="dAY-oc-SnZ"/>
                         <outlet property="massiveDownloadButtonHeightConstraint" destination="A3Z-ed-f8v" id="Uvh-Xw-oVt"/>
+                        <outlet property="massiveDownloadIndicatorImageView" destination="PlI-hI-DUI" id="C6G-i3-Hi6"/>
                         <outlet property="numberBarButton" destination="4KW-uO-bRF" id="WGT-rj-8ib"/>
                         <outlet property="onScreenImageManagerViewContainer" destination="7vQ-Rb-bPA" id="uZj-Br-hDd"/>
                         <outlet property="postSenderViewContainer" destination="4ja-AC-SOf" id="d5s-he-CDV"/>

@@ -315,4 +315,8 @@
     return normalDownloading || massiveDownloading;
 }
 
+- (BOOL)isMassiveDownloading {
+    return self.massiveDownloader.isDownloading;
+}
+
 @end
