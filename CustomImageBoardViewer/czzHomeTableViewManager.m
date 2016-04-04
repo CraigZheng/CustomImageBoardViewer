@@ -232,10 +232,10 @@ estimatedHeightForRowAtIndexPath:indexPath];
     if (self.tableViewIsDraggedOverTheBottom && !self.homeViewManager.isDownloading) {
         if ([self tableViewIsDraggedOverTheBottomWithPadding:44]) {
             self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore;
-        } else {
-            if (self.homeTableView.lastCellType != czzThreadViewCommandStatusCellViewTypeLoadMore) {
-                self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
-            }
+        }
+    } else {
+        if (self.homeTableView.lastCellType != czzThreadViewCommandStatusCellViewTypeLoadMore) {
+            self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
         }
     }
 }
