@@ -92,7 +92,7 @@
     [self downloadOf:nil successed:YES result:mockData];
     return;
 #endif
-    if (self.downloader)
+    if (self.downloader.isDownloading)
         [self.downloader stop];
     if (pageNumber > self.totalPages)
         pageNumber = self.totalPages;
