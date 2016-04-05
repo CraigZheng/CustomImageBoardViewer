@@ -60,9 +60,16 @@
         
         combinedProgressView.frame = CGRectMake(-CHUNK_WIDTH, 0, CHUNK_WIDTH, self.frame.size.height);
         [combinedProgressView addSubview:strip];
-
     }
     return self;
+}
+
+- (void)didMoveToWindow {
+    if (self.window && self.isAnimating) {
+        DLog(@"Did move to window and should be animating, resuming animation...");
+        _isAnimating = NO;
+        [self startAnimating];
+    }
 }
 
 - (void)setTrackTintColor:(UIColor *)trackTintColor
