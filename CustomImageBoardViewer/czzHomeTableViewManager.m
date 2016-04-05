@@ -229,23 +229,25 @@ estimatedHeightForRowAtIndexPath:indexPath];
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (self.tableViewIsDraggedOverTheBottom && !self.homeViewManager.isDownloading) {
-        if ([self tableViewIsDraggedOverTheBottomWithPadding:44]) {
-            self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore;
-        }
+    // If dragged over the threshold and not currently downloading, display release to load more cell.
+    if (self.tableViewIsDraggedOverTheBottom &&
+        !self.homeViewManager.isDownloading) {
+        self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore;
     } else {
-        if (self.homeTableView.lastCellType != czzThreadViewCommandStatusCellViewTypeLoadMore) {
+        // If not currently downloading, reset back to tap to load more cell.
+        if (self.homeTableView.lastCellType != czzThreadViewCommandStatusCellViewTypeLoadMore &&
+            !self.homeViewManager.isDownloading) {
             self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
         }
     }
 }
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (!self.homeViewManager.isDownloading && self.homeViewManager.threads.count > 0) {
-        if ([self tableViewIsDraggedOverTheBottomWithPadding:44]) {
-            [self.homeViewManager loadMoreThreads];
-            self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
-        }
+    // If user released while the scrollView is dragged up over the threshold, reload the view manager.
+    if (self.tableViewIsDraggedOverTheBottom &&
+        !self.homeViewManager.isDownloading) {
+        [self.homeViewManager loadMoreThreads];
+        self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
     }
 }
 
