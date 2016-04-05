@@ -35,6 +35,7 @@
 #import "czzPostSenderManagerViewController.h"
 #import "czzMiniThreadViewController.h"
 #import "czzBannerNotificationUtil.h"
+#import "czzAutoEndingRefreshControl.h"
 
 #import <CoreText/CoreText.h>
 
@@ -43,7 +44,7 @@
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (assign, nonatomic) BOOL shouldHideImageForThisForum;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
-@property (strong, nonatomic) UIRefreshControl* refreshControl;
+@property (strong, nonatomic) czzAutoEndingRefreshControl* refreshControl;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *numberBarButton;
 @property (weak, nonatomic) IBOutlet UIView *postManagerViewContainer;
 @property (strong, nonatomic) GSIndeterminateProgressView *progressView;
@@ -156,11 +157,6 @@
     });
 }
 
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    [self.refreshControl endRefreshing];
-}
-
 -(void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     self.viewDeckController.panningMode = IIViewDeckNoPanning;
@@ -233,7 +229,6 @@
                 //clear threads and ready to accept new threads
                 [self.homeViewManager removeAll];
                 [self updateTableView];
-                [self.refreshControl beginRefreshing];
                 [self.homeViewManager loadMoreThreads:newPageNumber];
                 
                 [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)self.homeViewManager.pageNumber]
@@ -282,9 +277,9 @@
     return _progressView;
 }
 
--(UIRefreshControl *)refreshControl {
+-(czzAutoEndingRefreshControl *)refreshControl {
     if (!_refreshControl) {
-        _refreshControl = [[UIRefreshControl alloc] init];
+        _refreshControl = [[czzAutoEndingRefreshControl alloc] init];
         [_refreshControl addTarget:self
                             action:@selector(dragOnRefreshControlAction:)
                   forControlEvents:UIControlEventValueChanged];
@@ -326,10 +321,8 @@
 -(void)viewManagerDownloadStateChanged:(czzHomeViewManager *)homeViewManager {
     if (homeViewManager.isDownloading) {
         [self.progressView startAnimating];
-        [self.refreshControl beginRefreshing];
     } else {
         [self.progressView stopAnimating];
-        [self.refreshControl endRefreshing];
     }
 }
 
@@ -337,7 +330,6 @@
     DDLogDebug(@"%@", NSStringFromSelector(_cmd));
     // If pageNumber == 1, then is a forum change, scroll to top.
     [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-        [self.refreshControl endRefreshing];
         if (wasSuccessul && self.homeViewManager.pageNumber == 1) {
             [self.threadTableView scrollToTop:NO];
         }

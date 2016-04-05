@@ -16,6 +16,7 @@
 		440B2FC917F7F42600544926 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 440B2FC817F7F42600544926 /* MobileCoreServices.framework */; };
 		440B2FCC17F8057500544926 /* czzPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 440B2FCB17F8057500544926 /* czzPostViewController.m */; };
 		440B2FD017F8191700544926 /* czzPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 440B2FCF17F8191700544926 /* czzPost.m */; };
+		440C97551CB3863600A7266D /* czzAutoEndingRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 440C97541CB3863600A7266D /* czzAutoEndingRefreshControl.m */; };
 		4411B2EA1AFF472900E94A5B /* czzForumManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4411B2E91AFF472900E94A5B /* czzForumManager.m */; };
 		4411B2EF1AFF6A5500E94A5B /* default_forums.json in Resources */ = {isa = PBXBuildFile; fileRef = 4411B2EE1AFF6A5500E94A5B /* default_forums.json */; };
 		4412FA151935865800681438 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 4412FA141935865800681438 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -501,6 +502,8 @@
 		440B2FCB17F8057500544926 /* czzPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzPostViewController.m; sourceTree = "<group>"; };
 		440B2FCE17F8191700544926 /* czzPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzPost.h; sourceTree = "<group>"; };
 		440B2FCF17F8191700544926 /* czzPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzPost.m; sourceTree = "<group>"; };
+		440C97531CB3863600A7266D /* czzAutoEndingRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzAutoEndingRefreshControl.h; sourceTree = "<group>"; };
+		440C97541CB3863600A7266D /* czzAutoEndingRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzAutoEndingRefreshControl.m; sourceTree = "<group>"; };
 		4411B2E81AFF472900E94A5B /* czzForumManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzForumManager.h; sourceTree = "<group>"; };
 		4411B2E91AFF472900E94A5B /* czzForumManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzForumManager.m; sourceTree = "<group>"; };
 		4411B2EE1AFF6A5500E94A5B /* default_forums.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = default_forums.json; sourceTree = "<group>"; };
@@ -1521,6 +1524,8 @@
 				440A62A71B8EBC160046E4CE /* UIViewController+Util.m */,
 				449E928C1BF9D15C00EE2F58 /* czzModalViewController.h */,
 				449E928D1BF9D15C00EE2F58 /* czzModalViewController.m */,
+				440C97531CB3863600A7266D /* czzAutoEndingRefreshControl.h */,
+				440C97541CB3863600A7266D /* czzAutoEndingRefreshControl.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -3060,6 +3065,7 @@
 				441E5E5417F52DEF00289DBD /* czzThreadViewController.m in Sources */,
 				441A6A941BB2939C008E380C /* czzRoundButton.m in Sources */,
 				44E2D2DC1B2DB94E0029D783 /* czzThreadListUtilTableViewController.m in Sources */,
+				440C97551CB3863600A7266D /* czzAutoEndingRefreshControl.m in Sources */,
 				44BFEF411B8C0D7B0095772B /* DeviceHardware.m in Sources */,
 				441E5CE817F4691300289DBD /* czzHomeViewController.m in Sources */,
 				5A2B2D941936264A00BA2870 /* czzFeedbackViewController.m in Sources */,

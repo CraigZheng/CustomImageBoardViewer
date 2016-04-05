@@ -30,6 +30,7 @@
 #import "czzRoundButton.h"
 #import "czzPostSenderManagerViewController.h"
 #import "czzReplyUtil.h"
+#import "czzAutoEndingRefreshControl.h"
 #import "UIImage+animatedGIF.h"
 
 NSString * const showThreadViewSegueIdentifier = @"showThreadView";
@@ -45,7 +46,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @property (strong, nonatomic) UIViewController *rightViewController;
 @property (strong, nonatomic) UIViewController *topViewController;
 @property (strong, nonatomic) czzMiniThreadViewController *miniThreadView;
-@property (strong, nonatomic) UIRefreshControl *refreshControl;
+@property (strong, nonatomic) czzAutoEndingRefreshControl *refreshControl;
 @property (strong, nonatomic) czzThreadTableViewManager *threadTableViewManager;
 @property (strong, nonatomic) czzOnScreenImageManagerViewController *onScreenImageManagerViewController;
 @property (weak, nonatomic) IBOutlet UIView *postSenderViewContainer;
@@ -70,7 +71,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @synthesize topViewController;
 @synthesize miniThreadView;
 @synthesize imageViewerUtil;
-@synthesize refreshControl;
 @synthesize onScreenImageManagerViewContainer;
 @synthesize moreButton;
 @synthesize shouldRestoreContentOffset;
@@ -105,9 +105,9 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [self.postSenderViewContainer addSubview:postSenderManagerViewController.view];
 
     //add the UIRefreshControl to uitableview
-    refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
-    [self.threadTableView addSubview: refreshControl];
+    self.refreshControl = [[czzAutoEndingRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
+    [self.threadTableView addSubview: self.refreshControl];
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
 
     self.navigationItem.backBarButtonItem.title = self.title;
@@ -279,7 +279,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
                 [self.threadViewManager removeAll];
                 [self.threadViewManager loadMoreThreads:newPageNumber];
                 [self updateTableView];
-                [refreshControl beginRefreshing];
                 
                 [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) self.threadViewManager.pageNumber]
                                                  position:BannerNotificationPositionTop];
@@ -321,10 +320,8 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 -(void)viewManagerDownloadStateChanged:(czzHomeViewManager *)homeViewManager {
     if (homeViewManager.isDownloading) {
         [self.progressView startAnimating];
-        [self.refreshControl beginRefreshing];
     } else {
         [self.progressView stopAnimating];
-        [self.refreshControl endRefreshing];
     }
     // Massive downloading - set images for the massive download indicator.
     if (self.threadViewManager.isMassiveDownloading) {

@@ -87,6 +87,10 @@
 }
 
 -(void)loadMoreThreads:(NSInteger)pageNumber {
+    if (!self.forum) {
+        DDLogDebug(@"Forum not set, cannot load more.");
+        return;
+    }
 #ifdef UNITTEST
     NSData *mockData = [[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"threadList" ofType:@"json"]]];
     [self downloadOf:nil successed:YES result:mockData];
