@@ -110,7 +110,7 @@
     // If not downloading or processing, load more threads.
     else if (!self.homeViewManager.isDownloading) {
         [self.homeViewManager loadMoreThreads];
-        [tableView reloadData];
+        self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
     }
 }
 
@@ -222,6 +222,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
 }
 
 #pragma mark - UIScrollViewDelegate
+
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     if ([settingCentre userDefShouldShowOnScreenCommand]) {
         [self.homeTableView.upDownViewController show];
@@ -229,14 +230,12 @@ estimatedHeightForRowAtIndexPath:indexPath];
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    // If dragged over the threshold and not currently downloading, display release to load more cell.
-    if (self.tableViewIsDraggedOverTheBottom &&
-        !self.homeViewManager.isDownloading) {
-        self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore;
-    } else {
-        // If not currently downloading, reset back to tap to load more cell.
-        if (self.homeTableView.lastCellType != czzThreadViewCommandStatusCellViewTypeLoadMore &&
-            !self.homeViewManager.isDownloading) {
+    // If current the view manager reports its being downloaded, don't do anything.
+    if (!self.homeViewManager.isDownloading) {
+        // If dragged over the threshold, set to "release to load more" cell.
+        if (self.tableViewIsDraggedOverTheBottom) {
+            self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore;
+        } else {
             self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
         }
     }
@@ -244,8 +243,8 @@ estimatedHeightForRowAtIndexPath:indexPath];
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     // If user released while the scrollView is dragged up over the threshold, reload the view manager.
-    if (self.tableViewIsDraggedOverTheBottom &&
-        !self.homeViewManager.isDownloading) {
+    if (!self.homeViewManager.isDownloading &&
+        self.homeTableView.lastCellType == czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore) {
         [self.homeViewManager loadMoreThreads];
         self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
     }

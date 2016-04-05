@@ -99,8 +99,10 @@
 }
 
 - (void)setLastCellType:(czzThreadViewCommandStatusCellViewType)lastCellType {
-    _lastCellType = lastCellType;
-    self.lastCellCommandViewController.cellType = lastCellType;
+    if (_lastCellType != lastCellType) {
+        _lastCellType = lastCellType;
+        self.lastCellCommandViewController.cellType = lastCellType;
+    }
 }
 
 #pragma mark - Getters

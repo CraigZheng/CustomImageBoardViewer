@@ -13,7 +13,7 @@
 
 @interface czzHomeViewManager ()
 @property (nonatomic, readonly) NSString *cacheFile;
-
+@property (nonatomic, assign) BOOL isDownloading;
 @end
 
 @implementation czzHomeViewManager
@@ -127,6 +127,7 @@
 
 #pragma mark - czzThreadDownloaderDelegate
 - (void)threadDownloaderStateChanged:(czzThreadDownloader *)downloader {
+    self.isDownloading = downloader.isDownloading;
     if ([self.delegate respondsToSelector:@selector(viewManagerDownloadStateChanged:)]) {
         [self.delegate viewManagerDownloadStateChanged:self];
     }
@@ -175,11 +176,6 @@
     _downloader.delegate = self;
     _downloader.parentForum = self.forum;
     return _downloader;
-}
-
-- (BOOL)isDownloading {
-    BOOL isDownloading = self.downloader.isDownloading;
-    return isDownloading;
 }
 
 /**
