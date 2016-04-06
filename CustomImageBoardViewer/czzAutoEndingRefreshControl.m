@@ -13,10 +13,10 @@
 - (void)sendAction:(SEL)action to:(id)target forEvent:(UIEvent *)event {
     [super sendAction:action to:target forEvent:event];
     __weak typeof(self) weakSelf = self;
-    // After action is sent, end refreshing with a delay.
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    // After action is sent, end refreshing immediately.
+    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
         [weakSelf endRefreshing];
-    });
+    }];
 }
 
 @end
