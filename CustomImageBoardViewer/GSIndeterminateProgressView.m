@@ -14,7 +14,10 @@
 @property NSArray *colours;
 @property NSUInteger colourIndex;
 @property NSMutableArray *stripViews;
-@property UIView *combinedProgressView;
+@property UIView *leftForegroundView;
+@property UIView *rightForegroundView;
+@property UIView *leftBackgroundView;
+@property UIView *rightBackgroundView;
 @end
 
 @implementation GSIndeterminateProgressView
@@ -22,44 +25,25 @@
 @synthesize colourIndex;
 @synthesize colours;
 @synthesize stripViews;
-@synthesize combinedProgressView;
 @synthesize isAnimating = _isAnimating;
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         self.clipsToBounds = YES;
-
+        
         self.trackTintColor = [UIColor clearColor];
         self.progressTintColor = [UIColor blueColor];
-
+        
         self.hidesWhenStopped = YES;
         self.hidden = YES;
         
         CHUNK_WIDTH = MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
         colourIndex = 0;
-        colours = @[[UIColor cyanColor], [UIColor magentaColor], [UIColor yellowColor]];//, [UIColor blackColor]];
+        colours = @[[UIColor cyanColor], [UIColor magentaColor], [UIColor yellowColor], [UIColor clearColor]];//, [UIColor blackColor]];
         
-        stripViews = [NSMutableArray new];
-        
-        if (!combinedProgressView)
-            combinedProgressView = [UIView new];
-        combinedProgressView.frame = CGRectMake(0, 0, CHUNK_WIDTH, self.frame.size.height);
-        UIView *strip = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CHUNK_WIDTH / 3, self.frame.size.height)];
-        strip.autoresizesSubviews = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-        strip.backgroundColor = self.progressTintColor;
-        [combinedProgressView addSubview:strip];
-        strip = [[UIView alloc] initWithFrame:CGRectMake(1 * (CHUNK_WIDTH / 3), 0, CHUNK_WIDTH / 3, self.frame.size.height)];
-        strip.autoresizesSubviews = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-        strip.backgroundColor = self.progressTintColor;
-        [combinedProgressView addSubview:strip];
-        strip = [[UIView alloc] initWithFrame:CGRectMake(2 * (CHUNK_WIDTH / 3), 0, CHUNK_WIDTH / 3, self.frame.size.height)];
-        strip.autoresizesSubviews = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-        strip.backgroundColor = self.progressTintColor;
-        
-        combinedProgressView.frame = CGRectMake(-CHUNK_WIDTH, 0, CHUNK_WIDTH, self.frame.size.height);
-        [combinedProgressView addSubview:strip];
+        // Make self transparent, so the colourful progress bars are more obvious.
+        self.backgroundColor = [UIColor clearColor];
     }
     return self;
 }
@@ -91,19 +75,12 @@
     _isAnimating = YES;
 
     self.hidden = NO;
-    self.backgroundColor = self.trackTintColor;
-    
-    self.progressChunks = @[combinedProgressView];
-
-    for (UIView *v in self.progressChunks) {
-        [self addSubview:v];
-        [self animateProgressChunk:v delay:0];
-    }
-    
     for (UIView *stripView in stripViews) {
         [stripView removeFromSuperview];
     }
     [stripViews removeAllObjects];
+    
+    [self animateProgressChunkWithDelay:0.2];
 }
 
 - (void)stopAnimating
@@ -113,20 +90,18 @@
 
     self.hidden = self.hidesWhenStopped;
 
-    for (UIView *v in self.progressChunks) {
-        [v removeFromSuperview];
-    }
-    
     for (UIView *stripView in stripViews) {
         [stripView removeFromSuperview];
     }
+    [self.leftForegroundView removeFromSuperview];
+    [self.rightForegroundView removeFromSuperview];
+    [self.leftBackgroundView removeFromSuperview];
+    [self.rightBackgroundView removeFromSuperview];
     [stripViews removeAllObjects];
-
-    self.progressChunks = nil;
 }
 
 -(void)showWarning {
-    _isAnimating = NO;
+    [self stopAnimating];
     self.hidden = NO;
     
     static CGFloat warningChunkWidth = 20.;
@@ -148,20 +123,41 @@
     return tintColour;
 }
 
-- (void)animateProgressChunk:(UIView *)chunk delay:(NSTimeInterval)delay
-{
-    [UIView animateWithDuration:1.6 delay:delay options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        chunk.hidden = NO;
-        CGRect chuckFrame = chunk.frame;
-        chuckFrame.origin.x = self.frame.size.width;
-        chunk.frame = chuckFrame;
+- (void)animateProgressChunkWithDelay:(NSTimeInterval)delay {
+    DLog(@"");
+    // Add foreground views to self.
+    self.rightForegroundView = [[UIView alloc] init];
+    self.leftForegroundView = [[UIView alloc] init];
+    [self addSubview:self.leftForegroundView];
+    [self addSubview:self.rightForegroundView];
+    // Assign a new colour for foreground views.
+    self.leftForegroundView.backgroundColor = self.rightForegroundView.backgroundColor = self.progressTintColor;
+    // Assign new positions.
+    // Left and Right: starting from middle.
+    self.rightForegroundView.frame = self.leftForegroundView.frame = CGRectMake(CGRectGetWidth(self.frame) / 2, 0, 0, CGRectGetHeight(self.frame));
+    DLog(@"Left view frame: %@", [NSValue valueWithCGRect:self.leftForegroundView.frame]);
+    
+    [UIView animateWithDuration:0.8 animations:^{
+        // Left: move to the left, and expanding.
+        self.leftForegroundView.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame) / 2, CGRectGetHeight(self.frame));
+        // Right: expanding.
+        CGRect rightFrame = self.rightForegroundView.frame;
+        rightFrame.size.width = CGRectGetWidth(self.frame) / 2;
+        self.rightForegroundView.frame = rightFrame;
+        DLog(@"Left view frame: %@", [NSValue valueWithCGRect:self.leftForegroundView.frame]);
     } completion:^(BOOL finished) {
-        CGRect chuckFrame = chunk.frame;
-        chuckFrame.origin.x = -CHUNK_WIDTH;
-        chunk.frame = chuckFrame;
-        if (finished) {
-            chunk.hidden = YES;
-            [self animateProgressChunk:chunk delay:0.2];
+        if (finished && _isAnimating) {
+            // If previous background views are still here, remove them.
+            if (self.leftBackgroundView.superview) {
+                [self.leftBackgroundView removeFromSuperview];
+            }
+            if (self.rightBackgroundView.superview) {
+                [self.rightBackgroundView removeFromSuperview];
+            }
+            // On finish, keep references to the foreground views.
+            self.leftBackgroundView = self.leftForegroundView;
+            self.rightBackgroundView = self.rightBackgroundView;
+            [self animateProgressChunkWithDelay:delay];
         }
     }];
 }

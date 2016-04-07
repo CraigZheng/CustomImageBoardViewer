@@ -10,8 +10,6 @@
 
 @interface GSIndeterminateProgressView : UIView
 
-@property (nonatomic, strong) NSArray   * progressChunks;
-
 @property (nonatomic, strong) UIColor   * progressTintColor;
 @property (nonatomic, strong) UIColor   * trackTintColor;
 
