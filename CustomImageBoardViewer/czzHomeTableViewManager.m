@@ -233,7 +233,8 @@ estimatedHeightForRowAtIndexPath:indexPath];
     // If current the view manager reports its being downloaded, don't do anything.
     if (!self.homeViewManager.isDownloading) {
         // If dragged over the threshold, set to "release to load more" cell.
-        if (self.tableViewIsDraggedOverTheBottom) {
+        if (self.tableViewIsDraggedOverTheBottom &&
+            self.homeViewManager.pageNumber < self.homeViewManager.totalPages) {
             self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore;
         } else {
             self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
@@ -242,9 +243,10 @@ estimatedHeightForRowAtIndexPath:indexPath];
 }
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    // If user released while the scrollView is dragged up over the threshold, reload the view manager.
+    // If user released while the scrollView is dragged up over the threshold, and view manager still has unloaded page, reload the view manager.
     if (!self.homeViewManager.isDownloading &&
-        self.homeTableView.lastCellType == czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore) {
+        self.homeTableView.lastCellType == czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore &&
+        self.homeViewManager.pageNumber < self.homeViewManager.totalPages) {
         [self.homeViewManager loadMoreThreads];
         self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
     }
