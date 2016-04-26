@@ -61,13 +61,20 @@ static NSInteger const progressBarViewTag = 123526475;
         barView = [[GSIndeterminateProgressView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
         barView.tag = progressBarViewTag;
         [self.view addSubview:barView];
+        [self.view bringSubviewToFront:barView];
         [barView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
         [barView autoPinEdgeToSuperviewEdge:ALEdgeRight];
-        [barView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:self.topLayoutGuide.length];
+        // Attach to top layout guide.
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:barView
+                                                              attribute:NSLayoutAttributeTop
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.topLayoutGuide
+                                                              attribute:NSLayoutAttributeBottom
+                                                             multiplier:1.0
+                                                               constant:0]];
         [barView autoSetDimension:ALDimensionHeight
                            toSize:2];
         [self.view layoutIfNeeded];
-        
     }
     return barView;
 }
