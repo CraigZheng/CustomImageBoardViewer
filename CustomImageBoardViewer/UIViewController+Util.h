@@ -9,7 +9,13 @@
 #import <UIKit/UIKit.h>
 #import <Google/Analytics.h>
 
+@class GSIndeterminateProgressView;
 @interface UIViewController (Util)
 @property (nonatomic, readonly) BOOL isPresented;
--(BOOL)isModal;
+@property (nonatomic, readonly) GSIndeterminateProgressView *progressView;
+
+- (BOOL)isModal;
+- (void)startLoading;
+- (void)stopLoading;
+- (void)showWarning;
 @end

@@ -8,6 +8,10 @@
 
 #import "UIViewController+Util.h"
 
+#import <PureLayout/PureLayout.h>
+
+static NSInteger const progressBarViewTag = 123526475;
+
 @implementation UIViewController (Util)
 
 /**
@@ -35,4 +39,37 @@
 - (BOOL)isPresented {
     return self.isViewLoaded && self.view.window;
 }
+
+#pragma mark - Show loading.
+
+- (void)startLoading {
+    [self.progressView startAnimating];
+}
+
+- (void)stopLoading {
+    [self.progressView stopAnimating];
+}
+
+- (void)showWarning {
+    [self.progressView showWarning];
+}
+
+- (GSIndeterminateProgressView *)progressView {
+    GSIndeterminateProgressView *barView = [self.view viewWithTag:progressBarViewTag];
+    // If self.view does not containt a subview with the given tag.
+    if (!barView) {
+        barView = [[GSIndeterminateProgressView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+        barView.tag = progressBarViewTag;
+        [self.view addSubview:barView];
+        [barView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
+        [barView autoPinEdgeToSuperviewEdge:ALEdgeRight];
+        [barView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:self.topLayoutGuide.length];
+        [barView autoSetDimension:ALDimensionHeight
+                           toSize:2];
+        [self.view layoutIfNeeded];
+        
+    }
+    return barView;
+}
+
 @end

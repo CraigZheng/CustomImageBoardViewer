@@ -15,7 +15,6 @@
 #import "czzSettingsCentre.h"
 #import "czzForum.h"
 #import "czzForumManager.h"
-#import "GSIndeterminateProgressView.h"
 #import "czzMoreInfoViewController.h"
 
 NSString * const kForumPickedNotification = @"ForumNamePicked";
@@ -26,7 +25,6 @@ NSString * const kPickedForum = @"PickedForum";
 @property NSTimeInterval adUpdateInterval;
 @property UIView *adCoverView;
 @property (assign, nonatomic) BOOL shouldHideCoverView;
-@property GSIndeterminateProgressView *progressView;
 @property czzForumManager *forumManager;
 @end
 
@@ -38,7 +36,6 @@ NSString * const kPickedForum = @"PickedForum";
 @synthesize adCoverView;
 @synthesize shouldHideCoverView;
 @synthesize forums;
-@synthesize progressView;
 
 - (void)viewDidLoad
 {
@@ -57,10 +54,6 @@ NSString * const kPickedForum = @"PickedForum";
     [self.navigationController.navigationBar
      setTitleTextAttributes:@{NSForegroundColorAttributeName : self.navigationController.navigationBar.tintColor}];
     
-    progressView = [[GSIndeterminateProgressView alloc] initWithFrame:CGRectMake(0, self.navigationController.navigationBar.frame.size.height - 2, self.navigationController.navigationBar.frame.size.width, 2)];
-    progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-    [self.navigationController.navigationBar addSubview:progressView];
-
     self.forumManager = [czzForumManager sharedManager];
     [self refreshForums];
     // Reload the forum view when notification from settings centre is received.
@@ -86,10 +79,10 @@ NSString * const kPickedForum = @"PickedForum";
 }
 
 -(void)refreshForums{
-    [self.progressView startAnimating];
+    [self startLoading];
     [self.forumManager updateForums:^(BOOL success, NSError *error) {
         [self.forumsTableView reloadData];
-        [self.progressView stopAnimating];
+        [self stopLoading];
     }];
 }
 

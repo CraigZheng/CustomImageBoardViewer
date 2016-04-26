@@ -23,7 +23,6 @@
 #import "czzMiniThreadViewController.h"
 #import "czzNavigationController.h"
 #import "czzOnScreenImageManagerViewController.h"
-#import "GSIndeterminateProgressView.h"
 #import "czzThreadTableViewManager.h"
 #import "czzFavouriteManager.h"
 #import "czzWatchListManager.h"
@@ -50,7 +49,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @property (strong, nonatomic) czzThreadTableViewManager *threadTableViewManager;
 @property (strong, nonatomic) czzOnScreenImageManagerViewController *onScreenImageManagerViewController;
 @property (weak, nonatomic) IBOutlet UIView *postSenderViewContainer;
-@property (strong, nonatomic) GSIndeterminateProgressView *progressView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *massiveDownloadButtonHeightConstraint;
 @property (strong, nonatomic) UIAlertView *confirmMassiveDownloadAlertView;
 @property (strong, nonatomic) UIAlertView *confirmCancelMassiveDownloadAlertView;
@@ -202,14 +200,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     return _threadTableViewManager;
 }
 
-- (GSIndeterminateProgressView *)progressView {
-    if (!_progressView) {
-        _progressView = [[GSIndeterminateProgressView alloc] initWithParentView:self.view
-                                                                     alignToTop:self.threadTableView];
-    }
-    return _progressView;
-}
-
 #pragma mark - setter
 -(void)setThreadViewManager:(czzThreadViewManager *)viewManager {
     _threadViewManager = viewManager;
@@ -319,9 +309,9 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 -(void)viewManagerDownloadStateChanged:(czzHomeViewManager *)homeViewManager {
     if (homeViewManager.isDownloading) {
-        [self.progressView startAnimating];
+        [self startLoading];
     } else {
-        [self.progressView stopAnimating];
+        [self stopLoading];
     }
     // Massive downloading - set images for the massive download indicator.
     if (self.threadViewManager.isMassiveDownloading) {
@@ -335,7 +325,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 -(void)homeViewManager:(czzHomeViewManager *)threadViewManager downloadSuccessful:(BOOL)wasSuccessful {
     if (!wasSuccessful) {
-        [self.progressView showWarning];
+        [self showWarning];
     }
 }
 
@@ -345,7 +335,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
             self.threadViewManager = (czzThreadViewManager*)threadViewManager;
         }
     } else {
-        [self.progressView showWarning];
+        [self showWarning];
     }
     [self updateTableView];
     // Reset the lastCellType back to default.

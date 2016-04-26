@@ -20,7 +20,6 @@
 #import "czzNotificationCentreTableViewController.h"
 #import "czzOnScreenImageManagerViewController.h"
 #import "UIBarButtonItem+Badge.h"
-#import "GSIndeterminateProgressView.h"
 #import "czzHomeViewManager.h"
 #import "czzForumManager.h"
 #import "czzHomeTableViewManager.h"
@@ -47,7 +46,6 @@
 @property (strong, nonatomic) czzAutoEndingRefreshControl* refreshControl;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *numberBarButton;
 @property (weak, nonatomic) IBOutlet UIView *postManagerViewContainer;
-@property (strong, nonatomic) GSIndeterminateProgressView *progressView;
 @property (strong, nonatomic) czzForum *selectedForum;
 @property (strong, nonatomic) czzFavouriteManagerViewController *favouriteManagerViewController;
 @property (strong, nonatomic) czzHomeTableViewManager *homeTableViewManager;
@@ -269,14 +267,6 @@
     return [czzHomeViewManager sharedManager];
 }
 
--(GSIndeterminateProgressView *)progressView {
-    if (!_progressView) {
-        _progressView = [[GSIndeterminateProgressView alloc] initWithParentView:self.view
-                                                                     alignToTop:self.threadTableView];
-    }
-    return _progressView;
-}
-
 -(czzAutoEndingRefreshControl *)refreshControl {
     if (!_refreshControl) {
         _refreshControl = [[czzAutoEndingRefreshControl alloc] init];
@@ -314,15 +304,15 @@
     DDLogDebug(@"%@", NSStringFromSelector(_cmd));
     self.threadTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
     if (!wasSuccessful) {
-        [self.progressView showWarning];
+        [self showWarning];
     }
 }
 
 -(void)viewManagerDownloadStateChanged:(czzHomeViewManager *)homeViewManager {
     if (homeViewManager.isDownloading) {
-        [self.progressView startAnimating];
+        [self startLoading];
     } else {
-        [self.progressView stopAnimating];
+        [self stopLoading];
     }
 }
 
@@ -336,7 +326,7 @@
         [self updateTableView];
         // Show warning.
         if (!wasSuccessul) {
-            [self.progressView showWarning];
+            [self showWarning];
         }
     }];
 }
