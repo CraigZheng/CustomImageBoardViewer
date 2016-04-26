@@ -13,18 +13,14 @@
 @property CGFloat CHUNK_WIDTH;
 @property NSArray *colours;
 @property NSUInteger colourIndex;
-@property NSMutableArray *stripViews;
-@property UIView *leftForegroundView;
-@property UIView *rightForegroundView;
-@property UIView *leftBackgroundView;
-@property UIView *rightBackgroundView;
+@property UIView *foregroundBarView;
+@property UIView *backgroundBarView;
 @end
 
 @implementation GSIndeterminateProgressView
 @synthesize CHUNK_WIDTH;
 @synthesize colourIndex;
 @synthesize colours;
-@synthesize stripViews;
 @synthesize isAnimating = _isAnimating;
 
 - (id)initWithFrame:(CGRect)frame {
@@ -75,11 +71,9 @@
     _isAnimating = YES;
 
     self.hidden = NO;
-    for (UIView *stripView in stripViews) {
-        [stripView removeFromSuperview];
+    for (UIView *subView in self.subviews) {
+        [subView removeFromSuperview];
     }
-    [stripViews removeAllObjects];
-    
     [self animateProgressChunkWithDelay:0.2];
 }
 
@@ -90,14 +84,9 @@
 
     self.hidden = self.hidesWhenStopped;
 
-    for (UIView *stripView in stripViews) {
-        [stripView removeFromSuperview];
+    for (UIView *subView in self.subviews) {
+        [subView removeFromSuperview];
     }
-    [self.leftForegroundView removeFromSuperview];
-    [self.rightForegroundView removeFromSuperview];
-    [self.leftBackgroundView removeFromSuperview];
-    [self.rightBackgroundView removeFromSuperview];
-    [stripViews removeAllObjects];
 }
 
 -(void)showWarning {
@@ -109,7 +98,6 @@
     for (NSInteger i = 0; i <= count; i++) {
         UIView *stripView = [[UIView alloc] initWithFrame:CGRectMake(i * 2 * warningChunkWidth, 0, warningChunkWidth, self.frame.size.height)];
         stripView.backgroundColor = [UIColor colorWithRed:220/255. green:20/255. blue:60/255. alpha:1.0]; //220	20	60
-        [stripViews addObject:stripView];
         [self addSubview:stripView];
     }
     self.backgroundColor = [UIColor whiteColor];
@@ -126,37 +114,29 @@
 - (void)animateProgressChunkWithDelay:(NSTimeInterval)delay {
     DLog(@"");
     // Add foreground views to self.
-    self.rightForegroundView = [[UIView alloc] init];
-    self.leftForegroundView = [[UIView alloc] init];
-    [self addSubview:self.leftForegroundView];
-    [self addSubview:self.rightForegroundView];
+    self.foregroundBarView = [[UIView alloc] init];
+    [self addSubview:self.foregroundBarView];
     // Assign a new colour for foreground views.
-    self.leftForegroundView.backgroundColor = self.rightForegroundView.backgroundColor = self.progressTintColor;
+    self.foregroundBarView.backgroundColor = self.progressTintColor;
     // Assign new positions.
     // Left and Right: starting from middle.
-    self.rightForegroundView.frame = self.leftForegroundView.frame = CGRectMake(CGRectGetWidth(self.frame) / 2, 0, 0, CGRectGetHeight(self.frame));
-    DLog(@"Left view frame: %@", [NSValue valueWithCGRect:self.leftForegroundView.frame]);
-    
+    NSArray *constraints = [self.foregroundBarView autoSetDimensionsToSize:CGSizeMake(0, 2)];
+    [self.foregroundBarView autoCenterInSuperview];
+    [self layoutIfNeeded];
     [UIView animateWithDuration:0.8 animations:^{
-        // Left: move to the left, and expanding.
-        self.leftForegroundView.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame) / 2, CGRectGetHeight(self.frame));
-        // Right: expanding.
-        CGRect rightFrame = self.rightForegroundView.frame;
-        rightFrame.size.width = CGRectGetWidth(self.frame) / 2;
-        self.rightForegroundView.frame = rightFrame;
-        DLog(@"Left view frame: %@", [NSValue valueWithCGRect:self.leftForegroundView.frame]);
+        for (NSLayoutConstraint *constraint in constraints) {
+            [constraint autoRemove];
+        }
+        [self.foregroundBarView autoSetDimensionsToSize:CGSizeMake(CGRectGetWidth(self.frame), 2)];
+        [self layoutIfNeeded];
     } completion:^(BOOL finished) {
         if (finished && _isAnimating) {
             // If previous background views are still here, remove them.
-            if (self.leftBackgroundView.superview) {
-                [self.leftBackgroundView removeFromSuperview];
-            }
-            if (self.rightBackgroundView.superview) {
-                [self.rightBackgroundView removeFromSuperview];
+            if (self.backgroundBarView.superview) {
+                [self.backgroundBarView removeFromSuperview];
             }
             // On finish, keep references to the foreground views.
-            self.leftBackgroundView = self.leftForegroundView;
-            self.rightBackgroundView = self.rightBackgroundView;
+            self.backgroundBarView = self.foregroundBarView;
             [self animateProgressChunkWithDelay:delay];
         }
     }];
