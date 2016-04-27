@@ -112,7 +112,6 @@
 }
 
 - (void)animateProgressChunkWithDelay:(NSTimeInterval)delay {
-    DLog(@"");
     // Add foreground views to self.
     self.foregroundBarView = [[UIView alloc] init];
     [self addSubview:self.foregroundBarView];

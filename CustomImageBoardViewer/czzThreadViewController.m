@@ -219,7 +219,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     // Show it only when the total pages is still 3 or more pages away from the current page number.
     if (!self.massiveDownloadButtonHeightConstraint.constant &&
         viewManager.totalPages - viewManager.pageNumber >= 3) {
-        DLog(@"Show massive download button.");
         self.massiveDownloadButtonHeightConstraint.constant = 40;
         [UIView animateWithDuration:0.2 animations:^{
             [self.view layoutIfNeeded];
@@ -228,7 +227,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     // Else, if the massive download button is showing and view manager has reached all of its pages.
     else if (self.massiveDownloadButtonHeightConstraint.constant &&
                viewManager.pageNumber >= viewManager.totalPages) {
-        DLog(@"Hide massive download button.");
         self.massiveDownloadButtonHeightConstraint.constant = 0;
         [UIView animateWithDuration:0.2 animations:^{
             [self.view layoutIfNeeded];

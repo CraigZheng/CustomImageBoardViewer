@@ -63,6 +63,15 @@
     }
 }
 
+- (void)downloadOf:(NSURL *)url successed:(BOOL)successed result:(NSData *)downloadedData {
+    // Let super class handle most of the work.
+    [super downloadOf:url successed:successed result:downloadedData];
+    // If not successful, notify delegate.
+    if (!successed && [self.delegate respondsToSelector:@selector(massiveDownloader:success:downloadedThreads:errors:)]) {
+        [self.delegate massiveDownloader:self success:NO downloadedThreads:nil errors:nil];
+    }
+}
+
 #pragma mark - Getters
 
 - (NSMutableArray *)bulkThreads {
