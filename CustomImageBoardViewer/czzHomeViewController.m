@@ -122,7 +122,6 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    self.viewDeckController.panningMode = IIViewDeckFullViewPanning;
     // Add badget number to infoBarButton if necessary.
     if ([[(czzNavigationController*)self.navigationController notificationBannerViewController] shouldShow]) {
         self.infoBarButton.badgeValue = @"1";
@@ -151,11 +150,6 @@
             }
         }
     });
-}
-
--(void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    self.viewDeckController.panningMode = IIViewDeckNoPanning;
 }
 
 /*

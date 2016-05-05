@@ -43,7 +43,6 @@
 		441E5CF317F4691300289DBD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5CD217F4691300289DBD /* UIKit.framework */; };
 		441E5CFB17F4691300289DBD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 441E5CF917F4691300289DBD /* InfoPlist.strings */; };
 		441E5CFD17F4691300289DBD /* CustomImageBoardViewerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E5CFC17F4691300289DBD /* CustomImageBoardViewerTests.m */; };
-		441E5D1217F46A0900289DBD /* czzEntryPointViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E5D1117F46A0900289DBD /* czzEntryPointViewController.m */; };
 		441E5D1B17F46E7900289DBD /* SMXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E5D1A17F46E7900289DBD /* SMXMLDocument.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		441E5D2017F46FB600289DBD /* czzURLDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E5D1F17F46FB600289DBD /* czzURLDownloader.m */; };
 		441E5D2417F4797F00289DBD /* czzForumGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E5D2317F4797F00289DBD /* czzForumGroup.m */; };
@@ -553,8 +552,6 @@
 		441E5CF817F4691300289DBD /* CustomImageBoardViewerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CustomImageBoardViewerTests-Info.plist"; sourceTree = "<group>"; };
 		441E5CFA17F4691300289DBD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		441E5CFC17F4691300289DBD /* CustomImageBoardViewerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomImageBoardViewerTests.m; sourceTree = "<group>"; };
-		441E5D1017F46A0900289DBD /* czzEntryPointViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzEntryPointViewController.h; sourceTree = "<group>"; };
-		441E5D1117F46A0900289DBD /* czzEntryPointViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzEntryPointViewController.m; sourceTree = "<group>"; };
 		441E5D1917F46E7900289DBD /* SMXMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMXMLDocument.h; sourceTree = "<group>"; };
 		441E5D1A17F46E7900289DBD /* SMXMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMXMLDocument.m; sourceTree = "<group>"; };
 		441E5D1D17F46EE800289DBD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
@@ -1336,7 +1333,6 @@
 				4462EF2218659B8600E6BE78 /* czzFavouriteManagerVIewController */,
 				5A0A6BD7184869200094D7FB /* czzMoreInfoViewController */,
 				441E5D1717F46B3200289DBD /* czzForumsViewController */,
-				441E5D1317F46A0E00289DBD /* czzEntryPointViewController */,
 				441E5D2D17F490E100289DBD /* czzThread */,
 				442CD0E4185160200021AD37 /* czzImageManager */,
 				44B89E771A2AF3CE0085F766 /* 3rd Party */,
@@ -1380,15 +1376,6 @@
 				441E5CF917F4691300289DBD /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		441E5D1317F46A0E00289DBD /* czzEntryPointViewController */ = {
-			isa = PBXGroup;
-			children = (
-				441E5D1017F46A0900289DBD /* czzEntryPointViewController.h */,
-				441E5D1117F46A0900289DBD /* czzEntryPointViewController.m */,
-			);
-			name = czzEntryPointViewController;
 			sourceTree = "<group>";
 		};
 		441E5D1717F46B3200289DBD /* czzForumsViewController */ = {
@@ -3145,7 +3132,6 @@
 				445B7B591B418F020046CFDB /* czzThreadTableView.m in Sources */,
 				445CA5541CA3BB8F00D3C315 /* czzLaunchPopUpNotification.m in Sources */,
 				441E5D1B17F46E7900289DBD /* SMXMLDocument.m in Sources */,
-				441E5D1217F46A0900289DBD /* czzEntryPointViewController.m in Sources */,
 				440A62A81B8EBC160046E4CE /* UIViewController+Util.m in Sources */,
 				44E469E11BAD9B5000C0AACC /* czzWatchKitCommand.m in Sources */,
 				441E5D2017F46FB600289DBD /* czzURLDownloader.m in Sources */,

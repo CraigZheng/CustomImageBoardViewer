@@ -50,7 +50,6 @@ PODS:
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
   - SplunkMint (4.4.2)
-  - ViewDeck (2.4.1)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.0)
@@ -60,7 +59,6 @@ DEPENDENCIES:
   - MWPhotoBrowser
   - PureLayout
   - SplunkMint
-  - ViewDeck
 
 SPEC CHECKSUMS:
   AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
@@ -78,6 +76,5 @@ SPEC CHECKSUMS:
   PureLayout: f35f5384c9c4e4479df041dbe33ad7577b71ddfb
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   SplunkMint: ec9fafa3d72a98c0b1bca43d6d61c4256ff50568
-  ViewDeck: e4c744cb5383cbae40cf286c6e7246df33962020
 
 COCOAPODS: 0.39.0

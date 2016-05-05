@@ -48,18 +48,11 @@
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [contentTextView becomeFirstResponder];
-    if (self.viewDeckController) {
-        topController = self.viewDeckController.topController;
-        self.viewDeckController.topController = nil;
-    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [contentTextView resignFirstResponder];
-    if (self.viewDeckController && topController) {
-        self.viewDeckController.topController = topController;
-    }
 }
 
 #pragma Keyboard actions

@@ -10,7 +10,6 @@
 
 @import GoogleMobileAds;
 
-#import "IIViewDeckController.h"
 #import "czzForum.h"
 
 @interface czzMoreInfoViewController : UIViewController

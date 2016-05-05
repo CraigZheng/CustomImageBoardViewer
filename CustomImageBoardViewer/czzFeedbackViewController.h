@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "czzFeedback.h"
-#import "IIViewDeckController.h"
-
 
 @interface czzFeedbackViewController : UIViewController
 @property czzFeedback *myFeedback;
