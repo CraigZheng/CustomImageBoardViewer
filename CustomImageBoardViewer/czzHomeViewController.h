@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "IIViewDeckController.h"
 #import "czzHomeViewManager.h"
 
 @class czzThread, czzThreadTableView;

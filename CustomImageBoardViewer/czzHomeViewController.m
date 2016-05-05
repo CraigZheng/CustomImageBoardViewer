@@ -35,11 +35,12 @@
 #import "czzMiniThreadViewController.h"
 #import "czzBannerNotificationUtil.h"
 #import "czzAutoEndingRefreshControl.h"
+#import "SlideNavigationController.h"
 
 #import <CoreText/CoreText.h>
 
 
-@interface czzHomeViewController() <UIAlertViewDelegate, UIStateRestoring>
+@interface czzHomeViewController() <UIAlertViewDelegate, UIStateRestoring, SlideNavigationControllerDelegate>
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (assign, nonatomic) BOOL shouldHideImageForThisForum;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
@@ -60,7 +61,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    // Slide in menu.
+    [SlideNavigationController sharedInstance].leftMenu = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"left_side_view_controller"];
+
     //assign a custom tableview data source
     self.threadTableView.dataSource = self.homeTableViewManager;
     self.threadTableView.delegate = self.homeTableViewManager;
@@ -72,11 +75,6 @@
     }
     // Set the currentOffSet back to zero
     self.homeViewManager.currentOffSet = CGPointZero;
-
-    // Configure the view deck controller with half size and tap to close mode
-    self.viewDeckController.leftSize = self.view.frame.size.width/4;
-    self.viewDeckController.rightSize = self.view.frame.size.width/4;
-    self.viewDeckController.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
 
     // On screen image manager view controller
     if (!self.onScreenImageManagerViewController) {
@@ -184,7 +182,7 @@
 
 #pragma mark - ButtonActions
 - (IBAction)sideButtonAction:(id)sender {
-    [self.viewDeckController toggleLeftViewAnimated:YES];
+    [[SlideNavigationController sharedInstance] toggleLeftMenu];
 }
 
 - (IBAction)postAction:(id)sender {
@@ -284,6 +282,12 @@
         _homeTableViewManager.homeTableView = self.threadTableView;
     }
     return _homeTableViewManager;
+}
+
+#pragma mark - SlideNavigationControllerDelegate
+
+- (BOOL)slideNavigationControllerShouldDisplayLeftMenu {
+    return YES;
 }
 
 #pragma mark - czzHomeViewManagerDelegate

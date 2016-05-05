@@ -408,6 +408,14 @@
 		44F86B6B1C1BB505001306E8 /* ThreadContentPage2.json in Resources */ = {isa = PBXBuildFile; fileRef = 44F86B6A1C1BB505001306E8 /* ThreadContentPage2.json */; };
 		44F86B6C1C1BB505001306E8 /* ThreadContentPage2.json in Resources */ = {isa = PBXBuildFile; fileRef = 44F86B6A1C1BB505001306E8 /* ThreadContentPage2.json */; };
 		44FC4345180067CF0028D7C9 /* czzPostSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 44FC4344180067CF0028D7C9 /* czzPostSender.m */; };
+		44FFE9FD1CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorFade.m in Sources */ = {isa = PBXBuildFile; fileRef = 44FFE9EF1CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorFade.m */; };
+		44FFE9FE1CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorScale.m in Sources */ = {isa = PBXBuildFile; fileRef = 44FFE9F11CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorScale.m */; };
+		44FFE9FF1CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorScaleAndFade.m in Sources */ = {isa = PBXBuildFile; fileRef = 44FFE9F31CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorScaleAndFade.m */; };
+		44FFEA001CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorSlide.m in Sources */ = {isa = PBXBuildFile; fileRef = 44FFE9F51CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorSlide.m */; };
+		44FFEA011CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorSlideAndFade.m in Sources */ = {isa = PBXBuildFile; fileRef = 44FFE9F71CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorSlideAndFade.m */; };
+		44FFEA021CDAFD810002BAA9 /* menu-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 44FFE9F91CDAFD810002BAA9 /* menu-button.png */; };
+		44FFEA031CDAFD810002BAA9 /* menu-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44FFE9FA1CDAFD810002BAA9 /* menu-button@2x.png */; };
+		44FFEA041CDAFD810002BAA9 /* SlideNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44FFE9FC1CDAFD810002BAA9 /* SlideNavigationController.m */; };
 		5A0A6BD61848691C0094D7FB /* czzMoreInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0A6BD51848691C0094D7FB /* czzMoreInfoViewController.m */; };
 		5A1593EC18E71E93001A774B /* czzThreadRefButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1593EB18E71E93001A774B /* czzThreadRefButton.m */; };
 		5A26E77919398D7F00B709C9 /* czzNotificationBannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A26E77719398D7F00B709C9 /* czzNotificationBannerViewController.m */; };
@@ -1030,6 +1038,21 @@
 		44F86B6A1C1BB505001306E8 /* ThreadContentPage2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ThreadContentPage2.json; sourceTree = "<group>"; };
 		44FC4343180067CF0028D7C9 /* czzPostSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzPostSender.h; sourceTree = "<group>"; };
 		44FC4344180067CF0028D7C9 /* czzPostSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzPostSender.m; sourceTree = "<group>"; };
+		44FFE9ED1CDAFD810002BAA9 /* SlideNavigationContorllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideNavigationContorllerAnimator.h; sourceTree = "<group>"; };
+		44FFE9EE1CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorFade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideNavigationContorllerAnimatorFade.h; sourceTree = "<group>"; };
+		44FFE9EF1CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorFade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideNavigationContorllerAnimatorFade.m; sourceTree = "<group>"; };
+		44FFE9F01CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorScale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideNavigationContorllerAnimatorScale.h; sourceTree = "<group>"; };
+		44FFE9F11CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorScale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideNavigationContorllerAnimatorScale.m; sourceTree = "<group>"; };
+		44FFE9F21CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorScaleAndFade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideNavigationContorllerAnimatorScaleAndFade.h; sourceTree = "<group>"; };
+		44FFE9F31CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorScaleAndFade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideNavigationContorllerAnimatorScaleAndFade.m; sourceTree = "<group>"; };
+		44FFE9F41CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorSlide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideNavigationContorllerAnimatorSlide.h; sourceTree = "<group>"; };
+		44FFE9F51CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorSlide.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideNavigationContorllerAnimatorSlide.m; sourceTree = "<group>"; };
+		44FFE9F61CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorSlideAndFade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideNavigationContorllerAnimatorSlideAndFade.h; sourceTree = "<group>"; };
+		44FFE9F71CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorSlideAndFade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideNavigationContorllerAnimatorSlideAndFade.m; sourceTree = "<group>"; };
+		44FFE9F91CDAFD810002BAA9 /* menu-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-button.png"; sourceTree = "<group>"; };
+		44FFE9FA1CDAFD810002BAA9 /* menu-button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-button@2x.png"; sourceTree = "<group>"; };
+		44FFE9FB1CDAFD810002BAA9 /* SlideNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideNavigationController.h; sourceTree = "<group>"; };
+		44FFE9FC1CDAFD810002BAA9 /* SlideNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideNavigationController.m; sourceTree = "<group>"; };
 		505660B3F87FABFEE33CE10C /* Pods-CIV-Simulator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CIV-Simulator.release.xcconfig"; path = "Pods/Target Support Files/Pods-CIV-Simulator/Pods-CIV-Simulator.release.xcconfig"; sourceTree = "<group>"; };
 		577AF34FEA8149162E3ADD7A /* Pods-CustomImageBoardViewerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		57F4B7F8AAD865C8E4022971 /* Pods-CustomImageBoardViewerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -1998,6 +2021,7 @@
 		44B89E771A2AF3CE0085F766 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				44FFE9EB1CDAFD810002BAA9 /* Slide-Menu */,
 				442066211BE846540023D91F /* GoogleAnalytic */,
 				445C66351BBEC38E004B3E83 /* CPLoadFromNib */,
 				4498CEBD1B9E751E004D2380 /* TalkingData */,
@@ -2418,6 +2442,44 @@
 			name = UIBarButtonItem;
 			sourceTree = "<group>";
 		};
+		44FFE9EB1CDAFD810002BAA9 /* Slide-Menu */ = {
+			isa = PBXGroup;
+			children = (
+				44FFE9EC1CDAFD810002BAA9 /* Animations */,
+				44FFE9F81CDAFD810002BAA9 /* Assets */,
+				44FFE9FB1CDAFD810002BAA9 /* SlideNavigationController.h */,
+				44FFE9FC1CDAFD810002BAA9 /* SlideNavigationController.m */,
+			);
+			path = "Slide-Menu";
+			sourceTree = "<group>";
+		};
+		44FFE9EC1CDAFD810002BAA9 /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				44FFE9ED1CDAFD810002BAA9 /* SlideNavigationContorllerAnimator.h */,
+				44FFE9EE1CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorFade.h */,
+				44FFE9EF1CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorFade.m */,
+				44FFE9F01CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorScale.h */,
+				44FFE9F11CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorScale.m */,
+				44FFE9F21CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorScaleAndFade.h */,
+				44FFE9F31CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorScaleAndFade.m */,
+				44FFE9F41CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorSlide.h */,
+				44FFE9F51CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorSlide.m */,
+				44FFE9F61CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorSlideAndFade.h */,
+				44FFE9F71CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorSlideAndFade.m */,
+			);
+			path = Animations;
+			sourceTree = "<group>";
+		};
+		44FFE9F81CDAFD810002BAA9 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				44FFE9F91CDAFD810002BAA9 /* menu-button.png */,
+				44FFE9FA1CDAFD810002BAA9 /* menu-button@2x.png */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 		5A0A6BD7184869200094D7FB /* czzMoreInfoViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -2681,6 +2743,7 @@
 				44C34557187E6CF000FDE45D /* sougo_emoji_UTF16.txt in Resources */,
 				444F5B371A40EA3500EB391F /* 36.png in Resources */,
 				446656C91BEAF9380045276B /* GoogleService-Info.plist in Resources */,
+				44FFEA031CDAFD810002BAA9 /* menu-button@2x.png in Resources */,
 				44B89E6C1A2AF2200085F766 /* running_ac-1.gif in Resources */,
 				44E792081A17856500A63C04 /* upload@2x.png in Resources */,
 				44B89E791A2AF4340085F766 /* running_ac.gif in Resources */,
@@ -2793,6 +2856,7 @@
 				44E791ED1A17856500A63C04 /* previous@2x.png in Resources */,
 				444F5B181A40EA3500EB391F /* 05.png in Resources */,
 				4432BA971AA88764002C66F5 /* new AC isle api.json in Resources */,
+				44FFEA021CDAFD810002BAA9 /* menu-button.png in Resources */,
 				446557631C60F15A0051F1DD /* invisible@2x.png in Resources */,
 				444F5B271A40EA3500EB391F /* 20.png in Resources */,
 				4432BA941AA88613002C66F5 /* thread content example.json in Resources */,
@@ -3013,12 +3077,14 @@
 				442F1FE41B15FC8500267698 /* UIApplication+Util.m in Sources */,
 				44E744841C48815900CD4AF3 /* czzReplyUtil.m in Sources */,
 				4485F4FC19F5FF38007A73CC /* NSString+HTML.m in Sources */,
+				44FFE9FE1CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorScale.m in Sources */,
 				441E5CDF17F4691300289DBD /* czzAppDelegate.m in Sources */,
 				441E5D2C17F48F8C00289DBD /* czzThread.m in Sources */,
 				44B89E751A2AF39F0085F766 /* UIImage+animatedGIF.m in Sources */,
 				442EC8631A1A130A005650E4 /* czzNavigationController.m in Sources */,
 				4416B72619413EAF00B69C5B /* FPPopoverView.m in Sources */,
 				442F1FD71B13535B00267698 /* czzHomeTableViewManager.m in Sources */,
+				44FFEA001CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorSlide.m in Sources */,
 				447E06331BC279CB00D24087 /* czzCustomSlideAnimationViewController.m in Sources */,
 				444146E21A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.m in Sources */,
 				44DF8EE81A74DA3B0097F7F5 /* czzMessagePopUpViewController.m in Sources */,
@@ -3067,6 +3133,7 @@
 				44E2D2DC1B2DB94E0029D783 /* czzThreadListUtilTableViewController.m in Sources */,
 				440C97551CB3863600A7266D /* czzAutoEndingRefreshControl.m in Sources */,
 				44BFEF411B8C0D7B0095772B /* DeviceHardware.m in Sources */,
+				44FFE9FF1CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorScaleAndFade.m in Sources */,
 				441E5CE817F4691300289DBD /* czzHomeViewController.m in Sources */,
 				5A2B2D941936264A00BA2870 /* czzFeedbackViewController.m in Sources */,
 				44CF256A1A26B4D000BD8228 /* UIView+MGBadgeView.m in Sources */,
@@ -3096,10 +3163,13 @@
 				44AE2B011872924C002CB021 /* PartialTransparentView.m in Sources */,
 				441356091C61B3B6001B82E5 /* czzBannerNotificationUtil.m in Sources */,
 				44E3F7471BA3007500597A3F /* NSDictionary+Util.m in Sources */,
+				44FFEA041CDAFD810002BAA9 /* SlideNavigationController.m in Sources */,
 				443141971A2B38D6007D65B3 /* czzThreadViewManager.m in Sources */,
 				441E5CDB17F4691300289DBD /* main.m in Sources */,
 				44CBF4001BC9245300DFECFC /* czzCacheCleaner.m in Sources */,
+				44FFE9FD1CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorFade.m in Sources */,
 				44FC4345180067CF0028D7C9 /* czzPostSender.m in Sources */,
+				44FFEA011CDAFD810002BAA9 /* SlideNavigationContorllerAnimatorSlideAndFade.m in Sources */,
 				5A88B8401938AFDB00071343 /* czzNotificationCentreTableViewController.m in Sources */,
 				445C66491BBED722004B3E83 /* czzThreadViewCellFooterView.m in Sources */,
 				443B54F319933C1F00BAB282 /* czzSettingsCentre.m in Sources */,

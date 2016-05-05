@@ -106,7 +106,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     self.refreshControl = [[czzAutoEndingRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
     [self.threadTableView addSubview: self.refreshControl];
-    self.viewDeckController.rightSize = self.view.frame.size.width/4;
 
     self.navigationItem.backBarButtonItem.title = self.title;
     
@@ -151,7 +150,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     // Disable right view controller
-    self.viewDeckController.rightController = nil;
     // Cache downloaded data into disk.
     [self.threadViewManager saveCurrentState];
 }

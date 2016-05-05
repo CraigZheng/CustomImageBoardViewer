@@ -22,6 +22,7 @@
 #import "czzBannerNotificationUtil.h"
 #import "czzHistoryManager.h"
 #import "czzFavouriteManager.h"
+#import "SlideNavigationController.h"
 #import <Google/Analytics.h>
 #import <WatchConnectivity/WatchConnectivity.h>
 
@@ -83,6 +84,7 @@
         session.delegate = self;
         [session activateSession];
     }
+    
     return YES;
 }
 							
