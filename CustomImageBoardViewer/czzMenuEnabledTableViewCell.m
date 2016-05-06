@@ -41,7 +41,8 @@ static NSInteger const footerViewNormalHeight = 20;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @property (strong, nonatomic) UIImage *placeholderImage;
 @property (strong, nonatomic) NSMutableArray<czzThreadRefButton *> *referenceButtons;
-
+// Control for replyToList.
+@property (assign, nonatomic) BOOL shouldUpdateReplyButtons;
 @end
 
 @implementation czzMenuEnabledTableViewCell
@@ -68,26 +69,28 @@ static NSInteger const footerViewNormalHeight = 20;
         [button removeFromSuperview];
     }
     // Clickable content, find the quoted text and add a button to corresponding location.
-    for (NSNumber *refNumber in self.thread.replyToList) {
-        NSInteger rep = refNumber.integerValue;
-        if (rep > 0) {
-            NSString *quotedNumberText = [NSString stringWithFormat:@"%ld", (long)rep];
-            NSRange range = [self.contentTextView.attributedText.string rangeOfString:quotedNumberText];
-            if (range.location != NSNotFound){
-                CGRect result = [self frameOfTextRange:range inTextView:self.contentTextView];
-                
-                if (!CGSizeEqualToSize(CGSizeZero, result.size)){
-                    czzThreadRefButton *threadRefButton = [[czzThreadRefButton alloc] initWithFrame:CGRectMake(result.origin.x, result.origin.y + self.contentTextView.frame.origin.y, result.size.width, result.size.height)];
-                    threadRefButton.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.1f];
-                    [threadRefButton addTarget:self action:@selector(userTapInRefButton:) forControlEvents:UIControlEventTouchUpInside];
-                    threadRefButton.threadRefNumber = rep;
-                    [self.contentView addSubview:threadRefButton];
-                    [self.referenceButtons addObject:threadRefButton];
+    if (self.shouldUpdateReplyButtons) {
+        self.shouldUpdateReplyButtons = NO;
+        for (NSNumber *refNumber in self.thread.replyToList) {
+            NSInteger rep = refNumber.integerValue;
+            if (rep > 0) {
+                NSString *quotedNumberText = [NSString stringWithFormat:@"%ld", (long)rep];
+                NSRange range = [self.contentTextView.attributedText.string rangeOfString:quotedNumberText];
+                if (range.location != NSNotFound){
+                    CGRect result = [self frameOfTextRange:range inTextView:self.contentTextView];
+                    
+                    if (!CGSizeEqualToSize(CGSizeZero, result.size)){
+                        czzThreadRefButton *threadRefButton = [[czzThreadRefButton alloc] initWithFrame:CGRectMake(result.origin.x, result.origin.y + self.contentTextView.frame.origin.y, result.size.width, result.size.height)];
+                        threadRefButton.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.1f];
+                        [threadRefButton addTarget:self action:@selector(userTapInRefButton:) forControlEvents:UIControlEventTouchUpInside];
+                        threadRefButton.threadRefNumber = rep;
+                        [self.contentView addSubview:threadRefButton];
+                        [self.referenceButtons addObject:threadRefButton];
+                    }
                 }
             }
         }
     }
-    
 }
 
 -(BOOL)canPerformAction:(SEL)action withSender:(id)sender{
@@ -253,17 +256,20 @@ static NSInteger const footerViewNormalHeight = 20;
 #pragma mark - Setters
 
 -(void)setThread:(czzThread *)thread{
-    _thread = thread;
-    if (thread.content) {
-        NSDataDetector *linkDetector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
-        self.links = [NSMutableArray new];
-        NSArray *matches = [linkDetector matchesInString:_thread.content.string
-                                                 options:0
-                                                   range:NSMakeRange(0, [self.thread.content.string length])];
-        for (NSTextCheckingResult *match in matches) {
-            if ([match resultType] == NSTextCheckingTypeLink) {
-                NSURL *url = [match URL];
-                [self.links addObject:url.absoluteString];
+    if (_thread != thread) {
+        _thread = thread;
+        self.shouldUpdateReplyButtons = YES;
+        if (thread.content) {
+            NSDataDetector *linkDetector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
+            self.links = [NSMutableArray new];
+            NSArray *matches = [linkDetector matchesInString:_thread.content.string
+                                                     options:0
+                                                       range:NSMakeRange(0, [self.thread.content.string length])];
+            for (NSTextCheckingResult *match in matches) {
+                if ([match resultType] == NSTextCheckingTypeLink) {
+                    NSURL *url = [match URL];
+                    [self.links addObject:url.absoluteString];
+                }
             }
         }
     }
