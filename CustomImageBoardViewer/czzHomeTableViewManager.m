@@ -168,7 +168,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
                     estimatedHeight += MIN(CGRectGetWidth(tableView.frame), CGRectGetHeight(tableView.frame)) * 0.8;
                 } else {
                     // Add the fixed image view constraint constant to the estimated height.
-                    estimatedHeight += fixedConstraintConstant;
+                    estimatedHeight += threadCellImageViewNormalHeight;
                 }
         }
     }

@@ -19,9 +19,7 @@
 #import <UIKit/UIKit.h>
 #import "czzThread.h"
 
-extern NSInteger const fixedConstraintConstant;
-extern NSInteger const veryHightConstraintPriority;
-extern NSInteger const veryLowConstraintPriority;
+extern NSInteger const threadCellImageViewNormalHeight;
 
 typedef NS_ENUM(NSInteger, threadViewCellType) {
     threadViewCellTypeHome = 1,
@@ -59,7 +57,7 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 @property (nonatomic, assign) BOOL allowImage;
 @property (nonatomic, assign) BOOL nightyMode;
 @property (nonatomic, assign) threadViewCellType cellType;
-@property (nonatomic, readonly) BOOL imageUpdated;
+
 - (void)renderContent;
 - (void)highLight;
 @end

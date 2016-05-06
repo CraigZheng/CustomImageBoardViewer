@@ -22,26 +22,24 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-NSInteger const fixedConstraintConstant = 100;
-NSInteger const veryHightConstraintPriority = 999;
-NSInteger const veryLowConstraintPriority = 1;
+NSInteger const threadCellImageViewNormalHeight = 100;
+static NSInteger const layoutConstraintZeroHeight = 0;
+static NSInteger const footerViewNormalHeight = 20;
 
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, czzImageDownloaderManagerDelegate>
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;
-@property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;
+@property (weak, nonatomic) IBOutlet UIView *contentContainerView;
 @property (weak, nonatomic) IBOutlet UIImageView *cellImageView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewHeightConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewWidthConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerContainerViewHeightConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewCentreAlignConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerViewHeightConstraint;
 
+@property (strong, nonatomic) UITapGestureRecognizer *tapOnImageViewRecognizer;
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (strong, nonatomic) NSString *imageFolder;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @property (strong, nonatomic) UIImage *placeholderImage;
-@property (strong, nonatomic) UITapGestureRecognizer *tapOnImageViewRecognizer;
 @property (strong, nonatomic) NSMutableArray<czzThreadRefButton *> *referenceButtons;
 
 @end
@@ -55,12 +53,10 @@ NSInteger const veryLowConstraintPriority = 1;
     self.shouldHighlight = YES;
     self.allowImage = YES;
     self.shouldAllowClickOnImage = YES;
-    
+    // Add tap getsture recognizer to the image.
+    self.tapOnImageViewRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                            action:@selector(tapOnImageView:)];
     [self.cellImageView addGestureRecognizer:self.tapOnImageViewRecognizer];
-    // Apply shadow and radius to background view.
-    self.containerView.layer.masksToBounds = NO;
-    self.containerView.layer.cornerRadius = 5;
-
     // Add self to be a delegate of czzImageDownloaderManager.
     [[czzImageDownloaderManager sharedManager] addDelegate:self];
 }
@@ -107,23 +103,22 @@ NSInteger const veryLowConstraintPriority = 1;
     return YES;
 }
 
--(void)resetViews {
-    //colours
+-(void)resetViewBackgroundColours {
     if (self.nightyMode) {
-        UIColor *viewBackgroundColour = [settingCentre viewBackgroundColour];
-        self.contentTextView.backgroundColor = viewBackgroundColour;
-        self.containerView.backgroundColor = viewBackgroundColour;
         self.contentView.backgroundColor = [UIColor darkGrayColor];
         
     } else {
-        self.contentTextView.backgroundColor = [UIColor whiteColor];
-        self.containerView.backgroundColor = [UIColor whiteColor];
         self.contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     }
+    // Reset all colours for header view, footer view, middle container view and content text view.
+    self.cellFooterView.backgroundColor = self.cellHeaderView.backgroundColor =
+    self.contentContainerView.backgroundColor = self.contentTextView.backgroundColor =
+    [settingCentre viewBackgroundColour];
 }
 
 - (void)highLight {
-    self.contentTextView.backgroundColor = self.containerView.backgroundColor = self.contentView.backgroundColor;
+    self.contentTextView.backgroundColor = self.cellHeaderView.backgroundColor =
+    self.cellFooterView.backgroundColor = self.contentView.backgroundColor;
 }
 
 #pragma mark - custom menu action
@@ -178,18 +173,18 @@ NSInteger const veryLowConstraintPriority = 1;
 }
 
 -(void)renderContent {
-    [self resetViews];
+    [self resetViewBackgroundColours];
     if (self.nightyMode) {
         // If nighty mode, add nighty mode attributes to the text.
         NSMutableAttributedString *contentAttrString = [self.thread.content mutableCopy];
-        [contentAttrString addAttribute:NSForegroundColorAttributeName value:settingCentre.contentTextColour range:NSMakeRange(0, contentAttrString.length)];
+        [contentAttrString addAttribute:NSForegroundColorAttributeName
+                                  value:settingCentre.contentTextColour
+                                  range:NSMakeRange(0, contentAttrString.length)];
         self.contentTextView.attributedText = contentAttrString;
     } else {
         self.contentTextView.attributedText = self.thread.content;
     }
     self.contentTextView.font = settingCentre.contentFont;
-    
-    [self.contentTextView layoutIfNeeded];
     
     // Highlight the selected user.
     if (self.selectedUserToHighlight && [self.thread.UID isEqualToString:self.selectedUserToHighlight]) {
@@ -200,56 +195,32 @@ NSInteger const veryLowConstraintPriority = 1;
     NSString *imageName;
     if (self.allowImage && (imageName = self.thread.imgSrc.lastPathComponent).length) {
         previewImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:imageName]]];
-        if (self.bigImageMode) {
-            // If big image mode, try to grab the full size image.
-            UIImage *fullImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]]];
-            previewImage = fullImage ?: previewImage;
-        }
-        self.imageViewHeightConstraint.constant =
-        self.imageViewWidthConstraint.constant = fixedConstraintConstant;
+        self.imageViewHeightConstraint.constant = threadCellImageViewNormalHeight;
         self.cellImageView.image = previewImage ?: self.placeholderImage;
     } else {
-        // Reset the cell image view, deactivate all size constraints.
-        self.imageViewHeightConstraint.constant =
-        self.imageViewWidthConstraint.constant = 0;
+        // Completely invisible.
+        self.imageViewHeightConstraint.constant = layoutConstraintZeroHeight;
         self.cellImageView.image = nil;
     }
-    // If big image mode and have a valid image, calculate the aspect ratio.
-    if (self.bigImageMode &&
-        self.cellImageView.image &&
-        self.cellImageView.image != self.placeholderImage) {
-        CGFloat aspectRatio = self.cellImageView.intrinsicContentSize.height / self.cellImageView.intrinsicContentSize.width;
-        self.imageViewWidthConstraint.constant = CGRectGetWidth([UIScreen mainScreen].bounds) - 8 * 2; // Remove the padding for leading and trailing.
-        self.imageViewHeightConstraint.constant = self.imageViewWidthConstraint.constant * aspectRatio;
-        // Positioning of the image view.
-        self.imageViewCentreAlignConstraint.priority = veryHightConstraintPriority;
-
-        // Make sure the height never exceed 80% of the shortest of the screen edges.
-        if (self.imageViewHeightConstraint.constant > MIN(CGRectGetHeight([UIScreen mainScreen].bounds), CGRectGetWidth([UIScreen mainScreen].bounds)) * 0.8) {
-            self.imageViewHeightConstraint.constant = MIN(CGRectGetHeight([UIScreen mainScreen].bounds), CGRectGetWidth([UIScreen mainScreen].bounds)) * 0.8;
-        }
-    } else {
-        self.imageViewCentreAlignConstraint.priority = veryLowConstraintPriority;
-    }
-    
-    // Header and footer
+    // Header and footer.
     self.cellHeaderView.shouldHighLight = self.shouldHighlight;
     self.cellHeaderView.parentUID = self.parentThread.UID;
     self.cellFooterView.thread = self.cellHeaderView.thread = self.thread;
+    // Hide footer when its not necessary.
     if (self.cellFooterView.isHidden) {
-        self.footerContainerViewHeightConstraint.constant = 8;
+        self.footerViewHeightConstraint.constant = layoutConstraintZeroHeight;
     } else {
-        self.footerContainerViewHeightConstraint.constant = 20;
+        self.footerViewHeightConstraint.constant = footerViewNormalHeight;
     }
 }
 
 #pragma mark - UI actions
-- (IBAction)tapOnImageView:(id)sender {
+- (void)tapOnImageView:(id)sender {
     DDLogDebug(@"%@", NSStringFromSelector(_cmd));
     if (self.shouldAllowClickOnImage && [self.delegate respondsToSelector:@selector(userTapInImageView:)]) {
         [self.delegate userTapInImageView:self.thread.imgSrc];
     } else {
-        DDLogDebug(@"Tap on image view dis-allowed.");
+        DDLogDebug(@"Tap on image view not allow.");
     }
 }
 
@@ -308,19 +279,6 @@ NSInteger const veryLowConstraintPriority = 1;
     }
 }
 
-#pragma mark - Getters
-- (BOOL)imageUpdated {
-    BOOL updated = NO;
-    // If self.thread points to an image URL, but the cell image view still shows the placeholder image, return NO.
-    if (self.thread.imgSrc.length &&
-        self.cellImageView.image == self.placeholderImage) {
-        updated = NO;
-    } else {
-        updated = YES;
-    }
-    return updated;
-}
-
 - (NSDateFormatter *)dateFormatter {
     if (!_dateFormatter) {
         _dateFormatter = [NSDateFormatter new];
@@ -337,15 +295,6 @@ NSInteger const veryLowConstraintPriority = 1;
     return _placeholderImage;
 }
 
-- (UITapGestureRecognizer *)tapOnImageViewRecognizer {
-    if (!_tapOnImageViewRecognizer) {
-        _tapOnImageViewRecognizer = [UITapGestureRecognizer new];
-        [_tapOnImageViewRecognizer addTarget:self action:@selector(tapOnImageView:)];
-    }
-    return _tapOnImageViewRecognizer;
-}
-
-
 #pragma mark - czzImageDownloaderManagerDelegate
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
     if (success &&
@@ -359,14 +308,6 @@ NSInteger const veryLowConstraintPriority = 1;
                     self.cellImageView.alpha = 1;
                 }];
                 [self.delegate threadViewCellContentChanged:self];
-                
-            } else if (self.bigImageMode) {
-                // If the cell image view still shows the placeholder image, inform the delegate now.
-                if (!self.imageUpdated) {
-                    [self.delegate threadViewCellContentChanged:self];
-                }
-                // Assign the fullsize image.
-                self.cellImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForImageWithName:downloader.targetURLString.lastPathComponent]]];
             }
         }
     }
