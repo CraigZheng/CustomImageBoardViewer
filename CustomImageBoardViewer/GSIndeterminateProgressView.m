@@ -36,7 +36,7 @@
         
         CHUNK_WIDTH = MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
         colourIndex = 0;
-        colours = @[[UIColor cyanColor], [UIColor magentaColor], [UIColor yellowColor], [UIColor whiteColor]];//, [UIColor blackColor]];
+        colours = @[[UIColor cyanColor], [UIColor yellowColor], [UIColor magentaColor], [UIColor whiteColor]];//, [UIColor blackColor]];
         
         // Make self transparent, so the colourful progress bars are more obvious.
         self.backgroundColor = [UIColor clearColor];
