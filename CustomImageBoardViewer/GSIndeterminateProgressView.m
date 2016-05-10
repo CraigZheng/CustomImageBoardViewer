@@ -129,7 +129,7 @@
         [self.foregroundBarView autoSetDimensionsToSize:CGSizeMake(CGRectGetWidth(self.frame), 2)];
         [self layoutIfNeeded];
     } completion:^(BOOL finished) {
-        if (finished && _isAnimating) {
+        if (finished && _isAnimating && self.window) {
             // If previous background views are still here, remove them.
             if (self.backgroundBarView.superview) {
                 [self.backgroundBarView removeFromSuperview];
