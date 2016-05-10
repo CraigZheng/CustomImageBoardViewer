@@ -25,8 +25,9 @@
 NSInteger const threadCellImageViewNormalHeight = 100;
 static NSInteger const layoutConstraintZeroHeight = 0;
 static NSInteger const footerViewNormalHeight = 20;
+static NSString * const showThreadWithID = @"showThreadWithID";
 
-@interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, czzImageDownloaderManagerDelegate>
+@interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, czzImageDownloaderManagerDelegate, UITextViewDelegate>
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;
@@ -41,8 +42,6 @@ static NSInteger const footerViewNormalHeight = 20;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @property (strong, nonatomic) UIImage *placeholderImage;
 @property (strong, nonatomic) NSMutableArray<czzThreadRefButton *> *referenceButtons;
-// Control for replyToList.
-@property (assign, nonatomic) BOOL shouldUpdateReplyButtons;
 @end
 
 @implementation czzMenuEnabledTableViewCell
@@ -69,27 +68,21 @@ static NSInteger const footerViewNormalHeight = 20;
         [button removeFromSuperview];
     }
     // Clickable content, find the quoted text and add a button to corresponding location.
-    if (self.shouldUpdateReplyButtons) {
-        self.shouldUpdateReplyButtons = NO;
+    if (self.thread.replyToList.count) {
+        NSMutableAttributedString *mutableAttributedString = self.contentTextView.attributedText.mutableCopy;
         for (NSNumber *refNumber in self.thread.replyToList) {
             NSInteger rep = refNumber.integerValue;
             if (rep > 0) {
                 NSString *quotedNumberText = [NSString stringWithFormat:@"%ld", (long)rep];
                 NSRange range = [self.contentTextView.attributedText.string rangeOfString:quotedNumberText];
                 if (range.location != NSNotFound){
-                    CGRect result = [self frameOfTextRange:range inTextView:self.contentTextView];
-                    
-                    if (!CGSizeEqualToSize(CGSizeZero, result.size)){
-                        czzThreadRefButton *threadRefButton = [[czzThreadRefButton alloc] initWithFrame:CGRectMake(result.origin.x, result.origin.y + self.contentTextView.frame.origin.y, result.size.width, result.size.height)];
-                        threadRefButton.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.1f];
-                        [threadRefButton addTarget:self action:@selector(userTapInRefButton:) forControlEvents:UIControlEventTouchUpInside];
-                        threadRefButton.threadRefNumber = rep;
-                        [self.contentView addSubview:threadRefButton];
-                        [self.referenceButtons addObject:threadRefButton];
-                    }
+                    [mutableAttributedString addAttribute:NSLinkAttributeName
+                                                    value:[NSString stringWithFormat:@"showThreadWithID://%@", quotedNumberText]
+                                                    range:range];
                 }
             }
         }
+        self.contentTextView.attributedText = mutableAttributedString;
     }
 }
 
@@ -227,11 +220,9 @@ static NSInteger const footerViewNormalHeight = 20;
     }
 }
 
-- (void)userTapInRefButton:(id)sender {
-    if ([sender isKindOfClass:[czzThreadRefButton class]]) {
-        if ([self.delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
-            [self.delegate userTapInQuotedText:[NSString stringWithFormat:@"%ld", (long)[(czzThreadRefButton *)sender threadRefNumber]]];
-        }
+- (void)showThreadWithID:(NSString *)threadID {
+    if ([self.delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
+        [self.delegate userTapInQuotedText:threadID];
     }
 }
 
@@ -258,7 +249,6 @@ static NSInteger const footerViewNormalHeight = 20;
 -(void)setThread:(czzThread *)thread{
     if (_thread != thread) {
         _thread = thread;
-        self.shouldUpdateReplyButtons = YES;
         if (thread.content) {
             NSDataDetector *linkDetector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
             self.links = [NSMutableArray new];
@@ -277,11 +267,15 @@ static NSInteger const footerViewNormalHeight = 20;
 
 - (void)setCellType:(threadViewCellType)cellType {
     _cellType = cellType;
-    // When in big image mode, the cell image view should be disabled when the cell type is home.
-    if (cellType == threadViewCellTypeHome && self.bigImageMode) {
-        self.cellImageView.userInteractionEnabled = NO;
+    if (cellType == threadViewCellTypeHome) {
+        // When in Home view, disable all the fancy interaction with the contentTextView.
+        self.contentTextView.userInteractionEnabled = NO;
+        // When in big image mode, the cell image view should be disabled when the cell type is home.
+        if (self.bigImageMode) {
+            self.cellImageView.userInteractionEnabled = NO;
+        }
     } else {
-        self.cellImageView.userInteractionEnabled = YES;
+        self.contentTextView.userInteractionEnabled = self.cellImageView.userInteractionEnabled = YES;
     }
 }
 
@@ -317,6 +311,17 @@ static NSInteger const footerViewNormalHeight = 20;
             }
         }
     }
+}
+
+#pragma mark - UITextViewDelegate
+
+- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
+    BOOL shouldInteract = YES;
+    if ([URL.absoluteString hasPrefix:showThreadWithID]) {
+        [self showThreadWithID:URL.absoluteString];
+        shouldInteract = NO;
+    }
+    return shouldInteract;
 }
 
 @end

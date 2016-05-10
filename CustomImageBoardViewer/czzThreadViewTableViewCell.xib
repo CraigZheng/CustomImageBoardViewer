@@ -41,11 +41,15 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="61C-Fc-Xdc" userLabel="Content Container View">
                         <rect key="frame" x="0.0" y="24" width="320" height="151.5"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Text content" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="7he-PY-sLR">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" delaysContentTouches="NO" canCancelContentTouches="NO" editable="NO" text="Text content" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="7he-PY-sLR" customClass="czzThreadTextView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="vW5-oN-WIG" id="DTA-h4-jsq"/>
+                                </connections>
                             </textView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon-72.png" translatesAutoresizingMaskIntoConstraints="NO" id="WnJ-PJ-3oM">
                                 <rect key="frame" x="8" y="47.5" width="100" height="100"/>

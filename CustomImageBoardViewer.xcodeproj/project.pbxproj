@@ -171,6 +171,7 @@
 		446C17B81CB08E2B00B557E2 /* loading_bar_dot.gif in Resources */ = {isa = PBXBuildFile; fileRef = 446C17B71CB08E2B00B557E2 /* loading_bar_dot.gif */; };
 		446C17BA1CB094C400B557E2 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 446C17B91CB094C400B557E2 /* ImageIO.framework */; };
 		447816E01C59A8CB00D7ADBB /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 447816DF1C59A8CB00D7ADBB /* AssetsLibrary.framework */; };
+		447907E21CE20B1100A7E573 /* czzThreadTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 447907E11CE20B1100A7E573 /* czzThreadTextView.m */; };
 		44792C711BBAC34400AF5CB5 /* NSFileManager+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 44792C701BBAC34400AF5CB5 /* NSFileManager+Util.m */; };
 		4479B07D1A0BB8E70074D484 /* czzTextViewHeightCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4479B07C1A0BB8E70074D484 /* czzTextViewHeightCalculator.m */; };
 		4479B08A1A0CCB270074D484 /* MiniThreadView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4479B0891A0CCB270074D484 /* MiniThreadView.storyboard */; };
@@ -750,6 +751,8 @@
 		446C17B71CB08E2B00B557E2 /* loading_bar_dot.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading_bar_dot.gif; sourceTree = "<group>"; };
 		446C17B91CB094C400B557E2 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		447816DF1C59A8CB00D7ADBB /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		447907E01CE20B1100A7E573 /* czzThreadTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadTextView.h; sourceTree = "<group>"; };
+		447907E11CE20B1100A7E573 /* czzThreadTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadTextView.m; sourceTree = "<group>"; };
 		44792C6F1BBAC34400AF5CB5 /* NSFileManager+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Util.h"; sourceTree = "<group>"; };
 		44792C701BBAC34400AF5CB5 /* NSFileManager+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Util.m"; sourceTree = "<group>"; };
 		4479B07B1A0BB8E70074D484 /* czzTextViewHeightCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzTextViewHeightCalculator.h; sourceTree = "<group>"; };
@@ -1781,6 +1784,15 @@
 			name = czzFavouriteManagerVIewController;
 			sourceTree = "<group>";
 		};
+		447907DF1CE20AF800A7E573 /* ThreadTextView */ = {
+			isa = PBXGroup;
+			children = (
+				447907E01CE20B1100A7E573 /* czzThreadTextView.h */,
+				447907E11CE20B1100A7E573 /* czzThreadTextView.m */,
+			);
+			name = ThreadTextView;
+			sourceTree = "<group>";
+		};
 		4479B0911A0CCB750074D484 /* MiniThreadView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1796,6 +1808,7 @@
 		448C85DF1A06F14300115FEC /* ThreadView */ = {
 			isa = PBXGroup;
 			children = (
+				447907DF1CE20AF800A7E573 /* ThreadTextView */,
 				445B7B4B1B418B400046CFDB /* CommonUI */,
 				442F1FD41B13533900267698 /* Data source and delegate */,
 				4479B0911A0CCB750074D484 /* MiniThreadView */,
@@ -3076,6 +3089,7 @@
 				5A0A6BD61848691C0094D7FB /* czzMoreInfoViewController.m in Sources */,
 				4448C2AD18100C6B00D2CD76 /* czzBlacklist.m in Sources */,
 				445B7B591B418F020046CFDB /* czzThreadTableView.m in Sources */,
+				447907E21CE20B1100A7E573 /* czzThreadTextView.m in Sources */,
 				445CA5541CA3BB8F00D3C315 /* czzLaunchPopUpNotification.m in Sources */,
 				441E5D1B17F46E7900289DBD /* SMXMLDocument.m in Sources */,
 				441E5D1217F46A0900289DBD /* czzEntryPointViewController.m in Sources */,
