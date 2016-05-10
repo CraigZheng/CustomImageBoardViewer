@@ -51,7 +51,7 @@
                                     <outlet property="delegate" destination="vW5-oN-WIG" id="DTA-h4-jsq"/>
                                 </connections>
                             </textView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon-72.png" translatesAutoresizingMaskIntoConstraints="NO" id="WnJ-PJ-3oM">
+                            <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon-72.png" translatesAutoresizingMaskIntoConstraints="NO" id="WnJ-PJ-3oM">
                                 <rect key="frame" x="8" y="47.5" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="ZZD-Un-q89"/>
