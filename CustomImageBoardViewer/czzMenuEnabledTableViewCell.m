@@ -324,4 +324,12 @@ static NSString * const showThreadWithID = @"showThreadWithID";
     return shouldInteract;
 }
 
+#pragma mark - UIResponder methods.
+
+- (BOOL)resignFirstResponder {
+    // Resign contentTextView, the primary responder.
+    [self.contentTextView resignFirstResponder];
+    return [super resignFirstResponder];
+}
+
 @end

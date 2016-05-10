@@ -77,4 +77,10 @@
     return canPerformAction;
 }
 
+- (BOOL)resignFirstResponder {
+    // Deselect text.
+    self.selectedTextRange = nil;
+    return YES;
+}
+
 @end

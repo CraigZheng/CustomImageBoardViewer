@@ -132,6 +132,8 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    // When tapping on any row, make all rows resignFirstResponder.
+    [tableView.visibleCells makeObjectsPerformSelector:@selector(resignFirstResponder)];
     if (indexPath.row < self.threadViewManager.threads.count) {
         
     } else {
