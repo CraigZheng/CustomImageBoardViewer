@@ -7,16 +7,19 @@
 //
 
 #import "czzThreadTextView.h"
+#import "czzMenuEnabledTableViewCell.h"
 
 @interface czzThreadTextView()
 
 // set the cell as property
 @property (nonatomic, assign) UITableViewCell *superCell;
+@property (nonatomic, assign) czzMenuEnabledTableViewCell *superMenuEnabledCell;
 
 @end
 
 @implementation czzThreadTextView
 
+#pragma mark - Getters
 // superCell and the touch event methods are copied from: http://stackoverflow.com/questions/2478216/how-to-pass-touch-from-a-uitextview-to-a-uitableviewcell
 - (UITableViewCell *)superCell {
     if (!_superCell) {
@@ -32,6 +35,13 @@
     }
     
     return _superCell;
+}
+
+- (czzMenuEnabledTableViewCell *)superMenuEnabledCell {
+    if ([self.superCell isKindOfClass:[czzMenuEnabledTableViewCell class]]) {
+        return (czzMenuEnabledTableViewCell *)self.superCell;
+    }
+    return nil;
 }
 
 #pragma mark - Touch overrides
@@ -77,10 +87,32 @@
     return canPerformAction;
 }
 
+
 - (BOOL)resignFirstResponder {
     // Deselect text.
     self.selectedTextRange = nil;
     return YES;
+}
+
+#pragma mark - Menu actions, declarations are copied from czzMenuEnabledTableViewCell.
+
+/**
+ Pass the actions to super view.
+ */
+-(void)menuActionCopy:(id)sender{
+    [self.superMenuEnabledCell menuActionCopy:sender];
+}
+-(void)menuActionReply:(id)sender{
+    [self.superMenuEnabledCell menuActionReply:sender];
+}
+-(void)menuActionOpen:(id)sender{
+    [self.superMenuEnabledCell menuActionOpen:sender];
+}
+-(void)menuActionHighlight:(id)sender {
+    [self.superMenuEnabledCell menuActionHighlight:sender];
+}
+-(void)menuActionSearch:(id) sender {
+    [self.superMenuEnabledCell menuActionSearch:sender];
 }
 
 @end

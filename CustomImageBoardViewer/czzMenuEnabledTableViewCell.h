@@ -60,15 +60,11 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 
 - (void)renderContent;
 - (void)highLight;
+
+#pragma mark - Menu actions.
+-(void)menuActionCopy:(id)sender;
+-(void)menuActionReply:(id)sender;
+-(void)menuActionOpen:(id)sender;
+-(void)menuActionHighlight:(id)sender;
+-(void)menuActionSearch:(id) sender;
 @end
-
-
-/*
- UITextView *contentTextView = (UITextView*)[cell viewWithTag:1];
- UILabel *idLabel = (UILabel*)[cell viewWithTag:2];
- UILabel *posterLabel = (UILabel*)[cell viewWithTag:3];
- UILabel *dateLabel = (UILabel*)[cell viewWithTag:5];
- UILabel *sageLabel = (UILabel*)[cell viewWithTag:7];
- UILabel *lockLabel = (UILabel*)[cell viewWithTag:8];
-
-*/
