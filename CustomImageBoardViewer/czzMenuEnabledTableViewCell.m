@@ -114,7 +114,7 @@ static NSString * const showThreadWithID = @"showThreadWithID";
 
 - (void)highLight {
     self.contentTextView.backgroundColor = self.cellHeaderView.backgroundColor =
-    self.cellFooterView.backgroundColor = self.contentView.backgroundColor;
+    self.cellFooterView.backgroundColor = self.contentContainerView.backgroundColor = [UIColor groupTableViewBackgroundColor];
 }
 
 #pragma mark - custom menu action
