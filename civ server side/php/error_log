@@ -1,0 +1,122 @@
+[17-Apr-2015 15:39:49 America/Denver] PHP Notice:  Undefined variable: bundleIdentifier in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 22
+[17-Apr-2015 15:39:57 America/Denver] PHP Notice:  Undefined variable: bundleIdentifier in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 22
+[17-Apr-2015 15:40:21 America/Denver] PHP Notice:  Undefined variable: bundleIdentifier in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 22
+[17-Apr-2015 15:40:38 America/Denver] PHP Notice:  Undefined variable: bundleIdentifier in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 22
+[17-Apr-2015 15:41:00 America/Denver] PHP Notice:  Undefined variable: bundleIdentifier in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 22
+[17-Apr-2015 15:41:32 America/Denver] PHP Notice:  Undefined variable: bundleIdentifier in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 22
+[17-Apr-2015 15:41:33 America/Denver] PHP Notice:  Undefined variable: bundleIdentifier in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 22
+[17-Apr-2015 15:41:37 America/Denver] PHP Notice:  Undefined variable: bundleIdentifier in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 22
+[17-Apr-2015 15:42:26 America/Denver] PHP Notice:  Undefined variable: bundleIdentifier in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 22
+[17-Apr-2015 15:43:23 America/Denver] PHP Notice:  Undefined variable: bundleIdentifier in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 22
+[17-Apr-2015 15:43:42 America/Denver] PHP Notice:  Undefined variable: bundleIdentifier in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 22
+[17-Apr-2015 15:43:56 America/Denver] PHP Notice:  Undefined variable: bundleIdentifier in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 22
+[17-Apr-2015 15:43:58 America/Denver] PHP Notice:  Undefined variable: bundleIdentifier in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 22
+[17-Apr-2015 15:44:57 America/Denver] PHP Notice:  Undefined variable: bundleIdentifier in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 22
+[17-Apr-2015 15:45:13 America/Denver] PHP Notice:  Undefined variable: bundleIdentifier in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 22
+[17-Apr-2015 15:45:56 America/Denver] PHP Notice:  Undefined variable: bundleIdentifier in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 22
+[17-Apr-2015 15:46:25 America/Denver] PHP Notice:  Undefined variable: bundleIdentifier in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 22
+[17-Apr-2015 15:47:13 America/Denver] PHP Notice:  Undefined variable: bundleIdentifier in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 22
+[17-Apr-2015 15:47:19 America/Denver] PHP Notice:  Undefined variable: bundleIdentifier in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 22
+[17-Apr-2015 15:47:26 America/Denver] PHP Notice:  Undefined variable: bundleIdentifier in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 22
+[17-Apr-2015 15:47:56 America/Denver] PHP Notice:  Undefined variable: bundleIdentifier in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 22
+[17-Apr-2015 15:48:07 America/Denver] PHP Notice:  Undefined variable: bundleIdentifier in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 22
+[20-Aug-2015 20:36:11 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 28
+[20-Aug-2015 20:36:13 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 28
+[20-Aug-2015 20:36:26 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 28
+[20-Aug-2015 20:36:53 America/Denver] PHP Parse error:  syntax error, unexpected 'return' (T_RETURN), expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 28
+[20-Aug-2015 20:36:57 America/Denver] PHP Parse error:  syntax error, unexpected 'return' (T_RETURN), expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 28
+[20-Aug-2015 20:37:01 America/Denver] PHP Parse error:  syntax error, unexpected 'return' (T_RETURN), expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 28
+[20-Aug-2015 20:37:15 America/Denver] PHP Parse error:  syntax error, unexpected 'return' (T_RETURN), expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 28
+[20-Aug-2015 20:37:30 America/Denver] PHP Parse error:  syntax error, unexpected 'return' (T_RETURN), expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 28
+[20-Aug-2015 20:38:15 America/Denver] PHP Parse error:  syntax error, unexpected 'return' (T_RETURN), expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 28
+[20-Aug-2015 20:38:32 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 28
+[20-Aug-2015 20:38:34 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 28
+[20-Aug-2015 20:38:36 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 28
+[20-Aug-2015 20:38:38 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 28
+[20-Aug-2015 20:38:39 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 28
+[20-Aug-2015 20:38:51 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 28
+[20-Aug-2015 20:38:51 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 28
+[20-Aug-2015 20:38:56 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 28
+[20-Aug-2015 20:39:29 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 28
+[20-Aug-2015 20:39:31 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 28
+[20-Aug-2015 20:39:33 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 28
+[20-Aug-2015 20:39:52 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 29
+[20-Aug-2015 20:39:53 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 29
+[20-Aug-2015 20:40:11 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 29
+[20-Aug-2015 20:40:11 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 29
+[20-Aug-2015 20:40:13 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 29
+[20-Aug-2015 20:40:19 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 29
+[20-Aug-2015 20:40:35 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 27
+[20-Aug-2015 20:40:37 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 27
+[20-Aug-2015 20:40:39 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 27
+[20-Aug-2015 20:41:10 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 28
+[20-Aug-2015 20:41:12 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 28
+[20-Aug-2015 20:41:13 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 28
+[20-Aug-2015 20:41:18 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 28
+[20-Aug-2015 20:41:50 America/Denver] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home5/danmakuu/public_html/acshmily/avdot/php/remote_configuration.php on line 28
+[15-Sep-2015 03:58:46 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'fdb3.awardspace.net' (111) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[15-Sep-2015 03:58:47 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[15-Sep-2015 03:58:47 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[15-Sep-2015 04:00:20 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'fdb3.awardspace.net' (111) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[15-Sep-2015 04:00:20 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[15-Sep-2015 04:00:20 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[15-Sep-2015 04:12:15 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'fdb3.awardspace.net' (111) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[15-Sep-2015 04:12:15 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[15-Sep-2015 04:12:15 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[15-Sep-2015 20:47:32 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'fdb3.awardspace.net' (111) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[15-Sep-2015 20:47:32 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[15-Sep-2015 20:47:32 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[15-Sep-2015 20:50:46 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[15-Sep-2015 20:50:46 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[15-Sep-2015 20:50:46 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[15-Sep-2015 20:50:53 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[15-Sep-2015 20:50:53 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[15-Sep-2015 20:50:53 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[15-Sep-2015 20:51:27 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[15-Sep-2015 20:51:27 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[15-Sep-2015 20:51:27 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[15-Sep-2015 20:52:16 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[15-Sep-2015 20:52:16 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[15-Sep-2015 20:52:16 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[15-Sep-2015 20:52:41 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[15-Sep-2015 20:52:41 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[15-Sep-2015 20:52:41 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[15-Sep-2015 20:53:41 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[15-Sep-2015 20:53:41 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[15-Sep-2015 20:53:41 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[15-Sep-2015 20:53:46 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[15-Sep-2015 20:53:46 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[15-Sep-2015 20:53:46 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[15-Sep-2015 20:56:57 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[15-Sep-2015 20:56:57 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[15-Sep-2015 20:56:57 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[15-Sep-2015 20:59:05 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[15-Sep-2015 20:59:05 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[15-Sep-2015 20:59:05 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[15-Sep-2015 21:00:01 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[15-Sep-2015 21:00:01 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[15-Sep-2015 21:00:01 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[15-Sep-2015 21:00:54 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[15-Sep-2015 21:00:54 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[15-Sep-2015 21:00:54 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[15-Sep-2015 21:01:35 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[15-Sep-2015 21:01:35 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[15-Sep-2015 21:01:35 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[15-Sep-2015 21:01:55 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[15-Sep-2015 21:01:55 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[15-Sep-2015 21:01:55 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[15-Sep-2015 21:02:44 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[15-Sep-2015 21:02:44 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[15-Sep-2015 21:02:44 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[15-Sep-2015 21:04:29 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[15-Sep-2015 21:04:29 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[15-Sep-2015 21:04:29 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[15-Sep-2015 21:05:54 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[15-Sep-2015 21:05:54 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[15-Sep-2015 21:05:54 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[15-Sep-2015 21:08:46 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[15-Sep-2015 21:08:46 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[15-Sep-2015 21:08:46 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[15-Sep-2015 21:20:30 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[15-Sep-2015 21:20:30 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[15-Sep-2015 21:20:30 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14

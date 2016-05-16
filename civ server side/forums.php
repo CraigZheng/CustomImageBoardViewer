@@ -20,14 +20,20 @@
 	}
 	//AC island
 	if (strpos($version, $bundleIdentifier) !== false) {
+		/*
 		if (strpos($version, "DEBUG") !== false) {
-			echo file_get_contents($file);
-		} else if (strpos($version, "3.0") !== false || strpos($version, "3.1")) {
+		} else if (strpos($version, "3.5") !== false || 
+					strpos($version, "3.4") !== false || 
+					strpos($version, "3.3") !== false || 
+					strpos($version, "3.2") !== false ||
+					strpos($version, "3.1") !== false) {
 			echo file_get_contents($fileV3); 
 		}
 		else {
 			echo file_get_contents($file);
-		}
+		}			
+		*/
+		echo file_get_contents($fileV3); 
 		return;
 	}
 	
