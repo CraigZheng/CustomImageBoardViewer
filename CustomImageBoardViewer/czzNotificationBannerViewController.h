@@ -19,10 +19,10 @@
 @property (weak, nonatomic) IBOutlet UIImageView *statusIcon;
 @property (weak, nonatomic) IBOutlet UILabel *headerLabel;
 @property CGFloat constantHeight;
-@property UIView *parentView;
-@property UINavigationController *homeViewController;//to provide access to navigation controller and story board
-@property czzNotification *currentNotification;
-@property NSMutableOrderedSet *notifications;
+@property (weak, nonatomic) UIView *parentView;
+@property (strong, nonatomic) UINavigationController *homeViewController;//to provide access to navigation controller and story board
+@property (strong, nonatomic) czzNotification *currentNotification;
+@property (strong, nonatomic) NSMutableOrderedSet *notifications;
 @property (nonatomic) BOOL needsToBePresented;
 @property NSTimeInterval notificationDownloadInterval;
 @property NSTimeInterval textUpdateInterval;

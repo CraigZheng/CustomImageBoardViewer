@@ -8,13 +8,57 @@
 
 #import "czzHistoryManager.h"
 
+#import "czzThreadDownloader.h"
+
+static NSString * const postedHistoryFile = @"posted_history_cache.dat";
+static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
+
+@interface czzHistoryManager()
+@property (strong, nonatomic) czzThreadDownloader *threadDownloader;
+@property (strong, nonatomic) NSString *historyCachePath;
+@property (strong, nonatomic) NSString *postedCachePath;
+@property (strong, nonatomic) NSString *respondedCachePath;
+
+@end
+
 @implementation czzHistoryManager
 @synthesize browserHistory;
-@synthesize verticalHeights, horizontalHeights;
 
 -(instancetype)init {
     self = [super init];
     if (self) {
+        self.historyCachePath = [self.historyFolder stringByAppendingPathComponent:HISTORY_CACHE_FILE];
+        self.postedCachePath = [self.historyFolder stringByAppendingPathComponent:postedHistoryFile];
+        self.respondedCachePath = [self.historyFolder stringByAppendingPathComponent:respondedHistoryFile];
+        // Check cache files and folders.
+        NSFileManager *manager = [NSFileManager defaultManager];
+        NSError *error;
+        if (![manager fileExistsAtPath:self.historyFolder]){
+            [manager createDirectoryAtPath:self.historyFolder
+               withIntermediateDirectories:NO
+                                attributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                                     error:nil];
+            DDLogDebug(@"Create document folder: %@", self.historyFolder);
+        } else {
+            [manager setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                      ofItemAtPath:self.historyFolder
+                             error:&error];
+        }
+        // Cache files.
+        NSArray *filePaths = @[self.historyCachePath, self.postedCachePath, self.respondedCachePath];
+        for (NSString *filePath in filePaths) {
+            if ([manager fileExistsAtPath:filePath]) {
+                [manager setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                          ofItemAtPath:filePath
+                                 error:&error];
+            } else {
+                // Create a new file at the original path with no content and no protection attributes.
+                [manager createFileAtPath:filePath
+                                 contents:nil
+                               attributes:@{NSFileProtectionKey:NSFileProtectionNone}];
+            }
+        }
+
         browserHistory = [NSMutableOrderedSet new];
         [self restorePreviousState];
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -24,7 +68,6 @@
 }
 
 -(void)entersBackground {
-    DLog(@"%@", NSStringFromSelector(_cmd));
     [self saveCurrentState];
 }
 
@@ -33,15 +76,20 @@
         [browserHistory removeObject:thread];
     [browserHistory addObject:thread];
     //should not be bigger than 100
-    if (browserHistory.count > 99) {
+    if (browserHistory.count > HISTORY_UPPER_LIMIT) {
         [browserHistory removeObject:browserHistory.firstObject]; //remove oldest object
     }
     [self saveCurrentState];
 }
 
 -(BOOL)removeThread:(czzThread *)thread {
-    if ([browserHistory containsObject:thread]) {
+    if ([browserHistory containsObject:thread] ||
+        [self.respondedThreads containsObject:thread] ||
+        [self.postedThreads containsObject:thread]) {
+        // Remove this thread from all three sets.
         [browserHistory removeObject:thread];
+        [self.respondedThreads removeObject:thread];
+        [self.postedThreads removeObject:thread];
         [self saveCurrentState];
         return YES;
     }
@@ -55,29 +103,129 @@
 
 -(void)restorePreviousState {
     @try {
-        NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:HISTORY_CACHE_FILE];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
-            NSMutableOrderedSet *tempSet = [NSKeyedUnarchiver unarchiveObjectWithFile:cacheFile];
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSMutableOrderedSet *tempSet;
+        if ([fileManager fileExistsAtPath:self.historyCachePath]) {
+            tempSet = [NSKeyedUnarchiver unarchiveObjectWithFile:self.historyCachePath];
             if (tempSet) {
                 browserHistory = tempSet;
             }
         }
+        if ([fileManager fileExistsAtPath:self.postedCachePath]) {
+            tempSet = [NSKeyedUnarchiver unarchiveObjectWithFile:self.postedCachePath];
+            if (tempSet) {
+                self.postedThreads = tempSet;
+            }
+        }
+        if ([fileManager fileExistsAtPath:self.respondedCachePath]) {
+            tempSet = [NSKeyedUnarchiver unarchiveObjectWithFile:self.respondedCachePath];
+            if (tempSet) {
+                self.respondedThreads = tempSet;
+            }
+        }
+        DDLogDebug(@"Restored histories.");
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
     }
 
 }
 
 -(void)saveCurrentState {
-    NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:HISTORY_CACHE_FILE];
-    if (![NSKeyedArchiver archiveRootObject:browserHistory toFile:cacheFile]) {
-        DLog(@"unable to save browser history");
+    DDLogDebug(@"%s", __PRETTY_FUNCTION__);
+    if (![NSKeyedArchiver archiveRootObject:browserHistory toFile:self.historyCachePath]) {
+        DDLogDebug(@"unable to save browser history");
+    }
+    if (![NSKeyedArchiver archiveRootObject:self.postedThreads toFile:self.postedCachePath]) {
+        DDLogDebug(@"unable to save browser history");
+    }
+    if (![NSKeyedArchiver archiveRootObject:self.respondedThreads toFile:self.respondedCachePath]) {
+        DDLogDebug(@"unable to save browser history");
     }
 }
 
+#pragma mark - Record posts and responds.
 
-+ (id)sharedInstance
+-(void)addToRespondedList:(czzThread *)thread {
+    [self.respondedThreads addObject:thread];
+    // Set a limit.
+    if (self.respondedThreads.count > HISTORY_UPPER_LIMIT) {
+        [self.respondedThreads removeObject:self.respondedThreads.firstObject];
+    }
+    [self saveCurrentState];
+}
+
+- (void)addToPostedList:(NSString *)title content:(NSString *)content hasImage:(BOOL)hasImage forum:(czzForum *)forum {
+    // No title, no content, no image, then what are you doing here?
+    if (!title.length &&
+        !content.length &&
+        !hasImage) {
+        return;
+    }
+    self.threadDownloader = [czzThreadDownloader new];
+    self.threadDownloader.pageNumber = 1;
+    self.threadDownloader.parentForum = forum;
+    // In completion handler, compare the downloaded threads and see if there's any that is matching.
+    __weak typeof(self) weakSelf = self; // Weak self is for supperssing the warning.
+    DLog(@"%@", content);
+    self.threadDownloader.completionHandler = ^(BOOL success, NSArray *downloadedThreads, NSError *error){
+        DLog(@"%s, error: %@", __PRETTY_FUNCTION__, error);
+        for (czzThread *thread in downloadedThreads) {
+            // Compare title and content.
+            czzThread *matchedThread;
+            DLog(@"Downloaded thread: %@", thread.content.string);
+            // When comparing, remove the white space and newlines from both the reference title/content and the thread title content,
+            // this would reduce the risk of error.
+            if (title.length && [[title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
+                                 isEqualToString:[thread.title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]]) {
+                matchedThread = thread;
+            } else if (content.length && [[content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
+                                          isEqualToString:[thread.content.string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]]) {
+                matchedThread = thread;
+            }
+            // If no title and content given, but has image, then the first downloaded thread with image is most likely the matching thread.
+            else if (hasImage && thread.imgSrc.length) {
+                matchedThread = thread;
+            }
+            if (matchedThread) {
+                DDLogDebug(@"Found match: %@", matchedThread);
+                [weakSelf.postedThreads addObject:matchedThread];
+                if (weakSelf.postedThreads.count > HISTORY_UPPER_LIMIT) {
+                    [weakSelf.postedThreads removeObject:weakSelf.postedThreads.firstObject];
+                }
+                [weakSelf saveCurrentState];
+                break;
+            }
+        }
+    };
+    // Start the refreshing 5 seconds later, give server some time to respond.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.threadDownloader start];
+    });
+}
+
+#pragma mark - Getters
+
+- (NSMutableOrderedSet *)postedThreads {
+    if (!_postedThreads) {
+        _postedThreads = [NSMutableOrderedSet new];
+    }
+    return _postedThreads;
+}
+
+- (NSMutableOrderedSet *)respondedThreads {
+    if (!_respondedThreads) {
+        _respondedThreads = [NSMutableOrderedSet new];
+    }
+    return _respondedThreads;
+}
+
+- (NSString *)historyFolder {
+    NSString *historyFolder = [[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"History"];
+    return historyFolder;
+}
+
++ (instancetype)sharedInstance
 {
     // structure used to test whether the block has completed or not
     static dispatch_once_t p = 0;

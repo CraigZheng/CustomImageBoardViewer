@@ -10,28 +10,19 @@
 
 #import <UIKit/UIKit.h>
 
-#import "czzImageCentre.h"
+#import "czzModalViewController.h"
+#import "czzImageCacheManager.h"
 #import "czzAppDelegate.h"
 
+@class czzShortImageManagerCollectionViewController;
 @protocol czzShortImageManagerCollectionViewControllerProtocol <NSObject>
 @optional
--(void)userTappedOnImageWithPath:(NSString*)imagePath;
-
+- (void)shortImageManager:(czzShortImageManagerCollectionViewController *)manager selectedImageWithIndex:(NSInteger)index inImages:(NSArray *)imageSource;
 @end
 
 @interface czzShortImageManagerCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
-@property id<czzShortImageManagerCollectionViewControllerProtocol> delegate;
+@property (weak, nonatomic) id<czzShortImageManagerCollectionViewControllerProtocol> delegate;
 @property (weak, nonatomic) IBOutlet UICollectionView *managerCollectionView;
-@property NSMutableArray *downloadedImages;
 @property (weak, nonatomic) IBOutlet UIView *placeholderView;
-@property UIViewController *hostViewController;
 
-@property BOOL isShowing;
-
--(void)updateProgressForDownloader:(czzImageDownloader*)downloader;
--(void)imageDownloaded:(NSString*)imgPath;
-
-- (IBAction)tapOnViewAction:(id)sender;
-
--(void)show;
 @end

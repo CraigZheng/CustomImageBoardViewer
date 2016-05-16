@@ -8,20 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@class czzThread;
-@protocol czzMiniThreadViewControllerProtocol <NSObject>
-@optional
--(void)miniThreadViewFinishedLoading:(BOOL)successful;
--(void)miniThreadWantsToOpenThread:(czzThread*)thread;
-@end
+#import "czzModalViewController.h"
+#import "czzThread.h"
 
-@interface czzMiniThreadViewController : UIViewController
+@interface czzMiniThreadViewController : czzModalViewController
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *threadTableViewHeight;
 @property (weak, nonatomic) IBOutlet UITableView *threadTableView;
-@property (nonatomic) NSInteger threadID;
-@property (weak, nonatomic) IBOutlet UINavigationItem *miniThreadNaBarItem;
-@property (weak, nonatomic) IBOutlet UINavigationBar *miniThreadNavBar;
-@property (weak, nonatomic) IBOutlet UIView *barBackgroundView;
-@property id<czzMiniThreadViewControllerProtocol> delegate;
-- (IBAction)cancelButtonAction:(id)sender;
-- (IBAction)openThreadAction:(id)sender;
+@property (nonatomic) czzThread *myThread;
+
 @end

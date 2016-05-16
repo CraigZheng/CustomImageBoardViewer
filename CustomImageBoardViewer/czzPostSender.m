@@ -8,6 +8,7 @@
 
 #import "czzPostSender.h"
 #import "czzPost.h"
+#import "czzSettingsCentre.h"
 #import "SMXMLDocument.h"
 #import "Toast+UIView.h"
 
@@ -17,13 +18,14 @@
 @property NSMutableURLRequest *urlRequest;
 @property NSMutableData *requestBody;
 @property NSMutableData *receivedResponse;
+
 @end
 
 @implementation czzPostSender
 @synthesize name, email, title, content, imgData;
 @synthesize myPost;
 @synthesize urlConn;
-@synthesize targetURL, forum, forumID, parentID;
+@synthesize targetURL, forum, forumID, parentThread;
 @synthesize urlRequest, requestBody;
 @synthesize receivedResponse;
 
@@ -37,15 +39,27 @@
 }
 
 -(void)sendPost{
+    switch (self.postMode) {
+        case postSenderModeNew:
+            targetURL = [NSURL URLWithString:[[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:kForum withString:[forum.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+            break;
+        case postSenderModeReply:
+            targetURL = [NSURL URLWithString:[[settingCentre reply_post_url] stringByReplacingOccurrencesOfString:kParentID withString:[NSString stringWithFormat:@"%ld", (long)parentThread.ID]]];
+            break;
+        default:
+            [NSException raise:@"ACTION NOT SUPPORTED" format:@"%s", __func__];
+            break;
+    }
     urlRequest = [self createMutableURLRequestWithURL:targetURL];
     if (myPost.isReady && urlRequest){
         [requestBody appendData:myPost.makeRequestBody];
         [urlRequest setHTTPBody:requestBody];
         urlConn = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self startImmediately:YES];
+        DDLogDebug(@"Sending post to: %@", urlRequest);
     } else {
-        if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
+        if ([self.delegate respondsToSelector:@selector(postSender:completedPosting:message:)])
         {
-            [self.delegate statusReceived:NO message:@"请检查内容"];
+            [self.delegate postSender:self completedPosting:NO message:@"请检查内容"];
         }
         
     }
@@ -54,24 +68,27 @@
 #pragma NSURLConnection delegate
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     //inform the delegate
-    if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
+    if ([self.delegate respondsToSelector:@selector(postSender:completedPosting:message:)])
     {
-        [self.delegate statusReceived:NO message:[NSString stringWithFormat:@"网络错误"]];
-        DLog(@"%@", error);
+        [self.delegate postSender:self completedPosting:NO message:[NSString stringWithFormat:@"网络错误"]];
+        DDLogDebug(@"%@", error);
     }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
-    if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
+    receivedResponse = [NSMutableData new];
+    if ([self.delegate respondsToSelector:@selector(postSender:completedPosting:message:)])
     {
         if ([(NSHTTPURLResponse*)response statusCode] == 200) {
-            [self.delegate statusReceived:YES message:@"成功"];
+            [self.delegate postSender:self
+                     completedPosting:YES
+                              message:@"成功"];
         } else {
-            [self.delegate statusReceived:NO message:@"失败"];
+            [self.delegate postSender:self
+                     completedPosting:NO
+                              message:[NSString stringWithFormat:@"Failed! Status code: %ld", (long)[(NSHTTPURLResponse*)response statusCode]]];
         }
     }
-
-    receivedResponse = [NSMutableData new];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
@@ -79,18 +96,19 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection{
-    [self response:receivedResponse];
+    DDLogDebug(@"received response: \n%@", [[NSString alloc] initWithData:self.receivedResponse encoding:NSUTF8StringEncoding]);
+//    [self response:receivedResponse];
 }
 
 -(void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(postSenderProgressUpdated:)]) {
-        [self.delegate postSenderProgressUpdated:(CGFloat)totalBytesWritten / (CGFloat)totalBytesExpectedToWrite];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(postSender:progressUpdated:)]) {
+        [self.delegate postSender:self progressUpdated:(CGFloat)totalBytesWritten / (CGFloat)totalBytesExpectedToWrite];
     }
 }
 
 #pragma mark - Decode the self.response xml data - at Aug 2014, they've changed to return value to json format
 -(void)response:(NSData*)jsonData{
-    DLog(@"%@", [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]);
+    DDLogDebug(@"%@", [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]);
 //    NSError *error;
 //    NSDictionary *jsonResponse;
 //    if (jsonData)
@@ -117,20 +135,13 @@
 }
 
 #pragma mark - Setters, also sets the urlRequest and the first parameter(either parentID or forumName)
--(void)setTargetURL:(NSURL *)t{
-    targetURL = t;
-}
 
 #pragma mark - Setters, while setting the members of this class, also set the member of myPost object
-
-//-(void)setForumName:(NSString *)f{
-//    forumName = f;
-//    myPost.forumName = [self encodeNSString:forumName];
-//}
 
 -(void)setForum:(czzForum *)f {
     forum = f;
     myPost.forum = forum;
+    [self setForumID:[NSString stringWithFormat:@"%ld", (long)forum.forumID]];
 }
 
 -(void)setForumID:(NSString *)fid {
@@ -138,9 +149,9 @@
     myPost.forumID = [self encodeNSString:forumID];
 }
 
--(void)setParentID:(NSInteger)p{
-    parentID = p;
-    myPost.parentID = parentID;
+-(void)setParentThread:(czzThread *)thread{
+    parentThread = thread;
+    myPost.parentID = parentThread.ID;
 }
 
 -(void)setName:(NSString *)n{
@@ -163,9 +174,10 @@
     myPost.content = [self encodeNSString:content];
 }
 
--(void)setImgData:(NSData *)i{
+-(void)setImgData:(NSData *)i format:(NSString *)format{
     imgData = i;
     myPost.imgData = imgData;
+    myPost.imageFormat = format;
 }
 
 -(NSMutableURLRequest*)createMutableURLRequestWithURL:(NSURL*)url{

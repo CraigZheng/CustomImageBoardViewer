@@ -27,12 +27,6 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
-}
-
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
 }
@@ -46,11 +40,11 @@
     }
      */
     storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:Nil];
-    czzNavigationController *centreViewController = [storyboard instantiateViewControllerWithIdentifier:@"home_navigation_controller"];
+    czzNavigationController *centreViewController = [czzNavigationController new];
     
-    self = [super initWithCenterViewController:centreViewController leftViewController:nil];
-//    self.topController = [storyboard instantiateViewControllerWithIdentifier:@"more_info_view_controller"];
-
+    self = [super initWithCenterViewController:centreViewController];
+    // The root view controller of the left navigation controller will be the delegate for self.viewDeckController.
+    self.delegate = [(UINavigationController *)self.leftController viewControllers][0];
     return self;
 }
 

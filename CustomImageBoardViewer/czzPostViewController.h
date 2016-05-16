@@ -11,31 +11,27 @@
 #import "czzBlacklistEntity.h"
 #import "czzForum.h"
 
-//post mode
-#define NEW_POST 1
-#define REPLY_POST 2
-#define REPORT_POST 3
-
 #define PARENT_ID @"PARENT_ID"
 #define FORUM_NAME @"FORUM_NAME"
 
-@interface czzPostViewController : UIViewController <UITextViewDelegate>
-@property czzThread *thread;
-@property czzThread *replyTo;
-@property czzForum *forum;
-@property (nonatomic) NSInteger postMode;
-@property (nonatomic) czzBlacklistEntity *blacklistEntity;
-@property NSString *forumName;
-@property (strong, nonatomic) IBOutlet UITextView *postTextView;
-@property (strong, nonatomic) IBOutlet UINavigationBar *postNaviBar;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *postButton;
-@property (weak, nonatomic) IBOutlet UIProgressView *sendingProgressVIew;
-@property (weak, nonatomic) IBOutlet UIView *fillerBannerView;
-@property (weak, nonatomic) IBOutlet UIView *postBackgroundView;
+typedef NS_ENUM(NSInteger, postViewControllerMode) {
+    postViewControllerModeUnknown = 0,
+    postViewControllerModeNew,
+    postViewControllerModeReply,
+    postViewControllerModeReport,
+    postViewControllerModeDisplayOnly // Readonly mode, does not allow interaction.
+};
 
-- (IBAction)postAction:(id)sender;
-- (IBAction)cancelAction:(id)sender;
-- (IBAction)pickImageAction:(id)sender;
-- (IBAction)clearAction:(id)sender;
+@class czzPostSender;
+@interface czzPostViewController : UIViewController <UITextViewDelegate>
+@property czzThread *parentThread;
+@property czzThread *replyToThread;
+@property czzForum *forum;
+@property (nonatomic, strong) czzBlacklistEntity *blacklistEntity;
+@property (nonatomic, assign) postViewControllerMode postMode;
+@property (nonatomic, strong) NSString *prefilledString;
+@property (nonatomic, strong) czzPostSender *displayPostSender;
+@property (nonatomic, strong) czzPostSender *postSender;
+@property (strong, nonatomic) IBOutlet UITextView *postTextView;
 
 @end

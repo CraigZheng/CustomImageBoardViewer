@@ -8,7 +8,9 @@
 
 #import "czzJSONProcessor.h"
 #import "czzThread.h"
+#import "czzSettingsCentre.h"
 #import "czzAppDelegate.h"
+#import "NSDictionary+Util.h"
 
 @interface czzJSONProcessor()
 @property NSMutableArray *processedThreads;
@@ -34,16 +36,16 @@
  "replys":
  */
 
--(void)processThreadListFromData:(NSData *)jsonData {
+-(void)processThreadListFromData:(NSData *)jsonData forForum:(czzForum*)forum{
     processedThreads = [NSMutableArray new];
     NSError *error;
-    NSDictionary *parsedObjects;
+    NSArray *parsedObjects;
     if (jsonData)
         parsedObjects = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
     else
         error = [NSError errorWithDomain:@"Empty Data!" code:999 userInfo:nil];
     if (error) {
-        DLog(@"%@", error);
+        DDLogDebug(@"%@", error);
         if (delegate) {
             if ([delegate respondsToSelector:@selector(threadListProcessed:::)]) {
                 [delegate threadListProcessed:self :nil :NO];
@@ -53,14 +55,17 @@
         }
     }
     @try {
+        //        if (forum.parserType == FORUM_PARSER_AISLE) {
 //        //page number data
-//        [self updatePageNumberWithJsonDict:[parsedObjects objectForKey:@"page"]];
+//        if ([parsedObjects objectForKey:@"page"]) {
+//            [self updatePageNumberWithJsonDict:[parsedObjects objectForKey:@"page"]];
+//        }
         //thread list data
-//        NSArray* parsedThreadData = [[parsedObjects objectForKey:@"data"] objectForKey:@"threads"];
         for (NSDictionary *rawThreadData in parsedObjects) {
-            czzThread *newThread = [[czzThread alloc] initWithJSONDictionaryV2:rawThreadData];
-            if (newThread)
+            czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
+            if (newThread) {
                 [processedThreads addObject:newThread];
+            }
         }
         if (delegate) {
             if ([delegate respondsToSelector:@selector(threadListProcessed:::)]) {
@@ -69,9 +74,13 @@
                 [delegate threadListProcessed:processedThreads :YES];
             }
         }
+        //        } else if (forum.parserType == FORUM_PARSER_BT_ISLE) {
+        //            //TODO: switch to V2
+        //        }
+        
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
         if (delegate) {
             if ([delegate respondsToSelector:@selector(threadListProcessed:::)]) {
                 [delegate threadListProcessed:self :nil :NO];
@@ -82,7 +91,7 @@
     }
 }
 
--(void)processSubThreadFromData:(NSData *)jsonData {
+-(void)processSubThreadFromData:(NSData *)jsonData forForum:(czzForum *)forum{
     processedThreads = [NSMutableArray new];
     NSError *error;
     NSDictionary *parsedObjects;
@@ -91,22 +100,25 @@
     else
         error = [NSError errorWithDomain:@"Empty Data!" code:999 userInfo:nil];
     if (error) {
-        DLog(@"%@", error);
+        DDLogDebug(@"%@", error);
         if ([delegate respondsToSelector:@selector(subThreadProcessedForThread:::)]) {
             [delegate subThreadProcessedForThread:nil :nil :NO];
+        } else {
+            [delegate subThreadProcessedForThread:self :nil :nil :NO];
         }
     }
     @try {
+        //        if (forum.parserType == FORUM_PARSER_AISLE) {
         //thread and sub thread data
-        czzThread *parentThread = [[czzThread alloc] initWithJSONDictionaryV2:parsedObjects];
-        NSArray* parsedThreadData = [self readFromJsonDictionary:parsedObjects withName:@"replys"];
+        czzThread *parentThread = [[czzThread alloc] initWithJSONDictionary:parsedObjects];
+        NSArray* parsedThreadData = [parsedObjects jsonValueWithKey:@"replys"];
         for (NSDictionary *rawThreadData in parsedThreadData) {
-            czzThread *newThread = [[czzThread alloc] initWithJSONDictionaryV2:rawThreadData];
-            [processedThreads addObject:newThread];
+            czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
+            if (newThread) {
+                [processedThreads addObject:newThread];
+            }
         }
-//        //page number data
-//        [self updatePageNumberWithJsonDict:[self readFromJsonDictionary:parsedObjects withName:@"page"]];
-
+        
         if (delegate) {
             if ([delegate respondsToSelector:@selector(subThreadProcessedForThread::::)]) {
                 [delegate subThreadProcessedForThread:self :parentThread :processedThreads :YES];
@@ -114,9 +126,12 @@
                 [delegate subThreadProcessedForThread:parentThread :processedThreads :YES];
             }
         }
+        //        } else if (forum.parserType == FORUM_PARSER_BT_ISLE) {
+        //            //TODO: add parser for A dao parser type
+        //        }
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
         if (delegate) {
             if ([delegate respondsToSelector:@selector(subThreadProcessedForThread::::)]) {
                 [delegate subThreadProcessedForThread:self :nil :nil :NO];
@@ -127,26 +142,13 @@
     }
 }
 
--(void)updatePageNumberWithJsonDict:(NSDictionary*)jsonDict {
-    //if jsonDict or delegate is empty
-    if (!jsonDict || !delegate)
-        return;
-    //check if dictionary has the following 2 keys
-    if ([jsonDict valueForKey:@"page"] && [jsonDict valueForKey:@"size"])
-    {
-        NSInteger pageNumber = [[self readFromJsonDictionary:jsonDict withName:@"page"] integerValue];
-        NSInteger totalPages = [[self readFromJsonDictionary:jsonDict withName:@"size"] integerValue];
-        if ([delegate respondsToSelector:@selector(pageNumberUpdated:inAllPage:)])
-            [delegate pageNumberUpdated:pageNumber inAllPage:totalPages];
-    }
-}
 /*
  page =     {
  page = 1;
  size = 5;
  title = "No.5366351";
  };
-
+ 
  */
 
 @end

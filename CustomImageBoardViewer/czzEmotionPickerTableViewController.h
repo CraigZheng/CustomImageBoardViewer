@@ -16,6 +16,6 @@
 @end
 
 @interface czzEmotionPickerTableViewController : UITableViewController
-@property id<czzEmotionPickerTableViewDelegate> delegate;
+@property (weak, nonatomic) id<czzEmotionPickerTableViewDelegate> delegate;
 @property FPPopoverController *popoverController;
 @end

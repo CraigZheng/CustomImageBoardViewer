@@ -8,157 +8,143 @@
 
 #import "czzHomeViewController.h"
 #import "SMXMLDocument.h"
-#import "Toast/Toast+UIView.h"
 #import "czzThread.h"
 #import "czzThreadViewController.h"
 #import "czzPostViewController.h"
 #import "czzBlacklist.h"
 #import "czzMoreInfoViewController.h"
 #import "czzAppDelegate.h"
-#import "czzOnScreenCommandViewController.h"
 #import "czzSettingsCentre.h"
-#import "czzMenuEnabledTableViewCell.h"
-#import "czzTextViewHeightCalculator.h"
 #import "czzImageViewerUtil.h"
 #import "czzNavigationController.h"
 #import "czzNotificationCentreTableViewController.h"
 #import "czzOnScreenImageManagerViewController.h"
 #import "UIBarButtonItem+Badge.h"
-#import "GSIndeterminateProgressView.h"
-#import "czzThreadList.h"
+#import "czzHomeViewManager.h"
+#import "czzForumManager.h"
+#import "czzHomeTableViewManager.h"
+#import "czzThreadViewManager.h"
+#import "czzForumsViewController.h"
+#import "czzThreadTableView.h"
+#import "czzSettingsViewController.h"
+#import "czzRoundButton.h"
+#import "czzFavouriteManagerViewController.h"
+#import "czzHomeTableViewManager.h"
+#import "czzReplyUtil.h"
+#import "czzPostSenderManagerViewController.h"
+#import "czzMiniThreadViewController.h"
+#import "czzBannerNotificationUtil.h"
+#import "czzAutoEndingRefreshControl.h"
 
 #import <CoreText/CoreText.h>
 
 
-@interface czzHomeViewController() <UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzThreadListProtocol, czzOnScreenImageManagerViewControllerDelegate, UIStateRestoring>
-@property NSArray *threads;
-@property NSArray *verticalHeights;
-@property NSArray *horizontalHeights;
-@property NSInteger currentPage;
-@property NSIndexPath *selectedIndex;
-@property czzThread *selectedThread;
-@property czzThreadViewController *threadViewController;
-@property UIViewController *leftController;
-@property czzOnScreenCommandViewController *onScreenCommandViewController;
-@property BOOL shouldDisplayQuickScrollCommand;
-@property NSString *thumbnailFolder;
-@property czzSettingsCentre *settingsCentre;
-@property BOOL shouldHideImageForThisForum;
-@property BOOL viewControllerNotInTransition;
-@property czzImageViewerUtil *imageViewerUtil;
-@property UIRefreshControl* refreshControl;
-@property UIBarButtonItem *numberBarButton;
-@property GSIndeterminateProgressView *progressView;
-@property czzThreadList* threadList;
+@interface czzHomeViewController() <UIAlertViewDelegate, UIStateRestoring>
+@property (strong, nonatomic) NSString *thumbnailFolder;
+@property (assign, nonatomic) BOOL shouldHideImageForThisForum;
+@property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
+@property (strong, nonatomic) czzAutoEndingRefreshControl* refreshControl;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *numberBarButton;
+@property (weak, nonatomic) IBOutlet UIView *postManagerViewContainer;
+@property (strong, nonatomic) czzForum *selectedForum;
+@property (strong, nonatomic) czzFavouriteManagerViewController *favouriteManagerViewController;
+@property (strong, nonatomic) czzHomeTableViewManager *homeTableViewManager;
+@property (strong, nonatomic) czzOnScreenImageManagerViewController *onScreenImageManagerViewController;
+@property (strong, nonatomic) czzMiniThreadViewController *miniThreadView;
+@property (strong, nonatomic) UIAlertView *confirmJumpToPageAlertView;
 @end
 
 @implementation czzHomeViewController
-@synthesize currentPage;
-@synthesize threads;
-@synthesize verticalHeights;
-@synthesize horizontalHeights;
-@synthesize threadTableView;
-@synthesize selectedIndex;
-@synthesize selectedThread;
-@synthesize leftController;
-@synthesize onScreenCommandViewController;
-@synthesize threadViewController;
-@synthesize shouldDisplayQuickScrollCommand;
-@synthesize thumbnailFolder;
-@synthesize settingsCentre;
-@synthesize shouldHideImageForThisForum;
-@synthesize viewControllerNotInTransition;
-@synthesize imageViewerUtil;
-@synthesize menuBarButton;
-@synthesize infoBarButton;
-@synthesize onScreenImageManagerViewContainer;
-@synthesize numberBarButton;
-@synthesize forumListButton;
-@synthesize refreshControl;
-@synthesize threadList;
-@synthesize settingsBarButton;
-@synthesize progressView;
 
+#pragma mark - life cycle
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //thread list, source of all data
-    threadList = [czzThreadList new];
-    [threadList restorePreviousState];
-    //assign delegate and parentViewController
-    threadList.delegate = self;
-    threadList.parentViewController = self;
-
-    [self copyDataFromThreadList]; //grab any possible data
     
-    //progress bar
-    progressView = [(czzNavigationController*) self.navigationController progressView];
+    //assign a custom tableview data source
+    self.threadTableView.dataSource = self.homeTableViewManager;
+    self.threadTableView.delegate = self.homeTableViewManager;
     
-    //right bar button items
-    infoBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"info.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(moreInfoAction:)];
-    self.navigationItem.leftBarButtonItems = @[forumListButton, infoBarButton];
+    // Load data into tableview
+    [self updateTableView];
+    if (!CGPointEqualToPoint(CGPointZero, self.homeViewManager.currentOffSet)) {
+        [self.threadTableView setContentOffset:self.homeViewManager.currentOffSet animated:NO];
+    }
+    // Set the currentOffSet back to zero
+    self.homeViewManager.currentOffSet = CGPointZero;
 
-    imageViewerUtil = [czzImageViewerUtil new];
-    [czzAppDelegate sharedAppDelegate].homeViewController = self; //retain a reference to app delegate, so when entering background, the delegate can inform this controller for further actions
-    settingsCentre = [czzSettingsCentre sharedInstance];
-
-    //thumbnail folder
-    thumbnailFolder = [czzAppDelegate thumbnailFolder];
-    
-    //register xib
-    [threadTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
-    [threadTableView registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER];
-    //configure the view deck controller with half size and tap to close mode
+    // Configure the view deck controller with half size and tap to close mode
     self.viewDeckController.leftSize = self.view.frame.size.width/4;
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
     self.viewDeckController.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
-    leftController = [self.storyboard instantiateViewControllerWithIdentifier:@"left_side_view_controller"];
 
-    //register a notification observer
+    // On screen image manager view controller
+    if (!self.onScreenImageManagerViewController) {
+        self.onScreenImageManagerViewController = [czzOnScreenImageManagerViewController new];
+        [self addChildViewController:self.onScreenImageManagerViewController];
+        [self.onScreenImageManagerViewContainer addSubview:self.onScreenImageManagerViewController.view];
+    }
+    // Post sender manager view controller.
+    czzPostSenderManagerViewController *postSenderManagerViewController = [czzPostSenderManagerViewController new];
+    [self addChildViewController:postSenderManagerViewController];
+    [self.postManagerViewContainer addSubview:postSenderManagerViewController.view];
+    // Register a notification observer
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(forumPicked:)
                                                  name:kForumPickedNotification
                                                object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(openPickedThread:)
-                                                 name:@"ShouldOpenThreadInThreadViewController"
-                                               object:nil];
     
-    //register a refresh control
-    refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
-    [threadTableView addSubview: refreshControl];
+    [self.threadTableView addSubview:self.refreshControl];
+    // Info bar button, must use custom view to allow badget value to be set.
+    UIButton *customButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [customButton setImage:[[UIImage imageNamed:@"info.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
+                  forState:UIControlStateNormal];
+    [customButton setTitleColor:[UIColor whiteColor]
+                       forState:UIControlStateHighlighted];
+    customButton.frame = CGRectMake(0, 0, 44, 44);
+    [customButton addTarget:self
+                     action:@selector(moreInfoAction:)
+           forControlEvents:UIControlEventTouchUpInside];
+    self.infoBarButton.customView = customButton;
     
-    //restore previous session
-    [self restorePreviousSession];
+    // Always reload
+    [self updateTableView];
+}
+
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    // Google Analytic integration
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+    
+    self.threadTableView.backgroundColor = settingCentre.viewBackgroundColour;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    if (!onScreenCommandViewController) {
-        //onscreen command
-        onScreenCommandViewController = [[UIStoryboard storyboardWithName:@"OnScreenCommand" bundle:nil] instantiateInitialViewController];
-        [self addChildViewController:onScreenCommandViewController];
+    self.viewDeckController.panningMode = IIViewDeckFullViewPanning;
+    // Add badget number to infoBarButton if necessary.
+    if ([[(czzNavigationController*)self.navigationController notificationBannerViewController] shouldShow]) {
+        self.infoBarButton.badgeValue = @"1";
+    } else {
+        self.infoBarButton.badgeValue = nil;
     }
-    
-    viewControllerNotInTransition = YES;
-    shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
-    if (shouldDisplayQuickScrollCommand)
-        [onScreenCommandViewController show];
-    
-    NSTimeInterval delayTime = 8.0;
+
+    // Select a random forum after a certain period of inactivity.
+    NSTimeInterval delayTime = 4.0;
 #ifdef DEBUG
     delayTime = 9999;
 #endif
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        if (threadList.forum.name.length <= 0) {
-            if ([czzAppDelegate sharedAppDelegate].forums.count > 0)
+        if (!self.homeViewManager.forum) {
+            if ([czzForumManager sharedManager].forums.count > 0)
             {
-                [[czzAppDelegate sharedAppDelegate].window makeToast:@"用户没有选择板块，随机选择……"];
+                [czzBannerNotificationUtil displayMessage:@"用户没有选择板块，随机选择……" position:BannerNotificationPositionTop];
                 @try {
-                    int randomIndex = rand() % [czzAppDelegate sharedAppDelegate].forums.count;
-//                    [threadList setForumName:[[[czzAppDelegate sharedAppDelegate].forums objectAtIndex:randomIndex] name]];
-                    [threadList setForum:[[czzAppDelegate sharedAppDelegate].forums objectAtIndex:randomIndex]];
+                    int randomIndex = rand() % [czzForumManager sharedManager].forums.count;
+                    [self.homeViewManager setForum:[[czzForumManager sharedManager].forums objectAtIndex:randomIndex]];
                     [self refreshThread:self];
                 }
                 @catch (NSException *exception) {
@@ -167,99 +153,42 @@
             }
         }
     });
-    //check if should show a badget on settings button
-    UIButton *settingsGearImageButton;
-    if (!settingsBarButton.customView) {
-        //create a container view that has an image button as its sub view
-        settingsGearImageButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 48, 37)];
-        settingsGearImageButton.imageEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10);
-        [settingsGearImageButton setImage:[[UIImage imageNamed:@"settings.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-        settingsGearImageButton.tag = 999;
-        //add the container view
-        settingsBarButton.customView = settingsGearImageButton;
-    } else {
-        //retrive the gear image button
-        settingsGearImageButton = (UIButton*) [settingsBarButton.customView viewWithTag:999];
-    }
-    if ([[(czzNavigationController*)self.navigationController notificationBannerViewController] shouldShow]) {
-        settingsBarButton.badgeValue = @"1";
-        [settingsGearImageButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
-        [settingsGearImageButton addTarget:self action:@selector(openNotificationCentre) forControlEvents:UIControlEventTouchUpInside];
-    } else {
-        settingsBarButton.badgeValue = nil;
-        [settingsGearImageButton removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
-        [settingsGearImageButton addTarget:self action:@selector(openSettingsPanel) forControlEvents:UIControlEventTouchUpInside];
-    }
-    
 }
 
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    viewControllerNotInTransition = NO;
-    [refreshControl endRefreshing];
+-(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    self.viewDeckController.panningMode = IIViewDeckNoPanning;
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    self.viewDeckController.rightController = nil;
-    self.viewDeckController.leftController = leftController;
-    self.viewDeckController.panningMode = IIViewDeckFullViewPanning;
-
-    //on screen image manager view
-    czzOnScreenImageManagerViewController *onScreenImgMrg = [(czzNavigationController*)self.navigationController onScreenImageManagerView];
-    onScreenImgMrg.view.frame = onScreenImageManagerViewContainer.bounds;
-    onScreenImgMrg.delegate = self;
-    [self addChildViewController:onScreenImgMrg];
-    [onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
-    
-    self.threadTableView.backgroundColor = settingsCentre.viewBackgroundColour;
-    threadList.displayedThread = nil;
-    
-    //if big image mode, perform a reload
-    if ([settingCentre userDefShouldUseBigImage])
-    {
-        [threadTableView reloadData];
+/*
+ This method would update the contents related to the table view
+ */
+-(void)updateTableView {
+    // Update bar buttons.
+    if (!self.numberBarButton.customView) {
+        self.numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
     }
+    // Give the amount number a title.
+    [(czzRoundButton *)self.numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.homeViewManager.threads.count] forState:UIControlStateNormal];
+    // Other data
+    self.title = self.homeViewManager.forum.name;
+    self.navigationItem.backBarButtonItem.title = self.title;
+    [self.homeTableViewManager reloadData];
 }
 
--(void)restorePreviousSession {
-    if (threadList.displayedThread)
-    {
-        DLog(@"%@", NSStringFromSelector(_cmd));
-        threadViewController = [self.storyboard instantiateViewControllerWithIdentifier:THREAD_VIEW_CONTROLLER];
-        threadViewController.shouldRestoreContentOffset = YES;
-        threadViewController.parentThread = threadList.displayedThread;
-        NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
-        [viewControllers addObject:threadViewController];
-        [self.navigationController setViewControllers:viewControllers animated:YES];
-    }
+#pragma mark - State perserving
+- (NSString*)saveCurrentState {
+    self.homeViewManager.currentOffSet = self.threadTableView.contentOffset;
+    return [self.homeViewManager saveCurrentState];
 }
 
--(void)copyDataFromThreadList {
-    //scroll to previous content offset if current off set is empty
-    if (CGPointEqualToPoint(threadTableView.contentOffset, CGPointZero))
-    {
-        [threadTableView setContentOffset:threadList.currentOffSet animated:NO];
-    }
-//    [self setForumName:threadList.forumName];
-    [self setSelectedForum:threadList.forum];
-    threads = [NSArray arrayWithArray:threadList.threads];
-    horizontalHeights = [NSArray arrayWithArray:threadList.horizontalHeights];
-    verticalHeights = [NSArray arrayWithArray:threadList.verticalHeights];
-    [self updateNumberButton];
-}
-
+#pragma mark - ButtonActions
 - (IBAction)sideButtonAction:(id)sender {
     [self.viewDeckController toggleLeftViewAnimated:YES];
 }
 
-- (IBAction)moreAction:(id)sender {
-    [self.navigationController setToolbarHidden:!self.navigationController.toolbarHidden animated:YES];
-    return;
-}
-
 - (IBAction)postAction:(id)sender {
-    [self newPost];
+    [czzReplyUtil postToForum:self.homeViewManager.forum];
 }
 
 - (IBAction)jumpAction:(id)sender {
@@ -271,7 +200,8 @@
         textInputField.keyboardType = UIKeyboardTypeNumberPad;
         textInputField.keyboardAppearance = UIKeyboardAppearanceDark;
     }
-    [alertView show];
+    self.confirmJumpToPageAlertView = alertView;
+    [self.confirmJumpToPageAlertView show];
 }
 
 - (IBAction)searchAction:(id)sender {
@@ -279,7 +209,8 @@
 }
 
 - (IBAction)bookmarkAction:(id)sender {
-    [self performSegueWithIdentifier:@"go_favourite_manager_view_controller_segue" sender:self];
+    // Present favourite manager modally.
+    [self.navigationController pushViewController:[czzFavouriteManagerViewController new] animated:YES];
 }
 
 - (IBAction)settingsAction:(id)sender {
@@ -287,51 +218,32 @@
 }
 
 #pragma mark - UIAlertViewDelegate
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
-    if ([buttonTitle isEqualToString:@"确定"]){
-        NSInteger newPageNumber = [[[alertView textFieldAtIndex:0] text] integerValue];
-        if (newPageNumber > 0){
-
-            //clear threads and ready to accept new threads
-            [threadList removeAll];
-            [threadTableView reloadData];
-            [refreshControl beginRefreshing];
-            [threadList removeAll];
-            [threadList loadMoreThreads:newPageNumber];
-
-            [[[czzAppDelegate sharedAppDelegate] window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)threadList.pageNumber]];
-        } else {
-            [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"页码无效..."];
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        if (alertView == self.confirmJumpToPageAlertView) {
+            NSInteger newPageNumber = [[[alertView textFieldAtIndex:0] text] integerValue];
+            if (newPageNumber > 0){
+                
+                //clear threads and ready to accept new threads
+                [self.homeViewManager removeAll];
+                [self updateTableView];
+                [self.homeViewManager loadMoreThreads:newPageNumber];
+                
+                [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)self.homeViewManager.pageNumber]
+                                                 position:BannerNotificationPositionTop];
+            } else {
+                [czzBannerNotificationUtil displayMessage:@"页码无效..."
+                                                 position:BannerNotificationPositionTop];
+            }
         }
     }
 }
 
-#pragma mark - scrollToTop and scrollToBottom
--(void)scrollTableViewToTop {
-    [self scrollTableViewToTop:YES];
-}
+#pragma mark - UI actions and commands.
 
--(void)scrollTableViewToTop:(BOOL)animated {
-    [threadTableView setContentOffset:CGPointMake(0.0f, -threadTableView.contentInset.top) animated:animated];
-}
-
-
--(void)scrollTableViewToBottom {
-    @try {
-        if (threads.count > 1)
-            [threadTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:threads.count inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-    }
-    @catch (NSException *exception) {
-        
-    }
-}
-
-#pragma mark - more action and commands
 -(void)openSettingsPanel{
-    UIViewController *settingsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"settings_view_controller"];
+    czzSettingsViewController *settingsViewController = [czzSettingsViewController new];
     [self.navigationController pushViewController:settingsViewController animated:YES];
-    //[self.viewDeckController toggleTopViewAnimated:YES];
 }
 
 -(void)openNotificationCentre {
@@ -339,158 +251,84 @@
     [self.navigationController pushViewController:notificationCentreViewController animated:YES];
 }
 
--(void)newPost{
-    if (threadList.forum){
-        czzPostViewController *newPostViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"post_view_controller"];
-        newPostViewController.forum = threadList.forum;
-        newPostViewController.postMode = NEW_POST;
-        [self.navigationController presentViewController:newPostViewController animated:YES completion:nil];
-    } else {
-        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"未选定一个版块" duration:1.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
-    }
-}
-
 -(IBAction)moreInfoAction:(id)sender {
-//    if (threadList.forum) {
-//        czzMoreInfoViewController *moreInfoViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"more_info_view_controller"];
-//        moreInfoViewController.forumName = threadList.forumName;
-//        [self presentViewController:moreInfoViewController animated:YES completion:nil];
-//    }
+    if ([[(czzNavigationController*)self.navigationController notificationBannerViewController] shouldShow]) {
+        [self openNotificationCentre];
+    } else {
+        czzMoreInfoViewController *moreInfoViewController = [czzMoreInfoViewController new];
+        moreInfoViewController.forum = self.homeViewManager.forum;
+        [self presentViewController:[[UINavigationController alloc] initWithRootViewController:moreInfoViewController] animated:YES completion:nil];
+    }
 }
 
-#pragma mark - UITableView datasource
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (threads.count > 0)
-        return threads.count + 1;
-    return threads.count;
+#pragma mark - Getters
+-(czzHomeViewManager *)homeViewManager {
+    [czzHomeViewManager sharedManager].delegate = self;
+    return [czzHomeViewManager sharedManager];
 }
 
-#pragma mark - UITableView delegate
+-(czzAutoEndingRefreshControl *)refreshControl {
+    if (!_refreshControl) {
+        _refreshControl = [[czzAutoEndingRefreshControl alloc] init];
+        [_refreshControl addTarget:self
+                            action:@selector(dragOnRefreshControlAction:)
+                  forControlEvents:UIControlEventValueChanged];
+    }
+    return _refreshControl;
+}
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == threads.count){
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
-        if (threadList.isDownloading || threadList.isProcessing) {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"loading_cell_identifier"];
-            UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
-            [activityIndicator startAnimating];
+-(czzHomeTableViewManager *)homeTableViewManager {
+    if (!_homeTableViewManager) {
+        _homeTableViewManager = [czzHomeTableViewManager new];
+        _homeTableViewManager.homeViewManager = self.homeViewManager;
+        _homeTableViewManager.homeTableView = self.threadTableView;
+    }
+    return _homeTableViewManager;
+}
+
+#pragma mark - czzHomeViewManagerDelegate
+
+- (void)homeViewManager:(czzHomeViewManager *)homeViewManager wantsToShowContentForThread:(czzThread *)thread {
+    self.miniThreadView = [czzMiniThreadViewController new];
+    self.miniThreadView.myThread = thread;
+    [self.miniThreadView modalShow];
+}
+
+- (void)homeViewManagerWantsToReload:(czzHomeViewManager *)manager {
+    if (manager.threads.count) {
+        [self updateTableView];
+    }
+}
+
+-(void)homeViewManager:(czzHomeViewManager *)homeViewManager downloadSuccessful:(BOOL)wasSuccessful {
+    DDLogDebug(@"%@", NSStringFromSelector(_cmd));
+    self.threadTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
+    if (!wasSuccessful) {
+        [self showWarning];
+    }
+}
+
+-(void)viewManagerDownloadStateChanged:(czzHomeViewManager *)homeViewManager {
+    if (homeViewManager.isDownloading) {
+        [self startLoading];
+    } else {
+        [self stopLoading];
+    }
+}
+
+-(void)homeViewManager:(czzHomeViewManager *)list threadListProcessed:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
+    DDLogDebug(@"%@", NSStringFromSelector(_cmd));
+    // If pageNumber == 1, then is a forum change, scroll to top.
+    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+        if (wasSuccessul && self.homeViewManager.pageNumber == 1) {
+            [self.threadTableView scrollToTop:NO];
         }
-        cell.backgroundColor = [settingsCentre viewBackgroundColour];
-        return cell;
-    }
-
-    NSString *cell_identifier = [settingsCentre userDefShouldUseBigImage] ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
-    czzThread *thread = [threads objectAtIndex:indexPath.row];
-    czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
-    if (cell){
-        cell.delegate = self;
-        cell.shouldHighlight = NO;
-        cell.shouldAllowClickOnImage = !settingsCentre.userDefShouldUseBigImage;
-        cell.parentThread = thread;
-        cell.myIndexPath = indexPath;
-        cell.myThread = thread;
-    }
-    return cell;
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    selectedIndex = indexPath;
-    @try {
-        if (indexPath.row < threads.count) {
-            selectedThread = [threads objectAtIndex:selectedIndex.row];
-            if (!settingsCentre.shouldAllowOpenBlockedThread) {
-                czzBlacklistEntity *blacklistEntity = [[czzBlacklist sharedInstance] blacklistEntityForThreadID:selectedThread.ID];
-                if (blacklistEntity){
-                    DLog(@"blacklisted thread");
-                    return;
-                }
-            }
+        [self updateTableView];
+        // Show warning.
+        if (!wasSuccessul) {
+            [self showWarning];
         }
-    }
-    @catch (NSException *exception) {
-        
-    }
-    if (selectedIndex.row < threads.count)
-        [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
-    else {
-        [threadList loadMoreThreads];
-        [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    }
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if (indexPath.row >= threads.count)
-        return tableView.rowHeight;
-    
-    NSArray *heightArray = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? verticalHeights : horizontalHeights;
-    CGFloat preferHeight = tableView.rowHeight;
-    @try {
-        preferHeight = [[heightArray objectAtIndex:indexPath.row] floatValue];
-    }
-    @catch (NSException *exception) {
-        DLog(@"%@", exception);
-    }
-    
-    return preferHeight;
-}
-
-#pragma mark - UIScrollVIew delegate
--(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    threadList.currentOffSet = scrollView.contentOffset;
-}
-
--(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    if (onScreenCommandViewController && threads.count > 1 && shouldDisplayQuickScrollCommand) {
-        [onScreenCommandViewController show];
-    }
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)aScrollView
-{
-    NSArray *visibleRows = [threadTableView visibleCells];
-    UITableViewCell *lastVisibleCell = [visibleRows lastObject];
-    NSIndexPath *path = [threadTableView indexPathForCell:lastVisibleCell];
-    if(path.row == threads.count && threads.count > 0)
-    {
-        CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
-        if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !(threadList.isDownloading || threadList.isProcessing)){
-            [threadList loadMoreThreads];
-            [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-        }
-    }
-}
-
-#pragma mark - czzThreadListProtocol
--(void)threadListDownloaded:(czzThreadList *)threadList wasSuccessful:(BOOL)wasSuccessful {
-    DLog(@"%@", NSStringFromSelector(_cmd));
-    if (!wasSuccessful && viewControllerNotInTransition) {
-        [refreshControl endRefreshing];
-        [progressView stopAnimating];
-        [progressView showWarning];
-    }
-}
-
--(void)threadListBeginDownloading:(czzThreadList *)threadList {
-    if (!progressView.isAnimating)
-        [progressView startAnimating];
-}
-
--(void)threadListProcessed:(czzThreadList *)list wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
-    DLog(@"%@", NSStringFromSelector(_cmd));
-    [self copyDataFromThreadList];
-    [threadTableView reloadData];
-    if (list.pageNumber == 1 && allThreads.count > 1) //just refreshed
-    {
-        [self scrollTableViewToTop:NO];
-    }
-    
-    [refreshControl endRefreshing];
-    if (viewControllerNotInTransition)
-        [progressView stopAnimating];
-    if (!wasSuccessul) {
-        [progressView showWarning];
-    }
+    }];
 }
 
 #pragma mark - self.refreshControl and download controls
@@ -498,35 +336,9 @@
     [self refreshThread:nil];
 }
 
-//create a new NSURL outta targetURLString, and reload the content threadTableView
 -(void)refreshThread:(id)sender{
-//    [threadTableView reloadData];
     //reset to default page number
-    [threadList refresh];
-}
-
--(void)updateNumberButton {
-    UIButton *numberButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    numberButton.frame = CGRectMake(numberButton.frame.origin.x, numberButton.frame.origin.y, 24, 24);
-    numberButton.layer.cornerRadius = 12;
-    numberButton.titleLabel.font = [UIFont systemFontOfSize:11];
-    [numberButton setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-    numberButton.backgroundColor = [UIColor whiteColor];
-
-    if (!numberBarButton) {
-        numberBarButton = [[UIBarButtonItem alloc] initWithCustomView:numberButton];
-    } else
-        numberBarButton.customView = numberButton;
-
-    [numberButton setTitle:[NSString stringWithFormat:@"%ld", (long) threads.count] forState:UIControlStateNormal];
-    if (threads.count <= 0) {
-        numberButton.hidden = YES;
-        self.navigationItem.rightBarButtonItems = @[menuBarButton];
-    }
-    else {
-        numberButton.hidden = NO;
-        self.navigationItem.rightBarButtonItems = @[menuBarButton, numberBarButton];
-    }
+    [self.homeViewManager refresh];
 }
 
 #pragma Notification handler - forumPicked
@@ -534,14 +346,13 @@
     NSDictionary *userInfo = notification.userInfo;
     czzForum *forum = [userInfo objectForKey:kPickedForum];
     if (forum){
-//        [self setForumName:forum.name];
-        [self setSelectedForum:forum];
+        self.selectedForum = forum;
         [self refreshThread:self];
         //disallow image downloading if specified by remote settings
-        shouldHideImageForThisForum = false;
-        for (NSString *specifiedForum in settingsCentre.shouldHideImageInForums) {
+        self.shouldHideImageForThisForum = NO;
+        for (NSString *specifiedForum in settingCentre.shouldHideImageInForums) {
             if ([specifiedForum isEqualToString:forum.name]) {
-                shouldHideImageForThisForum = true;
+                self.shouldHideImageForThisForum = YES;
                 break;
             }
         }
@@ -550,98 +361,33 @@
     }
 }
 
--(void)setSelectedForum:(czzForum*)forum {
-    threadList.forum = forum;
-    self.title = threadList.forum.name;
-    self.navigationItem.backBarButtonItem.title = self.title;
-}
-
-//-(void)setForumName:(NSString *)name{
-//    threadList.forumName = name;
-//    self.title = threadList.forumName;
-//    self.navigationItem.backBarButtonItem.title = self.title;
-//}
-
-#pragma mark - czzMenuEnableTableViewCellDelegate
--(void)userTapInImageView:(NSString *)imgURL {
-    [self openImageWithPath:imgURL];
-}
-
--(void)imageDownloadedForIndexPath:(NSIndexPath *)index filePath:(NSString *)path isThumbnail:(BOOL)isThumbnail {
-    if (isThumbnail) {
-        @try {
-            [threadTableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationAutomatic];
-        }
-        @catch (NSException *exception) {
-            DLog(@"%@", exception);
-        }
+#pragma mark - Setters
+-(void)setSelectedForum:(czzForum *)selectedForum {
+    _selectedForum = selectedForum;
+    self.homeViewManager.forum = selectedForum;
+    if (selectedForum) {
+        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Home"
+                                                                                            action:@"Pick Forum"
+                                                                                             label:selectedForum.name
+                                                                                             value:@1] build]];
     }
 }
 
-#pragma mark - czzOnScreenImageManagerViewControllerDelegate
--(void)onScreenImageManagerDownloadFinished:(czzOnScreenImageManagerViewController *)controller imagePath:(NSString *)path wasSuccessful:(BOOL)success {
-    if (success) {
-        if ([settingCentre userDefShouldAutoOpenImage])
-            [self openImageWithPath:path];
-    } else
-        DLog(@"img download failed");
-}
-
--(void)onScreenImageManagerSelectedImage:(NSString *)path {
-    [self openImageWithPath:path];
-}
-
-#pragma mark - open images
--(void)openImageWithPath:(NSString*)path{
-    DLog(@"%@", NSStringFromSelector(_cmd));
-    if (viewControllerNotInTransition) {
-        [imageViewerUtil showPhoto:path inViewController:self];
-    }
-
-}
-
-#pragma mark - notification handler - favourite thread selected
--(void)openPickedThread:(NSNotification*)notification{
-    NSDictionary *userInfo = notification.userInfo;
-    if ([userInfo objectForKey:@"PickedThread"]){
-        selectedThread = [userInfo objectForKey:@"PickedThread"];
-        [self openSelectedThread];
-    }
-}
-
--(void)openSelectedThread {
-    if (selectedThread) {
-        [self.navigationController popToRootViewControllerAnimated:NO];
-        [self performSegueWithIdentifier:@"go_thread_view_segue" sender:self];
-    }
-}
-
-#pragma Prepare for segue, here we associate an ID for the incoming thread view
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([[segue identifier] isEqualToString:@"go_thread_view_segue"]){
-        threadViewController = [segue destinationViewController];
-        [threadViewController setParentThread:selectedThread];
-        threadList.displayedThread = selectedThread;
-    }
-}
-
-#pragma mark - rotation events
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    @try {
-        NSInteger numberOfVisibleRows = [threadTableView indexPathsForVisibleRows].count / 2;
-        if (numberOfVisibleRows > 0) {
-            NSIndexPath *currentMiddleIndexPath = [[threadTableView indexPathsForVisibleRows] objectAtIndex:numberOfVisibleRows];
-            [threadTableView reloadData];
-            [threadTableView scrollToRowAtIndexPath:currentMiddleIndexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
-        }
-    }
-    @catch (NSException *exception) {
-    }
+#pragma mark - Rotation events.
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [self.homeTableViewManager viewWillTransitionToSize:size
+                              withTransitionCoordinator:coordinator];
+    [self updateTableView];
 }
 
 #pragma mark - pause / restoration
 -(void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
-    DLog(@"%@", NSStringFromSelector(_cmd));
+    DDLogDebug(@"%@", NSStringFromSelector(_cmd));
+}
+
++ (instancetype)new {
+    return [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"home_view_controller"];
 }
 @end

@@ -8,19 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import "IIViewDeckController.h"
-#import "czzForumsViewController.h"
+#import "czzHomeViewManager.h"
 
-@class czzThread;
-@interface czzHomeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
-@property (strong, nonatomic) IBOutlet UITableView *threadTableView;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *menuBarButton;
-@property UIBarButtonItem *infoBarButton;
+@class czzThread, czzThreadTableView;
+@interface czzHomeViewController : UIViewController <czzHomeViewManagerDelegate>
+@property (weak, nonatomic) IBOutlet czzThreadTableView *threadTableView;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *jumpBarButtonItem;
+
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *infoBarButton;
 @property (weak, nonatomic) IBOutlet UIView *onScreenImageManagerViewContainer;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *forumListButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsBarButton;
+@property (strong, nonatomic) czzHomeViewManager* homeViewManager;
 
 - (IBAction)sideButtonAction:(id)sender;
-- (IBAction)moreAction:(id)sender;
 
 - (IBAction)postAction:(id)sender;
 - (IBAction)jumpAction:(id)sender;
@@ -28,8 +29,5 @@
 - (IBAction)bookmarkAction:(id)sender;
 - (IBAction)settingsAction:(id)sender;
 
--(void)scrollTableViewToTop;
--(void)scrollTableViewToBottom;
-
--(IBAction)moreInfoAction:(id)sender;
+- (NSString*)saveCurrentState;
 @end

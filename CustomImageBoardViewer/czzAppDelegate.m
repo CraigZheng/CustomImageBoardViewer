@@ -11,101 +11,174 @@
 #import "czzBlacklist.h"
 #import "Toast+UIView.h"
 #import "SMXMLDocument.h"
-#import "czzForum.h"
 #import "czzSettingsCentre.h"
 #import "czzCookieManager.h"
+#import "czzWatchKitManager.h"
+#import "czzWatchListManager.h"
+#import "czzAppActivityManager.h"
+#import "czzFavouriteManagerViewController.h"
+#import "czzCacheCleaner.h"
+#import "czzHomeViewManager.h"
+#import "czzBannerNotificationUtil.h"
+#import "czzHistoryManager.h"
+#import "czzFavouriteManager.h"
+#import <Google/Analytics.h>
+#import <WatchConnectivity/WatchConnectivity.h>
+
+#import "TalkingData.h"
 
 //#import <BugSense-iOS/BugSenseController.h>
-#import <SplunkMint-iOS/SplunkMint-iOS.h>
+#import <SplunkMint/SplunkMint.h>
 
-@interface czzAppDelegate()<czzBlacklistDownloaderDelegate, NSURLConnectionDataDelegate>
+#define LOG_LEVEL_DEF ddLogLevel
+
+@interface czzAppDelegate()<czzBlacklistDownloaderDelegate, czzHomeViewManagerDelegate, WCSessionDelegate>
 @property czzSettingsCentre *settingsCentre;
 @end
 
 @implementation czzAppDelegate
 @synthesize shouldUseBackupServer;
 @synthesize myhost;
-@synthesize homeViewController;
 @synthesize settingsCentre;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [DDLog addLogger:[DDTTYLogger sharedInstance]]; // TTY = Xcode console
+    [DDLog addLogger:[DDASLLogger sharedInstance]]; // ASL = Apple System Logs
+    
+    DDFileLogger *fileLogger = [[DDFileLogger alloc] init]; // File Logger
+    fileLogger.rollingFrequency = 60 * 60 * 24; // 24 hour rolling
+    fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
+    [DDLog addLogger:fileLogger];
+    // Splunk mint configuration.
+    [[Mint sharedInstance] initAndStartSession:@"cd668a8e"];
     // Override point for customization after application launch.
 
     [[Mint sharedInstance] initAndStartSession:@"c06438ea"]; // App ID for BT isle
     [[Mint sharedInstance] setUserIdentifier:[UIDevice currentDevice].identifierForVendor.UUIDString];
+    // Talkind data initialisation
+    [TalkingData sessionStarted:@"B8168DD03CD9EF62B476CEDFBC3FB52D" withChannelId:@""];
+    // Google analytic configuration
+    // Configure tracker from GoogleService-Info.plist.
+    NSError *configureError;
+    [[GGLContext sharedInstance] configureWithError:&configureError];
+    NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
     
+    //    // Optional: configure GAI options.
+    //    GAI *gai = [GAI sharedInstance];
+    //    gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
+    //    gai.logger.logLevel = kGAILogLevelVerbose;  // remove before app release
+
     myhost = my_main_host;
     settingsCentre = [czzSettingsCentre sharedInstance];
-    [settingsCentre downloadSettings];
     
     [self checkFolders];
-    //check cookie
+    // Check cookie
     CookieManager;
+    // Check watchlist manger.
+    
+    // Prepare to launch
+    AppActivityManager;
+    
+    // The watchkit session.
+    if ([WCSession isSupported]) {
+        WCSession *session = [WCSession defaultSession];
+        session.delegate = self;
+        [session activateSession];
+    }
     return YES;
 }
 							
-- (void)applicationWillResignActive:(UIApplication *)application
-{
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-}
-
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-
-}
-
-- (void)applicationWillEnterForeground:(UIApplication *)application
-{
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
-
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     czzBlacklistDownloader *blacklistDownloader = [czzBlacklistDownloader new];
     blacklistDownloader.delegate = self;
     [blacklistDownloader downloadBlacklist];
+    
+    // Init the CacheCleaner when the app is visible to user.
+    if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+        CacheCleaner;
+    }
+    // Init the watch list manager.
+    WatchListManager;
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application
-{
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
 
 -(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    DLog(@"%@", url.absoluteString);
+    DDLogDebug(@"%@", url.absoluteString);
     if ([url.host isEqualToString:@"acfun"]) {
         return YES;
     }
     return NO;
 }
 
+#pragma mark - WCSessionDelegate
 
-//-(BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder
-//{
-//    return YES;
-//}
-//
-//-(BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder {
-//    return YES;
-//}
+- (void)session:(WCSession *)session didReceiveMessage:(NSDictionary<NSString *,id> *)message replyHandler:(void (^)(NSDictionary<NSString *,id> * _Nonnull))replyHandler {
+    __block UIBackgroundTaskIdentifier wkBackgroundTaskIdentifier;
+    wkBackgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithName:@"backgroundTask"
+                                                                              expirationHandler:^{
+                                                                                  wkBackgroundTaskIdentifier = UIBackgroundTaskInvalid;
+                                                                              }];
+    [[czzWatchKitManager sharedManager] handleWatchKitExtensionRequest:message
+                                                                 reply:replyHandler
+                                          withBackgroundTaskIdentifier:wkBackgroundTaskIdentifier];
+}
 
 #pragma mark - background fetch
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    completionHandler(UIBackgroundFetchResultNoData);
+    DDLogDebug(@"%s", __PRETTY_FUNCTION__);
+    __block void(^localRefCompletionHandler)(UIBackgroundFetchResult) = completionHandler;
+    // Safe guard.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(25 * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        if (localRefCompletionHandler) {
+            DDLogDebug(@"Background fetch safe gurad: time limit has reached, call completionHandler with NoData as the result.");
+            localRefCompletionHandler(UIBackgroundFetchResultNoData);
+            localRefCompletionHandler = nil;
+        }
+    });
+    [WatchListManager refreshWatchedThreadsWithCompletionHandler:^(NSArray *updatedThreads) {
+        DDLogDebug(@"Background fetch completed.");
+        UIBackgroundFetchResult backgroundFetchResult = UIBackgroundFetchResultNoData;
+        
+        UILocalNotification *localNotif = [[UILocalNotification alloc] init];
+        localNotif.fireDate = [NSDate dateWithTimeInterval:1.0 sinceDate:[NSDate new]];
+
+        if (updatedThreads.count) {
+            localNotif.alertTitle = WatchListManager.updateTitle;
+            localNotif.alertBody = WatchListManager.updateContent;
+            localNotif.soundName = UILocalNotificationDefaultSoundName;
+            localNotif.applicationIconBadgeNumber = updatedThreads.count;
+
+            // If the app is running in the background, schedule the notification, otherwise don't schedule it.
+            if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground)
+                [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
+            
+            backgroundFetchResult = UIBackgroundFetchResultNewData;
+        }
+        if (localRefCompletionHandler) {
+            localRefCompletionHandler(backgroundFetchResult);
+            localRefCompletionHandler = nil;
+        }
+    }];
+}
+
+-(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+    czzFavouriteManagerViewController *favouriteManagerViewController = [czzFavouriteManagerViewController new];
+    favouriteManagerViewController.launchToIndex = watchIndex; // Launch to watchlist view.
+    if (self.window.rootViewController) {
+        // Received local notification, most likely watch list is updated
+        [NavigationManager pushViewController:favouriteManagerViewController animated:YES];
+    } else {
+        [czzAppActivityManager sharedManager].appLaunchCompletionHandler = ^{
+            [NavigationManager pushViewController:favouriteManagerViewController animated:YES];
+        };
+    }
 }
 
 -(NSString *)myhost {
-    if (shouldUseBackupServer)
-    {
-        return my_backup_host;
-    } else {
-        return my_main_host;
-    }
+    return [settingsCentre database_host];
 }
 
 - (BOOL)addSkipBackupAttributeToItemAtURL:(NSURL *)URL
@@ -117,34 +190,14 @@
     id flag = nil;
     [URL getResourceValue: &flag
                    forKey: NSURLIsExcludedFromBackupKey error: &error];
-    DLog (@"NSURLIsExcludedFromBackupKey flag value is %@", flag);
-
     BOOL success = [URL setResourceValue:[NSNumber numberWithBool: YES]
                                   forKey: NSURLIsExcludedFromBackupKey error: &error];
-    if(!success){
-        DLog(@"Error excluding %@ from backup %@", [URL lastPathComponent], error);
-    }
-    
     return success;
 }
 
 
 -(NSString *)vendorID {
     return [UIDevice currentDevice].identifierForVendor.UUIDString;
-}
-
-#pragma mark - NSURLConnectionDelegate
--(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    shouldUseBackupServer = YES;
-}
-
--(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-    if ([((NSHTTPURLResponse *)response) statusCode] == 404) {
-        shouldUseBackupServer = YES;
-    } else {
-        shouldUseBackupServer = NO;
-    }
-    [connection cancel];
 }
 
 #pragma mark czzBlacklistDownloader delegate
@@ -166,6 +219,10 @@
     return [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 }
 
++(NSString *)documentFolder {
+    return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+}
+
 +(NSString *)thumbnailFolder {
     return [[self libraryFolder] stringByAppendingPathComponent:@"Thumbnails"];
 }
@@ -183,7 +240,8 @@
 }
 
 -(void)showToast:(NSString *)string{
-    [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:string];
+    [czzBannerNotificationUtil displayMessage:string
+                                     position:BannerNotificationPositionBottom];
 }
 
 #pragma mark - show and hide uitoolbar
@@ -211,16 +269,6 @@
     incomingView.hidden = NO;
 }
 
-#pragma mark - forumName
--(NSString *)getForumIDFromForumName:(NSString *)fName {
-    for (czzForum *forum in self.forums) {
-        if ([forum.name isEqualToString:fName]) {
-            return [NSString stringWithFormat:@"%ld", (long)forum.forumID];
-        }
-    }
-    return @"0";
-}
-
 /*
  check the library directory and image folders
 */
@@ -229,10 +277,10 @@
     for (NSString *folderPath in resourceFolders) {
         if (![[NSFileManager defaultManager] fileExistsAtPath:folderPath]){
             [[NSFileManager defaultManager] createDirectoryAtPath:folderPath withIntermediateDirectories:NO attributes:nil error:nil];
+            DDLogDebug(@"Create library folder: %@", folderPath);
         }
         //exclude my folders from being backed up to iCloud
         [self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:folderPath]];
     }
-
 }
 @end

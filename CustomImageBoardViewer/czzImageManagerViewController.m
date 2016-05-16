@@ -7,17 +7,17 @@
 //
 
 #import "czzImageManagerViewController.h"
-#import "czzImageCentre.h"
+#import "czzImageCacheManager.h"
 #import "czzAppDelegate.h"
-#import "Toast+UIView.h"
+#import "czzBannerNotificationUtil.h"
 #import "czzImageViewerUtil.h"
 
-#define ALL_IMAGE 0
-#define FULL_SIZE_IMAGE 1
-#define THUMBNAIL 2
+#define FULL_SIZE_IMAGE 0
+#define THUMBNAIL 1
+#define ALL_IMAGE 2
 
 @interface czzImageManagerViewController ()
-@property NSMutableArray *Images;
+@property NSMutableArray<NSURL *> *Images;
 @property NSInteger imageCategory;
 @property czzImageViewerUtil *imageViewerUtil;
 @end
@@ -34,25 +34,29 @@
 	// Do any additional setup after loading the view.
     self.collectionView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
     imageViewerUtil = [czzImageViewerUtil new];
-//    //show all images
-    imageCategory = ALL_IMAGE;
-    if ([[czzImageCentre sharedInstance] ready])
-        [self reloadImageFileFromImageCentre];
-    else
-        [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"图片还在载入中，请稍后重试..."];
+    // Show all images.
+    imageCategory = FULL_SIZE_IMAGE;
+    [self reloadImageFiles];
+}
 
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    // Google Analytic integration
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 #pragma Load data from image centre
--(void)reloadImageFileFromImageCentre{
+-(void)reloadImageFiles{
     Images = [NSMutableArray new];
     if (imageCategory == ALL_IMAGE){
-        [Images addObjectsFromArray:[[czzImageCentre sharedInstance] localThumbnailsArray]];
-        [Images addObjectsFromArray:[[czzImageCentre sharedInstance] localImagesArray]];
+        [Images addObjectsFromArray:[[czzImageCacheManager sharedInstance] thumbnailImages]];
+        [Images addObjectsFromArray:[[czzImageCacheManager sharedInstance] fullsizeImages]];
     } else if (imageCategory == FULL_SIZE_IMAGE) {
-        [Images addObjectsFromArray:[[czzImageCentre sharedInstance] localImagesArray]];
+        [Images addObjectsFromArray:[[czzImageCacheManager sharedInstance] fullsizeImages]];
     } else if (imageCategory == THUMBNAIL){
-        [Images addObjectsFromArray:[[czzImageCentre sharedInstance] localThumbnailsArray]];
+        [Images addObjectsFromArray:[[czzImageCacheManager sharedInstance] thumbnailImages]];
     }
     [self.collectionView reloadData];
 }
@@ -69,14 +73,15 @@
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"preview_image_cell_identifier" forIndexPath:indexPath];
-    NSString *imgFile = [Images objectAtIndex:indexPath.row];
-    if (cell && imgFile){
+    NSURL *imageFileURL = [Images objectAtIndex:indexPath.row];
+    if (cell && imageFileURL){
         UIImageView *previewImageView = (UIImageView*)[cell viewWithTag:1];
-        UIImage *previewImage;// = [UIImage imageWithContentsOfFile:imgFile];
-        NSString *thumbnailPath = [[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:[[[imgFile.lastPathComponent stringByDeletingPathExtension] stringByAppendingString:@"_t"] stringByAppendingPathExtension:imgFile.pathExtension]];
-        UIImage *thumbnailImage = [UIImage imageWithContentsOfFile:thumbnailPath];
+        NSString *imageName = imageFileURL.lastPathComponent;
+        UIImage *previewImage = [UIImage imageWithData:
+                                 [NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] hasThumbnailWithName:imageName] ?
+                                  [[czzImageCacheManager sharedInstance] pathForThumbnailWithName:imageName] :
+                                  [[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]]];
         
-        previewImage = thumbnailImage ? thumbnailImage : [UIImage imageWithContentsOfFile:imgFile];
         if (previewImage) {
             previewImageView.image = previewImage;
         } else {
@@ -96,21 +101,22 @@
 
 #pragma UICollectionViewDelegate
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    [imageViewerUtil showPhotos:Images inViewController:self withIndex:indexPath.row];
+    [imageViewerUtil showPhotos:Images withIndex:indexPath.row];
 }
 
 //show different categories of images
 - (IBAction)gallarySegmentControlAction:(id)sender {
     UISegmentedControl *control = (UISegmentedControl*)sender;
     imageCategory = control.selectedSegmentIndex;
-    [self reloadImageFileFromImageCentre];
+    [self reloadImageFiles];
 }
 
 #pragma mark memory pressure
 -(void)didReceiveMemoryWarning {
     [self dismissViewControllerAnimated:YES completion:nil];
     [self.navigationController popToRootViewControllerAnimated:YES];
-    [[czzAppDelegate sharedAppDelegate].window makeToast:@"内存不足，退出图片管理器以避免崩溃"];
+    [czzBannerNotificationUtil displayMessage:@"内存不足，退出图片管理器以避免崩溃"
+                                     position:BannerNotificationPositionTop];
 }
 
 @end

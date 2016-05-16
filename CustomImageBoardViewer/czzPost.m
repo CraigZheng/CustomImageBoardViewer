@@ -48,9 +48,9 @@
                 [requestData appendData:forumData];
             }
             if (forumID && forumID.length > 0) {
-                [params setObject:forumID forKey:@"forum"];
+                [params setObject:forumID forKey:@"fid"];
                 
-                NSData *forumIDData = [[NSString stringWithFormat:@"&forum=%@", forumID] dataUsingEncoding:NSUTF8StringEncoding];
+                NSData *forumIDData = [[NSString stringWithFormat:@"&fid=%@", forumID] dataUsingEncoding:NSUTF8StringEncoding];
                 [requestData appendData:forumIDData];
             }
             if (parentID > 0){
@@ -108,8 +108,8 @@
                 }
 
                 [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-                [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"upfile\"; filename=\"image.jpg\"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
-                [body appendData:[@"Content-Type: image/jpeg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+                [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"image\"; filename=\"image.%@\"\r\n", self.imageFormat ?: @"jpg"] dataUsingEncoding:NSUTF8StringEncoding]];
+                [body appendData:[[NSString stringWithFormat:@"Content-Type: image/%@\r\n\r\n", self.imageFormat ?: @"jpeg"] dataUsingEncoding:NSUTF8StringEncoding]];
                 [body appendData:imgData];
                 [body appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
                 [body appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -121,7 +121,7 @@
         }
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
     }
     return nil;
 }

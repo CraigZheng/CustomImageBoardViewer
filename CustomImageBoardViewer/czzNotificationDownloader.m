@@ -11,14 +11,13 @@
 #import "czzNotification.h"
 #import "SMXMLDocument.h"
 
-@interface czzNotificationDownloader()<NSURLConnectionDataDelegate>
+@interface czzNotificationDownloader()<czzURLDownloaderProtocol>
 @property NSMutableData *receivedData;
 
 @end
 
 @implementation czzNotificationDownloader
 @synthesize notificationFile;
-@synthesize urlConn;
 @synthesize receivedData;
 @synthesize delegate;
 
@@ -32,7 +31,7 @@
 
 -(void)downloadNotificationWithVendorID:(NSString *)vendorID {
     //make a post request to the server with vendorID
-    NSString *targetURLString = [[czzAppDelegate sharedAppDelegate].myhost stringByAppendingPathComponent:@"php"];
+    NSString *targetURLString = [AppDelegate.myhost stringByAppendingPathComponent:@"php"];
     targetURLString = [targetURLString stringByAppendingPathComponent:notificationFile];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:targetURLString]];
     [request setHTTPMethod:@"POST"];
@@ -45,36 +44,23 @@
     [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)requestData.length] forHTTPHeaderField:@"Content-length"];
     [request setHTTPBody:requestData];
     
-    urlConn = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
-    
+    self.urlDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLString] delegate:self startNow:YES];
 }
 
-#pragma mark - NSURLConnectionDataDelegate
--(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
-    DLog(@"error %@", error);
-    if (delegate) {
-        [delegate notificationDownloaded:nil];
-    }
-}
-
--(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-    receivedData = [NSMutableData new];
-}
-
--(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-    [receivedData appendData:data];
-}
-
--(void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    NSMutableArray *notifications = [NSMutableArray new];
-    NSError *error;
-    SMXMLDocument *xmlDoc = [SMXMLDocument documentWithData:receivedData error:&error];
-//    DLog(@"downloaded notification php content: %@", [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding]);
-    for (SMXMLElement *element in xmlDoc.root.children) {
-        if ([element.name isEqualToString:@"message"]) {
-            czzNotification *notification = [[czzNotification alloc] initWithXMLElement:element];
-            if (notification) {
-                [notifications addObject:notification];
+#pragma mark - czzURLDownloaderProtocol
+-(void)downloadOf:(NSURL *)url successed:(BOOL)successed result:(NSData *)downloadedData {
+    NSMutableArray *notifications;
+    if (successed) {
+        receivedData = [NSMutableData dataWithData:downloadedData];
+        NSError *error;
+        SMXMLDocument *xmlDoc = [SMXMLDocument documentWithData:receivedData error:&error];
+        notifications = [NSMutableArray new];
+        for (SMXMLElement *element in xmlDoc.root.children) {
+            if ([element.name isEqualToString:@"message"]) {
+                czzNotification *notification = [[czzNotification alloc] initWithXMLElement:element];
+                if (notification) {
+                    [notifications addObject:notification];
+                }
             }
         }
     }
@@ -82,4 +68,5 @@
         [delegate notificationDownloaded:notifications];
     }
 }
+
 @end

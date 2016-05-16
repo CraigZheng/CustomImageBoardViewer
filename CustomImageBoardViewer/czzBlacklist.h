@@ -11,6 +11,6 @@
 
 @interface czzBlacklist : NSObject
 @property NSSet *blacklistEntities;
-+ (id)sharedInstance;
++ (instancetype)sharedInstance;
 -(czzBlacklistEntity*)blacklistEntityForThreadID:(NSInteger)threadID;
 @end

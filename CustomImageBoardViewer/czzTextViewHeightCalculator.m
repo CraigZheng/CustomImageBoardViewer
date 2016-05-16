@@ -22,31 +22,14 @@
         [view addSubview:newHiddenTextView];
         newHiddenTextView.attributedText = thread.content;
         newHiddenTextView.font = [[czzSettingsCentre sharedInstance] contentFont];
-        preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(width, MAXFLOAT)].height + 25;
-//        if (extra)
-//        {
-//            preferHeight += 15;
-//        }
+        preferHeight = [newHiddenTextView sizeThatFits:CGSizeMake(width, MAXFLOAT)].height + 35;
         [newHiddenTextView removeFromSuperview];
     }
     
     if (has) {
         if ([[czzSettingsCentre sharedInstance] userDefShouldUseBigImage])
         {
-//            preferHeight += 200;
             return preferHeight += 280;
-//
-//            NSString *filePath = [[czzAppDelegate thumbnailFolder] stringByAppendingPathComponent:[thread.thImgSrc.lastPathComponent stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
-//            UIImage *previewImage =[[UIImage alloc] initWithContentsOfFile:filePath];
-//            
-//            if (previewImage) {
-//                CGFloat imgShortEdge = MIN(previewImage.size.height, previewImage.size.width);
-//                CGFloat imgLongEdge = MAX(previewImage.size.height, previewImage.size.width);
-//                preferHeight = MAX(shortEdge / 1.3, preferHeight);
-//                preferHeight += shortEdge * (imgShortEdge / imgLongEdge);
-//                preferHeight += 200;
-//            }
-//            
         }
         else
             preferHeight += IMAGE_HEIGHT;

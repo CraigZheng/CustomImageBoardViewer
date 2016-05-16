@@ -14,6 +14,6 @@
 @end
 
 @interface czzBlacklistDownloader : NSObject
-@property id<czzBlacklistDownloaderDelegate> delegate;
+@property (weak, nonatomic) id<czzBlacklistDownloaderDelegate> delegate;
 -(void)downloadBlacklist;
 @end

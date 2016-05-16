@@ -14,12 +14,12 @@
 
 @interface czzFavouriteManager : NSObject
 @property NSMutableOrderedSet *favouriteThreads;
-@property NSMutableArray *verticalHeights;
-@property NSMutableArray *horizontalHeights;
+@property (nonatomic, readonly) NSString *favouriteFolder;
 
 -(void)addFavourite:(czzThread*)thread;
+-(BOOL)isThreadFavourited:(czzThread*)thread;
 -(BOOL)removeFavourite:(czzThread*)thread;
 -(void)removeAll;
 -(void)saveCurrentState;
-+(id)sharedInstance;
++(instancetype)sharedInstance;
 @end

@@ -12,20 +12,23 @@
 #import "czzACTokenUtil.h"
 #import "czzSettingsCentre.h"
 #import "czzAppDelegate.h"
-
-#import "KLCPopup.h"
+#import "czzBannerNotificationUtil.h"
 
 @interface czzCookieManagerViewController () <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 @property czzCookieManager *cookieManager;
-@property NSHTTPCookie *selectedCookie;
+@property (nonatomic, strong) NSHTTPCookie *selectedCookie;
 @property NSArray *cookiesDataSource;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *useIdentityButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *saveIdentityButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *identityActionButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteIdentityButton;
+@property (weak, nonatomic) IBOutlet UIToolbar *identityToolbar;
 
 @end
 
 @implementation czzCookieManagerViewController
 @synthesize cookieManagerTableView;
 @synthesize cookieManager;
-@synthesize selectedCookie;
 @synthesize cookiesDataSource;
 @synthesize cookieManagerSegmentControl;
 @synthesize saveCookieBarButtonItem;
@@ -40,8 +43,17 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
     [self refreshData];
     
     cookieManagerTableView.backgroundColor = [settingCentre viewBackgroundColour];
+    self.identityToolbar.tintColor = [UIColor whiteColor];
+    self.identityToolbar.barTintColor = settingCentre.barTintColour;
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    // Google Analytic integration
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
 
 #pragma mark - UITableViewDataSource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -50,6 +62,7 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cookie_info_tableview_cell_identifier forIndexPath:indexPath];
+    UILabel *expiryLabel = (UILabel *)[cell viewWithTag:4];
     UILabel *domainLabel = (UILabel*) [cell viewWithTag:3];
     UILabel *nameLabel = (UILabel*) [cell viewWithTag:2];
     UILabel *contentLabel = (UILabel*) [cell viewWithTag:1];
@@ -58,6 +71,9 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
     nameLabel.text = cookie.name;
     contentLabel.text = cookie.value;
     domainLabel.text = cookie.domain;
+    NSDateFormatter *dateFormatter = [NSDateFormatter new];
+    dateFormatter.dateFormat = @"dd/MMM/yyyy";
+    expiryLabel.text = [NSString stringWithFormat:@"有效期至:%@", [dateFormatter stringFromDate:cookie.expiresDate]];
     
     //colour for nighty mode
     nameLabel.textColor = contentLabel.textColor = [settingCentre contentTextColour];
@@ -74,12 +90,11 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
 
 #pragma mark - UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    selectedCookie = [cookiesDataSource objectAtIndex:indexPath.row];
-    [self.navigationController setToolbarHidden:NO animated:YES];
+    self.selectedCookie = [cookiesDataSource objectAtIndex:indexPath.row];
 }
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
-    return YES;
+    return NO;
 }
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -99,7 +114,7 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
 }
 
 - (IBAction)shareCookieAction:(id)sender {
-    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[selectedCookie.value] applicationActivities:nil];
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[self.selectedCookie.value] applicationActivities:nil];
     if ( [activityViewController respondsToSelector:@selector(popoverPresentationController)] ) { // iOS8
         activityViewController.popoverPresentationController.sourceView = self.view;
     }
@@ -121,8 +136,7 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
 }
 
 - (IBAction)cookieManagerSegmentControlAction:(id)sender {
-    selectedCookie = nil;
-    [self.navigationController setToolbarHidden:YES animated:YES];
+    self.selectedCookie = nil;
     [self refreshData];
 }
 
@@ -133,66 +147,72 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
 }
 
 -(void)refreshData {
-    [cookieManager refreshACCookies];
-    
     switch (cookieManagerSegmentControl.selectedSegmentIndex) {
         case 0:
             cookiesDataSource = [cookieManager currentACCookies];
-            saveCookieBarButtonItem.enabled = YES;
             break;
         case 1:
             cookiesDataSource = [cookieManager archivedCookies];
-            saveCookieBarButtonItem.enabled = NO;
             break;
         default:
             cookiesDataSource = [cookieManager currentACCookies];
             break;
     }
-    if (cookiesDataSource.count == 0) {
-        czzMessagePopUpViewController *messagePopUp = [czzMessagePopUpViewController new];
-        messagePopUp.imageToShow = cookieManagerSegmentControl.selectedSegmentIndex == 0 ? [UIImage imageNamed:@"35.png"] : [UIImage imageNamed:@"03.png"];
-        
-        messagePopUp.messageToShow = [NSString stringWithFormat:@"没有%@的饼干...", [cookieManagerSegmentControl titleForSegmentAtIndex:cookieManagerSegmentControl.selectedSegmentIndex]];
-        [messagePopUp show];
-    }
+    
+    // If selectedCookie is nil, set navigation bar buttons to disabled.
+    self.useIdentityButton.enabled =
+    self.deleteIdentityButton.enabled =
+    self.identityActionButton.enabled =
+    self.saveIdentityButton.enabled = self.selectedCookie != nil;
+
     [cookieManagerTableView reloadData];
 
 }
 
+#pragma makr - Setters
+-(void)setSelectedCookie:(NSHTTPCookie *)selectedCookie {
+    _selectedCookie = selectedCookie;
+    // If selectedCookie is nil, set navigation bar buttons to disabled.
+    self.useIdentityButton.enabled =
+    self.deleteIdentityButton.enabled =
+    self.identityActionButton.enabled =
+    self.saveIdentityButton.enabled = _selectedCookie != nil;
+}
+
 #pragma mark - UIAlertViewDelegate
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (alertView.cancelButtonIndex == buttonIndex)
         return;
     
     if (alertView == saveCookieAlertView) {
-        [cookieManager archiveCookie:selectedCookie];
-        [[czzAppDelegate sharedAppDelegate] showToast:@"饼干已放入保鲜库"];
+        [cookieManager archiveCookie:self.selectedCookie];
+        [czzBannerNotificationUtil displayMessage:@"饼干已放入保鲜库" position:BannerNotificationPositionTop];
     } else if (alertView == useCookieAlertView) {
-        NSHTTPCookie *newCookie = [czzACTokenUtil createCookieWithValue:selectedCookie.value forURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
+        NSHTTPCookie *newCookie = [czzACTokenUtil createCookieWithValue:self.selectedCookie.value forURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
         if (newCookie) {
             [cookieManager setACCookie:newCookie ForURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
-            [[czzAppDelegate sharedAppDelegate] showToast:@"饼干已启用"];
+            [czzBannerNotificationUtil displayMessage:@"饼干已启用" position:BannerNotificationPositionTop];
         } else {
-            DLog(@"token nil");
+            DDLogDebug(@"token nil");
         }
     } else if (alertView == shareCookieAlertView) {
         //do nothing
     } else if (alertView == deleteCookieAlertView) {
         if (cookieManagerSegmentControl.selectedSegmentIndex == 0) {
-            [cookieManager deleteCookie:selectedCookie];
+            [cookieManager deleteCookie:self.selectedCookie];
         } else if (cookieManagerSegmentControl.selectedSegmentIndex == 1) {
-            [cookieManager deleteArchiveCookie:selectedCookie];
+            [cookieManager deleteArchiveCookie:self.selectedCookie];
         }
-        [[czzAppDelegate sharedAppDelegate] showToast:@"饼干已删除"];
+        [czzBannerNotificationUtil displayMessage:@"饼干已删除" position:BannerNotificationPositionTop];
     } else if (alertView == addCookieAlertView) {
         UITextField *textField = [addCookieAlertView textFieldAtIndex:0];
         NSString *text = textField.text;
         if (text.length)
         {
             if ([cookieManager addValueAsCookie:text]) {
-                [[czzAppDelegate sharedAppDelegate] showToast:@"饼干已添加"];
+                [czzBannerNotificationUtil displayMessage:@"饼干已添加" position:BannerNotificationPositionTop];
             } else {
-                [[czzAppDelegate sharedAppDelegate] showToast:@"饼干添加失败，请检查输入"];
+                [czzBannerNotificationUtil displayMessage:@"饼干添加失败，请检查输入" position:BannerNotificationPositionTop];
             }
         }
     }

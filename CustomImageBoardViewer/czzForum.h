@@ -8,15 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
+#import "czzWKForum.h"
+
 @interface czzForum : NSObject <NSCoding>
-@property NSString *name;
-@property NSString *header;
-@property BOOL lock;
-@property NSInteger cooldown;
-@property NSInteger forumID;
-@property NSDate *createdAt;
-@property NSDate *updatedAt;
+@property (strong, nonatomic) NSString *name;
+@property (strong, nonatomic) NSString *screenName;
+@property (strong, nonatomic) NSString *header;
+@property (assign, nonatomic) BOOL lock;
+@property (assign, nonatomic) NSInteger cooldown;
+@property (assign, nonatomic) NSInteger forumID;
+@property (strong, nonatomic) NSDate *createdAt;
+@property (strong, nonatomic) NSDate *updatedAt;
 
 -(id)initWithJSONDictionary:(NSDictionary*)jsonDict;
--(id)initWithJSONDictionaryV2:(NSDictionary*)jsonDict;
++(id)initWithJSONDictionary:(NSDictionary*)jsonDict;
+
+-(czzWKForum*)watchKitForum;
 @end

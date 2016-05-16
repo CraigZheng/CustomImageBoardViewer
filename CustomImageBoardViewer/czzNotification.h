@@ -29,23 +29,23 @@ enum {
 typedef NSUInteger PRIORITY;
 
 @interface czzNotification : NSObject
-@property NSString *sender;
-@property NSString *topic;
-@property NSString *title;//required
-@property NSString *description;
-@property NSString *content;
-@property NSDate *date; //date format: yyyy-MMM-dd hh:mm:ss
+@property (nonatomic, strong) NSString *sender;
+@property (nonatomic, strong) NSString *topic;
+@property (nonatomic, strong) NSString *title;//required
+@property (nonatomic, strong) NSString *description;
+@property (nonatomic, strong) NSString *content;
+@property (nonatomic, strong) NSDate *date; //date format: yyyy-MMM-dd hh:mm:ss
 @property EMOTIONS emotion;
-@property NSString *thImgSrc;
-@property NSString *imgSrc;
-@property NSString *link;
+@property (nonatomic, strong) NSString *thImgSrc;
+@property (nonatomic, strong) NSString *imgSrc;
+@property (nonatomic, strong) NSString *link;
 @property PRIORITY priority;
-@property NSString *notificationID; //required
-@property NSString *replyToID;
+@property (nonatomic, strong) NSString *notificationID; //required
+@property (nonatomic, strong) NSString *replyToID;
 @property NSInteger shouldDisplayXTimes; //default is 1;
 //local fields
-@property BOOL hasDisplayed;
+@property (assign, nonatomic) BOOL hasDisplayed;
 @property NSInteger timeBeenDisplayed;
-@property BOOL hasOpened;
+@property (assign, nonatomic) BOOL hasOpened;
 -(id)initWithXMLElement:(SMXMLElement*)xmlElement;
 @end

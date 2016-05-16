@@ -9,18 +9,18 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 
+#import "czzModalViewController.h"
+
 @class czzOnScreenImageManagerViewController;
 @protocol czzOnScreenImageManagerViewControllerDelegate <NSObject>
 @optional
--(void)onScreenImageManagerDownloadFinished:(czzOnScreenImageManagerViewController*)controller imagePath:(NSString*)path wasSuccessful:(BOOL)success;
 -(void)onScreenImageManagerSelectedImage:(NSString*)path;
 @end
 
 @interface czzOnScreenImageManagerViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIImageView *mainIcon;
-@property id<czzOnScreenImageManagerViewControllerDelegate> delegate;
-@property (nonatomic) NSMutableArray *downloadedImages;
+@property (weak, nonatomic) id<czzOnScreenImageManagerViewControllerDelegate> delegate;
 
 - (IBAction)tapOnImageManagerIconAction:(id)sender;
 

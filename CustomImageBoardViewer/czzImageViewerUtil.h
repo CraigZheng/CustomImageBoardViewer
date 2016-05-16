@@ -7,14 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MWPhotoBrowser.h"
 
-@interface czzImageViewerUtil : NSObject <MWPhotoBrowserDelegate>
+@class MWPhotoBrowser;
+@interface czzImageViewerUtil : NSObject
 @property MWPhotoBrowser *photoBrowser;
-@property NSMutableArray *photoBrowserDataSource;
+@property NSMutableArray<NSURL *> *photoBrowserDataSource;
 @property UIDocumentInteractionController *documentInteractionController;
 @property UINavigationController *photoBrowserNavigationController;
+@property (nonatomic, strong) UIViewController *destinationViewController;
 
--(void)showPhoto:(NSString*)photoPath inViewController:(UIViewController*)viewCon;
--(void)showPhotos:(NSArray*)photos inViewController:(UIViewController*)viewCon withIndex:(NSInteger)index;
+-(void)showPhoto:(NSURL*)photoPath;
+-(void)showPhotoWithImage:(UIImage *)image;
+-(void)showPhotos:(NSArray*)photos withIndex:(NSInteger)index;
 @end

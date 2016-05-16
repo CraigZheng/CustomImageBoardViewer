@@ -8,6 +8,8 @@
 
 #import "czzACTokenUtil.h"
 
+NSString * const cookieName = @"userhash";
+
 @implementation czzACTokenUtil
 
 +(NSHTTPCookie *)createCookieWithValue:(NSString *)value forURL:(NSURL *)url {
@@ -15,8 +17,9 @@
         return nil;
     NSDictionary *cookieDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[url host], NSHTTPCookieDomain,
                                       @"/", NSHTTPCookiePath,
-                                      @"username", NSHTTPCookieName,
+                                      cookieName, NSHTTPCookieName,
                                       value, NSHTTPCookieValue,
+                                      [NSDate dateWithTimeIntervalSinceNow:60 * 60 * 24 * 365], NSHTTPCookieExpires, // Valid for a long time.
                                       nil];
     
     NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:cookieDictionary];
@@ -30,7 +33,7 @@
         if (!error)
             return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         else
-            DLog(@"%@", error);
+            DDLogDebug(@"%@", error);
     }
     return nil;
 }

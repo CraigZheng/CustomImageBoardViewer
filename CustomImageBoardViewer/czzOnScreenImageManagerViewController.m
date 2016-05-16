@@ -10,29 +10,26 @@
 #import "czzNavigationController.h"
 #import "UIImage+animatedGIF.h"
 #import "czzImageDownloader.h"
-#import "czzImageCentre.h"
+#import "czzImageDownloaderManager.h"
+#import "czzImageCacheManager.h"
 #import "czzSettingsCentre.h"
+#import "czzImageViewerUtil.h"
 
 #import <QuartzCore/QuartzCore.h>
 
 #import "UIView+MGBadgeView.h"
-#import "KLCPopup.h"
 
-@interface czzOnScreenImageManagerViewController () <czzImageCentreProtocol, czzShortImageManagerCollectionViewControllerProtocol>
-@property BOOL iconAnimating;
-@property BOOL isShowingShortImageManagerController;
-@property czzImageCentre *imageCentre;
-@property (nonatomic) czzShortImageManagerCollectionViewController *shortImageManagerCollectionViewController;
+@interface czzOnScreenImageManagerViewController () <czzImageDownloaderManagerDelegate, czzShortImageManagerCollectionViewControllerProtocol>
+@property (assign, nonatomic) BOOL iconAnimating;
+@property (assign, nonatomic) BOOL isShowingShortImageManagerController;
+@property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
 @end
 
 @implementation czzOnScreenImageManagerViewController
 @synthesize mainIcon;
 @synthesize iconAnimating;
-@synthesize imageCentre;
 @synthesize delegate;
 @synthesize isShowingShortImageManagerController;
-@synthesize shortImageManagerCollectionViewController;
-@synthesize downloadedImages;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -51,37 +48,24 @@
     circle.lineWidth = 0;
     mainIcon.layer.mask=circle;
     //shadow
-//    mainIcon.layer.shadowColor = [UIColor blackColor].CGColor;
-//    mainIcon.layer.shadowRadius = 10.f;
-//    mainIcon.layer.shadowOffset = CGSizeMake(0.f, 5.f);
-//    mainIcon.layer.shadowOpacity = 1.f;
-//    mainIcon.clipsToBounds = NO;
     
     iconAnimating = NO;
-    
-    //image centre
-    imageCentre = [czzImageCentre sharedInstance];
-    imageCentre.delegate = self;
     
     //badge view
     [self.view.badgeView setPosition:MGBadgePositionTopRight];
     [self.view.badgeView setBadgeColor:[UIColor redColor]];
 
+    // Add self to be a delegate of czzImageDownloaderManager
+    [[czzImageDownloaderManager sharedManager] addDelegate:self];
 }
 
--(czzShortImageManagerCollectionViewController *)shortImageManagerCollectionViewController {
-    //grab and return the short image manager from my own navigation controller
-    shortImageManagerCollectionViewController = [(czzNavigationController*)self.parentViewController.navigationController shortImageMangerController];
-    shortImageManagerCollectionViewController.hostViewController = self.parentViewController;
-    if (!shortImageManagerCollectionViewController.delegate)
-        shortImageManagerCollectionViewController.delegate = self;
-    return shortImageManagerCollectionViewController;
+- (void)viewWillAppear:(BOOL)animated {
+    if ([czzImageDownloaderManager sharedManager].isDownloading) {
+        [self startAnimating];
+    }
 }
 
 - (IBAction)tapOnImageManagerIconAction:(id)sender {
-    [self.shortImageManagerCollectionViewController show];
-    //reset badge value
-    self.view.badgeView.badgeValue = 0;
 }
 
 -(void)startAnimating {
@@ -95,48 +79,62 @@
     mainIcon.image = [UIImage imageNamed:@"Icon.png"];
 }
 
--(NSMutableArray *)downloadedImages {
-    return self.shortImageManagerCollectionViewController.downloadedImages;
+#pragma mark - Prepare for segue
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.destinationViewController isKindOfClass:[czzShortImageManagerCollectionViewController class]]) {
+        [(czzShortImageManagerCollectionViewController *)segue.destinationViewController setDelegate:self];
+        // Reset badge value.
+        self.view.badgeView.badgeValue = 0;
+    }
 }
 
-#pragma mark - czzImageCentreDelegate
--(void)imageCentreDownloadFinished:(czzImageCentre *)imgCentre downloader:(czzImageDownloader *)downloader wasSuccessful:(BOOL)success {
-    if (success && !downloader.isThumbnail) {
-        if (delegate
-            && [delegate respondsToSelector:@selector(onScreenImageManagerDownloadFinished:imagePath:wasSuccessful:)]
-            && !self.shortImageManagerCollectionViewController.isShowing
-            ) {
-            [delegate onScreenImageManagerDownloadFinished:self imagePath:downloader.savePath wasSuccessful:success];
-            if (![settingCentre userDefShouldAutoOpenImage]) {
+#pragma mark - czzImageDownloaderDelegate
+-(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
+    if (!downloader.isThumbnail) {
+        if (success) {
+            if (![settingCentre userDefShouldAutoOpenImage] &&
+                !self.isShowingShortImageManagerController) {
                 [self.view.badgeView setBadgeValue:self.view.badgeView.badgeValue + 1];
             }
         }
-        [self.shortImageManagerCollectionViewController imageDownloaded:downloader.savePath];
+        if (manager.imageDownloaders.count <= 0)
+        {
+            [self stopAnimating];
+        }
     }
-    if (imageCentre.currentImageDownloaders.count <= 0)
+}
+
+-(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedStarted:(czzImageDownloader *)downloader imageName:(NSString *)imageName {
+    if (!downloader.isThumbnail && !iconAnimating)
+        [self startAnimating];
+}
+
+-(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedStopped:(czzImageDownloader *)downloader imageName:(NSString *)imageName {
+    if (manager.imageDownloaders.count <= 0)
     {
         [self stopAnimating];
     }
 }
 
--(void)imageCentreDownloadUpdated:(czzImageCentre *)imgCentre downloader:(czzImageDownloader *)downloader progress:(CGFloat)progress {
-    if (self.shortImageManagerCollectionViewController.isShowing) {
-        [self.shortImageManagerCollectionViewController updateProgressForDownloader:downloader];
+#pragma mark - czzShortImageManagerCollectionViewController
+
+- (void)shortImageManager:(czzShortImageManagerCollectionViewController *)manager selectedImageWithIndex:(NSInteger)index inImages:(NSArray *)imageSource {
+    self.imageViewerUtil = [czzImageViewerUtil new];
+    [self.imageViewerUtil showPhotos:imageSource withIndex:index];
+}
+
+#pragma mark - Getter
+
+- (BOOL)isShowingShortImageManagerController {
+    // If the topViewController is a czzShortImageManagerCollectionViewController, return YES.
+    if ([[UIApplication topViewController] isMemberOfClass:[czzShortImageManagerCollectionViewController class]]) {
+        return YES;
     }
+    return NO;
 }
 
--(void)imageCentreDownloadStarted:(czzImageCentre *)imgCentre downloader:(czzImageDownloader *)downloader {
-    if (!downloader.isThumbnail && !iconAnimating)
-        [self startAnimating];
++ (instancetype)new {
+    return [[UIStoryboard storyboardWithName:@"ImageManagerStoryboard" bundle:nil] instantiateInitialViewController];
 }
-
-#pragma mark - czzShortImageManagerCollectionViewControllerDelegate
--(void)userTappedOnImageWithPath:(NSString *)imagePath {
-    [KLCPopup dismissAllPopups];
-    if (delegate && [delegate respondsToSelector:@selector(onScreenImageManagerSelectedImage:)])
-    {
-        [delegate onScreenImageManagerSelectedImage:imagePath];
-    }
-}
-
 @end

@@ -13,17 +13,16 @@
 @interface czzImageDownloader()<NSURLConnectionDelegate>
 @property NSURLConnection *urlConn;
 @property NSMutableData *receivedData;
-@property NSString *baseURLString;
-@property NSString *fileName;
+@property (strong, nonatomic) NSString *baseURLString;
+@property (strong, nonatomic) NSString *fileName;
 @property long long fileSize;
 @property NSUInteger downloadedSize;
+@property (strong, nonatomic) NSString *internalSavePath;
 @end
 
 @implementation czzImageDownloader
 @synthesize urlConn;
 @synthesize imageURLString;
-@synthesize baseURLString;
-@synthesize targetURLString;
 @synthesize receivedData;
 @synthesize fileName;
 @synthesize delegate;
@@ -31,18 +30,6 @@
 @synthesize fileSize;
 @synthesize downloadedSize;
 @synthesize backgroundTaskID;
-@synthesize shouldAddHost;
-@synthesize savePath;
-
-
--(id)init{
-    self = [super init];
-    if (self){
-        baseURLString = [[czzSettingsCentre sharedInstance] image_host];
-        shouldAddHost = YES;
-    }
-    return self;
-}
 
 -(void)start{
     if (!imageURLString)
@@ -50,23 +37,44 @@
     if (urlConn){
         [urlConn cancel];
     }
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:targetURLString]];
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:self.targetURLString]];
     urlConn = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self startImmediately:YES];
+    
+    // Notify delegate that download is started
+    if ([delegate respondsToSelector:@selector(downloadStarted:)]){
+        [delegate downloadStarted:self];
+    }
 }
 
 -(void)stop{
-    if (urlConn)
+    if (urlConn) {
         [urlConn cancel];
+        if ([self.delegate respondsToSelector:@selector(downloadStopped:)]) {
+            [self.delegate downloadStopped:self];
+        }
+    }
 }
 
-#pragma setter for imgURLString
--(void)setImageURLString:(NSString *)urlstring{
-    imageURLString = urlstring;
-    if (shouldAddHost)
-        targetURLString = [baseURLString stringByAppendingPathComponent:[imageURLString stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
+#pragma mark - Getters
+
+-(NSString *)targetURLString {
+    NSString *targetURLString;
+    if (![imageURLString hasPrefix:@"http"])
+        targetURLString = [self.baseURLString stringByAppendingPathComponent:[imageURLString stringByReplacingOccurrencesOfString:@"~/" withString:@""]];
     else
         targetURLString = imageURLString;
+    return targetURLString;
 }
+
+- (NSString *)baseURLString {
+    if (isThumbnail) {
+        return [settingCentre thumbnail_host];
+    } else {
+        return [settingCentre image_host];
+    }
+}
+
+
 #pragma NSURLConnection delegate
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     //notify delegate that the download is failed
@@ -81,10 +89,7 @@
     fileName = response.suggestedFilename;
     fileSize = [response expectedContentLength];
     downloadedSize = 0;
-    //notify delegate that download is started
-    if (delegate && [delegate respondsToSelector:@selector(downloadStarted:)]){
-        [delegate downloadStarted:self];
-    }
+
     self.backgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         // Cancel the connection
         [connection cancel];
@@ -112,16 +117,18 @@
     NSString *filePath = [basePath stringByAppendingPathComponent:fileName];
     NSError *error;
     [receivedData writeToFile:filePath options:NSDataWritingAtomic error:&error];
-    savePath = filePath;
+    self.internalSavePath = filePath;
     if (delegate && [delegate respondsToSelector:@selector(downloadFinished:success:isThumbnail:saveTo:)]){
         if (error){
-            DLog(@"%@", error);
+            DDLogDebug(@"%@", error);
             [delegate downloadFinished:self success:NO isThumbnail:isThumbnail saveTo:filePath];
         } else {
             [delegate downloadFinished:self success:YES isThumbnail:isThumbnail saveTo:filePath];
         }
     }
     [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskID];
+    // Dereference the urlConn.
+    urlConn = nil;
 
 }
 
@@ -131,11 +138,13 @@
     return pro;
 }
 
+#pragma mark - Getters
+
 //determine if 2 downloaders are equal by compare the target URL
 -(BOOL)isEqual:(id)object{
     if ([object isKindOfClass:[czzImageDownloader class]]) {
         czzImageDownloader *incomingDownloader = (czzImageDownloader*)object;
-        return [incomingDownloader.imageURLString isEqualToString:self.imageURLString];
+        return [incomingDownloader.targetURLString isEqualToString:self.targetURLString];
     }
     return NO;
 }
@@ -143,4 +152,9 @@
 -(NSUInteger)hash{
     return imageURLString.hash;
 }
+
+-(NSString *)savePath {
+    return self.internalSavePath;
+}
+
 @end

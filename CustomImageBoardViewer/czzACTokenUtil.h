@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString * const cookieName;
+
 @interface czzACTokenUtil : NSObject
 
 +(NSHTTPCookie*)createCookieWithValue:(NSString*)value forURL:(NSURL*)url;

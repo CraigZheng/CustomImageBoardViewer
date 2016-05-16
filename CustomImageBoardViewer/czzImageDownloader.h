@@ -16,18 +16,20 @@
 -(void)downloadFinished:(czzImageDownloader*)imgDownloader success:(BOOL)success isThumbnail:(BOOL)thumbnail saveTo:(NSString*)path;
 @optional
 -(void)downloadStarted:(czzImageDownloader*)imgDownloader;
+-(void)downloadStopped:(czzImageDownloader*)imgDownloader;
+
 -(void)downloaderProgressUpdated:(czzImageDownloader*)imgDownloader expectedLength:(NSUInteger)total downloadedLength:(NSUInteger)downloaded;
 @end
 
 @interface czzImageDownloader : NSObject
 @property (nonatomic) NSString *imageURLString;
-@property NSString *targetURLString;
-@property NSString *savePath;
+@property (readonly, nonatomic) NSString *targetURLString;
+@property (readonly, nonatomic) NSString *savePath;
 
-@property id<czzImageDownloaderDelegate> delegate;
-@property BOOL isThumbnail;
+@property (weak, nonatomic) id<czzImageDownloaderDelegate> delegate;
+@property (assign, nonatomic) BOOL isThumbnail;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskID;
-@property BOOL shouldAddHost;
+
 -(id)init;
 -(void)start;
 -(void)stop;

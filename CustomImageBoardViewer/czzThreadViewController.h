@@ -6,31 +6,36 @@
 //  Copyright (c) 2013 Craig. All rights reserved.
 //
 
-#define THREAD_VIEW_CONTROLLER @"thread_view_controller"
+#define THREAD_VIEW_CONTROLLER_ID @"thread_view_controller"
+
+#define THREAD_VIEW_CONTROLLER_STORYBOARD_NAME @"Main_iPhone"
 
 #import <UIKit/UIKit.h>
 #import "czzThread.h"
-#import "IIViewDeckController.h"
+#import "czzForum.h"
+#import "czzThreadTableView.h"
+#import "czzThreadViewManager.h"
 
-@interface czzThreadViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
-@property (nonatomic) czzThread *parentThread;
-@property (strong, nonatomic) IBOutlet UITableView *threadTableView;
-@property NSString *shouldHighlightSelectedUser;
+extern NSString * const showThreadViewSegueIdentifier;
+
+@interface czzThreadViewController : UIViewController <czzThreadViewManagerDelegate>
+
+@property (weak, nonatomic) IBOutlet czzThreadTableView *threadTableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *starButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *watchButton;
 @property (weak, nonatomic) IBOutlet UIView *onScreenImageManagerViewContainer;
-//@property (weak, nonatomic) IBOutlet UIBarButtonItem *numberBarButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *moreButton;
-@property UIBarButtonItem *numberBarButton;
-@property BOOL shouldRestoreContentOffset;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *jumpBarButtonItem;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *numberBarButton;
+@property (assign, nonatomic) BOOL shouldRestoreContentOffset;
+@property (strong, nonatomic) czzThreadViewManager *threadViewManager;
 
-- (IBAction)moreAction:(id)sender;
+
 - (IBAction)replyAction:(id)sender;
 - (IBAction)starAction:(id)sender;
 - (IBAction)jumpAction:(id)sender;
 - (IBAction)reportAction:(id)sender;
 - (IBAction)shareAction:(id)sender;
 
--(void)scrollTableViewToTop;
--(void)scrollTableViewToBottom;
-
+- (NSString*)saveCurrentState;
 @end

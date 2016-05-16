@@ -10,15 +10,16 @@
 #import "czzNotificationManager.h"
 #import "czzNavigationController.h"
 #import "czzNotificationBannerViewController.h"
-#import "czzImageCentre.h"
+#import "czzImageCacheManager.h"
+#import "czzImageDownloaderManager.h"
 #import "czzImageDownloader.h"
 #import "czzFeedbackViewController.h"
 #import "DACircularProgressView.h"
 
 @interface czzNotificationCentreTableViewController ()<UIDocumentInteractionControllerDelegate, UIActionSheetDelegate>
 @property czzNotificationManager *notificationManager;
-@property czzImageCentre *imageCentre;
-@property NSString *imageFolder;
+@property czzImageCacheManager *imageCentre;
+@property (strong, nonatomic) NSString *imageFolder;
 @property UIDocumentInteractionController *documentInteractionController;
 @property UIActionSheet *openLinkActionSheet;
 @end
@@ -39,7 +40,7 @@
     imageFolder = [imageFolder stringByAppendingPathComponent:@"Thumbnails"];
 
     notificationManager = [czzNotificationManager new];
-    imageCentre = [czzImageCentre sharedInstance];
+    imageCentre = [czzImageCacheManager sharedInstance];
     if (!notifications) {
         notifications = [NSMutableOrderedSet new];
         NSMutableOrderedSet *cachedSet = [notificationManager checkCachedNotifications];
@@ -61,22 +62,30 @@
         notifications = [NSMutableOrderedSet orderedSetWithArray:sortedArray];
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
     }
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    // Google Analytic integration
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     for (czzNotification *notification in notifications) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[czzImageCentre sharedInstance] downloadThumbnailWithURL:notification.thImgSrc isCompletedURL:YES];
+            [[czzImageDownloaderManager sharedManager] downloadImageWithURL:notification.imgSrc isThumbnail:NO];
         });
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(thumbnailDownloaded:) name:@"ThumbnailDownloaded" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaderUpdated:) name:@"ImageDownloaderProgressUpdated" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDownloaded:) name:@"ImageDownloaded" object:nil];
-    DLog(@"tableview content size %@", [NSValue valueWithCGSize:self.tableView.contentSize]);
-    DLog(@"tableview bound size %@", [NSValue valueWithCGSize:self.tableView.bounds.size]);
+    DDLogDebug(@"tableview content size %@", [NSValue valueWithCGSize:self.tableView.contentSize]);
+    DDLogDebug(@"tableview bound size %@", [NSValue valueWithCGSize:self.tableView.bounds.size]);
     [self.view bringSubviewToFront:self.tableView];
     
     //dismiss banner view - if any
@@ -167,7 +176,7 @@
 }
 
 -(void)presentFeedbackViewControllerWithNotification:(czzNotification*)notification {
-    czzFeedbackViewController *feedbackViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"feedback_view_controller"];
+    czzFeedbackViewController *feedbackViewController = [czzFeedbackViewController new];
     feedbackViewController.myNotification = notification;
     [self.navigationController pushViewController:feedbackViewController animated:YES];
 

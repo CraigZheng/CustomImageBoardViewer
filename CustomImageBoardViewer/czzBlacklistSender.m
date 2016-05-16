@@ -7,7 +7,7 @@
 //
 
 #import "czzBlacklistSender.h"
-#import "czzXMLDownloader.h"
+#import "czzURLDownloader.h"
 #import "SMXMLDocument.h"
 #import "czzBlacklist.h"
 #import "czzAppDelegate.h"
@@ -28,7 +28,7 @@
     self = [super init];
     if (self){
         //targetURLString = @"http://civ.my-realm.com/php/update_blacklist.php";
-        targetURLString = [[czzAppDelegate sharedAppDelegate].myhost stringByAppendingPathComponent:@"php/update_blacklist.php"];
+        targetURLString = [AppDelegate.myhost stringByAppendingPathComponent:@"php/update_blacklist.php"];
     }
     return  self;
 }
@@ -48,7 +48,7 @@
     receivedResponse = [NSMutableData new];
 //    NSDictionary *dict = [(NSHTTPURLResponse*)response allHeaderFields];
 //    for (NSString *header in dict) {
-//        //DLog(@"%@:%@", header, [dict objectForKey:header]);
+//        //DDLogDebug(@"%@:%@", header, [dict objectForKey:header]);
 //    }
 }
 

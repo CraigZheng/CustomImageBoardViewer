@@ -7,13 +7,24 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "czzMenuEnabledTableViewCell.h"
 
+extern NSInteger const bookmarkIndex;
+extern NSInteger const watchIndex;
+extern NSInteger const historyIndex;
 
-@interface czzFavouriteManagerViewController : UITableViewController
+@class czzThreadTableView;
+
+@interface czzFavouriteManagerViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UISegmentedControl *titleSegmentedControl;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *historyTypeSegmentedControl;
+@property (weak, nonatomic) IBOutlet czzThreadTableView *tableView;
 @property NSMutableOrderedSet *threads;
-@property NSString *title;
+@property (assign, nonatomic) NSInteger launchToIndex;
+
 - (IBAction)editAction:(id)sender;
 - (IBAction)titleSegmentedControlAction:(id)sender;
+- (IBAction)historyTypeSegmentedControlAction:(id)sender;
+
+
++(UIViewController*)newInNavigationController;
 @end

@@ -10,13 +10,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface czzMessagePopUpViewController : UIViewController
+#import "czzModalViewController.h"
+
+@interface czzMessagePopUpViewController : czzModalViewController
 @property (weak, nonatomic) IBOutlet UIImageView *messageImageView;
 @property (weak, nonatomic) IBOutlet UILabel *messageContentLabel;
 
 @property UIImage *imageToShow;
-@property NSString *messageToShow;
-
--(void)show;
+@property (strong, nonatomic) NSString *messageToShow;
 
 @end

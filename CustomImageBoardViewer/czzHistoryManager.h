@@ -15,14 +15,21 @@
 #import <Foundation/Foundation.h>
 
 @interface czzHistoryManager : NSObject 
-@property NSMutableOrderedSet *browserHistory;
-@property NSMutableArray *verticalHeights;
-@property NSMutableArray *horizontalHeights;
+@property (nonatomic, strong) NSMutableOrderedSet *browserHistory;
+@property (nonatomic, strong) NSMutableOrderedSet *respondedThreads;
+@property (nonatomic, strong) NSMutableOrderedSet *postedThreads;
+@property (nonatomic, readonly) NSString *historyFolder;
+
+- (void)addToRespondedList:(czzThread*)thread;
+- (void)addToPostedList:(NSString*)title
+                content:(NSString*)content
+               hasImage:(BOOL)hasImage
+                  forum:(czzForum*)forum;
 
 -(void)recordThread:(czzThread*)thread;
 -(BOOL)removeThread:(czzThread*)thread;
 -(void)clearRecord;
 -(void)saveCurrentState;
 
-+(id)sharedInstance;
++(instancetype)sharedInstance;
 @end

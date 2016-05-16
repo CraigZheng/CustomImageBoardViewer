@@ -7,17 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+
+@import GoogleMobileAds;
+
 #import "IIViewDeckController.h"
-#import "GADBannerView.h"
+#import "czzForum.h"
 
 @interface czzMoreInfoViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIWebView *headerTextWebView;
-@property (nonatomic) NSString *forumName;
+@property (weak, nonatomic) IBOutlet UIWebView *coverImageWebView;
+@property (strong, nonatomic) czzForum *forum;
 @property GADBannerView *bannerView_;
-@property (weak, nonatomic) IBOutlet UIView *barBackgroundView;
 @property (weak, nonatomic) IBOutlet UINavigationItem *moreInfoNavItem;
-@property (weak, nonatomic) IBOutlet UINavigationBar *moreInfoNaviBar;
+@property (weak, nonatomic) IBOutlet UIScrollView *containerScrollView;
 - (IBAction)dismissAction:(id)sender;
 
-- (IBAction)homePageAction:(id)sender;
 @end

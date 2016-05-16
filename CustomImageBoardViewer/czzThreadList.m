@@ -18,8 +18,6 @@
 @synthesize shouldHideImageForThisForum;
 @synthesize threads;
 @synthesize subThreadProcessor;
-//@synthesize forumName;
-@synthesize forum;
 @synthesize pageNumber;
 @synthesize totalPages;
 @synthesize delegate;
@@ -72,7 +70,6 @@
             //copy data
             if (tempThreadList && [tempThreadList isKindOfClass:[czzThreadList class]])
             {
-//                forumName = tempThreadList.forumName;
                 self.forum = tempThreadList.forum;
                 self.pageNumber = tempThreadList.pageNumber;
                 self.totalPages = tempThreadList.totalPages;
@@ -98,15 +95,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(entersBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
 
-//-(void)setForumName:(NSString *)name {
-//    forumName = name;
-//    baseURLString = [[settingCentre thread_list_host] stringByAppendingString:forumName ? [forumName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] : @""];
-//}
-
--(void)setForum:(czzForum *)fo {
-    forum = fo;
-    baseURLString = [[settingCentre thread_list_host] stringByReplacingOccurrencesOfString:kForumID withString:[NSString stringWithFormat:@"%ld", (long)forum.forumID]];
-    DLog(@"forum picked:%@ - base URL: %@", forum.name, baseURLString);
+-(void)setForum:(czzForum *)forum {
+    _forum = forum;
+    baseURLString = [[settingCentre thread_list_host] stringByAppendingString:forum.name ? [forum.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] : @""];
 }
 
 -(void)refresh {
@@ -131,8 +122,7 @@
     if (xmlDownloader)
         [xmlDownloader stop];
     pageNumber = pn;
-//    NSString *targetURLStringWithPN = [baseURLString stringByAppendingString:[NSString stringWithFormat:@"?page=%ld", (long)pageNumber]];
-    NSString *targetURLStringWithPN = [baseURLString stringByReplacingOccurrencesOfString:kPage withString:[NSString stringWithFormat:@"%ld", (long) pn]];
+    NSString *targetURLStringWithPN = [baseURLString stringByAppendingString:[NSString stringWithFormat:@"?page=%ld", (long)pageNumber]];
     xmlDownloader = [[czzXMLDownloader alloc] initWithTargetURL:[NSURL URLWithString:targetURLStringWithPN] delegate:self startNow:YES];
     isDownloading = YES;
     if (delegate && [delegate respondsToSelector:@selector(threadListBeginDownloading:)]) {
@@ -224,7 +214,7 @@
 #pragma mark - NSCoding
 -(void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeBool:shouldHideImageForThisForum forKey:@"shouldHideImageForThisForum"];
-    [aCoder encodeObject:forum forKey:@"forum"];
+    [aCoder encodeObject:self.forum forKey:@"forum"];
     [aCoder encodeInteger:pageNumber forKey:@"pageNumber"];
     [aCoder encodeInteger:totalPages forKey:@"totalPages"];
     [aCoder encodeObject:threads forKey:@"threads"];

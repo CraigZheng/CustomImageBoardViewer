@@ -68,7 +68,6 @@
     //call every 2 minute, determine if should check for last update time and call for download
     NSTimeInterval notificationDownloaderCheckInterval = 2 * 60;
     downloadNotificationTimer = [NSTimer scheduledTimerWithTimeInterval:notificationDownloaderCheckInterval target:self selector:@selector(downloadNotification) userInfo:nil repeats:YES];
-    
 }
 
 #pragma mark - restore cached notification
@@ -90,7 +89,7 @@
     if (!lastUpdateTime || [[NSDate new] timeIntervalSinceDate:lastUpdateTime] > notificationDownloadInterval) {
         notificationDownloader = [czzNotificationDownloader new];
         notificationDownloader.delegate = self;
-        [notificationDownloader downloadNotificationWithVendorID:[czzAppDelegate sharedAppDelegate].vendorID];
+        [notificationDownloader downloadNotificationWithVendorID:AppDelegate.vendorID];
         lastUpdateTime = [NSDate new];
         [[NSUserDefaults standardUserDefaults] setObject:lastUpdateTime forKey:@"LastNotificationUpdateTime"];
     }
@@ -111,7 +110,7 @@
             [self updateViewsWithCurrentNotification];
         }
         @catch (NSException *exception) {
-            DLog(@"%@", exception);
+            DDLogDebug(@"%@", exception);
         }
     } else {
         self.needsToBePresented = NO;
@@ -127,14 +126,14 @@
 
         statusIcon.hidden = YES;
         if (currentNotification.priority > 1) {
-            [[czzAppDelegate sharedAppDelegate] doSingleViewShowAnimation:statusIcon :kCATransitionFade :0.4];
+            [AppDelegate doSingleViewShowAnimation:statusIcon :kCATransitionFade :0.4];
         } else {
             statusIcon.hidden = YES;
         }
 
-        [[czzAppDelegate sharedAppDelegate] doSingleViewHideAnimation:headerLabel :kCATransitionFade :0.4];
+        [AppDelegate doSingleViewHideAnimation:headerLabel :kCATransitionFade :0.4];
         headerLabel.text = currentNotification.title;
-        [[czzAppDelegate sharedAppDelegate] doSingleViewShowAnimation:headerLabel :kCATransitionFade :0.4];
+        [AppDelegate doSingleViewShowAnimation:headerLabel :kCATransitionFade :0.4];
     }
 }
 
@@ -153,12 +152,12 @@
     if (parentView && !self.view.superview) {
         [parentView addSubview:self.view];
     }
-    [[czzAppDelegate sharedAppDelegate] doSingleViewShowAnimation:self.view :kCATransitionFade :0.2];
+    [AppDelegate doSingleViewShowAnimation:self.view :kCATransitionFade :0.2];
 
 }
 
 -(void)hide {
-    [[czzAppDelegate sharedAppDelegate] doSingleViewHideAnimation:self.view :kCATransitionFade :0.2];
+    [AppDelegate doSingleViewHideAnimation:self.view :kCATransitionFade :0.2];
 }
 
 - (IBAction)dismissAction:(id)sender {
@@ -173,7 +172,7 @@
 }
 
 - (IBAction)tapOnViewAction:(id)sender {
-    DLog(@"tap on view");
+    DDLogDebug(@"tap on view");
     if (homeViewController) {
         czzNotificationCentreTableViewController *notificationCentreViewController = [[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"notification_centre_view_controller"];
         notificationCentreViewController.currentNotification = currentNotification;
@@ -185,7 +184,6 @@
 }
 
 -(BOOL)shouldShow {
-    DLog(@"needsToBePresented = %d", needsToBePresented);
     return needsToBePresented;
 }
 
@@ -225,11 +223,11 @@
                 notifications = [NSMutableOrderedSet orderedSetWithArray:sortedArray];
             }
             @catch (NSException *exception) {
-                DLog(@"%@", exception);
+                DDLogDebug(@"%@", exception);
             }
         }
     } else {
-        DLog(@"downloaded notification empty!");
+        DDLogDebug(@"downloaded notification empty!");
     }
     [self saveNotifications];
 }
@@ -250,7 +248,7 @@
             notifications = [NSMutableOrderedSet orderedSetWithArray:sortedArray];
         }
         @catch (NSException *exception) {
-            DLog(@"%@", exception);
+            DDLogDebug(@"%@", exception);
         }
         [notificationManager saveNotifications:notifications];
     }

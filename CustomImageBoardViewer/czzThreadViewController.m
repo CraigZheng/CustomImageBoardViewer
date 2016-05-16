@@ -1,4 +1,4 @@
-//
+    //
 //  czzThreadViewController.m
 //  CustomImageBoardViewer
 //
@@ -8,318 +8,230 @@
 
 #import "czzThreadViewController.h"
 #import "czzThread.h"
-#import "Toast+UIView.h"
+#import "czzBannerNotificationUtil.h"
 #import "SMXMLDocument.h"
-#import "czzImageCentre.h"
+#import "czzImageCacheManager.h"
 #import "czzImageViewerUtil.h"
 #import "czzAppDelegate.h"
-#import "czzRightSideViewController.h"
 #import "czzHomeViewController.h"
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzThreadRefButton.h"
 #import "PartialTransparentView.h"
-#import "czzOnScreenCommandViewController.h"
 #import "czzSearchViewController.h"
 #import "czzSettingsCentre.h"
 #import "czzTextViewHeightCalculator.h"
 #import "czzMiniThreadViewController.h"
 #import "czzNavigationController.h"
 #import "czzOnScreenImageManagerViewController.h"
-#import "czzSubThreadList.h"
-#import "GSIndeterminateProgressView.h"
+#import "czzThreadTableViewManager.h"
+#import "czzFavouriteManager.h"
+#import "czzWatchListManager.h"
+#import "czzRoundButton.h"
+#import "czzPostSenderManagerViewController.h"
+#import "czzReplyUtil.h"
+#import "czzAutoEndingRefreshControl.h"
+#import "UIImage+animatedGIF.h"
 
-#define OVERLAY_VIEW 122
+NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
-@interface czzThreadViewController ()<czzThreadListProtocol, UIAlertViewDelegate, czzMenuEnabledTableViewCellProtocol, czzMiniThreadViewControllerProtocol, czzOnScreenImageManagerViewControllerDelegate>
-@property NSString *baseURLString;
-@property NSString *targetURLString;
-@property NSArray *threads;
-@property NSArray *verticalHeights;
-@property NSArray *horizontalHeights;
-@property NSIndexPath *selectedIndex;
-@property czzRightSideViewController *threadMenuViewController;
-@property czzImageViewerUtil *imageViewerUtil;
+@interface czzThreadViewController ()<UIAlertViewDelegate>
+@property (strong, nonatomic) NSIndexPath *selectedIndex;
+@property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
 @property CGPoint threadsTableViewContentOffSet; //record the content offset of the threads tableview
-@property BOOL shouldHighlight;
-@property czzOnScreenCommandViewController *onScreenCommandViewController;
-@property BOOL shouldDisplayQuickScrollCommand;
-@property NSString *thumbnailFolder;
-@property NSString *keywordToSearch;
-@property czzSettingsCentre *settingsCentre;
-@property UIViewController *rightViewController;
-@property UIViewController *topViewController;
-@property czzMiniThreadViewController *miniThreadView;
-@property BOOL viewControllerNotInTransition;
-@property UIRefreshControl *refreshControl;
-@property czzSubThreadList *threadList;
-@property GSIndeterminateProgressView *progressView;
+@property (assign, nonatomic) BOOL shouldHighlight;
+@property (assign, nonatomic) BOOL shouldDisplayQuickScrollCommand;
+@property (strong, nonatomic) NSString *thumbnailFolder;
+@property (strong, nonatomic) NSString *keywordToSearch;
+@property (strong, nonatomic) UIViewController *rightViewController;
+@property (strong, nonatomic) UIViewController *topViewController;
+@property (strong, nonatomic) czzMiniThreadViewController *miniThreadView;
+@property (strong, nonatomic) czzAutoEndingRefreshControl *refreshControl;
+@property (strong, nonatomic) czzThreadTableViewManager *threadTableViewManager;
+@property (strong, nonatomic) czzOnScreenImageManagerViewController *onScreenImageManagerViewController;
+@property (weak, nonatomic) IBOutlet UIView *postSenderViewContainer;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *massiveDownloadButtonHeightConstraint;
+@property (strong, nonatomic) UIAlertView *confirmMassiveDownloadAlertView;
+@property (strong, nonatomic) UIAlertView *confirmCancelMassiveDownloadAlertView;
+@property (strong, nonatomic) UIAlertView *confirmJumpToPageAlertView;
+@property (weak, nonatomic) IBOutlet UIImageView *massiveDownloadIndicatorImageView;
+@property (weak, nonatomic) IBOutlet UIButton *massiveDownloadButton;
 @end
 
 @implementation czzThreadViewController
-@synthesize baseURLString;
 @synthesize numberBarButton;
-@synthesize targetURLString;
-@synthesize threads;
-@synthesize threadTableView;
 @synthesize selectedIndex;
-@synthesize threadMenuViewController;
-@synthesize parentThread;
 @synthesize threadsTableViewContentOffSet;
 @synthesize shouldHighlight;
-@synthesize shouldHighlightSelectedUser;
-@synthesize verticalHeights;
-@synthesize horizontalHeights;
-@synthesize onScreenCommandViewController;
 @synthesize shouldDisplayQuickScrollCommand;
 @synthesize thumbnailFolder;
 @synthesize keywordToSearch;
-@synthesize settingsCentre;
 @synthesize rightViewController;
 @synthesize topViewController;
-@synthesize viewControllerNotInTransition;
 @synthesize miniThreadView;
 @synthesize imageViewerUtil;
-@synthesize refreshControl;
 @synthesize onScreenImageManagerViewContainer;
-@synthesize threadList;
-@synthesize progressView;
 @synthesize moreButton;
 @synthesize shouldRestoreContentOffset;
 
+#pragma mark - view controller life cycle.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    // self.threadViewManager must not be nil.
+    assert(self.threadTableViewManager != nil);
+    self.threadViewManager.delegate = self;
+    [self.threadViewManager restorePreviousState];
+    // The manager for the table view.
+    self.threadTableView.dataSource = self.threadTableViewManager;
+    self.threadTableView.delegate = self.threadTableViewManager;
     
-    //init arrays
-    threads = [NSMutableArray new];
-    verticalHeights = [NSMutableArray new];
-    horizontalHeights = [NSMutableArray new];
-
-    //thread list, source of all data
-    threadList = [[czzSubThreadList alloc] initWithParentThread:parentThread];
-    [threadList restorePreviousState];
-    threadList.delegate = self;
-    threadList.parentViewController = self;
-    [self copyDataFromThreadList];
-
-    //progress view
-    progressView = [(czzNavigationController*)self.navigationController progressView];
-    
-    //thumbnail folder
+    // Thumbnail folder
     thumbnailFolder = [czzAppDelegate thumbnailFolder];
     imageViewerUtil = [czzImageViewerUtil new];
-    //settings
-    settingsCentre = [czzSettingsCentre sharedInstance];
-    shouldHighlight = settingsCentre.userDefShouldHighlightPO;
+    // Settings
+    shouldHighlight = [settingCentre userDefShouldHighlightPO];
+    // On screen image manager view controller
+    if (!self.onScreenImageManagerViewController) {
+        self.onScreenImageManagerViewController = [czzOnScreenImageManagerViewController new];
+        self.onScreenImageManagerViewController.delegate = self.threadTableViewManager;
+        [self addChildViewController:self.onScreenImageManagerViewController];
+        [self.onScreenImageManagerViewContainer addSubview:self.onScreenImageManagerViewController.view];
+    }
+    // Post sender manager view controller.
+    czzPostSenderManagerViewController *postSenderManagerViewController = [czzPostSenderManagerViewController new];
+    [self addChildViewController:postSenderManagerViewController];
+    [self.postSenderViewContainer addSubview:postSenderManagerViewController.view];
+
     //add the UIRefreshControl to uitableview
-    refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
-    [threadTableView addSubview: refreshControl];
+    self.refreshControl = [[czzAutoEndingRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
+    [self.threadTableView addSubview: self.refreshControl];
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
 
-    //register xib
-    [self.threadTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
-    [self.threadTableView registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_TABLE_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER];
-    self.title = parentThread.title;
     self.navigationItem.backBarButtonItem.title = self.title;
     
-    //set up custom edit menu
-    UIMenuItem *replyMenuItem = [[UIMenuItem alloc] initWithTitle:@"回复" action:@selector(menuActionReply:)];
-    UIMenuItem *copyMenuItem = [[UIMenuItem alloc] initWithTitle:@"复制" action:@selector(menuActionCopy:)];
-    UIMenuItem *openMenuItem = [[UIMenuItem alloc] initWithTitle:@"打开链接" action:@selector(menuActionOpen:)];
-    UIMenuItem *highlightMenuItem = [[UIMenuItem alloc] initWithTitle:@"高亮他" action:@selector(menuActionHighlight:)];
-//    UIMenuItem *searchMenuItem = [[UIMenuItem alloc] initWithTitle:@"搜索他" action:@selector(menuActionSearch:)];
-    [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, highlightMenuItem, /*searchMenuItem,*/ openMenuItem]];
-    [[UIMenuController sharedMenuController] update];
-    //show on screen command
-    onScreenCommandViewController = [[UIStoryboard storyboardWithName:@"OnScreenCommand" bundle:nil] instantiateInitialViewController];
-    [self addChildViewController:onScreenCommandViewController];
-    [onScreenCommandViewController hide];
-    shouldDisplayQuickScrollCommand = settingsCentre.userDefShouldShowOnScreenCommand;
+    // What to do when this view controller has completed loading.
+    __weak czzThreadViewController *weakSelf = self;
+    void (^onLoadAction)(void) = ^void(void) {
+        // If threads array contains nothing other than the parent thread.
+        if (weakSelf.threadViewManager.threads.count <=1 ) {
+            [weakSelf refreshThread:weakSelf];
+        } else {
+            [weakSelf.threadViewManager loadMoreThreads];
+        }
+    };
     
-    //if in foreground, load more threads
-    if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground)
-    {
-        [threadList loadMoreThreads];
+    if (NavigationManager.isInTransition) {
+        NavigationManager.pushAnimationCompletionHandler = ^{
+            onLoadAction();
+        };
+    } else {
+        onLoadAction();
     }
-
-    //register an obverser while adding a parent view controller
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(entersBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    
+    // Google Analytic integration.
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Thread"
+                                                                                        action:@"View Thread"
+                                                                                         label:[NSString stringWithFormat:@"%ld", (long)self.threadViewManager.parentThread.ID]
+                                                                                         value:@1] build]];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    //configure the right view as menu
-    UINavigationController *rightController = [self.storyboard instantiateViewControllerWithIdentifier:@"right_menu_view_controller"];    threadMenuViewController = [rightController.viewControllers objectAtIndex:0];
-    threadMenuViewController.parentThread = parentThread;
-    threadMenuViewController.selectedThread = parentThread;
-    self.viewDeckController.rightController = rightController;
-    //do not allow panning
-    self.viewDeckController.panningMode = IIViewDeckNoPanning;
-    //disable left controller
-    self.viewDeckController.leftController = nil;
-    //Jump to command observer
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(PromptForJumpToPage) name:@"JumpToPageCommand" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(HighlightThreadSelected:) name:@"HighlightAction" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SearchUser:) name:@"SearchAction" object:nil];
+    // Google Analytic integration
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 
-    //background colour
-    self.threadTableView.backgroundColor = settingsCentre.viewBackgroundColour;
-    
-    //on screen image manager view
-    czzOnScreenImageManagerViewController *onScreenImgMrg = [(czzNavigationController*)self.navigationController onScreenImageManagerView];
-    onScreenImgMrg.view.frame = onScreenImageManagerViewContainer.bounds;
-    onScreenImgMrg.delegate = self;
-    [self addChildViewController:onScreenImgMrg];
-    [onScreenImageManagerViewContainer addSubview:onScreenImgMrg.view];
-    
-    //if big image mode, perform a reload
-    if ([settingCentre userDefShouldUseBigImage])
-    {
-        [threadTableView reloadData];
-    }
-
+    // Background colour.
+    self.threadTableView.backgroundColor = [settingCentre viewBackgroundColour];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    //disable right view controller
+    // Disable right view controller
     self.viewDeckController.rightController = nil;
-    //hide on screen command
-    [onScreenCommandViewController hide];
-    //no longer ready for more push animation
-    viewControllerNotInTransition = NO;
+    // Cache downloaded data into disk.
+    [self.threadViewManager saveCurrentState];
 }
 
--(void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    [threadList saveCurrentState];
+- (void)dealloc {
+    // Avoid calling deacllocated data source and delegate.
+    self.threadTableView.dataSource = nil;
+    self.threadTableView.delegate = nil;
+    [self.threadViewManager stopAllOperation];
 }
 
--(void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    //ready for push animation
-    viewControllerNotInTransition = YES;
-}
 
--(void)entersBackground {
-    if (threadList)
-        [threadList saveCurrentState];
-}
-
--(void)copyDataFromThreadList {
-    if (shouldRestoreContentOffset && CGPointEqualToPoint(threadTableView.contentOffset, CGPointZero)) {
-        [threadTableView setContentOffset:threadList.currentOffSet animated:NO];
+/*
+ This method would update the contents related to the table view
+ */
+-(void)updateTableView {
+    // Update bar buttons.
+    if (!numberBarButton.customView) {
+        numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
     }
-    if (threadList.threads.count > 0)
-        threads = [NSArray arrayWithArray:threadList.threads];
-    if (threadList.horizontalHeights.count > 0)
-        horizontalHeights = [NSArray arrayWithArray:threadList.horizontalHeights];
-    if (threadList.verticalHeights.count > 0)
-        verticalHeights = [NSArray arrayWithArray:threadList.verticalHeights];
-    [self updateNumberButton];
-}
-
-#pragma mark - Table view data source
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    // Return the number of rows in the section.
-    if (threads.count > 0)
-        return threads.count + 1;
-    return threads.count;
-}
-
-#pragma mark UITableView delegate
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSString *cell_identifier = [[czzSettingsCentre sharedInstance] userDefShouldUseBigImage] ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
-    if (indexPath.row == threads.count){
-        UITableViewCell *cell;// = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
-        if (threadList.isDownloading || threadList.isProcessing) {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"loading_cell_identifier"];
-            UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView*)[cell viewWithTag:2];
-            [activityIndicator startAnimating];
-        } else if (parentThread.responseCount > settingsCentre.response_per_page && (threadList.pageNumber * settingsCentre.response_per_page + threads.count % settingsCentre.response_per_page - 1) < parentThread.responseCount){
-
-            cell = [tableView dequeueReusableCellWithIdentifier:@"load_more_cell_identifier"];
-        } else {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"no_more_cell_identifier"];
-        }
-        cell.backgroundColor = [settingsCentre viewBackgroundColour];
-        return cell;
-    }
-    czzThread *thread = [threads objectAtIndex:indexPath.row];
-
-    czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
-    // Configure the cell...
-    if (cell){
-        cell.delegate = self;
-        cell.shouldHighlightSelectedUser = shouldHighlightSelectedUser;
-        cell.parentThread = parentThread;
-        cell.myThread = thread;
-        cell.myIndexPath = indexPath;
-    }
-    return cell;
-}
-
-- (CGRect)frameOfTextRange:(NSRange)range inTextView:(UITextView *)textView {
-    UITextPosition *beginning = textView.beginningOfDocument;
-    UITextPosition *start = [textView positionFromPosition:beginning offset:range.location];
-    UITextPosition *end = [textView positionFromPosition:start offset:range.length];
-    UITextRange *textRange = [textView textRangeFromPosition:start toPosition:end];
-    CGRect rect = [textView firstRectForRange:textRange];
-    return rect;
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    selectedIndex = indexPath;
-    if (selectedIndex.row < threads.count){
-        czzThread *selectedThread = [threads objectAtIndex:indexPath.row];
-        if (selectedThread){
-            [threadMenuViewController setSelectedThread:selectedThread];
-        }
+    
+    [(czzRoundButton *)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.threadViewManager.threads.count] forState:UIControlStateNormal];
+    
+    // Star button image - on or off.
+    if ([favouriteManager isThreadFavourited:self.threadViewManager.parentThread]) {
+        self.starButton.image = [UIImage imageNamed:@"solid_star.png"];
     } else {
-        [threadList loadMoreThreads];
-        [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        self.starButton.image = [UIImage imageNamed:@"star.png"];
     }
-}
-
--(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
-
-}
-
--(BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row < threads.count)
-        return YES;
-    return NO;
-}
-
--(BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender{
-    return (action == @selector(copy:));
-}
-
--(void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender{
-    
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if (indexPath.row >= threads.count)
-        return tableView.rowHeight;
-    
-    NSArray *heightArray = UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? verticalHeights : horizontalHeights;
-    CGFloat preferHeight = tableView.rowHeight;
-    @try {
-        preferHeight = [[heightArray objectAtIndex:indexPath.row] floatValue];
+    // Watch button image - watched or not.
+    if ([WatchListManager.watchedThreads containsObject:self.threadViewManager.parentThread]) {
+        self.watchButton.image = [UIImage imageNamed:@"visible.png"];
+    } else {
+        self.watchButton.image = [UIImage imageNamed:@"invisible.png"];
     }
-    @catch (NSException *exception) {
-        DLog(@"%@", exception);
+    [self.threadTableViewManager reloadData];
+}
+
+#pragma mark - Getters
+- (czzThreadTableViewManager *)threadTableViewManager {
+    if (!_threadTableViewManager) {
+        _threadTableViewManager = [czzThreadTableViewManager new];
+        _threadTableViewManager.threadViewManager = self.threadViewManager;
+        _threadTableViewManager.threadTableView = self.threadTableView;
+    }
+    return _threadTableViewManager;
+}
+
+#pragma mark - setter
+-(void)setThreadViewManager:(czzThreadViewManager *)viewManager {
+    _threadViewManager = viewManager;
+    self.title = self.threadViewManager.parentThread.title;
+
+    // Update bar buttons.
+    if (!numberBarButton.customView) {
+        numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
     }
     
-    return preferHeight;
+    [(czzRoundButton*)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.threadViewManager.threads.count] forState:UIControlStateNormal];
+    if (self.threadViewManager.threads.count <= 0)
+        numberBarButton.customView.hidden = YES;
+    else
+        numberBarButton.customView.hidden = NO;
+    // Hide the massive download button at first, then show it with animation.
+    // Show it only when the total pages is still 3 or more pages away from the current page number.
+    if (!self.massiveDownloadButtonHeightConstraint.constant &&
+        viewManager.totalPages - viewManager.pageNumber >= 3) {
+        self.massiveDownloadButtonHeightConstraint.constant = 40;
+        [UIView animateWithDuration:0.2 animations:^{
+            [self.view layoutIfNeeded];
+        }];
+    }
+    // Else, if the massive download button is showing and view manager has reached all of its pages.
+    else if (self.massiveDownloadButtonHeightConstraint.constant &&
+               viewManager.pageNumber >= viewManager.totalPages) {
+        self.massiveDownloadButtonHeightConstraint.constant = 0;
+        [UIView animateWithDuration:0.2 animations:^{
+            [self.view layoutIfNeeded];
+        }];
+    }
 }
 
 -(void)dragOnRefreshControlAction:(id)sender{
@@ -328,7 +240,7 @@
 
 #pragma mark - jump to and download controls
 -(void)PromptForJumpToPage{
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"跳页: %ld/%ld", (long) threadList.pageNumber, (long) threadList.totalPages] message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"跳页: %ld/%ld", (long) self.threadViewManager.pageNumber, (long) self.threadViewManager.totalPages] message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     UITextField *textInputField = [alertView textFieldAtIndex:0];
     if (textInputField)
@@ -336,303 +248,181 @@
         textInputField.keyboardType = UIKeyboardTypeNumberPad;
         textInputField.keyboardAppearance = UIKeyboardAppearanceDark;
     }
-    [alertView show];
-}
-
-#pragma mark - scrollToTop and scrollToBottom 
--(void)scrollTableViewToTop {
-    [threadTableView setContentOffset:CGPointMake(0.0f, -threadTableView.contentInset.top) animated:YES];
-}
-
--(void)scrollTableViewToBottom {
-    @try {
-        if (threads.count > 1)
-            [threadTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:threads.count inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-    }
-    @catch (NSException *exception) {
-        
-    }
-}
-
-#pragma mark - highlight thread selected
--(void)HighlightThreadSelected:(NSNotification*)notification {
-    czzThread *selectedThread = [notification.userInfo objectForKey:@"HighlightThread"];
-    if (selectedThread) {
-        if ([shouldHighlightSelectedUser isEqual:selectedThread.UID.string]) {
-            shouldHighlightSelectedUser = nil;
-        }
-        else
-            shouldHighlightSelectedUser = selectedThread.UID.string;
-        [threadTableView reloadData];
-    }
-}
-
-#pragma mark - search this particula user 
--(void)SearchUser:(NSNotification*)notification {
-    czzThread *selectedThread = [notification.userInfo objectForKey:@"SearchUser"];
-    if (selectedThread) {
-        keywordToSearch = selectedThread.UID.string;
-        [self performSegueWithIdentifier:@"go_search_view_segue" sender:self];
-    }
+    self.confirmJumpToPageAlertView = alertView;
+    [self.confirmJumpToPageAlertView show];
 }
 
 #pragma mark - UIAlertViewDelegate
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
-    if ([buttonTitle isEqualToString:@"确定"]){
-        NSInteger newPageNumber = [[[alertView textFieldAtIndex:0] text] integerValue];
-        if (newPageNumber > 0){
-            //clear threads and ready to accept new threads
-            [threadList removeAll];
-            [threadList loadMoreThreads:newPageNumber];
-            [threadTableView reloadData];
-            [refreshControl beginRefreshing];
-
-            [[[czzAppDelegate sharedAppDelegate] window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) threadList.pageNumber]];
-        } else {
-            [[[czzAppDelegate sharedAppDelegate] window] makeToast:@"页码无效..."];
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    // If user did not tap on the cancel button.
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        if (alertView == self.confirmMassiveDownloadAlertView) {
+            // If the incoming alertView is the confirm massive download alert view, start loadAll action.
+            [self.threadViewManager loadAll];
+        } else if (alertView == self.confirmJumpToPageAlertView) {
+            // If user wants to jump to a specific page number, verify that user enters a valid page number.
+            NSInteger newPageNumber = [[[alertView textFieldAtIndex:0] text] integerValue];
+            if (newPageNumber > 0){
+                //clear threads and ready to accept new threads
+                [self.threadViewManager removeAll];
+                [self.threadViewManager loadMoreThreads:newPageNumber];
+                [self updateTableView];
+                
+                [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) self.threadViewManager.pageNumber]
+                                                 position:BannerNotificationPositionTop];
+            } else {
+                [czzBannerNotificationUtil displayMessage:@"页码无效..."
+                                                 position:BannerNotificationPositionTop];
+            }
+        } else if (alertView == self.confirmCancelMassiveDownloadAlertView) {
+            [self.threadViewManager stopAllOperation];
         }
     }
 }
 
 -(void)refreshThread:(id)sender{
-    [threadList refresh];
+    [self.threadViewManager refresh];
+    [self updateTableView];
 }
 
-
-#pragma mark - czzMiniThreadViewProtocol
--(void)miniThreadViewFinishedLoading:(BOOL)successful {
-    DLog(@"%@", NSStringFromSelector(_cmd));
-    if (!successful) {
-        [[czzAppDelegate sharedAppDelegate].window makeToast:[NSString stringWithFormat:@"无法下载:%ld", (long)miniThreadView.threadID]];
-        
-    } else if (viewControllerNotInTransition)
-        [self presentViewController:miniThreadView animated:YES completion:nil];
+#pragma mark - czzThreadViewManagerDelegate
+- (void)homeViewManager:(czzHomeViewManager *)homeViewManager wantsToShowContentForThread:(czzThread *)thread {
+    self.miniThreadView = [czzMiniThreadViewController new];
+    self.miniThreadView.myThread = thread;
+    [self.miniThreadView modalShow];
 }
 
--(void)miniThreadWantsToOpenThread:(czzThread*)thread {
-    [self dismissViewControllerAnimated:YES completion:^{
-        [self switchToParentThread:thread];
-    }];
-}
-
-
-#pragma mark - UIScrollVIew delegate
--(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    if (onScreenCommandViewController && threads.count > 1 && shouldDisplayQuickScrollCommand) {
-        [onScreenCommandViewController show];
+- (void)homeViewManager:(czzHomeViewManager *)threadViewManager wantsToScrollToContentOffset:(CGPoint)offset {
+    // If not CGPointZero
+    if (!CGPointEqualToPoint(CGPointZero, offset) && self.threadTableView) {
+        self.threadTableView.contentOffset = offset;
     }
 }
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    threadList.currentOffSet = scrollView.contentOffset;
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)aScrollView
-{
-    NSArray *visibleRows = [threadTableView visibleCells];
-    UITableViewCell *lastVisibleCell = [visibleRows lastObject];
-    NSIndexPath *path = [threadTableView indexPathForCell:lastVisibleCell];
-    if(path.row == threads.count && threads.count > 0)
-    {
-        CGRect lastCellRect = [threadTableView rectForRowAtIndexPath:path];
-        if (lastCellRect.origin.y + lastCellRect.size.height >= threadTableView.frame.origin.y + threadTableView.frame.size.height && !(threadList.isDownloading || threadList.isProcessing)){
-            if (threadList.pageNumber < threadList.totalPages) {
-                [threadList loadMoreThreads];
-                [threadTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:threads.count inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-            }
-        }
+- (void)homeViewManagerWantsToReload:(czzHomeViewManager *)manager {
+    if (manager.threads.count) {
+        [self updateTableView];
     }
 }
 
-#pragma mark - czzSubThreadListProtocol
--(void)threadListBeginDownloading:(czzThreadList *)threadList {
-//    DLog(@"%@", NSStringFromSelector(_cmd));
-    if (!progressView.isAnimating) {
-        [progressView startAnimating];
+-(void)viewManagerDownloadStateChanged:(czzHomeViewManager *)homeViewManager {
+    if (homeViewManager.isDownloading) {
+        [self startLoading];
+    } else {
+        [self stopLoading];
+    }
+    // Massive downloading - set images for the massive download indicator.
+    if (self.threadViewManager.isMassiveDownloading) {
+        if (!self.massiveDownloadIndicatorImageView.image)
+            self.massiveDownloadIndicatorImageView.image = [UIImage animatedImageWithAnimatedGIFURL:[[NSBundle mainBundle] URLForResource:@"loading_bar_dot"
+                                                                                                                        withExtension:@"gif"]];
+    } else {
+        self.massiveDownloadIndicatorImageView.image = nil;
     }
 }
 
--(void)threadListDownloaded:(czzThreadList *)threadList wasSuccessful:(BOOL)wasSuccessful {
-    if (!wasSuccessful)
-    {
-        if (progressView.isAnimating) {
-            [refreshControl endRefreshing];
-            [progressView stopAnimating];
-            [progressView showWarning];
-        }
+-(void)homeViewManager:(czzHomeViewManager *)threadViewManager downloadSuccessful:(BOOL)wasSuccessful {
+    if (!wasSuccessful) {
+        [self showWarning];
     }
 }
 
--(void)subThreadProcessed:(czzThreadList *)threadList wasSuccessful:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
+-(void)homeViewManager:(czzHomeViewManager *)threadViewManager threadContentProcessed:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
     if (wasSuccessul) {
-        [self copyDataFromThreadList];
-        [threadTableView reloadData];
-        [refreshControl endRefreshing];
-        [progressView stopAnimating];
+        if (newThreads.count) {
+            self.threadViewManager = (czzThreadViewManager*)threadViewManager;
+        }
+    } else {
+        [self showWarning];
     }
+    [self updateTableView];
+    // Reset the lastCellType back to default.
+    self.threadTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
 }
 
--(void)updateNumberButton {
-    UIButton *numberButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    numberButton.frame = CGRectMake(numberButton.frame.origin.x, numberButton.frame.origin.y, 24, 24);
-    numberButton.layer.cornerRadius = 12;
-    numberButton.titleLabel.font = [UIFont systemFontOfSize:11];
-    [numberButton setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-    numberButton.backgroundColor = [UIColor whiteColor];
-    
-    if (!numberBarButton) {
-        numberBarButton = [[UIBarButtonItem alloc] initWithCustomView:numberButton];
-    } else
-        numberBarButton.customView = numberButton;
+- (void)viewManagerContinousDownloadUpdated:(czzThreadViewManager *)viewManager {
+    // A download of a page is completed, display it on screen.
+    self.threadViewManager = viewManager;
+    [self updateTableView];
+}
 
-    [numberButton setTitle:[NSString stringWithFormat:@"%ld", (long) threads.count] forState:UIControlStateNormal];
-    if (threads.count <= 0)
-        numberButton.hidden = YES;
-    else
-        numberButton.hidden = NO;
-    self.navigationItem.rightBarButtonItems = @[moreButton, numberBarButton];
+- (void)viewManager:(czzThreadViewManager *)viewManager continousDownloadCompleted:(BOOL)success {
+    // All threads downloaded, the handling of this event would be the same as a single page downloader event.
+    [self homeViewManager:viewManager
+   threadContentProcessed:success
+               newThreads:viewManager.lastBatchOfThreads
+               allThreads:viewManager.threads];
 }
 
 #pragma mark - UI button actions
-- (IBAction)moreAction:(id)sender {
-    [self.navigationController setToolbarHidden:!self.navigationController.toolbarHidden animated:YES];
+
+- (IBAction)massiveDownloadAction:(id)sender {
+    if (self.threadViewManager.isMassiveDownloading) {
+        // Stop massive download.
+        self.confirmCancelMassiveDownloadAlertView = [[UIAlertView alloc] initWithTitle:@"取消一键到底!"
+                                                                                message:[NSString stringWithFormat:@"是否取消一键到底?"]
+                                                                               delegate:self
+                                                                      cancelButtonTitle:@"算了"
+                                                                      otherButtonTitles:@"确定", nil];
+        [self.confirmCancelMassiveDownloadAlertView show];
+    } else {
+        // Start massive download.
+        self.confirmMassiveDownloadAlertView = [[UIAlertView alloc] initWithTitle:@"一键到底!"
+                                                                          message:[NSString stringWithFormat:@"将加载%ld页内容,请确认!",
+                                                                                   self.threadViewManager.totalPages - self.threadViewManager.pageNumber]
+                                                                         delegate:self
+                                                                cancelButtonTitle:@"取消"
+                                                                otherButtonTitles:@"确定", nil];
+        [self.confirmMassiveDownloadAlertView show];
+    }
 }
 
 - (IBAction)replyAction:(id)sender {
-    [threadMenuViewController replyMainAction];
+    [czzReplyUtil replyMainThread:self.threadViewManager.parentThread];
 }
 
 - (IBAction)starAction:(id)sender {
-    [threadMenuViewController favouriteAction];
+    if (self.threadViewManager.parentThread) {
+        if ([favouriteManager isThreadFavourited:self.threadViewManager.parentThread]) {
+            // Already contained, remove instead.
+            [favouriteManager removeFavourite:self.threadViewManager.parentThread];
+            [AppDelegate showToast:@"已移除收藏"];
+        } else {
+            [favouriteManager addFavourite:self.threadViewManager.parentThread];
+            [AppDelegate showToast:@"已加入收藏"];
+        }
+        [self updateTableView];
+    }
 }
+
+- (IBAction)watchAction:(id)sender {
+    czzThread *targetThread = self.threadViewManager.parentThread;
+    if ([WatchListManager.watchedThreads containsObject:targetThread]) {
+        [AppDelegate showToast:@"已取消注目"];
+        [WatchListManager removeFromWatchList:targetThread];
+    } else {
+        [AppDelegate showToast:@"已注目此串"];
+        [WatchListManager addToWatchList:targetThread];
+    }
+    [self updateTableView];
+}
+
 
 - (IBAction)jumpAction:(id)sender {
     [self PromptForJumpToPage];
 }
 
 - (IBAction)reportAction:(id)sender {
-    [threadMenuViewController reportAction];
+    [czzReplyUtil reportThread:self.threadViewManager.parentThread inParentThread:self.threadViewManager.parentThread];
 }
 
 - (IBAction)shareAction:(id)sender {
     //create the thread link - hardcode it
-    NSString *threadLink = [[settingCentre share_post_url] stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long) threadList.parentThread.ID]];
+    NSString *threadLink = [[settingCentre share_post_url] stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long) self.threadViewManager.parentThread.ID]];
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[[NSURL URLWithString:threadLink]] applicationActivities:nil];
     if ([activityViewController respondsToSelector:@selector(popoverPresentationController)])
         activityViewController.popoverPresentationController.sourceView = self.view;
     [self presentViewController:activityViewController animated:YES completion:nil];
-}
-
-#pragma mark - TableViewCellDelegate
--(void)userTapInImageView:(NSString *)imgURL {
-    for (NSString *file in [[czzImageCentre sharedInstance] currentLocalImages]) {
-        if ([file.lastPathComponent.lowercaseString isEqualToString:imgURL.lastPathComponent.lowercaseString])
-        {
-            [self openImageWithPath:file];
-            return;
-        }
-    }
-}
-
--(void)userTapInQuotedText:(NSString *)text {
-    NSInteger refNumber = text.integerValue;
-    
-    for (czzThread *thread in threads) {
-        if (thread.ID == refNumber){
-            //record the current content offset
-            threadsTableViewContentOffSet = threadTableView.contentOffset;
-            //scroll to the tapped cell
-            [threadTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[threads indexOfObject:thread] inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:NO];
-            //retrive the tapped tableview cell from the tableview
-            UITableViewCell *selectedCell = [threadTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[threads indexOfObject:thread] inSection:0]];
-            [self highlightTableViewCell:selectedCell];
-            return;
-        }
-    }
-    
-    //not in this thread
-    [[czzAppDelegate sharedAppDelegate].window makeToast:[NSString stringWithFormat:@"需要下载: %@", text]];
-    miniThreadView = [[UIStoryboard storyboardWithName:@"MiniThreadView" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
-    miniThreadView.delegate = self;
-    [miniThreadView setThreadID:refNumber];
-}
-
--(void)imageDownloadedForIndexPath:(NSIndexPath *)index filePath:(NSString *)path isThumbnail:(BOOL)isThumbnail {
-    if (isThumbnail)
-    {
-        if (index && index.row < threads.count) {
-            @try {
-                [threadTableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationAutomatic];
-            }
-            @catch (NSException *exception) {
-                DLog(@"%@", exception);
-            }
-        }
-    } else if (settingsCentre.userDefShouldAutoOpenImage) {
-        [self openImageWithPath:path];
-    }
-}
-
-#pragma mark - high light
--(void)highlightTableViewCell:(UITableViewCell*)tableviewcell{
-    //disable the scrolling view
-    self.threadTableView.scrollEnabled = NO;
-    PartialTransparentView *containerView = [[PartialTransparentView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.threadTableView.contentSize.height) backgroundColor:[[UIColor darkGrayColor] colorWithAlphaComponent:0.7f] andTransparentRects:[NSArray arrayWithObject:[NSValue valueWithCGRect:tableviewcell.frame]]];
-    
-    containerView.userInteractionEnabled = YES;
-    containerView.tag = OVERLAY_VIEW;
-    
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnFloatingView: )];
-    //fade in effect
-    containerView.alpha = 0.0f;
-    [threadTableView addSubview:containerView];
-    [UIView animateWithDuration:0.2
-                     animations:^{containerView.alpha = 1.0f;}
-                     completion:^(BOOL finished){[containerView addGestureRecognizer:tapRecognizer];}];
-    
-}
-
--(void)tapOnFloatingView:(UIGestureRecognizer*)gestureRecognizer{
-    PartialTransparentView *containerView = (PartialTransparentView*)[threadTableView viewWithTag:OVERLAY_VIEW];
-    [UIView animateWithDuration:0.2 animations:^{
-        containerView.alpha = 0.0f;
-    } completion:^(BOOL finished){
-        [containerView removeFromSuperview];
-        //scroll back to the original position
-    }];
-    CGPoint touchPoint = [gestureRecognizer locationInView:threadTableView];
-    NSArray *rectArray = containerView.rectsArray;
-    BOOL userTouchInView = NO;
-    for (NSValue *rect in rectArray) {
-        if (CGRectContainsPoint([rect CGRectValue], touchPoint)) {
-            userTouchInView = YES;
-            break;
-        }
-    }
-    
-    if (!userTouchInView)
-        [threadTableView setContentOffset:threadsTableViewContentOffSet animated:YES];
-    threadTableView.scrollEnabled = YES;
-}
-
-//show image
--(void)openImageWithPath:(NSString*)path{
-    if (viewControllerNotInTransition)
-        [imageViewerUtil showPhoto:path inViewController:self];
-}
-
-#pragma mark - czzOnScreenImageManagerViewControllerDelegate
--(void)onScreenImageManagerDownloadFinished:(czzOnScreenImageManagerViewController *)controller imagePath:(NSString *)path wasSuccessful:(BOOL)success {
-    if (success) {
-        if ([settingCentre userDefShouldAutoOpenImage])
-            [self openImageWithPath:path];
-    } else
-        DLog(@"img download failed");
-}
-
--(void)onScreenImageManagerSelectedImage:(NSString *)path {
-    [self openImageWithPath:path];
 }
 
 #pragma mark - prepare for segue
@@ -644,38 +434,21 @@
     }
 }
 
-#pragma mark - switch parent thread
--(void)switchToParentThread:(czzThread*)newParentThread {
-    if (newParentThread)
-    {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.parentThread = newParentThread;
-            [threadList setParentThread:self.parentThread];
-            [self refreshThread:nil];
-        });
-    }
+#pragma mark - Rotation event.
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [self.threadTableViewManager viewWillTransitionToSize:size
+                                withTransitionCoordinator:coordinator];
+    [self updateTableView];
 }
 
-#pragma mark - rotation change
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
-    UIView *containerView = [[[czzAppDelegate sharedAppDelegate] window] viewWithTag:OVERLAY_VIEW];
-    //if the container view is not nil, deselect it
-    if (containerView)
-        [self performSelector:@selector(tapOnFloatingView:) withObject:nil];
+#pragma mark - State perserving
+- (NSString*)saveCurrentState {
+    self.threadViewManager.currentOffSet = self.threadTableView.contentOffset;
+    return [self.threadViewManager saveCurrentState];
 }
 
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    @try {
-        NSInteger numberOfVisibleRows = [threadTableView indexPathsForVisibleRows].count / 2;
-        if (numberOfVisibleRows > 1) {
-            NSIndexPath *currentMiddleIndexPath = [[threadTableView indexPathsForVisibleRows] objectAtIndex:numberOfVisibleRows];
-            [threadTableView reloadData];
-            [threadTableView scrollToRowAtIndexPath:currentMiddleIndexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
-        }
-    }
-    @catch (NSException *exception) {
-    }
++(instancetype)new {
+    return [[UIStoryboard storyboardWithName:THREAD_VIEW_CONTROLLER_STORYBOARD_NAME bundle:nil] instantiateViewControllerWithIdentifier:THREAD_VIEW_CONTROLLER_ID];
 }
-
-
 @end

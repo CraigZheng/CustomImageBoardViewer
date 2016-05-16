@@ -28,8 +28,8 @@
 @property (nonatomic) CGFloat badgeOriginX;
 @property (nonatomic) CGFloat badgeOriginY;
 // In case of numbers, remove the badge when reaching zero
-@property BOOL shouldHideBadgeAtZero;
+@property (assign, nonatomic) BOOL shouldHideBadgeAtZero;
 // Badge has a bounce animation when value changes
-@property BOOL shouldAnimateBadge;
+@property (assign, nonatomic) BOOL shouldAnimateBadge;
 
 @end

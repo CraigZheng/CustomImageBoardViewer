@@ -9,18 +9,51 @@
 #import "czzFavouriteManager.h"
 #import "czzAppDelegate.h"
 
+@interface czzFavouriteManager()
+@property (nonatomic, readonly) NSString *favouriteFilePath;
+@end
+
 @implementation czzFavouriteManager
 @synthesize favouriteThreads;
-@synthesize verticalHeights, horizontalHeights;
 
 -(instancetype)init {
     self = [super init];
     
     if (self) {
+        // Check cache folder and files.
+        
+        NSFileManager *manager = [NSFileManager defaultManager];
+        NSError *error;
+        if (![manager fileExistsAtPath:self.favouriteFolder]){
+            [manager createDirectoryAtPath:self.favouriteFolder
+               withIntermediateDirectories:NO
+                                attributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                                     error:nil];
+            DDLogDebug(@"Create document folder: %@", self.favouriteFolder);
+        } else {
+            [manager setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                      ofItemAtPath:self.favouriteFolder
+                             error:&error];
+        }
+        // Create the new cache file with the given attributes.
+        if (![manager fileExistsAtPath:self.favouriteFilePath]) {
+            [manager createFileAtPath:self.favouriteFilePath
+                             contents:nil
+                           attributes:@{NSFileProtectionKey:NSFileProtectionNone}];
+        } else {
+            [manager setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                      ofItemAtPath:self.favouriteFilePath
+                             error:&error];
+        }
+        if (error) {
+            DLog(@"%@", error);
+        }
+
         favouriteThreads = [NSMutableOrderedSet new];
         [self restorePreviousState];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(entersBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
+                                                 selector:@selector(entersBackground)
+                                                     name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
     return self;
 }
@@ -30,10 +63,12 @@
     //sort after modification
     NSArray *sortedArray = [self sortTheGivenArray:[favouriteThreads array]];
     favouriteThreads = [[NSMutableOrderedSet alloc] initWithArray:sortedArray];
-    verticalHeights = nil;
-    horizontalHeights = nil;
 
     [self saveCurrentState];
+}
+
+-(BOOL)isThreadFavourited:(czzThread *)thread {
+    return [self.favouriteThreads containsObject:thread];
 }
 
 -(BOOL)removeFavourite:(czzThread *)thread {
@@ -60,27 +95,38 @@
 }
 
 -(void)saveCurrentState {
-    NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:FAVOURITE_THREAD_CACHE_FILE];
-    if (![NSKeyedArchiver archiveRootObject:favouriteThreads toFile:cacheFile]) {
-        DLog(@"can not save favourite threads to %@", cacheFile);
+    DDLogDebug(@"%s", __PRETTY_FUNCTION__);
+    if (![NSKeyedArchiver archiveRootObject:favouriteThreads toFile:self.favouriteFilePath]) {
+        DDLogDebug(@"can not save favourite threads to %@", self.favouriteFilePath);
     }
 }
 
 -(void)restorePreviousState {
     @try {
-        NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:FAVOURITE_THREAD_CACHE_FILE];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
-            NSSet *tempSet = [NSKeyedUnarchiver unarchiveObjectWithFile:cacheFile];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:self.favouriteFilePath]) {
+            NSSet *tempSet = [NSKeyedUnarchiver unarchiveObjectWithFile:self.favouriteFilePath];
             if (tempSet) {
                 NSArray *sortedArray = [self sortTheGivenArray:[tempSet allObjects]];
                 favouriteThreads = [[NSMutableOrderedSet alloc] initWithArray:sortedArray];
+                DDLogDebug(@"Restored favourite threads.");
             }
         }
     }
     @catch (NSException *exception) {
-        DLog(@"%@", exception);
+        DDLogDebug(@"%@", exception);
         favouriteThreads = [NSMutableOrderedSet new];
     }
+}
+
+#pragma mark - Getters
+
+- (NSString *)favouriteFilePath {
+    return [self.favouriteFolder stringByAppendingPathComponent:FAVOURITE_THREAD_CACHE_FILE];
+}
+
+- (NSString *)favouriteFolder {
+    NSString *favouriteFolder = [[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"Favourite"];
+    return favouriteFolder;
 }
 
 #pragma sort array - sort the threads so they arrange with ID
@@ -91,7 +137,7 @@
     return sortedArray;
 }
 
-+ (id)sharedInstance
++ (instancetype)sharedInstance
 {
     // structure used to test whether the block has completed or not
     static dispatch_once_t p = 0;

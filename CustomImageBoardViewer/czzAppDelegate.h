@@ -7,26 +7,25 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "IIViewDeckController.h"
-#import "czzHomeViewController.h"
-#import "NSObject+Extension.h"
 
 //the host will be changed very soon
-#define my_main_host @"http://civ.atwebpages.com/"
-#define my_backup_host @"http://civ.my-realm.com/"
+#define my_main_host @"www.my-realm.com"
+#define my_backup_host @"http://civ.atwebpages.com/"
+
+// Manager singleton
+#define AppDelegate [czzAppDelegate sharedAppDelegate]
 
 @interface czzAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property BOOL shouldUseBackupServer;
-@property (nonatomic) NSString *myhost;
-@property czzHomeViewController *homeViewController; //this is pretty much the root of the whole app.
-@property (nonatomic) NSString *vendorID;
-@property NSArray *forums;
+@property (assign, nonatomic) BOOL shouldUseBackupServer;
+@property (strong, nonatomic) NSString *myhost;
+@property (strong, nonatomic) NSString *vendorID;
 
 -(void)showToast:(NSString*)string;
 + (czzAppDelegate*) sharedAppDelegate;
 +(NSString*)libraryFolder;
++(NSString*)documentFolder;
 +(NSString*)thumbnailFolder;
 +(NSString*)imageFolder;
 +(NSString*)threadCacheFolder;
@@ -35,6 +34,4 @@
 -(void)checkFolders;
 -(void)doSingleViewHideAnimation:(UIView*)incomingView :(NSString*)animType :(CGFloat)duration;
 -(void)doSingleViewShowAnimation:(UIView*)incomingView :(NSString*)animType :(CGFloat)duration;
-
--(NSString*)getForumIDFromForumName:(NSString*)fName;
 @end

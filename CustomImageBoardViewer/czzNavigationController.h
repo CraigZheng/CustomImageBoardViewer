@@ -13,8 +13,7 @@
 #import "GSIndeterminateProgressView.h"
 
 @interface czzNavigationController : UINavigationController
-@property czzNotificationBannerViewController *notificationBannerViewController;
-@property czzOnScreenImageManagerViewController *onScreenImageManagerView;
-@property czzShortImageManagerCollectionViewController *shortImageMangerController;
-@property GSIndeterminateProgressView *progressView;
+@property (strong) czzNotificationBannerViewController *notificationBannerViewController;
+@property (nonatomic, strong) UINavigationController *leftViewController;
+
 @end
