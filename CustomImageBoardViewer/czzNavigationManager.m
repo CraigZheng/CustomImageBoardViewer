@@ -36,6 +36,17 @@
     dispatch_after(delay, dispatch_get_main_queue(), ^{
         self.isInTransition = NO;
     });
+    // Close the drawer menu, and disable to left drawer.
+    czzHomeViewManager *viewManager;
+    [viewController.viewDeckController closeLeftViewAnimated:NO];
+    [viewController.viewDeckController closeRightViewAnimated:NO];
+    viewController.viewDeckController.leftController = nil;
+    if ([viewController isKindOfClass:[czzHomeViewController class]]) {
+        viewManager = [viewController performSelector:@selector(homeViewManager)];
+        viewController.viewDeckController.leftController = self.delegate.leftViewController;
+    } else if ([viewController isKindOfClass:[czzThreadViewController class]]) {
+        viewManager = [viewController performSelector:@selector(threadViewManager)];
+    }
 }
 
 -(void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
@@ -48,16 +59,6 @@
     }
     @catch (NSException *exception) {
         DDLogDebug(@"%@", exception);
-    }
-    
-    // Reload animating progress view.
-    czzHomeViewManager *viewManager;
-    viewController.viewDeckController.leftController = nil;
-    if ([viewController isKindOfClass:[czzHomeViewController class]]) {
-        viewManager = [viewController performSelector:@selector(homeViewManager)];
-        viewController.viewDeckController.leftController = self.delegate.leftViewController;
-    } else if ([viewController isKindOfClass:[czzThreadViewController class]]) {
-        viewManager = [viewController performSelector:@selector(threadViewManager)];
     }
 }
 
