@@ -23,6 +23,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 NSInteger const threadCellImageViewNormalHeight = 100;
+static NSInteger const imageViewContainerNormalHeight = threadCellImageViewNormalHeight + 8;
 static NSInteger const layoutConstraintZeroHeight = 0;
 static NSInteger const footerViewNormalHeight = 20;
 static NSString * const showThreadWithID = @"showThreadWithID";
@@ -191,7 +192,7 @@ static NSString * const showThreadWithID = @"showThreadWithID";
     NSString *imageName;
     if (self.allowImage && (imageName = self.thread.imgSrc.lastPathComponent).length) {
         previewImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:imageName]]];
-        self.imageViewHeightConstraint.constant = threadCellImageViewNormalHeight;
+        self.imageViewHeightConstraint.constant = imageViewContainerNormalHeight;
         self.cellImageView.image = previewImage ?: self.placeholderImage;
     } else {
         // Completely invisible.
