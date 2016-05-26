@@ -36,7 +36,7 @@
 }
 
 -(BOOL)isHidden {
-    return self.sageLabel.hidden == self.lockedLabel.hidden == self.responseCountLabel.hidden == YES;
+    return self.sageLabel.hidden && self.lockedLabel.hidden && self.responseCountLabel.hidden;
 }
 
 @end
