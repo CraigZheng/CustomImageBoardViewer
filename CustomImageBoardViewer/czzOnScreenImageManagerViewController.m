@@ -23,6 +23,7 @@
 @property (assign, nonatomic) BOOL iconAnimating;
 @property (assign, nonatomic) BOOL isShowingShortImageManagerController;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
+@property (assign, nonatomic) NSInteger unviewedImageCount;
 @end
 
 @implementation czzOnScreenImageManagerViewController
@@ -52,17 +53,19 @@
     iconAnimating = NO;
     
     //badge view
-    [self.view.badgeView setPosition:MGBadgePositionTopRight];
-    [self.view.badgeView setBadgeColor:[UIColor redColor]];
+    [self.mainIconContainer.badgeView setPosition:MGBadgePositionTopRight];
+    [self.mainIconContainer.badgeView setBadgeColor:[UIColor redColor]];
 
     // Add self to be a delegate of czzImageDownloaderManager
     [[czzImageDownloaderManager sharedManager] addDelegate:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     if ([czzImageDownloaderManager sharedManager].isDownloading) {
         [self startAnimating];
     }
+    self.mainIconContainer.badgeView.badgeValue = self.unviewedImageCount;
 }
 
 - (IBAction)tapOnImageManagerIconAction:(id)sender {
@@ -84,8 +87,9 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.destinationViewController isKindOfClass:[czzShortImageManagerCollectionViewController class]]) {
         [(czzShortImageManagerCollectionViewController *)segue.destinationViewController setDelegate:self];
-        // Reset badge value.
-        self.view.badgeView.badgeValue = 0;
+        // Reset unviewed images value.
+        self.unviewedImageCount =
+        self.mainIconContainer.badgeView.badgeValue = 0;
     }
 }
 
@@ -95,7 +99,8 @@
         if (success) {
             if (![settingCentre userDefShouldAutoOpenImage] &&
                 !self.isShowingShortImageManagerController) {
-                [self.view.badgeView setBadgeValue:self.view.badgeView.badgeValue + 1];
+                // Badge value needs to be reset as well.
+                self.mainIconContainer.badgeView.badgeValue = self.unviewedImageCount;
             }
         }
         if (manager.imageDownloaders.count <= 0)
@@ -124,7 +129,7 @@
     [self.imageViewerUtil showPhotos:imageSource withIndex:index];
 }
 
-#pragma mark - Getter
+#pragma mark - Getters && Setters
 
 - (BOOL)isShowingShortImageManagerController {
     // If the topViewController is a czzShortImageManagerCollectionViewController, return YES.
@@ -132,6 +137,15 @@
         return YES;
     }
     return NO;
+}
+
+- (NSInteger)unviewedImageCount {
+    NSInteger count = [czzImageDownloaderManager sharedManager].unviewedImageCount;
+    return count;
+}
+
+- (void)setUnviewedImageCount:(NSInteger)unviewedImageCount {
+    [czzImageDownloaderManager sharedManager].unviewedImageCount = unviewedImageCount;
 }
 
 + (instancetype)new {

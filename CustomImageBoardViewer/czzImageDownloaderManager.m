@@ -147,6 +147,7 @@
 
     // Record successfully downloaded full size image to self.downloadedFullSizeImages
     if (success && !thumbnail) {
+        self.unviewedImageCount ++;
         [self.downloadedFullSizeImages addObject:path];
     }
     [self iterateDelegatesWithBlock:^(id<czzImageDownloaderManagerDelegate> delegate) {
