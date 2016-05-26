@@ -51,7 +51,7 @@
     fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
     [DDLog addLogger:fileLogger];
     // Splunk mint configuration.
-    [[Mint sharedInstance] initAndStartSession:@"cd668a8e"];
+    [[Mint sharedInstance] initAndStartSessionWithAPIKey:@"cd668a8e"];
     [[Mint sharedInstance] setUserIdentifier:[UIDevice currentDevice].identifierForVendor.UUIDString];
     // Talkind data initialisation
     [TalkingData sessionStarted:@"B8168DD03CD9EF62B476CEDFBC3FB52D" withChannelId:@""];
