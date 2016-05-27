@@ -95,7 +95,7 @@
     DLog(@"");
     if (successful) {
         // Check if the response contain any illegay keyword.
-        if ([response containsString:settingCentre.sensitive_keyword]) {
+        if (settingCentre.sensitive_keyword.length && [response containsString:settingCentre.sensitive_keyword]) {
             self.severeWarnedPostSender = postSender;
             // Warn all delegates after a set of delay.
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
