@@ -68,9 +68,17 @@ static NSString * const showThreadWithID = @"showThreadWithID";
                 NSString *quotedNumberText = [NSString stringWithFormat:@"%ld", (long)rep];
                 NSRange range = [self.contentTextView.attributedText.string rangeOfString:quotedNumberText];
                 if (range.location != NSNotFound){
-                    [mutableAttributedString addAttribute:NSLinkAttributeName
-                                                    value:[NSString stringWithFormat:@"showThreadWithID://%@", quotedNumberText]
-                                                    range:range];
+                    CGRect result = [self frameOfTextRange:range inTextView:self.contentTextView];
+                    
+                    if (!CGSizeEqualToSize(CGSizeZero, result.size)){
+                        CGRect convertedRect = [self.contentView convertRect:result fromView:self.contentTextView];
+                        czzThreadRefButton *threadRefButton = [[czzThreadRefButton alloc] initWithFrame:CGRectMake(convertedRect.origin.x, convertedRect.origin.y + self.contentTextView.frame.origin.y, convertedRect.size.width, convertedRect.size.height)];
+                        threadRefButton.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.1f];
+                        [threadRefButton addTarget:self action:@selector(userTapInRefButton:) forControlEvents:UIControlEventTouchUpInside];
+                        threadRefButton.threadRefNumber = rep;
+                        [self.contentView addSubview:threadRefButton];
+                        [self.referenceButtons addObject:threadRefButton];
+                    }
                 }
             }
         }
@@ -218,6 +226,12 @@ static NSString * const showThreadWithID = @"showThreadWithID";
     }
 }
 
+- (void)userTapInRefButton:(id)sender {
+    if ([sender isKindOfClass:[czzThreadRefButton class]]) {
+        [self showThreadWithID:[NSString stringWithFormat:@"%ld", (long)[(czzThreadRefButton *)sender threadRefNumber]]];
+    }
+}
+
 #pragma - mark UIActionSheet delegate
 //Open the link associated with the button
 -(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
@@ -261,13 +275,12 @@ static NSString * const showThreadWithID = @"showThreadWithID";
     _cellType = cellType;
     if (cellType == threadViewCellTypeHome) {
         // When in Home view, disable all the fancy interaction with the contentTextView.
-        self.contentTextView.userInteractionEnabled = NO;
         // When in big image mode, the cell image view should be disabled when the cell type is home.
         if (self.bigImageMode) {
             self.cellImageView.userInteractionEnabled = NO;
         }
     } else {
-        self.contentTextView.userInteractionEnabled = self.cellImageView.userInteractionEnabled = YES;
+        self.cellImageView.userInteractionEnabled = YES;
     }
 }
 
@@ -314,6 +327,12 @@ static NSString * const showThreadWithID = @"showThreadWithID";
         shouldInteract = NO;
     }
     return shouldInteract;
+}
+
+- (void)textViewDidChangeSelection:(UITextView *)textView {
+    if(NSEqualRanges(textView.selectedRange, NSMakeRange(0, 0)) == NO) {
+        textView.selectedRange = NSMakeRange(0, 0);
+    }
 }
 
 #pragma mark - UIResponder methods.
