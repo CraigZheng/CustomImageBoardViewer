@@ -12,7 +12,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NO:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="C2G-12-dZV">
-                    <rect key="frame" x="8" y="2" width="20" height="18"/>
+                    <rect key="frame" x="8" y="2" width="20" height="15.5"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="20" id="Bma-Ba-m0J"/>
@@ -24,7 +24,7 @@
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
                 <label clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ABCDE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Hvz-Y8-z5f">
-                    <rect key="frame" x="121" y="4.5" width="60" height="15.5"/>
+                    <rect key="frame" x="121" y="2" width="60" height="15.5"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="60" id="ynZ-rT-OKE"/>
@@ -36,7 +36,7 @@
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
                 <label clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="123456" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="eNz-9A-vxr">
-                    <rect key="frame" x="28" y="4.5" width="60" height="15.5"/>
+                    <rect key="frame" x="28" y="2" width="60" height="15.5"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="60" id="Ta4-nY-RBI"/>
@@ -48,7 +48,7 @@
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
                 <label clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UID:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Dd3-Hd-8v6">
-                    <rect key="frame" x="96" y="4.5" width="25" height="15.5"/>
+                    <rect key="frame" x="96" y="2" width="25" height="15.5"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="25" id="OLC-SV-XpM"/>
@@ -60,7 +60,7 @@
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
                 <label clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12/12/2012" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="zVL-Q4-5jE">
-                    <rect key="frame" x="189" y="4.5" width="63" height="15.5"/>
+                    <rect key="frame" x="189" y="2" width="63" height="15.5"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -69,12 +69,12 @@
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KLc-mq-7WT" userLabel="Title Container">
-                    <rect key="frame" x="8" y="20" width="305" height="15"/>
+                    <rect key="frame" x="8" y="17.5" width="305" height="17.5"/>
                     <subviews>
                         <label clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="标题:" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="3FE-wQ-9rh">
-                            <rect key="frame" x="0.0" y="2" width="305" height="13"/>
+                            <rect key="frame" x="0.0" y="2" width="305" height="15.5"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
