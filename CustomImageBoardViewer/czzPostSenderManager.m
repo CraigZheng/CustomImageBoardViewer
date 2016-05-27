@@ -11,11 +11,14 @@
 #import "czzPostSender.h"
 #import "czzBannerNotificationUtil.h"
 #import "czzHistoryManager.h"
+#import "czzThreadDownloader.h"
 #import "czzWeakReferenceDelegate.h"
 
 @interface czzPostSenderManager() <czzPostSenderDelegate>
 @property (nonatomic, strong) NSMutableOrderedSet *postSenders;
 @property (nonatomic, strong) NSMutableOrderedSet *delegates;
+@property (strong, nonatomic) czzThreadDownloader *threadDownloader;
+
 @end
 
 @implementation czzPostSenderManager
@@ -96,11 +99,10 @@
         if (postSender.parentThread) {
             [historyManager addToRespondedList:postSender.parentThread];
         } else if (postSender.forum) {
-            // Post sent to forum, try to locate the just posted thread.
-            [historyManager addToPostedList:postSender.title
-                                    content:postSender.content
-                                   hasImage:postSender.imgData != nil
-                                      forum:postSender.forum];
+            [self recordThreadPostedWithTitle:postSender.title
+                                      content:postSender.content
+                                     hasImage:postSender.imgData != nil
+                                        forum:postSender.forum];
         }
     } else {
         // Keep record of the last failed post sender.
@@ -127,6 +129,53 @@
                         progressUpdated:percent];
         }
     }];
+}
+
+#pragma mark - Refresh content, and record history.
+
+- (void)recordThreadPostedWithTitle:(NSString*)title
+                            content:(NSString*)content
+                           hasImage:(BOOL)hasImage
+                              forum:(czzForum*)forum {
+
+    self.threadDownloader = [czzThreadDownloader new];
+    self.threadDownloader.pageNumber = 1;
+    self.threadDownloader.parentForum = forum;
+    
+    // In completion handler, compare the downloaded threads and see if there's any that is matching.
+    DLog(@"%@", content);
+    self.threadDownloader.completionHandler = ^(BOOL success, NSArray *downloadedThreads, NSError *error){
+        DLog(@"%s, error: %@", __PRETTY_FUNCTION__, error);
+        for (czzThread *thread in downloadedThreads) {
+            // Compare title and content.
+            czzThread *matchedThread;
+            DLog(@"Downloaded thread: %@", thread.content.string);
+            // When comparing, remove the white space and newlines from both the reference title/content and the thread title content,
+            // this would reduce the risk of error.
+            if (title.length && [[title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
+                                 isEqualToString:[thread.title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]]) {
+                matchedThread = thread;
+            } else if (content.length && [[content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
+                                          isEqualToString:[thread.content.string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]]) {
+                matchedThread = thread;
+            }
+            // If no title and content given, but has image, then the first downloaded thread with image is most likely the matching thread.
+            else if (hasImage && thread.imgSrc.length) {
+                matchedThread = thread;
+            }
+            if (matchedThread) {
+                DDLogDebug(@"Found match: %@", matchedThread);
+                [historyManager addToPostedList:matchedThread];
+                break;
+            }
+        }
+    };
+    // Start the refreshing a few seconds later, give server some time to respond.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.threadDownloader start];
+    });
+
+
 }
 
 + (instancetype)sharedManager {
