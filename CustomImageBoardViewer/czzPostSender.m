@@ -17,8 +17,8 @@
 @property NSURLConnection *urlConn;
 @property NSMutableURLRequest *urlRequest;
 @property NSMutableData *requestBody;
-@property NSMutableData *receivedResponse;
-
+@property NSMutableData *receivedData;
+@property (nonatomic, strong) NSURLResponse *receivedResponse;
 @end
 
 @implementation czzPostSender
@@ -27,7 +27,7 @@
 @synthesize urlConn;
 @synthesize targetURL, forum, forumID, parentThread;
 @synthesize urlRequest, requestBody;
-@synthesize receivedResponse;
+@synthesize receivedData;
 
 -(id)init{
     self = [super init];
@@ -57,9 +57,12 @@
         urlConn = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self startImmediately:YES];
         DDLogDebug(@"Sending post to: %@", urlRequest);
     } else {
-        if ([self.delegate respondsToSelector:@selector(postSender:completedPosting:message:)])
+        if ([self.delegate respondsToSelector:@selector(postSender:completedPosting:message:response:)])
         {
-            [self.delegate postSender:self completedPosting:NO message:@"请检查内容"];
+            [self.delegate postSender:self
+                     completedPosting:NO
+                              message:@"请检查内容"
+                             response:nil];
         }
         
     }
@@ -68,36 +71,43 @@
 #pragma NSURLConnection delegate
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     //inform the delegate
-    if ([self.delegate respondsToSelector:@selector(postSender:completedPosting:message:)])
+    if ([self.delegate respondsToSelector:@selector(postSender:completedPosting:message:response:)])
     {
-        [self.delegate postSender:self completedPosting:NO message:[NSString stringWithFormat:@"网络错误"]];
+        [self.delegate postSender:self
+                 completedPosting:NO
+                          message:[NSString stringWithFormat:@"网络错误"]
+                         response:nil];
         DDLogDebug(@"%@", error);
     }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
-    receivedResponse = [NSMutableData new];
-    if ([self.delegate respondsToSelector:@selector(postSender:completedPosting:message:)])
-    {
-        if ([(NSHTTPURLResponse*)response statusCode] == 200) {
-            [self.delegate postSender:self
-                     completedPosting:YES
-                              message:@"成功"];
-        } else {
-            [self.delegate postSender:self
-                     completedPosting:NO
-                              message:[NSString stringWithFormat:@"Failed! Status code: %ld", (long)[(NSHTTPURLResponse*)response statusCode]]];
-        }
-    }
+    receivedData = [NSMutableData new];
+    self.receivedResponse = response;
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
-    [receivedResponse appendData:data];
+    [receivedData appendData:data];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection{
-    DDLogDebug(@"received response: \n%@", [[NSString alloc] initWithData:self.receivedResponse encoding:NSUTF8StringEncoding]);
-//    [self response:receivedResponse];
+    NSString *receivedResponseMessage = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
+    DDLogDebug(@"received response: \n%@", receivedResponseMessage);
+    
+    if ([self.delegate respondsToSelector:@selector(postSender:completedPosting:message:response:)])
+    {
+        if ([(NSHTTPURLResponse*)self.receivedResponse statusCode] == 200) {
+            [self.delegate postSender:self
+                     completedPosting:YES
+                              message:@"成功"
+                             response:receivedResponseMessage];
+        } else {
+            [self.delegate postSender:self
+                     completedPosting:NO
+                              message:[NSString stringWithFormat:@"Failed! Status code: %ld", (long)[(NSHTTPURLResponse*)self.receivedResponse statusCode]]
+                             response:receivedResponseMessage];
+        }
+    }
 }
 
 -(void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {

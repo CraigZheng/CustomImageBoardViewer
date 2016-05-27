@@ -13,6 +13,7 @@
 #import "czzHistoryManager.h"
 #import "czzThreadDownloader.h"
 #import "czzWeakReferenceDelegate.h"
+#import "czzSettingsCentre.h"
 
 @interface czzPostSenderManager() <czzPostSenderDelegate>
 @property (nonatomic, strong) NSMutableOrderedSet *postSenders;
@@ -90,16 +91,30 @@
 
 #pragma mark - czzPostSenderDelegate
 
-- (void)postSender:(czzPostSender *)postSender completedPosting:(BOOL)successful message:(NSString *)message {
+- (void)postSender:(czzPostSender *)postSender completedPosting:(BOOL)successful message:(NSString *)message response:(NSString *)response {
     DLog(@"");
     if (successful) {
-        // Remove the last failed post sender.
-        self.lastFailedPostSender = nil;
-        // Add the just replied thread to watchlist manager.
-        if (postSender.parentThread) {
-            [historyManager addToRespondedList:postSender.parentThread];
-        } else if (postSender.forum) {
-            [self recordThreadPostedWithPostSender:postSender];
+        // Check if the response contain any illegay keyword.
+        if ([response containsString:settingCentre.sensitive_keyword]) {
+            self.severeWarnedPostSender = postSender;
+            // Warn all delegates after a set of delay.
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self iterateDelegatesWithBlock:^(id<czzPostSenderManagerDelegate> delegate) {
+                    if ([delegate respondsToSelector:@selector(postSenderManager:severeWarningReceivedForPostSender:)]) {
+                        [delegate postSenderManager:self
+                 severeWarningReceivedForPostSender:self.severeWarnedPostSender];
+                    }
+                }];
+            });
+        } else {
+            // Remove the last failed post sender.
+            self.lastFailedPostSender = nil;
+            // Add the just replied thread to watchlist manager.
+            if (postSender.parentThread) {
+                [historyManager addToRespondedList:postSender.parentThread];
+            } else if (postSender.forum) {
+                [self recordThreadPostedWithPostSender:postSender];
+            }
         }
     } else {
         // Keep record of the last failed post sender.
