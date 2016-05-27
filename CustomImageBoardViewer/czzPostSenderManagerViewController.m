@@ -49,7 +49,7 @@
     }
     // If there's any remaining failed post sender, show warning.
     else if (PostSenderManager.lastFailedPostSender) {
-        [self showWarning];
+        [self showError];
     }
 }
 
@@ -62,6 +62,7 @@
 
 - (void)stopAnimatingWithCompletionHandler:(void(^)(void))completionHandler {
     self.indicatorImageView.image = nil;
+    // If currently not visible, set userInteractionEnabled to NO.
     self.view.superview.userInteractionEnabled = NO;
     // If a display only post view controller is currently presented, dismiss it.
     if (self.lastPostViewController) {
@@ -73,11 +74,15 @@
             completionHandler();
         }
     }
-    // If currently not visible, set userInteractionEnabled to NO.
+}
+
+- (void)showError {
+    self.indicatorImageView.image = [UIImage imageNamed:@"38.png"];
+    self.view.superview.userInteractionEnabled = YES;
 }
 
 - (void)showWarning {
-    self.indicatorImageView.image = [UIImage imageNamed:@"38.png"];
+    self.indicatorImageView.image = [UIImage imageNamed:@"21.png"];
     self.view.superview.userInteractionEnabled = YES;
 }
 
@@ -86,7 +91,14 @@
 - (IBAction)tapOnIndicatorView:(id)sender {
     DLog(@"");
     if (PostSenderManager.lastFailedPostSender) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"发送失败,是否重试？"
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"发送失败,是否重试?"
+                                                            message:nil
+                                                           delegate:self
+                                                  cancelButtonTitle:@"取消"
+                                                  otherButtonTitles:@"重试", nil];
+        [alertView show];
+    } else if (PostSenderManager.severeWarnedPostSender) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"无法确认信息发送成功,可能是网络错误,没有饼干,或者含有敏感词!"
                                                             message:nil
                                                            delegate:self
                                                   cancelButtonTitle:@"取消"
@@ -106,9 +118,9 @@
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     // There's only 1 alert view in this view controller: retry post alert view.
-    czzPostSender *failedPostSender = PostSenderManager.lastFailedPostSender;
-    PostSenderManager.lastFailedPostSender = nil; // The failed post sender has been consumed.
-    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"重试"]) {
+    czzPostSender *failedPostSender = PostSenderManager.lastFailedPostSender ?: PostSenderManager.severeWarnedPostSender;
+    PostSenderManager.lastFailedPostSender = PostSenderManager.severeWarnedPostSender = nil; // The failed post sender has been consumed.
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"重试"] && failedPostSender) {
         // Retry the failed post sender.
         [self stopAnimatingWithCompletionHandler:^{
             czzPostViewController *retryPostViewController = [czzPostViewController new];
@@ -138,6 +150,11 @@
     [self startAnimating];
 }
 
+- (void)postSenderManager:(czzPostSenderManager *)manager severeWarningReceivedForPostSender:(czzPostSender *)postSender {
+    [self showWarning];
+    [czzBannerNotificationUtil displayMessage:@"无法确认信息发送成功" position:BannerNotificationPositionBottom];
+}
+
 - (void)postSenderManager:(czzPostSenderManager *)manager postingCompletedForSender:(czzPostSender *)postSender success:(BOOL)success message:(NSString *)message {
     [self stopAnimatingWithCompletionHandler:^{
         // Delay just a bit.
@@ -149,7 +166,7 @@
                 [czzBannerNotificationUtil displayMessage:message.length ? message : @"出错啦"
                                                  position:BannerNotificationPositionTop];
                 // Keep a reference to the failed post sender, and display the warning icon.
-                [self showWarning];
+                [self showError];
             }
         });
     }];
