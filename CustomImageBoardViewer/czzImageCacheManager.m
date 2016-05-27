@@ -69,6 +69,9 @@
 #pragma mark - Access to caches.
 
 -(BOOL)hasImageWithName:(NSString *)imageName isThumbnail:(BOOL)thumbnail {
+    if (!imageName.length) {
+        return NO;
+    }
     NSURL *fileURL = [self pathForImageWithName:imageName isThumbnail:thumbnail];
     return [[NSFileManager defaultManager] fileExistsAtPath:fileURL.path];
 }

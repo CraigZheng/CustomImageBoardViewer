@@ -29,13 +29,6 @@ static NSInteger const footerViewNormalHeight = 20;
 static NSString * const showThreadWithID = @"showThreadWithID";
 
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, czzImageDownloaderManagerDelegate, UITextViewDelegate>
-@property (weak, nonatomic) IBOutlet UITextView *contentTextView;
-@property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
-@property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;
-@property (weak, nonatomic) IBOutlet UIView *contentContainerView;
-@property (weak, nonatomic) IBOutlet UIImageView *cellImageView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewHeightConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerViewHeightConstraint;
 
 @property (strong, nonatomic) UITapGestureRecognizer *tapOnImageViewRecognizer;
 @property (strong, nonatomic) NSString *thumbnailFolder;

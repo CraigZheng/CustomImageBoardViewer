@@ -13,7 +13,6 @@
 #define THREAD_VIEW_CELL_MARGIN 4 * 2
 
 #define THREAD_TABLE_VLEW_CELL_NIB_NAME @"czzThreadViewTableViewCell"
-//#define BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER @"thread_big_image_cell_identifier"
 #define THREAD_VIEW_CELL_IDENTIFIER @"thread_cell_identifier"
 
 #import <UIKit/UIKit.h>
@@ -27,7 +26,7 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
     threadViewCellTypeUndefined = 0
 };
 
-@class czzMenuEnabledTableViewCell;
+@class czzMenuEnabledTableViewCell, czzThreadViewCellHeaderView, czzThreadViewCellFooterView;
 
 @protocol czzMenuEnabledTableViewCellProtocol <NSObject>
 @optional
@@ -45,7 +44,15 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 @property NSIndexPath *myIndexPath;
 
 @property (strong, nonatomic) NSString *selectedUserToHighlight;
+
 @property (weak, nonatomic) id<czzMenuEnabledTableViewCellProtocol> delegate;
+@property (weak, nonatomic) IBOutlet UITextView *contentTextView;
+@property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
+@property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;
+@property (weak, nonatomic) IBOutlet UIView *contentContainerView;
+@property (weak, nonatomic) IBOutlet UIImageView *cellImageView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerViewHeightConstraint;
 
 @property NSDictionary *downloadedImages;
 @property (assign, nonatomic) BOOL shouldHighlight;
