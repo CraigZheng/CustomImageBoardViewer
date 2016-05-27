@@ -8,6 +8,8 @@
 
 #import "czzBigImageModeTableViewCell.h"
 
+#import "czzImageDownloader.h"
+
 @interface czzBigImageModeTableViewCell()
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bigImageViewWidthConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bigImageViewHeightConstraint;
@@ -40,5 +42,12 @@
     }
 }
 
+#pragma mark - czzImageDownloaderManagerDelegate
+
+- (void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
+    if (success && !downloader.isThumbnail && [imageName isEqualToString:self.thread.imgSrc.lastPathComponent]) {
+        self.cellImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]]];
+    }
+}
 
 @end

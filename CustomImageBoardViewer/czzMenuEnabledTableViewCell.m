@@ -15,7 +15,6 @@
 #import "czzThreadRefButton.h"
 #import "czzSettingsCentre.h"
 #import "czzImageDownloader.h"
-#import "czzImageDownloaderManager.h"
 #import "czzThreadViewCellHeaderView.h"
 #import "czzThreadViewCellFooterView.h"
 //#import "PureLayout/PureLayout.h"
@@ -28,7 +27,7 @@ static NSInteger const layoutConstraintZeroHeight = 0;
 static NSInteger const footerViewNormalHeight = 20;
 static NSString * const showThreadWithID = @"showThreadWithID";
 
-@interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, czzImageDownloaderManagerDelegate, UITextViewDelegate>
+@interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, UITextViewDelegate>
 
 @property (strong, nonatomic) UITapGestureRecognizer *tapOnImageViewRecognizer;
 @property (strong, nonatomic) NSString *thumbnailFolder;

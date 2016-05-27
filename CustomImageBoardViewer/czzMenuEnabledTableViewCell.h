@@ -17,6 +17,7 @@
 
 #import <UIKit/UIKit.h>
 #import "czzThread.h"
+#import "czzImageDownloaderManager.h"
 
 extern NSInteger const threadCellImageViewNormalHeight;
 
@@ -40,7 +41,7 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 - (void)threadViewCellContentChanged:(czzMenuEnabledTableViewCell *)cell;
 @end
 
-@interface czzMenuEnabledTableViewCell : UITableViewCell
+@interface czzMenuEnabledTableViewCell : UITableViewCell <czzImageDownloaderManagerDelegate>
 @property NSIndexPath *myIndexPath;
 
 @property (strong, nonatomic) NSString *selectedUserToHighlight;
