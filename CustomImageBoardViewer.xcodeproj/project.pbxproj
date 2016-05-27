@@ -17,6 +17,8 @@
 		440B2FCC17F8057500544926 /* czzPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 440B2FCB17F8057500544926 /* czzPostViewController.m */; };
 		440B2FD017F8191700544926 /* czzPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 440B2FCF17F8191700544926 /* czzPost.m */; };
 		440C97551CB3863600A7266D /* czzAutoEndingRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 440C97541CB3863600A7266D /* czzAutoEndingRefreshControl.m */; };
+		440DA7B11CF7CF350078266B /* czzBigImageModeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 440DA7B01CF7CF350078266B /* czzBigImageModeTableViewCell.xib */; };
+		440DA7B41CF7D1F80078266B /* czzBigImageModeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 440DA7B31CF7D1F80078266B /* czzBigImageModeTableViewCell.m */; };
 		4411B2EA1AFF472900E94A5B /* czzForumManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4411B2E91AFF472900E94A5B /* czzForumManager.m */; };
 		4411B2EF1AFF6A5500E94A5B /* default_forums.json in Resources */ = {isa = PBXBuildFile; fileRef = 4411B2EE1AFF6A5500E94A5B /* default_forums.json */; };
 		4412FA151935865800681438 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 4412FA141935865800681438 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -505,6 +507,9 @@
 		440B2FCF17F8191700544926 /* czzPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzPost.m; sourceTree = "<group>"; };
 		440C97531CB3863600A7266D /* czzAutoEndingRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzAutoEndingRefreshControl.h; sourceTree = "<group>"; };
 		440C97541CB3863600A7266D /* czzAutoEndingRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzAutoEndingRefreshControl.m; sourceTree = "<group>"; };
+		440DA7B01CF7CF350078266B /* czzBigImageModeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzBigImageModeTableViewCell.xib; sourceTree = "<group>"; };
+		440DA7B21CF7D1F80078266B /* czzBigImageModeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzBigImageModeTableViewCell.h; sourceTree = "<group>"; };
+		440DA7B31CF7D1F80078266B /* czzBigImageModeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzBigImageModeTableViewCell.m; sourceTree = "<group>"; };
 		4411B2E81AFF472900E94A5B /* czzForumManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzForumManager.h; sourceTree = "<group>"; };
 		4411B2E91AFF472900E94A5B /* czzForumManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzForumManager.m; sourceTree = "<group>"; };
 		4411B2EE1AFF6A5500E94A5B /* default_forums.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = default_forums.json; sourceTree = "<group>"; };
@@ -1962,6 +1967,9 @@
 				445C66441BBED6FB004B3E83 /* czzThreadViewCellFooterView.xib */,
 				445C66471BBED722004B3E83 /* czzThreadViewCellFooterView.h */,
 				445C66481BBED722004B3E83 /* czzThreadViewCellFooterView.m */,
+				440DA7B01CF7CF350078266B /* czzBigImageModeTableViewCell.xib */,
+				440DA7B21CF7D1F80078266B /* czzBigImageModeTableViewCell.h */,
+				440DA7B31CF7D1F80078266B /* czzBigImageModeTableViewCell.m */,
 			);
 			name = czzMenuEnabledTableViewCell;
 			sourceTree = "<group>";
@@ -2693,6 +2701,7 @@
 				44C73B741A4708BA0051D4C2 /* thumb_down.png in Resources */,
 				44C34557187E6CF000FDE45D /* sougo_emoji_UTF16.txt in Resources */,
 				444F5B371A40EA3500EB391F /* 36.png in Resources */,
+				440DA7B11CF7CF350078266B /* czzBigImageModeTableViewCell.xib in Resources */,
 				446656C91BEAF9380045276B /* GoogleService-Info.plist in Resources */,
 				44B89E6C1A2AF2200085F766 /* running_ac-1.gif in Resources */,
 				44E792081A17856500A63C04 /* upload@2x.png in Resources */,
@@ -3052,6 +3061,7 @@
 				44BE2E3A19383FEF00601943 /* czzOnScreenCommandViewController.m in Sources */,
 				4412FA151935865800681438 /* Reachability.m in Sources */,
 				5A26E77F1939AA6300B709C9 /* czzNotification.m in Sources */,
+				440DA7B41CF7D1F80078266B /* czzBigImageModeTableViewCell.m in Sources */,
 				44AE2AFE18725EC4002CB021 /* czzNoSelectionTextView.m in Sources */,
 				441514821BBAD2A4005ECD96 /* czzImageDownloaderManager.m in Sources */,
 				44AE2AFA187254E4002CB021 /* czzMenuEnabledTableViewCell.m in Sources */,
