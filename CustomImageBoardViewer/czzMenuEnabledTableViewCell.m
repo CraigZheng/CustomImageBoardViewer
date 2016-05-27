@@ -34,7 +34,6 @@ static NSString * const showThreadWithID = @"showThreadWithID";
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (strong, nonatomic) NSString *imageFolder;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
-@property (strong, nonatomic) UIImage *placeholderImage;
 @property (strong, nonatomic) NSMutableArray<czzThreadRefButton *> *referenceButtons;
 @end
 

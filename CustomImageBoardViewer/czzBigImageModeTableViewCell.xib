@@ -56,16 +56,19 @@
                                         </variation>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="cFu-AH-Mz3" firstAttribute="leading" secondItem="szk-P5-Rsx" secondAttribute="leading" id="3xi-eq-4he"/>
+                                    <constraint firstAttribute="height" constant="138" id="7uY-ah-p8v"/>
                                     <constraint firstItem="cFu-AH-Mz3" firstAttribute="top" secondItem="szk-P5-Rsx" secondAttribute="top" constant="4" id="GTG-yS-9cj"/>
                                     <constraint firstAttribute="bottom" secondItem="cFu-AH-Mz3" secondAttribute="bottom" constant="4" id="U7c-xL-orV"/>
+                                    <constraint firstAttribute="height" constant="138" id="bcZ-QB-8MU"/>
                                     <constraint firstAttribute="trailing" secondItem="cFu-AH-Mz3" secondAttribute="trailing" id="l3X-xV-hiv"/>
                                     <constraint firstAttribute="height" constant="108" id="qMh-Pi-lS7"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
+                                        <exclude reference="bcZ-QB-8MU"/>
                                         <exclude reference="qMh-Pi-lS7"/>
                                     </mask>
                                 </variation>
@@ -83,15 +86,26 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="szk-P5-Rsx" secondAttribute="trailing" constant="8" id="SLc-Po-Bdy"/>
                             <constraint firstItem="szk-P5-Rsx" firstAttribute="centerX" secondItem="Dl3-ZB-btB" secondAttribute="centerX" id="X7d-Ia-RM4"/>
                             <constraint firstItem="szk-P5-Rsx" firstAttribute="leading" secondItem="Dl3-ZB-btB" secondAttribute="leading" constant="8" id="ZzO-be-6A2"/>
                             <constraint firstItem="RNZ-2t-GD0" firstAttribute="leading" secondItem="Dl3-ZB-btB" secondAttribute="leading" id="aay-7X-ehN"/>
+                            <constraint firstItem="szk-P5-Rsx" firstAttribute="width" secondItem="Dl3-ZB-btB" secondAttribute="width" constant="-16" id="abM-gO-4If"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="szk-P5-Rsx" secondAttribute="trailing" constant="8" id="fUB-NE-sjM"/>
                             <constraint firstItem="szk-P5-Rsx" firstAttribute="top" secondItem="RNZ-2t-GD0" secondAttribute="bottom" id="iT8-VO-rK5"/>
                             <constraint firstAttribute="trailing" secondItem="RNZ-2t-GD0" secondAttribute="trailing" id="kMg-WS-oiQ"/>
                             <constraint firstItem="RNZ-2t-GD0" firstAttribute="top" secondItem="Dl3-ZB-btB" secondAttribute="top" id="ql2-ys-yaQ"/>
+                            <constraint firstItem="szk-P5-Rsx" firstAttribute="leading" secondItem="Dl3-ZB-btB" secondAttribute="leading" constant="8" id="raX-lw-Ple"/>
                             <constraint firstAttribute="bottom" secondItem="szk-P5-Rsx" secondAttribute="bottom" id="zMo-nX-yFE"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="SLc-Po-Bdy"/>
+                                <exclude reference="ZzO-be-6A2"/>
+                                <exclude reference="fUB-NE-sjM"/>
+                                <exclude reference="raX-lw-Ple"/>
+                            </mask>
+                        </variation>
                     </view>
                 </subviews>
                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -109,13 +123,14 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="bigImageViewHeightConstraint" destination="7uY-ah-p8v" id="nGx-gp-i35"/>
+                <outlet property="bigImageViewWidthConstraint" destination="abM-gO-4If" id="5CT-jb-V6j"/>
                 <outlet property="cellFooterView" destination="Az2-MV-Wjk" id="AR7-2B-cFu"/>
                 <outlet property="cellHeaderView" destination="znW-9G-MCS" id="Un5-K2-pOp"/>
                 <outlet property="cellImageView" destination="cFu-AH-Mz3" id="2Dl-m8-x1t"/>
                 <outlet property="contentContainerView" destination="Dl3-ZB-btB" id="jNa-kT-3K9"/>
                 <outlet property="contentTextView" destination="RNZ-2t-GD0" id="KmG-NN-LhB"/>
                 <outlet property="footerViewHeightConstraint" destination="QM2-hO-0ge" id="0dC-tZ-0FH"/>
-                <outlet property="imageViewHeightConstraint" destination="qMh-Pi-lS7" id="fsI-pp-xoe"/>
             </connections>
             <point key="canvasLocation" x="-347" y="486"/>
         </tableViewCell>
