@@ -59,7 +59,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="cFu-AH-Mz3" firstAttribute="leading" secondItem="szk-P5-Rsx" secondAttribute="leading" id="3xi-eq-4he"/>
-                                    <constraint firstAttribute="height" constant="138" id="7uY-ah-p8v"/>
+                                    <constraint firstAttribute="height" priority="750" constant="138" id="7uY-ah-p8v"/>
                                     <constraint firstItem="cFu-AH-Mz3" firstAttribute="top" secondItem="szk-P5-Rsx" secondAttribute="top" constant="4" id="GTG-yS-9cj"/>
                                     <constraint firstAttribute="bottom" secondItem="cFu-AH-Mz3" secondAttribute="bottom" constant="4" id="U7c-xL-orV"/>
                                     <constraint firstAttribute="height" constant="138" id="bcZ-QB-8MU"/>
