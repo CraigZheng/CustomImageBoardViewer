@@ -42,6 +42,7 @@ extern NSString * const settingsChangedNotification;
 @property (strong, nonatomic) NSString *thread_url;
 @property (strong, nonatomic) NSString *get_forum_info_url;
 //new settins end here
+@property (strong, nonatomic) NSString *empty_title;
 @property (strong, nonatomic) NSString *ac_host;
 @property (strong, nonatomic) NSString *a_isle_host;
 @property (strong, nonatomic) NSString *thread_list_host;

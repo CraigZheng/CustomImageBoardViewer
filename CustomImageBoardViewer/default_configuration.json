@@ -32,5 +32,6 @@
     "image_host": "http://img1.nimingban.com/image/",
     "donation_link": "",
     "popup_notification_link": "http://cover.acfunwiki.org/nmb-notice.json",
+    "empty_title":"无标题",
     "message": ""
 }

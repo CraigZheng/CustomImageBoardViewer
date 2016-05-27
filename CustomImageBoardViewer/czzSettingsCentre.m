@@ -213,6 +213,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         thread_url = [jsonObject objectForKey:@"thread_url"];
         get_forum_info_url = [jsonObject objectForKey:@"get_forum_info_url"];
         self.popup_notification_link = [jsonObject objectForKey:@"popup_notification_link"];
+        self.empty_title = [jsonObject objectForKey:@"empty_title"];
     }
     @catch (NSException *exception) {
         DDLogDebug(@"%@", exception);

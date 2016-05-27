@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="4" width="320" height="20"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="20" id="eRj-41-Ndj"/>
+                            <constraint firstAttribute="height" constant="20" placeholder="YES" id="eRj-41-Ndj"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pSN-Ws-Q85" userLabel="Footer View Container">

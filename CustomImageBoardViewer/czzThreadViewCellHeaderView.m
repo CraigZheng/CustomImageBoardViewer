@@ -8,6 +8,8 @@
 
 #import "czzThreadViewCellHeaderView.h"
 
+#import "czzSettingsCentre.h"
+
 #define RGBCOLOR(r,g,b)[UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1]
 #define brownColour RGBCOLOR(168, 123, 65)
 
@@ -15,6 +17,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *idLabel;
 @property (weak, nonatomic) IBOutlet UILabel *posterLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *titleContainerZeroHeightConstraint;
 
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
@@ -34,6 +38,13 @@
     if (myThread) {
         self.idLabel.text = [NSString stringWithFormat:@"%ld", (long)myThread.ID];
         self.posterLabel.text = [NSString stringWithFormat:@"%@", myThread.UID];
+        // Hide title container if there is not a title to show.
+        if ([myThread.title isEqualToString:settingCentre.empty_title]) {
+            self.titleContainerZeroHeightConstraint.priority = 999;
+        } else {
+            self.titleLabel.text = myThread.title;
+            self.titleContainerZeroHeightConstraint.priority = 1;
+        }
         // If admin, highlight.
         if (myThread.admin) {
             self.posterLabel.textColor = [UIColor redColor];
