@@ -40,12 +40,12 @@
     czzHomeViewManager *viewManager;
     [viewController.viewDeckController closeLeftViewAnimated:NO];
     [viewController.viewDeckController closeRightViewAnimated:NO];
-    viewController.viewDeckController.leftController = nil;
     if ([viewController isKindOfClass:[czzHomeViewController class]]) {
         viewManager = [viewController performSelector:@selector(homeViewManager)];
         viewController.viewDeckController.leftController = self.delegate.leftViewController;
     } else if ([viewController isKindOfClass:[czzThreadViewController class]]) {
         viewManager = [viewController performSelector:@selector(threadViewManager)];
+        viewController.viewDeckController.leftController = nil;
     }
 }
 
