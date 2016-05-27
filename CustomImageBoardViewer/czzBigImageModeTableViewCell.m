@@ -37,6 +37,8 @@
             height = CGRectGetHeight([UIScreen mainScreen].bounds) * 0.75;
         }
         self.bigImageViewHeightConstraint.constant = height;
+    } else if (imageName.length) {
+        self.bigImageViewHeightConstraint.constant = 100;
     } else {
         self.bigImageViewHeightConstraint.constant = 0;
     }
