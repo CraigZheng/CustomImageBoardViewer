@@ -47,6 +47,10 @@
 #pragma mark - czzImageDownloaderManagerDelegate
 
 - (void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
+    [super imageDownloaderManager:manager
+               downloadedFinished:downloader
+                        imageName:imageName
+                    wasSuccessful:success];
     if (success && !downloader.isThumbnail && [imageName isEqualToString:self.thread.imgSrc.lastPathComponent]) {
         self.cellImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]]];
     }
