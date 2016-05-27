@@ -64,7 +64,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="WnJ-PJ-3oM" firstAttribute="top" secondItem="YkN-LC-OwR" secondAttribute="top" constant="4" id="C5k-j0-w6u"/>
-                                    <constraint firstAttribute="height" constant="108" id="IrR-7j-eHW"/>
+                                    <constraint firstAttribute="height" priority="750" constant="108" id="IrR-7j-eHW"/>
                                     <constraint firstAttribute="trailing" secondItem="WnJ-PJ-3oM" secondAttribute="trailing" id="OsW-my-MqC"/>
                                     <constraint firstAttribute="bottom" secondItem="WnJ-PJ-3oM" secondAttribute="bottom" constant="4" id="chk-3s-AiN"/>
                                     <constraint firstItem="WnJ-PJ-3oM" firstAttribute="leading" secondItem="YkN-LC-OwR" secondAttribute="leading" id="wP9-A1-gQZ"/>

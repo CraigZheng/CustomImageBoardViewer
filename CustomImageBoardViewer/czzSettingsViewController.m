@@ -198,7 +198,7 @@
         [switchCommands addObject:@"自动下载大图"];
     }
     // If should auto download image, don't show.
-    if (![settingsCentre userDefShouldAutoDownloadImage]) {
+    if (!([settingsCentre userDefShouldUseBigImage] && [settingsCentre userDefShouldAutoDownloadImage])) {
         [switchCommands addObject:@"图片下载完毕自动打开"];
     }
 //    [switchCommands addObject:@"开启串缓存"]; // Disbale as is no longer important.
