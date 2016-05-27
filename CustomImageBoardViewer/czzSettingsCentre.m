@@ -214,6 +214,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         get_forum_info_url = [jsonObject objectForKey:@"get_forum_info_url"];
         self.popup_notification_link = [jsonObject objectForKey:@"popup_notification_link"];
         self.empty_title = [jsonObject objectForKey:@"empty_title"];
+        self.sensitive_keyword = [jsonObject objectForKey:@"sensitive_keyword"];
     }
     @catch (NSException *exception) {
         DDLogDebug(@"%@", exception);
