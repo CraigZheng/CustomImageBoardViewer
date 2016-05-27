@@ -197,7 +197,10 @@
     if ([settingCentre userDefShouldUseBigImage]) {
         [switchCommands addObject:@"自动下载大图"];
     }
-    [switchCommands addObject:@"图片下载完毕自动打开"];
+    // If should auto download image, don't show.
+    if (![settingsCentre userDefShouldAutoDownloadImage]) {
+        [switchCommands addObject:@"图片下载完毕自动打开"];
+    }
 //    [switchCommands addObject:@"开启串缓存"]; // Disbale as is no longer important.
 //    [switchCommands addObject:@"每月自动清理缓存"]; // Disable for now - version 3.4.
     if (settingsCentre.should_allow_dart)
@@ -322,6 +325,8 @@
             settingsCentre.userDefShouldAutoDownloadImage = !settingsCentre.userDefShouldAutoDownloadImage;
             [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"自动下载大图： %@", settingsCentre.userDefShouldAutoDownloadImage ? @"On" : @"Off"]
                                              position:BannerNotificationPositionTop];
+            [self prepareCommands];
+            [self.settingsTableView reloadData];
         }
         [settingsCentre saveSettings];
         [[czzHomeViewManager sharedManager] reloadData];
