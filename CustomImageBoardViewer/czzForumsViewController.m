@@ -249,8 +249,7 @@ NSString * const kPickedForum = @"PickedForum";
 #pragma mark - czzPopularThreadsManagerDelegate
 
 - (void)popularThreadsManagerDidUpdate:(czzPopularThreadsManager *)manager {
-    // TODO: refresh thread suggestions.
-    
+    [self.forumsTableView reloadData];
 }
 
 #pragma mark - Settings changed notification.
