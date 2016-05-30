@@ -31,6 +31,9 @@
     "thumbnail_host": "http://img1.nimingban.com/thumb/",
     "image_host": "http://img1.nimingban.com/image/",
     "donation_link": "",
-    "popup_notification_link": "https://cover.acfunwiki.org/nmb-notice.json",
+    "popup_notification_link": "http://cover.acfunwiki.org/nmb-notice.json",
+    "empty_title":"无标题",
+    "sensitive_keyword":"非法词",
+    "popular_threads_link":"http://my-realm.com/php/popular_threads.php",
     "message": ""
 }
