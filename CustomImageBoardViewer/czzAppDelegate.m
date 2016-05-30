@@ -60,9 +60,8 @@
     NSError *configureError;
     [[GGLContext sharedInstance] configureWithError:&configureError];
     NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
-    id tracker = [[GAI sharedInstance] defaultTracker];
     // Enable IDFA collection.
-    tracker.allowIDFACollection = YES;
+    [[[GAI sharedInstance] defaultTracker] setAllowIDFACollection:YES];
     
     //    // Optional: configure GAI options.
     //    GAI *gai = [GAI sharedInstance];
