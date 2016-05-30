@@ -194,6 +194,8 @@
 		44989A261CFC5AE900F04ECD /* czzPopularThreadsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A241CFC5AE900F04ECD /* czzPopularThreadsManager.m */; };
 		44989A291CFC5B7200F04ECD /* czzThreadSuggestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A281CFC5B7200F04ECD /* czzThreadSuggestion.m */; };
 		44989A2A1CFC5B7200F04ECD /* czzThreadSuggestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A281CFC5B7200F04ECD /* czzThreadSuggestion.m */; };
+		44989A2D1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A2C1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m */; };
+		44989A2E1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A2C1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m */; };
 		4498A7D21B89978200312A11 /* czzTableViewRefreshView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4498A7D11B89978200312A11 /* czzTableViewRefreshView.xib */; };
 		4498A7E41B89984500312A11 /* CPAutoFillView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498A7E31B89984400312A11 /* CPAutoFillView.m */; };
 		4498B689199248ED0014F73F /* czzJSONProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498B688199248ED0014F73F /* czzJSONProcessor.m */; };
@@ -792,6 +794,8 @@
 		44989A241CFC5AE900F04ECD /* czzPopularThreadsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzPopularThreadsManager.m; sourceTree = "<group>"; };
 		44989A271CFC5B7200F04ECD /* czzThreadSuggestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadSuggestion.h; sourceTree = "<group>"; };
 		44989A281CFC5B7200F04ECD /* czzThreadSuggestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadSuggestion.m; sourceTree = "<group>"; };
+		44989A2B1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzForumsTableViewThreadSuggestionsManager.h; sourceTree = "<group>"; };
+		44989A2C1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzForumsTableViewThreadSuggestionsManager.m; sourceTree = "<group>"; };
 		4498A7D11B89978200312A11 /* czzTableViewRefreshView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzTableViewRefreshView.xib; sourceTree = "<group>"; };
 		4498A7E21B89984400312A11 /* CPAutoFillView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPAutoFillView.h; sourceTree = "<group>"; };
 		4498A7E31B89984400312A11 /* CPAutoFillView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPAutoFillView.m; sourceTree = "<group>"; };
@@ -1394,6 +1398,8 @@
 				4411B2EE1AFF6A5500E94A5B /* default_forums.json */,
 				440B2FC517F7DB7800544926 /* czzForumsViewController.h */,
 				440B2FC617F7DB7800544926 /* czzForumsViewController.m */,
+				44989A2B1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.h */,
+				44989A2C1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m */,
 			);
 			name = czzForumsViewController;
 			sourceTree = "<group>";
@@ -3141,6 +3147,7 @@
 				445B7B5C1B43EBCA0046CFDB /* czzNavigationManager.m in Sources */,
 				440B2F6117F5EED800544926 /* GTMNSString+HTML.m in Sources */,
 				5A26E77919398D7F00B709C9 /* czzNotificationBannerViewController.m in Sources */,
+				44989A2D1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m in Sources */,
 				440B2FD017F8191700544926 /* czzPost.m in Sources */,
 				449E928A1BF8A33300EE2F58 /* czzThreadDownloader.m in Sources */,
 				44E3F73E1BA2FFB600597A3F /* NSObject+Util.m in Sources */,
@@ -3193,6 +3200,7 @@
 				44989A2A1CFC5B7200F04ECD /* czzThreadSuggestion.m in Sources */,
 				441E5CFD17F4691300289DBD /* CustomImageBoardViewerTests.m in Sources */,
 				4431E5441CA4B8F20098AA01 /* czzLaunchPopUpTest.m in Sources */,
+				44989A2E1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m in Sources */,
 				44CD96A11C1AA488007E522F /* czzThreadTest.m in Sources */,
 				44E3F73F1BA2FFB600597A3F /* NSObject+Util.m in Sources */,
 				44E3F7421BA2FFB600597A3F /* PropertyAttribute.m in Sources */,

@@ -17,17 +17,20 @@
 #import "czzForumManager.h"
 #import "czzPopularThreadsManager.h"
 #import "czzMoreInfoViewController.h"
+#import "czzForumsTableViewThreadSuggestionsManager.h"
 
 NSString * const kForumPickedNotification = @"ForumNamePicked";
 NSString * const kPickedForum = @"PickedForum";
 
 @interface czzForumsViewController () <UITableViewDataSource, UITableViewDelegate, czzPopularThreadsManagerDelegate>
+@property (weak, nonatomic) IBOutlet UISegmentedControl *forumsSegmentedControl;
 @property NSDate *lastAdUpdateTime;
 @property NSTimeInterval adUpdateInterval;
 @property UIView *adCoverView;
 @property (assign, nonatomic) BOOL shouldHideCoverView;
 @property czzForumManager *forumManager;
 @property (strong, nonatomic) czzPopularThreadsManager *popularThreadsManager;
+@property (strong, nonatomic) czzForumsTableViewThreadSuggestionsManager *tableviewThreadSuggestionsManager;
 @end
 
 @implementation czzForumsViewController
@@ -207,6 +210,27 @@ NSString * const kPickedForum = @"PickedForum";
     return 44;
 }
 
+#pragma mark - UI actions.
+- (IBAction)forumsSegmentedControlValueChanged:(id)sender {
+    if (sender == self.forumsSegmentedControl) {
+        switch (self.forumsSegmentedControl.selectedSegmentIndex) {
+            case 0:
+                // Set the data source and delegate back to self.
+                self.forumsTableView.dataSource = self;
+                self.forumsTableView.delegate = self;
+                break;
+            case 1:
+                // Set the data source and delegate to the thread suggestions tableview manager.
+                self.forumsTableView.dataSource = self.tableviewThreadSuggestionsManager;
+                self.forumsTableView.delegate = self.tableviewThreadSuggestionsManager;
+                break;
+            default:
+                break;
+        }
+        [self.forumsTableView reloadData];
+    }
+}
+
 #pragma mark - dismiss cover view
 -(void)dismissCoverView {
     if (adCoverView && adCoverView.superview) {
@@ -244,6 +268,13 @@ NSString * const kPickedForum = @"PickedForum";
         _popularThreadsManager.delegate = self;
     }
     return _popularThreadsManager;
+}
+
+- (czzForumsTableViewThreadSuggestionsManager *)tableviewThreadSuggestionsManager {
+    if (!_tableviewThreadSuggestionsManager) {
+        _tableviewThreadSuggestionsManager = [[czzForumsTableViewThreadSuggestionsManager alloc] initWithPopularThreadsManager:self.popularThreadsManager];
+    }
+    return _tableviewThreadSuggestionsManager;
 }
 
 @end
