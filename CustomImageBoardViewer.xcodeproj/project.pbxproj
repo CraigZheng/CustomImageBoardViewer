@@ -188,6 +188,8 @@
 		4485F4FC19F5FF38007A73CC /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 4485F4FB19F5FF38007A73CC /* NSString+HTML.m */; };
 		4490A80F1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4490A80E1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m */; };
 		449472761C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 449472751C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m */; };
+		44989A211CFC5A8500F04ECD /* popular_threads.json in Resources */ = {isa = PBXBuildFile; fileRef = 44989A201CFC5A8500F04ECD /* popular_threads.json */; };
+		44989A221CFC5A8500F04ECD /* popular_threads.json in Resources */ = {isa = PBXBuildFile; fileRef = 44989A201CFC5A8500F04ECD /* popular_threads.json */; };
 		4498A7D21B89978200312A11 /* czzTableViewRefreshView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4498A7D11B89978200312A11 /* czzTableViewRefreshView.xib */; };
 		4498A7E41B89984500312A11 /* CPAutoFillView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498A7E31B89984400312A11 /* CPAutoFillView.m */; };
 		4498B689199248ED0014F73F /* czzJSONProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498B688199248ED0014F73F /* czzJSONProcessor.m */; };
@@ -781,6 +783,7 @@
 		4490A80E1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzMassiveThreadDownloaderTest.m; sourceTree = "<group>"; };
 		449472741C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WKInterfaceImage+ActivityIndicator.h"; sourceTree = "<group>"; };
 		449472751C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WKInterfaceImage+ActivityIndicator.m"; sourceTree = "<group>"; };
+		44989A201CFC5A8500F04ECD /* popular_threads.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = popular_threads.json; sourceTree = "<group>"; };
 		4498A7D11B89978200312A11 /* czzTableViewRefreshView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzTableViewRefreshView.xib; sourceTree = "<group>"; };
 		4498A7E21B89984400312A11 /* CPAutoFillView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPAutoFillView.h; sourceTree = "<group>"; };
 		4498A7E31B89984400312A11 /* CPAutoFillView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPAutoFillView.m; sourceTree = "<group>"; };
@@ -1308,6 +1311,7 @@
 				4453C07619F634B700A8250F /* Launch Screen.xib */,
 				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
 				44E2D2D71B2DB77B0029D783 /* Utility.storyboard */,
+				44989A1F1CFC5A8500F04ECD /* Popular Thread */,
 				44CBF3FD1BC9243300DFECFC /* CacheCleaner */,
 				44E2D2D91B2DB7AD0029D783 /* UtilViewControllers */,
 				44DF8ECC1A74CA4B0097F7F5 /* Utils */,
@@ -1823,6 +1827,14 @@
 				4479B07C1A0BB8E70074D484 /* czzTextViewHeightCalculator.m */,
 			);
 			name = ThreadView;
+			sourceTree = "<group>";
+		};
+		44989A1F1CFC5A8500F04ECD /* Popular Thread */ = {
+			isa = PBXGroup;
+			children = (
+				44989A201CFC5A8500F04ECD /* popular_threads.json */,
+			);
+			path = "Popular Thread";
 			sourceTree = "<group>";
 		};
 		4498A7E51B89984A00312A11 /* AutoFille View */ = {
@@ -2666,6 +2678,7 @@
 				44C73BD31A496C4F0051D4C2 /* ipad launch screen.png in Resources */,
 				444F5B3B1A40EA3500EB391F /* 40.png in Resources */,
 				447E06231BC2391900D24087 /* trash@2x.png in Resources */,
+				44989A211CFC5A8500F04ECD /* popular_threads.json in Resources */,
 				444F5B341A40EA3500EB391F /* 33.png in Resources */,
 				444F5B3F1A40EA3500EB391F /* 44.png in Resources */,
 				44E791E71A17856500A63C04 /* menu@2x.png in Resources */,
@@ -2896,6 +2909,7 @@
 				44F86B6C1C1BB505001306E8 /* ThreadContentPage2.json in Resources */,
 				4425A286199700F000671B88 /* test_image.png in Resources */,
 				44C73BD81A496C4F0051D4C2 /* iphone5 launch screen.png in Resources */,
+				44989A221CFC5A8500F04ECD /* popular_threads.json in Resources */,
 				44C73B831A471F060051D4C2 /* ThreadContent.json in Resources */,
 				44C73BDF1A496D6E0051D4C2 /* ipad 768 horizontal launch screen.png in Resources */,
 				4431E5451CA4B90E0098AA01 /* popup notification example.json in Resources */,
