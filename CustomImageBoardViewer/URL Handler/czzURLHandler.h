@@ -10,5 +10,5 @@
 
 @interface czzURLHandler : NSObject
 
-- (BOOL)handleURL:(NSURL *)url;
++ (BOOL)handleURL:(NSURL *)url;
 @end

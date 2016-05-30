@@ -11,6 +11,7 @@
 #import "czzPopularThreadsManager.h"
 #import "czzThreadSuggestionTableViewCell.h"
 #import "czzThreadSuggestion.h"
+#import "czzURLHandler.h"
 #import "czzNavigationManager.h"
 #import <IIViewDeckController.h>
 
@@ -74,7 +75,7 @@
     czzThreadSuggestion *suggestion = [self threadSuggestionForIndexPath:indexPath];
     if (suggestion.url) {
         [[NavigationManager delegate].viewDeckController closeLeftViewAnimated:YES];
-        // TODO: handle URL.
+        [czzURLHandler handleURL:suggestion.url];
     }
 }
 

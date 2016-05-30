@@ -14,7 +14,7 @@
 
 @implementation czzURLHandler
 
-- (BOOL)handleURL:(NSURL *)url {
++ (BOOL)handleURL:(NSURL *)url {
     BOOL isHandled = NO;
     if (url) {
         NSString *hostPrefix = [settingCentre a_isle_host];
