@@ -1,17 +1,27 @@
-[
+ [
   {
-    "title": "丧尸路标",
-    "content": "",
-    "url": "https://h.nimingban.com/t/6448976"
+  "section": "实用",
+  "array": [
+            {
+            "title": "丧尸路标",
+            "content": "",
+            "url": "https://h.nimingban.com/t/6448976"
+            },
+            {
+            "title": "丧尸图鉴",
+            "content": "",
+            "url": "https://h.nimingban.com/t/585784"
+            }
+            ]
   },
   {
-    "title": "丧尸图鉴",
-    "content": "",
-    "url": "https://h.nimingban.com/t/585784"
-  },
-  {
-    "title": "A岛bug反馈",
-    "content": "",
-    "url": "https://h.nimingban.com/t/6465976"
+  "section": "管理",
+  "array": [
+            {
+            "title": "A岛bug反馈",
+            "content": "",
+            "url": "https://h.nimingban.com/t/6465976"
+            }
+            ]
   }
-]
+  ]
