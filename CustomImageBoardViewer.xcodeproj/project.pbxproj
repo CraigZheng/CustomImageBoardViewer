@@ -188,6 +188,18 @@
 		4485F4FC19F5FF38007A73CC /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 4485F4FB19F5FF38007A73CC /* NSString+HTML.m */; };
 		4490A80F1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4490A80E1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m */; };
 		449472761C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 449472751C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m */; };
+		44989A211CFC5A8500F04ECD /* popular_threads.json in Resources */ = {isa = PBXBuildFile; fileRef = 44989A201CFC5A8500F04ECD /* popular_threads.json */; };
+		44989A221CFC5A8500F04ECD /* popular_threads.json in Resources */ = {isa = PBXBuildFile; fileRef = 44989A201CFC5A8500F04ECD /* popular_threads.json */; };
+		44989A251CFC5AE900F04ECD /* czzPopularThreadsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A241CFC5AE900F04ECD /* czzPopularThreadsManager.m */; };
+		44989A261CFC5AE900F04ECD /* czzPopularThreadsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A241CFC5AE900F04ECD /* czzPopularThreadsManager.m */; };
+		44989A291CFC5B7200F04ECD /* czzThreadSuggestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A281CFC5B7200F04ECD /* czzThreadSuggestion.m */; };
+		44989A2A1CFC5B7200F04ECD /* czzThreadSuggestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A281CFC5B7200F04ECD /* czzThreadSuggestion.m */; };
+		44989A2D1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A2C1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m */; };
+		44989A2E1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A2C1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m */; };
+		44989A311CFC699B00F04ECD /* czzThreadSuggestionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A301CFC699B00F04ECD /* czzThreadSuggestionTableViewCell.m */; };
+		44989A321CFC699B00F04ECD /* czzThreadSuggestionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A301CFC699B00F04ECD /* czzThreadSuggestionTableViewCell.m */; };
+		44989A361CFC6E5600F04ECD /* czzURLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A351CFC6E5600F04ECD /* czzURLHandler.m */; };
+		44989A371CFC6E5600F04ECD /* czzURLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A351CFC6E5600F04ECD /* czzURLHandler.m */; };
 		4498A7D21B89978200312A11 /* czzTableViewRefreshView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4498A7D11B89978200312A11 /* czzTableViewRefreshView.xib */; };
 		4498A7E41B89984500312A11 /* CPAutoFillView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498A7E31B89984400312A11 /* CPAutoFillView.m */; };
 		4498B689199248ED0014F73F /* czzJSONProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498B688199248ED0014F73F /* czzJSONProcessor.m */; };
@@ -781,6 +793,17 @@
 		4490A80E1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzMassiveThreadDownloaderTest.m; sourceTree = "<group>"; };
 		449472741C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WKInterfaceImage+ActivityIndicator.h"; sourceTree = "<group>"; };
 		449472751C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WKInterfaceImage+ActivityIndicator.m"; sourceTree = "<group>"; };
+		44989A201CFC5A8500F04ECD /* popular_threads.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = popular_threads.json; sourceTree = "<group>"; };
+		44989A231CFC5AE900F04ECD /* czzPopularThreadsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzPopularThreadsManager.h; sourceTree = "<group>"; };
+		44989A241CFC5AE900F04ECD /* czzPopularThreadsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzPopularThreadsManager.m; sourceTree = "<group>"; };
+		44989A271CFC5B7200F04ECD /* czzThreadSuggestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadSuggestion.h; sourceTree = "<group>"; };
+		44989A281CFC5B7200F04ECD /* czzThreadSuggestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadSuggestion.m; sourceTree = "<group>"; };
+		44989A2B1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzForumsTableViewThreadSuggestionsManager.h; sourceTree = "<group>"; };
+		44989A2C1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzForumsTableViewThreadSuggestionsManager.m; sourceTree = "<group>"; };
+		44989A2F1CFC699B00F04ECD /* czzThreadSuggestionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadSuggestionTableViewCell.h; sourceTree = "<group>"; };
+		44989A301CFC699B00F04ECD /* czzThreadSuggestionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadSuggestionTableViewCell.m; sourceTree = "<group>"; };
+		44989A341CFC6E5600F04ECD /* czzURLHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzURLHandler.h; sourceTree = "<group>"; };
+		44989A351CFC6E5600F04ECD /* czzURLHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzURLHandler.m; sourceTree = "<group>"; };
 		4498A7D11B89978200312A11 /* czzTableViewRefreshView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzTableViewRefreshView.xib; sourceTree = "<group>"; };
 		4498A7E21B89984400312A11 /* CPAutoFillView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPAutoFillView.h; sourceTree = "<group>"; };
 		4498A7E31B89984400312A11 /* CPAutoFillView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPAutoFillView.m; sourceTree = "<group>"; };
@@ -1308,6 +1331,7 @@
 				4453C07619F634B700A8250F /* Launch Screen.xib */,
 				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
 				44E2D2D71B2DB77B0029D783 /* Utility.storyboard */,
+				44989A1F1CFC5A8500F04ECD /* Popular Thread */,
 				44CBF3FD1BC9243300DFECFC /* CacheCleaner */,
 				44E2D2D91B2DB7AD0029D783 /* UtilViewControllers */,
 				44DF8ECC1A74CA4B0097F7F5 /* Utils */,
@@ -1382,6 +1406,10 @@
 				4411B2EE1AFF6A5500E94A5B /* default_forums.json */,
 				440B2FC517F7DB7800544926 /* czzForumsViewController.h */,
 				440B2FC617F7DB7800544926 /* czzForumsViewController.m */,
+				44989A2B1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.h */,
+				44989A2C1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m */,
+				44989A2F1CFC699B00F04ECD /* czzThreadSuggestionTableViewCell.h */,
+				44989A301CFC699B00F04ECD /* czzThreadSuggestionTableViewCell.m */,
 			);
 			name = czzForumsViewController;
 			sourceTree = "<group>";
@@ -1825,6 +1853,27 @@
 			name = ThreadView;
 			sourceTree = "<group>";
 		};
+		44989A1F1CFC5A8500F04ECD /* Popular Thread */ = {
+			isa = PBXGroup;
+			children = (
+				44989A201CFC5A8500F04ECD /* popular_threads.json */,
+				44989A231CFC5AE900F04ECD /* czzPopularThreadsManager.h */,
+				44989A241CFC5AE900F04ECD /* czzPopularThreadsManager.m */,
+				44989A271CFC5B7200F04ECD /* czzThreadSuggestion.h */,
+				44989A281CFC5B7200F04ECD /* czzThreadSuggestion.m */,
+			);
+			path = "Popular Thread";
+			sourceTree = "<group>";
+		};
+		44989A331CFC6E2300F04ECD /* URL Handler */ = {
+			isa = PBXGroup;
+			children = (
+				44989A341CFC6E5600F04ECD /* czzURLHandler.h */,
+				44989A351CFC6E5600F04ECD /* czzURLHandler.m */,
+			);
+			path = "URL Handler";
+			sourceTree = "<group>";
+		};
 		4498A7E51B89984A00312A11 /* AutoFille View */ = {
 			isa = PBXGroup;
 			children = (
@@ -2215,6 +2264,7 @@
 		44DF8ECC1A74CA4B0097F7F5 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				44989A331CFC6E2300F04ECD /* URL Handler */,
 				44DAB43A1CA5002600BDE05A /* View */,
 				441356061C61B37F001B82E5 /* BannerNotification */,
 				44E3F7441BA3005600597A3F /* NSDictionary */,
@@ -2666,6 +2716,7 @@
 				44C73BD31A496C4F0051D4C2 /* ipad launch screen.png in Resources */,
 				444F5B3B1A40EA3500EB391F /* 40.png in Resources */,
 				447E06231BC2391900D24087 /* trash@2x.png in Resources */,
+				44989A211CFC5A8500F04ECD /* popular_threads.json in Resources */,
 				444F5B341A40EA3500EB391F /* 33.png in Resources */,
 				444F5B3F1A40EA3500EB391F /* 44.png in Resources */,
 				44E791E71A17856500A63C04 /* menu@2x.png in Resources */,
@@ -2896,6 +2947,7 @@
 				44F86B6C1C1BB505001306E8 /* ThreadContentPage2.json in Resources */,
 				4425A286199700F000671B88 /* test_image.png in Resources */,
 				44C73BD81A496C4F0051D4C2 /* iphone5 launch screen.png in Resources */,
+				44989A221CFC5A8500F04ECD /* popular_threads.json in Resources */,
 				44C73B831A471F060051D4C2 /* ThreadContent.json in Resources */,
 				44C73BDF1A496D6E0051D4C2 /* ipad 768 horizontal launch screen.png in Resources */,
 				4431E5451CA4B90E0098AA01 /* popup notification example.json in Resources */,
@@ -3029,6 +3081,7 @@
 				442F1FD31B13500C00267698 /* czzAppActivityManager.m in Sources */,
 				4448C2AA180FF6C600D2CD76 /* czzBlacklistSender.m in Sources */,
 				44858EAC1A0C5B0A00DD822B /* czzImageViewerUtil.m in Sources */,
+				44989A291CFC5B7200F04ECD /* czzThreadSuggestion.m in Sources */,
 				4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */,
 				441E5D2917F48B3D00289DBD /* Toast+UIView.m in Sources */,
 				4431E5421CA4B6620098AA01 /* czzLaunchPopUpNotificationViewController.m in Sources */,
@@ -3068,10 +3121,12 @@
 				4444DA3D1C7A938700ED8568 /* czzPostSenderManager.m in Sources */,
 				449E928E1BF9D15C00EE2F58 /* czzModalViewController.m in Sources */,
 				44DF8ED31A74CAAA0097F7F5 /* czzCookieManager.m in Sources */,
+				44989A311CFC699B00F04ECD /* czzThreadSuggestionTableViewCell.m in Sources */,
 				5A27E140193CA11300D0094F /* czzNotificationManager.m in Sources */,
 				44B89E871A2AFC6B0085F766 /* czzHomeViewManager.m in Sources */,
 				5A6266AA193A17FF00AD949F /* czzNotificationDownloader.m in Sources */,
 				44A9E15C1AE1D16000740CE1 /* README.md in Sources */,
+				44989A361CFC6E5600F04ECD /* czzURLHandler.m in Sources */,
 				44E3F7411BA2FFB600597A3F /* PropertyAttribute.m in Sources */,
 				44C34543187E59A500FDE45D /* UIViewController+KNSemiModal.m in Sources */,
 				4424FE4D1BCD33A70096F261 /* czzFadeInOutModalAnimator.m in Sources */,
@@ -3103,6 +3158,7 @@
 				445CA5541CA3BB8F00D3C315 /* czzLaunchPopUpNotification.m in Sources */,
 				441E5D1B17F46E7900289DBD /* SMXMLDocument.m in Sources */,
 				441E5D1217F46A0900289DBD /* czzEntryPointViewController.m in Sources */,
+				44989A251CFC5AE900F04ECD /* czzPopularThreadsManager.m in Sources */,
 				440A62A81B8EBC160046E4CE /* UIViewController+Util.m in Sources */,
 				44E469E11BAD9B5000C0AACC /* czzWatchKitCommand.m in Sources */,
 				441E5D2017F46FB600289DBD /* czzURLDownloader.m in Sources */,
@@ -3113,6 +3169,7 @@
 				445B7B5C1B43EBCA0046CFDB /* czzNavigationManager.m in Sources */,
 				440B2F6117F5EED800544926 /* GTMNSString+HTML.m in Sources */,
 				5A26E77919398D7F00B709C9 /* czzNotificationBannerViewController.m in Sources */,
+				44989A2D1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m in Sources */,
 				440B2FD017F8191700544926 /* czzPost.m in Sources */,
 				449E928A1BF8A33300EE2F58 /* czzThreadDownloader.m in Sources */,
 				44E3F73E1BA2FFB600597A3F /* NSObject+Util.m in Sources */,
@@ -3158,15 +3215,20 @@
 				445CA5551CA3BB9400D3C315 /* czzLaunchPopUpNotification.m in Sources */,
 				442F1FD81B13535B00267698 /* czzHomeTableViewManager.m in Sources */,
 				44C73B8A1A4840100051D4C2 /* czzHistoryManager.m in Sources */,
+				44989A261CFC5AE900F04ECD /* czzPopularThreadsManager.m in Sources */,
 				4490A80F1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m in Sources */,
 				4446B5AF1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m in Sources */,
 				442F1FE31B15FC8500267698 /* UINavigationController+Util.m in Sources */,
+				44989A2A1CFC5B7200F04ECD /* czzThreadSuggestion.m in Sources */,
 				441E5CFD17F4691300289DBD /* CustomImageBoardViewerTests.m in Sources */,
+				44989A321CFC699B00F04ECD /* czzThreadSuggestionTableViewCell.m in Sources */,
 				4431E5441CA4B8F20098AA01 /* czzLaunchPopUpTest.m in Sources */,
+				44989A2E1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m in Sources */,
 				44CD96A11C1AA488007E522F /* czzThreadTest.m in Sources */,
 				44E3F73F1BA2FFB600597A3F /* NSObject+Util.m in Sources */,
 				44E3F7421BA2FFB600597A3F /* PropertyAttribute.m in Sources */,
 				44C73B8F1A484F280051D4C2 /* czzFavouriteManager.m in Sources */,
+				44989A371CFC6E5600F04ECD /* czzURLHandler.m in Sources */,
 				44E3F7481BA3007500597A3F /* NSDictionary+Util.m in Sources */,
 				44DF8EDB1A74D0F00097F7F5 /* czzACTokenUtil.m in Sources */,
 			);

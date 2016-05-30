@@ -132,7 +132,7 @@
 - (void)threadDownloaderCompleted:(czzThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads error:(NSError *)error {
     if (success) {
         self.lastBatchOfThreads = threads;
-        if (downloader.parentThread)
+        if (downloader.parentThread.ID > 0)
             self.parentThread = downloader.parentThread;
         NSArray *processedNewThread;
         if (self.threads.count > 0) {
