@@ -11,6 +11,8 @@
 #import "czzPopularThreadsManager.h"
 #import "czzThreadSuggestionTableViewCell.h"
 #import "czzThreadSuggestion.h"
+#import "czzNavigationManager.h"
+#import <IIViewDeckController.h>
 
 @interface czzForumsTableViewThreadSuggestionsManager()
 @property (nonatomic, weak) czzPopularThreadsManager *popularThreadsManager;
@@ -59,15 +61,37 @@
     czzThreadSuggestionTableViewCell *suggestionCell = [tableView dequeueReusableCellWithIdentifier:threadSuggestionTableViewCellIdentifier
                                                                                        forIndexPath:indexPath];
     if (suggestionCell) {
+        czzThreadSuggestion *suggestion = [self threadSuggestionForIndexPath:indexPath];
+        if (suggestion) {
+            suggestionCell.textLabel.text = suggestion.title;
+            suggestionCell.detailTextLabel.text = suggestion.content;
+        }
+    }
+    return suggestionCell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    czzThreadSuggestion *suggestion = [self threadSuggestionForIndexPath:indexPath];
+    if (suggestion.url) {
+        [[NavigationManager delegate].viewDeckController closeLeftViewAnimated:YES];
+        // TODO: handle URL.
+    }
+}
+
+#pragma mark - Util methods.
+
+- (czzThreadSuggestion *)threadSuggestionForIndexPath:(NSIndexPath *)indexPath {
+    @try {
         NSMutableArray *suggestionsArray = [NSMutableArray new];
         for (NSString *key in self.popularThreadsManager.suggestions[indexPath.section].allKeys) {
             [suggestionsArray addObjectsFromArray:[self.popularThreadsManager.suggestions[indexPath.section] objectForKey:key]];
         }
         czzThreadSuggestion *suggestion = suggestionsArray[indexPath.row];
-        suggestionCell.textLabel.text = suggestion.title;
-        suggestionCell.detailTextLabel.text = suggestion.content;
+        return suggestion;
+    } @catch (NSException *exception) {
+        DLog(@"%@", exception);
     }
-    return suggestionCell;
+    return nil;
 }
 
 #pragma mark - Getters

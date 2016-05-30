@@ -285,7 +285,7 @@
                     <toolbarItems>
                         <barButtonItem style="plain" id="vmZ-oy-Dtg">
                             <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="4Tm-po-37V">
-                                <rect key="frame" x="16" y="7" width="71" height="30"/>
+                                <rect key="frame" x="16" y="7" width="122" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title="板块"/>
@@ -312,7 +312,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="67i-OB-p0a" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-286" y="-1210.9999999999995"/>
+            <point key="canvasLocation" x="-286" y="-1211"/>
         </scene>
         <!--Czz Feedback View Controller-->
         <scene sceneID="N7p-4J-9xD">
