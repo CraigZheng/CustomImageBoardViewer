@@ -76,6 +76,12 @@ NSString * const kPickedForum = @"PickedForum";
 
     [self.forumsTableView reloadData];
     [self refreshAd];
+    // Schedule a timer to refresh Ad.
+    [NSTimer scheduledTimerWithTimeInterval:adUpdateInterval / 2
+                                     target:self
+                                   selector:@selector(refreshAd)
+                                   userInfo:nil
+                                    repeats:YES];
 }
 
 -(void)refreshForums{
@@ -87,6 +93,7 @@ NSString * const kPickedForum = @"PickedForum";
 }
 
 -(void)refreshAd {
+    DLog(@"");
     if (!lastAdUpdateTime || [[NSDate new] timeIntervalSinceDate:lastAdUpdateTime] > adUpdateInterval) {
         [bannerView_ loadRequest:[GADRequest request]];
         lastAdUpdateTime = [NSDate new];
