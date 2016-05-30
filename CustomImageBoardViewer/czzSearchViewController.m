@@ -171,36 +171,33 @@
     DDLogDebug(@"should navigate to URL: %@", request.URL.absoluteString);
     //user tapped on link
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
-        if ([request.URL.absoluteString rangeOfString:[settingCentre a_isle_host]].location == NSNotFound) {
-            [czzBannerNotificationUtil displayMessage:@"这个App只支持A岛匿名版的链接"
-                                             position:BannerNotificationPositionTop];
-            return NO;
-        } else {
-            //get final URL
-            NSString *acURL = [[request.URL.absoluteString componentsSeparatedByString:@"?"].firstObject stringByDeletingPathExtension]; //only the first few components are useful, the host and the thread id
-            targetURL = [NSURL URLWithString:acURL];
-            [czzBannerNotificationUtil displayMessage:@"请稍等..."
-                                             position:BannerNotificationPositionTop];
-
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                NSData *data = nil;
-                
-                NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:targetURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:4];
-                NSURLResponse *response;
-                NSError *error;
-                data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-                NSURL *LastURL = [response URL];
-                
-                //from final URL get thread ID
-                NSString *threadID = [LastURL.absoluteString componentsSeparatedByString:@"/"].lastObject;
-                dispatch_async(dispatch_get_main_queue(), ^{
+        //get final URL
+        NSString *acURL = [[request.URL.absoluteString componentsSeparatedByString:@"?"].firstObject stringByDeletingPathExtension]; //only the first few components are useful, the host and the thread id
+        targetURL = [NSURL URLWithString:acURL];
+        [czzBannerNotificationUtil displayMessage:@"请稍等..."
+                                         position:BannerNotificationPositionTop];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSData *data = nil;
+            
+            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:targetURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:4];
+            NSURLResponse *response;
+            NSError *error;
+            data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+            NSURL *LastURL = [response URL];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if ([LastURL.absoluteString rangeOfString:[settingCentre a_isle_host]].location == NSNotFound) {
+                    [czzBannerNotificationUtil displayMessage:@"这个App只支持A岛匿名版的链接"
+                                                     position:BannerNotificationPositionTop];
+                } else {
+                    //from final URL get thread ID
+                    NSString *threadID = [LastURL.absoluteString componentsSeparatedByString:@"/"].lastObject;
                     [self downloadAndPrepareThreadWithID:threadID.integerValue];
-                });
+                }
             });
             
-            return NO;
-
-        }
+        });
+        
         return NO;
     }
     return YES;
