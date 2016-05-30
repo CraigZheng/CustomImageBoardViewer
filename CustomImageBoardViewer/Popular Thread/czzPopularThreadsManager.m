@@ -41,6 +41,10 @@
     return self;
 }
 
+- (void)refreshPopularThreads {
+    // TODO: -
+}
+
 #pragma mark - Getters
 
 - (NSMutableArray<NSDictionary<NSString *,NSArray<czzThreadSuggestion *> *> *> *)suggestionsArray {

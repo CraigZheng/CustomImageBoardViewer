@@ -19,7 +19,8 @@
 @end
                                         
 @interface czzPopularThreadsManager : NSObject
-
+@property (nonatomic, weak) id<czzPopularThreadsManagerDelegate> delegate;
 @property (nonatomic, readonly) NSArray<NSDictionary<NSString *, NSArray<czzThreadSuggestion*> *> *> *suggestions;
 
+- (void)refreshPopularThreads;
 @end

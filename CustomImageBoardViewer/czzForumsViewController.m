@@ -15,17 +15,19 @@
 #import "czzSettingsCentre.h"
 #import "czzForum.h"
 #import "czzForumManager.h"
+#import "czzPopularThreadsManager.h"
 #import "czzMoreInfoViewController.h"
 
 NSString * const kForumPickedNotification = @"ForumNamePicked";
 NSString * const kPickedForum = @"PickedForum";
 
-@interface czzForumsViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface czzForumsViewController () <UITableViewDataSource, UITableViewDelegate, czzPopularThreadsManagerDelegate>
 @property NSDate *lastAdUpdateTime;
 @property NSTimeInterval adUpdateInterval;
 @property UIView *adCoverView;
 @property (assign, nonatomic) BOOL shouldHideCoverView;
 @property czzForumManager *forumManager;
+@property (strong, nonatomic) czzPopularThreadsManager *popularThreadsManager;
 @end
 
 @implementation czzForumsViewController
@@ -41,7 +43,6 @@ NSString * const kPickedForum = @"PickedForum";
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    [self refreshForums];
     bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
 //    bannerView_.adUnitID = @"a151ef285f8e0dd";
     bannerView_.adUnitID = @"ca-app-pub-2081665256237089/4247713655";
@@ -56,6 +57,7 @@ NSString * const kPickedForum = @"PickedForum";
     
     self.forumManager = [czzForumManager sharedManager];
     [self refreshForums];
+    [self refreshPopularThreads];
     // Reload the forum view when notification from settings centre is received.
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleSettingsChangedNotification)
@@ -86,11 +88,16 @@ NSString * const kPickedForum = @"PickedForum";
     }];
 }
 
+- (void)refreshPopularThreads {
+    [self.popularThreadsManager refreshPopularThreads];
+}
+
 -(void)refreshAd {
     if (!lastAdUpdateTime || [[NSDate new] timeIntervalSinceDate:lastAdUpdateTime] > adUpdateInterval) {
         [bannerView_ loadRequest:[GADRequest request]];
         lastAdUpdateTime = [NSDate new];
         [self refreshForums];//might be a good idea to update the forums as well
+        [self refreshPopularThreads];
     }
 }
 
@@ -175,6 +182,7 @@ NSString * const kPickedForum = @"PickedForum";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (!self.forumManager.forumGroups.count){
         [self refreshForums];
+        [self refreshPopularThreads];
         return;
     }
     if (self.forumManager.forumGroups.count == 0)
@@ -214,11 +222,28 @@ NSString * const kPickedForum = @"PickedForum";
     [self viewWillAppear:animated];
 }
 
+#pragma mark - czzPopularThreadsManagerDelegate
+
+- (void)popularThreadsManagerDidUpdate:(czzPopularThreadsManager *)manager {
+    // TODO: refresh thread suggestions.
+    
+}
+
 #pragma mark - Settings changed notification.
 
 - (void)handleSettingsChangedNotification {
     DLog(@"");
     [self.forumsTableView reloadData];
+}
+
+#pragma mark - Getters
+
+- (czzPopularThreadsManager *)popularThreadsManager {
+    if (!_popularThreadsManager) {
+        _popularThreadsManager = [[czzPopularThreadsManager alloc] init];
+        _popularThreadsManager.delegate = self;
+    }
+    return _popularThreadsManager;
 }
 
 @end
