@@ -47,7 +47,7 @@
 - (void)didMoveToWindow {
     if (self.window && self.isAnimating) {
         DLog(@"Did move to window and should be animating, resuming animation...");
-        _isAnimating = NO;
+        [self stopAnimating];
         [self startAnimating];
     }
 }
@@ -83,10 +83,12 @@
     _isAnimating = NO;
 
     self.hidden = self.hidesWhenStopped;
-
+    [CATransaction begin];
     for (UIView *subView in self.subviews) {
+        [subView.layer removeAllAnimations];
         [subView removeFromSuperview];
     }
+    [CATransaction commit];
 }
 
 -(void)showWarning {
