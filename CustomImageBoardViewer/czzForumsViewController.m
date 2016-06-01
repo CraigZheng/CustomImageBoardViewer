@@ -59,27 +59,11 @@ NSString * const kPickedForum = @"PickedForum";
      setTitleTextAttributes:@{NSForegroundColorAttributeName : self.navigationController.navigationBar.tintColor}];
     
     self.forumManager = [czzForumManager sharedManager];
-    [self refreshForums];
-    [self refreshPopularThreads];
     // Reload the forum view when notification from settings centre is received.
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleSettingsChangedNotification)
                                                  name:settingsChangedNotification
                                                object:nil];
-}
-
--(void)viewWillAppear:(BOOL)animated{
-    // Google Analytic integration
-    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
-    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
-
-    [super viewWillAppear:animated];
-    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]){
-        self.automaticallyAdjustsScrollViewInsets = NO;
-    }
-
-    [self.forumsTableView reloadData];
     [self refreshAd];
     // Schedule a timer to refresh Ad.
     [NSTimer scheduledTimerWithTimeInterval:adUpdateInterval / 2
@@ -87,6 +71,21 @@ NSString * const kPickedForum = @"PickedForum";
                                    selector:@selector(refreshAd)
                                    userInfo:nil
                                     repeats:YES];
+
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    // Google Analytic integration
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+
+    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]){
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+
+    [self.forumsTableView reloadData];
 }
 
 -(void)refreshForums{
