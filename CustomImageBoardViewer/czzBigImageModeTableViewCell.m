@@ -21,7 +21,7 @@
 - (void)renderContent {
     [super renderContent];
     NSString *imageName = self.thread.imgSrc.lastPathComponent;
-    if (imageName.length && [[czzImageCacheManager sharedInstance] hasImageWithName:imageName]) {
+    if (self.allowImage && imageName.length && [[czzImageCacheManager sharedInstance] hasImageWithName:imageName]) {
         UIImage *fullsizeImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]]];
         self.cellImageView.image = fullsizeImage;
     }
@@ -37,7 +37,7 @@
             height = CGRectGetHeight([UIScreen mainScreen].bounds) * 0.75;
         }
         self.bigImageViewHeightConstraint.constant = height;
-    } else if (imageName.length) {
+    } else if (imageName.length && self.allowImage) {
         self.bigImageViewHeightConstraint.constant = 100;
     } else {
         self.bigImageViewHeightConstraint.constant = 0;
