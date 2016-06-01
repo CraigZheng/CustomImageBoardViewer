@@ -13,6 +13,7 @@
 #import "czzBannerNotificationUtil.h"
 #import "czzURLDownloader.h"
 #import "czzLaunchPopUpNotification.h"
+#import <Google/Analytics.h>
 #import <UIKit/UIKit.h>
 
 static NSString * const kDisplayThumbnail = @"kDisplayThumbnail";
@@ -158,6 +159,37 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         self.userDefShouldCleanCaches = [userDefault boolForKey:kAutoClean];
     }
     self.userDefShouldAutoDownloadImage = [userDefault boolForKey:kAutoDownloadImage];
+    
+    // Google analytics.
+    id<GAITracker> defaultTracker = [[GAI sharedInstance] defaultTracker];
+    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
+                                                                 action:@"Display Thumbnail"
+                                                                  label:[self stringWithBoolean:self.userDefShouldDisplayThumbnail]
+                                                                  value:@1] build]];
+    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
+                                                                 action:@"Display Quick Scroll"
+                                                                  label:[self stringWithBoolean:self.userDefShouldShowOnScreenCommand]
+                                                                  value:@1] build]];
+    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
+                                                                 action:@"Auto Open Downloaded Image"
+                                                                  label:[self stringWithBoolean:self.userDefShouldAutoOpenImage]
+                                                                  value:@1] build]];
+    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
+                                                                 action:@"Big Image Mode"
+                                                                  label:[self stringWithBoolean:self.userDefShouldUseBigImage]
+                                                                  value:@1] build]];
+    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
+                                                                 action:@"Nighty Mode"
+                                                                  label:[self stringWithBoolean:self.userDefNightyMode]
+                                                                  value:@1] build]];
+    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
+                                                                 action:@"Auto Download Image"
+                                                                  label:[self stringWithBoolean:self.userDefShouldAutoDownloadImage]
+                                                                  value:@1] build]];
+}
+
+- (NSString*)stringWithBoolean:(Boolean)b {
+    return b ? @"On" : @"Off";
 }
 
 -(void)downloadSettings {
