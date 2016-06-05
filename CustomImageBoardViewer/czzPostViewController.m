@@ -41,6 +41,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *postTextViewBottomConstraint;
 
 @property (nonatomic, strong) NSData *pickedImageData;
+@property (nonatomic, strong) UIBarButtonItem *keyboardBarButtonItem;
 @property (nonatomic, strong) NSString *pickedImageFormat;
 
 - (IBAction)clearAction:(id)sender;
@@ -122,12 +123,14 @@
                         flexibleSpace,
                         pickImgButton,
                         flexibleSpace,
+                        self.keyboardBarButtonItem,
+                        flexibleSpace,
                         postButton, nil];
     toolbar.items = buttons;
     postTextView.inputAccessoryView = toolbar;
     // colour
-    self.view.backgroundColor =
-    postTextView.backgroundColor = [[settingCentre viewBackgroundColour] colorWithAlphaComponent:0.5];
+    self.view.backgroundColor = [[settingCentre viewBackgroundColour] colorWithAlphaComponent:0.5];
+    postTextView.backgroundColor = [UIColor clearColor];
     postTextView.textColor = [settingCentre contentTextColour];
     postTextView.text = self.prefilledString;
     // Adjust textview shadow.
@@ -148,7 +151,8 @@
                 [[AppDelegate window] makeToast:nil
                                        duration:1.5
                                        position:@"top"
-                                          image:[UIImage imageWithData:self.displayPostSender.imgData]];
+                                          image:nil];
+                self.postImageView.image = [UIImage imageWithData:self.displayPostSender.imgData];
             }
             for (UIBarButtonItem *button in buttons) {
                 button.enabled = NO;
@@ -224,6 +228,16 @@
         postTextView.text = content;
     // Already layout contents.
     self.didLayout = YES;
+}
+
+#pragma mark - UI actions.
+
+- (void)keyboardAction:(id)sender {
+    if ([self.postTextView isFirstResponder]) {
+        [self.postTextView resignFirstResponder];
+    } else {
+        [self.postTextView becomeFirstResponder];
+    }
 }
 
 - (void)postAction:(id)sender {
@@ -364,6 +378,18 @@
     }
     // Show content on screen.
     self.postImageView.image = [UIImage imageWithData:pickedImageData];
+}
+
+#pragma mark - Getters
+
+- (UIBarButtonItem *)keyboardBarButtonItem {
+    if (!_keyboardBarButtonItem) {
+        _keyboardBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"keyboard.png"]
+                                                                  style:UIBarButtonItemStylePlain
+                                                                 target:self
+                                                                 action:@selector(keyboardAction:)];
+    }
+    return _keyboardBarButtonItem;
 }
 
 #pragma UIImagePickerController delegate

@@ -226,6 +226,10 @@
 		44A294CA1BFDF13B0033D438 /* czzWKForum.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294C01BFDF1050033D438 /* czzWKForum.m */; };
 		44A294CC1BFDF1430033D438 /* czzWKThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294C21BFDF1050033D438 /* czzWKThread.m */; };
 		44A372DD1C28D9E0004CBA48 /* czzDebugSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A372DC1C28D9E0004CBA48 /* czzDebugSettingsTableViewController.m */; };
+		44A5DF691D045E3B00AEF329 /* keyboard@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44A5DF651D045E3B00AEF329 /* keyboard@3x.png */; };
+		44A5DF6A1D045E3B00AEF329 /* keyboard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44A5DF661D045E3B00AEF329 /* keyboard@2x.png */; };
+		44A5DF6B1D045E3B00AEF329 /* keyboard_filled@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44A5DF671D045E3B00AEF329 /* keyboard_filled@3x.png */; };
+		44A5DF6C1D045E3B00AEF329 /* keyboard_filled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44A5DF681D045E3B00AEF329 /* keyboard_filled@2x.png */; };
 		44A9E1531AE1D16000740CE1 /* Icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = 44A9E1491AE1D16000740CE1 /* Icon-60.png */; };
 		44A9E1541AE1D16000740CE1 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 44A9E14A1AE1D16000740CE1 /* Icon-72.png */; };
 		44A9E1551AE1D16000740CE1 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44A9E14B1AE1D16000740CE1 /* Icon-72@2x.png */; };
@@ -847,6 +851,10 @@
 		44A294CF1BFDF7630033D438 /* CIVWatchApp.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CIVWatchApp.pch; sourceTree = "<group>"; };
 		44A372DB1C28D9E0004CBA48 /* czzDebugSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzDebugSettingsTableViewController.h; sourceTree = "<group>"; };
 		44A372DC1C28D9E0004CBA48 /* czzDebugSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzDebugSettingsTableViewController.m; sourceTree = "<group>"; };
+		44A5DF651D045E3B00AEF329 /* keyboard@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "keyboard@3x.png"; sourceTree = "<group>"; };
+		44A5DF661D045E3B00AEF329 /* keyboard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "keyboard@2x.png"; sourceTree = "<group>"; };
+		44A5DF671D045E3B00AEF329 /* keyboard_filled@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "keyboard_filled@3x.png"; sourceTree = "<group>"; };
+		44A5DF681D045E3B00AEF329 /* keyboard_filled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "keyboard_filled@2x.png"; sourceTree = "<group>"; };
 		44A9E1491AE1D16000740CE1 /* Icon-60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60.png"; sourceTree = "<group>"; };
 		44A9E14A1AE1D16000740CE1 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		44A9E14B1AE1D16000740CE1 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
@@ -2351,6 +2359,10 @@
 		44E7918C1A17856500A63C04 /* icons */ = {
 			isa = PBXGroup;
 			children = (
+				44A5DF651D045E3B00AEF329 /* keyboard@3x.png */,
+				44A5DF661D045E3B00AEF329 /* keyboard@2x.png */,
+				44A5DF671D045E3B00AEF329 /* keyboard_filled@3x.png */,
+				44A5DF681D045E3B00AEF329 /* keyboard_filled@2x.png */,
 				446C17B71CB08E2B00B557E2 /* loading_bar_dot.gif */,
 				447E06221BC2391900D24087 /* trash@2x.png */,
 				441A6A841BB28D96008E380C /* visible@2x.png */,
@@ -2764,6 +2776,7 @@
 				44C73B761A4708BA0051D4C2 /* thumb_down@3x.png in Resources */,
 				44F86B6B1C1BB505001306E8 /* ThreadContentPage2.json in Resources */,
 				44E791D91A17856500A63C04 /* delete@3x.png in Resources */,
+				44A5DF691D045E3B00AEF329 /* keyboard@3x.png in Resources */,
 				445C66421BBED3EF004B3E83 /* czzThreadViewCellHeaderView.xib in Resources */,
 				44E791F31A17856500A63C04 /* sad@2x.png in Resources */,
 				44CF25671A26B4D000BD8228 /* .gitignore in Resources */,
@@ -2861,7 +2874,9 @@
 				44A9E1541AE1D16000740CE1 /* Icon-72.png in Resources */,
 				44A9E15A1AE1D16000740CE1 /* iTunesArtwork.png in Resources */,
 				44E791E81A17856500A63C04 /* menu@3x.png in Resources */,
+				44A5DF6C1D045E3B00AEF329 /* keyboard_filled@2x.png in Resources */,
 				44C73BDA1A496CBD0051D4C2 /* ipad 768 launch screen.png in Resources */,
+				44A5DF6B1D045E3B00AEF329 /* keyboard_filled@3x.png in Resources */,
 				5A637439195D8AB0004AF1FC /* LICENSE in Resources */,
 				44E791ED1A17856500A63C04 /* previous@2x.png in Resources */,
 				444F5B181A40EA3500EB391F /* 05.png in Resources */,
@@ -2893,6 +2908,7 @@
 				44E791D11A17856500A63C04 /* bookmark@2x.png in Resources */,
 				44E791D81A17856500A63C04 /* delete@2x.png in Resources */,
 				444F5B231A40EA3500EB391F /* 16.png in Resources */,
+				44A5DF6A1D045E3B00AEF329 /* keyboard@2x.png in Resources */,
 				44E791F81A17856500A63C04 /* settings.png in Resources */,
 				446C17B81CB08E2B00B557E2 /* loading_bar_dot.gif in Resources */,
 				44C3455D187E774300FDE45D /* acfun_emoji_UTF16.txt in Resources */,
