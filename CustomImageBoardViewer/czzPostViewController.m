@@ -129,7 +129,7 @@
     toolbar.items = buttons;
     postTextView.inputAccessoryView = toolbar;
     // colour
-    self.view.backgroundColor = [[settingCentre viewBackgroundColour] colorWithAlphaComponent:0.5];
+    self.view.backgroundColor = [settingCentre viewBackgroundColour];
     postTextView.backgroundColor = [UIColor clearColor];
     postTextView.textColor = [settingCentre contentTextColour];
     postTextView.text = self.prefilledString;
