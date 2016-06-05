@@ -37,7 +37,11 @@
 @property (nonatomic, strong) czzEmojiCollectionViewController *emojiViewController;
 @property (nonatomic, assign) BOOL didLayout;
 @property (strong, nonatomic) UIBarButtonItem *postButton;
+@property (weak, nonatomic) IBOutlet UIImageView *postImageView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *postTextViewBottomConstraint;
+
+@property (nonatomic, strong) NSData *pickedImageData;
+@property (nonatomic, strong) NSString *pickedImageFormat;
 
 - (IBAction)clearAction:(id)sender;
 
@@ -122,9 +126,16 @@
     toolbar.items = buttons;
     postTextView.inputAccessoryView = toolbar;
     // colour
-    postTextView.backgroundColor = [settingCentre viewBackgroundColour];
+    self.view.backgroundColor =
+    postTextView.backgroundColor = [[settingCentre viewBackgroundColour] colorWithAlphaComponent:0.5];
     postTextView.textColor = [settingCentre contentTextColour];
     postTextView.text = self.prefilledString;
+    // Adjust textview shadow.
+    postTextView.layer.shadowColor = [UIColor whiteColor].CGColor;
+    postTextView.layer.shadowOffset = CGSizeMake(2.0, 2.0);
+    postTextView.layer.shadowOpacity = 1.0;
+    postTextView.layer.shadowRadius = 2.0;
+    
     // If is display only mode, show the content and then return.
     if (postMode == postViewControllerModeDisplayOnly) {
         assert(self.displayPostSender);
@@ -258,6 +269,9 @@
     mediaUI.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     mediaUI.allowsEditing = NO;
     mediaUI.delegate = self;
+    // Reset image contents.
+    self.pickedImageFormat = nil;
+    self.pickedImageData = nil;
     [self presentViewController:mediaUI animated:YES completion:nil];
 }
 
@@ -302,7 +316,8 @@
 
 -(void)resetContent{
     postTextView.text = @"";
-    [postSender setImgData:nil format:nil];
+    self.pickedImageData = nil;
+    self.pickedImageFormat = nil;
     [czzBannerNotificationUtil displayMessage:@"内容和图片已清空"
                                      position:BannerNotificationPositionTop];
 }
@@ -340,6 +355,17 @@
     }
 }
 
+#pragma mark - Setters
+
+- (void)setPickedImageData:(NSData *)pickedImageData {
+    _pickedImageData = pickedImageData;
+    if (postSender) {
+        [postSender setImgData:_pickedImageData format:self.pickedImageFormat];
+    }
+    // Show content on screen.
+    self.postImageView.image = [UIImage imageWithData:pickedImageData];
+}
+
 #pragma UIImagePickerController delegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     UIImage *pickedImage = [info valueForKey:UIImagePickerControllerOriginalImage];
@@ -352,7 +378,7 @@
             Byte *buffer = (Byte*)malloc(rep.size);
             NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:rep.size error:nil];
             NSData *assetData = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
-            [postSender setImgData:assetData format:@"gif"];
+            self.pickedImageFormat = @"gif";
             [[AppDelegate window] makeToast:[NSString stringWithFormat:@"%@", originalURL.lastPathComponent]
                                    duration:1.5
                                    position:@"top"
@@ -377,7 +403,7 @@
         }
         imageData = UIImageJPEGRepresentation(pickedImage, 0.9);
         // No need to specify the format
-        [postSender setImgData:imageData format:nil];
+        self.pickedImageData = imageData;
     }
     [picker dismissViewControllerAnimated:YES completion:^{
         [postTextView becomeFirstResponder];

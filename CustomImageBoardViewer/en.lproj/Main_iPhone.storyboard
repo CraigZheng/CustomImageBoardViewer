@@ -5,6 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
@@ -576,6 +577,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="128" translatesAutoresizingMaskIntoConstraints="NO" id="glC-7p-U5Q" userLabel="Post Image View">
+                                <rect key="frame" x="32" y="142" width="256" height="284"/>
+                            </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tgk-NW-5N7">
                                 <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -589,8 +593,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Tgk-NW-5N7" secondAttribute="trailing" id="Fl7-d2-73l"/>
+                            <constraint firstItem="glC-7p-U5Q" firstAttribute="height" secondItem="hg6-I0-Rfv" secondAttribute="height" multiplier="0.5" id="Qou-ao-39W"/>
+                            <constraint firstItem="glC-7p-U5Q" firstAttribute="centerX" secondItem="hg6-I0-Rfv" secondAttribute="centerX" id="UgW-dW-yXu"/>
+                            <constraint firstItem="glC-7p-U5Q" firstAttribute="width" secondItem="hg6-I0-Rfv" secondAttribute="width" multiplier="0.8" id="cmn-S5-82x"/>
                             <constraint firstItem="Tgk-NW-5N7" firstAttribute="leading" secondItem="hg6-I0-Rfv" secondAttribute="leading" id="jpN-cs-Ve8"/>
                             <constraint firstItem="Tgk-NW-5N7" firstAttribute="top" secondItem="t4Y-Zn-CmB" secondAttribute="bottom" id="pDT-jg-vGe"/>
+                            <constraint firstItem="glC-7p-U5Q" firstAttribute="centerY" secondItem="hg6-I0-Rfv" secondAttribute="centerY" id="sKn-iY-E7F"/>
                             <constraint firstItem="x9R-fb-aTx" firstAttribute="top" secondItem="Tgk-NW-5N7" secondAttribute="bottom" id="suq-0c-az0"/>
                         </constraints>
                     </view>
@@ -608,6 +616,7 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="postImageView" destination="glC-7p-U5Q" id="08e-xh-SVG"/>
                         <outlet property="postTextView" destination="Tgk-NW-5N7" id="Ra4-3I-PNT"/>
                         <outlet property="postTextViewBottomConstraint" destination="suq-0c-az0" id="yRZ-Cv-Bly"/>
                     </connections>
