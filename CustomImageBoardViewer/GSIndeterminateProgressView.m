@@ -48,7 +48,9 @@
     if (self.window && self.isAnimating) {
         DLog(@"Did move to window and should be animating, resuming animation...");
         [self stopAnimating];
-        [self startAnimating];
+        [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+            [self startAnimating];
+        }];
     }
 }
 
