@@ -131,13 +131,12 @@
 
 - (void)threadDownloaderCompleted:(czzThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads error:(NSError *)error {
     if (success) {
-        self.lastBatchOfThreads = threads;
         if (downloader.parentThread.ID > 0)
             self.parentThread = downloader.parentThread;
-        // Remove last page.
-        NSInteger startingPoint = (self.pageNumber - 1) * settingCentre.threads_per_page;
-        NSRange lastPageRange = NSMakeRange(startingPoint, self.threads.count - startingPoint);
-        [self.threads removeObjectsInRange:lastPageRange];
+        // Remove last page by having a sub array of threads up to the begining of the last page.
+        NSInteger lastPageStartingPoint = (downloader.pageNumber - 1) * settingCentre.response_per_page;
+        NSRange previousRange = NSMakeRange(0, lastPageStartingPoint + 1);
+        self.threads = [[self.threads subarrayWithRange:previousRange] mutableCopy];
         
         self.lastBatchOfThreads = threads;
         [self.threads addObjectsFromArray:self.lastBatchOfThreads];
