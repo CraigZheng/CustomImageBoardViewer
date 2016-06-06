@@ -79,7 +79,6 @@
 
 - (void)stopAnimating
 {
-    if (!_isAnimating) return;
     _isAnimating = NO;
 
     self.hidden = self.hidesWhenStopped;
