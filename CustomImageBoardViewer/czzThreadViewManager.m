@@ -131,30 +131,14 @@
 
 - (void)threadDownloaderCompleted:(czzThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads error:(NSError *)error {
     if (success) {
-        self.lastBatchOfThreads = threads;
         if (downloader.parentThread.ID > 0)
             self.parentThread = downloader.parentThread;
-        NSArray *processedNewThread;
-        if (self.threads.count > 0) {
-            NSInteger lastChunkIndex = self.threads.count - self.lastBatchOfThreads.count;
-            if (lastChunkIndex < 1)
-                lastChunkIndex = 1;
-            self.cutOffIndex = lastChunkIndex;
-            NSInteger lastChunkLength = self.threads.count - lastChunkIndex;
-            NSRange lastChunkRange = NSMakeRange(lastChunkIndex, lastChunkLength);
-            NSArray *lastChunkOfThread = [self.threads subarrayWithRange:lastChunkRange];
-            NSMutableOrderedSet *oldThreadSet = [NSMutableOrderedSet orderedSetWithArray:lastChunkOfThread];
-            [oldThreadSet addObjectsFromArray:threads];
-            [self.threads removeObjectsInRange:lastChunkRange];
-            processedNewThread = oldThreadSet.array;
-        } else {
-            self.cutOffIndex = 0;
-            NSMutableArray *threadsWithParent = [NSMutableArray new];
-            [threadsWithParent addObject:self.parentThread];
-            [threadsWithParent addObjectsFromArray:threads];
-            processedNewThread = threadsWithParent;
-        }
-        self.lastBatchOfThreads = processedNewThread;
+        // Remove last page by having a sub array of threads up to the begining of the last page.
+        NSInteger lastPageStartingPoint = (downloader.pageNumber - 1) * settingCentre.response_per_page;
+        NSRange previousRange = NSMakeRange(0, lastPageStartingPoint + 1);
+        self.threads = [[self.threads subarrayWithRange:previousRange] mutableCopy];
+        
+        self.lastBatchOfThreads = threads;
         [self.threads addObjectsFromArray:self.lastBatchOfThreads];
         //replace parent thread
         if (self.threads.count >= 1)
