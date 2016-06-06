@@ -134,27 +134,12 @@
         self.lastBatchOfThreads = threads;
         if (downloader.parentThread.ID > 0)
             self.parentThread = downloader.parentThread;
-        NSArray *processedNewThread;
-        if (self.threads.count > 0) {
-            NSInteger lastChunkIndex = self.threads.count - self.lastBatchOfThreads.count;
-            if (lastChunkIndex < 1)
-                lastChunkIndex = 1;
-            self.cutOffIndex = lastChunkIndex;
-            NSInteger lastChunkLength = self.threads.count - lastChunkIndex;
-            NSRange lastChunkRange = NSMakeRange(lastChunkIndex, lastChunkLength);
-            NSArray *lastChunkOfThread = [self.threads subarrayWithRange:lastChunkRange];
-            NSMutableOrderedSet *oldThreadSet = [NSMutableOrderedSet orderedSetWithArray:lastChunkOfThread];
-            [oldThreadSet addObjectsFromArray:threads];
-            [self.threads removeObjectsInRange:lastChunkRange];
-            processedNewThread = oldThreadSet.array;
-        } else {
-            self.cutOffIndex = 0;
-            NSMutableArray *threadsWithParent = [NSMutableArray new];
-            [threadsWithParent addObject:self.parentThread];
-            [threadsWithParent addObjectsFromArray:threads];
-            processedNewThread = threadsWithParent;
-        }
-        self.lastBatchOfThreads = processedNewThread;
+        // Remove last page.
+        NSInteger startingPoint = (self.pageNumber - 1) * settingCentre.threads_per_page;
+        NSRange lastPageRange = NSMakeRange(startingPoint, self.threads.count - startingPoint);
+        [self.threads removeObjectsInRange:lastPageRange];
+        
+        self.lastBatchOfThreads = threads;
         [self.threads addObjectsFromArray:self.lastBatchOfThreads];
         //replace parent thread
         if (self.threads.count >= 1)
