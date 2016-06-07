@@ -15,13 +15,14 @@
 @property NSUInteger colourIndex;
 @property UIView *foregroundBarView;
 @property UIView *backgroundBarView;
+@property (nonatomic, assign) BOOL isAnimating;
+
 @end
 
 @implementation GSIndeterminateProgressView
 @synthesize CHUNK_WIDTH;
 @synthesize colourIndex;
 @synthesize colours;
-@synthesize isAnimating = _isAnimating;
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -69,30 +70,23 @@
 
 - (void)startAnimating
 {
-    if (_isAnimating) return;
-    _isAnimating = YES;
-
+    DLog(@"");
+    [self resetViews];
     self.hidden = NO;
-    for (UIView *subView in self.subviews) {
-        [subView removeFromSuperview];
-    }
+    self.isAnimating = YES;
     [self animateProgressChunkWithDelay:0.2];
 }
 
 - (void)stopAnimating
 {
-    _isAnimating = NO;
-
+    DLog(@"");
+    [self resetViews];
+    self.isAnimating = NO;
     self.hidden = self.hidesWhenStopped;
-    [CATransaction begin];
-    for (UIView *subView in self.subviews) {
-        [subView.layer removeAllAnimations];
-        [subView removeFromSuperview];
-    }
-    [CATransaction commit];
 }
 
 -(void)showWarning {
+    DLog(@"");
     [self stopAnimating];
     self.hidden = NO;
     
@@ -104,6 +98,15 @@
         [self addSubview:stripView];
     }
     self.backgroundColor = [UIColor whiteColor];
+}
+
+- (void)resetViews {
+    [CATransaction begin];
+    for (UIView *subView in self.subviews) {
+        [subView.layer removeAllAnimations];
+        [subView removeFromSuperview];
+    }
+    [CATransaction commit];
 }
 
 -(UIColor*)progressTintColor {
@@ -132,7 +135,7 @@
         [self.foregroundBarView autoSetDimensionsToSize:CGSizeMake(CGRectGetWidth(self.frame), 2)];
         [self layoutIfNeeded];
     } completion:^(BOOL finished) {
-        if (finished && _isAnimating && self.window) {
+        if (finished && self.isAnimating && self.window) {
             // If previous background views are still here, remove them.
             if (self.backgroundBarView.superview) {
                 [self.backgroundBarView removeFromSuperview];
