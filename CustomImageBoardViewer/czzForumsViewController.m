@@ -93,6 +93,9 @@ NSString * const kPickedForum = @"PickedForum";
     [self.forumManager updateForums:^(BOOL success, NSError *error) {
         [self.forumsTableView reloadData];
         [self stopLoading];
+        if (!success || error) {
+            [self showWarning];
+        }
     }];
 }
 

@@ -57,10 +57,10 @@
                 [self.delegate downloadUpdated:self progress:(float)downloadProgress.completedUnitCount / (float)downloadProgress.totalUnitCount];
             }
         } completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+            [self notifyDelegateAboutStateChanged];
             if ([self.delegate respondsToSelector:@selector(downloadOf:successed:result:)]){
                 [self.delegate downloadOf:response.URL successed:error == nil result:responseObject];
             }
-            [self notifyDelegateAboutStateChanged];
         }];
         
         if (now) {

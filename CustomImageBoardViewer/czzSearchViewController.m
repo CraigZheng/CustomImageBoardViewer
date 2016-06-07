@@ -165,6 +165,7 @@
 #pragma mark - UIWebViewDelegate
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     [AppDelegate.window hideToastActivity];
+    [self.progressView showWarning];
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {

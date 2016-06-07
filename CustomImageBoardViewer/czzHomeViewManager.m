@@ -158,6 +158,9 @@
     if ([self.delegate respondsToSelector:@selector(homeViewManager:threadListProcessed:newThreads:allThreads:)]) {
         [self.delegate homeViewManager:self threadListProcessed:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
     }
+    if ([self.delegate respondsToSelector:@selector(homeViewManager:downloadSuccessful:)]) {
+        [self.delegate homeViewManager:self downloadSuccessful:success];
+    }
 }
 
 - (void)pageNumberUpdated:(NSInteger)currentPage allPage:(NSInteger)allPage {

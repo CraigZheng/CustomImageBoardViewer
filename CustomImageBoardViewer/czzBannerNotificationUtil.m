@@ -44,7 +44,6 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
 }
 
 - (void)displayMessage:(NSString *)message position:(BannerNotificationPosition)position userInteractionHandler:(void (^)(void))userInteractionHandler waitForInteraction:(BOOL)waitForInteraction{
-    DLog(@"message: %@", message);
     self.position = position;
     self.userInteractionHandler = userInteractionHandler;
     self.bannerView.title = message;
@@ -109,7 +108,6 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
 }
 
 - (void)dismissBannerView:(BOOL)animated {
-    DLog(@"Dismiss with animated:%@", animated ? @"YES" : @"NO");
     if (self.bannerView.superview) {
         if (animated) {
             // Slide out of sign.
@@ -119,7 +117,6 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
             } else {
                 targetFrame = self.bottomReferenceFrame;
             }
-            DLog(@"Original frame: %@ -> target frame: %@", [NSValue valueWithCGRect:self.bannerView.frame], [NSValue valueWithCGRect:targetFrame]);
             [UIView animateWithDuration:defaultAnimationDuration animations:^{
                 self.bannerView.frame = targetFrame;
             } completion:^(BOOL finished) {
@@ -172,7 +169,6 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
 #pragma mark - czzBannerViewDelegate
 
 - (void)bannerViewDidTouch:(czzBannerView *)bannerView {
-    DLog(@"");
     // Dismiss, then invoke the userInteractionHandler.
     [self dismissBannerView:YES];
     if (self.userInteractionHandler) {
@@ -181,7 +177,6 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
 }
 
 - (void)bannerView:(czzBannerView *)bannerView didTouchButton:(UIButton *)button {
-    DLog(@"");
     [self dismissBannerView:YES];
 }
 
