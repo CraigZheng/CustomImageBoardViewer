@@ -26,12 +26,19 @@
 
 - (void)stop {
     if (super.isDownloading) {
-        self.manuallyStopped = YES;
-        if ([self.delegate respondsToSelector:@selector(threadDownloaderStateChanged:)]) {
-            [self.delegate threadDownloaderStateChanged:self];
-        }
+        [self markAsStop];
     }
     [super stop];
+}
+
+/**
+ Set manuallyStopped to YES, and stop all sequencial downloading.
+ */
+- (void)markAsStop {
+    self.manuallyStopped = YES;
+    if ([self.delegate respondsToSelector:@selector(threadDownloaderStateChanged:)]) {
+        [self.delegate threadDownloaderStateChanged:self];
+    }
 }
 
 - (void)subThreadProcessedForThread:(czzJSONProcessor *)processor :(czzThread *)parentThread :(NSArray *)newThread :(BOOL)success {
@@ -67,8 +74,12 @@
     // Let super class handle most of the work.
     [super downloadOf:url successed:successed result:downloadedData];
     // If not successful, notify delegate.
-    if (!successed && [self.delegate respondsToSelector:@selector(massiveDownloader:success:downloadedThreads:errors:)]) {
-        [self.delegate massiveDownloader:self success:NO downloadedThreads:nil errors:nil];
+    if (!successed) {
+        // Stop manually.
+        [self markAsStop];
+        if ([self.delegate respondsToSelector:@selector(massiveDownloader:success:downloadedThreads:errors:)]) {
+            [self.delegate massiveDownloader:self success:NO downloadedThreads:nil errors:nil];
+        }
     }
 }
 
