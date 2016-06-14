@@ -95,13 +95,12 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         // Restore previous settings
         [self restoreSettings];
         // Download and scheduel.
-        [self scheduleRefreshSettings];
+        [self downloadSettings];
     }
     return self;
 }
 
 -(void)scheduleRefreshSettings {
-    [self downloadSettings];
     if (configuration_refresh_interval <= 60) //fail safe
         return;
     if (refreshSettingsTimer.isValid) {
@@ -306,6 +305,8 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
             }
         }
     }
+    // Success or not, I need to schedule the periodic refresh.
+    [self scheduleRefreshSettings];
 }
 
 -(UIFont *)contentFont {
