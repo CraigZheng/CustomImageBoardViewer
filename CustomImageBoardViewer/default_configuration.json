@@ -7,7 +7,7 @@
     "shouldAllowOpenBlockedThread": true,
     "shouldHideImageInForms": [],
     "shouldAllowDart": false,
-    "configuration_refresh_interval": 3600,
+    "configuration_refresh_interval": 600,
     "blacklist_refresh_interval": 3600,
     "forum_list_refresh_interval": 3600,
     "notification_refresh_interval": 3600,
