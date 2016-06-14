@@ -278,7 +278,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
                                    userInteractionHandler:^{}
                                        waitForInteraction:NO];
             }
-            // Perform a short task to get the notification content.
+            // Perform a short task to get the notification content when the app is in the foreground.
             if (self.popup_notification_link.length) {
                 NSURL *notificationURL = [NSURL URLWithString:self.popup_notification_link];
                 if (notificationURL) {

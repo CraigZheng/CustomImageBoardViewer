@@ -51,8 +51,7 @@ static NSString * const kLastNotificationDisplayTime = @"kLastNotificationDispla
     // Compare last show time with the current time.
     NSDate *date = [[NSUserDefaults standardUserDefaults] objectForKey:kLastNotificationDisplayTime];
     // If the record date is present, and the notification date is smaller than this record date - don't show.
-    if (date &&
-        [self.notificationDate compare:date] == NSOrderedAscending) {
+    if (date && [self.notificationDate compare:date] == NSOrderedAscending) {
         // Don't show, since the notificationDate is older than the record date.
         showed = NO;
     } else {
@@ -62,8 +61,12 @@ static NSString * const kLastNotificationDisplayTime = @"kLastNotificationDispla
 //#ifdef DEBUG
 //    showed = YES;
 //#endif
-    if (showed && self.enable) {
+    // Only show when the app is running in the foreground.
+    if (showed && self.enable && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
         [self show];
+        showed = YES;
+    } else {
+        showed = NO;
     }
     return showed;
 }
