@@ -133,13 +133,20 @@
     if (success) {
         if (downloader.parentThread.ID > 0)
             self.parentThread = downloader.parentThread;
+        self.lastBatchOfThreads = threads;
         // Remove last page by having a sub array of threads up to the begining of the last page.
         NSInteger lastPageStartingPoint = (downloader.pageNumber - 1) * settingCentre.response_per_page;
         NSRange previousRange = NSMakeRange(0, lastPageStartingPoint + 1);
-        self.threads = [[self.threads subarrayWithRange:previousRange] mutableCopy];
-        
-        self.lastBatchOfThreads = threads;
-        [self.threads addObjectsFromArray:self.lastBatchOfThreads];
+        // Normal: lastPageStartingPoint is exactly where the last object in the threads array is.
+        if ([self.threads indexOfObject:self.threads.lastObject] == lastPageStartingPoint) {
+            self.threads = [[self.threads subarrayWithRange:previousRange] mutableCopy];
+            [self.threads addObjectsFromArray:self.lastBatchOfThreads];
+        } else {
+            // Jumpping: previousRange is not in sync with self.threads.
+            NSMutableOrderedSet *threadsSet = [NSMutableOrderedSet orderedSetWithArray:self.threads];
+            [threadsSet addObjectsFromArray:self.lastBatchOfThreads];
+            self.threads = threadsSet.array.mutableCopy;
+        }
         //replace parent thread
         if (self.threads.count >= 1)
         {
