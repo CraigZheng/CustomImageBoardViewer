@@ -192,6 +192,10 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
                                                                  action:@"Auto Download Image"
                                                                   label:[self stringWithBoolean:self.userDefShouldAutoDownloadImage]
                                                                   value:@1] build]];
+    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
+                                                                 action:@"Collapse Long Content"
+                                                                  label:[self stringWithBoolean:self.userDefShouldCollapseLongContent]
+                                                                  value:@1] build]];
 }
 
 - (NSString*)stringWithBoolean:(Boolean)b {
