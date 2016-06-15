@@ -288,10 +288,10 @@
     NSIndexPath *switchedIndexPath = [settingsTableView indexPathForCell:parentCell];
     if (switchedIndexPath.section == 0){
         NSString *command = [switchCommands objectAtIndex:switchedIndexPath.row];
+        NSString *onOffString = switchControl.on ? @"On" : @"Off";
         if ([command isEqualToString:@"显示图片"]){
             //下载图片
             settingsCentre.userDefShouldDisplayThumbnail = switchControl.on;
-            [czzBannerNotificationUtil displayMessage:@"更改图片显示设置..." position:BannerNotificationPositionTop];
         }
         else if ([command isEqualToString:@"图片下载完毕自动打开"]){
             //自动打开图片
@@ -303,43 +303,28 @@
             settingsCentre.userDefShouldHighlightPO = switchControl.on;
         } else if ([command isEqualToString:@"显示快速滑动按钮"]) {
             settingsCentre.userDefShouldShowOnScreenCommand = switchControl.on;
-            [czzBannerNotificationUtil displayMessage:@"重启后生效" position:BannerNotificationPositionTop];
         } else if ([command isEqualToString:@"夜间模式"]) {
-            settingsCentre.userDefNightyMode = !settingsCentre.userDefNightyMode;
-            [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"夜间模式：%@", settingsCentre.userDefNightyMode ? @"On" : @"Off"]
-                                                                        position:BannerNotificationPositionTop];
+            settingsCentre.userDefNightyMode = switchControl.on;
             [[czzHomeViewManager sharedManager] reloadData];
-            [self.settingsTableView reloadData];
         }
         else if ([command isEqualToString:@"大图模式"]) {
-            [self toggleBigImageMode];
-            [self.settingsTableView reloadData];
+            settingsCentre.userDefShouldUseBigImage = switchControl.on;
+            [self prepareCommands];
         }
         else if ([command isEqualToString:@"每月自动清理缓存"]) {
-            settingsCentre.userDefShouldCleanCaches = !settingsCentre.userDefShouldCleanCaches;
-            [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"每月自动清理缓存： %@", settingsCentre.userDefShouldCleanCaches ? @"On" : @"Off"]
-                                             position:BannerNotificationPositionTop];
+            settingsCentre.userDefShouldCleanCaches = switchControl.on;
         } else if ([command isEqualToString:@"Monitor Performance"]) {
-            [self.settingsTableView reloadData];
+            // Do nothing - no longer in use.
         } else if ([command isEqualToString:@"自动下载大图"]) {
-            settingsCentre.userDefShouldAutoDownloadImage = !settingsCentre.userDefShouldAutoDownloadImage;
-            [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"自动下载大图： %@", settingsCentre.userDefShouldAutoDownloadImage ? @"On" : @"Off"]
-                                             position:BannerNotificationPositionTop];
+            settingsCentre.userDefShouldAutoDownloadImage = switchControl.on;
             [self prepareCommands];
-            [self.settingsTableView reloadData];
         }
+        [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"%@: %@", command, onOffString]
+                                         position:BannerNotificationPositionTop];
+        [self.settingsTableView reloadData];
         [settingsCentre saveSettings];
         [[czzHomeViewManager sharedManager] reloadData];
     }
-}
-
--(void)toggleBigImageMode {
-    settingsCentre.userDefShouldUseBigImage = !settingsCentre.userDefShouldUseBigImage;
-    [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"大图模式：%@", settingsCentre.userDefShouldUseBigImage ? @"On" : @"Off"]
-                                     position:BannerNotificationPositionTop];
-    [self prepareCommands];
-    [self.settingsTableView reloadData];
-    [[czzHomeViewManager sharedManager] reloadData];
 }
 
 #pragma mark - Button actions.
