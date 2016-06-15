@@ -123,6 +123,8 @@
 //             [commandSwitch setOn:[DartCrowdSourcingConstants isEnabled]];
          } else if ([command isEqualToString:@"自动下载大图"]) {
              [commandSwitch setOn:settingCentre.userDefShouldAutoDownloadImage];
+         } else if ([command isEqualToString:@"收起超长的内容"]) {
+             [commandSwitch setOn:settingCentre.userDefShouldCollapseLongContent];
          }
     } else if (indexPath.section == 1){
         UILabel *commandLabel = (UILabel*)[cell viewWithTag:5];
@@ -192,6 +194,7 @@
 
     [switchCommands addObject:@"显示图片"];
     [switchCommands addObject:@"显示快速滑动按钮"];
+    [switchCommands addObject:@"收起超长的内容"];
     [switchCommands addObject:@"夜间模式"];
     [switchCommands addObject:@"大图模式"];
     if ([settingCentre userDefShouldUseBigImage]) {
@@ -318,6 +321,9 @@
         } else if ([command isEqualToString:@"自动下载大图"]) {
             settingsCentre.userDefShouldAutoDownloadImage = switchControl.on;
             [self prepareCommands];
+        } else if ([command isEqualToString:@"收起超长的内容"]) {
+            settingCentre.userDefShouldCollapseLongContent = switchControl.on;
+            [[czzHomeViewManager sharedManager] reloadData];
         }
         [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"%@: %@", command, onOffString]
                                          position:BannerNotificationPositionTop];

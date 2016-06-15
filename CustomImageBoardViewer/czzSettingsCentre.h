@@ -64,6 +64,7 @@ extern NSString * const settingsChangedNotification;
 @property (assign, nonatomic) BOOL userDefNightyMode;
 @property (assign, nonatomic) BOOL userDefShouldCleanCaches;
 @property (assign, nonatomic) BOOL userDefShouldAutoDownloadImage;
+@property (assign, nonatomic) BOOL userDefShouldCollapseLongContent;
 //Debug settings
 @property (assign, nonatomic) BOOL should_allow_dart;
 // Popup notification
