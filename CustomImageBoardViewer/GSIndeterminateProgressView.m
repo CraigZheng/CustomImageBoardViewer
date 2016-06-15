@@ -72,6 +72,11 @@
     [self resetViews];
     self.hidden = NO;
     self.isAnimating = YES;
+    if (!self.containerView) {
+        self.containerView = [UIView new];
+        [self addSubview:self.containerView];
+        [self.containerView autoPinEdgesToSuperviewEdges];
+    }
     [self animateProgressChunkWithDelay:0.2];
 }
 
@@ -90,6 +95,11 @@
     
     static CGFloat warningChunkWidth = 20.;
     NSInteger count = CHUNK_WIDTH / warningChunkWidth;
+    if (!self.containerView) {
+        self.containerView = [UIView new];
+        [self addSubview:self.containerView];
+        [self.containerView autoPinEdgesToSuperviewEdges];
+    }
     for (NSInteger i = 0; i <= count; i++) {
         UIView *stripView = [[UIView alloc] initWithFrame:CGRectMake(i * 2 * warningChunkWidth, 0, warningChunkWidth, self.frame.size.height)];
         stripView.backgroundColor = [UIColor colorWithRed:220/255. green:20/255. blue:60/255. alpha:1.0]; //220	20	60
@@ -105,15 +115,6 @@
 }
 
 #pragma mark - Getters
-
-- (UIView *)containerView {
-    if (!_containerView) {
-        _containerView = [UIView new];
-        [self addSubview:_containerView];
-        [_containerView autoPinEdgesToSuperviewEdges];
-    }
-    return _containerView;
-}
 
 -(UIColor*)progressTintColor {
     UIColor *tintColour = [colours objectAtIndex:colourIndex];
