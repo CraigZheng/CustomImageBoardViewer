@@ -15,8 +15,8 @@
 @property NSUInteger colourIndex;
 @property UIView *foregroundBarView;
 @property UIView *backgroundBarView;
+@property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, assign) BOOL isAnimating;
-
 @end
 
 @implementation GSIndeterminateProgressView
@@ -93,18 +93,26 @@
     for (NSInteger i = 0; i <= count; i++) {
         UIView *stripView = [[UIView alloc] initWithFrame:CGRectMake(i * 2 * warningChunkWidth, 0, warningChunkWidth, self.frame.size.height)];
         stripView.backgroundColor = [UIColor colorWithRed:220/255. green:20/255. blue:60/255. alpha:1.0]; //220	20	60
-        [self addSubview:stripView];
+        [self.containerView addSubview:stripView];
     }
     self.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)resetViews {
-    [CATransaction begin];
-    for (UIView *subView in self.subviews) {
-        [subView.layer removeAllAnimations];
-        [subView removeFromSuperview];
+    [self.containerView removeFromSuperview];
+    self.containerView = nil;
+    [self setNeedsDisplay];
+}
+
+#pragma mark - Getters
+
+- (UIView *)containerView {
+    if (!_containerView) {
+        _containerView = [UIView new];
+        [self addSubview:_containerView];
+        [_containerView autoPinEdgesToSuperviewEdges];
     }
-    [CATransaction commit];
+    return _containerView;
 }
 
 -(UIColor*)progressTintColor {
@@ -118,7 +126,7 @@
 - (void)animateProgressChunkWithDelay:(NSTimeInterval)delay {
     // Add foreground views to self.
     self.foregroundBarView = [[UIView alloc] init];
-    [self addSubview:self.foregroundBarView];
+    [self.containerView addSubview:self.foregroundBarView];
     // Assign a new colour for foreground views.
     self.foregroundBarView.backgroundColor = self.progressTintColor;
     // Assign new positions.
