@@ -34,6 +34,7 @@ static NSString * const showThreadWithID = @"showThreadWithID";
 @property (strong, nonatomic) NSString *imageFolder;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @property (strong, nonatomic) NSMutableArray<czzThreadRefButton *> *referenceButtons;
+@property (readonly, nonatomic) NSAttributedString *threadContent;
 @end
 
 @implementation czzMenuEnabledTableViewCell
@@ -119,7 +120,7 @@ static NSString * const showThreadWithID = @"showThreadWithID";
 
 #pragma mark - custom menu action
 -(void)menuActionCopy:(id)sender{
-    [[UIPasteboard generalPasteboard] setString:self.thread.content.string];
+    [[UIPasteboard generalPasteboard] setString:self.threadContent.string];
     [AppDelegate showToast:@"内容已复制"];
 }
 
@@ -172,13 +173,13 @@ static NSString * const showThreadWithID = @"showThreadWithID";
     [self resetViewBackgroundColours];
     if (self.nightyMode) {
         // If nighty mode, add nighty mode attributes to the text.
-        NSMutableAttributedString *contentAttrString = [self.thread.content mutableCopy];
+        NSMutableAttributedString *contentAttrString = [self.threadContent mutableCopy];
         [contentAttrString addAttribute:NSForegroundColorAttributeName
                                   value:settingCentre.contentTextColour
                                   range:NSMakeRange(0, contentAttrString.length)];
         self.contentTextView.attributedText = contentAttrString;
     } else {
-        self.contentTextView.attributedText = self.thread.content;
+        self.contentTextView.attributedText = self.threadContent;
     }
     self.contentTextView.font = settingCentre.contentFont;
     
@@ -258,9 +259,9 @@ static NSString * const showThreadWithID = @"showThreadWithID";
         if (thread.content) {
             NSDataDetector *linkDetector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
             self.links = [NSMutableArray new];
-            NSArray *matches = [linkDetector matchesInString:_thread.content.string
+            NSArray *matches = [linkDetector matchesInString:self.threadContent.string
                                                      options:0
-                                                       range:NSMakeRange(0, [self.thread.content.string length])];
+                                                       range:NSMakeRange(0, [self.threadContent.string length])];
             for (NSTextCheckingResult *match in matches) {
                 if ([match resultType] == NSTextCheckingTypeLink) {
                     NSURL *url = [match URL];
@@ -282,6 +283,21 @@ static NSString * const showThreadWithID = @"showThreadWithID";
     } else {
         self.cellImageView.userInteractionEnabled = YES;
     }
+}
+
+#pragma mark - Getters
+
+- (NSAttributedString *)threadContent {
+    NSAttributedString *threadContent;
+    // When the cell is displaying in home view controller, and the content is very long.
+    if (self.cellType == threadViewCellTypeHome && self.thread.content.length > 200) {
+        NSMutableAttributedString *tempThreadContent = [[self.thread.content attributedSubstringFromRange:NSMakeRange(0, 200)] mutableCopy];
+        [tempThreadContent appendAttributedString:[[NSAttributedString alloc] initWithString:@"..."]];
+        threadContent = tempThreadContent;
+    } else {
+        threadContent = self.thread.content;
+    }
+    return threadContent;
 }
 
 - (NSDateFormatter *)dateFormatter {
