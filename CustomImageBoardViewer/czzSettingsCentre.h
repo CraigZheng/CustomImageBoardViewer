@@ -54,6 +54,7 @@ extern NSString * const settingsChangedNotification;
 @property (strong, nonatomic) NSString *message;
 @property (strong, nonatomic) NSString *donationLink;
 @property (strong, nonatomic) NSString *popular_threads_link;
+@property (assign, nonatomic) NSInteger long_thread_threshold;
 //User settings
 @property (assign, nonatomic) BOOL userDefShouldDisplayThumbnail;
 @property (assign, nonatomic) BOOL userDefShouldShowOnScreenCommand;

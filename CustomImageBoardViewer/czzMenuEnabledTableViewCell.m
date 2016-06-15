@@ -290,8 +290,10 @@ static NSString * const showThreadWithID = @"showThreadWithID";
 - (NSAttributedString *)threadContent {
     NSAttributedString *threadContent;
     // When the cell is displaying in home view controller, and the content is very long.
-    if (settingCentre.userDefShouldCollapseLongContent && self.cellType == threadViewCellTypeHome && self.thread.content.length > 200) {
-        NSMutableAttributedString *tempThreadContent = [[self.thread.content attributedSubstringFromRange:NSMakeRange(0, 200)] mutableCopy];
+    if (settingCentre.userDefShouldCollapseLongContent
+        && self.cellType == threadViewCellTypeHome
+        && self.thread.content.length > settingCentre.long_thread_threshold) {
+        NSMutableAttributedString *tempThreadContent = [[self.thread.content attributedSubstringFromRange:NSMakeRange(0, settingCentre.long_thread_threshold)] mutableCopy];
         [tempThreadContent appendAttributedString:[[NSAttributedString alloc] initWithString:@"..."
                                                                                   attributes:@{NSForegroundColorAttributeName:[UIColor lightGrayColor]}]];
         threadContent = tempThreadContent;

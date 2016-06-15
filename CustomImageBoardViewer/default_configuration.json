@@ -13,6 +13,7 @@
     "notification_refresh_interval": 3600,
     "threads_per_page": 20,
     "response_per_page": 19,
+    "long_thread_threshold": 200,
     "thread_format": "json",
     "database_host": "http://civ.atwebpages.com/",
     "forum_list_url": "http://www.my-realm.com/forums.php",

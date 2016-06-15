@@ -86,6 +86,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         donationLink = @"";
         threads_per_page = 10;
         response_per_page = 20;
+        self.long_thread_threshold = 200;
         
         //Dart settings
         should_allow_dart = NO;
@@ -253,6 +254,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         self.empty_title = [jsonObject objectForKey:@"empty_title"];
         self.sensitive_keyword = [jsonObject objectForKey:@"sensitive_keyword"];
         self.popular_threads_link = [jsonObject objectForKey:@"popular_threads_link"];
+        self.long_thread_threshold = [[jsonObject objectForKey:@"long_thread_threshold"] integerValue];
     }
     @catch (NSException *exception) {
         DDLogDebug(@"%@", exception);
