@@ -169,6 +169,7 @@
 		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
 		446557631C60F15A0051F1DD /* invisible@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 446557621C60F15A0051F1DD /* invisible@2x.png */; };
 		446656C91BEAF9380045276B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 442066221BE846820023D91F /* GoogleService-Info.plist */; };
+		4467A6FA1D11620A0067F013 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4467A6F91D11620A0067F013 /* CoreMotion.framework */; };
 		4468A7111BBBC0480076DCD6 /* czzWeakReferenceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */; };
 		446C17B81CB08E2B00B557E2 /* loading_bar_dot.gif in Resources */ = {isa = PBXBuildFile; fileRef = 446C17B71CB08E2B00B557E2 /* loading_bar_dot.gif */; };
 		446C17BA1CB094C400B557E2 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 446C17B91CB094C400B557E2 /* ImageIO.framework */; };
@@ -768,6 +769,7 @@
 		4462EF2318659BC200E6BE78 /* czzFavouriteManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFavouriteManagerViewController.h; sourceTree = "<group>"; };
 		4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFavouriteManagerViewController.m; sourceTree = "<group>"; };
 		446557621C60F15A0051F1DD /* invisible@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "invisible@2x.png"; sourceTree = "<group>"; };
+		4467A6F91D11620A0067F013 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		4468A70F1BBBC0480076DCD6 /* czzWeakReferenceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWeakReferenceDelegate.h; sourceTree = "<group>"; };
 		4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWeakReferenceDelegate.m; sourceTree = "<group>"; };
 		446C17B71CB08E2B00B557E2 /* loading_bar_dot.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading_bar_dot.gif; sourceTree = "<group>"; };
@@ -1112,6 +1114,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4467A6FA1D11620A0067F013 /* CoreMotion.framework in Frameworks */,
 				446C17BA1CB094C400B557E2 /* ImageIO.framework in Frameworks */,
 				442B3D2C1C79B3B400403227 /* WebKit.framework in Frameworks */,
 				447816E01C59A8CB00D7ADBB /* AssetsLibrary.framework in Frameworks */,
@@ -1299,6 +1302,7 @@
 		441E5CCD17F4691300289DBD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4467A6F91D11620A0067F013 /* CoreMotion.framework */,
 				446C17B91CB094C400B557E2 /* ImageIO.framework */,
 				442B3D2B1C79B3B400403227 /* WebKit.framework */,
 				447816DF1C59A8CB00D7ADBB /* AssetsLibrary.framework */,
