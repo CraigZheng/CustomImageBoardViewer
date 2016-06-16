@@ -125,6 +125,8 @@
              [commandSwitch setOn:settingCentre.userDefShouldAutoDownloadImage];
          } else if ([command isEqualToString:@"收起超长的内容"]) {
              [commandSwitch setOn:settingCentre.userDefShouldCollapseLongContent];
+         } else if ([command hasPrefix:@"使用苹果手表"]) {
+             [commandSwitch setOn:settingsCentre.userDefShouldUseWatchKit];
          }
     } else if (indexPath.section == 1){
         UILabel *commandLabel = (UILabel*)[cell viewWithTag:5];
@@ -195,6 +197,7 @@
     [switchCommands addObject:@"显示图片"];
     [switchCommands addObject:@"显示快速滑动按钮"];
     [switchCommands addObject:@"收起超长的内容"];
+    [switchCommands addObject:@"使用苹果手表（关掉的话，本软件开启的速度会加快）"];
     [switchCommands addObject:@"夜间模式"];
     [switchCommands addObject:@"大图模式"];
     if ([settingCentre userDefShouldUseBigImage]) {
@@ -324,6 +327,9 @@
         } else if ([command isEqualToString:@"收起超长的内容"]) {
             settingCentre.userDefShouldCollapseLongContent = switchControl.on;
             [[czzHomeViewManager sharedManager] reloadData];
+        } else if ([command hasPrefix:@"使用苹果手表"]) {
+            command = @"使用苹果手表";
+            settingsCentre.userDefShouldUseWatchKit = switchControl.on;
         }
         [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"%@: %@", command, onOffString]
                                          position:BannerNotificationPositionTop];

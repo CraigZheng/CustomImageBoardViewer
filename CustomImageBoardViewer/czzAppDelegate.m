@@ -80,10 +80,12 @@
     AppActivityManager;
     
     // The watchkit session.
-    if ([WCSession isSupported]) {
-        WCSession *session = [WCSession defaultSession];
-        session.delegate = self;
-        [session activateSession];
+    if (settingsCentre.userDefShouldUseWatchKit) {
+        if ([WCSession isSupported]) {
+            WCSession *session = [WCSession defaultSession];
+            session.delegate = self;
+            [session activateSession];
+        }
     }
     return YES;
 }

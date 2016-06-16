@@ -26,6 +26,7 @@ static NSString * const kNightyMode = @"kNightyMode";
 static NSString * const kAutoClean = @"kAutoClean";
 static NSString * const kAutoDownloadImage = @"kAutoDownloadImage";
 static NSString * const kShouldCollapseLongContent = @"kShouldCollapseLongContent";
+static NSString * const kShouldUseWatchKit = @"kShouldUseWatchKit";
 
 NSString * const settingsChangedNotification = @"settingsChangedNotification";
 
@@ -81,6 +82,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         self.userDefShouldCleanCaches = NO;
         self.userDefShouldAutoDownloadImage = NO;
         self.userDefShouldCollapseLongContent = NO;
+        self.userDefShouldUseWatchKit = YES;
         shouldAllowOpenBlockedThread = YES;
         
         donationLink = @"";
@@ -128,6 +130,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     [userDefault setBool:self.userDefShouldCleanCaches forKey:kAutoClean];
     [userDefault setBool:self.userDefShouldAutoDownloadImage forKey:kAutoDownloadImage];
     [userDefault setBool:self.userDefShouldCollapseLongContent forKey:kShouldCollapseLongContent];
+    [userDefault setBool:self.userDefShouldUseWatchKit forKey:kShouldUseWatchKit];
     [userDefault synchronize];
     // Post a notification about the settings changed.
     [[NSNotificationCenter defaultCenter] postNotificationName:settingsChangedNotification
@@ -164,6 +167,9 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     if ([userDefault objectForKey:kShouldCollapseLongContent]) {
         self.userDefShouldCollapseLongContent = [userDefault boolForKey:kShouldCollapseLongContent];
     }
+    if ([userDefault objectForKey:kShouldUseWatchKit]) {
+        self.userDefShouldUseWatchKit = [userDefault boolForKey:kShouldUseWatchKit];
+    }
     self.userDefShouldAutoDownloadImage = [userDefault boolForKey:kAutoDownloadImage];
     
     // Google analytics.
@@ -195,6 +201,10 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
                                                                  action:@"Collapse Long Content"
                                                                   label:[self stringWithBoolean:self.userDefShouldCollapseLongContent]
+                                                                  value:@1] build]];
+    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
+                                                                 action:@"Use WatchKit"
+                                                                  label:[self stringWithBoolean:self.userDefShouldUseWatchKit]
                                                                   value:@1] build]];
 }
 
