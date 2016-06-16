@@ -70,7 +70,10 @@
 
     myhost = my_main_host;
     settingsCentre = [czzSettingsCentre sharedInstance];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(settingsChanged)
+                                                 name:settingsChangedNotification
+                                               object:nil];
     [self checkFolders];
     // Check cookie
     CookieManager;
@@ -284,4 +287,17 @@
         [self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:folderPath]];
     }
 }
+
+#pragma mark - Handler for czzSettingsCentre.
+
+- (void)settingsChanged{
+    if (settingsCentre.userDefShouldUseWatchKit) {
+        if ([WCSession isSupported]) {
+            WCSession *session = [WCSession defaultSession];
+            session.delegate = self;
+            [session activateSession];
+        }
+    }
+}
+
 @end
