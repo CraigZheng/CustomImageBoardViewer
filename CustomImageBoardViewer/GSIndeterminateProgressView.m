@@ -48,7 +48,7 @@
 - (void)didMoveToWindow {
     if (self.window && self.isAnimating) {
         DLog(@"Did move to window and should be animating, resuming animation...");
-        [self resetViews];
+        [self stopAnimating];
         [self startAnimating];
     }
 }
@@ -138,21 +138,23 @@
     NSArray *constraints = [self.foregroundBarView autoSetDimensionsToSize:CGSizeMake(0, 2)];
     [self.foregroundBarView autoCenterInSuperview];
     [self layoutIfNeeded];
+    
+    __weak typeof(self) weakSelf= self;
     [UIView animateWithDuration:0.8 animations:^{
         for (NSLayoutConstraint *constraint in constraints) {
             [constraint autoRemove];
         }
-        [self.foregroundBarView autoSetDimensionsToSize:CGSizeMake(CGRectGetWidth(self.frame), 2)];
-        [self layoutIfNeeded];
+        [weakSelf.foregroundBarView autoSetDimensionsToSize:CGSizeMake(CGRectGetWidth(self.frame), 2)];
+        [weakSelf layoutIfNeeded];
     } completion:^(BOOL finished) {
         // If previous background views are still here, remove them.
-        if (self.backgroundBarView.superview) {
-            [self.backgroundBarView removeFromSuperview];
+        if (weakSelf.backgroundBarView.superview) {
+            [weakSelf.backgroundBarView removeFromSuperview];
         }
-        if (finished && self.isAnimating) {
+        if (weakSelf.isAnimating && weakSelf.window) {
             // On finish, keep references to the foreground views.
-            self.backgroundBarView = self.foregroundBarView;
-            [self animateProgressChunkWithDelay:delay];
+            weakSelf.backgroundBarView = weakSelf.foregroundBarView;
+            [weakSelf animateProgressChunkWithDelay:delay];
         }
     }];
 }
