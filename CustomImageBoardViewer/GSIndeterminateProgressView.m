@@ -140,6 +140,7 @@
     [self layoutIfNeeded];
     
     __weak typeof(self) weakSelf= self;
+    UIView *containerView = weakSelf.containerView;
     [UIView animateWithDuration:0.8 animations:^{
         for (NSLayoutConstraint *constraint in constraints) {
             [constraint autoRemove];
@@ -147,14 +148,17 @@
         [weakSelf.foregroundBarView autoSetDimensionsToSize:CGSizeMake(CGRectGetWidth(self.frame), 2)];
         [weakSelf layoutIfNeeded];
     } completion:^(BOOL finished) {
-        // If previous background views are still here, remove them.
-        if (weakSelf.backgroundBarView.superview) {
-            [weakSelf.backgroundBarView removeFromSuperview];
-        }
-        if (weakSelf.isAnimating && weakSelf.window) {
-            // On finish, keep references to the foreground views.
-            weakSelf.backgroundBarView = weakSelf.foregroundBarView;
-            [weakSelf animateProgressChunkWithDelay:delay];
+        // If the containerView is no longer the same one, means the [self resetViews] has been called, in such case, no action should be taken.
+        if (containerView == weakSelf.containerView) {
+            // If previous background views are still here, remove them.
+            if (weakSelf.backgroundBarView.superview) {
+                [weakSelf.backgroundBarView removeFromSuperview];
+            }
+            if (weakSelf.isAnimating && weakSelf.window) {
+                // On finish, keep references to the foreground views.
+                weakSelf.backgroundBarView = weakSelf.foregroundBarView;
+                [weakSelf animateProgressChunkWithDelay:delay];
+            }
         }
     }];
 }
