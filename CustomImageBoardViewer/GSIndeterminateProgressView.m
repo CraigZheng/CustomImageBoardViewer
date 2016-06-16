@@ -145,11 +145,11 @@
         [self.foregroundBarView autoSetDimensionsToSize:CGSizeMake(CGRectGetWidth(self.frame), 2)];
         [self layoutIfNeeded];
     } completion:^(BOOL finished) {
-        if (finished && self.isAnimating && self.window) {
-            // If previous background views are still here, remove them.
-            if (self.backgroundBarView.superview) {
-                [self.backgroundBarView removeFromSuperview];
-            }
+        // If previous background views are still here, remove them.
+        if (self.backgroundBarView.superview) {
+            [self.backgroundBarView removeFromSuperview];
+        }
+        if (finished && self.isAnimating) {
             // On finish, keep references to the foreground views.
             self.backgroundBarView = self.foregroundBarView;
             [self animateProgressChunkWithDelay:delay];
