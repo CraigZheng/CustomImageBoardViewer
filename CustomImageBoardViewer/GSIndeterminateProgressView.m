@@ -69,23 +69,25 @@
 - (void)startAnimating
 {
     DLog(@"");
-    [self resetViews];
     self.hidden = NO;
     self.isAnimating = YES;
+    [self resetViews];
     if (!self.containerView) {
         self.containerView = [UIView new];
         [self addSubview:self.containerView];
         [self.containerView autoPinEdgesToSuperviewEdges];
     }
     [self animateProgressChunkWithDelay:0.2];
+    [self setNeedsDisplay];
 }
 
 - (void)stopAnimating
 {
     DLog(@"");
-    [self resetViews];
     self.isAnimating = NO;
-    self.hidden = self.hidesWhenStopped;
+    self.hidden = YES;
+    [self resetViews];
+    [self setNeedsDisplay];
 }
 
 -(void)showWarning {
@@ -106,6 +108,7 @@
         [self.containerView addSubview:stripView];
     }
     self.backgroundColor = [UIColor whiteColor];
+    [self setNeedsDisplay];
 }
 
 - (void)resetViews {
