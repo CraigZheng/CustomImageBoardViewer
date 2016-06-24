@@ -32,6 +32,10 @@ extension UIViewController {
                     if customView.isKindOfClass(UIActivityIndicatorView) {
                         // Remove the bar button with an activity indicator as the custom view.
                         BarButtonItemsWithoutActivityIndicator.removeObject(button)
+                    } else if let customView = customView as? UIImageView {
+                        if customView.tag == 999999 {
+                            BarButtonItemsWithoutActivityIndicator.removeObject(button)
+                        }
                     }
                 }
             }
@@ -41,6 +45,24 @@ extension UIViewController {
                 navigationItem.rightBarButtonItems = BarButtonItemsWithoutActivityIndicator
             }
         }
+    }
+    
+    func showWarningInBarButtonItem() {
+        hideLoading()
+        let imageView = UIImageView(image: warningImage())
+        imageView.tag = 999999
+        let warningBarButtonItem = UIBarButtonItem(customView: imageView)
+        warningBarButtonItem.tintColor = czzSettingsCentre.sharedInstance().barTintColour()
+        if var rightBarButtonItems = navigationItem.rightBarButtonItems {
+            rightBarButtonItems.append(warningBarButtonItem)
+            navigationItem.rightBarButtonItems = rightBarButtonItems
+        } else {
+            navigationItem.rightBarButtonItem = warningBarButtonItem
+        }
+    }
+    
+    func warningImage()->UIImage? {
+        return UIImage(named: "warning.png")?.imageWithRenderingMode(.AlwaysTemplate)
     }
 }
 

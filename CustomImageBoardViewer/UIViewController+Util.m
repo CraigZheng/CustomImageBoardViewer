@@ -52,7 +52,7 @@ static NSInteger const progressBarViewTag = 123526475;
 }
 
 - (void)showWarning {
-    [self.progressView showWarning];
+    [self showWarningInBarButtonItem];
 }
 
 - (GSIndeterminateProgressView *)progressView {

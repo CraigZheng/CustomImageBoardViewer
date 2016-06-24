@@ -247,6 +247,8 @@
 		44AE2B011872924C002CB021 /* PartialTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AE2B001872924C002CB021 /* PartialTransparentView.m */; };
 		44B05C1D1C6204FE00F6F5E3 /* czzBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B05C1C1C6204FE00F6F5E3 /* czzBannerView.m */; };
 		44B05C1F1C62051F00F6F5E3 /* czzBannerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B05C1E1C62051F00F6F5E3 /* czzBannerView.xib */; };
+		44B1315C1D1D13BB003D4D0F /* warning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44B1315A1D1D13BB003D4D0F /* warning@2x.png */; };
+		44B1315D1D1D13BB003D4D0F /* warning@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44B1315B1D1D13BB003D4D0F /* warning@3x.png */; };
 		44B54E6A1A0EE1B80004C5B4 /* czzThreadViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B54E691A0EE1B80004C5B4 /* czzThreadViewTableViewCell.xib */; };
 		44B86457185D80A300C29B92 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B86456185D80A300C29B92 /* AdSupport.framework */; };
 		44B86459185D80E300C29B92 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B86458185D80E200C29B92 /* AudioToolbox.framework */; };
@@ -880,6 +882,8 @@
 		44B05C1B1C6204FE00F6F5E3 /* czzBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzBannerView.h; sourceTree = "<group>"; };
 		44B05C1C1C6204FE00F6F5E3 /* czzBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzBannerView.m; sourceTree = "<group>"; };
 		44B05C1E1C62051F00F6F5E3 /* czzBannerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzBannerView.xib; sourceTree = "<group>"; };
+		44B1315A1D1D13BB003D4D0F /* warning@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warning@2x.png"; sourceTree = "<group>"; };
+		44B1315B1D1D13BB003D4D0F /* warning@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warning@3x.png"; sourceTree = "<group>"; };
 		44B54E691A0EE1B80004C5B4 /* czzThreadViewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzThreadViewTableViewCell.xib; sourceTree = "<group>"; };
 		44B86456185D80A300C29B92 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		44B86458185D80E200C29B92 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -2374,6 +2378,8 @@
 		44E7918C1A17856500A63C04 /* icons */ = {
 			isa = PBXGroup;
 			children = (
+				44B1315A1D1D13BB003D4D0F /* warning@2x.png */,
+				44B1315B1D1D13BB003D4D0F /* warning@3x.png */,
 				44A5DF651D045E3B00AEF329 /* keyboard@3x.png */,
 				44A5DF661D045E3B00AEF329 /* keyboard@2x.png */,
 				44A5DF671D045E3B00AEF329 /* keyboard_filled@3x.png */,
@@ -2764,6 +2770,7 @@
 				5A5407F619961F87005FA214 /* default_configuration.json in Resources */,
 				4453C07719F634B700A8250F /* Launch Screen.xib in Resources */,
 				44E791F01A17856500A63C04 /* reply@2x.png in Resources */,
+				44B1315C1D1D13BB003D4D0F /* warning@2x.png in Resources */,
 				44DF8EFD1A7512730097F7F5 /* add_user@3x.png in Resources */,
 				444F5B471A40EA3500EB391F /* 52.png in Resources */,
 				44E791FA1A17856500A63C04 /* settings@3x.png in Resources */,
@@ -2911,6 +2918,7 @@
 				444F5B141A40EA3500EB391F /* 01.png in Resources */,
 				44C73B751A4708BA0051D4C2 /* thumb_down@2x.png in Resources */,
 				44E791FF1A17856500A63C04 /* sleeping@2x.png in Resources */,
+				44B1315D1D1D13BB003D4D0F /* warning@3x.png in Resources */,
 				4432BA951AA88613002C66F5 /* get forums example.json in Resources */,
 				44E7920B1A17856500A63C04 /* view@2x.png in Resources */,
 				44E791D21A17856500A63C04 /* bookmark@3x.png in Resources */,
