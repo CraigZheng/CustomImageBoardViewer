@@ -49,7 +49,6 @@
                 break;
             case czzThreadViewCommandStatusCellViewTypeLoading:
                 commandLabelString = [NSString stringWithFormat:@"%@%@", @"加载中", pageString];
-                [self.loadingActivityIndicator startAnimating];
                 break;
             default:
                 break;
