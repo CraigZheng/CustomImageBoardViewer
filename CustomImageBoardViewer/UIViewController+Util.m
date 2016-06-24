@@ -7,6 +7,7 @@
 //
 
 #import "UIViewController+Util.h"
+#import "CustomImageBoardViewer-Swift.h"
 
 #import <PureLayout/PureLayout.h>
 
@@ -43,11 +44,11 @@ static NSInteger const progressBarViewTag = 123526475;
 #pragma mark - Show loading.
 
 - (void)startLoading {
-    [self.progressView startAnimating];
+    [self showLoading];
 }
 
 - (void)stopLoading {
-    [self.progressView stopAnimating];
+    [self hideLoading];
 }
 
 - (void)showWarning {

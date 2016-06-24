@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1878CFD6591D679FC9599DA2 /* libPods-CustomImageBoardViewerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6850D2CBBDA799A71735D9A1 /* libPods-CustomImageBoardViewerTests.a */; };
 		440A62A01B8E90130046E4CE /* czzThreadViewCommandStatusCellViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 440A629F1B8E90130046E4CE /* czzThreadViewCommandStatusCellViewController.m */; };
 		440A62A21B8E97540046E4CE /* czzThreadTableViewCommandStatusCellViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 440A62A11B8E97540046E4CE /* czzThreadTableViewCommandStatusCellViewController.storyboard */; };
 		440A62A81B8EBC160046E4CE /* UIViewController+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 440A62A71B8EBC160046E4CE /* UIViewController+Util.m */; };
@@ -21,6 +20,7 @@
 		440DA7B41CF7D1F80078266B /* czzBigImageModeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 440DA7B31CF7D1F80078266B /* czzBigImageModeTableViewCell.m */; };
 		4411B2EA1AFF472900E94A5B /* czzForumManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4411B2E91AFF472900E94A5B /* czzForumManager.m */; };
 		4411B2EF1AFF6A5500E94A5B /* default_forums.json in Resources */ = {isa = PBXBuildFile; fileRef = 4411B2EE1AFF6A5500E94A5B /* default_forums.json */; };
+		4411BF3A1D1D0DD70010FA77 /* UIViewController+ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4411BF391D1D0DD70010FA77 /* UIViewController+ProgressBar.swift */; };
 		4412FA151935865800681438 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 4412FA141935865800681438 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		441356091C61B3B6001B82E5 /* czzBannerNotificationUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 441356081C61B3B6001B82E5 /* czzBannerNotificationUtil.m */; };
 		441514821BBAD2A4005ECD96 /* czzImageDownloaderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 441514811BBAD2A4005ECD96 /* czzImageDownloaderManager.m */; };
@@ -442,7 +442,8 @@
 		5A88B8401938AFDB00071343 /* czzNotificationCentreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A88B83F1938AFDB00071343 /* czzNotificationCentreTableViewController.m */; };
 		5ADCA46A1938F67F002BA60B /* ValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCA4691938F67F002BA60B /* ValueFormatter.m */; };
 		5AF85E681970025A0031D0CB /* czzSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF85E671970025A0031D0CB /* czzSearchViewController.m */; };
-		630F9886EEDAB17CFBFA967C /* libPods-CustomImageBoardViewer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BEAABE8BC8244F1C4DC4C0C /* libPods-CustomImageBoardViewer.a */; };
+		CD12C171E8FAF9A2C04F7037 /* libPods-CustomImageBoardViewerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BF5F1CD9507494AEBDED751 /* libPods-CustomImageBoardViewerTests.a */; };
+		E351AD2CDC908C137A822A53 /* libPods-CustomImageBoardViewer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF8E6F9EC28257712C1536CD /* libPods-CustomImageBoardViewer.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -505,9 +506,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2EDAC0061FC74216378DDC26 /* Pods-CIV-Simulator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CIV-Simulator.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CIV-Simulator/Pods-CIV-Simulator.debug.xcconfig"; sourceTree = "<group>"; };
-		31FEEA8309F3AF0A6D9D9D8F /* Pods-CustomImageBoardViewer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewer.release.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer.release.xcconfig"; sourceTree = "<group>"; };
-		3ACCEC90A7B8DF04971F5816 /* libPods-CIV-Simulator.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CIV-Simulator.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		28832211D8C387A440C8B574 /* Pods-CustomImageBoardViewerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests.release.xcconfig"; sourceTree = "<group>"; };
+		3E0527F52EF15B0B2B65EA56 /* Pods-CustomImageBoardViewer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewer.release.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer.release.xcconfig"; sourceTree = "<group>"; };
 		440A629E1B8E90130046E4CE /* czzThreadViewCommandStatusCellViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewCommandStatusCellViewController.h; sourceTree = "<group>"; };
 		440A629F1B8E90130046E4CE /* czzThreadViewCommandStatusCellViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewCommandStatusCellViewController.m; sourceTree = "<group>"; };
 		440A62A11B8E97540046E4CE /* czzThreadTableViewCommandStatusCellViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = czzThreadTableViewCommandStatusCellViewController.storyboard; sourceTree = "<group>"; };
@@ -531,6 +531,7 @@
 		4411B2E81AFF472900E94A5B /* czzForumManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzForumManager.h; sourceTree = "<group>"; };
 		4411B2E91AFF472900E94A5B /* czzForumManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzForumManager.m; sourceTree = "<group>"; };
 		4411B2EE1AFF6A5500E94A5B /* default_forums.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = default_forums.json; sourceTree = "<group>"; };
+		4411BF391D1D0DD70010FA77 /* UIViewController+ProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+ProgressBar.swift"; sourceTree = "<group>"; };
 		4412FA131935865800681438 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		4412FA141935865800681438 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		441356071C61B3B6001B82E5 /* czzBannerNotificationUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzBannerNotificationUtil.h; sourceTree = "<group>"; };
@@ -599,6 +600,7 @@
 		442A901C19DB9C3C00A3516E /* HTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HTMLParser.m; path = ../HTMLParser.m; sourceTree = "<group>"; };
 		442B3D2B1C79B3B400403227 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		442B3D2D1C79C1EA00403227 /* rules.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = rules.html; sourceTree = "<group>"; };
+		442BFC741D1D1000007545EB /* CustomImageBoardViewer-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CustomImageBoardViewer-Bridging-Header.h"; sourceTree = "<group>"; };
 		442CD0E11851601A0021AD37 /* czzImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzImageDownloader.h; sourceTree = "<group>"; };
 		442CD0E21851601A0021AD37 /* czzImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzImageDownloader.m; sourceTree = "<group>"; };
 		442CD0E518517BED0021AD37 /* czzImageCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzImageCacheManager.h; sourceTree = "<group>"; };
@@ -1073,9 +1075,6 @@
 		44F86B6A1C1BB505001306E8 /* ThreadContentPage2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ThreadContentPage2.json; sourceTree = "<group>"; };
 		44FC4343180067CF0028D7C9 /* czzPostSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzPostSender.h; sourceTree = "<group>"; };
 		44FC4344180067CF0028D7C9 /* czzPostSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzPostSender.m; sourceTree = "<group>"; };
-		505660B3F87FABFEE33CE10C /* Pods-CIV-Simulator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CIV-Simulator.release.xcconfig"; path = "Pods/Target Support Files/Pods-CIV-Simulator/Pods-CIV-Simulator.release.xcconfig"; sourceTree = "<group>"; };
-		577AF34FEA8149162E3ADD7A /* Pods-CustomImageBoardViewerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests.debug.xcconfig"; sourceTree = "<group>"; };
-		57F4B7F8AAD865C8E4022971 /* Pods-CustomImageBoardViewerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests.release.xcconfig"; sourceTree = "<group>"; };
 		5A0A6BD41848691C0094D7FB /* czzMoreInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzMoreInfoViewController.h; sourceTree = "<group>"; };
 		5A0A6BD51848691C0094D7FB /* czzMoreInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzMoreInfoViewController.m; sourceTree = "<group>"; };
 		5A1593EA18E71E93001A774B /* czzThreadRefButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadRefButton.h; sourceTree = "<group>"; };
@@ -1104,12 +1103,20 @@
 		5ADCA4691938F67F002BA60B /* ValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueFormatter.m; sourceTree = "<group>"; };
 		5AF85E661970025A0031D0CB /* czzSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzSearchViewController.h; sourceTree = "<group>"; };
 		5AF85E671970025A0031D0CB /* czzSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzSearchViewController.m; sourceTree = "<group>"; };
-		6850D2CBBDA799A71735D9A1 /* libPods-CustomImageBoardViewerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CustomImageBoardViewerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7BEAABE8BC8244F1C4DC4C0C /* libPods-CustomImageBoardViewer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CustomImageBoardViewer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E5C49E341BD3C40D61F99BB3 /* Pods-CustomImageBoardViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer.debug.xcconfig"; sourceTree = "<group>"; };
+		8BF5F1CD9507494AEBDED751 /* libPods-CustomImageBoardViewerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CustomImageBoardViewerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AECEC532D9208769EFF63216 /* Pods-CustomImageBoardViewerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		CBC088D3BB7C0C6E358B9C38 /* Pods-CustomImageBoardViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer.debug.xcconfig"; sourceTree = "<group>"; };
+		EF8E6F9EC28257712C1536CD /* libPods-CustomImageBoardViewer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CustomImageBoardViewer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3588F7A267F5E6D6932EE044 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		441E5CC817F4691300289DBD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1135,7 +1142,7 @@
 				441E5CD117F4691300289DBD /* CoreGraphics.framework in Frameworks */,
 				441E5CD317F4691300289DBD /* UIKit.framework in Frameworks */,
 				441E5CCF17F4691300289DBD /* Foundation.framework in Frameworks */,
-				630F9886EEDAB17CFBFA967C /* libPods-CustomImageBoardViewer.a in Frameworks */,
+				E351AD2CDC908C137A822A53 /* libPods-CustomImageBoardViewer.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1146,7 +1153,7 @@
 				441E5CF117F4691300289DBD /* XCTest.framework in Frameworks */,
 				441E5CF317F4691300289DBD /* UIKit.framework in Frameworks */,
 				441E5CF217F4691300289DBD /* Foundation.framework in Frameworks */,
-				1878CFD6591D679FC9599DA2 /* libPods-CustomImageBoardViewerTests.a in Frameworks */,
+				CD12C171E8FAF9A2C04F7037 /* libPods-CustomImageBoardViewerTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1284,7 +1291,7 @@
 				44A2949A1BFDEFF60033D438 /* CIVWatchApp Extension */,
 				441E5CCD17F4691300289DBD /* Frameworks */,
 				441E5CCC17F4691300289DBD /* Products */,
-				992BBD96EEC914CF40C16224 /* Pods */,
+				8832DD95AFF72EF3EC48CE32 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1325,9 +1332,8 @@
 				441E5CD017F4691300289DBD /* CoreGraphics.framework */,
 				441E5CD217F4691300289DBD /* UIKit.framework */,
 				441E5CF017F4691300289DBD /* XCTest.framework */,
-				3ACCEC90A7B8DF04971F5816 /* libPods-CIV-Simulator.a */,
-				7BEAABE8BC8244F1C4DC4C0C /* libPods-CustomImageBoardViewer.a */,
-				6850D2CBBDA799A71735D9A1 /* libPods-CustomImageBoardViewerTests.a */,
+				EF8E6F9EC28257712C1536CD /* libPods-CustomImageBoardViewer.a */,
+				8BF5F1CD9507494AEBDED751 /* libPods-CustomImageBoardViewerTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1342,6 +1348,7 @@
 				441E5CDE17F4691300289DBD /* czzAppDelegate.m */,
 				442F1FD11B13500C00267698 /* czzAppActivityManager.h */,
 				442F1FD21B13500C00267698 /* czzAppActivityManager.m */,
+				442BFC741D1D1000007545EB /* CustomImageBoardViewer-Bridging-Header.h */,
 				4453C07619F634B700A8250F /* Launch Screen.xib */,
 				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
 				44E2D2D71B2DB77B0029D783 /* Utility.storyboard */,
@@ -2279,6 +2286,7 @@
 		44DF8ECC1A74CA4B0097F7F5 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				4411BF391D1D0DD70010FA77 /* UIViewController+ProgressBar.swift */,
 				44989A331CFC6E2300F04ECD /* URL Handler */,
 				44DAB43A1CA5002600BDE05A /* View */,
 				441356061C61B37F001B82E5 /* BannerNotification */,
@@ -2571,15 +2579,13 @@
 			name = czzSearchViewController;
 			sourceTree = "<group>";
 		};
-		992BBD96EEC914CF40C16224 /* Pods */ = {
+		8832DD95AFF72EF3EC48CE32 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				2EDAC0061FC74216378DDC26 /* Pods-CIV-Simulator.debug.xcconfig */,
-				505660B3F87FABFEE33CE10C /* Pods-CIV-Simulator.release.xcconfig */,
-				E5C49E341BD3C40D61F99BB3 /* Pods-CustomImageBoardViewer.debug.xcconfig */,
-				31FEEA8309F3AF0A6D9D9D8F /* Pods-CustomImageBoardViewer.release.xcconfig */,
-				577AF34FEA8149162E3ADD7A /* Pods-CustomImageBoardViewerTests.debug.xcconfig */,
-				57F4B7F8AAD865C8E4022971 /* Pods-CustomImageBoardViewerTests.release.xcconfig */,
+				CBC088D3BB7C0C6E358B9C38 /* Pods-CustomImageBoardViewer.debug.xcconfig */,
+				3E0527F52EF15B0B2B65EA56 /* Pods-CustomImageBoardViewer.release.xcconfig */,
+				AECEC532D9208769EFF63216 /* Pods-CustomImageBoardViewerTests.debug.xcconfig */,
+				28832211D8C387A440C8B574 /* Pods-CustomImageBoardViewerTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -2591,14 +2597,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 441E5D0017F4691300289DBD /* Build configuration list for PBXNativeTarget "CustomImageBoardViewer" */;
 			buildPhases = (
-				83D1960D871F215C67CDC085 /* Check Pods Manifest.lock */,
+				1E4E6C84DD4E1707A16729B1 /* [CP] Check Pods Manifest.lock */,
 				441E5CC717F4691300289DBD /* Sources */,
 				441E5CC817F4691300289DBD /* Frameworks */,
 				441E5CC917F4691300289DBD /* Resources */,
 				441A6A901BB28DF7008E380C /* Embed Watch Content */,
-				50DFA6DAB02EE5692689F09C /* Embed Pods Frameworks */,
-				DB95B09DE356EE470E38C186 /* Copy Pods Resources */,
 				44D22CE51C3CD8490002F82F /* Embed Frameworks */,
+				347387B1BDC00B75A6FDCAB2 /* [CP] Embed Pods Frameworks */,
+				B29225EAA488CA7E0E9F4065 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2614,12 +2620,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 441E5D0317F4691300289DBD /* Build configuration list for PBXNativeTarget "CustomImageBoardViewerTests" */;
 			buildPhases = (
-				4E689B44F5EB0E2D88163689 /* Check Pods Manifest.lock */,
+				0D9FCF475C6B5DB907B3281E /* [CP] Check Pods Manifest.lock */,
 				441E5CEB17F4691300289DBD /* Sources */,
 				441E5CEC17F4691300289DBD /* Frameworks */,
 				441E5CED17F4691300289DBD /* Resources */,
-				09610D2B0F25804B411E500F /* Embed Pods Frameworks */,
-				A54D46F933E562C156EAE868 /* Copy Pods Resources */,
+				A5A8354B599D84027D456FD6 /* [CP] Embed Pods Frameworks */,
+				3526DC832DBDA7AF92B1A6A3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2637,6 +2643,7 @@
 			buildPhases = (
 				44A294881BFDEFF50033D438 /* Resources */,
 				44A294AF1BFDEFF60033D438 /* Embed App Extensions */,
+				3588F7A267F5E6D6932EE044 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -3001,29 +3008,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		09610D2B0F25804B411E500F /* Embed Pods Frameworks */ = {
+		0D9FCF475C6B5DB907B3281E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4E689B44F5EB0E2D88163689 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3031,14 +3023,29 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		50DFA6DAB02EE5692689F09C /* Embed Pods Frameworks */ = {
+		1E4E6C84DD4E1707A16729B1 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		347387B1BDC00B75A6FDCAB2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3046,29 +3053,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		83D1960D871F215C67CDC085 /* Check Pods Manifest.lock */ = {
+		3526DC832DBDA7AF92B1A6A3 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		A54D46F933E562C156EAE868 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3076,14 +3068,29 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DB95B09DE356EE470E38C186 /* Copy Pods Resources */ = {
+		A5A8354B599D84027D456FD6 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B29225EAA488CA7E0E9F4065 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3173,6 +3180,7 @@
 				5A2B2D941936264A00BA2870 /* czzFeedbackViewController.m in Sources */,
 				44CF256A1A26B4D000BD8228 /* UIView+MGBadgeView.m in Sources */,
 				4448C2A3180FF50F00D2CD76 /* czzBlacklistEntity.m in Sources */,
+				4411BF3A1D1D0DD70010FA77 /* UIViewController+ProgressBar.swift in Sources */,
 				445C663F1BBEC4E0004B3E83 /* czzThreadViewCellHeaderView.m in Sources */,
 				4498B68D1993A6190014F73F /* PropertyUtil.m in Sources */,
 				5A0A6BD61848691C0094D7FB /* czzMoreInfoViewController.m in Sources */,
@@ -3420,7 +3428,7 @@
 		};
 		441E5D0117F4691300289DBD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E5C49E341BD3C40D61F99BB3 /* Pods-CustomImageBoardViewer.debug.xcconfig */;
+			baseConfigurationReference = CBC088D3BB7C0C6E358B9C38 /* Pods-CustomImageBoardViewer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -3462,7 +3470,7 @@
 		};
 		441E5D0217F4691300289DBD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 31FEEA8309F3AF0A6D9D9D8F /* Pods-CustomImageBoardViewer.release.xcconfig */;
+			baseConfigurationReference = 3E0527F52EF15B0B2B65EA56 /* Pods-CustomImageBoardViewer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -3502,7 +3510,7 @@
 		};
 		441E5D0417F4691300289DBD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 577AF34FEA8149162E3ADD7A /* Pods-CustomImageBoardViewerTests.debug.xcconfig */;
+			baseConfigurationReference = AECEC532D9208769EFF63216 /* Pods-CustomImageBoardViewerTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CustomImageBoardViewer.app/CustomImageBoardViewer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3528,7 +3536,7 @@
 		};
 		441E5D0517F4691300289DBD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 57F4B7F8AAD865C8E4022971 /* Pods-CustomImageBoardViewerTests.release.xcconfig */;
+			baseConfigurationReference = 28832211D8C387A440C8B574 /* Pods-CustomImageBoardViewerTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CustomImageBoardViewer.app/CustomImageBoardViewer";
 				FRAMEWORK_SEARCH_PATHS = (
