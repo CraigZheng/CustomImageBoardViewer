@@ -44,15 +44,15 @@ static NSInteger const progressBarViewTag = 123526475;
 #pragma mark - Show loading.
 
 - (void)startLoading {
-    [self showLoading];
+    [self.progressView startAnimating];
 }
 
 - (void)stopLoading {
-    [self hideLoading];
+    [self.progressView stopAnimating];
 }
 
 - (void)showWarning {
-    [self showWarningInBarButtonItem];
+    [self.progressView showWarning];
 }
 
 - (GSIndeterminateProgressView *)progressView {
