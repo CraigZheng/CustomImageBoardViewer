@@ -112,6 +112,8 @@
 }
 
 - (void)resetViews {
+    [self.foregroundBarView.layer removeAllAnimations];
+    [self.containerView.layer removeAllAnimations];
     [self.containerView removeFromSuperview];
     self.containerView = nil;
     [self setNeedsDisplay];
@@ -141,13 +143,19 @@
     
     __weak typeof(self) weakSelf= self;
     UIView *containerView = weakSelf.containerView;
-    [UIView animateWithDuration:0.8 animations:^{
+    [UIView animateWithDuration:0.8
+                          delay:0
+                        options:UIViewAnimationOptionAllowUserInteraction
+                     animations:^{
         for (NSLayoutConstraint *constraint in constraints) {
             [constraint autoRemove];
         }
         [weakSelf.foregroundBarView autoSetDimensionsToSize:CGSizeMake(CGRectGetWidth(self.frame), 2)];
         [weakSelf layoutIfNeeded];
     } completion:^(BOOL finished) {
+        if (!finished) {
+            DLog(@"Animation not finished!");
+        }
         // If the containerView is no longer the same one, means the [self resetViews] has been called, in such case, no action should be taken.
         if (containerView == weakSelf.containerView) {
             // If previous background views are still here, remove them.
