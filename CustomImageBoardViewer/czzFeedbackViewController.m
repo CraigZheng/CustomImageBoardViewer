@@ -185,6 +185,6 @@
 }
 
 + (instancetype)new {
-    return [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"feedback_view_controller"];
+    return [[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:nil] instantiateViewControllerWithIdentifier:@"feedback_view_controller"];
 }
 @end
