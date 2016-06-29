@@ -35,6 +35,8 @@ static NSString * const showThreadWithID = @"showThreadWithID";
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @property (strong, nonatomic) NSMutableArray<czzThreadRefButton *> *referenceButtons;
 @property (readonly, nonatomic) NSAttributedString *threadContent;
+@property (strong, nonatomic) UIActionSheet *contentCopyActionSheet;
+@property (strong, nonatomic) UIActionSheet *openLinkActionSheet;
 @end
 
 @implementation czzMenuEnabledTableViewCell
@@ -120,8 +122,17 @@ static NSString * const showThreadWithID = @"showThreadWithID";
 
 #pragma mark - custom menu action
 -(void)menuActionCopy:(id)sender{
-    [[UIPasteboard generalPasteboard] setString:self.threadContent.string];
-    [AppDelegate showToast:@"内容已复制"];
+    self.contentCopyActionSheet = [[UIActionSheet alloc] initWithTitle: @"复制..."
+                                                              delegate: self
+                                                     cancelButtonTitle: nil
+                                                destructiveButtonTitle: nil
+                                                     otherButtonTitles: nil];
+    [self.contentCopyActionSheet addButtonWithTitle:@"内容"];
+    [self.contentCopyActionSheet addButtonWithTitle:@"串号"];
+    [self.contentCopyActionSheet addButtonWithTitle:@"用户饼干"];
+    [self.contentCopyActionSheet addButtonWithTitle:@"取消"];
+    self.contentCopyActionSheet.cancelButtonIndex = 3;
+    [self.contentCopyActionSheet showInView:self.superview];
 }
 
 -(void)menuActionReply:(id)sender{
@@ -131,19 +142,18 @@ static NSString * const showThreadWithID = @"showThreadWithID";
 }
 
 -(void)menuActionOpen:(id)sender{
-    
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle: @"打开链接"
-                                                       delegate: self
-                                              cancelButtonTitle: nil
-                                         destructiveButtonTitle: nil
-                                              otherButtonTitles: nil];
+    self.openLinkActionSheet = [[UIActionSheet alloc] initWithTitle: @"打开链接"
+                                                           delegate: self
+                                                  cancelButtonTitle: nil
+                                             destructiveButtonTitle: nil
+                                                  otherButtonTitles: nil];
     for (NSString *link in self.links) {
-        [actionSheet addButtonWithTitle:link];
+        [self.openLinkActionSheet addButtonWithTitle:link];
     }
-    [actionSheet addButtonWithTitle:@"取消"];
-    actionSheet.cancelButtonIndex = self.links.count;
+    [self.openLinkActionSheet addButtonWithTitle:@"取消"];
+    self.openLinkActionSheet.cancelButtonIndex = self.links.count;
     
-    [actionSheet showInView:self.superview];
+    [self.openLinkActionSheet showInView:self.superview];
 }
 
 -(void)menuActionHighlight:(id)sender {
@@ -239,16 +249,31 @@ static NSString * const showThreadWithID = @"showThreadWithID";
     if (buttonIndex == actionSheet.cancelButtonIndex)
         return;
     NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
-    NSString *hostPrefix = [settingCentre a_isle_host];
-    if (hostPrefix.length && [buttonTitle rangeOfString:hostPrefix options:NSCaseInsensitiveSearch].location != NSNotFound) {
-        if ([self.delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
-            [self.delegate userTapInQuotedText:[buttonTitle stringByReplacingOccurrencesOfString:hostPrefix withString:@""]];
+    if (actionSheet == self.openLinkActionSheet && buttonTitle.length) {
+        NSString *hostPrefix = [settingCentre a_isle_host];
+        if (hostPrefix.length && [buttonTitle rangeOfString:hostPrefix options:NSCaseInsensitiveSearch].location != NSNotFound) {
+            if ([self.delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
+                [self.delegate userTapInQuotedText:[buttonTitle stringByReplacingOccurrencesOfString:hostPrefix withString:@""]];
+            }
+            return;
         }
-        return;
+        
+        NSURL *link = [NSURL URLWithString:buttonTitle];
+        [[UIApplication sharedApplication] openURL:link];
+    } else if (actionSheet == self.contentCopyActionSheet && buttonTitle.length) {
+        NSString *copyContent = @"";
+        if ([buttonTitle isEqualToString:@"内容"]) {
+            copyContent = self.thread.content.string;
+        } else if ([buttonTitle isEqualToString:@"串号"]) {
+            copyContent = [NSString stringWithFormat:@"No.%ld", (long)self.thread.ID];
+        } else if ([buttonTitle isEqualToString:@"用户饼干"]) {
+            copyContent = self.thread.UID;
+        }
+        if (copyContent.length) {
+            [[UIPasteboard generalPasteboard] setString:copyContent];
+            [AppDelegate showToast:[NSString stringWithFormat:@"%@ 已复制", buttonTitle]];
+        }
     }
-    
-    NSURL *link = [NSURL URLWithString:buttonTitle];
-    [[UIApplication sharedApplication] openURL:link];
 }
 
 #pragma mark - Setters
