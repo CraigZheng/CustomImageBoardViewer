@@ -18,7 +18,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *posterLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *titleContainerZeroHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *nameContainerZeroHeightConstraint;
 
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
@@ -44,6 +46,13 @@
         } else {
             self.titleLabel.text = myThread.title;
             self.titleContainerZeroHeightConstraint.priority = 1;
+        }
+        if (myThread.name.length) {
+            // If there is a name to show...
+            self.nameLabel.text = myThread.name;
+            self.nameContainerZeroHeightConstraint.priority = 1;
+        } else {
+            self.nameContainerZeroHeightConstraint.priority = 999;
         }
         // If admin, highlight.
         if (myThread.admin) {
