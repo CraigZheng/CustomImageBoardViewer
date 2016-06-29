@@ -207,6 +207,8 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     urlDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:configurationURL] delegate:self startNow:YES];
 }
 
+#pragma mark - Parsing JSON.
+
 -(void)parseJSONData:(NSData*)jsonData {
     NSError *error;
     NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
@@ -256,6 +258,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         get_forum_info_url = [jsonObject objectForKey:@"get_forum_info_url"];
         self.popup_notification_link = [jsonObject objectForKey:@"popup_notification_link"];
         self.empty_title = [jsonObject objectForKey:@"empty_title"];
+        self.empty_username = [jsonObject objectForKey:@"empty_username"];
         self.sensitive_keyword = [jsonObject objectForKey:@"sensitive_keyword"];
         self.popular_threads_link = [jsonObject objectForKey:@"popular_threads_link"];
         self.long_thread_threshold = [[jsonObject objectForKey:@"long_thread_threshold"] integerValue];

@@ -47,12 +47,13 @@
             self.titleLabel.text = myThread.title;
             self.titleContainerZeroHeightConstraint.priority = 1;
         }
-        if (myThread.name.length) {
+        if ([myThread.name isEqualToString:settingCentre.empty_username]) {
+            // No name to show.
+            self.nameContainerZeroHeightConstraint.priority = 999;
+        } else {
             // If there is a name to show...
             self.nameLabel.text = myThread.name;
             self.nameContainerZeroHeightConstraint.priority = 1;
-        } else {
-            self.nameContainerZeroHeightConstraint.priority = 999;
         }
         // If admin, highlight.
         if (myThread.admin) {
