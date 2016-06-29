@@ -44,7 +44,7 @@
         if ([myThread.title isEqualToString:settingCentre.empty_title]) {
             self.titleContainerZeroHeightConstraint.priority = 999;
         } else {
-            self.titleLabel.text = myThread.title;
+            self.titleLabel.text = [NSString stringWithFormat:@"标题:%@", myThread.title];
             self.titleContainerZeroHeightConstraint.priority = 1;
         }
         if ([myThread.name isEqualToString:settingCentre.empty_username]) {
@@ -52,7 +52,7 @@
             self.nameContainerZeroHeightConstraint.priority = 999;
         } else {
             // If there is a name to show...
-            self.nameLabel.text = myThread.name;
+            self.nameLabel.text = [NSString stringWithFormat:@"用户:%@", myThread.name];
             self.nameContainerZeroHeightConstraint.priority = 1;
         }
         // If admin, highlight.
