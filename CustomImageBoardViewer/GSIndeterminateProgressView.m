@@ -156,12 +156,12 @@
         if (!finished) {
             DLog(@"Animation not finished!");
         }
+        if (weakSelf.backgroundBarView.superview) {
+            [weakSelf.backgroundBarView removeFromSuperview];
+        }
         // If the containerView is no longer the same one, means the [self resetViews] has been called, in such case, no action should be taken.
         if (containerView == weakSelf.containerView) {
             // If previous background views are still here, remove them.
-            if (weakSelf.backgroundBarView.superview) {
-                [weakSelf.backgroundBarView removeFromSuperview];
-            }
             if (weakSelf.isAnimating && weakSelf.window) {
                 // On finish, keep references to the foreground views.
                 weakSelf.backgroundBarView = weakSelf.foregroundBarView;
