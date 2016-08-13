@@ -120,3 +120,42 @@
 [15-Sep-2015 21:20:30 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
 [15-Sep-2015 21:20:30 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
 [15-Sep-2015 21:20:30 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[25-Jun-2016 04:45:45 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[25-Jun-2016 04:45:45 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[25-Jun-2016 04:45:45 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[03-Jul-2016 04:29:20 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[03-Jul-2016 04:29:20 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[03-Jul-2016 04:29:20 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[03-Jul-2016 04:29:36 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[03-Jul-2016 04:29:36 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[03-Jul-2016 04:29:36 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[03-Jul-2016 04:30:09 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[03-Jul-2016 04:30:09 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[03-Jul-2016 04:30:09 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[03-Jul-2016 04:30:14 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[03-Jul-2016 04:30:14 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[03-Jul-2016 04:30:14 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[03-Jul-2016 04:30:17 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[03-Jul-2016 04:30:17 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[03-Jul-2016 04:30:17 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[03-Jul-2016 04:31:07 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[03-Jul-2016 04:31:07 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[03-Jul-2016 04:31:07 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[03-Jul-2016 04:31:27 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[03-Jul-2016 04:31:27 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[03-Jul-2016 04:31:27 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[03-Jul-2016 04:32:02 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[03-Jul-2016 04:32:02 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[03-Jul-2016 04:32:02 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[03-Jul-2016 04:32:39 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[03-Jul-2016 04:32:39 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[03-Jul-2016 04:32:39 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[03-Jul-2016 04:33:15 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[03-Jul-2016 04:33:15 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[03-Jul-2016 04:33:15 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[03-Jul-2016 04:33:38 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[03-Jul-2016 04:33:38 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[03-Jul-2016 04:33:38 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
+[03-Jul-2016 04:33:42 America/Denver] PHP Warning:  mysqli::mysqli(): (HY000/2003): Can't connect to MySQL server on 'pdb18.awardspace.net' (110) in /home5/danmakuu/public_html/acshmily/avdot/php/connect_db.php on line 4
+[03-Jul-2016 04:33:42 America/Denver] PHP Warning:  mysqli_query(): Couldn't fetch mysqli in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 12
+[03-Jul-2016 04:33:42 America/Denver] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home5/danmakuu/public_html/acshmily/avdot/php/get_notifications.php on line 14
