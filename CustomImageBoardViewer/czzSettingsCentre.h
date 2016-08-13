@@ -10,7 +10,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define CONFIGURATION_URL @"http://www.my-realm.com/php/remote_configuration.php"
+#define CONFIGURATION_URL @"http://my-realm.com/php/remote_configuration.php"
 
 extern NSString * const settingsChangedNotification;
 
