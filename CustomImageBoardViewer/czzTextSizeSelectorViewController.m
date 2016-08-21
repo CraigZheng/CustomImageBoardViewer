@@ -18,7 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.sizeTitles = @[@"默认", @"偏大", @"偏小"];
+    self.sizeTitles = @[@"默认", @"偏小", @"偏大", @"特大"];
     [self.pickerView selectRow:settingCentre.threadTextSize inComponent:0 animated:NO];
 
 }
@@ -38,7 +38,7 @@
 #pragma mark - UIPickerViewDelegate & UIPickerViewDataSource
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    return 3;
+    return self.sizeTitles.count;
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {

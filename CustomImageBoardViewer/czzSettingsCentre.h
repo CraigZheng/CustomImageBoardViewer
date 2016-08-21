@@ -16,8 +16,9 @@ extern NSString * const settingsChangedNotification;
 
 typedef enum : NSInteger {
     TextSizeDefault = 0,
-    TextSizeBig = 1,
-    TextSizeSmall = 2,
+    TextSizeSmall = 1,
+    TextSizeBig = 2,
+    TextSizeExtraBig = 3
 } ThreadViewTextSize;
 
 @interface czzSettingsCentre : NSObject

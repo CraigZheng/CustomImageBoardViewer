@@ -344,6 +344,9 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         case TextSizeBig:
             return 1.3;
             break;
+        case TextSizeExtraBig:
+            return 1.6;
+            break;
         case TextSizeSmall:
             return 0.8;
             break;

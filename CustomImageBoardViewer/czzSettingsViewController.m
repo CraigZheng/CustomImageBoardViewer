@@ -98,6 +98,9 @@ static NSString *textSizeSelectorSegue = @"textSizeSelector";
                 case TextSizeBig:
                     fontSize = @"大";
                     break;
+                case TextSizeExtraBig:
+                    fontSize = @"特大";
+                    break;
                 case TextSizeSmall:
                     fontSize = @"小";
                     break;
