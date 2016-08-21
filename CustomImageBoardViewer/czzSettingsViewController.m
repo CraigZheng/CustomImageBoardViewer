@@ -84,52 +84,74 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"command_cell_identifier"];
     if (indexPath.section == 0){
-        cell = [tableView dequeueReusableCellWithIdentifier:@"switch_cell_identifier"];
-        UILabel *commandLabel = (UILabel*)[cell viewWithTag:3];
-        UISwitch *commandSwitch = (UISwitch*)[cell viewWithTag:4];
-        commandLabel.textColor = settingsCentre.contentTextColour;
         NSString *command = [switchCommands objectAtIndex:indexPath.row];
-        commandLabel.text = command;
-
-        [commandSwitch addTarget:self action:@selector(switchDidChanged:) forControlEvents:UIControlEventValueChanged];
-        //set value for switch
-        if ([command isEqualToString:@"显示图片"]){
-            BOOL shouldLoadImages = settingsCentre.userDefShouldDisplayThumbnail;
-            [commandSwitch setOn:shouldLoadImages];
+        // A special case - font size preference.
+        if ([command isEqualToString:@"字体偏好"]) {
+            UILabel *commandLabel = (UILabel*)[cell viewWithTag:5];
+            UILabel *detailLabel = (UILabel*)[cell viewWithTag:6];
+            commandLabel.text = command;
+            NSString *fontSize = @"";
+            switch (settingsCentre.threadTextSize) {
+                case TextSizeBig:
+                    fontSize = @"大";
+                    break;
+                case TextSizeSmall:
+                    fontSize = @"小";
+                    break;
+                default:
+                    fontSize = @"默认";
+                    break;
+            }
+            detailLabel.text = fontSize;
+        } else {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"switch_cell_identifier"];
+            UILabel *commandLabel = (UILabel*)[cell viewWithTag:3];
+            UISwitch *commandSwitch = (UISwitch*)[cell viewWithTag:4];
+            commandLabel.textColor = settingsCentre.contentTextColour;
+            commandLabel.text = command;
+            
+            [commandSwitch addTarget:self action:@selector(switchDidChanged:) forControlEvents:UIControlEventValueChanged];
+            //set value for switch
+            if ([command isEqualToString:@"显示图片"]){
+                BOOL shouldLoadImages = settingsCentre.userDefShouldDisplayThumbnail;
+                [commandSwitch setOn:shouldLoadImages];
+            }
+            else if ([command isEqualToString:@"显示快速滑动按钮"]) {
+                BOOL sbouldShowOnScreenCommand = settingsCentre.userDefShouldShowOnScreenCommand;
+                [commandSwitch setOn:sbouldShowOnScreenCommand];
+            }
+            else if ([command isEqualToString:@"图片下载完毕自动打开"]){
+                BOOL shouldAutoOpen = settingsCentre.userDefShouldAutoOpenImage;
+                [commandSwitch setOn:shouldAutoOpen];
+                
+            } else if ([command isEqualToString:@"开启串缓存"]){
+                BOOL shouldCache = settingsCentre.userDefShouldCacheData;
+                [commandSwitch setOn:shouldCache];
+            } else if ([command isEqualToString:@"高亮楼主/PO主"]) {
+                BOOL shouldHighlight = settingsCentre.userDefShouldHighlightPO;
+                [commandSwitch setOn:shouldHighlight];
+            } else if ([command isEqualToString:@"夜间模式"]) {
+                [commandSwitch setOn:settingsCentre.userDefNightyMode];
+            }
+            else if ([command isEqualToString:@"大图模式"]) {
+                [commandSwitch setOn:settingsCentre.userDefShouldUseBigImage];
+            }
+            else if ([command isEqualToString:@"每月自动清理缓存"]) {
+                [commandSwitch setOn:settingsCentre.userDefShouldCleanCaches];
+            } else if ([command isEqualToString:@"Monitor Performance"]) {
+                //             [commandSwitch setOn:[DartCrowdSourcingConstants isEnabled]];
+            } else if ([command isEqualToString:@"自动下载大图"]) {
+                [commandSwitch setOn:settingCentre.userDefShouldAutoDownloadImage];
+            } else if ([command isEqualToString:@"收起超长的内容"]) {
+                [commandSwitch setOn:settingCentre.userDefShouldCollapseLongContent];
+            }
         }
-        else if ([command isEqualToString:@"显示快速滑动按钮"]) {
-            BOOL sbouldShowOnScreenCommand = settingsCentre.userDefShouldShowOnScreenCommand;
-            [commandSwitch setOn:sbouldShowOnScreenCommand];
-        }
-        else if ([command isEqualToString:@"图片下载完毕自动打开"]){
-             BOOL shouldAutoOpen = settingsCentre.userDefShouldAutoOpenImage;
-            [commandSwitch setOn:shouldAutoOpen];
-
-         } else if ([command isEqualToString:@"开启串缓存"]){
-             BOOL shouldCache = settingsCentre.userDefShouldCacheData;
-             [commandSwitch setOn:shouldCache];
-         } else if ([command isEqualToString:@"高亮楼主/PO主"]) {
-             BOOL shouldHighlight = settingsCentre.userDefShouldHighlightPO;
-             [commandSwitch setOn:shouldHighlight];
-         } else if ([command isEqualToString:@"夜间模式"]) {
-             [commandSwitch setOn:settingsCentre.userDefNightyMode];
-         }
-         else if ([command isEqualToString:@"大图模式"]) {
-             [commandSwitch setOn:settingsCentre.userDefShouldUseBigImage];
-         }
-         else if ([command isEqualToString:@"每月自动清理缓存"]) {
-             [commandSwitch setOn:settingsCentre.userDefShouldCleanCaches];
-         } else if ([command isEqualToString:@"Monitor Performance"]) {
-//             [commandSwitch setOn:[DartCrowdSourcingConstants isEnabled]];
-         } else if ([command isEqualToString:@"自动下载大图"]) {
-             [commandSwitch setOn:settingCentre.userDefShouldAutoDownloadImage];
-         } else if ([command isEqualToString:@"收起超长的内容"]) {
-             [commandSwitch setOn:settingCentre.userDefShouldCollapseLongContent];
-         }
     } else if (indexPath.section == 1){
         UILabel *commandLabel = (UILabel*)[cell viewWithTag:5];
+        UILabel *detailLabel = (UILabel*)[cell viewWithTag:6];
         commandLabel.textColor = settingsCentre.contentTextColour;
         [commandLabel setText:[regularCommands objectAtIndex:indexPath.row]];
+        detailLabel.text = nil;
     }
     //cell background colour
     cell.contentView.backgroundColor = settingsCentre.viewBackgroundColour;
@@ -204,6 +226,7 @@
     if (!([settingsCentre userDefShouldUseBigImage] && [settingsCentre userDefShouldAutoDownloadImage])) {
         [switchCommands addObject:@"图片下载完毕自动打开"];
     }
+    [switchCommands addObject:@"字体偏好"];
 //    [switchCommands addObject:@"开启串缓存"]; // Disbale as is no longer important.
 //    [switchCommands addObject:@"每月自动清理缓存"]; // Disable for now - version 3.4.
     if (settingsCentre.should_allow_dart)

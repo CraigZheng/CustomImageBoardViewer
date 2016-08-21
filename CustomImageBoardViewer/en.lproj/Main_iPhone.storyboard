@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -776,17 +776,26 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Setting" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="epV-dt-aH3">
-                                                    <rect key="frame" x="20" y="0.0" width="280" height="43"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" verticalHuggingPriority="251" text="Setting" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="epV-dt-aH3">
+                                                    <rect key="frame" x="20" y="0.0" width="238.5" height="43"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="6" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9M2-zU-Itf" userLabel="Detail">
+                                                    <rect key="frame" x="258.5" y="0.0" width="41.5" height="43.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="9M2-zU-Itf" secondAttribute="trailing" constant="20" id="EKR-s0-1HU"/>
+                                                <constraint firstItem="9M2-zU-Itf" firstAttribute="leading" secondItem="epV-dt-aH3" secondAttribute="trailing" id="Kaz-yw-TqT"/>
                                                 <constraint firstItem="epV-dt-aH3" firstAttribute="leading" secondItem="swS-b2-eIv" secondAttribute="leading" constant="20" id="Q9S-Pa-fcQ"/>
                                                 <constraint firstAttribute="bottom" secondItem="epV-dt-aH3" secondAttribute="bottom" id="S5V-om-J10"/>
                                                 <constraint firstItem="epV-dt-aH3" firstAttribute="top" secondItem="swS-b2-eIv" secondAttribute="top" id="Scp-r9-gPj"/>
-                                                <constraint firstAttribute="trailing" secondItem="epV-dt-aH3" secondAttribute="trailing" constant="20" id="XCV-0C-xnw"/>
+                                                <constraint firstItem="9M2-zU-Itf" firstAttribute="top" secondItem="swS-b2-eIv" secondAttribute="top" id="VNQ-Ou-PX6"/>
+                                                <constraint firstAttribute="bottom" secondItem="9M2-zU-Itf" secondAttribute="bottom" id="bZW-Qh-GRQ"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
