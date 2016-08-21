@@ -14,6 +14,12 @@
 
 extern NSString * const settingsChangedNotification;
 
+typedef enum : NSInteger {
+    TextSizeDefault = 0,
+    TextSizeBig = 1,
+    TextSizeSmall = 2,
+} ThreadViewTextSize;
+
 @interface czzSettingsCentre : NSObject
 
 //Remote configurations
@@ -67,6 +73,7 @@ extern NSString * const settingsChangedNotification;
 @property (assign, nonatomic) BOOL userDefShouldCleanCaches;
 @property (assign, nonatomic) BOOL userDefShouldAutoDownloadImage;
 @property (assign, nonatomic) BOOL userDefShouldCollapseLongContent;
+@property (assign, nonatomic) ThreadViewTextSize threadTextSize;
 //Debug settings
 @property (assign, nonatomic) BOOL should_allow_dart;
 // Popup notification

@@ -26,6 +26,7 @@ static NSString * const kNightyMode = @"kNightyMode";
 static NSString * const kAutoClean = @"kAutoClean";
 static NSString * const kAutoDownloadImage = @"kAutoDownloadImage";
 static NSString * const kShouldCollapseLongContent = @"kShouldCollapseLongContent";
+static NSString * const kTextSize = @"kTextSize";
 
 NSString * const settingsChangedNotification = @"settingsChangedNotification";
 
@@ -82,6 +83,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         self.userDefShouldAutoDownloadImage = NO;
         self.userDefShouldCollapseLongContent = NO;
         shouldAllowOpenBlockedThread = YES;
+        self.threadTextSize = TextSizeDefault;
         
         donationLink = @"";
         threads_per_page = 10;
@@ -128,6 +130,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     [userDefault setBool:self.userDefShouldCleanCaches forKey:kAutoClean];
     [userDefault setBool:self.userDefShouldAutoDownloadImage forKey:kAutoDownloadImage];
     [userDefault setBool:self.userDefShouldCollapseLongContent forKey:kShouldCollapseLongContent];
+    [userDefault setInteger:self.threadTextSize forKey:kTextSize];
     [userDefault synchronize];
     // Post a notification about the settings changed.
     [[NSNotificationCenter defaultCenter] postNotificationName:settingsChangedNotification
@@ -163,6 +166,9 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     }
     if ([userDefault objectForKey:kShouldCollapseLongContent]) {
         self.userDefShouldCollapseLongContent = [userDefault boolForKey:kShouldCollapseLongContent];
+    }
+    if ([userDefault objectForKey:kTextSize]) {
+        self.threadTextSize = [userDefault integerForKey:kTextSize];
     }
     self.userDefShouldAutoDownloadImage = [userDefault boolForKey:kAutoDownloadImage];
     
