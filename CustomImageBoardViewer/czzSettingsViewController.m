@@ -167,13 +167,14 @@ static NSString *textSizeSelectorSegue = @"textSizeSelector";
 
 #pragma mark UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSString *command = [regularCommands objectAtIndex:indexPath.row];
     if (indexPath.section == 0) {
+        NSString *command = [switchCommands objectAtIndex:indexPath.row];
         if ([command isEqualToString:@"字体偏好"]) {
             // TODO: select a text.
             [self performSegueWithIdentifier:textSizeSelectorSegue sender:nil];
         }
     } else if (indexPath.section == 1){
+        NSString *command = [regularCommands objectAtIndex:indexPath.row];
         if ([command isEqualToString:@"图片管理器"]){
             //图片管理器
             UIViewController *viewController = [[UIStoryboard storyboardWithName:@"ImageManagerStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:@"image_manager_view_controller"];
