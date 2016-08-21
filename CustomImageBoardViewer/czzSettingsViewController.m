@@ -21,7 +21,7 @@
 
 static NSString *textSizeSelectorSegue = @"textSizeSelector";
 
-@interface czzSettingsViewController ()<UIAlertViewDelegate, UIActionSheetDelegate>
+@interface czzSettingsViewController ()<UIAlertViewDelegate, UIActionSheetDelegate, czzTextSizeSelectorViewControllerProtocol>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *debugBarButton;
 @property NSMutableArray *commands;
 @property NSMutableArray *regularCommands;
@@ -171,7 +171,7 @@ static NSString *textSizeSelectorSegue = @"textSizeSelector";
     if (indexPath.section == 0) {
         if ([command isEqualToString:@"字体偏好"]) {
             // TODO: select a text.
-            [self shouldPerformSegueWithIdentifier:textSizeSelectorSegue sender:nil];
+            [self performSegueWithIdentifier:textSizeSelectorSegue sender:nil];
         }
     } else if (indexPath.section == 1){
         if ([command isEqualToString:@"图片管理器"]){
@@ -369,6 +369,16 @@ static NSString *textSizeSelectorSegue = @"textSizeSelector";
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:textSizeSelectorSegue] && [segue.destinationViewController isKindOfClass:[czzTextSizeSelectorViewController class]]) {
         [(czzTextSizeSelectorViewController*)segue.destinationViewController setDelegate: self];
+    }
+}
+
+#pragma mark - czzTextSizeSelectorViewController
+
+- (void)textSizeSelected:(czzTextSizeSelectorViewController *)viewController textSize:(ThreadViewTextSize)size {
+    if (size != settingsCentre.threadTextSize) {
+        settingsCentre.threadTextSize = size;
+        [settingsCentre saveSettings];
+        [self.settingsTableView reloadData];
     }
 }
 
