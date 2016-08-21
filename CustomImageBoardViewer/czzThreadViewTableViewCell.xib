@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -52,12 +52,12 @@
                                 </connections>
                             </textView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YkN-LC-OwR" userLabel="Image View Container">
-                                <rect key="frame" x="8" y="43" width="100" height="108"/>
+                                <rect key="frame" x="8" y="43" width="140" height="108"/>
                                 <subviews>
                                     <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon-72.png" translatesAutoresizingMaskIntoConstraints="NO" id="WnJ-PJ-3oM">
-                                        <rect key="frame" x="0.0" y="4" width="100" height="100"/>
+                                        <rect key="frame" x="0.0" y="4" width="140" height="100"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="100" id="ZZD-Un-q89"/>
+                                            <constraint firstAttribute="width" constant="140" id="ZZD-Un-q89"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>

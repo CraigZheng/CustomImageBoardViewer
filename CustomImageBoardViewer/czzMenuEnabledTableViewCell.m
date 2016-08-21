@@ -21,7 +21,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-NSInteger const threadCellImageViewNormalHeight = 100;
+NSInteger const threadCellImageViewNormalHeight = 140;
 static NSInteger const imageViewContainerNormalHeight = threadCellImageViewNormalHeight + 8;
 static NSInteger const layoutConstraintZeroHeight = 0;
 static NSInteger const footerViewNormalHeight = 20;
