@@ -825,6 +825,7 @@
                     <connections>
                         <outlet property="debugBarButton" destination="FKS-4P-amq" id="Ffa-4H-lqK"/>
                         <outlet property="settingsTableView" destination="4iw-Az-V4Y" id="rJt-Ut-zFe"/>
+                        <segue destination="FVg-4N-Ym9" kind="modal" identifier="textSizeSelector" id="ti7-yz-WVz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SyL-jc-F1x" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -995,6 +996,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fay-4h-MEE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="170" y="372"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="8lz-hq-GdH">
+            <objects>
+                <viewController id="FVg-4N-Ym9" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="fb1-ZY-edH"/>
+                        <viewControllerLayoutGuide type="bottom" id="nXh-fw-oVm"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5Jt-yk-B0L">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3oH-8T-suo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1075" y="-550"/>
         </scene>
     </scenes>
     <resources>

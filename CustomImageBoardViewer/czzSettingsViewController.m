@@ -17,6 +17,9 @@
 #import "MBProgressHUD.h"
 #import "czzHomeViewManager.h"
 #import "czzWatchListManager.h"
+#import "czzTextSizeSelectorViewController.h"
+
+static NSString *textSizeSelectorSegue = @"textSizeSelector";
 
 @interface czzSettingsViewController ()<UIAlertViewDelegate, UIActionSheetDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *debugBarButton;
@@ -164,8 +167,13 @@
 
 #pragma mark UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 1){
-        NSString *command = [regularCommands objectAtIndex:indexPath.row];
+    NSString *command = [regularCommands objectAtIndex:indexPath.row];
+    if (indexPath.section == 0) {
+        if ([command isEqualToString:@"字体偏好"]) {
+            // TODO: select a text.
+            [self shouldPerformSegueWithIdentifier:textSizeSelectorSegue sender:nil];
+        }
+    } else if (indexPath.section == 1){
         if ([command isEqualToString:@"图片管理器"]){
             //图片管理器
             UIViewController *viewController = [[UIStoryboard storyboardWithName:@"ImageManagerStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:@"image_manager_view_controller"];
@@ -353,6 +361,14 @@
         [self.settingsTableView reloadData];
         [settingsCentre saveSettings];
         [[czzHomeViewManager sharedManager] reloadData];
+    }
+}
+
+#pragma mark - Segue events.
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:textSizeSelectorSegue] && [segue.destinationViewController isKindOfClass:[czzTextSizeSelectorViewController class]]) {
+        [(czzTextSizeSelectorViewController*)segue.destinationViewController setDelegate: self];
     }
 }
 
