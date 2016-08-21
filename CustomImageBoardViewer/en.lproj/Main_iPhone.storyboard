@@ -825,7 +825,7 @@
                     <connections>
                         <outlet property="debugBarButton" destination="FKS-4P-amq" id="Ffa-4H-lqK"/>
                         <outlet property="settingsTableView" destination="4iw-Az-V4Y" id="rJt-Ut-zFe"/>
-                        <segue destination="FVg-4N-Ym9" kind="modal" identifier="textSizeSelector" id="ti7-yz-WVz"/>
+                        <segue destination="FVg-4N-Ym9" kind="modal" identifier="textSizeSelector" modalPresentationStyle="currentContext" id="ti7-yz-WVz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SyL-jc-F1x" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -997,10 +997,10 @@
             </objects>
             <point key="canvasLocation" x="170" y="372"/>
         </scene>
-        <!--View Controller-->
+        <!--Czz Text Size Selector View Controller-->
         <scene sceneID="8lz-hq-GdH">
             <objects>
-                <viewController id="FVg-4N-Ym9" sceneMemberID="viewController">
+                <viewController id="FVg-4N-Ym9" customClass="czzTextSizeSelectorViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fb1-ZY-edH"/>
                         <viewControllerLayoutGuide type="bottom" id="nXh-fw-oVm"/>
@@ -1008,10 +1008,51 @@
                     <view key="view" contentMode="scaleToFill" id="5Jt-yk-B0L">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <subviews>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y74-OY-U0j">
+                                <rect key="frame" x="0.0" y="352" width="320" height="216"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="FVg-4N-Ym9" id="Hga-sv-he6"/>
+                                    <outlet property="delegate" destination="FVg-4N-Ym9" id="89j-22-Onb"/>
+                                </connections>
+                            </pickerView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gQL-lg-oVf">
+                                <rect key="frame" x="0.0" y="308" width="320" height="44"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="CPH-sV-bXd"/>
+                                    <barButtonItem title="OK" id="411-qF-Rhe">
+                                        <connections>
+                                            <action selector="okButtonAction:" destination="FVg-4N-Ym9" id="Rcq-iB-yhz"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="y74-OY-U0j" secondAttribute="trailing" id="14K-ZE-LLy"/>
+                            <constraint firstItem="nXh-fw-oVm" firstAttribute="top" secondItem="y74-OY-U0j" secondAttribute="bottom" id="Bxa-WR-cAl"/>
+                            <constraint firstAttribute="trailing" secondItem="gQL-lg-oVf" secondAttribute="trailing" id="GcQ-fQ-XX0"/>
+                            <constraint firstItem="y74-OY-U0j" firstAttribute="leading" secondItem="5Jt-yk-B0L" secondAttribute="leading" id="IJD-Sw-wwR"/>
+                            <constraint firstItem="y74-OY-U0j" firstAttribute="top" secondItem="gQL-lg-oVf" secondAttribute="bottom" id="JKt-Bb-YJE"/>
+                            <constraint firstItem="gQL-lg-oVf" firstAttribute="leading" secondItem="5Jt-yk-B0L" secondAttribute="leading" id="O6s-Oe-xQZ"/>
+                        </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="tKI-PV-is7" appends="YES" id="2CS-IO-rtH"/>
+                        </connections>
                     </view>
+                    <connections>
+                        <outlet property="pickerView" destination="y74-OY-U0j" id="PAq-kh-wrt"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3oH-8T-suo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="tKI-PV-is7">
+                    <connections>
+                        <action selector="tapOnBackgroundViewAction:" destination="FVg-4N-Ym9" id="XGl-h1-SZt"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1075" y="-550"/>
         </scene>

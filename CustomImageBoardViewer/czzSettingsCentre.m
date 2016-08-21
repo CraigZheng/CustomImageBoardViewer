@@ -334,9 +334,23 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
     {
         /* Device is iPad */
-        return [UIFont systemFontOfSize:18];
+        return [UIFont systemFontOfSize:18 * [self fontScale]];
     }
-    return [UIFont systemFontOfSize:16];
+    return [UIFont systemFontOfSize:16 * [self fontScale]];
+}
+
+- (CGFloat)fontScale {
+    switch (self.threadTextSize) {
+        case TextSizeBig:
+            return 1.3;
+            break;
+        case TextSizeSmall:
+            return 0.8;
+            break;
+        default:
+            return 1;
+            break;
+    }
 }
 
 -(UIColor *)contentTextColour {

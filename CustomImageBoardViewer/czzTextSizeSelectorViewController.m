@@ -8,30 +8,45 @@
 
 #import "czzTextSizeSelectorViewController.h"
 
-@interface czzTextSizeSelectorViewController ()
+@interface czzTextSizeSelectorViewController () <UIPickerViewDelegate, UIPickerViewDataSource>
 
+@property (weak, nonatomic) IBOutlet UIPickerView *pickerView;
+@property (nonatomic, strong) NSArray *sizeTitles;
 @end
 
 @implementation czzTextSizeSelectorViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.sizeTitles = @[@"默认", @"偏大", @"偏小"];
+    [self.pickerView selectRow:settingCentre.threadTextSize inComponent:0 animated:NO];
+
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark - UI actions.
+- (IBAction)tapOnBackgroundViewAction:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (IBAction)okButtonAction:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(textSizeSelected:textSize:)]) {
+        [self.delegate textSizeSelected:self textSize:[self.pickerView selectedRowInComponent:0]];
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
-*/
+
+#pragma mark - UIPickerViewDelegate & UIPickerViewDataSource
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return 3;
+}
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    return self.sizeTitles[row];
+}
 
 @end

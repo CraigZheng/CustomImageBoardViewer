@@ -380,6 +380,7 @@ static NSString *textSizeSelectorSegue = @"textSizeSelector";
         settingsCentre.threadTextSize = size;
         [settingsCentre saveSettings];
         [self.settingsTableView reloadData];
+        [[czzHomeViewManager sharedManager] reloadData];
     }
 }
 
