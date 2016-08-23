@@ -77,14 +77,27 @@ static NSString * cellIdentifier = @"cellIdentifier";
     UIAlertController *alertConroller = [UIAlertController alertControllerWithTitle:@"自定义板块" message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alertConroller addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
         textField.placeholder = @"请输入名称";
+        [textField addTarget:self
+                      action:@selector(textFieldDidChange:)
+            forControlEvents:UIControlEventEditingChanged];
         self.forumNameTextField = textField;
     }];
     [alertConroller addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
         textField.placeholder = @"请输入ID";
+        [textField addTarget:self
+                      action:@selector(textFieldDidChange:)
+            forControlEvents:UIControlEventEditingChanged];
         self.forumIDTextField = textField;
     }];
     [alertConroller addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
     [self presentViewController:alertConroller animated:YES completion:nil];
+}
+
+#pragma mark - UITextField actions.
+
+- (void)textFieldDidChange:(UITextField*)sender {
+    DLog(@"%@", sender.text);
+    
 }
 
 @end

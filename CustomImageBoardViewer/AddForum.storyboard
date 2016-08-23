@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
-        <!--Root View Controller-->
+        <!--自定义板块-->
         <scene sceneID="gEE-RJ-Amd">
             <objects>
                 <tableViewController id="gLy-5d-ZKK" customClass="czzAddForumTableViewController" sceneMemberID="viewController">
@@ -56,7 +56,7 @@
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="kql-UA-b0f">
+                    <navigationItem key="navigationItem" title="自定义板块" id="kql-UA-b0f" userLabel="自定义板块">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Ecj-W8-M6e">
                             <connections>
                                 <action selector="cancelButtonAction:" destination="gLy-5d-ZKK" id="1oQ-Fk-Zeg"/>
@@ -77,12 +77,16 @@
         <!--Navigation Controller-->
         <scene sceneID="1se-Cm-h21">
             <objects>
-                <navigationController id="WJz-JG-iNB" sceneMemberID="viewController">
+                <navigationController toolbarHidden="NO" id="WJz-JG-iNB" sceneMemberID="viewController">
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="FLd-hD-RoN">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Ytb-hN-2ZP">
+                        <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="gLy-5d-ZKK" kind="relationship" relationship="rootViewController" id="hGv-4Q-hqx"/>
                     </connections>
