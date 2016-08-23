@@ -29,12 +29,14 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    czzForum *forum = [[czzForumManager sharedManager].customForums objectAtIndex:indexPath.row];
-    //POST a local notification to inform other view controllers that a new forum is picked
-    NSMutableDictionary *userInfo = [NSMutableDictionary new];
-    [userInfo setObject:forum forKey:kPickedForum];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kForumPickedNotification object:self userInfo:userInfo];
-    [[NavigationManager delegate].viewDeckController closeLeftViewAnimated:YES];
+    if (indexPath.section != 0) {
+        czzForum *forum = [[czzForumManager sharedManager].customForums objectAtIndex:indexPath.row];
+        //POST a local notification to inform other view controllers that a new forum is picked
+        NSMutableDictionary *userInfo = [NSMutableDictionary new];
+        [userInfo setObject:forum forKey:kPickedForum];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kForumPickedNotification object:self userInfo:userInfo];
+        [[NavigationManager delegate].viewDeckController closeLeftViewAnimated:YES];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
