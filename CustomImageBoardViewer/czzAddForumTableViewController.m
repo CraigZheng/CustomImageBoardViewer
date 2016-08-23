@@ -17,7 +17,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 @property (strong, nonatomic) UITextField *forumNameTextField;
 @property (strong, nonatomic) UITextField *forumIDTextField;
-
+@property (strong, nonatomic) NSString *forumName;
+@property (assign, nonatomic) NSInteger forumID;
 @end
 
 @implementation czzAddForumTableViewController
@@ -74,6 +75,10 @@ static NSString * cellIdentifier = @"cellIdentifier";
 }
 
 - (IBAction)addButtonAction:(id)sender {
+    // Reset things.
+    self.forumID = 0;
+    self.forumName = nil;
+    self.forumIDTextField = self.forumNameTextField = nil;
     UIAlertController *alertConroller = [UIAlertController alertControllerWithTitle:@"自定义板块" message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alertConroller addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
         textField.placeholder = @"请输入名称";
@@ -89,6 +94,12 @@ static NSString * cellIdentifier = @"cellIdentifier";
             forControlEvents:UIControlEventEditingChanged];
         self.forumIDTextField = textField;
     }];
+    [alertConroller addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        if (self.forumName.length && self.forumID >= 0) {
+            [[czzForumManager sharedManager] addCustomForumWithName:self.forumName forumID:self.forumID];
+            [self.tableView reloadData];
+        }
+    }]];
     [alertConroller addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
     [self presentViewController:alertConroller animated:YES completion:nil];
 }
@@ -97,7 +108,11 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 - (void)textFieldDidChange:(UITextField*)sender {
     DLog(@"%@", sender.text);
-    
+    if (sender == self.forumNameTextField) {
+        self.forumName = sender.text;
+    } else if (sender == self.forumIDTextField) {
+        self.forumID = sender.text.integerValue;
+    }
 }
 
 @end

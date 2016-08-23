@@ -32,7 +32,7 @@ static NSString * kCustomForumsRawStringsKey = @"kCustomForumsRawStringsKey";
     self.completionHandler = completionHandler;
 }
 
-- (void)addCustomForumWithName:(NSString *)forumName id:(NSInteger)forumID {
+- (void)addCustomForumWithName:(NSString *)forumName forumID:(NSInteger)forumID {
     if (forumName.length) {
         // Reset custom forums.
         self.customForums = nil;
