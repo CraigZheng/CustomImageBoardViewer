@@ -18,6 +18,7 @@
 #import "czzPopularThreadsManager.h"
 #import "czzMoreInfoViewController.h"
 #import "czzForumsTableViewThreadSuggestionsManager.h"
+#import "czzCustomForumTableViewManager.h"
 
 NSString * const kForumPickedNotification = @"ForumNamePicked";
 NSString * const kPickedForum = @"PickedForum";
@@ -31,6 +32,7 @@ NSString * const kPickedForum = @"PickedForum";
 @property czzForumManager *forumManager;
 @property (strong, nonatomic) czzPopularThreadsManager *popularThreadsManager;
 @property (strong, nonatomic) czzForumsTableViewThreadSuggestionsManager *tableviewThreadSuggestionsManager;
+@property (strong, nonatomic) czzCustomForumTableViewManager * customForumTableViewManager;
 @end
 
 @implementation czzForumsViewController
@@ -233,6 +235,10 @@ NSString * const kPickedForum = @"PickedForum";
                 self.forumsTableView.dataSource = self.tableviewThreadSuggestionsManager;
                 self.forumsTableView.delegate = self.tableviewThreadSuggestionsManager;
                 break;
+            case 2:
+                // Custom forum table view manager.
+                self.forumsTableView.dataSource = self.customForumTableViewManager;
+                self.forumsTableView.delegate = self.customForumTableViewManager;
             default:
                 break;
         }
@@ -283,6 +289,13 @@ NSString * const kPickedForum = @"PickedForum";
         _tableviewThreadSuggestionsManager = [[czzForumsTableViewThreadSuggestionsManager alloc] initWithPopularThreadsManager:self.popularThreadsManager];
     }
     return _tableviewThreadSuggestionsManager;
+}
+
+- (czzCustomForumTableViewManager *)customForumTableViewManager {
+    if (!_customForumTableViewManager) {
+        _customForumTableViewManager = [czzCustomForumTableViewManager new];
+    }
+    return _customForumTableViewManager;
 }
 
 @end

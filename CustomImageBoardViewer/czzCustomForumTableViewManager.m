@@ -21,7 +21,10 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [czzForumManager sharedManager].customForums.count + 1;
+    if (section == 0) {
+        return 1;
+    }
+    return [czzForumManager sharedManager].customForums.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -34,10 +37,16 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"forum_cell_identifier" forIndexPath:indexPath];
-    czzForum *forum = [czzForumManager sharedManager].customForums[indexPath.row];
-    UILabel *titleLabel = (UILabel*)[cell viewWithTag:1];
-    titleLabel.textColor = [settingCentre contentTextColour];
-    [titleLabel setText:[forum name]];
+    // If currently is the last row, show the management cell.
+    if (indexPath.section == 0) {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"customForumManagerCell" forIndexPath:indexPath];
+        cell.textLabel.text = @"管理自定义板块";
+    } else {
+        czzForum *forum = [czzForumManager sharedManager].customForums[indexPath.row];
+        UILabel *titleLabel = (UILabel*)[cell viewWithTag:1];
+        titleLabel.textColor = [settingCentre contentTextColour];
+        [titleLabel setText:[forum name]];
+    }
     return cell;
 }
 
