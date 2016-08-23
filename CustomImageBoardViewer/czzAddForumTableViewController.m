@@ -15,6 +15,9 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 @interface czzAddForumTableViewController ()
 
+@property (strong, nonatomic) UITextField *forumNameTextField;
+@property (strong, nonatomic) UITextField *forumIDTextField;
+
 @end
 
 @implementation czzAddForumTableViewController
@@ -71,6 +74,17 @@ static NSString * cellIdentifier = @"cellIdentifier";
 }
 
 - (IBAction)addButtonAction:(id)sender {
+    UIAlertController *alertConroller = [UIAlertController alertControllerWithTitle:@"自定义板块" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alertConroller addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"请输入名称";
+        self.forumNameTextField = textField;
+    }];
+    [alertConroller addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"请输入ID";
+        self.forumIDTextField = textField;
+    }];
+    [alertConroller addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+    [self presentViewController:alertConroller animated:YES completion:nil];
 }
 
 @end
