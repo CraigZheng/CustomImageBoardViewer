@@ -23,6 +23,7 @@
 @property (strong, nonatomic) NSMutableArray * customForums;
 
 - (void)addCustomForumWithName:(NSString *)forumName id:(NSInteger)forumID;
+- (void)removeCustomForum:(czzForum*)forum;
 - (void)updateForums:(void(^)(BOOL success, NSError *error))completionHandler;
 
 + (instancetype)sharedManager;

@@ -16,7 +16,7 @@ static NSString * kCustomForumsRawStringsKey = @"kCustomForumsRawStringsKey";
 @interface czzForumManager() <czzURLDownloaderProtocol>
 @property czzURLDownloader *forumDownloader;
 @property (copy) void (^completionHandler) (BOOL, NSError*);
-@property (strong, nonatomic) NSMutableArray * customForumRawStrings;
+@property (strong, nonatomic) NSMutableArray<NSDictionary<NSString*, NSNumber*>*> * customForumRawStrings;
 @end
 
 @implementation czzForumManager
@@ -43,6 +43,17 @@ static NSString * kCustomForumsRawStringsKey = @"kCustomForumsRawStringsKey";
     }
 }
 
+- (void)removeCustomForum:(czzForum *)forum {
+    // Reset self.customForums array.
+    self.customForums = nil;
+    // Loop through all raw strings, remove the ones with the same name and ID.
+    for (NSDictionary<NSString*, NSNumber*> *dictionary in self.customForumRawStrings.copy) {
+        if ([dictionary.allKeys.firstObject isEqualToString:forum.name] && dictionary.allValues.firstObject.integerValue == forum.forumID) {
+            [self.customForumRawStrings removeObject:dictionary];
+        }
+    }
+}
+
 #pragma mark - Getters
 - (NSArray *)forumGroups {
     if (!_forumGroups) {
@@ -61,7 +72,7 @@ static NSString * kCustomForumsRawStringsKey = @"kCustomForumsRawStringsKey";
     return forums;
 }
 
-- (NSMutableArray *)customForumRawStrings {
+- (NSMutableArray<NSDictionary<NSString *,NSNumber *> *> *)customForumRawStrings {
     if (!_customForumRawStrings) {
         _customForumRawStrings = [NSMutableArray new];
         if ([[[NSUserDefaults standardUserDefaults] objectForKey:kCustomForumsRawStringsKey] isKindOfClass:[NSArray class]]) {

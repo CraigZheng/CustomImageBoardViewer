@@ -53,7 +53,11 @@ static NSString * cellIdentifier = @"cellIdentifier";
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        czzForum *forum = [czzForumManager sharedManager].customForums[indexPath.row];
+        [[czzForumManager sharedManager] removeCustomForum:forum];
+        [self.tableView reloadData];
+    }
 }
 
 #pragma mark - UI actions.
