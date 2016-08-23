@@ -19,6 +19,8 @@
 		440DA7B11CF7CF350078266B /* czzBigImageModeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 440DA7B01CF7CF350078266B /* czzBigImageModeTableViewCell.xib */; };
 		440DA7B41CF7D1F80078266B /* czzBigImageModeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 440DA7B31CF7D1F80078266B /* czzBigImageModeTableViewCell.m */; };
 		440E8B741D6C905D00164BC9 /* AddForum.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 440E8B731D6C905D00164BC9 /* AddForum.storyboard */; };
+		440E8B771D6C90AE00164BC9 /* czzAddForumTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 440E8B761D6C90AE00164BC9 /* czzAddForumTableViewController.m */; };
+		440E8B7A1D6C90FC00164BC9 /* czzCustomForumTableViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 440E8B791D6C90FC00164BC9 /* czzCustomForumTableViewManager.m */; };
 		4411B2EA1AFF472900E94A5B /* czzForumManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4411B2E91AFF472900E94A5B /* czzForumManager.m */; };
 		4411B2EF1AFF6A5500E94A5B /* default_forums.json in Resources */ = {isa = PBXBuildFile; fileRef = 4411B2EE1AFF6A5500E94A5B /* default_forums.json */; };
 		4411BF3A1D1D0DD70010FA77 /* UIViewController+ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4411BF391D1D0DD70010FA77 /* UIViewController+ProgressBar.swift */; };
@@ -533,6 +535,10 @@
 		440DA7B21CF7D1F80078266B /* czzBigImageModeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzBigImageModeTableViewCell.h; sourceTree = "<group>"; };
 		440DA7B31CF7D1F80078266B /* czzBigImageModeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzBigImageModeTableViewCell.m; sourceTree = "<group>"; };
 		440E8B731D6C905D00164BC9 /* AddForum.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AddForum.storyboard; sourceTree = "<group>"; };
+		440E8B751D6C90AE00164BC9 /* czzAddForumTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzAddForumTableViewController.h; sourceTree = "<group>"; };
+		440E8B761D6C90AE00164BC9 /* czzAddForumTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzAddForumTableViewController.m; sourceTree = "<group>"; };
+		440E8B781D6C90FC00164BC9 /* czzCustomForumTableViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzCustomForumTableViewManager.h; sourceTree = "<group>"; };
+		440E8B791D6C90FC00164BC9 /* czzCustomForumTableViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzCustomForumTableViewManager.m; sourceTree = "<group>"; };
 		4411B2E81AFF472900E94A5B /* czzForumManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzForumManager.h; sourceTree = "<group>"; };
 		4411B2E91AFF472900E94A5B /* czzForumManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzForumManager.m; sourceTree = "<group>"; };
 		4411B2EE1AFF6A5500E94A5B /* default_forums.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = default_forums.json; sourceTree = "<group>"; };
@@ -1441,6 +1447,10 @@
 				44989A2F1CFC699B00F04ECD /* czzThreadSuggestionTableViewCell.h */,
 				44989A301CFC699B00F04ECD /* czzThreadSuggestionTableViewCell.m */,
 				440E8B731D6C905D00164BC9 /* AddForum.storyboard */,
+				440E8B751D6C90AE00164BC9 /* czzAddForumTableViewController.h */,
+				440E8B761D6C90AE00164BC9 /* czzAddForumTableViewController.m */,
+				440E8B781D6C90FC00164BC9 /* czzCustomForumTableViewManager.h */,
+				440E8B791D6C90FC00164BC9 /* czzCustomForumTableViewManager.m */,
 			);
 			name = czzForumsViewController;
 			sourceTree = "<group>";
@@ -3132,6 +3142,7 @@
 				44989A291CFC5B7200F04ECD /* czzThreadSuggestion.m in Sources */,
 				4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */,
 				441E5D2917F48B3D00289DBD /* Toast+UIView.m in Sources */,
+				440E8B7A1D6C90FC00164BC9 /* czzCustomForumTableViewManager.m in Sources */,
 				4431E5421CA4B6620098AA01 /* czzLaunchPopUpNotificationViewController.m in Sources */,
 				442F1FE41B15FC8500267698 /* UIApplication+Util.m in Sources */,
 				44E744841C48815900CD4AF3 /* czzReplyUtil.m in Sources */,
@@ -3142,6 +3153,7 @@
 				44B89E751A2AF39F0085F766 /* UIImage+animatedGIF.m in Sources */,
 				442EC8631A1A130A005650E4 /* czzNavigationController.m in Sources */,
 				4416B72619413EAF00B69C5B /* FPPopoverView.m in Sources */,
+				440E8B771D6C90AE00164BC9 /* czzAddForumTableViewController.m in Sources */,
 				442F1FD71B13535B00267698 /* czzHomeTableViewManager.m in Sources */,
 				447E06331BC279CB00D24087 /* czzCustomSlideAnimationViewController.m in Sources */,
 				444146E21A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.m in Sources */,
