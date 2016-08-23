@@ -11,9 +11,12 @@
 #import "czzForumGroup.h"
 #import "czzSettingsCentre.h"
 
+static NSString * kCustomForumsRawStringsKey = @"kCustomForumsRawStringsKey";
+
 @interface czzForumManager() <czzURLDownloaderProtocol>
 @property czzURLDownloader *forumDownloader;
 @property (copy) void (^completionHandler) (BOOL, NSError*);
+@property (strong, nonatomic) NSMutableArray * customForumRawStrings;
 @end
 
 @implementation czzForumManager
@@ -27,6 +30,17 @@
     self.forumDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:forumString] delegate:self startNow:YES];
 
     self.completionHandler = completionHandler;
+}
+
+- (void)addCustomForumWithName:(NSString *)forumName id:(NSInteger)forumID {
+    if (forumName.length) {
+        // Reset custom forums.
+        self.customForums = nil;
+        [self.customForumRawStrings addObject:@{forumName : @(forumID)}];
+        [[NSUserDefaults standardUserDefaults] setObject:self.customForumRawStrings
+                                                  forKey:kCustomForumsRawStringsKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
 }
 
 #pragma mark - Getters
@@ -45,6 +59,37 @@
     }
     
     return forums;
+}
+
+- (NSMutableArray *)customForumRawStrings {
+    if (!_customForumRawStrings) {
+        _customForumRawStrings = [NSMutableArray new];
+        if ([[[NSUserDefaults standardUserDefaults] objectForKey:kCustomForumsRawStringsKey] isKindOfClass:[NSArray class]]) {
+            _customForumRawStrings = [[[NSUserDefaults standardUserDefaults] objectForKey:kCustomForumsRawStringsKey] mutableCopy];
+        }
+    }
+    return _customForumRawStrings;
+}
+
+- (NSMutableArray *)customForums {
+    if (!_customForums) {
+        // TODO: check NSUserDefaults for previously saved forums strings.
+        _customForums = [NSMutableArray new];
+        for (NSDictionary *dictionary in self.customForumRawStrings) {
+            if ([dictionary isKindOfClass:[NSDictionary class]]) {
+                NSString *forumName = dictionary.allKeys.firstObject;
+                NSNumber *forumID = dictionary.allValues.firstObject;
+                if (forumName.length && forumID) {
+                    // When forumName and forumID are not nil, construct a new forum object and add to self.customForums.
+                    czzForum *forum = [czzForum new];
+                    forum.name = forum.screenName = forumName;
+                    forum.forumID = [forumID integerValue];
+                    [_customForums addObject:forum];
+                }
+            }
+        }
+    }
+    return _customForums;
 }
 
 #pragma mark - czzXMLDownloaderDelegate
