@@ -313,12 +313,18 @@ estimatedHeightForRowAtIndexPath:indexPath];
 #pragma mark - czzImageDownloaderManagerDelegate
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
     if (success) {
-        // If: not thumbnail, self is czzHomeTableViewManager, should auto open image and not auto download image.
+        // If: not thumbnail, self is czzHomeTableViewManager, should auto open image.
         if (!downloader.isThumbnail &&
             [self isMemberOfClass:[czzHomeTableViewManager class]] &&
-            [settingCentre userDefShouldAutoOpenImage] &&
-            ![settingCentre userDefShouldAutoDownloadImage]) {
-            [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]];
+            [settingCentre userDefShouldAutoOpenImage]) {
+            // If user is in big image mode, don't auto open image when auto download is on.
+            if ([settingCentre userDefShouldUseBigImage]) {
+                if (![settingCentre userDefShouldAutoDownloadImage]) {
+                    [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]];
+                }
+            } else {
+                [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]];
+            }
         }
     } else
         DDLogDebug(@"img download failed");
