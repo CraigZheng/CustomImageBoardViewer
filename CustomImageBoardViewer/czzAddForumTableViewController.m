@@ -10,6 +10,7 @@
 
 #import "czzForum.h"
 #import "czzForumManager.h"
+#import "IIViewDeckController.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
 
@@ -25,12 +26,12 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    // Close the left view, so when this view controller is dismissing, the forum picker view controller would have to reload itself.
+    [[NavigationManager delegate].viewDeckController closeLeftViewAnimated:NO];
 }
 
 #pragma mark - UITableViewDataSource, UITableViewDelegate
@@ -67,6 +68,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
 #pragma mark - UI actions.
 
 - (IBAction)cancelButtonAction:(id)sender {
+    // Open the left view without animation before showing.
+    [[NavigationManager delegate].viewDeckController openLeftViewAnimated:NO];
     [self dismissViewControllerAnimated:true completion:nil];
 }
 
