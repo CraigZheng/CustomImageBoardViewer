@@ -45,6 +45,7 @@ typedef enum : NSInteger {
 @property (strong, nonatomic) NSString *reply_post_url;
 @property (strong, nonatomic) NSString *create_new_post_url;
 @property (strong, nonatomic) NSString *report_post_placeholder;
+@property (strong, nonatomic) NSString *reply_post_placeholder;
 @property (strong, nonatomic) NSString *share_post_url;
 @property (strong, nonatomic) NSString *thread_url;
 @property (strong, nonatomic) NSString *get_forum_info_url;

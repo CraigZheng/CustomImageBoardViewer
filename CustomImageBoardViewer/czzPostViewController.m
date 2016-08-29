@@ -198,7 +198,11 @@
                 if (self.replyToThread)
                 {
                     title = [NSString stringWithFormat:@"回复:%ld", (long)self.replyToThread.ID];
-                    content = [NSString stringWithFormat:@">>No.%ld\n\n", (long)self.replyToThread.ID];
+                    if (settingCentre.reply_post_placeholder.length) {
+                        content = [NSString stringWithFormat:settingCentre.reply_post_placeholder, (long) self.replyToThread.ID];
+                    } else {
+                        content = [NSString stringWithFormat:@">>No.%ld\n\n", (long)self.replyToThread.ID];
+                    }
                 }
                 postSender.parentThread = self.parentThread;
                 postSender.postMode = postSenderModeReply;
