@@ -33,9 +33,6 @@
         self.CHUNK_WIDTH = MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
         self.colourIndex = 0;
         self.colours = @[[UIColor cyanColor], [UIColor yellowColor], [UIColor magentaColor], [UIColor greenColor]];//, [UIColor blackColor]];
-        
-        // Make self transparent, so the colourful progress bars are more obvious.
-        self.backgroundColor = [UIColor clearColor];
     }
     return self;
 }
@@ -107,6 +104,7 @@
         [subView.layer removeAllAnimations];
         [subView removeFromSuperview];
     }
+    self.backgroundColor = [UIColor whiteColor];
 }
 
 #pragma mark - Getters
