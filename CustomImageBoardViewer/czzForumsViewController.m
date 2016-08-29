@@ -90,6 +90,16 @@ NSString * const kPickedForum = @"PickedForum";
     [self.forumsTableView reloadData];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.progressView viewDidAppear];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self.progressView viewDidDisapper];
+}
+
 -(void)refreshForums{
     [self startLoading];
     [self.forumManager updateForums:^(BOOL success, NSError *error) {

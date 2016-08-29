@@ -147,6 +147,11 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     self.threadTableView.backgroundColor = [settingCentre viewBackgroundColour];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.progressView viewDidAppear];
+}
+
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -154,6 +159,11 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     self.viewDeckController.rightController = nil;
     // Cache downloaded data into disk.
     [self.threadViewManager saveCurrentState];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self.progressView viewDidDisapper];
 }
 
 - (void)dealloc {

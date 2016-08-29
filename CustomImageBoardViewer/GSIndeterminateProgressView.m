@@ -13,8 +13,10 @@
 @property CGFloat CHUNK_WIDTH;
 @property NSArray *colours;
 @property NSUInteger colourIndex;
-@property (nonatomic, weak) UIView *foregroundBarView;
+@property (nonatomic, strong) UIView *foregroundBarView;
 @property (nonatomic, assign) BOOL isAnimating;
+@property (nonatomic, strong) NSMutableArray *stripViews;
+@property (nonatomic, assign) BOOL isReady;
 @end
 
 @implementation GSIndeterminateProgressView
@@ -32,19 +34,22 @@
         
         self.CHUNK_WIDTH = MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
         self.colourIndex = 0;
-        self.colours = @[[UIColor cyanColor], [UIColor yellowColor], [UIColor magentaColor], [UIColor greenColor]];//, [UIColor blackColor]];
+        self.colours = @[[UIColor magentaColor], [UIColor cyanColor], [UIColor yellowColor], [UIColor greenColor]];//, [UIColor blackColor]];
+        self.stripViews = [NSMutableArray new];
     }
     return self;
 }
 
-- (void)didMoveToWindow {
+- (void)viewDidDisapper {
+    self.isReady = NO;
     [self resetViews];
+}
+
+- (void)viewDidAppear {
+    self.isReady = YES;
     if (self.window && self.isAnimating) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            if (self.window && self.isAnimating) {
-                [self animateProgressChunkWithDelay:0];
-            }
-        });
+        DLog(@"Restarting animation.");
+        [self animateProgressChunkWithDelay:0];
     }
 }
 
@@ -68,7 +73,7 @@
         return;
     }
     DLog(@"");
-    self.hidden = NO;
+    self.hidden = self.foregroundBarView.hidden = NO;
     self.isAnimating = YES;
     [self resetViews];
     [self animateProgressChunkWithDelay:0.2];
@@ -79,7 +84,7 @@
 {
     DLog(@"");
     self.isAnimating = NO;
-    self.hidden = YES;
+    self.hidden = self.foregroundBarView.hidden = YES;
     [self resetViews];
     [self setNeedsDisplay];
 }
@@ -87,7 +92,6 @@
 -(void)showWarning {
     DLog(@"");
     [self stopAnimating];
-    self.hidden = NO;
     
     static CGFloat warningChunkWidth = 20.;
     NSInteger count = self.CHUNK_WIDTH / warningChunkWidth;
@@ -95,16 +99,22 @@
         UIView *stripView = [[UIView alloc] initWithFrame:CGRectMake(i * 2 * warningChunkWidth, 0, warningChunkWidth, self.frame.size.height)];
         stripView.backgroundColor = [UIColor colorWithRed:220/255. green:20/255. blue:60/255. alpha:1.0]; //220	20	60
         [self addSubview:stripView];
+        [self.stripViews addObject:stripView];
     }
     self.backgroundColor = [UIColor whiteColor];
+    self.hidden = NO;
+    self.foregroundBarView.hidden = YES;
+    self.foregroundBarView.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)resetViews {
-    for (UIView *subView in self.subviews) {
-        [subView.layer removeAllAnimations];
-        [subView removeFromSuperview];
-    }
+    [self.foregroundBarView.layer removeAllAnimations];
     self.backgroundColor = [UIColor whiteColor];
+    for (UIView *stripView in self.stripViews) {
+        [stripView removeFromSuperview];
+    }
+    [self.stripViews removeAllObjects];
+    [self setNeedsDisplay];
 }
 
 #pragma mark - Getters
@@ -118,39 +128,44 @@
 }
 
 - (void)animateProgressChunkWithDelay:(NSTimeInterval)delay {
-    // Add foreground views to self.
-    UIView *view = [[UIView alloc] init];
-    [self addSubview:view];
-    self.foregroundBarView = view;
+    DLog(@"");
+    if (!self.isReady) {
+        DLog(@"Progress view is not ready.");
+        return;
+    }
+    if (!self.foregroundBarView) {
+        self.foregroundBarView = [UIView newAutoLayoutView];
+        [self addSubview:self.foregroundBarView];
+    }
+    // Remove all previous traces.
+    [self.foregroundBarView.layer removeAllAnimations];
+    [self.foregroundBarView.constraints autoRemoveConstraints];
     // Assign a new colour for foreground views.
     self.foregroundBarView.backgroundColor = self.progressTintColor;
     // Assign new positions.
     // Left and Right: starting from middle.
-    NSArray *constraints = [self.foregroundBarView autoSetDimensionsToSize:CGSizeMake(0, 2)];
     [self.foregroundBarView autoCenterInSuperview];
+    [self.foregroundBarView autoSetDimensionsToSize:CGSizeMake(0, 2)];
     [self layoutIfNeeded];
     
     __weak typeof(self) weakSelf= self;
     [UIView animateWithDuration:0.8
                           delay:delay
-                        options:UIViewAnimationOptionAllowUserInteraction
+                        options:(UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionAllowUserInteraction)
                      animations:^{
-        for (NSLayoutConstraint *constraint in constraints) {
-            [constraint autoRemove];
-        }
-        [weakSelf.foregroundBarView autoSetDimensionsToSize:CGSizeMake(CGRectGetWidth(self.frame), 2)];
-        [weakSelf layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        if (!finished) {
-            DLog(@"Animation not finished!");
-        }
-        // On finished, set colour of self, and remove the foregroundBarView.
-        self.backgroundColor = self.foregroundBarView.backgroundColor;
-        [self.foregroundBarView removeFromSuperview];
-        if (weakSelf.isAnimating && self.window) {
-            [weakSelf animateProgressChunkWithDelay:delay];
-        }
-    }];
+                         // Remove all constraints and assign new ones.
+                         [weakSelf.foregroundBarView.constraints autoRemoveConstraints];
+                         [weakSelf.foregroundBarView autoSetDimensionsToSize:CGSizeMake(CGRectGetWidth(self.frame), 2)];
+                         [weakSelf layoutIfNeeded];
+                     } completion:^(BOOL finished) {
+                         // On finished, set colour of self, and remove the foregroundBarView.
+                         self.backgroundColor = self.foregroundBarView.backgroundColor;
+                         if (weakSelf.isAnimating && self.window && finished) {
+                             [weakSelf animateProgressChunkWithDelay:delay];
+                         } else {
+                             DLog(@"Animation not going to repeat.");
+                         }
+                     }];
 }
 
 - (instancetype)initWithParentView:(UIView *)parentView alignToTop:(UIView *)topView {
