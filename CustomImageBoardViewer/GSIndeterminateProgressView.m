@@ -41,12 +41,8 @@
 }
 
 - (void)didMoveToWindow {
-    if (self.window) {
-        if (self.isAnimating) {
-            [self startAnimating];
-        }
-    } else {
-        [self resetViews];
+    if (self.window && self.isAnimating) {
+        [self startAnimating];
     }
 }
 
@@ -98,9 +94,8 @@
 }
 
 - (void)resetViews {
-    [self.foregroundBarView.layer removeAllAnimations];
-    [self.layer removeAllAnimations];
     for (UIView *subView in self.subviews) {
+        [subView.layer removeAllAnimations];
         [subView removeFromSuperview];
     }
 }
@@ -116,6 +111,10 @@
 }
 
 - (void)animateProgressChunkWithDelay:(NSTimeInterval)delay {
+    for (UIView *subView in self.subviews) {
+        [subView.layer removeAllAnimations];
+        [subView removeFromSuperview];
+    }
     // Add foreground views to self.
     UIView *view = [[UIView alloc] init];
     [self addSubview:view];
