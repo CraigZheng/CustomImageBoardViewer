@@ -89,9 +89,19 @@
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.progressView viewDidAppear];
+}
+
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [AppDelegate.window hideToastActivity];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self.progressView viewDidDisapper];
 }
 
 /*
