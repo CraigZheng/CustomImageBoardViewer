@@ -30,7 +30,6 @@
 @property (assign, nonatomic) BOOL isThumbnail;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskID;
 
--(id)init;
 -(void)start;
 -(void)stop;
 -(CGFloat)progress;
