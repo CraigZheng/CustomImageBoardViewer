@@ -32,7 +32,7 @@
         
         self.CHUNK_WIDTH = MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
         self.colourIndex = 0;
-        self.colours = @[[UIColor cyanColor], [UIColor yellowColor], [UIColor magentaColor], [UIColor whiteColor]];//, [UIColor blackColor]];
+        self.colours = @[[UIColor cyanColor], [UIColor yellowColor], [UIColor magentaColor], [UIColor greenColor]];//, [UIColor blackColor]];
         
         // Make self transparent, so the colourful progress bars are more obvious.
         self.backgroundColor = [UIColor clearColor];
@@ -41,9 +41,13 @@
 }
 
 - (void)didMoveToWindow {
+    [self resetViews];
     if (self.window && self.isAnimating) {
-        [self resetViews];
-        [self animateProgressChunkWithDelay:0.2];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if (self.window && self.isAnimating) {
+                [self animateProgressChunkWithDelay:0];
+            }
+        });
     }
 }
 
@@ -63,7 +67,7 @@
 - (void)startAnimating
 {
     if (self.isAnimating) {
-        DLog(@"Animating already in progress.");
+        DLog(@"Already animating");
         return;
     }
     DLog(@"");
@@ -116,10 +120,6 @@
 }
 
 - (void)animateProgressChunkWithDelay:(NSTimeInterval)delay {
-    for (UIView *subView in self.subviews) {
-        [subView.layer removeAllAnimations];
-        [subView removeFromSuperview];
-    }
     // Add foreground views to self.
     UIView *view = [[UIView alloc] init];
     [self addSubview:view];
@@ -134,7 +134,7 @@
     
     __weak typeof(self) weakSelf= self;
     [UIView animateWithDuration:0.8
-                          delay:0
+                          delay:delay
                         options:UIViewAnimationOptionAllowUserInteraction
                      animations:^{
         for (NSLayoutConstraint *constraint in constraints) {
