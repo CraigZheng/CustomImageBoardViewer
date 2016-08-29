@@ -42,7 +42,8 @@
 
 - (void)didMoveToWindow {
     if (self.window && self.isAnimating) {
-        [self startAnimating];
+        [self resetViews];
+        [self animateProgressChunkWithDelay:0.2];
     }
 }
 
@@ -61,6 +62,10 @@
 
 - (void)startAnimating
 {
+    if (self.isAnimating) {
+        DLog(@"Animating already in progress.");
+        return;
+    }
     DLog(@"");
     self.hidden = NO;
     self.isAnimating = YES;
