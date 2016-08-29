@@ -268,6 +268,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         self.sensitive_keyword = [jsonObject objectForKey:@"sensitive_keyword"];
         self.popular_threads_link = [jsonObject objectForKey:@"popular_threads_link"];
         self.long_thread_threshold = [[jsonObject objectForKey:@"long_thread_threshold"] integerValue];
+        self.reply_post_placeholder = [jsonObject objectForKey:@"reply_post_placeholder"];
     }
     @catch (NSException *exception) {
         DDLogDebug(@"%@", exception);
