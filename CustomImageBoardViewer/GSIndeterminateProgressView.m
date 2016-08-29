@@ -128,7 +128,6 @@
 }
 
 - (void)animateProgressChunkWithDelay:(NSTimeInterval)delay {
-    DLog(@"");
     if (!self.isReady) {
         DLog(@"Progress view is not ready.");
         return;
