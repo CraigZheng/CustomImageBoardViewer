@@ -94,8 +94,9 @@
 - (void)postSender:(czzPostSender *)postSender completedPosting:(BOOL)successful message:(NSString *)message response:(NSString *)response {
     DLog(@"");
     if (successful) {
-        // Check if the response contain any illegay keyword.
-        if (settingCentre.sensitive_keyword.length && [response containsString:settingCentre.sensitive_keyword]) {
+        // Check if the response contain any illegay keyword || response not containing the success keyword.
+        if ((settingCentre.sensitive_keyword.length && [response containsString:settingCentre.sensitive_keyword])
+            || ![response containsString:settingCentre.success_keyword]) {
             self.severeWarnedPostSender = postSender;
             // Warn all delegates after a set of delay.
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

@@ -37,6 +37,7 @@
   "empty_title": "无标题",
   "empty_username": "无名氏",
   "sensitive_keyword": "非法词",
+  "success_keyword": "成功",
   "popular_threads_link": "http://my-realm.com/php/popular_threads.php",
   "message": ""
 }
