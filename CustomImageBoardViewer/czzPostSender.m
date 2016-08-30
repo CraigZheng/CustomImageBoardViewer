@@ -96,7 +96,7 @@
     
     if ([self.delegate respondsToSelector:@selector(postSender:completedPosting:message:response:)])
     {
-        if ([(NSHTTPURLResponse*)self.receivedResponse statusCode] == 200) {
+        if ([(NSHTTPURLResponse*)self.receivedResponse statusCode] == 200 && [receivedResponseMessage containsString:settingCentre.success_keyword]) {
             [self.delegate postSender:self
                      completedPosting:YES
                               message:@"成功"
