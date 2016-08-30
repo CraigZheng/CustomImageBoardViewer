@@ -144,9 +144,11 @@
 //    }
 }
 
-#pragma mark - Setters, also sets the urlRequest and the first parameter(either parentID or forumName)
-
 #pragma mark - Setters, while setting the members of this class, also set the member of myPost object
+
+- (void)setWatermark:(BOOL)watermark {
+    myPost.watermark = watermark;
+}
 
 -(void)setForum:(czzForum *)f {
     forum = f;
@@ -218,4 +220,11 @@
     return encodedString;
      */
 }
+
+#pragma mark - Getter.
+
+- (BOOL)watermark {
+    return myPost.watermark;
+}
+
 @end

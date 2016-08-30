@@ -100,7 +100,7 @@
             }
         
             if (imgData){
-                [params setValue:@(NO) forKey:@"water"];
+                [params setValue:@(self.watermark) forKey:@"water"];
                 for (NSString *key in params.allKeys) {
                     [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
                     [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];

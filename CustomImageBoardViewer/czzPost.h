@@ -15,6 +15,7 @@
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSString *content;
 @property (strong, nonatomic) NSString *access_token;
+@property (assign, nonatomic) BOOL watermark;
 @property NSInteger parentID;
 //@property (strong, nonatomic) NSString *forumName;
 @property czzForum *forum;

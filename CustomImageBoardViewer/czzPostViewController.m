@@ -33,9 +33,10 @@
 static CGFloat compressScale = 0.95;
 static CGFloat pixelLimit = 11190272; // iPad pro resolution: 2732 x 2048 * 2;
 
-@interface czzPostViewController () <UINavigationControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
+@interface czzPostViewController () <UINavigationControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
 @property (nonatomic, strong) UIActionSheet *clearContentActionSheet;
 @property (nonatomic, strong) UIActionSheet *cancelPostingActionSheet;
+@property (nonatomic, strong) UIAlertView *watermarkAlertView;
 @property (nonatomic, strong) NSMutableData *receivedResponse;
 @property (nonatomic, strong) czzEmojiCollectionViewController *emojiViewController;
 @property (nonatomic, assign) BOOL didLayout;
@@ -376,12 +377,21 @@ static CGFloat pixelLimit = 11190272; // iPad pro resolution: 2732 x 2048 * 2;
     }
 }
 
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (alertView == self.watermarkAlertView && buttonIndex != self.watermarkAlertView.cancelButtonIndex) {
+        postSender.watermark = YES;
+    }
+}
+
 #pragma mark - Setters
 
 - (void)setPickedImageData:(NSData *)pickedImageData {
     _pickedImageData = pickedImageData;
     if (postSender) {
         [postSender setImgData:_pickedImageData format:self.pickedImageFormat];
+        postSender.watermark = NO;
     }
     // Show content on screen.
     self.postImageView.image = [UIImage imageWithData:pickedImageData];
@@ -444,6 +454,9 @@ static CGFloat pixelLimit = 11190272; // iPad pro resolution: 2732 x 2048 * 2;
         imageData = UIImageJPEGRepresentation(pickedImage, compressScale);
         // No need to specify the format
         self.pickedImageData = imageData;
+        // Confirm watermark.
+        self.watermarkAlertView = [[UIAlertView alloc] initWithTitle:nil message:@"是否包含水印？" delegate:self cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
+        [self.watermarkAlertView show];
     }
     [picker dismissViewControllerAnimated:YES completion:^{
         [postTextView becomeFirstResponder];

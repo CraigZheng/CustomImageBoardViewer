@@ -35,6 +35,7 @@ typedef NS_ENUM(NSInteger, postSenderMode) {
 @property (nonatomic) NSString *title;
 @property (nonatomic) NSString *content;
 @property (readonly) NSData *imgData;
+@property (nonatomic) BOOL watermark;
 
 @property (nonatomic) postSenderMode postMode;
 
