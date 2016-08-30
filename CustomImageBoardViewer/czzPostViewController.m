@@ -30,9 +30,13 @@
 #import "czzPostSenderManager.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 
-@interface czzPostViewController () <UINavigationControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
+static CGFloat compressScale = 0.95;
+static CGFloat pixelLimit = 11190272; // iPad pro resolution: 2732 x 2048 * 2;
+
+@interface czzPostViewController () <UINavigationControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
 @property (nonatomic, strong) UIActionSheet *clearContentActionSheet;
 @property (nonatomic, strong) UIActionSheet *cancelPostingActionSheet;
+@property (nonatomic, strong) UIAlertView *watermarkAlertView;
 @property (nonatomic, strong) NSMutableData *receivedResponse;
 @property (nonatomic, strong) czzEmojiCollectionViewController *emojiViewController;
 @property (nonatomic, assign) BOOL didLayout;
@@ -373,12 +377,21 @@
     }
 }
 
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (alertView == self.watermarkAlertView && buttonIndex != self.watermarkAlertView.cancelButtonIndex) {
+        postSender.watermark = YES;
+    }
+}
+
 #pragma mark - Setters
 
 - (void)setPickedImageData:(NSData *)pickedImageData {
     _pickedImageData = pickedImageData;
     if (postSender) {
         [postSender setImgData:_pickedImageData format:self.pickedImageFormat];
+        postSender.watermark = NO;
     }
     // Show content on screen.
     self.postImageView.image = [UIImage imageWithData:pickedImageData];
@@ -408,6 +421,7 @@
             Byte *buffer = (Byte*)malloc(rep.size);
             NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:rep.size error:nil];
             NSData *assetData = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
+            self.pickedImageData = assetData;
             self.pickedImageFormat = @"gif";
             [[AppDelegate window] makeToast:[NSString stringWithFormat:@"%@", originalURL.lastPathComponent]
                                    duration:1.5
@@ -419,21 +433,30 @@
         }];
     } else {
         // JPG or PNG image, upload straight away.
-        NSData *imageData = UIImageJPEGRepresentation(pickedImage, 0.9);
+        NSData *imageData = UIImageJPEGRepresentation(pickedImage, compressScale);
         NSString *titleWithSize = [ValueFormatter convertByte:imageData.length];
         //resize the image if the picked image is too big
-        CGFloat scale = pickedImage.size.width * pickedImage.size.height / (1920 * 1080);
+        CGFloat scale = pickedImage.size.width * pickedImage.size.height / pixelLimit;
         if (scale > 1){
-            NSInteger newWidth = pickedImage.size.width / scale;
-            pickedImage = [self imageWithImage:pickedImage scaledToWidth:newWidth];
-            [[AppDelegate window] makeToast:@"由于图片尺寸太大，已进行压缩" duration:1.5 position:@"top" title:titleWithSize image:pickedImage];
-            imageData = UIImageJPEGRepresentation(pickedImage, 0.9);
+            CGFloat scaleFactor = sqrt(scale);
+            NSInteger newLongEdge = MAX(pickedImage.size.width, pickedImage.size.height) / scaleFactor;
+            pickedImage = [self imageWithImage:pickedImage scaleLongEdgeTo:newLongEdge];
+            NSString *newSizeString = [ValueFormatter convertByte:UIImageJPEGRepresentation(pickedImage, compressScale).length];
+            [[AppDelegate window] makeToast:[NSString stringWithFormat:@"%@ -> %@", titleWithSize, newSizeString]
+                                   duration:1.5
+                                   position:@"top"
+                                      title:@"由于图片尺寸太大，已进行压缩"
+                                      image:pickedImage];
+            imageData = UIImageJPEGRepresentation(pickedImage, compressScale);
         } else {
             [[AppDelegate window] makeToast:titleWithSize duration:1.5 position:@"top" image:pickedImage];
         }
-        imageData = UIImageJPEGRepresentation(pickedImage, 0.9);
+        imageData = UIImageJPEGRepresentation(pickedImage, compressScale);
         // No need to specify the format
         self.pickedImageData = imageData;
+        // Confirm watermark.
+        self.watermarkAlertView = [[UIAlertView alloc] initWithTitle:nil message:@"是否包含水印？" delegate:self cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
+        [self.watermarkAlertView show];
     }
     [picker dismissViewControllerAnimated:YES completion:^{
         [postTextView becomeFirstResponder];
@@ -464,13 +487,12 @@
     return result;
 }
 
--(UIImage*)imageWithImage: (UIImage*) sourceImage scaledToWidth: (float) i_width
+-(UIImage*)imageWithImage: (UIImage*) sourceImage scaleLongEdgeTo: (float) newLongEdge
 {
-    float oldWidth = sourceImage.size.width;
-    float scaleFactor = i_width / oldWidth;
+    float scaleFactor = newLongEdge / MAX(sourceImage.size.width, sourceImage.size.height);
     
     float newHeight = sourceImage.size.height * scaleFactor;
-    float newWidth = oldWidth * scaleFactor;
+    float newWidth = sourceImage.size.width * scaleFactor;
     
     UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
     [sourceImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
