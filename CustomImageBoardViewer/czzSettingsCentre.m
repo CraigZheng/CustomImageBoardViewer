@@ -267,6 +267,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         self.empty_username = [jsonObject objectForKey:@"empty_username"];
         self.sensitive_keyword = [jsonObject objectForKey:@"sensitive_keyword"];
         self.success_keyword = [jsonObject objectForKey:@"success_keyword"];
+        self.share_image_only_keyword = [jsonObject objectForKey:@"share_image_only_keyword"];
         self.popular_threads_link = [jsonObject objectForKey:@"popular_threads_link"];
         self.long_thread_threshold = [[jsonObject objectForKey:@"long_thread_threshold"] integerValue];
         self.reply_post_placeholder = [jsonObject objectForKey:@"reply_post_placeholder"];

@@ -177,7 +177,8 @@
                 matchedThread = thread;
             }
             // If no title and content given, but has image, then the first downloaded thread with image is most likely the matching thread.
-            else if (hasImage && thread.imgSrc.length) {
+            else if (hasImage && thread.imgSrc.length
+                     && [[thread.content.string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:settingCentre.share_image_only_keyword]) {
                 matchedThread = thread;
             }
             if (matchedThread) {
