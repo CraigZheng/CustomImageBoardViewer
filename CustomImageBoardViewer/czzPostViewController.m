@@ -30,6 +30,9 @@
 #import "czzPostSenderManager.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 
+static CGFloat compressScale = 0.95;
+static CGFloat pixelLimit = 5595136; // iPad pro resolution: 2732 x 2048;
+
 @interface czzPostViewController () <UINavigationControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
 @property (nonatomic, strong) UIActionSheet *clearContentActionSheet;
 @property (nonatomic, strong) UIActionSheet *cancelPostingActionSheet;
@@ -420,19 +423,19 @@
         }];
     } else {
         // JPG or PNG image, upload straight away.
-        NSData *imageData = UIImageJPEGRepresentation(pickedImage, 0.9);
+        NSData *imageData = UIImageJPEGRepresentation(pickedImage, compressScale);
         NSString *titleWithSize = [ValueFormatter convertByte:imageData.length];
         //resize the image if the picked image is too big
-        CGFloat scale = pickedImage.size.width * pickedImage.size.height / (1920 * 1080);
+        CGFloat scale = pickedImage.size.width * pickedImage.size.height / pixelLimit;
         if (scale > 1){
             NSInteger newWidth = pickedImage.size.width / scale;
             pickedImage = [self imageWithImage:pickedImage scaledToWidth:newWidth];
             [[AppDelegate window] makeToast:@"由于图片尺寸太大，已进行压缩" duration:1.5 position:@"top" title:titleWithSize image:pickedImage];
-            imageData = UIImageJPEGRepresentation(pickedImage, 0.9);
+            imageData = UIImageJPEGRepresentation(pickedImage, compressScale);
         } else {
             [[AppDelegate window] makeToast:titleWithSize duration:1.5 position:@"top" image:pickedImage];
         }
-        imageData = UIImageJPEGRepresentation(pickedImage, 0.9);
+        imageData = UIImageJPEGRepresentation(pickedImage, compressScale);
         // No need to specify the format
         self.pickedImageData = imageData;
     }
