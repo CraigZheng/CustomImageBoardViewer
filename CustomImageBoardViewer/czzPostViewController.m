@@ -408,6 +408,7 @@
             Byte *buffer = (Byte*)malloc(rep.size);
             NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:rep.size error:nil];
             NSData *assetData = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
+            self.pickedImageData = assetData;
             self.pickedImageFormat = @"gif";
             [[AppDelegate window] makeToast:[NSString stringWithFormat:@"%@", originalURL.lastPathComponent]
                                    duration:1.5
