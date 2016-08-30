@@ -31,7 +31,7 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 
 static CGFloat compressScale = 0.95;
-static CGFloat pixelLimit = 5595136; // iPad pro resolution: 2732 x 2048;
+static CGFloat pixelLimit = 11190272; // iPad pro resolution: 2732 x 2048 * 2;
 
 @interface czzPostViewController () <UINavigationControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
 @property (nonatomic, strong) UIActionSheet *clearContentActionSheet;
@@ -428,9 +428,15 @@ static CGFloat pixelLimit = 5595136; // iPad pro resolution: 2732 x 2048;
         //resize the image if the picked image is too big
         CGFloat scale = pickedImage.size.width * pickedImage.size.height / pixelLimit;
         if (scale > 1){
-            NSInteger newWidth = pickedImage.size.width / scale;
-            pickedImage = [self imageWithImage:pickedImage scaledToWidth:newWidth];
-            [[AppDelegate window] makeToast:@"由于图片尺寸太大，已进行压缩" duration:1.5 position:@"top" title:titleWithSize image:pickedImage];
+            CGFloat scaleFactor = sqrt(scale);
+            NSInteger newLongEdge = MAX(pickedImage.size.width, pickedImage.size.height) / scaleFactor;
+            pickedImage = [self imageWithImage:pickedImage scaleLongEdgeTo:newLongEdge];
+            NSString *newSizeString = [ValueFormatter convertByte:UIImageJPEGRepresentation(pickedImage, compressScale).length];
+            [[AppDelegate window] makeToast:[NSString stringWithFormat:@"%@ -> %@", titleWithSize, newSizeString]
+                                   duration:1.5
+                                   position:@"top"
+                                      title:@"由于图片尺寸太大，已进行压缩"
+                                      image:pickedImage];
             imageData = UIImageJPEGRepresentation(pickedImage, compressScale);
         } else {
             [[AppDelegate window] makeToast:titleWithSize duration:1.5 position:@"top" image:pickedImage];
@@ -468,13 +474,12 @@ static CGFloat pixelLimit = 5595136; // iPad pro resolution: 2732 x 2048;
     return result;
 }
 
--(UIImage*)imageWithImage: (UIImage*) sourceImage scaledToWidth: (float) i_width
+-(UIImage*)imageWithImage: (UIImage*) sourceImage scaleLongEdgeTo: (float) newLongEdge
 {
-    float oldWidth = sourceImage.size.width;
-    float scaleFactor = i_width / oldWidth;
+    float scaleFactor = newLongEdge / MAX(sourceImage.size.width, sourceImage.size.height);
     
     float newHeight = sourceImage.size.height * scaleFactor;
-    float newWidth = oldWidth * scaleFactor;
+    float newWidth = sourceImage.size.width * scaleFactor;
     
     UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
     [sourceImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
