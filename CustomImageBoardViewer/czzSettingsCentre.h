@@ -54,6 +54,7 @@ typedef enum : NSInteger {
 @property (strong, nonatomic) NSString *empty_username;
 @property (strong, nonatomic) NSString *sensitive_keyword;
 @property (strong, nonatomic) NSString *success_keyword;
+@property (strong, nonatomic) NSString *share_image_only_keyword;
 @property (strong, nonatomic) NSString *ac_host;
 @property (strong, nonatomic) NSString *a_isle_host;
 @property (strong, nonatomic) NSString *thread_list_host;
