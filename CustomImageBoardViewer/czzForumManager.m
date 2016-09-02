@@ -52,6 +52,9 @@ static NSString * kCustomForumsRawStringsKey = @"kCustomForumsRawStringsKey";
             [self.customForumRawStrings removeObject:dictionary];
         }
     }
+    [[NSUserDefaults standardUserDefaults] setObject:self.customForumRawStrings
+                                              forKey:kCustomForumsRawStringsKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 #pragma mark - Getters
