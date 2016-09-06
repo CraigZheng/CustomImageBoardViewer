@@ -98,7 +98,7 @@
                                                   otherButtonTitles:@"重试", nil];
         [alertView show];
     } else if (PostSenderManager.severeWarnedPostSender) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"无法确认信息发送成功,可能是网络错误,没有饼干,或者含有敏感词!"
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"无法确认信息发送成功,可能是网络错误,没有饼干,图片太大,或者含有敏感词!"
                                                             message:nil
                                                            delegate:self
                                                   cancelButtonTitle:@"取消"
