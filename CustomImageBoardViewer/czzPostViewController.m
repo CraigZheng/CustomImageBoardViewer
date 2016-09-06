@@ -31,7 +31,6 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 
 static CGFloat compressScale = 0.95;
-static CGFloat pixelLimit = 11190272; // iPad pro resolution: 2732 x 2048 * 2;
 
 @interface czzPostViewController () <UINavigationControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
 @property (nonatomic, strong) UIActionSheet *clearContentActionSheet;
@@ -436,7 +435,7 @@ static CGFloat pixelLimit = 11190272; // iPad pro resolution: 2732 x 2048 * 2;
         NSData *imageData = UIImageJPEGRepresentation(pickedImage, compressScale);
         NSString *titleWithSize = [ValueFormatter convertByte:imageData.length];
         //resize the image if the picked image is too big
-        CGFloat scale = pickedImage.size.width * pickedImage.size.height / pixelLimit;
+        CGFloat scale = pickedImage.size.width * pickedImage.size.height / settingCentre.upload_image_pixel_limit;
         if (scale > 1){
             CGFloat scaleFactor = sqrt(scale);
             NSInteger newLongEdge = MAX(pickedImage.size.width, pickedImage.size.height) / scaleFactor;

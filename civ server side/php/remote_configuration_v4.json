@@ -14,6 +14,7 @@
   "threads_per_page": 20,
   "response_per_page": 19,
   "long_thread_threshold": 300,
+  "upload_image_pixel_limit": 5595136,
   "thread_format": "json",
   "database_host": "http://civ.atwebpages.com/",
   "forum_list_url": "http://www.my-realm.com/forums.php",

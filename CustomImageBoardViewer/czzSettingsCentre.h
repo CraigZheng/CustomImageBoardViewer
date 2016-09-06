@@ -66,6 +66,7 @@ typedef enum : NSInteger {
 @property (strong, nonatomic) NSString *donationLink;
 @property (strong, nonatomic) NSString *popular_threads_link;
 @property (assign, nonatomic) NSInteger long_thread_threshold;
+@property (assign, nonatomic) NSInteger upload_image_pixel_limit;
 //User settings
 @property (assign, nonatomic) BOOL userDefShouldDisplayThumbnail;
 @property (assign, nonatomic) BOOL userDefShouldShowOnScreenCommand;

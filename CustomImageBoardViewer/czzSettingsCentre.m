@@ -89,6 +89,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         threads_per_page = 10;
         response_per_page = 20;
         self.long_thread_threshold = 200;
+        self.upload_image_pixel_limit = 5595136; // iPad pro resolution: 2732 x 2048;
         
         //Dart settings
         should_allow_dart = NO;
@@ -271,6 +272,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         self.popular_threads_link = [jsonObject objectForKey:@"popular_threads_link"];
         self.long_thread_threshold = [[jsonObject objectForKey:@"long_thread_threshold"] integerValue];
         self.reply_post_placeholder = [jsonObject objectForKey:@"reply_post_placeholder"];
+        self.upload_image_pixel_limit = [[jsonObject objectForKey:@"upload_image_pixel_limit"] integerValue];
     }
     @catch (NSException *exception) {
         DDLogDebug(@"%@", exception);
