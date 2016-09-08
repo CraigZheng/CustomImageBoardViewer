@@ -36,8 +36,32 @@
         self.colourIndex = 0;
         self.colours = @[[UIColor magentaColor], [UIColor cyanColor], [UIColor yellowColor], [UIColor greenColor]];//, [UIColor blackColor]];
         self.stripViews = [NSMutableArray new];
+        
+        [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidEnterBackgroundNotification
+                                                          object:nil
+                                                           queue:[NSOperationQueue mainQueue]
+                                                      usingBlock:^(NSNotification * _Nonnull note) {
+                                                          // No longer ready.
+                                                          self.isReady = NO;
+                                                          [self resetViews];
+                                                      }];
+        [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidBecomeActiveNotification
+                                                          object:nil
+                                                           queue:[NSOperationQueue mainQueue]
+                                                      usingBlock:^(NSNotification * _Nonnull note) {
+                                                          self.isReady = YES;
+                                                          if (self.window && self.isAnimating) {
+                                                              DLog(@"View did becom active, resuming animation.");
+                                                              [self animateProgressChunkWithDelay:0];
+                                                          }
+                                                      }];
     }
     return self;
+}
+
+- (void)dealloc {
+    // Remove notification observers.
+    [[NSNotificationCenter defaultCenter] removeObserver:nil];
 }
 
 - (void)viewDidDisapper {
@@ -48,7 +72,7 @@
 - (void)viewDidAppear {
     self.isReady = YES;
     if (self.window && self.isAnimating) {
-        DLog(@"Restarting animation.");
+        DLog(@"View did appear - resuming animation.");
         [self animateProgressChunkWithDelay:0];
     }
 }
