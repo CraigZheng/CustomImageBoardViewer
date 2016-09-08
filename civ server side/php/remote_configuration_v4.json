@@ -34,7 +34,7 @@
   "thumbnail_host": "http://img1.nimingban.com/thumb/",
   "image_host": "http://img1.nimingban.com/image/",
   "donation_link": "",
-  "popup_notification_link": "http://cover.acfunwiki.org/nmb-notice.json",
+  "popup_notification_link": "http://cover.acfunwiki.org/php/ios_notice.json",
   "empty_title": "无标题",
   "empty_username": "无名氏",
   "sensitive_keyword": "非法词",
