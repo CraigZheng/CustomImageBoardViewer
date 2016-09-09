@@ -65,14 +65,15 @@ static NSString * const showThreadWithID = @"showThreadWithID";
             NSInteger rep = refNumber.integerValue;
             if (rep > 0) {
                 NSString *quotedNumberText = [NSString stringWithFormat:@"%ld", (long)rep];
-                NSRange range = [self.contentTextView.attributedText.string rangeOfString:quotedNumberText];
-                if (range.location != NSNotFound){
+                NSRange range = [mutableAttributedString.string rangeOfString:quotedNumberText];
+                // NSRange is not NSNotFound and its within the current string length.
+                if (range.location != NSNotFound && range.location + range.length <= mutableAttributedString.string.length){
                     CGRect result = [self frameOfTextRange:range inTextView:self.contentTextView];
                     
                     if (!CGSizeEqualToSize(CGSizeZero, result.size)){
                         CGRect convertedRect = [self.contentView convertRect:result fromView:self.contentTextView];
                         czzThreadRefButton *threadRefButton = [[czzThreadRefButton alloc] initWithFrame:CGRectMake(convertedRect.origin.x, convertedRect.origin.y + self.contentTextView.frame.origin.y, convertedRect.size.width, convertedRect.size.height)];
-                        threadRefButton.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.07f];
+                        threadRefButton.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.05f];
                         [threadRefButton addTarget:self action:@selector(userTapInRefButton:) forControlEvents:UIControlEventTouchUpInside];
                         threadRefButton.threadRefNumber = rep;
                         [self.contentView addSubview:threadRefButton];
