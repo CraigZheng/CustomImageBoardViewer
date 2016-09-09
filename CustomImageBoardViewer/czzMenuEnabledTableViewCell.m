@@ -282,19 +282,6 @@ static NSString * const showThreadWithID = @"showThreadWithID";
     }
 }
 
-- (void)setCellType:(threadViewCellType)cellType {
-    _cellType = cellType;
-    if (cellType == threadViewCellTypeHome) {
-        // When in Home view, disable all the fancy interaction with the contentTextView.
-        // When in big image mode, the cell image view should be disabled when the cell type is home.
-        if (self.bigImageMode) {
-            self.cellImageView.userInteractionEnabled = NO;
-        }
-    } else {
-        self.cellImageView.userInteractionEnabled = YES;
-    }
-}
-
 #pragma mark - Getters
 
 - (NSAttributedString *)threadContent {
