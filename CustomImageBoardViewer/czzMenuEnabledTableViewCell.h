@@ -19,8 +19,6 @@
 #import "czzThread.h"
 #import "czzImageDownloaderManager.h"
 
-extern NSInteger const threadCellImageViewNormalHeight;
-
 typedef NS_ENUM(NSInteger, threadViewCellType) {
     threadViewCellTypeHome = 1,
     threadViewCellTypeThread = 2,
@@ -52,8 +50,6 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 @property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;
 @property (weak, nonatomic) IBOutlet UIView *contentContainerView;
 @property (weak, nonatomic) IBOutlet UIImageView *cellImageView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewHeightConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerViewHeightConstraint;
 @property (strong, nonatomic) UIImage *placeholderImage;
 @property NSDictionary *downloadedImages;
 @property (assign, nonatomic) BOOL shouldHighlight;

@@ -11,7 +11,6 @@
 #import "czzImageDownloader.h"
 
 @interface czzBigImageModeTableViewCell()
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bigImageViewWidthConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bigImageViewHeightConstraint;
 
 @end
@@ -21,16 +20,21 @@
 - (void)renderContent {
     [super renderContent];
     NSString *imageName = self.thread.imgSrc.lastPathComponent;
+    BOOL isFullSizeImage = NO;
     if (self.allowImage && imageName.length && [[czzImageCacheManager sharedInstance] hasImageWithName:imageName]) {
         UIImage *fullsizeImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]]];
         self.cellImageView.image = fullsizeImage;
+        if (fullsizeImage) {
+            isFullSizeImage = YES;
+        }
     }
     UIImage *currentImage = self.cellImageView.image;
-    if (currentImage && currentImage != self.placeholderImage) {
+    // Enlarge the UIImageView for full size images.
+    if (currentImage && isFullSizeImage) {
         CGFloat aspectRatio = currentImage.size.height / currentImage.size.width;
         [self setNeedsLayout];
         [self layoutIfNeeded];
-        CGFloat widthConstant = CGRectGetWidth(self.contentView.frame) - 16;
+        CGFloat widthConstant = CGRectGetWidth([UIScreen mainScreen].applicationFrame);
         CGFloat height = aspectRatio * widthConstant;
         // Limit the height.
         if (height > CGRectGetHeight([UIScreen mainScreen].bounds) * 0.75) {
@@ -53,6 +57,7 @@
                     wasSuccessful:success];
     if (success && !downloader.isThumbnail && [imageName isEqualToString:self.thread.imgSrc.lastPathComponent]) {
         self.cellImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]]];
+        [self.delegate threadViewCellContentChanged:self];
     }
 }
 

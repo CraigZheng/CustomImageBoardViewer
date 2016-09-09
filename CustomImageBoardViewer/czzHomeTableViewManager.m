@@ -169,7 +169,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
                     estimatedHeight += MIN(CGRectGetWidth(tableView.frame), CGRectGetHeight(tableView.frame)) * 0.8;
                 } else {
                     // Add the fixed image view constraint constant to the estimated height.
-                    estimatedHeight += threadCellImageViewNormalHeight;
+                    estimatedHeight += 100;
                 }
         }
     }
@@ -293,20 +293,17 @@ estimatedHeightForRowAtIndexPath:indexPath];
 }
 
 - (void)threadViewCellContentChanged:(czzMenuEnabledTableViewCell *)cell {
-    // If not big image mode, the size of the image should be the same, so no need to reload data.
-    if (settingCentre.userDefShouldUseBigImage) {
-        // Group the incoming calls within next set period of time to update in a batch.
-        if (!self.bulkUpdateTimer.isValid) {
-            self.bulkUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:0.4
-                                                                    target:self
-                                                                  selector:@selector(bulkUpdateRows:)
-                                                                  userInfo:nil
-                                                                   repeats:NO];
-        }
-        NSIndexPath *cellIndexPath = [self.homeTableView indexPathForCell:cell];
-        if (cellIndexPath) {
-            [self.pendingBulkUpdateIndexes addObject:cellIndexPath];
-        }
+    // Group the incoming calls within next set period of time to update in a batch.
+    if (!self.bulkUpdateTimer.isValid) {
+        self.bulkUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:0.4
+                                                                target:self
+                                                              selector:@selector(bulkUpdateRows:)
+                                                              userInfo:nil
+                                                               repeats:NO];
+    }
+    NSIndexPath *cellIndexPath = [self.homeTableView indexPathForCell:cell];
+    if (cellIndexPath) {
+        [self.pendingBulkUpdateIndexes addObject:cellIndexPath];
     }
 }
 

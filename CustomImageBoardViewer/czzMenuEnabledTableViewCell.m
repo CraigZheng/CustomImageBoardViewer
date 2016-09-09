@@ -21,10 +21,6 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-NSInteger const threadCellImageViewNormalHeight = 140;
-static NSInteger const imageViewContainerNormalHeight = threadCellImageViewNormalHeight + 8;
-static NSInteger const layoutConstraintZeroHeight = 0;
-static NSInteger const footerViewNormalHeight = 20;
 static NSString * const showThreadWithID = @"showThreadWithID";
 
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, UITextViewDelegate>
@@ -103,20 +99,14 @@ static NSString * const showThreadWithID = @"showThreadWithID";
 }
 
 -(void)resetViewBackgroundColours {
-    if (self.nightyMode) {
-        self.contentView.backgroundColor = [UIColor darkGrayColor];
-        
-    } else {
-        self.contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    }
     // Reset all colours for header view, footer view, middle container view and content text view.
-    self.cellFooterView.backgroundColor = self.cellHeaderView.backgroundColor =
+    self.contentView.backgroundColor = self.cellFooterView.backgroundColor = self.cellHeaderView.backgroundColor =
     self.contentContainerView.backgroundColor = self.contentTextView.backgroundColor =
     [settingCentre viewBackgroundColour];
 }
 
 - (void)highLight {
-    self.contentTextView.backgroundColor = self.cellHeaderView.backgroundColor =
+    self.contentView.backgroundColor = self.contentTextView.backgroundColor = self.cellHeaderView.backgroundColor =
     self.cellFooterView.backgroundColor = self.contentContainerView.backgroundColor = [UIColor groupTableViewBackgroundColor];
 }
 
@@ -202,23 +192,15 @@ static NSString * const showThreadWithID = @"showThreadWithID";
     NSString *imageName;
     if (self.allowImage && (imageName = self.thread.imgSrc.lastPathComponent).length) {
         previewImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:imageName]]];
-        self.imageViewHeightConstraint.constant = imageViewContainerNormalHeight;
         self.cellImageView.image = previewImage ?: self.placeholderImage;
     } else {
         // Completely invisible.
-        self.imageViewHeightConstraint.constant = layoutConstraintZeroHeight;
         self.cellImageView.image = nil;
     }
     // Header and footer.
     self.cellHeaderView.shouldHighLight = self.shouldHighlight;
     self.cellHeaderView.parentUID = self.parentThread.UID;
     self.cellFooterView.thread = self.cellHeaderView.thread = self.thread;
-    // Hide footer when its not necessary.
-    if (self.cellFooterView.isHidden) {
-        self.footerViewHeightConstraint.constant = layoutConstraintZeroHeight;
-    } else {
-        self.footerViewHeightConstraint.constant = footerViewNormalHeight;
-    }
 }
 
 #pragma mark - UI actions

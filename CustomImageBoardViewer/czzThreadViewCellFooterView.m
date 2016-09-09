@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *sageLabel;
 @property (weak, nonatomic) IBOutlet UILabel *lockedLabel;
 @property (weak, nonatomic) IBOutlet UILabel *responseCountLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomSeparatorVerticalSpacingConstraint;
 
 @end
 
@@ -33,10 +34,13 @@
             self.responseCountLabel.hidden = NO;
         }
     }
-}
-
--(BOOL)isHidden {
-    return self.sageLabel.hidden && self.lockedLabel.hidden && self.responseCountLabel.hidden;
+    // If all elements are hidden, shrink the size of this view.
+    if (self.sageLabel.hidden == self.lockedLabel.hidden == self.responseCountLabel.hidden == YES) {
+        self.bottomSeparatorVerticalSpacingConstraint.priority = 999;
+    } else {
+        self.bottomSeparatorVerticalSpacingConstraint.priority = 1;
+    }
+    [self setNeedsLayout];
 }
 
 @end
