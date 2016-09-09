@@ -22,6 +22,12 @@
 
 #pragma mark - Setters
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    UIImage *chatImage = [[UIImage imageNamed:@"chat.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    self.chatImageView.image = chatImage;
+}
+
 -(void)setThread:(czzThread *)myThread {
     _thread = myThread;
     self.chatImageView.hidden = self.sageLabel.hidden = self.lockedLabel.hidden = self.responseCountLabel.hidden = YES;
