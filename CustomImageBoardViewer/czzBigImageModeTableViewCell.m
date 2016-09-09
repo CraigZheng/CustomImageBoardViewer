@@ -42,7 +42,7 @@
         }
         self.bigImageViewHeightConstraint.constant = height;
     } else if (imageName.length && self.allowImage) {
-        self.bigImageViewHeightConstraint.constant = 100;
+        self.bigImageViewHeightConstraint.constant = 150;
     } else {
         self.bigImageViewHeightConstraint.constant = 0;
     }
