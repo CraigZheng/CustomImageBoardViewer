@@ -41,9 +41,17 @@
                     <color key="textColor" red="0.80000000000000004" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chat.png" translatesAutoresizingMaskIntoConstraints="NO" id="n0O-9p-sO5">
+                    <rect key="frame" x="247" y="-2.5" width="20" height="20.5"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="gju-3D-CF4"/>
+                        <constraint firstAttribute="width" constant="20" id="odV-Hd-hUm"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="FPw-rn-U0L" firstAttribute="leading" secondItem="n0O-9p-sO5" secondAttribute="trailing" constant="4" id="4R9-NV-cbj"/>
                 <constraint firstAttribute="trailing" secondItem="fBS-Bu-94n" secondAttribute="trailing" id="97S-Jp-hjV"/>
                 <constraint firstItem="5YC-Lj-4Xo" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="M4A-0c-Cyq"/>
                 <constraint firstItem="ZvU-eb-HhT" firstAttribute="centerY" secondItem="5YC-Lj-4Xo" secondAttribute="centerY" id="MfP-3e-xb2"/>
@@ -55,11 +63,13 @@
                 <constraint firstItem="fBS-Bu-94n" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="eXU-oU-VDZ"/>
                 <constraint firstItem="ZvU-eb-HhT" firstAttribute="leading" secondItem="5YC-Lj-4Xo" secondAttribute="trailing" constant="16" id="tlJ-Dg-j3t"/>
                 <constraint firstItem="FPw-rn-U0L" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" priority="750" id="u3s-0I-gxi"/>
+                <constraint firstItem="n0O-9p-sO5" firstAttribute="centerY" secondItem="FPw-rn-U0L" secondAttribute="centerY" id="uc0-Il-Day"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="bottomSeparatorVerticalSpacingConstraint" destination="T8L-gC-pfP" id="ugS-ro-Ycr"/>
+                <outlet property="chatImageView" destination="n0O-9p-sO5" id="oJx-UK-P6v"/>
                 <outlet property="lockedLabel" destination="ZvU-eb-HhT" id="XNg-rT-5ka"/>
                 <outlet property="responseCountLabel" destination="FPw-rn-U0L" id="pGr-J5-yGF"/>
                 <outlet property="sageLabel" destination="5YC-Lj-4Xo" id="0Lt-VW-DOS"/>
@@ -67,4 +77,7 @@
             <point key="canvasLocation" x="245" y="264.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="chat.png" width="48" height="48"/>
+    </resources>
 </document>
