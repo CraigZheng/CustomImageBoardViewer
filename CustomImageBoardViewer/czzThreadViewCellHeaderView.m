@@ -19,8 +19,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *titleContainerZeroHeightConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *nameContainerZeroHeightConstraint;
 
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
@@ -32,34 +30,27 @@
 
 -(void)setThread:(czzThread *)myThread {
     _thread = myThread;
-    static UIColor *defaultTextColour;
-    // Avoid repeatitve calculation.
-    if (!defaultTextColour) {
-        defaultTextColour = brownColour;
-    }
     if (myThread) {
         self.idLabel.text = [NSString stringWithFormat:@"%ld", (long)myThread.ID];
-        self.posterLabel.text = [NSString stringWithFormat:@"%@", myThread.UID];
+        self.posterLabel.text = myThread.UID;
         // Hide title container if there is not a title to show.
         if ([myThread.title isEqualToString:settingCentre.empty_title]) {
-            self.titleContainerZeroHeightConstraint.priority = 999;
+            self.titleLabel.text = nil;
         } else {
-            self.titleLabel.text = [NSString stringWithFormat:@"标题:%@", myThread.title];
-            self.titleContainerZeroHeightConstraint.priority = 1;
+            self.titleLabel.text = [NSString stringWithFormat:@"标题: %@", myThread.title];
         }
         if ([myThread.name isEqualToString:settingCentre.empty_username]) {
             // No name to show.
-            self.nameContainerZeroHeightConstraint.priority = 999;
+            self.nameLabel.text = nil;
         } else {
             // If there is a name to show...
-            self.nameLabel.text = [NSString stringWithFormat:@"用户:%@", myThread.name];
-            self.nameContainerZeroHeightConstraint.priority = 1;
+            self.nameLabel.text = [NSString stringWithFormat:@"用户: %@", myThread.name];
         }
         // If admin, highlight.
         if (myThread.admin) {
             self.posterLabel.textColor = [UIColor redColor];
         } else {
-            self.posterLabel.textColor = defaultTextColour;
+            self.posterLabel.textColor = brownColour;
         }
         self.dateLabel.text = [self.dateFormatter stringFromDate:myThread.postDateTime];
         
