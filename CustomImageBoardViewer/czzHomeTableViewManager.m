@@ -159,17 +159,17 @@ estimatedHeightForRowAtIndexPath:indexPath];
         // TODO: 80 is a magic number, a more proper number is recommened.
         estimatedHeight = [thread.content boundingRectWithSize:CGSizeMake(CGRectGetWidth(tableView.frame), MAXFLOAT)
                                      options:NSStringDrawingUsesLineFragmentOrigin
-                                     context:nil].size.height + 80;
+                                     context:nil].size.height + 110;
         // Calculate an estimated height based on if an image is available.
         if (thread.imgSrc.length) {
             // If big image mode and has the image/thumbnail, add 70% of the shortest edge to the estimated height.
             if (self.bigImageMode &&
                 ([[czzImageCacheManager sharedInstance] hasThumbnailWithName:thread.imgSrc.lastPathComponent] ||
                  [[czzImageCacheManager sharedInstance] hasImageWithName:thread.imgSrc.lastPathComponent])) {
-                    estimatedHeight += MIN(CGRectGetWidth(tableView.frame), CGRectGetHeight(tableView.frame)) * 0.8;
+                    estimatedHeight += MIN(CGRectGetWidth(tableView.frame), CGRectGetHeight(tableView.frame)) * 0.7;
                 } else {
                     // Add the fixed image view constraint constant to the estimated height.
-                    estimatedHeight += 100;
+                    estimatedHeight += 150;
                 }
         }
     }
