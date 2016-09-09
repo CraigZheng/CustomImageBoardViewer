@@ -72,12 +72,15 @@ static NSString * const showThreadWithID = @"showThreadWithID";
                     if (!CGSizeEqualToSize(CGSizeZero, result.size)){
                         CGRect convertedRect = [self.contentView convertRect:result fromView:self.contentTextView];
                         czzThreadRefButton *threadRefButton = [[czzThreadRefButton alloc] initWithFrame:CGRectMake(convertedRect.origin.x, convertedRect.origin.y + self.contentTextView.frame.origin.y, convertedRect.size.width, convertedRect.size.height)];
-                        threadRefButton.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.1f];
+                        threadRefButton.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.07f];
                         [threadRefButton addTarget:self action:@selector(userTapInRefButton:) forControlEvents:UIControlEventTouchUpInside];
                         threadRefButton.threadRefNumber = rep;
                         [self.contentView addSubview:threadRefButton];
                         [self.referenceButtons addObject:threadRefButton];
                     }
+                    // Green text, 121	152	45
+                    UIColor *greenTextColour = [UIColor colorWithRed:121/255.0 green:152/255.0 blue:45/255.0 alpha:1];
+                    [mutableAttributedString addAttributes:@{NSForegroundColorAttributeName: greenTextColour} range:range];
                 }
             }
         }

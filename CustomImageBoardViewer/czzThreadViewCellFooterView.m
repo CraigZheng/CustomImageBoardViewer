@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *lockedLabel;
 @property (weak, nonatomic) IBOutlet UILabel *responseCountLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomSeparatorVerticalSpacingConstraint;
+@property (weak, nonatomic) IBOutlet UIImageView *chatImageView;
 
 @end
 
@@ -21,17 +22,23 @@
 
 #pragma mark - Setters
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    UIImage *chatImage = [[UIImage imageNamed:@"chat.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    self.chatImageView.image = chatImage;
+}
+
 -(void)setThread:(czzThread *)myThread {
     _thread = myThread;
-    self.sageLabel.hidden = self.lockedLabel.hidden = self.responseCountLabel.hidden = YES;
+    self.chatImageView.hidden = self.sageLabel.hidden = self.lockedLabel.hidden = self.responseCountLabel.hidden = YES;
     if (myThread) {
         if (myThread.sage)
             self.sageLabel.hidden = NO;
         if (myThread.lock)
             self.lockedLabel.hidden = NO;
         if (myThread.responseCount) {
-            self.responseCountLabel.text = [NSString stringWithFormat:@"回应:%ld", (long)myThread.responseCount];
-            self.responseCountLabel.hidden = NO;
+            self.responseCountLabel.text = [NSString stringWithFormat:@"%ld", (long)myThread.responseCount];
+            self.chatImageView.hidden = self.responseCountLabel.hidden = NO;
         }
     }
     // If all elements are hidden, shrink the size of this view.

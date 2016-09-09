@@ -31,7 +31,7 @@
 -(void)setThread:(czzThread *)myThread {
     _thread = myThread;
     if (myThread) {
-        self.idLabel.text = [NSString stringWithFormat:@"%ld", (long)myThread.ID];
+        self.idLabel.text = [NSString stringWithFormat:@"No.%ld", (long)myThread.ID];
         self.posterLabel.text = myThread.UID;
         // Hide title container if there is not a title to show.
         if ([myThread.title isEqualToString:settingCentre.empty_title]) {
