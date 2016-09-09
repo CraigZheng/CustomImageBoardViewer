@@ -12,7 +12,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="123456" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="eNz-9A-vxr">
-                    <rect key="frame" x="59.5" y="4" width="50.5" height="18"/>
+                    <rect key="frame" x="55.5" y="0.0" width="50.5" height="18"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -21,7 +21,7 @@
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
                 <label clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12/12/2012" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="zVL-Q4-5jE">
-                    <rect key="frame" x="245.5" y="4" width="71.5" height="18"/>
+                    <rect key="frame" x="249.5" y="0.0" width="71.5" height="18"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -30,7 +30,7 @@
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
                 <label clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="标题:" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="3FE-wQ-9rh">
-                    <rect key="frame" x="4" y="26" width="313" height="18"/>
+                    <rect key="frame" x="0.0" y="22" width="321" height="18"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -39,7 +39,7 @@
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
                 <label clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ABCDE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Hvz-Y8-z5f">
-                    <rect key="frame" x="4" y="4" width="47.5" height="18"/>
+                    <rect key="frame" x="0.0" y="0.0" width="47.5" height="18"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -48,7 +48,7 @@
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
                 <label clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" text="用户:" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="f1h-C0-xa5" userLabel="用户:">
-                    <rect key="frame" x="4" y="48" width="313" height="18"/>
+                    <rect key="frame" x="0.0" y="40" width="321" height="18"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -60,16 +60,16 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="3FE-wQ-9rh" firstAttribute="top" secondItem="zVL-Q4-5jE" secondAttribute="bottom" constant="4" id="6TF-Av-kBo"/>
-                <constraint firstItem="3FE-wQ-9rh" firstAttribute="leading" secondItem="fFa-OP-quT" secondAttribute="leading" constant="4" id="6f5-Lm-Jlc"/>
+                <constraint firstItem="3FE-wQ-9rh" firstAttribute="leading" secondItem="fFa-OP-quT" secondAttribute="leading" id="6f5-Lm-Jlc"/>
                 <constraint firstItem="f1h-C0-xa5" firstAttribute="leading" secondItem="3FE-wQ-9rh" secondAttribute="leading" id="BSc-6V-KZu"/>
-                <constraint firstItem="zVL-Q4-5jE" firstAttribute="top" secondItem="fFa-OP-quT" secondAttribute="top" constant="4" id="C7w-Kg-u8l"/>
+                <constraint firstItem="zVL-Q4-5jE" firstAttribute="top" secondItem="fFa-OP-quT" secondAttribute="top" id="C7w-Kg-u8l"/>
                 <constraint firstItem="zVL-Q4-5jE" firstAttribute="baseline" secondItem="Hvz-Y8-z5f" secondAttribute="baseline" id="CqW-jS-gtt"/>
                 <constraint firstItem="f1h-C0-xa5" firstAttribute="trailing" secondItem="3FE-wQ-9rh" secondAttribute="trailing" id="J6p-TQ-fvF"/>
-                <constraint firstAttribute="trailing" secondItem="3FE-wQ-9rh" secondAttribute="trailing" constant="4" id="Y7P-nt-stj"/>
-                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="f1h-C0-xa5" secondAttribute="bottom" constant="4" id="bJ4-f3-boE"/>
-                <constraint firstItem="Hvz-Y8-z5f" firstAttribute="leading" secondItem="fFa-OP-quT" secondAttribute="leading" constant="4" id="mp9-U1-Tw6"/>
-                <constraint firstItem="f1h-C0-xa5" firstAttribute="top" secondItem="3FE-wQ-9rh" secondAttribute="bottom" constant="4" id="tiY-xn-KgO"/>
-                <constraint firstAttribute="trailing" secondItem="zVL-Q4-5jE" secondAttribute="trailing" constant="4" id="u6L-1z-w7F"/>
+                <constraint firstAttribute="trailing" secondItem="3FE-wQ-9rh" secondAttribute="trailing" id="Y7P-nt-stj"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="f1h-C0-xa5" secondAttribute="bottom" id="bJ4-f3-boE"/>
+                <constraint firstItem="Hvz-Y8-z5f" firstAttribute="leading" secondItem="fFa-OP-quT" secondAttribute="leading" id="mp9-U1-Tw6"/>
+                <constraint firstItem="f1h-C0-xa5" firstAttribute="top" secondItem="3FE-wQ-9rh" secondAttribute="bottom" id="tiY-xn-KgO"/>
+                <constraint firstAttribute="trailing" secondItem="zVL-Q4-5jE" secondAttribute="trailing" id="u6L-1z-w7F"/>
                 <constraint firstItem="eNz-9A-vxr" firstAttribute="leading" secondItem="Hvz-Y8-z5f" secondAttribute="trailing" constant="8" symbolic="YES" id="uVM-JG-fMU"/>
                 <constraint firstItem="eNz-9A-vxr" firstAttribute="baseline" secondItem="Hvz-Y8-z5f" secondAttribute="baseline" id="zEN-fI-rAX"/>
             </constraints>
