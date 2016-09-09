@@ -49,6 +49,8 @@ NSString * const kPickedForum = @"PickedForum";
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+    [bannerView_ setFrame:CGRectMake(0, 0, bannerView_.bounds.size.width,
+                                     bannerView_.bounds.size.height)];
 //    bannerView_.adUnitID = @"a151ef285f8e0dd";
     bannerView_.adUnitID = @"ca-app-pub-2081665256237089/4247713655";
     bannerView_.rootViewController = self;
@@ -176,8 +178,6 @@ NSString * const kPickedForum = @"PickedForum";
             cell = [tableView dequeueReusableCellWithIdentifier:@"ad_cell_identifier" forIndexPath:indexPath];
             //position of the ad
             if (!bannerView_.superview) {
-                [bannerView_ setFrame:CGRectMake(0, 0, bannerView_.bounds.size.width,
-                                                 bannerView_.bounds.size.height)];
                 [self refreshAd];
             }
             if (!shouldHideCoverView) {
