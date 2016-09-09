@@ -58,7 +58,7 @@ DEPENDENCIES:
   - CocoaLumberjack
   - Google-Mobile-Ads-SDK (~> 7.0)
   - Google/Analytics
-  - MWPhotoBrowser
+  - MWPhotoBrowser (~> 2.1.2)
   - PureLayout
   - SplunkMint
   - ViewDeck
@@ -82,6 +82,6 @@ SPEC CHECKSUMS:
   SplunkMint: c15f246dde46f488d90e13f0e13203070c0735b2
   ViewDeck: 0b7b83bc2782a20dfb76207d0a2e8c5e6a6d182d
 
-PODFILE CHECKSUM: 402d4f2e2d7d14b229f10778990d8d0a9fe33077
+PODFILE CHECKSUM: 5adb10fb56936a823edc85f2634c4444bfa8c631
 
 COCOAPODS: 1.0.1
