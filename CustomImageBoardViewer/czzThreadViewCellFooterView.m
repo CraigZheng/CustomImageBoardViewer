@@ -42,7 +42,7 @@
         }
     }
     // If all elements are hidden, shrink the size of this view.
-    if (self.sageLabel.hidden == self.lockedLabel.hidden == self.responseCountLabel.hidden == YES) {
+    if (self.sageLabel.hidden && self.lockedLabel.hidden && self.responseCountLabel.hidden) {
         self.bottomSeparatorVerticalSpacingConstraint.priority = 999;
     } else {
         self.bottomSeparatorVerticalSpacingConstraint.priority = 1;
