@@ -27,8 +27,6 @@
 
 - (void)renderContent {
     [super renderContent];
-    // If big image view does not have a gesture recognizer.
-    self.bigImageView.gestureRecognizers = @[self.tapOnImageViewRecognizer];
     NSString *imageName = self.thread.imgSrc.lastPathComponent;
     if (self.allowImage && imageName.length && [[czzImageCacheManager sharedInstance] hasImageWithName:imageName]) {
         UIImage *fullsizeImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]]];
@@ -38,10 +36,20 @@
         self.bigImageView.image = nil;
         self.cellImageView.hidden = NO;
     }
+    // Big image view would be only enabled for thread view cell.
+    self.bigImageView.userInteractionEnabled = self.cellType == threadViewCellTypeThread;
     // Enlarge the UIImageView for full size images.
     if (self.bigImageView.image) {
-        // self.bigImageViewHeightConstraint is a lesser equal relationship.
-        self.bigImageViewHeightConstraint.constant = CGRectGetHeight([UIScreen mainScreen].bounds) * 0.75;
+        CGFloat aspectRatio = self.bigImageView.image.size.height / self.bigImageView.image.size.width;
+        [self setNeedsLayout];
+        [self layoutIfNeeded];
+        CGFloat widthConstant = CGRectGetWidth([UIScreen mainScreen].applicationFrame);
+        CGFloat height = aspectRatio * widthConstant;
+        // Limit the height.
+        if (height > CGRectGetHeight([UIScreen mainScreen].bounds) * 0.75) {
+            height = CGRectGetHeight([UIScreen mainScreen].bounds) * 0.75;
+        }
+        self.bigImageViewHeightConstraint.constant = height * 0.75;
         self.bigImageViewHeightConstraint.priority = 999;
     } else {
         self.bigImageViewHeightConstraint.constant = 0;
