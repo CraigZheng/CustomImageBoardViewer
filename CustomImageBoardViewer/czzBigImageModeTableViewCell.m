@@ -11,41 +11,43 @@
 #import "czzImageDownloader.h"
 
 @interface czzBigImageModeTableViewCell()
+@property (weak, nonatomic) IBOutlet UIImageView *bigImageView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bigImageViewHeightConstraint;
-
+@property (strong, nonatomic) UITapGestureRecognizer *tapOnImageViewRecognizer;
 @end
 
 @implementation czzBigImageModeTableViewCell
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.tapOnImageViewRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                            action:@selector(tapOnImageView:)];
+    [self.bigImageView addGestureRecognizer:self.tapOnImageViewRecognizer];
+}
+
 - (void)renderContent {
     [super renderContent];
+    // If big image view does not have a gesture recognizer.
+    self.bigImageView.gestureRecognizers = @[self.tapOnImageViewRecognizer];
     NSString *imageName = self.thread.imgSrc.lastPathComponent;
-    BOOL isFullSizeImage = NO;
     if (self.allowImage && imageName.length && [[czzImageCacheManager sharedInstance] hasImageWithName:imageName]) {
         UIImage *fullsizeImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]]];
-        self.cellImageView.image = fullsizeImage;
-        if (fullsizeImage) {
-            isFullSizeImage = YES;
-        }
+        self.bigImageView.image = fullsizeImage;
+        self.cellImageView.hidden = YES;
+    } else {
+        self.bigImageView.image = nil;
+        self.cellImageView.hidden = NO;
     }
-    UIImage *currentImage = self.cellImageView.image;
     // Enlarge the UIImageView for full size images.
-    if (currentImage && isFullSizeImage) {
-        CGFloat aspectRatio = currentImage.size.height / currentImage.size.width;
-        [self setNeedsLayout];
-        [self layoutIfNeeded];
-        CGFloat widthConstant = CGRectGetWidth([UIScreen mainScreen].applicationFrame);
-        CGFloat height = aspectRatio * widthConstant;
-        // Limit the height.
-        if (height > CGRectGetHeight([UIScreen mainScreen].bounds) * 0.75) {
-            height = CGRectGetHeight([UIScreen mainScreen].bounds) * 0.75;
-        }
-        self.bigImageViewHeightConstraint.constant = height;
-    } else if (imageName.length && self.allowImage) {
-        self.bigImageViewHeightConstraint.constant = 150;
+    if (self.bigImageView.image) {
+        // self.bigImageViewHeightConstraint is a lesser equal relationship.
+        self.bigImageViewHeightConstraint.constant = CGRectGetHeight([UIScreen mainScreen].bounds) * 0.75;
+        self.bigImageViewHeightConstraint.priority = 999;
     } else {
         self.bigImageViewHeightConstraint.constant = 0;
+        self.bigImageViewHeightConstraint.priority = 1;
     }
+    [self setNeedsLayout];
 }
 
 #pragma mark - czzImageDownloaderManagerDelegate
@@ -56,7 +58,7 @@
                         imageName:imageName
                     wasSuccessful:success];
     if (success && !downloader.isThumbnail && [imageName isEqualToString:self.thread.imgSrc.lastPathComponent]) {
-        self.cellImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]]];
+        self.bigImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]]];
         [self.delegate threadViewCellContentChanged:self];
     }
 }

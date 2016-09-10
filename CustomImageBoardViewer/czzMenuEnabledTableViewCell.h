@@ -64,6 +64,7 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 
 - (void)renderContent;
 - (void)highLight;
+- (void)tapOnImageView:(id)sender;
 
 #pragma mark - Menu actions.
 -(void)menuActionCopy:(id)sender;
