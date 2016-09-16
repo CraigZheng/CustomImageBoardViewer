@@ -130,6 +130,7 @@
 #pragma mark - czzMassiveThreadDownloaderDelegate
 
 - (void)threadDownloaderCompleted:(czzThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads error:(NSError *)error {
+    NSInteger previousThreadCount = self.threads.count;
     if (success) {
         if (downloader.parentThread.ID > 0)
             self.parentThread = downloader.parentThread;
@@ -155,17 +156,29 @@
             [self.threads insertObject:self.parentThread atIndex:0];
         }
     }
-    // If the downloader is a massive thread downloader, don't inform delegate about thread download completed event, because there could be more such events.
-    if (![downloader isKindOfClass:[czzMassiveThreadDownloader class]]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // If the downloader is a massive thread downloader, don't inform delegate about thread download completed event, because there could be more such events.
+        if ([downloader isKindOfClass:[czzMassiveThreadDownloader class]]) {
+            // For massive downloader, if the result is success but no new thread has been added, consider this as a failure.
+            if (success && previousThreadCount == self.threads.count) {
+                DLog(@"Massive downloader provided no new content, stopping...");
+                [self stopAllOperation];
+                if ([self.delegate respondsToSelector:@selector(homeViewManager:threadContentProcessed:newThreads:allThreads:)]) {
+                    [self.delegate homeViewManager:self
+                            threadContentProcessed:false
+                                        newThreads:self.lastBatchOfThreads
+                                        allThreads:self.threads];
+                }
+            }
+        } else {
             if ([self.delegate respondsToSelector:@selector(homeViewManager:threadContentProcessed:newThreads:allThreads:)]) {
                 [self.delegate homeViewManager:self
                         threadContentProcessed:success
                                     newThreads:self.lastBatchOfThreads
                                     allThreads:self.threads];
             }
-        });
-    }
+        }
+    });
 }
 
 - (void)massiveDownloaderUpdated:(czzMassiveThreadDownloader *)downloader {
