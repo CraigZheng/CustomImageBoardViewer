@@ -43,7 +43,9 @@
                                                       usingBlock:^(NSNotification * _Nonnull note) {
                                                           // No longer ready.
                                                           self.isReady = NO;
-                                                          [self resetViews];
+                                                          if (self.isAnimating) {
+                                                              [self resetViews];
+                                                          }
                                                       }];
         [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidBecomeActiveNotification
                                                           object:nil
@@ -61,7 +63,7 @@
 
 - (void)dealloc {
     // Remove notification observers.
-    [[NSNotificationCenter defaultCenter] removeObserver:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidDisapper {
