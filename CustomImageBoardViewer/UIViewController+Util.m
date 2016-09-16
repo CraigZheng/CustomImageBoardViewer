@@ -7,7 +7,6 @@
 //
 
 #import "UIViewController+Util.h"
-#import "CustomImageBoardViewer-Swift.h"
 
 #import <PureLayout/PureLayout.h>
 
