@@ -156,12 +156,11 @@ estimatedHeightForRowAtIndexPath:indexPath];
     if (indexPath.row < self.homeViewManager.threads.count) {
         czzThread *thread = self.homeViewManager.threads[indexPath.row];
         // Estimated height based on the content.
-        // TODO: 80 is a magic number, a more proper number is recommened.
         estimatedHeight = [thread.content boundingRectWithSize:CGSizeMake(CGRectGetWidth(tableView.frame), MAXFLOAT)
                                      options:NSStringDrawingUsesLineFragmentOrigin
-                                     context:nil].size.height + 110;
+                                     context:nil].size.height + 44;
         // Calculate an estimated height based on if an image is available.
-        if (thread.imgSrc.length) {
+        if (thread.imgSrc.length && settingCentre.shouldDisplayImage) {
             // If big image mode and has the image/thumbnail, add 70% of the shortest edge to the estimated height.
             if (self.bigImageMode &&
                 ([[czzImageCacheManager sharedInstance] hasThumbnailWithName:thread.imgSrc.lastPathComponent] ||
@@ -169,7 +168,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
                     estimatedHeight += MIN(CGRectGetWidth(tableView.frame), CGRectGetHeight(tableView.frame)) * 0.7;
                 } else {
                     // Add the fixed image view constraint constant to the estimated height.
-                    estimatedHeight += 150;
+                    estimatedHeight += 70;
                 }
         }
     }
