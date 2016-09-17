@@ -217,7 +217,6 @@ estimatedHeightForRowAtIndexPath:indexPath];
         }
     }
     
-    NSLog(@"Image dimensions: %.0f x %.0f px", width, height);
     return CGSizeMake(width, height);
 }
 
