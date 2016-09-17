@@ -26,6 +26,7 @@
 #import "UINavigationController+Util.h"
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzBigImageModeTableViewCell.h"
+#import <ImageIO/ImageIO.h>
 
 @interface czzHomeTableViewManager() <czzImageDownloaderManagerDelegate>
 
@@ -167,17 +168,57 @@ estimatedHeightForRowAtIndexPath:indexPath];
                  [[czzImageCacheManager sharedInstance] hasImageWithName:thread.imgSrc.lastPathComponent])) {
                     estimatedHeight += MIN(CGRectGetWidth(tableView.frame), CGRectGetHeight(tableView.frame)) * 0.7;
                 } else {
-                    UIImage *previewImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:thread.imgSrc.lastPathComponent]]];
-                    if (previewImage) {
-                        estimatedHeight += previewImage.size.height;
+                    CGSize previewImageSize = [self getImageSizeWithPath:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:thread.imgSrc.lastPathComponent]];
+                    if (!CGSizeEqualToSize(previewImageSize, CGSizeZero)) {
+                        estimatedHeight += previewImageSize.height;
                     } else {
                         // Add the fixed image view size to the estimated height.
-                        estimatedHeight += 32;
+                        estimatedHeight += 36;
                     }
                 }
         }
     }
     return estimatedHeight;
+}
+
+// Copied from http://stackoverflow.com/questions/4169677/accessing-uiimage-properties-without-loading-in-memory-the-image/4170099#4170099
+- (CGSize)getImageSizeWithPath:(NSURL *)imageURL {
+    CGImageSourceRef imageSource = CGImageSourceCreateWithURL((CFURLRef)imageURL, NULL);
+    if (imageSource == NULL) {
+        // Error loading image
+        return CGSizeZero;
+    }
+    
+    CGFloat width = 0.0f, height = 0.0f;
+    CFDictionaryRef imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, NULL);
+        
+    if (imageProperties != NULL) {
+        
+        CFNumberRef widthNum  = CFDictionaryGetValue(imageProperties, kCGImagePropertyPixelWidth);
+        if (widthNum != NULL) {
+            CFNumberGetValue(widthNum, kCFNumberCGFloatType, &width);
+        }
+        
+        CFNumberRef heightNum = CFDictionaryGetValue(imageProperties, kCGImagePropertyPixelHeight);
+        if (heightNum != NULL) {
+            CFNumberGetValue(heightNum, kCFNumberCGFloatType, &height);
+        }
+        
+        // Check orientation and flip size if required
+        CFNumberRef orientationNum = CFDictionaryGetValue(imageProperties, kCGImagePropertyOrientation);
+        if (orientationNum != NULL) {
+            int orientation;
+            CFNumberGetValue(orientationNum, kCFNumberIntType, &orientation);
+            if (orientation > 4) {
+                CGFloat temp = width;
+                width = height;
+                height = temp;
+            }
+        }
+    }
+    
+    NSLog(@"Image dimensions: %.0f x %.0f px", width, height);
+    return CGSizeMake(width, height);
 }
 
 #pragma mark - UITableView datasource
