@@ -183,7 +183,8 @@ estimatedHeightForRowAtIndexPath:indexPath];
 
 // Copied from http://stackoverflow.com/questions/4169677/accessing-uiimage-properties-without-loading-in-memory-the-image/4170099#4170099
 - (CGSize)getImageSizeWithPath:(NSURL *)imageURL {
-    CGImageSourceRef imageSource = CGImageSourceCreateWithURL((CFURLRef)imageURL, NULL);
+    CGImageSourceRef imageSource = imageURL != nil ?
+    CGImageSourceCreateWithURL((CFURLRef)imageURL, NULL) : NULL;
     if (imageSource == NULL) {
         // Error loading image
         return CGSizeZero;
