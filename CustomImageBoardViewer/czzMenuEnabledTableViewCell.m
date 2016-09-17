@@ -17,7 +17,7 @@
 #import "czzImageDownloader.h"
 #import "czzThreadViewCellHeaderView.h"
 #import "czzThreadViewCellFooterView.h"
-//#import "PureLayout/PureLayout.h"
+#import "PureLayout/PureLayout.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -25,7 +25,8 @@ static NSString * const showThreadWithID = @"showThreadWithID";
 
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, UITextViewDelegate>
 
-@property (strong, nonatomic) UITapGestureRecognizer *tapOnImageViewRecognizer;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *cellImageViewButtonMinimumWidthConstraint;
+@property (weak, nonatomic) IBOutlet UIButton *cellImageViewButton;
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (strong, nonatomic) NSString *imageFolder;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
@@ -38,6 +39,7 @@ static NSString * const showThreadWithID = @"showThreadWithID";
 @implementation czzMenuEnabledTableViewCell
 
 -(void)awakeFromNib {
+    [super awakeFromNib];
     self.thumbnailFolder = [czzAppDelegate thumbnailFolder];
     self.imageFolder = [czzAppDelegate imageFolder];
     self.referenceButtons = [NSMutableArray new];
@@ -45,9 +47,6 @@ static NSString * const showThreadWithID = @"showThreadWithID";
     self.allowImage = YES;
     self.shouldAllowClickOnImage = YES;
     // Add tap getsture recognizer to the image.
-    self.tapOnImageViewRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                            action:@selector(tapOnImageView:)];
-    [self.cellImageView addGestureRecognizer:self.tapOnImageViewRecognizer];
     // Add self to be a delegate of czzImageDownloaderManager.
     [[czzImageDownloaderManager sharedManager] addDelegate:self];
 }
@@ -197,10 +196,13 @@ static NSString * const showThreadWithID = @"showThreadWithID";
     if (self.allowImage && (imageName = self.thread.imgSrc.lastPathComponent).length) {
         previewImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:imageName]]];
         self.cellImageView.image = previewImage ?: self.placeholderImage;
+        self.cellImageViewButtonMinimumWidthConstraint.active = YES;
     } else {
         // Completely invisible.
         self.cellImageView.image = nil;
+        self.cellImageViewButtonMinimumWidthConstraint.active = NO;
     }
+    [self setNeedsUpdateConstraints];
     // Header and footer.
     self.cellHeaderView.shouldHighLight = self.shouldHighlight;
     self.cellHeaderView.parentUID = self.parentThread.UID;
@@ -208,7 +210,7 @@ static NSString * const showThreadWithID = @"showThreadWithID";
 }
 
 #pragma mark - UI actions
-- (void)tapOnImageView:(id)sender {
+- (IBAction)tapOnImageView:(id)sender {
     DDLogDebug(@"%@", NSStringFromSelector(_cmd));
     if (self.shouldAllowClickOnImage && [self.delegate respondsToSelector:@selector(userTapInImageView:)]) {
         [self.delegate userTapInImageView:self.thread.imgSrc];
