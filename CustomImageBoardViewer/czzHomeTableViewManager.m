@@ -167,12 +167,16 @@ estimatedHeightForRowAtIndexPath:indexPath];
                  [[czzImageCacheManager sharedInstance] hasImageWithName:thread.imgSrc.lastPathComponent])) {
                     estimatedHeight += MIN(CGRectGetWidth(tableView.frame), CGRectGetHeight(tableView.frame)) * 0.7;
                 } else {
-                    // Add the fixed image view constraint constant to the estimated height.
-                    estimatedHeight += 70;
+                    UIImage *previewImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:thread.imgSrc.lastPathComponent]]];
+                    if (previewImage) {
+                        estimatedHeight += previewImage.size.height;
+                    } else {
+                        // Add the fixed image view size to the estimated height.
+                        estimatedHeight += 32;
+                    }
                 }
         }
     }
-//    DLog(@"Estimated height: %.1f", estimatedHeight);
     return estimatedHeight;
 }
 
