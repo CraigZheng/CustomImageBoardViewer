@@ -173,12 +173,8 @@ static NSString * const showThreadWithID = @"showThreadWithID";
     return rect;
 }
 
-- (void)prepareForReuse {
-    [super prepareForReuse];
-    [self resetViewBackgroundColours];
-}
-
 -(void)renderContent {
+    [self resetViewBackgroundColours];
     if (self.nightyMode) {
         // If nighty mode, add nighty mode attributes to the text.
         NSMutableAttributedString *contentAttrString = [self.threadContent mutableCopy];
