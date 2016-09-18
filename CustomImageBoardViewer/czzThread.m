@@ -133,8 +133,11 @@
 
 -(NSAttributedString*)renderHTMLToAttributedString:(NSString*)htmlString{
     @try {
-        NSString *htmlCopy = [[htmlString copy] stringByRemovingPercentEncoding];
-//        htmlCopy = [htmlCopy stringByReplacingOccurrencesOfString:@"&nbsp;ﾟ" withString:@"　ﾟ"];
+        NSString *htmlCopy = [htmlString stringByRemovingPercentEncoding];
+        // If cannot remove percent encoding, return the original.
+        if (!htmlCopy) {
+            htmlCopy = htmlString;
+        }
         NSAttributedString *renderedString = [[NSAttributedString alloc] initWithData:[htmlCopy dataUsingEncoding:NSUTF8StringEncoding]
                                                                               options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
                                                                                         NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
