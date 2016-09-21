@@ -25,7 +25,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>4.4.2.2</string>
+	<string>4.4.2.3</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -40,9 +40,9 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>This app wants to access your calendar</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Provide Us Your Location To Help Us Keep Track Of The App's Performance</string>
+	<string>Provide Us Your Location To Help Us Keep Track Of The App&apos;s Performance</string>
 	<key>NSLocationUsageDescription</key>
-	<string>Provide Us Your Location To Help Us Keep Track Of The App's Performance</string>
+	<string>Provide Us Your Location To Help Us Keep Track Of The App&apos;s Performance</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app wants to access your photo library</string>
 	<key>UIBackgroundModes</key>
