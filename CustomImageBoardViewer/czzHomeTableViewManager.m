@@ -162,20 +162,26 @@ estimatedHeightForRowAtIndexPath:indexPath];
                            context:nil].size.height + 44;
         // Calculate an estimated height based on if an image is available.
         if (thread.imgSrc.length && settingCentre.shouldDisplayImage) {
-            // If big image mode and has the image/thumbnail, add 70% of the shortest edge to the estimated height.
+            // If big image mode and has the image, add 75% of the shortest edge to the estimated height.
             if (self.bigImageMode &&
-                ([[czzImageCacheManager sharedInstance] hasThumbnailWithName:thread.imgSrc.lastPathComponent] ||
-                 [[czzImageCacheManager sharedInstance] hasImageWithName:thread.imgSrc.lastPathComponent])) {
-                    estimatedHeight += MIN(CGRectGetWidth(tableView.frame), CGRectGetHeight(tableView.frame)) * 0.75;
+                [[czzImageCacheManager sharedInstance] hasImageWithName:thread.imgSrc.lastPathComponent]) {
+                CGSize imageSize = [self getImageSizeWithPath:[[czzImageCacheManager sharedInstance] pathForImageWithName:thread.imgSrc.lastPathComponent]];
+                CGFloat bigImageHeightLimit = CGRectGetHeight(tableView.frame) * 0.75;
+                // If the actual image height is smaller than big image height limit, use the actual height.
+                if (!CGSizeEqualToSize(CGSizeZero, imageSize) && imageSize.height < bigImageHeightLimit) {
+                    estimatedHeight += imageSize.height;
                 } else {
-                    CGSize previewImageSize = [self getImageSizeWithPath:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:thread.imgSrc.lastPathComponent]];
-                    if (!CGSizeEqualToSize(previewImageSize, CGSizeZero)) {
-                        estimatedHeight += previewImageSize.height < 150 ? previewImageSize.height : 150;
-                    } else {
-                        // Add the fixed image view size to the estimated height.
-                        estimatedHeight += 36;
-                    }
+                    estimatedHeight += bigImageHeightLimit;
                 }
+            } else {
+                CGSize previewImageSize = [self getImageSizeWithPath:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:thread.imgSrc.lastPathComponent]];
+                if (!CGSizeEqualToSize(previewImageSize, CGSizeZero)) {
+                    estimatedHeight += previewImageSize.height < 150 ? previewImageSize.height : 150;
+                } else {
+                    // Add the fixed image view size to the estimated height.
+                    estimatedHeight += 36;
+                }
+            }
         }
     }
     return estimatedHeight;
