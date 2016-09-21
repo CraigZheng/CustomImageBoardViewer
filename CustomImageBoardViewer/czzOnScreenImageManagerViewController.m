@@ -101,6 +101,8 @@
                 !self.isShowingShortImageManagerController) {
                 // Badge value needs to be reset as well.
                 self.mainIconContainer.badgeView.badgeValue = self.unviewedImageCount;
+            } else {
+                self.unviewedImageCount = self.mainIconContainer.badgeView.badgeValue = 0;
             }
         }
         if (manager.imageDownloaders.count <= 0)
