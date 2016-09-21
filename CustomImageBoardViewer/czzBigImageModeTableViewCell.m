@@ -37,16 +37,21 @@
     self.bigImageView.userInteractionEnabled = self.cellType == threadViewCellTypeThread;
     // Enlarge the UIImageView for full size images.
     if (fullSizeImage) {
+        CGFloat desiredHeight = 0;
         CGFloat aspectRatio = fullSizeImage.size.height / fullSizeImage.size.width;
         [self setNeedsLayout];
         [self layoutIfNeeded];
         CGFloat widthConstant = CGRectGetWidth([UIScreen mainScreen].applicationFrame);
-        CGFloat height = aspectRatio * widthConstant;
+        desiredHeight = aspectRatio * widthConstant;
         // Limit the height.
-        if (height > CGRectGetHeight([UIScreen mainScreen].bounds) * 0.75) {
-            height = CGRectGetHeight([UIScreen mainScreen].bounds) * 0.75;
+        if (desiredHeight > CGRectGetHeight([UIScreen mainScreen].bounds) * 0.75) {
+            desiredHeight = CGRectGetHeight([UIScreen mainScreen].bounds) * 0.75;
         }
-        self.bigImageViewHeightConstraint.constant = height * 0.75;
+        // If the calculated height is already bigger than the actual image height.
+        if (desiredHeight > fullSizeImage.size.height) {
+            desiredHeight = fullSizeImage.size.height;
+        }
+        self.bigImageViewHeightConstraint.constant = desiredHeight;
         self.bigImageViewHeightConstraint.priority = 999;
         self.bigImageView.image = fullSizeImage;
         self.cellImageView.hidden = YES;
