@@ -27,7 +27,6 @@ static NSString * const showThreadWithID = @"showThreadWithID";
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *cellImageViewButtonMinimumWidthConstraint;
 @property (weak, nonatomic) IBOutlet UIButton *cellImageViewButton;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *cellImageViewAspectRatioConstraint;
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (strong, nonatomic) NSString *imageFolder;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
@@ -198,24 +197,10 @@ static NSString * const showThreadWithID = @"showThreadWithID";
         previewImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:imageName]]];
         self.cellImageView.image = previewImage ?: self.placeholderImage;
         self.cellImageViewButtonMinimumWidthConstraint.active = YES;
-        CGFloat aspectRatio = previewImage.size.width / previewImage.size.height;
-        // Remove the aspect ratio constraint and add back with modified ratio.
-        NSLayoutConstraint *aspectRatioConstraint = [NSLayoutConstraint constraintWithItem:self.cellImageViewAspectRatioConstraint.firstItem
-                                                                                 attribute:self.cellImageViewAspectRatioConstraint.firstAttribute
-                                                                                 relatedBy:self.cellImageViewAspectRatioConstraint.relation
-                                                                                    toItem:self.cellImageViewAspectRatioConstraint.secondItem
-                                                                                 attribute:self.cellImageViewAspectRatioConstraint.secondAttribute
-                                                                                multiplier:aspectRatio
-                                                                                  constant:0];
-        [self.cellImageView removeConstraint:self.cellImageViewAspectRatioConstraint];
-        [self.cellImageView addConstraint:aspectRatioConstraint];
-        self.cellImageViewAspectRatioConstraint = aspectRatioConstraint;
-        self.cellImageViewAspectRatioConstraint.active = YES;
     } else {
         // Completely invisible.
         self.cellImageView.image = nil;
         self.cellImageViewButtonMinimumWidthConstraint.active = NO;
-        self.cellImageViewAspectRatioConstraint.active = NO;
     }
     [self setNeedsUpdateConstraints];
     // Header and footer.

@@ -166,11 +166,11 @@ estimatedHeightForRowAtIndexPath:indexPath];
             if (self.bigImageMode &&
                 ([[czzImageCacheManager sharedInstance] hasThumbnailWithName:thread.imgSrc.lastPathComponent] ||
                  [[czzImageCacheManager sharedInstance] hasImageWithName:thread.imgSrc.lastPathComponent])) {
-                    estimatedHeight += MIN(CGRectGetWidth(tableView.frame), CGRectGetHeight(tableView.frame)) * 0.7;
+                    estimatedHeight += MIN(CGRectGetWidth(tableView.frame), CGRectGetHeight(tableView.frame)) * 0.75;
                 } else {
                     CGSize previewImageSize = [self getImageSizeWithPath:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:thread.imgSrc.lastPathComponent]];
                     if (!CGSizeEqualToSize(previewImageSize, CGSizeZero)) {
-                        estimatedHeight += previewImageSize.height;
+                        estimatedHeight += previewImageSize.height < 150 ? previewImageSize.height : 150;
                     } else {
                         // Add the fixed image view size to the estimated height.
                         estimatedHeight += 36;

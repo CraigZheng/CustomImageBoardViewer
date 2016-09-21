@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -14,7 +13,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" horizontalCompressionResistancePriority="1000" tableViewCell="vW5-oN-WIG" id="lgC-X4-SAR">
-                <frame key="frameInset" width="320" height="199"/>
+                <frame key="frameInset" width="320" height="199.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="20" translatesAutoresizingMaskIntoConstraints="NO" id="5oH-Lv-7NW" customClass="czzThreadViewCellHeaderView">
@@ -39,7 +38,8 @@
                             </textView>
                             <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon-72.png" translatesAutoresizingMaskIntoConstraints="NO" id="WnJ-PJ-3oM">
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="WnJ-PJ-3oM" secondAttribute="height" multiplier="1:1" priority="750" id="xnQ-co-91k"/>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="150" id="gW6-Vf-PNF"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="150" id="qXQ-0b-fGc"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="1" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WUN-DG-7RC" userLabel="Cell Image View Button">
@@ -97,7 +97,6 @@
                 <outlet property="cellFooterView" destination="DN5-G9-KwB" id="9qy-iV-18A"/>
                 <outlet property="cellHeaderView" destination="5oH-Lv-7NW" id="Zpf-Sx-N5e"/>
                 <outlet property="cellImageView" destination="WnJ-PJ-3oM" id="D73-h7-qiy"/>
-                <outlet property="cellImageViewAspectRatioConstraint" destination="xnQ-co-91k" id="vZn-Pp-R1W"/>
                 <outlet property="cellImageViewButton" destination="WUN-DG-7RC" id="qFv-7U-66x"/>
                 <outlet property="cellImageViewButtonMinimumWidthConstraint" destination="pig-wF-wFt" id="lj4-GV-MJq"/>
                 <outlet property="contentContainerView" destination="61C-Fc-Xdc" id="5qW-jJ-oIu"/>
