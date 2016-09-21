@@ -33,7 +33,7 @@
 @property (strong) czzImageViewerUtil *imageViewerUtil;
 @property (nonatomic, readonly) NSIndexPath *lastRowIndexPath;
 @property (nonatomic, readonly) BOOL tableViewIsDraggedOverTheBottom;
-@property (nonatomic, assign) BOOL bigImageMode;
+@property (nonatomic, readonly) BOOL bigImageMode;
 @property (nonatomic, strong) czzMenuEnabledTableViewCell *sizingCell;
 @property (nonatomic, strong) NSMutableOrderedSet *pendingBulkUpdateIndexes;
 @property (nonatomic, strong) NSTimer *bulkUpdateTimer;
@@ -49,7 +49,6 @@
     if (self) {
         self.imageViewerUtil = [czzImageViewerUtil new];
         self.pendingBulkUpdateIndexes = [NSMutableOrderedSet new];
-        self.bigImageMode = [settingCentre userDefShouldUseBigImage];
         [[czzImageDownloaderManager sharedManager] addDelegate:self];
     }
     return self;
@@ -420,7 +419,11 @@ estimatedHeightForRowAtIndexPath:indexPath];
     return [NSIndexPath indexPathForRow:self.homeViewManager.threads.count inSection:0];
 }
 
-#pragma marl - Setters
+- (BOOL)bigImageMode {
+    return [settingCentre userDefShouldUseBigImage];
+}
+
+#pragma mark - Setters
 - (void)setHomeTableView:(czzThreadTableView *)homeTableView {
     _homeTableView = homeTableView;
     if (homeTableView) {
