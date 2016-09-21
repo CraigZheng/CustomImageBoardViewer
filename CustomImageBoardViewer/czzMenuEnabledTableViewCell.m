@@ -51,7 +51,6 @@ static NSString * const showThreadWithID = @"showThreadWithID";
     [[czzImageDownloaderManager sharedManager] addDelegate:self];
 }
 
-
 - (void)layoutSubviews {
     [super layoutSubviews];
     for (czzThreadRefButton *button in self.referenceButtons) {
@@ -70,12 +69,12 @@ static NSString * const showThreadWithID = @"showThreadWithID";
                     CGRect result = [self frameOfTextRange:range inTextView:self.contentTextView];
                     
                     if (!CGSizeEqualToSize(CGSizeZero, result.size)){
-                        CGRect convertedRect = [self.contentView convertRect:result fromView:self.contentTextView];
+                        CGRect convertedRect = [self.contentContainerView convertRect:result fromView:self.contentTextView];
                         czzThreadRefButton *threadRefButton = [[czzThreadRefButton alloc] initWithFrame:CGRectMake(convertedRect.origin.x, convertedRect.origin.y + self.contentTextView.frame.origin.y, convertedRect.size.width, convertedRect.size.height)];
                         threadRefButton.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.05f];
                         [threadRefButton addTarget:self action:@selector(userTapInRefButton:) forControlEvents:UIControlEventTouchUpInside];
                         threadRefButton.threadRefNumber = rep;
-                        [self.contentView addSubview:threadRefButton];
+                        [self.contentContainerView addSubview:threadRefButton];
                         [self.referenceButtons addObject:threadRefButton];
                     }
                     // Green text, 121	152	45
