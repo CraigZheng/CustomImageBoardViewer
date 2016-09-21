@@ -161,7 +161,7 @@ static NSInteger const respondsHistoryIndex = 2;
 
 -(void)copyDataFromManager {
     if (titleSegmentedControl.selectedSegmentIndex == bookmarkIndex) {
-        threads = [favouriteManager favouriteThreads].reverseObjectEnumerator.allObjects.mutableCopy;
+        threads = [favouriteManager favouriteThreads].objectEnumerator.allObjects.mutableCopy;
         selectedManager = favouriteManager;
     } else if (titleSegmentedControl.selectedSegmentIndex == historyIndex) {
         // Type of history: broswer, posts, responds.
