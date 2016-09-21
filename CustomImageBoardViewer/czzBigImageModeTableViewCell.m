@@ -46,7 +46,7 @@
         if (height > CGRectGetHeight([UIScreen mainScreen].bounds) * 0.75) {
             height = CGRectGetHeight([UIScreen mainScreen].bounds) * 0.75;
         }
-        self.bigImageViewHeightConstraint.constant = height * 0.75;
+        self.bigImageViewHeightConstraint.constant = height;
         self.bigImageViewHeightConstraint.priority = 999;
         self.bigImageView.image = fullSizeImage;
         self.cellImageView.hidden = YES;
