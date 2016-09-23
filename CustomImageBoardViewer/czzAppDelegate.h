@@ -25,6 +25,7 @@
 -(void)showToast:(NSString*)string;
 + (czzAppDelegate*) sharedAppDelegate;
 +(NSString*)libraryFolder;
++(NSString*)documentFolder;
 +(NSString*)thumbnailFolder;
 +(NSString*)imageFolder;
 +(NSString*)threadCacheFolder;

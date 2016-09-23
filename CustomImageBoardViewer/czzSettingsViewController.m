@@ -7,17 +7,21 @@
 //
 
 #import "czzSettingsViewController.h"
-#import "Toast+UIView.h"
+#import "czzBannerNotificationUtil.h"
 #import "czzImageCacheManager.h"
 #import "czzAppDelegate.h"
 #import "czzHomeViewController.h"
 #import "czzSettingsCentre.h"
 #import "czzCookieManagerViewController.h"
 #import "czzNotificationCentreTableViewController.h"
+#import "MBProgressHUD.h"
 #import "czzHomeViewManager.h"
 #import "czzWatchListManager.h"
+#import "czzTextSizeSelectorViewController.h"
 
-@interface czzSettingsViewController ()<UIAlertViewDelegate, UIActionSheetDelegate>
+static NSString *textSizeSelectorSegue = @"textSizeSelector";
+
+@interface czzSettingsViewController ()<UIAlertViewDelegate, UIActionSheetDelegate, czzTextSizeSelectorViewControllerProtocol>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *debugBarButton;
 @property NSMutableArray *commands;
 @property NSMutableArray *regularCommands;
@@ -70,7 +74,8 @@
 
 -(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     if (section == 1)
-        return [NSString stringWithFormat:@"版本号: %@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+        return [NSString stringWithFormat:@"版本号: %@(%@)", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
+                [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
     return nil;
 }
 
@@ -82,50 +87,77 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"command_cell_identifier"];
     if (indexPath.section == 0){
-        cell = [tableView dequeueReusableCellWithIdentifier:@"switch_cell_identifier"];
-        UILabel *commandLabel = (UILabel*)[cell viewWithTag:3];
-        UISwitch *commandSwitch = (UISwitch*)[cell viewWithTag:4];
-        commandLabel.textColor = settingsCentre.contentTextColour;
         NSString *command = [switchCommands objectAtIndex:indexPath.row];
-        commandLabel.text = command;
-
-        [commandSwitch addTarget:self action:@selector(switchDidChanged:) forControlEvents:UIControlEventValueChanged];
-        //set value for switch
-        if ([command isEqualToString:@"显示图片"]){
-            BOOL shouldLoadImages = settingsCentre.userDefShouldDisplayThumbnail;
-            [commandSwitch setOn:shouldLoadImages];
+        // A special case - font size preference.
+        if ([command isEqualToString:@"字体偏好"]) {
+            UILabel *commandLabel = (UILabel*)[cell viewWithTag:5];
+            UILabel *detailLabel = (UILabel*)[cell viewWithTag:6];
+            commandLabel.text = command;
+            NSString *fontSize = @"";
+            switch (settingsCentre.threadTextSize) {
+                case TextSizeBig:
+                    fontSize = @"大";
+                    break;
+                case TextSizeExtraBig:
+                    fontSize = @"特大";
+                    break;
+                case TextSizeSmall:
+                    fontSize = @"小";
+                    break;
+                default:
+                    fontSize = @"默认";
+                    break;
+            }
+            detailLabel.text = fontSize;
+        } else {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"switch_cell_identifier"];
+            UILabel *commandLabel = (UILabel*)[cell viewWithTag:3];
+            UISwitch *commandSwitch = (UISwitch*)[cell viewWithTag:4];
+            commandLabel.textColor = settingsCentre.contentTextColour;
+            commandLabel.text = command;
+            
+            [commandSwitch addTarget:self action:@selector(switchDidChanged:) forControlEvents:UIControlEventValueChanged];
+            //set value for switch
+            if ([command isEqualToString:@"显示图片"]){
+                BOOL shouldLoadImages = settingsCentre.userDefShouldDisplayThumbnail;
+                [commandSwitch setOn:shouldLoadImages];
+            }
+            else if ([command isEqualToString:@"显示快速滑动按钮"]) {
+                BOOL sbouldShowOnScreenCommand = settingsCentre.userDefShouldShowOnScreenCommand;
+                [commandSwitch setOn:sbouldShowOnScreenCommand];
+            }
+            else if ([command isEqualToString:@"图片下载完毕自动打开"]){
+                BOOL shouldAutoOpen = settingsCentre.userDefShouldAutoOpenImage;
+                [commandSwitch setOn:shouldAutoOpen];
+                
+            } else if ([command isEqualToString:@"开启串缓存"]){
+                BOOL shouldCache = settingsCentre.userDefShouldCacheData;
+                [commandSwitch setOn:shouldCache];
+            } else if ([command isEqualToString:@"高亮楼主/PO主"]) {
+                BOOL shouldHighlight = settingsCentre.userDefShouldHighlightPO;
+                [commandSwitch setOn:shouldHighlight];
+            } else if ([command isEqualToString:@"夜间模式"]) {
+                [commandSwitch setOn:settingsCentre.userDefNightyMode];
+            }
+            else if ([command isEqualToString:@"大图模式"]) {
+                [commandSwitch setOn:settingsCentre.userDefShouldUseBigImage];
+            }
+            else if ([command isEqualToString:@"每月自动清理缓存"]) {
+                [commandSwitch setOn:settingsCentre.userDefShouldCleanCaches];
+            } else if ([command isEqualToString:@"Monitor Performance"]) {
+                //             [commandSwitch setOn:[DartCrowdSourcingConstants isEnabled]];
+            } else if ([command isEqualToString:@"自动下载大图"]) {
+                [commandSwitch setOn:settingCentre.userDefShouldAutoDownloadImage];
+            } else if ([command isEqualToString:@"收起超长的内容"]) {
+                [commandSwitch setOn:settingCentre.userDefShouldCollapseLongContent];
+            }
         }
-        else if ([command isEqualToString:@"显示快速滑动按钮"]) {
-            BOOL sbouldShowOnScreenCommand = settingsCentre.userDefShouldShowOnScreenCommand;
-            [commandSwitch setOn:sbouldShowOnScreenCommand];
-        }
-        else if ([command isEqualToString:@"图片下载完毕自动打开"]){
-             BOOL shouldAutoOpen = settingsCentre.userDefShouldAutoOpenImage;
-            [commandSwitch setOn:shouldAutoOpen];
-
-         } else if ([command isEqualToString:@"开启串缓存"]){
-             BOOL shouldCache = settingsCentre.userDefShouldCacheData;
-             [commandSwitch setOn:shouldCache];
-         } else if ([command isEqualToString:@"高亮楼主/PO主"]) {
-             BOOL shouldHighlight = settingsCentre.userDefShouldHighlightPO;
-             [commandSwitch setOn:shouldHighlight];
-         } else if ([command isEqualToString:@"夜间模式"]) {
-             [commandSwitch setOn:settingsCentre.userDefNightyMode];
-         }
-         else if ([command isEqualToString:@"大图模式"]) {
-             [commandSwitch setOn:settingsCentre.userDefShouldUseBigImage];
-         }
-         else if ([command isEqualToString:@"每月自动清理缓存"]) {
-             [commandSwitch setOn:settingsCentre.userDefShouldCleanCaches];
-         } else if ([command isEqualToString:@"Monitor Performance"]) {
-//             [commandSwitch setOn:[DartCrowdSourcingConstants isEnabled]];
-         } else if ([command isEqualToString:@"自动下载大图"]) {
-             [commandSwitch setOn:settingCentre.userDefShouldAutoDownloadImage];
-         }
     } else if (indexPath.section == 1){
         UILabel *commandLabel = (UILabel*)[cell viewWithTag:5];
+        UILabel *detailLabel = (UILabel*)[cell viewWithTag:6];
         commandLabel.textColor = settingsCentre.contentTextColour;
         [commandLabel setText:[regularCommands objectAtIndex:indexPath.row]];
+        detailLabel.text = nil;
     }
     //cell background colour
     cell.contentView.backgroundColor = settingsCentre.viewBackgroundColour;
@@ -138,7 +170,13 @@
 
 #pragma mark UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 1){
+    if (indexPath.section == 0) {
+        NSString *command = [switchCommands objectAtIndex:indexPath.row];
+        if ([command isEqualToString:@"字体偏好"]) {
+            // TODO: select a text.
+            [self performSegueWithIdentifier:textSizeSelectorSegue sender:nil];
+        }
+    } else if (indexPath.section == 1){
         NSString *command = [regularCommands objectAtIndex:indexPath.row];
         if ([command isEqualToString:@"图片管理器"]){
             //图片管理器
@@ -176,6 +214,8 @@
             }
         } else if ([command isEqualToString:@"WATCHLIST"]) {
             
+        } else if ([command isEqualToString:@"作者主页"]) {
+            [self openHomePage];
         }
     }
 }
@@ -188,14 +228,19 @@
 
     [switchCommands addObject:@"显示图片"];
     [switchCommands addObject:@"显示快速滑动按钮"];
+    [switchCommands addObject:@"收起超长的内容"];
     [switchCommands addObject:@"夜间模式"];
     [switchCommands addObject:@"大图模式"];
     if ([settingCentre userDefShouldUseBigImage]) {
         [switchCommands addObject:@"自动下载大图"];
     }
-    [switchCommands addObject:@"图片下载完毕自动打开"];
-//    [switchCommands addObject:@"开启串缓存"];
-    [switchCommands addObject:@"每月自动清理缓存"];
+    // If should auto download image, don't show.
+    if (!([settingsCentre userDefShouldUseBigImage] && [settingsCentre userDefShouldAutoDownloadImage])) {
+        [switchCommands addObject:@"图片下载完毕自动打开"];
+    }
+    [switchCommands addObject:@"字体偏好"];
+//    [switchCommands addObject:@"开启串缓存"]; // Disbale as is no longer important.
+//    [switchCommands addObject:@"每月自动清理缓存"]; // Disable for now - version 3.4.
     if (settingsCentre.should_allow_dart)
         [switchCommands addObject:@"Monitor Performance"];
     [regularCommands addObject:@"图片管理器"];
@@ -211,6 +256,7 @@
     NSURL *donationLinkURL = [NSURL URLWithString:settingsCentre.donationLink];
     if (donationLinkURL && settingsCentre.donationLink.length > 0)
         [regularCommands addObject:@"捐款给App的作者"];
+    [regularCommands addObject:@"作者主页"];
     [regularCommands addObject:@"意见反馈"];
     [regularCommands addObject:@"强制退出"];
 }
@@ -225,7 +271,7 @@
         for (NSHTTPCookie *cookie in cookies) {
             [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
         }
-        [AppDelegate showToast:@"ID信息已清除"];
+        [czzBannerNotificationUtil displayMessage:@"ID信息已清除" position:BannerNotificationPositionTop];
     }
     else if ([alertView.title isEqualToString:@"强制退出"])
     {
@@ -235,7 +281,8 @@
         settingsCentre.userDefShouldUseBigImage = !settingsCentre.userDefShouldUseBigImage;
         [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate threadCacheFolder] error:nil];
         [AppDelegate checkFolders];
-        [AppDelegate showToast:[NSString stringWithFormat:@"大图模式：%@", settingsCentre.userDefShouldUseBigImage ? @"On" : @"Off"]];
+        [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"大图模式：%@", settingsCentre.userDefShouldUseBigImage ? @"On" : @"Off"]
+                                                                    position:BannerNotificationPositionTop];
         [[czzHomeViewManager sharedManager] refresh];
         [settingsCentre saveSettings];
         [self.settingsTableView reloadData];
@@ -250,14 +297,22 @@
     }
     NSString *title = [actionSheet buttonTitleAtIndex:buttonIndex];
     if ([title hasPrefix:@"图片管理器"]){
-        [[czzImageCacheManager sharedInstance] removeFullSizeImages];
-        [[czzImageCacheManager sharedInstance] removeThumbnails];
-        [AppDelegate showToast:@"图片管理器已清空"];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+            [[czzImageCacheManager sharedInstance] removeFullSizeImages];
+            [[czzImageCacheManager sharedInstance] removeThumbnails];
+            [czzBannerNotificationUtil displayMessage:@"图片管理器已清空" position:BannerNotificationPositionTop];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        }];
     }
     else if ([title hasPrefix:@"串缓存"]){
-        [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate threadCacheFolder] error:nil];
-        [AppDelegate checkFolders];
-        [AppDelegate showToast:@"串缓存已清空"];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+            [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate threadCacheFolder] error:nil];
+            [AppDelegate checkFolders];
+            [czzBannerNotificationUtil displayMessage:@"串缓存已清空" position:BannerNotificationPositionTop];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        }];
     }
 }
 
@@ -271,10 +326,10 @@
     NSIndexPath *switchedIndexPath = [settingsTableView indexPathForCell:parentCell];
     if (switchedIndexPath.section == 0){
         NSString *command = [switchCommands objectAtIndex:switchedIndexPath.row];
+        NSString *onOffString = switchControl.on ? @"On" : @"Off";
         if ([command isEqualToString:@"显示图片"]){
             //下载图片
             settingsCentre.userDefShouldDisplayThumbnail = switchControl.on;
-            [AppDelegate showToast:@"更改图片显示设置..."];
         }
         else if ([command isEqualToString:@"图片下载完毕自动打开"]){
             //自动打开图片
@@ -286,37 +341,58 @@
             settingsCentre.userDefShouldHighlightPO = switchControl.on;
         } else if ([command isEqualToString:@"显示快速滑动按钮"]) {
             settingsCentre.userDefShouldShowOnScreenCommand = switchControl.on;
-            [AppDelegate showToast:@"重启后生效"];
         } else if ([command isEqualToString:@"夜间模式"]) {
-            settingsCentre.userDefNightyMode = !settingsCentre.userDefNightyMode;
-            [AppDelegate showToast:[NSString stringWithFormat:@"夜间模式：%@", settingsCentre.userDefNightyMode ? @"On" : @"Off"]];
+            settingsCentre.userDefNightyMode = switchControl.on;
             [[czzHomeViewManager sharedManager] reloadData];
-            [self.settingsTableView reloadData];
         }
         else if ([command isEqualToString:@"大图模式"]) {
-            [self toggleBigImageMode];
-            [self.settingsTableView reloadData];
+            settingsCentre.userDefShouldUseBigImage = switchControl.on;
+            [self prepareCommands];
         }
         else if ([command isEqualToString:@"每月自动清理缓存"]) {
-            settingsCentre.userDefShouldCleanCaches = !settingsCentre.userDefShouldCleanCaches;
-            [AppDelegate showToast:[NSString stringWithFormat:@"每月自动清理缓存： %@", settingsCentre.userDefShouldCleanCaches ? @"On" : @"Off"]];
+            settingsCentre.userDefShouldCleanCaches = switchControl.on;
         } else if ([command isEqualToString:@"Monitor Performance"]) {
-            [self.settingsTableView reloadData];
+            // Do nothing - no longer in use.
         } else if ([command isEqualToString:@"自动下载大图"]) {
-            settingsCentre.userDefShouldAutoDownloadImage = !settingsCentre.userDefShouldAutoDownloadImage;
-            [AppDelegate showToast:[NSString stringWithFormat:@"自动下载大图： %@", settingsCentre.userDefShouldCleanCaches ? @"On" : @"Off"]];
+            settingsCentre.userDefShouldAutoDownloadImage = switchControl.on;
+            [self prepareCommands];
+        } else if ([command isEqualToString:@"收起超长的内容"]) {
+            settingCentre.userDefShouldCollapseLongContent = switchControl.on;
+            [[czzHomeViewManager sharedManager] reloadData];
         }
+        [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"%@: %@", command, onOffString]
+                                         position:BannerNotificationPositionTop];
+        [self.settingsTableView reloadData];
         [settingsCentre saveSettings];
         [[czzHomeViewManager sharedManager] reloadData];
     }
 }
 
--(void)toggleBigImageMode {
-    settingsCentre.userDefShouldUseBigImage = !settingsCentre.userDefShouldUseBigImage;
-    [AppDelegate showToast:[NSString stringWithFormat:@"大图模式：%@", settingsCentre.userDefShouldUseBigImage ? @"On" : @"Off"]];
-    [self prepareCommands];
-    [self.settingsTableView reloadData];
-    [[czzHomeViewManager sharedManager] reloadData];
+#pragma mark - Segue events.
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:textSizeSelectorSegue] && [segue.destinationViewController isKindOfClass:[czzTextSizeSelectorViewController class]]) {
+        [(czzTextSizeSelectorViewController*)segue.destinationViewController setDelegate: self];
+    }
+}
+
+#pragma mark - czzTextSizeSelectorViewController
+
+- (void)textSizeSelected:(czzTextSizeSelectorViewController *)viewController textSize:(ThreadViewTextSize)size {
+    if (size != settingsCentre.threadTextSize) {
+        settingsCentre.threadTextSize = size;
+        [settingsCentre saveSettings];
+        [self.settingsTableView reloadData];
+        [[czzHomeViewManager sharedManager] reloadData];
+    }
+}
+
+#pragma mark - Button actions.
+
+// Open my home page.
+- (void)openHomePage {
+    NSString *homePageURL = @"http://www.weibo.com/u/3868827431"; // Weibo home page URL
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:homePageURL]];
 }
 
 -(void)openDonationLink {
@@ -326,7 +402,7 @@
             [[UIApplication sharedApplication] openURL:donationLinkURL];
         }
     } else {
-        [AppDelegate showToast:@"谢谢，现在作者并不需要捐款。。。"];
+        [czzBannerNotificationUtil displayMessage:@"谢谢，现在作者并不需要捐款。。。" position:BannerNotificationPositionTop];
     }
 }
 

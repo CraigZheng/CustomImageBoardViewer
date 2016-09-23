@@ -90,7 +90,7 @@
             NSDate *postDate = [formatter dateFromString:dateString];
             self.postDateTime = postDate;
             
-            self.UID = [data objectForKey:@"userid"];
+            self.UID = [self renderHTMLToAttributedString:[data objectForKey:@"userid"]].string;
             self.name = [data objectForKey:@"name"];
             self.email = [data objectForKey:@"email"];
             self.title = [data objectForKey:@"title"];
@@ -133,8 +133,11 @@
 
 -(NSAttributedString*)renderHTMLToAttributedString:(NSString*)htmlString{
     @try {
-        NSString *htmlCopy = [[htmlString copy] stringByDecodingHTMLEntities];
-        htmlCopy = [htmlCopy stringByReplacingOccurrencesOfString:@"&nbsp;ﾟ" withString:@"　ﾟ"];
+        NSString *htmlCopy = [htmlString stringByRemovingPercentEncoding];
+        // If cannot remove percent encoding, return the original.
+        if (!htmlCopy) {
+            htmlCopy = htmlString;
+        }
         NSAttributedString *renderedString = [[NSAttributedString alloc] initWithData:[htmlCopy dataUsingEncoding:NSUTF8StringEncoding]
                                                                               options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
                                                                                         NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
@@ -167,6 +170,20 @@
 // thImgSrc is no longer in use, return self.imgSrc in its getter instead.
 - (NSString *)thImgSrc {
     return self.imgSrc;
+}
+
+- (NSString *)contentSummary {
+    NSString *summary = @"";
+    if (self.content.string.length) {
+        summary = self.content.string;
+    } else if (self.title.length) {
+        summary = self.title;
+    }
+    // Shrink the length of summary down to 15 characters.
+    if (summary.length > 15) {
+        summary = [NSString stringWithFormat:@"%@...", [summary substringToIndex:12]];
+    }
+    return summary;
 }
 
 #pragma mark - convert to czzWKThread object

@@ -15,56 +15,41 @@
 #import "czzThreadRefButton.h"
 #import "czzSettingsCentre.h"
 #import "czzImageDownloader.h"
-#import "czzImageDownloaderManager.h"
 #import "czzThreadViewCellHeaderView.h"
 #import "czzThreadViewCellFooterView.h"
-//#import "PureLayout/PureLayout.h"
+#import "PureLayout/PureLayout.h"
 
 #import <QuartzCore/QuartzCore.h>
 
-NSInteger const fixedConstraintConstant = 100;
-NSInteger const veryHightConstraintPriority = 999;
-NSInteger const veryLowConstraintPriority = 1;
+static NSString * const showThreadWithID = @"showThreadWithID";
 
-@interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, czzImageDownloaderManagerDelegate>
-@property (weak, nonatomic) IBOutlet UITextView *contentTextView;
-@property (weak, nonatomic) IBOutlet UIView *containerView;
-@property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
-@property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;
-@property (weak, nonatomic) IBOutlet UIImageView *cellImageView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewHeightConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewWidthConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerContainerViewHeightConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewCentreAlignConstraint;
+@interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, UITextViewDelegate>
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *cellImageViewButtonMinimumWidthConstraint;
+@property (weak, nonatomic) IBOutlet UIButton *cellImageViewButton;
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (strong, nonatomic) NSString *imageFolder;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
-@property (strong, nonatomic) UIImage *placeholderImage;
-@property (strong, nonatomic) UITapGestureRecognizer *tapOnImageViewRecognizer;
 @property (strong, nonatomic) NSMutableArray<czzThreadRefButton *> *referenceButtons;
-
+@property (readonly, nonatomic) NSAttributedString *threadContent;
+@property (strong, nonatomic) UIActionSheet *contentCopyActionSheet;
+@property (strong, nonatomic) UIActionSheet *openLinkActionSheet;
 @end
 
 @implementation czzMenuEnabledTableViewCell
 
 -(void)awakeFromNib {
+    [super awakeFromNib];
     self.thumbnailFolder = [czzAppDelegate thumbnailFolder];
     self.imageFolder = [czzAppDelegate imageFolder];
     self.referenceButtons = [NSMutableArray new];
     self.shouldHighlight = YES;
     self.allowImage = YES;
     self.shouldAllowClickOnImage = YES;
-    
-    [self.cellImageView addGestureRecognizer:self.tapOnImageViewRecognizer];
-    // Apply shadow and radius to background view.
-    self.containerView.layer.masksToBounds = NO;
-    self.containerView.layer.cornerRadius = 5;
-
+    // Add tap getsture recognizer to the image.
     // Add self to be a delegate of czzImageDownloaderManager.
     [[czzImageDownloaderManager sharedManager] addDelegate:self];
 }
-
 
 - (void)layoutSubviews {
     [super layoutSubviews];
@@ -72,26 +57,34 @@ NSInteger const veryLowConstraintPriority = 1;
         [button removeFromSuperview];
     }
     // Clickable content, find the quoted text and add a button to corresponding location.
-    for (NSNumber *refNumber in self.thread.replyToList) {
-        NSInteger rep = refNumber.integerValue;
-        if (rep > 0) {
-            NSString *quotedNumberText = [NSString stringWithFormat:@"%ld", (long)rep];
-            NSRange range = [self.contentTextView.attributedText.string rangeOfString:quotedNumberText];
-            if (range.location != NSNotFound){
-                CGRect result = [self frameOfTextRange:range inTextView:self.contentTextView];
-                
-                if (!CGSizeEqualToSize(CGSizeZero, result.size)){
-                    czzThreadRefButton *threadRefButton = [[czzThreadRefButton alloc] initWithFrame:CGRectMake(result.origin.x, result.origin.y + self.contentTextView.frame.origin.y, result.size.width, result.size.height)];
-                    threadRefButton.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.1f];
-                    [threadRefButton addTarget:self action:@selector(userTapInRefButton:) forControlEvents:UIControlEventTouchUpInside];
-                    threadRefButton.threadRefNumber = rep;
-                    [self.contentView addSubview:threadRefButton];
-                    [self.referenceButtons addObject:threadRefButton];
+    if (self.thread.replyToList.count) {
+        NSMutableAttributedString *mutableAttributedString = self.contentTextView.attributedText.mutableCopy;
+        for (NSNumber *refNumber in self.thread.replyToList) {
+            NSInteger rep = refNumber.integerValue;
+            if (rep > 0) {
+                NSString *quotedNumberText = [NSString stringWithFormat:@"%ld", (long)rep];
+                NSRange range = [mutableAttributedString.string rangeOfString:quotedNumberText];
+                // NSRange is not NSNotFound and its within the current string length.
+                if (range.location != NSNotFound && range.location + range.length <= mutableAttributedString.string.length){
+                    CGRect result = [self frameOfTextRange:range inTextView:self.contentTextView];
+                    
+                    if (!CGSizeEqualToSize(CGSizeZero, result.size)){
+                        CGRect convertedRect = [self.contentContainerView convertRect:result fromView:self.contentTextView];
+                        czzThreadRefButton *threadRefButton = [[czzThreadRefButton alloc] initWithFrame:CGRectMake(convertedRect.origin.x, convertedRect.origin.y + self.contentTextView.frame.origin.y, convertedRect.size.width, convertedRect.size.height)];
+                        threadRefButton.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.05f];
+                        [threadRefButton addTarget:self action:@selector(userTapInRefButton:) forControlEvents:UIControlEventTouchUpInside];
+                        threadRefButton.threadRefNumber = rep;
+                        [self.contentContainerView addSubview:threadRefButton];
+                        [self.referenceButtons addObject:threadRefButton];
+                    }
+                    // Green text, 121	152	45
+                    UIColor *greenTextColour = [UIColor colorWithRed:121/255.0 green:152/255.0 blue:45/255.0 alpha:1];
+                    [mutableAttributedString addAttributes:@{NSForegroundColorAttributeName: greenTextColour} range:range];
                 }
             }
         }
+        self.contentTextView.attributedText = mutableAttributedString;
     }
-    
 }
 
 -(BOOL)canPerformAction:(SEL)action withSender:(id)sender{
@@ -107,24 +100,31 @@ NSInteger const veryLowConstraintPriority = 1;
     return YES;
 }
 
--(void)resetViews {
-    //colours
-    if (self.nightyMode) {
-        UIColor *viewBackgroundColour = [settingCentre viewBackgroundColour];
-        self.contentTextView.backgroundColor = viewBackgroundColour;
-        self.containerView.backgroundColor = viewBackgroundColour;
-        self.contentView.backgroundColor = [UIColor darkGrayColor];
-    } else {
-        self.contentTextView.backgroundColor = [UIColor whiteColor];
-        self.containerView.backgroundColor = [UIColor whiteColor];
-        self.contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    }
+-(void)resetViewBackgroundColours {
+    // Reset all colours for header view, footer view, middle container view and content text view.
+    self.contentView.backgroundColor = self.cellFooterView.backgroundColor = self.cellHeaderView.backgroundColor =
+    self.contentContainerView.backgroundColor = self.contentTextView.backgroundColor =
+    [settingCentre viewBackgroundColour];
+}
+
+- (void)highLight {
+    self.contentView.backgroundColor = self.contentTextView.backgroundColor = self.cellHeaderView.backgroundColor =
+    self.cellFooterView.backgroundColor = self.contentContainerView.backgroundColor = [UIColor groupTableViewBackgroundColor];
 }
 
 #pragma mark - custom menu action
 -(void)menuActionCopy:(id)sender{
-    [[UIPasteboard generalPasteboard] setString:self.thread.content.string];
-    [AppDelegate showToast:@"内容已复制"];
+    self.contentCopyActionSheet = [[UIActionSheet alloc] initWithTitle: @"复制..."
+                                                              delegate: self
+                                                     cancelButtonTitle: nil
+                                                destructiveButtonTitle: nil
+                                                     otherButtonTitles: nil];
+    [self.contentCopyActionSheet addButtonWithTitle:@"内容"];
+    [self.contentCopyActionSheet addButtonWithTitle:@"串号"];
+    [self.contentCopyActionSheet addButtonWithTitle:@"用户饼干"];
+    [self.contentCopyActionSheet addButtonWithTitle:@"取消"];
+    self.contentCopyActionSheet.cancelButtonIndex = 3;
+    [self.contentCopyActionSheet showInView:self.superview];
 }
 
 -(void)menuActionReply:(id)sender{
@@ -134,19 +134,18 @@ NSInteger const veryLowConstraintPriority = 1;
 }
 
 -(void)menuActionOpen:(id)sender{
-    
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle: @"打开链接"
-                                                       delegate: self
-                                              cancelButtonTitle: nil
-                                         destructiveButtonTitle: nil
-                                              otherButtonTitles: nil];
+    self.openLinkActionSheet = [[UIActionSheet alloc] initWithTitle: @"打开链接"
+                                                           delegate: self
+                                                  cancelButtonTitle: nil
+                                             destructiveButtonTitle: nil
+                                                  otherButtonTitles: nil];
     for (NSString *link in self.links) {
-        [actionSheet addButtonWithTitle:link];
+        [self.openLinkActionSheet addButtonWithTitle:link];
     }
-    [actionSheet addButtonWithTitle:@"取消"];
-    actionSheet.cancelButtonIndex = self.links.count;
+    [self.openLinkActionSheet addButtonWithTitle:@"取消"];
+    self.openLinkActionSheet.cancelButtonIndex = self.links.count;
     
-    [actionSheet showInView:self.superview];
+    [self.openLinkActionSheet showInView:self.superview];
 }
 
 -(void)menuActionHighlight:(id)sender {
@@ -173,69 +172,40 @@ NSInteger const veryLowConstraintPriority = 1;
 }
 
 -(void)renderContent {
-    [self resetViews];
+    [self resetViewBackgroundColours];
     if (self.nightyMode) {
         // If nighty mode, add nighty mode attributes to the text.
-        NSMutableAttributedString *contentAttrString = [self.thread.content mutableCopy];
-        [contentAttrString addAttribute:NSForegroundColorAttributeName value:settingCentre.contentTextColour range:NSMakeRange(0, contentAttrString.length)];
+        NSMutableAttributedString *contentAttrString = [self.threadContent mutableCopy];
+        [contentAttrString addAttribute:NSForegroundColorAttributeName
+                                  value:settingCentre.contentTextColour
+                                  range:NSMakeRange(0, contentAttrString.length)];
         self.contentTextView.attributedText = contentAttrString;
     } else {
-        self.contentTextView.attributedText = self.thread.content;
+        self.contentTextView.attributedText = self.threadContent;
     }
     self.contentTextView.font = settingCentre.contentFont;
     
-    [self.contentTextView layoutIfNeeded];
-    
     // Highlight the selected user.
     if (self.selectedUserToHighlight && [self.thread.UID isEqualToString:self.selectedUserToHighlight]) {
-        self.contentTextView.backgroundColor = self.contentView.backgroundColor;
+        [self highLight];
     }
     // Images.
     UIImage *previewImage;
     NSString *imageName;
     if (self.allowImage && (imageName = self.thread.imgSrc.lastPathComponent).length) {
         previewImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:imageName]]];
-        if (self.bigImageMode) {
-            // If big image mode, try to grab the full size image.
-            UIImage *fullImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]]];
-            previewImage = fullImage ?: previewImage;
-        }
-        self.imageViewHeightConstraint.constant =
-        self.imageViewWidthConstraint.constant = fixedConstraintConstant;
         self.cellImageView.image = previewImage ?: self.placeholderImage;
+        self.cellImageViewButtonMinimumWidthConstraint.active = YES;
     } else {
-        // Reset the cell image view, deactivate all size constraints.
-        self.imageViewHeightConstraint.constant =
-        self.imageViewWidthConstraint.constant = 0;
+        // Completely invisible.
         self.cellImageView.image = nil;
+        self.cellImageViewButtonMinimumWidthConstraint.active = NO;
     }
-    // If big image mode and have a valid image, calculate the aspect ratio.
-    if (self.bigImageMode &&
-        self.cellImageView.image &&
-        self.cellImageView.image != self.placeholderImage) {
-        CGFloat aspectRatio = self.cellImageView.intrinsicContentSize.height / self.cellImageView.intrinsicContentSize.width;
-        self.imageViewWidthConstraint.constant = CGRectGetWidth(self.frame) - 8 * 2; // Remove the padding for leading and trailing.
-        self.imageViewHeightConstraint.constant = self.imageViewWidthConstraint.constant * aspectRatio;
-        // Positioning of the image view.
-        self.imageViewCentreAlignConstraint.priority = veryHightConstraintPriority;
-
-        // Make sure the height never exceed 80% of the shortest of the screen edges.
-        if (self.imageViewHeightConstraint.constant > MIN(CGRectGetHeight([UIScreen mainScreen].bounds), CGRectGetWidth([UIScreen mainScreen].bounds)) * 0.8) {
-            self.imageViewHeightConstraint.constant = MIN(CGRectGetHeight([UIScreen mainScreen].bounds), CGRectGetWidth([UIScreen mainScreen].bounds)) * 0.8;
-        }
-    } else {
-        self.imageViewCentreAlignConstraint.priority = veryLowConstraintPriority;
-    }
-    
-    // Header and footer
+    [self setNeedsUpdateConstraints];
+    // Header and footer.
     self.cellHeaderView.shouldHighLight = self.shouldHighlight;
     self.cellHeaderView.parentUID = self.parentThread.UID;
     self.cellFooterView.thread = self.cellHeaderView.thread = self.thread;
-    if (self.cellFooterView.isHidden) {
-        self.footerContainerViewHeightConstraint.constant = 8;
-    } else {
-        self.footerContainerViewHeightConstraint.constant = 20;
-    }
 }
 
 #pragma mark - UI actions
@@ -244,15 +214,19 @@ NSInteger const veryLowConstraintPriority = 1;
     if (self.shouldAllowClickOnImage && [self.delegate respondsToSelector:@selector(userTapInImageView:)]) {
         [self.delegate userTapInImageView:self.thread.imgSrc];
     } else {
-        DDLogDebug(@"Tap on image view dis-allowed.");
+        DDLogDebug(@"Tap on image view not allow.");
+    }
+}
+
+- (void)showThreadWithID:(NSString *)threadID {
+    if ([self.delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
+        [self.delegate userTapInQuotedText:threadID];
     }
 }
 
 - (void)userTapInRefButton:(id)sender {
     if ([sender isKindOfClass:[czzThreadRefButton class]]) {
-        if ([self.delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
-            [self.delegate userTapInQuotedText:[NSString stringWithFormat:@"%ld", (long)[(czzThreadRefButton *)sender threadRefNumber]]];
-        }
+        [self showThreadWithID:[NSString stringWithFormat:@"%ld", (long)[(czzThreadRefButton *)sender threadRefNumber]]];
     }
 }
 
@@ -262,58 +236,70 @@ NSInteger const veryLowConstraintPriority = 1;
     if (buttonIndex == actionSheet.cancelButtonIndex)
         return;
     NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
-    NSString *hostPrefix = [settingCentre a_isle_host];
-    if (hostPrefix.length && [buttonTitle rangeOfString:hostPrefix options:NSCaseInsensitiveSearch].location != NSNotFound) {
-        if ([self.delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
-            [self.delegate userTapInQuotedText:[buttonTitle stringByReplacingOccurrencesOfString:hostPrefix withString:@""]];
+    if (actionSheet == self.openLinkActionSheet && buttonTitle.length) {
+        NSString *hostPrefix = [settingCentre a_isle_host];
+        if (hostPrefix.length && [buttonTitle rangeOfString:hostPrefix options:NSCaseInsensitiveSearch].location != NSNotFound) {
+            if ([self.delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
+                [self.delegate userTapInQuotedText:[buttonTitle stringByReplacingOccurrencesOfString:hostPrefix withString:@""]];
+            }
+            return;
         }
-        return;
+        
+        NSURL *link = [NSURL URLWithString:buttonTitle];
+        [[UIApplication sharedApplication] openURL:link];
+    } else if (actionSheet == self.contentCopyActionSheet && buttonTitle.length) {
+        NSString *copyContent = @"";
+        if ([buttonTitle isEqualToString:@"内容"]) {
+            copyContent = self.thread.content.string;
+        } else if ([buttonTitle isEqualToString:@"串号"]) {
+            copyContent = [NSString stringWithFormat:@"No.%ld", (long)self.thread.ID];
+        } else if ([buttonTitle isEqualToString:@"用户饼干"]) {
+            copyContent = self.thread.UID;
+        }
+        if (copyContent.length) {
+            [[UIPasteboard generalPasteboard] setString:copyContent];
+            [AppDelegate showToast:[NSString stringWithFormat:@"%@ 已复制", buttonTitle]];
+        }
     }
-    
-    NSURL *link = [NSURL URLWithString:buttonTitle];
-    [[UIApplication sharedApplication] openURL:link];
 }
 
 #pragma mark - Setters
 
 -(void)setThread:(czzThread *)thread{
-    _thread = thread;
-    if (thread.content) {
-        NSDataDetector *linkDetector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
-        self.links = [NSMutableArray new];
-        NSArray *matches = [linkDetector matchesInString:_thread.content.string
-                                                 options:0
-                                                   range:NSMakeRange(0, [self.thread.content.string length])];
-        for (NSTextCheckingResult *match in matches) {
-            if ([match resultType] == NSTextCheckingTypeLink) {
-                NSURL *url = [match URL];
-                [self.links addObject:url.absoluteString];
+    if (_thread != thread) {
+        _thread = thread;
+        if (thread.content) {
+            NSDataDetector *linkDetector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
+            self.links = [NSMutableArray new];
+            NSArray *matches = [linkDetector matchesInString:self.threadContent.string
+                                                     options:0
+                                                       range:NSMakeRange(0, [self.threadContent.string length])];
+            for (NSTextCheckingResult *match in matches) {
+                if ([match resultType] == NSTextCheckingTypeLink) {
+                    NSURL *url = [match URL];
+                    [self.links addObject:url.absoluteString];
+                }
             }
         }
     }
 }
 
-- (void)setCellType:(threadViewCellType)cellType {
-    _cellType = cellType;
-    // When in big image mode, the cell image view should be disabled when the cell type is home.
-    if (cellType == threadViewCellTypeHome && self.bigImageMode) {
-        self.cellImageView.userInteractionEnabled = NO;
-    } else {
-        self.cellImageView.userInteractionEnabled = YES;
-    }
-}
-
 #pragma mark - Getters
-- (BOOL)imageUpdated {
-    BOOL updated = NO;
-    // If self.thread points to an image URL, but the cell image view still shows the placeholder image, return NO.
-    if (self.thread.imgSrc.length &&
-        self.cellImageView.image == self.placeholderImage) {
-        updated = NO;
+
+- (NSAttributedString *)threadContent {
+    NSAttributedString *threadContent;
+    // When the cell is displaying in home view controller, and the content is very long.
+    if (settingCentre.userDefShouldCollapseLongContent
+        && self.cellType == threadViewCellTypeHome
+        && self.thread.content.length > settingCentre.long_thread_threshold) {
+        NSMutableAttributedString *tempThreadContent = [[self.thread.content attributedSubstringFromRange:NSMakeRange(0, settingCentre.long_thread_threshold)] mutableCopy];
+        [tempThreadContent appendAttributedString:[[NSAttributedString alloc] initWithString:@"..."
+                                                                                  attributes:@{NSForegroundColorAttributeName:[UIColor lightGrayColor]}]];
+        threadContent = tempThreadContent;
     } else {
-        updated = YES;
+        threadContent = self.thread.content;
     }
-    return updated;
+    return threadContent;
 }
 
 - (NSDateFormatter *)dateFormatter {
@@ -332,15 +318,6 @@ NSInteger const veryLowConstraintPriority = 1;
     return _placeholderImage;
 }
 
-- (UITapGestureRecognizer *)tapOnImageViewRecognizer {
-    if (!_tapOnImageViewRecognizer) {
-        _tapOnImageViewRecognizer = [UITapGestureRecognizer new];
-        [_tapOnImageViewRecognizer addTarget:self action:@selector(tapOnImageView:)];
-    }
-    return _tapOnImageViewRecognizer;
-}
-
-
 #pragma mark - czzImageDownloaderManagerDelegate
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
     if (success &&
@@ -354,17 +331,34 @@ NSInteger const veryLowConstraintPriority = 1;
                     self.cellImageView.alpha = 1;
                 }];
                 [self.delegate threadViewCellContentChanged:self];
-                
-            } else if (self.bigImageMode) {
-                // If the cell image view still shows the placeholder image, inform the delegate now.
-                if (!self.imageUpdated) {
-                    [self.delegate threadViewCellContentChanged:self];
-                }
-                // Assign the fullsize image.
-                self.cellImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForImageWithName:downloader.targetURLString.lastPathComponent]]];
             }
         }
     }
+}
+
+#pragma mark - UITextViewDelegate
+
+- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
+    BOOL shouldInteract = YES;
+    if ([URL.absoluteString hasPrefix:showThreadWithID]) {
+        [self showThreadWithID:URL.absoluteString];
+        shouldInteract = NO;
+    }
+    return shouldInteract;
+}
+
+- (void)textViewDidChangeSelection:(UITextView *)textView {
+    if(NSEqualRanges(textView.selectedRange, NSMakeRange(0, 0)) == NO) {
+        textView.selectedRange = NSMakeRange(0, 0);
+    }
+}
+
+#pragma mark - UIResponder methods.
+
+- (BOOL)resignFirstResponder {
+    // Resign contentTextView, the primary responder.
+    [self.contentTextView resignFirstResponder];
+    return [super resignFirstResponder];
 }
 
 @end

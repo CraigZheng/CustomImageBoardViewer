@@ -21,6 +21,7 @@
 @property (strong, nonatomic) NSString *email;
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSAttributedString *content;
+@property (readonly, nonatomic) NSString *contentSummary;
 @property (strong, nonatomic) NSString *imgSrc;
 @property (strong, nonatomic) NSString *thImgSrc;
 @property (assign, nonatomic) BOOL lock;

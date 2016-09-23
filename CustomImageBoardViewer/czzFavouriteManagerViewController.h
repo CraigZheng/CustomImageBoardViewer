@@ -8,12 +8,22 @@
 
 #import <UIKit/UIKit.h>
 
-@interface czzFavouriteManagerViewController : UITableViewController
+extern NSInteger const bookmarkIndex;
+extern NSInteger const watchIndex;
+extern NSInteger const historyIndex;
+
+@class czzThreadTableView;
+
+@interface czzFavouriteManagerViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UISegmentedControl *titleSegmentedControl;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *historyTypeSegmentedControl;
+@property (weak, nonatomic) IBOutlet czzThreadTableView *tableView;
 @property NSMutableOrderedSet *threads;
+@property (assign, nonatomic) NSInteger launchToIndex;
 
 - (IBAction)editAction:(id)sender;
 - (IBAction)titleSegmentedControlAction:(id)sender;
+- (IBAction)historyTypeSegmentedControlAction:(id)sender;
 
 
 +(UIViewController*)newInNavigationController;

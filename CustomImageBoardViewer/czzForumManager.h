@@ -20,6 +20,10 @@
 @property (nonatomic, weak) id<czzForumManagerDelegate> delegate;
 @property (nonatomic, strong) NSMutableArray *forumGroups;
 @property (nonatomic) NSArray *forums;
+@property (strong, nonatomic) NSMutableArray * customForums;
+
+- (void)addCustomForumWithName:(NSString *)forumName forumID:(NSInteger)forumID;
+- (void)removeCustomForum:(czzForum*)forum;
 - (void)updateForums:(void(^)(BOOL success, NSError *error))completionHandler;
 
 + (instancetype)sharedManager;

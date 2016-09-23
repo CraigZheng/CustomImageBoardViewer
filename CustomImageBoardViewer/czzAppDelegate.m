@@ -19,15 +19,16 @@
 #import "czzFavouriteManagerViewController.h"
 #import "czzCacheCleaner.h"
 #import "czzHomeViewManager.h"
+#import "czzBannerNotificationUtil.h"
+#import "czzHistoryManager.h"
+#import "czzFavouriteManager.h"
 #import <Google/Analytics.h>
-
 #import <WatchConnectivity/WatchConnectivity.h>
 
-#ifndef TARGET_IPHONE_SIMULATOR
 #import "TalkingData.h"
-#endif
+
 //#import <BugSense-iOS/BugSenseController.h>
-#import <SplunkMint-iOS/SplunkMint-iOS.h>
+#import <SplunkMint/SplunkMint.h>
 
 #define LOG_LEVEL_DEF ddLogLevel
 
@@ -49,20 +50,18 @@
     fileLogger.rollingFrequency = 60 * 60 * 24; // 24 hour rolling
     fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
     [DDLog addLogger:fileLogger];
-    
-#ifndef TARGET_IPHONE_SIMULATOR
-    [[Mint sharedInstance] initAndStartSession:@"cd668a8e"];
+    // Splunk mint configuration.
+    [[Mint sharedInstance] initAndStartSessionWithAPIKey:@"cd668a8e"];
     [[Mint sharedInstance] setUserIdentifier:[UIDevice currentDevice].identifierForVendor.UUIDString];
-    
     // Talkind data initialisation
     [TalkingData sessionStarted:@"B8168DD03CD9EF62B476CEDFBC3FB52D" withChannelId:@""];
-    
-#endif
     // Google analytic configuration
     // Configure tracker from GoogleService-Info.plist.
     NSError *configureError;
     [[GGLContext sharedInstance] configureWithError:&configureError];
     NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
+    // Enable IDFA collection.
+    [[[GAI sharedInstance] defaultTracker] setAllowIDFACollection:YES];
     
     //    // Optional: configure GAI options.
     //    GAI *gai = [GAI sharedInstance];
@@ -100,6 +99,8 @@
     if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
         CacheCleaner;
     }
+    // Init the watch list manager.
+    WatchListManager;
 }
 
 
@@ -120,8 +121,32 @@
                                                                                   wkBackgroundTaskIdentifier = UIBackgroundTaskInvalid;
                                                                               }];
     [[czzWatchKitManager sharedManager] handleWatchKitExtensionRequest:message
-                                                                 reply:replyHandler
+                                                                 reply:^(NSDictionary *response) {
+                                                                     NSError *error;
+                                                                     [[WCSession defaultSession] updateApplicationContext:response error:&error];
+                                                                     if (error) {
+                                                                         DLog(@"%@", error);
+                                                                     }
+                                                                 }
                                           withBackgroundTaskIdentifier:wkBackgroundTaskIdentifier];
+}
+
+- (void)session:(WCSession *)session didReceiveApplicationContext:(NSDictionary<NSString *,id> *)applicationContext {
+    __block UIBackgroundTaskIdentifier wkBackgroundTaskIdentifier;
+    wkBackgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithName:@"backgroundTask"
+                                                                              expirationHandler:^{
+                                                                                  wkBackgroundTaskIdentifier = UIBackgroundTaskInvalid;
+                                                                              }];
+    [[czzWatchKitManager sharedManager] handleWatchKitExtensionRequest:applicationContext
+                                                                 reply:^(NSDictionary *response) {
+                                                                     NSError *error;
+                                                                     [[WCSession defaultSession] updateApplicationContext:response error:&error];
+                                                                     if (error) {
+                                                                         DLog(@"%@", error);
+                                                                     }
+                                                                 }
+                                          withBackgroundTaskIdentifier:wkBackgroundTaskIdentifier];
+
 }
 
 - (void)session:(WCSession *)session didReceiveApplicationContext:(NSDictionary<NSString *,id> *)applicationContext {
@@ -138,15 +163,26 @@
 
 #pragma mark - background fetch
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    [[czzWatchListManager sharedManager] refreshWatchedThreads:^(NSArray *updatedThreads) {
+    DDLogDebug(@"%s", __PRETTY_FUNCTION__);
+    __block void(^localRefCompletionHandler)(UIBackgroundFetchResult) = completionHandler;
+    // Safe guard.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(25 * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        if (localRefCompletionHandler) {
+            DDLogDebug(@"Background fetch safe gurad: time limit has reached, call completionHandler with NoData as the result.");
+            localRefCompletionHandler(UIBackgroundFetchResultNoData);
+            localRefCompletionHandler = nil;
+        }
+    });
+    [WatchListManager refreshWatchedThreadsWithCompletionHandler:^(NSArray *updatedThreads) {
+        DDLogDebug(@"Background fetch completed.");
         UIBackgroundFetchResult backgroundFetchResult = UIBackgroundFetchResultNoData;
         
         UILocalNotification *localNotif = [[UILocalNotification alloc] init];
         localNotif.fireDate = [NSDate dateWithTimeInterval:1.0 sinceDate:[NSDate new]];
 
         if (updatedThreads.count) {
-            localNotif.alertTitle = [NSString stringWithFormat:@"%ld thread(s) updated", (long)updatedThreads.count];
-            localNotif.alertBody = [NSString stringWithFormat:@"%@", [(czzThread*)updatedThreads.firstObject content].string];
+            localNotif.alertTitle = WatchListManager.updateTitle;
+            localNotif.alertBody = WatchListManager.updateContent;
             localNotif.soundName = UILocalNotificationDefaultSoundName;
             localNotif.applicationIconBadgeNumber = updatedThreads.count;
 
@@ -156,18 +192,21 @@
             
             backgroundFetchResult = UIBackgroundFetchResultNewData;
         }
-        completionHandler(backgroundFetchResult);
+        if (localRefCompletionHandler) {
+            localRefCompletionHandler(backgroundFetchResult);
+            localRefCompletionHandler = nil;
+        }
     }];
 }
 
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+    czzFavouriteManagerViewController *favouriteManagerViewController = [czzFavouriteManagerViewController new];
+    favouriteManagerViewController.launchToIndex = watchIndex; // Launch to watchlist view.
     if (self.window.rootViewController) {
         // Received local notification, most likely watch list is updated
-        czzFavouriteManagerViewController *favouriteManagerViewController = [czzFavouriteManagerViewController new];
         [NavigationManager pushViewController:favouriteManagerViewController animated:YES];
     } else {
         [czzAppActivityManager sharedManager].appLaunchCompletionHandler = ^{
-            czzFavouriteManagerViewController *favouriteManagerViewController = [czzFavouriteManagerViewController new];
             [NavigationManager pushViewController:favouriteManagerViewController animated:YES];
         };
     }
@@ -215,6 +254,10 @@
     return [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 }
 
++(NSString *)documentFolder {
+    return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+}
+
 +(NSString *)thumbnailFolder {
     return [[self libraryFolder] stringByAppendingPathComponent:@"Thumbnails"];
 }
@@ -232,7 +275,8 @@
 }
 
 -(void)showToast:(NSString *)string{
-    [[[[[UIApplication sharedApplication] keyWindow] subviews] lastObject] makeToast:string];
+    [czzBannerNotificationUtil displayMessage:string
+                                     position:BannerNotificationPositionBottom];
 }
 
 #pragma mark - show and hide uitoolbar
@@ -268,6 +312,7 @@
     for (NSString *folderPath in resourceFolders) {
         if (![[NSFileManager defaultManager] fileExistsAtPath:folderPath]){
             [[NSFileManager defaultManager] createDirectoryAtPath:folderPath withIntermediateDirectories:NO attributes:nil error:nil];
+            DDLogDebug(@"Create library folder: %@", folderPath);
         }
         //exclude my folders from being backed up to iCloud
         [self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:folderPath]];

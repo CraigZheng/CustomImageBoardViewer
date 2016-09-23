@@ -8,13 +8,11 @@
 
 #import "czzThreadDownloader.h"
 
-#import "czzURLDownloader.h"
-#import "czzJSONProcessor.h"
 #import "czzThread.h"
 #import "czzForum.h"
 #import "czzSettingsCentre.h"
 
-@interface czzThreadDownloader() <czzURLDownloaderProtocol, czzJSONProcessorDelegate>
+@interface czzThreadDownloader()
 @property (nonatomic, strong) czzURLDownloader *urlDownloader;
 @property (nonatomic, strong) czzJSONProcessor *jsonProcessor;
 
@@ -49,13 +47,10 @@
                                                             delegate:self
                                                             startNow:YES];
     DDLogDebug(@"Start downloading: %@", targetURL.absoluteString);
-    if ([self.delegate respondsToSelector:@selector(threadDownloaderBeginsDownload:)]) {
-        [self.delegate threadDownloaderBeginsDownload:self];
-    }
 }
 
 - (void)stop {
-    if (self.urlDownloader) {
+    if (self.urlDownloader.isDownloading) {
         DDLogDebug(@"%s", __PRETTY_FUNCTION__);
         self.urlDownloader.delegate = nil;
         [self.urlDownloader stop];
@@ -91,6 +86,11 @@
 }
 
 #pragma mark - Getters
+
+- (BOOL)isDownloading {
+    BOOL isDownloading = self.urlDownloader.isDownloading;
+    return isDownloading;
+}
 
 - (NSString *)targetURLString {
     NSString *targetURLString;
@@ -135,15 +135,13 @@
 
 - (void)downloadOf:(NSURL *)url successed:(BOOL)successed result:(NSData *)downloadedData {
     if (successed) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            if (self.parentThread) {
-                [self.jsonProcessor processSubThreadFromData:downloadedData
-                                                    forForum:self.parentForum];
-            } else if (self.parentForum) {
-                [self.jsonProcessor processThreadListFromData:downloadedData
-                                                     forForum:self.parentForum];
-            }
-        });
+        if (self.parentThread) {
+            [self.jsonProcessor processSubThreadFromData:downloadedData
+                                                forForum:self.parentForum];
+        } else if (self.parentForum) {
+            [self.jsonProcessor processThreadListFromData:downloadedData
+                                                 forForum:self.parentForum];
+        }
     } else {
         // Inform delegate about the failure.
         [self notifyDelegateSuccess:NO downloadedThreads:nil error:nil];
@@ -157,31 +155,34 @@
     }
 }
 
+- (void)downloadStateChanged:(czzURLDownloader *)downloader {
+    if ([self.delegate respondsToSelector:@selector(threadDownloaderStateChanged:)]) {
+        [self.delegate threadDownloaderStateChanged:self];
+    }
+}
+
 #pragma mark - czzJSONProcessorDelegate
 
 - (void)threadListProcessed:(czzJSONProcessor *)processor :(NSArray *)newThread :(BOOL)success {
     // TODO: give proper error.
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self notifyDelegatePageNumberUpdated:success ? self.pageNumber : self.pageNumber-- total:INT32_MAX];
-        [self notifyDelegateSuccess:success downloadedThreads:newThread error:nil];
-    });
+    [self notifyDelegatePageNumberUpdated:success ? self.pageNumber : self.pageNumber-- total:INT32_MAX];
+    [self notifyDelegateSuccess:success downloadedThreads:newThread error:nil];
 }
 
 - (void)subThreadProcessedForThread:(czzJSONProcessor *)processor :(czzThread *)parentThread :(NSArray *)newThread :(BOOL)success {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        // Page number, if download is not successful or not enough to fill a page, reverse the page number by 1.
-        CGFloat pageNumber = (success && newThread.count >= settingCentre.response_per_page) ? self.pageNumber : self.pageNumber--;
-        CGFloat totalPages = 1; //Default values.
-        
-        totalPages = (CGFloat)parentThread.responseCount / (CGFloat)settingCentre.response_per_page;
-        totalPages = ceilf(totalPages);
-        self.parentThread = parentThread;
-        // Notify delegate about the page number
-        [self notifyDelegatePageNumberUpdated:pageNumber total:totalPages];
-        
-        // Notify delegate about the successful download.
-        [self notifyDelegateSuccess:success downloadedThreads:newThread error:nil];
-    });
+    // If not success, or no thread has been downloaded, reverse the page number by 1.
+    if (!success || newThread.count == 0) {
+        self.pageNumber --;
+    }
+    CGFloat totalPages = (CGFloat)parentThread.responseCount / (CGFloat)settingCentre.response_per_page;
+    self.totalPages = ceilf(totalPages);
+    self.parentThread = parentThread;
+    // Notify delegate about the page number
+    [self notifyDelegatePageNumberUpdated:self.pageNumber
+                                    total:self.totalPages];
+    
+    // Notify delegate about the successful download.
+    [self notifyDelegateSuccess:success downloadedThreads:newThread error:nil];
 }
 
 @end

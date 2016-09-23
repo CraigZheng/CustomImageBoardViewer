@@ -6,11 +6,12 @@
 target 'CustomImageBoardViewer' do
 pod 'Google/Analytics'
 pod 'Google-Mobile-Ads-SDK', '~> 7.0'
-pod "MWPhotoBrowser"
+pod "MWPhotoBrowser", "~> 2.1.2"
 pod 'ViewDeck'
 pod 'PureLayout'
 pod 'CocoaLumberjack'
 pod 'AFNetworking', '~> 3.0'
+pod 'SplunkMint'
 end
 
 target 'CustomImageBoardViewerTests' do

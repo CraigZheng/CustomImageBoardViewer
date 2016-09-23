@@ -65,7 +65,7 @@
 #pragma mark - Download management
 
 -(void)downloadImageWithURL:(NSString *)imageURL isThumbnail:(BOOL)thumbnail{
-    if (![self isImageDownloading:imageURL.lastPathComponent isThumbnail:thumbnail]) {
+    if (imageURL.length && ![self isImageDownloading:imageURL.lastPathComponent isThumbnail:thumbnail]) {
         czzImageDownloader *imageDownloader = [czzImageDownloader new];
         imageDownloader.imageURLString = imageURL;
         imageDownloader.isThumbnail = thumbnail;
@@ -108,6 +108,9 @@
 }
 
 -(BOOL)isImageDownloading:(NSString *)imageName isThumbnail:(BOOL)thumbnail{
+    if (!imageName.length) {
+        return NO;
+    }
     BOOL downloading = NO;
     for (czzImageDownloader *downloader in thumbnail ? self.thumbnailDownloaders : self.imageDownloaders) {
         if ([downloader.imageURLString.lastPathComponent isEqualToString:imageName]) {
@@ -147,6 +150,7 @@
 
     // Record successfully downloaded full size image to self.downloadedFullSizeImages
     if (success && !thumbnail) {
+        self.unviewedImageCount ++;
         [self.downloadedFullSizeImages addObject:path];
     }
     [self iterateDelegatesWithBlock:^(id<czzImageDownloaderManagerDelegate> delegate) {

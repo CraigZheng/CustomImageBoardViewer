@@ -22,6 +22,7 @@ extern NSString * const showThreadViewSegueIdentifier;
 
 @property (weak, nonatomic) IBOutlet czzThreadTableView *threadTableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *starButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *watchButton;
 @property (weak, nonatomic) IBOutlet UIView *onScreenImageManagerViewContainer;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *moreButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *jumpBarButtonItem;

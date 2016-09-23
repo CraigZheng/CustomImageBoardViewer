@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="qOn-oZ-P35">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="qOn-oZ-P35">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -15,6 +15,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" id="7qA-bb-R4L">
+                        <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
@@ -28,7 +29,7 @@
         <!--Czz Cookie Manager View Controller-->
         <scene sceneID="aFv-aM-ugo">
             <objects>
-                <viewController storyboardIdentifier="CZZ_COOKIE_MANAGER_VIEW_CONTROLLER_IDENTIFIER" hidesBottomBarWhenPushed="YES" id="fbg-qH-p2B" customClass="czzCookieManagerViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CZZ_COOKIE_MANAGER_VIEW_CONTROLLER_IDENTIFIER" id="fbg-qH-p2B" customClass="czzCookieManagerViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gtm-fj-Jiu"/>
                         <viewControllerLayoutGuide type="bottom" id="eF3-xm-59U"/>
@@ -42,51 +43,62 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cookie_info_table_view_cell_identifier" id="XM7-f8-VNB">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="86" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XM7-f8-VNB" id="xPI-J5-N7R">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CONTENT" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" preferredMaxLayoutWidth="250" translatesAutoresizingMaskIntoConstraints="NO" id="Rau-co-OEC">
-                                                    <rect key="frame" x="70" y="0.0" width="250" height="39"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" text="CONTENT" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" preferredMaxLayoutWidth="250" translatesAutoresizingMaskIntoConstraints="NO" id="Rau-co-OEC">
+                                                    <rect key="frame" x="70" y="0.0" width="250" height="41"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" preferredMaxLayoutWidth="70" translatesAutoresizingMaskIntoConstraints="NO" id="cIV-0O-ltG">
-                                                    <rect key="frame" x="0.0" y="0.0" width="70" height="60"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="70" height="41"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="70" id="tzg-Xd-xa6"/>
+                                                        <constraint firstAttribute="width" constant="70" id="niB-1k-LXX"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Domain" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" preferredMaxLayoutWidth="250" translatesAutoresizingMaskIntoConstraints="NO" id="lOh-Jo-UrS">
-                                                    <rect key="frame" x="70" y="39" width="250" height="21"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="21" id="nOF-6S-gPS"/>
-                                                    </constraints>
+                                                <label opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12/12/2012" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" preferredMaxLayoutWidth="250" translatesAutoresizingMaskIntoConstraints="NO" id="7Mz-Jy-V3t">
+                                                    <rect key="frame" x="238" y="41" width="62" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" red="1" green="0.67954375359999997" blue="0.069473601879999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" verticalHuggingPriority="251" text="Domain" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" preferredMaxLayoutWidth="250" translatesAutoresizingMaskIntoConstraints="NO" id="WkY-mQ-Fbs">
+                                                    <rect key="frame" x="0.0" y="41" width="238" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="Rau-co-OEC" firstAttribute="leading" secondItem="cIV-0O-ltG" secondAttribute="trailing" id="9ia-ac-FHk"/>
-                                                <constraint firstItem="cIV-0O-ltG" firstAttribute="top" secondItem="xPI-J5-N7R" secondAttribute="top" id="JbG-wJ-xGa"/>
-                                                <constraint firstItem="Rau-co-OEC" firstAttribute="top" secondItem="xPI-J5-N7R" secondAttribute="top" id="Y8c-Tg-jTt"/>
-                                                <constraint firstAttribute="bottom" secondItem="lOh-Jo-UrS" secondAttribute="bottom" id="b2w-wY-F3S"/>
-                                                <constraint firstItem="cIV-0O-ltG" firstAttribute="leading" secondItem="xPI-J5-N7R" secondAttribute="leading" id="f5a-Um-MAg"/>
+                                                <constraint firstItem="Rau-co-OEC" firstAttribute="top" secondItem="xPI-J5-N7R" secondAttribute="top" id="3Ej-zk-iTT"/>
+                                                <constraint firstAttribute="bottom" secondItem="7Mz-Jy-V3t" secondAttribute="bottom" id="5Uo-bV-USu"/>
+                                                <constraint firstItem="7Mz-Jy-V3t" firstAttribute="leading" secondItem="WkY-mQ-Fbs" secondAttribute="trailing" id="6CQ-I2-5UW"/>
+                                                <constraint firstItem="Rau-co-OEC" firstAttribute="bottom" secondItem="cIV-0O-ltG" secondAttribute="bottom" id="MNh-pw-J6s"/>
+                                                <constraint firstItem="WkY-mQ-Fbs" firstAttribute="leading" secondItem="xPI-J5-N7R" secondAttribute="leading" id="NHk-NV-g1E"/>
+                                                <constraint firstItem="WkY-mQ-Fbs" firstAttribute="top" secondItem="cIV-0O-ltG" secondAttribute="bottom" id="Qgz-IZ-EiT"/>
+                                                <constraint firstAttribute="trailing" secondItem="Rau-co-OEC" secondAttribute="trailing" id="VGw-hk-qmW"/>
+                                                <constraint firstItem="7Mz-Jy-V3t" firstAttribute="top" secondItem="WkY-mQ-Fbs" secondAttribute="top" id="ddD-ed-HeG"/>
                                                 <constraint firstAttribute="bottom" secondItem="cIV-0O-ltG" secondAttribute="bottom" id="gWO-94-Rv5"/>
-                                                <constraint firstItem="lOh-Jo-UrS" firstAttribute="leading" secondItem="cIV-0O-ltG" secondAttribute="trailing" id="hrb-ha-4gW"/>
-                                                <constraint firstAttribute="trailing" secondItem="lOh-Jo-UrS" secondAttribute="trailing" id="lIQ-yT-98Z"/>
-                                                <constraint firstItem="lOh-Jo-UrS" firstAttribute="top" secondItem="Rau-co-OEC" secondAttribute="bottom" id="vE9-Dm-EHi"/>
+                                                <constraint firstItem="WkY-mQ-Fbs" firstAttribute="top" secondItem="Rau-co-OEC" secondAttribute="bottom" id="kob-GS-gVO"/>
+                                                <constraint firstItem="Rau-co-OEC" firstAttribute="leading" secondItem="cIV-0O-ltG" secondAttribute="trailing" id="ldh-LD-EIo"/>
+                                                <constraint firstItem="cIV-0O-ltG" firstAttribute="leading" secondItem="xPI-J5-N7R" secondAttribute="leading" id="lsR-VY-RQF"/>
+                                                <constraint firstAttribute="trailing" secondItem="7Mz-Jy-V3t" secondAttribute="trailing" constant="20" symbolic="YES" id="t4d-tu-otG"/>
+                                                <constraint firstAttribute="bottom" secondItem="WkY-mQ-Fbs" secondAttribute="bottom" id="upt-wB-pwd"/>
                                                 <constraint firstAttribute="bottom" secondItem="Rau-co-OEC" secondAttribute="bottom" id="vSs-hW-lUi"/>
-                                                <constraint firstAttribute="trailing" secondItem="Rau-co-OEC" secondAttribute="trailing" id="ydR-xK-FuS"/>
+                                                <constraint firstItem="cIV-0O-ltG" firstAttribute="top" secondItem="xPI-J5-N7R" secondAttribute="top" id="z4o-Lp-idB"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
+                                                    <exclude reference="gWO-94-Rv5"/>
+                                                    <exclude reference="kob-GS-gVO"/>
                                                     <exclude reference="vSs-hW-lUi"/>
                                                 </mask>
                                             </variation>
@@ -98,40 +110,47 @@
                                     <outlet property="delegate" destination="fbg-qH-p2B" id="1xV-xO-RUW"/>
                                 </connections>
                             </tableView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sub-d5-DqM">
+                                <rect key="frame" x="0.0" y="392" width="320" height="44"/>
+                                <items>
+                                    <barButtonItem image="checked_user.png" id="3V8-RM-aXy">
+                                        <connections>
+                                            <action selector="useCookieAction:" destination="fbg-qH-p2B" id="LKw-FA-6Xq"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="Npm-sD-smj"/>
+                                    <barButtonItem image="save_as.png" id="1KD-1i-sCq">
+                                        <connections>
+                                            <action selector="saveCookieAction:" destination="fbg-qH-p2B" id="ipD-5m-qfy"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="eEf-C1-Ftt"/>
+                                    <barButtonItem image="upload.png" id="8fr-aG-NNj">
+                                        <connections>
+                                            <action selector="shareCookieAction:" destination="fbg-qH-p2B" id="D0c-0Y-O8D"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Bbu-CK-ZqS"/>
+                                    <barButtonItem image="remove_user.png" id="0nn-4i-28b">
+                                        <connections>
+                                            <action selector="deleteCookieAction:" destination="fbg-qH-p2B" id="rec-6p-HlV"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="sub-d5-DqM" firstAttribute="leading" secondItem="1lK-Jl-Aur" secondAttribute="leading" id="9ev-Ar-yHy"/>
+                            <constraint firstAttribute="trailing" secondItem="sub-d5-DqM" secondAttribute="trailing" id="MlZ-Wn-JgS"/>
+                            <constraint firstItem="eF3-xm-59U" firstAttribute="top" secondItem="sub-d5-DqM" secondAttribute="bottom" id="Y25-Dp-DKe"/>
                             <constraint firstItem="2pu-67-HS0" firstAttribute="leading" secondItem="1lK-Jl-Aur" secondAttribute="leading" id="Yh0-Lv-XxG"/>
                             <constraint firstItem="2pu-67-HS0" firstAttribute="top" secondItem="1lK-Jl-Aur" secondAttribute="top" id="eTC-xw-dWN"/>
                             <constraint firstAttribute="trailing" secondItem="2pu-67-HS0" secondAttribute="trailing" id="ffL-LY-uaf"/>
                             <constraint firstAttribute="bottom" secondItem="2pu-67-HS0" secondAttribute="bottom" id="rWA-oA-E7x"/>
                         </constraints>
                     </view>
-                    <toolbarItems>
-                        <barButtonItem image="checked_user.png" id="vpv-0K-5pH">
-                            <connections>
-                                <action selector="useCookieAction:" destination="fbg-qH-p2B" id="Ya7-Eb-5uB"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="I9O-5x-i0w"/>
-                        <barButtonItem image="save_as.png" id="xtj-Ws-h4d">
-                            <connections>
-                                <action selector="saveCookieAction:" destination="fbg-qH-p2B" id="qFl-rA-ucc"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="qZN-Fo-CRi"/>
-                        <barButtonItem image="upload.png" id="XCn-Ui-yRi">
-                            <connections>
-                                <action selector="shareCookieAction:" destination="fbg-qH-p2B" id="8Nc-qG-GTd"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="nUV-Yt-3GY"/>
-                        <barButtonItem image="remove_user.png" id="ckG-1C-qgR">
-                            <connections>
-                                <action selector="deleteCookieAction:" destination="fbg-qH-p2B" id="chF-Ie-z7Z"/>
-                            </connections>
-                        </barButtonItem>
-                    </toolbarItems>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" id="jK1-Nh-Def">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="Yak-0B-RLq">
@@ -155,7 +174,11 @@
                     <connections>
                         <outlet property="cookieManagerSegmentControl" destination="Yak-0B-RLq" id="Moj-8d-QQM"/>
                         <outlet property="cookieManagerTableView" destination="2pu-67-HS0" id="EJP-kk-EL4"/>
-                        <outlet property="saveCookieBarButtonItem" destination="xtj-Ws-h4d" id="4Ka-Ga-rTm"/>
+                        <outlet property="deleteIdentityButton" destination="0nn-4i-28b" id="mEv-Qx-shT"/>
+                        <outlet property="identityActionButton" destination="8fr-aG-NNj" id="vR6-bJ-Ytq"/>
+                        <outlet property="identityToolbar" destination="sub-d5-DqM" id="eEA-HO-Bvq"/>
+                        <outlet property="saveIdentityButton" destination="1KD-1i-sCq" id="e62-tX-JeP"/>
+                        <outlet property="useIdentityButton" destination="3V8-RM-aXy" id="t56-eC-1hd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4sK-rC-Hw6" userLabel="First Responder" sceneMemberID="firstResponder"/>

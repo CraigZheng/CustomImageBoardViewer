@@ -9,10 +9,11 @@
 #import "czzHomeViewManager.h"
 #import "czzImageCacheManager.h"
 #import "czzImageDownloaderManager.h"
+#import <Google/Analytics.h>
 
 @interface czzHomeViewManager ()
 @property (nonatomic, readonly) NSString *cacheFile;
-
+@property (nonatomic, assign) BOOL isDownloading;
 @end
 
 @implementation czzHomeViewManager
@@ -20,9 +21,7 @@
 -(instancetype)init {
     self = [super init];
     if (self) {
-        self.isDownloading = NO;
         self.pageNumber = self.totalPages = 1;
-
     }
     return self;
 }
@@ -75,6 +74,10 @@
 }
 
 -(void)refresh {
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Refresh"
+                                                                                        action:@"Refresh Forum"
+                                                                                         label:self.forum.name
+                                                                                         value:@1] build]];
     [self removeAll];
     [self loadMoreThreads:self.pageNumber];
 }
@@ -84,23 +87,22 @@
 }
 
 -(void)loadMoreThreads:(NSInteger)pageNumber {
+    if (!self.forum) {
+        DDLogDebug(@"Forum not set, cannot load more.");
+        return;
+    }
 #ifdef UNITTEST
     NSData *mockData = [[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"threadList" ofType:@"json"]]];
     [self downloadOf:nil successed:YES result:mockData];
     return;
 #endif
-    if (self.downloader)
+    if (self.downloader.isDownloading)
         [self.downloader stop];
     if (pageNumber > self.totalPages)
         pageNumber = self.totalPages;
     // Construct and start downloading for forum with page number,
     self.downloader.pageNumber = pageNumber;
     [self.downloader start];
-    
-    self.isDownloading = YES;
-    if ([self.delegate respondsToSelector:@selector(homeViewManagerBeginsDownloading:)]) {
-        [self.delegate homeViewManagerBeginsDownloading:self];
-    }
 }
 
 -(void)removeAll {
@@ -118,9 +120,21 @@
     }
 }
 
+#pragma mark - Delegate actions
+- (void)showContentWithThread:(czzThread *)thread {
+    if (thread && [self.delegate respondsToSelector:@selector(homeViewManager:wantsToShowContentForThread:)]) {
+        [self.delegate homeViewManager:self wantsToShowContentForThread:thread];
+    } else {
+        DDLogDebug(@"Thread or delegate nil: %s", __PRETTY_FUNCTION__);
+    }
+}
+
 #pragma mark - czzThreadDownloaderDelegate
-- (void)threadDownloaderBeginsDownload:(czzThreadDownloader *)downloader {
-    [self.delegate homeViewManagerBeginsDownloading:self];
+- (void)threadDownloaderStateChanged:(czzThreadDownloader *)downloader {
+    self.isDownloading = downloader.isDownloading;
+    if ([self.delegate respondsToSelector:@selector(viewManagerDownloadStateChanged:)]) {
+        [self.delegate viewManagerDownloadStateChanged:self];
+    }
 }
 
 - (void)threadDownloaderDownloadUpdated:(czzThreadDownloader *)downloader progress:(CGFloat)progress {
@@ -129,7 +143,6 @@
 }
 
 - (void)threadDownloaderCompleted:(czzThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads error:(NSError *)error {
-    self.isDownloading = NO;
     if (success){
         self.cachedThreads = nil;
         if (self.shouldHideImageForThisForum)
@@ -142,12 +155,12 @@
         // Add to total threads.
         [self.threads addObjectsFromArray:threads];
     }
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.delegate respondsToSelector:@selector(homeViewManager:threadListProcessed:newThreads:allThreads:)]) {
-            [self.delegate homeViewManager:self threadListProcessed:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
-        }
-        DDLogDebug(@"%@", NSStringFromSelector(_cmd));
-    });
+    if ([self.delegate respondsToSelector:@selector(homeViewManager:threadListProcessed:newThreads:allThreads:)]) {
+        [self.delegate homeViewManager:self threadListProcessed:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
+    }
+    if ([self.delegate respondsToSelector:@selector(homeViewManager:downloadSuccessful:)]) {
+        [self.delegate homeViewManager:self downloadSuccessful:success];
+    }
 }
 
 - (void)pageNumberUpdated:(NSInteger)currentPage allPage:(NSInteger)allPage {

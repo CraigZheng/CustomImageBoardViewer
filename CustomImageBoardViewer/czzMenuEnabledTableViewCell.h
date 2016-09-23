@@ -13,15 +13,11 @@
 #define THREAD_VIEW_CELL_MARGIN 4 * 2
 
 #define THREAD_TABLE_VLEW_CELL_NIB_NAME @"czzThreadViewTableViewCell"
-//#define BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER @"thread_big_image_cell_identifier"
 #define THREAD_VIEW_CELL_IDENTIFIER @"thread_cell_identifier"
 
 #import <UIKit/UIKit.h>
 #import "czzThread.h"
-
-extern NSInteger const fixedConstraintConstant;
-extern NSInteger const veryHightConstraintPriority;
-extern NSInteger const veryLowConstraintPriority;
+#import "czzImageDownloaderManager.h"
 
 typedef NS_ENUM(NSInteger, threadViewCellType) {
     threadViewCellTypeHome = 1,
@@ -29,7 +25,7 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
     threadViewCellTypeUndefined = 0
 };
 
-@class czzMenuEnabledTableViewCell;
+@class czzMenuEnabledTableViewCell, czzThreadViewCellHeaderView, czzThreadViewCellFooterView;
 
 @protocol czzMenuEnabledTableViewCellProtocol <NSObject>
 @optional
@@ -43,12 +39,18 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 - (void)threadViewCellContentChanged:(czzMenuEnabledTableViewCell *)cell;
 @end
 
-@interface czzMenuEnabledTableViewCell : UITableViewCell
+@interface czzMenuEnabledTableViewCell : UITableViewCell <czzImageDownloaderManagerDelegate>
 @property NSIndexPath *myIndexPath;
 
 @property (strong, nonatomic) NSString *selectedUserToHighlight;
-@property (weak, nonatomic) id<czzMenuEnabledTableViewCellProtocol> delegate;
 
+@property (weak, nonatomic) id<czzMenuEnabledTableViewCellProtocol> delegate;
+@property (weak, nonatomic) IBOutlet UITextView *contentTextView;
+@property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
+@property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;
+@property (weak, nonatomic) IBOutlet UIView *contentContainerView;
+@property (weak, nonatomic) IBOutlet UIImageView *cellImageView;
+@property (strong, nonatomic) UIImage *placeholderImage;
 @property NSDictionary *downloadedImages;
 @property (assign, nonatomic) BOOL shouldHighlight;
 @property (assign, nonatomic) BOOL shouldAllowClickOnImage;
@@ -59,18 +61,15 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 @property (nonatomic, assign) BOOL allowImage;
 @property (nonatomic, assign) BOOL nightyMode;
 @property (nonatomic, assign) threadViewCellType cellType;
-@property (nonatomic, readonly) BOOL imageUpdated;
+
 - (void)renderContent;
+- (void)highLight;
+- (void)tapOnImageView:(id)sender;
 
+#pragma mark - Menu actions.
+-(void)menuActionCopy:(id)sender;
+-(void)menuActionReply:(id)sender;
+-(void)menuActionOpen:(id)sender;
+-(void)menuActionHighlight:(id)sender;
+-(void)menuActionSearch:(id) sender;
 @end
-
-
-/*
- UITextView *contentTextView = (UITextView*)[cell viewWithTag:1];
- UILabel *idLabel = (UILabel*)[cell viewWithTag:2];
- UILabel *posterLabel = (UILabel*)[cell viewWithTag:3];
- UILabel *dateLabel = (UILabel*)[cell viewWithTag:5];
- UILabel *sageLabel = (UILabel*)[cell viewWithTag:7];
- UILabel *lockLabel = (UILabel*)[cell viewWithTag:8];
-
-*/

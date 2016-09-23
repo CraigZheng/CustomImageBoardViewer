@@ -25,14 +25,24 @@
     if (self) {
         //set up custom edit menu
         UIMenuItem *replyMenuItem = [[UIMenuItem alloc] initWithTitle:@"回复" action:NSSelectorFromString(@"menuActionReply:")];
-        UIMenuItem *copyMenuItem = [[UIMenuItem alloc] initWithTitle:@"复制" action:NSSelectorFromString(@"menuActionCopy:")];
+        UIMenuItem *copyMenuItem = [[UIMenuItem alloc] initWithTitle:@"复制..." action:NSSelectorFromString(@"menuActionCopy:")];
         UIMenuItem *openMenuItem = [[UIMenuItem alloc] initWithTitle:@"打开链接" action:NSSelectorFromString(@"menuActionOpen:")];
         UIMenuItem *highlightMenuItem = [[UIMenuItem alloc] initWithTitle:@"高亮他" action:NSSelectorFromString(@"menuActionHighlight:")];
         //    UIMenuItem *searchMenuItem = [[UIMenuItem alloc] initWithTitle:@"搜索他" action:@selector(menuActionSearch:)];
         [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, highlightMenuItem, /*searchMenuItem,*/ openMenuItem]];
         [[UIMenuController sharedMenuController] update];
+        // Rotation observer - remove the container view.
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleRotationEvent)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:nil];
     }
     return self;
+}
+
+- (void)dealloc {
+    // Remove all notification handlers, this should fix the crashing on iOS 8.
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - UI managements.
@@ -41,8 +51,10 @@
     self.threadTableView.scrollEnabled = NO;
     self.containerView = [PartialTransparentView new];
     self.containerView.opaque = NO;
-    self.containerView.frame = CGRectMake(0, 0, self.threadTableView.contentSize.width, self.threadTableView.contentSize.height);
+    self.containerView.frame = [UIApplication topViewController].view.bounds;
+    // Convert the cell rect from within the table view to within the top view.
     CGRect cellRect = [self.threadTableView rectForRowAtIndexPath:indexPath];
+    cellRect = [self.threadTableView convertRect:cellRect toView:[UIApplication topViewController].view];
     self.containerView.rectsArray = @[[NSValue valueWithCGRect:cellRect]];
     self.containerView.backgroundColor = [[UIColor darkGrayColor] colorWithAlphaComponent:0.7];
     self.containerView.userInteractionEnabled = YES;
@@ -50,7 +62,7 @@
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnFloatingView: )];
     //fade in effect
     self.containerView.alpha = 0.0f;
-    [self.threadTableView addSubview:self.containerView];
+    [[UIApplication topViewController].view addSubview:self.containerView];
     [UIView animateWithDuration:0.2
                      animations:^{self.containerView.alpha = 1.0f;}
                      completion:^(BOOL finished){
@@ -67,11 +79,13 @@
                      }
                      completion:^(BOOL finished) {
                          [self.containerView removeFromSuperview];
+                         self.containerView = nil;
                          [self.threadTableView reloadData];
                      }];
     
-    CGPoint touchPoint = [gestureRecognizer locationInView:self.threadTableView];
+    CGPoint touchPoint = [gestureRecognizer locationInView:[UIApplication topViewController].view];
     NSArray *rectArray = self.containerView.rectsArray;
+    // If user touched within the transparent views.
     BOOL userTouchInView = NO;
     for (NSValue *rect in rectArray) {
         if (CGRectContainsPoint([rect CGRectValue], touchPoint)) {
@@ -94,11 +108,9 @@
     // If within the range of threads, is a thread view cell, otherwise is a command cell.
     if (indexPath.row < self.threadViewManager.threads.count) {
         czzThread *thread = [self.threadViewManager.threads objectAtIndex:indexPath.row];
-        [self.threadViewManager.referenceIndexDictionary setObject:[indexPath copy] forKey:[NSString stringWithFormat:@"%ld", (long)thread.ID]];
         // Thread view cell
-        if (cell && [cell isKindOfClass:[czzMenuEnabledTableViewCell class]]){
+        if ([cell isKindOfClass:[czzMenuEnabledTableViewCell class]]){
             czzMenuEnabledTableViewCell *threadViewCell = (czzMenuEnabledTableViewCell*)cell;
-            threadViewCell.delegate = self;
             threadViewCell.shouldHighlight = YES;
             threadViewCell.selectedUserToHighlight = self.threadViewManager.selectedUserToHighlight;
             threadViewCell.cellType = threadViewCellTypeThread;
@@ -120,6 +132,8 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    // When tapping on any row, make all rows resignFirstResponder.
+    [tableView.visibleCells makeObjectsPerformSelector:@selector(resignFirstResponder)];
     if (indexPath.row < self.threadViewManager.threads.count) {
         
     } else {
@@ -146,10 +160,19 @@
 - (void)userTapInQuotedText:(NSString *)text {
     // Text cannot be parsed to an integer, return...
     text = [text componentsSeparatedByString:@"/"].lastObject;
-    if (!text.integerValue) {
+    NSInteger threadID = text.integerValue;
+    if (!threadID) {
         return;
     }
-    NSIndexPath *selectedIndexPath = [self.threadViewManager.referenceIndexDictionary objectForKey:text];
+    NSIndexPath *selectedIndexPath;
+    // Use a for loop to find the thread with the given ID.
+    for (czzThread *thread in self.threadViewManager.threads) {
+        if (threadID == thread.ID) {
+            selectedIndexPath = [NSIndexPath indexPathForRow:[self.threadViewManager.threads indexOfObject:thread]
+                                                   inSection:0];
+            break;
+        }
+    }
     if (selectedIndexPath && selectedIndexPath.row < self.threadViewManager.threads.count) {
         czzThread *selectedThread = [self.threadViewManager.threads objectAtIndex:selectedIndexPath.row];
         if (selectedThread.ID == text.integerValue) {
@@ -165,18 +188,7 @@
     }
 
     // Thread not found in the downloaded thread, get it from server instead.
-    [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"正在下载: %ld", (long)text.integerValue]];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        czzThread * thread = [[czzThread alloc] initWithThreadID:text.integerValue];
-        // After return, run the remaining codes in main thread.
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (thread) {
-                [self.threadViewManager showContentWithThread:thread];
-            } else {
-                [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"找不到引用串：%ld", (long)thread.ID]];
-            }
-        });
-    });
+    [super userTapInQuotedText:text];
 }
 
 - (void)userWantsToReply:(czzThread *)thread inParentThread:(czzThread *)parentThread{
@@ -193,6 +205,16 @@
 
 - (void)userWantsToSearch:(czzThread *)thread {
     DDLogDebug(@"%s : NOT IMPLEMENTED", __PRETTY_FUNCTION__);
+}
+
+#pragma mark - Rotation event.
+- (void)handleRotationEvent {
+    // Remove the container view for any and all rotation event, and re-enable scrolling.
+    if (self.containerView) {
+        [self.containerView removeFromSuperview];
+        self.containerView = nil;
+    }
+    self.threadTableView.scrollEnabled = YES;
 }
 
 #pragma mark - Getter

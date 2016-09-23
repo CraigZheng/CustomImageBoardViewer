@@ -12,8 +12,7 @@
 #import "czzPostViewController.h"
 #import "czzSettingsCentre.h"
 #import "czzAppDelegate.h"
-#import "Toast+UIView.h"
-
+#import "czzBannerNotificationUtil.h"
 
 @implementation czzReplyUtil
 
@@ -24,7 +23,8 @@
         newPostViewController.postMode = postViewControllerModeNew;
         [[czzNavigationManager sharedManager].delegate presentViewController:[[UINavigationController alloc] initWithRootViewController:newPostViewController] animated:YES completion:nil];
     } else {
-        [[AppDelegate window] makeToast:@"未选定一个版块" duration:1.0 position:@"bottom" title:@"出错啦" image:[UIImage imageNamed:@"warning"]];
+        [czzBannerNotificationUtil displayMessage:@"未选定一个版块"
+                                         position:BannerNotificationPositionTop];
     }
 }
 

@@ -88,6 +88,7 @@
         cell.shouldHighlight = NO;
         cell.parentThread = self.myThread;
         cell.thread = self.myThread;
+        cell.nightyMode = [settingCentre userDefNightyMode];
         [cell renderContent];
     }
     return cell;

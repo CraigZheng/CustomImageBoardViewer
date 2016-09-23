@@ -15,30 +15,82 @@
 @interface czzCookieManager() <czzURLDownloaderProtocol>
 @property (nonatomic, strong) NSHTTPCookieStorage *cookieStorage;
 @property (nonatomic, strong) NSMutableArray *acCookies;
+@property (nonatomic, readonly) NSString *archiveFilePath;
+@property (nonatomic, readonly) NSString *inUseFilePath;
 @end
 
 @implementation czzCookieManager
-@synthesize archivedCookies;
 
 //http://ano-zhai-so.n1.yun.tf:8999/Home/Api/getCookie
 -(instancetype)init {
     self = [super init];
     if (self) {
-        archivedCookies = [NSMutableArray new];
-        NSMutableArray *tempArray = [self restoreArchivedCookies];
-        if (tempArray) {
-            archivedCookies = tempArray;
+        // On init, check the cache folder and files.
+        // Always make sure the archive file exists, and can be read when the phone is locked.
+        NSFileManager *manager = [NSFileManager defaultManager];
+        NSError *error;
+        if (![manager fileExistsAtPath:self.cookieFolder]){
+            [manager createDirectoryAtPath:self.cookieFolder
+               withIntermediateDirectories:NO
+                                attributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                                     error:nil];
+            DDLogDebug(@"Create document folder: %@", self.cookieFolder);
+        } else {
+            [manager setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                      ofItemAtPath:self.cookieFolder
+                             error:&error];
         }
+        if (error) {
+            DLog(@"%@", error);
+        }
+        // In use file.
+        // Always make sure the archive file exists, and can be read when the phone is locked.
+        if ([manager fileExistsAtPath:self.inUseFilePath]) {
+            [manager setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                      ofItemAtPath:self.inUseFilePath
+                             error:&error];
+        } else {
+            DLog(@"Need to create cache file at path: %@", self.inUseFilePath);
+            [[NSFileManager defaultManager] createFileAtPath:self.inUseFilePath
+                                                    contents:nil
+                                                  attributes:@{NSFileProtectionKey:NSFileProtectionNone}];
+        }
+        // Archive file.
+        if ([manager fileExistsAtPath:self.archiveFilePath]) {
+            [manager setAttributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                      ofItemAtPath:self.archiveFilePath
+                             error:&error];
+        } else {
+            DLog(@"Need to create file at path: %@", self.archiveFilePath);
+            [[NSFileManager defaultManager] createFileAtPath:self.archiveFilePath
+                                                    contents:nil
+                                                  attributes:@{NSFileProtectionKey:NSFileProtectionNone}];
+        }
+        
+        self.archivedCookies = [NSMutableArray new];
+        [self restoreArchivedCookies];
         [self getCookieIfHungry];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleDidEnterBackgroundNotification)
+                                                     name:UIApplicationDidEnterBackgroundNotification
+                                                   object:nil];
     }
     
     return self;
 }
 
+#pragma mark - Life cycle.
+- (void)handleDidEnterBackgroundNotification {
+    DDLogDebug(@"%s", __PRETTY_FUNCTION__);
+    [self saveCurrentState];
+}
 
 -(void)getCookieIfHungry {
-    if (self.acCookies.count > 0)
+    if (self.acCookies.count > 0) {
+        DDLogDebug(@"%s: no need for anymore cookies.", __PRETTY_FUNCTION__);
         return;
+    }
     DDLogDebug(@"current cookie empty, try to eat a cookie");
     NSString *getCookieURLString = [[settingCentre a_isle_host] stringByAppendingPathComponent:[NSString stringWithFormat:@"/Home/Api/getCookie?deviceid=%@", [UIDevice currentDevice].identifierForVendor.UUIDString]];
 
@@ -52,11 +104,18 @@
         DDLogDebug(@"incoming cookie is nil");
         return;
     }
-    [self.cookieStorage setCookies:@[cookie] forURL:url mainDocumentURL:nil];
+    DDLogDebug(@"Set in use cookie:");
+    DDLogDebug(@"Cookie: %@", cookie);
+    DDLogDebug(@"URL: %@", url);
+    [self.cookieStorage setCookies:@[cookie]
+                            forURL:[NSURL URLWithString:[settingCentre a_isle_host]]
+                   mainDocumentURL:nil];
+    [self saveCurrentState];
 }
 
 -(void)deleteCookie:(NSHTTPCookie *)cookie {
     [self.cookieStorage deleteCookie:cookie];
+    [self saveCurrentState];
 }
 
 -(NSArray *)currentACCookies {
@@ -86,28 +145,42 @@
 }
 
 -(void)archiveCookie:(NSHTTPCookie *)cookie {
-    [archivedCookies addObject:cookie];
-    [self archiveCookiesToFile];
+    [self.archivedCookies addObject:cookie];
+    [self saveCurrentState];
 }
 
 -(void)deleteArchiveCookie:(NSHTTPCookie *)cookie {
-    [archivedCookies removeObject:cookie];
-    [self archiveCookiesToFile];
+    [self.archivedCookies removeObject:cookie];
+    [self saveCurrentState];
 }
 
--(void)archiveCookiesToFile {
-    [NSKeyedArchiver archiveRootObject:archivedCookies toFile:[[czzAppDelegate libraryFolder] stringByAppendingPathComponent:COOKIES_ARCHIVE_FILE]];
-}
-
--(NSMutableArray*)restoreArchivedCookies {
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[[czzAppDelegate libraryFolder] stringByAppendingPathComponent:COOKIES_ARCHIVE_FILE]]) {
-        id archiedArray = [NSKeyedUnarchiver unarchiveObjectWithFile:[[czzAppDelegate libraryFolder] stringByAppendingPathComponent:COOKIES_ARCHIVE_FILE]];
-        if ([archiedArray isKindOfClass:[NSMutableArray class]]){
-            return archiedArray;
-        }
-
+-(void)saveCurrentState {
+    [NSKeyedArchiver archiveRootObject:self.archivedCookies toFile:self.archiveFilePath];
+    if (self.currentInUseCookie) {
+        [NSKeyedArchiver archiveRootObject:self.currentInUseCookie toFile:self.inUseFilePath];
+        DDLogDebug(@"%s: in use", __PRETTY_FUNCTION__);
     }
-    return nil;
+}
+
+-(void)restoreArchivedCookies {
+    // Restore the archived cookies.
+    if ([[NSFileManager defaultManager] fileExistsAtPath:self.archiveFilePath]) {
+        id archivedCookies = [NSKeyedUnarchiver unarchiveObjectWithFile:self.archiveFilePath];
+        // Check is a non-empty array.
+        if ([archivedCookies isKindOfClass:[NSMutableArray class]] &&
+            [(NSMutableArray *)archivedCookies count]){
+            self.archivedCookies = archivedCookies;
+            DDLogDebug(@"%s: in archive", __PRETTY_FUNCTION__);
+        }
+    }
+    // Restore the in use cookie - if the NSCookieStorage does not have an AC cookie.
+    if ([[NSFileManager defaultManager] fileExistsAtPath:self.inUseFilePath] &&
+        !self.currentInUseCookie) {
+        NSHTTPCookie *inUseCookie = [NSKeyedUnarchiver unarchiveObjectWithFile:self.inUseFilePath];
+        [self setACCookie:inUseCookie
+                   ForURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
+        DDLogDebug(@"%s: in use", __PRETTY_FUNCTION__);
+    }
 }
 
 #pragma mark - czzURLDownloaderDelegate
@@ -123,15 +196,31 @@
 
 #pragma mark - Getters
 
+- (NSString *)cookieFolder {
+    NSString *cookieFolder = [[czzAppDelegate documentFolder] stringByAppendingPathComponent:@"Cookies"];
+    return cookieFolder;
+}
+
+- (NSString *)archiveFilePath {
+    NSString *archiveFilePath = [self.cookieFolder stringByAppendingPathComponent:COOKIES_ARCHIVE_FILE];
+    return archiveFilePath;
+}
+
+- (NSString *)inUseFilePath {
+    NSString *inUseFilePath = [self.cookieFolder stringByAppendingPathComponent:IN_USE_COOKIE_FILE];
+    return inUseFilePath;
+}
+
 - (NSMutableArray *)acCookies {
-    NSMutableArray *cookies = [NSMutableArray new];
-    for (NSHTTPCookie *cookie in [self.cookieStorage cookies]) {
+    NSMutableArray *acCookies = [NSMutableArray new];
+    NSArray *cookies = [self.cookieStorage cookies];
+    for (NSHTTPCookie *cookie in cookies) {
         if ([cookie.name.lowercaseString isEqualToString:cookieName.lowercaseString]) {
-            DDLogDebug(@"%@", cookie);
-            [cookies addObject:cookie];
+            [acCookies addObject:cookie];
         }
     }
-    return cookies;
+    DDLogDebug(@"Currently have %ld ac cookies", (long)acCookies.count);
+    return acCookies;
 }
 
 - (NSHTTPCookieStorage *)cookieStorage {

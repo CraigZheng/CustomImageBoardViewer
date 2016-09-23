@@ -18,13 +18,19 @@
 #import "czzThreadTableViewCommandCellTableViewCell.h"
 #import "czzHistoryManager.h"
 #import "czzWatchListManager.h"
+#import "czzBannerNotificationUtil.h"
 #import "czzThreadViewManager.h"
+#import "czzThreadTableView.h"
 #import "czzMenuEnabledTableViewCell.h"
 
 
 NSInteger const bookmarkIndex = 0;
 NSInteger const watchIndex = 1;
 NSInteger const historyIndex = 2;
+
+static NSInteger const browserHistoryIndex = 0;
+static NSInteger const postsHistoryIndex = 1;
+static NSInteger const respondsHistoryIndex = 2;
 
 @interface czzFavouriteManagerViewController ()
 @property (nonatomic, strong) NSIndexPath *selectedIndex;
@@ -49,26 +55,33 @@ NSInteger const historyIndex = 2;
     [super viewDidLoad];
     self.tableView.estimatedRowHeight = 44;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
+    
+    // Launch to index
+    self.titleSegmentedControl.selectedSegmentIndex = self.launchToIndex;
+    [self copyDataFromManager];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self copyDataFromManager];
     if (title) {
         self.title = title;
     }
     self.view.backgroundColor = [settingCentre viewBackgroundColour];
-    [self.tableView reloadData];
     
-    self.navigationController.toolbarHidden = YES;
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [historyManager saveCurrentState];
     [favouriteManager saveCurrentState];
-    
-    self.navigationController.toolbarHidden = NO;
+}
+
+- (void)dealloc {
+    // During dealloc stage, if the selected list is still watchlist, clear the updatedThread in watchlist manager.
+    // We assume user read all of the updated threads.
+    if (self.titleSegmentedControl.selectedSegmentIndex == watchIndex) {
+        WatchListManager.updatedThreads = nil;
+    }
 }
 
 #pragma UITableView datasource
@@ -87,14 +100,13 @@ NSInteger const historyIndex = 2;
         cell.shouldHighlight = NO;
         cell.parentThread = thread;
         cell.thread = thread;
+        cell.nightyMode = [settingCentre userDefNightyMode];
         [cell renderContent]; // Render content must be done manually.
     }
-    // TODO: need to create a standalone watchlist manager, or improve this one.
-    // If I am seeing the list from watchlist
-    if (selectedManager == [czzWatchListManager sharedManager]) {
-        for (czzThread *updatedThread in [[czzWatchListManager sharedManager] updatedThreads]) {
+    if (selectedManager == WatchListManager) {
+        for (czzThread *updatedThread in WatchListManager.updatedThreads) {
             if (updatedThread.ID == thread.ID) {
-                //TODO: highligh
+                [cell highLight];
             }
         }
     }
@@ -120,11 +132,10 @@ NSInteger const historyIndex = 2;
         } else if (titleSegmentedControl.selectedSegmentIndex == historyIndex) {
             [historyManager removeThread:threadToDelete];
         } else if (titleSegmentedControl.selectedSegmentIndex == watchIndex) {
-            [[czzWatchListManager sharedManager] removeFromWatchList:threadToDelete];
+            [WatchListManager removeFromWatchList:threadToDelete];
         }
         
         [self copyDataFromManager];
-        [tableView reloadData];
     }
 }
 
@@ -140,32 +151,48 @@ NSInteger const historyIndex = 2;
 
 - (IBAction)titleSegmentedControlAction:(id)sender {
     [self copyDataFromManager];
-    [self.tableView reloadData];
+    
+}
+
+- (void)historyTypeSegmentedControlAction:(id)sender {
+    [self copyDataFromManager];
+    
 }
 
 -(void)copyDataFromManager {
     if (titleSegmentedControl.selectedSegmentIndex == bookmarkIndex) {
-        threads = [favouriteManager favouriteThreads];
+        threads = [favouriteManager favouriteThreads].objectEnumerator.allObjects.mutableCopy;
         selectedManager = favouriteManager;
     } else if (titleSegmentedControl.selectedSegmentIndex == historyIndex) {
-        threads = [historyManager browserHistory];
+        // Type of history: broswer, posts, responds.
+        if (self.historyTypeSegmentedControl.selectedSegmentIndex == browserHistoryIndex) {
+            threads = [historyManager browserHistory];
+        } else if (self.historyTypeSegmentedControl.selectedSegmentIndex == postsHistoryIndex) {
+            threads = historyManager.postedThreads;
+        } else {
+            threads = historyManager.respondedThreads;
+        }
         selectedManager = historyManager;
         threads = [NSMutableOrderedSet orderedSetWithArray:[[threads reverseObjectEnumerator] allObjects]]; //hisotry are recorded backward
     } else if (titleSegmentedControl.selectedSegmentIndex == watchIndex) {
-        threads = [czzWatchListManager sharedManager].watchedThreads;
-        selectedManager = [czzWatchListManager sharedManager];
-        //Update watched threads
+        threads = [czzWatchListManager sharedManager].watchedThreads.reverseObjectEnumerator.allObjects.mutableCopy;
+        selectedManager = WatchListManager;
+        // Updated threads have been viewed.
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-        [[czzWatchListManager sharedManager] refreshWatchedThreads:^(NSArray *updatedThreads) {
-            self.updatedThreads = updatedThreads;
-            [self.tableView reloadData];
-        }];
+        if (WatchListManager.updatedThreads.count) {
+            [czzBannerNotificationUtil displayMessage:@"已高亮有更新的串"
+                                             position:BannerNotificationPositionTop];
+        }
     }
+    [self.tableView reloadData];
+    [self.tableView setContentOffset:CGPointZero animated:NO]; // Scroll to top.
+    // If the currently selected title segmented control is history, enable the selection for history type segmented control.
+    self.historyTypeSegmentedControl.enabled = self.titleSegmentedControl.selectedSegmentIndex == historyIndex;
 }
 
 #pragma mark - rotation
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-    [self.tableView reloadData];
+    
 }
 
 +(instancetype)new {

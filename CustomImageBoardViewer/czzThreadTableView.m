@@ -9,6 +9,7 @@
 #import "czzThreadTableView.h"
 
 #import "czzMenuEnabledTableViewCell.h"
+#import "czzBigImageModeTableViewCell.h"
 #import "czzThreadTableViewCommandCellTableViewCell.h"
 #import "czzOnScreenCommandViewController.h"
 
@@ -44,6 +45,8 @@
 -(void)registerNibs {
     // Register thread view cells
     [self registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
+    [self registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER];
+
     // Register thread view command cells
     [self registerNib:[UINib nibWithNibName:THREAD_TABLEVIEW_COMMAND_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_TABLEVIEW_COMMAND_CELL_IDENTIFIER];
 }
@@ -54,6 +57,7 @@
 
 -(void)scrollToTop:(BOOL)animated {
     [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+        self.quickScrolling = YES;
         if ([self numberOfRowsInSection:0] > 0) {
             [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
                         atScrollPosition:UITableViewScrollPositionTop
@@ -62,16 +66,13 @@
         else {
             [self setContentOffset:CGPointMake(0, -self.contentInset.top) animated:animated];
         }
+        self.quickScrolling = NO;
     }];
 }
 
 #pragma mark - czzOnScreenCommandViewControllerDelegate
 -(void)onScreenCommandTapOnUp:(id)sender {
     [self scrollToTop: YES];
-//    // Scroll to top
-//    [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
-//                atScrollPosition:UITableViewScrollPositionTop
-//                        animated:YES];
 }
 
 -(void)onScreenCommandTapOnDown:(id)sender {
@@ -79,7 +80,11 @@
     dispatch_after(DISPATCH_TIME_NOW, dispatch_get_main_queue(), ^(void){
         NSInteger rows = [self numberOfRowsInSection:0];
         if (rows) {
-            [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:rows - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+            self.quickScrolling = YES;
+            [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:rows - 1 inSection:0]
+                        atScrollPosition:UITableViewScrollPositionBottom
+                                animated:YES];
+            self.quickScrolling = NO;
         }
     });
 }
@@ -90,8 +95,10 @@
 }
 
 - (void)setLastCellType:(czzThreadViewCommandStatusCellViewType)lastCellType {
-    _lastCellType = lastCellType;
-    self.lastCellCommandViewController.cellType = lastCellType;
+    if (_lastCellType != lastCellType) {
+        _lastCellType = lastCellType;
+        self.lastCellCommandViewController.cellType = lastCellType;
+    }
 }
 
 #pragma mark - Getters

@@ -87,7 +87,7 @@
 }
 
 #pragma mark - UIAlertViewDelegate
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (self.confirmCleanAlertView == alertView) {
         if (buttonIndex == alertView.cancelButtonIndex) {
             [[[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"下次自动检查将会在一个月之后，你也可以在设置中关闭自动检查，或者手动清空缓存。"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];

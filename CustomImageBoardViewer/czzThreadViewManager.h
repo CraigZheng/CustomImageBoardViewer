@@ -13,7 +13,8 @@
 @class czzThreadViewManager;
 @protocol czzThreadViewManagerDelegate <czzHomeViewManagerDelegate>
 @optional
--(void)threadViewManager:(czzThreadViewManager*)threadViewManager wantsToShowContentForThread:(czzThread*)thread;
+- (void)viewManagerContinousDownloadUpdated:(czzThreadViewManager *)viewManager;
+- (void)viewManager:(czzThreadViewManager *)viewManager continousDownloadCompleted:(BOOL)success;
 @end
 
 @interface czzThreadViewManager : czzHomeViewManager
@@ -22,11 +23,12 @@
 @property (assign, nonatomic) BOOL restoredFromCache;
 @property (strong, nonatomic) NSString *selectedUserToHighlight;
 @property (weak, nonatomic) id<czzThreadViewManagerDelegate> delegate;
-@property (strong, nonatomic) NSMutableDictionary *referenceIndexDictionary;
+@property (readonly, nonatomic) BOOL isMassiveDownloading;
 
 - (void)reset;
 - (void)HighlightThreadSelected:(czzThread *)selectedThread;
+- (void)loadAll;
+- (void)stopAllOperation;
 - (instancetype)initWithParentThread:(czzThread*)thread andForum:(czzForum*)forum;
 - (instancetype)restoreWithFile:(NSString*)filePath;
-- (void)showContentWithThread:(czzThread*)thread;
 @end

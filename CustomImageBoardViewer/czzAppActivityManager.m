@@ -27,8 +27,6 @@ NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
 -(instancetype)init {
     self = [super init];
     if (self) {
-        [self restoreState];
-
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidFinishLaunching) name:UIApplicationDidFinishLaunchingNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -114,7 +112,8 @@ NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
     }
     UIViewController *rootViewController = AppDelegate.window.rootViewController;
     if (!rootViewController) {
-        
+        // Launching the app, check if homeViewManager and threadViewManager should be restored.
+        [self restoreState];
         rootViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateInitialViewController];
         if (!AppDelegate.window)
             AppDelegate.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];

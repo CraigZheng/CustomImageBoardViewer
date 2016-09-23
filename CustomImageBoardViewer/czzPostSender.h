@@ -16,10 +16,11 @@ typedef NS_ENUM(NSInteger, postSenderMode) {
     postSenderModeReply
 };
 
+@class czzPostSender;
 @protocol czzPostSenderDelegate <NSObject>
 @optional
--(void)postSenderProgressUpdated:(CGFloat)percent;
--(void)statusReceived:(BOOL)status message:(NSString*)message;
+-(void)postSender:(czzPostSender *)postSender progressUpdated:(CGFloat)percent;
+-(void)postSender:(czzPostSender *)postSender completedPosting:(BOOL)successful message:(NSString*)message response:(NSString*)response;
 @end
 @interface czzPostSender : NSObject
 @property (nonatomic) NSURL *targetURL;
@@ -33,8 +34,11 @@ typedef NS_ENUM(NSInteger, postSenderMode) {
 @property (nonatomic) NSString *email;
 @property (nonatomic) NSString *title;
 @property (nonatomic) NSString *content;
-@property (nonatomic) NSData *imgData;
+@property (readonly) NSData *imgData;
+@property (nonatomic) BOOL watermark;
 
 @property (nonatomic) postSenderMode postMode;
--(void)sendPost;
+
+- (void)setImgData:(NSData *)imgData format:(NSString*)format;
+- (void)sendPost;
 @end

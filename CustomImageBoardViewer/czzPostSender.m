@@ -17,7 +17,8 @@
 @property NSURLConnection *urlConn;
 @property NSMutableURLRequest *urlRequest;
 @property NSMutableData *requestBody;
-@property NSMutableData *receivedResponse;
+@property NSMutableData *receivedData;
+@property (nonatomic, strong) NSURLResponse *receivedResponse;
 @end
 
 @implementation czzPostSender
@@ -26,7 +27,7 @@
 @synthesize urlConn;
 @synthesize targetURL, forum, forumID, parentThread;
 @synthesize urlRequest, requestBody;
-@synthesize receivedResponse;
+@synthesize receivedData;
 
 -(id)init{
     self = [super init];
@@ -56,9 +57,12 @@
         urlConn = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self startImmediately:YES];
         DDLogDebug(@"Sending post to: %@", urlRequest);
     } else {
-        if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
+        if ([self.delegate respondsToSelector:@selector(postSender:completedPosting:message:response:)])
         {
-            [self.delegate statusReceived:NO message:@"请检查内容"];
+            [self.delegate postSender:self
+                     completedPosting:NO
+                              message:@"请检查内容"
+                             response:nil];
         }
         
     }
@@ -67,37 +71,48 @@
 #pragma NSURLConnection delegate
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     //inform the delegate
-    if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
+    if ([self.delegate respondsToSelector:@selector(postSender:completedPosting:message:response:)])
     {
-        [self.delegate statusReceived:NO message:[NSString stringWithFormat:@"网络错误"]];
+        [self.delegate postSender:self
+                 completedPosting:NO
+                          message:[NSString stringWithFormat:@"网络错误"]
+                         response:nil];
         DDLogDebug(@"%@", error);
     }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
-    receivedResponse = [NSMutableData new];
-    if ([self.delegate respondsToSelector:@selector(statusReceived:message:)])
+    receivedData = [NSMutableData new];
+    self.receivedResponse = response;
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
+    [receivedData appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection{
+    NSString *receivedResponseMessage = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
+    DDLogDebug(@"received response: \n%@", receivedResponseMessage);
+    
+    if ([self.delegate respondsToSelector:@selector(postSender:completedPosting:message:response:)])
     {
-        if ([(NSHTTPURLResponse*)response statusCode] == 200) {
-            [self.delegate statusReceived:YES message:@"成功"];
+        if ([(NSHTTPURLResponse*)self.receivedResponse statusCode] == 200) {
+            [self.delegate postSender:self
+                     completedPosting:YES
+                              message:@"成功"
+                             response:receivedResponseMessage];
         } else {
-            [self.delegate statusReceived:NO message:[NSString stringWithFormat:@"Failed! Status code: %ld", (long)[(NSHTTPURLResponse*)response statusCode]]];
+            [self.delegate postSender:self
+                     completedPosting:NO
+                              message:[NSString stringWithFormat:@"Failed! Status code: %ld", (long)[(NSHTTPURLResponse*)self.receivedResponse statusCode]]
+                             response:receivedResponseMessage];
         }
     }
 }
 
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
-    [receivedResponse appendData:data];
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection{
-    DDLogDebug(@"received response: \n%@", [[NSString alloc] initWithData:self.receivedResponse encoding:NSUTF8StringEncoding]);
-//    [self response:receivedResponse];
-}
-
 -(void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(postSenderProgressUpdated:)]) {
-        [self.delegate postSenderProgressUpdated:(CGFloat)totalBytesWritten / (CGFloat)totalBytesExpectedToWrite];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(postSender:progressUpdated:)]) {
+        [self.delegate postSender:self progressUpdated:(CGFloat)totalBytesWritten / (CGFloat)totalBytesExpectedToWrite];
     }
 }
 
@@ -129,9 +144,11 @@
 //    }
 }
 
-#pragma mark - Setters, also sets the urlRequest and the first parameter(either parentID or forumName)
-
 #pragma mark - Setters, while setting the members of this class, also set the member of myPost object
+
+- (void)setWatermark:(BOOL)watermark {
+    myPost.watermark = watermark;
+}
 
 -(void)setForum:(czzForum *)f {
     forum = f;
@@ -169,9 +186,10 @@
     myPost.content = [self encodeNSString:content];
 }
 
--(void)setImgData:(NSData *)i{
+-(void)setImgData:(NSData *)i format:(NSString *)format{
     imgData = i;
     myPost.imgData = imgData;
+    myPost.imageFormat = format;
 }
 
 -(NSMutableURLRequest*)createMutableURLRequestWithURL:(NSURL*)url{
@@ -202,4 +220,11 @@
     return encodedString;
      */
 }
+
+#pragma mark - Getter.
+
+- (BOOL)watermark {
+    return myPost.watermark;
+}
+
 @end

@@ -10,8 +10,6 @@
 
 @interface GSIndeterminateProgressView : UIView
 
-@property (nonatomic, strong) NSArray   * progressChunks;
-
 @property (nonatomic, strong) UIColor   * progressTintColor;
 @property (nonatomic, strong) UIColor   * trackTintColor;
 
@@ -25,4 +23,8 @@
 
 - (BOOL)isAnimating;
 
+- (void)viewDidAppear;
+- (void)viewDidDisapper;
+
+- (instancetype)initWithParentView:(UIView*)parentView alignToTop:(UIView*)topView;
 @end

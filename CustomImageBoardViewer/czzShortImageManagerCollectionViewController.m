@@ -58,17 +58,31 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
     // If the tap gesture is located outside of the collection view.
     DDLogDebug(@"");
     if (!CGRectContainsPoint(self.managerCollectionView.frame, [tapSender locationInView:self.view])) {
-        [self dismiss];
+        [self dismissWithCompletionHandler:nil];
     }
 }
 
-- (void)dismiss {
-    if (self.isModal) {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    } else if (self.navigationController.childViewControllers.count > 1) {
+- (void)dismissWithCompletionHandler:(void(^)(void))completionHandler {
+    BOOL isModalView = [self isModal];
+    if (self.navigationController.viewControllers.count > 1) {
+        [CATransaction begin];
+        [CATransaction setCompletionBlock:^{
+            if (completionHandler) {
+                completionHandler();
+            }
+        }];
+        
         [self.navigationController popViewControllerAnimated:YES];
+        [CATransaction commit];
+        
+    } else if (isModalView) {
+        [self dismissViewControllerAnimated:YES completion:^{
+            if (completionHandler) {
+                completionHandler();
+            }
+        }];
     } else {
-        DDLogDebug(@"%@ cannot be dismissed", NSStringFromClass(self.class));
+        DDLogDebug(@"%s: cannot dismiss.", __PRETTY_FUNCTION__);
     }
 }
 
@@ -131,17 +145,19 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
     if (indexPath.section == 0) {
         czzImageDownloader *imageDownloader = [self.downloaders objectAtIndex:indexPath.row];
         [[czzImageDownloaderManager sharedManager] stopDownloadingImage:imageDownloader.imageURLString.lastPathComponent];
-        [self dismiss];
+        [self dismissWithCompletionHandler:nil];
     }
     //downloaded image section
     else if (indexPath.section == 1) {
-        if ([delegate respondsToSelector:@selector(shortImageManager:selectedImageWithIndex:inImages:)]) {
+        // Dismiss then show the image.
+        [self dismissWithCompletionHandler:^{
+            if ([delegate respondsToSelector:@selector(shortImageManager:selectedImageWithIndex:inImages:)]) {
                 [delegate shortImageManager:self selectedImageWithIndex:indexPath.row inImages:[self.downloadedImages copy]];
-        } else {
-            imageViewerUtil = [czzImageViewerUtil new];
-            [imageViewerUtil showPhotos:self.downloadedImages withIndex:indexPath.row];
-        }
-        [self dismiss];
+            } else {
+                imageViewerUtil = [czzImageViewerUtil new];
+                [imageViewerUtil showPhotos:self.downloadedImages withIndex:indexPath.row];
+            }
+        }];
     }
 }
 

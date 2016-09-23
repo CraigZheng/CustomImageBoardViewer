@@ -15,12 +15,14 @@
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSString *content;
 @property (strong, nonatomic) NSString *access_token;
+@property (assign, nonatomic) BOOL watermark;
 @property NSInteger parentID;
 //@property (strong, nonatomic) NSString *forumName;
 @property czzForum *forum;
 @property (strong, nonatomic) NSString *forumID;
 
 @property NSData *imgData;
+@property NSString *imageFormat;
 -(BOOL)isReady;
 -(NSMutableData*)makeRequestBody;
 -(void)saveAccessToken;

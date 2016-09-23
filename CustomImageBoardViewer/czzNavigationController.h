@@ -14,7 +14,6 @@
 
 @interface czzNavigationController : UINavigationController
 @property (strong) czzNotificationBannerViewController *notificationBannerViewController;
-@property (strong) GSIndeterminateProgressView *progressView;
 @property (nonatomic, strong) UINavigationController *leftViewController;
 
 @end

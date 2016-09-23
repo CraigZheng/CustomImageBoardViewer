@@ -1,6 +1,6 @@
 //
 //  TalkingData.h
-//  TalkingData Version 1.3.93
+//  TalkingData Version 2.2.30
 //
 //  Created by Biao Hou on 11-11-14.
 //  Copyright (c) 2011年 tendcloud. All rights reserved.
@@ -17,6 +17,13 @@ typedef enum {
 
 @interface TalkingData: NSObject
 
+/**
+ *  @method setVersionWithCode:name:
+ *  设置应用的版本号和版本名称
+ *  @param  versionCode  应用程序的版本号    默认获取info.plist中CFBundleShortVersionString的值
+ *  @param  versionName  应用程序的版本名称   默认获取info.plist中CFBundleDisplayName的值
+ */
++ (void)setVersionWithCode:(NSString *)versionCode name:(NSString *)versionName;
 
 /**
  *	@method	sessionStarted:withChannelId:
@@ -143,5 +150,21 @@ typedef enum {
  *	@param 	key 	自定义事件的key
  */
 +(void)removeGlobalKV:(NSString*)key;
+
++ (void)setiBeaconEnabled:(BOOL)enable;
+
+/**
+ *  @method setDeviceToken              设置DeviceToken
+ *  @param  deviceToken                 从Apple获取的DeviceToken
+ */
++ (void)setDeviceToken:(NSData *)deviceToken;
+
+/**
+ *  @method handlePushMessage           处理来自TalkingData的Push消息
+ *  @param  message                     收到的消息
+ *  @return YES                         来自TalkingData的消息，SDK已处理
+ *          NO                          其他来源消息，开发者需自行处理
+ */
++ (BOOL)handlePushMessage:(NSDictionary *)message;
 
 @end

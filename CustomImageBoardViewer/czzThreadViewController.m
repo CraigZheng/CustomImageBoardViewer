@@ -8,7 +8,7 @@
 
 #import "czzThreadViewController.h"
 #import "czzThread.h"
-#import "Toast+UIView.h"
+#import "czzBannerNotificationUtil.h"
 #import "SMXMLDocument.h"
 #import "czzImageCacheManager.h"
 #import "czzImageViewerUtil.h"
@@ -23,12 +23,14 @@
 #import "czzMiniThreadViewController.h"
 #import "czzNavigationController.h"
 #import "czzOnScreenImageManagerViewController.h"
-#import "GSIndeterminateProgressView.h"
 #import "czzThreadTableViewManager.h"
 #import "czzFavouriteManager.h"
 #import "czzWatchListManager.h"
 #import "czzRoundButton.h"
+#import "czzPostSenderManagerViewController.h"
 #import "czzReplyUtil.h"
+#import "czzAutoEndingRefreshControl.h"
+#import "UIImage+animatedGIF.h"
 
 NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
@@ -43,10 +45,16 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @property (strong, nonatomic) UIViewController *rightViewController;
 @property (strong, nonatomic) UIViewController *topViewController;
 @property (strong, nonatomic) czzMiniThreadViewController *miniThreadView;
-@property (strong, nonatomic) UIRefreshControl *refreshControl;
+@property (strong, nonatomic) czzAutoEndingRefreshControl *refreshControl;
 @property (strong, nonatomic) czzThreadTableViewManager *threadTableViewManager;
 @property (strong, nonatomic) czzOnScreenImageManagerViewController *onScreenImageManagerViewController;
-@property (weak, nonatomic) GSIndeterminateProgressView *progressView;
+@property (weak, nonatomic) IBOutlet UIView *postSenderViewContainer;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *massiveDownloadButtonHeightConstraint;
+@property (strong, nonatomic) UIAlertView *confirmMassiveDownloadAlertView;
+@property (strong, nonatomic) UIAlertView *confirmCancelMassiveDownloadAlertView;
+@property (strong, nonatomic) UIAlertView *confirmJumpToPageAlertView;
+@property (weak, nonatomic) IBOutlet UIImageView *massiveDownloadIndicatorImageView;
+@property (weak, nonatomic) IBOutlet UIButton *massiveDownloadButton;
 @end
 
 @implementation czzThreadViewController
@@ -61,9 +69,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @synthesize topViewController;
 @synthesize miniThreadView;
 @synthesize imageViewerUtil;
-@synthesize refreshControl;
 @synthesize onScreenImageManagerViewContainer;
-@synthesize progressView;
 @synthesize moreButton;
 @synthesize shouldRestoreContentOffset;
 
@@ -78,9 +84,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     // The manager for the table view.
     self.threadTableView.dataSource = self.threadTableViewManager;
     self.threadTableView.delegate = self.threadTableViewManager;
-
-    // Progress view
-    progressView = [(czzNavigationController*)self.navigationController progressView];
     
     // Thumbnail folder
     thumbnailFolder = [czzAppDelegate thumbnailFolder];
@@ -94,45 +97,43 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
         [self addChildViewController:self.onScreenImageManagerViewController];
         [self.onScreenImageManagerViewContainer addSubview:self.onScreenImageManagerViewController.view];
     }
+    // Post sender manager view controller.
+    czzPostSenderManagerViewController *postSenderManagerViewController = [czzPostSenderManagerViewController new];
+    [self addChildViewController:postSenderManagerViewController];
+    [self.postSenderViewContainer addSubview:postSenderManagerViewController.view];
 
     //add the UIRefreshControl to uitableview
-    refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
-    [self.threadTableView addSubview: refreshControl];
+    self.refreshControl = [[czzAutoEndingRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
+    [self.threadTableView addSubview: self.refreshControl];
     self.viewDeckController.rightSize = self.view.frame.size.width/4;
 
     self.navigationItem.backBarButtonItem.title = self.title;
     
-    //if in foreground, load more threads
-    if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground)
-    {
-        if (self.threadViewManager.restoredFromCache) {
-            // Start loading at the end of push animation.
-            __weak czzThreadViewController *weakSelf = self;
-            NavigationManager.pushAnimationCompletionHandler = ^{
-                if (!weakSelf.threadViewManager.threads.count) {
-                    [weakSelf refreshThread:weakSelf];
-                } else {
-                    [weakSelf.threadViewManager loadMoreThreads];
-                }
-            };
+    // What to do when this view controller has completed loading.
+    __weak czzThreadViewController *weakSelf = self;
+    void (^onLoadAction)(void) = ^void(void) {
+        // If threads array contains nothing other than the parent thread.
+        if (weakSelf.threadViewManager.threads.count <=1 ) {
+            [weakSelf refreshThread:weakSelf];
         } else {
-            [self refreshThread:self];
+            [weakSelf.threadViewManager loadMoreThreads];
         }
+    };
+    
+    if (NavigationManager.isInTransition) {
+        NavigationManager.pushAnimationCompletionHandler = ^{
+            onLoadAction();
+        };
     } else {
-        DDLogDebug(@"App in background, nothing needs to be done.");
+        onLoadAction();
     }
     
     // Google Analytic integration.
-    NSString *label = self.threadViewManager.parentThread.content.string;
-    // Chunk the text.
-    if (label.length > 20) {
-        label = [label substringToIndex:19];
-    }
     [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Thread"
                                                                                         action:@"View Thread"
-                                                                                         label:label
-                                                                                         value:@(self.threadViewManager.parentThread.ID)] build]];
+                                                                                         label:[NSString stringWithFormat:@"%ld", (long)self.threadViewManager.parentThread.ID]
+                                                                                         value:@1] build]];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -142,10 +143,13 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 
-    // Reload data.
-    [self updateTableView];
     // Background colour.
     self.threadTableView.backgroundColor = [settingCentre viewBackgroundColour];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.progressView viewDidAppear];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -157,10 +161,16 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [self.threadViewManager saveCurrentState];
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self.progressView viewDidDisapper];
+}
+
 - (void)dealloc {
     // Avoid calling deacllocated data source and delegate.
     self.threadTableView.dataSource = nil;
     self.threadTableView.delegate = nil;
+    [self.threadViewManager stopAllOperation];
 }
 
 
@@ -180,6 +190,12 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
         self.starButton.image = [UIImage imageNamed:@"solid_star.png"];
     } else {
         self.starButton.image = [UIImage imageNamed:@"star.png"];
+    }
+    // Watch button image - watched or not.
+    if ([WatchListManager.watchedThreads containsObject:self.threadViewManager.parentThread]) {
+        self.watchButton.image = [UIImage imageNamed:@"visible.png"];
+    } else {
+        self.watchButton.image = [UIImage imageNamed:@"invisible.png"];
     }
     [self.threadTableViewManager reloadData];
 }
@@ -209,6 +225,23 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
         numberBarButton.customView.hidden = YES;
     else
         numberBarButton.customView.hidden = NO;
+    // Hide the massive download button at first, then show it with animation.
+    // Show it only when the total pages is still 3 or more pages away from the current page number.
+    if (!self.massiveDownloadButtonHeightConstraint.constant &&
+        viewManager.totalPages - viewManager.pageNumber >= 3) {
+        self.massiveDownloadButtonHeightConstraint.constant = 40;
+        [UIView animateWithDuration:0.2 animations:^{
+            [self.view layoutIfNeeded];
+        }];
+    }
+    // Else, if the massive download button is showing and view manager has reached all of its pages.
+    else if (self.massiveDownloadButtonHeightConstraint.constant &&
+               viewManager.pageNumber >= viewManager.totalPages) {
+        self.massiveDownloadButtonHeightConstraint.constant = 0;
+        [UIView animateWithDuration:0.2 animations:^{
+            [self.view layoutIfNeeded];
+        }];
+    }
 }
 
 -(void)dragOnRefreshControlAction:(id)sender{
@@ -225,24 +258,34 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
         textInputField.keyboardType = UIKeyboardTypeNumberPad;
         textInputField.keyboardAppearance = UIKeyboardAppearanceDark;
     }
-    [alertView show];
+    self.confirmJumpToPageAlertView = alertView;
+    [self.confirmJumpToPageAlertView show];
 }
 
 #pragma mark - UIAlertViewDelegate
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
-    if ([buttonTitle isEqualToString:@"确定"]){
-        NSInteger newPageNumber = [[[alertView textFieldAtIndex:0] text] integerValue];
-        if (newPageNumber > 0){
-            //clear threads and ready to accept new threads
-            [self.threadViewManager removeAll];
-            [self.threadViewManager loadMoreThreads:newPageNumber];
-            [self updateTableView];
-            [refreshControl beginRefreshing];
-
-            [[AppDelegate window] makeToast:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) self.threadViewManager.pageNumber]];
-        } else {
-            [[AppDelegate window] makeToast:@"页码无效..."];
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    // If user did not tap on the cancel button.
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        if (alertView == self.confirmMassiveDownloadAlertView) {
+            // If the incoming alertView is the confirm massive download alert view, start loadAll action.
+            [self.threadViewManager loadAll];
+        } else if (alertView == self.confirmJumpToPageAlertView) {
+            // If user wants to jump to a specific page number, verify that user enters a valid page number.
+            NSInteger newPageNumber = [[[alertView textFieldAtIndex:0] text] integerValue];
+            if (newPageNumber > 0){
+                //clear threads and ready to accept new threads
+                [self.threadViewManager removeAll];
+                [self.threadViewManager loadMoreThreads:newPageNumber];
+                [self updateTableView];
+                
+                [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) self.threadViewManager.pageNumber]
+                                                 position:BannerNotificationPositionTop];
+            } else {
+                [czzBannerNotificationUtil displayMessage:@"页码无效..."
+                                                 position:BannerNotificationPositionTop];
+            }
+        } else if (alertView == self.confirmCancelMassiveDownloadAlertView) {
+            [self.threadViewManager stopAllOperation];
         }
     }
 }
@@ -253,7 +296,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 #pragma mark - czzThreadViewManagerDelegate
-- (void)threadViewManager:(czzThreadViewManager *)threadViewManager wantsToShowContentForThread:(czzThread *)thread {
+- (void)homeViewManager:(czzHomeViewManager *)homeViewManager wantsToShowContentForThread:(czzThread *)thread {
     self.miniThreadView = [czzMiniThreadViewController new];
     self.miniThreadView.myThread = thread;
     [self.miniThreadView modalShow];
@@ -272,20 +315,25 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     }
 }
 
--(void)homeViewManagerBeginsDownloading:(czzHomeViewManager *)threadViewManager {
-    if (!progressView.isAnimating) {
-        [progressView startAnimating];
+-(void)viewManagerDownloadStateChanged:(czzHomeViewManager *)homeViewManager {
+    if (homeViewManager.isDownloading) {
+        [self startLoading];
+    } else {
+        [self stopLoading];
+    }
+    // Massive downloading - set images for the massive download indicator.
+    if (self.threadViewManager.isMassiveDownloading) {
+        if (!self.massiveDownloadIndicatorImageView.image)
+            self.massiveDownloadIndicatorImageView.image = [UIImage animatedImageWithAnimatedGIFURL:[[NSBundle mainBundle] URLForResource:@"loading_bar_dot"
+                                                                                                                        withExtension:@"gif"]];
+    } else {
+        self.massiveDownloadIndicatorImageView.image = nil;
     }
 }
 
 -(void)homeViewManager:(czzHomeViewManager *)threadViewManager downloadSuccessful:(BOOL)wasSuccessful {
-    if (!wasSuccessful)
-    {
-        if (progressView.isAnimating) {
-            [refreshControl endRefreshing];
-            [progressView stopAnimating];
-            [progressView showWarning];
-        }
+    if (!wasSuccessful) {
+        [self showWarning];
     }
 }
 
@@ -294,15 +342,50 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
         if (newThreads.count) {
             self.threadViewManager = (czzThreadViewManager*)threadViewManager;
         }
+    } else {
+        [self showWarning];
     }
     [self updateTableView];
-    [refreshControl endRefreshing];
-    [progressView stopAnimating];
     // Reset the lastCellType back to default.
     self.threadTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
 }
 
+- (void)viewManagerContinousDownloadUpdated:(czzThreadViewManager *)viewManager {
+    // A download of a page is completed, display it on screen.
+    self.threadViewManager = viewManager;
+    [self updateTableView];
+}
+
+- (void)viewManager:(czzThreadViewManager *)viewManager continousDownloadCompleted:(BOOL)success {
+    // All threads downloaded, the handling of this event would be the same as a single page downloader event.
+    [self homeViewManager:viewManager
+   threadContentProcessed:success
+               newThreads:viewManager.lastBatchOfThreads
+               allThreads:viewManager.threads];
+}
+
 #pragma mark - UI button actions
+
+- (IBAction)massiveDownloadAction:(id)sender {
+    if (self.threadViewManager.isMassiveDownloading) {
+        // Stop massive download.
+        self.confirmCancelMassiveDownloadAlertView = [[UIAlertView alloc] initWithTitle:@"取消一键到底!"
+                                                                                message:[NSString stringWithFormat:@"是否取消一键到底?"]
+                                                                               delegate:self
+                                                                      cancelButtonTitle:@"算了"
+                                                                      otherButtonTitles:@"确定", nil];
+        [self.confirmCancelMassiveDownloadAlertView show];
+    } else {
+        // Start massive download.
+        self.confirmMassiveDownloadAlertView = [[UIAlertView alloc] initWithTitle:@"一键到底!"
+                                                                          message:[NSString stringWithFormat:@"将加载%ld页内容,请确认!",
+                                                                                   self.threadViewManager.totalPages - self.threadViewManager.pageNumber]
+                                                                         delegate:self
+                                                                cancelButtonTitle:@"取消"
+                                                                otherButtonTitles:@"确定", nil];
+        [self.confirmMassiveDownloadAlertView show];
+    }
+}
 
 - (IBAction)replyAction:(id)sender {
     [czzReplyUtil replyMainThread:self.threadViewManager.parentThread];
@@ -323,7 +406,15 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 - (IBAction)watchAction:(id)sender {
-    [[czzWatchListManager sharedManager] addToWatchList:self.threadViewManager.parentThread];
+    czzThread *targetThread = self.threadViewManager.parentThread;
+    if ([WatchListManager.watchedThreads containsObject:targetThread]) {
+        [AppDelegate showToast:@"已取消注目"];
+        [WatchListManager removeFromWatchList:targetThread];
+    } else {
+        [AppDelegate showToast:@"已注目此串"];
+        [WatchListManager addToWatchList:targetThread];
+    }
+    [self updateTableView];
 }
 
 
@@ -356,6 +447,8 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 #pragma mark - Rotation event.
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [self.threadTableViewManager viewWillTransitionToSize:size
+                                withTransitionCoordinator:coordinator];
     [self updateTableView];
 }
 

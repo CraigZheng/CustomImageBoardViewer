@@ -19,6 +19,7 @@
 #import "czzAppDelegate.h"
 #import "czzFavouriteManagerViewController.h"
 #import "Toast+UIView.h"
+#import "czzBannerNotificationUtil.h"
 #import "czzMiniThreadViewController.h"
 #import "czzSettingsCentre.h"
 #import "czzNavigationController.h"
@@ -44,7 +45,6 @@
 @synthesize searchResult;
 @synthesize searchKeyword;
 @synthesize targetURL;
-@synthesize progressView;
 @synthesize miniThreadView;
 
 - (void)viewDidLoad
@@ -64,10 +64,7 @@
             searchEngineSegmentedControl.selectedSegmentIndex = 2;
         }
     }
-    
-    //progress view
-    progressView = [(czzNavigationController*)self.navigationController progressView];
-    
+        
     searchInputAlertView = [[UIAlertView alloc] initWithTitle:@"关键词或号码" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     searchInputAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     UITextField *textInputField = [searchInputAlertView textFieldAtIndex:0];
@@ -92,9 +89,19 @@
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.progressView viewDidAppear];
+}
+
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [AppDelegate.window hideToastActivity];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self.progressView viewDidDisapper];
 }
 
 /*
@@ -109,19 +116,21 @@
 }
 
 #pragma mark - UIAlertViewDelegate
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     //search
     if (alertView == searchInputAlertView) {
         if (buttonIndex != alertView.cancelButtonIndex) {
             searchKeyword = [[[alertView textFieldAtIndex:0] text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             if ([self isNumeric:searchKeyword]) {
-                [AppDelegate.window makeToast:@"请稍等..."];
+                [czzBannerNotificationUtil displayMessage:@"请稍等..."
+                                                 position:BannerNotificationPositionTop];
                 [self downloadAndPrepareThreadWithID:searchKeyword.integerValue];
                 
             } else {
                 NSURLRequest *request = [self makeRequestWithKeyword:searchKeyword];
                 if (!request) {
-                    [AppDelegate.window makeToast:@"无效的关键词"];
+                    [czzBannerNotificationUtil displayMessage:@"无效的关键词"
+                                                     position:BannerNotificationPositionTop];
                 } else {
                     [searchWebView loadRequest:request];
                 }
@@ -166,51 +175,51 @@
 #pragma mark - UIWebViewDelegate
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     [AppDelegate.window hideToastActivity];
+    [self.progressView showWarning];
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     DDLogDebug(@"should navigate to URL: %@", request.URL.absoluteString);
     //user tapped on link
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
-        if ([request.URL.absoluteString rangeOfString:[settingCentre a_isle_host]].location == NSNotFound) {
-            [AppDelegate.window makeToast:@"这个App只支持AC匿名版的链接" duration:2.0 position:@"center" image:[UIImage imageNamed:@"warning.png"]];
-            return NO;
-        } else {
-            //get final URL
-            NSString *acURL = [[request.URL.absoluteString componentsSeparatedByString:@"?"].firstObject stringByDeletingPathExtension]; //only the first few components are useful, the host and the thread id
-            targetURL = [NSURL URLWithString:acURL];
-            [AppDelegate.window makeToast:@"请稍等..."];
-
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                NSData *data = nil;
-                
-                NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:targetURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:4];
-                NSURLResponse *response;
-                NSError *error;
-                data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-                NSURL *LastURL = [response URL];
-                
-                //from final URL get thread ID
-                NSString *threadID = [LastURL.absoluteString componentsSeparatedByString:@"/"].lastObject;
-                dispatch_async(dispatch_get_main_queue(), ^{
+        //get final URL
+        NSString *acURL = [[request.URL.absoluteString componentsSeparatedByString:@"?"].firstObject stringByDeletingPathExtension]; //only the first few components are useful, the host and the thread id
+        targetURL = [NSURL URLWithString:acURL];
+        [czzBannerNotificationUtil displayMessage:@"请稍等..."
+                                         position:BannerNotificationPositionTop];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSData *data = nil;
+            
+            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:targetURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:4];
+            NSURLResponse *response;
+            NSError *error;
+            data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+            NSURL *LastURL = [response URL];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if ([LastURL.absoluteString rangeOfString:[settingCentre a_isle_host]].location == NSNotFound) {
+                    [czzBannerNotificationUtil displayMessage:@"这个App只支持A岛匿名版的链接"
+                                                     position:BannerNotificationPositionTop];
+                } else {
+                    //from final URL get thread ID
+                    NSString *threadID = [LastURL.absoluteString componentsSeparatedByString:@"/"].lastObject;
                     [self downloadAndPrepareThreadWithID:threadID.integerValue];
-                });
+                }
             });
             
-            return NO;
-
-        }
+        });
+        
         return NO;
     }
     return YES;
 }
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView {
-    [progressView stopAnimating];
+    [self.progressView stopAnimating];
 }
 
 -(void)webViewDidStartLoad:(UIWebView *)webView {
-    [progressView startAnimating];
+    [self.progressView startAnimating];
 }
 
 - (IBAction)againAction:(id)sender {
@@ -235,5 +244,14 @@
     [userDef synchronize];
 }
 
+#pragma mark - Getter
+
+- (GSIndeterminateProgressView *)progressView {
+    if (!_progressView) {
+        _progressView = [[GSIndeterminateProgressView alloc] initWithParentView:self.view
+                                                                     alignToTop:self.searchWebView];
+    }
+    return _progressView;
+}
 
 @end
