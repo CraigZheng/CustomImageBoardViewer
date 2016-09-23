@@ -109,6 +109,8 @@
         self.contentUpdated = YES;
     }
     self.isUpdating = NO;
+    [self.loadingIndicator stopLoading];
+    [self.moreButton setEnabled:YES];
     [self loadData];
 }
 

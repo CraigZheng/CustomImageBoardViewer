@@ -100,9 +100,11 @@
             czzWKThread *wkThread = [[czzWKThread alloc] initWithDictionary:dict];
             [self.wkThreads addObject:wkThread];
         }
+        self.contentUpdated = YES;
     }
     self.isUpdating = NO;
-    self.contentUpdated = YES;
+    [self.loadingIndicator stopLoading];
+    [self.reloadButton setEnabled:YES];
     [self loadData];
 }
 
