@@ -36,20 +36,17 @@
 
 #pragma mark - Message delivery.
 - (void)sendCommand:(czzWatchKitCommand *)command withCaller:(id<czzWKSessionDelegate>)caller {
-    DLog(@"%s", __PRETTY_FUNCTION__);
     DLog(@"%@.%ld", command.caller, (long)command.action);
     DLog(@"%@", command.parameter);
     
     self.weakRefCaller = caller;
-    [[WCSession defaultSession] updateApplicationContext:command.encodeToDictionary error:nil];
-    
-//    [[WCSession defaultSession] sendMessage:command.encodeToDictionary replyHandler:^(NSDictionary<NSString *,id> * _Nonnull replyMessage) {
-//        DLog(@"%@", replyMessage);
-//        [weakRefCaller respondReceived:replyMessage error:nil];
-//    } errorHandler:^(NSError * _Nonnull error) {
-//        DLog(@"%@", error);
-//        [weakRefCaller respondReceived:nil error:error];
-//    }];
+    [[WCSession defaultSession] sendMessage:command.encodeToDictionary replyHandler:^(NSDictionary<NSString *,id> * _Nonnull replyMessage) {
+        DLog(@"%@", replyMessage);
+        [self.weakRefCaller respondReceived:replyMessage error:nil];
+    } errorHandler:^(NSError * _Nonnull error) {
+        DLog(@"%@", error);
+        [self.weakRefCaller respondReceived:nil error:error];
+    }];
 }
 
 - (void)session:(WCSession *)session didReceiveApplicationContext:(NSDictionary<NSString *,id> *)applicationContext {

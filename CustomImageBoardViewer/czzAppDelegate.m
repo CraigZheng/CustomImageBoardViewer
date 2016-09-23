@@ -121,7 +121,13 @@
                                                                                   wkBackgroundTaskIdentifier = UIBackgroundTaskInvalid;
                                                                               }];
     [[czzWatchKitManager sharedManager] handleWatchKitExtensionRequest:message
-                                                                 reply:replyHandler
+                                                                 reply:^(NSDictionary *response) {
+                                                                     NSError *error;
+                                                                     [[WCSession defaultSession] updateApplicationContext:response error:&error];
+                                                                     if (error) {
+                                                                         DLog(@"%@", error);
+                                                                     }
+                                                                 }
                                           withBackgroundTaskIdentifier:wkBackgroundTaskIdentifier];
 }
 
@@ -132,7 +138,13 @@
                                                                                   wkBackgroundTaskIdentifier = UIBackgroundTaskInvalid;
                                                                               }];
     [[czzWatchKitManager sharedManager] handleWatchKitExtensionRequest:applicationContext
-                                                                 reply:nil
+                                                                 reply:^(NSDictionary *response) {
+                                                                     NSError *error;
+                                                                     [[WCSession defaultSession] updateApplicationContext:response error:&error];
+                                                                     if (error) {
+                                                                         DLog(@"%@", error);
+                                                                     }
+                                                                 }
                                           withBackgroundTaskIdentifier:wkBackgroundTaskIdentifier];
 
 }
