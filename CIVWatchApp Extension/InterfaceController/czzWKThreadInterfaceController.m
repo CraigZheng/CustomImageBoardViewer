@@ -53,12 +53,20 @@
     // self.wkThreads will always include a parent thread.
     if (self.wkThreads.count <= 1) {
         [self loadMore];
+    } else {
+        [self loadData];
     }
 }
 
 - (void)didDeactivate {
     // This method is called when watch view controller is no longer visible
     [super didDeactivate];
+}
+
+- (void)loadData {
+    [self reloadTableView];
+    [self.loadingIndicator stopLoading];
+    [self.moreButton setEnabled:YES];
 }
 
 -(void)loadMore {
@@ -79,8 +87,6 @@
 #pragma mark - czzWKSessionDelegate
 
 - (void)respondReceived:(NSDictionary *)response error:(NSError *)error {
-    // Re-enable the more button.
-    [self.moreButton setEnabled:YES];
     if (response.count) {
         self.pageNumber ++;
         NSArray *jsonThreads = [response objectForKey:NSStringFromClass(self.class)];
@@ -89,9 +95,7 @@
             [self.wkThreads addObject:wkThread];
         }
     }
-    [self reloadTableView];
-    
-    [self.loadingIndicator stopLoading];
+    [self loadData];
 }
 
 #pragma mark - Getter

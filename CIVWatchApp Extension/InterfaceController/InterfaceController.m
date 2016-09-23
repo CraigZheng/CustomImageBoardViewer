@@ -39,7 +39,15 @@
     [super willActivate];
     if (!self.wkThreads.count) {
         [self reloadData];
+    } else {
+        [self loadData];
     }
+}
+
+- (void)loadData {
+    [self reloadTableView];
+    [self.loadingIndicator stopLoading];
+    [self.reloadButton setEnabled:YES];
 }
 
 -(void)reloadData {
@@ -76,9 +84,7 @@
         czzWKThread *wkThread = [[czzWKThread alloc] initWithDictionary:dict];
         [self.wkThreads addObject:wkThread];
     }
-    [self reloadTableView];
-    [self.loadingIndicator stopLoading];
-    [self.reloadButton setEnabled:YES];
+    [self loadData];
 }
 
 #pragma mark - segue
