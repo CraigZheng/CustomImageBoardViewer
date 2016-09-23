@@ -44,14 +44,17 @@
     [[WCSession defaultSession] sendMessage:command.encodeToDictionary replyHandler:^(NSDictionary<NSString *,id> * _Nonnull replyMessage) {
         DLog(@"%@", replyMessage);
         [self.weakRefCaller respondReceived:replyMessage error:nil];
+        self.weakRefCaller = nil;
     } errorHandler:^(NSError * _Nonnull error) {
         DLog(@"%@", error);
         [self.weakRefCaller respondReceived:nil error:error];
+        self.weakRefCaller = nil;
     }];
 }
 
 - (void)session:(WCSession *)session didReceiveApplicationContext:(NSDictionary<NSString *,id> *)applicationContext {
     [self.weakRefCaller respondReceived:applicationContext error:nil];
+    self.weakRefCaller = nil;
 }
 
 #pragma mark - WCSessionDelegate
