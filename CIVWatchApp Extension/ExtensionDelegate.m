@@ -38,7 +38,8 @@
 - (void)sendCommand:(czzWatchKitCommand *)command withCaller:(id<czzWKSessionDelegate>)caller {
     DLog(@"%@.%ld", command.caller, (long)command.action);
     DLog(@"%@", command.parameter);
-    
+    // Call self.weakRefCaller for the last time before assigning a new caller, inform it that its operation is cancelled.
+    [self.weakRefCaller respondReceived:nil error:nil];
     self.weakRefCaller = caller;
     [[WCSession defaultSession] sendMessage:command.encodeToDictionary replyHandler:^(NSDictionary<NSString *,id> * _Nonnull replyMessage) {
         DLog(@"%@", replyMessage);
