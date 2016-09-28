@@ -22,6 +22,8 @@
 @property (strong, nonatomic) NSMutableArray *wkThreads;
 @property (strong, nonatomic) czzWKForum *selectedForum;
 @property (strong, nonatomic) czzWKThread *selectedThread;
+@property (assign, nonatomic) BOOL isUpdating;
+@property (assign, nonatomic) BOOL contentUpdated;
 @property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceButton *reloadButton;
 @property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceImage *loadingIndicator;
 @end
@@ -35,10 +37,30 @@
     
 }
 
-- (void)willActivate {
-    [super willActivate];
-    if (!self.wkThreads.count) {
-        [self reloadData];
+- (void)didAppear {
+    [super didAppear];
+    // If its not updating, then load or reload data.
+    if (!self.isUpdating) {
+        [self.loadingIndicator stopLoading];
+        [self.reloadButton setEnabled:YES];
+        if (!self.wkThreads.count) {
+            [self reloadData];
+        } else if (self.contentUpdated) {
+            [self loadData];
+        }
+    } else {
+        // Is updating, set the loading indicator to YES.
+        [self.loadingIndicator startLoading];
+        [self.reloadButton setEnabled:NO];
+    }
+}
+
+- (void)loadData {
+    if (self.contentUpdated) {
+        [self reloadTableView];
+        [self.loadingIndicator stopLoading];
+        [self.reloadButton setEnabled:YES];
+        self.contentUpdated = NO;
     }
 }
 
@@ -49,6 +71,7 @@
 -(void)loadMore:(BOOL)more {
     [self.loadingIndicator startLoading];
     [self.reloadButton setEnabled:NO];
+    self.isUpdating = YES;
     // Constructing and sending of the command.
     czzWatchKitCommand *loadCommand = [czzWatchKitCommand new];
     loadCommand.caller = NSStringFromClass(self.class);
@@ -70,15 +93,19 @@
 #pragma mark - czzWKSessionDelegate
 - (void)respondReceived:(NSDictionary *)response error:(NSError *)error {
     DLog(@"%s : %@ : %@", __PRETTY_FUNCTION__, response, error);
-    NSArray *jsonThreads = [response objectForKey:NSStringFromClass(self.class)];
-    [self.wkThreads removeAllObjects];
-    for (NSDictionary *dict in jsonThreads) {
-        czzWKThread *wkThread = [[czzWKThread alloc] initWithDictionary:dict];
-        [self.wkThreads addObject:wkThread];
+    if (response.count && !error) {
+        NSArray *jsonThreads = [response objectForKey:NSStringFromClass(self.class)];
+        [self.wkThreads removeAllObjects];
+        for (NSDictionary *dict in jsonThreads) {
+            czzWKThread *wkThread = [[czzWKThread alloc] initWithDictionary:dict];
+            [self.wkThreads addObject:wkThread];
+        }
+        self.contentUpdated = YES;
     }
-    [self reloadTableView];
+    self.isUpdating = NO;
     [self.loadingIndicator stopLoading];
     [self.reloadButton setEnabled:YES];
+    [self loadData];
 }
 
 #pragma mark - segue

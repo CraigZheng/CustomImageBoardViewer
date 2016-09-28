@@ -121,8 +121,32 @@
                                                                                   wkBackgroundTaskIdentifier = UIBackgroundTaskInvalid;
                                                                               }];
     [[czzWatchKitManager sharedManager] handleWatchKitExtensionRequest:message
-                                                                 reply:replyHandler
+                                                                 reply:^(NSDictionary *response) {
+                                                                     NSError *error;
+                                                                     [[WCSession defaultSession] updateApplicationContext:response error:&error];
+                                                                     if (error) {
+                                                                         DLog(@"%@", error);
+                                                                     }
+                                                                 }
                                           withBackgroundTaskIdentifier:wkBackgroundTaskIdentifier];
+}
+
+- (void)session:(WCSession *)session didReceiveApplicationContext:(NSDictionary<NSString *,id> *)applicationContext {
+    __block UIBackgroundTaskIdentifier wkBackgroundTaskIdentifier;
+    wkBackgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithName:@"backgroundTask"
+                                                                              expirationHandler:^{
+                                                                                  wkBackgroundTaskIdentifier = UIBackgroundTaskInvalid;
+                                                                              }];
+    [[czzWatchKitManager sharedManager] handleWatchKitExtensionRequest:applicationContext
+                                                                 reply:^(NSDictionary *response) {
+                                                                     NSError *error;
+                                                                     [[WCSession defaultSession] updateApplicationContext:response error:&error];
+                                                                     if (error) {
+                                                                         DLog(@"%@", error);
+                                                                     }
+                                                                 }
+                                          withBackgroundTaskIdentifier:wkBackgroundTaskIdentifier];
+
 }
 
 #pragma mark - background fetch

@@ -20,6 +20,8 @@
 @property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceTable *wkThreadsTableView;
 @property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceButton *moreButton;
 @property (unsafe_unretained, nonatomic) IBOutlet WKInterfaceImage *loadingIndicator;
+@property (assign, nonatomic) BOOL isUpdating;
+@property (assign, nonatomic) BOOL contentUpdated;
 @property (strong, nonatomic) NSMutableArray *wkThreads;
 @property (assign, nonatomic) NSInteger pageNumber;
 @end
@@ -47,12 +49,20 @@
 }
 
 #pragma mark - Life cycle.
-- (void)willActivate {
-    // This method is called when watch view controller is about to be visible to user
-    [super willActivate];
+- (void)didAppear {
+    [super didAppear];
     // self.wkThreads will always include a parent thread.
-    if (self.wkThreads.count <= 1) {
-        [self loadMore];
+    if (!self.isUpdating) {
+        [self.moreButton setEnabled:YES];
+        [self.loadingIndicator stopLoading];
+        if (self.wkThreads.count <= 1) {
+            [self loadMore];
+        } else if (self.contentUpdated) {
+            [self loadData];
+        }
+    } else {
+        [self.moreButton setEnabled:NO];
+        [self.loadingIndicator startLoading];
     }
 }
 
@@ -61,8 +71,18 @@
     [super didDeactivate];
 }
 
+- (void)loadData {
+    if (self.contentUpdated) {
+        [self reloadTableView];
+        [self.loadingIndicator stopLoading];
+        [self.moreButton setEnabled:YES];
+        self.contentUpdated = YES;
+    }
+}
+
 -(void)loadMore {
     if (self.parentWKThread) {
+        self.isUpdating = YES;
         [self.loadingIndicator startLoading];
         
         // Disable the load more button until a response is received.
@@ -79,19 +99,19 @@
 #pragma mark - czzWKSessionDelegate
 
 - (void)respondReceived:(NSDictionary *)response error:(NSError *)error {
-    // Re-enable the more button.
-    [self.moreButton setEnabled:YES];
-    if (response.count) {
+    if (response.count && !error) {
         self.pageNumber ++;
         NSArray *jsonThreads = [response objectForKey:NSStringFromClass(self.class)];
         for (NSDictionary *jsonDict in jsonThreads) {
             czzWKThread *wkThread = [[czzWKThread alloc] initWithDictionary:jsonDict];
             [self.wkThreads addObject:wkThread];
         }
+        self.contentUpdated = YES;
     }
-    [self reloadTableView];
-    
+    self.isUpdating = NO;
     [self.loadingIndicator stopLoading];
+    [self.moreButton setEnabled:YES];
+    [self loadData];
 }
 
 #pragma mark - Getter

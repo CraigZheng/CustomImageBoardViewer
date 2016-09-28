@@ -43,6 +43,13 @@
     }
 }
 
+- (void)loadData {
+    [self reloadTableView];
+    [self.statusLabel setHidden:YES];
+    [self.statusLabel setText:@""];
+    [self.loadingIndicator stopLoading];
+}
+
 -(void)loadForumData {
     [self.loadingIndicator startLoading];
     
@@ -67,14 +74,11 @@
             }
         }
         self.wkForums = [tempForumsArray copy];
-        [self reloadTableView];
-        [self.statusLabel setHidden:YES];
+        [self loadData];
     } else if (error) {
         [self.statusLabel setText:error.description];
         [self.statusLabel setHidden:NO];
     }
-    
-    [self.loadingIndicator stopLoading];
 }
 
 #pragma mark - TableView

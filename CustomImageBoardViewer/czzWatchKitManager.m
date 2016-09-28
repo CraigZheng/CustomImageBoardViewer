@@ -13,6 +13,7 @@
 #import "czzImageDownloaderManager.h"
 #import "czzWatchListManager.h"
 #import "czzForumManager.h"
+#import <WatchConnectivity/WatchConnectivity.h>
 
 @interface czzWatchKitManager () <czzHomeViewManagerDelegate>
 @property (assign, nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
@@ -77,7 +78,8 @@
             [forums addObject: [[forum watchKitForum] encodeToDictionary]];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
-            replyHandler(@{command.caller : forums});
+//            replyHandler(@{command.caller : forums});
+            [[WCSession defaultSession] updateApplicationContext:@{command.caller : forums} error:nil];
         });
     } else {
         [[czzForumManager sharedManager] updateForums:^(BOOL success, NSError *error) {
@@ -86,7 +88,8 @@
                 [forums addObject: [[forum watchKitForum] encodeToDictionary]];
             }
             dispatch_async(dispatch_get_main_queue(), ^{
-                replyHandler(@{command.caller : forums});
+//                replyHandler(@{command.caller : forums});
+                [[WCSession defaultSession] updateApplicationContext:@{command.caller : forums} error:nil];
             });
         }];
     }
@@ -105,7 +108,8 @@
     __weak typeof (self) weakSelf = self;
     threadDownloader.completionHandler = ^(BOOL success, NSArray *threads, NSError *error) {
         DDLogDebug(@"%s : %ld threads : %@", __PRETTY_FUNCTION__, threads.count, error);
-        replyHandler(@{command.caller : [weakSelf watchKitThreadsWithThreads:threads]});
+//        replyHandler(@{command.caller : [weakSelf watchKitThreadsWithThreads:threads]});
+        [[WCSession defaultSession] updateApplicationContext:@{command.caller : [weakSelf watchKitThreadsWithThreads:threads]} error:nil];
         if (weakRefDownloader) {
             [self.requestedThreadDownloaders removeObject:weakRefDownloader];
         }
@@ -130,7 +134,8 @@
 
     threadDownloader.completionHandler = ^(BOOL success, NSArray *threads, NSError *error){
         NSDictionary *replyDictionary = @{command.caller : [weakSelf watchKitThreadsWithThreads:threads]};
-        replyHandler(replyDictionary);
+//        replyHandler(replyDictionary);
+        [[WCSession defaultSession] updateApplicationContext:replyDictionary error:nil];
         if (weakRefThreadDownloader) {
             [weakSelf.requestedThreadDownloaders removeObject:weakRefThreadDownloader];
         }

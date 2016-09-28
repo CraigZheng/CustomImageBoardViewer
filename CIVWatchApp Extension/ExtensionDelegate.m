@@ -12,6 +12,7 @@
 @import WatchConnectivity;
 
 @interface ExtensionDelegate() <WCSessionDelegate>
+@property (weak) id<czzWKSessionDelegate> weakRefCaller;
 
 @end
 
@@ -35,17 +36,25 @@
 
 #pragma mark - Message delivery.
 - (void)sendCommand:(czzWatchKitCommand *)command withCaller:(id<czzWKSessionDelegate>)caller {
-    DLog(@"%s", __PRETTY_FUNCTION__);
     DLog(@"%@.%ld", command.caller, (long)command.action);
     DLog(@"%@", command.parameter);
-    __weak id<czzWKSessionDelegate> weakRefCaller = caller;
+    // Call self.weakRefCaller for the last time before assigning a new caller, inform it that its operation is cancelled.
+    [self.weakRefCaller respondReceived:nil error:nil];
+    self.weakRefCaller = caller;
     [[WCSession defaultSession] sendMessage:command.encodeToDictionary replyHandler:^(NSDictionary<NSString *,id> * _Nonnull replyMessage) {
         DLog(@"%@", replyMessage);
-        [weakRefCaller respondReceived:replyMessage error:nil];
+        [self.weakRefCaller respondReceived:replyMessage error:nil];
+        self.weakRefCaller = nil;
     } errorHandler:^(NSError * _Nonnull error) {
         DLog(@"%@", error);
-        [weakRefCaller respondReceived:nil error:error];
+        [self.weakRefCaller respondReceived:nil error:error];
+        self.weakRefCaller = nil;
     }];
+}
+
+- (void)session:(WCSession *)session didReceiveApplicationContext:(NSDictionary<NSString *,id> *)applicationContext {
+    [self.weakRefCaller respondReceived:applicationContext error:nil];
+    self.weakRefCaller = nil;
 }
 
 #pragma mark - WCSessionDelegate
