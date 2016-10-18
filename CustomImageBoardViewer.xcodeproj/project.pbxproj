@@ -216,6 +216,7 @@
 		449E928A1BF8A33300EE2F58 /* czzThreadDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 449E92891BF8A33300EE2F58 /* czzThreadDownloader.m */; };
 		449E928E1BF9D15C00EE2F58 /* czzModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 449E928D1BF9D15C00EE2F58 /* czzModalViewController.m */; };
 		449FF63E1D82FD250065BA08 /* chat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 449FF63D1D82FD250065BA08 /* chat@2x.png */; };
+		44A087301DB61CA4005599EA /* czzMarkerManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A0872F1DB61CA4005599EA /* czzMarkerManagerTest.swift */; };
 		44A1697E1D070546001DF0B3 /* zhuizhui_emoji.txt in Resources */ = {isa = PBXBuildFile; fileRef = 44A1697D1D070546001DF0B3 /* zhuizhui_emoji.txt */; };
 		44A2948E1BFDEFF50033D438 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44A2948C1BFDEFF50033D438 /* Interface.storyboard */; };
 		44A294901BFDEFF50033D438 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44A2948F1BFDEFF50033D438 /* Assets.xcassets */; };
@@ -846,6 +847,8 @@
 		449E928C1BF9D15C00EE2F58 /* czzModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzModalViewController.h; sourceTree = "<group>"; };
 		449E928D1BF9D15C00EE2F58 /* czzModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzModalViewController.m; sourceTree = "<group>"; };
 		449FF63D1D82FD250065BA08 /* chat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat@2x.png"; sourceTree = "<group>"; };
+		44A0872E1DB61CA3005599EA /* CustomImageBoardViewerTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CustomImageBoardViewerTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		44A0872F1DB61CA4005599EA /* czzMarkerManagerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = czzMarkerManagerTest.swift; sourceTree = "<group>"; };
 		44A1697D1D070546001DF0B3 /* zhuizhui_emoji.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = zhuizhui_emoji.txt; sourceTree = "<group>"; };
 		44A2948A1BFDEFF50033D438 /* CIVWatchApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CIVWatchApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		44A2948D1BFDEFF50033D438 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
@@ -1419,6 +1422,8 @@
 				44F86B691C1BAC4C001306E8 /* CoustomImageBoardViewerTest.pch */,
 				4490A80E1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m */,
 				4431E5431CA4B8F20098AA01 /* czzLaunchPopUpTest.m */,
+				44A0872F1DB61CA4005599EA /* czzMarkerManagerTest.swift */,
+				44A0872E1DB61CA3005599EA /* CustomImageBoardViewerTests-Bridging-Header.h */,
 			);
 			path = CustomImageBoardViewerTests;
 			sourceTree = "<group>";
@@ -2734,6 +2739,7 @@
 						};
 					};
 					441E5CEE17F4691300289DBD = {
+						LastSwiftMigration = 0800;
 						TestTargetID = 441E5CCA17F4691300289DBD;
 					};
 					44A294891BFDEFF50033D438 = {
@@ -3303,6 +3309,7 @@
 				4431E5441CA4B8F20098AA01 /* czzLaunchPopUpTest.m in Sources */,
 				44989A2E1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m in Sources */,
 				44CD96A11C1AA488007E522F /* czzThreadTest.m in Sources */,
+				44A087301DB61CA4005599EA /* czzMarkerManagerTest.swift in Sources */,
 				44E3F73F1BA2FFB600597A3F /* NSObject+Util.m in Sources */,
 				44E3F7421BA2FFB600597A3F /* PropertyAttribute.m in Sources */,
 				44C73B8F1A484F280051D4C2 /* czzFavouriteManager.m in Sources */,
@@ -3559,6 +3566,7 @@
 			baseConfigurationReference = AECEC532D9208769EFF63216 /* Pods-CustomImageBoardViewerTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CustomImageBoardViewer.app/CustomImageBoardViewer";
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -3572,9 +3580,13 @@
 				);
 				INFOPLIST_FILE = "CustomImageBoardViewerTests/CustomImageBoardViewerTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "CustomImageBoardViewerTests/CustomImageBoardViewerTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -3585,6 +3597,7 @@
 			baseConfigurationReference = 28832211D8C387A440C8B574 /* Pods-CustomImageBoardViewerTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CustomImageBoardViewer.app/CustomImageBoardViewer";
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -3598,9 +3611,12 @@
 				);
 				INFOPLIST_FILE = "CustomImageBoardViewerTests/CustomImageBoardViewerTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "CustomImageBoardViewerTests/CustomImageBoardViewerTests-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
