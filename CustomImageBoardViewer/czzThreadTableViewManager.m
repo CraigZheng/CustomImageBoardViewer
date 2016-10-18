@@ -24,12 +24,18 @@
     self = [super init];
     if (self) {
         //set up custom edit menu
-        UIMenuItem *replyMenuItem = [[UIMenuItem alloc] initWithTitle:@"回复" action:NSSelectorFromString(@"menuActionReply:")];
-        UIMenuItem *copyMenuItem = [[UIMenuItem alloc] initWithTitle:@"复制..." action:NSSelectorFromString(@"menuActionCopy:")];
-        UIMenuItem *openMenuItem = [[UIMenuItem alloc] initWithTitle:@"打开链接" action:NSSelectorFromString(@"menuActionOpen:")];
-        UIMenuItem *highlightMenuItem = [[UIMenuItem alloc] initWithTitle:@"高亮他" action:NSSelectorFromString(@"menuActionHighlight:")];
+        UIMenuItem *replyMenuItem = [[UIMenuItem alloc] initWithTitle:@"回复"
+                                                               action:NSSelectorFromString(@"menuActionReply:")];
+        UIMenuItem *copyMenuItem = [[UIMenuItem alloc] initWithTitle:@"复制..."
+                                                              action:NSSelectorFromString(@"menuActionCopy:")];
+        UIMenuItem *openMenuItem = [[UIMenuItem alloc] initWithTitle:@"打开链接"
+                                                              action:NSSelectorFromString(@"menuActionOpen:")];
+        UIMenuItem *highlightMenuItem = [[UIMenuItem alloc] initWithTitle:@"标记..."
+                                                                   action:NSSelectorFromString(@"menuActionHighlight:")];
+        UIMenuItem *blockMenuItem = [[UIMenuItem alloc] initWithTitle:@"屏蔽..."
+                                                               action:NSSelectorFromString(@"menuActionBlock:")];
         //    UIMenuItem *searchMenuItem = [[UIMenuItem alloc] initWithTitle:@"搜索他" action:@selector(menuActionSearch:)];
-        [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, highlightMenuItem, /*searchMenuItem,*/ openMenuItem]];
+        [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, highlightMenuItem, blockMenuItem, /*searchMenuItem,*/ openMenuItem]];
         [[UIMenuController sharedMenuController] update];
         // Rotation observer - remove the container view.
         [[NSNotificationCenter defaultCenter] addObserver:self
