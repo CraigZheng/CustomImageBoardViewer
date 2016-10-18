@@ -17,5 +17,6 @@
 - (BOOL)save;
 - (BOOL)restore;
 - (void)reset;
++ (instancetype)sharedInstance;
 
 @end
