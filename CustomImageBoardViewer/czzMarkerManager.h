@@ -10,4 +10,11 @@
 
 @interface czzMarkerManager : NSObject
 
+- (void)highlightUID:(NSString *)UID;
+- (void)blockUID:(NSString *)UID;
+- (BOOL)isUIDHighlighted:(NSString *)UID;
+- (BOOL)isUIDBlocked:(NSString *)UID;
+- (BOOL)save;
+- (BOOL)restore;
+
 @end
