@@ -55,6 +55,7 @@
 		441E5D2C17F48F8C00289DBD /* czzThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E5D2B17F48F8C00289DBD /* czzThread.m */; };
 		441E5E4E17F4A9C500289DBD /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5E4D17F4A9C500289DBD /* CoreText.framework */; };
 		441E5E5417F52DEF00289DBD /* czzThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E5E5317F52DEF00289DBD /* czzThreadViewController.m */; };
+		441E6F451DB5C44F005B779B /* czzMarkerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E6F441DB5C44F005B779B /* czzMarkerManager.m */; };
 		442418E31CA2697100654A74 /* popup notification example.json in Resources */ = {isa = PBXBuildFile; fileRef = 442418E21CA2697100654A74 /* popup notification example.json */; };
 		4424FE4D1BCD33A70096F261 /* czzFadeInOutModalAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4424FE4C1BCD33A70096F261 /* czzFadeInOutModalAnimator.m */; };
 		4425A286199700F000671B88 /* test_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 4425A285199700F000671B88 /* test_image.png */; };
@@ -597,6 +598,8 @@
 		441E5E4D17F4A9C500289DBD /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		441E5E5217F52DEF00289DBD /* czzThreadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewController.h; sourceTree = "<group>"; };
 		441E5E5317F52DEF00289DBD /* czzThreadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewController.m; sourceTree = "<group>"; };
+		441E6F431DB5C44F005B779B /* czzMarkerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzMarkerManager.h; sourceTree = "<group>"; };
+		441E6F441DB5C44F005B779B /* czzMarkerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzMarkerManager.m; sourceTree = "<group>"; };
 		442066221BE846820023D91F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		442418E21CA2697100654A74 /* popup notification example.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "popup notification example.json"; sourceTree = "<group>"; };
 		4424FE4B1BCD33A70096F261 /* czzFadeInOutModalAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFadeInOutModalAnimator.h; sourceTree = "<group>"; };
@@ -1265,6 +1268,7 @@
 		441A6A7E1BAEBF64008E380C /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				441E6F421DB5C405005B779B /* MarkerManager */,
 				441A6A7F1BAEBFF6008E380C /* WatchListManager */,
 				442EC8681A1A1320005650E4 /* czzNavigationControllerManager */,
 				5A88B8411938AFE000071343 /* czzNotificationCentre */,
@@ -1535,6 +1539,15 @@
 				44AE2B031872B41D002CB021 /* PartialTransparentView */,
 			);
 			name = czzThreadViewController;
+			sourceTree = "<group>";
+		};
+		441E6F421DB5C405005B779B /* MarkerManager */ = {
+			isa = PBXGroup;
+			children = (
+				441E6F431DB5C44F005B779B /* czzMarkerManager.h */,
+				441E6F441DB5C44F005B779B /* czzMarkerManager.m */,
+			);
+			name = MarkerManager;
 			sourceTree = "<group>";
 		};
 		442066211BE846540023D91F /* GoogleAnalytic */ = {
@@ -3221,6 +3234,7 @@
 				445CA5541CA3BB8F00D3C315 /* czzLaunchPopUpNotification.m in Sources */,
 				441E5D1B17F46E7900289DBD /* SMXMLDocument.m in Sources */,
 				441E5D1217F46A0900289DBD /* czzEntryPointViewController.m in Sources */,
+				441E6F451DB5C44F005B779B /* czzMarkerManager.m in Sources */,
 				44989A251CFC5AE900F04ECD /* czzPopularThreadsManager.m in Sources */,
 				440A62A81B8EBC160046E4CE /* UIViewController+Util.m in Sources */,
 				44E469E11BAD9B5000C0AACC /* czzWatchKitCommand.m in Sources */,
