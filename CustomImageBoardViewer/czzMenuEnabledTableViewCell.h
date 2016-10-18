@@ -34,6 +34,7 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 // Menu actions
 - (void)userWantsToReply:(czzThread *)thread inParentThread:(czzThread *)parentThread;
 - (void)userWantsToHighLight:(czzThread *)thread;
+- (void)userWantsToBlock:(czzThread *)thread;
 - (void)userWantsToSearch:(czzThread *)thread;
 // UI command
 - (void)threadViewCellContentChanged:(czzMenuEnabledTableViewCell *)cell;
@@ -67,9 +68,10 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 - (void)tapOnImageView:(id)sender;
 
 #pragma mark - Menu actions.
--(void)menuActionCopy:(id)sender;
--(void)menuActionReply:(id)sender;
--(void)menuActionOpen:(id)sender;
--(void)menuActionHighlight:(id)sender;
--(void)menuActionSearch:(id) sender;
+- (void)menuActionCopy:(id)sender;
+- (void)menuActionReply:(id)sender;
+- (void)menuActionOpen:(id)sender;
+- (void)menuActionHighlight:(id)sender;
+- (void)menuActionSearch:(id)sender;
+- (void)menuActionBlock:(id)sender;
 @end

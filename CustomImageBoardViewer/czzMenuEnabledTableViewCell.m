@@ -93,7 +93,8 @@ static NSString * const showThreadWithID = @"showThreadWithID";
     return (action == @selector(menuActionReply:) ||
             action == @selector(menuActionCopy:)
             || action == @selector(menuActionHighlight:)
-            || action == @selector(menuActionSearch:));
+            || action == @selector(menuActionSearch:)
+            || action == @selector(menuActionBlock:));
 }
 
 -(BOOL)canBecomeFirstResponder{
@@ -151,6 +152,12 @@ static NSString * const showThreadWithID = @"showThreadWithID";
 -(void)menuActionHighlight:(id)sender {
     if ([self.delegate respondsToSelector:@selector(userWantsToHighLight:)]) {
         [self.delegate userWantsToHighLight:self.thread];
+    }
+}
+
+- (void)menuActionBlock:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(userWantsToBlock:)]) {
+        [self.delegate userWantsToBlock:self.thread];
     }
 }
 
