@@ -138,10 +138,18 @@
         if (!htmlCopy) {
             htmlCopy = htmlString;
         }
-        NSAttributedString *renderedString = [[NSAttributedString alloc] initWithData:[htmlCopy dataUsingEncoding:NSUTF8StringEncoding]
-                                                                              options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
-                                                                                        NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
-                                                                   documentAttributes:nil error:nil];
+        NSData *htmlData = [htmlCopy dataUsingEncoding:NSUTF8StringEncoding];
+        NSAttributedString *renderedString;
+        // Make sure renderedString can always be inited properly.
+        if (!htmlData) {
+            // If there is no data available, just init it with original string or an empty string.
+            renderedString = [[NSAttributedString alloc] initWithString:htmlCopy ? htmlCopy : @""];
+        } else {
+            renderedString = [[NSAttributedString alloc] initWithData: htmlData
+                                                              options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+                                                                        NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
+                                                   documentAttributes:nil error:nil];
+        }
         
         //fine all >> quoted text
         NSArray *segments = [renderedString.string componentsSeparatedByString:@">>"];
