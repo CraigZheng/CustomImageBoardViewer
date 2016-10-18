@@ -40,4 +40,18 @@ class czzMarkerManagerTest: XCTestCase {
         XCTAssert(newMarkerManager.isUIDHighlighted(UID1))
         XCTAssert(newMarkerManager.isUIDHighlighted(UID2))
     }
+    
+    func testMarkerReset() {
+        czzMarkerManager.sharedInstance().highlightUID(UID1)
+        czzMarkerManager.sharedInstance().highlightUID(UID2)
+        czzMarkerManager.sharedInstance().blockUID(UID1)
+        czzMarkerManager.sharedInstance().blockUID(UID2)
+        czzMarkerManager.sharedInstance().reset()
+        // New marker should not contain any entity.
+        let newMarkerManager = czzMarkerManager()
+        XCTAssertFalse(newMarkerManager.isUIDHighlighted(UID1))
+        XCTAssertFalse(newMarkerManager.isUIDHighlighted(UID2))
+        XCTAssertFalse(newMarkerManager.isUIDBlocked(UID1))
+        XCTAssertFalse(newMarkerManager.isUIDBlocked(UID2))
+    }
 }
