@@ -26,6 +26,14 @@ static NSString * const markerBlockedFileName = @"marker_blocked.dat";
 - (instancetype)init {
     self = [super init];
     if (self) {
+        // Create Marker folder if necessary.
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        if (![fileManager fileExistsAtPath:self.markerFolder]) {
+            [fileManager createDirectoryAtPath:self.markerFolder
+                   withIntermediateDirectories:NO
+                                    attributes:@{NSFileProtectionKey:NSFileProtectionNone}
+                                         error:nil];
+        }
         [self restore];
     }
     return self;
