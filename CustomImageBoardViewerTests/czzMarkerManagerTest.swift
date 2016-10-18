@@ -9,7 +9,9 @@
 import XCTest
 
 class czzMarkerManagerTest: XCTestCase {
-    
+    let UID1 = "0123456789"
+    let UID2 = "abcdEfGh"
+        
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -21,16 +23,21 @@ class czzMarkerManagerTest: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testMarkerManagerSaveBlockedUIDs() {
+        czzMarkerManager.sharedInstance().blockUID(UID1)
+        czzMarkerManager.sharedInstance().blockUID(UID2)
+        // A new instance of czzMarkerManager.
+        let newMarkerManager = czzMarkerManager()
+        XCTAssert(newMarkerManager.isUIDBlocked(UID1))
+        XCTAssert(newMarkerManager.isUIDBlocked(UID2))
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    func testMarkerManagerSaveHighlightedUIDs() {
+        czzMarkerManager.sharedInstance().highlightUID(UID1)
+        czzMarkerManager.sharedInstance().highlightUID(UID2)
+        // A new instance of czzMarkerManager.
+        let newMarkerManager = czzMarkerManager()
+        XCTAssert(newMarkerManager.isUIDHighlighted(UID1))
+        XCTAssert(newMarkerManager.isUIDHighlighted(UID2))
     }
-    
 }
