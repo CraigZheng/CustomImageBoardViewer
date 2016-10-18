@@ -13,8 +13,9 @@ static NSString * const markerBlockedFileName = @"marker_blocked.dat";
 
 @interface czzMarkerManager()
 
-@property (readonly) NSString* markerFolder;
-@property (readonly) NSString* markerFilePath;
+@property (nonatomic, readonly) NSString* markerFolder;
+@property (nonatomic, readonly) NSString* markerHighlightFilePath;
+@property (nonatomic, readonly) NSString* markerBlockedFilePath;
 @property (nonatomic, strong) NSMutableSet<NSString*> *blockedUIDs;
 @property (nonatomic, strong) NSMutableSet<NSString*> *highlightedUIDs;
 
@@ -25,7 +26,7 @@ static NSString * const markerBlockedFileName = @"marker_blocked.dat";
 - (instancetype)init {
     self = [super init];
     if (self) {
-        [self save];
+        [self restore];
     }
     return self;
 }
@@ -33,7 +34,7 @@ static NSString * const markerBlockedFileName = @"marker_blocked.dat";
 #pragma mark - Content management
 
 - (BOOL)save {
-    
+    NSKeyedArchiver archiveRootObject:self.blockedUIDs toFile:self.mark
     return NO;
 }
 
@@ -47,6 +48,20 @@ static NSString * const markerBlockedFileName = @"marker_blocked.dat";
     self.blockedUIDs = nil;
     self.highlightedUIDs = nil;
     [self save];
+}
+
+- (void)highlightUID:(NSString *)UID {
+    if (UID.length) {
+        [self.highlightedUIDs addObject:UID];
+        [self save];
+    }
+}
+
+- (void)blockUID:(NSString *)UID {
+    if (UID.length) {
+        [self.blockedUIDs addObject:UID];
+        [self save];
+    }
 }
 
 #pragma mark - Content checking
