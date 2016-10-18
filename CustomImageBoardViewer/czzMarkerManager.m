@@ -34,13 +34,41 @@ static NSString * const markerBlockedFileName = @"marker_blocked.dat";
 #pragma mark - Content management
 
 - (BOOL)save {
-    NSKeyedArchiver archiveRootObject:self.blockedUIDs toFile:self.mark
-    return NO;
+    BOOL success = YES;
+    if (![NSKeyedArchiver archiveRootObject:self.blockedUIDs toFile:self.markerBlockedFilePath]) {
+        DLog(@"Failed to save blockedUIDs.");
+        success = NO;
+    }
+    if (![NSKeyedArchiver archiveRootObject:self.highlightedUIDs toFile:self.markerHighlightFilePath]) {
+        DLog(@"Failed to save highlightedUIDs.");
+        success = NO;
+    }
+    return success;
 }
 
 - (BOOL)restore {
-    
-    return NO;
+    BOOL success = YES;
+    id restoredObject;
+    @try {
+        // Restore blockedUIDs set.
+        if ((restoredObject = [NSKeyedUnarchiver unarchiveObjectWithFile:self.markerBlockedFilePath])
+            && [restoredObject isKindOfClass:[NSSet class]]) {
+            // Absort the content from restoredObject set.
+            self.blockedUIDs = [[NSMutableSet alloc] initWithSet:restoredObject];
+        }
+        restoredObject = nil;
+        if ((restoredObject = [NSKeyedUnarchiver unarchiveObjectWithFile:self.markerHighlightFilePath])
+            && [restoredObject isKindOfClass:[NSSet class]]) {
+            self.highlightedUIDs = [[NSMutableSet alloc] initWithSet:restoredObject];
+        }
+    } @catch (NSException *exception) {
+        DLog(@"%@", exception);
+        success = NO;
+        // Reset both back to nil.
+        self.blockedUIDs = nil;
+        self.highlightedUIDs = nil;
+    }
+    return success;
 }
 
 - (void)reset {
