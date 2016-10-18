@@ -15,6 +15,8 @@ static NSString * const markerBlockedFileName = @"marker_blocked.dat";
 
 @property (readonly) NSString* markerFolder;
 @property (readonly) NSString* markerFilePath;
+@property (nonatomic, strong) NSMutableSet<NSString*> *blockedUIDs;
+@property (nonatomic, strong) NSMutableSet<NSString*> *highlightedUIDs;
 
 @end
 
@@ -28,13 +30,33 @@ static NSString * const markerBlockedFileName = @"marker_blocked.dat";
     return self;
 }
 
+#pragma mark - Content management
+
 - (BOOL)save {
     
     return NO;
 }
 
 - (BOOL)restore {
+    
     return NO;
+}
+
+- (void)reset {
+    // Reset contents.
+    self.blockedUIDs = nil;
+    self.highlightedUIDs = nil;
+    [self save];
+}
+
+#pragma mark - Content checking
+
+- (BOOL)isUIDHighlighted:(NSString *)UID {
+    return [self.highlightedUIDs containsObject:UID];
+}
+
+- (BOOL)isUIDBlocked:(NSString *)UID {
+    return [self.blockedUIDs containsObject:UID];
 }
 
 #pragma mark - Getters
@@ -50,6 +72,20 @@ static NSString * const markerBlockedFileName = @"marker_blocked.dat";
 
 - (NSString *)markerBlockedFilePath {
     return [self.markerFolder stringByAppendingPathComponent:markerBlockedFileName];
+}
+
+- (NSMutableSet<NSString *> *)blockedUIDs {
+    if (!_blockedUIDs) {
+        _blockedUIDs = [NSMutableSet new];
+    }
+    return _blockedUIDs;
+}
+
+- (NSMutableSet<NSString *> *)highlightedUIDs {
+    if (!_highlightedUIDs) {
+        _highlightedUIDs = [NSMutableSet new];
+    }
+    return _highlightedUIDs;
 }
 
 @end

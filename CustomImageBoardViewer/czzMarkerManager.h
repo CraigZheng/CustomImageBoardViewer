@@ -16,5 +16,6 @@
 - (BOOL)isUIDBlocked:(NSString *)UID;
 - (BOOL)save;
 - (BOOL)restore;
+- (void)reset;
 
 @end
