@@ -68,7 +68,7 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="colorband.png" translatesAutoresizingMaskIntoConstraints="NO" id="20B-Ih-f2W">
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="539-j8-jTn"/>
+                                    <constraint firstAttribute="height" constant="30" id="539-j8-jTn"/>
                                     <constraint firstAttribute="width" constant="280" id="rZV-VI-nXG"/>
                                 </constraints>
                             </imageView>

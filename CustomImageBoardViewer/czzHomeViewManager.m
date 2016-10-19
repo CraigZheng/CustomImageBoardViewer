@@ -10,6 +10,7 @@
 #import "czzImageCacheManager.h"
 #import "czzImageDownloaderManager.h"
 #import "czzMarkerManager.h"
+#import "czzNavigationController.h"
 #import <Google/Analytics.h>
 
 @interface czzHomeViewManager ()
@@ -124,12 +125,8 @@
 #pragma mark - Marking/blocking
 
 - (void)highlightUID:(NSString *)UID {
-    if ([[czzMarkerManager sharedInstance] isUIDHighlighted:UID]) {
-        [[czzMarkerManager sharedInstance] unHighlightUID:UID];
-    } else {
-        [[czzMarkerManager sharedInstance] highlightUID:UID];
-    }
-    [self reloadData];
+    [NavigationManager.delegate performSegueWithIdentifier:@"showAddMarker"
+                                                    sender:nil];
 }
 
 - (void)blockUID:(NSString *)UID {
