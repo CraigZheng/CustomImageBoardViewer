@@ -7,18 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface czzMarkerManager : NSObject
 
-- (void)highlightUID:(NSString *)UID;
-- (void)blockUID:(NSString *)UID;
-- (void)unHighlightUID:(NSString *)UID;
-- (void)unBlockUID:(NSString *)UID;
-- (BOOL)isUIDHighlighted:(NSString *)UID;
-- (BOOL)isUIDBlocked:(NSString *)UID;
+- (void)highlightUID:(NSString * _Nonnull)UID withColour:(UIColor * _Nonnull)colour;
+- (void)blockUID:(NSString * _Nonnull)UID;
+- (void)unHighlightUID:(NSString * _Nonnull)UID;
+- (void)unBlockUID:(NSString * _Nonnull)UID;
+- (UIColor * _Nullable)highlightColourForUID:(NSString * _Nonnull)UID;
+- (BOOL)isUIDBlocked:(NSString * _Nonnull)UID;
 - (BOOL)save;
 - (BOOL)restore;
 - (void)reset;
-+ (instancetype)sharedInstance;
++ (instancetype _Nonnull)sharedInstance;
 
 @end

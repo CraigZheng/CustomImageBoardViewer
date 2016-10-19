@@ -33,25 +33,34 @@ class czzMarkerManagerTest: XCTestCase {
     }
     
     func testMarkerManagerSaveHighlightedUIDs() {
-        czzMarkerManager.sharedInstance().highlightUID(UID1)
-        czzMarkerManager.sharedInstance().highlightUID(UID2)
+        czzMarkerManager.sharedInstance().highlightUID(UID1, withColour: UIColor.blue)
+        czzMarkerManager.sharedInstance().highlightUID(UID2, withColour: UIColor.yellow)
         // A new instance of czzMarkerManager.
         let newMarkerManager = czzMarkerManager()
-        XCTAssert(newMarkerManager.isUIDHighlighted(UID1))
-        XCTAssert(newMarkerManager.isUIDHighlighted(UID2))
+        XCTAssert(newMarkerManager.highlightColour(forUID: UID1) == UIColor.blue)
+        XCTAssert(newMarkerManager.highlightColour(forUID: UID2) == UIColor.yellow)
     }
     
     func testMarkerReset() {
-        czzMarkerManager.sharedInstance().highlightUID(UID1)
-        czzMarkerManager.sharedInstance().highlightUID(UID2)
+        czzMarkerManager.sharedInstance().highlightUID(UID1, withColour: UIColor.blue)
+        czzMarkerManager.sharedInstance().highlightUID(UID2, withColour: UIColor.yellow)
         czzMarkerManager.sharedInstance().blockUID(UID1)
         czzMarkerManager.sharedInstance().blockUID(UID2)
         czzMarkerManager.sharedInstance().reset()
         // New marker should not contain any entity.
         let newMarkerManager = czzMarkerManager()
-        XCTAssertFalse(newMarkerManager.isUIDHighlighted(UID1))
-        XCTAssertFalse(newMarkerManager.isUIDHighlighted(UID2))
+        XCTAssert(newMarkerManager.highlightColour(forUID: UID1) == nil)
+        XCTAssert(newMarkerManager.highlightColour(forUID: UID2) == nil)
         XCTAssertFalse(newMarkerManager.isUIDBlocked(UID1))
         XCTAssertFalse(newMarkerManager.isUIDBlocked(UID2))
+    }
+    
+    func testMarkerRemove() {
+        czzMarkerManager.sharedInstance().highlightUID(UID1, withColour: UIColor.blue)
+        czzMarkerManager.sharedInstance().highlightUID(UID2, withColour: UIColor.yellow)
+        czzMarkerManager.sharedInstance().unHighlightUID(UID1)
+        czzMarkerManager.sharedInstance().unHighlightUID(UID2)
+        XCTAssertNil(czzMarkerManager.sharedInstance().highlightColour(forUID: UID1))
+        XCTAssertNil(czzMarkerManager.sharedInstance().highlightColour(forUID: UID2))
     }
 }

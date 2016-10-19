@@ -8,6 +8,8 @@
 
 #import "czzMarkerManager.h"
 
+#import "CustomImageBoardViewer-Swift.h"
+
 static NSString * const markerHighlightedFileName = @"marker_highlighted.dat";
 static NSString * const markerBlockedFileName = @"marker_blocked.dat";
 
@@ -81,14 +83,19 @@ static NSString * const markerBlockedFileName = @"marker_blocked.dat";
 
 - (void)reset {
     // Reset contents.
+    for (NSString *UID in self.highlightedUIDs) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:UID];
+    }
     self.blockedUIDs = nil;
     self.highlightedUIDs = nil;
     [self save];
 }
 
-- (void)highlightUID:(NSString *)UID {
-    if (UID.length) {
+- (void)highlightUID:(NSString *)UID withColour:(UIColor *)colour {
+    if (UID.length && colour) {
         [self.highlightedUIDs addObject:UID];
+        // Save the associated colour to NSUserDefaults.
+        [[NSUserDefaults standardUserDefaults] setColor:colour forKey:UID];
         [self save];
     }
 }
@@ -103,6 +110,8 @@ static NSString * const markerBlockedFileName = @"marker_blocked.dat";
 - (void)unHighlightUID:(NSString *)UID {
     if (UID.length) {
         [self.highlightedUIDs removeObject:UID];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:UID];
+        [[NSUserDefaults standardUserDefaults] synchronize];
         [self save];
     }
 }
@@ -116,8 +125,8 @@ static NSString * const markerBlockedFileName = @"marker_blocked.dat";
 
 #pragma mark - Content checking
 
-- (BOOL)isUIDHighlighted:(NSString *)UID {
-    return [self.highlightedUIDs containsObject:UID];
+- (UIColor *)highlightColourForUID:(NSString *)UID {
+    return [[NSUserDefaults standardUserDefaults] colorForKey:UID];
 }
 
 - (BOOL)isUIDBlocked:(NSString *)UID {

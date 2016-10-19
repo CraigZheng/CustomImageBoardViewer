@@ -24,6 +24,7 @@ extension UserDefaults {
             colorData = NSKeyedArchiver.archivedData(withRootObject: color)
         }
         set(colorData, forKey: key)
+        synchronize()
     }
     
 }

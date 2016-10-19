@@ -118,7 +118,8 @@
         // Thread view cell
         if ([cell isKindOfClass:[czzMenuEnabledTableViewCell class]]){
             czzMenuEnabledTableViewCell *threadViewCell = (czzMenuEnabledTableViewCell*)cell;
-            threadViewCell.shouldHighlight = [[czzMarkerManager sharedInstance] isUIDHighlighted:thread.UID];
+            // TODO: highlight Colour.
+//            threadViewCell.shouldHighlight = [[czzMarkerManager sharedInstance] isUIDHighlighted:thread.UID];
             threadViewCell.shouldBlock = [[czzMarkerManager sharedInstance] isUIDBlocked:thread.UID];
             threadViewCell.cellType = threadViewCellTypeThread;
             threadViewCell.parentThread = self.threadViewManager.parentThread;
