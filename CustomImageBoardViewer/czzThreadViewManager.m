@@ -249,7 +249,7 @@
     }
 }
 
-#pragma mark - highlight thread selected
+#pragma mark - Thread marking.
 -(void)HighlightThreadSelected:(czzThread *)selectedThread {
     if (selectedThread) {
         if ([self.selectedUserToHighlight isEqual:selectedThread.UID]) {
@@ -259,6 +259,10 @@
             self.selectedUserToHighlight = selectedThread.UID;
         [self.delegate homeViewManagerWantsToReload:self];
     }
+}
+
+- (void)blockThread:(czzThread *)thread {
+    // TODO: to be completed.
 }
 
 #pragma mark - NSCoding

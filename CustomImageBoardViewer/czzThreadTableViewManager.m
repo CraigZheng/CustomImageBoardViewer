@@ -209,6 +209,12 @@
     }
 }
 
+- (void)userWantsToBlock:(czzThread *)thread {
+    if ([self.homeViewManager isKindOfClass:[czzThreadViewManager class]]) {
+        [(czzThreadViewManager *)self.homeViewManager blockThread:thread];
+    }
+}
+
 - (void)userWantsToSearch:(czzThread *)thread {
     DDLogDebug(@"%s : NOT IMPLEMENTED", __PRETTY_FUNCTION__);
 }

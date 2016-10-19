@@ -27,6 +27,7 @@
 
 - (void)reset;
 - (void)HighlightThreadSelected:(czzThread *)selectedThread;
+- (void)blockThread:(czzThread *)thread;
 - (void)loadAll;
 - (void)stopAllOperation;
 - (instancetype)initWithParentThread:(czzThread*)thread andForum:(czzForum*)forum;
