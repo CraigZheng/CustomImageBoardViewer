@@ -203,15 +203,14 @@
 }
 
 - (void)userWantsToHighlightUser:(NSString *)UID {
-    DDLogDebug(@"%s : %@", __PRETTY_FUNCTION__, thread);
     if ([self.homeViewManager isKindOfClass:[czzThreadViewManager class]]) {
-        [(czzThreadViewManager *)self.homeViewManager HighlightThreadSelected:thread];
+        [(czzThreadViewManager *)self.homeViewManager setHighlightUID:UID];
     }
 }
 
 - (void)userWantsToBlockUser:(NSString *)UID {
     if ([self.homeViewManager isKindOfClass:[czzThreadViewManager class]]) {
-        [(czzThreadViewManager *)self.homeViewManager blockThread:thread];
+        [(czzThreadViewManager *)self.homeViewManager setBlockUID:UID];
     }
 }
 

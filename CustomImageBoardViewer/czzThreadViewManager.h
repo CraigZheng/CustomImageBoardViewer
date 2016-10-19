@@ -21,13 +21,12 @@
 @property (strong, nonatomic) NSString* parentID;
 @property (strong, nonatomic) czzThread *parentThread;
 @property (assign, nonatomic) BOOL restoredFromCache;
-@property (strong, nonatomic) NSString *selectedUserToHighlight;
 @property (weak, nonatomic) id<czzThreadViewManagerDelegate> delegate;
 @property (readonly, nonatomic) BOOL isMassiveDownloading;
+@property (strong, nonatomic) NSString *highlightUID;
+@property (strong, nonatomic) NSString *blockUID;
 
 - (void)reset;
-- (void)HighlightThreadSelected:(czzThread *)selectedThread;
-- (void)blockThread:(czzThread *)thread;
 - (void)loadAll;
 - (void)stopAllOperation;
 - (instancetype)initWithParentThread:(czzThread*)thread andForum:(czzForum*)forum;

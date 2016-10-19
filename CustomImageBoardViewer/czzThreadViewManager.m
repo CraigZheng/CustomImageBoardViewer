@@ -111,6 +111,24 @@
     }
 }
 
+- (void)setHighlightUID:(NSString *)highlightUID {
+    // Setting the same highlightUID means de-setting it.
+    if ([_highlightUID isEqualToString:highlightUID]) {
+        _highlightUID = nil;
+    } else {
+        _highlightUID = highlightUID;
+    }
+}
+
+- (void)setBlockUID:(NSString *)blockUID {
+    // Same as highlightUID.
+    if ([_blockUID isEqualToString:blockUID]) {
+        _blockUID = nil;
+    } else {
+        _blockUID = blockUID;
+    }
+}
+
 #pragma mark - getters
 - (NSString *)baseURLString {
     return [[settingCentre thread_content_host] stringByReplacingOccurrencesOfString:kParentID withString:self.parentID];
@@ -247,22 +265,6 @@
         DLog(@"Number of threads not enough to fill all previous pages, keep the current page number.");
         [self loadMoreThreads:self.pageNumber];
     }
-}
-
-#pragma mark - Thread marking.
--(void)HighlightThreadSelected:(czzThread *)selectedThread {
-    if (selectedThread) {
-        if ([self.selectedUserToHighlight isEqual:selectedThread.UID]) {
-            self.selectedUserToHighlight = nil;
-        }
-        else
-            self.selectedUserToHighlight = selectedThread.UID;
-        [self.delegate homeViewManagerWantsToReload:self];
-    }
-}
-
-- (void)blockThread:(czzThread *)thread {
-    // TODO: to be completed.
 }
 
 #pragma mark - NSCoding
