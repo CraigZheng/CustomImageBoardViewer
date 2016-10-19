@@ -12,6 +12,7 @@
 #import "czzThreadRefButton.h"
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzReplyUtil.h"
+#import "czzMarkerManager.h"
 
 @interface czzThreadTableViewManager ()
 @property (nonatomic, strong) PartialTransparentView *containerView;
@@ -117,8 +118,8 @@
         // Thread view cell
         if ([cell isKindOfClass:[czzMenuEnabledTableViewCell class]]){
             czzMenuEnabledTableViewCell *threadViewCell = (czzMenuEnabledTableViewCell*)cell;
-            threadViewCell.shouldHighlight = YES;
-            threadViewCell.selectedUserToHighlight = self.threadViewManager.selectedUserToHighlight;
+            threadViewCell.shouldHighlight = [[czzMarkerManager sharedInstance] isUIDHighlighted:thread.UID];
+            threadViewCell.shouldBlock = [[czzMarkerManager sharedInstance] isUIDBlocked:thread.UID];
             threadViewCell.cellType = threadViewCellTypeThread;
             threadViewCell.parentThread = self.threadViewManager.parentThread;
             [threadViewCell renderContent];
@@ -203,15 +204,21 @@
 }
 
 - (void)userWantsToHighlightUser:(NSString *)UID {
-    if ([self.homeViewManager isKindOfClass:[czzThreadViewManager class]]) {
-        [(czzThreadViewManager *)self.homeViewManager setHighlightUID:UID];
+    if ([[czzMarkerManager sharedInstance] isUIDHighlighted:UID]) {
+        [[czzMarkerManager sharedInstance] unHighlightUID:UID];
+    } else {
+        [[czzMarkerManager sharedInstance] highlightUID:UID];
     }
+    [self.threadViewManager reloadData];
 }
 
 - (void)userWantsToBlockUser:(NSString *)UID {
-    if ([self.homeViewManager isKindOfClass:[czzThreadViewManager class]]) {
-        [(czzThreadViewManager *)self.homeViewManager setBlockUID:UID];
+    if ([[czzMarkerManager sharedInstance] isUIDBlocked:UID]) {
+        [[czzMarkerManager sharedInstance] unBlockUID:UID];
+    } else {
+        [[czzMarkerManager sharedInstance] blockUID:UID];
     }
+    [self.threadViewManager reloadData];
 }
 
 - (void)userWantsToSearch:(czzThread *)thread {

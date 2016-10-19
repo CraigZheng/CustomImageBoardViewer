@@ -23,8 +23,6 @@
 @property (assign, nonatomic) BOOL restoredFromCache;
 @property (weak, nonatomic) id<czzThreadViewManagerDelegate> delegate;
 @property (readonly, nonatomic) BOOL isMassiveDownloading;
-@property (strong, nonatomic) NSString *highlightUID;
-@property (strong, nonatomic) NSString *blockUID;
 
 - (void)reset;
 - (void)loadAll;

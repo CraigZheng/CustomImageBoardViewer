@@ -111,24 +111,6 @@
     }
 }
 
-- (void)setHighlightUID:(NSString *)highlightUID {
-    // Setting the same highlightUID means de-setting it.
-    if ([_highlightUID isEqualToString:highlightUID]) {
-        _highlightUID = nil;
-    } else {
-        _highlightUID = highlightUID;
-    }
-}
-
-- (void)setBlockUID:(NSString *)blockUID {
-    // Same as highlightUID.
-    if ([_blockUID isEqualToString:blockUID]) {
-        _blockUID = nil;
-    } else {
-        _blockUID = blockUID;
-    }
-}
-
 #pragma mark - getters
 - (NSString *)baseURLString {
     return [[settingCentre thread_content_host] stringByReplacingOccurrencesOfString:kParentID withString:self.parentID];
