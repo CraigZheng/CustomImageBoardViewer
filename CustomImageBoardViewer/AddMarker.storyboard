@@ -54,10 +54,10 @@
             </objects>
             <point key="canvasLocation" x="119" y="184"/>
         </scene>
-        <!--View Controller-->
+        <!--Marker Colour Picker View Controller-->
         <scene sceneID="wEe-bv-Gbb">
             <objects>
-                <viewController id="OJY-AR-buc" sceneMemberID="viewController">
+                <viewController id="OJY-AR-buc" customClass="MarkerColourPickerViewController" customModule="CustomImageBoardViewer" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="DeH-tQ-SQS"/>
                         <viewControllerLayoutGuide type="bottom" id="mRI-X3-RbR"/>
@@ -74,6 +74,11 @@
                             </imageView>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.5" maxValue="13.5" translatesAutoresizingMaskIntoConstraints="NO" id="UC8-TW-GsA">
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="minimumTrackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="maximumTrackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="colourSliderValueChanged:" destination="OJY-AR-buc" eventType="valueChanged" id="2YB-ub-VLi"/>
+                                </connections>
                             </slider>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -85,6 +90,9 @@
                             <constraint firstItem="20B-Ih-f2W" firstAttribute="centerY" secondItem="mJr-x1-wT5" secondAttribute="centerY" id="b3q-AD-HYU"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="slider" destination="UC8-TW-GsA" id="H52-j8-Mip"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hjt-K5-IIM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
