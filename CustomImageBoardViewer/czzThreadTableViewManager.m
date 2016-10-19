@@ -202,14 +202,14 @@
     [czzReplyUtil replyToThread:thread inParentThread:parentThread];
 }
 
-- (void)userWantsToHighLight:(czzThread *)thread {
+- (void)userWantsToHighlightUser:(NSString *)UID {
     DDLogDebug(@"%s : %@", __PRETTY_FUNCTION__, thread);
     if ([self.homeViewManager isKindOfClass:[czzThreadViewManager class]]) {
         [(czzThreadViewManager *)self.homeViewManager HighlightThreadSelected:thread];
     }
 }
 
-- (void)userWantsToBlock:(czzThread *)thread {
+- (void)userWantsToBlockUser:(NSString *)UID {
     if ([self.homeViewManager isKindOfClass:[czzThreadViewManager class]]) {
         [(czzThreadViewManager *)self.homeViewManager blockThread:thread];
     }

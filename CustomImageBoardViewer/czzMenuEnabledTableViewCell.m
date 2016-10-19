@@ -150,14 +150,14 @@ static NSString * const showThreadWithID = @"showThreadWithID";
 }
 
 -(void)menuActionHighlight:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(userWantsToHighLight:)]) {
-        [self.delegate userWantsToHighLight:self.thread];
+    if ([self.delegate respondsToSelector:@selector(userWantsToHighlightUser:)]) {
+        [self.delegate userWantsToHighlightUser:self.thread.UID];
     }
 }
 
 - (void)menuActionBlock:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(userWantsToBlock:)]) {
-        [self.delegate userWantsToBlock:self.thread];
+    if ([self.delegate respondsToSelector:@selector(userWantsToBlockUser:)]) {
+        [self.delegate userWantsToBlockUser:self.thread.UID];
     }
 }
 

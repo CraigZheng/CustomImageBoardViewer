@@ -33,8 +33,8 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 -(void)userTapInImageView:(NSString*)imgURL;
 // Menu actions
 - (void)userWantsToReply:(czzThread *)thread inParentThread:(czzThread *)parentThread;
-- (void)userWantsToHighLight:(czzThread *)thread;
-- (void)userWantsToBlock:(czzThread *)thread;
+- (void)userWantsToHighlightUser:(NSString *)UID;
+- (void)userWantsToBlockUser:(NSString *)UID;
 - (void)userWantsToSearch:(czzThread *)thread;
 // UI command
 - (void)threadViewCellContentChanged:(czzMenuEnabledTableViewCell *)cell;
