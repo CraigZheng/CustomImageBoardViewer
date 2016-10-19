@@ -55,8 +55,7 @@
         self.dateLabel.text = [self.dateFormatter stringFromDate:myThread.postDateTime];
         
         //highlight original poster
-        if (self.shouldHighLight &&
-            [myThread.UID isEqualToString: self.parentUID]) {
+        if ([myThread.UID isEqualToString: self.parentUID]) {
             NSMutableAttributedString *opAttributedString = [[NSMutableAttributedString alloc] initWithAttributedString:self.posterLabel.attributedText];
             [opAttributedString addAttributes:@{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle)} range:NSMakeRange(0, opAttributedString.length)];
             self.posterLabel.attributedText = opAttributedString;

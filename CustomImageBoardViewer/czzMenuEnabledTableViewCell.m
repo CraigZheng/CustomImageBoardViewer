@@ -43,7 +43,8 @@ static NSString * const showThreadWithID = @"showThreadWithID";
     self.thumbnailFolder = [czzAppDelegate thumbnailFolder];
     self.imageFolder = [czzAppDelegate imageFolder];
     self.referenceButtons = [NSMutableArray new];
-    self.shouldHighlight = YES;
+    self.shouldHighlight = NO;
+    self.shouldBlock = NO;
     self.allowImage = YES;
     self.shouldAllowClickOnImage = YES;
     // Add tap getsture recognizer to the image.
@@ -193,9 +194,10 @@ static NSString * const showThreadWithID = @"showThreadWithID";
     self.contentTextView.font = settingCentre.contentFont;
     
     // Highlight the selected user.
-    if (self.selectedUserToHighlight && [self.thread.UID isEqualToString:self.selectedUserToHighlight]) {
+    if (self.shouldHighlight) {
         [self highLight];
     }
+    // TODO: should block content.
     // Images.
     UIImage *previewImage;
     NSString *imageName;
@@ -210,7 +212,6 @@ static NSString * const showThreadWithID = @"showThreadWithID";
     }
     [self setNeedsUpdateConstraints];
     // Header and footer.
-    self.cellHeaderView.shouldHighLight = self.shouldHighlight;
     self.cellHeaderView.parentUID = self.parentThread.UID;
     self.cellFooterView.thread = self.cellHeaderView.thread = self.thread;
 }

@@ -43,8 +43,6 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 @interface czzMenuEnabledTableViewCell : UITableViewCell <czzImageDownloaderManagerDelegate>
 @property NSIndexPath *myIndexPath;
 
-@property (strong, nonatomic) NSString *selectedUserToHighlight;
-
 @property (weak, nonatomic) id<czzMenuEnabledTableViewCellProtocol> delegate;
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
@@ -54,6 +52,7 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 @property (strong, nonatomic) UIImage *placeholderImage;
 @property NSDictionary *downloadedImages;
 @property (assign, nonatomic) BOOL shouldHighlight;
+@property (assign, nonatomic) BOOL shouldBlock;
 @property (assign, nonatomic) BOOL shouldAllowClickOnImage;
 @property (nonatomic, strong) NSMutableArray *links;
 @property (nonatomic, strong) czzThread *parentThread;
