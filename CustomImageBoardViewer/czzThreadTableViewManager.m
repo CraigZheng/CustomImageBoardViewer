@@ -204,21 +204,11 @@
 }
 
 - (void)userWantsToHighlightUser:(NSString *)UID {
-    if ([[czzMarkerManager sharedInstance] isUIDHighlighted:UID]) {
-        [[czzMarkerManager sharedInstance] unHighlightUID:UID];
-    } else {
-        [[czzMarkerManager sharedInstance] highlightUID:UID];
-    }
-    [self.threadViewManager reloadData];
+    [self.threadViewManager highlightUID:UID];
 }
 
 - (void)userWantsToBlockUser:(NSString *)UID {
-    if ([[czzMarkerManager sharedInstance] isUIDBlocked:UID]) {
-        [[czzMarkerManager sharedInstance] unBlockUID:UID];
-    } else {
-        [[czzMarkerManager sharedInstance] blockUID:UID];
-    }
-    [self.threadViewManager reloadData];
+    [self.threadViewManager blockUID:UID];
 }
 
 - (void)userWantsToSearch:(czzThread *)thread {

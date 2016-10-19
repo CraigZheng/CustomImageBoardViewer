@@ -9,6 +9,7 @@
 #import "czzHomeViewManager.h"
 #import "czzImageCacheManager.h"
 #import "czzImageDownloaderManager.h"
+#import "czzMarkerManager.h"
 #import <Google/Analytics.h>
 
 @interface czzHomeViewManager ()
@@ -118,6 +119,26 @@
     if ([self.delegate respondsToSelector:@selector(homeViewManager:wantsToScrollToContentOffset:)]) {
         [self.delegate homeViewManager:self wantsToScrollToContentOffset:offset];
     }
+}
+
+#pragma mark - Marking/blocking
+
+- (void)highlightUID:(NSString *)UID {
+    if ([[czzMarkerManager sharedInstance] isUIDHighlighted:UID]) {
+        [[czzMarkerManager sharedInstance] unHighlightUID:UID];
+    } else {
+        [[czzMarkerManager sharedInstance] highlightUID:UID];
+    }
+    [self reloadData];
+}
+
+- (void)blockUID:(NSString *)UID {
+    if ([[czzMarkerManager sharedInstance] isUIDBlocked:UID]) {
+        [[czzMarkerManager sharedInstance] unBlockUID:UID];
+    } else {
+        [[czzMarkerManager sharedInstance] blockUID:UID];
+    }
+    [self reloadData];
 }
 
 #pragma mark - Delegate actions

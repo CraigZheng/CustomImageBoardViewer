@@ -61,6 +61,8 @@
 //-(void)calculateHeightsForThreads:(NSArray*)newThreads;
 -(void)scrollToContentOffset:(CGPoint)offset;
 - (void)showContentWithThread:(czzThread*)thread;
+- (void)highlightUID:(NSString *)UID;
+- (void)blockUID:(NSString *)UID;
 
 //save and restore
 -(NSString*)saveCurrentState;
