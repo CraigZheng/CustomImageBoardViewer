@@ -100,6 +100,20 @@ static NSString * const markerBlockedFileName = @"marker_blocked.dat";
     }
 }
 
+- (void)unHighlightUID:(NSString *)UID {
+    if (UID.length) {
+        [self.highlightedUIDs removeObject:UID];
+        [self save];
+    }
+}
+
+- (void)unBlockUID:(NSString *)UID {
+    if (UID.length) {
+        [self.blockedUIDs removeObject:UID];
+        [self save];
+    }
+}
+
 #pragma mark - Content checking
 
 - (BOOL)isUIDHighlighted:(NSString *)UID {

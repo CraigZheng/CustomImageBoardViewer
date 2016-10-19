@@ -12,6 +12,8 @@
 
 - (void)highlightUID:(NSString *)UID;
 - (void)blockUID:(NSString *)UID;
+- (void)unHighlightUID:(NSString *)UID;
+- (void)unBlockUID:(NSString *)UID;
 - (BOOL)isUIDHighlighted:(NSString *)UID;
 - (BOOL)isUIDBlocked:(NSString *)UID;
 - (BOOL)save;
