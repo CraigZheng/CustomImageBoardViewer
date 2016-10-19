@@ -26,23 +26,43 @@
         <scene sceneID="NUU-TE-iXS">
             <objects>
                 <tableViewController id="AJd-ht-2QX" customClass="AddMarkerViewController" customModule="CustomImageBoardViewer" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="OIO-Sf-zTu">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="OIO-Sf-zTu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="g9F-iL-fvl">
-                                <rect key="frame" x="0.0" y="92" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="g9F-iL-fvl" id="wOc-Fy-xc4">
-                                    <frame key="frameInset" width="375" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="OJY-AR-buc" kind="show" id="Xhw-BS-nTc"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
+                        <sections>
+                            <tableViewSection id="0UX-SD-MaC">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="g9F-iL-fvl">
+                                        <rect key="frame" x="0.0" y="64" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="g9F-iL-fvl" id="wOc-Fy-xc4">
+                                            <frame key="frameInset" width="375" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="OJY-AR-buc" kind="show" id="Xhw-BS-nTc"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="UcH-F3-3Iu">
+                                        <rect key="frame" x="0.0" y="108" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="UcH-F3-3Iu" id="ke2-TA-OFK">
+                                            <frame key="frameInset" width="375" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="gzK-NS-Yop">
+                                        <rect key="frame" x="0.0" y="152" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gzK-NS-Yop" id="4dn-Aj-mgY">
+                                            <frame key="frameInset" width="375" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
                         <connections>
                             <outlet property="dataSource" destination="AJd-ht-2QX" id="BAp-dZ-RVr"/>
                             <outlet property="delegate" destination="AJd-ht-2QX" id="0e2-Mo-23R"/>
@@ -66,28 +86,39 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="colorband.png" translatesAutoresizingMaskIntoConstraints="NO" id="20B-Ih-f2W">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ApL-Ql-YID" userLabel="Slider Background View">
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="colorband.png" translatesAutoresizingMaskIntoConstraints="NO" id="20B-Ih-f2W">
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="539-j8-jTn"/>
+                                        </constraints>
+                                    </imageView>
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="7.5" minValue="0.5" maxValue="13.5" translatesAutoresizingMaskIntoConstraints="NO" id="UC8-TW-GsA">
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="minimumTrackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="maximumTrackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <action selector="colourSliderValueChanged:" destination="OJY-AR-buc" eventType="valueChanged" id="2YB-ub-VLi"/>
+                                        </connections>
+                                    </slider>
+                                </subviews>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="539-j8-jTn"/>
-                                    <constraint firstAttribute="width" constant="280" id="rZV-VI-nXG"/>
+                                    <constraint firstItem="UC8-TW-GsA" firstAttribute="trailing" secondItem="20B-Ih-f2W" secondAttribute="trailing" id="1bM-Gb-SZV"/>
+                                    <constraint firstAttribute="bottom" secondItem="20B-Ih-f2W" secondAttribute="bottom" constant="2" id="A7x-Yd-m0t"/>
+                                    <constraint firstAttribute="trailing" secondItem="20B-Ih-f2W" secondAttribute="trailing" constant="4" id="MVu-Se-60y"/>
+                                    <constraint firstItem="UC8-TW-GsA" firstAttribute="leading" secondItem="20B-Ih-f2W" secondAttribute="leading" id="Y4D-nV-Reh"/>
+                                    <constraint firstItem="20B-Ih-f2W" firstAttribute="leading" secondItem="ApL-Ql-YID" secondAttribute="leading" constant="4" id="cjU-6d-Zkq"/>
+                                    <constraint firstItem="20B-Ih-f2W" firstAttribute="top" secondItem="ApL-Ql-YID" secondAttribute="top" constant="2" id="gM1-b9-pNz"/>
+                                    <constraint firstItem="UC8-TW-GsA" firstAttribute="centerY" secondItem="20B-Ih-f2W" secondAttribute="centerY" id="jqH-kj-bPh"/>
                                 </constraints>
-                            </imageView>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.5" maxValue="13.5" translatesAutoresizingMaskIntoConstraints="NO" id="UC8-TW-GsA">
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <color key="minimumTrackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <color key="maximumTrackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <action selector="colourSliderValueChanged:" destination="OJY-AR-buc" eventType="valueChanged" id="2YB-ub-VLi"/>
-                                </connections>
-                            </slider>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="UC8-TW-GsA" firstAttribute="leading" secondItem="20B-Ih-f2W" secondAttribute="leading" id="2JP-di-qaX"/>
-                            <constraint firstItem="20B-Ih-f2W" firstAttribute="centerX" secondItem="mJr-x1-wT5" secondAttribute="centerX" id="UEu-bW-uTj"/>
-                            <constraint firstItem="UC8-TW-GsA" firstAttribute="trailing" secondItem="20B-Ih-f2W" secondAttribute="trailing" id="Vw4-Zz-v9w"/>
-                            <constraint firstItem="UC8-TW-GsA" firstAttribute="centerY" secondItem="20B-Ih-f2W" secondAttribute="centerY" id="WE9-bY-9vv"/>
-                            <constraint firstItem="20B-Ih-f2W" firstAttribute="centerY" secondItem="mJr-x1-wT5" secondAttribute="centerY" id="b3q-AD-HYU"/>
+                            <constraint firstAttribute="trailing" secondItem="ApL-Ql-YID" secondAttribute="trailing" id="FvU-1e-IsM"/>
+                            <constraint firstItem="ApL-Ql-YID" firstAttribute="leading" secondItem="mJr-x1-wT5" secondAttribute="leading" id="h1o-Pr-yr4"/>
+                            <constraint firstItem="ApL-Ql-YID" firstAttribute="centerY" secondItem="mJr-x1-wT5" secondAttribute="centerY" id="vZd-48-qWx"/>
                         </constraints>
                     </view>
                     <connections>
