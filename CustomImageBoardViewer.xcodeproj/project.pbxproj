@@ -279,7 +279,7 @@
 		44BDA3E91DB70BA300D2F576 /* NSUserDefaults+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BDA3E81DB70BA300D2F576 /* NSUserDefaults+UIColor.swift */; };
 		44BDA3ED1DB70EF100D2F576 /* AddMarker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44BDA3EC1DB70EF100D2F576 /* AddMarker.storyboard */; };
 		44BDA3F11DB7113500D2F576 /* AddMarkerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BDA3F01DB7113500D2F576 /* AddMarkerViewController.swift */; };
-		44BDA3F31DB7181400D2F576 /* colorband.png in Resources */ = {isa = PBXBuildFile; fileRef = 44BDA3F21DB7181400D2F576 /* colorband.png */; };
+		44BDA3F71DB7350F00D2F576 /* colorband.png in Resources */ = {isa = PBXBuildFile; fileRef = 44BDA3F61DB7350F00D2F576 /* colorband.png */; };
 		44BE2E3A19383FEF00601943 /* czzOnScreenCommandViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BE2E3819383FEF00601943 /* czzOnScreenCommandViewController.m */; };
 		44BFEF411B8C0D7B0095772B /* DeviceHardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BFEF401B8C0D7B0095772B /* DeviceHardware.m */; };
 		44C34543187E59A500FDE45D /* UIViewController+KNSemiModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C34542187E59A500FDE45D /* UIViewController+KNSemiModal.m */; };
@@ -934,7 +934,7 @@
 		44BDA3E81DB70BA300D2F576 /* NSUserDefaults+UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSUserDefaults+UIColor.swift"; sourceTree = "<group>"; };
 		44BDA3EC1DB70EF100D2F576 /* AddMarker.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AddMarker.storyboard; sourceTree = "<group>"; };
 		44BDA3F01DB7113500D2F576 /* AddMarkerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddMarkerViewController.swift; sourceTree = "<group>"; };
-		44BDA3F21DB7181400D2F576 /* colorband.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = colorband.png; path = ../../../../Desktop/colorband.png; sourceTree = "<group>"; };
+		44BDA3F61DB7350F00D2F576 /* colorband.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = colorband.png; sourceTree = "<group>"; };
 		44BE2E3719383FEF00601943 /* czzOnScreenCommandViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzOnScreenCommandViewController.h; sourceTree = "<group>"; };
 		44BE2E3819383FEF00601943 /* czzOnScreenCommandViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzOnScreenCommandViewController.m; sourceTree = "<group>"; };
 		44BFEF3F1B8C0D7B0095772B /* DeviceHardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceHardware.h; sourceTree = "<group>"; };
@@ -2434,7 +2434,7 @@
 		44E7918C1A17856500A63C04 /* icons */ = {
 			isa = PBXGroup;
 			children = (
-				44BDA3F21DB7181400D2F576 /* colorband.png */,
+				44BDA3F61DB7350F00D2F576 /* colorband.png */,
 				44B1315A1D1D13BB003D4D0F /* warning@2x.png */,
 				44B1315B1D1D13BB003D4D0F /* warning@3x.png */,
 				44A5DF651D045E3B00AEF329 /* keyboard@3x.png */,
@@ -2958,7 +2958,7 @@
 				44E791F71A17856500A63C04 /* search@3x.png in Resources */,
 				44A9E1541AE1D16000740CE1 /* Icon-72.png in Resources */,
 				44A9E15A1AE1D16000740CE1 /* iTunesArtwork.png in Resources */,
-				44BDA3F31DB7181400D2F576 /* colorband.png in Resources */,
+				44BDA3F71DB7350F00D2F576 /* colorband.png in Resources */,
 				44E791E81A17856500A63C04 /* menu@3x.png in Resources */,
 				44A5DF6C1D045E3B00AEF329 /* keyboard_filled@2x.png in Resources */,
 				44C73BDA1A496CBD0051D4C2 /* ipad 768 launch screen.png in Resources */,
