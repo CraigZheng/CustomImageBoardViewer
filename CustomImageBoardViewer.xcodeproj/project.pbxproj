@@ -276,6 +276,7 @@
 		44B96E37185B97C400D664A4 /* czzSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B96E36185B97C400D664A4 /* czzSettingsViewController.m */; };
 		44BB9A981C02B4A800B7BCED /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25401A25A2A500BD8228 /* picture.png */; };
 		44BB9A991C02B4A800B7BCED /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25401A25A2A500BD8228 /* picture.png */; };
+		44BDA3E91DB70BA300D2F576 /* NSUserDefaults+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BDA3E81DB70BA300D2F576 /* NSUserDefaults+UIColor.swift */; };
 		44BE2E3A19383FEF00601943 /* czzOnScreenCommandViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BE2E3819383FEF00601943 /* czzOnScreenCommandViewController.m */; };
 		44BFEF411B8C0D7B0095772B /* DeviceHardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BFEF401B8C0D7B0095772B /* DeviceHardware.m */; };
 		44C34543187E59A500FDE45D /* UIViewController+KNSemiModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C34542187E59A500FDE45D /* UIViewController+KNSemiModal.m */; };
@@ -927,6 +928,7 @@
 		44B96E32185B8B8100D664A4 /* czzImageManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzImageManagerViewController.m; sourceTree = "<group>"; };
 		44B96E35185B97C400D664A4 /* czzSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzSettingsViewController.h; sourceTree = "<group>"; };
 		44B96E36185B97C400D664A4 /* czzSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzSettingsViewController.m; sourceTree = "<group>"; };
+		44BDA3E81DB70BA300D2F576 /* NSUserDefaults+UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSUserDefaults+UIColor.swift"; sourceTree = "<group>"; };
 		44BE2E3719383FEF00601943 /* czzOnScreenCommandViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzOnScreenCommandViewController.h; sourceTree = "<group>"; };
 		44BE2E3819383FEF00601943 /* czzOnScreenCommandViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzOnScreenCommandViewController.m; sourceTree = "<group>"; };
 		44BFEF3F1B8C0D7B0095772B /* DeviceHardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceHardware.h; sourceTree = "<group>"; };
@@ -2339,6 +2341,7 @@
 				44792C701BBAC34400AF5CB5 /* NSFileManager+Util.m */,
 				445C66361BBEC3DD004B3E83 /* UIView+Util.h */,
 				445C66371BBEC3DD004B3E83 /* UIView+Util.m */,
+				44BDA3E81DB70BA300D2F576 /* NSUserDefaults+UIColor.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -2729,6 +2732,7 @@
 				TargetAttributes = {
 					441E5CCA17F4691300289DBD = {
 						DevelopmentTeam = 9EBE9MWW9X;
+						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -3201,6 +3205,7 @@
 				441514821BBAD2A4005ECD96 /* czzImageDownloaderManager.m in Sources */,
 				44AE2AFA187254E4002CB021 /* czzMenuEnabledTableViewCell.m in Sources */,
 				4444DA3D1C7A938700ED8568 /* czzPostSenderManager.m in Sources */,
+				44BDA3E91DB70BA300D2F576 /* NSUserDefaults+UIColor.swift in Sources */,
 				449E928E1BF9D15C00EE2F58 /* czzModalViewController.m in Sources */,
 				44DF8ED31A74CAAA0097F7F5 /* czzCookieManager.m in Sources */,
 				44989A311CFC699B00F04ECD /* czzThreadSuggestionTableViewCell.m in Sources */,
@@ -3517,6 +3522,7 @@
 				PROVISIONING_PROFILE = "$(inherited)";
 				SWIFT_OBJC_BRIDGING_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3557,6 +3563,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "$(inherited)";
 				SWIFT_OBJC_BRIDGING_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -3565,6 +3572,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AECEC532D9208769EFF63216 /* Pods-CustomImageBoardViewerTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CustomImageBoardViewer.app/CustomImageBoardViewer";
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3596,6 +3604,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 28832211D8C387A440C8B574 /* Pods-CustomImageBoardViewerTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CustomImageBoardViewer.app/CustomImageBoardViewer";
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
