@@ -10,6 +10,8 @@ import UIKit
 
 class AddMarkerViewController: UITableViewController {
 
+    // MARK: Life cycle.
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,5 +28,14 @@ class AddMarkerViewController: UITableViewController {
         }
         view.backgroundColor = czzSettingsCentre.sharedInstance().viewBackgroundColour()
     }
+    
+    // MARK: UI actions.
+    @IBAction func cancelButtonAction(_ sender: UIBarButtonItem) {
+        _ = navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
+    }
+}
 
+extension AddMarkerViewController {
+    
 }
