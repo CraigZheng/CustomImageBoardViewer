@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddMarkerViewController: UIViewController {
+class AddMarkerViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
