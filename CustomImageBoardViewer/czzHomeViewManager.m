@@ -125,6 +125,7 @@
 #pragma mark - Marking/blocking
 
 - (void)highlightUID:(NSString *)UID {
+    [[czzMarkerManager sharedInstance] prepareToHighlightUID:UID];
     [NavigationManager.delegate performSegueWithIdentifier:@"showAddMarker"
                                                     sender:nil];
 }

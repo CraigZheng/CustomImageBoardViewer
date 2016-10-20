@@ -340,6 +340,8 @@
 		44CF25751A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CF25741A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.m */; };
 		44DAB4381CA4FE7A00BDE05A /* download@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44DAB4361CA4FE3C00BDE05A /* download@2x.png */; };
 		44DAB4391CA4FE7B00BDE05A /* download@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44DAB4361CA4FE3C00BDE05A /* download@2x.png */; };
+		44DDC7FA1DB8A5A6001A569D /* UIDColourPairCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DDC7F91DB8A5A6001A569D /* UIDColourPairCellTableViewCell.swift */; };
+		44DDC7FC1DB8A6BF001A569D /* flag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44DDC7FB1DB8A6BF001A569D /* flag@2x.png */; };
 		44DF8ED31A74CAAA0097F7F5 /* czzCookieManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44DF8ED21A74CAAA0097F7F5 /* czzCookieManager.m */; };
 		44DF8EDA1A74D0F00097F7F5 /* czzACTokenUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44DF8ED91A74D0F00097F7F5 /* czzACTokenUtil.m */; };
 		44DF8EDB1A74D0F00097F7F5 /* czzACTokenUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44DF8ED91A74D0F00097F7F5 /* czzACTokenUtil.m */; };
@@ -997,6 +999,8 @@
 		44CF25731A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzShortImageManagerCollectionViewController.h; sourceTree = "<group>"; };
 		44CF25741A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzShortImageManagerCollectionViewController.m; sourceTree = "<group>"; };
 		44DAB4361CA4FE3C00BDE05A /* download@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "download@2x.png"; sourceTree = "<group>"; };
+		44DDC7F91DB8A5A6001A569D /* UIDColourPairCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDColourPairCellTableViewCell.swift; sourceTree = "<group>"; };
+		44DDC7FB1DB8A6BF001A569D /* flag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flag@2x.png"; sourceTree = "<group>"; };
 		44DF8ED11A74CAAA0097F7F5 /* czzCookieManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzCookieManager.h; sourceTree = "<group>"; };
 		44DF8ED21A74CAAA0097F7F5 /* czzCookieManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzCookieManager.m; sourceTree = "<group>"; };
 		44DF8ED81A74D0F00097F7F5 /* czzACTokenUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzACTokenUtil.h; sourceTree = "<group>"; };
@@ -2198,6 +2202,7 @@
 			isa = PBXGroup;
 			children = (
 				44BDA3EC1DB70EF100D2F576 /* AddMarker.storyboard */,
+				44DDC7F91DB8A5A6001A569D /* UIDColourPairCellTableViewCell.swift */,
 				44BDA3F01DB7113500D2F576 /* AddMarkerViewController.swift */,
 				44BDA3F81DB7354200D2F576 /* MarkerColourPickerViewController.swift */,
 			);
@@ -2437,6 +2442,7 @@
 		44E7918C1A17856500A63C04 /* icons */ = {
 			isa = PBXGroup;
 			children = (
+				44DDC7FB1DB8A6BF001A569D /* flag@2x.png */,
 				44BDA3F61DB7350F00D2F576 /* colorband.png */,
 				44B1315A1D1D13BB003D4D0F /* warning@2x.png */,
 				44B1315B1D1D13BB003D4D0F /* warning@3x.png */,
@@ -2928,6 +2934,7 @@
 				44E791F51A17856500A63C04 /* search.png in Resources */,
 				44E7920A1A17856500A63C04 /* view.png in Resources */,
 				44E791D51A17856500A63C04 /* collapse_arrow@3x.png in Resources */,
+				44DDC7FC1DB8A6BF001A569D /* flag@2x.png in Resources */,
 				44B54E6A1A0EE1B80004C5B4 /* czzThreadViewTableViewCell.xib in Resources */,
 				44DF8F041A7512730097F7F5 /* remove_user.png in Resources */,
 				44E791E91A17856500A63C04 /* message.png in Resources */,
@@ -3189,6 +3196,7 @@
 				44858EAC1A0C5B0A00DD822B /* czzImageViewerUtil.m in Sources */,
 				44989A291CFC5B7200F04ECD /* czzThreadSuggestion.m in Sources */,
 				4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */,
+				44DDC7FA1DB8A5A6001A569D /* UIDColourPairCellTableViewCell.swift in Sources */,
 				441E5D2917F48B3D00289DBD /* Toast+UIView.m in Sources */,
 				440E8B7A1D6C90FC00164BC9 /* czzCustomForumTableViewManager.m in Sources */,
 				4431E5421CA4B6620098AA01 /* czzLaunchPopUpNotificationViewController.m in Sources */,

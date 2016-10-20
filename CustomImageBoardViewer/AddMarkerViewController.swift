@@ -10,6 +10,11 @@ import UIKit
 
 class AddMarkerViewController: UITableViewController {
 
+    private struct CellIdentifier {
+        static let undefinedColourCell = "undefinedColourCell"
+        static let colourPairCell = "uidColourPairCell"
+    }
+    
     // MARK: Life cycle.
 
     override func viewDidLoad() {
@@ -36,6 +41,8 @@ class AddMarkerViewController: UITableViewController {
     }
 }
 
+// MARK: UITableViewDataSource, UITableViewDelegate
 extension AddMarkerViewController {
+    
     
 }
