@@ -5,6 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -62,7 +63,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="OJY-AR-buc" kind="show" id="Xhw-BS-nTc"/>
+                                    <segue destination="OJY-AR-buc" kind="presentation" modalPresentationStyle="fullScreen" id="Xhw-BS-nTc"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="uidColourPairCell" id="qm6-ym-gJ4" customClass="UIDColourPairCellTableViewCell" customModule="CustomImageBoardViewer" customModuleProvider="target">
@@ -95,7 +96,7 @@
                                 <connections>
                                     <outlet property="_imageView" destination="YtB-yG-xbu" id="LFl-ST-GUw"/>
                                     <outlet property="_textLabel" destination="Omh-Rv-yak" id="1Ue-QL-od2"/>
-                                    <segue destination="OJY-AR-buc" kind="show" id="WaH-M3-MMb"/>
+                                    <segue destination="OJY-AR-buc" kind="presentation" modalPresentationStyle="fullScreen" id="WaH-M3-MMb"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -129,43 +130,73 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ApL-Ql-YID" userLabel="Slider Background View">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3mK-nv-Z5C" userLabel="Background View">
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="colorband.png" translatesAutoresizingMaskIntoConstraints="NO" id="20B-Ih-f2W">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ApL-Ql-YID" userLabel="Slider Background View">
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="colorband.png" translatesAutoresizingMaskIntoConstraints="NO" id="20B-Ih-f2W">
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="539-j8-jTn"/>
+                                                </constraints>
+                                            </imageView>
+                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="7.5" minValue="0.5" maxValue="13.5" translatesAutoresizingMaskIntoConstraints="NO" id="UC8-TW-GsA">
+                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <color key="minimumTrackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <color key="maximumTrackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <connections>
+                                                    <action selector="colourSliderValueChanged:" destination="OJY-AR-buc" eventType="valueChanged" id="2YB-ub-VLi"/>
+                                                </connections>
+                                            </slider>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="539-j8-jTn"/>
+                                            <constraint firstItem="UC8-TW-GsA" firstAttribute="trailing" secondItem="20B-Ih-f2W" secondAttribute="trailing" id="1bM-Gb-SZV"/>
+                                            <constraint firstAttribute="bottom" secondItem="20B-Ih-f2W" secondAttribute="bottom" constant="2" id="A7x-Yd-m0t"/>
+                                            <constraint firstAttribute="trailing" secondItem="20B-Ih-f2W" secondAttribute="trailing" constant="4" id="MVu-Se-60y"/>
+                                            <constraint firstItem="UC8-TW-GsA" firstAttribute="leading" secondItem="20B-Ih-f2W" secondAttribute="leading" id="Y4D-nV-Reh"/>
+                                            <constraint firstItem="20B-Ih-f2W" firstAttribute="leading" secondItem="ApL-Ql-YID" secondAttribute="leading" constant="4" id="cjU-6d-Zkq"/>
+                                            <constraint firstItem="20B-Ih-f2W" firstAttribute="top" secondItem="ApL-Ql-YID" secondAttribute="top" constant="2" id="gM1-b9-pNz"/>
+                                            <constraint firstItem="UC8-TW-GsA" firstAttribute="centerY" secondItem="20B-Ih-f2W" secondAttribute="centerY" id="jqH-kj-bPh"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="79n-w9-ff1">
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="flag.png" translatesAutoresizingMaskIntoConstraints="NO" id="8H0-lo-k1T">
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="8H0-lo-k1T" secondAttribute="height" multiplier="1:1" id="IZg-ib-iCQ"/>
+                                            <constraint firstAttribute="width" constant="20" id="dL8-v1-nea"/>
                                         </constraints>
                                     </imageView>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="7.5" minValue="0.5" maxValue="13.5" translatesAutoresizingMaskIntoConstraints="NO" id="UC8-TW-GsA">
-                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <color key="minimumTrackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <color key="maximumTrackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <action selector="colourSliderValueChanged:" destination="OJY-AR-buc" eventType="valueChanged" id="2YB-ub-VLi"/>
-                                        </connections>
-                                    </slider>
                                 </subviews>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="UC8-TW-GsA" firstAttribute="trailing" secondItem="20B-Ih-f2W" secondAttribute="trailing" id="1bM-Gb-SZV"/>
-                                    <constraint firstAttribute="bottom" secondItem="20B-Ih-f2W" secondAttribute="bottom" constant="2" id="A7x-Yd-m0t"/>
-                                    <constraint firstAttribute="trailing" secondItem="20B-Ih-f2W" secondAttribute="trailing" constant="4" id="MVu-Se-60y"/>
-                                    <constraint firstItem="UC8-TW-GsA" firstAttribute="leading" secondItem="20B-Ih-f2W" secondAttribute="leading" id="Y4D-nV-Reh"/>
-                                    <constraint firstItem="20B-Ih-f2W" firstAttribute="leading" secondItem="ApL-Ql-YID" secondAttribute="leading" constant="4" id="cjU-6d-Zkq"/>
-                                    <constraint firstItem="20B-Ih-f2W" firstAttribute="top" secondItem="ApL-Ql-YID" secondAttribute="top" constant="2" id="gM1-b9-pNz"/>
-                                    <constraint firstItem="UC8-TW-GsA" firstAttribute="centerY" secondItem="20B-Ih-f2W" secondAttribute="centerY" id="jqH-kj-bPh"/>
+                                    <constraint firstItem="8H0-lo-k1T" firstAttribute="width" secondItem="8H0-lo-k1T" secondAttribute="height" multiplier="1:1" id="0Y0-aA-VTi"/>
+                                    <constraint firstItem="ApL-Ql-YID" firstAttribute="leading" secondItem="3mK-nv-Z5C" secondAttribute="leading" id="4jA-ab-VIn"/>
+                                    <constraint firstAttribute="trailing" secondItem="ApL-Ql-YID" secondAttribute="trailing" id="6me-iJ-0bl"/>
+                                    <constraint firstItem="8H0-lo-k1T" firstAttribute="leading" secondItem="79n-w9-ff1" secondAttribute="trailing" constant="8" symbolic="YES" id="C1l-vy-dJo"/>
+                                    <constraint firstItem="ApL-Ql-YID" firstAttribute="top" secondItem="79n-w9-ff1" secondAttribute="bottom" constant="8" symbolic="YES" id="Cef-pl-mnm"/>
+                                    <constraint firstItem="79n-w9-ff1" firstAttribute="top" secondItem="3mK-nv-Z5C" secondAttribute="top" constant="20" symbolic="YES" id="HFo-0S-YuW"/>
+                                    <constraint firstItem="8H0-lo-k1T" firstAttribute="leading" secondItem="79n-w9-ff1" secondAttribute="trailing" constant="8" symbolic="YES" id="OTS-G8-n4j"/>
+                                    <constraint firstItem="79n-w9-ff1" firstAttribute="centerX" secondItem="3mK-nv-Z5C" secondAttribute="centerX" id="Xif-t7-XWz"/>
+                                    <constraint firstItem="8H0-lo-k1T" firstAttribute="centerY" secondItem="79n-w9-ff1" secondAttribute="centerY" id="taO-ci-udJ"/>
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="ApL-Ql-YID" secondAttribute="trailing" id="FvU-1e-IsM"/>
-                            <constraint firstItem="ApL-Ql-YID" firstAttribute="leading" secondItem="mJr-x1-wT5" secondAttribute="leading" id="h1o-Pr-yr4"/>
-                            <constraint firstItem="ApL-Ql-YID" firstAttribute="centerY" secondItem="mJr-x1-wT5" secondAttribute="centerY" id="vZd-48-qWx"/>
+                            <constraint firstItem="3mK-nv-Z5C" firstAttribute="height" secondItem="mJr-x1-wT5" secondAttribute="height" multiplier="1:2" id="9e9-1E-896"/>
+                            <constraint firstItem="mRI-X3-RbR" firstAttribute="top" secondItem="3mK-nv-Z5C" secondAttribute="bottom" id="Sq7-fR-pcs"/>
+                            <constraint firstAttribute="trailing" secondItem="3mK-nv-Z5C" secondAttribute="trailing" id="ya2-47-a78"/>
+                            <constraint firstItem="3mK-nv-Z5C" firstAttribute="leading" secondItem="mJr-x1-wT5" secondAttribute="leading" id="yzY-h2-CbF"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="flagImageView" destination="8H0-lo-k1T" id="BCB-rs-nIZ"/>
                         <outlet property="slider" destination="UC8-TW-GsA" id="H52-j8-Mip"/>
+                        <outlet property="uidLabel" destination="79n-w9-ff1" id="Gcx-wx-thr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hjt-K5-IIM" userLabel="First Responder" sceneMemberID="firstResponder"/>
