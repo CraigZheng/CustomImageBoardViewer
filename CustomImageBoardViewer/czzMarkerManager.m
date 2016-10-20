@@ -18,8 +18,9 @@ static NSString * const markerBlockedFileName = @"marker_blocked.dat";
 @property (nonatomic, readonly) NSString* markerFolder;
 @property (nonatomic, readonly) NSString* markerHighlightFilePath;
 @property (nonatomic, readonly) NSString* markerBlockedFilePath;
-@property (nonatomic, strong) NSMutableSet<NSString*> *blockedUIDs;
-@property (nonatomic, strong) NSMutableSet<NSString*> *highlightedUIDs;
+@property (nonatomic, strong) NSMutableOrderedSet<NSString *> *blockedUIDs;
+@property (nonatomic, strong) NSMutableOrderedSet<NSString *> *highlightedUIDs;
+@property (nonatomic, strong) NSMutableOrderedSet<NSString *> *pendingHighlightUIDs;
 
 @end
 
@@ -62,14 +63,14 @@ static NSString * const markerBlockedFileName = @"marker_blocked.dat";
     @try {
         // Restore blockedUIDs set.
         if ((restoredObject = [NSKeyedUnarchiver unarchiveObjectWithFile:self.markerBlockedFilePath])
-            && [restoredObject isKindOfClass:[NSSet class]]) {
+            && [restoredObject isKindOfClass:[NSOrderedSet class]]) {
             // Absort the content from restoredObject set.
-            self.blockedUIDs = [[NSMutableSet alloc] initWithSet:restoredObject];
+            self.blockedUIDs = [[NSMutableOrderedSet alloc] initWithOrderedSet:restoredObject];
         }
         restoredObject = nil;
         if ((restoredObject = [NSKeyedUnarchiver unarchiveObjectWithFile:self.markerHighlightFilePath])
-            && [restoredObject isKindOfClass:[NSSet class]]) {
-            self.highlightedUIDs = [[NSMutableSet alloc] initWithSet:restoredObject];
+            && [restoredObject isKindOfClass:[NSOrderedSet class]]) {
+            self.highlightedUIDs = [[NSMutableOrderedSet alloc] initWithOrderedSet:restoredObject];
         }
     } @catch (NSException *exception) {
         DLog(@"%@", exception);
@@ -91,9 +92,17 @@ static NSString * const markerBlockedFileName = @"marker_blocked.dat";
     [self save];
 }
 
+- (void)prepareToHighlightUID:(NSString *)UID {
+    if (UID.length) {
+        [self.pendingHighlightUIDs addObject:UID];
+    }
+}
+
 - (void)highlightUID:(NSString *)UID withColour:(UIColor *)colour {
     if (UID.length && colour) {
         [self.highlightedUIDs addObject:UID];
+        // Remove the save object from pending set.
+        [self.pendingHighlightUIDs removeObject:UID];
         // Save the associated colour to NSUserDefaults.
         [[NSUserDefaults standardUserDefaults] setColor:colour forKey:UID];
         [self save];
@@ -148,18 +157,25 @@ static NSString * const markerBlockedFileName = @"marker_blocked.dat";
     return [self.markerFolder stringByAppendingPathComponent:markerBlockedFileName];
 }
 
-- (NSMutableSet<NSString *> *)blockedUIDs {
+- (NSMutableOrderedSet<NSString *> *)blockedUIDs {
     if (!_blockedUIDs) {
-        _blockedUIDs = [NSMutableSet new];
+        _blockedUIDs = [NSMutableOrderedSet new];
     }
     return _blockedUIDs;
 }
 
-- (NSMutableSet<NSString *> *)highlightedUIDs {
+- (NSMutableOrderedSet<NSString *> *)highlightedUIDs {
     if (!_highlightedUIDs) {
-        _highlightedUIDs = [NSMutableSet new];
+        _highlightedUIDs = [NSMutableOrderedSet new];
     }
     return _highlightedUIDs;
+}
+
+- (NSMutableOrderedSet<NSString *> *)pendingHighlightUIDs {
+    if (!_pendingHighlightUIDs) {
+        _pendingHighlightUIDs = [NSMutableOrderedSet new];
+    }
+    return _pendingHighlightUIDs;
 }
 
 + (instancetype)sharedInstance

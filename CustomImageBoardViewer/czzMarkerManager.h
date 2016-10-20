@@ -11,6 +11,7 @@
 
 @interface czzMarkerManager : NSObject
 
+- (void)prepareToHighlightUID:(NSString * _Nonnull)UID;
 - (void)highlightUID:(NSString * _Nonnull)UID withColour:(UIColor * _Nonnull)colour;
 - (void)blockUID:(NSString * _Nonnull)UID;
 - (void)unHighlightUID:(NSString * _Nonnull)UID;
