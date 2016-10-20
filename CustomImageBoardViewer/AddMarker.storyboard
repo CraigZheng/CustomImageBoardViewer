@@ -13,7 +13,7 @@
         <scene sceneID="bmU-j7-7TW">
             <objects>
                 <navigationController id="GnD-Il-hvR" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="5U2-jJ-TBX">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="5U2-jJ-TBX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -63,7 +63,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="OJY-AR-buc" kind="presentation" modalPresentationStyle="fullScreen" id="Xhw-BS-nTc"/>
+                                    <segue destination="OJY-AR-buc" kind="presentation" modalPresentationStyle="overFullScreen" id="Xhw-BS-nTc"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="uidColourPairCell" id="qm6-ym-gJ4" customClass="UIDColourPairCellTableViewCell" customModule="CustomImageBoardViewer" customModuleProvider="target">
@@ -96,7 +96,7 @@
                                 <connections>
                                     <outlet property="_imageView" destination="YtB-yG-xbu" id="LFl-ST-GUw"/>
                                     <outlet property="_textLabel" destination="Omh-Rv-yak" id="1Ue-QL-od2"/>
-                                    <segue destination="OJY-AR-buc" kind="presentation" modalPresentationStyle="fullScreen" id="WaH-M3-MMb"/>
+                                    <segue destination="OJY-AR-buc" kind="presentation" modalPresentationStyle="overFullScreen" id="WaH-M3-MMb"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -192,6 +192,9 @@
                             <constraint firstAttribute="trailing" secondItem="3mK-nv-Z5C" secondAttribute="trailing" id="ya2-47-a78"/>
                             <constraint firstItem="3mK-nv-Z5C" firstAttribute="leading" secondItem="mJr-x1-wT5" secondAttribute="leading" id="yzY-h2-CbF"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="ecG-kl-Ion" appends="YES" id="U8I-A7-HVT"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="flagImageView" destination="8H0-lo-k1T" id="BCB-rs-nIZ"/>
@@ -200,6 +203,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hjt-K5-IIM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="ecG-kl-Ion">
+                    <connections>
+                        <action selector="tapOnBackgroundView:" destination="OJY-AR-buc" id="uSU-xa-pWs"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="999" y="184"/>
         </scene>

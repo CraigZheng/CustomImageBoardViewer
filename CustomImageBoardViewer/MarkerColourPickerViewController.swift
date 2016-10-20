@@ -12,22 +12,22 @@ class MarkerColourPickerViewController: UIViewController {
 
     var UID: String? {
         didSet {
-            uidLabel.text = UID
+            uidLabel?.text = UID
         }
     }
     var selectedColour: UIColor? {
         didSet {
-            flagImageView.tintColor = selectedColour
+            flagImageView?.tintColor = selectedColour
         }
     }
     
     // RRGGBB hex colors in the same order as the image
     private let colorArray = [ 0x000000, 0xfe0000, 0xff7900, 0xffb900, 0xffde00, 0xfcff00, 0xd2ff00, 0x05c000, 0x00c0a7, 0x0600ff, 0x6700bf, 0x9500c0, 0xbf0199, 0xffffff ]
     
-    @IBOutlet private weak var uidLabel: UILabel!
-    @IBOutlet private weak var flagImageView: UIImageView! {
+    @IBOutlet private weak var uidLabel: UILabel?
+    @IBOutlet private weak var flagImageView: UIImageView? {
         didSet {
-            flagImageView.image = UIImage.init(named: "flag")?.withRenderingMode(.alwaysTemplate)
+            flagImageView?.image = UIImage.init(named: "flag")?.withRenderingMode(.alwaysTemplate)
         }
     }
     @IBOutlet private weak var slider: UISlider!
@@ -35,10 +35,22 @@ class MarkerColourPickerViewController: UIViewController {
         selectedColour = uiColorFromHex(rgbValue: colorArray[Int(sender.value)])
     }
     
+    @IBAction func tapOnBackgroundView(_ sender: AnyObject) {
+        _ = navigationController?.popViewController(animated: true)
+        dismiss(animated: true) { 
+            if let UID = self.UID,
+                let selectedColour = self.selectedColour {
+                czzMarkerManager.sharedInstance().highlightUID(UID, withColour: selectedColour)
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        uidLabel?.text = UID
+        if let selectedColour = selectedColour {
+            flagImageView?.tintColor = selectedColour
+        }
     }
 
     private func uiColorFromHex(rgbValue: Int) -> UIColor {
