@@ -10,6 +10,9 @@
 #import <UIKit/UIKit.h>
 
 @interface czzMarkerManager : NSObject
+@property (nonatomic, strong) NSMutableOrderedSet<NSString *> * _Nonnull blockedUIDs;
+@property (nonatomic, strong) NSMutableOrderedSet<NSString *> * _Nonnull highlightedUIDs;
+@property (nonatomic, strong) NSMutableOrderedSet<NSString *> * _Nonnull pendingHighlightUIDs;
 
 - (void)prepareToHighlightUID:(NSString * _Nonnull)UID;
 - (void)highlightUID:(NSString * _Nonnull)UID withColour:(UIColor * _Nonnull)colour;

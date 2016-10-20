@@ -8,12 +8,17 @@
 
 import UIKit
 
-class AddMarkerViewController: UITableViewController {
+private enum Section: Int {
+    case pending = 0
+    case defined = 1
+}
 
-    private struct CellIdentifier {
-        static let undefinedColourCell = "undefinedColourCell"
-        static let colourPairCell = "uidColourPairCell"
-    }
+private struct CellIdentifier {
+    static let undefinedColourCell = "undefinedColourCell"
+    static let colourPairCell = "uidColourPairCell"
+}
+
+class AddMarkerViewController: UITableViewController {
     
     // MARK: Life cycle.
 
@@ -44,5 +49,39 @@ class AddMarkerViewController: UITableViewController {
 // MARK: UITableViewDataSource, UITableViewDelegate
 extension AddMarkerViewController {
     
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return czzMarkerManager.sharedInstance().pendingHighlightUIDs.count == 0 ? 1 : 2
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch Section(rawValue: section)! {
+        case .pending: return czzMarkerManager.sharedInstance().pendingHighlightUIDs.count
+        case .defined: return czzMarkerManager.sharedInstance().highlightedUIDs.count
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: UITableViewCell
+        let UID: String?
+        switch Section(rawValue: indexPath.section)! {
+        case .pending:
+            cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.undefinedColourCell, for: indexPath)
+            UID = czzMarkerManager.sharedInstance().pendingHighlightUIDs[indexPath.row] as? String
+        case .defined: cell =
+            tableView.dequeueReusableCell(withIdentifier: CellIdentifier.undefinedColourCell, for: indexPath)
+            UID = czzMarkerManager.sharedInstance().highlightedUIDs[indexPath.row] as? String
+        }
+        cell.detailTextLabel?.text = "请选择颜色..."
+        if let UID = UID {
+            cell.textLabel?.text = UID
+            if let cell = cell as? UIDColourPairCellTableViewCell,
+                let colour = czzMarkerManager.sharedInstance().highlightColour(forUID: UID) {
+                // Assign an image as the template for cell.imageView.
+                cell.imageView?.image = UIImage.init(named: "flag")?.withRenderingMode(.alwaysTemplate)
+                cell.imageView?.tintColor = colour
+            }
+        }
+        return cell
+    }
     
 }

@@ -18,9 +18,6 @@ static NSString * const markerBlockedFileName = @"marker_blocked.dat";
 @property (nonatomic, readonly) NSString* markerFolder;
 @property (nonatomic, readonly) NSString* markerHighlightFilePath;
 @property (nonatomic, readonly) NSString* markerBlockedFilePath;
-@property (nonatomic, strong) NSMutableOrderedSet<NSString *> *blockedUIDs;
-@property (nonatomic, strong) NSMutableOrderedSet<NSString *> *highlightedUIDs;
-@property (nonatomic, strong) NSMutableOrderedSet<NSString *> *pendingHighlightUIDs;
 
 @end
 

@@ -32,6 +32,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="fj0-5D-dUn" userLabel="Transparent Footer View">
+                            <rect key="frame" x="0.0" y="180" width="375" height="10"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="undefinedColourCell" textLabel="L5e-sN-gkB" detailTextLabel="MQI-iw-7AH" style="IBUITableViewCellStyleValue1" id="g9F-iL-fvl">
                                 <rect key="frame" x="0.0" y="92" width="375" height="44"/>
@@ -90,6 +95,7 @@
                                 <connections>
                                     <outlet property="_imageView" destination="YtB-yG-xbu" id="LFl-ST-GUw"/>
                                     <outlet property="_textLabel" destination="Omh-Rv-yak" id="1Ue-QL-od2"/>
+                                    <segue destination="OJY-AR-buc" kind="show" id="WaH-M3-MMb"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -171,4 +177,7 @@
         <image name="colorband.png" width="700" height="50"/>
         <image name="flag.png" width="50" height="50"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="WaH-M3-MMb"/>
+    </inferredMetricsTieBreakers>
 </document>
