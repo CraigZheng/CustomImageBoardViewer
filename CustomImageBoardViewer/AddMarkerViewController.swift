@@ -44,6 +44,26 @@ class AddMarkerViewController: UITableViewController {
         _ = navigationController?.popViewController(animated: true)
         dismiss(animated: true, completion: nil)
     }
+    
+    // MARK: Segue.
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let cell = sender as? UITableViewCell,
+            let destination = segue.destination as? MarkerColourPickerViewController,
+            let indexPath = tableView.indexPath(for: cell) {
+            let UID: String?
+            let colour: UIColor?
+            switch Section(rawValue: indexPath.section)! {
+            case .pending:
+                UID = czzMarkerManager.sharedInstance().pendingHighlightUIDs[indexPath.row] as? String
+                colour = nil
+            case .defined:
+                UID = czzMarkerManager.sharedInstance().highlightedUIDs[indexPath.row] as? String
+                colour = czzMarkerManager.sharedInstance().highlightColour(forUID: UID ?? "")
+            }
+            destination.selectedColour = colour
+            destination.UID = UID
+        }
+    }
 }
 
 // MARK: UITableViewDataSource, UITableViewDelegate
@@ -71,6 +91,7 @@ extension AddMarkerViewController {
             tableView.dequeueReusableCell(withIdentifier: CellIdentifier.undefinedColourCell, for: indexPath)
             UID = czzMarkerManager.sharedInstance().highlightedUIDs[indexPath.row] as? String
         }
+        cell.textLabel?.textColor = czzSettingsCentre.sharedInstance().contentTextColour()
         cell.detailTextLabel?.text = "请选择颜色..."
         if let UID = UID {
             cell.textLabel?.text = UID
