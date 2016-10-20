@@ -157,7 +157,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
         czzThread *thread = self.homeViewManager.threads[indexPath.row];
         // Estimated height based on the content.
         @try {
-            estimatedHeight = [[[NSAttributedString alloc] initWithString:thread.content.string.length ?? thread.content.string : @""
+            estimatedHeight = [[[NSAttributedString alloc] initWithString:thread.content.string.length ? thread.content.string : @""
                                                                attributes:@{NSFontAttributeName: settingCentre.contentFont}] boundingRectWithSize:CGSizeMake(CGRectGetWidth(tableView.frame), MAXFLOAT)
                                options:NSStringDrawingUsesLineFragmentOrigin
                                context:nil].size.height + 44;
