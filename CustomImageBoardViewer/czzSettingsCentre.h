@@ -82,7 +82,7 @@ typedef enum : NSInteger {
 //Debug settings
 @property (assign, nonatomic) BOOL should_allow_dart;
 // Popup notification
-@property (assign, nonatomic) NSString *popup_notification_link;
+@property (strong, nonatomic) NSString *popup_notification_link;
 
 + (instancetype)sharedInstance;
 -(void)downloadSettings;
