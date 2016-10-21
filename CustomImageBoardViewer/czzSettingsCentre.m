@@ -27,6 +27,7 @@ static NSString * const kAutoClean = @"kAutoClean";
 static NSString * const kAutoDownloadImage = @"kAutoDownloadImage";
 static NSString * const kShouldCollapseLongContent = @"kShouldCollapseLongContent";
 static NSString * const kTextSize = @"kTextSize";
+static NSString * const kShouldShowImageManagerButton = @"kShouldShowImageManagerButton";
 
 NSString * const settingsChangedNotification = @"settingsChangedNotification";
 
@@ -84,6 +85,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         self.userDefShouldCollapseLongContent = NO;
         shouldAllowOpenBlockedThread = YES;
         self.threadTextSize = TextSizeDefault;
+        self.shouldShowImageManagerButton = YES;
         
         donationLink = @"";
         threads_per_page = 10;
@@ -132,6 +134,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     [userDefault setBool:self.userDefShouldAutoDownloadImage forKey:kAutoDownloadImage];
     [userDefault setBool:self.userDefShouldCollapseLongContent forKey:kShouldCollapseLongContent];
     [userDefault setInteger:self.threadTextSize forKey:kTextSize];
+    [userDefault setBool:self.shouldShowImageManagerButton forKey:kShouldShowImageManagerButton];
     [userDefault synchronize];
     // Post a notification about the settings changed.
     [[NSNotificationCenter defaultCenter] postNotificationName:settingsChangedNotification
@@ -172,6 +175,9 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         self.threadTextSize = [userDefault integerForKey:kTextSize];
     }
     self.userDefShouldAutoDownloadImage = [userDefault boolForKey:kAutoDownloadImage];
+    if ([userDefault objectForKey:kShouldShowImageManagerButton]) {
+        self.shouldShowImageManagerButton = [userDefault boolForKey:kShouldShowImageManagerButton];
+    }
     
     // Google analytics.
     id<GAITracker> defaultTracker = [[GAI sharedInstance] defaultTracker];
@@ -203,6 +209,11 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
                                                                  action:@"Collapse Long Content"
                                                                   label:[self stringWithBoolean:self.userDefShouldCollapseLongContent]
                                                                   value:@1] build]];
+    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
+                                                                 action:@"Show Image Manager Button"
+                                                                  label:[self stringWithBoolean:self.shouldShowImageManagerButton]
+                                                                  value:@1] build]];
+    
 }
 
 - (NSString*)stringWithBoolean:(Boolean)b {

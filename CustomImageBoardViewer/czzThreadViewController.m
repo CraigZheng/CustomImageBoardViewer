@@ -142,9 +142,9 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
     [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
-
-    // Background colour.
+    // UI appearance.
     self.threadTableView.backgroundColor = [settingCentre viewBackgroundColour];
+    self.onScreenImageManagerViewContainer.hidden = !settingCentre.shouldShowImageManagerButton;
 }
 
 - (void)viewDidAppear:(BOOL)animated {

@@ -79,6 +79,7 @@ typedef enum : NSInteger {
 @property (assign, nonatomic) BOOL userDefShouldAutoDownloadImage;
 @property (assign, nonatomic) BOOL userDefShouldCollapseLongContent;
 @property (assign, nonatomic) ThreadViewTextSize threadTextSize;
+@property (assign, nonatomic) BOOL shouldShowImageManagerButton;
 //Debug settings
 @property (assign, nonatomic) BOOL should_allow_dart;
 // Popup notification

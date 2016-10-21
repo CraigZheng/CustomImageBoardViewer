@@ -151,6 +151,8 @@ static NSString *addMarkerSegue = @"AddMarker";
                 [commandSwitch setOn:settingCentre.userDefShouldAutoDownloadImage];
             } else if ([command isEqualToString:@"收起超长的内容"]) {
                 [commandSwitch setOn:settingCentre.userDefShouldCollapseLongContent];
+            } else if ([command isEqualToString:@"显示图片下载管理器"]) {
+                [commandSwitch setOn:settingCentre.shouldShowImageManagerButton];
             }
         }
     } else if (indexPath.section == 1){
@@ -230,6 +232,7 @@ static NSString *addMarkerSegue = @"AddMarker";
     switchCommands = [NSMutableArray new];
 
     [switchCommands addObject:@"显示图片"];
+    [switchCommands addObject:@"显示图片下载管理器"];
     [switchCommands addObject:@"显示快速滑动按钮"];
     [switchCommands addObject:@"收起超长的内容"];
     [switchCommands addObject:@"夜间模式"];
@@ -347,7 +350,6 @@ static NSString *addMarkerSegue = @"AddMarker";
             settingsCentre.userDefShouldShowOnScreenCommand = switchControl.on;
         } else if ([command isEqualToString:@"夜间模式"]) {
             settingsCentre.userDefNightyMode = switchControl.on;
-            [[czzHomeViewManager sharedManager] reloadData];
         }
         else if ([command isEqualToString:@"大图模式"]) {
             settingsCentre.userDefShouldUseBigImage = switchControl.on;
@@ -362,7 +364,8 @@ static NSString *addMarkerSegue = @"AddMarker";
             [self prepareCommands];
         } else if ([command isEqualToString:@"收起超长的内容"]) {
             settingCentre.userDefShouldCollapseLongContent = switchControl.on;
-            [[czzHomeViewManager sharedManager] reloadData];
+        } else if ([command isEqualToString:@"显示图片下载管理器"]) {
+            settingCentre.shouldShowImageManagerButton = switchControl.on;
         }
         [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"%@: %@", command, onOffString]
                                          position:BannerNotificationPositionTop];
