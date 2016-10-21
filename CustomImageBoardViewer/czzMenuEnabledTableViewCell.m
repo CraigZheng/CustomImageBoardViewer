@@ -175,19 +175,22 @@ static NSString * const showThreadWithID = @"showThreadWithID";
 
 -(void)renderContent {
     [self resetViewBackgroundColours];
-    if (self.nightyMode) {
-        // If nighty mode, add nighty mode attributes to the text.
-        NSMutableAttributedString *contentAttrString = [self.threadContent mutableCopy];
-        [contentAttrString addAttribute:NSForegroundColorAttributeName
-                                  value:settingCentre.contentTextColour
-                                  range:NSMakeRange(0, contentAttrString.length)];
-        self.contentTextView.attributedText = contentAttrString;
+    if (self.shouldBlock) {
+        self.contentTextView.attributedText = [[NSAttributedString alloc] initWithString:@" - - - 屏蔽 - - - "
+                                                                              attributes:@{NSForegroundColorAttributeName: [UIColor lightGrayColor]}];
     } else {
-        self.contentTextView.attributedText = self.threadContent;
+        if (self.nightyMode) {
+            // If nighty mode, add nighty mode attributes to the text.
+            NSMutableAttributedString *contentAttrString = [self.threadContent mutableCopy];
+            [contentAttrString addAttribute:NSForegroundColorAttributeName
+                                      value:settingCentre.contentTextColour
+                                      range:NSMakeRange(0, contentAttrString.length)];
+            self.contentTextView.attributedText = contentAttrString;
+        } else {
+            self.contentTextView.attributedText = self.threadContent;
+        }
     }
     self.contentTextView.font = settingCentre.contentFont;
-
-    // TODO: should block content.
     // Images.
     UIImage *previewImage;
     NSString *imageName;

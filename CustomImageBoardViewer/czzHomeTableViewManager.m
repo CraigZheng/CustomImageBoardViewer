@@ -264,10 +264,16 @@ estimatedHeightForRowAtIndexPath:indexPath];
         } else {
             cell.highlightColour = nil;
         }
+        if ([[czzMarkerManager sharedInstance] isUIDBlocked:thread.UID]) {
+            cell.shouldBlock = YES;
+            cell.allowImage = NO;
+        } else {
+            cell.shouldBlock = NO;
+            cell.allowImage = [settingCentre userDefShouldDisplayThumbnail];
+        }
         cell.myIndexPath = indexPath;
         cell.nightyMode = [settingCentre userDefNightyMode];
         cell.bigImageMode = [settingCentre userDefShouldUseBigImage];
-        cell.allowImage = [settingCentre userDefShouldDisplayThumbnail];
         cell.cellType = threadViewCellTypeHome;
         cell.thread = thread;
         if ([self isMemberOfClass:[czzHomeTableViewManager class]]) {
