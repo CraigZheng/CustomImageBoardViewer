@@ -189,6 +189,7 @@
 		447E062F1BC2799500D24087 /* CPWearableViewCustomTransitioningAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 447E062E1BC2799500D24087 /* CPWearableViewCustomTransitioningAnimator.m */; };
 		447E06331BC279CB00D24087 /* czzCustomSlideAnimationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 447E06321BC279CB00D24087 /* czzCustomSlideAnimationViewController.m */; };
 		447FD254195D1AF1003E30C2 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 447FD253195D1AF1003E30C2 /* libz.dylib */; };
+		448547FC1DB9DD9E00E7CE7B /* poison.png in Resources */ = {isa = PBXBuildFile; fileRef = 448547FB1DB9DD9E00E7CE7B /* poison.png */; };
 		44858EAC1A0C5B0A00DD822B /* czzImageViewerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44858EAB1A0C5B0A00DD822B /* czzImageViewerUtil.m */; };
 		4485F4FC19F5FF38007A73CC /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 4485F4FB19F5FF38007A73CC /* NSString+HTML.m */; };
 		4490A80F1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4490A80E1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m */; };
@@ -819,6 +820,7 @@
 		447E06311BC279CB00D24087 /* czzCustomSlideAnimationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzCustomSlideAnimationViewController.h; sourceTree = "<group>"; };
 		447E06321BC279CB00D24087 /* czzCustomSlideAnimationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzCustomSlideAnimationViewController.m; sourceTree = "<group>"; };
 		447FD253195D1AF1003E30C2 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		448547FB1DB9DD9E00E7CE7B /* poison.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = poison.png; sourceTree = "<group>"; };
 		44858EAA1A0C5B0A00DD822B /* czzImageViewerUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzImageViewerUtil.h; sourceTree = "<group>"; };
 		44858EAB1A0C5B0A00DD822B /* czzImageViewerUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzImageViewerUtil.m; sourceTree = "<group>"; };
 		4485F4FA19F5FF38007A73CC /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
@@ -2444,6 +2446,7 @@
 			children = (
 				44DDC7FB1DB8A6BF001A569D /* flag@2x.png */,
 				44BDA3F61DB7350F00D2F576 /* colorband.png */,
+				448547FB1DB9DD9E00E7CE7B /* poison.png */,
 				44B1315A1D1D13BB003D4D0F /* warning@2x.png */,
 				44B1315B1D1D13BB003D4D0F /* warning@3x.png */,
 				44A5DF651D045E3B00AEF329 /* keyboard@3x.png */,
@@ -2819,6 +2822,7 @@
 				447E06231BC2391900D24087 /* trash@2x.png in Resources */,
 				44989A211CFC5A8500F04ECD /* popular_threads.json in Resources */,
 				444F5B341A40EA3500EB391F /* 33.png in Resources */,
+				448547FC1DB9DD9E00E7CE7B /* poison.png in Resources */,
 				444F5B3F1A40EA3500EB391F /* 44.png in Resources */,
 				44E791E71A17856500A63C04 /* menu@2x.png in Resources */,
 				444F5B491A40EA3500EB391F /* 54.png in Resources */,
