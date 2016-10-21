@@ -111,7 +111,7 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poison.png" translatesAutoresizingMaskIntoConstraints="NO" id="dYD-jk-tOZ">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poison.png" translatesAutoresizingMaskIntoConstraints="NO" id="dYD-jk-tOZ">
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="dYD-jk-tOZ" secondAttribute="height" multiplier="1:1" id="8lx-Yx-GK1"/>
                                                 <constraint firstAttribute="width" constant="20" id="CbJ-4i-RbW"/>
@@ -185,16 +185,24 @@
                                                     <action selector="colourSliderValueChanged:" destination="OJY-AR-buc" eventType="valueChanged" id="2YB-ub-VLi"/>
                                                 </connections>
                                             </slider>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poison.png" translatesAutoresizingMaskIntoConstraints="NO" id="7QI-wS-dg5">
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="7QI-wS-dg5" secondAttribute="height" multiplier="1:1" id="tgW-dh-8Hn"/>
+                                                </constraints>
+                                            </imageView>
                                         </subviews>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="UC8-TW-GsA" firstAttribute="trailing" secondItem="20B-Ih-f2W" secondAttribute="trailing" id="1bM-Gb-SZV"/>
                                             <constraint firstAttribute="bottom" secondItem="20B-Ih-f2W" secondAttribute="bottom" constant="2" id="A7x-Yd-m0t"/>
+                                            <constraint firstItem="7QI-wS-dg5" firstAttribute="bottom" secondItem="20B-Ih-f2W" secondAttribute="bottom" constant="-4" id="IFZ-Ap-XI4"/>
                                             <constraint firstAttribute="trailing" secondItem="20B-Ih-f2W" secondAttribute="trailing" constant="4" id="MVu-Se-60y"/>
+                                            <constraint firstItem="7QI-wS-dg5" firstAttribute="trailing" secondItem="20B-Ih-f2W" secondAttribute="trailing" constant="-2" id="N4t-xh-qcG"/>
                                             <constraint firstItem="UC8-TW-GsA" firstAttribute="leading" secondItem="20B-Ih-f2W" secondAttribute="leading" id="Y4D-nV-Reh"/>
                                             <constraint firstItem="20B-Ih-f2W" firstAttribute="leading" secondItem="ApL-Ql-YID" secondAttribute="leading" constant="4" id="cjU-6d-Zkq"/>
                                             <constraint firstItem="20B-Ih-f2W" firstAttribute="top" secondItem="ApL-Ql-YID" secondAttribute="top" constant="2" id="gM1-b9-pNz"/>
                                             <constraint firstItem="UC8-TW-GsA" firstAttribute="centerY" secondItem="20B-Ih-f2W" secondAttribute="centerY" id="jqH-kj-bPh"/>
+                                            <constraint firstItem="7QI-wS-dg5" firstAttribute="top" secondItem="20B-Ih-f2W" secondAttribute="top" constant="4" id="xpc-Mq-2aV"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="79n-w9-ff1">
@@ -202,6 +210,11 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poison.png" translatesAutoresizingMaskIntoConstraints="NO" id="67q-5u-Nep">
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="67q-5u-Nep" secondAttribute="height" multiplier="1:1" id="DOi-Qr-QFn"/>
+                                        </constraints>
+                                    </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="flag.png" translatesAutoresizingMaskIntoConstraints="NO" id="8H0-lo-k1T">
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="8H0-lo-k1T" secondAttribute="height" multiplier="1:1" id="IZg-ib-iCQ"/>
@@ -213,12 +226,16 @@
                                 <constraints>
                                     <constraint firstItem="8H0-lo-k1T" firstAttribute="width" secondItem="8H0-lo-k1T" secondAttribute="height" multiplier="1:1" id="0Y0-aA-VTi"/>
                                     <constraint firstItem="ApL-Ql-YID" firstAttribute="leading" secondItem="3mK-nv-Z5C" secondAttribute="leading" id="4jA-ab-VIn"/>
+                                    <constraint firstItem="67q-5u-Nep" firstAttribute="leading" secondItem="8H0-lo-k1T" secondAttribute="leading" id="5gl-Md-fYq"/>
                                     <constraint firstAttribute="trailing" secondItem="ApL-Ql-YID" secondAttribute="trailing" id="6me-iJ-0bl"/>
                                     <constraint firstItem="8H0-lo-k1T" firstAttribute="leading" secondItem="79n-w9-ff1" secondAttribute="trailing" constant="8" symbolic="YES" id="C1l-vy-dJo"/>
                                     <constraint firstItem="ApL-Ql-YID" firstAttribute="top" secondItem="79n-w9-ff1" secondAttribute="bottom" constant="8" symbolic="YES" id="Cef-pl-mnm"/>
                                     <constraint firstItem="79n-w9-ff1" firstAttribute="top" secondItem="3mK-nv-Z5C" secondAttribute="top" constant="20" symbolic="YES" id="HFo-0S-YuW"/>
+                                    <constraint firstItem="67q-5u-Nep" firstAttribute="trailing" secondItem="8H0-lo-k1T" secondAttribute="trailing" id="Mm7-ag-Mir"/>
                                     <constraint firstItem="8H0-lo-k1T" firstAttribute="leading" secondItem="79n-w9-ff1" secondAttribute="trailing" constant="8" symbolic="YES" id="OTS-G8-n4j"/>
+                                    <constraint firstItem="67q-5u-Nep" firstAttribute="bottom" secondItem="8H0-lo-k1T" secondAttribute="bottom" id="PRf-bO-ah7"/>
                                     <constraint firstItem="79n-w9-ff1" firstAttribute="centerX" secondItem="3mK-nv-Z5C" secondAttribute="centerX" id="Xif-t7-XWz"/>
+                                    <constraint firstItem="67q-5u-Nep" firstAttribute="top" secondItem="8H0-lo-k1T" secondAttribute="top" id="qQb-Ib-2AC"/>
                                     <constraint firstItem="8H0-lo-k1T" firstAttribute="centerY" secondItem="79n-w9-ff1" secondAttribute="centerY" id="taO-ci-udJ"/>
                                 </constraints>
                             </view>
@@ -236,6 +253,7 @@
                     </view>
                     <connections>
                         <outlet property="flagImageView" destination="8H0-lo-k1T" id="BCB-rs-nIZ"/>
+                        <outlet property="skeletonImageView" destination="67q-5u-Nep" id="a9U-gt-gls"/>
                         <outlet property="slider" destination="UC8-TW-GsA" id="H52-j8-Mip"/>
                         <outlet property="uidLabel" destination="79n-w9-ff1" id="Gcx-wx-thr"/>
                     </connections>
