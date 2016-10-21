@@ -11,11 +11,13 @@ import UIKit
 private enum Section: Int {
     case pending = 0
     case defined = 1
+    case blocked = 2
 }
 
 private struct CellIdentifier {
     static let undefinedColourCell = "undefinedColourCell"
     static let colourPairCell = "uidColourPairCell"
+    static let blockedCell = "blockedCell"
 }
 
 class AddMarkerViewController: UITableViewController {
@@ -56,14 +58,15 @@ class AddMarkerViewController: UITableViewController {
             let destination = segue.destination as? MarkerColourPickerViewController,
             let indexPath = tableView.indexPath(for: cell) {
             let UID: String?
-            let colour: UIColor?
+            var colour: UIColor?
             switch Section(rawValue: indexPath.section)! {
             case .pending:
                 UID = czzMarkerManager.sharedInstance().pendingHighlightUIDs[indexPath.row] as? String
-                colour = nil
             case .defined:
                 UID = czzMarkerManager.sharedInstance().highlightedUIDs[indexPath.row] as? String
                 colour = czzMarkerManager.sharedInstance().highlightColour(forUID: UID ?? "")
+            case .blocked:
+                UID = czzMarkerManager.sharedInstance().blockedUIDs[indexPath.row] as? String
             }
             destination.selectedColour = colour
             destination.UID = UID
@@ -82,13 +85,14 @@ extension AddMarkerViewController: MarkerColourPickerViewControllerProtocol {
 extension AddMarkerViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch Section(rawValue: section)! {
         case .pending: return czzMarkerManager.sharedInstance().pendingHighlightUIDs.count
         case .defined: return czzMarkerManager.sharedInstance().highlightedUIDs.count
+        case .blocked: return czzMarkerManager.sharedInstance().blockedUIDs.count
         }
     }
     
@@ -102,6 +106,9 @@ extension AddMarkerViewController {
         case .defined:
             cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.colourPairCell, for: indexPath)
             UID = czzMarkerManager.sharedInstance().highlightedUIDs[indexPath.row] as? String
+        case .blocked:
+            cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.blockedCell, for: indexPath)
+            UID = czzMarkerManager.sharedInstance().blockedUIDs[indexPath.row] as? String
         }
         cell.textLabel?.textColor = czzSettingsCentre.sharedInstance().contentTextColour()
         cell.detailTextLabel?.text = "请选择颜色..."
