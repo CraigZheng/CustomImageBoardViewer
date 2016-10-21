@@ -145,6 +145,11 @@
                                 <action selector="cancelButtonAction:" destination="AJd-ht-2QX" id="7Gf-q9-hBr"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="joV-Zl-ZbG">
+                            <connections>
+                                <action selector="editButtonAction:" destination="AJd-ht-2QX" id="8UG-rw-cuJ"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8kh-E2-qIq" userLabel="First Responder" sceneMemberID="firstResponder"/>

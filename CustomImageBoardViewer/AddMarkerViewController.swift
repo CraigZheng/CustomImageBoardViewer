@@ -52,6 +52,10 @@ class AddMarkerViewController: UITableViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func editButtonAction(_ sender: AnyObject) {
+        tableView.setEditing(!tableView.isEditing, animated: true);
+    }
+    
     // MARK: Segue.
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let cell = sender as? UITableViewCell,
@@ -130,6 +134,26 @@ extension AddMarkerViewController {
             }
         }
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        let UID: String?
+        switch Section(rawValue: indexPath.section)! {
+        case .pending:
+            UID = czzMarkerManager.sharedInstance().pendingHighlightUIDs[indexPath.row] as? String
+        case .defined:
+            UID = czzMarkerManager.sharedInstance().highlightedUIDs[indexPath.row] as? String
+        case .blocked:
+            UID = czzMarkerManager.sharedInstance().blockedUIDs[indexPath.row] as? String
+        }
+        if let UID = UID {
+            // Remove it from every czzMarkerManager sets, then save.
+            czzMarkerManager.sharedInstance().pendingHighlightUIDs.remove(UID)
+            czzMarkerManager.sharedInstance().highlightedUIDs.remove(UID)
+            czzMarkerManager.sharedInstance().blockedUIDs.remove(UID)
+            czzMarkerManager.sharedInstance().save()
+        }
+        tableView.reloadData()
     }
     
 }

@@ -36,7 +36,7 @@
         UIMenuItem *blockMenuItem = [[UIMenuItem alloc] initWithTitle:@"屏蔽..."
                                                                action:NSSelectorFromString(@"menuActionBlock:")];
         //    UIMenuItem *searchMenuItem = [[UIMenuItem alloc] initWithTitle:@"搜索他" action:@selector(menuActionSearch:)];
-        [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, highlightMenuItem, blockMenuItem, /*searchMenuItem,*/ openMenuItem]];
+        [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, highlightMenuItem, /*searchMenuItem,*/ openMenuItem]];
         [[UIMenuController sharedMenuController] update];
         // Rotation observer - remove the container view.
         [[NSNotificationCenter defaultCenter] addObserver:self
