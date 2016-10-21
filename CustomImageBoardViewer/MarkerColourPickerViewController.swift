@@ -8,8 +8,13 @@
 
 import UIKit
 
-class MarkerColourPickerViewController: UIViewController {
+protocol MarkerColourPickerViewControllerProtocol {
+    func didFinishSelecting(colour: UIColor?, for UID: String?)
+}
 
+class MarkerColourPickerViewController: UIViewController {
+    var delegate: MarkerColourPickerViewControllerProtocol?
+    
     var UID: String? {
         didSet {
             uidLabel?.text = UID
@@ -36,13 +41,12 @@ class MarkerColourPickerViewController: UIViewController {
     }
     
     @IBAction func tapOnBackgroundView(_ sender: AnyObject) {
-        _ = navigationController?.popViewController(animated: true)
-        dismiss(animated: true) { 
-            if let UID = self.UID,
-                let selectedColour = self.selectedColour {
-                czzMarkerManager.sharedInstance().highlightUID(UID, withColour: selectedColour)
-            }
+        if let UID = self.UID,
+            let selectedColour = self.selectedColour {
+            czzMarkerManager.sharedInstance().highlightUID(UID, withColour: selectedColour)
         }
+        _ = navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
     }
     
     override func viewDidLoad() {
@@ -51,6 +55,11 @@ class MarkerColourPickerViewController: UIViewController {
         if let selectedColour = selectedColour {
             flagImageView?.tintColor = selectedColour
         }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        delegate?.didFinishSelecting(colour: selectedColour, for: UID)
     }
 
     private func uiColorFromHex(rgbValue: Int) -> UIColor {

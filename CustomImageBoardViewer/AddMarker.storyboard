@@ -13,7 +13,7 @@
         <scene sceneID="bmU-j7-7TW">
             <objects>
                 <navigationController id="GnD-Il-hvR" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="5U2-jJ-TBX">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="5U2-jJ-TBX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -86,11 +86,11 @@
                                         </imageView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="Omh-Rv-yak" firstAttribute="leading" secondItem="SQb-DF-Agz" secondAttribute="leading" constant="15" id="DKC-Eh-BlY"/>
-                                        <constraint firstItem="YtB-yG-xbu" firstAttribute="leading" secondItem="Omh-Rv-yak" secondAttribute="trailing" constant="8" symbolic="YES" id="U2o-g6-GV9"/>
+                                        <constraint firstItem="Omh-Rv-yak" firstAttribute="leading" secondItem="SQb-DF-Agz" secondAttribute="leading" constant="20" symbolic="YES" id="DKC-Eh-BlY"/>
                                         <constraint firstItem="Omh-Rv-yak" firstAttribute="top" secondItem="SQb-DF-Agz" secondAttribute="topMargin" id="YqT-9J-1YI"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="Omh-Rv-yak" secondAttribute="bottom" id="ado-g8-M7G"/>
                                         <constraint firstItem="YtB-yG-xbu" firstAttribute="centerY" secondItem="SQb-DF-Agz" secondAttribute="centerY" id="c0J-dE-KJr"/>
+                                        <constraint firstAttribute="trailing" secondItem="YtB-yG-xbu" secondAttribute="trailing" constant="20" symbolic="YES" id="gnV-5C-I80"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -185,7 +185,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.15761325503355705" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="3mK-nv-Z5C" firstAttribute="height" secondItem="mJr-x1-wT5" secondAttribute="height" multiplier="1:2" id="9e9-1E-896"/>
                             <constraint firstItem="mRI-X3-RbR" firstAttribute="top" secondItem="3mK-nv-Z5C" secondAttribute="bottom" id="Sq7-fR-pcs"/>

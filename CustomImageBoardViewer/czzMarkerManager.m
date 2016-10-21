@@ -97,9 +97,9 @@ static NSString * const markerBlockedFileName = @"marker_blocked.dat";
 
 - (void)highlightUID:(NSString *)UID withColour:(UIColor *)colour {
     if (UID.length && colour) {
-        [self.highlightedUIDs addObject:UID];
         // Remove the save object from pending set.
         [self.pendingHighlightUIDs removeObject:UID];
+        [self.highlightedUIDs addObject:UID];
         // Save the associated colour to NSUserDefaults.
         [[NSUserDefaults standardUserDefaults] setColor:colour forKey:UID];
         [self save];

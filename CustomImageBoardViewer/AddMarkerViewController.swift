@@ -27,6 +27,11 @@ class AddMarkerViewController: UITableViewController {
 
         // Do any additional setup after loading the view.
     }
+    
+    deinit {
+        // Remove all pending UIDs.
+        czzMarkerManager.sharedInstance().pendingHighlightUIDs.removeAllObjects();
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -62,7 +67,14 @@ class AddMarkerViewController: UITableViewController {
             }
             destination.selectedColour = colour
             destination.UID = UID
+            destination.delegate = self
         }
+    }
+}
+
+extension AddMarkerViewController: MarkerColourPickerViewControllerProtocol {
+    internal func didFinishSelecting(colour: UIColor?, for UID: String?) {
+        tableView.reloadData()
     }
 }
 
@@ -70,7 +82,7 @@ class AddMarkerViewController: UITableViewController {
 extension AddMarkerViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return czzMarkerManager.sharedInstance().pendingHighlightUIDs.count == 0 ? 1 : 2
+        return 2
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -87,8 +99,8 @@ extension AddMarkerViewController {
         case .pending:
             cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.undefinedColourCell, for: indexPath)
             UID = czzMarkerManager.sharedInstance().pendingHighlightUIDs[indexPath.row] as? String
-        case .defined: cell =
-            tableView.dequeueReusableCell(withIdentifier: CellIdentifier.undefinedColourCell, for: indexPath)
+        case .defined:
+            cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.colourPairCell, for: indexPath)
             UID = czzMarkerManager.sharedInstance().highlightedUIDs[indexPath.row] as? String
         }
         cell.textLabel?.textColor = czzSettingsCentre.sharedInstance().contentTextColour()
