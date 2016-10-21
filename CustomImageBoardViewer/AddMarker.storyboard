@@ -13,7 +13,7 @@
         <scene sceneID="bmU-j7-7TW">
             <objects>
                 <navigationController id="GnD-Il-hvR" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="5U2-jJ-TBX">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="5U2-jJ-TBX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -225,9 +225,9 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="8H0-lo-k1T" firstAttribute="width" secondItem="8H0-lo-k1T" secondAttribute="height" multiplier="1:1" id="0Y0-aA-VTi"/>
-                                    <constraint firstItem="ApL-Ql-YID" firstAttribute="leading" secondItem="3mK-nv-Z5C" secondAttribute="leading" id="4jA-ab-VIn"/>
+                                    <constraint firstItem="ApL-Ql-YID" firstAttribute="leading" secondItem="3mK-nv-Z5C" secondAttribute="leading" constant="20" symbolic="YES" id="4jA-ab-VIn"/>
                                     <constraint firstItem="67q-5u-Nep" firstAttribute="leading" secondItem="8H0-lo-k1T" secondAttribute="leading" id="5gl-Md-fYq"/>
-                                    <constraint firstAttribute="trailing" secondItem="ApL-Ql-YID" secondAttribute="trailing" id="6me-iJ-0bl"/>
+                                    <constraint firstAttribute="trailing" secondItem="ApL-Ql-YID" secondAttribute="trailing" constant="20" symbolic="YES" id="6me-iJ-0bl"/>
                                     <constraint firstItem="8H0-lo-k1T" firstAttribute="leading" secondItem="79n-w9-ff1" secondAttribute="trailing" constant="8" symbolic="YES" id="C1l-vy-dJo"/>
                                     <constraint firstItem="ApL-Ql-YID" firstAttribute="top" secondItem="79n-w9-ff1" secondAttribute="bottom" constant="8" symbolic="YES" id="Cef-pl-mnm"/>
                                     <constraint firstItem="79n-w9-ff1" firstAttribute="top" secondItem="3mK-nv-Z5C" secondAttribute="top" constant="20" symbolic="YES" id="HFo-0S-YuW"/>
