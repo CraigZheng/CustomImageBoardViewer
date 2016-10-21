@@ -214,7 +214,7 @@ static NSString * const showThreadWithID = @"showThreadWithID";
 - (IBAction)tapOnImageView:(id)sender {
     DDLogDebug(@"%@", NSStringFromSelector(_cmd));
     if (self.shouldAllowClickOnImage && [self.delegate respondsToSelector:@selector(userTapInImageView:)]) {
-        [self.delegate userTapInImageView:self.thread.imgSrc];
+        [self.delegate userTapInImageView:self];
     } else {
         DDLogDebug(@"Tap on image view not allow.");
     }

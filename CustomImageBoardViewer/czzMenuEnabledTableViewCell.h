@@ -30,7 +30,7 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 @protocol czzMenuEnabledTableViewCellProtocol <NSObject>
 @optional
 -(void)userTapInQuotedText:(NSString*)text;
--(void)userTapInImageView:(NSString*)imgURL;
+-(void)userTapInImageView:(id)sender;
 // Menu actions
 - (void)userWantsToReply:(czzThread *)thread inParentThread:(czzThread *)parentThread;
 - (void)userWantsToHighlightUser:(NSString *)UID;

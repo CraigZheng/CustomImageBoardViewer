@@ -157,10 +157,14 @@ estimatedHeightForRowAtIndexPath:indexPath];
     if (indexPath.row < self.homeViewManager.threads.count) {
         czzThread *thread = self.homeViewManager.threads[indexPath.row];
         // Estimated height based on the content.
-        estimatedHeight = [[[NSAttributedString alloc] initWithString:thread.content.string
-                                                           attributes:@{NSFontAttributeName: settingCentre.contentFont}] boundingRectWithSize:CGSizeMake(CGRectGetWidth(tableView.frame), MAXFLOAT)
-                           options:NSStringDrawingUsesLineFragmentOrigin
-                           context:nil].size.height + 44;
+        @try {
+            estimatedHeight = [[[NSAttributedString alloc] initWithString:thread.content.string.length ? thread.content.string : @""
+                                                               attributes:@{NSFontAttributeName: settingCentre.contentFont}] boundingRectWithSize:CGSizeMake(CGRectGetWidth(tableView.frame), MAXFLOAT)
+                               options:NSStringDrawingUsesLineFragmentOrigin
+                               context:nil].size.height + 44;
+        } @catch (NSException *exception) {
+            DLog(@"%@", exception);
+        }
         // Calculate an estimated height based on if an image is available.
         if (thread.imgSrc.length && settingCentre.shouldDisplayImage) {
             // If big image mode and has the image, add 75% of the shortest edge to the estimated height.
@@ -315,18 +319,29 @@ estimatedHeightForRowAtIndexPath:indexPath];
 }
 
 #pragma mark - czzMenuEnableTableViewCellDelegate
--(void)userTapInImageView:(NSString *)imgURL {
-    // If image exists
-    if ([[czzImageCacheManager sharedInstance] hasImageWithName:imgURL.lastPathComponent]) {
-        [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:imgURL.lastPathComponent]];
-        return;
-    }
-    
-    // Image not found in local storage, start or stop the image downloader with the image URL
-    if ([[czzImageDownloaderManager sharedManager] isImageDownloading:imgURL.lastPathComponent]) {
-        [[czzImageDownloaderManager sharedManager] stopDownloadingImage:imgURL.lastPathComponent];
-    } else {
-        [[czzImageDownloaderManager sharedManager] downloadImageWithURL:imgURL isThumbnail:NO];
+-(void)userTapInImageView:(id)sender {
+    UITableViewCell *cell;
+    if ([sender isKindOfClass:[UITableViewCell class]]) {
+        cell = (UITableViewCell *)sender;
+        // Get indexPath, then the corresponding threads from it.
+        NSIndexPath *indexPath = [self.homeTableView indexPathForCell:cell];
+        if (indexPath && indexPath.row < self.homeViewManager.threads.count) {
+            NSString *imgURL = [self.homeViewManager.threads[indexPath.row] imgSrc];
+            if (imgURL.length) {
+                // If image exists
+                if ([[czzImageCacheManager sharedInstance] hasImageWithName:imgURL.lastPathComponent]) {
+                    [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:imgURL.lastPathComponent]];
+                    return;
+                }
+                
+                // Image not found in local storage, start or stop the image downloader with the image URL
+                if ([[czzImageDownloaderManager sharedManager] isImageDownloading:imgURL.lastPathComponent]) {
+                    [[czzImageDownloaderManager sharedManager] stopDownloadingImage:imgURL.lastPathComponent];
+                } else {
+                    [[czzImageDownloaderManager sharedManager] downloadImageWithURL:imgURL isThumbnail:NO];
+                }
+            }
+        }
     }
 }
 
