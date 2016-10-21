@@ -240,11 +240,9 @@
     // Determine whether or nor I should +1 to the given pageNumber.
     // If the downloaded response can be % by response_per_page, that means all is OK.
     NSInteger remainder = (self.threads.count - 1) % settingCentre.response_per_page;
-    if (remainder == 0) {
-        DLog(@"Number of threads is enough to fill all previous pages, +1 to the current page.");
+    if (remainder == 0 || self.pageNumber < self.totalPages) {
         [self loadMoreThreads:self.pageNumber + 1];
     } else {
-        DLog(@"Number of threads not enough to fill all previous pages, keep the current page number.");
         [self loadMoreThreads:self.pageNumber];
     }
 }

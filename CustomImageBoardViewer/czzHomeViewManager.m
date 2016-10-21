@@ -98,8 +98,6 @@
 #endif
     if (self.downloader.isDownloading)
         [self.downloader stop];
-    if (pageNumber > self.totalPages)
-        pageNumber = self.totalPages;
     // Construct and start downloading for forum with page number,
     self.downloader.pageNumber = pageNumber;
     [self.downloader start];
