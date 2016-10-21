@@ -126,7 +126,7 @@ static NSString * const showThreadWithID = @"showThreadWithID";
 
 -(void)menuActionReply:(id)sender{
     if ([self.delegate respondsToSelector:@selector(userWantsToReply:inParentThread:)]) {
-        [self.delegate userWantsToReply:self.thread inParentThread:self.parentThread];
+        [self.delegate userWantsToReply:self.thread inParentThread:self.parentThread ? self.parentThread : self.thread];
     }
 }
 
