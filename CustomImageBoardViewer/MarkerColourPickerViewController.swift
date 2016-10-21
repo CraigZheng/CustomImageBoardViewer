@@ -39,6 +39,8 @@ class MarkerColourPickerViewController: UIViewController {
     @IBOutlet private weak var flagImageView: UIImageView? {
         didSet {
             flagImageView?.image = UIImage.init(named: "flag")?.withRenderingMode(.alwaysTemplate)
+            // The initial colour is light gray.
+            flagImageView?.tintColor = UIColor.lightGray
         }
     }
     @IBOutlet private weak var slider: UISlider!
