@@ -122,8 +122,8 @@ extension AddMarkerViewController {
             cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.blockedCell, for: indexPath)
             UID = czzMarkerManager.sharedInstance().blockedUIDs[indexPath.row] as? String
         }
-        cell.textLabel?.textColor = czzSettingsCentre.sharedInstance().contentTextColour()
         cell.detailTextLabel?.text = "请选择颜色..."
+        cell.contentView.backgroundColor = czzSettingsCentre.sharedInstance().viewBackgroundColour()
         if let UID = UID {
             cell.textLabel?.text = UID
             if let cell = cell as? UIDColourPairCellTableViewCell,
