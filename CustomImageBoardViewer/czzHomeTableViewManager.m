@@ -25,6 +25,7 @@
 #import "UIApplication+Util.h"
 #import "UINavigationController+Util.h"
 #import "czzMenuEnabledTableViewCell.h"
+#import "czzMarkerManager.h"
 #import "czzBigImageModeTableViewCell.h"
 #import <ImageIO/ImageIO.h>
 
@@ -258,7 +259,11 @@ estimatedHeightForRowAtIndexPath:indexPath];
     czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
     if (cell){
         cell.delegate = self;
-        cell.shouldHighlight = NO;
+        if ([[czzMarkerManager sharedInstance] isHighlighted:thread.UID]) {
+            cell.highlightColour = [[czzMarkerManager sharedInstance] highlightColourForUID:thread.UID];
+        } else {
+            cell.highlightColour = nil;
+        }
         cell.myIndexPath = indexPath;
         cell.nightyMode = [settingCentre userDefNightyMode];
         cell.bigImageMode = [settingCentre userDefShouldUseBigImage];

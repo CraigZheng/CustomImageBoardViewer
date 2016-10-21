@@ -43,7 +43,6 @@ static NSString * const showThreadWithID = @"showThreadWithID";
     self.thumbnailFolder = [czzAppDelegate thumbnailFolder];
     self.imageFolder = [czzAppDelegate imageFolder];
     self.referenceButtons = [NSMutableArray new];
-    self.shouldHighlight = NO;
     self.shouldBlock = NO;
     self.allowImage = YES;
     self.shouldAllowClickOnImage = YES;
@@ -107,11 +106,6 @@ static NSString * const showThreadWithID = @"showThreadWithID";
     self.contentView.backgroundColor = self.cellFooterView.backgroundColor = self.cellHeaderView.backgroundColor =
     self.contentContainerView.backgroundColor = self.contentTextView.backgroundColor =
     [settingCentre viewBackgroundColour];
-}
-
-- (void)highLight {
-    self.contentView.backgroundColor = self.contentTextView.backgroundColor = self.cellHeaderView.backgroundColor =
-    self.cellFooterView.backgroundColor = self.contentContainerView.backgroundColor = [UIColor groupTableViewBackgroundColor];
 }
 
 #pragma mark - custom menu action
@@ -192,11 +186,7 @@ static NSString * const showThreadWithID = @"showThreadWithID";
         self.contentTextView.attributedText = self.threadContent;
     }
     self.contentTextView.font = settingCentre.contentFont;
-    
-    // Highlight the selected user.
-    if (self.shouldHighlight) {
-        [self highLight];
-    }
+
     // TODO: should block content.
     // Images.
     UIImage *previewImage;
@@ -212,6 +202,7 @@ static NSString * const showThreadWithID = @"showThreadWithID";
     }
     [self setNeedsUpdateConstraints];
     // Header and footer.
+    self.cellHeaderView.highlightColour = self.highlightColour;
     self.cellHeaderView.parentUID = self.parentThread.UID;
     self.cellFooterView.thread = self.cellHeaderView.thread = self.thread;
 }

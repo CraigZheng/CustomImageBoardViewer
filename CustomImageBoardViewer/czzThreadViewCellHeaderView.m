@@ -19,12 +19,18 @@
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *flagImageView;
 
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
 @end
 // Default colour 168	123	65
 @implementation czzThreadViewCellHeaderView
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.flagImageView.image = [[UIImage imageNamed:@"flag"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
 
 #pragma mark - Setters
 
@@ -62,6 +68,19 @@
         }
 
     }
+}
+
+- (void)setHighlightColour:(UIColor *)highlightColour {
+    if (!highlightColour) {
+        self.flagImageView.hidden = YES;
+    } else {
+        self.flagImageView.hidden = NO;
+        self.flagImageView.tintColor = highlightColour;
+    }
+}
+
+- (UIColor *)highlightColour {
+    return self.flagImageView.tintColor;
 }
 
 #pragma mark - Getters

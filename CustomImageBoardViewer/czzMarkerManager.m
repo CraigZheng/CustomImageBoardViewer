@@ -106,6 +106,10 @@ static NSString * const markerBlockedFileName = @"marker_blocked.dat";
     }
 }
 
+- (BOOL)isHighlighted:(NSString *)UID {
+    return [self.highlightedUIDs containsObject:UID];
+}
+
 - (void)blockUID:(NSString *)UID {
     if (UID.length) {
         [self.blockedUIDs addObject:UID];

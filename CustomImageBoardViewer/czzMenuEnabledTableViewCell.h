@@ -51,7 +51,6 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 @property (weak, nonatomic) IBOutlet UIImageView *cellImageView;
 @property (strong, nonatomic) UIImage *placeholderImage;
 @property NSDictionary *downloadedImages;
-@property (assign, nonatomic) BOOL shouldHighlight;
 @property (assign, nonatomic) BOOL shouldBlock;
 @property (assign, nonatomic) BOOL shouldAllowClickOnImage;
 @property (nonatomic, strong) NSMutableArray *links;
@@ -61,6 +60,7 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 @property (nonatomic, assign) BOOL allowImage;
 @property (nonatomic, assign) BOOL nightyMode;
 @property (nonatomic, assign) threadViewCellType cellType;
+@property (nonatomic, strong) UIColor *highlightColour;
 
 - (void)renderContent;
 - (void)highLight;

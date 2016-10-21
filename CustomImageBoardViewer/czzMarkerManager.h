@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSMutableOrderedSet<NSString *> * _Nonnull pendingHighlightUIDs;
 
 - (void)prepareToHighlightUID:(NSString * _Nonnull)UID;
+- (BOOL)isHighlighted:(NSString * _Nonnull)UID;
 - (void)highlightUID:(NSString * _Nonnull)UID withColour:(UIColor * _Nonnull)colour;
 - (void)blockUID:(NSString * _Nonnull)UID;
 - (void)unHighlightUID:(NSString * _Nonnull)UID;

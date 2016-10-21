@@ -85,7 +85,6 @@
     
     czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell) {
-        cell.shouldHighlight = NO;
         cell.parentThread = self.myThread;
         cell.thread = self.myThread;
         cell.nightyMode = [settingCentre userDefNightyMode];

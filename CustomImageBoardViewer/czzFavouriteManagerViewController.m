@@ -97,7 +97,6 @@ static NSInteger const respondsHistoryIndex = 2;
     czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
     if (cell){
         cell.shouldAllowClickOnImage= NO;
-        cell.shouldHighlight = NO;
         cell.parentThread = thread;
         cell.thread = thread;
         cell.nightyMode = [settingCentre userDefNightyMode];
@@ -180,7 +179,7 @@ static NSInteger const respondsHistoryIndex = 2;
         // Updated threads have been viewed.
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
         if (WatchListManager.updatedThreads.count) {
-            [czzBannerNotificationUtil displayMessage:@"已高亮有更新的串"
+            [czzBannerNotificationUtil displayMessage:@"最顶上是有更新的串"
                                              position:BannerNotificationPositionTop];
         }
     }
