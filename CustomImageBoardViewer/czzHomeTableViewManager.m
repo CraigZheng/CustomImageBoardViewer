@@ -376,16 +376,20 @@ estimatedHeightForRowAtIndexPath:indexPath];
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
     if (success) {
         // If: not thumbnail, self is czzHomeTableViewManager, should auto open image.
-        if (!downloader.isThumbnail &&
-            [self isMemberOfClass:[czzHomeTableViewManager class]] &&
-            [settingCentre userDefShouldAutoOpenImage]) {
-            // If user is in big image mode, don't auto open image when auto download is on.
-            if ([settingCentre userDefShouldUseBigImage]) {
-                if (![settingCentre userDefShouldAutoDownloadImage]) {
+        if (!downloader.isThumbnail
+            && [self isMemberOfClass:[czzHomeTableViewManager class]]) {
+            if ([settingCentre userDefShouldAutoOpenImage]) {
+                // If user is in big image mode, don't auto open image when auto download is on.
+                if ([settingCentre userDefShouldUseBigImage]) {
+                    if (![settingCentre userDefShouldAutoDownloadImage]) {
+                        [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]];
+                    }
+                } else {
                     [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]];
                 }
-            } else {
-                [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]];
+            } else if (!settingCentre.userDefShouldUseBigImage && !settingCentre.shouldShowImageManagerButton) {
+                // When not automatically openning image, not big image mode and not showing image manager button, show a toast message to user instead.
+                [AppDelegate showToast:@"图片下载完毕"];
             }
         }
     } else
