@@ -20,6 +20,7 @@
 #import "czzTextSizeSelectorViewController.h"
 
 static NSString *textSizeSelectorSegue = @"textSizeSelector";
+static NSString *addMarkerSegue = @"AddMarker";
 
 @interface czzSettingsViewController ()<UIAlertViewDelegate, UIActionSheetDelegate, czzTextSizeSelectorViewControllerProtocol>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *debugBarButton;
@@ -216,6 +217,8 @@ static NSString *textSizeSelectorSegue = @"textSizeSelector";
             
         } else if ([command isEqualToString:@"作者主页"]) {
             [self openHomePage];
+        } else if ([command isEqualToString:@"标记管理器"]) {
+            [self performSegueWithIdentifier:addMarkerSegue sender:self];
         }
     }
 }
@@ -245,6 +248,7 @@ static NSString *textSizeSelectorSegue = @"textSizeSelector";
         [switchCommands addObject:@"Monitor Performance"];
     [regularCommands addObject:@"图片管理器"];
     [regularCommands addObject:@"饼干管理器"];
+    [regularCommands addObject:@"标记管理器"];
     [regularCommands addObject:@"清空缓存"];
 //    [regularCommands addObject:@"清除ID信息"];
     [regularCommands addObject:@"通知中心"];
