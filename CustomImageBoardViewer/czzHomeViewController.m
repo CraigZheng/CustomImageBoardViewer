@@ -120,6 +120,7 @@
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
     
     self.threadTableView.backgroundColor = settingCentre.viewBackgroundColour;
+    self.onScreenImageManagerViewContainer.hidden = !settingCentre.shouldShowImageManagerButton;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
