@@ -57,10 +57,10 @@
                                                               action:NSSelectorFromString(@"menuActionOpen:")];
         UIMenuItem *highlightMenuItem = [[UIMenuItem alloc] initWithTitle:@"标记..."
                                                                    action:NSSelectorFromString(@"menuActionHighlight:")];
-        UIMenuItem *blockMenuItem = [[UIMenuItem alloc] initWithTitle:@"屏蔽..."
-                                                               action:NSSelectorFromString(@"menuActionBlock:")];
+        UIMenuItem *reportMenuItem = [[UIMenuItem alloc] initWithTitle:@"举报"
+                                                               action:NSSelectorFromString(@"menuActionReport:")];
         //    UIMenuItem *searchMenuItem = [[UIMenuItem alloc] initWithTitle:@"搜索他" action:@selector(menuActionSearch:)];
-        [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, highlightMenuItem, /*searchMenuItem,*/ openMenuItem]];
+        [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, highlightMenuItem, reportMenuItem, /*searchMenuItem,*/ openMenuItem]];
         [[UIMenuController sharedMenuController] update];
         
         self.imageViewerUtil = [czzImageViewerUtil new];
@@ -403,6 +403,10 @@ estimatedHeightForRowAtIndexPath:indexPath];
 - (void)userWantsToReply:(czzThread *)thread inParentThread:(czzThread *)parentThread{
     DDLogDebug(@"%s : %@", __PRETTY_FUNCTION__, thread);
     [czzReplyUtil replyToThread:thread inParentThread:parentThread];
+}
+
+- (void)userWantsToReport:(czzThread *)thread inParentThread:(czzThread *)parentThread {
+    [czzReplyUtil reportThread:thread inParentThread:parentThread];
 }
 
 - (void)userWantsToHighlightUser:(NSString *)UID {
