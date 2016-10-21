@@ -177,6 +177,11 @@
                                                     <constraint firstAttribute="height" constant="30" id="539-j8-jTn"/>
                                                 </constraints>
                                             </imageView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poison.png" translatesAutoresizingMaskIntoConstraints="NO" id="7QI-wS-dg5">
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="7QI-wS-dg5" secondAttribute="height" multiplier="1:1" id="tgW-dh-8Hn"/>
+                                                </constraints>
+                                            </imageView>
                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="7.5" minValue="0.5" maxValue="13.5" translatesAutoresizingMaskIntoConstraints="NO" id="UC8-TW-GsA">
                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <color key="minimumTrackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -185,11 +190,6 @@
                                                     <action selector="colourSliderValueChanged:" destination="OJY-AR-buc" eventType="valueChanged" id="2YB-ub-VLi"/>
                                                 </connections>
                                             </slider>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poison.png" translatesAutoresizingMaskIntoConstraints="NO" id="7QI-wS-dg5">
-                                                <constraints>
-                                                    <constraint firstAttribute="width" secondItem="7QI-wS-dg5" secondAttribute="height" multiplier="1:1" id="tgW-dh-8Hn"/>
-                                                </constraints>
-                                            </imageView>
                                         </subviews>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -205,16 +205,16 @@
                                             <constraint firstItem="7QI-wS-dg5" firstAttribute="top" secondItem="20B-Ih-f2W" secondAttribute="top" constant="4" id="xpc-Mq-2aV"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="79n-w9-ff1">
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poison.png" translatesAutoresizingMaskIntoConstraints="NO" id="67q-5u-Nep">
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="67q-5u-Nep" secondAttribute="height" multiplier="1:1" id="DOi-Qr-QFn"/>
                                         </constraints>
                                     </imageView>
+                                    <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="79n-w9-ff1">
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="flag.png" translatesAutoresizingMaskIntoConstraints="NO" id="8H0-lo-k1T">
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="8H0-lo-k1T" secondAttribute="height" multiplier="1:1" id="IZg-ib-iCQ"/>
@@ -239,17 +239,24 @@
                                     <constraint firstItem="8H0-lo-k1T" firstAttribute="centerY" secondItem="79n-w9-ff1" secondAttribute="centerY" id="taO-ci-udJ"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yBq-4k-goa" userLabel="Filler View">
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="ecG-kl-Ion" appends="YES" id="yiL-fv-INX"/>
+                                </connections>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.15761325503355705" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="yBq-4k-goa" secondAttribute="trailing" id="1Gt-2L-hun"/>
                             <constraint firstItem="3mK-nv-Z5C" firstAttribute="height" secondItem="mJr-x1-wT5" secondAttribute="height" multiplier="1:2" id="9e9-1E-896"/>
                             <constraint firstItem="mRI-X3-RbR" firstAttribute="top" secondItem="3mK-nv-Z5C" secondAttribute="bottom" id="Sq7-fR-pcs"/>
+                            <constraint firstItem="3mK-nv-Z5C" firstAttribute="top" secondItem="yBq-4k-goa" secondAttribute="bottom" id="WUl-R4-dzw"/>
+                            <constraint firstItem="yBq-4k-goa" firstAttribute="top" secondItem="DeH-tQ-SQS" secondAttribute="bottom" id="Z54-LB-NJ9"/>
+                            <constraint firstItem="yBq-4k-goa" firstAttribute="leading" secondItem="mJr-x1-wT5" secondAttribute="leading" id="p8d-vt-OAB"/>
                             <constraint firstAttribute="trailing" secondItem="3mK-nv-Z5C" secondAttribute="trailing" id="ya2-47-a78"/>
                             <constraint firstItem="3mK-nv-Z5C" firstAttribute="leading" secondItem="mJr-x1-wT5" secondAttribute="leading" id="yzY-h2-CbF"/>
                         </constraints>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="ecG-kl-Ion" appends="YES" id="U8I-A7-HVT"/>
-                        </connections>
                     </view>
                     <connections>
                         <outlet property="flagImageView" destination="8H0-lo-k1T" id="BCB-rs-nIZ"/>
