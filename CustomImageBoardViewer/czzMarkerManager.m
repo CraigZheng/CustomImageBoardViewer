@@ -12,6 +12,7 @@
 
 static NSString * const markerHighlightedFileName = @"marker_highlighted.dat";
 static NSString * const markerBlockedFileName = @"marker_blocked.dat";
+NSString * const MarkerManagerDidUpdateNotification = @"MarkerManagerDidUpdateNotification";
 
 @interface czzMarkerManager()
 
@@ -51,6 +52,8 @@ static NSString * const markerBlockedFileName = @"marker_blocked.dat";
         DLog(@"Failed to save highlightedUIDs.");
         success = NO;
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:MarkerManagerDidUpdateNotification
+                                                        object:nil];
     return success;
 }
 

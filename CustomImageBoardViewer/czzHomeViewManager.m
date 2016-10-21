@@ -24,8 +24,18 @@
     self = [super init];
     if (self) {
         self.pageNumber = self.totalPages = 1;
+        [[NSNotificationCenter defaultCenter] addObserverForName:MarkerManagerDidUpdateNotification
+                                                          object:nil
+                                                           queue:[NSOperationQueue mainQueue]
+                                                      usingBlock:^(NSNotification * _Nonnull note) {
+                                                          [self reloadData];
+                                                      }];
     }
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - state perserving/restoring

@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+extern NSString * _Nonnull const MarkerManagerDidUpdateNotification;
+
 @interface czzMarkerManager : NSObject
 @property (nonatomic, strong) NSMutableOrderedSet<NSString *> * _Nonnull blockedUIDs;
 @property (nonatomic, strong) NSMutableOrderedSet<NSString *> * _Nonnull highlightedUIDs;
