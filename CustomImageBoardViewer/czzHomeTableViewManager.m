@@ -308,18 +308,29 @@ estimatedHeightForRowAtIndexPath:indexPath];
 }
 
 #pragma mark - czzMenuEnableTableViewCellDelegate
--(void)userTapInImageView:(NSString *)imgURL {
-    // If image exists
-    if ([[czzImageCacheManager sharedInstance] hasImageWithName:imgURL.lastPathComponent]) {
-        [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:imgURL.lastPathComponent]];
-        return;
-    }
-    
-    // Image not found in local storage, start or stop the image downloader with the image URL
-    if ([[czzImageDownloaderManager sharedManager] isImageDownloading:imgURL.lastPathComponent]) {
-        [[czzImageDownloaderManager sharedManager] stopDownloadingImage:imgURL.lastPathComponent];
-    } else {
-        [[czzImageDownloaderManager sharedManager] downloadImageWithURL:imgURL isThumbnail:NO];
+-(void)userTapInImageView:(id)sender {
+    UITableViewCell *cell;
+    if ([sender isKindOfClass:[UITableViewCell class]]) {
+        cell = (UITableViewCell *)sender;
+        // Get indexPath, then the corresponding threads from it.
+        NSIndexPath *indexPath = [self.homeTableView indexPathForCell:cell];
+        if (indexPath && indexPath.row < self.homeViewManager.threads.count) {
+            NSString *imgURL = [self.homeViewManager.threads[indexPath.row] imgSrc];
+            if (imgURL.length) {
+                // If image exists
+                if ([[czzImageCacheManager sharedInstance] hasImageWithName:imgURL.lastPathComponent]) {
+                    [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:imgURL.lastPathComponent]];
+                    return;
+                }
+                
+                // Image not found in local storage, start or stop the image downloader with the image URL
+                if ([[czzImageDownloaderManager sharedManager] isImageDownloading:imgURL.lastPathComponent]) {
+                    [[czzImageDownloaderManager sharedManager] stopDownloadingImage:imgURL.lastPathComponent];
+                } else {
+                    [[czzImageDownloaderManager sharedManager] downloadImageWithURL:imgURL isThumbnail:NO];
+                }
+            }
+        }
     }
 }
 
