@@ -129,6 +129,7 @@
                                 <connections>
                                     <outlet property="_imageView" destination="dYD-jk-tOZ" id="g4G-zI-pZd"/>
                                     <outlet property="_textLabel" destination="qGq-59-MVy" id="yKb-be-t7G"/>
+                                    <segue destination="OJY-AR-buc" kind="presentation" modalPresentationStyle="overFullScreen" id="QIb-F8-hRS"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -250,6 +251,6 @@
         <image name="poison.png" width="100" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="WaH-M3-MMb"/>
+        <segue reference="Xhw-BS-nTc"/>
     </inferredMetricsTieBreakers>
 </document>

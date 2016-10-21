@@ -46,6 +46,7 @@ class MarkerColourPickerViewController: UIViewController {
             let selectedColour = self.selectedColour {
             if selectedColour == lastColour {
                 czzMarkerManager.sharedInstance().pendingHighlightUIDs.remove(UID)
+                czzMarkerManager.sharedInstance().unHighlightUID(UID)
                 czzMarkerManager.sharedInstance().blockUID(UID)
             } else {
                 czzMarkerManager.sharedInstance().unBlockUID(UID)

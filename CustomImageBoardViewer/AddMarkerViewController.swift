@@ -88,6 +88,14 @@ extension AddMarkerViewController {
         return 3
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch Section(rawValue: section)! {
+        case .pending: return czzMarkerManager.sharedInstance().pendingHighlightUIDs.count == 0 ? nil : "待定"
+        case .defined: return czzMarkerManager.sharedInstance().highlightedUIDs.count == 0 ? nil : "标记"
+        case .blocked: return czzMarkerManager.sharedInstance().blockedUIDs.count == 0 ? nil : "屏蔽"
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch Section(rawValue: section)! {
         case .pending: return czzMarkerManager.sharedInstance().pendingHighlightUIDs.count
