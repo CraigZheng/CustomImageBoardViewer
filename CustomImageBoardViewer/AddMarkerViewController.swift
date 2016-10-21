@@ -122,15 +122,21 @@ extension AddMarkerViewController {
             cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.blockedCell, for: indexPath)
             UID = czzMarkerManager.sharedInstance().blockedUIDs[indexPath.row] as? String
         }
-        cell.textLabel?.textColor = czzSettingsCentre.sharedInstance().contentTextColour()
         cell.detailTextLabel?.text = "请选择颜色..."
+        cell.contentView.backgroundColor = czzSettingsCentre.sharedInstance().viewBackgroundColour()
+        cell.backgroundColor = cell.contentView.backgroundColor
         if let UID = UID {
             cell.textLabel?.text = UID
-            if let cell = cell as? UIDColourPairCellTableViewCell,
-                let colour = czzMarkerManager.sharedInstance().highlightColour(forUID: UID) {
-                // Assign an image as the template for cell.imageView.
-                cell.imageView?.image = UIImage.init(named: "flag")?.withRenderingMode(.alwaysTemplate)
-                cell.imageView?.tintColor = colour
+            if let cell = cell as? UIDColourPairCellTableViewCell {
+                if czzMarkerManager.sharedInstance().isUIDBlocked(UID) {
+                    // Assign the skeleton image.
+                    cell.imageView?.image = UIImage.init(named: "flag")?.withRenderingMode(.alwaysTemplate)
+                    cell.imageView?.tintColor = UIColor.lightGray
+                } else if let colour = czzMarkerManager.sharedInstance().highlightColour(forUID: UID) {
+                    // Assign an image as the template for cell.imageView.
+                    cell.imageView?.image = UIImage.init(named: "flag")?.withRenderingMode(.alwaysTemplate)
+                    cell.imageView?.tintColor = colour
+                }
             }
         }
         return cell

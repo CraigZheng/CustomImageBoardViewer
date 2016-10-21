@@ -271,6 +271,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
         if ([[czzMarkerManager sharedInstance] isUIDBlocked:thread.UID]) {
             cell.shouldBlock = YES;
             cell.allowImage = NO;
+            cell.highlightColour = [UIColor lightGrayColor];
         } else {
             cell.shouldBlock = NO;
             cell.allowImage = [settingCentre userDefShouldDisplayThumbnail];
