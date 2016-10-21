@@ -147,7 +147,7 @@ static NSString * const showThreadWithID = @"showThreadWithID";
 
 - (void)menuActionReport:(id)sender {
     if ([self.delegate respondsToSelector:@selector(userWantsToReport:inParentThread:)]) {
-        [self.delegate userWantsToReport:self.thread inParentThread:self.parentThread];
+        [self.delegate userWantsToReport:self.thread inParentThread:self.parentThread ? self.parentThread : self.thread];
     }
 }
 
