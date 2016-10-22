@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -11,25 +12,20 @@
             <rect key="frame" x="0.0" y="0.0" width="322" height="316"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" horizontalCompressionResistancePriority="1000" tableViewCell="NOy-2g-EB3" id="9cm-8t-iZh">
-                <rect key="frame" x="0.0" y="0.0" width="322" height="315.5"/>
+                <frame key="frameInset" width="322" height="315.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" placeholderIntrinsicWidth="322" placeholderIntrinsicHeight="20" translatesAutoresizingMaskIntoConstraints="NO" id="znW-9G-MCS" customClass="czzThreadViewCellHeaderView">
-                        <rect key="frame" x="20" y="0.0" width="282" height="20"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <view contentMode="scaleToFill" placeholderIntrinsicWidth="322" placeholderIntrinsicHeight="20" translatesAutoresizingMaskIntoConstraints="NO" id="Az2-MV-Wjk" customClass="czzThreadViewCellFooterView">
-                        <rect key="frame" x="20" y="293" width="282" height="20"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dl3-ZB-btB" userLabel="Content Container View">
-                        <rect key="frame" x="0.0" y="20" width="322" height="163.5"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="szk-P5-Rsx" userLabel="Image View Container">
-                                <rect key="frame" x="0.0" y="33" width="322" height="130"/>
                                 <subviews>
                                     <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="40.png" translatesAutoresizingMaskIntoConstraints="NO" id="cFu-AH-Mz3">
-                                        <rect key="frame" x="0.0" y="0.0" width="322" height="130"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="oda-0X-mU8"/>
                                         </constraints>
@@ -39,11 +35,9 @@
                                             </mask>
                                         </variation>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon-72.png" translatesAutoresizingMaskIntoConstraints="NO" id="Xhk-e8-ugo" userLabel="Thumbnail Image View">
-                                        <rect key="frame" x="0.0" y="0.0" width="322" height="72"/>
-                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon-72.png" translatesAutoresizingMaskIntoConstraints="NO" id="Xhk-e8-ugo" userLabel="Thumbnail Image View"/>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="Xhk-e8-ugo" secondAttribute="trailing" id="1EQ-f6-Q4o"/>
                                     <constraint firstItem="cFu-AH-Mz3" firstAttribute="leading" secondItem="szk-P5-Rsx" secondAttribute="leading" id="3xi-eq-4he"/>
@@ -57,8 +51,7 @@
                                 </constraints>
                             </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" delaysContentTouches="NO" canCancelContentTouches="NO" editable="NO" text="Text content" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="RNZ-2t-GD0" customClass="czzThreadTextView">
-                                <rect key="frame" x="0.0" y="0.0" width="322" height="33"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
@@ -67,7 +60,7 @@
                                 </connections>
                             </textView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="szk-P5-Rsx" firstAttribute="leading" secondItem="Dl3-ZB-btB" secondAttribute="leading" id="AZf-BA-ZRM"/>
                             <constraint firstAttribute="trailing" secondItem="szk-P5-Rsx" secondAttribute="trailing" id="KTV-JK-89b"/>
@@ -95,17 +88,16 @@
                         </variation>
                     </view>
                     <view contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Vp1-FL-LTe" userLabel="Bottom Separator">
-                        <rect key="frame" x="20" y="313" width="302" height="2"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="2" id="yhv-x1-84H"/>
                         </constraints>
                     </view>
                 </subviews>
-                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="Vp1-FL-LTe" secondAttribute="bottom" id="0kE-0d-Hyh"/>
-                    <constraint firstItem="znW-9G-MCS" firstAttribute="leading" secondItem="9cm-8t-iZh" secondAttribute="leading" constant="20" symbolic="YES" id="9Jb-8C-A1a"/>
+                    <constraint firstItem="znW-9G-MCS" firstAttribute="leading" secondItem="9cm-8t-iZh" secondAttribute="leading" constant="4" id="9Jb-8C-A1a"/>
                     <constraint firstAttribute="trailing" secondItem="Vp1-FL-LTe" secondAttribute="trailing" id="Dqz-71-udc"/>
                     <constraint firstAttribute="trailing" secondItem="Az2-MV-Wjk" secondAttribute="trailing" constant="20" symbolic="YES" id="FTj-gt-x9f"/>
                     <constraint firstItem="Vp1-FL-LTe" firstAttribute="leading" secondItem="9cm-8t-iZh" secondAttribute="leading" constant="20" symbolic="YES" id="G5O-89-yiG"/>
@@ -115,7 +107,7 @@
                     <constraint firstItem="Dl3-ZB-btB" firstAttribute="top" secondItem="znW-9G-MCS" secondAttribute="bottom" id="Qfa-ed-LnA"/>
                     <constraint firstItem="Vp1-FL-LTe" firstAttribute="top" secondItem="Az2-MV-Wjk" secondAttribute="bottom" id="X6I-7z-3Wh"/>
                     <constraint firstAttribute="trailing" secondItem="Dl3-ZB-btB" secondAttribute="trailing" id="Yyi-Lv-2qE"/>
-                    <constraint firstAttribute="trailing" secondItem="znW-9G-MCS" secondAttribute="trailing" constant="20" symbolic="YES" id="uTU-IC-1rv"/>
+                    <constraint firstAttribute="trailing" secondItem="znW-9G-MCS" secondAttribute="trailing" constant="4" id="uTU-IC-1rv"/>
                     <constraint firstItem="Az2-MV-Wjk" firstAttribute="leading" secondItem="9cm-8t-iZh" secondAttribute="leading" constant="20" symbolic="YES" id="ueu-4r-M5B"/>
                 </constraints>
             </tableViewCellContentView>

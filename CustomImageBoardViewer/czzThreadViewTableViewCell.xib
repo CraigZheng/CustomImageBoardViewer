@@ -80,10 +80,10 @@
                 <constraints>
                     <constraint firstItem="61C-Fc-Xdc" firstAttribute="top" secondItem="5oH-Lv-7NW" secondAttribute="bottom" id="9El-5K-HcY"/>
                     <constraint firstItem="DN5-G9-KwB" firstAttribute="leading" secondItem="lgC-X4-SAR" secondAttribute="leading" constant="20" symbolic="YES" id="C6E-Eu-Esi"/>
-                    <constraint firstItem="5oH-Lv-7NW" firstAttribute="leading" secondItem="lgC-X4-SAR" secondAttribute="leading" constant="20" symbolic="YES" id="FFk-fO-Yky"/>
+                    <constraint firstItem="5oH-Lv-7NW" firstAttribute="leading" secondItem="lgC-X4-SAR" secondAttribute="leading" constant="4" id="FFk-fO-Yky"/>
                     <constraint firstAttribute="trailing" secondItem="obq-Bg-pDf" secondAttribute="trailing" id="Gzy-Fo-YjH"/>
                     <constraint firstItem="61C-Fc-Xdc" firstAttribute="leading" secondItem="lgC-X4-SAR" secondAttribute="leading" id="HOj-mE-PGz"/>
-                    <constraint firstAttribute="trailing" secondItem="5oH-Lv-7NW" secondAttribute="trailing" constant="20" symbolic="YES" id="MaZ-Ed-gwx"/>
+                    <constraint firstAttribute="trailing" secondItem="5oH-Lv-7NW" secondAttribute="trailing" constant="4" id="MaZ-Ed-gwx"/>
                     <constraint firstAttribute="bottom" secondItem="obq-Bg-pDf" secondAttribute="bottom" id="N9S-Ej-OFG"/>
                     <constraint firstItem="obq-Bg-pDf" firstAttribute="top" secondItem="DN5-G9-KwB" secondAttribute="bottom" id="Uze-Rx-eX4"/>
                     <constraint firstItem="obq-Bg-pDf" firstAttribute="leading" secondItem="lgC-X4-SAR" secondAttribute="leading" constant="20" symbolic="YES" id="Zao-GO-AQn"/>
