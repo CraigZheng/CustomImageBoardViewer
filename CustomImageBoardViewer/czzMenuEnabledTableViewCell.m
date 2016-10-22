@@ -94,7 +94,8 @@ static NSString * const showThreadWithID = @"showThreadWithID";
             action == @selector(menuActionCopy:)
             || action == @selector(menuActionHighlight:)
             || action == @selector(menuActionSearch:)
-            || action == @selector(menuActionBlock:));
+            || action == @selector(menuActionBlock:)
+            || action == @selector(menuActionReport:));
 }
 
 -(BOOL)canBecomeFirstResponder{
@@ -125,7 +126,7 @@ static NSString * const showThreadWithID = @"showThreadWithID";
 
 -(void)menuActionReply:(id)sender{
     if ([self.delegate respondsToSelector:@selector(userWantsToReply:inParentThread:)]) {
-        [self.delegate userWantsToReply:self.thread inParentThread:self.parentThread];
+        [self.delegate userWantsToReply:self.thread inParentThread:self.parentThread ? self.parentThread : self.thread];
     }
 }
 
@@ -142,6 +143,12 @@ static NSString * const showThreadWithID = @"showThreadWithID";
     self.openLinkActionSheet.cancelButtonIndex = self.links.count;
     
     [self.openLinkActionSheet showInView:self.superview];
+}
+
+- (void)menuActionReport:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(userWantsToReport:inParentThread:)]) {
+        [self.delegate userWantsToReport:self.thread inParentThread:self.parentThread ? self.parentThread : self.thread];
+    }
 }
 
 -(void)menuActionHighlight:(id)sender {

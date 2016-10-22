@@ -24,20 +24,6 @@
 -(instancetype)init {
     self = [super init];
     if (self) {
-        //set up custom edit menu
-        UIMenuItem *replyMenuItem = [[UIMenuItem alloc] initWithTitle:@"回复"
-                                                               action:NSSelectorFromString(@"menuActionReply:")];
-        UIMenuItem *copyMenuItem = [[UIMenuItem alloc] initWithTitle:@"复制..."
-                                                              action:NSSelectorFromString(@"menuActionCopy:")];
-        UIMenuItem *openMenuItem = [[UIMenuItem alloc] initWithTitle:@"打开链接"
-                                                              action:NSSelectorFromString(@"menuActionOpen:")];
-        UIMenuItem *highlightMenuItem = [[UIMenuItem alloc] initWithTitle:@"标记..."
-                                                                   action:NSSelectorFromString(@"menuActionHighlight:")];
-        UIMenuItem *blockMenuItem = [[UIMenuItem alloc] initWithTitle:@"屏蔽..."
-                                                               action:NSSelectorFromString(@"menuActionBlock:")];
-        //    UIMenuItem *searchMenuItem = [[UIMenuItem alloc] initWithTitle:@"搜索他" action:@selector(menuActionSearch:)];
-        [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, highlightMenuItem, /*searchMenuItem,*/ openMenuItem]];
-        [[UIMenuController sharedMenuController] update];
         // Rotation observer - remove the container view.
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(handleRotationEvent)
@@ -197,23 +183,6 @@
 
     // Thread not found in the downloaded thread, get it from server instead.
     [super userTapInQuotedText:text];
-}
-
-- (void)userWantsToReply:(czzThread *)thread inParentThread:(czzThread *)parentThread{
-    DDLogDebug(@"%s : %@", __PRETTY_FUNCTION__, thread);
-    [czzReplyUtil replyToThread:thread inParentThread:parentThread];
-}
-
-- (void)userWantsToHighlightUser:(NSString *)UID {
-    [self.threadViewManager highlightUID:UID];
-}
-
-- (void)userWantsToBlockUser:(NSString *)UID {
-    [self.threadViewManager blockUID:UID];
-}
-
-- (void)userWantsToSearch:(czzThread *)thread {
-    DDLogDebug(@"%s : NOT IMPLEMENTED", __PRETTY_FUNCTION__);
 }
 
 #pragma mark - Rotation event.

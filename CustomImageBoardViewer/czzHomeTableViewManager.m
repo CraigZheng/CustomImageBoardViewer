@@ -48,6 +48,21 @@
 -(instancetype)init {
     self = [super init];
     if (self) {
+        //set up custom edit menu
+        UIMenuItem *replyMenuItem = [[UIMenuItem alloc] initWithTitle:@"回复"
+                                                               action:NSSelectorFromString(@"menuActionReply:")];
+        UIMenuItem *copyMenuItem = [[UIMenuItem alloc] initWithTitle:@"复制..."
+                                                              action:NSSelectorFromString(@"menuActionCopy:")];
+        UIMenuItem *openMenuItem = [[UIMenuItem alloc] initWithTitle:@"打开链接"
+                                                              action:NSSelectorFromString(@"menuActionOpen:")];
+        UIMenuItem *highlightMenuItem = [[UIMenuItem alloc] initWithTitle:@"标记..."
+                                                                   action:NSSelectorFromString(@"menuActionHighlight:")];
+        UIMenuItem *reportMenuItem = [[UIMenuItem alloc] initWithTitle:@"举报"
+                                                               action:NSSelectorFromString(@"menuActionReport:")];
+        //    UIMenuItem *searchMenuItem = [[UIMenuItem alloc] initWithTitle:@"搜索他" action:@selector(menuActionSearch:)];
+        [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, highlightMenuItem, reportMenuItem, /*searchMenuItem,*/ openMenuItem]];
+        [[UIMenuController sharedMenuController] update];
+        
         self.imageViewerUtil = [czzImageViewerUtil new];
         self.pendingBulkUpdateIndexes = [NSMutableOrderedSet new];
         [[czzImageDownloaderManager sharedManager] addDelegate:self];
@@ -81,6 +96,22 @@
 }
 
 #pragma mark - UITableViewDelegate
+
+- (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row < self.homeViewManager.threads.count) {
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender{
+    return (action == @selector(copy:));
+}
+
+- (void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender{
+    
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (!self.homeTableView) {
         self.homeTableView = (czzThreadTableView*)tableView;
@@ -367,6 +398,27 @@ estimatedHeightForRowAtIndexPath:indexPath];
             }
         });
     });
+}
+
+- (void)userWantsToReply:(czzThread *)thread inParentThread:(czzThread *)parentThread{
+    DDLogDebug(@"%s : %@", __PRETTY_FUNCTION__, thread);
+    [czzReplyUtil replyToThread:thread inParentThread:parentThread];
+}
+
+- (void)userWantsToReport:(czzThread *)thread inParentThread:(czzThread *)parentThread {
+    [czzReplyUtil reportThread:thread inParentThread:parentThread];
+}
+
+- (void)userWantsToHighlightUser:(NSString *)UID {
+    [self.homeViewManager highlightUID:UID];
+}
+
+- (void)userWantsToBlockUser:(NSString *)UID {
+    [self.homeViewManager blockUID:UID];
+}
+
+- (void)userWantsToSearch:(czzThread *)thread {
+    DDLogDebug(@"%s : NOT IMPLEMENTED", __PRETTY_FUNCTION__);
 }
 
 - (void)threadViewCellContentChanged:(czzMenuEnabledTableViewCell *)cell {
