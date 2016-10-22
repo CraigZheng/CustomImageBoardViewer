@@ -64,7 +64,6 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 @property (nonatomic, strong) UIColor *highlightColour;
 
 - (void)renderContent;
-- (void)highLight;
 - (void)tapOnImageView:(id)sender;
 
 #pragma mark - Menu actions.

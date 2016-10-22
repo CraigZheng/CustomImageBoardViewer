@@ -102,13 +102,6 @@ static NSInteger const respondsHistoryIndex = 2;
         cell.nightyMode = [settingCentre userDefNightyMode];
         [cell renderContent]; // Render content must be done manually.
     }
-    if (selectedManager == WatchListManager) {
-        for (czzThread *updatedThread in WatchListManager.updatedThreads) {
-            if (updatedThread.ID == thread.ID) {
-                [cell highLight];
-            }
-        }
-    }
     return cell;
 }
 
@@ -179,7 +172,7 @@ static NSInteger const respondsHistoryIndex = 2;
         // Updated threads have been viewed.
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
         if (WatchListManager.updatedThreads.count) {
-            [czzBannerNotificationUtil displayMessage:@"最顶上是有更新的串"
+            [czzBannerNotificationUtil displayMessage:@"已置顶有更新的串"
                                              position:BannerNotificationPositionTop];
         }
     }
