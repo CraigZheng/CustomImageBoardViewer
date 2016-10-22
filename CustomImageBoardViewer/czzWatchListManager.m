@@ -29,6 +29,7 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 @property (nonatomic, strong) czzThreadViewManager *threadViewManager;
 @property (nonatomic, strong) czzThreadDownloader *threadDownloader;
 @property (nonatomic, readonly) NSString *watchlistFilePath;
+@property (nonatomic, strong) NSMutableArray *downloadedThreads;
 
 @end
 
@@ -181,29 +182,35 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
     self.isDownloading = YES;
     self.updatedThreads = [NSMutableArray new];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        // Since the content of watchedThreads might be mutabled, use its [self.watchedThreads copy] instead.
-        NSDate *startDate = [NSDate new];
-        
-        for (czzThread *thread in [self.watchedThreads copy]) {
-            if (thread.ID > 0) {
+    // Since the content of watchedThreads might be mutabled, use its [self.watchedThreads copy] instead.
+    NSDate *startDate = [NSDate new];
+    self.downloadedThreads = [NSMutableArray new];
+    for (czzThread *thread in [self.watchedThreads copy]) {
+        if (thread.ID > 0) {
+            // Each thread would be downloaded within its own background thread.
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                 NSInteger originalResponseCount = thread.responseCount;
                 NSInteger originalThreadID = thread.ID;
                 czzThread *newThread = [[czzThread alloc] initWithParentID:originalThreadID];
-                // If the updated thread has more replies than the recorded thread.
-                if (newThread.responseCount > originalResponseCount) {
-                    [self.updatedThreads addObject:newThread];
-                }
-            }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    // Record the newly downloaded thread.
+                    [self.downloadedThreads addObject:newThread];
+                    // If the updated thread has more replies than the recorded thread.
+                    if (newThread.responseCount > originalResponseCount) {
+                        [self.updatedThreads addObject:newThread];
+                    }
+                    // If self.downloadedThreads has same number of threads as self.watchedThreads, the downloading is completed.
+                    if (self.downloadedThreads.count >= self.watchedThreads.count) {
+                        [self updateWatchedThreadsWithThreads:self.updatedThreads];
+                        self.isDownloading = NO;
+                        DDLogDebug(@"%ld threads downloaded in %.1f seconds, %ld threads have new content", (long)self.watchedThreads.count, [[NSDate new] timeIntervalSinceDate:startDate], (long)self.updatedThreads.count);
+                        completionHandler(self.updatedThreads);
+                        [self saveState];
+                    }
+                });
+            });
         }
-        [self updateWatchedThreadsWithThreads:self.updatedThreads];
-        self.isDownloading = NO;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            DDLogDebug(@"%ld threads downloaded in %.1f seconds, %ld threads have new content", (long)self.watchedThreads.count, [[NSDate new] timeIntervalSinceDate:startDate], (long)self.updatedThreads.count);
-            completionHandler(self.updatedThreads);
-            [self saveState];
-        });
-    });
+    }
 }
 
 -(void)updateWatchedThreadsWithThreads:(NSArray*)updatedThreads {
