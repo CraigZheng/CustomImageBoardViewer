@@ -173,7 +173,23 @@ NSString * const kPickedForum = @"PickedForum";
         if (indexPath.row < forumGroup.forums.count) {
             UILabel *titleLabel = (UILabel*)[cell viewWithTag:1];
             titleLabel.textColor = [settingCentre contentTextColour];
-            [titleLabel setText:[[forumGroup.forums objectAtIndex:indexPath.row] name]];
+            czzForum *forum = forumGroup.forums[indexPath.row];
+            NSString *displayName = forum.screenName.length ? forum.screenName : forum.name;
+            @try {
+                // Render the displayName as HTML, if anything goes wrong, set it as plain text instead.
+                NSMutableAttributedString *attributedDisplayName = [[NSMutableAttributedString alloc] initWithData: [displayName dataUsingEncoding:NSUTF8StringEncoding]
+                                                                                                           options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+                                                                                                                     NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
+                                                                                                documentAttributes:nil
+                                                                                                             error:nil];
+                [attributedDisplayName addAttribute:NSFontAttributeName
+                                              value:titleLabel.font
+                                              range:NSMakeRange(0, attributedDisplayName.length)];
+                titleLabel.attributedText = attributedDisplayName;
+            } @catch (NSException *exception) {
+                DLog(@"%@", exception);
+                titleLabel.text = displayName;
+            }
         } else {
             cell = [tableView dequeueReusableCellWithIdentifier:@"ad_cell_identifier" forIndexPath:indexPath];
             //position of the ad

@@ -17,6 +17,7 @@
         if (jsonDict) {
             @try {
                 self.name = [self readFromJsonDictionary:jsonDict withName:@"name"];
+                self.screenName = [self readFromJsonDictionary:jsonDict withName:@"showName"];
                 self.header = [self readFromJsonDictionary:jsonDict withName:@"msg"];
                 self.lock = [[self readFromJsonDictionary:jsonDict withName:@"lock"] boolValue];
                 self.cooldown = [[self readFromJsonDictionary:jsonDict withName:@"interval"] integerValue];
