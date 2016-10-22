@@ -29,7 +29,7 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 @property (nonatomic, strong) czzThreadViewManager *threadViewManager;
 @property (nonatomic, strong) czzThreadDownloader *threadDownloader;
 @property (nonatomic, readonly) NSString *watchlistFilePath;
-@property (nonatomic, strong) NSMutableArray *downloadedThreads;
+@property (nonatomic, assign) NSInteger downloadedCount;
 
 @end
 
@@ -184,7 +184,7 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
     
     // Since the content of watchedThreads might be mutabled, use its [self.watchedThreads copy] instead.
     NSDate *startDate = [NSDate new];
-    self.downloadedThreads = [NSMutableArray new];
+    self.downloadedCount = 0;
     for (czzThread *thread in [self.watchedThreads copy]) {
         if (thread.ID > 0) {
             // Each thread would be downloaded within its own background thread.
@@ -194,13 +194,13 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
                 czzThread *newThread = [[czzThread alloc] initWithParentID:originalThreadID];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     // Record the newly downloaded thread.
-                    [self.downloadedThreads addObject:newThread];
+                    self.downloadedCount ++;
                     // If the updated thread has more replies than the recorded thread.
                     if (newThread.responseCount > originalResponseCount) {
                         [self.updatedThreads addObject:newThread];
                     }
                     // If self.downloadedThreads has same number of threads as self.watchedThreads, the downloading is completed.
-                    if (self.downloadedThreads.count >= self.watchedThreads.count) {
+                    if (self.downloadedCount >= self.watchedThreads.count) {
                         [self updateWatchedThreadsWithThreads:self.updatedThreads];
                         self.isDownloading = NO;
                         DDLogDebug(@"%ld threads downloaded in %.1f seconds, %ld threads have new content", (long)self.watchedThreads.count, [[NSDate new] timeIntervalSinceDate:startDate], (long)self.updatedThreads.count);
