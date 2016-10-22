@@ -35,7 +35,7 @@
 
 - (UINavigationController *)leftViewController {
     if (!_leftViewController) {
-        _leftViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"left_side_view_controller"];
+        _leftViewController = [[UIStoryboard storyboardWithName:@"ForumSelector" bundle:nil] instantiateInitialViewController];
     }
     return _leftViewController;
 }

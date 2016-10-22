@@ -343,6 +343,7 @@
 		44DAB4391CA4FE7B00BDE05A /* download@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44DAB4361CA4FE3C00BDE05A /* download@2x.png */; };
 		44DDC7FA1DB8A5A6001A569D /* UIDColourPairCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DDC7F91DB8A5A6001A569D /* UIDColourPairCellTableViewCell.swift */; };
 		44DDC7FC1DB8A6BF001A569D /* flag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44DDC7FB1DB8A6BF001A569D /* flag@2x.png */; };
+		44DDC7FE1DBB5660001A569D /* ForumSelector.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44DDC7FD1DBB5660001A569D /* ForumSelector.storyboard */; };
 		44DF8ED31A74CAAA0097F7F5 /* czzCookieManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44DF8ED21A74CAAA0097F7F5 /* czzCookieManager.m */; };
 		44DF8EDA1A74D0F00097F7F5 /* czzACTokenUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44DF8ED91A74D0F00097F7F5 /* czzACTokenUtil.m */; };
 		44DF8EDB1A74D0F00097F7F5 /* czzACTokenUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44DF8ED91A74D0F00097F7F5 /* czzACTokenUtil.m */; };
@@ -1003,6 +1004,7 @@
 		44DAB4361CA4FE3C00BDE05A /* download@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "download@2x.png"; sourceTree = "<group>"; };
 		44DDC7F91DB8A5A6001A569D /* UIDColourPairCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDColourPairCellTableViewCell.swift; sourceTree = "<group>"; };
 		44DDC7FB1DB8A6BF001A569D /* flag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flag@2x.png"; sourceTree = "<group>"; };
+		44DDC7FD1DBB5660001A569D /* ForumSelector.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ForumSelector.storyboard; sourceTree = "<group>"; };
 		44DF8ED11A74CAAA0097F7F5 /* czzCookieManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzCookieManager.h; sourceTree = "<group>"; };
 		44DF8ED21A74CAAA0097F7F5 /* czzCookieManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzCookieManager.m; sourceTree = "<group>"; };
 		44DF8ED81A74D0F00097F7F5 /* czzACTokenUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzACTokenUtil.h; sourceTree = "<group>"; };
@@ -1478,6 +1480,7 @@
 				440E8B731D6C905D00164BC9 /* AddForum.storyboard */,
 				440E8B781D6C90FC00164BC9 /* czzCustomForumTableViewManager.h */,
 				440E8B791D6C90FC00164BC9 /* czzCustomForumTableViewManager.m */,
+				44DDC7FD1DBB5660001A569D /* ForumSelector.storyboard */,
 			);
 			name = czzForumsViewController;
 			sourceTree = "<group>";
@@ -2942,6 +2945,7 @@
 				44B54E6A1A0EE1B80004C5B4 /* czzThreadViewTableViewCell.xib in Resources */,
 				44DF8F041A7512730097F7F5 /* remove_user.png in Resources */,
 				44E791E91A17856500A63C04 /* message.png in Resources */,
+				44DDC7FE1DBB5660001A569D /* ForumSelector.storyboard in Resources */,
 				44DF8EEB1A74DA510097F7F5 /* MessagePopup.storyboard in Resources */,
 				44E791E41A17856500A63C04 /* link@2x.png in Resources */,
 				444F5B3D1A40EA3500EB391F /* 42.png in Resources */,
