@@ -32,7 +32,7 @@
 @property (strong, nonatomic) NSString *selectedSearchEngine;
 @property NSURL *targetURL;
 @property czzMiniThreadViewController *miniThreadView;
-@property GSIndeterminateProgressView *progressView;
+@property (nonatomic) GSIndeterminateProgressView *progressView;
 @end
 
 @implementation czzSearchViewController

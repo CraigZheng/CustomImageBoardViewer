@@ -36,6 +36,7 @@
 }
 
 -(void)awakeFromNib {
+    [super awakeFromNib];
     self.upDownViewController = [czzOnScreenCommandViewController new];
     self.upDownViewController.delegate = self;
     self.estimatedRowHeight = 44.0;
