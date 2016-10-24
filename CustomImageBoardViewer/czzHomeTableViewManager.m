@@ -470,11 +470,6 @@ estimatedHeightForRowAtIndexPath:indexPath];
         [AppDelegate showToast:@"开始下载图片..."];
 }
 
-#pragma mark - Rotation event.
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-
-}
-
 #pragma mark - Getters 
 
 - (BOOL)tableViewIsDraggedOverTheBottom {

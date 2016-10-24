@@ -10,6 +10,7 @@
 #import "czzHomeViewController.h"
 #import "czzNavigationManager.h"
 #import "czzSettingsCentre.h"
+#import "czzFavouriteManagerViewController.h"
 
 @interface czzNavigationController () <UINavigationControllerDelegate, czzNavigationManagerDelegate>
 @end
@@ -58,6 +59,14 @@
 
 - (void)navigationManager:(czzNavigationManager *)manager wantsToSetViewController:(NSArray *)viewControllers animated:(BOOL)animated {
     [self setViewControllers:viewControllers animated:animated];
+}
+
+- (void)showWatchList {
+    czzFavouriteManagerViewController *favouriteViewController = [[UIStoryboard storyboardWithName:@"FavouriteManager" bundle:nil] instantiateInitialViewController];
+    if ([favouriteViewController isKindOfClass:[czzFavouriteManagerViewController class]]) {
+        favouriteViewController.launchToIndex = watchIndex;
+        [self pushViewController:favouriteViewController animated:YES];
+    }
 }
 
 +(instancetype)new {

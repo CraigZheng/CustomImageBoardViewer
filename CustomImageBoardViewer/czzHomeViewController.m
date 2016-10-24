@@ -374,14 +374,6 @@
     }
 }
 
-#pragma mark - Rotation events.
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    [self.homeTableViewManager viewWillTransitionToSize:size
-                              withTransitionCoordinator:coordinator];
-    [self updateTableView];
-}
-
 #pragma mark - pause / restoration
 -(void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {

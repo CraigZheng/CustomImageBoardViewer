@@ -27,6 +27,7 @@
                     <connections>
                         <segue destination="JnF-wS-C9I" kind="relationship" relationship="rootViewController" id="iCw-oH-DlZ"/>
                         <segue destination="uzG-1F-bbs" kind="modal" identifier="showAddMarker" id="5gO-dM-ls1"/>
+                        <segue destination="d2U-gt-Jkg" kind="push" identifier="FavouriteManager" id="Iwk-Fw-ENa"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TR8-pl-vBI" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -732,6 +733,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CK3-a9-tjH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1123" y="-1339"/>
+        </scene>
+        <!--FavouriteManager-->
+        <scene sceneID="GYw-f7-8vL">
+            <objects>
+                <viewControllerPlaceholder storyboardName="FavouriteManager" id="d2U-gt-Jkg" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="E4a-zY-oA0"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1lb-mf-ygN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="102" y="4"/>
         </scene>
         <!--A岛-->
         <scene sceneID="sr6-Ve-Y3r">

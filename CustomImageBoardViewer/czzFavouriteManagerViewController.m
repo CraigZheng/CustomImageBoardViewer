@@ -182,11 +182,6 @@ static NSInteger const respondsHistoryIndex = 2;
     self.historyTypeSegmentedControl.enabled = self.titleSegmentedControl.selectedSegmentIndex == historyIndex;
 }
 
-#pragma mark - rotation
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-    
-}
-
 +(instancetype)new {
     return [[UIStoryboard storyboardWithName:@"FavouriteManager" bundle:nil] instantiateViewControllerWithIdentifier:@"favourite_manager_view_controller"];
 }
