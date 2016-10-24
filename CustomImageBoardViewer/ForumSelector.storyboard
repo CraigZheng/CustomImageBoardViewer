@@ -10,7 +10,7 @@
         <scene sceneID="1i4-cg-p1g">
             <objects>
                 <navigationController storyboardIdentifier="left_side_view_controller" definesPresentationContext="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" toolbarHidden="NO" id="L9K-5y-49Y" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="340-ws-jRy">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="340-ws-jRy">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

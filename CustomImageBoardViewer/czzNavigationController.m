@@ -57,6 +57,10 @@
     [self setViewControllers:viewControllers animated:animated];
 }
 
+- (void)showFavourite {
+    [self performSegueWithIdentifier:@"FavouriteManager" sender:nil];
+}
+
 +(instancetype)new {
     return [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"home_navigation_controller"];
 }

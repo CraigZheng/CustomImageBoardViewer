@@ -1438,8 +1438,8 @@
 				441E5CFC17F4691300289DBD /* CustomImageBoardViewerTests.m */,
 				44CD96A01C1AA488007E522F /* czzThreadTest.m */,
 				441E5CF717F4691300289DBD /* Supporting Files */,
-				44F86B691C1BAC4C001306E8 /* CoustomImageBoardViewerTest.pch */,
 				4490A80E1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m */,
+				44F86B691C1BAC4C001306E8 /* CoustomImageBoardViewerTest.pch */,
 				4431E5431CA4B8F20098AA01 /* czzLaunchPopUpTest.m */,
 				44A0872F1DB61CA4005599EA /* czzMarkerManagerTest.swift */,
 				44A0872E1DB61CA3005599EA /* CustomImageBoardViewerTests-Bridging-Header.h */,
@@ -2684,6 +2684,7 @@
 				44D22CE51C3CD8490002F82F /* Embed Frameworks */,
 				347387B1BDC00B75A6FDCAB2 /* [CP] Embed Pods Frameworks */,
 				B29225EAA488CA7E0E9F4065 /* [CP] Copy Pods Resources */,
+				0B6B067B82FEFE5A27A11A17 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2705,6 +2706,7 @@
 				441E5CED17F4691300289DBD /* Resources */,
 				A5A8354B599D84027D456FD6 /* [CP] Embed Pods Frameworks */,
 				3526DC832DBDA7AF92B1A6A3 /* [CP] Copy Pods Resources */,
+				8C7C33DCD3B5A4753BD38072 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -3098,6 +3100,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0B6B067B82FEFE5A27A11A17 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		0D9FCF475C6B5DB907B3281E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3156,6 +3173,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8C7C33DCD3B5A4753BD38072 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A5A8354B599D84027D456FD6 /* [CP] Embed Pods Frameworks */ = {

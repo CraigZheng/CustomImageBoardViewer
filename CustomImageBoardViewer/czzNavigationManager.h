@@ -16,7 +16,7 @@
 -(void)navigationManager:(czzNavigationManager*)manager wantsToPopViewControllerAnimated:(BOOL)animated;
 -(void)navigationManager:(czzNavigationManager*)manager wantsToPopToViewController:(UIViewController*)viewController animated:(BOOL)animated;
 -(void)navigationManager:(czzNavigationManager*)manager wantsToSetViewController:(NSArray*)viewControllers animated:(BOOL)animated;
-
+-(void)showFavourite;
 @end
 
 @interface czzNavigationManager : NSObject <UINavigationControllerDelegate>
