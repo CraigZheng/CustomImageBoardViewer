@@ -138,7 +138,8 @@
         //@todo open the selected thread
         czzThreadViewController *threadViewController = [czzThreadViewController new];
         threadViewController.threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:selectedThread andForum:self.homeViewManager.forum];
-        [NavigationManager pushViewController:threadViewController animated:YES];
+        [[(UIViewController *)self.homeViewManager.delegate navigationController] pushViewController:threadViewController
+                                                                                            animated:YES];
     }
     // If not downloading or processing, load more threads.
     else if (!self.homeViewManager.isDownloading) {
