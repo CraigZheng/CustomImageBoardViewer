@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Craig. All rights reserved.
 //
 
-#import "IIViewDeckController.h"
-
-@interface czzEntryPointViewController : IIViewDeckController
-
-@end
+//#import "IIViewDeckController.h"
+//
+//@interface czzEntryPointViewController : IIViewDeckController
+//
+//@end

@@ -19,6 +19,7 @@
 #import "czzMoreInfoViewController.h"
 #import "czzForumsTableViewThreadSuggestionsManager.h"
 #import "czzCustomForumTableViewManager.h"
+#import "SlideNavigationController.h"
 
 NSString * const kForumPickedNotification = @"ForumNamePicked";
 NSString * const kPickedForum = @"PickedForum";
@@ -68,6 +69,12 @@ NSString * const kPickedForum = @"PickedForum";
                                              selector:@selector(handleSettingsChangedNotification)
                                                  name:settingsChangedNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserverForName:SlideNavigationControllerDidOpen
+                                                      object:nil
+                                                       queue:[NSOperationQueue mainQueue]
+                                                  usingBlock:^(NSNotification * _Nonnull note) {
+                                                      [self.forumsTableView reloadData];
+                                                  }];
     [self refreshAd];
     // Schedule a timer to refresh Ad.
     [NSTimer scheduledTimerWithTimeInterval:adUpdateInterval / 2
@@ -231,7 +238,7 @@ NSString * const kPickedForum = @"PickedForum";
     if (indexPath.row >= forumGroup.forums.count)
         return;
     czzForum *forum = [forumGroup.forums objectAtIndex:indexPath.row];
-    [self.viewDeckController toggleLeftViewAnimated:YES];
+    [[SlideNavigationController sharedInstance] closeMenuWithCompletion:nil];
     //POST a local notification to inform other view controllers that a new forum is picked
     NSMutableDictionary *userInfo = [NSMutableDictionary new];
     [userInfo setObject:forum forKey:kPickedForum];
@@ -278,13 +285,6 @@ NSString * const kPickedForum = @"PickedForum";
         [adCoverView removeFromSuperview];
     }
     shouldHideCoverView = YES;
-}
-
-#pragma mark - IIViewDeckControllerDelegate
-
-- (void)viewDeckController:(IIViewDeckController *)viewDeckController willOpenViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated {
-    // Notify about the view will appear event.
-    [self viewWillAppear:animated];
 }
 
 #pragma mark - czzPopularThreadsManagerDelegate

@@ -39,7 +39,7 @@
 #import <CoreText/CoreText.h>
 
 
-@interface czzHomeViewController() <UIAlertViewDelegate, UIStateRestoring>
+@interface czzHomeViewController() <UIAlertViewDelegate, UIStateRestoring, SlideNavigationControllerDelegate>
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (assign, nonatomic) BOOL shouldHideImageForThisForum;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
@@ -72,12 +72,6 @@
     }
     // Set the currentOffSet back to zero
     self.homeViewManager.currentOffSet = CGPointZero;
-
-    // Configure the view deck controller with half size and tap to close mode
-    self.viewDeckController.leftSize = self.view.frame.size.width/4;
-    self.viewDeckController.rightSize = self.view.frame.size.width/4;
-    self.viewDeckController.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
-
     // On screen image manager view controller
     if (!self.onScreenImageManagerViewController) {
         self.onScreenImageManagerViewController = [czzOnScreenImageManagerViewController new];
@@ -126,7 +120,6 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [self.progressView viewDidAppear];
-    self.viewDeckController.panningMode = IIViewDeckFullViewPanning;
     // Add badget number to infoBarButton if necessary.
     if ([[(czzNavigationController*)self.navigationController notificationBannerViewController] shouldShow]) {
         self.infoBarButton.badgeValue = @"1";
@@ -159,7 +152,6 @@
 
 -(void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    self.viewDeckController.panningMode = IIViewDeckNoPanning;
     [self.progressView viewDidDisapper];
 }
 
@@ -187,7 +179,7 @@
 
 #pragma mark - ButtonActions
 - (IBAction)sideButtonAction:(id)sender {
-    [self.viewDeckController toggleLeftViewAnimated:YES];
+    [[SlideNavigationController sharedInstance] toggleLeftMenu];
 }
 
 - (IBAction)postAction:(id)sender {
@@ -332,6 +324,12 @@
             [self showWarning];
         }
     }];
+}
+
+#pragma mark - SlideOutNavigationControllerDelegate
+
+- (BOOL)slideNavigationControllerShouldDisplayLeftMenu {
+    return YES;
 }
 
 #pragma mark - self.refreshControl and download controls

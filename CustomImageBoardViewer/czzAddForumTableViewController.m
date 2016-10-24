@@ -10,7 +10,7 @@
 
 #import "czzForum.h"
 #import "czzForumManager.h"
-#import "IIViewDeckController.h"
+#import "SlideNavigationController.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
 
@@ -27,12 +27,16 @@ static NSString * cellIdentifier = @"cellIdentifier";
 - (void)viewDidLoad {
     [super viewDidLoad];
 }
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    // Close the left view, so when this view controller is dismissing, the forum picker view controller would have to reload itself.
-    [[NavigationManager delegate].viewDeckController closeLeftViewAnimated:NO];
-}
+//
+//- (void)viewWillAppear:(BOOL)animated {
+//    [super viewWillAppear:animated];
+//    [[SlideNavigationController sharedInstance] closeMenuWithCompletion:nil];
+//}
+//
+//- (void)viewWillDisappear:(BOOL)animated {
+//    [super viewWillDisappear:animated];
+//    [[SlideNavigationController sharedInstance] openMenu:MenuLeft withCompletion:nil];
+//}
 
 #pragma mark - UITableViewDataSource, UITableViewDelegate
 
@@ -69,7 +73,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 - (IBAction)cancelButtonAction:(id)sender {
     // Open the left view without animation before showing.
-    [[NavigationManager delegate].viewDeckController openLeftViewAnimated:NO];
+//    [[NavigationManager delegate].viewDeckController openLeftViewAnimated:NO];
     [self dismissViewControllerAnimated:true completion:nil];
 }
 

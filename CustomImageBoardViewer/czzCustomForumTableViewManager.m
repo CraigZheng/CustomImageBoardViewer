@@ -35,7 +35,7 @@
         NSMutableDictionary *userInfo = [NSMutableDictionary new];
         [userInfo setObject:forum forKey:kPickedForum];
         [[NSNotificationCenter defaultCenter] postNotificationName:kForumPickedNotification object:self userInfo:userInfo];
-        [[NavigationManager delegate].viewDeckController closeLeftViewAnimated:YES];
+        [[SlideNavigationController sharedInstance] closeMenuWithCompletion:nil];
     }
 }
 

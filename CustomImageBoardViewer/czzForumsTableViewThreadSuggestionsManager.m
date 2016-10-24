@@ -13,7 +13,7 @@
 #import "czzThreadSuggestion.h"
 #import "czzURLHandler.h"
 #import "czzNavigationManager.h"
-#import <IIViewDeckController.h>
+#import "SlideNavigationController.h"
 
 @interface czzForumsTableViewThreadSuggestionsManager()
 @property (nonatomic, weak) czzPopularThreadsManager *popularThreadsManager;
@@ -74,8 +74,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     czzThreadSuggestion *suggestion = [self threadSuggestionForIndexPath:indexPath];
     if (suggestion.url) {
-        [[NavigationManager delegate].viewDeckController closeLeftViewAnimated:YES];
-        [czzURLHandler handleURL:suggestion.url];
+        [[SlideNavigationController sharedInstance] closeMenuWithCompletion:^{
+            [czzURLHandler handleURL:suggestion.url];
+        }];
     }
 }
 
