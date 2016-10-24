@@ -444,14 +444,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     }
 }
 
-#pragma mark - Rotation event.
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    [self.threadTableViewManager viewWillTransitionToSize:size
-                                withTransitionCoordinator:coordinator];
-    [self updateTableView];
-}
-
 #pragma mark - State perserving
 - (NSString*)saveCurrentState {
     self.threadViewManager.currentOffSet = self.threadTableView.contentOffset;
