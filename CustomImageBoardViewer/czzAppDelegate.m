@@ -166,7 +166,7 @@
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
     if (NavigationManager.delegate) {
         // Received local notification, most likely watch list is updated
-        [NavigationManager.delegate showFavourite];
+        [NavigationManager.delegate showWatchList];
     }
 }
 
