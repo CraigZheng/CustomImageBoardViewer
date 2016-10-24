@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@class czzAddForumTableViewController;
+@protocol czzAddForumTableViewControllerProtocol <NSObject>
+- (void)addForumTableViewControllerDidDismissed:(czzAddForumTableViewController *)viewController;
+@end
+
 @interface czzAddForumTableViewController : UITableViewController
+
+@property id<czzAddForumTableViewControllerProtocol> delegate;
 
 @end

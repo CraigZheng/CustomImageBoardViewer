@@ -19,12 +19,12 @@
 #import "czzMoreInfoViewController.h"
 #import "czzForumsTableViewThreadSuggestionsManager.h"
 #import "czzCustomForumTableViewManager.h"
-#import "SlideNavigationController.h"
+#import "czzAddForumTableViewController.h"
 
 NSString * const kForumPickedNotification = @"ForumNamePicked";
 NSString * const kPickedForum = @"PickedForum";
 
-@interface czzForumsViewController () <UITableViewDataSource, UITableViewDelegate, czzPopularThreadsManagerDelegate>
+@interface czzForumsViewController () <UITableViewDataSource, UITableViewDelegate, czzPopularThreadsManagerDelegate, czzAddForumTableViewControllerProtocol>
 @property (weak, nonatomic) IBOutlet UISegmentedControl *forumsSegmentedControl;
 @property NSDate *lastAdUpdateTime;
 @property NSTimeInterval adUpdateInterval;
@@ -107,6 +107,13 @@ NSString * const kPickedForum = @"PickedForum";
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [self.progressView viewDidDisapper];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    UINavigationController *navigationController = segue.destinationViewController;
+    if ([navigationController isKindOfClass:[UINavigationController class]] && [navigationController.viewControllers.firstObject isKindOfClass:[czzAddForumTableViewController class]]) {
+        [(czzAddForumTableViewController *)navigationController.viewControllers.firstObject setDelegate:self];
+    }
 }
 
 -(void)refreshForums{
@@ -290,6 +297,12 @@ NSString * const kPickedForum = @"PickedForum";
 #pragma mark - czzPopularThreadsManagerDelegate
 
 - (void)popularThreadsManagerDidUpdate:(czzPopularThreadsManager *)manager {
+    [self.forumsTableView reloadData];
+}
+
+#pragma mark - czzAddForumTableViewController
+
+- (void)addForumTableViewControllerDidDismissed:(czzAddForumTableViewController *)viewController {
     [self.forumsTableView reloadData];
 }
 

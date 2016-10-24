@@ -24,19 +24,10 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 @implementation czzAddForumTableViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self.delegate addForumTableViewControllerDidDismissed:self];
 }
-//
-//- (void)viewWillAppear:(BOOL)animated {
-//    [super viewWillAppear:animated];
-//    [[SlideNavigationController sharedInstance] closeMenuWithCompletion:nil];
-//}
-//
-//- (void)viewWillDisappear:(BOOL)animated {
-//    [super viewWillDisappear:animated];
-//    [[SlideNavigationController sharedInstance] openMenu:MenuLeft withCompletion:nil];
-//}
 
 #pragma mark - UITableViewDataSource, UITableViewDelegate
 
