@@ -40,9 +40,9 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>This app wants to access your calendar</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Provide Us Your Location To Help Us Keep Track Of The App&apos;s Performance</string>
+	<string>Provide Us Your Location To Help Us Keep Track Of The App's Performance</string>
 	<key>NSLocationUsageDescription</key>
-	<string>Provide Us Your Location To Help Us Keep Track Of The App&apos;s Performance</string>
+	<string>Provide Us Your Location To Help Us Keep Track Of The App's Performance</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app wants to access your photo library</string>
 	<key>UIBackgroundModes</key>
@@ -64,9 +64,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
