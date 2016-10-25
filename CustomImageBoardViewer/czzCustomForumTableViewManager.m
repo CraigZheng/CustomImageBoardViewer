@@ -36,6 +36,8 @@
         [userInfo setObject:forum forKey:kPickedForum];
         [[NSNotificationCenter defaultCenter] postNotificationName:kForumPickedNotification object:self userInfo:userInfo];
         [[SlideNavigationController sharedInstance] closeMenuWithCompletion:nil];
+    } else {
+        [NavigationManager.delegate performSegueWithIdentifier:@"showAddForum" sender:nil];
     }
 }
 

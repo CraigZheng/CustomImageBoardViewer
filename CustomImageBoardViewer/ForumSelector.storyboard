@@ -10,7 +10,7 @@
         <scene sceneID="1i4-cg-p1g">
             <objects>
                 <navigationController storyboardIdentifier="left_side_view_controller" definesPresentationContext="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" toolbarHidden="NO" id="L9K-5y-49Y" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="340-ws-jRy">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="340-ws-jRy">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -116,9 +116,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="eCV-3I-6Nq" kind="modal" id="gcT-f1-u0o"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -167,14 +164,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tfX-vX-0f0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-515" y="-1546"/>
-        </scene>
-        <!--AddForum-->
-        <scene sceneID="7IG-1i-d7Q">
-            <objects>
-                <viewControllerPlaceholder storyboardName="AddForum" id="eCV-3I-6Nq" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="S9a-7b-Byz" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="282" y="-1547"/>
         </scene>
     </scenes>
     <resources>
