@@ -164,9 +164,15 @@
 }
 
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-    if (NavigationManager.delegate) {
+    czzFavouriteManagerViewController *favouriteManagerViewController = [czzFavouriteManagerViewController new];
+    favouriteManagerViewController.launchToIndex = watchIndex; // Launch to watchlist view.
+    if (self.window.rootViewController) {
         // Received local notification, most likely watch list is updated
-        [NavigationManager.delegate showWatchList];
+        [NavigationManager pushViewController:favouriteManagerViewController animated:YES];
+    } else {
+        [czzAppActivityManager sharedManager].appLaunchCompletionHandler = ^{
+            [NavigationManager pushViewController:favouriteManagerViewController animated:YES];
+        };
     }
 }
 
