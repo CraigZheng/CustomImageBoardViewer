@@ -20,11 +20,7 @@ class MarkerColourPickerViewController: UIViewController {
             uidLabel?.text = UID
         }
     }
-    var nickname: String? {
-        didSet {
-            
-        }
-    }
+    var nickname: String?
     var selectedColour: UIColor? {
         didSet {
             if selectedColour == lastColour {
@@ -42,6 +38,7 @@ class MarkerColourPickerViewController: UIViewController {
     private let lastColour = MarkerColourPickerViewController.uiColorFromHex(rgbValue:0xffffff)
     
     @IBOutlet private weak var uidLabel: UILabel?
+    @IBOutlet private weak var nicknameTextField: UITextField!
     @IBOutlet private weak var flagImageView: UIImageView? {
         didSet {
             flagImageView?.image = UIImage.init(named: "flag")?.withRenderingMode(.alwaysTemplate)
@@ -73,6 +70,7 @@ class MarkerColourPickerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         uidLabel?.text = UID
+        nicknameTextField.text = nickname
         if let selectedColour = selectedColour {
             flagImageView?.tintColor = selectedColour
         }

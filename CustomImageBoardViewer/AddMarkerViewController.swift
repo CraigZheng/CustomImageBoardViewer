@@ -63,16 +63,19 @@ class AddMarkerViewController: UITableViewController {
             let indexPath = tableView.indexPath(for: cell) {
             let UID: String?
             var colour: UIColor?
+            var nickname: String?
             switch Section(rawValue: indexPath.section)! {
             case .pending:
                 UID = czzMarkerManager.sharedInstance().pendingHighlightUIDs[indexPath.row] as? String
             case .defined:
                 UID = czzMarkerManager.sharedInstance().highlightedUIDs[indexPath.row] as? String
                 colour = czzMarkerManager.sharedInstance().highlightColour(forUID: UID ?? "")
+                nickname = czzMarkerManager.sharedInstance().nickname(forUID: UID ?? "")
             case .blocked:
                 UID = czzMarkerManager.sharedInstance().blockedUIDs[indexPath.row] as? String
             }
             destination.selectedColour = colour
+            destination.nickname = nickname
             destination.UID = UID
             destination.delegate = self
         }
@@ -128,14 +131,18 @@ extension AddMarkerViewController {
         if let UID = UID {
             cell.textLabel?.text = UID
             if let cell = cell as? UIDColourPairCellTableViewCell {
-                if czzMarkerManager.sharedInstance().isUIDBlocked(UID) {
-                    // Assign the skeleton image.
-                    cell.imageView?.image = UIImage.init(named: "flag")?.withRenderingMode(.alwaysTemplate)
-                    cell.imageView?.tintColor = UIColor.lightGray
-                } else if let colour = czzMarkerManager.sharedInstance().highlightColour(forUID: UID) {
-                    // Assign an image as the template for cell.imageView.
-                    cell.imageView?.image = UIImage.init(named: "flag")?.withRenderingMode(.alwaysTemplate)
+                // Assign an image as the template for cell.imageView.
+                cell.imageView?.image = UIImage.init(named: "flag")?.withRenderingMode(.alwaysTemplate)
+                if let colour = czzMarkerManager.sharedInstance().highlightColour(forUID: UID) {
                     cell.imageView?.tintColor = colour
+                } else {
+                    // Assign the grey flag.
+                    cell.imageView?.tintColor = UIColor.lightGray
+                }
+                if let nickname = czzMarkerManager.sharedInstance().nickname(forUID: UID) {
+                    cell.detailTextLabel?.text = nickname
+                } else {
+                    cell.detailTextLabel?.text = nil
                 }
             }
         }
