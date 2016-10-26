@@ -63,4 +63,19 @@ class czzMarkerManagerTest: XCTestCase {
         XCTAssertNil(czzMarkerManager.sharedInstance().highlightColour(forUID: UID1))
         XCTAssertNil(czzMarkerManager.sharedInstance().highlightColour(forUID: UID2))
     }
+    
+    func testMarkerNickname() {
+        let nickname1 = "Nickname1"
+        let nickname2 = "Nickname2"
+        czzMarkerManager.sharedInstance().highlightUID(UID1, withNickname: nickname1)
+        czzMarkerManager.sharedInstance().highlightUID(UID2, withNickname: nickname2)
+        XCTAssertTrue(czzMarkerManager.sharedInstance().nickname(forUID: UID1) == nickname1)
+        XCTAssertTrue(czzMarkerManager.sharedInstance().nickname(forUID: UID2) == nickname2)
+        // Test removing nicknames.
+        czzMarkerManager.sharedInstance().highlightUID(UID1, withNickname: nil)
+        czzMarkerManager.sharedInstance().highlightUID(UID2, withNickname: nil)
+        XCTAssertNil(czzMarkerManager.sharedInstance().nickname(forUID: UID1))
+        XCTAssertNil(czzMarkerManager.sharedInstance().nickname(forUID: UID2))
+
+    }
 }
