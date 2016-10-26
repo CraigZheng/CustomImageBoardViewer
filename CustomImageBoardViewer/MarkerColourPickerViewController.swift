@@ -20,7 +20,11 @@ class MarkerColourPickerViewController: UIViewController {
             uidLabel?.text = UID
         }
     }
-    var nickname: String?
+    var nickname: String? {
+        didSet {
+            nicknameTextField?.text = nickname
+        }
+    }
     var selectedColour: UIColor? {
         didSet {
             if selectedColour == lastColour {
@@ -38,7 +42,7 @@ class MarkerColourPickerViewController: UIViewController {
     private let lastColour = MarkerColourPickerViewController.uiColorFromHex(rgbValue:0xffffff)
     
     @IBOutlet private weak var uidLabel: UILabel?
-    @IBOutlet private weak var nicknameTextField: UITextField!
+    @IBOutlet private weak var nicknameTextField: UITextField?
     @IBOutlet private weak var flagImageView: UIImageView? {
         didSet {
             flagImageView?.image = UIImage.init(named: "flag")?.withRenderingMode(.alwaysTemplate)
@@ -52,15 +56,21 @@ class MarkerColourPickerViewController: UIViewController {
     }
     
     @IBAction func tapOnBackgroundView(_ sender: AnyObject) {
-        if let UID = self.UID,
-            let selectedColour = self.selectedColour {
-            if selectedColour == lastColour {
+        if let UID = self.UID {
+            // Do nickname first, since selectedColour might unhighlight this UID.
+            if let nickname = nickname {
+                czzMarkerManager.sharedInstance().highlightUID(UID, withNickname: nickname)
                 czzMarkerManager.sharedInstance().pendingHighlightUIDs.remove(UID)
-                czzMarkerManager.sharedInstance().unHighlightUID(UID)
-                czzMarkerManager.sharedInstance().blockUID(UID)
-            } else {
-                czzMarkerManager.sharedInstance().unBlockUID(UID)
-                czzMarkerManager.sharedInstance().highlightUID(UID, withColour: selectedColour)
+            }
+            if let selectedColour = self.selectedColour {
+                if selectedColour == lastColour {
+                    czzMarkerManager.sharedInstance().pendingHighlightUIDs.remove(UID)
+                    czzMarkerManager.sharedInstance().unHighlightUID(UID)
+                    czzMarkerManager.sharedInstance().blockUID(UID)
+                } else {
+                    czzMarkerManager.sharedInstance().unBlockUID(UID)
+                    czzMarkerManager.sharedInstance().highlightUID(UID, withColour: selectedColour)
+                }
             }
         }
         _ = navigationController?.popViewController(animated: true)
@@ -82,7 +92,7 @@ class MarkerColourPickerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         uidLabel?.text = UID
-        nicknameTextField.text = nickname
+        nicknameTextField?.text = nickname
         if let selectedColour = selectedColour {
             flagImageView?.tintColor = selectedColour
         }
@@ -103,4 +113,27 @@ class MarkerColourPickerViewController: UIViewController {
         return UIColor(red: red, green: green, blue: blue, alpha: alpha)
     }
 
+}
+
+extension MarkerColourPickerViewController: UITextFieldDelegate, UIAlertViewDelegate {
+    
+    func alertView(_ alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
+        if buttonIndex != alertView.cancelButtonIndex {
+            if let textField = alertView.textField(at: 0) {
+                nickname = textField.text ?? ""
+            }
+        }
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        // Limit the length of the string.
+        var shouldChange = true
+        if let originalText = textField.text {
+            let combinedString = (originalText as NSString).replacingCharacters(in: range, with: string)
+            // Maximum 10 characters is allowed.
+            shouldChange = combinedString.characters.count <= 10
+        }
+        return shouldChange
+    }
+    
 }
