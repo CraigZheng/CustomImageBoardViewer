@@ -67,6 +67,7 @@ class AddMarkerViewController: UITableViewController {
             switch Section(rawValue: indexPath.section)! {
             case .pending:
                 UID = czzMarkerManager.sharedInstance().pendingHighlightUIDs[indexPath.row] as? String
+                colour = czzMarkerManager.sharedInstance().highlightColour(forUID: UID ?? "")
             case .defined:
                 UID = czzMarkerManager.sharedInstance().highlightedUIDs[indexPath.row] as? String
                 colour = czzMarkerManager.sharedInstance().highlightColour(forUID: UID ?? "")
@@ -125,7 +126,7 @@ extension AddMarkerViewController {
             cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.blockedCell, for: indexPath)
             UID = czzMarkerManager.sharedInstance().blockedUIDs[indexPath.row] as? String
         }
-        cell.detailTextLabel?.text = "请选择颜色..."
+        cell.detailTextLabel?.text = "请选择..."
         cell.contentView.backgroundColor = czzSettingsCentre.sharedInstance().viewBackgroundColour()
         cell.backgroundColor = cell.contentView.backgroundColor
         if let UID = UID {

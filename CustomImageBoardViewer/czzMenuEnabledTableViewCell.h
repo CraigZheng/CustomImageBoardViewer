@@ -62,6 +62,7 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 @property (nonatomic, assign) BOOL nightyMode;
 @property (nonatomic, assign) threadViewCellType cellType;
 @property (nonatomic, strong) UIColor *highlightColour;
+@property (nonatomic, strong) NSString *nickname;
 
 - (void)renderContent;
 - (void)tapOnImageView:(id)sender;

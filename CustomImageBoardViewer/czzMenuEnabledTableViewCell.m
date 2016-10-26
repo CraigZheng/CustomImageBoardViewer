@@ -213,6 +213,7 @@ static NSString * const showThreadWithID = @"showThreadWithID";
     [self setNeedsUpdateConstraints];
     // Header and footer.
     self.cellHeaderView.highlightColour = self.highlightColour;
+    self.cellHeaderView.nickname = self.nickname;
     self.cellHeaderView.parentUID = self.parentThread.UID;
     self.cellFooterView.thread = self.cellHeaderView.thread = self.thread;
 }

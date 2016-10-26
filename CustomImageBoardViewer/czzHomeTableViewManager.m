@@ -296,8 +296,10 @@ estimatedHeightForRowAtIndexPath:indexPath];
         cell.delegate = self;
         if ([[czzMarkerManager sharedInstance] isHighlighted:thread.UID]) {
             cell.highlightColour = [[czzMarkerManager sharedInstance] highlightColourForUID:thread.UID];
+            cell.nickname = [[czzMarkerManager sharedInstance] nicknameForUID:thread.UID];
         } else {
             cell.highlightColour = nil;
+            cell.nickname = nil;
         }
         if ([[czzMarkerManager sharedInstance] isUIDBlocked:thread.UID]) {
             cell.shouldBlock = YES;
