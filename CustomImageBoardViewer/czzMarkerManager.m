@@ -52,6 +52,7 @@ NSString * const MarkerManagerDidUpdateNotification = @"MarkerManagerDidUpdateNo
         DLog(@"Failed to save highlightedUIDs.");
         success = NO;
     }
+    [[NSUserDefaults standardUserDefaults] synchronize];
     [[NSNotificationCenter defaultCenter] postNotificationName:MarkerManagerDidUpdateNotification
                                                         object:nil];
     return success;
@@ -113,6 +114,39 @@ NSString * const MarkerManagerDidUpdateNotification = @"MarkerManagerDidUpdateNo
     return [self.highlightedUIDs containsObject:UID];
 }
 
+- (void)highlightUID:(NSString *)UID withNickname:(NSString *)nickname {
+    if (UID.length) {
+        // Remove the save object from pending set.
+        NSString *UIDKey = [self nicknameKeyForUID:UID];
+        [self.pendingHighlightUIDs removeObject:UID];
+        [self.highlightedUIDs addObject:UID];
+        // Save the associated nickname to NSUserDefaults, or remove it.
+        if (nickname.length) {
+            [[NSUserDefaults standardUserDefaults] setObject:nickname forKey:UIDKey];
+        } else {
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:UIDKey];
+        }
+        [self save];
+    }
+}
+
+- (NSString *)nicknameForUID:(NSString *)UID {
+    NSString *UIDKey = [self nicknameKeyForUID:UID];
+    if (UIDKey.length) {
+        return [[NSUserDefaults standardUserDefaults] stringForKey:UIDKey];
+    } else {
+        return nil;
+    }
+}
+
+- (NSString *)nicknameKeyForUID:(NSString *)UID {
+    if (UID.length) {
+        return [NSString stringWithFormat:@"NICKNAME-%@", UID];
+    } else {
+        return nil;
+    }
+}
+
 - (void)blockUID:(NSString *)UID {
     if (UID.length) {
         [self.blockedUIDs addObject:UID];
@@ -124,7 +158,6 @@ NSString * const MarkerManagerDidUpdateNotification = @"MarkerManagerDidUpdateNo
     if (UID.length) {
         [self.highlightedUIDs removeObject:UID];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:UID];
-        [[NSUserDefaults standardUserDefaults] synchronize];
         [self save];
     }
 }
