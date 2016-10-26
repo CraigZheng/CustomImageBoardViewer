@@ -19,7 +19,7 @@ extern NSString * _Nonnull const MarkerManagerDidUpdateNotification;
 - (void)prepareToHighlightUID:(NSString * _Nonnull)UID;
 - (BOOL)isHighlighted:(NSString * _Nonnull)UID;
 - (void)highlightUID:(NSString * _Nonnull)UID withColour:(UIColor * _Nonnull)colour;
-- (void)highlightUID:(NSString * _Nonnull)UID withNickname:(NSString * _Nonnull)nickname;
+- (void)highlightUID:(NSString * _Nonnull)UID withNickname:(NSString * _Nullable)nickname;
 - (NSString * _Nullable)nicknameForUID:(NSString * _Nonnull)UID;
 - (void)blockUID:(NSString * _Nonnull)UID;
 - (void)unHighlightUID:(NSString * _Nonnull)UID;
