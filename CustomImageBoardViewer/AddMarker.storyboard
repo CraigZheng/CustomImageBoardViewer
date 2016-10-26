@@ -224,7 +224,7 @@
                                             <constraint firstAttribute="width" constant="20" id="dL8-v1-nea"/>
                                         </constraints>
                                     </imageView>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="自定义名称" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WD8-2D-37L">
+                                    <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="自定义名称" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WD8-2D-37L">
                                         <constraints>
                                             <constraint firstAttribute="width" constant="160" id="yQK-B2-OO7"/>
                                         </constraints>
@@ -232,15 +232,24 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6kT-Fe-VWw" userLabel="Invisible Button">
+                                        <connections>
+                                            <action selector="nicknameButtonAction:" destination="OJY-AR-buc" eventType="touchUpInside" id="r8m-7i-Uj3"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="ApL-Ql-YID" firstAttribute="leading" secondItem="3mK-nv-Z5C" secondAttribute="leading" constant="20" symbolic="YES" id="4jA-ab-VIn"/>
+                                    <constraint firstItem="6kT-Fe-VWw" firstAttribute="top" secondItem="WD8-2D-37L" secondAttribute="top" id="5l0-2N-DSH"/>
                                     <constraint firstAttribute="trailing" secondItem="ApL-Ql-YID" secondAttribute="trailing" constant="20" symbolic="YES" id="6me-iJ-0bl"/>
                                     <constraint firstItem="8H0-lo-k1T" firstAttribute="centerY" secondItem="79n-w9-ff1" secondAttribute="centerY" id="AUr-nl-8b2"/>
                                     <constraint firstItem="8H0-lo-k1T" firstAttribute="top" secondItem="WD8-2D-37L" secondAttribute="bottom" constant="8" symbolic="YES" id="EW8-TJ-FRw"/>
                                     <constraint firstItem="ApL-Ql-YID" firstAttribute="top" secondItem="79n-w9-ff1" secondAttribute="bottom" constant="8" symbolic="YES" id="LbE-ph-Jw7"/>
+                                    <constraint firstItem="6kT-Fe-VWw" firstAttribute="leading" secondItem="WD8-2D-37L" secondAttribute="leading" id="Pwj-bp-2OF"/>
+                                    <constraint firstItem="6kT-Fe-VWw" firstAttribute="bottom" secondItem="WD8-2D-37L" secondAttribute="bottom" id="cnM-rz-7R4"/>
                                     <constraint firstItem="8H0-lo-k1T" firstAttribute="leading" secondItem="79n-w9-ff1" secondAttribute="trailing" constant="8" symbolic="YES" id="gvN-XG-wgu"/>
+                                    <constraint firstItem="6kT-Fe-VWw" firstAttribute="trailing" secondItem="WD8-2D-37L" secondAttribute="trailing" id="n5E-wl-r2Q"/>
                                     <constraint firstItem="79n-w9-ff1" firstAttribute="centerX" secondItem="3mK-nv-Z5C" secondAttribute="centerX" id="p8Z-2s-RCq"/>
                                     <constraint firstItem="WD8-2D-37L" firstAttribute="top" secondItem="3mK-nv-Z5C" secondAttribute="top" constant="20" symbolic="YES" id="wks-8V-jkx"/>
                                     <constraint firstItem="WD8-2D-37L" firstAttribute="centerX" secondItem="3mK-nv-Z5C" secondAttribute="centerX" id="zR8-hl-mfW"/>
