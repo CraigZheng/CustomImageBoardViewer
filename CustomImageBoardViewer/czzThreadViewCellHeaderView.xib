@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -45,7 +45,7 @@
                     <color key="shadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
-                <label clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ABCDE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Hvz-Y8-z5f">
+                <label clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ABCDE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hvz-Y8-z5f">
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" red="0.59999999999999998" green="0.40000000000000002" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -76,6 +76,7 @@
                 <constraint firstItem="Hvz-Y8-z5f" firstAttribute="leading" secondItem="eNz-9A-vxr" secondAttribute="trailing" constant="8" symbolic="YES" id="nf1-dl-Klz"/>
                 <constraint firstItem="f1h-C0-xa5" firstAttribute="top" secondItem="3FE-wQ-9rh" secondAttribute="bottom" id="tiY-xn-KgO"/>
                 <constraint firstAttribute="trailing" secondItem="zVL-Q4-5jE" secondAttribute="trailing" id="u6L-1z-w7F"/>
+                <constraint firstItem="zVL-Q4-5jE" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8Xv-zR-s3F" secondAttribute="trailing" constant="4" id="uA5-MM-jpj"/>
                 <constraint firstItem="8Xv-zR-s3F" firstAttribute="leading" secondItem="Hvz-Y8-z5f" secondAttribute="trailing" constant="8" symbolic="YES" id="vbf-Qs-Yo6"/>
                 <constraint firstItem="eNz-9A-vxr" firstAttribute="baseline" secondItem="Hvz-Y8-z5f" secondAttribute="baseline" id="zEN-fI-rAX"/>
             </constraints>
