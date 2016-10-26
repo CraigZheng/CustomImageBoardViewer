@@ -20,9 +20,20 @@ class MarkerColourPickerViewController: UIViewController {
             uidLabel?.text = UID
         }
     }
+    var nickname: String? {
+        didSet {
+            
+        }
+    }
     var selectedColour: UIColor? {
         didSet {
-            flagImageView?.tintColor = selectedColour
+            if selectedColour == lastColour {
+                flagImageView?.image = UIImage.init(named: "poison")?.withRenderingMode(.alwaysTemplate)
+                flagImageView?.tintColor = UIColor.black
+            } else {
+                flagImageView?.image = UIImage.init(named: "flag")?.withRenderingMode(.alwaysTemplate)
+                flagImageView?.tintColor = selectedColour
+            }
         }
     }
     
@@ -31,11 +42,6 @@ class MarkerColourPickerViewController: UIViewController {
     private let lastColour = MarkerColourPickerViewController.uiColorFromHex(rgbValue:0xffffff)
     
     @IBOutlet private weak var uidLabel: UILabel?
-    @IBOutlet weak var skeletonImageView: UIImageView! {
-        didSet {
-            skeletonImageView.isHidden = true
-        }
-    }
     @IBOutlet private weak var flagImageView: UIImageView? {
         didSet {
             flagImageView?.image = UIImage.init(named: "flag")?.withRenderingMode(.alwaysTemplate)
@@ -46,8 +52,6 @@ class MarkerColourPickerViewController: UIViewController {
     @IBOutlet private weak var slider: UISlider!
     @IBAction func colourSliderValueChanged(_ sender: UISlider) {
         selectedColour = MarkerColourPickerViewController.uiColorFromHex(rgbValue: colorArray[Int(sender.value)])
-        skeletonImageView.isHidden = !(selectedColour == lastColour)
-        flagImageView?.isHidden = !skeletonImageView.isHidden
     }
     
     @IBAction func tapOnBackgroundView(_ sender: AnyObject) {
