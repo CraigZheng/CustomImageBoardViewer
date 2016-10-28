@@ -15,7 +15,6 @@
 #import "czzCookieManager.h"
 #import "czzWatchKitManager.h"
 #import "czzWatchListManager.h"
-#import "czzAppActivityManager.h"
 #import "czzFavouriteManagerViewController.h"
 #import "czzCacheCleaner.h"
 #import "czzHomeViewManager.h"
@@ -75,10 +74,7 @@
     // Check cookie
     CookieManager;
     // Check watchlist manger.
-    
-    // Prepare to launch
-    AppActivityManager;
-    
+        
     // The watchkit session.
     if ([WCSession isSupported]) {
         WCSession *session = [WCSession defaultSession];
@@ -169,10 +165,6 @@
     if (self.window.rootViewController) {
         // Received local notification, most likely watch list is updated
         [NavigationManager pushViewController:favouriteManagerViewController animated:YES];
-    } else {
-        [czzAppActivityManager sharedManager].appLaunchCompletionHandler = ^{
-            [NavigationManager pushViewController:favouriteManagerViewController animated:YES];
-        };
     }
 }
 

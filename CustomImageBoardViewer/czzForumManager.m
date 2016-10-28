@@ -12,6 +12,7 @@
 #import "czzSettingsCentre.h"
 
 static NSString * kCustomForumsRawStringsKey = @"kCustomForumsRawStringsKey";
+static NSString * kDefaultForumJsonFileName = @"default_forums.json";
 
 @interface czzForumManager() <czzURLDownloaderProtocol>
 @property czzURLDownloader *forumDownloader;
@@ -20,6 +21,33 @@ static NSString * kCustomForumsRawStringsKey = @"kCustomForumsRawStringsKey";
 @end
 
 @implementation czzForumManager
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        NSString *jsonString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"default_forums"
+                                                                                                  ofType:@"json"]
+                                                         encoding:NSUTF8StringEncoding
+                                                            error:nil];
+        if (jsonString.length) {
+            @try {
+                NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+                NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:NSJSONReadingMutableContainers
+                                                                       error:nil];
+                if (jsonArray.count) {
+                    [self.forumGroups removeAllObjects];
+                    for (NSDictionary *dictionary in jsonArray) {
+                        [self.forumGroups addObject:[czzForumGroup initWithDictionary:dictionary]];
+                    }
+                }
+            } @catch (NSException *exception) {
+                DLog(@"%@", exception);
+            }
+        }
+    }
+    return self;
+}
 
 - (void)updateForums:(void (^)(BOOL, NSError *))completionHandler {
     if (self.forumDownloader.isDownloading)

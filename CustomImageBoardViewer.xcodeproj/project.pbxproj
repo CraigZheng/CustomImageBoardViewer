@@ -71,7 +71,6 @@
 		442EC86C1A1A1C8D005650E4 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 442EC8691A1A1C8D005650E4 /* info.png */; };
 		442EC86D1A1A1C8D005650E4 /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 442EC86A1A1A1C8D005650E4 /* info@2x.png */; };
 		442EC86E1A1A1C8D005650E4 /* info@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 442EC86B1A1A1C8D005650E4 /* info@3x.png */; };
-		442F1FD31B13500C00267698 /* czzAppActivityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FD21B13500C00267698 /* czzAppActivityManager.m */; };
 		442F1FD71B13535B00267698 /* czzHomeTableViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FD61B13535B00267698 /* czzHomeTableViewManager.m */; };
 		442F1FD81B13535B00267698 /* czzHomeTableViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FD61B13535B00267698 /* czzHomeTableViewManager.m */; };
 		442F1FE21B15FC8500267698 /* UINavigationController+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FDE1B15FC8500267698 /* UINavigationController+Util.m */; };
@@ -3231,7 +3230,6 @@
 				442A901D19DB9C3C00A3516E /* HTMLNode.m in Sources */,
 				442F1FE21B15FC8500267698 /* UINavigationController+Util.m in Sources */,
 				44C73B8E1A484F280051D4C2 /* czzFavouriteManager.m in Sources */,
-				442F1FD31B13500C00267698 /* czzAppActivityManager.m in Sources */,
 				4448C2AA180FF6C600D2CD76 /* czzBlacklistSender.m in Sources */,
 				44858EAC1A0C5B0A00DD822B /* czzImageViewerUtil.m in Sources */,
 				44989A291CFC5B7200F04ECD /* czzThreadSuggestion.m in Sources */,
