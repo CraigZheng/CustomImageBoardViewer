@@ -138,7 +138,7 @@
             {
                 [czzBannerNotificationUtil displayMessage:@"用户没有选择板块，随机选择……" position:BannerNotificationPositionTop];
                 @try {
-                    int randomIndex = rand() % [czzForumManager sharedManager].forums.count;
+                    NSUInteger randomIndex = arc4random_uniform([czzForumManager sharedManager].forums.count);
                     [self.homeViewManager setForum:[[czzForumManager sharedManager].forums objectAtIndex:randomIndex]];
                     [self refreshThread:self];
                 }
