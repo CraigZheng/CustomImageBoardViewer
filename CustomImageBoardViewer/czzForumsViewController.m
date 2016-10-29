@@ -199,6 +199,12 @@ NSString * const kPickedForum = @"PickedForum";
                 [attributedDisplayName addAttribute:NSFontAttributeName
                                               value:titleLabel.font
                                               range:NSMakeRange(0, attributedDisplayName.length)];
+                // If nighty mode, the colour should be changed as well.
+                if (settingCentre.userDefNightyMode) {
+                    [attributedDisplayName addAttribute:NSForegroundColorAttributeName
+                                                  value:settingCentre.contentTextColour
+                                                  range:NSMakeRange(0, attributedDisplayName.length)];
+                }
                 titleLabel.attributedText = attributedDisplayName;
             } @catch (NSException *exception) {
                 DLog(@"%@", exception);
