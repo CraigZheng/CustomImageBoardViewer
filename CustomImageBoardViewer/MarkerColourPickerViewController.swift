@@ -130,8 +130,8 @@ extension MarkerColourPickerViewController: UITextFieldDelegate, UIAlertViewDele
         var shouldChange = true
         if let originalText = textField.text {
             let combinedString = (originalText as NSString).replacingCharacters(in: range, with: string)
-            // Maximum 10 characters is allowed.
-            shouldChange = combinedString.characters.count <= 10
+            // Maximum allowed characters count.
+            shouldChange = combinedString.characters.count <= 50
         }
         return shouldChange
     }

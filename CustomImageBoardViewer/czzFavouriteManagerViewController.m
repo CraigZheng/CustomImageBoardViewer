@@ -96,11 +96,19 @@ static NSInteger const respondsHistoryIndex = 2;
 
     czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
     if (cell){
-        cell.shouldAllowClickOnImage= NO;
-        cell.parentThread = thread;
-        cell.thread = thread;
-        cell.nightyMode = [settingCentre userDefNightyMode];
-        [cell renderContent]; // Render content must be done manually.
+        @try {
+            cell.shouldAllowClickOnImage= NO;
+            cell.parentThread = thread;
+            cell.thread = thread;
+            cell.nightyMode = [settingCentre userDefNightyMode];
+            [cell renderContent]; // Render content must be done manually.
+        } @catch (NSException *exception) {
+            DLog(@"%@", exception)
+            [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Exception"
+                                                                                                action:@"Exception"
+                                                                                                 label:[exception description]
+                                                                                                 value:@1] build]];
+        }
     }
     return cell;
 }
