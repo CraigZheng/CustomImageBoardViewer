@@ -27,6 +27,7 @@ static NSString * const showThreadWithID = @"showThreadWithID";
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *cellImageViewButtonMinimumWidthConstraint;
 @property (weak, nonatomic) IBOutlet UIButton *cellImageViewButton;
+@property (weak, nonatomic) IBOutlet UILabel *gifLabel;
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (strong, nonatomic) NSString *imageFolder;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
@@ -205,10 +206,12 @@ static NSString * const showThreadWithID = @"showThreadWithID";
         previewImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:imageName]]];
         self.cellImageView.image = previewImage ?: self.placeholderImage;
         self.cellImageViewButtonMinimumWidthConstraint.active = YES;
+        self.gifLabel.hidden = ![imageName.pathExtension.lowercaseString isEqualToString:@"gif"];
     } else {
         // Completely invisible.
         self.cellImageView.image = nil;
         self.cellImageViewButtonMinimumWidthConstraint.active = NO;
+        self.gifLabel.hidden = YES;
     }
     [self setNeedsUpdateConstraints];
     // Header and footer.
