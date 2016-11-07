@@ -375,8 +375,12 @@
 }
 
 #pragma mark - pause / restoration
--(void)encodeRestorableStateWithCoder:(NSCoder *)coder
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
+    DDLogDebug(@"%@", NSStringFromSelector(_cmd));
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
     DDLogDebug(@"%@", NSStringFromSelector(_cmd));
 }
 

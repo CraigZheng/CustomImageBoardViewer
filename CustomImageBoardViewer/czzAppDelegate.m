@@ -121,6 +121,16 @@
                                           withBackgroundTaskIdentifier:wkBackgroundTaskIdentifier];
 }
 
+#pragma mark - Break and restoration.
+
+- (BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder {
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder {
+    return YES;
+}
+
 #pragma mark - background fetch
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     DDLogDebug(@"%s", __PRETTY_FUNCTION__);
@@ -199,8 +209,7 @@
     }
 }
 
-
-#pragma mark access to app delegate etc.
+#pragma mark - access to app delegate etc.
 + (czzAppDelegate*) sharedAppDelegate{
     return (czzAppDelegate*)[[UIApplication sharedApplication] delegate];
 }
