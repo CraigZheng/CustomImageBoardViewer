@@ -1,8 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="K45-e3-i4z">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="K45-e3-i4z">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Czz Custom Slide Animation View Controller-->
@@ -14,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="SQk-fS-OeH">
-                        <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                        <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
@@ -23,30 +27,30 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g7M-LL-QgO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-572" y="-283"/>
+            <point key="canvasLocation" x="-575" y="-338"/>
         </scene>
         <!--Czz Favourite Manager View Controller-->
         <scene sceneID="pY7-ZM-q7m">
             <objects>
-                <viewController storyboardIdentifier="favourite_manager_view_controller" automaticallyAdjustsScrollViewInsets="NO" id="K45-e3-i4z" customClass="czzFavouriteManagerViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="favourite_manager_view_controller" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="K45-e3-i4z" customClass="czzFavouriteManagerViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LDE-AH-hT1"/>
                         <viewControllerLayoutGuide type="bottom" id="BoM-TK-Qhs"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="j2k-dz-G20">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Vm2-vA-dnB" customClass="czzThreadTableView">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Vm2-vA-dnB" customClass="czzThreadTableView">
                                 <rect key="frame" x="0.0" y="64" width="600" height="492"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="dataSource" destination="K45-e3-i4z" id="Syt-GM-t5g"/>
                                     <outlet property="delegate" destination="K45-e3-i4z" id="LhJ-lc-VzH"/>
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Vm2-vA-dnB" firstAttribute="top" secondItem="LDE-AH-hT1" secondAttribute="bottom" id="9Uf-Qz-hlQ"/>
                             <constraint firstItem="Vm2-vA-dnB" firstAttribute="leading" secondItem="j2k-dz-G20" secondAttribute="leading" id="h3d-Iy-Txe"/>
@@ -58,7 +62,7 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="w8h-X8-RTh"/>
                         <barButtonItem style="plain" id="AgG-fI-jvV">
                             <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="iTR-B0-7g6">
-                                <rect key="frame" x="233" y="7" width="133" height="30"/>
+                                <rect key="frame" x="121" y="7" width="133" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title="浏览"/>
@@ -75,7 +79,7 @@
                     <navigationItem key="navigationItem" id="ypD-zi-qDn">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="tjZ-hV-ITz">
-                            <rect key="frame" x="236" y="7" width="128" height="30"/>
+                            <rect key="frame" x="124" y="7" width="128" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="收藏"/>
