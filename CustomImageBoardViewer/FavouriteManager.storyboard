@@ -13,7 +13,7 @@
         <scene sceneID="1wb-Qs-s0N">
             <objects>
                 <navigationController toolbarHidden="NO" id="NPJ-KY-FRq" customClass="czzCustomSlideAnimationViewController" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Uwd-2s-x75">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Uwd-2s-x75">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -41,8 +41,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Vm2-vA-dnB" customClass="czzThreadTableView">
-                                <rect key="frame" x="0.0" y="64" width="600" height="492"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Vm2-vA-dnB" customClass="czzThreadTableView">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="dataSource" destination="K45-e3-i4z" id="Syt-GM-t5g"/>
@@ -52,9 +52,9 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Vm2-vA-dnB" firstAttribute="top" secondItem="LDE-AH-hT1" secondAttribute="bottom" id="9Uf-Qz-hlQ"/>
                             <constraint firstItem="Vm2-vA-dnB" firstAttribute="leading" secondItem="j2k-dz-G20" secondAttribute="leading" id="h3d-Iy-Txe"/>
                             <constraint firstAttribute="trailing" secondItem="Vm2-vA-dnB" secondAttribute="trailing" id="iWv-52-z0M"/>
+                            <constraint firstItem="Vm2-vA-dnB" firstAttribute="top" secondItem="j2k-dz-G20" secondAttribute="top" id="uH9-7g-HWo"/>
                             <constraint firstItem="BoM-TK-Qhs" firstAttribute="top" secondItem="Vm2-vA-dnB" secondAttribute="bottom" id="wqA-WZ-JWp"/>
                         </constraints>
                     </view>

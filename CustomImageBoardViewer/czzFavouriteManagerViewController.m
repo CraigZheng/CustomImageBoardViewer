@@ -193,11 +193,13 @@ static NSInteger const respondsHistoryIndex = 2;
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
     [super encodeRestorableStateWithCoder:coder];
-    [coder encodeInteger:self.titleSegmentedControl.selectedSegmentIndex forKey:@"selectedSegmentIndex"];
+    [coder encodeInteger:self.titleSegmentedControl.selectedSegmentIndex forKey:@"titleSegmentedControl"];
+    [coder encodeInteger:self.historyTypeSegmentedControl.selectedSegmentIndex forKey:@"historyTypeSegmentedControl"];
 }
 
 - (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
-    self.titleSegmentedControl.selectedSegmentIndex = [coder decodeIntegerForKey:@"selectedSegmentIndex"];
+    self.titleSegmentedControl.selectedSegmentIndex = [coder decodeIntegerForKey:@"titleSegmentedControl"];
+    self.historyTypeSegmentedControl.selectedSegmentIndex = [coder decodeIntegerForKey:@"historyTypeSegmentedControl"];
     [super decodeRestorableStateWithCoder:coder];
 }
 
