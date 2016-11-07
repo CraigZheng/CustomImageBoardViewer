@@ -14,11 +14,10 @@
 #import "czzThread.h"
 #import "czzForum.h"
 #import "czzThreadTableView.h"
-#import "czzThreadViewManager.h"
 
 extern NSString * const showThreadViewSegueIdentifier;
 
-@interface czzThreadViewController : UIViewController <czzThreadViewManagerDelegate>
+@interface czzThreadViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet czzThreadTableView *threadTableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *starButton;
@@ -28,7 +27,7 @@ extern NSString * const showThreadViewSegueIdentifier;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *jumpBarButtonItem;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *numberBarButton;
 @property (assign, nonatomic) BOOL shouldRestoreContentOffset;
-@property (strong, nonatomic) czzThreadViewManager *threadViewManager;
+@property (strong, nonatomic) czzThread *thread;
 
 
 - (IBAction)replyAction:(id)sender;

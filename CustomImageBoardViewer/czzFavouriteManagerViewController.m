@@ -117,9 +117,8 @@ static NSInteger const respondsHistoryIndex = 2;
     selectedIndex = indexPath;
     if (selectedIndex.row < threads.count){
         selectedThread = [threads objectAtIndex:selectedIndex.row];
-        czzThreadViewManager *threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:selectedThread andForum:nil];
         czzThreadViewController *threadViewController = [czzThreadViewController new];
-        threadViewController.threadViewManager = threadViewManager;
+        threadViewController.thread = selectedThread;
         [NavigationManager pushViewController:threadViewController animated:YES];
     }
 }

@@ -30,11 +30,13 @@
 #import "czzPostSenderManagerViewController.h"
 #import "czzReplyUtil.h"
 #import "czzAutoEndingRefreshControl.h"
+#import "czzThreadViewManager.h"
+
 #import "UIImage+animatedGIF.h"
 
 NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
-@interface czzThreadViewController ()<UIAlertViewDelegate>
+@interface czzThreadViewController ()<UIAlertViewDelegate, czzThreadViewManagerDelegate>
 @property (strong, nonatomic) NSIndexPath *selectedIndex;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
 @property CGPoint threadsTableViewContentOffSet; //record the content offset of the threads tableview
@@ -55,6 +57,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @property (strong, nonatomic) UIAlertView *confirmJumpToPageAlertView;
 @property (weak, nonatomic) IBOutlet UIImageView *massiveDownloadIndicatorImageView;
 @property (weak, nonatomic) IBOutlet UIButton *massiveDownloadButton;
+@property (strong, nonatomic) czzThreadViewManager *threadViewManager;
 @end
 
 @implementation czzThreadViewController
@@ -72,6 +75,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @synthesize onScreenImageManagerViewContainer;
 @synthesize moreButton;
 @synthesize shouldRestoreContentOffset;
+@synthesize threadViewManager = _threadViewManager;
 
 #pragma mark - view controller life cycle.
 - (void)viewDidLoad
@@ -79,7 +83,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [super viewDidLoad];
     // self.threadViewManager must not be nil.
     assert(self.threadTableViewManager != nil);
-    self.threadViewManager.delegate = self;
+    assert(self.thread != nil);
     [self.threadViewManager restorePreviousState];
     // The manager for the table view.
     self.threadTableView.dataSource = self.threadTableViewManager;
@@ -205,6 +209,14 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
         _threadTableViewManager.threadTableView = self.threadTableView;
     }
     return _threadTableViewManager;
+}
+
+- (czzThreadViewManager *)threadViewManager {
+    if (!_threadViewManager) {
+        _threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:self.thread andForum:nil];
+        _threadViewManager.delegate = self;
+    }
+    return _threadViewManager;
 }
 
 #pragma mark - setter
