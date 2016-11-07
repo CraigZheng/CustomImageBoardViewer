@@ -64,7 +64,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GIF" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SAh-Sq-1TM">
-                                <rect key="frame" x="20" y="93" width="17.5" height="12"/>
+                                <rect key="frame" x="47.5" y="93" width="17.5" height="12"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
                                 <color key="textColor" red="0.71372549019999998" green="0.30588235289999999" blue="0.015686274510000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -85,11 +85,11 @@
                             <constraint firstAttribute="trailing" secondItem="rGy-zv-odd" secondAttribute="trailing" id="bKo-7j-ftt"/>
                             <constraint firstItem="rGy-zv-odd" firstAttribute="bottom" secondItem="WnJ-PJ-3oM" secondAttribute="bottom" id="bXH-yj-6ok"/>
                             <constraint firstItem="WUN-DG-7RC" firstAttribute="centerY" secondItem="WnJ-PJ-3oM" secondAttribute="centerY" id="ggZ-yj-Xfj"/>
+                            <constraint firstItem="SAh-Sq-1TM" firstAttribute="centerX" secondItem="WUN-DG-7RC" secondAttribute="centerX" id="l3R-5T-CE8"/>
                             <constraint firstItem="WUN-DG-7RC" firstAttribute="width" secondItem="WnJ-PJ-3oM" secondAttribute="width" priority="750" id="qHg-Np-D4d"/>
                             <constraint firstItem="WnJ-PJ-3oM" firstAttribute="leading" secondItem="61C-Fc-Xdc" secondAttribute="leading" constant="20" symbolic="YES" id="shu-YX-uNZ"/>
                             <constraint firstItem="7he-PY-sLR" firstAttribute="top" secondItem="61C-Fc-Xdc" secondAttribute="top" id="tns-Qs-Ivx"/>
                             <constraint firstItem="WUN-DG-7RC" firstAttribute="height" secondItem="WnJ-PJ-3oM" secondAttribute="height" priority="750" id="vJN-pe-cUc"/>
-                            <constraint firstItem="SAh-Sq-1TM" firstAttribute="leading" secondItem="WUN-DG-7RC" secondAttribute="leading" id="y90-v5-ghd"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="20" translatesAutoresizingMaskIntoConstraints="NO" id="DN5-G9-KwB" customClass="czzThreadViewCellFooterView">
