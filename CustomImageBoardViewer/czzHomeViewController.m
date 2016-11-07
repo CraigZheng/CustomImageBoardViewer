@@ -171,12 +171,6 @@
     [self.homeTableViewManager reloadData];
 }
 
-#pragma mark - State perserving
-- (NSString*)saveCurrentState {
-    self.homeViewManager.currentOffSet = self.threadTableView.contentOffset;
-    return [self.homeViewManager saveCurrentState];
-}
-
 #pragma mark - ButtonActions
 - (IBAction)sideButtonAction:(id)sender {
     [[SlideNavigationController sharedInstance] toggleLeftMenu];

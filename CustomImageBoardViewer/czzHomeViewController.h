@@ -28,5 +28,4 @@
 - (IBAction)bookmarkAction:(id)sender;
 - (IBAction)settingsAction:(id)sender;
 
-- (NSString*)saveCurrentState;
 @end
