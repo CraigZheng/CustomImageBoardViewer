@@ -29,7 +29,7 @@
 #import "czzBigImageModeTableViewCell.h"
 #import <ImageIO/ImageIO.h>
 
-@interface czzHomeTableViewManager() <czzImageDownloaderManagerDelegate>
+@interface czzHomeTableViewManager() <czzImageDownloaderManagerDelegate, UIDataSourceModelAssociation>
 
 @property (strong) czzImageViewerUtil *imageViewerUtil;
 @property (nonatomic, readonly) NSIndexPath *lastRowIndexPath;
@@ -271,7 +271,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == self.homeViewManager.threads.count){
+    if (indexPath.row == self.homeViewManager.threads.count) {
         //Last row
         NSString *lastCellIdentifier = THREAD_TABLEVIEW_COMMAND_CELL_IDENTIFIER;
         czzThreadTableViewCommandCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:lastCellIdentifier forIndexPath:indexPath];
@@ -516,6 +516,34 @@ estimatedHeightForRowAtIndexPath:indexPath];
         homeTableView.estimatedRowHeight = 80;
         homeTableView.rowHeight = UITableViewAutomaticDimension;
     }
+}
+
+#pragma mark - UIDataSourceModelAssociation
+
+- (NSString *)modelIdentifierForElementAtIndexPath:(NSIndexPath *)idx inView:(UIView *)view {
+    if (idx.row < self.homeViewManager.threads.count) {
+        // Return thread ID.
+        return [NSString stringWithFormat:@"%ld", (long)[self.homeViewManager.threads[idx.row] ID]];
+    } else {
+        // Last row.
+        return @"lastRow";
+    }
+}
+
+- (NSIndexPath *)indexPathForElementWithModelIdentifier:(NSString *)identifier inView:(UIView *)view {
+    if ([identifier isEqualToString:@"lastRow"]) {
+        // Return last row.
+        return [NSIndexPath indexPathForRow:0 inSection:self.homeViewManager.threads.count];
+    } else {
+        NSInteger identifierInteger = [identifier integerValue];
+        for (czzThread * thread in self.homeViewManager.threads) {
+            if (thread.ID == identifierInteger) {
+                return [NSIndexPath indexPathForRow:0 inSection:[self.homeViewManager.threads indexOfObject:thread]];
+            }
+        }
+    }
+    // Failed to return anything.
+    return nil;
 }
 
 @end
