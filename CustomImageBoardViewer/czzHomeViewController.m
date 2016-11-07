@@ -378,10 +378,20 @@
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
     DDLogDebug(@"%@", NSStringFromSelector(_cmd));
+    [self.homeViewManager saveCurrentState];
+    [coder encodeObject:[NSValue valueWithCGPoint:self.threadTableView.contentOffset] forKey:@"ContentOffset"];
+    [super encodeRestorableStateWithCoder:coder];
 }
 
 - (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
     DDLogDebug(@"%@", NSStringFromSelector(_cmd));
+    [super decodeRestorableStateWithCoder:coder];
+    [self.homeViewManager restorePreviousState];
+    NSValue *contentOffset;
+    if ([(contentOffset = [coder decodeObjectForKey:@"ContentOffset"]) isKindOfClass:[NSValue class]]) {
+        [self.threadTableView setContentOffset:contentOffset.CGPointValue animated:NO];
+    }
+    [self updateTableView];
 }
 
 + (instancetype)new {
