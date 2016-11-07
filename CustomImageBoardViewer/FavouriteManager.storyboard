@@ -32,7 +32,7 @@
         <!--Czz Favourite Manager View Controller-->
         <scene sceneID="pY7-ZM-q7m">
             <objects>
-                <viewController storyboardIdentifier="favourite_manager_view_controller" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="K45-e3-i4z" customClass="czzFavouriteManagerViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="favourite_manager_view_controller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="K45-e3-i4z" customClass="czzFavouriteManagerViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LDE-AH-hT1"/>
                         <viewControllerLayoutGuide type="bottom" id="BoM-TK-Qhs"/>

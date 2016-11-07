@@ -32,7 +32,7 @@ static NSInteger const browserHistoryIndex = 0;
 static NSInteger const postsHistoryIndex = 1;
 static NSInteger const respondsHistoryIndex = 2;
 
-@interface czzFavouriteManagerViewController ()
+@interface czzFavouriteManagerViewController () <UIStateRestoring>
 @property (nonatomic, strong) NSIndexPath *selectedIndex;
 @property (nonatomic, strong) NSMutableSet *internalThreads;
 @property (nonatomic, strong) czzThread *selectedThread;
@@ -187,6 +187,22 @@ static NSInteger const respondsHistoryIndex = 2;
     [self.tableView setContentOffset:CGPointZero animated:NO]; // Scroll to top.
     // If the currently selected title segmented control is history, enable the selection for history type segmented control.
     self.historyTypeSegmentedControl.enabled = self.titleSegmentedControl.selectedSegmentIndex == historyIndex;
+}
+
+#pragma mark - UIStateRestoring
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
+    [super encodeRestorableStateWithCoder:coder];
+    [coder encodeInteger:self.titleSegmentedControl.selectedSegmentIndex forKey:@"selectedSegmentIndex"];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
+    self.titleSegmentedControl.selectedSegmentIndex = [coder decodeIntegerForKey:@"selectedSegmentIndex"];
+    [super decodeRestorableStateWithCoder:coder];
+}
+
+- (void)applicationFinishedRestoringState {
+    [self copyDataFromManager];
 }
 
 +(instancetype)new {
