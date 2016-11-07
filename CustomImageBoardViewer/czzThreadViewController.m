@@ -40,7 +40,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @property (strong, nonatomic) NSIndexPath *selectedIndex;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
 @property CGPoint threadsTableViewContentOffSet; //record the content offset of the threads tableview
-@property (assign, nonatomic) BOOL shouldHighlight;
 @property (assign, nonatomic) BOOL shouldDisplayQuickScrollCommand;
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (strong, nonatomic) NSString *keywordToSearch;
@@ -64,7 +63,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @synthesize numberBarButton;
 @synthesize selectedIndex;
 @synthesize threadsTableViewContentOffSet;
-@synthesize shouldHighlight;
 @synthesize shouldDisplayQuickScrollCommand;
 @synthesize thumbnailFolder;
 @synthesize keywordToSearch;
@@ -81,62 +79,10 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // self.threadViewManager must not be nil.
-    assert(self.threadTableViewManager != nil);
-    assert(self.thread != nil);
-    [self.threadViewManager restorePreviousState];
-    // The manager for the table view.
-    self.threadTableView.dataSource = self.threadTableViewManager;
-    self.threadTableView.delegate = self.threadTableViewManager;
-    
-    // Thumbnail folder
-    thumbnailFolder = [czzAppDelegate thumbnailFolder];
-    imageViewerUtil = [czzImageViewerUtil new];
-    // Settings
-    shouldHighlight = [settingCentre userDefShouldHighlightPO];
-    // On screen image manager view controller
-    if (!self.onScreenImageManagerViewController) {
-        self.onScreenImageManagerViewController = [czzOnScreenImageManagerViewController new];
-        self.onScreenImageManagerViewController.delegate = self.threadTableViewManager;
-        [self addChildViewController:self.onScreenImageManagerViewController];
-        [self.onScreenImageManagerViewContainer addSubview:self.onScreenImageManagerViewController.view];
+    // If self.thread is not ready, the whole view controller is not ready.
+    if (self.thread) {
+        [self commonInit];
     }
-    // Post sender manager view controller.
-    czzPostSenderManagerViewController *postSenderManagerViewController = [czzPostSenderManagerViewController new];
-    [self addChildViewController:postSenderManagerViewController];
-    [self.postSenderViewContainer addSubview:postSenderManagerViewController.view];
-
-    //add the UIRefreshControl to uitableview
-    self.refreshControl = [[czzAutoEndingRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
-    [self.threadTableView addSubview: self.refreshControl];
-
-    self.navigationItem.backBarButtonItem.title = self.title;
-    
-    // What to do when this view controller has completed loading.
-    __weak czzThreadViewController *weakSelf = self;
-    void (^onLoadAction)(void) = ^void(void) {
-        // If threads array contains nothing other than the parent thread.
-        if (weakSelf.threadViewManager.threads.count <=1 ) {
-            [weakSelf refreshThread:weakSelf];
-        } else {
-            [weakSelf.threadViewManager loadMoreThreads];
-        }
-    };
-    
-    if (NavigationManager.isInTransition) {
-        NavigationManager.pushAnimationCompletionHandler = ^{
-            onLoadAction();
-        };
-    } else {
-        onLoadAction();
-    }
-    
-    // Google Analytic integration.
-    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Thread"
-                                                                                        action:@"View Thread"
-                                                                                         label:[NSString stringWithFormat:@"%ld", (long)self.threadViewManager.parentThread.ID]
-                                                                                         value:@1] build]];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -165,6 +111,59 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [self.progressView viewDidDisapper];
+}
+
+- (void)commonInit {
+    [self.threadViewManager restorePreviousState];
+    // The manager for the table view.
+    self.threadTableView.dataSource = self.threadTableViewManager;
+    self.threadTableView.delegate = self.threadTableViewManager;
+    
+    // Thumbnail folder
+    thumbnailFolder = [czzAppDelegate thumbnailFolder];
+    imageViewerUtil = [czzImageViewerUtil new];
+    // On screen image manager view controller
+    if (!self.onScreenImageManagerViewController) {
+        self.onScreenImageManagerViewController = [czzOnScreenImageManagerViewController new];
+        self.onScreenImageManagerViewController.delegate = self.threadTableViewManager;
+        [self addChildViewController:self.onScreenImageManagerViewController];
+        [self.onScreenImageManagerViewContainer addSubview:self.onScreenImageManagerViewController.view];
+    }
+    // Post sender manager view controller.
+    czzPostSenderManagerViewController *postSenderManagerViewController = [czzPostSenderManagerViewController new];
+    [self addChildViewController:postSenderManagerViewController];
+    [self.postSenderViewContainer addSubview:postSenderManagerViewController.view];
+    
+    //add the UIRefreshControl to uitableview
+    self.refreshControl = [[czzAutoEndingRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
+    [self.threadTableView addSubview: self.refreshControl];
+    
+    self.navigationItem.backBarButtonItem.title = self.title;
+    
+    // What to do when this view controller has completed loading.
+    __weak czzThreadViewController *weakSelf = self;
+    void (^onLoadAction)(void) = ^void(void) {
+        // If threads array contains nothing other than the parent thread.
+        if (weakSelf.threadViewManager.threads.count <=1 ) {
+            [weakSelf refreshThread:weakSelf];
+        } else {
+            [weakSelf.threadViewManager loadMoreThreads];
+        }
+    };
+    
+    if (NavigationManager.isInTransition) {
+        NavigationManager.pushAnimationCompletionHandler = ^{
+            onLoadAction();
+        };
+    } else {
+        onLoadAction();
+    }
+    // Google Analytic integration.
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Thread"
+                                                                                        action:@"View Thread"
+                                                                                         label:[NSString stringWithFormat:@"%ld", (long)self.threadViewManager.parentThread.ID]
+                                                                                         value:@1] build]];
 }
 
 - (void)dealloc {
@@ -453,10 +452,28 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     }
 }
 
-#pragma mark - State perserving
-- (NSString*)saveCurrentState {
-    self.threadViewManager.currentOffSet = self.threadTableView.contentOffset;
-    return [self.threadViewManager saveCurrentState];
+#pragma mark - State perserving and restoration.
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
+    DLog(@"");
+    [self.threadViewManager saveCurrentState];
+    // Save the current thread.
+    [coder encodeObject:self.thread forKey:@"thread"];    
+    [super encodeRestorableStateWithCoder:coder];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
+    DLog(@"");
+    [super decodeRestorableStateWithCoder:coder];
+    // Restore the thread.
+    self.thread = [coder decodeObjectForKey:@"thread"];
+}
+
+- (void)applicationFinishedRestoringState {
+    DLog(@"");
+    if (self.thread) {
+        [self commonInit];
+    }
 }
 
 +(instancetype)new {

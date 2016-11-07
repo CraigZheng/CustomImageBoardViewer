@@ -36,5 +36,4 @@ extern NSString * const showThreadViewSegueIdentifier;
 - (IBAction)reportAction:(id)sender;
 - (IBAction)shareAction:(id)sender;
 
-- (NSString*)saveCurrentState;
 @end
