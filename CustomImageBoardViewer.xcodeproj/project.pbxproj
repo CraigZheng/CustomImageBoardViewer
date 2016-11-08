@@ -318,6 +318,7 @@
 		44CBF4001BC9245300DFECFC /* czzCacheCleaner.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CBF3FF1BC9245300DFECFC /* czzCacheCleaner.m */; };
 		44CD265D1DD1A15A003F1696 /* MoreInfo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44CD265C1DD1A15A003F1696 /* MoreInfo.storyboard */; };
 		44CD96A11C1AA488007E522F /* czzThreadTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CD96A01C1AA488007E522F /* czzThreadTest.m */; };
+		44CEF62F1DD1BBC8002BA6E8 /* PostView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44CEF62E1DD1BBC8002BA6E8 /* PostView.storyboard */; };
 		44CF25491A25A2A500BD8228 /* sent.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF253D1A25A2A500BD8228 /* sent.png */; };
 		44CF254A1A25A2A500BD8228 /* delete_file.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF253E1A25A2A500BD8228 /* delete_file.png */; };
 		44CF254B1A25A2A500BD8228 /* lol.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF253F1A25A2A500BD8228 /* lol.png */; };
@@ -977,6 +978,7 @@
 		44CBF4061BC93E2700DFECFC /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS2.0.sdk/System/Library/Frameworks/WatchConnectivity.framework; sourceTree = DEVELOPER_DIR; };
 		44CD265C1DD1A15A003F1696 /* MoreInfo.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MoreInfo.storyboard; sourceTree = "<group>"; };
 		44CD96A01C1AA488007E522F /* czzThreadTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadTest.m; sourceTree = "<group>"; };
+		44CEF62E1DD1BBC8002BA6E8 /* PostView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PostView.storyboard; sourceTree = "<group>"; };
 		44CF253D1A25A2A500BD8228 /* sent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sent.png; sourceTree = "<group>"; };
 		44CF253E1A25A2A500BD8228 /* delete_file.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_file.png; sourceTree = "<group>"; };
 		44CF253F1A25A2A500BD8228 /* lol.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lol.png; sourceTree = "<group>"; };
@@ -1232,6 +1234,7 @@
 				5ADCA4691938F67F002BA60B /* ValueFormatter.m */,
 				440B2FCA17F8057500544926 /* czzPostViewController.h */,
 				440B2FCB17F8057500544926 /* czzPostViewController.m */,
+				44CEF62E1DD1BBC8002BA6E8 /* PostView.storyboard */,
 			);
 			name = czzPostViewController;
 			sourceTree = "<group>";
@@ -2925,6 +2928,7 @@
 				44CF25501A25A2A500BD8228 /* lol@3x.png in Resources */,
 				444F5B291A40EA3500EB391F /* 22.png in Resources */,
 				44C3454C187E5C6100FDE45D /* czzEmojiCollectionViewCell.xib in Resources */,
+				44CEF62F1DD1BBC8002BA6E8 /* PostView.storyboard in Resources */,
 				442B3D2E1C79C1EA00403227 /* rules.html in Resources */,
 				44E791D31A17856500A63C04 /* collapse_arrow.png in Resources */,
 				444F5B2E1A40EA3500EB391F /* 27.png in Resources */,

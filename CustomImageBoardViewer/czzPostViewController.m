@@ -58,7 +58,6 @@ static CGFloat compressScale = 0.95;
 @synthesize blacklistEntity;
 @synthesize postSender;
 @synthesize postMode;
-@synthesize forum;
 
 - (void)viewDidLoad
 {
@@ -188,13 +187,13 @@ static CGFloat compressScale = 0.95;
     } else {
         // Construct a new post sender object.
         postSender = [czzPostSender new];
-        postSender.forum = forum;
+        postSender.forum = self.forum;
         switch (postMode) {
             case postViewControllerModeNew:
                 title = @"新内容";
                 postSender.parentThread = nil;
-                targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:forum.name];
-                postSender.forum = forum;
+                targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:self.forum.name];
+                postSender.forum = self.forum;
                 postSender.postMode = postSenderModeNew;
                 break;
             case postViewControllerModeReply:
@@ -574,14 +573,39 @@ static CGFloat compressScale = 0.95;
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
     [super encodeRestorableStateWithCoder:coder];
+    if (self.parentThread) {
+        [coder encodeObject:self.parentThread forKey:@"parentThread"];
+    }
+    if (self.replyToThread) {
+        [coder encodeObject:self.replyToThread forKey:@"replyToThread"];
+    }
+    if (self.forum) {
+        [coder encodeObject:self.forum forKey:@"forum"];
+    }
+    [coder encodeInteger:self.postMode forKey:@"postMode"];
+    [coder encodeObject:self.postTextView.text forKey:@"postTextView.text"];
 }
 
 - (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
     [super decodeRestorableStateWithCoder:coder];
+    czzThread *parentThread = [coder decodeObjectForKey:@"parentThread"];
+    czzThread *replyToThread = [coder decodeObjectForKey:@"replyToThread"];
+    czzForum *forum = [coder decodeObjectForKey:@"forum"];
+    if ([parentThread isKindOfClass:[czzThread class]]) {
+        self.parentThread = parentThread;
+    }
+    if ([replyToThread isKindOfClass:[czzThread class]]) {
+        self.replyToThread = replyToThread;
+    }
+    if ([forum isKindOfClass:[czzForum class]]) {
+        self.forum = forum;
+    }
+    self.postMode = [coder decodeIntegerForKey:@"postMode"];
+    self.postTextView.text = [coder decodeObjectForKey:@"postTextView.text"];
 }
 
 + (instancetype)new {
-    return [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"post_view_controller"];
+    return [[UIStoryboard storyboardWithName:@"PostView" bundle:nil] instantiateViewControllerWithIdentifier:@"post_view_controller"];
 }
 
 @end
