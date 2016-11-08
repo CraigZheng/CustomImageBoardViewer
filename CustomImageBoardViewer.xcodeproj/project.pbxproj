@@ -316,6 +316,7 @@
 		44C73BE11A496D6E0051D4C2 /* ipad horizontal launch screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C73BDD1A496D6E0051D4C2 /* ipad horizontal launch screen.png */; };
 		44C89ADC185C145C00E65B73 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44C89ADB185C145C00E65B73 /* QuartzCore.framework */; };
 		44CBF4001BC9245300DFECFC /* czzCacheCleaner.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CBF3FF1BC9245300DFECFC /* czzCacheCleaner.m */; };
+		44CD265D1DD1A15A003F1696 /* MoreInfo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44CD265C1DD1A15A003F1696 /* MoreInfo.storyboard */; };
 		44CD96A11C1AA488007E522F /* czzThreadTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CD96A01C1AA488007E522F /* czzThreadTest.m */; };
 		44CF25491A25A2A500BD8228 /* sent.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF253D1A25A2A500BD8228 /* sent.png */; };
 		44CF254A1A25A2A500BD8228 /* delete_file.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF253E1A25A2A500BD8228 /* delete_file.png */; };
@@ -974,6 +975,7 @@
 		44CBF3FE1BC9245300DFECFC /* czzCacheCleaner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzCacheCleaner.h; sourceTree = "<group>"; };
 		44CBF3FF1BC9245300DFECFC /* czzCacheCleaner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzCacheCleaner.m; sourceTree = "<group>"; };
 		44CBF4061BC93E2700DFECFC /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS2.0.sdk/System/Library/Frameworks/WatchConnectivity.framework; sourceTree = DEVELOPER_DIR; };
+		44CD265C1DD1A15A003F1696 /* MoreInfo.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MoreInfo.storyboard; sourceTree = "<group>"; };
 		44CD96A01C1AA488007E522F /* czzThreadTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadTest.m; sourceTree = "<group>"; };
 		44CF253D1A25A2A500BD8228 /* sent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sent.png; sourceTree = "<group>"; };
 		44CF253E1A25A2A500BD8228 /* delete_file.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_file.png; sourceTree = "<group>"; };
@@ -2601,6 +2603,7 @@
 				44B96E38185B97C700D664A4 /* czzSettingsViewController */,
 				5A0A6BD41848691C0094D7FB /* czzMoreInfoViewController.h */,
 				5A0A6BD51848691C0094D7FB /* czzMoreInfoViewController.m */,
+				44CD265C1DD1A15A003F1696 /* MoreInfo.storyboard */,
 			);
 			name = czzMoreInfoViewController;
 			sourceTree = "<group>";
@@ -2889,6 +2892,7 @@
 				442EC86D1A1A1C8D005650E4 /* info@2x.png in Resources */,
 				44E791EE1A17856500A63C04 /* previous@3x.png in Resources */,
 				44E2D2D81B2DB77B0029D783 /* Utility.storyboard in Resources */,
+				44CD265D1DD1A15A003F1696 /* MoreInfo.storyboard in Resources */,
 				44DF8F081A7512730097F7F5 /* save_as@2x.png in Resources */,
 				44E791F41A17856500A63C04 /* sad@3x.png in Resources */,
 				44E791D01A17856500A63C04 /* bookmark.png in Resources */,

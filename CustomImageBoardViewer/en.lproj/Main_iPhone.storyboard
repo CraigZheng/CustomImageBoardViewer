@@ -519,7 +519,7 @@
         <!--更多信息-->
         <scene sceneID="FQw-Yq-6Lf">
             <objects>
-                <viewController storyboardIdentifier="more_info_view_controller" extendedLayoutIncludesOpaqueBars="YES" id="pea-yg-qeq" customClass="czzMoreInfoViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="more_info_view_controller" extendedLayoutIncludesOpaqueBars="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="pea-yg-qeq" customClass="czzMoreInfoViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="rSl-MR-iaT"/>
                         <viewControllerLayoutGuide type="bottom" id="Nol-um-XSe"/>

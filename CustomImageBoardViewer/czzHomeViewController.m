@@ -246,7 +246,12 @@
     } else {
         czzMoreInfoViewController *moreInfoViewController = [czzMoreInfoViewController new];
         moreInfoViewController.forum = self.homeViewManager.forum;
-        [self presentViewController:[[UINavigationController alloc] initWithRootViewController:moreInfoViewController] animated:YES completion:nil];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:moreInfoViewController];
+        navigationController.restorationIdentifier = @"navigationController";
+        navigationController.restorationClass = [UINavigationController class];
+        [NavigationManager.delegate presentViewController:navigationController
+                                                 animated:YES
+                                               completion:nil];
     }
 }
 
