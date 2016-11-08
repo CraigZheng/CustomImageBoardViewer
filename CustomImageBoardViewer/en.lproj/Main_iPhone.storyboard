@@ -19,7 +19,7 @@
                 <navigationController storyboardIdentifier="home_navigation_controller" definesPresentationContext="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" toolbarHidden="NO" id="RdH-Rq-QxN" customClass="czzNavigationController" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="wb3-Lf-Oq2"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Bh6-TG-z4L">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Bh6-TG-z4L">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -58,7 +58,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" restorationIdentifier="thread_table_view" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="kEK-ic-Yzh" customClass="czzThreadTableView">
+                            <tableView autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="kEK-ic-Yzh" customClass="czzThreadTableView">
                                 <rect key="frame" x="0.0" y="64" width="375" height="559"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </tableView>
@@ -253,7 +253,7 @@
         <scene sceneID="HTC-ji-8m9">
             <objects>
                 <navigationController id="2sO-mD-hlm" customClass="SlideNavigationController" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="v7w-pJ-Ogk">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="v7w-pJ-Ogk">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -269,7 +269,7 @@
         <scene sceneID="D6U-ZS-glQ">
             <objects>
                 <navigationController storyboardIdentifier="right_menu_view_controller" definesPresentationContext="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="WMA-TX-nbY" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="oai-S5-adF">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="oai-S5-adF">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -504,7 +504,7 @@
         <scene sceneID="U1A-ov-2qI">
             <objects>
                 <navigationController id="12e-eL-bfH" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="2Sw-YZ-owa">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="2Sw-YZ-owa">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -625,7 +625,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Setting" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Vz-rW-fKi">
-                                                    <rect key="frame" x="20" y="0.0" width="250" height="43.5"/>
+                                                    <rect key="frame" x="20" y="0.0" width="250" height="44"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -784,7 +784,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="thread_table_view" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="l2k-8P-m8U" customClass="czzThreadTableView">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="l2k-8P-m8U" customClass="czzThreadTableView">
                                 <rect key="frame" x="0.0" y="64" width="375" height="559"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
@@ -983,8 +983,8 @@
         <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="iCw-oH-DlZ"/>
-        <segue reference="5Fw-Ve-fjP"/>
         <segue reference="vK6-NU-jzp"/>
+        <segue reference="5Fw-Ve-fjP"/>
+        <segue reference="iCw-oH-DlZ"/>
     </inferredMetricsTieBreakers>
 </document>

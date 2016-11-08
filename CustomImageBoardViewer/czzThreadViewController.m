@@ -457,7 +457,8 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
     DLog(@"");
     // Save the current thread.
-    [coder encodeObject:self.thread forKey:@"thread"];    
+    [coder encodeObject:self.thread forKey:@"thread"];
+    [coder encodeObject:[NSValue valueWithCGPoint:self.threadTableView.contentOffset] forKey:@"TableViewContentOffset"];
     [super encodeRestorableStateWithCoder:coder];
 }
 
@@ -466,6 +467,10 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [super decodeRestorableStateWithCoder:coder];
     // Restore the thread.
     self.thread = [coder decodeObjectForKey:@"thread"];
+    NSValue *contentOffsetValue;
+    if ([(contentOffsetValue = [coder decodeObjectForKey:@"TableViewContentOffset"]) isKindOfClass:[NSValue class]]) {
+        [self.threadTableView setContentOffset:contentOffsetValue.CGPointValue];
+    }
 }
 
 - (void)applicationFinishedRestoringState {

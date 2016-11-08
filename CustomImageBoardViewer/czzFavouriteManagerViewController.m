@@ -195,11 +195,16 @@ static NSInteger const respondsHistoryIndex = 2;
     [super encodeRestorableStateWithCoder:coder];
     [coder encodeInteger:self.titleSegmentedControl.selectedSegmentIndex forKey:@"titleSegmentedControl"];
     [coder encodeInteger:self.historyTypeSegmentedControl.selectedSegmentIndex forKey:@"historyTypeSegmentedControl"];
+    [coder encodeObject:[NSValue valueWithCGPoint:self.tableView.contentOffset] forKey:@"TableViewContentOffset"];
 }
 
 - (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
     self.titleSegmentedControl.selectedSegmentIndex = [coder decodeIntegerForKey:@"titleSegmentedControl"];
     self.historyTypeSegmentedControl.selectedSegmentIndex = [coder decodeIntegerForKey:@"historyTypeSegmentedControl"];
+    NSValue *contentOffsetValue;
+    if ([(contentOffsetValue = [coder decodeObjectForKey:@"TableViewContentOffset"]) isKindOfClass:[NSValue class]]) {
+        [self.tableView setContentOffset:contentOffsetValue.CGPointValue];
+    }
     [super decodeRestorableStateWithCoder:coder];
 }
 

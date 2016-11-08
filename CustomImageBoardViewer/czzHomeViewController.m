@@ -372,11 +372,16 @@
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
     DLog(@"");
+    [coder encodeObject:[NSValue valueWithCGPoint:self.threadTableView.contentOffset] forKey:@"TableViewContentOffset"];
     [super encodeRestorableStateWithCoder:coder];
 }
 
 - (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
     DLog(@"");
+    NSValue *contentOffsetValue;
+    if ([(contentOffsetValue = [coder decodeObjectForKey:@"TableViewContentOffset"]) isKindOfClass:[NSValue class]]) {
+        [self.threadTableView setContentOffset:contentOffsetValue.CGPointValue];
+    }
     [super decodeRestorableStateWithCoder:coder];
 }
 
