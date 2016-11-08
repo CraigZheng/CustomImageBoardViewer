@@ -143,8 +143,12 @@ NSString * const kPickedForum = @"PickedForum";
 
 - (IBAction)moreInfoAction:(id)sender {
     // Present more info view controller with no selected forum.
-    UIViewController *topViewContorller = [UIApplication topViewController];
-    [topViewContorller presentViewController:[[UINavigationController alloc] initWithRootViewController:[czzMoreInfoViewController new]] animated:YES completion:nil];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[czzMoreInfoViewController new]];
+    navigationController.restorationIdentifier = @"navigationController";
+    navigationController.restorationClass = [UINavigationController class];
+    [NavigationManager.delegate presentViewController:navigationController
+                                             animated:YES
+                                           completion:nil];
 }
 
 #pragma UITableView datasouce

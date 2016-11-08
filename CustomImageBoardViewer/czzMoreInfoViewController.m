@@ -155,6 +155,16 @@
     return YES;
 }
 
+#pragma mark - UIStateRestoring
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
+    [super encodeRestorableStateWithCoder:coder];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
+    [super decodeRestorableStateWithCoder:coder];
+}
+
 #pragma mark - UIGestureRecognizerDelegate
 
 // This is required in order to get the gesture reconizer working on a web view.
@@ -163,7 +173,7 @@
 }
 
 + (instancetype)new {
-    return [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"more_info_view_controller"];
+    return [[UIStoryboard storyboardWithName:@"MoreInfo" bundle:nil] instantiateViewControllerWithIdentifier:@"more_info_view_controller"];
 }
 
 @end

@@ -65,7 +65,7 @@ static CGFloat compressScale = 0.95;
     [super viewDidLoad];
     // observe keyboard hide and show notifications to resize the text view appropriately
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillShow:)
+                                         selector:@selector(keyboardWillShow:)
                                                  name:UIKeyboardWillShowNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -568,6 +568,16 @@ static CGFloat compressScale = 0.95;
     [self dismissSemiModalViewWithCompletion:^{
         [postTextView becomeFirstResponder];
     }];
+}
+
+#pragma mark - UIStateRestoring
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
+    [super encodeRestorableStateWithCoder:coder];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
+    [super decodeRestorableStateWithCoder:coder];
 }
 
 + (instancetype)new {
