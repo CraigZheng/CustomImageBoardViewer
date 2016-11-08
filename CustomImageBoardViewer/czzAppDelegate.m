@@ -23,11 +23,13 @@
 #import "czzFavouriteManager.h"
 #import <Google/Analytics.h>
 #import <WatchConnectivity/WatchConnectivity.h>
-
+#import "CustomImageBoardViewer-Swift.h"
 #import "TalkingData.h"
 
 //#import <BugSense-iOS/BugSenseController.h>
 #import <SplunkMint/SplunkMint.h>
+
+@import CocoaLumberjack;
 
 #define LOG_LEVEL_DEF ddLogLevel
 
@@ -249,8 +251,9 @@
 }
 
 -(void)showToast:(NSString *)string{
-    [czzBannerNotificationUtil displayMessage:string
-                                     position:BannerNotificationPositionBottom];
+    [MessagePopup showMessageWithTitle:nil message:string];
+//    [czzBannerNotificationUtil displayMessage:string
+//                                     position:BannerNotificationPositionBottom];
 }
 
 #pragma mark - show and hide uitoolbar
