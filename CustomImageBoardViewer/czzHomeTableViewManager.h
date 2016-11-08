@@ -10,11 +10,12 @@
 #import "czzOnScreenImageManagerViewController.h"
 #import "czzThreadViewController.h"
 #import "czzMenuEnabledTableViewCell.h"
+#import "UIScrollView+EmptyDataSet.h"
 
 @class czzHomeViewManager, czzThreadViewCommandStatusCellViewController;
 
 
-@interface czzHomeTableViewManager : NSObject <UITableViewDelegate, UITableViewDataSource, czzOnScreenImageManagerViewControllerDelegate, czzMenuEnabledTableViewCellProtocol>
+@interface czzHomeTableViewManager : NSObject <UITableViewDelegate, UITableViewDataSource, czzOnScreenImageManagerViewControllerDelegate, czzMenuEnabledTableViewCellProtocol, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 @property (weak, nonatomic) czzHomeViewManager *homeViewManager;
 @property (weak, nonatomic) czzThreadTableView *homeTableView;

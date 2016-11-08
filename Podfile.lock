@@ -23,6 +23,7 @@ PODS:
   - CocoaLumberjack/Extensions (3.0.0):
     - CocoaLumberjack/Default
   - DACircularProgress (2.3.1)
+  - DZNEmptyDataSet (1.8.1)
   - FirebaseAnalytics (3.4.4):
     - FirebaseCore (~> 3.4)
     - FirebaseInstanceID (~> 1.0)
@@ -59,6 +60,7 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 3.0)
   - CocoaLumberjack
+  - DZNEmptyDataSet
   - Google-Mobile-Ads-SDK (~> 7.0)
   - Google/Analytics
   - iOS-Slide-Menu
@@ -70,6 +72,7 @@ SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   CocoaLumberjack: c823149bccc5519a9447aeb433be7b1212a7d6a5
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
+  DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   FirebaseAnalytics: 0533a00b681e08fd0b2cd0444b7ddf0ef9fd7a1a
   FirebaseCore: 5a885548bbc5f0c410b04f8e9ac9d73ff1221907
   FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
@@ -86,6 +89,6 @@ SPEC CHECKSUMS:
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   SplunkMint: 80997bf71d04cccf567de5dd33cbd72f21f39bc4
 
-PODFILE CHECKSUM: aa4867c577e8320b2e0bcb71b903fa16f03ec434
+PODFILE CHECKSUM: 1981a83fdb98735d635f0779936aee7207123449
 
 COCOAPODS: 1.1.1

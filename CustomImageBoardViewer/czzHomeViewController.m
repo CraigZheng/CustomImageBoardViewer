@@ -35,6 +35,7 @@
 #import "czzMiniThreadViewController.h"
 #import "czzBannerNotificationUtil.h"
 #import "czzAutoEndingRefreshControl.h"
+#import "UIScrollView+EmptyDataSet.h"
 
 #import <CoreText/CoreText.h>
 
@@ -61,9 +62,11 @@
 {
     [super viewDidLoad];
     
-    //assign a custom tableview data source
+    // Assign the data sources and delegates.
     self.threadTableView.dataSource = self.homeTableViewManager;
     self.threadTableView.delegate = self.homeTableViewManager;
+    self.threadTableView.emptyDataSetSource = self.homeTableViewManager;
+    self.threadTableView.emptyDataSetDelegate = self.homeTableViewManager;
     
     // Load data into tableview
     [self updateTableView];
