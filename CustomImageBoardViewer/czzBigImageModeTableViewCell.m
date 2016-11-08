@@ -9,7 +9,8 @@
 #import "czzBigImageModeTableViewCell.h"
 
 #import "czzImageDownloader.h"
-#import <UIImageView+WebCache.h>
+
+@import SDWebImage;
 
 @interface czzBigImageModeTableViewCell()
 @property (weak, nonatomic) IBOutlet UIImageView *bigImageView;
