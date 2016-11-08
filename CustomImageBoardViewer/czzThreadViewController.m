@@ -456,7 +456,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
     DLog(@"");
-    [self.threadViewManager saveCurrentState];
     // Save the current thread.
     [coder encodeObject:self.thread forKey:@"thread"];    
     [super encodeRestorableStateWithCoder:coder];

@@ -372,18 +372,17 @@
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
     DLog(@"");
-    [self.homeViewManager saveCurrentState];
     [super encodeRestorableStateWithCoder:coder];
 }
 
 - (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
     DLog(@"");
     [super decodeRestorableStateWithCoder:coder];
-    [self.homeViewManager restorePreviousState];
 }
 
 - (void)applicationFinishedRestoringState {
     DLog(@"");
+    [self.homeViewManager restorePreviousState];
     [self updateTableView];
 }
 

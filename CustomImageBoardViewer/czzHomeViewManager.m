@@ -30,6 +30,13 @@
                                                       usingBlock:^(NSNotification * _Nonnull note) {
                                                           [self reloadData];
                                                       }];
+        [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillResignActiveNotification
+                                                          object:nil
+                                                           queue:[NSOperationQueue mainQueue]
+                                                      usingBlock:^(NSNotification * _Nonnull note) {
+                                                          // Save current state upon entering background state.
+                                                          [self saveCurrentState];
+                                                      }];
     }
     return self;
 }
