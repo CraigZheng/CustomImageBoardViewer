@@ -144,8 +144,7 @@ NSString * const kPickedForum = @"PickedForum";
 - (IBAction)moreInfoAction:(id)sender {
     // Present more info view controller with no selected forum.
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[czzMoreInfoViewController new]];
-    navigationController.restorationIdentifier = @"navigationController";
-    navigationController.restorationClass = [UINavigationController class];
+    navigationController.restorationIdentifier = NSStringFromClass([UINavigationController class]);
     [NavigationManager.delegate presentViewController:navigationController
                                              animated:YES
                                            completion:nil];

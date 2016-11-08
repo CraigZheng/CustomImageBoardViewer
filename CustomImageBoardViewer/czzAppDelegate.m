@@ -131,6 +131,15 @@
     return YES;
 }
 
+- (UIViewController *)application:(UIApplication *)application viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder {
+    if ([identifierComponents.lastObject isEqualToString:NSStringFromClass([UINavigationController class])]) {
+        UIViewController *viewController =  [UINavigationController new];
+        viewController.restorationIdentifier = identifierComponents.lastObject;
+        return viewController;
+    }
+    return nil;
+}
+
 #pragma mark - background fetch
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     DDLogDebug(@"%s", __PRETTY_FUNCTION__);
