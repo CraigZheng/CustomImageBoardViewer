@@ -59,8 +59,7 @@
 
 + (UINavigationController *)wrapWithNavigationController:(UIViewController *)viewController {
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
-    navigationController.restorationIdentifier = @"NavigationController";
-    navigationController.restorationClass = [UINavigationController class];
+    navigationController.restorationIdentifier = NSStringFromClass(navigationController.class);
     return navigationController;
 }
 

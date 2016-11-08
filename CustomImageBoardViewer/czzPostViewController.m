@@ -601,7 +601,11 @@ static CGFloat compressScale = 0.95;
         self.forum = forum;
     }
     self.postMode = [coder decodeIntegerForKey:@"postMode"];
-    self.postTextView.text = [coder decodeObjectForKey:@"postTextView.text"];
+    self.prefilledString = [coder decodeObjectForKey:@"postTextView.text"];
+}
+
+- (void)applicationFinishedRestoringState {
+    [self renderContent];
 }
 
 + (instancetype)new {
