@@ -17,4 +17,5 @@ end
 
 target 'CustomImageBoardViewerTests' do
 pod 'CocoaLumberjack'
+pod 'iOS-Slide-Menu'
 end

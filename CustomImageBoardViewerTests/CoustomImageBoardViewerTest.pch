@@ -51,6 +51,7 @@ _Pragma("clang diagnostic pop") \
 #ifdef __OBJC__
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+@import CocoaLumberjack;
 #endif
 
 #endif /* CoustomImageBoardViewerTest_pch */
