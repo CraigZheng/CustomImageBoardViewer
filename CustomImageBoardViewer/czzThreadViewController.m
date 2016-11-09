@@ -101,13 +101,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [self.progressView viewDidAppear];
 }
 
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    // Cache downloaded data into disk.
-    [self.threadViewManager saveCurrentState];
-}
-
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [self.progressView viewDidDisapper];
@@ -115,6 +108,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 - (void)commonInit {
     [self.threadViewManager restorePreviousState];
+    self.title = self.threadViewManager.parentThread.title;
     // The manager for the table view.
     self.threadTableView.dataSource = self.threadTableViewManager;
     self.threadTableView.delegate = self.threadTableViewManager;
@@ -171,6 +165,9 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     self.threadTableView.dataSource = nil;
     self.threadTableView.delegate = nil;
     [self.threadViewManager stopAllOperation];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    // Cache downloaded data into disk.
+    [self.threadViewManager saveCurrentState];
 }
 
 
