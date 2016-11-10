@@ -120,4 +120,8 @@ class MessagePopup: NSObject {
         SwiftMessages.show(config: config, view: messageView)
     }
     
+    /// For objective C callers.
+    @objc class func showMessagePopup(title: String?, message: String?, layout: MessagePopupLayout, theme: MessagePopupTheme, position: MessagePopupPresentationStyle, buttonTitle: String, buttonActionHandler: ((_ button: UIButton) -> Void)?) {
+        showMessage(title: title, message: message, layout: layout.swiftValue, theme: theme.swiftValue, position: position.swiftValue, buttonTitle: buttonTitle, buttonActionHandler: buttonActionHandler)
+    }
 }
