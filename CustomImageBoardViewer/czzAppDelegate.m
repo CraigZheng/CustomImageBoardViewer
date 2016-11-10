@@ -126,7 +126,7 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
 #pragma mark - Break and restoration.
 
 - (BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder {
-    [[NSUserDefaults standardUserDefaults] setObject:[[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]]
+    [[NSUserDefaults standardUserDefaults] setObject:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]
                                               forKey:lastStateAppVersion];
     [[NSUserDefaults standardUserDefaults] synchronize];
     return YES;
