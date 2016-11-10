@@ -25,7 +25,6 @@
 		4411B2EA1AFF472900E94A5B /* czzForumManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4411B2E91AFF472900E94A5B /* czzForumManager.m */; };
 		4411B2EF1AFF6A5500E94A5B /* default_forums.json in Resources */ = {isa = PBXBuildFile; fileRef = 4411B2EE1AFF6A5500E94A5B /* default_forums.json */; };
 		4412FA151935865800681438 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 4412FA141935865800681438 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		441356091C61B3B6001B82E5 /* czzBannerNotificationUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 441356081C61B3B6001B82E5 /* czzBannerNotificationUtil.m */; };
 		441514821BBAD2A4005ECD96 /* czzImageDownloaderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 441514811BBAD2A4005ECD96 /* czzImageDownloaderManager.m */; };
 		4416B71D19413D9300B69C5B /* czzEmotionPickerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4416B71C19413D9300B69C5B /* czzEmotionPickerTableViewController.m */; };
 		4416B72519413EAF00B69C5B /* FPPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4416B72019413EAF00B69C5B /* FPPopoverController.m */; };
@@ -252,8 +251,6 @@
 		44AE2AFA187254E4002CB021 /* czzMenuEnabledTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AE2AF9187254E4002CB021 /* czzMenuEnabledTableViewCell.m */; };
 		44AE2AFE18725EC4002CB021 /* czzNoSelectionTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AE2AFD18725EC4002CB021 /* czzNoSelectionTextView.m */; };
 		44AE2B011872924C002CB021 /* PartialTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AE2B001872924C002CB021 /* PartialTransparentView.m */; };
-		44B05C1D1C6204FE00F6F5E3 /* czzBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B05C1C1C6204FE00F6F5E3 /* czzBannerView.m */; };
-		44B05C1F1C62051F00F6F5E3 /* czzBannerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B05C1E1C62051F00F6F5E3 /* czzBannerView.xib */; };
 		44B1315C1D1D13BB003D4D0F /* warning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44B1315A1D1D13BB003D4D0F /* warning@2x.png */; };
 		44B1315D1D1D13BB003D4D0F /* warning@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44B1315B1D1D13BB003D4D0F /* warning@3x.png */; };
 		44B54E6A1A0EE1B80004C5B4 /* czzThreadViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B54E691A0EE1B80004C5B4 /* czzThreadViewTableViewCell.xib */; };
@@ -3036,7 +3033,6 @@
 				444F5B411A40EA3500EB391F /* 46.png in Resources */,
 				44CF254A1A25A2A500BD8228 /* delete_file.png in Resources */,
 				44E791EF1A17856500A63C04 /* reply.png in Resources */,
-				44B05C1F1C62051F00F6F5E3 /* czzBannerView.xib in Resources */,
 				44C73BE01A496D6E0051D4C2 /* ipad horizontal launch screen.png in Resources */,
 				44C3455C187E774300FDE45D /* acfun_emoji_UTF8.txt in Resources */,
 				441E5CE217F4691300289DBD /* Main_iPhone.storyboard in Resources */,
@@ -3273,7 +3269,6 @@
 				44CF25691A26B4D000BD8228 /* README.md in Sources */,
 				5A1593EC18E71E93001A774B /* czzThreadRefButton.m in Sources */,
 				44C34550187E616500FDE45D /* czzEmojiCollectionViewController.m in Sources */,
-				44B05C1D1C6204FE00F6F5E3 /* czzBannerView.m in Sources */,
 				44BDA3F91DB7354200D2F576 /* MarkerColourPickerViewController.swift in Sources */,
 				44B89E831A2AFBE30085F766 /* SGProgressView.m in Sources */,
 				440B2FC717F7DB7800544926 /* czzForumsViewController.m in Sources */,
@@ -3346,7 +3341,6 @@
 				440E8B7D1D6C947F00164BC9 /* czzAddForumTableViewController.m in Sources */,
 				4446B5AE1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m in Sources */,
 				44AE2B011872924C002CB021 /* PartialTransparentView.m in Sources */,
-				441356091C61B3B6001B82E5 /* czzBannerNotificationUtil.m in Sources */,
 				44E3F7471BA3007500597A3F /* NSDictionary+Util.m in Sources */,
 				443141971A2B38D6007D65B3 /* czzThreadViewManager.m in Sources */,
 				441E5CDB17F4691300289DBD /* main.m in Sources */,

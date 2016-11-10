@@ -19,10 +19,10 @@
 #import "czzAppDelegate.h"
 #import "czzFavouriteManagerViewController.h"
 #import "Toast+UIView.h"
-#import "czzBannerNotificationUtil.h"
 #import "czzMiniThreadViewController.h"
 #import "czzSettingsCentre.h"
 #import "czzNavigationController.h"
+#import "CustomImageBoardViewer-Swift.h"
 
 @interface czzSearchViewController ()<UIAlertViewDelegate, UIWebViewDelegate>
 @property czzThread *selectedParentThread;
@@ -122,15 +122,13 @@
         if (buttonIndex != alertView.cancelButtonIndex) {
             searchKeyword = [[[alertView textFieldAtIndex:0] text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             if ([self isNumeric:searchKeyword]) {
-                [czzBannerNotificationUtil displayMessage:@"请稍等..."
-                                                 position:BannerNotificationPositionTop];
+                [MessagePopup showMessageWithTitle:nil message:@"请稍等..."];
                 [self downloadAndPrepareThreadWithID:searchKeyword.integerValue];
                 
             } else {
                 NSURLRequest *request = [self makeRequestWithKeyword:searchKeyword];
                 if (!request) {
-                    [czzBannerNotificationUtil displayMessage:@"无效的关键词"
-                                                     position:BannerNotificationPositionTop];
+                    [MessagePopup showMessageWithTitle:nil message:@"无效的关键词"];
                 } else {
                     [searchWebView loadRequest:request];
                 }
@@ -183,8 +181,7 @@
         //get final URL
         NSString *acURL = [[request.URL.absoluteString componentsSeparatedByString:@"?"].firstObject stringByDeletingPathExtension]; //only the first few components are useful, the host and the thread id
         targetURL = [NSURL URLWithString:acURL];
-        [czzBannerNotificationUtil displayMessage:@"请稍等..."
-                                         position:BannerNotificationPositionTop];
+        [MessagePopup showMessageWithTitle:nil message:@"请稍等..."];
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSData *data = nil;
@@ -196,8 +193,7 @@
             NSURL *LastURL = [response URL];
             dispatch_async(dispatch_get_main_queue(), ^{
                 if ([LastURL.absoluteString rangeOfString:[settingCentre a_isle_host]].location == NSNotFound) {
-                    [czzBannerNotificationUtil displayMessage:@"这个App只支持A岛匿名版的链接"
-                                                     position:BannerNotificationPositionTop];
+                    [MessagePopup showMessageWithTitle:nil message:@"这个App只支持A岛匿名版的链接"];
                 } else {
                     //from final URL get thread ID
                     NSString *threadID = [LastURL.absoluteString componentsSeparatedByString:@"/"].lastObject;

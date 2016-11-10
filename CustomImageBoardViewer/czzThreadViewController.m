@@ -8,7 +8,6 @@
 
 #import "czzThreadViewController.h"
 #import "czzThread.h"
-#import "czzBannerNotificationUtil.h"
 #import "SMXMLDocument.h"
 #import "czzImageCacheManager.h"
 #import "czzImageViewerUtil.h"
@@ -31,8 +30,9 @@
 #import "czzReplyUtil.h"
 #import "czzAutoEndingRefreshControl.h"
 #import "czzThreadViewManager.h"
-
 #import "UIImage+animatedGIF.h"
+
+#import "CustomImageBoardViewer-Swift.h"
 
 NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
@@ -283,11 +283,9 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
                 [self.threadViewManager loadMoreThreads:newPageNumber];
                 [self updateTableView];
                 
-                [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) self.threadViewManager.pageNumber]
-                                                 position:BannerNotificationPositionTop];
+                [MessagePopup showMessageWithTitle:nil message:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) newPageNumber]];
             } else {
-                [czzBannerNotificationUtil displayMessage:@"页码无效..."
-                                                 position:BannerNotificationPositionTop];
+                [MessagePopup showMessageWithTitle:nil message:@"页码无效..."];
             }
         } else if (alertView == self.confirmCancelMassiveDownloadAlertView) {
             [self.threadViewManager stopAllOperation];

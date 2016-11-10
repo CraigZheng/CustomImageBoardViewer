@@ -12,7 +12,7 @@
 #import "czzPostViewController.h"
 #import "czzSettingsCentre.h"
 #import "czzAppDelegate.h"
-#import "czzBannerNotificationUtil.h"
+#import "CustomImageBoardViewer-Swift.h"
 
 @implementation czzReplyUtil
 
@@ -23,8 +23,7 @@
         newPostViewController.postMode = postViewControllerModeNew;
         [[czzNavigationManager sharedManager].delegate presentViewController:[self wrapWithNavigationController:newPostViewController] animated:YES completion:nil];
     } else {
-        [czzBannerNotificationUtil displayMessage:@"未选定一个版块"
-                                         position:BannerNotificationPositionTop];
+        [MessagePopup showMessageWithTitle:nil message:@"未选定一个版块"];
     }
 }
 

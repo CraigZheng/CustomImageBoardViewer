@@ -26,9 +26,10 @@
 #import "czzSettingsCentre.h"
 #import "czzThreadDownloader.h"
 #import "czzHistoryManager.h"
-#import "czzBannerNotificationUtil.h"
 #import "czzPostSenderManager.h"
 #import <AssetsLibrary/AssetsLibrary.h>
+
+#import "CustomImageBoardViewer-Swift.h"
 
 static CGFloat compressScale = 0.95;
 
@@ -256,8 +257,7 @@ static CGFloat compressScale = 0.95;
         [postTextView resignFirstResponder];
         [postButton setEnabled:NO];
         [self dismissWithCompletionHandler:^{
-            [czzBannerNotificationUtil displayMessage:@"正在发送..."
-                                             position:BannerNotificationPositionTop];
+            [MessagePopup showMessageWithTitle:nil message:@"正在发送..."];
         }];
         //if blacklist entity is not nil, then also send a copy to my server
         if (self.blacklistEntity){
@@ -280,7 +280,7 @@ static CGFloat compressScale = 0.95;
                                                                                              label:label
                                                                                              value:@1] build]];
     } else {
-        [czzBannerNotificationUtil displayMessage:@"请检查内容" position:BannerNotificationPositionTop];
+        [MessagePopup showMessageWithTitle:nil message:@"请检查内容"];
     }
 }
 
@@ -338,8 +338,7 @@ static CGFloat compressScale = 0.95;
     postTextView.text = @"";
     self.pickedImageData = nil;
     self.pickedImageFormat = nil;
-    [czzBannerNotificationUtil displayMessage:@"内容和图片已清空"
-                                     position:BannerNotificationPositionTop];
+    [MessagePopup showMessageWithTitle:nil message:@"内容和图片已清空"];
 }
 
 - (void)dismissWithCompletionHandler:(void(^)(void))completionHandler {

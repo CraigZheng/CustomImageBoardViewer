@@ -11,7 +11,7 @@
 #import "czzAppDelegate.h"
 #import "czzSettingsCentre.h"
 #import "Toast+UIView.h"
-#import "czzBannerNotificationUtil.h"
+#import "CustomImageBoardViewer-Swift.h"
 
 @interface czzFeedbackViewController ()
 @property UIViewController *topController;
@@ -156,7 +156,7 @@
     myFeedback.content = contentTextView.text;
     [contentTextView resignFirstResponder];
     if (contentTextView.text.length <= 0) {
-        [czzBannerNotificationUtil displayMessage:@"请输入内容" position:BannerNotificationPositionTop];
+        [MessagePopup showMessageWithTitle:nil message:@"请输入内容"];
         return;
     }
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -164,14 +164,14 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 DDLogDebug(@"feedback sent");
                 [self.navigationController popViewControllerAnimated:YES];
-                [AppDelegate.window makeToast:@"谢谢你的意见！" duration:1.5 position:@"bottom"];
+                [MessagePopup showMessageWithTitle:nil message:@"谢谢你的意见！"];
             });
             
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
                 DDLogDebug(@"feedback sent");
                 [self.navigationController popViewControllerAnimated:YES];
-                [czzBannerNotificationUtil displayMessage:@"无法发送，请到我的主页直接给我留言" position:BannerNotificationPositionTop];
+                [MessagePopup showMessageWithTitle:nil message:@"无法发送，请到我的主页直接给我留言"];
             });
         }
     });

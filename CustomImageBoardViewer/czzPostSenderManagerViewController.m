@@ -12,7 +12,7 @@
 #import "czzPostSender.h"
 #import "czzPostViewController.h"
 #import "czzReplyUtil.h"
-#import "czzBannerNotificationUtil.h"
+#import "CustomImageBoardViewer-Swift.h"
 
 @interface czzPostSenderManagerViewController ()<czzPostSenderManagerDelegate, UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *indicatorImageView;
@@ -152,7 +152,7 @@
 
 - (void)postSenderManager:(czzPostSenderManager *)manager severeWarningReceivedForPostSender:(czzPostSender *)postSender {
     [self showWarning];
-    [czzBannerNotificationUtil displayMessage:@"无法确认信息发送成功" position:BannerNotificationPositionBottom];
+    [MessagePopup showMessageWithTitle:nil message:@"无法确认信息发送成功"];
 }
 
 - (void)postSenderManager:(czzPostSenderManager *)manager postingCompletedForSender:(czzPostSender *)postSender success:(BOOL)success message:(NSString *)message {
@@ -160,11 +160,9 @@
         // Delay just a bit.
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             if (success) {
-                [czzBannerNotificationUtil displayMessage:@"提交成功"
-                                                 position:BannerNotificationPositionTop];
+                [MessagePopup showMessageWithTitle:nil message:@"提交成功"];
             } else {
-                [czzBannerNotificationUtil displayMessage:message.length ? message : @"出错啦"
-                                                 position:BannerNotificationPositionTop];
+                [MessagePopup showMessageWithTitle:nil message:message.length ? message : @"出错啦"];
                 // Keep a reference to the failed post sender, and display the warning icon.
                 [self showError];
             }

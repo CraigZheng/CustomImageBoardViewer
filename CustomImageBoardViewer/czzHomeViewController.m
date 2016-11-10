@@ -33,8 +33,8 @@
 #import "czzReplyUtil.h"
 #import "czzPostSenderManagerViewController.h"
 #import "czzMiniThreadViewController.h"
-#import "czzBannerNotificationUtil.h"
 #import "czzAutoEndingRefreshControl.h"
+#import "CustomImageBoardViewer-Swift.h"
 
 #import <CoreText/CoreText.h>
 
@@ -136,7 +136,7 @@
         if (!self.homeViewManager.forum) {
             if ([czzForumManager sharedManager].forums.count > 0)
             {
-                [czzBannerNotificationUtil displayMessage:@"用户没有选择板块，随机选择……" position:BannerNotificationPositionTop];
+                [MessagePopup showMessageWithTitle:nil message:@"用户没有选择板块，随机选择……"];
                 @try {
                     NSUInteger randomIndex = arc4random_uniform([czzForumManager sharedManager].forums.count);
                     [self.homeViewManager setForum:[[czzForumManager sharedManager].forums objectAtIndex:randomIndex]];
@@ -218,11 +218,9 @@
                 [self updateTableView];
                 [self.homeViewManager loadMoreThreads:newPageNumber];
                 
-                [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)self.homeViewManager.pageNumber]
-                                                 position:BannerNotificationPositionTop];
+                [MessagePopup showMessageWithTitle:nil message:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)self.homeViewManager.pageNumber]];
             } else {
-                [czzBannerNotificationUtil displayMessage:@"页码无效..."
-                                                 position:BannerNotificationPositionTop];
+                [MessagePopup showMessageWithTitle:nil message:@"页码无效..."];
             }
         }
     }

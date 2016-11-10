@@ -9,7 +9,7 @@
 #import "czzImageManagerViewController.h"
 #import "czzImageCacheManager.h"
 #import "czzAppDelegate.h"
-#import "czzBannerNotificationUtil.h"
+#import "CustomImageBoardViewer-Swift.h"
 #import "czzImageViewerUtil.h"
 
 #define FULL_SIZE_IMAGE 0
@@ -116,8 +116,7 @@
     [super didReceiveMemoryWarning];
     [self dismissViewControllerAnimated:YES completion:nil];
     [self.navigationController popToRootViewControllerAnimated:YES];
-    [czzBannerNotificationUtil displayMessage:@"内存不足，退出图片管理器以避免崩溃"
-                                     position:BannerNotificationPositionTop];
+    [MessagePopup showMessageWithTitle:nil message:@"内存不足，退出图片管理器以避免崩溃"];
 }
 
 @end
