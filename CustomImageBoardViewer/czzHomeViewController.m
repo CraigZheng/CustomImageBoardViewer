@@ -218,7 +218,7 @@
                 [self updateTableView];
                 [self.homeViewManager loadMoreThreads:newPageNumber];
                 
-                [MessagePopup showMessageWithTitle:nil message:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)self.homeViewManager.pageNumber]];
+                [MessagePopup showMessageWithTitle:nil message:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)newPageNumber]];
             } else {
                 [MessagePopup showMessageWithTitle:nil message:@"页码无效..."];
             }
