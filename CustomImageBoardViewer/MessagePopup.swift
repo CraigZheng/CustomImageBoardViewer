@@ -103,6 +103,10 @@ class MessagePopup: NSObject {
         showMessage(title: title, message: message, layout: .CardView)
     }
     
+    @objc class func showStatusBarMessage(message: String?) {
+        showMessage(title: nil, message: message, layout: .StatusLine)
+    }
+    
     class func showMessage(title: String?, message: String?, layout: MessageView.Layout = .CardView, theme: Theme = .info, position: SwiftMessages.PresentationStyle = .top, buttonTitle: String? = nil, buttonActionHandler: ((_ button: UIButton) -> Void)? = nil) {
         let messageView = MessageView.viewFromNib(layout: layout)
         messageView.configureTheme(theme)
@@ -114,9 +118,12 @@ class MessagePopup: NSObject {
         } else {
             messageView.button?.isHidden = true
         }
+        messageView.iconImageView?.isHidden = !(theme == .info)
+        messageView.iconLabel?.isHidden = !(theme == .info)
         // Show with default config.
         var config = SwiftMessages.Config()
         config.presentationStyle = position
+        config.presentationContext = .window(windowLevel: UIWindowLevelStatusBar)
         SwiftMessages.show(config: config, view: messageView)
     }
     

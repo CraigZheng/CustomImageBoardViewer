@@ -29,6 +29,8 @@
 #import "czzBigImageModeTableViewCell.h"
 #import <ImageIO/ImageIO.h>
 
+#import "CustomImageBoardViewer-Swift.h"
+
 @interface czzHomeTableViewManager() <czzImageDownloaderManagerDelegate, UIDataSourceModelAssociation>
 
 @property (strong) czzImageViewerUtil *imageViewerUtil;
@@ -396,7 +398,13 @@ estimatedHeightForRowAtIndexPath:indexPath];
             if (thread) {
                 [self.homeViewManager showContentWithThread:thread];
             } else {
-                [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"找不到引用串：%ld", (long)thread.ID]];
+                [MessagePopup showMessagePopupWithTitle:nil
+                                                message:[NSString stringWithFormat:@"找不到引用串：%ld", (long)thread.ID]
+                                                 layout:MessagePopupLayoutCardView
+                                                  theme:MessagePopupThemeError
+                                               position:MessagePopupPresentationStyleTop
+                                            buttonTitle:nil
+                                    buttonActionHandler:nil];
             }
         });
     });
@@ -455,7 +463,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
                 }
             } else if (!settingCentre.userDefShouldUseBigImage && !settingCentre.shouldShowImageManagerButton) {
                 // When not automatically openning image, not big image mode and not showing image manager button, show a toast message to user instead.
-                [AppDelegate showToast:@"图片下载完毕"];
+                [MessagePopup showStatusBarMessageWithMessage:@"图片下载完毕"];
             }
         }
     } else
@@ -464,12 +472,12 @@ estimatedHeightForRowAtIndexPath:indexPath];
 
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedStopped:(czzImageDownloader *)downloader imageName:(NSString *)imageName {
     if (![downloader isThumbnail])
-        [AppDelegate showToast:@"停止下载图片..."];
+        [MessagePopup showStatusBarMessageWithMessage:@"停止下载图片..."];
 }
 
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedStarted:(czzImageDownloader *)downloader imageName:(NSString *)imageName {
     if (![downloader isThumbnail])
-        [AppDelegate showToast:@"开始下载图片..."];
+        [MessagePopup showStatusBarMessageWithMessage:@"开始下载图片..."];
 }
 
 #pragma mark - Getters 
