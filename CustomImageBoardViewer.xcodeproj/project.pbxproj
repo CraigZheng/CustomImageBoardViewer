@@ -72,7 +72,6 @@
 		442EC86D1A1A1C8D005650E4 /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 442EC86A1A1A1C8D005650E4 /* info@2x.png */; };
 		442EC86E1A1A1C8D005650E4 /* info@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 442EC86B1A1A1C8D005650E4 /* info@3x.png */; };
 		442F1FD71B13535B00267698 /* czzHomeTableViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FD61B13535B00267698 /* czzHomeTableViewManager.m */; };
-		442F1FD81B13535B00267698 /* czzHomeTableViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FD61B13535B00267698 /* czzHomeTableViewManager.m */; };
 		442F1FE21B15FC8500267698 /* UINavigationController+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FDE1B15FC8500267698 /* UINavigationController+Util.m */; };
 		442F1FE31B15FC8500267698 /* UINavigationController+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FDE1B15FC8500267698 /* UINavigationController+Util.m */; };
 		442F1FE41B15FC8500267698 /* UIApplication+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FE01B15FC8500267698 /* UIApplication+Util.m */; };
@@ -3378,7 +3377,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				445CA5551CA3BB9400D3C315 /* czzLaunchPopUpNotification.m in Sources */,
-				442F1FD81B13535B00267698 /* czzHomeTableViewManager.m in Sources */,
 				44C73B8A1A4840100051D4C2 /* czzHistoryManager.m in Sources */,
 				44989A261CFC5AE900F04ECD /* czzPopularThreadsManager.m in Sources */,
 				4490A80F1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m in Sources */,
