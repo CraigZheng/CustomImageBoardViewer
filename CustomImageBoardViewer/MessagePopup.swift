@@ -121,7 +121,7 @@ class MessagePopup: NSObject {
     }
     
     /// For objective C callers.
-    @objc class func showMessagePopup(title: String?, message: String?, layout: MessagePopupLayout, theme: MessagePopupTheme, position: MessagePopupPresentationStyle, buttonTitle: String, buttonActionHandler: ((_ button: UIButton) -> Void)?) {
+    @objc class func showMessagePopup(title: String?, message: String?, layout: MessagePopupLayout, theme: MessagePopupTheme, position: MessagePopupPresentationStyle, buttonTitle: String?, buttonActionHandler: ((_ button: UIButton) -> Void)?) {
         showMessage(title: title, message: message, layout: layout.swiftValue, theme: theme.swiftValue, position: position.swiftValue, buttonTitle: buttonTitle, buttonActionHandler: buttonActionHandler)
     }
 }
