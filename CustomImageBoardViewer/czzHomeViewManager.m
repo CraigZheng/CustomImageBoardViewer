@@ -47,12 +47,11 @@
 
 #pragma mark - state perserving/restoring
 -(NSString*)saveCurrentState {
+    DLog(@"");
     NSString *cachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:self.cacheFile];
     if ([NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
-        DDLogDebug(@"save state successed");
         return cachePath;
     } else {
-        DDLogDebug(@"save state failed");
         [[NSFileManager defaultManager] removeItemAtPath:cachePath error:nil];
         return nil;
     }
