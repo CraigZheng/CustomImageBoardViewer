@@ -12,6 +12,7 @@
 #import "czzWatchListManager.h"
 #import "czzThreadDownloader.h"
 #import "czzMassiveThreadDownloader.h"
+#import "czzMarkerManager.h"
 
 @interface czzThreadViewManager() <czzMassiveThreadDownloaderDelegate>
 @property (nonatomic, assign) NSUInteger cutOffIndex;
@@ -26,7 +27,7 @@
 
 #pragma mark - life cycle.
 -(instancetype)initWithParentThread:(czzThread *)thread andForum:(czzForum *)forum{
-    self = [czzThreadViewManager new];
+    self = [self init];
     if (self) {
         // Record history
         self.parentThread = thread;

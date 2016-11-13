@@ -73,7 +73,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @synthesize onScreenImageManagerViewContainer;
 @synthesize moreButton;
 @synthesize shouldRestoreContentOffset;
-@synthesize threadViewManager = _threadViewManager;
 
 #pragma mark - view controller life cycle.
 - (void)viewDidLoad
@@ -107,6 +106,8 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 - (void)commonInit {
+    self.threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:self.thread andForum:nil];
+    self.threadViewManager.delegate = self;
     [self.threadViewManager restorePreviousState];
     self.title = self.threadViewManager.parentThread.title;
     // The manager for the table view.
@@ -168,6 +169,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     // Cache downloaded data into disk.
     [self.threadViewManager saveCurrentState];
+    self.threadViewManager = nil;
 }
 
 
@@ -207,45 +209,39 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     return _threadTableViewManager;
 }
 
-- (czzThreadViewManager *)threadViewManager {
-    if (!_threadViewManager) {
-        _threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:self.thread andForum:nil];
-        _threadViewManager.delegate = self;
-    }
-    return _threadViewManager;
-}
-
 #pragma mark - setter
 -(void)setThreadViewManager:(czzThreadViewManager *)viewManager {
     _threadViewManager = viewManager;
-    self.title = self.threadViewManager.parentThread.title;
-
-    // Update bar buttons.
-    if (!numberBarButton.customView) {
-        numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
-    }
-    
-    [(czzRoundButton*)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.threadViewManager.threads.count] forState:UIControlStateNormal];
-    if (self.threadViewManager.threads.count <= 0)
-        numberBarButton.customView.hidden = YES;
-    else
-        numberBarButton.customView.hidden = NO;
-    // Hide the massive download button at first, then show it with animation.
-    // Show it only when the total pages is still 3 or more pages away from the current page number.
-    if (!self.massiveDownloadButtonHeightConstraint.constant &&
-        viewManager.totalPages - viewManager.pageNumber >= 3) {
-        self.massiveDownloadButtonHeightConstraint.constant = 40;
-        [UIView animateWithDuration:0.2 animations:^{
-            [self.view layoutIfNeeded];
-        }];
-    }
-    // Else, if the massive download button is showing and view manager has reached all of its pages.
-    else if (self.massiveDownloadButtonHeightConstraint.constant &&
-               viewManager.pageNumber >= viewManager.totalPages) {
-        self.massiveDownloadButtonHeightConstraint.constant = 0;
-        [UIView animateWithDuration:0.2 animations:^{
-            [self.view layoutIfNeeded];
-        }];
+    if (viewManager) {
+        self.title = self.threadViewManager.parentThread.title;
+        
+        // Update bar buttons.
+        if (!numberBarButton.customView) {
+            numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
+        }
+        
+        [(czzRoundButton*)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.threadViewManager.threads.count] forState:UIControlStateNormal];
+        if (self.threadViewManager.threads.count <= 0)
+            numberBarButton.customView.hidden = YES;
+        else
+            numberBarButton.customView.hidden = NO;
+        // Hide the massive download button at first, then show it with animation.
+        // Show it only when the total pages is still 3 or more pages away from the current page number.
+        if (!self.massiveDownloadButtonHeightConstraint.constant &&
+            viewManager.totalPages - viewManager.pageNumber >= 3) {
+            self.massiveDownloadButtonHeightConstraint.constant = 40;
+            [UIView animateWithDuration:0.2 animations:^{
+                [self.view layoutIfNeeded];
+            }];
+        }
+        // Else, if the massive download button is showing and view manager has reached all of its pages.
+        else if (self.massiveDownloadButtonHeightConstraint.constant &&
+                 viewManager.pageNumber >= viewManager.totalPages) {
+            self.massiveDownloadButtonHeightConstraint.constant = 0;
+            [UIView animateWithDuration:0.2 animations:^{
+                [self.view layoutIfNeeded];
+            }];
+        }
     }
 }
 
