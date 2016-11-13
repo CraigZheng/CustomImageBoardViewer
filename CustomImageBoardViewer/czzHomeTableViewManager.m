@@ -463,7 +463,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
                 }
             } else if (!settingCentre.userDefShouldUseBigImage && !settingCentre.shouldShowImageManagerButton) {
                 // When not automatically openning image, not big image mode and not showing image manager button, show a toast message to user instead.
-                [MessagePopup showStatusBarMessageWithMessage:@"图片下载完毕"];
+                [AppDelegate showToast:@"图片下载完毕"];
             }
         }
     } else
@@ -472,12 +472,12 @@ estimatedHeightForRowAtIndexPath:indexPath];
 
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedStopped:(czzImageDownloader *)downloader imageName:(NSString *)imageName {
     if (![downloader isThumbnail])
-        [MessagePopup showStatusBarMessageWithMessage:@"停止下载图片..."];
+        [AppDelegate showToast:@"停止下载图片..."];
 }
 
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedStarted:(czzImageDownloader *)downloader imageName:(NSString *)imageName {
     if (![downloader isThumbnail])
-        [MessagePopup showStatusBarMessageWithMessage:@"开始下载图片..."];
+        [AppDelegate showToast:@"开始下载图片..."];
 }
 
 #pragma mark - Getters 
