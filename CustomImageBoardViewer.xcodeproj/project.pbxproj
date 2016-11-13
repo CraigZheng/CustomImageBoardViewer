@@ -200,7 +200,6 @@
 		44989A291CFC5B7200F04ECD /* czzThreadSuggestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A281CFC5B7200F04ECD /* czzThreadSuggestion.m */; };
 		44989A2A1CFC5B7200F04ECD /* czzThreadSuggestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A281CFC5B7200F04ECD /* czzThreadSuggestion.m */; };
 		44989A2D1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A2C1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m */; };
-		44989A2E1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A2C1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m */; };
 		44989A311CFC699B00F04ECD /* czzThreadSuggestionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A301CFC699B00F04ECD /* czzThreadSuggestionTableViewCell.m */; };
 		44989A321CFC699B00F04ECD /* czzThreadSuggestionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A301CFC699B00F04ECD /* czzThreadSuggestionTableViewCell.m */; };
 		44989A361CFC6E5600F04ECD /* czzURLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A351CFC6E5600F04ECD /* czzURLHandler.m */; };
@@ -301,7 +300,6 @@
 		44C73B891A4840100051D4C2 /* czzHistoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C73B881A4840100051D4C2 /* czzHistoryManager.m */; };
 		44C73B8A1A4840100051D4C2 /* czzHistoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C73B881A4840100051D4C2 /* czzHistoryManager.m */; };
 		44C73B8E1A484F280051D4C2 /* czzFavouriteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C73B8D1A484F280051D4C2 /* czzFavouriteManager.m */; };
-		44C73B8F1A484F280051D4C2 /* czzFavouriteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C73B8D1A484F280051D4C2 /* czzFavouriteManager.m */; };
 		44C73BD31A496C4F0051D4C2 /* ipad launch screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C73BD01A496C4F0051D4C2 /* ipad launch screen.png */; };
 		44C73BD41A496C4F0051D4C2 /* ipad launch screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C73BD01A496C4F0051D4C2 /* ipad launch screen.png */; };
 		44C73BD51A496C4F0051D4C2 /* iphone4 launch screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C73BD11A496C4F0051D4C2 /* iphone4 launch screen.png */; };
@@ -3406,12 +3404,10 @@
 				441E5CFD17F4691300289DBD /* CustomImageBoardViewerTests.m in Sources */,
 				44989A321CFC699B00F04ECD /* czzThreadSuggestionTableViewCell.m in Sources */,
 				4431E5441CA4B8F20098AA01 /* czzLaunchPopUpTest.m in Sources */,
-				44989A2E1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m in Sources */,
 				44CD96A11C1AA488007E522F /* czzThreadTest.m in Sources */,
 				44A087301DB61CA4005599EA /* czzMarkerManagerTest.swift in Sources */,
 				44E3F73F1BA2FFB600597A3F /* NSObject+Util.m in Sources */,
 				44E3F7421BA2FFB600597A3F /* PropertyAttribute.m in Sources */,
-				44C73B8F1A484F280051D4C2 /* czzFavouriteManager.m in Sources */,
 				44989A371CFC6E5600F04ECD /* czzURLHandler.m in Sources */,
 				44E3F7481BA3007500597A3F /* NSDictionary+Util.m in Sources */,
 				44DF8EDB1A74D0F00097F7F5 /* czzACTokenUtil.m in Sources */,

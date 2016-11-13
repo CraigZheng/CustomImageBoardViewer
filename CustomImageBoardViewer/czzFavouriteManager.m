@@ -9,7 +9,6 @@
 #import "czzFavouriteManager.h"
 #import "czzAppDelegate.h"
 
-#import <Google/Analytics.h>
 
 @interface czzFavouriteManager()
 @property (nonatomic, readonly) NSString *favouriteFilePath;
