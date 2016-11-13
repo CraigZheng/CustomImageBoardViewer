@@ -91,6 +91,8 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 }
 
 - (void)handleApplicationDidBecomeActive:(NSNotification *)notification {
+    // Refresh upon activating.
+    [self refreshWatchedThreadsInForeground];
     // Start the refresh timer.
     [self startTimer];
 }
