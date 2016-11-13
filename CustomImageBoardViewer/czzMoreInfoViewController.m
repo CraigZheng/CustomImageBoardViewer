@@ -12,11 +12,10 @@
 #import "SMXMLDocument.h"
 #import "czzAppDelegate.h"
 #import "czzSettingsCentre.h"
+#import "czzBannerNotificationUtil.h"
 #import "czzForum.h"
 #import "czzImageViewerUtil.h"
 #import <PureLayout/PureLayout.h>
-
-#import "CustomImageBoardViewer-Swift.h"
 
 @interface czzMoreInfoViewController ()<UIWebViewDelegate, UIGestureRecognizerDelegate>
 @property (strong, nonatomic) NSString *baseURL;

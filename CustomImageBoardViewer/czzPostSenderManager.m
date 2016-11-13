@@ -9,6 +9,7 @@
 #import "czzPostSenderManager.h"
 
 #import "czzPostSender.h"
+#import "czzBannerNotificationUtil.h"
 #import "czzHistoryManager.h"
 #import "czzThreadDownloader.h"
 #import "czzWeakReferenceDelegate.h"

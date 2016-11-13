@@ -18,10 +18,11 @@
 #import "czzThreadTableViewCommandCellTableViewCell.h"
 #import "czzHistoryManager.h"
 #import "czzWatchListManager.h"
+#import "czzBannerNotificationUtil.h"
 #import "czzThreadViewManager.h"
 #import "czzThreadTableView.h"
 #import "czzMenuEnabledTableViewCell.h"
-#import "CustomImageBoardViewer-Swift.h"
+
 
 NSInteger const bookmarkIndex = 0;
 NSInteger const watchIndex = 1;
@@ -178,7 +179,8 @@ static NSInteger const respondsHistoryIndex = 2;
         // Updated threads have been viewed.
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
         if (WatchListManager.updatedThreads.count) {
-            [MessagePopup showMessageWithTitle:nil message:@"已置顶有更新的串"];
+            [czzBannerNotificationUtil displayMessage:@"已置顶有更新的串"
+                                             position:BannerNotificationPositionTop];
         }
     }
     [self.tableView reloadData];

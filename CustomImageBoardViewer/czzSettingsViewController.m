@@ -7,6 +7,7 @@
 //
 
 #import "czzSettingsViewController.h"
+#import "czzBannerNotificationUtil.h"
 #import "czzImageCacheManager.h"
 #import "czzAppDelegate.h"
 #import "czzHomeViewController.h"
@@ -17,8 +18,6 @@
 #import "czzHomeViewManager.h"
 #import "czzWatchListManager.h"
 #import "czzTextSizeSelectorViewController.h"
-
-#import "CustomImageBoardViewer-Swift.h"
 
 static NSString *textSizeSelectorSegue = @"textSizeSelector";
 static NSString *addMarkerSegue = @"AddMarker";
@@ -279,7 +278,7 @@ static NSString *addMarkerSegue = @"AddMarker";
         for (NSHTTPCookie *cookie in cookies) {
             [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
         }
-        [MessagePopup showMessageWithTitle:nil message:@"ID信息已清除"];
+        [czzBannerNotificationUtil displayMessage:@"ID信息已清除" position:BannerNotificationPositionTop];
     }
     else if ([alertView.title isEqualToString:@"强制退出"])
     {
@@ -289,7 +288,8 @@ static NSString *addMarkerSegue = @"AddMarker";
         settingsCentre.userDefShouldUseBigImage = !settingsCentre.userDefShouldUseBigImage;
         [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate threadCacheFolder] error:nil];
         [AppDelegate checkFolders];
-        [MessagePopup showMessageWithTitle:nil message:[NSString stringWithFormat:@"大图模式：%@", settingsCentre.userDefShouldUseBigImage ? @"On" : @"Off"]];
+        [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"大图模式：%@", settingsCentre.userDefShouldUseBigImage ? @"On" : @"Off"]
+                                                                    position:BannerNotificationPositionTop];
         [[czzHomeViewManager sharedManager] refresh];
         [settingsCentre saveSettings];
         [self.settingsTableView reloadData];
@@ -308,7 +308,7 @@ static NSString *addMarkerSegue = @"AddMarker";
         [[NSOperationQueue currentQueue] addOperationWithBlock:^{
             [[czzImageCacheManager sharedInstance] removeFullSizeImages];
             [[czzImageCacheManager sharedInstance] removeThumbnails];
-            [MessagePopup showMessageWithTitle:nil message:@"图片管理器已清空"];
+            [czzBannerNotificationUtil displayMessage:@"图片管理器已清空" position:BannerNotificationPositionTop];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
         }];
     }
@@ -317,7 +317,7 @@ static NSString *addMarkerSegue = @"AddMarker";
         [[NSOperationQueue currentQueue] addOperationWithBlock:^{
             [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate threadCacheFolder] error:nil];
             [AppDelegate checkFolders];
-            [MessagePopup showMessageWithTitle:nil message:@"串缓存已清空"];
+            [czzBannerNotificationUtil displayMessage:@"串缓存已清空" position:BannerNotificationPositionTop];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
         }];
     }
@@ -367,7 +367,8 @@ static NSString *addMarkerSegue = @"AddMarker";
         } else if ([command isEqualToString:@"显示图片下载管理器"]) {
             settingCentre.shouldShowImageManagerButton = switchControl.on;
         }
-        [MessagePopup showMessageWithTitle:nil message:[NSString stringWithFormat:@"%@: %@", command, onOffString]];
+        [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"%@: %@", command, onOffString]
+                                         position:BannerNotificationPositionTop];
         [self.settingsTableView reloadData];
         [settingsCentre saveSettings];
         [[czzHomeViewManager sharedManager] reloadData];
@@ -408,7 +409,7 @@ static NSString *addMarkerSegue = @"AddMarker";
             [[UIApplication sharedApplication] openURL:donationLinkURL];
         }
     } else {
-        [MessagePopup showMessageWithTitle:nil message:@"谢谢，现在作者并不需要捐款。。。"];
+        [czzBannerNotificationUtil displayMessage:@"谢谢，现在作者并不需要捐款。。。" position:BannerNotificationPositionTop];
     }
 }
 

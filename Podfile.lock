@@ -57,7 +57,7 @@ PODS:
     - SDWebImage/Core (= 3.8.2)
   - SDWebImage/Core (3.8.2)
   - SplunkMint (5.1.0)
-  - SwiftMessages (3.0.3)
+  - SwiftMessages (3.0.2)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.0)
@@ -89,7 +89,7 @@ SPEC CHECKSUMS:
   PureLayout: 4d550abe49a94f24c2808b9b95db9131685fe4cd
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   SplunkMint: 80997bf71d04cccf567de5dd33cbd72f21f39bc4
-  SwiftMessages: 3c6fd0375009d69ff35a7656bae0e31b4d8a930d
+  SwiftMessages: 3523c331c6b7b66e6f23a970ced259065ba31f9c
 
 PODFILE CHECKSUM: 395c34794981f4e05f226386356eae748d4e9369
 

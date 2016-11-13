@@ -9,6 +9,7 @@
 #import "czzWatchListManager.h"
 #import "czzThreadViewManager.h"
 #import "czzFavouriteManager.h"
+#import "czzBannerNotificationUtil.h"
 #import "czzMessagePopUpViewController.h"
 #import "czzFavouriteManagerViewController.h"
 
