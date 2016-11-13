@@ -65,7 +65,8 @@
         if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
             czzThreadViewManager *tempThreadList = [self restoreWithFile:cacheFile];
             //copy data
-            if (tempThreadList && [tempThreadList isKindOfClass:[czzThreadViewManager class]])
+            if ([tempThreadList isKindOfClass:[czzThreadViewManager class]]
+                && tempThreadList.threads.count)
             {
                 _parentThread = tempThreadList.parentThread; // Since there's a custom setter in this class, its better not to invoke it.
                 self.pageNumber = tempThreadList.pageNumber;
