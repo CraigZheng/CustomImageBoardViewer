@@ -64,9 +64,9 @@
         NSString *cacheFile = [[czzAppDelegate threadCacheFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)self.parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
         if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
             czzThreadViewManager *tempThreadList = [self restoreWithFile:cacheFile];
-            //copy data
+            // Copy data, only restore it when the tempThreadList has more than 1 thread(counting the parent thread).
             if ([tempThreadList isKindOfClass:[czzThreadViewManager class]]
-                && tempThreadList.threads.count)
+                && tempThreadList.threads.count > 1)
             {
                 _parentThread = tempThreadList.parentThread; // Since there's a custom setter in this class, its better not to invoke it.
                 self.pageNumber = tempThreadList.pageNumber;
