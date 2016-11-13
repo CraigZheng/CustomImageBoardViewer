@@ -24,18 +24,19 @@
     self = [super init];
     if (self) {
         self.pageNumber = self.totalPages = 1;
+        __weak id weakSelf = self;
         [[NSNotificationCenter defaultCenter] addObserverForName:MarkerManagerDidUpdateNotification
                                                           object:nil
                                                            queue:[NSOperationQueue mainQueue]
                                                       usingBlock:^(NSNotification * _Nonnull note) {
-                                                          [self reloadData];
+                                                          [weakSelf reloadData];
                                                       }];
         [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillResignActiveNotification
                                                           object:nil
                                                            queue:[NSOperationQueue mainQueue]
                                                       usingBlock:^(NSNotification * _Nonnull note) {
                                                           // Save current state upon entering background state.
-                                                          [self saveCurrentState];
+                                                          [weakSelf saveCurrentState];
                                                       }];
     }
     return self;
