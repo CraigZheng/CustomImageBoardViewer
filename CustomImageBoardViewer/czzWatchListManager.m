@@ -214,6 +214,12 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
                         DDLogDebug(@"%ld threads downloaded in %.1f seconds, %ld threads have new content", (long)self.watchedThreads.count, [[NSDate new] timeIntervalSinceDate:startDate], (long)self.updatedThreads.count);
                         completionHandler(self.updatedThreads);
                         [self saveState];
+                        // Analytics.
+                        id<GAITracker> defaultTracker = [[GAI sharedInstance] defaultTracker];
+                        [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"WatchList"
+                                                                                     action:@"Updated"
+                                                                                      label:[NSString stringWithFormat:@"Watching %ld threads", (long)watchedCount]
+                                                                                      value:@(watchedCount)] build]];
                     }
                 });
             });
