@@ -29,6 +29,8 @@
 #import "czzBigImageModeTableViewCell.h"
 #import <ImageIO/ImageIO.h>
 
+#import "CustomImageBoardViewer-Swift.h"
+
 @interface czzHomeTableViewManager() <czzImageDownloaderManagerDelegate, UIDataSourceModelAssociation>
 
 @property (strong) czzImageViewerUtil *imageViewerUtil;
@@ -396,7 +398,13 @@ estimatedHeightForRowAtIndexPath:indexPath];
             if (thread) {
                 [self.homeViewManager showContentWithThread:thread];
             } else {
-                [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"找不到引用串：%ld", (long)thread.ID]];
+                [MessagePopup showMessagePopupWithTitle:nil
+                                                message:[NSString stringWithFormat:@"找不到引用串：%ld", (long)thread.ID]
+                                                 layout:MessagePopupLayoutCardView
+                                                  theme:MessagePopupThemeError
+                                               position:MessagePopupPresentationStyleTop
+                                            buttonTitle:nil
+                                    buttonActionHandler:nil];
             }
         });
     });

@@ -12,6 +12,7 @@
 #import "czzWatchListManager.h"
 #import "czzThreadDownloader.h"
 #import "czzMassiveThreadDownloader.h"
+#import "czzMarkerManager.h"
 
 @interface czzThreadViewManager() <czzMassiveThreadDownloaderDelegate>
 @property (nonatomic, assign) NSUInteger cutOffIndex;
@@ -26,7 +27,7 @@
 
 #pragma mark - life cycle.
 -(instancetype)initWithParentThread:(czzThread *)thread andForum:(czzForum *)forum{
-    self = [czzThreadViewManager new];
+    self = [self init];
     if (self) {
         // Record history
         self.parentThread = thread;
@@ -85,11 +86,11 @@
 }
 
 -(NSString*)saveCurrentState {
+    DLog(@"");
     NSString *cachePath = [[czzAppDelegate threadCacheFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)self.parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
     if ([NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
         return cachePath;
     } else {
-        DDLogDebug(@"save state failed");
         [[NSFileManager defaultManager] removeItemAtPath:cachePath error:nil];
         return nil;
     }

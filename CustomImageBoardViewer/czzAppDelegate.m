@@ -23,13 +23,17 @@
 #import "czzFavouriteManager.h"
 #import <Google/Analytics.h>
 #import <WatchConnectivity/WatchConnectivity.h>
-
+#import "CustomImageBoardViewer-Swift.h"
 #import "TalkingData.h"
 
 //#import <BugSense-iOS/BugSenseController.h>
 #import <SplunkMint/SplunkMint.h>
 
+@import CocoaLumberjack;
+
 #define LOG_LEVEL_DEF ddLogLevel
+
+static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
 
 @interface czzAppDelegate()<czzBlacklistDownloaderDelegate, czzHomeViewManagerDelegate, WCSessionDelegate>
 @property czzSettingsCentre *settingsCentre;
@@ -124,11 +128,19 @@
 #pragma mark - Break and restoration.
 
 - (BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder {
+    [[NSUserDefaults standardUserDefaults] setObject:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]
+                                              forKey:lastStateAppVersion];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     return YES;
 }
 
 - (BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder {
-    return YES;
+    BOOL shouldRestore = NO;
+    NSString *lastVersion = [[NSUserDefaults standardUserDefaults] objectForKey:lastStateAppVersion];
+    if ([[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"] isEqualToString:lastVersion]) {
+        shouldRestore = YES;
+    }
+    return shouldRestore;
 }
 
 - (UIViewController *)application:(UIApplication *)application viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder {

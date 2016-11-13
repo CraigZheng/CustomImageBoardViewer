@@ -24,18 +24,19 @@
     self = [super init];
     if (self) {
         self.pageNumber = self.totalPages = 1;
+        __weak id weakSelf = self;
         [[NSNotificationCenter defaultCenter] addObserverForName:MarkerManagerDidUpdateNotification
                                                           object:nil
                                                            queue:[NSOperationQueue mainQueue]
                                                       usingBlock:^(NSNotification * _Nonnull note) {
-                                                          [self reloadData];
+                                                          [weakSelf reloadData];
                                                       }];
         [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillResignActiveNotification
                                                           object:nil
                                                            queue:[NSOperationQueue mainQueue]
                                                       usingBlock:^(NSNotification * _Nonnull note) {
                                                           // Save current state upon entering background state.
-                                                          [self saveCurrentState];
+                                                          [weakSelf saveCurrentState];
                                                       }];
     }
     return self;
@@ -47,12 +48,11 @@
 
 #pragma mark - state perserving/restoring
 -(NSString*)saveCurrentState {
+    DLog(@"");
     NSString *cachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:self.cacheFile];
     if ([NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
-        DDLogDebug(@"save state successed");
         return cachePath;
     } else {
-        DDLogDebug(@"save state failed");
         [[NSFileManager defaultManager] removeItemAtPath:cachePath error:nil];
         return nil;
     }

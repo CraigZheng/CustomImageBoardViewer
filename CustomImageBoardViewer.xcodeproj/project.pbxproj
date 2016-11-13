@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		003603FD3CE7AA9D975C0107 /* Pods_CustomImageBoardViewerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30C62EEEAB78EBB905729FD6 /* Pods_CustomImageBoardViewerTests.framework */; };
 		440A62A01B8E90130046E4CE /* czzThreadViewCommandStatusCellViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 440A629F1B8E90130046E4CE /* czzThreadViewCommandStatusCellViewController.m */; };
 		440A62A21B8E97540046E4CE /* czzThreadTableViewCommandStatusCellViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 440A62A11B8E97540046E4CE /* czzThreadTableViewCommandStatusCellViewController.storyboard */; };
 		440A62A81B8EBC160046E4CE /* UIViewController+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 440A62A71B8EBC160046E4CE /* UIViewController+Util.m */; };
@@ -72,7 +73,6 @@
 		442EC86D1A1A1C8D005650E4 /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 442EC86A1A1A1C8D005650E4 /* info@2x.png */; };
 		442EC86E1A1A1C8D005650E4 /* info@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 442EC86B1A1A1C8D005650E4 /* info@3x.png */; };
 		442F1FD71B13535B00267698 /* czzHomeTableViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FD61B13535B00267698 /* czzHomeTableViewManager.m */; };
-		442F1FD81B13535B00267698 /* czzHomeTableViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FD61B13535B00267698 /* czzHomeTableViewManager.m */; };
 		442F1FE21B15FC8500267698 /* UINavigationController+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FDE1B15FC8500267698 /* UINavigationController+Util.m */; };
 		442F1FE31B15FC8500267698 /* UINavigationController+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FDE1B15FC8500267698 /* UINavigationController+Util.m */; };
 		442F1FE41B15FC8500267698 /* UIApplication+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 442F1FE01B15FC8500267698 /* UIApplication+Util.m */; };
@@ -319,6 +319,7 @@
 		44CD265D1DD1A15A003F1696 /* MoreInfo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44CD265C1DD1A15A003F1696 /* MoreInfo.storyboard */; };
 		44CD96A11C1AA488007E522F /* czzThreadTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CD96A01C1AA488007E522F /* czzThreadTest.m */; };
 		44CEF62F1DD1BBC8002BA6E8 /* PostView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44CEF62E1DD1BBC8002BA6E8 /* PostView.storyboard */; };
+		44CEF6311DD208C1002BA6E8 /* MessagePopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44CEF6301DD208C1002BA6E8 /* MessagePopup.swift */; };
 		44CF25491A25A2A500BD8228 /* sent.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF253D1A25A2A500BD8228 /* sent.png */; };
 		44CF254A1A25A2A500BD8228 /* delete_file.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF253E1A25A2A500BD8228 /* delete_file.png */; };
 		44CF254B1A25A2A500BD8228 /* lol.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF253F1A25A2A500BD8228 /* lol.png */; };
@@ -460,8 +461,7 @@
 		5A88B8401938AFDB00071343 /* czzNotificationCentreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A88B83F1938AFDB00071343 /* czzNotificationCentreTableViewController.m */; };
 		5ADCA46A1938F67F002BA60B /* ValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCA4691938F67F002BA60B /* ValueFormatter.m */; };
 		5AF85E681970025A0031D0CB /* czzSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF85E671970025A0031D0CB /* czzSearchViewController.m */; };
-		CD12C171E8FAF9A2C04F7037 /* libPods-CustomImageBoardViewerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BF5F1CD9507494AEBDED751 /* libPods-CustomImageBoardViewerTests.a */; };
-		E351AD2CDC908C137A822A53 /* libPods-CustomImageBoardViewer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF8E6F9EC28257712C1536CD /* libPods-CustomImageBoardViewer.a */; };
+		D85B3FC32F7080DE2E0F1FD8 /* Pods_CustomImageBoardViewer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311F31F622866C4E1133FA79 /* Pods_CustomImageBoardViewer.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -525,6 +525,8 @@
 
 /* Begin PBXFileReference section */
 		28832211D8C387A440C8B574 /* Pods-CustomImageBoardViewerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests.release.xcconfig"; sourceTree = "<group>"; };
+		30C62EEEAB78EBB905729FD6 /* Pods_CustomImageBoardViewerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CustomImageBoardViewerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		311F31F622866C4E1133FA79 /* Pods_CustomImageBoardViewer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CustomImageBoardViewer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E0527F52EF15B0B2B65EA56 /* Pods-CustomImageBoardViewer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewer.release.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer.release.xcconfig"; sourceTree = "<group>"; };
 		440A629E1B8E90130046E4CE /* czzThreadViewCommandStatusCellViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewCommandStatusCellViewController.h; sourceTree = "<group>"; };
 		440A629F1B8E90130046E4CE /* czzThreadViewCommandStatusCellViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewCommandStatusCellViewController.m; sourceTree = "<group>"; };
@@ -979,6 +981,7 @@
 		44CD265C1DD1A15A003F1696 /* MoreInfo.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MoreInfo.storyboard; sourceTree = "<group>"; };
 		44CD96A01C1AA488007E522F /* czzThreadTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadTest.m; sourceTree = "<group>"; };
 		44CEF62E1DD1BBC8002BA6E8 /* PostView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PostView.storyboard; sourceTree = "<group>"; };
+		44CEF6301DD208C1002BA6E8 /* MessagePopup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagePopup.swift; sourceTree = "<group>"; };
 		44CF253D1A25A2A500BD8228 /* sent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sent.png; sourceTree = "<group>"; };
 		44CF253E1A25A2A500BD8228 /* delete_file.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_file.png; sourceTree = "<group>"; };
 		44CF253F1A25A2A500BD8228 /* lol.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lol.png; sourceTree = "<group>"; };
@@ -1146,10 +1149,8 @@
 		5ADCA4691938F67F002BA60B /* ValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueFormatter.m; sourceTree = "<group>"; };
 		5AF85E661970025A0031D0CB /* czzSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzSearchViewController.h; sourceTree = "<group>"; };
 		5AF85E671970025A0031D0CB /* czzSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzSearchViewController.m; sourceTree = "<group>"; };
-		8BF5F1CD9507494AEBDED751 /* libPods-CustomImageBoardViewerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CustomImageBoardViewerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AECEC532D9208769EFF63216 /* Pods-CustomImageBoardViewerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		CBC088D3BB7C0C6E358B9C38 /* Pods-CustomImageBoardViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer.debug.xcconfig"; sourceTree = "<group>"; };
-		EF8E6F9EC28257712C1536CD /* libPods-CustomImageBoardViewer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CustomImageBoardViewer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1185,7 +1186,7 @@
 				441E5CD117F4691300289DBD /* CoreGraphics.framework in Frameworks */,
 				441E5CD317F4691300289DBD /* UIKit.framework in Frameworks */,
 				441E5CCF17F4691300289DBD /* Foundation.framework in Frameworks */,
-				E351AD2CDC908C137A822A53 /* libPods-CustomImageBoardViewer.a in Frameworks */,
+				D85B3FC32F7080DE2E0F1FD8 /* Pods_CustomImageBoardViewer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1196,7 +1197,7 @@
 				441E5CF117F4691300289DBD /* XCTest.framework in Frameworks */,
 				441E5CF317F4691300289DBD /* UIKit.framework in Frameworks */,
 				441E5CF217F4691300289DBD /* Foundation.framework in Frameworks */,
-				CD12C171E8FAF9A2C04F7037 /* libPods-CustomImageBoardViewerTests.a in Frameworks */,
+				003603FD3CE7AA9D975C0107 /* Pods_CustomImageBoardViewerTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1272,6 +1273,7 @@
 				44B05C1B1C6204FE00F6F5E3 /* czzBannerView.h */,
 				44B05C1C1C6204FE00F6F5E3 /* czzBannerView.m */,
 				44B05C1E1C62051F00F6F5E3 /* czzBannerView.xib */,
+				44CEF6301DD208C1002BA6E8 /* MessagePopup.swift */,
 			);
 			name = BannerNotification;
 			sourceTree = "<group>";
@@ -1377,8 +1379,8 @@
 				441E5CD017F4691300289DBD /* CoreGraphics.framework */,
 				441E5CD217F4691300289DBD /* UIKit.framework */,
 				441E5CF017F4691300289DBD /* XCTest.framework */,
-				EF8E6F9EC28257712C1536CD /* libPods-CustomImageBoardViewer.a */,
-				8BF5F1CD9507494AEBDED751 /* libPods-CustomImageBoardViewerTests.a */,
+				311F31F622866C4E1133FA79 /* Pods_CustomImageBoardViewer.framework */,
+				30C62EEEAB78EBB905729FD6 /* Pods_CustomImageBoardViewerTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -3238,6 +3240,7 @@
 				442A901D19DB9C3C00A3516E /* HTMLNode.m in Sources */,
 				442F1FE21B15FC8500267698 /* UINavigationController+Util.m in Sources */,
 				44C73B8E1A484F280051D4C2 /* czzFavouriteManager.m in Sources */,
+				44CEF6311DD208C1002BA6E8 /* MessagePopup.swift in Sources */,
 				4448C2AA180FF6C600D2CD76 /* czzBlacklistSender.m in Sources */,
 				44858EAC1A0C5B0A00DD822B /* czzImageViewerUtil.m in Sources */,
 				44989A291CFC5B7200F04ECD /* czzThreadSuggestion.m in Sources */,
@@ -3380,7 +3383,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				445CA5551CA3BB9400D3C315 /* czzLaunchPopUpNotification.m in Sources */,
-				442F1FD81B13535B00267698 /* czzHomeTableViewManager.m in Sources */,
 				44C73B8A1A4840100051D4C2 /* czzHistoryManager.m in Sources */,
 				44989A261CFC5AE900F04ECD /* czzPopularThreadsManager.m in Sources */,
 				4490A80F1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m in Sources */,

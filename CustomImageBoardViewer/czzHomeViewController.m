@@ -136,7 +136,7 @@
     delayTime = 9999;
 #endif
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        if (!self.homeViewManager.forum) {
+        if (!self.homeViewManager.forum && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
             if ([czzForumManager sharedManager].forums.count > 0)
             {
                 [czzBannerNotificationUtil displayMessage:@"用户没有选择板块，随机选择……" position:BannerNotificationPositionTop];
@@ -221,7 +221,7 @@
                 [self updateTableView];
                 [self.homeViewManager loadMoreThreads:newPageNumber];
                 
-                [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)self.homeViewManager.pageNumber]
+                [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)newPageNumber]
                                                  position:BannerNotificationPositionTop];
             } else {
                 [czzBannerNotificationUtil displayMessage:@"页码无效..."

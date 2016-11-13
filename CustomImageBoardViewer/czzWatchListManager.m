@@ -13,6 +13,8 @@
 #import "czzMessagePopUpViewController.h"
 #import "czzFavouriteManagerViewController.h"
 
+#import "CustomImageBoardViewer-Swift.h"
+
 #define WATCH_LIST_CACHE_FILE @"watchedThreads.dat"
 
 #ifdef DEBUG
@@ -89,6 +91,8 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 }
 
 - (void)handleApplicationDidBecomeActive:(NSNotification *)notification {
+    // Refresh upon activating.
+    [self refreshWatchedThreadsInForeground];
     // Start the refresh timer.
     [self startTimer];
 }
@@ -156,15 +160,18 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
         // If updated threads is not empty, inform user by a notification.
         // This notification also allows user to tap on it to go straight to the favourite manager view controller.
         if (updatedThreads.count) {
-            [czzBannerNotificationUtil displayMessage:self.updateSummary
-                                             position:BannerNotificationPositionBottom
-                               userInteractionHandler:^{
-                                   czzFavouriteManagerViewController *favouriteManagerViewController = [czzFavouriteManagerViewController new];
-                                   favouriteManagerViewController.launchToIndex = watchIndex; // Launch to watchlist view.
-                                   [NavigationManager pushViewController:favouriteManagerViewController
-                                                                animated:YES];
-                               }
-                                   waitForInteraction:NO];
+            [MessagePopup showMessagePopupWithTitle:self.updateTitle
+                                            message:self.updateContent
+                                             layout:MessagePopupLayoutMessageView
+                                              theme:MessagePopupThemeSuccess
+                                           position:MessagePopupPresentationStyleBottom
+                                        buttonTitle:@"查看"
+                                buttonActionHandler:^(UIButton * _Nonnull button) {
+                                    czzFavouriteManagerViewController *favouriteManagerViewController = [czzFavouriteManagerViewController new];
+                                    favouriteManagerViewController.launchToIndex = watchIndex; // Launch to watchlist view.
+                                    [NavigationManager pushViewController:favouriteManagerViewController
+                                                                 animated:YES];
+                                }];
         }
     }];
 }

@@ -10,11 +10,12 @@
 #import "PropertyUtil.h"
 #import <objc/runtime.h>
 #import "czzAppDelegate.h"
-#import "czzBannerNotificationUtil.h"
 #import "czzURLDownloader.h"
 #import "czzLaunchPopUpNotification.h"
 #import <Google/Analytics.h>
 #import <UIKit/UIKit.h>
+
+#import "CustomImageBoardViewer-Swift.h"
 
 static NSString * const kDisplayThumbnail = @"kDisplayThumbnail";
 static NSString * const kShowOnScreenCommand = @"kShowOnScreenCommand";
@@ -311,10 +312,12 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
             [self saveSettings]; //save settings from remote
             DDLogDebug(@"settings updated from remote server");
             if (message.length > 0) {
-                [czzBannerNotificationUtil displayMessage:message
-                                                 position:BannerNotificationPositionBottom
-                                   userInteractionHandler:^{}
-                                       waitForInteraction:NO];
+                [MessagePopup showMessagePopupWithTitle:nil message:message
+                                                 layout:MessagePopupLayoutCardView
+                                                  theme:MessagePopupThemeInfo
+                                               position:MessagePopupPresentationStyleTop
+                                            buttonTitle:nil
+                                    buttonActionHandler:nil];
             }
             // Perform a short task to get the notification content when the app is in the foreground.
             if (self.popup_notification_link.length) {

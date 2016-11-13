@@ -82,7 +82,6 @@
 
 #pragma mark - Life cycle.
 - (void)handleDidEnterBackgroundNotification {
-    DDLogDebug(@"%s", __PRETTY_FUNCTION__);
     [self saveCurrentState];
 }
 
@@ -158,7 +157,6 @@
     [NSKeyedArchiver archiveRootObject:self.archivedCookies toFile:self.archiveFilePath];
     if (self.currentInUseCookie) {
         [NSKeyedArchiver archiveRootObject:self.currentInUseCookie toFile:self.inUseFilePath];
-        DDLogDebug(@"%s: in use", __PRETTY_FUNCTION__);
     }
 }
 
