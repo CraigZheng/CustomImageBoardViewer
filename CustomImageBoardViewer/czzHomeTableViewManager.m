@@ -31,7 +31,9 @@
 
 #import "CustomImageBoardViewer-Swift.h"
 
-@interface czzHomeTableViewManager() <czzImageDownloaderManagerDelegate, UIDataSourceModelAssociation>
+@import DZNEmptyDataSet;
+
+@interface czzHomeTableViewManager() <czzImageDownloaderManagerDelegate, UIDataSourceModelAssociation, DZNEmptyDataSetSource>
 
 @property (strong) czzImageViewerUtil *imageViewerUtil;
 @property (nonatomic, readonly) NSIndexPath *lastRowIndexPath;
@@ -556,6 +558,12 @@ estimatedHeightForRowAtIndexPath:indexPath];
 
 #pragma mark - DZNEmptyDataSetSource, DZNEmptyDataSetDelegate
 
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
+    return [[NSAttributedString alloc] initWithString:@"没有内容" attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:18]}];
+}
 
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
+    return [[NSAttributedString alloc] initWithString:@"请先选择一个板块" attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:14]}];
+}
 
 @end

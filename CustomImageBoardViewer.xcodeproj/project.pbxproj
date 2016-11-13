@@ -341,6 +341,7 @@
 		44CF25711A26F2E700BD8228 /* UIBarButtonItem+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CF256E1A26F2E700BD8228 /* UIBarButtonItem+Badge.m */; };
 		44CF25721A26F2E700BD8228 /* UIButton+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CF25701A26F2E700BD8228 /* UIButton+Badge.m */; };
 		44CF25751A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CF25741A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.m */; };
+		44D373251DD8272400C0ADC7 /* UIColor+Hexadecimal.m in Sources */ = {isa = PBXBuildFile; fileRef = 44D373241DD8272300C0ADC7 /* UIColor+Hexadecimal.m */; };
 		44DAB4381CA4FE7A00BDE05A /* download@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44DAB4361CA4FE3C00BDE05A /* download@2x.png */; };
 		44DAB4391CA4FE7B00BDE05A /* download@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44DAB4361CA4FE3C00BDE05A /* download@2x.png */; };
 		44DDC7FA1DB8A5A6001A569D /* UIDColourPairCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DDC7F91DB8A5A6001A569D /* UIDColourPairCellTableViewCell.swift */; };
@@ -1007,6 +1008,8 @@
 		44CF25701A26F2E700BD8228 /* UIButton+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Badge.m"; sourceTree = "<group>"; };
 		44CF25731A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzShortImageManagerCollectionViewController.h; sourceTree = "<group>"; };
 		44CF25741A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzShortImageManagerCollectionViewController.m; sourceTree = "<group>"; };
+		44D373231DD8272300C0ADC7 /* UIColor+Hexadecimal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hexadecimal.h"; sourceTree = "<group>"; };
+		44D373241DD8272300C0ADC7 /* UIColor+Hexadecimal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hexadecimal.m"; sourceTree = "<group>"; };
 		44DAB4361CA4FE3C00BDE05A /* download@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "download@2x.png"; sourceTree = "<group>"; };
 		44DDC7F91DB8A5A6001A569D /* UIDColourPairCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDColourPairCellTableViewCell.swift; sourceTree = "<group>"; };
 		44DDC7FB1DB8A6BF001A569D /* flag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flag@2x.png"; sourceTree = "<group>"; };
@@ -2351,6 +2354,15 @@
 			path = "UIBarButton-Badge";
 			sourceTree = "<group>";
 		};
+		44D373261DD8273100C0ADC7 /* UIColor */ = {
+			isa = PBXGroup;
+			children = (
+				44D373231DD8272300C0ADC7 /* UIColor+Hexadecimal.h */,
+				44D373241DD8272300C0ADC7 /* UIColor+Hexadecimal.m */,
+			);
+			name = UIColor;
+			sourceTree = "<group>";
+		};
 		44DAB43A1CA5002600BDE05A /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -2364,6 +2376,7 @@
 		44DF8ECC1A74CA4B0097F7F5 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				44D373261DD8273100C0ADC7 /* UIColor */,
 				4411BF391D1D0DD70010FA77 /* UIViewController+ProgressBar.swift */,
 				44989A331CFC6E2300F04ECD /* URL Handler */,
 				44DAB43A1CA5002600BDE05A /* View */,
@@ -3373,6 +3386,7 @@
 				4479B07D1A0BB8E70074D484 /* czzTextViewHeightCalculator.m in Sources */,
 				5ADCA46A1938F67F002BA60B /* ValueFormatter.m in Sources */,
 				445B7B5F1B4404810046CFDB /* czzThreadTableViewManager.m in Sources */,
+				44D373251DD8272400C0ADC7 /* UIColor+Hexadecimal.m in Sources */,
 				447E062B1BC2426900D24087 /* czzFavouriteManagerPopUpViewController.m in Sources */,
 				44A294CC1BFDF1430033D438 /* czzWKThread.m in Sources */,
 			);
