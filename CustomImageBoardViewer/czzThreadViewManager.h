@@ -19,7 +19,7 @@
 
 @interface czzThreadViewManager : czzHomeViewManager
 @property (strong, nonatomic) NSString* parentID;
-@property (strong, nonatomic) czzThread *parentThread;
+@property (weak, nonatomic) czzThread *parentThread;
 @property (assign, nonatomic) BOOL restoredFromCache;
 @property (weak, nonatomic) id<czzThreadViewManagerDelegate> delegate;
 @property (readonly, nonatomic) BOOL isMassiveDownloading;

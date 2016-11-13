@@ -133,7 +133,7 @@
     delayTime = 9999;
 #endif
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        if (!self.homeViewManager.forum) {
+        if (!self.homeViewManager.forum && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
             if ([czzForumManager sharedManager].forums.count > 0)
             {
                 [MessagePopup showMessageWithTitle:nil message:@"用户没有选择板块，随机选择……"];
