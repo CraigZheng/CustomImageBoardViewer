@@ -261,9 +261,8 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
 }
 
 -(void)showToast:(NSString *)string{
-    [MessagePopup showMessageWithTitle:nil message:string];
-//    [czzBannerNotificationUtil displayMessage:string
-//                                     position:BannerNotificationPositionBottom];
+    [czzBannerNotificationUtil displayMessage:string
+                                     position:BannerNotificationPositionBottom];
 }
 
 #pragma mark - show and hide uitoolbar
