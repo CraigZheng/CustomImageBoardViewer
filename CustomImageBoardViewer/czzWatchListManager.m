@@ -32,6 +32,7 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 @property (nonatomic, strong) czzThreadDownloader *threadDownloader;
 @property (nonatomic, readonly) NSString *watchlistFilePath;
 @property (nonatomic, assign) NSInteger downloadedCount;
+@property (nonatomic, strong) NSDate *lastActiveRefreshTime;
 
 @end
 
@@ -91,10 +92,14 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 }
 
 - (void)handleApplicationDidBecomeActive:(NSNotification *)notification {
-    // Refresh upon activating.
-    [self refreshWatchedThreadsInForeground];
-    // Start the refresh timer.
-    [self startTimer];
+    // If never actively refresh before, or last active refresh time is 5 minutes ago.
+    if (!self.lastActiveRefreshTime || [[NSDate new] timeIntervalSinceDate:self.lastActiveRefreshTime] > 5 * 60) {
+        // Refresh upon activating.
+        [self refreshWatchedThreadsInForeground];
+        self.lastActiveRefreshTime = [NSDate new];
+        // Start the refresh timer.
+        [self startTimer];
+    }
 }
 
 - (void)handleApplicationDidEnterBackground:(NSNotification *)notification {
