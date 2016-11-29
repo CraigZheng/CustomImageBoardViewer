@@ -109,7 +109,7 @@
             threadViewCell.cellType = threadViewCellTypeThread;
             threadViewCell.parentThread = self.threadViewManager.parentThread;
             // TODO: Should temporarily highlight.
-            
+            threadViewCell.shouldTemporarilyHighlight = [self.temporarilyHighlightUID isEqualToString:thread.UID];
             [threadViewCell renderContent];
         }
     }

@@ -55,6 +55,7 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 @property NSDictionary *downloadedImages;
 @property (assign, nonatomic) BOOL shouldBlock;
 @property (assign, nonatomic) BOOL shouldAllowClickOnImage;
+@property (nonatomic, assign) BOOL shouldTemporarilyHighlight;
 @property (nonatomic, strong) NSMutableArray *links;
 @property (nonatomic, strong) czzThread *parentThread;
 @property (nonatomic, strong) czzThread *thread;

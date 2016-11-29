@@ -107,9 +107,11 @@ static NSString * const showThreadWithID = @"showThreadWithID";
 
 -(void)resetViewBackgroundColours {
     // Reset all colours for header view, footer view, middle container view and content text view.
-    self.contentView.backgroundColor = self.cellFooterView.backgroundColor = self.cellHeaderView.backgroundColor =
-    self.contentContainerView.backgroundColor = self.contentTextView.backgroundColor =
-    [settingCentre viewBackgroundColour];
+    self.contentView.backgroundColor = self.cellFooterView.backgroundColor
+    = self.cellHeaderView.backgroundColor
+    = self.contentContainerView.backgroundColor
+    = self.contentTextView.backgroundColor
+    = self.shouldTemporarilyHighlight ? [UIColor groupTableViewBackgroundColor] : [settingCentre viewBackgroundColour];
 }
 
 #pragma mark - custom menu action
