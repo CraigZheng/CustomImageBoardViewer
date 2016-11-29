@@ -38,6 +38,13 @@
                                                           // Save current state upon entering background state.
                                                           [weakSelf saveCurrentState];
                                                       }];
+        [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillTerminateNotification
+                                                          object:nil
+                                                           queue:[NSOperationQueue mainQueue]
+                                                      usingBlock:^(NSNotification * _Nonnull note) {
+                                                          // Save current state upon entering background state.
+                                                          [weakSelf saveCurrentState];
+                                                      }];
     }
     return self;
 }
