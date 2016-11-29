@@ -59,12 +59,14 @@
                                                               action:NSSelectorFromString(@"menuActionCopy:")];
         UIMenuItem *openMenuItem = [[UIMenuItem alloc] initWithTitle:@"打开链接"
                                                               action:NSSelectorFromString(@"menuActionOpen:")];
+        UIMenuItem *temporarilyHighlightMenuItem = [[UIMenuItem alloc] initWithTitle:@"高亮"
+                                                                   action:NSSelectorFromString(@"menuActionTemporarilyHighlight:")];
         UIMenuItem *highlightMenuItem = [[UIMenuItem alloc] initWithTitle:@"标记..."
                                                                    action:NSSelectorFromString(@"menuActionHighlight:")];
         UIMenuItem *reportMenuItem = [[UIMenuItem alloc] initWithTitle:@"举报"
                                                                action:NSSelectorFromString(@"menuActionReport:")];
         //    UIMenuItem *searchMenuItem = [[UIMenuItem alloc] initWithTitle:@"搜索他" action:@selector(menuActionSearch:)];
-        [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, highlightMenuItem, reportMenuItem, /*searchMenuItem,*/ openMenuItem]];
+        [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, temporarilyHighlightMenuItem, highlightMenuItem, reportMenuItem, /*searchMenuItem,*/ openMenuItem]];
         [[UIMenuController sharedMenuController] update];
         
         self.imageViewerUtil = [czzImageViewerUtil new];

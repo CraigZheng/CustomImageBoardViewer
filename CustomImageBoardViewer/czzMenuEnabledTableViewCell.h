@@ -34,6 +34,7 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 // Menu actions
 - (void)userWantsToReply:(czzThread *)thread inParentThread:(czzThread *)parentThread;
 - (void)userWantsToReport:(czzThread *)thread inParentThread:(czzThread *)parentThread;
+- (void)userWantsToTemporarilyHighlightUser:(NSString *)UID;
 - (void)userWantsToHighlightUser:(NSString *)UID;
 - (void)userWantsToBlockUser:(NSString *)UID;
 - (void)userWantsToSearch:(czzThread *)thread;
@@ -71,6 +72,7 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 - (void)menuActionCopy:(id)sender;
 - (void)menuActionReply:(id)sender;
 - (void)menuActionOpen:(id)sender;
+- (void)menuActionTemporarilyHighlight:(id)sender;
 - (void)menuActionHighlight:(id)sender;
 - (void)menuActionSearch:(id)sender;
 - (void)menuActionBlock:(id)sender;

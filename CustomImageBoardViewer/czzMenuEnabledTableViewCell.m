@@ -91,8 +91,10 @@ static NSString * const showThreadWithID = @"showThreadWithID";
 -(BOOL)canPerformAction:(SEL)action withSender:(id)sender{
     if (action == @selector(menuActionOpen:) && self.links.count > 0)
         return YES;
-    return (action == @selector(menuActionReply:) ||
-            action == @selector(menuActionCopy:)
+    return (action == @selector(menuActionReply:)
+            || action == @selector(menuActionCopy:)
+            // Delegate has to be responsiding this selector.
+            || (action == @selector(menuActionTemporarilyHighlight:) && [self.delegate respondsToSelector:@selector(userWantsToTemporarilyHighlightUser:)])
             || action == @selector(menuActionHighlight:)
             || action == @selector(menuActionSearch:)
             || action == @selector(menuActionBlock:)
@@ -149,6 +151,12 @@ static NSString * const showThreadWithID = @"showThreadWithID";
 - (void)menuActionReport:(id)sender {
     if ([self.delegate respondsToSelector:@selector(userWantsToReport:inParentThread:)]) {
         [self.delegate userWantsToReport:self.thread inParentThread:self.parentThread ? self.parentThread : self.thread];
+    }
+}
+
+- (void)menuActionTemporarilyHighlight:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(userWantsToTemporarilyHighlightUser:)]) {
+        [self.delegate userWantsToTemporarilyHighlightUser:self.thread.UID];
     }
 }
 

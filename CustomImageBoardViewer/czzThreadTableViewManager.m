@@ -17,6 +17,7 @@
 @interface czzThreadTableViewManager ()
 @property (nonatomic, strong) PartialTransparentView *containerView;
 @property (nonatomic, assign) CGPoint threadsTableViewContentOffSet;
+@property (nonatomic, strong) NSString *temporarilyHighlightUID;
 @end
 
 @implementation czzThreadTableViewManager
@@ -104,11 +105,11 @@
         // Thread view cell
         if ([cell isKindOfClass:[czzMenuEnabledTableViewCell class]]){
             czzMenuEnabledTableViewCell *threadViewCell = (czzMenuEnabledTableViewCell*)cell;
-            // TODO: highlight Colour.
-//            threadViewCell.shouldHighlight = [[czzMarkerManager sharedInstance] isUIDHighlighted:thread.UID];
             threadViewCell.shouldBlock = [[czzMarkerManager sharedInstance] isUIDBlocked:thread.UID];
             threadViewCell.cellType = threadViewCellTypeThread;
             threadViewCell.parentThread = self.threadViewManager.parentThread;
+            // TODO: Should temporarily highlight.
+            
             [threadViewCell renderContent];
         }
     }
@@ -183,6 +184,15 @@
 
     // Thread not found in the downloaded thread, get it from server instead.
     [super userTapInQuotedText:text];
+}
+
+- (void)userWantsToTemporarilyHighlightUser:(NSString *)UID {
+    if ([self.temporarilyHighlightUID isEqualToString:UID]) {
+        self.temporarilyHighlightUID = nil;
+    } else {
+        self.temporarilyHighlightUID = UID;
+    }
+    [self reloadData];
 }
 
 #pragma mark - Rotation event.
