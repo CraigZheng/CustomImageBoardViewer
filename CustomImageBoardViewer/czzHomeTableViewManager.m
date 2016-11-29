@@ -27,6 +27,7 @@
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzMarkerManager.h"
 #import "czzBigImageModeTableViewCell.h"
+#import "czzForumsViewController.h"
 #import <ImageIO/ImageIO.h>
 
 #import "CustomImageBoardViewer-Swift.h"
@@ -70,6 +71,16 @@
         self.imageViewerUtil = [czzImageViewerUtil new];
         self.pendingBulkUpdateIndexes = [NSMutableOrderedSet new];
         [[czzImageDownloaderManager sharedManager] addDelegate:self];
+        __weak czzHomeTableViewManager *weakSelf = self;
+        [[NSNotificationCenter defaultCenter] addObserverForName:kForumPickedNotification
+                                                          object:nil
+                                                           queue:[NSOperationQueue mainQueue]
+                                                      usingBlock:^(NSNotification * _Nonnull note) {
+                                                          dispatch_async(dispatch_get_main_queue(), ^{
+                                                              [weakSelf.homeTableView reloadEmptyDataSet];
+                                                          });
+                                                      }
+         ];
     }
     return self;
 }
@@ -564,6 +575,10 @@ estimatedHeightForRowAtIndexPath:indexPath];
 
 - (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
     return [[NSAttributedString alloc] initWithString:@"请先选择一个板块" attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:14]}];
+}
+
+- (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView {
+    return self.homeViewManager.forum == nil;
 }
 
 @end
