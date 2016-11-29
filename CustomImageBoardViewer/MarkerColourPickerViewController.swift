@@ -80,7 +80,7 @@ class MarkerColourPickerViewController: UIViewController {
     @IBAction func nicknameButtonAction(_ sender: AnyObject) {
         // Show a text alertview for entering nickname.
         let textAlertView = UIAlertView(title: "",
-                                        message: "自定义名称（可以留空）",
+                                        message: "自定义一个昵称（可以留空）",
                                         delegate: self,
                                         cancelButtonTitle: "取消",
                                         otherButtonTitles: "确定")
