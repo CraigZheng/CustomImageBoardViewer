@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *nicknameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *flagImageView;
 
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
@@ -38,30 +39,13 @@
     _thread = myThread;
     if (myThread) {
         self.idLabel.text = [NSString stringWithFormat:@"%ld", (long)myThread.ID];
-        if (self.nickname.length) {
-            self.posterLabel.text = self.nickname;
-        } else {
-            self.posterLabel.text = myThread.UID;
-        }
+        self.posterLabel.text = myThread.UID;
         // Hide title container if there is not a title to show.
-        if ([myThread.title isEqualToString:settingCentre.empty_title]) {
-            self.titleLabel.text = nil;
-        } else {
-            self.titleLabel.text = [NSString stringWithFormat:@"标题: %@", myThread.title];
-        }
-        if ([myThread.name isEqualToString:settingCentre.empty_username]) {
-            // No name to show.
-            self.nameLabel.text = nil;
-        } else {
-            // If there is a name to show...
-            self.nameLabel.text = [NSString stringWithFormat:@"用户: %@", myThread.name];
-        }
+        self.titleLabel.text = [myThread.title isEqualToString:settingCentre.empty_title] ? nil : [NSString stringWithFormat:@"标题: %@", myThread.title];
+        self.nameLabel.text = [myThread.name isEqualToString:settingCentre.empty_username] ? nil : [NSString stringWithFormat:@"用户: %@", myThread.name];
+        self.nicknameLabel.text = self.nickname.length ? [NSString stringWithFormat:@"昵称: %@", self.nickname] : nil;
         // If admin, highlight.
-        if (myThread.admin) {
-            self.posterLabel.textColor = [UIColor redColor];
-        } else {
-            self.posterLabel.textColor = brownColour;
-        }
+        self.posterLabel.textColor = myThread.admin ? [UIColor redColor] : brownColour;
         self.dateLabel.text = [self.dateFormatter stringFromDate:myThread.postDateTime];
         
         //highlight original poster
