@@ -63,7 +63,13 @@ static NSString * const kLastNotificationDisplayTime = @"kLastNotificationDispla
 //#endif
     // Only show when the app is running in the foreground.
     if (showed && self.enable && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
-        [self show];
+        if ([[SlideNavigationController sharedInstance] isMenuOpen]) {
+            [[SlideNavigationController sharedInstance] closeMenuWithCompletion:^{
+                [self show];
+            }];
+        } else {
+            [self show];
+        }
         showed = YES;
     } else {
         showed = NO;
