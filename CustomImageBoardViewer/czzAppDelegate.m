@@ -188,6 +188,8 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
             localRefCompletionHandler = nil;
         }
     }];
+    // Save current home view state while fetching data.
+    [[czzHomeViewManager sharedManager] saveCurrentState];
 }
 
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
