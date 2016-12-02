@@ -100,10 +100,12 @@
 }
 
 -(void)refresh {
-    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Refresh"
-                                                                                        action:@"Refresh Forum"
-                                                                                         label:self.forum.name
-                                                                                         value:@1] build]];
+    if (self.forum.name.length) {
+        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Refresh"
+                                                                                            action:@"Refresh Forum"
+                                                                                             label:self.forum.name
+                                                                                             value:@1] build]];
+    }
     [self removeAll];
     [self loadMoreThreads:self.pageNumber];
 }
