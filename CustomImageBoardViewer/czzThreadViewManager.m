@@ -60,8 +60,8 @@
 
 #pragma mark - state perserving/restoring
 -(void)restorePreviousState {
+    NSString *cacheFile = [[czzAppDelegate threadCacheFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)self.parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
     @try {
-        NSString *cacheFile = [[czzAppDelegate threadCacheFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)self.parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
         if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
             czzThreadViewManager *tempThreadList = [self restoreWithFile:cacheFile];
             // Copy data, only restore it when the tempThreadList has more than 1 thread(counting the parent thread).
@@ -82,6 +82,7 @@
         self.restoredFromCache = NO;
     }
     @catch (NSException *exception) {
+        [[NSFileManager defaultManager] removeItemAtPath:cacheFile error:nil];
         DDLogDebug(@"%@", exception);
     }
 }

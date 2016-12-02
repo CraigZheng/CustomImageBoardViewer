@@ -66,12 +66,10 @@
 }
 
 -(void)restorePreviousState {
+    NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:self.cacheFile];
     @try {
-        NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:self.cacheFile];
         if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
             NSData *cacheData = [NSData dataWithContentsOfFile:cacheFile];
-            // Always delete the cache file after reading it to ensure safety.
-            [[NSFileManager defaultManager] removeItemAtPath:cacheFile error:nil];
             czzHomeViewManager *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithData:cacheData];
             //copy data
             if (tempThreadList && [tempThreadList isKindOfClass:[czzHomeViewManager class]])
@@ -88,6 +86,8 @@
         }
     }
     @catch (NSException *exception) {
+        // Always delete the cache file after exception to ensure safety.
+        [[NSFileManager defaultManager] removeItemAtPath:cacheFile error:nil];
         DDLogDebug(@"%@", exception);
     }
 }
