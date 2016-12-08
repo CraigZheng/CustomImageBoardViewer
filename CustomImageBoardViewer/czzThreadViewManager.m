@@ -15,7 +15,7 @@
 #import "czzMarkerManager.h"
 
 @interface czzThreadViewManager() <czzMassiveThreadDownloaderDelegate>
-@property (nonatomic, assign) NSUInteger cutOffIndex;
+@property (nonatomic, assign) BOOL pageNumberChanged;
 @property (nonatomic, strong) czzMassiveThreadDownloader *massiveDownloader;
 @end
 
@@ -135,27 +135,23 @@
 - (void)threadDownloaderCompleted:(czzThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads error:(NSError *)error {
     NSInteger previousThreadCount = self.threads.count;
     if (success) {
+        self.lastBatchOfThreads = threads;
+        // Remove the parent thread for easier calculation.
+        if (self.parentThread) {
+            [self.threads removeObject:self.parentThread];
+        }
         if (downloader.parentThread.ID > 0)
             self.parentThread = downloader.parentThread;
-        self.lastBatchOfThreads = threads;
-        // Remove last page by having a sub array of threads up to the begining of the last page.
-        NSInteger lastPageStartingPoint = (downloader.pageNumber - 1) * settingCentre.response_per_page;
-        NSRange previousRange = NSMakeRange(0, lastPageStartingPoint + 1);
-        // Normal: lastPageStartingPoint is exactly where the last object in the threads array is.
-        if ([self.threads indexOfObject:self.threads.lastObject] == lastPageStartingPoint) {
+        // If the page has not been increased by [self loadMoreThreads:] method, then we will need to sub-array the current threads.
+        // Sub-array everything up to the last page end point.
+        if (!self.pageNumberChanged) {
+            NSInteger lastPageThreadCount = (downloader.pageNumber - 1) * settingCentre.response_per_page;
+            NSRange previousRange = NSMakeRange(0, lastPageThreadCount);
             self.threads = [[self.threads subarrayWithRange:previousRange] mutableCopy];
-            [self.threads addObjectsFromArray:self.lastBatchOfThreads];
-        } else {
-            // Jumpping: previousRange is not in sync with self.threads.
-            NSMutableOrderedSet *threadsSet = [NSMutableOrderedSet orderedSetWithArray:self.threads];
-            [threadsSet addObjectsFromArray:self.lastBatchOfThreads];
-            self.threads = threadsSet.array.mutableCopy;
         }
-        //replace parent thread
-        if (self.threads.count >= 1)
-        {
-            [self.threads replaceObjectAtIndex:0 withObject:self.parentThread];
-        } else {
+        [self.threads addObjectsFromArray:self.lastBatchOfThreads];
+        // Add back the parent thread.
+        if (self.parentThread) {
             [self.threads insertObject:self.parentThread atIndex:0];
         }
     }
@@ -206,6 +202,7 @@
 - (void)reset {
     self.totalPages = self.pageNumber = 1;
     self.threads = self.cachedThreads = nil;
+    self.pageNumberChanged = NO;
 }
 
 -(void)removeAll {
@@ -248,6 +245,12 @@
     } else {
         [self loadMoreThreads:self.pageNumber];
     }
+}
+
+- (void)loadMoreThreads:(NSInteger)pageNumber {
+    // If the current page number is different than the incoming page number, set self.pageIncreased to true.
+    self.pageNumberChanged = self.pageNumber != pageNumber;
+    [super loadMoreThreads:pageNumber];
 }
 
 #pragma mark - NSCoding
