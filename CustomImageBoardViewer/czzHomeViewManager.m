@@ -251,7 +251,7 @@
 }
 
 - (NSString *)cacheFile {
-    return [NSString stringWithFormat:@"%@-%@", [UIApplication bundleVersion], DEFAULT_THREAD_LIST_CACHE_FILE];
+    return DEFAULT_THREAD_LIST_CACHE_FILE;
 }
 
 - (NSMutableArray *)threads {
