@@ -57,7 +57,7 @@
 -(NSString*)saveCurrentState {
     DLog(@"");
     NSString *cachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:self.cacheFile];
-    if ([NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
+    if (self.forum && [NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
         return cachePath;
     } else {
         [[NSFileManager defaultManager] removeItemAtPath:cachePath error:nil];

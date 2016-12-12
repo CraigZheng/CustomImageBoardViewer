@@ -131,6 +131,7 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
     [[NSUserDefaults standardUserDefaults] setObject:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]
                                               forKey:lastStateAppVersion];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    [[czzHomeViewManager sharedManager] saveCurrentState];
     return YES;
 }
 
