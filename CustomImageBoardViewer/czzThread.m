@@ -221,7 +221,7 @@
 
 //the hash for a thread is its UID and its ID and its post date time
 -(NSUInteger)hash{
-    return self.UID.hash + self.ID + self.postDateTime.hash;
+    return self.UID.hash + self.ID + [self.postDateTime descriptionWithLocale:[NSLocale systemLocale]].hash;
 }
 
 #pragma mark - encoding and decoding functions
