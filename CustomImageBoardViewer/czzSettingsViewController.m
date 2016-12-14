@@ -103,9 +103,8 @@ static NSString *addMarkerSegue = @"AddMarker";
             if ([command isEqualToString:@"字体偏好"]) {
                 selectionIndex = settingCentre.threadTextSize;
                 selections = self.textSizeSelections;
-            } else {
-                // TODO: should add a new property in settingsCentre.
-                selectionIndex = 0;
+            } else if ([command isEqualToString:@"自动清理缓存间隔"]) {
+                selectionIndex = settingsCentre.autoCleanPeriod;
                 selections = self.cleanCachePeriodSelections;
             }
             
@@ -389,20 +388,28 @@ static NSString *addMarkerSegue = @"AddMarker";
     if ([segue.identifier isEqualToString:settingsSelector]
         && [segue.destinationViewController isKindOfClass:[czzSelectionSelectorViewController class]]) {
         [(czzSelectionSelectorViewController*)segue.destinationViewController setSelections:self.currentSelections];
-        [(czzSelectionSelectorViewController*)segue.destinationViewController setPreSelectedIndex:settingCentre.threadTextSize];
-        [(czzSelectionSelectorViewController*)segue.destinationViewController setDelegate: self];
+        NSInteger preSelectedIndex = 0;
+        if (self.currentSelections == self.textSizeSelections) {
+            preSelectedIndex = settingCentre.threadTextSize;
+        } else {
+            preSelectedIndex = settingCentre.autoCleanPeriod;
+        }
+        [(czzSelectionSelectorViewController*)segue.destinationViewController setPreSelectedIndex:preSelectedIndex];
+        [(czzSelectionSelectorViewController*)segue.destinationViewController setDelegate:self];
     }
 }
 
 #pragma mark - czzTextSizeSelectorViewController
 
 - (void)selectorViewController:(czzSelectionSelectorViewController *)viewController selectedIndex:(NSInteger)index {
-    if (self.currentSelections == self.textSizeSelections && index != settingsCentre.threadTextSize) {
+    if (self.currentSelections == self.textSizeSelections && index <= TextSizeExtraBig) {
         settingsCentre.threadTextSize = index;
-        [settingsCentre saveSettings];
-        [self.settingsTableView reloadData];
-        [[czzHomeViewManager sharedManager] reloadData];
+    } else if (self.currentSelections == self.cleanCachePeriodSelections && index <= AutoCleanPeriodNever) {
+        settingCentre.autoCleanPeriod = index;
     }
+    [settingsCentre saveSettings];
+    [self.settingsTableView reloadData];
+    [[czzHomeViewManager sharedManager] reloadData];
 }
 
 #pragma mark - Button actions.
