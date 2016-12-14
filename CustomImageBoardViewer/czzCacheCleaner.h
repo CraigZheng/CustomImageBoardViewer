@@ -14,5 +14,5 @@
 @property (strong, nonatomic) NSDate *dateOfLastCheck;
 @property (strong, nonatomic) NSDate *dateOfLastClean;
 
-+(instancetype)sharedInstance;
++ (instancetype)sharedInstance;
 @end

@@ -18,6 +18,7 @@
 #import "czzHomeViewManager.h"
 #import "czzWatchListManager.h"
 #import "czzSelectionSelectorViewController.h"
+#import "czzCacheCleaner.h"
 
 static NSString *settingsSelector = @"settingsSelector";
 static NSString *addMarkerSegue = @"AddMarker";
@@ -249,7 +250,7 @@ static NSString *addMarkerSegue = @"AddMarker";
     }
     // Selections.
     self.textSizeSelections = @[@"默认", @"偏小", @"偏大", @"特大"];
-    self.cleanCachePeriodSelections = @[@"不使用缓存", @"7天", @"一个月", @"半年", @"一年", @"不自动清理"];
+    self.cleanCachePeriodSelections = [czzSettingsCentre periodSettingTitle];
     [switchCommands addObject:@"字体偏好"];
     [switchCommands addObject:@"自动清理缓存间隔"];
 //    [switchCommands addObject:@"开启串缓存"]; // Disbale as is no longer important.

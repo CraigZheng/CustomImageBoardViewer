@@ -134,7 +134,7 @@ static NSString * const kDateOfLastClean = @"kDateOfLastClean";
     }
 }
 
-+(instancetype)sharedInstance {
++ (instancetype)sharedInstance {
     static id sharedInstance;
     static dispatch_once_t once_token;
     dispatch_once(&once_token, ^{
@@ -142,4 +142,5 @@ static NSString * const kDateOfLastClean = @"kDateOfLastClean";
     });
     return sharedInstance;
 }
+
 @end

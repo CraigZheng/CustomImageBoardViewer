@@ -96,6 +96,8 @@ typedef enum : NSInteger {
 @property (strong, nonatomic) NSString *popup_notification_link;
 
 + (instancetype)sharedInstance;
++ (NSArray *)periodSettingTitle;
+
 -(void)downloadSettings;
 -(void)saveSettings;
 -(void)restoreSettings;

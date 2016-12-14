@@ -71,6 +71,12 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     return _sharedObject;
 }
 
++ (NSArray *)periodSettingTitle {
+    return @[@"不使用缓存", @"7天", @"一个月", @"半年", @"一年", @"不自动清理"];
+}
+
+#pragma mark - Life cycle.
+
 -(instancetype)init {
     self = [super init];
     if (self) {
