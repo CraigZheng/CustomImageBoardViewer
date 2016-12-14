@@ -27,6 +27,7 @@
 		4412FA151935865800681438 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 4412FA141935865800681438 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		441356091C61B3B6001B82E5 /* czzBannerNotificationUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 441356081C61B3B6001B82E5 /* czzBannerNotificationUtil.m */; };
 		441514821BBAD2A4005ECD96 /* czzImageDownloaderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 441514811BBAD2A4005ECD96 /* czzImageDownloaderManager.m */; };
+		441578A11E00E50A002C6E32 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 441578A01E00E50A002C6E32 /* Settings.storyboard */; };
 		4416B71D19413D9300B69C5B /* czzEmotionPickerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4416B71C19413D9300B69C5B /* czzEmotionPickerTableViewController.m */; };
 		4416B72519413EAF00B69C5B /* FPPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4416B72019413EAF00B69C5B /* FPPopoverController.m */; };
 		4416B72619413EAF00B69C5B /* FPPopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4416B72219413EAF00B69C5B /* FPPopoverView.m */; };
@@ -561,6 +562,7 @@
 		441356081C61B3B6001B82E5 /* czzBannerNotificationUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzBannerNotificationUtil.m; sourceTree = "<group>"; };
 		441514801BBAD2A4005ECD96 /* czzImageDownloaderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzImageDownloaderManager.h; sourceTree = "<group>"; };
 		441514811BBAD2A4005ECD96 /* czzImageDownloaderManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzImageDownloaderManager.m; sourceTree = "<group>"; };
+		441578A01E00E50A002C6E32 /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		4416B71B19413D9300B69C5B /* czzEmotionPickerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzEmotionPickerTableViewController.h; sourceTree = "<group>"; };
 		4416B71C19413D9300B69C5B /* czzEmotionPickerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzEmotionPickerTableViewController.m; sourceTree = "<group>"; };
 		4416B71E19413EAF00B69C5B /* ARCMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARCMacros.h; sourceTree = "<group>"; };
@@ -1412,6 +1414,7 @@
 				44C3454A187E5A8300FDE45D /* czzEmoji */,
 				440B2FD817F94C5000544926 /* Launch images */,
 				4462EF2218659B8600E6BE78 /* czzFavouriteManagerVIewController */,
+				44B96E38185B97C700D664A4 /* czzSettingsViewController */,
 				5A0A6BD7184869200094D7FB /* czzMoreInfoViewController */,
 				441E5D1717F46B3200289DBD /* czzForumsViewController */,
 				441E5D1317F46A0E00289DBD /* czzEntryPointViewController */,
@@ -2205,6 +2208,7 @@
 				44A372DC1C28D9E0004CBA48 /* czzDebugSettingsTableViewController.m */,
 				44397D791D697EE8005B44AA /* czzTextSizeSelectorViewController.h */,
 				44397D7A1D697EE8005B44AA /* czzTextSizeSelectorViewController.m */,
+				441578A01E00E50A002C6E32 /* Settings.storyboard */,
 			);
 			name = czzSettingsViewController;
 			sourceTree = "<group>";
@@ -2615,7 +2619,6 @@
 			isa = PBXGroup;
 			children = (
 				44B96E34185B8B9300D664A4 /* czzImageManagerViewCon */,
-				44B96E38185B97C700D664A4 /* czzSettingsViewController */,
 				5A0A6BD41848691C0094D7FB /* czzMoreInfoViewController.h */,
 				5A0A6BD51848691C0094D7FB /* czzMoreInfoViewController.m */,
 				44CD265C1DD1A15A003F1696 /* MoreInfo.storyboard */,
@@ -2917,6 +2920,7 @@
 				449FF63E1D82FD250065BA08 /* chat@2x.png in Resources */,
 				444F5B3A1A40EA3500EB391F /* 39.png in Resources */,
 				44CF255F1A2699D000BD8228 /* OnScreenCommand.storyboard in Resources */,
+				441578A11E00E50A002C6E32 /* Settings.storyboard in Resources */,
 				444F5B261A40EA3500EB391F /* 19.png in Resources */,
 				444F5B221A40EA3500EB391F /* 15.png in Resources */,
 				4444DA3A1C7A915F00ED8568 /* running_reed.gif in Resources */,
