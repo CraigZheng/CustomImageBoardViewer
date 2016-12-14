@@ -157,6 +157,8 @@
 		444F5B481A40EA3500EB391F /* 53.png in Resources */ = {isa = PBXBuildFile; fileRef = 444F5B121A40EA3500EB391F /* 53.png */; };
 		444F5B491A40EA3500EB391F /* 54.png in Resources */ = {isa = PBXBuildFile; fileRef = 444F5B131A40EA3500EB391F /* 54.png */; };
 		4453C07719F634B700A8250F /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4453C07619F634B700A8250F /* Launch Screen.xib */; };
+		445759FE1E01722500B3A941 /* CacheCleaner.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 445759FD1E01722500B3A941 /* CacheCleaner.storyboard */; };
+		44575A001E0172D400B3A941 /* czzCacheCleanerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445759FF1E0172D400B3A941 /* czzCacheCleanerTableViewController.swift */; };
 		445B7B531B418CBE0046CFDB /* czzThreadTableViewCommandCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 445B7B521B418CBE0046CFDB /* czzThreadTableViewCommandCellTableViewCell.xib */; };
 		445B7B561B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 445B7B551B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.m */; };
 		445B7B591B418F020046CFDB /* czzThreadTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 445B7B581B418F020046CFDB /* czzThreadTableView.m */; };
@@ -776,6 +778,8 @@
 		444F5B121A40EA3500EB391F /* 53.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 53.png; sourceTree = "<group>"; };
 		444F5B131A40EA3500EB391F /* 54.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 54.png; sourceTree = "<group>"; };
 		4453C07619F634B700A8250F /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Launch Screen.xib"; path = "../Launch Screen.xib"; sourceTree = "<group>"; };
+		445759FD1E01722500B3A941 /* CacheCleaner.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CacheCleaner.storyboard; sourceTree = "<group>"; };
+		445759FF1E0172D400B3A941 /* czzCacheCleanerTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = czzCacheCleanerTableViewController.swift; sourceTree = "<group>"; };
 		445B7B521B418CBE0046CFDB /* czzThreadTableViewCommandCellTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzThreadTableViewCommandCellTableViewCell.xib; sourceTree = "<group>"; };
 		445B7B541B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadTableViewCommandCellTableViewCell.h; sourceTree = "<group>"; };
 		445B7B551B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadTableViewCommandCellTableViewCell.m; sourceTree = "<group>"; };
@@ -1390,40 +1394,41 @@
 		441E5CD417F4691300289DBD /* CustomImageBoardViewer */ = {
 			isa = PBXGroup;
 			children = (
-				44BDA3EB1DB70ED100D2F576 /* MarkerManagerViewController */,
-				441A6A7E1BAEBF64008E380C /* Manager */,
-				4432BA8F1AA8850C002C66F5 /* Examples */,
-				44E7918C1A17856500A63C04 /* icons */,
-				441E5CDD17F4691300289DBD /* czzAppDelegate.h */,
-				441E5CDE17F4691300289DBD /* czzAppDelegate.m */,
+				44B89E771A2AF3CE0085F766 /* 3rd Party */,
+				44CBF3FD1BC9243300DFECFC /* CacheCleaner */,
+				442BFC741D1D1000007545EB /* CustomImageBoardViewer-Bridging-Header.h */,
 				442F1FD11B13500C00267698 /* czzAppActivityManager.h */,
 				442F1FD21B13500C00267698 /* czzAppActivityManager.m */,
-				442BFC741D1D1000007545EB /* CustomImageBoardViewer-Bridging-Header.h */,
-				4453C07619F634B700A8250F /* Launch Screen.xib */,
-				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
-				44E2D2D71B2DB77B0029D783 /* Utility.storyboard */,
-				44989A1F1CFC5A8500F04ECD /* Popular Thread */,
-				44CBF3FD1BC9243300DFECFC /* CacheCleaner */,
-				44E2D2D91B2DB7AD0029D783 /* UtilViewControllers */,
-				44DF8ECC1A74CA4B0097F7F5 /* Utils */,
-				445CA5511CA3BB7000D3C315 /* LaunchPopupNotification */,
+				441E5CDD17F4691300289DBD /* czzAppDelegate.h */,
+				441E5CDE17F4691300289DBD /* czzAppDelegate.m */,
+				445759FC1E01721000B3A941 /* czzCacheCleanerManager */,
 				44DF8EE01A74D6320097F7F5 /* czzCookieManagerViewController */,
-				5AF85E691970025F0031D0CB /* czzSearchViewController */,
-				44BE2E3C1938400A00601943 /* czzOnScreenCommand */,
-				5A2B2D8E1936179500BA2870 /* czzFeedbackController */,
 				44C3454A187E5A8300FDE45D /* czzEmoji */,
-				440B2FD817F94C5000544926 /* Launch images */,
-				4462EF2218659B8600E6BE78 /* czzFavouriteManagerVIewController */,
-				44B96E38185B97C700D664A4 /* czzSettingsViewController */,
-				5A0A6BD7184869200094D7FB /* czzMoreInfoViewController */,
-				441E5D1717F46B3200289DBD /* czzForumsViewController */,
 				441E5D1317F46A0E00289DBD /* czzEntryPointViewController */,
-				441E5D2D17F490E100289DBD /* czzThread */,
+				4462EF2218659B8600E6BE78 /* czzFavouriteManagerVIewController */,
+				5A2B2D8E1936179500BA2870 /* czzFeedbackController */,
+				441E5D1717F46B3200289DBD /* czzForumsViewController */,
 				442CD0E4185160200021AD37 /* czzImageManager */,
-				44B89E771A2AF3CE0085F766 /* 3rd Party */,
-				44C73B861A471F0A0051D4C2 /* Mock */,
+				5A0A6BD7184869200094D7FB /* czzMoreInfoViewController */,
+				44BE2E3C1938400A00601943 /* czzOnScreenCommand */,
+				5AF85E691970025F0031D0CB /* czzSearchViewController */,
+				44B96E38185B97C700D664A4 /* czzSettingsViewController */,
+				441E5D2D17F490E100289DBD /* czzThread */,
+				4432BA8F1AA8850C002C66F5 /* Examples */,
+				44E7918C1A17856500A63C04 /* icons */,
 				441E5CE917F4691300289DBD /* Images.xcassets */,
+				440B2FD817F94C5000544926 /* Launch images */,
+				4453C07619F634B700A8250F /* Launch Screen.xib */,
+				445CA5511CA3BB7000D3C315 /* LaunchPopupNotification */,
+				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
+				441A6A7E1BAEBF64008E380C /* Manager */,
+				44BDA3EB1DB70ED100D2F576 /* MarkerManagerViewController */,
+				44C73B861A471F0A0051D4C2 /* Mock */,
+				44989A1F1CFC5A8500F04ECD /* Popular Thread */,
 				441E5CD517F4691300289DBD /* Supporting Files */,
+				44E2D2D71B2DB77B0029D783 /* Utility.storyboard */,
+				44DF8ECC1A74CA4B0097F7F5 /* Utils */,
+				44E2D2D91B2DB7AD0029D783 /* UtilViewControllers */,
 			);
 			path = CustomImageBoardViewer;
 			sourceTree = "<group>";
@@ -1848,6 +1853,15 @@
 				444F5B131A40EA3500EB391F /* 54.png */,
 			);
 			path = "acmusume-large";
+			sourceTree = "<group>";
+		};
+		445759FC1E01721000B3A941 /* czzCacheCleanerManager */ = {
+			isa = PBXGroup;
+			children = (
+				445759FD1E01722500B3A941 /* CacheCleaner.storyboard */,
+				445759FF1E0172D400B3A941 /* czzCacheCleanerTableViewController.swift */,
+			);
+			name = czzCacheCleanerManager;
 			sourceTree = "<group>";
 		};
 		445B7B4B1B418B400046CFDB /* CommonUI */ = {
@@ -2850,6 +2864,7 @@
 				448547FC1DB9DD9E00E7CE7B /* poison.png in Resources */,
 				444F5B3F1A40EA3500EB391F /* 44.png in Resources */,
 				44E791E71A17856500A63C04 /* menu@2x.png in Resources */,
+				445759FE1E01722500B3A941 /* CacheCleaner.storyboard in Resources */,
 				444F5B491A40EA3500EB391F /* 54.png in Resources */,
 				44E792031A17856500A63C04 /* solid_star@3x.png in Resources */,
 				44A9E1591AE1D16000740CE1 /* Icon@2x.png in Resources */,
@@ -3367,6 +3382,7 @@
 				44FC4345180067CF0028D7C9 /* czzPostSender.m in Sources */,
 				5A88B8401938AFDB00071343 /* czzNotificationCentreTableViewController.m in Sources */,
 				445C66491BBED722004B3E83 /* czzThreadViewCellFooterView.m in Sources */,
+				44575A001E0172D400B3A941 /* czzCacheCleanerTableViewController.swift in Sources */,
 				443B54F319933C1F00BAB282 /* czzSettingsCentre.m in Sources */,
 				4416B71D19413D9300B69C5B /* czzEmotionPickerTableViewController.m in Sources */,
 				4416B72719413EAF00B69C5B /* FPTouchView.m in Sources */,
