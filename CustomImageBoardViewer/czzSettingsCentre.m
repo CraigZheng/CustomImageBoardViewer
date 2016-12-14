@@ -28,6 +28,7 @@ static NSString * const kAutoClean = @"kAutoClean";
 static NSString * const kAutoDownloadImage = @"kAutoDownloadImage";
 static NSString * const kShouldCollapseLongContent = @"kShouldCollapseLongContent";
 static NSString * const kTextSize = @"kTextSize";
+static NSString * const kAutoCleanPeriod = @"kAutoCleanPeriod";
 static NSString * const kShouldShowImageManagerButton = @"kShouldShowImageManagerButton";
 
 NSString * const settingsChangedNotification = @"settingsChangedNotification";
@@ -86,6 +87,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         self.userDefShouldCollapseLongContent = NO;
         shouldAllowOpenBlockedThread = YES;
         self.threadTextSize = TextSizeDefault;
+        self.autoCleanPeriod = AutoCleanPeriodNever;
         self.shouldShowImageManagerButton = YES;
         
         donationLink = @"";
@@ -135,6 +137,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     [userDefault setBool:self.userDefShouldAutoDownloadImage forKey:kAutoDownloadImage];
     [userDefault setBool:self.userDefShouldCollapseLongContent forKey:kShouldCollapseLongContent];
     [userDefault setInteger:self.threadTextSize forKey:kTextSize];
+    [userDefault setInteger:self.autoCleanPeriod forKey:kAutoCleanPeriod];
     [userDefault setBool:self.shouldShowImageManagerButton forKey:kShouldShowImageManagerButton];
     [userDefault synchronize];
     // Post a notification about the settings changed.
@@ -174,6 +177,9 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     }
     if ([userDefault objectForKey:kTextSize]) {
         self.threadTextSize = [userDefault integerForKey:kTextSize];
+    }
+    if ([userDefault objectForKey:kAutoCleanPeriod]) {
+        self.autoCleanPeriod = [userDefault integerForKey:kAutoCleanPeriod];
     }
     self.userDefShouldAutoDownloadImage = [userDefault boolForKey:kAutoDownloadImage];
     if ([userDefault objectForKey:kShouldShowImageManagerButton]) {

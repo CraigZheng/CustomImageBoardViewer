@@ -21,6 +21,15 @@ typedef enum : NSInteger {
     TextSizeExtraBig = 3
 } ThreadViewTextSize;
 
+typedef enum : NSInteger {
+    AutoCleanPeriodNoCache = 0,
+    AutoCleanPeriod7Days = 1,
+    AutoCleanPeriod1Month = 2,
+    AutoCleanPeriod6Months = 3,
+    AutoCleanPeriod12Months = 4,
+    AutoCleanPeriodNever = 5
+} AutoCleanPeriod;
+
 @interface czzSettingsCentre : NSObject
 
 //Remote configurations
@@ -79,6 +88,7 @@ typedef enum : NSInteger {
 @property (assign, nonatomic) BOOL userDefShouldAutoDownloadImage;
 @property (assign, nonatomic) BOOL userDefShouldCollapseLongContent;
 @property (assign, nonatomic) ThreadViewTextSize threadTextSize;
+@property (assign, nonatomic) AutoCleanPeriod autoCleanPeriod;
 @property (assign, nonatomic) BOOL shouldShowImageManagerButton;
 //Debug settings
 @property (assign, nonatomic) BOOL should_allow_dart;
