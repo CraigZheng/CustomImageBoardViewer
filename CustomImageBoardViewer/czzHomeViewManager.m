@@ -59,10 +59,8 @@
     NSString *cachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:self.cacheFile];
     if (self.forum && [NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
         return cachePath;
-    } else {
-        [[NSFileManager defaultManager] removeItemAtPath:cachePath error:nil];
-        return nil;
     }
+    return nil;
 }
 
 -(void)restorePreviousState {
