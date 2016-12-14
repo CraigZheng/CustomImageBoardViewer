@@ -7,7 +7,7 @@
 		<key>AC-emoticon.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>56</integer>
+			<integer>53</integer>
 		</dict>
 		<key>CIV-Simulator.xcscheme</key>
 		<dict>
@@ -17,7 +17,7 @@
 		<key>CIVWatchApp.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>41</integer>
+			<integer>37</integer>
 		</dict>
 		<key>CustomImageBoardViewer WatchKit App.xcscheme</key>
 		<dict>

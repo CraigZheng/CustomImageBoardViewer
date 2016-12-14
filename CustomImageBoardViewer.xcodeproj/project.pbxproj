@@ -2850,6 +2850,7 @@
 					};
 					4459A3621DFFA61700C196C1 = {
 						CreatedOnToolsVersion = 8.2;
+						DevelopmentTeam = 9EBE9MWW9X;
 						ProvisioningStyle = Automatic;
 					};
 					44A294891BFDEFF50033D438 = {
@@ -3800,6 +3801,7 @@
 				CODE_SIGN_IDENTITY = "$(inherited)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 9EBE9MWW9X;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
@@ -3825,6 +3827,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 9EBE9MWW9X;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
@@ -3978,6 +3981,7 @@
 				4459A36C1DFFA61700C196C1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		44A294AC1BFDEFF60033D438 /* Build configuration list for PBXNativeTarget "CIVWatchApp Extension" */ = {
 			isa = XCConfigurationList;
