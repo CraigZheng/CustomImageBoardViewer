@@ -20,5 +20,6 @@
 @interface czzSelectionSelectorViewController : UIViewController
 
 @property (nonatomic, weak) id<czzSelectionSelectorViewControllerProtocol> delegate;
+@property (nonatomic, strong) NSArray<NSString *> *selections;
 
 @end

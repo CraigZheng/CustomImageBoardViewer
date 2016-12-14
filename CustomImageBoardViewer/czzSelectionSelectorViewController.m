@@ -11,14 +11,13 @@
 @interface czzSelectionSelectorViewController () <UIPickerViewDelegate, UIPickerViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerView;
-@property (nonatomic, strong) NSArray *sizeTitles;
+
 @end
 
 @implementation czzSelectionSelectorViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.sizeTitles = @[@"默认", @"偏小", @"偏大", @"特大"];
     [self.pickerView selectRow:settingCentre.threadTextSize inComponent:0 animated:NO];
 
 }
@@ -38,7 +37,7 @@
 #pragma mark - UIPickerViewDelegate & UIPickerViewDataSource
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    return self.sizeTitles.count;
+    return self.selections.count;
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
@@ -46,7 +45,7 @@
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    return self.sizeTitles[row];
+    return self.selections[row];
 }
 
 @end

@@ -24,9 +24,11 @@ static NSString *addMarkerSegue = @"AddMarker";
 
 @interface czzSettingsViewController ()<UIAlertViewDelegate, UIActionSheetDelegate, czzSelectionSelectorViewControllerProtocol>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *debugBarButton;
-@property NSMutableArray *commands;
-@property NSMutableArray *regularCommands;
-@property NSMutableArray *switchCommands;
+@property (strong, nonatomic) NSMutableArray *commands;
+@property (strong, nonatomic) NSMutableArray *regularCommands;
+@property (strong, nonatomic) NSMutableArray *switchCommands;
+@property (strong, nonatomic) NSArray *textSizeSelections;
+@property (strong, nonatomic) NSArray *currentSelections;
 @property czzSettingsCentre *settingsCentre;
 @end
 
@@ -176,7 +178,7 @@ static NSString *addMarkerSegue = @"AddMarker";
     if (indexPath.section == 0) {
         NSString *command = [switchCommands objectAtIndex:indexPath.row];
         if ([command isEqualToString:@"字体偏好"]) {
-            // TODO: select a text.
+            self.currentSelections = self.textSizeSelections;
             [self performSegueWithIdentifier:settingsSelector sender:nil];
         }
     } else if (indexPath.section == 1){
@@ -244,6 +246,8 @@ static NSString *addMarkerSegue = @"AddMarker";
     if (!([settingsCentre userDefShouldUseBigImage] && [settingsCentre userDefShouldAutoDownloadImage])) {
         [switchCommands addObject:@"图片下载完毕自动打开"];
     }
+    // Selections.
+    self.textSizeSelections = @[@"默认", @"偏小", @"偏大", @"特大"];
     [switchCommands addObject:@"字体偏好"];
 //    [switchCommands addObject:@"开启串缓存"]; // Disbale as is no longer important.
 //    [switchCommands addObject:@"每月自动清理缓存"]; // Disable for now - version 3.4.
@@ -380,6 +384,7 @@ static NSString *addMarkerSegue = @"AddMarker";
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:settingsSelector]
         && [segue.destinationViewController isKindOfClass:[czzSelectionSelectorViewController class]]) {
+        [(czzSelectionSelectorViewController*)segue.destinationViewController setSelections:self.currentSelections];
         [(czzSelectionSelectorViewController*)segue.destinationViewController setDelegate: self];
     }
 }
