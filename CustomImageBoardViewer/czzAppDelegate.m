@@ -131,13 +131,14 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
     [[NSUserDefaults standardUserDefaults] setObject:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]
                                               forKey:lastStateAppVersion];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    return YES;
+    return settingsCentre.autoCleanPeriod != AutoCleanPeriodNoCache;
 }
 
 - (BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder {
     BOOL shouldRestore = NO;
     NSString *lastVersion = [[NSUserDefaults standardUserDefaults] objectForKey:lastStateAppVersion];
-    if ([[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"] isEqualToString:lastVersion]) {
+    // If version updated, or user does not want to use cache.
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:kAutoCleanPeriod] != AutoCleanPeriodNoCache && [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"] isEqualToString:lastVersion]) {
         shouldRestore = YES;
     }
     return shouldRestore;

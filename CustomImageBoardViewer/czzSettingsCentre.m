@@ -17,19 +17,19 @@
 
 #import "CustomImageBoardViewer-Swift.h"
 
-static NSString * const kDisplayThumbnail = @"kDisplayThumbnail";
-static NSString * const kShowOnScreenCommand = @"kShowOnScreenCommand";
-static NSString * const kAutoOpenImage = @"kAutoOpenImage";
-static NSString * const kHighLightPO = @"kHighLightPO";
-static NSString * const kCacheData = @"kCacheData";
-static NSString * const kBigImageMode = @"kBigImageMode";
-static NSString * const kNightyMode = @"kNightyMode";
-static NSString * const kAutoClean = @"kAutoClean";
-static NSString * const kAutoDownloadImage = @"kAutoDownloadImage";
-static NSString * const kShouldCollapseLongContent = @"kShouldCollapseLongContent";
-static NSString * const kTextSize = @"kTextSize";
-static NSString * const kAutoCleanPeriod = @"kAutoCleanPeriod";
-static NSString * const kShouldShowImageManagerButton = @"kShouldShowImageManagerButton";
+NSString * const kDisplayThumbnail = @"kDisplayThumbnail";
+NSString * const kShowOnScreenCommand = @"kShowOnScreenCommand";
+NSString * const kAutoOpenImage = @"kAutoOpenImage";
+NSString * const kHighLightPO = @"kHighLightPO";
+NSString * const kCacheData = @"kCacheData";
+NSString * const kBigImageMode = @"kBigImageMode";
+NSString * const kNightyMode = @"kNightyMode";
+NSString * const kAutoClean = @"kAutoClean";
+NSString * const kAutoDownloadImage = @"kAutoDownloadImage";
+NSString * const kShouldCollapseLongContent = @"kShouldCollapseLongContent";
+NSString * const kTextSize = @"kTextSize";
+NSString * const kAutoCleanPeriod = @"kAutoCleanPeriod";
+NSString * const kShouldShowImageManagerButton = @"kShouldShowImageManagerButton";
 
 NSString * const settingsChangedNotification = @"settingsChangedNotification";
 
