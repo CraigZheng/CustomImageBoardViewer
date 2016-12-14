@@ -28,6 +28,7 @@ static NSString *addMarkerSegue = @"AddMarker";
 @property (strong, nonatomic) NSMutableArray *regularCommands;
 @property (strong, nonatomic) NSMutableArray *switchCommands;
 @property (strong, nonatomic) NSArray *textSizeSelections;
+@property (strong, nonatomic) NSArray *cleanCachePeriodSelections;
 @property (strong, nonatomic) NSArray *currentSelections;
 @property czzSettingsCentre *settingsCentre;
 @end
@@ -92,26 +93,24 @@ static NSString *addMarkerSegue = @"AddMarker";
     if (indexPath.section == 0){
         NSString *command = [switchCommands objectAtIndex:indexPath.row];
         // A special case - font size preference.
-        if ([command isEqualToString:@"字体偏好"]) {
+        if ([command isEqualToString:@"字体偏好"] || [command isEqualToString:@"自动清理缓存间隔"]) {
             UILabel *commandLabel = (UILabel*)[cell viewWithTag:5];
             UILabel *detailLabel = (UILabel*)[cell viewWithTag:6];
             commandLabel.text = command;
-            NSString *fontSize = @"";
-            switch (settingsCentre.threadTextSize) {
-                case TextSizeBig:
-                    fontSize = @"大";
-                    break;
-                case TextSizeExtraBig:
-                    fontSize = @"特大";
-                    break;
-                case TextSizeSmall:
-                    fontSize = @"小";
-                    break;
-                default:
-                    fontSize = @"默认";
-                    break;
+            // Fill with existing data.
+            NSArray *selections;
+            NSInteger selectionIndex;
+            if ([command isEqualToString:@"字体偏好"]) {
+                selectionIndex = settingCentre.threadTextSize;
+                selections = self.textSizeSelections;
+            } else {
+                // TODO: should add a new property in settingsCentre.
+                selectionIndex = 0;
+                selections = self.cleanCachePeriodSelections;
             }
-            detailLabel.text = fontSize;
+            
+            NSString *selectionTitle = selections[selectionIndex];
+            detailLabel.text = selectionTitle;
         } else {
             cell = [tableView dequeueReusableCellWithIdentifier:@"switch_cell_identifier"];
             UILabel *commandLabel = (UILabel*)[cell viewWithTag:3];
@@ -179,6 +178,9 @@ static NSString *addMarkerSegue = @"AddMarker";
         NSString *command = [switchCommands objectAtIndex:indexPath.row];
         if ([command isEqualToString:@"字体偏好"]) {
             self.currentSelections = self.textSizeSelections;
+            [self performSegueWithIdentifier:settingsSelector sender:nil];
+        } else if ([command isEqualToString:@"自动清理缓存间隔"]) {
+            self.currentSelections = self.cleanCachePeriodSelections;
             [self performSegueWithIdentifier:settingsSelector sender:nil];
         }
     } else if (indexPath.section == 1){
@@ -248,7 +250,9 @@ static NSString *addMarkerSegue = @"AddMarker";
     }
     // Selections.
     self.textSizeSelections = @[@"默认", @"偏小", @"偏大", @"特大"];
+    self.cleanCachePeriodSelections = @[@"不使用缓存", @"7天", @"一个月", @"半年", @"一年", @"不自动清理"];
     [switchCommands addObject:@"字体偏好"];
+    [switchCommands addObject:@"自动清理缓存间隔"];
 //    [switchCommands addObject:@"开启串缓存"]; // Disbale as is no longer important.
 //    [switchCommands addObject:@"每月自动清理缓存"]; // Disable for now - version 3.4.
     if (settingsCentre.should_allow_dart)
@@ -393,7 +397,7 @@ static NSString *addMarkerSegue = @"AddMarker";
 #pragma mark - czzTextSizeSelectorViewController
 
 - (void)selectorViewController:(czzSelectionSelectorViewController *)viewController selectedIndex:(NSInteger)index {
-    if (index != settingsCentre.threadTextSize) {
+    if (self.currentSelections == self.textSizeSelections && index != settingsCentre.threadTextSize) {
         settingsCentre.threadTextSize = index;
         [settingsCentre saveSettings];
         [self.settingsTableView reloadData];
