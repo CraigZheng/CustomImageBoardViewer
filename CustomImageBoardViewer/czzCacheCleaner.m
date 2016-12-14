@@ -13,24 +13,16 @@
 #import "czzAppDelegate.h"
 #import "czzSettingsCentre.h"
 
+static NSString * const kDateOfLastCheck = @"kDateOfLastCheck";
+static NSString * const kDateOfLastClean = @"kDateOfLastClean";
+
 @interface czzCacheCleaner () <UIAlertViewDelegate>
 @property (strong, nonatomic) NSMutableArray *toBeDeletedFileURLs;
 @property (strong, nonatomic) UIAlertView *confirmCleanAlertView;
-@property (strong, nonatomic) NSDate *dateOfLastClean;
+
 @end
 
 @implementation czzCacheCleaner
-
--(instancetype)init {
-    self = [super init];
-    if (self) {
-        if (settingCentre.userDefShouldCleanCaches) {
-            self.dateOfLastClean = [[NSUserDefaults standardUserDefaults] objectForKey:[czzCacheCleaner kDateOfLastClean]];
-            [self checkAndClean];
-        }
-    }
-    return self;
-}
 
 -(void)checkAndClean {
     NSArray *cacheFolders = @[[czzAppDelegate imageFolder], [czzAppDelegate thumbnailFolder], [czzAppDelegate threadCacheFolder]];
@@ -81,9 +73,37 @@
                           otherButtonTitles: nil] show];
     }
     self.toBeDeletedFileURLs = [NSMutableArray new];
-    [[NSUserDefaults standardUserDefaults] setObject:self.dateOfLastClean
-                                              forKey:[czzCacheCleaner kDateOfLastClean]];
+    self.dateOfLastClean = [NSDate new];
+}
+
+#pragma mark - Accessors.
+
+- (void)setDateOfLastCheck:(NSDate *)dateOfLastCheck {
+    if (dateOfLastCheck) {
+        [[NSUserDefaults standardUserDefaults] setObject:dateOfLastCheck forKey:kDateOfLastCheck];
+    } else {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kDateOfLastCheck];
+    }
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)setDateOfLastClean:(NSDate *)dateOfLastClean {
+    if (dateOfLastClean) {
+        [[NSUserDefaults standardUserDefaults] setObject:dateOfLastClean forKey:kDateOfLastClean];
+    } else {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kDateOfLastClean];
+    }
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSDate *)dateOfLastCheck {
+    NSDate *date = [[NSUserDefaults standardUserDefaults] objectForKey:kDateOfLastCheck];
+    return [date isKindOfClass:[NSDate class]] ? date : nil;
+}
+
+- (NSDate *)dateOfLastClean {
+    NSDate *date = [[NSUserDefaults standardUserDefaults] objectForKey:kDateOfLastClean];
+    return [date isKindOfClass:[NSDate class]] ? date : nil;
 }
 
 #pragma mark - UIAlertViewDelegate
@@ -112,10 +132,6 @@
             });
         }
     }
-}
-
-+(NSString*)kDateOfLastClean {
-    return @"kDateOfLastClean";
 }
 
 +(instancetype)sharedInstance {

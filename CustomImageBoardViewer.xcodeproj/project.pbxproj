@@ -1395,7 +1395,6 @@
 			isa = PBXGroup;
 			children = (
 				44B89E771A2AF3CE0085F766 /* 3rd Party */,
-				44CBF3FD1BC9243300DFECFC /* CacheCleaner */,
 				442BFC741D1D1000007545EB /* CustomImageBoardViewer-Bridging-Header.h */,
 				442F1FD11B13500C00267698 /* czzAppActivityManager.h */,
 				442F1FD21B13500C00267698 /* czzAppActivityManager.m */,
@@ -1858,6 +1857,7 @@
 		445759FC1E01721000B3A941 /* czzCacheCleanerManager */ = {
 			isa = PBXGroup;
 			children = (
+				44CBF3FD1BC9243300DFECFC /* CacheCleaner */,
 				445759FD1E01722500B3A941 /* CacheCleaner.storyboard */,
 				445759FF1E0172D400B3A941 /* czzCacheCleanerTableViewController.swift */,
 			);

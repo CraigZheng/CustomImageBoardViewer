@@ -11,6 +11,8 @@
 #import <Foundation/Foundation.h>
 
 @interface czzCacheCleaner : NSObject
+@property (strong, nonatomic) NSDate *dateOfLastCheck;
+@property (strong, nonatomic) NSDate *dateOfLastClean;
 
 +(instancetype)sharedInstance;
 @end
