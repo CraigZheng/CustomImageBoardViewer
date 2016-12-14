@@ -1,20 +1,20 @@
 //
-//  czzTextSizeSelectorViewController.m
+//  czzSelectionSelectorViewController.m
 //  CustomImageBoardViewer
 //
 //  Created by Craig Zheng on 21/08/2016.
 //  Copyright © 2016 Craig. All rights reserved.
 //
 
-#import "czzTextSizeSelectorViewController.h"
+#import "czzSelectionSelectorViewController.h"
 
-@interface czzTextSizeSelectorViewController () <UIPickerViewDelegate, UIPickerViewDataSource>
+@interface czzSelectionSelectorViewController () <UIPickerViewDelegate, UIPickerViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerView;
 @property (nonatomic, strong) NSArray *sizeTitles;
 @end
 
-@implementation czzTextSizeSelectorViewController
+@implementation czzSelectionSelectorViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -29,8 +29,8 @@
 }
 
 - (IBAction)okButtonAction:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(textSizeSelected:textSize:)]) {
-        [self.delegate textSizeSelected:self textSize:[self.pickerView selectedRowInComponent:0]];
+    if ([self.delegate respondsToSelector:@selector(selectorViewController:selectedIndex:)]) {
+        [self.delegate selectorViewController:self selectedIndex:[self.pickerView selectedRowInComponent:0]];
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }

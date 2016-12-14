@@ -162,7 +162,7 @@
                     <connections>
                         <outlet property="debugBarButton" destination="moO-fJ-a7q" id="QVG-07-Shd"/>
                         <outlet property="settingsTableView" destination="mIb-oY-sRk" id="NFZ-6i-XbF"/>
-                        <segue destination="yrJ-Ob-pa6" kind="modal" identifier="textSizeSelector" id="1Jp-k2-lxt"/>
+                        <segue destination="yrJ-Ob-pa6" kind="modal" identifier="settingsSelector" id="1Jp-k2-lxt"/>
                         <segue destination="zc2-BE-Xgx" kind="modal" identifier="AddMarker" id="gcO-f8-3a7"/>
                     </connections>
                 </viewController>
@@ -178,10 +178,10 @@
             </objects>
             <point key="canvasLocation" x="1030" y="-961"/>
         </scene>
-        <!--Czz Text Size Selector View Controller-->
+        <!--Czz Selection Selector View Controller-->
         <scene sceneID="ejV-fb-AuH">
             <objects>
-                <viewController modalPresentationStyle="overCurrentContext" id="yrJ-Ob-pa6" customClass="czzTextSizeSelectorViewController" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="overCurrentContext" id="yrJ-Ob-pa6" customClass="czzSelectionSelectorViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Rtj-pq-U31"/>
                         <viewControllerLayoutGuide type="bottom" id="Y3U-ea-P9A"/>

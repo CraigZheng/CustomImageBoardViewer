@@ -17,12 +17,12 @@
 #import "MBProgressHUD.h"
 #import "czzHomeViewManager.h"
 #import "czzWatchListManager.h"
-#import "czzTextSizeSelectorViewController.h"
+#import "czzSelectionSelectorViewController.h"
 
-static NSString *textSizeSelectorSegue = @"textSizeSelector";
+static NSString *settingsSelector = @"settingsSelector";
 static NSString *addMarkerSegue = @"AddMarker";
 
-@interface czzSettingsViewController ()<UIAlertViewDelegate, UIActionSheetDelegate, czzTextSizeSelectorViewControllerProtocol>
+@interface czzSettingsViewController ()<UIAlertViewDelegate, UIActionSheetDelegate, czzSelectionSelectorViewControllerProtocol>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *debugBarButton;
 @property NSMutableArray *commands;
 @property NSMutableArray *regularCommands;
@@ -177,7 +177,7 @@ static NSString *addMarkerSegue = @"AddMarker";
         NSString *command = [switchCommands objectAtIndex:indexPath.row];
         if ([command isEqualToString:@"字体偏好"]) {
             // TODO: select a text.
-            [self performSegueWithIdentifier:textSizeSelectorSegue sender:nil];
+            [self performSegueWithIdentifier:settingsSelector sender:nil];
         }
     } else if (indexPath.section == 1){
         NSString *command = [regularCommands objectAtIndex:indexPath.row];
@@ -378,16 +378,17 @@ static NSString *addMarkerSegue = @"AddMarker";
 #pragma mark - Segue events.
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:textSizeSelectorSegue] && [segue.destinationViewController isKindOfClass:[czzTextSizeSelectorViewController class]]) {
-        [(czzTextSizeSelectorViewController*)segue.destinationViewController setDelegate: self];
+    if ([segue.identifier isEqualToString:settingsSelector]
+        && [segue.destinationViewController isKindOfClass:[czzSelectionSelectorViewController class]]) {
+        [(czzSelectionSelectorViewController*)segue.destinationViewController setDelegate: self];
     }
 }
 
 #pragma mark - czzTextSizeSelectorViewController
 
-- (void)textSizeSelected:(czzTextSizeSelectorViewController *)viewController textSize:(ThreadViewTextSize)size {
-    if (size != settingsCentre.threadTextSize) {
-        settingsCentre.threadTextSize = size;
+- (void)selectorViewController:(czzSelectionSelectorViewController *)viewController selectedIndex:(NSInteger)index {
+    if (index != settingsCentre.threadTextSize) {
+        settingsCentre.threadTextSize = index;
         [settingsCentre saveSettings];
         [self.settingsTableView reloadData];
         [[czzHomeViewManager sharedManager] reloadData];
