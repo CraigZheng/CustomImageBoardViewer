@@ -324,6 +324,6 @@
     "author" : "xcode"
   },
   "properties" : {
-    "grid-size" : "small"
+    "grid-size" : "regular"
   }
 }
