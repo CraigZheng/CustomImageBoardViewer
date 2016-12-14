@@ -385,6 +385,7 @@ static NSString *addMarkerSegue = @"AddMarker";
     if ([segue.identifier isEqualToString:settingsSelector]
         && [segue.destinationViewController isKindOfClass:[czzSelectionSelectorViewController class]]) {
         [(czzSelectionSelectorViewController*)segue.destinationViewController setSelections:self.currentSelections];
+        [(czzSelectionSelectorViewController*)segue.destinationViewController setPreSelectedIndex:settingCentre.threadTextSize];
         [(czzSelectionSelectorViewController*)segue.destinationViewController setDelegate: self];
     }
 }

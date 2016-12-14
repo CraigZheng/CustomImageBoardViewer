@@ -21,5 +21,6 @@
 
 @property (nonatomic, weak) id<czzSelectionSelectorViewControllerProtocol> delegate;
 @property (nonatomic, strong) NSArray<NSString *> *selections;
+@property (nonatomic, assign) NSInteger preSelectedIndex;
 
 @end

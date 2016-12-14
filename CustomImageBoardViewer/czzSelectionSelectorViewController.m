@@ -18,7 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.pickerView selectRow:settingCentre.threadTextSize inComponent:0 animated:NO];
+    [self.pickerView selectRow:self.preSelectedIndex inComponent:0 animated:NO];
 
 }
 
