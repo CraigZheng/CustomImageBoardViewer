@@ -14,5 +14,8 @@
 @property (strong, nonatomic) NSDate *dateOfLastCheck;
 @property (strong, nonatomic) NSDate *dateOfLastClean;
 
+- (NSArray<NSURL *> *)expiredFilesInFolder:(NSString *)folderPath;
+- (void)cleanExpiredFiles:(NSArray<NSURL *> *)expiredFiles;
+
 + (instancetype)sharedInstance;
 @end

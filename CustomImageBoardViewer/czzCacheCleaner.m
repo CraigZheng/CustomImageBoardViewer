@@ -30,6 +30,47 @@ static NSString * const kDateOfLastClean = @"kDateOfLastClean";
 
 @implementation czzCacheCleaner
 
+- (NSArray<NSURL *> *)expiredFilesInFolder:(NSString *)folderPath {
+    if (settingCentre.cacheExpiry == CacheExpiryNever) {
+        // Return empty array, because will never expire.
+        return @[];
+    }
+    NSDate *referrenceDate;
+    switch (settingCentre.cacheExpiry) {
+        case CacheExpiry7Days:
+            referrenceDate = self.aWeek;
+            break;
+        case CacheExpiry1Month:
+            referrenceDate = self.aMonth;
+            break;
+        case CacheExpiry6Months:
+            referrenceDate = self.sixMonths;
+            break;
+        case CacheExpiry12Months:
+            referrenceDate = self.twelveMonths;
+            break;
+        case CacheExpiryNoCache:
+            // All files in folder would be considered expired.
+            break;
+        default:
+            referrenceDate = [NSDate new];
+            break;
+    }
+    // Get contents from the given folder.
+    NSMutableArray<NSURL *> * expiredFileURLs = [NSMutableArray new];
+    for (NSURL *fileURL in [[NSFileManager defaultManager] contentsOfDirectoryAtURL:[NSURL fileURLWithPath:folderPath]
+                                                         includingPropertiesForKeys:@[NSURLContentModificationDateKey]
+                                                                            options:0
+                                                                              error:nil]) {
+        NSDate *fileCreationDate;
+        [fileURL getResourceValue:&fileCreationDate forKey:NSURLContentModificationDateKey error:nil];
+        if ([fileCreationDate compare:referrenceDate] == NSOrderedAscending) {
+            [expiredFileURLs addObject:fileURL];
+        }
+    }
+    return expiredFileURLs;
+}
+
 -(void)checkAndClean {
     NSArray *cacheFolders = @[[czzAppDelegate imageFolder], [czzAppDelegate thumbnailFolder], [czzAppDelegate threadCacheFolder]];
 
