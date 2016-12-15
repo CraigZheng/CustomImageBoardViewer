@@ -132,14 +132,14 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
                                               forKey:lastStateAppVersion];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [[czzHomeViewManager sharedManager] saveCurrentState];
-    return settingsCentre.autoCleanPeriod != AutoCleanPeriodNoCache;
+    return settingsCentre.cacheExpiry != CacheExpiryNoCache;
 }
 
 - (BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder {
     BOOL shouldRestore = NO;
     NSString *lastVersion = [[NSUserDefaults standardUserDefaults] objectForKey:lastStateAppVersion];
     // If version updated, or user does not want to use cache.
-    if ([[NSUserDefaults standardUserDefaults] integerForKey:kAutoCleanPeriod] != AutoCleanPeriodNoCache && [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"] isEqualToString:lastVersion]) {
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:kCacheExpiry] != CacheExpiryNoCache && [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"] isEqualToString:lastVersion]) {
         shouldRestore = YES;
     }
     return shouldRestore;

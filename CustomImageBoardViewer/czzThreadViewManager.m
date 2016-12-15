@@ -63,7 +63,7 @@
     NSString *cacheFile = [[czzAppDelegate threadCacheFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)self.parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
     @try {
         // If user doesn't want to use cache, don't attempt to restore.
-        if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile] && settingCentre.autoCleanPeriod != AutoCleanPeriodNoCache) {
+        if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile] && settingCentre.cacheExpiry != CacheExpiryNoCache) {
             czzThreadViewManager *tempThreadList = [self restoreWithFile:cacheFile];
             // Copy data, only restore it when the tempThreadList has more than 1 thread(counting the parent thread).
             if ([tempThreadList isKindOfClass:[czzThreadViewManager class]]
@@ -91,7 +91,7 @@
 -(NSString*)saveCurrentState {
     DLog(@"");
     NSString *cachePath = [[czzAppDelegate threadCacheFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)self.parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
-    if (settingCentre.autoCleanPeriod != AutoCleanPeriodNoCache && [NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
+    if (settingCentre.cacheExpiry != CacheExpiryNoCache && [NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
         return cachePath;
     }
     return nil;

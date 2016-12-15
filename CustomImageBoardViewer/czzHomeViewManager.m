@@ -57,7 +57,7 @@
 -(NSString*)saveCurrentState {
     DLog(@"");
     NSString *cachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:self.cacheFile];
-    if (settingCentre.autoCleanPeriod != AutoCleanPeriodNoCache && self.forum && [NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
+    if (settingCentre.cacheExpiry != CacheExpiryNoCache && self.forum && [NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
         return cachePath;
     }
     return nil;
@@ -66,7 +66,7 @@
 -(void)restorePreviousState {
     NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:self.cacheFile];
     @try {
-        if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile] && settingCentre.autoCleanPeriod != AutoCleanPeriodNoCache) {
+        if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile] && settingCentre.cacheExpiry != CacheExpiryNoCache) {
             NSData *cacheData = [NSData dataWithContentsOfFile:cacheFile];
             czzHomeViewManager *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithData:cacheData];
             //copy data

@@ -28,7 +28,7 @@ NSString * const kAutoClean = @"kAutoClean";
 NSString * const kAutoDownloadImage = @"kAutoDownloadImage";
 NSString * const kShouldCollapseLongContent = @"kShouldCollapseLongContent";
 NSString * const kTextSize = @"kTextSize";
-NSString * const kAutoCleanPeriod = @"kAutoCleanPeriod";
+NSString * const kCacheExpiry = @"kCacheExpiry";
 NSString * const kShouldShowImageManagerButton = @"kShouldShowImageManagerButton";
 
 NSString * const settingsChangedNotification = @"settingsChangedNotification";
@@ -93,7 +93,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         self.userDefShouldCollapseLongContent = NO;
         shouldAllowOpenBlockedThread = YES;
         self.threadTextSize = TextSizeDefault;
-        self.autoCleanPeriod = AutoCleanPeriodNever;
+        self.CacheExpiry = CacheExpiryNever;
         self.shouldShowImageManagerButton = YES;
         
         donationLink = @"";
@@ -143,7 +143,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     [userDefault setBool:self.userDefShouldAutoDownloadImage forKey:kAutoDownloadImage];
     [userDefault setBool:self.userDefShouldCollapseLongContent forKey:kShouldCollapseLongContent];
     [userDefault setInteger:self.threadTextSize forKey:kTextSize];
-    [userDefault setInteger:self.autoCleanPeriod forKey:kAutoCleanPeriod];
+    [userDefault setInteger:self.cacheExpiry forKey:kCacheExpiry];
     [userDefault setBool:self.shouldShowImageManagerButton forKey:kShouldShowImageManagerButton];
     [userDefault synchronize];
     // Post a notification about the settings changed.
@@ -184,8 +184,8 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     if ([userDefault objectForKey:kTextSize]) {
         self.threadTextSize = [userDefault integerForKey:kTextSize];
     }
-    if ([userDefault objectForKey:kAutoCleanPeriod]) {
-        self.autoCleanPeriod = [userDefault integerForKey:kAutoCleanPeriod];
+    if ([userDefault objectForKey:kCacheExpiry]) {
+        self.cacheExpiry = [userDefault integerForKey:kCacheExpiry];
     }
     self.userDefShouldAutoDownloadImage = [userDefault boolForKey:kAutoDownloadImage];
     if ([userDefault objectForKey:kShouldShowImageManagerButton]) {

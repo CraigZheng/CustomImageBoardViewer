@@ -105,7 +105,7 @@ static NSString *addMarkerSegue = @"AddMarker";
                 selectionIndex = settingCentre.threadTextSize;
                 selections = self.textSizeSelections;
             } else if ([command isEqualToString:@"缓存有效期"]) {
-                selectionIndex = settingsCentre.autoCleanPeriod;
+                selectionIndex = settingsCentre.cacheExpiry;
                 selections = self.cleanCachePeriodSelections;
             }
             
@@ -393,7 +393,7 @@ static NSString *addMarkerSegue = @"AddMarker";
         if (self.currentSelections == self.textSizeSelections) {
             preSelectedIndex = settingCentre.threadTextSize;
         } else {
-            preSelectedIndex = settingCentre.autoCleanPeriod;
+            preSelectedIndex = settingCentre.cacheExpiry;
         }
         [(czzSelectionSelectorViewController*)segue.destinationViewController setPreSelectedIndex:preSelectedIndex];
         [(czzSelectionSelectorViewController*)segue.destinationViewController setDelegate:self];
@@ -405,8 +405,8 @@ static NSString *addMarkerSegue = @"AddMarker";
 - (void)selectorViewController:(czzSelectionSelectorViewController *)viewController selectedIndex:(NSInteger)index {
     if (self.currentSelections == self.textSizeSelections && index <= TextSizeExtraBig) {
         settingsCentre.threadTextSize = index;
-    } else if (self.currentSelections == self.cleanCachePeriodSelections && index <= AutoCleanPeriodNever) {
-        settingCentre.autoCleanPeriod = index;
+    } else if (self.currentSelections == self.cleanCachePeriodSelections && index <= CacheExpiryNever) {
+        settingCentre.CacheExpiry = index;
     }
     [settingsCentre saveSettings];
     [self.settingsTableView reloadData];
