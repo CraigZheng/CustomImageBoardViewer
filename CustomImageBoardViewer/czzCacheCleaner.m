@@ -35,25 +35,25 @@ static NSString * const kDateOfLastClean = @"kDateOfLastClean";
         // Return empty array, because will never expire.
         return @[];
     }
-    NSDate *referrenceDate;
+    NSDate *referenceDate;
     switch (settingCentre.cacheExpiry) {
         case CacheExpiry7Days:
-            referrenceDate = self.aWeek;
+            referenceDate = self.aWeek;
             break;
         case CacheExpiry1Month:
-            referrenceDate = self.aMonth;
+            referenceDate = self.aMonth;
             break;
         case CacheExpiry6Months:
-            referrenceDate = self.sixMonths;
+            referenceDate = self.sixMonths;
             break;
         case CacheExpiry12Months:
-            referrenceDate = self.twelveMonths;
+            referenceDate = self.twelveMonths;
             break;
         case CacheExpiryNoCache:
             // All files in folder would be considered expired.
             break;
         default:
-            referrenceDate = [NSDate new];
+            referenceDate = [NSDate new];
             break;
     }
     // Get contents from the given folder.
@@ -64,7 +64,7 @@ static NSString * const kDateOfLastClean = @"kDateOfLastClean";
                                                                               error:nil]) {
         NSDate *fileCreationDate;
         [fileURL getResourceValue:&fileCreationDate forKey:NSURLContentModificationDateKey error:nil];
-        if ([fileCreationDate compare:referrenceDate] == NSOrderedAscending) {
+        if ([fileCreationDate compare:referenceDate] == NSOrderedAscending) {
             [expiredFileURLs addObject:fileURL];
         }
     }
