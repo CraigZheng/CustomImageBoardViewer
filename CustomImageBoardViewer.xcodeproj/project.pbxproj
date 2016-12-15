@@ -157,10 +157,10 @@
 		444F5B481A40EA3500EB391F /* 53.png in Resources */ = {isa = PBXBuildFile; fileRef = 444F5B121A40EA3500EB391F /* 53.png */; };
 		444F5B491A40EA3500EB391F /* 54.png in Resources */ = {isa = PBXBuildFile; fileRef = 444F5B131A40EA3500EB391F /* 54.png */; };
 		4453C07719F634B700A8250F /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4453C07619F634B700A8250F /* Launch Screen.xib */; };
-		4459A3661DFFA61700C196C1 /* Stickers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4459A3651DFFA61700C196C1 /* Stickers.xcassets */; };
-		4459A36A1DFFA61700C196C1 /* AC-emoticon.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4459A3631DFFA61700C196C1 /* AC-emoticon.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		445759FE1E01722500B3A941 /* CacheCleaner.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 445759FD1E01722500B3A941 /* CacheCleaner.storyboard */; };
 		44575A001E0172D400B3A941 /* czzCacheCleanerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445759FF1E0172D400B3A941 /* czzCacheCleanerTableViewController.swift */; };
+		4459A3661DFFA61700C196C1 /* Stickers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4459A3651DFFA61700C196C1 /* Stickers.xcassets */; };
+		4459A36A1DFFA61700C196C1 /* AC-emoticon.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4459A3631DFFA61700C196C1 /* AC-emoticon.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		445B7B531B418CBE0046CFDB /* czzThreadTableViewCommandCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 445B7B521B418CBE0046CFDB /* czzThreadTableViewCommandCellTableViewCell.xib */; };
 		445B7B561B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 445B7B551B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.m */; };
 		445B7B591B418F020046CFDB /* czzThreadTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 445B7B581B418F020046CFDB /* czzThreadTableView.m */; };
@@ -294,6 +294,7 @@
 		44C34557187E6CF000FDE45D /* sougo_emoji_UTF16.txt in Resources */ = {isa = PBXBuildFile; fileRef = 44C34556187E6CF000FDE45D /* sougo_emoji_UTF16.txt */; };
 		44C3455C187E774300FDE45D /* acfun_emoji_UTF8.txt in Resources */ = {isa = PBXBuildFile; fileRef = 44C3455A187E774300FDE45D /* acfun_emoji_UTF8.txt */; };
 		44C3455D187E774300FDE45D /* acfun_emoji_UTF16.txt in Resources */ = {isa = PBXBuildFile; fileRef = 44C3455B187E774300FDE45D /* acfun_emoji_UTF16.txt */; };
+		44C54A871E0245BA00942690 /* SettingsSelector.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44C54A861E0245BA00942690 /* SettingsSelector.storyboard */; };
 		44C73B741A4708BA0051D4C2 /* thumb_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C73B711A4708BA0051D4C2 /* thumb_down.png */; };
 		44C73B751A4708BA0051D4C2 /* thumb_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C73B721A4708BA0051D4C2 /* thumb_down@2x.png */; };
 		44C73B761A4708BA0051D4C2 /* thumb_down@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C73B731A4708BA0051D4C2 /* thumb_down@3x.png */; };
@@ -798,11 +799,11 @@
 		444F5B121A40EA3500EB391F /* 53.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 53.png; sourceTree = "<group>"; };
 		444F5B131A40EA3500EB391F /* 54.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 54.png; sourceTree = "<group>"; };
 		4453C07619F634B700A8250F /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Launch Screen.xib"; path = "../Launch Screen.xib"; sourceTree = "<group>"; };
+		445759FD1E01722500B3A941 /* CacheCleaner.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CacheCleaner.storyboard; sourceTree = "<group>"; };
+		445759FF1E0172D400B3A941 /* czzCacheCleanerTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = czzCacheCleanerTableViewController.swift; sourceTree = "<group>"; };
 		4459A3631DFFA61700C196C1 /* AC-emoticon.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "AC-emoticon.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4459A3651DFFA61700C196C1 /* Stickers.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Stickers.xcassets; sourceTree = "<group>"; };
 		4459A3671DFFA61700C196C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		445759FD1E01722500B3A941 /* CacheCleaner.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CacheCleaner.storyboard; sourceTree = "<group>"; };
-		445759FF1E0172D400B3A941 /* czzCacheCleanerTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = czzCacheCleanerTableViewController.swift; sourceTree = "<group>"; };
 		445B7B521B418CBE0046CFDB /* czzThreadTableViewCommandCellTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzThreadTableViewCommandCellTableViewCell.xib; sourceTree = "<group>"; };
 		445B7B541B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadTableViewCommandCellTableViewCell.h; sourceTree = "<group>"; };
 		445B7B551B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadTableViewCommandCellTableViewCell.m; sourceTree = "<group>"; };
@@ -986,6 +987,7 @@
 		44C34556187E6CF000FDE45D /* sougo_emoji_UTF16.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sougo_emoji_UTF16.txt; sourceTree = "<group>"; };
 		44C3455A187E774300FDE45D /* acfun_emoji_UTF8.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acfun_emoji_UTF8.txt; sourceTree = "<group>"; };
 		44C3455B187E774300FDE45D /* acfun_emoji_UTF16.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acfun_emoji_UTF16.txt; sourceTree = "<group>"; };
+		44C54A861E0245BA00942690 /* SettingsSelector.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SettingsSelector.storyboard; sourceTree = "<group>"; };
 		44C73B711A4708BA0051D4C2 /* thumb_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thumb_down.png; sourceTree = "<group>"; };
 		44C73B721A4708BA0051D4C2 /* thumb_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thumb_down@2x.png"; sourceTree = "<group>"; };
 		44C73B731A4708BA0051D4C2 /* thumb_down@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thumb_down@3x.png"; sourceTree = "<group>"; };
@@ -1879,15 +1881,6 @@
 			path = "acmusume-large";
 			sourceTree = "<group>";
 		};
-		4459A3641DFFA61700C196C1 /* AC-emoticon */ = {
-			isa = PBXGroup;
-			children = (
-				4459A3651DFFA61700C196C1 /* Stickers.xcassets */,
-				4459A3671DFFA61700C196C1 /* Info.plist */,
-			);
-			path = "AC-emoticon";
-			sourceTree = "<group>";
-		};
 		445759FC1E01721000B3A941 /* czzCacheCleanerManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -1896,6 +1889,15 @@
 				445759FF1E0172D400B3A941 /* czzCacheCleanerTableViewController.swift */,
 			);
 			name = czzCacheCleanerManager;
+			sourceTree = "<group>";
+		};
+		4459A3641DFFA61700C196C1 /* AC-emoticon */ = {
+			isa = PBXGroup;
+			children = (
+				4459A3651DFFA61700C196C1 /* Stickers.xcassets */,
+				4459A3671DFFA61700C196C1 /* Info.plist */,
+			);
+			path = "AC-emoticon";
 			sourceTree = "<group>";
 		};
 		445B7B4B1B418B400046CFDB /* CommonUI */ = {
@@ -2257,6 +2259,7 @@
 				44397D791D697EE8005B44AA /* czzSelectionSelectorViewController.h */,
 				44397D7A1D697EE8005B44AA /* czzSelectionSelectorViewController.m */,
 				441578A01E00E50A002C6E32 /* Settings.storyboard */,
+				44C54A861E0245BA00942690 /* SettingsSelector.storyboard */,
 			);
 			name = czzSettingsViewController;
 			sourceTree = "<group>";
@@ -3037,6 +3040,7 @@
 				44B89E6D1A2AF2200085F766 /* running_ac-2.gif in Resources */,
 				44E791F51A17856500A63C04 /* search.png in Resources */,
 				44E7920A1A17856500A63C04 /* view.png in Resources */,
+				44C54A871E0245BA00942690 /* SettingsSelector.storyboard in Resources */,
 				44E791D51A17856500A63C04 /* collapse_arrow@3x.png in Resources */,
 				44DDC7FC1DB8A6BF001A569D /* flag@2x.png in Resources */,
 				44B54E6A1A0EE1B80004C5B4 /* czzThreadViewTableViewCell.xib in Resources */,
