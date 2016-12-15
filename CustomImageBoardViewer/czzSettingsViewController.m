@@ -94,17 +94,17 @@ static NSString *addMarkerSegue = @"AddMarker";
     if (indexPath.section == 0){
         NSString *command = [switchCommands objectAtIndex:indexPath.row];
         // A special case - font size preference.
-        if ([command isEqualToString:@"字体偏好"] || [command isEqualToString:@"自动清理缓存间隔"]) {
+        if ([command isEqualToString:@"字体偏好"] || [command isEqualToString:@"缓存有效期"]) {
             UILabel *commandLabel = (UILabel*)[cell viewWithTag:5];
             UILabel *detailLabel = (UILabel*)[cell viewWithTag:6];
             commandLabel.text = command;
             // Fill with existing data.
-            NSArray *selections;
-            NSInteger selectionIndex;
+            NSArray *selections = @[@""];
+            NSInteger selectionIndex = 0;
             if ([command isEqualToString:@"字体偏好"]) {
                 selectionIndex = settingCentre.threadTextSize;
                 selections = self.textSizeSelections;
-            } else if ([command isEqualToString:@"自动清理缓存间隔"]) {
+            } else if ([command isEqualToString:@"缓存有效期"]) {
                 selectionIndex = settingsCentre.autoCleanPeriod;
                 selections = self.cleanCachePeriodSelections;
             }
@@ -179,7 +179,7 @@ static NSString *addMarkerSegue = @"AddMarker";
         if ([command isEqualToString:@"字体偏好"]) {
             self.currentSelections = self.textSizeSelections;
             [self performSegueWithIdentifier:settingsSelector sender:nil];
-        } else if ([command isEqualToString:@"自动清理缓存间隔"]) {
+        } else if ([command isEqualToString:@"缓存有效期"]) {
             self.currentSelections = self.cleanCachePeriodSelections;
             [self performSegueWithIdentifier:settingsSelector sender:nil];
         }
@@ -252,7 +252,7 @@ static NSString *addMarkerSegue = @"AddMarker";
     self.textSizeSelections = @[@"默认", @"偏小", @"偏大", @"特大"];
     self.cleanCachePeriodSelections = [czzSettingsCentre periodSettingTitle];
     [switchCommands addObject:@"字体偏好"];
-    [switchCommands addObject:@"自动清理缓存间隔"];
+    [switchCommands addObject:@"缓存有效期"];
 //    [switchCommands addObject:@"开启串缓存"]; // Disbale as is no longer important.
 //    [switchCommands addObject:@"每月自动清理缓存"]; // Disable for now - version 3.4.
     if (settingsCentre.should_allow_dart)
