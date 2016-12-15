@@ -248,9 +248,10 @@
 }
 
 - (void)loadMoreThreads:(NSInteger)pageNumber {
-    // If the current page number is different than the incoming page number, set self.pageIncreased to true.
-    self.pageNumberChanged = self.pageNumber != pageNumber;
+    NSInteger currentPage = self.pageNumber;
     [super loadMoreThreads:pageNumber];
+    // If the updated page number is different than the old page number, set self.pageIncreased to true.
+    self.pageNumberChanged = self.pageNumber != currentPage;
 }
 
 #pragma mark - NSCoding
