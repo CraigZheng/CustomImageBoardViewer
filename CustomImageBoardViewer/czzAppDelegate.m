@@ -131,6 +131,7 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
     [[NSUserDefaults standardUserDefaults] setObject:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]
                                               forKey:lastStateAppVersion];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    [[czzHomeViewManager sharedManager] saveCurrentState];
     return settingsCentre.autoCleanPeriod != AutoCleanPeriodNoCache;
 }
 
@@ -299,12 +300,24 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
 -(void)checkFolders {
     NSArray *resourceFolders = @[[czzAppDelegate libraryFolder], [czzAppDelegate imageFolder], [czzAppDelegate thumbnailFolder], [czzAppDelegate threadCacheFolder], [czzAppDelegate notificationCacheFolder]];
     for (NSString *folderPath in resourceFolders) {
+        NSError *error;
         if (![[NSFileManager defaultManager] fileExistsAtPath:folderPath]){
-            [[NSFileManager defaultManager] createDirectoryAtPath:folderPath withIntermediateDirectories:NO attributes:nil error:nil];
+            [[NSFileManager defaultManager] createDirectoryAtPath:folderPath
+                                      withIntermediateDirectories:NO
+                                                       attributes:[NSDictionary dictionaryWithObject:NSFileProtectionNone
+                                                                                              forKey:NSFileProtectionKey]
+                                                            error:&error];
             DDLogDebug(@"Create library folder: %@", folderPath);
         }
         //exclude my folders from being backed up to iCloud
         [self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:folderPath]];
+        [[NSFileManager defaultManager] setAttributes:[NSDictionary dictionaryWithObject:NSFileProtectionNone
+                                                                                  forKey:NSFileProtectionKey]
+                                         ofItemAtPath:folderPath
+                                                error:&error];
+        if (error) {
+            DDLogDebug(@"%@", error);
+        }
     }
 }
 @end

@@ -57,7 +57,7 @@
 -(NSString*)saveCurrentState {
     DLog(@"");
     NSString *cachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:self.cacheFile];
-    if (settingCentre.autoCleanPeriod != AutoCleanPeriodNoCache && [NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
+    if (settingCentre.autoCleanPeriod != AutoCleanPeriodNoCache && self.forum && [NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
         return cachePath;
     }
     return nil;
@@ -249,7 +249,7 @@
 }
 
 - (NSString *)cacheFile {
-    return [NSString stringWithFormat:@"%@-%@", [UIApplication bundleVersion], DEFAULT_THREAD_LIST_CACHE_FILE];
+    return DEFAULT_THREAD_LIST_CACHE_FILE;
 }
 
 - (NSMutableArray *)threads {

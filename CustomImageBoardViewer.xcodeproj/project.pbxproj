@@ -157,6 +157,8 @@
 		444F5B481A40EA3500EB391F /* 53.png in Resources */ = {isa = PBXBuildFile; fileRef = 444F5B121A40EA3500EB391F /* 53.png */; };
 		444F5B491A40EA3500EB391F /* 54.png in Resources */ = {isa = PBXBuildFile; fileRef = 444F5B131A40EA3500EB391F /* 54.png */; };
 		4453C07719F634B700A8250F /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4453C07619F634B700A8250F /* Launch Screen.xib */; };
+		4459A3661DFFA61700C196C1 /* Stickers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4459A3651DFFA61700C196C1 /* Stickers.xcassets */; };
+		4459A36A1DFFA61700C196C1 /* AC-emoticon.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4459A3631DFFA61700C196C1 /* AC-emoticon.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		445759FE1E01722500B3A941 /* CacheCleaner.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 445759FD1E01722500B3A941 /* CacheCleaner.storyboard */; };
 		44575A001E0172D400B3A941 /* czzCacheCleanerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445759FF1E0172D400B3A941 /* czzCacheCleanerTableViewController.swift */; };
 		445B7B531B418CBE0046CFDB /* czzThreadTableViewCommandCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 445B7B521B418CBE0046CFDB /* czzThreadTableViewCommandCellTableViewCell.xib */; };
@@ -473,6 +475,13 @@
 			remoteGlobalIDString = 441E5CCA17F4691300289DBD;
 			remoteInfo = CustomImageBoardViewer;
 		};
+		4459A3681DFFA61700C196C1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 441E5CC317F4691300289DBD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4459A3621DFFA61700C196C1;
+			remoteInfo = "AC-emoticon";
+		};
 		44A294981BFDEFF60033D438 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 441E5CC317F4691300289DBD /* Project object */;
@@ -499,6 +508,17 @@
 				44A294AB1BFDEFF60033D438 /* CIVWatchApp.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4459A36E1DFFA61700C196C1 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				4459A36A1DFFA61700C196C1 /* AC-emoticon.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		44A294AF1BFDEFF60033D438 /* Embed App Extensions */ = {
@@ -778,6 +798,9 @@
 		444F5B121A40EA3500EB391F /* 53.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 53.png; sourceTree = "<group>"; };
 		444F5B131A40EA3500EB391F /* 54.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 54.png; sourceTree = "<group>"; };
 		4453C07619F634B700A8250F /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Launch Screen.xib"; path = "../Launch Screen.xib"; sourceTree = "<group>"; };
+		4459A3631DFFA61700C196C1 /* AC-emoticon.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "AC-emoticon.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4459A3651DFFA61700C196C1 /* Stickers.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Stickers.xcassets; sourceTree = "<group>"; };
+		4459A3671DFFA61700C196C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		445759FD1E01722500B3A941 /* CacheCleaner.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CacheCleaner.storyboard; sourceTree = "<group>"; };
 		445759FF1E0172D400B3A941 /* czzCacheCleanerTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = czzCacheCleanerTableViewController.swift; sourceTree = "<group>"; };
 		445B7B521B418CBE0046CFDB /* czzThreadTableViewCommandCellTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzThreadTableViewCommandCellTableViewCell.xib; sourceTree = "<group>"; };
@@ -1342,6 +1365,7 @@
 				441E5CF617F4691300289DBD /* CustomImageBoardViewerTests */,
 				44A2948B1BFDEFF50033D438 /* CIVWatchApp */,
 				44A2949A1BFDEFF60033D438 /* CIVWatchApp Extension */,
+				4459A3641DFFA61700C196C1 /* AC-emoticon */,
 				441E5CCD17F4691300289DBD /* Frameworks */,
 				441E5CCC17F4691300289DBD /* Products */,
 				8832DD95AFF72EF3EC48CE32 /* Pods */,
@@ -1355,6 +1379,7 @@
 				441E5CEF17F4691300289DBD /* CustomImageBoardViewerTests.xctest */,
 				44A2948A1BFDEFF50033D438 /* CIVWatchApp.app */,
 				44A294961BFDEFF50033D438 /* CIVWatchApp Extension.appex */,
+				4459A3631DFFA61700C196C1 /* AC-emoticon.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1852,6 +1877,15 @@
 				444F5B131A40EA3500EB391F /* 54.png */,
 			);
 			path = "acmusume-large";
+			sourceTree = "<group>";
+		};
+		4459A3641DFFA61700C196C1 /* AC-emoticon */ = {
+			isa = PBXGroup;
+			children = (
+				4459A3651DFFA61700C196C1 /* Stickers.xcassets */,
+				4459A3671DFFA61700C196C1 /* Info.plist */,
+			);
+			path = "AC-emoticon";
 			sourceTree = "<group>";
 		};
 		445759FC1E01721000B3A941 /* czzCacheCleanerManager */ = {
@@ -2719,11 +2753,13 @@
 				347387B1BDC00B75A6FDCAB2 /* [CP] Embed Pods Frameworks */,
 				B29225EAA488CA7E0E9F4065 /* [CP] Copy Pods Resources */,
 				DAD0393318D2062C63376A7C /* Embed Pods Frameworks */,
+				4459A36E1DFFA61700C196C1 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				44A294AA1BFDEFF60033D438 /* PBXTargetDependency */,
+				4459A3691DFFA61700C196C1 /* PBXTargetDependency */,
 			);
 			name = CustomImageBoardViewer;
 			productName = CustomImageBoardViewer;
@@ -2751,6 +2787,21 @@
 			productName = CustomImageBoardViewerTests;
 			productReference = 441E5CEF17F4691300289DBD /* CustomImageBoardViewerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		4459A3621DFFA61700C196C1 /* AC-emoticon */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4459A36D1DFFA61700C196C1 /* Build configuration list for PBXNativeTarget "AC-emoticon" */;
+			buildPhases = (
+				4459A3611DFFA61700C196C1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AC-emoticon";
+			productName = "AC-emoticon";
+			productReference = 4459A3631DFFA61700C196C1 /* AC-emoticon.appex */;
+			productType = "com.apple.product-type.app-extension.messages-sticker-pack";
 		};
 		44A294891BFDEFF50033D438 /* CIVWatchApp */ = {
 			isa = PBXNativeTarget;
@@ -2814,6 +2865,11 @@
 						LastSwiftMigration = 0800;
 						TestTargetID = 441E5CCA17F4691300289DBD;
 					};
+					4459A3621DFFA61700C196C1 = {
+						CreatedOnToolsVersion = 8.2;
+						DevelopmentTeam = 9EBE9MWW9X;
+						ProvisioningStyle = Automatic;
+					};
 					44A294891BFDEFF50033D438 = {
 						CreatedOnToolsVersion = 7.1.1;
 						DevelopmentTeam = 9EBE9MWW9X;
@@ -2841,6 +2897,7 @@
 				441E5CEE17F4691300289DBD /* CustomImageBoardViewerTests */,
 				44A294891BFDEFF50033D438 /* CIVWatchApp */,
 				44A294951BFDEFF50033D438 /* CIVWatchApp Extension */,
+				4459A3621DFFA61700C196C1 /* AC-emoticon */,
 			);
 		};
 /* End PBXProject section */
@@ -3113,6 +3170,14 @@
 				44C73BDF1A496D6E0051D4C2 /* ipad 768 horizontal launch screen.png in Resources */,
 				4431E5451CA4B90E0098AA01 /* popup notification example.json in Resources */,
 				44C73B851A471F060051D4C2 /* Threads.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4459A3611DFFA61700C196C1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4459A3661DFFA61700C196C1 /* Stickers.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3457,6 +3522,11 @@
 			target = 441E5CCA17F4691300289DBD /* CustomImageBoardViewer */;
 			targetProxy = 441E5CF417F4691300289DBD /* PBXContainerItemProxy */;
 		};
+		4459A3691DFFA61700C196C1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4459A3621DFFA61700C196C1 /* AC-emoticon */;
+			targetProxy = 4459A3681DFFA61700C196C1 /* PBXContainerItemProxy */;
+		};
 		44A294991BFDEFF60033D438 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 44A294951BFDEFF50033D438 /* CIVWatchApp Extension */;
@@ -3739,6 +3809,57 @@
 			};
 			name = Release;
 		};
+		4459A36B1DFFA61700C196C1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "$(inherited)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 9EBE9MWW9X;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "AC-emoticon/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.ac-channel-browser.AC-emoticon";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		4459A36C1DFFA61700C196C1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "$(inherited)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 9EBE9MWW9X;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "AC-emoticon/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.ac-channel-browser.AC-emoticon";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		44A294AD1BFDEFF60033D438 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3869,6 +3990,15 @@
 			buildConfigurations = (
 				441E5D0417F4691300289DBD /* Debug */,
 				441E5D0517F4691300289DBD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4459A36D1DFFA61700C196C1 /* Build configuration list for PBXNativeTarget "AC-emoticon" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4459A36B1DFFA61700C196C1 /* Debug */,
+				4459A36C1DFFA61700C196C1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
