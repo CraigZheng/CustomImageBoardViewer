@@ -20,6 +20,12 @@ static NSString * const kDateOfLastClean = @"kDateOfLastClean";
 @property (strong, nonatomic) NSMutableArray *toBeDeletedFileURLs;
 @property (strong, nonatomic) UIAlertView *confirmCleanAlertView;
 
+// Time references.
+@property (strong, nonatomic) NSDate *aWeek;
+@property (strong, nonatomic) NSDate *aMonth;
+@property (strong, nonatomic) NSDate *sixMonths;
+@property (strong, nonatomic) NSDate *twelveMonths;
+
 @end
 
 @implementation czzCacheCleaner
@@ -104,6 +110,42 @@ static NSString * const kDateOfLastClean = @"kDateOfLastClean";
 - (NSDate *)dateOfLastClean {
     NSDate *date = [[NSUserDefaults standardUserDefaults] objectForKey:kDateOfLastClean];
     return [date isKindOfClass:[NSDate class]] ? date : nil;
+}
+
+- (NSDate *)aWeek {
+    if (!_aWeek) {
+        NSDateComponents *components = [[NSDateComponents alloc] init];
+        components.day = - 7; // 7 days.
+        _aWeek = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] dateByAddingComponents:components toDate:[NSDate new] options:0];
+    }
+    return _aWeek;
+}
+
+- (NSDate *)aMonth {
+    if (!_aMonth) {
+        NSDateComponents *components = [[NSDateComponents alloc] init];
+        components.month = - 1;
+        _aMonth = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] dateByAddingComponents:components toDate:[NSDate new] options:0];
+    }
+    return _aMonth;
+}
+
+- (NSDate *)sixMonths {
+    if (!_sixMonths) {
+        NSDateComponents *components = [[NSDateComponents alloc] init];
+        components.month = - 6;
+        _sixMonths = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] dateByAddingComponents:components toDate:[NSDate new] options:0];
+    }
+    return _sixMonths;
+}
+
+- (NSDate *)twelveMonths {
+    if (!_twelveMonths) {
+        NSDateComponents *components = [[NSDateComponents alloc] init];
+        components.month = - 12;
+        _twelveMonths = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] dateByAddingComponents:components toDate:[NSDate new] options:0];
+    }
+    return _twelveMonths;
 }
 
 #pragma mark - UIAlertViewDelegate
