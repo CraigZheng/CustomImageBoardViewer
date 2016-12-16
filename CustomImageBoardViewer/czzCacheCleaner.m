@@ -62,9 +62,9 @@ static NSString * const kDateOfLastClean = @"kDateOfLastClean";
                                                          includingPropertiesForKeys:@[NSURLContentModificationDateKey]
                                                                             options:0
                                                                               error:nil]) {
-        NSDate *fileCreationDate;
-        [fileURL getResourceValue:&fileCreationDate forKey:NSURLContentModificationDateKey error:nil];
-        if ([fileCreationDate compare:referenceDate] == NSOrderedAscending) {
+        NSDate *fileModifiedDate;
+        [fileURL getResourceValue:&fileModifiedDate forKey:NSURLContentModificationDateKey error:nil];
+        if ([fileModifiedDate compare:referenceDate] == NSOrderedAscending) {
             [expiredFileURLs addObject:fileURL];
         }
     }
