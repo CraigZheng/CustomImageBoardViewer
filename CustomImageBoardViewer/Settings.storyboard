@@ -83,7 +83,7 @@
                                         <rect key="frame" x="0.0" y="56" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ur5-hW-GrJ" id="34L-h0-Qii">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Setting" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r4I-i6-Hg0">
@@ -110,7 +110,7 @@
                                         <rect key="frame" x="0.0" y="100" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Zcq-du-u9I" id="dor-8s-Ag8">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" verticalHuggingPriority="251" text="Setting" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ATW-3h-DTK">
@@ -164,6 +164,7 @@
                         <outlet property="settingsTableView" destination="mIb-oY-sRk" id="NFZ-6i-XbF"/>
                         <segue destination="zc2-BE-Xgx" kind="modal" identifier="AddMarker" id="gcO-f8-3a7"/>
                         <segue destination="yr9-be-1fJ" kind="presentation" identifier="settingsSelector" id="xFz-Ks-ltn"/>
+                        <segue destination="3ex-pg-VaK" kind="presentation" identifier="CacheCleaner" id="kWO-lK-88a"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LXJ-hV-l1F" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -177,6 +178,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gKH-6A-rFQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1058" y="-881"/>
+        </scene>
+        <!--CacheCleaner-->
+        <scene sceneID="O64-BK-G23">
+            <objects>
+                <viewControllerPlaceholder storyboardName="CacheCleaner" id="3ex-pg-VaK" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="73d-LG-952" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1044" y="-810"/>
         </scene>
         <!--AddMarker-->
         <scene sceneID="73J-wx-gZ0">

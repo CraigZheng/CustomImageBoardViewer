@@ -22,6 +22,7 @@
 
 static NSString *settingsSelector = @"settingsSelector";
 static NSString *addMarkerSegue = @"AddMarker";
+static NSString *cacheCleaner = @"CacheCleaner";
 
 @interface czzSettingsViewController ()<UIAlertViewDelegate, UIActionSheetDelegate, czzSelectionSelectorViewControllerProtocol>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *debugBarButton;
@@ -201,9 +202,12 @@ static NSString *addMarkerSegue = @"AddMarker";
             czzNotificationCentreTableViewController *notificationCentreViewController = [[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
             [self.navigationController pushViewController:notificationCentreViewController animated:YES];
         }
-        else if ([command isEqualToString:@"清空缓存"]){
+        else if ([command isEqualToString:@"缓存清理器"]){
+            [self performSegueWithIdentifier:cacheCleaner sender:nil];
+            /*
             UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"清空缓存" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"图片管理器", @"串缓存", nil];
             [actionSheet showInView:self.view];
+             */
         } else if ([command isEqualToString:@"强制退出"]) {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"强制退出" message:@"立刻退出软件，下次启动时将会重新开始，而不会回复到自动保存的状态" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             [alertView show];
@@ -260,7 +264,7 @@ static NSString *addMarkerSegue = @"AddMarker";
     [regularCommands addObject:@"图片管理器"];
     [regularCommands addObject:@"饼干管理器"];
     [regularCommands addObject:@"标记管理器"];
-    [regularCommands addObject:@"清空缓存"];
+    [regularCommands addObject:@"缓存清理器"];
 //    [regularCommands addObject:@"清除ID信息"];
     [regularCommands addObject:@"通知中心"];
 #ifdef DEBUG
