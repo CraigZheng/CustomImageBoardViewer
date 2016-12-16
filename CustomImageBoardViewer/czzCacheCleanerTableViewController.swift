@@ -12,11 +12,16 @@ class czzCacheCleanerTableViewController: UITableViewController {
 
     @IBOutlet weak var fileDetailsLabel: UILabel!
     @IBOutlet weak var imageDetailsLabel: UILabel!
+    @IBOutlet weak var expiryDetailsLabel: UILabel! {
+        didSet {
+            if let periodTitles = czzSettingsCentre.periodSettingTitle() as? [String] {
+                expiryDetailsLabel.text = periodTitles[czzSettingsCentre.sharedInstance().cacheExpiry.rawValue]
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -27,66 +32,32 @@ class czzCacheCleanerTableViewController: UITableViewController {
         imageDetailsLabel.text = "\(expiredImages.count) images"
     }
 
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    // MARK: - Segue.
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if let destinationViewController = segue.destination as? czzSelectionSelectorViewController {
+            destinationViewController.selections = czzSettingsCentre.periodSettingTitle() as? [String]
+            destinationViewController.preSelectedIndex = czzSettingsCentre.sharedInstance().cacheExpiry.rawValue
+            destinationViewController.delegate = self
+        }
     }
-    */
-
+    
     // MARK: - UI actions.
     
     @IBAction func cancelAction(_ sender: Any) {
         _ = navigationController?.popViewController(animated: true)
         dismiss(animated: true, completion: nil)
+    }
+    
+}
+
+extension czzCacheCleanerTableViewController: czzSelectionSelectorViewControllerProtocol {
+    
+    func selectorViewController(_ viewController: czzSelectionSelectorViewController!, selectedIndex index: Int) {
+        czzSettingsCentre.sharedInstance().cacheExpiry = CacheExpiry(rawValue: index)
+        if let periodTitles = czzSettingsCentre.periodSettingTitle() as? [String] {
+            expiryDetailsLabel.text = periodTitles[czzSettingsCentre.sharedInstance().cacheExpiry.rawValue]
+        }
+        // TODO: reload.
     }
     
 }

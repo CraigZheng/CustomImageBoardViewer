@@ -93,7 +93,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         self.userDefShouldCollapseLongContent = NO;
         shouldAllowOpenBlockedThread = YES;
         self.threadTextSize = TextSizeDefault;
-        self.CacheExpiry = CacheExpiryNever;
+        self.cacheExpiry = CacheExpiryNever;
         self.shouldShowImageManagerButton = YES;
         
         donationLink = @"";
