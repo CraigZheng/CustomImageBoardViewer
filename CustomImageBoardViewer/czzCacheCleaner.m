@@ -25,6 +25,7 @@ static NSString * const kDateOfLastClean = @"kDateOfLastClean";
 @property (strong, nonatomic) NSDate *aMonth;
 @property (strong, nonatomic) NSDate *sixMonths;
 @property (strong, nonatomic) NSDate *twelveMonths;
+@property (readonly, nonnull) NSDate *referenceDate;
 
 @end
 
@@ -35,40 +36,27 @@ static NSString * const kDateOfLastClean = @"kDateOfLastClean";
         // Return empty array, because will never expire.
         return @[];
     }
-    NSDate *referenceDate;
-    switch (settingCentre.cacheExpiry) {
-        case CacheExpiry7Days:
-            referenceDate = self.aWeek;
-            break;
-        case CacheExpiry1Month:
-            referenceDate = self.aMonth;
-            break;
-        case CacheExpiry6Months:
-            referenceDate = self.sixMonths;
-            break;
-        case CacheExpiry12Months:
-            referenceDate = self.twelveMonths;
-            break;
-        case CacheExpiryNoCache:
-            // All files in folder would be considered expired.
-            break;
-        default:
-            referenceDate = [NSDate new];
-            break;
-    }
     // Get contents from the given folder.
     NSMutableArray<NSURL *> * expiredFileURLs = [NSMutableArray new];
     for (NSURL *fileURL in [[NSFileManager defaultManager] contentsOfDirectoryAtURL:[NSURL fileURLWithPath:folderPath]
                                                          includingPropertiesForKeys:@[NSURLContentModificationDateKey]
                                                                             options:0
                                                                               error:nil]) {
-        NSDate *fileModifiedDate;
-        [fileURL getResourceValue:&fileModifiedDate forKey:NSURLContentModificationDateKey error:nil];
-        if ([fileModifiedDate compare:referenceDate] == NSOrderedAscending) {
+        if ([self isFileExpired:fileURL]) {
             [expiredFileURLs addObject:fileURL];
         }
     }
     return expiredFileURLs;
+}
+
+- (BOOL)isFileExpired:(NSURL *)fileURL {
+    BOOL isExpired = NO;
+    if (fileURL) {
+        NSDate *fileModifiedDate;
+        [fileURL getResourceValue:&fileModifiedDate forKey:NSURLContentModificationDateKey error:nil];
+        isExpired = [fileModifiedDate compare:self.referenceDate] == NSOrderedAscending;
+    }
+    return isExpired;
 }
 
 -(void)checkAndClean {
@@ -124,6 +112,36 @@ static NSString * const kDateOfLastClean = @"kDateOfLastClean";
 }
 
 #pragma mark - Accessors.
+
+- (NSDate *)referenceDate {
+    NSDate *referenceDate;
+    switch (settingCentre.cacheExpiry) {
+        case CacheExpiry7Days:
+            referenceDate = self.aWeek;
+            break;
+        case CacheExpiry1Month:
+            referenceDate = self.aMonth;
+            break;
+        case CacheExpiry6Months:
+            referenceDate = self.sixMonths;
+            break;
+        case CacheExpiry12Months:
+            referenceDate = self.twelveMonths;
+            break;
+        case CacheExpiryNoCache:
+            // All files in folder would be considered expired.
+            referenceDate = [NSDate distantPast];
+            break;
+        case CacheExpiryNever:
+            // Files would never expire.
+            referenceDate = [NSDate distantFuture];
+            break;
+        default:
+            referenceDate = [NSDate new];
+            break;
+    }
+    return referenceDate;
+}
 
 - (void)setDateOfLastCheck:(NSDate *)dateOfLastCheck {
     if (dateOfLastCheck) {
