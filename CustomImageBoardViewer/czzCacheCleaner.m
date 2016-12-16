@@ -130,11 +130,11 @@ static NSString * const kDateOfLastClean = @"kDateOfLastClean";
             break;
         case CacheExpiryNoCache:
             // All files in folder would be considered expired.
-            referenceDate = [NSDate distantPast];
+            referenceDate = [NSDate distantFuture];
             break;
         case CacheExpiryNever:
             // Files would never expire.
-            referenceDate = [NSDate distantFuture];
+            referenceDate = [NSDate distantPast];
             break;
         default:
             referenceDate = [NSDate new];
