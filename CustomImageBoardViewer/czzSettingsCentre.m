@@ -72,7 +72,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
 }
 
 + (NSArray *)periodSettingTitle {
-    return @[@"不使用缓存", @"7天", @"一个月", @"半年", @"一年", @"不自动清理"];
+    return @[@"不使用缓存", @"7天", @"一个月", @"半年", @"一年", @"永不失效"];
 }
 
 #pragma mark - Life cycle.
