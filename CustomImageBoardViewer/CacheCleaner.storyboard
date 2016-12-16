@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Root View Controller-->
+        <!--Czz Cache Cleaner Table View Controller-->
         <scene sceneID="jM4-0p-Kfu">
             <objects>
-                <tableViewController id="jUi-Nu-Sif" sceneMemberID="viewController">
+                <tableViewController id="jUi-Nu-Sif" customClass="czzCacheCleanerTableViewController" customModule="CustomImageBoardViewer" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="vSp-WC-bBw">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -52,7 +52,13 @@
                             <outlet property="delegate" destination="jUi-Nu-Sif" id="3lm-83-faI"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="UXm-cx-Dhp"/>
+                    <navigationItem key="navigationItem" id="UXm-cx-Dhp">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Ivr-R7-UXn">
+                            <connections>
+                                <action selector="cancelAction:" destination="jUi-Nu-Sif" id="aWu-AM-IHY"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G5v-SV-FaI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

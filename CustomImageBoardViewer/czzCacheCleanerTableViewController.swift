@@ -92,4 +92,11 @@ class czzCacheCleanerTableViewController: UITableViewController {
     }
     */
 
+    // MARK: - UI actions.
+    
+    @IBAction func cancelAction(_ sender: Any) {
+        _ = navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
+    }
+    
 }
