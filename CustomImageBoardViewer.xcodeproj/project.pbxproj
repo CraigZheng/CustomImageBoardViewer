@@ -177,6 +177,7 @@
 		4468A7111BBBC0480076DCD6 /* czzWeakReferenceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */; };
 		446C17B81CB08E2B00B557E2 /* loading_bar_dot.gif in Resources */ = {isa = PBXBuildFile; fileRef = 446C17B71CB08E2B00B557E2 /* loading_bar_dot.gif */; };
 		446C17BA1CB094C400B557E2 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 446C17B91CB094C400B557E2 /* ImageIO.framework */; };
+		4476655E1E06B70300A06138 /* UINavigationController+Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4476655D1E06B70300A06138 /* UINavigationController+Block.swift */; };
 		447816E01C59A8CB00D7ADBB /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 447816DF1C59A8CB00D7ADBB /* AssetsLibrary.framework */; };
 		447907E21CE20B1100A7E573 /* czzThreadTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 447907E11CE20B1100A7E573 /* czzThreadTextView.m */; };
 		44792C711BBAC34400AF5CB5 /* NSFileManager+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 44792C701BBAC34400AF5CB5 /* NSFileManager+Util.m */; };
@@ -826,6 +827,7 @@
 		4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWeakReferenceDelegate.m; sourceTree = "<group>"; };
 		446C17B71CB08E2B00B557E2 /* loading_bar_dot.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading_bar_dot.gif; sourceTree = "<group>"; };
 		446C17B91CB094C400B557E2 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		4476655D1E06B70300A06138 /* UINavigationController+Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Block.swift"; sourceTree = "<group>"; };
 		447816DF1C59A8CB00D7ADBB /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		447907E01CE20B1100A7E573 /* czzThreadTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadTextView.h; sourceTree = "<group>"; };
 		447907E11CE20B1100A7E573 /* czzThreadTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadTextView.m; sourceTree = "<group>"; };
@@ -1673,6 +1675,7 @@
 				449E928D1BF9D15C00EE2F58 /* czzModalViewController.m */,
 				440C97531CB3863600A7266D /* czzAutoEndingRefreshControl.h */,
 				440C97541CB3863600A7266D /* czzAutoEndingRefreshControl.m */,
+				4476655D1E06B70300A06138 /* UINavigationController+Block.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -3333,6 +3336,7 @@
 				44B89E751A2AF39F0085F766 /* UIImage+animatedGIF.m in Sources */,
 				442EC8631A1A130A005650E4 /* czzNavigationController.m in Sources */,
 				4416B72619413EAF00B69C5B /* FPPopoverView.m in Sources */,
+				4476655E1E06B70300A06138 /* UINavigationController+Block.swift in Sources */,
 				442F1FD71B13535B00267698 /* czzHomeTableViewManager.m in Sources */,
 				447E06331BC279CB00D24087 /* czzCustomSlideAnimationViewController.m in Sources */,
 				444146E21A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.m in Sources */,
