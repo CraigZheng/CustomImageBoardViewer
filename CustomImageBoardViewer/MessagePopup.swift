@@ -111,17 +111,19 @@ class MessagePopup: NSObject {
         let messageView = MessageView.viewFromNib(layout: layout)
         messageView.configureTheme(theme)
         messageView.configureContent(title: title ?? "", body: message ?? "")
+        // Show with default config.
+        var config = SwiftMessages.Config()
         if let buttonTitle = buttonTitle, !buttonTitle.isEmpty {
             messageView.button?.isHidden = false
             messageView.button?.setTitle(buttonTitle, for: .normal)
             messageView.buttonTapHandler = buttonActionHandler
+            config.duration = .forever
         } else {
             messageView.button?.isHidden = true
+            config.duration = .automatic
         }
         messageView.iconImageView?.isHidden = !(theme == .info)
         messageView.iconLabel?.isHidden = !(theme == .info)
-        // Show with default config.
-        var config = SwiftMessages.Config()
         config.presentationStyle = position
         config.presentationContext = .window(windowLevel: UIWindowLevelStatusBar)
         SwiftMessages.show(config: config, view: messageView)
