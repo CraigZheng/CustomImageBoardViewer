@@ -8,6 +8,7 @@
 
 #import "czzImageViewerUtil.h"
 #import "MWPhotoBrowser.h"
+#import "CustomImageBoardViewer-Swift.h"
 
 @interface czzImageViewerUtil () <MWPhotoBrowserDelegate>
 @end
@@ -66,7 +67,9 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.destinationViewController) {
             if ([self.destinationViewController isKindOfClass:[UINavigationController class]]) {
-                [(UINavigationController *)self.destinationViewController pushViewController:photoBrowser animated:YES];
+                [(UINavigationController *)self.destinationViewController pushViewControllerWithViewController:photoBrowser animated:YES completion:^{
+                    [photoBrowser reloadData];
+                }];
             } else {
                 photoBrowserNavigationController = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
                 photoBrowserNavigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
@@ -79,12 +82,16 @@
                 if (NavigationManager.isInTransition) {
                     NavigationManager.pushAnimationCompletionHandler = ^{
                         if (![[UIApplication topViewController] isKindOfClass:[photoBrowser class]]) {
-                            [NavigationManager pushViewController:photoBrowser animated:YES];
+                            [NavigationManager.delegate pushViewControllerWithViewController:photoBrowser animated:YES completion:^{
+                                [photoBrowser reloadData];
+                            }];
                         }
                     };
                 } else {
                     if (![[UIApplication topViewController] isKindOfClass:[photoBrowser class]]) {
-                        [NavigationManager pushViewController:photoBrowser animated:YES];
+                        [NavigationManager.delegate pushViewControllerWithViewController:photoBrowser animated:YES completion:^{
+                            [photoBrowser reloadData];
+                        }];
                     }
                 }
             }
