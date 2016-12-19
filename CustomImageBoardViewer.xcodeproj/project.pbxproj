@@ -1233,6 +1233,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B4239CCD263071F8F9548CBF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -2779,6 +2786,7 @@
 			buildConfigurationList = 4459A36D1DFFA61700C196C1 /* Build configuration list for PBXNativeTarget "AC-emoticon" */;
 			buildPhases = (
 				4459A3611DFFA61700C196C1 /* Resources */,
+				B4239CCD263071F8F9548CBF /* Frameworks */,
 			);
 			buildRules = (
 			);
