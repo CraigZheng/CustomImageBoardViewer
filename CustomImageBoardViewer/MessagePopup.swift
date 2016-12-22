@@ -99,6 +99,10 @@ import SwiftMessages
 
 class MessagePopup: NSObject {
     
+    class func hide() {
+        SwiftMessages.hide()
+    }
+    
     class func showMessage(title: String?, message: String?) {
         showMessage(title: title, message: message, layout: .CardView)
     }
@@ -117,7 +121,7 @@ class MessagePopup: NSObject {
             messageView.button?.isHidden = false
             messageView.button?.setTitle(buttonTitle, for: .normal)
             messageView.buttonTapHandler = buttonActionHandler
-            config.duration = .forever
+            config.duration = .seconds(seconds: 5)
         } else {
             messageView.button?.isHidden = true
             config.duration = .automatic
