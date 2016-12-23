@@ -176,6 +176,7 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
                                     favouriteManagerViewController.launchToIndex = watchIndex; // Launch to watchlist view.
                                     [NavigationManager pushViewController:favouriteManagerViewController
                                                                  animated:YES];
+                                    [MessagePopup hide];
                                 }];
         }
     }];
