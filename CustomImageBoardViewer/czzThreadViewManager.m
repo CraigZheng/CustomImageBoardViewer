@@ -16,6 +16,7 @@
 
 @interface czzThreadViewManager() <czzMassiveThreadDownloaderDelegate>
 @property (nonatomic, assign) BOOL pageNumberChanged;
+@property (nonatomic, assign) NSInteger previousPageNumber;
 @property (nonatomic, strong) czzMassiveThreadDownloader *massiveDownloader;
 @end
 
@@ -133,26 +134,27 @@
 
 - (void)threadDownloaderCompleted:(czzThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads error:(NSError *)error {
     NSInteger previousThreadCount = self.threads.count;
-    if (success) {
+    // Remove the parent thread for easier calculation.
+    if (self.parentThread) {
+        [self.threads removeObject:self.parentThread];
+    }
+    if (downloader.parentThread.ID > 0)
+        self.parentThread = downloader.parentThread;
+    if (success && threads.count) {
         self.lastBatchOfThreads = threads;
-        // Remove the parent thread for easier calculation.
-        if (self.parentThread) {
-            [self.threads removeObject:self.parentThread];
-        }
-        if (downloader.parentThread.ID > 0)
-            self.parentThread = downloader.parentThread;
         // If the page has not been increased by [self loadMoreThreads:] method, then we will need to sub-array the current threads.
-        // Sub-array everything up to the last page end point.
-        if (!self.pageNumberChanged) {
-            NSInteger lastPageThreadCount = (downloader.pageNumber - 1) * settingCentre.response_per_page;
+        // And if the page has been increased but the gap is bigger than 1 page, don't sub-array.
+        if (!self.pageNumberChanged && abs(self.pageNumber - self.previousPageNumber) <= 1) {
+            NSInteger lastPageThreadCount = (NSInteger)(self.threads.count / settingCentre.response_per_page) * settingCentre.response_per_page;
             NSRange previousRange = NSMakeRange(0, lastPageThreadCount);
+            // Sub-array everything up to the last page end point.
             self.threads = [[self.threads subarrayWithRange:previousRange] mutableCopy];
         }
         [self.threads addObjectsFromArray:self.lastBatchOfThreads];
-        // Add back the parent thread.
-        if (self.parentThread) {
-            [self.threads insertObject:self.parentThread atIndex:0];
-        }
+    }
+    // Add back the parent thread.
+    if (self.parentThread) {
+        [self.threads insertObject:self.parentThread atIndex:0];
     }
     dispatch_async(dispatch_get_main_queue(), ^{
         // If the downloader is a massive thread downloader, don't inform delegate about thread download completed event, because there could be more such events.
@@ -247,10 +249,10 @@
 }
 
 - (void)loadMoreThreads:(NSInteger)pageNumber {
-    NSInteger currentPage = self.pageNumber;
+    self.previousPageNumber = self.pageNumber;
     [super loadMoreThreads:pageNumber];
     // If the updated page number is different than the old page number, set self.pageIncreased to true.
-    self.pageNumberChanged = self.pageNumber != currentPage;
+    self.pageNumberChanged = self.pageNumber != self.previousPageNumber;
 }
 
 #pragma mark - NSCoding
