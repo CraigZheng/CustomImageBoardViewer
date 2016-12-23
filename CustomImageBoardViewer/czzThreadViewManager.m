@@ -144,7 +144,7 @@
         self.lastBatchOfThreads = threads;
         // If the page has not been increased by [self loadMoreThreads:] method, then we will need to sub-array the current threads.
         // And if the page has been increased but the gap is bigger than 1 page, don't sub-array.
-        if (!self.pageNumberChanged && abs(self.pageNumber - self.previousPageNumber) <= 1) {
+        if (!self.pageNumberChanged && labs(self.pageNumber - self.previousPageNumber) <= 1) {
             NSInteger lastPageThreadCount = (NSInteger)(self.threads.count / settingCentre.response_per_page) * settingCentre.response_per_page;
             NSRange previousRange = NSMakeRange(0, lastPageThreadCount);
             // Sub-array everything up to the last page end point.

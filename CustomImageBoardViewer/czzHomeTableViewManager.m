@@ -288,7 +288,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == self.homeViewManager.threads.count) {
+    if (indexPath.row >= self.homeViewManager.threads.count) {
         //Last row
         NSString *lastCellIdentifier = THREAD_TABLEVIEW_COMMAND_CELL_IDENTIFIER;
         czzThreadTableViewCommandCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:lastCellIdentifier forIndexPath:indexPath];
