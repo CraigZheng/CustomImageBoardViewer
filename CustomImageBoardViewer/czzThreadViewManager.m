@@ -265,7 +265,7 @@ typedef enum : NSUInteger {
 - (void)jumpToPage:(NSInteger)page {
     [self stopAllOperation];
     [self removeAll];
-    [self reset];
+    self.threads = self.cachedThreads = nil;
     self.loadingMode = ViewManagerLoadingModeJumpping;
     [self loadMoreThreads:page];
 }
