@@ -13,6 +13,7 @@
 #import "czzThreadDownloader.h"
 #import "czzMassiveThreadDownloader.h"
 #import "czzMarkerManager.h"
+#import "NSArray+Splitting.h"
 
 typedef enum : NSUInteger {
     ViewManagerLoadingModeNormal,
@@ -148,15 +149,35 @@ typedef enum : NSUInteger {
         self.parentThread = downloader.parentThread;
     if (success && threads.count) {
         self.lastBatchOfThreads = threads;
-        // If the page has not been increased by [self loadMoreThreads:] method, then we will need to sub-array the current threads.
-        // And if the page has been increased but the gap is bigger than 1 page, don't sub-array.
-        if (!self.pageNumberChanged && labs(self.pageNumber - self.previousPageNumber) <= 1) {
-            NSInteger lastPageThreadCount = (NSInteger)(self.threads.count / settingCentre.response_per_page) * settingCentre.response_per_page;
-            NSRange previousRange = NSMakeRange(0, lastPageThreadCount);
-            // Sub-array everything up to the last page end point.
-            self.threads = [[self.threads subarrayWithRange:previousRange] mutableCopy];
+        if (self.threads.count == 0) {
+            [self.threads addObjectsFromArray:threads];
+        } else {
+            // If the current threads is enought to fill all pages, either append to the end or replace the last page.
+            if (self.threads.count % settingCentre.response_per_page == 0) {
+                // Check previous pageNumber, because the current pageNumber has been updated by [self loadMoreThreads:].
+                if (self.previousPageNumber >= self.totalPages) {
+                    // If previousPageNumber is smaller than totalPages, replace the last page.
+                    NSMutableArray *pages = [self.threads arraysBySplittingWithSize:settingCentre.response_per_page].mutableCopy;
+                    [pages replaceObjectAtIndex:[pages indexOfObject:pages.lastObject] withObject:threads];
+                    NSMutableArray *tempThreads = [NSMutableArray new];
+                    for (NSArray *page in pages) {
+                        [tempThreads addObjectsFromArray:page];
+                    }
+                    self.threads = tempThreads;
+                } else {
+                    [self.threads addObjectsFromArray:threads];
+                }
+            } else {
+                // If the current threads is not enough to fill all pages, replace the last page.
+                NSMutableArray *pages = [self.threads arraysBySplittingWithSize:settingCentre.response_per_page].mutableCopy;
+                [pages replaceObjectAtIndex:[pages indexOfObject:pages.lastObject] withObject:threads];
+                NSMutableArray *tempThreads = [NSMutableArray new];
+                for (NSArray *page in pages) {
+                    [tempThreads addObjectsFromArray:page];
+                }
+                self.threads = tempThreads;
+            }
         }
-        [self.threads addObjectsFromArray:self.lastBatchOfThreads];
     }
     // Add back the parent thread.
     if (self.parentThread) {
