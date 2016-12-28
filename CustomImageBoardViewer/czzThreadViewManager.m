@@ -14,10 +14,16 @@
 #import "czzMassiveThreadDownloader.h"
 #import "czzMarkerManager.h"
 
+typedef enum : NSUInteger {
+    ViewManagerLoadingModeNormal,
+    ViewManagerLoadingModeJumpping
+} ViewManagerLoadingMode;
+
 @interface czzThreadViewManager() <czzMassiveThreadDownloaderDelegate>
 @property (nonatomic, assign) BOOL pageNumberChanged;
 @property (nonatomic, assign) NSInteger previousPageNumber;
 @property (nonatomic, strong) czzMassiveThreadDownloader *massiveDownloader;
+@property (nonatomic, assign) ViewManagerLoadingMode loadingMode;
 @end
 
 @implementation czzThreadViewManager
@@ -204,6 +210,7 @@
     self.totalPages = self.pageNumber = 1;
     self.threads = self.cachedThreads = nil;
     self.pageNumberChanged = NO;
+    self.loadingMode = ViewManagerLoadingModeNormal;
 }
 
 -(void)removeAll {
@@ -253,6 +260,14 @@
     [super loadMoreThreads:pageNumber];
     // If the updated page number is different than the old page number, set self.pageIncreased to true.
     self.pageNumberChanged = self.pageNumber != self.previousPageNumber;
+}
+
+- (void)jumpToPage:(NSInteger)page {
+    [self stopAllOperation];
+    [self removeAll];
+    [self reset];
+    self.loadingMode = ViewManagerLoadingModeJumpping;
+    [self loadMoreThreads:page];
 }
 
 #pragma mark - NSCoding
