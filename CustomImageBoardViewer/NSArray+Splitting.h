@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface NSArray (Splitting)
--(NSArray *)arraysBySplittingInto:(NSUInteger)N;
+-(NSArray *)arraysBySplittingWithSize:(NSUInteger)size;
 @end

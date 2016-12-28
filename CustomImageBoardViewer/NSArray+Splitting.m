@@ -8,21 +8,26 @@
 
 #import "NSArray+Splitting.h"
 
-
-// Copied from http://stackoverflow.com/questions/27208722/objective-c-split-an-array-into-two-separate-arrays-based-on-even-odd-indexes
 @implementation NSArray (Splitting)
 
--(NSArray *)arraysBySplittingInto:(NSUInteger)N
+-(NSArray *)arraysBySplittingWithSize:(NSUInteger)size
 {
-    NSAssert(N > 0, @"N cant be less than 1");
-    NSMutableArray *resultArrays = [@[] mutableCopy];
-    for (NSUInteger i =0 ; i<N; ++i) {
-        [resultArrays addObject:[@[] mutableCopy]];
-    }
+    NSAssert(size > 0, @"N cant be less than 1");
     
-    [self enumerateObjectsUsingBlock:^(id object, NSUInteger idx, BOOL *stop) {
-        [resultArrays[idx% resultArrays.count] addObject:object];
-    }];
-    return resultArrays;
+    NSMutableArray *arrays = [NSMutableArray new];
+    CGFloat pages = (double)self.count / size;
+    if (pages >= 1) {
+        for (NSInteger i = 0; i < ceil(pages); i++) {
+            NSInteger start = i * size;
+            NSInteger length = size;
+            if (start + length > self.count) {
+                length -= start + length - self.count;
+            }
+            [arrays addObject:[self subarrayWithRange:NSMakeRange(start, length)]];
+        }
+    } else {
+        return @[self];
+    }
+    return arrays;
 }
 @end
