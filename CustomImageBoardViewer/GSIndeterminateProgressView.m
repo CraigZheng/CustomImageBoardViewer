@@ -53,7 +53,7 @@
                                                       usingBlock:^(NSNotification * _Nonnull note) {
                                                           self.isReady = YES;
                                                           if (self.window && self.isAnimating) {
-                                                              DLog(@"View did becom active, resuming animation.");
+//                                                              DLog(@"View did becom active, resuming animation.");
                                                               [self animateProgressChunkWithDelay:0];
                                                           }
                                                       }];
@@ -74,7 +74,7 @@
 - (void)viewDidAppear {
     self.isReady = YES;
     if (self.window && self.isAnimating) {
-        DLog(@"View did appear - resuming animation.");
+//        DLog(@"View did appear - resuming animation.");
         [self animateProgressChunkWithDelay:0];
     }
 }
@@ -95,10 +95,10 @@
 - (void)startAnimating
 {
     if (self.isAnimating) {
-        DLog(@"Already animating");
+//        DLog(@"Already animating");
         return;
     }
-    DLog(@"");
+//    DLog(@"");
     self.hidden = self.foregroundBarView.hidden = NO;
     self.isAnimating = YES;
     [self resetViews];
@@ -108,7 +108,7 @@
 
 - (void)stopAnimating
 {
-    DLog(@"");
+//    DLog(@"");
     self.isAnimating = NO;
     self.hidden = self.foregroundBarView.hidden = YES;
     [self resetViews];
@@ -116,7 +116,7 @@
 }
 
 -(void)showWarning {
-    DLog(@"");
+//    DLog(@"");
     [self stopAnimating];
     
     static CGFloat warningChunkWidth = 20.;
@@ -155,7 +155,7 @@
 
 - (void)animateProgressChunkWithDelay:(NSTimeInterval)delay {
     if (!self.isReady) {
-        DLog(@"Progress view is not ready.");
+//        DLog(@"Progress view is not ready.");
         return;
     }
     if (!self.foregroundBarView) {
@@ -188,7 +188,7 @@
                          if (weakSelf.isAnimating && self.window && finished) {
                              [weakSelf animateProgressChunkWithDelay:delay];
                          } else {
-                             DLog(@"Animation not going to repeat.");
+//                             DLog(@"Animation not going to repeat.");
                          }
                      }];
 }
