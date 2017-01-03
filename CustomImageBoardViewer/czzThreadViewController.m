@@ -273,11 +273,8 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
             // If user wants to jump to a specific page number, verify that user enters a valid page number.
             NSInteger newPageNumber = [[[alertView textFieldAtIndex:0] text] integerValue];
             if (newPageNumber > 0){
-                //clear threads and ready to accept new threads
-                [self.threadViewManager removeAll];
-                [self.threadViewManager loadMoreThreads:newPageNumber];
+                [self.threadViewManager jumpToPage:newPageNumber];
                 [self updateTableView];
-                
                 [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) self.threadViewManager.pageNumber]
                                                  position:BannerNotificationPositionTop];
             } else {
