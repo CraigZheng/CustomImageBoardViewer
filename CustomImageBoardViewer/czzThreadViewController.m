@@ -444,7 +444,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 #pragma mark - State perserving and restoration.
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
-    DLog(@"");
     // Save the current thread.
     [coder encodeObject:self.thread forKey:@"thread"];
     [coder encodeObject:[NSValue valueWithCGPoint:self.threadTableView.contentOffset] forKey:@"TableViewContentOffset"];
@@ -452,7 +451,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 - (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
-    DLog(@"");
     [super decodeRestorableStateWithCoder:coder];
     // Restore the thread.
     self.thread = [coder decodeObjectForKey:@"thread"];
@@ -463,7 +461,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 - (void)applicationFinishedRestoringState {
-    DLog(@"");
     if (self.thread) {
         [self commonInit];
     }
