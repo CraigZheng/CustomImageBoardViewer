@@ -23,7 +23,6 @@ typedef enum : NSUInteger {
 @interface czzThreadViewManager() <czzMassiveThreadDownloaderDelegate>
 @property (nonatomic, assign) BOOL pageNumberChanged;
 @property (nonatomic, assign) NSInteger previousPageNumber;
-@property (nonatomic, assign) NSInteger previousTotalPage;
 @property (nonatomic, strong) czzMassiveThreadDownloader *massiveDownloader;
 @property (nonatomic, assign) ViewManagerLoadingMode loadingMode;
 @end
@@ -156,8 +155,8 @@ typedef enum : NSUInteger {
             // If the current threads is enought to fill all pages, either append to the end or replace the last page.
             if (self.threads.count % settingCentre.response_per_page == 0) {
                 // Check previous pageNumber and totalPages, because the current pageNumber and totalPages would both be updated by [self loadMoreThreads:].
-                if (self.previousPageNumber >= self.previousTotalPage) {
-                    // If previousPageNumber is smaller than totalPages, replace the last page.
+                if (self.previousPageNumber >= downloader.pageNumber) {
+                    // If previousPageNumber is the same as the current pageNumber, replace the last page.
                     NSMutableArray *pages = [self.threads arraysBySplittingWithSize:settingCentre.response_per_page].mutableCopy;
                     [pages replaceObjectAtIndex:[pages indexOfObject:pages.lastObject] withObject:threads];
                     NSMutableArray *tempThreads = [NSMutableArray new];
@@ -279,7 +278,6 @@ typedef enum : NSUInteger {
 
 - (void)loadMoreThreads:(NSInteger)pageNumber {
     self.previousPageNumber = self.pageNumber;
-    self.previousTotalPage = self.totalPages;
     [super loadMoreThreads:pageNumber];
     // If the updated page number is different than the old page number, set self.pageIncreased to true.
     self.pageNumberChanged = self.pageNumber != self.previousPageNumber;
