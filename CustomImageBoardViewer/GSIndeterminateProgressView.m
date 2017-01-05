@@ -53,7 +53,6 @@
                                                       usingBlock:^(NSNotification * _Nonnull note) {
                                                           self.isReady = YES;
                                                           if (self.window && self.isAnimating) {
-//                                                              DLog(@"View did becom active, resuming animation.");
                                                               [self animateProgressChunkWithDelay:0];
                                                           }
                                                       }];
@@ -74,7 +73,6 @@
 - (void)viewDidAppear {
     self.isReady = YES;
     if (self.window && self.isAnimating) {
-//        DLog(@"View did appear - resuming animation.");
         [self animateProgressChunkWithDelay:0];
     }
 }
@@ -95,10 +93,8 @@
 - (void)startAnimating
 {
     if (self.isAnimating) {
-//        DLog(@"Already animating");
         return;
     }
-//    DLog(@"");
     self.hidden = self.foregroundBarView.hidden = NO;
     self.isAnimating = YES;
     [self resetViews];
@@ -108,7 +104,6 @@
 
 - (void)stopAnimating
 {
-//    DLog(@"");
     self.isAnimating = NO;
     self.hidden = self.foregroundBarView.hidden = YES;
     [self resetViews];
@@ -116,7 +111,6 @@
 }
 
 -(void)showWarning {
-//    DLog(@"");
     [self stopAnimating];
     
     static CGFloat warningChunkWidth = 20.;
@@ -155,7 +149,6 @@
 
 - (void)animateProgressChunkWithDelay:(NSTimeInterval)delay {
     if (!self.isReady) {
-//        DLog(@"Progress view is not ready.");
         return;
     }
     if (!self.foregroundBarView) {
@@ -187,8 +180,6 @@
                          self.backgroundColor = self.foregroundBarView.backgroundColor;
                          if (weakSelf.isAnimating && self.window && finished) {
                              [weakSelf animateProgressChunkWithDelay:delay];
-                         } else {
-//                             DLog(@"Animation not going to repeat.");
                          }
                      }];
 }

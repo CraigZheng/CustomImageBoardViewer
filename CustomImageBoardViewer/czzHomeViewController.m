@@ -297,7 +297,6 @@
 }
 
 -(void)homeViewManager:(czzHomeViewManager *)homeViewManager downloadSuccessful:(BOOL)wasSuccessful {
-    DDLogDebug(@"%@", NSStringFromSelector(_cmd));
     self.threadTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
     if (!wasSuccessful) {
         [self showWarning];
@@ -313,7 +312,6 @@
 }
 
 -(void)homeViewManager:(czzHomeViewManager *)list threadListProcessed:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
-    DDLogDebug(@"%@", NSStringFromSelector(_cmd));
     // If pageNumber == 1, then is a forum change, scroll to top.
     [[NSOperationQueue currentQueue] addOperationWithBlock:^{
         if (wasSuccessul && self.homeViewManager.pageNumber == 1) {
@@ -378,13 +376,11 @@
 #pragma mark - pause / restoration
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
-    DLog(@"");
     [coder encodeObject:[NSValue valueWithCGPoint:self.threadTableView.contentOffset] forKey:@"TableViewContentOffset"];
     [super encodeRestorableStateWithCoder:coder];
 }
 
 - (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
-    DLog(@"");
     NSValue *contentOffsetValue;
     if ([(contentOffsetValue = [coder decodeObjectForKey:@"TableViewContentOffset"]) isKindOfClass:[NSValue class]]) {
         [self.threadTableView setContentOffset:contentOffsetValue.CGPointValue];
@@ -393,7 +389,6 @@
 }
 
 - (void)applicationFinishedRestoringState {
-    DLog(@"");
     [self.homeViewManager restorePreviousState];
     [self updateTableView];
 }
