@@ -105,8 +105,10 @@
     }
     // Update all the visible pending indexes.
     if (pendingIndexes.count) {
+        [self.homeTableView beginUpdates];
         [self.homeTableView reloadRowsAtIndexPaths:pendingIndexes
                                   withRowAnimation:UITableViewRowAnimationNone];
+        [self.homeTableView endUpdates];
     }
     // Clear pending indexes.
     [self.pendingBulkUpdateIndexes removeAllObjects];
