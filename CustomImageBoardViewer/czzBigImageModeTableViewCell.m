@@ -65,6 +65,10 @@
     [self setNeedsDisplay];
 }
 
+- (UIImage *)placeholderImage {
+    return [UIImage imageNamed:@"Icon.png"];
+}
+
 #pragma mark - czzImageDownloaderManagerDelegate
 
 - (void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {

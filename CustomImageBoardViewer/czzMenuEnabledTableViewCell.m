@@ -339,10 +339,7 @@ NSInteger kCellImageViewHeight = 120;
 }
 
 - (UIImage *)placeholderImage {
-    if (!_placeholderImage) {
-        _placeholderImage = [UIImage imageNamed:@"iTunesArtwork.png"];
-    }
-    return _placeholderImage;
+    return [UIImage imageNamed:@"iTunesArtwork.png"];
 }
 
 #pragma mark - czzImageDownloaderManagerDelegate
