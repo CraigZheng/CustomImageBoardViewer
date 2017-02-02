@@ -373,6 +373,13 @@
     }
 }
 
+#pragma mark - Transit
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [self.homeTableViewManager viewWillTransitionToSize];
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+}
+
 #pragma mark - pause / restoration
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {

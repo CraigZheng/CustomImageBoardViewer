@@ -441,6 +441,12 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     }
 }
 
+#pragma mark - Size change.
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [self.threadTableViewManager viewWillTransitionToSize];
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+}
+
 #pragma mark - State perserving and restoration.
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
