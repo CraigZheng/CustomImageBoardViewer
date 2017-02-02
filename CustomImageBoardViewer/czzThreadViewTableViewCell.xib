@@ -44,14 +44,14 @@
                                 </connections>
                             </textView>
                             <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iTunesArtwork.png" translatesAutoresizingMaskIntoConstraints="NO" id="WnJ-PJ-3oM">
-                                <rect key="frame" x="20" y="33" width="110" height="110"/>
+                                <rect key="frame" x="20" y="33" width="130" height="120"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="110" id="gW6-Vf-PNF"/>
-                                    <constraint firstAttribute="width" constant="110" id="qXQ-0b-fGc"/>
+                                    <constraint firstAttribute="height" constant="120" id="gW6-Vf-PNF"/>
+                                    <constraint firstAttribute="width" constant="130" id="qXQ-0b-fGc"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="1" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WUN-DG-7RC" userLabel="Cell Image View Button">
-                                <rect key="frame" x="20" y="33" width="110" height="110"/>
+                                <rect key="frame" x="20" y="33" width="130" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="36" id="pig-wF-wFt"/>
                                 </constraints>
@@ -60,11 +60,11 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rGy-zv-odd" userLabel="Filling View">
-                                <rect key="frame" x="160" y="33" width="160" height="110"/>
+                                <rect key="frame" x="160" y="33" width="160" height="120"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GIF" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SAh-Sq-1TM">
-                                <rect key="frame" x="66.5" y="131" width="17.5" height="12"/>
+                                <rect key="frame" x="76.5" y="141" width="17.5" height="12"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
                                 <color key="textColor" red="0.71372549019999998" green="0.30588235289999999" blue="0.015686274510000001" alpha="1" colorSpace="calibratedRGB"/>

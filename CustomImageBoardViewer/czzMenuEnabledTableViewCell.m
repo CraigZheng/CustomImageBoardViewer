@@ -22,7 +22,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 static NSString * const showThreadWithID = @"showThreadWithID";
-NSInteger kCellImageViewHeight = 110;
+NSInteger kCellImageViewHeight = 120;
 
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, UITextViewDelegate>
 
