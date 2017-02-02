@@ -19,6 +19,8 @@
 #import "czzThread.h"
 #import "czzImageDownloaderManager.h"
 
+extern NSInteger kCellImageViewHeight;
+
 typedef NS_ENUM(NSInteger, threadViewCellType) {
     threadViewCellTypeHome = 1,
     threadViewCellTypeThread = 2,

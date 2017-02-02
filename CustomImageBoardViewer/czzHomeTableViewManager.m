@@ -41,7 +41,6 @@
 @property (nonatomic, readonly) BOOL tableViewIsDraggedOverTheBottom;
 @property (nonatomic, readonly) BOOL bigImageMode;
 @property (nonatomic, strong) czzMenuEnabledTableViewCell *sizingCell;
-@property (nonatomic, strong) NSMutableOrderedSet *pendingBulkUpdateIndexes;
 @property (nonatomic, strong) NSTimer *bulkUpdateTimer;
 
 - (BOOL)tableViewIsDraggedOverTheBottomWithPadding:(CGFloat)padding;
@@ -71,7 +70,6 @@
         [[UIMenuController sharedMenuController] update];
         
         self.imageViewerUtil = [czzImageViewerUtil new];
-        self.pendingBulkUpdateIndexes = [NSMutableOrderedSet new];
         [[czzImageDownloaderManager sharedManager] addDelegate:self];
         __weak czzHomeTableViewManager *weakSelf = self;
         [[NSNotificationCenter defaultCenter] addObserverForName:kForumPickedNotification
@@ -96,22 +94,7 @@
 }
 
 - (void)bulkUpdateRows:(id)sender {
-    NSMutableArray *pendingIndexes = [NSMutableArray new];
-    // Find all the pending indexes that are still visible.
-    for (NSIndexPath *cellIndexPath in self.pendingBulkUpdateIndexes) {
-        if ([self.homeTableView.indexPathsForVisibleRows containsObject:cellIndexPath]) {
-            [pendingIndexes addObject:cellIndexPath];
-        }
-    }
-    // Update all the visible pending indexes.
-    if (pendingIndexes.count) {
-        [self.homeTableView beginUpdates];
-        [self.homeTableView reloadRowsAtIndexPaths:pendingIndexes
-                                  withRowAnimation:UITableViewRowAnimationNone];
-        [self.homeTableView endUpdates];
-    }
-    // Clear pending indexes.
-    [self.pendingBulkUpdateIndexes removeAllObjects];
+    [self.homeTableView reloadData];
 }
 
 #pragma mark - UITableViewDelegate
@@ -229,13 +212,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
                     estimatedHeight += bigImageHeightLimit;
                 }
             } else {
-                CGSize previewImageSize = [self getImageSizeWithPath:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:thread.imgSrc.lastPathComponent]];
-                if (!CGSizeEqualToSize(previewImageSize, CGSizeZero)) {
-                    estimatedHeight += previewImageSize.height < 150 ? previewImageSize.height : 150;
-                } else {
-                    // Add the fixed image view size to the estimated height.
-                    estimatedHeight += 36;
-                }
+                estimatedHeight += kCellImageViewHeight;
             }
         }
     }
@@ -456,10 +433,6 @@ estimatedHeightForRowAtIndexPath:indexPath];
                                                               selector:@selector(bulkUpdateRows:)
                                                               userInfo:nil
                                                                repeats:NO];
-    }
-    NSIndexPath *cellIndexPath = [self.homeTableView indexPathForCell:cell];
-    if (cellIndexPath) {
-        [self.pendingBulkUpdateIndexes addObject:cellIndexPath];
     }
 }
 
