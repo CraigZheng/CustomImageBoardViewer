@@ -22,4 +22,5 @@
 @property (nonatomic, assign) czzThreadViewCommandStatusCellViewController *commandStatusViewController;
 
 - (void)reloadData;
+- (void)viewWillTransitionToSize;
 @end

@@ -123,7 +123,6 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
                 self.respondedThreads = tempSet;
             }
         }
-        DDLogDebug(@"Restored histories.");
     }
     @catch (NSException *exception) {
         DDLogDebug(@"%@", exception);

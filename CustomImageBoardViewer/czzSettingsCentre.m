@@ -322,7 +322,6 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         if (downloadedData) {
             [self parseJSONData:downloadedData];
             [self saveSettings]; //save settings from remote
-            DDLogDebug(@"settings updated from remote server");
             if (message.length > 0) {
                 [MessagePopup showMessagePopupWithTitle:nil message:message
                                                  layout:MessagePopupLayoutCardView
@@ -335,7 +334,6 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
             if (self.popup_notification_link.length) {
                 NSURL *notificationURL = [NSURL URLWithString:self.popup_notification_link];
                 if (notificationURL) {
-                    DLog(@"Downloading pop up notification...");
                     [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:notificationURL]
                                                        queue:[NSOperationQueue currentQueue]
                                            completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {

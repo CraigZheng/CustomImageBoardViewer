@@ -22,9 +22,11 @@
 #import <QuartzCore/QuartzCore.h>
 
 static NSString * const showThreadWithID = @"showThreadWithID";
+NSInteger kCellImageViewHeight = 120;
 
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, UITextViewDelegate>
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *cellImageViewHeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *cellImageViewButtonMinimumWidthConstraint;
 @property (weak, nonatomic) IBOutlet UIButton *cellImageViewButton;
 @property (weak, nonatomic) IBOutlet UILabel *gifLabel;
@@ -215,11 +217,13 @@ static NSString * const showThreadWithID = @"showThreadWithID";
     if (self.allowImage && (imageName = self.thread.imgSrc.lastPathComponent).length) {
         previewImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:imageName]]];
         self.cellImageView.image = previewImage ?: self.placeholderImage;
+        self.cellImageViewHeightConstraint.constant = kCellImageViewHeight;
         self.cellImageViewButtonMinimumWidthConstraint.active = YES;
         self.gifLabel.hidden = ![imageName.pathExtension.lowercaseString isEqualToString:@"gif"];
     } else {
         // Completely invisible.
         self.cellImageView.image = nil;
+        self.cellImageViewHeightConstraint.constant = 0;
         self.cellImageViewButtonMinimumWidthConstraint.active = NO;
         self.gifLabel.hidden = YES;
     }
@@ -335,10 +339,7 @@ static NSString * const showThreadWithID = @"showThreadWithID";
 }
 
 - (UIImage *)placeholderImage {
-    if (!_placeholderImage) {
-        _placeholderImage = [UIImage imageNamed:@"Icon.png"];
-    }
-    return _placeholderImage;
+    return [UIImage imageNamed:@"iTunesArtwork.png"];
 }
 
 #pragma mark - czzImageDownloaderManagerDelegate

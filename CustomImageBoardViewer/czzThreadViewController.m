@@ -275,7 +275,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
             if (newPageNumber > 0){
                 [self.threadViewManager jumpToPage:newPageNumber];
                 [self updateTableView];
-                [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) self.threadViewManager.pageNumber]
+                [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)newPageNumber]
                                                  position:BannerNotificationPositionTop];
             } else {
                 [czzBannerNotificationUtil displayMessage:@"页码无效..."
@@ -372,11 +372,11 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
                                                                       cancelButtonTitle:@"算了"
                                                                       otherButtonTitles:@"确定", nil];
         [self.confirmCancelMassiveDownloadAlertView show];
-    } else {
+    } else if (self.threadViewManager.totalPages - self.threadViewManager.pageNumber >= 1){
         // Start massive download.
         self.confirmMassiveDownloadAlertView = [[UIAlertView alloc] initWithTitle:@"一键到底!"
                                                                           message:[NSString stringWithFormat:@"将加载%ld页内容,请确认!",
-                                                                                   self.threadViewManager.totalPages - self.threadViewManager.pageNumber]
+                                                                                   (long)(self.threadViewManager.totalPages - self.threadViewManager.pageNumber)]
                                                                          delegate:self
                                                                 cancelButtonTitle:@"取消"
                                                                 otherButtonTitles:@"确定", nil];
@@ -441,10 +441,15 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     }
 }
 
+#pragma mark - Size change.
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [self.threadTableViewManager viewWillTransitionToSize];
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+}
+
 #pragma mark - State perserving and restoration.
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
-    DLog(@"");
     // Save the current thread.
     [coder encodeObject:self.thread forKey:@"thread"];
     [coder encodeObject:[NSValue valueWithCGPoint:self.threadTableView.contentOffset] forKey:@"TableViewContentOffset"];
@@ -452,7 +457,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 - (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
-    DLog(@"");
     [super decodeRestorableStateWithCoder:coder];
     // Restore the thread.
     self.thread = [coder decodeObjectForKey:@"thread"];
@@ -463,7 +467,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 - (void)applicationFinishedRestoringState {
-    DLog(@"");
     if (self.thread) {
         [self commonInit];
     }

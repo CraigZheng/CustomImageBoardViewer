@@ -156,6 +156,7 @@
 		444F5B471A40EA3500EB391F /* 52.png in Resources */ = {isa = PBXBuildFile; fileRef = 444F5B111A40EA3500EB391F /* 52.png */; };
 		444F5B481A40EA3500EB391F /* 53.png in Resources */ = {isa = PBXBuildFile; fileRef = 444F5B121A40EA3500EB391F /* 53.png */; };
 		444F5B491A40EA3500EB391F /* 54.png in Resources */ = {isa = PBXBuildFile; fileRef = 444F5B131A40EA3500EB391F /* 54.png */; };
+		44528D611E138144009D7BE6 /* NSArray+Splitting.m in Sources */ = {isa = PBXBuildFile; fileRef = 44528D601E138144009D7BE6 /* NSArray+Splitting.m */; };
 		4453C07719F634B700A8250F /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4453C07619F634B700A8250F /* Launch Screen.xib */; };
 		445759FE1E01722500B3A941 /* CacheCleaner.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 445759FD1E01722500B3A941 /* CacheCleaner.storyboard */; };
 		44575A001E0172D400B3A941 /* czzCacheCleanerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445759FF1E0172D400B3A941 /* czzCacheCleanerTableViewController.swift */; };
@@ -799,6 +800,8 @@
 		444F5B111A40EA3500EB391F /* 52.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 52.png; sourceTree = "<group>"; };
 		444F5B121A40EA3500EB391F /* 53.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 53.png; sourceTree = "<group>"; };
 		444F5B131A40EA3500EB391F /* 54.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 54.png; sourceTree = "<group>"; };
+		44528D5F1E138144009D7BE6 /* NSArray+Splitting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Splitting.h"; sourceTree = "<group>"; };
+		44528D601E138144009D7BE6 /* NSArray+Splitting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Splitting.m"; sourceTree = "<group>"; };
 		4453C07619F634B700A8250F /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Launch Screen.xib"; path = "../Launch Screen.xib"; sourceTree = "<group>"; };
 		445759FD1E01722500B3A941 /* CacheCleaner.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CacheCleaner.storyboard; sourceTree = "<group>"; };
 		445759FF1E0172D400B3A941 /* czzCacheCleanerTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = czzCacheCleanerTableViewController.swift; sourceTree = "<group>"; };
@@ -2452,6 +2455,8 @@
 				445C66361BBEC3DD004B3E83 /* UIView+Util.h */,
 				445C66371BBEC3DD004B3E83 /* UIView+Util.m */,
 				44BDA3E81DB70BA300D2F576 /* NSUserDefaults+UIColor.swift */,
+				44528D5F1E138144009D7BE6 /* NSArray+Splitting.h */,
+				44528D601E138144009D7BE6 /* NSArray+Splitting.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -3485,6 +3490,7 @@
 				5ADCA46A1938F67F002BA60B /* ValueFormatter.m in Sources */,
 				445B7B5F1B4404810046CFDB /* czzThreadTableViewManager.m in Sources */,
 				44D373251DD8272400C0ADC7 /* UIColor+Hexadecimal.m in Sources */,
+				44528D611E138144009D7BE6 /* NSArray+Splitting.m in Sources */,
 				447E062B1BC2426900D24087 /* czzFavouriteManagerPopUpViewController.m in Sources */,
 				44A294CC1BFDF1430033D438 /* czzWKThread.m in Sources */,
 			);

@@ -41,8 +41,8 @@
 @property (nonatomic, readonly) BOOL tableViewIsDraggedOverTheBottom;
 @property (nonatomic, readonly) BOOL bigImageMode;
 @property (nonatomic, strong) czzMenuEnabledTableViewCell *sizingCell;
-@property (nonatomic, strong) NSMutableOrderedSet *pendingBulkUpdateIndexes;
 @property (nonatomic, strong) NSTimer *bulkUpdateTimer;
+@property (nonatomic, strong) NSMutableDictionary *contentEstimatedHeights;
 
 - (BOOL)tableViewIsDraggedOverTheBottomWithPadding:(CGFloat)padding;
 
@@ -71,7 +71,6 @@
         [[UIMenuController sharedMenuController] update];
         
         self.imageViewerUtil = [czzImageViewerUtil new];
-        self.pendingBulkUpdateIndexes = [NSMutableOrderedSet new];
         [[czzImageDownloaderManager sharedManager] addDelegate:self];
         __weak czzHomeTableViewManager *weakSelf = self;
         [[NSNotificationCenter defaultCenter] addObserverForName:kForumPickedNotification
@@ -96,20 +95,7 @@
 }
 
 - (void)bulkUpdateRows:(id)sender {
-    NSMutableArray *pendingIndexes = [NSMutableArray new];
-    // Find all the pending indexes that are still visible.
-    for (NSIndexPath *cellIndexPath in self.pendingBulkUpdateIndexes) {
-        if ([self.homeTableView.indexPathsForVisibleRows containsObject:cellIndexPath]) {
-            [pendingIndexes addObject:cellIndexPath];
-        }
-    }
-    // Update all the visible pending indexes.
-    if (pendingIndexes.count) {
-        [self.homeTableView reloadRowsAtIndexPaths:pendingIndexes
-                                  withRowAnimation:UITableViewRowAnimationNone];
-    }
-    // Clear pending indexes.
-    [self.pendingBulkUpdateIndexes removeAllObjects];
+    [self.homeTableView reloadData];
 }
 
 #pragma mark - UITableViewDelegate
@@ -204,37 +190,37 @@ estimatedHeightForRowAtIndexPath:indexPath];
     CGFloat estimatedHeight = 44.0;
     if (indexPath.row < self.homeViewManager.threads.count) {
         czzThread *thread = self.homeViewManager.threads[indexPath.row];
-        // Estimated height based on the content.
-        @try {
-            estimatedHeight = [[[NSAttributedString alloc] initWithString:thread.content.string.length ? thread.content.string : @""
-                                                               attributes:@{NSFontAttributeName: settingCentre.contentFont}] boundingRectWithSize:CGSizeMake(CGRectGetWidth(tableView.frame), MAXFLOAT)
-                               options:NSStringDrawingUsesLineFragmentOrigin
-                               context:nil].size.height + 44;
-        } @catch (NSException *exception) {
-            DLog(@"%@", exception);
-        }
-        // Calculate an estimated height based on if an image is available.
-        if (thread.imgSrc.length && settingCentre.shouldDisplayImage) {
-            // If big image mode and has the image, add 75% of the shortest edge to the estimated height.
-            if (self.bigImageMode &&
-                [[czzImageCacheManager sharedInstance] hasImageWithName:thread.imgSrc.lastPathComponent]) {
-                CGSize imageSize = [self getImageSizeWithPath:[[czzImageCacheManager sharedInstance] pathForImageWithName:thread.imgSrc.lastPathComponent]];
-                CGFloat bigImageHeightLimit = CGRectGetHeight(tableView.frame) * 0.75;
-                // If the actual image height is smaller than big image height limit, use the actual height.
-                if (!CGSizeEqualToSize(CGSizeZero, imageSize) && imageSize.height < bigImageHeightLimit) {
-                    estimatedHeight += imageSize.height;
+        if (self.contentEstimatedHeights[@(thread.ID)]) {
+            estimatedHeight = [self.contentEstimatedHeights[@(thread.ID)] floatValue];
+        } else {
+            // Estimated height based on the content.
+            @try {
+                estimatedHeight = [[[NSAttributedString alloc] initWithString:thread.content.string.length ? thread.content.string : @""
+                                                                   attributes:@{NSFontAttributeName: settingCentre.contentFont}] boundingRectWithSize:CGSizeMake(CGRectGetWidth(tableView.frame), MAXFLOAT)
+                                   options:NSStringDrawingUsesLineFragmentOrigin
+                                   context:nil].size.height + 44;
+            } @catch (NSException *exception) {
+                DLog(@"%@", exception);
+            }
+            // Calculate an estimated height based on if an image is available.
+            if (thread.imgSrc.length && settingCentre.shouldDisplayImage) {
+                // If big image mode and has the image, add 75% of the shortest edge to the estimated height.
+                if (self.bigImageMode &&
+                    [[czzImageCacheManager sharedInstance] hasImageWithName:thread.imgSrc.lastPathComponent]) {
+                    CGSize imageSize = [self getImageSizeWithPath:[[czzImageCacheManager sharedInstance] pathForImageWithName:thread.imgSrc.lastPathComponent]];
+                    CGFloat bigImageHeightLimit = CGRectGetHeight(tableView.frame) * 0.75;
+                    // If the actual image height is smaller than big image height limit, use the actual height.
+                    if (!CGSizeEqualToSize(CGSizeZero, imageSize) && imageSize.height < bigImageHeightLimit) {
+                        estimatedHeight += imageSize.height;
+                    } else {
+                        estimatedHeight += bigImageHeightLimit;
+                    }
                 } else {
-                    estimatedHeight += bigImageHeightLimit;
-                }
-            } else {
-                CGSize previewImageSize = [self getImageSizeWithPath:[[czzImageCacheManager sharedInstance] pathForThumbnailWithName:thread.imgSrc.lastPathComponent]];
-                if (!CGSizeEqualToSize(previewImageSize, CGSizeZero)) {
-                    estimatedHeight += previewImageSize.height < 150 ? previewImageSize.height : 150;
-                } else {
-                    // Add the fixed image view size to the estimated height.
-                    estimatedHeight += 36;
+                    estimatedHeight += kCellImageViewHeight;
                 }
             }
+            // Record the newly created estimated height.
+            self.contentEstimatedHeights[@(thread.ID)] = @(estimatedHeight);
         }
     }
     return estimatedHeight;
@@ -455,10 +441,11 @@ estimatedHeightForRowAtIndexPath:indexPath];
                                                               userInfo:nil
                                                                repeats:NO];
     }
-    NSIndexPath *cellIndexPath = [self.homeTableView indexPathForCell:cell];
-    if (cellIndexPath) {
-        [self.pendingBulkUpdateIndexes addObject:cellIndexPath];
-    }
+}
+
+- (void)viewWillTransitionToSize {
+    // Reset the cached estimated heights.
+    self.contentEstimatedHeights = nil;
 }
 
 #pragma mark - czzImageDownloaderManagerDelegate
@@ -539,6 +526,15 @@ estimatedHeightForRowAtIndexPath:indexPath];
         homeTableView.estimatedRowHeight = 80;
         homeTableView.rowHeight = UITableViewAutomaticDimension;
     }
+}
+
+#pragma mark - Getters
+
+- (NSMutableDictionary *)contentEstimatedHeights {
+    if (!_contentEstimatedHeights) {
+        _contentEstimatedHeights = [NSMutableDictionary new];
+    }
+    return _contentEstimatedHeights;
 }
 
 #pragma mark - UIDataSourceModelAssociation
