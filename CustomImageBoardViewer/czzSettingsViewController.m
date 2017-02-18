@@ -308,6 +308,7 @@ static NSString *addMarkerSegue = @"AddMarker";
         [[NSOperationQueue currentQueue] addOperationWithBlock:^{
             [[czzImageCacheManager sharedInstance] removeFullSizeImages];
             [[czzImageCacheManager sharedInstance] removeThumbnails];
+            [[NSURLCache sharedURLCache] removeAllCachedResponses];
             [czzBannerNotificationUtil displayMessage:@"图片管理器已清空" position:BannerNotificationPositionTop];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
         }];
@@ -316,6 +317,7 @@ static NSString *addMarkerSegue = @"AddMarker";
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [[NSOperationQueue currentQueue] addOperationWithBlock:^{
             [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate threadCacheFolder] error:nil];
+            [[NSURLCache sharedURLCache] removeAllCachedResponses];
             [AppDelegate checkFolders];
             [czzBannerNotificationUtil displayMessage:@"串缓存已清空" position:BannerNotificationPositionTop];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
