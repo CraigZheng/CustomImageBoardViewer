@@ -13,6 +13,7 @@
 #define CONFIGURATION_URL @"http://my-realm.com/php/remote_configuration.php"
 
 extern NSString * const settingsChangedNotification;
+extern NSString * const remoteSettingUpdatedNotification;
 extern NSString * const kCacheExpiry;
 
 typedef enum : NSInteger {

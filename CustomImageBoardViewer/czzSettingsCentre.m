@@ -32,6 +32,7 @@ NSString * const kCacheExpiry = @"kCacheExpiry";
 NSString * const kShouldShowImageManagerButton = @"kShouldShowImageManagerButton";
 
 NSString * const settingsChangedNotification = @"settingsChangedNotification";
+NSString * const remoteSettingUpdatedNotification = @"remoteSettingUpdatedNotification";
 
 @interface czzSettingsCentre () <czzURLDownloaderProtocol>
 @property NSTimer *refreshSettingsTimer;
@@ -330,31 +331,8 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
                                             buttonTitle:nil
                                     buttonActionHandler:nil];
             }
-            // Perform a short task to get the notification content when the app is in the foreground.
-            if (self.popup_notification_link.length) {
-                NSURL *notificationURL = [NSURL URLWithString:self.popup_notification_link];
-                if (notificationURL) {
-                    [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:notificationURL]
-                                                       queue:[NSOperationQueue currentQueue]
-                                           completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
-                                               if ([(NSHTTPURLResponse *)response statusCode] == 200 && data) {
-                                                   NSString *jsonString = [[NSString alloc] initWithData:data
-                                                                                                encoding:NSUTF8StringEncoding];
-                                                   czzLaunchPopUpNotification *notification = [[czzLaunchPopUpNotification alloc] initWithJson:jsonString];
-                                                   if (notification) {
-                                                       DLog(@"Notification received from server: %@", jsonString);
-                                                       if ([notification tryShow]) {
-                                                           DLog(@"Should show notification");
-                                                       } else {
-                                                           DLog(@"Don't have to show notification.");
-                                                       }
-                                                   } else {
-                                                       DLog(@"No notification has been received.");
-                                                   }
-                                               }
-                                           }];
-                }
-            }
+            // Notify about the settings updated event.
+            [[NSNotificationCenter defaultCenter] postNotificationName:remoteSettingUpdatedNotification object:nil];
         }
     }
     // Success or not, I need to schedule the periodic refresh.
