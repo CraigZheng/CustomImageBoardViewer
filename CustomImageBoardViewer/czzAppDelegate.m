@@ -75,6 +75,7 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
     settingsCentre = [czzSettingsCentre sharedInstance];
     
     [self checkFolders];
+    [AppLaunchManager shared];
     // Check cookie
     CookieManager;
     // Check watchlist manger.

@@ -58,6 +58,7 @@
 		441E5E4E17F4A9C500289DBD /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5E4D17F4A9C500289DBD /* CoreText.framework */; };
 		441E5E5417F52DEF00289DBD /* czzThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E5E5317F52DEF00289DBD /* czzThreadViewController.m */; };
 		441E6F451DB5C44F005B779B /* czzMarkerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E6F441DB5C44F005B779B /* czzMarkerManager.m */; };
+		4421C1DE1E755D4300BD48C4 /* AppLaunchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4421C1DD1E755D4300BD48C4 /* AppLaunchManager.swift */; };
 		442418E31CA2697100654A74 /* popup notification example.json in Resources */ = {isa = PBXBuildFile; fileRef = 442418E21CA2697100654A74 /* popup notification example.json */; };
 		4424FE4D1BCD33A70096F261 /* czzFadeInOutModalAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4424FE4C1BCD33A70096F261 /* czzFadeInOutModalAnimator.m */; };
 		4425A286199700F000671B88 /* test_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 4425A285199700F000671B88 /* test_image.png */; };
@@ -639,6 +640,7 @@
 		441E6F431DB5C44F005B779B /* czzMarkerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzMarkerManager.h; sourceTree = "<group>"; };
 		441E6F441DB5C44F005B779B /* czzMarkerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzMarkerManager.m; sourceTree = "<group>"; };
 		442066221BE846820023D91F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4421C1DD1E755D4300BD48C4 /* AppLaunchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppLaunchManager.swift; sourceTree = "<group>"; };
 		442418E21CA2697100654A74 /* popup notification example.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "popup notification example.json"; sourceTree = "<group>"; };
 		4424FE4B1BCD33A70096F261 /* czzFadeInOutModalAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFadeInOutModalAnimator.h; sourceTree = "<group>"; };
 		4424FE4C1BCD33A70096F261 /* czzFadeInOutModalAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFadeInOutModalAnimator.m; sourceTree = "<group>"; };
@@ -1439,6 +1441,7 @@
 				442F1FD21B13500C00267698 /* czzAppActivityManager.m */,
 				441E5CDD17F4691300289DBD /* czzAppDelegate.h */,
 				441E5CDE17F4691300289DBD /* czzAppDelegate.m */,
+				4421C1DC1E7559D100BD48C4 /* AppLaunch */,
 				445759FC1E01721000B3A941 /* czzCacheCleanerManager */,
 				44DF8EE01A74D6320097F7F5 /* czzCookieManagerViewController */,
 				44C3454A187E5A8300FDE45D /* czzEmoji */,
@@ -1633,6 +1636,14 @@
 				442066221BE846820023D91F /* GoogleService-Info.plist */,
 			);
 			name = GoogleAnalytic;
+			sourceTree = "<group>";
+		};
+		4421C1DC1E7559D100BD48C4 /* AppLaunch */ = {
+			isa = PBXGroup;
+			children = (
+				4421C1DD1E755D4300BD48C4 /* AppLaunchManager.swift */,
+			);
+			path = AppLaunch;
 			sourceTree = "<group>";
 		};
 		442A900E19DB9BA600A3516E /* Objective-C-HMTL-Parser */ = {
@@ -3422,6 +3433,7 @@
 				442CD0E31851601A0021AD37 /* czzImageDownloader.m in Sources */,
 				440B2FCC17F8057500544926 /* czzPostViewController.m in Sources */,
 				44E469DC1BAC421D00C0AACC /* czzWatchKitManager.m in Sources */,
+				4421C1DE1E755D4300BD48C4 /* AppLaunchManager.swift in Sources */,
 				441E5E5417F52DEF00289DBD /* czzThreadViewController.m in Sources */,
 				441A6A941BB2939C008E380C /* czzRoundButton.m in Sources */,
 				44E2D2DC1B2DB94E0029D783 /* czzThreadListUtilTableViewController.m in Sources */,
