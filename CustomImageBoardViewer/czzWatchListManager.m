@@ -32,7 +32,6 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 @property (nonatomic, strong) czzThreadDownloader *threadDownloader;
 @property (nonatomic, readonly) NSString *watchlistFilePath;
 @property (nonatomic, assign) NSInteger downloadedCount;
-@property (nonatomic, strong) NSDate *lastActiveRefreshTime;
 
 @end
 
@@ -182,10 +181,12 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 -(void)refreshWatchedThreadsWithCompletionHandler:(void (^)(NSArray *))completionHandler {
     if (self.isDownloading) {
         DDLogDebug(@"%@ is downloading, cannot proceed further...", NSStringFromClass(self.class));
+        completionHandler(nil);
         return;
     }
     if (!self.watchedThreads.count) {
         DDLogDebug(@"No currently watched threads, no need to refresh.");
+        completionHandler(nil);
         return;
     }
     DDLogDebug(@"Watchlist manager refreshing watched threads...");

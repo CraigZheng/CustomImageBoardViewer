@@ -19,6 +19,7 @@
 @property (nonatomic, readonly) NSString *updateTitle;
 @property (nonatomic, readonly) NSString *updateContent;
 @property (nonatomic, assign) BOOL isDownloading;
+@property (nonatomic, strong) NSDate *lastActiveRefreshTime;
 @property (readonly, nonatomic) NSString *watchlistFolder;
 
 

@@ -27,9 +27,23 @@ class AppLaunchManager: NSObject {
             }
         }
     }
+    fileprivate var updatedThreads: [czzThread]? {
+        didSet {
+            if let updatedThreads = updatedThreads, !updatedThreads.isEmpty {
+                // TODO: display a popup?
+            }
+        }
+    }
     
     override init() {
         super.init()
+        // Refresh watched threads immediately.
+        czzWatchListManager.shared().lastActiveRefreshTime = Date()
+        czzWatchListManager.shared().refreshWatchedThreads { [weak self] updatedThreads in
+            if let updatedThreads = updatedThreads as? [czzThread] {
+                self?.updatedThreads = updatedThreads
+            }
+        }
         NotificationCenter.default.addObserver(forName: .UIApplicationDidBecomeActive, object: nil, queue: OperationQueue.main) { _ in
             czzWatchListManager.shared().activeRefresh()
         }
