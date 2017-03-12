@@ -13,6 +13,7 @@
 @property (nonatomic, strong) NSDate *notificationDate;
 @property (nonatomic, strong) NSString *notificationContent; // Should be rendered as HTML content.
 @property (nonatomic, assign) Boolean enable;
+@property (nonatomic, readonly) BOOL shouldShow;
 // The last time you showed a notification.
 @property (nonatomic, readonly) NSDate *lastNotificationDisplayTime;
 
@@ -20,7 +21,7 @@
 /**
  Only show when the notification date is larger than the last displayed date.
  */
-- (Boolean)tryShow;
+- (BOOL)tryShow;
 - (void)show;
 - (void)hide;
 @end

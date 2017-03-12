@@ -46,23 +46,10 @@ static NSString * const kLastNotificationDisplayTime = @"kLastNotificationDispla
 
 #pragma mark - Showing - hiding.
 
-- (Boolean)tryShow {
-    Boolean showed = NO;
-    // Compare last show time with the current time.
-    NSDate *date = [[NSUserDefaults standardUserDefaults] objectForKey:kLastNotificationDisplayTime];
-    // If the record date is present, and the notification date is smaller than this record date - don't show.
-    if (date && [self.notificationDate compare:date] == NSOrderedAscending) {
-        // Don't show, since the notificationDate is older than the record date.
-        showed = NO;
-    } else {
-        // Not been show before, show it.
-        showed = YES;
-    }
-//#ifdef DEBUG
-//    showed = YES;
-//#endif
+- (BOOL)tryShow {
+    BOOL shouldShow = [self shouldShow];
     // Only show when the app is running in the foreground.
-    if (showed && self.enable && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+    if (shouldShow) {
         if ([[SlideNavigationController sharedInstance] isMenuOpen]) {
             [[SlideNavigationController sharedInstance] closeMenuWithCompletion:^{
                 [self show];
@@ -70,11 +57,21 @@ static NSString * const kLastNotificationDisplayTime = @"kLastNotificationDispla
         } else {
             [self show];
         }
-        showed = YES;
-    } else {
-        showed = NO;
     }
-    return showed;
+    return shouldShow;
+}
+
+- (BOOL)shouldShow {
+    BOOL shouldShow = NO;
+    NSDate *date = [[NSUserDefaults standardUserDefaults] objectForKey:kLastNotificationDisplayTime];
+    // If the record date is present, and notification date is older than this date - don't show.
+    if (date && [self.notificationDate compare:date] == NSOrderedAscending) {
+        // Don't show, since the notificationDate is older than the record date.
+        shouldShow = NO;
+    } else {
+        shouldShow = self.enable && [UIApplication sharedApplication].applicationState == UIApplicationStateActive;
+    }
+    return shouldShow;
 }
 
 - (void)show {
