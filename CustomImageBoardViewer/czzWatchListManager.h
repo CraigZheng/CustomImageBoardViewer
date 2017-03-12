@@ -25,7 +25,7 @@
 -(void)addToWatchList:(czzThread*)thread;
 -(void)removeFromWatchList:(czzThread*)thread;
 
-- (void)refreshWatchedThreadsInForeground;
+- (void)activeRefresh;
 - (void)refreshWatchedThreadsWithCompletionHandler:(void(^)(NSArray* updatedThreads))completionHandler;
 
 +(instancetype)sharedManager;

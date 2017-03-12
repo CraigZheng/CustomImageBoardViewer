@@ -4,3 +4,4 @@
 #import "czzCacheCleaner.h"
 #import "czzSelectionSelectorViewController.h"
 #import "czzLaunchPopUpNotification.h"
+#import "czzWatchListManager.h"

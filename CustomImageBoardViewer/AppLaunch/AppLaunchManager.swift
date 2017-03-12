@@ -31,7 +31,7 @@ class AppLaunchManager: NSObject {
     override init() {
         super.init()
         NotificationCenter.default.addObserver(forName: .UIApplicationDidBecomeActive, object: nil, queue: OperationQueue.main) { _ in
-            
+            czzWatchListManager.shared().activeRefresh()
         }
         NotificationCenter.default.addObserver(forName: NSNotification.Name.remoteSettingUpdated, object: nil, queue: OperationQueue.main, using: { [weak self] _ in
             self?.isRemoteSettingsUpdated = true

@@ -92,14 +92,7 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 }
 
 - (void)handleApplicationDidBecomeActive:(NSNotification *)notification {
-    // If never actively refresh before, or last active refresh time is 5 minutes ago.
-    if (!self.lastActiveRefreshTime || [[NSDate new] timeIntervalSinceDate:self.lastActiveRefreshTime] > 5 * 60) {
-        // Refresh upon activating.
-        [self refreshWatchedThreadsInForeground];
-        self.lastActiveRefreshTime = [NSDate new];
-        // Start the refresh timer.
-        [self startTimer];
-    }
+    [self startTimer];
 }
 
 - (void)handleApplicationDidEnterBackground:(NSNotification *)notification {
@@ -112,7 +105,7 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
     // Call the refresh method every designated time.
     self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:refreshInterval
                                                          target:self
-                                                       selector:@selector(refreshWatchedThreadsInForeground)
+                                                       selector:@selector(activeRefresh)
                                                        userInfo:nil
                                                         repeats:YES];
 }
@@ -159,9 +152,13 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
 
 #pragma mark - Refresh action
 
-- (void)refreshWatchedThreadsInForeground {
+- (void)activeRefresh {
+    // If the lastActiveRefreshTime is less than 5 minutes ago, return.
+    if (self.lastActiveRefreshTime && [[NSDate new] timeIntervalSinceDate:self.lastActiveRefreshTime] < refreshInterval) {
+        return;
+    }
+    self.lastActiveRefreshTime = [NSDate new];
     [self refreshWatchedThreadsWithCompletionHandler:^(NSArray *updatedThreads) {
-        DDLogDebug(@"%s: %ld threads updated in the foreground.", __PRETTY_FUNCTION__, (long)updatedThreads.count);
         // If updated threads is not empty, inform user by a notification.
         // This notification also allows user to tap on it to go straight to the favourite manager view controller.
         if (updatedThreads.count) {
