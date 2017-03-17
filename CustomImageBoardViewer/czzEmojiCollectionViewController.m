@@ -65,7 +65,8 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
     self.emoPackPickerToolbar.barTintColor = emojiPickerToolbar.barTintColor = [settingCentre barTintColour];
     self.emoPackPickerToolbar.tintColor = emojiPickerToolbar.tintColor = [settingCentre tintColour];
     emojiCollectionView.backgroundColor = [settingCentre barTintColour];
-    
+    // Enable/disable emoPackPicker.
+    [self.emojiSelectorSegmentedControl setEnabled:settingCentre.shouldShowEmoPackPicker forSegmentAtIndex:2];
 }
 
 #pragma mark - UICollectionView datasource
