@@ -87,8 +87,38 @@ static NSString * const zhuizhuiEmoji = @"zhuizhui_emoji";
     self.emojis = nil;
     if (self.emojiSelectorSegmentedControl.selectedSegmentIndex == 0) {
         self.emojiSource = acEmoji;
-    } else {
+    } else if (self.emojiSelectorSegmentedControl.selectedSegmentIndex == 1) {
         self.emojiSource = zhuizhuiEmoji;
+    } else if (self.emojiSelectorSegmentedControl.selectedSegmentIndex == 2) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"选择表情包"
+                                                                                 message:nil
+                                                                          preferredStyle:UIAlertControllerStyleActionSheet];
+        alertController.popoverPresentationController.sourceView = self.emojiSelectorSegmentedControl;
+        alertController.popoverPresentationController.sourceRect = self.emojiSelectorSegmentedControl.frame;
+        [alertController addAction:[UIAlertAction actionWithTitle:@"经典AC"
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * _Nonnull action) {
+                                                              
+                                                          }]];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"新AC"
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * _Nonnull action) {
+                                                              
+                                                          }]];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"AC先锋"
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * _Nonnull action) {
+                                                              
+                                                          }]];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"芦苇娘"
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * _Nonnull action) {
+                                                              
+                                                          }]];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"取消"
+                                                            style:UIAlertActionStyleCancel
+                                                          handler:nil]];
+        [self presentViewController:alertController animated:true completion:nil];
     }
     [emojiCollectionView reloadData];
 }
