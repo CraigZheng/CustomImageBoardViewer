@@ -95,8 +95,16 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
 
 #pragma mark - UICollectionView delegate
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    NSString *emoji = [self.emojis objectAtIndex:indexPath.row];
-    [self.delegate emojiSelected:emoji];
+    if (self.emojiSelectorSegmentedControl.selectedSegmentIndex == emoticonSegmentedControlIndex) {
+        // Emoticon selection.
+        if (indexPath.row <= self.emoPack.count) {
+            [self.delegate emoticonSelected:self.emoPack[indexPath.row]];
+        }
+    } else {
+        // Emoji selection.
+        NSString *emoji = [self.emojis objectAtIndex:indexPath.row];
+        [self.delegate emojiSelected:emoji];
+    }
 }
 
 #pragma mark - UI actions

@@ -10,6 +10,7 @@
 
 @protocol czzEmojiCollectionViewControllerDelegate <NSObject>
 -(void)emojiSelected:(NSString*)emoji;
+-(void)emoticonSelected:(UIImage *)emoticon;
 @end
 
 @interface czzEmojiCollectionViewController : UIViewController
