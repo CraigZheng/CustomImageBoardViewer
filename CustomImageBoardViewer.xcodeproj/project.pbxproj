@@ -333,6 +333,8 @@
 		4421C4081E7BF2DB00BD48C4 /* reed-classic97.png in Resources */ = {isa = PBXBuildFile; fileRef = 4421C2F41E7BF2DA00BD48C4 /* reed-classic97.png */; };
 		4421C4091E7BF2DB00BD48C4 /* reed-classic98.png in Resources */ = {isa = PBXBuildFile; fileRef = 4421C2F51E7BF2DA00BD48C4 /* reed-classic98.png */; };
 		4421C40A1E7BF2DB00BD48C4 /* reed-classic99.png in Resources */ = {isa = PBXBuildFile; fileRef = 4421C2F61E7BF2DA00BD48C4 /* reed-classic99.png */; };
+		4421C40E1E7BFE1D00BD48C4 /* EmoticonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4421C40D1E7BFE1D00BD48C4 /* EmoticonCollectionViewCell.swift */; };
+		4421C40F1E7C02D900BD48C4 /* EmoticonCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4421C40B1E7BFC6900BD48C4 /* EmoticonCollectionViewCell.xib */; };
 		442418E31CA2697100654A74 /* popup notification example.json in Resources */ = {isa = PBXBuildFile; fileRef = 442418E21CA2697100654A74 /* popup notification example.json */; };
 		4424FE4D1BCD33A70096F261 /* czzFadeInOutModalAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4424FE4C1BCD33A70096F261 /* czzFadeInOutModalAnimator.m */; };
 		4425A286199700F000671B88 /* test_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 4425A285199700F000671B88 /* test_image.png */; };
@@ -1186,6 +1188,8 @@
 		4421C2F41E7BF2DA00BD48C4 /* reed-classic97.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-classic97.png"; sourceTree = "<group>"; };
 		4421C2F51E7BF2DA00BD48C4 /* reed-classic98.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-classic98.png"; sourceTree = "<group>"; };
 		4421C2F61E7BF2DA00BD48C4 /* reed-classic99.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-classic99.png"; sourceTree = "<group>"; };
+		4421C40B1E7BFC6900BD48C4 /* EmoticonCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmoticonCollectionViewCell.xib; sourceTree = "<group>"; };
+		4421C40D1E7BFE1D00BD48C4 /* EmoticonCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmoticonCollectionViewCell.swift; sourceTree = "<group>"; };
 		442418E21CA2697100654A74 /* popup notification example.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "popup notification example.json"; sourceTree = "<group>"; };
 		4424FE4B1BCD33A70096F261 /* czzFadeInOutModalAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFadeInOutModalAnimator.h; sourceTree = "<group>"; };
 		4424FE4C1BCD33A70096F261 /* czzFadeInOutModalAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFadeInOutModalAnimator.m; sourceTree = "<group>"; };
@@ -3154,15 +3158,17 @@
 		44C3454A187E5A8300FDE45D /* czzEmoji */ = {
 			isa = PBXGroup;
 			children = (
-				44A1697D1D070546001DF0B3 /* zhuizhui_emoji.txt */,
 				44C3455A187E774300FDE45D /* acfun_emoji_UTF8.txt */,
 				44C3455B187E774300FDE45D /* acfun_emoji_UTF16.txt */,
-				44C34554187E6C6200FDE45D /* sogou_emoji.txt */,
-				44C34556187E6CF000FDE45D /* sougo_emoji_UTF16.txt */,
 				44C3454B187E5C6100FDE45D /* czzEmojiCollectionViewCell.xib */,
 				44C3454D187E616500FDE45D /* czzEmojiCollectionViewController.h */,
 				44C3454E187E616500FDE45D /* czzEmojiCollectionViewController.m */,
 				44C3454F187E616500FDE45D /* czzEmojiCollectionViewController.xib */,
+				4421C40D1E7BFE1D00BD48C4 /* EmoticonCollectionViewCell.swift */,
+				4421C40B1E7BFC6900BD48C4 /* EmoticonCollectionViewCell.xib */,
+				44C34554187E6C6200FDE45D /* sogou_emoji.txt */,
+				44C34556187E6CF000FDE45D /* sougo_emoji_UTF16.txt */,
+				44A1697D1D070546001DF0B3 /* zhuizhui_emoji.txt */,
 			);
 			name = czzEmoji;
 			sourceTree = "<group>";
@@ -3838,6 +3844,7 @@
 				44E791FA1A17856500A63C04 /* settings@3x.png in Resources */,
 				44DF8EFF1A7512730097F7F5 /* checked_user@2x.png in Resources */,
 				4421C3D11E7BF2DA00BD48C4 /* reed-classic47.png in Resources */,
+				4421C40F1E7C02D900BD48C4 /* EmoticonCollectionViewCell.xib in Resources */,
 				44E7920C1A17856500A63C04 /* view@3x.png in Resources */,
 				4421C3691E7BF2DA00BD48C4 /* ac-new64.png in Resources */,
 				444F5B1C1A40EA3500EB391F /* 09.png in Resources */,
@@ -4588,6 +4595,7 @@
 				44CF25751A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.m in Sources */,
 				445C66331BBEC387004B3E83 /* CPLoadFromNibView.m in Sources */,
 				44CF25721A26F2E700BD8228 /* UIButton+Badge.m in Sources */,
+				4421C40E1E7BFE1D00BD48C4 /* EmoticonCollectionViewCell.swift in Sources */,
 				4431419A1A2B5198007D65B3 /* GSIndeterminateProgressView.m in Sources */,
 				44CF25711A26F2E700BD8228 /* UIBarButtonItem+Badge.m in Sources */,
 				5A2B2D8D1936172C00BA2870 /* czzFeedback.m in Sources */,

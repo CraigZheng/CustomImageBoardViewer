@@ -9,9 +9,15 @@
 #import "czzEmojiCollectionViewController.h"
 #import "UIViewController+KNSemiModal.h"
 #import "czzSettingsCentre.h"
+#import "CustomImageBoardViewer-Swift.h"
 
 static NSString * const acEmoji = @"acfun_emoji_UTF8";
 static NSString * const zhuizhuiEmoji = @"zhuizhui_emoji";
+
+static NSString * const emojiCellIdentifier = @"emoji_collection_cell_identifier";
+static NSString * const emoticonCellIdentifier = @"emoticon_collection_view_cell";
+
+static NSInteger const emoticonSegmentedControlIndex = 2;
 
 @interface czzEmojiCollectionViewController ()<UICollectionViewDataSource, UICollectionViewDelegate>
 @property (weak, nonatomic) IBOutlet UISegmentedControl *emojiSelectorSegmentedControl;
@@ -46,7 +52,10 @@ static NSString * const zhuizhuiEmoji = @"zhuizhui_emoji";
     [super viewDidLoad];
     self.emojiSource = acEmoji;
     // Do any additional setup after loading the view from its nib.
-    [self.emojiCollectionView registerNib:[UINib nibWithNibName:@"czzEmojiCollectionViewCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:@"emoji_collection_cell_identifier"];
+    [self.emojiCollectionView registerNib:[UINib nibWithNibName:@"czzEmojiCollectionViewCell" bundle:[NSBundle mainBundle]]
+               forCellWithReuseIdentifier:emojiCellIdentifier];
+    [self.emojiCollectionView registerNib:[UINib nibWithNibName:@"EmoticonCollectionViewCell" bundle:[NSBundle mainBundle]]
+               forCellWithReuseIdentifier:emoticonCellIdentifier];
     
     //colours
     emojiPickerToolbar.barTintColor = [settingCentre barTintColour];
@@ -57,15 +66,23 @@ static NSString * const zhuizhuiEmoji = @"zhuizhui_emoji";
 
 #pragma mark - UICollectionView datasource
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return self.emojis.count;
+    return self.emojiSelectorSegmentedControl.selectedSegmentIndex == emoticonSegmentedControlIndex ? self.emoPack.count : self.emojis.count;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"emoji_collection_cell_identifier" forIndexPath:indexPath];
-    NSString *emoji = [self.emojis objectAtIndex:indexPath.row];
-    if (cell){
-        UILabel *emojiLabel = (UILabel*)[cell viewWithTag:1];
-        emojiLabel.text = emoji;
+    UICollectionViewCell *cell;
+    if (self.emojiSelectorSegmentedControl.selectedSegmentIndex == emoticonSegmentedControlIndex) {
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:emoticonCellIdentifier forIndexPath:indexPath];
+        if ([cell isKindOfClass:[EmoticonCollectionViewCell class]]) {
+            [[(EmoticonCollectionViewCell *)cell iconView] setImage:self.emoPack[indexPath.row]];
+        }
+    } else {
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:emojiCellIdentifier forIndexPath:indexPath];
+        NSString *emoji = [self.emojis objectAtIndex:indexPath.row];
+        if (cell){
+            UILabel *emojiLabel = (UILabel*)[cell viewWithTag:1];
+            emojiLabel.text = emoji;
+        }
     }
     return cell;
 }
@@ -73,7 +90,7 @@ static NSString * const zhuizhuiEmoji = @"zhuizhui_emoji";
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CGFloat quarterWidth = MIN(self.view.frame.size.width / 4, 105);
-    return CGSizeMake(quarterWidth, 50);
+    return CGSizeMake(quarterWidth, 60);
 }
 
 #pragma mark - UICollectionView delegate
@@ -94,7 +111,7 @@ static NSString * const zhuizhuiEmoji = @"zhuizhui_emoji";
         self.emojiSource = acEmoji;
     } else if (self.emojiSelectorSegmentedControl.selectedSegmentIndex == 1) {
         self.emojiSource = zhuizhuiEmoji;
-    } else if (self.emojiSelectorSegmentedControl.selectedSegmentIndex == 2) {
+    } else if (self.emojiSelectorSegmentedControl.selectedSegmentIndex == emoticonSegmentedControlIndex) {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"选择表情包"
                                                                                  message:nil
                                                                           preferredStyle:UIAlertControllerStyleActionSheet];
