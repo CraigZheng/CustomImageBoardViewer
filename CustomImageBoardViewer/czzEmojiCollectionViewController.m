@@ -17,6 +17,11 @@ static NSString * const zhuizhuiEmoji = @"zhuizhui_emoji";
 @property (weak, nonatomic) IBOutlet UISegmentedControl *emojiSelectorSegmentedControl;
 @property NSArray *emojis;
 @property (nonatomic, strong) NSString *emojiSource;
+@property (nonatomic, strong) NSArray<UIImage *> *emoPack;
+@property (nonatomic, strong) NSArray<UIImage *> *classicAC;
+@property (nonatomic, strong) NSArray<UIImage *> *neoAC;
+@property (nonatomic, strong) NSArray<UIImage *> *overwatchAC;
+@property (nonatomic, strong) NSArray<UIImage *> *reedGirl;
 @end
 
 @implementation czzEmojiCollectionViewController
@@ -98,22 +103,26 @@ static NSString * const zhuizhuiEmoji = @"zhuizhui_emoji";
         [alertController addAction:[UIAlertAction actionWithTitle:@"经典AC"
                                                             style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * _Nonnull action) {
-                                                              
+                                                              self.emoPack = self.classicAC;
+                                                              [self.emojiCollectionView reloadData];
                                                           }]];
         [alertController addAction:[UIAlertAction actionWithTitle:@"新AC"
                                                             style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * _Nonnull action) {
-                                                              
+                                                              self.emoPack = self.neoAC;
+                                                              [self.emojiCollectionView reloadData];
                                                           }]];
         [alertController addAction:[UIAlertAction actionWithTitle:@"AC先锋"
                                                             style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * _Nonnull action) {
-                                                              
+                                                              self.emoPack = self.overwatchAC;
+                                                              [self.emojiCollectionView reloadData];
                                                           }]];
         [alertController addAction:[UIAlertAction actionWithTitle:@"芦苇娘"
                                                             style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * _Nonnull action) {
-                                                              
+                                                              self.emoPack = self.reedGirl;
+                                                              [self.emojiCollectionView reloadData];
                                                           }]];
         [alertController addAction:[UIAlertAction actionWithTitle:@"取消"
                                                             style:UIAlertActionStyleCancel
@@ -155,6 +164,45 @@ static NSString * const zhuizhuiEmoji = @"zhuizhui_emoji";
         _emojis = [self readyEmoji];
     }
     return _emojis;
+}
+
+- (NSArray<UIImage *> *)classicAC {
+    if (!_classicAC) {
+        _classicAC = [self emoPackWithFormat:@"ac-classic%ld.png" quantity:54];
+    }
+    return _classicAC;
+}
+
+- (NSArray<UIImage *> *)neoAC {
+    if (!_neoAC) {
+        _neoAC = [self emoPackWithFormat:@"ac-new%ld.png" quantity:95];
+    }
+    return _neoAC;
+}
+
+- (NSArray<UIImage *> *)overwatchAC {
+    if (!_overwatchAC) {
+        _overwatchAC = [self emoPackWithFormat:@"ac-overwatch%ld.gif" quantity:21];
+    }
+    return _overwatchAC;
+}
+
+- (NSArray<UIImage *> *)reedGirl {
+    if (!_reedGirl) {
+        _reedGirl = [self emoPackWithFormat:@"reed-classic%ld.png" quantity:106];
+    }
+    return _reedGirl;
+}
+
+- (NSArray<UIImage *> *)emoPackWithFormat:(NSString *)format quantity:(NSInteger)quantity {
+    NSMutableArray *images = [NSMutableArray new];
+    for (NSInteger i = 1; i <= quantity; i++) {
+        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:format, (long)i]];
+        if (image) {
+            [images addObject:image];
+        }
+    }
+    return images;
 }
 
 @end
