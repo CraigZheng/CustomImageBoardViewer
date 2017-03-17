@@ -11,6 +11,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="czzEmojiCollectionViewController">
             <connections>
+                <outlet property="emoPackPickerSegmentedControl" destination="0Wt-Qr-lSD" id="p7W-m0-7fa"/>
+                <outlet property="emoPackPickerToolbar" destination="jvl-oc-tKv" id="yfi-T4-Z21"/>
+                <outlet property="emoPackPickerToolbarHeightConstraint" destination="ZL0-62-YTU" id="g7S-8N-U0L"/>
                 <outlet property="emojiCollectionView" destination="IPK-Cd-BLT" id="feR-10-ccJ"/>
                 <outlet property="emojiPickerToolbar" destination="QxE-YN-6nl" id="vOS-ON-sVn"/>
                 <outlet property="emojiSelectorSegmentedControl" destination="KJA-5z-dms" id="j7W-T7-cRp"/>
@@ -36,7 +39,7 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="vah-go-1Od"/>
                         <barButtonItem style="plain" id="sY0-AO-itZ">
                             <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="bar" selectedSegmentIndex="0" id="KJA-5z-dms">
-                                <rect key="frame" x="183" y="7" width="121" height="30"/>
+                                <rect key="frame" x="124" y="7" width="180" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title="1"/>
@@ -45,6 +48,30 @@
                                 </segments>
                                 <connections>
                                     <action selector="selectSourceAction:" destination="-1" eventType="valueChanged" id="WQ5-RB-IuW"/>
+                                </connections>
+                            </segmentedControl>
+                        </barButtonItem>
+                    </items>
+                </toolbar>
+                <toolbar hidden="YES" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jvl-oc-tKv" userLabel="EmoPack Selector Toolbar">
+                    <rect key="frame" x="0.0" y="44" width="320" height="0.0"/>
+                    <constraints>
+                        <constraint firstAttribute="height" id="ZL0-62-YTU"/>
+                    </constraints>
+                    <items>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="wej-sU-NNm"/>
+                        <barButtonItem style="plain" id="BF5-fR-JGW">
+                            <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="bar" selectedSegmentIndex="0" id="0Wt-Qr-lSD">
+                                <rect key="frame" x="64" y="-15" width="240" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="芦苇娘"/>
+                                    <segment title="经典AC娘"/>
+                                    <segment title="新AC娘"/>
+                                    <segment title="AC先锋"/>
+                                </segments>
+                                <connections>
+                                    <action selector="emoPackSelectionChanged:" destination="-1" eventType="valueChanged" id="UN7-Fd-h5H"/>
                                 </connections>
                             </segmentedControl>
                         </barButtonItem>
@@ -70,11 +97,14 @@
             <constraints>
                 <constraint firstItem="QxE-YN-6nl" firstAttribute="top" secondItem="1" secondAttribute="top" id="4zM-8q-0M9"/>
                 <constraint firstAttribute="trailing" secondItem="IPK-Cd-BLT" secondAttribute="trailing" id="FTe-St-pBx"/>
+                <constraint firstItem="jvl-oc-tKv" firstAttribute="top" secondItem="QxE-YN-6nl" secondAttribute="bottom" id="KRy-Yx-8Mo"/>
                 <constraint firstAttribute="bottom" secondItem="IPK-Cd-BLT" secondAttribute="bottom" id="M0E-Ed-Sqr"/>
                 <constraint firstAttribute="trailing" secondItem="QxE-YN-6nl" secondAttribute="trailing" id="MBH-UY-ecA"/>
-                <constraint firstItem="IPK-Cd-BLT" firstAttribute="top" secondItem="1" secondAttribute="top" constant="44" id="Rau-5E-Vbx"/>
                 <constraint firstItem="IPK-Cd-BLT" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="SSx-oI-Zws"/>
                 <constraint firstItem="QxE-YN-6nl" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="cNI-Vq-crI"/>
+                <constraint firstItem="jvl-oc-tKv" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="dhF-6c-O8l"/>
+                <constraint firstAttribute="trailing" secondItem="jvl-oc-tKv" secondAttribute="trailing" id="owV-Oz-9pu"/>
+                <constraint firstItem="IPK-Cd-BLT" firstAttribute="top" secondItem="jvl-oc-tKv" secondAttribute="bottom" id="pTr-fS-k43"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>

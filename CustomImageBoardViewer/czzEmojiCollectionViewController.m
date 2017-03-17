@@ -20,7 +20,10 @@ static NSString * const emoticonCellIdentifier = @"emoticon_collection_view_cell
 static NSInteger const emoticonSegmentedControlIndex = 2;
 
 @interface czzEmojiCollectionViewController ()<UICollectionViewDataSource, UICollectionViewDelegate>
+@property (weak, nonatomic) IBOutlet UIToolbar *emoPackPickerToolbar;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *emoPackPickerToolbarHeightConstraint;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *emojiSelectorSegmentedControl;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *emoPackPickerSegmentedControl;
 @property NSArray *emojis;
 @property (nonatomic, strong) NSString *emojiSource;
 @property (nonatomic, strong) NSArray<UIImage *> *emoPack;
@@ -51,6 +54,7 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
 {
     [super viewDidLoad];
     self.emojiSource = acEmoji;
+    self.emoPack = self.reedGirl;
     // Do any additional setup after loading the view from its nib.
     [self.emojiCollectionView registerNib:[UINib nibWithNibName:@"czzEmojiCollectionViewCell" bundle:[NSBundle mainBundle]]
                forCellWithReuseIdentifier:emojiCellIdentifier];
@@ -58,8 +62,8 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
                forCellWithReuseIdentifier:emoticonCellIdentifier];
     
     //colours
-    emojiPickerToolbar.barTintColor = [settingCentre barTintColour];
-    emojiPickerToolbar.tintColor = [settingCentre tintColour];
+    self.emoPackPickerToolbar.barTintColor = emojiPickerToolbar.barTintColor = [settingCentre barTintColour];
+    self.emoPackPickerToolbar.tintColor = emojiPickerToolbar.tintColor = [settingCentre tintColour];
     emojiCollectionView.backgroundColor = [settingCentre barTintColour];
     
 }
@@ -109,6 +113,27 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
 
 #pragma mark - UI actions
 
+- (IBAction)emoPackSelectionChanged:(id)sender {
+    switch (self.emoPackPickerSegmentedControl.selectedSegmentIndex) {
+        case 0:
+            self.emoPack = self.reedGirl;
+            break;
+        case 1:
+            self.emoPack = self.classicAC;
+            break;
+        case 2:
+            self.emoPack = self.neoAC;
+            break;
+        case 3:
+            self.emoPack = self.overwatchAC;
+            break;
+        default:
+            self.emoPack = self.reedGirl;
+            break;
+    }
+    [self.emojiCollectionView reloadData];
+}
+
 - (IBAction)cancelAction:(id)sender {
     [self dismissSemiModalView];
 }
@@ -119,41 +144,10 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
         self.emojiSource = acEmoji;
     } else if (self.emojiSelectorSegmentedControl.selectedSegmentIndex == 1) {
         self.emojiSource = zhuizhuiEmoji;
-    } else if (self.emojiSelectorSegmentedControl.selectedSegmentIndex == emoticonSegmentedControlIndex) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"选择表情包"
-                                                                                 message:nil
-                                                                          preferredStyle:UIAlertControllerStyleActionSheet];
-        alertController.popoverPresentationController.sourceView = self.emojiSelectorSegmentedControl;
-        alertController.popoverPresentationController.sourceRect = self.emojiSelectorSegmentedControl.frame;
-        [alertController addAction:[UIAlertAction actionWithTitle:@"经典AC"
-                                                            style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * _Nonnull action) {
-                                                              self.emoPack = self.classicAC;
-                                                              [self.emojiCollectionView reloadData];
-                                                          }]];
-        [alertController addAction:[UIAlertAction actionWithTitle:@"新AC"
-                                                            style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * _Nonnull action) {
-                                                              self.emoPack = self.neoAC;
-                                                              [self.emojiCollectionView reloadData];
-                                                          }]];
-        [alertController addAction:[UIAlertAction actionWithTitle:@"AC先锋"
-                                                            style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * _Nonnull action) {
-                                                              self.emoPack = self.overwatchAC;
-                                                              [self.emojiCollectionView reloadData];
-                                                          }]];
-        [alertController addAction:[UIAlertAction actionWithTitle:@"芦苇娘"
-                                                            style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * _Nonnull action) {
-                                                              self.emoPack = self.reedGirl;
-                                                              [self.emojiCollectionView reloadData];
-                                                          }]];
-        [alertController addAction:[UIAlertAction actionWithTitle:@"取消"
-                                                            style:UIAlertActionStyleCancel
-                                                          handler:nil]];
-        [self presentViewController:alertController animated:true completion:nil];
     }
+    // Toggle emoPackPickerToolbar/
+    self.emoPackPickerToolbarHeightConstraint.constant = self.emojiSelectorSegmentedControl.selectedSegmentIndex == emoticonSegmentedControlIndex ? 44 : 0;
+    self.emoPackPickerToolbar.hidden = self.emojiSelectorSegmentedControl.selectedSegmentIndex != emoticonSegmentedControlIndex;
     [emojiCollectionView reloadData];
 }
 
