@@ -569,6 +569,11 @@ static CGFloat compressScale = 0.95;
     }];
 }
 
+- (void)emoticonSelected:(UIImage *)emoticon {
+    self.pickedImageData = UIImageJPEGRepresentation(emoticon, 1);
+    [self dismissSemiModalView];
+}
+
 #pragma mark - UIStateRestoring
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
