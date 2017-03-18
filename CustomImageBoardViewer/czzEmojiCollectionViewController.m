@@ -54,7 +54,7 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
 {
     [super viewDidLoad];
     self.emojiSource = acEmoji;
-    self.emoPack = self.reedGirl;
+    self.emoPack = self.classicAC;
     // Do any additional setup after loading the view from its nib.
     [self.emojiCollectionView registerNib:[UINib nibWithNibName:@"czzEmojiCollectionViewCell" bundle:[NSBundle mainBundle]]
                forCellWithReuseIdentifier:emojiCellIdentifier];

@@ -61,7 +61,7 @@
                     <items>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="wej-sU-NNm"/>
                         <barButtonItem style="plain" id="BF5-fR-JGW">
-                            <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="bar" selectedSegmentIndex="0" id="0Wt-Qr-lSD">
+                            <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="bar" selectedSegmentIndex="1" id="0Wt-Qr-lSD">
                                 <rect key="frame" x="64" y="-15" width="240" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <segments>
