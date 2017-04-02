@@ -69,6 +69,7 @@ typedef enum : NSInteger {
 @property (assign, nonatomic) NSInteger long_thread_threshold;
 @property (assign, nonatomic) NSInteger upload_image_pixel_limit;
 @property (assign, nonatomic) BOOL shouldShowEmoPackPicker;
+@property (strong, nonatomic) NSArray<NSNumber *> *ignoredThreadIDs;
 //User settings
 @property (assign, nonatomic) BOOL userDefShouldDisplayThumbnail;
 @property (assign, nonatomic) BOOL userDefShouldShowOnScreenCommand;

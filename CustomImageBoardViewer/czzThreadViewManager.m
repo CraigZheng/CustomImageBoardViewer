@@ -148,6 +148,16 @@ typedef enum : NSUInteger {
     if (downloader.parentThread.ID > 0)
         self.parentThread = downloader.parentThread;
     if (success && threads.count) {
+        // Remove any threads with ignored IDs.
+        for (NSNumber *ignoredID in settingCentre.ignoredThreadIDs) {
+            NSArray *threadsWithIgnoredID = [threads filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"ID == %ld", (long) ignoredID.longValue]];
+            if (threadsWithIgnoredID.count) {
+                NSMutableArray *mutableThreads = threads.mutableCopy;
+                [mutableThreads removeObjectsInArray:threadsWithIgnoredID];
+                threads = mutableThreads;
+            }
+        }
+        
         self.lastBatchOfThreads = threads;
         if (self.threads.count == 0) {
             [self.threads addObjectsFromArray:threads];
