@@ -273,7 +273,12 @@ typedef enum : NSUInteger {
     [aCoder encodeObject:self.parentThread forKey:@"parentThread"];
     [aCoder encodeInteger:self.pageNumber forKey:@"pageNumber"];
     [aCoder encodeInteger:self.totalPages forKey:@"totalPages"];
-    [aCoder encodeObject:self.threads forKey:@"threads"];
+    // When saving threads to cache, remove the ignoredThreads.
+    NSArray * threads = self.threads.copy;
+    for (NSNumber *ignoredID in settingCentre.ignoredThreadIDs) {
+        threads = [threads arrayByRemovingThreadsWithID:ignoredID.integerValue];
+    }
+    [aCoder encodeObject:threads forKey:@"threads"];
     [aCoder encodeObject:self.lastBatchOfThreads forKey:@"lastBatchOfThreads"];
     [aCoder encodeObject:[NSValue valueWithCGPoint:self.currentOffSet] forKey:@"currentOffSet"];
     [aCoder encodeObject:self.forum forKey:@"forum"];
@@ -287,7 +292,12 @@ typedef enum : NSUInteger {
         threadViewManager.parentThread = [aDecoder decodeObjectForKey:@"parentThread"];
         threadViewManager.pageNumber = [aDecoder decodeIntegerForKey:@"pageNumber"];
         threadViewManager.totalPages = [aDecoder decodeIntegerForKey:@"totalPages"];
-        threadViewManager.threads = [aDecoder decodeObjectForKey:@"threads"];
+        // When reading from cache, remove the ignored threads.
+        NSArray *threads = [aDecoder decodeObjectForKey:@"threads"];
+        for (NSNumber *ignoredID in settingCentre.ignoredThreadIDs) {
+            threads = [threads arrayByRemovingThreadsWithID:ignoredID.integerValue];
+        }
+        threadViewManager.threads = threads.mutableCopy;
         threadViewManager.lastBatchOfThreads = [aDecoder decodeObjectForKey:@"lastBatchOfThreads"];
         threadViewManager.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
         threadViewManager.forum = [aDecoder decodeObjectForKey:@"forum"];
