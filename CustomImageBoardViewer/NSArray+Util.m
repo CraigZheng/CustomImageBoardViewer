@@ -6,7 +6,7 @@
 //  Copyright © 2016 Craig. All rights reserved.
 //
 
-#import "NSArray+Splitting.h"
+#import "NSArray+Util.h"
 
 @implementation NSArray (Splitting)
 
@@ -30,4 +30,17 @@
     }
     return arrays;
 }
+@end
+
+@implementation NSArray (RemovingThreads)
+
+- (NSArray *)arrayByRemovingThreadsWithID:(NSInteger)threadID {
+    NSArray *filteredArray = [self filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"ID == %ld", (long) threadID]];
+    NSMutableArray *mutableArray = self.mutableCopy;
+    if (filteredArray.count) {
+        [mutableArray removeObjectsInArray:filteredArray];
+    }
+    return mutableArray;
+}
+
 @end

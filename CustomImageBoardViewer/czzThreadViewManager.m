@@ -13,7 +13,8 @@
 #import "czzThreadDownloader.h"
 #import "czzMassiveThreadDownloader.h"
 #import "czzMarkerManager.h"
-#import "NSArray+Splitting.h"
+#import "NSArray+Util.h"
+#import "CustomImageBoardViewer-Swift.h"
 
 typedef enum : NSUInteger {
     ViewManagerLoadingModeNormal,
@@ -106,38 +107,6 @@ typedef enum : NSUInteger {
     return nil;
 }
 
-#pragma mark - setters
--(void)setParentThread:(czzThread *)thread {
-    if (thread) {
-        _parentThread = thread;
-        self.parentID = [NSString stringWithFormat:@"%ld", (long)self.parentThread.ID];
-        // When setting the parent thread, see if the downloaded parent thread is included in the watchlist manager.
-        // If it is, then update the corresponding thread in watchlist manager.
-        if ([WatchListManager.watchedThreads containsObject:_parentThread]) {
-            DDLogDebug(@"Parent thread is being watched, update Watchlist manager...");
-            // Remove the recorded thread, add the new thread.
-            [WatchListManager removeFromWatchList:_parentThread];
-            [WatchListManager addToWatchList:_parentThread];
-        }
-    }
-}
-
-#pragma mark - getters
-- (NSString *)baseURLString {
-    return [[settingCentre thread_content_host] stringByReplacingOccurrencesOfString:kParentID withString:self.parentID];
-}
-
-- (NSMutableArray *)threads {
-    // Should always include the parent thread.
-    if (!_threads) {
-        _threads = [NSMutableArray new];
-        if (self.parentThread) {
-            [_threads addObject:self.parentThread];
-        }
-    }
-    return _threads;
-}
-
 #pragma mark - czzMassiveThreadDownloaderDelegate
 
 - (void)threadDownloaderCompleted:(czzThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads error:(NSError *)error {
@@ -154,12 +123,7 @@ typedef enum : NSUInteger {
         self.nextPageNumber = threads.count >= settingCentre.response_per_page ? downloader.pageNumber + 1 : self.previousPageNumber;
         // Remove any threads with ignored IDs.
         for (NSNumber *ignoredID in settingCentre.ignoredThreadIDs) {
-            NSArray *threadsWithIgnoredID = [threads filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"ID == %ld", (long) ignoredID.longValue]];
-            if (threadsWithIgnoredID.count) {
-                NSMutableArray *mutableThreads = threads.mutableCopy;
-                [mutableThreads removeObjectsInArray:threadsWithIgnoredID];
-                threads = mutableThreads;
-            }
+            threads = [threads arrayByRemovingThreadsWithID:ignoredID.integerValue];
         }
         
         self.lastBatchOfThreads = threads;
@@ -343,7 +307,37 @@ typedef enum : NSUInteger {
     return nil;
 }
 
-#pragma mark - Getter
+#pragma mark - Setters
+-(void)setParentThread:(czzThread *)thread {
+    if (thread) {
+        _parentThread = thread;
+        self.parentID = [NSString stringWithFormat:@"%ld", (long)self.parentThread.ID];
+        // When setting the parent thread, see if the downloaded parent thread is included in the watchlist manager.
+        // If it is, then update the corresponding thread in watchlist manager.
+        if ([WatchListManager.watchedThreads containsObject:_parentThread]) {
+            DDLogDebug(@"Parent thread is being watched, update Watchlist manager...");
+            // Remove the recorded thread, add the new thread.
+            [WatchListManager removeFromWatchList:_parentThread];
+            [WatchListManager addToWatchList:_parentThread];
+        }
+    }
+}
+
+#pragma mark - Getters
+- (NSString *)baseURLString {
+    return [[settingCentre thread_content_host] stringByReplacingOccurrencesOfString:kParentID withString:self.parentID];
+}
+
+- (NSMutableArray *)threads {
+    // Should always include the parent thread.
+    if (!_threads) {
+        _threads = [NSMutableArray new];
+        if (self.parentThread) {
+            [_threads addObject:self.parentThread];
+        }
+    }
+    return _threads;
+}
 
 - (czzThreadDownloader *)downloader {
     if (!_downloader) {

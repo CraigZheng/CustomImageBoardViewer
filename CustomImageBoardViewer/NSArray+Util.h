@@ -7,7 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "czzThread.h"
 
 @interface NSArray (Splitting)
 -(NSArray *)arraysBySplittingWithSize:(NSUInteger)size;
+@end
+
+@interface NSArray<czzThread> (RemovingThreads)
+- (NSArray<czzThread> *)arrayByRemovingThreadsWithID:(NSInteger)threadID;
+
 @end
