@@ -27,6 +27,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) czzMassiveThreadDownloader *massiveDownloader;
 @property (nonatomic, assign) ViewManagerLoadingMode loadingMode;
 @property (nonatomic, assign) NSInteger nextPageNumber;
+@property (nonatomic, strong) NSMutableArray *pagedThreads;
 @end
 
 @implementation czzThreadViewManager
@@ -209,6 +210,7 @@ typedef enum : NSUInteger {
     self.totalPages = self.pageNumber = 1;
     self.nextPageNumber = 0;
     self.threads = self.cachedThreads = nil;
+    self.pagedThreads = [NSMutableArray new];
     self.pageNumberChanged = NO;
     self.loadingMode = ViewManagerLoadingModeNormal;
 }
@@ -298,6 +300,8 @@ typedef enum : NSUInteger {
             threads = [threads arrayByRemovingThreadsWithID:ignoredID.integerValue];
         }
         threadViewManager.threads = threads.mutableCopy;
+        // Remove parent threads, then split the rest with appropriate size.
+        threadViewManager.pagedThreads = [[threads arrayByRemovingThreadsWithID:threadViewManager.parentThread.ID] arrayByRemovingThreadsWithID:settingCentre.response_per_page].mutableCopy;
         threadViewManager.lastBatchOfThreads = [aDecoder decodeObjectForKey:@"lastBatchOfThreads"];
         threadViewManager.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
         threadViewManager.forum = [aDecoder decodeObjectForKey:@"forum"];
