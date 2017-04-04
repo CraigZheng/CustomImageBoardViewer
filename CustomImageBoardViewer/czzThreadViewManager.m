@@ -25,6 +25,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) NSInteger previousPageNumber;
 @property (nonatomic, strong) czzMassiveThreadDownloader *massiveDownloader;
 @property (nonatomic, assign) ViewManagerLoadingMode loadingMode;
+@property (nonatomic, assign) NSInteger nextPageNumber;
 @end
 
 @implementation czzThreadViewManager
@@ -148,6 +149,9 @@ typedef enum : NSUInteger {
     if (downloader.parentThread.ID > 0)
         self.parentThread = downloader.parentThread;
     if (success && threads.count) {
+        // If the downloaded threads array has enough threads to fill a page, increase the nextPageNumber by 1,
+        // otherwise set it back to the pageNumber that was in the previous request.
+        self.nextPageNumber = threads.count >= settingCentre.response_per_page ? downloader.pageNumber + 1 : self.previousPageNumber;
         // Remove any threads with ignored IDs.
         for (NSNumber *ignoredID in settingCentre.ignoredThreadIDs) {
             NSArray *threadsWithIgnoredID = [threads filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"ID == %ld", (long) ignoredID.longValue]];
@@ -239,6 +243,7 @@ typedef enum : NSUInteger {
 #pragma mark - content managements.
 - (void)reset {
     self.totalPages = self.pageNumber = 1;
+    self.nextPageNumber = 0;
     self.threads = self.cachedThreads = nil;
     self.pageNumberChanged = NO;
     self.loadingMode = ViewManagerLoadingModeNormal;
@@ -277,10 +282,8 @@ typedef enum : NSUInteger {
 
 - (void)loadMoreThreads {
     // Determine whether or nor I should +1 to the given pageNumber.
-    // If the downloaded response can be % by response_per_page, that means all is OK.
-    NSInteger remainder = (self.threads.count - 1) % settingCentre.response_per_page;
-    if (remainder == 0) {
-        [self loadMoreThreads:self.pageNumber + 1];
+    if (self.nextPageNumber > self.pageNumber) {
+        [self loadMoreThreads:self.nextPageNumber];
     } else {
         [self loadMoreThreads:self.pageNumber];
     }
