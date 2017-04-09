@@ -8,6 +8,8 @@
 
 import Foundation
 
+import SwiftMessages
+
 class AppLaunchManager: NSObject {
     static var shared = AppLaunchManager()
     static let eventCompleted = "AppLaunchManagerEventCompleted"
@@ -28,28 +30,29 @@ class AppLaunchManager: NSObject {
             }
         }
     }
-    fileprivate var updatedThreads: [czzThread]? {
-        didSet {
-            if let updatedThreads = updatedThreads, !updatedThreads.isEmpty {
-                // TODO: display a popup?
-            }
-        }
-    }
     
     override init() {
         super.init()
         // Refresh watched threads immediately.
         czzWatchListManager.shared().lastActiveRefreshTime = Date()
         czzWatchListManager.shared().refreshWatchedThreads { [weak self] updatedThreads in
-            if let updatedThreads = updatedThreads as? [czzThread] {
-                self?.updatedThreads = updatedThreads
+            guard let strongSelf = self else { return }
+            // If the newly refreshed watched threads are not empty.
+            if !(updatedThreads ?? []).isEmpty {
+                
             }
-        }
-        NotificationCenter.default.addObserver(forName: .UIApplicationDidBecomeActive, object: nil, queue: OperationQueue.main) { _ in
-            czzWatchListManager.shared().activeRefresh()
         }
         NotificationCenter.default.addObserver(forName: NSNotification.Name.remoteSettingUpdated, object: nil, queue: OperationQueue.main, using: { [weak self] _ in
             self?.isRemoteSettingsUpdated = true
         })
+        // Handle event completed notifications.
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(AppLaunchManager.handleEventCompleted(notification:)),
+                                               name: NSNotification.Name(rawValue: AppLaunchManager.eventCompleted),
+                                               object: nil)
+    }
+    
+    @objc fileprivate func handleEventCompleted(notification: NSNotification) {
+        
     }
 }

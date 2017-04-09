@@ -76,7 +76,7 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
     
     [self checkFolders];
     [AppLaunchManager shared];
-    // Check cookie
+    // Check cookie.
     CookieManager;
     // Check watchlist manger.
         
