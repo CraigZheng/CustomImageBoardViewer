@@ -10,6 +10,7 @@
 
 #import "UIApplication+Util.h"
 #import "czzLaunchPopUpNotificationViewController.h"
+#import "CustomImageBoardViewer-Swift.h"
 
 static NSString * const kLastNotificationDisplayTime = @"kLastNotificationDisplayTime";
 
@@ -57,6 +58,8 @@ static NSString * const kLastNotificationDisplayTime = @"kLastNotificationDispla
         } else {
             [self show];
         }
+    } else {
+        [NSNotificationCenter.defaultCenter postNotificationName:AppLaunchManager.eventCompleted object:nil];
     }
     return shouldShow;
 }
@@ -83,6 +86,9 @@ static NSString * const kLastNotificationDisplayTime = @"kLastNotificationDispla
     // Show time!
     czzLaunchPopUpNotificationViewController *popUpViewController = [[UIStoryboard storyboardWithName:@"LaunchPopUpNotification"
                                                                       bundle:[NSBundle mainBundle]] instantiateInitialViewController];
+    popUpViewController.completionHandler = ^{
+        [NSNotificationCenter.defaultCenter postNotificationName:AppLaunchManager.eventCompleted object:nil];
+    };
     UIViewController *rootViewController = [UIApplication rootViewController];
     UIViewController *presentedViewController = rootViewController.presentedViewController;
     if (presentedViewController) {

@@ -10,6 +10,7 @@ import Foundation
 
 class AppLaunchManager: NSObject {
     static var shared = AppLaunchManager()
+    static let eventCompleted = "AppLaunchManagerEventCompleted"
     
     fileprivate var isRemoteSettingsUpdated = false {
         didSet {
