@@ -96,6 +96,7 @@ NSString * const remoteSettingUpdatedNotification = @"remoteSettingUpdatedNotifi
         self.threadTextSize = TextSizeDefault;
         self.cacheExpiry = CacheExpiryNever;
         self.shouldShowImageManagerButton = YES;
+        self.ignoredThreadIDs = [NSArray new];
         
         donationLink = @"";
         threads_per_page = 10;
@@ -298,6 +299,16 @@ NSString * const remoteSettingUpdatedNotification = @"remoteSettingUpdatedNotifi
         self.long_thread_threshold = [[jsonObject objectForKey:@"long_thread_threshold"] integerValue];
         self.reply_post_placeholder = [jsonObject objectForKey:@"reply_post_placeholder"];
         self.shouldShowEmoPackPicker = [[jsonObject objectForKey:@"shouldShowEmoPackPicker"] boolValue];
+        NSArray *ignoredThreadIDs = [jsonObject objectForKey:@"ignored_thread_ids"];
+        if (ignoredThreadIDs.count) {
+            NSMutableArray *threadIDs = [NSMutableArray new];
+            for (NSObject *threadID in ignoredThreadIDs) {
+                if ([threadID isKindOfClass:[NSNumber class]]) {
+                    [threadIDs addObject:threadID];
+                }
+            }
+            self.ignoredThreadIDs = threadIDs;
+        }
         if ([jsonObject objectForKey:@"upload_image_pixel_limit"]) {
             self.upload_image_pixel_limit = [[jsonObject objectForKey:@"upload_image_pixel_limit"] integerValue];
         }

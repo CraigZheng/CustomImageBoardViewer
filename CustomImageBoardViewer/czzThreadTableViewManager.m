@@ -160,13 +160,11 @@
         return;
     }
     NSIndexPath *selectedIndexPath;
-    // Use a for loop to find the thread with the given ID.
-    for (czzThread *thread in self.threadViewManager.threads) {
-        if (threadID == thread.ID) {
-            selectedIndexPath = [NSIndexPath indexPathForRow:[self.threadViewManager.threads indexOfObject:thread]
-                                                   inSection:0];
-            break;
-        }
+    // Using NSPredicate to get an array of threads with the given number.
+    NSArray *filteredThreads = [self.threadViewManager.threads filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"ID == %ld", (long) threadID]];
+    if (filteredThreads.firstObject) {
+        selectedIndexPath = [NSIndexPath indexPathForRow:[self.threadViewManager.threads indexOfObject:filteredThreads.firstObject]
+                                               inSection:0];
     }
     if (selectedIndexPath && selectedIndexPath.row < self.threadViewManager.threads.count) {
         czzThread *selectedThread = [self.threadViewManager.threads objectAtIndex:selectedIndexPath.row];
