@@ -30,6 +30,11 @@ static NSString * const kLastConfirmedNotificationTime = @"kLastConfirmedNotific
 }
 
 #pragma mark - UI actions.
+- (IBAction)switchValueChanged:(id)sender {
+    if (self.confirmSwitch.isOn) {
+        [self tapOnBackgroundAction:sender];
+    }
+}
 
 - (IBAction)tapOnBackgroundAction:(id)sender {
     [self dismissViewControllerAnimated:YES
@@ -37,8 +42,10 @@ static NSString * const kLastConfirmedNotificationTime = @"kLastConfirmedNotific
                                  if (self.completionHandler) {
                                      self.completionHandler();
                                  }
-                                 [[NSUserDefaults standardUserDefaults] setObject:self.popUpNotification.notificationDate forKey:kLastConfirmedNotificationTime];
-                                 [[NSUserDefaults standardUserDefaults] synchronize];
+                                 if (self.confirmSwitch.isOn) {
+                                     [[NSUserDefaults standardUserDefaults] setObject:self.popUpNotification.notificationDate forKey:kLastConfirmedNotificationTime];
+                                     [[NSUserDefaults standardUserDefaults] synchronize];
+                                 }
                              }];
 }
 

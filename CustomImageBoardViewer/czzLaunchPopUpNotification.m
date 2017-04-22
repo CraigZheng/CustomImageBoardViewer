@@ -28,7 +28,7 @@
             if ([[jsonDict objectForKey:@"date"] isKindOfClass:[NSString class]]) {
                 dateString = [jsonDict objectForKey:@"date"];
             } else if ([[jsonDict objectForKey:@"date"] isKindOfClass:[NSNumber class]]) {
-                dateString = [NSString stringWithFormat:@"%ld", (long)[[jsonDict objectForKey:@"date"] integerValue]];
+                dateString = [[jsonDict objectForKey:@"date"] stringValue];
             }
             NSDate *date = [formatter dateFromString:dateString];
             self.notificationDate = date;

@@ -24,7 +24,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8bz-h4-Sqp">
-                                <rect key="frame" x="16" y="167" width="343" height="333.5"/>
+                                <rect key="frame" x="16" y="167" width="343" height="334"/>
                                 <color key="backgroundColor" red="0.28958413004875183" green="0.31462949514389038" blue="0.32950475811958313" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="delegate" destination="CwY-mY-4Xh" id="mNj-ub-rxY"/>
@@ -35,6 +35,9 @@
                                 <subviews>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="4iz-AT-O5N">
                                         <rect key="frame" x="286" y="8" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="switchValueChanged:" destination="CwY-mY-4Xh" eventType="valueChanged" id="cd2-wF-kG2"/>
+                                        </connections>
                                     </switch>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我知道了" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4cL-lZ-fQ9">
                                         <rect key="frame" x="208" y="13" width="70" height="21"/>
@@ -42,15 +45,25 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vGF-nR-mSm" userLabel="Horizontal Separator">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="1"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="gnu-n8-wDd"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="vGF-nR-mSm" firstAttribute="leading" secondItem="BRt-RI-w90" secondAttribute="leading" id="0hx-39-LYj"/>
                                     <constraint firstItem="4iz-AT-O5N" firstAttribute="leading" secondItem="4cL-lZ-fQ9" secondAttribute="trailing" constant="8" id="3aQ-e9-KcE"/>
                                     <constraint firstAttribute="trailing" secondItem="4iz-AT-O5N" secondAttribute="trailing" constant="8" id="C0i-ZC-BUQ"/>
                                     <constraint firstItem="4cL-lZ-fQ9" firstAttribute="centerY" secondItem="4iz-AT-O5N" secondAttribute="centerY" id="IRd-ae-SIv"/>
+                                    <constraint firstAttribute="trailing" secondItem="vGF-nR-mSm" secondAttribute="trailing" id="X6z-Bl-nDY"/>
                                     <constraint firstAttribute="bottom" secondItem="4iz-AT-O5N" secondAttribute="bottom" constant="8" id="Xhq-ln-Vjn"/>
                                     <constraint firstItem="4cL-lZ-fQ9" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="BRt-RI-w90" secondAttribute="leading" constant="8" id="adW-68-A8L"/>
                                     <constraint firstItem="4iz-AT-O5N" firstAttribute="top" secondItem="BRt-RI-w90" secondAttribute="top" constant="8" id="cm2-pW-OEz"/>
+                                    <constraint firstItem="vGF-nR-mSm" firstAttribute="top" secondItem="BRt-RI-w90" secondAttribute="top" id="jpH-Py-SBK"/>
                                 </constraints>
                             </view>
                         </subviews>
