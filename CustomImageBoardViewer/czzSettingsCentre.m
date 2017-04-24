@@ -12,6 +12,7 @@
 #import "czzAppDelegate.h"
 #import "czzURLDownloader.h"
 #import "czzLaunchPopUpNotification.h"
+#import "czzLaunchPopUpNotificationViewController.h"
 #import <Google/Analytics.h>
 #import <UIKit/UIKit.h>
 
@@ -344,14 +345,10 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
                                                                                                 encoding:NSUTF8StringEncoding];
                                                    czzLaunchPopUpNotification *notification = [[czzLaunchPopUpNotification alloc] initWithJson:jsonString];
                                                    if (notification) {
-                                                       DLog(@"Notification received from server: %@", jsonString);
-                                                       if ([notification tryShow]) {
-                                                           DLog(@"Should show notification");
-                                                       } else {
-                                                           DLog(@"Don't have to show notification.");
-                                                       }
-                                                   } else {
-                                                       DLog(@"No notification has been received.");
+                                                       czzLaunchPopUpNotificationViewController *popUpViewController = [[UIStoryboard storyboardWithName:@"LaunchPopUpNotification"
+                                                                                                                                                  bundle:[NSBundle mainBundle]] instantiateInitialViewController];
+                                                       popUpViewController.popUpNotification = notification;
+                                                       [popUpViewController tryShow];
                                                    }
                                                }
                                            }];

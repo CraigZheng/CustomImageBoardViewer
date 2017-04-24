@@ -17,10 +17,4 @@
 @property (nonatomic, readonly) NSDate *lastNotificationDisplayTime;
 
 - (instancetype)initWithJson:(NSString *)json;
-/**
- Only show when the notification date is larger than the last displayed date.
- */
-- (Boolean)tryShow;
-- (void)show;
-- (void)hide;
 @end
