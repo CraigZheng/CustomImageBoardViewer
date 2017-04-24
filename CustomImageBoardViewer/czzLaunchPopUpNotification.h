@@ -13,8 +13,7 @@
 @property (nonatomic, strong) NSDate *notificationDate;
 @property (nonatomic, strong) NSString *notificationContent; // Should be rendered as HTML content.
 @property (nonatomic, assign) Boolean enable;
-// The last time you showed a notification.
-@property (nonatomic, readonly) NSDate *lastNotificationDisplayTime;
+@property (nonatomic, strong) NSString* identifier;
 
 - (instancetype)initWithJson:(NSString *)json;
 @end
