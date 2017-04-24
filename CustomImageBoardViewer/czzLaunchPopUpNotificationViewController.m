@@ -68,7 +68,7 @@ static NSString * const kLastConfirmedNotificationKey = @"kLastConfirmedNotifica
 - (Boolean)tryShow {
     Boolean shouldShow = NO;
     NSString *confirmedNotificationIdentifier = [[NSUserDefaults standardUserDefaults] objectForKey:kLastConfirmedNotificationKey];
-    // If the notification date is older than the current date, don't show.
+    // If the notification identifier has already been confirmed by the user, don't show.
     if ([self.popUpNotification.notificationDate compare:[NSDate new]] == NSOrderedAscending) {
         shouldShow = NO;
     } else {
