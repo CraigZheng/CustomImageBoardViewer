@@ -10,6 +10,7 @@
 
 @interface czzLaunchPopUpNotificationViewController () <UIWebViewDelegate>
 @property (weak, nonatomic) IBOutlet UIWebView *notificationWebView;
+@property (weak, nonatomic) IBOutlet UISwitch *confirmSwitch;
 
 @end
 
@@ -31,6 +32,9 @@
                              completion:^{
                                  if (self.completionHandler) {
                                      self.completionHandler();
+                                 }
+                                 if ([self.delegate respondsToSelector:@selector(notificationViewController:dismissedWithConfirmation:)]) {
+                                     [self.delegate notificationViewController:self dismissedWithConfirmation:self.confirmSwitch.isOn];
                                  }
                              }];
 }
