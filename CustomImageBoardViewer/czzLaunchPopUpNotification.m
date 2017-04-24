@@ -11,7 +11,11 @@
 #import "UIApplication+Util.h"
 #import "czzLaunchPopUpNotificationViewController.h"
 
-static NSString * const kLastNotificationDisplayTime = @"kLastNotificationDisplayTime";
+static NSString * const kLastNotificationDisplayTime = @"kLastNotificationDisplayTime"; // Time when the notification was displayed.
+static NSString * const kLastDisplayedNotificationTime = @"kLastDisplayedNotificationTime"; // Time of the last notification.
+
+@interface czzLaunchPopUpNotification() <czzLaunchPopUpNotificationViewControllerDelegate>
+@end
 
 @implementation czzLaunchPopUpNotification
 
@@ -86,6 +90,7 @@ static NSString * const kLastNotificationDisplayTime = @"kLastNotificationDispla
     // Show time!
     czzLaunchPopUpNotificationViewController *popUpViewController = [[UIStoryboard storyboardWithName:@"LaunchPopUpNotification"
                                                                       bundle:[NSBundle mainBundle]] instantiateInitialViewController];
+    popUpViewController.delegate = self;
     UIViewController *rootViewController = [UIApplication rootViewController];
     UIViewController *presentedViewController = rootViewController.presentedViewController;
     if (presentedViewController) {
@@ -109,6 +114,12 @@ static NSString * const kLastNotificationDisplayTime = @"kLastNotificationDispla
         [[UIApplication rootViewController] dismissViewControllerAnimated:YES
                                                                completion:nil];
     }
+}
+
+#pragma mark - czzLaunchPopUpNotificationViewControllerDelegate
+
+- (void)notificationViewController:(czzLaunchPopUpNotificationViewController *)viewController dismissedWithConfirmation:(BOOL)confirmed {
+    
 }
 
 @end
