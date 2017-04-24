@@ -10,7 +10,7 @@
 
 #import "czzLaunchPopUpNotification.h"
 
-static NSString * const kLastConfirmedNotificationTime = @"kLastConfirmedNotificationTime"; // Time of the last notification, used as an identifier.
+static NSString * const kLastConfirmedNotificationKey = @"kLastConfirmedNotificationKey"; // Identifier of the last notification that the user confirmed has been viewed.
 
 @interface czzLaunchPopUpNotificationViewController () <UIWebViewDelegate>
 @property (weak, nonatomic) IBOutlet UIWebView *notificationWebView;
@@ -43,7 +43,8 @@ static NSString * const kLastConfirmedNotificationTime = @"kLastConfirmedNotific
                                      self.completionHandler();
                                  }
                                  if (self.confirmSwitch.isOn) {
-                                     [[NSUserDefaults standardUserDefaults] setObject:self.popUpNotification.notificationDate forKey:kLastConfirmedNotificationTime];
+                                     [[NSUserDefaults standardUserDefaults] setObject:self.popUpNotification.identifier
+                                                                               forKey:kLastConfirmedNotificationKey];
                                      [[NSUserDefaults standardUserDefaults] synchronize];
                                  }
                              }];
@@ -66,7 +67,7 @@ static NSString * const kLastConfirmedNotificationTime = @"kLastConfirmedNotific
 
 - (Boolean)tryShow {
     Boolean shouldShow = NO;
-    NSDate *confirmedDate = [[NSUserDefaults standardUserDefaults] objectForKey:kLastConfirmedNotificationTime];
+    NSString *confirmedNotificationIdentifier = [[NSUserDefaults standardUserDefaults] objectForKey:kLastConfirmedNotificationKey];
     // If the notification date is older than the current date, don't show.
     if ([self.popUpNotification.notificationDate compare:[NSDate new]] == NSOrderedAscending) {
         shouldShow = NO;
@@ -74,7 +75,7 @@ static NSString * const kLastConfirmedNotificationTime = @"kLastConfirmedNotific
         // notificationDate is still valid.
         shouldShow = YES;
         // If user has acknowledged that he wishes to see this notification no more, don't display it.
-        if (confirmedDate && [self.popUpNotification.notificationDate timeIntervalSince1970] == [confirmedDate timeIntervalSince1970]) {
+        if (confirmedNotificationIdentifier.length && [self.popUpNotification.identifier isEqualToString:confirmedNotificationIdentifier]) {
             shouldShow = NO;
         }
     }
