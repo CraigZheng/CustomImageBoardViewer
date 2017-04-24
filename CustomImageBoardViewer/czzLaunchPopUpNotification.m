@@ -12,7 +12,7 @@
 #import "czzLaunchPopUpNotificationViewController.h"
 
 static NSString * const kLastNotificationDisplayTime = @"kLastNotificationDisplayTime"; // Time when the notification was displayed.
-static NSString * const kLastDisplayedNotificationTime = @"kLastDisplayedNotificationTime"; // Time of the last notification.
+static NSString * const kLastConfirmedNotificationTime = @"kLastConfirmedNotificationTime"; // Time of the last notification, used as an identifier.
 
 @interface czzLaunchPopUpNotification() <czzLaunchPopUpNotificationViewControllerDelegate>
 @end
@@ -51,22 +51,24 @@ static NSString * const kLastDisplayedNotificationTime = @"kLastDisplayedNotific
 #pragma mark - Showing - hiding.
 
 - (Boolean)tryShow {
-    Boolean showed = NO;
+    Boolean shouldShow = NO;
     // Compare last show time with the current time.
     NSDate *date = [[NSUserDefaults standardUserDefaults] objectForKey:kLastNotificationDisplayTime];
+    NSDate *confirmedDate = [[NSUserDefaults standardUserDefaults] objectForKey:kLastConfirmedNotificationTime];
     // If the record date is present, and the notification date is smaller than this record date - don't show.
     if (date && [self.notificationDate compare:date] == NSOrderedAscending) {
         // Don't show, since the notificationDate is older than the record date.
-        showed = NO;
+        shouldShow = NO;
     } else {
-        // Not been show before, show it.
-        showed = YES;
+        // notificationDate is still valid.
+        shouldShow = YES;
+        // If user has acknowledged that he wishes to see this notification no more, don't display it.
+        if (confirmedDate && [self.notificationDate timeIntervalSince1970] == [confirmedDate timeIntervalSince1970]) {
+            shouldShow = NO;
+        }
     }
-//#ifdef DEBUG
-//    showed = YES;
-//#endif
     // Only show when the app is running in the foreground.
-    if (showed && self.enable && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+    if (shouldShow && self.enable && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
         if ([[SlideNavigationController sharedInstance] isMenuOpen]) {
             [[SlideNavigationController sharedInstance] closeMenuWithCompletion:^{
                 [self show];
@@ -74,11 +76,11 @@ static NSString * const kLastDisplayedNotificationTime = @"kLastDisplayedNotific
         } else {
             [self show];
         }
-        showed = YES;
+        shouldShow = YES;
     } else {
-        showed = NO;
+        shouldShow = NO;
     }
-    return showed;
+    return shouldShow;
 }
 
 - (void)show {
@@ -119,7 +121,11 @@ static NSString * const kLastDisplayedNotificationTime = @"kLastDisplayedNotific
 #pragma mark - czzLaunchPopUpNotificationViewControllerDelegate
 
 - (void)notificationViewController:(czzLaunchPopUpNotificationViewController *)viewController dismissedWithConfirmation:(BOOL)confirmed {
-    
+    if (confirmed) {
+        // User confirmed that the notification is viewed.
+        [[NSUserDefaults standardUserDefaults] setObject:self.notificationDate forKey:kLastConfirmedNotificationTime];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
 }
 
 @end
