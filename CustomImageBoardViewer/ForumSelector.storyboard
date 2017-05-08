@@ -53,9 +53,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="119.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WNV-7P-kLI" userLabel="Forums Table View">
+                                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WNV-7P-kLI" userLabel="Forums Table View">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="119"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <view key="tableFooterView" contentMode="scaleToFill" id="yvl-C7-MQG" userLabel="Tableview Footer View">
+                                                        <rect key="frame" x="0.0" y="72" width="375" height="1"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    </view>
                                                     <prototypes>
                                                         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="forum_cell_identifier" textLabel="SBm-95-0N0" style="IBUITableViewCellStyleDefault" id="VG2-0J-rHz" userLabel="Forums Cell">
                                                             <rect key="frame" x="0.0" y="28" width="375" height="44"/>
@@ -183,6 +188,7 @@
                     <size key="freeformSize" width="375" height="667"/>
                     <connections>
                         <outlet property="forumsSegmentedControl" destination="49n-pI-HnB" id="otv-sB-8J9"/>
+                        <outlet property="forumsTableView" destination="WNV-7P-kLI" id="vRA-mf-djO"/>
                         <outlet property="forumsTableViewManager" destination="2Wc-1B-rWF" id="1t1-Or-1iQ"/>
                     </connections>
                 </tableViewController>

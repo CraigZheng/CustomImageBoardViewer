@@ -34,6 +34,7 @@ typedef enum : NSUInteger {
 
 @interface czzForumsViewController () <UITableViewDataSource, UITableViewDelegate, czzPopularThreadsManagerDelegate, czzAddForumTableViewControllerProtocol>
 @property (strong, nonatomic) IBOutlet ForumsTableViewManager *forumsTableViewManager;
+@property (weak, nonatomic) IBOutlet UITableView *forumsTableView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *forumsSegmentedControl;
 @property NSDate *lastAdUpdateTime;
 @property NSTimeInterval adUpdateInterval;
@@ -128,13 +129,14 @@ typedef enum : NSUInteger {
 -(void)refreshForums{
     [self startLoading];
     [self.forumManager updateForums:^(BOOL success, NSError *error) {
-        [self.tableView reloadData];
-        [self stopLoading];
         if (!success || error) {
             [self showWarning];
         } else {
             self.forumsTableViewManager.forumGroups = self.forumManager.forumGroups;
         }
+        [self.forumsTableView reloadData];
+        [self.tableView reloadData];
+        [self stopLoading];
     }];
 }
 
