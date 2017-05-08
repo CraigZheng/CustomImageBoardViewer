@@ -319,7 +319,7 @@ static NSInteger const watchlistManagerLimit = 8; // It might take longer than t
                 break;
             }
         }
-        NSString *updateContent = [NSString stringWithFormat:@"%ld个新回复：%@", (long)self.updatedThreads.count, contentSummary];
+        NSString *updateContent = [NSString stringWithFormat:@"%ld个串有新回复：%@", (long)self.updatedThreads.count, contentSummary];
         return updateContent;
     }
     return @"";
