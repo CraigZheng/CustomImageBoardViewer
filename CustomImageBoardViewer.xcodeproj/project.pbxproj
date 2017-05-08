@@ -437,6 +437,7 @@
 		4453C07719F634B700A8250F /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4453C07619F634B700A8250F /* Launch Screen.xib */; };
 		4459A3661DFFA61700C196C1 /* Stickers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4459A3651DFFA61700C196C1 /* Stickers.xcassets */; };
 		4459A36A1DFFA61700C196C1 /* AC-emoticon.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4459A3631DFFA61700C196C1 /* AC-emoticon.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		445A15041EC088EF004C146D /* ForumsTableViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445A15031EC088EF004C146D /* ForumsTableViewManager.swift */; };
 		445B7B531B418CBE0046CFDB /* czzThreadTableViewCommandCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 445B7B521B418CBE0046CFDB /* czzThreadTableViewCommandCellTableViewCell.xib */; };
 		445B7B561B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 445B7B551B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.m */; };
 		445B7B591B418F020046CFDB /* czzThreadTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 445B7B581B418F020046CFDB /* czzThreadTableView.m */; };
@@ -1357,6 +1358,7 @@
 		4459A3631DFFA61700C196C1 /* AC-emoticon.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "AC-emoticon.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4459A3651DFFA61700C196C1 /* Stickers.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Stickers.xcassets; sourceTree = "<group>"; };
 		4459A3671DFFA61700C196C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		445A15031EC088EF004C146D /* ForumsTableViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForumsTableViewManager.swift; sourceTree = "<group>"; };
 		445B7B521B418CBE0046CFDB /* czzThreadTableViewCommandCellTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzThreadTableViewCommandCellTableViewCell.xib; sourceTree = "<group>"; };
 		445B7B541B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadTableViewCommandCellTableViewCell.h; sourceTree = "<group>"; };
 		445B7B551B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadTableViewCommandCellTableViewCell.m; sourceTree = "<group>"; };
@@ -2071,6 +2073,7 @@
 				440B2FC517F7DB7800544926 /* czzForumsViewController.h */,
 				440B2FC617F7DB7800544926 /* czzForumsViewController.m */,
 				44989A2B1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.h */,
+				445A15031EC088EF004C146D /* ForumsTableViewManager.swift */,
 				44989A2C1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m */,
 				44989A2F1CFC699B00F04ECD /* czzThreadSuggestionTableViewCell.h */,
 				44989A301CFC699B00F04ECD /* czzThreadSuggestionTableViewCell.m */,
@@ -4513,6 +4516,7 @@
 				440B2FC717F7DB7800544926 /* czzForumsViewController.m in Sources */,
 				442CD0E718517BED0021AD37 /* czzImageCacheManager.m in Sources */,
 				44BE2E3A19383FEF00601943 /* czzOnScreenCommandViewController.m in Sources */,
+				445A15041EC088EF004C146D /* ForumsTableViewManager.swift in Sources */,
 				4412FA151935865800681438 /* Reachability.m in Sources */,
 				5A26E77F1939AA6300B709C9 /* czzNotification.m in Sources */,
 				440DA7B41CF7D1F80078266B /* czzBigImageModeTableViewCell.m in Sources */,

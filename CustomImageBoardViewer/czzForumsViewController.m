@@ -21,10 +21,19 @@
 #import "czzCustomForumTableViewManager.h"
 #import "czzAddForumTableViewController.h"
 
+#import "CustomImageBoardViewer-Swift.h"
+
 NSString * const kForumPickedNotification = @"ForumNamePicked";
 NSString * const kPickedForum = @"PickedForum";
 
+typedef enum : NSUInteger {
+    AdvertisementSection = 0,
+    ForumSection = 1,
+    CustomForumSection = 2
+} SectionType;
+
 @interface czzForumsViewController () <UITableViewDataSource, UITableViewDelegate, czzPopularThreadsManagerDelegate, czzAddForumTableViewControllerProtocol>
+@property (strong, nonatomic) IBOutlet ForumsTableViewManager *forumsTableViewManager;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *forumsSegmentedControl;
 @property NSDate *lastAdUpdateTime;
 @property NSTimeInterval adUpdateInterval;
@@ -63,6 +72,7 @@ NSString * const kPickedForum = @"PickedForum";
      setTitleTextAttributes:@{NSForegroundColorAttributeName : self.navigationController.navigationBar.tintColor}];
     
     self.forumManager = [czzForumManager sharedManager];
+    self.forumsTableViewManager.forumGroups = self.forumManager.forumGroups;
     // Reload the forum view when notification from settings centre is received.
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleSettingsChangedNotification)
@@ -122,6 +132,8 @@ NSString * const kPickedForum = @"PickedForum";
         [self stopLoading];
         if (!success || error) {
             [self showWarning];
+        } else {
+            self.forumsTableViewManager.forumGroups = self.forumManager.forumGroups;
         }
     }];
 }
@@ -151,123 +163,99 @@ NSString * const kPickedForum = @"PickedForum";
 
 #pragma mark -  UITableViewDataSource, UITableViewDelegate
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    if (!self.forumManager.forumGroups.count)
-        return 1;
-    return self.forumManager.forumGroups.count;
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (!self.forumManager.forumGroups.count)
-        return 1;
-    czzForumGroup *forumGroup = [self.forumManager.forumGroups objectAtIndex:section];
-    if (section == 0)
-    {
-        return forumGroup.forums.count + 1;
-    }
-    return forumGroup.forums.count;
-}
-
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    if (self.forumManager.forumGroups.count == 0){
-        return nil;
-    }
-    czzForumGroup *forumGroup = [self.forumManager.forumGroups objectAtIndex:section];
-    return forumGroup.area;
-    
-}
+//-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+//    if (!self.forumManager.forumGroups.count)
+//        return 1;
+//    return self.forumManager.forumGroups.count;
+//}
+//
+//-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+//    if (!self.forumManager.forumGroups.count)
+//        return 1;
+//    czzForumGroup *forumGroup = [self.forumManager.forumGroups objectAtIndex:section];
+//    if (section == 0)
+//    {
+//        return forumGroup.forums.count + 1;
+//    }
+//    return forumGroup.forums.count;
+//}
+//
+//-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+//    if (self.forumManager.forumGroups.count == 0){
+//        return nil;
+//    }
+//    czzForumGroup *forumGroup = [self.forumManager.forumGroups objectAtIndex:section];
+//    return forumGroup.area;
+//    
+//}
 
 #pragma UITableView delegate
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSString *cell_identifier = @"forum_cell_identifier";
-    if (!self.forumManager.forumGroups.count){
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"no_service_cell_identifier"];
-        return cell;
-    }
-    czzForumGroup *forumGroup = [self.forumManager.forumGroups objectAtIndex:indexPath.section];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier];
-    if (cell){
-        if (indexPath.row < forumGroup.forums.count) {
-            UILabel *titleLabel = (UILabel*)[cell viewWithTag:1];
-            titleLabel.textColor = [settingCentre contentTextColour];
-            czzForum *forum = forumGroup.forums[indexPath.row];
-            NSString *displayName = forum.screenName.length ? forum.screenName : forum.name;
-            @try {
-                // Render the displayName as HTML, if anything goes wrong, set it as plain text instead.
-                NSMutableAttributedString *attributedDisplayName = [[NSMutableAttributedString alloc] initWithData: [displayName dataUsingEncoding:NSUTF8StringEncoding]
-                                                                                                           options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
-                                                                                                                     NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
-                                                                                                documentAttributes:nil
-                                                                                                             error:nil];
-                [attributedDisplayName addAttribute:NSFontAttributeName
-                                              value:titleLabel.font
-                                              range:NSMakeRange(0, attributedDisplayName.length)];
-                // If nighty mode, the colour should be changed as well.
-                if (settingCentre.userDefNightyMode) {
-                    [attributedDisplayName addAttribute:NSForegroundColorAttributeName
-                                                  value:settingCentre.contentTextColour
-                                                  range:NSMakeRange(0, attributedDisplayName.length)];
-                }
-                titleLabel.attributedText = attributedDisplayName;
-            } @catch (NSException *exception) {
-                DLog(@"%@", exception);
-                titleLabel.text = displayName;
-            }
-        } else {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"ad_cell_identifier" forIndexPath:indexPath];
-            //position of the ad
-            if (!bannerView_.superview) {
-                [self refreshAd];
-            }
-            if (!shouldHideCoverView) {
-                //the cover view
-                if (adCoverView.superview) {
-                    [adCoverView removeFromSuperview];
-                }
-                adCoverView = [[UIView alloc] initWithFrame:bannerView_.frame];
-                adCoverView.backgroundColor = [UIColor whiteColor];
-                UILabel *tapMeLabel = [[UILabel alloc] initWithFrame:adCoverView.frame];
-                tapMeLabel.text = @"点我，我是广告";
-                tapMeLabel.textAlignment = NSTextAlignmentCenter;
-                tapMeLabel.userInteractionEnabled = NO;
-                [adCoverView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissCoverView)]];
-                [adCoverView addSubview:tapMeLabel];
-                [cell.contentView addSubview:bannerView_];
-                [cell.contentView addSubview:adCoverView];
-            }
-        }
-    }
-    //background colour - nighty mode enable
-    cell.backgroundColor = [settingCentre viewBackgroundColour];
-    return cell;
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (!self.forumManager.forumGroups.count){
-        [self refreshForums];
-        [self refreshPopularThreads];
-        return;
-    }
-    if (self.forumManager.forumGroups.count == 0)
-        return;
-    czzForumGroup *forumGroup = [self.forumManager.forumGroups objectAtIndex:indexPath.section];
-    if (indexPath.row >= forumGroup.forums.count)
-        return;
-    czzForum *forum = [forumGroup.forums objectAtIndex:indexPath.row];
-    [[SlideNavigationController sharedInstance] closeMenuWithCompletion:nil];
-    //POST a local notification to inform other view controllers that a new forum is picked
-    NSMutableDictionary *userInfo = [NSMutableDictionary new];
-    [userInfo setObject:forum forKey:kPickedForum];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kForumPickedNotification object:self userInfo:userInfo];
-    
-}
+//-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    NSString *cell_identifier = @"forum_cell_identifier";
+//    if (!self.forumManager.forumGroups.count){
+//        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"no_service_cell_identifier"];
+//        return cell;
+//    }
+//    czzForumGroup *forumGroup = [self.forumManager.forumGroups objectAtIndex:indexPath.section];
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier];
+//    if (cell){
+//        if (indexPath.row < forumGroup.forums.count) {
+//            UILabel *titleLabel = (UILabel*)[cell viewWithTag:1];
+//            titleLabel.textColor = [settingCentre contentTextColour];
+//            czzForum *forum = forumGroup.forums[indexPath.row];
+//            NSString *displayName = forum.screenName.length ? forum.screenName : forum.name;
+//            @try {
+//                // Render the displayName as HTML, if anything goes wrong, set it as plain text instead.
+//                NSMutableAttributedString *attributedDisplayName = [[NSMutableAttributedString alloc] initWithData: [displayName dataUsingEncoding:NSUTF8StringEncoding]
+//                                                                                                           options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+//                                                                                                                     NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
+//                                                                                                documentAttributes:nil
+//                                                                                                             error:nil];
+//                [attributedDisplayName addAttribute:NSFontAttributeName
+//                                              value:titleLabel.font
+//                                              range:NSMakeRange(0, attributedDisplayName.length)];
+//                // If nighty mode, the colour should be changed as well.
+//                if (settingCentre.userDefNightyMode) {
+//                    [attributedDisplayName addAttribute:NSForegroundColorAttributeName
+//                                                  value:settingCentre.contentTextColour
+//                                                  range:NSMakeRange(0, attributedDisplayName.length)];
+//                }
+//                titleLabel.attributedText = attributedDisplayName;
+//            } @catch (NSException *exception) {
+//                DLog(@"%@", exception);
+//                titleLabel.text = displayName;
+//            }
+//        } else {
+//            cell = [tableView dequeueReusableCellWithIdentifier:@"ad_cell_identifier" forIndexPath:indexPath];
+//            //position of the ad
+//            if (!bannerView_.superview) {
+//                [self refreshAd];
+//            }
+//            if (!shouldHideCoverView) {
+//                //the cover view
+//                if (adCoverView.superview) {
+//                    [adCoverView removeFromSuperview];
+//                }
+//                adCoverView = [[UIView alloc] initWithFrame:bannerView_.frame];
+//                adCoverView.backgroundColor = [UIColor whiteColor];
+//                UILabel *tapMeLabel = [[UILabel alloc] initWithFrame:adCoverView.frame];
+//                tapMeLabel.text = @"点我，我是广告";
+//                tapMeLabel.textAlignment = NSTextAlignmentCenter;
+//                tapMeLabel.userInteractionEnabled = NO;
+//                [adCoverView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissCoverView)]];
+//                [adCoverView addSubview:tapMeLabel];
+//                [cell.contentView addSubview:bannerView_];
+//                [cell.contentView addSubview:adCoverView];
+//            }
+//        }
+//    }
+//    //background colour - nighty mode enable
+//    cell.backgroundColor = [settingCentre viewBackgroundColour];
+//    return cell;
+//}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    //ad cell
-    if (indexPath.section == 0 && indexPath.row == [self.forumManager.forumGroups.lastObject forums].count) {
-        return bannerView_.bounds.size.height;
-    }
-    return 44;
+    return self.forumManager.forums.count * 44;
 }
 
 #pragma mark - UI actions.

@@ -1,0 +1,51 @@
+//
+//  czzForumsTableViewManager.swift
+//  CustomImageBoardViewer
+//
+//  Created by Craig Zheng on 8/5/17.
+//  Copyright © 2017 Craig. All rights reserved.
+//
+
+import UIKit
+
+import iOS_Slide_Menu
+
+class ForumsTableViewManager: NSObject {
+    var forumGroups: [czzForumGroup] = []
+}
+
+extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
+    
+    private struct CellIdentifier {
+        static let forum = "forum_cell_identifier"
+    }
+    
+    private struct Notification {
+        static let pickedForum = "ForumNamePicked"
+        static let forum = "PickedForum"
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let forumCell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.forum, for: indexPath)
+        if let forum = forumGroups[indexPath.section].forums[indexPath.row] as? czzForum {
+            forumCell.textLabel?.text = !forum.screenName.isEmpty ? forum.screenName : forum.name
+        }
+        return forumCell
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return forumGroups[section].forums.count
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return forumGroups.count
+    }
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        SlideNavigationController.sharedInstance().closeMenu(completion: nil)
+        if let forum = forumGroups[indexPath.section].forums[indexPath.row] as? czzForum {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: Notification.pickedForum), object: nil, userInfo: [Notification.forum: forum])
+        }
+    }
+}
