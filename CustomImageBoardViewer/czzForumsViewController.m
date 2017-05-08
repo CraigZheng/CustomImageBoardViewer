@@ -192,72 +192,48 @@ typedef enum : NSUInteger {
 //}
 
 #pragma UITableView delegate
-//-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    NSString *cell_identifier = @"forum_cell_identifier";
-//    if (!self.forumManager.forumGroups.count){
-//        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"no_service_cell_identifier"];
-//        return cell;
-//    }
-//    czzForumGroup *forumGroup = [self.forumManager.forumGroups objectAtIndex:indexPath.section];
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier];
-//    if (cell){
-//        if (indexPath.row < forumGroup.forums.count) {
-//            UILabel *titleLabel = (UILabel*)[cell viewWithTag:1];
-//            titleLabel.textColor = [settingCentre contentTextColour];
-//            czzForum *forum = forumGroup.forums[indexPath.row];
-//            NSString *displayName = forum.screenName.length ? forum.screenName : forum.name;
-//            @try {
-//                // Render the displayName as HTML, if anything goes wrong, set it as plain text instead.
-//                NSMutableAttributedString *attributedDisplayName = [[NSMutableAttributedString alloc] initWithData: [displayName dataUsingEncoding:NSUTF8StringEncoding]
-//                                                                                                           options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
-//                                                                                                                     NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
-//                                                                                                documentAttributes:nil
-//                                                                                                             error:nil];
-//                [attributedDisplayName addAttribute:NSFontAttributeName
-//                                              value:titleLabel.font
-//                                              range:NSMakeRange(0, attributedDisplayName.length)];
-//                // If nighty mode, the colour should be changed as well.
-//                if (settingCentre.userDefNightyMode) {
-//                    [attributedDisplayName addAttribute:NSForegroundColorAttributeName
-//                                                  value:settingCentre.contentTextColour
-//                                                  range:NSMakeRange(0, attributedDisplayName.length)];
-//                }
-//                titleLabel.attributedText = attributedDisplayName;
-//            } @catch (NSException *exception) {
-//                DLog(@"%@", exception);
-//                titleLabel.text = displayName;
-//            }
-//        } else {
-//            cell = [tableView dequeueReusableCellWithIdentifier:@"ad_cell_identifier" forIndexPath:indexPath];
-//            //position of the ad
-//            if (!bannerView_.superview) {
-//                [self refreshAd];
-//            }
-//            if (!shouldHideCoverView) {
-//                //the cover view
-//                if (adCoverView.superview) {
-//                    [adCoverView removeFromSuperview];
-//                }
-//                adCoverView = [[UIView alloc] initWithFrame:bannerView_.frame];
-//                adCoverView.backgroundColor = [UIColor whiteColor];
-//                UILabel *tapMeLabel = [[UILabel alloc] initWithFrame:adCoverView.frame];
-//                tapMeLabel.text = @"点我，我是广告";
-//                tapMeLabel.textAlignment = NSTextAlignmentCenter;
-//                tapMeLabel.userInteractionEnabled = NO;
-//                [adCoverView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissCoverView)]];
-//                [adCoverView addSubview:tapMeLabel];
-//                [cell.contentView addSubview:bannerView_];
-//                [cell.contentView addSubview:adCoverView];
-//            }
-//        }
-//    }
-//    //background colour - nighty mode enable
-//    cell.backgroundColor = [settingCentre viewBackgroundColour];
-//    return cell;
-//}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    switch (indexPath.section) {
+        case AdvertisementSection:
+            if (!bannerView_.superview) {
+                [self refreshAd];
+            }
+            if (!shouldHideCoverView) {
+                //the cover view
+                if (adCoverView.superview) {
+                    [adCoverView removeFromSuperview];
+                }
+                adCoverView = [[UIView alloc] initWithFrame:bannerView_.frame];
+                adCoverView.backgroundColor = [UIColor whiteColor];
+                UILabel *tapMeLabel = [[UILabel alloc] initWithFrame:adCoverView.frame];
+                tapMeLabel.text = @"点我，我是广告";
+                tapMeLabel.textAlignment = NSTextAlignmentCenter;
+                tapMeLabel.userInteractionEnabled = NO;
+                [adCoverView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissCoverView)]];
+                [adCoverView addSubview:tapMeLabel];
+                [cell.contentView addSubview:bannerView_];
+                [cell.contentView addSubview:adCoverView];
+            }
+            break;
+        default:
+            break;
+    }
+    cell.backgroundColor = [settingCentre viewBackgroundColour];
+    return cell;
+}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return self.forumManager.forums.count * 44;
+    switch (indexPath.section) {
+        case AdvertisementSection:
+            return CGRectGetHeight(bannerView_.frame);
+            break;
+        case ForumSection:
+            return self.forumManager.forums.count * 44;
+        default:
+            return 44;
+            break;
+    }
 }
 
 #pragma mark - UI actions.

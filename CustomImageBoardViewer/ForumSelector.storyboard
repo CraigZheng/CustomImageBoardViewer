@@ -39,15 +39,36 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="Y5q-Nf-wAG" userLabel="TableView Footer View">
-                            <rect key="frame" x="0.0" y="302" width="375" height="1"/>
+                            <rect key="frame" x="0.0" y="454" width="375" height="1"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <sections>
+                            <tableViewSection id="CgR-GR-iXh" userLabel="Advertisement Section">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ad_cell_identifier" textLabel="0q0-hN-pN0" rowHeight="50" style="IBUITableViewCellStyleDefault" id="3pH-Gw-8AI" userLabel="Advertisement Cell">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3pH-Gw-8AI" id="RiZ-4c-CNb">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0q0-hN-pN0">
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="49.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection id="7Cu-Bm-wNY" userLabel="Forums Section">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="120" id="eOf-fw-Wqe" userLabel="Forums Table View Cell">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
+                                        <rect key="frame" x="0.0" y="50" width="375" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eOf-fw-Wqe" id="p7v-Jv-ffD">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="119.5"/>
@@ -94,52 +115,18 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="threadSuggestionTableViewCellIdentifier" id="J1Y-Os-c4T" customClass="czzThreadSuggestionTableViewCell">
-                                        <rect key="frame" x="0.0" y="120" width="375" height="44"/>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection id="Xbb-jp-dAA" userLabel="Custom Forums Section">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="customForumManagerCell" textLabel="ntq-yn-9Or" style="IBUITableViewCellStyleDefault" id="igW-iM-OpY" userLabel="Manager Custom Forums Cell">
+                                        <rect key="frame" x="0.0" y="170" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="J1Y-Os-c4T" id="vqo-LM-0Jd">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ad_cell_identifier" rowHeight="50" id="hfX-WX-rm7">
-                                        <rect key="frame" x="0.0" y="164" width="375" height="50"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hfX-WX-rm7" id="e4T-mR-q0o">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="no_service_cell_identifier" id="hvP-yO-eCR">
-                                        <rect key="frame" x="0.0" y="214" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hvP-yO-eCR" id="LvO-kn-ndj">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="igW-iM-OpY" id="aCY-n9-K2F">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="无法接上服务器，点击以刷新" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7hP-mh-VRT">
-                                                    <rect key="frame" x="20" y="11" width="335" height="22"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                    <color key="textColor" red="1" green="0.57347453749999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="7hP-mh-VRT" firstAttribute="top" secondItem="LvO-kn-ndj" secondAttribute="top" constant="11" id="6xg-DU-cEe"/>
-                                                <constraint firstAttribute="trailing" secondItem="7hP-mh-VRT" secondAttribute="trailing" constant="20" id="Amx-3b-Yvh"/>
-                                                <constraint firstItem="7hP-mh-VRT" firstAttribute="leading" secondItem="LvO-kn-ndj" secondAttribute="leading" constant="20" id="nu4-48-a9M"/>
-                                                <constraint firstAttribute="bottom" secondItem="7hP-mh-VRT" secondAttribute="bottom" constant="11" id="rkP-Hh-DSa"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="customForumManagerCell" textLabel="EJF-dE-oMk" style="IBUITableViewCellStyleDefault" id="hBz-nb-NdS">
-                                        <rect key="frame" x="0.0" y="258" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hBz-nb-NdS" id="kdq-K3-WWy">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="管理自定义板块" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EJF-dE-oMk">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="管理自定义板块" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ntq-yn-9Or">
                                                     <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -147,6 +134,106 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="120" id="3GF-pP-XfW" userLabel="Forums Table View Cell">
+                                        <rect key="frame" x="0.0" y="214" width="375" height="120"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3GF-pP-XfW" id="rc4-N0-zfS">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="119.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="r6h-o3-Nnu" userLabel="Forums Table View">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="119"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <view key="tableFooterView" contentMode="scaleToFill" id="xRw-9D-GGo" userLabel="Tableview Footer View">
+                                                        <rect key="frame" x="0.0" y="72" width="375" height="1"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    </view>
+                                                    <prototypes>
+                                                        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="forum_cell_identifier" textLabel="zvE-B0-LQL" style="IBUITableViewCellStyleDefault" id="tP2-sh-bOF" userLabel="Forums Cell">
+                                                            <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tP2-sh-bOF" id="0M3-ny-M24">
+                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Forum" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zvE-B0-LQL">
+                                                                        <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                                                        <autoresizingMask key="autoresizingMask"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                        <nil key="textColor"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                </subviews>
+                                                            </tableViewCellContentView>
+                                                        </tableViewCell>
+                                                    </prototypes>
+                                                    <connections>
+                                                        <outlet property="dataSource" destination="2Wc-1B-rWF" id="1Hn-O1-oBw"/>
+                                                        <outlet property="delegate" destination="2Wc-1B-rWF" id="yGy-ft-Eix"/>
+                                                    </connections>
+                                                </tableView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="r6h-o3-Nnu" secondAttribute="trailing" id="ONZ-3o-k4l"/>
+                                                <constraint firstAttribute="bottom" secondItem="r6h-o3-Nnu" secondAttribute="bottom" id="TuO-KP-8wX"/>
+                                                <constraint firstItem="r6h-o3-Nnu" firstAttribute="top" secondItem="rc4-N0-zfS" secondAttribute="top" id="bbc-dS-eWA"/>
+                                                <constraint firstItem="r6h-o3-Nnu" firstAttribute="leading" secondItem="rc4-N0-zfS" secondAttribute="leading" id="u6l-0d-HUE"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection id="HF1-12-3Ja" userLabel="Thread Suggestion Section">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="120" id="igT-vh-HJI" userLabel="Forums Table View Cell">
+                                        <rect key="frame" x="0.0" y="334" width="375" height="120"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="igT-vh-HJI" id="LlY-aI-O1W">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="119.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="V1V-G0-jmk" userLabel="Forums Table View">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="119"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <view key="tableFooterView" contentMode="scaleToFill" id="zog-Dj-a8c" userLabel="Tableview Footer View">
+                                                        <rect key="frame" x="0.0" y="72" width="375" height="1"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    </view>
+                                                    <prototypes>
+                                                        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="forum_cell_identifier" textLabel="tOt-2Q-0Wp" style="IBUITableViewCellStyleDefault" id="L0f-Yz-lOX" userLabel="Forums Cell">
+                                                            <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="L0f-Yz-lOX" id="5lV-sp-vnF">
+                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Forum" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tOt-2Q-0Wp">
+                                                                        <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                                                        <autoresizingMask key="autoresizingMask"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                        <nil key="textColor"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                </subviews>
+                                                            </tableViewCellContentView>
+                                                        </tableViewCell>
+                                                    </prototypes>
+                                                    <connections>
+                                                        <outlet property="dataSource" destination="2Wc-1B-rWF" id="A5k-tM-Evx"/>
+                                                        <outlet property="delegate" destination="2Wc-1B-rWF" id="9Ny-LZ-GkP"/>
+                                                    </connections>
+                                                </tableView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="V1V-G0-jmk" secondAttribute="bottom" id="6U2-OV-eSS"/>
+                                                <constraint firstItem="V1V-G0-jmk" firstAttribute="top" secondItem="LlY-aI-O1W" secondAttribute="top" id="6wQ-aU-kkr"/>
+                                                <constraint firstAttribute="trailing" secondItem="V1V-G0-jmk" secondAttribute="trailing" id="CDf-Ld-t5n"/>
+                                                <constraint firstItem="V1V-G0-jmk" firstAttribute="leading" secondItem="LlY-aI-O1W" secondAttribute="leading" id="cw6-DX-2li"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
