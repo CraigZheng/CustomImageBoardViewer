@@ -9,10 +9,12 @@
 #import "CPLoadFromNibView.h"
 #import "czzThread.h"
 
+IB_DESIGNABLE
 @interface czzThreadViewCellHeaderView : CPLoadFromNibView
 
 @property (strong, nonatomic) czzThread *thread;
 @property (strong, nonatomic) NSString *parentUID;
-@property (assign, nonatomic) BOOL shouldHighLight;
+@property (strong, nonatomic) UIColor *highlightColour;
+@property (strong, nonatomic) NSString *nickname;
 
 @end

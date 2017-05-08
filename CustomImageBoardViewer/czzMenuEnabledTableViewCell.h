@@ -13,15 +13,13 @@
 #define THREAD_VIEW_CELL_MARGIN 4 * 2
 
 #define THREAD_TABLE_VLEW_CELL_NIB_NAME @"czzThreadViewTableViewCell"
-//#define BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER @"thread_big_image_cell_identifier"
 #define THREAD_VIEW_CELL_IDENTIFIER @"thread_cell_identifier"
 
 #import <UIKit/UIKit.h>
 #import "czzThread.h"
+#import "czzImageDownloaderManager.h"
 
-extern NSInteger const fixedConstraintConstant;
-extern NSInteger const veryHightConstraintPriority;
-extern NSInteger const veryLowConstraintPriority;
+extern NSInteger kCellImageViewHeight;
 
 typedef NS_ENUM(NSInteger, threadViewCellType) {
     threadViewCellTypeHome = 1,
@@ -29,29 +27,37 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
     threadViewCellTypeUndefined = 0
 };
 
-@class czzMenuEnabledTableViewCell;
+@class czzMenuEnabledTableViewCell, czzThreadViewCellHeaderView, czzThreadViewCellFooterView;
 
 @protocol czzMenuEnabledTableViewCellProtocol <NSObject>
 @optional
 -(void)userTapInQuotedText:(NSString*)text;
--(void)userTapInImageView:(NSString*)imgURL;
+-(void)userTapInImageView:(id)sender;
 // Menu actions
 - (void)userWantsToReply:(czzThread *)thread inParentThread:(czzThread *)parentThread;
-- (void)userWantsToHighLight:(czzThread *)thread;
+- (void)userWantsToReport:(czzThread *)thread inParentThread:(czzThread *)parentThread;
+- (void)userWantsToTemporarilyHighlightUser:(NSString *)UID;
+- (void)userWantsToHighlightUser:(NSString *)UID;
+- (void)userWantsToBlockUser:(NSString *)UID;
 - (void)userWantsToSearch:(czzThread *)thread;
 // UI command
 - (void)threadViewCellContentChanged:(czzMenuEnabledTableViewCell *)cell;
 @end
 
-@interface czzMenuEnabledTableViewCell : UITableViewCell
+@interface czzMenuEnabledTableViewCell : UITableViewCell <czzImageDownloaderManagerDelegate>
 @property NSIndexPath *myIndexPath;
 
-@property (strong, nonatomic) NSString *selectedUserToHighlight;
 @property (weak, nonatomic) id<czzMenuEnabledTableViewCellProtocol> delegate;
-
+@property (weak, nonatomic) IBOutlet UITextView *contentTextView;
+@property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
+@property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;
+@property (weak, nonatomic) IBOutlet UIView *contentContainerView;
+@property (weak, nonatomic) IBOutlet UIImageView *cellImageView;
+@property (readonly, nonatomic) UIImage *placeholderImage;
 @property NSDictionary *downloadedImages;
-@property (assign, nonatomic) BOOL shouldHighlight;
+@property (assign, nonatomic) BOOL shouldBlock;
 @property (assign, nonatomic) BOOL shouldAllowClickOnImage;
+@property (nonatomic, assign) BOOL shouldTemporarilyHighlight;
 @property (nonatomic, strong) NSMutableArray *links;
 @property (nonatomic, strong) czzThread *parentThread;
 @property (nonatomic, strong) czzThread *thread;
@@ -59,18 +65,19 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 @property (nonatomic, assign) BOOL allowImage;
 @property (nonatomic, assign) BOOL nightyMode;
 @property (nonatomic, assign) threadViewCellType cellType;
-@property (nonatomic, readonly) BOOL imageUpdated;
+@property (nonatomic, strong) UIColor *highlightColour;
+@property (nonatomic, strong) NSString *nickname;
+
 - (void)renderContent;
-- (void)highLight;
+- (void)tapOnImageView:(id)sender;
+
+#pragma mark - Menu actions.
+- (void)menuActionCopy:(id)sender;
+- (void)menuActionReply:(id)sender;
+- (void)menuActionOpen:(id)sender;
+- (void)menuActionTemporarilyHighlight:(id)sender;
+- (void)menuActionHighlight:(id)sender;
+- (void)menuActionSearch:(id)sender;
+- (void)menuActionBlock:(id)sender;
+- (void)menuActionReport:(id)sender;
 @end
-
-
-/*
- UITextView *contentTextView = (UITextView*)[cell viewWithTag:1];
- UILabel *idLabel = (UILabel*)[cell viewWithTag:2];
- UILabel *posterLabel = (UILabel*)[cell viewWithTag:3];
- UILabel *dateLabel = (UILabel*)[cell viewWithTag:5];
- UILabel *sageLabel = (UILabel*)[cell viewWithTag:7];
- UILabel *lockLabel = (UILabel*)[cell viewWithTag:8];
-
-*/

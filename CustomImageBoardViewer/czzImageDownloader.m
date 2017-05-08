@@ -24,7 +24,6 @@
 @synthesize urlConn;
 @synthesize imageURLString;
 @synthesize receivedData;
-@synthesize fileName;
 @synthesize delegate;
 @synthesize isThumbnail;
 @synthesize fileSize;
@@ -86,7 +85,6 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
     receivedData = [NSMutableData new];
-    fileName = response.suggestedFilename;
     fileSize = [response expectedContentLength];
     downloadedSize = 0;
 
@@ -114,7 +112,7 @@
     else
         basePath = [basePath
                     stringByAppendingPathComponent:@"Images"];
-    NSString *filePath = [basePath stringByAppendingPathComponent:fileName];
+    NSString *filePath = [basePath stringByAppendingPathComponent:self.fileName];
     NSError *error;
     [receivedData writeToFile:filePath options:NSDataWritingAtomic error:&error];
     self.internalSavePath = filePath;
@@ -155,6 +153,10 @@
 
 -(NSString *)savePath {
     return self.internalSavePath;
+}
+
+- (NSString *)fileName {
+    return self.urlConn.originalRequest.URL.lastPathComponent;
 }
 
 @end

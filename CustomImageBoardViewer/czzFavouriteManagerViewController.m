@@ -32,7 +32,7 @@ static NSInteger const browserHistoryIndex = 0;
 static NSInteger const postsHistoryIndex = 1;
 static NSInteger const respondsHistoryIndex = 2;
 
-@interface czzFavouriteManagerViewController ()
+@interface czzFavouriteManagerViewController () <UIStateRestoring>
 @property (nonatomic, strong) NSIndexPath *selectedIndex;
 @property (nonatomic, strong) NSMutableSet *internalThreads;
 @property (nonatomic, strong) czzThread *selectedThread;
@@ -96,18 +96,18 @@ static NSInteger const respondsHistoryIndex = 2;
 
     czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
     if (cell){
-        cell.shouldAllowClickOnImage= NO;
-        cell.shouldHighlight = NO;
-        cell.parentThread = thread;
-        cell.thread = thread;
-        cell.nightyMode = [settingCentre userDefNightyMode];
-        [cell renderContent]; // Render content must be done manually.
-    }
-    if (selectedManager == WatchListManager) {
-        for (czzThread *updatedThread in WatchListManager.updatedThreads) {
-            if (updatedThread.ID == thread.ID) {
-                [cell highLight];
-            }
+        @try {
+            cell.shouldAllowClickOnImage= NO;
+            cell.parentThread = thread;
+            cell.thread = thread;
+            cell.nightyMode = [settingCentre userDefNightyMode];
+            [cell renderContent]; // Render content must be done manually.
+        } @catch (NSException *exception) {
+            DLog(@"%@", exception)
+            [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Exception"
+                                                                                                action:@"Exception"
+                                                                                                 label:[exception description]
+                                                                                                 value:@1] build]];
         }
     }
     return cell;
@@ -117,9 +117,8 @@ static NSInteger const respondsHistoryIndex = 2;
     selectedIndex = indexPath;
     if (selectedIndex.row < threads.count){
         selectedThread = [threads objectAtIndex:selectedIndex.row];
-        czzThreadViewManager *threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:selectedThread andForum:nil];
         czzThreadViewController *threadViewController = [czzThreadViewController new];
-        threadViewController.threadViewManager = threadViewManager;
+        threadViewController.thread = selectedThread;
         [NavigationManager pushViewController:threadViewController animated:YES];
     }
 }
@@ -161,7 +160,7 @@ static NSInteger const respondsHistoryIndex = 2;
 
 -(void)copyDataFromManager {
     if (titleSegmentedControl.selectedSegmentIndex == bookmarkIndex) {
-        threads = [favouriteManager favouriteThreads].reverseObjectEnumerator.allObjects.mutableCopy;
+        threads = [favouriteManager favouriteThreads].objectEnumerator.allObjects.mutableCopy;
         selectedManager = favouriteManager;
     } else if (titleSegmentedControl.selectedSegmentIndex == historyIndex) {
         // Type of history: broswer, posts, responds.
@@ -180,7 +179,7 @@ static NSInteger const respondsHistoryIndex = 2;
         // Updated threads have been viewed.
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
         if (WatchListManager.updatedThreads.count) {
-            [czzBannerNotificationUtil displayMessage:@"已高亮有更新的串"
+            [czzBannerNotificationUtil displayMessage:@"已置顶有更新的串"
                                              position:BannerNotificationPositionTop];
         }
     }
@@ -190,9 +189,27 @@ static NSInteger const respondsHistoryIndex = 2;
     self.historyTypeSegmentedControl.enabled = self.titleSegmentedControl.selectedSegmentIndex == historyIndex;
 }
 
-#pragma mark - rotation
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-    
+#pragma mark - UIStateRestoring
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
+    [super encodeRestorableStateWithCoder:coder];
+    [coder encodeInteger:self.titleSegmentedControl.selectedSegmentIndex forKey:@"titleSegmentedControl"];
+    [coder encodeInteger:self.historyTypeSegmentedControl.selectedSegmentIndex forKey:@"historyTypeSegmentedControl"];
+    [coder encodeObject:[NSValue valueWithCGPoint:self.tableView.contentOffset] forKey:@"TableViewContentOffset"];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
+    self.titleSegmentedControl.selectedSegmentIndex = [coder decodeIntegerForKey:@"titleSegmentedControl"];
+    self.historyTypeSegmentedControl.selectedSegmentIndex = [coder decodeIntegerForKey:@"historyTypeSegmentedControl"];
+    NSValue *contentOffsetValue;
+    if ([(contentOffsetValue = [coder decodeObjectForKey:@"TableViewContentOffset"]) isKindOfClass:[NSValue class]]) {
+        [self.tableView setContentOffset:contentOffsetValue.CGPointValue];
+    }
+    [super decodeRestorableStateWithCoder:coder];
+}
+
+- (void)applicationFinishedRestoringState {
+    [self copyDataFromManager];
 }
 
 +(instancetype)new {

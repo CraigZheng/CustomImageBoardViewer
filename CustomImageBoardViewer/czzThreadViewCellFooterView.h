@@ -9,6 +9,7 @@
 #import "CPLoadFromNibView.h"
 #import "czzThread.h"
 
+IB_DESIGNABLE
 @interface czzThreadViewCellFooterView : CPLoadFromNibView
 
 @property (strong, nonatomic) czzThread *thread;

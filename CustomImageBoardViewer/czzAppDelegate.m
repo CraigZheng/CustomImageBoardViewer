@@ -15,7 +15,6 @@
 #import "czzCookieManager.h"
 #import "czzWatchKitManager.h"
 #import "czzWatchListManager.h"
-#import "czzAppActivityManager.h"
 #import "czzFavouriteManagerViewController.h"
 #import "czzCacheCleaner.h"
 #import "czzHomeViewManager.h"
@@ -24,13 +23,17 @@
 #import "czzFavouriteManager.h"
 #import <Google/Analytics.h>
 #import <WatchConnectivity/WatchConnectivity.h>
-
+#import "CustomImageBoardViewer-Swift.h"
 #import "TalkingData.h"
 
 //#import <BugSense-iOS/BugSenseController.h>
 #import <SplunkMint/SplunkMint.h>
 
+@import CocoaLumberjack;
+
 #define LOG_LEVEL_DEF ddLogLevel
+
+static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
 
 @interface czzAppDelegate()<czzBlacklistDownloaderDelegate, czzHomeViewManagerDelegate, WCSessionDelegate>
 @property czzSettingsCentre *settingsCentre;
@@ -51,7 +54,7 @@
     fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
     [DDLog addLogger:fileLogger];
     // Splunk mint configuration.
-    [[Mint sharedInstance] initAndStartSession:@"cd668a8e"];
+    [[Mint sharedInstance] initAndStartSessionWithAPIKey:@"cd668a8e"];
     [[Mint sharedInstance] setUserIdentifier:[UIDevice currentDevice].identifierForVendor.UUIDString];
     // Talkind data initialisation
     [TalkingData sessionStarted:@"B8168DD03CD9EF62B476CEDFBC3FB52D" withChannelId:@""];
@@ -60,6 +63,8 @@
     NSError *configureError;
     [[GGLContext sharedInstance] configureWithError:&configureError];
     NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
+    // Enable IDFA collection.
+    [[[GAI sharedInstance] defaultTracker] setAllowIDFACollection:YES];
     
     //    // Optional: configure GAI options.
     //    GAI *gai = [GAI sharedInstance];
@@ -73,10 +78,7 @@
     // Check cookie
     CookieManager;
     // Check watchlist manger.
-    
-    // Prepare to launch
-    AppActivityManager;
-    
+        
     // The watchkit session.
     if ([WCSession isSupported]) {
         WCSession *session = [WCSession defaultSession];
@@ -123,6 +125,34 @@
                                           withBackgroundTaskIdentifier:wkBackgroundTaskIdentifier];
 }
 
+#pragma mark - Break and restoration.
+
+- (BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder {
+    [[NSUserDefaults standardUserDefaults] setObject:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]
+                                              forKey:lastStateAppVersion];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[czzHomeViewManager sharedManager] saveCurrentState];
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder {
+    BOOL shouldRestore = NO;
+    NSString *lastVersion = [[NSUserDefaults standardUserDefaults] objectForKey:lastStateAppVersion];
+    if ([[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"] isEqualToString:lastVersion]) {
+        shouldRestore = YES;
+    }
+    return shouldRestore;
+}
+
+- (UIViewController *)application:(UIApplication *)application viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder {
+    if ([identifierComponents.lastObject isEqualToString:NSStringFromClass([UINavigationController class])]) {
+        UIViewController *viewController =  [UINavigationController new];
+        viewController.restorationIdentifier = identifierComponents.lastObject;
+        return viewController;
+    }
+    return nil;
+}
+
 #pragma mark - background fetch
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     DDLogDebug(@"%s", __PRETTY_FUNCTION__);
@@ -159,6 +189,8 @@
             localRefCompletionHandler = nil;
         }
     }];
+    // Save current home view state while fetching data.
+    [[czzHomeViewManager sharedManager] saveCurrentState];
 }
 
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
@@ -167,10 +199,6 @@
     if (self.window.rootViewController) {
         // Received local notification, most likely watch list is updated
         [NavigationManager pushViewController:favouriteManagerViewController animated:YES];
-    } else {
-        [czzAppActivityManager sharedManager].appLaunchCompletionHandler = ^{
-            [NavigationManager pushViewController:favouriteManagerViewController animated:YES];
-        };
     }
 }
 
@@ -205,8 +233,7 @@
     }
 }
 
-
-#pragma mark access to app delegate etc.
+#pragma mark - access to app delegate etc.
 + (czzAppDelegate*) sharedAppDelegate{
     return (czzAppDelegate*)[[UIApplication sharedApplication] delegate];
 }
@@ -272,12 +299,24 @@
 -(void)checkFolders {
     NSArray *resourceFolders = @[[czzAppDelegate libraryFolder], [czzAppDelegate imageFolder], [czzAppDelegate thumbnailFolder], [czzAppDelegate threadCacheFolder], [czzAppDelegate notificationCacheFolder]];
     for (NSString *folderPath in resourceFolders) {
+        NSError *error;
         if (![[NSFileManager defaultManager] fileExistsAtPath:folderPath]){
-            [[NSFileManager defaultManager] createDirectoryAtPath:folderPath withIntermediateDirectories:NO attributes:nil error:nil];
+            [[NSFileManager defaultManager] createDirectoryAtPath:folderPath
+                                      withIntermediateDirectories:NO
+                                                       attributes:[NSDictionary dictionaryWithObject:NSFileProtectionNone
+                                                                                              forKey:NSFileProtectionKey]
+                                                            error:&error];
             DDLogDebug(@"Create library folder: %@", folderPath);
         }
         //exclude my folders from being backed up to iCloud
         [self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:folderPath]];
+        [[NSFileManager defaultManager] setAttributes:[NSDictionary dictionaryWithObject:NSFileProtectionNone
+                                                                                  forKey:NSFileProtectionKey]
+                                         ofItemAtPath:folderPath
+                                                error:&error];
+        if (error) {
+            DDLogDebug(@"%@", error);
+        }
     }
 }
 @end

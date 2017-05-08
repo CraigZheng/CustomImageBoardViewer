@@ -20,7 +20,7 @@ typedef NS_ENUM(NSInteger, postSenderMode) {
 @protocol czzPostSenderDelegate <NSObject>
 @optional
 -(void)postSender:(czzPostSender *)postSender progressUpdated:(CGFloat)percent;
--(void)postSender:(czzPostSender *)postSender completedPosting:(BOOL)successful message:(NSString*)message;
+-(void)postSender:(czzPostSender *)postSender completedPosting:(BOOL)successful message:(NSString*)message response:(NSString*)response;
 @end
 @interface czzPostSender : NSObject
 @property (nonatomic) NSURL *targetURL;
@@ -35,6 +35,7 @@ typedef NS_ENUM(NSInteger, postSenderMode) {
 @property (nonatomic) NSString *title;
 @property (nonatomic) NSString *content;
 @property (readonly) NSData *imgData;
+@property (nonatomic) BOOL watermark;
 
 @property (nonatomic) postSenderMode postMode;
 

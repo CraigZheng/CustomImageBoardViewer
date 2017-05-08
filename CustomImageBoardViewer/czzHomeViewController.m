@@ -20,7 +20,6 @@
 #import "czzNotificationCentreTableViewController.h"
 #import "czzOnScreenImageManagerViewController.h"
 #import "UIBarButtonItem+Badge.h"
-#import "GSIndeterminateProgressView.h"
 #import "czzHomeViewManager.h"
 #import "czzForumManager.h"
 #import "czzHomeTableViewManager.h"
@@ -35,24 +34,25 @@
 #import "czzPostSenderManagerViewController.h"
 #import "czzMiniThreadViewController.h"
 #import "czzBannerNotificationUtil.h"
+#import "czzAutoEndingRefreshControl.h"
+#import "UIScrollView+EmptyDataSet.h"
 
 #import <CoreText/CoreText.h>
 
 
-@interface czzHomeViewController() <UIAlertViewDelegate, UIStateRestoring>
+@interface czzHomeViewController() <UIAlertViewDelegate, UIStateRestoring, SlideNavigationControllerDelegate>
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (assign, nonatomic) BOOL shouldHideImageForThisForum;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
-@property (strong, nonatomic) UIRefreshControl* refreshControl;
+@property (strong, nonatomic) czzAutoEndingRefreshControl* refreshControl;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *numberBarButton;
 @property (weak, nonatomic) IBOutlet UIView *postManagerViewContainer;
-@property (assign, nonatomic) GSIndeterminateProgressView *progressView;
 @property (strong, nonatomic) czzForum *selectedForum;
 @property (strong, nonatomic) czzFavouriteManagerViewController *favouriteManagerViewController;
 @property (strong, nonatomic) czzHomeTableViewManager *homeTableViewManager;
 @property (strong, nonatomic) czzOnScreenImageManagerViewController *onScreenImageManagerViewController;
 @property (strong, nonatomic) czzMiniThreadViewController *miniThreadView;
-
+@property (strong, nonatomic) UIAlertView *confirmJumpToPageAlertView;
 @end
 
 @implementation czzHomeViewController
@@ -62,9 +62,11 @@
 {
     [super viewDidLoad];
     
-    //assign a custom tableview data source
+    // Assign the data sources and delegates.
     self.threadTableView.dataSource = self.homeTableViewManager;
     self.threadTableView.delegate = self.homeTableViewManager;
+    self.threadTableView.emptyDataSetSource = self.homeTableViewManager;
+    self.threadTableView.emptyDataSetDelegate = self.homeTableViewManager;
     
     // Load data into tableview
     [self updateTableView];
@@ -73,12 +75,6 @@
     }
     // Set the currentOffSet back to zero
     self.homeViewManager.currentOffSet = CGPointZero;
-
-    // Configure the view deck controller with half size and tap to close mode
-    self.viewDeckController.leftSize = self.view.frame.size.width/4;
-    self.viewDeckController.rightSize = self.view.frame.size.width/4;
-    self.viewDeckController.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
-
     // On screen image manager view controller
     if (!self.onScreenImageManagerViewController) {
         self.onScreenImageManagerViewController = [czzOnScreenImageManagerViewController new];
@@ -121,12 +117,12 @@
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
     
     self.threadTableView.backgroundColor = settingCentre.viewBackgroundColour;
+    self.onScreenImageManagerViewContainer.hidden = !settingCentre.shouldShowImageManagerButton;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    self.viewDeckController.panningMode = IIViewDeckFullViewPanning;
-    
+    [self.progressView viewDidAppear];
     // Add badget number to infoBarButton if necessary.
     if ([[(czzNavigationController*)self.navigationController notificationBannerViewController] shouldShow]) {
         self.infoBarButton.badgeValue = @"1";
@@ -140,12 +136,12 @@
     delayTime = 9999;
 #endif
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        if (!self.homeViewManager.forum) {
+        if (!self.homeViewManager.forum && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
             if ([czzForumManager sharedManager].forums.count > 0)
             {
                 [czzBannerNotificationUtil displayMessage:@"用户没有选择板块，随机选择……" position:BannerNotificationPositionTop];
                 @try {
-                    int randomIndex = rand() % [czzForumManager sharedManager].forums.count;
+                    NSUInteger randomIndex = arc4random_uniform([czzForumManager sharedManager].forums.count);
                     [self.homeViewManager setForum:[[czzForumManager sharedManager].forums objectAtIndex:randomIndex]];
                     [self refreshThread:self];
                 }
@@ -157,14 +153,9 @@
     });
 }
 
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    [self.refreshControl endRefreshing];
-}
-
 -(void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    self.viewDeckController.panningMode = IIViewDeckNoPanning;
+    [self.progressView viewDidDisapper];
 }
 
 /*
@@ -183,15 +174,9 @@
     [self.homeTableViewManager reloadData];
 }
 
-#pragma mark - State perserving
-- (NSString*)saveCurrentState {
-    self.homeViewManager.currentOffSet = self.threadTableView.contentOffset;
-    return [self.homeViewManager saveCurrentState];
-}
-
 #pragma mark - ButtonActions
 - (IBAction)sideButtonAction:(id)sender {
-    [self.viewDeckController toggleLeftViewAnimated:YES];
+    [[SlideNavigationController sharedInstance] toggleLeftMenu];
 }
 
 - (IBAction)postAction:(id)sender {
@@ -207,7 +192,8 @@
         textInputField.keyboardType = UIKeyboardTypeNumberPad;
         textInputField.keyboardAppearance = UIKeyboardAppearanceDark;
     }
-    [alertView show];
+    self.confirmJumpToPageAlertView = alertView;
+    [self.confirmJumpToPageAlertView show];
 }
 
 - (IBAction)searchAction:(id)sender {
@@ -225,22 +211,22 @@
 
 #pragma mark - UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
-    if ([buttonTitle isEqualToString:@"确定"]){
-        NSInteger newPageNumber = [[[alertView textFieldAtIndex:0] text] integerValue];
-        if (newPageNumber > 0){
-
-            //clear threads and ready to accept new threads
-            [self.homeViewManager removeAll];
-            [self updateTableView];
-            [self.refreshControl beginRefreshing];
-            [self.homeViewManager loadMoreThreads:newPageNumber];
-
-            [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)self.homeViewManager.pageNumber]
-                                             position:BannerNotificationPositionTop];
-        } else {
-            [czzBannerNotificationUtil displayMessage:@"页码无效..."
-                                             position:BannerNotificationPositionTop];
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        if (alertView == self.confirmJumpToPageAlertView) {
+            NSInteger newPageNumber = [[[alertView textFieldAtIndex:0] text] integerValue];
+            if (newPageNumber > 0){
+                
+                //clear threads and ready to accept new threads
+                [self.homeViewManager removeAll];
+                [self updateTableView];
+                [self.homeViewManager loadMoreThreads:newPageNumber];
+                
+                [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)newPageNumber]
+                                                 position:BannerNotificationPositionTop];
+            } else {
+                [czzBannerNotificationUtil displayMessage:@"页码无效..."
+                                                 position:BannerNotificationPositionTop];
+            }
         }
     }
 }
@@ -263,7 +249,11 @@
     } else {
         czzMoreInfoViewController *moreInfoViewController = [czzMoreInfoViewController new];
         moreInfoViewController.forum = self.homeViewManager.forum;
-        [self presentViewController:[[UINavigationController alloc] initWithRootViewController:moreInfoViewController] animated:YES completion:nil];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:moreInfoViewController];
+        navigationController.restorationIdentifier = NSStringFromClass([UINavigationController class]);
+        [NavigationManager.delegate presentViewController:navigationController
+                                                 animated:YES
+                                               completion:nil];
     }
 }
 
@@ -273,16 +263,9 @@
     return [czzHomeViewManager sharedManager];
 }
 
--(GSIndeterminateProgressView *)progressView {
-    if (!_progressView) {
-        _progressView = [(czzNavigationController*) self.navigationController progressView];
-    }
-    return _progressView;
-}
-
--(UIRefreshControl *)refreshControl {
+-(czzAutoEndingRefreshControl *)refreshControl {
     if (!_refreshControl) {
-        _refreshControl = [[UIRefreshControl alloc] init];
+        _refreshControl = [[czzAutoEndingRefreshControl alloc] init];
         [_refreshControl addTarget:self
                             action:@selector(dragOnRefreshControlAction:)
                   forControlEvents:UIControlEventValueChanged];
@@ -314,40 +297,38 @@
 }
 
 -(void)homeViewManager:(czzHomeViewManager *)homeViewManager downloadSuccessful:(BOOL)wasSuccessful {
-    DDLogDebug(@"%@", NSStringFromSelector(_cmd));
-    if (!wasSuccessful && !NavigationManager.isInTransition) {
-        [self.refreshControl endRefreshing];
-        [self.progressView stopAnimating];
-        [self.progressView showWarning];
-    }
     self.threadTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
+    if (!wasSuccessful) {
+        [self showWarning];
+    }
 }
 
--(void)homeViewManagerBeginsDownloading:(czzHomeViewManager *)homeViewManager {
-    if (!self.progressView.isAnimating)
-        [self.progressView startAnimating];
-    
+-(void)viewManagerDownloadStateChanged:(czzHomeViewManager *)homeViewManager {
+    if (homeViewManager.isDownloading) {
+        [self startLoading];
+    } else {
+        [self stopLoading];
+    }
 }
 
 -(void)homeViewManager:(czzHomeViewManager *)list threadListProcessed:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
-    DDLogDebug(@"%@", NSStringFromSelector(_cmd));
     // If pageNumber == 1, then is a forum change, scroll to top.
     [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-        [self.refreshControl endRefreshing];
         if (wasSuccessul && self.homeViewManager.pageNumber == 1) {
             [self.threadTableView scrollToTop:NO];
-            // Set to a new set of threads now, clear the cached heights.
-            self.homeTableViewManager.cachedHeights = nil;
         }
         [self updateTableView];
-
-        // If is in transition, is better not do anything.
-        if (!NavigationManager.isInTransition)
-            [self.progressView stopAnimating];
+        // Show warning.
         if (!wasSuccessul) {
-            [self.progressView showWarning];
+            [self showWarning];
         }
     }];
+}
+
+#pragma mark - SlideOutNavigationControllerDelegate
+
+- (BOOL)slideNavigationControllerShouldDisplayLeftMenu {
+    return YES;
 }
 
 #pragma mark - self.refreshControl and download controls
@@ -392,18 +373,31 @@
     }
 }
 
-#pragma mark - Rotation events.
+#pragma mark - Transit
+
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [self.homeTableViewManager viewWillTransitionToSize];
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    [self.homeTableViewManager viewWillTransitionToSize:size
-                              withTransitionCoordinator:coordinator];
-    [self updateTableView];
 }
 
 #pragma mark - pause / restoration
--(void)encodeRestorableStateWithCoder:(NSCoder *)coder
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
-    DDLogDebug(@"%@", NSStringFromSelector(_cmd));
+    [coder encodeObject:[NSValue valueWithCGPoint:self.threadTableView.contentOffset] forKey:@"TableViewContentOffset"];
+    [super encodeRestorableStateWithCoder:coder];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
+    NSValue *contentOffsetValue;
+    if ([(contentOffsetValue = [coder decodeObjectForKey:@"TableViewContentOffset"]) isKindOfClass:[NSValue class]]) {
+        [self.threadTableView setContentOffset:contentOffsetValue.CGPointValue];
+    }
+    [super decodeRestorableStateWithCoder:coder];
+}
+
+- (void)applicationFinishedRestoringState {
+    [self.homeViewManager restorePreviousState];
+    [self updateTableView];
 }
 
 + (instancetype)new {

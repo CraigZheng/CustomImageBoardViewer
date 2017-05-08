@@ -10,9 +10,13 @@
 #import "PropertyUtil.h"
 #import <objc/runtime.h>
 #import "czzAppDelegate.h"
-#import "czzBannerNotificationUtil.h"
 #import "czzURLDownloader.h"
+#import "czzLaunchPopUpNotification.h"
+#import "czzLaunchPopUpNotificationViewController.h"
+#import <Google/Analytics.h>
 #import <UIKit/UIKit.h>
+
+#import "CustomImageBoardViewer-Swift.h"
 
 static NSString * const kDisplayThumbnail = @"kDisplayThumbnail";
 static NSString * const kShowOnScreenCommand = @"kShowOnScreenCommand";
@@ -23,6 +27,9 @@ static NSString * const kBigImageMode = @"kBigImageMode";
 static NSString * const kNightyMode = @"kNightyMode";
 static NSString * const kAutoClean = @"kAutoClean";
 static NSString * const kAutoDownloadImage = @"kAutoDownloadImage";
+static NSString * const kShouldCollapseLongContent = @"kShouldCollapseLongContent";
+static NSString * const kTextSize = @"kTextSize";
+static NSString * const kShouldShowImageManagerButton = @"kShouldShowImageManagerButton";
 
 NSString * const settingsChangedNotification = @"settingsChangedNotification";
 
@@ -77,11 +84,17 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         self.userDefNightyMode = NO;
         self.userDefShouldCleanCaches = NO;
         self.userDefShouldAutoDownloadImage = NO;
+        self.userDefShouldCollapseLongContent = NO;
         shouldAllowOpenBlockedThread = YES;
+        self.threadTextSize = TextSizeDefault;
+        self.shouldShowImageManagerButton = YES;
+        self.ignoredThreadIDs = [NSArray new];
         
         donationLink = @"";
         threads_per_page = 10;
         response_per_page = 20;
+        self.long_thread_threshold = 200;
+        self.upload_image_pixel_limit = 5595136; // iPad pro resolution: 2732 x 2048;
         
         //Dart settings
         should_allow_dart = NO;
@@ -90,20 +103,15 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
 
         NSData *JSONData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
         [self parseJSONData:JSONData];
-        
-        [self restoreSettings];
-#ifdef DEBUG
-#warning DEBUGGING NEW API
-        return self;
-#endif
-        [self scheduleRefreshSettings];
         // Restore previous settings
+        [self restoreSettings];
+        // Download and scheduel.
+        [self downloadSettings];
     }
     return self;
 }
 
 -(void)scheduleRefreshSettings {
-    [self downloadSettings];
     if (configuration_refresh_interval <= 60) //fail safe
         return;
     if (refreshSettingsTimer.isValid) {
@@ -127,6 +135,9 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     [userDefault setBool:self.userDefNightyMode forKey:kNightyMode];
     [userDefault setBool:self.userDefShouldCleanCaches forKey:kAutoClean];
     [userDefault setBool:self.userDefShouldAutoDownloadImage forKey:kAutoDownloadImage];
+    [userDefault setBool:self.userDefShouldCollapseLongContent forKey:kShouldCollapseLongContent];
+    [userDefault setInteger:self.threadTextSize forKey:kTextSize];
+    [userDefault setBool:self.shouldShowImageManagerButton forKey:kShouldShowImageManagerButton];
     [userDefault synchronize];
     // Post a notification about the settings changed.
     [[NSNotificationCenter defaultCenter] postNotificationName:settingsChangedNotification
@@ -160,13 +171,64 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     if ([userDefault objectForKey:kAutoClean]) {
         self.userDefShouldCleanCaches = [userDefault boolForKey:kAutoClean];
     }
+    if ([userDefault objectForKey:kShouldCollapseLongContent]) {
+        self.userDefShouldCollapseLongContent = [userDefault boolForKey:kShouldCollapseLongContent];
+    }
+    if ([userDefault objectForKey:kTextSize]) {
+        self.threadTextSize = [userDefault integerForKey:kTextSize];
+    }
     self.userDefShouldAutoDownloadImage = [userDefault boolForKey:kAutoDownloadImage];
+    if ([userDefault objectForKey:kShouldShowImageManagerButton]) {
+        self.shouldShowImageManagerButton = [userDefault boolForKey:kShouldShowImageManagerButton];
+    }
+    
+    // Google analytics.
+    id<GAITracker> defaultTracker = [[GAI sharedInstance] defaultTracker];
+    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
+                                                                 action:@"Display Thumbnail"
+                                                                  label:[self stringWithBoolean:self.userDefShouldDisplayThumbnail]
+                                                                  value:@1] build]];
+    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
+                                                                 action:@"Display Quick Scroll"
+                                                                  label:[self stringWithBoolean:self.userDefShouldShowOnScreenCommand]
+                                                                  value:@1] build]];
+    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
+                                                                 action:@"Auto Open Downloaded Image"
+                                                                  label:[self stringWithBoolean:self.userDefShouldAutoOpenImage]
+                                                                  value:@1] build]];
+    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
+                                                                 action:@"Big Image Mode"
+                                                                  label:[self stringWithBoolean:self.userDefShouldUseBigImage]
+                                                                  value:@1] build]];
+    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
+                                                                 action:@"Nighty Mode"
+                                                                  label:[self stringWithBoolean:self.userDefNightyMode]
+                                                                  value:@1] build]];
+    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
+                                                                 action:@"Auto Download Image"
+                                                                  label:[self stringWithBoolean:self.userDefShouldAutoDownloadImage]
+                                                                  value:@1] build]];
+    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
+                                                                 action:@"Collapse Long Content"
+                                                                  label:[self stringWithBoolean:self.userDefShouldCollapseLongContent]
+                                                                  value:@1] build]];
+    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
+                                                                 action:@"Show Image Manager Button"
+                                                                  label:[self stringWithBoolean:self.shouldShowImageManagerButton]
+                                                                  value:@1] build]];
+    
+}
+
+- (NSString*)stringWithBoolean:(Boolean)b {
+    return b ? @"On" : @"Off";
 }
 
 -(void)downloadSettings {
     NSString *configurationURL = CONFIGURATION_URL;
     urlDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:configurationURL] delegate:self startNow:YES];
 }
+
+#pragma mark - Parsing JSON.
 
 -(void)parseJSONData:(NSData*)jsonData {
     NSError *error;
@@ -215,6 +277,31 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         share_post_url = [jsonObject objectForKey:@"share_post_url"];
         thread_url = [jsonObject objectForKey:@"thread_url"];
         get_forum_info_url = [jsonObject objectForKey:@"get_forum_info_url"];
+        self.popup_notification_link = [jsonObject objectForKey:@"popup_notification_link"];
+        self.empty_title = [jsonObject objectForKey:@"empty_title"];
+        self.empty_username = [jsonObject objectForKey:@"empty_username"];
+        self.sensitive_keyword = [jsonObject objectForKey:@"sensitive_keyword"];
+        self.success_keyword = [jsonObject objectForKey:@"success_keyword"];
+        self.share_image_only_keyword = [jsonObject objectForKey:@"share_image_only_keyword"];
+        self.popular_threads_link = [jsonObject objectForKey:@"popular_threads_link"];
+        self.long_thread_threshold = [[jsonObject objectForKey:@"long_thread_threshold"] integerValue];
+        self.reply_post_placeholder = [jsonObject objectForKey:@"reply_post_placeholder"];
+        self.shouldShowEmoPackPicker = [[jsonObject objectForKey:@"shouldShowEmoPackPicker"] boolValue];
+        NSArray *ignoredThreadIDs = [jsonObject objectForKey:@"ignored_thread_ids"];
+        if (ignoredThreadIDs.count) {
+            NSMutableArray *threadIDs = [NSMutableArray new];
+            for (NSObject *threadID in ignoredThreadIDs) {
+                if ([threadID isKindOfClass:[NSNumber class]]) {
+                    [threadIDs addObject:threadID];
+                }
+            }
+            self.ignoredThreadIDs = threadIDs;
+        } else {
+            self.ignoredThreadIDs = [NSArray new];
+        }
+        if ([jsonObject objectForKey:@"upload_image_pixel_limit"]) {
+            self.upload_image_pixel_limit = [[jsonObject objectForKey:@"upload_image_pixel_limit"] integerValue];
+        }
     }
     @catch (NSException *exception) {
         DDLogDebug(@"%@", exception);
@@ -238,24 +325,65 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         if (downloadedData) {
             [self parseJSONData:downloadedData];
             [self saveSettings]; //save settings from remote
-            DDLogDebug(@"settings updated from remote server");
             if (message.length > 0) {
-                [czzBannerNotificationUtil displayMessage:message
-                                                 position:BannerNotificationPositionBottom
-                                   userInteractionHandler:^{}
-                                       waitForInteraction:NO];
+                [MessagePopup showMessagePopupWithTitle:nil message:message
+                                                 layout:MessagePopupLayoutCardView
+                                                  theme:MessagePopupThemeInfo
+                                               position:MessagePopupPresentationStyleTop
+                                            buttonTitle:nil
+                                    buttonActionHandler:nil];
+            }
+            // Perform a short task to get the notification content when the app is in the foreground.
+            if (self.popup_notification_link.length) {
+                NSURL *notificationURL = [NSURL URLWithString:self.popup_notification_link];
+                if (notificationURL) {
+                    [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:notificationURL]
+                                                       queue:[NSOperationQueue currentQueue]
+                                           completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
+                                               if ([(NSHTTPURLResponse *)response statusCode] == 200 && data) {
+                                                   NSString *jsonString = [[NSString alloc] initWithData:data
+                                                                                                encoding:NSUTF8StringEncoding];
+                                                   czzLaunchPopUpNotification *notification = [[czzLaunchPopUpNotification alloc] initWithJson:jsonString];
+                                                   if (notification) {
+                                                       czzLaunchPopUpNotificationViewController *popUpViewController = [[UIStoryboard storyboardWithName:@"LaunchPopUpNotification"
+                                                                                                                                                  bundle:[NSBundle mainBundle]] instantiateInitialViewController];
+                                                       popUpViewController.popUpNotification = notification;
+                                                       [popUpViewController tryShow];
+                                                   }
+                                               }
+                                           }];
+                }
             }
         }
     }
+    // Success or not, I need to schedule the periodic refresh.
+    [self scheduleRefreshSettings];
 }
 
 -(UIFont *)contentFont {
     if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
     {
         /* Device is iPad */
-        return [UIFont systemFontOfSize:18];
+        return [UIFont systemFontOfSize:18 * [self fontScale]];
     }
-    return [UIFont systemFontOfSize:16];
+    return [UIFont systemFontOfSize:16 * [self fontScale]];
+}
+
+- (CGFloat)fontScale {
+    switch (self.threadTextSize) {
+        case TextSizeBig:
+            return 1.3;
+            break;
+        case TextSizeExtraBig:
+            return 1.6;
+            break;
+        case TextSizeSmall:
+            return 0.8;
+            break;
+        default:
+            return 1;
+            break;
+    }
 }
 
 -(UIColor *)contentTextColour {

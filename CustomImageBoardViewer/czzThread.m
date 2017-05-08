@@ -133,12 +133,23 @@
 
 -(NSAttributedString*)renderHTMLToAttributedString:(NSString*)htmlString{
     @try {
-        NSString *htmlCopy = [[htmlString copy] stringByDecodingHTMLEntities];
-        htmlCopy = [htmlCopy stringByReplacingOccurrencesOfString:@"&nbsp;ﾟ" withString:@"　ﾟ"];
-        NSAttributedString *renderedString = [[NSAttributedString alloc] initWithData:[htmlCopy dataUsingEncoding:NSUTF8StringEncoding]
-                                                                              options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
-                                                                                        NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
-                                                                   documentAttributes:nil error:nil];
+        NSString *htmlCopy = [htmlString stringByRemovingPercentEncoding];
+        // If cannot remove percent encoding, return the original.
+        if (!htmlCopy) {
+            htmlCopy = htmlString;
+        }
+        NSData *htmlData = [htmlCopy dataUsingEncoding:NSUTF8StringEncoding];
+        NSAttributedString *renderedString;
+        // Make sure renderedString can always be inited properly.
+        if (!htmlData) {
+            // If there is no data available, just init it with original string or an empty string.
+            renderedString = [[NSAttributedString alloc] initWithString:htmlCopy ? htmlCopy : @""];
+        } else {
+            renderedString = [[NSAttributedString alloc] initWithData: htmlData
+                                                              options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+                                                                        NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
+                                                   documentAttributes:nil error:nil];
+        }
         
         //fine all >> quoted text
         NSArray *segments = [renderedString.string componentsSeparatedByString:@">>"];
@@ -210,7 +221,7 @@
 
 //the hash for a thread is its UID and its ID and its post date time
 -(NSUInteger)hash{
-    return self.UID.hash + self.ID + self.postDateTime.hash;
+    return self.UID.hash + self.ID + [self.postDateTime descriptionWithLocale:[NSLocale systemLocale]].hash;
 }
 
 #pragma mark - encoding and decoding functions
@@ -235,21 +246,40 @@
 -(id)initWithCoder:(NSCoder*)decoder{
     self = [czzThread new];
     if (self){
-        self.responseCount = [decoder decodeIntegerForKey:@"responseCount"];
-        self.ID = [decoder decodeIntegerForKey:@"ID"];
-        self.UID = [decoder decodeObjectForKey:@"UID"];
-        self.name = [decoder decodeObjectForKey:@"name"];
-        self.email = [decoder decodeObjectForKey:@"email"];
-        self.title = [decoder decodeObjectForKey:@"title"];
-        self.content = [decoder decodeObjectForKey:@"content"];
-        self.imgSrc = [decoder decodeObjectForKey:@"imgSrc"];
-        self.thImgSrc = [decoder decodeObjectForKey:@"thImgSrc"];
-        self.lock = [decoder decodeBoolForKey:@"lock"];
-        self.sage = [decoder decodeBoolForKey:@"sage"];
-        self.admin = [decoder decodeBoolForKey:@"admin"];
-        self.postDateTime = [decoder decodeObjectForKey:@"postDateTime"];
-        self.updateDateTime = [decoder decodeObjectForKey:@"updateDateTime"];
-        self.replyToList = [decoder decodeObjectForKey:@"replyToList"];
+        @try {
+            self.responseCount = [decoder decodeIntegerForKey:@"responseCount"];
+            self.ID = [decoder decodeIntegerForKey:@"ID"];
+            self.UID = [decoder decodeObjectForKey:@"UID"];
+            self.name = [decoder decodeObjectForKey:@"name"];
+            self.email = [decoder decodeObjectForKey:@"email"];
+            self.title = [decoder decodeObjectForKey:@"title"];
+            self.content = [decoder decodeObjectForKey:@"content"];
+            self.imgSrc = [decoder decodeObjectForKey:@"imgSrc"];
+            self.thImgSrc = [decoder decodeObjectForKey:@"thImgSrc"];
+            self.lock = [decoder decodeBoolForKey:@"lock"];
+            self.sage = [decoder decodeBoolForKey:@"sage"];
+            self.admin = [decoder decodeBoolForKey:@"admin"];
+            self.postDateTime = [decoder decodeObjectForKey:@"postDateTime"];
+            self.updateDateTime = [decoder decodeObjectForKey:@"updateDateTime"];
+            self.replyToList = [decoder decodeObjectForKey:@"replyToList"];
+        } @catch (NSException *exception) {
+            DLog(@"%@", exception);
+            self.responseCount = 0;
+            self.ID = 0;
+            self.UID = @"0";
+            self.name = @"0";
+            self.email = @"0";
+            self.title = @"0";
+            self.content = [[NSAttributedString alloc] initWithString:@"0"];
+            self.imgSrc = @"";
+            self.thImgSrc = @"";
+            self.lock = false;
+            self.sage = false;
+            self.admin = false;
+            self.postDateTime = [NSDate new];
+            self.updateDateTime = [NSDate new];
+            self.replyToList = [NSMutableArray new];
+        }
     }
     return self;
 }

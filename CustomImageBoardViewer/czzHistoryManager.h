@@ -21,10 +21,7 @@
 @property (nonatomic, readonly) NSString *historyFolder;
 
 - (void)addToRespondedList:(czzThread*)thread;
-- (void)addToPostedList:(NSString*)title
-                content:(NSString*)content
-               hasImage:(BOOL)hasImage
-                  forum:(czzForum*)forum;
+- (void)addToPostedList:(czzThread *)postedThread;
 
 -(void)recordThread:(czzThread*)thread;
 -(BOOL)removeThread:(czzThread*)thread;

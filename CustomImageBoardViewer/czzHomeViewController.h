@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "IIViewDeckController.h"
 #import "czzHomeViewManager.h"
 
 @class czzThread, czzThreadTableView;
@@ -29,5 +28,4 @@
 - (IBAction)bookmarkAction:(id)sender;
 - (IBAction)settingsAction:(id)sender;
 
-- (NSString*)saveCurrentState;
 @end

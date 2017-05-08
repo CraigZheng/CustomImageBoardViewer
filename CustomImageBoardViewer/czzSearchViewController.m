@@ -33,7 +33,7 @@
 @property (strong, nonatomic) NSString *selectedSearchEngine;
 @property NSURL *targetURL;
 @property czzMiniThreadViewController *miniThreadView;
-@property GSIndeterminateProgressView *progressView;
+@property (nonatomic) GSIndeterminateProgressView *progressView;
 @end
 
 @implementation czzSearchViewController
@@ -46,7 +46,6 @@
 @synthesize searchResult;
 @synthesize searchKeyword;
 @synthesize targetURL;
-@synthesize progressView;
 @synthesize miniThreadView;
 
 - (void)viewDidLoad
@@ -68,10 +67,7 @@
             searchEngineSegmentedControl.selectedSegmentIndex = 3;
         }
     }
-    
-    //progress view
-    progressView = [(czzNavigationController*)self.navigationController progressView];
-    
+        
     searchInputAlertView = [[UIAlertView alloc] initWithTitle:@"关键词或号码" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     searchInputAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     UITextField *textInputField = [searchInputAlertView textFieldAtIndex:0];
@@ -96,9 +92,19 @@
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.progressView viewDidAppear];
+}
+
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [AppDelegate.window hideToastActivity];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self.progressView viewDidDisapper];
 }
 
 /*
@@ -139,9 +145,8 @@
 -(void)downloadAndPrepareThreadWithID:(NSInteger)threadID {
     czzThread *dummpyParentThread = [czzThread new];
     dummpyParentThread.ID = threadID;
-    czzThreadViewManager *threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:dummpyParentThread andForum:nil];
     czzThreadViewController *threadViewController = [[UIStoryboard storyboardWithName:THREAD_VIEW_CONTROLLER_STORYBOARD_NAME bundle:nil] instantiateViewControllerWithIdentifier:THREAD_VIEW_CONTROLLER_ID];
-    threadViewController.threadViewManager = threadViewManager;
+    threadViewController.thread = dummpyParentThread;
     [NavigationManager pushViewController:threadViewController animated:YES];
 //    miniThreadView = [[UIStoryboard storyboardWithName:@"MiniThreadView" bundle:nil] instantiateInitialViewController];
 //    miniThreadView.delegate = self;
@@ -164,14 +169,14 @@
 {
     if ([segue.identifier isEqualToString:showThreadViewSegueIdentifier]) {
         czzThreadViewController *threadViewController = (czzThreadViewController*) segue.destinationViewController;
-        czzThreadViewManager *threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:selectedParentThread andForum:[czzForum new]];
-        threadViewController.threadViewManager = threadViewManager;
+        threadViewController.thread = selectedParentThread;
     }
 }
 
 #pragma mark - UIWebViewDelegate
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     [AppDelegate.window hideToastActivity];
+    [self.progressView showWarning];
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
@@ -212,11 +217,11 @@
 }
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView {
-    [progressView stopAnimating];
+    [self.progressView stopAnimating];
 }
 
 -(void)webViewDidStartLoad:(UIWebView *)webView {
-    [progressView startAnimating];
+    [self.progressView startAnimating];
 }
 
 - (IBAction)againAction:(id)sender {
@@ -240,5 +245,14 @@
     [userDef synchronize];
 }
 
+#pragma mark - Getter
+
+- (GSIndeterminateProgressView *)progressView {
+    if (!_progressView) {
+        _progressView = [[GSIndeterminateProgressView alloc] initWithParentView:self.view
+                                                                     alignToTop:self.searchWebView];
+    }
+    return _progressView;
+}
 
 @end

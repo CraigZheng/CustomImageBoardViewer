@@ -8,6 +8,7 @@
 
 #import "czzImageViewerUtil.h"
 #import "MWPhotoBrowser.h"
+#import "CustomImageBoardViewer-Swift.h"
 
 @interface czzImageViewerUtil () <MWPhotoBrowserDelegate>
 @end
@@ -33,7 +34,7 @@
         if (!photoBrowserDataSource)
             photoBrowserDataSource = [NSMutableArray new];
         if (![photoBrowserDataSource containsObject:photoPath])
-            [photoBrowserDataSource addObject:photoPath];
+            [photoBrowserDataSource addObject:photoPath.copy];
         [photoBrowser setCurrentPhotoIndex: [photoBrowserDataSource indexOfObject:photoPath]];
         [self show];
     } else {
@@ -63,32 +64,33 @@
 }
 
 -(void)show {
-    if (self.destinationViewController) {
-        if ([self.destinationViewController isKindOfClass:[UINavigationController class]]) {
-            [(UINavigationController *)self.destinationViewController pushViewController:photoBrowser animated:YES];
-        } else {
-            photoBrowserNavigationController = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
-            photoBrowserNavigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-            [self.destinationViewController presentViewController:photoBrowserNavigationController animated:YES completion:nil];
-        }
-    } else {
-        if (NavigationManager.delegate)
-        {
-            
-            if (NavigationManager.isInTransition) {
-                NavigationManager.pushAnimationCompletionHandler = ^{
-                    if (![[UIApplication topViewController] isKindOfClass:[photoBrowser class]]) {
-                        [NavigationManager pushViewController:photoBrowser animated:YES];
-                    }
-                };
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.destinationViewController) {
+            if ([self.destinationViewController isKindOfClass:[UINavigationController class]]) {
+                [(UINavigationController *)self.destinationViewController pushViewControllerWithViewController:photoBrowser animated:YES completion:nil];
             } else {
-                if (![[UIApplication topViewController] isKindOfClass:[photoBrowser class]]) {
-                    [NavigationManager pushViewController:photoBrowser animated:YES];
+                photoBrowserNavigationController = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
+                photoBrowserNavigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+                [self.destinationViewController presentViewController:photoBrowserNavigationController animated:YES completion:nil];
+            }
+        } else {
+            if (NavigationManager.delegate)
+            {
+                
+                if (NavigationManager.isInTransition) {
+                    NavigationManager.pushAnimationCompletionHandler = ^{
+                        if (![[UIApplication topViewController] isKindOfClass:[photoBrowser class]]) {
+                            [NavigationManager.delegate pushViewControllerWithViewController:photoBrowser animated:YES completion:nil];
+                        }
+                    };
+                } else {
+                    if (![[UIApplication topViewController] isKindOfClass:[photoBrowser class]]) {
+                        [NavigationManager.delegate pushViewControllerWithViewController:photoBrowser animated:YES completion:nil];
+                    }
                 }
             }
         }
-    }
-    
+    });
 }
 
 -(void)prepareMWPhotoBrowser {

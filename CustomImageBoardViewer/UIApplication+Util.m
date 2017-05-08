@@ -8,8 +8,6 @@
 
 #import "UIApplication+Util.h"
 
-#import "IIViewDeckController.h"
-
 @implementation UIApplication (Util)
 
 +(UIViewController *)topViewController {
@@ -35,9 +33,6 @@
     if (sharedApplication)
     {
         rootViewController = [[sharedApplication keyWindow] rootViewController];
-    }
-    if ([rootViewController isKindOfClass:[IIViewDeckController class]]) {
-        rootViewController = [(IIViewDeckController*)rootViewController centerController];
     }
     return rootViewController;
 }

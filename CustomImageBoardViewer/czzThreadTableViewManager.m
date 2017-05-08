@@ -12,10 +12,12 @@
 #import "czzThreadRefButton.h"
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzReplyUtil.h"
+#import "czzMarkerManager.h"
 
 @interface czzThreadTableViewManager ()
 @property (nonatomic, strong) PartialTransparentView *containerView;
 @property (nonatomic, assign) CGPoint threadsTableViewContentOffSet;
+@property (nonatomic, strong) NSString *temporarilyHighlightUID;
 @end
 
 @implementation czzThreadTableViewManager
@@ -23,14 +25,6 @@
 -(instancetype)init {
     self = [super init];
     if (self) {
-        //set up custom edit menu
-        UIMenuItem *replyMenuItem = [[UIMenuItem alloc] initWithTitle:@"回复" action:NSSelectorFromString(@"menuActionReply:")];
-        UIMenuItem *copyMenuItem = [[UIMenuItem alloc] initWithTitle:@"复制" action:NSSelectorFromString(@"menuActionCopy:")];
-        UIMenuItem *openMenuItem = [[UIMenuItem alloc] initWithTitle:@"打开链接" action:NSSelectorFromString(@"menuActionOpen:")];
-        UIMenuItem *highlightMenuItem = [[UIMenuItem alloc] initWithTitle:@"高亮他" action:NSSelectorFromString(@"menuActionHighlight:")];
-        //    UIMenuItem *searchMenuItem = [[UIMenuItem alloc] initWithTitle:@"搜索他" action:@selector(menuActionSearch:)];
-        [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, highlightMenuItem, /*searchMenuItem,*/ openMenuItem]];
-        [[UIMenuController sharedMenuController] update];
         // Rotation observer - remove the container view.
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(handleRotationEvent)
@@ -38,6 +32,11 @@
                                                    object:nil];
     }
     return self;
+}
+
+- (void)dealloc {
+    // Remove all notification handlers, this should fix the crashing on iOS 8.
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - UI managements.
@@ -106,10 +105,11 @@
         // Thread view cell
         if ([cell isKindOfClass:[czzMenuEnabledTableViewCell class]]){
             czzMenuEnabledTableViewCell *threadViewCell = (czzMenuEnabledTableViewCell*)cell;
-            threadViewCell.shouldHighlight = YES;
-            threadViewCell.selectedUserToHighlight = self.threadViewManager.selectedUserToHighlight;
+            threadViewCell.shouldBlock = [[czzMarkerManager sharedInstance] isUIDBlocked:thread.UID];
             threadViewCell.cellType = threadViewCellTypeThread;
             threadViewCell.parentThread = self.threadViewManager.parentThread;
+            // TODO: Should temporarily highlight.
+            threadViewCell.shouldTemporarilyHighlight = [self.temporarilyHighlightUID isEqualToString:thread.UID];
             [threadViewCell renderContent];
         }
     }
@@ -127,6 +127,8 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    // When tapping on any row, make all rows resignFirstResponder.
+    [tableView.visibleCells makeObjectsPerformSelector:@selector(resignFirstResponder)];
     if (indexPath.row < self.threadViewManager.threads.count) {
         
     } else {
@@ -158,13 +160,11 @@
         return;
     }
     NSIndexPath *selectedIndexPath;
-    // Use a for loop to find the thread with the given ID.
-    for (czzThread *thread in self.threadViewManager.threads) {
-        if (threadID == thread.ID) {
-            selectedIndexPath = [NSIndexPath indexPathForRow:[self.threadViewManager.threads indexOfObject:thread]
-                                                   inSection:0];
-            break;
-        }
+    // Using NSPredicate to get an array of threads with the given number.
+    NSArray *filteredThreads = [self.threadViewManager.threads filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"ID == %ld", (long) threadID]];
+    if (filteredThreads.firstObject) {
+        selectedIndexPath = [NSIndexPath indexPathForRow:[self.threadViewManager.threads indexOfObject:filteredThreads.firstObject]
+                                               inSection:0];
     }
     if (selectedIndexPath && selectedIndexPath.row < self.threadViewManager.threads.count) {
         czzThread *selectedThread = [self.threadViewManager.threads objectAtIndex:selectedIndexPath.row];
@@ -184,20 +184,13 @@
     [super userTapInQuotedText:text];
 }
 
-- (void)userWantsToReply:(czzThread *)thread inParentThread:(czzThread *)parentThread{
-    DDLogDebug(@"%s : %@", __PRETTY_FUNCTION__, thread);
-    [czzReplyUtil replyToThread:thread inParentThread:parentThread];
-}
-
-- (void)userWantsToHighLight:(czzThread *)thread {
-    DDLogDebug(@"%s : %@", __PRETTY_FUNCTION__, thread);
-    if ([self.homeViewManager isKindOfClass:[czzThreadViewManager class]]) {
-        [(czzThreadViewManager *)self.homeViewManager HighlightThreadSelected:thread];
+- (void)userWantsToTemporarilyHighlightUser:(NSString *)UID {
+    if ([self.temporarilyHighlightUID isEqualToString:UID]) {
+        self.temporarilyHighlightUID = nil;
+    } else {
+        self.temporarilyHighlightUID = UID;
     }
-}
-
-- (void)userWantsToSearch:(czzThread *)thread {
-    DDLogDebug(@"%s : NOT IMPLEMENTED", __PRETTY_FUNCTION__);
+    [self reloadData];
 }
 
 #pragma mark - Rotation event.

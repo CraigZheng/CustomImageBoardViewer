@@ -11,9 +11,20 @@
 #import "czzHistoryManager.h"
 #import "czzWatchListManager.h"
 #import "czzThreadDownloader.h"
+#import "czzMassiveThreadDownloader.h"
+#import "czzMarkerManager.h"
+#import "NSArray+Splitting.h"
 
-@interface czzThreadViewManager()
-@property (nonatomic, assign) NSUInteger cutOffIndex;
+typedef enum : NSUInteger {
+    ViewManagerLoadingModeNormal,
+    ViewManagerLoadingModeJumpping
+} ViewManagerLoadingMode;
+
+@interface czzThreadViewManager() <czzMassiveThreadDownloaderDelegate>
+@property (nonatomic, assign) BOOL pageNumberChanged;
+@property (nonatomic, assign) NSInteger previousPageNumber;
+@property (nonatomic, strong) czzMassiveThreadDownloader *massiveDownloader;
+@property (nonatomic, assign) ViewManagerLoadingMode loadingMode;
 @end
 
 @implementation czzThreadViewManager
@@ -24,7 +35,7 @@
 
 #pragma mark - life cycle.
 -(instancetype)initWithParentThread:(czzThread *)thread andForum:(czzForum *)forum{
-    self = [czzThreadViewManager new];
+    self = [self init];
     if (self) {
         // Record history
         self.parentThread = thread;
@@ -57,12 +68,14 @@
 
 #pragma mark - state perserving/restoring
 -(void)restorePreviousState {
+    NSString *cacheFile = [[czzAppDelegate threadCacheFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)self.parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
     @try {
-        NSString *cacheFile = [[czzAppDelegate threadCacheFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)self.parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
+        // If user doesn't want to use cache, don't attempt to restore.
         if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
             czzThreadViewManager *tempThreadList = [self restoreWithFile:cacheFile];
-            //copy data
-            if (tempThreadList && [tempThreadList isKindOfClass:[czzThreadViewManager class]])
+            // Copy data, only restore it when the tempThreadList has more than 1 thread(counting the parent thread).
+            if ([tempThreadList isKindOfClass:[czzThreadViewManager class]]
+                && tempThreadList.threads.count > 1)
             {
                 _parentThread = tempThreadList.parentThread; // Since there's a custom setter in this class, its better not to invoke it.
                 self.pageNumber = tempThreadList.pageNumber;
@@ -78,19 +91,18 @@
         self.restoredFromCache = NO;
     }
     @catch (NSException *exception) {
+        [[NSFileManager defaultManager] removeItemAtPath:cacheFile error:nil];
         DDLogDebug(@"%@", exception);
     }
 }
 
 -(NSString*)saveCurrentState {
+    DLog(@"");
     NSString *cachePath = [[czzAppDelegate threadCacheFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)self.parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
-    if ([NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
+    if (self.threads.count > 1 && [NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
         return cachePath;
-    } else {
-        DDLogDebug(@"save state failed");
-        [[NSFileManager defaultManager] removeItemAtPath:cachePath error:nil];
-        return nil;
     }
+    return nil;
 }
 
 #pragma mark - setters
@@ -125,57 +137,111 @@
     return _threads;
 }
 
-#pragma mark - czzThreadDownloaderDelegate
+#pragma mark - czzMassiveThreadDownloaderDelegate
 
 - (void)threadDownloaderCompleted:(czzThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads error:(NSError *)error {
-    self.isDownloading = NO;
-    if (success) {
-        self.lastBatchOfThreads = threads;
-        if (downloader.parentThread)
-            self.parentThread = downloader.parentThread;
-        NSArray *processedNewThread;
-        if (self.threads.count > 0) {
-            NSInteger lastChunkIndex = self.threads.count - self.lastBatchOfThreads.count;
-            if (lastChunkIndex < 1)
-                lastChunkIndex = 1;
-            self.cutOffIndex = lastChunkIndex;
-            NSInteger lastChunkLength = self.threads.count - lastChunkIndex;
-            NSRange lastChunkRange = NSMakeRange(lastChunkIndex, lastChunkLength);
-            NSArray *lastChunkOfThread = [self.threads subarrayWithRange:lastChunkRange];
-            NSMutableOrderedSet *oldThreadSet = [NSMutableOrderedSet orderedSetWithArray:lastChunkOfThread];
-            [oldThreadSet addObjectsFromArray:threads];
-            [self.threads removeObjectsInRange:lastChunkRange];
-            processedNewThread = oldThreadSet.array;
-        } else {
-            self.cutOffIndex = 0;
-            NSMutableArray *threadsWithParent = [NSMutableArray new];
-            [threadsWithParent addObject:self.parentThread];
-            [threadsWithParent addObjectsFromArray:threads];
-            processedNewThread = threadsWithParent;
+    NSInteger previousThreadCount = self.threads.count;
+    // Remove the parent thread for easier calculation.
+    if (self.parentThread) {
+        [self.threads removeObject:self.parentThread];
+    }
+    if (downloader.parentThread.ID > 0)
+        self.parentThread = downloader.parentThread;
+    if (success && threads.count) {
+        // Remove any threads with ignored IDs.
+        for (NSNumber *ignoredID in settingCentre.ignoredThreadIDs) {
+            NSArray *threadsWithIgnoredID = [threads filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"ID == %ld", (long) ignoredID.longValue]];
+            if (threadsWithIgnoredID.count) {
+                NSMutableArray *mutableThreads = threads.mutableCopy;
+                [mutableThreads removeObjectsInArray:threadsWithIgnoredID];
+                threads = mutableThreads;
+            }
         }
-        self.lastBatchOfThreads = processedNewThread;
-        [self.threads addObjectsFromArray:self.lastBatchOfThreads];
-        //replace parent thread
-        if (self.threads.count >= 1)
-        {
-            [self.threads replaceObjectAtIndex:0 withObject:self.parentThread];
+        
+        self.lastBatchOfThreads = threads;
+        if (self.threads.count == 0) {
+            [self.threads addObjectsFromArray:threads];
         } else {
-            [self.threads insertObject:self.parentThread atIndex:0];
+            // If the current threads is enought to fill all pages, either append to the end or replace the last page.
+            if (self.threads.count % settingCentre.response_per_page == 0) {
+                // Check previous pageNumber and totalPages, because the current pageNumber and totalPages would both be updated by [self loadMoreThreads:].
+                if (self.previousPageNumber >= downloader.pageNumber) {
+                    // If previousPageNumber is the same as the current pageNumber, replace the last page.
+                    NSMutableArray *pages = [self.threads arraysBySplittingWithSize:settingCentre.response_per_page].mutableCopy;
+                    [pages replaceObjectAtIndex:[pages indexOfObject:pages.lastObject] withObject:threads];
+                    NSMutableArray *tempThreads = [NSMutableArray new];
+                    for (NSArray *page in pages) {
+                        [tempThreads addObjectsFromArray:page];
+                    }
+                    self.threads = tempThreads;
+                } else {
+                    [self.threads addObjectsFromArray:threads];
+                }
+            } else {
+                // If the current threads is not enough to fill all pages, replace the last page.
+                NSMutableArray *pages = [self.threads arraysBySplittingWithSize:settingCentre.response_per_page].mutableCopy;
+                [pages replaceObjectAtIndex:[pages indexOfObject:pages.lastObject] withObject:threads];
+                NSMutableArray *tempThreads = [NSMutableArray new];
+                for (NSArray *page in pages) {
+                    [tempThreads addObjectsFromArray:page];
+                }
+                self.threads = tempThreads;
+            }
         }
     }
-    //calculate current number and total page number
+    // Add back the parent thread.
+    if (self.parentThread) {
+        [self.threads insertObject:self.parentThread atIndex:0];
+    }
     dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.delegate respondsToSelector:@selector(homeViewManager:threadContentProcessed:newThreads:allThreads:)]) {
-            [self.delegate homeViewManager:self threadContentProcessed:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
+        // If the downloader is a massive thread downloader, don't inform delegate about thread download completed event, because there could be more such events.
+        if ([downloader isKindOfClass:[czzMassiveThreadDownloader class]]) {
+            // For massive downloader, if the result is success but no new thread has been added, consider this as a failure.
+            if (success && previousThreadCount == self.threads.count) {
+                DLog(@"Massive downloader provided no new content, stopping...");
+                [self stopAllOperation];
+                if ([self.delegate respondsToSelector:@selector(homeViewManager:threadContentProcessed:newThreads:allThreads:)]) {
+                    [self.delegate homeViewManager:self
+                            threadContentProcessed:false
+                                        newThreads:self.lastBatchOfThreads
+                                        allThreads:self.threads];
+                }
+            }
+        } else {
+            if ([self.delegate respondsToSelector:@selector(homeViewManager:threadContentProcessed:newThreads:allThreads:)]) {
+                [self.delegate homeViewManager:self
+                        threadContentProcessed:success
+                                    newThreads:self.lastBatchOfThreads
+                                    allThreads:self.threads];
+            }
         }
     });
+}
 
+- (void)massiveDownloaderUpdated:(czzMassiveThreadDownloader *)downloader {
+    // At the moment, the downloading is not finished yet.
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([self.delegate respondsToSelector:@selector(viewManagerContinousDownloadUpdated:)]) {
+            [self.delegate viewManagerContinousDownloadUpdated:self];
+        }
+    });
+}
+
+- (void)massiveDownloader:(czzMassiveThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads errors:(NSArray *)errors {
+    DLog(@"");
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([self.delegate respondsToSelector:@selector(viewManager:continousDownloadCompleted:)]) {
+            [self.delegate viewManager:self continousDownloadCompleted:success];
+        }
+    });
 }
 
 #pragma mark - content managements.
 - (void)reset {
     self.totalPages = self.pageNumber = 1;
     self.threads = self.cachedThreads = nil;
+    self.pageNumberChanged = NO;
+    self.loadingMode = ViewManagerLoadingModeNormal;
 }
 
 -(void)removeAll {
@@ -189,16 +255,50 @@
     [super refresh];
 }
 
-#pragma mark - highlight thread selected
--(void)HighlightThreadSelected:(czzThread *)selectedThread {
-    if (selectedThread) {
-        if ([self.selectedUserToHighlight isEqual:selectedThread.UID]) {
-            self.selectedUserToHighlight = nil;
-        }
-        else
-            self.selectedUserToHighlight = selectedThread.UID;
-        [self.delegate homeViewManagerWantsToReload:self];
+- (void)loadAll {
+    DLog(@"");
+    [self stopAllOperation];
+    self.massiveDownloader = [[czzMassiveThreadDownloader alloc] initWithForum:self.downloader.parentForum
+                                                                     andThread:self.downloader.parentThread];
+    self.massiveDownloader.delegate = self;
+    self.massiveDownloader.pageNumber = self.pageNumber + 1; // Start from the next page.
+    [self.massiveDownloader start];
+}
+
+- (void)stopAllOperation {
+    DLog(@"Should stop all downloading operation.");
+    if (self.massiveDownloader) {
+        [self.massiveDownloader stop];
     }
+    if (self.downloader) {
+        [self.downloader stop];
+    }
+}
+
+- (void)loadMoreThreads {
+    // Determine whether or nor I should +1 to the given pageNumber.
+    // If the downloaded response can be % by response_per_page, that means all is OK.
+    NSInteger remainder = (self.threads.count - 1) % settingCentre.response_per_page;
+    if (remainder == 0) {
+        [self loadMoreThreads:self.pageNumber + 1];
+    } else {
+        [self loadMoreThreads:self.pageNumber];
+    }
+}
+
+- (void)loadMoreThreads:(NSInteger)pageNumber {
+    self.previousPageNumber = self.pageNumber;
+    [super loadMoreThreads:pageNumber];
+    // If the updated page number is different than the old page number, set self.pageIncreased to true.
+    self.pageNumberChanged = self.pageNumber != self.previousPageNumber;
+}
+
+- (void)jumpToPage:(NSInteger)page {
+    [self stopAllOperation];
+    [self removeAll];
+    self.threads = self.cachedThreads = nil;
+    self.loadingMode = ViewManagerLoadingModeJumpping;
+    [self loadMoreThreads:page];
 }
 
 #pragma mark - NSCoding
@@ -250,6 +350,17 @@
     _downloader.parentThread = self.parentThread;
     _downloader.delegate = self;
     return _downloader;
+}
+
+// Override isDownloading, this class need to consider the massive downloader as well.
+- (BOOL)isDownloading {
+    BOOL massiveDownloading = self.massiveDownloader.isDownloading;
+    BOOL normalDownloading = super.isDownloading;
+    return normalDownloading || massiveDownloading;
+}
+
+- (BOOL)isMassiveDownloading {
+    return self.massiveDownloader.isDownloading;
 }
 
 @end

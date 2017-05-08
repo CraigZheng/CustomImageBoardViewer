@@ -7,14 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "IIViewDeckController.h"
+
 @import GoogleMobileAds;
 
 extern NSString * const kForumPickedNotification;
 extern NSString * const kPickedForum;
 
 
-@interface czzForumsViewController : UIViewController <IIViewDeckControllerDelegate>
+@interface czzForumsViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UITableView *forumsTableView;
 @property (strong, nonatomic) GADBannerView *bannerView_;
 @property (strong, nonatomic) NSArray *forums;

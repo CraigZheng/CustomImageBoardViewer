@@ -25,16 +25,24 @@
 #import "UIApplication+Util.h"
 #import "UINavigationController+Util.h"
 #import "czzMenuEnabledTableViewCell.h"
+#import "czzMarkerManager.h"
+#import "czzBigImageModeTableViewCell.h"
+#import "czzForumsViewController.h"
+#import <ImageIO/ImageIO.h>
 
-@interface czzHomeTableViewManager() <czzImageDownloaderManagerDelegate>
+#import "CustomImageBoardViewer-Swift.h"
+
+@import DZNEmptyDataSet;
+
+@interface czzHomeTableViewManager() <czzImageDownloaderManagerDelegate, UIDataSourceModelAssociation, DZNEmptyDataSetSource>
 
 @property (strong) czzImageViewerUtil *imageViewerUtil;
 @property (nonatomic, readonly) NSIndexPath *lastRowIndexPath;
 @property (nonatomic, readonly) BOOL tableViewIsDraggedOverTheBottom;
-@property (nonatomic, assign) BOOL bigImageMode;
+@property (nonatomic, readonly) BOOL bigImageMode;
 @property (nonatomic, strong) czzMenuEnabledTableViewCell *sizingCell;
-@property (nonatomic, strong) NSMutableOrderedSet *pendingBulkUpdateIndexes;
 @property (nonatomic, strong) NSTimer *bulkUpdateTimer;
+@property (nonatomic, strong) NSMutableDictionary *contentEstimatedHeights;
 
 - (BOOL)tableViewIsDraggedOverTheBottomWithPadding:(CGFloat)padding;
 
@@ -45,17 +53,35 @@
 -(instancetype)init {
     self = [super init];
     if (self) {
+        //set up custom edit menu
+        UIMenuItem *replyMenuItem = [[UIMenuItem alloc] initWithTitle:@"回复"
+                                                               action:NSSelectorFromString(@"menuActionReply:")];
+        UIMenuItem *copyMenuItem = [[UIMenuItem alloc] initWithTitle:@"复制..."
+                                                              action:NSSelectorFromString(@"menuActionCopy:")];
+        UIMenuItem *openMenuItem = [[UIMenuItem alloc] initWithTitle:@"打开链接"
+                                                              action:NSSelectorFromString(@"menuActionOpen:")];
+        UIMenuItem *temporarilyHighlightMenuItem = [[UIMenuItem alloc] initWithTitle:@"高亮"
+                                                                   action:NSSelectorFromString(@"menuActionTemporarilyHighlight:")];
+        UIMenuItem *highlightMenuItem = [[UIMenuItem alloc] initWithTitle:@"标记..."
+                                                                   action:NSSelectorFromString(@"menuActionHighlight:")];
+        UIMenuItem *reportMenuItem = [[UIMenuItem alloc] initWithTitle:@"举报"
+                                                               action:NSSelectorFromString(@"menuActionReport:")];
+        //    UIMenuItem *searchMenuItem = [[UIMenuItem alloc] initWithTitle:@"搜索他" action:@selector(menuActionSearch:)];
+        [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, temporarilyHighlightMenuItem, highlightMenuItem, reportMenuItem, /*searchMenuItem,*/ openMenuItem]];
+        [[UIMenuController sharedMenuController] update];
+        
         self.imageViewerUtil = [czzImageViewerUtil new];
-        self.pendingBulkUpdateIndexes = [NSMutableOrderedSet new];
-        self.pendingChangedThreadID = [NSMutableOrderedSet new];
-        self.bigImageMode = [settingCentre userDefShouldUseBigImage];
         [[czzImageDownloaderManager sharedManager] addDelegate:self];
-        if ([self isMemberOfClass:[czzHomeTableViewManager class]]) {
-            [[NSNotificationCenter defaultCenter] addObserver:self
-                                                     selector:@selector(settingsChangedNotificationReceived:)
-                                                         name:settingsChangedNotification
-                                                       object:nil];
-        }
+        __weak czzHomeTableViewManager *weakSelf = self;
+        [[NSNotificationCenter defaultCenter] addObserverForName:kForumPickedNotification
+                                                          object:nil
+                                                           queue:[NSOperationQueue mainQueue]
+                                                      usingBlock:^(NSNotification * _Nonnull note) {
+                                                          dispatch_async(dispatch_get_main_queue(), ^{
+                                                              [weakSelf.homeTableView reloadEmptyDataSet];
+                                                          });
+                                                      }
+         ];
     }
     return self;
 }
@@ -63,35 +89,32 @@
 - (void)reloadData {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.homeTableView) {
-            for (NSIndexPath *indexPath in self.homeTableView.indexPathsForVisibleRows) {
-                if (indexPath.row < self.homeViewManager.threads.count) {
-                    czzThread *thread = self.homeViewManager.threads[indexPath.row];
-                    [self.pendingChangedThreadID addObject:@(thread.ID)];
-                }
-            }
             [self.homeTableView reloadData];
         }
     });
 }
 
 - (void)bulkUpdateRows:(id)sender {
-    NSMutableArray *pendingIndexes = [NSMutableArray new];
-    // Find all the pending indexes that are still visible.
-    for (NSIndexPath *cellIndexPath in self.pendingBulkUpdateIndexes) {
-        if ([self.homeTableView.indexPathsForVisibleRows containsObject:cellIndexPath]) {
-            [pendingIndexes addObject:cellIndexPath];
-        }
-    }
-    // Update all the visible pending indexes.
-    if (pendingIndexes.count) {
-        [self.homeTableView reloadRowsAtIndexPaths:pendingIndexes
-                                  withRowAnimation:UITableViewRowAnimationNone];
-    }
-    // Clear pending indexes.
-    [self.pendingBulkUpdateIndexes removeAllObjects];
+    [self.homeTableView reloadData];
 }
 
 #pragma mark - UITableViewDelegate
+
+- (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row < self.homeViewManager.threads.count) {
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender{
+    return (action == @selector(copy:));
+}
+
+- (void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender{
+    
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (!self.homeTableView) {
         self.homeTableView = (czzThreadTableView*)tableView;
@@ -117,13 +140,13 @@
     {
         //@todo open the selected thread
         czzThreadViewController *threadViewController = [czzThreadViewController new];
-        threadViewController.threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:selectedThread andForum:self.homeViewManager.forum];
+        threadViewController.thread = selectedThread;
         [NavigationManager pushViewController:threadViewController animated:YES];
     }
     // If not downloading or processing, load more threads.
     else if (!self.homeViewManager.isDownloading) {
         [self.homeViewManager loadMoreThreads];
-        [tableView reloadData];
+        self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
     }
 }
 
@@ -152,18 +175,6 @@
     }
 }
 
-- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([cell isKindOfClass:[czzMenuEnabledTableViewCell class]]) {
-        NSNumber *threadID = @([(czzMenuEnabledTableViewCell *)cell thread].ID);
-        if ([self.pendingChangedThreadID containsObject:threadID]) {
-            // Do nothing, the cell is waiting to be changed.
-        } else {
-            CGFloat actualHeight = CGRectGetHeight(cell.frame);
-            [self.cachedHeights setObject:@(actualHeight) forKey:threadID];
-        }
-    }
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat height = UITableViewAutomaticDimension;
     BOOL quickScrolling = [(czzThreadTableView *)tableView quickScrolling];
@@ -171,22 +182,6 @@
         // If quick scrolling, return the estimated height instead.
         height = [self tableView:tableView
 estimatedHeightForRowAtIndexPath:indexPath];
-    } else {
-        // If is using big image mode, don't use the cached heights, calculate them in real time.
-        if (!settingCentre.userDefShouldUseBigImage) {
-            if (indexPath.row < self.homeViewManager.threads.count) {
-                NSNumber *threadID = @([self.homeViewManager.threads[indexPath.row] ID]);
-                // If the changes pending contain this thread, don't cache its height.
-                if ([self.pendingChangedThreadID containsObject:threadID]) {
-                    [self.pendingChangedThreadID removeObject:threadID];
-                } else {
-                    NSNumber *cachedHeight = [self.cachedHeights objectForKey:threadID];
-                    if (cachedHeight) {
-                        height = cachedHeight.floatValue;
-                    }
-                }
-            }
-        }
     }
     return height;
 }
@@ -195,28 +190,80 @@ estimatedHeightForRowAtIndexPath:indexPath];
     CGFloat estimatedHeight = 44.0;
     if (indexPath.row < self.homeViewManager.threads.count) {
         czzThread *thread = self.homeViewManager.threads[indexPath.row];
-        NSNumber *threadID = @(thread.ID);
-        // If its been cached.
-        if ([self.cachedHeights objectForKey:threadID]) {
-            estimatedHeight = [[self.cachedHeights objectForKey:threadID] floatValue];
+        if (self.contentEstimatedHeights[@(thread.ID)]) {
+            estimatedHeight = [self.contentEstimatedHeights[@(thread.ID)] floatValue];
         } else {
-            // Calculate an estimated height based on if an image is available.
-            // If the width is bigger than height, set the base height to be 50, otherwise let it be 100.
-            estimatedHeight = CGRectGetWidth(tableView.frame) > CGRectGetHeight(tableView.frame) ? 50 : 100;
-            if (thread.imgSrc.length) {
-                // If big image mode and has the image/thumbnail, add 70% of the shortest edge to the estimated height.
-                if (self.bigImageMode &&
-                    ([[czzImageCacheManager sharedInstance] hasThumbnailWithName:thread.imgSrc.lastPathComponent] ||
-                     [[czzImageCacheManager sharedInstance] hasImageWithName:thread.imgSrc.lastPathComponent])) {
-                        estimatedHeight += MIN(CGRectGetWidth(tableView.frame), CGRectGetHeight(tableView.frame)) * 0.8;
-                    } else {
-                        // Add the fixed image view constraint constant to the estimated height.
-                        estimatedHeight += fixedConstraintConstant;
-                    }
+            // Estimated height based on the content.
+            @try {
+                estimatedHeight = [[[NSAttributedString alloc] initWithString:thread.content.string.length ? thread.content.string : @""
+                                                                   attributes:@{NSFontAttributeName: settingCentre.contentFont}] boundingRectWithSize:CGSizeMake(CGRectGetWidth(tableView.frame), MAXFLOAT)
+                                   options:NSStringDrawingUsesLineFragmentOrigin
+                                   context:nil].size.height + 44;
+            } @catch (NSException *exception) {
+                DLog(@"%@", exception);
             }
+            // Calculate an estimated height based on if an image is available.
+            if (thread.imgSrc.length && settingCentre.shouldDisplayImage) {
+                // If big image mode and has the image, add 75% of the shortest edge to the estimated height.
+                if (self.bigImageMode &&
+                    [[czzImageCacheManager sharedInstance] hasImageWithName:thread.imgSrc.lastPathComponent]) {
+                    CGSize imageSize = [self getImageSizeWithPath:[[czzImageCacheManager sharedInstance] pathForImageWithName:thread.imgSrc.lastPathComponent]];
+                    CGFloat bigImageHeightLimit = CGRectGetHeight(tableView.frame) * 0.75;
+                    // If the actual image height is smaller than big image height limit, use the actual height.
+                    if (!CGSizeEqualToSize(CGSizeZero, imageSize) && imageSize.height < bigImageHeightLimit) {
+                        estimatedHeight += imageSize.height;
+                    } else {
+                        estimatedHeight += bigImageHeightLimit;
+                    }
+                } else {
+                    estimatedHeight += kCellImageViewHeight;
+                }
+            }
+            // Record the newly created estimated height.
+            self.contentEstimatedHeights[@(thread.ID)] = @(estimatedHeight);
         }
     }
     return estimatedHeight;
+}
+
+// Copied from http://stackoverflow.com/questions/4169677/accessing-uiimage-properties-without-loading-in-memory-the-image/4170099#4170099
+- (CGSize)getImageSizeWithPath:(NSURL *)imageURL {
+    CGImageSourceRef imageSource = imageURL != nil ?
+    CGImageSourceCreateWithURL((CFURLRef)imageURL, NULL) : NULL;
+    if (imageSource == NULL) {
+        // Error loading image
+        return CGSizeZero;
+    }
+    
+    CGFloat width = 0.0f, height = 0.0f;
+    CFDictionaryRef imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, NULL);
+        
+    if (imageProperties != NULL) {
+        
+        CFNumberRef widthNum  = CFDictionaryGetValue(imageProperties, kCGImagePropertyPixelWidth);
+        if (widthNum != NULL) {
+            CFNumberGetValue(widthNum, kCFNumberCGFloatType, &width);
+        }
+        
+        CFNumberRef heightNum = CFDictionaryGetValue(imageProperties, kCGImagePropertyPixelHeight);
+        if (heightNum != NULL) {
+            CFNumberGetValue(heightNum, kCFNumberCGFloatType, &height);
+        }
+        
+        // Check orientation and flip size if required
+        CFNumberRef orientationNum = CFDictionaryGetValue(imageProperties, kCGImagePropertyOrientation);
+        if (orientationNum != NULL) {
+            int orientation;
+            CFNumberGetValue(orientationNum, kCFNumberIntType, &orientation);
+            if (orientation > 4) {
+                CGFloat temp = width;
+                width = height;
+                height = temp;
+            }
+        }
+    }
+    
+    return CGSizeMake(width, height);
 }
 
 #pragma mark - UITableView datasource
@@ -227,7 +274,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == self.homeViewManager.threads.count){
+    if (indexPath.row >= self.homeViewManager.threads.count) {
         //Last row
         NSString *lastCellIdentifier = THREAD_TABLEVIEW_COMMAND_CELL_IDENTIFIER;
         czzThreadTableViewCommandCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:lastCellIdentifier forIndexPath:indexPath];
@@ -245,16 +292,29 @@ estimatedHeightForRowAtIndexPath:indexPath];
         return cell;
     }
     
-    NSString *cell_identifier = THREAD_VIEW_CELL_IDENTIFIER;
+    NSString *cell_identifier = settingCentre.userDefShouldUseBigImage ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
     czzThread *thread = [self.homeViewManager.threads objectAtIndex:indexPath.row];
     czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
     if (cell){
         cell.delegate = self;
-        cell.shouldHighlight = NO;
+        if ([[czzMarkerManager sharedInstance] isHighlighted:thread.UID]) {
+            cell.highlightColour = [[czzMarkerManager sharedInstance] highlightColourForUID:thread.UID];
+            cell.nickname = [[czzMarkerManager sharedInstance] nicknameForUID:thread.UID];
+        } else {
+            cell.highlightColour = nil;
+            cell.nickname = nil;
+        }
+        if ([[czzMarkerManager sharedInstance] isUIDBlocked:thread.UID]) {
+            cell.shouldBlock = YES;
+            cell.allowImage = NO;
+            cell.highlightColour = [UIColor lightGrayColor];
+        } else {
+            cell.shouldBlock = NO;
+            cell.allowImage = [settingCentre userDefShouldDisplayThumbnail];
+        }
         cell.myIndexPath = indexPath;
         cell.nightyMode = [settingCentre userDefNightyMode];
         cell.bigImageMode = [settingCentre userDefShouldUseBigImage];
-        cell.allowImage = [settingCentre userDefShouldDisplayThumbnail];
         cell.cellType = threadViewCellTypeHome;
         cell.thread = thread;
         if ([self isMemberOfClass:[czzHomeTableViewManager class]]) {
@@ -265,6 +325,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
 }
 
 #pragma mark - UIScrollViewDelegate
+
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     if ([settingCentre userDefShouldShowOnScreenCommand]) {
         [self.homeTableView.upDownViewController show];
@@ -272,48 +333,52 @@ estimatedHeightForRowAtIndexPath:indexPath];
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (!self.homeViewManager.isDownloading && self.homeViewManager.threads.count > 0) {
-        if (self.tableViewIsDraggedOverTheBottom) {
-            if ([self tableViewIsDraggedOverTheBottomWithPadding:44 * 2]) {
-                self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore;
-            } else {
-                if (self.homeTableView.lastCellType != czzThreadViewCommandStatusCellViewTypeLoadMore) {
-                    self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
-                }
-            }
+    // If current the view manager reports its being downloaded, don't do anything.
+    if (!self.homeViewManager.isDownloading) {
+        // If dragged over the threshold, set to "release to load more" cell.
+        if (self.tableViewIsDraggedOverTheBottom &&
+            self.homeViewManager.pageNumber < self.homeViewManager.totalPages) {
+            self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore;
+        } else {
+            self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
         }
     }
 }
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (!self.homeViewManager.isDownloading && self.homeViewManager.threads.count > 0) {
-        if ([self tableViewIsDraggedOverTheBottomWithPadding:44 * 2]) {
-            [self.homeViewManager loadMoreThreads];
-            self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
-        }
+    // If user released while the scrollView is dragged up over the threshold, and view manager still has unloaded page, reload the view manager.
+    if (!self.homeViewManager.isDownloading &&
+        self.homeTableView.lastCellType == czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore &&
+        self.homeViewManager.pageNumber < self.homeViewManager.totalPages) {
+        [self.homeViewManager loadMoreThreads];
+        self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
     }
-}
-
-#pragma mark - Notification handler
-
-- (void)settingsChangedNotificationReceived:(NSNotification *)notification {
-    // When settings are changed, always clear the heights cache.
-    self.cachedHeights = nil;
 }
 
 #pragma mark - czzMenuEnableTableViewCellDelegate
--(void)userTapInImageView:(NSString *)imgURL {
-    // If image exists
-    if ([[czzImageCacheManager sharedInstance] hasImageWithName:imgURL.lastPathComponent]) {
-        [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:imgURL.lastPathComponent]];
-        return;
-    }
-    
-    // Image not found in local storage, start or stop the image downloader with the image URL
-    if ([[czzImageDownloaderManager sharedManager] isImageDownloading:imgURL.lastPathComponent]) {
-        [[czzImageDownloaderManager sharedManager] stopDownloadingImage:imgURL.lastPathComponent];
-    } else {
-        [[czzImageDownloaderManager sharedManager] downloadImageWithURL:imgURL isThumbnail:NO];
+-(void)userTapInImageView:(id)sender {
+    UITableViewCell *cell;
+    if ([sender isKindOfClass:[UITableViewCell class]]) {
+        cell = (UITableViewCell *)sender;
+        // Get indexPath, then the corresponding threads from it.
+        NSIndexPath *indexPath = [self.homeTableView indexPathForCell:cell];
+        if (indexPath && indexPath.row < self.homeViewManager.threads.count) {
+            NSString *imgURL = [self.homeViewManager.threads[indexPath.row] imgSrc];
+            if (imgURL.length) {
+                // If image exists
+                if ([[czzImageCacheManager sharedInstance] hasImageWithName:imgURL.lastPathComponent]) {
+                    [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:imgURL.lastPathComponent]];
+                    return;
+                }
+                
+                // Image not found in local storage, start or stop the image downloader with the image URL
+                if ([[czzImageDownloaderManager sharedManager] isImageDownloading:imgURL.lastPathComponent]) {
+                    [[czzImageDownloaderManager sharedManager] stopDownloadingImage:imgURL.lastPathComponent];
+                } else {
+                    [[czzImageDownloaderManager sharedManager] downloadImageWithURL:imgURL isThumbnail:NO];
+                }
+            }
+        }
     }
 }
 
@@ -334,43 +399,74 @@ estimatedHeightForRowAtIndexPath:indexPath];
             if (thread) {
                 [self.homeViewManager showContentWithThread:thread];
             } else {
-                [[czzAppDelegate sharedAppDelegate] showToast:[NSString stringWithFormat:@"找不到引用串：%ld", (long)thread.ID]];
+                [MessagePopup showMessagePopupWithTitle:nil
+                                                message:[NSString stringWithFormat:@"找不到引用串：%ld", (long)thread.ID]
+                                                 layout:MessagePopupLayoutCardView
+                                                  theme:MessagePopupThemeError
+                                               position:MessagePopupPresentationStyleTop
+                                            buttonTitle:nil
+                                    buttonActionHandler:nil];
             }
         });
     });
 }
 
-- (void)threadViewCellContentChanged:(czzMenuEnabledTableViewCell *)cell {
-    NSNumber *threadID = @(cell.thread.ID);
-    [self.cachedHeights removeObjectForKey:threadID];
-    [self.pendingChangedThreadID addObject:threadID];
+- (void)userWantsToReply:(czzThread *)thread inParentThread:(czzThread *)parentThread{
+    DDLogDebug(@"%s : %@", __PRETTY_FUNCTION__, thread);
+    [czzReplyUtil replyToThread:thread inParentThread:parentThread];
+}
 
-    // If not big image mode, the size of the image should be the same, so no need to reload data.
-    if (settingCentre.userDefShouldUseBigImage) {
-        // Group the incoming calls within next set period of time to update in a batch.
-        if (!self.bulkUpdateTimer.isValid) {
-            self.bulkUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:0.4
-                                                                    target:self
-                                                                  selector:@selector(bulkUpdateRows:)
-                                                                  userInfo:nil
-                                                                   repeats:NO];
-        }
-        NSIndexPath *cellIndexPath = [self.homeTableView indexPathForCell:cell];
-        if (cellIndexPath) {
-            [self.pendingBulkUpdateIndexes addObject:cellIndexPath];
-        }
+- (void)userWantsToReport:(czzThread *)thread inParentThread:(czzThread *)parentThread {
+    [czzReplyUtil reportThread:thread inParentThread:parentThread];
+}
+
+- (void)userWantsToHighlightUser:(NSString *)UID {
+    [self.homeViewManager highlightUID:UID];
+}
+
+- (void)userWantsToBlockUser:(NSString *)UID {
+    [self.homeViewManager blockUID:UID];
+}
+
+- (void)userWantsToSearch:(czzThread *)thread {
+    DDLogDebug(@"%s : NOT IMPLEMENTED", __PRETTY_FUNCTION__);
+}
+
+- (void)threadViewCellContentChanged:(czzMenuEnabledTableViewCell *)cell {
+    // Group the incoming calls within next set period of time to update in a batch.
+    if (!self.bulkUpdateTimer.isValid) {
+        self.bulkUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:0.4
+                                                                target:self
+                                                              selector:@selector(bulkUpdateRows:)
+                                                              userInfo:nil
+                                                               repeats:NO];
     }
+}
+
+- (void)viewWillTransitionToSize {
+    // Reset the cached estimated heights.
+    self.contentEstimatedHeights = nil;
 }
 
 #pragma mark - czzImageDownloaderManagerDelegate
 -(void)imageDownloaderManager:(czzImageDownloaderManager *)manager downloadedFinished:(czzImageDownloader *)downloader imageName:(NSString *)imageName wasSuccessful:(BOOL)success {
     if (success) {
-        // If: not thumbnail, self is czzHomeTableViewManager, should auto open image and not auto download image.
-        if (!downloader.isThumbnail &&
-            [self isMemberOfClass:[czzHomeTableViewManager class]] &&
-            [settingCentre userDefShouldAutoOpenImage] &&
-            ![settingCentre userDefShouldAutoDownloadImage]) {
-            [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]];
+        // If: not thumbnail, self is czzHomeTableViewManager, should auto open image.
+        if (!downloader.isThumbnail
+            && [self isMemberOfClass:[czzHomeTableViewManager class]]) {
+            if ([settingCentre userDefShouldAutoOpenImage]) {
+                // If user is in big image mode, don't auto open image when auto download is on.
+                if ([settingCentre userDefShouldUseBigImage]) {
+                    if (![settingCentre userDefShouldAutoDownloadImage]) {
+                        [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]];
+                    }
+                } else {
+                    [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:imageName]];
+                }
+            } else if (!settingCentre.userDefShouldUseBigImage && !settingCentre.shouldShowImageManagerButton) {
+                // When not automatically openning image, not big image mode and not showing image manager button, show a toast message to user instead.
+                [AppDelegate showToast:@"图片下载完毕"];
+            }
         }
     } else
         DDLogDebug(@"img download failed");
@@ -386,27 +482,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
         [AppDelegate showToast:@"开始下载图片..."];
 }
 
-#pragma mark - Rotation event.
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-    // Clear the cached heights.
-    self.cachedHeights = nil;
-}
-
 #pragma mark - Getters 
-
-- (czzMenuEnabledTableViewCell *)sizingCell {
-    if (!_sizingCell) {
-        _sizingCell = [self.homeTableView dequeueReusableCellWithIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
-    }
-    return _sizingCell;
-}
-
-- (NSMutableDictionary *)cachedHeights {
-    if (!_cachedHeights) {
-        _cachedHeights = [NSMutableDictionary new];
-    }
-    return _cachedHeights;
-}
 
 - (BOOL)tableViewIsDraggedOverTheBottom {
     return [self tableViewIsDraggedOverTheBottomWithPadding:44];
@@ -439,13 +515,68 @@ estimatedHeightForRowAtIndexPath:indexPath];
     return [NSIndexPath indexPathForRow:self.homeViewManager.threads.count inSection:0];
 }
 
-#pragma marl - Setters
+- (BOOL)bigImageMode {
+    return [settingCentre userDefShouldUseBigImage];
+}
+
+#pragma mark - Setters
 - (void)setHomeTableView:(czzThreadTableView *)homeTableView {
     _homeTableView = homeTableView;
     if (homeTableView) {
         homeTableView.estimatedRowHeight = 80;
         homeTableView.rowHeight = UITableViewAutomaticDimension;
     }
+}
+
+#pragma mark - Getters
+
+- (NSMutableDictionary *)contentEstimatedHeights {
+    if (!_contentEstimatedHeights) {
+        _contentEstimatedHeights = [NSMutableDictionary new];
+    }
+    return _contentEstimatedHeights;
+}
+
+#pragma mark - UIDataSourceModelAssociation
+
+- (NSString *)modelIdentifierForElementAtIndexPath:(NSIndexPath *)idx inView:(UIView *)view {
+    if (idx.row < self.homeViewManager.threads.count) {
+        // Return thread ID.
+        return [NSString stringWithFormat:@"%ld", (long)[self.homeViewManager.threads[idx.row] ID]];
+    } else {
+        // Last row.
+        return @"lastRow";
+    }
+}
+
+- (NSIndexPath *)indexPathForElementWithModelIdentifier:(NSString *)identifier inView:(UIView *)view {
+    if ([identifier isEqualToString:@"lastRow"]) {
+        // Return last row.
+        return [NSIndexPath indexPathForRow:0 inSection:self.homeViewManager.threads.count];
+    } else {
+        NSInteger identifierInteger = [identifier integerValue];
+        for (czzThread * thread in self.homeViewManager.threads) {
+            if (thread.ID == identifierInteger) {
+                return [NSIndexPath indexPathForRow:0 inSection:[self.homeViewManager.threads indexOfObject:thread]];
+            }
+        }
+    }
+    // Failed to return anything.
+    return nil;
+}
+
+#pragma mark - DZNEmptyDataSetSource, DZNEmptyDataSetDelegate
+
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
+    return [[NSAttributedString alloc] initWithString:@"没有内容" attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:18]}];
+}
+
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
+    return [[NSAttributedString alloc] initWithString:@"请先选择一个板块" attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:14]}];
+}
+
+- (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView {
+    return self.homeViewManager.forum == nil;
 }
 
 @end

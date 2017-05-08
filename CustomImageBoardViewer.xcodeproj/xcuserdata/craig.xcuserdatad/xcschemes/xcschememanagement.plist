@@ -4,15 +4,25 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>AC-emoticon.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>53</integer>
+		</dict>
 		<key>CIV-Simulator.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>3</integer>
+		</dict>
+		<key>CIVWatchApp.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>37</integer>
 		</dict>
 		<key>CustomImageBoardViewer WatchKit App.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>2</integer>
 		</dict>
 		<key>CustomImageBoardViewer.xcscheme</key>
 		<dict>
@@ -22,7 +32,7 @@
 		<key>Glance - CustomImageBoardViewer WatchKit App.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>5</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -38,6 +48,11 @@
 			<true/>
 		</dict>
 		<key>44553FDB1BABEBA700667435</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>4459A3621DFFA61700C196C1</key>
 		<dict>
 			<key>primary</key>
 			<true/>

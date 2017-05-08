@@ -9,6 +9,7 @@
 #import "czzThreadTableView.h"
 
 #import "czzMenuEnabledTableViewCell.h"
+#import "czzBigImageModeTableViewCell.h"
 #import "czzThreadTableViewCommandCellTableViewCell.h"
 #import "czzOnScreenCommandViewController.h"
 
@@ -35,6 +36,7 @@
 }
 
 -(void)awakeFromNib {
+    [super awakeFromNib];
     self.upDownViewController = [czzOnScreenCommandViewController new];
     self.upDownViewController.delegate = self;
     self.estimatedRowHeight = 44.0;
@@ -44,6 +46,8 @@
 -(void)registerNibs {
     // Register thread view cells
     [self registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
+    [self registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER];
+
     // Register thread view command cells
     [self registerNib:[UINib nibWithNibName:THREAD_TABLEVIEW_COMMAND_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_TABLEVIEW_COMMAND_CELL_IDENTIFIER];
 }
@@ -82,13 +86,6 @@
                         atScrollPosition:UITableViewScrollPositionBottom
                                 animated:YES];
             self.quickScrolling = NO;
-            // At the end of the previous operation, scroll to bottom again.
-            // This ensures the result tableview is indeed at the bottom.
-            [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-                [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:rows - 1 inSection:0]
-                            atScrollPosition:UITableViewScrollPositionBottom
-                                    animated:YES];
-            }];
         }
     });
 }
@@ -99,8 +96,10 @@
 }
 
 - (void)setLastCellType:(czzThreadViewCommandStatusCellViewType)lastCellType {
-    _lastCellType = lastCellType;
-    self.lastCellCommandViewController.cellType = lastCellType;
+    if (_lastCellType != lastCellType) {
+        _lastCellType = lastCellType;
+        self.lastCellCommandViewController.cellType = lastCellType;
+    }
 }
 
 #pragma mark - Getters

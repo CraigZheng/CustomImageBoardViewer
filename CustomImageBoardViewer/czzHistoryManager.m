@@ -123,7 +123,6 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
                 self.respondedThreads = tempSet;
             }
         }
-        DDLogDebug(@"Restored histories.");
     }
     @catch (NSException *exception) {
         DDLogDebug(@"%@", exception);
@@ -132,7 +131,6 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
 }
 
 -(void)saveCurrentState {
-    DDLogDebug(@"%s", __PRETTY_FUNCTION__);
     if (![NSKeyedArchiver archiveRootObject:browserHistory toFile:self.historyCachePath]) {
         DDLogDebug(@"unable to save browser history");
     }
@@ -155,53 +153,16 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
     [self saveCurrentState];
 }
 
-- (void)addToPostedList:(NSString *)title content:(NSString *)content hasImage:(BOOL)hasImage forum:(czzForum *)forum {
+- (void)addToPostedList:(czzThread *)postedThread {
     // No title, no content, no image, then what are you doing here?
-    if (!title.length &&
-        !content.length &&
-        !hasImage) {
+    if (!postedThread) {
         return;
     }
-    self.threadDownloader = [czzThreadDownloader new];
-    self.threadDownloader.pageNumber = 1;
-    self.threadDownloader.parentForum = forum;
-    // In completion handler, compare the downloaded threads and see if there's any that is matching.
-    __weak typeof(self) weakSelf = self; // Weak self is for supperssing the warning.
-    DLog(@"%@", content);
-    self.threadDownloader.completionHandler = ^(BOOL success, NSArray *downloadedThreads, NSError *error){
-        DLog(@"%s, error: %@", __PRETTY_FUNCTION__, error);
-        for (czzThread *thread in downloadedThreads) {
-            // Compare title and content.
-            czzThread *matchedThread;
-            DLog(@"Downloaded thread: %@", thread.content.string);
-            // When comparing, remove the white space and newlines from both the reference title/content and the thread title content,
-            // this would reduce the risk of error.
-            if (title.length && [[title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
-                                 isEqualToString:[thread.title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]]) {
-                matchedThread = thread;
-            } else if (content.length && [[content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
-                                          isEqualToString:[thread.content.string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]]) {
-                matchedThread = thread;
-            }
-            // If no title and content given, but has image, then the first downloaded thread with image is most likely the matching thread.
-            else if (hasImage && thread.imgSrc.length) {
-                matchedThread = thread;
-            }
-            if (matchedThread) {
-                DDLogDebug(@"Found match: %@", matchedThread);
-                [weakSelf.postedThreads addObject:matchedThread];
-                if (weakSelf.postedThreads.count > HISTORY_UPPER_LIMIT) {
-                    [weakSelf.postedThreads removeObject:weakSelf.postedThreads.firstObject];
-                }
-                [weakSelf saveCurrentState];
-                break;
-            }
-        }
-    };
-    // Start the refreshing 5 seconds later, give server some time to respond.
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.threadDownloader start];
-    });
+    [self.postedThreads addObject:postedThread];
+    if (self.postedThreads.count > HISTORY_UPPER_LIMIT) {
+        [self.postedThreads removeObject:self.postedThreads.firstObject];
+    }
+    [self saveCurrentState];
 }
 
 #pragma mark - Getters
