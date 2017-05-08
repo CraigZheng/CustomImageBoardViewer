@@ -277,7 +277,10 @@ NSInteger kCellImageViewHeight = 120;
     } else if (actionSheet == self.contentCopyActionSheet && buttonTitle.length) {
         NSString *copyContent = @"";
         if ([buttonTitle isEqualToString:@"内容"]) {
-            copyContent = self.thread.content.string;
+            NSString *sharingContent = self.thread.content.string;
+            NSString *threadLink = [[settingCentre share_post_url] stringByReplacingOccurrencesOfString:kThreadID
+                                                                                             withString:[NSString stringWithFormat:@"%ld", (long)[(self.parentThread ? self.parentThread : self.thread) ID]]];
+            copyContent = [NSString stringWithFormat:@"%@\n\n%@", sharingContent, threadLink];
         } else if ([buttonTitle isEqualToString:@"串号"]) {
             copyContent = [NSString stringWithFormat:@"No.%ld", (long)self.thread.ID];
         } else if ([buttonTitle isEqualToString:@"用户饼干"]) {
