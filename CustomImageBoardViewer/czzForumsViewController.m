@@ -37,7 +37,6 @@ NSString * const kPickedForum = @"PickedForum";
 @end
 
 @implementation czzForumsViewController
-@synthesize forumsTableView;
 @synthesize bannerView_;
 @synthesize lastAdUpdateTime;
 @synthesize adUpdateInterval;
@@ -57,7 +56,7 @@ NSString * const kPickedForum = @"PickedForum";
     bannerView_.rootViewController = self;
     adUpdateInterval = 10 * 60;
 
-    self.forumsTableView.scrollsToTop = NO;
+    self.tableView.scrollsToTop = NO;
     self.navigationController.navigationBar.barTintColor = [settingCentre barTintColour];
     self.navigationController.navigationBar.tintColor = [settingCentre tintColour];
     [self.navigationController.navigationBar
@@ -73,7 +72,7 @@ NSString * const kPickedForum = @"PickedForum";
                                                       object:nil
                                                        queue:[NSOperationQueue mainQueue]
                                                   usingBlock:^(NSNotification * _Nonnull note) {
-                                                      [self.forumsTableView reloadData];
+                                                      [self.tableView reloadData];
                                                   }];
     [self refreshAd];
     // Schedule a timer to refresh Ad.
@@ -96,7 +95,7 @@ NSString * const kPickedForum = @"PickedForum";
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
 
-    [self.forumsTableView reloadData];
+    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -119,7 +118,7 @@ NSString * const kPickedForum = @"PickedForum";
 -(void)refreshForums{
     [self startLoading];
     [self.forumManager updateForums:^(BOOL success, NSError *error) {
-        [self.forumsTableView reloadData];
+        [self.tableView reloadData];
         [self stopLoading];
         if (!success || error) {
             [self showWarning];
@@ -150,7 +149,8 @@ NSString * const kPickedForum = @"PickedForum";
                                            completion:nil];
 }
 
-#pragma UITableView datasouce
+#pragma mark -  UITableViewDataSource, UITableViewDelegate
+
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     if (!self.forumManager.forumGroups.count)
         return 1;
@@ -170,7 +170,7 @@ NSString * const kPickedForum = @"PickedForum";
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     if (self.forumManager.forumGroups.count == 0){
-        return @" ";
+        return nil;
     }
     czzForumGroup *forumGroup = [self.forumManager.forumGroups objectAtIndex:section];
     return forumGroup.area;
@@ -276,22 +276,22 @@ NSString * const kPickedForum = @"PickedForum";
         switch (self.forumsSegmentedControl.selectedSegmentIndex) {
             case 0:
                 // Set the data source and delegate back to self.
-                self.forumsTableView.dataSource = self;
-                self.forumsTableView.delegate = self;
+                self.tableView.dataSource = self;
+                self.tableView.delegate = self;
                 break;
             case 1:
                 // Set the data source and delegate to the thread suggestions tableview manager.
-                self.forumsTableView.dataSource = self.tableviewThreadSuggestionsManager;
-                self.forumsTableView.delegate = self.tableviewThreadSuggestionsManager;
+                self.tableView.dataSource = self.tableviewThreadSuggestionsManager;
+                self.tableView.delegate = self.tableviewThreadSuggestionsManager;
                 break;
             case 2:
                 // Custom forum table view manager.
-                self.forumsTableView.dataSource = self.customForumTableViewManager;
-                self.forumsTableView.delegate = self.customForumTableViewManager;
+                self.tableView.dataSource = self.customForumTableViewManager;
+                self.tableView.delegate = self.customForumTableViewManager;
             default:
                 break;
         }
-        [self.forumsTableView reloadData];
+        [self.tableView reloadData];
     }
 }
 
@@ -306,20 +306,20 @@ NSString * const kPickedForum = @"PickedForum";
 #pragma mark - czzPopularThreadsManagerDelegate
 
 - (void)popularThreadsManagerDidUpdate:(czzPopularThreadsManager *)manager {
-    [self.forumsTableView reloadData];
+    [self.tableView reloadData];
 }
 
 #pragma mark - czzAddForumTableViewController
 
 - (void)addForumTableViewControllerDidDismissed:(czzAddForumTableViewController *)viewController {
-    [self.forumsTableView reloadData];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Settings changed notification.
 
 - (void)handleSettingsChangedNotification {
     DLog(@"");
-    [self.forumsTableView reloadData];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Getters

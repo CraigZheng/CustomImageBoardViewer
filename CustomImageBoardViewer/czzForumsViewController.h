@@ -14,8 +14,7 @@ extern NSString * const kForumPickedNotification;
 extern NSString * const kPickedForum;
 
 
-@interface czzForumsViewController : UIViewController
-@property (strong, nonatomic) IBOutlet UITableView *forumsTableView;
+@interface czzForumsViewController : UITableViewController
 @property (strong, nonatomic) GADBannerView *bannerView_;
 @property (strong, nonatomic) NSArray *forums;
 @end
