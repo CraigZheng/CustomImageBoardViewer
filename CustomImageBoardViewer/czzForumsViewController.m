@@ -29,12 +29,15 @@ NSString * const kPickedForum = @"PickedForum";
 typedef enum : NSUInteger {
     AdvertisementSection = 0,
     ForumSection = 1,
-    CustomForumSection = 2
+    CustomForumSection = 2,
+    ThreadSuggestionSection = 3
 } SectionType;
 
 @interface czzForumsViewController () <UITableViewDataSource, UITableViewDelegate, czzPopularThreadsManagerDelegate, czzAddForumTableViewControllerProtocol>
 @property (strong, nonatomic) IBOutlet ForumsTableViewManager *forumsTableViewManager;
+@property (strong, nonatomic) IBOutlet czzForumsTableViewThreadSuggestionsManager *tableviewThreadSuggestionsManager;
 @property (weak, nonatomic) IBOutlet UITableView *forumsTableView;
+@property (weak, nonatomic) IBOutlet UITableView *suggestionTableView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *forumsSegmentedControl;
 @property NSDate *lastAdUpdateTime;
 @property NSTimeInterval adUpdateInterval;
@@ -42,7 +45,6 @@ typedef enum : NSUInteger {
 @property (assign, nonatomic) BOOL shouldHideCoverView;
 @property czzForumManager *forumManager;
 @property (strong, nonatomic) czzPopularThreadsManager *popularThreadsManager;
-@property (strong, nonatomic) czzForumsTableViewThreadSuggestionsManager *tableviewThreadSuggestionsManager;
 @property (strong, nonatomic) czzCustomForumTableViewManager * customForumTableViewManager;
 @end
 
@@ -74,6 +76,7 @@ typedef enum : NSUInteger {
     
     self.forumManager = [czzForumManager sharedManager];
     self.forumsTableViewManager.forumGroups = self.forumManager.forumGroups;
+    self.tableviewThreadSuggestionsManager.popularThreadsManager = self.popularThreadsManager;
     // Reload the forum view when notification from settings centre is received.
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleSettingsChangedNotification)
@@ -230,6 +233,9 @@ typedef enum : NSUInteger {
             break;
         case ForumSection:
             return self.forumManager.forums.count * 44;
+        case ThreadSuggestionSection: {
+            return self.popularThreadsManager.allSuggestions.count * 44;
+        }
         default:
             return 44;
             break;
@@ -246,9 +252,6 @@ typedef enum : NSUInteger {
                 self.tableView.delegate = self;
                 break;
             case 1:
-                // Set the data source and delegate to the thread suggestions tableview manager.
-                self.tableView.dataSource = self.tableviewThreadSuggestionsManager;
-                self.tableView.delegate = self.tableviewThreadSuggestionsManager;
                 break;
             case 2:
                 // Custom forum table view manager.
@@ -272,6 +275,7 @@ typedef enum : NSUInteger {
 #pragma mark - czzPopularThreadsManagerDelegate
 
 - (void)popularThreadsManagerDidUpdate:(czzPopularThreadsManager *)manager {
+    [self.suggestionTableView reloadData];
     [self.tableView reloadData];
 }
 
@@ -296,13 +300,6 @@ typedef enum : NSUInteger {
         _popularThreadsManager.delegate = self;
     }
     return _popularThreadsManager;
-}
-
-- (czzForumsTableViewThreadSuggestionsManager *)tableviewThreadSuggestionsManager {
-    if (!_tableviewThreadSuggestionsManager) {
-        _tableviewThreadSuggestionsManager = [[czzForumsTableViewThreadSuggestionsManager alloc] initWithPopularThreadsManager:self.popularThreadsManager];
-    }
-    return _tableviewThreadSuggestionsManager;
 }
 
 - (czzCustomForumTableViewManager *)customForumTableViewManager {

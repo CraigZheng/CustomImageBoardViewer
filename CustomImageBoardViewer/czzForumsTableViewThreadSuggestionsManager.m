@@ -9,14 +9,12 @@
 #import "czzForumsTableViewThreadSuggestionsManager.h"
 
 #import "czzPopularThreadsManager.h"
-#import "czzThreadSuggestionTableViewCell.h"
 #import "czzThreadSuggestion.h"
 #import "czzURLHandler.h"
 #import "czzNavigationManager.h"
 #import "SlideNavigationController.h"
 
 @interface czzForumsTableViewThreadSuggestionsManager()
-@property (nonatomic, weak) czzPopularThreadsManager *popularThreadsManager;
 @end
 
 @implementation czzForumsTableViewThreadSuggestionsManager
@@ -59,8 +57,8 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    czzThreadSuggestionTableViewCell *suggestionCell = [tableView dequeueReusableCellWithIdentifier:threadSuggestionTableViewCellIdentifier
-                                                                                       forIndexPath:indexPath];
+    UITableViewCell *suggestionCell = [tableView dequeueReusableCellWithIdentifier:@"thread_cell_identifier"
+                                                                      forIndexPath:indexPath];
     if (suggestionCell) {
         czzThreadSuggestion *suggestion = [self threadSuggestionForIndexPath:indexPath];
         if (suggestion) {
@@ -84,7 +82,7 @@
                                                                  action:@"Selected"
                                                                   label:[NSString stringWithFormat:@"%@ - %@", suggestion.title, suggestion.url]
                                                                   value:@1] build]];
-
+    
 }
 
 #pragma mark - Util methods.

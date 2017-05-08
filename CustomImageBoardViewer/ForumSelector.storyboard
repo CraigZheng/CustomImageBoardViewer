@@ -188,14 +188,14 @@
                             </tableViewSection>
                             <tableViewSection id="HF1-12-3Ja" userLabel="Thread Suggestion Section">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="120" id="igT-vh-HJI" userLabel="Forums Table View Cell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="120" id="igT-vh-HJI" userLabel="Suggestion Table View Cell">
                                         <rect key="frame" x="0.0" y="334" width="375" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="igT-vh-HJI" id="LlY-aI-O1W">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="119.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="V1V-G0-jmk" userLabel="Forums Table View">
+                                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="V1V-G0-jmk" userLabel="Suggestion Table View">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="119"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <view key="tableFooterView" contentMode="scaleToFill" id="zog-Dj-a8c" userLabel="Tableview Footer View">
@@ -204,15 +204,22 @@
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     </view>
                                                     <prototypes>
-                                                        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="forum_cell_identifier" textLabel="tOt-2Q-0Wp" style="IBUITableViewCellStyleDefault" id="L0f-Yz-lOX" userLabel="Forums Cell">
+                                                        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="thread_cell_identifier" textLabel="tOt-2Q-0Wp" detailTextLabel="cYp-bU-6iu" style="IBUITableViewCellStyleValue1" id="L0f-Yz-lOX" userLabel="Suggestion Cell">
                                                             <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="L0f-Yz-lOX" id="5lV-sp-vnF">
                                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
-                                                                    <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Forum" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tOt-2Q-0Wp">
-                                                                        <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                                                    <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tOt-2Q-0Wp">
+                                                                        <rect key="frame" x="15" y="12" width="33.5" height="20.5"/>
+                                                                        <autoresizingMask key="autoresizingMask"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                        <nil key="textColor"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cYp-bU-6iu">
+                                                                        <rect key="frame" x="316" y="12" width="44" height="20.5"/>
                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                         <nil key="textColor"/>
@@ -223,8 +230,8 @@
                                                         </tableViewCell>
                                                     </prototypes>
                                                     <connections>
-                                                        <outlet property="dataSource" destination="2Wc-1B-rWF" id="A5k-tM-Evx"/>
-                                                        <outlet property="delegate" destination="2Wc-1B-rWF" id="9Ny-LZ-GkP"/>
+                                                        <outlet property="dataSource" destination="vV2-SY-eQH" id="qTh-Ws-BIq"/>
+                                                        <outlet property="delegate" destination="vV2-SY-eQH" id="Qyu-gf-zkH"/>
                                                     </connections>
                                                 </tableView>
                                             </subviews>
@@ -277,10 +284,13 @@
                         <outlet property="forumsSegmentedControl" destination="49n-pI-HnB" id="otv-sB-8J9"/>
                         <outlet property="forumsTableView" destination="WNV-7P-kLI" id="vRA-mf-djO"/>
                         <outlet property="forumsTableViewManager" destination="2Wc-1B-rWF" id="1t1-Or-1iQ"/>
+                        <outlet property="suggestionTableView" destination="V1V-G0-jmk" id="ddt-Ui-qZ4"/>
+                        <outlet property="tableviewThreadSuggestionsManager" destination="vV2-SY-eQH" id="8PP-j1-E7f"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xld-S8-dVU" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <customObject id="2Wc-1B-rWF" customClass="ForumsTableViewManager" customModule="CustomImageBoardViewer"/>
+                <customObject id="vV2-SY-eQH" customClass="czzForumsTableViewThreadSuggestionsManager"/>
             </objects>
             <point key="canvasLocation" x="-342" y="-1548"/>
         </scene>

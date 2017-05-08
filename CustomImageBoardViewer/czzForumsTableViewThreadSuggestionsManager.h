@@ -11,6 +11,6 @@
 @class czzPopularThreadsManager;
 
 @interface czzForumsTableViewThreadSuggestionsManager : NSObject <UITableViewDelegate, UITableViewDataSource>
-
+@property (nonatomic, weak) czzPopularThreadsManager *popularThreadsManager;
 - (instancetype)initWithPopularThreadsManager:(czzPopularThreadsManager *)manager;
 @end
