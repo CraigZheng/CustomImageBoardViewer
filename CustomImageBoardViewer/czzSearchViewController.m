@@ -200,13 +200,19 @@
             NSURL *finalURL = [response URL];
             // Check the last URL against A_isle host.
             dispatch_async(dispatch_get_main_queue(), ^{
-                if ([finalURL.absoluteString rangeOfString:[settingCentre a_isle_host]].location == NSNotFound) {
+                NSURL *aIsleURL = [NSURL URLWithString:[settingCentre a_isle_host]];
+                if ([finalURL.absoluteString rangeOfString:aIsleURL.host].location == NSNotFound) {
                     [czzBannerNotificationUtil displayMessage:@"这个App只支持A岛匿名版的链接"
                                                      position:BannerNotificationPositionTop];
                 } else {
                     //from final URL get thread ID
                     NSString *threadID = [finalURL.absoluteString componentsSeparatedByString:@"/"].lastObject;
-                    [self downloadAndPrepareThreadWithID:threadID.integerValue];
+                    if (threadID.integerValue != 0) {
+                        [self downloadAndPrepareThreadWithID:threadID.integerValue];
+                    } else {
+                        // Request is not a thread, open it in web view.
+                        [webView loadRequest:request];
+                    }
                 }
             });
         });
