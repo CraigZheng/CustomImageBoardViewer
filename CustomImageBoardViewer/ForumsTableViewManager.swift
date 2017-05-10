@@ -21,8 +21,9 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
     }
     
     private struct Notification {
-        static let pickedForum = "ForumNamePicked"
-        static let forum = "PickedForum"
+        static let pickedForum = NSNotification.Name.forumPicked.rawValue
+        static let forum = kPickedForum
+        static let timeline = kPickedTimeline
     }
     
     private enum ExtraSection: Int {
@@ -117,9 +118,21 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         SlideNavigationController.sharedInstance().closeMenu(completion: nil)
         let adjustedSection = ExtraSection.adjustedSection(for: indexPath.section)
-        guard adjustedSection >= 0 else { return }
+        guard adjustedSection >= 0 else {
+            switch ExtraSection(rawValue: indexPath.section) {
+            case .timeline?:
+                // Inform the timeline has been picked, at the moment I am just passing an empty NSObject around.
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: Notification.pickedForum),
+                                                object: nil,
+                                                userInfo: [Notification.timeline: NSObject()])
+            default: break
+            }
+            return
+        }
         if let forum = forumGroups[adjustedSection].forums[indexPath.row] as? czzForum {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: Notification.pickedForum), object: nil, userInfo: [Notification.forum: forum])
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: Notification.pickedForum),
+                                            object: nil,
+                                            userInfo: [Notification.forum: forum])
         }
     }
 }

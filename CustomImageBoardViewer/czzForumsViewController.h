@@ -10,7 +10,7 @@
 
 extern NSString * const kForumPickedNotification;
 extern NSString * const kPickedForum;
-
+extern NSString * const kPickedTimeline;
 
 @interface czzForumsViewController : UITableViewController
 @property (strong, nonatomic) NSArray *forums;

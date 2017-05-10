@@ -25,6 +25,7 @@
 
 NSString * const kForumPickedNotification = @"ForumNamePicked";
 NSString * const kPickedForum = @"PickedForum";
+NSString * const kPickedTimeline = @"kPickedTimeline";
 
 typedef enum : NSUInteger {
     ForumSection = 0,

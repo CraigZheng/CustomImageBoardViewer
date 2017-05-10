@@ -4,3 +4,4 @@
 #import "czzForum.h"
 #import "czzForumGroup.h"
 #import "czzThreadDownloader.h"
+#import "czzForumsViewController.h"
