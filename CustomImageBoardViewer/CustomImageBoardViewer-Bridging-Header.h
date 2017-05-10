@@ -3,3 +3,4 @@
 #import "czzMarkerManager.h"
 #import "czzForum.h"
 #import "czzForumGroup.h"
+#import "czzThreadDownloader.h"

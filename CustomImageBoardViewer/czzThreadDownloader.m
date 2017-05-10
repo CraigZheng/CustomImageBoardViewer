@@ -16,7 +16,6 @@
 @property (nonatomic, strong) czzURLDownloader *urlDownloader;
 @property (nonatomic, strong) czzJSONProcessor *jsonProcessor;
 
-@property (nonatomic, readonly) NSString * targetURLString;
 @end
 
 @implementation czzThreadDownloader
