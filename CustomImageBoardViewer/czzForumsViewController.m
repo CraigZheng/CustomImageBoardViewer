@@ -29,8 +29,8 @@ NSString * const kPickedForum = @"PickedForum";
 typedef enum : NSUInteger {
     AdvertisementSection = 0,
     ForumSection = 1,
-    CustomForumSection = 2,
-    ThreadSuggestionSection = 3
+    ThreadSuggestionSection = 2,
+    CustomForumSection = 3
 } SectionType;
 
 @interface czzForumsViewController () <UITableViewDataSource, UITableViewDelegate, czzPopularThreadsManagerDelegate>
