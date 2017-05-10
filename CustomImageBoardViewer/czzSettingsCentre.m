@@ -287,6 +287,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         self.long_thread_threshold = [[jsonObject objectForKey:@"long_thread_threshold"] integerValue];
         self.reply_post_placeholder = [jsonObject objectForKey:@"reply_post_placeholder"];
         self.shouldShowEmoPackPicker = [[jsonObject objectForKey:@"shouldShowEmoPackPicker"] boolValue];
+        self.timeline_url = [jsonObject objectForKey:@"timeline_url"];
         NSArray *ignoredThreadIDs = [jsonObject objectForKey:@"ignored_thread_ids"];
         if (ignoredThreadIDs.count) {
             NSMutableArray *threadIDs = [NSMutableArray new];

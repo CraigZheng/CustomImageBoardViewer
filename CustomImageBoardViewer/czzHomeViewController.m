@@ -169,7 +169,7 @@
     // Give the amount number a title.
     [(czzRoundButton *)self.numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.homeViewManager.threads.count] forState:UIControlStateNormal];
     // Other data
-    self.title = self.homeViewManager.forum.name;
+    self.title = self.homeViewManager.isShowingLatestResponse ? @"最新回复" : self.homeViewManager.forum.name;
     self.navigationItem.backBarButtonItem.title = self.title;
     [self.homeTableViewManager reloadData];
 }
@@ -356,6 +356,11 @@
                 break;
             }
         }
+        self.homeViewManager.isShowingLatestResponse = NO;
+    } else if ([userInfo objectForKey:kPickedTimeline]) {
+        self.homeViewManager.isShowingLatestResponse = YES;
+        self.title = @"最新回复";
+        [self.homeViewManager loadLatestResponse];
     } else {
         [NSException raise:@"NOT A VALID FORUM" format:@""];
     }

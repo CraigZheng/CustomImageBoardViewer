@@ -35,13 +35,14 @@
     "thumbnail_host": "http://img6.nimingban.com/thumb/",
     "image_host": "http://img6.nimingban.com/image/",
     "donation_link": "",
-    "popup_notification_link": "http://cover.acfunwiki.org/nmb-notice.json",
+    "popup_notification_link": "http://cover.acfunwiki.org/php/ios_notice.json",
     "empty_title": "无标题",
     "empty_username": "无名氏",
     "sensitive_keyword": "非法词",
     "success_keyword": "成功",
     "share_image_only_keyword": "分享图片",
     "popular_threads_link": "http://my-realm.com/php/popular_threads.php",
+    "timeline_url": "https://h.nimingban.com/Api/timeline",
     "message": "",
     "ignored_thread_ids": [9999999]
 }

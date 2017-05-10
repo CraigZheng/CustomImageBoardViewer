@@ -70,6 +70,7 @@ typedef enum : NSInteger {
 @property (assign, nonatomic) NSInteger upload_image_pixel_limit;
 @property (assign, nonatomic) BOOL shouldShowEmoPackPicker;
 @property (strong, nonatomic) NSArray<NSNumber *> *ignoredThreadIDs;
+@property (strong, nonatomic) NSString *timeline_url;
 //User settings
 @property (assign, nonatomic) BOOL userDefShouldDisplayThumbnail;
 @property (assign, nonatomic) BOOL userDefShouldShowOnScreenCommand;
