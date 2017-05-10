@@ -27,10 +27,9 @@ NSString * const kForumPickedNotification = @"ForumNamePicked";
 NSString * const kPickedForum = @"PickedForum";
 
 typedef enum : NSUInteger {
-    AdvertisementSection = 0,
-    ForumSection = 1,
-    ThreadSuggestionSection = 2,
-    CustomForumSection = 3
+    ForumSection = 0,
+    ThreadSuggestionSection,
+    CustomForumSection
 } SectionType;
 
 @interface czzForumsViewController () <UITableViewDataSource, UITableViewDelegate, czzPopularThreadsManagerDelegate>
@@ -42,39 +41,27 @@ typedef enum : NSUInteger {
 @property (weak, nonatomic) IBOutlet UITableView *suggestionTableView;
 @property (weak, nonatomic) IBOutlet UITableView *customForumsTableView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *forumsSegmentedControl;
-@property NSDate *lastAdUpdateTime;
-@property NSTimeInterval adUpdateInterval;
-@property UIView *adCoverView;
+@property (strong, nonatomic) NSDate *lastUpdateTime;
+@property (assign, nonatomic) NSTimeInterval updateInterval;
 @property (assign, nonatomic) BOOL shouldHideCoverView;
 @property czzForumManager *forumManager;
 @property (strong, nonatomic) czzPopularThreadsManager *popularThreadsManager;
 @end
 
 @implementation czzForumsViewController
-@synthesize bannerView_;
-@synthesize lastAdUpdateTime;
-@synthesize adUpdateInterval;
-@synthesize adCoverView;
-@synthesize shouldHideCoverView;
-@synthesize forums;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
-    [bannerView_ setFrame:CGRectMake(0, 0, bannerView_.bounds.size.width,
-                                     bannerView_.bounds.size.height)];
-//    bannerView_.adUnitID = @"a151ef285f8e0dd";
-    bannerView_.adUnitID = @"ca-app-pub-2081665256237089/4247713655";
-    bannerView_.rootViewController = self;
-    adUpdateInterval = 10 * 60;
+    self.updateInterval = 10 * 60;
 
     self.tableView.scrollsToTop = NO;
     self.navigationController.navigationBar.barTintColor = [settingCentre barTintColour];
     self.navigationController.navigationBar.tintColor = [settingCentre tintColour];
-    [self.navigationController.navigationBar
-     setTitleTextAttributes:@{NSForegroundColorAttributeName : self.navigationController.navigationBar.tintColor}];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{
+                                                                      NSForegroundColorAttributeName : self.navigationController.navigationBar.tintColor
+                                                                      }];
     
     self.forumManager = [czzForumManager sharedManager];
     self.forumsTableViewManager.forumGroups = self.forumManager.forumGroups;
@@ -97,11 +84,11 @@ typedef enum : NSUInteger {
                                                   usingBlock:^(NSNotification * _Nonnull note) {
                                                       [weakSelf reloadDataSources];
                                                   }];
-    [self refreshAd];
+    [self refreshContent];
     // Schedule a timer to refresh Ad.
-    [NSTimer scheduledTimerWithTimeInterval:adUpdateInterval / 2
+    [NSTimer scheduledTimerWithTimeInterval:self.updateInterval / 2
                                      target:self
-                                   selector:@selector(refreshAd)
+                                   selector:@selector(refreshContent)
                                    userInfo:nil
                                     repeats:YES];
 
@@ -150,17 +137,11 @@ typedef enum : NSUInteger {
     [self.tableView reloadData];
 }
 
-- (void)refreshPopularThreads {
-    [self.popularThreadsManager refreshPopularThreads];
-}
-
--(void)refreshAd {
-    DLog(@"");
-    if (!lastAdUpdateTime || [[NSDate new] timeIntervalSinceDate:lastAdUpdateTime] > adUpdateInterval) {
-        [bannerView_ loadRequest:[GADRequest request]];
-        lastAdUpdateTime = [NSDate new];
+- (void)refreshContent {
+    if (!self.lastUpdateTime || [[NSDate new] timeIntervalSinceDate:self.lastUpdateTime] > self.updateInterval) {
+        self.lastUpdateTime = [NSDate new];
         [self refreshForums];//might be a good idea to update the forums as well
-        [self refreshPopularThreads];
+        [self.popularThreadsManager refreshPopularThreads];
     }
 }
 
@@ -177,32 +158,6 @@ typedef enum : NSUInteger {
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
-    switch (indexPath.section) {
-        case AdvertisementSection:
-            if (!bannerView_.superview) {
-                [self refreshAd];
-            }
-            if (!shouldHideCoverView) {
-                //the cover view
-                if (adCoverView.superview) {
-                    [adCoverView removeFromSuperview];
-                }
-                adCoverView = [[UIView alloc] initWithFrame:bannerView_.frame];
-                adCoverView.backgroundColor = [settingCentre viewBackgroundColour];
-                UILabel *tapMeLabel = [[UILabel alloc] initWithFrame:adCoverView.frame];
-                tapMeLabel.text = @"点我，我是广告";
-                tapMeLabel.textColor = [settingCentre contentTextColour];
-                tapMeLabel.textAlignment = NSTextAlignmentCenter;
-                tapMeLabel.userInteractionEnabled = NO;
-                [adCoverView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissCoverView)]];
-                [adCoverView addSubview:tapMeLabel];
-                [cell.contentView addSubview:bannerView_];
-                [cell.contentView addSubview:adCoverView];
-            }
-            break;
-        default:
-            break;
-    }
     cell.backgroundColor = [settingCentre viewBackgroundColour];
     return cell;
 }
@@ -211,7 +166,7 @@ typedef enum : NSUInteger {
     NSInteger numberOfRows = 0;
     // Unless the section matches the selected segmented control, or it's the advertisement section,
     // Otherwise return 0.
-    if (section - 1 == self.forumsSegmentedControl.selectedSegmentIndex || section == 0) {
+    if (section == self.forumsSegmentedControl.selectedSegmentIndex) {
         numberOfRows = [super tableView:tableView numberOfRowsInSection:section];
     }
     return numberOfRows;
@@ -220,7 +175,7 @@ typedef enum : NSUInteger {
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     NSString *title;
     // Display the header title only when section is matching the segmented control.
-    if (section - 1 == self.forumsSegmentedControl.selectedSegmentIndex || section == 0) {
+    if (section == self.forumsSegmentedControl.selectedSegmentIndex) {
         title = [super tableView:tableView titleForHeaderInSection:section];
     }
     return title;
@@ -228,9 +183,6 @@ typedef enum : NSUInteger {
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.section) {
-        case AdvertisementSection:
-            return CGRectGetHeight(bannerView_.frame);
-            break;
         case ForumSection:
             return self.forumsTableView.contentSize.height;
         case ThreadSuggestionSection: {
@@ -249,14 +201,6 @@ typedef enum : NSUInteger {
     if (sender == self.forumsSegmentedControl) {
         [self reloadDataSources];
     }
-}
-
-#pragma mark - dismiss cover view
--(void)dismissCoverView {
-    if (adCoverView && adCoverView.superview) {
-        [adCoverView removeFromSuperview];
-    }
-    shouldHideCoverView = YES;
 }
 
 #pragma mark - czzPopularThreadsManagerDelegate

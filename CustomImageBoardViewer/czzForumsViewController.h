@@ -8,13 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@import GoogleMobileAds;
-
 extern NSString * const kForumPickedNotification;
 extern NSString * const kPickedForum;
 
 
 @interface czzForumsViewController : UITableViewController
-@property (strong, nonatomic) GADBannerView *bannerView_;
 @property (strong, nonatomic) NSArray *forums;
 @end
