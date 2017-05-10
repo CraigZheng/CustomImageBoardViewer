@@ -41,6 +41,9 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
         return forumGroups.count
     }
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return forumGroups[section].area
+    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         SlideNavigationController.sharedInstance().closeMenu(completion: nil)

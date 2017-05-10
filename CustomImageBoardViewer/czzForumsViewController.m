@@ -36,8 +36,11 @@ typedef enum : NSUInteger {
 @interface czzForumsViewController () <UITableViewDataSource, UITableViewDelegate, czzPopularThreadsManagerDelegate, czzAddForumTableViewControllerProtocol>
 @property (strong, nonatomic) IBOutlet ForumsTableViewManager *forumsTableViewManager;
 @property (strong, nonatomic) IBOutlet czzForumsTableViewThreadSuggestionsManager *tableviewThreadSuggestionsManager;
+@property (strong, nonatomic) IBOutlet czzCustomForumTableViewManager * customForumTableViewManager;
+
 @property (weak, nonatomic) IBOutlet UITableView *forumsTableView;
 @property (weak, nonatomic) IBOutlet UITableView *suggestionTableView;
+@property (weak, nonatomic) IBOutlet UITableView *customForumsTableView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *forumsSegmentedControl;
 @property NSDate *lastAdUpdateTime;
 @property NSTimeInterval adUpdateInterval;
@@ -45,7 +48,6 @@ typedef enum : NSUInteger {
 @property (assign, nonatomic) BOOL shouldHideCoverView;
 @property czzForumManager *forumManager;
 @property (strong, nonatomic) czzPopularThreadsManager *popularThreadsManager;
-@property (strong, nonatomic) czzCustomForumTableViewManager * customForumTableViewManager;
 @end
 
 @implementation czzForumsViewController
@@ -168,33 +170,6 @@ typedef enum : NSUInteger {
 
 #pragma mark -  UITableViewDataSource, UITableViewDelegate
 
-//-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-//    if (!self.forumManager.forumGroups.count)
-//        return 1;
-//    return self.forumManager.forumGroups.count;
-//}
-//
-//-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-//    if (!self.forumManager.forumGroups.count)
-//        return 1;
-//    czzForumGroup *forumGroup = [self.forumManager.forumGroups objectAtIndex:section];
-//    if (section == 0)
-//    {
-//        return forumGroup.forums.count + 1;
-//    }
-//    return forumGroup.forums.count;
-//}
-//
-//-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-//    if (self.forumManager.forumGroups.count == 0){
-//        return nil;
-//    }
-//    czzForumGroup *forumGroup = [self.forumManager.forumGroups objectAtIndex:section];
-//    return forumGroup.area;
-//    
-//}
-
-#pragma UITableView delegate
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     switch (indexPath.section) {
@@ -232,12 +207,14 @@ typedef enum : NSUInteger {
             return CGRectGetHeight(bannerView_.frame);
             break;
         case ForumSection:
-            return self.forumManager.forums.count * 44;
+            return self.forumsTableView.contentSize.height;
         case ThreadSuggestionSection: {
-            return self.popularThreadsManager.allSuggestions.count * 44;
+            return self.suggestionTableView.contentSize.height;
         }
+        case CustomForumSection:
+            return self.customForumsTableView.contentSize.height;
         default:
-            return 44;
+            return UITableViewAutomaticDimension;
             break;
     }
 }
@@ -247,16 +224,11 @@ typedef enum : NSUInteger {
     if (sender == self.forumsSegmentedControl) {
         switch (self.forumsSegmentedControl.selectedSegmentIndex) {
             case 0:
-                // Set the data source and delegate back to self.
-                self.tableView.dataSource = self;
-                self.tableView.delegate = self;
                 break;
             case 1:
                 break;
             case 2:
-                // Custom forum table view manager.
-                self.tableView.dataSource = self.customForumTableViewManager;
-                self.tableView.delegate = self.customForumTableViewManager;
+                break;
             default:
                 break;
         }
@@ -300,13 +272,6 @@ typedef enum : NSUInteger {
         _popularThreadsManager.delegate = self;
     }
     return _popularThreadsManager;
-}
-
-- (czzCustomForumTableViewManager *)customForumTableViewManager {
-    if (!_customForumTableViewManager) {
-        _customForumTableViewManager = [czzCustomForumTableViewManager new];
-    }
-    return _customForumTableViewManager;
 }
 
 @end
