@@ -424,12 +424,25 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 - (IBAction)shareAction:(id)sender {
-    //create the thread link - hardcode it
-    NSString *threadLink = [[settingCentre share_post_url] stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long) self.threadViewManager.parentThread.ID]];
-    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[[NSURL URLWithString:threadLink]] applicationActivities:nil];
-    if ([activityViewController respondsToSelector:@selector(popoverPresentationController)])
-        activityViewController.popoverPresentationController.sourceView = self.view;
-    [self presentViewController:activityViewController animated:YES completion:nil];
+    // Create the thread link - at the moment I am hardcoding it.
+    czzThread *sharingThread = self.threadViewManager.parentThread;
+    if (sharingThread) {
+        NSString *sharingContent = sharingThread.content.string;
+        // If the sharing content is longer than 40 characters, chuncate it.
+        NSString *contentSummary = sharingContent.length > 100 ? [NSString stringWithFormat:@"%@...", [sharingContent substringToIndex:95]] : sharingContent;
+        // If not nil, put a breakpoint at the end.
+        if (contentSummary.length) {
+            contentSummary = [contentSummary stringByAppendingString:@"\n"];
+        } else {
+            contentSummary = @"";
+        }
+        NSString *threadLink = [[settingCentre share_post_url] stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long)sharingThread.ID]];
+        UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[contentSummary, [NSURL URLWithString:threadLink]]
+                                                                                             applicationActivities:nil];
+        if ([activityViewController respondsToSelector:@selector(popoverPresentationController)])
+            activityViewController.popoverPresentationController.sourceView = self.view;
+        [self presentViewController:activityViewController animated:YES completion:nil];
+    }
 }
 
 #pragma mark - prepare for segue
