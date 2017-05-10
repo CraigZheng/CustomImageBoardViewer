@@ -80,6 +80,7 @@ typedef enum : NSUInteger {
     self.forumsTableViewManager.forumGroups = self.forumManager.forumGroups;
     self.tableviewThreadSuggestionsManager.popularThreadsManager = self.popularThreadsManager;
     // Reload the forum view when notification from settings centre is received.
+    __weak typeof(self) weakSelf = self;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleSettingsChangedNotification)
                                                  name:settingsChangedNotification
@@ -88,7 +89,7 @@ typedef enum : NSUInteger {
                                                       object:nil
                                                        queue:[NSOperationQueue mainQueue]
                                                   usingBlock:^(NSNotification * _Nonnull note) {
-                                                      [self.tableView reloadData];
+                                                      [weakSelf reloadDataSources];
                                                   }];
     [self refreshAd];
     // Schedule a timer to refresh Ad.
@@ -110,8 +111,7 @@ typedef enum : NSUInteger {
     if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]){
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-
-    [self.tableView reloadData];
+    [self reloadDataSources];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -139,10 +139,16 @@ typedef enum : NSUInteger {
         } else {
             self.forumsTableViewManager.forumGroups = self.forumManager.forumGroups;
         }
-        [self.forumsTableView reloadData];
-        [self.tableView reloadData];
+        [self reloadDataSources];
         [self stopLoading];
     }];
+}
+
+- (void)reloadDataSources {
+    [self.forumsTableView reloadData];
+    [self.suggestionTableView reloadData];
+    [self.customForumsTableView reloadData];
+    [self.tableView reloadData];
 }
 
 - (void)refreshPopularThreads {
@@ -242,7 +248,7 @@ typedef enum : NSUInteger {
 #pragma mark - UI actions.
 - (IBAction)forumsSegmentedControlValueChanged:(id)sender {
     if (sender == self.forumsSegmentedControl) {
-        [self.tableView reloadData];
+        [self reloadDataSources];
     }
 }
 
@@ -257,21 +263,20 @@ typedef enum : NSUInteger {
 #pragma mark - czzPopularThreadsManagerDelegate
 
 - (void)popularThreadsManagerDidUpdate:(czzPopularThreadsManager *)manager {
-    [self.suggestionTableView reloadData];
-    [self.tableView reloadData];
+    [self reloadDataSources];
 }
 
 #pragma mark - czzAddForumTableViewController
 
 - (void)addForumTableViewControllerDidDismissed:(czzAddForumTableViewController *)viewController {
-    [self.tableView reloadData];
+    [self reloadDataSources];
 }
 
 #pragma mark - Settings changed notification.
 
 - (void)handleSettingsChangedNotification {
     DLog(@"");
-    [self.tableView reloadData];
+    [self reloadDataSources];
 }
 
 #pragma mark - Getters
