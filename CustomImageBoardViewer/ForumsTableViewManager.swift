@@ -28,8 +28,25 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let forumCell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.forum, for: indexPath)
         if let forum = forumGroups[indexPath.section].forums[indexPath.row] as? czzForum {
-            forumCell.textLabel?.text = !forum.screenName.isEmpty ? forum.screenName : forum.name
+            let displayName = !forum.screenName.isEmpty ? forum.screenName : forum.name
+            forumCell.textLabel?.text = displayName
+            if let displayData = displayName?.data(using: .utf8),
+                let defaultFont = forumCell.textLabel?.font
+                {
+                if let attributedDisplayName = try? NSMutableAttributedString(data: displayData,
+                                                                              options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+                                                                                        NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue],
+                                                                              documentAttributes: nil) {
+                    attributedDisplayName.addAttributes([NSFontAttributeName: defaultFont], range: NSMakeRange(0, attributedDisplayName.length))
+                    if czzSettingsCentre.sharedInstance().userDefNightyMode {
+                        attributedDisplayName.addAttributes([NSForegroundColorAttributeName: czzSettingsCentre.sharedInstance().contentTextColour()],
+                                                            range: NSMakeRange(0, attributedDisplayName.length))
+                    }
+                    forumCell.textLabel?.attributedText = attributedDisplayName
+                }
+            }
         }
+        forumCell.backgroundColor = czzSettingsCentre.sharedInstance().viewBackgroundColour();
         return forumCell
     }
     
