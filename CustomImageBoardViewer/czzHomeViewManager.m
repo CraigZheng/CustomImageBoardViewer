@@ -11,11 +11,14 @@
 #import "czzImageDownloaderManager.h"
 #import "czzMarkerManager.h"
 #import "czzNavigationController.h"
+#import "CustomImageBoardViewer-Swift.h"
 #import <Google/Analytics.h>
 
 @interface czzHomeViewManager ()
 @property (nonatomic, readonly) NSString *cacheFile;
 @property (nonatomic, assign) BOOL isDownloading;
+@property (nonatomic, strong) LatestResponseDownloader *latestResponseDownloader;
+@property (nonatomic, strong) NSArray *latestResponses;
 @end
 
 @implementation czzHomeViewManager
@@ -46,6 +49,8 @@
                                                           [weakSelf saveCurrentState];
                                                       }];
     }
+    self.latestResponseDownloader = [LatestResponseDownloader new];
+    self.latestResponseDownloader.delegate = self;
     return self;
 }
 
@@ -98,14 +103,23 @@
 }
 
 -(void)refresh {
-    if (self.forum.name.length) {
+    if (self.forum.name.length && !self.isShowingLatestResponse) {
         [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Refresh"
                                                                                             action:@"Refresh Forum"
                                                                                              label:self.forum.name
                                                                                              value:@1] build]];
     }
     [self removeAll];
-    [self loadMoreThreads:self.pageNumber];
+    self.isShowingLatestResponse ? [self loadLatestResponse] : [self loadMoreThreads:self.pageNumber];
+}
+
+- (void)loadLatestResponse {
+    [self.downloader stop];
+    [self.latestResponseDownloader start];
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Refresh"
+                                                                                        action:@"Latest Response"
+                                                                                         label:self.forum.name
+                                                                                         value:@1] build]];
 }
 
 -(void)loadMoreThreads {
@@ -187,16 +201,21 @@
 
 - (void)threadDownloaderCompleted:(czzThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads error:(NSError *)error {
     if (success){
-        self.cachedThreads = nil;
-        if (self.shouldHideImageForThisForum)
-        {
-            for (czzThread *thread in threads) {
-                thread.thImgSrc = nil;
+        if (downloader == self.latestResponseDownloader) {
+            self.latestResponses = threads;
+        } else {
+            self.latestResponses = nil;
+            self.cachedThreads = nil;
+            if (self.shouldHideImageForThisForum)
+            {
+                for (czzThread *thread in threads) {
+                    thread.thImgSrc = nil;
+                }
             }
+            self.lastBatchOfThreads = threads;
+            // Add to total threads.
+            [self.threads addObjectsFromArray:threads];
         }
-        self.lastBatchOfThreads = threads;
-        // Add to total threads.
-        [self.threads addObjectsFromArray:threads];
     }
     if ([self.delegate respondsToSelector:@selector(homeViewManager:threadListProcessed:newThreads:allThreads:)]) {
         [self.delegate homeViewManager:self threadListProcessed:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
@@ -253,6 +272,9 @@
 }
 
 - (NSMutableArray *)threads {
+    if (self.isShowingLatestResponse) {
+        return self.latestResponses.mutableCopy;
+    }
     if (!_threads) {
         _threads = [NSMutableArray new];
     }

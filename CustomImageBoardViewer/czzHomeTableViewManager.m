@@ -145,7 +145,7 @@
     }
     // If not downloading or processing, load more threads.
     else if (!self.homeViewManager.isDownloading) {
-        [self.homeViewManager loadMoreThreads];
+        self.homeViewManager.isShowingLatestResponse ? [self.homeViewManager loadLatestResponse] : [self.homeViewManager loadMoreThreads];
         self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
     }
 }
@@ -334,7 +334,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     // If current the view manager reports its being downloaded, don't do anything.
-    if (!self.homeViewManager.isDownloading) {
+    if (!self.homeViewManager.isDownloading && !self.homeViewManager.isShowingLatestResponse) {
         // If dragged over the threshold, set to "release to load more" cell.
         if (self.tableViewIsDraggedOverTheBottom &&
             self.homeViewManager.pageNumber < self.homeViewManager.totalPages) {
