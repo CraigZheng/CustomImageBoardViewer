@@ -137,7 +137,7 @@
         if (self.parentThread) {
             [self.jsonProcessor processSubThreadFromData:downloadedData
                                                 forForum:self.parentForum];
-        } else if (self.parentForum) {
+        } else {
             [self.jsonProcessor processThreadListFromData:downloadedData
                                                  forForum:self.parentForum];
         }
