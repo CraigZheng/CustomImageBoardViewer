@@ -13,6 +13,7 @@
 #import "czzURLHandler.h"
 #import "czzNavigationManager.h"
 #import "SlideNavigationController.h"
+#import "czzSettingsCentre.h"
 
 @interface czzForumsTableViewThreadSuggestionsManager()
 @end
@@ -66,6 +67,8 @@
             suggestionCell.detailTextLabel.text = suggestion.content;
         }
     }
+    suggestionCell.textLabel.textColor = [settingCentre contentTextColour];
+    suggestionCell.contentView.backgroundColor = [settingCentre viewBackgroundColour];
     return suggestionCell;
 }
 

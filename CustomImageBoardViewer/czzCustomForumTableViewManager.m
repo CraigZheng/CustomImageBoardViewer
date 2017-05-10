@@ -55,9 +55,10 @@
         cell = [tableView dequeueReusableCellWithIdentifier:@"forum_cell_identifier" forIndexPath:indexPath];
         czzForum *forum = [czzForumManager sharedManager].customForums[indexPath.row];
         UILabel *titleLabel = [cell textLabel];
-        titleLabel.textColor = [settingCentre contentTextColour];
         [titleLabel setText:[forum name]];
     }
+    cell.textLabel.textColor = [settingCentre contentTextColour];
+    cell.backgroundColor = [settingCentre viewBackgroundColour];
     return cell;
 }
 

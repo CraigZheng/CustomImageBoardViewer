@@ -183,9 +183,10 @@ typedef enum : NSUInteger {
                     [adCoverView removeFromSuperview];
                 }
                 adCoverView = [[UIView alloc] initWithFrame:bannerView_.frame];
-                adCoverView.backgroundColor = [UIColor whiteColor];
+                adCoverView.backgroundColor = [settingCentre viewBackgroundColour];
                 UILabel *tapMeLabel = [[UILabel alloc] initWithFrame:adCoverView.frame];
                 tapMeLabel.text = @"点我，我是广告";
+                tapMeLabel.textColor = [settingCentre contentTextColour];
                 tapMeLabel.textAlignment = NSTextAlignmentCenter;
                 tapMeLabel.userInteractionEnabled = NO;
                 [adCoverView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissCoverView)]];

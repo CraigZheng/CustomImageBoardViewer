@@ -46,7 +46,7 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
                 }
             }
         }
-        forumCell.backgroundColor = czzSettingsCentre.sharedInstance().viewBackgroundColour();
+        forumCell.contentView.backgroundColor = czzSettingsCentre.sharedInstance().viewBackgroundColour();
         return forumCell
     }
     
