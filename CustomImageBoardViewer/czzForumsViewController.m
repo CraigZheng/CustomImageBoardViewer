@@ -173,12 +173,7 @@ typedef enum : NSUInteger {
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    NSString *title;
-    // Display the header title only when section is matching the segmented control.
-    if (section == self.forumsSegmentedControl.selectedSegmentIndex) {
-        title = [super tableView:tableView titleForHeaderInSection:section];
-    }
-    return title;
+    return nil;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

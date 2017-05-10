@@ -25,46 +25,100 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
         static let forum = "PickedForum"
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let forumCell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.forum, for: indexPath)
-        if let forum = forumGroups[indexPath.section].forums[indexPath.row] as? czzForum {
-            let displayName = !forum.screenName.isEmpty ? forum.screenName : forum.name
-            forumCell.textLabel?.text = displayName
-            if let displayData = displayName?.data(using: .utf8),
-                let defaultFont = forumCell.textLabel?.font
-                {
-                if let attributedDisplayName = try? NSMutableAttributedString(data: displayData,
-                                                                              options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
-                                                                                        NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue],
-                                                                              documentAttributes: nil) {
-                    attributedDisplayName.addAttributes([NSFontAttributeName: defaultFont], range: NSMakeRange(0, attributedDisplayName.length))
-                    if czzSettingsCentre.sharedInstance().userDefNightyMode {
-                        attributedDisplayName.addAttributes([NSForegroundColorAttributeName: czzSettingsCentre.sharedInstance().contentTextColour()],
-                                                            range: NSMakeRange(0, attributedDisplayName.length))
-                    }
-                    forumCell.textLabel?.attributedText = attributedDisplayName
-                }
+    private enum ExtraSection: Int {
+        case advertisement = 0
+        case timeline
+        
+        var title: String {
+            switch self {
+            case .advertisement: return "广告"
+            case .timeline: return "最新回复"
             }
         }
-        forumCell.contentView.backgroundColor = czzSettingsCentre.sharedInstance().viewBackgroundColour();
-        return forumCell
+        
+        var count: Int {
+            switch self {
+            case .advertisement: return 0
+            case .timeline: return 1
+            }
+        }
+        
+        static var count: Int {
+            return 2
+        }
+        
+        static func adjustedSection(for section: Int) -> Int {
+            return section - ExtraSection.count
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.section < ExtraSection.count {
+            // For extra sections.
+            // TODO: return appropriate cells.
+            switch ExtraSection(rawValue: indexPath.section)! {
+            case .advertisement: break
+            case .timeline:
+                let forumCell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.forum, for: indexPath)
+                forumCell.textLabel?.text = ExtraSection.timeline.title
+                return forumCell
+            }
+            return UITableViewCell()
+        } else {
+            let forumCell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.forum, for: indexPath)
+            let adjustedSection = ExtraSection.adjustedSection(for: indexPath.section)
+            if let forum = forumGroups[adjustedSection].forums[indexPath.row] as? czzForum {
+                let displayName = !forum.screenName.isEmpty ? forum.screenName : forum.name
+                forumCell.textLabel?.text = displayName
+                if let displayData = displayName?.data(using: .utf8),
+                    let defaultFont = forumCell.textLabel?.font
+                {
+                    if let attributedDisplayName = try? NSMutableAttributedString(data: displayData,
+                                                                                  options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+                                                                                            NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue],
+                                                                                  documentAttributes: nil) {
+                        attributedDisplayName.addAttributes([NSFontAttributeName: defaultFont], range: NSMakeRange(0, attributedDisplayName.length))
+                        if czzSettingsCentre.sharedInstance().userDefNightyMode {
+                            attributedDisplayName.addAttributes([NSForegroundColorAttributeName: czzSettingsCentre.sharedInstance().contentTextColour()],
+                                                                range: NSMakeRange(0, attributedDisplayName.length))
+                        }
+                        forumCell.textLabel?.attributedText = attributedDisplayName
+                    }
+                }
+            }
+            forumCell.contentView.backgroundColor = czzSettingsCentre.sharedInstance().viewBackgroundColour();
+            return forumCell
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return forumGroups[section].forums.count
+        let adjustedSection = ExtraSection.adjustedSection(for: section)
+        guard adjustedSection >= 0 else {
+            return ExtraSection(rawValue: section)?.count ?? 0
+        }
+        return forumGroups[adjustedSection].forums.count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return forumGroups.count
+        return forumGroups.count + ExtraSection.count
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return forumGroups[section].area
+        let adjustedSection = ExtraSection.adjustedSection(for: section)
+        guard adjustedSection >= 0 else {
+            if let extraSection = ExtraSection(rawValue: section) {
+                return extraSection.count > 0 ? extraSection.title : nil
+            }
+            return nil
+        }
+        return forumGroups[adjustedSection].area
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         SlideNavigationController.sharedInstance().closeMenu(completion: nil)
-        if let forum = forumGroups[indexPath.section].forums[indexPath.row] as? czzForum {
+        let adjustedSection = ExtraSection.adjustedSection(for: indexPath.section)
+        guard adjustedSection >= 0 else { return }
+        if let forum = forumGroups[adjustedSection].forums[indexPath.row] as? czzForum {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: Notification.pickedForum), object: nil, userInfo: [Notification.forum: forum])
         }
     }
