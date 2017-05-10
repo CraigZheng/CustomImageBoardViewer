@@ -33,7 +33,7 @@ typedef enum : NSUInteger {
     ThreadSuggestionSection = 3
 } SectionType;
 
-@interface czzForumsViewController () <UITableViewDataSource, UITableViewDelegate, czzPopularThreadsManagerDelegate, czzAddForumTableViewControllerProtocol>
+@interface czzForumsViewController () <UITableViewDataSource, UITableViewDelegate, czzPopularThreadsManagerDelegate>
 @property (strong, nonatomic) IBOutlet ForumsTableViewManager *forumsTableViewManager;
 @property (strong, nonatomic) IBOutlet czzForumsTableViewThreadSuggestionsManager *tableviewThreadSuggestionsManager;
 @property (strong, nonatomic) IBOutlet czzCustomForumTableViewManager * customForumTableViewManager;
@@ -91,6 +91,12 @@ typedef enum : NSUInteger {
                                                   usingBlock:^(NSNotification * _Nonnull note) {
                                                       [weakSelf reloadDataSources];
                                                   }];
+    [[NSNotificationCenter defaultCenter] addObserverForName:kCustomForumDidChangeNotification
+                                                      object:nil
+                                                       queue:[NSOperationQueue mainQueue]
+                                                  usingBlock:^(NSNotification * _Nonnull note) {
+                                                      [weakSelf reloadDataSources];
+                                                  }];
     [self refreshAd];
     // Schedule a timer to refresh Ad.
     [NSTimer scheduledTimerWithTimeInterval:adUpdateInterval / 2
@@ -122,13 +128,6 @@ typedef enum : NSUInteger {
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [self.progressView viewDidDisapper];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    UINavigationController *navigationController = segue.destinationViewController;
-    if ([navigationController isKindOfClass:[UINavigationController class]] && [navigationController.viewControllers.firstObject isKindOfClass:[czzAddForumTableViewController class]]) {
-        [(czzAddForumTableViewController *)navigationController.viewControllers.firstObject setDelegate:self];
-    }
 }
 
 -(void)refreshForums{
@@ -263,12 +262,6 @@ typedef enum : NSUInteger {
 #pragma mark - czzPopularThreadsManagerDelegate
 
 - (void)popularThreadsManagerDidUpdate:(czzPopularThreadsManager *)manager {
-    [self reloadDataSources];
-}
-
-#pragma mark - czzAddForumTableViewController
-
-- (void)addForumTableViewControllerDidDismissed:(czzAddForumTableViewController *)viewController {
     [self reloadDataSources];
 }
 

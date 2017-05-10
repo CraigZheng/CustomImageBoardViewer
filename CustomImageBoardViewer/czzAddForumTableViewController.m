@@ -24,11 +24,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 @implementation czzAddForumTableViewController
 
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    [self.delegate addForumTableViewControllerDidDismissed:self];
-}
-
 #pragma mark - UITableViewDataSource, UITableViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -64,7 +59,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 - (IBAction)cancelButtonAction:(id)sender {
     // Open the left view without animation before showing.
-//    [[NavigationManager delegate].viewDeckController openLeftViewAnimated:NO];
     [self dismissViewControllerAnimated:true completion:nil];
 }
 

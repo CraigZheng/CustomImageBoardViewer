@@ -68,6 +68,8 @@ static NSString * kDefaultForumJsonFileName = @"default_forums.json";
         [[NSUserDefaults standardUserDefaults] setObject:self.customForumRawStrings
                                                   forKey:kCustomForumsRawStringsKey];
         [[NSUserDefaults standardUserDefaults] synchronize];
+        // Notify others that a custom forum is added.
+        [[NSNotificationCenter defaultCenter] postNotificationName:kCustomForumDidChangeNotification object:nil];
     }
 }
 
@@ -78,6 +80,7 @@ static NSString * kDefaultForumJsonFileName = @"default_forums.json";
     for (NSDictionary<NSString*, NSNumber*> *dictionary in self.customForumRawStrings.copy) {
         if ([dictionary.allKeys.firstObject isEqualToString:forum.name] && dictionary.allValues.firstObject.integerValue == forum.forumID) {
             [self.customForumRawStrings removeObject:dictionary];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kCustomForumDidChangeNotification object:nil];
         }
     }
     [[NSUserDefaults standardUserDefaults] setObject:self.customForumRawStrings
