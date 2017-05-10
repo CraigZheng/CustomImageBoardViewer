@@ -39,15 +39,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="Y5q-Nf-wAG" userLabel="TableView Footer View">
-                            <rect key="frame" x="0.0" y="410" width="375" height="1"/>
+                            <rect key="frame" x="0.0" y="522" width="375" height="1"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <sections>
-                            <tableViewSection id="CgR-GR-iXh" userLabel="Advertisement Section">
+                            <tableViewSection headerTitle="广告" id="CgR-GR-iXh" userLabel="Advertisement Section">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ad_cell_identifier" textLabel="0q0-hN-pN0" rowHeight="50" style="IBUITableViewCellStyleDefault" id="3pH-Gw-8AI" userLabel="Advertisement Cell">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3pH-Gw-8AI" id="RiZ-4c-CNb">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
@@ -65,10 +65,10 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection id="7Cu-Bm-wNY" userLabel="Forums Section">
+                            <tableViewSection headerTitle="讨论版" id="7Cu-Bm-wNY" userLabel="Forums Section">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="120" id="eOf-fw-Wqe" userLabel="Forums Table View Cell">
-                                        <rect key="frame" x="0.0" y="50" width="375" height="120"/>
+                                        <rect key="frame" x="0.0" y="106" width="375" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eOf-fw-Wqe" id="p7v-Jv-ffD">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="119"/>
@@ -117,10 +117,10 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection id="Xbb-jp-dAA" userLabel="Custom Forums Section">
+                            <tableViewSection headerTitle="自定义" id="Xbb-jp-dAA" userLabel="Custom Forums Section">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="120" id="3GF-pP-XfW" userLabel="Forums Table View Cell">
-                                        <rect key="frame" x="0.0" y="170" width="375" height="120"/>
+                                        <rect key="frame" x="0.0" y="254" width="375" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3GF-pP-XfW" id="rc4-N0-zfS">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="119"/>
@@ -186,10 +186,10 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection id="HF1-12-3Ja" userLabel="Thread Suggestion Section">
+                            <tableViewSection headerTitle="常用串" id="HF1-12-3Ja" userLabel="Thread Suggestion Section">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="120" id="igT-vh-HJI" userLabel="Suggestion Table View Cell">
-                                        <rect key="frame" x="0.0" y="290" width="375" height="120"/>
+                                        <rect key="frame" x="0.0" y="402" width="375" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="igT-vh-HJI" id="LlY-aI-O1W">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="119"/>

@@ -201,6 +201,25 @@ typedef enum : NSUInteger {
     return cell;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    NSInteger numberOfRows = 0;
+    // Unless the section matches the selected segmented control, or it's the advertisement section,
+    // Otherwise return 0.
+    if (section - 1 == self.forumsSegmentedControl.selectedSegmentIndex || section == 0) {
+        numberOfRows = [super tableView:tableView numberOfRowsInSection:section];
+    }
+    return numberOfRows;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    NSString *title;
+    // Display the header title only when section is matching the segmented control.
+    if (section - 1 == self.forumsSegmentedControl.selectedSegmentIndex || section == 0) {
+        title = [super tableView:tableView titleForHeaderInSection:section];
+    }
+    return title;
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.section) {
         case AdvertisementSection:
@@ -222,16 +241,6 @@ typedef enum : NSUInteger {
 #pragma mark - UI actions.
 - (IBAction)forumsSegmentedControlValueChanged:(id)sender {
     if (sender == self.forumsSegmentedControl) {
-        switch (self.forumsSegmentedControl.selectedSegmentIndex) {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            default:
-                break;
-        }
         [self.tableView reloadData];
     }
 }
