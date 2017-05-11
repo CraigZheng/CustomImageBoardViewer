@@ -62,6 +62,7 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
             case .timeline:
                 forumCell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.forum, for: indexPath)
                 forumCell.textLabel?.text = ExtraSection.timeline.title
+                forumCell.textLabel?.textColor = czzSettingsCentre.sharedInstance().contentTextColour()
             default: forumCell = UITableViewCell()
             }
         } else {
@@ -82,12 +83,12 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
                             attributedDisplayName.addAttributes([NSForegroundColorAttributeName: czzSettingsCentre.sharedInstance().contentTextColour()],
                                                                 range: NSMakeRange(0, attributedDisplayName.length))
                         }
+                        forumCell.textLabel?.textColor = nil
                         forumCell.textLabel?.attributedText = attributedDisplayName
                     }
                 }
             }
         }
-        forumCell.textLabel?.textColor = czzSettingsCentre.sharedInstance().contentTextColour()
         forumCell.contentView.backgroundColor = czzSettingsCentre.sharedInstance().viewBackgroundColour();
         return forumCell
     }
