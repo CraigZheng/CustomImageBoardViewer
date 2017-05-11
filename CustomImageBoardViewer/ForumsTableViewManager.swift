@@ -40,7 +40,7 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
         var count: Int {
             switch self {
             case .advertisement: return 0
-            case .timeline: return 1
+            case .timeline: return czzSettingsCentre.sharedInstance().timeline_url.isEmpty ? 0 : 1
             }
         }
         
@@ -54,19 +54,18 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let forumCell: UITableViewCell;
         if indexPath.section < ExtraSection.count {
             // For extra sections.
             // TODO: return appropriate cells.
             switch ExtraSection(rawValue: indexPath.section)! {
-            case .advertisement: break
             case .timeline:
-                let forumCell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.forum, for: indexPath)
+                forumCell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.forum, for: indexPath)
                 forumCell.textLabel?.text = ExtraSection.timeline.title
-                return forumCell
+            default: forumCell = UITableViewCell()
             }
-            return UITableViewCell()
         } else {
-            let forumCell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.forum, for: indexPath)
+            forumCell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.forum, for: indexPath)
             let adjustedSection = ExtraSection.adjustedSection(for: indexPath.section)
             if let forum = forumGroups[adjustedSection].forums[indexPath.row] as? czzForum {
                 let displayName = !forum.screenName.isEmpty ? forum.screenName : forum.name
@@ -87,9 +86,10 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
                     }
                 }
             }
-            forumCell.contentView.backgroundColor = czzSettingsCentre.sharedInstance().viewBackgroundColour();
-            return forumCell
         }
+        forumCell.textLabel?.textColor = czzSettingsCentre.sharedInstance().contentTextColour()
+        forumCell.contentView.backgroundColor = czzSettingsCentre.sharedInstance().viewBackgroundColour();
+        return forumCell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
