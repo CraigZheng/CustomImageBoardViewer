@@ -15,6 +15,8 @@
 #import "SlideNavigationController.h"
 #import "czzSettingsCentre.h"
 
+@import GoogleMobileAds;
+
 @interface czzForumsTableViewThreadSuggestionsManager()
 @end
 
@@ -31,11 +33,14 @@
 #pragma mark - UITableViewDataSource & UITableViewDelegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.popularThreadsManager.suggestions.count;
+    return self.popularThreadsManager.suggestions.count + 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSDictionary *dictionary = self.popularThreadsManager.suggestions[section];
+    if (section == 0) {
+        return 1;
+    }
+    NSDictionary *dictionary = self.popularThreadsManager.suggestions[section - 1];
     NSInteger count = 0;
     for (NSString *key in dictionary.allKeys) {
         if ([dictionary[key] isKindOfClass:[NSArray class]]) {
@@ -50,14 +55,35 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return @"广告";
+    }
     NSMutableString *title = [NSMutableString new];
-    for (NSString *key in self.popularThreadsManager.suggestions[section].allKeys) {
+    for (NSString *key in self.popularThreadsManager.suggestions[section - 1].allKeys) {
         [title appendString:key];
     }
     return title;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        UITableViewCell *advertisementCell = [tableView dequeueReusableCellWithIdentifier:@"ad_cell_identifier"
+                                                                             forIndexPath:indexPath];
+        for (UIView *subView in advertisementCell.contentView.subviews) {
+            if ([subView isKindOfClass:[GADBannerView class]]) {
+                GADBannerView *bannerView = (GADBannerView *)subView;
+                bannerView.adUnitID = @"ca-app-pub-2081665256237089/4247713655";
+                // Set the rootViewController for this banner view to be the czzForumsTableViewController - same as before.
+                if ([[[SlideNavigationController sharedInstance] leftMenu] isKindOfClass:[UINavigationController class]]) {
+                    bannerView.rootViewController = [(UINavigationController*)[[SlideNavigationController sharedInstance] leftMenu] viewControllers].firstObject;
+                }
+                GADRequest *request = [GADRequest request];
+                request.testDevices = @[ kGADSimulatorID ];
+                [bannerView loadRequest:request];
+            }
+        }
+        return advertisementCell;
+    }
     UITableViewCell *suggestionCell = [tableView dequeueReusableCellWithIdentifier:@"thread_cell_identifier"
                                                                       forIndexPath:indexPath];
     if (suggestionCell) {
@@ -73,6 +99,9 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return;
+    }
     czzThreadSuggestion *suggestion = [self threadSuggestionForIndexPath:indexPath];
     if (suggestion.url) {
         [[SlideNavigationController sharedInstance] closeMenuWithCompletion:^{
@@ -91,10 +120,13 @@
 #pragma mark - Util methods.
 
 - (czzThreadSuggestion *)threadSuggestionForIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return nil;
+    }
     @try {
         NSMutableArray *suggestionsArray = [NSMutableArray new];
-        for (NSString *key in self.popularThreadsManager.suggestions[indexPath.section].allKeys) {
-            [suggestionsArray addObjectsFromArray:[self.popularThreadsManager.suggestions[indexPath.section] objectForKey:key]];
+        for (NSString *key in self.popularThreadsManager.suggestions[indexPath.section - 1].allKeys) {
+            [suggestionsArray addObjectsFromArray:[self.popularThreadsManager.suggestions[indexPath.section - 1] objectForKey:key]];
         }
         czzThreadSuggestion *suggestion = suggestionsArray[indexPath.row];
         return suggestion;

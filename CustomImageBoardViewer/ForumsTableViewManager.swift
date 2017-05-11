@@ -27,8 +27,8 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
     }
     
     private enum ExtraSection: Int {
-        case advertisement = 0
-        case timeline
+        case advertisement = -1
+        case timeline = 0
         
         var title: String {
             switch self {
@@ -45,7 +45,7 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
         }
         
         static var count: Int {
-            return 2
+            return 1
         }
         
         static func adjustedSection(for section: Int) -> Int {
