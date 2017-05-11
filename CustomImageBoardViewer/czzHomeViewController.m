@@ -331,6 +331,7 @@
     czzForum *forum = [userInfo objectForKey:kPickedForum];
     if (forum){
         self.selectedForum = forum;
+        self.homeViewManager.isShowingLatestResponse = NO;
         [self refreshThread:self];
         //disallow image downloading if specified by remote settings
         self.shouldHideImageForThisForum = NO;
@@ -340,7 +341,6 @@
                 break;
             }
         }
-        self.homeViewManager.isShowingLatestResponse = NO;
     } else if ([userInfo objectForKey:kPickedTimeline]) {
         self.homeViewManager.isShowingLatestResponse = YES;
         [self.homeViewManager loadLatestResponse];
