@@ -13,6 +13,7 @@
 #import "czzPostViewController.h"
 #import "czzReplyUtil.h"
 #import "czzBannerNotificationUtil.h"
+#import "CustomImageBoardViewer-Swift.h"
 
 @interface czzPostSenderManagerViewController ()<czzPostSenderManagerDelegate, UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *indicatorImageView;
@@ -150,15 +151,23 @@
     [self startAnimating];
 }
 
-- (void)postSenderManager:(czzPostSenderManager *)manager severeWarningReceivedForPostSender:(czzPostSender *)postSender {
+- (void)postSenderManager:(czzPostSenderManager *)manager severeWarningReceivedForPostSender:(czzPostSender *)postSender message:(NSString *)message {
     [self showWarning];
-    [czzBannerNotificationUtil displayMessage:@"无法确认信息发送成功" position:BannerNotificationPositionBottom];
+    [MessagePopup showMessagePopupWithTitle:@"无法确认信息发送成功"
+                                    message:message
+                                     layout:MessagePopupLayoutMessageView
+                                      theme:MessagePopupThemeError
+                                   position:MessagePopupPresentationStyleBottom
+                                buttonTitle:@"OK"
+                        buttonActionHandler:^(UIButton * _Nonnull button){
+                            [MessagePopup hide];
+                        }];
 }
 
 - (void)postSenderManager:(czzPostSenderManager *)manager postingCompletedForSender:(czzPostSender *)postSender success:(BOOL)success message:(NSString *)message {
     [self stopAnimatingWithCompletionHandler:^{
         // Delay just a bit.
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             if (success) {
                 [czzBannerNotificationUtil displayMessage:@"提交成功"
                                                  position:BannerNotificationPositionTop];
