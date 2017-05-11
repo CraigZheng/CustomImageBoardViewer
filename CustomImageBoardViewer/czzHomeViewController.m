@@ -130,27 +130,11 @@
         self.infoBarButton.badgeValue = nil;
     }
 
-    // Select a random forum after a certain period of inactivity.
-    NSTimeInterval delayTime = 4.0;
-#ifdef DEBUG
-    delayTime = 9999;
-#endif
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        if (!self.homeViewManager.forum && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
-            if ([czzForumManager sharedManager].forums.count > 0)
-            {
-                [czzBannerNotificationUtil displayMessage:@"用户没有选择板块，随机选择……" position:BannerNotificationPositionTop];
-                @try {
-                    NSUInteger randomIndex = arc4random_uniform([czzForumManager sharedManager].forums.count);
-                    [self.homeViewManager setForum:[[czzForumManager sharedManager].forums objectAtIndex:randomIndex]];
-                    [self refreshThread:self];
-                }
-                @catch (NSException *exception) {
-                    
-                }
-            }
-        }
-    });
+    // Load latest responses when user has no forum selected.
+    if (!self.homeViewManager.forum && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+        self.homeViewManager.isShowingLatestResponse = YES;
+        [self.homeViewManager loadLatestResponse];
+    }
 }
 
 -(void)viewDidDisappear:(BOOL)animated {
@@ -180,7 +164,7 @@
 }
 
 - (IBAction)postAction:(id)sender {
-    [czzReplyUtil postToForum:self.homeViewManager.forum];
+    [czzReplyUtil postToForum: self.homeViewManager.isShowingLatestResponse ? nil : self.homeViewManager.forum];
 }
 
 - (IBAction)jumpAction:(id)sender {
@@ -359,7 +343,6 @@
         self.homeViewManager.isShowingLatestResponse = NO;
     } else if ([userInfo objectForKey:kPickedTimeline]) {
         self.homeViewManager.isShowingLatestResponse = YES;
-        self.title = @"最新回复";
         [self.homeViewManager loadLatestResponse];
     } else {
         [NSException raise:@"NOT A VALID FORUM" format:@""];

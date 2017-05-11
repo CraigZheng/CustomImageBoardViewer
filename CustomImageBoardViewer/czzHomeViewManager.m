@@ -73,18 +73,19 @@
     @try {
         if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
             NSData *cacheData = [NSData dataWithContentsOfFile:cacheFile];
-            czzHomeViewManager *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithData:cacheData];
-            //copy data
-            if (tempThreadList && [tempThreadList isKindOfClass:[czzHomeViewManager class]])
+            czzHomeViewManager *viewManager = [NSKeyedUnarchiver unarchiveObjectWithData:cacheData];
+            if ([viewManager isKindOfClass:[czzHomeViewManager class]])
             {
-                self.forum = tempThreadList.forum;
-                self.pageNumber = tempThreadList.pageNumber;
-                self.totalPages = tempThreadList.totalPages;
-                self.threads = tempThreadList.threads;
-                self.currentOffSet = tempThreadList.currentOffSet;
-                self.lastBatchOfThreads = tempThreadList.lastBatchOfThreads;
-                self.shouldHideImageForThisForum = tempThreadList.shouldHideImageForThisForum;
-                self.displayedThread = tempThreadList.displayedThread;
+                self.forum = viewManager.forum;
+                self.pageNumber = viewManager.pageNumber;
+                self.totalPages = viewManager.totalPages;
+                self.threads = viewManager.threads;
+                self.currentOffSet = viewManager.currentOffSet;
+                self.lastBatchOfThreads = viewManager.lastBatchOfThreads;
+                self.shouldHideImageForThisForum = viewManager.shouldHideImageForThisForum;
+                self.displayedThread = viewManager.displayedThread;
+                self.isShowingLatestResponse = viewManager.isShowingLatestResponse;
+                self.latestResponses = viewManager.latestResponses;
             }
         }
     }
@@ -297,6 +298,8 @@
     //isDownloading and isProcessing should not be encoded
     [aCoder encodeObject:[NSValue valueWithCGPoint:self.currentOffSet] forKey:@"currentOffSet"];
     [aCoder encodeObject:self.displayedThread forKey:@"displayedThread"];
+    [aCoder encodeBool:self.isShowingLatestResponse forKey:@"isShowingLatestResponse"];
+    [aCoder encodeObject:self.latestResponses forKey:@"latestResponses"];
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder {
@@ -311,6 +314,8 @@
         homeViewManager.lastBatchOfThreads = [aDecoder decodeObjectForKey:@"lastBatchOfThreads"];
         homeViewManager.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
         homeViewManager.displayedThread = [aDecoder decodeObjectForKey:@"displayedThread"];
+        homeViewManager.isShowingLatestResponse = [aDecoder decodeBoolForKey:@"isShowingLatestResponse"];
+        homeViewManager.latestResponses = [aDecoder decodeObjectForKey:@"latestResponses"];
         return homeViewManager;
 
     }
