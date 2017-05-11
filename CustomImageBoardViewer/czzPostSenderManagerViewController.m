@@ -172,10 +172,17 @@
                 [czzBannerNotificationUtil displayMessage:@"提交成功"
                                                  position:BannerNotificationPositionTop];
             } else {
-                [czzBannerNotificationUtil displayMessage:message.length ? message : @"出错啦"
-                                                 position:BannerNotificationPositionTop];
                 // Keep a reference to the failed post sender, and display the warning icon.
                 [self showError];
+                [MessagePopup showMessagePopupWithTitle:@"提交出错啦"
+                                                message:message.length ? message : @"未知错误"
+                                                 layout:MessagePopupLayoutMessageView
+                                                  theme:MessagePopupThemeError
+                                               position:MessagePopupPresentationStyleBottom
+                                            buttonTitle:@"OK"
+                                    buttonActionHandler:^(UIButton * _Nonnull button){
+                                        [MessagePopup hide];
+                                    }];
             }
         });
     }];
