@@ -53,7 +53,7 @@ class DraftSelectorTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch Section(rawValue: section)! {
         case .drafts: return "草稿"
-        case .clear: return " "
+        case .clear: return nil
         }
     }
     
