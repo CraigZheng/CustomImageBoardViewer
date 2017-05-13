@@ -13,7 +13,7 @@ import UIKit
 }
 
 class DraftSelectorTableViewController: UITableViewController {
-    var drafts: [String] = []
+    private var drafts: [String] = DraftManager.drafts.reversed()
     @objc var delegate: DraftSelectorTableViewControllerDelegate?
     
     private struct CellIdentifier {

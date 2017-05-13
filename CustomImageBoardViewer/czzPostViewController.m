@@ -113,8 +113,6 @@ static NSString *kDraftSelectorSegue = @"draftSelector";
         self.draftSelectorViewController.popoverPresentationController.sourceView = self.view;
         self.draftSelectorViewController.popoverPresentationController.sourceRect = self.view.bounds;
         self.draftSelectorViewController.delegate = self;
-        // Reverse the drafts.
-        self.draftSelectorViewController.drafts = [[[DraftManager drafts] reverseObjectEnumerator] allObjects];
     }
 }
 
