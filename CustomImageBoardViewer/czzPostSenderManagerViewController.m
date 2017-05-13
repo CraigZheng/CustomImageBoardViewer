@@ -153,6 +153,9 @@
 
 - (void)postSenderManager:(czzPostSenderManager *)manager severeWarningReceivedForPostSender:(czzPostSender *)postSender message:(NSString *)message {
     [self showWarning];
+    if (postSender.content.length) {
+        [DraftManager save:postSender.content];
+    }
     [MessagePopup showMessagePopupWithTitle:@"无法确认信息发送成功"
                                     message:message
                                      layout:MessagePopupLayoutMessageView
@@ -174,6 +177,9 @@
             } else {
                 // Keep a reference to the failed post sender, and display the warning icon.
                 [self showError];
+                if (postSender.content.length) {
+                    [DraftManager save:postSender.content];
+                }
                 [MessagePopup showMessagePopupWithTitle:@"提交出错啦"
                                                 message:message.length ? message : @"未知错误"
                                                  layout:MessagePopupLayoutMessageView

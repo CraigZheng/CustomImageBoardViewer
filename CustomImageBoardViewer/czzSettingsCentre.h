@@ -82,6 +82,7 @@ typedef enum : NSInteger {
 @property (assign, nonatomic) BOOL userDefShouldCleanCaches;
 @property (assign, nonatomic) BOOL userDefShouldAutoDownloadImage;
 @property (assign, nonatomic) BOOL userDefShouldCollapseLongContent;
+@property (assign, nonatomic) BOOL userDefShouldShowDraft;
 @property (assign, nonatomic) ThreadViewTextSize threadTextSize;
 @property (assign, nonatomic) BOOL shouldShowImageManagerButton;
 //Debug settings

@@ -153,6 +153,8 @@ static NSString *addMarkerSegue = @"AddMarker";
                 [commandSwitch setOn:settingCentre.userDefShouldCollapseLongContent];
             } else if ([command isEqualToString:@"显示图片下载管理器"]) {
                 [commandSwitch setOn:settingCentre.shouldShowImageManagerButton];
+            } else if ([command isEqualToString:@"显示草稿"]) {
+                [commandSwitch setOn:settingCentre.userDefShouldShowDraft];
             }
         }
     } else if (indexPath.section == 1){
@@ -234,6 +236,7 @@ static NSString *addMarkerSegue = @"AddMarker";
     [switchCommands addObject:@"显示图片"];
     [switchCommands addObject:@"显示图片下载管理器"];
     [switchCommands addObject:@"显示快速滑动按钮"];
+    [switchCommands addObject:@"显示草稿"];
     [switchCommands addObject:@"收起超长的内容"];
     [switchCommands addObject:@"夜间模式"];
     [switchCommands addObject:@"大图模式"];
@@ -368,6 +371,8 @@ static NSString *addMarkerSegue = @"AddMarker";
             settingCentre.userDefShouldCollapseLongContent = switchControl.on;
         } else if ([command isEqualToString:@"显示图片下载管理器"]) {
             settingCentre.shouldShowImageManagerButton = switchControl.on;
+        } else if ([command isEqualToString:@"显示草稿"]) {
+            settingCentre.userDefShouldShowDraft = switchControl.on;
         }
         [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"%@: %@", command, onOffString]
                                          position:BannerNotificationPositionTop];

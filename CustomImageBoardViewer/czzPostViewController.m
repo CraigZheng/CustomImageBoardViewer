@@ -28,16 +28,18 @@
 #import "czzHistoryManager.h"
 #import "czzBannerNotificationUtil.h"
 #import "czzPostSenderManager.h"
+#import "CustomImageBoardViewer-Swift.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 
 static CGFloat compressScale = 0.95;
+static NSString *kDraftSelectorSegue = @"draftSelector";
 
-@interface czzPostViewController () <UINavigationControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
-@property (nonatomic, strong) UIActionSheet *clearContentActionSheet;
+@interface czzPostViewController () <UIPopoverPresentationControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate, DraftSelectorTableViewControllerDelegate>
 @property (nonatomic, strong) UIActionSheet *cancelPostingActionSheet;
 @property (nonatomic, strong) UIAlertView *watermarkAlertView;
 @property (nonatomic, strong) NSMutableData *receivedResponse;
 @property (nonatomic, strong) czzEmojiCollectionViewController *emojiViewController;
+@property (nonatomic, weak) DraftSelectorTableViewController *draftSelectorViewController;
 @property (nonatomic, assign) BOOL didLayout;
 @property (strong, nonatomic) UIBarButtonItem *postButton;
 @property (weak, nonatomic) IBOutlet UIImageView *postImageView;
@@ -46,8 +48,6 @@ static CGFloat compressScale = 0.95;
 @property (nonatomic, strong) NSData *pickedImageData;
 @property (nonatomic, strong) UIBarButtonItem *keyboardBarButtonItem;
 @property (nonatomic, strong) NSString *pickedImageFormat;
-
-- (IBAction)clearAction:(id)sender;
 
 @end
 
@@ -71,6 +71,12 @@ static CGFloat compressScale = 0.95;
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    // If there're drafts available for selecting, show them here.
+    if ([DraftManager count] && settingCentre.userDefShouldShowDraft) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self performSegueWithIdentifier:kDraftSelectorSegue sender:nil];
+        });
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -96,6 +102,24 @@ static CGFloat compressScale = 0.95;
     if (self.emojiViewController) {
         [self dismissSemiModalView];
     }
+}
+
+#pragma mark - Prepare for segue
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:kDraftSelectorSegue] && [segue.destinationViewController isKindOfClass:[DraftSelectorTableViewController class]]) {
+        self.draftSelectorViewController = segue.destinationViewController;
+        self.draftSelectorViewController.popoverPresentationController.delegate = self;
+        self.draftSelectorViewController.popoverPresentationController.sourceView = self.view;
+        self.draftSelectorViewController.popoverPresentationController.sourceRect = self.view.bounds;
+        self.draftSelectorViewController.delegate = self;
+    }
+}
+
+#pragma marl - UIPopoverPresentationControllerDelegate.
+
+- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
+    return UIModalPresentationNone;
 }
 
 - (void)renderContent {
@@ -239,6 +263,7 @@ static CGFloat compressScale = 0.95;
 #pragma mark - UI actions.
 
 - (void)keyboardAction:(id)sender {
+    [self.draftSelectorViewController dismissViewControllerAnimated:NO completion:nil];
     if ([self.postTextView isFirstResponder]) {
         [self.postTextView resignFirstResponder];
     } else {
@@ -247,6 +272,7 @@ static CGFloat compressScale = 0.95;
 }
 
 - (void)postAction:(id)sender {
+    [self.draftSelectorViewController dismissViewControllerAnimated:NO completion:nil];
     //assign the appropriate target URL and delegate to the postSender
     postSender.content = postTextView.text;
     // Validate the content is ready.
@@ -285,6 +311,7 @@ static CGFloat compressScale = 0.95;
 }
 
 - (void)pickImageAction:(id)sender {
+    [self.draftSelectorViewController dismissViewControllerAnimated:NO completion:nil];
     UIImagePickerController *mediaUI = [[UIImagePickerController alloc] init];
     mediaUI.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     mediaUI.allowsEditing = NO;
@@ -311,27 +338,19 @@ static CGFloat compressScale = 0.95;
                        }];
 }
 
-//delete everything from the text view
-- (IBAction)clearAction:(id)sender {
-    // Clear the text view.
-    if ((postTextView.text.length > 0 || postSender.imgData) &&
-        postMode != postViewControllerModeDisplayOnly)
-    {
-        [self.postTextView resignFirstResponder];
-        self.clearContentActionSheet = [[UIActionSheet alloc] initWithTitle:@"清空内容和图片？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"清空" otherButtonTitles: nil];
-        [self.clearContentActionSheet showInView:self.view];
-
-    }
-}
-
 - (IBAction)cancelAction:(id)sender {
     if ((postTextView.text.length || postSender.imgData) &&
         postMode != postViewControllerModeDisplayOnly) {
         [self.postTextView resignFirstResponder];
         self.cancelPostingActionSheet = [[UIActionSheet alloc] initWithTitle:@"确定要中断发送文章？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"中断" otherButtonTitles: nil];
         [self.cancelPostingActionSheet showInView:self.view];
+        [DraftManager save:postTextView.text];
     } else
         [self dismissWithCompletionHandler:nil];
+}
+
+- (void)textViewDidChange:(UITextView *)textView {
+    [self.draftSelectorViewController dismissViewControllerAnimated:NO completion:nil];
 }
 
 -(void)resetContent{
@@ -343,6 +362,7 @@ static CGFloat compressScale = 0.95;
 }
 
 - (void)dismissWithCompletionHandler:(void(^)(void))completionHandler {
+    [self.draftSelectorViewController dismissViewControllerAnimated:NO completion:nil];
     BOOL isModalView = [self isModal];
     if (self.navigationController.viewControllers.count > 1) {
         [CATransaction begin];
@@ -366,12 +386,8 @@ static CGFloat compressScale = 0.95;
 
 #pragma mark - UIActionSheetDelegate
 -(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    if (actionSheet == self.clearContentActionSheet) {
-        if (buttonIndex == actionSheet.destructiveButtonIndex)
-            [self resetContent];
-    } else if (actionSheet == self.cancelPostingActionSheet) {
-        if (buttonIndex == actionSheet.destructiveButtonIndex)
-            [self dismissWithCompletionHandler:nil];
+    if (actionSheet == self.cancelPostingActionSheet && buttonIndex == actionSheet.destructiveButtonIndex) {
+        [self dismissWithCompletionHandler:nil];
     }
 }
 
@@ -380,6 +396,20 @@ static CGFloat compressScale = 0.95;
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (alertView == self.watermarkAlertView && buttonIndex != self.watermarkAlertView.cancelButtonIndex) {
         postSender.watermark = YES;
+    }
+}
+
+#pragma mark - DraftSelectorTableViewControllerDelegate
+
+- (void)draftSelector:(DraftSelectorTableViewController *)viewController selectedContent:(NSString *)selectedContent {
+    [viewController dismissViewControllerAnimated:NO completion:nil];
+    if (selectedContent.length) {
+        // Insert to text view via paste board.
+        UIPasteboard* generalPasteboard = [UIPasteboard generalPasteboard];
+        NSArray* items = [generalPasteboard.items copy];
+        generalPasteboard.string = selectedContent;
+        [postTextView paste:self];
+        generalPasteboard.items = items;
     }
 }
 
@@ -505,6 +535,7 @@ static CGFloat compressScale = 0.95;
 
 #pragma mark - Keyboard events.
 -(void)keyboardWillShow:(NSNotification*)notification{
+    [self.draftSelectorViewController dismissViewControllerAnimated:NO completion:nil];
     /*
      Reduce the size of the text view so that it's not obscured by the keyboard.
      Animate the resize so that it's in sync with the appearance of the keyboard.
@@ -539,6 +570,7 @@ static CGFloat compressScale = 0.95;
 }
 
 -(void)keyboardWillHide:(NSNotification*)notification{
+    [self.draftSelectorViewController dismissViewControllerAnimated:NO completion:nil];
     NSDictionary *userInfo = [notification userInfo];
     
     /*

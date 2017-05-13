@@ -30,6 +30,7 @@ static NSString * const kAutoDownloadImage = @"kAutoDownloadImage";
 static NSString * const kShouldCollapseLongContent = @"kShouldCollapseLongContent";
 static NSString * const kTextSize = @"kTextSize";
 static NSString * const kShouldShowImageManagerButton = @"kShouldShowImageManagerButton";
+static NSString * const kShouldShowDraft = @"userDefShouldShowDraft";
 
 NSString * const settingsChangedNotification = @"settingsChangedNotification";
 
@@ -85,6 +86,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         self.userDefShouldCleanCaches = NO;
         self.userDefShouldAutoDownloadImage = NO;
         self.userDefShouldCollapseLongContent = NO;
+        self.userDefShouldShowDraft = YES;
         shouldAllowOpenBlockedThread = YES;
         self.threadTextSize = TextSizeDefault;
         self.shouldShowImageManagerButton = YES;
@@ -138,6 +140,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     [userDefault setBool:self.userDefShouldCollapseLongContent forKey:kShouldCollapseLongContent];
     [userDefault setInteger:self.threadTextSize forKey:kTextSize];
     [userDefault setBool:self.shouldShowImageManagerButton forKey:kShouldShowImageManagerButton];
+    [userDefault setBool:self.userDefShouldShowDraft forKey:kShouldShowDraft];
     [userDefault synchronize];
     // Post a notification about the settings changed.
     [[NSNotificationCenter defaultCenter] postNotificationName:settingsChangedNotification
@@ -181,7 +184,9 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     if ([userDefault objectForKey:kShouldShowImageManagerButton]) {
         self.shouldShowImageManagerButton = [userDefault boolForKey:kShouldShowImageManagerButton];
     }
-    
+    if ([userDefault objectForKey:kShouldShowDraft]) {
+        self.userDefShouldShowDraft = [userDefault boolForKey:kShouldShowDraft];
+    }
     // Google analytics.
     id<GAITracker> defaultTracker = [[GAI sharedInstance] defaultTracker];
     [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
