@@ -13,9 +13,13 @@ import UIKit
 }
 
 class DraftSelectorTableViewController: UITableViewController {
-    private var drafts: [String] = DraftManager.drafts.reversed()
     @objc var delegate: DraftSelectorTableViewControllerDelegate?
-    
+    private var drafts: [(String, Date)] = DraftManager.drafts.reversed()
+    private let dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mm ddMMM"
+        return dateFormatter
+    }()
     private struct CellIdentifier {
         static let draft = "draftCell"
     }
@@ -34,11 +38,12 @@ class DraftSelectorTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.draft, for: indexPath)
-        cell.textLabel?.text = drafts[indexPath.row]
+        cell.textLabel?.text = drafts[indexPath.row].0
+        cell.detailTextLabel?.text = dateFormatter.string(from: drafts[indexPath.row].1)
         return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.draftSelector(self, selectedContent: drafts[indexPath.row])
+        delegate?.draftSelector(self, selectedContent: drafts[indexPath.row].0)
     }
 }
