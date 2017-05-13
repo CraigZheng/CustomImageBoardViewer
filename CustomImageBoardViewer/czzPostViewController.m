@@ -28,15 +28,18 @@
 #import "czzHistoryManager.h"
 #import "czzBannerNotificationUtil.h"
 #import "czzPostSenderManager.h"
+#import "CustomImageBoardViewer-Swift.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 
 static CGFloat compressScale = 0.95;
+static NSString *kDraftSelectorSegue = @"draftSelector";
 
-@interface czzPostViewController () <UINavigationControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
+@interface czzPostViewController () <UIPopoverPresentationControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
 @property (nonatomic, strong) UIActionSheet *cancelPostingActionSheet;
 @property (nonatomic, strong) UIAlertView *watermarkAlertView;
 @property (nonatomic, strong) NSMutableData *receivedResponse;
 @property (nonatomic, strong) czzEmojiCollectionViewController *emojiViewController;
+@property (nonatomic, weak) DraftSelectorTableViewController *draftSelectorViewController;
 @property (nonatomic, assign) BOOL didLayout;
 @property (strong, nonatomic) UIBarButtonItem *postButton;
 @property (weak, nonatomic) IBOutlet UIImageView *postImageView;
@@ -93,6 +96,23 @@ static CGFloat compressScale = 0.95;
     if (self.emojiViewController) {
         [self dismissSemiModalView];
     }
+}
+
+#pragma mark - Prepare for segue
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:kDraftSelectorSegue] && [segue.destinationViewController isKindOfClass:[DraftSelectorTableViewController class]]) {
+        segue.destinationViewController.popoverPresentationController.delegate = self;
+        segue.destinationViewController.popoverPresentationController.sourceView = self.view;
+        segue.destinationViewController.popoverPresentationController.sourceRect = self.view.bounds;
+        self.draftSelectorViewController = segue.destinationViewController;
+    }
+}
+
+#pragma marl - UIPopoverPresentationControllerDelegate.
+
+- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
+    return UIModalPresentationNone;
 }
 
 - (void)renderContent {
@@ -236,6 +256,7 @@ static CGFloat compressScale = 0.95;
 #pragma mark - UI actions.
 
 - (void)keyboardAction:(id)sender {
+    [self.draftSelectorViewController dismissViewControllerAnimated:NO completion:nil];
     if ([self.postTextView isFirstResponder]) {
         [self.postTextView resignFirstResponder];
     } else {
@@ -244,6 +265,7 @@ static CGFloat compressScale = 0.95;
 }
 
 - (void)postAction:(id)sender {
+    [self.draftSelectorViewController dismissViewControllerAnimated:NO completion:nil];
     //assign the appropriate target URL and delegate to the postSender
     postSender.content = postTextView.text;
     // Validate the content is ready.
@@ -282,6 +304,7 @@ static CGFloat compressScale = 0.95;
 }
 
 - (void)pickImageAction:(id)sender {
+    [self.draftSelectorViewController dismissViewControllerAnimated:NO completion:nil];
     UIImagePickerController *mediaUI = [[UIImagePickerController alloc] init];
     mediaUI.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     mediaUI.allowsEditing = NO;
@@ -318,6 +341,10 @@ static CGFloat compressScale = 0.95;
         [self dismissWithCompletionHandler:nil];
 }
 
+- (void)textViewDidChange:(UITextView *)textView {
+    [self.draftSelectorViewController dismissViewControllerAnimated:NO completion:nil];
+}
+
 -(void)resetContent{
     postTextView.text = @"";
     self.pickedImageData = nil;
@@ -327,6 +354,7 @@ static CGFloat compressScale = 0.95;
 }
 
 - (void)dismissWithCompletionHandler:(void(^)(void))completionHandler {
+    [self.draftSelectorViewController dismissViewControllerAnimated:NO completion:nil];
     BOOL isModalView = [self isModal];
     if (self.navigationController.viewControllers.count > 1) {
         [CATransaction begin];
@@ -485,6 +513,7 @@ static CGFloat compressScale = 0.95;
 
 #pragma mark - Keyboard events.
 -(void)keyboardWillShow:(NSNotification*)notification{
+    [self.draftSelectorViewController dismissViewControllerAnimated:NO completion:nil];
     /*
      Reduce the size of the text view so that it's not obscured by the keyboard.
      Animate the resize so that it's in sync with the appearance of the keyboard.
@@ -519,6 +548,7 @@ static CGFloat compressScale = 0.95;
 }
 
 -(void)keyboardWillHide:(NSNotification*)notification{
+    [self.draftSelectorViewController dismissViewControllerAnimated:NO completion:nil];
     NSDictionary *userInfo = [notification userInfo];
     
     /*

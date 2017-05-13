@@ -55,7 +55,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="edit_file.png" id="b2D-Lg-6hC">
                             <connections>
-                                <segue destination="RTB-Yq-SH0" kind="popoverPresentation" popoverAnchorBarButtonItem="b2D-Lg-6hC" id="apu-d6-gnj">
+                                <segue destination="RTB-Yq-SH0" kind="popoverPresentation" identifier="draftSelector" popoverAnchorBarButtonItem="b2D-Lg-6hC" id="apu-d6-gnj">
                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                 </segue>
                             </connections>
@@ -72,10 +72,10 @@
             </objects>
             <point key="canvasLocation" x="1123" y="1259"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Draft Selector Table View Controller-->
         <scene sceneID="qiU-u8-rGr">
             <objects>
-                <tableViewController id="RTB-Yq-SH0" sceneMemberID="viewController">
+                <tableViewController id="RTB-Yq-SH0" customClass="DraftSelectorTableViewController" customModule="CustomImageBoardViewer" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="mZE-hU-AR8">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -95,6 +95,7 @@
                             <outlet property="delegate" destination="RTB-Yq-SH0" id="6Zh-2L-XhN"/>
                         </connections>
                     </tableView>
+                    <value key="contentSizeForViewInPopover" type="size" width="120" height="180"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h8k-Ua-ohj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
