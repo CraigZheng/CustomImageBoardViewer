@@ -88,6 +88,10 @@ static NSString *kDraftSelectorSegue = @"draftSelector";
     [super viewDidAppear:animated];
     //Register focus on text view
     [self.postTextView becomeFirstResponder];
+    // If there're drafts available for selecting, show them here.
+    if ([DraftManager drafts].count) {
+        [self performSegueWithIdentifier:kDraftSelectorSegue sender:nil];
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -337,6 +341,7 @@ static NSString *kDraftSelectorSegue = @"draftSelector";
         [self.postTextView resignFirstResponder];
         self.cancelPostingActionSheet = [[UIActionSheet alloc] initWithTitle:@"确定要中断发送文章？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"中断" otherButtonTitles: nil];
         [self.cancelPostingActionSheet showInView:self.view];
+        [DraftManager save:postTextView.text];
     } else
         [self dismissWithCompletionHandler:nil];
 }
