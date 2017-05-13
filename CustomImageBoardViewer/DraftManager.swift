@@ -30,6 +30,9 @@ class DraftManager: NSObject {
         if (draftsToSave.count >= Key.maximum) {
             draftsToSave.removeFirst()
         }
+        if let previousSavedIndex = draftsToSave.index(of: draft) {
+            draftsToSave.remove(at: previousSavedIndex)
+        }
         draftsToSave.append(draft)
         save(draftsToSave)
     }
