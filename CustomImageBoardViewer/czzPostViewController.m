@@ -350,7 +350,7 @@ static CGFloat compressScale = 0.95;
 
 #pragma mark - UIActionSheetDelegate
 -(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    if (actionSheet == self.cancelPostingActionSheet && actionSheet.destructiveButtonIndex) {
+    if (actionSheet == self.cancelPostingActionSheet && buttonIndex == actionSheet.destructiveButtonIndex) {
         [self dismissWithCompletionHandler:nil];
     }
 }
