@@ -12,6 +12,7 @@
 #import "czzAppDelegate.h"
 #import "czzURLDownloader.h"
 #import "czzLaunchPopUpNotification.h"
+#import "czzLaunchPopUpNotificationViewController.h"
 #import <Google/Analytics.h>
 #import <UIKit/UIKit.h>
 
@@ -299,6 +300,7 @@ NSString * const remoteSettingUpdatedNotification = @"remoteSettingUpdatedNotifi
         self.long_thread_threshold = [[jsonObject objectForKey:@"long_thread_threshold"] integerValue];
         self.reply_post_placeholder = [jsonObject objectForKey:@"reply_post_placeholder"];
         self.shouldShowEmoPackPicker = [[jsonObject objectForKey:@"shouldShowEmoPackPicker"] boolValue];
+        self.timeline_url = [jsonObject objectForKey:@"timeline_url"];
         NSArray *ignoredThreadIDs = [jsonObject objectForKey:@"ignored_thread_ids"];
         if (ignoredThreadIDs.count) {
             NSMutableArray *threadIDs = [NSMutableArray new];
@@ -308,6 +310,8 @@ NSString * const remoteSettingUpdatedNotification = @"remoteSettingUpdatedNotifi
                 }
             }
             self.ignoredThreadIDs = threadIDs;
+        } else {
+            self.ignoredThreadIDs = [NSArray new];
         }
         if ([jsonObject objectForKey:@"upload_image_pixel_limit"]) {
             self.upload_image_pixel_limit = [[jsonObject objectForKey:@"upload_image_pixel_limit"] integerValue];

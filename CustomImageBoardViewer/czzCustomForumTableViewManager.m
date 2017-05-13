@@ -45,10 +45,6 @@
     return UITableViewAutomaticDimension;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return @" ";
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell;
     // If currently is the last row, show the management cell.
@@ -58,10 +54,11 @@
     } else {
         cell = [tableView dequeueReusableCellWithIdentifier:@"forum_cell_identifier" forIndexPath:indexPath];
         czzForum *forum = [czzForumManager sharedManager].customForums[indexPath.row];
-        UILabel *titleLabel = (UILabel*)[cell viewWithTag:1];
-        titleLabel.textColor = [settingCentre contentTextColour];
+        UILabel *titleLabel = [cell textLabel];
         [titleLabel setText:[forum name]];
     }
+    cell.textLabel.textColor = [settingCentre contentTextColour];
+    cell.backgroundColor = [settingCentre viewBackgroundColour];
     return cell;
 }
 

@@ -10,6 +10,7 @@
 #define GOOGLE_SEARCH_COMMAND @"https://www.google.com.au/#q=site:A_ISLE_HOST+KEYWORD&sort=date:D:S:d1"
 #define BING_SEARCH_COMMAND @"http://m.bing.com/search?q=site%3AA_ISLE_HOST+KEYWORD&btsrc=internal"
 #define AC_SEARCH_COMMAND @"http://h.acfun.tv/thread/search?key=KEYWORD"
+#define BAIDU_SEARCH_COMMAND @"http://www.baidu.com/s?wd=site%3Ah.nimingban.com%20KEYWORD"
 
 #define USER_SELECTED_SEARCH_ENGINE @"DEFAULT_SEARCH_ENGINE"
 
@@ -60,8 +61,10 @@
             searchEngineSegmentedControl.selectedSegmentIndex = 0;
         } else if ([selectedSearchEngine isEqualToString:GOOGLE_SEARCH_COMMAND]) {
             searchEngineSegmentedControl.selectedSegmentIndex = 1;
-        } else {
+        } else if ([selectedSearchEngine isEqualToString:BAIDU_SEARCH_COMMAND]) {
             searchEngineSegmentedControl.selectedSegmentIndex = 2;
+        } else {
+            searchEngineSegmentedControl.selectedSegmentIndex = 3;
         }
     }
         
@@ -180,31 +183,38 @@
     DDLogDebug(@"should navigate to URL: %@", request.URL.absoluteString);
     //user tapped on link
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
-        //get final URL
-        NSString *acURL = [[request.URL.absoluteString componentsSeparatedByString:@"?"].firstObject stringByDeletingPathExtension]; //only the first few components are useful, the host and the thread id
-        targetURL = [NSURL URLWithString:acURL];
         [czzBannerNotificationUtil displayMessage:@"请稍等..."
                                          position:BannerNotificationPositionTop];
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSData *data = nil;
-            
-            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:targetURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:4];
+            // Get redirected URL.
+            NSMutableURLRequest *finalURLRequest = [NSMutableURLRequest requestWithURL:request.URL
+                                                                           cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:4];
+            [finalURLRequest setHTTPMethod:@"HEAD"]; // Getting the header info is very enough, no need to download the whole body.
             NSURLResponse *response;
             NSError *error;
-            data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-            NSURL *LastURL = [response URL];
+            data = [NSURLConnection sendSynchronousRequest:finalURLRequest
+                                         returningResponse:&response
+                                                     error:&error];
+            NSURL *finalURL = [response URL];
+            // Check the last URL against A_isle host.
             dispatch_async(dispatch_get_main_queue(), ^{
-                if ([LastURL.absoluteString rangeOfString:[settingCentre a_isle_host]].location == NSNotFound) {
+                NSURL *aIsleURL = [NSURL URLWithString:[settingCentre a_isle_host]];
+                if ([finalURL.absoluteString rangeOfString:aIsleURL.host].location == NSNotFound) {
                     [czzBannerNotificationUtil displayMessage:@"这个App只支持A岛匿名版的链接"
                                                      position:BannerNotificationPositionTop];
                 } else {
                     //from final URL get thread ID
-                    NSString *threadID = [LastURL.absoluteString componentsSeparatedByString:@"/"].lastObject;
-                    [self downloadAndPrepareThreadWithID:threadID.integerValue];
+                    NSString *threadID = [finalURL.absoluteString componentsSeparatedByString:@"/"].lastObject;
+                    if (threadID.integerValue != 0) {
+                        [self downloadAndPrepareThreadWithID:threadID.integerValue];
+                    } else {
+                        // Request is not a thread, open it in web view.
+                        [webView loadRequest:request];
+                    }
                 }
             });
-            
         });
         
         return NO;
@@ -233,9 +243,8 @@
     } else if (segmentedControl.selectedSegmentIndex == 1)
     {
         selectedSearchEngine = GOOGLE_SEARCH_COMMAND;
-    }
-    else if (segmentedControl.selectedSegmentIndex ==2) {
-        selectedSearchEngine = AC_SEARCH_COMMAND;
+    } else if (segmentedControl.selectedSegmentIndex ==2) {
+        selectedSearchEngine = BAIDU_SEARCH_COMMAND;
     }
     NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
     [userDef setObject:selectedSearchEngine forKey:USER_SELECTED_SEARCH_ENGINE];

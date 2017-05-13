@@ -5,3 +5,7 @@
 #import "czzSelectionSelectorViewController.h"
 #import "czzLaunchPopUpNotification.h"
 #import "czzWatchListManager.h"
+#import "czzForum.h"
+#import "czzForumGroup.h"
+#import "czzThreadDownloader.h"
+#import "czzForumsViewController.h"

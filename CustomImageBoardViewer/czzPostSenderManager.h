@@ -16,7 +16,7 @@
 @optional
 - (void)postSenderManager:(czzPostSenderManager *)manager startPostingForSender:(czzPostSender *)postSender;
 - (void)postSenderManager:(czzPostSenderManager *)manager postingCompletedForSender:(czzPostSender *)postSender success:(BOOL)success message:(NSString *)message;
-- (void)postSenderManager:(czzPostSenderManager *)manager severeWarningReceivedForPostSender:(czzPostSender*)postSender;
+- (void)postSenderManager:(czzPostSenderManager *)manager severeWarningReceivedForPostSender:(czzPostSender*)postSender message:(NSString *)message;
 - (void)postSenderManager:(czzPostSenderManager *)manager postSender:(czzPostSender *)postSender progressUpdated:(CGFloat)percentage;
 @end
 

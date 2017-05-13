@@ -10,6 +10,8 @@
 #import "czzForum.h"
 #import "czzForumGroup.h"
 
+static NSString *kCustomForumDidChangeNotification = @"kCustomForumDidChangeNotification";
+
 @class czzForumManager;
 @protocol czzForumManagerDelegate <NSObject>
 -(void)forumManagerBeginDownloading:(czzForumManager*)manager;

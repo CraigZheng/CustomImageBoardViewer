@@ -50,13 +50,14 @@
 @property (nonatomic, assign) CGPoint currentOffSet;
 @property (nonatomic, strong) czzThread *displayedThread;
 @property (nonatomic, strong) NSMutableArray *cachedThreads;
-
 @property (nonatomic, strong) czzThreadDownloader *downloader;
+@property (nonatomic, assign) BOOL isShowingLatestResponse;
 
 -(void)refresh;
 -(void)reloadData;
 -(void)loadMoreThreads;
 -(void)loadMoreThreads:(NSInteger)pageNumber;
+- (void)loadLatestResponse;
 -(void)removeAll;
 //-(void)calculateHeightsForThreads:(NSArray*)newThreads;
 -(void)scrollToContentOffset:(CGPoint)offset;

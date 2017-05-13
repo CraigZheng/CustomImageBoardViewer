@@ -130,27 +130,11 @@
         self.infoBarButton.badgeValue = nil;
     }
 
-    // Select a random forum after a certain period of inactivity.
-    NSTimeInterval delayTime = 4.0;
-#ifdef DEBUG
-    delayTime = 9999;
-#endif
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        if (!self.homeViewManager.forum && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
-            if ([czzForumManager sharedManager].forums.count > 0)
-            {
-                [czzBannerNotificationUtil displayMessage:@"用户没有选择板块，随机选择……" position:BannerNotificationPositionTop];
-                @try {
-                    NSUInteger randomIndex = arc4random_uniform([czzForumManager sharedManager].forums.count);
-                    [self.homeViewManager setForum:[[czzForumManager sharedManager].forums objectAtIndex:randomIndex]];
-                    [self refreshThread:self];
-                }
-                @catch (NSException *exception) {
-                    
-                }
-            }
-        }
-    });
+    // Load latest responses when user has no forum selected.
+    if (!self.homeViewManager.forum && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+        self.homeViewManager.isShowingLatestResponse = YES;
+        [self.homeViewManager loadLatestResponse];
+    }
 }
 
 -(void)viewDidDisappear:(BOOL)animated {
@@ -169,7 +153,7 @@
     // Give the amount number a title.
     [(czzRoundButton *)self.numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.homeViewManager.threads.count] forState:UIControlStateNormal];
     // Other data
-    self.title = self.homeViewManager.forum.name;
+    self.title = self.homeViewManager.isShowingLatestResponse ? @"最新回复" : self.homeViewManager.forum.name;
     self.navigationItem.backBarButtonItem.title = self.title;
     [self.homeTableViewManager reloadData];
 }
@@ -180,7 +164,7 @@
 }
 
 - (IBAction)postAction:(id)sender {
-    [czzReplyUtil postToForum:self.homeViewManager.forum];
+    [czzReplyUtil postToForum: self.homeViewManager.isShowingLatestResponse ? nil : self.homeViewManager.forum];
 }
 
 - (IBAction)jumpAction:(id)sender {
@@ -347,6 +331,7 @@
     czzForum *forum = [userInfo objectForKey:kPickedForum];
     if (forum){
         self.selectedForum = forum;
+        self.homeViewManager.isShowingLatestResponse = NO;
         [self refreshThread:self];
         //disallow image downloading if specified by remote settings
         self.shouldHideImageForThisForum = NO;
@@ -356,6 +341,9 @@
                 break;
             }
         }
+    } else if ([userInfo objectForKey:kPickedTimeline]) {
+        self.homeViewManager.isShowingLatestResponse = YES;
+        [self.homeViewManager loadLatestResponse];
     } else {
         [NSException raise:@"NOT A VALID FORUM" format:@""];
     }

@@ -1,10 +1,14 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="CwY-mY-4Xh">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="CwY-mY-4Xh">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Czz Launch Pop Up Notification View Controller-->
@@ -16,20 +20,59 @@
                         <viewControllerLayoutGuide type="bottom" id="adu-L4-7VH"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="BMS-pq-Nwb">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8bz-h4-Sqp">
-                                <rect key="frame" x="16" y="142" width="288" height="284"/>
-                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                                <rect key="frame" x="16" y="167" width="343" height="334"/>
+                                <color key="backgroundColor" red="0.28958413004875183" green="0.31462949514389038" blue="0.32950475811958313" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="delegate" destination="CwY-mY-4Xh" id="mNj-ub-rxY"/>
                                 </connections>
                             </webView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BRt-RI-w90" userLabel="Switch Container">
+                                <rect key="frame" x="16" y="500" width="343" height="47"/>
+                                <subviews>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="4iz-AT-O5N">
+                                        <rect key="frame" x="286" y="8" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="switchValueChanged:" destination="CwY-mY-4Xh" eventType="valueChanged" id="cd2-wF-kG2"/>
+                                        </connections>
+                                    </switch>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我知道了" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4cL-lZ-fQ9">
+                                        <rect key="frame" x="208" y="13" width="70" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vGF-nR-mSm" userLabel="Horizontal Separator">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="1"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="gnu-n8-wDd"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="vGF-nR-mSm" firstAttribute="leading" secondItem="BRt-RI-w90" secondAttribute="leading" id="0hx-39-LYj"/>
+                                    <constraint firstItem="4iz-AT-O5N" firstAttribute="leading" secondItem="4cL-lZ-fQ9" secondAttribute="trailing" constant="8" id="3aQ-e9-KcE"/>
+                                    <constraint firstAttribute="trailing" secondItem="4iz-AT-O5N" secondAttribute="trailing" constant="8" id="C0i-ZC-BUQ"/>
+                                    <constraint firstItem="4cL-lZ-fQ9" firstAttribute="centerY" secondItem="4iz-AT-O5N" secondAttribute="centerY" id="IRd-ae-SIv"/>
+                                    <constraint firstAttribute="trailing" secondItem="vGF-nR-mSm" secondAttribute="trailing" id="X6z-Bl-nDY"/>
+                                    <constraint firstAttribute="bottom" secondItem="4iz-AT-O5N" secondAttribute="bottom" constant="8" id="Xhq-ln-Vjn"/>
+                                    <constraint firstItem="4cL-lZ-fQ9" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="BRt-RI-w90" secondAttribute="leading" constant="8" id="adW-68-A8L"/>
+                                    <constraint firstItem="4iz-AT-O5N" firstAttribute="top" secondItem="BRt-RI-w90" secondAttribute="top" constant="8" id="cm2-pW-OEz"/>
+                                    <constraint firstItem="vGF-nR-mSm" firstAttribute="top" secondItem="BRt-RI-w90" secondAttribute="top" id="jpH-Py-SBK"/>
+                                </constraints>
+                            </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.10000000000000001" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.10000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="BRt-RI-w90" firstAttribute="top" secondItem="8bz-h4-Sqp" secondAttribute="bottom" constant="-0.5" id="7r1-Hh-0B5"/>
                             <constraint firstItem="8bz-h4-Sqp" firstAttribute="height" secondItem="BMS-pq-Nwb" secondAttribute="height" multiplier="0.5:1" id="DBj-qS-lHp"/>
+                            <constraint firstItem="BRt-RI-w90" firstAttribute="trailing" secondItem="8bz-h4-Sqp" secondAttribute="trailing" id="Kpp-OB-Akq"/>
+                            <constraint firstItem="BRt-RI-w90" firstAttribute="leading" secondItem="8bz-h4-Sqp" secondAttribute="leading" id="QV1-17-Tvb"/>
                             <constraint firstItem="8bz-h4-Sqp" firstAttribute="leading" secondItem="BMS-pq-Nwb" secondAttribute="leadingMargin" id="Uem-dD-UEY"/>
                             <constraint firstItem="8bz-h4-Sqp" firstAttribute="centerY" secondItem="BMS-pq-Nwb" secondAttribute="centerY" id="iqD-f1-hsj"/>
                             <constraint firstItem="8bz-h4-Sqp" firstAttribute="trailing" secondItem="BMS-pq-Nwb" secondAttribute="trailingMargin" id="oOw-Ja-rbw"/>
@@ -38,8 +81,8 @@
                             <outletCollection property="gestureRecognizers" destination="1H0-lA-cTn" appends="YES" id="8Uk-GL-m4d"/>
                         </connections>
                     </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="confirmSwitch" destination="4iz-AT-O5N" id="8Zw-9Z-Nfk"/>
                         <outlet property="notificationWebView" destination="8bz-h4-Sqp" id="xNe-H3-h1E"/>
                     </connections>
                 </viewController>

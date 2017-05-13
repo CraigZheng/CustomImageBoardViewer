@@ -98,12 +98,26 @@
         if ((settingCentre.sensitive_keyword.length && [response containsString:settingCentre.sensitive_keyword])
             || ![response containsString:settingCentre.success_keyword]) {
             self.severeWarnedPostSender = postSender;
+            // Convert the response to something meaningful.
+            NSData *responseData = [response dataUsingEncoding:NSUTF8StringEncoding];
+            if (responseData) {
+                @try {
+                    response = [[NSAttributedString alloc] initWithData:responseData
+                                                                options:@{
+                                                                          NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)
+                                                                          }
+                                                     documentAttributes:nil
+                                                                  error:nil].string;
+                } @catch (NSException *exception) {
+                }
+            }
             // Warn all delegates after a set of delay.
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self iterateDelegatesWithBlock:^(id<czzPostSenderManagerDelegate> delegate) {
-                    if ([delegate respondsToSelector:@selector(postSenderManager:severeWarningReceivedForPostSender:)]) {
+                    if ([delegate respondsToSelector:@selector(postSenderManager:severeWarningReceivedForPostSender:message:)]) {
                         [delegate postSenderManager:self
-                 severeWarningReceivedForPostSender:self.severeWarnedPostSender];
+                 severeWarningReceivedForPostSender:self.severeWarnedPostSender
+                         message:response];
                     }
                 }];
             });
@@ -191,8 +205,8 @@
             // Thread with newly posted content cannot be found, this is a severe warning sign.
             weakSelf.severeWarnedPostSender = postSender;
             [weakSelf iterateDelegatesWithBlock:^(id<czzPostSenderManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(postSenderManager:severeWarningReceivedForPostSender:)]) {
-                    [delegate postSenderManager:weakSelf severeWarningReceivedForPostSender:postSender];
+                if ([delegate respondsToSelector:@selector(postSenderManager:severeWarningReceivedForPostSender:message:)]) {
+                    [delegate postSenderManager:weakSelf severeWarningReceivedForPostSender:postSender message:nil];
                 }
             }];
         }
