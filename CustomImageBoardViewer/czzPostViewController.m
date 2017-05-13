@@ -33,7 +33,6 @@
 static CGFloat compressScale = 0.95;
 
 @interface czzPostViewController () <UINavigationControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
-@property (nonatomic, strong) UIActionSheet *clearContentActionSheet;
 @property (nonatomic, strong) UIActionSheet *cancelPostingActionSheet;
 @property (nonatomic, strong) UIAlertView *watermarkAlertView;
 @property (nonatomic, strong) NSMutableData *receivedResponse;
@@ -46,8 +45,6 @@ static CGFloat compressScale = 0.95;
 @property (nonatomic, strong) NSData *pickedImageData;
 @property (nonatomic, strong) UIBarButtonItem *keyboardBarButtonItem;
 @property (nonatomic, strong) NSString *pickedImageFormat;
-
-- (IBAction)clearAction:(id)sender;
 
 @end
 
@@ -311,19 +308,6 @@ static CGFloat compressScale = 0.95;
                        }];
 }
 
-//delete everything from the text view
-- (IBAction)clearAction:(id)sender {
-    // Clear the text view.
-    if ((postTextView.text.length > 0 || postSender.imgData) &&
-        postMode != postViewControllerModeDisplayOnly)
-    {
-        [self.postTextView resignFirstResponder];
-        self.clearContentActionSheet = [[UIActionSheet alloc] initWithTitle:@"清空内容和图片？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"清空" otherButtonTitles: nil];
-        [self.clearContentActionSheet showInView:self.view];
-
-    }
-}
-
 - (IBAction)cancelAction:(id)sender {
     if ((postTextView.text.length || postSender.imgData) &&
         postMode != postViewControllerModeDisplayOnly) {
@@ -366,12 +350,8 @@ static CGFloat compressScale = 0.95;
 
 #pragma mark - UIActionSheetDelegate
 -(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    if (actionSheet == self.clearContentActionSheet) {
-        if (buttonIndex == actionSheet.destructiveButtonIndex)
-            [self resetContent];
-    } else if (actionSheet == self.cancelPostingActionSheet) {
-        if (buttonIndex == actionSheet.destructiveButtonIndex)
-            [self dismissWithCompletionHandler:nil];
+    if (actionSheet == self.cancelPostingActionSheet && actionSheet.destructiveButtonIndex) {
+        [self dismissWithCompletionHandler:nil];
     }
 }
 
