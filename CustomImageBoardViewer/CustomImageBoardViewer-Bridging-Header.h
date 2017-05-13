@@ -4,6 +4,7 @@
 #import "czzCacheCleaner.h"
 #import "czzSelectionSelectorViewController.h"
 #import "czzLaunchPopUpNotification.h"
+#import "czzLaunchPopUpNotificationViewController.h"
 #import "czzWatchListManager.h"
 #import "czzForum.h"
 #import "czzForumGroup.h"

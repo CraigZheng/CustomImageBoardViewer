@@ -22,9 +22,11 @@ class AppLaunchManager: NSObject {
                     if (response as? HTTPURLResponse)?.statusCode == 200,
                         let data = data,
                         let jsonString = String(data: data, encoding: .utf8),
+                        let popupNotificationViewController = UIStoryboard(name: "LaunchPopUpNotification", bundle: nil).instantiateInitialViewController() as? czzLaunchPopUpNotificationViewController,
                         let popupNotification = czzLaunchPopUpNotification(json: jsonString)
                     {
-                        popupNotification.tryShow()
+                        popupNotificationViewController.popUpNotification = popupNotification
+                        popupNotificationViewController.tryShow()
                     }
                 })
             }
