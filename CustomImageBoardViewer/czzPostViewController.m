@@ -72,7 +72,7 @@ static NSString *kDraftSelectorSegue = @"draftSelector";
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
     // If there're drafts available for selecting, show them here.
-    if ([DraftManager drafts].count) {
+    if ([DraftManager drafts].count && settingCentre.userDefShouldShowDraft) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self performSegueWithIdentifier:kDraftSelectorSegue sender:nil];
         });
