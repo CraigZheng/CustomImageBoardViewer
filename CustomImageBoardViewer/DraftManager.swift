@@ -9,21 +9,37 @@
 import UIKit
 
 class DraftManager: NSObject {
+    
+    private struct Key {
+        static let drafts = "Key.drafts"
+        static let maximum = 10
+    }
 
-    var drafts: [String] {
-        return []
+    class var drafts: [String] {
+        get {
+            return UserDefaults.standard.array(forKey: Key.drafts) as? [String] ?? []
+        }
     }
     
-    func save(_ draft: String) {
-        
+    class func save(_ draft: String) {
+        guard !draft.isEmpty else {
+            return
+        }
+        var draftsToSave = drafts
+        // Ensure the drafts array contain no more than the maximum number of elements.
+        if (draftsToSave.count >= Key.maximum) {
+            draftsToSave.removeFirst()
+        }
+        draftsToSave.append(draft)
+        save(draftsToSave)
     }
     
-    func save() {
-        
+    private class func save(_ drafts: [String]) {
+        UserDefaults.standard.set(drafts, forKey: Key.drafts)
     }
     
-    func clear() {
-        
+    class func clear() {
+        save([])
     }
     
 }
