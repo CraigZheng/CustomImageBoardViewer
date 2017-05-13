@@ -34,7 +34,7 @@
 static CGFloat compressScale = 0.95;
 static NSString *kDraftSelectorSegue = @"draftSelector";
 
-@interface czzPostViewController () <UIPopoverPresentationControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
+@interface czzPostViewController () <UIPopoverPresentationControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate, DraftSelectorTableViewControllerDelegate>
 @property (nonatomic, strong) UIActionSheet *cancelPostingActionSheet;
 @property (nonatomic, strong) UIAlertView *watermarkAlertView;
 @property (nonatomic, strong) NSMutableData *receivedResponse;
@@ -71,6 +71,12 @@ static NSString *kDraftSelectorSegue = @"draftSelector";
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    // If there're drafts available for selecting, show them here.
+    if ([DraftManager drafts].count) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self performSegueWithIdentifier:kDraftSelectorSegue sender:nil];
+        });
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -88,10 +94,6 @@ static NSString *kDraftSelectorSegue = @"draftSelector";
     [super viewDidAppear:animated];
     //Register focus on text view
     [self.postTextView becomeFirstResponder];
-    // If there're drafts available for selecting, show them here.
-    if ([DraftManager drafts].count) {
-        [self performSegueWithIdentifier:kDraftSelectorSegue sender:nil];
-    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -106,10 +108,13 @@ static NSString *kDraftSelectorSegue = @"draftSelector";
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:kDraftSelectorSegue] && [segue.destinationViewController isKindOfClass:[DraftSelectorTableViewController class]]) {
-        segue.destinationViewController.popoverPresentationController.delegate = self;
-        segue.destinationViewController.popoverPresentationController.sourceView = self.view;
-        segue.destinationViewController.popoverPresentationController.sourceRect = self.view.bounds;
         self.draftSelectorViewController = segue.destinationViewController;
+        self.draftSelectorViewController.popoverPresentationController.delegate = self;
+        self.draftSelectorViewController.popoverPresentationController.sourceView = self.view;
+        self.draftSelectorViewController.popoverPresentationController.sourceRect = self.view.bounds;
+        self.draftSelectorViewController.delegate = self;
+        // Reverse the drafts.
+        self.draftSelectorViewController.drafts = [[[DraftManager drafts] reverseObjectEnumerator] allObjects];
     }
 }
 
@@ -393,6 +398,20 @@ static NSString *kDraftSelectorSegue = @"draftSelector";
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (alertView == self.watermarkAlertView && buttonIndex != self.watermarkAlertView.cancelButtonIndex) {
         postSender.watermark = YES;
+    }
+}
+
+#pragma mark - DraftSelectorTableViewControllerDelegate
+
+- (void)draftSelector:(DraftSelectorTableViewController *)viewController selectedContent:(NSString *)selectedContent {
+    [viewController dismissViewControllerAnimated:NO completion:nil];
+    if (selectedContent.length) {
+        // Insert to text view via paste board.
+        UIPasteboard* generalPasteboard = [UIPasteboard generalPasteboard];
+        NSArray* items = [generalPasteboard.items copy];
+        generalPasteboard.string = selectedContent;
+        [postTextView paste:self];
+        generalPasteboard.items = items;
     }
 }
 
