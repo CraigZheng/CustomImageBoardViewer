@@ -317,11 +317,6 @@
 
 #pragma mark - self.refreshControl and download controls
 -(void)dragOnRefreshControlAction:(id)sender{
-    [self refreshThread:nil];
-}
-
--(void)refreshThread:(id)sender{
-    //reset to default page number
     [self.homeViewManager refresh];
 }
 
@@ -331,8 +326,13 @@
     czzForum *forum = [userInfo objectForKey:kPickedForum];
     if (forum){
         self.selectedForum = forum;
+        BOOL shouldCacheLatestResponse = self.homeViewManager.isShowingLatestResponse;
         self.homeViewManager.isShowingLatestResponse = NO;
-        [self refreshThread:self];
+        [self.homeViewManager refresh];
+        // When the homeViewManager is previously showing latest responses, the cachedThreads should be pointing to it instead.
+        if (shouldCacheLatestResponse) {
+            self.homeViewManager.cachedThreads = self.homeViewManager.latestResponses;
+        }
         //disallow image downloading if specified by remote settings
         self.shouldHideImageForThisForum = NO;
         for (NSString *specifiedForum in settingCentre.shouldHideImageInForums) {

@@ -49,7 +49,8 @@
 @property (nonatomic, readonly) NSString *baseURLString;
 @property (nonatomic, assign) CGPoint currentOffSet;
 @property (nonatomic, strong) czzThread *displayedThread;
-@property (nonatomic, strong) NSMutableArray *cachedThreads;
+@property (nonatomic, strong) NSArray *cachedThreads;
+@property (nonatomic, strong) NSArray *latestResponses;
 @property (nonatomic, strong) czzThreadDownloader *downloader;
 @property (nonatomic, assign) BOOL isShowingLatestResponse;
 
