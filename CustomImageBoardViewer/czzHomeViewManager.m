@@ -273,7 +273,7 @@
 }
 
 - (NSMutableArray *)threads {
-    if (self.isShowingLatestResponse) {
+    if (self.isShowingLatestResponse && self.latestResponses.count) {
         return self.latestResponses.mutableCopy;
     }
     if (!_threads) {
