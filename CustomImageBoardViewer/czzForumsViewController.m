@@ -73,12 +73,6 @@ typedef enum : NSUInteger {
                                              selector:@selector(handleSettingsChangedNotification)
                                                  name:settingsChangedNotification
                                                object:nil];
-    [[NSNotificationCenter defaultCenter] addObserverForName:SlideNavigationControllerDidOpen
-                                                      object:nil
-                                                       queue:[NSOperationQueue mainQueue]
-                                                  usingBlock:^(NSNotification * _Nonnull note) {
-                                                      [weakSelf reloadDataSources];
-                                                  }];
     [[NSNotificationCenter defaultCenter] addObserverForName:kCustomForumDidChangeNotification
                                                       object:nil
                                                        queue:[NSOperationQueue mainQueue]
