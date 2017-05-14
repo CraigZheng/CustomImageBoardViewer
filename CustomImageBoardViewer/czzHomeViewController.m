@@ -343,7 +343,7 @@
         }
     } else if ([userInfo objectForKey:kPickedTimeline]) {
         self.homeViewManager.isShowingLatestResponse = YES;
-        [self.homeViewManager loadLatestResponse];
+        [self.homeViewManager refresh];
     } else {
         [NSException raise:@"NOT A VALID FORUM" format:@""];
     }

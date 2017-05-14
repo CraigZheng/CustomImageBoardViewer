@@ -19,6 +19,7 @@
 @property (nonatomic, assign) BOOL isDownloading;
 @property (nonatomic, strong) LatestResponseDownloader *latestResponseDownloader;
 @property (nonatomic, strong) NSArray *latestResponses;
+@property (nonatomic, strong) NSArray *cachedLatestResponses;
 @end
 
 @implementation czzHomeViewManager
@@ -150,7 +151,7 @@
     self.pageNumber = 1;
     // Keep old threads in the cache
     self.cachedThreads = self.threads;
-    
+    self.cachedLatestResponses = self.latestResponses;
     // Clear all.
     self.lastBatchOfThreads = self.threads = nil;
 }
@@ -207,6 +208,7 @@
         } else {
             self.latestResponses = nil;
             self.cachedThreads = nil;
+            self.cachedLatestResponses = nil;
             if (self.shouldHideImageForThisForum)
             {
                 for (czzThread *thread in threads) {
@@ -279,8 +281,9 @@
     if (!_threads) {
         _threads = [NSMutableArray new];
     }
-    if (!_threads.count && self.cachedThreads.count) {
-        return self.cachedThreads;
+    if (!_threads.count) {
+        if (self.cachedThreads.count) return self.cachedThreads;
+        if (self.cachedLatestResponses.count) return self.cachedLatestResponses.mutableCopy;
     }
     return _threads;
 }
