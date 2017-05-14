@@ -404,12 +404,7 @@ static NSString *kDraftSelectorSegue = @"draftSelector";
 - (void)draftSelector:(DraftSelectorTableViewController *)viewController selectedContent:(NSString *)selectedContent {
     [viewController dismissViewControllerAnimated:NO completion:nil];
     if (selectedContent.length) {
-        // Insert to text view via paste board.
-        UIPasteboard* generalPasteboard = [UIPasteboard generalPasteboard];
-        NSArray* items = [generalPasteboard.items copy];
-        generalPasteboard.string = selectedContent;
-        [postTextView paste:self];
-        generalPasteboard.items = items;
+        [self.postTextView replaceRange:self.postTextView.selectedTextRange withText:selectedContent];
     }
 }
 
@@ -591,11 +586,7 @@ static NSString *kDraftSelectorSegue = @"draftSelector";
 
 #pragma mark - czzEmojiCollectionViewController delegate
 -(void)emojiSelected:(NSString *)emoji{
-    UIPasteboard* generalPasteboard = [UIPasteboard generalPasteboard];
-    NSArray* items = [generalPasteboard.items copy];
-    generalPasteboard.string = emoji;
-    [postTextView paste: self];
-    generalPasteboard.items = items;
+    [self.postTextView replaceRange:self.postTextView.selectedTextRange withText:emoji];
     [self dismissSemiModalViewWithCompletion:^{
         [postTextView becomeFirstResponder];
     }];
