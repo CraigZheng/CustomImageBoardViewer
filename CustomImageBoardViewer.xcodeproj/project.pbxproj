@@ -379,6 +379,7 @@
 		4448C2A7180FF55A00D2CD76 /* czzBlacklistDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2A6180FF55A00D2CD76 /* czzBlacklistDownloader.m */; };
 		4448C2AA180FF6C600D2CD76 /* czzBlacklistSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2A9180FF6C600D2CD76 /* czzBlacklistSender.m */; };
 		4448C2AD18100C6B00D2CD76 /* czzBlacklist.m in Sources */ = {isa = PBXBuildFile; fileRef = 4448C2AC18100C6B00D2CD76 /* czzBlacklist.m */; };
+		444A82D91ECB265000EE9BB1 /* String+CIV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444A82D81ECB265000EE9BB1 /* String+CIV.swift */; };
 		444F5B141A40EA3500EB391F /* 01.png in Resources */ = {isa = PBXBuildFile; fileRef = 444F5ADE1A40EA3500EB391F /* 01.png */; };
 		444F5B151A40EA3500EB391F /* 02.png in Resources */ = {isa = PBXBuildFile; fileRef = 444F5ADF1A40EA3500EB391F /* 02.png */; };
 		444F5B161A40EA3500EB391F /* 03.png in Resources */ = {isa = PBXBuildFile; fileRef = 444F5AE01A40EA3500EB391F /* 03.png */; };
@@ -1292,6 +1293,7 @@
 		4448C2A9180FF6C600D2CD76 /* czzBlacklistSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = czzBlacklistSender.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		4448C2AB18100C6B00D2CD76 /* czzBlacklist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzBlacklist.h; sourceTree = "<group>"; };
 		4448C2AC18100C6B00D2CD76 /* czzBlacklist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzBlacklist.m; sourceTree = "<group>"; };
+		444A82D81ECB265000EE9BB1 /* String+CIV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+CIV.swift"; sourceTree = "<group>"; };
 		444F5ADE1A40EA3500EB391F /* 01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 01.png; sourceTree = "<group>"; };
 		444F5ADF1A40EA3500EB391F /* 02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 02.png; sourceTree = "<group>"; };
 		444F5AE01A40EA3500EB391F /* 03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 03.png; sourceTree = "<group>"; };
@@ -3283,6 +3285,7 @@
 				44BDA3E81DB70BA300D2F576 /* NSUserDefaults+UIColor.swift */,
 				44528D5F1E138144009D7BE6 /* NSArray+Splitting.h */,
 				44528D601E138144009D7BE6 /* NSArray+Splitting.m */,
+				444A82D81ECB265000EE9BB1 /* String+CIV.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -4571,6 +4574,7 @@
 				443B54F319933C1F00BAB282 /* czzSettingsCentre.m in Sources */,
 				4416B71D19413D9300B69C5B /* czzEmotionPickerTableViewController.m in Sources */,
 				4463E7BB1EC33783009659D4 /* LatestResponseDownloader.swift in Sources */,
+				444A82D91ECB265000EE9BB1 /* String+CIV.swift in Sources */,
 				4416B72719413EAF00B69C5B /* FPTouchView.m in Sources */,
 				445C66381BBEC3DD004B3E83 /* UIView+Util.m in Sources */,
 				44CF25751A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.m in Sources */,
