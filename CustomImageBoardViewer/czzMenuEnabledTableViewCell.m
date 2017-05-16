@@ -173,10 +173,9 @@ NSInteger kCellImageViewHeight = 120;
         }
         // For quoted contents, made the responding text clickable.
         for (NSNumber *quotedNumber in self.thread.replyToList) {
-            NSRange quotedRange = [contentAttrString.string rangeOfString:quotedNumber.stringValue];
-            if (quotedRange.location != NSNotFound && quotedRange.length > 0) {
+            for (NSValue *rangeValue in [contentAttrString.string rangesOf:quotedNumber.stringValue]) {
                 [contentAttrString addAttributes:@{NSLinkAttributeName:[NSString stringWithFormat:@"%@%@", kQuotedContent, quotedNumber.stringValue]}
-                                           range:quotedRange];
+                                           range:rangeValue.rangeValue];
             }
         }
         self.contentTextView.attributedText = contentAttrString;
