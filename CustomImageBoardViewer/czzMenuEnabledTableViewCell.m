@@ -18,10 +18,11 @@
 #import "czzThreadViewCellHeaderView.h"
 #import "czzThreadViewCellFooterView.h"
 #import "PureLayout/PureLayout.h"
+#import "CustomImageBoardViewer-Swift.h"
 
 #import <QuartzCore/QuartzCore.h>
 
-static NSString * const showThreadWithID = @"showThreadWithID";
+static NSString * const kQuotedContent = @"quoted://";
 NSInteger kCellImageViewHeight = 120;
 
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, UITextViewDelegate>
@@ -52,42 +53,6 @@ NSInteger kCellImageViewHeight = 120;
     // Add tap getsture recognizer to the image.
     // Add self to be a delegate of czzImageDownloaderManager.
     [[czzImageDownloaderManager sharedManager] addDelegate:self];
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    for (czzThreadRefButton *button in self.referenceButtons) {
-        [button removeFromSuperview];
-    }
-    // Clickable content, find the quoted text and add a button to corresponding location.
-    if (self.thread.replyToList.count) {
-        NSMutableAttributedString *mutableAttributedString = self.contentTextView.attributedText.mutableCopy;
-        for (NSNumber *refNumber in self.thread.replyToList) {
-            NSInteger rep = refNumber.integerValue;
-            if (rep > 0) {
-                NSString *quotedNumberText = [NSString stringWithFormat:@"%ld", (long)rep];
-                NSRange range = [mutableAttributedString.string rangeOfString:quotedNumberText];
-                // NSRange is not NSNotFound and its within the current string length.
-                if (range.location != NSNotFound && range.location + range.length <= mutableAttributedString.string.length){
-                    CGRect result = [self frameOfTextRange:range inTextView:self.contentTextView];
-                    
-                    if (!CGSizeEqualToSize(CGSizeZero, result.size)){
-                        CGRect convertedRect = [self.contentContainerView convertRect:result fromView:self.contentTextView];
-                        czzThreadRefButton *threadRefButton = [[czzThreadRefButton alloc] initWithFrame:CGRectMake(convertedRect.origin.x, convertedRect.origin.y + self.contentTextView.frame.origin.y, convertedRect.size.width, convertedRect.size.height)];
-                        threadRefButton.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.05f];
-                        [threadRefButton addTarget:self action:@selector(userTapInRefButton:) forControlEvents:UIControlEventTouchUpInside];
-                        threadRefButton.threadRefNumber = rep;
-                        [self.contentContainerView addSubview:threadRefButton];
-                        [self.referenceButtons addObject:threadRefButton];
-                    }
-                    // Green text, 121	152	45
-                    UIColor *greenTextColour = [UIColor colorWithRed:121/255.0 green:152/255.0 blue:45/255.0 alpha:1];
-                    [mutableAttributedString addAttributes:@{NSForegroundColorAttributeName: greenTextColour} range:range];
-                }
-            }
-        }
-        self.contentTextView.attributedText = mutableAttributedString;
-    }
 }
 
 -(BOOL)canPerformAction:(SEL)action withSender:(id)sender{
@@ -199,16 +164,23 @@ NSInteger kCellImageViewHeight = 120;
         self.contentTextView.attributedText = [[NSAttributedString alloc] initWithString:@" - - - 屏蔽 - - - "
                                                                               attributes:@{NSForegroundColorAttributeName: [UIColor lightGrayColor]}];
     } else {
+        NSMutableAttributedString *contentAttrString = [self.threadContent mutableCopy];
         if (self.nightyMode) {
             // If nighty mode, add nighty mode attributes to the text.
-            NSMutableAttributedString *contentAttrString = [self.threadContent mutableCopy];
             [contentAttrString addAttribute:NSForegroundColorAttributeName
                                       value:settingCentre.contentTextColour
                                       range:NSMakeRange(0, contentAttrString.length)];
             self.contentTextView.attributedText = contentAttrString;
-        } else {
-            self.contentTextView.attributedText = self.threadContent;
         }
+        // For quoted contents, made the responding text clickable.
+        for (NSNumber *quotedNumber in self.thread.replyToList) {
+            NSRange quotedRange = [contentAttrString.string rangeOfString:quotedNumber.stringValue];
+            if (quotedRange.location != NSNotFound && quotedRange.length > 0) {
+                [contentAttrString addAttributes:@{NSLinkAttributeName:[NSString stringWithFormat:@"%@%@", kQuotedContent, quotedNumber.stringValue]}
+                                           range:quotedRange];
+            }
+        }
+        self.contentTextView.attributedText = contentAttrString;
     }
     self.contentTextView.font = settingCentre.contentFont;
     // Images.
@@ -367,8 +339,8 @@ NSInteger kCellImageViewHeight = 120;
 
 - (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
     BOOL shouldInteract = YES;
-    if ([URL.absoluteString hasPrefix:showThreadWithID]) {
-        [self showThreadWithID:URL.absoluteString];
+    if ([URL.absoluteString hasPrefix:kQuotedContent] && URL.absoluteString.numericString.integerValue > 0) {
+        [self showThreadWithID:URL.absoluteString.numericString];
         shouldInteract = NO;
     }
     return shouldInteract;
