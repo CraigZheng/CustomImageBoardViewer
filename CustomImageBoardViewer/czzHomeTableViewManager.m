@@ -334,10 +334,11 @@ estimatedHeightForRowAtIndexPath:indexPath];
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     // If current the view manager reports its being downloaded, don't do anything.
-    if (!self.homeViewManager.isDownloading && !self.homeViewManager.isShowingLatestResponse) {
+    if (!self.homeViewManager.isDownloading
+        && !self.homeViewManager.isShowingLatestResponse
+        && self.homeViewManager.pageNumber < self.homeViewManager.totalPages) {
         // If dragged over the threshold, set to "release to load more" cell.
-        if (self.tableViewIsDraggedOverTheBottom &&
-            self.homeViewManager.pageNumber < self.homeViewManager.totalPages) {
+        if (self.tableViewIsDraggedOverTheBottom) {
             self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore;
         } else {
             self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;

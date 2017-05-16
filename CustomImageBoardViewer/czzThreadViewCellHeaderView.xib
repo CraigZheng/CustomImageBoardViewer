@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -90,19 +90,19 @@
                 <constraint firstItem="bIl-Uf-wK9" firstAttribute="top" secondItem="f1h-C0-xa5" secondAttribute="bottom" id="BfH-db-fNE"/>
                 <constraint firstItem="zVL-Q4-5jE" firstAttribute="top" secondItem="fFa-OP-quT" secondAttribute="top" id="C7w-Kg-u8l"/>
                 <constraint firstItem="eNz-9A-vxr" firstAttribute="leading" secondItem="fFa-OP-quT" secondAttribute="leading" id="Cbv-rw-aZF"/>
-                <constraint firstItem="zVL-Q4-5jE" firstAttribute="baseline" secondItem="Hvz-Y8-z5f" secondAttribute="baseline" id="CqW-jS-gtt"/>
                 <constraint firstItem="bIl-Uf-wK9" firstAttribute="leading" secondItem="fFa-OP-quT" secondAttribute="leading" id="DcH-JS-EkC"/>
                 <constraint firstItem="f1h-C0-xa5" firstAttribute="trailing" secondItem="3FE-wQ-9rh" secondAttribute="trailing" id="J6p-TQ-fvF"/>
+                <constraint firstItem="Hvz-Y8-z5f" firstAttribute="top" secondItem="fFa-OP-quT" secondAttribute="top" id="M8g-CA-URd"/>
                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="bIl-Uf-wK9" secondAttribute="bottom" id="VDq-jL-gFz"/>
                 <constraint firstItem="8Xv-zR-s3F" firstAttribute="centerY" secondItem="Hvz-Y8-z5f" secondAttribute="centerY" id="W0e-7a-fvg"/>
                 <constraint firstAttribute="trailing" secondItem="3FE-wQ-9rh" secondAttribute="trailing" id="Y7P-nt-stj"/>
                 <constraint firstItem="Hvz-Y8-z5f" firstAttribute="leading" secondItem="eNz-9A-vxr" secondAttribute="trailing" constant="8" symbolic="YES" id="nf1-dl-Klz"/>
+                <constraint firstItem="eNz-9A-vxr" firstAttribute="top" secondItem="fFa-OP-quT" secondAttribute="top" id="oG0-gD-Ukw"/>
                 <constraint firstAttribute="trailing" secondItem="bIl-Uf-wK9" secondAttribute="trailing" id="tZs-Qf-5WU"/>
                 <constraint firstItem="f1h-C0-xa5" firstAttribute="top" secondItem="3FE-wQ-9rh" secondAttribute="bottom" id="tiY-xn-KgO"/>
                 <constraint firstAttribute="trailing" secondItem="zVL-Q4-5jE" secondAttribute="trailing" id="u6L-1z-w7F"/>
                 <constraint firstItem="zVL-Q4-5jE" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8Xv-zR-s3F" secondAttribute="trailing" constant="4" id="uA5-MM-jpj"/>
                 <constraint firstItem="8Xv-zR-s3F" firstAttribute="leading" secondItem="Hvz-Y8-z5f" secondAttribute="trailing" constant="8" symbolic="YES" id="vbf-Qs-Yo6"/>
-                <constraint firstItem="eNz-9A-vxr" firstAttribute="baseline" secondItem="Hvz-Y8-z5f" secondAttribute="baseline" id="zEN-fI-rAX"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
