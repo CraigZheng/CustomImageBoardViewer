@@ -17,6 +17,8 @@
 #import "czzURLDownloader.h"
 #import "NSDictionary+Util.h"
 
+@import DTCoreText;
+
 @interface czzThread()
 @end
 
@@ -145,10 +147,7 @@
             // If there is no data available, just init it with original string or an empty string.
             renderedString = [[NSAttributedString alloc] initWithString:htmlCopy ? htmlCopy : @""];
         } else {
-            renderedString = [[NSAttributedString alloc] initWithData: htmlData
-                                                              options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
-                                                                        NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
-                                                   documentAttributes:nil error:nil];
+            renderedString = [[NSAttributedString alloc] initWithHTMLData:htmlData options:@{DTUseiOS6Attributes: @YES} documentAttributes:nil];
         }
         
         //fine all >> quoted text

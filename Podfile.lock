@@ -21,6 +21,23 @@ PODS:
   - CocoaLumberjack/Extensions (3.1.0):
     - CocoaLumberjack/Default
   - DACircularProgress (2.3.1)
+  - DTCoreText (1.6.20):
+    - DTCoreText/Core (= 1.6.20)
+    - DTFoundation/Core (~> 1.7.5)
+    - DTFoundation/DTAnimatedGIF (~> 1.7.5)
+    - DTFoundation/DTHTMLParser (~> 1.7.5)
+    - DTFoundation/UIKit (~> 1.7.5)
+  - DTCoreText/Core (1.6.20):
+    - DTFoundation/Core (~> 1.7.5)
+    - DTFoundation/DTAnimatedGIF (~> 1.7.5)
+    - DTFoundation/DTHTMLParser (~> 1.7.5)
+    - DTFoundation/UIKit (~> 1.7.5)
+  - DTFoundation/Core (1.7.12)
+  - DTFoundation/DTAnimatedGIF (1.7.12)
+  - DTFoundation/DTHTMLParser (1.7.12):
+    - DTFoundation/Core
+  - DTFoundation/UIKit (1.7.12):
+    - DTFoundation/Core
   - DZNEmptyDataSet (1.8.1)
   - FirebaseAnalytics (3.8.0):
     - FirebaseCore (~> 3.6)
@@ -56,6 +73,7 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 3.0)
   - CocoaLumberjack
+  - DTCoreText
   - DZNEmptyDataSet
   - Google-Mobile-Ads-SDK (~> 7.0)
   - Google/Analytics
@@ -69,6 +87,8 @@ SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   CocoaLumberjack: 8311463ddf9ee86a06ef92a071dd656c89244500
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
+  DTCoreText: 51904f2374af443e0d270d6fdc76035ab6f9ef8a
+  DTFoundation: 26a164ef510877387906fb92bff524a792db4bf8
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   FirebaseAnalytics: 920e46455f27b0a52a80907a6d9b73ee4bd1c635
   FirebaseCore: 9691ee2ade70c098d7cf92440f4303f16d83ca75
@@ -85,6 +105,6 @@ SPEC CHECKSUMS:
   SplunkMint: 82255b5588e8ab85c90f6fafecd7c9c1dd3ce496
   SwiftMessages: 09cea3336e3fb63c3578983c8aac65acaa6d884a
 
-PODFILE CHECKSUM: 66b98ec0fc9d7cf050b8897367d1e7a4985332b5
+PODFILE CHECKSUM: 7c870908e4b55108adae48157170e4a8625d4f24
 
 COCOAPODS: 1.2.0

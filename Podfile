@@ -14,6 +14,7 @@ pod 'AFNetworking', '~> 3.0'
 pod 'SplunkMint'
 pod 'SwiftMessages'
 pod 'DZNEmptyDataSet'
+pod 'DTCoreText'
 end
 
 target 'CustomImageBoardViewerTests' do
