@@ -18,8 +18,6 @@
 #import "NSDictionary+Util.h"
 #import "CustomImageBoardViewer-Swift.h"
 
-@import DTCoreText;
-
 @interface czzThread()
 @end
 
@@ -148,7 +146,10 @@
             // If there is no data available, just init it with original string or an empty string.
             renderedString = [[NSMutableAttributedString alloc] initWithString:htmlCopy ? htmlCopy : @""];
         } else {
-            renderedString = [[NSMutableAttributedString alloc] initWithHTMLData:htmlData options:@{DTUseiOS6Attributes: @YES} documentAttributes:nil];
+            renderedString = [[NSMutableAttributedString alloc] initWithData: htmlData
+                                                                     options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+                                                                               NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
+                                                          documentAttributes:nil error:nil];
         }
         
         //fine all >> quoted text

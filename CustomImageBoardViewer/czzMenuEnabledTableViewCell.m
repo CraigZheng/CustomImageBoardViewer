@@ -342,6 +342,16 @@ NSInteger kCellImageViewHeight = 120;
         [self showThreadWithID:URL.absoluteString.numericString];
         shouldInteract = NO;
     }
+    // Foe applewebdata bullshit.
+    // Strip out applewebdata://<UUID> prefix applied when HTML is loaded locally
+    if ([URL.scheme isEqualToString:@"applewebdata"]) {
+        NSString *requestURLString = URL.absoluteString;
+        NSString *trimmedRequestURLString = [requestURLString stringByReplacingOccurrencesOfString:@"^(?:applewebdata://[0-9A-Z-]*/?)" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, requestURLString.length)];
+        if (trimmedRequestURLString.length > 0) {
+            URL = [NSURL URLWithString:trimmedRequestURLString.stringByRemovingPercentEncoding];
+            [UIApplication.sharedApplication openURL:URL];
+        }
+    }
     return shouldInteract;
 }
 
