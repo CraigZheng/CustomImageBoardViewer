@@ -16,6 +16,7 @@
 #import "czzSettingsCentre.h"
 #import "czzURLDownloader.h"
 #import "NSDictionary+Util.h"
+#import "CustomImageBoardViewer-Swift.h"
 
 @import DTCoreText;
 
@@ -141,25 +142,33 @@
             htmlCopy = htmlString;
         }
         NSData *htmlData = [htmlCopy dataUsingEncoding:NSUTF8StringEncoding];
-        NSAttributedString *renderedString;
+        NSMutableAttributedString *renderedString;
         // Make sure renderedString can always be inited properly.
         if (!htmlData) {
             // If there is no data available, just init it with original string or an empty string.
-            renderedString = [[NSAttributedString alloc] initWithString:htmlCopy ? htmlCopy : @""];
+            renderedString = [[NSMutableAttributedString alloc] initWithString:htmlCopy ? htmlCopy : @""];
         } else {
-            renderedString = [[NSAttributedString alloc] initWithHTMLData:htmlData options:@{DTUseiOS6Attributes: @YES} documentAttributes:nil];
+            renderedString = [[NSMutableAttributedString alloc] initWithHTMLData:htmlData options:@{DTUseiOS6Attributes: @YES} documentAttributes:nil];
         }
         
         //fine all >> quoted text
-        NSArray *segments = [renderedString.string componentsSeparatedByString:@">>"];
-        if (segments.count > 1) {
-            for (NSString* segment in segments) {
-                NSString *processedSeg = [segment stringByReplacingOccurrencesOfString:@"No." withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, segment.length)];
-                NSInteger refNumber  = processedSeg.integerValue;
-                if (refNumber != 0) {
-                    if (!self.replyToList)
-                        self.replyToList = [NSMutableArray new];
-                    [self.replyToList addObject:[NSNumber numberWithInteger:refNumber]];
+        NSArray *segments = [renderedString.string componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+        for (NSString* segment in segments) {
+            if ([segment hasPrefix:@">"]) {
+                // Make green text.
+                NSRange quotedRange = [renderedString.string rangeOfString:segment];
+                if (quotedRange.location != NSNotFound && quotedRange.length) {
+                    [renderedString addAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithRed:121/255.0 green:152/255.0 blue:45/255.0 alpha:1]}
+                                            range:quotedRange];
+                }
+                // Find quoted numbers.
+                if ([segment hasPrefix:@">>"]) {
+                    NSInteger refNumber  = segment.numericString.integerValue;
+                    if (refNumber > 0) {
+                        if (!self.replyToList)
+                            self.replyToList = [NSMutableArray new];
+                        [self.replyToList addObject:[NSNumber numberWithInteger:refNumber]];
+                    }
                 }
             }
         }
