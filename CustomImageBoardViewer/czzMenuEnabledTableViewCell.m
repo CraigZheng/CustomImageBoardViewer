@@ -342,6 +342,13 @@ NSInteger kCellImageViewHeight = 120;
         [self showThreadWithID:URL.absoluteString.numericString];
         shouldInteract = NO;
     }
+    if ([URL.absoluteString containsString:[settingCentre a_isle_host]]) {
+        NSString *lastComponent = [URL.absoluteString componentsSeparatedByString:@"/"].lastObject;
+        if (lastComponent.integerValue > 0) {
+            [self showThreadWithID:lastComponent];
+            shouldInteract = NO;
+        }
+    }
     // Foe applewebdata bullshit.
     // Strip out applewebdata://<UUID> prefix applied when HTML is loaded locally
     if ([URL.scheme isEqualToString:@"applewebdata"]) {
@@ -357,6 +364,7 @@ NSInteger kCellImageViewHeight = 120;
                 [UIApplication.sharedApplication openURL:match.URL];
             }
         }
+        shouldInteract = NO;
     }
     return shouldInteract;
 }
