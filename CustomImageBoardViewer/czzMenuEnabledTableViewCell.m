@@ -76,7 +76,6 @@ NSInteger kCellImageViewHeight = 120;
     // Reset all colours for header view, footer view, middle container view and content text view.
     self.contentView.backgroundColor = self.cellFooterView.backgroundColor
     = self.cellHeaderView.backgroundColor
-    = self.contentContainerView.backgroundColor
     = self.contentTextView.backgroundColor
     = self.shouldTemporarilyHighlight ? [UIColor groupTableViewBackgroundColor] : [settingCentre viewBackgroundColour];
 }

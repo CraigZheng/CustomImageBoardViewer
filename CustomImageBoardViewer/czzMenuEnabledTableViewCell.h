@@ -51,7 +51,6 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;
-@property (weak, nonatomic) IBOutlet UIView *contentContainerView;
 @property (weak, nonatomic) IBOutlet UIImageView *cellImageView;
 @property (readonly, nonatomic) UIImage *placeholderImage;
 @property NSDictionary *downloadedImages;
