@@ -346,10 +346,16 @@ NSInteger kCellImageViewHeight = 120;
     // Strip out applewebdata://<UUID> prefix applied when HTML is loaded locally
     if ([URL.scheme isEqualToString:@"applewebdata"]) {
         NSString *requestURLString = URL.absoluteString;
-        NSString *trimmedRequestURLString = [requestURLString stringByReplacingOccurrencesOfString:@"^(?:applewebdata://[0-9A-Z-]*/?)" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, requestURLString.length)];
-        if (trimmedRequestURLString.length > 0) {
-            URL = [NSURL URLWithString:trimmedRequestURLString.stringByRemovingPercentEncoding];
-            [UIApplication.sharedApplication openURL:URL];
+        NSString *trimmedRequestURLString = [requestURLString stringByReplacingOccurrencesOfString:@"^(?:applewebdata://[0-9A-Z-]*/?)" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, requestURLString.length)].stringByRemovingPercentEncoding;
+        // Find the links from this script.
+        NSDataDetector *linkDetector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
+        NSArray *matches = [linkDetector matchesInString:trimmedRequestURLString
+                                                 options:0
+                                                   range:NSMakeRange(0, [trimmedRequestURLString length])];
+        for (NSTextCheckingResult *match in matches) {
+            if ([match resultType] == NSTextCheckingTypeLink) {
+                [UIApplication.sharedApplication openURL:match.URL];
+            }
         }
     }
     return shouldInteract;
