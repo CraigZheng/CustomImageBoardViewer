@@ -402,7 +402,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
             } else {
                 [MessagePopup showMessagePopupWithTitle:nil
                                                 message:[NSString stringWithFormat:@"找不到引用串：%ld", (long)thread.ID]
-                                                 layout:MessagePopupLayoutCardView
+                                                 layout:MessagePopupLayoutMessageView
                                                   theme:MessagePopupThemeError
                                                position:MessagePopupPresentationStyleTop
                                             buttonTitle:nil

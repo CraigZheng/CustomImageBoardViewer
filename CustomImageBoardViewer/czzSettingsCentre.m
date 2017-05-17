@@ -331,9 +331,10 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         if (downloadedData) {
             [self parseJSONData:downloadedData];
             [self saveSettings]; //save settings from remote
-            if (message.length > 0) {
-                [MessagePopup showMessagePopupWithTitle:nil message:message
-                                                 layout:MessagePopupLayoutCardView
+            if (message.length) {
+                [MessagePopup showMessagePopupWithTitle:nil
+                                                message:message
+                                                 layout:MessagePopupLayoutMessageView
                                                   theme:MessagePopupThemeInfo
                                                position:MessagePopupPresentationStyleTop
                                             buttonTitle:nil
