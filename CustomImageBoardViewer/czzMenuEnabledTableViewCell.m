@@ -92,7 +92,7 @@ NSInteger kCellImageViewHeight = 120;
     [self.contentCopyActionSheet addButtonWithTitle:@"用户饼干"];
     [self.contentCopyActionSheet addButtonWithTitle:@"取消"];
     self.contentCopyActionSheet.cancelButtonIndex = 3;
-    [self.contentCopyActionSheet showInView:self.superview];
+    [self.contentCopyActionSheet showInView:[UIApplication topViewController].view];
 }
 
 -(void)menuActionReply:(id)sender{
@@ -113,7 +113,7 @@ NSInteger kCellImageViewHeight = 120;
     [self.openLinkActionSheet addButtonWithTitle:@"取消"];
     self.openLinkActionSheet.cancelButtonIndex = self.links.count;
     
-    [self.openLinkActionSheet showInView:self.superview];
+    [self.openLinkActionSheet showInView:[UIApplication topViewController].view];
 }
 
 - (void)menuActionReport:(id)sender {
