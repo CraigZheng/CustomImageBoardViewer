@@ -131,7 +131,7 @@
     }
 
     // Load latest responses when user has no forum selected.
-    if (!self.homeViewManager.forum && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+    if (!self.homeViewManager.forum && self.homeViewManager.latestResponses.count == 0 && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
         self.homeViewManager.isShowingLatestResponse = YES;
         [self.homeViewManager loadLatestResponse];
     }
