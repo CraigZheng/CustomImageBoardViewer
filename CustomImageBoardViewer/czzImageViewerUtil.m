@@ -80,12 +80,12 @@
                 if (NavigationManager.isInTransition) {
                     NavigationManager.pushAnimationCompletionHandler = ^{
                         if (![[UIApplication topViewController] isKindOfClass:[photoBrowser class]]) {
-                            [NavigationManager.delegate pushViewControllerWithViewController:photoBrowser animated:YES completion:nil];
+                            [[UIApplication topViewController].navigationController pushViewControllerWithViewController:photoBrowser animated:YES completion:nil];
                         }
                     };
                 } else {
                     if (![[UIApplication topViewController] isKindOfClass:[photoBrowser class]]) {
-                        [NavigationManager.delegate pushViewControllerWithViewController:photoBrowser animated:YES completion:nil];
+                        [[UIApplication topViewController].navigationController pushViewControllerWithViewController:photoBrowser animated:YES completion:nil];
                     }
                 }
             }
