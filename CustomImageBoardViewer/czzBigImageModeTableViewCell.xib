@@ -27,7 +27,7 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="szk-P5-Rsx" userLabel="Image View Container">
-                        <rect key="frame" x="0.0" y="49" width="322" height="130"/>
+                        <rect key="frame" x="0.0" y="57" width="322" height="130"/>
                         <subviews>
                             <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="40.png" translatesAutoresizingMaskIntoConstraints="NO" id="cFu-AH-Mz3">
                                 <rect key="frame" x="0.0" y="0.0" width="322" height="130"/>
@@ -93,7 +93,7 @@
                     <constraint firstItem="znW-9G-MCS" firstAttribute="top" secondItem="9cm-8t-iZh" secondAttribute="top" id="NJT-HT-YzL"/>
                     <constraint firstAttribute="trailing" secondItem="Tgy-sn-4DR" secondAttribute="trailing" id="TnI-Lf-A62"/>
                     <constraint firstItem="Vp1-FL-LTe" firstAttribute="top" secondItem="Az2-MV-Wjk" secondAttribute="bottom" id="X6I-7z-3Wh"/>
-                    <constraint firstItem="szk-P5-Rsx" firstAttribute="top" secondItem="Tgy-sn-4DR" secondAttribute="bottom" id="gfq-n4-IqL"/>
+                    <constraint firstItem="szk-P5-Rsx" firstAttribute="top" secondItem="Tgy-sn-4DR" secondAttribute="bottom" constant="8" symbolic="YES" id="gfq-n4-IqL"/>
                     <constraint firstItem="Az2-MV-Wjk" firstAttribute="top" relation="greaterThanOrEqual" secondItem="szk-P5-Rsx" secondAttribute="bottom" constant="8" symbolic="YES" id="la9-J5-pCJ"/>
                     <constraint firstAttribute="trailing" secondItem="znW-9G-MCS" secondAttribute="trailing" constant="4" id="uTU-IC-1rv"/>
                     <constraint firstItem="Az2-MV-Wjk" firstAttribute="leading" secondItem="9cm-8t-iZh" secondAttribute="leading" constant="20" symbolic="YES" id="ueu-4r-M5B"/>
