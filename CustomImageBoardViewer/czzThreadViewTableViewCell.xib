@@ -61,7 +61,7 @@
                         </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text Content" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XYq-FH-Z0o" customClass="TTTAttributedLabel">
-                        <rect key="frame" x="0.0" y="28" width="320" height="21"/>
+                        <rect key="frame" x="8" y="28" width="304" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -78,11 +78,11 @@
                     <constraint firstAttribute="trailing" secondItem="obq-Bg-pDf" secondAttribute="trailing" id="Gzy-Fo-YjH"/>
                     <constraint firstAttribute="trailing" secondItem="5oH-Lv-7NW" secondAttribute="trailing" constant="4" id="MaZ-Ed-gwx"/>
                     <constraint firstAttribute="bottom" secondItem="obq-Bg-pDf" secondAttribute="bottom" id="N9S-Ej-OFG"/>
-                    <constraint firstAttribute="trailing" secondItem="XYq-FH-Z0o" secondAttribute="trailing" id="Nwp-Yw-XPY"/>
+                    <constraint firstAttribute="trailing" secondItem="XYq-FH-Z0o" secondAttribute="trailing" constant="8" id="Nwp-Yw-XPY"/>
                     <constraint firstItem="5W3-EI-BAb" firstAttribute="bottom" secondItem="J9r-7t-RIx" secondAttribute="bottom" id="P9W-BL-ba7"/>
                     <constraint firstItem="kI7-56-CK2" firstAttribute="centerX" secondItem="WdR-sJ-uhu" secondAttribute="centerX" id="Upk-oj-xh6"/>
                     <constraint firstItem="obq-Bg-pDf" firstAttribute="top" secondItem="DN5-G9-KwB" secondAttribute="bottom" id="Uze-Rx-eX4"/>
-                    <constraint firstItem="XYq-FH-Z0o" firstAttribute="leading" secondItem="lgC-X4-SAR" secondAttribute="leading" id="Vn9-ze-L3c"/>
+                    <constraint firstItem="XYq-FH-Z0o" firstAttribute="leading" secondItem="lgC-X4-SAR" secondAttribute="leading" constant="8" id="Vn9-ze-L3c"/>
                     <constraint firstItem="DN5-G9-KwB" firstAttribute="top" relation="greaterThanOrEqual" secondItem="WdR-sJ-uhu" secondAttribute="bottom" id="W8G-ud-SQT"/>
                     <constraint firstAttribute="trailing" secondItem="5W3-EI-BAb" secondAttribute="trailing" constant="20" symbolic="YES" id="WWY-f3-u1c"/>
                     <constraint firstItem="kI7-56-CK2" firstAttribute="bottom" secondItem="WdR-sJ-uhu" secondAttribute="bottom" id="XdL-5h-bgp"/>
