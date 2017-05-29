@@ -51,6 +51,7 @@ NSInteger kCellImageViewHeight = 120;
     self.allowImage = YES;
     self.shouldAllowClickOnImage = YES;
     self.contentLabel.delegate = self;
+    self.contentLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink;
     // Add tap getsture recognizer to the image.
     // Add self to be a delegate of czzImageDownloaderManager.
     [[czzImageDownloaderManager sharedManager] addDelegate:self];
