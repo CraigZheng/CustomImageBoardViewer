@@ -19,6 +19,8 @@
 #import "czzThread.h"
 #import "czzImageDownloaderManager.h"
 
+@import TTTAttributedLabel;
+
 extern NSInteger kCellImageViewHeight;
 
 typedef NS_ENUM(NSInteger, threadViewCellType) {
@@ -29,7 +31,7 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 
 @class czzMenuEnabledTableViewCell, czzThreadViewCellHeaderView, czzThreadViewCellFooterView;
 
-@protocol czzMenuEnabledTableViewCellProtocol <NSObject>
+@protocol czzMenuEnabledTableViewCellProtocol <NSObject, TTTAttributedLabelDelegate>
 @optional
 -(void)userTapInQuotedText:(NSString*)text;
 -(void)userTapInImageView:(id)sender;
@@ -49,6 +51,7 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 
 @property (weak, nonatomic) id<czzMenuEnabledTableViewCellProtocol> delegate;
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;
+@property (weak, nonatomic) IBOutlet TTTAttributedLabel *contentLabel;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;
 @property (weak, nonatomic) IBOutlet UIImageView *cellImageView;

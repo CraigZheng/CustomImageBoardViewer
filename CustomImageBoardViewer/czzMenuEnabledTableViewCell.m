@@ -25,7 +25,7 @@
 static NSString * const kQuotedContent = @"quoted://";
 NSInteger kCellImageViewHeight = 120;
 
-@interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate, UITextViewDelegate>
+@interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate>
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *cellImageViewHeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *cellImageViewButtonMinimumWidthConstraint;
@@ -50,6 +50,7 @@ NSInteger kCellImageViewHeight = 120;
     self.shouldBlock = NO;
     self.allowImage = YES;
     self.shouldAllowClickOnImage = YES;
+    self.contentLabel.delegate = self;
     // Add tap getsture recognizer to the image.
     // Add self to be a delegate of czzImageDownloaderManager.
     [[czzImageDownloaderManager sharedManager] addDelegate:self];
@@ -72,11 +73,11 @@ NSInteger kCellImageViewHeight = 120;
     return YES;
 }
 
--(void)resetViewBackgroundColours {
+- (void)prepareForReuse {
     // Reset all colours for header view, footer view, middle container view and content text view.
     self.contentView.backgroundColor = self.cellFooterView.backgroundColor
     = self.cellHeaderView.backgroundColor
-    = self.contentTextView.backgroundColor
+    = self.contentLabel.backgroundColor
     = self.shouldTemporarilyHighlight ? [UIColor groupTableViewBackgroundColor] : [settingCentre viewBackgroundColour];
 }
 
@@ -158,18 +159,18 @@ NSInteger kCellImageViewHeight = 120;
 }
 
 -(void)renderContent {
-    [self resetViewBackgroundColours];
     if (self.shouldBlock) {
-        self.contentTextView.attributedText = [[NSAttributedString alloc] initWithString:@" - - - 屏蔽 - - - "
+        self.contentLabel.text = [[NSAttributedString alloc] initWithString:@" - - - 屏蔽 - - - "
                                                                               attributes:@{NSForegroundColorAttributeName: [UIColor lightGrayColor]}];
     } else {
         NSMutableAttributedString *contentAttrString = [self.threadContent mutableCopy];
+        [contentAttrString addAttribute:NSFontAttributeName value:settingCentre.contentFont range:NSMakeRange(0, contentAttrString.length)];
         if (self.nightyMode) {
             // If nighty mode, add nighty mode attributes to the text.
             [contentAttrString addAttribute:NSForegroundColorAttributeName
                                       value:settingCentre.contentTextColour
                                       range:NSMakeRange(0, contentAttrString.length)];
-            self.contentTextView.attributedText = contentAttrString;
+            self.contentLabel.text = contentAttrString;
         }
         // For quoted contents, made the responding text clickable.
         for (NSNumber *quotedNumber in self.thread.replyToList) {
@@ -178,9 +179,8 @@ NSInteger kCellImageViewHeight = 120;
                                            range:rangeValue.rangeValue];
             }
         }
-        self.contentTextView.attributedText = contentAttrString;
+        self.contentLabel.text = contentAttrString;
     }
-    self.contentTextView.font = settingCentre.contentFont;
     // Images.
     UIImage *previewImage;
     NSString *imageName;
@@ -333,24 +333,20 @@ NSInteger kCellImageViewHeight = 120;
     }
 }
 
-#pragma mark - UITextViewDelegate
+#pragma mark - TTTAttributedLabelDelegate
 
-- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
-    BOOL shouldInteract = YES;
+- (void)attributedLabel:(TTTAttributedLabel *)label
+   didSelectLinkWithURL:(NSURL *)URL {
     if ([URL.absoluteString hasPrefix:kQuotedContent] && URL.absoluteString.numericString.integerValue > 0) {
         [self showThreadWithID:URL.absoluteString.numericString];
-        shouldInteract = NO;
-    }
-    if ([URL.absoluteString containsString:[settingCentre a_isle_host]]) {
+    } else if ([URL.absoluteString containsString:[settingCentre a_isle_host]]) {
         NSString *lastComponent = [URL.absoluteString componentsSeparatedByString:@"/"].lastObject;
         if (lastComponent.integerValue > 0) {
             [self showThreadWithID:lastComponent];
-            shouldInteract = NO;
         }
-    }
-    // Foe applewebdata bullshit.
-    // Strip out applewebdata://<UUID> prefix applied when HTML is loaded locally
-    if ([URL.scheme isEqualToString:@"applewebdata"]) {
+    } else if ([URL.scheme isEqualToString:@"applewebdata"]) {
+        // Foe applewebdata bullshit.
+        // Strip out applewebdata://<UUID> prefix applied when HTML is loaded locally
         NSString *requestURLString = URL.absoluteString;
         NSString *trimmedRequestURLString = [requestURLString stringByReplacingOccurrencesOfString:@"^(?:applewebdata://[0-9A-Z-]*/?)" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, requestURLString.length)].stringByRemovingPercentEncoding;
         // Find the links from this script.
@@ -363,16 +359,18 @@ NSInteger kCellImageViewHeight = 120;
                 [UIApplication.sharedApplication openURL:match.URL];
             }
         }
-        shouldInteract = NO;
+    } else {
+        if ([UIApplication.sharedApplication canOpenURL:URL]) {
+            [UIApplication.sharedApplication openURL:URL];
+        }
     }
-    return shouldInteract;
 }
 
 #pragma mark - UIResponder methods.
 
 - (BOOL)resignFirstResponder {
-    // Resign contentTextView, the primary responder.
-    [self.contentTextView resignFirstResponder];
+    // Resign contentLabel, the primary responder.
+    [self.contentLabel resignFirstResponder];
     return [super resignFirstResponder];
 }
 
