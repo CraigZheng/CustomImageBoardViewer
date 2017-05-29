@@ -50,7 +50,6 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 @property NSIndexPath *myIndexPath;
 
 @property (weak, nonatomic) id<czzMenuEnabledTableViewCellProtocol> delegate;
-@property (weak, nonatomic) IBOutlet UITextView *contentTextView;
 @property (weak, nonatomic) IBOutlet TTTAttributedLabel *contentLabel;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
 @property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;

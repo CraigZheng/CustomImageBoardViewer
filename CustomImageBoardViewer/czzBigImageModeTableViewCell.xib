@@ -26,18 +26,8 @@
                         <rect key="frame" x="20" y="293.5" width="282" height="20"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
-                    <textView clipsSubviews="YES" contentMode="scaleToFill" scrollEnabled="NO" delaysContentTouches="NO" canCancelContentTouches="NO" editable="NO" text="Text content" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="RNZ-2t-GD0" customClass="czzThreadTextView">
-                        <rect key="frame" x="0.0" y="28" width="322" height="33"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                        <dataDetectorType key="dataDetectorTypes" link="YES"/>
-                        <connections>
-                            <outlet property="delegate" destination="NOy-2g-EB3" id="fBN-58-blY"/>
-                        </connections>
-                    </textView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="szk-P5-Rsx" userLabel="Image View Container">
-                        <rect key="frame" x="0.0" y="61" width="322" height="130"/>
+                        <rect key="frame" x="0.0" y="49" width="322" height="130"/>
                         <subviews>
                             <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="40.png" translatesAutoresizingMaskIntoConstraints="NO" id="cFu-AH-Mz3">
                                 <rect key="frame" x="0.0" y="0.0" width="322" height="130"/>
@@ -83,25 +73,31 @@
                             <constraint firstAttribute="height" constant="2" id="yhv-x1-84H"/>
                         </constraints>
                     </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tgy-sn-4DR" customClass="TTTAttributedLabel">
+                        <rect key="frame" x="0.0" y="28" width="322" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="Vp1-FL-LTe" secondAttribute="bottom" id="0kE-0d-Hyh"/>
                     <constraint firstAttribute="trailing" secondItem="szk-P5-Rsx" secondAttribute="trailing" id="3dM-G6-40F"/>
                     <constraint firstItem="znW-9G-MCS" firstAttribute="leading" secondItem="9cm-8t-iZh" secondAttribute="leading" constant="4" id="9Jb-8C-A1a"/>
+                    <constraint firstItem="Tgy-sn-4DR" firstAttribute="leading" secondItem="9cm-8t-iZh" secondAttribute="leading" id="CmX-OK-dRa"/>
                     <constraint firstAttribute="trailing" secondItem="Vp1-FL-LTe" secondAttribute="trailing" id="Dqz-71-udc"/>
                     <constraint firstAttribute="trailing" secondItem="Az2-MV-Wjk" secondAttribute="trailing" constant="20" symbolic="YES" id="FTj-gt-x9f"/>
                     <constraint firstItem="Vp1-FL-LTe" firstAttribute="leading" secondItem="9cm-8t-iZh" secondAttribute="leading" constant="20" symbolic="YES" id="G5O-89-yiG"/>
                     <constraint firstItem="szk-P5-Rsx" firstAttribute="leading" secondItem="9cm-8t-iZh" secondAttribute="leading" id="JuU-jE-7Wu"/>
                     <constraint firstItem="znW-9G-MCS" firstAttribute="top" secondItem="9cm-8t-iZh" secondAttribute="top" id="NJT-HT-YzL"/>
+                    <constraint firstAttribute="trailing" secondItem="Tgy-sn-4DR" secondAttribute="trailing" id="TnI-Lf-A62"/>
                     <constraint firstItem="Vp1-FL-LTe" firstAttribute="top" secondItem="Az2-MV-Wjk" secondAttribute="bottom" id="X6I-7z-3Wh"/>
-                    <constraint firstItem="RNZ-2t-GD0" firstAttribute="leading" secondItem="9cm-8t-iZh" secondAttribute="leading" id="eAy-E7-fWF"/>
-                    <constraint firstItem="RNZ-2t-GD0" firstAttribute="top" secondItem="znW-9G-MCS" secondAttribute="bottom" constant="8" symbolic="YES" id="eil-xh-ToP"/>
+                    <constraint firstItem="szk-P5-Rsx" firstAttribute="top" secondItem="Tgy-sn-4DR" secondAttribute="bottom" id="gfq-n4-IqL"/>
                     <constraint firstItem="Az2-MV-Wjk" firstAttribute="top" relation="greaterThanOrEqual" secondItem="szk-P5-Rsx" secondAttribute="bottom" constant="8" symbolic="YES" id="la9-J5-pCJ"/>
-                    <constraint firstAttribute="trailing" secondItem="RNZ-2t-GD0" secondAttribute="trailing" id="sgB-XK-ukZ"/>
                     <constraint firstAttribute="trailing" secondItem="znW-9G-MCS" secondAttribute="trailing" constant="4" id="uTU-IC-1rv"/>
                     <constraint firstItem="Az2-MV-Wjk" firstAttribute="leading" secondItem="9cm-8t-iZh" secondAttribute="leading" constant="20" symbolic="YES" id="ueu-4r-M5B"/>
-                    <constraint firstItem="szk-P5-Rsx" firstAttribute="top" secondItem="RNZ-2t-GD0" secondAttribute="bottom" id="v8S-aP-wHp"/>
+                    <constraint firstItem="Tgy-sn-4DR" firstAttribute="top" secondItem="znW-9G-MCS" secondAttribute="bottom" constant="8" symbolic="YES" id="vaW-SL-b37"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
@@ -110,7 +106,7 @@
                 <outlet property="cellFooterView" destination="Az2-MV-Wjk" id="AR7-2B-cFu"/>
                 <outlet property="cellHeaderView" destination="znW-9G-MCS" id="Un5-K2-pOp"/>
                 <outlet property="cellImageView" destination="Xhk-e8-ugo" id="2CQ-nW-yvV"/>
-                <outlet property="contentTextView" destination="RNZ-2t-GD0" id="KmG-NN-LhB"/>
+                <outlet property="contentLabel" destination="Tgy-sn-4DR" id="wl2-cm-mVn"/>
                 <outlet property="gifLabel" destination="MBo-Zi-mNY" id="QHq-c1-CMx"/>
             </connections>
             <point key="canvasLocation" x="-347" y="486"/>

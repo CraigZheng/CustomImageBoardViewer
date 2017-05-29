@@ -74,6 +74,7 @@ NSInteger kCellImageViewHeight = 120;
 }
 
 - (void)prepareForReuse {
+    [super prepareForReuse];
     // Reset all colours for header view, footer view, middle container view and content text view.
     self.contentView.backgroundColor = self.cellFooterView.backgroundColor
     = self.cellHeaderView.backgroundColor
