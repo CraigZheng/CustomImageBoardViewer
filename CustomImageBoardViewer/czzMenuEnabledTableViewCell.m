@@ -38,6 +38,7 @@ NSInteger kCellImageViewHeight = 120;
 @property (readonly, nonatomic) NSAttributedString *threadContent;
 @property (strong, nonatomic) UIActionSheet *contentCopyActionSheet;
 @property (strong, nonatomic) UIActionSheet *openLinkActionSheet;
+@property (strong, nonatomic) NSMutableParagraphStyle *increasedLineSpacingParagraphStyle;
 @end
 
 @implementation czzMenuEnabledTableViewCell
@@ -52,6 +53,8 @@ NSInteger kCellImageViewHeight = 120;
     self.shouldAllowClickOnImage = YES;
     self.contentLabel.delegate = self;
     self.contentLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink;
+    self.increasedLineSpacingParagraphStyle = [NSMutableParagraphStyle new];
+    self.increasedLineSpacingParagraphStyle.lineSpacing = 4;
     // Add tap getsture recognizer to the image.
     // Add self to be a delegate of czzImageDownloaderManager.
     [[czzImageDownloaderManager sharedManager] addDelegate:self];
@@ -166,7 +169,9 @@ NSInteger kCellImageViewHeight = 120;
                                                                               attributes:@{NSForegroundColorAttributeName: [UIColor lightGrayColor]}];
     } else {
         NSMutableAttributedString *contentAttrString = [self.threadContent mutableCopy];
-        [contentAttrString addAttribute:NSFontAttributeName value:settingCentre.contentFont range:NSMakeRange(0, contentAttrString.length)];
+        [contentAttrString addAttributes:@{NSFontAttributeName: settingCentre.contentFont,
+                                           NSParagraphStyleAttributeName: self.increasedLineSpacingParagraphStyle}
+                                   range:NSMakeRange(0, contentAttrString.length)];
         if (self.nightyMode) {
             // If nighty mode, add nighty mode attributes to the text.
             [contentAttrString addAttribute:NSForegroundColorAttributeName
