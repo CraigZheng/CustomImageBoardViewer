@@ -10,7 +10,7 @@
 #define GOOGLE_SEARCH_COMMAND @"https://www.google.com.au/#q=site:A_ISLE_HOST+KEYWORD&sort=date:D:S:d1"
 #define BING_SEARCH_COMMAND @"http://m.bing.com/search?q=site%3AA_ISLE_HOST+KEYWORD&btsrc=internal"
 #define AC_SEARCH_COMMAND @"http://h.acfun.tv/thread/search?key=KEYWORD"
-#define BAIDU_SEARCH_COMMAND @"http://www.baidu.com/s?wd=site%3Ah.nimingban.com%20KEYWORD"
+#define SO_SEARCH_COMMAND @"https://www.so.com/s?ie=utf-8&fr=none&src=360sou_newhome&q=site%3Ah.nimingban.com+KEYWORD"
 
 #define USER_SELECTED_SEARCH_ENGINE @"DEFAULT_SEARCH_ENGINE"
 
@@ -61,7 +61,7 @@
             searchEngineSegmentedControl.selectedSegmentIndex = 0;
         } else if ([selectedSearchEngine isEqualToString:GOOGLE_SEARCH_COMMAND]) {
             searchEngineSegmentedControl.selectedSegmentIndex = 1;
-        } else if ([selectedSearchEngine isEqualToString:BAIDU_SEARCH_COMMAND]) {
+        } else if ([selectedSearchEngine isEqualToString:SO_SEARCH_COMMAND]) {
             searchEngineSegmentedControl.selectedSegmentIndex = 2;
         } else {
             searchEngineSegmentedControl.selectedSegmentIndex = 3;
@@ -244,7 +244,7 @@
     {
         selectedSearchEngine = GOOGLE_SEARCH_COMMAND;
     } else if (segmentedControl.selectedSegmentIndex ==2) {
-        selectedSearchEngine = BAIDU_SEARCH_COMMAND;
+        selectedSearchEngine = SO_SEARCH_COMMAND;
     }
     NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
     [userDef setObject:selectedSearchEngine forKey:USER_SELECTED_SEARCH_ENGINE];
