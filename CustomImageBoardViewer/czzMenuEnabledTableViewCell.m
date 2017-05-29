@@ -73,8 +73,7 @@ NSInteger kCellImageViewHeight = 120;
     return YES;
 }
 
-- (void)prepareForReuse {
-    [super prepareForReuse];
+-(void)resetViewBackgroundColours {
     // Reset all colours for header view, footer view, middle container view and content text view.
     self.contentView.backgroundColor = self.cellFooterView.backgroundColor
     = self.cellHeaderView.backgroundColor
@@ -160,6 +159,7 @@ NSInteger kCellImageViewHeight = 120;
 }
 
 -(void)renderContent {
+    [self resetViewBackgroundColours];
     if (self.shouldBlock) {
         self.contentLabel.text = [[NSAttributedString alloc] initWithString:@" - - - 屏蔽 - - - "
                                                                               attributes:@{NSForegroundColorAttributeName: [UIColor lightGrayColor]}];
