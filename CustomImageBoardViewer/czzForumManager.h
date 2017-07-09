@@ -20,7 +20,7 @@ static NSString *kCustomForumDidChangeNotification = @"kCustomForumDidChangeNoti
 
 @interface czzForumManager : NSObject
 @property (nonatomic, weak) id<czzForumManagerDelegate> delegate;
-@property (nonatomic, strong) NSMutableArray *forumGroups;
+@property (nonatomic, readonly) NSMutableArray *forumGroups;
 @property (nonatomic) NSArray *forums;
 @property (strong, nonatomic) NSMutableArray * customForums;
 
