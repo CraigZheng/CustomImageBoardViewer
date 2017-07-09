@@ -8,6 +8,7 @@
 
 #import "czzForumManager.h"
 #import "czzURLDownloader.h"
+#import "czzForum.h"
 #import "czzForumGroup.h"
 #import "czzSettingsCentre.h"
 
@@ -15,9 +16,12 @@ static NSString * kCustomForumsRawStringsKey = @"kCustomForumsRawStringsKey";
 static NSString * kDefaultForumJsonFileName = @"default_forums.json";
 
 @interface czzForumManager() <czzURLDownloaderProtocol>
+
 @property czzURLDownloader *forumDownloader;
+@property (nonatomic, strong, readwrite) NSMutableArray *forumGroups;
 @property (copy) void (^completionHandler) (BOOL, NSError*);
 @property (strong, nonatomic) NSMutableArray<NSDictionary<NSString*, NSNumber*>*> * customForumRawStrings;
+
 @end
 
 @implementation czzForumManager
@@ -92,18 +96,20 @@ static NSString * kDefaultForumJsonFileName = @"default_forums.json";
 - (NSArray *)forumGroups {
     if (!_forumGroups) {
         _forumGroups = [NSMutableArray new];
+        self.forums = nil;
     }
     return _forumGroups;
 }
 
 - (NSArray *)forums {
-    NSMutableArray *forums = [NSMutableArray new];
-    
-    for (czzForumGroup *forumGroup in self.forumGroups) {
-        [forums addObjectsFromArray:forumGroup.forums];
+    if (!_forums) {
+        NSMutableArray *tempForums = [NSMutableArray new];
+        for (czzForumGroup *forumGroup in self.forumGroups) {
+            [tempForums addObjectsFromArray:forumGroup.forums];
+        }
+        _forums = tempForums;
     }
-    
-    return forums;
+    return _forums;
 }
 
 - (NSMutableArray<NSDictionary<NSString *,NSNumber *> *> *)customForumRawStrings {
@@ -143,7 +149,7 @@ static NSString * kDefaultForumJsonFileName = @"default_forums.json";
         if (successed) {
             NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:xmlData options:NSJSONReadingMutableContainers error:nil];
             if (jsonArray.count) {
-                [self.forumGroups removeAllObjects];
+                self.forumGroups = nil;
                 for (NSDictionary *dictionary in jsonArray) {
                     [self.forumGroups addObject:[czzForumGroup initWithDictionary:dictionary]];
                 }

@@ -11,12 +11,11 @@
 #import "czzForum.h"
 #import "czzWKThread.h"
 
-@class SMXMLElement;
-
 @interface czzThread : NSObject
 @property (assign, nonatomic) NSInteger responseCount;
 @property (assign, nonatomic) NSInteger ID;
 @property (strong, nonatomic) NSString *UID;
+@property (assign, nonatomic) NSInteger fid;
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *email;
 @property (strong, nonatomic) NSString *title;
@@ -33,13 +32,13 @@
 #pragma mark - CLICKABLE CONTENT
 @property (strong, nonatomic) NSMutableArray *replyToList;
 
--(NSAttributedString*)renderHTMLToAttributedString:(NSString*)htmlString;
+- (NSAttributedString*)renderHTMLToAttributedString:(NSString*)htmlString;
 
--(BOOL)isEqual:(id)object;
--(NSUInteger)hash;
--(id)initWithJSONDictionary:(NSDictionary*)data;
--(instancetype)initWithThreadID:(NSInteger)threadID;
--(instancetype)initWithParentID:(NSInteger)parentID;
+- (BOOL)isEqual:(id)object;
+- (NSUInteger)hash;
+- (instancetype)initWithJSONDictionary:(NSDictionary*)data;
+- (instancetype)initWithThreadID:(NSInteger)threadID;
+- (instancetype)initWithParentID:(NSInteger)parentID;
 
 -(czzWKThread *)watchKitThread;
 
