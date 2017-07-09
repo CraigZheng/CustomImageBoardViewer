@@ -134,17 +134,8 @@ extension AddMarkerViewController {
             if let cell = cell as? UIDColourPairCellTableViewCell {
                 // Assign an image as the template for cell.imageView.
                 cell.imageView?.image = UIImage.init(named: "flag")?.withRenderingMode(.alwaysTemplate)
-                if let colour = czzMarkerManager.sharedInstance().highlightColour(forUID: UID) {
-                    cell.imageView?.tintColor = colour
-                } else {
-                    // Assign the grey flag.
-                    cell.imageView?.tintColor = UIColor.lightGray
-                }
-                if let nickname = czzMarkerManager.sharedInstance().nickname(forUID: UID) {
-                    cell.detailTextLabel?.text = nickname
-                } else {
-                    cell.detailTextLabel?.text = nil
-                }
+                cell.imageView?.tintColor = czzMarkerManager.sharedInstance().highlightColour(forUID: UID) ?? .lightGray
+                cell.detailTextLabel?.text = czzMarkerManager.sharedInstance().nickname(forUID: UID)
             }
         }
         return cell
