@@ -92,6 +92,7 @@
             self.postDateTime = postDate;
             
             self.UID = [self renderHTMLToAttributedString:[data objectForKey:@"userid"]].string;
+            self.fid = [[data objectForKey:@"fid"] integerValue];
             self.name = [data objectForKey:@"name"];
             self.email = [data objectForKey:@"email"];
             self.title = [data objectForKey:@"title"];
@@ -237,6 +238,7 @@
 -(void)encodeWithCoder:(NSCoder*)encoder{
     [encoder encodeInteger:self.responseCount forKey:@"responseCount"];
     [encoder encodeInteger:self.ID forKey:@"ID"];
+    [encoder encodeInteger:self.fid forKey:@"fid"];
     [encoder encodeObject:self.UID forKey:@"UID"];
     [encoder encodeObject:self.name forKey:@"name"];
     [encoder encodeObject:self.email forKey:@"email"];
@@ -259,6 +261,7 @@
             self.responseCount = [decoder decodeIntegerForKey:@"responseCount"];
             self.ID = [decoder decodeIntegerForKey:@"ID"];
             self.UID = [decoder decodeObjectForKey:@"UID"];
+            self.fid = [decoder decodeIntegerForKey:@"fid"];
             self.name = [decoder decodeObjectForKey:@"name"];
             self.email = [decoder decodeObjectForKey:@"email"];
             self.title = [decoder decodeObjectForKey:@"title"];
