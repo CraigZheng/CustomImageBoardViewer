@@ -42,6 +42,16 @@
             self.responseCountLabel.text = [NSString stringWithFormat:@"%ld", (long)myThread.responseCount];
             self.chatImageView.hidden = self.responseCountLabel.hidden = NO;
         }
+        if (myThread.fid) {
+            [[czzForumManager sharedManager].forums enumerateObjectsUsingBlock:^(czzForum * _Nonnull forum, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (myThread.fid == forum.forumID) {
+                    self.forumLabel.text = forum.name;
+                    *stop = YES;
+                }
+            }];
+        } else {
+            self.forumLabel.text = nil;
+        }
     }
     // If all elements are hidden, shrink the size of this view.
     if (self.sageLabel.hidden && self.lockedLabel.hidden && self.responseCountLabel.hidden) {
