@@ -34,6 +34,7 @@
 
 -(void)setThread:(czzThread *)myThread {
     _thread = myThread;
+    self.chatImageView.hidden = self.sageLabel.hidden = self.lockedLabel.hidden = self.responseCountLabel.hidden = YES;
     if (myThread) {
         self.sageLabel.hidden = !myThread.sage;
         self.lockedLabel.hidden = !myThread.lock;
@@ -41,22 +42,6 @@
             self.responseCountLabel.text = [NSString stringWithFormat:@"%ld", (long)myThread.responseCount];
             self.chatImageView.hidden = self.responseCountLabel.hidden = NO;
         }
-        if (myThread.fid) {
-            [[czzForumManager sharedManager].forums enumerateObjectsUsingBlock:^(czzForum * _Nonnull forum, NSUInteger idx, BOOL * _Nonnull stop) {
-                if (myThread.fid == forum.forumID) {
-                    self.forumLabel.text = forum.name;
-                    *stop = YES;
-                }
-            }];
-        } else {
-            self.forumLabel.text = nil;
-        }
-    } else {
-        // No thread, set all to hidden.
-        self.chatImageView.hidden =
-        self.sageLabel.hidden =
-        self.lockedLabel.hidden =
-        self.responseCountLabel.hidden = YES;
     }
     // If all elements are hidden, shrink the size of this view.
     if (self.sageLabel.hidden && self.lockedLabel.hidden && self.responseCountLabel.hidden) {
