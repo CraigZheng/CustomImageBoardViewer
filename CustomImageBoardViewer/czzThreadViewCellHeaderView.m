@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *nicknameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *flagImageView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *dateBottomPaddingConstraint;
 
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
@@ -47,7 +48,10 @@
         // If admin, highlight.
         self.posterLabel.textColor = myThread.admin ? [UIColor redColor] : brownColour;
         self.dateLabel.text = [self.dateFormatter stringFromDate:myThread.postDateTime];
-        
+        // If all additional fields are hidden, make date label bottom padding active.
+        BOOL hideAdditionalFields = !self.titleLabel.text && !self.nameLabel.text && !self.nicknameLabel.text;
+        self.dateBottomPaddingConstraint.priority = hideAdditionalFields ? 999 : 1;
+      
         //highlight original poster
         if ([myThread.UID isEqualToString: self.parentUID]) {
             NSMutableAttributedString *opAttributedString = [[NSMutableAttributedString alloc] initWithAttributedString:self.posterLabel.attributedText];

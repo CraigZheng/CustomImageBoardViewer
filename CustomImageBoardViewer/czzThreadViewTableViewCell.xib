@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -15,14 +15,14 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="220"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" horizontalCompressionResistancePriority="1000" tableViewCell="vW5-oN-WIG" id="lgC-X4-SAR">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="219.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="220"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="20" translatesAutoresizingMaskIntoConstraints="NO" id="5oH-Lv-7NW" customClass="czzThreadViewCellHeaderView">
+                    <view contentMode="scaleToFill" verticalHuggingPriority="251" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="20" translatesAutoresizingMaskIntoConstraints="NO" id="5oH-Lv-7NW" customClass="czzThreadViewCellHeaderView">
                         <rect key="frame" x="4" y="0.0" width="312" height="20"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
-                    <view contentMode="scaleToFill" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="20" translatesAutoresizingMaskIntoConstraints="NO" id="DN5-G9-KwB" customClass="czzThreadViewCellFooterView">
+                    <view contentMode="scaleToFill" verticalHuggingPriority="750" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="20" translatesAutoresizingMaskIntoConstraints="NO" id="DN5-G9-KwB" customClass="czzThreadViewCellFooterView">
                         <rect key="frame" x="20" y="199" width="280" height="20"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
@@ -34,25 +34,25 @@
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5W3-EI-BAb" userLabel="Filling View">
-                        <rect key="frame" x="158" y="57" width="142" height="120"/>
+                        <rect key="frame" x="158" y="79" width="142" height="120"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                     <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iTunesArtwork.png" translatesAutoresizingMaskIntoConstraints="NO" id="J9r-7t-RIx">
-                        <rect key="frame" x="20" y="57" width="130" height="120"/>
+                        <rect key="frame" x="20" y="79" width="130" height="120"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="130" id="u4E-ho-e6w"/>
                             <constraint firstAttribute="height" constant="120" id="xGd-ed-xg2"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GIF" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kI7-56-CK2">
-                        <rect key="frame" x="76" y="165" width="17.5" height="12"/>
+                        <rect key="frame" x="76" y="187" width="17.5" height="12"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
                         <color key="textColor" red="0.71372549019999998" green="0.30588235289999999" blue="0.015686274510000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="1" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WdR-sJ-uhu" userLabel="Cell Image View Button">
-                        <rect key="frame" x="20" y="57" width="130" height="120"/>
+                        <rect key="frame" x="20" y="79" width="130" height="120"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="36" id="Ke6-Is-Ynr"/>
                         </constraints>
@@ -60,8 +60,8 @@
                             <action selector="tapOnImageView:" destination="vW5-oN-WIG" eventType="touchUpInside" id="SMZ-Tg-DNU"/>
                         </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text Content" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XYq-FH-Z0o" customClass="TTTAttributedLabel">
-                        <rect key="frame" x="8" y="28" width="304" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Text Content" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XYq-FH-Z0o" customClass="TTTAttributedLabel">
+                        <rect key="frame" x="8" y="28" width="304" height="43"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -81,9 +81,9 @@
                     <constraint firstAttribute="trailing" secondItem="XYq-FH-Z0o" secondAttribute="trailing" constant="8" id="Nwp-Yw-XPY"/>
                     <constraint firstItem="5W3-EI-BAb" firstAttribute="bottom" secondItem="J9r-7t-RIx" secondAttribute="bottom" id="P9W-BL-ba7"/>
                     <constraint firstItem="kI7-56-CK2" firstAttribute="centerX" secondItem="WdR-sJ-uhu" secondAttribute="centerX" id="Upk-oj-xh6"/>
-                    <constraint firstItem="obq-Bg-pDf" firstAttribute="top" secondItem="DN5-G9-KwB" secondAttribute="bottom" id="Uze-Rx-eX4"/>
+                    <constraint firstItem="obq-Bg-pDf" firstAttribute="top" secondItem="DN5-G9-KwB" secondAttribute="bottom" priority="250" id="Uze-Rx-eX4"/>
                     <constraint firstItem="XYq-FH-Z0o" firstAttribute="leading" secondItem="lgC-X4-SAR" secondAttribute="leading" constant="8" id="Vn9-ze-L3c"/>
-                    <constraint firstItem="DN5-G9-KwB" firstAttribute="top" relation="greaterThanOrEqual" secondItem="WdR-sJ-uhu" secondAttribute="bottom" id="W8G-ud-SQT"/>
+                    <constraint firstItem="DN5-G9-KwB" firstAttribute="top" secondItem="WdR-sJ-uhu" secondAttribute="bottom" id="W8G-ud-SQT"/>
                     <constraint firstAttribute="trailing" secondItem="5W3-EI-BAb" secondAttribute="trailing" constant="20" symbolic="YES" id="WWY-f3-u1c"/>
                     <constraint firstItem="kI7-56-CK2" firstAttribute="bottom" secondItem="WdR-sJ-uhu" secondAttribute="bottom" id="XdL-5h-bgp"/>
                     <constraint firstItem="obq-Bg-pDf" firstAttribute="leading" secondItem="lgC-X4-SAR" secondAttribute="leading" constant="20" symbolic="YES" id="Zao-GO-AQn"/>

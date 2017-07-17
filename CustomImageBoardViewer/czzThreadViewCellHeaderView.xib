@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -84,6 +84,7 @@
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="zVL-Q4-5jE" secondAttribute="bottom" priority="1" constant="4" id="0sx-gr-jYd"/>
                 <constraint firstItem="3FE-wQ-9rh" firstAttribute="top" secondItem="zVL-Q4-5jE" secondAttribute="bottom" constant="4" id="6TF-Av-kBo"/>
                 <constraint firstItem="3FE-wQ-9rh" firstAttribute="leading" secondItem="fFa-OP-quT" secondAttribute="leading" id="6f5-Lm-Jlc"/>
                 <constraint firstItem="f1h-C0-xa5" firstAttribute="leading" secondItem="3FE-wQ-9rh" secondAttribute="leading" id="BSc-6V-KZu"/>
@@ -93,7 +94,7 @@
                 <constraint firstItem="bIl-Uf-wK9" firstAttribute="leading" secondItem="fFa-OP-quT" secondAttribute="leading" id="DcH-JS-EkC"/>
                 <constraint firstItem="f1h-C0-xa5" firstAttribute="trailing" secondItem="3FE-wQ-9rh" secondAttribute="trailing" id="J6p-TQ-fvF"/>
                 <constraint firstItem="Hvz-Y8-z5f" firstAttribute="top" secondItem="fFa-OP-quT" secondAttribute="top" id="M8g-CA-URd"/>
-                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="bIl-Uf-wK9" secondAttribute="bottom" id="VDq-jL-gFz"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="bIl-Uf-wK9" secondAttribute="bottom" priority="750" id="VDq-jL-gFz"/>
                 <constraint firstItem="8Xv-zR-s3F" firstAttribute="centerY" secondItem="Hvz-Y8-z5f" secondAttribute="centerY" id="W0e-7a-fvg"/>
                 <constraint firstAttribute="trailing" secondItem="3FE-wQ-9rh" secondAttribute="trailing" id="Y7P-nt-stj"/>
                 <constraint firstItem="Hvz-Y8-z5f" firstAttribute="leading" secondItem="eNz-9A-vxr" secondAttribute="trailing" constant="8" symbolic="YES" id="nf1-dl-Klz"/>
@@ -108,6 +109,7 @@
             <nil key="simulatedTopBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="dateBottomPaddingConstraint" destination="0sx-gr-jYd" id="pu1-Iy-q9m"/>
                 <outlet property="dateLabel" destination="zVL-Q4-5jE" id="wQU-Sy-GCr"/>
                 <outlet property="flagImageView" destination="8Xv-zR-s3F" id="ZKk-ei-0I2"/>
                 <outlet property="idLabel" destination="eNz-9A-vxr" id="f6N-mz-wdR"/>

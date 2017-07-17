@@ -62,7 +62,8 @@
         self.bigImageView.image = nil;
         self.cellImageView.hidden = NO;
     }
-    [self setNeedsDisplay];
+    [self setNeedsUpdateConstraints];
+    [self updateConstraintsIfNeeded];
 }
 
 - (UIImage *)placeholderImage {
