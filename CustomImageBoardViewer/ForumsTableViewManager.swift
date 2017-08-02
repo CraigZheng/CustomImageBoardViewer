@@ -53,6 +53,10 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    private func adjustedForumGroup(section: Int) -> czzForumGroup? {
+        return section < forumGroups.count ? forumGroups[section] : nil
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let forumCell: UITableViewCell;
         if indexPath.section < ExtraSection.count {
@@ -68,7 +72,7 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
         } else {
             forumCell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.forum, for: indexPath)
             let adjustedSection = ExtraSection.adjustedSection(for: indexPath.section)
-            if let forum = forumGroups[adjustedSection].forums[indexPath.row] as? czzForum {
+            if let forum = adjustedForumGroup(section: adjustedSection)?.forums[indexPath.row] as? czzForum {
                 let displayName = !forum.screenName.isEmpty ? forum.screenName : forum.name
                 forumCell.textLabel?.text = displayName
                 if let displayData = displayName?.data(using: .utf8),
@@ -98,7 +102,7 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
         guard adjustedSection >= 0 else {
             return ExtraSection(rawValue: section)?.count ?? 0
         }
-        return forumGroups[adjustedSection].forums.count
+        return adjustedForumGroup(section: adjustedSection)?.forums.count ?? 0
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -113,7 +117,7 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
             }
             return nil
         }
-        return forumGroups[adjustedSection].area
+        return adjustedForumGroup(section: adjustedSection)?.area
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -130,10 +134,11 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
             }
             return
         }
-        if let forum = forumGroups[adjustedSection].forums[indexPath.row] as? czzForum {
+        if let forum = adjustedForumGroup(section: adjustedSection)?.forums[indexPath.row] as? czzForum {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: Notification.pickedForum),
                                             object: nil,
                                             userInfo: [Notification.forum: forum])
         }
     }
+  
 }

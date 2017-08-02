@@ -21,6 +21,7 @@
 #import "czzBannerNotificationUtil.h"
 #import "czzHistoryManager.h"
 #import "czzFavouriteManager.h"
+#import "czzForumManager.h"
 #import <Google/Analytics.h>
 #import <WatchConnectivity/WatchConnectivity.h>
 #import "CustomImageBoardViewer-Swift.h"
@@ -73,6 +74,7 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
 
     myhost = my_main_host;
     settingsCentre = [czzSettingsCentre sharedInstance];
+    [[czzForumManager sharedManager] updateForums:nil];
     
     [self checkFolders];
     // Check cookie
