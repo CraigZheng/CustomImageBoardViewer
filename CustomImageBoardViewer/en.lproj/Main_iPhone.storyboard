@@ -790,7 +790,7 @@
         <!--Dummy Test View Controller-->
         <scene sceneID="Qvy-sr-Gq7">
             <objects>
-                <viewController id="s1m-kI-yea" customClass="DummyTestViewController" customModule="CustomImageBoardViewer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="dummy_test" useStoryboardIdentifierAsRestorationIdentifier="YES" id="s1m-kI-yea" customClass="DummyTestViewController" customModule="CustomImageBoardViewer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NIP-AI-xPW">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
