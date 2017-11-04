@@ -10,6 +10,8 @@
 
 #import "czzLaunchPopUpNotification.h"
 
+@import iOS_Slide_Menu;
+
 static NSString * const kLastConfirmedNotificationKey = @"kLastConfirmedNotificationKey"; // Identifier of the last notification that the user confirmed has been viewed.
 
 @interface czzLaunchPopUpNotificationViewController () <UIWebViewDelegate>
