@@ -466,7 +466,6 @@
 		4479B07D1A0BB8E70074D484 /* czzTextViewHeightCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4479B07C1A0BB8E70074D484 /* czzTextViewHeightCalculator.m */; };
 		4479B08A1A0CCB270074D484 /* MiniThreadView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4479B0891A0CCB270074D484 /* MiniThreadView.storyboard */; };
 		4479B0901A0CCB6D0074D484 /* czzMiniThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4479B08F1A0CCB6D0074D484 /* czzMiniThreadViewController.m */; };
-		447CD7221FADE05400F8BD32 /* DummyTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 447CD7211FADE05400F8BD32 /* DummyTestViewController.swift */; };
 		447E06231BC2391900D24087 /* trash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 447E06221BC2391900D24087 /* trash@2x.png */; };
 		447E06261BC23C4200D24087 /* FavouriteManager.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 447E06251BC23C4200D24087 /* FavouriteManager.storyboard */; };
 		447E062B1BC2426900D24087 /* czzFavouriteManagerPopUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 447E062A1BC2426900D24087 /* czzFavouriteManagerPopUpViewController.m */; };
@@ -738,6 +737,7 @@
 		5A88B8401938AFDB00071343 /* czzNotificationCentreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A88B83F1938AFDB00071343 /* czzNotificationCentreTableViewController.m */; };
 		5ADCA46A1938F67F002BA60B /* ValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCA4691938F67F002BA60B /* ValueFormatter.m */; };
 		5AF85E681970025A0031D0CB /* czzSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF85E671970025A0031D0CB /* czzSearchViewController.m */; };
+		B7B18CAF1FD0E5220093AB62 /* DummyTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18CAE1FD0E5220093AB62 /* DummyTestViewController.swift */; };
 		D85B3FC32F7080DE2E0F1FD8 /* Pods_CustomImageBoardViewer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311F31F622866C4E1133FA79 /* Pods_CustomImageBoardViewer.framework */; };
 /* End PBXBuildFile section */
 
@@ -1397,7 +1397,6 @@
 		4479B0891A0CCB270074D484 /* MiniThreadView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MiniThreadView.storyboard; sourceTree = "<group>"; };
 		4479B08E1A0CCB6D0074D484 /* czzMiniThreadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzMiniThreadViewController.h; sourceTree = "<group>"; };
 		4479B08F1A0CCB6D0074D484 /* czzMiniThreadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzMiniThreadViewController.m; sourceTree = "<group>"; };
-		447CD7211FADE05400F8BD32 /* DummyTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DummyTestViewController.swift; path = /Users/Craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer/DummyTestViewController.swift; sourceTree = "<absolute>"; };
 		447E06221BC2391900D24087 /* trash@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "trash@2x.png"; sourceTree = "<group>"; };
 		447E06251BC23C4200D24087 /* FavouriteManager.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FavouriteManager.storyboard; sourceTree = "<group>"; };
 		447E06291BC2426900D24087 /* czzFavouriteManagerPopUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFavouriteManagerPopUpViewController.h; sourceTree = "<group>"; };
@@ -1728,6 +1727,7 @@
 		5AF85E661970025A0031D0CB /* czzSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzSearchViewController.h; sourceTree = "<group>"; };
 		5AF85E671970025A0031D0CB /* czzSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzSearchViewController.m; sourceTree = "<group>"; };
 		AECEC532D9208769EFF63216 /* Pods-CustomImageBoardViewerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		B7B18CAE1FD0E5220093AB62 /* DummyTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyTestViewController.swift; sourceTree = "<group>"; };
 		CBC088D3BB7C0C6E358B9C38 /* Pods-CustomImageBoardViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1977,7 +1977,7 @@
 		441E5CD417F4691300289DBD /* CustomImageBoardViewer */ = {
 			isa = PBXGroup;
 			children = (
-				447CD7211FADE05400F8BD32 /* DummyTestViewController.swift */,
+				B7B18CAE1FD0E5220093AB62 /* DummyTestViewController.swift */,
 				44BDA3EB1DB70ED100D2F576 /* MarkerManagerViewController */,
 				441A6A7E1BAEBF64008E380C /* Manager */,
 				4432BA8F1AA8850C002C66F5 /* Examples */,
@@ -4371,7 +4371,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
-				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack-iOS9.0/CocoaLumberjack.framework",
 				"${BUILT_PRODUCTS_DIR}/DACircularProgress/DACircularProgress.framework",
 				"${BUILT_PRODUCTS_DIR}/DZNEmptyDataSet/DZNEmptyDataSet.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
@@ -4381,7 +4381,7 @@
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftMessages/SwiftMessages.framework",
 				"${BUILT_PRODUCTS_DIR}/TTTAttributedLabel/TTTAttributedLabel.framework",
-				"${BUILT_PRODUCTS_DIR}/iOS-Slide-Menu/iOS_Slide_Menu.framework",
+				"${BUILT_PRODUCTS_DIR}/iOS-Slide-Menu-iOS9.0/iOS_Slide_Menu.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -4440,8 +4440,8 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
-				"${BUILT_PRODUCTS_DIR}/iOS-Slide-Menu/iOS_Slide_Menu.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack-iOS8.0/CocoaLumberjack.framework",
+				"${BUILT_PRODUCTS_DIR}/iOS-Slide-Menu-iOS8.0/iOS_Slide_Menu.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -4511,6 +4511,7 @@
 				44397D7B1D697EE8005B44AA /* czzTextSizeSelectorViewController.m in Sources */,
 				44B89E751A2AF39F0085F766 /* UIImage+animatedGIF.m in Sources */,
 				442EC8631A1A130A005650E4 /* czzNavigationController.m in Sources */,
+				B7B18CAF1FD0E5220093AB62 /* DummyTestViewController.swift in Sources */,
 				4416B72619413EAF00B69C5B /* FPPopoverView.m in Sources */,
 				4476655E1E06B70300A06138 /* UINavigationController+Block.swift in Sources */,
 				442F1FD71B13535B00267698 /* czzHomeTableViewManager.m in Sources */,
@@ -4533,7 +4534,6 @@
 				440B2FC717F7DB7800544926 /* czzForumsViewController.m in Sources */,
 				442CD0E718517BED0021AD37 /* czzImageCacheManager.m in Sources */,
 				44BE2E3A19383FEF00601943 /* czzOnScreenCommandViewController.m in Sources */,
-				447CD7221FADE05400F8BD32 /* DummyTestViewController.swift in Sources */,
 				445A15041EC088EF004C146D /* ForumsTableViewManager.swift in Sources */,
 				4412FA151935865800681438 /* Reachability.m in Sources */,
 				5A26E77F1939AA6300B709C9 /* czzNotification.m in Sources */,
