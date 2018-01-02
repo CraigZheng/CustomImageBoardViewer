@@ -36,6 +36,9 @@
 
 static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_view_cell_identifier";
 
+static NSString *kCookieDetailsSegueIdentifier = @"cookieDetail";
+static NSString *kScanQRCodeSegueIdentifier = @"qrScanner";
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -141,9 +144,15 @@ static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_vie
 }
 
 - (IBAction)addCookieAction:(id)sender {
-    addCookieAlertView = [[UIAlertView alloc] initWithTitle:@"手动添加" message:@"手动写入一个饼干的号码" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
-    addCookieAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-    [addCookieAlertView show];
+    __weak typeof(self) weakSelf = self;
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"手动添加" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"扫码" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [weakSelf performSegueWithIdentifier:kScanQRCodeSegueIdentifier sender:sender];
+    }]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"手动写入" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [weakSelf performSegueWithIdentifier:kCookieDetailsSegueIdentifier sender:sender];
+    }]];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 -(void)refreshData {
