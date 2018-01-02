@@ -152,6 +152,7 @@ static NSString *kScanQRCodeSegueIdentifier = @"qrScanner";
     [alertController addAction:[UIAlertAction actionWithTitle:@"手动写入" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [weakSelf performSegueWithIdentifier:kCookieDetailsSegueIdentifier sender:sender];
     }]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
