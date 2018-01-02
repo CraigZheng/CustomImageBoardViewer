@@ -36,6 +36,7 @@
 }
 
 -(void)awakeFromNib {
+    [super awakeFromNib];
     self.upDownViewController = [czzOnScreenCommandViewController new];
     self.upDownViewController.delegate = self;
     self.estimatedRowHeight = 44.0;
@@ -85,13 +86,6 @@
                         atScrollPosition:UITableViewScrollPositionBottom
                                 animated:YES];
             self.quickScrolling = NO;
-            // At the end of the previous operation, scroll to bottom again.
-            // This ensures the result tableview is indeed at the bottom.
-            [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-                [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:rows - 1 inSection:0]
-                            atScrollPosition:UITableViewScrollPositionBottom
-                                    animated:YES];
-            }];
         }
     });
 }

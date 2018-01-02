@@ -18,7 +18,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *posterLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *titleContainerZeroHeightConstraint;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *nicknameLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *flagImageView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *dateBottomPaddingConstraint;
 
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
@@ -26,42 +29,50 @@
 // Default colour 168	123	65
 @implementation czzThreadViewCellHeaderView
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.flagImageView.image = [[UIImage imageNamed:@"flag"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
 #pragma mark - Setters
 
 -(void)setThread:(czzThread *)myThread {
     _thread = myThread;
-    static UIColor *defaultTextColour;
-    // Avoid repeatitve calculation.
-    if (!defaultTextColour) {
-        defaultTextColour = brownColour;
-    }
     if (myThread) {
         self.idLabel.text = [NSString stringWithFormat:@"%ld", (long)myThread.ID];
-        self.posterLabel.text = [NSString stringWithFormat:@"%@", myThread.UID];
+        self.posterLabel.text = myThread.UID;
         // Hide title container if there is not a title to show.
-        if ([myThread.title isEqualToString:settingCentre.empty_title]) {
-            self.titleContainerZeroHeightConstraint.priority = 999;
-        } else {
-            self.titleLabel.text = myThread.title;
-            self.titleContainerZeroHeightConstraint.priority = 1;
-        }
+        self.titleLabel.text = [myThread.title isEqualToString:settingCentre.empty_title] ? nil : [NSString stringWithFormat:@"标题: %@", myThread.title];
+        self.nameLabel.text = [myThread.name isEqualToString:settingCentre.empty_username] ? nil : [NSString stringWithFormat:@"用户: %@", myThread.name];
+        self.nicknameLabel.text = self.nickname.length ? [NSString stringWithFormat:@"昵称: %@", self.nickname] : nil;
         // If admin, highlight.
-        if (myThread.admin) {
-            self.posterLabel.textColor = [UIColor redColor];
-        } else {
-            self.posterLabel.textColor = defaultTextColour;
-        }
+        self.posterLabel.textColor = myThread.admin ? [UIColor redColor] : brownColour;
         self.dateLabel.text = [self.dateFormatter stringFromDate:myThread.postDateTime];
-        
+        // If all additional fields are hidden, make date label bottom padding active.
+        BOOL hideAdditionalFields = !self.titleLabel.text && !self.nameLabel.text && !self.nicknameLabel.text;
+        self.dateBottomPaddingConstraint.priority = hideAdditionalFields ? 999 : 1;
+      
         //highlight original poster
-        if (self.shouldHighLight &&
-            [myThread.UID isEqualToString: self.parentUID]) {
+        if ([myThread.UID isEqualToString: self.parentUID]) {
             NSMutableAttributedString *opAttributedString = [[NSMutableAttributedString alloc] initWithAttributedString:self.posterLabel.attributedText];
             [opAttributedString addAttributes:@{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle)} range:NSMakeRange(0, opAttributedString.length)];
             self.posterLabel.attributedText = opAttributedString;
         }
 
     }
+}
+
+- (void)setHighlightColour:(UIColor *)highlightColour {
+    if (!highlightColour) {
+        self.flagImageView.hidden = YES;
+    } else {
+        self.flagImageView.hidden = NO;
+        self.flagImageView.tintColor = highlightColour;
+    }
+}
+
+- (UIColor *)highlightColour {
+    return self.flagImageView.tintColor;
 }
 
 #pragma mark - Getters

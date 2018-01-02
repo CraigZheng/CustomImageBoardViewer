@@ -20,7 +20,6 @@
         NSString *hostPrefix = [settingCentre a_isle_host];
         if (hostPrefix.length && [url.absoluteString rangeOfString:hostPrefix options:NSCaseInsensitiveSearch].location != NSNotFound) {
             NSString *threadIDString = [url.absoluteString stringByReplacingOccurrencesOfString:hostPrefix withString:@""];
-            // Text cannot be parsed to an integer, return...
             threadIDString = [threadIDString componentsSeparatedByString:@"/"].lastObject;
             NSInteger threadID = threadIDString.integerValue;
             if (threadID > 0) {

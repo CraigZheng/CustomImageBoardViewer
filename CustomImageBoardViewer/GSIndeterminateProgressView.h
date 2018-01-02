@@ -23,5 +23,8 @@
 
 - (BOOL)isAnimating;
 
+- (void)viewDidAppear;
+- (void)viewDidDisapper;
+
 - (instancetype)initWithParentView:(UIView*)parentView alignToTop:(UIView*)topView;
 @end

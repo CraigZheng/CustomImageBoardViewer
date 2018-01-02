@@ -36,18 +36,6 @@
     dispatch_after(delay, dispatch_get_main_queue(), ^{
         self.isInTransition = NO;
     });
-    // Close the drawer menu, and disable to left drawer.
-    czzHomeViewManager *viewManager;
-    [self.delegate.viewDeckController closeLeftViewAnimated:NO];
-    [viewController.viewDeckController closeRightViewAnimated:NO];
-    if ([viewController isKindOfClass:[czzHomeViewController class]]) {
-        viewManager = [viewController performSelector:@selector(homeViewManager)];
-        self.delegate.viewDeckController.leftController = self.delegate.leftViewController;
-        self.delegate.viewDeckController.delegate = [(UINavigationController *)self.delegate.leftViewController viewControllers][0];
-    } else if ([viewController isKindOfClass:[czzThreadViewController class]]) {
-        viewManager = [viewController performSelector:@selector(threadViewManager)];
-        self.delegate.viewDeckController.leftController = nil;
-    }
 }
 
 -(void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {

@@ -14,6 +14,7 @@ IB_DESIGNABLE
 
 @property (strong, nonatomic) czzThread *thread;
 @property (strong, nonatomic) NSString *parentUID;
-@property (assign, nonatomic) BOOL shouldHighLight;
+@property (strong, nonatomic) UIColor *highlightColour;
+@property (strong, nonatomic) NSString *nickname;
 
 @end

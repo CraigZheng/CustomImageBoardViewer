@@ -19,7 +19,7 @@
   "forum_list_detail_url": "https://h.nimingban.com/homepage",
   "reply_post_url": "https://h.nimingban.com/Home/Forum/doReplyThread.html",
   "create_new_post_url": "https://h.nimingban.com/Home/Forum/doPostThread.html",
-  "report_post_placeholder": "https://h.nimingban.com/t/<kParentID>\n理由：",
+  "report_post_placeholder": "https://h.nimingban.com/t/<kParentID>\n>>No.<kParentID>\n理由：",
   "share_post_url": "https://h.nimingban.com/t/<kThreadID>",
   "thread_url": "https://h.nimingban.com/t/<kThreadID>.json",
   "get_forum_info_url": "https://h.nimingban.com/forum/get?forumName=",

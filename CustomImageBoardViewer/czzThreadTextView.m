@@ -94,25 +94,33 @@
     return YES;
 }
 
-#pragma mark - Menu actions, declarations are copied from czzMenuEnabledTableViewCell.
+#pragma mark - Override add gesture recognizer.
 
-/**
- Pass the actions to super view.
- */
--(void)menuActionCopy:(id)sender{
-    [self.superMenuEnabledCell menuActionCopy:sender];
-}
--(void)menuActionReply:(id)sender{
-    [self.superMenuEnabledCell menuActionReply:sender];
-}
--(void)menuActionOpen:(id)sender{
-    [self.superMenuEnabledCell menuActionOpen:sender];
-}
--(void)menuActionHighlight:(id)sender {
-    [self.superMenuEnabledCell menuActionHighlight:sender];
-}
--(void)menuActionSearch:(id) sender {
-    [self.superMenuEnabledCell menuActionSearch:sender];
+- (void)addGestureRecognizer:(UIGestureRecognizer *)gestureRecognizer {
+    if ([gestureRecognizer isKindOfClass:[UILongPressGestureRecognizer class]]) {
+        
+        @try {
+            id targetAndAction = ((NSMutableArray *)[gestureRecognizer valueForKey:@"_targets"]).firstObject;
+            NSArray <NSString *>*actions = @[@"action=loupeGesture:",           // link: no, selection: shows circle loupe and blue selectors for a second
+                                             @"action=longDelayRecognizer:",    // link: no, selection: no
+                                             /*@"action=smallDelayRecognizer:", // link: yes (no long press), selection: no*/
+                                             @"action=oneFingerForcePan:",      // link: no, selection: shows rectangular loupe for a second, no blue selectors
+                                             @"action=_handleRevealGesture:"];  // link: no, selection: no
+            for (NSString *action in actions) {
+                if ([[targetAndAction description] containsString:action]) {
+                    [gestureRecognizer setEnabled:false];
+                }
+            }
+            
+        }
+        
+        @catch (NSException *e) {
+        }
+        
+        @finally {
+            [super addGestureRecognizer: gestureRecognizer];
+        }
+    }
 }
 
 @end

@@ -1,12 +1,13 @@
 //
 //  TalkingData.h
-//  TalkingData Version 2.2.30
+//  __MyProjectName__
 //
 //  Created by Biao Hou on 11-11-14.
-//  Copyright (c) 2011年 tendcloud. All rights reserved.
+//  Copyright (c) 2011年 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+
 
 // 以下枚举用于WatchApp页面追踪
 typedef enum {
@@ -42,10 +43,10 @@ typedef enum {
 
 /**  
  @method getDeviceID
- 获取TalkingData所使用的DeviceID
+ 获取SDK所使用的DeviceID
  @return DeviceID
  */
-+(NSString *)getDeviceID;
++ (NSString *)getDeviceID;
 
 /**
  *	@method	setExceptionReportEnabled
@@ -142,16 +143,15 @@ typedef enum {
  *	@param 	key 	自定义事件的key，如果在之后，创建自定义的时候，有相同的key，则会覆盖，全局的里相同key的内容
  *  @param value  这里是NSObject类型，或者是NSString 或者NSNumber类型
  */
-+(void)setGlobalKV:(NSString*)key value:(id)value;
++ (void)setGlobalKV:(NSString*)key value:(id)value;
 
 /**
  *	@method	removeGlobalKV:
  *  删除全局数据
  *	@param 	key 	自定义事件的key
  */
-+(void)removeGlobalKV:(NSString*)key;
++ (void)removeGlobalKV:(NSString*)key;
 
-+ (void)setiBeaconEnabled:(BOOL)enable;
 
 /**
  *  @method setDeviceToken              设置DeviceToken

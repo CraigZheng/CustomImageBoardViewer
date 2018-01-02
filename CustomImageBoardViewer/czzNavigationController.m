@@ -10,6 +10,7 @@
 #import "czzHomeViewController.h"
 #import "czzNavigationManager.h"
 #import "czzSettingsCentre.h"
+#import "czzFavouriteManagerViewController.h"
 
 @interface czzNavigationController () <UINavigationControllerDelegate, czzNavigationManagerDelegate>
 @end
@@ -22,7 +23,10 @@
     // Do any additional setup after loading the view.
     NavigationManager.delegate = self;
     self.delegate = NavigationManager;
-
+    [SlideNavigationController sharedInstance].leftMenu = self.leftViewController;
+    [SlideNavigationController sharedInstance].enableSwipeGesture = YES;
+    [SlideNavigationController sharedInstance].panGestureSideOffset = 0;
+    
     //notification banner view
     notificationBannerViewController = (czzNotificationBannerViewController*) ([[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:nil] instantiateViewControllerWithIdentifier:@"notification_banner_view_controller"]);
     CGRect frame;
@@ -35,7 +39,7 @@
 
 - (UINavigationController *)leftViewController {
     if (!_leftViewController) {
-        _leftViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"left_side_view_controller"];
+        _leftViewController = [[UIStoryboard storyboardWithName:@"ForumSelector" bundle:nil] instantiateInitialViewController];
     }
     return _leftViewController;
 }
@@ -55,6 +59,14 @@
 
 - (void)navigationManager:(czzNavigationManager *)manager wantsToSetViewController:(NSArray *)viewControllers animated:(BOOL)animated {
     [self setViewControllers:viewControllers animated:animated];
+}
+
+- (void)showWatchList {
+    czzFavouriteManagerViewController *favouriteViewController = [[UIStoryboard storyboardWithName:@"FavouriteManager" bundle:nil] instantiateInitialViewController];
+    if ([favouriteViewController isKindOfClass:[czzFavouriteManagerViewController class]]) {
+        favouriteViewController.launchToIndex = watchIndex;
+        [self pushViewController:favouriteViewController animated:YES];
+    }
 }
 
 +(instancetype)new {

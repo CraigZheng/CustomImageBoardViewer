@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="juE-9d-47U">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="jeY-Nq-ot7">
+            <objects>
+                <navigationController storyboardIdentifier="more_info_navigation_controller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="juE-9d-47U" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="pDC-k6-zUH">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="bg5-oL-Hdr" kind="relationship" relationship="rootViewController" id="Ebh-vh-rk1"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aCs-Vt-TKq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-708" y="-550"/>
+        </scene>
+        <!--更多信息-->
+        <scene sceneID="SNt-U7-KTL">
+            <objects>
+                <viewController storyboardIdentifier="more_info_view_controller" extendedLayoutIncludesOpaqueBars="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="bg5-oL-Hdr" customClass="czzMoreInfoViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wZu-XB-LVK"/>
+                        <viewControllerLayoutGuide type="bottom" id="wdU-3G-2g8"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="PEr-ME-EtK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="upy-Ue-Wao">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="587"/>
+                                <subviews>
+                                    <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gTz-ea-t01">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <gestureRecognizers/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="120" id="kjS-DD-R66"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="delegate" destination="bg5-oL-Hdr" id="llM-HZ-3G8"/>
+                                            <outletCollection property="gestureRecognizers" destination="okN-W3-Ay0" appends="YES" id="rNU-L3-aba"/>
+                                        </connections>
+                                    </webView>
+                                    <webView contentMode="scaleToFill" placeholderIntrinsicWidth="210" placeholderIntrinsicHeight="212" translatesAutoresizingMaskIntoConstraints="NO" id="zrH-sv-LFa">
+                                        <rect key="frame" x="0.0" y="120" width="375" height="120"/>
+                                        <color key="backgroundColor" red="0.28958413" green="0.31462949509999999" blue="0.32950475810000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="120" id="vTv-E9-KGY"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="delegate" destination="bg5-oL-Hdr" id="8j3-Cw-y9b"/>
+                                        </connections>
+                                    </webView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="gTz-ea-t01" firstAttribute="top" secondItem="upy-Ue-Wao" secondAttribute="top" id="6Lg-Hu-wdZ"/>
+                                    <constraint firstItem="zrH-sv-LFa" firstAttribute="leading" secondItem="upy-Ue-Wao" secondAttribute="leading" id="IBn-ct-qzb"/>
+                                    <constraint firstItem="zrH-sv-LFa" firstAttribute="top" secondItem="gTz-ea-t01" secondAttribute="bottom" id="JtR-A2-AZ6"/>
+                                    <constraint firstItem="gTz-ea-t01" firstAttribute="leading" secondItem="upy-Ue-Wao" secondAttribute="leading" id="Qo8-CQ-aDd"/>
+                                    <constraint firstItem="gTz-ea-t01" firstAttribute="width" secondItem="upy-Ue-Wao" secondAttribute="width" id="UTl-hV-iLu"/>
+                                    <constraint firstAttribute="trailing" secondItem="zrH-sv-LFa" secondAttribute="trailing" id="iJT-oE-7Qu"/>
+                                    <constraint firstAttribute="trailing" secondItem="gTz-ea-t01" secondAttribute="trailing" id="kS1-rk-rfX"/>
+                                    <constraint firstAttribute="bottom" secondItem="zrH-sv-LFa" secondAttribute="bottom" id="rOt-M8-CyE"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="upy-Ue-Wao" secondAttribute="trailing" id="S7P-uh-a1F"/>
+                            <constraint firstItem="zrH-sv-LFa" firstAttribute="width" secondItem="PEr-ME-EtK" secondAttribute="width" id="dQ1-ee-iGt"/>
+                            <constraint firstItem="upy-Ue-Wao" firstAttribute="leading" secondItem="PEr-ME-EtK" secondAttribute="leading" id="kgE-Ss-Zb4"/>
+                            <constraint firstItem="wdU-3G-2g8" firstAttribute="top" secondItem="upy-Ue-Wao" secondAttribute="bottom" constant="80" placeholder="YES" id="m2B-Pb-ZDa"/>
+                            <constraint firstItem="upy-Ue-Wao" firstAttribute="top" secondItem="PEr-ME-EtK" secondAttribute="topMargin" id="wnv-96-5bc"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="更多信息" id="xOw-l7-x7p">
+                        <barButtonItem key="leftBarButtonItem" image="delete.png" id="hFU-9b-hnV">
+                            <connections>
+                                <action selector="dismissAction:" destination="bg5-oL-Hdr" id="RLt-Ma-xf6"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="containerScrollView" destination="upy-Ue-Wao" id="WMz-zg-8Nc"/>
+                        <outlet property="coverImageWebView" destination="gTz-ea-t01" id="ZD8-GC-bpW"/>
+                        <outlet property="coverImageWebViewHeight" destination="kjS-DD-R66" id="XIi-nS-MQs"/>
+                        <outlet property="headerTextWebView" destination="zrH-sv-LFa" id="Eaz-jO-tCu"/>
+                        <outlet property="headerTextWebViewHeight" destination="vTv-E9-KGY" id="n5O-Ih-jyX"/>
+                        <outlet property="moreInfoNavItem" destination="xOw-l7-x7p" id="psj-oX-iEQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tzi-tc-44c" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="okN-W3-Ay0">
+                    <connections>
+                        <action selector="tapOnCoverImageViewAction:" destination="bg5-oL-Hdr" id="QVb-q2-DGg"/>
+                        <outlet property="delegate" destination="bg5-oL-Hdr" id="UdG-MJ-wgI"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="286" y="-550"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="delete.png" width="20" height="20"/>
+    </resources>
+</document>

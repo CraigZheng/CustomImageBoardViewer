@@ -35,11 +35,12 @@
 #import "czzMiniThreadViewController.h"
 #import "czzBannerNotificationUtil.h"
 #import "czzAutoEndingRefreshControl.h"
+#import "UIScrollView+EmptyDataSet.h"
 
 #import <CoreText/CoreText.h>
 
 
-@interface czzHomeViewController() <UIAlertViewDelegate, UIStateRestoring>
+@interface czzHomeViewController() <UIAlertViewDelegate, UIStateRestoring, SlideNavigationControllerDelegate>
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (assign, nonatomic) BOOL shouldHideImageForThisForum;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
@@ -61,9 +62,11 @@
 {
     [super viewDidLoad];
     
-    //assign a custom tableview data source
+    // Assign the data sources and delegates.
     self.threadTableView.dataSource = self.homeTableViewManager;
     self.threadTableView.delegate = self.homeTableViewManager;
+    self.threadTableView.emptyDataSetSource = self.homeTableViewManager;
+    self.threadTableView.emptyDataSetDelegate = self.homeTableViewManager;
     
     // Load data into tableview
     [self updateTableView];
@@ -72,12 +75,6 @@
     }
     // Set the currentOffSet back to zero
     self.homeViewManager.currentOffSet = CGPointZero;
-
-    // Configure the view deck controller with half size and tap to close mode
-    self.viewDeckController.leftSize = self.view.frame.size.width/4;
-    self.viewDeckController.rightSize = self.view.frame.size.width/4;
-    self.viewDeckController.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
-
     // On screen image manager view controller
     if (!self.onScreenImageManagerViewController) {
         self.onScreenImageManagerViewController = [czzOnScreenImageManagerViewController new];
@@ -120,11 +117,12 @@
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
     
     self.threadTableView.backgroundColor = settingCentre.viewBackgroundColour;
+    self.onScreenImageManagerViewContainer.hidden = !settingCentre.shouldShowImageManagerButton;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    self.viewDeckController.panningMode = IIViewDeckFullViewPanning;
+    [self.progressView viewDidAppear];
     // Add badget number to infoBarButton if necessary.
     if ([[(czzNavigationController*)self.navigationController notificationBannerViewController] shouldShow]) {
         self.infoBarButton.badgeValue = @"1";
@@ -132,32 +130,16 @@
         self.infoBarButton.badgeValue = nil;
     }
 
-    // Select a random forum after a certain period of inactivity.
-    NSTimeInterval delayTime = 4.0;
-#ifdef DEBUG
-    delayTime = 9999;
-#endif
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        if (!self.homeViewManager.forum) {
-            if ([czzForumManager sharedManager].forums.count > 0)
-            {
-                [czzBannerNotificationUtil displayMessage:@"用户没有选择板块，随机选择……" position:BannerNotificationPositionTop];
-                @try {
-                    int randomIndex = rand() % [czzForumManager sharedManager].forums.count;
-                    [self.homeViewManager setForum:[[czzForumManager sharedManager].forums objectAtIndex:randomIndex]];
-                    [self refreshThread:self];
-                }
-                @catch (NSException *exception) {
-                    
-                }
-            }
-        }
-    });
+    // Load latest responses when user has no forum selected.
+    if (!self.homeViewManager.forum && self.homeViewManager.latestResponses.count == 0 && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+        self.homeViewManager.isShowingLatestResponse = YES;
+        [self.homeViewManager loadLatestResponse];
+    }
 }
 
 -(void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    self.viewDeckController.panningMode = IIViewDeckNoPanning;
+    [self.progressView viewDidDisapper];
 }
 
 /*
@@ -171,24 +153,18 @@
     // Give the amount number a title.
     [(czzRoundButton *)self.numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.homeViewManager.threads.count] forState:UIControlStateNormal];
     // Other data
-    self.title = self.homeViewManager.forum.name;
+    self.title = self.homeViewManager.isShowingLatestResponse ? @"最新回复" : self.homeViewManager.forum.name;
     self.navigationItem.backBarButtonItem.title = self.title;
     [self.homeTableViewManager reloadData];
 }
 
-#pragma mark - State perserving
-- (NSString*)saveCurrentState {
-    self.homeViewManager.currentOffSet = self.threadTableView.contentOffset;
-    return [self.homeViewManager saveCurrentState];
-}
-
 #pragma mark - ButtonActions
 - (IBAction)sideButtonAction:(id)sender {
-    [self.viewDeckController toggleLeftViewAnimated:YES];
+    [[SlideNavigationController sharedInstance] toggleLeftMenu];
 }
 
 - (IBAction)postAction:(id)sender {
-    [czzReplyUtil postToForum:self.homeViewManager.forum];
+    [czzReplyUtil postToForum: self.homeViewManager.isShowingLatestResponse ? nil : self.homeViewManager.forum];
 }
 
 - (IBAction)jumpAction:(id)sender {
@@ -229,7 +205,7 @@
                 [self updateTableView];
                 [self.homeViewManager loadMoreThreads:newPageNumber];
                 
-                [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)self.homeViewManager.pageNumber]
+                [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)newPageNumber]
                                                  position:BannerNotificationPositionTop];
             } else {
                 [czzBannerNotificationUtil displayMessage:@"页码无效..."
@@ -257,7 +233,11 @@
     } else {
         czzMoreInfoViewController *moreInfoViewController = [czzMoreInfoViewController new];
         moreInfoViewController.forum = self.homeViewManager.forum;
-        [self presentViewController:[[UINavigationController alloc] initWithRootViewController:moreInfoViewController] animated:YES completion:nil];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:moreInfoViewController];
+        navigationController.restorationIdentifier = NSStringFromClass([UINavigationController class]);
+        [NavigationManager.delegate presentViewController:navigationController
+                                                 animated:YES
+                                               completion:nil];
     }
 }
 
@@ -301,7 +281,6 @@
 }
 
 -(void)homeViewManager:(czzHomeViewManager *)homeViewManager downloadSuccessful:(BOOL)wasSuccessful {
-    DDLogDebug(@"%@", NSStringFromSelector(_cmd));
     self.threadTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
     if (!wasSuccessful) {
         [self showWarning];
@@ -317,7 +296,6 @@
 }
 
 -(void)homeViewManager:(czzHomeViewManager *)list threadListProcessed:(BOOL)wasSuccessul newThreads:(NSArray *)newThreads allThreads:(NSArray *)allThreads {
-    DDLogDebug(@"%@", NSStringFromSelector(_cmd));
     // If pageNumber == 1, then is a forum change, scroll to top.
     [[NSOperationQueue currentQueue] addOperationWithBlock:^{
         if (wasSuccessul && self.homeViewManager.pageNumber == 1) {
@@ -331,13 +309,14 @@
     }];
 }
 
-#pragma mark - self.refreshControl and download controls
--(void)dragOnRefreshControlAction:(id)sender{
-    [self refreshThread:nil];
+#pragma mark - SlideOutNavigationControllerDelegate
+
+- (BOOL)slideNavigationControllerShouldDisplayLeftMenu {
+    return YES;
 }
 
--(void)refreshThread:(id)sender{
-    //reset to default page number
+#pragma mark - self.refreshControl and download controls
+-(void)dragOnRefreshControlAction:(id)sender{
     [self.homeViewManager refresh];
 }
 
@@ -347,7 +326,13 @@
     czzForum *forum = [userInfo objectForKey:kPickedForum];
     if (forum){
         self.selectedForum = forum;
-        [self refreshThread:self];
+        BOOL shouldCacheLatestResponse = self.homeViewManager.isShowingLatestResponse;
+        self.homeViewManager.isShowingLatestResponse = NO;
+        [self.homeViewManager refresh];
+        // When the homeViewManager is previously showing latest responses, the cachedThreads should be pointing to it instead.
+        if (shouldCacheLatestResponse) {
+            self.homeViewManager.cachedThreads = self.homeViewManager.latestResponses;
+        }
         //disallow image downloading if specified by remote settings
         self.shouldHideImageForThisForum = NO;
         for (NSString *specifiedForum in settingCentre.shouldHideImageInForums) {
@@ -356,6 +341,9 @@
                 break;
             }
         }
+    } else if ([userInfo objectForKey:kPickedTimeline]) {
+        self.homeViewManager.isShowingLatestResponse = YES;
+        [self.homeViewManager refresh];
     } else {
         [NSException raise:@"NOT A VALID FORUM" format:@""];
     }
@@ -373,18 +361,31 @@
     }
 }
 
-#pragma mark - Rotation events.
+#pragma mark - Transit
+
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [self.homeTableViewManager viewWillTransitionToSize];
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    [self.homeTableViewManager viewWillTransitionToSize:size
-                              withTransitionCoordinator:coordinator];
-    [self updateTableView];
 }
 
 #pragma mark - pause / restoration
--(void)encodeRestorableStateWithCoder:(NSCoder *)coder
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
-    DDLogDebug(@"%@", NSStringFromSelector(_cmd));
+    [coder encodeObject:[NSValue valueWithCGPoint:self.threadTableView.contentOffset] forKey:@"TableViewContentOffset"];
+    [super encodeRestorableStateWithCoder:coder];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
+    NSValue *contentOffsetValue;
+    if ([(contentOffsetValue = [coder decodeObjectForKey:@"TableViewContentOffset"]) isKindOfClass:[NSValue class]]) {
+        [self.threadTableView setContentOffset:contentOffsetValue.CGPointValue];
+    }
+    [super decodeRestorableStateWithCoder:coder];
+}
+
+- (void)applicationFinishedRestoringState {
+    [self.homeViewManager restorePreviousState];
+    [self updateTableView];
 }
 
 + (instancetype)new {

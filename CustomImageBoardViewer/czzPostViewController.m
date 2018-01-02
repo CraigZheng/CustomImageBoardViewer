@@ -28,13 +28,18 @@
 #import "czzHistoryManager.h"
 #import "czzBannerNotificationUtil.h"
 #import "czzPostSenderManager.h"
+#import "CustomImageBoardViewer-Swift.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 
-@interface czzPostViewController () <UINavigationControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate>
-@property (nonatomic, strong) UIActionSheet *clearContentActionSheet;
+static CGFloat compressScale = 0.95;
+static NSString *kDraftSelectorSegue = @"draftSelector";
+
+@interface czzPostViewController () <UIPopoverPresentationControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate, DraftSelectorTableViewControllerDelegate>
 @property (nonatomic, strong) UIActionSheet *cancelPostingActionSheet;
+@property (nonatomic, strong) UIAlertView *watermarkAlertView;
 @property (nonatomic, strong) NSMutableData *receivedResponse;
 @property (nonatomic, strong) czzEmojiCollectionViewController *emojiViewController;
+@property (nonatomic, weak) DraftSelectorTableViewController *draftSelectorViewController;
 @property (nonatomic, assign) BOOL didLayout;
 @property (strong, nonatomic) UIBarButtonItem *postButton;
 @property (weak, nonatomic) IBOutlet UIImageView *postImageView;
@@ -43,8 +48,6 @@
 @property (nonatomic, strong) NSData *pickedImageData;
 @property (nonatomic, strong) UIBarButtonItem *keyboardBarButtonItem;
 @property (nonatomic, strong) NSString *pickedImageFormat;
-
-- (IBAction)clearAction:(id)sender;
 
 @end
 
@@ -55,20 +58,25 @@
 @synthesize blacklistEntity;
 @synthesize postSender;
 @synthesize postMode;
-@synthesize forum;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // observe keyboard hide and show notifications to resize the text view appropriately
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillShow:)
+                                         selector:@selector(keyboardWillShow:)
                                                  name:UIKeyboardWillShowNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    // If there're drafts available for selecting, show them here.
+    if ([DraftManager count] && settingCentre.userDefShouldShowDraft) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self performSegueWithIdentifier:kDraftSelectorSegue sender:nil];
+        });
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -94,6 +102,24 @@
     if (self.emojiViewController) {
         [self dismissSemiModalView];
     }
+}
+
+#pragma mark - Prepare for segue
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:kDraftSelectorSegue] && [segue.destinationViewController isKindOfClass:[DraftSelectorTableViewController class]]) {
+        self.draftSelectorViewController = segue.destinationViewController;
+        self.draftSelectorViewController.popoverPresentationController.delegate = self;
+        self.draftSelectorViewController.popoverPresentationController.sourceView = self.view;
+        self.draftSelectorViewController.popoverPresentationController.sourceRect = self.view.bounds;
+        self.draftSelectorViewController.delegate = self;
+    }
+}
+
+#pragma marl - UIPopoverPresentationControllerDelegate.
+
+- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
+    return UIModalPresentationNone;
 }
 
 - (void)renderContent {
@@ -185,20 +211,24 @@
     } else {
         // Construct a new post sender object.
         postSender = [czzPostSender new];
-        postSender.forum = forum;
+        postSender.forum = self.forum;
         switch (postMode) {
             case postViewControllerModeNew:
                 title = @"新内容";
                 postSender.parentThread = nil;
-                targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:forum.name];
-                postSender.forum = forum;
+                targetURLString = [[settingCentre create_new_post_url] stringByReplacingOccurrencesOfString:FORUM_NAME withString:self.forum.name];
+                postSender.forum = self.forum;
                 postSender.postMode = postSenderModeNew;
                 break;
             case postViewControllerModeReply:
                 if (self.replyToThread)
                 {
                     title = [NSString stringWithFormat:@"回复:%ld", (long)self.replyToThread.ID];
-                    content = [NSString stringWithFormat:@">>No.%ld\n\n", (long)self.replyToThread.ID];
+                    if (settingCentre.reply_post_placeholder.length) {
+                        content = [NSString stringWithFormat:settingCentre.reply_post_placeholder, (long) self.replyToThread.ID];
+                    } else {
+                        content = [NSString stringWithFormat:@">>No.%ld\n\n", (long)self.replyToThread.ID];
+                    }
                 }
                 postSender.parentThread = self.parentThread;
                 postSender.postMode = postSenderModeReply;
@@ -233,6 +263,7 @@
 #pragma mark - UI actions.
 
 - (void)keyboardAction:(id)sender {
+    [self.draftSelectorViewController dismissViewControllerAnimated:NO completion:nil];
     if ([self.postTextView isFirstResponder]) {
         [self.postTextView resignFirstResponder];
     } else {
@@ -241,6 +272,7 @@
 }
 
 - (void)postAction:(id)sender {
+    [self.draftSelectorViewController dismissViewControllerAnimated:NO completion:nil];
     //assign the appropriate target URL and delegate to the postSender
     postSender.content = postTextView.text;
     // Validate the content is ready.
@@ -279,6 +311,7 @@
 }
 
 - (void)pickImageAction:(id)sender {
+    [self.draftSelectorViewController dismissViewControllerAnimated:NO completion:nil];
     UIImagePickerController *mediaUI = [[UIImagePickerController alloc] init];
     mediaUI.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     mediaUI.allowsEditing = NO;
@@ -305,27 +338,19 @@
                        }];
 }
 
-//delete everything from the text view
-- (IBAction)clearAction:(id)sender {
-    // Clear the text view.
-    if ((postTextView.text.length > 0 || postSender.imgData) &&
-        postMode != postViewControllerModeDisplayOnly)
-    {
-        [self.postTextView resignFirstResponder];
-        self.clearContentActionSheet = [[UIActionSheet alloc] initWithTitle:@"清空内容和图片？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"清空" otherButtonTitles: nil];
-        [self.clearContentActionSheet showInView:self.view];
-
-    }
-}
-
 - (IBAction)cancelAction:(id)sender {
     if ((postTextView.text.length || postSender.imgData) &&
         postMode != postViewControllerModeDisplayOnly) {
         [self.postTextView resignFirstResponder];
         self.cancelPostingActionSheet = [[UIActionSheet alloc] initWithTitle:@"确定要中断发送文章？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"中断" otherButtonTitles: nil];
         [self.cancelPostingActionSheet showInView:self.view];
+        [DraftManager save:postTextView.text];
     } else
         [self dismissWithCompletionHandler:nil];
+}
+
+- (void)textViewDidChange:(UITextView *)textView {
+    [self.draftSelectorViewController dismissViewControllerAnimated:NO completion:nil];
 }
 
 -(void)resetContent{
@@ -337,6 +362,7 @@
 }
 
 - (void)dismissWithCompletionHandler:(void(^)(void))completionHandler {
+    [self.draftSelectorViewController dismissViewControllerAnimated:NO completion:nil];
     BOOL isModalView = [self isModal];
     if (self.navigationController.viewControllers.count > 1) {
         [CATransaction begin];
@@ -360,12 +386,25 @@
 
 #pragma mark - UIActionSheetDelegate
 -(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    if (actionSheet == self.clearContentActionSheet) {
-        if (buttonIndex == actionSheet.destructiveButtonIndex)
-            [self resetContent];
-    } else if (actionSheet == self.cancelPostingActionSheet) {
-        if (buttonIndex == actionSheet.destructiveButtonIndex)
-            [self dismissWithCompletionHandler:nil];
+    if (actionSheet == self.cancelPostingActionSheet && buttonIndex == actionSheet.destructiveButtonIndex) {
+        [self dismissWithCompletionHandler:nil];
+    }
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (alertView == self.watermarkAlertView && buttonIndex != self.watermarkAlertView.cancelButtonIndex) {
+        postSender.watermark = YES;
+    }
+}
+
+#pragma mark - DraftSelectorTableViewControllerDelegate
+
+- (void)draftSelector:(DraftSelectorTableViewController *)viewController selectedContent:(NSString *)selectedContent {
+    [viewController dismissViewControllerAnimated:NO completion:nil];
+    if (selectedContent.length) {
+        [self.postTextView replaceRange:self.postTextView.selectedTextRange withText:selectedContent];
     }
 }
 
@@ -375,6 +414,7 @@
     _pickedImageData = pickedImageData;
     if (postSender) {
         [postSender setImgData:_pickedImageData format:self.pickedImageFormat];
+        postSender.watermark = NO;
     }
     // Show content on screen.
     self.postImageView.image = [UIImage imageWithData:pickedImageData];
@@ -404,6 +444,7 @@
             Byte *buffer = (Byte*)malloc(rep.size);
             NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:rep.size error:nil];
             NSData *assetData = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
+            self.pickedImageData = assetData;
             self.pickedImageFormat = @"gif";
             [[AppDelegate window] makeToast:[NSString stringWithFormat:@"%@", originalURL.lastPathComponent]
                                    duration:1.5
@@ -415,21 +456,30 @@
         }];
     } else {
         // JPG or PNG image, upload straight away.
-        NSData *imageData = UIImageJPEGRepresentation(pickedImage, 0.9);
+        NSData *imageData = UIImageJPEGRepresentation(pickedImage, compressScale);
         NSString *titleWithSize = [ValueFormatter convertByte:imageData.length];
         //resize the image if the picked image is too big
-        CGFloat scale = pickedImage.size.width * pickedImage.size.height / (1920 * 1080);
+        CGFloat scale = pickedImage.size.width * pickedImage.size.height / settingCentre.upload_image_pixel_limit;
         if (scale > 1){
-            NSInteger newWidth = pickedImage.size.width / scale;
-            pickedImage = [self imageWithImage:pickedImage scaledToWidth:newWidth];
-            [[AppDelegate window] makeToast:@"由于图片尺寸太大，已进行压缩" duration:1.5 position:@"top" title:titleWithSize image:pickedImage];
-            imageData = UIImageJPEGRepresentation(pickedImage, 0.9);
+            CGFloat scaleFactor = sqrt(scale);
+            NSInteger newLongEdge = MAX(pickedImage.size.width, pickedImage.size.height) / scaleFactor;
+            pickedImage = [self imageWithImage:pickedImage scaleLongEdgeTo:newLongEdge];
+            NSString *newSizeString = [ValueFormatter convertByte:UIImageJPEGRepresentation(pickedImage, compressScale).length];
+            [[AppDelegate window] makeToast:[NSString stringWithFormat:@"%@ -> %@", titleWithSize, newSizeString]
+                                   duration:1.5
+                                   position:@"top"
+                                      title:@"由于图片尺寸太大，已进行压缩"
+                                      image:pickedImage];
+            imageData = UIImageJPEGRepresentation(pickedImage, compressScale);
         } else {
             [[AppDelegate window] makeToast:titleWithSize duration:1.5 position:@"top" image:pickedImage];
         }
-        imageData = UIImageJPEGRepresentation(pickedImage, 0.9);
+        imageData = UIImageJPEGRepresentation(pickedImage, compressScale);
         // No need to specify the format
         self.pickedImageData = imageData;
+        // Confirm watermark.
+        self.watermarkAlertView = [[UIAlertView alloc] initWithTitle:nil message:@"是否包含水印？" delegate:self cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
+        [self.watermarkAlertView show];
     }
     [picker dismissViewControllerAnimated:YES completion:^{
         [postTextView becomeFirstResponder];
@@ -460,13 +510,12 @@
     return result;
 }
 
--(UIImage*)imageWithImage: (UIImage*) sourceImage scaledToWidth: (float) i_width
+-(UIImage*)imageWithImage: (UIImage*) sourceImage scaleLongEdgeTo: (float) newLongEdge
 {
-    float oldWidth = sourceImage.size.width;
-    float scaleFactor = i_width / oldWidth;
+    float scaleFactor = newLongEdge / MAX(sourceImage.size.width, sourceImage.size.height);
     
     float newHeight = sourceImage.size.height * scaleFactor;
-    float newWidth = oldWidth * scaleFactor;
+    float newWidth = sourceImage.size.width * scaleFactor;
     
     UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
     [sourceImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
@@ -481,6 +530,7 @@
 
 #pragma mark - Keyboard events.
 -(void)keyboardWillShow:(NSNotification*)notification{
+    [self.draftSelectorViewController dismissViewControllerAnimated:NO completion:nil];
     /*
      Reduce the size of the text view so that it's not obscured by the keyboard.
      Animate the resize so that it's in sync with the appearance of the keyboard.
@@ -515,6 +565,7 @@
 }
 
 -(void)keyboardWillHide:(NSNotification*)notification{
+    [self.draftSelectorViewController dismissViewControllerAnimated:NO completion:nil];
     NSDictionary *userInfo = [notification userInfo];
     
     /*
@@ -535,18 +586,58 @@
 
 #pragma mark - czzEmojiCollectionViewController delegate
 -(void)emojiSelected:(NSString *)emoji{
-    UIPasteboard* generalPasteboard = [UIPasteboard generalPasteboard];
-    NSArray* items = [generalPasteboard.items copy];
-    generalPasteboard.string = emoji;
-    [postTextView paste: self];
-    generalPasteboard.items = items;
+    [self.postTextView replaceRange:self.postTextView.selectedTextRange withText:emoji];
     [self dismissSemiModalViewWithCompletion:^{
         [postTextView becomeFirstResponder];
     }];
 }
 
+- (void)emoticonSelected:(UIImage *)emoticon {
+    self.pickedImageData = UIImageJPEGRepresentation(emoticon, 1);
+    [self dismissSemiModalView];
+}
+
+#pragma mark - UIStateRestoring
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
+    [super encodeRestorableStateWithCoder:coder];
+    if (self.parentThread) {
+        [coder encodeObject:self.parentThread forKey:@"parentThread"];
+    }
+    if (self.replyToThread) {
+        [coder encodeObject:self.replyToThread forKey:@"replyToThread"];
+    }
+    if (self.forum) {
+        [coder encodeObject:self.forum forKey:@"forum"];
+    }
+    [coder encodeInteger:self.postMode forKey:@"postMode"];
+    [coder encodeObject:self.postTextView.text forKey:@"postTextView.text"];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
+    [super decodeRestorableStateWithCoder:coder];
+    czzThread *parentThread = [coder decodeObjectForKey:@"parentThread"];
+    czzThread *replyToThread = [coder decodeObjectForKey:@"replyToThread"];
+    czzForum *forum = [coder decodeObjectForKey:@"forum"];
+    if ([parentThread isKindOfClass:[czzThread class]]) {
+        self.parentThread = parentThread;
+    }
+    if ([replyToThread isKindOfClass:[czzThread class]]) {
+        self.replyToThread = replyToThread;
+    }
+    if ([forum isKindOfClass:[czzForum class]]) {
+        self.forum = forum;
+    }
+    self.postMode = [coder decodeIntegerForKey:@"postMode"];
+    self.prefilledString = [coder decodeObjectForKey:@"postTextView.text"];
+}
+
+- (void)applicationFinishedRestoringState {
+    [self renderContent];
+}
+
 + (instancetype)new {
-    return [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"post_view_controller"];
+    return [[UIStoryboard storyboardWithName:@"PostView" bundle:nil] instantiateViewControllerWithIdentifier:@"post_view_controller"];
 }
 
 @end

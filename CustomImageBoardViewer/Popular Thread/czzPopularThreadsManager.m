@@ -71,6 +71,7 @@
     if (successed && downloadedData) {
         [self parseJsonData:downloadedData];
     }
+    [self.delegate popularThreadsManagerDidUpdate:self];
 }
 
 #pragma mark - Getters
@@ -84,6 +85,18 @@
 
 - (NSArray<NSDictionary<NSString *,NSArray<czzThreadSuggestion *> *> *> *)suggestions {
     return [self.suggestionsArray copy];
+}
+
+- (NSArray<czzThreadSuggestion *> *)allSuggestions {
+    NSMutableArray *allSuggestions = [NSMutableArray new];
+    for (NSDictionary *dictionary in self.suggestions) {
+        for (NSString *key in dictionary.allKeys) {
+            if ([dictionary[key] isKindOfClass:[NSArray class]]) {
+                [allSuggestions addObjectsFromArray:dictionary[key]];
+            }
+        }
+    }
+    return allSuggestions;
 }
 
 @end

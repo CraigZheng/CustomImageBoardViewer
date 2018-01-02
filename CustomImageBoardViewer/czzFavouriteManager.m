@@ -9,6 +9,7 @@
 #import "czzFavouriteManager.h"
 #import "czzAppDelegate.h"
 
+
 @interface czzFavouriteManager()
 @property (nonatomic, readonly) NSString *favouriteFilePath;
 @end
@@ -95,7 +96,12 @@
 }
 
 -(void)saveCurrentState {
-    DDLogDebug(@"%s", __PRETTY_FUNCTION__);
+    // Analytics
+    id<GAITracker> defaultTracker = [[GAI sharedInstance] defaultTracker];
+    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Favourite"
+                                                                 action:@"Save"
+                                                                  label:[NSString stringWithFormat:@"%ld threads", (long)favouriteThreads.count]
+                                                                  value:@(favouriteThreads.count)] build]];
     if (![NSKeyedArchiver archiveRootObject:favouriteThreads toFile:self.favouriteFilePath]) {
         DDLogDebug(@"can not save favourite threads to %@", self.favouriteFilePath);
     }

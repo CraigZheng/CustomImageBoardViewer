@@ -40,18 +40,14 @@
     bannerView_.adUnitID = @"ca-app-pub-2081665256237089/4247713655";
     bannerView_.rootViewController = self;
     
-    //colours
-    self.navigationController.navigationBar.barTintColor = [settingCentre barTintColour];
-    self.navigationController.navigationBar.tintColor = [settingCentre tintColour];
-     [self.navigationController.navigationBar
-     setTitleTextAttributes:@{NSForegroundColorAttributeName : self.navigationController.navigationBar.tintColor}];
     self.view.backgroundColor = [settingCentre viewBackgroundColour];
-    // Load image.
-    [self renderContent];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];    
+    [super viewWillAppear:animated];
+    // Load image.
+    [self renderContent];
+
     // Google Analytic integration
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
     [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
@@ -59,6 +55,12 @@
 }
 
 -(void)renderContent {
+    // Colours
+    if (self.navigationController) {
+        self.navigationController.navigationBar.barTintColor = [settingCentre barTintColour];
+        self.navigationController.navigationBar.tintColor = [settingCentre tintColour];
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : self.navigationController.navigationBar.tintColor}];
+    }
     // Disable bounce.
     self.coverImageWebView.scrollView.bounces =
     self.headerTextWebView.scrollView.bounces = NO;
@@ -155,6 +157,27 @@
     return YES;
 }
 
+#pragma mark - UIStateRestoring
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
+    if (self.forum) {
+        [coder encodeObject:self.forum forKey:@"forum"];
+    }
+    [super encodeRestorableStateWithCoder:coder];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
+    [super decodeRestorableStateWithCoder:coder];
+    czzForum *forum;
+    if ([(forum = [coder decodeObjectForKey:@"forum"]) isKindOfClass:[czzForum class]]) {
+        self.forum = forum;
+    }
+}
+
+- (void)applicationFinishedRestoringState {
+    [self renderContent];
+}
+
 #pragma mark - UIGestureRecognizerDelegate
 
 // This is required in order to get the gesture reconizer working on a web view.
@@ -163,7 +186,7 @@
 }
 
 + (instancetype)new {
-    return [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"more_info_view_controller"];
+    return [[UIStoryboard storyboardWithName:@"MoreInfo" bundle:nil] instantiateViewControllerWithIdentifier:@"more_info_view_controller"];
 }
 
 @end

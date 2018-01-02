@@ -13,6 +13,7 @@
 #import "czzPostViewController.h"
 #import "czzReplyUtil.h"
 #import "czzBannerNotificationUtil.h"
+#import "CustomImageBoardViewer-Swift.h"
 
 @interface czzPostSenderManagerViewController ()<czzPostSenderManagerDelegate, UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *indicatorImageView;
@@ -98,7 +99,7 @@
                                                   otherButtonTitles:@"重试", nil];
         [alertView show];
     } else if (PostSenderManager.severeWarnedPostSender) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"无法确认信息发送成功,可能是网络错误,没有饼干,或者含有敏感词!"
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"无法确认信息发送成功,可能是网络错误,没有饼干,图片太大,或者含有敏感词!"
                                                             message:nil
                                                            delegate:self
                                                   cancelButtonTitle:@"取消"
@@ -150,23 +151,44 @@
     [self startAnimating];
 }
 
-- (void)postSenderManager:(czzPostSenderManager *)manager severeWarningReceivedForPostSender:(czzPostSender *)postSender {
+- (void)postSenderManager:(czzPostSenderManager *)manager severeWarningReceivedForPostSender:(czzPostSender *)postSender message:(NSString *)message {
     [self showWarning];
-    [czzBannerNotificationUtil displayMessage:@"无法确认信息发送成功" position:BannerNotificationPositionBottom];
+    if (postSender.content.length) {
+        [DraftManager save:postSender.content];
+    }
+    [MessagePopup showMessagePopupWithTitle:@"无法确认信息发送成功"
+                                    message:message
+                                     layout:MessagePopupLayoutMessageView
+                                      theme:MessagePopupThemeError
+                                   position:MessagePopupPresentationStyleBottom
+                                buttonTitle:@"OK"
+                        buttonActionHandler:^(UIButton * _Nonnull button){
+                            [MessagePopup hide];
+                        }];
 }
 
 - (void)postSenderManager:(czzPostSenderManager *)manager postingCompletedForSender:(czzPostSender *)postSender success:(BOOL)success message:(NSString *)message {
     [self stopAnimatingWithCompletionHandler:^{
         // Delay just a bit.
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             if (success) {
                 [czzBannerNotificationUtil displayMessage:@"提交成功"
                                                  position:BannerNotificationPositionTop];
             } else {
-                [czzBannerNotificationUtil displayMessage:message.length ? message : @"出错啦"
-                                                 position:BannerNotificationPositionTop];
                 // Keep a reference to the failed post sender, and display the warning icon.
                 [self showError];
+                if (postSender.content.length) {
+                    [DraftManager save:postSender.content];
+                }
+                [MessagePopup showMessagePopupWithTitle:@"提交出错啦"
+                                                message:message.length ? message : @"未知错误"
+                                                 layout:MessagePopupLayoutMessageView
+                                                  theme:MessagePopupThemeError
+                                               position:MessagePopupPresentationStyleBottom
+                                            buttonTitle:@"OK"
+                                    buttonActionHandler:^(UIButton * _Nonnull button){
+                                        [MessagePopup hide];
+                                    }];
             }
         });
     }];

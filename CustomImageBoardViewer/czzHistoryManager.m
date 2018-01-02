@@ -123,7 +123,6 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
                 self.respondedThreads = tempSet;
             }
         }
-        DDLogDebug(@"Restored histories.");
     }
     @catch (NSException *exception) {
         DDLogDebug(@"%@", exception);
@@ -132,7 +131,6 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
 }
 
 -(void)saveCurrentState {
-    DDLogDebug(@"%s", __PRETTY_FUNCTION__);
     if (![NSKeyedArchiver archiveRootObject:browserHistory toFile:self.historyCachePath]) {
         DDLogDebug(@"unable to save browser history");
     }

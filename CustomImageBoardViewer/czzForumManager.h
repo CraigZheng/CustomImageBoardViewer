@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "czzForum.h"
-#import "czzForumGroup.h"
 
-@class czzForumManager;
+static NSString *kCustomForumDidChangeNotification = @"kCustomForumDidChangeNotification";
+
+@class czzForum, czzForumManager;
 @protocol czzForumManagerDelegate <NSObject>
 -(void)forumManagerBeginDownloading:(czzForumManager*)manager;
 -(void)forumManager:(czzForumManager*)manager downloadCompleted:(BOOL)successful;
@@ -18,8 +18,12 @@
 
 @interface czzForumManager : NSObject
 @property (nonatomic, weak) id<czzForumManagerDelegate> delegate;
-@property (nonatomic, strong) NSMutableArray *forumGroups;
-@property (nonatomic) NSArray *forums;
+@property (nonatomic, readonly) NSMutableArray *forumGroups;
+@property (nonatomic) NSArray<czzForum *> *forums;
+@property (strong, nonatomic) NSMutableArray * customForums;
+
+- (void)addCustomForumWithName:(NSString *)forumName forumID:(NSInteger)forumID;
+- (void)removeCustomForum:(czzForum*)forum;
 - (void)updateForums:(void(^)(BOOL success, NSError *error))completionHandler;
 
 + (instancetype)sharedManager;

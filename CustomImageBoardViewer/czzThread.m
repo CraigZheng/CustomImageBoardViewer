@@ -16,6 +16,7 @@
 #import "czzSettingsCentre.h"
 #import "czzURLDownloader.h"
 #import "NSDictionary+Util.h"
+#import "CustomImageBoardViewer-Swift.h"
 
 @interface czzThread()
 @end
@@ -91,6 +92,7 @@
             self.postDateTime = postDate;
             
             self.UID = [self renderHTMLToAttributedString:[data objectForKey:@"userid"]].string;
+            self.fid = [[data objectForKey:@"fid"] integerValue];
             self.name = [data objectForKey:@"name"];
             self.email = [data objectForKey:@"email"];
             self.title = [data objectForKey:@"title"];
@@ -133,23 +135,42 @@
 
 -(NSAttributedString*)renderHTMLToAttributedString:(NSString*)htmlString{
     @try {
-        NSString *htmlCopy = [[htmlString copy] stringByDecodingHTMLEntities];
-        htmlCopy = [htmlCopy stringByReplacingOccurrencesOfString:@"&nbsp;ﾟ" withString:@"　ﾟ"];
-        NSAttributedString *renderedString = [[NSAttributedString alloc] initWithData:[htmlCopy dataUsingEncoding:NSUTF8StringEncoding]
-                                                                              options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
-                                                                                        NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
-                                                                   documentAttributes:nil error:nil];
+        NSString *htmlCopy = [htmlString stringByRemovingPercentEncoding];
+        // If cannot remove percent encoding, return the original.
+        if (!htmlCopy) {
+            htmlCopy = htmlString;
+        }
+        NSData *htmlData = [htmlCopy dataUsingEncoding:NSUTF8StringEncoding];
+        NSMutableAttributedString *renderedString;
+        // Make sure renderedString can always be inited properly.
+        if (!htmlData) {
+            // If there is no data available, just init it with original string or an empty string.
+            renderedString = [[NSMutableAttributedString alloc] initWithString:htmlCopy ? htmlCopy : @""];
+        } else {
+            renderedString = [[NSMutableAttributedString alloc] initWithData: htmlData
+                                                                     options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+                                                                               NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
+                                                          documentAttributes:nil error:nil];
+        }
         
         //fine all >> quoted text
-        NSArray *segments = [renderedString.string componentsSeparatedByString:@">>"];
-        if (segments.count > 1) {
-            for (NSString* segment in segments) {
-                NSString *processedSeg = [segment stringByReplacingOccurrencesOfString:@"No." withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, segment.length)];
-                NSInteger refNumber  = processedSeg.integerValue;
-                if (refNumber != 0) {
-                    if (!self.replyToList)
-                        self.replyToList = [NSMutableArray new];
-                    [self.replyToList addObject:[NSNumber numberWithInteger:refNumber]];
+        NSArray *segments = [renderedString.string componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+        for (NSString* segment in segments) {
+            if ([segment hasPrefix:@">"]) {
+                // Make green text.
+                NSRange quotedRange = [renderedString.string rangeOfString:segment];
+                if (quotedRange.location != NSNotFound && quotedRange.length) {
+                    [renderedString addAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithRed:121/255.0 green:152/255.0 blue:45/255.0 alpha:1]}
+                                            range:quotedRange];
+                }
+                // Find quoted numbers.
+                if ([segment hasPrefix:@">>"]) {
+                    NSInteger refNumber  = segment.numericString.integerValue;
+                    if (refNumber > 0) {
+                        if (!self.replyToList)
+                            self.replyToList = [NSMutableArray new];
+                        [self.replyToList addObject:[NSNumber numberWithInteger:refNumber]];
+                    }
                 }
             }
         }
@@ -210,13 +231,14 @@
 
 //the hash for a thread is its UID and its ID and its post date time
 -(NSUInteger)hash{
-    return self.UID.hash + self.ID + self.postDateTime.hash;
+    return self.UID.hash + self.ID + [self.postDateTime descriptionWithLocale:[NSLocale systemLocale]].hash;
 }
 
 #pragma mark - encoding and decoding functions
 -(void)encodeWithCoder:(NSCoder*)encoder{
     [encoder encodeInteger:self.responseCount forKey:@"responseCount"];
     [encoder encodeInteger:self.ID forKey:@"ID"];
+    [encoder encodeInteger:self.fid forKey:@"fid"];
     [encoder encodeObject:self.UID forKey:@"UID"];
     [encoder encodeObject:self.name forKey:@"name"];
     [encoder encodeObject:self.email forKey:@"email"];
@@ -235,21 +257,41 @@
 -(id)initWithCoder:(NSCoder*)decoder{
     self = [czzThread new];
     if (self){
-        self.responseCount = [decoder decodeIntegerForKey:@"responseCount"];
-        self.ID = [decoder decodeIntegerForKey:@"ID"];
-        self.UID = [decoder decodeObjectForKey:@"UID"];
-        self.name = [decoder decodeObjectForKey:@"name"];
-        self.email = [decoder decodeObjectForKey:@"email"];
-        self.title = [decoder decodeObjectForKey:@"title"];
-        self.content = [decoder decodeObjectForKey:@"content"];
-        self.imgSrc = [decoder decodeObjectForKey:@"imgSrc"];
-        self.thImgSrc = [decoder decodeObjectForKey:@"thImgSrc"];
-        self.lock = [decoder decodeBoolForKey:@"lock"];
-        self.sage = [decoder decodeBoolForKey:@"sage"];
-        self.admin = [decoder decodeBoolForKey:@"admin"];
-        self.postDateTime = [decoder decodeObjectForKey:@"postDateTime"];
-        self.updateDateTime = [decoder decodeObjectForKey:@"updateDateTime"];
-        self.replyToList = [decoder decodeObjectForKey:@"replyToList"];
+        @try {
+            self.responseCount = [decoder decodeIntegerForKey:@"responseCount"];
+            self.ID = [decoder decodeIntegerForKey:@"ID"];
+            self.UID = [decoder decodeObjectForKey:@"UID"];
+            self.fid = [decoder decodeIntegerForKey:@"fid"];
+            self.name = [decoder decodeObjectForKey:@"name"];
+            self.email = [decoder decodeObjectForKey:@"email"];
+            self.title = [decoder decodeObjectForKey:@"title"];
+            self.content = [decoder decodeObjectForKey:@"content"];
+            self.imgSrc = [decoder decodeObjectForKey:@"imgSrc"];
+            self.thImgSrc = [decoder decodeObjectForKey:@"thImgSrc"];
+            self.lock = [decoder decodeBoolForKey:@"lock"];
+            self.sage = [decoder decodeBoolForKey:@"sage"];
+            self.admin = [decoder decodeBoolForKey:@"admin"];
+            self.postDateTime = [decoder decodeObjectForKey:@"postDateTime"];
+            self.updateDateTime = [decoder decodeObjectForKey:@"updateDateTime"];
+            self.replyToList = [decoder decodeObjectForKey:@"replyToList"];
+        } @catch (NSException *exception) {
+            DLog(@"%@", exception);
+            self.responseCount = 0;
+            self.ID = 0;
+            self.UID = @"0";
+            self.name = @"0";
+            self.email = @"0";
+            self.title = @"0";
+            self.content = [[NSAttributedString alloc] initWithString:@"0"];
+            self.imgSrc = @"";
+            self.thImgSrc = @"";
+            self.lock = false;
+            self.sage = false;
+            self.admin = false;
+            self.postDateTime = [NSDate new];
+            self.updateDateTime = [NSDate new];
+            self.replyToList = [NSMutableArray new];
+        }
     }
     return self;
 }

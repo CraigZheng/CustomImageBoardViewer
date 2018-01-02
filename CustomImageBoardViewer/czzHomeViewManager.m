@@ -9,11 +9,15 @@
 #import "czzHomeViewManager.h"
 #import "czzImageCacheManager.h"
 #import "czzImageDownloaderManager.h"
+#import "czzMarkerManager.h"
+#import "czzNavigationController.h"
+#import "CustomImageBoardViewer-Swift.h"
 #import <Google/Analytics.h>
 
 @interface czzHomeViewManager ()
 @property (nonatomic, readonly) NSString *cacheFile;
 @property (nonatomic, assign) BOOL isDownloading;
+@property (nonatomic, strong) LatestResponseDownloader *latestResponseDownloader;
 @end
 
 @implementation czzHomeViewManager
@@ -22,46 +26,71 @@
     self = [super init];
     if (self) {
         self.pageNumber = self.totalPages = 1;
+        __weak id weakSelf = self;
+        [[NSNotificationCenter defaultCenter] addObserverForName:MarkerManagerDidUpdateNotification
+                                                          object:nil
+                                                           queue:[NSOperationQueue mainQueue]
+                                                      usingBlock:^(NSNotification * _Nonnull note) {
+                                                          [weakSelf reloadData];
+                                                      }];
+        [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillResignActiveNotification
+                                                          object:nil
+                                                           queue:[NSOperationQueue mainQueue]
+                                                      usingBlock:^(NSNotification * _Nonnull note) {
+                                                          // Save current state upon entering background state.
+                                                          [weakSelf saveCurrentState];
+                                                      }];
+        [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillTerminateNotification
+                                                          object:nil
+                                                           queue:[NSOperationQueue mainQueue]
+                                                      usingBlock:^(NSNotification * _Nonnull note) {
+                                                          // Save current state upon entering background state.
+                                                          [weakSelf saveCurrentState];
+                                                      }];
     }
+    self.latestResponseDownloader = [LatestResponseDownloader new];
+    self.latestResponseDownloader.delegate = self;
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - state perserving/restoring
 -(NSString*)saveCurrentState {
+    DLog(@"");
     NSString *cachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:self.cacheFile];
-    if ([NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
-        DDLogDebug(@"save state successed");
+    if (self.forum && [NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
         return cachePath;
-    } else {
-        DDLogDebug(@"save state failed");
-        [[NSFileManager defaultManager] removeItemAtPath:cachePath error:nil];
-        return nil;
     }
+    return nil;
 }
 
 -(void)restorePreviousState {
+    NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:self.cacheFile];
     @try {
-        NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:self.cacheFile];
         if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
             NSData *cacheData = [NSData dataWithContentsOfFile:cacheFile];
-            // Always delete the cache file after reading it to ensure safety.
-            [[NSFileManager defaultManager] removeItemAtPath:cacheFile error:nil];
-            czzHomeViewManager *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithData:cacheData];
-            //copy data
-            if (tempThreadList && [tempThreadList isKindOfClass:[czzHomeViewManager class]])
+            czzHomeViewManager *viewManager = [NSKeyedUnarchiver unarchiveObjectWithData:cacheData];
+            if ([viewManager isKindOfClass:[czzHomeViewManager class]])
             {
-                self.forum = tempThreadList.forum;
-                self.pageNumber = tempThreadList.pageNumber;
-                self.totalPages = tempThreadList.totalPages;
-                self.threads = tempThreadList.threads;
-                self.currentOffSet = tempThreadList.currentOffSet;
-                self.lastBatchOfThreads = tempThreadList.lastBatchOfThreads;
-                self.shouldHideImageForThisForum = tempThreadList.shouldHideImageForThisForum;
-                self.displayedThread = tempThreadList.displayedThread;
+                self.forum = viewManager.forum;
+                self.pageNumber = viewManager.pageNumber;
+                self.totalPages = viewManager.totalPages;
+                self.threads = viewManager.threads;
+                self.currentOffSet = viewManager.currentOffSet;
+                self.lastBatchOfThreads = viewManager.lastBatchOfThreads;
+                self.shouldHideImageForThisForum = viewManager.shouldHideImageForThisForum;
+                self.displayedThread = viewManager.displayedThread;
+                self.isShowingLatestResponse = viewManager.isShowingLatestResponse;
+                self.latestResponses = viewManager.latestResponses;
             }
         }
     }
     @catch (NSException *exception) {
+        // Always delete the cache file after exception to ensure safety.
+        [[NSFileManager defaultManager] removeItemAtPath:cacheFile error:nil];
         DDLogDebug(@"%@", exception);
     }
 }
@@ -74,12 +103,23 @@
 }
 
 -(void)refresh {
+    if (self.forum.name.length && !self.isShowingLatestResponse) {
+        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Refresh"
+                                                                                            action:@"Refresh Forum"
+                                                                                             label:self.forum.name
+                                                                                             value:@1] build]];
+    }
+    [self removeAll];
+    self.isShowingLatestResponse ? [self loadLatestResponse] : [self loadMoreThreads:self.pageNumber];
+}
+
+- (void)loadLatestResponse {
+    [self.downloader stop];
+    [self.latestResponseDownloader start];
     [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Refresh"
-                                                                                        action:@"Refresh Forum"
+                                                                                        action:@"Latest Response"
                                                                                          label:self.forum.name
                                                                                          value:@1] build]];
-    [self removeAll];
-    [self loadMoreThreads:self.pageNumber];
 }
 
 -(void)loadMoreThreads {
@@ -120,6 +160,23 @@
     }
 }
 
+#pragma mark - Marking/blocking
+
+- (void)highlightUID:(NSString *)UID {
+    [[czzMarkerManager sharedInstance] prepareToHighlightUID:UID];
+    [NavigationManager.delegate performSegueWithIdentifier:@"showAddMarker"
+                                                    sender:nil];
+}
+
+- (void)blockUID:(NSString *)UID {
+    if ([[czzMarkerManager sharedInstance] isUIDBlocked:UID]) {
+        [[czzMarkerManager sharedInstance] unBlockUID:UID];
+    } else {
+        [[czzMarkerManager sharedInstance] blockUID:UID];
+    }
+    [self reloadData];
+}
+
 #pragma mark - Delegate actions
 - (void)showContentWithThread:(czzThread *)thread {
     if (thread && [self.delegate respondsToSelector:@selector(homeViewManager:wantsToShowContentForThread:)]) {
@@ -144,16 +201,21 @@
 
 - (void)threadDownloaderCompleted:(czzThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads error:(NSError *)error {
     if (success){
-        self.cachedThreads = nil;
-        if (self.shouldHideImageForThisForum)
-        {
-            for (czzThread *thread in threads) {
-                thread.thImgSrc = nil;
+        if (downloader == self.latestResponseDownloader) {
+            self.latestResponses = threads;
+        } else {
+            self.latestResponses = nil;
+            self.cachedThreads = nil;
+            if (self.shouldHideImageForThisForum)
+            {
+                for (czzThread *thread in threads) {
+                    thread.thImgSrc = nil;
+                }
             }
+            self.lastBatchOfThreads = threads;
+            // Add to total threads.
+            [self.threads addObjectsFromArray:threads];
         }
-        self.lastBatchOfThreads = threads;
-        // Add to total threads.
-        [self.threads addObjectsFromArray:threads];
     }
     if ([self.delegate respondsToSelector:@selector(homeViewManager:threadListProcessed:newThreads:allThreads:)]) {
         [self.delegate homeViewManager:self threadListProcessed:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
@@ -206,15 +268,18 @@
 }
 
 - (NSString *)cacheFile {
-    return [NSString stringWithFormat:@"%@-%@", [UIApplication bundleVersion], DEFAULT_THREAD_LIST_CACHE_FILE];
+    return DEFAULT_THREAD_LIST_CACHE_FILE;
 }
 
 - (NSMutableArray *)threads {
+    if (self.isShowingLatestResponse && self.latestResponses.count) {
+        return self.latestResponses.mutableCopy;
+    }
     if (!_threads) {
         _threads = [NSMutableArray new];
     }
     if (!_threads.count && self.cachedThreads.count) {
-        return self.cachedThreads;
+        return self.cachedThreads.mutableCopy;
     }
     return _threads;
 }
@@ -232,6 +297,8 @@
     //isDownloading and isProcessing should not be encoded
     [aCoder encodeObject:[NSValue valueWithCGPoint:self.currentOffSet] forKey:@"currentOffSet"];
     [aCoder encodeObject:self.displayedThread forKey:@"displayedThread"];
+    [aCoder encodeBool:self.isShowingLatestResponse forKey:@"isShowingLatestResponse"];
+    [aCoder encodeObject:self.latestResponses forKey:@"latestResponses"];
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder {
@@ -246,6 +313,8 @@
         homeViewManager.lastBatchOfThreads = [aDecoder decodeObjectForKey:@"lastBatchOfThreads"];
         homeViewManager.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
         homeViewManager.displayedThread = [aDecoder decodeObjectForKey:@"displayedThread"];
+        homeViewManager.isShowingLatestResponse = [aDecoder decodeBoolForKey:@"isShowingLatestResponse"];
+        homeViewManager.latestResponses = [aDecoder decodeObjectForKey:@"latestResponses"];
         return homeViewManager;
 
     }

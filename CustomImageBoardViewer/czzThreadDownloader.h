@@ -29,6 +29,7 @@
 @property (nonatomic, strong) czzThread *parentThread;
 @property (nonatomic, strong) czzForum *parentForum;
 @property (nonatomic, readonly) BOOL isDownloading;
+@property (nonatomic, readonly) NSString * targetURLString;
 @property (nonatomic, copy) void(^completionHandler)(BOOL success, NSArray *downloadedThreads, NSError *error);
 
 - (instancetype)initWithForum:(czzForum *)forum;

@@ -65,7 +65,7 @@
 #pragma mark - Download management
 
 -(void)downloadImageWithURL:(NSString *)imageURL isThumbnail:(BOOL)thumbnail{
-    if (![self isImageDownloading:imageURL.lastPathComponent isThumbnail:thumbnail]) {
+    if (imageURL.length && ![self isImageDownloading:imageURL.lastPathComponent isThumbnail:thumbnail]) {
         czzImageDownloader *imageDownloader = [czzImageDownloader new];
         imageDownloader.imageURLString = imageURL;
         imageDownloader.isThumbnail = thumbnail;
@@ -77,9 +77,6 @@
         }
         // Start downloading.
         [imageDownloader start];
-        DDLogDebug(@"Started downloading %@ for: %@.", !thumbnail ? @"Fullsize Image" : @"Thumbnail Image" , imageURL);
-    } else {
-        DDLogDebug(@"%@ is already in download.", imageURL);
     }
 }
 
@@ -108,6 +105,9 @@
 }
 
 -(BOOL)isImageDownloading:(NSString *)imageName isThumbnail:(BOOL)thumbnail{
+    if (!imageName.length) {
+        return NO;
+    }
     BOOL downloading = NO;
     for (czzImageDownloader *downloader in thumbnail ? self.thumbnailDownloaders : self.imageDownloaders) {
         if ([downloader.imageURLString.lastPathComponent isEqualToString:imageName]) {

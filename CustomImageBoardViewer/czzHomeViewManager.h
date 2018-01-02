@@ -49,18 +49,22 @@
 @property (nonatomic, readonly) NSString *baseURLString;
 @property (nonatomic, assign) CGPoint currentOffSet;
 @property (nonatomic, strong) czzThread *displayedThread;
-@property (nonatomic, strong) NSMutableArray *cachedThreads;
-
+@property (nonatomic, strong) NSArray *cachedThreads;
+@property (nonatomic, strong) NSArray *latestResponses;
 @property (nonatomic, strong) czzThreadDownloader *downloader;
+@property (nonatomic, assign) BOOL isShowingLatestResponse;
 
 -(void)refresh;
 -(void)reloadData;
 -(void)loadMoreThreads;
 -(void)loadMoreThreads:(NSInteger)pageNumber;
+- (void)loadLatestResponse;
 -(void)removeAll;
 //-(void)calculateHeightsForThreads:(NSArray*)newThreads;
 -(void)scrollToContentOffset:(CGPoint)offset;
 - (void)showContentWithThread:(czzThread*)thread;
+- (void)highlightUID:(NSString *)UID;
+- (void)blockUID:(NSString *)UID;
 
 //save and restore
 -(NSString*)saveCurrentState;

@@ -30,15 +30,16 @@
 #import "czzPostSenderManagerViewController.h"
 #import "czzReplyUtil.h"
 #import "czzAutoEndingRefreshControl.h"
+#import "czzThreadViewManager.h"
+
 #import "UIImage+animatedGIF.h"
 
 NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
-@interface czzThreadViewController ()<UIAlertViewDelegate>
+@interface czzThreadViewController ()<UIAlertViewDelegate, czzThreadViewManagerDelegate>
 @property (strong, nonatomic) NSIndexPath *selectedIndex;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
 @property CGPoint threadsTableViewContentOffSet; //record the content offset of the threads tableview
-@property (assign, nonatomic) BOOL shouldHighlight;
 @property (assign, nonatomic) BOOL shouldDisplayQuickScrollCommand;
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (strong, nonatomic) NSString *keywordToSearch;
@@ -55,13 +56,13 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @property (strong, nonatomic) UIAlertView *confirmJumpToPageAlertView;
 @property (weak, nonatomic) IBOutlet UIImageView *massiveDownloadIndicatorImageView;
 @property (weak, nonatomic) IBOutlet UIButton *massiveDownloadButton;
+@property (strong, nonatomic) czzThreadViewManager *threadViewManager;
 @end
 
 @implementation czzThreadViewController
 @synthesize numberBarButton;
 @synthesize selectedIndex;
 @synthesize threadsTableViewContentOffSet;
-@synthesize shouldHighlight;
 @synthesize shouldDisplayQuickScrollCommand;
 @synthesize thumbnailFolder;
 @synthesize keywordToSearch;
@@ -77,10 +78,38 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // self.threadViewManager must not be nil.
-    assert(self.threadTableViewManager != nil);
+    // If self.thread is not ready, the whole view controller is not ready.
+    if (self.thread) {
+        [self commonInit];
+    }
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    // Google Analytic integration
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+    // UI appearance.
+    self.threadTableView.backgroundColor = [settingCentre viewBackgroundColour];
+    self.onScreenImageManagerViewContainer.hidden = !settingCentre.shouldShowImageManagerButton;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.progressView viewDidAppear];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self.progressView viewDidDisapper];
+}
+
+- (void)commonInit {
+    self.threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:self.thread andForum:nil];
     self.threadViewManager.delegate = self;
     [self.threadViewManager restorePreviousState];
+    self.title = self.threadViewManager.parentThread.title;
     // The manager for the table view.
     self.threadTableView.dataSource = self.threadTableViewManager;
     self.threadTableView.delegate = self.threadTableViewManager;
@@ -88,8 +117,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     // Thumbnail folder
     thumbnailFolder = [czzAppDelegate thumbnailFolder];
     imageViewerUtil = [czzImageViewerUtil new];
-    // Settings
-    shouldHighlight = [settingCentre userDefShouldHighlightPO];
     // On screen image manager view controller
     if (!self.onScreenImageManagerViewController) {
         self.onScreenImageManagerViewController = [czzOnScreenImageManagerViewController new];
@@ -101,13 +128,12 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     czzPostSenderManagerViewController *postSenderManagerViewController = [czzPostSenderManagerViewController new];
     [self addChildViewController:postSenderManagerViewController];
     [self.postSenderViewContainer addSubview:postSenderManagerViewController.view];
-
+    
     //add the UIRefreshControl to uitableview
     self.refreshControl = [[czzAutoEndingRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
     [self.threadTableView addSubview: self.refreshControl];
-    self.viewDeckController.rightSize = self.view.frame.size.width/4;
-
+    
     self.navigationItem.backBarButtonItem.title = self.title;
     
     // What to do when this view controller has completed loading.
@@ -128,7 +154,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     } else {
         onLoadAction();
     }
-    
     // Google Analytic integration.
     [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Thread"
                                                                                         action:@"View Thread"
@@ -136,31 +161,14 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
                                                                                          value:@1] build]];
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    // Google Analytic integration
-    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
-    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
-
-    // Background colour.
-    self.threadTableView.backgroundColor = [settingCentre viewBackgroundColour];
-}
-
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    // Disable right view controller
-    self.viewDeckController.rightController = nil;
-    // Cache downloaded data into disk.
-    [self.threadViewManager saveCurrentState];
-}
-
 - (void)dealloc {
     // Avoid calling deacllocated data source and delegate.
     self.threadTableView.dataSource = nil;
     self.threadTableView.delegate = nil;
     [self.threadViewManager stopAllOperation];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    // Cache downloaded data into disk.
+    [self.threadViewManager saveCurrentState];
 }
 
 
@@ -203,34 +211,36 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 #pragma mark - setter
 -(void)setThreadViewManager:(czzThreadViewManager *)viewManager {
     _threadViewManager = viewManager;
-    self.title = self.threadViewManager.parentThread.title;
-
-    // Update bar buttons.
-    if (!numberBarButton.customView) {
-        numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
-    }
-    
-    [(czzRoundButton*)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.threadViewManager.threads.count] forState:UIControlStateNormal];
-    if (self.threadViewManager.threads.count <= 0)
-        numberBarButton.customView.hidden = YES;
-    else
-        numberBarButton.customView.hidden = NO;
-    // Hide the massive download button at first, then show it with animation.
-    // Show it only when the total pages is still 3 or more pages away from the current page number.
-    if (!self.massiveDownloadButtonHeightConstraint.constant &&
-        viewManager.totalPages - viewManager.pageNumber >= 3) {
-        self.massiveDownloadButtonHeightConstraint.constant = 40;
-        [UIView animateWithDuration:0.2 animations:^{
-            [self.view layoutIfNeeded];
-        }];
-    }
-    // Else, if the massive download button is showing and view manager has reached all of its pages.
-    else if (self.massiveDownloadButtonHeightConstraint.constant &&
-               viewManager.pageNumber >= viewManager.totalPages) {
-        self.massiveDownloadButtonHeightConstraint.constant = 0;
-        [UIView animateWithDuration:0.2 animations:^{
-            [self.view layoutIfNeeded];
-        }];
+    if (viewManager) {
+        self.title = self.threadViewManager.parentThread.title;
+        
+        // Update bar buttons.
+        if (!numberBarButton.customView) {
+            numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
+        }
+        
+        [(czzRoundButton*)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.threadViewManager.threads.count] forState:UIControlStateNormal];
+        if (self.threadViewManager.threads.count <= 0)
+            numberBarButton.customView.hidden = YES;
+        else
+            numberBarButton.customView.hidden = NO;
+        // Hide the massive download button at first, then show it with animation.
+        // Show it only when the total pages is still 3 or more pages away from the current page number.
+        if (!self.massiveDownloadButtonHeightConstraint.constant &&
+            viewManager.totalPages - viewManager.pageNumber >= 3) {
+            self.massiveDownloadButtonHeightConstraint.constant = 40;
+            [UIView animateWithDuration:0.2 animations:^{
+                [self.view layoutIfNeeded];
+            }];
+        }
+        // Else, if the massive download button is showing and view manager has reached all of its pages.
+        else if (self.massiveDownloadButtonHeightConstraint.constant &&
+                 viewManager.pageNumber >= viewManager.totalPages) {
+            self.massiveDownloadButtonHeightConstraint.constant = 0;
+            [UIView animateWithDuration:0.2 animations:^{
+                [self.view layoutIfNeeded];
+            }];
+        }
     }
 }
 
@@ -263,12 +273,9 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
             // If user wants to jump to a specific page number, verify that user enters a valid page number.
             NSInteger newPageNumber = [[[alertView textFieldAtIndex:0] text] integerValue];
             if (newPageNumber > 0){
-                //clear threads and ready to accept new threads
-                [self.threadViewManager removeAll];
-                [self.threadViewManager loadMoreThreads:newPageNumber];
+                [self.threadViewManager jumpToPage:newPageNumber];
                 [self updateTableView];
-                
-                [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long) self.threadViewManager.pageNumber]
+                [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"跳到第 %ld 页...", (long)newPageNumber]
                                                  position:BannerNotificationPositionTop];
             } else {
                 [czzBannerNotificationUtil displayMessage:@"页码无效..."
@@ -365,11 +372,11 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
                                                                       cancelButtonTitle:@"算了"
                                                                       otherButtonTitles:@"确定", nil];
         [self.confirmCancelMassiveDownloadAlertView show];
-    } else {
+    } else if (self.threadViewManager.totalPages - self.threadViewManager.pageNumber >= 1){
         // Start massive download.
         self.confirmMassiveDownloadAlertView = [[UIAlertView alloc] initWithTitle:@"一键到底!"
                                                                           message:[NSString stringWithFormat:@"将加载%ld页内容,请确认!",
-                                                                                   self.threadViewManager.totalPages - self.threadViewManager.pageNumber]
+                                                                                   (long)(self.threadViewManager.totalPages - self.threadViewManager.pageNumber)]
                                                                          delegate:self
                                                                 cancelButtonTitle:@"取消"
                                                                 otherButtonTitles:@"确定", nil];
@@ -417,12 +424,25 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 - (IBAction)shareAction:(id)sender {
-    //create the thread link - hardcode it
-    NSString *threadLink = [[settingCentre share_post_url] stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long) self.threadViewManager.parentThread.ID]];
-    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[[NSURL URLWithString:threadLink]] applicationActivities:nil];
-    if ([activityViewController respondsToSelector:@selector(popoverPresentationController)])
-        activityViewController.popoverPresentationController.sourceView = self.view;
-    [self presentViewController:activityViewController animated:YES completion:nil];
+    // Create the thread link - at the moment I am hardcoding it.
+    czzThread *sharingThread = self.threadViewManager.parentThread;
+    if (sharingThread) {
+        NSString *sharingContent = sharingThread.content.string;
+        // If the sharing content is longer than 40 characters, chuncate it.
+        NSString *contentSummary = sharingContent.length > 100 ? [NSString stringWithFormat:@"%@...", [sharingContent substringToIndex:95]] : sharingContent;
+        // If not nil, put a breakpoint at the end.
+        if (contentSummary.length) {
+            contentSummary = [contentSummary stringByAppendingString:@"\n"];
+        } else {
+            contentSummary = @"";
+        }
+        NSString *threadLink = [[settingCentre share_post_url] stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long)sharingThread.ID]];
+        UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[contentSummary, [NSURL URLWithString:threadLink]]
+                                                                                             applicationActivities:nil];
+        if ([activityViewController respondsToSelector:@selector(popoverPresentationController)])
+            activityViewController.popoverPresentationController.sourceView = self.view;
+        [self presentViewController:activityViewController animated:YES completion:nil];
+    }
 }
 
 #pragma mark - prepare for segue
@@ -434,18 +454,35 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     }
 }
 
-#pragma mark - Rotation event.
+#pragma mark - Size change.
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [self.threadTableViewManager viewWillTransitionToSize];
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    [self.threadTableViewManager viewWillTransitionToSize:size
-                                withTransitionCoordinator:coordinator];
-    [self updateTableView];
 }
 
-#pragma mark - State perserving
-- (NSString*)saveCurrentState {
-    self.threadViewManager.currentOffSet = self.threadTableView.contentOffset;
-    return [self.threadViewManager saveCurrentState];
+#pragma mark - State perserving and restoration.
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
+    // Save the current thread.
+    [coder encodeObject:self.thread forKey:@"thread"];
+    [coder encodeObject:[NSValue valueWithCGPoint:self.threadTableView.contentOffset] forKey:@"TableViewContentOffset"];
+    [super encodeRestorableStateWithCoder:coder];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
+    [super decodeRestorableStateWithCoder:coder];
+    // Restore the thread.
+    self.thread = [coder decodeObjectForKey:@"thread"];
+    NSValue *contentOffsetValue;
+    if ([(contentOffsetValue = [coder decodeObjectForKey:@"TableViewContentOffset"]) isKindOfClass:[NSValue class]]) {
+        [self.threadTableView setContentOffset:contentOffsetValue.CGPointValue];
+    }
+}
+
+- (void)applicationFinishedRestoringState {
+    if (self.thread) {
+        [self commonInit];
+    }
 }
 
 +(instancetype)new {
