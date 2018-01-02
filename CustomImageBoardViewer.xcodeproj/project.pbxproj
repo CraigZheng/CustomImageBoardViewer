@@ -466,6 +466,7 @@
 		4479B07D1A0BB8E70074D484 /* czzTextViewHeightCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4479B07C1A0BB8E70074D484 /* czzTextViewHeightCalculator.m */; };
 		4479B08A1A0CCB270074D484 /* MiniThreadView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4479B0891A0CCB270074D484 /* MiniThreadView.storyboard */; };
 		4479B0901A0CCB6D0074D484 /* czzMiniThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4479B08F1A0CCB6D0074D484 /* czzMiniThreadViewController.m */; };
+		447C986A1FFBC28A00C8866F /* RoundCornerBorderedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 447C98691FFBC28900C8866F /* RoundCornerBorderedButton.swift */; };
 		447E06231BC2391900D24087 /* trash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 447E06221BC2391900D24087 /* trash@2x.png */; };
 		447E06261BC23C4200D24087 /* FavouriteManager.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 447E06251BC23C4200D24087 /* FavouriteManager.storyboard */; };
 		447E062B1BC2426900D24087 /* czzFavouriteManagerPopUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 447E062A1BC2426900D24087 /* czzFavouriteManagerPopUpViewController.m */; };
@@ -1398,6 +1399,7 @@
 		4479B0891A0CCB270074D484 /* MiniThreadView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MiniThreadView.storyboard; sourceTree = "<group>"; };
 		4479B08E1A0CCB6D0074D484 /* czzMiniThreadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzMiniThreadViewController.h; sourceTree = "<group>"; };
 		4479B08F1A0CCB6D0074D484 /* czzMiniThreadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzMiniThreadViewController.m; sourceTree = "<group>"; };
+		447C98691FFBC28900C8866F /* RoundCornerBorderedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundCornerBorderedButton.swift; sourceTree = "<group>"; };
 		447E06221BC2391900D24087 /* trash@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "trash@2x.png"; sourceTree = "<group>"; };
 		447E06251BC23C4200D24087 /* FavouriteManager.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FavouriteManager.storyboard; sourceTree = "<group>"; };
 		447E06291BC2426900D24087 /* czzFavouriteManagerPopUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFavouriteManagerPopUpViewController.h; sourceTree = "<group>"; };
@@ -3318,6 +3320,7 @@
 		44DF8EE01A74D6320097F7F5 /* czzCookieManagerViewController */ = {
 			isa = PBXGroup;
 			children = (
+				447C98691FFBC28900C8866F /* RoundCornerBorderedButton.swift */,
 				44DF8EE11A74D6600097F7F5 /* CookieManager.storyboard */,
 				44833DE41FFB9F1E00FA47EB /* QRCodeScannerViewController.swift */,
 				44DF8EDC1A74D62E0097F7F5 /* czzCookieManagerViewController.h */,
@@ -4621,6 +4624,7 @@
 				444A82D91ECB265000EE9BB1 /* String+CIV.swift in Sources */,
 				4416B72719413EAF00B69C5B /* FPTouchView.m in Sources */,
 				445C66381BBEC3DD004B3E83 /* UIView+Util.m in Sources */,
+				447C986A1FFBC28A00C8866F /* RoundCornerBorderedButton.swift in Sources */,
 				44CF25751A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.m in Sources */,
 				445C66331BBEC387004B3E83 /* CPLoadFromNibView.m in Sources */,
 				44CF25721A26F2E700BD8228 /* UIButton+Badge.m in Sources */,
