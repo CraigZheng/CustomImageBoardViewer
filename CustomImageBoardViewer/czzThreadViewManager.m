@@ -68,40 +68,12 @@ typedef enum : NSUInteger {
 
 #pragma mark - state perserving/restoring
 -(void)restorePreviousState {
-    NSString *cacheFile = [[czzAppDelegate threadCacheFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)self.parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
-    @try {
-        // If user doesn't want to use cache, don't attempt to restore.
-        if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
-            czzThreadViewManager *tempThreadList = [self restoreWithFile:cacheFile];
-            // Copy data, only restore it when the tempThreadList has more than 1 thread(counting the parent thread).
-            if ([tempThreadList isKindOfClass:[czzThreadViewManager class]]
-                && tempThreadList.threads.count > 1)
-            {
-                _parentThread = tempThreadList.parentThread; // Since there's a custom setter in this class, its better not to invoke it.
-                self.pageNumber = tempThreadList.pageNumber;
-                self.totalPages = tempThreadList.totalPages;
-                self.threads = tempThreadList.threads;
-                self.currentOffSet = tempThreadList.currentOffSet;
-                self.lastBatchOfThreads = tempThreadList.lastBatchOfThreads;
-                self.shouldHideImageForThisForum = tempThreadList.shouldHideImageForThisForum;
-                self.restoredFromCache = YES;
-                return;
-            }
-        }
-        self.restoredFromCache = NO;
-    }
-    @catch (NSException *exception) {
-        [[NSFileManager defaultManager] removeItemAtPath:cacheFile error:nil];
-        DDLogDebug(@"%@", exception);
-    }
+    // Restore previous page number.
+    self.pageNumber = [[NSUserDefaults standardUserDefaults] integerForKey:self.pageNumberKey] ?: 1;
 }
 
 -(NSString*)saveCurrentState {
-    DLog(@"");
-    NSString *cachePath = [[czzAppDelegate threadCacheFolder] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld%@", (long)self.parentThread.ID, SUB_THREAD_LIST_CACHE_FILE]];
-    if (self.threads.count > 1 && [NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
-        return cachePath;
-    }
+    [[NSUserDefaults standardUserDefaults] setInteger:self.pageNumber ?: 1 forKey:self.pageNumberKey];
     return nil;
 }
 
@@ -122,6 +94,10 @@ typedef enum : NSUInteger {
 }
 
 #pragma mark - getters
+- (NSString *)pageNumberKey {
+    return [[settingCentre a_isle_host] stringByAppendingString:[NSString stringWithFormat:@"%ld", self.parentThread.ID]];
+}
+
 - (NSString *)baseURLString {
     return [[settingCentre thread_content_host] stringByReplacingOccurrencesOfString:kParentID withString:self.parentID];
 }
@@ -296,7 +272,8 @@ typedef enum : NSUInteger {
 - (void)jumpToPage:(NSInteger)page {
     [self stopAllOperation];
     [self removeAll];
-    self.threads = self.cachedThreads = nil;
+    self.threads = nil;
+    self.cachedThreads = nil;
     self.loadingMode = ViewManagerLoadingModeJumpping;
     [self loadMoreThreads:page];
 }
