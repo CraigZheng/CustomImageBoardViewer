@@ -103,10 +103,8 @@ extension QRCodeScannerViewController: UIImagePickerControllerDelegate, UINaviga
             let ciImage = CIImage(image: pickedImage)
         {
             let parsedResult = performQRCodeDetection(ciImage)
-            if let last = parsedResult.last {
-                if !parseJsonString(last) {
-                    MessagePopup.showMessage(title: "QR code cannot be parsed, please try again", message: nil)
-                }
+            if let last = parsedResult.last, let cookieValue = czzCookieManager.sharedInstance().cookie(from: last) {
+                // TODO: what to do with the parsed cookie value?
             }
         }
         dismiss(animated: true, completion: nil)
@@ -121,10 +119,7 @@ extension QRCodeScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
             let readableObject = lastMetadataObject as? AVMetadataMachineReadableCodeObject
         {
             if (readableObject.type == AVMetadataObjectTypeQRCode) {
-                if parseJsonString(readableObject.stringValue) {
-                    captureSession?.stopRunning()
-                    return
-                }
+                // TODO: need to parse the captured string.
             }
         }
         if warningAlertController == nil {
@@ -136,18 +131,6 @@ extension QRCodeScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
             present(warningAlertController!, animated: true, completion: nil)
         }
     }
-    
-    func parseJsonString(_ jsonString: String) -> Bool {
-        // Construct a forum object with the scanned result.
-        if let jsonData = jsonString.data(using: String.Encoding.utf8),
-            let jsonDict = (try? JSONSerialization.jsonObject(with: jsonData,
-                                                              options: .allowFragments)) as? [String: AnyObject], !jsonString.isEmpty
-        {
-            // TODO: parse the JSON dictionary.
-        }
-        return false
-    }
-    
 }
 
 // MARK: Read from library
