@@ -8,8 +8,6 @@
 
 import Foundation
 
-import SwiftyJSON
-
 extension czzCookieManager {
     func cookie(from json: String) -> String? {
         guard let jsonData = json.data(using: String.Encoding.utf8),
