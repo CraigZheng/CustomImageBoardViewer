@@ -136,23 +136,12 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     
     self.navigationItem.backBarButtonItem.title = self.title;
     
-    // What to do when this view controller has completed loading.
-    __weak czzThreadViewController *weakSelf = self;
-    void (^onLoadAction)(void) = ^void(void) {
-        // If threads array contains nothing other than the parent thread.
-        if (weakSelf.threadViewManager.threads.count <=1 ) {
-            [weakSelf refreshThread:weakSelf];
-        } else {
-            [weakSelf.threadViewManager loadMoreThreads];
-        }
-    };
-    
     if (NavigationManager.isInTransition) {
         NavigationManager.pushAnimationCompletionHandler = ^{
-            onLoadAction();
+            [self.threadViewManager loadMoreThreads];
         };
     } else {
-        onLoadAction();
+        [self.threadViewManager loadMoreThreads];
     }
     // Google Analytic integration.
     [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Thread"

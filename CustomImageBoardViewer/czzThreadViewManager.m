@@ -25,13 +25,14 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) NSInteger previousPageNumber;
 @property (nonatomic, strong) czzMassiveThreadDownloader *massiveDownloader;
 @property (nonatomic, assign) ViewManagerLoadingMode loadingMode;
+@property (nonatomic, readonly) NSInteger totalPages;
 @end
 
 @implementation czzThreadViewManager
 @synthesize forum = _forum;
 @synthesize downloader = _downloader;
 @synthesize threads = _threads;
-@dynamic delegate;
+@dynamic delegate, totalPages;
 
 #pragma mark - life cycle.
 -(instancetype)initWithParentThread:(czzThread *)thread andForum:(czzForum *)forum{
@@ -91,26 +92,6 @@ typedef enum : NSUInteger {
             [WatchListManager addToWatchList:_parentThread];
         }
     }
-}
-
-#pragma mark - getters
-- (NSString *)pageNumberKey {
-    return [[settingCentre a_isle_host] stringByAppendingString:[NSString stringWithFormat:@"%ld", self.parentThread.ID]];
-}
-
-- (NSString *)baseURLString {
-    return [[settingCentre thread_content_host] stringByReplacingOccurrencesOfString:kParentID withString:self.parentID];
-}
-
-- (NSMutableArray *)threads {
-    // Should always include the parent thread.
-    if (!_threads) {
-        _threads = [NSMutableArray new];
-        if (self.parentThread) {
-            [_threads addObject:self.parentThread];
-        }
-    }
-    return _threads;
 }
 
 #pragma mark - czzMassiveThreadDownloaderDelegate
@@ -214,7 +195,7 @@ typedef enum : NSUInteger {
 
 #pragma mark - content managements.
 - (void)reset {
-    self.totalPages = self.pageNumber = 1;
+    self.pageNumber = 1;
     self.threads = self.cachedThreads = nil;
     self.pageNumberChanged = NO;
     self.loadingMode = ViewManagerLoadingModeNormal;
@@ -255,7 +236,7 @@ typedef enum : NSUInteger {
     // Determine whether or nor I should +1 to the given pageNumber.
     // If the downloaded response can be % by response_per_page, that means all is OK.
     NSInteger remainder = (self.threads.count - 1) % settingCentre.response_per_page;
-    if (remainder == 0) {
+    if (remainder == 0 && self.threads.count - 1 > 0) {
         [self loadMoreThreads:self.pageNumber + 1];
     } else {
         [self loadMoreThreads:self.pageNumber];
@@ -317,7 +298,31 @@ typedef enum : NSUInteger {
     return nil;
 }
 
-#pragma mark - Getter
+#pragma mark - Getters
+
+- (NSInteger)totalPages {
+    CGFloat totalPages = (CGFloat)self.parentThread.responseCount / (CGFloat)settingCentre.response_per_page;
+    return ceilf(totalPages);
+}
+
+- (NSString *)pageNumberKey {
+    return [[settingCentre a_isle_host] stringByAppendingString:[NSString stringWithFormat:@"%ld", self.parentThread.ID]];
+}
+
+- (NSString *)baseURLString {
+    return [[settingCentre thread_content_host] stringByReplacingOccurrencesOfString:kParentID withString:self.parentID];
+}
+
+- (NSMutableArray *)threads {
+    // Should always include the parent thread.
+    if (!_threads) {
+        _threads = [NSMutableArray new];
+        if (self.parentThread) {
+            [_threads addObject:self.parentThread];
+        }
+    }
+    return _threads;
+}
 
 - (czzThreadDownloader *)downloader {
     if (!_downloader) {
