@@ -15,6 +15,7 @@ pod 'SplunkMint'
 pod 'SwiftMessages'
 pod 'DZNEmptyDataSet'
 pod 'TTTAttributedLabel'
+pod 'SwiftyJSON'
 end
 
 target 'CustomImageBoardViewerTests' do
