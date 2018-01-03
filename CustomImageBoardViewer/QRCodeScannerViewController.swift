@@ -13,6 +13,7 @@ class QRCodeScannerViewController: UIViewController {
     @IBOutlet var cameraPreviewView: UIView!
     fileprivate var captureSession: AVCaptureSession?
     fileprivate var warningAlertController: UIAlertController?
+    fileprivate var capturedCookie: String?
     
     enum SegueIdentifier: String {
         case qrScanner, cookieDetail
@@ -104,7 +105,7 @@ extension QRCodeScannerViewController: UIImagePickerControllerDelegate, UINaviga
         {
             let parsedResult = performQRCodeDetection(ciImage)
             if let last = parsedResult.last, let cookieValue = czzCookieManager.sharedInstance().cookie(from: last) {
-                // TODO: what to do with the parsed cookie value?
+                capturedCookie = cookieValue
             }
         }
         dismiss(animated: true, completion: nil)
@@ -118,8 +119,11 @@ extension QRCodeScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
         if let lastMetadataObject = metadataObjects.last,
             let readableObject = lastMetadataObject as? AVMetadataMachineReadableCodeObject
         {
-            if (readableObject.type == AVMetadataObjectTypeQRCode) {
-                // TODO: need to parse the captured string.
+            if readableObject.type == AVMetadataObjectTypeQRCode,
+                let cookieValue = czzCookieManager.sharedInstance().cookie(from: readableObject.stringValue) {
+                capturedCookie = cookieValue
+                captureSession?.stopRunning()
+                return
             }
         }
         if warningAlertController == nil {

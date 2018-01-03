@@ -741,6 +741,7 @@
 		5AF85E681970025A0031D0CB /* czzSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF85E671970025A0031D0CB /* czzSearchViewController.m */; };
 		B760EE791FFC6ACB0022036B /* CookieDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760EE781FFC6ACB0022036B /* CookieDetailTableViewController.swift */; };
 		B760EE7B1FFC6D690022036B /* czzCookieManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760EE7A1FFC6D690022036B /* czzCookieManager.swift */; };
+		B760EE871FFCA7980022036B /* CookieTextInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760EE861FFCA7980022036B /* CookieTextInputViewController.swift */; };
 		B7B18CAF1FD0E5220093AB62 /* DummyTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18CAE1FD0E5220093AB62 /* DummyTestViewController.swift */; };
 		D85B3FC32F7080DE2E0F1FD8 /* Pods_CustomImageBoardViewer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311F31F622866C4E1133FA79 /* Pods_CustomImageBoardViewer.framework */; };
 /* End PBXBuildFile section */
@@ -1735,6 +1736,7 @@
 		AECEC532D9208769EFF63216 /* Pods-CustomImageBoardViewerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B760EE781FFC6ACB0022036B /* CookieDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookieDetailTableViewController.swift; sourceTree = "<group>"; };
 		B760EE7A1FFC6D690022036B /* czzCookieManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = czzCookieManager.swift; sourceTree = "<group>"; };
+		B760EE861FFCA7980022036B /* CookieTextInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CookieTextInputViewController.swift; sourceTree = "<group>"; };
 		B7B18CAE1FD0E5220093AB62 /* DummyTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyTestViewController.swift; sourceTree = "<group>"; };
 		CBC088D3BB7C0C6E358B9C38 /* Pods-CustomImageBoardViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -3325,6 +3327,7 @@
 		44DF8EE01A74D6320097F7F5 /* czzCookieManagerViewController */ = {
 			isa = PBXGroup;
 			children = (
+				B760EE861FFCA7980022036B /* CookieTextInputViewController.swift */,
 				447C98691FFBC28900C8866F /* RoundCornerBorderedButton.swift */,
 				44DF8EE11A74D6600097F7F5 /* CookieManager.storyboard */,
 				B760EE781FFC6ACB0022036B /* CookieDetailTableViewController.swift */,
@@ -4508,6 +4511,7 @@
 				442A901D19DB9C3C00A3516E /* HTMLNode.m in Sources */,
 				442F1FE21B15FC8500267698 /* UINavigationController+Util.m in Sources */,
 				44C73B8E1A484F280051D4C2 /* czzFavouriteManager.m in Sources */,
+				B760EE871FFCA7980022036B /* CookieTextInputViewController.swift in Sources */,
 				44CEF6311DD208C1002BA6E8 /* MessagePopup.swift in Sources */,
 				4448C2AA180FF6C600D2CD76 /* czzBlacklistSender.m in Sources */,
 				44858EAC1A0C5B0A00DD822B /* czzImageViewerUtil.m in Sources */,
