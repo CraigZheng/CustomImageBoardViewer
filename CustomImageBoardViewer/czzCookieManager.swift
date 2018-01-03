@@ -11,7 +11,7 @@ import Foundation
 import SwiftyJSON
 
 extension czzCookieManager {
-    func parseJson(_ jsonString: String) -> String {
-        return JSON(jsonString)["cookie"].stringValue
+    func cookie(from json: String) -> String {
+        return JSON(json)["cookie"].stringValue
     }
 }
