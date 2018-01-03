@@ -5,3 +5,4 @@
 #import "czzForumGroup.h"
 #import "czzThreadDownloader.h"
 #import "czzForumsViewController.h"
+#import "czzCookieManager.h"
