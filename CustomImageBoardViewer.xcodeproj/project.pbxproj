@@ -738,6 +738,7 @@
 		5ADCA46A1938F67F002BA60B /* ValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCA4691938F67F002BA60B /* ValueFormatter.m */; };
 		5AF85E681970025A0031D0CB /* czzSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF85E671970025A0031D0CB /* czzSearchViewController.m */; };
 		B7ABF0791FFF0F910071D939 /* UITableView+IndexPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7ABF0781FFF0F910071D939 /* UITableView+IndexPath.swift */; };
+		B7ABF07B1FFF295A0071D939 /* ContentPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7ABF07A1FFF295A0071D939 /* ContentPage.swift */; };
 		B7B18CAF1FD0E5220093AB62 /* DummyTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18CAE1FD0E5220093AB62 /* DummyTestViewController.swift */; };
 		D85B3FC32F7080DE2E0F1FD8 /* Pods_CustomImageBoardViewer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311F31F622866C4E1133FA79 /* Pods_CustomImageBoardViewer.framework */; };
 /* End PBXBuildFile section */
@@ -1729,6 +1730,7 @@
 		5AF85E671970025A0031D0CB /* czzSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzSearchViewController.m; sourceTree = "<group>"; };
 		AECEC532D9208769EFF63216 /* Pods-CustomImageBoardViewerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B7ABF0781FFF0F910071D939 /* UITableView+IndexPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+IndexPath.swift"; sourceTree = "<group>"; };
+		B7ABF07A1FFF295A0071D939 /* ContentPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentPage.swift; sourceTree = "<group>"; };
 		B7B18CAE1FD0E5220093AB62 /* DummyTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyTestViewController.swift; sourceTree = "<group>"; };
 		CBC088D3BB7C0C6E358B9C38 /* Pods-CustomImageBoardViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -2138,6 +2140,7 @@
 			children = (
 				44B89E851A2AFC6B0085F766 /* czzHomeViewManager.h */,
 				44B89E861A2AFC6B0085F766 /* czzHomeViewManager.m */,
+				B7ABF07A1FFF295A0071D939 /* ContentPage.swift */,
 				443141951A2B38D6007D65B3 /* czzThreadViewManager.h */,
 				443141961A2B38D6007D65B3 /* czzThreadViewManager.m */,
 				449E92821BF8A25F00EE2F58 /* czzThreadDownloader */,
@@ -4493,6 +4496,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7ABF07B1FFF295A0071D939 /* ContentPage.swift in Sources */,
 				4411B2EA1AFF472900E94A5B /* czzForumManager.m in Sources */,
 				442A901D19DB9C3C00A3516E /* HTMLNode.m in Sources */,
 				442F1FE21B15FC8500267698 /* UINavigationController+Util.m in Sources */,
