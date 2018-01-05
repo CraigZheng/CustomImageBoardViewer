@@ -34,6 +34,8 @@
 
 #import "UIImage+animatedGIF.h"
 
+#import "CustomImageBoardViewer-Swift.h"
+
 NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 @interface czzThreadViewController ()<UIAlertViewDelegate, czzThreadViewManagerDelegate>
@@ -138,10 +140,10 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     
     if (NavigationManager.isInTransition) {
         NavigationManager.pushAnimationCompletionHandler = ^{
-            [self.threadViewManager loadMoreThreads];
+            [self.threadViewManager loadMoreThreads:self.threadViewManager.pageNumber];
         };
     } else {
-        [self.threadViewManager loadMoreThreads];
+        [self.threadViewManager loadMoreThreads:self.threadViewManager.pageNumber];
     }
     // Google Analytic integration.
     [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Thread"
@@ -234,7 +236,11 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 -(void)dragOnRefreshControlAction:(id)sender{
+  if (self.threadViewManager.threads.firstObject.pageNumber > 1) {
+    [self.threadViewManager loadPreviousPage];
+  } else {
     [self refreshThread:self];
+  }
 }
 
 #pragma mark - jump to and download controls

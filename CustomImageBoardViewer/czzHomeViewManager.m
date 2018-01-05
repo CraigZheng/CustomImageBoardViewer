@@ -155,7 +155,7 @@
   if (self.downloader.isDownloading) {
     [self.downloader stop];
   }
-  pageNumber = MAX(0, MIN(self.totalPages, pageNumber));
+  pageNumber = MAX(1, MIN(self.totalPages, pageNumber));
   // Construct and start downloading for forum with page number,
   self.downloader.pageNumber = pageNumber;
   [self.downloader start];

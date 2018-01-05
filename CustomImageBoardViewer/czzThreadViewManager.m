@@ -33,7 +33,6 @@ typedef enum : NSUInteger {
 @implementation czzThreadViewManager
 @synthesize forum = _forum;
 @synthesize downloader = _downloader;
-@synthesize threads = _threads;
 @dynamic delegate, totalPages;
 
 #pragma mark - life cycle.
@@ -99,58 +98,67 @@ typedef enum : NSUInteger {
 #pragma mark - czzMassiveThreadDownloaderDelegate
 
 - (void)threadDownloaderCompleted:(czzThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads error:(NSError *)error {
-    NSInteger previousThreadCount = self.threads.count;
-    // Remove the parent thread for easier calculation.
-    if (downloader.parentThread.ID > 0)
-        self.parentThread = downloader.parentThread;
-    if (success && threads.count) {
-        // Remove any threads with ignored IDs.
-        for (NSNumber *ignoredID in settingCentre.ignoredThreadIDs) {
-            NSArray *threadsWithIgnoredID = [threads filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"ID == %ld", (long) ignoredID.longValue]];
-            if (threadsWithIgnoredID.count) {
-                NSMutableArray *mutableThreads = threads.mutableCopy;
-                [mutableThreads removeObjectsInArray:threadsWithIgnoredID];
-                threads = mutableThreads;
-            }
+  NSInteger previousThreadCount = self.threads.count;
+  // Remove the parent thread for easier calculation.
+  if (downloader.parentThread.ID > 0) {
+    self.parentThread = downloader.parentThread;
+  }
+  if (success) {
+    if (threads.count) {
+      // Remove any threads with ignored IDs.
+      for (NSNumber *ignoredID in settingCentre.ignoredThreadIDs) {
+        NSArray *threadsWithIgnoredID = [threads filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"ID == %ld", (long) ignoredID.longValue]];
+        if (threadsWithIgnoredID.count) {
+          NSMutableArray *mutableThreads = threads.mutableCopy;
+          [mutableThreads removeObjectsInArray:threadsWithIgnoredID];
+          threads = mutableThreads;
         }
+      }
       ContentPage *page = [[ContentPage alloc] init];
       page.threads = threads;
       page.pageNumber = downloader.pageNumber;
       page.forum = self.forum;
-      if (self.pageNumber == 1 && self.parentThread) {
+      if (downloader.pageNumber == 1 && self.parentThread) {
         NSMutableArray *firstPageThreads = threads.mutableCopy;
         [firstPageThreads insertObject:self.parentThread atIndex:0];
         threads = firstPageThreads;
         page.threads = threads;
-        [self.threads replaceObjectAtIndex:0 withObject:page];
-      } else {
+      }
+      if (self.threads.lastObject.pageNumber == downloader.pageNumber) {
+        [self.threads removeLastObject];
+      }
+      if (self.pageNumber < downloader.pageNumber) {
         [self.threads addObject:page];
+      } else {
+        [self.threads insertObject:page atIndex:0];
       }
       self.lastBatchOfThreads = threads;
     }
-    dispatch_async(dispatch_get_main_queue(), ^{
-        // If the downloader is a massive thread downloader, don't inform delegate about thread download completed event, because there could be more such events.
-        if ([downloader isKindOfClass:[czzMassiveThreadDownloader class]]) {
-            // For massive downloader, if the result is success but no new thread has been added, consider this as a failure.
-            if (success && previousThreadCount == self.threads.count) {
-                DLog(@"Massive downloader provided no new content, stopping...");
-                [self stopAllOperation];
-                if ([self.delegate respondsToSelector:@selector(homeViewManager:threadContentProcessed:newThreads:allThreads:)]) {
-                    [self.delegate homeViewManager:self
-                            threadContentProcessed:false
-                                        newThreads:self.lastBatchOfThreads
-                                        allThreads:self.threads];
-                }
-            }
-        } else {
-            if ([self.delegate respondsToSelector:@selector(homeViewManager:threadContentProcessed:newThreads:allThreads:)]) {
-                [self.delegate homeViewManager:self
-                        threadContentProcessed:success
-                                    newThreads:self.lastBatchOfThreads
-                                    allThreads:self.threads];
-            }
+    self.pageNumber = downloader.pageNumber;
+  }
+  dispatch_async(dispatch_get_main_queue(), ^{
+    // If the downloader is a massive thread downloader, don't inform delegate about thread download completed event, because there could be more such events.
+    if ([downloader isKindOfClass:[czzMassiveThreadDownloader class]]) {
+      // For massive downloader, if the result is success but no new thread has been added, consider this as a failure.
+      if (success && previousThreadCount == self.threads.count) {
+        DLog(@"Massive downloader provided no new content, stopping...");
+        [self stopAllOperation];
+        if ([self.delegate respondsToSelector:@selector(homeViewManager:threadContentProcessed:newThreads:allThreads:)]) {
+          [self.delegate homeViewManager:self
+                  threadContentProcessed:false
+                              newThreads:self.lastBatchOfThreads
+                              allThreads:self.threads];
         }
-    });
+      }
+    } else {
+      if ([self.delegate respondsToSelector:@selector(homeViewManager:threadContentProcessed:newThreads:allThreads:)]) {
+        [self.delegate homeViewManager:self
+                threadContentProcessed:success
+                            newThreads:self.lastBatchOfThreads
+                            allThreads:self.threads];
+      }
+    }
+  });
 }
 
 - (void)massiveDownloaderUpdated:(czzMassiveThreadDownloader *)downloader {
@@ -211,13 +219,10 @@ typedef enum : NSUInteger {
 }
 
 - (void)loadMoreThreads {
-  // Determine whether or nor I should +1 to the given pageNumber.
-  // If the downloaded response can be % by response_per_page, that means all is OK.
-  NSInteger remainder = (self.threads.lastObject.count - 1) % settingCentre.response_per_page;
-  if (remainder == 0 && self.threads.lastObject.count - 1 > 0) {
-    [self loadMoreThreads:self.pageNumber + 1];
+  if (self.threads.lastObject.count >= settingCentre.response_per_page) {
+    [self loadMoreThreads:self.threads.lastObject.pageNumber + 1];
   } else {
-    [self loadMoreThreads:self.pageNumber];
+    [self loadMoreThreads:self.threads.lastObject.pageNumber];
   }
 }
 
@@ -289,20 +294,6 @@ typedef enum : NSUInteger {
 
 - (NSString *)baseURLString {
     return [[settingCentre thread_content_host] stringByReplacingOccurrencesOfString:kParentID withString:self.parentID];
-}
-
-- (NSMutableArray<ContentPage *> *)threads {
-  if (!_threads) {
-    _threads = [[NSMutableArray alloc] init];
-    if (self.parentThread) {
-      ContentPage *page = [[ContentPage alloc] init];
-      page.threads = @[self.parentThread];
-      page.pageNumber = 1;
-      page.forum = self.forum;
-      [_threads addObject:page];
-    }
-  }
-  return _threads;
 }
 
 - (czzThreadDownloader *)downloader {
