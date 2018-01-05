@@ -39,6 +39,7 @@
 
 #import <CoreText/CoreText.h>
 
+#import "CustomImageBoardViewer-Swift.h"
 
 @interface czzHomeViewController() <UIAlertViewDelegate, UIStateRestoring, SlideNavigationControllerDelegate>
 @property (strong, nonatomic) NSString *thumbnailFolder;

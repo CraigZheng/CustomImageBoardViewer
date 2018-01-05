@@ -121,7 +121,7 @@
     }
     czzThread *selectedThread;
     @try {
-        NSArray* threads = self.homeViewManager.threads[indexPath.section];
+        NSArray* threads = self.homeViewManager.threads[indexPath.section].threads;
         if (indexPath.row < threads.count) {
             selectedThread = [threads objectAtIndex:indexPath.row];
             if (![settingCentre shouldAllowOpenBlockedThread]) {
@@ -184,8 +184,8 @@ estimatedHeightForRowAtIndexPath:indexPath];
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat estimatedHeight = 44.0;
-    if (indexPath.row < self.homeViewManager.threads.count) {
-        czzThread *thread = self.homeViewManager.threads[indexPath.section][indexPath.row];
+    if (indexPath.row < self.homeViewManager.threads[indexPath.section].count) {
+        czzThread *thread = self.homeViewManager.threads[indexPath.section].threads[indexPath.row];
         if (self.contentEstimatedHeights[@(thread.ID)]) {
             estimatedHeight = [self.contentEstimatedHeights[@(thread.ID)] floatValue];
         } else {
@@ -297,7 +297,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
   }
   
   NSString *cell_identifier = settingCentre.userDefShouldUseBigImage ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
-  czzThread *thread = self.homeViewManager.threads[indexPath.section][indexPath.row];
+  czzThread *thread = self.homeViewManager.threads[indexPath.section].threads[indexPath.row];
   czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
   if (cell){
     cell.delegate = self;
@@ -368,7 +368,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
         // Get indexPath, then the corresponding threads from it.
         NSIndexPath *indexPath = [self.homeTableView indexPathForCell:cell];
         if (indexPath && indexPath.row < self.homeViewManager.threads.count) {
-            NSString *imgURL = [self.homeViewManager.threads[indexPath.section][indexPath.row] imgSrc];
+            NSString *imgURL = [self.homeViewManager.threads[indexPath.section].threads[indexPath.row] imgSrc];
             if (imgURL.length) {
                 // If image exists
                 if ([[czzImageCacheManager sharedInstance] hasImageWithName:imgURL.lastPathComponent]) {
@@ -498,8 +498,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
   @try {
     if (self.homeTableView.window) {
       NSIndexPath *lastVisibleIndexPath = [self.homeTableView indexPathsForVisibleRows].lastObject;
-      if (lastVisibleIndexPath.row == self.homeViewManager.threads.lastObject.count)
-      {
+      if (lastVisibleIndexPath.row == self.homeViewManager.threads.lastObject.threads.count) {
         CGPoint contentOffSet = self.homeTableView.contentOffset;
         CGRect lastCellRect = [self.homeTableView rectForRowAtIndexPath:lastVisibleIndexPath];
         if (lastCellRect.origin.y + lastCellRect.size.height + padding < contentOffSet.y + self.homeTableView.frame.size.height) {
@@ -547,7 +546,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
 - (NSString *)modelIdentifierForElementAtIndexPath:(NSIndexPath *)indexPath inView:(UIView *)view {
     if (indexPath.row < self.homeViewManager.threads[indexPath.section].count) {
         // Return thread ID.
-        return [NSString stringWithFormat:@"%ld", (long)[self.homeViewManager.threads[indexPath.section][indexPath.row] ID]];
+        return [NSString stringWithFormat:@"%ld", (long)[self.homeViewManager.threads[indexPath.section].threads[indexPath.row] ID]];
     } else {
         // Last row.
         return @"lastRow";

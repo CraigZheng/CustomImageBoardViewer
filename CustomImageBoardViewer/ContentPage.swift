@@ -12,4 +12,7 @@ class ContentPage: NSObject {
   var threads: [czzThread] = []
   var pageNumber: Int = 0
   var forum: czzForum?
+  var count: Int {
+    return threads.count
+  }
 }

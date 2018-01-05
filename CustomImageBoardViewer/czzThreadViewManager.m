@@ -15,6 +15,8 @@
 #import "czzMarkerManager.h"
 #import "NSArray+Splitting.h"
 
+#import "CustomImageBoardViewer-Swift.h"
+
 typedef enum : NSUInteger {
     ViewManagerLoadingModeNormal,
     ViewManagerLoadingModeJumpping
@@ -111,13 +113,18 @@ typedef enum : NSUInteger {
                 threads = mutableThreads;
             }
         }
+      ContentPage *page = [[ContentPage alloc] init];
+      page.threads = threads;
+      page.pageNumber = downloader.pageNumber;
+      page.forum = self.forum;
       if (self.pageNumber == 1 && self.parentThread) {
         NSMutableArray *firstPageThreads = threads.mutableCopy;
         [firstPageThreads insertObject:self.parentThread atIndex:0];
         threads = firstPageThreads;
-        [self.threads replaceObjectAtIndex:0 withObject:threads];
+        page.threads = threads;
+        [self.threads replaceObjectAtIndex:0 withObject:page];
       } else {
-        [self.threads addObject:threads];
+        [self.threads addObject:page];
       }
       self.lastBatchOfThreads = threads;
     }
@@ -284,11 +291,15 @@ typedef enum : NSUInteger {
     return [[settingCentre thread_content_host] stringByReplacingOccurrencesOfString:kParentID withString:self.parentID];
 }
 
-- (NSMutableArray<NSArray<czzThread *> *> *)threads {
+- (NSMutableArray<ContentPage *> *)threads {
   if (!_threads) {
     _threads = [[NSMutableArray alloc] init];
     if (self.parentThread) {
-      [_threads addObject:@[self.parentThread]];
+      ContentPage *page = [[ContentPage alloc] init];
+      page.threads = @[self.parentThread];
+      page.pageNumber = 1;
+      page.forum = self.forum;
+      [_threads addObject:page];
     }
   }
   return _threads;

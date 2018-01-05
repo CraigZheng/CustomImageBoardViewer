@@ -14,6 +14,8 @@
 #import "CustomImageBoardViewer-Swift.h"
 #import <Google/Analytics.h>
 
+#import "CustomImageBoardViewer-Swift.h"
+
 @interface czzHomeViewManager ()
 @property (nonatomic, readonly) NSString *cacheFile;
 @property (nonatomic, assign) BOOL isDownloading;
@@ -203,29 +205,33 @@
 }
 
 - (void)threadDownloaderCompleted:(czzThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads error:(NSError *)error {
-    if (success){
-        if (downloader == self.latestResponseDownloader) {
-            self.latestResponses = threads;
-        } else {
-            self.latestResponses = nil;
-            self.cachedThreads = nil;
-            if (self.shouldHideImageForThisForum)
-            {
-                for (czzThread *thread in threads) {
-                    thread.thImgSrc = nil;
-                }
-            }
-            self.lastBatchOfThreads = threads;
-            // Add to total threads.
-            [self.threads addObject:threads];
+  if (success){
+    ContentPage *page = [[ContentPage alloc] init];
+    page.threads = threads;
+    page.pageNumber = downloader.pageNumber;
+    page.forum = self.forum;
+    if (downloader == self.latestResponseDownloader) {
+      self.latestResponses = page;
+    } else {
+      self.latestResponses = nil;
+      self.cachedThreads = nil;
+      if (self.shouldHideImageForThisForum)
+      {
+        for (czzThread *thread in threads) {
+          thread.thImgSrc = nil;
         }
+      }
+      self.lastBatchOfThreads = threads;
+      // Add to total threads.
+      [self.threads addObject:page];
     }
-    if ([self.delegate respondsToSelector:@selector(homeViewManager:threadListProcessed:newThreads:allThreads:)]) {
-        [self.delegate homeViewManager:self threadListProcessed:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
-    }
-    if ([self.delegate respondsToSelector:@selector(homeViewManager:downloadSuccessful:)]) {
-        [self.delegate homeViewManager:self downloadSuccessful:success];
-    }
+  }
+  if ([self.delegate respondsToSelector:@selector(homeViewManager:threadListProcessed:newThreads:allThreads:)]) {
+    [self.delegate homeViewManager:self threadListProcessed:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
+  }
+  if ([self.delegate respondsToSelector:@selector(homeViewManager:downloadSuccessful:)]) {
+    [self.delegate homeViewManager:self downloadSuccessful:success];
+  }
 }
 
 - (void)pageNumberUpdated:(NSInteger)currentPage allPage:(NSInteger)allPage {
@@ -274,7 +280,7 @@
     return DEFAULT_THREAD_LIST_CACHE_FILE;
 }
 
-- (NSMutableArray<NSArray<czzThread *> *> *)threads {
+- (NSMutableArray<ContentPage *> *)threads {
   if (self.isShowingLatestResponse && self.latestResponses.count) {
     return @[self.latestResponses].mutableCopy;
   }

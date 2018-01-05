@@ -14,6 +14,8 @@
 #import "czzReplyUtil.h"
 #import "czzMarkerManager.h"
 
+#import "CustomImageBoardViewer-Swift.h"
+
 @interface czzThreadTableViewManager ()
 @property (nonatomic, strong) PartialTransparentView *containerView;
 @property (nonatomic, assign) CGPoint threadsTableViewContentOffSet;
@@ -101,7 +103,7 @@
     UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     // If within the range of threads, is a thread view cell, otherwise is a command cell.
     if (indexPath.row < self.threadViewManager.threads[indexPath.section].count) {
-        czzThread *thread = self.threadViewManager.threads[indexPath.section][indexPath.row];
+        czzThread *thread = self.threadViewManager.threads[indexPath.section].threads[indexPath.row];
         // Thread view cell
         if ([cell isKindOfClass:[czzMenuEnabledTableViewCell class]]){
             czzMenuEnabledTableViewCell *threadViewCell = (czzMenuEnabledTableViewCell*)cell;
