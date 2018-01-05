@@ -318,7 +318,11 @@
 
 #pragma mark - self.refreshControl and download controls
 -(void)dragOnRefreshControlAction:(id)sender{
+  if (self.homeViewManager.threads.firstObject.pageNumber > 1) {
+    [self.homeViewManager loadPreviousPage];
+  } else {
     [self.homeViewManager refresh];
+  }
 }
 
 #pragma Notification handler - forumPicked

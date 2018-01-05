@@ -54,22 +54,23 @@
 @property (nonatomic, strong) czzThreadDownloader *downloader;
 @property (nonatomic, assign) BOOL isShowingLatestResponse;
 
--(void)refresh;
--(void)reloadData;
--(void)loadMoreThreads;
--(void)loadMoreThreads:(NSInteger)pageNumber;
+- (void)refresh;
+- (void)reloadData;
+- (void)loadPreviousPage;
+- (void)loadMoreThreads;
+- (void)loadMoreThreads:(NSInteger)pageNumber;
 - (void)loadLatestResponse;
--(void)removeAll;
-//-(void)calculateHeightsForThreads:(NSArray*)newThreads;
--(void)scrollToContentOffset:(CGPoint)offset;
+- (void)removeAll;
+
+- (void)scrollToContentOffset:(CGPoint)offset;
 - (void)showContentWithThread:(czzThread*)thread;
 - (void)highlightUID:(NSString *)UID;
 - (void)blockUID:(NSString *)UID;
 
 //save and restore
--(NSString*)saveCurrentState;
--(void)restorePreviousState;
+- (NSString*)saveCurrentState;
+- (void)restorePreviousState;
 
-+(instancetype)sharedManager;
-+(void)setSharedManager:(czzHomeViewManager*)manager;
++ (instancetype)sharedManager;
++ (void)setSharedManager:(czzHomeViewManager*)manager;
 @end

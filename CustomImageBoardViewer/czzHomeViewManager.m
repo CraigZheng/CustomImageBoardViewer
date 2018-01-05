@@ -126,27 +126,39 @@
                                                                                          value:@1] build]];
 }
 
--(void)loadMoreThreads {
+- (void)loadPreviousPage {
+  if (self.threads.firstObject.pageNumber > 1) {
+    [self loadMoreThreads:self.threads.firstObject.pageNumber - 1];
+  } else {
+    [self refresh];
+  }
+}
+
+- (void)loadMoreThreads {
+  if (self.threads.lastObject) {
+    [self loadMoreThreads:self.threads.lastObject.pageNumber +1 ];
+  } else {
     [self loadMoreThreads:self.pageNumber + 1];
+  }
 }
 
 -(void)loadMoreThreads:(NSInteger)pageNumber {
-    if (!self.forum) {
-        DDLogDebug(@"Forum not set, cannot load more.");
-        return;
-    }
-#ifdef UNITTEST
-    NSData *mockData = [[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"threadList" ofType:@"json"]]];
-    [self downloadOf:nil successed:YES result:mockData];
+  if (!self.forum) {
+    DDLogDebug(@"Forum not set, cannot load more.");
     return;
+  }
+#ifdef UNITTEST
+  NSData *mockData = [[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"threadList" ofType:@"json"]]];
+  [self downloadOf:nil successed:YES result:mockData];
+  return;
 #endif
-    if (self.downloader.isDownloading)
-        [self.downloader stop];
-    if (pageNumber > self.totalPages)
-        pageNumber = self.totalPages;
-    // Construct and start downloading for forum with page number,
-    self.downloader.pageNumber = pageNumber;
-    [self.downloader start];
+  if (self.downloader.isDownloading) {
+    [self.downloader stop];
+  }
+  pageNumber = MAX(0, MIN(self.totalPages, pageNumber));
+  // Construct and start downloading for forum with page number,
+  self.downloader.pageNumber = pageNumber;
+  [self.downloader start];
 }
 
 -(void)removeAll {
@@ -223,7 +235,12 @@
       }
       self.lastBatchOfThreads = threads;
       // Add to total threads.
-      [self.threads addObject:page];
+      if (self.pageNumber < downloader.pageNumber) {
+        [self.threads addObject:page];
+      } else {
+        [self.threads insertObject:page atIndex:0];
+      }
+      self.pageNumber = downloader.pageNumber;
     }
   }
   if ([self.delegate respondsToSelector:@selector(homeViewManager:threadListProcessed:newThreads:allThreads:)]) {
@@ -236,7 +253,6 @@
 
 - (void)pageNumberUpdated:(NSInteger)currentPage allPage:(NSInteger)allPage {
     DDLogDebug(@"%s : %ld/%ld", __PRETTY_FUNCTION__, (long)currentPage, (long)allPage);
-    self.pageNumber = currentPage;
     self.totalPages = allPage;
 }
 
