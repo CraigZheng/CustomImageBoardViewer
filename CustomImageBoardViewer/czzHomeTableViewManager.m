@@ -323,13 +323,15 @@ estimatedHeightForRowAtIndexPath:indexPath];
     cell.cellType = threadViewCellTypeHome;
     cell.cellHeaderView.pageNumberLabel.text = nil;
     // If next page is not consistent with current page.
-    if (indexPath.section - 1 >= 0) {
-      ContentPage *previousPage = self.homeViewManager.threads[indexPath.section - 1];
-      if (previousPage.pageNumber + 1 != page.pageNumber && thread == page.threads.firstObject) {
-        cell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"%ld 至 %ld 页的内容已跳过", (long)previousPage.pageNumber + 1, (long)page.pageNumber - 1];
+    if (thread == page.threads.firstObject) {
+      if (indexPath.section - 1 >= 0) {
+        ContentPage *previousPage = self.homeViewManager.threads[indexPath.section - 1];
+        if (previousPage.pageNumber + 1 != page.pageNumber) {
+          cell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"%ld 至 %ld 页的内容已跳过", (long)previousPage.pageNumber + 1, (long)page.pageNumber - 1];
+        }
+      } else if (page.pageNumber > 1) {
+        cell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"1 至 %ld 页的内容已跳过", (long)page.pageNumber - 1];
       }
-    } else if (page.pageNumber > 1) {
-      cell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"%1 至 %ld 页的内容已跳过", (long)page.pageNumber - 1];
     }
     cell.thread = thread;
     if ([self isMemberOfClass:[czzHomeTableViewManager class]]) {
