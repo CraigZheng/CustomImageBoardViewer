@@ -115,9 +115,11 @@ typedef enum : NSUInteger {
         NSMutableArray *firstPageThreads = threads.mutableCopy;
         [firstPageThreads insertObject:self.parentThread atIndex:0];
         threads = firstPageThreads;
+        [self.threads replaceObjectAtIndex:0 withObject:threads];
+      } else {
+        [self.threads addObject:threads];
       }
       self.lastBatchOfThreads = threads;
-      [self.threads setObject:threads forKey:[NSString stringWithFormat:@"%ld", (long)downloader.pageNumber - 1]];
     }
     dispatch_async(dispatch_get_main_queue(), ^{
         // If the downloader is a massive thread downloader, don't inform delegate about thread download completed event, because there could be more such events.
@@ -204,12 +206,8 @@ typedef enum : NSUInteger {
 - (void)loadMoreThreads {
   // Determine whether or nor I should +1 to the given pageNumber.
   // If the downloaded response can be % by response_per_page, that means all is OK.
-  NSString *lastKey = [[self.threads.allKeys sortedArrayUsingComparator:^NSComparisonResult(NSString  * _Nonnull key1, NSString * _Nonnull key2) {
-    return key1.integerValue > key2.integerValue ? NSOrderedAscending : NSOrderedDescending;
-  }] lastObject];
-  
-  NSInteger remainder = (self.threads[lastKey].count - 1) % settingCentre.response_per_page;
-  if (remainder == 0 && self.threads[lastKey].count - 1 > 0) {
+  NSInteger remainder = (self.threads.lastObject.count - 1) % settingCentre.response_per_page;
+  if (remainder == 0 && self.threads.lastObject.count - 1 > 0) {
     [self loadMoreThreads:self.pageNumber + 1];
   } else {
     [self loadMoreThreads:self.pageNumber];
@@ -279,18 +277,18 @@ typedef enum : NSUInteger {
 }
 
 - (NSString *)pageNumberKey {
-    return [[settingCentre a_isle_host] stringByAppendingString:[NSString stringWithFormat:@"%ld", self.parentThread.ID]];
+    return [[settingCentre a_isle_host] stringByAppendingString:[NSString stringWithFormat:@"%ld", (long)self.parentThread.ID]];
 }
 
 - (NSString *)baseURLString {
     return [[settingCentre thread_content_host] stringByReplacingOccurrencesOfString:kParentID withString:self.parentID];
 }
 
-- (NSMutableDictionary<NSString *,NSArray<czzThread *> *> *)threads {
+- (NSMutableArray<NSArray<czzThread *> *> *)threads {
   if (!_threads) {
-    _threads = [[NSMutableDictionary alloc] init];
+    _threads = [[NSMutableArray alloc] init];
     if (self.parentThread) {
-      [_threads setObject:@[self.parentThread] forKey:@"0"];
+      [_threads addObject:@[self.parentThread]];
     }
   }
   return _threads;

@@ -42,15 +42,15 @@
 @property (nonatomic, strong) czzForum *forum;
 @property (nonatomic, assign) NSInteger pageNumber;
 @property (nonatomic, assign) NSInteger totalPages;
-@property (nonatomic, strong) NSMutableDictionary<NSString *, NSArray<czzThread *> *> *threads;
+@property (nonatomic, strong) NSMutableArray<NSArray<czzThread *> *> *threads;
 @property (nonatomic, strong) NSArray *lastBatchOfThreads;
 @property (nonatomic, weak) id<czzHomeViewManagerDelegate> delegate;
 @property (nonatomic, readonly) BOOL isDownloading;
 @property (nonatomic, readonly) NSString *baseURLString;
 @property (nonatomic, assign) CGPoint currentOffSet;
 @property (nonatomic, strong) czzThread *displayedThread;
-@property (nonatomic, strong) NSMutableDictionary<NSString *, NSArray<czzThread *> *> *cachedThreads;
-@property (nonatomic, strong) NSArray *latestResponses;
+@property (nonatomic, strong) NSMutableArray<NSArray<czzThread *> *> *cachedThreads;
+@property (nonatomic, strong) NSArray<czzThread *> *latestResponses;
 @property (nonatomic, strong) czzThreadDownloader *downloader;
 @property (nonatomic, assign) BOOL isShowingLatestResponse;
 
