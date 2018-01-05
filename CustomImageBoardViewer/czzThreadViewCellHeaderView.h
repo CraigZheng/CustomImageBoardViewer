@@ -16,5 +16,6 @@ IB_DESIGNABLE
 @property (strong, nonatomic) NSString *parentUID;
 @property (strong, nonatomic) UIColor *highlightColour;
 @property (strong, nonatomic) NSString *nickname;
+@property (weak, nonatomic) IBOutlet UILabel *pageNumberLabel;
 
 @end

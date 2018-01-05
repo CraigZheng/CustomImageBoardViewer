@@ -29,7 +29,7 @@
 #import "czzBigImageModeTableViewCell.h"
 #import "czzForumsViewController.h"
 #import <ImageIO/ImageIO.h>
-
+#import "czzThreadViewCellHeaderView.h"
 #import "CustomImageBoardViewer-Swift.h"
 
 @import DZNEmptyDataSet;
@@ -297,7 +297,8 @@ estimatedHeightForRowAtIndexPath:indexPath];
   }
   
   NSString *cell_identifier = settingCentre.userDefShouldUseBigImage ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
-  czzThread *thread = self.homeViewManager.threads[indexPath.section].threads[indexPath.row];
+  ContentPage *page = self.homeViewManager.threads[indexPath.section];
+  czzThread *thread = page.threads[indexPath.row];
   czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
   if (cell){
     cell.delegate = self;
@@ -320,6 +321,16 @@ estimatedHeightForRowAtIndexPath:indexPath];
     cell.nightyMode = [settingCentre userDefNightyMode];
     cell.bigImageMode = [settingCentre userDefShouldUseBigImage];
     cell.cellType = threadViewCellTypeHome;
+    cell.cellHeaderView.pageNumberLabel.text = nil;
+    // If next page is not consistent with current page.
+    if (indexPath.section - 1 >= 0) {
+      ContentPage *previousPage = self.homeViewManager.threads[indexPath.section - 1];
+      if (previousPage.pageNumber + 1 != page.pageNumber && thread == page.threads.firstObject) {
+        cell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"%ld 至 %ld 页的内容已跳过", (long)previousPage.pageNumber + 1, (long)page.pageNumber - 1];
+      }
+    } else if (page.pageNumber > 1) {
+      cell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"%1 至 %ld 页的内容已跳过", (long)page.pageNumber - 1];
+    }
     cell.thread = thread;
     if ([self isMemberOfClass:[czzHomeTableViewManager class]]) {
       [cell renderContent];
