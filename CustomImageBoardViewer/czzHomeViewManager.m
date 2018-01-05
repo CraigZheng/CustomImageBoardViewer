@@ -146,12 +146,13 @@
 }
 
 -(void)removeAll {
-    self.pageNumber = 1;
-    // Keep old threads in the cache
-    self.cachedThreads = self.threads;
-    
-    // Clear all.
-    self.lastBatchOfThreads = self.threads = nil;
+  self.pageNumber = 1;
+  // Keep old threads in the cache
+  self.cachedThreads = self.threads;
+  
+  // Clear all.
+  self.lastBatchOfThreads = nil;
+  self.threads = nil;
 }
 
 - (void)scrollToContentOffset:(CGPoint)offset {
@@ -214,7 +215,7 @@
             }
             self.lastBatchOfThreads = threads;
             // Add to total threads.
-            [self.threads addObjectsFromArray:threads];
+            [self.threads setObject:threads forKey:[NSString stringWithFormat:@"%ld", (long)downloader.pageNumber - 1]];
         }
     }
     if ([self.delegate respondsToSelector:@selector(homeViewManager:threadListProcessed:newThreads:allThreads:)]) {
@@ -271,17 +272,17 @@
     return DEFAULT_THREAD_LIST_CACHE_FILE;
 }
 
-- (NSMutableArray *)threads {
-    if (self.isShowingLatestResponse && self.latestResponses.count) {
-        return self.latestResponses.mutableCopy;
-    }
-    if (!_threads) {
-        _threads = [NSMutableArray new];
-    }
-    if (!_threads.count && self.cachedThreads.count) {
-        return self.cachedThreads.mutableCopy;
-    }
-    return _threads;
+- (NSMutableDictionary<NSString *,NSArray<czzThread *> *> *)threads {
+  if (self.isShowingLatestResponse && self.latestResponses.count) {
+    return self.latestResponses;
+  }
+  if (!_threads) {
+    _threads = [[NSMutableDictionary alloc] init];
+  }
+  if (!_threads.count && self.cachedThreads.count) {
+    return self.cachedThreads.mutableCopy;
+  }
+  return _threads;
 }
 
 #pragma mark - NSCoding

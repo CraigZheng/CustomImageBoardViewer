@@ -101,7 +101,7 @@
     UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     // If within the range of threads, is a thread view cell, otherwise is a command cell.
     if (indexPath.row < self.threadViewManager.threads.count) {
-        czzThread *thread = [self.threadViewManager.threads objectAtIndex:indexPath.row];
+        czzThread *thread = [self.threadViewManager.threads[[NSString stringWithFormat:@"%ld", (long)indexPath]] objectAtIndex:indexPath.row];
         // Thread view cell
         if ([cell isKindOfClass:[czzMenuEnabledTableViewCell class]]){
             czzMenuEnabledTableViewCell *threadViewCell = (czzMenuEnabledTableViewCell*)cell;
@@ -153,6 +153,8 @@
 
 #pragma mark - czzMenuEnableTableViewCellDelegate
 - (void)userTapInQuotedText:(NSString *)text {
+  // TODO: the index path is not available right now.
+  /*
     // Text cannot be parsed to an integer, return...
     text = [text componentsSeparatedByString:@"/"].lastObject;
     NSInteger threadID = text.integerValue;
@@ -182,6 +184,7 @@
 
     // Thread not found in the downloaded thread, get it from server instead.
     [super userTapInQuotedText:text];
+   */
 }
 
 - (void)userWantsToTemporarilyHighlightUser:(NSString *)UID {

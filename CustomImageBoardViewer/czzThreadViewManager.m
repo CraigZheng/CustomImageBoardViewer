@@ -99,9 +99,6 @@ typedef enum : NSUInteger {
 - (void)threadDownloaderCompleted:(czzThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads error:(NSError *)error {
     NSInteger previousThreadCount = self.threads.count;
     // Remove the parent thread for easier calculation.
-    if (self.parentThread) {
-        [self.threads removeObject:self.parentThread];
-    }
     if (downloader.parentThread.ID > 0)
         self.parentThread = downloader.parentThread;
     if (success && threads.count) {
@@ -116,39 +113,12 @@ typedef enum : NSUInteger {
         }
         
         self.lastBatchOfThreads = threads;
-        if (self.threads.count == 0) {
-            [self.threads addObjectsFromArray:threads];
-        } else {
-            // If the current threads is enought to fill all pages, either append to the end or replace the last page.
-            if (self.threads.count % settingCentre.response_per_page == 0) {
-                // Check previous pageNumber and totalPages, because the current pageNumber and totalPages would both be updated by [self loadMoreThreads:].
-                if (self.previousPageNumber >= downloader.pageNumber) {
-                    // If previousPageNumber is the same as the current pageNumber, replace the last page.
-                    NSMutableArray *pages = [self.threads arraysBySplittingWithSize:settingCentre.response_per_page].mutableCopy;
-                    [pages replaceObjectAtIndex:[pages indexOfObject:pages.lastObject] withObject:threads];
-                    NSMutableArray *tempThreads = [NSMutableArray new];
-                    for (NSArray *page in pages) {
-                        [tempThreads addObjectsFromArray:page];
-                    }
-                    self.threads = tempThreads;
-                } else {
-                    [self.threads addObjectsFromArray:threads];
-                }
-            } else {
-                // If the current threads is not enough to fill all pages, replace the last page.
-                NSMutableArray *pages = [self.threads arraysBySplittingWithSize:settingCentre.response_per_page].mutableCopy;
-                [pages replaceObjectAtIndex:[pages indexOfObject:pages.lastObject] withObject:threads];
-                NSMutableArray *tempThreads = [NSMutableArray new];
-                for (NSArray *page in pages) {
-                    [tempThreads addObjectsFromArray:page];
-                }
-                self.threads = tempThreads;
-            }
-        }
+      [self.threads setObject:threads forKey:[NSString stringWithFormat:@"%ld", (long)downloader.pageNumber - 1]];
     }
     // Add back the parent thread.
     if (self.parentThread) {
-        [self.threads insertObject:self.parentThread atIndex:0];
+      // TODO: insert self.parentThread to the first page.
+//        [self.threads insertObject:self.parentThread atIndex:0];
     }
     dispatch_async(dispatch_get_main_queue(), ^{
         // If the downloader is a massive thread downloader, don't inform delegate about thread download completed event, because there could be more such events.
@@ -313,15 +283,11 @@ typedef enum : NSUInteger {
     return [[settingCentre thread_content_host] stringByReplacingOccurrencesOfString:kParentID withString:self.parentID];
 }
 
-- (NSMutableArray *)threads {
-    // Should always include the parent thread.
-    if (!_threads) {
-        _threads = [NSMutableArray new];
-        if (self.parentThread) {
-            [_threads addObject:self.parentThread];
-        }
-    }
-    return _threads;
+- (NSMutableDictionary<NSString *,NSArray<czzThread *> *> *)threads {
+  if (!_threads) {
+    _threads = [[NSMutableDictionary alloc] init];
+  }
+  return _threads;
 }
 
 - (czzThreadDownloader *)downloader {
