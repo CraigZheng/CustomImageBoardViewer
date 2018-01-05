@@ -490,30 +490,30 @@ estimatedHeightForRowAtIndexPath:indexPath];
 #pragma mark - Getters 
 
 - (BOOL)tableViewIsDraggedOverTheBottom {
-    return [self tableViewIsDraggedOverTheBottomWithPadding:44];
+  return [self tableViewIsDraggedOverTheBottomWithPadding:44];
 }
 
 - (BOOL)tableViewIsDraggedOverTheBottomWithPadding:(CGFloat)padding {
-    BOOL isOver = NO;
-    @try {
-        if (self.homeTableView.window) {
-            NSIndexPath *lastVisibleIndexPath = [self.homeTableView indexPathsForVisibleRows].lastObject;
-          if (lastVisibleIndexPath.row == self.homeViewManager.threads[[NSString stringWithFormat:@"%ld", (long)self.homeTableView.lastSection]].count)
-            {
-                CGPoint contentOffSet = self.homeTableView.contentOffset;
-                CGRect lastCellRect = [self.homeTableView rectForRowAtIndexPath:lastVisibleIndexPath];
-                if (lastCellRect.origin.y + lastCellRect.size.height + padding < contentOffSet.y + self.homeTableView.frame.size.height) {
-                    isOver = YES;
-                } else {
-                    isOver = NO;
-                }
-            }
+  BOOL isOver = NO;
+  @try {
+    if (self.homeTableView.window) {
+      NSIndexPath *lastVisibleIndexPath = [self.homeTableView indexPathsForVisibleRows].lastObject;
+      if (lastVisibleIndexPath.row == self.homeViewManager.threads[[NSString stringWithFormat:@"%ld", (long)self.homeTableView.lastSection]].count)
+      {
+        CGPoint contentOffSet = self.homeTableView.contentOffset;
+        CGRect lastCellRect = [self.homeTableView rectForRowAtIndexPath:lastVisibleIndexPath];
+        if (lastCellRect.origin.y + lastCellRect.size.height + padding < contentOffSet.y + self.homeTableView.frame.size.height) {
+          isOver = YES;
+        } else {
+          isOver = NO;
         }
+      }
     }
-    @catch (NSException *exception) {
-        DDLogDebug(@"%@", exception);
-    }
-    return isOver;
+  }
+  @catch (NSException *exception) {
+    DDLogDebug(@"%@", exception);
+  }
+  return isOver;
 }
 
 - (NSIndexPath *)lastRowIndexPath {
