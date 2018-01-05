@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -15,7 +15,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="63"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="回应:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="FPw-rn-U0L">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="回应:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="FPw-rn-U0L">
                     <rect key="frame" x="271" y="0.0" width="29" height="15.5"/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -31,14 +31,14 @@
                         <constraint firstAttribute="height" constant="2" id="UM1-KT-N5e"/>
                     </constraints>
                 </view>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="7" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FORUM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MMS-4i-5x5">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="7" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="FORUM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MMS-4i-5x5">
                     <rect key="frame" x="20" y="0.0" width="44" height="15"/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <color key="textColor" red="0.80000000000000004" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chat.png" translatesAutoresizingMaskIntoConstraints="NO" id="n0O-9p-sO5">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="chat.png" translatesAutoresizingMaskIntoConstraints="NO" id="n0O-9p-sO5">
                     <rect key="frame" x="247" y="-2.5" width="20" height="20.5"/>
                     <color key="tintColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
@@ -46,24 +46,18 @@
                         <constraint firstAttribute="width" constant="20" id="odV-Hd-hUm"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="8" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已锁" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZvU-eb-HhT">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="8" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="已锁" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZvU-eb-HhT">
                     <rect key="frame" x="112" y="0.0" width="25" height="15"/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <color key="textColor" red="0.80000000000000004" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="7" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SAGE" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5YC-Lj-4Xo">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="7" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="SAGE" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5YC-Lj-4Xo">
                     <rect key="frame" x="72" y="0.0" width="32" height="15"/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <color key="textColor" red="0.80000000000000004" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Page: 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ChM-kF-Vey">
-                    <rect key="frame" x="138.5" y="19" width="44" height="38"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                    <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
@@ -71,15 +65,12 @@
             <constraints>
                 <constraint firstItem="FPw-rn-U0L" firstAttribute="leading" secondItem="n0O-9p-sO5" secondAttribute="trailing" constant="4" id="4R9-NV-cbj"/>
                 <constraint firstAttribute="trailing" secondItem="fBS-Bu-94n" secondAttribute="trailing" id="97S-Jp-hjV"/>
-                <constraint firstItem="ChM-kF-Vey" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="BjX-TS-zO8"/>
                 <constraint firstItem="ZvU-eb-HhT" firstAttribute="centerY" secondItem="5YC-Lj-4Xo" secondAttribute="centerY" id="MfP-3e-xb2"/>
                 <constraint firstItem="MMS-4i-5x5" firstAttribute="centerY" secondItem="5YC-Lj-4Xo" secondAttribute="centerY" id="Q8e-KL-TJK"/>
                 <constraint firstItem="FPw-rn-U0L" firstAttribute="centerY" secondItem="ZvU-eb-HhT" secondAttribute="centerY" id="StC-Rr-wqI"/>
                 <constraint firstItem="fBS-Bu-94n" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" priority="250" id="T8L-gC-pfP"/>
-                <constraint firstItem="ChM-kF-Vey" firstAttribute="top" secondItem="5YC-Lj-4Xo" secondAttribute="bottom" priority="750" constant="4" id="WeG-Gb-P0c"/>
                 <constraint firstAttribute="trailing" secondItem="FPw-rn-U0L" secondAttribute="trailing" constant="20" symbolic="YES" id="X9t-a0-gzC"/>
-                <constraint firstItem="fBS-Bu-94n" firstAttribute="top" relation="greaterThanOrEqual" secondItem="5YC-Lj-4Xo" secondAttribute="bottom" priority="750" constant="4" id="Ye6-co-qVH"/>
-                <constraint firstItem="fBS-Bu-94n" firstAttribute="top" secondItem="ChM-kF-Vey" secondAttribute="bottom" constant="4" id="akI-Fq-gwj"/>
+                <constraint firstItem="fBS-Bu-94n" firstAttribute="top" secondItem="5YC-Lj-4Xo" secondAttribute="bottom" priority="750" constant="4" id="Ye6-co-qVH"/>
                 <constraint firstAttribute="bottom" secondItem="fBS-Bu-94n" secondAttribute="bottom" id="cIb-iG-5xa"/>
                 <constraint firstItem="fBS-Bu-94n" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="eXU-oU-VDZ"/>
                 <constraint firstItem="MMS-4i-5x5" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="mZH-Va-MDd"/>
@@ -95,7 +86,6 @@
                 <outlet property="chatImageView" destination="n0O-9p-sO5" id="oJx-UK-P6v"/>
                 <outlet property="forumLabel" destination="MMS-4i-5x5" id="EQa-Th-aws"/>
                 <outlet property="lockedLabel" destination="ZvU-eb-HhT" id="XNg-rT-5ka"/>
-                <outlet property="pageNumberLabel" destination="ChM-kF-Vey" id="tBc-1F-Bxc"/>
                 <outlet property="responseCountLabel" destination="FPw-rn-U0L" id="pGr-J5-yGF"/>
                 <outlet property="sageLabel" destination="5YC-Lj-4Xo" id="0Lt-VW-DOS"/>
             </connections>
@@ -105,4 +95,9 @@
     <resources>
         <image name="chat.png" width="48" height="48"/>
     </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
+    </simulatedMetricsContainer>
 </document>

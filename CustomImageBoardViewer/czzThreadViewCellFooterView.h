@@ -11,7 +11,7 @@
 
 IB_DESIGNABLE
 @interface czzThreadViewCellFooterView : CPLoadFromNibView
-@property (weak, nonatomic) IBOutlet UILabel *pageNumberLabel;
+
 @property (strong, nonatomic) czzThread *thread;
 @property (assign, readonly) BOOL isHidden;
 @end
