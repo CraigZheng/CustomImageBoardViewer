@@ -100,8 +100,8 @@
 {
     UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     // If within the range of threads, is a thread view cell, otherwise is a command cell.
-    if (indexPath.row < self.threadViewManager.threads.count) {
-        czzThread *thread = [self.threadViewManager.threads[[NSString stringWithFormat:@"%ld", (long)indexPath]] objectAtIndex:indexPath.row];
+    if (indexPath.row < self.threadViewManager.threads[[NSString stringWithFormat:@"%ld", (long)indexPath.section]].count) {
+        czzThread *thread = [self.threadViewManager.threads[[NSString stringWithFormat:@"%ld", (long)indexPath.section]] objectAtIndex:indexPath.row];
         // Thread view cell
         if ([cell isKindOfClass:[czzMenuEnabledTableViewCell class]]){
             czzMenuEnabledTableViewCell *threadViewCell = (czzMenuEnabledTableViewCell*)cell;

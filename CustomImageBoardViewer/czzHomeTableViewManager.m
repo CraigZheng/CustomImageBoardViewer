@@ -136,15 +136,11 @@
     @catch (NSException *exception) {
         DDLogDebug(@"%@", exception);
     }
-    if (indexPath.row < self.homeViewManager.threads.count)
-    {
-        //@todo open the selected thread
+    if (selectedThread) {
         czzThreadViewController *threadViewController = [czzThreadViewController new];
         threadViewController.thread = selectedThread;
         [NavigationManager pushViewController:threadViewController animated:YES];
-    }
-    // If not downloading or processing, load more threads.
-    else if (!self.homeViewManager.isDownloading) {
+    } else if (!self.homeViewManager.isDownloading) {
         self.homeViewManager.isShowingLatestResponse ? [self.homeViewManager loadLatestResponse] : [self.homeViewManager loadMoreThreads];
         self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
     }
