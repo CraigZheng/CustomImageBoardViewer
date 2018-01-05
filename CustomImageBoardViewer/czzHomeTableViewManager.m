@@ -269,62 +269,63 @@ estimatedHeightForRowAtIndexPath:indexPath];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-  // TODO: return status cell for last section
-//    if (self.homeViewManager.threads.count > 0)
-//        return self.homeViewManager.threads.count + 1;
-    return self.homeViewManager.threads[[NSString stringWithFormat:@"%ld", (long)section]].count;
+  NSInteger rowsCount = self.homeViewManager.threads[[NSString stringWithFormat:@"%ld", (long)section]].count;
+  if (section == [self numberOfSectionsInTableView:tableView] - 1) {
+    rowsCount += 1;
+  }
+  return rowsCount;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-  // TODO: return status cell for last section + last row
-//    if (indexPath.row >= self.homeViewManager.threads.count) {
-//        //Last row
-//        NSString *lastCellIdentifier = THREAD_TABLEVIEW_COMMAND_CELL_IDENTIFIER;
-//        czzThreadTableViewCommandCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:lastCellIdentifier forIndexPath:indexPath];
-//        cell.commandStatusViewController = self.homeTableView.lastCellCommandViewController;
-//        cell.commandStatusViewController.homeViewManager = self.homeViewManager;
-//        self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
-//        if (self.homeViewManager.pageNumber == self.homeViewManager.totalPages) {
-//            self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeNoMore;
-//        }
-//        if (self.homeViewManager.isDownloading) {
-//            self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
-//        }
-//
-//        cell.backgroundColor = [settingCentre viewBackgroundColour];
-//        return cell;
-//    }
-  
-    NSString *cell_identifier = settingCentre.userDefShouldUseBigImage ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
-    czzThread *thread = self.homeViewManager.threads[[NSString stringWithFormat:@"%ld", (long)indexPath.section]][indexPath.row];
-    czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
-    if (cell){
-        cell.delegate = self;
-        if ([[czzMarkerManager sharedInstance] isHighlighted:thread.UID]) {
-            cell.highlightColour = [[czzMarkerManager sharedInstance] highlightColourForUID:thread.UID];
-            cell.nickname = [[czzMarkerManager sharedInstance] nicknameForUID:thread.UID];
-        } else {
-            cell.highlightColour = nil;
-            cell.nickname = nil;
-        }
-        if ([[czzMarkerManager sharedInstance] isUIDBlocked:thread.UID]) {
-            cell.shouldBlock = YES;
-            cell.allowImage = NO;
-            cell.highlightColour = [UIColor lightGrayColor];
-        } else {
-            cell.shouldBlock = NO;
-            cell.allowImage = [settingCentre userDefShouldDisplayThumbnail];
-        }
-        cell.myIndexPath = indexPath;
-        cell.nightyMode = [settingCentre userDefNightyMode];
-        cell.bigImageMode = [settingCentre userDefShouldUseBigImage];
-        cell.cellType = threadViewCellTypeHome;
-        cell.thread = thread;
-        if ([self isMemberOfClass:[czzHomeTableViewManager class]]) {
-            [cell renderContent];
-        }
+  // Last section + last row.
+  if (indexPath.section >= [self numberOfSectionsInTableView:tableView] - 1 &&
+      indexPath.row >= [self tableView:tableView numberOfRowsInSection:indexPath.section] - 1) {
+    NSString *lastCellIdentifier = THREAD_TABLEVIEW_COMMAND_CELL_IDENTIFIER;
+    czzThreadTableViewCommandCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:lastCellIdentifier forIndexPath:indexPath];
+    cell.commandStatusViewController = self.homeTableView.lastCellCommandViewController;
+    cell.commandStatusViewController.homeViewManager = self.homeViewManager;
+    self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
+    if (self.homeViewManager.pageNumber == self.homeViewManager.totalPages) {
+      self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeNoMore;
     }
+    if (self.homeViewManager.isDownloading) {
+      self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
+    }
+    
+    cell.backgroundColor = [settingCentre viewBackgroundColour];
     return cell;
+  }
+  
+  NSString *cell_identifier = settingCentre.userDefShouldUseBigImage ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
+  czzThread *thread = self.homeViewManager.threads[[NSString stringWithFormat:@"%ld", (long)indexPath.section]][indexPath.row];
+  czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
+  if (cell){
+    cell.delegate = self;
+    if ([[czzMarkerManager sharedInstance] isHighlighted:thread.UID]) {
+      cell.highlightColour = [[czzMarkerManager sharedInstance] highlightColourForUID:thread.UID];
+      cell.nickname = [[czzMarkerManager sharedInstance] nicknameForUID:thread.UID];
+    } else {
+      cell.highlightColour = nil;
+      cell.nickname = nil;
+    }
+    if ([[czzMarkerManager sharedInstance] isUIDBlocked:thread.UID]) {
+      cell.shouldBlock = YES;
+      cell.allowImage = NO;
+      cell.highlightColour = [UIColor lightGrayColor];
+    } else {
+      cell.shouldBlock = NO;
+      cell.allowImage = [settingCentre userDefShouldDisplayThumbnail];
+    }
+    cell.myIndexPath = indexPath;
+    cell.nightyMode = [settingCentre userDefNightyMode];
+    cell.bigImageMode = [settingCentre userDefShouldUseBigImage];
+    cell.cellType = threadViewCellTypeHome;
+    cell.thread = thread;
+    if ([self isMemberOfClass:[czzHomeTableViewManager class]]) {
+      [cell renderContent];
+    }
+  }
+  return cell;
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -352,8 +353,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     // If user released while the scrollView is dragged up over the threshold, and view manager still has unloaded page, reload the view manager.
     if (!self.homeViewManager.isDownloading &&
-        // TODO: comeback and enable lastCellType later.
-//        self.homeTableView.lastCellType == czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore &&
+        self.homeTableView.lastCellType == czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore &&
         self.homeViewManager.pageNumber < self.homeViewManager.totalPages) {
         [self.homeViewManager loadMoreThreads];
         self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
@@ -498,7 +498,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
     @try {
         if (self.homeTableView.window) {
             NSIndexPath *lastVisibleIndexPath = [self.homeTableView indexPathsForVisibleRows].lastObject;
-            if (lastVisibleIndexPath.row == self.homeViewManager.threads.count)
+          if (lastVisibleIndexPath.row == self.homeViewManager.threads[[NSString stringWithFormat:@"%ld", (long)self.homeTableView.lastSection]].count)
             {
                 CGPoint contentOffSet = self.homeTableView.contentOffset;
                 CGRect lastCellRect = [self.homeTableView rectForRowAtIndexPath:lastVisibleIndexPath];
