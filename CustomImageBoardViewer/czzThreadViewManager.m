@@ -104,36 +104,34 @@ typedef enum : NSUInteger {
     self.parentThread = downloader.parentThread;
   }
   if (success) {
-    if (threads.count) {
-      // Remove any threads with ignored IDs.
-      for (NSNumber *ignoredID in settingCentre.ignoredThreadIDs) {
-        NSArray *threadsWithIgnoredID = [threads filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"ID == %ld", (long) ignoredID.longValue]];
-        if (threadsWithIgnoredID.count) {
-          NSMutableArray *mutableThreads = threads.mutableCopy;
-          [mutableThreads removeObjectsInArray:threadsWithIgnoredID];
-          threads = mutableThreads;
-        }
+    // Remove any threads with ignored IDs.
+    for (NSNumber *ignoredID in settingCentre.ignoredThreadIDs) {
+      NSArray *threadsWithIgnoredID = [threads filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"ID == %ld", (long) ignoredID.longValue]];
+      if (threadsWithIgnoredID.count) {
+        NSMutableArray *mutableThreads = threads.mutableCopy;
+        [mutableThreads removeObjectsInArray:threadsWithIgnoredID];
+        threads = mutableThreads;
       }
-      ContentPage *page = [[ContentPage alloc] init];
-      page.threads = threads;
-      page.pageNumber = downloader.pageNumber;
-      page.forum = self.forum;
-      if (downloader.pageNumber == 1 && self.parentThread) {
-        NSMutableArray *firstPageThreads = threads.mutableCopy;
-        [firstPageThreads insertObject:self.parentThread atIndex:0];
-        threads = firstPageThreads;
-        page.threads = threads;
-      }
-      if (self.threads.lastObject.pageNumber == downloader.pageNumber) {
-        [self.threads removeLastObject];
-      }
-      if (self.pageNumber < downloader.pageNumber) {
-        [self.threads addObject:page];
-      } else {
-        [self.threads insertObject:page atIndex:0];
-      }
-      self.lastBatchOfThreads = threads;
     }
+    ContentPage *page = [[ContentPage alloc] init];
+    page.threads = threads;
+    page.pageNumber = downloader.pageNumber;
+    page.forum = self.forum;
+    if (downloader.pageNumber == 1 && self.parentThread) {
+      NSMutableArray *firstPageThreads = threads.mutableCopy;
+      [firstPageThreads insertObject:self.parentThread atIndex:0];
+      threads = firstPageThreads;
+      page.threads = threads;
+    }
+    if (self.threads.lastObject.pageNumber == downloader.pageNumber) {
+      [self.threads removeLastObject];
+    }
+    if (self.pageNumber < downloader.pageNumber) {
+      [self.threads addObject:page];
+    } else {
+      [self.threads insertObject:page atIndex:0];
+    }
+    self.lastBatchOfThreads = threads;
     self.pageNumber = downloader.pageNumber;
   }
   dispatch_async(dispatch_get_main_queue(), ^{
