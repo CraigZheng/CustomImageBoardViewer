@@ -327,12 +327,14 @@ estimatedHeightForRowAtIndexPath:indexPath];
       if (indexPath.section - 1 >= 0) {
         ContentPage *previousPage = self.homeViewManager.threads[indexPath.section - 1];
         if (previousPage.pageNumber + 1 != page.pageNumber) {
-          cell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"%ld 至 %ld 页的内容已跳过", (long)previousPage.pageNumber + 1, (long)page.pageNumber - 1];
+          cell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"上面还有第 %ld 至 %ld 页的内容", (long)previousPage.pageNumber + 1, (long)page.pageNumber - 1];
         }
       } else if (page.pageNumber > 1) {
-        cell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"1 至 %ld 页的内容已跳过", (long)page.pageNumber - 1];
+        cell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"上面还有第 1 至 %ld 页的内容", (long)page.pageNumber - 1];
       }
     }
+    cell.cellHeaderView.brokenLinkIcon.hidden = !cell.cellHeaderView.pageNumberLabel.text.length;
+    cell.cellHeaderView.pageNumberLabelBackgroundView.hidden = cell.cellHeaderView.brokenLinkIcon.hidden;
     cell.thread = thread;
     if ([self isMemberOfClass:[czzHomeTableViewManager class]]) {
       [cell renderContent];

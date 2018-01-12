@@ -30,8 +30,12 @@
 @implementation czzThreadViewCellHeaderView
 
 - (void)awakeFromNib {
-    [super awakeFromNib];
-    self.flagImageView.image = [[UIImage imageNamed:@"flag"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+  [super awakeFromNib];
+  self.flagImageView.image = [[UIImage imageNamed:@"flag"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+  self.brokenLinkIcon.image = [self.brokenLinkIcon.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+  self.pageNumberLabel.text = nil;
+  self.brokenLinkIcon.hidden = YES;
+  self.pageNumberLabelBackgroundView.hidden = YES;
 }
 
 #pragma mark - Setters
