@@ -75,44 +75,40 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
 }
 
 -(instancetype)init {
-    self = [super init];
-    if (self) {
-        //default settings
-      NSString *filePath = [[NSBundle mainBundle] pathForResource:@"default_configuration" ofType:@"json"];
-      NSData *JSONData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
-      self.configurationJSONData = JSONData;
-        self.userDefShouldAutoOpenImage = YES;
-        self.userDefShouldDisplayThumbnail = YES;
-        self.userDefShouldCacheData = YES;
-        self.userDefShouldHighlightPO = YES;
-        self.userDefShouldShowOnScreenCommand = YES;
-        self.userDefShouldUseBigImage = NO;
-        self.userDefNightyMode = NO;
-        self.userDefShouldCleanCaches = NO;
-        self.userDefShouldAutoDownloadImage = NO;
-        self.userDefShouldCollapseLongContent = NO;
-        self.userDefShouldShowDraft = YES;
-        shouldAllowOpenBlockedThread = YES;
-        self.threadTextSize = TextSizeDefault;
-        self.shouldShowImageManagerButton = YES;
-        self.ignoredThreadIDs = [NSArray new];
-      self.userDefActiveHost = SettingsHostAC;
-      
-        donationLink = @"";
-        threads_per_page = 10;
-        response_per_page = 20;
-        self.long_thread_threshold = 200;
-        self.upload_image_pixel_limit = 5595136; // iPad pro resolution: 2732 x 2048;
-        
-        //Dart settings
-        should_allow_dart = NO;
-      
-        // Restore previous settings
-        [self restoreSettings];
-        // Download and scheduel.
-        [self downloadSettings];
-    }
-    return self;
+  self = [super init];
+  if (self) {
+    //default settings
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"default_configuration" ofType:@"json"];
+    NSData *JSONData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
+    _configurationJSONData = JSONData;
+    _userDefShouldAutoOpenImage = YES;
+    _userDefShouldDisplayThumbnail = YES;
+    _userDefShouldCacheData = YES;
+    _userDefShouldHighlightPO = YES;
+    _userDefShouldShowOnScreenCommand = YES;
+    _userDefShouldUseBigImage = NO;
+    _userDefNightyMode = NO;
+    _userDefShouldCleanCaches = NO;
+    _userDefShouldAutoDownloadImage = NO;
+    _userDefShouldCollapseLongContent = NO;
+    _userDefShouldShowDraft = YES;
+    shouldAllowOpenBlockedThread = YES;
+    _threadTextSize = TextSizeDefault;
+    _shouldShowImageManagerButton = YES;
+    _ignoredThreadIDs = [NSArray new];
+    _userDefActiveHost = SettingsHostAC;
+    
+    donationLink = @"";
+    threads_per_page = 10;
+    response_per_page = 20;
+    _long_thread_threshold = 200;
+    _upload_image_pixel_limit = 5595136; // iPad pro resolution: 2732 x 2048;
+    should_allow_dart = NO;
+    
+    [self restoreSettings];
+    [self downloadSettings];
+  }
+  return self;
 }
 
 -(void)scheduleRefreshSettings {
@@ -129,101 +125,108 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
 }
 
 -(void)saveSettings {
-    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    [userDefault setBool:self.userDefShouldDisplayThumbnail forKey:kDisplayThumbnail];
-    [userDefault setBool:self.userDefShouldShowOnScreenCommand forKey:kShowOnScreenCommand];
-    [userDefault setBool:self.userDefShouldAutoOpenImage forKey:kAutoOpenImage];
-    [userDefault setBool:self.userDefShouldCacheData forKey:kCacheData];
-    [userDefault setBool:self.userDefShouldHighlightPO forKey:kHighLightPO];
-    [userDefault setBool:self.userDefShouldUseBigImage forKey:kBigImageMode];
-    [userDefault setBool:self.userDefNightyMode forKey:kNightyMode];
-    [userDefault setBool:self.userDefShouldCleanCaches forKey:kAutoClean];
-    [userDefault setBool:self.userDefShouldAutoDownloadImage forKey:kAutoDownloadImage];
-    [userDefault setBool:self.userDefShouldCollapseLongContent forKey:kShouldCollapseLongContent];
-    [userDefault setInteger:self.threadTextSize forKey:kTextSize];
-    [userDefault setBool:self.shouldShowImageManagerButton forKey:kShouldShowImageManagerButton];
-    [userDefault setBool:self.userDefShouldShowDraft forKey:kShouldShowDraft];
-    [userDefault synchronize];
-    // Post a notification about the settings changed.
-    [[NSNotificationCenter defaultCenter] postNotificationName:settingsChangedNotification
-                                                        object:nil];
+  NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+  [userDefault setBool:self.userDefShouldDisplayThumbnail forKey:kDisplayThumbnail];
+  [userDefault setBool:self.userDefShouldShowOnScreenCommand forKey:kShowOnScreenCommand];
+  [userDefault setBool:self.userDefShouldAutoOpenImage forKey:kAutoOpenImage];
+  [userDefault setBool:self.userDefShouldCacheData forKey:kCacheData];
+  [userDefault setBool:self.userDefShouldHighlightPO forKey:kHighLightPO];
+  [userDefault setBool:self.userDefShouldUseBigImage forKey:kBigImageMode];
+  [userDefault setBool:self.userDefNightyMode forKey:kNightyMode];
+  [userDefault setBool:self.userDefShouldCleanCaches forKey:kAutoClean];
+  [userDefault setBool:self.userDefShouldAutoDownloadImage forKey:kAutoDownloadImage];
+  [userDefault setBool:self.userDefShouldCollapseLongContent forKey:kShouldCollapseLongContent];
+  [userDefault setInteger:self.threadTextSize forKey:kTextSize];
+  [userDefault setBool:self.shouldShowImageManagerButton forKey:kShouldShowImageManagerButton];
+  [userDefault setBool:self.userDefShouldShowDraft forKey:kShouldShowDraft];
+  [userDefault setInteger:self.userDefActiveHost forKey:kActiveHost];
+  [userDefault synchronize];
+  // Post a notification about the settings changed.
+  [[NSNotificationCenter defaultCenter] postNotificationName:settingsChangedNotification
+                                                      object:nil];
 }
 
 
 - (void)restoreSettings {
-    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    if ([userDefault objectForKey:kDisplayThumbnail]) {
-        self.userDefShouldDisplayThumbnail = [userDefault boolForKey:kDisplayThumbnail];
-    }
-    if ([userDefault objectForKey:kShowOnScreenCommand]) {
-        self.userDefShouldShowOnScreenCommand = [userDefault boolForKey:kShowOnScreenCommand];
-    }
-    if ([userDefault objectForKey:kAutoOpenImage]) {
-        self.userDefShouldAutoOpenImage = [userDefault boolForKey:kAutoOpenImage];
-    }
-    if ([userDefault objectForKey:kCacheData]) {
-        self.userDefShouldCacheData = [userDefault boolForKey:kCacheData];
-    }
-    if ([userDefault objectForKey:kHighLightPO]) {
-        self.userDefShouldHighlightPO = [userDefault boolForKey:kHighLightPO];
-    }
-    if ([userDefault objectForKey:kBigImageMode]) {
-        self.userDefShouldUseBigImage = [userDefault boolForKey:kBigImageMode];
-    }
-    if ([userDefault objectForKey:kNightyMode]) {
-        self.userDefNightyMode = [userDefault boolForKey:kNightyMode];
-    }
-    if ([userDefault objectForKey:kAutoClean]) {
-        self.userDefShouldCleanCaches = [userDefault boolForKey:kAutoClean];
-    }
-    if ([userDefault objectForKey:kShouldCollapseLongContent]) {
-        self.userDefShouldCollapseLongContent = [userDefault boolForKey:kShouldCollapseLongContent];
-    }
-    if ([userDefault objectForKey:kTextSize]) {
-        self.threadTextSize = [userDefault integerForKey:kTextSize];
-    }
-    self.userDefShouldAutoDownloadImage = [userDefault boolForKey:kAutoDownloadImage];
-    if ([userDefault objectForKey:kShouldShowImageManagerButton]) {
-        self.shouldShowImageManagerButton = [userDefault boolForKey:kShouldShowImageManagerButton];
-    }
-    if ([userDefault objectForKey:kShouldShowDraft]) {
-        self.userDefShouldShowDraft = [userDefault boolForKey:kShouldShowDraft];
-    }
-    // Google analytics.
-    id<GAITracker> defaultTracker = [[GAI sharedInstance] defaultTracker];
-    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
-                                                                 action:@"Display Thumbnail"
-                                                                  label:[self stringWithBoolean:self.userDefShouldDisplayThumbnail]
-                                                                  value:@1] build]];
-    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
-                                                                 action:@"Display Quick Scroll"
-                                                                  label:[self stringWithBoolean:self.userDefShouldShowOnScreenCommand]
-                                                                  value:@1] build]];
-    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
-                                                                 action:@"Auto Open Downloaded Image"
-                                                                  label:[self stringWithBoolean:self.userDefShouldAutoOpenImage]
-                                                                  value:@1] build]];
-    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
-                                                                 action:@"Big Image Mode"
-                                                                  label:[self stringWithBoolean:self.userDefShouldUseBigImage]
-                                                                  value:@1] build]];
-    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
-                                                                 action:@"Nighty Mode"
-                                                                  label:[self stringWithBoolean:self.userDefNightyMode]
-                                                                  value:@1] build]];
-    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
-                                                                 action:@"Auto Download Image"
-                                                                  label:[self stringWithBoolean:self.userDefShouldAutoDownloadImage]
-                                                                  value:@1] build]];
-    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
-                                                                 action:@"Collapse Long Content"
-                                                                  label:[self stringWithBoolean:self.userDefShouldCollapseLongContent]
-                                                                  value:@1] build]];
-    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
-                                                                 action:@"Show Image Manager Button"
-                                                                  label:[self stringWithBoolean:self.shouldShowImageManagerButton]
-                                                                  value:@1] build]];
-    
+  NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+  if ([userDefault objectForKey:kDisplayThumbnail]) {
+    self.userDefShouldDisplayThumbnail = [userDefault boolForKey:kDisplayThumbnail];
+  }
+  if ([userDefault objectForKey:kShowOnScreenCommand]) {
+    self.userDefShouldShowOnScreenCommand = [userDefault boolForKey:kShowOnScreenCommand];
+  }
+  if ([userDefault objectForKey:kAutoOpenImage]) {
+    self.userDefShouldAutoOpenImage = [userDefault boolForKey:kAutoOpenImage];
+  }
+  if ([userDefault objectForKey:kCacheData]) {
+    self.userDefShouldCacheData = [userDefault boolForKey:kCacheData];
+  }
+  if ([userDefault objectForKey:kHighLightPO]) {
+    self.userDefShouldHighlightPO = [userDefault boolForKey:kHighLightPO];
+  }
+  if ([userDefault objectForKey:kBigImageMode]) {
+    self.userDefShouldUseBigImage = [userDefault boolForKey:kBigImageMode];
+  }
+  if ([userDefault objectForKey:kNightyMode]) {
+    self.userDefNightyMode = [userDefault boolForKey:kNightyMode];
+  }
+  if ([userDefault objectForKey:kAutoClean]) {
+    self.userDefShouldCleanCaches = [userDefault boolForKey:kAutoClean];
+  }
+  if ([userDefault objectForKey:kShouldCollapseLongContent]) {
+    self.userDefShouldCollapseLongContent = [userDefault boolForKey:kShouldCollapseLongContent];
+  }
+  if ([userDefault objectForKey:kTextSize]) {
+    self.threadTextSize = [userDefault integerForKey:kTextSize];
+  }
+  self.userDefShouldAutoDownloadImage = [userDefault boolForKey:kAutoDownloadImage];
+  if ([userDefault objectForKey:kShouldShowImageManagerButton]) {
+    self.shouldShowImageManagerButton = [userDefault boolForKey:kShouldShowImageManagerButton];
+  }
+  if ([userDefault objectForKey:kShouldShowDraft]) {
+    self.userDefShouldShowDraft = [userDefault boolForKey:kShouldShowDraft];
+  }
+  if ([userDefault objectForKey:kActiveHost]) {
+    self.userDefActiveHost = [userDefault integerForKey:kActiveHost];
+  } else {
+    self.userDefActiveHost = SettingsHostAC;
+  }
+  
+  // Google analytics.
+  id<GAITracker> defaultTracker = [[GAI sharedInstance] defaultTracker];
+  [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
+                                                               action:@"Display Thumbnail"
+                                                                label:[self stringWithBoolean:self.userDefShouldDisplayThumbnail]
+                                                                value:@1] build]];
+  [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
+                                                               action:@"Display Quick Scroll"
+                                                                label:[self stringWithBoolean:self.userDefShouldShowOnScreenCommand]
+                                                                value:@1] build]];
+  [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
+                                                               action:@"Auto Open Downloaded Image"
+                                                                label:[self stringWithBoolean:self.userDefShouldAutoOpenImage]
+                                                                value:@1] build]];
+  [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
+                                                               action:@"Big Image Mode"
+                                                                label:[self stringWithBoolean:self.userDefShouldUseBigImage]
+                                                                value:@1] build]];
+  [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
+                                                               action:@"Nighty Mode"
+                                                                label:[self stringWithBoolean:self.userDefNightyMode]
+                                                                value:@1] build]];
+  [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
+                                                               action:@"Auto Download Image"
+                                                                label:[self stringWithBoolean:self.userDefShouldAutoDownloadImage]
+                                                                value:@1] build]];
+  [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
+                                                               action:@"Collapse Long Content"
+                                                                label:[self stringWithBoolean:self.userDefShouldCollapseLongContent]
+                                                                value:@1] build]];
+  [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
+                                                               action:@"Show Image Manager Button"
+                                                                label:[self stringWithBoolean:self.shouldShowImageManagerButton]
+                                                                value:@1] build]];
+  
 }
 
 - (NSString*)stringWithBoolean:(Boolean)b {
