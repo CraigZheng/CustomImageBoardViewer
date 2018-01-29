@@ -304,7 +304,7 @@
     _threads = [[NSMutableArray alloc] init];
   }
   if (!_threads.count && self.cachedThreads.count) {
-    return self.cachedThreads.mutableCopy;
+    return @[self.cachedThreads].mutableCopy;
   }
   return _threads;
 }
