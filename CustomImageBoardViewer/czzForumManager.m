@@ -21,7 +21,7 @@ static NSString * kDefaultForumJsonFileName = @"default_forums.json";
 @property (nonatomic, strong, readwrite) NSMutableArray *forumGroups;
 @property (copy) void (^completionHandler) (BOOL, NSError*);
 @property (strong, nonatomic) NSMutableArray<NSDictionary<NSString*, NSNumber*>*> * customForumRawStrings;
-
+@property (strong, nonatomic) NSData *forumsJSONData;
 @end
 
 @implementation czzForumManager
@@ -36,14 +36,10 @@ static NSString * kDefaultForumJsonFileName = @"default_forums.json";
         if (jsonString.length) {
             @try {
                 NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-                NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:jsonData
-                                                                     options:NSJSONReadingMutableContainers
-                                                                       error:nil];
-                if (jsonArray.count) {
-                    [self.forumGroups removeAllObjects];
-                    for (NSDictionary *dictionary in jsonArray) {
-                        [self.forumGroups addObject:[czzForumGroup initWithDictionary:dictionary]];
-                    }
+                if (jsonData) {
+                  self.forumsJSONData = jsonData;
+                  self.forumGroups = nil;
+                  self.forums = nil;
                 }
             } @catch (NSException *exception) {
                 DLog(@"%@", exception);
@@ -97,6 +93,36 @@ static NSString * kDefaultForumJsonFileName = @"default_forums.json";
     if (!_forumGroups) {
         _forumGroups = [NSMutableArray new];
         self.forums = nil;
+      if (self.forumsJSONData.length) {
+        NSArray<NSDictionary<NSString *, NSObject *> *> *jsonArray = [NSJSONSerialization JSONObjectWithData:self.forumsJSONData
+                                                             options:NSJSONReadingMutableContainers
+                                                               error:nil];
+        __block NSArray<NSDictionary<NSString *, NSObject *> *> *forumsGroupDictionaryArray;
+        [jsonArray enumerateObjectsUsingBlock:^(NSDictionary<NSString *,NSObject *> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+          NSString *configurationName = obj[@"configuration_name"];
+          NSArray<NSDictionary<NSString *, NSObject *> *> *tempArray = obj[@"forums"];
+          switch ([settingCentre userDefActiveHost]) {
+            case SettingsHostAC:
+              if ([configurationName isEqualToString:@"AC"]) {
+                forumsGroupDictionaryArray = tempArray;
+              }
+              break;
+            case SettingsHostBT:
+              if ([configurationName isEqualToString:@"BT"]) {
+                forumsGroupDictionaryArray = tempArray;
+              }
+              break;
+            default:
+              break;
+          }
+        }];
+        [forumsGroupDictionaryArray enumerateObjectsUsingBlock:^(NSDictionary<NSString *,NSObject *> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+          czzForumGroup *forumGroups = [czzForumGroup initWithDictionary:obj];
+          if (forumGroups) {
+            [_forumGroups addObject:forumGroups];
+          }
+        }];
+      }
     }
     return _forumGroups;
 }
@@ -145,26 +171,23 @@ static NSString * kDefaultForumJsonFileName = @"default_forums.json";
 
 #pragma mark - czzXMLDownloaderDelegate
 -(void)downloadOf:(NSURL *)xmlURL successed:(BOOL)successed result:(NSData *)xmlData {
-    @try {
-        if (successed) {
-            NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:xmlData options:NSJSONReadingMutableContainers error:nil];
-            if (jsonArray.count) {
-                self.forumGroups = nil;
-                for (NSDictionary *dictionary in jsonArray) {
-                    [self.forumGroups addObject:[czzForumGroup initWithDictionary:dictionary]];
-                }
-            }
-        }
+  @try {
+    if (successed) {
+      NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:xmlData options:NSJSONReadingMutableContainers error:nil];
+      if (jsonArray.count) {
+        self.forumsJSONData = xmlData;
+        self.forumGroups = nil;
+        self.forums = nil;
+      }
     }
-    @catch (NSException *exception) {
-        // If exception, not successed.
-        DDLogDebug(@"%@", exception);
-        successed = NO;
-    }
-
-    if (self.completionHandler) {
-        self.completionHandler(successed, nil);
-    }
+  }
+  @catch (NSException *exception) {
+    successed = NO;
+  }
+  
+  if (self.completionHandler) {
+    self.completionHandler(successed, nil);
+  }
 }
 
 + (instancetype)sharedManager {
