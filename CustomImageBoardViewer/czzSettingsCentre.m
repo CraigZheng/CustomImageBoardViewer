@@ -31,6 +31,7 @@ static NSString * const kShouldCollapseLongContent = @"kShouldCollapseLongConten
 static NSString * const kTextSize = @"kTextSize";
 static NSString * const kShouldShowImageManagerButton = @"kShouldShowImageManagerButton";
 static NSString * const kShouldShowDraft = @"userDefShouldShowDraft";
+static NSString * const kActiveHost = @"userDefActiveHost";
 
 NSString * const settingsChangedNotification = @"settingsChangedNotification";
 
@@ -38,6 +39,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
 @property NSTimer *refreshSettingsTimer;
 @property (nonatomic) NSString *settingsFile;
 @property czzURLDownloader *urlDownloader;
+@property (nonatomic, strong) NSData *configurationJSONData;
 @end
 
 @implementation czzSettingsCentre
@@ -76,6 +78,9 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     self = [super init];
     if (self) {
         //default settings
+      NSString *filePath = [[NSBundle mainBundle] pathForResource:@"default_configuration" ofType:@"json"];
+      NSData *JSONData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
+      self.configurationJSONData = JSONData;
         self.userDefShouldAutoOpenImage = YES;
         self.userDefShouldDisplayThumbnail = YES;
         self.userDefShouldCacheData = YES;
@@ -91,7 +96,8 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         self.threadTextSize = TextSizeDefault;
         self.shouldShowImageManagerButton = YES;
         self.ignoredThreadIDs = [NSArray new];
-        
+      self.userDefActiveHost = SettingsHostAC;
+      
         donationLink = @"";
         threads_per_page = 10;
         response_per_page = 20;
@@ -100,11 +106,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         
         //Dart settings
         should_allow_dart = NO;
-        
-        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"default_configuration" ofType:@"json"];
-
-        NSData *JSONData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
-        [self parseJSONData:JSONData];
+      
         // Restore previous settings
         [self restoreSettings];
         // Download and scheduel.
@@ -236,82 +238,6 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
 #pragma mark - Parsing JSON.
 
 -(void)parseJSONData:(NSData*)jsonData {
-    NSError *error;
-    NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
-
-    if (error) {
-        DDLogDebug(@"%@", error);
-        return;
-    }
-    @try {
-        
-        shouldUseRemoteConfiguration = [[jsonObject objectForKey:@"shouldUseRemoteConfiguration"] boolValue];
-        shouldEnableBlacklistFiltering = [[jsonObject objectForKey:@"shouldEnableBlacklistFiltering"] boolValue];
-        shouldDisplayImage = [[jsonObject objectForKey:@"shouldDisplayImage"] boolValue];
-        shouldDisplayThumbnail = [[jsonObject objectForKey:@"shouldDisplayThumbnail"] boolValue];
-        shouldDisplayContent = [[jsonObject objectForKey:@"shouldDisplayContent"] boolValue];
-        shouldHideImageInForums = [jsonObject objectForKey:@"shouldHideImageInForms"];
-        shouldAllowOpenBlockedThread = [[jsonObject objectForKey:@"shouldAllowOpenBlockedThread"] boolValue];
-        configuration_refresh_interval = [[jsonObject objectForKey:@"configuration_refresh_interval"] floatValue];
-        blacklist_refresh_interval = [[jsonObject objectForKey:@"blacklist_refresh_interval"] floatValue];
-        forum_list_refresh_interval = [[jsonObject objectForKey:@"forum_list_refresh_interval"] floatValue];
-        notification_refresh_interval = [[jsonObject objectForKey:@"notification_refresh_interval"] floatValue];
-        threads_per_page = [[jsonObject objectForKey:@"threads_per_page"] integerValue];
-        response_per_page = [[jsonObject objectForKey:@"response_per_page"] integerValue];
-        thread_format = [jsonObject objectForKey:@"thread_format"];
-        database_host = [jsonObject objectForKey:@"database_host"];
-        forum_list_url = [jsonObject objectForKey:@"forum_list_url"];
-        ac_host = [jsonObject objectForKey:@"ac_host"];
-        a_isle_host = [jsonObject objectForKey:@"a_isle_host"];
-        thread_list_host = [jsonObject objectForKey:@"thread_list_host"];
-        thread_content_host = [jsonObject objectForKey:@"thread_content_host"];
-        quote_thread_host = [jsonObject objectForKey:@"quote_thread_host"];
-        image_host = [jsonObject objectForKey:@"image_host"];
-        thumbnail_host = [jsonObject objectForKey:@"thumbnail_host"];
-        donationLink = [jsonObject objectForKey:@"donation_link"];
-        message = [jsonObject objectForKey:@"message"];
-        
-        //dart integration
-        should_allow_dart = [[jsonObject objectForKey:@"shouldAllowDart"] boolValue];
-        
-        //new settings at short version 2.0.1
-        forum_list_detail_url = [jsonObject objectForKey:@"forum_list_detail_url"];
-        reply_post_url = [jsonObject objectForKey:@"reply_post_url"];
-        create_new_post_url = [jsonObject objectForKey:@"create_new_post_url"];
-        report_post_placeholder = [jsonObject objectForKey:@"report_post_placeholder"];
-        share_post_url = [jsonObject objectForKey:@"share_post_url"];
-        thread_url = [jsonObject objectForKey:@"thread_url"];
-        get_forum_info_url = [jsonObject objectForKey:@"get_forum_info_url"];
-        self.popup_notification_link = [jsonObject objectForKey:@"popup_notification_link"];
-        self.empty_title = [jsonObject objectForKey:@"empty_title"];
-        self.empty_username = [jsonObject objectForKey:@"empty_username"];
-        self.sensitive_keyword = [jsonObject objectForKey:@"sensitive_keyword"];
-        self.success_keyword = [jsonObject objectForKey:@"success_keyword"];
-        self.share_image_only_keyword = [jsonObject objectForKey:@"share_image_only_keyword"];
-        self.popular_threads_link = [jsonObject objectForKey:@"popular_threads_link"];
-        self.long_thread_threshold = [[jsonObject objectForKey:@"long_thread_threshold"] integerValue];
-        self.reply_post_placeholder = [jsonObject objectForKey:@"reply_post_placeholder"];
-        self.shouldShowEmoPackPicker = [[jsonObject objectForKey:@"shouldShowEmoPackPicker"] boolValue];
-        self.timeline_url = [jsonObject objectForKey:@"timeline_url"];
-        NSArray *ignoredThreadIDs = [jsonObject objectForKey:@"ignored_thread_ids"];
-        if (ignoredThreadIDs.count) {
-            NSMutableArray *threadIDs = [NSMutableArray new];
-            for (NSObject *threadID in ignoredThreadIDs) {
-                if ([threadID isKindOfClass:[NSNumber class]]) {
-                    [threadIDs addObject:threadID];
-                }
-            }
-            self.ignoredThreadIDs = threadIDs;
-        } else {
-            self.ignoredThreadIDs = [NSArray new];
-        }
-        if ([jsonObject objectForKey:@"upload_image_pixel_limit"]) {
-            self.upload_image_pixel_limit = [[jsonObject objectForKey:@"upload_image_pixel_limit"] integerValue];
-        }
-    }
-    @catch (NSException *exception) {
-        DDLogDebug(@"%@", exception);
-    }
 }
 
 -(NSString *)settingsFile {
@@ -319,18 +245,12 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     return [libraryPath stringByAppendingPathComponent:@"Settings.dat"];
 }
 
-#pragma mark - Getters
-
-- (BOOL)userDefShouldCleanCaches {
-    return NO;
-}
-
 #pragma mark - czzURLDownloaderDelegate
 -(void)downloadOf:(NSURL *)url successed:(BOOL)successed result:(NSData *)downloadedData {
     if (successed) {
         if (downloadedData) {
-            [self parseJSONData:downloadedData];
-            [self saveSettings]; //save settings from remote
+          self.configurationJSONData = downloadedData;
+          [self saveSettings];
             if (message.length) {
                 [MessagePopup showMessagePopupWithTitle:nil
                                                 message:message
@@ -417,5 +337,111 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     if (self.userDefNightyMode)
         return [UIColor lightTextColor];
     return [UIColor whiteColor];
+}
+
+#pragma mark - Setters
+- (void)setUserDefActiveHost:(SettingsHost)userDefActiveHost {
+  _userDefActiveHost = userDefActiveHost;
+  [self validateJSONConfiguration];
+}
+
+- (void)setConfigurationJSONData:(NSData *)configurationJSONData {
+  _configurationJSONData = configurationJSONData;
+  [self validateJSONConfiguration];
+}
+
+- (void)validateJSONConfiguration {
+  if (self.configurationJSONData) {
+    NSError *error;
+    __block NSDictionary *jsonObject;
+    NSArray<NSDictionary<NSString *, NSObject *> *> *jsonArray = [NSJSONSerialization JSONObjectWithData:self.configurationJSONData options:NSJSONReadingMutableContainers error:&error];
+    [jsonArray enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+      NSString *configurationName = obj[@"configuration_name"];
+      switch (self.userDefActiveHost) {
+        case SettingsHostAC:
+          if ([configurationName isEqualToString:@"AC"]) {
+            jsonObject = obj;
+          }
+          break;
+        case SettingsHostBT:
+          if ([configurationName isEqualToString:@"BT"]) {
+            jsonObject = obj;
+          }
+          break;
+        default:
+          break;
+      }
+    }];
+    if (!error && jsonObject) {
+      @try {
+        shouldUseRemoteConfiguration = [[jsonObject objectForKey:@"shouldUseRemoteConfiguration"] boolValue];
+        shouldEnableBlacklistFiltering = [[jsonObject objectForKey:@"shouldEnableBlacklistFiltering"] boolValue];
+        shouldDisplayImage = [[jsonObject objectForKey:@"shouldDisplayImage"] boolValue];
+        shouldDisplayThumbnail = [[jsonObject objectForKey:@"shouldDisplayThumbnail"] boolValue];
+        shouldDisplayContent = [[jsonObject objectForKey:@"shouldDisplayContent"] boolValue];
+        shouldHideImageInForums = [jsonObject objectForKey:@"shouldHideImageInForms"];
+        shouldAllowOpenBlockedThread = [[jsonObject objectForKey:@"shouldAllowOpenBlockedThread"] boolValue];
+        configuration_refresh_interval = [[jsonObject objectForKey:@"configuration_refresh_interval"] floatValue];
+        blacklist_refresh_interval = [[jsonObject objectForKey:@"blacklist_refresh_interval"] floatValue];
+        forum_list_refresh_interval = [[jsonObject objectForKey:@"forum_list_refresh_interval"] floatValue];
+        notification_refresh_interval = [[jsonObject objectForKey:@"notification_refresh_interval"] floatValue];
+        threads_per_page = [[jsonObject objectForKey:@"threads_per_page"] integerValue];
+        response_per_page = [[jsonObject objectForKey:@"response_per_page"] integerValue];
+        thread_format = [jsonObject objectForKey:@"thread_format"];
+        database_host = [jsonObject objectForKey:@"database_host"];
+        forum_list_url = [jsonObject objectForKey:@"forum_list_url"];
+        ac_host = [jsonObject objectForKey:@"ac_host"];
+        a_isle_host = [jsonObject objectForKey:@"a_isle_host"];
+        thread_list_host = [jsonObject objectForKey:@"thread_list_host"];
+        thread_content_host = [jsonObject objectForKey:@"thread_content_host"];
+        quote_thread_host = [jsonObject objectForKey:@"quote_thread_host"];
+        image_host = [jsonObject objectForKey:@"image_host"];
+        thumbnail_host = [jsonObject objectForKey:@"thumbnail_host"];
+        donationLink = [jsonObject objectForKey:@"donation_link"];
+        message = [jsonObject objectForKey:@"message"];
+        
+        //dart integration
+        should_allow_dart = [[jsonObject objectForKey:@"shouldAllowDart"] boolValue];
+        
+        //new settings at short version 2.0.1
+        forum_list_detail_url = [jsonObject objectForKey:@"forum_list_detail_url"];
+        reply_post_url = [jsonObject objectForKey:@"reply_post_url"];
+        create_new_post_url = [jsonObject objectForKey:@"create_new_post_url"];
+        report_post_placeholder = [jsonObject objectForKey:@"report_post_placeholder"];
+        share_post_url = [jsonObject objectForKey:@"share_post_url"];
+        thread_url = [jsonObject objectForKey:@"thread_url"];
+        get_forum_info_url = [jsonObject objectForKey:@"get_forum_info_url"];
+        self.popup_notification_link = [jsonObject objectForKey:@"popup_notification_link"];
+        self.empty_title = [jsonObject objectForKey:@"empty_title"];
+        self.empty_username = [jsonObject objectForKey:@"empty_username"];
+        self.sensitive_keyword = [jsonObject objectForKey:@"sensitive_keyword"];
+        self.success_keyword = [jsonObject objectForKey:@"success_keyword"];
+        self.share_image_only_keyword = [jsonObject objectForKey:@"share_image_only_keyword"];
+        self.popular_threads_link = [jsonObject objectForKey:@"popular_threads_link"];
+        self.long_thread_threshold = [[jsonObject objectForKey:@"long_thread_threshold"] integerValue];
+        self.reply_post_placeholder = [jsonObject objectForKey:@"reply_post_placeholder"];
+        self.shouldShowEmoPackPicker = [[jsonObject objectForKey:@"shouldShowEmoPackPicker"] boolValue];
+        self.timeline_url = [jsonObject objectForKey:@"timeline_url"];
+        NSArray *ignoredThreadIDs = [jsonObject objectForKey:@"ignored_thread_ids"];
+        if (ignoredThreadIDs.count) {
+          NSMutableArray *threadIDs = [NSMutableArray new];
+          for (NSObject *threadID in ignoredThreadIDs) {
+            if ([threadID isKindOfClass:[NSNumber class]]) {
+              [threadIDs addObject:threadID];
+            }
+          }
+          self.ignoredThreadIDs = threadIDs;
+        } else {
+          self.ignoredThreadIDs = [NSArray new];
+        }
+        if ([jsonObject objectForKey:@"upload_image_pixel_limit"]) {
+          self.upload_image_pixel_limit = [[jsonObject objectForKey:@"upload_image_pixel_limit"] integerValue];
+        }
+      }
+      @catch (NSException *exception) {
+        DDLogDebug(@"%@", exception);
+      }
+    }
+  }
 }
 @end

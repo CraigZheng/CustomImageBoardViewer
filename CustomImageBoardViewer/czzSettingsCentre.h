@@ -22,6 +22,11 @@ typedef enum : NSInteger {
     TextSizeExtraBig = 3
 } ThreadViewTextSize;
 
+typedef NS_ENUM(NSInteger, SettingsHost) {
+  SettingsHostAC,
+  SettingsHostBT
+};
+
 @interface czzSettingsCentre : NSObject
 
 //Remote configurations
@@ -83,6 +88,7 @@ typedef enum : NSInteger {
 @property (assign, nonatomic) BOOL userDefShouldAutoDownloadImage;
 @property (assign, nonatomic) BOOL userDefShouldCollapseLongContent;
 @property (assign, nonatomic) BOOL userDefShouldShowDraft;
+@property (assign, nonatomic) SettingsHost userDefActiveHost;
 @property (assign, nonatomic) ThreadViewTextSize threadTextSize;
 @property (assign, nonatomic) BOOL shouldShowImageManagerButton;
 //Debug settings
