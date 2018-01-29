@@ -38,8 +38,7 @@ static NSString * kDefaultForumJsonFileName = @"default_forums.json";
                 NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
                 if (jsonData) {
                   self.forumsJSONData = jsonData;
-                  self.forumGroups = nil;
-                  self.forums = nil;
+                  [self resetForums];
                 }
             } @catch (NSException *exception) {
                 DLog(@"%@", exception);
@@ -88,43 +87,48 @@ static NSString * kDefaultForumJsonFileName = @"default_forums.json";
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+- (void)resetForums {
+  self.forumGroups = nil;
+  self.forums = nil;
+}
+
 #pragma mark - Getters
 - (NSArray *)forumGroups {
-    if (!_forumGroups) {
-        _forumGroups = [NSMutableArray new];
-        self.forums = nil;
-      if (self.forumsJSONData.length) {
-        NSArray<NSDictionary<NSString *, NSObject *> *> *jsonArray = [NSJSONSerialization JSONObjectWithData:self.forumsJSONData
-                                                             options:NSJSONReadingMutableContainers
-                                                               error:nil];
-        __block NSArray<NSDictionary<NSString *, NSObject *> *> *forumsGroupDictionaryArray;
-        [jsonArray enumerateObjectsUsingBlock:^(NSDictionary<NSString *,NSObject *> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-          NSString *configurationName = (id)obj[@"configuration_name"];
-          NSArray<NSDictionary<NSString *, NSObject *> *> *tempArray = (id)obj[@"forums"];
-          switch ([settingCentre userDefActiveHost]) {
-            case SettingsHostAC:
-              if ([configurationName isEqualToString:@"AC"]) {
-                forumsGroupDictionaryArray = tempArray;
-              }
-              break;
-            case SettingsHostBT:
-              if ([configurationName isEqualToString:@"BT"]) {
-                forumsGroupDictionaryArray = tempArray;
-              }
-              break;
-            default:
-              break;
-          }
-        }];
-        [forumsGroupDictionaryArray enumerateObjectsUsingBlock:^(NSDictionary<NSString *,NSObject *> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-          czzForumGroup *forumGroups = [czzForumGroup initWithDictionary:obj];
-          if (forumGroups) {
-            [_forumGroups addObject:forumGroups];
-          }
-        }];
-      }
+  if (!_forumGroups) {
+    _forumGroups = [NSMutableArray new];
+    self.forums = nil;
+    if (self.forumsJSONData.length) {
+      NSArray<NSDictionary<NSString *, NSObject *> *> *jsonArray = [NSJSONSerialization JSONObjectWithData:self.forumsJSONData
+                                                                                                   options:NSJSONReadingMutableContainers
+                                                                                                     error:nil];
+      __block NSArray<NSDictionary<NSString *, NSObject *> *> *forumsGroupDictionaryArray;
+      [jsonArray enumerateObjectsUsingBlock:^(NSDictionary<NSString *,NSObject *> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSString *configurationName = (id)obj[@"configuration_name"];
+        NSArray<NSDictionary<NSString *, NSObject *> *> *tempArray = (id)obj[@"forums"];
+        switch ([settingCentre userDefActiveHost]) {
+          case SettingsHostAC:
+            if ([configurationName isEqualToString:@"AC"]) {
+              forumsGroupDictionaryArray = tempArray;
+            }
+            break;
+          case SettingsHostBT:
+            if ([configurationName isEqualToString:@"BT"]) {
+              forumsGroupDictionaryArray = tempArray;
+            }
+            break;
+          default:
+            break;
+        }
+      }];
+      [forumsGroupDictionaryArray enumerateObjectsUsingBlock:^(NSDictionary<NSString *,NSObject *> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        czzForumGroup *forumGroups = [czzForumGroup initWithDictionary:obj];
+        if (forumGroups) {
+          [_forumGroups addObject:forumGroups];
+        }
+      }];
     }
-    return _forumGroups;
+  }
+  return _forumGroups;
 }
 
 - (NSArray *)forums {
@@ -176,8 +180,7 @@ static NSString * kDefaultForumJsonFileName = @"default_forums.json";
       NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:xmlData options:NSJSONReadingMutableContainers error:nil];
       if (jsonArray.count) {
         self.forumsJSONData = xmlData;
-        self.forumGroups = nil;
-        self.forums = nil;
+        [self resetForums];
       }
     }
   }

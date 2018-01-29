@@ -25,6 +25,7 @@ static NSString *kCustomForumDidChangeNotification = @"kCustomForumDidChangeNoti
 - (void)addCustomForumWithName:(NSString *)forumName forumID:(NSInteger)forumID;
 - (void)removeCustomForum:(czzForum*)forum;
 - (void)updateForums:(void(^)(BOOL success, NSError *error))completionHandler;
+- (void)resetForums;
 
 + (instancetype)sharedManager;
 

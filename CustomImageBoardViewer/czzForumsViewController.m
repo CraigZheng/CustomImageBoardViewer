@@ -205,6 +205,9 @@ typedef enum : NSUInteger {
       break;
   }
   [settingCentre saveSettings];
+  [self.forumManager resetForums];
+  self.forumsTableViewManager.forumGroups = self.forumManager.forumGroups;
+  [self reloadDataSources];
 }
 
 #pragma mark - czzPopularThreadsManagerDelegate
