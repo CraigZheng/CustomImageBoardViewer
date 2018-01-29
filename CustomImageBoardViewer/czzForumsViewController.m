@@ -42,6 +42,7 @@ typedef enum : NSUInteger {
 @property (weak, nonatomic) IBOutlet UITableView *suggestionTableView;
 @property (weak, nonatomic) IBOutlet UITableView *customForumsTableView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *forumsSegmentedControl;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *hostSegmentedControl;
 @property (strong, nonatomic) NSDate *lastUpdateTime;
 @property (assign, nonatomic) NSTimeInterval updateInterval;
 @property (assign, nonatomic) BOOL shouldHideCoverView;
@@ -90,16 +91,17 @@ typedef enum : NSUInteger {
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    // Google Analytic integration
-    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
-    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
-
-    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]){
-        self.automaticallyAdjustsScrollViewInsets = NO;
-    }
-    [self reloadDataSources];
+  [super viewWillAppear:animated];
+  // Google Analytic integration
+  id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+  [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
+  [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+  
+  if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]){
+    self.automaticallyAdjustsScrollViewInsets = NO;
+  }
+  self.hostSegmentedControl.selectedSegmentIndex = [settingCentre userDefActiveHost];
+  [self reloadDataSources];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -191,6 +193,18 @@ typedef enum : NSUInteger {
     if (sender == self.forumsSegmentedControl) {
         [self reloadDataSources];
     }
+}
+
+- (IBAction)hostsSegmentedControlValueChanged:(UISegmentedControl *)sender {
+  switch (sender.selectedSegmentIndex) {
+    case 0:
+      [settingCentre setUserDefActiveHost:SettingsHostAC];
+      break;
+    case 1:
+      [settingCentre setUserDefActiveHost:SettingsHostBT];
+      break;
+  }
+  [settingCentre saveSettings];
 }
 
 #pragma mark - czzPopularThreadsManagerDelegate
