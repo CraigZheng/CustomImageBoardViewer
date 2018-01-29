@@ -99,8 +99,8 @@ static NSString * kDefaultForumJsonFileName = @"default_forums.json";
                                                                error:nil];
         __block NSArray<NSDictionary<NSString *, NSObject *> *> *forumsGroupDictionaryArray;
         [jsonArray enumerateObjectsUsingBlock:^(NSDictionary<NSString *,NSObject *> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-          NSString *configurationName = obj[@"configuration_name"];
-          NSArray<NSDictionary<NSString *, NSObject *> *> *tempArray = obj[@"forums"];
+          NSString *configurationName = (id)obj[@"configuration_name"];
+          NSArray<NSDictionary<NSString *, NSObject *> *> *tempArray = (id)obj[@"forums"];
           switch ([settingCentre userDefActiveHost]) {
             case SettingsHostAC:
               if ([configurationName isEqualToString:@"AC"]) {
