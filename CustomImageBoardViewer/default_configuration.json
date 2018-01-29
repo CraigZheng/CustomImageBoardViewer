@@ -1,6 +1,6 @@
  [
   {
-  "AC": {
+  "configuration_name": "AC",
   "configuration_version": "5",
   "shouldUseRemoteConfiguration": true,
   "shouldDisplayImage": true,
@@ -50,7 +50,8 @@
                          9999999
                          ]
   },
-  "BT": {
+  {
+  "configuration_name": "BT",
   "configuration_version": "3.2",
   "shouldUseRemoteConfiguration": true,
   "shouldDisplayImage": true,
@@ -99,6 +100,5 @@
   "ignored_thread_ids": [
                          9999999
                          ]
-  }
   }
   ]
