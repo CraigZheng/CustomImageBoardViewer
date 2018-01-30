@@ -326,8 +326,11 @@ estimatedHeightForRowAtIndexPath:indexPath];
     if (thread == page.threads.firstObject) {
       if (indexPath.section - 1 >= 0) {
         ContentPage *previousPage = self.homeViewManager.threads[indexPath.section - 1];
-        if (previousPage.pageNumber + 1 != page.pageNumber) {
-          cell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"下拉以加载第 %ld 至 %ld 页的内容", (long)previousPage.pageNumber + 1, (long)page.pageNumber - 1];
+        NSInteger previousPageNumber = previousPage.pageNumber + 1;
+        if (previousPageNumber != page.pageNumber) {
+          cell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"下拉以加载第 %ld 至 %ld 页的内容", (long)previousPageNumber, (long)page.pageNumber - 1];
+        } else {
+          cell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"下拉以加载第 %ld 页的内容", (long)previousPageNumber];
         }
       } else if (page.pageNumber > 1) {
         cell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"下拉以加载第 1 至 %ld 页的内容", (long)page.pageNumber - 1];
