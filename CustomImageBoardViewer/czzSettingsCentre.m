@@ -368,17 +368,21 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     NSArray<NSDictionary<NSString *, NSObject *> *> *jsonArray = [NSJSONSerialization JSONObjectWithData:self.configurationJSONData options:NSJSONReadingMutableContainers error:&error];
     [jsonArray enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
       NSString *configurationName = obj[@"configuration_name"];
+      if ([configurationName isEqualToString:@"AC"]) {
+        self.ac_isle_host = [obj objectForKey:@"a_isle_host"];
+      }
+      if ([configurationName isEqualToString:@"BT"]) {
+        self.bt_isle_host = [obj objectForKey:@"a_isle_host"];
+      }
       switch (self.userDefActiveHost) {
         case SettingsHostAC:
           if ([configurationName isEqualToString:@"AC"]) {
             jsonObject = obj;
-            self.ac_isle_host = [jsonObject objectForKey:@"a_isle_host"];
           }
           break;
         case SettingsHostBT:
           if ([configurationName isEqualToString:@"BT"]) {
             jsonObject = obj;
-            self.bt_isle_host = [jsonObject objectForKey:@"a_isle_host"];
           }
           break;
         default:
