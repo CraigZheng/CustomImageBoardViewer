@@ -130,20 +130,24 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
 #pragma mark - Break and restoration.
 
 - (BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder {
-    [[NSUserDefaults standardUserDefaults] setObject:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]
-                                              forKey:lastStateAppVersion];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    [[czzHomeViewManager sharedManager] saveCurrentState];
-    return YES;
+  // TODO: enable state perserving in the future.
+  return NO;
+//    [[NSUserDefaults standardUserDefaults] setObject:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]
+//                                              forKey:lastStateAppVersion];
+//    [[NSUserDefaults standardUserDefaults] synchronize];
+//    [[czzHomeViewManager sharedManager] saveCurrentState];
+//    return YES;
 }
 
 - (BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder {
-    BOOL shouldRestore = NO;
-    NSString *lastVersion = [[NSUserDefaults standardUserDefaults] objectForKey:lastStateAppVersion];
-    if ([[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"] isEqualToString:lastVersion]) {
-        shouldRestore = YES;
-    }
-    return shouldRestore;
+  // TODO: enable state restoration in the future.
+  return NO;
+//    BOOL shouldRestore = NO;
+//    NSString *lastVersion = [[NSUserDefaults standardUserDefaults] objectForKey:lastStateAppVersion];
+//    if ([[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"] isEqualToString:lastVersion]) {
+//        shouldRestore = YES;
+//    }
+//    return shouldRestore;
 }
 
 - (UIViewController *)application:(UIApplication *)application viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder {
