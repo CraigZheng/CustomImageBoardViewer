@@ -220,8 +220,8 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Incomplete..." textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rIa-69-biF">
-                                                    <rect key="frame" x="266" y="12" width="94" height="19.5"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="点击输入..." textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rIa-69-biF">
+                                                    <rect key="frame" x="281" y="12" width="79" height="19.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -358,6 +358,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="addButton" destination="bFq-cY-ZFh" id="mlN-De-zZA"/>
+                        <outlet property="cookieValueLabel" destination="rIa-69-biF" id="NE8-nr-7ty"/>
                         <outlet property="hostPickerView" destination="koa-Ae-uLY" id="JjP-Ex-Qvy"/>
                     </connections>
                 </tableViewController>
@@ -472,7 +473,7 @@
         <!--Enter Details-->
         <scene sceneID="kv0-Z3-Ba7">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="o3N-xg-ZHe" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="o3N-xg-ZHe" customClass="CookieTextInputViewController" customModule="CustomImageBoardViewer" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Zsy-ER-0eB"/>
                         <viewControllerLayoutGuide type="bottom" id="53T-GS-Blz"/>
@@ -494,8 +495,7 @@
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <items>
                                     <barButtonItem systemItem="flexibleSpace" id="j3P-nQ-MJC"/>
-                                    <barButtonItem title="Insert" id="mun-i1-l9d"/>
-                                    <barButtonItem systemItem="save" id="NvM-j1-Gp7">
+                                    <barButtonItem systemItem="done" id="NvM-j1-Gp7">
                                         <connections>
                                             <action selector="saveAction:" destination="o3N-xg-ZHe" id="ftc-uX-RUu"/>
                                         </connections>
@@ -516,6 +516,8 @@
                     </view>
                     <navigationItem key="navigationItem" title="Enter Details" id="8XF-6R-FCp"/>
                     <connections>
+                        <outlet property="saveBarButtonItem" destination="NvM-j1-Gp7" id="Kbt-Vl-Hio"/>
+                        <outlet property="textView" destination="Ibv-eG-YUs" id="kQl-Gv-LL5"/>
                         <outlet property="textViewBottomConstraint" destination="Op4-Xp-Dix" id="Bay-Ra-e2W"/>
                         <outlet property="toolbarBottomConstraint" destination="6xp-oN-9iE" id="VZe-GQ-DWg"/>
                     </connections>
@@ -533,6 +535,6 @@
         <image name="upload.png" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="7hb-x8-3qm"/>
+        <segue reference="mot-ga-KNY"/>
     </inferredMetricsTieBreakers>
 </document>
