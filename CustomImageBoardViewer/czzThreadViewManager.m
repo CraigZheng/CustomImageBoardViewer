@@ -77,7 +77,7 @@ typedef enum : NSUInteger {
 }
 
 -(NSString*)saveCurrentState {
-    [[NSUserDefaults standardUserDefaults] setInteger:self.pageNumber ?: 1 forKey:self.pageNumberKey];
+    [[NSUserDefaults standardUserDefaults] setInteger:self.threads.lastObject.pageNumber ?: 1 forKey:self.pageNumberKey];
     return nil;
 }
 
