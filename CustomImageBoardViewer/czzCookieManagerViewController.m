@@ -40,22 +40,22 @@ static NSString *kCookieDetailsSegueIdentifier = @"cookieDetail";
 static NSString *kScanQRCodeSegueIdentifier = @"qrScanner";
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    cookieManager = CookieManager;
-    [self refreshData];
-    
-    cookieManagerTableView.backgroundColor = [settingCentre viewBackgroundColour];
-    self.identityToolbar.tintColor = [UIColor whiteColor];
-    self.identityToolbar.barTintColor = settingCentre.barTintColour;
+  [super viewDidLoad];
+  // Do any additional setup after loading the view.
+  cookieManager = CookieManager;
+  
+  cookieManagerTableView.backgroundColor = [settingCentre viewBackgroundColour];
+  self.identityToolbar.tintColor = [UIColor whiteColor];
+  self.identityToolbar.barTintColor = settingCentre.barTintColour;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    // Google Analytic integration
-    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
-    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+  [super viewWillAppear:animated];
+  // Google Analytic integration
+  id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+  [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
+  [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+  [self refreshData];
 }
 
 #pragma mark - UITableViewDataSource

@@ -13,19 +13,33 @@ class CookieDetailTableViewController: UITableViewController {
   @IBOutlet weak var hostPickerView: UIPickerView!
   @IBOutlet weak var cookieValueLabel: UILabel!
   
-  var cookieValue: String?
+  var cookieValue: String? {
+    didSet {
+      if let cookieValue = cookieValue {
+        cookieValueLabel?.text = cookieValue
+      }
+    }
+  }
+  private var originalCookieValue: String?
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    originalCookieValue = cookieValue
     if let cookieValue = cookieValue {
       cookieValueLabel.text = cookieValue
     }
   }
   
   @IBAction func resetAction(_ sender: Any) {
+    cookieValue = originalCookieValue
   }
   
   @IBAction func addAction(_ sender: Any) {
+    if let cookieValue = cookieValue, !cookieValue.isEmpty {
+      let cookie = czzACTokenUtil.createCookie(withValue: cookieValue, for: URL(string: czzSettingsCentre.sharedInstance().a_isle_host))
+      czzCookieManager.sharedInstance().setACCookie(cookie, for: nil)
+      navigationController?.popToRootViewController(animated: true)
+    }
   }
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -54,6 +68,5 @@ extension CookieDetailTableViewController: UIPickerViewDataSource, UIPickerViewD
 extension CookieDetailTableViewController: CookieTextInputViewControllerDelegate {
   func textDetailEntered(_ inputViewController: CookieTextInputViewController, enteredDetails: String) {
     cookieValue = enteredDetails
-    cookieValueLabel.text = cookieValue
   }
 }
