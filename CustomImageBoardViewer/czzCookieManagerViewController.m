@@ -146,7 +146,7 @@ static NSString *kScanQRCodeSegueIdentifier = @"qrScanner";
 - (IBAction)addCookieAction:(id)sender {
     __weak typeof(self) weakSelf = self;
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"手动添加" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    [alertController addAction:[UIAlertAction actionWithTitle:@"扫码" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    [alertController addAction:[UIAlertAction actionWithTitle:@"扫二维码" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [weakSelf performSegueWithIdentifier:kScanQRCodeSegueIdentifier sender:sender];
     }]];
     [alertController addAction:[UIAlertAction actionWithTitle:@"手动写入" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {

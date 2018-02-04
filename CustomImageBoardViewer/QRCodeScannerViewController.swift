@@ -77,9 +77,11 @@ class QRCodeScannerViewController: UIViewController {
 extension QRCodeScannerViewController {
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    // TODO: pass the information to next view controller.i
+    if let cookieDetailViewController = segue.destination as? CookieDetailTableViewController {
+      cookieDetailViewController.cookieValue = capturedCookie
+    }
   }
-  
+
 }
 
 // MARK: UI actions.
@@ -94,10 +96,6 @@ extension QRCodeScannerViewController: UIImagePickerControllerDelegate, UINaviga
     present(picker, animated: true, completion: nil)
   }
   
-  @IBAction func scanQRHelpBarButtonItemAction(_ sender: AnyObject) {
-    // TODO: open help screen.
-  }
-  
   // MARK: UIImagePickerControllerDelegate
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
     if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage,
@@ -108,7 +106,11 @@ extension QRCodeScannerViewController: UIImagePickerControllerDelegate, UINaviga
         capturedCookie = cookieValue
       }
     }
-    dismiss(animated: true, completion: nil)
+    dismiss(animated: true) {
+      if self.capturedCookie?.isEmpty == false {
+        self.performSegue(withIdentifier: SegueIdentifier.cookieDetail.rawValue, sender: nil)
+      }
+    }
   }
 }
 

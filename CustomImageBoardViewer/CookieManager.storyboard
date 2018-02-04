@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="qOn-oZ-P35">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="qOn-oZ-P35">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -190,7 +190,7 @@
             </objects>
             <point key="canvasLocation" x="423" y="251"/>
         </scene>
-        <!--Custom Board-->
+        <!--饼干-->
         <scene sceneID="8p2-W6-QWN">
             <objects>
                 <tableViewController id="acf-rd-yr4" customClass="CookieDetailTableViewController" customModule="CustomImageBoardViewer" customModuleProvider="target" sceneMemberID="viewController">
@@ -199,42 +199,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="DGP-W9-RdP">
-                            <rect key="frame" x="0.0" y="357" width="375" height="5"/>
+                            <rect key="frame" x="0.0" y="313" width="375" height="5"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
                         <sections>
                             <tableViewSection id="B9B-0i-Fij">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="basicCellIdentifier" textLabel="r30-8n-Tms" detailTextLabel="dr1-EH-PRT" style="IBUITableViewCellStyleValue1" id="I3s-yL-ams" userLabel="Name">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="I3s-yL-ams" id="Ezv-sx-6Lg">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="饼干名称" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="r30-8n-Tms">
-                                                    <rect key="frame" x="16" y="12" width="65.5" height="19.5"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Incomplete..." textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dr1-EH-PRT">
-                                                    <rect key="frame" x="265" y="12" width="94" height="19.5"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="o3N-xg-ZHe" kind="show" identifier="cookieName" id="Apl-3X-9Hl"/>
-                                        </connections>
-                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="basicCellIdentifier" textLabel="yJi-1w-QYa" detailTextLabel="rIa-69-biF" style="IBUITableViewCellStyleValue1" id="WHS-tt-3JR" userLabel="Index">
-                                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WHS-tt-3JR" id="oCV-cW-Pbp">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -248,7 +221,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Incomplete..." textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rIa-69-biF">
-                                                    <rect key="frame" x="265" y="12" width="94" height="19.5"/>
+                                                    <rect key="frame" x="266" y="12" width="94" height="19.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -261,7 +234,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="basicCellIdentifier" rowHeight="149" id="uVV-gE-wZL" userLabel="Page Style">
-                                        <rect key="frame" x="0.0" y="88" width="375" height="149"/>
+                                        <rect key="frame" x="0.0" y="44" width="375" height="149"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uVV-gE-wZL" id="nXE-T0-mYL">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="148.5"/>
@@ -293,7 +266,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="60" id="Msi-ls-TlK" userLabel="Add Button">
-                                        <rect key="frame" x="0.0" y="237" width="375" height="60"/>
+                                        <rect key="frame" x="0.0" y="193" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Msi-ls-TlK" id="F8V-ps-iNc">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
@@ -305,6 +278,9 @@
                                                     <state key="normal" title="ADD">
                                                         <color key="titleColor" red="0.33333334329999997" green="0.33333334329999997" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="addAction:" destination="acf-rd-yr4" eventType="touchUpInside" id="0iT-aK-Aky"/>
+                                                    </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LWD-Ej-eUd" customClass="RoundCornerBorderedButton" customModule="CustomImageBoardViewer" customModuleProvider="target">
                                                     <rect key="frame" x="8" y="8" width="175.5" height="43.5"/>
@@ -312,6 +288,9 @@
                                                     <state key="normal" title="RESET">
                                                         <color key="titleColor" red="0.33333334329999997" green="0.33333334329999997" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="resetAction:" destination="acf-rd-yr4" eventType="touchUpInside" id="6UB-dt-G3I"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -333,7 +312,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="60" id="ew3-bn-G1i" userLabel="QR Button">
-                                        <rect key="frame" x="0.0" y="297" width="375" height="60"/>
+                                        <rect key="frame" x="0.0" y="253" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ew3-bn-G1i" id="wrX-02-V5A">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
@@ -342,7 +321,7 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6i3-4Y-Ysx" customClass="RoundCornerBorderedButton" customModule="CustomImageBoardViewer" customModuleProvider="target">
                                                     <rect key="frame" x="20" y="8" width="335" height="43.5"/>
                                                     <color key="backgroundColor" red="1" green="0.67785071340000003" blue="0.17108253700000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <state key="normal" title="Share QR Code">
+                                                    <state key="normal" title="分享饼干二维码">
                                                         <color key="titleColor" red="0.33333334329999997" green="0.33333334329999997" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </state>
                                                     <connections>
@@ -374,32 +353,19 @@
                             <outlet property="delegate" destination="acf-rd-yr4" id="1fh-pu-bnY"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Custom Board" id="r7g-2e-VOo">
+                    <navigationItem key="navigationItem" title="饼干" id="r7g-2e-VOo">
                         <barButtonItem key="backBarButtonItem" title="Back" id="b9Q-9L-f02"/>
-                        <barButtonItem key="rightBarButtonItem" title="?" id="yKr-l0-sQy">
-                            <connections>
-                                <action selector="addForumHelpAction:" destination="acf-rd-yr4" id="PWG-9o-2ns"/>
-                            </connections>
-                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="addButton" destination="bFq-cY-ZFh" id="Mot-np-zFI"/>
-                        <outlet property="addButtonTableViewCell" destination="Msi-ls-TlK" id="n41-v9-aFm"/>
-                        <outlet property="addForumHelpButtonItem" destination="yKr-l0-sQy" id="Zgy-HL-kAf"/>
+                        <outlet property="addButton" destination="bFq-cY-ZFh" id="mlN-De-zZA"/>
                         <outlet property="hostPickerView" destination="koa-Ae-uLY" id="JjP-Ex-Qvy"/>
-                        <outlet property="indexDetailLabel" destination="rIa-69-biF" id="MsL-8f-uTJ"/>
-                        <outlet property="indexLabel" destination="yJi-1w-QYa" id="KL8-T8-HeG"/>
-                        <outlet property="nameDetailLabel" destination="dr1-EH-PRT" id="hUy-Xo-7el"/>
-                        <outlet property="nameLabel" destination="r30-8n-Tms" id="PFg-Gc-dxu"/>
-                        <outlet property="pageStyleLabel" destination="QEB-s5-Brd" id="fKd-54-OId"/>
-                        <outlet property="qrButtonTableViewCell" destination="ew3-bn-G1i" id="sZn-mo-6Lh"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cnN-R6-mKp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2130" y="251"/>
         </scene>
-        <!--Scan QR Code-->
+        <!--扫码-->
         <scene sceneID="zRK-lI-8nk">
             <objects>
                 <viewController id="yBv-tn-K5B" customClass="QRCodeScannerViewController" customModule="CustomImageBoardViewer" customModuleProvider="target" sceneMemberID="viewController">
@@ -424,7 +390,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="Y7J-gW-xiI"/>
                                 </constraints>
-                                <state key="normal" title="Load From Photo Library">
+                                <state key="normal" title="从系统图片库中打开">
                                     <color key="titleColor" red="0.33333334329999997" green="0.33333334329999997" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -449,16 +415,10 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="Scan QR Code" id="ddD-2F-Cb2">
-                        <barButtonItem key="rightBarButtonItem" title="?" id="meK-lf-DGM">
-                            <connections>
-                                <action selector="scanQRHelpBarButtonItemAction:" destination="yBv-tn-K5B" id="yg3-aH-qgp"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="扫码" id="ddD-2F-Cb2"/>
                     <connections>
                         <outlet property="cameraPreviewView" destination="scO-8I-OYs" id="6TE-vV-CwJ"/>
-                        <segue destination="acf-rd-yr4" kind="show" identifier="addForum" id="mot-ga-KNY">
+                        <segue destination="acf-rd-yr4" kind="show" identifier="cookieDetail" id="mot-ga-KNY">
                             <nil key="action"/>
                         </segue>
                     </connections>
@@ -573,7 +533,6 @@
         <image name="upload.png" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Apl-3X-9Hl"/>
         <segue reference="7hb-x8-3qm"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -11,8 +11,13 @@ import UIKit
 class CookieDetailTableViewController: UITableViewController {
   @IBOutlet weak var addButton: RoundCornerBorderedButton!
   @IBOutlet weak var hostPickerView: UIPickerView!
+  var cookieValue: String?
   
+  @IBAction func resetAction(_ sender: Any) {
+  }
   
+  @IBAction func addAction(_ sender: Any) {
+  }
 }
 
 // MARK: - UIPickerViewDataSource, UIDocumentPickerDelegate
