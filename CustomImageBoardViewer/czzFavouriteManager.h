@@ -13,7 +13,7 @@
 #import <Foundation/Foundation.h>
 
 @interface czzFavouriteManager : NSObject
-@property NSMutableOrderedSet *favouriteThreads;
+@property NSMutableOrderedSet<czzThread *> *favouriteThreads;
 @property (nonatomic, readonly) NSString *favouriteFolder;
 
 -(void)addFavourite:(czzThread*)thread;
