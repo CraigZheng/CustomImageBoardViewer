@@ -89,6 +89,7 @@ typedef NS_ENUM(NSInteger, SettingsHost) {
 @property (assign, nonatomic) BOOL userDefShouldCollapseLongContent;
 @property (assign, nonatomic) BOOL userDefShouldShowDraft;
 @property (assign, nonatomic) SettingsHost userDefActiveHost;
+@property (assign, nonatomic) BOOL userDefRecordPageNumber;
 @property (assign, nonatomic) ThreadViewTextSize threadTextSize;
 @property (assign, nonatomic) BOOL shouldShowImageManagerButton;
 //Debug settings

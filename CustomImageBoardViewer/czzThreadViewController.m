@@ -108,48 +108,50 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 - (void)commonInit {
-    self.threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:self.thread andForum:nil];
-    self.threadViewManager.delegate = self;
+  self.threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:self.thread andForum:nil];
+  self.threadViewManager.delegate = self;
+  if (settingCentre.userDefRecordPageNumber) {
     [self.threadViewManager restorePreviousState];
-    self.title = self.threadViewManager.parentThread.title;
-    // The manager for the table view.
-    self.threadTableView.dataSource = self.threadTableViewManager;
-    self.threadTableView.delegate = self.threadTableViewManager;
-    
-    // Thumbnail folder
-    thumbnailFolder = [czzAppDelegate thumbnailFolder];
-    imageViewerUtil = [czzImageViewerUtil new];
-    // On screen image manager view controller
-    if (!self.onScreenImageManagerViewController) {
-        self.onScreenImageManagerViewController = [czzOnScreenImageManagerViewController new];
-        self.onScreenImageManagerViewController.delegate = self.threadTableViewManager;
-        [self addChildViewController:self.onScreenImageManagerViewController];
-        [self.onScreenImageManagerViewContainer addSubview:self.onScreenImageManagerViewController.view];
-    }
-    // Post sender manager view controller.
-    czzPostSenderManagerViewController *postSenderManagerViewController = [czzPostSenderManagerViewController new];
-    [self addChildViewController:postSenderManagerViewController];
-    [self.postSenderViewContainer addSubview:postSenderManagerViewController.view];
-    
-    //add the UIRefreshControl to uitableview
-    self.refreshControl = [[czzAutoEndingRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
-    [self.threadTableView addSubview: self.refreshControl];
-    
-    self.navigationItem.backBarButtonItem.title = self.title;
-    
-    if (NavigationManager.isInTransition) {
-        NavigationManager.pushAnimationCompletionHandler = ^{
-            [self.threadViewManager loadMoreThreads:self.threadViewManager.pageNumber];
-        };
-    } else {
-        [self.threadViewManager loadMoreThreads:self.threadViewManager.pageNumber];
-    }
-    // Google Analytic integration.
-    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Thread"
-                                                                                        action:@"View Thread"
-                                                                                         label:[NSString stringWithFormat:@"%ld", (long)self.threadViewManager.parentThread.ID]
-                                                                                         value:@1] build]];
+  }
+  self.title = self.threadViewManager.parentThread.title;
+  // The manager for the table view.
+  self.threadTableView.dataSource = self.threadTableViewManager;
+  self.threadTableView.delegate = self.threadTableViewManager;
+  
+  // Thumbnail folder
+  thumbnailFolder = [czzAppDelegate thumbnailFolder];
+  imageViewerUtil = [czzImageViewerUtil new];
+  // On screen image manager view controller
+  if (!self.onScreenImageManagerViewController) {
+    self.onScreenImageManagerViewController = [czzOnScreenImageManagerViewController new];
+    self.onScreenImageManagerViewController.delegate = self.threadTableViewManager;
+    [self addChildViewController:self.onScreenImageManagerViewController];
+    [self.onScreenImageManagerViewContainer addSubview:self.onScreenImageManagerViewController.view];
+  }
+  // Post sender manager view controller.
+  czzPostSenderManagerViewController *postSenderManagerViewController = [czzPostSenderManagerViewController new];
+  [self addChildViewController:postSenderManagerViewController];
+  [self.postSenderViewContainer addSubview:postSenderManagerViewController.view];
+  
+  //add the UIRefreshControl to uitableview
+  self.refreshControl = [[czzAutoEndingRefreshControl alloc] init];
+  [self.refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
+  [self.threadTableView addSubview: self.refreshControl];
+  
+  self.navigationItem.backBarButtonItem.title = self.title;
+  
+  if (NavigationManager.isInTransition) {
+    NavigationManager.pushAnimationCompletionHandler = ^{
+      [self.threadViewManager loadMoreThreads:self.threadViewManager.pageNumber];
+    };
+  } else {
+    [self.threadViewManager loadMoreThreads:self.threadViewManager.pageNumber];
+  }
+  // Google Analytic integration.
+  [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Thread"
+                                                                                      action:@"View Thread"
+                                                                                       label:[NSString stringWithFormat:@"%ld", (long)self.threadViewManager.parentThread.ID]
+                                                                                       value:@1] build]];
 }
 
 - (void)dealloc {

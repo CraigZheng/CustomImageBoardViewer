@@ -32,6 +32,7 @@ static NSString * const kTextSize = @"kTextSize";
 static NSString * const kShouldShowImageManagerButton = @"kShouldShowImageManagerButton";
 static NSString * const kShouldShowDraft = @"userDefShouldShowDraft";
 static NSString * const kActiveHost = @"userDefActiveHost";
+static NSString * const kRecordPageNumber = @"userDefRecordPageNumber";
 
 NSString * const settingsChangedNotification = @"settingsChangedNotification";
 
@@ -97,6 +98,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     _shouldShowImageManagerButton = YES;
     _ignoredThreadIDs = [NSArray new];
     _userDefActiveHost = SettingsHostAC;
+    _userDefRecordPageNumber = YES;
     
     donationLink = @"";
     threads_per_page = 10;
@@ -140,6 +142,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
   [userDefault setBool:self.shouldShowImageManagerButton forKey:kShouldShowImageManagerButton];
   [userDefault setBool:self.userDefShouldShowDraft forKey:kShouldShowDraft];
   [userDefault setInteger:self.userDefActiveHost forKey:kActiveHost];
+  [userDefault setBool:self.userDefRecordPageNumber forKey:kRecordPageNumber];
   [userDefault synchronize];
   // Post a notification about the settings changed.
   [[NSNotificationCenter defaultCenter] postNotificationName:settingsChangedNotification
@@ -190,6 +193,9 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     self.userDefActiveHost = [userDefault integerForKey:kActiveHost];
   } else {
     self.userDefActiveHost = SettingsHostAC;
+  }
+  if ([userDefault objectForKey:kRecordPageNumber]) {
+    self.userDefRecordPageNumber = [userDefault boolForKey:kRecordPageNumber];
   }
   
   // Google analytics.
