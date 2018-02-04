@@ -13,7 +13,7 @@
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzReplyUtil.h"
 #import "czzMarkerManager.h"
-
+#import "czzThreadViewCellHeaderView.h"
 #import "CustomImageBoardViewer-Swift.h"
 
 @interface czzThreadTableViewManager ()
@@ -98,22 +98,38 @@
 
 #pragma mark - UITableViewDelegate
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
-    // If within the range of threads, is a thread view cell, otherwise is a command cell.
-    if (indexPath.row < self.threadViewManager.threads[indexPath.section].count) {
-        czzThread *thread = self.threadViewManager.threads[indexPath.section].threads[indexPath.row];
-        // Thread view cell
-        if ([cell isKindOfClass:[czzMenuEnabledTableViewCell class]]){
-            czzMenuEnabledTableViewCell *threadViewCell = (czzMenuEnabledTableViewCell*)cell;
-            threadViewCell.shouldBlock = [[czzMarkerManager sharedInstance] isUIDBlocked:thread.UID];
-            threadViewCell.cellType = threadViewCellTypeThread;
-            threadViewCell.parentThread = self.threadViewManager.parentThread;
-            threadViewCell.shouldTemporarilyHighlight = [self.temporarilyHighlightUID isEqualToString:thread.UID];
-            [threadViewCell renderContent];
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+  // If within the range of threads, is a thread view cell, otherwise is a command cell.
+  ContentPage *currentPage = self.threadViewManager.threads[indexPath.section];
+  if (indexPath.row < currentPage.count) {
+    czzThread *thread = currentPage.threads[indexPath.row];
+    // Thread view cell
+    if ([cell isKindOfClass:[czzMenuEnabledTableViewCell class]]){
+      czzMenuEnabledTableViewCell *threadViewCell = (czzMenuEnabledTableViewCell*)cell;
+      threadViewCell.shouldBlock = [[czzMarkerManager sharedInstance] isUIDBlocked:thread.UID];
+      threadViewCell.cellType = threadViewCellTypeThread;
+      threadViewCell.parentThread = self.threadViewManager.parentThread;
+      threadViewCell.shouldTemporarilyHighlight = [self.temporarilyHighlightUID isEqualToString:thread.UID];
+      if (self.threadViewManager.threads.count >= 2) {
+        ContentPage *firstPage = self.threadViewManager.threads[0];
+        ContentPage *secondPage = self.threadViewManager.threads[1];
+        if (currentPage == self.threadViewManager.threads.firstObject) {
+          if (firstPage.pageNumber + 1 != secondPage.pageNumber) {
+            NSRange unloadedRange = NSMakeRange(firstPage.pageNumber + 1, secondPage.pageNumber - 1);
+            if (unloadedRange.location == unloadedRange.length) {
+              threadViewCell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"下拉以加载第 %ld 页的内容", (long)unloadedRange.location];
+            } else {
+              threadViewCell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"下拉以加载第 %ld 至 %ld 页的内容", (long)unloadedRange.location, (long)unloadedRange.length];
+            }
+          }
+        } else if (secondPage.pageNumber != 1 && thread == secondPage.threads.firstObject) {
+          threadViewCell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"以下为 %ld 页起的内容", (long)secondPage.pageNumber];
         }
+      }
+      [threadViewCell renderContent];
     }
+  }
     return cell;
 }
 

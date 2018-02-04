@@ -322,18 +322,13 @@ estimatedHeightForRowAtIndexPath:indexPath];
     cell.bigImageMode = [settingCentre userDefShouldUseBigImage];
     cell.cellType = threadViewCellTypeHome;
     cell.cellHeaderView.pageNumberLabel.text = nil;
-    // If next page is not consistent with current page.
-    if (thread == page.threads.firstObject) {
-      if (indexPath.section - 1 >= 0) {
-        ContentPage *previousPage = self.homeViewManager.threads[indexPath.section - 1];
-        NSInteger previousPageNumber = previousPage.pageNumber + 1;
-        if (previousPageNumber != page.pageNumber) {
-          cell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"下拉以加载第 %ld 至 %ld 页的内容", (long)previousPageNumber, (long)page.pageNumber - 1];
-        } else {
-          cell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"下拉以加载第 %ld 页的内容", (long)previousPageNumber];
-        }
-      } else if (page.pageNumber > 1) {
-        cell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"下拉以加载第 1 至 %ld 页的内容", (long)page.pageNumber - 1];
+    // If the first page is not page 1.
+    if (page == self.homeViewManager.threads.firstObject && page.pageNumber > 1) {
+      NSRange unloadedRange = NSMakeRange(1, page.pageNumber - 1);
+      if (unloadedRange.location == unloadedRange.length) {
+        cell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"下拉以加载第 %ld 页的内容", (long)unloadedRange.location];
+      } else {
+        cell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"下拉以加载第 %ld 至 %ld 页的内容", (long)unloadedRange.location, (long)unloadedRange.length];
       }
     }
     cell.cellHeaderView.brokenLinkIcon.hidden = !cell.cellHeaderView.pageNumberLabel.text.length;
