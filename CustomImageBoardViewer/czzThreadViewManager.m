@@ -284,12 +284,14 @@ typedef enum : NSUInteger {
 - (NSMutableArray<ContentPage *> *)threads {
   if (!_threads) {
     _threads = [super threads];
-    // Parent thread would be hosted in its own section.
-    ContentPage *page = [[ContentPage alloc] init];
-    page.threads = @[self.parentThread];
-    page.pageNumber = 0;
-    page.forum = self.forum;
-    [_threads addObject:page];
+    if (_threads != self.cachedThreads) {
+      // Parent thread would be hosted in its own section.
+      ContentPage *page = [[ContentPage alloc] init];
+      page.threads = @[self.parentThread];
+      page.pageNumber = 0;
+      page.forum = self.forum;
+      [_threads addObject:page];
+    }
   }
   return _threads;
 }
