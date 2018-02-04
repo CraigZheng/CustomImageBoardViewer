@@ -323,7 +323,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
     cell.cellType = threadViewCellTypeHome;
     cell.cellHeaderView.pageNumberLabel.text = nil;
     // If the first page is not page 1.
-    if (page == self.homeViewManager.threads.firstObject && page.pageNumber > 1) {
+    if (page == self.homeViewManager.threads.firstObject && page.pageNumber > 1 && thread == page.threads.firstObject) {
       NSRange unloadedRange = NSMakeRange(1, page.pageNumber - 1);
       if (unloadedRange.location == unloadedRange.length) {
         cell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"下拉以加载第 %ld 页的内容", (long)unloadedRange.location];
