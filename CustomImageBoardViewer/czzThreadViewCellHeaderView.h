@@ -19,5 +19,6 @@ IB_DESIGNABLE
 @property (weak, nonatomic) IBOutlet UILabel *pageNumberLabel;
 @property (weak, nonatomic) IBOutlet UIView *pageNumberLabelBackgroundView;
 @property (weak, nonatomic) IBOutlet UIImageView *brokenLinkIcon;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *pageNumberToIDLabelConstraint;
 
 @end

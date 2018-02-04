@@ -127,6 +127,7 @@
           threadViewCell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"以下为 %ld 页起的内容", (long)secondPage.pageNumber];
         }
       }
+      threadViewCell.cellHeaderView.pageNumberToIDLabelConstraint.constant = threadViewCell.cellHeaderView.pageNumberLabel.text.length == 0 ? 0 : 16;
       [threadViewCell renderContent];
     }
   }

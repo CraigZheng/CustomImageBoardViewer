@@ -23,7 +23,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *flagImageView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *dateBottomPaddingConstraint;
 @property (weak, nonatomic) IBOutlet UIView *topSeparator;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *pageNumberToIDLabelConstraint;
 
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
@@ -41,9 +40,8 @@
 }
 
 - (void)layoutSubviews {
-  [super layoutSubviews];
   self.topSeparator.hidden = self.pageNumberLabel.text.length == 0;
-  self.pageNumberToIDLabelConstraint.constant = self.topSeparator.hidden ? 0 : 16;
+  [super layoutSubviews];
 }
 
 #pragma mark - Setters

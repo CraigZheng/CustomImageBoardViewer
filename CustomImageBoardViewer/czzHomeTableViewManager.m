@@ -333,6 +333,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
     }
     cell.cellHeaderView.brokenLinkIcon.hidden = !cell.cellHeaderView.pageNumberLabel.text.length;
     cell.cellHeaderView.pageNumberLabelBackgroundView.hidden = cell.cellHeaderView.brokenLinkIcon.hidden;
+    cell.cellHeaderView.pageNumberToIDLabelConstraint.constant = cell.cellHeaderView.brokenLinkIcon.hidden ? 0 : 16;
     cell.thread = thread;
     if ([self isMemberOfClass:[czzHomeTableViewManager class]]) {
       [cell renderContent];
