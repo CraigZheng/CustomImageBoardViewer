@@ -41,6 +41,8 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
 @property (nonatomic) NSString *settingsFile;
 @property czzURLDownloader *urlDownloader;
 @property (nonatomic, strong) NSData *configurationJSONData;
+@property (strong, readwrite) NSString *ac_isle_host;
+@property (strong, readwrite) NSString *bt_isle_host;
 @end
 
 @implementation czzSettingsCentre
@@ -370,11 +372,13 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         case SettingsHostAC:
           if ([configurationName isEqualToString:@"AC"]) {
             jsonObject = obj;
+            self.ac_isle_host = [jsonObject objectForKey:@"a_isle_host"];
           }
           break;
         case SettingsHostBT:
           if ([configurationName isEqualToString:@"BT"]) {
             jsonObject = obj;
+            self.bt_isle_host = [jsonObject objectForKey:@"a_isle_host"];
           }
           break;
         default:
