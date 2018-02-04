@@ -236,7 +236,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 -(void)dragOnRefreshControlAction:(id)sender{
-  if (self.threadViewManager.threads.firstObject.pageNumber > 1) {
+  if (self.threadViewManager.threads.count >= 2 && self.threadViewManager.threads[1].pageNumber > 1) {
     [self.threadViewManager loadPreviousPage];
   } else {
     [self refreshThread:self];

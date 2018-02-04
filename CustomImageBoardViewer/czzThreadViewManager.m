@@ -196,6 +196,14 @@ typedef enum : NSUInteger {
     [super refresh];
 }
 
+- (void)loadPreviousPage {
+  if (self.threads.count >= 2 && self.threads[1].pageNumber > 1) {
+    [self loadMoreThreads:self.threads[1].pageNumber - 1];
+  } else {
+    [self refresh];
+  }
+}
+
 - (void)loadAll {
     DLog(@"");
     [self stopAllOperation];
