@@ -42,7 +42,7 @@
 }
 
 #pragma mark - UI managements.
--(void)highlightTableViewCell:(NSIndexPath *)indexPath{
+-(void)highlightTableViewCell:(NSIndexPath *)indexPath {
     //disable the scrolling view
     self.threadTableView.scrollEnabled = NO;
     self.containerView = [PartialTransparentView new];
@@ -171,38 +171,33 @@
 
 #pragma mark - czzMenuEnableTableViewCellDelegate
 - (void)userTapInQuotedText:(NSString *)text {
-  // TODO: the index path is not available right now.
-  /*
-    // Text cannot be parsed to an integer, return...
-    text = [text componentsSeparatedByString:@"/"].lastObject;
-    NSInteger threadID = text.integerValue;
-    if (!threadID) {
-        return;
+  // Text cannot be parsed to an integer, return...
+  text = [text componentsSeparatedByString:@"/"].lastObject;
+  NSInteger threadID = text.integerValue;
+  if (!threadID) {
+    return;
+  }
+  NSIndexPath *selectedIndexPath;
+  for (ContentPage *contentPage in self.threadViewManager.threads) {
+    for (czzThread *thread in contentPage.threads) {
+      if (thread.ID == threadID) {
+        selectedIndexPath = [NSIndexPath indexPathForRow:[contentPage.threads indexOfObject:thread]
+                                               inSection:[self.threadViewManager.threads indexOfObject:contentPage]];
+        break;
+      }
     }
-    NSIndexPath *selectedIndexPath;
-    // Using NSPredicate to get an array of threads with the given number.
-    NSArray *filteredThreads = [self.threadViewManager.threads filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"ID == %ld", (long) threadID]];
-    if (filteredThreads.firstObject) {
-        selectedIndexPath = [NSIndexPath indexPathForRow:[self.threadViewManager.threads indexOfObject:filteredThreads.firstObject]
-                                               inSection:0];
-    }
-    if (selectedIndexPath && selectedIndexPath.row < self.threadViewManager.threads.count) {
-        czzThread *selectedThread = [self.threadViewManager.threads objectAtIndex:selectedIndexPath.row];
-        if (selectedThread.ID == text.integerValue) {
-            self.threadsTableViewContentOffSet = self.threadTableView.contentOffset;
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.threadViewManager.threads indexOfObject:selectedThread] inSection:0];
-            [self.threadTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:NO];
-            [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-                [self highlightTableViewCell:indexPath];
-            }];
-            return;
-        }
-
-    }
-
-    // Thread not found in the downloaded thread, get it from server instead.
-    [super userTapInQuotedText:text];
-   */
+  }
+  if (selectedIndexPath) {
+    self.threadsTableViewContentOffSet = self.threadTableView.contentOffset;
+    [self.threadTableView scrollToRowAtIndexPath:selectedIndexPath atScrollPosition:UITableViewScrollPositionNone animated:NO];
+    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+      [self highlightTableViewCell:selectedIndexPath];
+    }];
+    return;    
+  }
+  
+  // Thread not found in the downloaded thread, get it from server instead.
+  [super userTapInQuotedText:text];
 }
 
 - (void)userWantsToTemporarilyHighlightUser:(NSString *)UID {
