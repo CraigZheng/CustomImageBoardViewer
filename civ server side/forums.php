@@ -11,6 +11,7 @@
 	
 	//V3 for BT isle in the A isle's hide
 	$fileV3 = "forums_v3.json";
+	$fileV4 = "forums_v4.json";
 	$censoredFileV2 = "forums_v2-censored.json";
 
 
@@ -20,20 +21,11 @@
 	}
 	//AC island
 	if (strpos($version, $bundleIdentifier) !== false) {
-		/*
-		if (strpos($version, "DEBUG") !== false) {
-		} else if (strpos($version, "3.5") !== false || 
-					strpos($version, "3.4") !== false || 
-					strpos($version, "3.3") !== false || 
-					strpos($version, "3.2") !== false ||
-					strpos($version, "3.1") !== false) {
-			echo file_get_contents($fileV3); 
+		if (floatval(str_replace($bundleIdentifier . "-", "", $version)) > 4.2) {
+			echo file_get_contents($fileV4);
+		} else {
+			echo file_get_contents($fileV3);
 		}
-		else {
-			echo file_get_contents($file);
-		}			
-		*/
-		echo file_get_contents($fileV3); 
 		return;
 	}
 	

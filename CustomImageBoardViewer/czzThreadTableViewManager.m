@@ -13,6 +13,8 @@
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzReplyUtil.h"
 #import "czzMarkerManager.h"
+#import "czzThreadViewCellHeaderView.h"
+#import "CustomImageBoardViewer-Swift.h"
 
 @interface czzThreadTableViewManager ()
 @property (nonatomic, strong) PartialTransparentView *containerView;
@@ -40,7 +42,7 @@
 }
 
 #pragma mark - UI managements.
--(void)highlightTableViewCell:(NSIndexPath *)indexPath{
+-(void)highlightTableViewCell:(NSIndexPath *)indexPath {
     //disable the scrolling view
     self.threadTableView.scrollEnabled = NO;
     self.containerView = [PartialTransparentView new];
@@ -96,23 +98,39 @@
 
 #pragma mark - UITableViewDelegate
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
-    // If within the range of threads, is a thread view cell, otherwise is a command cell.
-    if (indexPath.row < self.threadViewManager.threads.count) {
-        czzThread *thread = [self.threadViewManager.threads objectAtIndex:indexPath.row];
-        // Thread view cell
-        if ([cell isKindOfClass:[czzMenuEnabledTableViewCell class]]){
-            czzMenuEnabledTableViewCell *threadViewCell = (czzMenuEnabledTableViewCell*)cell;
-            threadViewCell.shouldBlock = [[czzMarkerManager sharedInstance] isUIDBlocked:thread.UID];
-            threadViewCell.cellType = threadViewCellTypeThread;
-            threadViewCell.parentThread = self.threadViewManager.parentThread;
-            // TODO: Should temporarily highlight.
-            threadViewCell.shouldTemporarilyHighlight = [self.temporarilyHighlightUID isEqualToString:thread.UID];
-            [threadViewCell renderContent];
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+  // If within the range of threads, is a thread view cell, otherwise is a command cell.
+  ContentPage *currentPage = self.threadViewManager.threads[indexPath.section];
+  if (indexPath.row < currentPage.count) {
+    czzThread *thread = currentPage.threads[indexPath.row];
+    // Thread view cell
+    if ([cell isKindOfClass:[czzMenuEnabledTableViewCell class]]){
+      czzMenuEnabledTableViewCell *threadViewCell = (czzMenuEnabledTableViewCell*)cell;
+      threadViewCell.shouldBlock = [[czzMarkerManager sharedInstance] isUIDBlocked:thread.UID];
+      threadViewCell.cellType = threadViewCellTypeThread;
+      threadViewCell.parentThread = self.threadViewManager.parentThread;
+      threadViewCell.shouldTemporarilyHighlight = [self.temporarilyHighlightUID isEqualToString:thread.UID];
+      if (self.threadViewManager.threads.count >= 2) {
+        ContentPage *firstPage = self.threadViewManager.threads[0];
+        ContentPage *secondPage = self.threadViewManager.threads[1];
+        if (currentPage == self.threadViewManager.threads.firstObject) {
+          if (firstPage.pageNumber + 1 != secondPage.pageNumber) {
+            NSRange unloadedRange = NSMakeRange(firstPage.pageNumber + 1, secondPage.pageNumber - 1);
+            if (unloadedRange.location == unloadedRange.length) {
+              threadViewCell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"下拉以加载第 %ld 页的内容", (long)unloadedRange.location];
+            } else {
+              threadViewCell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"下拉以加载第 %ld 至 %ld 页的内容", (long)unloadedRange.location, (long)unloadedRange.length];
+            }
+          }
+        } else if (secondPage.pageNumber != 1 && thread == secondPage.threads.firstObject) {
+          threadViewCell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"以下为 %ld 页起的内容", (long)secondPage.pageNumber];
         }
+      }
+      threadViewCell.cellHeaderView.pageNumberToIDLabelConstraint.constant = threadViewCell.cellHeaderView.pageNumberLabel.text.length == 0 ? 0 : 16;
+      [threadViewCell renderContent];
     }
+  }
     return cell;
 }
 
@@ -127,13 +145,13 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // When tapping on any row, make all rows resignFirstResponder.
-    [tableView.visibleCells makeObjectsPerformSelector:@selector(resignFirstResponder)];
-    if (indexPath.row < self.threadViewManager.threads.count) {
-        
-    } else {
-        [super tableView:tableView didSelectRowAtIndexPath:indexPath];
-    }
+  // When tapping on any row, make all rows resignFirstResponder.
+  [tableView.visibleCells makeObjectsPerformSelector:@selector(resignFirstResponder)];
+  if (indexPath.row < self.threadViewManager.threads[indexPath.section].threads.count) {
+    
+  } else {
+    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+  }
 }
 
 -(BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -153,35 +171,33 @@
 
 #pragma mark - czzMenuEnableTableViewCellDelegate
 - (void)userTapInQuotedText:(NSString *)text {
-    // Text cannot be parsed to an integer, return...
-    text = [text componentsSeparatedByString:@"/"].lastObject;
-    NSInteger threadID = text.integerValue;
-    if (!threadID) {
-        return;
+  // Text cannot be parsed to an integer, return...
+  text = [text componentsSeparatedByString:@"/"].lastObject;
+  NSInteger threadID = text.integerValue;
+  if (!threadID) {
+    return;
+  }
+  NSIndexPath *selectedIndexPath;
+  for (ContentPage *contentPage in self.threadViewManager.threads) {
+    for (czzThread *thread in contentPage.threads) {
+      if (thread.ID == threadID) {
+        selectedIndexPath = [NSIndexPath indexPathForRow:[contentPage.threads indexOfObject:thread]
+                                               inSection:[self.threadViewManager.threads indexOfObject:contentPage]];
+        break;
+      }
     }
-    NSIndexPath *selectedIndexPath;
-    // Using NSPredicate to get an array of threads with the given number.
-    NSArray *filteredThreads = [self.threadViewManager.threads filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"ID == %ld", (long) threadID]];
-    if (filteredThreads.firstObject) {
-        selectedIndexPath = [NSIndexPath indexPathForRow:[self.threadViewManager.threads indexOfObject:filteredThreads.firstObject]
-                                               inSection:0];
-    }
-    if (selectedIndexPath && selectedIndexPath.row < self.threadViewManager.threads.count) {
-        czzThread *selectedThread = [self.threadViewManager.threads objectAtIndex:selectedIndexPath.row];
-        if (selectedThread.ID == text.integerValue) {
-            self.threadsTableViewContentOffSet = self.threadTableView.contentOffset;
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.threadViewManager.threads indexOfObject:selectedThread] inSection:0];
-            [self.threadTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:NO];
-            [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-                [self highlightTableViewCell:indexPath];
-            }];
-            return;
-        }
-
-    }
-
-    // Thread not found in the downloaded thread, get it from server instead.
-    [super userTapInQuotedText:text];
+  }
+  if (selectedIndexPath) {
+    self.threadsTableViewContentOffSet = self.threadTableView.contentOffset;
+    [self.threadTableView scrollToRowAtIndexPath:selectedIndexPath atScrollPosition:UITableViewScrollPositionNone animated:NO];
+    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+      [self highlightTableViewCell:selectedIndexPath];
+    }];
+    return;    
+  }
+  
+  // Thread not found in the downloaded thread, get it from server instead.
+  [super userTapInQuotedText:text];
 }
 
 - (void)userWantsToTemporarilyHighlightUser:(NSString *)UID {

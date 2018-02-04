@@ -39,6 +39,7 @@
 
 #import <CoreText/CoreText.h>
 
+#import "CustomImageBoardViewer-Swift.h"
 
 @interface czzHomeViewController() <UIAlertViewDelegate, UIStateRestoring, SlideNavigationControllerDelegate>
 @property (strong, nonatomic) NSString *thumbnailFolder;
@@ -151,7 +152,7 @@
         self.numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
     }
     // Give the amount number a title.
-    [(czzRoundButton *)self.numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.homeViewManager.threads.count] forState:UIControlStateNormal];
+    [(czzRoundButton *)self.numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.homeViewManager.threads.firstObject.threads.count] forState:UIControlStateNormal];
     // Other data
     self.title = self.homeViewManager.isShowingLatestResponse ? @"最新回复" : self.homeViewManager.forum.name;
     self.navigationItem.backBarButtonItem.title = self.title;
@@ -317,36 +318,37 @@
 
 #pragma mark - self.refreshControl and download controls
 -(void)dragOnRefreshControlAction:(id)sender{
+  if (self.homeViewManager.threads.firstObject.pageNumber > 1) {
+    [self.homeViewManager loadPreviousPage];
+  } else {
     [self.homeViewManager refresh];
+  }
+  [self updateTableView];
 }
 
 #pragma Notification handler - forumPicked
 -(void)forumPicked:(NSNotification*)notification{
-    NSDictionary *userInfo = notification.userInfo;
-    czzForum *forum = [userInfo objectForKey:kPickedForum];
-    if (forum){
-        self.selectedForum = forum;
-        BOOL shouldCacheLatestResponse = self.homeViewManager.isShowingLatestResponse;
-        self.homeViewManager.isShowingLatestResponse = NO;
-        [self.homeViewManager refresh];
-        // When the homeViewManager is previously showing latest responses, the cachedThreads should be pointing to it instead.
-        if (shouldCacheLatestResponse) {
-            self.homeViewManager.cachedThreads = self.homeViewManager.latestResponses;
-        }
-        //disallow image downloading if specified by remote settings
-        self.shouldHideImageForThisForum = NO;
-        for (NSString *specifiedForum in settingCentre.shouldHideImageInForums) {
-            if ([specifiedForum isEqualToString:forum.name]) {
-                self.shouldHideImageForThisForum = YES;
-                break;
-            }
-        }
-    } else if ([userInfo objectForKey:kPickedTimeline]) {
-        self.homeViewManager.isShowingLatestResponse = YES;
-        [self.homeViewManager refresh];
-    } else {
-        [NSException raise:@"NOT A VALID FORUM" format:@""];
+  NSDictionary *userInfo = notification.userInfo;
+  czzForum *forum = [userInfo objectForKey:kPickedForum];
+  if (forum){
+    self.selectedForum = forum;
+    self.homeViewManager.isShowingLatestResponse = NO;
+    [self.homeViewManager refresh];
+    //disallow image downloading if specified by remote settings
+    self.shouldHideImageForThisForum = NO;
+    for (NSString *specifiedForum in settingCentre.shouldHideImageInForums) {
+      if ([specifiedForum isEqualToString:forum.name]) {
+        self.shouldHideImageForThisForum = YES;
+        break;
+      }
     }
+  } else if ([userInfo objectForKey:kPickedTimeline]) {
+    self.homeViewManager.isShowingLatestResponse = YES;
+    [self.homeViewManager refresh];
+  } else {
+    [NSException raise:@"NOT A VALID FORUM" format:@""];
+  }
+  [self updateTableView];
 }
 
 #pragma mark - Setters

@@ -19,7 +19,7 @@
 #import "NSObjectUtil.h"
 #import <Foundation/Foundation.h>
 
-@class czzHomeViewManager;
+@class czzHomeViewManager, ContentPage;
 @protocol czzHomeViewManagerDelegate <NSObject>
 @optional
 -(void)viewManagerDownloadStateChanged:(czzHomeViewManager*)homeViewManager;
@@ -42,34 +42,34 @@
 @property (nonatomic, strong) czzForum *forum;
 @property (nonatomic, assign) NSInteger pageNumber;
 @property (nonatomic, assign) NSInteger totalPages;
-@property (nonatomic, strong) NSMutableArray *threads;
+@property (nonatomic, strong) NSMutableArray<ContentPage *> *threads;
 @property (nonatomic, strong) NSArray *lastBatchOfThreads;
 @property (nonatomic, weak) id<czzHomeViewManagerDelegate> delegate;
 @property (nonatomic, readonly) BOOL isDownloading;
 @property (nonatomic, readonly) NSString *baseURLString;
 @property (nonatomic, assign) CGPoint currentOffSet;
 @property (nonatomic, strong) czzThread *displayedThread;
-@property (nonatomic, strong) NSArray *cachedThreads;
-@property (nonatomic, strong) NSArray *latestResponses;
+@property (nonatomic, strong) ContentPage *latestResponses;
 @property (nonatomic, strong) czzThreadDownloader *downloader;
 @property (nonatomic, assign) BOOL isShowingLatestResponse;
 
--(void)refresh;
--(void)reloadData;
--(void)loadMoreThreads;
--(void)loadMoreThreads:(NSInteger)pageNumber;
+- (void)refresh;
+- (void)reloadData;
+- (void)loadPreviousPage;
+- (void)loadMoreThreads;
+- (void)loadMoreThreads:(NSInteger)pageNumber;
 - (void)loadLatestResponse;
--(void)removeAll;
-//-(void)calculateHeightsForThreads:(NSArray*)newThreads;
--(void)scrollToContentOffset:(CGPoint)offset;
+- (void)removeAll;
+
+- (void)scrollToContentOffset:(CGPoint)offset;
 - (void)showContentWithThread:(czzThread*)thread;
 - (void)highlightUID:(NSString *)UID;
 - (void)blockUID:(NSString *)UID;
 
 //save and restore
--(NSString*)saveCurrentState;
--(void)restorePreviousState;
+- (NSString*)saveCurrentState;
+- (void)restorePreviousState;
 
-+(instancetype)sharedManager;
-+(void)setSharedManager:(czzHomeViewManager*)manager;
++ (instancetype)sharedManager;
++ (void)setSharedManager:(czzHomeViewManager*)manager;
 @end

@@ -13,8 +13,8 @@
 	//V3 configuration
 	$fileV3 = "remote_configuration_v3.json";
 
-	//V3 configuration, for app version 3.2 and newer.
 	$fileV4 = "remote_configuration_v4.json";
+	$fileV5 = "remote_configuration_v5.json";
 	
 	$version = "1.0";
 	if (isset($_GET["version"])) {
@@ -29,16 +29,11 @@
 	if (strpos($version, $bundleIdentifier) !== false) {
 		if (strpos($version, "3.1") !== false) {
 			echo file_get_contents($fileV3);
+		} else if (floatval(str_replace($bundleIdentifier . "-", "", $version)) > 4.2) {
+			echo file_get_contents($fileV5);
 		} else {
 			echo file_get_contents($fileV4);
 		}
-		/* else if (strpos($version, "3.5") !== false || strpos($version, "3.4") !== false || strpos($version, "3.2") !== false || strpos($version, "3.3") !== false) {
-			echo file_get_contents($fileV4);
-		}
-		else {
-			echo file_get_contents($file);
-		}
-		*/
 		return;
 	}
 	

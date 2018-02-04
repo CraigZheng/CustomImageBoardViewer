@@ -29,7 +29,7 @@
 #import "czzBigImageModeTableViewCell.h"
 #import "czzForumsViewController.h"
 #import <ImageIO/ImageIO.h>
-
+#import "czzThreadViewCellHeaderView.h"
 #import "CustomImageBoardViewer-Swift.h"
 
 @import DZNEmptyDataSet;
@@ -121,9 +121,9 @@
     }
     czzThread *selectedThread;
     @try {
-        NSArray *threads = self.homeViewManager.threads;
+        NSArray* threads = self.homeViewManager.threads[indexPath.section].threads;
         if (indexPath.row < threads.count) {
-            selectedThread = [self.homeViewManager.threads objectAtIndex:indexPath.row];
+            selectedThread = [threads objectAtIndex:indexPath.row];
             if (![settingCentre shouldAllowOpenBlockedThread]) {
                 czzBlacklistEntity *blacklistEntity = [[czzBlacklist sharedInstance] blacklistEntityForThreadID:selectedThread.ID];
                 if (blacklistEntity){
@@ -136,15 +136,11 @@
     @catch (NSException *exception) {
         DDLogDebug(@"%@", exception);
     }
-    if (indexPath.row < self.homeViewManager.threads.count)
-    {
-        //@todo open the selected thread
+    if (selectedThread) {
         czzThreadViewController *threadViewController = [czzThreadViewController new];
         threadViewController.thread = selectedThread;
         [NavigationManager pushViewController:threadViewController animated:YES];
-    }
-    // If not downloading or processing, load more threads.
-    else if (!self.homeViewManager.isDownloading) {
+    } else if (!self.homeViewManager.isDownloading) {
         self.homeViewManager.isShowingLatestResponse ? [self.homeViewManager loadLatestResponse] : [self.homeViewManager loadMoreThreads];
         self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
     }
@@ -188,8 +184,8 @@ estimatedHeightForRowAtIndexPath:indexPath];
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat estimatedHeight = 44.0;
-    if (indexPath.row < self.homeViewManager.threads.count) {
-        czzThread *thread = self.homeViewManager.threads[indexPath.row];
+    if (indexPath.row < self.homeViewManager.threads[indexPath.section].count) {
+        czzThread *thread = self.homeViewManager.threads[indexPath.section].threads[indexPath.row];
         if (self.contentEstimatedHeights[@(thread.ID)]) {
             estimatedHeight = [self.contentEstimatedHeights[@(thread.ID)] floatValue];
         } else {
@@ -267,61 +263,83 @@ estimatedHeightForRowAtIndexPath:indexPath];
 }
 
 #pragma mark - UITableView datasource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+  return self.homeViewManager.threads.count;
+}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (self.homeViewManager.threads.count > 0)
-        return self.homeViewManager.threads.count + 1;
-    return self.homeViewManager.threads.count;
+  NSInteger rowsCount = self.homeViewManager.threads[section].count;
+  if (section == [self numberOfSectionsInTableView:tableView] - 1) {
+    rowsCount += 1;
+  }
+  return rowsCount;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row >= self.homeViewManager.threads.count) {
-        //Last row
-        NSString *lastCellIdentifier = THREAD_TABLEVIEW_COMMAND_CELL_IDENTIFIER;
-        czzThreadTableViewCommandCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:lastCellIdentifier forIndexPath:indexPath];
-        cell.commandStatusViewController = self.homeTableView.lastCellCommandViewController;
-        cell.commandStatusViewController.homeViewManager = self.homeViewManager;
-        self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
-        if (self.homeViewManager.pageNumber == self.homeViewManager.totalPages) {
-            self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeNoMore;
-        }
-        if (self.homeViewManager.isDownloading) {
-            self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
-        }
-        
-        cell.backgroundColor = [settingCentre viewBackgroundColour];
-        return cell;
+  // Last section + last row.
+  if (indexPath.section >= [self numberOfSectionsInTableView:tableView] - 1 &&
+      indexPath.row >= [self tableView:tableView numberOfRowsInSection:indexPath.section] - 1) {
+    NSString *lastCellIdentifier = THREAD_TABLEVIEW_COMMAND_CELL_IDENTIFIER;
+    czzThreadTableViewCommandCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:lastCellIdentifier forIndexPath:indexPath];
+    cell.commandStatusViewController = self.homeTableView.lastCellCommandViewController;
+    cell.commandStatusViewController.homeViewManager = self.homeViewManager;
+    self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
+    if (self.homeViewManager.pageNumber == self.homeViewManager.totalPages) {
+      self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeNoMore;
+    }
+    if (self.homeViewManager.isDownloading) {
+      self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
     }
     
-    NSString *cell_identifier = settingCentre.userDefShouldUseBigImage ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
-    czzThread *thread = [self.homeViewManager.threads objectAtIndex:indexPath.row];
-    czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
-    if (cell){
-        cell.delegate = self;
-        if ([[czzMarkerManager sharedInstance] isHighlighted:thread.UID]) {
-            cell.highlightColour = [[czzMarkerManager sharedInstance] highlightColourForUID:thread.UID];
-            cell.nickname = [[czzMarkerManager sharedInstance] nicknameForUID:thread.UID];
-        } else {
-            cell.highlightColour = nil;
-            cell.nickname = nil;
-        }
-        if ([[czzMarkerManager sharedInstance] isUIDBlocked:thread.UID]) {
-            cell.shouldBlock = YES;
-            cell.allowImage = NO;
-            cell.highlightColour = [UIColor lightGrayColor];
-        } else {
-            cell.shouldBlock = NO;
-            cell.allowImage = [settingCentre userDefShouldDisplayThumbnail];
-        }
-        cell.myIndexPath = indexPath;
-        cell.nightyMode = [settingCentre userDefNightyMode];
-        cell.bigImageMode = [settingCentre userDefShouldUseBigImage];
-        cell.cellType = threadViewCellTypeHome;
-        cell.thread = thread;
-        if ([self isMemberOfClass:[czzHomeTableViewManager class]]) {
-            [cell renderContent];
-        }
-    }
+    cell.backgroundColor = [settingCentre viewBackgroundColour];
     return cell;
+  }
+  
+  NSString *cell_identifier = settingCentre.userDefShouldUseBigImage ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
+  ContentPage *page = self.homeViewManager.threads[indexPath.section];
+  czzThread *thread = page.threads[indexPath.row];
+  czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
+  if (cell){
+    cell.delegate = self;
+    if ([[czzMarkerManager sharedInstance] isHighlighted:thread.UID]) {
+      cell.highlightColour = [[czzMarkerManager sharedInstance] highlightColourForUID:thread.UID];
+      cell.nickname = [[czzMarkerManager sharedInstance] nicknameForUID:thread.UID];
+    } else {
+      cell.highlightColour = nil;
+      cell.nickname = nil;
+    }
+    if ([[czzMarkerManager sharedInstance] isUIDBlocked:thread.UID]) {
+      cell.shouldBlock = YES;
+      cell.allowImage = NO;
+      cell.highlightColour = [UIColor lightGrayColor];
+    } else {
+      cell.shouldBlock = NO;
+      cell.allowImage = [settingCentre userDefShouldDisplayThumbnail];
+    }
+    cell.myIndexPath = indexPath;
+    cell.nightyMode = [settingCentre userDefNightyMode];
+    cell.bigImageMode = [settingCentre userDefShouldUseBigImage];
+    cell.cellType = threadViewCellTypeHome;
+    cell.cellHeaderView.pageNumberLabel.text = nil;
+    // If the first page is not page 1.
+    if (page == self.homeViewManager.threads.firstObject && page.pageNumber > 1 && thread == page.threads.firstObject) {
+      NSRange unloadedRange = NSMakeRange(1, page.pageNumber - 1);
+      if (unloadedRange.location == unloadedRange.length) {
+        cell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"下拉以加载第 %ld 页的内容", (long)unloadedRange.location];
+      } else {
+        cell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"下拉以加载第 %ld 至 %ld 页的内容", (long)unloadedRange.location, (long)unloadedRange.length];
+      }
+    }
+    cell.cellHeaderView.brokenLinkIcon.hidden = !cell.cellHeaderView.pageNumberLabel.text.length;
+    cell.cellHeaderView.pageNumberLabelBackgroundView.hidden = cell.cellHeaderView.brokenLinkIcon.hidden;
+    cell.cellHeaderView.pageNumberToIDLabelConstraint.constant = cell.cellHeaderView.brokenLinkIcon.hidden ? 0 : 16;
+    cell.thread = thread;
+    if ([self isMemberOfClass:[czzHomeTableViewManager class]]) {
+      [cell renderContent];
+    }
+  }
+  return cell;
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -363,8 +381,8 @@ estimatedHeightForRowAtIndexPath:indexPath];
         cell = (UITableViewCell *)sender;
         // Get indexPath, then the corresponding threads from it.
         NSIndexPath *indexPath = [self.homeTableView indexPathForCell:cell];
-        if (indexPath && indexPath.row < self.homeViewManager.threads.count) {
-            NSString *imgURL = [self.homeViewManager.threads[indexPath.row] imgSrc];
+        if (indexPath && indexPath.section < self.homeViewManager.threads.count) {
+            NSString *imgURL = [self.homeViewManager.threads[indexPath.section].threads[indexPath.row] imgSrc];
             if (imgURL.length) {
                 // If image exists
                 if ([[czzImageCacheManager sharedInstance] hasImageWithName:imgURL.lastPathComponent]) {
@@ -486,30 +504,29 @@ estimatedHeightForRowAtIndexPath:indexPath];
 #pragma mark - Getters 
 
 - (BOOL)tableViewIsDraggedOverTheBottom {
-    return [self tableViewIsDraggedOverTheBottomWithPadding:44];
+  return [self tableViewIsDraggedOverTheBottomWithPadding:44];
 }
 
 - (BOOL)tableViewIsDraggedOverTheBottomWithPadding:(CGFloat)padding {
-    BOOL isOver = NO;
-    @try {
-        if (self.homeTableView.window) {
-            NSIndexPath *lastVisibleIndexPath = [self.homeTableView indexPathsForVisibleRows].lastObject;
-            if (lastVisibleIndexPath.row == self.homeViewManager.threads.count)
-            {
-                CGPoint contentOffSet = self.homeTableView.contentOffset;
-                CGRect lastCellRect = [self.homeTableView rectForRowAtIndexPath:lastVisibleIndexPath];
-                if (lastCellRect.origin.y + lastCellRect.size.height + padding < contentOffSet.y + self.homeTableView.frame.size.height) {
-                    isOver = YES;
-                } else {
-                    isOver = NO;
-                }
-            }
+  BOOL isOver = NO;
+  @try {
+    if (self.homeTableView.window) {
+      NSIndexPath *lastVisibleIndexPath = [self.homeTableView indexPathsForVisibleRows].lastObject;
+      if (lastVisibleIndexPath.row == self.homeViewManager.threads.lastObject.threads.count) {
+        CGPoint contentOffSet = self.homeTableView.contentOffset;
+        CGRect lastCellRect = [self.homeTableView rectForRowAtIndexPath:lastVisibleIndexPath];
+        if (lastCellRect.origin.y + lastCellRect.size.height + padding < contentOffSet.y + self.homeTableView.frame.size.height) {
+          isOver = YES;
+        } else {
+          isOver = NO;
         }
+      }
     }
-    @catch (NSException *exception) {
-        DDLogDebug(@"%@", exception);
-    }
-    return isOver;
+  }
+  @catch (NSException *exception) {
+    DDLogDebug(@"%@", exception);
+  }
+  return isOver;
 }
 
 - (NSIndexPath *)lastRowIndexPath {
@@ -540,16 +557,17 @@ estimatedHeightForRowAtIndexPath:indexPath];
 
 #pragma mark - UIDataSourceModelAssociation
 
-- (NSString *)modelIdentifierForElementAtIndexPath:(NSIndexPath *)idx inView:(UIView *)view {
-    if (idx.row < self.homeViewManager.threads.count) {
+- (NSString *)modelIdentifierForElementAtIndexPath:(NSIndexPath *)indexPath inView:(UIView *)view {
+    if (indexPath.row < self.homeViewManager.threads[indexPath.section].count) {
         // Return thread ID.
-        return [NSString stringWithFormat:@"%ld", (long)[self.homeViewManager.threads[idx.row] ID]];
+        return [NSString stringWithFormat:@"%ld", (long)[self.homeViewManager.threads[indexPath.section].threads[indexPath.row] ID]];
     } else {
         // Last row.
         return @"lastRow";
     }
 }
 
+// TODO: identifier is restored with section, this needs to be fixed.
 - (NSIndexPath *)indexPathForElementWithModelIdentifier:(NSString *)identifier inView:(UIView *)view {
     if ([identifier isEqualToString:@"lastRow"]) {
         // Return last row.
@@ -558,7 +576,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
         NSInteger identifierInteger = [identifier integerValue];
         for (czzThread * thread in self.homeViewManager.threads) {
             if (thread.ID == identifierInteger) {
-                return [NSIndexPath indexPathForRow:0 inSection:[self.homeViewManager.threads indexOfObject:thread]];
+//                return [NSIndexPath indexPathForRow:0 inSection:[self.homeViewManager.threads indexOfObject:thread]];
             }
         }
     }

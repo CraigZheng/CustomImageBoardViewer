@@ -15,9 +15,9 @@
 #import <Foundation/Foundation.h>
 
 @interface czzHistoryManager : NSObject 
-@property (nonatomic, strong) NSMutableOrderedSet *browserHistory;
-@property (nonatomic, strong) NSMutableOrderedSet *respondedThreads;
-@property (nonatomic, strong) NSMutableOrderedSet *postedThreads;
+@property (nonatomic, strong) NSMutableOrderedSet<czzThread *> *browserHistory;
+@property (nonatomic, strong) NSMutableOrderedSet<czzThread *> *respondedThreads;
+@property (nonatomic, strong) NSMutableOrderedSet<czzThread *> *postedThreads;
 @property (nonatomic, readonly) NSString *historyFolder;
 
 - (void)addToRespondedList:(czzThread*)thread;

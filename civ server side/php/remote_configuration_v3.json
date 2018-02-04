@@ -28,8 +28,8 @@
   "thread_list_host": "https://h.nimingban.com/api/<kForum>?page=<kPageNumber>",
   "thread_content_host": "https://h.nimingban.com/api/t/<kParentID>?page=<kPageNumber>",
   "quote_thread_host": "https://h.nimingban.com/Api/ref/id/<kThreadID>",
-  "thumbnail_host": "http://img1.nimingban.com",
-  "image_host": "http://img1.nimingban.com",
+  "thumbnail_host": "http://cdn.ovear.info:8998/thumb/",
+  "image_host": "http://cdn.ovear.info:8998/image/",
   "donation_link": "",
-  "message": ""
+  "message": "旧版本已不再维护，请尽快升级本App到最新版"
 }

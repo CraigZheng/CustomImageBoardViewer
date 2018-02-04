@@ -13,6 +13,8 @@
 #import "czzThreadTableViewCommandCellTableViewCell.h"
 #import "czzOnScreenCommandViewController.h"
 
+#import "CustomImageBoardViewer-Swift.h"
+
 @interface czzThreadTableView () <czzOnScreenCommandViewControllerDelegate>
 
 @end
@@ -82,7 +84,7 @@
         NSInteger rows = [self numberOfRowsInSection:0];
         if (rows) {
             self.quickScrolling = YES;
-            [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:rows - 1 inSection:0]
+            [self scrollToRowAtIndexPath:self.lastIndexPath
                         atScrollPosition:UITableViewScrollPositionBottom
                                 animated:YES];
             self.quickScrolling = NO;

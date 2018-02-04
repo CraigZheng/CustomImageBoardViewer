@@ -14,6 +14,8 @@
 #import "CustomImageBoardViewer-Swift.h"
 #import <Google/Analytics.h>
 
+#import "CustomImageBoardViewer-Swift.h"
+
 @interface czzHomeViewManager ()
 @property (nonatomic, readonly) NSString *cacheFile;
 @property (nonatomic, assign) BOOL isDownloading;
@@ -68,31 +70,33 @@
 }
 
 -(void)restorePreviousState {
-    NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:self.cacheFile];
-    @try {
-        if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
-            NSData *cacheData = [NSData dataWithContentsOfFile:cacheFile];
-            czzHomeViewManager *viewManager = [NSKeyedUnarchiver unarchiveObjectWithData:cacheData];
-            if ([viewManager isKindOfClass:[czzHomeViewManager class]])
-            {
-                self.forum = viewManager.forum;
-                self.pageNumber = viewManager.pageNumber;
-                self.totalPages = viewManager.totalPages;
-                self.threads = viewManager.threads;
-                self.currentOffSet = viewManager.currentOffSet;
-                self.lastBatchOfThreads = viewManager.lastBatchOfThreads;
-                self.shouldHideImageForThisForum = viewManager.shouldHideImageForThisForum;
-                self.displayedThread = viewManager.displayedThread;
-                self.isShowingLatestResponse = viewManager.isShowingLatestResponse;
-                self.latestResponses = viewManager.latestResponses;
-            }
+  NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:self.cacheFile];
+  @try {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
+      NSData *cacheData = [NSData dataWithContentsOfFile:cacheFile];
+      czzHomeViewManager *viewManager = [NSKeyedUnarchiver unarchiveObjectWithData:cacheData];
+      if ([viewManager isKindOfClass:[czzHomeViewManager class]])
+      {
+        self.forum = viewManager.forum;
+        self.pageNumber = viewManager.pageNumber;
+        self.totalPages = viewManager.totalPages;
+        if ([viewManager.threads isKindOfClass:self.threads.class]) {
+          self.threads = viewManager.threads;
         }
+        self.currentOffSet = viewManager.currentOffSet;
+        self.lastBatchOfThreads = viewManager.lastBatchOfThreads;
+        self.shouldHideImageForThisForum = viewManager.shouldHideImageForThisForum;
+        self.displayedThread = viewManager.displayedThread;
+        self.isShowingLatestResponse = viewManager.isShowingLatestResponse;
+        self.latestResponses = viewManager.latestResponses;
+      }
     }
-    @catch (NSException *exception) {
-        // Always delete the cache file after exception to ensure safety.
-        [[NSFileManager defaultManager] removeItemAtPath:cacheFile error:nil];
-        DDLogDebug(@"%@", exception);
-    }
+  }
+  @catch (NSException *exception) {
+    // Always delete the cache file after exception to ensure safety.
+    [[NSFileManager defaultManager] removeItemAtPath:cacheFile error:nil];
+    DDLogDebug(@"%@", exception);
+  }
 }
 
 #pragma mark - reload/refresh actions
@@ -103,14 +107,14 @@
 }
 
 -(void)refresh {
-    if (self.forum.name.length && !self.isShowingLatestResponse) {
-        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Refresh"
-                                                                                            action:@"Refresh Forum"
-                                                                                             label:self.forum.name
-                                                                                             value:@1] build]];
-    }
-    [self removeAll];
-    self.isShowingLatestResponse ? [self loadLatestResponse] : [self loadMoreThreads:self.pageNumber];
+  if (self.forum.name.length && !self.isShowingLatestResponse) {
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Refresh"
+                                                                                        action:@"Refresh Forum"
+                                                                                         label:self.forum.name
+                                                                                         value:@1] build]];
+  }
+  [self removeAll];
+  self.isShowingLatestResponse ? [self loadLatestResponse] : [self loadMoreThreads:self.pageNumber];
 }
 
 - (void)loadLatestResponse {
@@ -122,36 +126,46 @@
                                                                                          value:@1] build]];
 }
 
--(void)loadMoreThreads {
+- (void)loadPreviousPage {
+  if (self.threads.firstObject.pageNumber > 1) {
+    [self loadMoreThreads:self.threads.firstObject.pageNumber - 1];
+  } else {
+    [self refresh];
+  }
+}
+
+- (void)loadMoreThreads {
+  if (self.threads.lastObject) {
+    [self loadMoreThreads:self.threads.lastObject.pageNumber +1 ];
+  } else {
     [self loadMoreThreads:self.pageNumber + 1];
+  }
 }
 
 -(void)loadMoreThreads:(NSInteger)pageNumber {
-    if (!self.forum) {
-        DDLogDebug(@"Forum not set, cannot load more.");
-        return;
-    }
-#ifdef UNITTEST
-    NSData *mockData = [[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"threadList" ofType:@"json"]]];
-    [self downloadOf:nil successed:YES result:mockData];
+  if (!self.forum) {
+    DDLogDebug(@"Forum not set, cannot load more.");
     return;
+  }
+#ifdef UNITTEST
+  NSData *mockData = [[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"threadList" ofType:@"json"]]];
+  [self downloadOf:nil successed:YES result:mockData];
+  return;
 #endif
-    if (self.downloader.isDownloading)
-        [self.downloader stop];
-    if (pageNumber > self.totalPages)
-        pageNumber = self.totalPages;
-    // Construct and start downloading for forum with page number,
-    self.downloader.pageNumber = pageNumber;
-    [self.downloader start];
+  if (self.downloader.isDownloading) {
+    [self.downloader stop];
+  }
+  pageNumber = MAX(1, MIN(self.totalPages, pageNumber));
+  // Construct and start downloading for forum with page number,
+  self.downloader.pageNumber = pageNumber;
+  [self.downloader start];
 }
 
 -(void)removeAll {
-    self.pageNumber = 1;
-    // Keep old threads in the cache
-    self.cachedThreads = self.threads;
-    
-    // Clear all.
-    self.lastBatchOfThreads = self.threads = nil;
+  self.pageNumber = 1;
+  // Clear all.
+  self.lastBatchOfThreads = nil;
+  self.threads = nil;
 }
 
 - (void)scrollToContentOffset:(CGPoint)offset {
@@ -200,34 +214,41 @@
 }
 
 - (void)threadDownloaderCompleted:(czzThreadDownloader *)downloader success:(BOOL)success downloadedThreads:(NSArray *)threads error:(NSError *)error {
-    if (success){
-        if (downloader == self.latestResponseDownloader) {
-            self.latestResponses = threads;
-        } else {
-            self.latestResponses = nil;
-            self.cachedThreads = nil;
-            if (self.shouldHideImageForThisForum)
-            {
-                for (czzThread *thread in threads) {
-                    thread.thImgSrc = nil;
-                }
-            }
-            self.lastBatchOfThreads = threads;
-            // Add to total threads.
-            [self.threads addObjectsFromArray:threads];
+  if (success){
+    ContentPage *page = [[ContentPage alloc] init];
+    page.threads = threads;
+    page.pageNumber = downloader.pageNumber;
+    page.forum = self.forum;
+    if (downloader == self.latestResponseDownloader) {
+      self.latestResponses = page;
+    } else {
+      self.latestResponses = nil;
+      if (self.shouldHideImageForThisForum)
+      {
+        for (czzThread *thread in threads) {
+          thread.thImgSrc = nil;
         }
+      }
+      self.lastBatchOfThreads = threads;
+      // Add to total threads.
+      if (self.pageNumber < downloader.pageNumber) {
+        [self.threads addObject:page];
+      } else {
+        [self.threads insertObject:page atIndex:0];
+      }
+      self.pageNumber = downloader.pageNumber;
     }
-    if ([self.delegate respondsToSelector:@selector(homeViewManager:threadListProcessed:newThreads:allThreads:)]) {
-        [self.delegate homeViewManager:self threadListProcessed:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
-    }
-    if ([self.delegate respondsToSelector:@selector(homeViewManager:downloadSuccessful:)]) {
-        [self.delegate homeViewManager:self downloadSuccessful:success];
-    }
+  }
+  if ([self.delegate respondsToSelector:@selector(homeViewManager:threadListProcessed:newThreads:allThreads:)]) {
+    [self.delegate homeViewManager:self threadListProcessed:success newThreads:self.lastBatchOfThreads allThreads:self.threads];
+  }
+  if ([self.delegate respondsToSelector:@selector(homeViewManager:downloadSuccessful:)]) {
+    [self.delegate homeViewManager:self downloadSuccessful:success];
+  }
 }
 
 - (void)pageNumberUpdated:(NSInteger)currentPage allPage:(NSInteger)allPage {
     DDLogDebug(@"%s : %ld/%ld", __PRETTY_FUNCTION__, (long)currentPage, (long)allPage);
-    self.pageNumber = currentPage;
     self.totalPages = allPage;
 }
 
@@ -271,17 +292,14 @@
     return DEFAULT_THREAD_LIST_CACHE_FILE;
 }
 
-- (NSMutableArray *)threads {
-    if (self.isShowingLatestResponse && self.latestResponses.count) {
-        return self.latestResponses.mutableCopy;
-    }
-    if (!_threads) {
-        _threads = [NSMutableArray new];
-    }
-    if (!_threads.count && self.cachedThreads.count) {
-        return self.cachedThreads.mutableCopy;
-    }
-    return _threads;
+- (NSMutableArray<ContentPage *> *)threads {
+  if (self.isShowingLatestResponse && self.latestResponses.count) {
+    return @[self.latestResponses].mutableCopy;
+  }
+  if (!_threads) {
+    _threads = [[NSMutableArray alloc] init];
+  }
+  return _threads;
 }
 
 #pragma mark - NSCoding

@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *nicknameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *flagImageView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *dateBottomPaddingConstraint;
+@property (weak, nonatomic) IBOutlet UIView *topSeparator;
 
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
@@ -30,8 +31,17 @@
 @implementation czzThreadViewCellHeaderView
 
 - (void)awakeFromNib {
-    [super awakeFromNib];
-    self.flagImageView.image = [[UIImage imageNamed:@"flag"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+  [super awakeFromNib];
+  self.flagImageView.image = [[UIImage imageNamed:@"flag"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+  self.brokenLinkIcon.image = [self.brokenLinkIcon.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+  self.pageNumberLabel.text = nil;
+  self.brokenLinkIcon.hidden = YES;
+  self.pageNumberLabelBackgroundView.hidden = YES;
+}
+
+- (void)layoutSubviews {
+  self.topSeparator.hidden = self.pageNumberLabel.text.length == 0;
+  [super layoutSubviews];
 }
 
 #pragma mark - Setters
@@ -84,17 +94,5 @@
     }
     return _dateFormatter;
 }
-
-/*
- idLabel.text = [NSString stringWithFormat:@"NO:%ld", (long)myThread.ID];
- 
- NSMutableAttributedString *uidAttrString = [[NSMutableAttributedString alloc] initWithString:@"ID:"];
- if (myThread.UID)
- [uidAttrString appendAttributedString:myThread.UID];
- posterLabel.attributedText = uidAttrString;
- dateLabel.text = [self.dateFormatter stringFromDate:myThread.postDateTime];
-
- */
-
 
 @end
