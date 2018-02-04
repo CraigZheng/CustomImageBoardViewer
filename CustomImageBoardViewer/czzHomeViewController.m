@@ -323,35 +323,32 @@
   } else {
     [self.homeViewManager refresh];
   }
+  [self updateTableView];
 }
 
 #pragma Notification handler - forumPicked
 -(void)forumPicked:(NSNotification*)notification{
-    NSDictionary *userInfo = notification.userInfo;
-    czzForum *forum = [userInfo objectForKey:kPickedForum];
-    if (forum){
-        self.selectedForum = forum;
-        BOOL shouldCacheLatestResponse = self.homeViewManager.isShowingLatestResponse;
-        self.homeViewManager.isShowingLatestResponse = NO;
-        [self.homeViewManager refresh];
-        // When the homeViewManager is previously showing latest responses, the cachedThreads should be pointing to it instead.
-        if (shouldCacheLatestResponse) {
-            self.homeViewManager.cachedThreads = self.homeViewManager.latestResponses;
-        }
-        //disallow image downloading if specified by remote settings
-        self.shouldHideImageForThisForum = NO;
-        for (NSString *specifiedForum in settingCentre.shouldHideImageInForums) {
-            if ([specifiedForum isEqualToString:forum.name]) {
-                self.shouldHideImageForThisForum = YES;
-                break;
-            }
-        }
-    } else if ([userInfo objectForKey:kPickedTimeline]) {
-        self.homeViewManager.isShowingLatestResponse = YES;
-        [self.homeViewManager refresh];
-    } else {
-        [NSException raise:@"NOT A VALID FORUM" format:@""];
+  NSDictionary *userInfo = notification.userInfo;
+  czzForum *forum = [userInfo objectForKey:kPickedForum];
+  if (forum){
+    self.selectedForum = forum;
+    self.homeViewManager.isShowingLatestResponse = NO;
+    [self.homeViewManager refresh];
+    //disallow image downloading if specified by remote settings
+    self.shouldHideImageForThisForum = NO;
+    for (NSString *specifiedForum in settingCentre.shouldHideImageInForums) {
+      if ([specifiedForum isEqualToString:forum.name]) {
+        self.shouldHideImageForThisForum = YES;
+        break;
+      }
     }
+  } else if ([userInfo objectForKey:kPickedTimeline]) {
+    self.homeViewManager.isShowingLatestResponse = YES;
+    [self.homeViewManager refresh];
+  } else {
+    [NSException raise:@"NOT A VALID FORUM" format:@""];
+  }
+  [self updateTableView];
 }
 
 #pragma mark - Setters

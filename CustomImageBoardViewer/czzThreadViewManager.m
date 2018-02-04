@@ -180,7 +180,6 @@ typedef enum : NSUInteger {
 #pragma mark - content managements.
 - (void)reset {
   self.pageNumber = 1;
-  self.threads = self.cachedThreads = nil;
   self.pageNumberChanged = NO;
   self.loadingMode = ViewManagerLoadingModeNormal;
 }
@@ -243,7 +242,6 @@ typedef enum : NSUInteger {
     [self stopAllOperation];
     [self removeAll];
     self.threads = nil;
-    self.cachedThreads = nil;
     self.loadingMode = ViewManagerLoadingModeJumpping;
     [self loadMoreThreads:page];
 }

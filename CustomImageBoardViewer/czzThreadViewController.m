@@ -241,6 +241,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
   } else {
     [self refreshThread:self];
   }
+  [self updateTableView];
 }
 
 #pragma mark - jump to and download controls

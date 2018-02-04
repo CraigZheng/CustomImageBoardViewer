@@ -107,14 +107,14 @@
 }
 
 -(void)refresh {
-    if (self.forum.name.length && !self.isShowingLatestResponse) {
-        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Refresh"
-                                                                                            action:@"Refresh Forum"
-                                                                                             label:self.forum.name
-                                                                                             value:@1] build]];
-    }
-    [self removeAll];
-    self.isShowingLatestResponse ? [self loadLatestResponse] : [self loadMoreThreads:self.pageNumber];
+  if (self.forum.name.length && !self.isShowingLatestResponse) {
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Refresh"
+                                                                                        action:@"Refresh Forum"
+                                                                                         label:self.forum.name
+                                                                                         value:@1] build]];
+  }
+  [self removeAll];
+  self.isShowingLatestResponse ? [self loadLatestResponse] : [self loadMoreThreads:self.pageNumber];
 }
 
 - (void)loadLatestResponse {
@@ -163,9 +163,6 @@
 
 -(void)removeAll {
   self.pageNumber = 1;
-  // Keep old threads in the cache
-  self.cachedThreads = self.threads;
-  
   // Clear all.
   self.lastBatchOfThreads = nil;
   self.threads = nil;
@@ -226,7 +223,6 @@
       self.latestResponses = page;
     } else {
       self.latestResponses = nil;
-      self.cachedThreads = nil;
       if (self.shouldHideImageForThisForum)
       {
         for (czzThread *thread in threads) {
@@ -302,9 +298,6 @@
   }
   if (!_threads) {
     _threads = [[NSMutableArray alloc] init];
-  }
-  if (!_threads.count && self.cachedThreads.count) {
-    return @[self.cachedThreads].mutableCopy;
   }
   return _threads;
 }
