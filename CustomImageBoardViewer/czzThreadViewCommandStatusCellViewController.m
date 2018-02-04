@@ -11,6 +11,8 @@
 #import "czzSettingsCentre.h"
 #import "czzThreadViewManager.h"
 
+#import "CustomImageBoardViewer-Swift.h"
+
 @interface czzThreadViewCommandStatusCellViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *commandStatusLabel;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingActivityIndicator;
@@ -33,7 +35,7 @@
         [self.loadingActivityIndicator stopAnimating];
         NSString *pageString = @"";
         if ([self.homeViewManager isMemberOfClass:[czzThreadViewManager class]]) {
-            pageString = [NSString stringWithFormat:@" - 第%ld/%ld页", (long)self.homeViewManager.pageNumber, (long)self.homeViewManager.totalPages];
+          pageString = [NSString stringWithFormat:@" - 第%ld/%ld页", (long)self.homeViewManager.threads.lastObject.pageNumber ?: 1, (long)self.homeViewManager.totalPages];
         }
         switch (self.cellType) {
             case czzThreadViewCommandStatusCellViewTypeLoadMore:
