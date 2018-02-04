@@ -33,23 +33,25 @@ typedef enum : NSUInteger {
 @implementation czzThreadViewManager
 @synthesize forum = _forum;
 @synthesize downloader = _downloader;
+@synthesize threads = _threads;
 @dynamic delegate, totalPages;
 
 #pragma mark - life cycle.
 -(instancetype)initWithParentThread:(czzThread *)thread andForum:(czzForum *)forum{
-    self = [self init];
-    if (self) {
-        // Record history
-        self.parentThread = thread;
-        if (self.parentThread)
-            [historyManager recordThread:self.parentThread];
-        // Give it a default forum, can be nil.
-        self.forum = forum ?: [czzForum new];
-
-        [self reset];
+  self = [self init];
+  if (self) {
+    // Record history
+    self.parentThread = thread;
+    if (self.parentThread) {
+      [historyManager recordThread:self.parentThread];
     }
+    // Give it a default forum, can be nil.
+    self.forum = forum ?: [czzForum new];
     
-    return self;
+    [self reset];
+  }
+  
+  return self;
 }
 
 -(instancetype)restoreWithFile:(NSString *)filePath {
@@ -117,12 +119,6 @@ typedef enum : NSUInteger {
     page.threads = threads;
     page.pageNumber = downloader.pageNumber;
     page.forum = self.forum;
-    if (downloader.pageNumber == 1 && self.parentThread) {
-      NSMutableArray *firstPageThreads = threads.mutableCopy;
-      [firstPageThreads insertObject:self.parentThread atIndex:0];
-      threads = firstPageThreads;
-      page.threads = threads;
-    }
     if (self.threads.lastObject.pageNumber == downloader.pageNumber) {
       [self.threads removeLastObject];
     }
@@ -134,6 +130,10 @@ typedef enum : NSUInteger {
     self.lastBatchOfThreads = threads;
     self.pageNumber = downloader.pageNumber;
   }
+  // Sort by page number.
+  [self.threads sortUsingComparator:^NSComparisonResult(ContentPage * _Nonnull page1, ContentPage * _Nonnull page2) {
+    return page1.pageNumber < page2.pageNumber ? NSOrderedAscending : NSOrderedDescending;
+  }];
   dispatch_async(dispatch_get_main_queue(), ^{
     // If the downloader is a massive thread downloader, don't inform delegate about thread download completed event, because there could be more such events.
     if ([downloader isKindOfClass:[czzMassiveThreadDownloader class]]) {
@@ -179,16 +179,16 @@ typedef enum : NSUInteger {
 
 #pragma mark - content managements.
 - (void)reset {
-    self.pageNumber = 1;
-    self.threads = self.cachedThreads = nil;
-    self.pageNumberChanged = NO;
-    self.loadingMode = ViewManagerLoadingModeNormal;
+  self.pageNumber = 1;
+  self.threads = self.cachedThreads = nil;
+  self.pageNumberChanged = NO;
+  self.loadingMode = ViewManagerLoadingModeNormal;
 }
 
 -(void)removeAll {
-    self.pageNumber = 1;
-    // Clear all.
-    self.lastBatchOfThreads = self.threads = nil;
+  self.pageNumber = 1;
+  // Clear all.
+  self.lastBatchOfThreads = self.threads = nil;
 }
 
 - (void)refresh {
@@ -280,6 +280,19 @@ typedef enum : NSUInteger {
 }
 
 #pragma mark - Getters
+
+- (NSMutableArray<ContentPage *> *)threads {
+  if (!_threads) {
+    _threads = [super threads];
+    // Parent thread would be hosted in its own section.
+    ContentPage *page = [[ContentPage alloc] init];
+    page.threads = @[self.parentThread];
+    page.pageNumber = 0;
+    page.forum = self.forum;
+    [_threads addObject:page];
+  }
+  return _threads;
+}
 
 - (NSInteger)totalPages {
     CGFloat totalPages = (CGFloat)self.parentThread.responseCount / (CGFloat)settingCentre.response_per_page;
