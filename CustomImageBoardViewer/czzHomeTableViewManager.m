@@ -380,7 +380,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
         cell = (UITableViewCell *)sender;
         // Get indexPath, then the corresponding threads from it.
         NSIndexPath *indexPath = [self.homeTableView indexPathForCell:cell];
-        if (indexPath && indexPath.row < self.homeViewManager.threads.count) {
+        if (indexPath && indexPath.section < self.homeViewManager.threads.count) {
             NSString *imgURL = [self.homeViewManager.threads[indexPath.section].threads[indexPath.row] imgSrc];
             if (imgURL.length) {
                 // If image exists
