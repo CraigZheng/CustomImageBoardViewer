@@ -10,7 +10,7 @@
 #define GOOGLE_SEARCH_COMMAND @"https://www.google.com.au/#q=site:A_ISLE_HOST+KEYWORD&sort=date:D:S:d1"
 #define BING_SEARCH_COMMAND @"http://m.bing.com/search?q=site%3AA_ISLE_HOST+KEYWORD&btsrc=internal"
 #define AC_SEARCH_COMMAND @"http://h.acfun.tv/thread/search?key=KEYWORD"
-#define SO_SEARCH_COMMAND @"https://www.so.com/s?ie=utf-8&fr=none&src=360sou_newhome&q=site%3Ah.nimingban.com+KEYWORD"
+#define SO_SEARCH_COMMAND @"https://www.so.com/s?ie=utf-8&fr=none&src=360sou_newhome&q=site%3AA_ISLE_HOST+KEYWORD"
 
 #define USER_SELECTED_SEARCH_ENGINE @"DEFAULT_SEARCH_ENGINE"
 
