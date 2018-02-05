@@ -39,8 +39,6 @@ class CookieDetailTableViewController: UITableViewController {
       cookieValueLabel.text = cookieValue
     }
     hostPickerView.selectRow(activeHost.rawValue, inComponent: 0, animated: false)
-    addButton.setTitle(czzCookieManager.sharedInstance().currentACCookies().isEmpty ? "启用" : "保存到保鲜库",
-                       for: .normal)
     deleteButton.isEnabled = originalCookie != nil
   }
   
@@ -54,16 +52,12 @@ class CookieDetailTableViewController: UITableViewController {
     if let cookieValue = cookieValue, !cookieValue.isEmpty, let hostURL = URL(string: activeHost == .AC ? czzSettingsCentre.sharedInstance().ac_isle_host : czzSettingsCentre.sharedInstance().bt_isle_host) {
       let cookie = czzACTokenUtil.createCookie(withValue: cookieValue,
                                                for: hostURL)
-      let message: String
-      if czzCookieManager.sharedInstance().currentACCookies().isEmpty {
-        czzCookieManager.sharedInstance().setACCookie(cookie, for: hostURL)
-        message = "饼干已启用"
-      } else {
-        message = "饼干已保存"
+      czzCookieManager.sharedInstance().setACCookie(cookie, for: hostURL)
+      if !isOriginalCookieFromArchive {
+        czzCookieManager.sharedInstance().archiveCookie(cookie)
       }
-      czzCookieManager.sharedInstance().archiveCookie(cookie)
       DispatchQueue.main.async {
-        czzBannerNotificationUtil.displayMessage(message, position: .top)
+        czzBannerNotificationUtil.displayMessage("饼干已启用", position: .top)
       }
     }
   }

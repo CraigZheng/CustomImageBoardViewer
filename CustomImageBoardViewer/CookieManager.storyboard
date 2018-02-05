@@ -239,7 +239,7 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bFq-cY-ZFh" customClass="RoundCornerBorderedButton" customModule="CustomImageBoardViewer" customModuleProvider="target">
                                                     <rect key="frame" x="191.5" y="8" width="175.5" height="43.5"/>
                                                     <color key="backgroundColor" red="1" green="0.67785071340000003" blue="0.17108253700000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <state key="normal" title="确认">
+                                                    <state key="normal" title="启用并保存">
                                                         <color key="titleColor" red="0.33333334329999997" green="0.33333334329999997" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </state>
                                                     <connections>
@@ -324,6 +324,9 @@
                                                     <state key="normal" title="分享饼干二维码">
                                                         <color key="titleColor" red="0.33333334329999997" green="0.33333334329999997" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </state>
+                                                    <connections>
+                                                        <segue destination="KPb-Xu-BDp" kind="show" identifier="showQRCode" id="MiW-Pi-VmH"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
