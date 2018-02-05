@@ -50,6 +50,11 @@ class CookieDetailTableViewController: UITableViewController {
       textInputViewController.prefilledString = cookieValue
       textInputViewController.delegate = self
     }
+    if let cookieQRCodeShareViewController = segue.destination as? CookieQRCodeShareViewController,
+      let cookieValue = cookieValue,
+      let cookieJson = czzCookieManager.sharedInstance().cookieJSON(from: cookieValue) {
+      cookieQRCodeShareViewController.cookieJson = cookieJson
+    }
   }
 }
 

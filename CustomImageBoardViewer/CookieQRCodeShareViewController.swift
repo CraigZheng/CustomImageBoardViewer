@@ -13,6 +13,13 @@ class CookieQRCodeShareViewController: UIViewController {
   
   var cookieJson = ""
   
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    if !cookieJson.isEmpty, let jsonData = cookieJson.data(using: .utf8), let image = qrForData(jsonData) {
+      qrCodeImageView.image = image
+    }
+  }
+  
   // Copied from http://stackoverflow.com/questions/12051118/is-there-a-way-to-generate-qr-code-image-on-ios and mofieid.
   fileprivate func qrForData(_ data: Data) -> UIImage? {
     let filter = CIFilter(name: "CIQRCodeGenerator")
