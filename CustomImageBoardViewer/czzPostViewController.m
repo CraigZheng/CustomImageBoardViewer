@@ -407,10 +407,11 @@ static NSString *kDraftSelectorSegue = @"draftSelector";
 #pragma mark - DraftSelectorTableViewControllerDelegate
 
 - (void)draftSelector:(DraftSelectorTableViewController *)viewController selectedContent:(NSString *)selectedContent {
-    [viewController dismissViewControllerAnimated:NO completion:nil];
-    if (selectedContent.length) {
-        [self.postTextView replaceRange:self.postTextView.selectedTextRange withText:selectedContent];
-    }
+  [viewController dismissViewControllerAnimated:NO completion:nil];
+  if (selectedContent.length) {
+    [self.postTextView replaceRange:self.postTextView.selectedTextRange withText:selectedContent];
+    [DraftManager delete:selectedContent];
+  }
 }
 
 #pragma mark - Setters

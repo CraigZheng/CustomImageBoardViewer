@@ -9,56 +9,73 @@
 import UIKit
 
 class DraftManager: NSObject {
-    
-    private struct Key {
-        static let drafts = "Key.drafts"
-        static let dates = "Key.dates"
-        static let maximum = 10
+  
+  private struct Key {
+    static let drafts = "Key.drafts"
+    static let dates = "Key.dates"
+    static let maximum = 10
+  }
+  
+  class var count: Int {
+    return drafts.count
+  }
+  
+  class var drafts: [(String, Date)] {
+    get {
+      guard let drafts = UserDefaults.standard.array(forKey: Key.drafts) as? [String],
+        let dates = UserDefaults.standard.array(forKey: Key.dates) as? [Date] else {
+          return []
+      }
+      return Array(zip(drafts, dates))
     }
-
-    class var count: Int {
-        return drafts.count
+  }
+  
+  class func save(_ draft: String) {
+    guard !draft.isEmpty else {
+      return
     }
-    
-    class var drafts: [(String, Date)] {
-        get {
-            guard let drafts = UserDefaults.standard.array(forKey: Key.drafts) as? [String],
-                let dates = UserDefaults.standard.array(forKey: Key.dates) as? [Date] else {
-                    return []
-            }
-            return Array(zip(drafts, dates))
-        }
+    var draftsToSave = drafts
+    // Ensure the drafts array contain no more than the maximum number of elements.
+    if (draftsToSave.count >= Key.maximum) {
+      draftsToSave.removeFirst()
     }
-    
-    class func save(_ draft: String) {
-        guard !draft.isEmpty else {
-            return
-        }
-        var draftsToSave = drafts
-        // Ensure the drafts array contain no more than the maximum number of elements.
-        if (draftsToSave.count >= Key.maximum) {
-            draftsToSave.removeFirst()
-        }
-        if let previousSavedIndex = draftsToSave.index(where: { (string, Date) -> Bool in
-            return string == draft
-        }) {
-            draftsToSave.remove(at: previousSavedIndex)
-        }
-        draftsToSave.append(draft, Date())
-        save(draftsToSave)
+    if let previousSavedIndex = draftsToSave.index(where: { (string, Date) -> Bool in
+      return string == draft
+    }) {
+      draftsToSave.remove(at: previousSavedIndex)
     }
-    
-    private class func save(_ drafts: [(String, Date)]) {
-        UserDefaults.standard.set(drafts.flatMap({ (string, _) -> String in
-            return string
-        }), forKey: Key.drafts)
-        UserDefaults.standard.set(drafts.flatMap({ (_, date) -> Date in
-            return date
-        }), forKey: Key.dates)
+    draftsToSave.append(draft, Date())
+    save(draftsToSave)
+  }
+  
+  class func delete(_ draft: String) {
+    guard !draft.isEmpty else {
+      return
     }
-    
-    class func clear() {
-        save([])
+    var draftsToSave = drafts
+    // Ensure the drafts array contain no more than the maximum number of elements.
+    if (draftsToSave.count >= Key.maximum) {
+      draftsToSave.removeFirst()
     }
-    
+    if let previousSavedIndex = draftsToSave.index(where: { (string, Date) -> Bool in
+      return string == draft
+    }) {
+      draftsToSave.remove(at: previousSavedIndex)
+    }
+    save(draftsToSave)
+  }
+  
+  private class func save(_ drafts: [(String, Date)]) {
+    UserDefaults.standard.set(drafts.flatMap({ (string, _) -> String in
+      return string
+    }), forKey: Key.drafts)
+    UserDefaults.standard.set(drafts.flatMap({ (_, date) -> Date in
+      return date
+    }), forKey: Key.dates)
+  }
+  
+  class func clear() {
+    save([])
+  }
+  
 }
