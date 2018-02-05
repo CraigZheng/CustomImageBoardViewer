@@ -26,7 +26,7 @@ class CookieDetailTableViewController: UITableViewController {
     }
   }
   private var originalCookieValue: String?
-  private var originalHost: SettingsHost?
+  private var originalHost = SettingsHost.AC
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -36,10 +36,14 @@ class CookieDetailTableViewController: UITableViewController {
       cookieValueLabel.text = cookieValue
     }
     hostPickerView.selectRow(activeHost.rawValue, inComponent: 0, animated: false)
+    addButton.setTitle(czzCookieManager.sharedInstance().currentACCookies().isEmpty ? "启用" : "保存到保鲜库",
+                       for: .normal)
   }
   
   @IBAction func resetAction(_ sender: Any) {
     cookieValue = originalCookieValue
+    activeHost = originalHost
+    hostPickerView.selectRow(activeHost.rawValue, inComponent: 0, animated: false)
   }
   
   @IBAction func addAction(_ sender: Any) {
