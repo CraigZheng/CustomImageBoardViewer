@@ -20,12 +20,6 @@
 @property czzCookieManager *cookieManager;
 @property (nonatomic, strong) NSHTTPCookie *selectedCookie;
 @property NSArray *cookiesDataSource;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *useIdentityButton;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *saveIdentityButton;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *identityActionButton;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteIdentityButton;
-@property (weak, nonatomic) IBOutlet UIToolbar *identityToolbar;
-
 @end
 
 @implementation czzCookieManagerViewController
@@ -47,8 +41,6 @@ static NSString *kScanQRCodeSegueIdentifier = @"qrScanner";
   cookieManager = CookieManager;
   
   cookieManagerTableView.backgroundColor = [settingCentre viewBackgroundColour];
-  self.identityToolbar.tintColor = [UIColor whiteColor];
-  self.identityToolbar.barTintColor = settingCentre.barTintColour;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -132,30 +124,8 @@ static NSString *kScanQRCodeSegueIdentifier = @"qrScanner";
     [cookieManagerTableView setEditing:!cookieManagerTableView.isEditing animated:YES];
 }
 
-- (IBAction)useCookieAction:(id)sender {
-    useCookieAlertView = [[UIAlertView alloc] initWithTitle:@"使用饼干" message:@"这个饼干将会被激活" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
-    [useCookieAlertView show];
-}
-
 - (IBAction)unwindToCookieManagerViewController:(UIStoryboardSegue *)sender {
   // Unwind segue.
-}
-
-- (IBAction)shareCookieAction:(id)sender {
-    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[self.selectedCookie.value] applicationActivities:nil];
-    if ( [activityViewController respondsToSelector:@selector(popoverPresentationController)] ) { // iOS8
-        activityViewController.popoverPresentationController.sourceView = self.view;
-    }
-    [self presentViewController:activityViewController animated:YES completion:nil];
-}
-
-- (IBAction)saveCookieAction:(id)sender {
-    saveCookieAlertView = [[UIAlertView alloc] initWithTitle:@"保存饼干" message:@"这个饼干将会被放入保鲜库" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
-    [saveCookieAlertView show];
-}
-
-- (IBAction)deleteCookieAction:(id)sender {
-    [self showConfirmDeleteAlertView];
 }
 
 -(void)showConfirmDeleteAlertView {
@@ -193,25 +163,9 @@ static NSString *kScanQRCodeSegueIdentifier = @"qrScanner";
             cookiesDataSource = [cookieManager currentACCookies];
             break;
     }
-    
-    // If selectedCookie is nil, set navigation bar buttons to disabled.
-    self.useIdentityButton.enabled =
-    self.deleteIdentityButton.enabled =
-    self.identityActionButton.enabled =
-    self.saveIdentityButton.enabled = self.selectedCookie != nil;
 
     [cookieManagerTableView reloadData];
 
-}
-
-#pragma makr - Setters
--(void)setSelectedCookie:(NSHTTPCookie *)selectedCookie {
-    _selectedCookie = selectedCookie;
-    // If selectedCookie is nil, set navigation bar buttons to disabled.
-    self.useIdentityButton.enabled =
-    self.deleteIdentityButton.enabled =
-    self.identityActionButton.enabled =
-    self.saveIdentityButton.enabled = _selectedCookie != nil;
 }
 
 #pragma mark - UIAlertViewDelegate
