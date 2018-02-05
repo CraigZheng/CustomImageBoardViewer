@@ -66,12 +66,14 @@ static NSString *kScanQRCodeSegueIdentifier = @"qrScanner";
   if ([segue.destinationViewController isKindOfClass:CookieDetailTableViewController.class]) {
     CookieDetailTableViewController *cookieDetailTableViewController = (CookieDetailTableViewController *)segue.destinationViewController;
     SettingsHost activeHost = SettingsHostAC;
-    if ([settingCentre.ac_isle_host containsString:self.selectedCookie.domain]) {
-      activeHost = SettingsHostAC;
-    } else if ([settingCentre.bt_isle_host containsString:self.selectedCookie.domain]) {
-      activeHost = SettingsHostBT;
+    if (self.selectedCookie) {
+      if ([settingCentre.ac_isle_host containsString:self.selectedCookie.domain]) {
+        activeHost = SettingsHostAC;
+      } else if ([settingCentre.bt_isle_host containsString:self.selectedCookie.domain]) {
+        activeHost = SettingsHostBT;
+      }
+      cookieDetailTableViewController.cookieValue = self.selectedCookie.value;
     }
-    cookieDetailTableViewController.cookieValue = self.selectedCookie.value;
     cookieDetailTableViewController.activeHost = activeHost;
   }
 }
