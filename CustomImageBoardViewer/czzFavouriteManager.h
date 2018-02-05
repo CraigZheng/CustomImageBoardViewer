@@ -16,10 +16,11 @@
 @property NSMutableOrderedSet<czzThread *> *favouriteThreads;
 @property (nonatomic, readonly) NSString *favouriteFolder;
 
--(void)addFavourite:(czzThread*)thread;
--(BOOL)isThreadFavourited:(czzThread*)thread;
--(BOOL)removeFavourite:(czzThread*)thread;
--(void)removeAll;
--(void)saveCurrentState;
-+(instancetype)sharedInstance;
+- (void)addFavourite:(czzThread*)thread;
+- (void)updateFavourite:(czzThread*)thread;
+- (BOOL)isThreadFavourited:(czzThread*)thread;
+- (BOOL)removeFavourite:(czzThread*)thread;
+- (void)removeAll;
+- (void)saveCurrentState;
++ (instancetype)sharedInstance;
 @end

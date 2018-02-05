@@ -68,6 +68,17 @@
     [self saveCurrentState];
 }
 
+- (void)updateFavourite:(czzThread *)thread {
+  if (!thread) {
+    return;
+  }
+  NSInteger index = [favouriteThreads indexOfObject:thread];
+  if (index != NSNotFound) {
+    favouriteThreads[index] = thread;
+  }
+  [self saveCurrentState];
+}
+
 -(BOOL)isThreadFavourited:(czzThread *)thread {
     return [self.favouriteThreads containsObject:thread];
 }

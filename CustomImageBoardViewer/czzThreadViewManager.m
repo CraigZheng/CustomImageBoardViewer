@@ -13,6 +13,7 @@
 #import "czzThreadDownloader.h"
 #import "czzMassiveThreadDownloader.h"
 #import "czzMarkerManager.h"
+#import "czzFavouriteManager.h"
 #import "NSArray+Splitting.h"
 
 #import "CustomImageBoardViewer-Swift.h"
@@ -40,11 +41,7 @@ typedef enum : NSUInteger {
 -(instancetype)initWithParentThread:(czzThread *)thread andForum:(czzForum *)forum{
   self = [self init];
   if (self) {
-    // Record history
     self.parentThread = thread;
-    if (self.parentThread) {
-      [historyManager recordThread:self.parentThread];
-    }
     // Give it a default forum, can be nil.
     self.forum = forum ?: [czzForum new];
     
@@ -83,18 +80,20 @@ typedef enum : NSUInteger {
 
 #pragma mark - setters
 -(void)setParentThread:(czzThread *)thread {
-    if (thread) {
-        _parentThread = thread;
-        self.parentID = [NSString stringWithFormat:@"%ld", (long)self.parentThread.ID];
-        // When setting the parent thread, see if the downloaded parent thread is included in the watchlist manager.
-        // If it is, then update the corresponding thread in watchlist manager.
-        if ([WatchListManager.watchedThreads containsObject:_parentThread]) {
-            DDLogDebug(@"Parent thread is being watched, update Watchlist manager...");
-            // Remove the recorded thread, add the new thread.
-            [WatchListManager removeFromWatchList:_parentThread];
-            [WatchListManager addToWatchList:_parentThread];
-        }
+  if (thread) {
+    _parentThread = thread;
+    self.parentID = [NSString stringWithFormat:@"%ld", (long)self.parentThread.ID];
+    // When setting the parent thread, see if the downloaded parent thread is included in the watchlist manager.
+    // If it is, then update the corresponding thread in watchlist manager.
+    if ([WatchListManager.watchedThreads containsObject:_parentThread]) {
+      DDLogDebug(@"Parent thread is being watched, update Watchlist manager...");
+      // Remove the recorded thread, add the new thread.
+      [WatchListManager removeFromWatchList:_parentThread];
+      [WatchListManager addToWatchList:_parentThread];
     }
+    [historyManager recordThread:self.parentThread];
+    [czzFavouriteManager.sharedInstance updateFavourite:self.parentThread];
+  }
 }
 
 #pragma mark - czzMassiveThreadDownloaderDelegate
@@ -104,6 +103,9 @@ typedef enum : NSUInteger {
   // Remove the parent thread for easier calculation.
   if (downloader.parentThread.ID > 0) {
     self.parentThread = downloader.parentThread;
+    if (self.threads.firstObject.pageNumber == 0) {
+      self.threads.firstObject.threads = @[self.parentThread];
+    }
   }
   if (success) {
     // Remove any threads with ignored IDs.
