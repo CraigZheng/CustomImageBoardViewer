@@ -354,7 +354,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
     // If current the view manager reports its being downloaded, don't do anything.
     if (!self.homeViewManager.isDownloading
         && !self.homeViewManager.isShowingLatestResponse
-        && self.homeViewManager.pageNumber < self.homeViewManager.totalPages) {
+        && self.homeViewManager.threads.lastObject.pageNumber < self.homeViewManager.totalPages) {
         // If dragged over the threshold, set to "release to load more" cell.
         if (self.tableViewIsDraggedOverTheBottom) {
             self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore;
