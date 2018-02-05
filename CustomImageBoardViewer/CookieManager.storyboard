@@ -428,10 +428,10 @@
             </objects>
             <point key="canvasLocation" x="1265" y="798"/>
         </scene>
-        <!--View Controller-->
+        <!--分享-->
         <scene sceneID="QJf-tW-CzR">
             <objects>
-                <viewController id="KPb-Xu-BDp" sceneMemberID="viewController">
+                <viewController id="KPb-Xu-BDp" customClass="CookieQRCodeShareViewController" customModule="CustomImageBoardViewer" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="sLh-aV-ceP"/>
                         <viewControllerLayoutGuide type="bottom" id="ET6-n2-lee"/>
@@ -462,8 +462,9 @@
                             </mask>
                         </variation>
                     </view>
+                    <navigationItem key="navigationItem" title="分享" id="m2R-4U-QCX"/>
                     <connections>
-                        <outlet property="qrImageView" destination="BjM-A3-Ghf" id="7AA-cD-hOv"/>
+                        <outlet property="qrCodeImageView" destination="BjM-A3-Ghf" id="1TX-Px-t7F"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ed8-YO-dzN" userLabel="First Responder" sceneMemberID="firstResponder"/>
