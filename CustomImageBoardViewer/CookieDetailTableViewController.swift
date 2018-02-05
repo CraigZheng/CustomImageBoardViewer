@@ -13,6 +13,7 @@ class CookieDetailTableViewController: UITableViewController {
   @IBOutlet weak var hostPickerView: UIPickerView!
   @IBOutlet weak var cookieValueLabel: UILabel!
   
+  @objc var activeHost = SettingsHost.AC
   var cookieValue: String? {
     didSet {
       if let cookieValue = cookieValue {
@@ -28,6 +29,7 @@ class CookieDetailTableViewController: UITableViewController {
     if let cookieValue = cookieValue {
       cookieValueLabel.text = cookieValue
     }
+    hostPickerView.selectRow(activeHost.rawValue, inComponent: 0, animated: false)
   }
   
   @IBAction func resetAction(_ sender: Any) {

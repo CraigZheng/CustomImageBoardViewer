@@ -14,6 +14,8 @@
 #import "czzAppDelegate.h"
 #import "czzBannerNotificationUtil.h"
 
+#import "CustomImageBoardViewer-Swift.h"
+
 @interface czzCookieManagerViewController () <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 @property czzCookieManager *cookieManager;
 @property (nonatomic, strong) NSHTTPCookie *selectedCookie;
@@ -58,6 +60,22 @@ static NSString *kScanQRCodeSegueIdentifier = @"qrScanner";
   [self refreshData];
 }
 
+#pragma mark - Segue
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+  if ([segue.destinationViewController isKindOfClass:CookieDetailTableViewController.class]) {
+    CookieDetailTableViewController *cookieDetailTableViewController = (CookieDetailTableViewController *)segue.destinationViewController;
+    SettingsHost activeHost = SettingsHostAC;
+    if ([settingCentre.ac_isle_host containsString:self.selectedCookie.domain]) {
+      activeHost = SettingsHostAC;
+    } else if ([settingCentre.bt_isle_host containsString:self.selectedCookie.domain]) {
+      activeHost = SettingsHostBT;
+    }
+    cookieDetailTableViewController.cookieValue = self.selectedCookie.value;
+    cookieDetailTableViewController.activeHost = activeHost;
+  }
+}
+
 #pragma mark - UITableViewDataSource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return cookiesDataSource.count;
@@ -93,7 +111,8 @@ static NSString *kScanQRCodeSegueIdentifier = @"qrScanner";
 
 #pragma mark - UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    self.selectedCookie = [cookiesDataSource objectAtIndex:indexPath.row];
+  self.selectedCookie = [cookiesDataSource objectAtIndex:indexPath.row];
+  [self performSegueWithIdentifier:kCookieDetailsSegueIdentifier sender:tableView];
 }
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
