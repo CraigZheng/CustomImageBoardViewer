@@ -104,6 +104,9 @@ typedef enum : NSUInteger {
   // Remove the parent thread for easier calculation.
   if (downloader.parentThread.ID > 0) {
     self.parentThread = downloader.parentThread;
+    if (self.threads.firstObject.pageNumber == 0) {
+      self.threads.firstObject.threads = @[self.parentThread];
+    }
   }
   if (success) {
     // Remove any threads with ignored IDs.
