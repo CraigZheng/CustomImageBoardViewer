@@ -163,7 +163,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="DGP-W9-RdP">
-                            <rect key="frame" x="0.0" y="359" width="375" height="5"/>
+                            <rect key="frame" x="0.0" y="419" width="375" height="5"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
@@ -285,14 +285,15 @@
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6i3-4Y-Ysx" customClass="RoundCornerBorderedButton" customModule="CustomImageBoardViewer" customModuleProvider="target">
                                                     <rect key="frame" x="20" y="8" width="335" height="43.5"/>
-                                                    <color key="backgroundColor" red="1" green="0.67785071340000003" blue="0.17108253700000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <state key="normal" title="分享饼干二维码">
-                                                        <color key="titleColor" red="0.33333334329999997" green="0.33333334329999997" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <state key="normal" title="删除饼干">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </state>
+                                                    <state key="disabled">
+                                                        <color key="titleColor" cocoaTouchSystemColor="lightTextColor"/>
                                                     </state>
                                                     <connections>
-                                                        <segue destination="KPb-Xu-BDp" kind="show" identifier="showQRCode" id="Lt7-0E-d0J">
-                                                            <nil key="action"/>
-                                                        </segue>
+                                                        <action selector="deleteAction:" destination="acf-rd-yr4" eventType="touchUpInside" id="lVr-Qa-qlB"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -306,6 +307,35 @@
                                             <variation key="default">
                                                 <mask key="constraints">
                                                     <exclude reference="JN0-9Z-kkP"/>
+                                                </mask>
+                                            </variation>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="60" id="gRe-lI-vh9" userLabel="QR Button">
+                                        <rect key="frame" x="0.0" y="359" width="375" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gRe-lI-vh9" id="EYo-ih-QVU">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q5Z-b0-oyQ" customClass="RoundCornerBorderedButton" customModule="CustomImageBoardViewer" customModuleProvider="target">
+                                                    <rect key="frame" x="20" y="8" width="335" height="43.5"/>
+                                                    <color key="backgroundColor" red="1" green="0.67785071340000003" blue="0.17108253700000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <state key="normal" title="分享饼干二维码">
+                                                        <color key="titleColor" red="0.33333334329999997" green="0.33333334329999997" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </state>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="Q5Z-b0-oyQ" secondAttribute="bottom" constant="8" id="8sK-Te-ada"/>
+                                                <constraint firstItem="Q5Z-b0-oyQ" firstAttribute="top" secondItem="EYo-ih-QVU" secondAttribute="top" constant="8" id="Hai-jA-7ZS"/>
+                                                <constraint firstAttribute="trailing" secondItem="Q5Z-b0-oyQ" secondAttribute="trailing" constant="20" symbolic="YES" id="Kcc-Qq-N6W"/>
+                                                <constraint firstItem="Q5Z-b0-oyQ" firstAttribute="leading" secondItem="EYo-ih-QVU" secondAttribute="leading" constant="20" symbolic="YES" id="de4-Kq-ibV"/>
+                                                <constraint firstItem="Q5Z-b0-oyQ" firstAttribute="leading" secondItem="EYo-ih-QVU" secondAttribute="leading" constant="8" id="xfN-4H-Suu"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="xfN-4H-Suu"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -324,6 +354,7 @@
                     <connections>
                         <outlet property="addButton" destination="bFq-cY-ZFh" id="mlN-De-zZA"/>
                         <outlet property="cookieValueLabel" destination="rIa-69-biF" id="NE8-nr-7ty"/>
+                        <outlet property="deleteButton" destination="6i3-4Y-Ysx" id="y9N-Ta-RzW"/>
                         <outlet property="hostPickerView" destination="koa-Ae-uLY" id="JjP-Ex-Qvy"/>
                     </connections>
                 </tableViewController>

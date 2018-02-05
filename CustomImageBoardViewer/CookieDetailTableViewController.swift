@@ -13,7 +13,8 @@ class CookieDetailTableViewController: UITableViewController {
     case unwindToCookieManager, showQRCode
   }
   
-  @IBOutlet weak var addButton: RoundCornerBorderedButton!
+  @IBOutlet weak var addButton: UIButton!
+  @IBOutlet weak var deleteButton: UIButton!
   @IBOutlet weak var hostPickerView: UIPickerView!
   @IBOutlet weak var cookieValueLabel: UILabel!
   
@@ -38,6 +39,7 @@ class CookieDetailTableViewController: UITableViewController {
     hostPickerView.selectRow(activeHost.rawValue, inComponent: 0, animated: false)
     addButton.setTitle(czzCookieManager.sharedInstance().currentACCookies().isEmpty ? "启用" : "保存到保鲜库",
                        for: .normal)
+    deleteButton.isEnabled = cookieValue?.isEmpty != true
   }
   
   @IBAction func resetAction(_ sender: Any) {
@@ -62,6 +64,9 @@ class CookieDetailTableViewController: UITableViewController {
         czzBannerNotificationUtil.displayMessage(message, position: .top)
       }
     }
+  }
+  
+  @IBAction func deleteAction(_ sender: Any) {
   }
   
   override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
