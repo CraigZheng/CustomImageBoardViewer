@@ -13,6 +13,7 @@
 #import "czzThreadDownloader.h"
 #import "czzMassiveThreadDownloader.h"
 #import "czzMarkerManager.h"
+#import "czzFavouriteManager.h"
 #import "NSArray+Splitting.h"
 
 #import "CustomImageBoardViewer-Swift.h"
@@ -91,6 +92,7 @@ typedef enum : NSUInteger {
       [WatchListManager addToWatchList:_parentThread];
     }
     [historyManager recordThread:self.parentThread];
+    [czzFavouriteManager.sharedInstance updateFavourite:self.parentThread];
   }
 }
 
