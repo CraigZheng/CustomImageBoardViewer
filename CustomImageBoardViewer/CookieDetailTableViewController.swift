@@ -18,7 +18,9 @@ class CookieDetailTableViewController: UITableViewController {
   @IBOutlet weak var hostPickerView: UIPickerView!
   @IBOutlet weak var cookieValueLabel: UILabel!
   
-  @objc var activeHost = SettingsHost.AC
+  var originalCookie: HTTPCookie?
+  var isOriginalCookieFromArchive = false
+  var activeHost = SettingsHost.AC
   var cookieValue: String? {
     didSet {
       if let cookieValue = cookieValue {
@@ -39,7 +41,7 @@ class CookieDetailTableViewController: UITableViewController {
     hostPickerView.selectRow(activeHost.rawValue, inComponent: 0, animated: false)
     addButton.setTitle(czzCookieManager.sharedInstance().currentACCookies().isEmpty ? "启用" : "保存到保鲜库",
                        for: .normal)
-    deleteButton.isEnabled = cookieValue?.isEmpty != true
+    deleteButton.isEnabled = originalCookie != nil
   }
   
   @IBAction func resetAction(_ sender: Any) {
@@ -67,6 +69,25 @@ class CookieDetailTableViewController: UITableViewController {
   }
   
   @IBAction func deleteAction(_ sender: Any) {
+    if let cookie = originalCookie {
+      let alertController = UIAlertController(title: "删除?", message: "\(cookie.domain): \(cookie.value)", preferredStyle: .alert)
+      alertController.addAction(UIAlertAction(title: "确认", style: .destructive, handler: { [weak self] _ in
+        guard let strongSelf = self else {
+          return
+        }
+        if strongSelf.isOriginalCookieFromArchive {
+          czzCookieManager.sharedInstance().deleteArchiveCookie(cookie)
+        } else {
+          czzCookieManager.sharedInstance().delete(cookie)
+        }
+        strongSelf.performSegue(withIdentifier: SegueIdentifier.unwindToCookieManager.rawValue, sender: nil)
+        DispatchQueue.main.async {
+          czzBannerNotificationUtil.displayMessage("这个饼干已经被删除了", position: .top)
+        }
+      }))
+      alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+      present(alertController, animated: true, completion: nil)
+    }
   }
   
   override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
