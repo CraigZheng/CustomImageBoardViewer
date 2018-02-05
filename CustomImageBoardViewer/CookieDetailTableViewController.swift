@@ -46,16 +46,17 @@ class CookieDetailTableViewController: UITableViewController {
     if let cookieValue = cookieValue, !cookieValue.isEmpty, let hostURL = URL(string: activeHost == .AC ? czzSettingsCentre.sharedInstance().ac_isle_host : czzSettingsCentre.sharedInstance().bt_isle_host) {
       let cookie = czzACTokenUtil.createCookie(withValue: cookieValue,
                                                for: hostURL)
-      czzCookieManager.sharedInstance().setACCookie(cookie, for: hostURL)
-      
-    }
-  }
-  
-  override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-    if identifier == SegueIdentifier.unwindToCookieManager.rawValue {
-      return !(activeHost == originalHost && originalCookieValue == cookieValue)
-    } else {
-      return true
+      let message: String
+      if czzCookieManager.sharedInstance().currentACCookies().isEmpty {
+        czzCookieManager.sharedInstance().setACCookie(cookie, for: hostURL)
+        message = "饼干已启用"
+      } else {
+        message = "饼干已保存"
+      }
+      czzCookieManager.sharedInstance().archiveCookie(cookie)
+      DispatchQueue.main.async {
+        czzBannerNotificationUtil.displayMessage(message, position: .top)
+      }
     }
   }
   

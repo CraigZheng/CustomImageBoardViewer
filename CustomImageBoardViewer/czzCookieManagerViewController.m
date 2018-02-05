@@ -137,6 +137,10 @@ static NSString *kScanQRCodeSegueIdentifier = @"qrScanner";
     [useCookieAlertView show];
 }
 
+- (IBAction)unwindToCookieManagerViewController:(UIStoryboardSegue *)sender {
+  // Unwind segue.
+}
+
 - (IBAction)shareCookieAction:(id)sender {
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[self.selectedCookie.value] applicationActivities:nil];
     if ( [activityViewController respondsToSelector:@selector(popoverPresentationController)] ) { // iOS8
