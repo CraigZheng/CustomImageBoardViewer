@@ -41,6 +41,8 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
 @property (nonatomic) NSString *settingsFile;
 @property czzURLDownloader *urlDownloader;
 @property (nonatomic, strong) NSData *configurationJSONData;
+@property (strong, readwrite) NSString *ac_isle_host;
+@property (strong, readwrite) NSString *bt_isle_host;
 @end
 
 @implementation czzSettingsCentre
@@ -366,6 +368,12 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     NSArray<NSDictionary<NSString *, NSObject *> *> *jsonArray = [NSJSONSerialization JSONObjectWithData:self.configurationJSONData options:NSJSONReadingMutableContainers error:&error];
     [jsonArray enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
       NSString *configurationName = obj[@"configuration_name"];
+      if ([configurationName isEqualToString:@"AC"]) {
+        self.ac_isle_host = [obj objectForKey:@"a_isle_host"];
+      }
+      if ([configurationName isEqualToString:@"BT"]) {
+        self.bt_isle_host = [obj objectForKey:@"a_isle_host"];
+      }
       switch (self.userDefActiveHost) {
         case SettingsHostAC:
           if ([configurationName isEqualToString:@"AC"]) {

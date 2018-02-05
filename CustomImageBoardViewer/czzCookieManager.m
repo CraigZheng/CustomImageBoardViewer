@@ -107,7 +107,7 @@
     DDLogDebug(@"Cookie: %@", cookie);
     DDLogDebug(@"URL: %@", url);
     [self.cookieStorage setCookies:@[cookie]
-                            forURL:[NSURL URLWithString:[settingCentre a_isle_host]]
+                            forURL:url
                    mainDocumentURL:nil];
     [self saveCurrentState];
 }
@@ -122,16 +122,17 @@
 }
 
 -(NSHTTPCookie *)currentInUseCookie {
-    NSArray *allCookies = [self.cookieStorage cookiesForURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
-    NSHTTPCookie *inUseCookie;
-    for (NSHTTPCookie *cookie in allCookies) {
-        if ([cookie.name.lowercaseString isEqualToString:cookieName.lowercaseString]) {
-            inUseCookie = cookie;
-            break;
-        }
+  NSArray *acCookies = [self.cookieStorage cookiesForURL:[NSURL URLWithString:[settingCentre ac_isle_host]]];
+  NSArray *btCookies = [self.cookieStorage cookiesForURL:[NSURL URLWithString:[settingCentre bt_isle_host]]];
+  NSHTTPCookie *inUseCookie;
+  for (NSHTTPCookie *cookie in [acCookies arrayByAddingObjectsFromArray:btCookies]) {
+    if ([cookie.name.lowercaseString isEqualToString:cookieName.lowercaseString]) {
+      inUseCookie = cookie;
+      break;
     }
-    
-    return inUseCookie;
+  }
+  
+  return inUseCookie;
 }
 
 -(BOOL)addValueAsCookie:(NSString *)cookieValue {
@@ -176,7 +177,7 @@
         !self.currentInUseCookie) {
         NSHTTPCookie *inUseCookie = [NSKeyedUnarchiver unarchiveObjectWithFile:self.inUseFilePath];
         [self setACCookie:inUseCookie
-                   ForURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
+                   ForURL:[NSURL URLWithString:inUseCookie.domain]];
         DDLogDebug(@"%s: in use", __PRETTY_FUNCTION__);
     }
 }
