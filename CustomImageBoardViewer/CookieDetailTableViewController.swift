@@ -37,10 +37,10 @@ class CookieDetailTableViewController: UITableViewController {
   }
   
   @IBAction func addAction(_ sender: Any) {
-    if let cookieValue = cookieValue, !cookieValue.isEmpty {
+    if let cookieValue = cookieValue, !cookieValue.isEmpty, let hostURL = URL(string: hostPickerView.selectedRow(inComponent: 0) == 0 ? czzSettingsCentre.sharedInstance().ac_isle_host : czzSettingsCentre.sharedInstance().bt_isle_host) {
       let cookie = czzACTokenUtil.createCookie(withValue: cookieValue,
-                                               for: URL(string: hostPickerView.selectedRow(inComponent: 0) == 0 ? czzSettingsCentre.sharedInstance().ac_isle_host : czzSettingsCentre.sharedInstance().bt_isle_host))
-      czzCookieManager.sharedInstance().setACCookie(cookie, for: nil)
+                                               for: hostURL)
+      czzCookieManager.sharedInstance().setACCookie(cookie, for: hostURL)
       navigationController?.popToRootViewController(animated: true)
     }
   }
