@@ -49,6 +49,7 @@ static NSString *kScanQRCodeSegueIdentifier = @"qrScanner";
   id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
   [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
   [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+  self.selectedCookie = nil;
   [self refreshData];
 }
 

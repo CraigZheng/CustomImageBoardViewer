@@ -10,7 +10,7 @@ import UIKit
 
 class CookieDetailTableViewController: UITableViewController {
   private enum SegueIdentifier: String {
-    case unwindToCookieManager
+    case unwindToCookieManager, showQRCode
   }
   
   @IBOutlet weak var addButton: RoundCornerBorderedButton!
@@ -62,6 +62,10 @@ class CookieDetailTableViewController: UITableViewController {
         czzBannerNotificationUtil.displayMessage(message, position: .top)
       }
     }
+  }
+  
+  override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+    return cookieValue?.isEmpty == false
   }
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
