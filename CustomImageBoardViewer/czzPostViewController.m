@@ -339,14 +339,13 @@ static NSString *kDraftSelectorSegue = @"draftSelector";
 }
 
 - (IBAction)cancelAction:(id)sender {
-    if ((postTextView.text.length || postSender.imgData) &&
-        postMode != postViewControllerModeDisplayOnly) {
-        [self.postTextView resignFirstResponder];
-        self.cancelPostingActionSheet = [[UIActionSheet alloc] initWithTitle:@"确定要中断发送文章？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"中断" otherButtonTitles: nil];
-        [self.cancelPostingActionSheet showInView:self.view];
-        [DraftManager save:postTextView.text];
-    } else
-        [self dismissWithCompletionHandler:nil];
+  if ((postTextView.text.length || postSender.imgData) &&
+      postMode != postViewControllerModeDisplayOnly) {
+    [self.postTextView resignFirstResponder];
+    self.cancelPostingActionSheet = [[UIActionSheet alloc] initWithTitle:@"确定要中断发送文章？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"中断" otherButtonTitles:@"中断并保存草稿", nil];
+    [self.cancelPostingActionSheet showInView:self.view];
+  } else
+    [self dismissWithCompletionHandler:nil];
 }
 
 - (void)textViewDidChange:(UITextView *)textView {
@@ -386,9 +385,15 @@ static NSString *kDraftSelectorSegue = @"draftSelector";
 
 #pragma mark - UIActionSheetDelegate
 -(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    if (actionSheet == self.cancelPostingActionSheet && buttonIndex == actionSheet.destructiveButtonIndex) {
-        [self dismissWithCompletionHandler:nil];
+  if (actionSheet == self.cancelPostingActionSheet) {
+    if (buttonIndex == actionSheet.cancelButtonIndex) {
+      return;
     }
+    if (buttonIndex != actionSheet.destructiveButtonIndex) {
+      [DraftManager save:postTextView.text];
+    }
+    [self dismissWithCompletionHandler:nil];
+  }
 }
 
 #pragma mark - UIAlertViewDelegate
