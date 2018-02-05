@@ -9,6 +9,10 @@
 import UIKit
 
 class CookieDetailTableViewController: UITableViewController {
+  private enum SegueIdentifier: String {
+    case unwindToCookieManager
+  }
+  
   @IBOutlet weak var addButton: RoundCornerBorderedButton!
   @IBOutlet weak var hostPickerView: UIPickerView!
   @IBOutlet weak var cookieValueLabel: UILabel!
@@ -22,10 +26,12 @@ class CookieDetailTableViewController: UITableViewController {
     }
   }
   private var originalCookieValue: String?
+  private var originalHost: SettingsHost?
   
   override func viewDidLoad() {
     super.viewDidLoad()
     originalCookieValue = cookieValue
+    originalHost = activeHost
     if let cookieValue = cookieValue {
       cookieValueLabel.text = cookieValue
     }
@@ -37,11 +43,19 @@ class CookieDetailTableViewController: UITableViewController {
   }
   
   @IBAction func addAction(_ sender: Any) {
-    if let cookieValue = cookieValue, !cookieValue.isEmpty, let hostURL = URL(string: hostPickerView.selectedRow(inComponent: 0) == 0 ? czzSettingsCentre.sharedInstance().ac_isle_host : czzSettingsCentre.sharedInstance().bt_isle_host) {
+    if let cookieValue = cookieValue, !cookieValue.isEmpty, let hostURL = URL(string: activeHost == .AC ? czzSettingsCentre.sharedInstance().ac_isle_host : czzSettingsCentre.sharedInstance().bt_isle_host) {
       let cookie = czzACTokenUtil.createCookie(withValue: cookieValue,
                                                for: hostURL)
       czzCookieManager.sharedInstance().setACCookie(cookie, for: hostURL)
-      navigationController?.popToRootViewController(animated: true)
+      
+    }
+  }
+  
+  override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+    if identifier == SegueIdentifier.unwindToCookieManager.rawValue {
+      return !(activeHost == originalHost && originalCookieValue == cookieValue)
+    } else {
+      return true
     }
   }
   
@@ -70,6 +84,10 @@ extension CookieDetailTableViewController: UIPickerViewDataSource, UIPickerViewD
   
   func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
     return ["主岛", "备胎岛"][row]
+  }
+  
+  func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    activeHost = SettingsHost(rawValue: row)!
   }
 }
 
