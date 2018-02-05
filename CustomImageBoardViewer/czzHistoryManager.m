@@ -72,14 +72,24 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
 }
 
 -(void)recordThread:(czzThread *)thread {
-    if ([browserHistory containsObject:thread])
-        [browserHistory removeObject:thread];
-    [browserHistory addObject:thread];
-    //should not be bigger than 100
-    if (browserHistory.count > HISTORY_UPPER_LIMIT) {
-        [browserHistory removeObject:browserHistory.firstObject]; //remove oldest object
-    }
-    [self saveCurrentState];
+  if (!thread) {
+    return;
+  }
+  [browserHistory removeObject:thread];
+  [browserHistory addObject:thread];
+  //should not be bigger than 100
+  if (browserHistory.count > HISTORY_UPPER_LIMIT) {
+    [browserHistory removeObject:browserHistory.firstObject]; //remove oldest object
+  }
+  NSInteger index = [self.respondedThreads indexOfObject:thread];
+  if (index != NSNotFound) {
+    self.respondedThreads[index] = thread;
+  }
+  index = [self.postedThreads indexOfObject:thread];
+  if (index != NSNotFound) {
+    self.postedThreads[index] = thread;
+  }
+  [self saveCurrentState];
 }
 
 -(BOOL)removeThread:(czzThread *)thread {
