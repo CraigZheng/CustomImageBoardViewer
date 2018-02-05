@@ -16,4 +16,13 @@ extension czzCookieManager {
     }
     return jsonDictionary["cookie"]
   }
+  
+  func cookieJSON(from cookieValue: String) -> String? {
+    var dictionary: [String: String] = [:]
+    dictionary["cookie"] = cookieValue
+    guard let jsonData = try? JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted) else {
+      return nil
+    }
+    return String(data: jsonData, encoding: .utf8)
+  }
 }
