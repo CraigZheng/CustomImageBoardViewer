@@ -36,7 +36,8 @@ class CookieDetailTableViewController: UITableViewController {
   
   @IBAction func addAction(_ sender: Any) {
     if let cookieValue = cookieValue, !cookieValue.isEmpty {
-      let cookie = czzACTokenUtil.createCookie(withValue: cookieValue, for: URL(string: czzSettingsCentre.sharedInstance().a_isle_host))
+      let cookie = czzACTokenUtil.createCookie(withValue: cookieValue,
+                                               for: URL(string: hostPickerView.selectedRow(inComponent: 0) == 0 ? czzSettingsCentre.sharedInstance().ac_isle_host : czzSettingsCentre.sharedInstance().bt_isle_host))
       czzCookieManager.sharedInstance().setACCookie(cookie, for: nil)
       navigationController?.popToRootViewController(animated: true)
     }
