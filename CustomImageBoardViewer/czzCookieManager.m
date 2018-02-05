@@ -86,15 +86,15 @@
 }
 
 -(void)getCookieIfHungry {
-    if (self.acCookies.count > 0) {
-        DDLogDebug(@"%s: no need for anymore cookies.", __PRETTY_FUNCTION__);
-        return;
-    }
-    DDLogDebug(@"current cookie empty, try to eat a cookie");
-    NSString *getCookieURLString = [[settingCentre a_isle_host] stringByAppendingPathComponent:[NSString stringWithFormat:@"/Home/Api/getCookie?deviceid=%@", [UIDevice currentDevice].identifierForVendor.UUIDString]];
-
-    czzURLDownloader *urlDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:getCookieURLString] delegate:self startNow:YES shouldUseDefaultCookit:NO];
-    [urlDownloader start];
+  if (self.acCookies.count > 0) {
+    DDLogDebug(@"%s: no need for anymore cookies.", __PRETTY_FUNCTION__);
+    return;
+  }
+  DDLogDebug(@"current cookie empty, try to eat a cookie");
+  NSString *getCookieURLString = [[settingCentre bt_isle_host] stringByAppendingPathComponent:[NSString stringWithFormat:@"/Home/Api/getCookie?deviceid=%@", [UIDevice currentDevice].identifierForVendor.UUIDString]];
+  
+  czzURLDownloader *urlDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:getCookieURLString] delegate:self startNow:YES shouldUseDefaultCookit:NO];
+  [urlDownloader start];
 }
 
 -(void)setACCookie:(NSHTTPCookie *)cookie ForURL:(NSURL *)url {
