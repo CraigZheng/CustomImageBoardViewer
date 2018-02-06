@@ -169,26 +169,29 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
  This method would update the contents related to the table view
  */
 -(void)updateTableView {
-    // Update bar buttons.
-    if (!numberBarButton.customView) {
-        numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
-    }
-    
-    [(czzRoundButton *)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.threadViewManager.threads.firstObject.threads.count] forState:UIControlStateNormal];
-    
-    // Star button image - on or off.
-    if ([favouriteManager isThreadFavourited:self.threadViewManager.parentThread]) {
-        self.starButton.image = [UIImage imageNamed:@"solid_star.png"];
-    } else {
-        self.starButton.image = [UIImage imageNamed:@"star.png"];
-    }
-    // Watch button image - watched or not.
-    if ([WatchListManager.watchedThreads containsObject:self.threadViewManager.parentThread]) {
-        self.watchButton.image = [UIImage imageNamed:@"visible.png"];
-    } else {
-        self.watchButton.image = [UIImage imageNamed:@"invisible.png"];
-    }
-    [self.threadTableViewManager reloadData];
+  // Update bar buttons.
+  if (!numberBarButton.customView) {
+    numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
+  }
+  NSInteger count = 0;
+  for (ContentPage *page in self.threadViewManager.threads) {
+    count += page.threads.count;
+  }
+  [(czzRoundButton *)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long)count] forState:UIControlStateNormal];
+  
+  // Star button image - on or off.
+  if ([favouriteManager isThreadFavourited:self.threadViewManager.parentThread]) {
+    self.starButton.image = [UIImage imageNamed:@"solid_star.png"];
+  } else {
+    self.starButton.image = [UIImage imageNamed:@"star.png"];
+  }
+  // Watch button image - watched or not.
+  if ([WatchListManager.watchedThreads containsObject:self.threadViewManager.parentThread]) {
+    self.watchButton.image = [UIImage imageNamed:@"visible.png"];
+  } else {
+    self.watchButton.image = [UIImage imageNamed:@"invisible.png"];
+  }
+  [self.threadTableViewManager reloadData];
 }
 
 #pragma mark - Getters
