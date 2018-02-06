@@ -16,9 +16,7 @@ IB_DESIGNABLE
 @property (strong, nonatomic) NSString *parentUID;
 @property (strong, nonatomic) UIColor *highlightColour;
 @property (strong, nonatomic) NSString *nickname;
-@property (weak, nonatomic) IBOutlet UILabel *pageNumberLabel;
-@property (weak, nonatomic) IBOutlet UIView *pageNumberLabelBackgroundView;
-@property (weak, nonatomic) IBOutlet UIImageView *brokenLinkIcon;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *pageNumberToIDLabelConstraint;
+@property (weak, nonatomic) IBOutlet UIButton *headerButton;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *headerButtonContainerViewHeightConstraint;
 
 @end

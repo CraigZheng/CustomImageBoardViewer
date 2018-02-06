@@ -23,6 +23,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *flagImageView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *dateBottomPaddingConstraint;
 @property (weak, nonatomic) IBOutlet UIView *topSeparator;
+@property (weak, nonatomic) IBOutlet UIView *headerContainerView;
+@property (weak, nonatomic) IBOutlet UIStackView *headerStackView;
 
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
@@ -33,14 +35,10 @@
 - (void)awakeFromNib {
   [super awakeFromNib];
   self.flagImageView.image = [[UIImage imageNamed:@"flag"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-  self.brokenLinkIcon.image = [self.brokenLinkIcon.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-  self.pageNumberLabel.text = nil;
-  self.brokenLinkIcon.hidden = YES;
-  self.pageNumberLabelBackgroundView.hidden = YES;
 }
 
 - (void)layoutSubviews {
-  self.topSeparator.hidden = self.pageNumberLabel.text.length == 0;
+  self.topSeparator.hidden = self.headerButton.isHidden;
   [super layoutSubviews];
 }
 
