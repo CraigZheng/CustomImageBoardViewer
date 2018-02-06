@@ -9,6 +9,7 @@
 #import "czzThreadViewCellHeaderView.h"
 
 #import "czzSettingsCentre.h"
+#import "UIColor+Hexadecimal.h"
 
 #define RGBCOLOR(r,g,b)[UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1]
 #define brownColour RGBCOLOR(168, 123, 65)
@@ -40,6 +41,9 @@
 - (void)layoutSubviews {
   self.topSeparator.hidden = self.headerButton.isHidden;
   [super layoutSubviews];
+  self.headerButton.backgroundColor = self.headerButton.isEnabled ? [UIColor colorWithHex:@"FFAD2C"] : [UIColor lightGrayColor];
+  [self.headerButton setTitleColor:self.headerButton.isEnabled ? [UIColor darkGrayColor] : [UIColor whiteColor]
+                          forState:UIControlStateNormal];
 }
 
 #pragma mark - Setters
