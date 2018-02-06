@@ -1,8 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="LSR-WF-lpq">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="LSR-WF-lpq">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Czz Thread View Command Status Cell View Controller-->
@@ -14,33 +18,39 @@
                         <viewControllerLayoutGuide type="bottom" id="aJf-fS-fcj"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="IoW-wW-ZaL" customClass="CPAutoFillView">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="COMMAND LABEL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tI3-AE-CFC">
-                                <rect key="frame" x="44" y="12" width="232" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" red="1" green="0.57347453749999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <activityIndicatorView opaque="NO" tag="2" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="2f0-p6-AIA">
-                                <rect key="frame" x="16" y="13" width="20" height="20"/>
+                                <rect key="frame" x="16" y="15" width="20" height="20"/>
                             </activityIndicatorView>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hqv-dZ-hiB" customClass="RoundCornerBorderedButton" customModule="CustomImageBoardViewer" customModuleProvider="target">
+                                <rect key="frame" x="40" y="11" width="240" height="28"/>
+                                <color key="backgroundColor" red="1" green="0.67843137249999996" blue="0.17254901959999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="aFc-3c-86d"/>
+                                </constraints>
+                                <state key="normal" title="点击以加载">
+                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="tappedOnLoadPreviousPage:" destination="ZPm-mf-ZIO" eventType="touchUpInside" id="hvB-J9-ts7"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="centerY" secondItem="tI3-AE-CFC" secondAttribute="centerY" id="IoC-TY-4jG"/>
-                            <constraint firstAttribute="centerX" secondItem="tI3-AE-CFC" secondAttribute="centerX" id="NAN-g8-VqE"/>
-                            <constraint firstItem="tI3-AE-CFC" firstAttribute="leading" secondItem="2f0-p6-AIA" secondAttribute="trailing" constant="8" symbolic="YES" id="WnX-fC-PTo"/>
-                            <constraint firstItem="tI3-AE-CFC" firstAttribute="centerY" secondItem="2f0-p6-AIA" secondAttribute="centerY" id="e96-hl-dWl"/>
+                            <constraint firstItem="2f0-p6-AIA" firstAttribute="centerY" secondItem="IoW-wW-ZaL" secondAttribute="centerY" id="HkM-Pw-mG2"/>
+                            <constraint firstAttribute="trailing" secondItem="Hqv-dZ-hiB" secondAttribute="trailing" constant="40" id="I0j-bK-mRy"/>
+                            <constraint firstItem="Hqv-dZ-hiB" firstAttribute="leading" secondItem="IoW-wW-ZaL" secondAttribute="leading" constant="40" id="dtN-sC-4lT"/>
                             <constraint firstItem="2f0-p6-AIA" firstAttribute="leading" secondItem="IoW-wW-ZaL" secondAttribute="leading" constant="16" id="fD9-1s-4mj"/>
-                            <constraint firstItem="tI3-AE-CFC" firstAttribute="bottom" secondItem="2f0-p6-AIA" secondAttribute="bottom" id="jTG-f5-HjW"/>
+                            <constraint firstItem="Hqv-dZ-hiB" firstAttribute="centerY" secondItem="IoW-wW-ZaL" secondAttribute="centerY" id="hmk-Pn-nxf"/>
                         </constraints>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="320" height="44"/>
+                    <size key="freeformSize" width="320" height="50"/>
                     <connections>
-                        <outlet property="commandStatusLabel" destination="tI3-AE-CFC" id="PmN-1e-2YB"/>
+                        <outlet property="commandButton" destination="Hqv-dZ-hiB" id="ByZ-hC-6dC"/>
                         <outlet property="loadingActivityIndicator" destination="2f0-p6-AIA" id="zJJ-cG-sIU"/>
                         <outlet property="view" destination="IoW-wW-ZaL" id="wEJ-9g-gK0"/>
                     </connections>
