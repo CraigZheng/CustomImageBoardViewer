@@ -125,10 +125,8 @@ extension QRCodeScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
         let cookieValue = czzCookieManager.sharedInstance().cookie(from: readableObject.stringValue),
         !cookieValue.isEmpty {
         capturedCookie = cookieValue
-        dismiss(animated: true, completion: {
-          self.performSegue(withIdentifier: SegueIdentifier.cookieDetail.rawValue, sender: nil)
-        })
         captureSession?.stopRunning()
+        performSegue(withIdentifier: SegueIdentifier.cookieDetail.rawValue, sender: nil)
         return
       }
     }
