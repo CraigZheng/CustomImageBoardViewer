@@ -238,11 +238,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 -(void)dragOnRefreshControlAction:(id)sender{
-  if (self.threadViewManager.threads.count >= 2 && self.threadViewManager.threads[1].pageNumber > 1) {
-    [self.threadViewManager loadPreviousPage];
-  } else {
-    [self refreshThread:self];
-  }
+  [self refreshThread:self];
   [self updateTableView];
 }
 
@@ -360,6 +356,14 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 #pragma mark - UI button actions
+- (IBAction)tappedOnLoadPreviousPage:(UIButton *)sender {
+  if (self.threadViewManager.threads.count >= 2 && self.threadViewManager.threads[1].pageNumber > 1) {
+    [self.threadViewManager loadPreviousPage];
+  } else {
+    [self refreshThread:self];
+  }
+  [self updateTableView];
+}
 
 - (IBAction)massiveDownloadAction:(id)sender {
     if (self.threadViewManager.isMassiveDownloading) {

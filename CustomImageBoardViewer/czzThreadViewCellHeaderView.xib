@@ -93,6 +93,9 @@
                                     <state key="normal" title="点击以加载">
                                         <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </state>
+                                    <connections>
+                                        <action selector="tappedOnLoadPreviousPage:" destination="-2" eventType="touchUpInside" id="rul-kq-4Qy"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
