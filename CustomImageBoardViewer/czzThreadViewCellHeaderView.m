@@ -9,6 +9,7 @@
 #import "czzThreadViewCellHeaderView.h"
 
 #import "czzSettingsCentre.h"
+#import "UIColor+Hexadecimal.h"
 
 #define RGBCOLOR(r,g,b)[UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1]
 #define brownColour RGBCOLOR(168, 123, 65)
@@ -23,6 +24,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *flagImageView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *dateBottomPaddingConstraint;
 @property (weak, nonatomic) IBOutlet UIView *topSeparator;
+@property (weak, nonatomic) IBOutlet UIView *headerContainerView;
+@property (weak, nonatomic) IBOutlet UIStackView *headerStackView;
 
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
@@ -33,15 +36,14 @@
 - (void)awakeFromNib {
   [super awakeFromNib];
   self.flagImageView.image = [[UIImage imageNamed:@"flag"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-  self.brokenLinkIcon.image = [self.brokenLinkIcon.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-  self.pageNumberLabel.text = nil;
-  self.brokenLinkIcon.hidden = YES;
-  self.pageNumberLabelBackgroundView.hidden = YES;
 }
 
 - (void)layoutSubviews {
-  self.topSeparator.hidden = self.pageNumberLabel.text.length == 0;
+  self.topSeparator.hidden = self.headerButton.isHidden;
   [super layoutSubviews];
+  self.headerButton.backgroundColor = self.headerButton.isEnabled ? [UIColor colorWithHex:@"FFAD2C"] : [UIColor lightGrayColor];
+  [self.headerButton setTitleColor:self.headerButton.isEnabled ? [UIColor darkGrayColor] : [UIColor whiteColor]
+                          forState:UIControlStateNormal];
 }
 
 #pragma mark - Setters

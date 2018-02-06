@@ -111,23 +111,27 @@
       threadViewCell.cellType = threadViewCellTypeThread;
       threadViewCell.parentThread = self.threadViewManager.parentThread;
       threadViewCell.shouldTemporarilyHighlight = [self.temporarilyHighlightUID isEqualToString:thread.UID];
+      threadViewCell.cellHeaderView.headerButton.enabled = NO;
+      threadViewCell.cellHeaderView.headerButton.hidden = YES;
       if (self.threadViewManager.threads.count >= 2) {
         ContentPage *firstPage = self.threadViewManager.threads[0];
         ContentPage *secondPage = self.threadViewManager.threads[1];
         if (currentPage == self.threadViewManager.threads.firstObject) {
           if (firstPage.pageNumber + 1 != secondPage.pageNumber) {
-            NSRange unloadedRange = NSMakeRange(firstPage.pageNumber + 1, secondPage.pageNumber - 1);
-            if (unloadedRange.location == unloadedRange.length) {
-              threadViewCell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"下拉以加载第 %ld 页的内容", (long)unloadedRange.location];
-            } else {
-              threadViewCell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"下拉以加载第 %ld 至 %ld 页的内容", (long)unloadedRange.location, (long)unloadedRange.length];
-            }
+            threadViewCell.cellHeaderView.headerButton.enabled = YES;
+            threadViewCell.cellHeaderView.headerButton.hidden = NO;
+            [threadViewCell.cellHeaderView.headerButton setTitle:[NSString stringWithFormat:@"点击以加载第 %ld 页的内容", secondPage.pageNumber - 1]
+                                                        forState:UIControlStateNormal];
           }
         } else if (secondPage.pageNumber != 1 && thread == secondPage.threads.firstObject) {
-          threadViewCell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"以下为 %ld 页起的内容", (long)secondPage.pageNumber];
+          threadViewCell.cellHeaderView.headerButton.enabled = NO;
+          threadViewCell.cellHeaderView.headerButton.hidden = NO;
+          [threadViewCell.cellHeaderView.headerButton setTitle:[NSString stringWithFormat:@"以下为 %ld 页起的内容", (long)secondPage.pageNumber]
+                                                      forState:UIControlStateNormal];
         }
+        threadViewCell.cellHeaderView.headerButtonContainerViewHeightConstraint.constant = threadViewCell.cellHeaderView.headerButton.isHidden ? 0 : 46;
       }
-      threadViewCell.cellHeaderView.pageNumberToIDLabelConstraint.constant = threadViewCell.cellHeaderView.pageNumberLabel.text.length == 0 ? 0 : 16;
+      
       [threadViewCell renderContent];
     }
   }
@@ -155,10 +159,7 @@
 }
 
 -(BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row < self.threadViewManager.threads.count) {
-        return YES;
-    }
-    return NO;
+  return !(indexPath.section == tableView.lastSection && indexPath.row == tableView.lastRow);
 }
 
 -(BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender{

@@ -169,26 +169,29 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
  This method would update the contents related to the table view
  */
 -(void)updateTableView {
-    // Update bar buttons.
-    if (!numberBarButton.customView) {
-        numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
-    }
-    
-    [(czzRoundButton *)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.threadViewManager.threads.firstObject.threads.count] forState:UIControlStateNormal];
-    
-    // Star button image - on or off.
-    if ([favouriteManager isThreadFavourited:self.threadViewManager.parentThread]) {
-        self.starButton.image = [UIImage imageNamed:@"solid_star.png"];
-    } else {
-        self.starButton.image = [UIImage imageNamed:@"star.png"];
-    }
-    // Watch button image - watched or not.
-    if ([WatchListManager.watchedThreads containsObject:self.threadViewManager.parentThread]) {
-        self.watchButton.image = [UIImage imageNamed:@"visible.png"];
-    } else {
-        self.watchButton.image = [UIImage imageNamed:@"invisible.png"];
-    }
-    [self.threadTableViewManager reloadData];
+  // Update bar buttons.
+  if (!numberBarButton.customView) {
+    numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
+  }
+  NSInteger count = 0;
+  for (ContentPage *page in self.threadViewManager.threads) {
+    count += page.threads.count;
+  }
+  [(czzRoundButton *)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long)count] forState:UIControlStateNormal];
+  
+  // Star button image - on or off.
+  if ([favouriteManager isThreadFavourited:self.threadViewManager.parentThread]) {
+    self.starButton.image = [UIImage imageNamed:@"solid_star.png"];
+  } else {
+    self.starButton.image = [UIImage imageNamed:@"star.png"];
+  }
+  // Watch button image - watched or not.
+  if ([WatchListManager.watchedThreads containsObject:self.threadViewManager.parentThread]) {
+    self.watchButton.image = [UIImage imageNamed:@"visible.png"];
+  } else {
+    self.watchButton.image = [UIImage imageNamed:@"invisible.png"];
+  }
+  [self.threadTableViewManager reloadData];
 }
 
 #pragma mark - Getters
@@ -238,11 +241,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 -(void)dragOnRefreshControlAction:(id)sender{
-  if (self.threadViewManager.threads.count >= 2 && self.threadViewManager.threads[1].pageNumber > 1) {
-    [self.threadViewManager loadPreviousPage];
-  } else {
-    [self refreshThread:self];
-  }
+  [self refreshThread:self];
   [self updateTableView];
 }
 
@@ -360,6 +359,14 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 }
 
 #pragma mark - UI button actions
+- (IBAction)tappedOnLoadPreviousPage:(UIButton *)sender {
+  if (self.threadViewManager.threads.count >= 2 && self.threadViewManager.threads[1].pageNumber > 1) {
+    [self.threadViewManager loadPreviousPage];
+  } else {
+    [self refreshThread:self];
+  }
+  [self updateTableView];
+}
 
 - (IBAction)massiveDownloadAction:(id)sender {
     if (self.threadViewManager.isMassiveDownloading) {

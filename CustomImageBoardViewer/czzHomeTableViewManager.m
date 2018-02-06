@@ -101,10 +101,7 @@
 #pragma mark - UITableViewDelegate
 
 - (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row < self.homeViewManager.threads.count) {
-        return YES;
-    }
-    return NO;
+  return !(indexPath.section == tableView.lastSection && indexPath.row == tableView.lastRow);
 }
 
 - (BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender{
@@ -321,19 +318,18 @@ estimatedHeightForRowAtIndexPath:indexPath];
     cell.nightyMode = [settingCentre userDefNightyMode];
     cell.bigImageMode = [settingCentre userDefShouldUseBigImage];
     cell.cellType = threadViewCellTypeHome;
-    cell.cellHeaderView.pageNumberLabel.text = nil;
+    
     // If the first page is not page 1.
     if (page == self.homeViewManager.threads.firstObject && page.pageNumber > 1 && thread == page.threads.firstObject) {
-      NSRange unloadedRange = NSMakeRange(1, page.pageNumber - 1);
-      if (unloadedRange.location == unloadedRange.length) {
-        cell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"下拉以加载第 %ld 页的内容", (long)unloadedRange.location];
-      } else {
-        cell.cellHeaderView.pageNumberLabel.text = [NSString stringWithFormat:@"下拉以加载第 %ld 至 %ld 页的内容", (long)unloadedRange.location, (long)unloadedRange.length];
-      }
+      cell.cellHeaderView.headerButton.enabled = YES;
+      cell.cellHeaderView.headerButton.hidden = NO;
+      [cell.cellHeaderView.headerButton setTitle:[NSString stringWithFormat:@"点击以加载第 %ld 页的内容", (long)page.pageNumber - 1]
+                                        forState:UIControlStateNormal];
+    } else {
+      cell.cellHeaderView.headerButton.enabled = NO;
+      cell.cellHeaderView.headerButton.hidden = YES;
     }
-    cell.cellHeaderView.brokenLinkIcon.hidden = !cell.cellHeaderView.pageNumberLabel.text.length;
-    cell.cellHeaderView.pageNumberLabelBackgroundView.hidden = cell.cellHeaderView.brokenLinkIcon.hidden;
-    cell.cellHeaderView.pageNumberToIDLabelConstraint.constant = cell.cellHeaderView.brokenLinkIcon.hidden ? 0 : 16;
+    cell.cellHeaderView.headerButtonContainerViewHeightConstraint.constant = cell.cellHeaderView.headerButton.isHidden ? 0 : 46;
     cell.thread = thread;
     if ([self isMemberOfClass:[czzHomeTableViewManager class]]) {
       [cell renderContent];

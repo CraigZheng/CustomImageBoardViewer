@@ -160,6 +160,15 @@
 }
 
 #pragma mark - ButtonActions
+- (IBAction)tappedOnLoadPreviousPage:(UIButton *)sender {
+  if (self.homeViewManager.threads.firstObject.pageNumber > 1) {
+    [self.homeViewManager loadPreviousPage];
+  } else {
+    [self.homeViewManager refresh];
+  }
+  [self updateTableView];
+}
+
 - (IBAction)sideButtonAction:(id)sender {
     [[SlideNavigationController sharedInstance] toggleLeftMenu];
 }
@@ -318,11 +327,7 @@
 
 #pragma mark - self.refreshControl and download controls
 -(void)dragOnRefreshControlAction:(id)sender{
-  if (self.homeViewManager.threads.firstObject.pageNumber > 1) {
-    [self.homeViewManager loadPreviousPage];
-  } else {
-    [self.homeViewManager refresh];
-  }
+  [self.homeViewManager refresh];
   [self updateTableView];
 }
 

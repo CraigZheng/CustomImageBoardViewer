@@ -14,7 +14,7 @@
 #import "CustomImageBoardViewer-Swift.h"
 
 @interface czzThreadViewCommandStatusCellViewController ()
-@property (weak, nonatomic) IBOutlet UILabel *commandStatusLabel;
+@property (weak, nonatomic) IBOutlet UIButton *commandButton;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingActivityIndicator;
 @property (assign, nonatomic) BOOL up;
 @end
@@ -29,37 +29,37 @@
 }
 
 - (void)renderContent {
-    @try {
-        self.view.backgroundColor = [settingCentre viewBackgroundColour];
-        NSString *commandLabelString;
-        [self.loadingActivityIndicator stopAnimating];
-        NSString *pageString = @"";
-        if ([self.homeViewManager isMemberOfClass:[czzThreadViewManager class]]) {
-          pageString = [NSString stringWithFormat:@" - 第%ld/%ld页", (long)self.homeViewManager.threads.lastObject.pageNumber ?: 1, (long)self.homeViewManager.totalPages];
-        }
-        switch (self.cellType) {
-            case czzThreadViewCommandStatusCellViewTypeLoadMore:
-                commandLabelString = [NSString stringWithFormat:@"%@%@", @"点击以加载", pageString];
-                self.up = NO;
-                break;
-            case czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore:
-                commandLabelString = [NSString stringWithFormat:@"%@%@", @"松开以加载", pageString];
-                self.up = YES;
-                break;
-            case czzThreadViewCommandStatusCellViewTypeNoMore:
-                commandLabelString = [NSString stringWithFormat:@"%@%@", @"没有更多内容，点击以加载", pageString];
-                break;
-            case czzThreadViewCommandStatusCellViewTypeLoading:
-                commandLabelString = [NSString stringWithFormat:@"%@%@", @"加载中", pageString];
-                break;
-            default:
-                break;
-        }
-        self.commandStatusLabel.text = commandLabelString;
+  @try {
+    self.view.backgroundColor = [settingCentre viewBackgroundColour];
+    NSString *commandLabelString;
+    [self.loadingActivityIndicator stopAnimating];
+    NSString *pageString = @"";
+    if ([self.homeViewManager isMemberOfClass:[czzThreadViewManager class]]) {
+      pageString = [NSString stringWithFormat:@" - 第%ld/%ld页", (long)self.homeViewManager.threads.lastObject.pageNumber ?: 1, (long)self.homeViewManager.totalPages];
     }
-    @catch (NSException *exception) {
-        DDLogDebug(@"%@",exception);
+    switch (self.cellType) {
+      case czzThreadViewCommandStatusCellViewTypeLoadMore:
+        commandLabelString = [NSString stringWithFormat:@"%@%@", @"点击以加载", pageString];
+        self.up = NO;
+        break;
+      case czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore:
+        commandLabelString = [NSString stringWithFormat:@"%@%@", @"松开以加载", pageString];
+        self.up = YES;
+        break;
+      case czzThreadViewCommandStatusCellViewTypeNoMore:
+        commandLabelString = [NSString stringWithFormat:@"%@%@", @"没有更多内容，点击以加载", pageString];
+        break;
+      case czzThreadViewCommandStatusCellViewTypeLoading:
+        commandLabelString = [NSString stringWithFormat:@"%@%@", @"加载中", pageString];
+        break;
+      default:
+        break;
     }
+    [self.commandButton setTitle:commandLabelString forState:UIControlStateNormal];
+  }
+  @catch (NSException *exception) {
+    DDLogDebug(@"%@",exception);
+  }
 }
 
 // Flash the content view, grab user's attention.
