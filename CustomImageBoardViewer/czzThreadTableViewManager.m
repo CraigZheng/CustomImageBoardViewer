@@ -159,10 +159,7 @@
 }
 
 -(BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row < self.threadViewManager.threads.count) {
-        return YES;
-    }
-    return NO;
+  return !(indexPath.section == tableView.lastSection && indexPath.row == tableView.lastRow);
 }
 
 -(BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender{
