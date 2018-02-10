@@ -323,7 +323,8 @@ estimatedHeightForRowAtIndexPath:indexPath];
         if (page == self.homeViewManager.threads.firstObject && page.pageNumber > 1 && thread == page.threads.firstObject) {
             cell.cellHeaderView.headerButton.enabled = YES;
             cell.cellHeaderView.headerButton.hidden = NO;
-            [cell.cellHeaderView.headerButton setTitle:[NSString stringWithFormat:@"点击以加载第 %ld 页的内容", (long)page.pageNumber - 1]
+            NSString *headerButtonTitle = self.homeViewManager.isDownloading ? @"加载中" : [NSString stringWithFormat:@"点击以加载第 %ld 页的内容", (long)page.pageNumber - 1];
+            [cell.cellHeaderView.headerButton setTitle:headerButtonTitle
                                               forState:UIControlStateNormal];
         } else {
             cell.cellHeaderView.headerButton.enabled = NO;

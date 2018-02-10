@@ -120,8 +120,8 @@
                     if (firstPage.pageNumber + 1 != secondPage.pageNumber) {
                         threadViewCell.cellHeaderView.headerButton.enabled = YES;
                         threadViewCell.cellHeaderView.headerButton.hidden = NO;
-                        
-                        [threadViewCell.cellHeaderView.headerButton setTitle:[NSString stringWithFormat:@"点击以加载第 %ld 页的内容", secondPage.pageNumber - 1]
+                        NSString *headerButtonTitle = self.threadViewManager.isDownloading ? @"加载中" : [NSString stringWithFormat:@"点击以加载第 %ld 页的内容", secondPage.pageNumber - 1];
+                        [threadViewCell.cellHeaderView.headerButton setTitle:headerButtonTitle
                                                                     forState:UIControlStateNormal];
                     }
                 } else if (secondPage.pageNumber != 1 && thread == secondPage.threads.firstObject) {
@@ -195,7 +195,7 @@
         [[NSOperationQueue currentQueue] addOperationWithBlock:^{
             [self highlightTableViewCell:selectedIndexPath];
         }];
-        return;    
+        return;
     }
     
     // Thread not found in the downloaded thread, get it from server instead.
