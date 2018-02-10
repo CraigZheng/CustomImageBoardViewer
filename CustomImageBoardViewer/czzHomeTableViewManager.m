@@ -323,7 +323,8 @@ estimatedHeightForRowAtIndexPath:indexPath];
         if (page == self.homeViewManager.threads.firstObject && page.pageNumber > 1 && thread == page.threads.firstObject) {
             cell.cellHeaderView.headerButton.enabled = YES;
             cell.cellHeaderView.headerButton.hidden = NO;
-            [cell.cellHeaderView.headerButton setTitle:[NSString stringWithFormat:@"点击以加载第 %ld 页的内容", (long)page.pageNumber - 1]
+            NSString *headerButtonTitle = self.homeViewManager.isDownloading ? @"加载中" : [NSString stringWithFormat:@"点击以加载第 %ld 页的内容", (long)page.pageNumber - 1];
+            [cell.cellHeaderView.headerButton setTitle:headerButtonTitle
                                               forState:UIControlStateNormal];
         } else {
             cell.cellHeaderView.headerButton.enabled = NO;
@@ -381,8 +382,9 @@ estimatedHeightForRowAtIndexPath:indexPath];
             NSString *imgURL = [self.homeViewManager.threads[indexPath.section].threads[indexPath.row] imgSrc];
             if (imgURL.length) {
                 // If image exists
-                if ([[czzImageCacheManager sharedInstance] hasImageWithName:imgURL.lastPathComponent]) {
-                    [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:imgURL.lastPathComponent]];
+                NSURL *fileURL = [[czzImageCacheManager sharedInstance] pathForImageWithName:imgURL.lastPathComponent];
+                if ([[czzImageCacheManager sharedInstance] hasImageWithName:imgURL.lastPathComponent] && [UIImage imageWithContentsOfFile:fileURL.path]) {
+                    [self.imageViewerUtil showPhoto:fileURL];
                     return;
                 }
                 
