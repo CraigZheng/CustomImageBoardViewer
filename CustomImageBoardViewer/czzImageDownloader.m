@@ -18,6 +18,7 @@
 @property long long fileSize;
 @property NSUInteger downloadedSize;
 @property (strong, nonatomic) NSString *internalSavePath;
+@property (strong, nonatomic) NSHTTPURLResponse *response;
 @end
 
 @implementation czzImageDownloader
@@ -76,14 +77,16 @@
 
 #pragma NSURLConnection delegate
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
-    //notify delegate that the download is failed
-    if (delegate && [delegate respondsToSelector:@selector(downloadFinished:success:isThumbnail:saveTo:)]){
+    if ([delegate respondsToSelector:@selector(downloadFinished:success:isThumbnail:saveTo:)]){
         [delegate downloadFinished:self success:NO isThumbnail:isThumbnail saveTo:Nil];
     }
     [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskID];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
+    if ([response isKindOfClass:NSHTTPURLResponse.class]) {
+        self.response = (NSHTTPURLResponse *)response;
+    }
     receivedData = [NSMutableData new];
     fileSize = [response expectedContentLength];
     downloadedSize = 0;
@@ -114,15 +117,19 @@
                     stringByAppendingPathComponent:@"Images"];
     NSString *filePath = [basePath stringByAppendingPathComponent:self.fileName];
     NSError *error;
-    [receivedData writeToFile:filePath options:NSDataWritingAtomic error:&error];
-    self.internalSavePath = filePath;
-    if (delegate && [delegate respondsToSelector:@selector(downloadFinished:success:isThumbnail:saveTo:)]){
+    BOOL saveSuccessful;
+    if (receivedData.length && self.response.statusCode == 200) {
+        [receivedData writeToFile:filePath options:NSDataWritingAtomic error:&error];
+        self.internalSavePath = filePath;
+        saveSuccessful = error == nil;
+    } else {
+        saveSuccessful = NO;
+    }
+    if ([delegate respondsToSelector:@selector(downloadFinished:success:isThumbnail:saveTo:)]){
         if (error){
             DDLogDebug(@"%@", error);
-            [delegate downloadFinished:self success:NO isThumbnail:isThumbnail saveTo:filePath];
-        } else {
-            [delegate downloadFinished:self success:YES isThumbnail:isThumbnail saveTo:filePath];
         }
+        [delegate downloadFinished:self success:saveSuccessful isThumbnail:isThumbnail saveTo:filePath];
     }
     [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskID];
     // Dereference the urlConn.
