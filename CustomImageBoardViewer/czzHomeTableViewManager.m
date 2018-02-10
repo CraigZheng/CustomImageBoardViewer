@@ -61,11 +61,11 @@
         UIMenuItem *openMenuItem = [[UIMenuItem alloc] initWithTitle:@"打开链接"
                                                               action:NSSelectorFromString(@"menuActionOpen:")];
         UIMenuItem *temporarilyHighlightMenuItem = [[UIMenuItem alloc] initWithTitle:@"高亮"
-                                                                   action:NSSelectorFromString(@"menuActionTemporarilyHighlight:")];
+                                                                              action:NSSelectorFromString(@"menuActionTemporarilyHighlight:")];
         UIMenuItem *highlightMenuItem = [[UIMenuItem alloc] initWithTitle:@"标记..."
                                                                    action:NSSelectorFromString(@"menuActionHighlight:")];
         UIMenuItem *reportMenuItem = [[UIMenuItem alloc] initWithTitle:@"举报"
-                                                               action:NSSelectorFromString(@"menuActionReport:")];
+                                                                action:NSSelectorFromString(@"menuActionReport:")];
         //    UIMenuItem *searchMenuItem = [[UIMenuItem alloc] initWithTitle:@"搜索他" action:@selector(menuActionSearch:)];
         [[UIMenuController sharedMenuController] setMenuItems:@[replyMenuItem, copyMenuItem, temporarilyHighlightMenuItem, highlightMenuItem, reportMenuItem, /*searchMenuItem,*/ openMenuItem]];
         [[UIMenuController sharedMenuController] update];
@@ -101,7 +101,7 @@
 #pragma mark - UITableViewDelegate
 
 - (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath {
-  return !(indexPath.section == tableView.lastSection && indexPath.row == tableView.lastRow);
+    return !(indexPath.section == tableView.lastSection && indexPath.row == tableView.lastRow);
 }
 
 - (BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender{
@@ -230,7 +230,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
     
     CGFloat width = 0.0f, height = 0.0f;
     CFDictionaryRef imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, NULL);
-        
+    
     if (imageProperties != NULL) {
         
         CFNumberRef widthNum  = CFDictionaryGetValue(imageProperties, kCGImagePropertyPixelWidth);
@@ -262,80 +262,80 @@ estimatedHeightForRowAtIndexPath:indexPath];
 #pragma mark - UITableView datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  return self.homeViewManager.threads.count;
+    return self.homeViewManager.threads.count;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-  NSInteger rowsCount = self.homeViewManager.threads[section].count;
-  if (section == [self numberOfSectionsInTableView:tableView] - 1) {
-    rowsCount += 1;
-  }
-  return rowsCount;
+    NSInteger rowsCount = self.homeViewManager.threads[section].count;
+    if (section == [self numberOfSectionsInTableView:tableView] - 1) {
+        rowsCount += 1;
+    }
+    return rowsCount;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-  // Last section + last row.
-  if (indexPath.section >= [self numberOfSectionsInTableView:tableView] - 1 &&
-      indexPath.row >= [self tableView:tableView numberOfRowsInSection:indexPath.section] - 1) {
-    NSString *lastCellIdentifier = THREAD_TABLEVIEW_COMMAND_CELL_IDENTIFIER;
-    czzThreadTableViewCommandCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:lastCellIdentifier forIndexPath:indexPath];
-    cell.commandStatusViewController = self.homeTableView.lastCellCommandViewController;
-    cell.commandStatusViewController.homeViewManager = self.homeViewManager;
-    self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
-    if (self.homeViewManager.threads.lastObject.pageNumber == self.homeViewManager.totalPages) {
-      self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeNoMore;
-    }
-    if (self.homeViewManager.isDownloading) {
-      self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
+    // Last section + last row.
+    if (indexPath.section >= [self numberOfSectionsInTableView:tableView] - 1 &&
+        indexPath.row >= [self tableView:tableView numberOfRowsInSection:indexPath.section] - 1) {
+        NSString *lastCellIdentifier = THREAD_TABLEVIEW_COMMAND_CELL_IDENTIFIER;
+        czzThreadTableViewCommandCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:lastCellIdentifier forIndexPath:indexPath];
+        cell.commandStatusViewController = self.homeTableView.lastCellCommandViewController;
+        cell.commandStatusViewController.homeViewManager = self.homeViewManager;
+        self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
+        if (self.homeViewManager.threads.lastObject.pageNumber == self.homeViewManager.totalPages) {
+            self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeNoMore;
+        }
+        if (self.homeViewManager.isDownloading) {
+            self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
+        }
+        
+        cell.backgroundColor = [settingCentre viewBackgroundColour];
+        return cell;
     }
     
-    cell.backgroundColor = [settingCentre viewBackgroundColour];
+    NSString *cell_identifier = settingCentre.userDefShouldUseBigImage ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
+    ContentPage *page = self.homeViewManager.threads[indexPath.section];
+    czzThread *thread = page.threads[indexPath.row];
+    czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
+    if (cell){
+        cell.delegate = self;
+        if ([[czzMarkerManager sharedInstance] isHighlighted:thread.UID]) {
+            cell.highlightColour = [[czzMarkerManager sharedInstance] highlightColourForUID:thread.UID];
+            cell.nickname = [[czzMarkerManager sharedInstance] nicknameForUID:thread.UID];
+        } else {
+            cell.highlightColour = nil;
+            cell.nickname = nil;
+        }
+        if ([[czzMarkerManager sharedInstance] isUIDBlocked:thread.UID]) {
+            cell.shouldBlock = YES;
+            cell.allowImage = NO;
+            cell.highlightColour = [UIColor lightGrayColor];
+        } else {
+            cell.shouldBlock = NO;
+            cell.allowImage = [settingCentre userDefShouldDisplayThumbnail];
+        }
+        cell.myIndexPath = indexPath;
+        cell.nightyMode = [settingCentre userDefNightyMode];
+        cell.bigImageMode = [settingCentre userDefShouldUseBigImage];
+        cell.cellType = threadViewCellTypeHome;
+        
+        // If the first page is not page 1.
+        if (page == self.homeViewManager.threads.firstObject && page.pageNumber > 1 && thread == page.threads.firstObject) {
+            cell.cellHeaderView.headerButton.enabled = YES;
+            cell.cellHeaderView.headerButton.hidden = NO;
+            [cell.cellHeaderView.headerButton setTitle:[NSString stringWithFormat:@"点击以加载第 %ld 页的内容", (long)page.pageNumber - 1]
+                                              forState:UIControlStateNormal];
+        } else {
+            cell.cellHeaderView.headerButton.enabled = NO;
+            cell.cellHeaderView.headerButton.hidden = YES;
+        }
+        cell.cellHeaderView.headerButtonContainerViewHeightConstraint.constant = cell.cellHeaderView.headerButton.isHidden ? 0 : 46;
+        cell.thread = thread;
+        if ([self isMemberOfClass:[czzHomeTableViewManager class]]) {
+            [cell renderContent];
+        }
+    }
     return cell;
-  }
-  
-  NSString *cell_identifier = settingCentre.userDefShouldUseBigImage ? BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER : THREAD_VIEW_CELL_IDENTIFIER;
-  ContentPage *page = self.homeViewManager.threads[indexPath.section];
-  czzThread *thread = page.threads[indexPath.row];
-  czzMenuEnabledTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier forIndexPath:indexPath];
-  if (cell){
-    cell.delegate = self;
-    if ([[czzMarkerManager sharedInstance] isHighlighted:thread.UID]) {
-      cell.highlightColour = [[czzMarkerManager sharedInstance] highlightColourForUID:thread.UID];
-      cell.nickname = [[czzMarkerManager sharedInstance] nicknameForUID:thread.UID];
-    } else {
-      cell.highlightColour = nil;
-      cell.nickname = nil;
-    }
-    if ([[czzMarkerManager sharedInstance] isUIDBlocked:thread.UID]) {
-      cell.shouldBlock = YES;
-      cell.allowImage = NO;
-      cell.highlightColour = [UIColor lightGrayColor];
-    } else {
-      cell.shouldBlock = NO;
-      cell.allowImage = [settingCentre userDefShouldDisplayThumbnail];
-    }
-    cell.myIndexPath = indexPath;
-    cell.nightyMode = [settingCentre userDefNightyMode];
-    cell.bigImageMode = [settingCentre userDefShouldUseBigImage];
-    cell.cellType = threadViewCellTypeHome;
-    
-    // If the first page is not page 1.
-    if (page == self.homeViewManager.threads.firstObject && page.pageNumber > 1 && thread == page.threads.firstObject) {
-      cell.cellHeaderView.headerButton.enabled = YES;
-      cell.cellHeaderView.headerButton.hidden = NO;
-      [cell.cellHeaderView.headerButton setTitle:[NSString stringWithFormat:@"点击以加载第 %ld 页的内容", (long)page.pageNumber - 1]
-                                        forState:UIControlStateNormal];
-    } else {
-      cell.cellHeaderView.headerButton.enabled = NO;
-      cell.cellHeaderView.headerButton.hidden = YES;
-    }
-    cell.cellHeaderView.headerButtonContainerViewHeightConstraint.constant = cell.cellHeaderView.headerButton.isHidden ? 0 : 46;
-    cell.thread = thread;
-    if ([self isMemberOfClass:[czzHomeTableViewManager class]]) {
-      [cell renderContent];
-    }
-  }
-  return cell;
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -500,29 +500,29 @@ estimatedHeightForRowAtIndexPath:indexPath];
 #pragma mark - Getters 
 
 - (BOOL)tableViewIsDraggedOverTheBottom {
-  return [self tableViewIsDraggedOverTheBottomWithPadding:44];
+    return [self tableViewIsDraggedOverTheBottomWithPadding:44];
 }
 
 - (BOOL)tableViewIsDraggedOverTheBottomWithPadding:(CGFloat)padding {
-  BOOL isOver = NO;
-  @try {
-    if (self.homeTableView.window) {
-      NSIndexPath *lastVisibleIndexPath = [self.homeTableView indexPathsForVisibleRows].lastObject;
-      if (lastVisibleIndexPath.row == self.homeViewManager.threads.lastObject.threads.count) {
-        CGPoint contentOffSet = self.homeTableView.contentOffset;
-        CGRect lastCellRect = [self.homeTableView rectForRowAtIndexPath:lastVisibleIndexPath];
-        if (lastCellRect.origin.y + lastCellRect.size.height + padding < contentOffSet.y + self.homeTableView.frame.size.height) {
-          isOver = YES;
-        } else {
-          isOver = NO;
+    BOOL isOver = NO;
+    @try {
+        if (self.homeTableView.window) {
+            NSIndexPath *lastVisibleIndexPath = [self.homeTableView indexPathsForVisibleRows].lastObject;
+            if (lastVisibleIndexPath.row == self.homeViewManager.threads.lastObject.threads.count) {
+                CGPoint contentOffSet = self.homeTableView.contentOffset;
+                CGRect lastCellRect = [self.homeTableView rectForRowAtIndexPath:lastVisibleIndexPath];
+                if (lastCellRect.origin.y + lastCellRect.size.height + padding < contentOffSet.y + self.homeTableView.frame.size.height) {
+                    isOver = YES;
+                } else {
+                    isOver = NO;
+                }
+            }
         }
-      }
     }
-  }
-  @catch (NSException *exception) {
-    DDLogDebug(@"%@", exception);
-  }
-  return isOver;
+    @catch (NSException *exception) {
+        DDLogDebug(@"%@", exception);
+    }
+    return isOver;
 }
 
 - (NSIndexPath *)lastRowIndexPath {
@@ -572,7 +572,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
         NSInteger identifierInteger = [identifier integerValue];
         for (czzThread * thread in self.homeViewManager.threads) {
             if (thread.ID == identifierInteger) {
-//                return [NSIndexPath indexPathForRow:0 inSection:[self.homeViewManager.threads indexOfObject:thread]];
+                //                return [NSIndexPath indexPathForRow:0 inSection:[self.homeViewManager.threads indexOfObject:thread]];
             }
         }
     }
