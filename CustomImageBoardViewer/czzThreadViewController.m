@@ -223,7 +223,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
         // Hide the massive download button at first, then show it with animation.
         // Show it only when the total pages is still 3 or more pages away from the current page number.
         if (!self.massiveDownloadButtonHeightConstraint.constant &&
-            viewManager.totalPages - viewManager.pageNumber >= 3) {
+            viewManager.totalPages - viewManager.threads.lastObject.pageNumber >= 3) {
             self.massiveDownloadButtonHeightConstraint.constant = 40;
             [UIView animateWithDuration:0.2 animations:^{
                 [self.view layoutIfNeeded];
@@ -231,7 +231,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
         }
         // Else, if the massive download button is showing and view manager has reached all of its pages.
         else if (self.massiveDownloadButtonHeightConstraint.constant &&
-                 viewManager.pageNumber >= viewManager.totalPages) {
+                 viewManager.threads.lastObject.pageNumber >= viewManager.totalPages) {
             self.massiveDownloadButtonHeightConstraint.constant = 0;
             [UIView animateWithDuration:0.2 animations:^{
                 [self.view layoutIfNeeded];
@@ -247,7 +247,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 #pragma mark - jump to and download controls
 -(void)PromptForJumpToPage{
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"跳页: %ld/%ld", (long) self.threadViewManager.pageNumber, (long) self.threadViewManager.totalPages] message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"跳页: %ld/%ld", (long) self.threadViewManager.threads.lastObject.pageNumber, (long) self.threadViewManager.totalPages] message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     UITextField *textInputField = [alertView textFieldAtIndex:0];
     if (textInputField)
@@ -377,11 +377,11 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
                                                                       cancelButtonTitle:@"算了"
                                                                       otherButtonTitles:@"确定", nil];
         [self.confirmCancelMassiveDownloadAlertView show];
-    } else if (self.threadViewManager.totalPages - self.threadViewManager.pageNumber >= 1){
+    } else if (self.threadViewManager.totalPages - self.threadViewManager.threads.lastObject.pageNumber >= 1){
         // Start massive download.
         self.confirmMassiveDownloadAlertView = [[UIAlertView alloc] initWithTitle:@"一键到底!"
                                                                           message:[NSString stringWithFormat:@"将加载%ld页内容,请确认!",
-                                                                                   (long)(self.threadViewManager.totalPages - self.threadViewManager.pageNumber)]
+                                                                                   (long)(self.threadViewManager.totalPages - self.threadViewManager.threads.lastObject.pageNumber)]
                                                                          delegate:self
                                                                 cancelButtonTitle:@"取消"
                                                                 otherButtonTitles:@"确定", nil];

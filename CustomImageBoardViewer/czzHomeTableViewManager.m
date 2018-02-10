@@ -282,7 +282,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
     cell.commandStatusViewController = self.homeTableView.lastCellCommandViewController;
     cell.commandStatusViewController.homeViewManager = self.homeViewManager;
     self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoadMore;
-    if (self.homeViewManager.pageNumber == self.homeViewManager.totalPages) {
+    if (self.homeViewManager.threads.lastObject.pageNumber == self.homeViewManager.totalPages) {
       self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeNoMore;
     }
     if (self.homeViewManager.isDownloading) {
@@ -364,7 +364,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
     // If user released while the scrollView is dragged up over the threshold, and view manager still has unloaded page, reload the view manager.
     if (!self.homeViewManager.isDownloading &&
         self.homeTableView.lastCellType == czzThreadViewCommandStatusCellViewTypeReleaseToLoadMore &&
-        self.homeViewManager.pageNumber < self.homeViewManager.totalPages) {
+        self.homeViewManager.threads.lastObject.pageNumber < self.homeViewManager.totalPages) {
         [self.homeViewManager loadMoreThreads];
         self.homeTableView.lastCellType = czzThreadViewCommandStatusCellViewTypeLoading;
     }
