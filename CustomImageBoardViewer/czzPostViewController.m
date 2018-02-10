@@ -31,7 +31,7 @@
 #import "CustomImageBoardViewer-Swift.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 
-static CGFloat compressScale = 0.95;
+static CGFloat compressScale = 0.9;
 static NSString *kDraftSelectorSegue = @"draftSelector";
 
 @interface czzPostViewController () <UIPopoverPresentationControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate, DraftSelectorTableViewControllerDelegate>
