@@ -169,10 +169,6 @@
 }
 
 - (void)subThreadProcessedForThread:(czzJSONProcessor *)processor :(czzThread *)parentThread :(NSArray *)newThread :(BOOL)success {
-    // If not success, or no thread has been downloaded, reverse the page number by 1.
-    if (!success || newThread.count == 0) {
-        self.pageNumber --;
-    }
     CGFloat totalPages = (CGFloat)parentThread.responseCount / (CGFloat)settingCentre.response_per_page;
     self.totalPages = ceilf(totalPages);
     self.parentThread = parentThread;
