@@ -93,48 +93,49 @@
     if (!userTouchInView)
         [self.threadTableView setContentOffset:self.threadsTableViewContentOffSet animated:YES];
     self.threadTableView.scrollEnabled = YES;
-
+    
 }
 
 #pragma mark - UITableViewDelegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
-  // If within the range of threads, is a thread view cell, otherwise is a command cell.
-  ContentPage *currentPage = self.threadViewManager.threads[indexPath.section];
-  if (indexPath.row < currentPage.count) {
-    czzThread *thread = currentPage.threads[indexPath.row];
-    // Thread view cell
-    if ([cell isKindOfClass:[czzMenuEnabledTableViewCell class]]){
-      czzMenuEnabledTableViewCell *threadViewCell = (czzMenuEnabledTableViewCell*)cell;
-      threadViewCell.shouldBlock = [[czzMarkerManager sharedInstance] isUIDBlocked:thread.UID];
-      threadViewCell.cellType = threadViewCellTypeThread;
-      threadViewCell.parentThread = self.threadViewManager.parentThread;
-      threadViewCell.shouldTemporarilyHighlight = [self.temporarilyHighlightUID isEqualToString:thread.UID];
-      threadViewCell.cellHeaderView.headerButton.enabled = NO;
-      threadViewCell.cellHeaderView.headerButton.hidden = YES;
-      if (self.threadViewManager.threads.count >= 2) {
-        ContentPage *firstPage = self.threadViewManager.threads[0];
-        ContentPage *secondPage = self.threadViewManager.threads[1];
-        if (currentPage == self.threadViewManager.threads.firstObject) {
-          if (firstPage.pageNumber + 1 != secondPage.pageNumber) {
-            threadViewCell.cellHeaderView.headerButton.enabled = YES;
-            threadViewCell.cellHeaderView.headerButton.hidden = NO;
-            [threadViewCell.cellHeaderView.headerButton setTitle:[NSString stringWithFormat:@"点击以加载第 %ld 页的内容", secondPage.pageNumber - 1]
-                                                        forState:UIControlStateNormal];
-          }
-        } else if (secondPage.pageNumber != 1 && thread == secondPage.threads.firstObject) {
-          threadViewCell.cellHeaderView.headerButton.enabled = NO;
-          threadViewCell.cellHeaderView.headerButton.hidden = NO;
-          [threadViewCell.cellHeaderView.headerButton setTitle:[NSString stringWithFormat:@"以下为 %ld 页起的内容", (long)secondPage.pageNumber]
-                                                      forState:UIControlStateNormal];
+    UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    // If within the range of threads, is a thread view cell, otherwise is a command cell.
+    ContentPage *currentPage = self.threadViewManager.threads[indexPath.section];
+    if (indexPath.row < currentPage.count) {
+        czzThread *thread = currentPage.threads[indexPath.row];
+        // Thread view cell
+        if ([cell isKindOfClass:[czzMenuEnabledTableViewCell class]]){
+            czzMenuEnabledTableViewCell *threadViewCell = (czzMenuEnabledTableViewCell*)cell;
+            threadViewCell.shouldBlock = [[czzMarkerManager sharedInstance] isUIDBlocked:thread.UID];
+            threadViewCell.cellType = threadViewCellTypeThread;
+            threadViewCell.parentThread = self.threadViewManager.parentThread;
+            threadViewCell.shouldTemporarilyHighlight = [self.temporarilyHighlightUID isEqualToString:thread.UID];
+            threadViewCell.cellHeaderView.headerButton.enabled = NO;
+            threadViewCell.cellHeaderView.headerButton.hidden = YES;
+            if (self.threadViewManager.threads.count >= 2) {
+                ContentPage *firstPage = self.threadViewManager.threads[0];
+                ContentPage *secondPage = self.threadViewManager.threads[1];
+                if (currentPage == self.threadViewManager.threads.firstObject) {
+                    if (firstPage.pageNumber + 1 != secondPage.pageNumber) {
+                        threadViewCell.cellHeaderView.headerButton.enabled = YES;
+                        threadViewCell.cellHeaderView.headerButton.hidden = NO;
+                        
+                        [threadViewCell.cellHeaderView.headerButton setTitle:[NSString stringWithFormat:@"点击以加载第 %ld 页的内容", secondPage.pageNumber - 1]
+                                                                    forState:UIControlStateNormal];
+                    }
+                } else if (secondPage.pageNumber != 1 && thread == secondPage.threads.firstObject) {
+                    threadViewCell.cellHeaderView.headerButton.enabled = NO;
+                    threadViewCell.cellHeaderView.headerButton.hidden = NO;
+                    [threadViewCell.cellHeaderView.headerButton setTitle:[NSString stringWithFormat:@"以下为 %ld 页起的内容", (long)secondPage.pageNumber]
+                                                                forState:UIControlStateNormal];
+                }
+                threadViewCell.cellHeaderView.headerButtonContainerViewHeightConstraint.constant = threadViewCell.cellHeaderView.headerButton.isHidden ? 0 : 46;
+            }
+            
+            [threadViewCell renderContent];
         }
-        threadViewCell.cellHeaderView.headerButtonContainerViewHeightConstraint.constant = threadViewCell.cellHeaderView.headerButton.isHidden ? 0 : 46;
-      }
-      
-      [threadViewCell renderContent];
     }
-  }
     return cell;
 }
 
@@ -149,17 +150,17 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  // When tapping on any row, make all rows resignFirstResponder.
-  [tableView.visibleCells makeObjectsPerformSelector:@selector(resignFirstResponder)];
-  if (indexPath.row < self.threadViewManager.threads[indexPath.section].threads.count) {
-    
-  } else {
-    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
-  }
+    // When tapping on any row, make all rows resignFirstResponder.
+    [tableView.visibleCells makeObjectsPerformSelector:@selector(resignFirstResponder)];
+    if (indexPath.row < self.threadViewManager.threads[indexPath.section].threads.count) {
+        
+    } else {
+        [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+    }
 }
 
 -(BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath {
-  return !(indexPath.section == tableView.lastSection && indexPath.row == tableView.lastRow);
+    return !(indexPath.section == tableView.lastSection && indexPath.row == tableView.lastRow);
 }
 
 -(BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender{
@@ -172,33 +173,33 @@
 
 #pragma mark - czzMenuEnableTableViewCellDelegate
 - (void)userTapInQuotedText:(NSString *)text {
-  // Text cannot be parsed to an integer, return...
-  text = [text componentsSeparatedByString:@"/"].lastObject;
-  NSInteger threadID = text.integerValue;
-  if (!threadID) {
-    return;
-  }
-  NSIndexPath *selectedIndexPath;
-  for (ContentPage *contentPage in self.threadViewManager.threads) {
-    for (czzThread *thread in contentPage.threads) {
-      if (thread.ID == threadID) {
-        selectedIndexPath = [NSIndexPath indexPathForRow:[contentPage.threads indexOfObject:thread]
-                                               inSection:[self.threadViewManager.threads indexOfObject:contentPage]];
-        break;
-      }
+    // Text cannot be parsed to an integer, return...
+    text = [text componentsSeparatedByString:@"/"].lastObject;
+    NSInteger threadID = text.integerValue;
+    if (!threadID) {
+        return;
     }
-  }
-  if (selectedIndexPath) {
-    self.threadsTableViewContentOffSet = self.threadTableView.contentOffset;
-    [self.threadTableView scrollToRowAtIndexPath:selectedIndexPath atScrollPosition:UITableViewScrollPositionNone animated:NO];
-    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-      [self highlightTableViewCell:selectedIndexPath];
-    }];
-    return;    
-  }
-  
-  // Thread not found in the downloaded thread, get it from server instead.
-  [super userTapInQuotedText:text];
+    NSIndexPath *selectedIndexPath;
+    for (ContentPage *contentPage in self.threadViewManager.threads) {
+        for (czzThread *thread in contentPage.threads) {
+            if (thread.ID == threadID) {
+                selectedIndexPath = [NSIndexPath indexPathForRow:[contentPage.threads indexOfObject:thread]
+                                                       inSection:[self.threadViewManager.threads indexOfObject:contentPage]];
+                break;
+            }
+        }
+    }
+    if (selectedIndexPath) {
+        self.threadsTableViewContentOffSet = self.threadTableView.contentOffset;
+        [self.threadTableView scrollToRowAtIndexPath:selectedIndexPath atScrollPosition:UITableViewScrollPositionNone animated:NO];
+        [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+            [self highlightTableViewCell:selectedIndexPath];
+        }];
+        return;    
+    }
+    
+    // Thread not found in the downloaded thread, get it from server instead.
+    [super userTapInQuotedText:text];
 }
 
 - (void)userWantsToTemporarilyHighlightUser:(NSString *)UID {
