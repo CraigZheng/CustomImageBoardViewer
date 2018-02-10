@@ -381,8 +381,9 @@ estimatedHeightForRowAtIndexPath:indexPath];
             NSString *imgURL = [self.homeViewManager.threads[indexPath.section].threads[indexPath.row] imgSrc];
             if (imgURL.length) {
                 // If image exists
-                if ([[czzImageCacheManager sharedInstance] hasImageWithName:imgURL.lastPathComponent]) {
-                    [self.imageViewerUtil showPhoto:[[czzImageCacheManager sharedInstance] pathForImageWithName:imgURL.lastPathComponent]];
+                NSURL *fileURL = [[czzImageCacheManager sharedInstance] pathForImageWithName:imgURL.lastPathComponent];
+                if ([[czzImageCacheManager sharedInstance] hasImageWithName:imgURL.lastPathComponent] && [UIImage imageWithContentsOfFile:fileURL.path]) {
+                    [self.imageViewerUtil showPhoto:fileURL];
                     return;
                 }
                 
