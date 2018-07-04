@@ -16,19 +16,22 @@
     if (json.length) {
         NSError *error;
         NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding]
-                                                                options:NSJSONReadingMutableContainers
-                                                                  error:&error];
+                                                                 options:NSJSONReadingMutableContainers
+                                                                   error:&error];
         if (!error) {
             self = [super init];
             self.enable = [[jsonDict objectForKey:@"enable"] boolValue];
             NSDateFormatter *formatter = [NSDateFormatter new];
-            formatter.dateFormat = @"yyyyMMddhh";
+            formatter.dateFormat = @"yyyyMMdd";
             // The date field in the incoming json is a number, what a stupid design.
             NSString *dateString = @"";
             if ([[jsonDict objectForKey:@"date"] isKindOfClass:[NSString class]]) {
                 dateString = [jsonDict objectForKey:@"date"];
             } else if ([[jsonDict objectForKey:@"date"] isKindOfClass:[NSNumber class]]) {
                 dateString = [[jsonDict objectForKey:@"date"] stringValue];
+            }
+            if (dateString.length > formatter.dateFormat.length) {
+                dateString = [dateString substringToIndex:formatter.dateFormat.length];
             }
             self.identifier = dateString;
             NSDate *date = [formatter dateFromString:dateString];
