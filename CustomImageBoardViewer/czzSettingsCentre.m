@@ -414,6 +414,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         quote_thread_host = [jsonObject objectForKey:@"quote_thread_host"];
         image_host = [jsonObject objectForKey:@"image_host"];
         thumbnail_host = [jsonObject objectForKey:@"thumbnail_host"];
+        self.imageCDNConfigurationHost = jsonObject[@"image_cdn_configuration"];
         donationLink = [jsonObject objectForKey:@"donation_link"];
         message = [jsonObject objectForKey:@"message"];
         

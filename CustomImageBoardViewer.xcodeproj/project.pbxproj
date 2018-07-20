@@ -747,6 +747,7 @@
 		B7ABF07B1FFF295A0071D939 /* ContentPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7ABF07A1FFF295A0071D939 /* ContentPage.swift */; };
 		B7B18CAF1FD0E5220093AB62 /* DummyTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18CAE1FD0E5220093AB62 /* DummyTestViewController.swift */; };
 		B7EAAA002101B5A4002EAE0A /* ImageCDNConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA9FF2101B5A4002EAE0A /* ImageCDNConfiguration.swift */; };
+		B7EAAA022101B776002EAE0A /* czzSettingsCentre+ImageCDN.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAAA012101B776002EAE0A /* czzSettingsCentre+ImageCDN.swift */; };
 		D85B3FC32F7080DE2E0F1FD8 /* Pods_CustomImageBoardViewer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311F31F622866C4E1133FA79 /* Pods_CustomImageBoardViewer.framework */; };
 /* End PBXBuildFile section */
 
@@ -1746,6 +1747,7 @@
 		B7ABF07A1FFF295A0071D939 /* ContentPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentPage.swift; sourceTree = "<group>"; };
 		B7B18CAE1FD0E5220093AB62 /* DummyTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyTestViewController.swift; sourceTree = "<group>"; };
 		B7EAA9FF2101B5A4002EAE0A /* ImageCDNConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCDNConfiguration.swift; sourceTree = "<group>"; };
+		B7EAAA012101B776002EAE0A /* czzSettingsCentre+ImageCDN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "czzSettingsCentre+ImageCDN.swift"; sourceTree = "<group>"; };
 		CBC088D3BB7C0C6E358B9C38 /* Pods-CustomImageBoardViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -2666,6 +2668,7 @@
 				449C9E261A71DB5C00D49B7F /* remote_configuration-debug.json */,
 				443B54F119933C1F00BAB282 /* czzSettingsCentre.h */,
 				443B54F219933C1F00BAB282 /* czzSettingsCentre.m */,
+				B7EAAA012101B776002EAE0A /* czzSettingsCentre+ImageCDN.swift */,
 				B7EAA9FF2101B5A4002EAE0A /* ImageCDNConfiguration.swift */,
 			);
 			name = czzSettingsCentre;
@@ -4637,6 +4640,7 @@
 				44B42E871EC6CDDF00F22133 /* DraftManager.swift in Sources */,
 				44AE2B011872924C002CB021 /* PartialTransparentView.m in Sources */,
 				441356091C61B3B6001B82E5 /* czzBannerNotificationUtil.m in Sources */,
+				B7EAAA022101B776002EAE0A /* czzSettingsCentre+ImageCDN.swift in Sources */,
 				44E3F7471BA3007500597A3F /* NSDictionary+Util.m in Sources */,
 				44B42E851EC6C28500F22133 /* DraftSelectorTableViewController.swift in Sources */,
 				443141971A2B38D6007D65B3 /* czzThreadViewManager.m in Sources */,

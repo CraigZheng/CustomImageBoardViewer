@@ -70,6 +70,7 @@ typedef NS_ENUM(NSInteger, SettingsHost) {
 @property (strong, nonatomic) NSString *quote_thread_host;
 @property (strong, nonatomic) NSString *image_host;
 @property (strong, nonatomic) NSString *thumbnail_host;
+@property (strong, nonatomic) NSString *imageCDNConfigurationHost;
 @property (strong, nonatomic) NSString *message;
 @property (strong, nonatomic) NSString *donationLink;
 @property (strong, nonatomic) NSString *popular_threads_link;
