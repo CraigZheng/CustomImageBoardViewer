@@ -452,6 +452,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         } else {
           self.ignoredThreadIDs = [NSArray new];
         }
+          [self validateImageCDN];
         if ([jsonObject objectForKey:@"upload_image_pixel_limit"]) {
           self.upload_image_pixel_limit = [[jsonObject objectForKey:@"upload_image_pixel_limit"] integerValue];
         }
