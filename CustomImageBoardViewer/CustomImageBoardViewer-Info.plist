@@ -21,7 +21,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>4.23</string>
+	<string>4.24</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
@@ -42,9 +42,9 @@
 	<key>NSCameraUsageDescription</key>
 	<string>This app wants to access your camera</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Provide Us Your Location To Help Us Keep Track Of The App's Performance</string>
+	<string>Provide Us Your Location To Help Us Keep Track Of The App&apos;s Performance</string>
 	<key>NSLocationUsageDescription</key>
-	<string>Provide Us Your Location To Help Us Keep Track Of The App's Performance</string>
+	<string>Provide Us Your Location To Help Us Keep Track Of The App&apos;s Performance</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>This app wants to access your photo library</string>
 	<key>NSPhotoLibraryUsageDescription</key>
