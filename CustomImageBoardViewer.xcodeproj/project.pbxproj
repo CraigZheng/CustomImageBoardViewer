@@ -746,6 +746,7 @@
 		B7ABF0791FFF0F910071D939 /* UITableView+IndexPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7ABF0781FFF0F910071D939 /* UITableView+IndexPath.swift */; };
 		B7ABF07B1FFF295A0071D939 /* ContentPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7ABF07A1FFF295A0071D939 /* ContentPage.swift */; };
 		B7B18CAF1FD0E5220093AB62 /* DummyTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18CAE1FD0E5220093AB62 /* DummyTestViewController.swift */; };
+		B7EAAA002101B5A4002EAE0A /* ImageCDNConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA9FF2101B5A4002EAE0A /* ImageCDNConfiguration.swift */; };
 		D85B3FC32F7080DE2E0F1FD8 /* Pods_CustomImageBoardViewer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311F31F622866C4E1133FA79 /* Pods_CustomImageBoardViewer.framework */; };
 /* End PBXBuildFile section */
 
@@ -1744,6 +1745,7 @@
 		B7ABF0781FFF0F910071D939 /* UITableView+IndexPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+IndexPath.swift"; sourceTree = "<group>"; };
 		B7ABF07A1FFF295A0071D939 /* ContentPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentPage.swift; sourceTree = "<group>"; };
 		B7B18CAE1FD0E5220093AB62 /* DummyTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyTestViewController.swift; sourceTree = "<group>"; };
+		B7EAA9FF2101B5A4002EAE0A /* ImageCDNConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCDNConfiguration.swift; sourceTree = "<group>"; };
 		CBC088D3BB7C0C6E358B9C38 /* Pods-CustomImageBoardViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -2664,6 +2666,7 @@
 				449C9E261A71DB5C00D49B7F /* remote_configuration-debug.json */,
 				443B54F119933C1F00BAB282 /* czzSettingsCentre.h */,
 				443B54F219933C1F00BAB282 /* czzSettingsCentre.m */,
+				B7EAA9FF2101B5A4002EAE0A /* ImageCDNConfiguration.swift */,
 			);
 			name = czzSettingsCentre;
 			sourceTree = "<group>";
@@ -4558,6 +4561,7 @@
 				44B05C1D1C6204FE00F6F5E3 /* czzBannerView.m in Sources */,
 				44BDA3F91DB7354200D2F576 /* MarkerColourPickerViewController.swift in Sources */,
 				44B89E831A2AFBE30085F766 /* SGProgressView.m in Sources */,
+				B7EAAA002101B5A4002EAE0A /* ImageCDNConfiguration.swift in Sources */,
 				440B2FC717F7DB7800544926 /* czzForumsViewController.m in Sources */,
 				442CD0E718517BED0021AD37 /* czzImageCacheManager.m in Sources */,
 				44BE2E3A19383FEF00601943 /* czzOnScreenCommandViewController.m in Sources */,
