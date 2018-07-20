@@ -10,8 +10,18 @@ import Foundation
 
 extension czzSettingsCentre {
     func validateImageCDN() {
-      guard let cdnConfigurationURL = URL(string: ImageCDNConfiguration) {
-        return
-      }
+        guard let imageCDNConfigurationHost = imageCDNConfigurationHost,
+            !imageCDNConfigurationHost.isEmpty,
+            let cdnConfigurationURL = URL(string: imageCDNConfigurationHost) else {
+                return
+        }
+        URLSession(configuration: .default).dataTask(with: cdnConfigurationURL) { data, response, error in
+            guard let data = data, error == nil else {
+                return
+            }
+            if let cdnConfigurations = try? JSONDecoder().decode([ImageCDNConfiguration].self, from: data) {
+                
+            }
+        }
     }
 }
