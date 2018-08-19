@@ -108,10 +108,6 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
     if ([url.host isEqualToString:@"acfun"]) {
         return YES;
     }
-    return NO;
-}
-
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
     return [WXApi handleOpenURL:url delegate:self];
 }
 
