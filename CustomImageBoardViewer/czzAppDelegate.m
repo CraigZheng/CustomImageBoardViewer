@@ -26,8 +26,8 @@
 #import <WatchConnectivity/WatchConnectivity.h>
 #import "CustomImageBoardViewer-Swift.h"
 #import "TalkingData.h"
+#import "WXApi.h"
 
-//#import <BugSense-iOS/BugSenseController.h>
 #import <SplunkMint/SplunkMint.h>
 
 @import CocoaLumberjack;
@@ -67,11 +67,8 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
     // Enable IDFA collection.
     [[[GAI sharedInstance] defaultTracker] setAllowIDFACollection:YES];
     
-    //    // Optional: configure GAI options.
-    //    GAI *gai = [GAI sharedInstance];
-    //    gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
-    //    gai.logger.logLevel = kGAILogLevelVerbose;  // remove before app release
-
+    [WXApi registerApp:@"wx0066e3ac88fdccb2" enableMTA:YES];
+    
     myhost = my_main_host;
     settingsCentre = [czzSettingsCentre sharedInstance];
     [[czzForumManager sharedManager] updateForums:nil];
