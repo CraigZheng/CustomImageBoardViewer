@@ -36,7 +36,7 @@
 
 static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
 
-@interface czzAppDelegate()<czzBlacklistDownloaderDelegate, czzHomeViewManagerDelegate, WCSessionDelegate>
+@interface czzAppDelegate()<czzBlacklistDownloaderDelegate, czzHomeViewManagerDelegate, WCSessionDelegate, WXApiDelegate>
 @property czzSettingsCentre *settingsCentre;
 @end
 
@@ -109,6 +109,20 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
         return YES;
     }
     return NO;
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    return [WXApi handleOpenURL:url delegate:self];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [WXApi handleOpenURL:url delegate:self];
+}
+
+#pragma mark - WXApiDelegate
+
+- (void)onReq:(BaseReq *)req {
+    // TODO: parse response.
 }
 
 #pragma mark - WCSessionDelegate

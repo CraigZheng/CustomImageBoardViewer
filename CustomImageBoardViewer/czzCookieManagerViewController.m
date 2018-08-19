@@ -13,7 +13,7 @@
 #import "czzSettingsCentre.h"
 #import "czzAppDelegate.h"
 #import "czzBannerNotificationUtil.h"
-
+#import "WXApi.h"
 #import "CustomImageBoardViewer-Swift.h"
 
 @interface czzCookieManagerViewController () <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
@@ -149,6 +149,14 @@ static NSString *kScanQRCodeSegueIdentifier = @"qrScanner";
     }]];
     [alertController addAction:[UIAlertAction actionWithTitle:@"手动写入" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [weakSelf performSegueWithIdentifier:kCookieDetailsSegueIdentifier sender:sender];
+    }]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"微信小程序" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        // TODO: weixin mini program integration.
+        WXLaunchMiniProgramReq *launchMiniProgramReq = [WXLaunchMiniProgramReq object];
+//        launchMiniProgramReq.userName = userName;  //拉起的小程序的username
+        launchMiniProgramReq.path = @"pages/index/index?mode=cookie";    //拉起小程序页面的可带参路径，不填默认拉起小程序首页
+        launchMiniProgramReq.miniProgramType = WXMiniProgramTypeTest;
+        [WXApi sendReq:launchMiniProgramReq];
     }]];
     [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
     [self presentViewController:alertController animated:YES completion:nil];
