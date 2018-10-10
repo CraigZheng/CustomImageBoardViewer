@@ -19,7 +19,7 @@
 /**
  Only show when the notification date is larger than the last displayed date.
  */
-- (Boolean)tryShow;
+- (BOOL)tryShow;
 - (void)show;
 
 @end

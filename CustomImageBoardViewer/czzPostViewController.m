@@ -273,10 +273,11 @@ static NSString *kDraftSelectorSegue = @"draftSelector";
 
 - (void)postAction:(id)sender {
     [self.draftSelectorViewController dismissViewControllerAnimated:NO completion:nil];
-    //assign the appropriate target URL and delegate to the postSender
     postSender.content = postTextView.text;
     // Validate the content is ready.
-    if (postSender.content.length != 0 || postSender.imgData != nil) {
+    if ([postSender.content containsEmoji]) {
+        [czzBannerNotificationUtil displayMessage:@"应岛主要求，本App暂不支持发送emoji！" position:BannerNotificationPositionTop];
+    } else if (postSender.content.length != 0 || postSender.imgData != nil) {
         // Let post sender manager handles the post sender in the background.
         [PostSenderManager firePostSender:postSender];
         [postTextView resignFirstResponder];

@@ -67,19 +67,12 @@ static NSString * const kLastConfirmedNotificationKey = @"kLastConfirmedNotifica
 
 #pragma mark - Showing - hiding.
 
-- (Boolean)tryShow {
-    Boolean shouldShow = NO;
+- (BOOL)tryShow {
+    BOOL shouldShow = YES;
     NSString *confirmedNotificationIdentifier = [[NSUserDefaults standardUserDefaults] objectForKey:kLastConfirmedNotificationKey];
     // If the notification identifier has already been confirmed by the user, don't show.
-    if ([self.popUpNotification.notificationDate compare:[NSDate new]] == NSOrderedAscending) {
+    if (confirmedNotificationIdentifier.length && [self.popUpNotification.identifier isEqualToString:confirmedNotificationIdentifier]) {
         shouldShow = NO;
-    } else {
-        // notificationDate is still valid.
-        shouldShow = YES;
-        // If user has acknowledged that he wishes to see this notification no more, don't display it.
-        if (confirmedNotificationIdentifier.length && [self.popUpNotification.identifier isEqualToString:confirmedNotificationIdentifier]) {
-            shouldShow = NO;
-        }
     }
     // Only show when the app is running in the foreground.
     if (shouldShow && self.popUpNotification.enable && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
