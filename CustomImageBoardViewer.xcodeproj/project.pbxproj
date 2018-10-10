@@ -611,7 +611,6 @@
 		44CF25541A25A2A500BD8228 /* sent@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25481A25A2A500BD8228 /* sent@3x.png */; };
 		44CF255F1A2699D000BD8228 /* OnScreenCommand.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44CF255E1A2699D000BD8228 /* OnScreenCommand.storyboard */; };
 		44CF25671A26B4D000BD8228 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25611A26B4D000BD8228 /* .gitignore */; };
-		44CF25681A26B4D000BD8228 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25621A26B4D000BD8228 /* LICENSE */; };
 		44CF25691A26B4D000BD8228 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 44CF25631A26B4D000BD8228 /* README.md */; };
 		44CF256A1A26B4D000BD8228 /* UIView+MGBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CF25651A26B4D000BD8228 /* UIView+MGBadgeView.m */; };
 		44CF256B1A26B4D000BD8228 /* UIView+MGBadgeView.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25661A26B4D000BD8228 /* UIView+MGBadgeView.podspec */; };
@@ -3915,7 +3914,6 @@
 				4421C3161E7BF2DA00BD48C4 /* ac-classic38.png in Resources */,
 				4421C38C1E7BF2DA00BD48C4 /* ac-overwatch1.gif in Resources */,
 				4421C3CE1E7BF2DA00BD48C4 /* reed-classic44.png in Resources */,
-				44CF25681A26B4D000BD8228 /* LICENSE in Resources */,
 				4421C3441E7BF2DA00BD48C4 /* ac-new30.png in Resources */,
 				4421C3151E7BF2DA00BD48C4 /* ac-classic37.png in Resources */,
 				4421C3C31E7BF2DA00BD48C4 /* reed-classic34.png in Resources */,
