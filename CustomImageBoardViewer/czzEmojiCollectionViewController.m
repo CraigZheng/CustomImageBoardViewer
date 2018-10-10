@@ -52,9 +52,6 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.emojiSource = acEmoji;
-    self.emoPack = self.classicAC;
-    // Do any additional setup after loading the view from its nib.
     [self.emojiCollectionView registerNib:[UINib nibWithNibName:@"czzEmojiCollectionViewCell" bundle:[NSBundle mainBundle]]
                forCellWithReuseIdentifier:emojiCellIdentifier];
     [self.emojiCollectionView registerNib:[UINib nibWithNibName:@"EmoticonCollectionViewCell" bundle:[NSBundle mainBundle]]
@@ -64,8 +61,10 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
     self.emoPackPickerToolbar.barTintColor = emojiPickerToolbar.barTintColor = [settingCentre barTintColour];
     self.emoPackPickerToolbar.tintColor = emojiPickerToolbar.tintColor = [settingCentre tintColour];
     emojiCollectionView.backgroundColor = [settingCentre barTintColour];
-    // Enable/disable emoPackPicker.
     [self.emojiSelectorSegmentedControl setEnabled:settingCentre.shouldShowEmoPackPicker forSegmentAtIndex:2];
+    self.emoPackPickerSegmentedControl.selectedSegmentIndex = 0;
+    self.emoPack = self.reedGirl;
+    self.emojiSource = acEmoji;
 }
 
 #pragma mark - UICollectionView datasource
