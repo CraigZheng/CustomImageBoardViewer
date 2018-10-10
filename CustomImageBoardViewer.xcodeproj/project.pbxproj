@@ -3635,7 +3635,6 @@
 				441A6A901BB28DF7008E380C /* Embed Watch Content */,
 				44D22CE51C3CD8490002F82F /* Embed Frameworks */,
 				347387B1BDC00B75A6FDCAB2 /* [CP] Embed Pods Frameworks */,
-				B29225EAA488CA7E0E9F4065 /* [CP] Copy Pods Resources */,
 				DAD0393318D2062C63376A7C /* Embed Pods Frameworks */,
 				4459A36E1DFFA61700C196C1 /* Embed App Extensions */,
 			);
@@ -3659,7 +3658,6 @@
 				441E5CEC17F4691300289DBD /* Frameworks */,
 				441E5CED17F4691300289DBD /* Resources */,
 				A5A8354B599D84027D456FD6 /* [CP] Embed Pods Frameworks */,
-				3526DC832DBDA7AF92B1A6A3 /* [CP] Copy Pods Resources */,
 				9B9C9573347A8563F41DAB71 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
@@ -4431,21 +4429,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3526DC832DBDA7AF92B1A6A3 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		9B9C9573347A8563F41DAB71 /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -4479,21 +4462,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B29225EAA488CA7E0E9F4065 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DAD0393318D2062C63376A7C /* Embed Pods Frameworks */ = {
