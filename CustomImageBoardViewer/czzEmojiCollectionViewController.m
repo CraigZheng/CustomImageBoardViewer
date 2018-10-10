@@ -24,13 +24,13 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *emoPackPickerToolbarHeightConstraint;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *emojiSelectorSegmentedControl;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *emoPackPickerSegmentedControl;
-@property NSArray *emojis;
+@property (nonatomic, strong) NSArray<NSString *> *emojis;
 @property (nonatomic, strong) NSString *emojiSource;
-@property (nonatomic, strong) NSArray<UIImage *> *emoPack;
-@property (nonatomic, strong) NSArray<UIImage *> *classicAC;
-@property (nonatomic, strong) NSArray<UIImage *> *neoAC;
-@property (nonatomic, strong) NSArray<UIImage *> *overwatchAC;
-@property (nonatomic, strong) NSArray<UIImage *> *reedGirl;
+@property (nonatomic, strong) NSArray<NSString *> *emoPack;
+@property (nonatomic, strong) NSArray<NSString *> *classicAC;
+@property (nonatomic, strong) NSArray<NSString *> *neoAC;
+@property (nonatomic, strong) NSArray<NSString *> *overwatchAC;
+@property (nonatomic, strong) NSArray<NSString *> *reedGirl;
 @end
 
 @implementation czzEmojiCollectionViewController
@@ -45,7 +45,6 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
         } else {
             self.view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width / 2.0);
         }
-        //self.emojiCollectionView.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + 44, self.view.frame.size.width, self.view.frame.size.height - 44);
     }
     return self;
 }
@@ -53,9 +52,6 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.emojiSource = acEmoji;
-    self.emoPack = self.classicAC;
-    // Do any additional setup after loading the view from its nib.
     [self.emojiCollectionView registerNib:[UINib nibWithNibName:@"czzEmojiCollectionViewCell" bundle:[NSBundle mainBundle]]
                forCellWithReuseIdentifier:emojiCellIdentifier];
     [self.emojiCollectionView registerNib:[UINib nibWithNibName:@"EmoticonCollectionViewCell" bundle:[NSBundle mainBundle]]
@@ -65,8 +61,10 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
     self.emoPackPickerToolbar.barTintColor = emojiPickerToolbar.barTintColor = [settingCentre barTintColour];
     self.emoPackPickerToolbar.tintColor = emojiPickerToolbar.tintColor = [settingCentre tintColour];
     emojiCollectionView.backgroundColor = [settingCentre barTintColour];
-    // Enable/disable emoPackPicker.
     [self.emojiSelectorSegmentedControl setEnabled:settingCentre.shouldShowEmoPackPicker forSegmentAtIndex:2];
+    self.emoPackPickerSegmentedControl.selectedSegmentIndex = 0;
+    self.emoPack = self.reedGirl;
+    self.emojiSource = acEmoji;
 }
 
 #pragma mark - UICollectionView datasource
@@ -79,7 +77,7 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
     if (self.emojiSelectorSegmentedControl.selectedSegmentIndex == emoticonSegmentedControlIndex) {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:emoticonCellIdentifier forIndexPath:indexPath];
         if ([cell isKindOfClass:[EmoticonCollectionViewCell class]]) {
-            [[(EmoticonCollectionViewCell *)cell iconView] setImage:self.emoPack[indexPath.row]];
+            [[(EmoticonCollectionViewCell *)cell iconView] setImage:[UIImage imageNamed:self.emoPack[indexPath.row]]];
         }
     } else {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:emojiCellIdentifier forIndexPath:indexPath];
@@ -103,7 +101,7 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
     if (self.emojiSelectorSegmentedControl.selectedSegmentIndex == emoticonSegmentedControlIndex) {
         // Emoticon selection.
         if (indexPath.row <= self.emoPack.count) {
-            [self.delegate emoticonSelected:self.emoPack[indexPath.row]];
+            [self.delegate emoticonSelected:[UIImage imageNamed:self.emoPack[indexPath.row]]];
         }
     } else {
         // Emoji selection.
@@ -186,43 +184,43 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
     return _emojis;
 }
 
-- (NSArray<UIImage *> *)classicAC {
+- (NSArray<NSString *> *)classicAC {
     if (!_classicAC) {
         _classicAC = [self emoPackWithFormat:@"ac-classic%ld.png" quantity:54];
     }
     return _classicAC;
 }
 
-- (NSArray<UIImage *> *)neoAC {
+- (NSArray<NSString *> *)neoAC {
     if (!_neoAC) {
         _neoAC = [self emoPackWithFormat:@"ac-new%ld.png" quantity:95];
     }
     return _neoAC;
 }
 
-- (NSArray<UIImage *> *)overwatchAC {
+- (NSArray<NSString *> *)overwatchAC {
     if (!_overwatchAC) {
         _overwatchAC = [self emoPackWithFormat:@"ac-overwatch%ld.gif" quantity:21];
     }
     return _overwatchAC;
 }
 
-- (NSArray<UIImage *> *)reedGirl {
+- (NSArray<NSString *> *)reedGirl {
     if (!_reedGirl) {
         _reedGirl = [self emoPackWithFormat:@"reed-classic%ld.png" quantity:106];
     }
     return _reedGirl;
 }
 
-- (NSArray<UIImage *> *)emoPackWithFormat:(NSString *)format quantity:(NSInteger)quantity {
-    NSMutableArray *images = [NSMutableArray new];
+- (NSArray<NSString *> *)emoPackWithFormat:(NSString *)format quantity:(NSInteger)quantity {
+    NSMutableArray *imageNames = [NSMutableArray new];
     for (NSInteger i = 1; i <= quantity; i++) {
-        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:format, (long)i]];
-        if (image) {
-            [images addObject:image];
+        NSString *name = [NSString stringWithFormat:format, (long)i];
+        if (name) {
+            [imageNames addObject:name];
         }
     }
-    return images;
+    return imageNames;
 }
 
 @end
