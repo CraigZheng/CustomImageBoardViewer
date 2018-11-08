@@ -93,6 +93,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
         }
     }]];
     [alertConroller addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+    [[alertConroller popoverPresentationController] setSourceView:self.view];
+    [[alertConroller popoverPresentationController] setSourceRect:CGRectMake(self.view.bounds.origin.x / 2, self.view.bounds.origin.y / 2, 0, 0)];
     [self presentViewController:alertConroller animated:YES completion:nil];
 }
 

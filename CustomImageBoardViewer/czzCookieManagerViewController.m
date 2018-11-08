@@ -151,6 +151,9 @@ static NSString *kScanQRCodeSegueIdentifier = @"qrScanner";
         [weakSelf performSegueWithIdentifier:kCookieDetailsSegueIdentifier sender:sender];
     }]];
     [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+    [alertController.popoverPresentationController setSourceView:self.view];
+    [alertController.popoverPresentationController setSourceRect:CGRectMake(self.view.bounds.size.width / 2, self.view.bounds.size.height / 2, 0, 0)];
+    [alertController.popoverPresentationController setPermittedArrowDirections:0];
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
