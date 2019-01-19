@@ -179,6 +179,7 @@
     {
       "size" : "40x40",
       "idiom" : "watch",
+      "filename" : "50@2x-3.png",
       "scale" : "2x",
       "role" : "appLauncher",
       "subtype" : "38mm"
@@ -186,6 +187,7 @@
     {
       "size" : "44x44",
       "idiom" : "watch",
+      "filename" : "50@2x-2.png",
       "scale" : "2x",
       "role" : "appLauncher",
       "subtype" : "40mm"
@@ -201,6 +203,7 @@
     {
       "size" : "86x86",
       "idiom" : "watch",
+      "filename" : "appicon108@2x-2.png",
       "scale" : "2x",
       "role" : "quickLook",
       "subtype" : "38mm"
@@ -216,6 +219,7 @@
     {
       "size" : "108x108",
       "idiom" : "watch",
+      "filename" : "appicon108@2x-1.png",
       "scale" : "2x",
       "role" : "quickLook",
       "subtype" : "44mm"
