@@ -478,7 +478,6 @@
 		44858EAC1A0C5B0A00DD822B /* czzImageViewerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44858EAB1A0C5B0A00DD822B /* czzImageViewerUtil.m */; };
 		4485F4FC19F5FF38007A73CC /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 4485F4FB19F5FF38007A73CC /* NSString+HTML.m */; };
 		4490A80F1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4490A80E1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m */; };
-		449472761C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 449472751C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m */; };
 		44989A211CFC5A8500F04ECD /* popular_threads.json in Resources */ = {isa = PBXBuildFile; fileRef = 44989A201CFC5A8500F04ECD /* popular_threads.json */; };
 		44989A221CFC5A8500F04ECD /* popular_threads.json in Resources */ = {isa = PBXBuildFile; fileRef = 44989A201CFC5A8500F04ECD /* popular_threads.json */; };
 		44989A251CFC5AE900F04ECD /* czzPopularThreadsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A241CFC5AE900F04ECD /* czzPopularThreadsManager.m */; };
@@ -501,19 +500,6 @@
 		449FF63E1D82FD250065BA08 /* chat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 449FF63D1D82FD250065BA08 /* chat@2x.png */; };
 		44A087301DB61CA4005599EA /* czzMarkerManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A0872F1DB61CA4005599EA /* czzMarkerManagerTest.swift */; };
 		44A1697E1D070546001DF0B3 /* zhuizhui_emoji.txt in Resources */ = {isa = PBXBuildFile; fileRef = 44A1697D1D070546001DF0B3 /* zhuizhui_emoji.txt */; };
-		44A2948E1BFDEFF50033D438 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44A2948C1BFDEFF50033D438 /* Interface.storyboard */; };
-		44A294901BFDEFF50033D438 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44A2948F1BFDEFF50033D438 /* Assets.xcassets */; };
-		44A294971BFDEFF60033D438 /* CIVWatchApp Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 44A294961BFDEFF50033D438 /* CIVWatchApp Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		44A294A21BFDEFF60033D438 /* ExtensionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294A11BFDEFF60033D438 /* ExtensionDelegate.m */; };
-		44A294A51BFDEFF60033D438 /* NotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294A41BFDEFF60033D438 /* NotificationController.m */; };
-		44A294A71BFDEFF60033D438 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44A294A61BFDEFF60033D438 /* Assets.xcassets */; };
-		44A294AB1BFDEFF60033D438 /* CIVWatchApp.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 44A2948A1BFDEFF50033D438 /* CIVWatchApp.app */; };
-		44A294C31BFDF1050033D438 /* czzWatchKitHomeRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294B71BFDF1050033D438 /* czzWatchKitHomeRowController.m */; };
-		44A294C41BFDF1050033D438 /* czzWKForumInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294B91BFDF1050033D438 /* czzWKForumInterfaceController.m */; };
-		44A294C51BFDF1050033D438 /* czzWKThreadInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294BB1BFDF1050033D438 /* czzWKThreadInterfaceController.m */; };
-		44A294C61BFDF1050033D438 /* InterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294BD1BFDF1050033D438 /* InterfaceController.m */; };
-		44A294C71BFDF1050033D438 /* czzWKForum.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294C01BFDF1050033D438 /* czzWKForum.m */; };
-		44A294C81BFDF1050033D438 /* czzWKThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294C21BFDF1050033D438 /* czzWKThread.m */; };
 		44A294CA1BFDF13B0033D438 /* czzWKForum.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294C01BFDF1050033D438 /* czzWKForum.m */; };
 		44A294CC1BFDF1430033D438 /* czzWKThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A294C21BFDF1050033D438 /* czzWKThread.m */; };
 		44A372DD1C28D9E0004CBA48 /* czzDebugSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A372DC1C28D9E0004CBA48 /* czzDebugSettingsTableViewController.m */; };
@@ -552,8 +538,6 @@
 		44B89E871A2AFC6B0085F766 /* czzHomeViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B89E861A2AFC6B0085F766 /* czzHomeViewManager.m */; };
 		44B96E33185B8B8100D664A4 /* czzImageManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B96E32185B8B8100D664A4 /* czzImageManagerViewController.m */; };
 		44B96E37185B97C400D664A4 /* czzSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B96E36185B97C400D664A4 /* czzSettingsViewController.m */; };
-		44BB9A981C02B4A800B7BCED /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25401A25A2A500BD8228 /* picture.png */; };
-		44BB9A991C02B4A800B7BCED /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25401A25A2A500BD8228 /* picture.png */; };
 		44BDA3E91DB70BA300D2F576 /* NSUserDefaults+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BDA3E81DB70BA300D2F576 /* NSUserDefaults+UIColor.swift */; };
 		44BDA3ED1DB70EF100D2F576 /* AddMarker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44BDA3EC1DB70EF100D2F576 /* AddMarker.storyboard */; };
 		44BDA3F11DB7113500D2F576 /* AddMarkerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BDA3F01DB7113500D2F576 /* AddMarkerViewController.swift */; };
@@ -722,7 +706,6 @@
 		44E7920C1A17856500A63C04 /* view@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E791CC1A17856500A63C04 /* view@3x.png */; };
 		44EA3CC91C8E6844007A433E /* czzMassiveThreadDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 44EA3CC81C8E6844007A433E /* czzMassiveThreadDownloader.m */; };
 		44EE5A8720283A1200D87E5E /* CookieQRCodeShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44EE5A8620283A1200D87E5E /* CookieQRCodeShareViewController.swift */; };
-		44F86B651BFE0012001306E8 /* czzWatchKitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469E01BAD9B5000C0AACC /* czzWatchKitCommand.m */; };
 		44F86B6B1C1BB505001306E8 /* ThreadContentPage2.json in Resources */ = {isa = PBXBuildFile; fileRef = 44F86B6A1C1BB505001306E8 /* ThreadContentPage2.json */; };
 		44F86B6C1C1BB505001306E8 /* ThreadContentPage2.json in Resources */ = {isa = PBXBuildFile; fileRef = 44F86B6A1C1BB505001306E8 /* ThreadContentPage2.json */; };
 		44FC4345180067CF0028D7C9 /* czzPostSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 44FC4344180067CF0028D7C9 /* czzPostSender.m */; };
@@ -765,20 +748,6 @@
 			remoteGlobalIDString = 4459A3621DFFA61700C196C1;
 			remoteInfo = "AC-emoticon";
 		};
-		44A294981BFDEFF60033D438 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 441E5CC317F4691300289DBD /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 44A294951BFDEFF50033D438;
-			remoteInfo = "CIVWatchApp Extension";
-		};
-		44A294A91BFDEFF60033D438 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 441E5CC317F4691300289DBD /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 44A294891BFDEFF50033D438;
-			remoteInfo = CIVWatchApp;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -788,7 +757,6 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				44A294AB1BFDEFF60033D438 /* CIVWatchApp.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -800,17 +768,6 @@
 			dstSubfolderSpec = 13;
 			files = (
 				4459A36A1DFFA61700C196C1 /* AC-emoticon.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		44A294AF1BFDEFF60033D438 /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				44A294971BFDEFF60033D438 /* CIVWatchApp Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1454,11 +1411,9 @@
 		44A0872E1DB61CA3005599EA /* CustomImageBoardViewerTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CustomImageBoardViewerTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		44A0872F1DB61CA4005599EA /* czzMarkerManagerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = czzMarkerManagerTest.swift; sourceTree = "<group>"; };
 		44A1697D1D070546001DF0B3 /* zhuizhui_emoji.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = zhuizhui_emoji.txt; sourceTree = "<group>"; };
-		44A2948A1BFDEFF50033D438 /* CIVWatchApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CIVWatchApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		44A2948D1BFDEFF50033D438 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		44A2948F1BFDEFF50033D438 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		44A294911BFDEFF50033D438 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		44A294961BFDEFF50033D438 /* CIVWatchApp Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "CIVWatchApp Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		44A2949C1BFDEFF60033D438 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		44A294A01BFDEFF60033D438 /* ExtensionDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExtensionDelegate.h; sourceTree = "<group>"; };
 		44A294A11BFDEFF60033D438 /* ExtensionDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExtensionDelegate.m; sourceTree = "<group>"; };
@@ -1751,13 +1706,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		3588F7A267F5E6D6932EE044 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		441E5CC817F4691300289DBD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1795,13 +1743,6 @@
 				441E5CF317F4691300289DBD /* UIKit.framework in Frameworks */,
 				441E5CF217F4691300289DBD /* Foundation.framework in Frameworks */,
 				003603FD3CE7AA9D975C0107 /* Pods_CustomImageBoardViewerTests.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		44A294931BFDEFF50033D438 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1954,8 +1895,6 @@
 			children = (
 				441E5CCB17F4691300289DBD /* CustomImageBoardViewer.app */,
 				441E5CEF17F4691300289DBD /* CustomImageBoardViewerTests.xctest */,
-				44A2948A1BFDEFF50033D438 /* CIVWatchApp.app */,
-				44A294961BFDEFF50033D438 /* CIVWatchApp Extension.appex */,
 				4459A3631DFFA61700C196C1 /* AC-emoticon.appex */,
 			);
 			name = Products;
@@ -3641,7 +3580,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				44A294AA1BFDEFF60033D438 /* PBXTargetDependency */,
 				4459A3691DFFA61700C196C1 /* PBXTargetDependency */,
 			);
 			name = CustomImageBoardViewer;
@@ -3686,41 +3624,6 @@
 			productReference = 4459A3631DFFA61700C196C1 /* AC-emoticon.appex */;
 			productType = "com.apple.product-type.app-extension.messages-sticker-pack";
 		};
-		44A294891BFDEFF50033D438 /* CIVWatchApp */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 44A294B01BFDEFF60033D438 /* Build configuration list for PBXNativeTarget "CIVWatchApp" */;
-			buildPhases = (
-				44A294881BFDEFF50033D438 /* Resources */,
-				44A294AF1BFDEFF60033D438 /* Embed App Extensions */,
-				3588F7A267F5E6D6932EE044 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				44A294991BFDEFF60033D438 /* PBXTargetDependency */,
-			);
-			name = CIVWatchApp;
-			productName = CIVWatchApp;
-			productReference = 44A2948A1BFDEFF50033D438 /* CIVWatchApp.app */;
-			productType = "com.apple.product-type.application.watchapp2";
-		};
-		44A294951BFDEFF50033D438 /* CIVWatchApp Extension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 44A294AC1BFDEFF60033D438 /* Build configuration list for PBXNativeTarget "CIVWatchApp Extension" */;
-			buildPhases = (
-				44A294921BFDEFF50033D438 /* Sources */,
-				44A294931BFDEFF50033D438 /* Frameworks */,
-				44A294941BFDEFF50033D438 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "CIVWatchApp Extension";
-			productName = "CIVWatchApp Extension";
-			productReference = 44A294961BFDEFF50033D438 /* CIVWatchApp Extension.appex */;
-			productType = "com.apple.product-type.watchkit2-extension";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -3753,14 +3656,6 @@
 						DevelopmentTeam = 9EBE9MWW9X;
 						ProvisioningStyle = Automatic;
 					};
-					44A294891BFDEFF50033D438 = {
-						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = 9EBE9MWW9X;
-					};
-					44A294951BFDEFF50033D438 = {
-						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = 9EBE9MWW9X;
-					};
 				};
 			};
 			buildConfigurationList = 441E5CC617F4691300289DBD /* Build configuration list for PBXProject "CustomImageBoardViewer" */;
@@ -3778,8 +3673,6 @@
 			targets = (
 				441E5CCA17F4691300289DBD /* CustomImageBoardViewer */,
 				441E5CEE17F4691300289DBD /* CustomImageBoardViewerTests */,
-				44A294891BFDEFF50033D438 /* CIVWatchApp */,
-				44A294951BFDEFF50033D438 /* CIVWatchApp Extension */,
 				4459A3621DFFA61700C196C1 /* AC-emoticon */,
 			);
 		};
@@ -4331,25 +4224,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		44A294881BFDEFF50033D438 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				44A294901BFDEFF50033D438 /* Assets.xcassets in Resources */,
-				44A2948E1BFDEFF50033D438 /* Interface.storyboard in Resources */,
-				44BB9A991C02B4A800B7BCED /* picture.png in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		44A294941BFDEFF50033D438 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				44BB9A981C02B4A800B7BCED /* picture.png in Resources */,
-				44A294A71BFDEFF60033D438 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -4669,23 +4543,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		44A294921BFDEFF50033D438 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				44A294A21BFDEFF60033D438 /* ExtensionDelegate.m in Sources */,
-				44A294C81BFDF1050033D438 /* czzWKThread.m in Sources */,
-				44A294C71BFDF1050033D438 /* czzWKForum.m in Sources */,
-				44A294C61BFDF1050033D438 /* InterfaceController.m in Sources */,
-				449472761C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m in Sources */,
-				44F86B651BFE0012001306E8 /* czzWatchKitCommand.m in Sources */,
-				44A294A51BFDEFF60033D438 /* NotificationController.m in Sources */,
-				44A294C41BFDF1050033D438 /* czzWKForumInterfaceController.m in Sources */,
-				44A294C31BFDF1050033D438 /* czzWatchKitHomeRowController.m in Sources */,
-				44A294C51BFDF1050033D438 /* czzWKThreadInterfaceController.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -4698,16 +4555,6 @@
 			isa = PBXTargetDependency;
 			target = 4459A3621DFFA61700C196C1 /* AC-emoticon */;
 			targetProxy = 4459A3681DFFA61700C196C1 /* PBXContainerItemProxy */;
-		};
-		44A294991BFDEFF60033D438 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 44A294951BFDEFF50033D438 /* CIVWatchApp Extension */;
-			targetProxy = 44A294981BFDEFF60033D438 /* PBXContainerItemProxy */;
-		};
-		44A294AA1BFDEFF60033D438 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 44A294891BFDEFF50033D438 /* CIVWatchApp */;
-			targetProxy = 44A294A91BFDEFF60033D438 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -5032,110 +4879,6 @@
 			};
 			name = Release;
 		};
-		44A294AD1BFDEFF60033D438 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_IDENTITY = "$(inherited)";
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "CIVWatchApp Extension/CIVWatchApp.pch";
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "CIVWatchApp Extension/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.ac-channel-browser.watchkitapp.watchkitextension";
-				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "$(inherited)";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
-			};
-			name = Debug;
-		};
-		44A294AE1BFDEFF60033D438 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_IDENTITY = "$(inherited)";
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "CIVWatchApp Extension/CIVWatchApp.pch";
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "CIVWatchApp Extension/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.ac-channel-browser.watchkitapp.watchkitextension";
-				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "$(inherited)";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
-			};
-			name = Release;
-		};
-		44A294B11BFDEFF60033D438 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_IDENTITY = "$(inherited)";
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "";
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				IBSC_MODULE = CIVWatchApp_Extension;
-				INFOPLIST_FILE = CIVWatchApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.ac-channel-browser.watchkitapp";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "$(inherited)";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
-			};
-			name = Debug;
-		};
-		44A294B21BFDEFF60033D438 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_IDENTITY = "$(inherited)";
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "";
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				IBSC_MODULE = CIVWatchApp_Extension;
-				INFOPLIST_FILE = CIVWatchApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.ac-channel-browser.watchkitapp";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "$(inherited)";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -5171,24 +4914,6 @@
 			buildConfigurations = (
 				4459A36B1DFFA61700C196C1 /* Debug */,
 				4459A36C1DFFA61700C196C1 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		44A294AC1BFDEFF60033D438 /* Build configuration list for PBXNativeTarget "CIVWatchApp Extension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				44A294AD1BFDEFF60033D438 /* Debug */,
-				44A294AE1BFDEFF60033D438 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		44A294B01BFDEFF60033D438 /* Build configuration list for PBXNativeTarget "CIVWatchApp" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				44A294B11BFDEFF60033D438 /* Debug */,
-				44A294B21BFDEFF60033D438 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
