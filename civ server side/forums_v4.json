@@ -1,6 +1,5 @@
 [
   {
-    "configuration_name": "AC",
     "forums": [
       {
         "id": "4",
@@ -10,11 +9,11 @@
         "forums": [
           {
             "id": "4",
+            "name": "综合版1",
+            "msg": "<p><a href=\"http://cover.acfunwiki.org/lwdown/index.html\" target=\"_blank\"><img alt=\"举高高！\" src=\"http://cover.acfunwiki.org/face.php\" style=\"float:left\" /></a></p>\r\n\r\n<p>&bull;欢迎光临，这里是A岛。<br />\r\n<strong>&bull;<a href=\"/Forum\">全岛总版规</a>请仔细阅读，违者视规则删封砍</strong><br />\r\n&bull;为了保证文明良好的讨论氛围，特定内容尽量发往专版，无公众讨论意义的请转<a href=\"/f/%E6%97%A5%E8%AE%B0\">日记</a>版，圈子八卦和网站使用等请转<a href=\"/f/%E5%9C%88%E5%86%85\">圈内</a>版，女性视角请转<a href=\"/f/姐妹1\">姐妹</a>版，否则会被SAGE，<a href=\"/t/12366940\">SAGE不意味着封禁</a><br />\r\n&bull;<strong>丧尸们<a href=\"http://cdn.aixifan.com/h/mp3/tnnaii-h-island-c.mp3\">快来食我大雕啦</a>~</strong><br />\r\n&bull;本版发文间隔为30秒。</p>\r\n",
             "fgroup": "4",
             "sort": "2",
-            "name": "综合版1",
             "showName": "",
-            "msg": "<p><a href=\"https://h.nimingban.com/t/11111245\" target=\"_blank\"><img alt=\"举高高！\" src=\"http://cover.acfunwiki.org/face.php\" style=\"float:left\" /></a></p>\r\n\r\n<p>&bull;欢迎光临，有关A岛的介绍请点&rarr;<a href=\"http://sx1.atv.ac:5566/index.php/%C4%E4%C3%FB%CC%D6%C2%DB%B0%E6\" target=\"_blank\">这里</a><br />\r\n<strong>&bull;<a href=\"https://h.nimingban.com/Forum\">全岛总版规</a>请仔细阅读，违者视规则删封砍</strong><br />\r\n&bull;请文明讨论，综合一不是<strong>垃圾场</strong>，无公共讨论意义/有碍公众浏览的内容请去<a href=\"https://h.nimingban.com/f/%E6%97%A5%E8%AE%B0\" target=\"_blank\">树洞版</a>，否则可能被SAGE<br />\r\n&bull;<a href=\"http://sx1.atv.ac:5566/index.php/SAGE\" target=\"_blank\">SAGE</a>并不意味着封禁，你可以继续在串里/左侧导航里寻找话题对应子版进行讨论</a><br />\r\n&bull;主站客服QQ：800055564 宣传QQ群&rarr;<a href=\"http://sx1.atv.ac:5566/index.php/QQ\" target=\"_blank\">QQ群索引</a><br />\r\n&bull;<strong>丧尸们<a href=\"http://cdn.aixifan.com/h/mp3/tnnaii-h-island-c.mp3\">快来食我大雕啦</a>~</strong><br />\r\n&bull;本版发文间隔为30秒。</p>\r\n",
             "interval": "60",
             "createdAt": "2011-10-21 15:49:28",
             "updateAt": "2015-06-23 17:26:28",
@@ -26,7 +25,7 @@
             "sort": "6",
             "name": "欢乐恶搞",
             "showName": "",
-            "msg": "<img src=\"http://cdn.aixifan.com/h/upload2/images/2014-06-05/aa2a8b7f-5071-48a7-b068-fecee12d3fd9.gif\" style=\"float:left\"> &bull;H物求种求红领巾，砍楼+至少24小时封禁。这里不是H网<br />\r\n&bull;禁止张贴密集图、恶心图，违者一律砍串封IP。<br />\r\n&bull;引战吃SAGE，人身攻击和辱骂文字一律砍，其余同总版规。<br />\r\n&bull;本版发文间隔为15秒。\r\n",
+            "msg": "<img src=\"https://nmbimg.fastmirror.org/image/2016-04-24/571c8c1fb181c.gif\" style=\"float:left\"> &bull;H物求种求红领巾，砍楼+至少24小时封禁。这里不是H网<br />\r\n&bull;禁止张贴密集图、恶心图，违者一律砍串封IP。<br />\r\n&bull;引战吃SAGE，人身攻击和辱骂文字一律砍，其余同总版规。<br />\r\n&bull;本版发文间隔为15秒。\r\n",
             "interval": "15",
             "createdAt": "2011-10-21 15:48:43",
             "updateAt": "2014-11-05 00:27:52",
@@ -42,18 +41,6 @@
             "interval": "15",
             "createdAt": "2011-10-29 16:38:23",
             "updateAt": "2014-08-02 04:54:09",
-            "status": "n"
-          },
-          {
-            "id": "111",
-            "fgroup": "4",
-            "sort": "13",
-            "name": "跑团",
-            "showName": "跑团<font color=\"red\">New!</font>",
-            "msg": "跑团专用板块<br>\r\n主串长度不超过5行，请注明主题并简单介绍玩法，更新频率等关键信息，大段文字务必写在第一个回复串中避免长时间刷屏<br>\r\n请团主（DM）尽量不要弃坑，如果确实需要弃坑请点举报并注明已弃坑请求sage",
-            "interval": "30",
-            "createdAt": "0000-00-00 00:00:00",
-            "updateAt": "0000-00-00 00:00:00",
             "status": "n"
           },
           {
@@ -74,19 +61,31 @@
             "sort": "18",
             "name": "料理",
             "showName": "料理(美食<font style='color:#fff'>·汪版</font>)",
-            "msg": "<p><img alt=\"\" src=\"http://cdn.aixifan.com/h/image/20147/33ed6df166ff1b18d040c24c309d7546.png\" style=\"float:left\" /></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>你们都是吃货！汪！</p>\r\n\r\n<p>今天<a href=\"/t/283078\">开心</a>还是<a href=\"/t/2950161\">不开心</a>呢？</p>\r\n\r\n<p>本版发文间隔为15秒</p>\r\n",
+            "msg": "<p><img alt=\"\" src=\"https://nmbimg.fastmirror.org/thumb/2016-04-24/571c8c5a16084.png\" style=\"float:left\" /></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>你们都是吃货！汪！</p>\r\n\r\n<p>今天<a href=\"/t/283078\">开心</a>还是<a href=\"/t/2950161\">不开心</a>呢？</p>\r\n<br>你们都是吃货！汪！<br>\r\n<p>本版发文间隔为15秒</p>",
             "interval": "15",
             "createdAt": "2012-06-24 16:21:18",
             "updateAt": "2015-07-28 21:32:01",
             "status": "n"
           },
           {
+            "id": "114",
+            "fgroup": "4",
+            "sort": "18",
+            "name": "询问3",
+            "showName": "询问3<font color=\"red\">New!</font>",
+            "msg": "<img src=\"http://nmbimg.fastmirror.org/thumb//image/2014-11-17/1f27aaa3-6d0d-4ecb-9096-159c1314e76d.jpg\"><br>\r\n&bull;伸手前请百度，可以发表除家长不宜内容以外各种类型的求助<br>\r\n&bull;<s>其实就是云搜索专版</s><br>\r\n&bull;全岛禁止任何形式的求种、求车、发车，违者直接饼干槽碎光，老司机请出门左转里岛<br />\r\n&bull;本版发文间隔为15秒。</p>\r\n",
+            "interval": "15",
+            "createdAt": "0000-00-00 00:00:00",
+            "updateAt": "0000-00-00 00:00:00",
+            "status": "n"
+          },
+          {
             "id": "40",
             "fgroup": "4",
             "sort": "21",
-            "name": "貓版",
+            "name": "猫版",
             "showName": "喵版(主子)",
-            "msg": "<p><img alt=\"愚蠢的人类喵～\" src=\"http://cdn.aixifan.com/h/thumb/2014-10-8/d5d3d878-aead-4610-ac70-898b4c3f592b.jpg\" style=\"float:left\" /></p>\r\n\r\n<p>&bull;愚蠢的人类喵～<br />\r\n&bull;本版发文间隔为15秒。</p>\r\n",
+            "msg": "<p><img alt=\"愚蠢的人类喵～\" src=\"https://nmbimg.fastmirror.org/thumb/2016-04-24/571c8c8274f42.jpg\" style=\"float:left\" /></p>\r\n\r\n<p>&bull;愚蠢的人类喵～<br />\r\n&bull;本版发文间隔为15秒。</p>\r\n",
             "interval": "15",
             "createdAt": "2012-08-23 21:06:50",
             "updateAt": "2014-11-09 13:16:17",
@@ -121,8 +120,20 @@
             "fgroup": "4",
             "sort": "28",
             "name": "社畜",
-            "showName": "社畜<font color=\"red\">New!</font>",
-            "msg": "<img src=\"http://nmbimg.fastmirror.org/thumb/2017-02-24/58af8fab15ecc.jpg\"><br>可以讨论工作、投资、车房、育儿、养老相关，请遵守<a href=\"/\">总版规</a><br>\r\n学业、考试相关请到<a href=\"/f/%E8%80%83%E8%AF%95\">校园版</a><br>在匿名版张贴真实信息时请<b>谨慎考虑</b>，本站不对个人信息泄露引起的后果负责<br>\r\n投资风险与回报对等，请谨慎选择高回报率投资方式，本版禁止鼓吹高风险投资项目，类似内容将视为商业广告删除处理",
+            "showName": "社畜",
+            "msg": "<img src=\"http://nmbimg.fastmirror.org/thumb/2017-02-24/58af8fab15ecc.jpg\"><br>可以讨论工作、投资、车房、育儿、养老相关，请遵守<a href=\"https://adnmb.com/\">总版规</a><br>\r\n学业、考试相关请到<a href=\"/f/%E8%80%83%E8%AF%95\">校园版</a><br>在匿名版张贴真实信息时请<b>谨慎考虑</b>，本站不对个人信息泄露引起的后果负责<br>\r\n投资风险与回报对等，请谨慎选择高回报率投资方式，本版禁止鼓吹高风险投资项目，类似内容将视为商业广告删除处理",
+            "interval": "30",
+            "createdAt": "0000-00-00 00:00:00",
+            "updateAt": "0000-00-00 00:00:00",
+            "status": "n"
+          },
+          {
+            "id": "113",
+            "fgroup": "4",
+            "sort": "29",
+            "name": "育儿",
+            "showName": "育儿<font color=\"red\">New!</font>",
+            "msg": "可讨论育儿经、晒娃等（自己的）子女相关<br>\r\n禁止晒配偶，可以晒SD娃娃<br>\r\n在匿名版张贴露脸照有风险，在本版晒娃有成为岛民岳父的可能性，照片晒娃请谨慎<br>",
             "interval": "30",
             "createdAt": "0000-00-00 00:00:00",
             "updateAt": "0000-00-00 00:00:00",
@@ -145,8 +156,8 @@
             "fgroup": "4",
             "sort": "33",
             "name": "小说",
-            "showName": "小说(连载)",
-            "msg": "•欢迎光临小说版，这里是文字描绘的缤纷世界！<br />\r\n•小说推荐、剧情讨论、原创小说均可在此发串。<br />\r\n•长篇连载允许，欢迎各路文豪。<br />\r\n•H文禁止，擦边球自重，一定要发的话请张贴站外链接而不是直接发文。<br />\r\n•本版发文间隔为15秒。<br />",
+            "showName": "故事(小说)",
+            "msg": "•欢迎光临故事版，这里是文字描绘的缤纷世界！<br />\r\n•小说推荐、剧情讨论、原创小说、讲故事（无论是否虚构）均可在此发串。<br />\r\n•长篇连载允许，欢迎各路文豪。<br />\r\n•H文禁止，擦边球自重，一定要发的话请使用里岛。<br />\r\n•本版发文间隔为15秒。<br />",
             "interval": "15",
             "createdAt": "2011-09-24 16:00:53",
             "updateAt": "2014-08-02 04:54:12",
@@ -158,7 +169,7 @@
             "sort": "33",
             "name": "买买买",
             "showName": "买买买(剁手)",
-            "msg": "<img title=\"买买买！不买还是人？赶紧剁手！\" src=\"http://nmbimg.fastmirror.org/thumb/2015-11-02/56374260dac57.jpg\" height=132px width=200px style=\"float:left\" />•剁手优惠信息、值得买的宝贝在此版集中交流，二手请走闲鱼<br />•本版原则：只分享好物，不做伸手党，装机求助请转<a href=\"/f/%E6%95%B0%E7%A0%81\">数码</a>版<br />•允许发商品链接，发链接时请附宝贝图，未经允许禁止商业推销。禁止广告刷版<br>•A岛串内随机广告位招商，详情请联系help@nimingban.com",
+            "msg": "<img title=\"买买买！不买还是人？赶紧剁手！\" src=\"http://nmbimg.fastmirror.org/thumb/2015-11-02/56374260dac57.jpg\" height=132px width=200px style=\"float:left\" />•剁手优惠信息、值得买的宝贝在此版集中交流，二手请走闲鱼<br />•本版原则：只分享好物，不做伸手党，装机求助请转<a href=\"/f/%E6%95%B0%E7%A0%81\">数码</a>版<br />•允许发商品链接，发链接时请附宝贝图，未经允许禁止商业推销。禁止广告刷版<br>•A岛串内随机广告位招商，详情请联系help@adnmb.com，请参考<a href=\"/t/16922736\">广告集中串</a>",
             "interval": "30",
             "createdAt": "0000-00-00 00:00:00",
             "updateAt": "0000-00-00 00:00:00",
@@ -194,7 +205,7 @@
             "sort": "42",
             "name": "LGBT",
             "showName": "LGBT",
-            "msg": "•原女性向内容可以发送至<姐妹1>中的指定讨论串，腐女向的内容可以自行考虑版块<br/>\r\n•请和谐讨论，一串一事，禁发H图或H文，以及家长不宜内容，兄贵、淫梦、恶臭<br/>\r\n•禁交配，约炮，同城交友，以及任何违反匿名版总规以及法律的内容，否则一律删，严重情况直接封<br>\r\n•因本版情况特殊，原则上不支持跨串讨论，如看到不能符合自己价值观的内容，请勿进入，因违反本条的导致争吵，一律删+封<br>\r\n•本版发文间隔为15秒。",
+            "msg": "•原女性向内容可以发送至<姐妹1>中的指定讨论串，腐女向的内容可以自行考虑版块<br/>\r\n•<font color=\"red\">请和谐讨论，禁交配、约炮，串内有家长不宜趋势的也会连主串一起删，严重情况碎槽违规人</font><br>\r\n•因本版情况特殊，请勿跨串讨论，如看到不能符合自己价值观的内容，请勿进入，因违反本条的导致争吵，一律删+封<br>\r\n•本版发文间隔为15秒。",
             "interval": "15",
             "createdAt": "0000-00-00 00:00:00",
             "updateAt": "0000-00-00 00:00:00",
@@ -230,22 +241,10 @@
             "sort": "51",
             "name": "日记",
             "showName": "日记(树洞)",
-            "msg": "<p><img title=\"每天都有新收获！\" src=\"http://img6.nimingban.com/thumb/2016-09-18/57dd6e3f1e806.jpg\" height=237px width=250px style=\"float:left\" />&bull;~记录生活点滴~<br />\r\n&bull;其实就是树洞版。<br />\r\n&bull;本版发文间隔15秒</p>\r\n",
+            "msg": "<p><img title=\"每天都有新收获！\" src=\"http://nmbimg.fastmirror.org/thumb/2016-09-18/57dd6e3f1e806.jpg\" height=237px width=250px style=\"float:left\" />&bull;~记录生活点滴~<br />\r\n&bull;其实就是树洞版。<br />\r\n&bull;本版发文间隔15秒</p>\r\n",
             "interval": "15",
             "createdAt": "2014-11-07 00:11:44",
             "updateAt": "2014-11-10 15:23:40",
-            "status": "n"
-          },
-          {
-            "id": "96",
-            "fgroup": "4",
-            "sort": "54",
-            "name": "圈内",
-            "showName": "圈内(版务讨论)",
-            "msg": "<p><img alt=\"事到如今……\" src=\"http://nmbimg.fastmirror.org/thumb/2016-04-02/56ff8276c58b0.jpg\" style=\"float:left; height:200px; width:156px\" />&bull;为维护综合1的良好风气，争论、黑话、节奏议题请在此版讨论。<br />&bull;本版可以带干货正面婊任何一个红名<br>\r\n&bull;请勿恶意引战，<strong>严禁诽谤！没有干货直接删！</strong><br />\r\n&bull;请勿讨论广州弹幕网络科技有限公司内部消息。<br />\r\n&bull;<span class=\"marker\"><strong>欢迎<a href=\"/f/%E5%80%BC%E7%8F%AD%E5%AE%A4\" target=\"_blank\">&rarr;举报&larr;</a>戾气过重和恶意带节奏的饼干</strong></span><br />\r\n&bull;如无法认同A岛的管理，请<a href=\"http://pan.baidu.com/s/1c1KYVtQ\r\n\" target=\"_blank\">参考这里</a>自行建岛证明自己。\r\n<br><a href=\"/t/7101074\">→点此充值红名←</a>\r\n<br>&bull;A站主站相关问题请咨询客服QQ：800055564<br>\r\n&bull;本版发文间隔15秒</p>\r\n",
-            "interval": "15",
-            "createdAt": "2015-04-26 22:33:33",
-            "updateAt": "2015-07-18 16:56:10",
             "status": "n"
           },
           {
@@ -258,6 +257,18 @@
             "interval": "15",
             "createdAt": "2014-02-08 14:09:13",
             "updateAt": "2014-09-26 10:04:35",
+            "status": "n"
+          },
+          {
+            "id": "111",
+            "fgroup": "4",
+            "sort": "99",
+            "name": "跑团",
+            "showName": "跑团",
+            "msg": "跑团专用板块<br>\r\n主串长度不超过5行，请注明主题并简单介绍玩法，更新频率等关键信息，大段文字务必写在在第一个回复串中避免长时间刷屏<br>\r\n请团主尽量不要弃坑，如果确实需要弃坑请在要弃坑的主串上点举报并注明已弃坑请求sage<br>\r\n内容中含有擦边球或者小黄文的跑团会予以删串作为处罚。望各位GM谨记在心。如遇恶意捣乱者请点举报<br>\r\n跑团路标：<a href=\"/t/14087134\">14087134</a>",
+            "interval": "30",
+            "createdAt": "0000-00-00 00:00:00",
+            "updateAt": "0000-00-00 00:00:00",
             "status": "n"
           }
         ]
@@ -274,7 +285,7 @@
             "sort": "1",
             "name": "动画",
             "showName": "",
-            "msg": "<p><img src=\"http://nmbimg.fastmirror.org/thumb/2016-10-10/57fb02f2f1b3d.jpg\" /><br />\r\n&bull;我说你们这些银啊，知不知道王老爷子说的：&ldquo;安心做个萌豚，岂不美哉？&rdquo;<br />\r\n&bull;<a href=\"http://bgmlist.com/\" target=\"blank\">每日新番列表</a><br />\r\n&bull;本版发文间隔为15秒。</p>\r\n",
+            "msg": "<p><img src=\"http://nmbimg.fastmirror.org/thumb/2018-09-06/5b90a1e9bb30a.jpg\" /><br />\r\n&bull;吃饭睡觉看冻鳗，&ldquo;安心做个萌豚，岂不美哉？&rdquo;<br />\r\n&bull;<a href=\"http://bgmlist.com/\" target=\"blank\">每日新番列表</a><br />\r\n&bull;本版发文间隔为15秒。</p>\r\n",
             "interval": "15",
             "createdAt": "2011-09-24 16:00:20",
             "updateAt": "2015-07-21 21:59:21",
@@ -346,7 +357,7 @@
             "sort": "11",
             "name": "东方Project",
             "showName": "",
-            "msg": "<img src=\"http://nmbimg.fastmirror.org/thumb/2016-08-27/57c1ab9f5a58d.png\" title=\"欢迎光临东方养老院！\"><br>欢迎光临东方养老院！~<br>请遵守总版规，资源类请使用站外链接而非贴图",
+            "msg": "<img src=\"https://nmbimg.fastmirror.org/thumb/2016-08-27/57c1ab9f5a58d.png\" title=\"欢迎光临东方养老院！\"><br>欢迎光临东方养老院！~<br>请遵守总版规，资源类请使用站外链接而非贴图",
             "interval": "15",
             "createdAt": "2011-10-26 00:09:51",
             "updateAt": "2014-08-02 04:54:10",
@@ -382,7 +393,7 @@
             "sort": "20",
             "name": "VOCALOID",
             "showName": "",
-            "msg": "•过气老婆疗养院",
+            "msg": "•本版发文间隔为15秒。",
             "interval": "15",
             "createdAt": "2011-10-17 22:49:32",
             "updateAt": "2014-08-02 04:54:09",
@@ -421,15 +432,15 @@
             "status": "n"
           },
           {
-            "id": "3",
+            "id": "23",
             "fgroup": "3",
-            "sort": "2",
-            "name": "手游",
-            "showName": "手游<font color=\"red\">New!</font>",
-            "msg": "*手游讨论，入坑安利，截图日西<br>\r\n*请和谐讨论，玩过才有发言权<br>\r\n*有专版的游戏请在专版讨论<br>\r\n*氪氪氪！不氪还是人？！<br>",
+            "sort": "4",
+            "name": "暴雪游戏",
+            "showName": "暴雪游戏<font color=\"red\">New!</font>",
+            "msg": "•本版发文间隔为15秒。",
             "interval": "15",
-            "createdAt": "2011-11-10 13:40:40",
-            "updateAt": "2014-08-02 04:54:08",
+            "createdAt": "2012-05-25 21:21:21",
+            "updateAt": "2015-04-21 12:30:39",
             "status": "n"
           },
           {
@@ -445,15 +456,15 @@
             "status": "n"
           },
           {
-            "id": "80",
+            "id": "3",
             "fgroup": "3",
-            "sort": "6",
-            "name": "炉石传说",
-            "showName": "",
-            "msg": "•本版发文间隔15秒",
+            "sort": "7",
+            "name": "手游",
+            "showName": "手游<font color=\"red\">New!</font>",
+            "msg": "*手游讨论，入坑安利，截图日西<br>\r\n*请和谐讨论，玩过才有发言权<br>\r\n*有专版的游戏请在专版讨论<br>\r\n*氪氪氪！不氪还是人？！<br>",
             "interval": "15",
-            "createdAt": "2014-01-20 11:58:46",
-            "updateAt": "0000-00-00 00:00:00",
+            "createdAt": "2011-11-10 13:40:40",
+            "updateAt": "2014-08-02 04:54:08",
             "status": "n"
           },
           {
@@ -466,18 +477,6 @@
             "interval": "15",
             "createdAt": "2012-05-25 21:24:22",
             "updateAt": "2014-08-02 04:54:12",
-            "status": "n"
-          },
-          {
-            "id": "108",
-            "fgroup": "3",
-            "sort": "10",
-            "name": "3A游戏",
-            "showName": "3A游戏<font color=\"red\">New!</font>",
-            "msg": "为了保持版块活力，辐射版现变更为3A游戏版<br />\r\n该版目前试运行期间允许大家跨版（在游综或steam讨论3A游戏），但鼓励大家尽可能在该专版讨论3A游戏~<br />\r\n试运行结束后将把游综的3A游戏讨论挪到该版中，试运行结束时间以版块稳定为期限<br /><br />\r\nPS：3A的定义请不要太过纠结，就像偶像也没有明确定义一样，我们以公认的3A游戏为准来讨论",
-            "interval": "30",
-            "createdAt": "0000-00-00 00:00:00",
-            "updateAt": "0000-00-00 00:00:00",
             "status": "n"
           },
           {
@@ -498,7 +497,7 @@
             "sort": "15",
             "name": "索尼",
             "showName": "",
-            "msg": "<img src=\"http://cdn.aixifan.com/h/upload/th/ec8c9093-44da-482b-ba51-b4d4b75d38df.jpg\"><br />•本版发文间隔为15秒。<br/>",
+            "msg": "<img src=\"https://nmbimg.fastmirror.org/thumb/2018-12-25/5c21ddce1f655.jpg\"><br />•本版发文间隔为15秒。<br/>",
             "interval": "15",
             "createdAt": "2012-05-25 21:24:13",
             "updateAt": "2014-08-15 02:55:19",
@@ -521,47 +520,11 @@
             "fgroup": "3",
             "sort": "20",
             "name": "DOTA",
-            "showName": "DOTA",
+            "showName": "DOTA&自走棋",
             "msg": "<p>&bull;跨版引战一律锁IP<br />\r\n&bull;本版发文间隔为15秒。</p>\r\n",
             "interval": "15",
             "createdAt": "2013-10-09 15:15:24",
             "updateAt": "2015-01-31 21:36:02",
-            "status": "n"
-          },
-          {
-            "id": "109",
-            "fgroup": "3",
-            "sort": "21",
-            "name": "守望先锋",
-            "showName": "守望先锋",
-            "msg": "守望大屁股先锋！",
-            "interval": "15",
-            "createdAt": "0000-00-00 00:00:00",
-            "updateAt": "0000-00-00 00:00:00",
-            "status": "n"
-          },
-          {
-            "id": "28",
-            "fgroup": "3",
-            "sort": "22",
-            "name": "怪物猎人",
-            "showName": "",
-            "msg": "•本版发文间隔为15秒。",
-            "interval": "15",
-            "createdAt": "2012-06-13 10:56:05",
-            "updateAt": "2014-08-02 04:54:14",
-            "status": "n"
-          },
-          {
-            "id": "44",
-            "fgroup": "3",
-            "sort": "22",
-            "name": "WOW",
-            "showName": "",
-            "msg": "•本版发文间隔15秒",
-            "interval": "15",
-            "createdAt": "2012-10-16 18:10:32",
-            "updateAt": "2014-08-02 04:54:24",
             "status": "n"
           },
           {
@@ -613,15 +576,27 @@
             "status": "n"
           },
           {
-            "id": "23",
+            "id": "28",
             "fgroup": "3",
-            "sort": "50",
-            "name": "D3",
+            "sort": "45",
+            "name": "怪物猎人",
             "showName": "",
             "msg": "•本版发文间隔为15秒。",
             "interval": "15",
-            "createdAt": "2012-05-25 21:21:21",
-            "updateAt": "2015-04-21 12:30:39",
+            "createdAt": "2012-06-13 10:56:05",
+            "updateAt": "2014-08-02 04:54:14",
+            "status": "n"
+          },
+          {
+            "id": "108",
+            "fgroup": "3",
+            "sort": "48",
+            "name": "辐射",
+            "showName": "辐射4",
+            "msg": "废土破烂回收处理中心",
+            "interval": "30",
+            "createdAt": "0000-00-00 00:00:00",
+            "updateAt": "0000-00-00 00:00:00",
             "status": "n"
           },
           {
@@ -654,7 +629,7 @@
             "sort": "79",
             "name": "AC大逃杀",
             "showName": "",
-            "msg": "<p>&bull;本版发文间隔为15秒。<br />\r\n&bull;本版用于AcFun大逃杀（http://0.76573.org）相关讨论。<br />\r\n&bull;0F管理员已经选出，祝他们好运！</p>\r\n\r\n<p>&bull;大逃杀官方玩家群：248504962</p>\r\n\r\n<p>&bull;大逃杀玩家吹水群：101336468</p>\r\n\r\n<p>&bull;常磐大逃杀项目源码：https://code.google.com/p/phpbr/</p>\r\n\r\n<p>&bull;对0F或者1F任何管理员的行动有任何疑问者，请直接通过上面的玩家群或者官方论坛联系我。</p>\r\n\r\n<p>&bull;对电波或者篝火等衍生服务器任何管理员的行动有任何疑问者，也请到玩家群中去找对应的负责人，谢谢。</p>\r\n",
+            "msg": "<p>&bull;本版发文间隔为15秒。<br />\r\n&bull;本版用于AcFun大逃杀（http://0.76573.org）相关讨论。<br />\r\n&bull;0F管理员已经选出，祝他们好运！</p>\r\n\r\n<p>&bull;常磐大逃杀项目源码：https://code.google.com/p/phpbr/</p>\r\n\r\n<p>&bull;对0F或者1F任何管理员的行动有任何疑问者，请直接通过上面的玩家群或者官方论坛联系我。</p>\r\n\r\n<p>&bull;对电波或者篝火等衍生服务器任何管理员的行动有任何疑问者，也请到玩家群中去找对应的负责人，谢谢。</p>\r\n",
             "interval": "15",
             "createdAt": "2012-06-16 06:37:50",
             "updateAt": "2015-01-01 21:52:19",
@@ -669,11 +644,23 @@
         "status": "n",
         "forums": [
           {
+            "id": "116",
+            "fgroup": "8",
+            "sort": "0",
+            "name": "主播",
+            "showName": "主播(<font color=\"green\">苇Tuber</font>)",
+            "msg": "<img src=\"https://nmbimg.fastmirror.org/thumb/2019-01-09/5c355381341b8.jpg\"><br>\r\n•可以讨论包括但不限于国内外虚拟主播、真人主播的直播、录播和主播本人相关话题。<br>\r\n•截图请勿带有争议水印，讨论请有事说事就事论事。<br>\r\n•禁止人身攻击、踩一捧一。<br>\r\n•请遵守封面总版规。<br>\r\n•<a href=\"/t/16320174\">在做了在做了</a>。<br>",
+            "interval": "10",
+            "createdAt": "0000-00-00 00:00:00",
+            "updateAt": "0000-00-00 00:00:00",
+            "status": "n"
+          },
+          {
             "id": "16",
             "fgroup": "8",
             "sort": "1",
             "name": "AKB",
-            "showName": "日本偶像",
+            "showName": "日本偶像(AKB)",
             "msg": "可讨论日本偶像（团体或个人）<br>本版发文间隔为15秒。",
             "interval": "15",
             "createdAt": "2011-10-17 19:58:49",
@@ -685,8 +672,8 @@
             "fgroup": "8",
             "sort": "2",
             "name": "SNH48",
-            "showName": "中国偶像",
-            "msg": "可讨论中国偶像（个人或团体）",
+            "showName": "中国偶像(SNH)",
+            "msg": "可讨论中国偶像（个人或团体）<br>TFboys除外",
             "interval": "30",
             "createdAt": "0000-00-00 00:00:00",
             "updateAt": "0000-00-00 00:00:00",
@@ -698,7 +685,7 @@
             "sort": "3",
             "name": "COSPLAY",
             "showName": "眼科(Cosplay)",
-            "msg": "<p><a href=\"/t/640819\"><img alt=\"咪~\" src=\"http://cdn.aixifan.com/h/upload/th/af4057b8-67ea-445f-8b18-f05e22fd9a40.jpg\" style=\"float:left\" /></a><br><font color=\"red\">来自微博的转载请务必先征得Coser同意!</font></p>\r\n\r\n<p>&bull;贴图请使用回应模式，不要每一张图单独开串。<br />\r\n&bull;跟风、恶意顶回首页、挖坟一律SAGE。<br />\r\n&bull;非COS摄影请发<a href=\"/f/%E6%91%84%E5%BD%B1\">摄影</a>版。<br />\r\n&bull;本版发文间隔为15秒。</p>\r\n",
+            "msg": "<p><a href=\"/t/640819\"><img alt=\"咪~\" src=\"https://nmbimg.fastmirror.org/thumb/2016-04-24/571c8e8d57579.jpg\" style=\"float:left\" /></a><br><font color=\"red\">来自微博的转载请务必先征得Coser同意!</font></p>\r\n\r\n<p>&bull;贴图请使用回应模式，不要每一张图单独开串。<br />\r\n&bull;跟风、恶意顶回首页、挖坟一律SAGE。<br />\r\n&bull;非COS摄影请发<a href=\"/f/%E6%91%84%E5%BD%B1\">摄影</a>版。<br />\r\n&bull;本版发文间隔为15秒。</p>\r\n",
             "interval": "15",
             "createdAt": "2011-10-22 18:24:14",
             "updateAt": "2015-06-08 00:21:05",
@@ -722,7 +709,7 @@
             "sort": "10",
             "name": "模型",
             "showName": "模型(手办)",
-            "msg": "<p>&bull;本版发文间隔为15秒。</p>\r\n",
+            "msg": "&bull;本版发文间隔为15秒。</p>\r\n",
             "interval": "15",
             "createdAt": "2012-08-20 12:15:34",
             "updateAt": "2015-01-28 22:23:59",
@@ -736,6 +723,18 @@
         "name": "三次元",
         "status": "n",
         "forums": [
+          {
+            "id": "115",
+            "fgroup": "5",
+            "sort": "0",
+            "name": "摄影2",
+            "showName": "摄影2<font color=\"red\">New!</font>",
+            "msg": "本版可讨论摄影器材，交流摄影技巧，分享摄影作品<br>\r\n二手交易请谨慎，尽量走闲鱼，本站不对任何交易纠纷负责<br>\r\n分享作品请尽量注明相机型号、镜头焦距、光圈f/值、曝光时间、ISO<br>\r\n手机照片请尽量注明手机型号<br>\r\n非原创作品请说明出处<br>\r\nCOS照请发<a href=\"/f/cosplay\">眼科</a><br />\r\n食物照请发<a href=\"/f/%E6%96%99%E7%90%86\">料理</a><br />\r\n多张同一系列或同一类型的照片请在同一个串内以回应模式发表，禁止刷版<br>\r\n【禁止任何形式的盗摄！违者删除！盗摄请出门左转里岛！】",
+            "interval": "10",
+            "createdAt": "0000-00-00 00:00:00",
+            "updateAt": "0000-00-00 00:00:00",
+            "status": "n"
+          },
           {
             "id": "31",
             "fgroup": "5",
@@ -791,13 +790,49 @@
             "createdAt": "2011-09-30 23:55:20",
             "updateAt": "2015-07-26 15:39:24",
             "status": "n"
+          },
+          {
+            "id": "117",
+            "fgroup": "6",
+            "sort": "2",
+            "name": "技术支持",
+            "showName": "技术支持",
+            "msg": "•这里主要存放A岛的更新日志，以及常见故障的解决方法<br/>\r\n•有关访问、注册、打不开串、看不到图等技术问题请联系 admin@adnmb.com<br />\r\n•请学会描述问题，<strong style='color:red'>说清楚现象（发生了什么），复现方法（怎么做才会出现），网络环境（你在哪，网络提供商是哪家），账号信息（如有必要）。</strong><br />\r\n•这里也可以求助，但是涉及隐私的问题建议先发邮件<br />\r\n•当然对A岛有什么建议（仅技术上）也欢迎在这个版块发串，其他建议请移步<strong style=\"color:red\"><a href=\"/f/圈内\">圈内</a></strong>或者联系 help@adnmb.com<br />\r\n•本版发文间隔为30秒。",
+            "interval": "30",
+            "createdAt": "0000-00-00 00:00:00",
+            "updateAt": "0000-00-00 00:00:00",
+            "status": "n"
+          },
+          {
+            "id": "112",
+            "fgroup": "6",
+            "sort": "10",
+            "name": "城墙",
+            "showName": "",
+            "msg": "这里是城墙，挂在这里的都是饼干被碎的弱智钓鱼废物，喜欢钓鱼是吧，被吊在城墙上感觉如何呀(　^ω^)<br>本版禁止回复，除非你也想被碎饼干挂城墙(　^ω^)",
+            "interval": "30",
+            "createdAt": "0000-00-00 00:00:00",
+            "updateAt": "0000-00-00 00:00:00",
+            "status": "n"
+          },
+          {
+            "id": "96",
+            "fgroup": "6",
+            "sort": "54",
+            "name": "圈内",
+            "showName": "圈内(版务讨论)",
+            "msg": "<p><img alt=\"事到如今……\" src=\"http://nmbimg.fastmirror.org/thumb/2018-11-30/5c00c26742287.png\"/><br>&bull;为维护综合1的良好风气，争论、黑话、节奏议题请在此版讨论。<br />&bull;本版可以带干货正面婊任何一个红名<br>\r\n&bull;请勿恶意引战，<strong>严禁诽谤！没有干货直接删！</strong><br />\r\n&bull;<span class=\"marker\"><strong>欢迎<a href=\"/f/%E5%80%BC%E7%8F%AD%E5%AE%A4\" target=\"_blank\">&rarr;举报&larr;</a>戾气过重和恶意带节奏的饼干</strong></span><br />\r\n&bull;如无法认同A岛的管理，请<a href=\"https://pan.baidu.com/s/1a9vy2Em36N6WASEeU2l1HA\" target=\"_blank\">参考这里</a>自行建岛证明自己。\r\n<br><a href=\"/t/14051281\">→点此充值红名←</a>\r\n<br>&bull;A站主站相关问题请咨询客服QQ：800055564<br>\r\n&bull;本版发文间隔15秒</p>\r\n",
+            "interval": "15",
+            "createdAt": "2015-04-26 22:33:33",
+            "updateAt": "2015-07-18 16:56:10",
+            "status": "n"
           }
         ]
       }
-    ]
+    ],
+    "configuration_name": "AC"
   },
   {
-    "configuration_name": "BT",
     "forums": [
       {
         "id": "5",
@@ -1055,6 +1090,7 @@
           }
         ]
       }
-    ]
+    ],
+    "configuration_name": "BT"
   }
 ]
