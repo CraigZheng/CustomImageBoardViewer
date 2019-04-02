@@ -56,14 +56,14 @@ class QRCodeScannerViewController: UIViewController {
     captureSession?.stopRunning()
     captureSession = AVCaptureSession()
     let videoCaptureDevice = AVCaptureDevice.default(for: AVMediaType(rawValue: convertFromAVMediaType(AVMediaType.video)))
-    if let videoInput = try? AVCaptureDeviceInput(device:videoCaptureDevice),
+    if let videoCaptureDevice = videoCaptureDevice, let videoInput = try? AVCaptureDeviceInput(device:videoCaptureDevice),
       let captureSession = captureSession
     {
       captureSession.addInput(videoInput)
       let metadataOutput = AVCaptureMetadataOutput()
       captureSession.addOutput(metadataOutput)
       metadataOutput.setMetadataObjectsDelegate(self, queue:DispatchQueue.main)
-      metadataOutput.metadataObjectTypes = [convertFromAVMetadataObjectObjectType(AVMetadataObject.ObjectType.qr), convertFromAVMetadataObjectObjectType(AVMetadataObject.ObjectType.ean13)]
+      metadataOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.qr, AVMetadataObject.ObjectType.ean13]
       let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
       previewLayer.frame = self.cameraPreviewView.bounds; // Align to cameraPreviewView.
       previewLayer.videoGravity = AVLayerVideoGravity(rawValue: convertFromAVLayerVideoGravity(AVLayerVideoGravity.resizeAspectFill));
@@ -124,8 +124,9 @@ extension QRCodeScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
     if let lastMetadataObject = metadataObjects.last,
       let readableObject = lastMetadataObject as? AVMetadataMachineReadableCodeObject
     {
-      if readableObject.type.rawValue == convertFromAVMetadataObjectObjectType(AVMetadataObject.ObjectType.qr),
-        let cookieValue = czzCookieManager.sharedInstance().cookie(from: readableObject.stringValue),
+      if readableObject.type == AVMetadataObject.ObjectType.qr,
+        let rawString = readableObject.stringValue,
+        let cookieValue = czzCookieManager.sharedInstance().cookie(from: rawString),
         !cookieValue.isEmpty {
         capturedCookie = cookieValue
         captureSession?.stopRunning()
