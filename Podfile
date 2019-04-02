@@ -12,7 +12,7 @@ pod 'PureLayout'
 pod 'CocoaLumberjack'
 pod 'AFNetworking', '~> 3.0'
 pod 'SplunkMint'
-pod 'SwiftMessages'
+pod 'SwiftMessages', :git => 'https://github.com/SwiftKickMobile/SwiftMessages.git', :branch => 'work/swift5'
 pod 'DZNEmptyDataSet'
 pod 'TTTAttributedLabel'
 end

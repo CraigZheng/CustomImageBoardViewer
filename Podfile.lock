@@ -51,7 +51,9 @@ PODS:
     - SDWebImage/Core (= 3.8.2)
   - SDWebImage/Core (3.8.2)
   - SplunkMint (5.2.2)
-  - SwiftMessages (4.0.0)
+  - SwiftMessages (6.0.2):
+    - SwiftMessages/App (= 6.0.2)
+  - SwiftMessages/App (6.0.2)
   - TTTAttributedLabel (2.0.0)
 
 DEPENDENCIES:
@@ -64,7 +66,7 @@ DEPENDENCIES:
   - MWPhotoBrowser (~> 2.1.2)
   - PureLayout
   - SplunkMint
-  - SwiftMessages
+  - SwiftMessages (from `https://github.com/SwiftKickMobile/SwiftMessages.git`, branch `work/swift5`)
   - TTTAttributedLabel
 
 SPEC REPOS:
@@ -86,8 +88,17 @@ SPEC REPOS:
     - PureLayout
     - SDWebImage
     - SplunkMint
-    - SwiftMessages
     - TTTAttributedLabel
+
+EXTERNAL SOURCES:
+  SwiftMessages:
+    :branch: work/swift5
+    :git: https://github.com/SwiftKickMobile/SwiftMessages.git
+
+CHECKOUT OPTIONS:
+  SwiftMessages:
+    :commit: a3f50f59ac454b826f741bad4fcdd75dc561aea6
+    :git: https://github.com/SwiftKickMobile/SwiftMessages.git
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
@@ -107,9 +118,9 @@ SPEC CHECKSUMS:
   PureLayout: 4d550abe49a94f24c2808b9b95db9131685fe4cd
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   SplunkMint: 8c22ce314fd7a36ee584f2e40d239e19d9fa174d
-  SwiftMessages: cd565e0e7d095584be1770c012c6b5be4183b5ee
+  SwiftMessages: 8b3cc68dba2f1c91aac1a74c90b10287aac35371
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
 
-PODFILE CHECKSUM: 1f52bce1c1879bb3bb896225c66a5fc2ecf4159b
+PODFILE CHECKSUM: 37954b60962174613a19febf1479508640d3c2f0
 
 COCOAPODS: 1.6.1
