@@ -79,12 +79,12 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
                     let defaultFont = forumCell.textLabel?.font
                 {
                     if let attributedDisplayName = try? NSMutableAttributedString(data: displayData,
-                                                                                  options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
-                                                                                            NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue],
+                                                                                  options: convertToNSAttributedStringDocumentReadingOptionKeyDictionary([convertFromNSAttributedStringDocumentAttributeKey(NSAttributedString.DocumentAttributeKey.documentType): convertFromNSAttributedStringDocumentType(NSAttributedString.DocumentType.html),
+                                                                                            convertFromNSAttributedStringDocumentAttributeKey(NSAttributedString.DocumentAttributeKey.characterEncoding): String.Encoding.utf8.rawValue]),
                                                                                   documentAttributes: nil) {
-                        attributedDisplayName.addAttributes([NSFontAttributeName: defaultFont], range: NSMakeRange(0, attributedDisplayName.length))
+                        attributedDisplayName.addAttributes(convertToNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.font): defaultFont]), range: NSMakeRange(0, attributedDisplayName.length))
                         if czzSettingsCentre.sharedInstance().userDefNightyMode {
-                            attributedDisplayName.addAttributes([NSForegroundColorAttributeName: czzSettingsCentre.sharedInstance().contentTextColour()],
+                            attributedDisplayName.addAttributes(convertToNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): czzSettingsCentre.sharedInstance().contentTextColour()]),
                                                                 range: NSMakeRange(0, attributedDisplayName.length))
                         }
                         forumCell.textLabel?.textColor = nil
@@ -141,4 +141,29 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
         }
     }
   
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSAttributedStringDocumentReadingOptionKeyDictionary(_ input: [String: Any]) -> [NSAttributedString.DocumentReadingOptionKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.DocumentReadingOptionKey(rawValue: key), value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSAttributedStringDocumentAttributeKey(_ input: NSAttributedString.DocumentAttributeKey) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSAttributedStringDocumentType(_ input: NSAttributedString.DocumentType) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSAttributedStringKeyDictionary(_ input: [String: Any]) -> [NSAttributedString.Key: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
+	return input.rawValue
 }

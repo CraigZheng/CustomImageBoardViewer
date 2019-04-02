@@ -135,7 +135,7 @@ class MessagePopup: NSObject {
         messageView.iconImageView?.isHidden = !(theme == .info)
         messageView.iconLabel?.isHidden = !(theme == .info)
         config.presentationStyle = position
-        config.presentationContext = .window(windowLevel: UIWindowLevelStatusBar)
+        config.presentationContext = .window(windowLevel: UIWindow.Level.statusBar.rawValue)
         SwiftMessages.show(config: config, view: messageView)
     }
     

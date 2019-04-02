@@ -41,7 +41,7 @@ class AddMarkerViewController: UITableViewController {
         if let navigationController = navigationController {
             navigationController.navigationBar.barTintColor = czzSettingsCentre.sharedInstance().barTintColour()
             navigationController.navigationBar.tintColor = czzSettingsCentre.sharedInstance().tintColour()
-            navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:navigationController.navigationBar.tintColor]
+            navigationController.navigationBar.titleTextAttributes = convertToOptionalNSAttributedStringKeyDictionary([NSAttributedString.Key.foregroundColor.rawValue:navigationController.navigationBar.tintColor])
         }
         view.backgroundColor = czzSettingsCentre.sharedInstance().viewBackgroundColour()
     }
@@ -141,7 +141,7 @@ extension AddMarkerViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         let UID: String?
         switch Section(rawValue: indexPath.section)! {
         case .pending:
@@ -161,4 +161,10 @@ extension AddMarkerViewController {
         tableView.reloadData()
     }
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
 }

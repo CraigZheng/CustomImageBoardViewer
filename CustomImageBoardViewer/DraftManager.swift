@@ -44,7 +44,7 @@ class DraftManager: NSObject {
     }) {
       draftsToSave.remove(at: previousSavedIndex)
     }
-    draftsToSave.append(draft, Date())
+    draftsToSave.append((draft, Date()))
     save(draftsToSave)
   }
   
@@ -69,7 +69,7 @@ class DraftManager: NSObject {
     UserDefaults.standard.set(drafts.flatMap({ (string, _) -> String in
       return string
     }), forKey: Key.drafts)
-    UserDefaults.standard.set(drafts.flatMap({ (_, date) -> Date in
+    UserDefaults.standard.set(drafts.compactMap({ (_, date) -> Date in
       return date
     }), forKey: Key.dates)
   }

@@ -28,8 +28,8 @@ class CookieTextInputViewController: UIViewController {
       textView.text = prefilledString
     }
     // Keyboard events observer.
-    NotificationCenter.default.addObserver(self, selector: #selector(CookieTextInputViewController.handlekeyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-    NotificationCenter.default.addObserver(self, selector: #selector(CookieTextInputViewController.handleKeyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(CookieTextInputViewController.handlekeyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(CookieTextInputViewController.handleKeyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     // Configure the text view.
     if !allowEditing {
       textView.isEditable = false
@@ -74,8 +74,8 @@ extension CookieTextInputViewController {
 // MARK: keyboard events.
 extension CookieTextInputViewController {
   
-  func handlekeyboardWillShow(_ notification: Notification) {
-    if let keyboardValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue
+  @objc func handlekeyboardWillShow(_ notification: Notification) {
+    if let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
     {
       let keyboardRect = view.convert(keyboardValue.cgRectValue, from: nil)
       textViewBottomConstraint.constant = keyboardRect.size.height
@@ -83,7 +83,7 @@ extension CookieTextInputViewController {
     }
   }
   
-  func handleKeyboardWillHide(_ notification: Notification) {
+  @objc func handleKeyboardWillHide(_ notification: Notification) {
     textViewBottomConstraint.constant = 0
     toolbarBottomConstraint.constant = 0
   }
