@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CookieDetailTableViewController: UITableViewController {
+@objcMembers class CookieDetailTableViewController: UITableViewController {
   private enum SegueIdentifier: String {
     case unwindToCookieManager, showQRCode
   }

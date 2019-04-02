@@ -99,7 +99,7 @@ import SwiftMessages
 
 class MessagePopup: NSObject {
     
-    class func hide() {
+    @objc class func hide() {
         SwiftMessages.hide()
     }
     

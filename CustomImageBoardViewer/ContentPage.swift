@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ContentPage: NSObject {
+@objcMembers class ContentPage: NSObject {
   var threads: [czzThread] = []
   var pageNumber: Int = 0
   var forum: czzForum?

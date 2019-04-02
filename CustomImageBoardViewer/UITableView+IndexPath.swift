@@ -9,13 +9,13 @@
 import Foundation
 
 extension UITableView {
-  var lastSection: Int {
+  @objc var lastSection: Int {
     return numberOfSections - 1
   }
-  var lastRow: Int {
+  @objc var lastRow: Int {
     return numberOfRows(inSection: lastSection) - 1
   }
-  var lastIndexPath: IndexPath {
+  @objc var lastIndexPath: IndexPath {
     return IndexPath(row: lastRow, section: lastSection)
   }
 }

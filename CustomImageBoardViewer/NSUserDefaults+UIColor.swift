@@ -10,7 +10,7 @@ import Foundation
 
 extension UserDefaults {
     
-    func colorForKey(_ key: String) -> UIColor? {
+    @objc func colorForKey(_ key: String) -> UIColor? {
         var color: UIColor?
         if let colorData = data(forKey: key) {
             color = NSKeyedUnarchiver.unarchiveObject(with: colorData) as? UIColor
@@ -18,7 +18,7 @@ extension UserDefaults {
         return color
     }
     
-    func setColor(_ color: UIColor?, forKey key: String) {
+    @objc func setColor(_ color: UIColor?, forKey key: String) {
         var colorData: Data?
         if let color = color {
             colorData = NSKeyedArchiver.archivedData(withRootObject: color)

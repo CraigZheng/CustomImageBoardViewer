@@ -29,7 +29,7 @@ extension NSString {
         return (self as String).containsEmoji
     }
     
-    var numericString: String {
+    @objc var numericString: String {
         let components = self.components(separatedBy: CharacterSet.decimalDigits.inverted)
         return components.joined(separator: "")
     }

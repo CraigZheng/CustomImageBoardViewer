@@ -11,7 +11,7 @@ import UIKit
 import iOS_Slide_Menu
 
 class ForumsTableViewManager: NSObject {
-    var forumGroups: [czzForumGroup] = []
+    @objc var forumGroups: [czzForumGroup] = []
 }
 
 extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {

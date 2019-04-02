@@ -9,7 +9,7 @@
 import Foundation
 
 extension czzSettingsCentre {
-    func validateImageCDN() {
+    @objc func validateImageCDN() {
         guard let imageCDNConfigurationHost = imageCDNConfigurationHost,
             !imageCDNConfigurationHost.isEmpty,
             let cdnConfigurationURL = URL(string: imageCDNConfigurationHost) else {

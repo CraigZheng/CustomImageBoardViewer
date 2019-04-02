@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DraftManager: NSObject {
+@objcMembers class DraftManager: NSObject {
   
   private struct Key {
     static let drafts = "Key.drafts"
@@ -30,7 +30,7 @@ class DraftManager: NSObject {
     }
   }
   
-  class func save(_ draft: String) {
+  @objc class func save(_ draft: String) {
     guard !draft.isEmpty else {
       return
     }
@@ -39,7 +39,7 @@ class DraftManager: NSObject {
     if (draftsToSave.count >= Key.maximum) {
       draftsToSave.removeFirst()
     }
-    if let previousSavedIndex = draftsToSave.index(where: { (string, Date) -> Bool in
+    if let previousSavedIndex = draftsToSave.firstIndex(where: { (string, Date) -> Bool in
       return string == draft
     }) {
       draftsToSave.remove(at: previousSavedIndex)
@@ -57,7 +57,7 @@ class DraftManager: NSObject {
     if (draftsToSave.count >= Key.maximum) {
       draftsToSave.removeFirst()
     }
-    if let previousSavedIndex = draftsToSave.index(where: { (string, Date) -> Bool in
+    if let previousSavedIndex = draftsToSave.firstIndex(where: { (string, Date) -> Bool in
       return string == draft
     }) {
       draftsToSave.remove(at: previousSavedIndex)
