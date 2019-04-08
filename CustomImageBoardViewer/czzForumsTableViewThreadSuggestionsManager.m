@@ -72,7 +72,11 @@
         for (UIView *subView in advertisementCell.contentView.subviews) {
             if ([subView isKindOfClass:[GADBannerView class]]) {
                 GADBannerView *bannerView = (GADBannerView *)subView;
-                bannerView.adUnitID = @"ca-app-pub-2081665256237089/4247713655";
+#ifdef DEBUG
+                bannerView.adUnitID = @"ca-app-pub-3940256099942544/6300978111";
+#else
+                bannerView.adUnitID = @"ca-app-pub-2081665256237089~1718587650";
+#endif
                 // Set the rootViewController for this banner view to be the czzForumsTableViewController - same as before.
                 if ([[[SlideNavigationController sharedInstance] leftMenu] isKindOfClass:[UINavigationController class]]) {
                     bannerView.rootViewController = [(UINavigationController*)[[SlideNavigationController sharedInstance] leftMenu] viewControllers].firstObject;

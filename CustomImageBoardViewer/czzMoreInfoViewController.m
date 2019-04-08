@@ -37,7 +37,11 @@
     baseURL = [settingCentre get_forum_info_url];
     //admob module
     bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerLandscape];
-    bannerView_.adUnitID = @"ca-app-pub-2081665256237089/4247713655";
+#ifdef DEBUG
+    bannerView_.adUnitID = @"ca-app-pub-3940256099942544/6300978111";
+#else
+    bannerView_.adUnitID = @"ca-app-pub-2081665256237089~1718587650";
+#endif
     bannerView_.rootViewController = self;
     
     self.view.backgroundColor = [settingCentre viewBackgroundColour];

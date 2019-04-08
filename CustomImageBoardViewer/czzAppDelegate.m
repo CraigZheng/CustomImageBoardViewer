@@ -31,6 +31,7 @@
 #import <SplunkMint/SplunkMint.h>
 
 @import CocoaLumberjack;
+@import GoogleMobileAds;
 
 #define LOG_LEVEL_DEF ddLogLevel
 
@@ -47,6 +48,7 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
     [DDLog addLogger:[DDTTYLogger sharedInstance]]; // TTY = Xcode console
     [DDLog addLogger:[DDASLLogger sharedInstance]]; // ASL = Apple System Logs
     
