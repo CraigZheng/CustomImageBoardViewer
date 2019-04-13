@@ -33,8 +33,10 @@
 
 static CGFloat compressScale = 0.9;
 static NSString *kDraftSelectorSegue = @"draftSelector";
+static NSString *kPostEmailKey = @"kPostEmailKey";
+static NSString *kPostNameKey = @"kPostNameKey";
 
-@interface czzPostViewController () <UIPopoverPresentationControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate, DraftSelectorTableViewControllerDelegate>
+@interface czzPostViewController () <UIPopoverPresentationControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate, DraftSelectorTableViewControllerDelegate, UITextFieldDelegate>
 @property (nonatomic, strong) UIActionSheet *cancelPostingActionSheet;
 @property (nonatomic, strong) UIAlertView *watermarkAlertView;
 @property (nonatomic, strong) NSMutableData *receivedResponse;
@@ -48,6 +50,8 @@ static NSString *kDraftSelectorSegue = @"draftSelector";
 @property (nonatomic, strong) NSData *pickedImageData;
 @property (nonatomic, strong) UIBarButtonItem *keyboardBarButtonItem;
 @property (nonatomic, strong) NSString *pickedImageFormat;
+@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 
 @end
 
@@ -77,6 +81,12 @@ static NSString *kDraftSelectorSegue = @"draftSelector";
             [self performSegueWithIdentifier:kDraftSelectorSegue sender:nil];
         });
     }
+    if ([NSUserDefaults.standardUserDefaults stringForKey:kPostNameKey].length > 0) {
+        self.nameTextField.text = [NSUserDefaults.standardUserDefaults stringForKey:kPostNameKey];
+    }
+    if ([NSUserDefaults.standardUserDefaults stringForKey:kPostEmailKey].length > 0) {
+        self.emailTextField.text = [NSUserDefaults.standardUserDefaults stringForKey:kPostEmailKey];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -102,6 +112,8 @@ static NSString *kDraftSelectorSegue = @"draftSelector";
     if (self.emojiViewController) {
         [self dismissSemiModalView];
     }
+    [NSUserDefaults.standardUserDefaults setObject:self.nameTextField.text forKey:kPostNameKey];
+    [NSUserDefaults.standardUserDefaults setObject:self.emailTextField.text forKey:kPostEmailKey];
 }
 
 #pragma mark - Prepare for segue
@@ -274,6 +286,8 @@ static NSString *kDraftSelectorSegue = @"draftSelector";
 - (void)postAction:(id)sender {
     [self.draftSelectorViewController dismissViewControllerAnimated:NO completion:nil];
     postSender.content = postTextView.text;
+    postSender.name = self.nameTextField.text.length > 0 ? self.nameTextField.text : nil;
+    postSender.email = self.emailTextField.text.length > 0 ? self.emailTextField.text : nil;
     if (postSender.content.length != 0 || postSender.imgData != nil) {
         // Let post sender manager handles the post sender in the background.
         [PostSenderManager firePostSender:postSender];
@@ -379,6 +393,16 @@ static NSString *kDraftSelectorSegue = @"draftSelector";
             }
         }];
     }
+}
+
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if (textField == self.nameTextField) {
+        [self.emailTextField becomeFirstResponder];
+    } else if (textField == self.emailTextField) {
+        [self.postTextView becomeFirstResponder];
+    }
+    return NO;
 }
 
 #pragma mark - UIActionSheetDelegate

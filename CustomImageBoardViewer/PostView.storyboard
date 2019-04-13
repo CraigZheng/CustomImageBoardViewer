@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="89x-mK-zPd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="89x-mK-zPd">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -25,26 +24,49 @@
                             <imageView userInteractionEnabled="NO" alpha="0.30000001192092896" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="128" translatesAutoresizingMaskIntoConstraints="NO" id="8eE-y5-GDc" userLabel="Post Image View">
                                 <rect key="frame" x="37.5" y="167" width="300" height="333.5"/>
                             </imageView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KjM-XK-gkb">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="l50-qE-6QI">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
-                                <connections>
-                                    <outlet property="delegate" destination="89x-mK-zPd" id="U23-FH-x8X"/>
-                                </connections>
-                            </textView>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="名字（选填）" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="ct1-pQ-Ad3" userLabel="Name Text Field">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" keyboardAppearance="alert" textContentType="name"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="89x-mK-zPd" id="o60-rP-KVa"/>
+                                        </connections>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="电邮地址（选填）" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="cAz-HV-BRC" userLabel="Email Text Field">
+                                        <rect key="frame" x="0.0" y="30" width="375" height="30"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" keyboardAppearance="alert" textContentType="email"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="89x-mK-zPd" id="w6O-zU-nS2"/>
+                                        </connections>
+                                    </textField>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KjM-XK-gkb">
+                                        <rect key="frame" x="0.0" y="60" width="375" height="543"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="89x-mK-zPd" id="U23-FH-x8X"/>
+                                        </connections>
+                                    </textView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="8eE-y5-GDc" firstAttribute="centerY" secondItem="8cH-fu-04F" secondAttribute="centerY" id="0RB-HG-zGv"/>
-                            <constraint firstAttribute="trailing" secondItem="KjM-XK-gkb" secondAttribute="trailing" id="5hu-vD-wfv"/>
-                            <constraint firstItem="KjM-XK-gkb" firstAttribute="top" secondItem="XGS-3a-ceR" secondAttribute="bottom" id="I9d-1o-8cO"/>
+                            <constraint firstItem="glZ-iG-wBh" firstAttribute="top" secondItem="l50-qE-6QI" secondAttribute="bottom" id="ANL-hs-RrR"/>
+                            <constraint firstItem="l50-qE-6QI" firstAttribute="top" secondItem="XGS-3a-ceR" secondAttribute="bottom" id="Ohw-Jc-5XK"/>
                             <constraint firstItem="8eE-y5-GDc" firstAttribute="height" secondItem="8cH-fu-04F" secondAttribute="height" multiplier="0.5" id="PyJ-FQ-2R6"/>
-                            <constraint firstItem="glZ-iG-wBh" firstAttribute="top" secondItem="KjM-XK-gkb" secondAttribute="bottom" id="bGW-AB-BKf"/>
-                            <constraint firstItem="KjM-XK-gkb" firstAttribute="leading" secondItem="8cH-fu-04F" secondAttribute="leading" id="fbv-DI-ht7"/>
                             <constraint firstItem="8eE-y5-GDc" firstAttribute="centerX" secondItem="8cH-fu-04F" secondAttribute="centerX" id="gAQ-DP-1VU"/>
+                            <constraint firstItem="l50-qE-6QI" firstAttribute="leading" secondItem="8cH-fu-04F" secondAttribute="leading" id="hbt-CX-Fj2"/>
                             <constraint firstItem="8eE-y5-GDc" firstAttribute="width" secondItem="8cH-fu-04F" secondAttribute="width" multiplier="0.8" id="igC-qR-TcM"/>
+                            <constraint firstAttribute="trailing" secondItem="l50-qE-6QI" secondAttribute="trailing" id="xiI-PZ-TQe"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="回复" id="l4L-iS-SFb">
@@ -63,9 +85,10 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="emailTextField" destination="cAz-HV-BRC" id="rwI-AV-qwQ"/>
+                        <outlet property="nameTextField" destination="ct1-pQ-Ad3" id="lsj-mU-h4H"/>
                         <outlet property="postImageView" destination="8eE-y5-GDc" id="z2Y-iL-92r"/>
                         <outlet property="postTextView" destination="KjM-XK-gkb" id="MPz-il-ke7"/>
-                        <outlet property="postTextViewBottomConstraint" destination="bGW-AB-BKf" id="XlA-GT-XkE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cfI-J5-Fgh" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -89,14 +112,14 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="CHq-WL-pAb">
-                                            <rect key="frame" x="15" y="8" width="25" height="14.5"/>
+                                            <rect key="frame" x="16" y="6" width="25" height="14.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ya2-nz-oNZ">
-                                            <rect key="frame" x="15" y="22.5" width="40.5" height="13.5"/>
+                                            <rect key="frame" x="16" y="22.5" width="40.5" height="13.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -113,7 +136,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="清空" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ATd-1s-eRG">
-                                            <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                            <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
