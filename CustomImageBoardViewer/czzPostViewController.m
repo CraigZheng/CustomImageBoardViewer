@@ -33,6 +33,8 @@
 
 static CGFloat compressScale = 0.9;
 static NSString *kDraftSelectorSegue = @"draftSelector";
+static NSString *kPostEmailKey = @"kPostEmailKey";
+static NSString *kPostNameKey = @"kPostNameKey";
 
 @interface czzPostViewController () <UIPopoverPresentationControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate, DraftSelectorTableViewControllerDelegate, UITextFieldDelegate>
 @property (nonatomic, strong) UIActionSheet *cancelPostingActionSheet;
@@ -79,6 +81,12 @@ static NSString *kDraftSelectorSegue = @"draftSelector";
             [self performSegueWithIdentifier:kDraftSelectorSegue sender:nil];
         });
     }
+    if ([NSUserDefaults.standardUserDefaults stringForKey:kPostNameKey].length > 0) {
+        self.nameTextField.text = [NSUserDefaults.standardUserDefaults stringForKey:kPostNameKey];
+    }
+    if ([NSUserDefaults.standardUserDefaults stringForKey:kPostEmailKey].length > 0) {
+        self.emailTextField.text = [NSUserDefaults.standardUserDefaults stringForKey:kPostEmailKey];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -104,6 +112,8 @@ static NSString *kDraftSelectorSegue = @"draftSelector";
     if (self.emojiViewController) {
         [self dismissSemiModalView];
     }
+    [NSUserDefaults.standardUserDefaults setObject:self.nameTextField.text forKey:kPostNameKey];
+    [NSUserDefaults.standardUserDefaults setObject:self.emailTextField.text forKey:kPostEmailKey];
 }
 
 #pragma mark - Prepare for segue
