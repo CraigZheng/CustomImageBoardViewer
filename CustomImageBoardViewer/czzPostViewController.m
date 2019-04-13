@@ -276,6 +276,8 @@ static NSString *kDraftSelectorSegue = @"draftSelector";
 - (void)postAction:(id)sender {
     [self.draftSelectorViewController dismissViewControllerAnimated:NO completion:nil];
     postSender.content = postTextView.text;
+    postSender.name = self.nameTextField.text.length > 0 ? self.nameTextField.text : nil;
+    postSender.email = self.emailTextField.text.length > 0 ? self.emailTextField.text : nil;
     if (postSender.content.length != 0 || postSender.imgData != nil) {
         // Let post sender manager handles the post sender in the background.
         [PostSenderManager firePostSender:postSender];
