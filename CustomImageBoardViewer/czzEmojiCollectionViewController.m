@@ -19,7 +19,7 @@ static NSString * const emoticonCellIdentifier = @"emoticon_collection_view_cell
 
 static NSInteger const emoticonSegmentedControlIndex = 2;
 
-@interface czzEmojiCollectionViewController ()<UICollectionViewDataSource, UICollectionViewDelegate>
+@interface czzEmojiCollectionViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDataSourcePrefetching>
 @property (weak, nonatomic) IBOutlet UIToolbar *emoPackPickerToolbar;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *emoPackPickerToolbarHeightConstraint;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *emojiSelectorSegmentedControl;
@@ -65,6 +65,9 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
     self.emoPackPickerSegmentedControl.selectedSegmentIndex = 0;
     self.emoPack = self.reedGirl;
     self.emojiSource = acEmoji;
+    if ([self.emojiCollectionView respondsToSelector:@selector(prefetchDataSource)]) {
+        self.emojiCollectionView.prefetchDataSource = self;
+    }
 }
 
 #pragma mark - UICollectionView datasource
@@ -94,6 +97,15 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
 {
     CGFloat quarterWidth = MIN(self.view.frame.size.width / 4, 105);
     return CGSizeMake(quarterWidth, 60);
+}
+
+#pragma mark - UICollectionViewPrefetching
+- (void)collectionView:(UICollectionView *)collectionView prefetchItemsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths {
+    if (self.emojiSelectorSegmentedControl.selectedSegmentIndex == emoticonSegmentedControlIndex) {
+        for (NSIndexPath *indexPath in indexPaths) {
+            [UIImage imageNamed:self.emoPack[indexPath.row]];
+        }
+    }
 }
 
 #pragma mark - UICollectionView delegate
