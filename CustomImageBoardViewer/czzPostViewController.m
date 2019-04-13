@@ -48,6 +48,8 @@ static NSString *kDraftSelectorSegue = @"draftSelector";
 @property (nonatomic, strong) NSData *pickedImageData;
 @property (nonatomic, strong) UIBarButtonItem *keyboardBarButtonItem;
 @property (nonatomic, strong) NSString *pickedImageFormat;
+@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 
 @end
 
