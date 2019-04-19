@@ -38,7 +38,7 @@
 
 NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
-@interface czzThreadViewController ()<UIAlertViewDelegate, czzThreadViewManagerDelegate>
+@interface czzThreadViewController ()<UIAlertViewDelegate, czzThreadViewManagerDelegate, czzMiniThreadViewControllerDelegate>
 @property (strong, nonatomic) NSIndexPath *selectedIndex;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
 @property CGPoint threadsTableViewContentOffSet; //record the content offset of the threads tableview
@@ -293,6 +293,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 - (void)homeViewManager:(czzHomeViewManager *)homeViewManager wantsToShowContentForThread:(czzThread *)thread {
     self.miniThreadView = [czzMiniThreadViewController new];
     self.miniThreadView.myThread = thread;
+    self.miniThreadView.delegate = self;
     [self.miniThreadView modalShow];
 }
 
@@ -488,6 +489,12 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     if (self.thread) {
         [self commonInit];
     }
+}
+
+#pragma mark - czzMiniThreadViewControllerDelegate
+
+- (void)miniThreadViewController:(czzMiniThreadViewController *)viewController didSelectedQuotedThread:(NSString *)threadID {
+    [self.threadTableViewManager userTapInQuotedText:threadID];
 }
 
 +(instancetype)new {

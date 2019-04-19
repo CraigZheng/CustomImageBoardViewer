@@ -42,6 +42,8 @@
     // Set estimated row height and actual row height.
     threadTableView.rowHeight = UITableViewAutomaticDimension;
     threadTableView.estimatedRowHeight = 44.0;
+    threadTableView.delegate = self;
+    self.dismissOnTap = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -87,10 +89,14 @@
         cell.parentThread = self.myThread;
         cell.thread = self.myThread;
         cell.nightyMode = [settingCentre userDefNightyMode];
-        cell.delegate = self;
         [cell renderContent];
+        cell.delegate = self;
     }
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - czzMenuEnabledTableViewCellProtocol
@@ -106,7 +112,9 @@
 }
 
 - (void)userTapInQuotedText:(NSString *)text {
-    [self.delegate miniThreadViewController:self didSelectedQuotedThread:text];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self.delegate miniThreadViewController:self didSelectedQuotedThread:text];
+    }];
 }
 
 #pragma mark - rotation event
