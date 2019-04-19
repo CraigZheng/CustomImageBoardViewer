@@ -280,7 +280,7 @@ static NSString *addMarkerSegue = @"AddMarker";
         return;
     }
     if ([alertView.title isEqualToString:@"清除ID信息"]){
-        NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:settingsCentre.a_isle_host]];
+        NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:settingsCentre.activeHost]];
         for (NSHTTPCookie *cookie in cookies) {
             [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
         }

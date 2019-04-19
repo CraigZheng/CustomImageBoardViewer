@@ -62,7 +62,7 @@ typedef NS_ENUM(NSInteger, SettingsHost) {
 @property (strong, nonatomic) NSString *success_keyword;
 @property (strong, nonatomic) NSString *share_image_only_keyword;
 @property (strong, nonatomic) NSString *ac_host;
-@property (strong, nonatomic) NSString *a_isle_host;
+@property (strong, nonatomic) NSString *activeHost;
 @property (strong, readonly) NSString *ac_isle_host;
 @property (strong, readonly) NSString *bt_isle_host;
 @property (strong, nonatomic) NSString *thread_list_host;

@@ -157,7 +157,7 @@
     if (keyword.length == 0) {
         return nil;
     }
-    NSURL *aIsleHostURL = [NSURL URLWithString:[settingCentre a_isle_host]];
+    NSURL *aIsleHostURL = [NSURL URLWithString:[settingCentre activeHost]];
     NSString *searchURL = [[selectedSearchEngine stringByReplacingOccurrencesOfString:A_ISLE_HOST withString:[aIsleHostURL host]] stringByReplacingOccurrencesOfString:KEYWORD withString:keyword];
     DDLogDebug(@"search: %@", searchURL);
     return [NSURLRequest requestWithURL:[NSURL URLWithString:searchURL]];
@@ -200,7 +200,7 @@
             NSURL *finalURL = [response URL];
             // Check the last URL against A_isle host.
             dispatch_async(dispatch_get_main_queue(), ^{
-                NSURL *aIsleURL = [NSURL URLWithString:[settingCentre a_isle_host]];
+                NSURL *aIsleURL = [NSURL URLWithString:[settingCentre activeHost]];
                 if ([finalURL.absoluteString rangeOfString:aIsleURL.host].location == NSNotFound) {
                     [czzBannerNotificationUtil displayMessage:@"这个App只支持A岛匿名版的链接"
                                                      position:BannerNotificationPositionTop];

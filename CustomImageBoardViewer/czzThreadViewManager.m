@@ -308,7 +308,7 @@ typedef enum : NSUInteger {
 }
 
 - (NSString *)pageNumberKey {
-    return [[settingCentre a_isle_host] stringByAppendingString:[NSString stringWithFormat:@"%ld", (long)self.parentThread.ID]];
+    return [[settingCentre activeHost] stringByAppendingString:[NSString stringWithFormat:@"%ld", (long)self.parentThread.ID]];
 }
 
 - (NSString *)baseURLString {
