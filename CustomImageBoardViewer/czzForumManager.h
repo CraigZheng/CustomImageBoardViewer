@@ -10,7 +10,7 @@
 
 static NSString *kCustomForumDidChangeNotification = @"kCustomForumDidChangeNotification";
 
-@class czzForum, czzForumManager;
+@class czzForum, czzForumManager, czzForumGroup;
 @protocol czzForumManagerDelegate <NSObject>
 -(void)forumManagerBeginDownloading:(czzForumManager*)manager;
 -(void)forumManager:(czzForumManager*)manager downloadCompleted:(BOOL)successful;
@@ -18,7 +18,7 @@ static NSString *kCustomForumDidChangeNotification = @"kCustomForumDidChangeNoti
 
 @interface czzForumManager : NSObject
 @property (nonatomic, weak) id<czzForumManagerDelegate> delegate;
-@property (nonatomic, readonly) NSMutableArray *forumGroups;
+@property (nonatomic, readonly) NSMutableArray<czzForumGroup*> *forumGroups;
 @property (nonatomic) NSArray<czzForum *> *forums;
 @property (strong, nonatomic) NSMutableArray * customForums;
 

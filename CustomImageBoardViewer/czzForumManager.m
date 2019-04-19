@@ -18,10 +18,12 @@ static NSString * kDefaultForumJsonFileName = @"default_forums.json";
 @interface czzForumManager() <czzURLDownloaderProtocol>
 
 @property czzURLDownloader *forumDownloader;
-@property (nonatomic, strong, readwrite) NSMutableArray *forumGroups;
+@property (nonatomic, strong, readwrite) NSMutableArray<czzForumGroup*> *forumGroups;
 @property (copy) void (^completionHandler) (BOOL, NSError*);
 @property (strong, nonatomic) NSMutableArray<NSDictionary<NSString*, NSNumber*>*> * customForumRawStrings;
 @property (strong, nonatomic) NSData *forumsJSONData;
+@property (strong, nonatomic) NSData *aDaoForumJSONData;
+@property (strong, nonatomic) NSURL *getForumURL;
 @end
 
 @implementation czzForumManager
@@ -29,6 +31,7 @@ static NSString * kDefaultForumJsonFileName = @"default_forums.json";
 - (instancetype)init {
     self = [super init];
     if (self) {
+        _getForumURL = [[NSURL alloc] initWithString:@"https://adnmb.com/Api/getForumList"];
         NSString *jsonString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"default_forums"
                                                                                                   ofType:@"json"]
                                                          encoding:NSUTF8StringEncoding
@@ -55,7 +58,16 @@ static NSString * kDefaultForumJsonFileName = @"default_forums.json";
     NSString *forumString = [[settingCentre forum_list_url] stringByAppendingString:[NSString stringWithFormat:@"?version=%@", [UIApplication bundleVersion]]];
     NSLog(@"Forum config URL: %@", forumString);
     self.forumDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:forumString] delegate:self startNow:YES];
-
+    __weak typeof(self) weakSelf = self;
+    [[NSURLSession.sharedSession dataTaskWithRequest:[[NSURLRequest alloc] initWithURL:self.getForumURL] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (data) {
+            weakSelf.aDaoForumJSONData = data;
+            [weakSelf resetForums];
+            if (weakSelf.completionHandler) {
+                weakSelf.completionHandler(YES, nil);
+            }
+        }
+    }] resume];
     self.completionHandler = completionHandler;
 }
 
@@ -94,39 +106,42 @@ static NSString * kDefaultForumJsonFileName = @"default_forums.json";
 
 #pragma mark - Getters
 - (NSArray *)forumGroups {
-  if (!_forumGroups) {
-    _forumGroups = [NSMutableArray new];
-    self.forums = nil;
-    if (self.forumsJSONData.length) {
-      NSArray<NSDictionary<NSString *, NSObject *> *> *jsonArray = [NSJSONSerialization JSONObjectWithData:self.forumsJSONData
-                                                                                                   options:NSJSONReadingMutableContainers
-                                                                                                     error:nil];
-      __block NSArray<NSDictionary<NSString *, NSObject *> *> *forumsGroupDictionaryArray;
-      [jsonArray enumerateObjectsUsingBlock:^(NSDictionary<NSString *,NSObject *> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSString *configurationName = (id)obj[@"configuration_name"];
-        NSArray<NSDictionary<NSString *, NSObject *> *> *tempArray = (id)obj[@"forums"];
-        switch ([settingCentre userDefActiveHost]) {
-          case SettingsHostAC:
-            if ([configurationName isEqualToString:@"AC"]) {
-              forumsGroupDictionaryArray = tempArray;
-            }
-            break;
-          case SettingsHostBT:
-            if ([configurationName isEqualToString:@"BT"]) {
-              forumsGroupDictionaryArray = tempArray;
-            }
-            break;
-          default:
-            break;
+    if (!_forumGroups) {
+        _forumGroups = [NSMutableArray new];
+        self.forums = nil;
+        if (self.forumsJSONData.length) {
+            NSArray<NSDictionary<NSString *, NSObject *> *> *jsonArray = [NSJSONSerialization JSONObjectWithData:self.forumsJSONData
+                                                                                                         options:NSJSONReadingMutableContainers
+                                                                                                           error:nil];
+            __block NSArray<NSDictionary<NSString *, NSObject *> *> *forumsGroupDictionaryArray;
+            [jsonArray enumerateObjectsUsingBlock:^(NSDictionary<NSString *,NSObject *> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                NSString *configurationName = (id)obj[@"configuration_name"];
+                NSArray<NSDictionary<NSString *, NSObject *> *> *tempArray = (id)obj[@"forums"];
+                switch ([settingCentre userDefActiveHost]) {
+                    case SettingsHostAC:
+                        if ([configurationName isEqualToString:@"AC"]) {
+                            if (self.aDaoForumJSONData.length) {
+                                tempArray = [NSJSONSerialization JSONObjectWithData:self.aDaoForumJSONData options:NSJSONReadingMutableLeaves error:nil];
+                            }
+                            forumsGroupDictionaryArray = tempArray;
+                        }
+                        break;
+                    case SettingsHostBT:
+                        if ([configurationName isEqualToString:@"BT"]) {
+                            forumsGroupDictionaryArray = tempArray;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }];
+            [forumsGroupDictionaryArray enumerateObjectsUsingBlock:^(NSDictionary<NSString *,NSObject *> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                czzForumGroup *forumGroups = [czzForumGroup initWithDictionary:obj];
+                if (forumGroups) {
+                    [_forumGroups addObject:forumGroups];
+                }
+            }];
         }
-      }];
-      [forumsGroupDictionaryArray enumerateObjectsUsingBlock:^(NSDictionary<NSString *,NSObject *> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        czzForumGroup *forumGroups = [czzForumGroup initWithDictionary:obj];
-        if (forumGroups) {
-          [_forumGroups addObject:forumGroups];
-        }
-      }];
-    }
   }
   return _forumGroups;
 }
