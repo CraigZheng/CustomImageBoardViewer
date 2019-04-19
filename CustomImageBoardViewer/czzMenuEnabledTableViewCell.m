@@ -241,7 +241,7 @@ NSInteger kCellImageViewHeight = 120;
         return;
     NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
     if (actionSheet == self.openLinkActionSheet && buttonTitle.length) {
-        NSString *hostPrefix = [settingCentre a_isle_host];
+        NSString *hostPrefix = [settingCentre activeHost];
         if (hostPrefix.length && [buttonTitle rangeOfString:hostPrefix options:NSCaseInsensitiveSearch].location != NSNotFound) {
             if ([self.delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
                 [self.delegate userTapInQuotedText:[buttonTitle stringByReplacingOccurrencesOfString:hostPrefix withString:@""]];
@@ -346,7 +346,7 @@ NSInteger kCellImageViewHeight = 120;
    didSelectLinkWithURL:(NSURL *)URL {
     if ([URL.absoluteString hasPrefix:kQuotedContent] && URL.absoluteString.numericString.integerValue > 0) {
         [self showThreadWithID:URL.absoluteString.numericString];
-    } else if ([URL.absoluteString containsString:[settingCentre a_isle_host]]) {
+    } else if ([URL.absoluteString containsString:[settingCentre activeHost]]) {
         NSString *lastComponent = [URL.absoluteString componentsSeparatedByString:@"/"].lastObject;
         if (lastComponent.integerValue > 0) {
             [self showThreadWithID:lastComponent];

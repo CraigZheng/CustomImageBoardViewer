@@ -136,7 +136,7 @@
 }
 
 -(BOOL)addValueAsCookie:(NSString *)cookieValue {
-    NSHTTPCookie *newCookie = [czzACTokenUtil createCookieWithValue:cookieValue forURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
+    NSHTTPCookie *newCookie = [czzACTokenUtil createCookieWithValue:cookieValue forURL:[NSURL URLWithString:[settingCentre activeHost]]];
     if (newCookie) {
         [self archiveCookie:newCookie];
         return YES;

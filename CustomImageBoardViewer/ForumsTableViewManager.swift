@@ -73,9 +73,14 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
             forumCell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.forum, for: indexPath)
             let adjustedSection = ExtraSection.adjustedSection(for: indexPath.section)
             if let forum = adjustedForumGroup(section: adjustedSection)?.forums[indexPath.row] as? czzForum {
-                let displayName = !forum.screenName.isEmpty ? forum.screenName : forum.name
+                let displayName: String
+                if let name = forum.screenName, !name.isEmpty {
+                    displayName = name
+                } else {
+                    displayName = forum.name
+                }
                 forumCell.textLabel?.text = displayName
-                if let displayData = displayName?.data(using: .utf8),
+                if let displayData = displayName.data(using: .utf8),
                     let defaultFont = forumCell.textLabel?.font
                 {
                     if let attributedDisplayName = try? NSMutableAttributedString(data: displayData,

@@ -183,9 +183,9 @@ static NSString *kScanQRCodeSegueIdentifier = @"qrScanner";
         [cookieManager archiveCookie:self.selectedCookie];
         [czzBannerNotificationUtil displayMessage:@"饼干已放入保鲜库" position:BannerNotificationPositionTop];
     } else if (alertView == useCookieAlertView) {
-        NSHTTPCookie *newCookie = [czzACTokenUtil createCookieWithValue:self.selectedCookie.value forURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
+        NSHTTPCookie *newCookie = [czzACTokenUtil createCookieWithValue:self.selectedCookie.value forURL:[NSURL URLWithString:[settingCentre activeHost]]];
         if (newCookie) {
-            [cookieManager setACCookie:newCookie ForURL:[NSURL URLWithString:[settingCentre a_isle_host]]];
+            [cookieManager setACCookie:newCookie ForURL:[NSURL URLWithString:[settingCentre activeHost]]];
             [czzBannerNotificationUtil displayMessage:@"饼干已启用" position:BannerNotificationPositionTop];
         } else {
             DDLogDebug(@"token nil");

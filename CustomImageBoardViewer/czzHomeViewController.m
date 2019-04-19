@@ -153,8 +153,16 @@
     }
     // Give the amount number a title.
     [(czzRoundButton *)self.numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.homeViewManager.threads.firstObject.threads.count] forState:UIControlStateNormal];
-    // Other data
-    self.title = self.homeViewManager.isShowingLatestResponse ? @"最新回复" : self.homeViewManager.forum.name;
+    NSMutableArray<NSString *>* titleComponents = @[].mutableCopy;
+    NSString *title = self.homeViewManager.isShowingLatestResponse ? @"最新回复" : self.homeViewManager.forum.name;
+    if (title) {
+        [titleComponents addObject:title];
+    }
+    NSString* host = [[NSURL alloc] initWithString:czzSettingsCentre.sharedInstance.activeHost].host;
+    if (host) {
+        [titleComponents addObject:host];
+    }
+    self.title = [titleComponents componentsJoinedByString:@" - "];
     self.navigationItem.backBarButtonItem.title = self.title;
     [self.homeTableViewManager reloadData];
 }

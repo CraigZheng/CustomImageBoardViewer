@@ -17,7 +17,7 @@
 + (BOOL)handleURL:(NSURL *)url {
     BOOL isHandled = NO;
     if (url) {
-        NSString *hostPrefix = [settingCentre a_isle_host];
+        NSString *hostPrefix = [settingCentre activeHost];
         if (hostPrefix.length && [url.absoluteString rangeOfString:hostPrefix options:NSCaseInsensitiveSearch].location != NSNotFound) {
             NSString *threadIDString = [url.absoluteString stringByReplacingOccurrencesOfString:hostPrefix withString:@""];
             threadIDString = [threadIDString componentsSeparatedByString:@"/"].lastObject;

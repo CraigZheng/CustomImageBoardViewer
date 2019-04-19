@@ -128,10 +128,12 @@ typedef enum : NSUInteger {
 }
 
 - (void)reloadDataSources {
-    [self.forumsTableView reloadData];
-    [self.suggestionTableView reloadData];
-    [self.customForumsTableView reloadData];
-    [self.tableView reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.forumsTableView reloadData];
+        [self.suggestionTableView reloadData];
+        [self.customForumsTableView reloadData];
+        [self.tableView reloadData];
+    });
 }
 
 - (void)refreshContent {
