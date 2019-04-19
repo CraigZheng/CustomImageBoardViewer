@@ -29,10 +29,9 @@
 }
 
 -(void)showPhoto:(NSURL *)photoPath {
-    if (photoPath && [[czzImageCacheManager sharedInstance] hasImageWithName:photoPath.lastPathComponent]) {
+    if (photoPath) {
         [self prepareMWPhotoBrowser];
-        if (!photoBrowserDataSource)
-            photoBrowserDataSource = [NSMutableArray new];
+        photoBrowserDataSource = [NSMutableArray new];
         if (![photoBrowserDataSource containsObject:photoPath])
             [photoBrowserDataSource addObject:photoPath.copy];
         [photoBrowser setCurrentPhotoIndex: [photoBrowserDataSource indexOfObject:photoPath]];
