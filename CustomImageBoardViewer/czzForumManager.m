@@ -137,6 +137,13 @@ static NSString * kDefaultForumJsonFileName = @"default_forums.json";
             }];
             [forumsGroupDictionaryArray enumerateObjectsUsingBlock:^(NSDictionary<NSString *,NSObject *> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 czzForumGroup *forumGroups = [czzForumGroup initWithDictionary:obj];
+                NSMutableArray<czzForum*> *tempForums = forumGroups.forums.mutableCopy;
+                for (czzForum *forum in forumGroups.forums) {
+                    if (forum.forumID < 0) {
+                        [tempForums removeObject:forum];
+                    }
+                }
+                forumGroups.forums = tempForums;
                 if (forumGroups) {
                     [_forumGroups addObject:forumGroups];
                 }
