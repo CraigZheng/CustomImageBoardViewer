@@ -105,6 +105,10 @@
     }];
 }
 
+- (void)userTapInQuotedText:(NSString *)text {
+    [self.delegate miniThreadViewController:self didSelectedQuotedThread:text];
+}
+
 #pragma mark - rotation event
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [threadTableView reloadData];
