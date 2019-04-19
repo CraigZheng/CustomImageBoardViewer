@@ -41,61 +41,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark - UI managements.
--(void)highlightTableViewCell:(NSIndexPath *)indexPath {
-    //disable the scrolling view
-    self.threadTableView.scrollEnabled = NO;
-    self.containerView = [PartialTransparentView new];
-    self.containerView.opaque = NO;
-    self.containerView.frame = [UIApplication topViewController].view.bounds;
-    // Convert the cell rect from within the table view to within the top view.
-    CGRect cellRect = [self.threadTableView rectForRowAtIndexPath:indexPath];
-    cellRect = [self.threadTableView convertRect:cellRect toView:[UIApplication topViewController].view];
-    self.containerView.rectsArray = @[[NSValue valueWithCGRect:cellRect]];
-    self.containerView.backgroundColor = [[UIColor darkGrayColor] colorWithAlphaComponent:0.7];
-    self.containerView.userInteractionEnabled = YES;
-    
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnFloatingView: )];
-    //fade in effect
-    self.containerView.alpha = 0.0f;
-    [[UIApplication topViewController].view addSubview:self.containerView];
-    [UIView animateWithDuration:0.2
-                     animations:^{self.containerView.alpha = 1.0f;}
-                     completion:^(BOOL finished){
-                         [self.containerView addGestureRecognizer:tapRecognizer];
-                     }];
-    
-}
-
--(void)tapOnFloatingView:(id)sender {
-    UIGestureRecognizer *gestureRecognizer = sender;
-    [UIView animateWithDuration:0.2
-                     animations:^{
-                         self.containerView.alpha = 0;
-                     }
-                     completion:^(BOOL finished) {
-                         [self.containerView removeFromSuperview];
-                         self.containerView = nil;
-                         [self.threadTableView reloadData];
-                     }];
-    
-    CGPoint touchPoint = [gestureRecognizer locationInView:[UIApplication topViewController].view];
-    NSArray *rectArray = self.containerView.rectsArray;
-    // If user touched within the transparent views.
-    BOOL userTouchInView = NO;
-    for (NSValue *rect in rectArray) {
-        if (CGRectContainsPoint([rect CGRectValue], touchPoint)) {
-            userTouchInView = YES;
-            break;
-        }
-    }
-    
-    if (!userTouchInView)
-        [self.threadTableView setContentOffset:self.threadsTableViewContentOffSet animated:YES];
-    self.threadTableView.scrollEnabled = YES;
-    
-}
-
 #pragma mark - UITableViewDelegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -179,23 +124,13 @@
     if (!threadID) {
         return;
     }
-    NSIndexPath *selectedIndexPath;
     for (ContentPage *contentPage in self.threadViewManager.threads) {
         for (czzThread *thread in contentPage.threads) {
             if (thread.ID == threadID) {
-                selectedIndexPath = [NSIndexPath indexPathForRow:[contentPage.threads indexOfObject:thread]
-                                                       inSection:[self.threadViewManager.threads indexOfObject:contentPage]];
-                break;
+                [self.threadViewManager showContentWithThread:thread];
+                return;
             }
         }
-    }
-    if (selectedIndexPath) {
-        self.threadsTableViewContentOffSet = self.threadTableView.contentOffset;
-        [self.threadTableView scrollToRowAtIndexPath:selectedIndexPath atScrollPosition:UITableViewScrollPositionNone animated:NO];
-        [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-            [self highlightTableViewCell:selectedIndexPath];
-        }];
-        return;
     }
     
     // Thread not found in the downloaded thread, get it from server instead.
