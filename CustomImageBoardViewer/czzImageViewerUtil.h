@@ -19,4 +19,5 @@
 -(void)showPhoto:(NSURL*)photoPath;
 -(void)showPhotoWithImage:(UIImage *)image;
 -(void)showPhotos:(NSArray*)photos withIndex:(NSInteger)index;
++ (czzImageViewerUtil*)sharedInstance;
 @end
