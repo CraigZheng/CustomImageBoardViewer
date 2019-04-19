@@ -113,7 +113,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
   if (settingCentre.userDefRecordPageNumber) {
     [self.threadViewManager restorePreviousState];
   }
-  self.title = self.threadViewManager.parentThread.title;
   // The manager for the table view.
   self.threadTableView.dataSource = self.threadTableViewManager;
   self.threadTableView.delegate = self.threadTableViewManager;
@@ -137,9 +136,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
   self.refreshControl = [[czzAutoEndingRefreshControl alloc] init];
   [self.refreshControl addTarget:self action:@selector(dragOnRefreshControlAction:) forControlEvents:UIControlEventValueChanged];
   [self.threadTableView addSubview: self.refreshControl];
-  
-  self.navigationItem.backBarButtonItem.title = self.title;
-  
+    
   if (NavigationManager.isInTransition) {
     NavigationManager.pushAnimationCompletionHandler = ^{
       [self.threadViewManager loadMoreThreads:self.threadViewManager.pageNumber];
@@ -208,8 +205,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 -(void)setThreadViewManager:(czzThreadViewManager *)viewManager {
     _threadViewManager = viewManager;
     if (viewManager) {
-        self.title = self.threadViewManager.parentThread.title;
-        
         // Update bar buttons.
         if (!numberBarButton.customView) {
             numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
