@@ -19,7 +19,7 @@
 #import "czzThreadViewManager.h"
 #import "czzFadeInOutModalAnimator.h"
 
-@interface czzMiniThreadViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface czzMiniThreadViewController () <UITableViewDataSource, UITableViewDelegate, czzMenuEnabledTableViewCellProtocol>
 @property (nonatomic, assign) NSInteger parentID;
 @property (nonatomic, assign) CGSize rowSize;
 @property (weak, nonatomic) IBOutlet UIToolbar *miniThreadViewToolBar;
@@ -87,9 +87,22 @@
         cell.parentThread = self.myThread;
         cell.thread = self.myThread;
         cell.nightyMode = [settingCentre userDefNightyMode];
+        cell.delegate = self;
         [cell renderContent];
     }
     return cell;
+}
+
+#pragma mark - czzMenuEnabledTableViewCellProtocol
+- (void)userTapInImageView:(id)sender {
+    czzImageViewerUtil *imageViewer = [czzImageViewerUtil sharedInstance];
+    imageViewer.destinationViewController = self.presentingViewController;
+    [self dismissViewControllerAnimated:YES completion:^{
+        NSURL *url = [[NSURL URLWithString:settingCentre.image_host] URLByAppendingPathComponent:self.myThread.imgSrc];
+        if (self.myThread.imgSrc.length) {
+            [imageViewer showPhoto:url];
+        }
+    }];
 }
 
 #pragma mark - rotation event
