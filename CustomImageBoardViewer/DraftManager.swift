@@ -66,7 +66,7 @@ import UIKit
   }
   
   private class func save(_ drafts: [(String, Date)]) {
-    UserDefaults.standard.set(drafts.flatMap({ (string, _) -> String in
+    UserDefaults.standard.set(drafts.compactMap({ (string, _) -> String in
       return string
     }), forKey: Key.drafts)
     UserDefaults.standard.set(drafts.compactMap({ (_, date) -> Date in
