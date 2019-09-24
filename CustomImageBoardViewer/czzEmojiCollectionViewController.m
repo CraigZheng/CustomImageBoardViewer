@@ -24,6 +24,7 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *emoPackPickerToolbarHeightConstraint;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *emojiSelectorSegmentedControl;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *emoPackPickerSegmentedControl;
+@property (weak, nonatomic) IBOutlet UIView *darkenView;
 @property (nonatomic, strong) NSArray<NSString *> *emojis;
 @property (nonatomic, strong) NSString *emojiSource;
 @property (nonatomic, strong) NSArray<NSString *> *emoPack;
@@ -156,9 +157,16 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
     } else if (self.emojiSelectorSegmentedControl.selectedSegmentIndex == 1) {
         self.emojiSource = zhuizhuiEmoji;
     }
-    // Toggle emoPackPickerToolbar/
-    self.emoPackPickerToolbarHeightConstraint.constant = self.emojiSelectorSegmentedControl.selectedSegmentIndex == emoticonSegmentedControlIndex ? 44 : 0;
-    self.emoPackPickerToolbar.hidden = self.emojiSelectorSegmentedControl.selectedSegmentIndex != emoticonSegmentedControlIndex;
+    BOOL isEmoticonSelected = self.emojiSelectorSegmentedControl.selectedSegmentIndex == emoticonSegmentedControlIndex;
+    if (isEmoticonSelected) {
+        self.emoPackPickerToolbarHeightConstraint.constant = 44;
+        self.emoPackPickerToolbar.hidden = NO;
+        self.darkenView.hidden = ![settingCentre userDefNightyMode];
+    } else {
+        self.emoPackPickerToolbarHeightConstraint.constant = 0;
+        self.emoPackPickerToolbar.hidden = YES;
+        self.darkenView.hidden = YES;
+    }
     [emojiCollectionView reloadData];
 }
 
