@@ -1,61 +1,60 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="2iE-iB-pqT">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="2iE-iB-pqT">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Czz On Screen Command View Controller-->
         <scene sceneID="vOZ-m1-9zF">
             <objects>
                 <viewController id="2iE-iB-pqT" customClass="czzOnScreenCommandViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Yel-DQ-nMm"/>
-                        <viewControllerLayoutGuide type="bottom" id="i14-tO-OHe"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="0mH-RY-GL8">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0li-Zj-E5V">
-                                <rect key="frame" x="0.0" y="20" width="320" height="50"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="50"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="d34-bZ-qlN"/>
                                 </constraints>
                                 <state key="normal" image="collapse_arrow.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="upButtonAction:" destination="2iE-iB-pqT" eventType="touchUpInside" id="URp-Ln-O4a"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gBM-mS-Fb1">
-                                <rect key="frame" x="0.0" y="430" width="320" height="50"/>
+                                <rect key="frame" x="0.0" y="812" width="414" height="50"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="rEt-UF-BPa"/>
                                 </constraints>
                                 <state key="normal" image="expand_arrow.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="bottomButtonAction:" destination="2iE-iB-pqT" eventType="touchUpInside" id="KoG-YR-FPI"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="0li-Zj-E5V" firstAttribute="top" secondItem="Yel-DQ-nMm" secondAttribute="bottom" id="7hx-vx-x1k"/>
-                            <constraint firstItem="gBM-mS-Fb1" firstAttribute="leading" secondItem="0mH-RY-GL8" secondAttribute="leading" id="IaP-Wu-k90"/>
-                            <constraint firstAttribute="trailing" secondItem="0li-Zj-E5V" secondAttribute="trailing" id="OKL-qU-Rik"/>
-                            <constraint firstItem="i14-tO-OHe" firstAttribute="top" secondItem="gBM-mS-Fb1" secondAttribute="bottom" id="RiR-3u-nzN"/>
-                            <constraint firstAttribute="trailing" secondItem="gBM-mS-Fb1" secondAttribute="trailing" id="pIc-p0-Dsp"/>
-                            <constraint firstItem="0li-Zj-E5V" firstAttribute="leading" secondItem="0mH-RY-GL8" secondAttribute="leading" id="t33-Y8-Ulm"/>
+                            <constraint firstItem="0li-Zj-E5V" firstAttribute="top" secondItem="TGY-G1-pYA" secondAttribute="top" id="7hx-vx-x1k"/>
+                            <constraint firstItem="gBM-mS-Fb1" firstAttribute="leading" secondItem="TGY-G1-pYA" secondAttribute="leading" id="IaP-Wu-k90"/>
+                            <constraint firstItem="TGY-G1-pYA" firstAttribute="trailing" secondItem="0li-Zj-E5V" secondAttribute="trailing" id="OKL-qU-Rik"/>
+                            <constraint firstItem="TGY-G1-pYA" firstAttribute="bottom" secondItem="gBM-mS-Fb1" secondAttribute="bottom" id="RiR-3u-nzN"/>
+                            <constraint firstItem="TGY-G1-pYA" firstAttribute="trailing" secondItem="gBM-mS-Fb1" secondAttribute="trailing" id="pIc-p0-Dsp"/>
+                            <constraint firstItem="0li-Zj-E5V" firstAttribute="leading" secondItem="TGY-G1-pYA" secondAttribute="leading" id="t33-Y8-Ulm"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="TGY-G1-pYA"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="bottomButton" destination="gBM-mS-Fb1" id="DX8-JH-A0h"/>
                         <outlet property="upperButton" destination="0li-Zj-E5V" id="Dx2-OM-s7O"/>

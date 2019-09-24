@@ -102,7 +102,7 @@
     CGFloat height = windowBounds.size.height;
     CGFloat padding = size.width / 2;
     myFrame.origin.x = (width - size.width) / 2;
-    myFrame.origin.y = height - size.height - padding * 2;
+    myFrame.origin.y = height - size.height - padding * 3;
     myFrame.size.width = size.width;
     myFrame.size.height = size.height;
     self.view.frame = myFrame;
