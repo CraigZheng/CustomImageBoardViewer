@@ -52,6 +52,7 @@
     _thread = myThread;
     if (myThread) {
         self.idLabel.text = [NSString stringWithFormat:@"%ld", (long)myThread.ID];
+        self.posterLabel.attributedText = nil;
         self.posterLabel.text = myThread.UID;
         // Hide title container if there is not a title to show.
         self.titleLabel.text = [myThread.title isEqualToString:settingCentre.empty_title] ? nil : [NSString stringWithFormat:@"标题: %@", myThread.title];
