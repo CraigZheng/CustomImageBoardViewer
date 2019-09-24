@@ -170,11 +170,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
   if (!numberBarButton.customView) {
     numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
   }
-  NSInteger count = 0;
-  for (ContentPage *page in self.threadViewManager.threads) {
-    count += page.threads.count;
-  }
-  [(czzRoundButton *)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long)count] forState:UIControlStateNormal];
+  [(czzRoundButton *)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long)self.threadViewManager.threads.count - 1] forState:UIControlStateNormal];
   
   // Star button image - on or off.
   if ([favouriteManager isThreadFavourited:self.threadViewManager.parentThread]) {
