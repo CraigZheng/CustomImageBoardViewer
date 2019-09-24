@@ -63,9 +63,11 @@ static NSString * kDefaultForumJsonFileName = @"default_forums.json";
         if (data) {
             weakSelf.aDaoForumJSONData = data;
             [weakSelf resetForums];
-            if (weakSelf.completionHandler) {
-                weakSelf.completionHandler(YES, nil);
-            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (weakSelf.completionHandler) {
+                    weakSelf.completionHandler(YES, nil);
+                }
+            });
         }
     }] resume];
     self.completionHandler = completionHandler;
