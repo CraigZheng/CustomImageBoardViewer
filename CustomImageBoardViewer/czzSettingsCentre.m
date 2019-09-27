@@ -298,6 +298,15 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     [self scheduleRefreshSettings];
 }
 
+#pragma mark - Getters
+- (BOOL)userDefNightyMode {
+    if (@available(iOS 13.0, *)) {
+        return UIApplication.sharedApplication.keyWindow.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark;
+    } else {
+        return _userDefNightyMode;
+    }
+}
+
 -(UIFont *)contentFont {
     if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
     {
