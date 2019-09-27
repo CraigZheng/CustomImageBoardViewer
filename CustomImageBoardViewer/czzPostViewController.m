@@ -177,7 +177,11 @@ static NSString *kPostNameKey = @"kPostNameKey";
     // colour
     self.view.backgroundColor = [settingCentre viewBackgroundColour];
     postTextView.backgroundColor = [UIColor clearColor];
-    postTextView.textColor = [settingCentre contentTextColour];
+    if (@available(iOS 13.0, *)) {
+        postTextView.textColor = UIColor.labelColor;
+    } else {
+        postTextView.textColor = [settingCentre contentTextColour];
+    }
     postTextView.text = self.prefilledString;
     // Adjust textview shadow.
     postTextView.layer.shadowColor = [UIColor whiteColor].CGColor;
