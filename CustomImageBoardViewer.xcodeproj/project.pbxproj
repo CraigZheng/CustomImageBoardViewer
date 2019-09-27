@@ -545,7 +545,6 @@
 		44BDA3F91DB7354200D2F576 /* MarkerColourPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BDA3F81DB7354200D2F576 /* MarkerColourPickerViewController.swift */; };
 		44BE2E3A19383FEF00601943 /* czzOnScreenCommandViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BE2E3819383FEF00601943 /* czzOnScreenCommandViewController.m */; };
 		44BFEF411B8C0D7B0095772B /* DeviceHardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BFEF401B8C0D7B0095772B /* DeviceHardware.m */; };
-		44C34543187E59A500FDE45D /* UIViewController+KNSemiModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C34542187E59A500FDE45D /* UIViewController+KNSemiModal.m */; };
 		44C3454C187E5C6100FDE45D /* czzEmojiCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44C3454B187E5C6100FDE45D /* czzEmojiCollectionViewCell.xib */; };
 		44C34550187E616500FDE45D /* czzEmojiCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C3454E187E616500FDE45D /* czzEmojiCollectionViewController.m */; };
 		44C34551187E616500FDE45D /* czzEmojiCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44C3454F187E616500FDE45D /* czzEmojiCollectionViewController.xib */; };
@@ -1490,8 +1489,6 @@
 		44BE2E3819383FEF00601943 /* czzOnScreenCommandViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzOnScreenCommandViewController.m; sourceTree = "<group>"; };
 		44BFEF3F1B8C0D7B0095772B /* DeviceHardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceHardware.h; sourceTree = "<group>"; };
 		44BFEF401B8C0D7B0095772B /* DeviceHardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceHardware.m; sourceTree = "<group>"; };
-		44C34541187E59A500FDE45D /* UIViewController+KNSemiModal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+KNSemiModal.h"; sourceTree = "<group>"; };
-		44C34542187E59A500FDE45D /* UIViewController+KNSemiModal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+KNSemiModal.m"; sourceTree = "<group>"; };
 		44C3454B187E5C6100FDE45D /* czzEmojiCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzEmojiCollectionViewCell.xib; sourceTree = "<group>"; };
 		44C3454D187E616500FDE45D /* czzEmojiCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzEmojiCollectionViewController.h; sourceTree = "<group>"; };
 		44C3454E187E616500FDE45D /* czzEmojiCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = czzEmojiCollectionViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -3024,7 +3021,6 @@
 				441E5D2617F48B3D00289DBD /* Toast */,
 				440B2F6217F5F97200544926 /* GTMNSString */,
 				443B54B41990BD3300BAB282 /* ObjectiveGumbo */,
-				44C34544187E59AC00FDE45D /* KNSemiModal */,
 				4412FA161935865C00681438 /* Reachability */,
 				44B89E761A2AF3A90085F766 /* UIImage+animatedGIF */,
 				44CF256C1A26F2E700BD8228 /* UIBarButton-Badge */,
@@ -3095,15 +3091,6 @@
 				44BFEF401B8C0D7B0095772B /* DeviceHardware.m */,
 			);
 			name = DeviceHardware;
-			sourceTree = "<group>";
-		};
-		44C34544187E59AC00FDE45D /* KNSemiModal */ = {
-			isa = PBXGroup;
-			children = (
-				44C34541187E59A500FDE45D /* UIViewController+KNSemiModal.h */,
-				44C34542187E59A500FDE45D /* UIViewController+KNSemiModal.m */,
-			);
-			name = KNSemiModal;
 			sourceTree = "<group>";
 		};
 		44C3454A187E5A8300FDE45D /* czzEmoji */ = {
@@ -4432,7 +4419,6 @@
 				44989A361CFC6E5600F04ECD /* czzURLHandler.m in Sources */,
 				B760EE7B1FFC6D690022036B /* czzCookieManager.swift in Sources */,
 				44E3F7411BA2FFB600597A3F /* PropertyAttribute.m in Sources */,
-				44C34543187E59A500FDE45D /* UIViewController+KNSemiModal.m in Sources */,
 				4424FE4D1BCD33A70096F261 /* czzFadeInOutModalAnimator.m in Sources */,
 				4425A2891997109600671B88 /* czzForum.m in Sources */,
 				4479B0901A0CCB6D0074D484 /* czzMiniThreadViewController.m in Sources */,

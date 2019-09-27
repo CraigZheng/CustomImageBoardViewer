@@ -7,7 +7,6 @@
 //
 
 #import "czzEmojiCollectionViewController.h"
-#import "UIViewController+KNSemiModal.h"
 #import "czzSettingsCentre.h"
 #import "CustomImageBoardViewer-Swift.h"
 
@@ -53,6 +52,8 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.emoPackPickerToolbar.hidden = YES;
+    self.emoPackPickerToolbarHeightConstraint.constant = 0;
     [self.emojiCollectionView registerNib:[UINib nibWithNibName:@"czzEmojiCollectionViewCell" bundle:[NSBundle mainBundle]]
                forCellWithReuseIdentifier:emojiCellIdentifier];
     [self.emojiCollectionView registerNib:[UINib nibWithNibName:@"EmoticonCollectionViewCell" bundle:[NSBundle mainBundle]]
@@ -147,7 +148,7 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
 }
 
 - (IBAction)cancelAction:(id)sender {
-    [self dismissSemiModalView];
+    [self dismissViewControllerAnimated:true completion:nil];
 }
 
 - (IBAction)selectSourceAction:(id)sender {

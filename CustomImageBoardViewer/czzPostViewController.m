@@ -13,7 +13,6 @@
 #import "czzPost.h"
 #import "SMXMLDocument.h"
 #import "Toast+UIView.h"
-#import "UIViewController+KNSemiModal.h"
 #import "ValueFormatter.h"
 #import "czzAppDelegate.h"
 #import "czzBlacklistSender.h"
@@ -116,10 +115,6 @@ static NSString *kPostNameKey = @"kPostNameKey";
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    // Dismiss any possible semi modal view.
-    if (self.emojiViewController) {
-        [self dismissSemiModalView];
-    }
     [NSUserDefaults.standardUserDefaults setObject:self.nameTextField.text forKey:kPostNameKey];
     [NSUserDefaults.standardUserDefaults setObject:self.emailTextField.text forKey:kPostEmailKey];
 }
@@ -350,16 +345,8 @@ static NSString *kPostNameKey = @"kPostNameKey";
     [postTextView resignFirstResponder];
     self.emojiViewController = [[czzEmojiCollectionViewController alloc] initWithNibName:@"czzEmojiCollectionViewController" bundle:[NSBundle mainBundle]];
     self.emojiViewController.delegate = self;
-    [self presentSemiViewController:self.emojiViewController
-                        withOptions:@{
-                                      KNSemiModalOptionKeys.pushParentBack    : @(NO),
-                                      KNSemiModalOptionKeys.animationDuration : @(0.3),
-                                      KNSemiModalOptionKeys.shadowOpacity     : @(0.0),
-                                      }
-                         completion:nil
-                       dismissBlock:^{
-                           self.emojiViewController = nil;
-                       }];
+    self.emojiViewController.modalPresentationStyle = UIModalPresentationPageSheet;
+    [self presentViewController:self.emojiViewController animated:true completion:nil];
 }
 
 - (IBAction)cancelAction:(id)sender {
@@ -627,14 +614,16 @@ static NSString *kPostNameKey = @"kPostNameKey";
 #pragma mark - czzEmojiCollectionViewController delegate
 -(void)emojiSelected:(NSString *)emoji{
     [self.postTextView replaceRange:self.postTextView.selectedTextRange withText:emoji];
-    [self dismissSemiModalViewWithCompletion:^{
+    [self dismissViewControllerAnimated:true completion:^{
         [postTextView becomeFirstResponder];
     }];
 }
 
 - (void)emoticonSelected:(UIImage *)emoticon {
     self.pickedImageData = UIImageJPEGRepresentation(emoticon, 1);
-    [self dismissSemiModalView];
+    [self dismissViewControllerAnimated:true completion:^ {
+        [postTextView becomeFirstResponder];
+    }];
 }
 
 #pragma mark - UIStateRestoring
