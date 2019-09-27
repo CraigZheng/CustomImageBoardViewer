@@ -59,6 +59,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @property (weak, nonatomic) IBOutlet UIImageView *massiveDownloadIndicatorImageView;
 @property (weak, nonatomic) IBOutlet UIButton *massiveDownloadButton;
 @property (strong, nonatomic) czzThreadViewManager *threadViewManager;
+@property (strong, nonatomic) NSObject *observation;
 @end
 
 @implementation czzThreadViewController
@@ -84,6 +85,10 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     if (self.thread) {
         [self commonInit];
     }
+    __weak typeof(self) weakSelf = self;
+    self.observation = [NSNotificationCenter.defaultCenter addObserverForName:settingsChangedNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        [weakSelf.threadTableView reloadData];
+    }];
 }
 
 -(void)viewWillAppear:(BOOL)animated{

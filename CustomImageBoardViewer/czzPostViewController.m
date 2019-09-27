@@ -52,6 +52,7 @@ static NSString *kPostNameKey = @"kPostNameKey";
 @property (nonatomic, strong) NSString *pickedImageFormat;
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
+@property (strong, nonatomic) NSObject *observation;
 
 @end
 
@@ -75,6 +76,13 @@ static NSString *kPostNameKey = @"kPostNameKey";
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    __weak typeof(self) weakSelf = self;
+    self.observation = [[NSNotificationCenter defaultCenter] addObserverForName:settingsChangedNotification
+                                                                         object:nil
+                                                                          queue:nil
+                                                                     usingBlock:^(NSNotification * _Nonnull note) {
+        [weakSelf renderContent];
+    }];
     // If there're drafts available for selecting, show them here.
     if ([DraftManager count] && settingCentre.userDefShouldShowDraft) {
         dispatch_async(dispatch_get_main_queue(), ^{

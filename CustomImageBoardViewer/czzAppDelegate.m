@@ -18,6 +18,7 @@
 #import "czzFavouriteManagerViewController.h"
 #import "czzCacheCleaner.h"
 #import "czzHomeViewManager.h"
+#import "czzThreadViewManager.h"
 #import "czzBannerNotificationUtil.h"
 #import "czzHistoryManager.h"
 #import "czzFavouriteManager.h"
@@ -39,6 +40,7 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
 
 @interface czzAppDelegate()<czzBlacklistDownloaderDelegate, czzHomeViewManagerDelegate, WCSessionDelegate>
 @property czzSettingsCentre *settingsCentre;
+@property NSInteger userInterfaceStyle;
 @end
 
 @implementation czzAppDelegate
@@ -91,6 +93,12 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
     }
     return YES;
 }
+
+- (void)applicationWillResignActive:(UIApplication *)application {
+    if (@available(iOS 13.0, *)) {
+        self.userInterfaceStyle = self.window.traitCollection.userInterfaceStyle;
+    }
+}
 							
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
@@ -105,6 +113,12 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
     }
     // Init the watch list manager.
     WatchListManager;
+    
+    if (@available(iOS 13.0, *) && self.window.traitCollection.userInterfaceStyle != self.userInterfaceStyle) {
+        [[czzHomeViewManager sharedManager] reloadData];
+        [[NSNotificationCenter defaultCenter] postNotificationName:settingsChangedNotification
+                                                            object:nil];
+    }
 }
 
 
