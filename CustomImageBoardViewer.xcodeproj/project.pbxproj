@@ -459,6 +459,7 @@
 		4468A7111BBBC0480076DCD6 /* czzWeakReferenceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */; };
 		446C17B81CB08E2B00B557E2 /* loading_bar_dot.gif in Resources */ = {isa = PBXBuildFile; fileRef = 446C17B71CB08E2B00B557E2 /* loading_bar_dot.gif */; };
 		446C17BA1CB094C400B557E2 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 446C17B91CB094C400B557E2 /* ImageIO.framework */; };
+		44761D762342125E00C0B05F /* czzURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44761D752342125D00C0B05F /* czzURLHandler.swift */; };
 		4476655E1E06B70300A06138 /* UINavigationController+Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4476655D1E06B70300A06138 /* UINavigationController+Block.swift */; };
 		447816E01C59A8CB00D7ADBB /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 447816DF1C59A8CB00D7ADBB /* AssetsLibrary.framework */; };
 		447907E21CE20B1100A7E573 /* czzThreadTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 447907E11CE20B1100A7E573 /* czzThreadTextView.m */; };
@@ -1351,6 +1352,7 @@
 		4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWeakReferenceDelegate.m; sourceTree = "<group>"; };
 		446C17B71CB08E2B00B557E2 /* loading_bar_dot.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading_bar_dot.gif; sourceTree = "<group>"; };
 		446C17B91CB094C400B557E2 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		44761D752342125D00C0B05F /* czzURLHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = czzURLHandler.swift; sourceTree = "<group>"; };
 		4476655D1E06B70300A06138 /* UINavigationController+Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Block.swift"; sourceTree = "<group>"; };
 		447816DF1C59A8CB00D7ADBB /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		447907E01CE20B1100A7E573 /* czzThreadTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadTextView.h; sourceTree = "<group>"; };
@@ -2817,6 +2819,7 @@
 			children = (
 				44989A341CFC6E5600F04ECD /* czzURLHandler.h */,
 				44989A351CFC6E5600F04ECD /* czzURLHandler.m */,
+				44761D752342125D00C0B05F /* czzURLHandler.swift */,
 			);
 			path = "URL Handler";
 			sourceTree = "<group>";
@@ -4452,6 +4455,7 @@
 				44989A251CFC5AE900F04ECD /* czzPopularThreadsManager.m in Sources */,
 				440A62A81B8EBC160046E4CE /* UIViewController+Util.m in Sources */,
 				44E469E11BAD9B5000C0AACC /* czzWatchKitCommand.m in Sources */,
+				44761D762342125E00C0B05F /* czzURLHandler.swift in Sources */,
 				441E5D2017F46FB600289DBD /* czzURLDownloader.m in Sources */,
 				442A901E19DB9C3C00A3516E /* HTMLParser.m in Sources */,
 				441A6A821BAEC013008E380C /* czzWatchListManager.m in Sources */,

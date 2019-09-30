@@ -121,6 +121,9 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
     }
 }
 
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    return [czzURLHandler handleCustomURL:url];
+}
 
 -(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
     DDLogDebug(@"%@", url.absoluteString);
