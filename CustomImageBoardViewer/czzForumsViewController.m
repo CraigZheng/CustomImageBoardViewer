@@ -100,7 +100,6 @@ typedef enum : NSUInteger {
   if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]){
     self.automaticallyAdjustsScrollViewInsets = NO;
   }
-  self.hostSegmentedControl.selectedSegmentIndex = [settingCentre userDefActiveHost];
   [self reloadDataSources];
 }
 
@@ -119,8 +118,6 @@ typedef enum : NSUInteger {
     [self.forumManager updateForums:^(BOOL success, NSError *error) {
         if (!success || error) {
             [self showWarning];
-        } else {
-            self.forumsTableViewManager.forumGroups = self.forumManager.forumGroups;
         }
         [self reloadDataSources];
         [self stopLoading];
@@ -128,7 +125,10 @@ typedef enum : NSUInteger {
 }
 
 - (void)reloadDataSources {
+    [self.forumManager resetForums];
+    self.forumsTableViewManager.forumGroups = self.forumManager.forumGroups;
     dispatch_async(dispatch_get_main_queue(), ^{
+        self.hostSegmentedControl.selectedSegmentIndex = [settingCentre userDefActiveHost];
         [self.forumsTableView reloadData];
         [self.suggestionTableView reloadData];
         [self.customForumsTableView reloadData];
@@ -207,8 +207,6 @@ typedef enum : NSUInteger {
       break;
   }
   [settingCentre saveSettings];
-  [self.forumManager resetForums];
-  self.forumsTableViewManager.forumGroups = self.forumManager.forumGroups;
   [self reloadDataSources];
 }
 

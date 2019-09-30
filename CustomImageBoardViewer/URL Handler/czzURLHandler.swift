@@ -47,7 +47,12 @@ extension czzURLHandler {
                 // Do nothing.
             })
         }
-        // TODO: Handle host.
+        if czzSettingsCentre.sharedInstance()?.userDefActiveHost != host {
+            czzSettingsCentre.sharedInstance()?.userDefActiveHost = host
+            czzSettingsCentre.sharedInstance()?.saveSettings()
+            czzForumManager.shared()?.resetForums()
+        }
+        
         switch customURL {
         case .forum(let forumID):
             if let forum = czzForumManager.shared()?.forums.first(where: { $0.forumID == forumID }) {
