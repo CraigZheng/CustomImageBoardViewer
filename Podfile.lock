@@ -95,7 +95,7 @@ DEPENDENCIES:
   - TTTAttributedLabel
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - AFNetworking
     - CocoaLumberjack
     - DACircularProgress
@@ -154,4 +154,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 37954b60962174613a19febf1479508640d3c2f0
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.8.4
