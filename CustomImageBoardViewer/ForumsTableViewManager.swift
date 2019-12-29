@@ -126,26 +126,31 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        SlideNavigationController.sharedInstance().closeMenu(completion: nil)
-        let adjustedSection = ExtraSection.adjustedSection(for: indexPath.section)
-        guard adjustedSection >= 0 else {
-            switch ExtraSection(rawValue: indexPath.section) {
-            case .timeline?:
-                // Inform the timeline has been picked, at the moment I am just passing an empty NSObject around.
+        let completion = {
+            let adjustedSection = ExtraSection.adjustedSection(for: indexPath.section)
+            guard adjustedSection >= 0 else {
+                switch ExtraSection(rawValue: indexPath.section) {
+                case .timeline?:
+                    // Inform the timeline has been picked, at the moment I am just passing an empty NSObject around.
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Notification.pickedForum),
+                                                    object: nil,
+                                                    userInfo: [Notification.timeline: NSObject()])
+                default: break
+                }
+                return
+            }
+            if let forum = self.adjustedForumGroup(section: adjustedSection)?.forums[indexPath.row] as? czzForum {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: Notification.pickedForum),
                                                 object: nil,
-                                                userInfo: [Notification.timeline: NSObject()])
-            default: break
+                                                userInfo: [Notification.forum: forum])
             }
-            return
         }
-        if let forum = adjustedForumGroup(section: adjustedSection)?.forums[indexPath.row] as? czzForum {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: Notification.pickedForum),
-                                            object: nil,
-                                            userInfo: [Notification.forum: forum])
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: true, completion: completion)
+        } else {
+            SlideNavigationController.sharedInstance().closeMenu(completion: completion)
         }
     }
-  
 }
 
 // Helper function inserted by Swift 4.2 migrator.

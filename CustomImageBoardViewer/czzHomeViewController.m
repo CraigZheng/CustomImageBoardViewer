@@ -178,7 +178,12 @@
 }
 
 - (IBAction)sideButtonAction:(id)sender {
-    [[SlideNavigationController sharedInstance] toggleLeftMenu];
+    UIViewController *viewController = [SlideNavigationController sharedInstance].leftMenu;
+    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad && viewController) {
+        [self.navigationController presentViewController:viewController animated:YES completion:nil];
+    } else {
+        [[SlideNavigationController sharedInstance] toggleLeftMenu];
+    }
 }
 
 - (IBAction)postAction:(id)sender {
