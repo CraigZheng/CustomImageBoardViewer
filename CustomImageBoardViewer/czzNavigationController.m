@@ -24,7 +24,7 @@
     NavigationManager.delegate = self;
     self.delegate = NavigationManager;
     [SlideNavigationController sharedInstance].leftMenu = self.leftViewController;
-    [SlideNavigationController sharedInstance].enableSwipeGesture = YES;
+    [SlideNavigationController sharedInstance].enableSwipeGesture = UIDevice.currentDevice.userInterfaceIdiom != UIUserInterfaceIdiomPad;
     [SlideNavigationController sharedInstance].panGestureSideOffset = 0;
     
     //notification banner view
