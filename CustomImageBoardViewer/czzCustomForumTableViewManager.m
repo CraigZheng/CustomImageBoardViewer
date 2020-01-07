@@ -38,8 +38,11 @@
         [userInfo setObject:forum forKey:kPickedForum];
         [[NSNotificationCenter defaultCenter] postNotificationName:kForumPickedNotification object:self userInfo:userInfo];
         [[SlideNavigationController sharedInstance] closeMenuWithCompletion:nil];
+        [UIApplication.rootViewController dismissViewControllerAnimated:YES completion:nil];
     } else {
-        [NavigationManager.delegate performSegueWithIdentifier:@"showAddForum" sender:nil];
+        UIViewController *presentingViewController = [UIApplication topViewController] ?: NavigationManager.delegate;
+        UIViewController *addForumViewController = [[UIStoryboard storyboardWithName:@"AddForum" bundle:nil] instantiateInitialViewController];
+        [presentingViewController presentViewController:addForumViewController animated:YES completion:nil];
     }
 }
 

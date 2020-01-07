@@ -108,7 +108,7 @@
     }
     czzThreadSuggestion *suggestion = [self threadSuggestionForIndexPath:indexPath];
     if (suggestion.url) {
-        [[SlideNavigationController sharedInstance] closeMenuWithCompletion:^{
+        [[UIApplication rootViewController] dismissViewControllerAnimated:YES completion:^{
             [czzURLHandler handleURL:suggestion.url];
         }];
     }
