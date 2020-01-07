@@ -148,10 +148,9 @@ typedef enum : NSUInteger {
     // Present more info view controller with no selected forum.
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[czzMoreInfoViewController new]];
     navigationController.restorationIdentifier = NSStringFromClass([UINavigationController class]);
-    UIViewController *presentingViewController = UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad ? self : NavigationManager.delegate;
-    [presentingViewController presentViewController:navigationController
-                                           animated:YES
-                                         completion:nil];
+    [self presentViewController:navigationController
+                       animated:YES
+                     completion:nil];
 }
 
 - (IBAction)tapCancelButton:(UIBarButtonItem *)sender {
