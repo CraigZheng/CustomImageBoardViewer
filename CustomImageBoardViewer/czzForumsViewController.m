@@ -155,7 +155,6 @@ typedef enum : NSUInteger {
 }
 
 - (IBAction)tapCancelButton:(UIBarButtonItem *)sender {
-    [SlideNavigationController.sharedInstance closeMenuWithCompletion:nil];
     if (self.presentingViewController) {
         [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     }

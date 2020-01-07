@@ -10,8 +10,6 @@
 
 #import "czzLaunchPopUpNotification.h"
 
-@import iOS_Slide_Menu;
-
 static NSString * const kLastConfirmedNotificationKey = @"kLastConfirmedNotificationKey"; // Identifier of the last notification that the user confirmed has been viewed.
 
 @interface czzLaunchPopUpNotificationViewController () <UIWebViewDelegate>
@@ -76,13 +74,7 @@ static NSString * const kLastConfirmedNotificationKey = @"kLastConfirmedNotifica
     }
     // Only show when the app is running in the foreground.
     if (shouldShow && self.popUpNotification.enable && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
-        if ([[SlideNavigationController sharedInstance] isMenuOpen]) {
-            [[SlideNavigationController sharedInstance] closeMenuWithCompletion:^{
-                [self show];
-            }];
-        } else {
-            [self show];
-        }
+        [self show];
         shouldShow = YES;
     } else {
         shouldShow = NO;

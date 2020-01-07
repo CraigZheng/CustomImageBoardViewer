@@ -41,7 +41,7 @@
 
 #import "CustomImageBoardViewer-Swift.h"
 
-@interface czzHomeViewController() <UIAlertViewDelegate, UIStateRestoring, SlideNavigationControllerDelegate>
+@interface czzHomeViewController() <UIAlertViewDelegate, UIStateRestoring>
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (assign, nonatomic) BOOL shouldHideImageForThisForum;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
@@ -178,11 +178,9 @@
 }
 
 - (IBAction)sideButtonAction:(id)sender {
-    UIViewController *viewController = [SlideNavigationController sharedInstance].leftMenu;
-    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad && viewController) {
-        [self.navigationController presentViewController:viewController animated:YES completion:nil];
-    } else {
-        [[SlideNavigationController sharedInstance] toggleLeftMenu];
+    czzNavigationController *navigationController = self.navigationController;
+    if ([navigationController isKindOfClass:czzNavigationController.class]) {
+        [navigationController presentViewController:navigationController.leftViewController animated:YES completion:nil];
     }
 }
 
@@ -330,12 +328,6 @@
             [self showWarning];
         }
     }];
-}
-
-#pragma mark - SlideOutNavigationControllerDelegate
-
-- (BOOL)slideNavigationControllerShouldDisplayLeftMenu {
-    return YES;
 }
 
 #pragma mark - self.refreshControl and download controls

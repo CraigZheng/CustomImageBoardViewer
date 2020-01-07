@@ -8,8 +8,6 @@
 
 import UIKit
 
-import iOS_Slide_Menu
-
 class ForumsTableViewManager: NSObject {
     @objc var forumGroups: [czzForumGroup] = []
 }
@@ -126,7 +124,7 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let completion = {
+        UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: true) {
             let adjustedSection = ExtraSection.adjustedSection(for: indexPath.section)
             guard adjustedSection >= 0 else {
                 switch ExtraSection(rawValue: indexPath.section) {
@@ -144,11 +142,6 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
                                                 object: nil,
                                                 userInfo: [Notification.forum: forum])
             }
-        }
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: true, completion: completion)
-        } else {
-            SlideNavigationController.sharedInstance().closeMenu(completion: completion)
         }
     }
 }
