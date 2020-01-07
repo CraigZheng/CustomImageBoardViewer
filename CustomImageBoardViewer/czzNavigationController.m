@@ -23,9 +23,6 @@
     // Do any additional setup after loading the view.
     NavigationManager.delegate = self;
     self.delegate = NavigationManager;
-    [SlideNavigationController sharedInstance].leftMenu = self.leftViewController;
-    [SlideNavigationController sharedInstance].enableSwipeGesture = YES;
-    [SlideNavigationController sharedInstance].panGestureSideOffset = 0;
     
     //notification banner view
     notificationBannerViewController = (czzNotificationBannerViewController*) ([[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:nil] instantiateViewControllerWithIdentifier:@"notification_banner_view_controller"]);

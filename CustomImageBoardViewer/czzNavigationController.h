@@ -12,9 +12,7 @@
 #import "czzShortImageManagerCollectionViewController.h"
 #import "GSIndeterminateProgressView.h"
 
-@import iOS_Slide_Menu;
-
-@interface czzNavigationController : SlideNavigationController
+@interface czzNavigationController : UINavigationController
 @property (strong) czzNotificationBannerViewController *notificationBannerViewController;
 @property (nonatomic, strong) UINavigationController *leftViewController;
 
