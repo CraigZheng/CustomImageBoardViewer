@@ -10,6 +10,7 @@
 
 #import "czzForum.h"
 #import "czzForumManager.h"
+#import "SlideNavigationController.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
 

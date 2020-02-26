@@ -41,7 +41,7 @@
 
 #import "CustomImageBoardViewer-Swift.h"
 
-@interface czzHomeViewController() <UIAlertViewDelegate, UIStateRestoring>
+@interface czzHomeViewController() <UIAlertViewDelegate, UIStateRestoring, SlideNavigationControllerDelegate>
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (assign, nonatomic) BOOL shouldHideImageForThisForum;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
@@ -178,10 +178,7 @@
 }
 
 - (IBAction)sideButtonAction:(id)sender {
-    czzNavigationController *navigationController = self.navigationController;
-    if ([navigationController isKindOfClass:czzNavigationController.class]) {
-        [navigationController presentViewController:navigationController.leftViewController animated:YES completion:nil];
-    }
+    [[SlideNavigationController sharedInstance] toggleLeftMenu];
 }
 
 - (IBAction)postAction:(id)sender {
@@ -328,6 +325,12 @@
             [self showWarning];
         }
     }];
+}
+
+#pragma mark - SlideOutNavigationControllerDelegate
+
+- (BOOL)slideNavigationControllerShouldDisplayLeftMenu {
+    return YES;
 }
 
 #pragma mark - self.refreshControl and download controls

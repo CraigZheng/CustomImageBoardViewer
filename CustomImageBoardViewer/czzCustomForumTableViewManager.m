@@ -13,6 +13,8 @@
 #import "czzSettingsCentre.h"
 #import "czzForumsViewController.h"
 
+@import iOS_Slide_Menu;
+
 @implementation czzCustomForumTableViewManager
 
 #pragma mark - UITableViewDataSource & UITableViewDelegate
@@ -35,11 +37,9 @@
         NSMutableDictionary *userInfo = [NSMutableDictionary new];
         [userInfo setObject:forum forKey:kPickedForum];
         [[NSNotificationCenter defaultCenter] postNotificationName:kForumPickedNotification object:self userInfo:userInfo];
-        [UIApplication.rootViewController dismissViewControllerAnimated:YES completion:nil];
+        [[SlideNavigationController sharedInstance] closeMenuWithCompletion:nil];
     } else {
-        UIViewController *presentingViewController = [UIApplication topViewController] ?: NavigationManager.delegate;
-        UIViewController *addForumViewController = [[UIStoryboard storyboardWithName:@"AddForum" bundle:nil] instantiateInitialViewController];
-        [presentingViewController presentViewController:addForumViewController animated:YES completion:nil];
+        [NavigationManager.delegate performSegueWithIdentifier:@"showAddForum" sender:nil];
     }
 }
 

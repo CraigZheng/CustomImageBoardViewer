@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import iOS_Slide_Menu
 
 extension czzURLHandler {
     private enum CustomURL {
@@ -41,6 +42,11 @@ extension czzURLHandler {
         navigationController.popToRootViewController(animated: false)
         navigationController.dismiss(animated: false)
 
+        if SlideNavigationController.sharedInstance()?.isMenuOpen() == true {
+            SlideNavigationController.sharedInstance()?.closeMenu(completion: {
+                // Do nothing.
+            })
+        }
         if czzSettingsCentre.sharedInstance()?.userDefActiveHost != host {
             czzSettingsCentre.sharedInstance()?.userDefActiveHost = host
             czzSettingsCentre.sharedInstance()?.saveSettings()

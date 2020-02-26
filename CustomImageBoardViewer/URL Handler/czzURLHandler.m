@@ -17,8 +17,10 @@
 + (BOOL)handleURL:(NSURL *)url {
     BOOL isHandled = NO;
     if (url) {
-        if ([url.absoluteString rangeOfString:@"adnmb" options:NSCaseInsensitiveSearch].location != NSNotFound) {
-            NSString *threadIDString = [url.absoluteString componentsSeparatedByString:@"/"].lastObject;
+        NSString *hostPrefix = [settingCentre activeHost];
+        if (hostPrefix.length && [url.absoluteString rangeOfString:hostPrefix options:NSCaseInsensitiveSearch].location != NSNotFound) {
+            NSString *threadIDString = [url.absoluteString stringByReplacingOccurrencesOfString:hostPrefix withString:@""];
+            threadIDString = [threadIDString componentsSeparatedByString:@"/"].lastObject;
             NSInteger threadID = threadIDString.integerValue;
             if (threadID > 0) {
                 isHandled = YES;

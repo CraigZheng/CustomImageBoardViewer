@@ -88,11 +88,11 @@
 }
 
 - (void)notifyDelegateAboutStateChanged {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
         if ([self.delegate respondsToSelector:@selector(downloadStateChanged:)]) {
             [self.delegate downloadStateChanged:self];
         }
-    });
+    }];
 }
 
 #pragma mark - Setters

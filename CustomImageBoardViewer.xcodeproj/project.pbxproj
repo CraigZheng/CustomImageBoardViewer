@@ -4273,6 +4273,7 @@
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftMessages/SwiftMessages.framework",
 				"${BUILT_PRODUCTS_DIR}/TTTAttributedLabel/TTTAttributedLabel.framework",
+				"${BUILT_PRODUCTS_DIR}/iOS-Slide-Menu-iOS9.0/iOS_Slide_Menu.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -4289,6 +4290,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftMessages.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TTTAttributedLabel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iOS_Slide_Menu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4319,7 +4321,7 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack-iOS8.0/CocoaLumberjack.framework",
-				"${BUILT_PRODUCTS_DIR}/iOS-Slide-Menu/iOS_Slide_Menu.framework",
+				"${BUILT_PRODUCTS_DIR}/iOS-Slide-Menu-iOS8.0/iOS_Slide_Menu.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (

@@ -12,6 +12,7 @@
 #import "czzThreadSuggestion.h"
 #import "czzURLHandler.h"
 #import "czzNavigationManager.h"
+#import "SlideNavigationController.h"
 #import "czzSettingsCentre.h"
 
 @import GoogleMobileAds;
@@ -77,9 +78,8 @@
                 bannerView.adUnitID = @"ca-app-pub-2081665256237089~1718587650";
 #endif
                 // Set the rootViewController for this banner view to be the czzForumsTableViewController - same as before.
-                czzNavigationController *navigationController = UIApplication.rootViewController;
-                if ([navigationController isKindOfClass:czzNavigationController.class]) {
-                    bannerView.rootViewController = [(UINavigationController*)navigationController.leftViewController viewControllers].firstObject;
+                if ([[[SlideNavigationController sharedInstance] leftMenu] isKindOfClass:[UINavigationController class]]) {
+                    bannerView.rootViewController = [(UINavigationController*)[[SlideNavigationController sharedInstance] leftMenu] viewControllers].firstObject;
                 }
                 GADRequest *request = [GADRequest request];
                 request.testDevices = @[ kGADSimulatorID ];
@@ -108,7 +108,7 @@
     }
     czzThreadSuggestion *suggestion = [self threadSuggestionForIndexPath:indexPath];
     if (suggestion.url) {
-        [[UIApplication rootViewController] dismissViewControllerAnimated:YES completion:^{
+        [[SlideNavigationController sharedInstance] closeMenuWithCompletion:^{
             [czzURLHandler handleURL:suggestion.url];
         }];
     }

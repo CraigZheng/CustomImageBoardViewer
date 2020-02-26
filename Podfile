@@ -7,6 +7,7 @@ target 'CustomImageBoardViewer' do
 pod 'Google/Analytics'
 pod 'Google-Mobile-Ads-SDK', '~> 7.0'
 pod "MWPhotoBrowser", "~> 2.1.2"
+pod 'iOS-Slide-Menu'
 pod 'PureLayout'
 pod 'CocoaLumberjack'
 pod 'AFNetworking', '~> 3.0'
