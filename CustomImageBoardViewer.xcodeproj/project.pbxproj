@@ -727,7 +727,6 @@
 		B760EE871FFCA7980022036B /* CookieTextInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760EE861FFCA7980022036B /* CookieTextInputViewController.swift */; };
 		B7ABF0791FFF0F910071D939 /* UITableView+IndexPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7ABF0781FFF0F910071D939 /* UITableView+IndexPath.swift */; };
 		B7ABF07B1FFF295A0071D939 /* ContentPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7ABF07A1FFF295A0071D939 /* ContentPage.swift */; };
-		B7B18CAF1FD0E5220093AB62 /* DummyTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B18CAE1FD0E5220093AB62 /* DummyTestViewController.swift */; };
 		B7EAAA002101B5A4002EAE0A /* ImageCDNConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA9FF2101B5A4002EAE0A /* ImageCDNConfiguration.swift */; };
 		B7EAAA022101B776002EAE0A /* czzSettingsCentre+ImageCDN.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAAA012101B776002EAE0A /* czzSettingsCentre+ImageCDN.swift */; };
 		D85B3FC32F7080DE2E0F1FD8 /* Pods_CustomImageBoardViewer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 311F31F622866C4E1133FA79 /* Pods_CustomImageBoardViewer.framework */; };
@@ -1698,7 +1697,6 @@
 		B760EE861FFCA7980022036B /* CookieTextInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CookieTextInputViewController.swift; sourceTree = "<group>"; };
 		B7ABF0781FFF0F910071D939 /* UITableView+IndexPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+IndexPath.swift"; sourceTree = "<group>"; };
 		B7ABF07A1FFF295A0071D939 /* ContentPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentPage.swift; sourceTree = "<group>"; };
-		B7B18CAE1FD0E5220093AB62 /* DummyTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyTestViewController.swift; sourceTree = "<group>"; };
 		B7EAA9FF2101B5A4002EAE0A /* ImageCDNConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCDNConfiguration.swift; sourceTree = "<group>"; };
 		B7EAAA012101B776002EAE0A /* czzSettingsCentre+ImageCDN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "czzSettingsCentre+ImageCDN.swift"; sourceTree = "<group>"; };
 		CBC088D3BB7C0C6E358B9C38 /* Pods-CustomImageBoardViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1934,7 +1932,6 @@
 		441E5CD417F4691300289DBD /* CustomImageBoardViewer */ = {
 			isa = PBXGroup;
 			children = (
-				B7B18CAE1FD0E5220093AB62 /* DummyTestViewController.swift */,
 				44BDA3EB1DB70ED100D2F576 /* MarkerManagerViewController */,
 				441A6A7E1BAEBF64008E380C /* Manager */,
 				4432BA8F1AA8850C002C66F5 /* Examples */,
@@ -4379,7 +4376,6 @@
 				44397D7B1D697EE8005B44AA /* czzTextSizeSelectorViewController.m in Sources */,
 				44B89E751A2AF39F0085F766 /* UIImage+animatedGIF.m in Sources */,
 				442EC8631A1A130A005650E4 /* czzNavigationController.m in Sources */,
-				B7B18CAF1FD0E5220093AB62 /* DummyTestViewController.swift in Sources */,
 				4416B72619413EAF00B69C5B /* FPPopoverView.m in Sources */,
 				4476655E1E06B70300A06138 /* UINavigationController+Block.swift in Sources */,
 				442F1FD71B13535B00267698 /* czzHomeTableViewManager.m in Sources */,
@@ -4699,7 +4695,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Prefix.pch";
 				INFOPLIST_FILE = "CustomImageBoardViewer/CustomImageBoardViewer-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4741,7 +4737,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CustomImageBoardViewer/CustomImageBoardViewer-Prefix.pch";
 				INFOPLIST_FILE = "CustomImageBoardViewer/CustomImageBoardViewer-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
