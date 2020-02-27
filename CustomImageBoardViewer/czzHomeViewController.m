@@ -163,7 +163,7 @@
         [titleComponents addObject:host];
     }
     self.title = [titleComponents componentsJoinedByString:@" - "];
-    self.navigationItem.backBarButtonItem.title = self.title;
+    self.navigationItem.backBarButtonItem.title = @"主页";
     [self.homeTableViewManager reloadData];
 }
 
