@@ -127,7 +127,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   MWPhotoBrowser:
-    :commit: 1af8fea2a029731eef83cee8ebc69de3ed78281b
+    :commit: 67b4ae0b4311f0344fd729b08c49d119ff5db815
     :git: https://github.com/CraigZheng/MWPhotoBrowser.git
   SwiftMessages:
     :commit: 2dd48d76b21c0b8d87e49a6bbc20e857add92d70
