@@ -92,7 +92,8 @@
 -(NSDateFormatter *)dateFormatter {
     if (!_dateFormatter) {
         _dateFormatter = [NSDateFormatter new];
-        _dateFormatter.dateFormat = @"hh:mma, yyyy-MM-dd";
+        _dateFormatter.dateStyle = NSDateFormatterShortStyle;
+        _dateFormatter.timeStyle = NSDateFormatterShortStyle;
     }
     return _dateFormatter;
 }
