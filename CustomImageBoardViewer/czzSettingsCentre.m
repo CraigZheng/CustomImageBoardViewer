@@ -43,6 +43,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
 @property (nonatomic, strong) NSData *configurationJSONData;
 @property (strong, readwrite) NSString *ac_isle_host;
 @property (strong, readwrite) NSString *bt_isle_host;
+@property (strong) UIColor *darkAppearanceViewBackgroundColor;
 @end
 
 @implementation czzSettingsCentre
@@ -108,6 +109,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         _long_thread_threshold = 200;
         _upload_image_pixel_limit = 5595136; // iPad pro resolution: 2732 x 2048;
         should_allow_dart = NO;
+        _userDefNightyMode = [UIColor colorWithRed:16/255.0f green:26/255.0f blue:26/255.0f alpha:1.0f];
         
         [self restoreSettings];
         [self downloadSettings];
@@ -335,13 +337,13 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
 
 -(UIColor *)contentTextColour {
     if (self.userDefNightyMode)
-        return [UIColor colorWithRed:252/255.0f green:160/255.0f blue:30/255.0f alpha:1.0f];
-    return [UIColor blackColor];
+        return [UIColor lightGrayColor];
+    return [UIColor darkTextColor];
 }
 
 -(UIColor *)viewBackgroundColour {
     if (self.userDefNightyMode)
-        return [UIColor colorWithRed:20/255.0f green:20/255.0f blue:20/255.0f alpha:1.0f];
+        return self.darkAppearanceViewBackgroundColor;
     return [UIColor whiteColor];
 }
 
