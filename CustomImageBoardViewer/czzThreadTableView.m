@@ -61,7 +61,7 @@
 -(void)scrollToTop:(BOOL)animated {
     self.quickScrolling = YES;
     @try {
-        if ([self numberOfRowsInSection:0] > 0 && [self numberOfSections] > 0) {
+        if ([self numberOfSections] > 0 && [self numberOfRowsInSection:0]) {
             [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
                         atScrollPosition:UITableViewScrollPositionTop
                                 animated:animated];
