@@ -98,7 +98,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
     // UI appearance.
-    self.threadTableView.backgroundColor = [settingCentre viewBackgroundColour];
+    self.view.backgroundColor = self.threadTableView.backgroundColor = [settingCentre viewBackgroundColour];
     self.onScreenImageManagerViewContainer.hidden = !settingCentre.shouldShowImageManagerButton;
 }
 

@@ -66,12 +66,11 @@
         self.dateBottomPaddingConstraint.priority = hideAdditionalFields ? 999 : 1;
       
         //highlight original poster
-        if ([myThread.UID isEqualToString: self.parentUID]) {
-            NSMutableAttributedString *opAttributedString = [[NSMutableAttributedString alloc] initWithAttributedString:self.posterLabel.attributedText];
-            [opAttributedString addAttributes:@{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle)} range:NSMakeRange(0, opAttributedString.length)];
-            self.posterLabel.attributedText = opAttributedString;
+        if ([myThread.UID isEqualToString: self.parentUID] || myThread.admin) {
+            self.posterLabel.font = [UIFont systemFontOfSize:14 weight:UIFontWeightBold];
+        } else {
+            self.posterLabel.font = [UIFont systemFontOfSize:14 weight:UIFontWeightMedium];
         }
-
     }
 }
 
@@ -93,7 +92,8 @@
 -(NSDateFormatter *)dateFormatter {
     if (!_dateFormatter) {
         _dateFormatter = [NSDateFormatter new];
-        _dateFormatter.dateFormat = @"hh:mma, yyyy-MM-dd";
+        _dateFormatter.dateStyle = NSDateFormatterShortStyle;
+        _dateFormatter.timeStyle = NSDateFormatterShortStyle;
     }
     return _dateFormatter;
 }

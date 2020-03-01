@@ -117,7 +117,7 @@
     [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
     
-    self.threadTableView.backgroundColor = settingCentre.viewBackgroundColour;
+    self.view.backgroundColor = self.threadTableView.backgroundColor = settingCentre.viewBackgroundColour;
     self.onScreenImageManagerViewContainer.hidden = !settingCentre.shouldShowImageManagerButton;
 }
 
