@@ -60,6 +60,7 @@
 + (UINavigationController *)wrapWithNavigationController:(UIViewController *)viewController {
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
     navigationController.restorationIdentifier = NSStringFromClass(navigationController.class);
+    navigationController.modalPresentationStyle = UIModalPresentationFullScreen;
     return navigationController;
 }
 
