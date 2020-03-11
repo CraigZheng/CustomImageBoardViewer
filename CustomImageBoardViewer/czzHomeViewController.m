@@ -117,7 +117,12 @@
     [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
     
-    self.view.backgroundColor = self.threadTableView.backgroundColor = settingCentre.viewBackgroundColour;
+    self.threadTableView.backgroundColor = settingCentre.viewBackgroundColour;
+    if (settingCentre.userDefNightyMode) {
+        self.view.backgroundColor = UIColor.blackColor;
+    } else {
+        self.view.backgroundColor = UIColor.whiteColor;
+    }
     self.onScreenImageManagerViewContainer.hidden = !settingCentre.shouldShowImageManagerButton;
 }
 
