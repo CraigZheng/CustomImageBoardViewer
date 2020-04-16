@@ -127,10 +127,10 @@ class MessagePopup: NSObject {
             messageView.button?.isHidden = false
             messageView.button?.setTitle(buttonTitle, for: .normal)
             messageView.buttonTapHandler = buttonActionHandler
-            config.duration = .seconds(seconds: 5)
+            config.duration = .seconds(seconds: 15)
         } else {
             messageView.button?.isHidden = true
-            config.duration = .automatic
+            config.duration = .seconds(seconds: 10)
         }
         messageView.iconImageView?.isHidden = !(theme == .info)
         messageView.iconLabel?.isHidden = !(theme == .info)
