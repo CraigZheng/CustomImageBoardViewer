@@ -26,6 +26,7 @@
 + (void)asynchrounslyHandleURL:(NSURL *)url {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     request.HTTPMethod = @"HEAD";
+    request.timeoutInterval = 5;
     NSString *hostPrefix = [settingCentre activeHost];
     [[czzAppDelegate sharedAppDelegate] showToast:@"请稍候..."];
     [[NSURLSession.sharedSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
