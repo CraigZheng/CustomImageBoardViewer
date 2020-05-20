@@ -18,6 +18,7 @@
 #import "czzHomeViewManager.h"
 #import "czzWatchListManager.h"
 #import "czzTextSizeSelectorViewController.h"
+#import "czzURLHandler.h"
 
 static NSString *textSizeSelectorSegue = @"textSizeSelector";
 static NSString *addMarkerSegue = @"AddMarker";
@@ -415,15 +416,13 @@ static NSString *addMarkerSegue = @"AddMarker";
 // Open my home page.
 - (void)openHomePage {
     NSString *homePageURL = @"http://www.weibo.com/u/3868827431"; // Weibo home page URL
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:homePageURL]];
+    [czzURLHandler handleURL:[NSURL URLWithString:homePageURL]];
 }
 
 -(void)openDonationLink {
     NSURL *donationLinkURL = [NSURL URLWithString:settingsCentre.donationLink];
     if (donationLinkURL && settingsCentre.donationLink.length > 0) {
-        if ([[UIApplication sharedApplication] canOpenURL:donationLinkURL]) {
-            [[UIApplication sharedApplication] openURL:donationLinkURL];
-        }
+        [czzURLHandler handleURL:donationLinkURL];
     } else {
         [czzBannerNotificationUtil displayMessage:@"谢谢，现在作者并不需要捐款。。。" position:BannerNotificationPositionTop];
     }

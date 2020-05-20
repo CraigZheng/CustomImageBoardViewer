@@ -15,6 +15,7 @@
 #import "czzImageDownloader.h"
 #import "czzFeedbackViewController.h"
 #import "DACircularProgressView.h"
+#import "czzURLHandler.h"
 
 @interface czzNotificationCentreTableViewController ()<UIDocumentInteractionControllerDelegate, UIActionSheetDelegate>
 @property czzNotificationManager *notificationManager;
@@ -166,10 +167,7 @@
 -(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"打开链接"]) {
         NSURL *link = [NSURL URLWithString:currentNotification.link];
-        if ([[UIApplication sharedApplication] canOpenURL:link])
-            [[UIApplication sharedApplication] openURL:link];
-        else
-            [self.view makeToast:@"无法打开链接……" duration:2.0 position:@"bottom"];
+        [czzURLHandler handleURL:link];
     } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"反馈"]) {
         [self presentFeedbackViewControllerWithNotification:currentNotification];
     }

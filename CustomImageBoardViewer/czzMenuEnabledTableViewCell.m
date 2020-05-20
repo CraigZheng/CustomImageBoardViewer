@@ -364,13 +364,11 @@ NSInteger kCellImageViewHeight = 120;
                                                    range:NSMakeRange(0, [trimmedRequestURLString length])];
         for (NSTextCheckingResult *match in matches) {
             if ([match resultType] == NSTextCheckingTypeLink) {
-                [UIApplication.sharedApplication openURL:match.URL];
+                [czzURLHandler handleURL:match.URL];
             }
         }
     } else {
-        if ([UIApplication.sharedApplication canOpenURL:URL]) {
-            [UIApplication.sharedApplication openURL:URL];
-        }
+        [czzURLHandler handleURL:URL];
     }
 }
 

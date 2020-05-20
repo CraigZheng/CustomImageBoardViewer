@@ -17,6 +17,7 @@
 #import "czzImageViewerUtil.h"
 #import <PureLayout/PureLayout.h>
 #import "UINavigationController+Util.h"
+#import "czzURLHandler.h"
 
 @interface czzMoreInfoViewController ()<UIWebViewDelegate, UIGestureRecognizerDelegate>
 @property (strong, nonatomic) NSString *baseURL;
@@ -150,7 +151,7 @@
 
 - (BOOL)webView:(UIWebView *)inWeb shouldStartLoadWithRequest:(NSURLRequest *)inRequest navigationType:(UIWebViewNavigationType)inType {
     if ( inType == UIWebViewNavigationTypeLinkClicked ) {
-        [[UIApplication sharedApplication] openURL:[inRequest URL]];
+        [czzURLHandler handleURL:[inRequest URL]];
         return NO;
     }
     

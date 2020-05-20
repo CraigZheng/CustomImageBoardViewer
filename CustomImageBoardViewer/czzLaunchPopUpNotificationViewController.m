@@ -7,7 +7,7 @@
 //
 
 #import "czzLaunchPopUpNotificationViewController.h"
-
+#import "czzURLHandler.h"
 #import "czzLaunchPopUpNotification.h"
 
 @import iOS_Slide_Menu;
@@ -58,7 +58,7 @@ static NSString * const kLastConfirmedNotificationKey = @"kLastConfirmedNotifica
     BOOL should = YES;
     // Open browser for any link.
     if ([[UIApplication sharedApplication] canOpenURL:request.URL]) {
-        [[UIApplication sharedApplication] openURL:request.URL];
+        [czzURLHandler handleURL: request.URL];
         should = NO;
     }
     
