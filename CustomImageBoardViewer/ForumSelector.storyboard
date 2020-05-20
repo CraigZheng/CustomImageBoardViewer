@@ -36,8 +36,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="574"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="foe-dC-ujn" userLabel="Ad view" customClass="GADBannerView">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        </view>
                         <view key="tableFooterView" hidden="YES" contentMode="scaleToFill" id="Y5q-Nf-wAG" userLabel="TableView Footer View">
-                            <rect key="frame" x="0.0" y="668" width="375" height="1"/>
+                            <rect key="frame" x="0.0" y="712" width="375" height="1"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
@@ -45,7 +50,7 @@
                             <tableViewSection headerTitle="讨论版" id="7Cu-Bm-wNY" userLabel="Forums Section">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="200" id="eOf-fw-Wqe" userLabel="Forums Table View Cell">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="200"/>
+                                        <rect key="frame" x="0.0" y="72" width="375" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eOf-fw-Wqe" id="p7v-Jv-ffD">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
@@ -98,7 +103,7 @@
                             <tableViewSection headerTitle="常用串" id="HF1-12-3Ja" userLabel="Thread Suggestion Section">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="180" id="igT-vh-HJI" userLabel="Suggestion Table View Cell">
-                                        <rect key="frame" x="0.0" y="284" width="375" height="180"/>
+                                        <rect key="frame" x="0.0" y="328" width="375" height="180"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="igT-vh-HJI" id="LlY-aI-O1W">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="180"/>
@@ -200,7 +205,7 @@
                             <tableViewSection headerTitle="自定义" id="Xbb-jp-dAA" userLabel="Custom Forums Section">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="120" id="3GF-pP-XfW" userLabel="Forums Table View Cell">
-                                        <rect key="frame" x="0.0" y="520" width="375" height="120"/>
+                                        <rect key="frame" x="0.0" y="564" width="375" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3GF-pP-XfW" id="rc4-N0-zfS">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
@@ -276,7 +281,7 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems>
                         <barButtonItem style="plain" id="kpj-sW-IDa">
-                            <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="bar" selectedSegmentIndex="0" id="49n-pI-HnB">
+                            <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="bar" selectedSegmentIndex="0" id="49n-pI-HnB">
                                 <rect key="frame" x="16" y="11" width="163" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
@@ -298,7 +303,7 @@
                                 <action selector="moreInfoAction:" destination="R3f-eT-BfC" id="4yy-t3-wsW"/>
                             </connections>
                         </barButtonItem>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="4YS-bA-BeW">
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="4YS-bA-BeW">
                             <rect key="frame" x="129" y="6" width="117" height="32"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
@@ -315,6 +320,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="375" height="667"/>
                     <connections>
+                        <outlet property="adView" destination="foe-dC-ujn" id="tHk-gJ-3O9"/>
                         <outlet property="customForumTableViewManager" destination="EZw-d6-zOs" id="mCB-sr-eSE"/>
                         <outlet property="customForumsTableView" destination="r6h-o3-Nnu" id="rd4-On-JtW"/>
                         <outlet property="forumsSegmentedControl" destination="49n-pI-HnB" id="otv-sB-8J9"/>
