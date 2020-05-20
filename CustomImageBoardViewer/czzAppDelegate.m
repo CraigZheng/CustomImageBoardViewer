@@ -51,6 +51,8 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
+    GADMobileAds.sharedInstance.requestConfiguration.testDeviceIdentifiers = @[kGADSimulatorID];
+    
     [DDLog addLogger:[DDTTYLogger sharedInstance]]; // TTY = Xcode console
     [DDLog addLogger:[DDASLLogger sharedInstance]]; // ASL = Apple System Logs
     
