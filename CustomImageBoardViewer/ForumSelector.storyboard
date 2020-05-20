@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="L9K-5y-49Y">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="L9K-5y-49Y">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Navigation Controller-->
+        <!--Custom Appearance Navigation Controller-->
         <scene sceneID="1i4-cg-p1g">
             <objects>
-                <navigationController storyboardIdentifier="left_side_view_controller" definesPresentationContext="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" toolbarHidden="NO" id="L9K-5y-49Y" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="left_side_view_controller" definesPresentationContext="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" toolbarHidden="NO" id="L9K-5y-49Y" customClass="CustomAppearanceNavigationController" customModule="CustomImageBoardViewer" customModuleProvider="target" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="340-ws-jRy">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="byt-sw-kcA">
@@ -35,11 +33,11 @@
             <objects>
                 <tableViewController id="R3f-eT-BfC" customClass="czzForumsViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="7me-PL-drX">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="574"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <view key="tableFooterView" hidden="YES" contentMode="scaleToFill" id="Y5q-Nf-wAG" userLabel="TableView Footer View">
-                            <rect key="frame" x="0.0" y="584" width="375" height="1"/>
+                            <rect key="frame" x="0.0" y="668" width="375" height="1"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
@@ -50,11 +48,11 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eOf-fw-Wqe" id="p7v-Jv-ffD">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="199.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="WNV-7P-kLI" userLabel="Forums Table View">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="199.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                                                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                     <view key="tableFooterView" hidden="YES" contentMode="scaleToFill" id="yvl-C7-MQG" userLabel="Tableview Footer View">
                                                         <rect key="frame" x="0.0" y="117.5" width="375" height="1"/>
@@ -66,11 +64,11 @@
                                                             <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VG2-0J-rHz" id="LYD-5u-WQw">
-                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Forum" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="SBm-95-0N0">
-                                                                        <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                                                        <rect key="frame" x="15" y="0.0" width="345" height="44"/>
                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -100,14 +98,14 @@
                             <tableViewSection headerTitle="常用串" id="HF1-12-3Ja" userLabel="Thread Suggestion Section">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="180" id="igT-vh-HJI" userLabel="Suggestion Table View Cell">
-                                        <rect key="frame" x="0.0" y="256" width="375" height="180"/>
+                                        <rect key="frame" x="0.0" y="284" width="375" height="180"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="igT-vh-HJI" id="LlY-aI-O1W">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="179.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="180"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="V1V-G0-jmk" userLabel="Suggestion Table View">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="179.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="180"/>
                                                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                     <view key="tableFooterView" hidden="YES" contentMode="scaleToFill" id="zog-Dj-a8c" userLabel="Tableview Footer View">
                                                         <rect key="frame" x="0.0" y="167.5" width="375" height="1"/>
@@ -119,7 +117,7 @@
                                                             <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="L0f-Yz-lOX" id="5lV-sp-vnF">
-                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tOt-2Q-0Wp">
@@ -145,18 +143,18 @@
                                                             <rect key="frame" x="0.0" y="99.5" width="375" height="50"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KpX-Xl-Y0z" id="XgH-FT-9nl">
-                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nf8-in-N2X" customClass="GADBannerView">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </view>
                                                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fu6-mx-7eR" userLabel="Cover View">
-                                                                        <rect key="frame" x="0.0" y="-0.5" width="375" height="49.5"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                                                         <subviews>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点我，我是广告" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IFO-xI-WYK">
-                                                                                <rect key="frame" x="8" y="14" width="121.5" height="21"/>
+                                                                                <rect key="frame" x="8" y="14.5" width="121.5" height="21"/>
                                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                                 <nil key="textColor"/>
@@ -202,14 +200,14 @@
                             <tableViewSection headerTitle="自定义" id="Xbb-jp-dAA" userLabel="Custom Forums Section">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="120" id="3GF-pP-XfW" userLabel="Forums Table View Cell">
-                                        <rect key="frame" x="0.0" y="464" width="375" height="120"/>
+                                        <rect key="frame" x="0.0" y="520" width="375" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3GF-pP-XfW" id="rc4-N0-zfS">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="119.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="r6h-o3-Nnu" userLabel="Custom Forums Table View">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="119"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
                                                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                     <view key="tableFooterView" hidden="YES" contentMode="scaleToFill" id="xRw-9D-GGo" userLabel="Tableview Footer View">
                                                         <rect key="frame" x="0.0" y="161.5" width="375" height="1"/>
@@ -221,11 +219,11 @@
                                                             <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="igW-iM-OpY" id="aCY-n9-K2F">
-                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="管理自定义板块" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ntq-yn-9Or">
-                                                                        <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                                                        <rect key="frame" x="15" y="0.0" width="345" height="44"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -238,11 +236,11 @@
                                                             <rect key="frame" x="0.0" y="99.5" width="375" height="44"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tP2-sh-bOF" id="0M3-ny-M24">
-                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Forum" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zvE-B0-LQL">
-                                                                        <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                                                        <rect key="frame" x="15" y="0.0" width="345" height="44"/>
                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -278,8 +276,8 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems>
                         <barButtonItem style="plain" id="kpj-sW-IDa">
-                            <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="bar" selectedSegmentIndex="0" id="49n-pI-HnB">
-                                <rect key="frame" x="16" y="7" width="151" height="30"/>
+                            <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="bar" selectedSegmentIndex="0" id="49n-pI-HnB">
+                                <rect key="frame" x="16" y="11" width="163" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title="板块"/>
@@ -300,8 +298,8 @@
                                 <action selector="moreInfoAction:" destination="R3f-eT-BfC" id="4yy-t3-wsW"/>
                             </connections>
                         </barButtonItem>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="4YS-bA-BeW">
-                            <rect key="frame" x="133" y="7" width="109" height="30"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="4YS-bA-BeW">
+                            <rect key="frame" x="129" y="6" width="117" height="32"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="A岛"/>

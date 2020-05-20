@@ -11,6 +11,7 @@
 @interface UINavigationController (Util)
 
 -(void)replaceLastViewControllerWithViewController:(UIViewController*)controller animated:(BOOL)animated;
+- (void)applyAppearance;
 
 +(void)pushViewControllerToRoot:(UIViewController*)controller animated:(BOOL)animated;
 @end

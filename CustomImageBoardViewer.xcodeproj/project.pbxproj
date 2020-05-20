@@ -726,6 +726,7 @@
 		B760EE791FFC6ACB0022036B /* CookieDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760EE781FFC6ACB0022036B /* CookieDetailTableViewController.swift */; };
 		B760EE7B1FFC6D690022036B /* czzCookieManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760EE7A1FFC6D690022036B /* czzCookieManager.swift */; };
 		B760EE871FFCA7980022036B /* CookieTextInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760EE861FFCA7980022036B /* CookieTextInputViewController.swift */; };
+		B7A2F71A24757B9500FD247F /* CustomAppearanceNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A2F71924757B9500FD247F /* CustomAppearanceNavigationController.swift */; };
 		B7ABF0791FFF0F910071D939 /* UITableView+IndexPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7ABF0781FFF0F910071D939 /* UITableView+IndexPath.swift */; };
 		B7ABF07B1FFF295A0071D939 /* ContentPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7ABF07A1FFF295A0071D939 /* ContentPage.swift */; };
 		B7EAAA002101B5A4002EAE0A /* ImageCDNConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EAA9FF2101B5A4002EAE0A /* ImageCDNConfiguration.swift */; };
@@ -1695,6 +1696,7 @@
 		B760EE781FFC6ACB0022036B /* CookieDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookieDetailTableViewController.swift; sourceTree = "<group>"; };
 		B760EE7A1FFC6D690022036B /* czzCookieManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = czzCookieManager.swift; sourceTree = "<group>"; };
 		B760EE861FFCA7980022036B /* CookieTextInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CookieTextInputViewController.swift; sourceTree = "<group>"; };
+		B7A2F71924757B9500FD247F /* CustomAppearanceNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAppearanceNavigationController.swift; sourceTree = "<group>"; };
 		B7ABF0781FFF0F910071D939 /* UITableView+IndexPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+IndexPath.swift"; sourceTree = "<group>"; };
 		B7ABF07A1FFF295A0071D939 /* ContentPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentPage.swift; sourceTree = "<group>"; };
 		B7EAA9FF2101B5A4002EAE0A /* ImageCDNConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCDNConfiguration.swift; sourceTree = "<group>"; };
@@ -2468,6 +2470,7 @@
 			children = (
 				442EC8611A1A130A005650E4 /* czzNavigationController.h */,
 				442EC8621A1A130A005650E4 /* czzNavigationController.m */,
+				B7A2F71924757B9500FD247F /* CustomAppearanceNavigationController.swift */,
 				445B7B5A1B43EBCA0046CFDB /* czzNavigationManager.h */,
 				445B7B5B1B43EBCA0046CFDB /* czzNavigationManager.m */,
 			);
@@ -4482,6 +4485,7 @@
 				445C66491BBED722004B3E83 /* czzThreadViewCellFooterView.m in Sources */,
 				443B54F319933C1F00BAB282 /* czzSettingsCentre.m in Sources */,
 				4416B71D19413D9300B69C5B /* czzEmotionPickerTableViewController.m in Sources */,
+				B7A2F71A24757B9500FD247F /* CustomAppearanceNavigationController.swift in Sources */,
 				4463E7BB1EC33783009659D4 /* LatestResponseDownloader.swift in Sources */,
 				444A82D91ECB265000EE9BB1 /* String+CIV.swift in Sources */,
 				4416B72719413EAF00B69C5B /* FPTouchView.m in Sources */,

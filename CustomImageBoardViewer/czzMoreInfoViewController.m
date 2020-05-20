@@ -16,6 +16,7 @@
 #import "czzForum.h"
 #import "czzImageViewerUtil.h"
 #import <PureLayout/PureLayout.h>
+#import "UINavigationController+Util.h"
 
 @interface czzMoreInfoViewController ()<UIWebViewDelegate, UIGestureRecognizerDelegate>
 @property (strong, nonatomic) NSString *baseURL;
@@ -59,12 +60,7 @@
 }
 
 -(void)renderContent {
-    // Colours
-    if (self.navigationController) {
-        self.navigationController.navigationBar.barTintColor = [settingCentre barTintColour];
-        self.navigationController.navigationBar.tintColor = [settingCentre tintColour];
-        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : self.navigationController.navigationBar.tintColor}];
-    }
+    [self.navigationController applyAppearance];
     // Disable bounce.
     self.coverImageWebView.scrollView.bounces =
     self.headerTextWebView.scrollView.bounces = NO;

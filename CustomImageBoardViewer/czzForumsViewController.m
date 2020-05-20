@@ -59,11 +59,6 @@ typedef enum : NSUInteger {
     self.updateInterval = 10 * 60;
 
     self.tableView.scrollsToTop = NO;
-    self.navigationController.navigationBar.barTintColor = [settingCentre barTintColour];
-    self.navigationController.navigationBar.tintColor = [settingCentre tintColour];
-    [self.navigationController.navigationBar setTitleTextAttributes:@{
-                                                                      NSForegroundColorAttributeName : self.navigationController.navigationBar.tintColor
-                                                                      }];
     
     self.forumManager = [czzForumManager sharedManager];
     self.forumsTableViewManager.forumGroups = self.forumManager.forumGroups;
@@ -146,7 +141,7 @@ typedef enum : NSUInteger {
 
 - (IBAction)moreInfoAction:(id)sender {
     // Present more info view controller with no selected forum.
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[czzMoreInfoViewController new]];
+    UINavigationController *navigationController = [[CustomAppearanceNavigationController alloc] initWithRootViewController:[czzMoreInfoViewController new]];
     navigationController.restorationIdentifier = NSStringFromClass([UINavigationController class]);
     [NavigationManager.delegate presentViewController:navigationController
                                              animated:YES

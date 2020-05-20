@@ -109,7 +109,7 @@
         self.lastPostViewController = [czzPostViewController new];
         self.lastPostViewController.postMode = postViewControllerModeDisplayOnly;
         self.lastPostViewController.displayPostSender = PostSenderManager.lastPostSender;
-        [[UIApplication rootViewController] presentViewController:[[UINavigationController alloc] initWithRootViewController:self.lastPostViewController]
+        [[UIApplication rootViewController] presentViewController:[[CustomAppearanceNavigationController alloc] initWithRootViewController:self.lastPostViewController]
                                                          animated:YES
                                                        completion:nil];
     }
@@ -135,7 +135,7 @@
                 default:
                     break;
             }
-            [[UIApplication rootViewController] presentViewController:[[UINavigationController alloc] initWithRootViewController:retryPostViewController]
+            [[UIApplication rootViewController] presentViewController:[[CustomAppearanceNavigationController alloc] initWithRootViewController:retryPostViewController]
                                                              animated:YES
                                                            completion:nil];
         }];

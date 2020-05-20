@@ -11,8 +11,7 @@
 
 @implementation UINavigationController (Util)
 
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+-(void)applyAppearance {
     self.navigationBar.barTintColor = [settingCentre barTintColour];
     //252	103	61
     self.navigationBar.tintColor = [settingCentre tintColour];

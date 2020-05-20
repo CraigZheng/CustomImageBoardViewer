@@ -37,12 +37,6 @@ class AddMarkerViewController: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // Navigation bar colours.
-        if let navigationController = navigationController {
-            navigationController.navigationBar.barTintColor = czzSettingsCentre.sharedInstance().barTintColour()
-            navigationController.navigationBar.tintColor = czzSettingsCentre.sharedInstance().tintColour()
-            navigationController.navigationBar.titleTextAttributes = convertToOptionalNSAttributedStringKeyDictionary([NSAttributedString.Key.foregroundColor.rawValue:navigationController.navigationBar.tintColor])
-        }
         view.backgroundColor = czzSettingsCentre.sharedInstance().viewBackgroundColour()
     }
     

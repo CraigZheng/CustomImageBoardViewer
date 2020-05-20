@@ -11,6 +11,7 @@
 #import "czzNavigationManager.h"
 #import "czzSettingsCentre.h"
 #import "czzFavouriteManagerViewController.h"
+#import "UINavigationController+Util.h"
 
 @interface czzNavigationController () <UINavigationControllerDelegate, czzNavigationManagerDelegate>
 @end
@@ -26,7 +27,8 @@
     [SlideNavigationController sharedInstance].leftMenu = self.leftViewController;
     [SlideNavigationController sharedInstance].enableSwipeGesture = YES;
     [SlideNavigationController sharedInstance].panGestureSideOffset = 0;
-    
+    [self applyAppearance];
+
     //notification banner view
     notificationBannerViewController = (czzNotificationBannerViewController*) ([[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:nil] instantiateViewControllerWithIdentifier:@"notification_banner_view_controller"]);
     CGRect frame;

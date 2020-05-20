@@ -256,7 +256,7 @@
     } else {
         czzMoreInfoViewController *moreInfoViewController = [czzMoreInfoViewController new];
         moreInfoViewController.forum = self.homeViewManager.forum;
-        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:moreInfoViewController];
+        UINavigationController *navigationController = [[CustomAppearanceNavigationController alloc] initWithRootViewController:moreInfoViewController];
         navigationController.restorationIdentifier = NSStringFromClass([UINavigationController class]);
         [NavigationManager.delegate presentViewController:navigationController
                                                  animated:YES

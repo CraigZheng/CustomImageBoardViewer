@@ -13,6 +13,7 @@
 #import "czzSettingsCentre.h"
 #import "czzAppDelegate.h"
 #import "czzBannerNotificationUtil.h"
+#import "CustomImageBoardViewer-Swift.h"
 
 @implementation czzReplyUtil
 
@@ -58,7 +59,7 @@
 }
 
 + (UINavigationController *)wrapWithNavigationController:(UIViewController *)viewController {
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    UINavigationController *navigationController = [[CustomAppearanceNavigationController alloc] initWithRootViewController:viewController];
     navigationController.restorationIdentifier = NSStringFromClass(navigationController.class);
     navigationController.modalPresentationStyle = UIModalPresentationFullScreen;
     return navigationController;

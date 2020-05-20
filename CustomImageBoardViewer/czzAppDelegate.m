@@ -171,7 +171,7 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
 
 - (UIViewController *)application:(UIApplication *)application viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder {
     if ([identifierComponents.lastObject isEqualToString:NSStringFromClass([UINavigationController class])]) {
-        UIViewController *viewController =  [UINavigationController new];
+        UIViewController *viewController =  [CustomAppearanceNavigationController new];
         viewController.restorationIdentifier = identifierComponents.lastObject;
         return viewController;
     }
