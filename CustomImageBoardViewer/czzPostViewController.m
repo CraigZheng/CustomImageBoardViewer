@@ -138,6 +138,9 @@ static NSString *kPostNameKey = @"kPostNameKey";
 }
 
 - (void)renderContent {
+    if (self.didLayout) {
+        return;
+    }
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
     toolbar.autoresizingMask = toolbar.autoresizingMask | UIViewAutoresizingFlexibleHeight;
     toolbar.barStyle = UIBarStyleDefault;
@@ -659,10 +662,6 @@ static NSString *kPostNameKey = @"kPostNameKey";
     }
     self.postMode = [coder decodeIntegerForKey:@"postMode"];
     self.prefilledString = [coder decodeObjectForKey:@"postTextView.text"];
-}
-
-- (void)applicationFinishedRestoringState {
-    [self renderContent];
 }
 
 + (instancetype)new {
