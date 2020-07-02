@@ -207,27 +207,6 @@
 		4421C3891E7BF2DA00BD48C4 /* ac-new93.png in Resources */ = {isa = PBXBuildFile; fileRef = 4421C2731E7BF2DA00BD48C4 /* ac-new93.png */; };
 		4421C38A1E7BF2DA00BD48C4 /* ac-new94.png in Resources */ = {isa = PBXBuildFile; fileRef = 4421C2741E7BF2DA00BD48C4 /* ac-new94.png */; };
 		4421C38B1E7BF2DA00BD48C4 /* ac-new95.png in Resources */ = {isa = PBXBuildFile; fileRef = 4421C2751E7BF2DA00BD48C4 /* ac-new95.png */; };
-		4421C38C1E7BF2DA00BD48C4 /* ac-overwatch1.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4421C2771E7BF2DA00BD48C4 /* ac-overwatch1.gif */; };
-		4421C38D1E7BF2DA00BD48C4 /* ac-overwatch10.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4421C2781E7BF2DA00BD48C4 /* ac-overwatch10.gif */; };
-		4421C38E1E7BF2DA00BD48C4 /* ac-overwatch11.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4421C2791E7BF2DA00BD48C4 /* ac-overwatch11.gif */; };
-		4421C38F1E7BF2DA00BD48C4 /* ac-overwatch12.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4421C27A1E7BF2DA00BD48C4 /* ac-overwatch12.gif */; };
-		4421C3901E7BF2DA00BD48C4 /* ac-overwatch13.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4421C27B1E7BF2DA00BD48C4 /* ac-overwatch13.gif */; };
-		4421C3911E7BF2DA00BD48C4 /* ac-overwatch14.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4421C27C1E7BF2DA00BD48C4 /* ac-overwatch14.gif */; };
-		4421C3921E7BF2DA00BD48C4 /* ac-overwatch15.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4421C27D1E7BF2DA00BD48C4 /* ac-overwatch15.gif */; };
-		4421C3931E7BF2DA00BD48C4 /* ac-overwatch16.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4421C27E1E7BF2DA00BD48C4 /* ac-overwatch16.gif */; };
-		4421C3941E7BF2DA00BD48C4 /* ac-overwatch17.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4421C27F1E7BF2DA00BD48C4 /* ac-overwatch17.gif */; };
-		4421C3951E7BF2DA00BD48C4 /* ac-overwatch18.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4421C2801E7BF2DA00BD48C4 /* ac-overwatch18.gif */; };
-		4421C3961E7BF2DA00BD48C4 /* ac-overwatch19.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4421C2811E7BF2DA00BD48C4 /* ac-overwatch19.gif */; };
-		4421C3971E7BF2DA00BD48C4 /* ac-overwatch2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4421C2821E7BF2DA00BD48C4 /* ac-overwatch2.gif */; };
-		4421C3981E7BF2DA00BD48C4 /* ac-overwatch20.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4421C2831E7BF2DA00BD48C4 /* ac-overwatch20.gif */; };
-		4421C3991E7BF2DA00BD48C4 /* ac-overwatch21.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4421C2841E7BF2DA00BD48C4 /* ac-overwatch21.gif */; };
-		4421C39A1E7BF2DA00BD48C4 /* ac-overwatch3.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4421C2851E7BF2DA00BD48C4 /* ac-overwatch3.gif */; };
-		4421C39B1E7BF2DA00BD48C4 /* ac-overwatch4.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4421C2861E7BF2DA00BD48C4 /* ac-overwatch4.gif */; };
-		4421C39C1E7BF2DA00BD48C4 /* ac-overwatch5.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4421C2871E7BF2DA00BD48C4 /* ac-overwatch5.gif */; };
-		4421C39D1E7BF2DA00BD48C4 /* ac-overwatch6.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4421C2881E7BF2DA00BD48C4 /* ac-overwatch6.gif */; };
-		4421C39E1E7BF2DA00BD48C4 /* ac-overwatch7.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4421C2891E7BF2DA00BD48C4 /* ac-overwatch7.gif */; };
-		4421C39F1E7BF2DA00BD48C4 /* ac-overwatch8.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4421C28A1E7BF2DA00BD48C4 /* ac-overwatch8.gif */; };
-		4421C3A01E7BF2DA00BD48C4 /* ac-overwatch9.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4421C28B1E7BF2DA00BD48C4 /* ac-overwatch9.gif */; };
 		4421C3A11E7BF2DA00BD48C4 /* reed-classic1.png in Resources */ = {isa = PBXBuildFile; fileRef = 4421C28D1E7BF2DA00BD48C4 /* reed-classic1.png */; };
 		4421C3A21E7BF2DA00BD48C4 /* reed-classic10.png in Resources */ = {isa = PBXBuildFile; fileRef = 4421C28E1E7BF2DA00BD48C4 /* reed-classic10.png */; };
 		4421C3A31E7BF2DA00BD48C4 /* reed-classic100.png in Resources */ = {isa = PBXBuildFile; fileRef = 4421C28F1E7BF2DA00BD48C4 /* reed-classic100.png */; };
@@ -723,6 +702,111 @@
 		5A88B8401938AFDB00071343 /* czzNotificationCentreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A88B83F1938AFDB00071343 /* czzNotificationCentreTableViewController.m */; };
 		5ADCA46A1938F67F002BA60B /* ValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCA4691938F67F002BA60B /* ValueFormatter.m */; };
 		5AF85E681970025A0031D0CB /* czzSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF85E671970025A0031D0CB /* czzSearchViewController.m */; };
+		B753611924AE278A000F562F /* reed-color3.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360B024AE2789000F562F /* reed-color3.png */; };
+		B753611A24AE278A000F562F /* reed-color91.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360B124AE2789000F562F /* reed-color91.png */; };
+		B753611B24AE278A000F562F /* reed-color85.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360B224AE2789000F562F /* reed-color85.png */; };
+		B753611C24AE278A000F562F /* reed-color52.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360B324AE2789000F562F /* reed-color52.png */; };
+		B753611D24AE278A000F562F /* reed-color46.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360B424AE2789000F562F /* reed-color46.png */; };
+		B753611E24AE278A000F562F /* reed-color47.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360B524AE2789000F562F /* reed-color47.png */; };
+		B753611F24AE278A000F562F /* reed-color53.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360B624AE2789000F562F /* reed-color53.png */; };
+		B753612024AE278A000F562F /* reed-color84.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360B724AE2789000F562F /* reed-color84.png */; };
+		B753612124AE278A000F562F /* reed-color90.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360B824AE2789000F562F /* reed-color90.png */; };
+		B753612224AE278A000F562F /* reed-color2.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360B924AE2789000F562F /* reed-color2.png */; };
+		B753612324AE278A000F562F /* reed-color86.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360BA24AE2789000F562F /* reed-color86.png */; };
+		B753612424AE278A000F562F /* reed-color92.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360BB24AE2789000F562F /* reed-color92.png */; };
+		B753612524AE278A000F562F /* reed-color45.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360BC24AE2789000F562F /* reed-color45.png */; };
+		B753612624AE278A000F562F /* reed-color51.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360BD24AE2789000F562F /* reed-color51.png */; };
+		B753612724AE278A000F562F /* reed-color79.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360BE24AE2789000F562F /* reed-color79.png */; };
+		B753612824AE278A000F562F /* reed-color78.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360BF24AE2789000F562F /* reed-color78.png */; };
+		B753612924AE278A000F562F /* reed-color50.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360C024AE2789000F562F /* reed-color50.png */; };
+		B753612A24AE278A000F562F /* reed-color44.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360C124AE2789000F562F /* reed-color44.png */; };
+		B753612B24AE278A000F562F /* reed-color93.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360C224AE2789000F562F /* reed-color93.png */; };
+		B753612C24AE278A000F562F /* reed-color87.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360C324AE2789000F562F /* reed-color87.png */; };
+		B753612D24AE278A000F562F /* reed-color1.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360C424AE2789000F562F /* reed-color1.png */; };
+		B753612E24AE278A000F562F /* reed-color5.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360C524AE2789000F562F /* reed-color5.png */; };
+		B753612F24AE278A000F562F /* reed-color83.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360C624AE2789000F562F /* reed-color83.png */; };
+		B753613024AE278A000F562F /* reed-color97.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360C724AE2789000F562F /* reed-color97.png */; };
+		B753613124AE278A000F562F /* reed-color68.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360C824AE2789000F562F /* reed-color68.png */; };
+		B753613224AE278A000F562F /* reed-color40.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360C924AE2789000F562F /* reed-color40.png */; };
+		B753613324AE278A000F562F /* reed-color54.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360CA24AE2789000F562F /* reed-color54.png */; };
+		B753613424AE278A000F562F /* reed-color55.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360CB24AE2789000F562F /* reed-color55.png */; };
+		B753613524AE278A000F562F /* reed-color41.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360CC24AE2789000F562F /* reed-color41.png */; };
+		B753613624AE278A000F562F /* reed-color69.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360CD24AE2789000F562F /* reed-color69.png */; };
+		B753613724AE278A000F562F /* reed-color96.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360CE24AE2789000F562F /* reed-color96.png */; };
+		B753613824AE278A000F562F /* reed-color82.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360CF24AE2789000F562F /* reed-color82.png */; };
+		B753613924AE278A000F562F /* reed-color4.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360D024AE2789000F562F /* reed-color4.png */; };
+		B753613A24AE278A000F562F /* reed-color6.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360D124AE2789000F562F /* reed-color6.png */; };
+		B753613B24AE278A000F562F /* reed-color94.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360D224AE2789000F562F /* reed-color94.png */; };
+		B753613C24AE278A000F562F /* reed-color80.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360D324AE2789000F562F /* reed-color80.png */; };
+		B753613D24AE278A000F562F /* reed-color57.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360D424AE2789000F562F /* reed-color57.png */; };
+		B753613E24AE278A000F562F /* reed-color43.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360D524AE2789000F562F /* reed-color43.png */; };
+		B753613F24AE278A000F562F /* reed-color42.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360D624AE2789000F562F /* reed-color42.png */; };
+		B753614024AE278A000F562F /* reed-color56.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360D724AE2789000F562F /* reed-color56.png */; };
+		B753614124AE278A000F562F /* reed-color81.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360D824AE2789000F562F /* reed-color81.png */; };
+		B753614224AE278A000F562F /* reed-color95.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360D924AE2789000F562F /* reed-color95.png */; };
+		B753614324AE278A000F562F /* reed-color7.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360DA24AE2789000F562F /* reed-color7.png */; };
+		B753614424AE278A000F562F /* reed-color103.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360DB24AE2789000F562F /* reed-color103.png */; };
+		B753614524AE278A000F562F /* reed-color31.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360DC24AE2789000F562F /* reed-color31.png */; };
+		B753614624AE278A000F562F /* reed-color25.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360DD24AE2789000F562F /* reed-color25.png */; };
+		B753614724AE278A000F562F /* reed-color19.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360DE24AE2789000F562F /* reed-color19.png */; };
+		B753614824AE278A000F562F /* reed-color18.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360DF24AE2789000F562F /* reed-color18.png */; };
+		B753614924AE278A000F562F /* reed-color24.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360E024AE2789000F562F /* reed-color24.png */; };
+		B753614A24AE278A000F562F /* reed-color30.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360E124AE2789000F562F /* reed-color30.png */; };
+		B753614B24AE278A000F562F /* reed-color102.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360E224AE2789000F562F /* reed-color102.png */; };
+		B753614C24AE278A000F562F /* reed-color100.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360E324AE2789000F562F /* reed-color100.png */; };
+		B753614D24AE278A000F562F /* reed-color26.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360E424AE2789000F562F /* reed-color26.png */; };
+		B753614E24AE278A000F562F /* reed-color32.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360E524AE2789000F562F /* reed-color32.png */; };
+		B753614F24AE278A000F562F /* reed-color33.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360E624AE2789000F562F /* reed-color33.png */; };
+		B753615024AE278A000F562F /* reed-color27.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360E724AE2789000F562F /* reed-color27.png */; };
+		B753615124AE278A000F562F /* reed-color101.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360E824AE2789000F562F /* reed-color101.png */; };
+		B753615224AE278A000F562F /* reed-color105.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360E924AE2789000F562F /* reed-color105.png */; };
+		B753615324AE278A000F562F /* reed-color23.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360EA24AE2789000F562F /* reed-color23.png */; };
+		B753615424AE278A000F562F /* reed-color37.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360EB24AE2789000F562F /* reed-color37.png */; };
+		B753615524AE278A000F562F /* reed-color36.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360EC24AE2789000F562F /* reed-color36.png */; };
+		B753615624AE278A000F562F /* reed-color22.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360ED24AE2789000F562F /* reed-color22.png */; };
+		B753615724AE278A000F562F /* reed-color104.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360EE24AE2789000F562F /* reed-color104.png */; };
+		B753615824AE278A000F562F /* reed-color34.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360EF24AE2789000F562F /* reed-color34.png */; };
+		B753615924AE278A000F562F /* reed-color20.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360F024AE2789000F562F /* reed-color20.png */; };
+		B753615A24AE278A000F562F /* reed-color21.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360F124AE2789000F562F /* reed-color21.png */; };
+		B753615B24AE278A000F562F /* reed-color35.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360F224AE2789000F562F /* reed-color35.png */; };
+		B753615C24AE278A000F562F /* reed-color10.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360F324AE2789000F562F /* reed-color10.png */; };
+		B753615D24AE278A000F562F /* reed-color38.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360F424AE2789000F562F /* reed-color38.png */; };
+		B753615E24AE278A000F562F /* reed-color39.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360F524AE2789000F562F /* reed-color39.png */; };
+		B753615F24AE278A000F562F /* reed-color11.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360F624AE2789000F562F /* reed-color11.png */; };
+		B753616024AE278A000F562F /* reed-color13.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360F724AE2789000F562F /* reed-color13.png */; };
+		B753616124AE278A000F562F /* reed-color12.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360F824AE2789000F562F /* reed-color12.png */; };
+		B753616224AE278A000F562F /* reed-color16.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360F924AE2789000F562F /* reed-color16.png */; };
+		B753616324AE278A000F562F /* reed-color17.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360FA24AE2789000F562F /* reed-color17.png */; };
+		B753616424AE278A000F562F /* reed-color29.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360FB24AE2789000F562F /* reed-color29.png */; };
+		B753616524AE278A000F562F /* reed-color15.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360FC24AE2789000F562F /* reed-color15.png */; };
+		B753616624AE278A000F562F /* reed-color14.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360FD24AE2789000F562F /* reed-color14.png */; };
+		B753616724AE278A000F562F /* reed-color28.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360FE24AE2789000F562F /* reed-color28.png */; };
+		B753616824AE278A000F562F /* reed-color98.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360FF24AE2789000F562F /* reed-color98.png */; };
+		B753616924AE278A000F562F /* reed-color73.png in Resources */ = {isa = PBXBuildFile; fileRef = B753610024AE2789000F562F /* reed-color73.png */; };
+		B753616A24AE278A000F562F /* reed-color67.png in Resources */ = {isa = PBXBuildFile; fileRef = B753610124AE2789000F562F /* reed-color67.png */; };
+		B753616B24AE278A000F562F /* reed-color66.png in Resources */ = {isa = PBXBuildFile; fileRef = B753610224AE2789000F562F /* reed-color66.png */; };
+		B753616C24AE278A000F562F /* reed-color72.png in Resources */ = {isa = PBXBuildFile; fileRef = B753610324AE2789000F562F /* reed-color72.png */; };
+		B753616D24AE278A000F562F /* reed-color99.png in Resources */ = {isa = PBXBuildFile; fileRef = B753610424AE2789000F562F /* reed-color99.png */; };
+		B753616E24AE278A000F562F /* reed-color9.png in Resources */ = {isa = PBXBuildFile; fileRef = B753610524AE2789000F562F /* reed-color9.png */; };
+		B753616F24AE278A000F562F /* reed-color64.png in Resources */ = {isa = PBXBuildFile; fileRef = B753610624AE2789000F562F /* reed-color64.png */; };
+		B753617024AE278A000F562F /* reed-color70.png in Resources */ = {isa = PBXBuildFile; fileRef = B753610724AE2789000F562F /* reed-color70.png */; };
+		B753617124AE278A000F562F /* reed-color58.png in Resources */ = {isa = PBXBuildFile; fileRef = B753610824AE2789000F562F /* reed-color58.png */; };
+		B753617224AE278A000F562F /* reed-color59.png in Resources */ = {isa = PBXBuildFile; fileRef = B753610924AE2789000F562F /* reed-color59.png */; };
+		B753617324AE278A000F562F /* reed-color71.png in Resources */ = {isa = PBXBuildFile; fileRef = B753610A24AE2789000F562F /* reed-color71.png */; };
+		B753617424AE278A000F562F /* reed-color65.png in Resources */ = {isa = PBXBuildFile; fileRef = B753610B24AE2789000F562F /* reed-color65.png */; };
+		B753617524AE278A000F562F /* reed-color8.png in Resources */ = {isa = PBXBuildFile; fileRef = B753610C24AE2789000F562F /* reed-color8.png */; };
+		B753617624AE278A000F562F /* reed-color49.png in Resources */ = {isa = PBXBuildFile; fileRef = B753610D24AE2789000F562F /* reed-color49.png */; };
+		B753617724AE278A000F562F /* reed-color61.png in Resources */ = {isa = PBXBuildFile; fileRef = B753610E24AE2789000F562F /* reed-color61.png */; };
+		B753617824AE278A000F562F /* reed-color75.png in Resources */ = {isa = PBXBuildFile; fileRef = B753610F24AE2789000F562F /* reed-color75.png */; };
+		B753617924AE278A000F562F /* reed-color74.png in Resources */ = {isa = PBXBuildFile; fileRef = B753611024AE2789000F562F /* reed-color74.png */; };
+		B753617A24AE278A000F562F /* reed-color60.png in Resources */ = {isa = PBXBuildFile; fileRef = B753611124AE2789000F562F /* reed-color60.png */; };
+		B753617B24AE278A000F562F /* reed-color48.png in Resources */ = {isa = PBXBuildFile; fileRef = B753611224AE2789000F562F /* reed-color48.png */; };
+		B753617C24AE278A000F562F /* reed-color89.png in Resources */ = {isa = PBXBuildFile; fileRef = B753611324AE2789000F562F /* reed-color89.png */; };
+		B753617D24AE278A000F562F /* reed-color76.png in Resources */ = {isa = PBXBuildFile; fileRef = B753611424AE2789000F562F /* reed-color76.png */; };
+		B753617E24AE278A000F562F /* reed-color62.png in Resources */ = {isa = PBXBuildFile; fileRef = B753611524AE2789000F562F /* reed-color62.png */; };
+		B753617F24AE278A000F562F /* reed-color63.png in Resources */ = {isa = PBXBuildFile; fileRef = B753611624AE2789000F562F /* reed-color63.png */; };
+		B753618024AE278A000F562F /* reed-color77.png in Resources */ = {isa = PBXBuildFile; fileRef = B753611724AE2789000F562F /* reed-color77.png */; };
+		B753618124AE278A000F562F /* reed-color88.png in Resources */ = {isa = PBXBuildFile; fileRef = B753611824AE2789000F562F /* reed-color88.png */; };
 		B760EE791FFC6ACB0022036B /* CookieDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760EE781FFC6ACB0022036B /* CookieDetailTableViewController.swift */; };
 		B760EE7B1FFC6D690022036B /* czzCookieManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760EE7A1FFC6D690022036B /* czzCookieManager.swift */; };
 		B760EE871FFCA7980022036B /* CookieTextInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760EE861FFCA7980022036B /* CookieTextInputViewController.swift */; };
@@ -1024,27 +1108,6 @@
 		4421C2731E7BF2DA00BD48C4 /* ac-new93.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ac-new93.png"; sourceTree = "<group>"; };
 		4421C2741E7BF2DA00BD48C4 /* ac-new94.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ac-new94.png"; sourceTree = "<group>"; };
 		4421C2751E7BF2DA00BD48C4 /* ac-new95.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ac-new95.png"; sourceTree = "<group>"; };
-		4421C2771E7BF2DA00BD48C4 /* ac-overwatch1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ac-overwatch1.gif"; sourceTree = "<group>"; };
-		4421C2781E7BF2DA00BD48C4 /* ac-overwatch10.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ac-overwatch10.gif"; sourceTree = "<group>"; };
-		4421C2791E7BF2DA00BD48C4 /* ac-overwatch11.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ac-overwatch11.gif"; sourceTree = "<group>"; };
-		4421C27A1E7BF2DA00BD48C4 /* ac-overwatch12.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ac-overwatch12.gif"; sourceTree = "<group>"; };
-		4421C27B1E7BF2DA00BD48C4 /* ac-overwatch13.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ac-overwatch13.gif"; sourceTree = "<group>"; };
-		4421C27C1E7BF2DA00BD48C4 /* ac-overwatch14.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ac-overwatch14.gif"; sourceTree = "<group>"; };
-		4421C27D1E7BF2DA00BD48C4 /* ac-overwatch15.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ac-overwatch15.gif"; sourceTree = "<group>"; };
-		4421C27E1E7BF2DA00BD48C4 /* ac-overwatch16.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ac-overwatch16.gif"; sourceTree = "<group>"; };
-		4421C27F1E7BF2DA00BD48C4 /* ac-overwatch17.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ac-overwatch17.gif"; sourceTree = "<group>"; };
-		4421C2801E7BF2DA00BD48C4 /* ac-overwatch18.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ac-overwatch18.gif"; sourceTree = "<group>"; };
-		4421C2811E7BF2DA00BD48C4 /* ac-overwatch19.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ac-overwatch19.gif"; sourceTree = "<group>"; };
-		4421C2821E7BF2DA00BD48C4 /* ac-overwatch2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ac-overwatch2.gif"; sourceTree = "<group>"; };
-		4421C2831E7BF2DA00BD48C4 /* ac-overwatch20.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ac-overwatch20.gif"; sourceTree = "<group>"; };
-		4421C2841E7BF2DA00BD48C4 /* ac-overwatch21.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ac-overwatch21.gif"; sourceTree = "<group>"; };
-		4421C2851E7BF2DA00BD48C4 /* ac-overwatch3.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ac-overwatch3.gif"; sourceTree = "<group>"; };
-		4421C2861E7BF2DA00BD48C4 /* ac-overwatch4.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ac-overwatch4.gif"; sourceTree = "<group>"; };
-		4421C2871E7BF2DA00BD48C4 /* ac-overwatch5.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ac-overwatch5.gif"; sourceTree = "<group>"; };
-		4421C2881E7BF2DA00BD48C4 /* ac-overwatch6.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ac-overwatch6.gif"; sourceTree = "<group>"; };
-		4421C2891E7BF2DA00BD48C4 /* ac-overwatch7.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ac-overwatch7.gif"; sourceTree = "<group>"; };
-		4421C28A1E7BF2DA00BD48C4 /* ac-overwatch8.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ac-overwatch8.gif"; sourceTree = "<group>"; };
-		4421C28B1E7BF2DA00BD48C4 /* ac-overwatch9.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "ac-overwatch9.gif"; sourceTree = "<group>"; };
 		4421C28D1E7BF2DA00BD48C4 /* reed-classic1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-classic1.png"; sourceTree = "<group>"; };
 		4421C28E1E7BF2DA00BD48C4 /* reed-classic10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-classic10.png"; sourceTree = "<group>"; };
 		4421C28F1E7BF2DA00BD48C4 /* reed-classic100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-classic100.png"; sourceTree = "<group>"; };
@@ -1693,6 +1756,111 @@
 		5AF85E661970025A0031D0CB /* czzSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzSearchViewController.h; sourceTree = "<group>"; };
 		5AF85E671970025A0031D0CB /* czzSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzSearchViewController.m; sourceTree = "<group>"; };
 		AECEC532D9208769EFF63216 /* Pods-CustomImageBoardViewerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		B75360B024AE2789000F562F /* reed-color3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color3.png"; sourceTree = "<group>"; };
+		B75360B124AE2789000F562F /* reed-color91.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color91.png"; sourceTree = "<group>"; };
+		B75360B224AE2789000F562F /* reed-color85.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color85.png"; sourceTree = "<group>"; };
+		B75360B324AE2789000F562F /* reed-color52.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color52.png"; sourceTree = "<group>"; };
+		B75360B424AE2789000F562F /* reed-color46.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color46.png"; sourceTree = "<group>"; };
+		B75360B524AE2789000F562F /* reed-color47.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color47.png"; sourceTree = "<group>"; };
+		B75360B624AE2789000F562F /* reed-color53.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color53.png"; sourceTree = "<group>"; };
+		B75360B724AE2789000F562F /* reed-color84.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color84.png"; sourceTree = "<group>"; };
+		B75360B824AE2789000F562F /* reed-color90.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color90.png"; sourceTree = "<group>"; };
+		B75360B924AE2789000F562F /* reed-color2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color2.png"; sourceTree = "<group>"; };
+		B75360BA24AE2789000F562F /* reed-color86.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color86.png"; sourceTree = "<group>"; };
+		B75360BB24AE2789000F562F /* reed-color92.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color92.png"; sourceTree = "<group>"; };
+		B75360BC24AE2789000F562F /* reed-color45.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color45.png"; sourceTree = "<group>"; };
+		B75360BD24AE2789000F562F /* reed-color51.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color51.png"; sourceTree = "<group>"; };
+		B75360BE24AE2789000F562F /* reed-color79.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color79.png"; sourceTree = "<group>"; };
+		B75360BF24AE2789000F562F /* reed-color78.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color78.png"; sourceTree = "<group>"; };
+		B75360C024AE2789000F562F /* reed-color50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color50.png"; sourceTree = "<group>"; };
+		B75360C124AE2789000F562F /* reed-color44.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color44.png"; sourceTree = "<group>"; };
+		B75360C224AE2789000F562F /* reed-color93.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color93.png"; sourceTree = "<group>"; };
+		B75360C324AE2789000F562F /* reed-color87.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color87.png"; sourceTree = "<group>"; };
+		B75360C424AE2789000F562F /* reed-color1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color1.png"; sourceTree = "<group>"; };
+		B75360C524AE2789000F562F /* reed-color5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color5.png"; sourceTree = "<group>"; };
+		B75360C624AE2789000F562F /* reed-color83.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color83.png"; sourceTree = "<group>"; };
+		B75360C724AE2789000F562F /* reed-color97.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color97.png"; sourceTree = "<group>"; };
+		B75360C824AE2789000F562F /* reed-color68.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color68.png"; sourceTree = "<group>"; };
+		B75360C924AE2789000F562F /* reed-color40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color40.png"; sourceTree = "<group>"; };
+		B75360CA24AE2789000F562F /* reed-color54.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color54.png"; sourceTree = "<group>"; };
+		B75360CB24AE2789000F562F /* reed-color55.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color55.png"; sourceTree = "<group>"; };
+		B75360CC24AE2789000F562F /* reed-color41.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color41.png"; sourceTree = "<group>"; };
+		B75360CD24AE2789000F562F /* reed-color69.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color69.png"; sourceTree = "<group>"; };
+		B75360CE24AE2789000F562F /* reed-color96.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color96.png"; sourceTree = "<group>"; };
+		B75360CF24AE2789000F562F /* reed-color82.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color82.png"; sourceTree = "<group>"; };
+		B75360D024AE2789000F562F /* reed-color4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color4.png"; sourceTree = "<group>"; };
+		B75360D124AE2789000F562F /* reed-color6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color6.png"; sourceTree = "<group>"; };
+		B75360D224AE2789000F562F /* reed-color94.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color94.png"; sourceTree = "<group>"; };
+		B75360D324AE2789000F562F /* reed-color80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color80.png"; sourceTree = "<group>"; };
+		B75360D424AE2789000F562F /* reed-color57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color57.png"; sourceTree = "<group>"; };
+		B75360D524AE2789000F562F /* reed-color43.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color43.png"; sourceTree = "<group>"; };
+		B75360D624AE2789000F562F /* reed-color42.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color42.png"; sourceTree = "<group>"; };
+		B75360D724AE2789000F562F /* reed-color56.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color56.png"; sourceTree = "<group>"; };
+		B75360D824AE2789000F562F /* reed-color81.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color81.png"; sourceTree = "<group>"; };
+		B75360D924AE2789000F562F /* reed-color95.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color95.png"; sourceTree = "<group>"; };
+		B75360DA24AE2789000F562F /* reed-color7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color7.png"; sourceTree = "<group>"; };
+		B75360DB24AE2789000F562F /* reed-color103.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color103.png"; sourceTree = "<group>"; };
+		B75360DC24AE2789000F562F /* reed-color31.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color31.png"; sourceTree = "<group>"; };
+		B75360DD24AE2789000F562F /* reed-color25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color25.png"; sourceTree = "<group>"; };
+		B75360DE24AE2789000F562F /* reed-color19.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color19.png"; sourceTree = "<group>"; };
+		B75360DF24AE2789000F562F /* reed-color18.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color18.png"; sourceTree = "<group>"; };
+		B75360E024AE2789000F562F /* reed-color24.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color24.png"; sourceTree = "<group>"; };
+		B75360E124AE2789000F562F /* reed-color30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color30.png"; sourceTree = "<group>"; };
+		B75360E224AE2789000F562F /* reed-color102.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color102.png"; sourceTree = "<group>"; };
+		B75360E324AE2789000F562F /* reed-color100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color100.png"; sourceTree = "<group>"; };
+		B75360E424AE2789000F562F /* reed-color26.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color26.png"; sourceTree = "<group>"; };
+		B75360E524AE2789000F562F /* reed-color32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color32.png"; sourceTree = "<group>"; };
+		B75360E624AE2789000F562F /* reed-color33.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color33.png"; sourceTree = "<group>"; };
+		B75360E724AE2789000F562F /* reed-color27.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color27.png"; sourceTree = "<group>"; };
+		B75360E824AE2789000F562F /* reed-color101.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color101.png"; sourceTree = "<group>"; };
+		B75360E924AE2789000F562F /* reed-color105.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color105.png"; sourceTree = "<group>"; };
+		B75360EA24AE2789000F562F /* reed-color23.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color23.png"; sourceTree = "<group>"; };
+		B75360EB24AE2789000F562F /* reed-color37.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color37.png"; sourceTree = "<group>"; };
+		B75360EC24AE2789000F562F /* reed-color36.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color36.png"; sourceTree = "<group>"; };
+		B75360ED24AE2789000F562F /* reed-color22.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color22.png"; sourceTree = "<group>"; };
+		B75360EE24AE2789000F562F /* reed-color104.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color104.png"; sourceTree = "<group>"; };
+		B75360EF24AE2789000F562F /* reed-color34.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color34.png"; sourceTree = "<group>"; };
+		B75360F024AE2789000F562F /* reed-color20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color20.png"; sourceTree = "<group>"; };
+		B75360F124AE2789000F562F /* reed-color21.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color21.png"; sourceTree = "<group>"; };
+		B75360F224AE2789000F562F /* reed-color35.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color35.png"; sourceTree = "<group>"; };
+		B75360F324AE2789000F562F /* reed-color10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color10.png"; sourceTree = "<group>"; };
+		B75360F424AE2789000F562F /* reed-color38.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color38.png"; sourceTree = "<group>"; };
+		B75360F524AE2789000F562F /* reed-color39.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color39.png"; sourceTree = "<group>"; };
+		B75360F624AE2789000F562F /* reed-color11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color11.png"; sourceTree = "<group>"; };
+		B75360F724AE2789000F562F /* reed-color13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color13.png"; sourceTree = "<group>"; };
+		B75360F824AE2789000F562F /* reed-color12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color12.png"; sourceTree = "<group>"; };
+		B75360F924AE2789000F562F /* reed-color16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color16.png"; sourceTree = "<group>"; };
+		B75360FA24AE2789000F562F /* reed-color17.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color17.png"; sourceTree = "<group>"; };
+		B75360FB24AE2789000F562F /* reed-color29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color29.png"; sourceTree = "<group>"; };
+		B75360FC24AE2789000F562F /* reed-color15.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color15.png"; sourceTree = "<group>"; };
+		B75360FD24AE2789000F562F /* reed-color14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color14.png"; sourceTree = "<group>"; };
+		B75360FE24AE2789000F562F /* reed-color28.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color28.png"; sourceTree = "<group>"; };
+		B75360FF24AE2789000F562F /* reed-color98.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color98.png"; sourceTree = "<group>"; };
+		B753610024AE2789000F562F /* reed-color73.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color73.png"; sourceTree = "<group>"; };
+		B753610124AE2789000F562F /* reed-color67.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color67.png"; sourceTree = "<group>"; };
+		B753610224AE2789000F562F /* reed-color66.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color66.png"; sourceTree = "<group>"; };
+		B753610324AE2789000F562F /* reed-color72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color72.png"; sourceTree = "<group>"; };
+		B753610424AE2789000F562F /* reed-color99.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color99.png"; sourceTree = "<group>"; };
+		B753610524AE2789000F562F /* reed-color9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color9.png"; sourceTree = "<group>"; };
+		B753610624AE2789000F562F /* reed-color64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color64.png"; sourceTree = "<group>"; };
+		B753610724AE2789000F562F /* reed-color70.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color70.png"; sourceTree = "<group>"; };
+		B753610824AE2789000F562F /* reed-color58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color58.png"; sourceTree = "<group>"; };
+		B753610924AE2789000F562F /* reed-color59.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color59.png"; sourceTree = "<group>"; };
+		B753610A24AE2789000F562F /* reed-color71.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color71.png"; sourceTree = "<group>"; };
+		B753610B24AE2789000F562F /* reed-color65.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color65.png"; sourceTree = "<group>"; };
+		B753610C24AE2789000F562F /* reed-color8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color8.png"; sourceTree = "<group>"; };
+		B753610D24AE2789000F562F /* reed-color49.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color49.png"; sourceTree = "<group>"; };
+		B753610E24AE2789000F562F /* reed-color61.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color61.png"; sourceTree = "<group>"; };
+		B753610F24AE2789000F562F /* reed-color75.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color75.png"; sourceTree = "<group>"; };
+		B753611024AE2789000F562F /* reed-color74.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color74.png"; sourceTree = "<group>"; };
+		B753611124AE2789000F562F /* reed-color60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color60.png"; sourceTree = "<group>"; };
+		B753611224AE2789000F562F /* reed-color48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color48.png"; sourceTree = "<group>"; };
+		B753611324AE2789000F562F /* reed-color89.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color89.png"; sourceTree = "<group>"; };
+		B753611424AE2789000F562F /* reed-color76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color76.png"; sourceTree = "<group>"; };
+		B753611524AE2789000F562F /* reed-color62.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color62.png"; sourceTree = "<group>"; };
+		B753611624AE2789000F562F /* reed-color63.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color63.png"; sourceTree = "<group>"; };
+		B753611724AE2789000F562F /* reed-color77.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color77.png"; sourceTree = "<group>"; };
+		B753611824AE2789000F562F /* reed-color88.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color88.png"; sourceTree = "<group>"; };
 		B760EE781FFC6ACB0022036B /* CookieDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookieDetailTableViewController.swift; sourceTree = "<group>"; };
 		B760EE7A1FFC6D690022036B /* czzCookieManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = czzCookieManager.swift; sourceTree = "<group>"; };
 		B760EE861FFCA7980022036B /* CookieTextInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CookieTextInputViewController.swift; sourceTree = "<group>"; };
@@ -2296,34 +2464,6 @@
 				4421C2751E7BF2DA00BD48C4 /* ac-new95.png */,
 			);
 			path = new;
-			sourceTree = "<group>";
-		};
-		4421C2761E7BF2DA00BD48C4 /* overwatch */ = {
-			isa = PBXGroup;
-			children = (
-				4421C2771E7BF2DA00BD48C4 /* ac-overwatch1.gif */,
-				4421C2781E7BF2DA00BD48C4 /* ac-overwatch10.gif */,
-				4421C2791E7BF2DA00BD48C4 /* ac-overwatch11.gif */,
-				4421C27A1E7BF2DA00BD48C4 /* ac-overwatch12.gif */,
-				4421C27B1E7BF2DA00BD48C4 /* ac-overwatch13.gif */,
-				4421C27C1E7BF2DA00BD48C4 /* ac-overwatch14.gif */,
-				4421C27D1E7BF2DA00BD48C4 /* ac-overwatch15.gif */,
-				4421C27E1E7BF2DA00BD48C4 /* ac-overwatch16.gif */,
-				4421C27F1E7BF2DA00BD48C4 /* ac-overwatch17.gif */,
-				4421C2801E7BF2DA00BD48C4 /* ac-overwatch18.gif */,
-				4421C2811E7BF2DA00BD48C4 /* ac-overwatch19.gif */,
-				4421C2821E7BF2DA00BD48C4 /* ac-overwatch2.gif */,
-				4421C2831E7BF2DA00BD48C4 /* ac-overwatch20.gif */,
-				4421C2841E7BF2DA00BD48C4 /* ac-overwatch21.gif */,
-				4421C2851E7BF2DA00BD48C4 /* ac-overwatch3.gif */,
-				4421C2861E7BF2DA00BD48C4 /* ac-overwatch4.gif */,
-				4421C2871E7BF2DA00BD48C4 /* ac-overwatch5.gif */,
-				4421C2881E7BF2DA00BD48C4 /* ac-overwatch6.gif */,
-				4421C2891E7BF2DA00BD48C4 /* ac-overwatch7.gif */,
-				4421C28A1E7BF2DA00BD48C4 /* ac-overwatch8.gif */,
-				4421C28B1E7BF2DA00BD48C4 /* ac-overwatch9.gif */,
-			);
-			path = overwatch;
 			sourceTree = "<group>";
 		};
 		4421C28C1E7BF2DA00BD48C4 /* reed */ = {
@@ -3339,7 +3479,7 @@
 				449FF63D1D82FD250065BA08 /* chat@2x.png */,
 				4421C1DF1E7BF2DA00BD48C4 /* classic */,
 				4421C2161E7BF2DA00BD48C4 /* new */,
-				4421C2761E7BF2DA00BD48C4 /* overwatch */,
+				B75360AF24AE2789000F562F /* reed-color */,
 				4421C28C1E7BF2DA00BD48C4 /* reed */,
 				44A9E1481AE1D14400740CE1 /* App icon */,
 				44C73BCF1A496C4F0051D4C2 /* launch screens */,
@@ -3550,6 +3690,118 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		B75360AF24AE2789000F562F /* reed-color */ = {
+			isa = PBXGroup;
+			children = (
+				B75360B024AE2789000F562F /* reed-color3.png */,
+				B75360B124AE2789000F562F /* reed-color91.png */,
+				B75360B224AE2789000F562F /* reed-color85.png */,
+				B75360B324AE2789000F562F /* reed-color52.png */,
+				B75360B424AE2789000F562F /* reed-color46.png */,
+				B75360B524AE2789000F562F /* reed-color47.png */,
+				B75360B624AE2789000F562F /* reed-color53.png */,
+				B75360B724AE2789000F562F /* reed-color84.png */,
+				B75360B824AE2789000F562F /* reed-color90.png */,
+				B75360B924AE2789000F562F /* reed-color2.png */,
+				B75360BA24AE2789000F562F /* reed-color86.png */,
+				B75360BB24AE2789000F562F /* reed-color92.png */,
+				B75360BC24AE2789000F562F /* reed-color45.png */,
+				B75360BD24AE2789000F562F /* reed-color51.png */,
+				B75360BE24AE2789000F562F /* reed-color79.png */,
+				B75360BF24AE2789000F562F /* reed-color78.png */,
+				B75360C024AE2789000F562F /* reed-color50.png */,
+				B75360C124AE2789000F562F /* reed-color44.png */,
+				B75360C224AE2789000F562F /* reed-color93.png */,
+				B75360C324AE2789000F562F /* reed-color87.png */,
+				B75360C424AE2789000F562F /* reed-color1.png */,
+				B75360C524AE2789000F562F /* reed-color5.png */,
+				B75360C624AE2789000F562F /* reed-color83.png */,
+				B75360C724AE2789000F562F /* reed-color97.png */,
+				B75360C824AE2789000F562F /* reed-color68.png */,
+				B75360C924AE2789000F562F /* reed-color40.png */,
+				B75360CA24AE2789000F562F /* reed-color54.png */,
+				B75360CB24AE2789000F562F /* reed-color55.png */,
+				B75360CC24AE2789000F562F /* reed-color41.png */,
+				B75360CD24AE2789000F562F /* reed-color69.png */,
+				B75360CE24AE2789000F562F /* reed-color96.png */,
+				B75360CF24AE2789000F562F /* reed-color82.png */,
+				B75360D024AE2789000F562F /* reed-color4.png */,
+				B75360D124AE2789000F562F /* reed-color6.png */,
+				B75360D224AE2789000F562F /* reed-color94.png */,
+				B75360D324AE2789000F562F /* reed-color80.png */,
+				B75360D424AE2789000F562F /* reed-color57.png */,
+				B75360D524AE2789000F562F /* reed-color43.png */,
+				B75360D624AE2789000F562F /* reed-color42.png */,
+				B75360D724AE2789000F562F /* reed-color56.png */,
+				B75360D824AE2789000F562F /* reed-color81.png */,
+				B75360D924AE2789000F562F /* reed-color95.png */,
+				B75360DA24AE2789000F562F /* reed-color7.png */,
+				B75360DB24AE2789000F562F /* reed-color103.png */,
+				B75360DC24AE2789000F562F /* reed-color31.png */,
+				B75360DD24AE2789000F562F /* reed-color25.png */,
+				B75360DE24AE2789000F562F /* reed-color19.png */,
+				B75360DF24AE2789000F562F /* reed-color18.png */,
+				B75360E024AE2789000F562F /* reed-color24.png */,
+				B75360E124AE2789000F562F /* reed-color30.png */,
+				B75360E224AE2789000F562F /* reed-color102.png */,
+				B75360E324AE2789000F562F /* reed-color100.png */,
+				B75360E424AE2789000F562F /* reed-color26.png */,
+				B75360E524AE2789000F562F /* reed-color32.png */,
+				B75360E624AE2789000F562F /* reed-color33.png */,
+				B75360E724AE2789000F562F /* reed-color27.png */,
+				B75360E824AE2789000F562F /* reed-color101.png */,
+				B75360E924AE2789000F562F /* reed-color105.png */,
+				B75360EA24AE2789000F562F /* reed-color23.png */,
+				B75360EB24AE2789000F562F /* reed-color37.png */,
+				B75360EC24AE2789000F562F /* reed-color36.png */,
+				B75360ED24AE2789000F562F /* reed-color22.png */,
+				B75360EE24AE2789000F562F /* reed-color104.png */,
+				B75360EF24AE2789000F562F /* reed-color34.png */,
+				B75360F024AE2789000F562F /* reed-color20.png */,
+				B75360F124AE2789000F562F /* reed-color21.png */,
+				B75360F224AE2789000F562F /* reed-color35.png */,
+				B75360F324AE2789000F562F /* reed-color10.png */,
+				B75360F424AE2789000F562F /* reed-color38.png */,
+				B75360F524AE2789000F562F /* reed-color39.png */,
+				B75360F624AE2789000F562F /* reed-color11.png */,
+				B75360F724AE2789000F562F /* reed-color13.png */,
+				B75360F824AE2789000F562F /* reed-color12.png */,
+				B75360F924AE2789000F562F /* reed-color16.png */,
+				B75360FA24AE2789000F562F /* reed-color17.png */,
+				B75360FB24AE2789000F562F /* reed-color29.png */,
+				B75360FC24AE2789000F562F /* reed-color15.png */,
+				B75360FD24AE2789000F562F /* reed-color14.png */,
+				B75360FE24AE2789000F562F /* reed-color28.png */,
+				B75360FF24AE2789000F562F /* reed-color98.png */,
+				B753610024AE2789000F562F /* reed-color73.png */,
+				B753610124AE2789000F562F /* reed-color67.png */,
+				B753610224AE2789000F562F /* reed-color66.png */,
+				B753610324AE2789000F562F /* reed-color72.png */,
+				B753610424AE2789000F562F /* reed-color99.png */,
+				B753610524AE2789000F562F /* reed-color9.png */,
+				B753610624AE2789000F562F /* reed-color64.png */,
+				B753610724AE2789000F562F /* reed-color70.png */,
+				B753610824AE2789000F562F /* reed-color58.png */,
+				B753610924AE2789000F562F /* reed-color59.png */,
+				B753610A24AE2789000F562F /* reed-color71.png */,
+				B753610B24AE2789000F562F /* reed-color65.png */,
+				B753610C24AE2789000F562F /* reed-color8.png */,
+				B753610D24AE2789000F562F /* reed-color49.png */,
+				B753610E24AE2789000F562F /* reed-color61.png */,
+				B753610F24AE2789000F562F /* reed-color75.png */,
+				B753611024AE2789000F562F /* reed-color74.png */,
+				B753611124AE2789000F562F /* reed-color60.png */,
+				B753611224AE2789000F562F /* reed-color48.png */,
+				B753611324AE2789000F562F /* reed-color89.png */,
+				B753611424AE2789000F562F /* reed-color76.png */,
+				B753611524AE2789000F562F /* reed-color62.png */,
+				B753611624AE2789000F562F /* reed-color63.png */,
+				B753611724AE2789000F562F /* reed-color77.png */,
+				B753611824AE2789000F562F /* reed-color88.png */,
+			);
+			path = "reed-color";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -3685,28 +3937,35 @@
 				44E792091A17856500A63C04 /* upload@3x.png in Resources */,
 				44C73BD31A496C4F0051D4C2 /* ipad launch screen.png in Resources */,
 				4421C3A61E7BF2DA00BD48C4 /* reed-classic103.png in Resources */,
+				B753618124AE278A000F562F /* reed-color88.png in Resources */,
 				4421C3391E7BF2DA00BD48C4 /* ac-new20.png in Resources */,
+				B753611E24AE278A000F562F /* reed-color47.png in Resources */,
 				4421C3B11E7BF2DA00BD48C4 /* reed-classic18.png in Resources */,
+				B753613824AE278A000F562F /* reed-color82.png in Resources */,
 				444F5B3B1A40EA3500EB391F /* 40.png in Resources */,
 				447E06231BC2391900D24087 /* trash@2x.png in Resources */,
+				B753613D24AE278A000F562F /* reed-color57.png in Resources */,
 				4421C30A1E7BF2DA00BD48C4 /* ac-classic27.png in Resources */,
 				4421C37A1E7BF2DA00BD48C4 /* ac-new8.png in Resources */,
 				4421C34E1E7BF2DA00BD48C4 /* ac-new4.png in Resources */,
 				4421C3001E7BF2DA00BD48C4 /* ac-classic18.png in Resources */,
 				44989A211CFC5A8500F04ECD /* popular_threads.json in Resources */,
+				B753615B24AE278A000F562F /* reed-color35.png in Resources */,
 				4421C3FA1E7BF2DB00BD48C4 /* reed-classic84.png in Resources */,
 				444F5B341A40EA3500EB391F /* 33.png in Resources */,
 				448547FC1DB9DD9E00E7CE7B /* poison.png in Resources */,
+				B753616B24AE278A000F562F /* reed-color66.png in Resources */,
 				444F5B3F1A40EA3500EB391F /* 44.png in Resources */,
 				4421C2F81E7BF2DA00BD48C4 /* ac-classic10.png in Resources */,
 				44E791E71A17856500A63C04 /* menu@2x.png in Resources */,
 				4421C3511E7BF2DA00BD48C4 /* ac-new42.png in Resources */,
 				444F5B491A40EA3500EB391F /* 54.png in Resources */,
+				B753612E24AE278A000F562F /* reed-color5.png in Resources */,
 				4421C3D61E7BF2DA00BD48C4 /* reed-classic51.png in Resources */,
 				44E792031A17856500A63C04 /* solid_star@3x.png in Resources */,
 				444F5B351A40EA3500EB391F /* 34.png in Resources */,
 				445B7B531B418CBE0046CFDB /* czzThreadTableViewCommandCellTableViewCell.xib in Resources */,
-				4421C3931E7BF2DA00BD48C4 /* ac-overwatch16.gif in Resources */,
+				B753615F24AE278A000F562F /* reed-color11.png in Resources */,
 				44A9E15B1AE1D16000740CE1 /* iTunesArtwork@2x.png in Resources */,
 				444F5B301A40EA3500EB391F /* 29.png in Resources */,
 				4421C3311E7BF2DA00BD48C4 /* ac-new13.png in Resources */,
@@ -3714,6 +3973,7 @@
 				44DF8EFC1A7512730097F7F5 /* add_user@2x.png in Resources */,
 				44CF254E1A25A2A500BD8228 /* delete_file@3x.png in Resources */,
 				4421C3101E7BF2DA00BD48C4 /* ac-classic32.png in Resources */,
+				B753615124AE278A000F562F /* reed-color101.png in Resources */,
 				4421C3861E7BF2DA00BD48C4 /* ac-new90.png in Resources */,
 				44CF25511A25A2A500BD8228 /* picture@2x.png in Resources */,
 				4421C33A1E7BF2DA00BD48C4 /* ac-new21.png in Resources */,
@@ -3731,7 +3991,6 @@
 				5A5407F619961F87005FA214 /* default_configuration.json in Resources */,
 				4421C3201E7BF2DA00BD48C4 /* ac-classic47.png in Resources */,
 				4453C07719F634B700A8250F /* Launch Screen.xib in Resources */,
-				4421C39D1E7BF2DA00BD48C4 /* ac-overwatch6.gif in Resources */,
 				44E791F01A17856500A63C04 /* reply@2x.png in Resources */,
 				4421C3B31E7BF2DA00BD48C4 /* reed-classic2.png in Resources */,
 				4421C3F81E7BF2DB00BD48C4 /* reed-classic82.png in Resources */,
@@ -3741,13 +4000,14 @@
 				44DF8EFD1A7512730097F7F5 /* add_user@3x.png in Resources */,
 				444F5B471A40EA3500EB391F /* 52.png in Resources */,
 				4421C3561E7BF2DA00BD48C4 /* ac-new47.png in Resources */,
-				4421C3911E7BF2DA00BD48C4 /* ac-overwatch14.gif in Resources */,
+				B753614124AE278A000F562F /* reed-color81.png in Resources */,
 				44E791FA1A17856500A63C04 /* settings@3x.png in Resources */,
 				44DF8EFF1A7512730097F7F5 /* checked_user@2x.png in Resources */,
 				4421C3D11E7BF2DA00BD48C4 /* reed-classic47.png in Resources */,
 				4421C40F1E7C02D900BD48C4 /* EmoticonCollectionViewCell.xib in Resources */,
 				44E7920C1A17856500A63C04 /* view@3x.png in Resources */,
 				4421C3691E7BF2DA00BD48C4 /* ac-new64.png in Resources */,
+				B753617424AE278A000F562F /* reed-color65.png in Resources */,
 				444F5B1C1A40EA3500EB391F /* 09.png in Resources */,
 				4421C3771E7BF2DA00BD48C4 /* ac-new77.png in Resources */,
 				4421C3BE1E7BF2DA00BD48C4 /* reed-classic3.png in Resources */,
@@ -3758,15 +4018,18 @@
 				444F5B451A40EA3500EB391F /* 50.png in Resources */,
 				4421C3DD1E7BF2DA00BD48C4 /* reed-classic58.png in Resources */,
 				44E792051A17856500A63C04 /* star@2x.png in Resources */,
+				B753614F24AE278A000F562F /* reed-color33.png in Resources */,
 				4421C33C1E7BF2DA00BD48C4 /* ac-new23.png in Resources */,
-				4421C39C1E7BF2DA00BD48C4 /* ac-overwatch5.gif in Resources */,
 				4431E53F1CA4B5B00098AA01 /* LaunchPopUpNotification.storyboard in Resources */,
 				444F5B2B1A40EA3500EB391F /* 24.png in Resources */,
+				B753614724AE278A000F562F /* reed-color19.png in Resources */,
 				44C73B741A4708BA0051D4C2 /* thumb_down.png in Resources */,
 				4421C3B01E7BF2DA00BD48C4 /* reed-classic17.png in Resources */,
 				44C34557187E6CF000FDE45D /* sougo_emoji_UTF16.txt in Resources */,
 				4421C3F11E7BF2DB00BD48C4 /* reed-classic76.png in Resources */,
+				B753614C24AE278A000F562F /* reed-color100.png in Resources */,
 				4421C3E81E7BF2DA00BD48C4 /* reed-classic68.png in Resources */,
+				B753615A24AE278A000F562F /* reed-color21.png in Resources */,
 				4421C3521E7BF2DA00BD48C4 /* ac-new43.png in Resources */,
 				444F5B371A40EA3500EB391F /* 36.png in Resources */,
 				440DA7B11CF7CF350078266B /* czzBigImageModeTableViewCell.xib in Resources */,
@@ -3783,10 +4046,12 @@
 				44B89E791A2AF4340085F766 /* running_ac.gif in Resources */,
 				4421C4071E7BF2DB00BD48C4 /* reed-classic96.png in Resources */,
 				4421C3571E7BF2DA00BD48C4 /* ac-new48.png in Resources */,
+				B753612224AE278A000F562F /* reed-color2.png in Resources */,
 				4421C4051E7BF2DB00BD48C4 /* reed-classic94.png in Resources */,
 				4421C3361E7BF2DA00BD48C4 /* ac-new18.png in Resources */,
 				44DF8F031A7512730097F7F5 /* edit_file@3x.png in Resources */,
 				4421C3611E7BF2DA00BD48C4 /* ac-new57.png in Resources */,
+				B753611C24AE278A000F562F /* reed-color52.png in Resources */,
 				4421C3CD1E7BF2DA00BD48C4 /* reed-classic43.png in Resources */,
 				4421C3531E7BF2DA00BD48C4 /* ac-new44.png in Resources */,
 				4421C3A81E7BF2DA00BD48C4 /* reed-classic105.png in Resources */,
@@ -3794,11 +4059,12 @@
 				4421C3251E7BF2DA00BD48C4 /* ac-classic51.png in Resources */,
 				44CF254F1A25A2A500BD8228 /* lol@2x.png in Resources */,
 				4421C3161E7BF2DA00BD48C4 /* ac-classic38.png in Resources */,
-				4421C38C1E7BF2DA00BD48C4 /* ac-overwatch1.gif in Resources */,
 				4421C3CE1E7BF2DA00BD48C4 /* reed-classic44.png in Resources */,
+				B753613C24AE278A000F562F /* reed-color80.png in Resources */,
 				4421C3441E7BF2DA00BD48C4 /* ac-new30.png in Resources */,
 				4421C3151E7BF2DA00BD48C4 /* ac-classic37.png in Resources */,
 				4421C3C31E7BF2DA00BD48C4 /* reed-classic34.png in Resources */,
+				B753615824AE278A000F562F /* reed-color34.png in Resources */,
 				44C73B761A4708BA0051D4C2 /* thumb_down@3x.png in Resources */,
 				4421C2F91E7BF2DA00BD48C4 /* ac-classic11.png in Resources */,
 				44F86B6B1C1BB505001306E8 /* ThreadContentPage2.json in Resources */,
@@ -3810,9 +4076,12 @@
 				4421C35F1E7BF2DA00BD48C4 /* ac-new55.png in Resources */,
 				4421C33D1E7BF2DA00BD48C4 /* ac-new24.png in Resources */,
 				44A5DF691D045E3B00AEF329 /* keyboard@3x.png in Resources */,
+				B753614A24AE278A000F562F /* reed-color30.png in Resources */,
 				4421C3591E7BF2DA00BD48C4 /* ac-new5.png in Resources */,
+				B753611924AE278A000F562F /* reed-color3.png in Resources */,
 				4421C3021E7BF2DA00BD48C4 /* ac-classic2.png in Resources */,
 				4421C3DA1E7BF2DA00BD48C4 /* reed-classic55.png in Resources */,
+				B753616924AE278A000F562F /* reed-color73.png in Resources */,
 				4421C3841E7BF2DA00BD48C4 /* ac-new89.png in Resources */,
 				445C66421BBED3EF004B3E83 /* czzThreadViewCellHeaderView.xib in Resources */,
 				44E791F31A17856500A63C04 /* sad@2x.png in Resources */,
@@ -3820,10 +4089,14 @@
 				44E791FE1A17856500A63C04 /* sleeping.png in Resources */,
 				4421C31D1E7BF2DA00BD48C4 /* ac-classic44.png in Resources */,
 				44E791EA1A17856500A63C04 /* message@2x.png in Resources */,
+				B753616124AE278A000F562F /* reed-color12.png in Resources */,
 				4421C3EC1E7BF2DA00BD48C4 /* reed-classic71.png in Resources */,
 				4421C3E41E7BF2DA00BD48C4 /* reed-classic64.png in Resources */,
+				B753614524AE278A000F562F /* reed-color31.png in Resources */,
 				447E06261BC23C4200D24087 /* FavouriteManager.storyboard in Resources */,
-				4421C39B1E7BF2DA00BD48C4 /* ac-overwatch4.gif in Resources */,
+				B753617524AE278A000F562F /* reed-color8.png in Resources */,
+				B753612024AE278A000F562F /* reed-color84.png in Resources */,
+				B753612B24AE278A000F562F /* reed-color93.png in Resources */,
 				444F5B251A40EA3500EB391F /* 18.png in Resources */,
 				4421C32D1E7BF2DA00BD48C4 /* ac-new1.png in Resources */,
 				4421C37C1E7BF2DA00BD48C4 /* ac-new81.png in Resources */,
@@ -3833,48 +4106,56 @@
 				4421C3CF1E7BF2DA00BD48C4 /* reed-classic45.png in Resources */,
 				44E792021A17856500A63C04 /* solid_star@2x.png in Resources */,
 				4421C32C1E7BF2DA00BD48C4 /* ac-classic9.png in Resources */,
-				4421C3981E7BF2DA00BD48C4 /* ac-overwatch20.gif in Resources */,
 				442EC86D1A1A1C8D005650E4 /* info@2x.png in Resources */,
-				4421C39A1E7BF2DA00BD48C4 /* ac-overwatch3.gif in Resources */,
+				B753615024AE278A000F562F /* reed-color27.png in Resources */,
 				44E791EE1A17856500A63C04 /* previous@3x.png in Resources */,
 				4421C3231E7BF2DA00BD48C4 /* ac-classic5.png in Resources */,
 				4421C3731E7BF2DA00BD48C4 /* ac-new73.png in Resources */,
+				B753617D24AE278A000F562F /* reed-color76.png in Resources */,
 				4421C32B1E7BF2DA00BD48C4 /* ac-classic8.png in Resources */,
 				44E2D2D81B2DB77B0029D783 /* Utility.storyboard in Resources */,
 				44CD265D1DD1A15A003F1696 /* MoreInfo.storyboard in Resources */,
 				44DF8F081A7512730097F7F5 /* save_as@2x.png in Resources */,
 				4421C3A51E7BF2DA00BD48C4 /* reed-classic102.png in Resources */,
+				B753611A24AE278A000F562F /* reed-color91.png in Resources */,
 				4421C3341E7BF2DA00BD48C4 /* ac-new16.png in Resources */,
 				4421C3221E7BF2DA00BD48C4 /* ac-classic49.png in Resources */,
+				B753613524AE278A000F562F /* reed-color41.png in Resources */,
 				4421C3371E7BF2DA00BD48C4 /* ac-new19.png in Resources */,
 				4421C37B1E7BF2DA00BD48C4 /* ac-new80.png in Resources */,
+				B753612924AE278A000F562F /* reed-color50.png in Resources */,
 				4421C3E01E7BF2DA00BD48C4 /* reed-classic60.png in Resources */,
 				4421C3B41E7BF2DA00BD48C4 /* reed-classic20.png in Resources */,
 				4421C3AB1E7BF2DA00BD48C4 /* reed-classic12.png in Resources */,
+				B753613B24AE278A000F562F /* reed-color94.png in Resources */,
+				B753614B24AE278A000F562F /* reed-color102.png in Resources */,
 				4421C3091E7BF2DA00BD48C4 /* ac-classic26.png in Resources */,
+				B753617724AE278A000F562F /* reed-color61.png in Resources */,
 				44E791F41A17856500A63C04 /* sad@3x.png in Resources */,
 				4421C3471E7BF2DA00BD48C4 /* ac-new33.png in Resources */,
 				4421C3ED1E7BF2DA00BD48C4 /* reed-classic72.png in Resources */,
+				B753612624AE278A000F562F /* reed-color51.png in Resources */,
 				44E791D01A17856500A63C04 /* bookmark.png in Resources */,
 				4421C3C71E7BF2DA00BD48C4 /* reed-classic38.png in Resources */,
 				4421C3191E7BF2DA00BD48C4 /* ac-classic40.png in Resources */,
 				44E791DF1A17856500A63C04 /* expand_arrow@3x.png in Resources */,
 				4421C3A21E7BF2DA00BD48C4 /* reed-classic10.png in Resources */,
+				B753615C24AE278A000F562F /* reed-color10.png in Resources */,
 				444F5B1B1A40EA3500EB391F /* 08.png in Resources */,
 				44E792011A17856500A63C04 /* solid_star.png in Resources */,
 				4421C3661E7BF2DA00BD48C4 /* ac-new61.png in Resources */,
 				4421C38A1E7BF2DA00BD48C4 /* ac-new94.png in Resources */,
-				4421C3961E7BF2DA00BD48C4 /* ac-overwatch19.gif in Resources */,
+				B753613024AE278A000F562F /* reed-color97.png in Resources */,
 				449FF63E1D82FD250065BA08 /* chat@2x.png in Resources */,
 				444F5B3A1A40EA3500EB391F /* 39.png in Resources */,
 				44CF255F1A2699D000BD8228 /* OnScreenCommand.storyboard in Resources */,
 				444F5B261A40EA3500EB391F /* 19.png in Resources */,
 				444F5B221A40EA3500EB391F /* 15.png in Resources */,
+				B753611D24AE278A000F562F /* reed-color46.png in Resources */,
 				4421C3CB1E7BF2DA00BD48C4 /* reed-classic41.png in Resources */,
 				4421C3BB1E7BF2DA00BD48C4 /* reed-classic27.png in Resources */,
 				4421C3D21E7BF2DA00BD48C4 /* reed-classic48.png in Resources */,
 				4444DA3A1C7A915F00ED8568 /* running_reed.gif in Resources */,
-				4421C3941E7BF2DA00BD48C4 /* ac-overwatch17.gif in Resources */,
 				444F5B161A40EA3500EB391F /* 03.png in Resources */,
 				444F5B211A40EA3500EB391F /* 14.png in Resources */,
 				4421C3451E7BF2DA00BD48C4 /* ac-new31.png in Resources */,
@@ -3889,6 +4170,7 @@
 				44E791CD1A17856500A63C04 /* advance.png in Resources */,
 				444F5B1D1A40EA3500EB391F /* 10.png in Resources */,
 				44E791CE1A17856500A63C04 /* advance@2x.png in Resources */,
+				B753613424AE278A000F562F /* reed-color55.png in Resources */,
 				4421C3381E7BF2DA00BD48C4 /* ac-new2.png in Resources */,
 				4421C3551E7BF2DA00BD48C4 /* ac-new46.png in Resources */,
 				4421C3121E7BF2DA00BD48C4 /* ac-classic34.png in Resources */,
@@ -3900,8 +4182,10 @@
 				4421C3811E7BF2DA00BD48C4 /* ac-new86.png in Resources */,
 				44CF256B1A26B4D000BD8228 /* UIView+MGBadgeView.podspec in Resources */,
 				44E792061A17856500A63C04 /* star@3x.png in Resources */,
+				B753614324AE278A000F562F /* reed-color7.png in Resources */,
 				4421C3B71E7BF2DA00BD48C4 /* reed-classic23.png in Resources */,
 				44CF25521A25A2A500BD8228 /* picture@3x.png in Resources */,
+				B753615424AE278A000F562F /* reed-color37.png in Resources */,
 				4421C3181E7BF2DA00BD48C4 /* ac-classic4.png in Resources */,
 				4421C3AC1E7BF2DA00BD48C4 /* reed-classic13.png in Resources */,
 				44CF25501A25A2A500BD8228 /* lol@3x.png in Resources */,
@@ -3910,15 +4194,19 @@
 				4421C3FC1E7BF2DB00BD48C4 /* reed-classic86.png in Resources */,
 				4421C3C41E7BF2DA00BD48C4 /* reed-classic35.png in Resources */,
 				4421C31A1E7BF2DA00BD48C4 /* ac-classic41.png in Resources */,
+				B753617624AE278A000F562F /* reed-color49.png in Resources */,
 				4421C3DC1E7BF2DA00BD48C4 /* reed-classic57.png in Resources */,
 				44C3454C187E5C6100FDE45D /* czzEmojiCollectionViewCell.xib in Resources */,
 				44CEF62F1DD1BBC8002BA6E8 /* PostView.storyboard in Resources */,
 				442B3D2E1C79C1EA00403227 /* rules.html in Resources */,
 				44E791D31A17856500A63C04 /* collapse_arrow.png in Resources */,
 				4421C4041E7BF2DB00BD48C4 /* reed-classic93.png in Resources */,
+				B753617F24AE278A000F562F /* reed-color63.png in Resources */,
 				444F5B2E1A40EA3500EB391F /* 27.png in Resources */,
 				4421C3D01E7BF2DA00BD48C4 /* reed-classic46.png in Resources */,
+				B753616E24AE278A000F562F /* reed-color9.png in Resources */,
 				4421C3431E7BF2DA00BD48C4 /* ac-new3.png in Resources */,
+				B753616224AE278A000F562F /* reed-color16.png in Resources */,
 				4421C4011E7BF2DB00BD48C4 /* reed-classic90.png in Resources */,
 				44DF8EFE1A7512730097F7F5 /* checked_user.png in Resources */,
 				44DF8F071A7512730097F7F5 /* save_as.png in Resources */,
@@ -3927,7 +4215,9 @@
 				4421C3D41E7BF2DA00BD48C4 /* reed-classic5.png in Resources */,
 				44C73BDE1A496D6E0051D4C2 /* ipad 768 horizontal launch screen.png in Resources */,
 				4421C4021E7BF2DB00BD48C4 /* reed-classic91.png in Resources */,
+				B753614924AE278A000F562F /* reed-color24.png in Resources */,
 				4421C3751E7BF2DA00BD48C4 /* ac-new75.png in Resources */,
+				B753615D24AE278A000F562F /* reed-color38.png in Resources */,
 				4421C3C61E7BF2DA00BD48C4 /* reed-classic37.png in Resources */,
 				44E792041A17856500A63C04 /* star.png in Resources */,
 				444F5B2F1A40EA3500EB391F /* 28.png in Resources */,
@@ -3940,11 +4230,15 @@
 				4421C36F1E7BF2DA00BD48C4 /* ac-new7.png in Resources */,
 				444F5B321A40EA3500EB391F /* 31.png in Resources */,
 				442EC86E1A1A1C8D005650E4 /* info@3x.png in Resources */,
+				B753614624AE278A000F562F /* reed-color25.png in Resources */,
 				441E5CEA17F4691300289DBD /* Images.xcassets in Resources */,
 				4421C40A1E7BF2DB00BD48C4 /* reed-classic99.png in Resources */,
+				B753617C24AE278A000F562F /* reed-color89.png in Resources */,
+				B753614D24AE278A000F562F /* reed-color26.png in Resources */,
 				4421C3111E7BF2DA00BD48C4 /* ac-classic33.png in Resources */,
 				4421C3581E7BF2DA00BD48C4 /* ac-new49.png in Resources */,
 				44DF8F051A7512730097F7F5 /* remove_user@2x.png in Resources */,
+				B753615224AE278A000F562F /* reed-color105.png in Resources */,
 				44DF8EFB1A7512730097F7F5 /* add_user.png in Resources */,
 				4421C3E11E7BF2DA00BD48C4 /* reed-classic61.png in Resources */,
 				4421C3AE1E7BF2DA00BD48C4 /* reed-classic15.png in Resources */,
@@ -3958,23 +4252,27 @@
 				44E791D51A17856500A63C04 /* collapse_arrow@3x.png in Resources */,
 				44DDC7FC1DB8A6BF001A569D /* flag@2x.png in Resources */,
 				4421C30B1E7BF2DA00BD48C4 /* ac-classic28.png in Resources */,
+				B753614224AE278A000F562F /* reed-color95.png in Resources */,
 				44B54E6A1A0EE1B80004C5B4 /* czzThreadViewTableViewCell.xib in Resources */,
 				4421C3291E7BF2DA00BD48C4 /* ac-classic6.png in Resources */,
 				44DF8F041A7512730097F7F5 /* remove_user.png in Resources */,
 				4421C3B81E7BF2DA00BD48C4 /* reed-classic24.png in Resources */,
-				4421C3991E7BF2DA00BD48C4 /* ac-overwatch21.gif in Resources */,
+				B753613724AE278A000F562F /* reed-color96.png in Resources */,
 				4421C3541E7BF2DA00BD48C4 /* ac-new45.png in Resources */,
 				44E791E91A17856500A63C04 /* message.png in Resources */,
 				4421C3F01E7BF2DB00BD48C4 /* reed-classic75.png in Resources */,
+				B753617024AE278A000F562F /* reed-color70.png in Resources */,
 				4421C3E51E7BF2DA00BD48C4 /* reed-classic65.png in Resources */,
+				B753614E24AE278A000F562F /* reed-color32.png in Resources */,
 				4421C3A71E7BF2DA00BD48C4 /* reed-classic104.png in Resources */,
 				4421C3321E7BF2DA00BD48C4 /* ac-new14.png in Resources */,
 				4421C37D1E7BF2DA00BD48C4 /* ac-new82.png in Resources */,
+				B753616624AE278A000F562F /* reed-color14.png in Resources */,
 				4421C3DE1E7BF2DA00BD48C4 /* reed-classic59.png in Resources */,
+				B753617E24AE278A000F562F /* reed-color62.png in Resources */,
 				44DDC7FE1DBB5660001A569D /* ForumSelector.storyboard in Resources */,
 				44DF8EEB1A74DA510097F7F5 /* MessagePopup.storyboard in Resources */,
 				4421C3651E7BF2DA00BD48C4 /* ac-new60.png in Resources */,
-				4421C3921E7BF2DA00BD48C4 /* ac-overwatch15.gif in Resources */,
 				4421C34D1E7BF2DA00BD48C4 /* ac-new39.png in Resources */,
 				4421C3F91E7BF2DB00BD48C4 /* reed-classic83.png in Resources */,
 				4421C3241E7BF2DA00BD48C4 /* ac-classic50.png in Resources */,
@@ -3985,19 +4283,26 @@
 				4421C2FD1E7BF2DA00BD48C4 /* ac-classic15.png in Resources */,
 				44E791DC1A17856500A63C04 /* error@3x.png in Resources */,
 				4421C30E1E7BF2DA00BD48C4 /* ac-classic30.png in Resources */,
+				B753613624AE278A000F562F /* reed-color69.png in Resources */,
+				B753612F24AE278A000F562F /* reed-color83.png in Resources */,
+				B753615324AE278A000F562F /* reed-color23.png in Resources */,
 				4421C3F51E7BF2DB00BD48C4 /* reed-classic8.png in Resources */,
+				B753616824AE278A000F562F /* reed-color98.png in Resources */,
 				444F5B281A40EA3500EB391F /* 21.png in Resources */,
 				44E791F11A17856500A63C04 /* reply@3x.png in Resources */,
+				B753614424AE278A000F562F /* reed-color103.png in Resources */,
 				44A1697E1D070546001DF0B3 /* zhuizhui_emoji.txt in Resources */,
 				4421C2F71E7BF2DA00BD48C4 /* ac-classic1.png in Resources */,
+				B753617124AE278A000F562F /* reed-color58.png in Resources */,
 				4421C4031E7BF2DB00BD48C4 /* reed-classic92.png in Resources */,
 				4421C3481E7BF2DA00BD48C4 /* ac-new34.png in Resources */,
 				4421C2FE1E7BF2DA00BD48C4 /* ac-classic16.png in Resources */,
 				44E791FB1A17856500A63C04 /* settings_wrench.png in Resources */,
+				B753617B24AE278A000F562F /* reed-color48.png in Resources */,
+				B753616A24AE278A000F562F /* reed-color67.png in Resources */,
 				44E791DB1A17856500A63C04 /* error@2x.png in Resources */,
 				44C34555187E6C6200FDE45D /* sogou_emoji.txt in Resources */,
 				4421C3D51E7BF2DA00BD48C4 /* reed-classic50.png in Resources */,
-				4421C39E1E7BF2DA00BD48C4 /* ac-overwatch7.gif in Resources */,
 				44E791D41A17856500A63C04 /* collapse_arrow@2x.png in Resources */,
 				444F5B171A40EA3500EB391F /* 04.png in Resources */,
 				442418E31CA2697100654A74 /* popup notification example.json in Resources */,
@@ -4016,6 +4321,7 @@
 				44DF8F001A7512730097F7F5 /* checked_user@3x.png in Resources */,
 				44E791E31A17856500A63C04 /* link.png in Resources */,
 				44E791D71A17856500A63C04 /* delete.png in Resources */,
+				B753617824AE278A000F562F /* reed-color75.png in Resources */,
 				4421C33F1E7BF2DA00BD48C4 /* ac-new26.png in Resources */,
 				44DF8EE21A74D6600097F7F5 /* CookieManager.storyboard in Resources */,
 				4421C3E31E7BF2DA00BD48C4 /* reed-classic63.png in Resources */,
@@ -4029,17 +4335,23 @@
 				4421C3881E7BF2DA00BD48C4 /* ac-new92.png in Resources */,
 				44BDA3F71DB7350F00D2F576 /* colorband.png in Resources */,
 				4421C3741E7BF2DA00BD48C4 /* ac-new74.png in Resources */,
+				B753612A24AE278A000F562F /* reed-color44.png in Resources */,
+				B753613924AE278A000F562F /* reed-color4.png in Resources */,
+				B753616C24AE278A000F562F /* reed-color72.png in Resources */,
 				44E791E81A17856500A63C04 /* menu@3x.png in Resources */,
 				44A5DF6C1D045E3B00AEF329 /* keyboard_filled@2x.png in Resources */,
 				44C73BDA1A496CBD0051D4C2 /* ipad 768 launch screen.png in Resources */,
+				B753617224AE278A000F562F /* reed-color59.png in Resources */,
+				B753612C24AE278A000F562F /* reed-color87.png in Resources */,
 				4421C3781E7BF2DA00BD48C4 /* ac-new78.png in Resources */,
 				44A5DF6B1D045E3B00AEF329 /* keyboard_filled@3x.png in Resources */,
 				5A637439195D8AB0004AF1FC /* LICENSE in Resources */,
-				4421C3951E7BF2DA00BD48C4 /* ac-overwatch18.gif in Resources */,
 				4421C3081E7BF2DA00BD48C4 /* ac-classic25.png in Resources */,
 				44E791ED1A17856500A63C04 /* previous@2x.png in Resources */,
 				4421C3B51E7BF2DA00BD48C4 /* reed-classic21.png in Resources */,
 				4421C3AF1E7BF2DA00BD48C4 /* reed-classic16.png in Resources */,
+				B753611F24AE278A000F562F /* reed-color53.png in Resources */,
+				B753612524AE278A000F562F /* reed-color45.png in Resources */,
 				444F5B181A40EA3500EB391F /* 05.png in Resources */,
 				4421C35A1E7BF2DA00BD48C4 /* ac-new50.png in Resources */,
 				4421C36E1E7BF2DA00BD48C4 /* ac-new69.png in Resources */,
@@ -4047,7 +4359,9 @@
 				4421C3701E7BF2DA00BD48C4 /* ac-new70.png in Resources */,
 				4421C3FB1E7BF2DB00BD48C4 /* reed-classic85.png in Resources */,
 				4432BA971AA88764002C66F5 /* new AC isle api.json in Resources */,
+				B753612724AE278A000F562F /* reed-color79.png in Resources */,
 				446557631C60F15A0051F1DD /* invisible@2x.png in Resources */,
+				B753613324AE278A000F562F /* reed-color54.png in Resources */,
 				444F5B271A40EA3500EB391F /* 20.png in Resources */,
 				4421C3061E7BF2DA00BD48C4 /* ac-classic23.png in Resources */,
 				4432BA941AA88613002C66F5 /* thread content example.json in Resources */,
@@ -4057,18 +4371,20 @@
 				4421C3831E7BF2DA00BD48C4 /* ac-new88.png in Resources */,
 				4421C33E1E7BF2DA00BD48C4 /* ac-new25.png in Resources */,
 				4421C35C1E7BF2DA00BD48C4 /* ac-new52.png in Resources */,
+				B753616F24AE278A000F562F /* reed-color64.png in Resources */,
 				4421C3E21E7BF2DA00BD48C4 /* reed-classic62.png in Resources */,
+				B753616524AE278A000F562F /* reed-color15.png in Resources */,
 				4421C36D1E7BF2DA00BD48C4 /* ac-new68.png in Resources */,
 				4421C3171E7BF2DA00BD48C4 /* ac-classic39.png in Resources */,
 				4421C35B1E7BF2DA00BD48C4 /* ac-new51.png in Resources */,
+				B753618024AE278A000F562F /* reed-color77.png in Resources */,
 				444F5B431A40EA3500EB391F /* 48.png in Resources */,
 				444F5B241A40EA3500EB391F /* 17.png in Resources */,
 				444F5B201A40EA3500EB391F /* 13.png in Resources */,
 				4421C3AD1E7BF2DA00BD48C4 /* reed-classic14.png in Resources */,
 				4421C3F61E7BF2DB00BD48C4 /* reed-classic80.png in Resources */,
 				4421C3E71E7BF2DA00BD48C4 /* reed-classic67.png in Resources */,
-				4421C38F1E7BF2DA00BD48C4 /* ac-overwatch12.gif in Resources */,
-				4421C39F1E7BF2DA00BD48C4 /* ac-overwatch8.gif in Resources */,
+				B753613224AE278A000F562F /* reed-color40.png in Resources */,
 				4411B2EF1AFF6A5500E94A5B /* default_forums.json in Resources */,
 				444F5B2D1A40EA3500EB391F /* 26.png in Resources */,
 				4421C2FC1E7BF2DA00BD48C4 /* ac-classic14.png in Resources */,
@@ -4079,10 +4395,11 @@
 				4421C3DB1E7BF2DA00BD48C4 /* reed-classic56.png in Resources */,
 				44C73B751A4708BA0051D4C2 /* thumb_down@2x.png in Resources */,
 				4421C3C91E7BF2DA00BD48C4 /* reed-classic4.png in Resources */,
+				B753613A24AE278A000F562F /* reed-color6.png in Resources */,
 				44E791FF1A17856500A63C04 /* sleeping@2x.png in Resources */,
-				4421C38D1E7BF2DA00BD48C4 /* ac-overwatch10.gif in Resources */,
 				4421C3D31E7BF2DA00BD48C4 /* reed-classic49.png in Resources */,
 				4421C36C1E7BF2DA00BD48C4 /* ac-new67.png in Resources */,
+				B753612424AE278A000F562F /* reed-color92.png in Resources */,
 				44B1315D1D1D13BB003D4D0F /* warning@3x.png in Resources */,
 				4421C3D71E7BF2DA00BD48C4 /* reed-classic52.png in Resources */,
 				4432BA951AA88613002C66F5 /* get forums example.json in Resources */,
@@ -4093,11 +4410,17 @@
 				4421C4061E7BF2DB00BD48C4 /* reed-classic95.png in Resources */,
 				4421C3C11E7BF2DA00BD48C4 /* reed-classic32.png in Resources */,
 				441A6A851BB28D96008E380C /* visible@2x.png in Resources */,
+				B753613E24AE278A000F562F /* reed-color43.png in Resources */,
+				B753615924AE278A000F562F /* reed-color20.png in Resources */,
 				4421C3BD1E7BF2DA00BD48C4 /* reed-classic29.png in Resources */,
 				44E791CF1A17856500A63C04 /* advance@3x.png in Resources */,
 				4421C3411E7BF2DA00BD48C4 /* ac-new28.png in Resources */,
 				445C66451BBED6FB004B3E83 /* czzThreadViewCellFooterView.xib in Resources */,
+				B753617924AE278A000F562F /* reed-color74.png in Resources */,
+				B753615624AE278A000F562F /* reed-color22.png in Resources */,
+				B753616D24AE278A000F562F /* reed-color99.png in Resources */,
 				44E791D11A17856500A63C04 /* bookmark@2x.png in Resources */,
+				B753613124AE278A000F562F /* reed-color68.png in Resources */,
 				44E791D81A17856500A63C04 /* delete@2x.png in Resources */,
 				444F5B231A40EA3500EB391F /* 16.png in Resources */,
 				44A5DF6A1D045E3B00AEF329 /* keyboard@2x.png in Resources */,
@@ -4111,6 +4434,7 @@
 				4444DA3F1C7AA27200ED8568 /* PostSenderManager.storyboard in Resources */,
 				4421C3791E7BF2DA00BD48C4 /* ac-new79.png in Resources */,
 				44E791F91A17856500A63C04 /* settings@2x.png in Resources */,
+				B753616024AE278A000F562F /* reed-color13.png in Resources */,
 				444F5B361A40EA3500EB391F /* 35.png in Resources */,
 				4421C31B1E7BF2DA00BD48C4 /* ac-classic42.png in Resources */,
 				444F5B411A40EA3500EB391F /* 46.png in Resources */,
@@ -4119,44 +4443,54 @@
 				4421C3681E7BF2DA00BD48C4 /* ac-new63.png in Resources */,
 				4421C35E1E7BF2DA00BD48C4 /* ac-new54.png in Resources */,
 				44CF254A1A25A2A500BD8228 /* delete_file.png in Resources */,
-				4421C3A01E7BF2DA00BD48C4 /* ac-overwatch9.gif in Resources */,
 				44E791EF1A17856500A63C04 /* reply.png in Resources */,
 				4421C31C1E7BF2DA00BD48C4 /* ac-classic43.png in Resources */,
-				4421C3901E7BF2DA00BD48C4 /* ac-overwatch13.gif in Resources */,
 				4421C3631E7BF2DA00BD48C4 /* ac-new59.png in Resources */,
 				44B05C1F1C62051F00F6F5E3 /* czzBannerView.xib in Resources */,
+				B753617324AE278A000F562F /* reed-color71.png in Resources */,
 				4421C30C1E7BF2DA00BD48C4 /* ac-classic29.png in Resources */,
 				44C73BE01A496D6E0051D4C2 /* ipad horizontal launch screen.png in Resources */,
+				B753612D24AE278A000F562F /* reed-color1.png in Resources */,
 				44C3455C187E774300FDE45D /* acfun_emoji_UTF8.txt in Resources */,
 				441E5CE217F4691300289DBD /* Main_iPhone.storyboard in Resources */,
+				B753616724AE278A000F562F /* reed-color28.png in Resources */,
 				444F5B3E1A40EA3500EB391F /* 43.png in Resources */,
 				4421C32E1E7BF2DA00BD48C4 /* ac-new10.png in Resources */,
+				B753612124AE278A000F562F /* reed-color90.png in Resources */,
 				4421C3461E7BF2DA00BD48C4 /* ac-new32.png in Resources */,
+				B753615524AE278A000F562F /* reed-color36.png in Resources */,
 				444146DA1A1ACA8700B27D69 /* ImageManagerStoryboard.storyboard in Resources */,
 				4421C3EF1E7BF2DA00BD48C4 /* reed-classic74.png in Resources */,
 				44C34551187E616500FDE45D /* czzEmojiCollectionViewController.xib in Resources */,
 				44CF25531A25A2A500BD8228 /* sent@2x.png in Resources */,
 				44B89E6F1A2AF2200085F766 /* running_ac-4.gif in Resources */,
 				444F5B151A40EA3500EB391F /* 02.png in Resources */,
+				B753617A24AE278A000F562F /* reed-color60.png in Resources */,
 				44E791FC1A17856500A63C04 /* settings_wrench@2x.png in Resources */,
 				44DF8F021A7512730097F7F5 /* edit_file@2x.png in Resources */,
 				44E791EB1A17856500A63C04 /* message@3x.png in Resources */,
-				4421C3971E7BF2DA00BD48C4 /* ac-overwatch2.gif in Resources */,
 				44CF254C1A25A2A500BD8228 /* picture.png in Resources */,
+				B753616324AE278A000F562F /* reed-color17.png in Resources */,
 				4421C3C51E7BF2DA00BD48C4 /* reed-classic36.png in Resources */,
 				44B89E701A2AF2200085F766 /* running_ac-5.gif in Resources */,
 				4421C3BF1E7BF2DA00BD48C4 /* reed-classic30.png in Resources */,
 				4421C3C01E7BF2DA00BD48C4 /* reed-classic31.png in Resources */,
 				4421C3C81E7BF2DA00BD48C4 /* reed-classic39.png in Resources */,
+				B753611B24AE278A000F562F /* reed-color85.png in Resources */,
 				4421C3011E7BF2DA00BD48C4 /* ac-classic19.png in Resources */,
 				4421C36B1E7BF2DA00BD48C4 /* ac-new66.png in Resources */,
+				B753614824AE278A000F562F /* reed-color18.png in Resources */,
 				4421C3A41E7BF2DA00BD48C4 /* reed-classic101.png in Resources */,
 				444F5B401A40EA3500EB391F /* 45.png in Resources */,
+				B753615E24AE278A000F562F /* reed-color39.png in Resources */,
 				44CF25541A25A2A500BD8228 /* sent@3x.png in Resources */,
 				4421C3671E7BF2DA00BD48C4 /* ac-new62.png in Resources */,
 				44E791E11A17856500A63C04 /* happy@2x.png in Resources */,
+				B753613F24AE278A000F562F /* reed-color42.png in Resources */,
+				B753614024AE278A000F562F /* reed-color56.png in Resources */,
 				441E5CD917F4691300289DBD /* InfoPlist.strings in Resources */,
 				4421C3EB1E7BF2DA00BD48C4 /* reed-classic70.png in Resources */,
+				B753612824AE278A000F562F /* reed-color78.png in Resources */,
 				444F5B381A40EA3500EB391F /* 37.png in Resources */,
 				4421C32F1E7BF2DA00BD48C4 /* ac-new11.png in Resources */,
 				444F5B481A40EA3500EB391F /* 53.png in Resources */,
@@ -4167,11 +4501,12 @@
 				44E791E61A17856500A63C04 /* menu.png in Resources */,
 				4421C30D1E7BF2DA00BD48C4 /* ac-classic3.png in Resources */,
 				449C9E271A71DB5C00D49B7F /* remote_configuration-debug.json in Resources */,
-				4421C38E1E7BF2DA00BD48C4 /* ac-overwatch11.gif in Resources */,
 				444F5B391A40EA3500EB391F /* 38.png in Resources */,
 				4421C31F1E7BF2DA00BD48C4 /* ac-classic46.png in Resources */,
+				B753615724AE278A000F562F /* reed-color104.png in Resources */,
 				444F5B1E1A40EA3500EB391F /* 11.png in Resources */,
 				4421C3301E7BF2DA00BD48C4 /* ac-new12.png in Resources */,
+				B753616424AE278A000F562F /* reed-color29.png in Resources */,
 				4421C3EA1E7BF2DA00BD48C4 /* reed-classic7.png in Resources */,
 				44C73BD51A496C4F0051D4C2 /* iphone4 launch screen.png in Resources */,
 				4421C3261E7BF2DA00BD48C4 /* ac-classic52.png in Resources */,
@@ -4181,6 +4516,7 @@
 				444F5B191A40EA3500EB391F /* 06.png in Resources */,
 				4421C3F41E7BF2DB00BD48C4 /* reed-classic79.png in Resources */,
 				4421C3601E7BF2DA00BD48C4 /* ac-new56.png in Resources */,
+				B753612324AE278A000F562F /* reed-color86.png in Resources */,
 				4421C3CC1E7BF2DA00BD48C4 /* reed-classic42.png in Resources */,
 				4421C3711E7BF2DA00BD48C4 /* ac-new71.png in Resources */,
 			);

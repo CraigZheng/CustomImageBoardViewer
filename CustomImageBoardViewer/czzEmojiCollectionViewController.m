@@ -29,7 +29,7 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
 @property (nonatomic, strong) NSArray<NSString *> *emoPack;
 @property (nonatomic, strong) NSArray<NSString *> *classicAC;
 @property (nonatomic, strong) NSArray<NSString *> *neoAC;
-@property (nonatomic, strong) NSArray<NSString *> *overwatchAC;
+@property (nonatomic, strong) NSArray<NSString *> *reedColor;
 @property (nonatomic, strong) NSArray<NSString *> *reedGirl;
 @end
 
@@ -64,8 +64,7 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
     self.emoPackPickerToolbar.tintColor = emojiPickerToolbar.tintColor = [settingCentre tintColour];
     emojiCollectionView.backgroundColor = [settingCentre barTintColour];
     [self.emojiSelectorSegmentedControl setEnabled:settingCentre.shouldShowEmoPackPicker forSegmentAtIndex:2];
-    self.emoPackPickerSegmentedControl.selectedSegmentIndex = 0;
-    self.emoPack = self.reedGirl;
+    [self emoPackSelectionChanged:nil];
     self.emojiSource = acEmoji;
     if ([self.emojiCollectionView respondsToSelector:@selector(prefetchDataSource)]) {
         self.emojiCollectionView.prefetchDataSource = self;
@@ -138,7 +137,7 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
             self.emoPack = self.neoAC;
             break;
         case 3:
-            self.emoPack = self.overwatchAC;
+            self.emoPack = self.reedColor;
             break;
         default:
             self.emoPack = self.reedGirl;
@@ -219,11 +218,11 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
     return _neoAC;
 }
 
-- (NSArray<NSString *> *)overwatchAC {
-    if (!_overwatchAC) {
-        _overwatchAC = [self emoPackWithFormat:@"ac-overwatch%ld.gif" quantity:21];
+- (NSArray<NSString *> *)reedColor {
+    if (!_reedColor) {
+        _reedColor = [self emoPackWithFormat:@"reed-color%ld.png" quantity:105];
     }
-    return _overwatchAC;
+    return _reedColor;
 }
 
 - (NSArray<NSString *> *)reedGirl {
