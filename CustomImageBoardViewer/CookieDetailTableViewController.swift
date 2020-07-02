@@ -84,10 +84,6 @@ import UIKit
     }
   }
   
-  override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-    return cookieValue?.isEmpty == false
-  }
-  
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if let textInputViewController = segue.destination as? CookieTextInputViewController {
       textInputViewController.prefilledString = cookieValue
