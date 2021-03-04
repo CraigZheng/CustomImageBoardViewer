@@ -22,15 +22,15 @@
   "database_host": "http://civ.atwebpages.com/",
   "forum_list_url": "http://www.my-realm.com/forums.php",
   "forum_list_detail_url": "http://adnmb.com/homepage",
-  "reply_post_url": "http://adnmb1.com/Home/Forum/doReplyThread.html",
-  "create_new_post_url": "http://adnmb1.com/Home/Forum/doPostThread.html",
+  "reply_post_url": "http://adnmb3.com/Home/Forum/doReplyThread.html",
+  "create_new_post_url": "https://adnmb3.com/Home/Forum/doPostThread.html",
   "report_post_placeholder": "http://adnmb.com/t/<kParentID>\n>>No.<kThreadID>\n理由：",
   "reply_post_placeholder": ">>No.%ld\n",
   "share_post_url": "http://adnmb.com/t/<kThreadID>",
   "thread_url": "http://adnmb.com/t/<kThreadID>.json",
   "get_forum_info_url": "http://adnmb.com/forum/get?forumName=",
   "ac_host": "http://www.acfun.tv/",
-  "a_isle_host": "http://adnmb1.com/",
+  "a_isle_host": "http://adnmb3.com/",
   "thread_list_host": "http://adnmb.com/Api/showf/id/<kForumID>/page/<kPageNumber>",
   "thread_content_host": "http://adnmb.com/Api/thread/id/<kParentID>/page/<kPageNumber>",
   "quote_thread_host": "http://adnmb.com/Api/ref/id/<kThreadID>",
@@ -46,7 +46,7 @@
   "popular_threads_link": "http://my-realm.com/php/popular_threads.php",
   "timeline_url": "http://adnmb.com/Api/timeline",
   "message": "",
-  "image_cdn_configuration": "http://adnmb1.com/Api/getCdnPath",
+  "image_cdn_configuration": "http://adnmb3.com/Api/getCdnPath",
   "ignored_thread_ids": [
                          9999999
                          ]
