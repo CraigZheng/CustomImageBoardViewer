@@ -27,7 +27,7 @@
     [toolbarAppearance configureWithOpaqueBackground];
     toolbarAppearance.backgroundColor = [settingCentre barTintColour];
     self.toolbar.tintColor = self.navigationBar.tintColor;
-    self.toolbar.standardAppearance = toolbarAppearance;
+    self.toolbar.standardAppearance = self.toolbar.scrollEdgeAppearance = toolbarAppearance;
 }
 
 -(void)replaceLastViewControllerWithViewController:(UIViewController *)controller animated:(BOOL)animated {
