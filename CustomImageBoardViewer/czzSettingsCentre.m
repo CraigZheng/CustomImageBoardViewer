@@ -111,7 +111,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         _userDefNightyMode = [UIColor colorWithRed:16/255.0f green:26/255.0f blue:26/255.0f alpha:1.0f];
       
         [self restoreSettings];
-        [self downloadSettings];
+        //[self downloadSettings];
     }
     return self;
 }

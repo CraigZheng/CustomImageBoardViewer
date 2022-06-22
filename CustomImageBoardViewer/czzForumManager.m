@@ -31,7 +31,7 @@ static NSString * kDefaultForumJsonFileName = @"default_forums.json";
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _getForumURL = [[NSURL alloc] initWithString:@"https://adnmb.com/Api/getForumList"];
+        _getForumURL = [[NSURL alloc] initWithString:@"https://www.nmbxd1.com/Api/getForumList"];
         NSString *jsonString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"default_forums"
                                                                                                   ofType:@"json"]
                                                          encoding:NSUTF8StringEncoding
