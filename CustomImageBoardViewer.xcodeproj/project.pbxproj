@@ -417,7 +417,6 @@
 		44528D611E138144009D7BE6 /* NSArray+Splitting.m in Sources */ = {isa = PBXBuildFile; fileRef = 44528D601E138144009D7BE6 /* NSArray+Splitting.m */; };
 		4453C07719F634B700A8250F /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4453C07619F634B700A8250F /* Launch Screen.xib */; };
 		4459A3661DFFA61700C196C1 /* Stickers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4459A3651DFFA61700C196C1 /* Stickers.xcassets */; };
-		4459A36A1DFFA61700C196C1 /* AC-emoticon.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4459A3631DFFA61700C196C1 /* AC-emoticon.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		445A15041EC088EF004C146D /* ForumsTableViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445A15031EC088EF004C146D /* ForumsTableViewManager.swift */; };
 		445B7B531B418CBE0046CFDB /* czzThreadTableViewCommandCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 445B7B521B418CBE0046CFDB /* czzThreadTableViewCommandCellTableViewCell.xib */; };
 		445B7B561B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 445B7B551B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.m */; };
@@ -825,13 +824,6 @@
 			remoteGlobalIDString = 441E5CCA17F4691300289DBD;
 			remoteInfo = CustomImageBoardViewer;
 		};
-		4459A3681DFFA61700C196C1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 441E5CC317F4691300289DBD /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4459A3621DFFA61700C196C1;
-			remoteInfo = "AC-emoticon";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -843,17 +835,6 @@
 			files = (
 			);
 			name = "Embed Watch Content";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4459A36E1DFFA61700C196C1 /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				4459A36A1DFFA61700C196C1 /* AC-emoticon.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		44D22CE51C3CD8490002F82F /* Embed Frameworks */ = {
@@ -3817,12 +3798,10 @@
 				44D22CE51C3CD8490002F82F /* Embed Frameworks */,
 				347387B1BDC00B75A6FDCAB2 /* [CP] Embed Pods Frameworks */,
 				DAD0393318D2062C63376A7C /* Embed Pods Frameworks */,
-				4459A36E1DFFA61700C196C1 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				4459A3691DFFA61700C196C1 /* PBXTargetDependency */,
 			);
 			name = CustomImageBoardViewer;
 			productName = CustomImageBoardViewer;
@@ -4882,11 +4861,6 @@
 			target = 441E5CCA17F4691300289DBD /* CustomImageBoardViewer */;
 			targetProxy = 441E5CF417F4691300289DBD /* PBXContainerItemProxy */;
 		};
-		4459A3691DFFA61700C196C1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4459A3621DFFA61700C196C1 /* AC-emoticon */;
-			targetProxy = 4459A3681DFFA61700C196C1 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -5187,6 +5161,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.ac-channel-browser.AC-emoticon";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -5213,6 +5188,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.ac-channel-browser.AC-emoticon";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
