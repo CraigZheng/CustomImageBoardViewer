@@ -12,7 +12,7 @@
 @implementation UINavigationController (Util)
 
 -(void)applyAppearance {
-    self.navigationBar.barTintColor = [settingCentre barTintColour];
+    self.navigationBar.backgroundColor = self.navigationBar.barTintColor = [settingCentre barTintColour];
     //252	103	61
     self.navigationBar.tintColor = [settingCentre tintColour];
     
