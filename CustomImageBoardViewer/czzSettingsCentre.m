@@ -273,26 +273,26 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
                                     buttonActionHandler:nil];
             }
             // Perform a short task to get the notification content when the app is in the foreground.
-            if (self.popup_notification_link.length) {
-                NSURL *notificationURL = [NSURL URLWithString:self.popup_notification_link];
-                if (notificationURL) {
-                    [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:notificationURL]
-                                                       queue:[NSOperationQueue currentQueue]
-                                           completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
-                                               if ([(NSHTTPURLResponse *)response statusCode] == 200 && data) {
-                                                   NSString *jsonString = [[NSString alloc] initWithData:data
-                                                                                                encoding:NSUTF8StringEncoding];
-                                                   czzLaunchPopUpNotification *notification = [[czzLaunchPopUpNotification alloc] initWithJson:jsonString];
-                                                   if (notification) {
-                                                       czzLaunchPopUpNotificationViewController *popUpViewController = [[UIStoryboard storyboardWithName:@"LaunchPopUpNotification"
-                                                                                                                                                  bundle:[NSBundle mainBundle]] instantiateInitialViewController];
-                                                       popUpViewController.popUpNotification = notification;
-                                                       [popUpViewController tryShow];
-                                                   }
-                                               }
-                                           }];
-                }
-            }
+//            if (self.popup_notification_link.length) {
+//                NSURL *notificationURL = [NSURL URLWithString:self.popup_notification_link];
+//                if (notificationURL) {
+//                    [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:notificationURL]
+//                                                       queue:[NSOperationQueue currentQueue]
+//                                           completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
+//                                               if ([(NSHTTPURLResponse *)response statusCode] == 200 && data) {
+//                                                   NSString *jsonString = [[NSString alloc] initWithData:data
+//                                                                                                encoding:NSUTF8StringEncoding];
+//                                                   czzLaunchPopUpNotification *notification = [[czzLaunchPopUpNotification alloc] initWithJson:jsonString];
+//                                                   if (notification) {
+//                                                       czzLaunchPopUpNotificationViewController *popUpViewController = [[UIStoryboard storyboardWithName:@"LaunchPopUpNotification"
+//                                                                                                                                                  bundle:[NSBundle mainBundle]] instantiateInitialViewController];
+//                                                       popUpViewController.popUpNotification = notification;
+//                                                       [popUpViewController tryShow];
+//                                                   }
+//                                               }
+//                                           }];
+//                }
+//            }
         }
     }
     // Success or not, I need to schedule the periodic refresh.
