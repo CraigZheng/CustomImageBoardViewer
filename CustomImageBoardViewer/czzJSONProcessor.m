@@ -111,7 +111,7 @@
         //        if (forum.parserType == FORUM_PARSER_AISLE) {
         //thread and sub thread data
         czzThread *parentThread = [[czzThread alloc] initWithJSONDictionary:parsedObjects];
-        NSArray* parsedThreadData = [parsedObjects jsonValueWithKey:@"replys"];
+        NSArray* parsedThreadData = [parsedObjects jsonValueWithKey:@"Replies"];
         for (NSDictionary *rawThreadData in parsedThreadData) {
             czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
             if (newThread) {

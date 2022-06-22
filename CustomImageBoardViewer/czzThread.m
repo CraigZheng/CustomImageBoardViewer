@@ -91,7 +91,7 @@
             NSDate *postDate = [formatter dateFromString:dateString];
             self.postDateTime = postDate;
             
-            self.UID = [self renderHTMLToAttributedString:[data objectForKey:@"userid"]].string;
+            self.UID = [self renderHTMLToAttributedString:[data objectForKey:@"user_hash"]].string;
             self.fid = [[data objectForKey:@"fid"] integerValue];
             self.name = [data objectForKey:@"name"];
             self.email = [data objectForKey:@"email"];
@@ -105,7 +105,7 @@
             self.sage = [[data objectForKey:@"sage"] boolValue];
             self.admin = [[data objectForKey:@"admin"] boolValue];
             
-            self.responseCount = [[data objectForKey:@"replyCount"] integerValue];
+            self.responseCount = [[data objectForKey:@"ReplyCount"] integerValue];
         }
         @catch (NSException *exception) {
             return nil;
