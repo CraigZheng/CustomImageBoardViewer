@@ -19,7 +19,7 @@
     //consistent look for tool bar and label
     [self.navigationBar
      setTitleTextAttributes:@{NSForegroundColorAttributeName : self.navigationBar.tintColor}];
-    self.toolbar.barTintColor = self.navigationBar.barTintColor;
+    self.toolbar.backgroundColor = self.toolbar.barTintColor = self.navigationBar.barTintColor;
     self.toolbar.tintColor = self.navigationBar.tintColor;
 }
 

@@ -144,7 +144,7 @@ static NSString *kPostNameKey = @"kPostNameKey";
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
     toolbar.autoresizingMask = toolbar.autoresizingMask | UIViewAutoresizingFlexibleHeight;
     toolbar.barStyle = UIBarStyleDefault;
-    toolbar.barTintColor = [settingCentre barTintColour];
+    toolbar.backgroundColor = toolbar.barTintColor = [settingCentre barTintColour];
     toolbar.tintColor = [settingCentre tintColour];
     //assign an input accessory view to it
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace

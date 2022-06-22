@@ -60,7 +60,7 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
                forCellWithReuseIdentifier:emoticonCellIdentifier];
     
     //colours
-    self.emoPackPickerToolbar.barTintColor = emojiPickerToolbar.barTintColor = [settingCentre barTintColour];
+    self.emoPackPickerToolbar.backgroundColor = self.emoPackPickerToolbar.barTintColor = emojiPickerToolbar.barTintColor = [settingCentre barTintColour];
     self.emoPackPickerToolbar.tintColor = emojiPickerToolbar.tintColor = [settingCentre tintColour];
     emojiCollectionView.backgroundColor = [settingCentre barTintColour];
     [self.emojiSelectorSegmentedControl setEnabled:settingCentre.shouldShowEmoPackPicker forSegmentAtIndex:2];
