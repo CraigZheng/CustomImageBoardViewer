@@ -37,7 +37,7 @@
   "thumbnail_host": "http://nmbimg.fastmirror.org/thumb/",
   "image_host": "http://nmbimg.fastmirror.org/image/",
   "donation_link": "",
-  "popup_notification_link": "http://cover.acfunwiki.org/nmb-notice.json",
+  "popup_notification_link": "http://nmb.ovear.info/nmb-notice.json",
   "empty_title": "无标题",
   "empty_username": "无名氏",
   "sensitive_keyword": "非法词",
