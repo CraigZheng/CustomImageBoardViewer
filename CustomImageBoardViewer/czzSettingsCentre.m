@@ -25,6 +25,7 @@ static NSString * const kHighLightPO = @"kHighLightPO";
 static NSString * const kCacheData = @"kCacheData";
 static NSString * const kBigImageMode = @"kBigImageMode";
 static NSString * const kNightyMode = @"kNightyMode";
+static NSString * const kSystemNightMode = @"kSystemNightMode";
 static NSString * const kAutoClean = @"kAutoClean";
 static NSString * const kAutoDownloadImage = @"kAutoDownloadImage";
 static NSString * const kShouldCollapseLongContent = @"kShouldCollapseLongContent";
@@ -108,7 +109,6 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
         _long_thread_threshold = 200;
         _upload_image_pixel_limit = 5595136; // iPad pro resolution: 2732 x 2048;
         should_allow_dart = NO;
-        _userDefNightyMode = [UIColor colorWithRed:16/255.0f green:26/255.0f blue:26/255.0f alpha:1.0f];
       
         [self restoreSettings];
         //[self downloadSettings];
@@ -138,6 +138,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     [userDefault setBool:self.userDefShouldHighlightPO forKey:kHighLightPO];
     [userDefault setBool:self.userDefShouldUseBigImage forKey:kBigImageMode];
     [userDefault setBool:self.userDefNightyMode forKey:kNightyMode];
+    [userDefault setBool:self.userDefUseSystemNightMode forKey:kSystemNightMode];
     [userDefault setBool:self.userDefShouldCleanCaches forKey:kAutoClean];
     [userDefault setBool:self.userDefShouldAutoDownloadImage forKey:kAutoDownloadImage];
     [userDefault setBool:self.userDefShouldCollapseLongContent forKey:kShouldCollapseLongContent];
@@ -169,6 +170,11 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     }
     if ([userDefault objectForKey:kHighLightPO]) {
         self.userDefShouldHighlightPO = [userDefault boolForKey:kHighLightPO];
+    }
+    if ([userDefault objectForKey:kSystemNightMode]) {
+        self.userDefUseSystemNightMode = [userDefault boolForKey:kSystemNightMode];
+    } else {
+        self.userDefUseSystemNightMode = true;
     }
     if ([userDefault objectForKey:kBigImageMode]) {
         self.userDefShouldUseBigImage = [userDefault boolForKey:kBigImageMode];
@@ -301,7 +307,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
 
 #pragma mark - Getters
 - (BOOL)userDefNightyMode {
-    if (@available(iOS 13.0, *)) {
+    if (self.userDefUseSystemNightMode) {
         return UIApplication.sharedApplication.keyWindow.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark;
     } else {
         return _userDefNightyMode;

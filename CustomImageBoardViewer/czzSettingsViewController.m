@@ -21,6 +21,7 @@
 #import "czzURLHandler.h"
 
 static NSString *textSizeSelectorSegue = @"textSizeSelector";
+static NSString *themeSelectorSegue = @"themeSelector";
 static NSString *addMarkerSegue = @"AddMarker";
 
 @interface czzSettingsViewController ()<UIAlertViewDelegate, UIActionSheetDelegate, czzTextSizeSelectorViewControllerProtocol>
@@ -46,6 +47,7 @@ static NSString *addMarkerSegue = @"AddMarker";
     settingsCentre = [czzSettingsCentre sharedInstance];
     [self prepareCommands];
     self.settingsTableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(settingsDidChangedNotification:) name:settingsChangedNotification object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -56,6 +58,10 @@ static NSString *addMarkerSegue = @"AddMarker";
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
     [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
+
+- (void)settingsDidChangedNotification:(NSNotification *)notification {
+    [self.settingsTableView reloadData];
 }
 
 #pragma mark UITableViewDataSource
@@ -90,10 +96,11 @@ static NSString *addMarkerSegue = @"AddMarker";
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"command_cell_identifier"];
   if (indexPath.section == 0){
     NSString *command = [switchCommands objectAtIndex:indexPath.row];
+    UILabel *commandLabel = (UILabel*)[cell viewWithTag:5];
+    UILabel *detailLabel = (UILabel*)[cell viewWithTag:6];
+    commandLabel.textColor = detailLabel.textColor = settingsCentre.contentTextColour;
     // A special case - font size preference.
     if ([command isEqualToString:@"字体偏好"]) {
-      UILabel *commandLabel = (UILabel*)[cell viewWithTag:5];
-      UILabel *detailLabel = (UILabel*)[cell viewWithTag:6];
       commandLabel.text = command;
       NSString *fontSize = @"";
       switch (settingsCentre.threadTextSize) {
@@ -111,7 +118,20 @@ static NSString *addMarkerSegue = @"AddMarker";
           break;
       }
       detailLabel.text = fontSize;
-    } else {
+    } else if ([command isEqualToString:@"黑夜模式"]) {
+        commandLabel.text = command;
+        NSString *title = @"";
+        if (settingsCentre.userDefUseSystemNightMode) {
+            title = @"跟随iOS系统设定";
+        } else {
+            if (settingsCentre.userDefNightyMode) {
+              title = @"黑夜模式";
+            } else {
+              title = @"普通模式";
+            }
+        }
+        detailLabel.text = title;
+      } else {
       cell = [tableView dequeueReusableCellWithIdentifier:@"switch_cell_identifier"];
       UILabel *commandLabel = (UILabel*)[cell viewWithTag:3];
       UISwitch *commandSwitch = (UISwitch*)[cell viewWithTag:4];
@@ -181,8 +201,9 @@ static NSString *addMarkerSegue = @"AddMarker";
     if (indexPath.section == 0) {
         NSString *command = [switchCommands objectAtIndex:indexPath.row];
         if ([command isEqualToString:@"字体偏好"]) {
-            // TODO: select a text.
             [self performSegueWithIdentifier:textSizeSelectorSegue sender:nil];
+        } else if ([command isEqualToString:@"黑夜模式"]) {
+            [self performSegueWithIdentifier:themeSelectorSegue sender:nil];
         }
     } else if (indexPath.section == 1){
         NSString *command = [regularCommands objectAtIndex:indexPath.row];
@@ -256,6 +277,7 @@ static NSString *addMarkerSegue = @"AddMarker";
         [switchCommands addObject:@"图片下载完毕自动打开"];
     }
     [switchCommands addObject:@"字体偏好"];
+    [switchCommands addObject:@"黑夜模式"];
     //    [switchCommands addObject:@"开启串缓存"]; // Disbale as is no longer important.
     //    [switchCommands addObject:@"每月自动清理缓存"]; // Disable for now - version 3.4.
     if (settingsCentre.should_allow_dart)

@@ -137,7 +137,7 @@
                     <navigationItem key="navigationItem" id="BD0-Cp-BxW">
                         <barButtonItem key="rightBarButtonItem" style="plain" id="9Z1-Vn-sjx" userLabel="Switch Bar Button Item">
                             <view key="customView" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Woa-0Q-kGi">
-                                <rect key="frame" x="239" y="5.5" width="120" height="33"/>
+                                <rect key="frame" x="0.0" y="0.0" width="120" height="33"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="只看PO" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IIq-23-MbM">
                                         <rect key="frame" x="0.0" y="6" width="63" height="21"/>
@@ -622,6 +622,7 @@
                         <outlet property="settingsTableView" destination="4iw-Az-V4Y" id="rJt-Ut-zFe"/>
                         <segue destination="FVg-4N-Ym9" kind="modal" identifier="textSizeSelector" id="ti7-yz-WVz"/>
                         <segue destination="5M0-t1-LBI" kind="modal" identifier="AddMarker" id="Gpv-Fx-cQW"/>
+                        <segue destination="vgN-Lz-GxI" kind="modal" identifier="themeSelector" id="MYB-PH-FQC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SyL-jc-F1x" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -863,6 +864,46 @@
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1625" y="-492"/>
+        </scene>
+        <!--Theme Selector View Controller-->
+        <scene sceneID="g14-pW-Wvb">
+            <objects>
+                <viewController id="vgN-Lz-GxI" customClass="ThemeSelectorViewController" customModule="CustomImageBoardViewer" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="uqp-3K-q7m">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wK5-9v-Qzc">
+                                <rect key="frame" x="0.0" y="485" width="375" height="162"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="vgN-Lz-GxI" id="H59-lI-Ia1"/>
+                                    <outlet property="delegate" destination="vgN-Lz-GxI" id="xlb-Yk-hIz"/>
+                                </connections>
+                            </pickerView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bBc-o2-1ES">
+                                <rect key="frame" x="0.0" y="441" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="N1M-Jd-rdi"/>
+                                    <barButtonItem title="OK" id="nlX-lO-p72">
+                                        <connections>
+                                            <action selector="didTapOK:" destination="vgN-Lz-GxI" id="ViJ-W1-9Up"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="2Pd-Ub-4aD"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <connections>
+                        <outlet property="picker" destination="wK5-9v-Qzc" id="thE-l4-m8N"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="z1R-sw-Qcg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2454" y="-492"/>
         </scene>
         <!--AddForum-->
         <scene sceneID="XfB-a0-zaB">
