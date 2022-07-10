@@ -33,7 +33,7 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
         var title: String {
             switch self {
             case .advertisement: return "广告"
-            case .timeline: return "最新回复"
+            case .timeline: return "时间线"
             }
         }
         

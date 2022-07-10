@@ -159,7 +159,7 @@
     // Give the amount number a title.
         [(czzRoundButton *)self.numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long)self.homeViewManager.pageNumber] forState:UIControlStateNormal];
     NSMutableArray<NSString *>* titleComponents = @[].mutableCopy;
-    NSString *title = self.homeViewManager.isShowingLatestResponse ? @"最新回复" : self.homeViewManager.forum.name;
+    NSString *title = self.homeViewManager.isShowingLatestResponse ? @"时间线" : self.homeViewManager.forum.name;
     if (title) {
         [titleComponents addObject:title];
     }
