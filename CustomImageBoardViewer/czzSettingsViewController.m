@@ -275,7 +275,6 @@ static NSString *addMarkerSegue = @"AddMarker";
     if (donationLinkURL && settingsCentre.donationLink.length > 0)
         [regularCommands addObject:@"捐款给App的作者"];
     [regularCommands addObject:@"作者主页"];
-    [regularCommands addObject:@"意见反馈"];
     [regularCommands addObject:@"强制退出"];
 }
 
