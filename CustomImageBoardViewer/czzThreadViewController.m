@@ -57,9 +57,11 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @property (strong, nonatomic) UIAlertView *confirmCancelMassiveDownloadAlertView;
 @property (strong, nonatomic) UIAlertView *confirmJumpToPageAlertView;
 @property (weak, nonatomic) IBOutlet UIImageView *massiveDownloadIndicatorImageView;
+@property (weak, nonatomic) IBOutlet UISwitch *poOnlySwitch;
 @property (weak, nonatomic) IBOutlet UIButton *massiveDownloadButton;
 @property (strong, nonatomic) czzThreadViewManager *threadViewManager;
 @property (strong, nonatomic) NSObject *observation;
+@property (assign, nonatomic)BOOL poOnlyMode;
 @end
 
 @implementation czzThreadViewController

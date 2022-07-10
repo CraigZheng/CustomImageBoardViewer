@@ -135,44 +135,41 @@
                         </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="BD0-Cp-BxW">
-                        <rightBarButtonItems>
-                            <barButtonItem style="plain" id="9Z1-Vn-sjx">
-                                <view key="customView" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Woa-0Q-kGi">
-                                    <rect key="frame" x="0.0" y="0.0" width="83" height="33"/>
-                                    <subviews>
-                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" title="只看PO" translatesAutoresizingMaskIntoConstraints="NO" id="sy4-BV-kmh">
-                                            <rect key="frame" x="1" y="1" width="83" height="31"/>
-                                        </switch>
-                                    </subviews>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                    <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="sy4-BV-kmh" secondAttribute="bottom" constant="1" id="2U5-Im-Err"/>
-                                        <constraint firstItem="sy4-BV-kmh" firstAttribute="leading" secondItem="Woa-0Q-kGi" secondAttribute="leading" constant="1" id="CKb-Dd-aNS"/>
-                                        <constraint firstItem="sy4-BV-kmh" firstAttribute="top" secondItem="Woa-0Q-kGi" secondAttribute="top" constant="1" id="Nqq-6N-c9h"/>
-                                        <constraint firstAttribute="trailing" secondItem="sy4-BV-kmh" secondAttribute="trailing" constant="1" id="S2v-2k-1CB"/>
-                                        <constraint firstItem="sy4-BV-kmh" firstAttribute="centerY" secondItem="Woa-0Q-kGi" secondAttribute="centerY" id="sTo-ZI-LpV"/>
-                                    </constraints>
-                                </view>
-                            </barButtonItem>
-                            <barButtonItem image="visible.png" id="IcJ-JJ-lZo">
-                                <connections>
-                                    <action selector="watchAction:" destination="CES-L8-oRQ" id="q5D-NQ-AWM"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="0/0" id="4KW-uO-bRF"/>
-                        </rightBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="9Z1-Vn-sjx" userLabel="Switch Bar Button Item">
+                            <view key="customView" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Woa-0Q-kGi">
+                                <rect key="frame" x="239" y="5.5" width="120" height="33"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="只看PO" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IIq-23-MbM">
+                                        <rect key="frame" x="0.0" y="6" width="63" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" title="只看PO" translatesAutoresizingMaskIntoConstraints="NO" id="sy4-BV-kmh">
+                                        <rect key="frame" x="71" y="0.0" width="51" height="33"/>
+                                    </switch>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="IIq-23-MbM" firstAttribute="leading" secondItem="Woa-0Q-kGi" secondAttribute="leading" id="3Gi-th-jLO"/>
+                                    <constraint firstItem="IIq-23-MbM" firstAttribute="centerY" secondItem="Woa-0Q-kGi" secondAttribute="centerY" id="DcY-CK-949"/>
+                                    <constraint firstAttribute="trailing" secondItem="sy4-BV-kmh" secondAttribute="trailing" id="aeT-e0-pjM"/>
+                                    <constraint firstAttribute="bottom" secondItem="sy4-BV-kmh" secondAttribute="bottom" id="dB6-o3-ZxM"/>
+                                    <constraint firstItem="sy4-BV-kmh" firstAttribute="leading" secondItem="IIq-23-MbM" secondAttribute="trailing" constant="8" id="g0G-Pv-404"/>
+                                    <constraint firstItem="sy4-BV-kmh" firstAttribute="top" secondItem="Woa-0Q-kGi" secondAttribute="top" id="qBj-lZ-1fE"/>
+                                </constraints>
+                            </view>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="jumpBarButtonItem" destination="M3o-im-Wqp" id="9er-CF-kVc"/>
                         <outlet property="massiveDownloadButton" destination="iTH-zx-FDV" id="dAY-oc-SnZ"/>
                         <outlet property="massiveDownloadButtonHeightConstraint" destination="A3Z-ed-f8v" id="Uvh-Xw-oVt"/>
                         <outlet property="massiveDownloadIndicatorImageView" destination="PlI-hI-DUI" id="C6G-i3-Hi6"/>
-                        <outlet property="numberBarButton" destination="4KW-uO-bRF" id="WGT-rj-8ib"/>
                         <outlet property="onScreenImageManagerViewContainer" destination="7vQ-Rb-bPA" id="uZj-Br-hDd"/>
+                        <outlet property="poOnlySwitch" destination="sy4-BV-kmh" id="BJQ-3J-SGK"/>
                         <outlet property="postSenderViewContainer" destination="4ja-AC-SOf" id="d5s-he-CDV"/>
                         <outlet property="starButton" destination="eAd-IU-rZD" id="AWa-Az-nEv"/>
                         <outlet property="threadTableView" destination="kEK-ic-Yzh" id="7gl-zA-agX"/>
-                        <outlet property="watchButton" destination="IcJ-JJ-lZo" id="9x7-x6-N5o"/>
                         <segue destination="4fE-Ef-JB7" kind="push" identifier="go_search_view_segue" id="vK6-NU-jzp"/>
                     </connections>
                 </viewController>
@@ -892,7 +889,6 @@
         <image name="settings.png" width="20" height="20"/>
         <image name="star.png" width="20" height="20"/>
         <image name="upload.png" width="20" height="20"/>
-        <image name="visible.png" width="25" height="25"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
