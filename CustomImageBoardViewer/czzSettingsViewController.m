@@ -39,57 +39,57 @@ static NSString *addMarkerSegue = @"AddMarker";
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
+  [super viewDidLoad];
+  // Do any additional setup after loading the view.
 #ifndef DEBUG
-    self.navigationItem.rightBarButtonItem = nil;
+  self.navigationItem.rightBarButtonItem = nil;
 #endif
-    settingsCentre = [czzSettingsCentre sharedInstance];
-    [self prepareCommands];
-    self.settingsTableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(settingsDidChangedNotification:) name:settingsChangedNotification object:nil];
+  settingsCentre = [czzSettingsCentre sharedInstance];
+  [self prepareCommands];
+  self.settingsTableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
+  [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(settingsDidChangedNotification:) name:settingsChangedNotification object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.view.backgroundColor = settingsCentre.viewBackgroundColour;
-    
-    // Google Analytic integration
-    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
-    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+  [super viewWillAppear:animated];
+  self.view.backgroundColor = settingsCentre.viewBackgroundColour;
+  
+  // Google Analytic integration
+  id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+  [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
+  [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 - (void)settingsDidChangedNotification:(NSNotification *)notification {
-    [self.settingsTableView reloadData];
+  [self.settingsTableView reloadData];
 }
 
 #pragma mark UITableViewDataSource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (section == 0)
-        return switchCommands.count;
-    else
-        return regularCommands.count;
+  if (section == 0)
+    return switchCommands.count;
+  else
+    return regularCommands.count;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    if (section == 0)
-        return @"软件设置";
-    else
-        return @"工具";
+  if (section == 0)
+    return @"软件设置";
+  else
+    return @"工具";
 }
 
 
 -(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-    if (section == 1)
-        return [NSString stringWithFormat:@"版本号: %@(%@)", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
-                [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
-    return nil;
+  if (section == 1)
+    return [NSString stringWithFormat:@"版本号: %@(%@)", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
+            [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
+  return nil;
 }
 
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 2;
+  return 2;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -119,19 +119,19 @@ static NSString *addMarkerSegue = @"AddMarker";
       }
       detailLabel.text = fontSize;
     } else if ([command isEqualToString:@"黑夜模式"]) {
-        commandLabel.text = command;
-        NSString *title = @"";
-        if (settingsCentre.userDefUseSystemNightMode) {
-            title = @"跟随iOS系统设定";
-        } else {
-            if (settingsCentre.userDefNightyMode) {
-              title = @"黑夜模式";
-            } else {
-              title = @"普通模式";
-            }
-        }
-        detailLabel.text = title;
+      commandLabel.text = command;
+      NSString *title = @"";
+      if (settingsCentre.userDefUseSystemNightMode) {
+        title = @"跟随iOS系统设定";
       } else {
+        if (settingsCentre.userDefNightyMode) {
+          title = @"黑夜模式";
+        } else {
+          title = @"普通模式";
+        }
+      }
+      detailLabel.text = title;
+    } else {
       cell = [tableView dequeueReusableCellWithIdentifier:@"switch_cell_identifier"];
       UILabel *commandLabel = (UILabel*)[cell viewWithTag:3];
       UISwitch *commandSwitch = (UISwitch*)[cell viewWithTag:4];
@@ -193,168 +193,168 @@ static NSString *addMarkerSegue = @"AddMarker";
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 44;
+  return 44;
 }
 
 #pragma mark UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0) {
-        NSString *command = [switchCommands objectAtIndex:indexPath.row];
-        if ([command isEqualToString:@"字体偏好"]) {
-            [self performSegueWithIdentifier:textSizeSelectorSegue sender:nil];
-        } else if ([command isEqualToString:@"黑夜模式"]) {
-            [self performSegueWithIdentifier:themeSelectorSegue sender:nil];
-        }
-    } else if (indexPath.section == 1){
-        NSString *command = [regularCommands objectAtIndex:indexPath.row];
-        if ([command isEqualToString:@"图片管理器"]){
-            //图片管理器
-            UIViewController *viewController = [[UIStoryboard storyboardWithName:@"ImageManagerStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:@"image_manager_view_controller"];
-            [self.navigationController pushViewController:viewController animated:YES];
-        } else if ([command isEqualToString:@"清除ID信息"]){
-            //清除ID信息
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"清除ID信息" message:@"确定要清除所有ID信息？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
-            [alertView show];
-        } else if ([command isEqualToString:@"意见反馈"]) {
-            UIViewController *feedbackViewController = [[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"feedback_view_controller"];
-            [self.navigationController pushViewController:feedbackViewController animated:YES];
-        }
-        else if ([command isEqualToString:@"通知中心"]) {
-            czzNotificationCentreTableViewController *notificationCentreViewController = [[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
-            [self.navigationController pushViewController:notificationCentreViewController animated:YES];
-        }
-        else if ([command isEqualToString:@"清空缓存"]){
-            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"清空缓存" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"图片管理器", @"串缓存", nil];
-            [actionSheet showInView:self.view];
-        } else if ([command isEqualToString:@"强制退出"]) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"强制退出" message:@"立刻退出软件，下次启动时将会重新开始，而不会回复到自动保存的状态" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-            [alertView show];
-        } else if ([command isEqualToString:@"捐款给App的作者"]) {
-            [self openDonationLink];
-        } else if ([command isEqualToString:@"饼干管理器"]) {
-            [self.navigationController pushViewController:[czzCookieManagerViewController new] animated:YES];
-        } else if ([command isEqualToString:@"LAUNCH UTILITY"]) {
-            UIViewController *utilityViewContorller = [[UIStoryboard storyboardWithName:@"Utility" bundle:nil] instantiateInitialViewController];
-            if (utilityViewContorller) {
-                AppDelegate.window.rootViewController = utilityViewContorller;
-                [AppDelegate.window makeKeyAndVisible];
-            } else {
-                DDLogDebug(@"Utility view contorller nil, cannot instantiate from Utility storyboard file.");
-            }
-        } else if ([command isEqualToString:@"WATCHLIST"]) {
-            
-        } else if ([command isEqualToString:@"作者主页"]) {
-            [self openHomePage];
-        } else if ([command isEqualToString:@"标记管理器"]) {
-            [self performSegueWithIdentifier:addMarkerSegue sender:self];
-        }
+  if (indexPath.section == 0) {
+    NSString *command = [switchCommands objectAtIndex:indexPath.row];
+    if ([command isEqualToString:@"字体偏好"]) {
+      [self performSegueWithIdentifier:textSizeSelectorSegue sender:nil];
+    } else if ([command isEqualToString:@"黑夜模式"]) {
+      [self performSegueWithIdentifier:themeSelectorSegue sender:nil];
     }
+  } else if (indexPath.section == 1){
+    NSString *command = [regularCommands objectAtIndex:indexPath.row];
+    if ([command isEqualToString:@"图片管理器"]){
+      //图片管理器
+      UIViewController *viewController = [[UIStoryboard storyboardWithName:@"ImageManagerStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:@"image_manager_view_controller"];
+      [self.navigationController pushViewController:viewController animated:YES];
+    } else if ([command isEqualToString:@"清除ID信息"]){
+      //清除ID信息
+      UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"清除ID信息" message:@"确定要清除所有ID信息？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+      [alertView show];
+    } else if ([command isEqualToString:@"意见反馈"]) {
+      UIViewController *feedbackViewController = [[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"feedback_view_controller"];
+      [self.navigationController pushViewController:feedbackViewController animated:YES];
+    }
+    else if ([command isEqualToString:@"通知中心"]) {
+      czzNotificationCentreTableViewController *notificationCentreViewController = [[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
+      [self.navigationController pushViewController:notificationCentreViewController animated:YES];
+    }
+    else if ([command isEqualToString:@"清空缓存"]){
+      UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"清空缓存" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"图片管理器", @"串缓存", nil];
+      [actionSheet showInView:self.view];
+    } else if ([command isEqualToString:@"强制退出"]) {
+      UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"强制退出" message:@"立刻退出软件，下次启动时将会重新开始，而不会回复到自动保存的状态" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+      [alertView show];
+    } else if ([command isEqualToString:@"捐款给App的作者"]) {
+      [self openDonationLink];
+    } else if ([command isEqualToString:@"饼干管理器"]) {
+      [self.navigationController pushViewController:[czzCookieManagerViewController new] animated:YES];
+    } else if ([command isEqualToString:@"LAUNCH UTILITY"]) {
+      UIViewController *utilityViewContorller = [[UIStoryboard storyboardWithName:@"Utility" bundle:nil] instantiateInitialViewController];
+      if (utilityViewContorller) {
+        AppDelegate.window.rootViewController = utilityViewContorller;
+        [AppDelegate.window makeKeyAndVisible];
+      } else {
+        DDLogDebug(@"Utility view contorller nil, cannot instantiate from Utility storyboard file.");
+      }
+    } else if ([command isEqualToString:@"WATCHLIST"]) {
+      
+    } else if ([command isEqualToString:@"作者主页"]) {
+      [self openHomePage];
+    } else if ([command isEqualToString:@"标记管理器"]) {
+      [self performSegueWithIdentifier:addMarkerSegue sender:self];
+    }
+  }
 }
 
 #pragma mark - prepareCommands for the menu
 -(void)prepareCommands{
-    commands = [NSMutableArray new];
-    regularCommands = [NSMutableArray new];
-    switchCommands = [NSMutableArray new];
-    
-    [switchCommands addObject:@"显示图片"];
-    [switchCommands addObject:@"显示图片下载管理器"];
-    [switchCommands addObject:@"显示快速滑动按钮"];
-    [switchCommands addObject:@"显示草稿"];
-    [switchCommands addObject:@"记录页码"];
-    [switchCommands addObject:@"收起超长的内容"];
-    if (@available(iOS 13.0, *)) {
-        // Do nothing.
-    } else {
-        [switchCommands addObject:@"夜间模式"];
-    }
-    [switchCommands addObject:@"大图模式"];
-    if ([settingCentre userDefShouldUseBigImage]) {
-        [switchCommands addObject:@"自动下载大图"];
-    }
-    // If should auto download image, don't show.
-    if (!([settingsCentre userDefShouldUseBigImage] && [settingsCentre userDefShouldAutoDownloadImage])) {
-        [switchCommands addObject:@"图片下载完毕自动打开"];
-    }
-    [switchCommands addObject:@"字体偏好"];
-    [switchCommands addObject:@"黑夜模式"];
-    //    [switchCommands addObject:@"开启串缓存"]; // Disbale as is no longer important.
-    //    [switchCommands addObject:@"每月自动清理缓存"]; // Disable for now - version 3.4.
-    if (settingsCentre.should_allow_dart)
-        [switchCommands addObject:@"Monitor Performance"];
-    [regularCommands addObject:@"图片管理器"];
-    [regularCommands addObject:@"饼干管理器"];
-    [regularCommands addObject:@"标记管理器"];
-    [regularCommands addObject:@"清空缓存"];
-    //    [regularCommands addObject:@"清除ID信息"];
-    [regularCommands addObject:@"通知中心"];
+  commands = [NSMutableArray new];
+  regularCommands = [NSMutableArray new];
+  switchCommands = [NSMutableArray new];
+  
+  [switchCommands addObject:@"显示图片"];
+  [switchCommands addObject:@"显示图片下载管理器"];
+  [switchCommands addObject:@"显示快速滑动按钮"];
+  [switchCommands addObject:@"显示草稿"];
+  [switchCommands addObject:@"记录页码"];
+  [switchCommands addObject:@"收起超长的内容"];
+  if (@available(iOS 13.0, *)) {
+    // Do nothing.
+  } else {
+    [switchCommands addObject:@"夜间模式"];
+  }
+  [switchCommands addObject:@"大图模式"];
+  if ([settingCentre userDefShouldUseBigImage]) {
+    [switchCommands addObject:@"自动下载大图"];
+  }
+  // If should auto download image, don't show.
+  if (!([settingsCentre userDefShouldUseBigImage] && [settingsCentre userDefShouldAutoDownloadImage])) {
+    [switchCommands addObject:@"图片下载完毕自动打开"];
+  }
+  [switchCommands addObject:@"字体偏好"];
+  [switchCommands addObject:@"黑夜模式"];
+  //    [switchCommands addObject:@"开启串缓存"]; // Disbale as is no longer important.
+  //    [switchCommands addObject:@"每月自动清理缓存"]; // Disable for now - version 3.4.
+  if (settingsCentre.should_allow_dart)
+    [switchCommands addObject:@"Monitor Performance"];
+  [regularCommands addObject:@"图片管理器"];
+  [regularCommands addObject:@"饼干管理器"];
+  [regularCommands addObject:@"标记管理器"];
+  [regularCommands addObject:@"清空缓存"];
+  //    [regularCommands addObject:@"清除ID信息"];
+  [regularCommands addObject:@"通知中心"];
 #ifdef DEBUG
-    [regularCommands addObject:@"DEBUG BUILD"];
-    [regularCommands addObject:@"LAUNCH UTILITY"];
-    [regularCommands addObject:@"WATCHLIST"];
+  [regularCommands addObject:@"DEBUG BUILD"];
+  [regularCommands addObject:@"LAUNCH UTILITY"];
+  [regularCommands addObject:@"WATCHLIST"];
 #endif
-    NSURL *donationLinkURL = [NSURL URLWithString:settingsCentre.donationLink];
-    if (donationLinkURL && settingsCentre.donationLink.length > 0)
-        [regularCommands addObject:@"捐款给App的作者"];
-    [regularCommands addObject:@"作者主页"];
-    [regularCommands addObject:@"强制退出"];
+  NSURL *donationLinkURL = [NSURL URLWithString:settingsCentre.donationLink];
+  if (donationLinkURL && settingsCentre.donationLink.length > 0)
+    [regularCommands addObject:@"捐款给App的作者"];
+  [regularCommands addObject:@"作者主页"];
+  [regularCommands addObject:@"强制退出"];
 }
 
 #pragma mark UIAlertView delegate
 -(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == alertView.cancelButtonIndex){
-        return;
+  if (buttonIndex == alertView.cancelButtonIndex){
+    return;
+  }
+  if ([alertView.title isEqualToString:@"清除ID信息"]){
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:settingsCentre.activeHost]];
+    for (NSHTTPCookie *cookie in cookies) {
+      [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
     }
-    if ([alertView.title isEqualToString:@"清除ID信息"]){
-        NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:settingsCentre.activeHost]];
-        for (NSHTTPCookie *cookie in cookies) {
-            [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
-        }
-        [czzBannerNotificationUtil displayMessage:@"ID信息已清除" position:BannerNotificationPositionTop];
-    }
-    else if ([alertView.title isEqualToString:@"强制退出"])
-    {
-        exit(0);
-    }
-    else if ([alertView.title hasPrefix:@"切换模式"]) {
-        settingsCentre.userDefShouldUseBigImage = !settingsCentre.userDefShouldUseBigImage;
-        [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate threadCacheFolder] error:nil];
-        [AppDelegate checkFolders];
-        [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"大图模式：%@", settingsCentre.userDefShouldUseBigImage ? @"On" : @"Off"]
-                                                                    position:BannerNotificationPositionTop];
-        [[czzHomeViewManager sharedManager] refresh];
-        [settingsCentre saveSettings];
-        [self.settingsTableView reloadData];
-    }
-
+    [czzBannerNotificationUtil displayMessage:@"ID信息已清除" position:BannerNotificationPositionTop];
+  }
+  else if ([alertView.title isEqualToString:@"强制退出"])
+  {
+    exit(0);
+  }
+  else if ([alertView.title hasPrefix:@"切换模式"]) {
+    settingsCentre.userDefShouldUseBigImage = !settingsCentre.userDefShouldUseBigImage;
+    [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate threadCacheFolder] error:nil];
+    [AppDelegate checkFolders];
+    [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"大图模式：%@", settingsCentre.userDefShouldUseBigImage ? @"On" : @"Off"]
+                                     position:BannerNotificationPositionTop];
+    [[czzHomeViewManager sharedManager] refresh];
+    [settingsCentre saveSettings];
+    [self.settingsTableView reloadData];
+  }
+  
 }
 
 #pragma mark - UIActionSheet delegate
 -(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == actionSheet.cancelButtonIndex){
-        return;
-    }
-    NSString *title = [actionSheet buttonTitleAtIndex:buttonIndex];
-    if ([title hasPrefix:@"图片管理器"]){
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-            [[czzImageCacheManager sharedInstance] removeFullSizeImages];
-            [[czzImageCacheManager sharedInstance] removeThumbnails];
-            [[NSURLCache sharedURLCache] removeAllCachedResponses];
-            [czzBannerNotificationUtil displayMessage:@"图片管理器已清空" position:BannerNotificationPositionTop];
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-        }];
-    }
-    else if ([title hasPrefix:@"串缓存"]){
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-            [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate threadCacheFolder] error:nil];
-            [[NSURLCache sharedURLCache] removeAllCachedResponses];
-            [AppDelegate checkFolders];
-            [czzBannerNotificationUtil displayMessage:@"串缓存已清空" position:BannerNotificationPositionTop];
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-        }];
-    }
+  if (buttonIndex == actionSheet.cancelButtonIndex){
+    return;
+  }
+  NSString *title = [actionSheet buttonTitleAtIndex:buttonIndex];
+  if ([title hasPrefix:@"图片管理器"]){
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+      [[czzImageCacheManager sharedInstance] removeFullSizeImages];
+      [[czzImageCacheManager sharedInstance] removeThumbnails];
+      [[NSURLCache sharedURLCache] removeAllCachedResponses];
+      [czzBannerNotificationUtil displayMessage:@"图片管理器已清空" position:BannerNotificationPositionTop];
+      [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
+  }
+  else if ([title hasPrefix:@"串缓存"]){
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+      [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate threadCacheFolder] error:nil];
+      [[NSURLCache sharedURLCache] removeAllCachedResponses];
+      [AppDelegate checkFolders];
+      [czzBannerNotificationUtil displayMessage:@"串缓存已清空" position:BannerNotificationPositionTop];
+      [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
+  }
 }
 
 #pragma mark UISwitch control handler
@@ -416,41 +416,41 @@ static NSString *addMarkerSegue = @"AddMarker";
 #pragma mark - Segue events.
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:textSizeSelectorSegue] && [segue.destinationViewController isKindOfClass:[czzTextSizeSelectorViewController class]]) {
-        [(czzTextSizeSelectorViewController*)segue.destinationViewController setDelegate: self];
-    }
+  if ([segue.identifier isEqualToString:textSizeSelectorSegue] && [segue.destinationViewController isKindOfClass:[czzTextSizeSelectorViewController class]]) {
+    [(czzTextSizeSelectorViewController*)segue.destinationViewController setDelegate: self];
+  }
 }
 
 #pragma mark - czzTextSizeSelectorViewController
 
 - (void)textSizeSelected:(czzTextSizeSelectorViewController *)viewController textSize:(ThreadViewTextSize)size {
-    if (size != settingsCentre.threadTextSize) {
-        settingsCentre.threadTextSize = size;
-        [settingsCentre saveSettings];
-        [self.settingsTableView reloadData];
-        [[czzHomeViewManager sharedManager] reloadData];
-    }
+  if (size != settingsCentre.threadTextSize) {
+    settingsCentre.threadTextSize = size;
+    [settingsCentre saveSettings];
+    [self.settingsTableView reloadData];
+    [[czzHomeViewManager sharedManager] reloadData];
+  }
 }
 
 #pragma mark - Button actions.
 
 // Open my home page.
 - (void)openHomePage {
-    NSString *homePageURL = @"http://www.weibo.com/u/3868827431"; // Weibo home page URL
-    [czzURLHandler handleURL:[NSURL URLWithString:homePageURL]];
+  NSString *homePageURL = @"http://www.weibo.com/u/3868827431"; // Weibo home page URL
+  [czzURLHandler handleURL:[NSURL URLWithString:homePageURL]];
 }
 
 -(void)openDonationLink {
-    NSURL *donationLinkURL = [NSURL URLWithString:settingsCentre.donationLink];
-    if (donationLinkURL && settingsCentre.donationLink.length > 0) {
-        [czzURLHandler handleURL:donationLinkURL];
-    } else {
-        [czzBannerNotificationUtil displayMessage:@"谢谢，现在作者并不需要捐款。。。" position:BannerNotificationPositionTop];
-    }
+  NSURL *donationLinkURL = [NSURL URLWithString:settingsCentre.donationLink];
+  if (donationLinkURL && settingsCentre.donationLink.length > 0) {
+    [czzURLHandler handleURL:donationLinkURL];
+  } else {
+    [czzBannerNotificationUtil displayMessage:@"谢谢，现在作者并不需要捐款。。。" position:BannerNotificationPositionTop];
+  }
 }
 
 + (instancetype)new {
-    return [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"settings_view_controller"];
+  return [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"settings_view_controller"];
 }
 
 //https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=T4UA7Y3NRP8TA&lc=C2&item_name=CraigZheng&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted

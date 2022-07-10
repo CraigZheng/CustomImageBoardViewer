@@ -17,36 +17,36 @@
 @implementation czzTextSizeSelectorViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    self.sizeTitles = @[@"默认", @"偏小", @"偏大", @"特大"];
-    [self.pickerView selectRow:settingCentre.threadTextSize inComponent:0 animated:NO];
-
+  [super viewDidLoad];
+  self.sizeTitles = @[@"默认", @"偏小", @"偏大", @"特大"];
+  [self.pickerView selectRow:settingCentre.threadTextSize inComponent:0 animated:NO];
+  
 }
 
 #pragma mark - UI actions.
 - (IBAction)tapOnBackgroundViewAction:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+  [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)okButtonAction:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(textSizeSelected:textSize:)]) {
-        [self.delegate textSizeSelected:self textSize:[self.pickerView selectedRowInComponent:0]];
-    }
-    [self dismissViewControllerAnimated:YES completion:nil];
+  if ([self.delegate respondsToSelector:@selector(textSizeSelected:textSize:)]) {
+    [self.delegate textSizeSelected:self textSize:[self.pickerView selectedRowInComponent:0]];
+  }
+  [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - UIPickerViewDelegate & UIPickerViewDataSource
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    return self.sizeTitles.count;
+  return self.sizeTitles.count;
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    return 1;
+  return 1;
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    return self.sizeTitles[row];
+  return self.sizeTitles[row];
 }
 
 @end

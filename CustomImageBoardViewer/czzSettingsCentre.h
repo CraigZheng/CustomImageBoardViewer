@@ -16,10 +16,10 @@ extern NSString * const settingsChangedNotification;
 extern NSString * const kAutoCleanPeriod;
 
 typedef enum : NSInteger {
-    TextSizeDefault = 0,
-    TextSizeSmall = 1,
-    TextSizeBig = 2,
-    TextSizeExtraBig = 3
+  TextSizeDefault = 0,
+  TextSizeSmall = 1,
+  TextSizeBig = 2,
+  TextSizeExtraBig = 3
 } ThreadViewTextSize;
 
 typedef NS_ENUM(NSInteger, SettingsHost) {
