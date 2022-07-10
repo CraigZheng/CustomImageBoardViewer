@@ -181,7 +181,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat estimatedHeight = 44.0;
-    if (indexPath.row < self.homeViewManager.threads[indexPath.section].count) {
+    if (indexPath.row < self.homeViewManager.threads[indexPath.section].displayableThreadCount) {
         czzThread *thread = self.homeViewManager.threads[indexPath.section].threads[indexPath.row];
         if (self.contentEstimatedHeights[@(thread.ID)]) {
             estimatedHeight = [self.contentEstimatedHeights[@(thread.ID)] floatValue];
@@ -266,7 +266,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSInteger rowsCount = self.homeViewManager.threads[section].count;
+    NSInteger rowsCount = self.homeViewManager.threads[section].displayableThreadCount;
     if (section == [self numberOfSectionsInTableView:tableView] - 1) {
         rowsCount += 1;
     }
@@ -556,7 +556,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
 #pragma mark - UIDataSourceModelAssociation
 
 - (NSString *)modelIdentifierForElementAtIndexPath:(NSIndexPath *)indexPath inView:(UIView *)view {
-    if (indexPath.row < self.homeViewManager.threads[indexPath.section].count) {
+    if (indexPath.row < self.homeViewManager.threads[indexPath.section].displayableThreadCount) {
         // Return thread ID.
         return [NSString stringWithFormat:@"%ld", (long)[self.homeViewManager.threads[indexPath.section].threads[indexPath.row] ID]];
     } else {

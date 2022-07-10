@@ -47,7 +47,7 @@
     UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     // If within the range of threads, is a thread view cell, otherwise is a command cell.
     ContentPage *currentPage = self.threadViewManager.threads[indexPath.section];
-    if (indexPath.row < currentPage.count) {
+    if (indexPath.row < currentPage.displayableThreadCount) {
         czzThread *thread = currentPage.threads[indexPath.row];
         // Thread view cell
         if ([cell isKindOfClass:[czzMenuEnabledTableViewCell class]]){

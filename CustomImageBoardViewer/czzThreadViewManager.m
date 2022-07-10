@@ -232,7 +232,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)loadMoreThreads {
-    if (self.threads.lastObject.count >= settingCentre.response_per_page) {
+    if (self.threads.lastObject.realThreadCount >= settingCentre.response_per_page) {
         [self loadMoreThreads:self.threads.lastObject.pageNumber + 1];
     } else {
         [self loadMoreThreads:self.threads.lastObject.pageNumber];

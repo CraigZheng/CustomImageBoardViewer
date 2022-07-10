@@ -26,7 +26,8 @@ import Foundation
   var showOnlyUserID: String?
   var pageNumber: Int = 0
   var forum: czzForum?
-  var count: Int {
+  var displayableThreadCount: Int {
     return threads.count
   }
+  var realThreadCount: Int { _threads.count }
 }
