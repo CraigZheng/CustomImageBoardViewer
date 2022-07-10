@@ -147,6 +147,9 @@
                                     </label>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" title="只看PO" translatesAutoresizingMaskIntoConstraints="NO" id="sy4-BV-kmh">
                                         <rect key="frame" x="71" y="0.0" width="51" height="33"/>
+                                        <connections>
+                                            <action selector="togglePOOnlyModeAction:" destination="CES-L8-oRQ" eventType="valueChanged" id="zda-vz-DUz"/>
+                                        </connections>
                                     </switch>
                                 </subviews>
                                 <constraints>

@@ -225,6 +225,12 @@ typedef enum : NSUInteger {
     }
 }
 
+- (void)setOnlyShowUserID:(NSString *)userID {
+    [self.threads enumerateObjectsUsingBlock:^(ContentPage * _Nonnull page, NSUInteger idx, BOOL * _Nonnull stop) {
+        page.showOnlyUserID = userID;
+    }];
+}
+
 - (void)loadMoreThreads {
     if (self.threads.lastObject.count >= settingCentre.response_per_page) {
         [self loadMoreThreads:self.threads.lastObject.pageNumber + 1];

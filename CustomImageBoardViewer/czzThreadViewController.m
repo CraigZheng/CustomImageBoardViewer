@@ -196,6 +196,13 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
   } else {
     self.watchButton.image = [UIImage imageNamed:@"invisible.png"];
   }
+  NSString *userID;
+  if ([self.poOnlySwitch isOn]) {
+    userID = self.threadViewManager.parentThread.UID;
+  } else {
+    userID = NULL;
+  }
+  [self.threadViewManager setOnlyShowUserID:userID];
   [self.threadTableViewManager reloadData];
 }
 
@@ -452,6 +459,10 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
             activityViewController.popoverPresentationController.sourceView = self.view;
         [self presentViewController:activityViewController animated:YES completion:nil];
     }
+}
+
+- (IBAction)togglePOOnlyModeAction:(id)sender {
+    [self updateTableView];
 }
 
 #pragma mark - prepare for segue

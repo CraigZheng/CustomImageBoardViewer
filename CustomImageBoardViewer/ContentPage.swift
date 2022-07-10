@@ -9,7 +9,21 @@
 import Foundation
 
 @objcMembers class ContentPage: NSObject {
-  var threads: [czzThread] = []
+  var threads: [czzThread] {
+    get {
+      guard !(showOnlyUserID ?? "").isEmpty else {
+        return _threads;
+      }
+      let threads = _threads.filter { $0.uid == showOnlyUserID }
+      return threads;
+    }
+    
+    set {
+      _threads = newValue
+    }
+  }
+  private var _threads: [czzThread] = []
+  var showOnlyUserID: String?
   var pageNumber: Int = 0
   var forum: czzForum?
   var count: Int {

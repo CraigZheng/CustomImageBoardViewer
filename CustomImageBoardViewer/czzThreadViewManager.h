@@ -28,6 +28,7 @@
 - (void)loadAll;
 - (void)stopAllOperation;
 - (void)jumpToPage:(NSInteger)page;
+- (void)setOnlyShowUserID:(NSString*)userID;
 - (instancetype)initWithParentThread:(czzThread*)thread andForum:(czzForum*)forum;
 - (instancetype)restoreWithFile:(NSString*)filePath;
 @end
