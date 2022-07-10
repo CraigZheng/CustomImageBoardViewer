@@ -446,14 +446,15 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
         NSString *sharingContent = sharingThread.content.string;
         // If the sharing content is longer than 40 characters, chuncate it.
         NSString *contentSummary = sharingContent.length > 100 ? [NSString stringWithFormat:@"%@...", [sharingContent substringToIndex:95]] : sharingContent;
+        NSString *threadLink = [[settingCentre share_post_url] stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long)sharingThread.ID]];
         // If not nil, put a breakpoint at the end.
         if (contentSummary.length) {
             contentSummary = [contentSummary stringByAppendingString:@"\n"];
+            contentSummary = [contentSummary stringByAppendingString:threadLink];
         } else {
             contentSummary = @"";
         }
-        NSString *threadLink = [[settingCentre share_post_url] stringByReplacingOccurrencesOfString:kThreadID withString:[NSString stringWithFormat:@"%ld", (long)sharingThread.ID]];
-        UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[contentSummary, [NSURL URLWithString:threadLink]]
+        UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[contentSummary]
                                                                                              applicationActivities:nil];
         if ([activityViewController respondsToSelector:@selector(popoverPresentationController)])
             activityViewController.popoverPresentationController.sourceView = self.view;
