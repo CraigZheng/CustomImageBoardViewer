@@ -17,6 +17,7 @@ import UIKit
   @IBOutlet weak var deleteButton: UIButton!
   @IBOutlet weak var hostPickerView: UIPickerView!
   @IBOutlet weak var cookieValueLabel: UILabel!
+  @IBOutlet weak var cookieValueCell: UITableViewCell!
   
   var originalCookie: HTTPCookie?
   var isOriginalCookieFromArchive = false
@@ -28,6 +29,7 @@ import UIKit
       }
     }
   }
+  var isEditable = false
   private var originalCookieValue: String?
   private var originalHost = SettingsHost.AC
   
@@ -38,6 +40,7 @@ import UIKit
     if let cookieValue = cookieValue {
       cookieValueLabel.text = cookieValue
     }
+    cookieValueCell.isUserInteractionEnabled = isEditable
     hostPickerView.selectRow(activeHost.rawValue, inComponent: 0, animated: false)
     deleteButton.isEnabled = originalCookie != nil
   }

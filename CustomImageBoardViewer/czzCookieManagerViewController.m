@@ -69,6 +69,7 @@ static NSString *kScanQRCodeSegueIdentifier = @"qrScanner";
       cookieDetailTableViewController.originalCookie = self.selectedCookie;
       cookieDetailTableViewController.isOriginalCookieFromArchive = self.cookieManagerSegmentControl.selectedSegmentIndex == 1;
     }
+    cookieDetailTableViewController.isEditable = true;
     cookieDetailTableViewController.activeHost = activeHost;
   }
 }
