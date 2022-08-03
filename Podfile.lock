@@ -87,7 +87,7 @@ DEPENDENCIES:
   - DZNEmptyDataSet
   - Google-Mobile-Ads-SDK (~> 7.0)
   - Google/Analytics
-  - iOS-Slide-Menu
+  - iOS-Slide-Menu (from `https://github.com/CraigZheng/iOS-Slide-Menu.git`, branch `master`)
   - MWPhotoBrowser (from `https://github.com/CraigZheng/MWPhotoBrowser.git`, branch `master`)
   - PureLayout
   - SplunkMint
@@ -109,7 +109,6 @@ SPEC REPOS:
     - GoogleAppMeasurement
     - GoogleToolboxForMac
     - GoogleUtilities
-    - iOS-Slide-Menu
     - MBProgressHUD
     - nanopb
     - PureLayout
@@ -118,6 +117,9 @@ SPEC REPOS:
     - TTTAttributedLabel
 
 EXTERNAL SOURCES:
+  iOS-Slide-Menu:
+    :branch: master
+    :git: https://github.com/CraigZheng/iOS-Slide-Menu.git
   MWPhotoBrowser:
     :branch: master
     :git: https://github.com/CraigZheng/MWPhotoBrowser.git
@@ -126,6 +128,9 @@ EXTERNAL SOURCES:
     :git: https://github.com/SwiftKickMobile/SwiftMessages.git
 
 CHECKOUT OPTIONS:
+  iOS-Slide-Menu:
+    :commit: 324ff410caa52a5842a33985a113d4bc2185be97
+    :git: https://github.com/CraigZheng/iOS-Slide-Menu.git
   MWPhotoBrowser:
     :commit: 67b4ae0b4311f0344fd729b08c49d119ff5db815
     :git: https://github.com/CraigZheng/MWPhotoBrowser.git
@@ -157,6 +162,6 @@ SPEC CHECKSUMS:
   SwiftMessages: 3029c4276a0fda92c765cc50bfc2fc2bed7c8df5
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
 
-PODFILE CHECKSUM: 92fcb70ec4fcb505baa090d5ef019f90d580d3ce
+PODFILE CHECKSUM: bae90c6389174faf9675a60767d12602f910927e
 
 COCOAPODS: 1.11.3
