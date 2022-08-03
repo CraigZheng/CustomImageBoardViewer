@@ -41,6 +41,9 @@ static NSString *kScanQRCodeSegueIdentifier = @"qrScanner";
   cookieManager = CookieManager;
   
   cookieManagerTableView.backgroundColor = [settingCentre viewBackgroundColour];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self addCookieAction:nil];
+  });
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -144,7 +147,7 @@ static NSString *kScanQRCodeSegueIdentifier = @"qrScanner";
 
 - (IBAction)addCookieAction:(id)sender {
     __weak typeof(self) weakSelf = self;
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"手动添加" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"添加饼干" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     [alertController addAction:[UIAlertAction actionWithTitle:@"扫二维码" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [weakSelf performSegueWithIdentifier:kScanQRCodeSegueIdentifier sender:sender];
     }]];
