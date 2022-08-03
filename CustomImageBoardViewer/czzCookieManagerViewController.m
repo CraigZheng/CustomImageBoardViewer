@@ -42,7 +42,9 @@ static NSString *kScanQRCodeSegueIdentifier = @"qrScanner";
   
   cookieManagerTableView.backgroundColor = [settingCentre viewBackgroundColour];
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self addCookieAction:nil];
+    if ([cookieManager currentACCookies].count <= 0) {
+      [self addCookieAction:self];
+    }
   });
 }
 
