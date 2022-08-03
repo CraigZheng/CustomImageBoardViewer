@@ -129,7 +129,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   iOS-Slide-Menu:
-    :commit: 324ff410caa52a5842a33985a113d4bc2185be97
+    :commit: da00ce6ccf371cd37ec957fe62354d9bc1b159d8
     :git: https://github.com/CraigZheng/iOS-Slide-Menu.git
   MWPhotoBrowser:
     :commit: 67b4ae0b4311f0344fd729b08c49d119ff5db815
