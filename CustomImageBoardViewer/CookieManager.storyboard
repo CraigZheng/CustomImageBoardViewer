@@ -381,28 +381,36 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="31B-6F-Vfk" customClass="RoundCornerBorderedButton" customModule="CustomImageBoardViewer" customModuleProvider="target">
-                                <rect key="frame" x="20" y="427" width="335" height="44"/>
+                                <rect key="frame" x="20" y="456" width="335" height="44"/>
                                 <color key="backgroundColor" red="1" green="0.67785071340000003" blue="0.17108253700000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="Y7J-gW-xiI"/>
                                 </constraints>
-                                <state key="normal" title="从系统图片库中打开">
+                                <state key="normal" title="从系统图片库中选择">
                                     <color key="titleColor" red="0.33333334329999997" green="0.33333334329999997" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="loadFromLibraryAction:" destination="yBv-tn-K5B" eventType="touchUpInside" id="xL8-9a-8mn"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请扫描饼干的二维码" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SlE-Ww-uhs">
+                                <rect key="frame" x="109.5" y="427" width="156" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="scO-8I-OYs" secondAttribute="trailing" id="3f9-TR-6w4"/>
+                            <constraint firstItem="SlE-Ww-uhs" firstAttribute="centerX" secondItem="EmK-fl-6OI" secondAttribute="centerX" id="8dP-ld-Oaf"/>
+                            <constraint firstItem="SlE-Ww-uhs" firstAttribute="top" secondItem="scO-8I-OYs" secondAttribute="bottom" constant="8" symbolic="YES" id="ENB-sa-UqN"/>
                             <constraint firstItem="efm-7S-pjc" firstAttribute="top" secondItem="scO-8I-OYs" secondAttribute="bottom" id="ET9-81-axt"/>
-                            <constraint firstItem="31B-6F-Vfk" firstAttribute="top" secondItem="scO-8I-OYs" secondAttribute="bottom" constant="8" id="IWd-jx-Rwo"/>
                             <constraint firstItem="scO-8I-OYs" firstAttribute="top" secondItem="IAQ-I6-bYB" secondAttribute="bottom" id="WVW-XC-0Sx"/>
                             <constraint firstAttribute="trailing" secondItem="31B-6F-Vfk" secondAttribute="trailing" constant="20" symbolic="YES" id="XyA-Hh-KHZ"/>
                             <constraint firstItem="efm-7S-pjc" firstAttribute="top" relation="greaterThanOrEqual" secondItem="31B-6F-Vfk" secondAttribute="bottom" constant="8" symbolic="YES" id="ZKj-wA-Rqo"/>
                             <constraint firstItem="31B-6F-Vfk" firstAttribute="leading" secondItem="EmK-fl-6OI" secondAttribute="leading" constant="20" symbolic="YES" id="f7F-Hl-y0I"/>
+                            <constraint firstItem="31B-6F-Vfk" firstAttribute="top" secondItem="SlE-Ww-uhs" secondAttribute="bottom" constant="8" symbolic="YES" id="veP-62-sle"/>
                             <constraint firstItem="scO-8I-OYs" firstAttribute="leading" secondItem="EmK-fl-6OI" secondAttribute="leading" id="xpi-CS-XVK"/>
                         </constraints>
                         <variation key="default">
@@ -483,7 +491,7 @@
         </designable>
     </designables>
     <inferredMetricsTieBreakers>
-        <segue reference="7hb-x8-3qm"/>
+        <segue reference="mot-ga-KNY"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="add_user.png" width="20" height="20"/>
