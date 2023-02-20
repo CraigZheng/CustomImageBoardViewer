@@ -202,7 +202,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSURL *aIsleURL = [NSURL URLWithString:[settingCentre activeHost]];
                 if ([finalURL.absoluteString rangeOfString:aIsleURL.host].location == NSNotFound) {
-                    [czzBannerNotificationUtil displayMessage:@"这个App只支持A岛匿名版的链接"
+                    [czzBannerNotificationUtil displayMessage:@"这个App只支持X岛匿名版的链接"
                                                      position:BannerNotificationPositionTop];
                 } else {
                     //from final URL get thread ID
