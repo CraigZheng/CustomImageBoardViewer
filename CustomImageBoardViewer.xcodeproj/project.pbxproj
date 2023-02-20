@@ -4994,7 +4994,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "$(inherited)";
-				CURRENT_PROJECT_VERSION = 4.42.1;
+				CURRENT_PROJECT_VERSION = 4.43.1;
 				DEVELOPMENT_TEAM = 9EBE9MWW9X;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5020,7 +5020,7 @@
 					"$(PROJECT_DIR)/CustomImageBoardViewer/GoogldAdmob",
 					"$(PROJECT_DIR)/CustomImageBoardViewer",
 				);
-				MARKETING_VERSION = 4.42;
+				MARKETING_VERSION = 4.43;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.ac-channel-browser";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -5040,7 +5040,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "$(inherited)";
-				CURRENT_PROJECT_VERSION = 4.42.1;
+				CURRENT_PROJECT_VERSION = 4.43.1;
 				DEVELOPMENT_TEAM = 9EBE9MWW9X;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5065,7 +5065,7 @@
 					"$(PROJECT_DIR)/CustomImageBoardViewer/GoogldAdmob",
 					"$(PROJECT_DIR)/CustomImageBoardViewer",
 				);
-				MARKETING_VERSION = 4.42;
+				MARKETING_VERSION = 4.43;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.craig.ac-channel-browser";
 				PRODUCT_NAME = "$(TARGET_NAME)";
