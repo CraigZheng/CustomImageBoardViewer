@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Google/Analytics.h>
 
 @class GSIndeterminateProgressView;
 @interface UIViewController (Util)

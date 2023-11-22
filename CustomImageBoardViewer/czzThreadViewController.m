@@ -95,10 +95,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    // Google Analytic integration
-    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
-    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
     // UI appearance.
     self.threadTableView.backgroundColor = [settingCentre viewBackgroundColour];
     if (settingCentre.userDefNightyMode) {
@@ -156,11 +152,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
   } else {
     [self.threadViewManager loadMoreThreads:self.threadViewManager.pageNumber];
   }
-  // Google Analytic integration.
-  [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Thread"
-                                                                                      action:@"View Thread"
-                                                                                       label:[NSString stringWithFormat:@"%ld", (long)self.threadViewManager.parentThread.ID]
-                                                                                       value:@1] build]];
 }
 
 - (void)dealloc {

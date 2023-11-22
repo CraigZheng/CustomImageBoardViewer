@@ -101,10 +101,6 @@ static NSString *kPostNameKey = @"kPostNameKey";
     if (!self.didLayout) {
         [self renderContent];
     }
-    // Google Analytic integration
-    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
-    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -323,10 +319,6 @@ static NSString *kPostNameKey = @"kPostNameKey";
         if (self.postSender.imgData) {
             label = @"Post Image";
         }
-        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Thread"
-                                                                                            action:@"Post Thread"
-                                                                                             label:label
-                                                                                             value:@1] build]];
     } else {
         [czzBannerNotificationUtil displayMessage:@"请检查内容" position:BannerNotificationPositionTop];
     }

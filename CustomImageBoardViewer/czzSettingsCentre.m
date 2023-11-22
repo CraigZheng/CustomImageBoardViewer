@@ -13,7 +13,6 @@
 #import "czzURLDownloader.h"
 #import "czzLaunchPopUpNotification.h"
 #import "czzLaunchPopUpNotificationViewController.h"
-#import <Google/Analytics.h>
 #import <UIKit/UIKit.h>
 
 #import "CustomImageBoardViewer-Swift.h"
@@ -228,42 +227,6 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
   if ([userDefault objectForKey:kRecordPageNumber]) {
     self.userDefRecordPageNumber = [userDefault boolForKey:kRecordPageNumber];
   }
-  
-  // Google analytics.
-  id<GAITracker> defaultTracker = [[GAI sharedInstance] defaultTracker];
-  [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
-                                                               action:@"Display Thumbnail"
-                                                                label:[self stringWithBoolean:self.userDefShouldDisplayThumbnail]
-                                                                value:@1] build]];
-  [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
-                                                               action:@"Display Quick Scroll"
-                                                                label:[self stringWithBoolean:self.userDefShouldShowOnScreenCommand]
-                                                                value:@1] build]];
-  [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
-                                                               action:@"Auto Open Downloaded Image"
-                                                                label:[self stringWithBoolean:self.userDefShouldAutoOpenImage]
-                                                                value:@1] build]];
-  [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
-                                                               action:@"Big Image Mode"
-                                                                label:[self stringWithBoolean:self.userDefShouldUseBigImage]
-                                                                value:@1] build]];
-  [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
-                                                               action:@"Nighty Mode"
-                                                                label:[self stringWithBoolean:self.userDefNightyMode]
-                                                                value:@1] build]];
-  [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
-                                                               action:@"Auto Download Image"
-                                                                label:[self stringWithBoolean:self.userDefShouldAutoDownloadImage]
-                                                                value:@1] build]];
-  [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
-                                                               action:@"Collapse Long Content"
-                                                                label:[self stringWithBoolean:self.userDefShouldCollapseLongContent]
-                                                                value:@1] build]];
-  [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Settings"
-                                                               action:@"Show Image Manager Button"
-                                                                label:[self stringWithBoolean:self.shouldShowImageManagerButton]
-                                                                value:@1] build]];
-  
 }
 
 - (NSString*)stringWithBoolean:(Boolean)b {

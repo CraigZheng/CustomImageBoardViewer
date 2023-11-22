@@ -112,10 +112,6 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    // Google Analytic integration
-    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
-    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
     
     self.threadTableView.backgroundColor = settingCentre.viewBackgroundColour;
     if (settingCentre.userDefNightyMode) {
@@ -373,12 +369,6 @@
 -(void)setSelectedForum:(czzForum *)selectedForum {
     _selectedForum = selectedForum;
     self.homeViewManager.forum = selectedForum;
-    if (selectedForum) {
-        [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Home"
-                                                                                            action:@"Pick Forum"
-                                                                                             label:selectedForum.name
-                                                                                             value:@1] build]];
-    }
 }
 
 #pragma mark - Transit

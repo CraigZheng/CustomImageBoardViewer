@@ -23,7 +23,6 @@
 #import "czzHistoryManager.h"
 #import "czzFavouriteManager.h"
 #import "czzForumManager.h"
-#import <Google/Analytics.h>
 #import <WatchConnectivity/WatchConnectivity.h>
 #import "CustomImageBoardViewer-Swift.h"
 #import "TalkingData.h"
@@ -32,7 +31,6 @@
 #import <SplunkMint/SplunkMint.h>
 
 @import CocoaLumberjack;
-@import GoogleMobileAds;
 
 #define LOG_LEVEL_DEF ddLogLevel
 
@@ -50,9 +48,6 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
-    GADMobileAds.sharedInstance.requestConfiguration.testDeviceIdentifiers = @[kGADSimulatorID];
-    
     [DDLog addLogger:[DDTTYLogger sharedInstance]]; // TTY = Xcode console
     [DDLog addLogger:[DDASLLogger sharedInstance]]; // ASL = Apple System Logs
     
@@ -65,19 +60,6 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
     [[Mint sharedInstance] setUserIdentifier:[UIDevice currentDevice].identifierForVendor.UUIDString];
     // Talkind data initialisation
     [TalkingData sessionStarted:@"B8168DD03CD9EF62B476CEDFBC3FB52D" withChannelId:@""];
-    // Google analytic configuration
-    // Configure tracker from GoogleService-Info.plist.
-    NSError *configureError;
-    [[GGLContext sharedInstance] configureWithError:&configureError];
-    NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
-    // Enable IDFA collection.
-    [[[GAI sharedInstance] defaultTracker] setAllowIDFACollection:YES];
-    
-    //    // Optional: configure GAI options.
-    //    GAI *gai = [GAI sharedInstance];
-    //    gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
-    //    gai.logger.logLevel = kGAILogLevelVerbose;  // remove before app release
-
     myhost = my_main_host;
     settingsCentre = [czzSettingsCentre sharedInstance];
     [[czzForumManager sharedManager] updateForums:nil];

@@ -12,7 +12,6 @@
 #import "czzMarkerManager.h"
 #import "czzNavigationController.h"
 #import "CustomImageBoardViewer-Swift.h"
-#import <Google/Analytics.h>
 
 #import "CustomImageBoardViewer-Swift.h"
 
@@ -107,12 +106,6 @@
 }
 
 -(void)refresh {
-  if (self.forum.name.length && !self.isShowingLatestResponse) {
-    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Refresh"
-                                                                                        action:@"Refresh Forum"
-                                                                                         label:self.forum.name
-                                                                                         value:@1] build]];
-  }
   [self removeAll];
   self.isShowingLatestResponse ? [self loadLatestResponse] : [self loadMoreThreads:self.pageNumber];
 }
@@ -120,10 +113,6 @@
 - (void)loadLatestResponse {
     [self.downloader stop];
     [self.latestResponseDownloader start];
-    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Refresh"
-                                                                                        action:@"Latest Response"
-                                                                                         label:self.forum.name
-                                                                                         value:@1] build]];
 }
 
 - (void)loadPreviousPage {

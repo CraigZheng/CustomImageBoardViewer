@@ -15,8 +15,6 @@
 #import "SlideNavigationController.h"
 #import "czzSettingsCentre.h"
 
-@import GoogleMobileAds;
-
 @interface czzForumsTableViewThreadSuggestionsManager()
 @end
 
@@ -80,14 +78,7 @@
         [[SlideNavigationController sharedInstance] closeMenuWithCompletion:^{
             [czzURLHandler handleURL:suggestion.url];
         }];
-    }
-    // Analytics.
-    id<GAITracker> defaultTracker = [[GAI sharedInstance] defaultTracker];
-    [defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"PopularThread"
-                                                                 action:@"Selected"
-                                                                  label:[NSString stringWithFormat:@"%@ - %@", suggestion.title, suggestion.url]
-                                                                  value:@1] build]];
-    
+    }    
 }
 
 #pragma mark - Util methods.

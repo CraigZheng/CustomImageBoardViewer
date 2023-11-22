@@ -104,10 +104,6 @@ static NSInteger const respondsHistoryIndex = 2;
             [cell renderContent]; // Render content must be done manually.
         } @catch (NSException *exception) {
             DLog(@"%@", exception)
-            [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:@"Exception"
-                                                                                                action:@"Exception"
-                                                                                                 label:[exception description]
-                                                                                                 value:@1] build]];
         }
     }
     return cell;

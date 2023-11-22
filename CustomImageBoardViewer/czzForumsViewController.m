@@ -43,7 +43,7 @@ typedef enum : NSUInteger {
 @property (weak, nonatomic) IBOutlet UITableView *customForumsTableView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *forumsSegmentedControl;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *hostSegmentedControl;
-@property (weak, nonatomic) IBOutlet GADBannerView *adView;
+@property (weak, nonatomic) IBOutlet UIView *adView;
 @property (strong, nonatomic) NSDate *lastUpdateTime;
 @property (assign, nonatomic) NSTimeInterval updateInterval;
 @property (assign, nonatomic) BOOL shouldHideCoverView;
@@ -83,19 +83,10 @@ typedef enum : NSUInteger {
                                    selector:@selector(refreshContent)
                                    userInfo:nil
                                     repeats:YES];
-
-    self.adView.adUnitID = @"ca-app-pub-2081665256237089/1257421097";
-    self.adView.rootViewController = self;
-    [self.adView loadRequest:GADRequest.request];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
   [super viewWillAppear:animated];
-  // Google Analytic integration
-  id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-  [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
-  [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
-  
   if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]){
     self.automaticallyAdjustsScrollViewInsets = NO;
   }

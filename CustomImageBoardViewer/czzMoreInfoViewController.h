@@ -8,15 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@import GoogleMobileAds;
-
 #import "czzForum.h"
 
 @interface czzMoreInfoViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIWebView *headerTextWebView;
 @property (weak, nonatomic) IBOutlet UIWebView *coverImageWebView;
 @property (strong, nonatomic) czzForum *forum;
-@property GADBannerView *bannerView_;
+@property UIView *bannerView_; // TODO: This ad banner view is not in used anymore, we could remove it later.
 @property (weak, nonatomic) IBOutlet UINavigationItem *moreInfoNavItem;
 @property (weak, nonatomic) IBOutlet UIScrollView *containerScrollView;
 - (IBAction)dismissAction:(id)sender;

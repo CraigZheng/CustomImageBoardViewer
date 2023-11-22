@@ -38,9 +38,7 @@
 	// Do any additional setup after loading the view.
     baseURL = [settingCentre get_forum_info_url];
     //admob module
-    bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerLandscape];
-    bannerView_.adUnitID = @"ca-app-pub-2081665256237089/7084462841";
-    bannerView_.rootViewController = self;
+    bannerView_ = [[UIView alloc] initWithFrame:CGRectZero];
     
     self.view.backgroundColor = [settingCentre viewBackgroundColour];
 }
@@ -49,11 +47,6 @@
     [super viewWillAppear:animated];
     // Load image.
     [self renderContent];
-
-    // Google Analytic integration
-    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-    [tracker set:kGAIScreenName value:NSStringFromClass(self.class)];
-    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 -(void)renderContent {
@@ -63,7 +56,7 @@
     self.headerTextWebView.scrollView.bounces = NO;
     // Position of the banner view.
     // Constraints, all to the super view, except the top.
-    [bannerView_ loadRequest:[GADRequest request]];
+//    [bannerView_ loadRequest:[GADRequest request]];
     [self.view addSubview:bannerView_];
 //    [bannerView_ autoSetDimensionsToSize:kGADAdSizeSmartBannerLandscape.size];
     [bannerView_ autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero
