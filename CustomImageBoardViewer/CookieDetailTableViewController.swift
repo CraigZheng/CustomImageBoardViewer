@@ -10,7 +10,7 @@ import UIKit
 
 @objcMembers class CookieDetailTableViewController: UITableViewController {
   private enum SegueIdentifier: String {
-    case unwindToCookieManager, showQRCode
+    case unwindToCookieManager
   }
   
   @IBOutlet weak var addButton: UIButton!
@@ -88,10 +88,6 @@ import UIKit
   }
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if let textInputViewController = segue.destination as? CookieTextInputViewController {
-      textInputViewController.prefilledString = cookieValue
-      textInputViewController.delegate = self
-    }
     if let cookieQRCodeShareViewController = segue.destination as? CookieQRCodeShareViewController,
       let cookieValue = cookieValue,
       let cookieJson = czzCookieManager.sharedInstance().cookieJSON(from: cookieValue) {
@@ -116,11 +112,5 @@ extension CookieDetailTableViewController: UIPickerViewDataSource, UIPickerViewD
   
   func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
     activeHost = SettingsHost(rawValue: row)!
-  }
-}
-
-extension CookieDetailTableViewController: CookieTextInputViewControllerDelegate {
-  func textDetailEntered(_ inputViewController: CookieTextInputViewController, enteredDetails: String) {
-    cookieValue = enteredDetails
   }
 }
