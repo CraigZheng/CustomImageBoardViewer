@@ -23,13 +23,68 @@
 @interface czzMiniThreadViewController () <UITableViewDataSource, UITableViewDelegate, czzMenuEnabledTableViewCellProtocol>
 @property (nonatomic, assign) NSInteger parentID;
 @property (nonatomic, assign) CGSize rowSize;
-@property (weak, nonatomic) IBOutlet UIToolbar *miniThreadViewToolBar;
+@property (weak, nonatomic) UIToolbar *miniThreadViewToolBar;
 @end
 
 @implementation czzMiniThreadViewController
 @synthesize threadTableView;
 @synthesize rowSize;
 @synthesize parentID;
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.modalPresentationStyle = UIModalPresentationCurrentContext;
+    }
+    return self;
+}
+
+- (void)loadView {
+    UIView *rootView = [[UIView alloc] init];
+    rootView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
+    self.view = rootView;
+
+    UIView *backgroundView = [[UIView alloc] init];
+    backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
+    backgroundView.backgroundColor = [UIColor clearColor];
+    [backgroundView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnBackgroundView:)]];
+    [rootView addSubview:backgroundView];
+
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    tableView.translatesAutoresizingMaskIntoConstraints = NO;
+    tableView.dataSource = self;
+    tableView.delegate = self;
+    [rootView addSubview:tableView];
+    self.threadTableView = tableView;
+    NSLayoutConstraint *tableHeight = [tableView.heightAnchor constraintEqualToConstant:80];
+    self.threadTableViewHeight = tableHeight;
+
+    UIToolbar *toolbar = [[UIToolbar alloc] init];
+    toolbar.translatesAutoresizingMaskIntoConstraints = NO;
+    [rootView addSubview:toolbar];
+    self.miniThreadViewToolBar = toolbar;
+
+    UILayoutGuide *safeArea = rootView.safeAreaLayoutGuide;
+    NSLayoutConstraint *toolbarTop = [toolbar.topAnchor constraintEqualToAnchor:tableView.bottomAnchor];
+    toolbarTop.priority = UILayoutPriorityDefaultHigh;
+    [NSLayoutConstraint activateConstraints:@[
+        [backgroundView.topAnchor constraintEqualToAnchor:safeArea.topAnchor],
+        [backgroundView.bottomAnchor constraintEqualToAnchor:rootView.bottomAnchor],
+        [backgroundView.leadingAnchor constraintEqualToAnchor:rootView.leadingAnchor],
+        [backgroundView.trailingAnchor constraintEqualToAnchor:rootView.trailingAnchor],
+
+        [tableView.centerYAnchor constraintEqualToAnchor:rootView.centerYAnchor],
+        [tableView.leadingAnchor constraintEqualToAnchor:rootView.leadingAnchor],
+        [tableView.trailingAnchor constraintEqualToAnchor:rootView.trailingAnchor],
+        tableHeight,
+
+        toolbarTop,
+        [toolbar.leadingAnchor constraintEqualToAnchor:rootView.leadingAnchor],
+        [toolbar.trailingAnchor constraintEqualToAnchor:rootView.trailingAnchor],
+        [toolbar.heightAnchor constraintEqualToConstant:44],
+        [safeArea.bottomAnchor constraintGreaterThanOrEqualToAnchor:toolbar.bottomAnchor]
+    ]];
+}
 
 #pragma mark - Life cycle.
 - (void)viewDidLoad {
@@ -129,6 +184,6 @@
 }
 
 + (instancetype)new {
-    return [[UIStoryboard storyboardWithName:@"MiniThreadView" bundle:nil] instantiateViewControllerWithIdentifier:@"mini_thread_view_controller"];
+    return [[self alloc] init];
 }
 @end

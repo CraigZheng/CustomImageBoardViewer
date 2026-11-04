@@ -25,6 +25,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self registerNibs];
+        [self configureCommandOverlay];
     }
     return self;
 }
@@ -39,6 +40,10 @@
 
 -(void)awakeFromNib {
     [super awakeFromNib];
+    [self configureCommandOverlay];
+}
+
+-(void)configureCommandOverlay {
     self.upDownViewController = [czzOnScreenCommandViewController new];
     self.upDownViewController.delegate = self;
     self.estimatedRowHeight = 44.0;

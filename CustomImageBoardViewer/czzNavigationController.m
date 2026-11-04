@@ -64,7 +64,7 @@
 }
 
 - (void)showWatchList {
-    czzFavouriteManagerViewController *favouriteViewController = [[UIStoryboard storyboardWithName:@"FavouriteManager" bundle:nil] instantiateInitialViewController];
+    czzFavouriteManagerViewController *favouriteViewController = [czzFavouriteManagerViewController new];
     if ([favouriteViewController isKindOfClass:[czzFavouriteManagerViewController class]]) {
         favouriteViewController.launchToIndex = watchIndex;
         [self pushViewController:favouriteViewController animated:YES];

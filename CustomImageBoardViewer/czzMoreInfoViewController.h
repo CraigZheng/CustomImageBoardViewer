@@ -11,12 +11,12 @@
 #import "czzForum.h"
 
 @interface czzMoreInfoViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UIWebView *headerTextWebView;
-@property (weak, nonatomic) IBOutlet UIWebView *coverImageWebView;
+@property (weak, nonatomic) UIWebView *headerTextWebView;
+@property (weak, nonatomic) UIWebView *coverImageWebView;
 @property (strong, nonatomic) czzForum *forum;
 @property UIView *bannerView_; // TODO: This ad banner view is not in used anymore, we could remove it later.
-@property (weak, nonatomic) IBOutlet UINavigationItem *moreInfoNavItem;
-@property (weak, nonatomic) IBOutlet UIScrollView *containerScrollView;
+@property (weak, nonatomic) UINavigationItem *moreInfoNavItem;
+@property (weak, nonatomic) UIScrollView *containerScrollView;
 - (IBAction)dismissAction:(id)sender;
 
 @end

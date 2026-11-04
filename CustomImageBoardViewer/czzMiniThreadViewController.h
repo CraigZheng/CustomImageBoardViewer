@@ -18,8 +18,8 @@
 @end
 
 @interface czzMiniThreadViewController : czzModalViewController
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *threadTableViewHeight;
-@property (weak, nonatomic) IBOutlet UITableView *threadTableView;
+@property (weak, nonatomic) NSLayoutConstraint *threadTableViewHeight;
+@property (weak, nonatomic) UITableView *threadTableView;
 @property (nonatomic) czzThread *myThread;
 @property (weak, nonatomic) id<czzMiniThreadViewControllerDelegate> delegate;
 

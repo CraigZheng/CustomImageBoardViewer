@@ -22,8 +22,8 @@
 @property (strong, nonatomic) NSString *baseURL;
 @property (copy, nonatomic) NSData *coverData;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *headerTextWebViewHeight;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *coverImageWebViewHeight;
+@property (weak, nonatomic) NSLayoutConstraint *headerTextWebViewHeight;
+@property (weak, nonatomic) NSLayoutConstraint *coverImageWebViewHeight;
 @end
 
 @implementation czzMoreInfoViewController
@@ -31,9 +31,76 @@
 @synthesize bannerView_;
 @synthesize moreInfoNavItem;
 
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.extendedLayoutIncludesOpaqueBars = YES;
+    }
+    return self;
+}
+
+- (void)loadView {
+    UIView *rootView = [[UIView alloc] init];
+    rootView.backgroundColor = [UIColor whiteColor];
+    self.view = rootView;
+
+    UIScrollView *scrollView = [[UIScrollView alloc] init];
+    scrollView.translatesAutoresizingMaskIntoConstraints = NO;
+    [rootView addSubview:scrollView];
+    self.containerScrollView = scrollView;
+
+    UIWebView *coverWebView = [[UIWebView alloc] init];
+    coverWebView.translatesAutoresizingMaskIntoConstraints = NO;
+    coverWebView.scalesPageToFit = YES;
+    coverWebView.backgroundColor = [UIColor whiteColor];
+    coverWebView.delegate = self;
+    UITapGestureRecognizer *coverTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnCoverImageViewAction:)];
+    coverTap.delegate = self;
+    [coverWebView addGestureRecognizer:coverTap];
+    [scrollView addSubview:coverWebView];
+    self.coverImageWebView = coverWebView;
+
+    UIWebView *headerWebView = [[UIWebView alloc] init];
+    headerWebView.translatesAutoresizingMaskIntoConstraints = NO;
+    headerWebView.backgroundColor = [UIColor colorWithRed:0.290 green:0.315 blue:0.330 alpha:1];
+    headerWebView.delegate = self;
+    [scrollView addSubview:headerWebView];
+    self.headerTextWebView = headerWebView;
+
+    NSLayoutConstraint *coverHeight = [coverWebView.heightAnchor constraintEqualToConstant:120];
+    NSLayoutConstraint *headerHeight = [headerWebView.heightAnchor constraintEqualToConstant:120];
+    self.coverImageWebViewHeight = coverHeight;
+    self.headerTextWebViewHeight = headerHeight;
+    NSLayoutConstraint *scrollBottom = [scrollView.bottomAnchor constraintEqualToAnchor:rootView.safeAreaLayoutGuide.bottomAnchor];
+    scrollBottom.priority = UILayoutPriorityDefaultLow;
+
+    [NSLayoutConstraint activateConstraints:@[
+        [scrollView.leadingAnchor constraintEqualToAnchor:rootView.leadingAnchor],
+        [scrollView.trailingAnchor constraintEqualToAnchor:rootView.trailingAnchor],
+        [scrollView.topAnchor constraintEqualToAnchor:rootView.layoutMarginsGuide.topAnchor],
+        scrollBottom,
+
+        [coverWebView.topAnchor constraintEqualToAnchor:scrollView.contentLayoutGuide.topAnchor],
+        [coverWebView.leadingAnchor constraintEqualToAnchor:scrollView.contentLayoutGuide.leadingAnchor],
+        [coverWebView.trailingAnchor constraintEqualToAnchor:scrollView.contentLayoutGuide.trailingAnchor],
+        [coverWebView.widthAnchor constraintEqualToAnchor:scrollView.frameLayoutGuide.widthAnchor],
+        coverHeight,
+
+        [headerWebView.topAnchor constraintEqualToAnchor:coverWebView.bottomAnchor],
+        [headerWebView.leadingAnchor constraintEqualToAnchor:scrollView.contentLayoutGuide.leadingAnchor],
+        [headerWebView.trailingAnchor constraintEqualToAnchor:scrollView.contentLayoutGuide.trailingAnchor],
+        [headerWebView.widthAnchor constraintEqualToAnchor:rootView.widthAnchor],
+        [headerWebView.bottomAnchor constraintEqualToAnchor:scrollView.contentLayoutGuide.bottomAnchor],
+        headerHeight
+    ]];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationItem.title = @"更多信息";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"delete.png"] style:UIBarButtonItemStylePlain target:self action:@selector(dismissAction:)];
+    self.moreInfoNavItem = self.navigationItem;
 	// Do any additional setup after loading the view.
     baseURL = [settingCentre get_forum_info_url];
     //admob module
@@ -174,7 +241,7 @@
 }
 
 + (instancetype)new {
-    return [[UIStoryboard storyboardWithName:@"MoreInfo" bundle:nil] instantiateViewControllerWithIdentifier:@"more_info_view_controller"];
+    return [[self alloc] init];
 }
 
 @end

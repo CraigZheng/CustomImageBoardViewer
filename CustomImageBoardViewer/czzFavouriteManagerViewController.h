@@ -15,9 +15,9 @@ extern NSInteger const historyIndex;
 @class czzThreadTableView;
 
 @interface czzFavouriteManagerViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
-@property (weak, nonatomic) IBOutlet UISegmentedControl *titleSegmentedControl;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *historyTypeSegmentedControl;
-@property (weak, nonatomic) IBOutlet czzThreadTableView *tableView;
+@property (weak, nonatomic) UISegmentedControl *titleSegmentedControl;
+@property (weak, nonatomic) UISegmentedControl *historyTypeSegmentedControl;
+@property (weak, nonatomic) czzThreadTableView *tableView;
 @property NSMutableOrderedSet *threads;
 @property (assign, nonatomic) NSInteger launchToIndex;
 

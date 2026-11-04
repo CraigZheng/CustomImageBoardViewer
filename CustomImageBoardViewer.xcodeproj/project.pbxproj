@@ -435,11 +435,9 @@
 		447907E21CE20B1100A7E573 /* czzThreadTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 447907E11CE20B1100A7E573 /* czzThreadTextView.m */; };
 		44792C711BBAC34400AF5CB5 /* NSFileManager+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 44792C701BBAC34400AF5CB5 /* NSFileManager+Util.m */; };
 		4479B07D1A0BB8E70074D484 /* czzTextViewHeightCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4479B07C1A0BB8E70074D484 /* czzTextViewHeightCalculator.m */; };
-		4479B08A1A0CCB270074D484 /* MiniThreadView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4479B0891A0CCB270074D484 /* MiniThreadView.storyboard */; };
 		4479B0901A0CCB6D0074D484 /* czzMiniThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4479B08F1A0CCB6D0074D484 /* czzMiniThreadViewController.m */; };
 		447C986A1FFBC28A00C8866F /* RoundCornerBorderedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 447C98691FFBC28900C8866F /* RoundCornerBorderedButton.swift */; };
 		447E06231BC2391900D24087 /* trash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 447E06221BC2391900D24087 /* trash@2x.png */; };
-		447E06261BC23C4200D24087 /* FavouriteManager.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 447E06251BC23C4200D24087 /* FavouriteManager.storyboard */; };
 		447E062B1BC2426900D24087 /* czzFavouriteManagerPopUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 447E062A1BC2426900D24087 /* czzFavouriteManagerPopUpViewController.m */; };
 		447E062F1BC2799500D24087 /* CPWearableViewCustomTransitioningAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 447E062E1BC2799500D24087 /* CPWearableViewCustomTransitioningAnimator.m */; };
 		447E06331BC279CB00D24087 /* czzCustomSlideAnimationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 447E06321BC279CB00D24087 /* czzCustomSlideAnimationViewController.m */; };
@@ -544,7 +542,6 @@
 		44C73BE11A496D6E0051D4C2 /* ipad horizontal launch screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C73BDD1A496D6E0051D4C2 /* ipad horizontal launch screen.png */; };
 		44C89ADC185C145C00E65B73 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44C89ADB185C145C00E65B73 /* QuartzCore.framework */; };
 		44CBF4001BC9245300DFECFC /* czzCacheCleaner.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CBF3FF1BC9245300DFECFC /* czzCacheCleaner.m */; };
-		44CD265D1DD1A15A003F1696 /* MoreInfo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44CD265C1DD1A15A003F1696 /* MoreInfo.storyboard */; };
 		44CD96A11C1AA488007E522F /* czzThreadTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CD96A01C1AA488007E522F /* czzThreadTest.m */; };
 		44CEF62F1DD1BBC8002BA6E8 /* PostView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44CEF62E1DD1BBC8002BA6E8 /* PostView.storyboard */; };
 		44CEF6311DD208C1002BA6E8 /* MessagePopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44CEF6301DD208C1002BA6E8 /* MessagePopup.swift */; };
@@ -1380,12 +1377,10 @@
 		44792C701BBAC34400AF5CB5 /* NSFileManager+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Util.m"; sourceTree = "<group>"; };
 		4479B07B1A0BB8E70074D484 /* czzTextViewHeightCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzTextViewHeightCalculator.h; sourceTree = "<group>"; };
 		4479B07C1A0BB8E70074D484 /* czzTextViewHeightCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzTextViewHeightCalculator.m; sourceTree = "<group>"; };
-		4479B0891A0CCB270074D484 /* MiniThreadView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MiniThreadView.storyboard; sourceTree = "<group>"; };
 		4479B08E1A0CCB6D0074D484 /* czzMiniThreadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzMiniThreadViewController.h; sourceTree = "<group>"; };
 		4479B08F1A0CCB6D0074D484 /* czzMiniThreadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzMiniThreadViewController.m; sourceTree = "<group>"; };
 		447C98691FFBC28900C8866F /* RoundCornerBorderedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundCornerBorderedButton.swift; sourceTree = "<group>"; };
 		447E06221BC2391900D24087 /* trash@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "trash@2x.png"; sourceTree = "<group>"; };
-		447E06251BC23C4200D24087 /* FavouriteManager.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FavouriteManager.storyboard; sourceTree = "<group>"; };
 		447E06291BC2426900D24087 /* czzFavouriteManagerPopUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzFavouriteManagerPopUpViewController.h; sourceTree = "<group>"; };
 		447E062A1BC2426900D24087 /* czzFavouriteManagerPopUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzFavouriteManagerPopUpViewController.m; sourceTree = "<group>"; };
 		447E062D1BC2799500D24087 /* CPWearableViewCustomTransitioningAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPWearableViewCustomTransitioningAnimator.h; sourceTree = "<group>"; };
@@ -1533,7 +1528,6 @@
 		44CBF3FE1BC9245300DFECFC /* czzCacheCleaner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzCacheCleaner.h; sourceTree = "<group>"; };
 		44CBF3FF1BC9245300DFECFC /* czzCacheCleaner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzCacheCleaner.m; sourceTree = "<group>"; };
 		44CBF4061BC93E2700DFECFC /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS2.0.sdk/System/Library/Frameworks/WatchConnectivity.framework; sourceTree = DEVELOPER_DIR; };
-		44CD265C1DD1A15A003F1696 /* MoreInfo.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MoreInfo.storyboard; sourceTree = "<group>"; };
 		44CD96A01C1AA488007E522F /* czzThreadTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadTest.m; sourceTree = "<group>"; };
 		44CEF62E1DD1BBC8002BA6E8 /* PostView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PostView.storyboard; sourceTree = "<group>"; };
 		44CEF6301DD208C1002BA6E8 /* MessagePopup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagePopup.swift; sourceTree = "<group>"; };
@@ -2833,7 +2827,6 @@
 			children = (
 				447E062D1BC2799500D24087 /* CPWearableViewCustomTransitioningAnimator.h */,
 				447E062E1BC2799500D24087 /* CPWearableViewCustomTransitioningAnimator.m */,
-				447E06251BC23C4200D24087 /* FavouriteManager.storyboard */,
 				4462EF2318659BC200E6BE78 /* czzFavouriteManagerViewController.h */,
 				4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */,
 				447E06291BC2426900D24087 /* czzFavouriteManagerPopUpViewController.h */,
@@ -2856,7 +2849,6 @@
 		4479B0911A0CCB750074D484 /* MiniThreadView */ = {
 			isa = PBXGroup;
 			children = (
-				4479B0891A0CCB270074D484 /* MiniThreadView.storyboard */,
 				4479B08E1A0CCB6D0074D484 /* czzMiniThreadViewController.h */,
 				4479B08F1A0CCB6D0074D484 /* czzMiniThreadViewController.m */,
 				4424FE4B1BCD33A70096F261 /* czzFadeInOutModalAnimator.h */,
@@ -3544,7 +3536,6 @@
 				44B96E38185B97C700D664A4 /* czzSettingsViewController */,
 				5A0A6BD41848691C0094D7FB /* czzMoreInfoViewController.h */,
 				5A0A6BD51848691C0094D7FB /* czzMoreInfoViewController.m */,
-				44CD265C1DD1A15A003F1696 /* MoreInfo.storyboard */,
 			);
 			name = czzMoreInfoViewController;
 			sourceTree = "<group>";
@@ -3846,7 +3837,6 @@
 				444F5B2C1A40EA3500EB391F /* 25.png in Resources */,
 				4421C2FA1E7BF2DA00BD48C4 /* ac-classic12.png in Resources */,
 				444F5B421A40EA3500EB391F /* 47.png in Resources */,
-				4479B08A1A0CCB270074D484 /* MiniThreadView.storyboard in Resources */,
 				444F5B331A40EA3500EB391F /* 32.png in Resources */,
 				44E791F61A17856500A63C04 /* search@2x.png in Resources */,
 				4421C2FB1E7BF2DA00BD48C4 /* ac-classic13.png in Resources */,
@@ -4001,7 +3991,6 @@
 				4421C3EC1E7BF2DA00BD48C4 /* reed-classic71.png in Resources */,
 				4421C3E41E7BF2DA00BD48C4 /* reed-classic64.png in Resources */,
 				B753614524AE278A000F562F /* reed-color31.png in Resources */,
-				447E06261BC23C4200D24087 /* FavouriteManager.storyboard in Resources */,
 				B753617524AE278A000F562F /* reed-color8.png in Resources */,
 				B753612024AE278A000F562F /* reed-color84.png in Resources */,
 				B753612B24AE278A000F562F /* reed-color93.png in Resources */,
@@ -4021,7 +4010,6 @@
 				4421C3731E7BF2DA00BD48C4 /* ac-new73.png in Resources */,
 				B753617D24AE278A000F562F /* reed-color76.png in Resources */,
 				4421C32B1E7BF2DA00BD48C4 /* ac-classic8.png in Resources */,
-				44CD265D1DD1A15A003F1696 /* MoreInfo.storyboard in Resources */,
 				44DF8F081A7512730097F7F5 /* save_as@2x.png in Resources */,
 				4421C3A51E7BF2DA00BD48C4 /* reed-classic102.png in Resources */,
 				B753611A24AE278A000F562F /* reed-color91.png in Resources */,

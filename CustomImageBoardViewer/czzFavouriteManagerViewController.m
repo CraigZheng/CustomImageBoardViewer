@@ -50,9 +50,47 @@ static NSInteger const respondsHistoryIndex = 2;
 @synthesize selectedThread;
 @synthesize selectedManager;
 
+- (void)loadView {
+    UIView *rootView = [[UIView alloc] init];
+    rootView.backgroundColor = [UIColor whiteColor];
+    self.view = rootView;
+
+    czzThreadTableView *threadTableView = [[czzThreadTableView alloc] initWithFrame:CGRectZero];
+    threadTableView.translatesAutoresizingMaskIntoConstraints = NO;
+    threadTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    threadTableView.dataSource = self;
+    threadTableView.delegate = self;
+    [rootView addSubview:threadTableView];
+    self.tableView = threadTableView;
+
+    [NSLayoutConstraint activateConstraints:@[
+        [threadTableView.topAnchor constraintEqualToAnchor:rootView.topAnchor],
+        [threadTableView.leadingAnchor constraintEqualToAnchor:rootView.leadingAnchor],
+        [threadTableView.trailingAnchor constraintEqualToAnchor:rootView.trailingAnchor],
+        [threadTableView.bottomAnchor constraintEqualToAnchor:rootView.safeAreaLayoutGuide.bottomAnchor]
+    ]];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    UISegmentedControl *titleControl = [[UISegmentedControl alloc] initWithItems:@[@"收藏", @"注目", @"历史"]];
+    titleControl.selectedSegmentIndex = 0;
+    [titleControl addTarget:self action:@selector(titleSegmentedControlAction:) forControlEvents:UIControlEventValueChanged];
+    self.navigationItem.titleView = titleControl;
+    self.titleSegmentedControl = titleControl;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"trash.png"] style:UIBarButtonItemStylePlain target:self action:@selector(editAction:)];
+
+    UISegmentedControl *historyControl = [[UISegmentedControl alloc] initWithItems:@[@"浏览", @"发送", @"回复"]];
+    historyControl.selectedSegmentIndex = 0;
+    [historyControl addTarget:self action:@selector(historyTypeSegmentedControlAction:) forControlEvents:UIControlEventValueChanged];
+    self.historyTypeSegmentedControl = historyControl;
+    self.toolbarItems = @[
+        [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+        [[UIBarButtonItem alloc] initWithCustomView:historyControl],
+        [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil]
+    ];
+
     self.tableView.estimatedRowHeight = 44;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
@@ -209,10 +247,10 @@ static NSInteger const respondsHistoryIndex = 2;
 }
 
 +(instancetype)new {
-    return [[UIStoryboard storyboardWithName:@"FavouriteManager" bundle:nil] instantiateViewControllerWithIdentifier:@"favourite_manager_view_controller"];
+    return [[self alloc] init];
 }
 
 +(UIViewController *)newInNavigationController {
-    return [[UIStoryboard storyboardWithName:@"FavouriteManager" bundle:nil] instantiateInitialViewController];
+    return [self new];
 }
 @end

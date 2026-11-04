@@ -8,6 +8,8 @@
 
 #import "czzFavouriteManagerPopUpViewController.h"
 
+#import "czzFavouriteManagerViewController.h"
+
 @interface czzFavouriteManagerPopUpViewController ()
 @end
 
@@ -34,7 +36,7 @@
 }
 
 +(instancetype)new {
-    return [[UIStoryboard storyboardWithName:@"FavouriteManager" bundle:nil] instantiateInitialViewController];
+    return [czzFavouriteManagerViewController new];
 }
 
 @end
