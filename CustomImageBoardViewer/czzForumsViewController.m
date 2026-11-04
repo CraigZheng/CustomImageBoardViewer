@@ -149,9 +149,12 @@ typedef enum : NSUInteger {
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Forum / suggestion / custom-forum segmented control was removed from ForumSelector;
-    // show every section instead of filtering by a nil control's selected index.
-    return [super tableView:tableView numberOfRowsInSection:section];
+    // Forum / suggestion / custom-forum segmented control was removed; keep the old
+    // default of showing only the forums section.
+    if (section == ForumSection) {
+        return [super tableView:tableView numberOfRowsInSection:section];
+    }
+    return 0;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
