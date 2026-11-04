@@ -1,7 +1,7 @@
 PODS:
-  - CocoaLumberjack (3.6.2):
-    - CocoaLumberjack/Core (= 3.6.2)
-  - CocoaLumberjack/Core (3.6.2)
+  - CocoaLumberjack (3.10.0):
+    - CocoaLumberjack/Core (= 3.10.0)
+  - CocoaLumberjack/Core (3.10.0)
   - DACircularProgress (2.3.1)
   - iOS-Slide-Menu (1.5)
   - MBProgressHUD (0.9.2)
@@ -19,7 +19,7 @@ PODS:
   - TTTAttributedLabel (2.0.0)
 
 DEPENDENCIES:
-  - CocoaLumberjack
+  - CocoaLumberjack (~> 3.10)
   - iOS-Slide-Menu (from `https://github.com/CraigZheng/iOS-Slide-Menu.git`, branch `master`)
   - MWPhotoBrowser (from `https://github.com/CraigZheng/MWPhotoBrowser.git`, branch `master`)
   - PureLayout
@@ -53,7 +53,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/CraigZheng/MWPhotoBrowser.git
 
 SPEC CHECKSUMS:
-  CocoaLumberjack: bd155f2dd06c0e0b03f876f7a3ee55693122ec94
+  CocoaLumberjack: 12545b2899dcaeec69b82c27b174042259c1ec27
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
   iOS-Slide-Menu: 40b0cbd8916c42afc755f0869793cd09e7a32102
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
@@ -63,6 +63,6 @@ SPEC CHECKSUMS:
   SwiftMessages: bfefe945bc05ce7cd328303d53d0d1849e29109d
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
 
-PODFILE CHECKSUM: e391e9b2ca1a5b12b038fd233dd3b89775b57c17
+PODFILE CHECKSUM: 7c55d6b5d79cb8d3b5b1ab6f40722830a86cfa39
 
 COCOAPODS: 1.16.2

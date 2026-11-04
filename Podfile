@@ -7,13 +7,13 @@ target 'CustomImageBoardViewer' do
 pod "MWPhotoBrowser", :git => 'https://github.com/CraigZheng/MWPhotoBrowser.git', :branch => 'master'
 pod 'iOS-Slide-Menu', :git => 'https://github.com/CraigZheng/iOS-Slide-Menu.git', :branch => 'master'
 pod 'PureLayout'
-pod 'CocoaLumberjack'
+pod 'CocoaLumberjack', '~> 3.10'
 pod 'SwiftMessages', '~> 10.0'
 pod 'TTTAttributedLabel'
 end
 
 target 'CustomImageBoardViewerTests' do
-pod 'CocoaLumberjack'
+pod 'CocoaLumberjack', '~> 3.10'
 pod 'iOS-Slide-Menu', :git => 'https://github.com/CraigZheng/iOS-Slide-Menu.git', :branch => 'master'
 end
 
