@@ -78,8 +78,19 @@
 	<array>
 		<string>fetch</string>
 	</array>
-	<key>UILaunchStoryboardName</key>
-	<string>Launch Screen</string>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UINavigationBar</key>
+		<dict>
+			<key>UIColorName</key>
+			<string>LaunchBarTint</string>
+		</dict>
+		<key>UIToolbar</key>
+		<dict>
+			<key>UIColorName</key>
+			<string>LaunchBarTint</string>
+		</dict>
+	</dict>
 	<key>UIMainStoryboardFile</key>
 	<string>Main_iPhone</string>
 	<key>UIRequiredDeviceCapabilities</key>

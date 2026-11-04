@@ -414,7 +414,6 @@
 		444F5B481A40EA3500EB391F /* 53.png in Resources */ = {isa = PBXBuildFile; fileRef = 444F5B121A40EA3500EB391F /* 53.png */; };
 		444F5B491A40EA3500EB391F /* 54.png in Resources */ = {isa = PBXBuildFile; fileRef = 444F5B131A40EA3500EB391F /* 54.png */; };
 		44528D611E138144009D7BE6 /* NSArray+Splitting.m in Sources */ = {isa = PBXBuildFile; fileRef = 44528D601E138144009D7BE6 /* NSArray+Splitting.m */; };
-		4453C07719F634B700A8250F /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4453C07619F634B700A8250F /* Launch Screen.xib */; };
 		4459A3661DFFA61700C196C1 /* Stickers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4459A3651DFFA61700C196C1 /* Stickers.xcassets */; };
 		445A15041EC088EF004C146D /* ForumsTableViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445A15031EC088EF004C146D /* ForumsTableViewManager.swift */; };
 		445B7B561B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 445B7B551B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.m */; };
@@ -1351,7 +1350,6 @@
 		444F5B131A40EA3500EB391F /* 54.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 54.png; sourceTree = "<group>"; };
 		44528D5F1E138144009D7BE6 /* NSArray+Splitting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Splitting.h"; sourceTree = "<group>"; };
 		44528D601E138144009D7BE6 /* NSArray+Splitting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Splitting.m"; sourceTree = "<group>"; };
-		4453C07619F634B700A8250F /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Launch Screen.xib"; path = "../Launch Screen.xib"; sourceTree = "<group>"; };
 		4459A3631DFFA61700C196C1 /* AC-emoticon.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "AC-emoticon.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4459A3651DFFA61700C196C1 /* Stickers.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Stickers.xcassets; sourceTree = "<group>"; };
 		4459A3671DFFA61700C196C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -2077,7 +2075,6 @@
 				442F1FD11B13500C00267698 /* czzAppActivityManager.h */,
 				442F1FD21B13500C00267698 /* czzAppActivityManager.m */,
 				442BFC741D1D1000007545EB /* CustomImageBoardViewer-Bridging-Header.h */,
-				4453C07619F634B700A8250F /* Launch Screen.xib */,
 				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
 				44E2D2D71B2DB77B0029D783 /* Utility.storyboard */,
 				44989A1F1CFC5A8500F04ECD /* Popular Thread */,
@@ -3921,7 +3918,6 @@
 				440E8B741D6C905D00164BC9 /* AddForum.storyboard in Resources */,
 				5A5407F619961F87005FA214 /* default_configuration.json in Resources */,
 				4421C3201E7BF2DA00BD48C4 /* ac-classic47.png in Resources */,
-				4453C07719F634B700A8250F /* Launch Screen.xib in Resources */,
 				44E791F01A17856500A63C04 /* reply@2x.png in Resources */,
 				4421C3B31E7BF2DA00BD48C4 /* reed-classic2.png in Resources */,
 				4421C3F81E7BF2DB00BD48C4 /* reed-classic82.png in Resources */,
