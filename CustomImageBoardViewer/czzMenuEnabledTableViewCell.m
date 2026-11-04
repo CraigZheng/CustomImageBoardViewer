@@ -17,7 +17,6 @@
 #import "czzImageDownloader.h"
 #import "czzThreadViewCellHeaderView.h"
 #import "czzThreadViewCellFooterView.h"
-#import "PureLayout/PureLayout.h"
 #import "CustomImageBoardViewer-Swift.h"
 
 #import <QuartzCore/QuartzCore.h>

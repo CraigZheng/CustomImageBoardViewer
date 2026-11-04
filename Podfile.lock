@@ -4,7 +4,6 @@ PODS:
   - CocoaLumberjack/Core (3.10.0)
   - DACircularProgress (2.3.1)
   - MBProgressHUD (1.2.0)
-  - PureLayout (3.1.9)
   - SwiftMessages (10.0.2):
     - SwiftMessages/App (= 10.0.2)
   - SwiftMessages/App (10.0.2)
@@ -13,7 +12,6 @@ DEPENDENCIES:
   - CocoaLumberjack (~> 3.10)
   - DACircularProgress (~> 2.3)
   - MBProgressHUD (~> 1.2)
-  - PureLayout
   - SwiftMessages (~> 10.0)
 
 SPEC REPOS:
@@ -21,16 +19,14 @@ SPEC REPOS:
     - CocoaLumberjack
     - DACircularProgress
     - MBProgressHUD
-    - PureLayout
     - SwiftMessages
 
 SPEC CHECKSUMS:
   CocoaLumberjack: 12545b2899dcaeec69b82c27b174042259c1ec27
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
-  PureLayout: 5fb5e5429519627d60d079ccb1eaa7265ce7cf88
   SwiftMessages: bfefe945bc05ce7cd328303d53d0d1849e29109d
 
-PODFILE CHECKSUM: 130f42a4a836b9c98dacdc7851de9368b8409fdf
+PODFILE CHECKSUM: 75a6563c6a23551aa9ebdac46dfc4171a018b586
 
 COCOAPODS: 1.16.2

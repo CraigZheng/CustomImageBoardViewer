@@ -7,7 +7,6 @@
 //
 
 #import "czzThreadViewCommandStatusCellViewController.h"
-#import "PureLayout.h"
 #import "czzSettingsCentre.h"
 #import "czzThreadViewManager.h"
 
@@ -68,7 +67,13 @@
     orangeOverlayView.backgroundColor = [UIColor orangeColor];
     orangeOverlayView.alpha = 0.5;
     [self.view addSubview:orangeOverlayView];
-    [orangeOverlayView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
+    orangeOverlayView.translatesAutoresizingMaskIntoConstraints = NO;
+    [NSLayoutConstraint activateConstraints:@[
+        [orangeOverlayView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+        [orangeOverlayView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
+        [orangeOverlayView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+        [orangeOverlayView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor]
+    ]];
     
     [[NSOperationQueue currentQueue] addOperationWithBlock:^{
         [UIView animateWithDuration:0.2 animations:^{

@@ -7,13 +7,18 @@
 //
 
 #import "CPAutoFillView.h"
-#import "PureLayout.h"
 
 @implementation CPAutoFillView
 
 - (void)didMoveToSuperview {
     if (self.superview) {
-        [self autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
+        self.translatesAutoresizingMaskIntoConstraints = NO;
+        [NSLayoutConstraint activateConstraints:@[
+            [self.topAnchor constraintEqualToAnchor:self.superview.topAnchor],
+            [self.bottomAnchor constraintEqualToAnchor:self.superview.bottomAnchor],
+            [self.leadingAnchor constraintEqualToAnchor:self.superview.leadingAnchor],
+            [self.trailingAnchor constraintEqualToAnchor:self.superview.trailingAnchor]
+        ]];
     }
 }
 @end

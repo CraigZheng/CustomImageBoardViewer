@@ -15,7 +15,6 @@
 #import "czzBannerNotificationUtil.h"
 #import "czzForum.h"
 #import "czzImageViewerUtil.h"
-#import <PureLayout/PureLayout.h>
 #import "UINavigationController+Util.h"
 #import "czzURLHandler.h"
 
@@ -58,14 +57,13 @@
     // Constraints, all to the super view, except the top.
 //    [bannerView_ loadRequest:[GADRequest request]];
     [self.view addSubview:bannerView_];
-//    [bannerView_ autoSetDimensionsToSize:kGADAdSizeSmartBannerLandscape.size];
-    [bannerView_ autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero
-                                          excludingEdge:ALEdgeTop];
-    // Relative position of the banner view and the web view.
-    [self.containerScrollView autoPinEdge:ALEdgeBottom
-                                 toEdge:ALEdgeTop
-                                 ofView:bannerView_
-                             withOffset:16];
+    bannerView_.translatesAutoresizingMaskIntoConstraints = NO;
+    [NSLayoutConstraint activateConstraints:@[
+        [bannerView_.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+        [bannerView_.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+        [bannerView_.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
+        [self.containerScrollView.bottomAnchor constraintEqualToAnchor:bannerView_.topAnchor constant:-16]
+    ]];
     @try {
         // Initially hide the cover image web view.
         self.coverImageWebViewHeight.constant = 0;

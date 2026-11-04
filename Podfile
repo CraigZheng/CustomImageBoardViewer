@@ -4,7 +4,6 @@ platform :ios, '15.0'
 use_frameworks!
 
 target 'CustomImageBoardViewer' do
-pod 'PureLayout'
 pod 'CocoaLumberjack', '~> 3.10'
 pod 'SwiftMessages', '~> 10.0'
 pod 'MBProgressHUD', '~> 1.2'

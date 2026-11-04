@@ -7,13 +7,13 @@
 //
 
 #import "GSIndeterminateProgressView.h"
-#import <PureLayout/PureLayout.h>
 
 @interface GSIndeterminateProgressView()
 @property CGFloat CHUNK_WIDTH;
 @property NSArray *colours;
 @property NSUInteger colourIndex;
 @property (nonatomic, strong) UIView *foregroundBarView;
+@property (nonatomic, strong) NSLayoutConstraint *foregroundBarWidthConstraint;
 @property (nonatomic, assign) BOOL isAnimating;
 @property (nonatomic, strong) NSMutableArray *stripViews;
 @property (nonatomic, assign) BOOL isReady;
@@ -152,18 +152,24 @@
         return;
     }
     if (!self.foregroundBarView) {
-        self.foregroundBarView = [UIView newAutoLayoutView];
+        self.foregroundBarView = [UIView new];
+        self.foregroundBarView.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:self.foregroundBarView];
+        self.foregroundBarWidthConstraint = [self.foregroundBarView.widthAnchor constraintEqualToConstant:0];
+        [NSLayoutConstraint activateConstraints:@[
+            [self.foregroundBarView.centerXAnchor constraintEqualToAnchor:self.centerXAnchor],
+            [self.foregroundBarView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor],
+            [self.foregroundBarView.heightAnchor constraintEqualToConstant:2],
+            self.foregroundBarWidthConstraint
+        ]];
     }
     // Remove all previous traces.
     [self.foregroundBarView.layer removeAllAnimations];
-    [self.foregroundBarView.constraints autoRemoveConstraints];
     // Assign a new colour for foreground views.
     self.foregroundBarView.backgroundColor = self.progressTintColor;
     // Assign new positions.
     // Left and Right: starting from middle.
-    [self.foregroundBarView autoCenterInSuperview];
-    [self.foregroundBarView autoSetDimensionsToSize:CGSizeMake(0, 2)];
+    self.foregroundBarWidthConstraint.constant = 0;
     [self layoutIfNeeded];
     
     __weak typeof(self) weakSelf= self;
@@ -171,9 +177,7 @@
                           delay:delay
                         options:(UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionAllowUserInteraction)
                      animations:^{
-                         // Remove all constraints and assign new ones.
-                         [weakSelf.foregroundBarView.constraints autoRemoveConstraints];
-                         [weakSelf.foregroundBarView autoSetDimensionsToSize:CGSizeMake(CGRectGetWidth(self.frame), 2)];
+                         weakSelf.foregroundBarWidthConstraint.constant = CGRectGetWidth(self.frame);
                          [weakSelf layoutIfNeeded];
                      } completion:^(BOOL finished) {
                          // On finished, set colour of self, and remove the foregroundBarView.
@@ -187,13 +191,13 @@
 - (instancetype)initWithParentView:(UIView *)parentView alignToTop:(UIView *)topView {
     self = [[GSIndeterminateProgressView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
     [parentView addSubview:self];
-    [self autoPinEdgeToSuperviewEdge:ALEdgeLeft];
-    [self autoPinEdgeToSuperviewEdge:ALEdgeRight];
-    [self autoPinEdge:ALEdgeTop
-                        toEdge:ALEdgeTop
-                        ofView:topView];
-    [self autoSetDimension:ALDimensionHeight
-                             toSize:2];
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    [NSLayoutConstraint activateConstraints:@[
+        [self.leadingAnchor constraintEqualToAnchor:parentView.leadingAnchor],
+        [self.trailingAnchor constraintEqualToAnchor:parentView.trailingAnchor],
+        [self.topAnchor constraintEqualToAnchor:topView.topAnchor],
+        [self.heightAnchor constraintEqualToConstant:2]
+    ]];
     [self layoutIfNeeded];
 
     return self;
