@@ -65,6 +65,10 @@ NSInteger kCellImageViewHeight = 120;
 }
 
 -(BOOL)canPerformAction:(SEL)action withSender:(id)sender{
+    // Text selection on contentLabel should not surface the custom edit menu.
+    if ([self.contentLabel isFirstResponder]) {
+        return NO;
+    }
     if (action == @selector(menuActionOpen:) && self.links.count > 0)
         return YES;
     return (action == @selector(menuActionReply:)
@@ -345,6 +349,10 @@ NSInteger kCellImageViewHeight = 120;
 }
 
 #pragma mark - UITextViewDelegate
+
+- (UIMenu *)textView:(UITextView *)textView editMenuForTextInRange:(NSRange)range suggestedActions:(NSArray<UIMenuElement *> *)suggestedActions API_AVAILABLE(ios(16.0)) {
+    return [UIMenu menuWithChildren:@[]];
+}
 
 - (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange interaction:(UITextItemInteraction)interaction {
     if ([URL.absoluteString hasPrefix:kQuotedContent] && URL.absoluteString.numericString.integerValue > 0) {

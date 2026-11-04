@@ -60,7 +60,7 @@
                             <action selector="tapOnImageView:" destination="vW5-oN-WIG" eventType="touchUpInside" id="SMZ-Tg-DNU"/>
                         </connections>
                     </button>
-                    <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="249" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Text Content" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="XYq-FH-Z0o">
+                    <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="249" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Text Content" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="XYq-FH-Z0o" customClass="czzNoSelectionTextView">
                         <rect key="frame" x="8" y="28" width="304" height="43"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
