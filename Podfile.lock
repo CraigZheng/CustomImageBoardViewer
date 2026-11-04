@@ -8,7 +8,6 @@ PODS:
   - SwiftMessages (10.0.2):
     - SwiftMessages/App (= 10.0.2)
   - SwiftMessages/App (10.0.2)
-  - TTTAttributedLabel (2.0.0)
 
 DEPENDENCIES:
   - CocoaLumberjack (~> 3.10)
@@ -16,7 +15,6 @@ DEPENDENCIES:
   - MBProgressHUD (~> 1.2)
   - PureLayout
   - SwiftMessages (~> 10.0)
-  - TTTAttributedLabel
 
 SPEC REPOS:
   trunk:
@@ -25,7 +23,6 @@ SPEC REPOS:
     - MBProgressHUD
     - PureLayout
     - SwiftMessages
-    - TTTAttributedLabel
 
 SPEC CHECKSUMS:
   CocoaLumberjack: 12545b2899dcaeec69b82c27b174042259c1ec27
@@ -33,8 +30,7 @@ SPEC CHECKSUMS:
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
   PureLayout: 5fb5e5429519627d60d079ccb1eaa7265ce7cf88
   SwiftMessages: bfefe945bc05ce7cd328303d53d0d1849e29109d
-  TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
 
-PODFILE CHECKSUM: b12530fe2a307aadf52f0e498d9126af875821c4
+PODFILE CHECKSUM: 130f42a4a836b9c98dacdc7851de9368b8409fdf
 
 COCOAPODS: 1.16.2

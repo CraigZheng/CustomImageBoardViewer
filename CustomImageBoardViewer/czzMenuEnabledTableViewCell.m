@@ -52,7 +52,12 @@ NSInteger kCellImageViewHeight = 120;
     self.allowImage = YES;
     self.shouldAllowClickOnImage = YES;
     self.contentLabel.delegate = self;
-    self.contentLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink;
+    self.contentLabel.editable = NO;
+    self.contentLabel.scrollEnabled = NO;
+    self.contentLabel.dataDetectorTypes = UIDataDetectorTypeLink;
+    self.contentLabel.textContainerInset = UIEdgeInsetsZero;
+    self.contentLabel.textContainer.lineFragmentPadding = 0;
+    self.contentLabel.backgroundColor = [UIColor clearColor];
     self.increasedLineSpacingParagraphStyle = [NSMutableParagraphStyle new];
     self.increasedLineSpacingParagraphStyle.lineSpacing = 4;
     // Add tap getsture recognizer to the image.
@@ -166,7 +171,7 @@ NSInteger kCellImageViewHeight = 120;
 -(void)renderContent {
     [self resetViewBackgroundColours];
     if (self.shouldBlock) {
-        self.contentLabel.text = [[NSAttributedString alloc] initWithString:@" - - - 屏蔽 - - - "
+        self.contentLabel.attributedText = [[NSAttributedString alloc] initWithString:@" - - - 屏蔽 - - - "
                                                                               attributes:@{NSForegroundColorAttributeName: [UIColor lightGrayColor]}];
     } else {
         NSMutableAttributedString *contentAttrString = [self.threadContent mutableCopy];
@@ -178,7 +183,6 @@ NSInteger kCellImageViewHeight = 120;
             [contentAttrString addAttribute:NSForegroundColorAttributeName
                                       value:settingCentre.contentTextColour
                                       range:NSMakeRange(0, contentAttrString.length)];
-            self.contentLabel.text = contentAttrString;
         }
         // For quoted contents, made the responding text clickable.
         for (NSNumber *quotedNumber in self.thread.replyToList) {
@@ -187,7 +191,7 @@ NSInteger kCellImageViewHeight = 120;
                                            range:rangeValue.rangeValue];
             }
         }
-        self.contentLabel.text = contentAttrString;
+        self.contentLabel.attributedText = contentAttrString;
     }
     // Images.
     UIImage *previewImage;
@@ -341,10 +345,9 @@ NSInteger kCellImageViewHeight = 120;
     }
 }
 
-#pragma mark - TTTAttributedLabelDelegate
+#pragma mark - UITextViewDelegate
 
-- (void)attributedLabel:(TTTAttributedLabel *)label
-   didSelectLinkWithURL:(NSURL *)URL {
+- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange interaction:(UITextItemInteraction)interaction {
     if ([URL.absoluteString hasPrefix:kQuotedContent] && URL.absoluteString.numericString.integerValue > 0) {
         [self showThreadWithID:URL.absoluteString.numericString];
     } else if ([URL.absoluteString containsString:[settingCentre activeHost]]) {
@@ -353,11 +356,9 @@ NSInteger kCellImageViewHeight = 120;
             [self showThreadWithID:lastComponent];
         }
     } else if ([URL.scheme isEqualToString:@"applewebdata"]) {
-        // Foe applewebdata bullshit.
         // Strip out applewebdata://<UUID> prefix applied when HTML is loaded locally
         NSString *requestURLString = URL.absoluteString;
         NSString *trimmedRequestURLString = [requestURLString stringByReplacingOccurrencesOfString:@"^(?:applewebdata://[0-9A-Z-]*/?)" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, requestURLString.length)].stringByRemovingPercentEncoding;
-        // Find the links from this script.
         NSDataDetector *linkDetector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
         NSArray *matches = [linkDetector matchesInString:trimmedRequestURLString
                                                  options:0
@@ -370,6 +371,7 @@ NSInteger kCellImageViewHeight = 120;
     } else {
         [czzURLHandler handleURL:URL];
     }
+    return NO;
 }
 
 #pragma mark - UIResponder methods.

@@ -60,12 +60,13 @@
                             <action selector="tapOnImageView:" destination="vW5-oN-WIG" eventType="touchUpInside" id="SMZ-Tg-DNU"/>
                         </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Text Content" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XYq-FH-Z0o" customClass="TTTAttributedLabel">
+                    <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="249" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Text Content" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="XYq-FH-Z0o">
                         <rect key="frame" x="8" y="28" width="304" height="43"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                    </textView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="WdR-sJ-uhu" firstAttribute="width" secondItem="J9r-7t-RIx" secondAttribute="width" priority="750" id="3xa-Yk-Sfq"/>

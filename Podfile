@@ -7,7 +7,6 @@ target 'CustomImageBoardViewer' do
 pod 'PureLayout'
 pod 'CocoaLumberjack', '~> 3.10'
 pod 'SwiftMessages', '~> 10.0'
-pod 'TTTAttributedLabel'
 pod 'MBProgressHUD', '~> 1.2'
 pod 'DACircularProgress', '~> 2.3'
 end
