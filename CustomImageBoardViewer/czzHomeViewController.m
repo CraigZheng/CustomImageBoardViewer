@@ -104,6 +104,21 @@
     
     // Always reload
     [self updateTableView];
+
+    __weak typeof(self) weakSelf = self;
+    [[czzForumManager sharedManager] updateForums:^(BOOL success, NSError *error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (!strongSelf || strongSelf.selectedForum) {
+            return;
+        }
+        czzForum *firstForum = [czzForumManager sharedManager].forums.firstObject;
+        if (!firstForum) {
+            return;
+        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:kForumPickedNotification
+                                                            object:strongSelf
+                                                          userInfo:@{kPickedForum: firstForum}];
+    }];
 }
 
 
