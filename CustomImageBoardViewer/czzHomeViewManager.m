@@ -167,8 +167,10 @@
 
 - (void)highlightUID:(NSString *)UID {
     [[czzMarkerManager sharedInstance] prepareToHighlightUID:UID];
-    [NavigationManager.delegate performSegueWithIdentifier:@"showAddMarker"
-                                                    sender:nil];
+    AddMarkerViewController *markerViewController = [[AddMarkerViewController alloc] initWithStyle:UITableViewStylePlain];
+    [NavigationManager.delegate presentViewController:[[CustomAppearanceNavigationController alloc] initWithRootViewController:markerViewController]
+                                             animated:YES
+                                           completion:nil];
 }
 
 - (void)blockUID:(NSString *)UID {

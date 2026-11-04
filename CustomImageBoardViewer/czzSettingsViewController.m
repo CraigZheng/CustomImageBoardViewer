@@ -22,10 +22,10 @@
 #import "czzFeedbackViewController.h"
 #import "czzImageManagerViewController.h"
 #import "czzURLHandler.h"
+#import "CustomImageBoardViewer-Swift.h"
 
 static NSString *textSizeSelectorSegue = @"textSizeSelector";
 static NSString *themeSelectorSegue = @"themeSelector";
-static NSString *addMarkerSegue = @"AddMarker";
 
 @interface czzSettingsViewController ()<UIAlertViewDelegate, UIActionSheetDelegate, czzTextSizeSelectorViewControllerProtocol>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *debugBarButton;
@@ -240,7 +240,10 @@ static NSString *addMarkerSegue = @"AddMarker";
     } else if ([command isEqualToString:@"作者主页"]) {
       [self openHomePage];
     } else if ([command isEqualToString:@"标记管理器"]) {
-      [self performSegueWithIdentifier:addMarkerSegue sender:self];
+      AddMarkerViewController *markerViewController = [[AddMarkerViewController alloc] initWithStyle:UITableViewStylePlain];
+      [self presentViewController:[[CustomAppearanceNavigationController alloc] initWithRootViewController:markerViewController]
+                         animated:YES
+                       completion:nil];
     }
   }
 }

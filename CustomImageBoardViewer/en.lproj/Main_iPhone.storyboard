@@ -23,21 +23,12 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
-                        <segue destination="uzG-1F-bbs" kind="modal" identifier="showAddMarker" id="5gO-dM-ls1"/>
                         <segue destination="JnF-wS-C9I" kind="relationship" relationship="rootViewController" id="Cg5-np-jSU"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TR8-pl-vBI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2025" y="263"/>
-        </scene>
-        <!--AddMarker-->
-        <scene sceneID="wNj-7s-1HW">
-            <objects>
-                <viewControllerPlaceholder storyboardName="AddMarker" id="uzG-1F-bbs" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="rgD-sU-INL" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-2026" y="727"/>
         </scene>
         <!--Czz Thread View Controller-->
         <scene sceneID="1dv-1T-wAU">
@@ -619,7 +610,6 @@
                         <outlet property="debugBarButton" destination="FKS-4P-amq" id="Ffa-4H-lqK"/>
                         <outlet property="settingsTableView" destination="4iw-Az-V4Y" id="rJt-Ut-zFe"/>
                         <segue destination="FVg-4N-Ym9" kind="modal" identifier="textSizeSelector" id="ti7-yz-WVz"/>
-                        <segue destination="5M0-t1-LBI" kind="modal" identifier="AddMarker" id="Gpv-Fx-cQW"/>
                         <segue destination="vgN-Lz-GxI" kind="modal" identifier="themeSelector" id="MYB-PH-FQC"/>
                     </connections>
                 </viewController>
@@ -788,14 +778,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fay-4h-MEE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="577" y="223"/>
-        </scene>
-        <!--AddMarker-->
-        <scene sceneID="Xbf-Rj-rrs">
-            <objects>
-                <viewControllerPlaceholder storyboardName="AddMarker" id="5M0-t1-LBI" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ves-1v-018" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1492.753623188406" y="-643.52678571428567"/>
         </scene>
         <!--Czz Text Size Selector View Controller-->
         <scene sceneID="8lz-hq-GdH">

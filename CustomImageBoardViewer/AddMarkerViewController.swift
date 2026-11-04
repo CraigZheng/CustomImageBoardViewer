@@ -26,8 +26,11 @@ class AddMarkerViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        let footer = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 10))
+        footer.backgroundColor = .clear
+        tableView.tableFooterView = footer
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonAction))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonAction))
     }
     
     deinit {
@@ -41,39 +44,13 @@ class AddMarkerViewController: UITableViewController {
     }
     
     // MARK: UI actions.
-    @IBAction func cancelButtonAction(_ sender: UIBarButtonItem) {
+    @objc func cancelButtonAction() {
         _ = navigationController?.popViewController(animated: true)
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func editButtonAction(_ sender: AnyObject) {
+    @objc func editButtonAction() {
         tableView.setEditing(!tableView.isEditing, animated: true);
-    }
-    
-    // MARK: Segue.
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let cell = sender as? UITableViewCell,
-            let destination = segue.destination as? MarkerColourPickerViewController,
-            let indexPath = tableView.indexPath(for: cell) {
-            let UID: String?
-            var colour: UIColor?
-            var nickname: String?
-            switch Section(rawValue: indexPath.section)! {
-            case .pending:
-                UID = czzMarkerManager.sharedInstance().pendingHighlightUIDs[indexPath.row] as? String
-                colour = czzMarkerManager.sharedInstance().highlightColour(forUID: UID ?? "")
-            case .defined:
-                UID = czzMarkerManager.sharedInstance().highlightedUIDs[indexPath.row] as? String
-                colour = czzMarkerManager.sharedInstance().highlightColour(forUID: UID ?? "")
-                nickname = czzMarkerManager.sharedInstance().nickname(forUID: UID ?? "")
-            case .blocked:
-                UID = czzMarkerManager.sharedInstance().blockedUIDs[indexPath.row] as? String
-            }
-            destination.selectedColour = colour
-            destination.nickname = nickname
-            destination.UID = UID
-            destination.delegate = self
-        }
     }
 }
 
@@ -111,13 +88,19 @@ extension AddMarkerViewController {
         let UID: String?
         switch Section(rawValue: indexPath.section)! {
         case .pending:
-            cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.undefinedColourCell, for: indexPath)
+            cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.undefinedColourCell) ?? {
+                let created = UITableViewCell(style: .value1, reuseIdentifier: CellIdentifier.undefinedColourCell)
+                created.accessoryType = .disclosureIndicator
+                created.textLabel?.textColor = UIColor(red: 0.6, green: 0.4, blue: 0.2, alpha: 1)
+                created.detailTextLabel?.textColor = UIColor(red: 0.7137254902, green: 0.3058823529, blue: 0.01568627451, alpha: 1)
+                return created
+            }()
             UID = czzMarkerManager.sharedInstance().pendingHighlightUIDs[indexPath.row] as? String
         case .defined:
-            cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.colourPairCell, for: indexPath)
+            cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.colourPairCell) ?? UIDColourPairCellTableViewCell(reuseIdentifier: CellIdentifier.colourPairCell, showsDetail: true)
             UID = czzMarkerManager.sharedInstance().highlightedUIDs[indexPath.row] as? String
         case .blocked:
-            cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.blockedCell, for: indexPath)
+            cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.blockedCell) ?? UIDColourPairCellTableViewCell(reuseIdentifier: CellIdentifier.blockedCell, showsDetail: false)
             UID = czzMarkerManager.sharedInstance().blockedUIDs[indexPath.row] as? String
         }
         cell.detailTextLabel?.text = "请选择..."
@@ -153,6 +136,30 @@ extension AddMarkerViewController {
             czzMarkerManager.sharedInstance().save()
         }
         tableView.reloadData()
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let destination = MarkerColourPickerViewController()
+        let UID: String?
+        var colour: UIColor?
+        var nickname: String?
+        switch Section(rawValue: indexPath.section)! {
+        case .pending:
+            UID = czzMarkerManager.sharedInstance().pendingHighlightUIDs[indexPath.row] as? String
+            colour = czzMarkerManager.sharedInstance().highlightColour(forUID: UID ?? "")
+        case .defined:
+            UID = czzMarkerManager.sharedInstance().highlightedUIDs[indexPath.row] as? String
+            colour = czzMarkerManager.sharedInstance().highlightColour(forUID: UID ?? "")
+            nickname = czzMarkerManager.sharedInstance().nickname(forUID: UID ?? "")
+        case .blocked:
+            UID = czzMarkerManager.sharedInstance().blockedUIDs[indexPath.row] as? String
+        }
+        destination.selectedColour = colour
+        destination.nickname = nickname
+        destination.UID = UID
+        destination.delegate = self
+        destination.modalPresentationStyle = .overFullScreen
+        present(destination, animated: true)
     }
     
 }
