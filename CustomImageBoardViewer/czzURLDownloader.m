@@ -62,10 +62,13 @@
             __strong typeof(weakSelf) strongSelf = weakSelf;
             if (!strongSelf) return;
             [strongSelf removeProgressObserver];
-            [strongSelf notifyDelegateAboutStateChanged];
-            if ([strongSelf.delegate respondsToSelector:@selector(downloadOf:successed:result:)]){
-                [strongSelf.delegate downloadOf:response.URL successed:error == nil result:data];
-            }
+            // NSURLSession callbacks run off the main queue; UI delegates expect main-thread delivery.
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [strongSelf notifyDelegateAboutStateChanged];
+                if ([strongSelf.delegate respondsToSelector:@selector(downloadOf:successed:result:)]){
+                    [strongSelf.delegate downloadOf:response.URL successed:error == nil result:data];
+                }
+            }];
         }];
         
         if (self.dataTask.progress) {
@@ -126,11 +129,16 @@
 }
 
 - (void)notifyDelegateAboutStateChanged {
-    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+    void (^notify)(void) = ^{
         if ([self.delegate respondsToSelector:@selector(downloadStateChanged:)]) {
             [self.delegate downloadStateChanged:self];
         }
-    }];
+    };
+    if ([NSThread isMainThread]) {
+        notify();
+    } else {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:notify];
+    }
 }
 
 #pragma mark - Setters
