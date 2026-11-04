@@ -30,39 +30,34 @@
     return [self containsLinkAtPoint:point];
 }
 
+/// Uses UITextInput APIs only — avoids accessing layoutManager/textStorage, which forces TextKit 1 mode.
 - (BOOL)containsLinkAtPoint:(CGPoint)point {
-    if (self.textStorage.length == 0) {
+    NSAttributedString *text = self.attributedText;
+    if (text.length == 0) {
         return NO;
     }
 
-    CGPoint location = CGPointMake(point.x - self.textContainerInset.left,
-                                   point.y - self.textContainerInset.top);
-    location.x -= self.textContainer.lineFragmentPadding;
-
-    NSLayoutManager *layoutManager = self.layoutManager;
-    NSTextContainer *textContainer = self.textContainer;
-    NSUInteger glyphIndex = [layoutManager glyphIndexForPoint:location
-                                              inTextContainer:textContainer
-                               fractionOfDistanceThroughGlyph:NULL];
-    if (glyphIndex >= layoutManager.numberOfGlyphs) {
+    UITextPosition *position = [self closestPositionToPoint:point];
+    if (!position) {
         return NO;
     }
 
-    CGRect glyphRect = [layoutManager boundingRectForGlyphRange:NSMakeRange(glyphIndex, 1)
-                                                inTextContainer:textContainer];
-    if (!CGRectContainsPoint(glyphRect, location)) {
+    UITextPosition *next = [self positionFromPosition:position offset:1] ?: position;
+    UITextRange *characterRange = [self textRangeFromPosition:position toPosition:next];
+    CGRect glyphRect = [self firstRectForRange:characterRange];
+    if (CGRectIsNull(glyphRect) || CGRectIsEmpty(glyphRect)) {
+        glyphRect = [self caretRectForPosition:position];
+    }
+    if (!CGRectContainsPoint(CGRectInset(glyphRect, -4.0, -4.0), point)) {
         return NO;
     }
 
-    NSUInteger characterIndex = [layoutManager characterIndexForGlyphAtIndex:glyphIndex];
-    if (characterIndex >= self.textStorage.length) {
+    NSInteger index = [self offsetFromPosition:self.beginningOfDocument toPosition:position];
+    if (index < 0 || index >= (NSInteger)text.length) {
         return NO;
     }
 
-    id link = [self.textStorage attribute:NSLinkAttributeName
-                                  atIndex:characterIndex
-                           effectiveRange:NULL];
-    return link != nil;
+    return [text attribute:NSLinkAttributeName atIndex:(NSUInteger)index effectiveRange:NULL] != nil;
 }
 
 @end

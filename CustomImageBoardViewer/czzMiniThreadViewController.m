@@ -18,6 +18,7 @@
 #import "czzThreadViewController.h"
 #import "czzThreadViewManager.h"
 #import "czzFadeInOutModalAnimator.h"
+#import "UIBarButtonItem+CIVLayout.h"
 
 @interface czzMiniThreadViewController () <UITableViewDataSource, UITableViewDelegate, czzMenuEnabledTableViewCellProtocol>
 @property (nonatomic, assign) NSInteger parentID;
@@ -35,6 +36,11 @@
     [super viewDidLoad];
     self.miniThreadViewToolBar.barTintColor = [settingCentre barTintColour];
     self.miniThreadViewToolBar.tintColor = [settingCentre tintColour];
+    // Avoid iOS 26 zero-width ButtonWrapper conflicts from UIBarButtonSystemItemAction.
+    UIImage *actionImage = [UIImage systemImageNamed:@"square.and.arrow.up"] ?: [UIImage imageNamed:@"upload.png"];
+    self.miniThreadViewToolBar.items = @[
+        [UIBarButtonItem civ_itemWithImage:actionImage target:self action:@selector(openAction:)]
+    ];
     
     // Register NIB.
     [threadTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil]

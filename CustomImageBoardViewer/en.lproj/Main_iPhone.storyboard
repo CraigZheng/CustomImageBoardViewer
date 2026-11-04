@@ -57,7 +57,7 @@
                                 <rect key="frame" x="295" y="538" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="P2C-qt-tg3"/>
-                                    <constraint firstAttribute="width" secondItem="7vQ-Rb-bPA" secondAttribute="height" multiplier="1:1" id="Rdf-Wd-IHD"/>
+                                    <constraint firstAttribute="width" secondItem="7vQ-Rb-bPA" secondAttribute="height" multiplier="1:1" priority="750" id="Rdf-Wd-IHD"/>
                                 </constraints>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4ja-AC-SOf">
@@ -89,10 +89,10 @@
                             <constraint firstItem="iTH-zx-FDV" firstAttribute="top" secondItem="7vQ-Rb-bPA" secondAttribute="bottom" constant="8" id="Az2-eS-T76"/>
                             <constraint firstItem="Xz2-RA-CtP" firstAttribute="bottom" secondItem="kEK-ic-Yzh" secondAttribute="bottom" id="NRA-ir-tPT"/>
                             <constraint firstItem="PlI-hI-DUI" firstAttribute="width" secondItem="iTH-zx-FDV" secondAttribute="width" id="Ncp-lQ-Cih"/>
-                            <constraint firstItem="7vQ-Rb-bPA" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Xz2-RA-CtP" secondAttribute="top" constant="20" id="Uf0-Td-TqX"/>
+                            <constraint firstItem="7vQ-Rb-bPA" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Xz2-RA-CtP" secondAttribute="top" constant="20" priority="750" id="Uf0-Td-TqX"/>
                             <constraint firstItem="Xz2-RA-CtP" firstAttribute="trailing" secondItem="iTH-zx-FDV" secondAttribute="trailing" constant="30" id="a7R-g6-mhm"/>
                             <constraint firstItem="PlI-hI-DUI" firstAttribute="height" secondItem="iTH-zx-FDV" secondAttribute="height" id="aJa-1H-pZM"/>
-                            <constraint firstItem="4ja-AC-SOf" firstAttribute="width" secondItem="4ja-AC-SOf" secondAttribute="height" multiplier="1:1" id="bEy-Q7-MId"/>
+                            <constraint firstItem="4ja-AC-SOf" firstAttribute="width" secondItem="4ja-AC-SOf" secondAttribute="height" multiplier="1:1" priority="750" id="bEy-Q7-MId"/>
                             <constraint firstItem="kEK-ic-Yzh" firstAttribute="top" secondItem="Xz2-RA-CtP" secondAttribute="top" id="gy0-E8-O6q"/>
                             <constraint firstItem="PlI-hI-DUI" firstAttribute="centerY" secondItem="iTH-zx-FDV" secondAttribute="centerY" id="mBW-C3-BDM"/>
                             <constraint firstItem="7vQ-Rb-bPA" firstAttribute="top" secondItem="4ja-AC-SOf" secondAttribute="bottom" constant="8" id="q6h-sM-m2t"/>
@@ -713,7 +713,7 @@
                                 <rect key="frame" x="295" y="538" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="HQl-Ao-M9i"/>
-                                    <constraint firstAttribute="width" secondItem="Js0-yW-ln4" secondAttribute="height" id="veY-cY-Nbi"/>
+                                    <constraint firstAttribute="width" secondItem="Js0-yW-ln4" secondAttribute="height" priority="750" id="veY-cY-Nbi"/>
                                 </constraints>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TjH-jn-qvV">
@@ -727,8 +727,8 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="l2k-8P-m8U" firstAttribute="top" secondItem="qkP-wu-NXP" secondAttribute="top" id="0Bb-cS-3PD"/>
-                            <constraint firstItem="Js0-yW-ln4" firstAttribute="top" relation="greaterThanOrEqual" secondItem="qkP-wu-NXP" secondAttribute="top" constant="20" id="1yc-rd-wrz"/>
-                            <constraint firstItem="TjH-jn-qvV" firstAttribute="width" secondItem="TjH-jn-qvV" secondAttribute="height" id="2xn-ys-XVH"/>
+                            <constraint firstItem="Js0-yW-ln4" firstAttribute="top" relation="greaterThanOrEqual" secondItem="qkP-wu-NXP" secondAttribute="top" constant="20" priority="750" id="1yc-rd-wrz"/>
+                            <constraint firstItem="TjH-jn-qvV" firstAttribute="width" secondItem="TjH-jn-qvV" secondAttribute="height" priority="750" id="2xn-ys-XVH"/>
                             <constraint firstItem="Js0-yW-ln4" firstAttribute="leading" secondItem="TjH-jn-qvV" secondAttribute="leading" id="31Q-7c-ebA"/>
                             <constraint firstItem="qkP-wu-NXP" firstAttribute="bottom" secondItem="l2k-8P-m8U" secondAttribute="bottom" id="EUw-LL-2fb"/>
                             <constraint firstItem="qkP-wu-NXP" firstAttribute="trailing" secondItem="Js0-yW-ln4" secondAttribute="trailing" constant="20" id="X4O-Jt-Itw"/>

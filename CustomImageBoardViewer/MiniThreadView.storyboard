@@ -69,13 +69,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="NHy-d3-GNV"/>
                                 </constraints>
-                                <items>
-                                    <barButtonItem systemItem="action" id="x9R-wd-73d">
-                                        <connections>
-                                            <action selector="openAction:" destination="hhF-PX-LQi" id="obi-Su-naO"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
+                                <items/>
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>

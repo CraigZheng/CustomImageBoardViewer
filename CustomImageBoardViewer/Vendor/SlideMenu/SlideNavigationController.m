@@ -27,6 +27,7 @@
 
 #import "SlideNavigationController.h"
 #import "SlideNavigationContorllerAnimator.h"
+#import "UIBarButtonItem+CIVLayout.h"
 
 typedef enum {
   PopTypeAll,
@@ -447,8 +448,9 @@ static SlideNavigationController *singletonInstance;
   }
   else
   {
+    // Use a fixed-size custom view to avoid iOS 26 zero-width ButtonWrapper constraint conflicts.
     UIImage *image = [UIImage imageNamed:MENU_IMAGE];
-    return [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:selector];
+    return [UIBarButtonItem civ_itemWithImage:image target:self action:selector];
   }
 }
 
@@ -699,6 +701,10 @@ static SlideNavigationController *singletonInstance;
   
   if ([self shouldDisplayMenu:MenuRight forViewController:viewController])
     viewController.navigationItem.rightBarButtonItem = [self barButtonItemForMenu:MenuRight];
+
+  if ([viewController respondsToSelector:@selector(civ_sanitizeBarButtonLayout)]) {
+    [viewController civ_sanitizeBarButtonLayout];
+  }
 }
 
 - (CGFloat)slideOffset

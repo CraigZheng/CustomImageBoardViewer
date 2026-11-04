@@ -20,6 +20,7 @@
 #import "czzNotificationCentreTableViewController.h"
 #import "czzOnScreenImageManagerViewController.h"
 #import "UIBarButtonItem+Badge.h"
+#import "UIBarButtonItem+CIVLayout.h"
 #import "czzHomeViewManager.h"
 #import "czzForumManager.h"
 #import "czzHomeTableViewManager.h"
@@ -61,6 +62,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self civ_sanitizeBarButtonLayout];
     
     // Assign the data sources and delegates.
     self.threadTableView.dataSource = self.homeTableViewManager;
@@ -91,15 +93,11 @@
     
     [self.threadTableView addSubview:self.refreshControl];
     // Info bar button, must use custom view to allow badget value to be set.
-    UIButton *customButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [customButton setImage:[[UIImage imageNamed:@"info.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
-                  forState:UIControlStateNormal];
+    UIButton *customButton = [UIBarButtonItem civ_fixedSizeButtonWithImage:[UIImage imageNamed:@"info.png"]
+                                                                    target:self
+                                                                    action:@selector(moreInfoAction:)];
     [customButton setTitleColor:[UIColor whiteColor]
                        forState:UIControlStateHighlighted];
-    customButton.frame = CGRectMake(0, 0, 44, 44);
-    [customButton addTarget:self
-                     action:@selector(moreInfoAction:)
-           forControlEvents:UIControlEventTouchUpInside];
     self.infoBarButton.customView = customButton;
     
     // Always reload
@@ -124,6 +122,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self civ_sanitizeBarButtonLayout];
     
     self.threadTableView.backgroundColor = settingCentre.viewBackgroundColour;
     if (settingCentre.userDefNightyMode) {
@@ -162,7 +161,7 @@
 -(void)updateTableView {
     // Update bar buttons.
     if (!self.numberBarButton.customView) {
-        self.numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
+        self.numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 36, 36)];
     }
     // Give the amount number a title.
         [(czzRoundButton *)self.numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long)self.homeViewManager.pageNumber] forState:UIControlStateNormal];

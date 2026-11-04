@@ -12,6 +12,7 @@
 #import "czzSettingsCentre.h"
 #import "Toast+UIView.h"
 #import "czzBannerNotificationUtil.h"
+#import "UIBarButtonItem+CIVLayout.h"
 
 @interface czzFeedbackViewController ()
 @property UIViewController *topController;
@@ -119,9 +120,9 @@
     //assign an input accessory view to it
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
 //    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    UIBarButtonItem *plusEmotionButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"happy.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(plusAction:)];
-    UIBarButtonItem *minusEmotionButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sad.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(minusAction:)];
-    UIBarButtonItem *postButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sent.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(sendAction:)];
+    UIBarButtonItem *plusEmotionButton = [UIBarButtonItem civ_itemWithImage:[UIImage imageNamed:@"happy.png"] target:self action:@selector(plusAction:)];
+    UIBarButtonItem *minusEmotionButton = [UIBarButtonItem civ_itemWithImage:[UIImage imageNamed:@"sad.png"] target:self action:@selector(minusAction:)];
+    UIBarButtonItem *postButton = [UIBarButtonItem civ_itemWithImage:[UIImage imageNamed:@"sent.png"] target:self action:@selector(sendAction:)];
     NSArray *buttons = [NSArray arrayWithObjects: flexibleSpace,
                         plusEmotionButton,
                         flexibleSpace,

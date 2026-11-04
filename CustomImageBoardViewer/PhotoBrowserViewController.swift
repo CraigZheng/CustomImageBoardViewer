@@ -30,11 +30,12 @@ import UIKit
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .action,
-            target: self,
-            action: #selector(actionTapped)
-        )
+        // Avoid iOS 26 zero-width ButtonWrapper conflicts from system bar button items.
+        let actionButton = UIButton(type: .system)
+        actionButton.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
+        actionButton.addTarget(self, action: #selector(actionTapped), for: .touchUpInside)
+        actionButton.frame = CGRect(x: 0, y: 0, width: 36, height: 36)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: actionButton)
 
         pageViewController = UIPageViewController(
             transitionStyle: .scroll,

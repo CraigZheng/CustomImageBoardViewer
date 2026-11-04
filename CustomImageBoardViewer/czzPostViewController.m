@@ -27,6 +27,7 @@
 #import "czzHistoryManager.h"
 #import "czzBannerNotificationUtil.h"
 #import "czzPostSenderManager.h"
+#import "UIBarButtonItem+CIVLayout.h"
 #import "CustomImageBoardViewer-Swift.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 
@@ -146,18 +147,15 @@ static NSString *kPostNameKey = @"kPostNameKey";
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                                    target:nil
                                                                                    action:nil];
-    UIBarButtonItem *pickEmojiButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"lol.png"]
-                                                                        style:UIBarButtonItemStylePlain
-                                                                       target:self
-                                                                       action:@selector(pickEmojiAction:)];
-    UIBarButtonItem *pickImgButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"picture.png"]
-                                                                      style:UIBarButtonItemStylePlain
-                                                                     target:self
-                                                                     action:@selector(pickImageAction:)];
-    postButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sent.png"]
-                                                  style:UIBarButtonItemStylePlain
-                                                 target:self
-                                                 action:@selector(postAction:)];
+    UIBarButtonItem *pickEmojiButton = [UIBarButtonItem civ_itemWithImage:[UIImage imageNamed:@"lol.png"]
+                                                                   target:self
+                                                                   action:@selector(pickEmojiAction:)];
+    UIBarButtonItem *pickImgButton = [UIBarButtonItem civ_itemWithImage:[UIImage imageNamed:@"picture.png"]
+                                                                 target:self
+                                                                 action:@selector(pickImageAction:)];
+    postButton = [UIBarButtonItem civ_itemWithImage:[UIImage imageNamed:@"sent.png"]
+                                             target:self
+                                             action:@selector(postAction:)];
     NSArray *buttons = [NSArray arrayWithObjects: flexibleSpace,
                         pickEmojiButton,
                         flexibleSpace,
@@ -446,10 +444,9 @@ static NSString *kPostNameKey = @"kPostNameKey";
 
 - (UIBarButtonItem *)keyboardBarButtonItem {
     if (!_keyboardBarButtonItem) {
-        _keyboardBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"keyboard.png"]
-                                                                  style:UIBarButtonItemStylePlain
-                                                                 target:self
-                                                                 action:@selector(keyboardAction:)];
+        _keyboardBarButtonItem = [UIBarButtonItem civ_itemWithImage:[UIImage imageNamed:@"keyboard.png"]
+                                                             target:self
+                                                             action:@selector(keyboardAction:)];
     }
     return _keyboardBarButtonItem;
 }

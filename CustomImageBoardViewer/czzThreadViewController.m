@@ -31,6 +31,7 @@
 #import "czzReplyUtil.h"
 #import "czzAutoEndingRefreshControl.h"
 #import "czzThreadViewManager.h"
+#import "UIBarButtonItem+CIVLayout.h"
 
 #import "UIImage+animatedGIF.h"
 
@@ -83,6 +84,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self civ_sanitizeBarButtonLayout];
     // If self.thread is not ready, the whole view controller is not ready.
     if (self.thread) {
         [self commonInit];
@@ -95,6 +97,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self civ_sanitizeBarButtonLayout];
     // UI appearance.
     self.threadTableView.backgroundColor = [settingCentre viewBackgroundColour];
     if (settingCentre.userDefNightyMode) {
@@ -171,7 +174,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 -(void)updateTableView {
   // Update bar buttons.
   if (!numberBarButton.customView) {
-    numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
+    numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 36, 36)];
   }
   [(czzRoundButton *)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long)self.threadViewManager.pageNumber] forState:UIControlStateNormal];
   
@@ -213,7 +216,7 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
     if (viewManager) {
         // Update bar buttons.
         if (!numberBarButton.customView) {
-            numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
+            numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 36, 36)];
         }
         
         [(czzRoundButton*)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.threadViewManager.threads.count] forState:UIControlStateNormal];
