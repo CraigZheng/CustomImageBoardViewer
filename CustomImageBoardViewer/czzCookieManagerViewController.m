@@ -32,20 +32,43 @@
 
 static NSString *cookie_info_tableview_cell_identifier = @"cookie_info_table_view_cell_identifier";
 
-static NSString *kCookieDetailsSegueIdentifier = @"cookieDetail";
-static NSString *kScanQRCodeSegueIdentifier = @"qrScanner";
-
 - (void)viewDidLoad {
   [super viewDidLoad];
-  // Do any additional setup after loading the view.
   cookieManager = CookieManager;
-  
+
+  UISegmentedControl *segmentControl = [[UISegmentedControl alloc] initWithItems:@[@"新鲜", @"保鲜"]];
+  segmentControl.selectedSegmentIndex = 0;
+  [segmentControl addTarget:self action:@selector(cookieManagerSegmentControlAction:) forControlEvents:UIControlEventValueChanged];
+  self.navigationItem.titleView = segmentControl;
+  self.cookieManagerSegmentControl = segmentControl;
+  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"add_user.png"] style:UIBarButtonItemStylePlain target:self action:@selector(addCookieAction:)];
+
   cookieManagerTableView.backgroundColor = [settingCentre viewBackgroundColour];
   dispatch_async(dispatch_get_main_queue(), ^{
     if ([cookieManager currentACCookies].count <= 0) {
       [self addCookieAction:self];
     }
   });
+}
+
+- (void)loadView {
+  UIView *rootView = [[UIView alloc] init];
+  rootView.backgroundColor = [UIColor whiteColor];
+  UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+  tableView.translatesAutoresizingMaskIntoConstraints = NO;
+  tableView.rowHeight = 60;
+  tableView.dataSource = self;
+  tableView.delegate = self;
+  tableView.backgroundColor = [UIColor whiteColor];
+  [rootView addSubview:tableView];
+  [NSLayoutConstraint activateConstraints:@[
+    [tableView.topAnchor constraintEqualToAnchor:rootView.topAnchor],
+    [tableView.leadingAnchor constraintEqualToAnchor:rootView.leadingAnchor],
+    [tableView.trailingAnchor constraintEqualToAnchor:rootView.trailingAnchor],
+    [tableView.bottomAnchor constraintEqualToAnchor:rootView.bottomAnchor]
+  ]];
+  self.view = rootView;
+  self.cookieManagerTableView = tableView;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -56,23 +79,22 @@ static NSString *kScanQRCodeSegueIdentifier = @"qrScanner";
 
 #pragma mark - Segue
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-  if ([segue.destinationViewController isKindOfClass:CookieDetailTableViewController.class]) {
-    CookieDetailTableViewController *cookieDetailTableViewController = (CookieDetailTableViewController *)segue.destinationViewController;
-    SettingsHost activeHost = SettingsHostAC;
-    if (self.selectedCookie) {
-      if ([settingCentre.ac_isle_host containsString:self.selectedCookie.domain]) {
-        activeHost = SettingsHostAC;
-      } else if ([settingCentre.bt_isle_host containsString:self.selectedCookie.domain]) {
-        activeHost = SettingsHostBT;
-      }
-      cookieDetailTableViewController.cookieValue = self.selectedCookie.value;
-      cookieDetailTableViewController.originalCookie = self.selectedCookie;
-      cookieDetailTableViewController.isOriginalCookieFromArchive = self.cookieManagerSegmentControl.selectedSegmentIndex == 1;
+-(void)showCookieDetailForCookie:(NSHTTPCookie *)cookie {
+  CookieDetailTableViewController *cookieDetailTableViewController = [[CookieDetailTableViewController alloc] initWithStyle:UITableViewStylePlain];
+  SettingsHost activeHost = SettingsHostAC;
+  if (cookie) {
+    if ([settingCentre.ac_isle_host containsString:cookie.domain]) {
+      activeHost = SettingsHostAC;
+    } else if ([settingCentre.bt_isle_host containsString:cookie.domain]) {
+      activeHost = SettingsHostBT;
     }
-    cookieDetailTableViewController.isEditable = true;
-    cookieDetailTableViewController.activeHost = activeHost;
+    cookieDetailTableViewController.cookieValue = cookie.value;
+    cookieDetailTableViewController.originalCookie = cookie;
+    cookieDetailTableViewController.isOriginalCookieFromArchive = self.cookieManagerSegmentControl.selectedSegmentIndex == 1;
   }
+  cookieDetailTableViewController.isEditable = true;
+  cookieDetailTableViewController.activeHost = activeHost;
+  [self.navigationController pushViewController:cookieDetailTableViewController animated:YES];
 }
 
 #pragma mark - UITableViewDataSource
@@ -80,8 +102,64 @@ static NSString *kScanQRCodeSegueIdentifier = @"qrScanner";
   return cookiesDataSource.count;
 }
 
+-(UITableViewCell *)cookieInfoCellForTableView:(UITableView *)tableView {
+  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cookie_info_tableview_cell_identifier];
+  if (cell) {
+    return cell;
+  }
+  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cookie_info_tableview_cell_identifier];
+  UILabel *contentLabel = [self cookieLabelWithTag:1 font:[UIFont systemFontOfSize:14] color:[UIColor blackColor]];
+  contentLabel.numberOfLines = 0;
+  contentLabel.minimumScaleFactor = 0.5;
+  contentLabel.adjustsFontSizeToFitWidth = YES;
+  [contentLabel setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
+  UILabel *nameLabel = [self cookieLabelWithTag:2 font:[UIFont boldSystemFontOfSize:15] color:[UIColor blackColor]];
+  nameLabel.numberOfLines = 0;
+  nameLabel.minimumScaleFactor = 0.5;
+  nameLabel.adjustsFontSizeToFitWidth = YES;
+  UILabel *domainLabel = [self cookieLabelWithTag:3 font:[UIFont systemFontOfSize:15] color:[UIColor colorWithWhite:0.667 alpha:1]];
+  domainLabel.minimumScaleFactor = 0.5;
+  domainLabel.adjustsFontSizeToFitWidth = YES;
+  [domainLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
+  UILabel *expiryLabel = [self cookieLabelWithTag:4 font:[UIFont systemFontOfSize:12] color:[UIColor colorWithRed:1 green:0.6795437536 blue:0.06947360188 alpha:1]];
+  expiryLabel.minimumScaleFactor = 0.5;
+  expiryLabel.adjustsFontSizeToFitWidth = YES;
+  [expiryLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
+  [cell.contentView addSubview:nameLabel];
+  [cell.contentView addSubview:contentLabel];
+  [cell.contentView addSubview:domainLabel];
+  [cell.contentView addSubview:expiryLabel];
+  [NSLayoutConstraint activateConstraints:@[
+    [nameLabel.leadingAnchor constraintEqualToAnchor:cell.contentView.leadingAnchor],
+    [nameLabel.topAnchor constraintEqualToAnchor:cell.contentView.topAnchor],
+    [nameLabel.widthAnchor constraintEqualToConstant:70],
+    [contentLabel.leadingAnchor constraintEqualToAnchor:nameLabel.trailingAnchor],
+    [contentLabel.trailingAnchor constraintEqualToAnchor:cell.contentView.trailingAnchor],
+    [contentLabel.topAnchor constraintEqualToAnchor:cell.contentView.topAnchor],
+    [contentLabel.bottomAnchor constraintEqualToAnchor:nameLabel.bottomAnchor],
+    [domainLabel.leadingAnchor constraintEqualToAnchor:cell.contentView.leadingAnchor],
+    [domainLabel.topAnchor constraintEqualToAnchor:contentLabel.bottomAnchor],
+    [domainLabel.bottomAnchor constraintEqualToAnchor:cell.contentView.bottomAnchor],
+    [expiryLabel.leadingAnchor constraintEqualToAnchor:domainLabel.trailingAnchor],
+    [expiryLabel.topAnchor constraintEqualToAnchor:domainLabel.topAnchor],
+    [expiryLabel.bottomAnchor constraintEqualToAnchor:cell.contentView.bottomAnchor],
+    [cell.contentView.trailingAnchor constraintEqualToAnchor:expiryLabel.trailingAnchor constant:20]
+  ]];
+  return cell;
+}
+
+- (UILabel *)cookieLabelWithTag:(NSInteger)tag font:(UIFont *)font color:(UIColor *)color {
+  UILabel *label = [[UILabel alloc] init];
+  label.translatesAutoresizingMaskIntoConstraints = NO;
+  label.tag = tag;
+  label.font = font;
+  label.textColor = color;
+  label.textAlignment = NSTextAlignmentCenter;
+  return label;
+}
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cookie_info_tableview_cell_identifier forIndexPath:indexPath];
+  UITableViewCell *cell = [self cookieInfoCellForTableView:tableView];
   UILabel *expiryLabel = (UILabel *)[cell viewWithTag:4];
   UILabel *domainLabel = (UILabel*) [cell viewWithTag:3];
   UILabel *nameLabel = (UILabel*) [cell viewWithTag:2];
@@ -111,7 +189,7 @@ static NSString *kScanQRCodeSegueIdentifier = @"qrScanner";
 #pragma mark - UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   self.selectedCookie = [cookiesDataSource objectAtIndex:indexPath.row];
-  [self performSegueWithIdentifier:kCookieDetailsSegueIdentifier sender:tableView];
+  [self showCookieDetailForCookie:self.selectedCookie];
 }
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -144,7 +222,8 @@ static NSString *kScanQRCodeSegueIdentifier = @"qrScanner";
 }
 
 - (IBAction)addCookieAction:(id)sender {
-  [self performSegueWithIdentifier:kScanQRCodeSegueIdentifier sender:sender];
+  QRCodeScannerViewController *scanner = [[QRCodeScannerViewController alloc] init];
+  [self.navigationController pushViewController:scanner animated:YES];
 }
 
 -(void)refreshData {
@@ -205,7 +284,7 @@ static NSString *kScanQRCodeSegueIdentifier = @"qrScanner";
 }
 
 +(instancetype)new {
-  return [[UIStoryboard storyboardWithName:COOKIE_MANAGER_VIEW_CONTROLLER_STORYBOARD_NAME bundle:nil] instantiateViewControllerWithIdentifier:CZZ_COOKIE_MANAGER_VIEW_CONTROLLER_IDENTIFIER];
+  return [[self alloc] init];
 }
 
 @end

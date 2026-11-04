@@ -7,6 +7,7 @@
 #import "czzForumsViewController.h"
 #import "czzThread.h"
 #import "czzCookieManager.h"
+#import "czzCookieManagerViewController.h"
 #import "czzACTokenUtil.h"
 #import "czzBannerNotificationUtil.h"
 #import "czzURLHandler.h"

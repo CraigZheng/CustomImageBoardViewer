@@ -10,13 +10,52 @@ import AVFoundation
 
 class QRCodeScannerViewController: UIViewController {
   
-  @IBOutlet var cameraPreviewView: UIView!
+  private var cameraPreviewView: UIView!
   fileprivate var captureSession: AVCaptureSession?
   fileprivate var warningAlertController: UIAlertController?
   fileprivate var capturedCookie: String?
   
-  enum SegueIdentifier: String {
-    case qrScanner, cookieDetail
+  override func loadView() {
+    let rootView = UIView()
+    rootView.backgroundColor = .white
+    view = rootView
+    title = "扫码"
+
+    let preview = UIView()
+    preview.translatesAutoresizingMaskIntoConstraints = false
+    preview.backgroundColor = .white
+    rootView.addSubview(preview)
+    cameraPreviewView = preview
+
+    let prompt = UILabel()
+    prompt.translatesAutoresizingMaskIntoConstraints = false
+    prompt.text = "请扫描饼干的二维码"
+    prompt.font = .systemFont(ofSize: 17)
+    rootView.addSubview(prompt)
+
+    let libraryButton = RoundCornerBorderedButton(frame: .zero)
+    libraryButton.translatesAutoresizingMaskIntoConstraints = false
+    libraryButton.setTitle("从系统图片库中选择", for: .normal)
+    libraryButton.setTitleColor(UIColor(white: 0.3333333433, alpha: 1), for: .normal)
+    libraryButton.tintColor = libraryButton.titleColor(for: .normal)
+    libraryButton.layer.borderColor = libraryButton.tintColor.cgColor
+    libraryButton.backgroundColor = UIColor(red: 1, green: 0.6778507134, blue: 0.171082537, alpha: 1)
+    libraryButton.addTarget(self, action: #selector(loadFromLibraryAction), for: .touchUpInside)
+    rootView.addSubview(libraryButton)
+
+    NSLayoutConstraint.activate([
+      preview.topAnchor.constraint(equalTo: rootView.safeAreaLayoutGuide.topAnchor),
+      preview.leadingAnchor.constraint(equalTo: rootView.leadingAnchor),
+      preview.trailingAnchor.constraint(equalTo: rootView.trailingAnchor),
+      preview.widthAnchor.constraint(equalTo: preview.heightAnchor),
+      prompt.topAnchor.constraint(equalTo: preview.bottomAnchor, constant: 8),
+      prompt.centerXAnchor.constraint(equalTo: rootView.centerXAnchor),
+      libraryButton.topAnchor.constraint(equalTo: prompt.bottomAnchor, constant: 8),
+      libraryButton.leadingAnchor.constraint(equalTo: rootView.leadingAnchor, constant: 20),
+      rootView.trailingAnchor.constraint(equalTo: libraryButton.trailingAnchor, constant: 20),
+      libraryButton.heightAnchor.constraint(equalToConstant: 44),
+      rootView.safeAreaLayoutGuide.bottomAnchor.constraint(greaterThanOrEqualTo: libraryButton.bottomAnchor, constant: 8)
+    ])
   }
   
   override func viewDidAppear(_ animated: Bool) {
@@ -75,20 +114,18 @@ class QRCodeScannerViewController: UIViewController {
 
 // MARK: Navigation
 extension QRCodeScannerViewController {
-  
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if let cookieDetailViewController = segue.destination as? CookieDetailTableViewController {
-      cookieDetailViewController.cookieValue = capturedCookie
-    }
+  fileprivate func showCookieDetail() {
+    let cookieDetailViewController = CookieDetailTableViewController(style: .plain)
+    cookieDetailViewController.cookieValue = capturedCookie
+    navigationController?.pushViewController(cookieDetailViewController, animated: true)
   }
-  
 }
 
 // MARK: UI actions.
 
 extension QRCodeScannerViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   
-  @IBAction func loadFromLibraryAction(_ sender: AnyObject) {
+  @objc func loadFromLibraryAction(_ sender: AnyObject) {
     let picker = UIImagePickerController()
     picker.allowsEditing = false
     picker.sourceType = .photoLibrary
@@ -111,7 +148,7 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
     }
     dismiss(animated: true) {
       if self.capturedCookie?.isEmpty == false {
-        self.performSegue(withIdentifier: SegueIdentifier.cookieDetail.rawValue, sender: nil)
+        self.showCookieDetail()
       }
     }
   }
@@ -130,7 +167,7 @@ extension QRCodeScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
         !cookieValue.isEmpty {
         capturedCookie = cookieValue
         captureSession?.stopRunning()
-        performSegue(withIdentifier: SegueIdentifier.cookieDetail.rawValue, sender: nil)
+        showCookieDetail()
         return
       }
     }

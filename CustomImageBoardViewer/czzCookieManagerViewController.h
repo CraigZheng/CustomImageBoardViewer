@@ -14,15 +14,15 @@
 
 @interface czzCookieManagerViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UITableView *cookieManagerTableView;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *cookieManagerSegmentControl;
+@property (weak, nonatomic) UITableView *cookieManagerTableView;
+@property (weak, nonatomic) UISegmentedControl *cookieManagerSegmentControl;
 @property UIAlertView *useCookieAlertView;
 @property UIAlertView *shareCookieAlertView;
 @property UIAlertView *saveCookieAlertView;
 @property UIAlertView *deleteCookieAlertView;
 @property UIAlertView *addCookieAlertView;
 
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *saveCookieBarButtonItem;
+@property (weak, nonatomic) UIBarButtonItem *saveCookieBarButtonItem;
 
 - (IBAction)editAction:(id)sender;
 - (IBAction)useCookieAction:(id)sender;

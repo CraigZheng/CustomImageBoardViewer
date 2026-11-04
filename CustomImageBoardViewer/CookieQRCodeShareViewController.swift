@@ -9,10 +9,28 @@
 import UIKit
 
 class CookieQRCodeShareViewController: UIViewController {
-  @IBOutlet private weak var qrCodeImageView: UIImageView!
-  
+  private var qrCodeImageView: UIImageView!
+
   var cookieJson = ""
-  
+
+  override func loadView() {
+    let rootView = UIView()
+    rootView.backgroundColor = .black
+    view = rootView
+    title = "分享"
+    let imageView = UIImageView()
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    imageView.contentMode = .scaleAspectFit
+    rootView.addSubview(imageView)
+    NSLayoutConstraint.activate([
+      imageView.leadingAnchor.constraint(equalTo: rootView.leadingAnchor),
+      imageView.trailingAnchor.constraint(equalTo: rootView.trailingAnchor),
+      imageView.centerYAnchor.constraint(equalTo: rootView.centerYAnchor),
+      imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
+    ])
+    qrCodeImageView = imageView
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
     if !cookieJson.isEmpty, let jsonData = cookieJson.data(using: .utf8), let image = qrForData(jsonData) {
