@@ -471,7 +471,6 @@
 		4498A7E41B89984500312A11 /* CPAutoFillView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498A7E31B89984400312A11 /* CPAutoFillView.m */; };
 		4498B689199248ED0014F73F /* czzJSONProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498B688199248ED0014F73F /* czzJSONProcessor.m */; };
 		4498B68D1993A6190014F73F /* PropertyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498B68C1993A6190014F73F /* PropertyUtil.m */; };
-		4498CEC01B9E752A004D2380 /* libTalkingData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4498CEBE1B9E752A004D2380 /* libTalkingData.a */; };
 		4498CEC21B9E754A004D2380 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4498CEC11B9E754A004D2380 /* Security.framework */; };
 		4498CEC41B9E756D004D2380 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4498CEC31B9E756D004D2380 /* CoreTelephony.framework */; };
 		449C9E271A71DB5C00D49B7F /* remote_configuration-debug.json in Resources */ = {isa = PBXBuildFile; fileRef = 449C9E261A71DB5C00D49B7F /* remote_configuration-debug.json */; };
@@ -1443,8 +1442,6 @@
 		4498B688199248ED0014F73F /* czzJSONProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzJSONProcessor.m; sourceTree = "<group>"; };
 		4498B68B1993A6190014F73F /* PropertyUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PropertyUtil.h; path = ../PropertyUtil.h; sourceTree = "<group>"; };
 		4498B68C1993A6190014F73F /* PropertyUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PropertyUtil.m; path = ../PropertyUtil.m; sourceTree = "<group>"; };
-		4498CEBE1B9E752A004D2380 /* libTalkingData.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTalkingData.a; sourceTree = "<group>"; };
-		4498CEBF1B9E752A004D2380 /* TalkingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TalkingData.h; sourceTree = "<group>"; };
 		4498CEC11B9E754A004D2380 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		4498CEC31B9E756D004D2380 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		449C9E261A71DB5C00D49B7F /* remote_configuration-debug.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "remote_configuration-debug.json"; sourceTree = "<group>"; };
@@ -1865,7 +1862,6 @@
 				4498CEC41B9E756D004D2380 /* CoreTelephony.framework in Frameworks */,
 				4498CEC21B9E754A004D2380 /* Security.framework in Frameworks */,
 				442A901819DB9BAF00A3516E /* libxml2.dylib in Frameworks */,
-				4498CEC01B9E752A004D2380 /* libTalkingData.a in Frameworks */,
 				447FD254195D1AF1003E30C2 /* libz.dylib in Frameworks */,
 				44412975186E9B1000075AA2 /* StoreKit.framework in Frameworks */,
 				44B86461185D810500C29B92 /* SystemConfiguration.framework in Frameworks */,
@@ -2972,15 +2968,6 @@
 			name = PropertyUtil;
 			sourceTree = "<group>";
 		};
-		4498CEBD1B9E751E004D2380 /* TalkingData */ = {
-			isa = PBXGroup;
-			children = (
-				4498CEBE1B9E752A004D2380 /* libTalkingData.a */,
-				4498CEBF1B9E752A004D2380 /* TalkingData.h */,
-			);
-			name = TalkingData;
-			sourceTree = "<group>";
-		};
 		449E92821BF8A25F00EE2F58 /* czzThreadDownloader */ = {
 			isa = PBXGroup;
 			children = (
@@ -3135,7 +3122,6 @@
 			children = (
 				442066211BE846540023D91F /* GoogleAnalytic */,
 				445C66351BBEC38E004B3E83 /* CPLoadFromNib */,
-				4498CEBD1B9E751E004D2380 /* TalkingData */,
 				44BFEF421B8C0D7F0095772B /* DeviceHardware */,
 				4498A7E51B89984A00312A11 /* AutoFille View */,
 				4431419B1A2B519D007D65B3 /* GSIndetermineProgressView */,

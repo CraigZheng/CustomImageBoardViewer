@@ -25,7 +25,6 @@
 #import "czzForumManager.h"
 #import <WatchConnectivity/WatchConnectivity.h>
 #import "CustomImageBoardViewer-Swift.h"
-#import "TalkingData.h"
 
 @import CocoaLumberjack;
 
@@ -52,8 +51,6 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
     fileLogger.rollingFrequency = 60 * 60 * 24; // 24 hour rolling
     fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
     [DDLog addLogger:fileLogger];
-    // Talkind data initialisation
-    [TalkingData sessionStarted:@"B8168DD03CD9EF62B476CEDFBC3FB52D" withChannelId:@""];
     myhost = my_main_host;
     settingsCentre = [czzSettingsCentre sharedInstance];
     [[czzForumManager sharedManager] updateForums:nil];
