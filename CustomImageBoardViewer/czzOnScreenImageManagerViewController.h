@@ -19,8 +19,8 @@
 
 @interface czzOnScreenImageManagerViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UIImageView *mainIcon;
-@property (weak, nonatomic) IBOutlet UIView *mainIconContainer;
+@property (weak, nonatomic) UIImageView *mainIcon;
+@property (weak, nonatomic) UIView *mainIconContainer;
 @property (weak, nonatomic) id<czzOnScreenImageManagerViewControllerDelegate> delegate;
 
 - (IBAction)tapOnImageManagerIconAction:(id)sender;

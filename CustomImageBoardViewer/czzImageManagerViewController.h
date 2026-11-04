@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface czzImageManagerViewController : UICollectionViewController
-@property (strong, nonatomic) IBOutlet UISegmentedControl *gallarySegmentControl;
+@property (strong, nonatomic) UISegmentedControl *gallarySegmentControl;
 - (IBAction)gallarySegmentControlAction:(id)sender;
 
 @end

@@ -17,6 +17,8 @@
 
 #import <QuartzCore/QuartzCore.h>
 
+#import "czzShortImageManagerCollectionViewController.h"
+#import "CPAutoFillView.h"
 #import "UIView+SimpleBadge.h"
 
 @interface czzOnScreenImageManagerViewController () <czzImageDownloaderManagerDelegate, czzShortImageManagerCollectionViewControllerProtocol>
@@ -31,6 +33,38 @@
 @synthesize iconAnimating;
 @synthesize delegate;
 @synthesize isShowingShortImageManagerController;
+
+- (void)loadView {
+    CPAutoFillView *rootView = [[CPAutoFillView alloc] initWithFrame:CGRectMake(0, 0, 200, 120)];
+    rootView.backgroundColor = [UIColor clearColor];
+    self.view = rootView;
+
+    UIView *iconContainer = [[UIView alloc] init];
+    iconContainer.translatesAutoresizingMaskIntoConstraints = NO;
+    iconContainer.backgroundColor = [UIColor clearColor];
+    [rootView addSubview:iconContainer];
+    self.mainIconContainer = iconContainer;
+
+    UIImageView *iconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Icon.png"]];
+    iconView.translatesAutoresizingMaskIntoConstraints = NO;
+    iconView.contentMode = UIViewContentModeScaleAspectFit;
+    iconView.backgroundColor = [UIColor clearColor];
+    iconView.userInteractionEnabled = YES;
+    [iconView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnImageManagerIconAction:)]];
+    [iconContainer addSubview:iconView];
+    self.mainIcon = iconView;
+
+    [NSLayoutConstraint activateConstraints:@[
+        [iconContainer.centerXAnchor constraintEqualToAnchor:rootView.centerXAnchor],
+        [iconContainer.centerYAnchor constraintEqualToAnchor:rootView.centerYAnchor],
+        [iconView.topAnchor constraintEqualToAnchor:iconContainer.topAnchor],
+        [iconView.bottomAnchor constraintEqualToAnchor:iconContainer.bottomAnchor],
+        [iconView.leadingAnchor constraintEqualToAnchor:iconContainer.leadingAnchor],
+        [iconView.trailingAnchor constraintEqualToAnchor:iconContainer.trailingAnchor],
+        [iconView.widthAnchor constraintEqualToConstant:40],
+        [iconView.heightAnchor constraintEqualToConstant:40]
+    ]];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -69,6 +103,11 @@
 }
 
 - (IBAction)tapOnImageManagerIconAction:(id)sender {
+    czzShortImageManagerCollectionViewController *shortImageManager = [czzShortImageManagerCollectionViewController new];
+    shortImageManager.delegate = self;
+    self.unviewedImageCount = 0;
+    self.mainIconContainer.badgeView.badgeValue = 0;
+    [self presentViewController:shortImageManager animated:YES completion:nil];
 }
 
 -(void)startAnimating {
@@ -80,17 +119,6 @@
 -(void)stopAnimating {
     iconAnimating = NO;
     mainIcon.image = [UIImage imageNamed:@"Icon.png"];
-}
-
-#pragma mark - Prepare for segue
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.destinationViewController isKindOfClass:[czzShortImageManagerCollectionViewController class]]) {
-        [(czzShortImageManagerCollectionViewController *)segue.destinationViewController setDelegate:self];
-        // Reset unviewed images value.
-        self.unviewedImageCount =
-        self.mainIconContainer.badgeView.badgeValue = 0;
-    }
 }
 
 #pragma mark - czzImageDownloaderDelegate
@@ -151,6 +179,6 @@
 }
 
 + (instancetype)new {
-    return [[UIStoryboard storyboardWithName:@"ImageManagerStoryboard" bundle:nil] instantiateInitialViewController];
+    return [[self alloc] init];
 }
 @end

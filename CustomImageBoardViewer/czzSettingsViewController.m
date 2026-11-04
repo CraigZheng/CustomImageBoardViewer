@@ -20,6 +20,7 @@
 #import "czzTextSizeSelectorViewController.h"
 #import "czzThreadListUtilTableViewController.h"
 #import "czzFeedbackViewController.h"
+#import "czzImageManagerViewController.h"
 #import "czzURLHandler.h"
 
 static NSString *textSizeSelectorSegue = @"textSizeSelector";
@@ -206,8 +207,7 @@ static NSString *addMarkerSegue = @"AddMarker";
     NSString *command = [regularCommands objectAtIndex:indexPath.row];
     if ([command isEqualToString:@"图片管理器"]){
       //图片管理器
-      UIViewController *viewController = [[UIStoryboard storyboardWithName:@"ImageManagerStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:@"image_manager_view_controller"];
-      [self.navigationController pushViewController:viewController animated:YES];
+      [self.navigationController pushViewController:[czzImageManagerViewController new] animated:YES];
     } else if ([command isEqualToString:@"清除ID信息"]){
       //清除ID信息
       UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"清除ID信息" message:@"确定要清除所有ID信息？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];

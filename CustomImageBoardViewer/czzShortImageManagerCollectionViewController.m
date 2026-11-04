@@ -30,6 +30,86 @@ static NSString * const reuseIdentifier = @"Cell";
 static NSString *imageCellIdentifier = @"image_cell_identifier";
 static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
 
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.definesPresentationContext = YES;
+        self.providesPresentationContextTransitionStyle = YES;
+        self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        self.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    }
+    return self;
+}
+
+- (void)loadView {
+    UIView *rootView = [[UIView alloc] init];
+    rootView.backgroundColor = [UIColor clearColor];
+    self.view = rootView;
+
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.itemSize = CGSizeMake(90, 100);
+    layout.minimumLineSpacing = 10;
+    layout.minimumInteritemSpacing = 10;
+    layout.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
+    UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+    collectionView.translatesAutoresizingMaskIntoConstraints = NO;
+    collectionView.backgroundColor = [UIColor colorWithRed:0.937 green:0.937 blue:0.957 alpha:1];
+    collectionView.dataSource = self;
+    collectionView.delegate = self;
+    [collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:imageCellIdentifier];
+    [collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:downloadedImageCellIdentifier];
+    [rootView addSubview:collectionView];
+    self.managerCollectionView = collectionView;
+
+    UIView *emptyView = [[UIView alloc] init];
+    emptyView.translatesAutoresizingMaskIntoConstraints = NO;
+    emptyView.backgroundColor = [UIColor colorWithWhite:0.667 alpha:1];
+    [rootView addSubview:emptyView];
+    self.placeholderView = emptyView;
+
+    UIImageView *emptyImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"51.png"]];
+    emptyImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    emptyImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [emptyView addSubview:emptyImageView];
+
+    UILabel *emptyLabel = [[UILabel alloc] init];
+    emptyLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    emptyLabel.text = @"没有下载中的图片～";
+    emptyLabel.textAlignment = NSTextAlignmentCenter;
+    emptyLabel.font = [UIFont systemFontOfSize:14];
+    emptyLabel.textColor = [UIColor colorWithRed:0.6 green:0.4 blue:0.2 alpha:1];
+    [emptyView addSubview:emptyLabel];
+
+    UITapGestureRecognizer *backgroundTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnBackgroundViewAction:)];
+    backgroundTap.cancelsTouchesInView = NO;
+    [rootView addGestureRecognizer:backgroundTap];
+
+    UILayoutGuide *safeArea = rootView.safeAreaLayoutGuide;
+    NSLayoutConstraint *collectionHeight = [collectionView.heightAnchor constraintEqualToConstant:320];
+    collectionHeight.priority = 250;
+    [NSLayoutConstraint activateConstraints:@[
+        [collectionView.leadingAnchor constraintEqualToAnchor:rootView.leadingAnchor],
+        [collectionView.trailingAnchor constraintEqualToAnchor:rootView.trailingAnchor],
+        [collectionView.centerXAnchor constraintEqualToAnchor:rootView.centerXAnchor],
+        [collectionView.centerYAnchor constraintEqualToAnchor:rootView.centerYAnchor],
+        collectionHeight,
+        [collectionView.topAnchor constraintGreaterThanOrEqualToAnchor:safeArea.topAnchor constant:60],
+        [safeArea.bottomAnchor constraintGreaterThanOrEqualToAnchor:collectionView.bottomAnchor constant:60],
+
+        [emptyView.centerXAnchor constraintEqualToAnchor:rootView.centerXAnchor],
+        [emptyView.centerYAnchor constraintEqualToAnchor:rootView.centerYAnchor],
+        [emptyView.widthAnchor constraintEqualToConstant:160],
+        [emptyView.heightAnchor constraintEqualToConstant:132],
+        [emptyImageView.centerXAnchor constraintEqualToAnchor:emptyView.centerXAnchor],
+        [emptyImageView.centerYAnchor constraintEqualToAnchor:emptyView.centerYAnchor],
+        [emptyImageView.widthAnchor constraintEqualToConstant:80],
+        [emptyImageView.heightAnchor constraintEqualToConstant:80],
+        [emptyLabel.leadingAnchor constraintEqualToAnchor:emptyView.leadingAnchor constant:8],
+        [emptyLabel.trailingAnchor constraintEqualToAnchor:emptyView.trailingAnchor constant:-8],
+        [emptyView.bottomAnchor constraintEqualToAnchor:emptyLabel.bottomAnchor]
+    ]];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = settingCentre.transparentBackgroundColour;
@@ -106,6 +186,31 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:imageCellIdentifier forIndexPath:indexPath];
+        if ([cell viewWithTag:1] == nil) {
+            UIImageView *thumbnailView = [[UIImageView alloc] init];
+            thumbnailView.translatesAutoresizingMaskIntoConstraints = NO;
+            thumbnailView.tag = 1;
+            thumbnailView.contentMode = UIViewContentModeScaleAspectFit;
+            [cell.contentView addSubview:thumbnailView];
+            UILabel *progressLabel = [[UILabel alloc] init];
+            progressLabel.translatesAutoresizingMaskIntoConstraints = NO;
+            progressLabel.tag = 2;
+            progressLabel.textAlignment = NSTextAlignmentCenter;
+            progressLabel.font = [UIFont systemFontOfSize:12];
+            progressLabel.adjustsFontSizeToFitWidth = YES;
+            progressLabel.minimumScaleFactor = 0.5;
+            [cell.contentView addSubview:progressLabel];
+            [NSLayoutConstraint activateConstraints:@[
+                [thumbnailView.topAnchor constraintEqualToAnchor:cell.contentView.topAnchor],
+                [thumbnailView.leadingAnchor constraintEqualToAnchor:cell.contentView.leadingAnchor],
+                [thumbnailView.trailingAnchor constraintEqualToAnchor:cell.contentView.trailingAnchor],
+                [cell.contentView.bottomAnchor constraintEqualToAnchor:thumbnailView.bottomAnchor constant:20],
+                [progressLabel.topAnchor constraintEqualToAnchor:thumbnailView.bottomAnchor constant:2],
+                [progressLabel.leadingAnchor constraintEqualToAnchor:cell.contentView.leadingAnchor],
+                [progressLabel.trailingAnchor constraintEqualToAnchor:cell.contentView.trailingAnchor],
+                [cell.contentView.bottomAnchor constraintEqualToAnchor:progressLabel.bottomAnchor]
+            ]];
+        }
         
         UIImageView *downloaderThumbnailImageView = (UIImageView*) [cell viewWithTag:1];
         UILabel *downloaderLabel = (UILabel*) [cell viewWithTag:2];
@@ -123,6 +228,19 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
         return cell;
     } else {
         UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:downloadedImageCellIdentifier forIndexPath:indexPath];
+        if ([cell viewWithTag:1] == nil) {
+            UIImageView *thumbnailView = [[UIImageView alloc] init];
+            thumbnailView.translatesAutoresizingMaskIntoConstraints = NO;
+            thumbnailView.tag = 1;
+            thumbnailView.contentMode = UIViewContentModeScaleAspectFit;
+            [cell.contentView addSubview:thumbnailView];
+            [NSLayoutConstraint activateConstraints:@[
+                [thumbnailView.topAnchor constraintEqualToAnchor:cell.contentView.topAnchor],
+                [thumbnailView.bottomAnchor constraintEqualToAnchor:cell.contentView.bottomAnchor],
+                [thumbnailView.leadingAnchor constraintEqualToAnchor:cell.contentView.leadingAnchor],
+                [thumbnailView.trailingAnchor constraintEqualToAnchor:cell.contentView.trailingAnchor]
+            ]];
+        }
         
         UIImageView *thumbnailImageView = (UIImageView*) [cell viewWithTag:1];
         NSString *imgPath = [self.downloadedImages objectAtIndex:indexPath.row];
@@ -169,6 +287,6 @@ static NSString *downloadedImageCellIdentifier = @"downloaded_image_view_cell";
 }
 
 + (instancetype)new {
-    return [[UIStoryboard storyboardWithName:@"ImageManagerStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:SHORT_IMAGE_MANAGER_VIEW_CONTROLLER];
+    return [[self alloc] init];
 }
 @end

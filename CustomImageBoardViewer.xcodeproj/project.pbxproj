@@ -344,7 +344,6 @@
 		44397D7B1D697EE8005B44AA /* czzTextSizeSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44397D7A1D697EE8005B44AA /* czzTextSizeSelectorViewController.m */; };
 		443B54F319933C1F00BAB282 /* czzSettingsCentre.m in Sources */ = {isa = PBXBuildFile; fileRef = 443B54F219933C1F00BAB282 /* czzSettingsCentre.m */; };
 		44412975186E9B1000075AA2 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44412974186E9B1000075AA2 /* StoreKit.framework */; };
-		444146DA1A1ACA8700B27D69 /* ImageManagerStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 444146D91A1ACA8700B27D69 /* ImageManagerStoryboard.storyboard */; };
 		444146E21A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 444146E11A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.m */; };
 		4444DA3A1C7A915F00ED8568 /* running_reed.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4444DA391C7A915F00ED8568 /* running_reed.gif */; };
 		4444DA3D1C7A938700ED8568 /* czzPostSenderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4444DA3C1C7A938700ED8568 /* czzPostSenderManager.m */; };
@@ -1263,7 +1262,6 @@
 		443B54F119933C1F00BAB282 /* czzSettingsCentre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzSettingsCentre.h; sourceTree = "<group>"; };
 		443B54F219933C1F00BAB282 /* czzSettingsCentre.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzSettingsCentre.m; sourceTree = "<group>"; };
 		44412974186E9B1000075AA2 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		444146D91A1ACA8700B27D69 /* ImageManagerStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ImageManagerStoryboard.storyboard; sourceTree = "<group>"; };
 		444146E01A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzOnScreenImageManagerViewController.h; sourceTree = "<group>"; };
 		444146E11A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzOnScreenImageManagerViewController.m; sourceTree = "<group>"; };
 		4444DA391C7A915F00ED8568 /* running_reed.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = running_reed.gif; sourceTree = "<group>"; };
@@ -2699,7 +2697,6 @@
 			children = (
 				44B96E31185B8B8100D664A4 /* czzImageManagerViewController.h */,
 				44B96E32185B8B8100D664A4 /* czzImageManagerViewController.m */,
-				444146D91A1ACA8700B27D69 /* ImageManagerStoryboard.storyboard */,
 				444146E01A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.h */,
 				444146E11A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.m */,
 				44CF25731A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.h */,
@@ -4343,7 +4340,6 @@
 				B753612124AE278A000F562F /* reed-color90.png in Resources */,
 				4421C3461E7BF2DA00BD48C4 /* ac-new32.png in Resources */,
 				B753615524AE278A000F562F /* reed-color36.png in Resources */,
-				444146DA1A1ACA8700B27D69 /* ImageManagerStoryboard.storyboard in Resources */,
 				4421C3EF1E7BF2DA00BD48C4 /* reed-classic74.png in Resources */,
 				44C34551187E616500FDE45D /* czzEmojiCollectionViewController.xib in Resources */,
 				44CF25531A25A2A500BD8228 /* sent@2x.png in Resources */,

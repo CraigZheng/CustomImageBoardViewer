@@ -28,10 +28,24 @@
 @synthesize imageCategory;
 @synthesize imageViewerUtil;
 
+- (instancetype)init {
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.itemSize = CGSizeMake(103.5, 103.5);
+    layout.minimumLineSpacing = 0;
+    layout.minimumInteritemSpacing = 0;
+    self = [super initWithCollectionViewLayout:layout];
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"preview_image_cell_identifier"];
+    UISegmentedControl *categoryControl = [[UISegmentedControl alloc] initWithItems:@[@"大图", @"缩图", @"全部"]];
+    categoryControl.selectedSegmentIndex = 0;
+    [categoryControl addTarget:self action:@selector(gallarySegmentControlAction:) forControlEvents:UIControlEventValueChanged];
+    self.navigationItem.titleView = categoryControl;
+    self.gallarySegmentControl = categoryControl;
     self.collectionView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
     imageViewerUtil = [czzImageViewerUtil new];
     // Show all images.
@@ -65,6 +79,19 @@
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"preview_image_cell_identifier" forIndexPath:indexPath];
+    if ([cell viewWithTag:1] == nil) {
+        UIImageView *previewView = [[UIImageView alloc] init];
+        previewView.translatesAutoresizingMaskIntoConstraints = NO;
+        previewView.tag = 1;
+        previewView.contentMode = UIViewContentModeScaleAspectFit;
+        [cell.contentView addSubview:previewView];
+        [NSLayoutConstraint activateConstraints:@[
+            [previewView.topAnchor constraintEqualToAnchor:cell.contentView.topAnchor],
+            [previewView.bottomAnchor constraintEqualToAnchor:cell.contentView.bottomAnchor],
+            [previewView.leadingAnchor constraintEqualToAnchor:cell.contentView.leadingAnchor],
+            [previewView.trailingAnchor constraintEqualToAnchor:cell.contentView.trailingAnchor]
+        ]];
+    }
     NSURL *imageFileURL = [Images objectAtIndex:indexPath.row];
     if (cell && imageFileURL){
         UIImageView *previewImageView = (UIImageView*)[cell viewWithTag:1];
