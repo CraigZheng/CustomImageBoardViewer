@@ -36,7 +36,23 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"emotion_cell_identifier" forIndexPath:indexPath];
+    static NSString * const cellIdentifier = @"emotion_cell_identifier";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        UIImageView *emotionImageView = [[UIImageView alloc] init];
+        emotionImageView.translatesAutoresizingMaskIntoConstraints = NO;
+        emotionImageView.tag = 1;
+        emotionImageView.contentMode = UIViewContentModeScaleAspectFit;
+        [cell.contentView addSubview:emotionImageView];
+        [NSLayoutConstraint activateConstraints:@[
+            [emotionImageView.topAnchor constraintEqualToAnchor:cell.contentView.topAnchor],
+            [emotionImageView.bottomAnchor constraintEqualToAnchor:cell.contentView.bottomAnchor],
+            [emotionImageView.leadingAnchor constraintEqualToAnchor:cell.contentView.leadingAnchor],
+            [emotionImageView.trailingAnchor constraintEqualToAnchor:cell.contentView.trailingAnchor]
+        ]];
+    }
 
     if (cell) {
         UIImageView *emoImageView = (UIImageView*)[cell viewWithTag:1];

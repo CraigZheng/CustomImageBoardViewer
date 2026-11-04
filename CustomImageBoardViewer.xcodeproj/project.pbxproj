@@ -597,7 +597,6 @@
 		44E469DC1BAC421D00C0AACC /* czzWatchKitManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469DB1BAC421D00C0AACC /* czzWatchKitManager.m */; };
 		44E469E11BAD9B5000C0AACC /* czzWatchKitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E469E01BAD9B5000C0AACC /* czzWatchKitCommand.m */; };
 		44E744841C48815900CD4AF3 /* czzReplyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E744831C48815900CD4AF3 /* czzReplyUtil.m */; };
-		44E791811A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */; };
 		44E791CD1A17856500A63C04 /* advance.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918D1A17856500A63C04 /* advance.png */; };
 		44E791CE1A17856500A63C04 /* advance@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918E1A17856500A63C04 /* advance@2x.png */; };
 		44E791CF1A17856500A63C04 /* advance@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7918F1A17856500A63C04 /* advance@3x.png */; };
@@ -1593,7 +1592,6 @@
 		44E469E01BAD9B5000C0AACC /* czzWatchKitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWatchKitCommand.m; sourceTree = "<group>"; };
 		44E744821C48815900CD4AF3 /* czzReplyUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzReplyUtil.h; sourceTree = "<group>"; };
 		44E744831C48815900CD4AF3 /* czzReplyUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzReplyUtil.m; sourceTree = "<group>"; };
-		44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NotificationCentreStoryBoard.storyboard; sourceTree = "<group>"; };
 		44E7918D1A17856500A63C04 /* advance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = advance.png; sourceTree = "<group>"; };
 		44E7918E1A17856500A63C04 /* advance@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "advance@2x.png"; sourceTree = "<group>"; };
 		44E7918F1A17856500A63C04 /* advance@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "advance@3x.png"; sourceTree = "<group>"; };
@@ -3570,7 +3568,6 @@
 			children = (
 				5A88B83E1938AFDB00071343 /* czzNotificationCentreTableViewController.h */,
 				5A88B83F1938AFDB00071343 /* czzNotificationCentreTableViewController.m */,
-				44E791801A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard */,
 				5A26E77619398D7F00B709C9 /* czzNotificationBannerViewController.h */,
 				5A26E77719398D7F00B709C9 /* czzNotificationBannerViewController.m */,
 				5A6266A8193A17FF00AD949F /* czzNotificationDownloader.h */,
@@ -4055,7 +4052,6 @@
 				4421C3451E7BF2DA00BD48C4 /* ac-new31.png in Resources */,
 				4421C3801E7BF2DA00BD48C4 /* ac-new85.png in Resources */,
 				444F5B461A40EA3500EB391F /* 51.png in Resources */,
-				44E791811A17573C00A63C04 /* NotificationCentreStoryBoard.storyboard in Resources */,
 				4421C3A31E7BF2DA00BD48C4 /* reed-classic100.png in Resources */,
 				44E791E01A17856500A63C04 /* happy.png in Resources */,
 				4421C3A91E7BF2DA00BD48C4 /* reed-classic106.png in Resources */,

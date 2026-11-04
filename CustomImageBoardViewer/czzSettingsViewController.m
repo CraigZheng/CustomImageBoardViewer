@@ -19,6 +19,7 @@
 #import "czzWatchListManager.h"
 #import "czzTextSizeSelectorViewController.h"
 #import "czzThreadListUtilTableViewController.h"
+#import "czzFeedbackViewController.h"
 #import "czzURLHandler.h"
 
 static NSString *textSizeSelectorSegue = @"textSizeSelector";
@@ -212,11 +213,10 @@ static NSString *addMarkerSegue = @"AddMarker";
       UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"清除ID信息" message:@"确定要清除所有ID信息？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
       [alertView show];
     } else if ([command isEqualToString:@"意见反馈"]) {
-      UIViewController *feedbackViewController = [[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"feedback_view_controller"];
-      [self.navigationController pushViewController:feedbackViewController animated:YES];
+      [self.navigationController pushViewController:[czzFeedbackViewController new] animated:YES];
     }
     else if ([command isEqualToString:@"通知中心"]) {
-      czzNotificationCentreTableViewController *notificationCentreViewController = [[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
+      czzNotificationCentreTableViewController *notificationCentreViewController = [czzNotificationCentreTableViewController new];
       [self.navigationController pushViewController:notificationCentreViewController animated:YES];
     }
     else if ([command isEqualToString:@"清空缓存"]){

@@ -30,7 +30,7 @@
     [self applyAppearance];
 
     //notification banner view
-    notificationBannerViewController = (czzNotificationBannerViewController*) ([[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:nil] instantiateViewControllerWithIdentifier:@"notification_banner_view_controller"]);
+    notificationBannerViewController = [czzNotificationBannerViewController new];
     CGRect frame;
     frame = CGRectMake(0, 0, self.navigationBar.frame.size.width, self.navigationBar.frame.size.height);
     notificationBannerViewController.view.frame = frame;

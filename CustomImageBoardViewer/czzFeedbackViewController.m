@@ -24,6 +24,37 @@
 @synthesize contentTextView;
 @synthesize topController;
 
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.hidesBottomBarWhenPushed = YES;
+        self.edgesForExtendedLayout = UIRectEdgeBottom;
+    }
+    return self;
+}
+
+- (void)loadView {
+    UIView *rootView = [[UIView alloc] init];
+    self.view = rootView;
+
+    UITextView *textView = [[UITextView alloc] init];
+    textView.translatesAutoresizingMaskIntoConstraints = NO;
+    textView.font = [UIFont systemFontOfSize:14];
+    textView.backgroundColor = [UIColor whiteColor];
+    textView.text = @"我的联系方式是：";
+    textView.keyboardAppearance = UIKeyboardAppearanceAlert;
+    [rootView addSubview:textView];
+    self.contentTextView = textView;
+
+    UILayoutGuide *safeArea = rootView.safeAreaLayoutGuide;
+    [NSLayoutConstraint activateConstraints:@[
+        [textView.leadingAnchor constraintEqualToAnchor:rootView.leadingAnchor],
+        [textView.trailingAnchor constraintEqualToAnchor:rootView.trailingAnchor],
+        [textView.topAnchor constraintEqualToAnchor:safeArea.topAnchor],
+        [textView.bottomAnchor constraintEqualToAnchor:safeArea.bottomAnchor]
+    ]];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -179,6 +210,6 @@
 }
 
 + (instancetype)new {
-    return [[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:nil] instantiateViewControllerWithIdentifier:@"feedback_view_controller"];
+    return [[self alloc] init];
 }
 @end

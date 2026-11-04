@@ -15,6 +15,7 @@
 #import "czzImageDownloader.h"
 #import "czzFeedbackViewController.h"
 #import "czzURLHandler.h"
+#import "czzNoSelectionTextView.h"
 
 @interface czzNotificationCentreTableViewController ()<UIDocumentInteractionControllerDelegate, UIActionSheetDelegate>
 @property czzNotificationManager *notificationManager;
@@ -36,6 +37,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = @"通知中心";
+    self.hidesBottomBarWhenPushed = YES;
     imageFolder = [czzAppDelegate libraryFolder];
     imageFolder = [imageFolder stringByAppendingPathComponent:@"Thumbnails"];
 
@@ -102,7 +105,38 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"notification_text_cell_identifier" forIndexPath:indexPath];
+    static NSString * const cellIdentifier = @"notification_text_cell_identifier";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        UILabel *titleLabel = [[UILabel alloc] init];
+        titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        titleLabel.tag = 1;
+        titleLabel.font = [UIFont systemFontOfSize:10];
+        titleLabel.textColor = [UIColor colorWithRed:0.6 green:0.4 blue:0.2 alpha:1];
+        [cell.contentView addSubview:titleLabel];
+
+        czzNoSelectionTextView *bodyView = [[czzNoSelectionTextView alloc] init];
+        bodyView.translatesAutoresizingMaskIntoConstraints = NO;
+        bodyView.tag = 2;
+        bodyView.scrollEnabled = NO;
+        bodyView.editable = NO;
+        bodyView.userInteractionEnabled = NO;
+        bodyView.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
+        bodyView.dataDetectorTypes = UIDataDetectorTypeLink;
+        bodyView.textContainerInset = UIEdgeInsetsZero;
+        bodyView.textContainer.lineFragmentPadding = 0;
+        [cell.contentView addSubview:bodyView];
+
+        [NSLayoutConstraint activateConstraints:@[
+            [titleLabel.topAnchor constraintEqualToAnchor:cell.contentView.topAnchor constant:1],
+            [titleLabel.leadingAnchor constraintEqualToAnchor:cell.contentView.leadingAnchor constant:3],
+            [bodyView.topAnchor constraintEqualToAnchor:cell.contentView.topAnchor constant:13],
+            [bodyView.leadingAnchor constraintEqualToAnchor:cell.contentView.leadingAnchor],
+            [bodyView.trailingAnchor constraintEqualToAnchor:cell.contentView.trailingAnchor],
+            [cell.contentView.bottomAnchor constraintEqualToAnchor:bodyView.bottomAnchor constant:2]
+        ]];
+    }
     
     // Configure the cell...
     czzNotification *notification = [notifications objectAtIndex:indexPath.row];
@@ -234,4 +268,9 @@
     [self showDocumentController:[notification.userInfo objectForKey:@"FilePath"]];
 
 }
+
++ (instancetype)new {
+    return [[self alloc] initWithStyle:UITableViewStylePlain];
+}
+
 @end

@@ -15,9 +15,9 @@
 #import "czzNotification.h"
 
 @interface czzNotificationBannerViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UIButton *dismissButton;
-@property (weak, nonatomic) IBOutlet UIImageView *statusIcon;
-@property (weak, nonatomic) IBOutlet UILabel *headerLabel;
+@property (weak, nonatomic) UIButton *dismissButton;
+@property (weak, nonatomic) UIImageView *statusIcon;
+@property (weak, nonatomic) UILabel *headerLabel;
 @property CGFloat constantHeight;
 @property (weak, nonatomic) UIView *parentView;
 @property (strong, nonatomic) UINavigationController *homeViewController;//to provide access to navigation controller and story board
@@ -26,7 +26,7 @@
 @property (nonatomic) BOOL needsToBePresented;
 @property NSTimeInterval notificationDownloadInterval;
 @property NSTimeInterval textUpdateInterval;
-@property (weak, nonatomic) IBOutlet UIButton *numberButton;
+@property (weak, nonatomic) UIButton *numberButton;
 
 - (IBAction)dismissAction:(id)sender;
 - (IBAction)tapOnViewAction:(id)sender;

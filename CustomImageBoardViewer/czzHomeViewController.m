@@ -253,7 +253,7 @@
 }
 
 -(void)openNotificationCentre {
-    czzNotificationCentreTableViewController *notificationCentreViewController = [[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
+    czzNotificationCentreTableViewController *notificationCentreViewController = [czzNotificationCentreTableViewController new];
     [self.navigationController pushViewController:notificationCentreViewController animated:YES];
 }
 

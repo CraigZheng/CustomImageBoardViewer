@@ -14,5 +14,5 @@
 @interface czzFeedbackViewController : UIViewController
 @property czzFeedback *myFeedback;
 @property czzNotification *myNotification;
-@property (strong, nonatomic) IBOutlet UITextView *contentTextView;
+@property (strong, nonatomic) UITextView *contentTextView;
 @end

@@ -43,6 +43,69 @@
 @synthesize numberButton;
 @synthesize homeViewController;
 
+- (void)loadView {
+    UIView *rootView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 60)];
+    rootView.backgroundColor = [UIColor whiteColor];
+    self.view = rootView;
+
+    UIView *container = [[UIView alloc] init];
+    container.translatesAutoresizingMaskIntoConstraints = NO;
+    container.backgroundColor = [UIColor systemGroupedBackgroundColor];
+    [rootView addSubview:container];
+
+    UIButton *countButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    countButton.translatesAutoresizingMaskIntoConstraints = NO;
+    countButton.hidden = YES;
+    countButton.userInteractionEnabled = NO;
+    countButton.backgroundColor = [UIColor colorWithRed:1 green:0.680 blue:0.069 alpha:1];
+    countButton.titleLabel.font = [UIFont systemFontOfSize:14];
+    [countButton setTitle:@"99" forState:UIControlStateNormal];
+    [countButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [container addSubview:countButton];
+    self.numberButton = countButton;
+
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    titleLabel.text = @"error";
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.font = [UIFont systemFontOfSize:17];
+    [container addSubview:titleLabel];
+    self.headerLabel = titleLabel;
+
+    UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    closeButton.translatesAutoresizingMaskIntoConstraints = NO;
+    closeButton.contentMode = UIViewContentModeScaleAspectFit;
+    closeButton.imageEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10);
+    [closeButton setImage:[UIImage imageNamed:@"delete.png"] forState:UIControlStateNormal];
+    [closeButton addTarget:self action:@selector(dismissAction:) forControlEvents:UIControlEventTouchUpInside];
+    [container addSubview:closeButton];
+    self.dismissButton = closeButton;
+
+    [rootView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnViewAction:)]];
+
+    [NSLayoutConstraint activateConstraints:@[
+        [container.topAnchor constraintEqualToAnchor:rootView.topAnchor],
+        [container.bottomAnchor constraintEqualToAnchor:rootView.bottomAnchor],
+        [container.leadingAnchor constraintEqualToAnchor:rootView.leadingAnchor],
+        [container.trailingAnchor constraintEqualToAnchor:rootView.trailingAnchor],
+
+        [countButton.leadingAnchor constraintEqualToAnchor:container.leadingAnchor constant:5],
+        [countButton.topAnchor constraintEqualToAnchor:container.topAnchor constant:8],
+        [container.bottomAnchor constraintEqualToAnchor:countButton.bottomAnchor constant:8],
+        [countButton.widthAnchor constraintEqualToAnchor:countButton.heightAnchor],
+
+        [titleLabel.leadingAnchor constraintEqualToAnchor:countButton.trailingAnchor],
+        [titleLabel.topAnchor constraintEqualToAnchor:container.topAnchor],
+        [titleLabel.bottomAnchor constraintEqualToAnchor:container.bottomAnchor],
+        [closeButton.leadingAnchor constraintEqualToAnchor:titleLabel.trailingAnchor],
+
+        [closeButton.topAnchor constraintEqualToAnchor:container.topAnchor],
+        [closeButton.bottomAnchor constraintEqualToAnchor:container.bottomAnchor],
+        [container.trailingAnchor constraintEqualToAnchor:closeButton.trailingAnchor],
+        [closeButton.widthAnchor constraintEqualToAnchor:closeButton.heightAnchor]
+    ]];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -174,7 +237,7 @@
 - (IBAction)tapOnViewAction:(id)sender {
     DDLogDebug(@"tap on view");
     if (homeViewController) {
-        czzNotificationCentreTableViewController *notificationCentreViewController = [[UIStoryboard storyboardWithName:@"NotificationCentreStoryBoard" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"notification_centre_view_controller"];
+        czzNotificationCentreTableViewController *notificationCentreViewController = [czzNotificationCentreTableViewController new];
         notificationCentreViewController.currentNotification = currentNotification;
         notificationCentreViewController.notifications = notifications;
         
