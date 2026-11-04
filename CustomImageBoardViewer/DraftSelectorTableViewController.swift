@@ -60,11 +60,25 @@ class DraftSelectorTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch Section(rawValue: indexPath.section)! {
         case .drafts:
-            let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.draft, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.draft) ?? {
+                let created = UITableViewCell(style: .subtitle, reuseIdentifier: CellIdentifier.draft)
+                created.textLabel?.font = .systemFont(ofSize: 12)
+                created.detailTextLabel?.font = .systemFont(ofSize: 11)
+                created.detailTextLabel?.textColor = UIColor(white: 0.667, alpha: 1)
+                return created
+            }()
             cell.textLabel?.text = drafts[indexPath.row].0
             cell.detailTextLabel?.text = dateFormatter.string(from: drafts[indexPath.row].1)
             return cell
-        case .clear: return tableView.dequeueReusableCell(withIdentifier: CellIdentifier.clear, for: indexPath)
+        case .clear:
+            let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.clear) ?? {
+                let created = UITableViewCell(style: .default, reuseIdentifier: CellIdentifier.clear)
+                created.textLabel?.text = "清空"
+                created.textLabel?.textColor = .white
+                created.backgroundColor = .red
+                return created
+            }()
+            return cell
         }
     }
     

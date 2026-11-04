@@ -32,7 +32,6 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 
 static CGFloat compressScale = 0.9;
-static NSString *kDraftSelectorSegue = @"draftSelector";
 static NSString *kPostEmailKey = @"kPostEmailKey";
 static NSString *kPostNameKey = @"kPostNameKey";
 
@@ -44,14 +43,14 @@ static NSString *kPostNameKey = @"kPostNameKey";
 @property (nonatomic, weak) DraftSelectorTableViewController *draftSelectorViewController;
 @property (nonatomic, assign) BOOL didLayout;
 @property (strong, nonatomic) UIBarButtonItem *postButton;
-@property (weak, nonatomic) IBOutlet UIImageView *postImageView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *postTextViewBottomConstraint;
+@property (weak, nonatomic) UIImageView *postImageView;
+@property (strong, nonatomic) NSLayoutConstraint *postTextViewBottomConstraint;
 
 @property (nonatomic, strong) NSData *pickedImageData;
 @property (nonatomic, strong) UIBarButtonItem *keyboardBarButtonItem;
 @property (nonatomic, strong) NSString *pickedImageFormat;
-@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
-@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
+@property (weak, nonatomic) UITextField *nameTextField;
+@property (weak, nonatomic) UITextField *emailTextField;
 @property (strong, nonatomic) NSObject *observation;
 
 @end
@@ -64,9 +63,81 @@ static NSString *kPostNameKey = @"kPostNameKey";
 @synthesize postSender;
 @synthesize postMode;
 
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.hidesBottomBarWhenPushed = YES;
+        self.restorationIdentifier = @"post_view_controller";
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+    return self;
+}
+
+- (void)loadView {
+    UIView *rootView = [[UIView alloc] init];
+    rootView.backgroundColor = [UIColor whiteColor];
+    self.view = rootView;
+
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.translatesAutoresizingMaskIntoConstraints = NO;
+    imageView.userInteractionEnabled = NO;
+    imageView.alpha = 0.3;
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [rootView addSubview:imageView];
+    self.postImageView = imageView;
+
+    UITextField *nameField = [[UITextField alloc] init];
+    nameField.borderStyle = UITextBorderStyleRoundedRect;
+    nameField.placeholder = @"名字（选填）";
+    nameField.font = [UIFont systemFontOfSize:14];
+    nameField.clearButtonMode = UITextFieldViewModeAlways;
+    nameField.keyboardAppearance = UIKeyboardAppearanceAlert;
+    nameField.textContentType = UITextContentTypeName;
+    nameField.delegate = self;
+    self.nameTextField = nameField;
+
+    UITextField *emailField = [[UITextField alloc] init];
+    emailField.borderStyle = UITextBorderStyleRoundedRect;
+    emailField.placeholder = @"电邮地址（选填）";
+    emailField.font = [UIFont systemFontOfSize:14];
+    emailField.clearButtonMode = UITextFieldViewModeAlways;
+    emailField.keyboardAppearance = UIKeyboardAppearanceAlert;
+    emailField.textContentType = UITextContentTypeEmailAddress;
+    emailField.delegate = self;
+    self.emailTextField = emailField;
+
+    UITextView *textView = [[UITextView alloc] init];
+    textView.backgroundColor = [UIColor whiteColor];
+    textView.font = [UIFont systemFontOfSize:16];
+    textView.keyboardAppearance = UIKeyboardAppearanceAlert;
+    textView.delegate = self;
+    self.postTextView = textView;
+
+    UIStackView *stackView = [[UIStackView alloc] initWithArrangedSubviews:@[nameField, emailField, textView]];
+    stackView.translatesAutoresizingMaskIntoConstraints = NO;
+    stackView.axis = UILayoutConstraintAxisVertical;
+    [rootView addSubview:stackView];
+
+    NSLayoutConstraint *bottomConstraint = [rootView.safeAreaLayoutGuide.bottomAnchor constraintEqualToAnchor:stackView.bottomAnchor];
+    self.postTextViewBottomConstraint = bottomConstraint;
+    [NSLayoutConstraint activateConstraints:@[
+        [imageView.centerXAnchor constraintEqualToAnchor:rootView.centerXAnchor],
+        [imageView.centerYAnchor constraintEqualToAnchor:rootView.centerYAnchor],
+        [imageView.widthAnchor constraintEqualToAnchor:rootView.widthAnchor multiplier:0.8],
+        [imageView.heightAnchor constraintEqualToAnchor:rootView.heightAnchor multiplier:0.5],
+        [stackView.topAnchor constraintEqualToAnchor:rootView.safeAreaLayoutGuide.topAnchor],
+        [stackView.leadingAnchor constraintEqualToAnchor:rootView.leadingAnchor],
+        [stackView.trailingAnchor constraintEqualToAnchor:rootView.trailingAnchor],
+        bottomConstraint
+    ]];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = @"回复";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAction:)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"edit_file.png"] style:UIBarButtonItemStylePlain target:self action:@selector(showDraftSelector:)];
     // observe keyboard hide and show notifications to resize the text view appropriately
     [[NSNotificationCenter defaultCenter] addObserver:self
                                          selector:@selector(keyboardWillShow:)
@@ -86,7 +157,7 @@ static NSString *kPostNameKey = @"kPostNameKey";
     // If there're drafts available for selecting, show them here.
     if ([DraftManager count] && settingCentre.userDefShouldShowDraft) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self performSegueWithIdentifier:kDraftSelectorSegue sender:nil];
+            [self showDraftSelector:nil];
         });
     }
     if ([NSUserDefaults.standardUserDefaults stringForKey:kPostNameKey].length > 0) {
@@ -118,14 +189,17 @@ static NSString *kPostNameKey = @"kPostNameKey";
 
 #pragma mark - Prepare for segue
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:kDraftSelectorSegue] && [segue.destinationViewController isKindOfClass:[DraftSelectorTableViewController class]]) {
-        self.draftSelectorViewController = segue.destinationViewController;
-        self.draftSelectorViewController.popoverPresentationController.delegate = self;
-        self.draftSelectorViewController.popoverPresentationController.sourceView = self.view;
-        self.draftSelectorViewController.popoverPresentationController.sourceRect = self.view.bounds;
-        self.draftSelectorViewController.delegate = self;
-    }
+- (void)showDraftSelector:(id)sender {
+    DraftSelectorTableViewController *selector = [[DraftSelectorTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    selector.delegate = self;
+    selector.modalPresentationStyle = UIModalPresentationPopover;
+    selector.preferredContentSize = CGSizeMake(120, 180);
+    selector.popoverPresentationController.delegate = self;
+    selector.popoverPresentationController.sourceView = self.view;
+    selector.popoverPresentationController.sourceRect = self.view.bounds;
+    selector.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    self.draftSelectorViewController = selector;
+    [self presentViewController:selector animated:YES completion:nil];
 }
 
 #pragma marl - UIPopoverPresentationControllerDelegate.
@@ -654,7 +728,7 @@ static NSString *kPostNameKey = @"kPostNameKey";
 }
 
 + (instancetype)new {
-    return [[UIStoryboard storyboardWithName:@"PostView" bundle:nil] instantiateViewControllerWithIdentifier:@"post_view_controller"];
+    return [[self alloc] init];
 }
 
 @end
