@@ -25,7 +25,6 @@
                     <connections>
                         <segue destination="uzG-1F-bbs" kind="modal" identifier="showAddMarker" id="5gO-dM-ls1"/>
                         <segue destination="d2U-gt-Jkg" kind="push" identifier="FavouriteManager" id="Iwk-Fw-ENa"/>
-                        <segue destination="Rvr-eX-GdW" kind="modal" identifier="showAddForum" id="joB-Tt-egt"/>
                         <segue destination="JnF-wS-C9I" kind="relationship" relationship="rootViewController" id="Cg5-np-jSU"/>
                     </connections>
                 </navigationController>
@@ -904,14 +903,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z1R-sw-Qcg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2454" y="-492"/>
-        </scene>
-        <!--AddForum-->
-        <scene sceneID="XfB-a0-zaB">
-            <objects>
-                <viewControllerPlaceholder storyboardName="AddForum" id="Rvr-eX-GdW" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="JQS-as-HOE" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-2367" y="727"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

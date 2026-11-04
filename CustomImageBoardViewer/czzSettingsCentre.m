@@ -124,8 +124,7 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
                                                          encoding:NSUTF8StringEncoding];
             czzLaunchPopUpNotification *notification = [[czzLaunchPopUpNotification alloc] initWithJson:jsonString];
             if (notification) {
-              czzLaunchPopUpNotificationViewController *popUpViewController = [[UIStoryboard storyboardWithName:@"LaunchPopUpNotification"
-                                                                                                         bundle:[NSBundle mainBundle]] instantiateInitialViewController];
+              czzLaunchPopUpNotificationViewController *popUpViewController = [czzLaunchPopUpNotificationViewController new];
               popUpViewController.popUpNotification = notification;
               [popUpViewController tryShow];
             }

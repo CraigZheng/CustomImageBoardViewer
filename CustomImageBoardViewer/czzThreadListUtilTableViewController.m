@@ -21,6 +21,9 @@ NSString* const cellIdentifier = @"cellIdentifier";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.title = @"ThreadListUtil";
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Launch" style:UIBarButtonItemStylePlain target:self action:@selector(launchButtonAction:)];
+    self.toolbarItems = @[[[UIBarButtonItem alloc] initWithTitle:@"SAVE" style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonAction:)]];
     // Load data from threadCacheFolder
     NSError *error;
     cacheFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[czzAppDelegate threadCacheFolder] error:&error];
@@ -36,7 +39,10 @@ NSString* const cellIdentifier = @"cellIdentifier";
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
+    }
     NSString *cacheFile = [cacheFiles objectAtIndex:indexPath.row];
     // Configure the cell...
     if (cell) {

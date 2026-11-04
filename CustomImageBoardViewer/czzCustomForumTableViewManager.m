@@ -8,6 +8,7 @@
 
 #import "czzCustomForumTableViewManager.h"
 
+#import "czzAddForumTableViewController.h"
 #import "czzForum.h"
 #import "czzForumManager.h"
 #import "czzSettingsCentre.h"
@@ -39,7 +40,11 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:kForumPickedNotification object:self userInfo:userInfo];
         [[SlideNavigationController sharedInstance] closeMenuWithCompletion:nil];
     } else {
-        [NavigationManager.delegate performSegueWithIdentifier:@"showAddForum" sender:nil];
+        czzAddForumTableViewController *addForumViewController = [[czzAddForumTableViewController alloc] initWithStyle:UITableViewStylePlain];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:addForumViewController];
+        navigationController.definesPresentationContext = YES;
+        navigationController.toolbarHidden = NO;
+        [NavigationManager.delegate presentViewController:navigationController animated:YES completion:nil];
     }
 }
 

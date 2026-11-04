@@ -18,6 +18,7 @@
 #import "czzHomeViewManager.h"
 #import "czzWatchListManager.h"
 #import "czzTextSizeSelectorViewController.h"
+#import "czzThreadListUtilTableViewController.h"
 #import "czzURLHandler.h"
 
 static NSString *textSizeSelectorSegue = @"textSizeSelector";
@@ -229,13 +230,11 @@ static NSString *addMarkerSegue = @"AddMarker";
     } else if ([command isEqualToString:@"饼干管理器"]) {
       [self.navigationController pushViewController:[czzCookieManagerViewController new] animated:YES];
     } else if ([command isEqualToString:@"LAUNCH UTILITY"]) {
-      UIViewController *utilityViewContorller = [[UIStoryboard storyboardWithName:@"Utility" bundle:nil] instantiateInitialViewController];
-      if (utilityViewContorller) {
-        AppDelegate.window.rootViewController = utilityViewContorller;
-        [AppDelegate.window makeKeyAndVisible];
-      } else {
-        DDLogDebug(@"Utility view contorller nil, cannot instantiate from Utility storyboard file.");
-      }
+      czzThreadListUtilTableViewController *utilityViewController = [[czzThreadListUtilTableViewController alloc] initWithStyle:UITableViewStylePlain];
+      UINavigationController *utilityNavigationController = [[UINavigationController alloc] initWithRootViewController:utilityViewController];
+      utilityNavigationController.toolbarHidden = NO;
+      AppDelegate.window.rootViewController = utilityNavigationController;
+      [AppDelegate.window makeKeyAndVisible];
     } else if ([command isEqualToString:@"WATCHLIST"]) {
       
     } else if ([command isEqualToString:@"作者主页"]) {
