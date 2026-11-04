@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import iOS_Slide_Menu
 
 extension czzURLHandler {
     private enum CustomURL {

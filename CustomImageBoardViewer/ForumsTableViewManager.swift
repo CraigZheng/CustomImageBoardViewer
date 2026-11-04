@@ -8,8 +8,6 @@
 
 import UIKit
 
-import iOS_Slide_Menu
-
 class ForumsTableViewManager: NSObject {
     @objc var forumGroups: [czzForumGroup] = []
 }

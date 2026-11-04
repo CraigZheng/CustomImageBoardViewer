@@ -13,7 +13,7 @@
 #import "czzSettingsCentre.h"
 #import "czzForumsViewController.h"
 
-@import iOS_Slide_Menu;
+#import "SlideNavigationController.h"
 
 @implementation czzCustomForumTableViewManager
 

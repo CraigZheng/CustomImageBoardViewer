@@ -4,7 +4,6 @@ platform :ios, '15.0'
 use_frameworks!
 
 target 'CustomImageBoardViewer' do
-pod 'iOS-Slide-Menu', :git => 'https://github.com/CraigZheng/iOS-Slide-Menu.git', :branch => 'master'
 pod 'PureLayout'
 pod 'CocoaLumberjack', '~> 3.10'
 pod 'SwiftMessages', '~> 10.0'
@@ -15,7 +14,6 @@ end
 
 target 'CustomImageBoardViewerTests' do
 pod 'CocoaLumberjack', '~> 3.10'
-pod 'iOS-Slide-Menu', :git => 'https://github.com/CraigZheng/iOS-Slide-Menu.git', :branch => 'master'
 end
 
 post_install do |installer|

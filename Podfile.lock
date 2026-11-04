@@ -3,7 +3,6 @@ PODS:
     - CocoaLumberjack/Core (= 3.10.0)
   - CocoaLumberjack/Core (3.10.0)
   - DACircularProgress (2.3.1)
-  - iOS-Slide-Menu (1.5)
   - MBProgressHUD (1.2.0)
   - PureLayout (3.1.9)
   - SwiftMessages (10.0.2):
@@ -14,7 +13,6 @@ PODS:
 DEPENDENCIES:
   - CocoaLumberjack (~> 3.10)
   - DACircularProgress (~> 2.3)
-  - iOS-Slide-Menu (from `https://github.com/CraigZheng/iOS-Slide-Menu.git`, branch `master`)
   - MBProgressHUD (~> 1.2)
   - PureLayout
   - SwiftMessages (~> 10.0)
@@ -29,25 +27,14 @@ SPEC REPOS:
     - SwiftMessages
     - TTTAttributedLabel
 
-EXTERNAL SOURCES:
-  iOS-Slide-Menu:
-    :branch: master
-    :git: https://github.com/CraigZheng/iOS-Slide-Menu.git
-
-CHECKOUT OPTIONS:
-  iOS-Slide-Menu:
-    :commit: da00ce6ccf371cd37ec957fe62354d9bc1b159d8
-    :git: https://github.com/CraigZheng/iOS-Slide-Menu.git
-
 SPEC CHECKSUMS:
   CocoaLumberjack: 12545b2899dcaeec69b82c27b174042259c1ec27
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
-  iOS-Slide-Menu: 40b0cbd8916c42afc755f0869793cd09e7a32102
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
   PureLayout: 5fb5e5429519627d60d079ccb1eaa7265ce7cf88
   SwiftMessages: bfefe945bc05ce7cd328303d53d0d1849e29109d
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
 
-PODFILE CHECKSUM: ec593d3816ccf2c86c9718a73f507181ca3bbed8
+PODFILE CHECKSUM: b12530fe2a307aadf52f0e498d9126af875821c4
 
 COCOAPODS: 1.16.2
