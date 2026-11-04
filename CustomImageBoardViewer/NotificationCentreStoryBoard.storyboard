@@ -104,10 +104,12 @@
                                             <color key="textColor" red="0.80000000000000004" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <view hidden="YES" userInteractionEnabled="NO" alpha="0.89999997615814209" tag="4" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6rO-7R-54F" customClass="DACircularProgressView">
-                                            <rect key="frame" x="35" y="54" width="50" height="50"/>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                        </view>
+                                        <progressView hidden="YES" opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="6rO-7R-54F">
+                                            <rect key="frame" x="35" y="54" width="50" height="2"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="4" id="dac-prog-h"/>
+                                            </constraints>
+                                        </progressView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="xgQ-cR-4Hc" firstAttribute="top" secondItem="uVk-KY-arh" secondAttribute="top" constant="1" id="6Jg-h5-Vhl"/>

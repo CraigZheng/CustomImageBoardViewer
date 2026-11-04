@@ -14,7 +14,6 @@
 #import "czzImageDownloaderManager.h"
 #import "czzImageDownloader.h"
 #import "czzFeedbackViewController.h"
-#import "DACircularProgressView.h"
 #import "czzURLHandler.h"
 
 @interface czzNotificationCentreTableViewController ()<UIDocumentInteractionControllerDelegate, UIActionSheetDelegate>
@@ -216,19 +215,16 @@
         }
         if (updateIndex > -1){
             UITableViewCell *cellToUpdate = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:updateIndex inSection:0]];
-            DACircularProgressView *circularProgressView = (DACircularProgressView*)[cellToUpdate viewWithTag:4];
-            circularProgressView.progressTintColor = [UIColor whiteColor];
-            circularProgressView.trackTintColor = [UIColor grayColor];
-            circularProgressView.thicknessRatio = 0.1;
-            if (circularProgressView){
-                if (imgDownloader.progress < 1)
-                {
-                    circularProgressView.hidden = NO;
-                    circularProgressView.progress = imgDownloader.progress;
+            UIProgressView *progressView = (UIProgressView *)[cellToUpdate viewWithTag:4];
+            if ([progressView isKindOfClass:[UIProgressView class]]) {
+                progressView.progressTintColor = [UIColor whiteColor];
+                progressView.trackTintColor = [UIColor grayColor];
+                if (imgDownloader.progress < 1) {
+                    progressView.hidden = NO;
+                    progressView.progress = imgDownloader.progress;
                 } else {
-                    circularProgressView.hidden = YES;
+                    progressView.hidden = YES;
                 }
-                [circularProgressView setNeedsDisplay];
             }
         }
     }
