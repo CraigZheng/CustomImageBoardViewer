@@ -15,15 +15,15 @@
 
 @class czzThreadTableView;
 @interface czzOnScreenCommandViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UIButton *upperButton;
-@property (weak, nonatomic) IBOutlet UIButton *bottomButton;
+@property (weak, nonatomic) UIButton *upperButton;
+@property (weak, nonatomic) UIButton *bottomButton;
 
 @property (weak, nonatomic) czzThreadTableView<czzOnScreenCommandViewControllerDelegate> *delegate;
 
 @property CGSize size;
 @property NSTimeInterval timeoutInterval;
-- (IBAction)upButtonAction:(id)sender;
-- (IBAction)bottomButtonAction:(id)sender;
+- (void)upButtonAction:(id)sender;
+- (void)bottomButtonAction:(id)sender;
 
 -(void)show;
 -(void)hide;

@@ -22,6 +22,40 @@
 @synthesize timeoutTimer;
 @synthesize size;
 
+- (void)loadView {
+    UIView *rootView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 60, 120)];
+    rootView.backgroundColor = [UIColor whiteColor];
+    self.view = rootView;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+
+    UIButton *upButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    upButton.translatesAutoresizingMaskIntoConstraints = NO;
+    upButton.backgroundColor = [UIColor systemGroupedBackgroundColor];
+    [upButton setImage:[UIImage imageNamed:@"collapse_arrow.png"] forState:UIControlStateNormal];
+    [upButton addTarget:self action:@selector(upButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [rootView addSubview:upButton];
+    self.upperButton = upButton;
+
+    UIButton *downButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    downButton.translatesAutoresizingMaskIntoConstraints = NO;
+    downButton.backgroundColor = [UIColor systemGroupedBackgroundColor];
+    [downButton setImage:[UIImage imageNamed:@"expand_arrow.png"] forState:UIControlStateNormal];
+    [downButton addTarget:self action:@selector(bottomButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [rootView addSubview:downButton];
+    self.bottomButton = downButton;
+
+    [NSLayoutConstraint activateConstraints:@[
+        [upButton.topAnchor constraintEqualToAnchor:rootView.topAnchor],
+        [upButton.leadingAnchor constraintEqualToAnchor:rootView.leadingAnchor],
+        [upButton.trailingAnchor constraintEqualToAnchor:rootView.trailingAnchor],
+        [upButton.heightAnchor constraintEqualToConstant:50],
+        [downButton.leadingAnchor constraintEqualToAnchor:rootView.leadingAnchor],
+        [downButton.trailingAnchor constraintEqualToAnchor:rootView.trailingAnchor],
+        [downButton.bottomAnchor constraintEqualToAnchor:rootView.bottomAnchor],
+        [downButton.heightAnchor constraintEqualToConstant:50]
+    ]];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -47,13 +81,13 @@
     layer.shadowColor = [UIColor darkGrayColor].CGColor;
 }
 
-- (IBAction)upButtonAction:(id)sender {
+- (void)upButtonAction:(id)sender {
     [self.delegate onScreenCommandTapOnUp:self];
     [self updateTimer];
 
 }
 
-- (IBAction)bottomButtonAction:(id)sender {
+- (void)bottomButtonAction:(id)sender {
     [self.delegate onScreenCommandTapOnDown:self];
     [self updateTimer];
 }
@@ -134,7 +168,7 @@
 }
 
 +(instancetype)new {
-    return [[UIStoryboard storyboardWithName:@"OnScreenCommand" bundle:nil] instantiateInitialViewController];
+    return [[self alloc] init];
 }
 
 @end

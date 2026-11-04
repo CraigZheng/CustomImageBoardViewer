@@ -14,14 +14,36 @@
 #import "czzReplyUtil.h"
 #import "czzBannerNotificationUtil.h"
 #import "czzCookieManagerViewController.h"
+#import "CPAutoFillView.h"
 #import "CustomImageBoardViewer-Swift.h"
 
 @interface czzPostSenderManagerViewController ()<czzPostSenderManagerDelegate, UIAlertViewDelegate>
-@property (weak, nonatomic) IBOutlet UIImageView *indicatorImageView;
+@property (weak, nonatomic) UIImageView *indicatorImageView;
 @property (strong, nonatomic) czzPostViewController *lastPostViewController;
 @end
 
 @implementation czzPostSenderManagerViewController
+
+- (void)loadView {
+  CPAutoFillView *rootView = [[CPAutoFillView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+  rootView.backgroundColor = [UIColor clearColor];
+  self.view = rootView;
+
+  UIImageView *imageView = [[UIImageView alloc] init];
+  imageView.translatesAutoresizingMaskIntoConstraints = NO;
+  imageView.contentMode = UIViewContentModeScaleAspectFit;
+  imageView.userInteractionEnabled = YES;
+  [imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnIndicatorView:)]];
+  [rootView addSubview:imageView];
+  self.indicatorImageView = imageView;
+
+  [NSLayoutConstraint activateConstraints:@[
+    [imageView.centerXAnchor constraintEqualToAnchor:rootView.centerXAnchor],
+    [imageView.centerYAnchor constraintEqualToAnchor:rootView.centerYAnchor],
+    [imageView.widthAnchor constraintEqualToConstant:40],
+    [imageView.heightAnchor constraintEqualToConstant:40]
+  ]];
+}
 
 - (void)viewDidLoad {
   [super viewDidLoad];
@@ -209,8 +231,7 @@
 }
 
 + (instancetype)new {
-  return [[UIStoryboard storyboardWithName:@"PostSenderManager"
-                                    bundle:[NSBundle mainBundle]] instantiateInitialViewController];
+  return [[self alloc] init];
 }
 
 @end

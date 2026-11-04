@@ -350,7 +350,6 @@
 		444146E21A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 444146E11A1ACAE200B27D69 /* czzOnScreenImageManagerViewController.m */; };
 		4444DA3A1C7A915F00ED8568 /* running_reed.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4444DA391C7A915F00ED8568 /* running_reed.gif */; };
 		4444DA3D1C7A938700ED8568 /* czzPostSenderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4444DA3C1C7A938700ED8568 /* czzPostSenderManager.m */; };
-		4444DA3F1C7AA27200ED8568 /* PostSenderManager.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4444DA3E1C7AA27200ED8568 /* PostSenderManager.storyboard */; };
 		4444DA421C7AA2C900ED8568 /* czzPostSenderManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4444DA411C7AA2C900ED8568 /* czzPostSenderManagerViewController.m */; };
 		4446B5AE1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4446B5AD1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m */; };
 		4446B5AF1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4446B5AD1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m */; };
@@ -563,7 +562,6 @@
 		44CF25521A25A2A500BD8228 /* picture@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25461A25A2A500BD8228 /* picture@3x.png */; };
 		44CF25531A25A2A500BD8228 /* sent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25471A25A2A500BD8228 /* sent@2x.png */; };
 		44CF25541A25A2A500BD8228 /* sent@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25481A25A2A500BD8228 /* sent@3x.png */; };
-		44CF255F1A2699D000BD8228 /* OnScreenCommand.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44CF255E1A2699D000BD8228 /* OnScreenCommand.storyboard */; };
 		44CF25711A26F2E700BD8228 /* UIBarButtonItem+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CF256E1A26F2E700BD8228 /* UIBarButtonItem+Badge.m */; };
 		44CF25721A26F2E700BD8228 /* UIButton+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CF25701A26F2E700BD8228 /* UIButton+Badge.m */; };
 		44CF25751A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CF25741A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.m */; };
@@ -1280,7 +1278,6 @@
 		4444DA391C7A915F00ED8568 /* running_reed.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = running_reed.gif; sourceTree = "<group>"; };
 		4444DA3B1C7A938700ED8568 /* czzPostSenderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzPostSenderManager.h; sourceTree = "<group>"; };
 		4444DA3C1C7A938700ED8568 /* czzPostSenderManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzPostSenderManager.m; sourceTree = "<group>"; };
-		4444DA3E1C7AA27200ED8568 /* PostSenderManager.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PostSenderManager.storyboard; sourceTree = "<group>"; };
 		4444DA401C7AA2C900ED8568 /* czzPostSenderManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzPostSenderManagerViewController.h; sourceTree = "<group>"; };
 		4444DA411C7AA2C900ED8568 /* czzPostSenderManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzPostSenderManagerViewController.m; sourceTree = "<group>"; };
 		4446B5AC1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+NSCodingCompatibleObject.h"; sourceTree = "<group>"; };
@@ -1557,7 +1554,6 @@
 		44CF25461A25A2A500BD8228 /* picture@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "picture@3x.png"; sourceTree = "<group>"; };
 		44CF25471A25A2A500BD8228 /* sent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sent@2x.png"; sourceTree = "<group>"; };
 		44CF25481A25A2A500BD8228 /* sent@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sent@3x.png"; sourceTree = "<group>"; };
-		44CF255E1A2699D000BD8228 /* OnScreenCommand.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OnScreenCommand.storyboard; sourceTree = "<group>"; };
 		44CF256D1A26F2E700BD8228 /* UIBarButtonItem+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Badge.h"; sourceTree = "<group>"; };
 		44CF256E1A26F2E700BD8228 /* UIBarButtonItem+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Badge.m"; sourceTree = "<group>"; };
 		44CF256F1A26F2E700BD8228 /* UIButton+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Badge.h"; sourceTree = "<group>"; };
@@ -3161,7 +3157,6 @@
 			children = (
 				44BE2E3719383FEF00601943 /* czzOnScreenCommandViewController.h */,
 				44BE2E3819383FEF00601943 /* czzOnScreenCommandViewController.m */,
-				44CF255E1A2699D000BD8228 /* OnScreenCommand.storyboard */,
 			);
 			name = czzOnScreenCommand;
 			sourceTree = "<group>";
@@ -3540,7 +3535,6 @@
 				4444DA3C1C7A938700ED8568 /* czzPostSenderManager.m */,
 				4444DA401C7AA2C900ED8568 /* czzPostSenderManagerViewController.h */,
 				4444DA411C7AA2C900ED8568 /* czzPostSenderManagerViewController.m */,
-				4444DA3E1C7AA27200ED8568 /* PostSenderManager.storyboard */,
 			);
 			name = czzPostSenderManager;
 			sourceTree = "<group>";
@@ -4073,7 +4067,6 @@
 				B753613024AE278A000F562F /* reed-color97.png in Resources */,
 				449FF63E1D82FD250065BA08 /* chat@2x.png in Resources */,
 				444F5B3A1A40EA3500EB391F /* 39.png in Resources */,
-				44CF255F1A2699D000BD8228 /* OnScreenCommand.storyboard in Resources */,
 				444F5B261A40EA3500EB391F /* 19.png in Resources */,
 				444F5B221A40EA3500EB391F /* 15.png in Resources */,
 				B753611D24AE278A000F562F /* reed-color46.png in Resources */,
@@ -4352,7 +4345,6 @@
 				4421C3EE1E7BF2DA00BD48C4 /* reed-classic73.png in Resources */,
 				44C3455D187E774300FDE45D /* acfun_emoji_UTF16.txt in Resources */,
 				4432BA911AA88544002C66F5 /* thread list example.json in Resources */,
-				4444DA3F1C7AA27200ED8568 /* PostSenderManager.storyboard in Resources */,
 				4421C3791E7BF2DA00BD48C4 /* ac-new79.png in Resources */,
 				44E791F91A17856500A63C04 /* settings@2x.png in Resources */,
 				B753616024AE278A000F562F /* reed-color13.png in Resources */,
