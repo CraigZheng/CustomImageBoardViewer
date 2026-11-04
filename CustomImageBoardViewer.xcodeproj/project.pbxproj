@@ -572,10 +572,6 @@
 		44CF25531A25A2A500BD8228 /* sent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25471A25A2A500BD8228 /* sent@2x.png */; };
 		44CF25541A25A2A500BD8228 /* sent@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25481A25A2A500BD8228 /* sent@3x.png */; };
 		44CF255F1A2699D000BD8228 /* OnScreenCommand.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44CF255E1A2699D000BD8228 /* OnScreenCommand.storyboard */; };
-		44CF25671A26B4D000BD8228 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25611A26B4D000BD8228 /* .gitignore */; };
-		44CF25691A26B4D000BD8228 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 44CF25631A26B4D000BD8228 /* README.md */; };
-		44CF256A1A26B4D000BD8228 /* UIView+MGBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CF25651A26B4D000BD8228 /* UIView+MGBadgeView.m */; };
-		44CF256B1A26B4D000BD8228 /* UIView+MGBadgeView.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 44CF25661A26B4D000BD8228 /* UIView+MGBadgeView.podspec */; };
 		44CF25711A26F2E700BD8228 /* UIBarButtonItem+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CF256E1A26F2E700BD8228 /* UIBarButtonItem+Badge.m */; };
 		44CF25721A26F2E700BD8228 /* UIButton+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CF25701A26F2E700BD8228 /* UIButton+Badge.m */; };
 		44CF25751A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44CF25741A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.m */; };
@@ -686,6 +682,7 @@
 		44EE5A8720283A1200D87E5E /* CookieQRCodeShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44EE5A8620283A1200D87E5E /* CookieQRCodeShareViewController.swift */; };
 		44F0A0022EF2000100C1B001 /* PhotoBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F0A0012EF2000100C1B001 /* PhotoBrowserViewController.swift */; };
 		44F0A0122EF2000200C1B001 /* SlideNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F0A0142EF2000200C1B001 /* SlideNavigationController.m */; };
+		44F0A0222EF2000300C1B001 /* UIView+SimpleBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F0A0242EF2000300C1B001 /* UIView+SimpleBadge.m */; };
 		44F86B6B1C1BB505001306E8 /* ThreadContentPage2.json in Resources */ = {isa = PBXBuildFile; fileRef = 44F86B6A1C1BB505001306E8 /* ThreadContentPage2.json */; };
 		44F86B6C1C1BB505001306E8 /* ThreadContentPage2.json in Resources */ = {isa = PBXBuildFile; fileRef = 44F86B6A1C1BB505001306E8 /* ThreadContentPage2.json */; };
 		44FC4345180067CF0028D7C9 /* czzPostSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 44FC4344180067CF0028D7C9 /* czzPostSender.m */; };
@@ -1577,12 +1574,6 @@
 		44CF25471A25A2A500BD8228 /* sent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sent@2x.png"; sourceTree = "<group>"; };
 		44CF25481A25A2A500BD8228 /* sent@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sent@3x.png"; sourceTree = "<group>"; };
 		44CF255E1A2699D000BD8228 /* OnScreenCommand.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OnScreenCommand.storyboard; sourceTree = "<group>"; };
-		44CF25611A26B4D000BD8228 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		44CF25621A26B4D000BD8228 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		44CF25631A26B4D000BD8228 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		44CF25641A26B4D000BD8228 /* UIView+MGBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MGBadgeView.h"; sourceTree = "<group>"; };
-		44CF25651A26B4D000BD8228 /* UIView+MGBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MGBadgeView.m"; sourceTree = "<group>"; };
-		44CF25661A26B4D000BD8228 /* UIView+MGBadgeView.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "UIView+MGBadgeView.podspec"; sourceTree = "<group>"; };
 		44CF256D1A26F2E700BD8228 /* UIBarButtonItem+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Badge.h"; sourceTree = "<group>"; };
 		44CF256E1A26F2E700BD8228 /* UIBarButtonItem+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Badge.m"; sourceTree = "<group>"; };
 		44CF256F1A26F2E700BD8228 /* UIButton+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Badge.h"; sourceTree = "<group>"; };
@@ -1706,6 +1697,8 @@
 		44F0A0132EF2000200C1B001 /* SlideNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideNavigationController.h; sourceTree = "<group>"; };
 		44F0A0142EF2000200C1B001 /* SlideNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideNavigationController.m; sourceTree = "<group>"; };
 		44F0A0152EF2000200C1B001 /* SlideNavigationContorllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideNavigationContorllerAnimator.h; sourceTree = "<group>"; };
+		44F0A0232EF2000300C1B001 /* UIView+SimpleBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SimpleBadge.h"; sourceTree = "<group>"; };
+		44F0A0242EF2000300C1B001 /* UIView+SimpleBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SimpleBadge.m"; sourceTree = "<group>"; };
 		44F86B691C1BAC4C001306E8 /* CoustomImageBoardViewerTest.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoustomImageBoardViewerTest.pch; sourceTree = "<group>"; };
 		44F86B6A1C1BB505001306E8 /* ThreadContentPage2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ThreadContentPage2.json; sourceTree = "<group>"; };
 		44FC4343180067CF0028D7C9 /* czzPostSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzPostSender.h; sourceTree = "<group>"; };
@@ -1970,6 +1963,8 @@
 				44B05C1E1C62051F00F6F5E3 /* czzBannerView.xib */,
 				44CEF6301DD208C1002BA6E8 /* MessagePopup.swift */,
 				44F0A0012EF2000100C1B001 /* PhotoBrowserViewController.swift */,
+				44F0A0232EF2000300C1B001 /* UIView+SimpleBadge.h */,
+				44F0A0242EF2000300C1B001 /* UIView+SimpleBadge.m */,
 			);
 			name = BannerNotification;
 			sourceTree = "<group>";
@@ -3139,7 +3134,6 @@
 				4412FA161935865C00681438 /* Reachability */,
 				44B89E761A2AF3A90085F766 /* UIImage+animatedGIF */,
 				44CF256C1A26F2E700BD8228 /* UIBarButton-Badge */,
-				44CF25601A26B4D000BD8228 /* UIView-MGBadgeView-master */,
 				5A3897CA1935EC5A00D20DA1 /* NSString+HTML */,
 				442A900E19DB9BA600A3516E /* Objective-C-HMTL-Parser */,
 			);
@@ -3288,19 +3282,6 @@
 				44CBF3FF1BC9245300DFECFC /* czzCacheCleaner.m */,
 			);
 			name = CacheCleaner;
-			sourceTree = "<group>";
-		};
-		44CF25601A26B4D000BD8228 /* UIView-MGBadgeView-master */ = {
-			isa = PBXGroup;
-			children = (
-				44CF25611A26B4D000BD8228 /* .gitignore */,
-				44CF25621A26B4D000BD8228 /* LICENSE */,
-				44CF25631A26B4D000BD8228 /* README.md */,
-				44CF25641A26B4D000BD8228 /* UIView+MGBadgeView.h */,
-				44CF25651A26B4D000BD8228 /* UIView+MGBadgeView.m */,
-				44CF25661A26B4D000BD8228 /* UIView+MGBadgeView.podspec */,
-			);
-			path = "UIView-MGBadgeView-master";
 			sourceTree = "<group>";
 		};
 		44CF256C1A26F2E700BD8228 /* UIBarButton-Badge */ = {
@@ -4066,7 +4047,6 @@
 				4421C3841E7BF2DA00BD48C4 /* ac-new89.png in Resources */,
 				445C66421BBED3EF004B3E83 /* czzThreadViewCellHeaderView.xib in Resources */,
 				44E791F31A17856500A63C04 /* sad@2x.png in Resources */,
-				44CF25671A26B4D000BD8228 /* .gitignore in Resources */,
 				44E791FE1A17856500A63C04 /* sleeping.png in Resources */,
 				4421C31D1E7BF2DA00BD48C4 /* ac-classic44.png in Resources */,
 				44E791EA1A17856500A63C04 /* message@2x.png in Resources */,
@@ -4161,7 +4141,6 @@
 				444F5B311A40EA3500EB391F /* 30.png in Resources */,
 				4421C3E91E7BF2DA00BD48C4 /* reed-classic69.png in Resources */,
 				4421C3811E7BF2DA00BD48C4 /* ac-new86.png in Resources */,
-				44CF256B1A26B4D000BD8228 /* UIView+MGBadgeView.podspec in Resources */,
 				44E792061A17856500A63C04 /* star@3x.png in Resources */,
 				B753614324AE278A000F562F /* reed-color7.png in Resources */,
 				4421C3B71E7BF2DA00BD48C4 /* reed-classic23.png in Resources */,
@@ -4657,6 +4636,7 @@
 				44CEF6311DD208C1002BA6E8 /* MessagePopup.swift in Sources */,
 				44F0A0022EF2000100C1B001 /* PhotoBrowserViewController.swift in Sources */,
 				44F0A0122EF2000200C1B001 /* SlideNavigationController.m in Sources */,
+				44F0A0222EF2000300C1B001 /* UIView+SimpleBadge.m in Sources */,
 				4448C2AA180FF6C600D2CD76 /* czzBlacklistSender.m in Sources */,
 				44858EAC1A0C5B0A00DD822B /* czzImageViewerUtil.m in Sources */,
 				44989A291CFC5B7200F04ECD /* czzThreadSuggestion.m in Sources */,
@@ -4687,7 +4667,6 @@
 				445B7B561B418CE30046CFDB /* czzThreadTableViewCommandCellTableViewCell.m in Sources */,
 				440A62A01B8E90130046E4CE /* czzThreadViewCommandStatusCellViewController.m in Sources */,
 				44B89E841A2AFBE30085F766 /* UINavigationController+SGProgress.m in Sources */,
-				44CF25691A26B4D000BD8228 /* README.md in Sources */,
 				5A1593EC18E71E93001A774B /* czzThreadRefButton.m in Sources */,
 				44C34550187E616500FDE45D /* czzEmojiCollectionViewController.m in Sources */,
 				44B05C1D1C6204FE00F6F5E3 /* czzBannerView.m in Sources */,
@@ -4734,7 +4713,6 @@
 				44BFEF411B8C0D7B0095772B /* DeviceHardware.m in Sources */,
 				441E5CE817F4691300289DBD /* czzHomeViewController.m in Sources */,
 				5A2B2D941936264A00BA2870 /* czzFeedbackViewController.m in Sources */,
-				44CF256A1A26B4D000BD8228 /* UIView+MGBadgeView.m in Sources */,
 				4448C2A3180FF50F00D2CD76 /* czzBlacklistEntity.m in Sources */,
 				445C663F1BBEC4E0004B3E83 /* czzThreadViewCellHeaderView.m in Sources */,
 				4498B68D1993A6190014F73F /* PropertyUtil.m in Sources */,

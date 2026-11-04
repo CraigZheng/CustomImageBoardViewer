@@ -7,7 +7,6 @@
 //
 
 #import "czzShortImageManagerCollectionViewController.h"
-#import "UIView+MGBadgeView.h"
 #import "czzAppDelegate.h"
 #import "czzImageCacheManager.h"
 #import "czzImageDownloader.h"

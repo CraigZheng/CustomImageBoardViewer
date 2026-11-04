@@ -17,7 +17,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-#import "UIView+MGBadgeView.h"
+#import "UIView+SimpleBadge.h"
 
 @interface czzOnScreenImageManagerViewController () <czzImageDownloaderManagerDelegate, czzShortImageManagerCollectionViewControllerProtocol>
 @property (assign, nonatomic) BOOL iconAnimating;
