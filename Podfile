@@ -4,12 +4,13 @@ platform :ios, '15.0'
 use_frameworks!
 
 target 'CustomImageBoardViewer' do
-pod "MWPhotoBrowser", :git => 'https://github.com/CraigZheng/MWPhotoBrowser.git', :branch => 'master'
 pod 'iOS-Slide-Menu', :git => 'https://github.com/CraigZheng/iOS-Slide-Menu.git', :branch => 'master'
 pod 'PureLayout'
 pod 'CocoaLumberjack', '~> 3.10'
 pod 'SwiftMessages', '~> 10.0'
 pod 'TTTAttributedLabel'
+pod 'MBProgressHUD', '~> 1.2'
+pod 'DACircularProgress', '~> 2.3'
 end
 
 target 'CustomImageBoardViewerTests' do

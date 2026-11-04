@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-@class MWPhotoBrowser;
 @interface czzImageViewerUtil : NSObject
-@property MWPhotoBrowser *photoBrowser;
-@property NSMutableArray<NSURL *> *photoBrowserDataSource;
-@property UIDocumentInteractionController *documentInteractionController;
-@property UINavigationController *photoBrowserNavigationController;
+@property (nonatomic, strong) UIViewController *photoBrowser;
+@property (nonatomic, strong) NSMutableArray *photoBrowserDataSource;
+@property (nonatomic, strong) UIDocumentInteractionController *documentInteractionController;
+@property (nonatomic, strong) UINavigationController *photoBrowserNavigationController;
 @property (nonatomic, strong) UIViewController *destinationViewController;
 
 -(void)showPhoto:(NSURL*)photoPath;

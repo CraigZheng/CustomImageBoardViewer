@@ -10,8 +10,6 @@
 
 #import "czzImageDownloader.h"
 
-@import SDWebImage;
-
 @interface czzBigImageModeTableViewCell()
 @property (weak, nonatomic) IBOutlet UIImageView *bigImageView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bigImageViewHeightConstraint;

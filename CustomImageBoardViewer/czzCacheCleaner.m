@@ -94,16 +94,17 @@
             [self cleanCompleted];
         } else {
             MBProgressHUD *progressHub = [MBProgressHUD showHUDAddedTo:NavigationManager.delegate.view animated:YES];
+            progressHub.mode = MBProgressHUDModeDeterminate;
             __block NSInteger deletedFileCount = 0;
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                 for (NSURL *fileURL in self.toBeDeletedFileURLs) {
                     [[NSFileManager defaultManager] removeItemAtURL:fileURL error:nil];
                     deletedFileCount ++;
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        progressHub.progress = deletedFileCount / self.toBeDeletedFileURLs.count;
-                        progressHub.labelText = [NSString stringWithFormat:@"%lu/%lu files deleted...", deletedFileCount, (long)self.toBeDeletedFileURLs.count];
-                        if (deletedFileCount >= self.toBeDeletedFileURLs.count) {
-                            [progressHub hide:YES];
+                        progressHub.progress = (float)deletedFileCount / (float)self.toBeDeletedFileURLs.count;
+                        progressHub.label.text = [NSString stringWithFormat:@"%ld/%lu files deleted...", (long)deletedFileCount, (unsigned long)self.toBeDeletedFileURLs.count];
+                        if (deletedFileCount >= (NSInteger)self.toBeDeletedFileURLs.count) {
+                            [progressHub hideAnimated:YES];
                             [self cleanCompleted];
                             return;
                         }
