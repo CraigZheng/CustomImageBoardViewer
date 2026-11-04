@@ -184,7 +184,7 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
 
 - (czzBannerView *)bannerView {
     if (!_bannerView) {
-        _bannerView = [czzBannerView viewFromNib];
+        _bannerView = [[czzBannerView alloc] init];
         _bannerView.delegate = self;
     }
     return _bannerView;

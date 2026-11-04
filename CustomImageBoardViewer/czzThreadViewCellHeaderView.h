@@ -6,17 +6,16 @@
 //  Copyright © 2015 Craig. All rights reserved.
 //
 
-#import "CPLoadFromNibView.h"
+#import <UIKit/UIKit.h>
 #import "czzThread.h"
 
-IB_DESIGNABLE
-@interface czzThreadViewCellHeaderView : CPLoadFromNibView
+@interface czzThreadViewCellHeaderView : UIView
 
 @property (strong, nonatomic) czzThread *thread;
 @property (strong, nonatomic) NSString *parentUID;
 @property (strong, nonatomic) UIColor *highlightColour;
 @property (strong, nonatomic) NSString *nickname;
-@property (weak, nonatomic) IBOutlet UIButton *headerButton;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *headerButtonContainerViewHeightConstraint;
+@property (strong, nonatomic) UIButton *headerButton;
+@property (strong, nonatomic) NSLayoutConstraint *headerButtonContainerViewHeightConstraint;
 
 @end

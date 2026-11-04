@@ -6,11 +6,10 @@
 //  Copyright © 2015 Craig. All rights reserved.
 //
 
-#import "CPLoadFromNibView.h"
+#import <UIKit/UIKit.h>
 #import "czzThread.h"
 
-IB_DESIGNABLE
-@interface czzThreadViewCellFooterView : CPLoadFromNibView
+@interface czzThreadViewCellFooterView : UIView
 
 @property (strong, nonatomic) czzThread *thread;
 @property (assign, readonly) BOOL isHidden;

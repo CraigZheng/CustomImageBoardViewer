@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#import "CPLoadFromNibView.h"
-
 @class czzBannerView;
 @protocol czzBannerViewDelegate <NSObject>
 - (void)bannerViewDidTouch:(czzBannerView *)bannerView;
@@ -17,7 +15,7 @@
 
 @end
 
-@interface czzBannerView : CPLoadFromNibView
+@interface czzBannerView : UIView
 @property (nonatomic, weak) id<czzBannerViewDelegate> delegate;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, assign) BOOL allowCancel;
