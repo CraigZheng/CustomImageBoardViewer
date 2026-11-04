@@ -59,6 +59,7 @@
     
     _headerContainerView = [[UIView alloc] init];
     _headerContainerView.translatesAutoresizingMaskIntoConstraints = NO;
+    _headerContainerView.clipsToBounds = YES;
     [_headerContainerView addSubview:_headerButton];
     
     _headerStackView = [[UIStackView alloc] initWithArrangedSubviews:@[_headerContainerView]];
@@ -105,13 +106,16 @@
     _dateBottomPaddingConstraint = [self.bottomAnchor constraintGreaterThanOrEqualToAnchor:_dateLabel.bottomAnchor constant:4];
     _dateBottomPaddingConstraint.priority = UILayoutPriorityRequired;
     
+    NSLayoutConstraint *headerButtonHeight = [_headerButton.heightAnchor constraintEqualToConstant:30];
+    headerButtonHeight.priority = UILayoutPriorityDefaultHigh;
+    
     [NSLayoutConstraint activateConstraints:@[
         [_headerStackView.topAnchor constraintEqualToAnchor:self.topAnchor],
         [_headerStackView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:20],
         [_headerStackView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-20],
         
-        [_headerButton.topAnchor constraintEqualToAnchor:_headerContainerView.topAnchor constant:8],
-        [_headerButton.bottomAnchor constraintEqualToAnchor:_headerContainerView.bottomAnchor constant:-8],
+        [_headerButton.centerYAnchor constraintEqualToAnchor:_headerContainerView.centerYAnchor],
+        headerButtonHeight,
         [_headerButton.leadingAnchor constraintEqualToAnchor:_headerContainerView.leadingAnchor],
         [_headerButton.trailingAnchor constraintEqualToAnchor:_headerContainerView.trailingAnchor],
         _headerButtonContainerViewHeightConstraint,

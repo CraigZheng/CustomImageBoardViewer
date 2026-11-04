@@ -17,6 +17,9 @@
 -(void)awakeFromNib {
     [super awakeFromNib];
     self.contentView.backgroundColor = [settingCentre viewBackgroundColour];
+    NSLayoutConstraint *minHeight = [self.contentView.heightAnchor constraintGreaterThanOrEqualToConstant:44];
+    minHeight.priority = UILayoutPriorityDefaultHigh;
+    minHeight.active = YES;
 }
 
 #pragma mark - Setters
@@ -26,7 +29,16 @@
         for (UIView *subView in self.contentView.subviews) {
             [subView removeFromSuperview];
         }
-        [self.contentView addSubview:_commandStatusViewController.view];
+        if (_commandStatusViewController.view) {
+            _commandStatusViewController.view.translatesAutoresizingMaskIntoConstraints = NO;
+            [self.contentView addSubview:_commandStatusViewController.view];
+            [NSLayoutConstraint activateConstraints:@[
+                [_commandStatusViewController.view.topAnchor constraintEqualToAnchor:self.contentView.topAnchor],
+                [_commandStatusViewController.view.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor],
+                [_commandStatusViewController.view.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor],
+                [_commandStatusViewController.view.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor]
+            ]];
+        }
     }
 }
 @end
