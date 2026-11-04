@@ -13,9 +13,9 @@ PODS:
   - SDWebImage (3.8.3):
     - SDWebImage/Core (= 3.8.3)
   - SDWebImage/Core (3.8.3)
-  - SwiftMessages (6.0.3):
-    - SwiftMessages/App (= 6.0.3)
-  - SwiftMessages/App (6.0.3)
+  - SwiftMessages (10.0.2):
+    - SwiftMessages/App (= 10.0.2)
+  - SwiftMessages/App (10.0.2)
   - TTTAttributedLabel (2.0.0)
 
 DEPENDENCIES:
@@ -23,7 +23,7 @@ DEPENDENCIES:
   - iOS-Slide-Menu (from `https://github.com/CraigZheng/iOS-Slide-Menu.git`, branch `master`)
   - MWPhotoBrowser (from `https://github.com/CraigZheng/MWPhotoBrowser.git`, branch `master`)
   - PureLayout
-  - SwiftMessages (from `https://github.com/SwiftKickMobile/SwiftMessages.git`, branch `work/swift5`)
+  - SwiftMessages (~> 10.0)
   - TTTAttributedLabel
 
 SPEC REPOS:
@@ -33,6 +33,7 @@ SPEC REPOS:
     - MBProgressHUD
     - PureLayout
     - SDWebImage
+    - SwiftMessages
     - TTTAttributedLabel
 
 EXTERNAL SOURCES:
@@ -42,9 +43,6 @@ EXTERNAL SOURCES:
   MWPhotoBrowser:
     :branch: master
     :git: https://github.com/CraigZheng/MWPhotoBrowser.git
-  SwiftMessages:
-    :branch: work/swift5
-    :git: https://github.com/SwiftKickMobile/SwiftMessages.git
 
 CHECKOUT OPTIONS:
   iOS-Slide-Menu:
@@ -53,9 +51,6 @@ CHECKOUT OPTIONS:
   MWPhotoBrowser:
     :commit: 67b4ae0b4311f0344fd729b08c49d119ff5db815
     :git: https://github.com/CraigZheng/MWPhotoBrowser.git
-  SwiftMessages:
-    :commit: 2dd48d76b21c0b8d87e49a6bbc20e857add92d70
-    :git: https://github.com/SwiftKickMobile/SwiftMessages.git
 
 SPEC CHECKSUMS:
   CocoaLumberjack: bd155f2dd06c0e0b03f876f7a3ee55693122ec94
@@ -65,9 +60,9 @@ SPEC CHECKSUMS:
   MWPhotoBrowser: 5836d7aa041dc05a13de380c246826578adc5ea5
   PureLayout: 5fb5e5429519627d60d079ccb1eaa7265ce7cf88
   SDWebImage: a72e880a8fe0f7fc31efe15aaed443c074d2a80c
-  SwiftMessages: 3029c4276a0fda92c765cc50bfc2fc2bed7c8df5
+  SwiftMessages: bfefe945bc05ce7cd328303d53d0d1849e29109d
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
 
-PODFILE CHECKSUM: 293e4453c1d60576044c4035f1bcc7d9da3c9b67
+PODFILE CHECKSUM: e391e9b2ca1a5b12b038fd233dd3b89775b57c17
 
 COCOAPODS: 1.16.2

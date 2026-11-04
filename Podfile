@@ -8,7 +8,7 @@ pod "MWPhotoBrowser", :git => 'https://github.com/CraigZheng/MWPhotoBrowser.git'
 pod 'iOS-Slide-Menu', :git => 'https://github.com/CraigZheng/iOS-Slide-Menu.git', :branch => 'master'
 pod 'PureLayout'
 pod 'CocoaLumberjack'
-pod 'SwiftMessages', :git => 'https://github.com/SwiftKickMobile/SwiftMessages.git', :branch => 'work/swift5'
+pod 'SwiftMessages', '~> 10.0'
 pod 'TTTAttributedLabel'
 end
 
