@@ -41,8 +41,6 @@ typedef enum : NSUInteger {
 @property (weak, nonatomic) IBOutlet UITableView *forumsTableView;
 @property (weak, nonatomic) IBOutlet UITableView *suggestionTableView;
 @property (weak, nonatomic) IBOutlet UITableView *customForumsTableView;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *forumsSegmentedControl;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *hostSegmentedControl;
 @property (weak, nonatomic) IBOutlet UIView *adView;
 @property (strong, nonatomic) NSDate *lastUpdateTime;
 @property (assign, nonatomic) NSTimeInterval updateInterval;
@@ -118,7 +116,6 @@ typedef enum : NSUInteger {
     [self.forumManager resetForums];
     self.forumsTableViewManager.forumGroups = self.forumManager.forumGroups;
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.hostSegmentedControl.selectedSegmentIndex = [settingCentre userDefActiveHost];
         [self.forumsTableView reloadData];
         [self.suggestionTableView reloadData];
         [self.customForumsTableView reloadData];
@@ -152,13 +149,9 @@ typedef enum : NSUInteger {
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSInteger numberOfRows = 0;
-    // Unless the section matches the selected segmented control, or it's the advertisement section,
-    // Otherwise return 0.
-    if (section == self.forumsSegmentedControl.selectedSegmentIndex) {
-        numberOfRows = [super tableView:tableView numberOfRowsInSection:section];
-    }
-    return numberOfRows;
+    // Forum / suggestion / custom-forum segmented control was removed from ForumSelector;
+    // show every section instead of filtering by a nil control's selected index.
+    return [super tableView:tableView numberOfRowsInSection:section];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -178,26 +171,6 @@ typedef enum : NSUInteger {
             return UITableViewAutomaticDimension;
             break;
     }
-}
-
-#pragma mark - UI actions.
-- (IBAction)forumsSegmentedControlValueChanged:(id)sender {
-    if (sender == self.forumsSegmentedControl) {
-        [self reloadDataSources];
-    }
-}
-
-- (IBAction)hostsSegmentedControlValueChanged:(UISegmentedControl *)sender {
-  switch (sender.selectedSegmentIndex) {
-    case 0:
-      [settingCentre setUserDefActiveHost:SettingsHostAC];
-      break;
-    case 1:
-      [settingCentre setUserDefActiveHost:SettingsHostBT];
-      break;
-  }
-  [settingCentre saveSettings];
-  [self reloadDataSources];
 }
 
 #pragma mark - czzPopularThreadsManagerDelegate
