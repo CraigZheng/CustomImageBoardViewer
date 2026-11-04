@@ -683,6 +683,7 @@
 		44F0A0022EF2000100C1B001 /* PhotoBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F0A0012EF2000100C1B001 /* PhotoBrowserViewController.swift */; };
 		44F0A0122EF2000200C1B001 /* SlideNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F0A0142EF2000200C1B001 /* SlideNavigationController.m */; };
 		44F0A0222EF2000300C1B001 /* UIView+SimpleBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F0A0242EF2000300C1B001 /* UIView+SimpleBadge.m */; };
+		44F0A0322EF2000400C1B001 /* ProgressOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F0A0342EF2000400C1B001 /* ProgressOverlay.m */; };
 		44F86B6B1C1BB505001306E8 /* ThreadContentPage2.json in Resources */ = {isa = PBXBuildFile; fileRef = 44F86B6A1C1BB505001306E8 /* ThreadContentPage2.json */; };
 		44F86B6C1C1BB505001306E8 /* ThreadContentPage2.json in Resources */ = {isa = PBXBuildFile; fileRef = 44F86B6A1C1BB505001306E8 /* ThreadContentPage2.json */; };
 		44FC4345180067CF0028D7C9 /* czzPostSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 44FC4344180067CF0028D7C9 /* czzPostSender.m */; };
@@ -1699,6 +1700,8 @@
 		44F0A0152EF2000200C1B001 /* SlideNavigationContorllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideNavigationContorllerAnimator.h; sourceTree = "<group>"; };
 		44F0A0232EF2000300C1B001 /* UIView+SimpleBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SimpleBadge.h"; sourceTree = "<group>"; };
 		44F0A0242EF2000300C1B001 /* UIView+SimpleBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SimpleBadge.m"; sourceTree = "<group>"; };
+		44F0A0332EF2000400C1B001 /* ProgressOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressOverlay.h; sourceTree = "<group>"; };
+		44F0A0342EF2000400C1B001 /* ProgressOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressOverlay.m; sourceTree = "<group>"; };
 		44F86B691C1BAC4C001306E8 /* CoustomImageBoardViewerTest.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoustomImageBoardViewerTest.pch; sourceTree = "<group>"; };
 		44F86B6A1C1BB505001306E8 /* ThreadContentPage2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ThreadContentPage2.json; sourceTree = "<group>"; };
 		44FC4343180067CF0028D7C9 /* czzPostSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzPostSender.h; sourceTree = "<group>"; };
@@ -1965,6 +1968,8 @@
 				44F0A0012EF2000100C1B001 /* PhotoBrowserViewController.swift */,
 				44F0A0232EF2000300C1B001 /* UIView+SimpleBadge.h */,
 				44F0A0242EF2000300C1B001 /* UIView+SimpleBadge.m */,
+				44F0A0332EF2000400C1B001 /* ProgressOverlay.h */,
+				44F0A0342EF2000400C1B001 /* ProgressOverlay.m */,
 			);
 			name = BannerNotification;
 			sourceTree = "<group>";
@@ -3779,7 +3784,6 @@
 				441E5CC917F4691300289DBD /* Resources */,
 				441A6A901BB28DF7008E380C /* Embed Watch Content */,
 				44D22CE51C3CD8490002F82F /* Embed Frameworks */,
-				347387B1BDC00B75A6FDCAB2 /* [CP] Embed Pods Frameworks */,
 				DAD0393318D2062C63376A7C /* Embed Pods Frameworks */,
 			);
 			buildRules = (
@@ -3799,7 +3803,6 @@
 				441E5CEB17F4691300289DBD /* Sources */,
 				441E5CEC17F4691300289DBD /* Frameworks */,
 				441E5CED17F4691300289DBD /* Resources */,
-				A5A8354B599D84027D456FD6 /* [CP] Embed Pods Frameworks */,
 				9B9C9573347A8563F41DAB71 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
@@ -4549,28 +4552,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		347387B1BDC00B75A6FDCAB2 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
-				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftMessages/SwiftMessages.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftMessages.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		9B9C9573347A8563F41DAB71 /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -4584,24 +4565,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A5A8354B599D84027D456FD6 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DAD0393318D2062C63376A7C /* Embed Pods Frameworks */ = {
@@ -4635,6 +4598,7 @@
 				44F0A0022EF2000100C1B001 /* PhotoBrowserViewController.swift in Sources */,
 				44F0A0122EF2000200C1B001 /* SlideNavigationController.m in Sources */,
 				44F0A0222EF2000300C1B001 /* UIView+SimpleBadge.m in Sources */,
+				44F0A0322EF2000400C1B001 /* ProgressOverlay.m in Sources */,
 				4448C2AA180FF6C600D2CD76 /* czzBlacklistSender.m in Sources */,
 				44858EAC1A0C5B0A00DD822B /* czzImageViewerUtil.m in Sources */,
 				44989A291CFC5B7200F04ECD /* czzThreadSuggestion.m in Sources */,

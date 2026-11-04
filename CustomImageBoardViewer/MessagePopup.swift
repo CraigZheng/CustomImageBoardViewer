@@ -2,58 +2,17 @@
 //  MessagePopup.swift
 //  CustomImageBoardViewer
 //
-//  Created by Craig Zheng on 9/11/16.
-//  Copyright © 2016 Craig. All rights reserved.
+//  Native banner popup replacing SwiftMessages.
 //
 
-import Foundation
-
-import SwiftMessages
+import UIKit
 
 @objc enum MessagePopupLayout: Int {
-    
-    /**
-     The standard message view that stretches across the full width of the
-     container view.
-     */
     case MessageView
-    
-    /**
-     A floating card-style view with rounded corners.
-     */
     case CardView
-    
-    /**
-     Like `CardView` with one end attached to the super view.
-     */
     case TabView
-    
-    /**
-     A 20pt tall view that can be used to overlay the status bar.
-     Note that this layout will automatically grow taller if displayed
-     directly under the status bar (see the `ContentInsetting` protocol).
-     */
     case StatusLine
-    
-    /**
-     A standard message view like `MessageView`, but without
-     stack views for iOS 8.
-     */
     case MessageViewIOS8
-    var swiftValue: MessageView.Layout {
-        switch self {
-        case .MessageView:
-            return .messageView
-        case .CardView:
-            return .cardView
-        case .TabView:
-            return .tabView
-        case .StatusLine:
-            return .statusLine
-        case .MessageViewIOS8:
-          return .messageView
-        }
-    }
 }
 
 @objc enum MessagePopupTheme: Int {
@@ -61,81 +20,147 @@ import SwiftMessages
     case success
     case warning
     case error
-    var swiftValue: Theme {
-        switch self {
-        case .info:
-            return .info
-        case .success:
-            return .success
-        case .warning:
-            return .warning
-        case .error:
-            return .error
-        }
-    }
 }
 
 @objc enum MessagePopupPresentationStyle: Int {
-    
-    /**
-     Message view slides down from the top.
-     */
     case top
-    
-    /**
-     Message view slides up from the bottom.
-     */
     case bottom
-    
-    var swiftValue: SwiftMessages.PresentationStyle {
-        switch self {
-        case .top:
-            return .top
-        case .bottom:
-            return .bottom
-        }
-    }
 }
 
 @MainActor
 class MessagePopup: NSObject {
-    
+    private static var currentBanner: UIView?
+    private static var hideWorkItem: DispatchWorkItem?
+    private static var currentButtonHandler: ((UIButton) -> Void)?
+
     @objc class func hide() {
-        SwiftMessages.hide()
+        hideWorkItem?.cancel()
+        hideWorkItem = nil
+        guard let banner = currentBanner else { return }
+        currentBanner = nil
+        currentButtonHandler = nil
+        UIView.animate(withDuration: 0.2, animations: {
+            banner.alpha = 0
+            banner.transform = CGAffineTransform(translationX: 0, y: banner.frame.minY < UIScreen.main.bounds.midY ? -20 : 20)
+        }, completion: { _ in
+            banner.removeFromSuperview()
+        })
     }
-    
+
     class func showMessage(title: String?, message: String?) {
-        showMessage(title: title, message: message, layout: .cardView)
+        showMessagePopup(title: title, message: message, layout: .CardView, theme: .info, position: .top, buttonTitle: nil, buttonActionHandler: nil)
     }
-    
+
     @objc class func showStatusBarMessage(message: String?) {
-        showMessage(title: nil, message: message, layout: .statusLine)
+        showMessagePopup(title: nil, message: message, layout: .StatusLine, theme: .info, position: .top, buttonTitle: nil, buttonActionHandler: nil)
     }
-    
-    class func showMessage(title: String?, message: String?, layout: MessageView.Layout = .cardView, theme: Theme = .info, position: SwiftMessages.PresentationStyle = .top, buttonTitle: String? = nil, buttonActionHandler: ((_ button: UIButton) -> Void)? = nil) {
-        let messageView = MessageView.viewFromNib(layout: layout)
-        messageView.configureTheme(theme)
-        messageView.configureContent(title: title ?? "", body: message ?? "")
-        // Show with default config.
-        var config = SwiftMessages.Config()
-        if let buttonTitle = buttonTitle, !buttonTitle.isEmpty {
-            messageView.button?.isHidden = false
-            messageView.button?.setTitle(buttonTitle, for: .normal)
-            messageView.buttonTapHandler = buttonActionHandler
-            config.duration = .seconds(seconds: 15)
-        } else {
-            messageView.button?.isHidden = true
-            config.duration = .seconds(seconds: 10)
+
+    @objc class func showMessagePopup(title: String?, message: String?, layout: MessagePopupLayout, theme: MessagePopupTheme, position: MessagePopupPresentationStyle, buttonTitle: String?, buttonActionHandler: ((UIButton) -> Void)?) {
+        hide()
+
+        guard let window = keyWindow() else { return }
+
+        let banner = UIView()
+        banner.translatesAutoresizingMaskIntoConstraints = false
+        banner.backgroundColor = backgroundColor(for: theme)
+        banner.layer.cornerRadius = layout == .StatusLine ? 0 : 12
+        banner.clipsToBounds = true
+
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.spacing = 4
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        banner.addSubview(stack)
+
+        if let title, !title.isEmpty {
+            let titleLabel = UILabel()
+            titleLabel.text = title
+            titleLabel.font = .systemFont(ofSize: layout == .StatusLine ? 12 : 15, weight: .semibold)
+            titleLabel.textColor = .white
+            titleLabel.numberOfLines = 2
+            stack.addArrangedSubview(titleLabel)
         }
-        messageView.iconImageView?.isHidden = !(theme == .info)
-        messageView.iconLabel?.isHidden = !(theme == .info)
-        config.presentationStyle = position
-        config.presentationContext = .window(windowLevel: UIWindow.Level.statusBar)
-        SwiftMessages.show(config: config, view: messageView)
+
+        if let message, !message.isEmpty {
+            let bodyLabel = UILabel()
+            bodyLabel.text = message
+            bodyLabel.font = .systemFont(ofSize: layout == .StatusLine ? 12 : 14)
+            bodyLabel.textColor = .white
+            bodyLabel.numberOfLines = layout == .StatusLine ? 1 : 0
+            stack.addArrangedSubview(bodyLabel)
+        }
+
+        var button: UIButton?
+        if let buttonTitle, !buttonTitle.isEmpty {
+            let actionButton = UIButton(type: .system)
+            actionButton.setTitle(buttonTitle, for: .normal)
+            actionButton.setTitleColor(.white, for: .normal)
+            actionButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
+            actionButton.addTarget(self, action: #selector(bannerButtonTapped(_:)), for: .touchUpInside)
+            stack.addArrangedSubview(actionButton)
+            button = actionButton
+            currentButtonHandler = buttonActionHandler
+        }
+
+        window.addSubview(banner)
+        currentBanner = banner
+
+        let guide = window.safeAreaLayoutGuide
+        let horizontalInset: CGFloat = layout == .StatusLine ? 0 : 12
+        var constraints: [NSLayoutConstraint] = [
+            banner.leadingAnchor.constraint(equalTo: window.leadingAnchor, constant: horizontalInset),
+            banner.trailingAnchor.constraint(equalTo: window.trailingAnchor, constant: -horizontalInset),
+            stack.leadingAnchor.constraint(equalTo: banner.leadingAnchor, constant: 14),
+            stack.trailingAnchor.constraint(equalTo: banner.trailingAnchor, constant: -14),
+            stack.topAnchor.constraint(equalTo: banner.topAnchor, constant: layout == .StatusLine ? 4 : 12),
+            stack.bottomAnchor.constraint(equalTo: banner.bottomAnchor, constant: layout == .StatusLine ? -4 : -12)
+        ]
+
+        if position == .bottom {
+            constraints.append(banner.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -12))
+        } else {
+            constraints.append(banner.topAnchor.constraint(equalTo: guide.topAnchor, constant: layout == .StatusLine ? 0 : 8))
+        }
+        NSLayoutConstraint.activate(constraints)
+
+        banner.alpha = 0
+        banner.transform = CGAffineTransform(translationX: 0, y: position == .top ? -24 : 24)
+        UIView.animate(withDuration: 0.25) {
+            banner.alpha = 1
+            banner.transform = .identity
+        }
+
+        let duration: TimeInterval = button == nil ? 10 : 15
+        let work = DispatchWorkItem {
+            hide()
+        }
+        hideWorkItem = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration, execute: work)
     }
-    
-    /// For objective C callers.
-    @objc class func showMessagePopup(title: String?, message: String?, layout: MessagePopupLayout, theme: MessagePopupTheme, position: MessagePopupPresentationStyle, buttonTitle: String?, buttonActionHandler: ((_ button: UIButton) -> Void)?) {
-        showMessage(title: title, message: message, layout: layout.swiftValue, theme: theme.swiftValue, position: position.swiftValue, buttonTitle: buttonTitle, buttonActionHandler: buttonActionHandler)
+
+    @objc private class func bannerButtonTapped(_ sender: UIButton) {
+        let handler = currentButtonHandler
+        hide()
+        handler?(sender)
+    }
+
+    private class func keyWindow() -> UIWindow? {
+        UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first { $0.isKeyWindow }
+    }
+
+    private class func backgroundColor(for theme: MessagePopupTheme) -> UIColor {
+        switch theme {
+        case .info:
+            return UIColor(red: 0.20, green: 0.45, blue: 0.80, alpha: 0.95)
+        case .success:
+            return UIColor(red: 0.15, green: 0.60, blue: 0.30, alpha: 0.95)
+        case .warning:
+            return UIColor(red: 0.85, green: 0.55, blue: 0.10, alpha: 0.95)
+        case .error:
+            return UIColor(red: 0.80, green: 0.20, blue: 0.20, alpha: 0.95)
+        }
     }
 }

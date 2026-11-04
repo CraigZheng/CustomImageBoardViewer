@@ -9,7 +9,7 @@
 #import "czzCacheCleaner.h"
 
 #import "NSFileManager+Util.h"
-#import "MBProgressHUD.h"
+#import "ProgressOverlay.h"
 #import "czzAppDelegate.h"
 #import "czzSettingsCentre.h"
 
@@ -93,8 +93,7 @@
             [[[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"下次自动检查将会在一个月之后，你也可以在设置中关闭自动检查，或者手动清空缓存。"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
             [self cleanCompleted];
         } else {
-            MBProgressHUD *progressHub = [MBProgressHUD showHUDAddedTo:NavigationManager.delegate.view animated:YES];
-            progressHub.mode = MBProgressHUDModeDeterminate;
+            ProgressOverlay *progressHub = [ProgressOverlay showDeterminateInView:NavigationManager.delegate.view];
             __block NSInteger deletedFileCount = 0;
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                 for (NSURL *fileURL in self.toBeDeletedFileURLs) {
@@ -102,7 +101,7 @@
                     deletedFileCount ++;
                     dispatch_async(dispatch_get_main_queue(), ^{
                         progressHub.progress = (float)deletedFileCount / (float)self.toBeDeletedFileURLs.count;
-                        progressHub.label.text = [NSString stringWithFormat:@"%ld/%lu files deleted...", (long)deletedFileCount, (unsigned long)self.toBeDeletedFileURLs.count];
+                        progressHub.statusText = [NSString stringWithFormat:@"%ld/%lu files deleted...", (long)deletedFileCount, (unsigned long)self.toBeDeletedFileURLs.count];
                         if (deletedFileCount >= (NSInteger)self.toBeDeletedFileURLs.count) {
                             [progressHub hideAnimated:YES];
                             [self cleanCompleted];

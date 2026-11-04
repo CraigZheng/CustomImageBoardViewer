@@ -1,28 +1,3 @@
-PODS:
-  - CocoaLumberjack (3.10.0):
-    - CocoaLumberjack/Core (= 3.10.0)
-  - CocoaLumberjack/Core (3.10.0)
-  - MBProgressHUD (1.2.0)
-  - SwiftMessages (10.0.2):
-    - SwiftMessages/App (= 10.0.2)
-  - SwiftMessages/App (10.0.2)
-
-DEPENDENCIES:
-  - CocoaLumberjack (~> 3.10)
-  - MBProgressHUD (~> 1.2)
-  - SwiftMessages (~> 10.0)
-
-SPEC REPOS:
-  trunk:
-    - CocoaLumberjack
-    - MBProgressHUD
-    - SwiftMessages
-
-SPEC CHECKSUMS:
-  CocoaLumberjack: 12545b2899dcaeec69b82c27b174042259c1ec27
-  MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
-  SwiftMessages: bfefe945bc05ce7cd328303d53d0d1849e29109d
-
-PODFILE CHECKSUM: d273e6b312e7e3b6c2875fc8229ac0c7e989f7b5
+PODFILE CHECKSUM: cf8abf58cc4e1e60b6e3bd4c4d1c3c96eb17db65
 
 COCOAPODS: 1.16.2

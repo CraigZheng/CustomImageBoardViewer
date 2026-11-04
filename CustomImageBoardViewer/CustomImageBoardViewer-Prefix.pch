@@ -11,8 +11,7 @@
 // DLog(@"here");
 // DLog(@"value: %d", x);
 // Unfortunately this doesn't work DLog(aStringVariable); you have to do this instead DLog(@"%@", aStringVariable);
-#import <CocoaLumberjack/CocoaLumberjack.h>
-static const DDLogLevel ddLogLevel = DDLogLevelDebug;
+#import <os/log.h>
 
 #ifdef DEBUG
 #    define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
@@ -21,6 +20,10 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 #    define DLogBool(key, val) DLog(@"%@:%@",key, val ? @"yes" : @"no");
 #    define DLogFrame(fr) NSLog(@"%s [Line %d] %f,%f, %f,%f", __PRETTY_FUNCTION__, __LINE__, fr.origin.x, fr.origin.y, fr.size.width,fr.size.height);
 #    define DLogSize(size) NSLog(@"%s [Line %d] %f,%f", __PRETTY_FUNCTION__, __LINE__, size.width, size.height);
+#    define DDLogDebug(frmt, ...) os_log_debug(OS_LOG_DEFAULT, "%{public}@", [NSString stringWithFormat:(frmt), ##__VA_ARGS__])
+#    define DDLogInfo(frmt, ...)  os_log_info(OS_LOG_DEFAULT, "%{public}@", [NSString stringWithFormat:(frmt), ##__VA_ARGS__])
+#    define DDLogWarn(frmt, ...)  os_log(OS_LOG_DEFAULT, "%{public}@", [NSString stringWithFormat:(frmt), ##__VA_ARGS__])
+#    define DDLogError(frmt, ...) os_log_error(OS_LOG_DEFAULT, "%{public}@", [NSString stringWithFormat:(frmt), ##__VA_ARGS__])
 #else
 #    define DLog(...) {}
 #    define DLogObj(obj) {}
@@ -28,6 +31,10 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 #    define DLogBool(key, val) {}
 #    define DLogFrame(...) {}
 #    define DLogSize(size) {}
+#    define DDLogDebug(...) {}
+#    define DDLogInfo(...) {}
+#    define DDLogWarn(...) {}
+#    define DDLogError(...) {}
 #endif
 
 #ifndef __IPHONE_5_0
@@ -61,6 +68,4 @@ _Pragma("clang diagnostic pop") \
 #import "UIView+Util.h"
 #import "czzNavigationManager.h"
 #import "UIViewController+Util.h"
-
-@import CocoaLumberjack;
 

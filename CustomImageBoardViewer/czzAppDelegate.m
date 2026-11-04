@@ -26,10 +26,6 @@
 #import <WatchConnectivity/WatchConnectivity.h>
 #import "CustomImageBoardViewer-Swift.h"
 
-@import CocoaLumberjack;
-
-#define LOG_LEVEL_DEF ddLogLevel
-
 static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
 
 @interface czzAppDelegate()<czzBlacklistDownloaderDelegate, czzHomeViewManagerDelegate, WCSessionDelegate>
@@ -44,13 +40,6 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [DDLog addLogger:[DDTTYLogger sharedInstance]]; // TTY = Xcode console
-    [DDLog addLogger:[DDOSLogger sharedInstance]]; // os_log
-    
-    DDFileLogger *fileLogger = [[DDFileLogger alloc] init]; // File Logger
-    fileLogger.rollingFrequency = 60 * 60 * 24; // 24 hour rolling
-    fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
-    [DDLog addLogger:fileLogger];
     myhost = my_main_host;
     settingsCentre = [czzSettingsCentre sharedInstance];
     [[czzForumManager sharedManager] updateForums:nil];

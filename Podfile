@@ -4,13 +4,10 @@ platform :ios, '15.0'
 use_frameworks!
 
 target 'CustomImageBoardViewer' do
-pod 'CocoaLumberjack', '~> 3.10'
-pod 'SwiftMessages', '~> 10.0'
-pod 'MBProgressHUD', '~> 1.2'
+  # Native replacements now cover former CocoaPods dependencies.
 end
 
 target 'CustomImageBoardViewerTests' do
-pod 'CocoaLumberjack', '~> 3.10'
 end
 
 post_install do |installer|

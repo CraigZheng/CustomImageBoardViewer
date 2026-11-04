@@ -11,6 +11,8 @@
 
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+#import <os/log.h>
+
 #ifdef DEBUG
 #    define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #    define DLogObj(obj) NSLog(@"%s [Line %d] %@", __PRETTY_FUNCTION__, __LINE__, obj);
@@ -18,6 +20,10 @@
 #    define DLogBool(key, val) DLog(@"%@:%@",key, val ? @"yes" : @"no");
 #    define DLogFrame(fr) NSLog(@"%s [Line %d] %f,%f, %f,%f", __PRETTY_FUNCTION__, __LINE__, fr.origin.x, fr.origin.y, fr.size.width,fr.size.height);
 #    define DLogSize(size) NSLog(@"%s [Line %d] %f,%f", __PRETTY_FUNCTION__, __LINE__, size.width, size.height);
+#    define DDLogDebug(frmt, ...) os_log_debug(OS_LOG_DEFAULT, "%{public}@", [NSString stringWithFormat:(frmt), ##__VA_ARGS__])
+#    define DDLogInfo(frmt, ...)  os_log_info(OS_LOG_DEFAULT, "%{public}@", [NSString stringWithFormat:(frmt), ##__VA_ARGS__])
+#    define DDLogWarn(frmt, ...)  os_log(OS_LOG_DEFAULT, "%{public}@", [NSString stringWithFormat:(frmt), ##__VA_ARGS__])
+#    define DDLogError(frmt, ...) os_log_error(OS_LOG_DEFAULT, "%{public}@", [NSString stringWithFormat:(frmt), ##__VA_ARGS__])
 #else
 #    define DLog(...) {}
 #    define DLogObj(obj) {}
@@ -25,10 +31,11 @@
 #    define DLogBool(key, val) {}
 #    define DLogFrame(...) {}
 #    define DLogSize(size) {}
+#    define DDLogDebug(...) {}
+#    define DDLogInfo(...) {}
+#    define DDLogWarn(...) {}
+#    define DDLogError(...) {}
 #endif
-
-#import <CocoaLumberjack/CocoaLumberjack.h>
-static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 //copied from http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown
 //will suppress perform selector might cause leak warning
@@ -52,7 +59,5 @@ _Pragma("clang diagnostic pop") \
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #endif
-
-@import CocoaLumberjack;
 
 #endif /* CoustomImageBoardViewerTest_pch */

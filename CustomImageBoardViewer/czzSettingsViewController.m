@@ -14,7 +14,7 @@
 #import "czzSettingsCentre.h"
 #import "czzCookieManagerViewController.h"
 #import "czzNotificationCentreTableViewController.h"
-#import "MBProgressHUD.h"
+#import "ProgressOverlay.h"
 #import "czzHomeViewManager.h"
 #import "czzWatchListManager.h"
 #import "czzTextSizeSelectorViewController.h"
@@ -330,24 +330,24 @@ static NSString *addMarkerSegue = @"AddMarker";
     return;
   }
   NSString *title = [actionSheet buttonTitleAtIndex:buttonIndex];
-  if ([title hasPrefix:@"图片管理器"]){
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    if ([title hasPrefix:@"图片管理器"]){
+    [ProgressOverlay showInView:self.view];
     [[NSOperationQueue currentQueue] addOperationWithBlock:^{
       [[czzImageCacheManager sharedInstance] removeFullSizeImages];
       [[czzImageCacheManager sharedInstance] removeThumbnails];
       [[NSURLCache sharedURLCache] removeAllCachedResponses];
       [czzBannerNotificationUtil displayMessage:@"图片管理器已清空" position:BannerNotificationPositionTop];
-      [MBProgressHUD hideHUDForView:self.view animated:YES];
+      [ProgressOverlay hideFromView:self.view animated:YES];
     }];
   }
   else if ([title hasPrefix:@"串缓存"]){
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [ProgressOverlay showInView:self.view];
     [[NSOperationQueue currentQueue] addOperationWithBlock:^{
       [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate threadCacheFolder] error:nil];
       [[NSURLCache sharedURLCache] removeAllCachedResponses];
       [AppDelegate checkFolders];
       [czzBannerNotificationUtil displayMessage:@"串缓存已清空" position:BannerNotificationPositionTop];
-      [MBProgressHUD hideHUDForView:self.view animated:YES];
+      [ProgressOverlay hideFromView:self.view animated:YES];
     }];
   }
 }
