@@ -7,7 +7,6 @@
 //
 
 #import "czzURLDownloader.h"
-#import "AFNetworking.h"
 #import "DeviceHardware.h"
 
 @interface czzURLDownloader()
@@ -27,12 +26,19 @@
     czzURLDownloader *urlDownloader = [czzURLDownloader new];
     urlDownloader.targetURL = url;
     
-    NSData *downloadedData;
-    NSURLResponse *response;
-    NSError *error;
-    downloadedData = [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:urlDownloader.targetURL] returningResponse:&response error:&error];
+    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+    __block NSData *downloadedData = nil;
+    __block NSError *taskError = nil;
     
-    completionHandler(!error, downloadedData, error);
+    NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithURL:urlDownloader.targetURL completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        downloadedData = data;
+        taskError = error;
+        dispatch_semaphore_signal(sema);
+    }];
+    [task resume];
+    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+    
+    completionHandler(taskError == nil && downloadedData != nil, downloadedData, taskError);
 }
 
 -(instancetype)initWithTargetURL:(NSURL *)url delegate:(id<czzURLDownloaderProtocol>)delegate startNow:(BOOL)now{
@@ -50,24 +56,51 @@
         [request setValue:[NSString stringWithFormat:@"HavfunClient-%@", [DeviceHardware platform]] forHTTPHeaderField:@"User-Agent"];
         self.delegate = delegate;
         
-        AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] init];
-        manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-        self.dataTask = [manager dataTaskWithRequest:request uploadProgress:nil downloadProgress:^(NSProgress * _Nonnull downloadProgress) {
-            if ([self.delegate respondsToSelector:@selector(downloadUpdated:progress:)]) {
-                [self.delegate downloadUpdated:self progress:(float)downloadProgress.completedUnitCount / (float)downloadProgress.totalUnitCount];
-            }
-        } completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-            [self notifyDelegateAboutStateChanged];
-            if ([self.delegate respondsToSelector:@selector(downloadOf:successed:result:)]){
-                [self.delegate downloadOf:response.URL successed:error == nil result:responseObject];
+        __weak typeof(self) weakSelf = self;
+        NSURLSession *session = [NSURLSession sharedSession];
+        self.dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            if (!strongSelf) return;
+            [strongSelf removeProgressObserver];
+            [strongSelf notifyDelegateAboutStateChanged];
+            if ([strongSelf.delegate respondsToSelector:@selector(downloadOf:successed:result:)]){
+                [strongSelf.delegate downloadOf:response.URL successed:error == nil result:data];
             }
         }];
+        
+        if (self.dataTask.progress) {
+            [self.dataTask.progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:nil];
+            self.observerAdded = YES;
+        }
         
         if (now) {
             [self start];
         }
     }
     return self;
+}
+
+- (void)removeProgressObserver {
+    if (self.observerAdded && self.dataTask.progress) {
+        @try {
+            [self.dataTask.progress removeObserver:self forKeyPath:@"fractionCompleted"];
+        } @catch (NSException *exception) {
+        }
+        self.observerAdded = NO;
+    }
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"fractionCompleted"] && object == self.dataTask.progress) {
+        if ([self.delegate respondsToSelector:@selector(downloadUpdated:progress:)]) {
+            CGFloat progress = (CGFloat)self.dataTask.progress.fractionCompleted;
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [self.delegate downloadUpdated:self progress:progress];
+            }];
+        }
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 -(void)start{
@@ -80,11 +113,16 @@
 }
 
 -(void)stop{
+    [self removeProgressObserver];
     if (self.dataTask.state == NSURLSessionTaskStateRunning) {
         [self.dataTask cancel];
         [self notifyDelegateAboutStateChanged];
     }
     self.dataTask = nil;
+}
+
+- (void)dealloc {
+    [self removeProgressObserver];
 }
 
 - (void)notifyDelegateAboutStateChanged {

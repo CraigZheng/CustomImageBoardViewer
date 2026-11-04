@@ -1,24 +1,8 @@
 PODS:
-  - AFNetworking (3.2.1):
-    - AFNetworking/NSURLSession (= 3.2.1)
-    - AFNetworking/Reachability (= 3.2.1)
-    - AFNetworking/Security (= 3.2.1)
-    - AFNetworking/Serialization (= 3.2.1)
-    - AFNetworking/UIKit (= 3.2.1)
-  - AFNetworking/NSURLSession (3.2.1):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/Reachability (3.2.1)
-  - AFNetworking/Security (3.2.1)
-  - AFNetworking/Serialization (3.2.1)
-  - AFNetworking/UIKit (3.2.1):
-    - AFNetworking/NSURLSession
   - CocoaLumberjack (3.6.2):
     - CocoaLumberjack/Core (= 3.6.2)
   - CocoaLumberjack/Core (3.6.2)
   - DACircularProgress (2.3.1)
-  - DZNEmptyDataSet (1.8.1)
   - iOS-Slide-Menu (1.5)
   - MBProgressHUD (0.9.2)
   - MWPhotoBrowser (2.1.2):
@@ -29,33 +13,26 @@ PODS:
   - SDWebImage (3.8.3):
     - SDWebImage/Core (= 3.8.3)
   - SDWebImage/Core (3.8.3)
-  - SplunkMint (5.2.7)
   - SwiftMessages (6.0.3):
     - SwiftMessages/App (= 6.0.3)
   - SwiftMessages/App (6.0.3)
   - TTTAttributedLabel (2.0.0)
 
 DEPENDENCIES:
-  - AFNetworking (~> 3.0)
   - CocoaLumberjack
-  - DZNEmptyDataSet
   - iOS-Slide-Menu (from `https://github.com/CraigZheng/iOS-Slide-Menu.git`, branch `master`)
   - MWPhotoBrowser (from `https://github.com/CraigZheng/MWPhotoBrowser.git`, branch `master`)
   - PureLayout
-  - SplunkMint
   - SwiftMessages (from `https://github.com/SwiftKickMobile/SwiftMessages.git`, branch `work/swift5`)
   - TTTAttributedLabel
 
 SPEC REPOS:
   trunk:
-    - AFNetworking
     - CocoaLumberjack
     - DACircularProgress
-    - DZNEmptyDataSet
     - MBProgressHUD
     - PureLayout
     - SDWebImage
-    - SplunkMint
     - TTTAttributedLabel
 
 EXTERNAL SOURCES:
@@ -81,19 +58,16 @@ CHECKOUT OPTIONS:
     :git: https://github.com/SwiftKickMobile/SwiftMessages.git
 
 SPEC CHECKSUMS:
-  AFNetworking: cb604b1c2bded0871f5f61f5d53653739e841d6b
   CocoaLumberjack: bd155f2dd06c0e0b03f876f7a3ee55693122ec94
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
-  DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   iOS-Slide-Menu: 40b0cbd8916c42afc755f0869793cd09e7a32102
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MWPhotoBrowser: 5836d7aa041dc05a13de380c246826578adc5ea5
   PureLayout: 5fb5e5429519627d60d079ccb1eaa7265ce7cf88
   SDWebImage: a72e880a8fe0f7fc31efe15aaed443c074d2a80c
-  SplunkMint: 197503337e26409b612455fcd1b386306cbe21ff
   SwiftMessages: 3029c4276a0fda92c765cc50bfc2fc2bed7c8df5
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
 
-PODFILE CHECKSUM: 40a853965c5a288b63ce550cbb1ed2205e762118
+PODFILE CHECKSUM: 293e4453c1d60576044c4035f1bcc7d9da3c9b67
 
 COCOAPODS: 1.16.2

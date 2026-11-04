@@ -32,9 +32,7 @@
 #import "czzThreadViewCellHeaderView.h"
 #import "CustomImageBoardViewer-Swift.h"
 
-@import DZNEmptyDataSet;
-
-@interface czzHomeTableViewManager() <czzImageDownloaderManagerDelegate, UIDataSourceModelAssociation, DZNEmptyDataSetSource>
+@interface czzHomeTableViewManager() <czzImageDownloaderManagerDelegate, UIDataSourceModelAssociation>
 
 @property (strong) czzImageViewerUtil *imageViewerUtil;
 @property (nonatomic, readonly) NSIndexPath *lastRowIndexPath;
@@ -78,7 +76,7 @@
                                                            queue:[NSOperationQueue mainQueue]
                                                       usingBlock:^(NSNotification * _Nonnull note) {
                                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                                              [weakSelf.homeTableView reloadEmptyDataSet];
+                                                              [weakSelf updateEmptyBackgroundView];
                                                           });
                                                       }
          ];
@@ -88,6 +86,7 @@
 
 - (void)reloadData {
     dispatch_async(dispatch_get_main_queue(), ^{
+        [self updateEmptyBackgroundView];
         if (self.homeTableView) {
             [self.homeTableView reloadData];
         }
@@ -542,6 +541,7 @@ estimatedHeightForRowAtIndexPath:indexPath];
         homeTableView.estimatedRowHeight = 80;
         homeTableView.rowHeight = UITableViewAutomaticDimension;
     }
+    [self updateEmptyBackgroundView];
 }
 
 #pragma mark - Getters
@@ -582,18 +582,58 @@ estimatedHeightForRowAtIndexPath:indexPath];
     return nil;
 }
 
-#pragma mark - DZNEmptyDataSetSource, DZNEmptyDataSetDelegate
+#pragma mark - Empty View Management
 
-- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
-    return [[NSAttributedString alloc] initWithString:@"没有内容" attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:18]}];
-}
-
-- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
-    return [[NSAttributedString alloc] initWithString:@"请先选择一个板块" attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:14]}];
-}
-
-- (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView {
-    return self.homeViewManager.forum == nil;
+- (void)updateEmptyBackgroundView {
+    if (!self.homeTableView) return;
+    
+    if (self.homeViewManager.forum == nil) {
+        if (!self.homeTableView.backgroundView) {
+            UIView *emptyView = [[UIView alloc] initWithFrame:self.homeTableView.bounds];
+            emptyView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+            
+            UIStackView *stackView = [[UIStackView alloc] init];
+            stackView.axis = UILayoutConstraintAxisVertical;
+            stackView.alignment = UIStackViewAlignmentCenter;
+            stackView.spacing = 8.0;
+            stackView.translatesAutoresizingMaskIntoConstraints = NO;
+            
+            UILabel *titleLabel = [[UILabel alloc] init];
+            titleLabel.text = @"没有内容";
+            titleLabel.font = [UIFont systemFontOfSize:18 weight:UIFontWeightMedium];
+            if (@available(iOS 13.0, *)) {
+                titleLabel.textColor = [UIColor secondaryLabelColor];
+            } else {
+                titleLabel.textColor = [UIColor darkGrayColor];
+            }
+            titleLabel.textAlignment = NSTextAlignmentCenter;
+            
+            UILabel *descLabel = [[UILabel alloc] init];
+            descLabel.text = @"请先选择一个板块";
+            descLabel.font = [UIFont systemFontOfSize:14];
+            if (@available(iOS 13.0, *)) {
+                descLabel.textColor = [UIColor tertiaryLabelColor];
+            } else {
+                descLabel.textColor = [UIColor grayColor];
+            }
+            descLabel.textAlignment = NSTextAlignmentCenter;
+            
+            [stackView addArrangedSubview:titleLabel];
+            [stackView addArrangedSubview:descLabel];
+            [emptyView addSubview:stackView];
+            
+            [NSLayoutConstraint activateConstraints:@[
+                [stackView.centerXAnchor constraintEqualToAnchor:emptyView.centerXAnchor],
+                [stackView.centerYAnchor constraintEqualToAnchor:emptyView.centerYAnchor],
+                [stackView.leadingAnchor constraintGreaterThanOrEqualToAnchor:emptyView.leadingAnchor constant:20],
+                [stackView.trailingAnchor constraintLessThanOrEqualToAnchor:emptyView.trailingAnchor constant:-20]
+            ]];
+            
+            self.homeTableView.backgroundView = emptyView;
+        }
+    } else {
+        self.homeTableView.backgroundView = nil;
+    }
 }
 
 @end
