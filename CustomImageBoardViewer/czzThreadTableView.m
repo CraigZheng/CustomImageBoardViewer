@@ -51,7 +51,7 @@
     [self registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER];
 
     // Register thread view command cells
-    [self registerNib:[UINib nibWithNibName:THREAD_TABLEVIEW_COMMAND_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_TABLEVIEW_COMMAND_CELL_IDENTIFIER];
+    [self registerClass:[czzThreadTableViewCommandCellTableViewCell class] forCellReuseIdentifier:THREAD_TABLEVIEW_COMMAND_CELL_IDENTIFIER];
 }
 
 - (void)reloadData {
