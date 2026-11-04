@@ -58,8 +58,14 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *suggestionCell = [tableView dequeueReusableCellWithIdentifier:@"thread_cell_identifier"
-                                                                      forIndexPath:indexPath];
+    UITableViewCell *suggestionCell = [tableView dequeueReusableCellWithIdentifier:@"thread_cell_identifier"];
+    if (!suggestionCell) {
+        suggestionCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"thread_cell_identifier"];
+        suggestionCell.textLabel.font = [UIFont systemFontOfSize:17];
+        suggestionCell.textLabel.backgroundColor = [UIColor clearColor];
+        suggestionCell.detailTextLabel.font = [UIFont systemFontOfSize:12];
+        suggestionCell.detailTextLabel.backgroundColor = [UIColor clearColor];
+    }
     if (suggestionCell) {
         czzThreadSuggestion *suggestion = [self threadSuggestionForIndexPath:indexPath];
         if (suggestion) {

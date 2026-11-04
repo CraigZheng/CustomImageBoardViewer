@@ -34,14 +34,14 @@ typedef enum : NSUInteger {
 } SectionType;
 
 @interface czzForumsViewController () <UITableViewDataSource, UITableViewDelegate, czzPopularThreadsManagerDelegate>
-@property (strong, nonatomic) IBOutlet ForumsTableViewManager *forumsTableViewManager;
-@property (strong, nonatomic) IBOutlet czzForumsTableViewThreadSuggestionsManager *tableviewThreadSuggestionsManager;
-@property (strong, nonatomic) IBOutlet czzCustomForumTableViewManager * customForumTableViewManager;
+@property (strong, nonatomic) ForumsTableViewManager *forumsTableViewManager;
+@property (strong, nonatomic) czzForumsTableViewThreadSuggestionsManager *tableviewThreadSuggestionsManager;
+@property (strong, nonatomic) czzCustomForumTableViewManager * customForumTableViewManager;
 
-@property (weak, nonatomic) IBOutlet UITableView *forumsTableView;
-@property (weak, nonatomic) IBOutlet UITableView *suggestionTableView;
-@property (weak, nonatomic) IBOutlet UITableView *customForumsTableView;
-@property (weak, nonatomic) IBOutlet UIView *adView;
+@property (strong, nonatomic) UITableView *forumsTableView;
+@property (strong, nonatomic) UITableView *suggestionTableView;
+@property (strong, nonatomic) UITableView *customForumsTableView;
+@property (strong, nonatomic) UIView *adView;
 @property (strong, nonatomic) NSDate *lastUpdateTime;
 @property (assign, nonatomic) NSTimeInterval updateInterval;
 @property (assign, nonatomic) BOOL shouldHideCoverView;
@@ -51,11 +51,19 @@ typedef enum : NSUInteger {
 
 @implementation czzForumsViewController
 
+- (instancetype)initWithStyle:(UITableViewStyle)style {
+    self = [super initWithStyle:UITableViewStylePlain];
+    if (self) {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
     self.updateInterval = 10 * 60;
+    [self installForumMenu];
 
     self.tableView.scrollsToTop = NO;
     
@@ -142,8 +150,19 @@ typedef enum : NSUInteger {
 
 #pragma mark -  UITableViewDataSource, UITableViewDelegate
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 3;
+}
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    UITableView *nestedTableView = [self nestedTableForSection:indexPath.section];
+    [nestedTableView removeFromSuperview];
+    nestedTableView.translatesAutoresizingMaskIntoConstraints = YES;
+    nestedTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    nestedTableView.frame = cell.contentView.bounds;
+    [cell.contentView addSubview:nestedTableView];
     cell.backgroundColor = [settingCentre viewBackgroundColour];
     return cell;
 }
@@ -151,10 +170,7 @@ typedef enum : NSUInteger {
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Forum / suggestion / custom-forum segmented control was removed; keep the old
     // default of showing only the forums section.
-    if (section == ForumSection) {
-        return [super tableView:tableView numberOfRowsInSection:section];
-    }
-    return 0;
+    return section == ForumSection ? 1 : 0;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -187,6 +203,56 @@ typedef enum : NSUInteger {
 - (void)handleSettingsChangedNotification {
     DLog(@"");
     [self reloadDataSources];
+}
+
+- (void)installForumMenu {
+    self.tableView.backgroundColor = [UIColor colorWithRed:0.9490196078 green:0.9490196078 blue:0.968627451 alpha:1];
+    self.tableView.sectionHeaderHeight = 28;
+    self.tableView.sectionFooterHeight = 28;
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 44)];
+    headerView.backgroundColor = [UIColor systemBackgroundColor];
+    self.tableView.tableHeaderView = headerView;
+    self.adView = headerView;
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 1)];
+    footerView.hidden = YES;
+    footerView.backgroundColor = [UIColor clearColor];
+    self.tableView.tableFooterView = footerView;
+
+    self.forumsTableViewManager = [ForumsTableViewManager new];
+    self.tableviewThreadSuggestionsManager = [czzForumsTableViewThreadSuggestionsManager new];
+    self.customForumTableViewManager = [czzCustomForumTableViewManager new];
+    self.forumsTableView = [self embeddedGroupedTableWithDataSource:self.forumsTableViewManager];
+    self.suggestionTableView = [self embeddedGroupedTableWithDataSource:self.tableviewThreadSuggestionsManager];
+    self.customForumsTableView = [self embeddedGroupedTableWithDataSource:self.customForumTableViewManager];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"info.png"] style:UIBarButtonItemStylePlain target:self action:@selector(moreInfoAction:)];
+}
+
+- (UITableView *)embeddedGroupedTableWithDataSource:(id<UITableViewDataSource, UITableViewDelegate>)dataSource {
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+    tableView.scrollEnabled = NO;
+    tableView.alwaysBounceVertical = YES;
+    tableView.rowHeight = 44;
+    tableView.sectionHeaderHeight = 18;
+    tableView.sectionFooterHeight = 18;
+    tableView.backgroundColor = [UIColor colorWithRed:0.9490196078 green:0.9490196078 blue:0.968627451 alpha:1];
+    tableView.dataSource = dataSource;
+    tableView.delegate = dataSource;
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 1)];
+    footerView.hidden = YES;
+    footerView.backgroundColor = [UIColor clearColor];
+    tableView.tableFooterView = footerView;
+    return tableView;
+}
+
+- (UITableView *)nestedTableForSection:(NSInteger)section {
+    switch (section) {
+        case ThreadSuggestionSection:
+            return self.suggestionTableView;
+        case CustomForumSection:
+            return self.customForumsTableView;
+        default:
+            return self.forumsTableView;
+    }
 }
 
 #pragma mark - Getters

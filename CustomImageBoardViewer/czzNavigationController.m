@@ -11,7 +11,9 @@
 #import "czzNavigationManager.h"
 #import "czzSettingsCentre.h"
 #import "czzFavouriteManagerViewController.h"
+#import "czzForumsViewController.h"
 #import "UINavigationController+Util.h"
+#import "CustomImageBoardViewer-Swift.h"
 
 @interface czzNavigationController () <UINavigationControllerDelegate, czzNavigationManagerDelegate>
 @end
@@ -41,7 +43,13 @@
 
 - (UINavigationController *)leftViewController {
     if (!_leftViewController) {
-        _leftViewController = [[UIStoryboard storyboardWithName:@"ForumSelector" bundle:nil] instantiateInitialViewController];
+        czzForumsViewController *forumsViewController = [[czzForumsViewController alloc] initWithStyle:UITableViewStylePlain];
+        CustomAppearanceNavigationController *navigationController = [[CustomAppearanceNavigationController alloc] initWithRootViewController:forumsViewController];
+        navigationController.definesPresentationContext = YES;
+        navigationController.restorationIdentifier = @"left_side_view_controller";
+        navigationController.toolbarHidden = NO;
+        navigationController.edgesForExtendedLayout = UIRectEdgeNone;
+        _leftViewController = navigationController;
     }
     return _leftViewController;
 }

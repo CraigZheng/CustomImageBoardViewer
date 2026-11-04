@@ -55,6 +55,16 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
         return section < forumGroups.count ? forumGroups[section] : nil
     }
     
+    private static func forumCell(in tableView: UITableView) -> UITableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.forum) {
+            return cell
+        }
+        let cell = UITableViewCell(style: .default, reuseIdentifier: CellIdentifier.forum)
+        cell.textLabel?.font = .systemFont(ofSize: 17)
+        cell.textLabel?.backgroundColor = .clear
+        return cell
+    }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let forumCell: UITableViewCell;
         if indexPath.section < ExtraSection.count {
@@ -62,13 +72,13 @@ extension ForumsTableViewManager: UITableViewDelegate, UITableViewDataSource {
             // TODO: return appropriate cells.
             switch ExtraSection(rawValue: indexPath.section)! {
             case .timeline:
-                forumCell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.forum, for: indexPath)
+                forumCell = Self.forumCell(in: tableView)
                 forumCell.textLabel?.text = ExtraSection.timeline.title
                 forumCell.textLabel?.textColor = czzSettingsCentre.sharedInstance().contentTextColour()
             default: forumCell = UITableViewCell()
             }
         } else {
-            forumCell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.forum, for: indexPath)
+            forumCell = Self.forumCell(in: tableView)
             let adjustedSection = ExtraSection.adjustedSection(for: indexPath.section)
             if let forum = adjustedForumGroup(section: adjustedSection)?.forums[indexPath.row] as? czzForum {
                 let displayName: String
