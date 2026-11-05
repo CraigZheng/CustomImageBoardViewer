@@ -813,8 +813,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		28832211D8C387A440C8B574 /* Pods-CustomImageBoardViewerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests.release.xcconfig"; sourceTree = "<group>"; };
-		3E0527F52EF15B0B2B65EA56 /* Pods-CustomImageBoardViewer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewer.release.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer.release.xcconfig"; sourceTree = "<group>"; };
 		440A629E1B8E90130046E4CE /* czzThreadViewCommandStatusCellViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewCommandStatusCellViewController.h; sourceTree = "<group>"; };
 		440A629F1B8E90130046E4CE /* czzThreadViewCommandStatusCellViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewCommandStatusCellViewController.m; sourceTree = "<group>"; };
 		440A62A61B8EBC160046E4CE /* UIViewController+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Util.h"; sourceTree = "<group>"; };
@@ -1664,7 +1662,6 @@
 		5ADCA4691938F67F002BA60B /* ValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueFormatter.m; sourceTree = "<group>"; };
 		5AF85E661970025A0031D0CB /* czzSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzSearchViewController.h; sourceTree = "<group>"; };
 		5AF85E671970025A0031D0CB /* czzSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzSearchViewController.m; sourceTree = "<group>"; };
-		AECEC532D9208769EFF63216 /* Pods-CustomImageBoardViewerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewerTests/Pods-CustomImageBoardViewerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B75360B024AE2789000F562F /* reed-color3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color3.png"; sourceTree = "<group>"; };
 		B75360B124AE2789000F562F /* reed-color91.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color91.png"; sourceTree = "<group>"; };
 		B75360B224AE2789000F562F /* reed-color85.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color85.png"; sourceTree = "<group>"; };
@@ -1778,7 +1775,6 @@
 		B7ABF07A1FFF295A0071D939 /* ContentPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentPage.swift; sourceTree = "<group>"; };
 		B7EAA9FF2101B5A4002EAE0A /* ImageCDNConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCDNConfiguration.swift; sourceTree = "<group>"; };
 		B7EAAA012101B776002EAE0A /* czzSettingsCentre+ImageCDN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "czzSettingsCentre+ImageCDN.swift"; sourceTree = "<group>"; };
-		CBC088D3BB7C0C6E358B9C38 /* Pods-CustomImageBoardViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomImageBoardViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomImageBoardViewer/Pods-CustomImageBoardViewer.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3530,10 +3526,6 @@
 		8832DD95AFF72EF3EC48CE32 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				CBC088D3BB7C0C6E358B9C38 /* Pods-CustomImageBoardViewer.debug.xcconfig */,
-				3E0527F52EF15B0B2B65EA56 /* Pods-CustomImageBoardViewer.release.xcconfig */,
-				AECEC532D9208769EFF63216 /* Pods-CustomImageBoardViewerTests.debug.xcconfig */,
-				28832211D8C387A440C8B574 /* Pods-CustomImageBoardViewerTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -4687,7 +4679,6 @@
 		};
 		441E5D0117F4691300289DBD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CBC088D3BB7C0C6E358B9C38 /* Pods-CustomImageBoardViewer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -4730,7 +4721,6 @@
 		};
 		441E5D0217F4691300289DBD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3E0527F52EF15B0B2B65EA56 /* Pods-CustomImageBoardViewer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -4771,7 +4761,6 @@
 		};
 		441E5D0417F4691300289DBD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AECEC532D9208769EFF63216 /* Pods-CustomImageBoardViewerTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CustomImageBoardViewer.app/CustomImageBoardViewer";
@@ -4803,7 +4792,6 @@
 		};
 		441E5D0517F4691300289DBD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 28832211D8C387A440C8B574 /* Pods-CustomImageBoardViewerTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CustomImageBoardViewer.app/CustomImageBoardViewer";
