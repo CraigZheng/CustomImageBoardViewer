@@ -37,6 +37,12 @@
     UIView *rootView = [[UIView alloc] init];
     self.view = rootView;
 
+    if (myNotification) {
+        self.navigationItem.title = [NSString stringWithFormat:@"反馈:%@", myNotification.title];
+    } else {
+        self.navigationItem.title = @"反馈";
+    }
+
     UITextView *textView = [[UITextView alloc] init];
     textView.translatesAutoresizingMaskIntoConstraints = NO;
     textView.font = [UIFont systemFontOfSize:14];
