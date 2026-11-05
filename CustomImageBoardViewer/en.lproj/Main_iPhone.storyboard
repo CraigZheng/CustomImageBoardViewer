@@ -292,7 +292,6 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="pea-yg-qeq" kind="relationship" relationship="rootViewController" id="dQ2-MN-atd"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="klx-eb-8OQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -300,87 +299,7 @@
             <point key="canvasLocation" x="-1710" y="-491"/>
         </scene>
         <!--更多信息-->
-        <scene sceneID="FQw-Yq-6Lf">
-            <objects>
-                <viewController storyboardIdentifier="more_info_view_controller" extendedLayoutIncludesOpaqueBars="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="pea-yg-qeq" customClass="czzMoreInfoViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="XmS-Dx-lHg">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aND-iu-JAO">
-                                <rect key="frame" x="0.0" y="44" width="375" height="543"/>
-                                <subviews>
-                                    <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QYs-HW-2t5">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <gestureRecognizers/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="120" id="Ue9-6f-yvr"/>
-                                        </constraints>
-                                        <connections>
-                                            <outlet property="delegate" destination="pea-yg-qeq" id="ytf-qg-Ugo"/>
-                                            <outletCollection property="gestureRecognizers" destination="VFn-d8-rbQ" appends="YES" id="vTS-it-zyy"/>
-                                        </connections>
-                                    </webView>
-                                    <webView contentMode="scaleToFill" placeholderIntrinsicWidth="210" placeholderIntrinsicHeight="212" translatesAutoresizingMaskIntoConstraints="NO" id="fEp-5X-ib8">
-                                        <rect key="frame" x="0.0" y="120" width="375" height="120"/>
-                                        <color key="backgroundColor" red="0.28958413004875183" green="0.31462949514389038" blue="0.32950475811958313" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="120" id="Hb2-nJ-Mro"/>
-                                        </constraints>
-                                        <connections>
-                                            <outlet property="delegate" destination="pea-yg-qeq" id="viq-7S-97m"/>
-                                        </connections>
-                                    </webView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="QYs-HW-2t5" firstAttribute="leading" secondItem="aND-iu-JAO" secondAttribute="leading" id="A2H-km-Qdu"/>
-                                    <constraint firstAttribute="bottom" secondItem="fEp-5X-ib8" secondAttribute="bottom" id="AdM-cQ-1Bg"/>
-                                    <constraint firstItem="fEp-5X-ib8" firstAttribute="leading" secondItem="aND-iu-JAO" secondAttribute="leading" id="KF2-p8-vxs"/>
-                                    <constraint firstAttribute="trailing" secondItem="fEp-5X-ib8" secondAttribute="trailing" id="SH1-Ca-E5b"/>
-                                    <constraint firstItem="QYs-HW-2t5" firstAttribute="width" secondItem="aND-iu-JAO" secondAttribute="width" id="VFZ-St-RGe"/>
-                                    <constraint firstAttribute="trailing" secondItem="QYs-HW-2t5" secondAttribute="trailing" id="b4o-Ns-B1P"/>
-                                    <constraint firstItem="QYs-HW-2t5" firstAttribute="top" secondItem="aND-iu-JAO" secondAttribute="top" id="ljD-Tj-6iu"/>
-                                    <constraint firstItem="fEp-5X-ib8" firstAttribute="top" secondItem="QYs-HW-2t5" secondAttribute="bottom" id="nZY-4w-PM6"/>
-                                </constraints>
-                            </scrollView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="9FC-Br-Aak"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="fEp-5X-ib8" firstAttribute="width" secondItem="XmS-Dx-lHg" secondAttribute="width" id="0J1-hf-FJH"/>
-                            <constraint firstItem="9FC-Br-Aak" firstAttribute="trailing" secondItem="aND-iu-JAO" secondAttribute="trailing" id="EMu-k8-ueD"/>
-                            <constraint firstItem="9FC-Br-Aak" firstAttribute="bottom" secondItem="aND-iu-JAO" secondAttribute="bottom" constant="80" placeholder="YES" id="IcE-1x-5aY"/>
-                            <constraint firstItem="aND-iu-JAO" firstAttribute="leading" secondItem="9FC-Br-Aak" secondAttribute="leading" id="Jcn-42-fu9"/>
-                            <constraint firstItem="aND-iu-JAO" firstAttribute="top" secondItem="XmS-Dx-lHg" secondAttribute="topMargin" id="VoH-15-GIf"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="更多信息" id="Nzv-Uz-NLI">
-                        <barButtonItem key="leftBarButtonItem" image="delete.png" id="nFR-Qf-TRq">
-                            <connections>
-                                <action selector="dismissAction:" destination="pea-yg-qeq" id="JIp-BQ-DgW"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="containerScrollView" destination="aND-iu-JAO" id="9he-ci-OyY"/>
-                        <outlet property="coverImageWebView" destination="QYs-HW-2t5" id="EDJ-vX-dHp"/>
-                        <outlet property="coverImageWebViewHeight" destination="Ue9-6f-yvr" id="69P-Og-7yQ"/>
-                        <outlet property="headerTextWebView" destination="fEp-5X-ib8" id="FPS-X1-FqE"/>
-                        <outlet property="headerTextWebViewHeight" destination="Hb2-nJ-Mro" id="FEh-wj-ig7"/>
-                        <outlet property="moreInfoNavItem" destination="Nzv-Uz-NLI" id="g88-QE-Wpf"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="E7l-oo-bxG" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="VFn-d8-rbQ">
-                    <connections>
-                        <action selector="tapOnCoverImageViewAction:" destination="pea-yg-qeq" id="u27-BU-2pe"/>
-                        <outlet property="delegate" destination="pea-yg-qeq" id="nFh-lC-rFA"/>
-                    </connections>
-                </tapGestureRecognizer>
-            </objects>
-            <point key="canvasLocation" x="-777" y="-492"/>
-        </scene>
+        
         <!--设置-->
         
         <!--SETTINGS-->
