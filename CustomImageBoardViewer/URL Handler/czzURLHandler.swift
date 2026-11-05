@@ -65,9 +65,7 @@ extension czzURLHandler {
                                                 userInfo: [kPickedTimeline: NSObject()])
             }
         case .thread(let threadID):
-            guard let threadViewController = UIStoryboard(name: THREAD_VIEW_CONTROLLER_STORYBOARD_NAME, bundle: nil).instantiateViewController(withIdentifier: THREAD_VIEW_CONTROLLER_ID) as? czzThreadViewController else {
-                return
-            }
+            let threadViewController = czzThreadViewController()
             threadViewController.thread = czzThread(threadID: threadID)
             navigationController.pushViewController(threadViewController, animated: true)
         }

@@ -37,7 +37,6 @@
 
 #import "CustomImageBoardViewer-Swift.h"
 
-NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 @interface czzThreadViewController ()<UIAlertViewDelegate, czzThreadViewManagerDelegate, czzMiniThreadViewControllerDelegate>
 @property (strong, nonatomic) NSIndexPath *selectedIndex;
@@ -77,6 +76,106 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @synthesize onScreenImageManagerViewContainer;
 @synthesize moreButton;
 @synthesize shouldRestoreContentOffset;
+
+/// Layout constants carried over from the retired thread view scene.
+static CGFloat const kThreadContainerSize = 60;
+static CGFloat const kThreadContainerInset = 8;
+
+- (void)loadView {
+  UIView *rootView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+  rootView.backgroundColor = [UIColor whiteColor];
+  self.view = rootView;
+
+  czzThreadTableView *tableView = [[czzThreadTableView alloc] initWithFrame:CGRectZero];
+  tableView.translatesAutoresizingMaskIntoConstraints = NO;
+  [rootView addSubview:tableView];
+  self.threadTableView = tableView;
+
+  UILayoutGuide *safeArea = rootView.safeAreaLayoutGuide;
+  [NSLayoutConstraint activateConstraints:@[
+    [tableView.topAnchor constraintEqualToAnchor:safeArea.topAnchor],
+    [tableView.leadingAnchor constraintEqualToAnchor:rootView.leadingAnchor],
+    [tableView.trailingAnchor constraintEqualToAnchor:rootView.trailingAnchor],
+    [tableView.bottomAnchor constraintEqualToAnchor:safeArea.bottomAnchor]
+  ]];
+
+  [self buildToolbarItems];
+  [self buildFloatingContainers];
+}
+
+- (void)buildToolbarItems {
+  UIBarButtonItem *(^flex)(void) = ^UIBarButtonItem *(void) {
+    return [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+  };
+
+  UIBarButtonItem *reply = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reply.png"] style:UIBarButtonItemStylePlain target:self action:@selector(replyAction:)];
+  UIBarButtonItem *star = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"star.png"] style:UIBarButtonItemStylePlain target:self action:@selector(starAction:)];
+  UIBarButtonItem *upload = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"upload.png"] style:UIBarButtonItemStylePlain target:self action:@selector(shareAction:)];
+  UIBarButtonItem *advance = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"advance.png"] style:UIBarButtonItemStylePlain target:self action:@selector(jumpAction:)];
+  UIBarButtonItem *error = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"error.png"] style:UIBarButtonItemStylePlain target:self action:@selector(reportAction:)];
+
+  self.toolbarItems = @[reply, flex(), star, flex(), upload, flex(), advance, flex(), error];
+  self.starButton = star;
+  self.jumpBarButtonItem = advance;
+
+  UISwitch *poSwitch = [[UISwitch alloc] init];
+  [poSwitch addTarget:self action:@selector(togglePOOnlyModeAction:) forControlEvents:UIControlEventValueChanged];
+  self.poOnlySwitch = poSwitch;
+
+  UILabel *poLabel = [[UILabel alloc] init];
+  poLabel.text = @"只看PO";
+  poLabel.font = [UIFont systemFontOfSize:17];
+  [poLabel sizeToFit];
+  poLabel.frame = CGRectMake(0, 6, CGRectGetWidth(poLabel.frame), CGRectGetHeight(poLabel.frame));
+
+  poSwitch.frame = CGRectMake(CGRectGetMaxX(poLabel.frame) + 8, 0, CGRectGetWidth(poSwitch.frame), 33);
+  UIView *switchContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0,
+      CGRectGetMaxX(poSwitch.frame), 33)];
+  poSwitch.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
+  [switchContainer addSubview:poLabel];
+  [switchContainer addSubview:poSwitch];
+  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:switchContainer];
+}
+
+- (void)buildFloatingContainers {
+  UIView *imageContainer = [[UIView alloc] init];
+  imageContainer.translatesAutoresizingMaskIntoConstraints = NO;
+  imageContainer.hidden = YES;
+  [self.view addSubview:imageContainer];
+  self.onScreenImageManagerViewContainer = imageContainer;
+
+  UIView *postContainer = [[UIView alloc] init];
+  postContainer.translatesAutoresizingMaskIntoConstraints = NO;
+  [self.view addSubview:postContainer];
+  self.postSenderViewContainer = postContainer;
+
+  UILayoutGuide *safeArea = self.view.safeAreaLayoutGuide;
+  [NSLayoutConstraint activateConstraints:@[
+    [postContainer.trailingAnchor constraintEqualToAnchor:safeArea.trailingAnchor constant:-kThreadContainerInset],
+    [postContainer.bottomAnchor constraintEqualToAnchor:safeArea.bottomAnchor constant:-kThreadContainerInset],
+    [postContainer.widthAnchor constraintEqualToConstant:kThreadContainerSize],
+    [postContainer.heightAnchor constraintEqualToConstant:kThreadContainerSize],
+
+    [imageContainer.trailingAnchor constraintEqualToAnchor:postContainer.trailingAnchor],
+    [imageContainer.bottomAnchor constraintEqualToAnchor:postContainer.topAnchor constant:-kThreadContainerInset],
+    [imageContainer.widthAnchor constraintEqualToConstant:kThreadContainerSize],
+    [imageContainer.heightAnchor constraintEqualToConstant:kThreadContainerSize]
+  ]];
+
+  // Collapsed until updateTableView decides there are pages left to fetch.
+  UIView *downloadButton = [[UIView alloc] init];
+  downloadButton.translatesAutoresizingMaskIntoConstraints = NO;
+  downloadButton.hidden = YES;
+  [self.view addSubview:downloadButton];
+  NSLayoutConstraint *downloadHeight = [downloadButton.heightAnchor constraintEqualToConstant:0];
+  downloadHeight.active = YES;
+  self.massiveDownloadButtonHeightConstraint = downloadHeight;
+  [NSLayoutConstraint activateConstraints:@[
+    [downloadButton.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+    [downloadButton.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+    [downloadButton.bottomAnchor constraintEqualToAnchor:safeArea.bottomAnchor]
+  ]];
+}
 
 #pragma mark - view controller life cycle.
 - (void)viewDidLoad
@@ -493,9 +592,5 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 - (void)miniThreadViewController:(czzMiniThreadViewController *)viewController didSelectedQuotedThread:(NSString *)threadID {
     [self.threadTableViewManager userTapInQuotedText:threadID];
-}
-
-+(instancetype)new {
-    return [[UIStoryboard storyboardWithName:THREAD_VIEW_CONTROLLER_STORYBOARD_NAME bundle:nil] instantiateViewControllerWithIdentifier:THREAD_VIEW_CONTROLLER_ID];
 }
 @end

@@ -178,7 +178,7 @@
 -(void)downloadAndPrepareThreadWithID:(NSInteger)threadID {
     czzThread *dummpyParentThread = [czzThread new];
     dummpyParentThread.ID = threadID;
-    czzThreadViewController *threadViewController = [[UIStoryboard storyboardWithName:THREAD_VIEW_CONTROLLER_STORYBOARD_NAME bundle:nil] instantiateViewControllerWithIdentifier:THREAD_VIEW_CONTROLLER_ID];
+    czzThreadViewController *threadViewController = [czzThreadViewController new];
     threadViewController.thread = dummpyParentThread;
     [NavigationManager pushViewController:threadViewController animated:YES];
 //    miniThreadView = [[UIStoryboard storyboardWithName:@"MiniThreadView" bundle:nil] instantiateInitialViewController];

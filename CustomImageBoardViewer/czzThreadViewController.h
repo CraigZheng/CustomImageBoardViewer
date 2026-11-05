@@ -8,14 +8,11 @@
 
 #define THREAD_VIEW_CONTROLLER_ID @"thread_view_controller"
 
-#define THREAD_VIEW_CONTROLLER_STORYBOARD_NAME @"Main_iPhone"
-
 #import <UIKit/UIKit.h>
 #import "czzThread.h"
 #import "czzForum.h"
 #import "czzThreadTableView.h"
 
-extern NSString * const showThreadViewSegueIdentifier;
 
 @interface czzThreadViewController : UIViewController
 

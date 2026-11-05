@@ -127,7 +127,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
     
     if (self.myThread) {
-        czzThreadViewController *threadViewController = [[UIStoryboard storyboardWithName:THREAD_VIEW_CONTROLLER_STORYBOARD_NAME bundle:nil] instantiateViewControllerWithIdentifier:THREAD_VIEW_CONTROLLER_ID];
+        czzThreadViewController *threadViewController = [czzThreadViewController new];
         threadViewController.thread = self.myThread;
         [NavigationManager pushViewController:threadViewController animated:YES];
     }
