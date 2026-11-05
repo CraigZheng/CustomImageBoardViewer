@@ -10,11 +10,47 @@
 
 @interface czzTextSizeSelectorViewController () <UIPickerViewDelegate, UIPickerViewDataSource>
 
-@property (weak, nonatomic) IBOutlet UIPickerView *pickerView;
+@property (weak, nonatomic) UIPickerView *pickerView;
 @property (nonatomic, strong) NSArray *sizeTitles;
 @end
 
 @implementation czzTextSizeSelectorViewController
+
+- (void)loadView {
+  UIView *rootView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+  rootView.backgroundColor = [UIColor clearColor];
+  self.view = rootView;
+
+  UIPickerView *pickerView = [[UIPickerView alloc] init];
+  pickerView.translatesAutoresizingMaskIntoConstraints = NO;
+  pickerView.backgroundColor = [UIColor systemBackgroundColor];
+  pickerView.dataSource = self;
+  pickerView.delegate = self;
+  [rootView addSubview:pickerView];
+  self.pickerView = pickerView;
+
+  UIToolbar *toolbar = [[UIToolbar alloc] init];
+  toolbar.translatesAutoresizingMaskIntoConstraints = NO;
+  toolbar.items = @[
+    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+    [[UIBarButtonItem alloc] initWithTitle:@"OK" style:UIBarButtonItemStylePlain target:self action:@selector(okButtonAction:)]
+  ];
+  [rootView addSubview:toolbar];
+
+  [rootView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                        action:@selector(tapOnBackgroundViewAction:)]];
+
+  UILayoutGuide *safeArea = rootView.safeAreaLayoutGuide;
+  [NSLayoutConstraint activateConstraints:@[
+    [toolbar.leadingAnchor constraintEqualToAnchor:safeArea.leadingAnchor],
+    [toolbar.trailingAnchor constraintEqualToAnchor:safeArea.trailingAnchor],
+    [toolbar.heightAnchor constraintEqualToConstant:44],
+    [pickerView.topAnchor constraintEqualToAnchor:toolbar.bottomAnchor],
+    [pickerView.leadingAnchor constraintEqualToAnchor:safeArea.leadingAnchor],
+    [pickerView.trailingAnchor constraintEqualToAnchor:safeArea.trailingAnchor],
+    [pickerView.bottomAnchor constraintEqualToAnchor:safeArea.bottomAnchor]
+  ]];
+}
 
 - (void)viewDidLoad {
   [super viewDidLoad];

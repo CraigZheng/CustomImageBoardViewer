@@ -9,9 +9,41 @@
 import UIKit
 
 class ThemeSelectorViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
-  @IBOutlet private weak var picker: UIPickerView?
+  private var picker: UIPickerView?
   let options = ["跟随iOS系统设定", "黑夜模式", "普通模式"]
   
+  override func loadView() {
+    let rootView = UIView(frame: UIScreen.main.bounds)
+    rootView.backgroundColor = .systemBackground
+    view = rootView
+
+    let picker = UIPickerView()
+    picker.translatesAutoresizingMaskIntoConstraints = false
+    picker.dataSource = self
+    picker.delegate = self
+    rootView.addSubview(picker)
+    self.picker = picker
+
+    let toolbar = UIToolbar()
+    toolbar.translatesAutoresizingMaskIntoConstraints = false
+    toolbar.items = [
+      UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+      UIBarButtonItem(title: "OK", style: .plain, target: self, action: #selector(didTapOK(_:)))
+    ]
+    rootView.addSubview(toolbar)
+
+    let safeArea = rootView.safeAreaLayoutGuide
+    NSLayoutConstraint.activate([
+      toolbar.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+      toolbar.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+      toolbar.heightAnchor.constraint(equalToConstant: 44),
+      picker.topAnchor.constraint(equalTo: toolbar.bottomAnchor),
+      picker.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+      picker.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+      picker.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+    ])
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
     if czzSettingsCentre.sharedInstance().userDefUseSystemNightMode {

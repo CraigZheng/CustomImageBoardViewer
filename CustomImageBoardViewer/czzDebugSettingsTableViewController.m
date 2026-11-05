@@ -19,8 +19,46 @@ static NSString * const settingsIdentifier = @"settings_identifier";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:settingsIdentifier];
     NSDictionary *properties = [NSObject classPropsFor:[settingCentre class]];
     self.propertiyKeys = [properties.allKeys sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+}
+
+#pragma mark - Cell construction
+
+/// The prototype cell from the old storyboard: title over a wrapping description.
+- (UITableViewCell *)debugCellForTableView:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:settingsIdentifier forIndexPath:indexPath];
+
+    UILabel *titleLabel = [cell.contentView viewWithTag:1];
+    if (!titleLabel) {
+        titleLabel = [[UILabel alloc] init];
+        titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        titleLabel.tag = 1;
+        titleLabel.font = [UIFont systemFontOfSize:14];
+        titleLabel.numberOfLines = 0;
+        [cell.contentView addSubview:titleLabel];
+
+        UILabel *descriptionLabel = [[UILabel alloc] init];
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        descriptionLabel.tag = 2;
+        descriptionLabel.font = [UIFont systemFontOfSize:14];
+        descriptionLabel.numberOfLines = 0;
+        [cell.contentView addSubview:descriptionLabel];
+
+        CGFloat inset = 8;
+        [NSLayoutConstraint activateConstraints:@[
+            [titleLabel.topAnchor constraintEqualToAnchor:cell.contentView.topAnchor],
+            [titleLabel.leadingAnchor constraintEqualToAnchor:cell.contentView.leadingAnchor constant:inset],
+            [cell.contentView.trailingAnchor constraintEqualToAnchor:titleLabel.trailingAnchor constant:inset],
+
+            [descriptionLabel.topAnchor constraintEqualToAnchor:titleLabel.bottomAnchor constant:8],
+            [descriptionLabel.leadingAnchor constraintEqualToAnchor:cell.contentView.leadingAnchor constant:inset],
+            [cell.contentView.trailingAnchor constraintEqualToAnchor:descriptionLabel.trailingAnchor constant:inset],
+            [cell.contentView.bottomAnchor constraintEqualToAnchor:descriptionLabel.bottomAnchor constant:inset]
+        ]];
+    }
+    return cell;
 }
 
 #pragma mark - Table view data source
@@ -31,7 +69,7 @@ static NSString * const settingsIdentifier = @"settings_identifier";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:settingsIdentifier forIndexPath:indexPath];
+    UITableViewCell *cell = [self debugCellForTableView:tableView indexPath:indexPath];
     
     // Configure the cell...
     if (cell) {

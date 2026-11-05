@@ -18,17 +18,15 @@
 #import "czzHomeViewManager.h"
 #import "czzWatchListManager.h"
 #import "czzTextSizeSelectorViewController.h"
+#import "czzDebugSettingsTableViewController.h"
 #import "czzThreadListUtilTableViewController.h"
 #import "czzFeedbackViewController.h"
 #import "czzImageManagerViewController.h"
 #import "czzURLHandler.h"
 #import "CustomImageBoardViewer-Swift.h"
 
-static NSString *textSizeSelectorSegue = @"textSizeSelector";
-static NSString *themeSelectorSegue = @"themeSelector";
-
 @interface czzSettingsViewController ()<UIAlertViewDelegate, UIActionSheetDelegate, czzTextSizeSelectorViewControllerProtocol>
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *debugBarButton;
+@property (weak, nonatomic) UIBarButtonItem *debugBarButton;
 @property NSMutableArray *commands;
 @property NSMutableArray *regularCommands;
 @property NSMutableArray *switchCommands;
@@ -39,6 +37,41 @@ static NSString *themeSelectorSegue = @"themeSelector";
 @synthesize settingsTableView;
 @synthesize commands, regularCommands, switchCommands;
 @synthesize settingsCentre;
+
+- (void)loadView {
+  UIView *rootView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+  self.view = rootView;
+
+  self.navigationItem.title = @"设置";
+
+  UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+  tableView.translatesAutoresizingMaskIntoConstraints = NO;
+  tableView.dataSource = self;
+  tableView.delegate = self;
+  [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"command_cell_identifier"];
+  [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"switch_cell_identifier"];
+  [rootView addSubview:tableView];
+  settingsTableView = tableView;
+
+  UILayoutGuide *safeArea = rootView.safeAreaLayoutGuide;
+  [NSLayoutConstraint activateConstraints:@[
+    [tableView.topAnchor constraintEqualToAnchor:rootView.topAnchor],
+    [tableView.leadingAnchor constraintEqualToAnchor:rootView.leadingAnchor],
+    [tableView.trailingAnchor constraintEqualToAnchor:rootView.trailingAnchor],
+    [tableView.bottomAnchor constraintEqualToAnchor:safeArea.bottomAnchor]
+  ]];
+
+  UIBarButtonItem *debugItem = [[UIBarButtonItem alloc] initWithTitle:@"DEBUG"
+                                                               style:UIBarButtonItemStylePlain
+                                                              target:self
+                                                              action:@selector(debugAction:)];
+  self.navigationItem.rightBarButtonItem = debugItem;
+  self.debugBarButton = debugItem;
+}
+
+- (void)debugAction:(id)sender {
+  [NavigationManager pushViewController:[czzDebugSettingsTableViewController new] animated:YES];
+}
 
 - (void)viewDidLoad
 {
@@ -63,6 +96,68 @@ static NSString *themeSelectorSegue = @"themeSelector";
 }
 
 #pragma mark UITableViewDataSource
+
+/// command_cell_identifier prototype: a title label over a detail label.
+- (UITableViewCell *)commandCellForTableView:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath {
+  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"command_cell_identifier" forIndexPath:indexPath];
+  UILabel *commandLabel = [cell.contentView viewWithTag:5];
+  if (!commandLabel) {
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+    commandLabel = [[UILabel alloc] init];
+    commandLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    commandLabel.tag = 5;
+    [cell.contentView addSubview:commandLabel];
+
+    UILabel *detailLabel = [[UILabel alloc] init];
+    detailLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    detailLabel.tag = 6;
+    detailLabel.font = [UIFont systemFontOfSize:14];
+    detailLabel.textColor = [UIColor secondaryLabelColor];
+    detailLabel.textAlignment = NSTextAlignmentRight;
+    [cell.contentView addSubview:detailLabel];
+
+    UILayoutGuide *margins = cell.contentView.layoutMarginsGuide;
+    [NSLayoutConstraint activateConstraints:@[
+      [commandLabel.centerYAnchor constraintEqualToAnchor:cell.contentView.centerYAnchor],
+      [commandLabel.leadingAnchor constraintEqualToAnchor:margins.leadingAnchor],
+      [detailLabel.centerYAnchor constraintEqualToAnchor:commandLabel.centerYAnchor],
+      [detailLabel.trailingAnchor constraintEqualToAnchor:margins.trailingAnchor],
+      [commandLabel.trailingAnchor constraintLessThanOrEqualToAnchor:detailLabel.leadingAnchor constant:-8]
+    ]];
+  }
+  return cell;
+}
+
+/// switch_cell_identifier prototype: a title label with a UISwitch on the right.
+- (UITableViewCell *)switchCellForTableView:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath {
+  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"switch_cell_identifier" forIndexPath:indexPath];
+  UILabel *commandLabel = [cell.contentView viewWithTag:3];
+  if (!commandLabel) {
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+    commandLabel = [[UILabel alloc] init];
+    commandLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    commandLabel.tag = 3;
+    [cell.contentView addSubview:commandLabel];
+
+    UISwitch *commandSwitch = [[UISwitch alloc] init];
+    commandSwitch.translatesAutoresizingMaskIntoConstraints = NO;
+    commandSwitch.tag = 4;
+    [cell.contentView addSubview:commandSwitch];
+
+    UILayoutGuide *margins = cell.contentView.layoutMarginsGuide;
+    [NSLayoutConstraint activateConstraints:@[
+      [commandLabel.centerYAnchor constraintEqualToAnchor:cell.contentView.centerYAnchor],
+      [commandLabel.leadingAnchor constraintEqualToAnchor:margins.leadingAnchor],
+      [commandSwitch.centerYAnchor constraintEqualToAnchor:cell.contentView.centerYAnchor],
+      [commandSwitch.trailingAnchor constraintEqualToAnchor:margins.trailingAnchor],
+      [commandLabel.trailingAnchor constraintLessThanOrEqualToAnchor:commandSwitch.leadingAnchor constant:-8]
+    ]];
+  }
+  return cell;
+}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
   if (section == 0)
     return switchCommands.count;
@@ -91,102 +186,98 @@ static NSString *themeSelectorSegue = @"themeSelector";
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"command_cell_identifier"];
-  if (indexPath.section == 0){
-    NSString *command = [switchCommands objectAtIndex:indexPath.row];
-    UILabel *commandLabel = (UILabel*)[cell viewWithTag:5];
-    UILabel *detailLabel = (UILabel*)[cell viewWithTag:6];
+  UITableViewCell *cell;
+  if (indexPath.section == 0) {
+    cell = [self cellForSettingCommand:[switchCommands objectAtIndex:indexPath.row]
+                             indexPath:indexPath
+                             tableView:tableView];
+  } else {
+    cell = [self commandCellForTableView:tableView indexPath:indexPath];
+    NSString *command = [regularCommands objectAtIndex:indexPath.row];
+    UILabel *commandLabel = (UILabel *)[cell viewWithTag:5];
+    UILabel *detailLabel = (UILabel *)[cell viewWithTag:6];
     commandLabel.textColor = detailLabel.textColor = settingsCentre.contentTextColour;
-    // A special case - font size preference.
-    if ([command isEqualToString:@"字体偏好"]) {
-      commandLabel.text = command;
-      NSString *fontSize = @"";
-      switch (settingsCentre.threadTextSize) {
-        case TextSizeBig:
-          fontSize = @"大";
-          break;
-        case TextSizeExtraBig:
-          fontSize = @"特大";
-          break;
-        case TextSizeSmall:
-          fontSize = @"小";
-          break;
-        default:
-          fontSize = @"默认";
-          break;
-      }
-      detailLabel.text = fontSize;
-    } else if ([command isEqualToString:@"黑夜模式"]) {
-      commandLabel.text = command;
-      NSString *title = @"";
-      if (settingsCentre.userDefUseSystemNightMode) {
-        title = @"跟随iOS系统设定";
-      } else {
-        if (settingsCentre.userDefNightyMode) {
-          title = @"黑夜模式";
-        } else {
-          title = @"普通模式";
-        }
-      }
-      detailLabel.text = title;
-    } else {
-      cell = [tableView dequeueReusableCellWithIdentifier:@"switch_cell_identifier"];
-      UILabel *commandLabel = (UILabel*)[cell viewWithTag:3];
-      UISwitch *commandSwitch = (UISwitch*)[cell viewWithTag:4];
-      commandLabel.textColor = settingsCentre.contentTextColour;
-      commandLabel.text = command;
-      
-      [commandSwitch addTarget:self action:@selector(switchDidChanged:) forControlEvents:UIControlEventValueChanged];
-      //set value for switch
-      if ([command isEqualToString:@"显示图片"]){
-        BOOL shouldLoadImages = settingsCentre.userDefShouldDisplayThumbnail;
-        [commandSwitch setOn:shouldLoadImages];
-      }
-      else if ([command isEqualToString:@"显示快速滑动按钮"]) {
-        BOOL sbouldShowOnScreenCommand = settingsCentre.userDefShouldShowOnScreenCommand;
-        [commandSwitch setOn:sbouldShowOnScreenCommand];
-      }
-      else if ([command isEqualToString:@"图片下载完毕自动打开"]){
-        BOOL shouldAutoOpen = settingsCentre.userDefShouldAutoOpenImage;
-        [commandSwitch setOn:shouldAutoOpen];
-        
-      } else if ([command isEqualToString:@"开启串缓存"]){
-        BOOL shouldCache = settingsCentre.userDefShouldCacheData;
-        [commandSwitch setOn:shouldCache];
-      } else if ([command isEqualToString:@"高亮楼主/PO主"]) {
-        BOOL shouldHighlight = settingsCentre.userDefShouldHighlightPO;
-        [commandSwitch setOn:shouldHighlight];
-      } else if ([command isEqualToString:@"夜间模式"]) {
-        [commandSwitch setOn:settingsCentre.userDefNightyMode];
-      }
-      else if ([command isEqualToString:@"大图模式"]) {
-        [commandSwitch setOn:settingsCentre.userDefShouldUseBigImage];
-      }
-      else if ([command isEqualToString:@"每月自动清理缓存"]) {
-        [commandSwitch setOn:settingsCentre.userDefShouldCleanCaches];
-      } else if ([command isEqualToString:@"Monitor Performance"]) {
-        //             [commandSwitch setOn:[DartCrowdSourcingConstants isEnabled]];
-      } else if ([command isEqualToString:@"自动下载大图"]) {
-        [commandSwitch setOn:settingCentre.userDefShouldAutoDownloadImage];
-      } else if ([command isEqualToString:@"收起超长的内容"]) {
-        [commandSwitch setOn:settingCentre.userDefShouldCollapseLongContent];
-      } else if ([command isEqualToString:@"显示图片下载管理器"]) {
-        [commandSwitch setOn:settingCentre.shouldShowImageManagerButton];
-      } else if ([command isEqualToString:@"显示草稿"]) {
-        [commandSwitch setOn:settingCentre.userDefShouldShowDraft];
-      } else if ([command isEqualToString:@"记录页码"]) {
-        [commandSwitch setOn:settingCentre.userDefRecordPageNumber];
-      }
-    }
-  } else if (indexPath.section == 1){
-    UILabel *commandLabel = (UILabel*)[cell viewWithTag:5];
-    UILabel *detailLabel = (UILabel*)[cell viewWithTag:6];
-    commandLabel.textColor = settingsCentre.contentTextColour;
-    [commandLabel setText:[regularCommands objectAtIndex:indexPath.row]];
+    commandLabel.text = command;
     detailLabel.text = nil;
   }
-  //cell background colour
   cell.contentView.backgroundColor = settingsCentre.viewBackgroundColour;
+  return cell;
+}
+
+/// Builds one row of the 软件设置 section: either a detail row or a switch row.
+/// Each index path is dequeued exactly once.
+- (UITableViewCell *)cellForSettingCommand:(NSString *)command
+                                 indexPath:(NSIndexPath *)indexPath
+                                 tableView:(UITableView *)tableView {
+  BOOL showsDetail = [command isEqualToString:@"字体偏好"] || [command isEqualToString:@"黑夜模式"];
+  if (showsDetail) {
+    UITableViewCell *cell = [self commandCellForTableView:tableView indexPath:indexPath];
+    UILabel *commandLabel = (UILabel *)[cell viewWithTag:5];
+    UILabel *detailLabel = (UILabel *)[cell viewWithTag:6];
+    commandLabel.textColor = detailLabel.textColor = settingsCentre.contentTextColour;
+    commandLabel.text = command;
+
+    if ([command isEqualToString:@"字体偏好"]) {
+      switch (settingsCentre.threadTextSize) {
+        case TextSizeBig:
+          detailLabel.text = @"大";
+          break;
+        case TextSizeExtraBig:
+          detailLabel.text = @"特大";
+          break;
+        case TextSizeSmall:
+          detailLabel.text = @"小";
+          break;
+        default:
+          detailLabel.text = @"默认";
+          break;
+      }
+    } else if (settingsCentre.userDefUseSystemNightMode) {
+      detailLabel.text = @"跟随iOS系统设定";
+    } else if (settingsCentre.userDefNightyMode) {
+      detailLabel.text = @"黑夜模式";
+    } else {
+      detailLabel.text = @"普通模式";
+    }
+    return cell;
+  }
+
+  UITableViewCell *cell = [self switchCellForTableView:tableView indexPath:indexPath];
+  UILabel *commandLabel = (UILabel *)[cell viewWithTag:3];
+  UISwitch *commandSwitch = (UISwitch *)[cell viewWithTag:4];
+  commandLabel.textColor = settingsCentre.contentTextColour;
+  commandLabel.text = command;
+
+  [commandSwitch removeTarget:self action:@selector(switchDidChanged:) forControlEvents:UIControlEventValueChanged];
+  [commandSwitch addTarget:self action:@selector(switchDidChanged:) forControlEvents:UIControlEventValueChanged];
+
+  if ([command isEqualToString:@"显示图片"]) {
+    [commandSwitch setOn:settingsCentre.userDefShouldDisplayThumbnail];
+  } else if ([command isEqualToString:@"显示快速滑动按钮"]) {
+    [commandSwitch setOn:settingsCentre.userDefShouldShowOnScreenCommand];
+  } else if ([command isEqualToString:@"图片下载完毕自动打开"]) {
+    [commandSwitch setOn:settingsCentre.userDefShouldAutoOpenImage];
+  } else if ([command isEqualToString:@"开启串缓存"]) {
+    [commandSwitch setOn:settingsCentre.userDefShouldCacheData];
+  } else if ([command isEqualToString:@"高亮楼主/PO主"]) {
+    [commandSwitch setOn:settingsCentre.userDefShouldHighlightPO];
+  } else if ([command isEqualToString:@"夜间模式"]) {
+    [commandSwitch setOn:settingsCentre.userDefNightyMode];
+  } else if ([command isEqualToString:@"大图模式"]) {
+    [commandSwitch setOn:settingsCentre.userDefShouldUseBigImage];
+  } else if ([command isEqualToString:@"每月自动清理缓存"]) {
+    [commandSwitch setOn:settingsCentre.userDefShouldCleanCaches];
+  } else if ([command isEqualToString:@"自动下载大图"]) {
+    [commandSwitch setOn:settingCentre.userDefShouldAutoDownloadImage];
+  } else if ([command isEqualToString:@"收起超长的内容"]) {
+    [commandSwitch setOn:settingCentre.userDefShouldCollapseLongContent];
+  } else if ([command isEqualToString:@"显示图片下载管理器"]) {
+    [commandSwitch setOn:settingsCentre.shouldShowImageManagerButton];
+  } else if ([command isEqualToString:@"显示草稿"]) {
+    [commandSwitch setOn:settingCentre.userDefShouldShowDraft];
+  } else if ([command isEqualToString:@"记录页码"]) {
+    [commandSwitch setOn:settingCentre.userDefRecordPageNumber];
+  }
   return cell;
 }
 
@@ -199,9 +290,14 @@ static NSString *themeSelectorSegue = @"themeSelector";
   if (indexPath.section == 0) {
     NSString *command = [switchCommands objectAtIndex:indexPath.row];
     if ([command isEqualToString:@"字体偏好"]) {
-      [self performSegueWithIdentifier:textSizeSelectorSegue sender:nil];
+      czzTextSizeSelectorViewController *textSizeSelector = [czzTextSizeSelectorViewController new];
+      textSizeSelector.delegate = self;
+      textSizeSelector.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+      [self presentViewController:textSizeSelector animated:YES completion:nil];
     } else if ([command isEqualToString:@"黑夜模式"]) {
-      [self performSegueWithIdentifier:themeSelectorSegue sender:nil];
+      ThemeSelectorViewController *themeSelector = [ThemeSelectorViewController new];
+      themeSelector.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+      [self presentViewController:themeSelector animated:YES completion:nil];
     }
   } else if (indexPath.section == 1){
     NSString *command = [regularCommands objectAtIndex:indexPath.row];
@@ -410,14 +506,6 @@ static NSString *themeSelectorSegue = @"themeSelector";
   }
 }
 
-#pragma mark - Segue events.
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-  if ([segue.identifier isEqualToString:textSizeSelectorSegue] && [segue.destinationViewController isKindOfClass:[czzTextSizeSelectorViewController class]]) {
-    [(czzTextSizeSelectorViewController*)segue.destinationViewController setDelegate: self];
-  }
-}
-
 #pragma mark - czzTextSizeSelectorViewController
 
 - (void)textSizeSelected:(czzTextSizeSelectorViewController *)viewController textSize:(ThreadViewTextSize)size {
@@ -444,10 +532,6 @@ static NSString *themeSelectorSegue = @"themeSelector";
   } else {
     [czzBannerNotificationUtil displayMessage:@"谢谢，现在作者并不需要捐款。。。" position:BannerNotificationPositionTop];
   }
-}
-
-+ (instancetype)new {
-  return [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"settings_view_controller"];
 }
 
 //https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=T4UA7Y3NRP8TA&lc=C2&item_name=CraigZheng&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
