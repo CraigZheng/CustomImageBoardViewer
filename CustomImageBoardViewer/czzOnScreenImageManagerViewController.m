@@ -71,8 +71,10 @@
     // Do any additional setup after loading the view.
 
     CAShapeLayer *circle = [CAShapeLayer layer];
-    // Make a circular shape
-    UIBezierPath *circularPath=[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, mainIcon.frame.size.width, mainIcon.frame.size.height) cornerRadius:MAX(mainIcon.frame.size.width, mainIcon.frame.size.height)];
+    // Make a circular shape. The icon is laid out by Auto Layout, so its frame is
+    // still zero here; the mask uses the fixed icon size instead.
+    CGFloat diameter = 40;
+    UIBezierPath *circularPath=[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, diameter, diameter) cornerRadius:diameter];
     
     circle.path = circularPath.CGPath;
     

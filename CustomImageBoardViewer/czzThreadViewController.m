@@ -81,6 +81,10 @@
 /// Layout constants carried over from the retired thread view scene.
 static CGFloat const kThreadContainerSize = 60;
 static CGFloat const kThreadContainerInset = 8;
+static CGFloat const kThreadContainerTrailingInset = 20;
+static CGFloat const kDownloadButtonWidth = 40;
+static CGFloat const kDownloadTrailingInset = 30;
+static CGFloat const kDownloadBottomInset = 12;
 
 - (void)loadView {
   UIView *rootView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -139,6 +143,21 @@ static CGFloat const kThreadContainerInset = 8;
 }
 
 - (void)buildFloatingContainers {
+  // Layout matches the retired scene: the containers stack bottom-up above the
+  // massive download button, which is collapsed to zero height until needed.
+  UIButton *downloadButton = [UIButton buttonWithType:UIButtonTypeCustom];
+  downloadButton.translatesAutoresizingMaskIntoConstraints = NO;
+  [downloadButton setImage:[UIImage imageNamed:@"download.png"] forState:UIControlStateNormal];
+  [downloadButton addTarget:self action:@selector(massiveDownloadAction:) forControlEvents:UIControlEventTouchUpInside];
+  [self.view addSubview:downloadButton];
+  self.massiveDownloadButton = downloadButton;
+
+  UIImageView *indicator = [[UIImageView alloc] init];
+  indicator.translatesAutoresizingMaskIntoConstraints = NO;
+  indicator.contentMode = UIViewContentModeScaleAspectFit;
+  [downloadButton addSubview:indicator];
+  self.massiveDownloadIndicatorImageView = indicator;
+
   UIView *imageContainer = [[UIView alloc] init];
   imageContainer.translatesAutoresizingMaskIntoConstraints = NO;
   imageContainer.hidden = YES;
@@ -151,30 +170,34 @@ static CGFloat const kThreadContainerInset = 8;
   self.postSenderViewContainer = postContainer;
 
   UILayoutGuide *safeArea = self.view.safeAreaLayoutGuide;
-  [NSLayoutConstraint activateConstraints:@[
-    [postContainer.trailingAnchor constraintEqualToAnchor:safeArea.trailingAnchor constant:-kThreadContainerInset],
-    [postContainer.bottomAnchor constraintEqualToAnchor:safeArea.bottomAnchor constant:-kThreadContainerInset],
-    [postContainer.widthAnchor constraintEqualToConstant:kThreadContainerSize],
-    [postContainer.heightAnchor constraintEqualToConstant:kThreadContainerSize],
-
-    [imageContainer.leadingAnchor constraintEqualToAnchor:postContainer.leadingAnchor],
-    [imageContainer.bottomAnchor constraintEqualToAnchor:postContainer.topAnchor constant:-kThreadContainerInset],
-    [imageContainer.widthAnchor constraintEqualToConstant:kThreadContainerSize],
-    [imageContainer.heightAnchor constraintEqualToConstant:kThreadContainerSize]
-  ]];
-
-  // Collapsed until updateTableView decides there are pages left to fetch.
-  UIView *downloadButton = [[UIView alloc] init];
-  downloadButton.translatesAutoresizingMaskIntoConstraints = NO;
-  downloadButton.hidden = YES;
-  [self.view addSubview:downloadButton];
   NSLayoutConstraint *downloadHeight = [downloadButton.heightAnchor constraintEqualToConstant:0];
   downloadHeight.active = YES;
   self.massiveDownloadButtonHeightConstraint = downloadHeight;
+
   [NSLayoutConstraint activateConstraints:@[
-    [downloadButton.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
-    [downloadButton.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
-    [downloadButton.bottomAnchor constraintEqualToAnchor:safeArea.bottomAnchor]
+    // The download button is narrower than the containers and sits further in
+    // from the trailing edge, exactly as the retired scene had it.
+    [safeArea.trailingAnchor constraintEqualToAnchor:downloadButton.trailingAnchor constant:kDownloadTrailingInset],
+    [safeArea.bottomAnchor constraintEqualToAnchor:downloadButton.bottomAnchor constant:kDownloadBottomInset],
+    [downloadButton.widthAnchor constraintEqualToConstant:kDownloadButtonWidth],
+
+    [indicator.centerXAnchor constraintEqualToAnchor:downloadButton.centerXAnchor],
+    [indicator.centerYAnchor constraintEqualToAnchor:downloadButton.centerYAnchor],
+    [indicator.widthAnchor constraintEqualToAnchor:downloadButton.widthAnchor],
+    [indicator.heightAnchor constraintEqualToAnchor:downloadButton.heightAnchor],
+
+    // The container stack anchors to the download button, not the safe area.
+    [safeArea.trailingAnchor constraintEqualToAnchor:imageContainer.trailingAnchor constant:kThreadContainerTrailingInset],
+    [imageContainer.bottomAnchor constraintEqualToAnchor:downloadButton.topAnchor constant:-kThreadContainerInset],
+    [imageContainer.widthAnchor constraintEqualToConstant:kThreadContainerSize],
+    [imageContainer.heightAnchor constraintEqualToConstant:kThreadContainerSize],
+
+    [postContainer.leadingAnchor constraintEqualToAnchor:imageContainer.leadingAnchor],
+    [postContainer.bottomAnchor constraintEqualToAnchor:imageContainer.topAnchor constant:-kThreadContainerInset],
+    [postContainer.widthAnchor constraintEqualToConstant:kThreadContainerSize],
+    [postContainer.heightAnchor constraintEqualToConstant:kThreadContainerSize],
+
+    [imageContainer.topAnchor constraintGreaterThanOrEqualToAnchor:safeArea.topAnchor constant:20]
   ]];
 }
 
@@ -324,16 +347,17 @@ static CGFloat const kThreadContainerInset = 8;
             numberBarButton.customView.hidden = NO;
         // Hide the massive download button at first, then show it with animation.
         // Show it only when the total pages is still 3 or more pages away from the current page number.
-        if (!self.massiveDownloadButtonHeightConstraint.constant &&
-            viewManager.totalPages - viewManager.threads.lastObject.pageNumber >= 3) {
+        // lastObject is nil until the first page arrives; treat that as no button.
+        NSInteger currentPage = viewManager.threads.lastObject.pageNumber;
+        NSInteger remainingPages = currentPage > 0 ? viewManager.totalPages - currentPage : 0;
+        if (!self.massiveDownloadButtonHeightConstraint.constant && remainingPages >= 3) {
             self.massiveDownloadButtonHeightConstraint.constant = 40;
             [UIView animateWithDuration:0.2 animations:^{
                 [self.view layoutIfNeeded];
             }];
         }
         // Else, if the massive download button is showing and view manager has reached all of its pages.
-        else if (self.massiveDownloadButtonHeightConstraint.constant &&
-                 viewManager.threads.lastObject.pageNumber >= viewManager.totalPages) {
+        else if (self.massiveDownloadButtonHeightConstraint.constant && remainingPages <= 0) {
             self.massiveDownloadButtonHeightConstraint.constant = 0;
             [UIView animateWithDuration:0.2 animations:^{
                 [self.view layoutIfNeeded];

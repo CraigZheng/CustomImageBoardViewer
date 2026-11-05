@@ -85,7 +85,6 @@
     navigationController.definesPresentationContext = YES;
     navigationController.restorationIdentifier = @"home_navigation_controller";
     navigationController.toolbarHidden = NO;
-    navigationController.edgesForExtendedLayout = UIRectEdgeNone;
     // Set the root after -setup has registered the singleton, so loading the
     // home screen can reach SlideNavigationController.sharedInstance.
     [navigationController setViewControllers:@[[czzHomeViewController new]]];

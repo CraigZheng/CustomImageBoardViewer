@@ -48,8 +48,10 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   CAShapeLayer *circle = [CAShapeLayer layer];
-  // Make a circular shape
-  UIBezierPath *circularPath=[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, self.indicatorImageView.frame.size.width, self.indicatorImageView.frame.size.height) cornerRadius:MAX(self.indicatorImageView.frame.size.width, self.indicatorImageView.frame.size.height)];
+  // Make a circular shape. The indicator is laid out by Auto Layout, so its frame
+  // is still zero here; the mask uses the fixed indicator size instead.
+  CGFloat diameter = 40;
+  UIBezierPath *circularPath=[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, diameter, diameter) cornerRadius:diameter];
   circle.path = circularPath.CGPath;
   // Configure the apperence of the circle
   // Make the indicator image view round.
