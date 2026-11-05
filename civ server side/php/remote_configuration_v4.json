@@ -41,7 +41,6 @@
     "sensitive_keyword": "非法词",
     "success_keyword": "成功",
     "share_image_only_keyword": "分享图片",
-    "popular_threads_link": "http://my-realm.com/php/popular_threads.php",
     "timeline_url": "https://tnmb.org/Api/timeline",
     "message": "",
     "ignored_thread_ids": [9999999]

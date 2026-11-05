@@ -446,13 +446,6 @@
 		44858EAC1A0C5B0A00DD822B /* czzImageViewerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 44858EAB1A0C5B0A00DD822B /* czzImageViewerUtil.m */; };
 		4485F4FC19F5FF38007A73CC /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 4485F4FB19F5FF38007A73CC /* NSString+HTML.m */; };
 		4490A80F1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4490A80E1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m */; };
-		44989A211CFC5A8500F04ECD /* popular_threads.json in Resources */ = {isa = PBXBuildFile; fileRef = 44989A201CFC5A8500F04ECD /* popular_threads.json */; };
-		44989A221CFC5A8500F04ECD /* popular_threads.json in Resources */ = {isa = PBXBuildFile; fileRef = 44989A201CFC5A8500F04ECD /* popular_threads.json */; };
-		44989A251CFC5AE900F04ECD /* czzPopularThreadsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A241CFC5AE900F04ECD /* czzPopularThreadsManager.m */; };
-		44989A261CFC5AE900F04ECD /* czzPopularThreadsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A241CFC5AE900F04ECD /* czzPopularThreadsManager.m */; };
-		44989A291CFC5B7200F04ECD /* czzThreadSuggestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A281CFC5B7200F04ECD /* czzThreadSuggestion.m */; };
-		44989A2A1CFC5B7200F04ECD /* czzThreadSuggestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A281CFC5B7200F04ECD /* czzThreadSuggestion.m */; };
-		44989A2D1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A2C1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m */; };
 		44989A361CFC6E5600F04ECD /* czzURLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A351CFC6E5600F04ECD /* czzURLHandler.m */; };
 		44989A371CFC6E5600F04ECD /* czzURLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 44989A351CFC6E5600F04ECD /* czzURLHandler.m */; };
 		4498A7E41B89984500312A11 /* CPAutoFillView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498A7E31B89984400312A11 /* CPAutoFillView.m */; };
@@ -1390,13 +1383,6 @@
 		4490A80E1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzMassiveThreadDownloaderTest.m; sourceTree = "<group>"; };
 		449472741C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WKInterfaceImage+ActivityIndicator.h"; sourceTree = "<group>"; };
 		449472751C069D7400562A7C /* WKInterfaceImage+ActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WKInterfaceImage+ActivityIndicator.m"; sourceTree = "<group>"; };
-		44989A201CFC5A8500F04ECD /* popular_threads.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = popular_threads.json; sourceTree = "<group>"; };
-		44989A231CFC5AE900F04ECD /* czzPopularThreadsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzPopularThreadsManager.h; sourceTree = "<group>"; };
-		44989A241CFC5AE900F04ECD /* czzPopularThreadsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzPopularThreadsManager.m; sourceTree = "<group>"; };
-		44989A271CFC5B7200F04ECD /* czzThreadSuggestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadSuggestion.h; sourceTree = "<group>"; };
-		44989A281CFC5B7200F04ECD /* czzThreadSuggestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadSuggestion.m; sourceTree = "<group>"; };
-		44989A2B1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzForumsTableViewThreadSuggestionsManager.h; sourceTree = "<group>"; };
-		44989A2C1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzForumsTableViewThreadSuggestionsManager.m; sourceTree = "<group>"; };
 		44989A341CFC6E5600F04ECD /* czzURLHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzURLHandler.h; sourceTree = "<group>"; };
 		44989A351CFC6E5600F04ECD /* czzURLHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzURLHandler.m; sourceTree = "<group>"; };
 		4498A7E21B89984400312A11 /* CPAutoFillView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPAutoFillView.h; sourceTree = "<group>"; };
@@ -2047,7 +2033,6 @@
 				442F1FD21B13500C00267698 /* czzAppActivityManager.m */,
 				442BFC741D1D1000007545EB /* CustomImageBoardViewer-Bridging-Header.h */,
 				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
-				44989A1F1CFC5A8500F04ECD /* Popular Thread */,
 				44CBF3FD1BC9243300DFECFC /* CacheCleaner */,
 				44E2D2D91B2DB7AD0029D783 /* UtilViewControllers */,
 				44DF8ECC1A74CA4B0097F7F5 /* Utils */,
@@ -2124,9 +2109,7 @@
 				4411B2EE1AFF6A5500E94A5B /* default_forums.json */,
 				440B2FC517F7DB7800544926 /* czzForumsViewController.h */,
 				440B2FC617F7DB7800544926 /* czzForumsViewController.m */,
-				44989A2B1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.h */,
 				445A15031EC088EF004C146D /* ForumsTableViewManager.swift */,
-				44989A2C1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m */,
 				440E8B7B1D6C947F00164BC9 /* czzAddForumTableViewController.h */,
 				440E8B7C1D6C947F00164BC9 /* czzAddForumTableViewController.m */,
 				440E8B781D6C90FC00164BC9 /* czzCustomForumTableViewManager.h */,
@@ -2855,18 +2838,6 @@
 				4479B07C1A0BB8E70074D484 /* czzTextViewHeightCalculator.m */,
 			);
 			name = ThreadView;
-			sourceTree = "<group>";
-		};
-		44989A1F1CFC5A8500F04ECD /* Popular Thread */ = {
-			isa = PBXGroup;
-			children = (
-				44989A201CFC5A8500F04ECD /* popular_threads.json */,
-				44989A231CFC5AE900F04ECD /* czzPopularThreadsManager.h */,
-				44989A241CFC5AE900F04ECD /* czzPopularThreadsManager.m */,
-				44989A271CFC5B7200F04ECD /* czzThreadSuggestion.h */,
-				44989A281CFC5B7200F04ECD /* czzThreadSuggestion.m */,
-			);
-			path = "Popular Thread";
 			sourceTree = "<group>";
 		};
 		44989A331CFC6E2300F04ECD /* URL Handler */ = {
@@ -3837,7 +3808,6 @@
 				4421C37A1E7BF2DA00BD48C4 /* ac-new8.png in Resources */,
 				4421C34E1E7BF2DA00BD48C4 /* ac-new4.png in Resources */,
 				4421C3001E7BF2DA00BD48C4 /* ac-classic18.png in Resources */,
-				44989A211CFC5A8500F04ECD /* popular_threads.json in Resources */,
 				B753615B24AE278A000F562F /* reed-color35.png in Resources */,
 				4421C3FA1E7BF2DB00BD48C4 /* reed-classic84.png in Resources */,
 				444F5B341A40EA3500EB391F /* 33.png in Resources */,
@@ -4399,7 +4369,6 @@
 				44F86B6C1C1BB505001306E8 /* ThreadContentPage2.json in Resources */,
 				4425A286199700F000671B88 /* test_image.png in Resources */,
 				44C73BD81A496C4F0051D4C2 /* iphone5 launch screen.png in Resources */,
-				44989A221CFC5A8500F04ECD /* popular_threads.json in Resources */,
 				44C73B831A471F060051D4C2 /* ThreadContent.json in Resources */,
 				44C73BDF1A496D6E0051D4C2 /* ipad 768 horizontal launch screen.png in Resources */,
 				4431E5451CA4B90E0098AA01 /* popup notification example.json in Resources */,
@@ -4474,7 +4443,6 @@
 				44F0A0422EF2000500C1B001 /* UIBarButtonItem+CIVLayout.m in Sources */,
 				4448C2AA180FF6C600D2CD76 /* czzBlacklistSender.m in Sources */,
 				44858EAC1A0C5B0A00DD822B /* czzImageViewerUtil.m in Sources */,
-				44989A291CFC5B7200F04ECD /* czzThreadSuggestion.m in Sources */,
 				4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */,
 				44DDC7FA1DB8A5A6001A569D /* UIDColourPairCellTableViewCell.swift in Sources */,
 				441E5D2917F48B3D00289DBD /* Toast+UIView.m in Sources */,
@@ -4559,7 +4527,6 @@
 				441E5D1B17F46E7900289DBD /* SMXMLDocument.m in Sources */,
 				441E5D1217F46A0900289DBD /* czzEntryPointViewController.m in Sources */,
 				441E6F451DB5C44F005B779B /* czzMarkerManager.m in Sources */,
-				44989A251CFC5AE900F04ECD /* czzPopularThreadsManager.m in Sources */,
 				440A62A81B8EBC160046E4CE /* UIViewController+Util.m in Sources */,
 				44E469E11BAD9B5000C0AACC /* czzWatchKitCommand.m in Sources */,
 				44761D762342125E00C0B05F /* czzURLHandler.swift in Sources */,
@@ -4573,7 +4540,6 @@
 				5A26E77919398D7F00B709C9 /* czzNotificationBannerViewController.m in Sources */,
 				44833DE51FFB9F1E00FA47EB /* QRCodeScannerViewController.swift in Sources */,
 				44BDA3F11DB7113500D2F576 /* AddMarkerViewController.swift in Sources */,
-				44989A2D1CFC65B900F04ECD /* czzForumsTableViewThreadSuggestionsManager.m in Sources */,
 				440B2FD017F8191700544926 /* czzPost.m in Sources */,
 				449E928A1BF8A33300EE2F58 /* czzThreadDownloader.m in Sources */,
 				44E3F73E1BA2FFB600597A3F /* NSObject+Util.m in Sources */,
@@ -4629,11 +4595,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				44C73B8A1A4840100051D4C2 /* czzHistoryManager.m in Sources */,
-				44989A261CFC5AE900F04ECD /* czzPopularThreadsManager.m in Sources */,
 				4490A80F1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m in Sources */,
 				4446B5AF1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m in Sources */,
 				442F1FE31B15FC8500267698 /* UINavigationController+Util.m in Sources */,
-				44989A2A1CFC5B7200F04ECD /* czzThreadSuggestion.m in Sources */,
 				441E5CFD17F4691300289DBD /* CustomImageBoardViewerTests.m in Sources */,
 				4431E5441CA4B8F20098AA01 /* czzLaunchPopUpTest.m in Sources */,
 				44CD96A11C1AA488007E522F /* czzThreadTest.m in Sources */,

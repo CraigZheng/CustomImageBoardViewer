@@ -15,9 +15,7 @@
 #import "czzSettingsCentre.h"
 #import "czzForum.h"
 #import "czzForumManager.h"
-#import "czzPopularThreadsManager.h"
 #import "czzMoreInfoViewController.h"
-#import "czzForumsTableViewThreadSuggestionsManager.h"
 #import "czzCustomForumTableViewManager.h"
 #import "czzAddForumTableViewController.h"
 
@@ -29,24 +27,20 @@ NSString * const kPickedTimeline = @"kPickedTimeline";
 
 typedef enum : NSUInteger {
     ForumSection = 0,
-    ThreadSuggestionSection,
     CustomForumSection
 } SectionType;
 
-@interface czzForumsViewController () <UITableViewDataSource, UITableViewDelegate, czzPopularThreadsManagerDelegate>
+@interface czzForumsViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) ForumsTableViewManager *forumsTableViewManager;
-@property (strong, nonatomic) czzForumsTableViewThreadSuggestionsManager *tableviewThreadSuggestionsManager;
 @property (strong, nonatomic) czzCustomForumTableViewManager * customForumTableViewManager;
 
 @property (strong, nonatomic) UITableView *forumsTableView;
-@property (strong, nonatomic) UITableView *suggestionTableView;
 @property (strong, nonatomic) UITableView *customForumsTableView;
 @property (strong, nonatomic) UIView *adView;
 @property (strong, nonatomic) NSDate *lastUpdateTime;
 @property (assign, nonatomic) NSTimeInterval updateInterval;
 @property (assign, nonatomic) BOOL shouldHideCoverView;
 @property czzForumManager *forumManager;
-@property (strong, nonatomic) czzPopularThreadsManager *popularThreadsManager;
 @end
 
 @implementation czzForumsViewController
@@ -69,7 +63,6 @@ typedef enum : NSUInteger {
     
     self.forumManager = [czzForumManager sharedManager];
     self.forumsTableViewManager.forumGroups = self.forumManager.forumGroups;
-    self.tableviewThreadSuggestionsManager.popularThreadsManager = self.popularThreadsManager;
     // Reload the forum view when notification from settings centre is received.
     __weak typeof(self) weakSelf = self;
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -125,7 +118,6 @@ typedef enum : NSUInteger {
     self.forumsTableViewManager.forumGroups = self.forumManager.forumGroups;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.forumsTableView reloadData];
-        [self.suggestionTableView reloadData];
         [self.customForumsTableView reloadData];
         [self.tableView reloadData];
     });
@@ -134,8 +126,7 @@ typedef enum : NSUInteger {
 - (void)refreshContent {
     if (!self.lastUpdateTime || [[NSDate new] timeIntervalSinceDate:self.lastUpdateTime] > self.updateInterval) {
         self.lastUpdateTime = [NSDate new];
-        [self refreshForums];//might be a good idea to update the forums as well
-        [self.popularThreadsManager refreshPopularThreads];
+        [self refreshForums];
     }
 }
 
@@ -151,7 +142,7 @@ typedef enum : NSUInteger {
 #pragma mark -  UITableViewDataSource, UITableViewDelegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 2;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -168,7 +159,7 @@ typedef enum : NSUInteger {
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Forum / suggestion / custom-forum segmented control was removed; keep the old
+    // Forum / custom-forum segmented control was removed; keep the old
     // default of showing only the forums section.
     return section == ForumSection ? 1 : 0;
 }
@@ -181,21 +172,12 @@ typedef enum : NSUInteger {
     switch (indexPath.section) {
         case ForumSection:
             return self.forumsTableView.contentSize.height;
-        case ThreadSuggestionSection: {
-            return self.suggestionTableView.contentSize.height;
-        }
         case CustomForumSection:
             return self.customForumsTableView.contentSize.height;
         default:
             return UITableViewAutomaticDimension;
             break;
     }
-}
-
-#pragma mark - czzPopularThreadsManagerDelegate
-
-- (void)popularThreadsManagerDidUpdate:(czzPopularThreadsManager *)manager {
-    [self reloadDataSources];
 }
 
 #pragma mark - Settings changed notification.
@@ -219,10 +201,8 @@ typedef enum : NSUInteger {
     self.tableView.tableFooterView = footerView;
 
     self.forumsTableViewManager = [ForumsTableViewManager new];
-    self.tableviewThreadSuggestionsManager = [czzForumsTableViewThreadSuggestionsManager new];
     self.customForumTableViewManager = [czzCustomForumTableViewManager new];
     self.forumsTableView = [self embeddedGroupedTableWithDataSource:self.forumsTableViewManager];
-    self.suggestionTableView = [self embeddedGroupedTableWithDataSource:self.tableviewThreadSuggestionsManager];
     self.customForumsTableView = [self embeddedGroupedTableWithDataSource:self.customForumTableViewManager];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"info.png"] style:UIBarButtonItemStylePlain target:self action:@selector(moreInfoAction:)];
 }
@@ -246,23 +226,11 @@ typedef enum : NSUInteger {
 
 - (UITableView *)nestedTableForSection:(NSInteger)section {
     switch (section) {
-        case ThreadSuggestionSection:
-            return self.suggestionTableView;
         case CustomForumSection:
             return self.customForumsTableView;
         default:
             return self.forumsTableView;
     }
-}
-
-#pragma mark - Getters
-
-- (czzPopularThreadsManager *)popularThreadsManager {
-    if (!_popularThreadsManager) {
-        _popularThreadsManager = [[czzPopularThreadsManager alloc] init];
-        _popularThreadsManager.delegate = self;
-    }
-    return _popularThreadsManager;
 }
 
 @end

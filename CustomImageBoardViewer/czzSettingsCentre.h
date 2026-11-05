@@ -73,7 +73,6 @@ typedef NS_ENUM(NSInteger, SettingsHost) {
 @property (strong, nonatomic) NSString *imageCDNConfigurationHost;
 @property (strong, nonatomic) NSString *message;
 @property (strong, nonatomic) NSString *donationLink;
-@property (strong, nonatomic) NSString *popular_threads_link;
 @property (assign, nonatomic) NSInteger long_thread_threshold;
 @property (assign, nonatomic) NSInteger upload_image_pixel_limit;
 @property (assign, nonatomic) BOOL shouldShowEmoPackPicker;
