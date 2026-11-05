@@ -12,7 +12,6 @@
 
 #define THREAD_VIEW_CELL_MARGIN 4 * 2
 
-#define THREAD_TABLE_VLEW_CELL_NIB_NAME @"czzThreadViewTableViewCell"
 #define THREAD_VIEW_CELL_IDENTIFIER @"thread_cell_identifier"
 
 #import <UIKit/UIKit.h>
@@ -48,10 +47,10 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 @property NSIndexPath *myIndexPath;
 
 @property (weak, nonatomic) id<czzMenuEnabledTableViewCellProtocol> delegate;
-@property (weak, nonatomic) IBOutlet UITextView *contentLabel;
-@property (weak, nonatomic) IBOutlet czzThreadViewCellHeaderView *cellHeaderView;
-@property (weak, nonatomic) IBOutlet czzThreadViewCellFooterView *cellFooterView;
-@property (weak, nonatomic) IBOutlet UIImageView *cellImageView;
+@property (weak, nonatomic) UITextView *contentLabel;
+@property (weak, nonatomic) czzThreadViewCellHeaderView *cellHeaderView;
+@property (weak, nonatomic) czzThreadViewCellFooterView *cellFooterView;
+@property (weak, nonatomic) UIImageView *cellImageView;
 @property (readonly, nonatomic) UIImage *placeholderImage;
 @property NSDictionary *downloadedImages;
 @property (assign, nonatomic) BOOL shouldBlock;
@@ -69,6 +68,9 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 
 - (void)renderContent;
 - (void)tapOnImageView:(id)sender;
+
+/// Builds the shared normal-mode thread cell used by every thread list.
++ (instancetype)threadCell;
 
 #pragma mark - Menu actions.
 - (void)menuActionCopy:(id)sender;

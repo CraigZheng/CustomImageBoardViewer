@@ -17,6 +17,7 @@
 #import "czzImageDownloader.h"
 #import "czzThreadViewCellHeaderView.h"
 #import "czzThreadViewCellFooterView.h"
+#import "czzNoSelectionTextView.h"
 #import "CustomImageBoardViewer-Swift.h"
 
 #import <QuartzCore/QuartzCore.h>
@@ -26,10 +27,10 @@ NSInteger kCellImageViewHeight = 120;
 
 @interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate>
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *cellImageViewHeightConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *cellImageViewButtonMinimumWidthConstraint;
-@property (weak, nonatomic) IBOutlet UIButton *cellImageViewButton;
-@property (weak, nonatomic) IBOutlet UILabel *gifLabel;
+@property (weak, nonatomic) NSLayoutConstraint *cellImageViewHeightConstraint;
+@property (weak, nonatomic) NSLayoutConstraint *cellImageViewButtonMinimumWidthConstraint;
+@property (weak, nonatomic) UIButton *cellImageViewButton;
+@property (weak, nonatomic) UILabel *gifLabel;
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (strong, nonatomic) NSString *imageFolder;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
@@ -42,8 +43,133 @@ NSInteger kCellImageViewHeight = 120;
 
 @implementation czzMenuEnabledTableViewCell
 
+/// Layout constants carried over from the retired czzThreadViewTableViewCell nib.
+static CGFloat const kContentInset = 8;
+static CGFloat const kAccessoryInset = 20;
+static CGFloat const kHeaderInset = 4;
+static CGFloat const kSectionSpacing = 8;
+static CGFloat const kSeparatorHeight = 1;
+static CGFloat const kImageMinimumWidth = 36;
+
++ (instancetype)threadCell {
+    return [[self alloc] initWithStyle:UITableViewCellStyleDefault
+                       reuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
+}
+
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        [self buildViews];
+        [self commonInit];
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder:coder];
+    if (self) {
+        [self buildViews];
+        [self commonInit];
+    }
+    return self;
+}
+
+/// Builds the normal-mode thread cell: header, body text, image preview, footer.
+/// Subclasses override this to lay the cell out differently.
+- (void)buildViews {
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    UIView *contentView = self.contentView;
+
+    czzThreadViewCellHeaderView *cellHeaderView = [[czzThreadViewCellHeaderView alloc] init];
+    cellHeaderView.translatesAutoresizingMaskIntoConstraints = NO;
+    [contentView addSubview:cellHeaderView];
+    self.cellHeaderView = cellHeaderView;
+
+    UITextView *contentLabel = [[czzNoSelectionTextView alloc] init];
+    contentLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    [contentView addSubview:contentLabel];
+    self.contentLabel = contentLabel;
+
+    UIImageView *cellImageView = [[UIImageView alloc] init];
+    cellImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    cellImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [contentView addSubview:cellImageView];
+    self.cellImageView = cellImageView;
+
+    NSLayoutConstraint *imageHeight = [cellImageView.heightAnchor constraintEqualToConstant:kCellImageViewHeight];
+    imageHeight.active = YES;
+    self.cellImageViewHeightConstraint = imageHeight;
+
+    UIButton *cellImageViewButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    cellImageViewButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [cellImageViewButton addTarget:self action:@selector(tapOnImageView:) forControlEvents:UIControlEventTouchUpInside];
+    [contentView addSubview:cellImageViewButton];
+    self.cellImageViewButton = cellImageViewButton;
+
+    // Only constrains the image's width while it is visible, so the image can collapse away.
+    NSLayoutConstraint *buttonMinimumWidth = [cellImageViewButton.widthAnchor constraintGreaterThanOrEqualToConstant:kImageMinimumWidth];
+    buttonMinimumWidth.active = NO;
+    self.cellImageViewButtonMinimumWidthConstraint = buttonMinimumWidth;
+
+    UILabel *gifLabel = [[UILabel alloc] init];
+    gifLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    gifLabel.text = @"GIF";
+    gifLabel.font = [UIFont boldSystemFontOfSize:10];
+    gifLabel.textColor = [UIColor colorWithRed:0.714 green:0.306 blue:0.016 alpha:1];
+    gifLabel.backgroundColor = [UIColor colorWithWhite:1 alpha:0.9];
+    gifLabel.hidden = YES;
+    [contentView addSubview:gifLabel];
+    self.gifLabel = gifLabel;
+
+    czzThreadViewCellFooterView *cellFooterView = [[czzThreadViewCellFooterView alloc] init];
+    cellFooterView.translatesAutoresizingMaskIntoConstraints = NO;
+    [contentView addSubview:cellFooterView];
+    self.cellFooterView = cellFooterView;
+
+    UIView *bottomSeparator = [[UIView alloc] init];
+    bottomSeparator.translatesAutoresizingMaskIntoConstraints = NO;
+    bottomSeparator.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    [contentView addSubview:bottomSeparator];
+
+    [NSLayoutConstraint activateConstraints:@[
+        [cellHeaderView.topAnchor constraintEqualToAnchor:contentView.topAnchor],
+        [cellHeaderView.leadingAnchor constraintEqualToAnchor:contentView.leadingAnchor constant:kHeaderInset],
+        [contentView.trailingAnchor constraintEqualToAnchor:cellHeaderView.trailingAnchor constant:kHeaderInset],
+
+        [contentLabel.topAnchor constraintEqualToAnchor:cellHeaderView.bottomAnchor constant:kSectionSpacing],
+        [contentLabel.leadingAnchor constraintEqualToAnchor:contentView.leadingAnchor constant:kContentInset],
+        [contentView.trailingAnchor constraintEqualToAnchor:contentLabel.trailingAnchor constant:kContentInset],
+
+        [cellImageView.topAnchor constraintEqualToAnchor:contentLabel.bottomAnchor constant:kSectionSpacing],
+        [cellImageView.leadingAnchor constraintEqualToAnchor:contentView.leadingAnchor constant:kAccessoryInset],
+
+        [cellImageViewButton.centerXAnchor constraintEqualToAnchor:cellImageView.centerXAnchor],
+        [cellImageViewButton.centerYAnchor constraintEqualToAnchor:cellImageView.centerYAnchor],
+        [cellImageViewButton.widthAnchor constraintEqualToAnchor:cellImageView.widthAnchor],
+        [cellImageViewButton.heightAnchor constraintEqualToAnchor:cellImageView.heightAnchor],
+        buttonMinimumWidth,
+
+        [gifLabel.centerXAnchor constraintEqualToAnchor:cellImageViewButton.centerXAnchor],
+        [gifLabel.bottomAnchor constraintEqualToAnchor:cellImageViewButton.bottomAnchor],
+
+        [cellFooterView.topAnchor constraintEqualToAnchor:cellImageViewButton.bottomAnchor],
+        [cellFooterView.leadingAnchor constraintEqualToAnchor:contentView.leadingAnchor constant:kAccessoryInset],
+        [contentView.trailingAnchor constraintEqualToAnchor:cellFooterView.trailingAnchor constant:kAccessoryInset],
+
+        [bottomSeparator.topAnchor constraintEqualToAnchor:cellFooterView.bottomAnchor],
+        [bottomSeparator.leadingAnchor constraintEqualToAnchor:contentView.leadingAnchor constant:kAccessoryInset],
+        [contentView.trailingAnchor constraintEqualToAnchor:bottomSeparator.trailingAnchor],
+        [bottomSeparator.heightAnchor constraintEqualToConstant:kSeparatorHeight],
+        [contentView.bottomAnchor constraintEqualToAnchor:bottomSeparator.bottomAnchor]
+    ]];
+}
+
 -(void)awakeFromNib {
     [super awakeFromNib];
+    [self commonInit];
+}
+
+-(void)commonInit {
     self.thumbnailFolder = [czzAppDelegate thumbnailFolder];
     self.imageFolder = [czzAppDelegate imageFolder];
     self.referenceButtons = [NSMutableArray new];

@@ -97,9 +97,9 @@
         [UIBarButtonItem civ_itemWithImage:actionImage target:self action:@selector(openAction:)]
     ];
     
-    // Register NIB.
-    [threadTableView registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil]
-          forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
+    // Cells are built in code.
+    [threadTableView registerClass:[czzMenuEnabledTableViewCell class]
+            forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
     // Set estimated row height and actual row height.
     threadTableView.rowHeight = UITableViewAutomaticDimension;
     threadTableView.estimatedRowHeight = 44.0;

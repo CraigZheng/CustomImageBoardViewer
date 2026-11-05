@@ -50,12 +50,17 @@
     self.rowHeight = UITableViewAutomaticDimension;
 }
 
--(void)registerNibs {
-    // Register thread view cells
-    [self registerNib:[UINib nibWithNibName:THREAD_TABLE_VLEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
-    [self registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_VIEW_CELL_NIB_NAME bundle:nil] forCellReuseIdentifier:BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER];
+- (void)registerNibs {
+    [self registerCellClasses];
+}
 
-    // Register thread view command cells
+/// Registers every cell type this table can dequeue. Cells are built in code, so
+/// the table never needs a nib.
+- (void)registerCellClasses {
+    [self registerClass:[czzMenuEnabledTableViewCell class] forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
+    // The big image cell still comes from its nib until it is built in code.
+    [self registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_VIEW_CELL_NIB_NAME bundle:nil]
+        forCellReuseIdentifier:BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER];
     [self registerClass:[czzThreadTableViewCommandCellTableViewCell class] forCellReuseIdentifier:THREAD_TABLEVIEW_COMMAND_CELL_IDENTIFIER];
 }
 
