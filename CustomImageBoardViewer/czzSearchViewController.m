@@ -48,6 +48,47 @@
 @synthesize targetURL;
 @synthesize miniThreadView;
 
+- (void)loadView {
+    UIView *rootView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    rootView.backgroundColor = [UIColor whiteColor];
+    self.view = rootView;
+
+    self.navigationItem.title = @"搜索";
+
+    // Weak outlets: the view hierarchy owns these, so build into a local first.
+    UIWebView *webView = [[UIWebView alloc] init];
+    webView.translatesAutoresizingMaskIntoConstraints = NO;
+    webView.backgroundColor = [UIColor whiteColor];
+    webView.delegate = self;
+    [rootView addSubview:webView];
+    searchWebView = webView;
+
+    UILayoutGuide *safeArea = rootView.safeAreaLayoutGuide;
+    [NSLayoutConstraint activateConstraints:@[
+        [searchWebView.topAnchor constraintEqualToAnchor:safeArea.topAnchor],
+        [searchWebView.leadingAnchor constraintEqualToAnchor:safeArea.leadingAnchor],
+        [searchWebView.trailingAnchor constraintEqualToAnchor:safeArea.trailingAnchor],
+        [searchWebView.bottomAnchor constraintEqualToAnchor:rootView.bottomAnchor]
+    ]];
+
+    [self configureToolbar];
+}
+
+- (void)configureToolbar {
+    UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"必应", @"谷歌", @"360"]];
+    searchEngineSegmentedControl = segmentedControl;
+    segmentedControl.selectedSegmentIndex = 0;
+    [segmentedControl addTarget:self
+                         action:@selector(segmentControlChanged:)
+               forControlEvents:UIControlEventValueChanged];
+
+    self.toolbarItems = @[
+        [[UIBarButtonItem alloc] initWithCustomView:segmentedControl],
+        [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+        [[UIBarButtonItem alloc] initWithTitle:@"再搜" style:UIBarButtonItemStylePlain target:self action:@selector(againAction:)]
+    ];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -154,17 +195,6 @@
     DDLogDebug(@"search: %@", searchURL);
     return [NSURLRequest requestWithURL:[NSURL URLWithString:searchURL]];
 }
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:showThreadViewSegueIdentifier]) {
-        czzThreadViewController *threadViewController = (czzThreadViewController*) segue.destinationViewController;
-        threadViewController.thread = selectedParentThread;
-    }
-}
-
 #pragma mark - UIWebViewDelegate
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     [AppDelegate.window hideToastActivity];

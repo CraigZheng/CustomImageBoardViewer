@@ -45,7 +45,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @property CGPoint threadsTableViewContentOffSet; //record the content offset of the threads tableview
 @property (assign, nonatomic) BOOL shouldDisplayQuickScrollCommand;
 @property (strong, nonatomic) NSString *thumbnailFolder;
-@property (strong, nonatomic) NSString *keywordToSearch;
 @property (strong, nonatomic) UIViewController *rightViewController;
 @property (strong, nonatomic) UIViewController *topViewController;
 @property (strong, nonatomic) czzMiniThreadViewController *miniThreadView;
@@ -71,7 +70,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 @synthesize threadsTableViewContentOffSet;
 @synthesize shouldDisplayQuickScrollCommand;
 @synthesize thumbnailFolder;
-@synthesize keywordToSearch;
 @synthesize rightViewController;
 @synthesize topViewController;
 @synthesize miniThreadView;
@@ -458,15 +456,6 @@ NSString * const showThreadViewSegueIdentifier = @"showThreadView";
 
 - (IBAction)togglePOOnlyModeAction:(id)sender {
     [self updateTableView];
-}
-
-#pragma mark - prepare for segue
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"go_search_view_segue"]) {
-        czzSearchViewController *searchViewController = (czzSearchViewController*)segue.destinationViewController;
-        if (keywordToSearch.length > 0)
-            searchViewController.predefinedSearchKeyword = keywordToSearch;
-    }
 }
 
 #pragma mark - Size change.

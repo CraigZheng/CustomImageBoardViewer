@@ -26,6 +26,7 @@
 #import "czzHomeTableViewManager.h"
 #import "czzThreadViewManager.h"
 #import "czzForumsViewController.h"
+#import "czzSearchViewController.h"
 #import "czzThreadTableView.h"
 #import "czzSettingsViewController.h"
 #import "czzRoundButton.h"
@@ -211,7 +212,7 @@
 }
 
 - (IBAction)searchAction:(id)sender {
-    [self performSegueWithIdentifier:@"go_search_view_segue" sender:self];
+    [NavigationManager pushViewController:[czzSearchViewController new] animated:YES];
 }
 
 - (IBAction)bookmarkAction:(id)sender {

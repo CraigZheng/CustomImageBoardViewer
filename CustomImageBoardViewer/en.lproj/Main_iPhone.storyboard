@@ -162,7 +162,6 @@
                         <outlet property="postSenderViewContainer" destination="4ja-AC-SOf" id="d5s-he-CDV"/>
                         <outlet property="starButton" destination="eAd-IU-rZD" id="AWa-Az-nEv"/>
                         <outlet property="threadTableView" destination="kEK-ic-Yzh" id="7gl-zA-agX"/>
-                        <segue destination="4fE-Ef-JB7" kind="push" identifier="go_search_view_segue" id="vK6-NU-jzp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AQu-Ga-SVD" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -357,64 +356,7 @@
             <point key="canvasLocation" x="377" y="1024"/>
         </scene>
         <!--搜索-->
-        <scene sceneID="GOM-9C-eeI">
-            <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="4fE-Ef-JB7" customClass="czzSearchViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="9mX-3B-4Yy">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Epk-0O-hhD">
-                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <connections>
-                                    <outlet property="delegate" destination="4fE-Ef-JB7" id="yBY-be-CC5"/>
-                                </connections>
-                            </webView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="kI8-hR-fAQ"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="bottom" secondItem="Epk-0O-hhD" secondAttribute="bottom" id="0PY-T8-bab"/>
-                            <constraint firstItem="Epk-0O-hhD" firstAttribute="top" secondItem="kI8-hR-fAQ" secondAttribute="top" id="SX0-Y0-Wrm"/>
-                            <constraint firstItem="Epk-0O-hhD" firstAttribute="leading" secondItem="kI8-hR-fAQ" secondAttribute="leading" id="T1o-HP-ssu"/>
-                            <constraint firstItem="kI8-hR-fAQ" firstAttribute="trailing" secondItem="Epk-0O-hhD" secondAttribute="trailing" id="hMO-RS-cNH"/>
-                        </constraints>
-                    </view>
-                    <toolbarItems>
-                        <barButtonItem style="plain" id="v7e-1w-UHH">
-                            <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="XSV-OW-DVO">
-                                <rect key="frame" x="16" y="11" width="161" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <segments>
-                                    <segment title="必应"/>
-                                    <segment title="谷歌"/>
-                                    <segment title="360"/>
-                                </segments>
-                                <connections>
-                                    <action selector="segmentControlChanged:" destination="4fE-Ef-JB7" eventType="valueChanged" id="Mfp-5i-zbb"/>
-                                </connections>
-                            </segmentedControl>
-                        </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="P07-FE-5su"/>
-                        <barButtonItem title="再搜" id="SKw-AQ-DWW">
-                            <connections>
-                                <action selector="againAction:" destination="4fE-Ef-JB7" id="4If-cq-b4Y"/>
-                            </connections>
-                        </barButtonItem>
-                    </toolbarItems>
-                    <navigationItem key="navigationItem" title="搜索" id="KgA-lu-vdi"/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="searchEngineSegmentedControl" destination="XSV-OW-DVO" id="VDh-Xk-WgL"/>
-                        <outlet property="searchWebView" destination="Epk-0O-hhD" id="opO-RH-UDv"/>
-                        <segue destination="CES-L8-oRQ" kind="push" identifier="showThreadView" id="ec7-IS-eS6"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="q9W-vI-B1B" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1308" y="1024"/>
-        </scene>
+        
         <!--Navigation Controller-->
         <scene sceneID="U1A-ov-2qI">
             <objects>
@@ -771,7 +713,6 @@
                         <outlet property="postManagerViewContainer" destination="TjH-jn-qvV" id="FRS-j7-tcc"/>
                         <outlet property="settingsBarButton" destination="T1x-La-d5b" id="pgG-ZV-6rj"/>
                         <outlet property="threadTableView" destination="l2k-8P-m8U" id="5yI-la-cPn"/>
-                        <segue destination="4fE-Ef-JB7" kind="push" identifier="go_search_view_segue" id="Uep-8w-iun"/>
                         <segue destination="CES-L8-oRQ" kind="push" identifier="showThreadView" id="5Fw-Ve-fjP"/>
                     </connections>
                 </viewController>
@@ -877,7 +818,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="vK6-NU-jzp"/>
         <segue reference="5Fw-Ve-fjP"/>
     </inferredMetricsTieBreakers>
     <resources>
