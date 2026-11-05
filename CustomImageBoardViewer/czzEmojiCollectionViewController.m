@@ -7,6 +7,7 @@
 //
 
 #import "czzEmojiCollectionViewController.h"
+#import "czzEmojiCollectionViewCell.h"
 #import "czzSettingsCentre.h"
 #import "CustomImageBoardViewer-Swift.h"
 
@@ -18,12 +19,18 @@ static NSString * const emoticonCellIdentifier = @"emoticon_collection_view_cell
 
 static NSInteger const emoticonSegmentedControlIndex = 2;
 
+static CGFloat const toolbarHeight = 44;
+static CGFloat const emojiCellHeight = 60;
+static CGFloat const emojiCellMaximumWidth = 105;
+static CGFloat const darkenViewAlpha = 0.20467177013422819;
+
 @interface czzEmojiCollectionViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDataSourcePrefetching>
-@property (weak, nonatomic) IBOutlet UIToolbar *emoPackPickerToolbar;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *emoPackPickerToolbarHeightConstraint;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *emojiSelectorSegmentedControl;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *emoPackPickerSegmentedControl;
-@property (weak, nonatomic) IBOutlet UIView *darkenView;
+@property (nonatomic, strong) UIToolbar *emojiPickerToolbar;
+@property (nonatomic, strong) UISegmentedControl *emojiSelectorSegmentedControl;
+@property (nonatomic, strong) UIToolbar *emoPackPickerToolbar;
+@property (nonatomic, strong) UISegmentedControl *emoPackPickerSegmentedControl;
+@property (nonatomic, strong) NSLayoutConstraint *emoPackPickerToolbarHeightConstraint;
+@property (nonatomic, strong) UIView *darkenView;
 @property (nonatomic, strong) NSArray<NSString *> *emojis;
 @property (nonatomic, strong) NSString *emojiSource;
 @property (nonatomic, strong) NSArray<NSString *> *emoPack;
@@ -34,8 +41,7 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
 @end
 
 @implementation czzEmojiCollectionViewController
-@synthesize emojiCollectionView;
-@synthesize emojiPickerToolbar;
+@synthesize emojiCollectionView = _emojiCollectionView;
 
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -49,26 +55,122 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
     return self;
 }
 
+- (void)loadView {
+    UIView *rootView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    rootView.backgroundColor = [UIColor whiteColor];
+    self.view = rootView;
+
+    // The emoji source picker sits at the top, the emo pack picker appears directly below it
+    // only while the emoticon source is selected, and the collection view fills the rest.
+    UIStackView *toolbarStackView = [[UIStackView alloc] init];
+    toolbarStackView.translatesAutoresizingMaskIntoConstraints = NO;
+    toolbarStackView.axis = UILayoutConstraintAxisVertical;
+    toolbarStackView.spacing = 0;
+    [rootView addSubview:toolbarStackView];
+
+    self.emojiPickerToolbar = [self toolbar];
+    [self.emojiPickerToolbar.heightAnchor constraintEqualToConstant:toolbarHeight].active = YES;
+    self.emoPackPickerToolbar = [self toolbar];
+    [toolbarStackView addArrangedSubview:self.emojiPickerToolbar];
+    [toolbarStackView addArrangedSubview:self.emoPackPickerToolbar];
+
+    self.emoPackPickerToolbarHeightConstraint = [self.emoPackPickerToolbar.heightAnchor constraintEqualToConstant:toolbarHeight];
+
+    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    flowLayout.minimumLineSpacing = 2;
+    flowLayout.minimumInteritemSpacing = 0;
+    flowLayout.itemSize = CGSizeMake(emojiCellMaximumWidth, emojiCellHeight);
+
+    _emojiCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
+    _emojiCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
+    _emojiCollectionView.backgroundColor = [UIColor whiteColor];
+    _emojiCollectionView.dataSource = self;
+    _emojiCollectionView.delegate = self;
+    [rootView addSubview:_emojiCollectionView];
+
+    self.darkenView = [[UIView alloc] init];
+    self.darkenView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.darkenView.backgroundColor = [UIColor colorWithWhite:0 alpha:darkenViewAlpha];
+    self.darkenView.userInteractionEnabled = NO;
+    self.darkenView.hidden = YES;
+    [rootView addSubview:self.darkenView];
+
+    UILayoutGuide *safeArea = rootView.safeAreaLayoutGuide;
+    [NSLayoutConstraint activateConstraints:@[
+        [toolbarStackView.topAnchor constraintEqualToAnchor:safeArea.topAnchor],
+        [toolbarStackView.leadingAnchor constraintEqualToAnchor:safeArea.leadingAnchor],
+        [toolbarStackView.trailingAnchor constraintEqualToAnchor:safeArea.trailingAnchor],
+        self.emoPackPickerToolbarHeightConstraint,
+
+        [_emojiCollectionView.topAnchor constraintEqualToAnchor:toolbarStackView.bottomAnchor],
+        [_emojiCollectionView.leadingAnchor constraintEqualToAnchor:safeArea.leadingAnchor],
+        [_emojiCollectionView.trailingAnchor constraintEqualToAnchor:safeArea.trailingAnchor],
+        [_emojiCollectionView.bottomAnchor constraintEqualToAnchor:safeArea.bottomAnchor],
+
+        [self.darkenView.topAnchor constraintEqualToAnchor:_emojiCollectionView.topAnchor],
+        [self.darkenView.leadingAnchor constraintEqualToAnchor:_emojiCollectionView.leadingAnchor],
+        [self.darkenView.trailingAnchor constraintEqualToAnchor:_emojiCollectionView.trailingAnchor],
+        [self.darkenView.bottomAnchor constraintEqualToAnchor:_emojiCollectionView.bottomAnchor]
+    ]];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.emoPackPickerToolbar.hidden = YES;
     self.emoPackPickerToolbarHeightConstraint.constant = 0;
-    [self.emojiCollectionView registerNib:[UINib nibWithNibName:@"czzEmojiCollectionViewCell" bundle:[NSBundle mainBundle]]
-               forCellWithReuseIdentifier:emojiCellIdentifier];
-    [self.emojiCollectionView registerNib:[UINib nibWithNibName:@"EmoticonCollectionViewCell" bundle:[NSBundle mainBundle]]
-               forCellWithReuseIdentifier:emoticonCellIdentifier];
-    
+    [self.emojiCollectionView registerClass:[czzEmojiCollectionViewCell class]
+                 forCellWithReuseIdentifier:emojiCellIdentifier];
+    [self.emojiCollectionView registerClass:[czzEmoticonCollectionViewCell class]
+                 forCellWithReuseIdentifier:emoticonCellIdentifier];
+
     //colours
-    self.emoPackPickerToolbar.backgroundColor = self.emoPackPickerToolbar.barTintColor = emojiPickerToolbar.barTintColor = [settingCentre barTintColour];
-    self.emoPackPickerToolbar.tintColor = emojiPickerToolbar.tintColor = [settingCentre tintColour];
-    emojiCollectionView.backgroundColor = [settingCentre barTintColour];
-    [self.emojiSelectorSegmentedControl setEnabled:settingCentre.shouldShowEmoPackPicker forSegmentAtIndex:2];
+    self.emoPackPickerToolbar.backgroundColor = self.emoPackPickerToolbar.barTintColor = self.emojiPickerToolbar.barTintColor = [settingCentre barTintColour];
+    self.emoPackPickerToolbar.tintColor = self.emojiPickerToolbar.tintColor = [settingCentre tintColour];
+    self.emojiCollectionView.backgroundColor = [settingCentre barTintColour];
+    [self.emojiSelectorSegmentedControl setEnabled:settingCentre.shouldShowEmoPackPicker forSegmentAtIndex:emoticonSegmentedControlIndex];
     [self emoPackSelectionChanged:nil];
     self.emojiSource = acEmoji;
     if ([self.emojiCollectionView respondsToSelector:@selector(prefetchDataSource)]) {
         self.emojiCollectionView.prefetchDataSource = self;
     }
+}
+
+#pragma mark - View factory
+
+- (UIToolbar *)toolbar {
+    UIToolbar *toolbar = [[UIToolbar alloc] init];
+    toolbar.translatesAutoresizingMaskIntoConstraints = NO;
+    return toolbar;
+}
+
+- (UISegmentedControl *)emojiSelectorSegmentedControl {
+    if (!_emojiSelectorSegmentedControl) {
+        _emojiSelectorSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"1", @"2", @"表情包"]];
+        _emojiSelectorSegmentedControl.selectedSegmentIndex = 0;
+        [_emojiSelectorSegmentedControl addTarget:self action:@selector(selectSourceAction:) forControlEvents:UIControlEventValueChanged];
+        UIBarButtonItem *segmentItem = [[UIBarButtonItem alloc] initWithCustomView:_emojiSelectorSegmentedControl];
+        self.emojiPickerToolbar.items = @[
+            [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"delete.png"] style:UIBarButtonItemStylePlain target:self action:@selector(cancelAction:)],
+            [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+            segmentItem
+        ];
+    }
+    return _emojiSelectorSegmentedControl;
+}
+
+- (UISegmentedControl *)emoPackPickerSegmentedControl {
+    if (!_emoPackPickerSegmentedControl) {
+        _emoPackPickerSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"芦苇娘", @"经典AC娘", @"新AC娘", @"彩色芦苇"]];
+        _emoPackPickerSegmentedControl.selectedSegmentIndex = 3;
+        [_emoPackPickerSegmentedControl addTarget:self action:@selector(emoPackSelectionChanged:) forControlEvents:UIControlEventValueChanged];
+        UIBarButtonItem *segmentItem = [[UIBarButtonItem alloc] initWithCustomView:_emoPackPickerSegmentedControl];
+        self.emoPackPickerToolbar.items = @[
+            [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+            segmentItem
+        ];
+    }
+    return _emoPackPickerSegmentedControl;
 }
 
 #pragma mark - UICollectionView datasource
@@ -80,15 +182,14 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
     UICollectionViewCell *cell;
     if (self.emojiSelectorSegmentedControl.selectedSegmentIndex == emoticonSegmentedControlIndex) {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:emoticonCellIdentifier forIndexPath:indexPath];
-        if ([cell isKindOfClass:[EmoticonCollectionViewCell class]]) {
-            [[(EmoticonCollectionViewCell *)cell iconView] setImage:[UIImage imageNamed:self.emoPack[indexPath.row]]];
+        if ([cell isKindOfClass:[czzEmoticonCollectionViewCell class]]) {
+            [[(czzEmoticonCollectionViewCell *)cell iconView] setImage:[UIImage imageNamed:self.emoPack[indexPath.row]]];
         }
     } else {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:emojiCellIdentifier forIndexPath:indexPath];
         NSString *emoji = [self.emojis objectAtIndex:indexPath.row];
-        if (cell){
-            UILabel *emojiLabel = (UILabel*)[cell viewWithTag:1];
-            emojiLabel.text = emoji;
+        if ([cell isKindOfClass:[czzEmojiCollectionViewCell class]]) {
+            [(czzEmojiCollectionViewCell *)cell emojiLabel].text = emoji;
         }
     }
     return cell;
@@ -96,8 +197,8 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat quarterWidth = MIN(self.view.frame.size.width / 4, 105);
-    return CGSizeMake(quarterWidth, 60);
+    CGFloat quarterWidth = MIN(self.view.frame.size.width / 4, emojiCellMaximumWidth);
+    return CGSizeMake(quarterWidth, emojiCellHeight);
 }
 
 #pragma mark - UICollectionViewPrefetching
@@ -159,7 +260,7 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
     }
     BOOL isEmoticonSelected = self.emojiSelectorSegmentedControl.selectedSegmentIndex == emoticonSegmentedControlIndex;
     if (isEmoticonSelected) {
-        self.emoPackPickerToolbarHeightConstraint.constant = 44;
+        self.emoPackPickerToolbarHeightConstraint.constant = toolbarHeight;
         self.emoPackPickerToolbar.hidden = NO;
         self.darkenView.hidden = ![settingCentre userDefNightyMode];
     } else {
@@ -167,7 +268,7 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
         self.emoPackPickerToolbar.hidden = YES;
         self.darkenView.hidden = YES;
     }
-    [emojiCollectionView reloadData];
+    [self.emojiCollectionView reloadData];
 }
 
 -(NSArray*)readyEmoji{
@@ -181,17 +282,10 @@ static NSInteger const emoticonSegmentedControlIndex = 2;
     NSArray *lines;
     lines = [emojiFileContent componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
     for (NSString *line in lines) {
-        /*
-        NSRange range = [line rangeOfString:@"="];
-        if (range.location != NSNotFound) {
-            NSString *emoji = [line substringFromIndex:range.location + range.length];
-            [tempEmojis addObject:emoji];
-        }
-         */
         if (line.length != 0)
             [tempEmojis addObject:line];
     }
-    
+
     return tempEmojis;
 }
 

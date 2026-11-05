@@ -110,7 +110,7 @@
 
 -(void)pickEmojiAction:(id)sender{
     [postTextView resignFirstResponder];
-    czzEmojiCollectionViewController *emojiViewController = [[czzEmojiCollectionViewController alloc] initWithNibName:@"czzEmojiCollectionViewController" bundle:[NSBundle mainBundle]];
+    czzEmojiCollectionViewController *emojiViewController = [czzEmojiCollectionViewController new];
     emojiViewController.delegate = self;
     [self presentSemiViewController:emojiViewController withOptions:@{
                                                                       KNSemiModalOptionKeys.pushParentBack    : @(NO),

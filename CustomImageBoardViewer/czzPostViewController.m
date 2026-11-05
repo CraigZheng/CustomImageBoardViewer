@@ -410,7 +410,7 @@ static NSString *kPostNameKey = @"kPostNameKey";
 
 -(void)pickEmojiAction:(id)sender{
     [postTextView resignFirstResponder];
-    self.emojiViewController = [[czzEmojiCollectionViewController alloc] initWithNibName:@"czzEmojiCollectionViewController" bundle:[NSBundle mainBundle]];
+    self.emojiViewController = [czzEmojiCollectionViewController new];
     self.emojiViewController.delegate = self;
     self.emojiViewController.modalPresentationStyle = UIModalPresentationPageSheet;
     [self presentViewController:self.emojiViewController animated:true completion:nil];

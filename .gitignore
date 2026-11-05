@@ -27,3 +27,7 @@ Build/*
 
 CustomImageBoardViewer/Objective-C-HMTL-Parser/
 Pods/*
+
+# Tooling artefacts and local agent state
+__pycache__/
+.ori/

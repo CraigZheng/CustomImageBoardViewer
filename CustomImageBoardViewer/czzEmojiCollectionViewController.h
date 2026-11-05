@@ -14,8 +14,7 @@
 @end
 
 @interface czzEmojiCollectionViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UIToolbar *emojiPickerToolbar;
-@property (strong, nonatomic) IBOutlet UICollectionView *emojiCollectionView;
+@property (strong, nonatomic, readonly) UICollectionView *emojiCollectionView;
 @property (weak, nonatomic) id<czzEmojiCollectionViewControllerDelegate> delegate;
 - (IBAction)cancelAction:(id)sender;
 
