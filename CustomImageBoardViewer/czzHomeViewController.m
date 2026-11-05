@@ -7,6 +7,7 @@
 //
 
 #import "czzHomeViewController.h"
+#import "UIViewController+ChildContainer.h"
 #import "SMXMLDocument.h"
 #import "czzThread.h"
 #import "czzThreadViewController.h"
@@ -176,13 +177,13 @@ static CGFloat const kHomeContainerInset = 8;
     // On screen image manager view controller
     if (!self.onScreenImageManagerViewController) {
         self.onScreenImageManagerViewController = [czzOnScreenImageManagerViewController new];
-        [self addChildViewController:self.onScreenImageManagerViewController];
-        [self.onScreenImageManagerViewContainer addSubview:self.onScreenImageManagerViewController.view];
+        [self civ_addChildViewController:self.onScreenImageManagerViewController
+                             toContainer:self.onScreenImageManagerViewContainer];
     }
     // Post sender manager view controller.
     czzPostSenderManagerViewController *postSenderManagerViewController = [czzPostSenderManagerViewController new];
-    [self addChildViewController:postSenderManagerViewController];
-    [self.postManagerViewContainer addSubview:postSenderManagerViewController.view];
+    [self civ_addChildViewController:postSenderManagerViewController
+                         toContainer:self.postManagerViewContainer];
     // Register a notification observer
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(forumPicked:)

@@ -7,6 +7,7 @@
 //
 
 #import "czzThreadViewController.h"
+#import "UIViewController+ChildContainer.h"
 #import "czzThread.h"
 #import "czzBannerNotificationUtil.h"
 #import "SMXMLDocument.h"
@@ -156,7 +157,7 @@ static CGFloat const kThreadContainerInset = 8;
     [postContainer.widthAnchor constraintEqualToConstant:kThreadContainerSize],
     [postContainer.heightAnchor constraintEqualToConstant:kThreadContainerSize],
 
-    [imageContainer.trailingAnchor constraintEqualToAnchor:postContainer.trailingAnchor],
+    [imageContainer.leadingAnchor constraintEqualToAnchor:postContainer.leadingAnchor],
     [imageContainer.bottomAnchor constraintEqualToAnchor:postContainer.topAnchor constant:-kThreadContainerInset],
     [imageContainer.widthAnchor constraintEqualToConstant:kThreadContainerSize],
     [imageContainer.heightAnchor constraintEqualToConstant:kThreadContainerSize]
@@ -232,13 +233,13 @@ static CGFloat const kThreadContainerInset = 8;
   if (!self.onScreenImageManagerViewController) {
     self.onScreenImageManagerViewController = [czzOnScreenImageManagerViewController new];
     self.onScreenImageManagerViewController.delegate = self.threadTableViewManager;
-    [self addChildViewController:self.onScreenImageManagerViewController];
-    [self.onScreenImageManagerViewContainer addSubview:self.onScreenImageManagerViewController.view];
+    [self civ_addChildViewController:self.onScreenImageManagerViewController
+                         toContainer:self.onScreenImageManagerViewContainer];
   }
   // Post sender manager view controller.
   czzPostSenderManagerViewController *postSenderManagerViewController = [czzPostSenderManagerViewController new];
-  [self addChildViewController:postSenderManagerViewController];
-  [self.postSenderViewContainer addSubview:postSenderManagerViewController.view];
+  [self civ_addChildViewController:postSenderManagerViewController
+                       toContainer:self.postSenderViewContainer];
   
   //add the UIRefreshControl to uitableview
   self.refreshControl = [[czzAutoEndingRefreshControl alloc] init];

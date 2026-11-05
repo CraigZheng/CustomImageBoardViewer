@@ -330,6 +330,7 @@
 		4431419A1A2B5198007D65B3 /* GSIndeterminateProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141991A2B5198007D65B3 /* GSIndeterminateProgressView.m */; };
 		4431E5421CA4B6620098AA01 /* czzLaunchPopUpNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4431E5411CA4B6620098AA01 /* czzLaunchPopUpNotificationViewController.m */; };
 		4431E5441CA4B8F20098AA01 /* czzLaunchPopUpTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4431E5431CA4B8F20098AA01 /* czzLaunchPopUpTest.m */; };
+		C1AD0000F1C0DE0000000033 /* UIViewController+ChildContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = C1AD0000F1C0DE0000000031 /* UIViewController+ChildContainer.m */; };
 		4431E5451CA4B90E0098AA01 /* popup notification example.json in Resources */ = {isa = PBXBuildFile; fileRef = 442418E21CA2697100654A74 /* popup notification example.json */; };
 		4432BA911AA88544002C66F5 /* thread list example.json in Resources */ = {isa = PBXBuildFile; fileRef = 4432BA901AA88544002C66F5 /* thread list example.json */; };
 		4432BA941AA88613002C66F5 /* thread content example.json in Resources */ = {isa = PBXBuildFile; fileRef = 4432BA921AA88613002C66F5 /* thread content example.json */; };
@@ -1187,6 +1188,8 @@
 		4431E5401CA4B6620098AA01 /* czzLaunchPopUpNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzLaunchPopUpNotificationViewController.h; sourceTree = "<group>"; };
 		4431E5411CA4B6620098AA01 /* czzLaunchPopUpNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzLaunchPopUpNotificationViewController.m; sourceTree = "<group>"; };
 		4431E5431CA4B8F20098AA01 /* czzLaunchPopUpTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzLaunchPopUpTest.m; sourceTree = "<group>"; };
+		C1AD0000F1C0DE0000000030 /* UIViewController+ChildContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ChildContainer.h"; sourceTree = "<group>"; };
+		C1AD0000F1C0DE0000000031 /* UIViewController+ChildContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ChildContainer.m"; sourceTree = "<group>"; };
 		4432BA901AA88544002C66F5 /* thread list example.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "thread list example.json"; sourceTree = "<group>"; };
 		4432BA921AA88613002C66F5 /* thread content example.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "thread content example.json"; sourceTree = "<group>"; };
 		4432BA931AA88613002C66F5 /* get forums example.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "get forums example.json"; sourceTree = "<group>"; };
@@ -2011,6 +2014,8 @@
 				442F1FD11B13500C00267698 /* czzAppActivityManager.h */,
 				442F1FD21B13500C00267698 /* czzAppActivityManager.m */,
 				442BFC741D1D1000007545EB /* CustomImageBoardViewer-Bridging-Header.h */,
+				C1AD0000F1C0DE0000000030 /* UIViewController+ChildContainer.h */,
+				C1AD0000F1C0DE0000000031 /* UIViewController+ChildContainer.m */,
 				44CBF3FD1BC9243300DFECFC /* CacheCleaner */,
 				44E2D2D91B2DB7AD0029D783 /* UtilViewControllers */,
 				44DF8ECC1A74CA4B0097F7F5 /* Utils */,
@@ -4493,6 +4498,7 @@
 				445C66381BBEC3DD004B3E83 /* UIView+Util.m in Sources */,
 				447C986A1FFBC28A00C8866F /* RoundCornerBorderedButton.swift in Sources */,
 				44CF25751A2812FB00BD8228 /* czzShortImageManagerCollectionViewController.m in Sources */,
+				C1AD0000F1C0DE0000000033 /* UIViewController+ChildContainer.m in Sources */,
 				44CF25721A26F2E700BD8228 /* UIButton+Badge.m in Sources */,
 				C1AD0000F1C0DE0000000003 /* czzEmoticonCollectionViewCell.swift in Sources */,
 				C1AD0000F1C0DE0000000004 /* czzEmojiCollectionViewCell.m in Sources */,
