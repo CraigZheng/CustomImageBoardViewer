@@ -47,8 +47,8 @@
 @property (assign, nonatomic) BOOL shouldHideImageForThisForum;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
 @property (strong, nonatomic) czzAutoEndingRefreshControl* refreshControl;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *numberBarButton;
-@property (weak, nonatomic) IBOutlet UIView *postManagerViewContainer;
+@property (strong, nonatomic) UIBarButtonItem *numberBarButton;
+@property (weak, nonatomic) UIView *postManagerViewContainer;
 @property (strong, nonatomic) czzForum *selectedForum;
 @property (strong, nonatomic) czzFavouriteManagerViewController *favouriteManagerViewController;
 @property (strong, nonatomic) czzHomeTableViewManager *homeTableViewManager;
@@ -58,6 +58,103 @@
 @end
 
 @implementation czzHomeViewController
+
+/// Layout constants carried over from the retired home scene.
+static CGFloat const kHomeContainerSize = 60;
+static CGFloat const kHomeContainerInset = 8;
+
+- (void)loadView {
+  UIView *rootView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+  rootView.backgroundColor = [UIColor whiteColor];
+  self.view = rootView;
+
+  czzThreadTableView *tableView = [[czzThreadTableView alloc] initWithFrame:CGRectZero];
+  tableView.translatesAutoresizingMaskIntoConstraints = NO;
+  tableView.showsHorizontalScrollIndicator = NO;
+  tableView.showsVerticalScrollIndicator = NO;
+  tableView.alwaysBounceVertical = YES;
+  [rootView addSubview:tableView];
+  self.threadTableView = tableView;
+
+  UILayoutGuide *safeArea = rootView.safeAreaLayoutGuide;
+  [NSLayoutConstraint activateConstraints:@[
+    [tableView.topAnchor constraintEqualToAnchor:safeArea.topAnchor],
+    [tableView.leadingAnchor constraintEqualToAnchor:rootView.leadingAnchor],
+    [tableView.trailingAnchor constraintEqualToAnchor:rootView.trailingAnchor],
+    [tableView.bottomAnchor constraintEqualToAnchor:safeArea.bottomAnchor]
+  ]];
+
+  [self buildNavigationItems];
+  [self buildFloatingContainers];
+}
+
+- (void)buildNavigationItems {
+  self.navigationItem.title = @"A岛";
+
+  UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu.png"]
+                                                                style:UIBarButtonItemStylePlain
+                                                               target:self
+                                                               action:@selector(sideButtonAction:)];
+  UIBarButtonItem *infoButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"info.png"]
+                                                                style:UIBarButtonItemStylePlain
+                                                               target:self
+                                                               action:@selector(moreInfoAction:)];
+  self.navigationItem.leftBarButtonItems = @[menuButton, infoButton];
+  self.forumListButton = menuButton;
+  self.infoBarButton = infoButton;
+
+  if (!self.numberBarButton) {
+    self.numberBarButton = [[UIBarButtonItem alloc] initWithTitle:@"0/0"
+                                                           style:UIBarButtonItemStylePlain
+                                                          target:self
+                                                          action:@selector(jumpAction:)];
+  }
+  self.navigationItem.rightBarButtonItem = self.numberBarButton;
+
+  // The bottom toolbar carries the primary actions.
+  UIBarButtonItem *(^flex)(void) = ^UIBarButtonItem *(void) {
+    return [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+  };
+  self.toolbarItems = @[
+    [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"message.png"] style:UIBarButtonItemStylePlain target:self action:@selector(postAction:)],
+    flex(),
+    [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"search.png"] style:UIBarButtonItemStylePlain target:self action:@selector(searchAction:)],
+    flex(),
+    [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"bookmark.png"] style:UIBarButtonItemStylePlain target:self action:@selector(bookmarkAction:)],
+    flex(),
+    [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"advance.png"] style:UIBarButtonItemStylePlain target:self action:@selector(jumpAction:)],
+    flex(),
+    [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings.png"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsAction:)]
+  ];
+  self.jumpBarButtonItem = self.toolbarItems[6];
+  self.settingsBarButton = self.toolbarItems[8];
+}
+
+- (void)buildFloatingContainers {
+  UIView *imageContainer = [[UIView alloc] init];
+  imageContainer.translatesAutoresizingMaskIntoConstraints = NO;
+  imageContainer.hidden = YES;
+  [self.view addSubview:imageContainer];
+  self.onScreenImageManagerViewContainer = imageContainer;
+
+  UIView *postContainer = [[UIView alloc] init];
+  postContainer.translatesAutoresizingMaskIntoConstraints = NO;
+  [self.view addSubview:postContainer];
+  self.postManagerViewContainer = postContainer;
+
+  UILayoutGuide *safeArea = self.view.safeAreaLayoutGuide;
+  [NSLayoutConstraint activateConstraints:@[
+    [postContainer.trailingAnchor constraintEqualToAnchor:safeArea.trailingAnchor constant:-kHomeContainerInset],
+    [postContainer.bottomAnchor constraintEqualToAnchor:safeArea.bottomAnchor constant:-kHomeContainerInset],
+    [postContainer.widthAnchor constraintEqualToConstant:kHomeContainerSize],
+    [postContainer.heightAnchor constraintEqualToConstant:kHomeContainerSize],
+
+    [imageContainer.trailingAnchor constraintEqualToAnchor:postContainer.trailingAnchor],
+    [imageContainer.bottomAnchor constraintEqualToAnchor:postContainer.topAnchor constant:-kHomeContainerInset],
+    [imageContainer.widthAnchor constraintEqualToConstant:kHomeContainerSize],
+    [imageContainer.heightAnchor constraintEqualToConstant:kHomeContainerSize]
+  ]];
+}
 
 #pragma mark - life cycle
 - (void)viewDidLoad
@@ -408,9 +505,5 @@
 - (void)applicationFinishedRestoringState {
     [self.homeViewManager restorePreviousState];
     [self updateTableView];
-}
-
-+ (instancetype)new {
-    return [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"home_view_controller"];
 }
 @end

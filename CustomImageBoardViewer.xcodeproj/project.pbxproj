@@ -36,7 +36,6 @@
 		441E5CD917F4691300289DBD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 441E5CD717F4691300289DBD /* InfoPlist.strings */; };
 		441E5CDB17F4691300289DBD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E5CDA17F4691300289DBD /* main.m */; };
 		441E5CDF17F4691300289DBD /* czzAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E5CDE17F4691300289DBD /* czzAppDelegate.m */; };
-		441E5CE217F4691300289DBD /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 441E5CE017F4691300289DBD /* Main_iPhone.storyboard */; };
 		441E5CE817F4691300289DBD /* czzHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 441E5CE717F4691300289DBD /* czzHomeViewController.m */; };
 		441E5CEA17F4691300289DBD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 441E5CE917F4691300289DBD /* Images.xcassets */; };
 		441E5CF117F4691300289DBD /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5CF017F4691300289DBD /* XCTest.framework */; };
@@ -881,7 +880,6 @@
 		441E5D1117F46A0900289DBD /* czzEntryPointViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzEntryPointViewController.m; sourceTree = "<group>"; };
 		441E5D1917F46E7900289DBD /* SMXMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMXMLDocument.h; sourceTree = "<group>"; };
 		441E5D1A17F46E7900289DBD /* SMXMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMXMLDocument.m; sourceTree = "<group>"; };
-		441E5D1D17F46EE800289DBD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		441E5D1E17F46FB600289DBD /* czzURLDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzURLDownloader.h; sourceTree = "<group>"; };
 		441E5D1F17F46FB600289DBD /* czzURLDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzURLDownloader.m; sourceTree = "<group>"; };
 		441E5D2217F4797F00289DBD /* czzForumGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzForumGroup.h; sourceTree = "<group>"; };
@@ -2013,7 +2011,6 @@
 				442F1FD11B13500C00267698 /* czzAppActivityManager.h */,
 				442F1FD21B13500C00267698 /* czzAppActivityManager.m */,
 				442BFC741D1D1000007545EB /* CustomImageBoardViewer-Bridging-Header.h */,
-				441E5CE017F4691300289DBD /* Main_iPhone.storyboard */,
 				44CBF3FD1BC9243300DFECFC /* CacheCleaner */,
 				44E2D2D91B2DB7AD0029D783 /* UtilViewControllers */,
 				44DF8ECC1A74CA4B0097F7F5 /* Utils */,
@@ -4255,7 +4252,6 @@
 				44C73BE01A496D6E0051D4C2 /* ipad horizontal launch screen.png in Resources */,
 				B753612D24AE278A000F562F /* reed-color1.png in Resources */,
 				44C3455C187E774300FDE45D /* acfun_emoji_UTF8.txt in Resources */,
-				441E5CE217F4691300289DBD /* Main_iPhone.storyboard in Resources */,
 				B753616724AE278A000F562F /* reed-color28.png in Resources */,
 				444F5B3E1A40EA3500EB391F /* 43.png in Resources */,
 				4421C32E1E7BF2DA00BD48C4 /* ac-new10.png in Resources */,
@@ -4559,14 +4555,6 @@
 				441E5CD817F4691300289DBD /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		441E5CE017F4691300289DBD /* Main_iPhone.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				441E5D1D17F46EE800289DBD /* en */,
-			);
-			name = Main_iPhone.storyboard;
 			sourceTree = "<group>";
 		};
 		441E5CF917F4691300289DBD /* InfoPlist.strings */ = {

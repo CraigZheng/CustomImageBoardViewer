@@ -11,13 +11,13 @@
 
 @class czzThread, czzThreadTableView;
 @interface czzHomeViewController : UIViewController <czzHomeViewManagerDelegate>
-@property (weak, nonatomic) IBOutlet czzThreadTableView *threadTableView;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *jumpBarButtonItem;
+@property (weak, nonatomic) czzThreadTableView *threadTableView;
+@property (weak, nonatomic) UIBarButtonItem *jumpBarButtonItem;
 
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *infoBarButton;
-@property (weak, nonatomic) IBOutlet UIView *onScreenImageManagerViewContainer;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *forumListButton;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsBarButton;
+@property (weak, nonatomic) UIBarButtonItem *infoBarButton;
+@property (weak, nonatomic) UIView *onScreenImageManagerViewContainer;
+@property (weak, nonatomic) UIBarButtonItem *forumListButton;
+@property (weak, nonatomic) UIBarButtonItem *settingsBarButton;
 @property (strong, nonatomic) czzHomeViewManager* homeViewManager;
 
 - (IBAction)sideButtonAction:(id)sender;

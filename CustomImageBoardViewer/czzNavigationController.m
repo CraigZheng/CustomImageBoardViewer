@@ -79,7 +79,16 @@
     }
 }
 
-+(instancetype)new {
-    return [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"home_navigation_controller"];
++ (instancetype)new {
+    // The home screen is the root of the main navigation stack.
+    czzNavigationController *navigationController = [[czzNavigationController alloc] init];
+    navigationController.definesPresentationContext = YES;
+    navigationController.restorationIdentifier = @"home_navigation_controller";
+    navigationController.toolbarHidden = NO;
+    navigationController.edgesForExtendedLayout = UIRectEdgeNone;
+    // Set the root after -setup has registered the singleton, so loading the
+    // home screen can reach SlideNavigationController.sharedInstance.
+    [navigationController setViewControllers:@[[czzHomeViewController new]]];
+    return navigationController;
 }
 @end

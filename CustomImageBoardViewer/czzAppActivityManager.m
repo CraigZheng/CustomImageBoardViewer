@@ -13,6 +13,7 @@
 #import "czzNavigationManager.h"
 #import "czzHomeViewController.h"
 #import "czzThreadViewController.h"
+#import "czzNavigationController.h"
 
 NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
 
@@ -114,7 +115,7 @@ NSString * const APP_STATE_CACHE_FILE = @"APP_STATE_CACHE_FILE.dat";
     if (!rootViewController) {
         // Launching the app, check if homeViewManager and threadViewManager should be restored.
         [self restoreState];
-        rootViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateInitialViewController];
+        rootViewController = [czzNavigationController new];
         if (!AppDelegate.window)
             AppDelegate.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         AppDelegate.window.rootViewController = rootViewController;

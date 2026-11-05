@@ -7,6 +7,7 @@
 //
 
 #import "czzAppDelegate.h"
+#import "czzNavigationController.h"
 #import "czzBlacklistDownloader.h"
 #import "czzBlacklist.h"
 #import "Toast+UIView.h"
@@ -41,7 +42,14 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
 {
     myhost = my_main_host;
     settingsCentre = [czzSettingsCentre sharedInstance];
-    
+
+    // The app no longer uses a main storyboard, so the window and its root
+    // navigation stack are created here.
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    czzNavigationController *rootNav = [czzNavigationController new];
+    self.window.rootViewController = rootNav;
+    [self.window makeKeyAndVisible];
+
     [self checkFolders];
     // Check cookie
     CookieManager;

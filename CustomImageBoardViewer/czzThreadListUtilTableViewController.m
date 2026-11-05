@@ -9,6 +9,7 @@
 #import "czzThreadListUtilTableViewController.h"
 #import "czzAppDelegate.h"
 #import "czzThreadViewManager.h"
+#import "czzNavigationController.h"
 
 @interface czzThreadListUtilTableViewController ()
 @property NSArray *cacheFiles;
@@ -65,7 +66,7 @@ NSString* const cellIdentifier = @"cellIdentifier";
 }
 
 - (IBAction)launchButtonAction:(id)sender {
-    UIViewController *mainViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateInitialViewController];
+    UIViewController *mainViewController = [czzNavigationController new];
     if (mainViewController) {
         AppDelegate.window.rootViewController = mainViewController;
         [AppDelegate.window makeKeyAndVisible];
