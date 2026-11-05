@@ -17,7 +17,6 @@
 		440B2FCC17F8057500544926 /* czzPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 440B2FCB17F8057500544926 /* czzPostViewController.m */; };
 		440B2FD017F8191700544926 /* czzPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 440B2FCF17F8191700544926 /* czzPost.m */; };
 		440C97551CB3863600A7266D /* czzAutoEndingRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 440C97541CB3863600A7266D /* czzAutoEndingRefreshControl.m */; };
-		440DA7B11CF7CF350078266B /* czzBigImageModeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 440DA7B01CF7CF350078266B /* czzBigImageModeTableViewCell.xib */; };
 		440DA7B41CF7D1F80078266B /* czzBigImageModeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 440DA7B31CF7D1F80078266B /* czzBigImageModeTableViewCell.m */; };
 		440E8B7A1D6C90FC00164BC9 /* czzCustomForumTableViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 440E8B791D6C90FC00164BC9 /* czzCustomForumTableViewManager.m */; };
 		440E8B7D1D6C947F00164BC9 /* czzAddForumTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 440E8B7C1D6C947F00164BC9 /* czzAddForumTableViewController.m */; };
@@ -836,7 +835,6 @@
 		440B2FCF17F8191700544926 /* czzPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzPost.m; sourceTree = "<group>"; };
 		440C97531CB3863600A7266D /* czzAutoEndingRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzAutoEndingRefreshControl.h; sourceTree = "<group>"; };
 		440C97541CB3863600A7266D /* czzAutoEndingRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzAutoEndingRefreshControl.m; sourceTree = "<group>"; };
-		440DA7B01CF7CF350078266B /* czzBigImageModeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = czzBigImageModeTableViewCell.xib; sourceTree = "<group>"; };
 		440DA7B21CF7D1F80078266B /* czzBigImageModeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzBigImageModeTableViewCell.h; sourceTree = "<group>"; };
 		440DA7B31CF7D1F80078266B /* czzBigImageModeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzBigImageModeTableViewCell.m; sourceTree = "<group>"; };
 		440E8B781D6C90FC00164BC9 /* czzCustomForumTableViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzCustomForumTableViewManager.h; sourceTree = "<group>"; };
@@ -2969,7 +2967,6 @@
 				445C663E1BBEC4E0004B3E83 /* czzThreadViewCellHeaderView.m */,
 				445C66471BBED722004B3E83 /* czzThreadViewCellFooterView.h */,
 				445C66481BBED722004B3E83 /* czzThreadViewCellFooterView.m */,
-				440DA7B01CF7CF350078266B /* czzBigImageModeTableViewCell.xib */,
 				440DA7B21CF7D1F80078266B /* czzBigImageModeTableViewCell.h */,
 				440DA7B31CF7D1F80078266B /* czzBigImageModeTableViewCell.m */,
 			);
@@ -3875,7 +3872,6 @@
 				B753615A24AE278A000F562F /* reed-color21.png in Resources */,
 				4421C3521E7BF2DA00BD48C4 /* ac-new43.png in Resources */,
 				444F5B371A40EA3500EB391F /* 36.png in Resources */,
-				440DA7B11CF7CF350078266B /* czzBigImageModeTableViewCell.xib in Resources */,
 				446656C91BEAF9380045276B /* GoogleService-Info.plist in Resources */,
 				4421C34F1E7BF2DA00BD48C4 /* ac-new40.png in Resources */,
 				44B89E6C1A2AF2200085F766 /* running_ac-1.gif in Resources */,

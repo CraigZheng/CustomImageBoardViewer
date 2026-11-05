@@ -30,7 +30,7 @@ NSInteger kCellImageViewHeight = 120;
 @property (weak, nonatomic) NSLayoutConstraint *cellImageViewHeightConstraint;
 @property (weak, nonatomic) NSLayoutConstraint *cellImageViewButtonMinimumWidthConstraint;
 @property (weak, nonatomic) UIButton *cellImageViewButton;
-@property (weak, nonatomic) UILabel *gifLabel;
+@property (strong, nonatomic) UILabel *gifLabel;
 @property (strong, nonatomic) NSString *thumbnailFolder;
 @property (strong, nonatomic) NSString *imageFolder;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;

@@ -7,7 +7,6 @@
 //
 
 #define BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER @"big_image_thread_view_identifier"
-#define BIG_IMAGE_THREAD_VIEW_CELL_NIB_NAME @"czzBigImageModeTableViewCell"
 
 #import "czzMenuEnabledTableViewCell.h"
 

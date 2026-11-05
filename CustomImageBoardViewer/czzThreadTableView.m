@@ -58,9 +58,7 @@
 /// the table never needs a nib.
 - (void)registerCellClasses {
     [self registerClass:[czzMenuEnabledTableViewCell class] forCellReuseIdentifier:THREAD_VIEW_CELL_IDENTIFIER];
-    // The big image cell still comes from its nib until it is built in code.
-    [self registerNib:[UINib nibWithNibName:BIG_IMAGE_THREAD_VIEW_CELL_NIB_NAME bundle:nil]
-        forCellReuseIdentifier:BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER];
+    [self registerClass:[czzBigImageModeTableViewCell class] forCellReuseIdentifier:BIG_IMAGE_THREAD_VIEW_CELL_IDENTIFIER];
     [self registerClass:[czzThreadTableViewCommandCellTableViewCell class] forCellReuseIdentifier:THREAD_TABLEVIEW_COMMAND_CELL_IDENTIFIER];
 }
 

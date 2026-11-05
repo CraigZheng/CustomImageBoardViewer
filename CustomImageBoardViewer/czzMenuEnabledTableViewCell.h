@@ -72,6 +72,13 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 /// Builds the shared normal-mode thread cell used by every thread list.
 + (instancetype)threadCell;
 
+/// Subclass hooks: buildViews lays out the cell, commonInit wires up behaviour.
+- (void)buildViews;
+- (void)commonInit;
+
+/// The GIF badge shown over the preview image.
+@property (strong, nonatomic, readonly) UILabel *gifLabel;
+
 #pragma mark - Menu actions.
 - (void)menuActionCopy:(id)sender;
 - (void)menuActionReply:(id)sender;
