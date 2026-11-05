@@ -24,8 +24,7 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
 @property (nonatomic, assign) BannerNotificationPosition position;
 @property (nonatomic, copy) void(^userInteractionHandler)(void);
 @property (nonatomic, assign) BOOL waitForInteraction;
-@property (nonatomic, readonly) CGRect topReferenceFrame;
-@property (nonatomic, readonly) CGRect bottomReferenceFrame;
+@property (nonatomic, strong) NSLayoutConstraint *bannerEdgeConstraint;
 @property (nonatomic, weak) UIViewController *destinationViewController;
 
 @end
@@ -58,46 +57,56 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
         return;
     }
 
-    CGRect referenceFrame;
-    CGRect targetFrame;
-    if (self.position == BannerNotificationPositionTop) {
-        referenceFrame = self.topReferenceFrame;
-    } else {
-        referenceFrame = self.bottomReferenceFrame;
-    }
-    // Copy values to target frame, then modify the origin.y.
-    targetFrame = referenceFrame;
-    if (self.position == BannerNotificationPositionTop) {
-        // Position is top, move the banner down.
-        targetFrame.origin.y += referenceFrame.size.height;
-    } else {
-        // Position is bottom, move the banner up.
-        targetFrame.origin.y -= self.bannerView.intrinsicContentSize.height;
-    }
-    targetFrame.size.height = self.bannerView.intrinsicContentSize.height;
-    // Remove all pending animation.
     [self.bannerView.layer removeAllAnimations];
-    BOOL shouldPerformAnimation = YES;
     if (self.bannerView.superview) {
-        // The view is already displaying, don't perform the animation.
-        shouldPerformAnimation = NO;
         [self.bannerView removeFromSuperview];
     }
     // If self.userInteractionHandler != nil, allowCancel.
     self.bannerView.allowCancel = self.userInteractionHandler != nil;
-    [self.destinationViewController.view addSubview:self.bannerView];
-    if (shouldPerformAnimation) {
-        // Should animate, set the original frame for the banner view.
-        self.bannerView.frame = referenceFrame;
-        // Animate the appearance.
-        [UIView animateWithDuration:defaultAnimationDuration
-                         animations:^{
-                             self.bannerView.frame = targetFrame;
-                         }];
-    } else {
-        // No need to animate, set final frame for the banner view.
-        self.bannerView.frame = targetFrame;
+
+    UIView *hostView = self.destinationViewController.view;
+    self.bannerView.translatesAutoresizingMaskIntoConstraints = NO;
+    [hostView addSubview:self.bannerView];
+
+    // The banner hugs the safe area on the requested edge. Both edges use the same
+    // constraint so the slide can be animated by changing its constant.
+    UILayoutGuide *safeArea = hostView.safeAreaLayoutGuide;
+    BOOL isTop = self.position == BannerNotificationPositionTop;
+    NSLayoutConstraint *edgeConstraint = isTop
+        ? [self.bannerView.topAnchor constraintEqualToAnchor:safeArea.topAnchor]
+        : [self.bannerView.bottomAnchor constraintEqualToAnchor:safeArea.bottomAnchor];
+    self.bannerEdgeConstraint = edgeConstraint;
+    [NSLayoutConstraint activateConstraints:@[
+        [self.bannerView.leadingAnchor constraintEqualToAnchor:safeArea.leadingAnchor],
+        [self.bannerView.trailingAnchor constraintEqualToAnchor:safeArea.trailingAnchor],
+        edgeConstraint
+    ]];
+
+    // Lay out first so the banner has its intrinsic height, then start it just
+    // off the requested edge. The constant applies to the anchored edge, so a top
+    // banner starts negative (above the safe area) and a bottom one positive.
+    [hostView layoutIfNeeded];
+    CGFloat offScreenOffset = CGRectGetHeight(self.bannerView.bounds);
+    if (isTop) {
+        offScreenOffset = -offScreenOffset;
     }
+    edgeConstraint.constant = offScreenOffset;
+    [hostView layoutIfNeeded];
+
+    // Force the off screen position into the render tree, otherwise Core Animation
+    // captures the wrong starting point for the slide.
+    [CATransaction flush];
+
+    edgeConstraint.constant = 0;
+    [hostView setNeedsLayout];
+    [UIView animateWithDuration:defaultAnimationDuration
+                          delay:0
+                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         [hostView layoutIfNeeded];
+                     }
+                     completion:nil];
+
     // Start counting the timer.
     [self startTimer];
 }
@@ -108,26 +117,30 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
 }
 
 - (void)dismissBannerView:(BOOL)animated {
-    if (self.bannerView.superview) {
-        if (animated) {
-            // Slide out of sign.
-            CGRect targetFrame;
-            if (self.position == BannerNotificationPositionTop) {
-                targetFrame = self.topReferenceFrame;
-            } else {
-                targetFrame = self.bottomReferenceFrame;
-            }
-            [UIView animateWithDuration:defaultAnimationDuration animations:^{
-                self.bannerView.frame = targetFrame;
-            } completion:^(BOOL finished) {
-                [self.bannerView removeFromSuperview];
-            }];
-        } else {
-            [self.bannerView removeFromSuperview];
-        }
-    } else {
+    if (!self.bannerView.superview) {
         DLog(@"Banner has no superview, its not displaying.");
+        return;
     }
+    if (!animated || !self.bannerEdgeConstraint) {
+        [self.bannerView removeFromSuperview];
+        return;
+    }
+    // Slide back out past the same edge, then remove.
+    UIView *hostView = self.bannerView.superview;
+    CGFloat offScreenOffset = CGRectGetHeight(self.bannerView.bounds);
+    if (self.position == BannerNotificationPositionTop) {
+        offScreenOffset = -offScreenOffset;
+    }
+    self.bannerEdgeConstraint.constant = offScreenOffset;
+    [UIView animateWithDuration:defaultAnimationDuration
+                          delay:0
+                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         [hostView layoutIfNeeded];
+                     }
+                     completion:^(BOOL finished) {
+                         [self.bannerView removeFromSuperview];
+                     }];
 }
 
 #pragma mark - NSTimer management
@@ -188,30 +201,6 @@ static NSTimeInterval defaultAnimationDuration = 0.2;
         _bannerView.delegate = self;
     }
     return _bannerView;
-}
-
-- (CGRect)topReferenceFrame {
-    UIViewController *referenceViewController = self.destinationViewController ?: [UIApplication topViewController];
-    CGRect referenceFrame;
-    if (!referenceViewController.navigationController.navigationBarHidden) {
-        referenceFrame = referenceViewController.navigationController.navigationBar.frame;
-    } else {
-        // If hidden, show at the top most position instead.
-        referenceFrame = CGRectMake(0, 0, CGRectGetWidth(referenceViewController.view.frame), 0);
-    }
-    return referenceFrame;
-}
-
-- (CGRect)bottomReferenceFrame {
-    UIViewController *referenceViewController = self.destinationViewController ?: [UIApplication topViewController];
-    CGRect referenceFrame;
-    if (!referenceViewController.navigationController.toolbarHidden) {
-        referenceFrame = referenceViewController.navigationController.toolbar.frame;
-    } else {
-        // No tool bar, show at the bottom of the screen.
-        referenceFrame = CGRectMake(0, CGRectGetHeight(referenceViewController.view.frame), CGRectGetWidth(referenceViewController.view.frame), 0);
-    }
-    return referenceFrame;
 }
 
 - (UIViewController *)destinationViewController {
