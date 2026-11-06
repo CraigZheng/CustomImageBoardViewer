@@ -470,7 +470,10 @@ static CGFloat const kHomeContainerInset = 8;
     self.homeViewManager.isShowingLatestResponse = YES;
     [self.homeViewManager refresh];
   } else {
-    [NSException raise:@"NOT A VALID FORUM" format:@""];
+    // Nothing usable in the payload: ignore it rather than raising, and skip the
+    // reload because no forum was selected.
+    DDLogDebug(@"Ignoring forum picked notification without a forum or timeline payload");
+    return;
   }
   [self updateTableView];
 }

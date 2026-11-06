@@ -11,6 +11,7 @@
 #import "czzFeedbackViewController.h"
 #import "czzMoreInfoViewController.h"
 #import "czzThread.h"
+#import "czzForumsViewController.h"
 
 @interface VerifyUIConversion : XCTestCase
 @end
@@ -123,6 +124,18 @@
     XCTAssertGreaterThanOrEqual(CGRectGetMinY(home.threadTableView.frame),
                                 homeRoot.safeAreaInsets.top - 0.5,
                                 @"home table must start below the navigation bar");
+}
+
+
+- (void)testForumPickedNotificationIgnoresEmptyPayload {
+    // The handler used to raise when the payload had neither a forum nor a timeline.
+    czzHomeViewController *home = [czzHomeViewController new];
+    [self layout:home];
+    XCTAssertNoThrow([[NSNotificationCenter defaultCenter]
+                      postNotificationName:kForumPickedNotification
+                      object:nil
+                      userInfo:nil],
+                     @"an empty payload must be ignored, not raise");
 }
 
 @end
