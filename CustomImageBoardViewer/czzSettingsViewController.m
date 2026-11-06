@@ -53,9 +53,11 @@
   [rootView addSubview:tableView];
   settingsTableView = tableView;
 
+  // Match the other converted screens: the table lives inside the safe area so
+  // the navigation bar and toolbar never cover its content.
   UILayoutGuide *safeArea = rootView.safeAreaLayoutGuide;
   [NSLayoutConstraint activateConstraints:@[
-    [tableView.topAnchor constraintEqualToAnchor:rootView.topAnchor],
+    [tableView.topAnchor constraintEqualToAnchor:safeArea.topAnchor],
     [tableView.leadingAnchor constraintEqualToAnchor:rootView.leadingAnchor],
     [tableView.trailingAnchor constraintEqualToAnchor:rootView.trailingAnchor],
     [tableView.bottomAnchor constraintEqualToAnchor:safeArea.bottomAnchor]
