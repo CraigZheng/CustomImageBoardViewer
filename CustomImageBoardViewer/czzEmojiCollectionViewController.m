@@ -182,14 +182,13 @@ static CGFloat const darkenViewAlpha = 0.20467177013422819;
     UICollectionViewCell *cell;
     if (self.emojiSelectorSegmentedControl.selectedSegmentIndex == emoticonSegmentedControlIndex) {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:emoticonCellIdentifier forIndexPath:indexPath];
-        if ([cell isKindOfClass:[czzEmoticonCollectionViewCell class]]) {
+        if ([cell isKindOfClass:[czzEmoticonCollectionViewCell class]] && indexPath.row < self.emoPack.count) {
             [[(czzEmoticonCollectionViewCell *)cell iconView] setImage:[UIImage imageNamed:self.emoPack[indexPath.row]]];
         }
     } else {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:emojiCellIdentifier forIndexPath:indexPath];
-        NSString *emoji = [self.emojis objectAtIndex:indexPath.row];
-        if ([cell isKindOfClass:[czzEmojiCollectionViewCell class]]) {
-            [(czzEmojiCollectionViewCell *)cell emojiLabel].text = emoji;
+        if ([cell isKindOfClass:[czzEmojiCollectionViewCell class]] && indexPath.row < self.emojis.count) {
+            [(czzEmojiCollectionViewCell *)cell emojiLabel].text = [self.emojis objectAtIndex:indexPath.row];
         }
     }
     return cell;
@@ -205,7 +204,9 @@ static CGFloat const darkenViewAlpha = 0.20467177013422819;
 - (void)collectionView:(UICollectionView *)collectionView prefetchItemsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths {
     if (self.emojiSelectorSegmentedControl.selectedSegmentIndex == emoticonSegmentedControlIndex) {
         for (NSIndexPath *indexPath in indexPaths) {
-            [UIImage imageNamed:self.emoPack[indexPath.row]];
+            if (indexPath.row < self.emoPack.count) {
+                [UIImage imageNamed:self.emoPack[indexPath.row]];
+            }
         }
     }
 }
@@ -213,14 +214,17 @@ static CGFloat const darkenViewAlpha = 0.20467177013422819;
 #pragma mark - UICollectionView delegate
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     if (self.emojiSelectorSegmentedControl.selectedSegmentIndex == emoticonSegmentedControlIndex) {
-        // Emoticon selection.
-        if (indexPath.row <= self.emoPack.count) {
+        // Emoticon selection. A row equal to count is out of range, so this must
+        // be a strict comparison.
+        if (indexPath.row < self.emoPack.count) {
             [self.delegate emoticonSelected:[UIImage imageNamed:self.emoPack[indexPath.row]]];
         }
     } else {
-        // Emoji selection.
-        NSString *emoji = [self.emojis objectAtIndex:indexPath.row];
-        [self.delegate emojiSelected:emoji];
+        // Emoji selection. Guard the index: the delegate can be called with a row
+        // that no longer exists after the source changes.
+        if (indexPath.row < self.emojis.count) {
+            [self.delegate emojiSelected:[self.emojis objectAtIndex:indexPath.row]];
+        }
     }
 }
 
