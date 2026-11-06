@@ -75,7 +75,6 @@
 @synthesize miniThreadView;
 @synthesize imageViewerUtil;
 @synthesize onScreenImageManagerViewContainer;
-@synthesize moreButton;
 @synthesize shouldRestoreContentOffset;
 
 /// Layout constants carried over from the retired thread view scene.
@@ -118,9 +117,16 @@ static CGFloat const kDownloadBottomInset = 12;
   UIBarButtonItem *upload = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"upload.png"] style:UIBarButtonItemStylePlain target:self action:@selector(shareAction:)];
   UIBarButtonItem *advance = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"advance.png"] style:UIBarButtonItemStylePlain target:self action:@selector(jumpAction:)];
   UIBarButtonItem *error = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"error.png"] style:UIBarButtonItemStylePlain target:self action:@selector(reportAction:)];
+  // The watch toggle lost its storyboard connection long ago, so updateTableView
+  // was setting an image on a nil item. Rebuild it against watchAction:.
+  UIBarButtonItem *watch = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"invisible.png"]
+                                                            style:UIBarButtonItemStylePlain
+                                                           target:self
+                                                           action:@selector(watchAction:)];
 
-  self.toolbarItems = @[reply, flex(), star, flex(), upload, flex(), advance, flex(), error];
+  self.toolbarItems = @[reply, flex(), star, flex(), watch, flex(), upload, flex(), advance, flex(), error];
   self.starButton = star;
+  self.watchButton = watch;
   self.jumpBarButtonItem = advance;
 
   UISwitch *poSwitch = [[UISwitch alloc] init];
@@ -140,6 +146,14 @@ static CGFloat const kDownloadBottomInset = 12;
   [switchContainer addSubview:poLabel];
   [switchContainer addSubview:poSwitch];
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:switchContainer];
+
+  // The page counter is filled in by updateTableView; without it the counter was
+  // written to a nil item and never appeared.
+  self.numberBarButton = [[UIBarButtonItem alloc] initWithTitle:nil
+                                                        style:UIBarButtonItemStylePlain
+                                                       target:self
+                                                       action:@selector(jumpAction:)];
+  self.navigationItem.leftBarButtonItem = self.numberBarButton;
 }
 
 - (void)buildFloatingContainers {

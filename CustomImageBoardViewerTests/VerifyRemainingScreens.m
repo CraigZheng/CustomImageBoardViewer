@@ -15,6 +15,8 @@
 #import "czzShortImageManagerCollectionViewController.h"
 #import "czzMessagePopUpViewController.h"
 #import "czzNotificationBannerViewController.h"
+#import "czzThreadViewController.h"
+#import "czzThread.h"
 
 @interface VerifyRemainingScreens : XCTestCase
 @end
@@ -45,6 +47,22 @@
           name, NSStringFromCGRect(view.bounds), (unsigned long)view.subviews.count, (unsigned long)visible);
     XCTAssertGreaterThan(CGRectGetWidth(view.bounds), 0, @"%@ has no root view", name);
     XCTAssertGreaterThan(visible, 0, @"%@ renders nothing visible", name);
+}
+
+- (void)testThreadWatchAndCounterAreWired {
+    czzThread *thread = [czzThread new];
+    thread.ID = 1;
+    thread.content = [[NSAttributedString alloc] initWithString:@"x"];
+    czzThreadViewController *controller = [czzThreadViewController new];
+    controller.thread = thread;
+    [self layout:controller];
+
+    // Both were written to during updateTableView but never created.
+    XCTAssertNotNil(controller.watchButton, @"watch button must exist for updateTableView");
+    XCTAssertNotNil(controller.numberBarButton, @"page counter must exist for updateTableView");
+    XCTAssertNotNil(controller.numberBarButton.customView, @"page counter should render a round button");
+    XCTAssertTrue([controller.toolbarItems containsObject:controller.watchButton],
+                  @"watch button belongs in the toolbar");
 }
 
 - (void)testCookieManagerRenders {

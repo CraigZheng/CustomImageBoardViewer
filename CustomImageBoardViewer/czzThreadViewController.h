@@ -20,7 +20,6 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *starButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *watchButton;
 @property (weak, nonatomic) IBOutlet UIView *onScreenImageManagerViewContainer;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *moreButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *jumpBarButtonItem;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *numberBarButton;
 @property (assign, nonatomic) BOOL shouldRestoreContentOffset;
