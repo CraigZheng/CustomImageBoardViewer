@@ -41,9 +41,17 @@ typedef enum : NSUInteger {
 @property (assign, nonatomic) NSTimeInterval updateInterval;
 @property (assign, nonatomic) BOOL shouldHideCoverView;
 @property czzForumManager *forumManager;
+@property (strong, nonatomic) NSObject *customForumObserver;
 @end
 
 @implementation czzForumsViewController
+
+- (void)dealloc {
+    if (self.customForumObserver) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self.customForumObserver];
+        self.customForumObserver = nil;
+    }
+}
 
 - (instancetype)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:UITableViewStylePlain];
@@ -69,12 +77,12 @@ typedef enum : NSUInteger {
                                              selector:@selector(handleSettingsChangedNotification)
                                                  name:settingsChangedNotification
                                                object:nil];
-    [[NSNotificationCenter defaultCenter] addObserverForName:kCustomForumDidChangeNotification
-                                                      object:nil
-                                                       queue:[NSOperationQueue mainQueue]
-                                                  usingBlock:^(NSNotification * _Nonnull note) {
-                                                      [weakSelf reloadDataSources];
-                                                  }];
+    self.customForumObserver = [[NSNotificationCenter defaultCenter] addObserverForName:kCustomForumDidChangeNotification
+                                                                                object:nil
+                                                                                 queue:[NSOperationQueue mainQueue]
+                                                                            usingBlock:^(NSNotification * _Nonnull note) {
+                                                                                [weakSelf reloadDataSources];
+                                                                            }];
     [self refreshContent];
     // Schedule a timer to refresh Ad.
     [NSTimer scheduledTimerWithTimeInterval:self.updateInterval / 2

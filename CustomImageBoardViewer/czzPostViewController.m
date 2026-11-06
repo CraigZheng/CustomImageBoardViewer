@@ -56,6 +56,15 @@ static NSString *kPostNameKey = @"kPostNameKey";
 @end
 
 @implementation czzPostViewController
+
+- (void)dealloc {
+    // The block based observer is retained by the notification centre until it is
+    // removed, so dropping the token alone leaks the block and this controller.
+    if (self.observation) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self.observation];
+        self.observation = nil;
+    }
+}
 @synthesize postTextView;
 @synthesize postButton;
 @synthesize receivedResponse;
