@@ -46,9 +46,18 @@
         case postSenderModeReply:
             targetURL = [NSURL URLWithString:[[settingCentre reply_post_url] stringByReplacingOccurrencesOfString:kParentID withString:[NSString stringWithFormat:@"%ld", (long)parentThread.ID]]];
             break;
+        case postSenderModeUnknown:
         default:
-            [NSException raise:@"ACTION NOT SUPPORTED" format:@"%s", __func__];
-            break;
+            // An unconfigured sender has no target URL. Report it through the same
+            // delegate path the rest of the failures use instead of raising.
+            DDLogDebug(@"Cannot send post: unsupported post mode %ld", (long)self.postMode);
+            if ([self.delegate respondsToSelector:@selector(postSender:completedPosting:message:response:)]) {
+                [self.delegate postSender:self
+                         completedPosting:NO
+                                  message:@"无法发送：未知的发送类型"
+                                 response:nil];
+            }
+            return;
     }
     urlRequest = [self createMutableURLRequestWithURL:targetURL];
     if (myPost.isReady && urlRequest){
