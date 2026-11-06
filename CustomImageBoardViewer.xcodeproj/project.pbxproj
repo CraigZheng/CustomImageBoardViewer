@@ -330,6 +330,7 @@
 		4431419A1A2B5198007D65B3 /* GSIndeterminateProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141991A2B5198007D65B3 /* GSIndeterminateProgressView.m */; };
 		4431E5421CA4B6620098AA01 /* czzLaunchPopUpNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4431E5411CA4B6620098AA01 /* czzLaunchPopUpNotificationViewController.m */; };
 		4431E5441CA4B8F20098AA01 /* czzLaunchPopUpTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4431E5431CA4B8F20098AA01 /* czzLaunchPopUpTest.m */; };
+		C1AD0000F1C0DE000000005C /* VerifyRemainingScreens.m in Sources */ = {isa = PBXBuildFile; fileRef = C1AD0000F1C0DE000000005D /* VerifyRemainingScreens.m */; };
 		C1AD0000F1C0DE0000000056 /* VerifyBarButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = C1AD0000F1C0DE0000000057 /* VerifyBarButtons.m */; };
 		C1AD0000F1C0DE0000000052 /* VerifyUIResizing.m in Sources */ = {isa = PBXBuildFile; fileRef = C1AD0000F1C0DE0000000053 /* VerifyUIResizing.m */; };
 		C1AD0000F1C0DE0000000050 /* VerifyUIConversion.m in Sources */ = {isa = PBXBuildFile; fileRef = C1AD0000F1C0DE0000000051 /* VerifyUIConversion.m */; };
@@ -1194,6 +1195,7 @@
 		4431E5401CA4B6620098AA01 /* czzLaunchPopUpNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzLaunchPopUpNotificationViewController.h; sourceTree = "<group>"; };
 		4431E5411CA4B6620098AA01 /* czzLaunchPopUpNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzLaunchPopUpNotificationViewController.m; sourceTree = "<group>"; };
 		4431E5431CA4B8F20098AA01 /* czzLaunchPopUpTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzLaunchPopUpTest.m; sourceTree = "<group>"; };
+		C1AD0000F1C0DE000000005D /* VerifyRemainingScreens.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VerifyRemainingScreens.m; sourceTree = "<group>"; };
 		C1AD0000F1C0DE0000000057 /* VerifyBarButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VerifyBarButtons.m; sourceTree = "<group>"; };
 		C1AD0000F1C0DE0000000053 /* VerifyUIResizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VerifyUIResizing.m; sourceTree = "<group>"; };
 		C1AD0000F1C0DE0000000051 /* VerifyUIConversion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VerifyUIConversion.m; sourceTree = "<group>"; };
@@ -2074,6 +2076,7 @@
 				4490A80E1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m */,
 				44F86B691C1BAC4C001306E8 /* CoustomImageBoardViewerTest.pch */,
 				4431E5431CA4B8F20098AA01 /* czzLaunchPopUpTest.m */,
+				C1AD0000F1C0DE000000005D /* VerifyRemainingScreens.m */,
 				C1AD0000F1C0DE0000000057 /* VerifyBarButtons.m */,
 				C1AD0000F1C0DE0000000053 /* VerifyUIResizing.m */,
 				C1AD0000F1C0DE0000000051 /* VerifyUIConversion.m */,
@@ -4552,6 +4555,7 @@
 				442F1FE31B15FC8500267698 /* UINavigationController+Util.m in Sources */,
 				441E5CFD17F4691300289DBD /* CustomImageBoardViewerTests.m in Sources */,
 				4431E5441CA4B8F20098AA01 /* czzLaunchPopUpTest.m in Sources */,
+				C1AD0000F1C0DE000000005C /* VerifyRemainingScreens.m in Sources */,
 				C1AD0000F1C0DE0000000056 /* VerifyBarButtons.m in Sources */,
 				C1AD0000F1C0DE0000000052 /* VerifyUIResizing.m in Sources */,
 				C1AD0000F1C0DE0000000050 /* VerifyUIConversion.m in Sources */,

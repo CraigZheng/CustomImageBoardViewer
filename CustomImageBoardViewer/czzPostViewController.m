@@ -294,8 +294,10 @@ static NSString *kPostNameKey = @"kPostNameKey";
             case postSenderModeReply:
                 title = [NSString stringWithFormat:@"回复:%ld", (long)postSender.parentThread.ID];
                 break;
+            case postSenderModeUnknown:
             default:
-                [NSException raise:@"UNSUPPORTED ACTION" format:@""];
+                // An unconfigured sender is not a fatal state: fall back to the
+                // generic title rather than raising, which used to crash the screen.
                 break;
         }
     } else {
@@ -338,8 +340,11 @@ static NSString *kPostNameKey = @"kPostNameKey";
                 postSender.postMode = postSenderModeNew;
                 break;
             }
+            case postViewControllerModeUnknown:
             default:
-                [NSException raise:@"ACTION NOT SUPPORTED" format:@"%s", __func__];
+                // Nothing was selected to post to, so leave the sender unconfigured
+                // and let the screen load read only rather than raising.
+                title = @"新内容";
                 break;
         }
     }
