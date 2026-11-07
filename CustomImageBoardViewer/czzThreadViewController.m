@@ -124,7 +124,13 @@ static CGFloat const kDownloadBottomInset = 12;
                                                            target:self
                                                            action:@selector(watchAction:)];
 
-  self.toolbarItems = @[reply, flex(), star, flex(), watch, flex(), upload, flex(), advance, flex(), error];
+  // The page counter is filled in by updateTableView. It belongs in the toolbar:
+  // the navigation bar's leading slot is the back button of the pushing stack.
+  self.numberBarButton = [[UIBarButtonItem alloc] initWithTitle:nil
+                                                        style:UIBarButtonItemStylePlain
+                                                       target:self
+                                                       action:@selector(jumpAction:)];
+  self.toolbarItems = @[self.numberBarButton, flex(), reply, flex(), star, flex(), watch, flex(), upload, flex(), advance, flex(), error];
   self.starButton = star;
   self.watchButton = watch;
   self.jumpBarButtonItem = advance;
@@ -147,13 +153,6 @@ static CGFloat const kDownloadBottomInset = 12;
   [switchContainer addSubview:poSwitch];
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:switchContainer];
 
-  // The page counter is filled in by updateTableView; without it the counter was
-  // written to a nil item and never appeared.
-  self.numberBarButton = [[UIBarButtonItem alloc] initWithTitle:nil
-                                                        style:UIBarButtonItemStylePlain
-                                                       target:self
-                                                       action:@selector(jumpAction:)];
-  self.navigationItem.leftBarButtonItem = self.numberBarButton;
 }
 
 - (void)buildFloatingContainers {
