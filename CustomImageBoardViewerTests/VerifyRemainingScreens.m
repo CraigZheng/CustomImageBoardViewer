@@ -59,8 +59,9 @@
 
     // Both were written to during updateTableView but never created.
     XCTAssertNotNil(controller.watchButton, @"watch button must exist for updateTableView");
-    XCTAssertNotNil(controller.numberBarButton, @"page counter must exist for updateTableView");
-    XCTAssertNotNil(controller.numberBarButton.customView, @"page counter should render a round button");
+    XCTAssertNotNil(controller.jumpBarButtonItem, @"advance button must exist for updateTableView");
+    XCTAssertNotNil(controller.jumpBarButtonItem.customView,
+                    @"advance hosts the round button that shows the page number");
     XCTAssertTrue([controller.toolbarItems containsObject:controller.watchButton],
                   @"watch button belongs in the toolbar");
 }

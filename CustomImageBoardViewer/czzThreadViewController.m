@@ -59,13 +59,13 @@
 @property (weak, nonatomic) IBOutlet UIImageView *massiveDownloadIndicatorImageView;
 @property (weak, nonatomic) IBOutlet UISwitch *poOnlySwitch;
 @property (weak, nonatomic) IBOutlet UIButton *massiveDownloadButton;
+@property (strong, nonatomic) czzRoundButton *pageNumberButton;
 @property (strong, nonatomic) czzThreadViewManager *threadViewManager;
 @property (strong, nonatomic) NSObject *observation;
 @property (assign, nonatomic)BOOL poOnlyMode;
 @end
 
 @implementation czzThreadViewController
-@synthesize numberBarButton;
 @synthesize selectedIndex;
 @synthesize threadsTableViewContentOffSet;
 @synthesize shouldDisplayQuickScrollCommand;
@@ -115,7 +115,6 @@ static CGFloat const kDownloadBottomInset = 12;
   UIBarButtonItem *reply = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reply.png"] style:UIBarButtonItemStylePlain target:self action:@selector(replyAction:)];
   UIBarButtonItem *star = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"star.png"] style:UIBarButtonItemStylePlain target:self action:@selector(starAction:)];
   UIBarButtonItem *upload = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"upload.png"] style:UIBarButtonItemStylePlain target:self action:@selector(shareAction:)];
-  UIBarButtonItem *advance = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"advance.png"] style:UIBarButtonItemStylePlain target:self action:@selector(jumpAction:)];
   UIBarButtonItem *error = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"error.png"] style:UIBarButtonItemStylePlain target:self action:@selector(reportAction:)];
   // The watch toggle lost its storyboard connection long ago, so updateTableView
   // was setting an image on a nil item. Rebuild it against watchAction:.
@@ -124,16 +123,18 @@ static CGFloat const kDownloadBottomInset = 12;
                                                            target:self
                                                            action:@selector(watchAction:)];
 
-  // The page counter is filled in by updateTableView. It belongs in the toolbar:
-  // the navigation bar's leading slot is the back button of the pushing stack.
-  self.numberBarButton = [[UIBarButtonItem alloc] initWithTitle:nil
-                                                        style:UIBarButtonItemStylePlain
-                                                       target:self
-                                                       action:@selector(jumpAction:)];
-  self.toolbarItems = @[self.numberBarButton, flex(), reply, flex(), star, flex(), watch, flex(), upload, flex(), advance, flex(), error];
+  // The advance button doubles as the page counter, so there is one control for
+  // both: it shows the current page and jumps when tapped.
+  czzRoundButton *pageButton = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 36, 36)];
+  pageButton.titleLabel.font = [UIFont systemFontOfSize:11];
+  self.pageNumberButton = pageButton;
+  // Keep a strong reference before building the array: a weak property would read
+  // back nil here because nothing else retains the item yet.
+  UIBarButtonItem *advance = [[UIBarButtonItem alloc] initWithCustomView:pageButton];
+  self.jumpBarButtonItem = advance;
+  self.toolbarItems = @[reply, flex(), star, flex(), watch, flex(), upload, flex(), advance, flex(), error];
   self.starButton = star;
   self.watchButton = watch;
-  self.jumpBarButtonItem = advance;
 
   UISwitch *poSwitch = [[UISwitch alloc] init];
   [poSwitch addTarget:self action:@selector(togglePOOnlyModeAction:) forControlEvents:UIControlEventValueChanged];
@@ -306,11 +307,9 @@ static CGFloat const kDownloadBottomInset = 12;
  This method would update the contents related to the table view
  */
 -(void)updateTableView {
-  // Update bar buttons.
-  if (!numberBarButton.customView) {
-    numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 36, 36)];
-  }
-  [(czzRoundButton *)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long)self.threadViewManager.pageNumber] forState:UIControlStateNormal];
+  // Update bar buttons. The advance button shows the current page number.
+  [self.pageNumberButton setTitle:[NSString stringWithFormat:@"%ld", (long)self.threadViewManager.pageNumber]
+                         forState:UIControlStateNormal];
   
   // Star button image - on or off.
   if ([favouriteManager isThreadFavourited:self.threadViewManager.parentThread]) {
@@ -348,16 +347,14 @@ static CGFloat const kDownloadBottomInset = 12;
 -(void)setThreadViewManager:(czzThreadViewManager *)viewManager {
     _threadViewManager = viewManager;
     if (viewManager) {
-        // Update bar buttons.
-        if (!numberBarButton.customView) {
-            numberBarButton.customView = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 36, 36)];
-        }
-        
-        [(czzRoundButton*)numberBarButton.customView setTitle:[NSString stringWithFormat:@"%ld", (long) self.threadViewManager.threads.count] forState:UIControlStateNormal];
-        if (self.threadViewManager.threads.count <= 0)
-            numberBarButton.customView.hidden = YES;
-        else
-            numberBarButton.customView.hidden = NO;
+        // Update bar buttons. The advance button shows the loaded thread count until
+        // a page number is known, and is hidden when there is nothing to show.
+        NSInteger loadedCount = self.threadViewManager.threads.count;
+        NSString *title = loadedCount > 0
+            ? [NSString stringWithFormat:@"%ld", (long)loadedCount]
+            : nil;
+        [self.pageNumberButton setTitle:title forState:UIControlStateNormal];
+        self.jumpBarButtonItem.enabled = loadedCount > 0;
         // Hide the massive download button at first, then show it with animation.
         // Show it only when the total pages is still 3 or more pages away from the current page number.
         // lastObject is nil until the first page arrives; treat that as no button.

@@ -49,11 +49,18 @@
           (unsigned long)controller.navigationController.viewControllers.count);
 }
 
-- (void)testPageCounterLivesInTheToolbar {
+- (void)testAdvanceButtonCarriesThePageNumber {
     czzThreadViewController *controller = [self pushedThreadController];
-    XCTAssertNotNil(controller.numberBarButton, @"page counter must exist");
-    XCTAssertTrue([controller.toolbarItems containsObject:controller.numberBarButton],
-                  @"page counter belongs in the toolbar, not the navigation bar");
+    UIBarButtonItem *advance = controller.jumpBarButtonItem;
+    XCTAssertNotNil(advance, @"the advance button exists");
+    XCTAssertNotNil(advance.customView, @"advance shows the page number in a round button");
+    XCTAssertTrue([advance.customView isKindOfClass:[UIButton class]],
+                  @"advance button hosts a UIButton so it can show a number");
+    XCTAssertTrue([controller.toolbarItems containsObject:advance],
+                  @"advance with the page number belongs in the toolbar");
+    // Six actions (reply, star, watch, upload, advance, report) and five spacers;
+    // the separate counter item is gone, which leaves this one short of twelve.
+    XCTAssertEqual(controller.toolbarItems.count, 11, @"six actions plus five spacers");
 }
 
 @end
