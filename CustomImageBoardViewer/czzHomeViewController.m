@@ -222,6 +222,9 @@ static CGFloat const kHomeContainerInset = 8;
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self civ_sanitizeBarButtonLayout];
+    // The navigation controller owns the toolbar it displays; a view controller's
+    // own toolbarItems are only honoured when it hands them over.
+    self.navigationController.toolbarItems = self.toolbarItems;
     
     self.threadTableView.backgroundColor = settingCentre.viewBackgroundColour;
     if (settingCentre.userDefNightyMode) {
@@ -248,6 +251,7 @@ static CGFloat const kHomeContainerInset = 8;
         [self.homeViewManager loadLatestResponse];
     }
 }
+
 
 -(void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];

@@ -227,6 +227,9 @@ static CGFloat const kDownloadBottomInset = 12;
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self civ_sanitizeBarButtonLayout];
+    // The navigation controller owns the toolbar it displays; a view controller's
+    // own toolbarItems are only honoured when it hands them over.
+    self.navigationController.toolbarItems = self.toolbarItems;
     // UI appearance.
     self.threadTableView.backgroundColor = [settingCentre viewBackgroundColour];
     if (settingCentre.userDefNightyMode) {
