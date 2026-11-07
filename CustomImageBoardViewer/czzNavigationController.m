@@ -71,13 +71,6 @@
     [self setViewControllers:viewControllers animated:animated];
 }
 
-- (void)showWatchList {
-    czzFavouriteManagerViewController *favouriteViewController = [czzFavouriteManagerViewController new];
-    if ([favouriteViewController isKindOfClass:[czzFavouriteManagerViewController class]]) {
-        favouriteViewController.launchToIndex = watchIndex;
-        [self pushViewController:favouriteViewController animated:YES];
-    }
-}
 
 + (instancetype)new {
     // The home screen is the root of the main navigation stack.

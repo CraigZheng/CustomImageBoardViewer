@@ -17,7 +17,6 @@
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzThreadTableViewCommandCellTableViewCell.h"
 #import "czzHistoryManager.h"
-#import "czzWatchListManager.h"
 #import "czzBannerNotificationUtil.h"
 #import "czzThreadViewManager.h"
 #import "czzThreadTableView.h"
@@ -25,8 +24,7 @@
 
 
 NSInteger const bookmarkIndex = 0;
-NSInteger const watchIndex = 1;
-NSInteger const historyIndex = 2;
+NSInteger const historyIndex = 1;
 
 static NSInteger const browserHistoryIndex = 0;
 static NSInteger const postsHistoryIndex = 1;
@@ -74,7 +72,7 @@ static NSInteger const respondsHistoryIndex = 2;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UISegmentedControl *titleControl = [[UISegmentedControl alloc] initWithItems:@[@"收藏", @"注目", @"历史"]];
+    UISegmentedControl *titleControl = [[UISegmentedControl alloc] initWithItems:@[@"收藏", @"历史"]];
     titleControl.selectedSegmentIndex = 0;
     [titleControl addTarget:self action:@selector(titleSegmentedControlAction:) forControlEvents:UIControlEventValueChanged];
     self.navigationItem.titleView = titleControl;
@@ -112,14 +110,6 @@ static NSInteger const respondsHistoryIndex = 2;
     [super viewWillDisappear:animated];
     [historyManager saveCurrentState];
     [favouriteManager saveCurrentState];
-}
-
-- (void)dealloc {
-    // During dealloc stage, if the selected list is still watchlist, clear the updatedThread in watchlist manager.
-    // We assume user read all of the updated threads.
-    if (self.titleSegmentedControl.selectedSegmentIndex == watchIndex) {
-        WatchListManager.updatedThreads = nil;
-    }
 }
 
 #pragma UITableView datasource
@@ -164,8 +154,6 @@ static NSInteger const respondsHistoryIndex = 2;
             [favouriteManager removeFavourite:threadToDelete];
         } else if (titleSegmentedControl.selectedSegmentIndex == historyIndex) {
             [historyManager removeThread:threadToDelete];
-        } else if (titleSegmentedControl.selectedSegmentIndex == watchIndex) {
-            [WatchListManager removeFromWatchList:threadToDelete];
         }
         
         [self copyDataFromManager];
@@ -207,15 +195,6 @@ static NSInteger const respondsHistoryIndex = 2;
         }
         selectedManager = historyManager;
         threads = [NSMutableOrderedSet orderedSetWithArray:[[threads reverseObjectEnumerator] allObjects]]; //hisotry are recorded backward
-    } else if (titleSegmentedControl.selectedSegmentIndex == watchIndex) {
-        threads = [czzWatchListManager sharedManager].watchedThreads.reverseObjectEnumerator.allObjects.mutableCopy;
-        selectedManager = WatchListManager;
-        // Updated threads have been viewed.
-        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-        if (WatchListManager.updatedThreads.count) {
-            [czzBannerNotificationUtil displayMessage:@"已置顶有更新的串"
-                                             position:BannerNotificationPositionTop];
-        }
     }
     [self.tableView reloadData];
     [self.tableView setContentOffset:CGPointZero animated:NO]; // Scroll to top.

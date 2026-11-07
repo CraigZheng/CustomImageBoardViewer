@@ -27,7 +27,6 @@
 		4416B72519413EAF00B69C5B /* FPPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4416B72019413EAF00B69C5B /* FPPopoverController.m */; };
 		4416B72619413EAF00B69C5B /* FPPopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4416B72219413EAF00B69C5B /* FPPopoverView.m */; };
 		4416B72719413EAF00B69C5B /* FPTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4416B72419413EAF00B69C5B /* FPTouchView.m */; };
-		441A6A821BAEC013008E380C /* czzWatchListManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A811BAEC013008E380C /* czzWatchListManager.m */; };
 		441A6A851BB28D96008E380C /* visible@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 441A6A841BB28D96008E380C /* visible@2x.png */; };
 		441A6A941BB2939C008E380C /* czzRoundButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 441A6A931BB2939C008E380C /* czzRoundButton.m */; };
 		441E5CCF17F4691300289DBD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441E5CCE17F4691300289DBD /* Foundation.framework */; };
@@ -865,8 +864,6 @@
 		4416B72219413EAF00B69C5B /* FPPopoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPPopoverView.m; sourceTree = "<group>"; };
 		4416B72319413EAF00B69C5B /* FPTouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FPTouchView.h; sourceTree = "<group>"; };
 		4416B72419413EAF00B69C5B /* FPTouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPTouchView.m; sourceTree = "<group>"; };
-		441A6A801BAEC013008E380C /* czzWatchListManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzWatchListManager.h; sourceTree = "<group>"; };
-		441A6A811BAEC013008E380C /* czzWatchListManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzWatchListManager.m; sourceTree = "<group>"; };
 		441A6A841BB28D96008E380C /* visible@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "visible@2x.png"; sourceTree = "<group>"; };
 		441A6A921BB2939C008E380C /* czzRoundButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzRoundButton.h; sourceTree = "<group>"; };
 		441A6A931BB2939C008E380C /* czzRoundButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzRoundButton.m; sourceTree = "<group>"; };
@@ -1956,8 +1953,6 @@
 		441A6A7F1BAEBFF6008E380C /* WatchListManager */ = {
 			isa = PBXGroup;
 			children = (
-				441A6A801BAEC013008E380C /* czzWatchListManager.h */,
-				441A6A811BAEC013008E380C /* czzWatchListManager.m */,
 			);
 			name = WatchListManager;
 			sourceTree = "<group>";
@@ -4497,7 +4492,6 @@
 				44761D762342125E00C0B05F /* czzURLHandler.swift in Sources */,
 				441E5D2017F46FB600289DBD /* czzURLDownloader.m in Sources */,
 				442A901E19DB9C3C00A3516E /* HTMLParser.m in Sources */,
-				441A6A821BAEC013008E380C /* czzWatchListManager.m in Sources */,
 				4468A7111BBBC0480076DCD6 /* czzWeakReferenceDelegate.m in Sources */,
 				44DF8EDA1A74D0F00097F7F5 /* czzACTokenUtil.m in Sources */,
 				445B7B5C1B43EBCA0046CFDB /* czzNavigationManager.m in Sources */,

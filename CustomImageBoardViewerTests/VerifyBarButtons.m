@@ -38,8 +38,14 @@
         return; // spacers are intentionally blank
     }
     BOOL rendersView = item.image != nil || item.title.length > 0 || item.customView != nil;
-    BOOL hasAction = item.action != nil && item.target != nil;
-    NSLog(@"BARBUTTON %@ renders=%d action=%@", name, rendersView, NSStringFromSelector(item.action));
+    // A bar item that hosts a custom view forwards taps through that view, so it
+    // carries no target/action of its own.
+    BOOL hasOwnAction = item.action != nil && item.target != nil;
+    BOOL customViewHandlesTaps = [item.customView isKindOfClass:[UIControl class]] &&
+        ((UIControl *)item.customView).allTargets.count > 0;
+    BOOL hasAction = hasOwnAction || customViewHandlesTaps;
+    NSLog(@"BARBUTTON %@ renders=%d ownAction=%@ customTaps=%d",
+          name, rendersView, NSStringFromSelector(item.action), customViewHandlesTaps);
     XCTAssertTrue(rendersView, @"%@ renders nothing", name);
     XCTAssertTrue(hasAction, @"%@ has no target or action", name);
 }

@@ -26,7 +26,6 @@
 #import "czzOnScreenImageManagerViewController.h"
 #import "czzThreadTableViewManager.h"
 #import "czzFavouriteManager.h"
-#import "czzWatchListManager.h"
 #import "czzRoundButton.h"
 #import "czzPostSenderManagerViewController.h"
 #import "czzReplyUtil.h"
@@ -116,25 +115,20 @@ static CGFloat const kDownloadBottomInset = 12;
   UIBarButtonItem *star = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"star.png"] style:UIBarButtonItemStylePlain target:self action:@selector(starAction:)];
   UIBarButtonItem *upload = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"upload.png"] style:UIBarButtonItemStylePlain target:self action:@selector(shareAction:)];
   UIBarButtonItem *error = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"error.png"] style:UIBarButtonItemStylePlain target:self action:@selector(reportAction:)];
-  // The watch toggle lost its storyboard connection long ago, so updateTableView
-  // was setting an image on a nil item. Rebuild it against watchAction:.
-  UIBarButtonItem *watch = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"invisible.png"]
-                                                            style:UIBarButtonItemStylePlain
-                                                           target:self
-                                                           action:@selector(watchAction:)];
-
   // The advance button doubles as the page counter, so there is one control for
   // both: it shows the current page and jumps when tapped.
   czzRoundButton *pageButton = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 36, 36)];
   pageButton.titleLabel.font = [UIFont systemFontOfSize:11];
+  // A bar item wrapping a custom view forwards nothing itself: the button inside
+  // has to carry the action.
+  [pageButton addTarget:self action:@selector(jumpAction:) forControlEvents:UIControlEventTouchUpInside];
   self.pageNumberButton = pageButton;
   // Keep a strong reference before building the array: a weak property would read
   // back nil here because nothing else retains the item yet.
   UIBarButtonItem *advance = [[UIBarButtonItem alloc] initWithCustomView:pageButton];
   self.jumpBarButtonItem = advance;
-  self.toolbarItems = @[reply, flex(), star, flex(), watch, flex(), upload, flex(), advance, flex(), error];
+  self.toolbarItems = @[reply, flex(), star, flex(), upload, flex(), advance, flex(), error];
   self.starButton = star;
-  self.watchButton = watch;
 
   UISwitch *poSwitch = [[UISwitch alloc] init];
   [poSwitch addTarget:self action:@selector(togglePOOnlyModeAction:) forControlEvents:UIControlEventValueChanged];
@@ -316,12 +310,6 @@ static CGFloat const kDownloadBottomInset = 12;
     self.starButton.image = [UIImage imageNamed:@"solid_star.png"];
   } else {
     self.starButton.image = [UIImage imageNamed:@"star.png"];
-  }
-  // Watch button image - watched or not.
-  if ([WatchListManager.watchedThreads containsObject:self.threadViewManager.parentThread]) {
-    self.watchButton.image = [UIImage imageNamed:@"visible.png"];
-  } else {
-    self.watchButton.image = [UIImage imageNamed:@"invisible.png"];
   }
   NSString *userID;
   if ([self.poOnlySwitch isOn]) {
@@ -544,17 +532,6 @@ static CGFloat const kDownloadBottomInset = 12;
     }
 }
 
-- (IBAction)watchAction:(id)sender {
-    czzThread *targetThread = self.threadViewManager.parentThread;
-    if ([WatchListManager.watchedThreads containsObject:targetThread]) {
-        [AppDelegate showToast:@"已取消注目"];
-        [WatchListManager removeFromWatchList:targetThread];
-    } else {
-        [AppDelegate showToast:@"已注目此串"];
-        [WatchListManager addToWatchList:targetThread];
-    }
-    [self updateTableView];
-}
 
 
 - (IBAction)jumpAction:(id)sender {

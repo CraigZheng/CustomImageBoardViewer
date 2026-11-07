@@ -18,7 +18,6 @@
 
 @property (weak, nonatomic) IBOutlet czzThreadTableView *threadTableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *starButton;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *watchButton;
 @property (weak, nonatomic) IBOutlet UIView *onScreenImageManagerViewContainer;
 @property (strong, nonatomic) UIBarButtonItem *jumpBarButtonItem;
 @property (assign, nonatomic) BOOL shouldRestoreContentOffset;

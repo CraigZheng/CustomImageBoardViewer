@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 extern NSInteger const bookmarkIndex;
-extern NSInteger const watchIndex;
 extern NSInteger const historyIndex;
 
 @class czzThreadTableView;

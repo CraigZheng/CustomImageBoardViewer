@@ -16,7 +16,6 @@
 #import "czzNotificationCentreTableViewController.h"
 #import "ProgressOverlay.h"
 #import "czzHomeViewManager.h"
-#import "czzWatchListManager.h"
 #import "czzTextSizeSelectorViewController.h"
 #import "czzDebugSettingsTableViewController.h"
 #import "czzThreadListUtilTableViewController.h"
@@ -333,8 +332,6 @@
       utilityNavigationController.toolbarHidden = NO;
       AppDelegate.window.rootViewController = utilityNavigationController;
       [AppDelegate.window makeKeyAndVisible];
-    } else if ([command isEqualToString:@"WATCHLIST"]) {
-      
     } else if ([command isEqualToString:@"作者主页"]) {
       [self openHomePage];
     } else if ([command isEqualToString:@"标记管理器"]) {
@@ -386,7 +383,6 @@
 #ifdef DEBUG
   [regularCommands addObject:@"DEBUG BUILD"];
   [regularCommands addObject:@"LAUNCH UTILITY"];
-  [regularCommands addObject:@"WATCHLIST"];
 #endif
   NSURL *donationLinkURL = [NSURL URLWithString:settingsCentre.donationLink];
   if (donationLinkURL && settingsCentre.donationLink.length > 0)

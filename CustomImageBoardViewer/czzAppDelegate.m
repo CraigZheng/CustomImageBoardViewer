@@ -15,7 +15,6 @@
 #import "czzSettingsCentre.h"
 #import "czzCookieManager.h"
 #import "czzWatchKitManager.h"
-#import "czzWatchListManager.h"
 #import "czzFavouriteManagerViewController.h"
 #import "czzCacheCleaner.h"
 #import "czzHomeViewManager.h"
@@ -53,7 +52,6 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
     [self checkFolders];
     // Check cookie
     CookieManager;
-    // Check watchlist manger.
         
     // The watchkit session.
     if ([WCSession isSupported]) {
@@ -81,9 +79,6 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
     if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
         CacheCleaner;
     }
-    // Init the watch list manager.
-    WatchListManager;
-    
     if (@available(iOS 13.0, *) && self.window.traitCollection.userInterfaceStyle != self.userInterfaceStyle) {
         [[czzHomeViewManager sharedManager] reloadData];
         [[NSNotificationCenter defaultCenter] postNotificationName:settingsChangedNotification
@@ -146,55 +141,6 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
         return viewController;
     }
     return nil;
-}
-
-#pragma mark - background fetch
--(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    DDLogDebug(@"%s", __PRETTY_FUNCTION__);
-    __block void(^localRefCompletionHandler)(UIBackgroundFetchResult) = completionHandler;
-    // Safe guard.
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(25 * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        if (localRefCompletionHandler) {
-            DDLogDebug(@"Background fetch safe gurad: time limit has reached, call completionHandler with NoData as the result.");
-            localRefCompletionHandler(UIBackgroundFetchResultNoData);
-            localRefCompletionHandler = nil;
-        }
-    });
-    [WatchListManager refreshWatchedThreadsWithCompletionHandler:^(NSArray *updatedThreads) {
-        DDLogDebug(@"Background fetch completed.");
-        UIBackgroundFetchResult backgroundFetchResult = UIBackgroundFetchResultNoData;
-        
-        UILocalNotification *localNotif = [[UILocalNotification alloc] init];
-        localNotif.fireDate = [NSDate dateWithTimeInterval:1.0 sinceDate:[NSDate new]];
-
-        if (updatedThreads.count) {
-            localNotif.alertTitle = WatchListManager.updateTitle;
-            localNotif.alertBody = WatchListManager.updateContent;
-            localNotif.soundName = UILocalNotificationDefaultSoundName;
-            localNotif.applicationIconBadgeNumber = updatedThreads.count;
-
-            // If the app is running in the background, schedule the notification, otherwise don't schedule it.
-            if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground)
-                [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
-            
-            backgroundFetchResult = UIBackgroundFetchResultNewData;
-        }
-        if (localRefCompletionHandler) {
-            localRefCompletionHandler(backgroundFetchResult);
-            localRefCompletionHandler = nil;
-        }
-    }];
-    // Save current home view state while fetching data.
-    [[czzHomeViewManager sharedManager] saveCurrentState];
-}
-
--(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-    czzFavouriteManagerViewController *favouriteManagerViewController = [czzFavouriteManagerViewController new];
-    favouriteManagerViewController.launchToIndex = watchIndex; // Launch to watchlist view.
-    if (self.window.rootViewController) {
-        // Received local notification, most likely watch list is updated
-        [NavigationManager pushViewController:favouriteManagerViewController animated:YES];
-    }
 }
 
 -(NSString *)myhost {

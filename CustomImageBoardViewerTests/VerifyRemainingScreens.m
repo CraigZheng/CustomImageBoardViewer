@@ -49,7 +49,7 @@
     XCTAssertGreaterThan(visible, 0, @"%@ renders nothing visible", name);
 }
 
-- (void)testThreadWatchAndCounterAreWired {
+- (void)testThreadAdvanceButtonIsWired {
     czzThread *thread = [czzThread new];
     thread.ID = 1;
     thread.content = [[NSAttributedString alloc] initWithString:@"x"];
@@ -57,13 +57,10 @@
     controller.thread = thread;
     [self layout:controller];
 
-    // Both were written to during updateTableView but never created.
-    XCTAssertNotNil(controller.watchButton, @"watch button must exist for updateTableView");
+    // updateTableView writes into the advance button; it must exist.
     XCTAssertNotNil(controller.jumpBarButtonItem, @"advance button must exist for updateTableView");
     XCTAssertNotNil(controller.jumpBarButtonItem.customView,
                     @"advance hosts the round button that shows the page number");
-    XCTAssertTrue([controller.toolbarItems containsObject:controller.watchButton],
-                  @"watch button belongs in the toolbar");
 }
 
 - (void)testCookieManagerRenders {

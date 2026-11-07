@@ -11,7 +11,6 @@
 #import "czzWKForum.h"
 #import "czzThreadViewManager.h"
 #import "czzImageDownloaderManager.h"
-#import "czzWatchListManager.h"
 #import "czzForumManager.h"
 
 @interface czzWatchKitManager () <czzHomeViewManagerDelegate>

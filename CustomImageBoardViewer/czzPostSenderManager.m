@@ -124,7 +124,7 @@
         } else {
             // Remove the last failed post sender.
             self.lastFailedPostSender = nil;
-            // Add the just replied thread to watchlist manager.
+            // Record the thread the user replied to.
             if (postSender.parentThread) {
                 [historyManager addToRespondedList:postSender.parentThread];
             } else if (postSender.forum) {
