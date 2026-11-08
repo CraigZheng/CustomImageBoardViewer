@@ -24,7 +24,6 @@
 
 - (IBAction)postAction:(id)sender;
 - (IBAction)jumpAction:(id)sender;
-- (IBAction)searchAction:(id)sender;
 - (IBAction)bookmarkAction:(id)sender;
 - (IBAction)settingsAction:(id)sender;
 

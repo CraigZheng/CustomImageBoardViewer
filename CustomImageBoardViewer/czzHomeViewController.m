@@ -27,7 +27,6 @@
 #import "czzHomeTableViewManager.h"
 #import "czzThreadViewManager.h"
 #import "czzForumsViewController.h"
-#import "czzSearchViewController.h"
 #import "czzThreadTableView.h"
 #import "czzSettingsViewController.h"
 #import "czzRoundButton.h"
@@ -116,19 +115,17 @@ static CGFloat const kHomeContainerInset = 8;
   UIBarButtonItem *(^flex)(void) = ^UIBarButtonItem *(void) {
     return [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
   };
+  UIBarButtonItem *jumpButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"advance.png"] style:UIBarButtonItemStylePlain target:self action:@selector(jumpAction:)];
+  self.jumpBarButtonItem = jumpButton;
   self.toolbarItems = @[
     [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"message.png"] style:UIBarButtonItemStylePlain target:self action:@selector(postAction:)],
     flex(),
-    [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"search.png"] style:UIBarButtonItemStylePlain target:self action:@selector(searchAction:)],
-    flex(),
     [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"bookmark.png"] style:UIBarButtonItemStylePlain target:self action:@selector(bookmarkAction:)],
     flex(),
-    [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"advance.png"] style:UIBarButtonItemStylePlain target:self action:@selector(jumpAction:)],
+    jumpButton,
     flex(),
     [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings.png"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsAction:)]
   ];
-  self.jumpBarButtonItem = self.toolbarItems[6];
-  self.settingsBarButton = self.toolbarItems[8];
 }
 
 - (void)buildFloatingContainers {
@@ -311,10 +308,6 @@ static CGFloat const kHomeContainerInset = 8;
     }
     self.confirmJumpToPageAlertView = alertView;
     [self.confirmJumpToPageAlertView show];
-}
-
-- (IBAction)searchAction:(id)sender {
-    [NavigationManager pushViewController:[czzSearchViewController new] animated:YES];
 }
 
 - (IBAction)bookmarkAction:(id)sender {

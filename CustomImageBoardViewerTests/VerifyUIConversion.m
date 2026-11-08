@@ -7,7 +7,6 @@
 #import "czzHomeViewController.h"
 #import "czzThreadViewController.h"
 #import "czzSettingsViewController.h"
-#import "czzSearchViewController.h"
 #import "czzFeedbackViewController.h"
 #import "czzMoreInfoViewController.h"
 #import "czzThread.h"
@@ -43,16 +42,6 @@
     }
 }
 
-- (void)testSearchControllerLayoutIsUsable {
-    czzSearchViewController *controller = [czzSearchViewController new];
-    UIView *view = [self layout:controller];
-    XCTAssertNotNil(controller.searchWebView, @"web view built");
-    XCTAssertNotNil(controller.searchEngineSegmentedControl);
-    CGRect web = controller.searchWebView.frame;
-    NSLog(@"UI search web=%@ view=%@", NSStringFromCGRect(web), NSStringFromCGRect(view.bounds));
-    XCTAssertGreaterThan(CGRectGetHeight(web), 100, @"search web view should fill the screen");
-    XCTAssertEqualWithAccuracy(CGRectGetWidth(web), CGRectGetWidth(view.bounds), 1.0);
-}
 
 - (void)testSettingsControllerRowsBuild {
     czzSettingsViewController *controller = [czzSettingsViewController new];

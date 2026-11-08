@@ -7,7 +7,6 @@
 #import "czzHomeViewController.h"
 #import "czzThreadViewController.h"
 #import "czzSettingsViewController.h"
-#import "czzSearchViewController.h"
 #import "czzFeedbackViewController.h"
 #import "czzThread.h"
 
@@ -40,15 +39,6 @@
     for (NSValue *value in sizes) {
         CGSize size = value.CGSizeValue;
         NSString *label = [NSString stringWithFormat:@"%.0fx%.0f", size.width, size.height];
-
-        czzSearchViewController *search = [czzSearchViewController new];
-        UIView *searchRoot = [self layoutController:search size:size];
-        NSLog(@"RESIZE %@ search view=%@ web=%@", label,
-              NSStringFromCGRect(searchRoot.bounds),
-              NSStringFromCGRect(search.searchWebView.frame));
-        XCTAssertEqualWithAccuracy(CGRectGetWidth(search.searchWebView.frame),
-                                   size.width, 1.0,
-                                   @"%@: search web view must match container width", label);
 
         czzSettingsViewController *settings = [czzSettingsViewController new];
         UIView *settingsRoot = [self layoutController:settings size:size];

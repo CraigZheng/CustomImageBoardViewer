@@ -674,7 +674,6 @@
 		5A6266AA193A17FF00AD949F /* czzNotificationDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6266A9193A17FF00AD949F /* czzNotificationDownloader.m */; };
 		5A88B8401938AFDB00071343 /* czzNotificationCentreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A88B83F1938AFDB00071343 /* czzNotificationCentreTableViewController.m */; };
 		5ADCA46A1938F67F002BA60B /* ValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCA4691938F67F002BA60B /* ValueFormatter.m */; };
-		5AF85E681970025A0031D0CB /* czzSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF85E671970025A0031D0CB /* czzSearchViewController.m */; };
 		B753611924AE278A000F562F /* reed-color3.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360B024AE2789000F562F /* reed-color3.png */; };
 		B753611A24AE278A000F562F /* reed-color91.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360B124AE2789000F562F /* reed-color91.png */; };
 		B753611B24AE278A000F562F /* reed-color85.png in Resources */ = {isa = PBXBuildFile; fileRef = B75360B224AE2789000F562F /* reed-color85.png */; };
@@ -1682,8 +1681,6 @@
 		5A88B83F1938AFDB00071343 /* czzNotificationCentreTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzNotificationCentreTableViewController.m; sourceTree = "<group>"; };
 		5ADCA4681938F67F002BA60B /* ValueFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueFormatter.h; sourceTree = "<group>"; };
 		5ADCA4691938F67F002BA60B /* ValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueFormatter.m; sourceTree = "<group>"; };
-		5AF85E661970025A0031D0CB /* czzSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzSearchViewController.h; sourceTree = "<group>"; };
-		5AF85E671970025A0031D0CB /* czzSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzSearchViewController.m; sourceTree = "<group>"; };
 		B75360B024AE2789000F562F /* reed-color3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color3.png"; sourceTree = "<group>"; };
 		B75360B124AE2789000F562F /* reed-color91.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color91.png"; sourceTree = "<group>"; };
 		B75360B224AE2789000F562F /* reed-color85.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reed-color85.png"; sourceTree = "<group>"; };
@@ -2040,7 +2037,6 @@
 				44DF8ECC1A74CA4B0097F7F5 /* Utils */,
 				445CA5511CA3BB7000D3C315 /* LaunchPopupNotification */,
 				44DF8EE01A74D6320097F7F5 /* czzCookieManagerViewController */,
-				5AF85E691970025F0031D0CB /* czzSearchViewController */,
 				44BE2E3C1938400A00601943 /* czzOnScreenCommand */,
 				5A2B2D8E1936179500BA2870 /* czzFeedbackController */,
 				44C3454A187E5A8300FDE45D /* czzEmoji */,
@@ -3547,15 +3543,6 @@
 			name = czzNotificationCentre;
 			sourceTree = "<group>";
 		};
-		5AF85E691970025F0031D0CB /* czzSearchViewController */ = {
-			isa = PBXGroup;
-			children = (
-				5AF85E661970025A0031D0CB /* czzSearchViewController.h */,
-				5AF85E671970025A0031D0CB /* czzSearchViewController.m */,
-			);
-			name = czzSearchViewController;
-			sourceTree = "<group>";
-		};
 		8832DD95AFF72EF3EC48CE32 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -4466,7 +4453,6 @@
 				4479B0901A0CCB6D0074D484 /* czzMiniThreadViewController.m in Sources */,
 				44792C711BBAC34400AF5CB5 /* NSFileManager+Util.m in Sources */,
 				44A372DD1C28D9E0004CBA48 /* czzDebugSettingsTableViewController.m in Sources */,
-				5AF85E681970025A0031D0CB /* czzSearchViewController.m in Sources */,
 				4448C2A7180FF55A00D2CD76 /* czzBlacklistDownloader.m in Sources */,
 				44EA3CC91C8E6844007A433E /* czzMassiveThreadDownloader.m in Sources */,
 				442CD0E31851601A0021AD37 /* czzImageDownloader.m in Sources */,

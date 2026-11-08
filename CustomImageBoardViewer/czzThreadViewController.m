@@ -18,7 +18,6 @@
 #import "czzMenuEnabledTableViewCell.h"
 #import "czzThreadRefButton.h"
 #import "PartialTransparentView.h"
-#import "czzSearchViewController.h"
 #import "czzSettingsCentre.h"
 #import "czzTextViewHeightCalculator.h"
 #import "czzMiniThreadViewController.h"
