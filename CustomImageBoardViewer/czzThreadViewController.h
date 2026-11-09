@@ -27,7 +27,6 @@
 - (IBAction)replyAction:(id)sender;
 - (IBAction)starAction:(id)sender;
 - (IBAction)jumpAction:(id)sender;
-- (IBAction)reportAction:(id)sender;
 - (IBAction)shareAction:(id)sender;
 
 @end

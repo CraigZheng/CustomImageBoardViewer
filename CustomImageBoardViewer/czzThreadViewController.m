@@ -113,7 +113,6 @@ static CGFloat const kDownloadBottomInset = 12;
   UIBarButtonItem *reply = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reply.png"] style:UIBarButtonItemStylePlain target:self action:@selector(replyAction:)];
   UIBarButtonItem *star = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"star.png"] style:UIBarButtonItemStylePlain target:self action:@selector(starAction:)];
   UIBarButtonItem *upload = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"upload.png"] style:UIBarButtonItemStylePlain target:self action:@selector(shareAction:)];
-  UIBarButtonItem *error = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"error.png"] style:UIBarButtonItemStylePlain target:self action:@selector(reportAction:)];
   // The advance button doubles as the page counter, so there is one control for
   // both: it shows the current page and jumps when tapped.
   czzRoundButton *pageButton = [[czzRoundButton alloc] initWithFrame:CGRectMake(0, 0, 36, 36)];
@@ -126,7 +125,7 @@ static CGFloat const kDownloadBottomInset = 12;
   // back nil here because nothing else retains the item yet.
   UIBarButtonItem *advance = [[UIBarButtonItem alloc] initWithCustomView:pageButton];
   self.jumpBarButtonItem = advance;
-  self.toolbarItems = @[reply, flex(), star, flex(), upload, flex(), advance, flex(), error];
+  self.toolbarItems = @[reply, flex(), star, flex(), upload, flex(), advance];
   self.starButton = star;
 
   UISwitch *poSwitch = [[UISwitch alloc] init];
@@ -540,9 +539,6 @@ static CGFloat const kDownloadBottomInset = 12;
     [self PromptForJumpToPage];
 }
 
-- (IBAction)reportAction:(id)sender {
-    [czzReplyUtil reportThread:self.threadViewManager.parentThread inParentThread:self.threadViewManager.parentThread];
-}
 
 - (IBAction)shareAction:(id)sender {
     // Create the thread link - at the moment I am hardcoding it.
