@@ -39,55 +39,67 @@
 -(void)processThreadListFromData:(NSData *)jsonData forForum:(czzForum*)forum{
     processedThreads = [NSMutableArray new];
     NSError *error;
-    NSArray *parsedObjects;
+    id parsedObjects;
     if (jsonData)
         parsedObjects = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
-    else
-        error = [NSError errorWithDomain:@"Empty Data!" code:999 userInfo:nil];
-    if (error) {
-        DDLogDebug(@"%@", error);
-        if (delegate) {
-            if ([delegate respondsToSelector:@selector(threadListProcessed:::)]) {
-                [delegate threadListProcessed:self :nil :NO];
-            } else if ([delegate respondsToSelector:@selector(threadListProcessed::)]) {
-                [delegate threadListProcessed:nil :NO];
-            }
-        }
+
+    // Bail out with a single, shared failure path if the data cannot be used at all.
+    NSString *failureReason = [self failureReasonForThreadListData:jsonData parsedObjects:parsedObjects error:error];
+    if (failureReason) {
+        DDLogDebug(@"%@", failureReason);
+        [self notifyThreadListProcessed:NO];
+        return;
     }
+
     @try {
-        //        if (forum.parserType == FORUM_PARSER_AISLE) {
-//        //page number data
-//        if ([parsedObjects objectForKey:@"page"]) {
-//            [self updatePageNumberWithJsonDict:[parsedObjects objectForKey:@"page"]];
-//        }
         //thread list data
-        for (NSDictionary *rawThreadData in parsedObjects) {
+        for (NSDictionary *rawThreadData in (NSArray *)parsedObjects) {
             czzThread *newThread = [[czzThread alloc] initWithJSONDictionary:rawThreadData];
             if (newThread) {
                 [processedThreads addObject:newThread];
             }
         }
-        if (delegate) {
-            if ([delegate respondsToSelector:@selector(threadListProcessed:::)]) {
-                [delegate threadListProcessed:self :processedThreads :YES];
-            } else if ([delegate respondsToSelector:@selector(threadListProcessed::)]) {
-                [delegate threadListProcessed:processedThreads :YES];
-            }
-        }
-        //        } else if (forum.parserType == FORUM_PARSER_BT_ISLE) {
-        //            //TODO: switch to V2
-        //        }
-        
+        [self notifyThreadListProcessed:YES];
     }
     @catch (NSException *exception) {
         DDLogDebug(@"%@", exception);
-        if (delegate) {
-            if ([delegate respondsToSelector:@selector(threadListProcessed:::)]) {
-                [delegate threadListProcessed:self :nil :NO];
-            } else if ([delegate respondsToSelector:@selector(threadListProcessed::)]) {
-                [delegate threadListProcessed:nil :NO];
-            }
+        [self notifyThreadListProcessed:NO];
+    }
+}
+
+// Returns nil when the JSON data can be processed, otherwise a human readable reason why not.
+-(NSString *)failureReasonForThreadListData:(NSData *)jsonData parsedObjects:(id)parsedObjects error:(NSError *)error {
+    if (!jsonData) {
+        return @"Empty data!";
+    }
+    if (error) {
+        return error.localizedDescription ?: @"Failed to parse JSON.";
+    }
+    // Some APIs return an error envelope (e.g. {"success":false,"error":"..."}), which parses into
+    // an NSDictionary instead of the expected NSArray of threads. Treat that as a failure instead of
+    // fast-enumerating the dictionary's keys as if they were threads.
+    if ([parsedObjects isKindOfClass:[NSDictionary class]]) {
+        NSString *serverErrorMessage = [(NSDictionary *)parsedObjects objectForKey:@"error"];
+        if ([serverErrorMessage isKindOfClass:[NSString class]]) {
+            return serverErrorMessage;
         }
+        return [NSString stringWithFormat:@"Expected an array of threads, got a dictionary: %@", parsedObjects];
+    }
+    if (![parsedObjects isKindOfClass:[NSArray class]]) {
+        return [NSString stringWithFormat:@"Unexpected parsed object type: %@", [parsedObjects class]];
+    }
+    return nil;
+}
+
+-(void)notifyThreadListProcessed:(BOOL)success {
+    if (!delegate) {
+        return;
+    }
+    NSArray *newThreads = success ? processedThreads : nil;
+    if ([delegate respondsToSelector:@selector(threadListProcessed:::)]) {
+        [delegate threadListProcessed:self :newThreads :success];
+    } else if ([delegate respondsToSelector:@selector(threadListProcessed::)]) {
+        [delegate threadListProcessed:newThreads :success];
     }
 }
 
