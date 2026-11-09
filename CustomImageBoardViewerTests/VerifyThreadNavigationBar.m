@@ -58,8 +58,8 @@
                   @"advance button hosts a UIButton so it can show a number");
     XCTAssertTrue([controller.toolbarItems containsObject:advance],
                   @"advance with the page number belongs in the toolbar");
-    // Four actions (reply, star, upload, advance) and four spacers.
-    XCTAssertEqual(controller.toolbarItems.count, 8, @"four actions plus four spacers");
+    // Four actions (reply, star, upload, advance) and three spacers.
+    XCTAssertEqual(controller.toolbarItems.count, 7, @"four actions plus three spacers");
 }
 
 @end

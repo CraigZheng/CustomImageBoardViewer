@@ -306,11 +306,16 @@ static CGFloat const kDownloadBottomInset = 12;
   [self.pageNumberButton setTitle:[NSString stringWithFormat:@"%ld", (long)self.threadViewManager.pageNumber]
                          forState:UIControlStateNormal];
   
-  // Star button image - on or off.
-  if ([favouriteManager isThreadFavourited:self.threadViewManager.parentThread]) {
-    self.starButton.image = [UIImage imageNamed:@"solid_star.png"];
+  // Star button image - on or off. civ_sanitizeBarButtonLayout replaces the bar
+  // item's image with a custom view and nils the item's image, so the glyph has
+  // to be set on the button inside the custom view.
+  UIImage *starImage = [favouriteManager isThreadFavourited:self.threadViewManager.parentThread]
+      ? [UIImage imageNamed:@"solid_star.png"]
+      : [UIImage imageNamed:@"star.png"];
+  if ([self.starButton.customView isKindOfClass:[UIButton class]]) {
+    [(UIButton *)self.starButton.customView setImage:starImage forState:UIControlStateNormal];
   } else {
-    self.starButton.image = [UIImage imageNamed:@"star.png"];
+    self.starButton.image = starImage;
   }
   NSString *userID;
   if ([self.poOnlySwitch isOn]) {

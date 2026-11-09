@@ -329,6 +329,8 @@
 		4431419A1A2B5198007D65B3 /* GSIndeterminateProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 443141991A2B5198007D65B3 /* GSIndeterminateProgressView.m */; };
 		4431E5421CA4B6620098AA01 /* czzLaunchPopUpNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4431E5411CA4B6620098AA01 /* czzLaunchPopUpNotificationViewController.m */; };
 		4431E5441CA4B8F20098AA01 /* czzLaunchPopUpTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4431E5431CA4B8F20098AA01 /* czzLaunchPopUpTest.m */; };
+		C1AD0000F1C0DE000000007C /* VerifyDeadBarWrites.m in Sources */ = {isa = PBXBuildFile; fileRef = C1AD0000F1C0DE000000007D /* VerifyDeadBarWrites.m */; };
+		C1AD0000F1C0DE000000007A /* VerifyStarToggle.m in Sources */ = {isa = PBXBuildFile; fileRef = C1AD0000F1C0DE000000007B /* VerifyStarToggle.m */; };
 		C1AD0000F1C0DE0000000074 /* VerifyMenuOpenLink.m in Sources */ = {isa = PBXBuildFile; fileRef = C1AD0000F1C0DE0000000075 /* VerifyMenuOpenLink.m */; };
 		C1AD0000F1C0DE0000000076 /* VerifyToolbarActions.m in Sources */ = {isa = PBXBuildFile; fileRef = C1AD0000F1C0DE0000000077 /* VerifyToolbarActions.m */; };
 		C1AD0000F1C0DE0000000066 /* VerifyThreadNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = C1AD0000F1C0DE0000000067 /* VerifyThreadNavigationBar.m */; };
@@ -1197,6 +1199,8 @@
 		4431E5401CA4B6620098AA01 /* czzLaunchPopUpNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzLaunchPopUpNotificationViewController.h; sourceTree = "<group>"; };
 		4431E5411CA4B6620098AA01 /* czzLaunchPopUpNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzLaunchPopUpNotificationViewController.m; sourceTree = "<group>"; };
 		4431E5431CA4B8F20098AA01 /* czzLaunchPopUpTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzLaunchPopUpTest.m; sourceTree = "<group>"; };
+		C1AD0000F1C0DE000000007D /* VerifyDeadBarWrites.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VerifyDeadBarWrites.m; sourceTree = "<group>"; };
+		C1AD0000F1C0DE000000007B /* VerifyStarToggle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VerifyStarToggle.m; sourceTree = "<group>"; };
 		C1AD0000F1C0DE0000000075 /* VerifyMenuOpenLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VerifyMenuOpenLink.m; sourceTree = "<group>"; };
 		C1AD0000F1C0DE0000000077 /* VerifyToolbarActions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VerifyToolbarActions.m; sourceTree = "<group>"; };
 		C1AD0000F1C0DE0000000067 /* VerifyThreadNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VerifyThreadNavigationBar.m; sourceTree = "<group>"; };
@@ -2079,6 +2083,8 @@
 				4490A80E1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m */,
 				44F86B691C1BAC4C001306E8 /* CoustomImageBoardViewerTest.pch */,
 				4431E5431CA4B8F20098AA01 /* czzLaunchPopUpTest.m */,
+				C1AD0000F1C0DE000000007D /* VerifyDeadBarWrites.m */,
+				C1AD0000F1C0DE000000007B /* VerifyStarToggle.m */,
 				C1AD0000F1C0DE0000000075 /* VerifyMenuOpenLink.m */,
 				C1AD0000F1C0DE0000000077 /* VerifyToolbarActions.m */,
 				C1AD0000F1C0DE0000000067 /* VerifyThreadNavigationBar.m */,
@@ -4553,6 +4559,8 @@
 				442F1FE31B15FC8500267698 /* UINavigationController+Util.m in Sources */,
 				441E5CFD17F4691300289DBD /* CustomImageBoardViewerTests.m in Sources */,
 				4431E5441CA4B8F20098AA01 /* czzLaunchPopUpTest.m in Sources */,
+				C1AD0000F1C0DE000000007C /* VerifyDeadBarWrites.m in Sources */,
+				C1AD0000F1C0DE000000007A /* VerifyStarToggle.m in Sources */,
 				C1AD0000F1C0DE0000000074 /* VerifyMenuOpenLink.m in Sources */,
 				C1AD0000F1C0DE0000000076 /* VerifyToolbarActions.m in Sources */,
 				C1AD0000F1C0DE0000000066 /* VerifyThreadNavigationBar.m in Sources */,
