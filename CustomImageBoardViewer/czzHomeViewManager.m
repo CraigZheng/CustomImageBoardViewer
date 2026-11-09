@@ -16,7 +16,6 @@
 #import "CustomImageBoardViewer-Swift.h"
 
 @interface czzHomeViewManager ()
-@property (nonatomic, readonly) NSString *cacheFile;
 @property (nonatomic, assign) BOOL isDownloading;
 @property (nonatomic, strong) LatestResponseDownloader *latestResponseDownloader;
 @end
@@ -34,20 +33,6 @@
                                                       usingBlock:^(NSNotification * _Nonnull note) {
                                                           [weakSelf reloadData];
                                                       }];
-        [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillResignActiveNotification
-                                                          object:nil
-                                                           queue:[NSOperationQueue mainQueue]
-                                                      usingBlock:^(NSNotification * _Nonnull note) {
-                                                          // Save current state upon entering background state.
-                                                          [weakSelf saveCurrentState];
-                                                      }];
-        [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillTerminateNotification
-                                                          object:nil
-                                                           queue:[NSOperationQueue mainQueue]
-                                                      usingBlock:^(NSNotification * _Nonnull note) {
-                                                          // Save current state upon entering background state.
-                                                          [weakSelf saveCurrentState];
-                                                      }];
     }
     self.latestResponseDownloader = [LatestResponseDownloader new];
     self.latestResponseDownloader.delegate = self;
@@ -56,46 +41,6 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-#pragma mark - state perserving/restoring
--(NSString*)saveCurrentState {
-    DLog(@"");
-    NSString *cachePath = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:self.cacheFile];
-    if (self.forum && [NSKeyedArchiver archiveRootObject:self toFile:cachePath]) {
-        return cachePath;
-    }
-    return nil;
-}
-
--(void)restorePreviousState {
-  NSString *cacheFile = [[czzAppDelegate libraryFolder] stringByAppendingPathComponent:self.cacheFile];
-  @try {
-    if ([[NSFileManager defaultManager] fileExistsAtPath:cacheFile]) {
-      NSData *cacheData = [NSData dataWithContentsOfFile:cacheFile];
-      czzHomeViewManager *viewManager = [NSKeyedUnarchiver unarchiveObjectWithData:cacheData];
-      if ([viewManager isKindOfClass:[czzHomeViewManager class]])
-      {
-        self.forum = viewManager.forum;
-        self.pageNumber = viewManager.pageNumber;
-        self.totalPages = viewManager.totalPages;
-        if ([viewManager.threads isKindOfClass:self.threads.class]) {
-          self.threads = viewManager.threads;
-        }
-        self.currentOffSet = viewManager.currentOffSet;
-        self.lastBatchOfThreads = viewManager.lastBatchOfThreads;
-        self.shouldHideImageForThisForum = viewManager.shouldHideImageForThisForum;
-        self.displayedThread = viewManager.displayedThread;
-        self.isShowingLatestResponse = viewManager.isShowingLatestResponse;
-        self.latestResponses = viewManager.latestResponses;
-      }
-    }
-  }
-  @catch (NSException *exception) {
-    // Always delete the cache file after exception to ensure safety.
-    [[NSFileManager defaultManager] removeItemAtPath:cacheFile error:nil];
-    DDLogDebug(@"%@", exception);
-  }
 }
 
 #pragma mark - reload/refresh actions
@@ -279,10 +224,6 @@
     return _pageNumber;
 }
 
-- (NSString *)cacheFile {
-    return DEFAULT_THREAD_LIST_CACHE_FILE;
-}
-
 - (NSMutableArray<ContentPage *> *)threads {
   if (self.isShowingLatestResponse && self.latestResponses.displayableThreadCount) {
     return @[self.latestResponses].mutableCopy;
@@ -291,46 +232,6 @@
     _threads = [[NSMutableArray alloc] init];
   }
   return _threads;
-}
-
-#pragma mark - NSCoding
--(void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeBool:self.shouldHideImageForThisForum forKey:@"shouldHideImageForThisForum"];
-    [aCoder encodeObject:self.forum forKey:@"forum"];
-    [aCoder encodeInteger:self.pageNumber forKey:@"pageNumber"];
-    [aCoder encodeInteger:self.totalPages forKey:@"totalPages"];
-    [aCoder encodeObject:self.threads forKey:@"threads"];
-    [aCoder encodeObject:self.lastBatchOfThreads forKey:@"lastBatchOfThreads"];
-    //parent view controller can not be encoded
-    //delegate can not be encoded
-    //isDownloading and isProcessing should not be encoded
-    [aCoder encodeObject:[NSValue valueWithCGPoint:self.currentOffSet] forKey:@"currentOffSet"];
-    [aCoder encodeObject:self.displayedThread forKey:@"displayedThread"];
-    [aCoder encodeBool:self.isShowingLatestResponse forKey:@"isShowingLatestResponse"];
-    [aCoder encodeObject:self.latestResponses forKey:@"latestResponses"];
-}
-
--(id)initWithCoder:(NSCoder *)aDecoder {
-    czzHomeViewManager *homeViewManager = [czzHomeViewManager new];
-    @try {
-        //create a temporary threadlist object
-        homeViewManager.shouldHideImageForThisForum = [aDecoder decodeBoolForKey:@"shouldHideImageForThisForum"];
-        homeViewManager.forum = [aDecoder decodeObjectForKey:@"forum"];
-        homeViewManager.pageNumber = [aDecoder decodeIntegerForKey:@"pageNumber"];
-        homeViewManager.totalPages = [aDecoder decodeIntegerForKey:@"totalPages"];
-        homeViewManager.threads = [aDecoder decodeObjectForKey:@"threads"];
-        homeViewManager.lastBatchOfThreads = [aDecoder decodeObjectForKey:@"lastBatchOfThreads"];
-        homeViewManager.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
-        homeViewManager.displayedThread = [aDecoder decodeObjectForKey:@"displayedThread"];
-        homeViewManager.isShowingLatestResponse = [aDecoder decodeBoolForKey:@"isShowingLatestResponse"];
-        homeViewManager.latestResponses = [aDecoder decodeObjectForKey:@"latestResponses"];
-        return homeViewManager;
-
-    }
-    @catch (NSException *exception) {
-        DDLogDebug(@"%@", exception);
-    }
-    return nil;
 }
 
 __strong static id _sharedObject = nil;
@@ -350,10 +251,6 @@ __strong static id _sharedObject = nil;
     
     // returns the same object each time
     return _sharedObject;
-}
-
-+ (void)setSharedManager:(czzHomeViewManager *)manager {
-    _sharedObject = manager;
 }
 
 @end

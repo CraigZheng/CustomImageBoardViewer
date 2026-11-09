@@ -82,7 +82,6 @@ typedef NS_ENUM(NSInteger, SettingsHost) {
 @property (assign, nonatomic) BOOL userDefShouldDisplayThumbnail;
 @property (assign, nonatomic) BOOL userDefShouldShowOnScreenCommand;
 @property (assign, nonatomic) BOOL userDefShouldAutoOpenImage;
-@property (assign, nonatomic) BOOL userDefShouldCacheData;
 @property (assign, nonatomic) BOOL userDefShouldHighlightPO;
 @property (assign, nonatomic) BOOL userDefShouldUseBigImage;
 @property (assign, nonatomic) BOOL userDefNightyMode;

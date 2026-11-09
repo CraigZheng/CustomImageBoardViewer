@@ -21,7 +21,6 @@ static NSString * const kDisplayThumbnail = @"kDisplayThumbnail";
 static NSString * const kShowOnScreenCommand = @"kShowOnScreenCommand";
 static NSString * const kAutoOpenImage = @"kAutoOpenImage";
 static NSString * const kHighLightPO = @"kHighLightPO";
-static NSString * const kCacheData = @"kCacheData";
 static NSString * const kBigImageMode = @"kBigImageMode";
 static NSString * const kNightyMode = @"kNightyMode";
 static NSString * const kSystemNightMode = @"kSystemNightMode";
@@ -86,7 +85,6 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     _configurationJSONData = JSONData;
     _userDefShouldAutoOpenImage = YES;
     _userDefShouldDisplayThumbnail = YES;
-    _userDefShouldCacheData = YES;
     _userDefShouldHighlightPO = YES;
     _userDefShouldShowOnScreenCommand = YES;
     _userDefShouldUseBigImage = NO;
@@ -154,7 +152,6 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
   [userDefault setBool:self.userDefShouldDisplayThumbnail forKey:kDisplayThumbnail];
   [userDefault setBool:self.userDefShouldShowOnScreenCommand forKey:kShowOnScreenCommand];
   [userDefault setBool:self.userDefShouldAutoOpenImage forKey:kAutoOpenImage];
-  [userDefault setBool:self.userDefShouldCacheData forKey:kCacheData];
   [userDefault setBool:self.userDefShouldHighlightPO forKey:kHighLightPO];
   [userDefault setBool:self.userDefShouldUseBigImage forKey:kBigImageMode];
   [userDefault setBool:self.userDefNightyMode forKey:kNightyMode];
@@ -184,9 +181,6 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
   }
   if ([userDefault objectForKey:kAutoOpenImage]) {
     self.userDefShouldAutoOpenImage = [userDefault boolForKey:kAutoOpenImage];
-  }
-  if ([userDefault objectForKey:kCacheData]) {
-    self.userDefShouldCacheData = [userDefault boolForKey:kCacheData];
   }
   if ([userDefault objectForKey:kHighLightPO]) {
     self.userDefShouldHighlightPO = [userDefault boolForKey:kHighLightPO];

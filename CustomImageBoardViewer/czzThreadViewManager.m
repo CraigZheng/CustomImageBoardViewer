@@ -50,18 +50,6 @@ typedef enum : NSUInteger {
     return self;
 }
 
--(instancetype)restoreWithFile:(NSString *)filePath {
-    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-        czzThreadViewManager *tempThreadList = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
-        //copy data
-        if (tempThreadList && [tempThreadList isKindOfClass:[czzThreadViewManager class]])
-        {
-            return tempThreadList;
-        }
-    }
-    return nil;
-}
-
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -243,38 +231,6 @@ typedef enum : NSUInteger {
     self.threads = nil;
     self.loadingMode = ViewManagerLoadingModeJumpping;
     [self loadMoreThreads:page];
-}
-
-#pragma mark - NSCoding
--(void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeObject:self.parentThread forKey:@"parentThread"];
-    [aCoder encodeInteger:self.pageNumber forKey:@"pageNumber"];
-    [aCoder encodeInteger:self.totalPages forKey:@"totalPages"];
-    [aCoder encodeObject:self.threads forKey:@"threads"];
-    [aCoder encodeObject:self.lastBatchOfThreads forKey:@"lastBatchOfThreads"];
-    [aCoder encodeObject:[NSValue valueWithCGPoint:self.currentOffSet] forKey:@"currentOffSet"];
-    [aCoder encodeObject:self.forum forKey:@"forum"];
-}
-
--(id)initWithCoder:(NSCoder *)aDecoder {
-    czzThreadViewManager *threadViewManager = [czzThreadViewManager new];
-    [[NSNotificationCenter defaultCenter] removeObserver:threadViewManager];
-    @try {
-        //create a temporary threadlist object
-        threadViewManager.parentThread = [aDecoder decodeObjectForKey:@"parentThread"];
-        threadViewManager.pageNumber = [aDecoder decodeIntegerForKey:@"pageNumber"];
-        threadViewManager.totalPages = [aDecoder decodeIntegerForKey:@"totalPages"];
-        threadViewManager.threads = [aDecoder decodeObjectForKey:@"threads"];
-        threadViewManager.lastBatchOfThreads = [aDecoder decodeObjectForKey:@"lastBatchOfThreads"];
-        threadViewManager.currentOffSet = [[aDecoder decodeObjectForKey:@"currentOffSet"] CGPointValue];
-        threadViewManager.forum = [aDecoder decodeObjectForKey:@"forum"];
-        return threadViewManager;
-        
-    }
-    @catch (NSException *exception) {
-        DDLogDebug(@"%@", exception);
-    }
-    return nil;
 }
 
 // Override to support return self

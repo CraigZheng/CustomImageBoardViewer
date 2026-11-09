@@ -578,31 +578,6 @@ static CGFloat const kDownloadBottomInset = 12;
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
 
-#pragma mark - State perserving and restoration.
-
-- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
-    // Save the current thread.
-    [coder encodeObject:self.thread forKey:@"thread"];
-    [coder encodeObject:[NSValue valueWithCGPoint:self.threadTableView.contentOffset] forKey:@"TableViewContentOffset"];
-    [super encodeRestorableStateWithCoder:coder];
-}
-
-- (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
-    [super decodeRestorableStateWithCoder:coder];
-    // Restore the thread.
-    self.thread = [coder decodeObjectForKey:@"thread"];
-    NSValue *contentOffsetValue;
-    if ([(contentOffsetValue = [coder decodeObjectForKey:@"TableViewContentOffset"]) isKindOfClass:[NSValue class]]) {
-        [self.threadTableView setContentOffset:contentOffsetValue.CGPointValue];
-    }
-}
-
-- (void)applicationFinishedRestoringState {
-    if (self.thread) {
-        [self commonInit];
-    }
-}
-
 #pragma mark - czzMiniThreadViewControllerDelegate
 
 - (void)miniThreadViewController:(czzMiniThreadViewController *)viewController didSelectedQuotedThread:(NSString *)threadID {

@@ -33,7 +33,7 @@
 }
 
 -(void)checkAndClean {
-    NSArray *cacheFolders = @[[czzAppDelegate imageFolder], [czzAppDelegate thumbnailFolder], [czzAppDelegate threadCacheFolder]];
+    NSArray *cacheFolders = @[[czzAppDelegate imageFolder], [czzAppDelegate thumbnailFolder]];
 
     NSDateComponents *components = [[NSDateComponents alloc] init];
     components.month = -1; // 1 month eariler.

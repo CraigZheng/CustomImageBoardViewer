@@ -79,7 +79,6 @@
     settingsCentre.ac_host = @"test_ac_host";
     settingsCentre.userDefShouldAutoOpenImage = !settingsCentre.userDefShouldAutoOpenImage;
     settingsCentre.userDefShouldHighlightPO = !settingsCentre.userDefShouldHighlightPO;
-    settingsCentre.userDefShouldCacheData = !settingsCentre.userDefShouldCacheData;
     settingsCentre.userDefShouldDisplayThumbnail = !settingsCentre.userDefShouldDisplayThumbnail;
     settingsCentre.thread_content_host = @"test_thread_content_host";
     [settingsCentre saveSettings];

@@ -25,8 +25,6 @@
 #import <WatchConnectivity/WatchConnectivity.h>
 #import "CustomImageBoardViewer-Swift.h"
 
-static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
-
 @interface czzAppDelegate()<czzBlacklistDownloaderDelegate, czzHomeViewManagerDelegate, WCSessionDelegate>
 @property czzSettingsCentre *settingsCentre;
 @property NSInteger userInterfaceStyle;
@@ -114,24 +112,11 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
 #pragma mark - Break and restoration.
 
 - (BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder {
-  // TODO: enable state perserving in the future.
   return NO;
-//    [[NSUserDefaults standardUserDefaults] setObject:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]
-//                                              forKey:lastStateAppVersion];
-//    [[NSUserDefaults standardUserDefaults] synchronize];
-//    [[czzHomeViewManager sharedManager] saveCurrentState];
-//    return YES;
 }
 
 - (BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder {
-  // TODO: enable state restoration in the future.
   return NO;
-//    BOOL shouldRestore = NO;
-//    NSString *lastVersion = [[NSUserDefaults standardUserDefaults] objectForKey:lastStateAppVersion];
-//    if ([[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"] isEqualToString:lastVersion]) {
-//        shouldRestore = YES;
-//    }
-//    return shouldRestore;
 }
 
 - (UIViewController *)application:(UIApplication *)application viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder {
@@ -196,10 +181,6 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
     return [[self libraryFolder] stringByAppendingPathComponent:@"Images"];
 }
 
-+(NSString *)threadCacheFolder {
-    return [[self libraryFolder] stringByAppendingPathComponent:@"ThreadCache"];
-}
-
 +(NSString *)notificationCacheFolder {
     return [[self libraryFolder] stringByAppendingPathComponent:@"NotificationCache"];
 }
@@ -238,7 +219,7 @@ static NSString * const lastStateAppVersion = @"kLastStateAppVersion";
  check the library directory and image folders
 */
 -(void)checkFolders {
-    NSArray *resourceFolders = @[[czzAppDelegate libraryFolder], [czzAppDelegate imageFolder], [czzAppDelegate thumbnailFolder], [czzAppDelegate threadCacheFolder], [czzAppDelegate notificationCacheFolder]];
+    NSArray *resourceFolders = @[[czzAppDelegate libraryFolder], [czzAppDelegate imageFolder], [czzAppDelegate thumbnailFolder], [czzAppDelegate notificationCacheFolder]];
     for (NSString *folderPath in resourceFolders) {
         NSError *error;
         if (![[NSFileManager defaultManager] fileExistsAtPath:folderPath]){

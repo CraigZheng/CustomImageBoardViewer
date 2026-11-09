@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 Craig. All rights reserved.
 //
 
-#define SUB_THREAD_LIST_CACHE_FILE @"_cache.dat"
-
 #import "czzHomeViewManager.h"
 
 @class czzThreadViewManager;
@@ -20,7 +18,6 @@
 @interface czzThreadViewManager : czzHomeViewManager
 @property (strong, nonatomic) NSString* parentID;
 @property (weak, nonatomic) czzThread *parentThread;
-@property (assign, nonatomic) BOOL restoredFromCache;
 @property (weak, nonatomic) id<czzThreadViewManagerDelegate> delegate;
 @property (readonly, nonatomic) BOOL isMassiveDownloading;
 
@@ -30,5 +27,9 @@
 - (void)jumpToPage:(NSInteger)page;
 - (void)setOnlyShowUserID:(NSString*)userID;
 - (instancetype)initWithParentThread:(czzThread*)thread andForum:(czzForum*)forum;
-- (instancetype)restoreWithFile:(NSString*)filePath;
+
+// Remembers the page the reader was on, in NSUserDefaults. This is the "记录页码"
+// feature, not the removed thread-content cache; it stores one integer per thread.
+- (NSString*)saveCurrentState;
+- (void)restorePreviousState;
 @end

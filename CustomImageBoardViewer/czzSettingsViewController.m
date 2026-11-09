@@ -18,7 +18,6 @@
 #import "czzHomeViewManager.h"
 #import "czzTextSizeSelectorViewController.h"
 #import "czzDebugSettingsTableViewController.h"
-#import "czzThreadListUtilTableViewController.h"
 #import "czzFeedbackViewController.h"
 #import "czzImageManagerViewController.h"
 #import "czzURLHandler.h"
@@ -258,8 +257,6 @@
     [commandSwitch setOn:settingsCentre.userDefShouldShowOnScreenCommand];
   } else if ([command isEqualToString:@"图片下载完毕自动打开"]) {
     [commandSwitch setOn:settingsCentre.userDefShouldAutoOpenImage];
-  } else if ([command isEqualToString:@"开启串缓存"]) {
-    [commandSwitch setOn:settingsCentre.userDefShouldCacheData];
   } else if ([command isEqualToString:@"高亮楼主/PO主"]) {
     [commandSwitch setOn:settingsCentre.userDefShouldHighlightPO];
   } else if ([command isEqualToString:@"夜间模式"]) {
@@ -317,7 +314,7 @@
       [self.navigationController pushViewController:notificationCentreViewController animated:YES];
     }
     else if ([command isEqualToString:@"清空缓存"]){
-      UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"清空缓存" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"图片管理器", @"串缓存", nil];
+      UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"清空缓存" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"图片管理器", nil];
       [actionSheet showInView:self.view];
     } else if ([command isEqualToString:@"强制退出"]) {
       UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"强制退出" message:@"立刻退出软件，下次启动时将会重新开始，而不会回复到自动保存的状态" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
@@ -326,12 +323,6 @@
       [self openDonationLink];
     } else if ([command isEqualToString:@"饼干管理器"]) {
       [self.navigationController pushViewController:[czzCookieManagerViewController new] animated:YES];
-    } else if ([command isEqualToString:@"LAUNCH UTILITY"]) {
-      czzThreadListUtilTableViewController *utilityViewController = [[czzThreadListUtilTableViewController alloc] initWithStyle:UITableViewStylePlain];
-      UINavigationController *utilityNavigationController = [[UINavigationController alloc] initWithRootViewController:utilityViewController];
-      utilityNavigationController.toolbarHidden = NO;
-      AppDelegate.window.rootViewController = utilityNavigationController;
-      [AppDelegate.window makeKeyAndVisible];
     } else if ([command isEqualToString:@"作者主页"]) {
       [self openHomePage];
     } else if ([command isEqualToString:@"标记管理器"]) {
@@ -370,7 +361,6 @@
   }
   [switchCommands addObject:@"字体偏好"];
   [switchCommands addObject:@"黑夜模式"];
-  //    [switchCommands addObject:@"开启串缓存"]; // Disbale as is no longer important.
   //    [switchCommands addObject:@"每月自动清理缓存"]; // Disable for now - version 3.4.
   if (settingsCentre.should_allow_dart)
     [switchCommands addObject:@"Monitor Performance"];
@@ -382,7 +372,6 @@
   [regularCommands addObject:@"通知中心"];
 #ifdef DEBUG
   [regularCommands addObject:@"DEBUG BUILD"];
-  [regularCommands addObject:@"LAUNCH UTILITY"];
 #endif
   NSURL *donationLinkURL = [NSURL URLWithString:settingsCentre.donationLink];
   if (donationLinkURL && settingsCentre.donationLink.length > 0)
@@ -409,8 +398,6 @@
   }
   else if ([alertView.title hasPrefix:@"切换模式"]) {
     settingsCentre.userDefShouldUseBigImage = !settingsCentre.userDefShouldUseBigImage;
-    [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate threadCacheFolder] error:nil];
-    [AppDelegate checkFolders];
     [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"大图模式：%@", settingsCentre.userDefShouldUseBigImage ? @"On" : @"Off"]
                                      position:BannerNotificationPositionTop];
     [[czzHomeViewManager sharedManager] refresh];
@@ -436,16 +423,6 @@
       [ProgressOverlay hideFromView:self.view animated:YES];
     }];
   }
-  else if ([title hasPrefix:@"串缓存"]){
-    [ProgressOverlay showInView:self.view];
-    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-      [[NSFileManager defaultManager] removeItemAtPath:[czzAppDelegate threadCacheFolder] error:nil];
-      [[NSURLCache sharedURLCache] removeAllCachedResponses];
-      [AppDelegate checkFolders];
-      [czzBannerNotificationUtil displayMessage:@"串缓存已清空" position:BannerNotificationPositionTop];
-      [ProgressOverlay hideFromView:self.view animated:YES];
-    }];
-  }
 }
 
 #pragma mark UISwitch control handler
@@ -466,9 +443,6 @@
     else if ([command isEqualToString:@"图片下载完毕自动打开"]){
       //自动打开图片
       settingsCentre.userDefShouldAutoOpenImage = switchControl.on;
-    } else if ([command isEqualToString:@"开启串缓存"]){
-      //开启串缓存
-      settingsCentre.userDefShouldCacheData = switchControl.on;
     } else if ([command isEqualToString:@"高亮楼主/PO主"]) {
       settingsCentre.userDefShouldHighlightPO = switchControl.on;
     } else if ([command isEqualToString:@"显示快速滑动按钮"]) {

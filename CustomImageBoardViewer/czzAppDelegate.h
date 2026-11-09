@@ -28,7 +28,6 @@
 +(NSString*)documentFolder;
 +(NSString*)thumbnailFolder;
 +(NSString*)imageFolder;
-+(NSString*)threadCacheFolder;
 +(NSString*)notificationCacheFolder;
 
 -(void)checkFolders;

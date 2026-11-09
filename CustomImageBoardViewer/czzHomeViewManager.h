@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 Craig. All rights reserved.
 //
 
-#define DEFAULT_THREAD_LIST_CACHE_FILE @"DEFAULT_THREAD_LIST_CACHE_FILE.dat"
-
 #import "czzThread.h"
 #import "czzForum.h"
 
@@ -37,7 +35,7 @@
 
 @end
 
-@interface czzHomeViewManager : NSObject <NSCoding, czzThreadDownloaderDelegate>
+@interface czzHomeViewManager : NSObject <czzThreadDownloaderDelegate>
 @property (nonatomic, assign) BOOL shouldHideImageForThisForum;
 @property (nonatomic, strong) czzForum *forum;
 @property (nonatomic, assign) NSInteger pageNumber;
@@ -66,10 +64,5 @@
 - (void)highlightUID:(NSString *)UID;
 - (void)blockUID:(NSString *)UID;
 
-//save and restore
-- (NSString*)saveCurrentState;
-- (void)restorePreviousState;
-
 + (instancetype)sharedManager;
-+ (void)setSharedManager:(czzHomeViewManager*)manager;
 @end
