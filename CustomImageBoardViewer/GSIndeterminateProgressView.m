@@ -77,6 +77,22 @@
     }
 }
 
+// Readiness must not depend on a hosting container remembering to forward appearance
+// callbacks: the slide menu only inserts the menu view into the window, and a view
+// controller can start a download from viewDidLoad, long before viewDidAppear. Window
+// membership is the signal that actually determines whether this view can animate.
+- (void)didMoveToWindow {
+    [super didMoveToWindow];
+    self.isReady = (self.window != nil);
+    if (self.isReady && self.isAnimating) {
+        // Safe area insets are only accurate once this view is in a window, so force a
+        // full layout pass before animating; otherwise the bar animates at the top of
+        // the view, behind the navigation bar, until a later pass moves it.
+        [self.window layoutIfNeeded];
+        [self animateProgressChunkWithDelay:0];
+    }
+}
+
 - (void)setTrackTintColor:(UIColor *)trackTintColor
 {
     _trackTintColor = trackTintColor;
@@ -98,7 +114,7 @@
     self.hidden = self.foregroundBarView.hidden = NO;
     self.isAnimating = YES;
     [self resetViews];
-    [self animateProgressChunkWithDelay:0.2];
+    [self animateProgressChunkWithDelay:0];
     [self setNeedsDisplay];
 }
 

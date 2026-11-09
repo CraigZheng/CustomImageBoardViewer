@@ -42,9 +42,14 @@
 - (void)start {
     [self stop];
     NSURL *targetURL = [NSURL URLWithString:[self.targetURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    self.urlDownloader = [[czzURLDownloader alloc] initWithTargetURL:targetURL
-                                                            delegate:self
-                                                            startNow:YES];
+    // Start only after the downloader has been assigned. Starting from within the initialiser
+    // would notify our delegate before self.urlDownloader is set, so isDownloading (which reads
+    // through to that property) would report NO and the loading indicator would never start.
+    czzURLDownloader *downloader = [[czzURLDownloader alloc] initWithTargetURL:targetURL
+                                                                     delegate:self
+                                                                     startNow:NO];
+    self.urlDownloader = downloader;
+    [downloader start];
     DDLogDebug(@"Start downloading: %@", targetURL.absoluteString);
 }
 
