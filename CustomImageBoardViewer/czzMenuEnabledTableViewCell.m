@@ -37,7 +37,6 @@ NSInteger kCellImageViewHeight = 120;
 @property (strong, nonatomic) NSMutableArray<czzThreadRefButton *> *referenceButtons;
 @property (readonly, nonatomic) NSAttributedString *threadContent;
 @property (strong, nonatomic) UIActionSheet *contentCopyActionSheet;
-@property (strong, nonatomic) UIActionSheet *openLinkActionSheet;
 @property (strong, nonatomic) NSMutableParagraphStyle *increasedLineSpacingParagraphStyle;
 @end
 
@@ -241,19 +240,49 @@ static CGFloat const kImageMinimumWidth = 36;
     }
 }
 
--(void)menuActionOpen:(id)sender{
-    self.openLinkActionSheet = [[UIActionSheet alloc] initWithTitle: @"打开链接"
-                                                           delegate: self
-                                                  cancelButtonTitle: nil
-                                             destructiveButtonTitle: nil
-                                                  otherButtonTitles: nil];
+- (UIAlertController *)linkPicker {
+    // UIActionSheet silently does nothing on iOS 26, so the link picker must be a
+    // UIAlertController presented on the top view controller.
+    UIAlertController *picker = [UIAlertController alertControllerWithTitle:@"打开链接"
+                                                                    message:nil
+                                                             preferredStyle:UIAlertControllerStyleActionSheet];
     for (NSString *link in self.links) {
-        [self.openLinkActionSheet addButtonWithTitle:link];
+        [picker addAction:[UIAlertAction actionWithTitle:link
+                                                   style:UIAlertActionStyleDefault
+                                                 handler:^(UIAlertAction *action) {
+                                                     [self openLink:link];
+                                                 }]];
     }
-    [self.openLinkActionSheet addButtonWithTitle:@"取消"];
-    self.openLinkActionSheet.cancelButtonIndex = self.links.count;
-    
-    [self.openLinkActionSheet showInView:[UIApplication topViewController].view];
+    [picker addAction:[UIAlertAction actionWithTitle:@"取消"
+                                               style:UIAlertActionStyleCancel
+                                             handler:nil]];
+    return picker;
+}
+
+-(void)menuActionOpen:(id)sender{
+    UIViewController *host = [UIApplication topViewController];
+    if (!host) {
+        return;
+    }
+    [host presentViewController:[self linkPicker] animated:YES completion:nil];
+}
+
+- (void)openLink:(NSString *)buttonTitle {
+    // Compare hosts, not the full prefix: thread content carries https links while
+    // activeHost is http, so a prefix match never fired and on-site links were
+    // handed to Safari instead of opening in the app.
+    NSURL *siteURL = [NSURL URLWithString:[settingCentre activeHost]];
+    NSURL *linkURL = [NSURL URLWithString:buttonTitle];
+    BOOL onSite = siteURL.host.length && linkURL.host &&
+        [linkURL.host caseInsensitiveCompare:siteURL.host] == NSOrderedSame;
+    if (onSite) {
+        if ([self.delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
+            NSString *schemeHost = [NSString stringWithFormat:@"%@://%@", linkURL.scheme, linkURL.host];
+            [self.delegate userTapInQuotedText:[buttonTitle stringByReplacingOccurrencesOfString:schemeHost withString:@""]];
+        }
+        return;
+    }
+    [[UIApplication sharedApplication] openURL:linkURL options:@{} completionHandler:nil];
 }
 
 - (void)menuActionReport:(id)sender {
@@ -374,18 +403,7 @@ static CGFloat const kImageMinimumWidth = 36;
     if (buttonIndex == actionSheet.cancelButtonIndex)
         return;
     NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
-    if (actionSheet == self.openLinkActionSheet && buttonTitle.length) {
-        NSString *hostPrefix = [settingCentre activeHost];
-        if (hostPrefix.length && [buttonTitle rangeOfString:hostPrefix options:NSCaseInsensitiveSearch].location != NSNotFound) {
-            if ([self.delegate respondsToSelector:@selector(userTapInQuotedText:)]) {
-                [self.delegate userTapInQuotedText:[buttonTitle stringByReplacingOccurrencesOfString:hostPrefix withString:@""]];
-            }
-            return;
-        }
-        
-        NSURL *link = [NSURL URLWithString:buttonTitle];
-        [[UIApplication sharedApplication] openURL:link];
-    } else if (actionSheet == self.contentCopyActionSheet && buttonTitle.length) {
+    if (actionSheet == self.contentCopyActionSheet && buttonTitle.length) {
         NSString *copyContent = @"";
         if ([buttonTitle isEqualToString:@"内容"]) {
             NSString *sharingContent = self.thread.content.string;

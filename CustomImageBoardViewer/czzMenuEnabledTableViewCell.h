@@ -67,6 +67,10 @@ typedef NS_ENUM(NSInteger, threadViewCellType) {
 @property (nonatomic, strong) NSString *nickname;
 
 - (void)renderContent;
+/// Opens a chosen link, either as a quoted thread or through the system.
+- (void)openLink:(NSString *)buttonTitle;
+/// Builds the link picker for the current cell content (for testing).
+- (UIAlertController *)linkPicker;
 - (void)tapOnImageView:(id)sender;
 
 /// Builds the shared normal-mode thread cell used by every thread list.
