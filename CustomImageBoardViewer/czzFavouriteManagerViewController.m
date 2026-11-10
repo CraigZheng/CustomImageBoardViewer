@@ -149,14 +149,34 @@ static NSInteger const respondsHistoryIndex = 2;
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     if (editingStyle == UITableViewCellEditingStyleDelete){
+        // The table can still hold an index that the backing store no longer has,
+        // e.g. when a second delete arrives before the first reload lands.
+        if (indexPath.row >= threads.count) {
+            [self copyDataFromManager];
+            return;
+        }
         czzThread* threadToDelete = [threads objectAtIndex:indexPath.row];
         if (titleSegmentedControl.selectedSegmentIndex == bookmarkIndex) {
             [favouriteManager removeFavourite:threadToDelete];
         } else if (titleSegmentedControl.selectedSegmentIndex == historyIndex) {
-            [historyManager removeThread:threadToDelete];
+            // Only remove the entry from the list currently on screen; the same
+            // thread may also be recorded under the other history tabs.
+            [historyManager removeThread:threadToDelete fromList:[self selectedHistoryListType]];
         }
-        
+
         [self copyDataFromManager];
+    }
+}
+
+- (czzHistoryListType)selectedHistoryListType {
+    switch (self.historyTypeSegmentedControl.selectedSegmentIndex) {
+        case postsHistoryIndex:
+            return czzHistoryListTypePosted;
+        case respondsHistoryIndex:
+            return czzHistoryListTypeResponded;
+        case browserHistoryIndex:
+        default:
+            return czzHistoryListTypeBrowser;
     }
 }
 
@@ -186,15 +206,18 @@ static NSInteger const respondsHistoryIndex = 2;
         selectedManager = favouriteManager;
     } else if (titleSegmentedControl.selectedSegmentIndex == historyIndex) {
         // Type of history: broswer, posts, responds.
+        NSMutableOrderedSet *historyThreads;
         if (self.historyTypeSegmentedControl.selectedSegmentIndex == browserHistoryIndex) {
-            threads = [historyManager browserHistory];
+            historyThreads = [historyManager browserHistory];
         } else if (self.historyTypeSegmentedControl.selectedSegmentIndex == postsHistoryIndex) {
-            threads = historyManager.postedThreads;
+            historyThreads = historyManager.postedThreads;
         } else {
-            threads = historyManager.respondedThreads;
+            historyThreads = historyManager.respondedThreads;
         }
         selectedManager = historyManager;
-        threads = [NSMutableOrderedSet orderedSetWithArray:[[threads reverseObjectEnumerator] allObjects]]; //hisotry are recorded backward
+        // Copy before reversing: assigning the manager's own set here would alias
+        // it, so deleting a row would mutate the list mid-enumeration.
+        threads = [NSMutableOrderedSet orderedSetWithArray:[[historyThreads reverseObjectEnumerator] allObjects]]; //hisotry are recorded backward
     }
     [self.tableView reloadData];
     [self.tableView setContentOffset:CGPointZero animated:NO]; // Scroll to top.

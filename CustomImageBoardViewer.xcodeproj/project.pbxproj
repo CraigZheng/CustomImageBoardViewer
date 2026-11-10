@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C1AD0000F1C0DE00000000D2 /* VerifyFavouriteHistoryDeletion.m in Sources */ = {isa = PBXBuildFile; fileRef = C1AD0000F1C0DE00000000D1 /* VerifyFavouriteHistoryDeletion.m */; };
 		440A62A01B8E90130046E4CE /* czzThreadViewCommandStatusCellViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 440A629F1B8E90130046E4CE /* czzThreadViewCommandStatusCellViewController.m */; };
 		440A62A81B8EBC160046E4CE /* UIViewController+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 440A62A71B8EBC160046E4CE /* UIViewController+Util.m */; };
 		440B2F6117F5EED800544926 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 440B2F6017F5EED800544926 /* GTMNSString+HTML.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -506,7 +507,6 @@
 		44C73B841A471F060051D4C2 /* Threads.json in Resources */ = {isa = PBXBuildFile; fileRef = 44C73B811A471F060051D4C2 /* Threads.json */; };
 		44C73B851A471F060051D4C2 /* Threads.json in Resources */ = {isa = PBXBuildFile; fileRef = 44C73B811A471F060051D4C2 /* Threads.json */; };
 		44C73B891A4840100051D4C2 /* czzHistoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C73B881A4840100051D4C2 /* czzHistoryManager.m */; };
-		44C73B8A1A4840100051D4C2 /* czzHistoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C73B881A4840100051D4C2 /* czzHistoryManager.m */; };
 		44C73B8E1A484F280051D4C2 /* czzFavouriteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C73B8D1A484F280051D4C2 /* czzFavouriteManager.m */; };
 		44C73BD31A496C4F0051D4C2 /* ipad launch screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C73BD01A496C4F0051D4C2 /* ipad launch screen.png */; };
 		44C73BD41A496C4F0051D4C2 /* ipad launch screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C73BD01A496C4F0051D4C2 /* ipad launch screen.png */; };
@@ -805,6 +805,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C1AD0000F1C0DE00000000D1 /* VerifyFavouriteHistoryDeletion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VerifyFavouriteHistoryDeletion.m; sourceTree = "<group>"; };
 		440A629E1B8E90130046E4CE /* czzThreadViewCommandStatusCellViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzThreadViewCommandStatusCellViewController.h; sourceTree = "<group>"; };
 		440A629F1B8E90130046E4CE /* czzThreadViewCommandStatusCellViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzThreadViewCommandStatusCellViewController.m; sourceTree = "<group>"; };
 		440A62A61B8EBC160046E4CE /* UIViewController+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Util.h"; sourceTree = "<group>"; };
@@ -1975,6 +1976,7 @@
 			children = (
 				4425A285199700F000671B88 /* test_image.png */,
 				441E5CFC17F4691300289DBD /* CustomImageBoardViewerTests.m */,
+				C1AD0000F1C0DE00000000D1 /* VerifyFavouriteHistoryDeletion.m */,
 				44CD96A01C1AA488007E522F /* czzThreadTest.m */,
 				441E5CF717F4691300289DBD /* Supporting Files */,
 				4490A80E1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m */,
@@ -4399,11 +4401,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				44C73B8A1A4840100051D4C2 /* czzHistoryManager.m in Sources */,
 				4490A80F1CA54C3A00F73027 /* czzMassiveThreadDownloaderTest.m in Sources */,
 				4446B5AF1C1CD4500069A5B6 /* NSObject+NSCodingCompatibleObject.m in Sources */,
 				442F1FE31B15FC8500267698 /* UINavigationController+Util.m in Sources */,
 				441E5CFD17F4691300289DBD /* CustomImageBoardViewerTests.m in Sources */,
+				C1AD0000F1C0DE00000000D2 /* VerifyFavouriteHistoryDeletion.m in Sources */,
 				4431E5441CA4B8F20098AA01 /* czzLaunchPopUpTest.m in Sources */,
 				C1AD0000F1C0DE000000007C /* VerifyDeadBarWrites.m in Sources */,
 				C1AD0000F1C0DE000000007A /* VerifyStarToggle.m in Sources */,

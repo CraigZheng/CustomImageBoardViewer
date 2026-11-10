@@ -14,7 +14,13 @@
 
 #import <Foundation/Foundation.h>
 
-@interface czzHistoryManager : NSObject 
+typedef NS_ENUM(NSInteger, czzHistoryListType) {
+    czzHistoryListTypeBrowser,
+    czzHistoryListTypePosted,
+    czzHistoryListTypeResponded
+};
+
+@interface czzHistoryManager : NSObject
 @property (nonatomic, strong) NSMutableOrderedSet<czzThread *> *browserHistory;
 @property (nonatomic, strong) NSMutableOrderedSet<czzThread *> *respondedThreads;
 @property (nonatomic, strong) NSMutableOrderedSet<czzThread *> *postedThreads;
@@ -25,6 +31,8 @@
 
 -(void)recordThread:(czzThread*)thread;
 -(BOOL)removeThread:(czzThread*)thread;
+/// Removes the thread from one history list only, leaving the other two intact.
+-(BOOL)removeThread:(czzThread*)thread fromList:(czzHistoryListType)listType;
 -(void)clearRecord;
 -(void)saveCurrentState;
 

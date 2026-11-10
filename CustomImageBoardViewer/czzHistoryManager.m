@@ -106,6 +106,30 @@ static NSString * const respondedHistoryFile = @"responded_history_cache.dat";
     return NO;
 }
 
+-(BOOL)removeThread:(czzThread *)thread fromList:(czzHistoryListType)listType {
+    if (!thread) {
+        return NO;
+    }
+    NSMutableOrderedSet *list;
+    switch (listType) {
+        case czzHistoryListTypeBrowser:
+            list = self.browserHistory;
+            break;
+        case czzHistoryListTypePosted:
+            list = self.postedThreads;
+            break;
+        case czzHistoryListTypeResponded:
+            list = self.respondedThreads;
+            break;
+    }
+    if (![list containsObject:thread]) {
+        return NO;
+    }
+    [list removeObject:thread];
+    [self saveCurrentState];
+    return YES;
+}
+
 -(void)clearRecord {
     [browserHistory removeAllObjects];
     [self saveCurrentState];

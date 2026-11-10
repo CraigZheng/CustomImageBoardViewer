@@ -34,6 +34,24 @@ static NSString * const kRecordPageNumber = @"userDefRecordPageNumber";
 
 NSString * const settingsChangedNotification = @"settingsChangedNotification";
 
+// Configuration entries are applied over the current values, so a key that the
+// server omits (or sends as null) must leave the existing value alone rather
+// than wiping the endpoint out.
+#define CIConfigObject(dict, key, fallback) \
+    ((dict)[key] && [(dict)[key] isKindOfClass:[NSString class]] && [(dict)[key] length] ? (dict)[key] : (fallback))
+
+#define CIConfigString(dict, key, fallback) \
+    ((dict)[key] && [(dict)[key] isKindOfClass:[NSString class]] ? (dict)[key] : (fallback))
+
+#define CIConfigBool(dict, key, fallback) \
+    ((dict)[key] ? [(dict)[key] boolValue] : (fallback))
+
+#define CIConfigInteger(dict, key, fallback) \
+    ((dict)[key] ? [(dict)[key] integerValue] : (fallback))
+
+#define CIConfigDouble(dict, key, fallback) \
+    ((dict)[key] ? [(dict)[key] doubleValue] : (fallback))
+
 @interface czzSettingsCentre () <czzURLDownloaderProtocol>
 @property NSTimer *refreshSettingsTimer;
 @property (nonatomic) NSString *settingsFile;
@@ -328,8 +346,18 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
   if (self.configurationJSONData) {
     NSError *error;
     __block NSDictionary *jsonObject;
-    NSArray<NSDictionary<NSString *, NSObject *> *> *jsonArray = [NSJSONSerialization JSONObjectWithData:self.configurationJSONData options:NSJSONReadingMutableContainers error:&error];
+    id parsed = [NSJSONSerialization JSONObjectWithData:self.configurationJSONData options:NSJSONReadingMutableContainers error:&error];
+    // The configuration is expected to be an array of entries; anything else
+    // (a dictionary from an older server, a string, malformed data) is ignored.
+    if (error || ![parsed isKindOfClass:[NSArray class]]) {
+      DDLogDebug(@"Ignoring malformed configuration: %@", error);
+      return;
+    }
+    NSArray<NSDictionary<NSString *, NSObject *> *> *jsonArray = parsed;
     [jsonArray enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+      if (![obj isKindOfClass:[NSDictionary class]]) {
+        return;
+      }
       NSString *configurationName = obj[@"configuration_name"];
       if ([configurationName isEqualToString:@"AC"]) {
         self.ac_isle_host = [obj objectForKey:@"a_isle_host"];
@@ -354,54 +382,54 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
     }];
     if (!error && jsonObject) {
       @try {
-        shouldUseRemoteConfiguration = [[jsonObject objectForKey:@"shouldUseRemoteConfiguration"] boolValue];
-        shouldEnableBlacklistFiltering = [[jsonObject objectForKey:@"shouldEnableBlacklistFiltering"] boolValue];
-        shouldDisplayImage = [[jsonObject objectForKey:@"shouldDisplayImage"] boolValue];
-        shouldDisplayThumbnail = [[jsonObject objectForKey:@"shouldDisplayThumbnail"] boolValue];
-        shouldDisplayContent = [[jsonObject objectForKey:@"shouldDisplayContent"] boolValue];
-        shouldHideImageInForums = [jsonObject objectForKey:@"shouldHideImageInForms"];
-        shouldAllowOpenBlockedThread = [[jsonObject objectForKey:@"shouldAllowOpenBlockedThread"] boolValue];
-        configuration_refresh_interval = [[jsonObject objectForKey:@"configuration_refresh_interval"] floatValue];
-        blacklist_refresh_interval = [[jsonObject objectForKey:@"blacklist_refresh_interval"] floatValue];
-        forum_list_refresh_interval = [[jsonObject objectForKey:@"forum_list_refresh_interval"] floatValue];
-        notification_refresh_interval = [[jsonObject objectForKey:@"notification_refresh_interval"] floatValue];
-        threads_per_page = [[jsonObject objectForKey:@"threads_per_page"] integerValue];
-        response_per_page = [[jsonObject objectForKey:@"response_per_page"] integerValue];
-        thread_format = [jsonObject objectForKey:@"thread_format"];
-        database_host = [jsonObject objectForKey:@"database_host"];
-        forum_list_url = [jsonObject objectForKey:@"forum_list_url"];
-        ac_host = [jsonObject objectForKey:@"ac_host"];
-        activeHost = [jsonObject objectForKey:@"a_isle_host"];
-        thread_list_host = [jsonObject objectForKey:@"thread_list_host"];
-        thread_content_host = [jsonObject objectForKey:@"thread_content_host"];
-        quote_thread_host = [jsonObject objectForKey:@"quote_thread_host"];
-        image_host = [jsonObject objectForKey:@"image_host"];
-        thumbnail_host = [jsonObject objectForKey:@"thumbnail_host"];
-        self.imageCDNConfigurationHost = jsonObject[@"image_cdn_configuration"];
-        donationLink = [jsonObject objectForKey:@"donation_link"];
-        message = [jsonObject objectForKey:@"message"];
-        
+        shouldUseRemoteConfiguration = CIConfigBool(jsonObject, @"shouldUseRemoteConfiguration", shouldUseRemoteConfiguration);
+        shouldEnableBlacklistFiltering = CIConfigBool(jsonObject, @"shouldEnableBlacklistFiltering", shouldEnableBlacklistFiltering);
+        shouldDisplayImage = CIConfigBool(jsonObject, @"shouldDisplayImage", shouldDisplayImage);
+        shouldDisplayThumbnail = CIConfigBool(jsonObject, @"shouldDisplayThumbnail", shouldDisplayThumbnail);
+        shouldDisplayContent = CIConfigBool(jsonObject, @"shouldDisplayContent", shouldDisplayContent);
+        shouldHideImageInForums = CIConfigObject(jsonObject, @"shouldHideImageInForms", shouldHideImageInForums);
+        shouldAllowOpenBlockedThread = CIConfigBool(jsonObject, @"shouldAllowOpenBlockedThread", shouldAllowOpenBlockedThread);
+        configuration_refresh_interval = CIConfigDouble(jsonObject, @"configuration_refresh_interval", configuration_refresh_interval);
+        blacklist_refresh_interval = CIConfigDouble(jsonObject, @"blacklist_refresh_interval", blacklist_refresh_interval);
+        forum_list_refresh_interval = CIConfigDouble(jsonObject, @"forum_list_refresh_interval", forum_list_refresh_interval);
+        notification_refresh_interval = CIConfigDouble(jsonObject, @"notification_refresh_interval", notification_refresh_interval);
+        threads_per_page = CIConfigInteger(jsonObject, @"threads_per_page", threads_per_page);
+        response_per_page = CIConfigInteger(jsonObject, @"response_per_page", response_per_page);
+        thread_format = CIConfigString(jsonObject, @"thread_format", thread_format);
+        database_host = CIConfigString(jsonObject, @"database_host", database_host);
+        forum_list_url = CIConfigString(jsonObject, @"forum_list_url", forum_list_url);
+        ac_host = CIConfigString(jsonObject, @"ac_host", ac_host);
+        activeHost = CIConfigString(jsonObject, @"a_isle_host", activeHost);
+        thread_list_host = CIConfigString(jsonObject, @"thread_list_host", thread_list_host);
+        thread_content_host = CIConfigString(jsonObject, @"thread_content_host", thread_content_host);
+        quote_thread_host = CIConfigString(jsonObject, @"quote_thread_host", quote_thread_host);
+        image_host = CIConfigString(jsonObject, @"image_host", image_host);
+        thumbnail_host = CIConfigString(jsonObject, @"thumbnail_host", thumbnail_host);
+        self.imageCDNConfigurationHost = CIConfigObject(jsonObject, @"image_cdn_configuration", self.imageCDNConfigurationHost);
+        donationLink = CIConfigString(jsonObject, @"donation_link", donationLink);
+        message = CIConfigString(jsonObject, @"message", message);
+
         //dart integration
-        should_allow_dart = [[jsonObject objectForKey:@"shouldAllowDart"] boolValue];
-        
+        should_allow_dart = CIConfigBool(jsonObject, @"shouldAllowDart", should_allow_dart);
+
         //new settings at short version 2.0.1
-        forum_list_detail_url = [jsonObject objectForKey:@"forum_list_detail_url"];
-        reply_post_url = [jsonObject objectForKey:@"reply_post_url"];
-        create_new_post_url = [jsonObject objectForKey:@"create_new_post_url"];
-        report_post_placeholder = [jsonObject objectForKey:@"report_post_placeholder"];
-        share_post_url = [jsonObject objectForKey:@"share_post_url"];
-        thread_url = [jsonObject objectForKey:@"thread_url"];
-        get_forum_info_url = [jsonObject objectForKey:@"get_forum_info_url"];
-        self.popup_notification_link = [jsonObject objectForKey:@"popup_notification_link"];
-        self.empty_title = [jsonObject objectForKey:@"empty_title"];
-        self.empty_username = [jsonObject objectForKey:@"empty_username"];
-        self.sensitive_keyword = [jsonObject objectForKey:@"sensitive_keyword"];
-        self.success_keyword = [jsonObject objectForKey:@"success_keyword"];
-        self.share_image_only_keyword = [jsonObject objectForKey:@"share_image_only_keyword"];
-        self.long_thread_threshold = [[jsonObject objectForKey:@"long_thread_threshold"] integerValue];
-        self.reply_post_placeholder = [jsonObject objectForKey:@"reply_post_placeholder"];
-        self.shouldShowEmoPackPicker = [[jsonObject objectForKey:@"shouldShowEmoPackPicker"] boolValue];
-        self.timeline_url = [jsonObject objectForKey:@"timeline_url"];
+        forum_list_detail_url = CIConfigString(jsonObject, @"forum_list_detail_url", forum_list_detail_url);
+        reply_post_url = CIConfigString(jsonObject, @"reply_post_url", reply_post_url);
+        create_new_post_url = CIConfigString(jsonObject, @"create_new_post_url", create_new_post_url);
+        report_post_placeholder = CIConfigString(jsonObject, @"report_post_placeholder", report_post_placeholder);
+        share_post_url = CIConfigString(jsonObject, @"share_post_url", share_post_url);
+        thread_url = CIConfigString(jsonObject, @"thread_url", thread_url);
+        get_forum_info_url = CIConfigString(jsonObject, @"get_forum_info_url", get_forum_info_url);
+        self.popup_notification_link = CIConfigString(jsonObject, @"popup_notification_link", self.popup_notification_link);
+        self.empty_title = CIConfigString(jsonObject, @"empty_title", self.empty_title);
+        self.empty_username = CIConfigString(jsonObject, @"empty_username", self.empty_username);
+        self.sensitive_keyword = CIConfigString(jsonObject, @"sensitive_keyword", self.sensitive_keyword);
+        self.success_keyword = CIConfigString(jsonObject, @"success_keyword", self.success_keyword);
+        self.share_image_only_keyword = CIConfigString(jsonObject, @"share_image_only_keyword", self.share_image_only_keyword);
+        self.long_thread_threshold = CIConfigInteger(jsonObject, @"long_thread_threshold", self.long_thread_threshold);
+        self.reply_post_placeholder = CIConfigString(jsonObject, @"reply_post_placeholder", self.reply_post_placeholder);
+        self.shouldShowEmoPackPicker = CIConfigBool(jsonObject, @"shouldShowEmoPackPicker", self.shouldShowEmoPackPicker);
+        self.timeline_url = CIConfigString(jsonObject, @"timeline_url", self.timeline_url);
         NSArray *ignoredThreadIDs = [jsonObject objectForKey:@"ignored_thread_ids"];
         if (ignoredThreadIDs.count) {
           NSMutableArray *threadIDs = [NSMutableArray new];
