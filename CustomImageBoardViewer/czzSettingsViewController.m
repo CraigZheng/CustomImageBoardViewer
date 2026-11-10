@@ -309,10 +309,6 @@
     } else if ([command isEqualToString:@"意见反馈"]) {
       [self.navigationController pushViewController:[czzFeedbackViewController new] animated:YES];
     }
-    else if ([command isEqualToString:@"通知中心"]) {
-      czzNotificationCentreTableViewController *notificationCentreViewController = [czzNotificationCentreTableViewController new];
-      [self.navigationController pushViewController:notificationCentreViewController animated:YES];
-    }
     else if ([command isEqualToString:@"清空缓存"]){
       UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"清空缓存" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"图片管理器", nil];
       [actionSheet showInView:self.view];
@@ -369,7 +365,6 @@
   [regularCommands addObject:@"标记管理器"];
   [regularCommands addObject:@"清空缓存"];
   //    [regularCommands addObject:@"清除ID信息"];
-  [regularCommands addObject:@"通知中心"];
 #ifdef DEBUG
   [regularCommands addObject:@"DEBUG BUILD"];
 #endif
