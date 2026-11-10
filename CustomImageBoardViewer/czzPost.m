@@ -141,15 +141,4 @@
     }
 }
 
--(NSString*)stringWithContentsOfBinaryData:(NSData*) data{
-    NSUInteger capacity = [data length] * 2;
-    NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:capacity];
-    const unsigned char *dataBuffer = [data bytes];
-    NSInteger i;
-    for (i=0; i<[data length]; ++i) {
-        [stringBuffer appendFormat:@"%02lX", (unsigned long)dataBuffer[i]];
-    }
-    
-    return stringBuffer;
-}
 @end

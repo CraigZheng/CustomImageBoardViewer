@@ -14,7 +14,7 @@
 @property (weak, nonatomic) UIWebView *headerTextWebView;
 @property (weak, nonatomic) UIWebView *coverImageWebView;
 @property (strong, nonatomic) czzForum *forum;
-@property UIView *bannerView_; // TODO: This ad banner view is not in used anymore, we could remove it later.
+@property UIView *bannerView_;
 @property (weak, nonatomic) UINavigationItem *moreInfoNavItem;
 @property (weak, nonatomic) UIScrollView *containerScrollView;
 - (IBAction)dismissAction:(id)sender;

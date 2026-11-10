@@ -98,12 +98,10 @@
     _trackTintColor = trackTintColor;
 }
 
+// progressTintColor is derived from the cycling colour getter below, so assigning
+// to it has no effect. This override keeps the property's setter inert.
 - (void)setProgressTintColor:(UIColor *)progressTintColor
 {
-//    _progressTintColor = progressTintColor;
-//    for (UIView *v in self.progressChunks) {
-//        v.backgroundColor = progressTintColor;
-//    }
 }
 
 - (void)startAnimating

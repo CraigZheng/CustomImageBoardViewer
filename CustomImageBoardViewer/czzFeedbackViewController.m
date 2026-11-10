@@ -7,7 +7,6 @@
 //
 
 #import "czzFeedbackViewController.h"
-#import "FPPopoverController.h"
 #import "czzAppDelegate.h"
 #import "czzSettingsCentre.h"
 #import "Toast+UIView.h"

@@ -8,7 +8,6 @@
 
 #import "czzCookieManagerViewController.h"
 #import "czzCookieManager.h"
-#import "czzMessagePopUpViewController.h"
 #import "czzACTokenUtil.h"
 #import "czzSettingsCentre.h"
 #import "czzAppDelegate.h"

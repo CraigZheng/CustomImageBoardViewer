@@ -7,7 +7,6 @@
 //
 
 #import "czzSettingsCentre.h"
-#import "PropertyUtil.h"
 #import <objc/runtime.h>
 #import "czzAppDelegate.h"
 #import "czzURLDownloader.h"
@@ -222,19 +221,12 @@ NSString * const settingsChangedNotification = @"settingsChangedNotification";
   }
 }
 
-- (NSString*)stringWithBoolean:(Boolean)b {
-  return b ? @"On" : @"Off";
-}
-
 -(void)downloadSettings {
   NSString *configurationURL = CONFIGURATION_URL;
   urlDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:configurationURL] delegate:self startNow:YES];
 }
 
 #pragma mark - Parsing JSON.
-
--(void)parseJSONData:(NSData*)jsonData {
-}
 
 -(NSString *)settingsFile {
   NSString* libraryPath = [czzAppDelegate libraryFolder];

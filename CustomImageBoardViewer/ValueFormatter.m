@@ -22,16 +22,6 @@
         suffix = @"kbps";
         bitsPerSecond /= 1024;
     }
-//    if (bitsPerSecond > 1024) {
-//        suffix = @"kbps";
-//        bitsPerSecond /= 1024;
-//    } else if (bitsPerSecond > 1024 * 1024) {
-//        suffix = @"mbps";
-//        bitsPerSecond /= 1024 * 1024;
-//    } else if (bitsPerSecond > 1024 * 1024 * 1024) {
-//        suffix = @"gbps";
-//        bitsPerSecond /= 1024 * 1024 * 1024;
-//    }
     if (bitsPerSecond <= 0) {
         return [NSString stringWithFormat:@"0.0%@", suffix];
     }

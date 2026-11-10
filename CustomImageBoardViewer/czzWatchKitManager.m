@@ -24,10 +24,6 @@
 
 -(instancetype)init {
     self = [super init];
-    if (self) {
-//        [[NSNotificationCenter defaultCenter] addObserver:THUMBNAIL_DOWNLOADED_NOTIFICATION selector:@selector(handleThumbnailDownloaded:) name:THUMBNAIL_DOWNLOADED_NOTIFICATION object:nil];
-    }
-    
     return self;
 }
 
@@ -55,17 +51,6 @@
                 break;
         }
     }
-}
-
--(void)watchkitLoadImage:(NSString*)imgURL {
-    NSString *targetImgURL;
-    if ([imgURL hasPrefix:@"http"])
-        targetImgURL = imgURL;
-    else
-        targetImgURL = [[settingCentre thumbnail_host] stringByAppendingPathComponent:imgURL];
-    [[czzImageDownloaderManager sharedManager] downloadImageWithURL:imgURL isThumbnail:NO];
-//    [[czzImageCacheManager sharedInstance] downloadThumbnailWithURL:imgURL isCompletedURL:YES];
-    
 }
 
 -(void)loadWKForumsWithCommand:(czzWatchKitCommand *)command replyHandler:(void(^)(NSDictionary *responseMessage))replyHandler {
@@ -154,15 +139,6 @@
             [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskIdentifier];
         }
     }];
-}
-
-#pragma mark - Thumbnail downloaded notification 
--(void)handleThumbnailDownloaded:(NSNotification*)notification {
-//    NSString *downloadedImageName = [[notification.userInfo objectForKey:@"FilePath"] lastPathComponent];
-//    
-//    if ([self.requestedImageURL.lastPathComponent isEqualToString:downloadedImageName]) {
-//        NSDictionary *imgReply =
-//    }
 }
 
 #pragma mark - Util methods
