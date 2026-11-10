@@ -31,3 +31,4 @@ Pods/*
 # Tooling artefacts and local agent state
 __pycache__/
 .ori/
+.claude/
