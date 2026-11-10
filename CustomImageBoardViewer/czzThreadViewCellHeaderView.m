@@ -14,6 +14,12 @@
 #define RGBCOLOR(r,g,b)[UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1]
 #define brownColour RGBCOLOR(168, 123, 65)
 
+// The header button has a nil target, so the action travels up the responder chain to the
+// host view controller. Both czzHomeViewController and czzThreadViewController implement it.
+@interface NSObject (czzLoadPreviousPageAction)
+- (void)tappedOnLoadPreviousPage:(id)sender;
+@end
+
 @interface czzThreadViewCellHeaderView()
 @property (strong, nonatomic) UILabel *idLabel;
 @property (strong, nonatomic) UILabel *posterLabel;
@@ -56,7 +62,12 @@
     [_headerButton setTitle:@"点击以加载" forState:UIControlStateNormal];
     [_headerButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     _headerButton.layer.cornerRadius = 4.0;
-    
+    // A nil target sends the action up the responder chain, just as the old nib's
+    // First Responder connection did.
+    [_headerButton addTarget:nil
+                      action:@selector(tappedOnLoadPreviousPage:)
+            forControlEvents:UIControlEventTouchUpInside];
+
     _headerContainerView = [[UIView alloc] init];
     _headerContainerView.translatesAutoresizingMaskIntoConstraints = NO;
     _headerContainerView.clipsToBounds = YES;
