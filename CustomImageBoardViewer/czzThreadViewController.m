@@ -251,6 +251,9 @@ static CGFloat const kDownloadBottomInset = 12;
 - (void)commonInit {
   self.threadViewManager = [[czzThreadViewManager alloc] initWithParentThread:self.thread andForum:nil];
   self.threadViewManager.delegate = self;
+  // Run the one-time key migration whether or not recording is on, so old defaults
+  // entries are converted rather than left behind forever.
+  [czzThreadViewManager migrateLegacyRecordedPageNumbersIfNeeded];
   if (settingCentre.userDefRecordPageNumber) {
     [self.threadViewManager restorePreviousState];
   }
@@ -293,8 +296,12 @@ static CGFloat const kDownloadBottomInset = 12;
     self.threadTableView.delegate = nil;
     [self.threadViewManager stopAllOperation];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    // Cache downloaded data into disk.
-    [self.threadViewManager saveCurrentState];
+    // Remember the page the reader was on, but only when they asked us to. The
+    // restore in commonInit is gated on the same setting, so the switch now
+    // governs both reading and writing rather than silently recording forever.
+    if (settingCentre.userDefRecordPageNumber) {
+        [self.threadViewManager saveCurrentState];
+    }
 }
 
 

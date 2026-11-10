@@ -69,6 +69,60 @@
 
 }
 
+-(void)testRecordedPageNumber {
+    czzThread *thread = [czzThread new];
+    thread.ID = 424242;
+    czzThreadViewManager *viewManager = [[czzThreadViewManager alloc] initWithParentThread:thread andForum:nil];
+
+    // A never-visited thread starts on page 1 rather than page 0.
+    [viewManager restorePreviousState];
+    XCTAssertEqual(viewManager.pageNumber, 1);
+
+    // The saved page is the one being read, which is not always the furthest loaded.
+    viewManager.pageNumber = 7;
+    [viewManager saveCurrentState];
+    czzThreadViewManager *reopened = [[czzThreadViewManager alloc] initWithParentThread:thread andForum:nil];
+    [reopened restorePreviousState];
+    XCTAssertEqual(reopened.pageNumber, 7);
+
+    // Recording is bounded: exceeding the cap drops the oldest entries.
+    for (NSInteger threadID = 0; threadID < 250; threadID++) {
+        czzThread *extraThread = [czzThread new];
+        extraThread.ID = 500000 + threadID;
+        czzThreadViewManager *extraManager = [[czzThreadViewManager alloc] initWithParentThread:extraThread andForum:nil];
+        extraManager.pageNumber = 2;
+        [extraManager saveCurrentState];
+    }
+    NSInteger recordedCount = 0;
+    for (NSString *key in [NSUserDefaults standardUserDefaults].dictionaryRepresentation.allKeys) {
+        if ([key hasPrefix:@"czzRecordedPageNumber."]) {
+            recordedCount++;
+        }
+    }
+    XCTAssertLessThanOrEqual(recordedCount, 200);
+}
+
+-(void)testLegacyRecordedPageNumberMigration {
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSString *host = [czzSettingsCentre sharedInstance].activeHost;
+    XCTAssertTrue(host.length > 0, @"need an active host to build a legacy key");
+
+    // Reproduce the pre-namespace format: "<host><threadID>" holding a bare integer.
+    czzThread *thread = [czzThread new];
+    thread.ID = 313131;
+    NSString *legacyKey = [host stringByAppendingFormat:@"%ld", (long)thread.ID];
+    NSString *migratedKey = [NSString stringWithFormat:@"czzRecordedPageNumber.%@|%ld", host, (long)thread.ID];
+    [userDefault setInteger:9 forKey:legacyKey];
+    [userDefault removeObjectForKey:@"czzRecordedPageNumberMigrated"];
+
+    czzThreadViewManager *viewManager = [[czzThreadViewManager alloc] initWithParentThread:thread andForum:nil];
+    [viewManager restorePreviousState];
+
+    XCTAssertEqual(viewManager.pageNumber, 9, @"legacy page number should survive the migration");
+    XCTAssertNil([userDefault objectForKey:legacyKey], @"legacy key should be dropped");
+    XCTAssertNotNil([userDefault objectForKey:migratedKey]);
+}
+
 -(void)testSettingsCentre {
     czzSettingsCentre *settingsCentre = [czzSettingsCentre sharedInstance];
     XCTAssertEqual(3600, settingsCentre.configuration_refresh_interval, "configuration not equal to 3600!");

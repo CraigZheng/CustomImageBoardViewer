@@ -29,7 +29,12 @@
 - (instancetype)initWithParentThread:(czzThread*)thread andForum:(czzForum*)forum;
 
 // Remembers the page the reader was on, in NSUserDefaults. This is the "记录页码"
-// feature, not the removed thread-content cache; it stores one integer per thread.
+// feature, not the removed thread-content cache; it stores one small record per
+// thread, and only while that setting is on.
 - (NSString*)saveCurrentState;
 - (void)restorePreviousState;
+
+// Converts page numbers written by older versions to the current key format and
+// drops the old keys. Safe to call repeatedly; does the work once.
++ (void)migrateLegacyRecordedPageNumbersIfNeeded;
 @end

@@ -22,6 +22,16 @@ typedef enum : NSUInteger {
     ViewManagerLoadingModeJumpping
 } ViewManagerLoadingMode;
 
+// Recorded page numbers live in NSUserDefaults, one entry per thread per host. The
+// prefix makes them enumerable so they can be pruned; without it the keys were
+// indistinguishable from every other preference and grew without limit.
+static NSString * const kRecordedPageNumberKeyPrefix = @"czzRecordedPageNumber.";
+// Oldest entries beyond this many are dropped, so the store stays bounded even for
+// readers who open thousands of threads.
+static NSUInteger const kMaxRecordedPageNumbers = 200;
+static NSString * const kRecordedPageKey = @"page";
+static NSString * const kRecordedPageUpdatedKey = @"updated";
+
 @interface czzThreadViewManager() <czzMassiveThreadDownloaderDelegate>
 @property (nonatomic, assign) BOOL pageNumberChanged;
 @property (nonatomic, assign) NSInteger previousPageNumber;
@@ -56,13 +66,107 @@ typedef enum : NSUInteger {
 
 #pragma mark - state perserving/restoring
 -(void)restorePreviousState {
+    [czzThreadViewManager migrateLegacyRecordedPageNumbersIfNeeded];
     // Restore previous page number.
-    self.pageNumber = [[NSUserDefaults standardUserDefaults] integerForKey:self.pageNumberKey] ?: 1;
+    id storedRecord = [[NSUserDefaults standardUserDefaults] objectForKey:self.pageNumberKey];
+    NSInteger pageNumber = 0;
+    if ([storedRecord isKindOfClass:[NSDictionary class]]) {
+        pageNumber = [[(NSDictionary *)storedRecord objectForKey:kRecordedPageKey] integerValue];
+    }
+    self.pageNumber = MAX(1, pageNumber);
 }
 
 -(NSString*)saveCurrentState {
-    [[NSUserDefaults standardUserDefaults] setInteger:self.threads.lastObject.pageNumber ?: 1 forKey:self.pageNumberKey];
+    if (self.parentThread.ID <= 0) {
+        return nil;
+    }
+    // self.pageNumber is the page the reader is actually looking at. Reading
+    // self.threads.lastObject.pageNumber instead would resume at the furthest page
+    // loaded, which differs from where they were after loading an earlier page.
+    NSDictionary *record = @{ kRecordedPageKey : @(MAX(1, self.pageNumber)),
+                              kRecordedPageUpdatedKey : @([[NSDate date] timeIntervalSince1970]) };
+    [[NSUserDefaults standardUserDefaults] setObject:record forKey:self.pageNumberKey];
+    [self pruneRecordedPageNumbers];
     return nil;
+}
+
+// Earlier versions stored the page as a bare integer under "<host><threadID>". Those
+// keys have no prefix and cannot be found by enumeration, so convert them once and
+// drop them; otherwise every reader would silently start over at page 1. This is a
+// class method so it can run even when the setting is off: with recording disabled
+// nothing else would ever visit these keys, and they would linger forever.
++(void)migrateLegacyRecordedPageNumbersIfNeeded {
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    static NSString * const kMigrationDoneKey = @"czzRecordedPageNumberMigrated";
+    if ([userDefault boolForKey:kMigrationDoneKey]) {
+        return;
+    }
+    NSMutableSet<NSString *> *hosts = [NSMutableSet new];
+    for (NSString *host in @[ settingCentre.activeHost ?: @"",
+                              settingCentre.ac_isle_host ?: @"",
+                              settingCentre.bt_isle_host ?: @"" ]) {
+        if (host.length) {
+            [hosts addObject:host];
+        }
+    }
+    // A legacy key is a known host prefix followed only by digits.
+    NSRegularExpression *digitsOnly = [NSRegularExpression regularExpressionWithPattern:@"^[0-9]+$" options:0 error:nil];
+    for (NSString *key in userDefault.dictionaryRepresentation.allKeys) {
+        if ([key hasPrefix:kRecordedPageNumberKeyPrefix]) {
+            continue;
+        }
+        for (NSString *host in hosts) {
+            if (![key hasPrefix:host]) {
+                continue;
+            }
+            NSString *threadID = [key substringFromIndex:host.length];
+            if (!threadID.length || [digitsOnly firstMatchInString:threadID options:0 range:NSMakeRange(0, threadID.length)] == nil) {
+                continue;
+            }
+            id legacyValue = [userDefault objectForKey:key];
+            if (![legacyValue respondsToSelector:@selector(integerValue)]) {
+                continue;
+            }
+            NSString *newKey = [kRecordedPageNumberKeyPrefix stringByAppendingFormat:@"%@|%@", host, threadID];
+            if (![userDefault objectForKey:newKey]) {
+                [userDefault setObject:@{ kRecordedPageKey : @(MAX(1, [legacyValue integerValue])),
+                                          kRecordedPageUpdatedKey : @([[NSDate date] timeIntervalSince1970]) }
+                                forKey:newKey];
+            }
+            [userDefault removeObjectForKey:key];
+            break;
+        }
+    }
+    [userDefault setBool:YES forKey:kMigrationDoneKey];
+}
+
+// Drops the oldest recorded pages once the store exceeds kMaxRecordedPageNumbers.
+-(void)pruneRecordedPageNumbers {
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSMutableArray<NSDictionary *> *records = [NSMutableArray new];
+    for (NSString *key in userDefault.dictionaryRepresentation.allKeys) {
+        if (![key hasPrefix:kRecordedPageNumberKeyPrefix]) {
+            continue;
+        }
+        id value = [userDefault objectForKey:key];
+        NSTimeInterval updated = [value isKindOfClass:[NSDictionary class]]
+            ? [[(NSDictionary *)value objectForKey:kRecordedPageUpdatedKey] doubleValue]
+            : 0;
+        [records addObject:@{ @"key" : key, kRecordedPageUpdatedKey : @(updated) }];
+    }
+    if (records.count <= kMaxRecordedPageNumbers) {
+        return;
+    }
+    [records sortUsingComparator:^NSComparisonResult(NSDictionary *record1, NSDictionary *record2) {
+        return [record1[kRecordedPageUpdatedKey] compare:record2[kRecordedPageUpdatedKey]];
+    }];
+    NSUInteger excess = records.count - kMaxRecordedPageNumbers;
+    for (NSUInteger index = 0; index < excess; index++) {
+        NSString *oldestKey = records[index][@"key"];
+        if (oldestKey.length) {
+            [userDefault removeObjectForKey:oldestKey];
+        }
+    }
 }
 
 #pragma mark - setters
@@ -261,7 +365,21 @@ typedef enum : NSUInteger {
 }
 
 - (NSString *)pageNumberKey {
-    return [[settingCentre activeHost] stringByAppendingString:[NSString stringWithFormat:@"%ld", (long)self.parentThread.ID]];
+    return [kRecordedPageNumberKeyPrefix stringByAppendingString:[self recordedPageIdentifier]];
+}
+
+// Identifies a thread for page recording. The host is part of the identity, so
+// switching between AC and BT keeps separate positions. The separator matters:
+// the old key concatenated host and thread ID with nothing in between, which made
+// "http://host/12" + "3" and "http://host/1" + "23" the same key.
+- (NSString *)recordedPageIdentifier {
+    NSString *host = settingCentre.activeHost;
+    if (!host.length) {
+        host = settingCentre.userDefActiveHost == SettingsHostBT
+            ? settingCentre.bt_isle_host
+            : settingCentre.ac_isle_host;
+    }
+    return [NSString stringWithFormat:@"%@|%ld", host ?: @"", (long)self.parentThread.ID];
 }
 
 - (NSString *)baseURLString {
