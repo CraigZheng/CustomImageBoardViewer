@@ -49,8 +49,6 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-2081665256237089~1718587650</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -60,24 +58,10 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>This app wants to make bluetooth connection</string>
-	<key>NSCalendarsUsageDescription</key>
-	<string>This app wants to access your calendar</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This app wants to access your camera</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Provide Us Your Location To Help Us Keep Track Of The App's Performance</string>
-	<key>NSLocationUsageDescription</key>
-	<string>Provide Us Your Location To Help Us Keep Track Of The App's Performance</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>This app wants to access your photo library</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app wants to access your photo library</string>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>fetch</string>
-	</array>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UINavigationBar</key>
@@ -93,7 +77,7 @@
 	</dict>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
-		<string>armv7</string>
+		<string>arm64</string>
 	</array>
 	<key>UIStatusBarHidden</key>
 	<false/>

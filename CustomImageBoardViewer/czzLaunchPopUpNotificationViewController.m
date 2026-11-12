@@ -10,12 +10,14 @@
 #import "czzURLHandler.h"
 #import "czzLaunchPopUpNotification.h"
 
+#import <WebKit/WebKit.h>
+
 #import "SlideNavigationController.h"
 
 static NSString * const kLastConfirmedNotificationKey = @"kLastConfirmedNotificationKey"; // Identifier of the last notification that the user confirmed has been viewed.
 
-@interface czzLaunchPopUpNotificationViewController () <UIWebViewDelegate>
-@property (weak, nonatomic) UIWebView *notificationWebView;
+@interface czzLaunchPopUpNotificationViewController () <WKNavigationDelegate>
+@property (weak, nonatomic) WKWebView *notificationWebView;
 @property (weak, nonatomic) UISwitch *confirmSwitch;
 
 @end
@@ -35,10 +37,11 @@ static NSString * const kLastConfirmedNotificationKey = @"kLastConfirmedNotifica
     rootView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.1];
     self.view = rootView;
 
-    UIWebView *webView = [[UIWebView alloc] init];
+    WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero];
     webView.translatesAutoresizingMaskIntoConstraints = NO;
     webView.backgroundColor = [UIColor colorWithRed:0.290 green:0.315 blue:0.330 alpha:1];
-    webView.delegate = self;
+    webView.opaque = NO;
+    webView.navigationDelegate = self;
     [rootView addSubview:webView];
     self.notificationWebView = webView;
 
@@ -122,17 +125,17 @@ static NSString * const kLastConfirmedNotificationKey = @"kLastConfirmedNotifica
                              }];
 }
 
-#pragma mark - UIWebViewDelegate
+#pragma mark - WKNavigationDelegate
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    BOOL should = YES;
-    // Open browser for any link.
-    if ([[UIApplication sharedApplication] canOpenURL:request.URL]) {
-        [czzURLHandler handleURL: request.URL];
-        should = NO;
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    // Open browser for any link the user tapped.
+    if (navigationAction.navigationType == WKNavigationTypeLinkActivated) {
+        [czzURLHandler handleURL:navigationAction.request.URL];
+        decisionHandler(WKNavigationActionPolicyCancel);
+        return;
     }
-    
-    return should;
+
+    decisionHandler(WKNavigationActionPolicyAllow);
 }
 
 #pragma mark - Showing - hiding.

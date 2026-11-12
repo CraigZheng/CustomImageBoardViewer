@@ -23,7 +23,7 @@
 #import "czzURLHandler.h"
 #import "CustomImageBoardViewer-Swift.h"
 
-@interface czzSettingsViewController ()<UIAlertViewDelegate, UIActionSheetDelegate, czzTextSizeSelectorViewControllerProtocol>
+@interface czzSettingsViewController ()<UIAlertViewDelegate, czzTextSizeSelectorViewControllerProtocol>
 @property (weak, nonatomic) UIBarButtonItem *debugBarButton;
 @property NSMutableArray *commands;
 @property NSMutableArray *regularCommands;
@@ -310,11 +310,26 @@
       [self.navigationController pushViewController:[czzFeedbackViewController new] animated:YES];
     }
     else if ([command isEqualToString:@"清空缓存"]){
-      UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"清空缓存" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"图片管理器", nil];
-      [actionSheet showInView:self.view];
-    } else if ([command isEqualToString:@"强制退出"]) {
-      UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"强制退出" message:@"立刻退出软件，下次启动时将会重新开始，而不会回复到自动保存的状态" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-      [alertView show];
+      UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:@"清空缓存"
+                                                                           message:nil
+                                                                    preferredStyle:UIAlertControllerStyleActionSheet];
+      [actionSheet addAction:[UIAlertAction actionWithTitle:@"图片管理器"
+                                                      style:UIAlertActionStyleDestructive
+                                                    handler:^(UIAlertAction *action) {
+                                                        [ProgressOverlay showInView:self.view];
+                                                        [[NSOperationQueue currentQueue] addOperationWithBlock:^{
+                                                            [[czzImageCacheManager sharedInstance] removeFullSizeImages];
+                                                            [[czzImageCacheManager sharedInstance] removeThumbnails];
+                                                            [[NSURLCache sharedURLCache] removeAllCachedResponses];
+                                                            [czzBannerNotificationUtil displayMessage:@"图片管理器已清空" position:BannerNotificationPositionTop];
+                                                            [ProgressOverlay hideFromView:self.view animated:YES];
+                                                        }];
+                                                    }]];
+      [actionSheet addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+      actionSheet.popoverPresentationController.sourceView = self.view;
+      actionSheet.popoverPresentationController.sourceRect = CGRectMake(CGRectGetMidX(self.view.bounds),
+                                                                       CGRectGetMidY(self.view.bounds), 1, 1);
+      [self presentViewController:actionSheet animated:YES completion:nil];
     } else if ([command isEqualToString:@"捐款给App的作者"]) {
       [self openDonationLink];
     } else if ([command isEqualToString:@"饼干管理器"]) {
@@ -372,7 +387,6 @@
   if (donationLinkURL && settingsCentre.donationLink.length > 0)
     [regularCommands addObject:@"捐款给App的作者"];
   [regularCommands addObject:@"作者主页"];
-  [regularCommands addObject:@"强制退出"];
 }
 
 #pragma mark UIAlertView delegate
@@ -387,10 +401,6 @@
     }
     [czzBannerNotificationUtil displayMessage:@"ID信息已清除" position:BannerNotificationPositionTop];
   }
-  else if ([alertView.title isEqualToString:@"强制退出"])
-  {
-    exit(0);
-  }
   else if ([alertView.title hasPrefix:@"切换模式"]) {
     settingsCentre.userDefShouldUseBigImage = !settingsCentre.userDefShouldUseBigImage;
     [czzBannerNotificationUtil displayMessage:[NSString stringWithFormat:@"大图模式：%@", settingsCentre.userDefShouldUseBigImage ? @"On" : @"Off"]
@@ -400,24 +410,6 @@
     [self.settingsTableView reloadData];
   }
   
-}
-
-#pragma mark - UIActionSheet delegate
--(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-  if (buttonIndex == actionSheet.cancelButtonIndex){
-    return;
-  }
-  NSString *title = [actionSheet buttonTitleAtIndex:buttonIndex];
-    if ([title hasPrefix:@"图片管理器"]){
-    [ProgressOverlay showInView:self.view];
-    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-      [[czzImageCacheManager sharedInstance] removeFullSizeImages];
-      [[czzImageCacheManager sharedInstance] removeThumbnails];
-      [[NSURLCache sharedURLCache] removeAllCachedResponses];
-      [czzBannerNotificationUtil displayMessage:@"图片管理器已清空" position:BannerNotificationPositionTop];
-      [ProgressOverlay hideFromView:self.view animated:YES];
-    }];
-  }
 }
 
 #pragma mark UISwitch control handler

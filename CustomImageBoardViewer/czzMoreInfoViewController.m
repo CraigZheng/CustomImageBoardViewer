@@ -18,7 +18,7 @@
 #import "UINavigationController+Util.h"
 #import "czzURLHandler.h"
 
-@interface czzMoreInfoViewController ()<UIWebViewDelegate, UIGestureRecognizerDelegate>
+@interface czzMoreInfoViewController ()<WKNavigationDelegate, UIGestureRecognizerDelegate>
 @property (strong, nonatomic) NSString *baseURL;
 @property (copy, nonatomic) NSData *coverData;
 @property (strong, nonatomic) czzImageViewerUtil *imageViewerUtil;
@@ -49,21 +49,23 @@
     [rootView addSubview:scrollView];
     self.containerScrollView = scrollView;
 
-    UIWebView *coverWebView = [[UIWebView alloc] init];
+    UIImageView *coverWebView = [[UIImageView alloc] init];
     coverWebView.translatesAutoresizingMaskIntoConstraints = NO;
-    coverWebView.scalesPageToFit = YES;
+    coverWebView.contentMode = UIViewContentModeScaleAspectFit;
     coverWebView.backgroundColor = [UIColor whiteColor];
-    coverWebView.delegate = self;
+    coverWebView.userInteractionEnabled = YES;
     UITapGestureRecognizer *coverTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnCoverImageViewAction:)];
     coverTap.delegate = self;
     [coverWebView addGestureRecognizer:coverTap];
     [scrollView addSubview:coverWebView];
-    self.coverImageWebView = coverWebView;
+    self.coverImageView = coverWebView;
 
-    UIWebView *headerWebView = [[UIWebView alloc] init];
+    WKWebView *headerWebView = [[WKWebView alloc] initWithFrame:CGRectZero];
     headerWebView.translatesAutoresizingMaskIntoConstraints = NO;
     headerWebView.backgroundColor = [UIColor colorWithRed:0.290 green:0.315 blue:0.330 alpha:1];
-    headerWebView.delegate = self;
+    headerWebView.opaque = NO;
+    headerWebView.navigationDelegate = self;
+    headerWebView.scrollView.bounces = NO;
     [scrollView addSubview:headerWebView];
     self.headerTextWebView = headerWebView;
 
@@ -118,7 +120,6 @@
 -(void)renderContent {
     [self.navigationController applyAppearance];
     // Disable bounce.
-    self.coverImageWebView.scrollView.bounces =
     self.headerTextWebView.scrollView.bounces = NO;
     // Position of the banner view.
     // Constraints, all to the super view, except the top.
@@ -138,18 +139,17 @@
             //load forum info
             self.title = [NSString stringWithFormat:@"介绍：%@", self.forum.name];
             NSString *headerText = [self.forum.header stringByReplacingOccurrencesOfString:@"@Time" withString:[NSString stringWithFormat:@"%ld", (long)self.forum.cooldown]];
-            [self.headerTextWebView loadHTMLString:headerText baseURL:Nil];
+            [self.headerTextWebView loadHTMLString:[self htmlFittedForDeviceWidth:headerText] baseURL:nil];
             // Set the height to be the min of the width and height of self.view.frame.
             self.headerTextWebViewHeight.constant = MIN(CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame));
         } else {
             self.title = @"A岛-AC匿名版";
-            self.coverImageWebView.scalesPageToFit = YES;
             // No selected forum, load default value.
             NSString *rulesHtml = [[NSString alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"rules"
                                                                                                            ofType:@"html"]
                                                                   encoding:NSUTF8StringEncoding
                                                                      error:nil];
-            [self.headerTextWebView loadHTMLString:rulesHtml
+            [self.headerTextWebView loadHTMLString:[self htmlFittedForDeviceWidth:rulesHtml]
                                            baseURL:nil];
             // Set the height of the text web view to be the max of width or height and times 1.5 to make it long enough.
             self.headerTextWebViewHeight.constant = MAX(CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame)) * 1.5;
@@ -170,10 +170,10 @@
                             }
                             self.coverImageWebViewHeight.constant = height;
                         } else {
-                            // Placeholder height, set the height of the image web view to be either the width or the height.
+                            // Placeholder height, set the height of the image view to be either the width or the height.
                             self.coverImageWebViewHeight.constant = MIN(CGRectGetHeight(self.view.frame), CGRectGetWidth(self.view.frame));
                         }
-                        [self.coverImageWebView loadData:self.coverData MIMEType:@"image/jpeg" textEncodingName:@"utf-8" baseURL:[NSURL new]];
+                        self.coverImageView.image = coverImage;
                     } else {
                          self.coverData = nil;
                     }
@@ -201,15 +201,26 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - UIWebView delegate, open links in safari
+#pragma mark - WKNavigationDelegate, open links in safari
 
-- (BOOL)webView:(UIWebView *)inWeb shouldStartLoadWithRequest:(NSURLRequest *)inRequest navigationType:(UIWebViewNavigationType)inType {
-    if ( inType == UIWebViewNavigationTypeLinkClicked ) {
-        [czzURLHandler handleURL:[inRequest URL]];
-        return NO;
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    if (navigationAction.navigationType == WKNavigationTypeLinkActivated) {
+        [czzURLHandler handleURL:navigationAction.request.URL];
+        decisionHandler(WKNavigationActionPolicyCancel);
+        return;
     }
-    
-    return YES;
+
+    decisionHandler(WKNavigationActionPolicyAllow);
+}
+
+// WKWebView has no scalesPageToFit equivalent. Injecting a viewport makes the
+// fragment render at the device width instead of the default 980pt layout.
+- (NSString *)htmlFittedForDeviceWidth:(NSString *)html {
+    if (!html.length) {
+        return @"";
+    }
+    NSString *viewport = @"<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">";
+    return [viewport stringByAppendingString:html];
 }
 
 #pragma mark - UIStateRestoring

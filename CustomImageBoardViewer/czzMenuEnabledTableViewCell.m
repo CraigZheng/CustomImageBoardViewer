@@ -25,7 +25,7 @@
 static NSString * const kQuotedContent = @"quoted://";
 NSInteger kCellImageViewHeight = 120;
 
-@interface czzMenuEnabledTableViewCell()<UIActionSheetDelegate>
+@interface czzMenuEnabledTableViewCell()
 
 @property (weak, nonatomic) NSLayoutConstraint *cellImageViewHeightConstraint;
 @property (weak, nonatomic) NSLayoutConstraint *cellImageViewButtonMinimumWidthConstraint;
@@ -36,7 +36,6 @@ NSInteger kCellImageViewHeight = 120;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @property (strong, nonatomic) NSMutableArray<czzThreadRefButton *> *referenceButtons;
 @property (readonly, nonatomic) NSAttributedString *threadContent;
-@property (strong, nonatomic) UIActionSheet *contentCopyActionSheet;
 @property (strong, nonatomic) NSMutableParagraphStyle *increasedLineSpacingParagraphStyle;
 @end
 
@@ -221,17 +220,22 @@ static CGFloat const kImageMinimumWidth = 36;
 
 #pragma mark - custom menu action
 -(void)menuActionCopy:(id)sender{
-    self.contentCopyActionSheet = [[UIActionSheet alloc] initWithTitle: @"复制..."
-                                                              delegate: self
-                                                     cancelButtonTitle: nil
-                                                destructiveButtonTitle: nil
-                                                     otherButtonTitles: nil];
-    [self.contentCopyActionSheet addButtonWithTitle:@"内容"];
-    [self.contentCopyActionSheet addButtonWithTitle:@"串号"];
-    [self.contentCopyActionSheet addButtonWithTitle:@"用户饼干"];
-    [self.contentCopyActionSheet addButtonWithTitle:@"取消"];
-    self.contentCopyActionSheet.cancelButtonIndex = 3;
-    [self.contentCopyActionSheet showInView:[UIApplication topViewController].view];
+    UIViewController *presenter = [UIApplication topViewController];
+    UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:@"复制..."
+                                                                        message:nil
+                                                                 preferredStyle:UIAlertControllerStyleActionSheet];
+    for (NSString *title in @[@"内容", @"串号", @"用户饼干"]) {
+        [actionSheet addAction:[UIAlertAction actionWithTitle:title
+                                                        style:UIAlertActionStyleDefault
+                                                      handler:^(UIAlertAction *action) {
+                                                          [self copyActionWithTitle:action.title];
+                                                      }]];
+    }
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+    actionSheet.popoverPresentationController.sourceView = presenter.view;
+    actionSheet.popoverPresentationController.sourceRect = CGRectMake(CGRectGetMidX(presenter.view.bounds),
+                                                                     CGRectGetMidY(presenter.view.bounds), 1, 1);
+    [presenter presentViewController:actionSheet animated:YES completion:nil];
 }
 
 -(void)menuActionReply:(id)sender{
@@ -397,28 +401,25 @@ static CGFloat const kImageMinimumWidth = 36;
     }
 }
 
-#pragma - mark UIActionSheet delegate
-//Open the link associated with the button
--(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == actionSheet.cancelButtonIndex)
+#pragma - mark copy action
+-(void)copyActionWithTitle:(NSString *)buttonTitle{
+    if (!buttonTitle.length) {
         return;
-    NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
-    if (actionSheet == self.contentCopyActionSheet && buttonTitle.length) {
-        NSString *copyContent = @"";
-        if ([buttonTitle isEqualToString:@"内容"]) {
-            NSString *sharingContent = self.thread.content.string;
-            NSString *threadLink = [[settingCentre share_post_url] stringByReplacingOccurrencesOfString:kThreadID
-                                                                                             withString:[NSString stringWithFormat:@"%ld", (long)[(self.parentThread ? self.parentThread : self.thread) ID]]];
-            copyContent = [NSString stringWithFormat:@"%@\n\n%@", sharingContent, threadLink];
-        } else if ([buttonTitle isEqualToString:@"串号"]) {
-            copyContent = [NSString stringWithFormat:@"No.%ld", (long)self.thread.ID];
-        } else if ([buttonTitle isEqualToString:@"用户饼干"]) {
-            copyContent = self.thread.UID;
-        }
-        if (copyContent.length) {
-            [[UIPasteboard generalPasteboard] setString:copyContent];
-            [AppDelegate showToast:[NSString stringWithFormat:@"%@ 已复制", buttonTitle]];
-        }
+    }
+    NSString *copyContent = @"";
+    if ([buttonTitle isEqualToString:@"内容"]) {
+        NSString *sharingContent = self.thread.content.string;
+        NSString *threadLink = [[settingCentre share_post_url] stringByReplacingOccurrencesOfString:kThreadID
+                                                                                         withString:[NSString stringWithFormat:@"%ld", (long)[(self.parentThread ? self.parentThread : self.thread) ID]]];
+        copyContent = [NSString stringWithFormat:@"%@\n\n%@", sharingContent, threadLink];
+    } else if ([buttonTitle isEqualToString:@"串号"]) {
+        copyContent = [NSString stringWithFormat:@"No.%ld", (long)self.thread.ID];
+    } else if ([buttonTitle isEqualToString:@"用户饼干"]) {
+        copyContent = self.thread.UID;
+    }
+    if (copyContent.length) {
+        [[UIPasteboard generalPasteboard] setString:copyContent];
+        [AppDelegate showToast:[NSString stringWithFormat:@"%@ 已复制", buttonTitle]];
     }
 }
 

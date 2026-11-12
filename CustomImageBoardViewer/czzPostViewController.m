@@ -35,8 +35,7 @@ static CGFloat compressScale = 0.9;
 static NSString *kPostEmailKey = @"kPostEmailKey";
 static NSString *kPostNameKey = @"kPostNameKey";
 
-@interface czzPostViewController () <UIPopoverPresentationControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate, DraftSelectorTableViewControllerDelegate, UITextFieldDelegate>
-@property (nonatomic, strong) UIActionSheet *cancelPostingActionSheet;
+@interface czzPostViewController () <UIPopoverPresentationControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate, UIImagePickerControllerDelegate, czzEmojiCollectionViewControllerDelegate, DraftSelectorTableViewControllerDelegate, UITextFieldDelegate>
 @property (nonatomic, strong) UIAlertView *watermarkAlertView;
 @property (nonatomic, strong) NSMutableData *receivedResponse;
 @property (nonatomic, strong) czzEmojiCollectionViewController *emojiViewController;
@@ -434,8 +433,25 @@ static NSString *kPostNameKey = @"kPostNameKey";
   if ((postTextView.text.length || postSender.imgData) &&
       postMode != postViewControllerModeDisplayOnly) {
     [self.postTextView resignFirstResponder];
-    self.cancelPostingActionSheet = [[UIActionSheet alloc] initWithTitle:@"确定要中断发送文章？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"中断" otherButtonTitles:@"中断并保存草稿", nil];
-    [self.cancelPostingActionSheet showInView:self.view];
+    UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:@"确定要中断发送文章？"
+                                                                         message:nil
+                                                                  preferredStyle:UIAlertControllerStyleActionSheet];
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"中断"
+                                                    style:UIAlertActionStyleDestructive
+                                                  handler:^(UIAlertAction *action) {
+                                                      [self dismissWithCompletionHandler:nil];
+                                                  }]];
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"中断并保存草稿"
+                                                    style:UIAlertActionStyleDefault
+                                                  handler:^(UIAlertAction *action) {
+                                                      [DraftManager save:self.postTextView.text];
+                                                      [self dismissWithCompletionHandler:nil];
+                                                  }]];
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+    actionSheet.popoverPresentationController.sourceView = self.view;
+    actionSheet.popoverPresentationController.sourceRect = CGRectMake(CGRectGetMidX(self.view.bounds),
+                                                                     CGRectGetMidY(self.view.bounds), 1, 1);
+    [self presentViewController:actionSheet animated:YES completion:nil];
   } else
     [self dismissWithCompletionHandler:nil];
 }
@@ -483,19 +499,6 @@ static NSString *kPostNameKey = @"kPostNameKey";
         [self.postTextView becomeFirstResponder];
     }
     return NO;
-}
-
-#pragma mark - UIActionSheetDelegate
--(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-  if (actionSheet == self.cancelPostingActionSheet) {
-    if (buttonIndex == actionSheet.cancelButtonIndex) {
-      return;
-    }
-    if (buttonIndex != actionSheet.destructiveButtonIndex) {
-      [DraftManager save:postTextView.text];
-    }
-    [self dismissWithCompletionHandler:nil];
-  }
 }
 
 #pragma mark - UIAlertViewDelegate

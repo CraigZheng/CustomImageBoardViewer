@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <WebKit/WebKit.h>
 
 #import "czzForum.h"
 
 @interface czzMoreInfoViewController : UIViewController
-@property (weak, nonatomic) UIWebView *headerTextWebView;
-@property (weak, nonatomic) UIWebView *coverImageWebView;
+@property (weak, nonatomic) WKWebView *headerTextWebView;
+@property (weak, nonatomic) UIImageView *coverImageView;
 @property (strong, nonatomic) czzForum *forum;
 @property UIView *bannerView_;
 @property (weak, nonatomic) UINavigationItem *moreInfoNavItem;

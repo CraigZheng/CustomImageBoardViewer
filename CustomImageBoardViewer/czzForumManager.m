@@ -56,7 +56,7 @@ static NSString * kDefaultForumJsonFileName = @"default_forums.json";
         [self.forumDownloader stop];
 
     NSString *forumString = [[settingCentre forum_list_url] stringByAppendingString:[NSString stringWithFormat:@"?version=%@", [UIApplication bundleVersion]]];
-    NSLog(@"Forum config URL: %@", forumString);
+    DDLogDebug(@"Forum config URL: %@", forumString);
     self.forumDownloader = [[czzURLDownloader alloc] initWithTargetURL:[NSURL URLWithString:forumString] delegate:self startNow:YES];
     __weak typeof(self) weakSelf = self;
     [[NSURLSession.sharedSession dataTaskWithRequest:[[NSURLRequest alloc] initWithURL:self.getForumURL] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {

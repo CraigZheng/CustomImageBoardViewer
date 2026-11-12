@@ -74,7 +74,7 @@
     czzMoreInfoViewController *controller = [czzMoreInfoViewController new];
     [self layout:controller];
     XCTAssertNotNil(controller.containerScrollView);
-    XCTAssertNotNil(controller.coverImageWebView);
+    XCTAssertNotNil(controller.coverImageView);
     XCTAssertNotNil(controller.headerTextWebView);
     XCTAssertGreaterThan(CGRectGetHeight(controller.containerScrollView.frame), 100);
     XCTAssertNotNil(controller.moreInfoNavItem, @"navigation item must survive");

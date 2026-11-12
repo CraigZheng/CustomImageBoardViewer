@@ -17,12 +17,11 @@
 #import "czzURLHandler.h"
 #import "czzNoSelectionTextView.h"
 
-@interface czzNotificationCentreTableViewController ()<UIDocumentInteractionControllerDelegate, UIActionSheetDelegate>
+@interface czzNotificationCentreTableViewController ()<UIDocumentInteractionControllerDelegate>
 @property czzNotificationManager *notificationManager;
 @property czzImageCacheManager *imageCentre;
 @property (strong, nonatomic) NSString *imageFolder;
 @property UIDocumentInteractionController *documentInteractionController;
-@property UIActionSheet *openLinkActionSheet;
 @end
 
 @implementation czzNotificationCentreTableViewController
@@ -32,7 +31,6 @@
 @synthesize imageCentre;
 @synthesize imageFolder;
 @synthesize documentInteractionController;
-@synthesize openLinkActionSheet;
 
 - (void)viewDidLoad
 {
@@ -180,21 +178,27 @@
         currentNotification = [notifications objectAtIndex:indexPath.row];
         if (currentNotification.link.length > 0)
         {
-            openLinkActionSheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"链接：%@", currentNotification.link] delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"打开链接", @"反馈", nil];
-            [openLinkActionSheet showInView:self.view];
+            UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"链接：%@", currentNotification.link]
+                                                                                 message:nil
+                                                                          preferredStyle:UIAlertControllerStyleActionSheet];
+            [actionSheet addAction:[UIAlertAction actionWithTitle:@"打开链接"
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction *action) {
+                                                              [czzURLHandler handleURL:[NSURL URLWithString:self->currentNotification.link]];
+                                                          }]];
+            [actionSheet addAction:[UIAlertAction actionWithTitle:@"反馈"
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction *action) {
+                                                              [self presentFeedbackViewControllerWithNotification:self->currentNotification];
+                                                          }]];
+            [actionSheet addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+            actionSheet.popoverPresentationController.sourceView = self.view;
+            actionSheet.popoverPresentationController.sourceRect = CGRectMake(CGRectGetMidX(self.view.bounds),
+                                                                             CGRectGetMidY(self.view.bounds), 1, 1);
+            [self presentViewController:actionSheet animated:YES completion:nil];
         } else {
             [self presentFeedbackViewControllerWithNotification:currentNotification];
         }
-    }
-}
-
-#pragma mark - UIActionSheetDelegate
--(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"打开链接"]) {
-        NSURL *link = [NSURL URLWithString:currentNotification.link];
-        [czzURLHandler handleURL:link];
-    } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"反馈"]) {
-        [self presentFeedbackViewControllerWithNotification:currentNotification];
     }
 }
 

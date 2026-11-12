@@ -309,6 +309,7 @@
 		442A901E19DB9C3C00A3516E /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 442A901C19DB9C3C00A3516E /* HTMLParser.m */; };
 		442B3D2C1C79B3B400403227 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 442B3D2B1C79B3B400403227 /* WebKit.framework */; };
 		442B3D2E1C79C1EA00403227 /* rules.html in Resources */ = {isa = PBXBuildFile; fileRef = 442B3D2D1C79C1EA00403227 /* rules.html */; };
+		C1A0D000F1C0DE00000000E2 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = C1A0D000F1C0DE00000000E1 /* PrivacyInfo.xcprivacy */; };
 		442CD0E31851601A0021AD37 /* czzImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 442CD0E21851601A0021AD37 /* czzImageDownloader.m */; };
 		442CD0E718517BED0021AD37 /* czzImageCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 442CD0E618517BED0021AD37 /* czzImageCacheManager.m */; };
 		442EC8631A1A130A005650E4 /* czzNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 442EC8621A1A130A005650E4 /* czzNavigationController.m */; };
@@ -425,7 +426,6 @@
 		4462EF2518659BC200E6BE78 /* czzFavouriteManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4462EF2418659BC200E6BE78 /* czzFavouriteManagerViewController.m */; };
 		4463E7BB1EC33783009659D4 /* LatestResponseDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4463E7BA1EC33783009659D4 /* LatestResponseDownloader.swift */; };
 		446557631C60F15A0051F1DD /* invisible@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 446557621C60F15A0051F1DD /* invisible@2x.png */; };
-		446656C91BEAF9380045276B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 442066221BE846820023D91F /* GoogleService-Info.plist */; };
 		4468A7111BBBC0480076DCD6 /* czzWeakReferenceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4468A7101BBBC0480076DCD6 /* czzWeakReferenceDelegate.m */; };
 		446C17B81CB08E2B00B557E2 /* loading_bar_dot.gif in Resources */ = {isa = PBXBuildFile; fileRef = 446C17B71CB08E2B00B557E2 /* loading_bar_dot.gif */; };
 		446C17BA1CB094C400B557E2 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 446C17B91CB094C400B557E2 /* ImageIO.framework */; };
@@ -449,7 +449,6 @@
 		4498A7E41B89984500312A11 /* CPAutoFillView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498A7E31B89984400312A11 /* CPAutoFillView.m */; };
 		4498B689199248ED0014F73F /* czzJSONProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498B688199248ED0014F73F /* czzJSONProcessor.m */; };
 		4498B68D1993A6190014F73F /* PropertyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 4498B68C1993A6190014F73F /* PropertyUtil.m */; };
-		449C9E271A71DB5C00D49B7F /* remote_configuration-debug.json in Resources */ = {isa = PBXBuildFile; fileRef = 449C9E261A71DB5C00D49B7F /* remote_configuration-debug.json */; };
 		449E928A1BF8A33300EE2F58 /* czzThreadDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 449E92891BF8A33300EE2F58 /* czzThreadDownloader.m */; };
 		449E928E1BF9D15C00EE2F58 /* czzModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 449E928D1BF9D15C00EE2F58 /* czzModalViewController.m */; };
 		449FF63E1D82FD250065BA08 /* chat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 449FF63D1D82FD250065BA08 /* chat@2x.png */; };
@@ -1139,6 +1138,7 @@
 		442A901C19DB9C3C00A3516E /* HTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HTMLParser.m; path = ../HTMLParser.m; sourceTree = "<group>"; };
 		442B3D2B1C79B3B400403227 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		442B3D2D1C79C1EA00403227 /* rules.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = rules.html; sourceTree = "<group>"; };
+		C1A0D000F1C0DE00000000E1 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		442BFC741D1D1000007545EB /* CustomImageBoardViewer-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CustomImageBoardViewer-Bridging-Header.h"; sourceTree = "<group>"; };
 		442CD0E11851601A0021AD37 /* czzImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = czzImageDownloader.h; sourceTree = "<group>"; };
 		442CD0E21851601A0021AD37 /* czzImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = czzImageDownloader.m; sourceTree = "<group>"; };
@@ -1963,6 +1963,7 @@
 			isa = PBXGroup;
 			children = (
 				442B3D2D1C79C1EA00403227 /* rules.html */,
+				C1A0D000F1C0DE00000000E1 /* PrivacyInfo.xcprivacy */,
 				441E5CD617F4691300289DBD /* CustomImageBoardViewer-Info.plist */,
 				441E5CD717F4691300289DBD /* InfoPlist.strings */,
 				441E5CDA17F4691300289DBD /* main.m */,
@@ -3744,7 +3745,6 @@
 				B753615A24AE278A000F562F /* reed-color21.png in Resources */,
 				4421C3521E7BF2DA00BD48C4 /* ac-new43.png in Resources */,
 				444F5B371A40EA3500EB391F /* 36.png in Resources */,
-				446656C91BEAF9380045276B /* GoogleService-Info.plist in Resources */,
 				4421C34F1E7BF2DA00BD48C4 /* ac-new40.png in Resources */,
 				44B89E6C1A2AF2200085F766 /* running_ac-1.gif in Resources */,
 				4421C3281E7BF2DA00BD48C4 /* ac-classic54.png in Resources */,
@@ -3900,6 +3900,7 @@
 				B753617624AE278A000F562F /* reed-color49.png in Resources */,
 				4421C3DC1E7BF2DA00BD48C4 /* reed-classic57.png in Resources */,
 				442B3D2E1C79C1EA00403227 /* rules.html in Resources */,
+				C1A0D000F1C0DE00000000E2 /* PrivacyInfo.xcprivacy in Resources */,
 				44E791D31A17856500A63C04 /* collapse_arrow.png in Resources */,
 				4421C4041E7BF2DB00BD48C4 /* reed-classic93.png in Resources */,
 				B753617F24AE278A000F562F /* reed-color63.png in Resources */,
@@ -4190,7 +4191,6 @@
 				4421C34A1E7BF2DA00BD48C4 /* ac-new36.png in Resources */,
 				44E791E61A17856500A63C04 /* menu.png in Resources */,
 				4421C30D1E7BF2DA00BD48C4 /* ac-classic3.png in Resources */,
-				449C9E271A71DB5C00D49B7F /* remote_configuration-debug.json in Resources */,
 				444F5B391A40EA3500EB391F /* 38.png in Resources */,
 				4421C31F1E7BF2DA00BD48C4 /* ac-classic46.png in Resources */,
 				B753615724AE278A000F562F /* reed-color104.png in Resources */,
@@ -4584,9 +4584,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer,
-					/Users/CraigZheng/Developer/CustomImageBoardViewer/CustomImageBoardViewer,
-					"$(PROJECT_DIR)/CustomImageBoardViewer/GoogldAdmob",
 					"$(PROJECT_DIR)/CustomImageBoardViewer",
 				);
 				MARKETING_VERSION = 4.43;
@@ -4625,9 +4622,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/craig/Developer/CustomImageBoardViewer/CustomImageBoardViewer,
-					/Users/CraigZheng/Developer/CustomImageBoardViewer/CustomImageBoardViewer,
-					"$(PROJECT_DIR)/CustomImageBoardViewer/GoogldAdmob",
 					"$(PROJECT_DIR)/CustomImageBoardViewer",
 				);
 				MARKETING_VERSION = 4.43;
